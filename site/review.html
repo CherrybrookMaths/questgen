@@ -92,8 +92,7 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line2);border-bottom-width:
 .fa>button{transition:background-color .15s}
 .fa.parked>button,.fa.parked>button:hover{background:transparent}   /* owner 13 Nov: hovering a closed area that holds the current subtopic doubled the highlight */
 .fa>button .t{flex:1}
-.chev{width:7px;height:7px;flex:none;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(-45deg);transition:transform .28s cubic-bezier(.2,.7,.2,1);margin:0 2px 0 -2px}
-.fa.open>button .chev{transform:rotate(45deg) translate(-1px,-1px)}
+
 .fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.2,.7,.2,1),opacity .25s;opacity:0}
 .fa.open>.fold{grid-template-rows:1fr;opacity:1}
 .fold>ul{overflow:hidden;min-height:0;margin-bottom:0!important;visibility:hidden;transition:visibility 0s .3s}
@@ -101,9 +100,7 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line2);border-bottom-width:
 .fold{margin-bottom:0;transition:grid-template-rows .3s cubic-bezier(.2,.7,.2,1),opacity .25s,margin .3s}.fa.open>.fold{margin-bottom:6px}
 .fa li button{transition:background-color .15s,color .2s}
 .fa li button[aria-current="true"]{background:transparent!important}
-#list.enter{animation:listin .22s ease-out}
-@keyframes listin{from{opacity:.0;transform:translateY(4px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.fold,.chev,.navpill,.fa li button,.fa>button{transition:none}#list.enter{animation:none}}
+@media (prefers-reduced-motion:reduce){.fold,.navpill,.fa li button,.fa>button{transition:none}}
 .fa ul{list-style:none;margin:0 0 6px 10px;padding:0 0 0 8px;border-left:1px solid var(--line)}
 .fa li button{display:flex;width:100%;justify-content:space-between;gap:8px;text-align:left;background:none;border:0;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:13.5px;color:var(--ink)}
 .fa li button:hover{background:var(--panel)}
@@ -125,26 +122,7 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line2);border-bottom-width:
 .yhead span.muted{font-size:13px}
 /* owner 12 Nov: "this layout looks terrible and unefficient" -> masonry columns (no holes under short cards), compact header, one bar scale per year */
 /* bank index (owner 12 Nov 2nd pass) */
-.tix{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-.tix.ys{--yc:var(--muted);--ys:var(--bg)} .tix.y12{--yc:var(--y12);--ys:var(--y12-soft)} .tix.y11{--yc:var(--y11);--ys:var(--y11-soft)}
-.tixrow{display:grid;grid-template-columns:minmax(200px,260px) minmax(0,1fr);border-top:1px solid var(--line)}
-.tixrow:first-child{border-top:0}
-.tixfa{display:flex;justify-content:space-between;align-items:baseline;gap:12px;background:none;border:0;border-right:1px solid var(--line);padding:12px 16px;text-align:left;cursor:pointer;color:var(--ink)}
-.tixfa b{font:600 15.5px/1.3 var(--display)}
-.tixfa .n{font:600 15px var(--display);color:var(--yc);font-variant-numeric:tabular-nums}
-.tixfa:hover{background:var(--ys)}
-.tixsubs{display:flex;flex-wrap:wrap;gap:2px 4px;padding:8px 10px;align-content:center}
-.tixsubs .tixsub{display:inline-flex;grid-template-columns:none;gap:5px;align-items:baseline;background:none;border:0;border-radius:6px;padding:4px 8px;margin:0;cursor:pointer;color:var(--ink);font-size:13.5px}
-.tixsub:hover{background:var(--ys)}
-.tixsub .c{color:var(--muted);font-variant-numeric:tabular-nums;font-size:12.5px}
-.tixsub.none .nm{color:var(--muted);font-style:italic}
-@media (max-width:640px){.tixrow{grid-template-columns:1fr}.tixfa{border-right:0;padding-bottom:4px}.tixsubs{padding-top:0}}
-.fatiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
-.fatile{display:flex;flex-direction:column;justify-content:space-between;gap:10px;min-height:84px;text-align:left;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--yc);border-radius:10px;padding:12px 14px;cursor:pointer;color:var(--ink)}
-.fatile.ys{--yc:var(--muted);--ys:var(--bg)} .fatile.y12{--yc:var(--y12);--ys:var(--y12-soft)} .fatile.y11{--yc:var(--y11);--ys:var(--y11-soft)}
-.fatile:hover{background:var(--ys);border-color:var(--yc)}
-.fatile b{font:600 15.5px/1.3 var(--display);text-wrap:balance}
-.fatile .meta{font-size:12.5px;color:var(--muted)} .fatile .meta .n{font-weight:600;color:var(--yc);font-variant-numeric:tabular-nums}
+
 .facards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));grid-auto-rows:2px;grid-auto-flow:row dense;column-gap:14px;align-items:start}
 .facards>.facard{margin-bottom:14px}
 .facard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px 12px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s,border-color .15s}
@@ -210,7 +188,6 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line2);border-bottom-width:
 .card .src{font-size:13px;color:var(--muted)}
 .card .mk{margin-left:auto;font:600 12px var(--sans);color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 9px}
 .card .mk:empty{display:none}
-.home-sec{margin:22px 0 10px;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 
 /* sliding highlight per filter group (owner 13 Nov: "the pills at the top, make them animated"); see bfPills in 07_bank.js */
 .bfilters .bfpill{position:absolute;left:0;top:0;border-radius:5px;background:var(--accent-soft);opacity:0;pointer-events:none;
@@ -334,7 +311,7 @@ table.rub td.m{width:4.2em;text-align:center;font:600 13px var(--mono)}
 .step .n{font:600 12px var(--sans);font-variant-numeric:tabular-nums;color:var(--muted);background:var(--bg);border-radius:999px;padding:1px 8px}
 .step[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--panel)}.step[aria-pressed="true"] .num{color:var(--accent);background:var(--panel)}
 .step[aria-pressed="true"] .n{color:var(--panel);background:color-mix(in srgb,var(--panel) 22%,transparent)}
-.step.empty0{opacity:.55}
+
 .stephelp{flex-basis:100%;color:var(--muted);font-size:13px;margin:0}
 .why{border:1px solid var(--line);border-left:4px solid var(--warn);background:var(--warn-soft);border-radius:8px;padding:8px 12px;font-size:14px}
 .why.sample{border-left-color:var(--accent);background:var(--accent-soft)}.why.decide{border-left-color:#b3261e}
@@ -350,15 +327,10 @@ table.rub td.m{width:4.2em;text-align:center;font:600 13px var(--mono)}
 .lk{background:none;border:0;padding:0;color:var(--accent);cursor:pointer;font:inherit;text-decoration:underline}
 .flagbox{display:flex;flex-direction:column;gap:4px}.flagbox input{font-size:15px}
 @media (max-width:800px){.dwrap{flex-direction:column}.dlog{position:static;border-left:0;padding-left:0;flex:auto;width:100%}.dq .cmp{grid-template-columns:1fr}}
-.dgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,420px),1fr));gap:12px}
-.dcard{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
-.dcard .cmp{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dcard figure{margin:0;min-width:0}.dcard figcaption{font-size:12px;color:var(--muted)}
-.dcard img{max-width:100%}.dcard .t{font-size:13px}.dcard.decided{opacity:.55}
+
 .banner{border:1px solid var(--ok);background:var(--ok-soft);border-radius:8px;padding:10px 12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13px}
-.fchip{font:500 13px var(--sans);border:1px solid var(--line2);background:var(--panel);border-radius:999px;padding:4px 11px;cursor:pointer}
-.fchip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--panel)}
-.fchip .n{font:500 12px var(--mono);margin-left:5px;opacity:.85}
+
 .rnav{display:flex;gap:8px;align-items:center;margin-left:auto}
 .pos{font:13px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .progress{height:3px;background:var(--line)}.progress i{display:block;height:100%;background:var(--ok);width:0}
@@ -513,45 +485,20 @@ table.pp th .ar{font-size:10px;margin-left:3px;color:var(--accent)}
 .handoff{font-size:13.5px;padding:8px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--line);margin-bottom:10px}
 .handoff.due{background:var(--warn-soft);border-color:var(--warn)}
 
-.tpart{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:12px;display:flex;flex-direction:column;gap:8px}
-.tpart.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
-.tpart.decided:not(.active){opacity:.7}
-.tcmp{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media (max-width:700px){.tcmp{grid-template-columns:1fr}}
-.tside{border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
-.tside.chosen{border-color:var(--ok,#2a7);background:color-mix(in srgb,var(--ok,#2a7) 7%,transparent)}
-.thead{font-weight:600}
-.trow{display:flex;flex-direction:column;gap:4px}.trow>b{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-.tlist{display:flex;flex-wrap:wrap;gap:4px}
-.tans{margin:4px 0 8px}
-.focuscmp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:start}
-@media (max-width:900px){.focuscmp{grid-template-columns:1fr}}
-.focuscmp figure{margin:0;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:10px 12px;min-width:0}
-.focuscmp figcaption{font:600 11px var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:8px}
-.fsrc img{display:block;width:100%;background:#fff;border-radius:6px;margin-bottom:6px}
-.fullpage summary{cursor:pointer}
 @media (max-width:520px){.views{max-width:100%;overflow-x:auto;scrollbar-width:none}}
-.gwrap{max-width:980px;margin:0 auto;padding-block:16px;display:flex;flex-direction:column;gap:12px}.gwrap h2{margin:0;font-size:24px;text-wrap:balance}.gwrap h3{margin:14px 0 0;font-size:17px}.gwrap p{margin:0;line-height:1.55;max-width:75ch}
-.lead{color:var(--muted)}.gcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
-.gcard{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px;background:var(--panel)}.gcard>b{font-size:15px}.gcard>span{font-size:12px;color:var(--accent);font-weight:600}
+
+.lead{color:var(--muted)}
+
 .grules{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px;line-height:1.5}
-.gex{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--panel)}.gex>summary{cursor:pointer;font-weight:600}.gex>*+*{margin-top:8px}
-.gn{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--bg);font-size:12px}
-.gtab{border-collapse:collapse;width:100%;font-size:13px}.gtab th,.gtab td{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}.gtab th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-.gex{overflow-x:auto}
-.tqsum{border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:8px 0;display:flex;flex-direction:column;gap:4px}
+
 .tchoice{border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:6px 0;display:flex;flex-direction:column;gap:6px;font-family:var(--sans)}
 .tchoice.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}.tchead{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
-.topt{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.topt.chosen .tdp{border-color:var(--ok)}.tnote{font-size:11px;color:var(--muted);text-decoration:underline dotted;cursor:help}
+.topt{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.topt.chosen .tdp{border-color:var(--ok)}
 .tpick{display:flex;flex-direction:column;gap:8px}.tplist{max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:6px}
 .tplist details summary{cursor:pointer;font-weight:600;padding:4px 2px}.tpsub{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:6px 4px 2px}
 .tprow{display:flex;gap:6px;align-items:baseline;width:100%;text-align:left;background:none;border:0;border-radius:6px;padding:4px 6px;color:var(--ink);font:inherit;cursor:pointer}.tprow:hover,.tprow:focus{background:var(--hi)}
 .seg .on{background:var(--accent);color:var(--bg)}
-.tgates{display:flex;flex-direction:column;gap:4px}.tgates>b{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
-.gk{border-color:color-mix(in srgb,var(--ok) 55%,transparent)}.gd{text-decoration:line-through;opacity:.6}
-.talso summary{font-size:12px;color:var(--muted);cursor:pointer}.talso .tlist{margin-top:4px}
-.tdp,.tsk{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:6px;padding:2px 6px;font-size:13px}
-.tdiff{background:color-mix(in srgb,var(--warn,#d90) 18%,transparent);border-color:color-mix(in srgb,var(--warn,#d90) 55%,transparent)}
+.tdp{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:6px;padding:2px 6px;font-size:13px}
 .tid{font-family:ui-monospace,monospace;font-size:11px;color:var(--muted)}
 .yb{font-size:10px;font-weight:700;border-radius:4px;padding:0 4px;background:var(--line)}
 .yb.y11{background:var(--y11-soft);color:var(--y11)}.yb.y12{background:var(--y12-soft);color:var(--y12)}
@@ -561,8 +508,7 @@ table.pp th .ar{font-size:10px;margin-left:3px;color:var(--accent)}
 .brand .logo .lq{fill:var(--accent)} .brand .logo .lw{fill:var(--ink)}
 .brand{display:flex;align-items:center;gap:8px}
 /* ---------- exam builder (owner 13 Nov, stage 1) ---------- */
-.xbtn{border-radius:999px;display:inline-flex;gap:6px;align-items:center}
-.xbtn .n{background:var(--accent);color:var(--panel);border-radius:999px;padding:0 7px;font-size:12px;min-width:20px;text-align:center}
+
 button.act.addx{border-color:var(--accent);color:var(--accent);background:transparent}
 button.act.addx[aria-pressed="true"]{background:var(--accent);color:var(--panel)}
 .xpanel,.xpanel *{box-sizing:border-box}
@@ -619,12 +565,7 @@ body.xpv-on{overflow:hidden}
 .xcover{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:6mm}
 .xschool{font:600 17pt var(--sans);letter-spacing:.05em}.xeyebrow{margin-top:5mm;font:9pt var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#555}
 .xcover h1,.xgh h1{font:600 24pt/1.15 var(--serif);margin:2mm 0 0;text-wrap:balance}
-.xfields{display:grid;grid-template-columns:1fr 1fr;gap:5mm 10mm;width:100%;margin-top:10mm;text-align:left;font:10pt var(--sans)}
-.xfields span{display:flex;gap:3mm;align-items:flex-end;font-weight:600}.xfields i{flex:1;border-bottom:1px solid #111;height:7mm}
-.xstats{display:flex;justify-content:center;gap:4mm;margin-top:9mm;width:100%}
-.xstats div{flex:1;max-width:38mm;border:1px solid #111;border-radius:2mm;padding:2mm;font:8.5pt var(--sans);color:#555;display:flex;flex-direction:column;align-items:center}
-.xstats b{font-size:14pt;color:#111;line-height:1.15}
-.xinstr{width:100%;text-align:left;margin-top:7mm;font-size:10pt}.xinstr b{font-family:var(--sans)}.xinstr ul{margin:1.5mm 0 0;padding-left:5mm}
+
 .xgh{margin-bottom:5mm}.xkey{border-collapse:collapse;font:10pt var(--sans);margin-bottom:5mm}.xkey td{border:1px solid #777;padding:1.5mm 4mm;text-align:center}
 @media print{@page{size:A4;margin:0}body *{visibility:visible}.xtool{display:none!important}.xpv{position:static;overflow:visible;background:#fff}
   .xpages{display:block!important;padding:0!important}.sheet{box-shadow:none;margin:0;break-after:page;min-height:296mm}.sheet:last-child{break-after:auto}
@@ -686,7 +627,6 @@ body.xpv-on{overflow:hidden}
   .views,.themebtn{display:none}
   .menubtn{display:inline-flex;align-items:center;gap:6px;font:600 14px var(--sans);border-radius:999px;padding:6px 12px;min-height:36px}
   .menubtn .n:empty{display:none}.menubtn .n{font:600 12px var(--sans);color:var(--warn)}
-  .xbtn{margin-left:auto;min-height:36px}
   .jobs{order:3}
   .search{flex:1 1 100%;max-width:none;margin-left:0;order:9}
   .rbar{gap:6px 8px;padding-block:6px 8px}
@@ -701,64 +641,11 @@ body.xpv-on{overflow:hidden}
 
 /* ---- Exam builder stage 2: auto-generate (owner 14 Nov: "begin building stage 2 of the exam builder ... The one where it's an automatic one") ---- */
 .xpanel{width:min(420px,96vw)}
-.xauto{border:1px solid var(--line);border-radius:12px;background:var(--bg);margin:10px 0 12px}
-.xauto>summary{cursor:pointer;list-style:none;padding:10px 12px;font:600 15px var(--display);display:flex;align-items:center;justify-content:space-between}
-.xauto>summary::-webkit-details-marker,.xa-tp>summary::-webkit-details-marker,.xa-fa summary::-webkit-details-marker{display:none}
-.xauto>summary::after{content:"";width:8px;height:8px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:rotate(45deg);transition:transform .2s;margin-right:4px}
-.xauto[open]>summary::after{transform:rotate(-135deg)}
-.xa-body{display:grid;gap:10px;padding:0 12px 12px;min-width:0}
-.xa-l{font:600 11px var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
-.xa-l b{font:600 12px var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);margin-left:6px}
-.xa-h{font-size:12px;color:var(--muted);line-height:1.4}
-.xa-tp{border:1px solid var(--line);border-radius:10px;background:var(--panel)}
-.xa-tp>summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;min-height:40px}
-.xa-tools{display:flex;gap:6px;padding:0 10px 6px}
-.xa-tools button,.xa-yr button{border:1px solid var(--line2);background:none;border-radius:999px;padding:2px 10px;font:500 12px var(--sans);color:var(--ink);cursor:pointer}
-.xa-topics{max-height:min(46vh,360px);overflow:auto;padding:0 6px 8px 10px;display:grid;gap:1px;overscroll-behavior:contain}
-.xa-yr{display:flex;align-items:center;justify-content:space-between;font:600 11px var(--sans);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:8px 2px 2px}
-.xa-fa{display:grid;grid-template-columns:22px minmax(0,1fr);align-items:start;gap:4px;font-size:13.5px}
-.xa-fa>input,.xa-sub input,.xa-ck input{width:16px;height:16px;margin:0;accent-color:var(--accent)}
-.xa-fa>input{margin-top:9px}
-.xa-fa.one{align-items:center;min-height:34px;grid-template-columns:22px minmax(0,1fr) auto;cursor:pointer}
-.xa-fa.one>input{margin-top:0}
-.xa-fa summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:8px;align-items:center;min-height:34px;padding-right:2px}
-.xa-fa summary span:first-child{min-width:0}
-.xa-fa summary::after{content:"";flex:none;width:6px;height:6px;border-right:1.4px solid var(--muted);border-bottom:1.4px solid var(--muted);transform:rotate(-45deg);transition:transform .2s;margin-left:2px}
-.xa-fa details[open]>summary::after{transform:rotate(45deg)}
-.xa-fa .c,.xa-sub .c{font:500 12px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums;margin-left:auto}
-.xa-sub{display:grid;grid-template-columns:22px minmax(0,1fr) auto;align-items:center;gap:4px;min-height:32px;font-size:13px;cursor:pointer;padding-left:2px}
-.xa-fa.zero>details>summary,.xa-fa.zero.one>span,.xa-sub.zero span{opacity:.5}
-.xa-row{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
-.xa-row.col{display:grid;gap:4px}.xa-row input[type=range]{width:100%;accent-color:var(--accent)}
-.xa-seg{display:inline-flex;align-items:stretch;border:1px solid var(--line2);border-radius:999px;overflow:hidden;background:var(--panel)}
-.xa-seg button{border:0;background:none;padding:0 12px;min-height:34px;font:500 13px var(--sans);cursor:pointer;color:var(--ink)}
-.xa-seg button[aria-pressed="true"]{background:var(--accent);color:var(--panel)}
-.xa-seg input{width:64px;border:0;border-left:1px solid var(--line2);background:var(--bg);color:var(--ink);font:500 13px var(--sans);text-align:center;padding:0 4px}
-.xa-mc{display:flex;align-items:center;gap:8px;min-width:0}
-.xa-seg input.on{background:var(--accent);color:var(--panel)}.xa-seg input::placeholder{color:var(--muted)}
-.xa-mc input{width:58px;min-height:34px;border:1px solid var(--line2);border-radius:8px;background:var(--panel);color:var(--ink);font:500 13px var(--sans);text-align:center}
-.xa-ck{display:flex;align-items:center;gap:8px;font-size:13px;cursor:pointer;min-height:28px}
-.xa-av{border-top:1px solid var(--line);padding-top:8px}
-.xa-avh{font-size:12.5px;color:var(--muted)}.xa-avh b{color:var(--ink);font-variant-numeric:tabular-nums}
-.xa-hist{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;align-items:end;margin-top:6px}
-.xa-hist div{display:grid;justify-items:center;gap:1px;font-size:11px;color:var(--muted)}
-.xa-hist i{display:block;width:100%;max-width:36px;background:color-mix(in srgb,var(--accent) 55%,transparent);border-radius:3px 3px 0 0}
-.xa-hist b{color:var(--ink);font:600 11px var(--sans);font-variant-numeric:tabular-nums}
-.xa-go{min-height:44px;font-size:15px}
-.xa-sum{display:grid;gap:6px;border-top:1px solid var(--line);padding-top:8px}
-.xa-bars{display:grid;gap:3px}
-.xa-bar{display:grid;grid-template-columns:52px minmax(0,1fr) 36px;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
-.xa-bar i{position:relative;height:9px;background:var(--line);border-radius:3px}
-.xa-bar s{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:3px;text-decoration:none}
-.xa-bar u{position:absolute;top:-3px;bottom:-3px;width:2px;margin-left:-1px;background:var(--ink);text-decoration:none}
-.xa-bar em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
 .xa-warn{margin:0;padding:6px 8px 6px 22px;font-size:12px;line-height:1.4;background:var(--warn-soft);border-left:3px solid var(--warn);border-radius:6px;display:grid;gap:3px}
 .xlist li.locked{border-color:var(--accent);background:var(--accent-soft)}
 .xlist .xb button[data-xlk][aria-pressed="true"]{color:var(--accent)}
 .xlist .xb button:disabled{opacity:.3;cursor:default}
 .xlist .xb button{min-width:26px;min-height:30px;display:inline-grid;place-items:center}
-@media (prefers-reduced-motion:reduce){.xauto>summary::after,.xa-fa summary::after{transition:none}}
-
 /* ---- Exams page (owner 14 Nov: "Making the exam should be on another page, and it should operate similar to the html
    file I gave you") — his exam maker's layout in Questgen's look. Fluency = teal (accent), problem solving = amber (Y11). ---- */
 :root{--exfl:var(--accent);--exfl-soft:var(--accent-soft);--exps:var(--y11);--exps-soft:var(--y11-soft)}
@@ -1144,7 +1031,7 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .g2{max-width:1040px;margin:0 auto;padding-block:36px 64px;display:grid;gap:8px}   /* owner 14 Nov: "not enough vspace above the guide" */
 @media (max-width:640px){.g2{padding-top:24px}}
 .g2top{display:grid;gap:4px;padding-bottom:6px}
-.g2eyebrow,.g2k,.g2part,.g2yr,.g2qh{font:600 11px var(--sans);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+.g2eyebrow,.g2k,.g2yr,.g2qh{font:600 11px var(--sans);letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
 .g2eyebrow{color:var(--accent)}
 .g2top h2{font:600 30px/1.15 var(--display);margin:0;letter-spacing:-.01em}
 .g2nav{display:flex;flex-wrap:wrap;gap:4px 18px;margin-top:8px;font-size:14px}
@@ -1152,7 +1039,7 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .g2[data-gpage="cat"] .g2pg2,.g2[data-gpage="dev"] .g2pg1{display:none}
 .g2seg{justify-self:start;margin:6px 0 4px;max-width:100%;overflow-x:auto}
 .g2axes{margin-top:18px}
-.g2part{margin-top:28px;padding-top:14px;border-top:1px solid var(--ink);color:var(--ink)}
+
 .g2axes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:8px;overflow:hidden;margin:6px 0 4px}
 .g2axes div{background:var(--panel);padding:12px 14px;display:grid;gap:2px}.g2axes b{font:600 16px var(--display)}.g2axes span{font-size:13px;color:var(--muted)}
 .g2sec{scroll-margin-top:120px;padding-top:22px;display:grid;gap:10px;min-width:0}
@@ -1401,21 +1288,20 @@ body.rep-on{overflow:hidden}
 /* ---- type: Inter 14px UI, Fraunces only for page titles ---- */
 body{margin:0;font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 ::selection{background:color-mix(in srgb,var(--accent) 22%,transparent)}
-.hero h1,.listhead h2,.lvtitle h2,.gwrap h2,.papers h2,.imp h2{font-family:var(--display);font-weight:500;letter-spacing:-.022em;font-variation-settings:"opsz" 72}
+.hero h1,.listhead h2,.lvtitle h2,.papers h2,.imp h2{font-family:var(--display);font-weight:500;letter-spacing:-.022em;font-variation-settings:"opsz" 72}
 .hero h1{font-size:32px;line-height:1.12}
 .listhead h2{font-size:26px;line-height:1.18}
-.lvtitle h2,.papers h2,.gwrap h2,.imp h2{font-size:24px;line-height:1.2}
+.lvtitle h2,.papers h2,.imp h2{font-size:24px;line-height:1.2}
 /* section and card titles move to Inter (they were Fraunces) */
 .yhead h2{font:600 15px/1.3 var(--sans);letter-spacing:-.005em}
-.facard .fah b,.fatile b,.tixfa b,.subcard b{font:600 14.5px/1.35 var(--sans);letter-spacing:-.006em}
+.facard .fah b,.subcard b{font:600 14.5px/1.35 var(--sans);letter-spacing:-.006em}
 .card .qn{font:600 13.5px var(--sans);letter-spacing:0;font-variant-numeric:tabular-nums}
 .lvcard h3{font:600 15px var(--sans);letter-spacing:-.005em}
-.gwrap h3{font:600 15px var(--sans)}
+
 /* labels: small caps-style eyebrows with air */
-.nav h3,.pane>h2,.section>h4,.home-sec,table.pp th,table.rub th,.gtab th,.cmp figcaption,.cmp3 figcaption,.ovfig figcaption,.focuscmp figcaption,.trow>b,.tchead,.tgates>b,.tpsub,.why b{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.nav h3,.pane>h2,.section>h4,table.pp th,table.rub th,.cmp figcaption,.cmp3 figcaption,.ovfig figcaption,.tchead,.tpsub,.why b{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 /* numbers line up */
-.views .n,.brand small,.hero .stat b,.facard .fah .n,.subrow .c,.fa>button .c,.fa li .c,.tixsub .c,.sib .c,.bfilters .c,.bfilters .shown,
-.card .mk,.pmarks,.step .n,.pos,table.pp td,.tile b,.lvprog b,.lvpos,.msheet .n,.xbtn .n{font-variant-numeric:tabular-nums}
+.views .n,.brand small,.hero .stat b,.facard .fah .n,.subrow .c,.fa>button .c,.fa li .c,.sib .c,.bfilters .c,.bfilters .shown,.card .mk,.pmarks,.step .n,.pos,table.pp td,.tile b,.lvprog b,.lvpos,.msheet .n{font-variant-numeric:tabular-nums}
 
 /* ---- header: slimmer bar, quiet segmented tabs ---- */
 header{background:color-mix(in srgb,var(--panel) 92%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
@@ -1437,8 +1323,7 @@ body::before{background:var(--panel)}
 .themebtn{font:500 12.5px var(--sans)!important;color:var(--muted)!important;padding:0 8px!important}
 .themebtn:hover{color:var(--ink)!important;background:var(--t2-hover)!important}
 /* Exam button: a plain secondary button with a quiet count, not a pill */
-.xbtn{border-radius:var(--t2-r)!important;gap:8px}
-.xbtn .n{background:none;color:var(--muted);border-radius:0;padding:0 0 0 8px;min-width:0;font:500 12.5px var(--sans);border-left:1px solid var(--line2)}
+
 .rbar{border-top:1px solid var(--line);padding-block:8px;gap:8px 10px}
 .progress{height:2px}
 
@@ -1494,11 +1379,10 @@ kbd{font:500 10.5px var(--sans);border:1px solid var(--line2);border-bottom-widt
 .subrow .bar{height:3px;border-radius:2px;background:var(--line)}
 .subrow .bar i{border-radius:2px;opacity:.85}
 .subrow .c{font-size:12.5px}
-.fatile,.tix,.subcard{border-radius:var(--t2-rl)}
-.fatile{border-left-width:2px}
+.subcard{border-radius:var(--t2-rl)}
+
 .subcard{border-top-width:2px}
 .subcard:hover{box-shadow:var(--t2-shadow)}
-.tixsub:hover,.fatile:hover,.tixfa:hover{background:var(--t2-hover)}
 
 /* ---- Bank: sidebar topic list (owner 13 Nov motion rules untouched; only the look) ---- */
 .navtools button{border-radius:var(--t2-r);font:500 12px var(--sans);padding:3px 8px}
@@ -1556,8 +1440,7 @@ details.solbox>summary:hover{text-decoration:underline;text-underline-offset:3px
 .step[aria-pressed="true"] .num{background:var(--panel);color:var(--ink);border-color:transparent}
 .step[aria-pressed="true"] .n{color:var(--panel);background:color-mix(in srgb,var(--panel) 18%,transparent)}
 .stephelp{font-size:12.5px}
-.fchip{border-radius:var(--t2-r);font:500 12.5px var(--sans)}
-.fchip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--panel)}
+
 .desk{gap:20px;padding-block:20px}
 .pane{border-radius:var(--t2-rl)}
 .pane>h2{padding:11px 16px}
@@ -1569,9 +1452,9 @@ details.solbox>summary:hover{text-decoration:underline;text-underline-offset:3px
 .seg{border-radius:var(--t2-r);padding:2px;background:var(--bg)}
 .segb{border-radius:4px;font:500 12.5px var(--sans)}
 .segb[aria-pressed="true"]{box-shadow:0 1px 2px rgba(0,0,0,.08),0 0 0 1px var(--line)}
-.cmp figure,.cmp3 figure,.ovfig,.dq figure,.focuscmp figure{border-radius:var(--t2-r)}
-.dcard,.figdone,.banner,.tpart,.tside,.tqsum,.tchoice,.picker ul,.tplist{border-radius:var(--t2-rl)}
-.tpart.active,.tchoice.active{box-shadow:0 0 0 1px var(--accent)}
+.cmp figure,.cmp3 figure,.ovfig,.dq figure{border-radius:var(--t2-r)}
+.figdone,.banner,.tchoice,.picker ul,.tplist{border-radius:var(--t2-rl)}
+.tchoice.active{box-shadow:0 0 0 1px var(--accent)}
 
 /* ---- Papers / Import ---- */
 .papers{padding-block:24px}
@@ -1611,10 +1494,6 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
 .lvempty{border-radius:var(--t2-rl)}
 
 /* ---- Guide ---- */
-.gwrap{padding-block:24px;gap:14px}
-.gcard,.gex{border-radius:var(--t2-rl);padding:14px 16px}
-.gcard>b{font-size:14px}
-.gn{width:18px;height:18px;font-size:11px;font-weight:600;color:var(--panel)}
 
 /* ---- jobs pill (owner 12 Nov: "should be a simple pill") stays a pill, just quieter ---- */
 .jobs .jpill{font-size:12.5px;padding:2px 10px}   /* owner 14 Nov: now two pills, running and queued */
@@ -1631,7 +1510,6 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
   .top{padding-block:6px;gap:8px}
   .brand .logo{height:21px}
   .menubtn{border-radius:var(--t2-r)!important;font:500 14px var(--sans)!important;padding:0 10px 0 12px!important;min-height:40px}
-  .xbtn{min-height:40px}
   .search{max-width:none}
   .search input{height:40px;font-size:16px}   /* 16px stops iOS zooming into the field */
   button.act,a.act,.step,select:not([multiple]){min-height:40px}
@@ -1696,7 +1574,6 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
 @media (prefers-reduced-motion:reduce){.areasw .aslider{transition:none}}
 .views a[hidden]{display:none!important}
 /* Difficulty and Reports are Review steps: under them the row has no paper picker or ← → */
-.rbar.xstep #docF,.rbar.xstep .rnav,.rbar.xstep #stF{display:none!important}
 .msheet .mgrp{display:grid;gap:2px}
 .msheet .mgrp+.mgrp{border-top:1px solid var(--line);margin-top:4px;padding-top:4px}
 .msheet .mh{font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 14px 2px}
@@ -2365,13 +2242,6 @@ function homeLabel(k){if(!k)return 'none';if(k==='special:removed')return 'Remov
 function qPlaces(q){ // owner 12 Nov: one topic home per question
   const h=qHome(q); return new Set(h?[h]:[]);
 }
-function qPlacesOld(q){ // (before 12 Nov) primary placement of every part
-  const out=new Set();
-  q.parts.filter(p=>leaf(q,p)).forEach(p=>{const ts=effTags(q,p);const pri=ts.filter(t=>t.primary);(pri.length?pri:ts).forEach(t=>{
-    if(t.cov==='removed') out.add('special:removed'); else if(t.cov==='no_match') out.add('special:no_match');
-    else if(DM[t.id]) out.add('sub:'+DM[t.id].yl+'|'+DM[t.id].fa+'|'+(DM[t.id].sub||''));})});
-  return out;
-}
 // owner 12 Nov ("Questions aren't showing in the bank until approved right?" -> "yeah do that"): the Bank shows approved
 // questions only; the owner can switch unapproved ones back on (remembered per browser)
 let BANKALL=(()=>{try{return localStorage.getItem('bankall')==='1'}catch(e){return false}})();
@@ -2492,7 +2362,9 @@ function renderBank(){
   // owner 13 Nov ("there's some lag when clicking between subtopics"): a long list (140 cards) took ~170 ms to build in one go and froze
   // the pill. Now the first 8 cards go in at once and the rest follow in small batches between frames.
   const L=$('#list');const gen=(L._gen=(L._gen||0)+1);
-  L.innerHTML=`<div class="lhead">${head}</div><div class="cards"></div>`;typeset(L.querySelector('.lhead'));   // owner 13 Nov: the dot-point list in the header lost its maths when cards went lazyL.classList.remove('enter');void L.offsetWidth;L.classList.add('enter');
+  L.innerHTML=`<div class="lhead">${head}</div><div class="cards"></div>`;typeset(L.querySelector('.lhead'));   // owner 13 Nov: the dot-point list in the header lost its maths when cards went lazy
+  // (health pass 13 Nov: the list's own enter animation, swallowed by this comment, was not restored: bankGo's view
+  // transition already animates #list, and a second animation inside it would double the slide; #list.enter CSS removed)
   const box=L.querySelector('.cards');let i=0;
   const batch=n=>{if(L._gen!==gen)return;const part=qs.slice(i,i+n);i+=part.length;const tmp=document.createElement('div');tmp.innerHTML=part.map(cardHTML).join('');
     const els=[...tmp.children];els.forEach(c=>{box.appendChild(c);const q=B.questions.find(x=>x.id===+c.dataset.q);hydrate(c,q,'bank')});
@@ -2874,40 +2746,13 @@ function paperNextHTML(){const w=paperWork(rdoc),nx=nextStepWith(w,rfilter),d=B.
   return `<div class="row" style="margin-top:10px">${nx?`<button class="act primary" data-gof="${nx}">Go to ${STEPS.findIndex(x=>x[0]===nx)+1}. ${esc(stepLabel(nx))} · ${w.left[nx]} →</button>`:''}<a class="act ghost" href="#review">← Inbox</a></div>`}
 function bindNext(){$$('#rout [data-gof]').forEach(b=>b.onclick=()=>goStep(b.dataset.gof,b.dataset.any?'any':'todo'))}
 /* owner 12 Nov ("lets do that"): Tags step — choose between tagger (A) and checker (B) where they disagreed a lot */
-function dpChip(id,role,other){const d=DM[id]||{};const diff=!other.has(id);
-  return `<span class="tdp${diff?' tdiff':''}" title="${esc(id+' · '+(d.fa||'')+(d.sub?' › '+d.sub:'')+' — '+(d.text||''))}"><span class="yb y${d.yl||''}">Y${d.yl||'?'}</span><span class="tid">${esc(id)}</span> ${esc(d.short||d.sub||d.fa||'')}${role==='primary'?'':' <span class="muted">(also)</span>'}</span>`}
-function sideHTML(x,o,lab,key,chosen){
-  const od=new Set(o.dp.map(d=>d[0])),orq=new Set(o.req),oc=new Set(o.can);
-  const sk=(arr,oth)=>arr.length?arr.map(k=>`<span class="tsk${oth.has(k)?'':' tdiff'}">${esc(k)}</span>`).join(''):'<span class="muted">none</span>';
-  return `<div class="tside${chosen===key?' chosen':''}"><div class="thead"><kbd>${key==='A'?1:2}</kbd> ${lab}${x.conf!=null?` <span class="muted">· confidence ${x.conf}</span>`:''}${chosen===key?' <span class="badge b-ok">kept</span>':''}</div>
-    ${x.removed?`<div class="trow"><b>Removed from 2024 syllabus</b><div>${esc(x.removed)}</div></div>`:''}
-    <div class="trow"><b>Main dot point</b><div class="tlist">${x.dp.filter(d=>d[1]==='primary').map(([id,r])=>dpChip(id,r,new Set(o.dp.filter(d=>d[1]==='primary').map(d=>d[0])))).join('')||'<span class="muted">none</span>'}</div></div>
-    ${(al=>al.length?`<details class="talso"><summary>Also assessed: ${al.length} dot point${al.length>1?'s':''} (kept, not part of your check)</summary><div class="tlist">${al.map(([id,r])=>dpChip(id,r,od)).join('')}</div></details>`:'')(x.dp.filter(d=>d[1]!=='primary'))}
-    ${x.note?`<div class="trow"><b>Note</b><div class="muted">${esc(x.note)}</div></div>`:''}</div>`}
-let tagActive=null;
 // owner 12 Nov ("I don't feel like I can accurately choose the gates" -> "yeah lets do that"): the owner picks only the TOPIC
 // (main dot point, or removed). Gates are settled automatically: both sides' skills combined, each disputed skill kept only
 // with a quoted solution step (work/gates). Parts whose two sides share the main dot point need no decision.
 const tagPri=x=>x.dp.filter(d=>d[1]==='primary').map(d=>d[0]).join(',');
 function tagNeed(p){const d=p.tagd;return !!d&&(tagPri(d.A)!==tagPri(d.B)||!!d.A.removed!==!!d.B.removed)}
-function gatesHTML(p){const d=p.tagd,A=new Set(d.A.req),Bs=new Set(d.B.req),ev=p.gates||{};
-  const all=[...new Set([...d.A.req,...d.B.req])];
-  return `<div class="tgates"><b>Needs (gates): settled automatically, not part of your check</b><div class="tlist">${all.map(k=>{const both=A.has(k)&&Bs.has(k),e=ev[k];
-    return both?`<span class="tsk">${esc(k)}</span>`:`<span class="tsk ${e?(e.decision==='keep'?'gk':'gd'):'tdiff'}" title="${esc(e?(e.evidence||e.reason||''):'Named by one side only; being checked against the solution')}">${esc(k)} <span class="muted">${e?(e.decision==='keep'?'· kept':e.decision==='can_use'?'· can use':'· dropped'):'· checking'}</span></span>`}).join('')||'<span class="muted">none</span>'}</div></div>`}
-// owner 12 Nov: "u need to show solutions somewhere so I can verify it". Every solution for the part (and the whole-question
-// solution when the question has one part), plus the MCQ answer, shown open above the two tag sets.
-function tagSolHTML(q,p){revealed.add(q.id);
-  const own=q.solutions.filter(x=>x.part_id===p.id), whole=q.parts.length===1||!p.label?q.solutions.filter(x=>x.part_id==null):[];
-  const sols=[...own,...whole];
-  const key=q.type==='mcq'?q.options.find(o=>o.is_correct):null;
-  const ans=key?`<div class="tans"><b>Answer:</b> ${esc(key.label)}. ${key.fig?'(graph option)':tex(key.latex||'')}</div>`:'';
-  if(!sols.length&&!ans)return '<div class="help">No solution stored for this part.</div>';
-  return `<details class="solbox tsol" open><summary>Solution${sols.length>1?'s':''}</summary>${ans}${sols.map(x=>solHTML(q,x,'tags')).join('')}</details>`}
 // owner 12 Nov: "make the tag review page only show the question with the solutions collapsed and the tags so I can easily
 // verify or not". The question reads as one piece; each part carries its tags; disputed parts carry the 1/2/F choice inline.
-function pickedPri(q,p){const v=reviews['q'+q.id]?.tagres?.[p.id];if(!p.tagd)return (p.t24||[]).filter(t=>t.primary).map(t=>t.cov==='removed'?'removed':t.id);
-  if(v==='A'||v==='B'){const x=p.tagd[v];return x.removed?['removed']:x.dp.filter(d=>d[1]==='primary').map(d=>d[0])}
-  if(v&&v.id)return [v.id]; if(v&&v.cov)return [v.cov]; const x=p.tagd.B;return x.removed?['removed']:x.dp.filter(d=>d[1]==='primary').map(d=>d[0])}
 function qTagSummary(q){const lv=q.parts.filter(p=>leaf(q,p));const gates=[...new Set(lv.flatMap(p=>p.skills||[]))];
   const r=reviews['q'+q.id]?.home,ch=r==='A'||r==='B'?r:null,hA=homeOf(q,'A'),hB=homeOf(q,'B');
   const parts=side=>lv.filter(p=>partPri(q,p,side).some(i=>subKey(i)===homeOf(q,side))).map(p=>p.label?'('+esc(p.label)+')':'').join(' ');
@@ -2920,16 +2765,6 @@ function qTagSummary(q){const lv=q.parts.filter(p=>leaf(q,p));const gates=[...ne
         <div id="tpList" class="tplist"></div>
         <div class="row"><input id="tpNote" type="text" placeholder="Optional note, e.g. no dot point covers graphing cot x" style="flex:1;min-width:0"><button class="act" id="tpRemoved">Removed from syllabus</button><button class="act" id="tpNone">No dot point fits</button></div></div>
     <div class="muted"><b>Gates (automatic)</b> ${gates.map(esc).join(', ')||'none'}</div></div>`}
-function sideChip(x){return x.removed?`<span class="tdp tdiff">Removed from syllabus</span>`:x.dp.filter(d=>d[1]==='primary').map(([id])=>{const d=DM[id]||{};return `<span class="tdp" title="${esc(id+' · '+(d.fa||'')+(d.sub?' › '+d.sub:'')+' — '+(d.text||''))}"><span class="yb y${d.yl||''}">Y${d.yl||'?'}</span><span class="tid">${esc(id)}</span> ${esc(d.short||d.sub||'')}</span>`}).join('')||'<span class="muted">none</span>'}
-function tagChoiceHTML(q,p){const v=reviews['q'+q.id]?.tagres?.[p.id],ch=v==='A'||v==='B'?v:null,act=p.id===tagActive,d=p.tagd;
-  const opt=(k,lab,x)=>`<div class="topt${ch===k?' chosen':''}"><kbd>${k==='A'?1:2}</kbd> <span class="muted">${lab}</span> ${sideChip(x)}${x.note?` <span class="tnote" title="${esc(x.note)}">note</span>`:''}${ch===k?' <span class="badge b-ok">chosen</span>':''}</div>`;
-  return `<div class="tchoice${act?' active':''}${v?' decided':''}"><div class="tchead">Topics disagree${v&&!ch?` <span class="badge b-bad">your pick: ${v.id?esc(v.id+' '+(DM[v.id]?.short||'')):v.cov==='removed'?'removed from syllabus':'no dot point fits'}${v.note?' · '+esc(v.note):''}</span>`:''}</div>
-    ${opt('A','Tagger',d.A)}${opt('B','Checker',d.B)}
-    ${act?`<div class="row keys"><button class="act" data-tc="A"><kbd>1</kbd> Tagger</button><button class="act ok" data-tc="B"><kbd>2</kbd> Checker</button><button class="act warn" id="tF"><kbd>F</kbd> Both wrong: pick another</button></div>
-      <div class="flagbox tpick" id="tflag" hidden><div class="row"><b>Pick the correct main dot point</b><span class="seg" role="group" aria-label="Year">${['all','11','12'].map(y=>`<button class="act ghost${tpYear===y?' on':''}" data-ty="${y}">${y==='all'?'Both':'Year '+y}</button>`).join('')}</span></div>
-        <input id="tflagtxt" type="search" placeholder="Search: e.g. chain rule, reciprocal, Y12-240 (Enter picks the first match, Esc cancels)" aria-label="Search dot points">
-        <div id="tpList" class="tplist"></div>
-        <div class="row"><input id="tpNote" type="text" placeholder="Optional note, e.g. no dot point covers graphing cot x" style="flex:1;min-width:0"><button class="act" id="tpRemoved">Removed from syllabus</button><button class="act" id="tpNone">No dot point fits</button></div></div>`:(v?`<button class="act ghost" data-redo="${p.id}">Change</button>`:'')}</div>`}
 function renderTagd(){
   const q=rlist[ridx];
   const done=rlist.filter(x=>!isTodo(x,'tags')).length;
@@ -2960,7 +2795,7 @@ function drawTP(){const el=$('#tpList');if(!el)return;const s=($('#tflagtxt')?.v
 function tpPick(id){tagChoose({id,note:$('#tpNote')?.value.trim()||null})}
 function tagChoose(v){const q=rlist[ridx];if(!q)return;write(q,{home:v});TOPICS=null;const was=q.id;refreshReview();if(!_advanced&&rlist[ridx]?.id===was)go(1);window.scrollTo({top:0})}
 function renderReview(){
-  $('#reviewView').classList.toggle('grid',rfilter==='diagrams'||rfilter==='tags'||FOCUS_STEPS.includes(rfilter));
+  $('#reviewView').classList.toggle('grid',rfilter==='diagrams'||rfilter==='tags');
   $('#rout').previousElementSibling.textContent=rfilter==='diagrams'?'Diagrams to check':rfilter==='tags'?'Tags to settle':'Parsed question';
   if(rfilter==='diagrams'){renderDiag();return}
   if(rfilter==='tags'){renderTagd();return}
@@ -2996,17 +2831,12 @@ function renderReview(){
     ${rfilter==='sample'?sampleBanner(q.doc):''}${rfilter==='decide'&&RMODE==='paper'?PCALL.html(docIds(q.doc)):''}${whyHTML(q)}
     ${q.decide?`<div class="callout"><b>Needs your decision:</b> ${tex(q.decide)}</div>`:''}${q.review_note&&!/^scan (path|transcription)[^|;]*$/i.test(q.review_note.trim())?`<details class="figdone" style="color:var(--muted)"><summary style="color:var(--warn)">Transcription notes</summary><div class="help">${esc(q.review_note)}</div></details>`:''}${rel?`<div class="help">Also appears as: ${esc(rel)}</div>`:''}
     ${figCompareHTML(q)}
-    ${FOCUS_STEPS.includes(rfilter)?`<div class="focuscmp"><figure><figcaption>On the paper</figcaption><div id="fsrc" class="fsrc"><span class="muted">Loading the paper…</span></div></figure><figure><figcaption>In the bank</figcaption><div class="qtext">${qBody(q,'review')}</div></figure></div>
-      <details class="help fullpage"><summary>Full source page${q.pages.length>1?'s':''}</summary>${q.pages.map(p=>`<img data-page="${p}" alt="Source page" style="width:100%">`).join('')}</details>`:`<div class="section"><h4>Question as it will appear</h4>${qBody(q,'review')}</div>`}
+    <div class="section"><h4>Question as it will appear</h4>${qBody(q,'review')}</div>
     <div class="decision">${r?.note?`<div class="help"><b>Your note:</b> ${esc(r.note)}</div>`:''}
       <div class="row"><button class="act ok" id="approve"><kbd>A</kbd> Approve question + solution</button><span class="help">Approving also approves any model-written solution shown here that you haven't rejected.</span><button class="act warn" id="flag"><kbd>F</kbd> Flag</button>
       <span class="help">${db?'Decisions save for everyone with access.':'Saving is off in this view; decisions are not kept.'}</span></div>
       <div class="flagbox" id="qflag" hidden><label class="help" for="note">What's wrong? <kbd>Enter</kbd> sends the flag, <kbd>Esc</kbd> cancels.</label><input id="note" type="text" placeholder="e.g. Part (b) is missing the integral bounds" value="${esc(r?.status==='flagged'?r.note||'':'')}"></div></div>`;
   hydrate($('#rout'),q,'review'); hydrate($('#src'),q,'review'); typeset($('#rout'));
-  if(FOCUS_STEPS.includes(rfilter)){const sol=(q.tri?.look||[]).some(x=>/solution|answer|marks/i.test(x));
-    if(!sol)$$('#rout .focuscmp details.solbox').forEach(d=>d.open=false);   // solutions only open when the check is about them
-    focusPack(q.doc).then(m=>{const el=$('#fsrc');if(!el||rlist[ridx]?.id!==q.id)return;const r=m[q.id];
-      el.innerHTML=r&&r.q.length?r.q.map(u=>`<img src="${u}" alt="The question on the source paper">`).join(''):'<span class="muted">No crop for this question (scanned or unusual layout). Open the full source page below.</span>'})}
   $('#approve').onclick=()=>decide('approved'); $('#flag').onclick=openQFlag;
   // owner 12 Nov: flag like the diagrams step: F opens a one-line box, type the reason, Enter sends, Esc cancels
   $('#note').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();if(!$('#note').value.trim()){toast('Type a reason first');return}decide('flagged')}else if(e.key==='Escape'){$('#qflag').hidden=true;$('#note').blur()}};
@@ -3034,10 +2864,6 @@ async function setSol(q,id,v){await write(q,{sol:{...(reviews['q'+q.id]?.sol||{}
 function afterDecision(q){ // stay on the item until everything in the current filter is decided, then move on
   if(rstatus==='todo'&&!isTodo(q,rfilter)&&['diagrams','generated'].includes(rfilter)){refreshReview();window.scrollTo({top:0})} else renderReview()}
 async function setTag(t){const q=rlist[ridx];const ed={...(reviews['q'+q.id]?.tag_edits||{})};ed[editing]=t.cov?{cov:t.cov}:{id:t.id};editing=null;await write(q,{tag_edits:ed});renderReview()}
-// owner 12 Nov ("in the check one, its taking too long looking at the question, just show side by side the part I actually
-// need to check"): Check and Decide show the question as printed (a crop of the source page) beside the bank version
-const FOCUS_STEPS=[];const _fp={};   // owner 12 Nov: cropped side-by-side was worse; rolled back to the full-page view
-function focusPack(doc){return _fp[doc]=_fp[doc]||fetch('data/focus/'+doc+'.json').then(r=>r.ok?r.json():{}).catch(()=>({}))}
 function openQFlag(){const b=$('#qflag');if(!b)return;b.hidden=false;const n=$('#note');n.focus();n.select()}
 async function decide(status){const q=rlist[ridx];if(!q)return;const patch={status,note:$('#note')?.value.trim()||null};if(q.decide)patch.call_at=new Date().toISOString();
   if(status==='approved'){const sol={...(reviews['q'+q.id]?.sol||{})};let n=0;qGen(q).forEach(x=>{if(!sol[x.id]){sol[x.id]='approved';n++}});if(n)patch.sol=sol}
@@ -3635,13 +3461,16 @@ document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('in
    Owner: "can you begin building stage 2 of the exam builder in the background please? The one where it's an automatic one."
    Pick topics, total marks, the number of multiple-choice questions, a difficulty (Easier / HSC-like / Harder) and a fluency /
    problem-solving split; the generator fills the exam (EX.items), so preview, marking guide, save and download all keep working.
+   Since the Exams page (24_exams.js) took over the settings and the generator, this file keeps only what that page and the
+   bank share: question difficulty (qDiff), topic homes and tree, the seeded random, and Swap / Lock on the exam panel.
+   (health pass 13 Nov: the stage-2 drawer UI and its generator were unused and removed; they are in git history.)
    Regenerate = new seed, same settings. Each question in the list can be swapped for the closest alternative or locked so that
    Regenerate keeps it. Difficulty comes from DIFFICULTY_SPEC (part band 2-6, wm UF/PR). Question band = marks-weighted mean of
    its parts' bands, rounded to 0.5; a question's problem-solving share = marks on PR parts / its marks. */
 const XA_DEF=()=>({open:true,topen:true,topics:[],total:100,mcq:10,mcqSet:false,diff:'hsc',pr:30,approved:true,avoid:false,seed:0,locked:[],warns:[],tmix:null,tpr:null,ran:false});
 function xa(){if(!EX.auto||typeof EX.auto!=='object')EX.auto=XA_DEF();const d=XA_DEF();for(const k in d)if(EX.auto[k]===undefined)EX.auto[k]=d[k];return EX.auto}
 const xaSave=()=>{try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}};
-const XA_OPEN=new Set(), XA_SWAPPED=new Set();
+const XA_SWAPPED=new Set();
 
 /* ---------- difficulty of a question ---------- */
 const _qd=new Map();
@@ -3668,78 +3497,9 @@ let _xat=null;
 function xaTree(){if(_xat)return _xat;const t={12:new Map(),11:new Map()};
   DOTS.forEach(d=>{const m=t[d.yl];if(!m)return;if(!m.has(d.fa))m.set(d.fa,[]);const k='sub:'+d.yl+'|'+d.fa+'|'+(d.sub||'');const a=m.get(d.fa);if(!a.includes(k))a.push(k)});return _xat=t}
 const xaSavedIds=()=>{const s=new Set();try{(XSAVED||[]).forEach(x=>{if(x.id!==EX.id)(x.items||[]).forEach(i=>s.add(i))})}catch(e){}return s};
-function xaBase(A,homes){const avoid=A.avoid?xaSavedIds():null;
-  return B.questions.filter(q=>homes.has(q.id)&&qDiff(q)&&(!A.approved||qState(q)==='approved')&&!(avoid&&avoid.has(q.id)))}
-function xaPool(A,homes){const T=new Set(A.topics);return xaBase(A,homes).filter(q=>T.has(homes.get(q.id).sub))}
-const xaAreas=A=>[...new Set(A.topics.map(k=>k.slice(4).split('|').slice(0,2).join('|')))];
 
-/* ---------- targets, stats, cost ---------- */
-const XA_TILT={easy:[0,0,1.8,1.35,.7,.35,.15],hsc:[0,0,1,1,1,1,1],hard:[0,0,.4,.8,1.3,1.8,2.2]};
-function xaMixOf(qs){const mix=[0,0,0,0,0,0,0];qs.forEach(q=>{const d=qDiff(q);if(!d)return;const k=(+q.marks||d.w)/d.w;for(let b=2;b<=6;b++)mix[b]+=d.mix[b]*k});return mix}
-// HSC-like = the band mix (by marks) of the HSC questions in the chosen topics; all HSC questions if the topics have too few
-function xaTarget(A,pool){let mix=xaMixOf(pool.filter(q=>B.docs[q.doc]?.task_type==='hsc'));
-  if(mix.reduce((a,b)=>a+b,0)<20)mix=xaMixOf(B.questions.filter(q=>!q.dup_of&&B.docs[q.doc]?.task_type==='hsc'));
-  const t=XA_TILT[A.diff]||XA_TILT.hsc;mix=mix.map((v,b)=>v*(t[b]||0));const s=mix.reduce((a,b)=>a+b,0)||1;return mix.map(v=>v/s)}
-function xaStats(qs,homes){const mix=[0,0,0,0,0,0,0];let marks=0,pr=0,dw=0,mcq=0;const area={};
-  qs.forEach(q=>{const m=+q.marks||0;marks+=m;if(q.type==='mcq')mcq++;const d=qDiff(q);if(d){const k=m/d.w;for(let b=2;b<=6;b++)mix[b]+=d.mix[b]*k;pr+=d.pr*m;dw+=m}
-    const h=homes.get(q.id);if(h)area[h.area]=(area[h.area]||0)+m});
-  const s=mix.reduce((a,b)=>a+b,0)||1;return {marks,mcq,mix:mix.map(v=>v/s),pr:dw?pr/dw:0,area}}
-function xaCost(st,T){let c=0;if(T.full)c+=20*Math.abs(st.marks-T.total)+20*Math.abs(st.mcq-T.mcq);
-  for(let b=2;b<=6;b++)c+=4*Math.abs(st.mix[b]-T.mix[b]);c+=3*Math.abs(st.pr-T.pr);
-  let al=0;const tm=st.marks||1;for(const a in T.area)al+=Math.abs((st.area[a]||0)/tm-T.area[a]);return c+2*al}
+/* ---------- seeded random (the Exams page generator) ---------- */
 function xaRng(seed){let a=seed>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296}}
-
-/* ---------- generator: seeded greedy fill, then ~900 improvement moves ---------- */
-function xaGenerate(){const A=xa();if(!A.topics.length){toast('Pick at least one topic first');return}
-  const homes=xaHomes(),pool=xaPool(A,homes);
-  const locked=A.locked.filter(i=>EX.items.includes(i)).map(xq).filter(Boolean);A.locked=locked.map(q=>q.id);
-  const lockedIds=new Set(A.locked);
-  const mcqP=pool.filter(q=>q.type==='mcq'&&!lockedIds.has(q.id)),wrP=pool.filter(q=>q.type!=='mcq'&&!lockedIds.has(q.id));
-  const T={total:A.total,mcq:A.mcq,mix:xaTarget(A,pool),pr:A.pr/100,area:{},full:false};
-  // topic spread: each chosen focus area's share of the marks follows its share of the matching questions' marks
-  pool.forEach(q=>{const a=homes.get(q.id).area;T.area[a]=(T.area[a]||0)+(+q.marks||0)});{const s=Object.values(T.area).reduce((a,b)=>a+b,0)||1;for(const k in T.area)T.area[k]/=s}
-  A.seed=(Math.random()*2**31)>>>0;const R=xaRng(A.seed);
-  let S=[...locked];const used=new Set(S.map(q=>q.id));
-  const cost=sel=>xaCost(xaStats(sel,homes),T);
-  const sample=(arr,n,f)=>{const out=[];for(let t=0;t<n*4&&out.length<n&&arr.length;t++){const q=arr[Math.floor(R()*arr.length)];if(!used.has(q.id)&&(!f||f(q))&&!out.includes(q))out.push(q)}return out};
-  const greedy=c=>{let best=null,bc=1e9;c.forEach(q=>{const v=cost([...S,q])+R()*.03;if(v<bc){bc=v;best=q}});S.push(best);used.add(best.id)};
-  const needM=Math.max(0,A.mcq-locked.filter(q=>q.type==='mcq').length);
-  for(let k=0;k<needM;k++){const c=sample(mcqP,24);if(!c.length)break;greedy(c)}
-  const marks=()=>S.reduce((t,q)=>t+(+q.marks||0),0);
-  for(let g=0;g<300;g++){const rem=A.total-marks();if(rem<=0)break;const c=sample(wrP,30,q=>q.marks<=rem);if(!c.length)break;greedy(c)}
-  T.full=true;const byM={};wrP.forEach(q=>{(byM[q.marks]=byM[q.marks]||[]).push(q)});
-  let cur=cost(S),best=S.slice(),bestC=cur;const N_IT=900;
-  for(let it=0;it<N_IT;it++){const temp=.06*(1-it/N_IT),diff=A.total-marks(),free=S.filter(q=>!lockedIds.has(q.id)),r=R();let N=null;
-    if(diff>0&&r<.25){const c=(byM[diff]||[]).filter(q=>!used.has(q.id));if(c.length)N=[...S,c[Math.floor(R()*c.length)]]}
-    else if(diff<0&&r<.25){const c=free.filter(q=>q.type!=='mcq'&&q.marks<=-diff);if(c.length){const x=c[Math.floor(R()*c.length)];N=S.filter(q=>q!==x)}}
-    if(!N&&free.length){const x=free[Math.floor(R()*free.length)],isM=x.type==='mcq';let c=null;
-      if(!isM&&R()<.5)c=(byM[x.marks+diff]||[]).filter(q=>!used.has(q.id));
-      if(!c||!c.length)c=sample(isM?mcqP:wrP,6);
-      if(c.length){const y=c[Math.floor(R()*c.length)];N=S.map(q=>q===x?y:q)}}
-    if(!N)continue;const nc=cost(N);
-    if(nc<cur||(temp>0&&R()<Math.exp((cur-nc)/temp))){S=N;cur=nc;used.clear();S.forEach(q=>used.add(q.id));if(cur<bestC){bestC=cur;best=S.slice()}}}
-  S=best;
-  // HSC order: easier first within each section
-  const bo=q=>qDiff(q)?.raw??3;
-  const mc=S.filter(q=>q.type==='mcq').sort((a,b)=>bo(a)-bo(b)),wr=S.filter(q=>q.type!=='mcq').sort((a,b)=>bo(a)-bo(b)||a.marks-b.marks);
-  EX.items=[...mc,...wr].map(q=>q.id);
-  A.tmix=T.mix;A.tpr=T.pr;A.ran=true;A.warns=xaWarn(A,S,pool,homes,T);XA_SWAPPED.clear();
-  xsave();const st=xaStats(S,homes);toast(st.marks===A.total?`Exam generated · ${S.length} questions · ${st.marks} marks`:`Generated ${st.marks} of ${A.total} marks (see the note)`);
-}
-const pct=v=>Math.round(v*100)+'%';
-function xaWarn(A,S,pool,homes,T){const w=[],st=xaStats(S,homes),areas=xaAreas(A),faN=a=>a.split('|')[1];
-  const mN=pool.filter(q=>q.type==='mcq').length,wM=pool.filter(q=>q.type!=='mcq').reduce((t,q)=>t+(+q.marks||0),0);
-  if(st.mcq<A.mcq)w.push(`Only ${mN} multiple-choice question${mN===1?'':'s'} match these topics, so Section I has ${st.mcq}.`);
-  if(st.marks!==A.total)w.push(wM<A.total-A.mcq?`These topics only have ${wM} marks of written questions, so the exam has ${st.marks} marks instead of ${A.total}. Add topics or lower the total.`:`The closest found is ${st.marks} marks (target ${A.total}). Press Regenerate, or add a topic.`);
-  const hiT=T.mix[5]+T.mix[6],hiA=st.mix[5]+st.mix[6];
-  if(hiA<hiT-.05){const few=areas.map(a=>[a,pool.filter(q=>homes.get(q.id).area===a&&qDiff(q).raw>=4.5).length]).filter(x=>x[1]<=3).sort((a,b)=>a[1]-b[1]);
-    w.push(`Fewer hard marks than targeted: ${pct(hiA)} band 5–6, against ${pct(hiT)}.`+(few.length?' '+few.slice(0,3).map(([a,n])=>`Only ${n} band 5+ question${n===1?'':'s'} in ${faN(a)}.`).join(' '):''))}
-  const loT=T.mix[2],loA=st.mix[2];
-  if(loA<loT-.06){const few=areas.map(a=>[a,pool.filter(q=>homes.get(q.id).area===a&&qDiff(q).raw<=2.5).length]).filter(x=>x[1]<=3).sort((a,b)=>a[1]-b[1]);
-    w.push(`Fewer easy marks than targeted: ${pct(loA)} band 2, against ${pct(loT)}.`+(few.length?' '+few.slice(0,3).map(([a,n])=>`Only ${n} band-2 question${n===1?'':'s'} in ${faN(a)}.`).join(' '):''))}
-  if(st.pr<T.pr-.07){const prM=Math.round(pool.reduce((t,q)=>t+qDiff(q).pr*(+q.marks||0),0));w.push(`Problem solving is ${pct(st.pr)} of the marks, against ${pct(T.pr)}: these topics have only about ${prM} marks of problem-solving parts.`)}
-  else if(st.pr>T.pr+.1)w.push(`Problem solving is ${pct(st.pr)} of the marks, more than the ${pct(T.pr)} asked for: these topics have few fluency-only questions.`);
-  return w}
 
 /* ---------- swap and lock ---------- */
 function xaSwap(id){const A=xa(),q=xq(id);if(!q)return;const homes=xaHomes(),h=homes.get(id),d=qDiff(q),TS=new Set(A.topics);XA_SWAPPED.add(id);
@@ -3751,72 +3511,13 @@ function xaSwap(id){const A=xa(),q=xq(id);if(!q)return;const homes=xaHomes(),h=h
   EX.items[EX.items.indexOf(id)]=best.id;xsave();toast(`Swapped for ${qid(best)}${best.marks!==q.marks?` (${best.marks} marks instead of ${q.marks})`:''}`)}
 function xaLock(id){const A=xa(),i=A.locked.indexOf(id);if(i>=0)A.locked.splice(i,1);else A.locked.push(id);xaSave();xPanel()}
 
-/* ---------- drawer UI ---------- */
+/* ---------- swap / lock on the exam panel (xPanel in 20_exam.js) ---------- */
 const XA_LOCK='<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
-function xaAvailHTML(){const A=xa(),homes=xaHomes(),pool=xaPool(A,homes);
-  if(!A.topics.length)return '<div class="xa-h">Pick topics to see what the bank has.</div>';
-  const bins=[0,0,0,0,0,0,0],mk=pool.reduce((t,q)=>t+(+q.marks||0),0),mN=pool.filter(q=>q.type==='mcq').length;
-  pool.forEach(q=>{bins[Math.max(2,Math.min(6,Math.round(qDiff(q).raw)))]++});const mx=Math.max(1,...bins);
-  return `<div class="xa-avh"><b>${pool.length}</b> questions match · ${mk.toLocaleString()} marks · ${mN} multiple choice</div>
-    <div class="xa-hist" role="img" aria-label="Matching questions by band">${[2,3,4,5,6].map(b=>`<div><i style="height:${Math.max(bins[b]?6:2,Math.round(bins[b]/mx*36))}px"></i><b>${bins[b]}</b><span>B${b}</span></div>`).join('')}</div>`}
-function xaSummaryHTML(){const A=xa(),qs=EX.items.map(xq).filter(Boolean);if(!qs.length)return '';const st=xaStats(qs,xaHomes()),tm=A.tmix;
-  const mx=Math.max(...[2,3,4,5,6].map(b=>Math.max(st.mix[b],tm?tm[b]:0)),.01);
-  return `<div class="xa-sum"><div class="xa-l">This exam</div>${tm?'<div class="xa-h">Bar: this exam. Line: the target.</div>':''}
-    <div class="xa-bars">${[2,3,4,5,6].map(b=>`<div class="xa-bar"><span>Band ${b}</span><i><s style="width:${st.mix[b]/mx*100}%"></s>${tm?`<u style="left:${tm[b]/mx*100}%"></u>`:''}</i><em>${pct(st.mix[b])}</em></div>`).join('')}</div>
-    <div class="xa-h">${st.marks} mark${st.marks===1?'':'s'}${A.ran?` (target ${A.total})`:''} · ${pct(1-st.pr)} fluency, ${pct(st.pr)} problem solving${A.tpr!=null&&A.ran?` (target ${pct(1-A.tpr)} / ${pct(A.tpr)})`:''}</div>
-    ${A.warns&&A.warns.length?`<ul class="xa-warn">${A.warns.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}</div>`}
-function xaTopicsHTML(){const A=xa(),tree=xaTree(),homes=xaHomes(),base=xaBase(A,homes),cnt={},sel=new Set(A.topics);base.forEach(q=>{const k=homes.get(q.id).sub;cnt[k]=(cnt[k]||0)+1});
-  return [12,11].map(yl=>`<div class="xa-yr">Year ${yl}<button type="button" data-xa-all="${yl}">All</button></div>`+[...tree[yl]].map(([fa,ks])=>{const n=ks.reduce((t,k)=>t+(cnt[k]||0),0),key=yl+'|'+fa;
-    if(ks.length===1)return `<label class="xa-fa one${n?'':' zero'}"><input type="checkbox" data-xa-fa="${esc(key)}"><span>${esc(fa)}</span><span class="c">${n}</span></label>`;
-    return `<div class="xa-fa${n?'':' zero'}"><input type="checkbox" data-xa-fa="${esc(key)}" aria-label="${esc(fa)}"><details data-xa-fad="${esc(key)}"${XA_OPEN.has(key)?' open':''}><summary><span>${esc(fa)}</span><span class="c">${n}</span></summary>
-      ${ks.map(k=>`<label class="xa-sub${cnt[k]?'':' zero'}"><input type="checkbox" data-xa-sub="${esc(k)}"${sel.has(k)?' checked':''}><span>${esc(k.split('|')[2]||fa)}</span><span class="c">${cnt[k]||0}</span></label>`).join('')}</details></div>`}).join('')).join('')}
-function xaTopicSum(){const A=xa();return A.topics.length?`${xaAreas(A).length} area${xaAreas(A).length===1?'':'s'} · ${A.topics.length} subheading${A.topics.length===1?'':'s'}`:'none picked'}
-function xaHTML(){const A=xa(),unl=EX.items.filter(i=>!A.locked.includes(i)).length;
-  return `<details class="xauto" data-xa-open${A.open?' open':''}><summary>Auto-generate</summary><div class="xa-body">
-    <details class="xa-tp" data-xa-topen${A.topen?' open':''}><summary><span class="xa-l">Topics</span><span class="xa-h" id="xaTsum">${xaTopicSum()}</span></summary>
-      <div class="xa-tools"><button type="button" data-xa-all="all">Select all</button><button type="button" data-xa-all="none">Clear</button></div>
-      <div class="xa-topics">${xaTopicsHTML()}</div></details>
-    <div class="xa-row"><span class="xa-l">Total marks</span><div class="xa-seg">${[50,70,100].map(v=>`<button type="button" data-xa-total="${v}" aria-pressed="${A.total===v}">${v}</button>`).join('')}<input type="number" inputmode="numeric" min="5" max="200" data-xa-num="total" value="${[50,70,100].includes(A.total)?'':A.total}" placeholder="Other" aria-label="Other total"${[50,70,100].includes(A.total)?'':' class="on"'}></div></div>
-    <div class="xa-row"><span class="xa-l">Multiple choice</span><div class="xa-mc"><input type="number" inputmode="numeric" min="0" max="30" data-xa-num="mcq" value="${A.mcq}" aria-label="Multiple-choice questions"><span class="xa-h">in Section I</span></div></div>
-    <div class="xa-row"><span class="xa-l">Difficulty</span><div class="xa-seg">${[['easy','Easier'],['hsc','HSC-like'],['hard','Harder']].map(([v,l])=>`<button type="button" data-xa-diff="${v}" aria-pressed="${A.diff===v}">${l}</button>`).join('')}</div></div>
-    <div class="xa-row col"><span class="xa-l">Fluency / problem solving <b id="xaPrL">${100-A.pr}% / ${A.pr}%</b></span><input type="range" min="0" max="60" step="5" data-xa-num="pr" value="${A.pr}" aria-label="Problem-solving share of marks"></div>
-    <label class="xa-ck"><input type="checkbox" data-xa-ck="approved"${A.approved?' checked':''}> Approved questions only</label>
-    <label class="xa-ck"><input type="checkbox" data-xa-ck="avoid"${A.avoid?' checked':''}> Skip questions used in my other saved exams</label>
-    <div class="xa-av" id="xaAv">${xaAvailHTML()}</div>
-    <button type="button" class="act ok xa-go" data-xa-go${A.topics.length?'':' disabled'}>${A.ran?'Regenerate':'Generate exam'}</button>
-    ${unl&&EX.items.length?`<div class="xa-h">Replaces the ${unl} unlocked question${unl===1?'':'s'} in this exam. Lock any you want to keep.</div>`:''}
-    ${xaSummaryHTML()}</div></details>`}
-function xaSyncChecks(){const p=$('#xPanel');if(!p)return;const A=xa(),sel=new Set(A.topics),tree=xaTree();
-  p.querySelectorAll('[data-xa-fa]').forEach(cb=>{const [yl,...r]=cb.dataset.xaFa.split('|'),ks=tree[yl]?.get(r.join('|'))||[],on=ks.filter(k=>sel.has(k)).length;cb.checked=on===ks.length&&on>0;cb.indeterminate=on>0&&on<ks.length});
-  p.querySelectorAll('[data-xa-sub]').forEach(cb=>cb.checked=sel.has(cb.dataset.xaSub));
-  const av=$('#xaAv');if(av)av.innerHTML=xaAvailHTML();const ts=$('#xaTsum');if(ts)ts.textContent=xaTopicSum();
-  const go=p.querySelector('[data-xa-go]');if(go)go.disabled=!A.topics.length}
-// (the stage-2 drawer wrapper of xPanel was replaced by the Exams page; xPanel in 20_exam.js draws Swap / Lock and the band note)
-function xaSetTopics(list){const A=xa();A.topics=[...new Set(list)];xaSave();xaSyncChecks()}
-document.addEventListener('click',e=>{if(!e.target.closest('#xPanel'))return;const A=xa();
+document.addEventListener('click',e=>{if(!e.target.closest('#xPanel'))return;
   const li=e.target.closest('li[data-xi]');
   if(li&&e.target.closest('[data-xsw]')){const b=e.target.closest('[data-xsw]');if(!b.disabled)xaSwap(+li.dataset.xi);return}
   if(li&&e.target.closest('[data-xlk]')){xaLock(+li.dataset.xi);return}
-  const al=e.target.closest('[data-xa-all]');if(al){const v=al.dataset.xaAll,tree=xaTree();
-    if(v==='none')xaSetTopics([]);else if(v==='all')xaSetTopics([12,11].flatMap(y=>[...tree[y].values()].flat()));
-    else{const ks=[...tree[v].values()].flat(),all=ks.every(k=>A.topics.includes(k));xaSetTopics(all?A.topics.filter(k=>!ks.includes(k)):[...A.topics,...ks])}return}
-  const tb=e.target.closest('[data-xa-total]');if(tb){A.total=+tb.dataset.xaTotal;if(!A.mcqSet)A.mcq=Math.round(A.total/10);xaSave();xPanel();return}
-  const db_=e.target.closest('[data-xa-diff]');if(db_){A.diff=db_.dataset.xaDiff;xaSave();$$('[data-xa-diff]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.xaDiff===A.diff)));return}
-  const go=e.target.closest('[data-xa-go]');if(go&&!go.disabled){const unl=EX.items.filter(i=>!A.locked.includes(i)).length;
-    if(unl&&!A.ran&&!go.dataset.sure){go.dataset.sure=1;go.textContent=`Replace ${unl} question${unl===1?'':'s'}? Press again`;setTimeout(()=>{if(go.isConnected){delete go.dataset.sure;go.textContent='Generate exam'}},3500);return}
-    xaGenerate();return}
 });
-document.addEventListener('change',e=>{const t=e.target;if(!t.closest||!t.closest('#xPanel'))return;const A=xa();
-  if(t.dataset.xaFa){const [yl,...r]=t.dataset.xaFa.split('|'),ks=xaTree()[yl]?.get(r.join('|'))||[];xaSetTopics(t.checked?[...A.topics,...ks]:A.topics.filter(k=>!ks.includes(k)));return}
-  if(t.dataset.xaSub){xaSetTopics(t.checked?[...A.topics,t.dataset.xaSub]:A.topics.filter(k=>k!==t.dataset.xaSub));return}
-  if(t.dataset.xaCk){A[t.dataset.xaCk]=t.checked;xaSave();xaSyncChecks();return}
-  if(t.dataset.xaNum==='total'){A.total=Math.max(5,Math.min(200,Math.round(+t.value||A.total)));if(!A.mcqSet)A.mcq=Math.round(A.total/10);xaSave();xPanel();return}
-  if(t.dataset.xaNum==='mcq'){A.mcq=Math.max(0,Math.min(30,Math.round(+t.value||0)));A.mcqSet=true;xaSave();return}
-});
-document.addEventListener('input',e=>{const t=e.target;if(t.dataset?.xaNum==='pr'){const A=xa();A.pr=+t.value;xaSave();const l=$('#xaPrL');if(l)l.textContent=`${100-A.pr}% / ${A.pr}%`}});
-document.addEventListener('toggle',e=>{const d=e.target;if(!d.closest||!d.closest('#xPanel'))return;const A=xa();
-  if(d.hasAttribute('data-xa-open')){A.open=d.open;xaSave()}else if(d.hasAttribute('data-xa-topen')){A.topen=d.open;xaSave()}
-  else if(d.dataset.xaFad){d.open?XA_OPEN.add(d.dataset.xaFad):XA_OPEN.delete(d.dataset.xaFad)}},true);
 </script>
 <script>
 /* ===================== Exams page (owner 14 Nov) =====================

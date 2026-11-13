@@ -295,40 +295,13 @@ function paperNextHTML(){const w=paperWork(rdoc),nx=nextStepWith(w,rfilter),d=B.
   return `<div class="row" style="margin-top:10px">${nx?`<button class="act primary" data-gof="${nx}">Go to ${STEPS.findIndex(x=>x[0]===nx)+1}. ${esc(stepLabel(nx))} · ${w.left[nx]} →</button>`:''}<a class="act ghost" href="#review">← Inbox</a></div>`}
 function bindNext(){$$('#rout [data-gof]').forEach(b=>b.onclick=()=>goStep(b.dataset.gof,b.dataset.any?'any':'todo'))}
 /* owner 12 Nov ("lets do that"): Tags step — choose between tagger (A) and checker (B) where they disagreed a lot */
-function dpChip(id,role,other){const d=DM[id]||{};const diff=!other.has(id);
-  return `<span class="tdp${diff?' tdiff':''}" title="${esc(id+' · '+(d.fa||'')+(d.sub?' › '+d.sub:'')+' — '+(d.text||''))}"><span class="yb y${d.yl||''}">Y${d.yl||'?'}</span><span class="tid">${esc(id)}</span> ${esc(d.short||d.sub||d.fa||'')}${role==='primary'?'':' <span class="muted">(also)</span>'}</span>`}
-function sideHTML(x,o,lab,key,chosen){
-  const od=new Set(o.dp.map(d=>d[0])),orq=new Set(o.req),oc=new Set(o.can);
-  const sk=(arr,oth)=>arr.length?arr.map(k=>`<span class="tsk${oth.has(k)?'':' tdiff'}">${esc(k)}</span>`).join(''):'<span class="muted">none</span>';
-  return `<div class="tside${chosen===key?' chosen':''}"><div class="thead"><kbd>${key==='A'?1:2}</kbd> ${lab}${x.conf!=null?` <span class="muted">· confidence ${x.conf}</span>`:''}${chosen===key?' <span class="badge b-ok">kept</span>':''}</div>
-    ${x.removed?`<div class="trow"><b>Removed from 2024 syllabus</b><div>${esc(x.removed)}</div></div>`:''}
-    <div class="trow"><b>Main dot point</b><div class="tlist">${x.dp.filter(d=>d[1]==='primary').map(([id,r])=>dpChip(id,r,new Set(o.dp.filter(d=>d[1]==='primary').map(d=>d[0])))).join('')||'<span class="muted">none</span>'}</div></div>
-    ${(al=>al.length?`<details class="talso"><summary>Also assessed: ${al.length} dot point${al.length>1?'s':''} (kept, not part of your check)</summary><div class="tlist">${al.map(([id,r])=>dpChip(id,r,od)).join('')}</div></details>`:'')(x.dp.filter(d=>d[1]!=='primary'))}
-    ${x.note?`<div class="trow"><b>Note</b><div class="muted">${esc(x.note)}</div></div>`:''}</div>`}
-let tagActive=null;
 // owner 12 Nov ("I don't feel like I can accurately choose the gates" -> "yeah lets do that"): the owner picks only the TOPIC
 // (main dot point, or removed). Gates are settled automatically: both sides' skills combined, each disputed skill kept only
 // with a quoted solution step (work/gates). Parts whose two sides share the main dot point need no decision.
 const tagPri=x=>x.dp.filter(d=>d[1]==='primary').map(d=>d[0]).join(',');
 function tagNeed(p){const d=p.tagd;return !!d&&(tagPri(d.A)!==tagPri(d.B)||!!d.A.removed!==!!d.B.removed)}
-function gatesHTML(p){const d=p.tagd,A=new Set(d.A.req),Bs=new Set(d.B.req),ev=p.gates||{};
-  const all=[...new Set([...d.A.req,...d.B.req])];
-  return `<div class="tgates"><b>Needs (gates): settled automatically, not part of your check</b><div class="tlist">${all.map(k=>{const both=A.has(k)&&Bs.has(k),e=ev[k];
-    return both?`<span class="tsk">${esc(k)}</span>`:`<span class="tsk ${e?(e.decision==='keep'?'gk':'gd'):'tdiff'}" title="${esc(e?(e.evidence||e.reason||''):'Named by one side only; being checked against the solution')}">${esc(k)} <span class="muted">${e?(e.decision==='keep'?'· kept':e.decision==='can_use'?'· can use':'· dropped'):'· checking'}</span></span>`}).join('')||'<span class="muted">none</span>'}</div></div>`}
-// owner 12 Nov: "u need to show solutions somewhere so I can verify it". Every solution for the part (and the whole-question
-// solution when the question has one part), plus the MCQ answer, shown open above the two tag sets.
-function tagSolHTML(q,p){revealed.add(q.id);
-  const own=q.solutions.filter(x=>x.part_id===p.id), whole=q.parts.length===1||!p.label?q.solutions.filter(x=>x.part_id==null):[];
-  const sols=[...own,...whole];
-  const key=q.type==='mcq'?q.options.find(o=>o.is_correct):null;
-  const ans=key?`<div class="tans"><b>Answer:</b> ${esc(key.label)}. ${key.fig?'(graph option)':tex(key.latex||'')}</div>`:'';
-  if(!sols.length&&!ans)return '<div class="help">No solution stored for this part.</div>';
-  return `<details class="solbox tsol" open><summary>Solution${sols.length>1?'s':''}</summary>${ans}${sols.map(x=>solHTML(q,x,'tags')).join('')}</details>`}
 // owner 12 Nov: "make the tag review page only show the question with the solutions collapsed and the tags so I can easily
 // verify or not". The question reads as one piece; each part carries its tags; disputed parts carry the 1/2/F choice inline.
-function pickedPri(q,p){const v=reviews['q'+q.id]?.tagres?.[p.id];if(!p.tagd)return (p.t24||[]).filter(t=>t.primary).map(t=>t.cov==='removed'?'removed':t.id);
-  if(v==='A'||v==='B'){const x=p.tagd[v];return x.removed?['removed']:x.dp.filter(d=>d[1]==='primary').map(d=>d[0])}
-  if(v&&v.id)return [v.id]; if(v&&v.cov)return [v.cov]; const x=p.tagd.B;return x.removed?['removed']:x.dp.filter(d=>d[1]==='primary').map(d=>d[0])}
 function qTagSummary(q){const lv=q.parts.filter(p=>leaf(q,p));const gates=[...new Set(lv.flatMap(p=>p.skills||[]))];
   const r=reviews['q'+q.id]?.home,ch=r==='A'||r==='B'?r:null,hA=homeOf(q,'A'),hB=homeOf(q,'B');
   const parts=side=>lv.filter(p=>partPri(q,p,side).some(i=>subKey(i)===homeOf(q,side))).map(p=>p.label?'('+esc(p.label)+')':'').join(' ');
@@ -341,16 +314,6 @@ function qTagSummary(q){const lv=q.parts.filter(p=>leaf(q,p));const gates=[...ne
         <div id="tpList" class="tplist"></div>
         <div class="row"><input id="tpNote" type="text" placeholder="Optional note, e.g. no dot point covers graphing cot x" style="flex:1;min-width:0"><button class="act" id="tpRemoved">Removed from syllabus</button><button class="act" id="tpNone">No dot point fits</button></div></div>
     <div class="muted"><b>Gates (automatic)</b> ${gates.map(esc).join(', ')||'none'}</div></div>`}
-function sideChip(x){return x.removed?`<span class="tdp tdiff">Removed from syllabus</span>`:x.dp.filter(d=>d[1]==='primary').map(([id])=>{const d=DM[id]||{};return `<span class="tdp" title="${esc(id+' · '+(d.fa||'')+(d.sub?' › '+d.sub:'')+' — '+(d.text||''))}"><span class="yb y${d.yl||''}">Y${d.yl||'?'}</span><span class="tid">${esc(id)}</span> ${esc(d.short||d.sub||'')}</span>`}).join('')||'<span class="muted">none</span>'}
-function tagChoiceHTML(q,p){const v=reviews['q'+q.id]?.tagres?.[p.id],ch=v==='A'||v==='B'?v:null,act=p.id===tagActive,d=p.tagd;
-  const opt=(k,lab,x)=>`<div class="topt${ch===k?' chosen':''}"><kbd>${k==='A'?1:2}</kbd> <span class="muted">${lab}</span> ${sideChip(x)}${x.note?` <span class="tnote" title="${esc(x.note)}">note</span>`:''}${ch===k?' <span class="badge b-ok">chosen</span>':''}</div>`;
-  return `<div class="tchoice${act?' active':''}${v?' decided':''}"><div class="tchead">Topics disagree${v&&!ch?` <span class="badge b-bad">your pick: ${v.id?esc(v.id+' '+(DM[v.id]?.short||'')):v.cov==='removed'?'removed from syllabus':'no dot point fits'}${v.note?' · '+esc(v.note):''}</span>`:''}</div>
-    ${opt('A','Tagger',d.A)}${opt('B','Checker',d.B)}
-    ${act?`<div class="row keys"><button class="act" data-tc="A"><kbd>1</kbd> Tagger</button><button class="act ok" data-tc="B"><kbd>2</kbd> Checker</button><button class="act warn" id="tF"><kbd>F</kbd> Both wrong: pick another</button></div>
-      <div class="flagbox tpick" id="tflag" hidden><div class="row"><b>Pick the correct main dot point</b><span class="seg" role="group" aria-label="Year">${['all','11','12'].map(y=>`<button class="act ghost${tpYear===y?' on':''}" data-ty="${y}">${y==='all'?'Both':'Year '+y}</button>`).join('')}</span></div>
-        <input id="tflagtxt" type="search" placeholder="Search: e.g. chain rule, reciprocal, Y12-240 (Enter picks the first match, Esc cancels)" aria-label="Search dot points">
-        <div id="tpList" class="tplist"></div>
-        <div class="row"><input id="tpNote" type="text" placeholder="Optional note, e.g. no dot point covers graphing cot x" style="flex:1;min-width:0"><button class="act" id="tpRemoved">Removed from syllabus</button><button class="act" id="tpNone">No dot point fits</button></div></div>`:(v?`<button class="act ghost" data-redo="${p.id}">Change</button>`:'')}</div>`}
 function renderTagd(){
   const q=rlist[ridx];
   const done=rlist.filter(x=>!isTodo(x,'tags')).length;
@@ -381,7 +344,7 @@ function drawTP(){const el=$('#tpList');if(!el)return;const s=($('#tflagtxt')?.v
 function tpPick(id){tagChoose({id,note:$('#tpNote')?.value.trim()||null})}
 function tagChoose(v){const q=rlist[ridx];if(!q)return;write(q,{home:v});TOPICS=null;const was=q.id;refreshReview();if(!_advanced&&rlist[ridx]?.id===was)go(1);window.scrollTo({top:0})}
 function renderReview(){
-  $('#reviewView').classList.toggle('grid',rfilter==='diagrams'||rfilter==='tags'||FOCUS_STEPS.includes(rfilter));
+  $('#reviewView').classList.toggle('grid',rfilter==='diagrams'||rfilter==='tags');
   $('#rout').previousElementSibling.textContent=rfilter==='diagrams'?'Diagrams to check':rfilter==='tags'?'Tags to settle':'Parsed question';
   if(rfilter==='diagrams'){renderDiag();return}
   if(rfilter==='tags'){renderTagd();return}
@@ -417,17 +380,12 @@ function renderReview(){
     ${rfilter==='sample'?sampleBanner(q.doc):''}${rfilter==='decide'&&RMODE==='paper'?PCALL.html(docIds(q.doc)):''}${whyHTML(q)}
     ${q.decide?`<div class="callout"><b>Needs your decision:</b> ${tex(q.decide)}</div>`:''}${q.review_note&&!/^scan (path|transcription)[^|;]*$/i.test(q.review_note.trim())?`<details class="figdone" style="color:var(--muted)"><summary style="color:var(--warn)">Transcription notes</summary><div class="help">${esc(q.review_note)}</div></details>`:''}${rel?`<div class="help">Also appears as: ${esc(rel)}</div>`:''}
     ${figCompareHTML(q)}
-    ${FOCUS_STEPS.includes(rfilter)?`<div class="focuscmp"><figure><figcaption>On the paper</figcaption><div id="fsrc" class="fsrc"><span class="muted">Loading the paper…</span></div></figure><figure><figcaption>In the bank</figcaption><div class="qtext">${qBody(q,'review')}</div></figure></div>
-      <details class="help fullpage"><summary>Full source page${q.pages.length>1?'s':''}</summary>${q.pages.map(p=>`<img data-page="${p}" alt="Source page" style="width:100%">`).join('')}</details>`:`<div class="section"><h4>Question as it will appear</h4>${qBody(q,'review')}</div>`}
+    <div class="section"><h4>Question as it will appear</h4>${qBody(q,'review')}</div>
     <div class="decision">${r?.note?`<div class="help"><b>Your note:</b> ${esc(r.note)}</div>`:''}
       <div class="row"><button class="act ok" id="approve"><kbd>A</kbd> Approve question + solution</button><span class="help">Approving also approves any model-written solution shown here that you haven't rejected.</span><button class="act warn" id="flag"><kbd>F</kbd> Flag</button>
       <span class="help">${db?'Decisions save for everyone with access.':'Saving is off in this view; decisions are not kept.'}</span></div>
       <div class="flagbox" id="qflag" hidden><label class="help" for="note">What's wrong? <kbd>Enter</kbd> sends the flag, <kbd>Esc</kbd> cancels.</label><input id="note" type="text" placeholder="e.g. Part (b) is missing the integral bounds" value="${esc(r?.status==='flagged'?r.note||'':'')}"></div></div>`;
   hydrate($('#rout'),q,'review'); hydrate($('#src'),q,'review'); typeset($('#rout'));
-  if(FOCUS_STEPS.includes(rfilter)){const sol=(q.tri?.look||[]).some(x=>/solution|answer|marks/i.test(x));
-    if(!sol)$$('#rout .focuscmp details.solbox').forEach(d=>d.open=false);   // solutions only open when the check is about them
-    focusPack(q.doc).then(m=>{const el=$('#fsrc');if(!el||rlist[ridx]?.id!==q.id)return;const r=m[q.id];
-      el.innerHTML=r&&r.q.length?r.q.map(u=>`<img src="${u}" alt="The question on the source paper">`).join(''):'<span class="muted">No crop for this question (scanned or unusual layout). Open the full source page below.</span>'})}
   $('#approve').onclick=()=>decide('approved'); $('#flag').onclick=openQFlag;
   // owner 12 Nov: flag like the diagrams step: F opens a one-line box, type the reason, Enter sends, Esc cancels
   $('#note').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();if(!$('#note').value.trim()){toast('Type a reason first');return}decide('flagged')}else if(e.key==='Escape'){$('#qflag').hidden=true;$('#note').blur()}};
@@ -455,10 +413,6 @@ async function setSol(q,id,v){await write(q,{sol:{...(reviews['q'+q.id]?.sol||{}
 function afterDecision(q){ // stay on the item until everything in the current filter is decided, then move on
   if(rstatus==='todo'&&!isTodo(q,rfilter)&&['diagrams','generated'].includes(rfilter)){refreshReview();window.scrollTo({top:0})} else renderReview()}
 async function setTag(t){const q=rlist[ridx];const ed={...(reviews['q'+q.id]?.tag_edits||{})};ed[editing]=t.cov?{cov:t.cov}:{id:t.id};editing=null;await write(q,{tag_edits:ed});renderReview()}
-// owner 12 Nov ("in the check one, its taking too long looking at the question, just show side by side the part I actually
-// need to check"): Check and Decide show the question as printed (a crop of the source page) beside the bank version
-const FOCUS_STEPS=[];const _fp={};   // owner 12 Nov: cropped side-by-side was worse; rolled back to the full-page view
-function focusPack(doc){return _fp[doc]=_fp[doc]||fetch('data/focus/'+doc+'.json').then(r=>r.ok?r.json():{}).catch(()=>({}))}
 function openQFlag(){const b=$('#qflag');if(!b)return;b.hidden=false;const n=$('#note');n.focus();n.select()}
 async function decide(status){const q=rlist[ridx];if(!q)return;const patch={status,note:$('#note')?.value.trim()||null};if(q.decide)patch.call_at=new Date().toISOString();
   if(status==='approved'){const sol={...(reviews['q'+q.id]?.sol||{})};let n=0;qGen(q).forEach(x=>{if(!sol[x.id]){sol[x.id]='approved';n++}});if(n)patch.sol=sol}

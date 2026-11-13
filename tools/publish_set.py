@@ -19,7 +19,7 @@ Removals (stage 2, 15 Nov): a path the manifest records as published that no lon
 into a group pack, or excluded below) is sent as null, so the publish deletes it from the artifact. The --json map
 includes those nulls; pass it as `files` unchanged. After the publish, `batch_check.py --mark-published` records only
 the files that exist, so the nulls appear once. Paths under EXCLUDE are never published (data/focus/: unused since the
-owner's 12 Nov rollback of the cropped Check view).
+owner's 12 Nov rollback of the cropped Check view; data/bank_v1_before_split.json: unused, health pass 13 Nov).
 """
 import glob, hashlib, json, os, sys, time
 
@@ -32,7 +32,9 @@ REMOVE = [f'project/{n}' for n in (
     'patch_exam_auto.py.txt patch_exams.py.txt patch_reports.py.txt patch_theme2.py.txt').split()]
 
 
-EXCLUDE = ('data/focus/',)   # stage 2, 15 Nov: never publish these, even if a tool writes them again
+# never publish these, even if a tool writes them again. data/focus/: stage 2, 15 Nov. data/bank_v1_before_split.json: health
+# pass 13 Nov (a pre-split snapshot nothing reads; archived in archive/data_unused_1113/, sent once as null to delete it)
+EXCLUDE = ('data/focus/', 'data/bank_v1_before_split.json')
 
 
 def sha(p):

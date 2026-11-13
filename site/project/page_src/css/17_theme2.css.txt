@@ -40,21 +40,20 @@
 /* ---- type: Inter 14px UI, Fraunces only for page titles ---- */
 body{margin:0;font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
 ::selection{background:color-mix(in srgb,var(--accent) 22%,transparent)}
-.hero h1,.listhead h2,.lvtitle h2,.gwrap h2,.papers h2,.imp h2{font-family:var(--display);font-weight:500;letter-spacing:-.022em;font-variation-settings:"opsz" 72}
+.hero h1,.listhead h2,.lvtitle h2,.papers h2,.imp h2{font-family:var(--display);font-weight:500;letter-spacing:-.022em;font-variation-settings:"opsz" 72}
 .hero h1{font-size:32px;line-height:1.12}
 .listhead h2{font-size:26px;line-height:1.18}
-.lvtitle h2,.papers h2,.gwrap h2,.imp h2{font-size:24px;line-height:1.2}
+.lvtitle h2,.papers h2,.imp h2{font-size:24px;line-height:1.2}
 /* section and card titles move to Inter (they were Fraunces) */
 .yhead h2{font:600 15px/1.3 var(--sans);letter-spacing:-.005em}
-.facard .fah b,.fatile b,.tixfa b,.subcard b{font:600 14.5px/1.35 var(--sans);letter-spacing:-.006em}
+.facard .fah b,.subcard b{font:600 14.5px/1.35 var(--sans);letter-spacing:-.006em}
 .card .qn{font:600 13.5px var(--sans);letter-spacing:0;font-variant-numeric:tabular-nums}
 .lvcard h3{font:600 15px var(--sans);letter-spacing:-.005em}
-.gwrap h3{font:600 15px var(--sans)}
+
 /* labels: small caps-style eyebrows with air */
-.nav h3,.pane>h2,.section>h4,.home-sec,table.pp th,table.rub th,.gtab th,.cmp figcaption,.cmp3 figcaption,.ovfig figcaption,.focuscmp figcaption,.trow>b,.tchead,.tgates>b,.tpsub,.why b{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.nav h3,.pane>h2,.section>h4,table.pp th,table.rub th,.cmp figcaption,.cmp3 figcaption,.ovfig figcaption,.tchead,.tpsub,.why b{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 /* numbers line up */
-.views .n,.brand small,.hero .stat b,.facard .fah .n,.subrow .c,.fa>button .c,.fa li .c,.tixsub .c,.sib .c,.bfilters .c,.bfilters .shown,
-.card .mk,.pmarks,.step .n,.pos,table.pp td,.tile b,.lvprog b,.lvpos,.msheet .n,.xbtn .n{font-variant-numeric:tabular-nums}
+.views .n,.brand small,.hero .stat b,.facard .fah .n,.subrow .c,.fa>button .c,.fa li .c,.sib .c,.bfilters .c,.bfilters .shown,.card .mk,.pmarks,.step .n,.pos,table.pp td,.tile b,.lvprog b,.lvpos,.msheet .n{font-variant-numeric:tabular-nums}
 
 /* ---- header: slimmer bar, quiet segmented tabs ---- */
 header{background:color-mix(in srgb,var(--panel) 92%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
@@ -76,8 +75,7 @@ body::before{background:var(--panel)}
 .themebtn{font:500 12.5px var(--sans)!important;color:var(--muted)!important;padding:0 8px!important}
 .themebtn:hover{color:var(--ink)!important;background:var(--t2-hover)!important}
 /* Exam button: a plain secondary button with a quiet count, not a pill */
-.xbtn{border-radius:var(--t2-r)!important;gap:8px}
-.xbtn .n{background:none;color:var(--muted);border-radius:0;padding:0 0 0 8px;min-width:0;font:500 12.5px var(--sans);border-left:1px solid var(--line2)}
+
 .rbar{border-top:1px solid var(--line);padding-block:8px;gap:8px 10px}
 .progress{height:2px}
 
@@ -133,11 +131,10 @@ kbd{font:500 10.5px var(--sans);border:1px solid var(--line2);border-bottom-widt
 .subrow .bar{height:3px;border-radius:2px;background:var(--line)}
 .subrow .bar i{border-radius:2px;opacity:.85}
 .subrow .c{font-size:12.5px}
-.fatile,.tix,.subcard{border-radius:var(--t2-rl)}
-.fatile{border-left-width:2px}
+.subcard{border-radius:var(--t2-rl)}
+
 .subcard{border-top-width:2px}
 .subcard:hover{box-shadow:var(--t2-shadow)}
-.tixsub:hover,.fatile:hover,.tixfa:hover{background:var(--t2-hover)}
 
 /* ---- Bank: sidebar topic list (owner 13 Nov motion rules untouched; only the look) ---- */
 .navtools button{border-radius:var(--t2-r);font:500 12px var(--sans);padding:3px 8px}
@@ -195,8 +192,7 @@ details.solbox>summary:hover{text-decoration:underline;text-underline-offset:3px
 .step[aria-pressed="true"] .num{background:var(--panel);color:var(--ink);border-color:transparent}
 .step[aria-pressed="true"] .n{color:var(--panel);background:color-mix(in srgb,var(--panel) 18%,transparent)}
 .stephelp{font-size:12.5px}
-.fchip{border-radius:var(--t2-r);font:500 12.5px var(--sans)}
-.fchip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--panel)}
+
 .desk{gap:20px;padding-block:20px}
 .pane{border-radius:var(--t2-rl)}
 .pane>h2{padding:11px 16px}
@@ -208,9 +204,9 @@ details.solbox>summary:hover{text-decoration:underline;text-underline-offset:3px
 .seg{border-radius:var(--t2-r);padding:2px;background:var(--bg)}
 .segb{border-radius:4px;font:500 12.5px var(--sans)}
 .segb[aria-pressed="true"]{box-shadow:0 1px 2px rgba(0,0,0,.08),0 0 0 1px var(--line)}
-.cmp figure,.cmp3 figure,.ovfig,.dq figure,.focuscmp figure{border-radius:var(--t2-r)}
-.dcard,.figdone,.banner,.tpart,.tside,.tqsum,.tchoice,.picker ul,.tplist{border-radius:var(--t2-rl)}
-.tpart.active,.tchoice.active{box-shadow:0 0 0 1px var(--accent)}
+.cmp figure,.cmp3 figure,.ovfig,.dq figure{border-radius:var(--t2-r)}
+.figdone,.banner,.tchoice,.picker ul,.tplist{border-radius:var(--t2-rl)}
+.tchoice.active{box-shadow:0 0 0 1px var(--accent)}
 
 /* ---- Papers / Import ---- */
 .papers{padding-block:24px}
@@ -250,10 +246,6 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
 .lvempty{border-radius:var(--t2-rl)}
 
 /* ---- Guide ---- */
-.gwrap{padding-block:24px;gap:14px}
-.gcard,.gex{border-radius:var(--t2-rl);padding:14px 16px}
-.gcard>b{font-size:14px}
-.gn{width:18px;height:18px;font-size:11px;font-weight:600;color:var(--panel)}
 
 /* ---- jobs pill (owner 12 Nov: "should be a simple pill") stays a pill, just quieter ---- */
 .jobs .jpill{font-size:12.5px;padding:2px 10px}   /* owner 14 Nov: now two pills, running and queued */
@@ -270,7 +262,6 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
   .top{padding-block:6px;gap:8px}
   .brand .logo{height:21px}
   .menubtn{border-radius:var(--t2-r)!important;font:500 14px var(--sans)!important;padding:0 10px 0 12px!important;min-height:40px}
-  .xbtn{min-height:40px}
   .search{max-width:none}
   .search input{height:40px;font-size:16px}   /* 16px stops iOS zooming into the field */
   button.act,a.act,.step,select:not([multiple]){min-height:40px}

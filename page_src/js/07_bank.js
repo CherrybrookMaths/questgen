@@ -22,13 +22,6 @@ function homeLabel(k){if(!k)return 'none';if(k==='special:removed')return 'Remov
 function qPlaces(q){ // owner 12 Nov: one topic home per question
   const h=qHome(q); return new Set(h?[h]:[]);
 }
-function qPlacesOld(q){ // (before 12 Nov) primary placement of every part
-  const out=new Set();
-  q.parts.filter(p=>leaf(q,p)).forEach(p=>{const ts=effTags(q,p);const pri=ts.filter(t=>t.primary);(pri.length?pri:ts).forEach(t=>{
-    if(t.cov==='removed') out.add('special:removed'); else if(t.cov==='no_match') out.add('special:no_match');
-    else if(DM[t.id]) out.add('sub:'+DM[t.id].yl+'|'+DM[t.id].fa+'|'+(DM[t.id].sub||''));})});
-  return out;
-}
 // owner 12 Nov ("Questions aren't showing in the bank until approved right?" -> "yeah do that"): the Bank shows approved
 // questions only; the owner can switch unapproved ones back on (remembered per browser)
 let BANKALL=(()=>{try{return localStorage.getItem('bankall')==='1'}catch(e){return false}})();
@@ -149,7 +142,9 @@ function renderBank(){
   // owner 13 Nov ("there's some lag when clicking between subtopics"): a long list (140 cards) took ~170 ms to build in one go and froze
   // the pill. Now the first 8 cards go in at once and the rest follow in small batches between frames.
   const L=$('#list');const gen=(L._gen=(L._gen||0)+1);
-  L.innerHTML=`<div class="lhead">${head}</div><div class="cards"></div>`;typeset(L.querySelector('.lhead'));   // owner 13 Nov: the dot-point list in the header lost its maths when cards went lazyL.classList.remove('enter');void L.offsetWidth;L.classList.add('enter');
+  L.innerHTML=`<div class="lhead">${head}</div><div class="cards"></div>`;typeset(L.querySelector('.lhead'));   // owner 13 Nov: the dot-point list in the header lost its maths when cards went lazy
+  // (health pass 13 Nov: the list's own enter animation, swallowed by this comment, was not restored: bankGo's view
+  // transition already animates #list, and a second animation inside it would double the slide; #list.enter CSS removed)
   const box=L.querySelector('.cards');let i=0;
   const batch=n=>{if(L._gen!==gen)return;const part=qs.slice(i,i+n);i+=part.length;const tmp=document.createElement('div');tmp.innerHTML=part.map(cardHTML).join('');
     const els=[...tmp.children];els.forEach(c=>{box.appendChild(c);const q=B.questions.find(x=>x.id===+c.dataset.q);hydrate(c,q,'bank')});
