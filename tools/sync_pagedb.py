@@ -6,7 +6,7 @@ Input: a folder exported with ArtifactData `list` + `out_dir` (one sub-folder pe
 reports; one JSON file per document). Each run REPLACES the mirror tables with the export, so it always equals the page.
 Usage: python3 tools/sync_pagedb.py <export_dir>
 Tables: page_reviews, page_difficulty, page_exams, page_exam_items, page_reports (incl. suggested_wm 'UF'|'PR', 14 Nov),
-page_importq (13 Nov: the owner's import order), page_sync.
+page_importq (13 Nov: the owner's import order), page_runs (13 Nov: Go run requests), page_sync.
 QG_DB=<path> runs it against another database file (a copy, for tests).
 The full document is kept in data_json, so nothing on the page is lost even if a field is not split out yet."""
 import json, glob, os, sqlite3, sys, datetime
@@ -24,6 +24,8 @@ CREATE TABLE IF NOT EXISTS page_reports(id TEXT PRIMARY KEY, question_id INTEGER
   suggested_wm TEXT);
 CREATE TABLE IF NOT EXISTS page_importq(doc_key TEXT PRIMARY KEY, doc_id INTEGER REFERENCES documents(id), label TEXT, course TEXT,
   year_level INTEGER, ord REAL, added_by TEXT, at TEXT, data_json TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS page_runs(doc_key TEXT PRIMARY KEY, year INTEGER, course TEXT, status TEXT, papers_json TEXT, batch_size INTEGER,
+  by TEXT, at TEXT, data_json TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS page_sync(collection TEXT PRIMARY KEY, docs INTEGER, synced_at TEXT, unmatched INTEGER);
 """
 def docs(d, coll):
@@ -89,6 +91,16 @@ def main(d):
             db.execute('INSERT INTO page_importq VALUES(?,?,?,?,?,?,?,?,?)', (k, v.get('doc_id'), v.get('label'), v.get('course'), v.get('year_level'),
                        v.get('order'), v.get('added_by'), v.get('at'), J(v)))
         rep.append(('importq', len(L), bad))
+    # owner 13 Nov: "... choose a grade 11 or 12 and course ... and hit Go" -> "Yes, with batch pauses": the Papers tab's Go writes
+    # one run request per doc to collection runs; tools/import_next.py reads this mirror (an active run beats the import order).
+    if os.path.isdir(os.path.join(d, 'runs')):
+        db.execute('DELETE FROM page_runs'); L = docs(d, 'runs'); bad = 0
+        for k, v in L:
+            ps = v.get('papers') if isinstance(v.get('papers'), list) else []
+            bad += sum(not have('documents', x) for x in ps)
+            db.execute('INSERT INTO page_runs VALUES(?,?,?,?,?,?,?,?,?)', (k, v.get('year'), v.get('course'), v.get('status'), J(ps), v.get('batch_size'),
+                       v.get('by'), v.get('at'), J(v)))
+        rep.append(('runs', len(L), bad))
     for c, n, bad in rep:
         db.execute('INSERT OR REPLACE INTO page_sync VALUES(?,?,?,?)', (c, n, now, bad))
         print(f'{c:11s} {n:5d} docs mirrored' + (f'  ({bad} point at rows not in the database)' if bad else ''))

@@ -49,7 +49,8 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
    #processesView data-tab, set by route() from #processes/work | #processes/papers).
    Work: Running now (progress/jobs + queue items marked running), Queued (progress/queue, in order, with the owner's own words
    in italics), Recently done (collapsed), Next up (31_notes.js).
-   Papers: Rescan drive, Import order and the course grid (PQ, 32_papers_q.js), then Import history (renderImport, collapsed). */
+   Papers: the summary (with Rescan drive), Import a course (Go), Running / next, then Choose papers (the import order) and By course
+   (the grid), both collapsed (PQ, 32_papers_q.js; PQ.run, 34_papers_run.js), then Import history (renderImport, collapsed). */
 // owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well? Would be helpful":
 // each row shows its step ("Stage 2 of 4", with a small bar), Started, and Est. finish while running/queued or Finished + how long it took once done (jobTimes, 13_shell.js).
 function renderProcesses(){const box=$('#procBox'),pv=$('#processesView');if(!box||!pv)return;

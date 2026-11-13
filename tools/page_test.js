@@ -39,7 +39,9 @@ const OTHER = PAGE !== path.join(SITE, 'review.html');
 const RESULT = path.join(OUT, OTHER ? 'other_result.json' : 'last_result.json');
 const SHOTS = path.join(OUT, OTHER ? 'shots_other' : 'shots');
 const DL = path.join(OUT, OTHER ? 'downloads_other' : 'downloads');
-const QUICK = process.argv.includes('--quick');
+// --only papersQueue,driveScan: run just those groups while you work (recorded as quick, so batch_check will not accept it)
+const ONLY = process.argv.includes('--only') ? new Set(process.argv[process.argv.indexOf('--only') + 1].split(',')) : null;
+const QUICK = process.argv.includes('--quick') || !!ONLY;
 const HEADED = process.argv.includes('--headed');
 const T0 = Date.now();
 
@@ -1177,18 +1179,23 @@ async function papersQueue(browser, base, seed, fx) {
     const r = await page.evaluate(() => {
       const v = document.querySelector('#procPapers'), at = s => v.querySelector(s), before = (x, y) => !!(at(x) && at(y) && (at(x).compareDocumentPosition(at(y)) & 4));
       const pz = at('#invBox .ivpause'), cs = pz && getComputedStyle(pz);
-      return {shown: !document.querySelector('#invBox').hidden, pause: pz?.textContent.trim(), pauseBox: cs ? cs.borderTopWidth + ' ' + cs.backgroundColor : '', pauseH: pz ? pz.getBoundingClientRect().height : 0,
-        order: before('#ivSub', '#ivQH') && before('#ivQH', '#ivGrid') && before('#ivGrid', '#procHist'), sub: document.querySelector('#ivSub')?.textContent,
+      // owner 13 Nov ("I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses"): summary, Import a course,
+      // Running / next, then Choose papers (the import order) and By course (the grid), both collapsed, then Import history
+      const folds = ['#ivPick', '#ivBy'].map(s => at(s)?.open);
+      ['#ivPick', '#ivBy'].forEach(s => { at(s).open = true });
+      return {shown: !document.querySelector('#invBox').hidden, pause: pz?.textContent.trim(), pauseBox: cs ? cs.borderTopWidth + ' ' + cs.backgroundColor : '', pauseH: pz ? pz.getBoundingClientRect().height : 0, folds,
+        order: ['#ivSub', '#ivStats', '#ivGo', '#ivPick', '#ivQH', '#ivRun', '#ivBy', '#ivGrid', '#procHist'].every((x, i, a) => !i || before(a[i - 1], x)), sub: document.querySelector('#ivSub')?.textContent,
         q: [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(b => b.textContent), heads: [...v.querySelectorAll('h2,h3')].filter(h => h.checkVisibility()).map(h => h.textContent)};   // checkVisibility: closed <details> content keeps a layout box
     });
     errs(); assert(r.shown, 'Papers section hidden');
-    assert(r.order, 'Papers is not: top line, Import order, grid, Import history');
+    assert(r.order, 'Papers is not: summary, Import a course, Choose papers › Import order, Running / next, By course › grid, Import history');
+    assert(r.folds.join() === 'false,false', `Choose papers / By course should start collapsed: ${r.folds}`);
     assert(/^Import is paused\. This only sets the order for when it resumes\.$/.test(r.pause || ''), `pause note: “${r.pause}”`);
     assert(/^0px/.test(r.pauseBox) && r.pauseH < 24, `pause note should be one quiet line, not a banner (${r.pauseBox}, ${r.pauseH}px)`);
     assert(/^18 papers in the shared folder \(19 files\) · last folder scan .+, 2 new$/.test(r.sub || ''), `sub line: “${r.sub}”`);
     assert(r.q.join('|') === '2024 Knox Grammar School AT1', `import order from the seeded importq: ${r.q}`);
     assert(!r.heads.length, `extra headings on Papers: ${r.heads}`);
-    return 'top line › Import order (one quiet pause line) › grid › Import history';
+    return 'summary › Import a course › Choose papers (Import order, one quiet pause line) › Running / next › By course (grid) › Import history';
   });
   await check('papers: compact grid counts equal the inventory', page, async () => {
     const r = await page.evaluate(() => ({rows: [...document.querySelectorAll('#ivGrid .ivr')].map(d => ({c: d.dataset.ivc, name: d.querySelector('.ivname b').textContent, off: d.classList.contains('off'),
@@ -1327,6 +1334,7 @@ async function papersQueue(browser, base, seed, fx) {
   await serveInv(tp);
   await boot(tp, base, '#processes/papers'); await settle(tp, 3000, 2);
   await check('papers: phone 390px', tp, async () => {
+    await tp.tap('#ivBy > summary'); await tp.tap('#ivPick > summary'); await settle(tp, 600, 2);
     // the grid stacks per course: no header row, the course name on its own line, three labelled cells under it
     const g = await tp.evaluate(() => { const row = document.querySelector('#ivGrid .ivr[data-ivc="advanced"]'), nm = row.querySelector('.ivname').getBoundingClientRect(), cs = [...row.querySelectorAll(':scope > .ivcell')].map(c => c.getBoundingClientRect());
       return {head: document.querySelector('#ivGrid .ivhead').offsetHeight, stacked: cs.every(c => c.top >= nm.bottom - 1), right: Math.max(...[...document.querySelectorAll('#ivGrid .ivcell')].map(c => c.getBoundingClientRect().right)), w: innerWidth,
@@ -1357,6 +1365,122 @@ async function papersQueue(browser, base, seed, fx) {
     assert(r.hidden && r.html === 0 && r.n === 0 && r.rm === false && r.w === 0 && r.hash === '#bank', JSON.stringify(r));
     assert(vp._inv === 0, `a viewer fetched data/inventory.json ${vp._inv} time(s)`);
     return 'hidden; #processes → #bank; PQ.add / PQ.remove refused; no fetch';
+  });
+  await vp.context().close();
+}
+
+/* ---------------- Papers: summary, Import a course (Go), Running / next ----------------
+   owner 13 Nov: "We need a general summary at the top of the Paper's tab of processes as well. How many papers found, how many
+   imported, a brief breakdown and stuff. Set it up so that once the API is set up, we can choose a grade 11 or 12 and course Adv /
+   std/ extension 1 and extesnion 2 and hit Go ..." -> "Yes, with batch pauses". Summary numbers equal the inventory (recounted
+   here, also on the live inventory); the selects; the disabled reasons; the cost text; Go asks inline (no dialog); Confirm writes
+   one runs doc; Cancel request; one active run at a time; 390 px; a viewer sees nothing and writes nothing. */
+const RUN_TEXT = 'Requested — Claude starts it when importing resumes; later the import API will start it directly.';
+function runTally(inv) {   // written apart from the page's kind(), so the two can disagree
+  const t = {imported: 0, current: 0, old: 0, course: 0, held: 0, check: 0, scope: 0};
+  for (const g of inv.groups) for (const p of g.papers) {
+    if (p.st === 'imported') t.imported++; else if (p.pick) p.old ? t.old++ : t.current++; else if (p.st === 'out_of_course') t.course++;
+    else if (g.yl === '11' && (p.st === 'waiting' || /^Year 11\b/.test(p.why || ''))) t.held++; else if (p.st === 'waiting') t.check++; else t.scope++ }
+  return t;
+}
+async function papersRun(browser, base, seed, fx) {
+  if (!fx) return;
+  const inv = fx.inventory, seedQ = {...seed, ...fx.importq};
+  const serveInv = async p => { p._inv = 0; await p.route(u => /\/data\/inventory\.json/.test(u.href), r => { p._inv++; return r.fulfill({status: 200, contentType: 'application/json', body: JSON.stringify(inv)}) }) };
+  const runs = p => p.evaluate(() => [...window.__pt.store.entries()].filter(([k]) => k.startsWith('runs/')).map(([k, v]) => ({k, ...v})));
+  const go = p => p.evaluate(() => ({btn: !document.querySelector('#ivGoBtn').disabled, title: document.querySelector('#ivGoBtn').title, n: document.querySelector('#ivGoN').innerText.replace(/\s+/g, ' ').trim(), ask: document.querySelector('#ivGoAsk').innerText.replace(/\s+/g, ' ').trim()}));
+  const pick = (p, y, c) => p.evaluate(([y, c]) => { for (const [id, v] of [['#ivGoY', y], ['#ivGoC', c]]) { const s = document.querySelector(id); s.value = v; s.dispatchEvent(new Event('change', {bubbles: true})) } }, [y, c]);
+  const page = await newPage(browser, base, seedQ, {width: 1280, theme: 'light'});
+  let dialogs = 0; page.on('dialog', d => { dialogs++; d.dismiss() });
+  await serveInv(page);
+  await boot(page, base, '#processes/papers'); await settle(page, 3000, 2);
+  const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  await check('run: summary numbers equal the inventory', page, async () => {
+    const t = runTally(inv), r = await page.evaluate(() => Object.fromEntries([...document.querySelectorAll('#ivStats .ivstat')].map(s => [s.dataset.k, {n: s.querySelector('b').textContent, w: s.querySelector('span').textContent, sm: [...s.querySelector('small').childNodes].map(x => x.textContent.trim()).filter(Boolean).join(' | ')}])));
+    errs();
+    const sum = Object.values(t).reduce((a, b) => a + b, 0), aside = t.course + t.held + t.check + t.scope;
+    assert(sum === inv.totals.papers && t.imported === inv.totals.imported, `recount ${JSON.stringify(t)} vs totals ${JSON.stringify(inv.totals)}`);
+    assert(r.imported && r.imported.n === String(t.imported) && r.imported.w === 'imported', `imported tile ${JSON.stringify(r.imported)}`);
+    assert(r.can && r.can.n === String(t.current + t.old) && r.can.sm === `${t.current} current syllabus · ${t.old} old syllabus`, `can tile ${JSON.stringify(r.can)}`);
+    const want = [[t.course, 'in other courses that need setup'], [t.held, 'Year 11, held until Year 12 is finished'], [t.check, 'course not known yet (cover check)'], [t.scope, 'not in scope']].filter(x => x[0]).map(x => x.join(' ')).join(' | ');
+    assert(r.aside && r.aside.n === String(aside) && r.aside.sm === want, `set aside tile ${JSON.stringify(r.aside)} (want ${aside}: ${want})`);
+    // the same rule on the live inventory: every paper lands in exactly one bucket
+    const live = JSON.parse(fs.readFileSync(path.join(SITE, 'data/inventory.json'), 'utf8')), L = runTally(live), ls = Object.values(L).reduce((a, b) => a + b, 0);
+    assert(ls === live.totals.papers && L.imported === live.totals.imported, `live inventory recount ${JSON.stringify(L)} vs ${JSON.stringify(live.totals)}`);
+    return `fixture ${t.imported} / ${t.current + t.old} / ${aside}; live ${L.imported} imported, ${L.current + L.old} can be imported (${L.current} current, ${L.old} old), ${ls - L.imported - L.current - L.old} set aside`;
+  });
+  await check('run: Year and Course selects, disabled reasons, cost text', page, async () => {
+    const o = await page.evaluate(() => ({y: [...document.querySelectorAll('#ivGoY option')].map(x => x.value), c: [...document.querySelectorAll('#ivGoC option')].map(x => x.textContent), yv: document.querySelector('#ivGoY').value, cv: document.querySelector('#ivGoC').value}));
+    assert(o.y.join() === '12,11' && o.yv === '12' && o.cv === 'advanced', `selects ${JSON.stringify(o)}`);
+    assert(o.c.join('|') === inv.courses.filter(c => c.key !== 'unknown').map(c => c.short).join('|'), `courses ${o.c} (want the inventory's, without Course not known)`);
+    const g = inv.groups.find(x => x.course === 'advanced' && x.yl === '12'), can = g.papers.filter(p => p.pick), old = can.filter(p => p.old).length, n = can.length;
+    let r = await go(page);
+    assert(r.btn && r.n.startsWith(`${n} not imported ${n - old} current syllabus · ${old} old syllabus 1 batch of 9, pausing after each one`), `Year 12 Advanced: “${r.n}”`);
+    assert(new RegExp(`Estimated cost US\\$${n * 12}–${n * 17} \\(estimate, US\\$12–17 a paper\\)$`).test(r.n), `cost: “${r.n}”`);
+    const res = {};
+    for (const [y, c] of [['11', 'advanced'], ['12', 'standard'], ['12', 'ext1'], ['12', 'ext2'], ['11', 'ext1']]) { await pick(page, y, c); res[y + c] = await go(page) }
+    // owner 13 Nov: "Year 11 papers leave alone for now, would like to finalise Y12 first"
+    assert(!res['11advanced'].btn && /Can't import: held until Year 12 is finished \(your 13 Nov ruling\)$/.test(res['11advanced'].n) && /^3 Year 11 Advanced papers in the folder/.test(res['11advanced'].n), `Year 11: “${res['11advanced'].n}”`);
+    for (const k of ['12standard', '12ext1', '12ext2', '11ext1']) assert(!res[k].btn && /Can't import: needs course setup \(topics, dot points, difficulty references\)$/.test(res[k].n), `${k}: “${res[k].n}”`);
+    // a measured cost per paper replaces the estimate
+    await pick(page, '12', 'advanced');
+    const m = await page.evaluate(() => { PQ.state.data.cost_per_paper = 10; PQ.run.draw(); const t = document.querySelector('#ivGoN .ivgocost').textContent; PQ.state.data.cost_per_paper = null; PQ.run.draw(); return t });
+    errs();
+    assert(m === `Cost US$${n * 10} (US$10 a paper)`, `measured cost: “${m}”`);
+    return `Year 12 Advanced: ${n} (${old} old), US$${n * 12}–${n * 17}; Year 11 held; Standard / Extension 1 / 2 need setup`;
+  });
+  await check('run: Go asks inline, Cancel, Confirm writes one runs doc', page, async () => {
+    await page.click('#ivGoBtn'); await settle(page, 600, 2);
+    let r = await go(page); const n = inv.groups.find(x => x.course === 'advanced' && x.yl === '12').papers.filter(p => p.pick).length;
+    assert(new RegExp(`^Start importing ${n} papers, ~US\\$${n * 12}–${n * 17}\\? Confirm Cancel$`).test(r.ask), `confirm: “${r.ask}”`);
+    await page.click('#ivGoNo'); await settle(page, 600, 2); r = await go(page);
+    assert(!r.ask && !(await runs(page)).length, `after Cancel: ask “${r.ask}”`);
+    await page.click('#ivGoBtn'); await page.click('#ivGoYes'); await settle(page, 1500, 2);
+    const d = await runs(page); errs();
+    assert(dialogs === 0, `${dialogs} browser dialog(s)`);
+    assert(d.length === 1, `${d.length} runs docs`);
+    const x = d[0], want = [9103, 9104, 9101, 9102, 9105];   // 9103 is in the import order; then current syllabus newest first; the old-syllabus 9105 last
+    assert(/^runs\/r\d+$/.test(x.k) && x.year === 12 && x.course === 'advanced' && x.papers.join() === want.join() && x.batch_size === 9 && x.pause_after_each_batch === true && x.status === 'requested' && x.by === 'u_pagetest' && !isNaN(Date.parse(x.at)), `runs doc ${JSON.stringify(x)}`);
+    const v = await page.evaluate(() => ({card: document.querySelector('#ivRun .ivrcard')?.innerText || '', div: [...document.querySelectorAll('#ivRun .ivnb .ivdiv')].map(x => x.textContent), b0: PQ.nextBatch(), names: [...document.querySelectorAll('#ivRun .ivnb li')].map(x => x.textContent), go: document.querySelector('#ivGoBtn').disabled}));
+    assert(v.card.includes(RUN_TEXT) && /Year 12 Advanced · 5 papers/.test(v.card) && /Requested/.test(v.card), `Running / next card: “${v.card}”`);
+    assert(v.div.join() === `Batch ${v.b0}` && v.names.length === 5 && v.names[0] === '2024 Knox Grammar School AT1' && v.names[4] === '2017 Knox Grammar School AT4 · old syllabus', `next batch: ${v.div} ${v.names.join(' | ')}`);
+    assert(v.go, 'Go should be disabled while a run is requested');
+    return `${x.k}: ${x.papers.length} papers, Batch ${v.b0} shown`;
+  });
+  await check('run: one active run at a time; Cancel request', page, async () => {
+    const again = await page.evaluate(() => PQ.run.request()), r0 = await go(page);
+    assert(again === null && (await runs(page)).length === 1 && /a run is already requested/.test(r0.n), `second request: ${again}, “${r0.n}”`);
+    await page.click('#ivRunCancel'); await settle(page, 1500, 2);
+    const d = await runs(page), v = await page.evaluate(() => ({card: !!document.querySelector('#ivRun .ivrcard'), from: document.querySelector('#ivRun .ivnfrom')?.textContent, names: [...document.querySelectorAll('#ivRun .ivnb li')].map(x => x.textContent)})), r = await go(page); errs();
+    assert(d.length === 1 && d[0].status === 'cancelled' && d[0].cancelled_by === 'u_pagetest' && d[0].papers.length === 5, `after Cancel request: ${JSON.stringify(d)}`);
+    assert(!v.card && v.from === 'Next from your import order:' && v.names.join() === '2024 Knox Grammar School AT1' && r.btn, `after cancel: ${JSON.stringify(v)}, Go ${r.btn}`);
+    await page.click('#ivGoBtn'); await page.click('#ivGoYes'); await settle(page, 1500, 2);
+    const d2 = await runs(page);
+    assert(d2.length === 2 && d2.filter(x => x.status === 'requested').length === 1, `a new request after cancelling: ${d2.map(x => x.status)}`);
+    return 'a second request is refused; Cancel request sets cancelled; the import order shows again; a new request is allowed';
+  });
+  await page.context().close();
+  const tp = await newPage(browser, base, seedQ, {width: 390, theme: 'dark', touch: true});
+  await serveInv(tp); await boot(tp, base, '#processes/papers'); await settle(tp, 3000, 2);
+  await check('run: phone 390px', tp, async () => {
+    await tp.tap('#ivGoBtn'); await settle(tp, 600, 2);
+    const r = await tp.evaluate(() => { const box = s => document.querySelector(s)?.getBoundingClientRect(), els = ['#ivStats', '#ivGo', '#ivGoAsk .ivgoask', '#ivGoYes', '#ivRun'].map(box);
+      return {right: Math.max(...els.map(b => b ? b.right : 999)), w: innerWidth, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth, tiles: [...document.querySelectorAll('#ivStats .ivstat')].map(s => Math.round(s.getBoundingClientRect().width))} });
+    await tp.tap('#ivGoYes'); await settle(tp, 1500, 2);
+    const n = (await runs(tp)).length, e = takeErrs(tp); assert(!e.length, e.join(' | '));
+    assert(r.right <= r.w && r.sw <= r.cw + 1, `overflow at 390px: ${JSON.stringify(r)}`);
+    assert(n === 1, `tap Confirm wrote ${n} runs docs`);
+    return `fits (tiles ${r.tiles.join(' / ')} px); Go and Confirm by tap`;
+  });
+  await tp.context().close();
+  const vp = await newPage(browser, base, seedQ, {width: 1280, theme: 'light', role: 'viewer'});
+  await serveInv(vp); await boot(vp, base, '#bank');
+  await check('run (viewer): nothing shows, nothing is written', vp, async () => {
+    await vp.evaluate(() => { location.hash = '#processes/papers' }); await settle(vp, 2000, 2);
+    const r = await vp.evaluate(async () => { PQ.run.render(); const id = await PQ.run.request(); const c = await PQ.run.cancel();
+      return {id, c, sub: PQ.run.state.sub, go: document.querySelector('#ivGo')?.innerHTML.length || 0, used: window.__pt.log.filter(l => l.k.startsWith('runs/')).length} });
+    assert(r.id === null && r.c === false && !r.sub && !r.go && !r.used && vp._inv === 0, JSON.stringify({...r, inv: vp._inv}));
+    return 'no card, no runs subscription, request / cancel refused, no inventory fetch';
   });
   await vp.context().close();
 }
@@ -1828,14 +1952,15 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   const dropR = new Set((fx.workload || {}).drop || []), seedR = Object.fromEntries(Object.entries(seed).filter(([k]) => !dropR.has(k)));
   const tested = {page: sha(PAGE), bank: sha(path.join(SITE, 'data/bank.json')), dotpoints: sha(path.join(SITE, 'data/dotpoints.json'))};
   const srv = await serve(); const base = `http://127.0.0.1:${srv.address().port}/`;
-  console.log(`page_test: ${path.relative(ROOT, PAGE)} sha256 ${tested.page.slice(0, 12)} on ${base} · fixture ${Object.keys(seed).length} db docs${QUICK ? ' · QUICK' : ''}`);
+  console.log(`page_test: ${path.relative(ROOT, PAGE)} sha256 ${tested.page.slice(0, 12)} on ${base} · fixture ${Object.keys(seed).length} db docs${QUICK ? ' · QUICK' : ''}${ONLY ? ' · only ' + [...ONLY].join(',') : ''}`);
   const browser = await chromium.launch({headless: !HEADED, args: ['--disable-dev-shm-usage']});
   let fatal = null;
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
-    await Promise.all([...combos.map(([w, t]) => sweep(browser, base, seedR, w, t)), phone(browser, base, seedR), areas(browser, base, seedR), processes(browser, base, seed), reviewFlow(browser, base, seedR), bankChip(browser, base, seed), nextUp(browser, base, seed), papersQueue(browser, base, seed, fx.papers), driveScan(browser, base, seed, fx), availOverlap(browser, base, seed), queueChecks(browser, base, seed)]);
+    const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
+    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersQueue, browser, base, seed, fx.papers), run(papersRun, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
-    await Promise.all([flows(browser, base, seed, seedR), examPools(browser, base, {live: seed, workload: seedR})]);
+    await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));
     await check('offline: no requests to public CDNs', null, async () => { assert(!bad.length, `${bad.length} outside request(s): ${bad.slice(0, 5).join(' ')}`); return ext.length ? `${ext.length} Google Fonts request(s) blocked, allowed` : 'none' });
   } catch (e) { fatal = String(e && e.stack || e); console.error('page_test could not finish:', fatal) }

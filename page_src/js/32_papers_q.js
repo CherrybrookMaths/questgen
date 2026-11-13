@@ -7,6 +7,9 @@
    and pick:1 when it can be queued (Advanced and waiting, not Year 11; old-syllabus papers carry old:1). Courses that are not ready (inventory courses[].ready) show their
    counts with a short "needs course setup" and have no checkboxes. Since 13 Nov (owner: "The process page feels a bit bloated
    now" -> "Two tabs: Work | Papers") this is the Papers tab, and the grid is compact: one row per course, Year 12 / 11 / ? cells.
+   Since 13 Nov ("I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses") the tab leads with a summary,
+   Import a course (Go) and Running / next (PQ.run, 34_papers_run.js); the import order sits in "Choose papers" and the grid in
+   "By course", both collapsed.
    The owner ticks papers (or a whole school / group) and presses "Add to import queue". db collection "importq", one doc per
    paper, id 'd<doc_id>': {doc_id, label, course, year_level, order, added_by, at}. Reorder by drag (desktop) or ↑ ↓; × removes.
    Import itself is paused (owner 14 Nov: "no more importing for a while until we iron these out"), so the card says so.
@@ -36,12 +39,18 @@ function invSubscribe(){if(INV.sub||!db||!isEditor())return;
 function renderInv(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
   if(!box.dataset.ready){box.dataset.ready='1';
     // owner 13 Nov ("Two tabs: Work | Papers"): the tab names the section, so no heading; the pause note is one quiet line
+    // owner 13 Nov: "We need a general summary at the top of the Paper's tab ... I'm getting CONFUSED with our current papers page"
+    // -> "Yes, with batch pauses": summary, Import a course (Go), Running / next, then the detail folded away: Choose papers
+    // (the import order) and By course (the grid and its ticks). PQ.run (34_papers_run.js) fills #ivStats, #ivGo and #ivRun.
     box.innerHTML=`<section class="psec ivp" aria-label="Papers">
-      <div class="ivsubrow"><p class="ivsub" id="ivSub"></p><span id="ivScanBtn"></span></div><div id="ivScan"></div>
-      <div class="ivq"><h4 id="ivQH">Import order <span class="pcount" id="ivQN" hidden></span></h4><p class="ivpause" role="note">${esc(IVPAUSE)}</p><div id="ivQList"></div></div>
-      <div id="ivGrid"></div>
+      <div class="ivsum"><div class="ivsubrow"><p class="ivsub" id="ivSub"></p><span id="ivScanBtn"></span></div><div class="ivstats" id="ivStats"></div></div><div id="ivScan"></div>
+      <div class="ivgo" id="ivGo"></div>
+      <details class="ivfold" id="ivPick"><summary>Choose papers</summary><div class="ivq"><h4 id="ivQH">Import order <span class="pcount" id="ivQN" hidden></span></h4><p class="ivpause" role="note">${esc(IVPAUSE)}</p><div id="ivQList"></div>
+        <p class="ivhint">To add papers, open <button type="button" class="ivlink" data-ivby="1">By course</button>, tick them and press Add to import queue.</p></div></details>
+      <div class="ivrun" id="ivRun"></div>
+      <details class="ivfold" id="ivBy"><summary>By course</summary><div id="ivGrid"></div></details>
       <div class="ivbar" id="ivBar" hidden><span id="ivSelN" aria-live="polite"></span><button type="button" class="act" id="ivClear">Clear</button><button type="button" class="act ivadd" id="ivAdd">Add to import queue</button></div></section>`}
-  invLoad();invSubscribe();invSub();invQueue();if(!$('#ivGrid').dataset.built)invGrid();invBar();if(API.scan)API.scan.render()}
+  invLoad();invSubscribe();invSub();invQueue();if(!$('#ivGrid').dataset.built)invGrid();invBar();if(API.scan)API.scan.render();if(API.run)API.run.render()}
 function invSub(){const el=$('#ivSub');if(!el)return;const D=INV.data;
   if(!D){el.textContent=INV.failed?'The paper list could not be loaded.':'Loading the paper list…';return}
   const t=D.totals||{},ls=D.last_scan,ds=API.scan&&API.scan.last(),dl=ds&&(!ls||Date.parse(ds.at)>Date.parse(ls.at));   // a Drive rescan later than the folder scan wins
@@ -53,14 +62,22 @@ function invSub(){const el=$('#ivSub');if(!el)return;const D=INV.data;
 const IVBATCH=9;
 const invNextBatch=()=>{const L=(typeof PROG!=='undefined'&&PROG&&PROG.batches)||[];
   return Math.max(0,...L.filter(b=>batchState(b)[0]==='done').map(b=>parseInt(String(b.id).replace(/^\D+/,''),10)).filter(Number.isFinite))+1};
-function invQueue(){const el=$('#ivQList');if(!el)return;const q=invQ(),n=$('#ivQN');if(n){n.hidden=!q.length;n.textContent=q.length}
-  const cost=INV.data&&INV.data.cost_per_paper,b0=invNextBatch();let k=0;   // k: importable rows so far (rows with a warning are skipped by import_next.py too)
-  el.innerHTML=q.length?`<ol class="nlist ivql">${q.map((x,i)=>{const f=invFind(x.doc_id),p=f&&f.p,warn=p&&p.st==='imported'?'already imported':p&&!p.pick?'can no longer be imported':!p&&INV.data?'not in the paper list':'';
-    const div=!warn&&k++%IVBATCH===0?`<li class="ivdiv" role="separator"><span>Batch ${b0+Math.floor((k-1)/IVBATCH)}</span></li>`:'';
+// each queued row with its paper and why import_next.py would skip it ('' = importable), and its batch number when importable
+function invRows(){const b0=invNextBatch();let k=0;
+  return invQ().map(x=>{const f=invFind(x.doc_id),p=f&&f.p,warn=p&&p.st==='imported'?'already imported':p&&!p.pick?'can no longer be imported':!p&&INV.data?'not in the paper list':'';
+    return {x,p,warn,batch:warn?0:b0+Math.floor(k++/IVBATCH)}})}
+// a recorded cost per paper (inventory cost_per_paper: a number, [lo, hi] or {lo, hi}), or null
+function invCost(){const c=INV.data&&INV.data.cost_per_paper,v=typeof c==='number'?[c,c]:Array.isArray(c)?c:c&&typeof c==='object'?[c.lo??c.min,c.hi??c.max]:null;
+  return v&&v.length===2&&v.every(Number.isFinite)?v:null}
+const invUsd=([lo,hi])=>{const f=x=>Math.round(x).toLocaleString('en-AU');return lo===hi?`US$${f(lo)}`:`US$${f(lo)}–${f(hi)}`};
+function invQueue(){const el=$('#ivQList');if(!el)return;const rows=invRows(),n=$('#ivQN');if(n){n.hidden=!rows.length;n.textContent=rows.length}
+  const cost=invCost();let last=0;
+  el.innerHTML=rows.length?`<ol class="nlist ivql">${rows.map(({x,p,warn,batch},i)=>{const div=batch&&batch!==last?`<li class="ivdiv" role="separator"><span>Batch ${last=batch}</span></li>`:'';
     return div+`<li class="nrow" data-ivq="${esc(x.id)}" draggable="true"><span class="ngrip" aria-hidden="true" title="Drag to reorder">⋮⋮</span><span class="ivqn" aria-hidden="true">${i+1}</span>
-      <span class="ntext"><b>${esc(x.label||(p?invLabel(p):'Paper '+x.doc_id))}</b><small>${esc(invShort(x.course))}${x.year_level?' · Year '+esc(x.year_level):''}${p&&p.old?' · old syllabus':''}${cost?` · ${esc(cost)}`:''}${warn?` · <em class="ivwarn">${esc(warn)}</em>`:''}</small></span>
-      <span class="nacts"><button type="button" class="nbtn" data-ivmove="-1" data-ivid="${esc(x.id)}" aria-label="Move up"${i===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-ivmove="1" data-ivid="${esc(x.id)}" aria-label="Move down"${i===q.length-1?' disabled':''}>↓</button><button type="button" class="nbtn ndel" data-ivdel="${esc(x.id)}" aria-label="Remove from the import queue">×</button></span></li>`}).join('')}</ol>`:
-    `<p class="pempty">${INV.loaded||!db?`Nothing queued. Tick ${esc(['papers',...((INV.data&&INV.data.courses)||[]).filter(c=>c.ready).map(c=>c.short||c.name)].reverse().join(' '))} below and press Add to import queue.`:'Loading the import order…'}</p>`}
+      <span class="ntext"><b>${esc(x.label||(p?invLabel(p):'Paper '+x.doc_id))}</b><small>${esc(invShort(x.course))}${x.year_level?' · Year '+esc(x.year_level):''}${p&&p.old?' · old syllabus':''}${cost?` · ${esc(invUsd(cost))}`:''}${warn?` · <em class="ivwarn">${esc(warn)}</em>`:''}</small></span>
+      <span class="nacts"><button type="button" class="nbtn" data-ivmove="-1" data-ivid="${esc(x.id)}" aria-label="Move up"${i===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-ivmove="1" data-ivid="${esc(x.id)}" aria-label="Move down"${i===rows.length-1?' disabled':''}>↓</button><button type="button" class="nbtn ndel" data-ivdel="${esc(x.id)}" aria-label="Remove from the import queue">×</button></span></li>`}).join('')}</ol>`:
+    `<p class="pempty">${INV.loaded||!db?`Nothing queued. Tick ${esc(['papers',...((INV.data&&INV.data.courses)||[]).filter(c=>c.ready).map(c=>c.short||c.name)].reverse().join(' '))} under By course and press Add to import queue.`:'Loading the import order…'}</p>`;
+  if(API.run)API.run.render()}
 // ---- the course grid (owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): one row per
 // course, in the inventory's order, columns Year 12 / Year 11 / Year ?. A ready course's cell reads "imported / waiting waiting";
 // any other cell the papers in the folder. A cell opens that group's papers under its course row (one group at a time).
@@ -128,14 +145,16 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
   const cell=t.closest('#ivGrid .ivcell[data-ivg]');if(cell){invOpen(INV.open===cell.dataset.ivg?null:cell.dataset.ivg);return}
   if(t.closest('#ivClear')){INV.sel.clear();$$('#ivGrid [data-ivp]').forEach(b=>b.checked=false);invTicks();invBar();return}
   if(t.closest('#ivAdd')){if(!isEditor())return;const ids=[...INV.sel];const n=await invAdd(ids);INV.sel.clear();invQueue();invGridMarks();
-    if(n)toast(`${n} paper${n===1?'':'s'} added to the import queue`);const h=$('#ivQH');if(h&&n)h.scrollIntoView({block:'nearest'});return}
+    if(n){toast(`${n} paper${n===1?'':'s'} added to the import queue`);$('#ivPick').open=true;$('#ivQH').scrollIntoView({block:'nearest'})}return}
+  if(t.closest('[data-ivby]')){const d=$('#ivBy');d.open=true;d.scrollIntoView({block:'start',behavior:'smooth'});return}
   const mv=t.closest('[data-ivmove]');if(mv){const ids=invQ().map(x=>x.id),i=ids.indexOf(mv.dataset.ivid),j=i+ +mv.dataset.ivmove;if(i<0||j<0||j>=ids.length)return;
     [ids[i],ids[j]]=[ids[j],ids[i]];await invReorder(ids);const b=document.querySelector(`#ivQList [data-ivid="${CSS.escape(mv.dataset.ivid)}"][data-ivmove="${mv.dataset.ivmove}"]`);if(b&&!b.disabled)b.focus();return}
   const dl=t.closest('[data-ivdel]');if(dl){await invRemove(dl.dataset.ivdel);return}});
 sortableList('#ivQList .ivql>li.nrow','ivq',()=>invQ().map(x=>x.id),invReorder,invQueue);   // drag (desktop); ↑ ↓ for keyboard and phone (31_notes.js)
 // sub: the sub line; course, years: names for the Rescan drive results. 33_drive_scan.js adds API.scan (= PQ.scan, no new
 // page-wide name); code in here reaches it through API, since PQ itself is not assigned until this block returns.
-const API={render:renderInv,queue:invQueue,add:invAdd,remove:invRemove,open:invOpen,state:INV,sub:invSub,course:invCourse,years:IVY};
+// run: 34_papers_run.js reads the inventory and the order through these (groups, rows, label, usd, cost)
+const API={render:renderInv,queue:invQueue,add:invAdd,remove:invRemove,open:invOpen,state:INV,sub:invSub,course:invCourse,years:IVY,groups:invGroups,rows:invRows,find:invFind,label:invLabel,cost:invCost,usd:invUsd,nextBatch:invNextBatch,batch:IVBATCH};
 if(view==='processes'&&$('#processesView').dataset.tab==='papers')renderInv();   // Processes › Papers may already be open when this block loads
 return API;
 })();

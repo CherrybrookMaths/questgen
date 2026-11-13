@@ -86,3 +86,39 @@
 .procs .ivsname{flex:1 1 200px;min-width:0;overflow-wrap:anywhere}
 .procs .ivsdir{flex-basis:100%;order:3;color:var(--muted);font-size:11.5px;overflow-wrap:anywhere}
 .procs .ivchip.like{border-color:var(--warn);color:var(--warn)}
+/* owner 13 Nov: "We need a general summary at the top of the Paper's tab ... I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses":
+   summary card, Import a course (Go, inline confirm), Running / next, then Choose papers and By course folded away (34_papers_run.js) */
+.procs .ivsum{margin:0 0 12px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.procs .ivsum .ivsubrow{margin-bottom:10px}
+.procs .ivstats{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,2fr);gap:10px 18px}
+.procs .ivstat{display:flex;flex-wrap:wrap;align-items:baseline;align-content:flex-start;gap:0 6px;min-width:0}
+.procs .ivstat b{font:600 22px var(--sans);font-variant-numeric:tabular-nums;color:var(--ink)}
+.procs .ivstat[data-k="imported"] b{color:var(--ok)}.procs .ivstat[data-k="can"] b{color:var(--accent)}.procs .ivstat[data-k="aside"] b{color:var(--muted)}
+.procs .ivstat>span{font-size:13.5px;font-weight:600}
+.procs .ivstat small{flex-basis:100%;color:var(--muted);font-size:12px;line-height:1.45}
+.procs .ivstat small i{display:block;font-style:normal}
+.procs .ivgo,.procs .ivrun{margin:0 0 12px}
+.procs .ivgo h4,.procs .ivrun h4{margin:0 0 6px;font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.procs .ivgo{padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.procs .ivgorow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.procs .ivgorow label{display:inline-flex;align-items:center;gap:6px;font-size:13.5px}
+.procs .ivgorow select{font:inherit;font-size:13.5px;padding:4px 8px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink)}
+.procs .ivgob{min-width:64px}
+.procs .ivgocount{margin:10px 0 2px;font-size:14px}.procs .ivgocount b{font-size:18px;font-variant-numeric:tabular-nums}
+.procs .ivgocount.off b{color:var(--muted)}
+.procs .ivgod{margin:0;color:var(--muted);font-size:12.5px}.procs .ivgocost{color:var(--ink)}
+.procs .ivgowhy{margin:4px 0 0;color:var(--warn);font-size:13px}
+.procs .ivgoask{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-soft)}
+.procs .ivgoask p{flex:1 1 220px;margin:0;font-weight:600;font-size:13.5px}
+.procs .ivrcard{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin:0 0 8px;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:var(--panel)}
+.procs .ivrtop{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.procs .ivrcard p{margin:0;font-size:13px}.procs .ivrcard small{color:var(--muted);font-size:12px}
+.procs .ivnfrom,.procs .ivnmore{margin:6px 0 2px;color:var(--muted);font-size:12.5px}
+.procs .ivnb .ivdiv{display:flex;align-items:center;gap:8px;margin:4px 0 0;color:var(--muted);font:500 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase}
+.procs .ivnb .ivdiv::after{content:"";flex:1;border-top:1px dashed var(--line)}
+.procs .ivnb ol{margin:2px 0 4px;padding-left:22px;font-size:13px}.procs .ivnb li{padding:1px 0;overflow-wrap:anywhere}
+.procs .ivfold{margin:0 0 12px}
+.procs .ivfold>summary+*{margin-top:6px}
+.procs .ivhint{margin:6px 0 0;color:var(--muted);font-size:12.5px}
+.procs .ivlink{background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;cursor:pointer}
+@media (max-width:640px){.procs .ivstats{grid-template-columns:1fr 1fr}.procs .ivstat[data-k="aside"]{grid-column:1/-1}}

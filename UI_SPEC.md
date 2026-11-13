@@ -612,7 +612,7 @@ framework for the courses standard extension and extension two [later] right?"
   ones already there, in the order shown.
 - **Import order.** Above the grid: the queued papers in order (number, name, course and year, a warning if a paper has since
   been imported or can no longer be imported), with drag (desktop) or ↑ ↓ to reorder and × to remove (no confirm: it can be
-  re-added). Empty state: "Nothing queued. Tick Advanced papers below and press Add to import queue." A cost estimate per paper
+  re-added). Empty state: "Nothing queued. Tick Advanced papers under By course and press Add to import queue." (13 Nov: the grid moved under By course ▸) A cost estimate per paper
   shows only if one is recorded (`cost_per_paper` in the inventory; none yet).
 - Claude reads the order with `tools/import_next.py` (IMPORT_PLAYBOOK "New papers in the shared folder, and choosing what to
   import next").
@@ -712,6 +712,46 @@ disretard out of scope things" and "but we already have 15 waiting batches?"
   `batchesHTML` in 12_import.js, styles `.ivdiv`, `.ivnew`, `.ivlegend` in 22_papers_q.css. Tests: `papers: Batch N dividers every
   9 rows; history shows finished batches only`, the legend / badge asserts in `papers: compact grid counts equal the inventory`,
   the old-syllabus paper 9105 (tickable) and Year 11 9303 (waiting, not tickable) in page_test_fixture.py.
+
+## Papers: summary, Import a course (Go), Running / next (13 Nov)
+Owner, 13 Nov: "We need a general summary at the top of the Paper's tab of processes as well. How many papers found, how many imported, a brief breakdown and stuff. Set it up so that once the API is set up, we can choose a grade 11 or 12 and course Adv / std/ extension 1 and extesnion 2 and hit Go and the API would get called to import all papers which are on file but not imported from that level and grade. Is that the best way ? I'm getting CONFUSED with our current papers page". Chosen: "Yes, with batch pauses".
+- **Top to bottom** (Processes › Papers, editors only): **summary card** · **Import a course** · **Choose papers ▸** (the import
+  order, collapsed) · **Running / next** · **By course ▸** (the course grid with its ticks, collapsed) · **Import history ▸**
+  (collapsed). Section labels are small caps h4, no h2/h3. Supersedes the order in "Processes in two tabs" (Papers); the rest stands.
+- **Summary card.** First line unchanged: "N papers in the shared folder (M files) · last folder scan …, K new" + **Rescan drive**
+  (its progress and results under the card). Three numbers: **imported** (in the bank); **can be imported** (current syllabus ·
+  old syllabus); **set aside**, one line each: in other courses that need setup · Year 11, held until Year 12 is finished · course
+  not known yet (cover check) · not in scope (zero lines hidden). Every paper is in exactly one bucket (`kind()` in
+  34_papers_run.js: imported; pick → old / current; out_of_course; Year 11 waiting or "Year 11: …" → held; other waiting → course
+  not known; the rest → not in scope). Live, 13 Nov: 52 / 513 (232 current, 281 old) / 2,093 (1,002 · 801 · 49 · 241).
+- **Import a course.** Year select (12, 11) and Course select (the inventory's courses, not "Course not known"; inventory order:
+  Advanced, Extension 1, Extension 2, Standard), **Go**. Shows "N not imported", "a current syllabus · b old syllabus", "K batches
+  of 9, pausing after each one until you've cleared it in Review" and "Estimated cost US$lo–hi (estimate, US$12–17 a paper)"; a
+  recorded inventory `cost_per_paper` (number, [lo, hi] or {lo, hi}) replaces the estimate ("Cost US$… (US$x a paper)").
+  Disabled, with the reason in place of the counts: a course that is not ready → its inventory note ("needs course setup
+  (topics, dot points, difficulty references)"); a ready course whose year has nothing pickable but held papers → "held until
+  Year 12 is finished (your 13 Nov ruling)" (Year 11); nothing left → "nothing left to import in …"; an active run → "a run is
+  already requested: cancel it under Running / next to start another".
+- **Go → inline confirm** (never `confirm()`): "Start importing 486 papers, ~US$5,832–8,262?" **Confirm** / **Cancel**. Confirm
+  writes ONE doc to db collection **`runs`**, id `r<ms>`: `{year, course, papers:[doc ids], batch_size:9,
+  pause_after_each_batch:true, status:'requested', by, at}`. Paper order: those already in the import order first (in its
+  order), then current syllabus before old, newest year first.
+- **One active run** (status requested / running / paused) at a time. **Cancel request** rewrites the doc with
+  `status:'cancelled', cancelled_by, cancelled_at` (kept, not deleted).
+- **Running / next.** The active run as a card: "Year 12 Advanced · 486 papers", a status chip, and for `requested`: "Requested —
+  Claude starts it when importing resumes; later the import API will start it directly." (`running`: "Claude is importing it
+  now."; `paused`: "Waiting for you to clear the last batch in Review before the next one starts."), batches and request time,
+  Cancel request. Then "Next from this run:" (or "Next from your import order:" when there is no run) with the next two batches
+  under faint "Batch N" dividers (N counts on from the last finished batch, as the import order does) and "… and K more batches".
+  Empty: "Nothing requested yet. Pick a year and course above and press Go, or choose papers one by one."
+- **Choose papers ▸** holds the import order exactly as before (drag, ↑ ↓, ×, Batch dividers, the pause note) and a hint with a
+  link that opens **By course**. Add to import queue opens Choose papers.
+- **db rule needed at publish:** `runs` editors only (read admin, write admin), like `importq` and `scans`.
+- Code: `page_src/js/34_papers_run.js` (`PQ.run`: render, draw, request, cancel, choice, tally, kind; no new page-wide name), the
+  layout and the shared `invRows` / `invCost` / `invUsd` in 32_papers_q.js, styles at the end of 22_papers_q.css (all under
+  `.procs`; the folds reuse the `.phist` summary style in 06_import_jobs_tags.css; Go and Confirm use `button.act.primary`).
+  Claude's side: tools/import_next.py (a run beats the import order), tools/sync_pagedb.py (`page_runs`), IMPORT_PLAYBOOK "Go".
+  Tests: `run: …` checks (papersRun in tools/page_test.js) and the updated `papers: top line …` order check.
 
 ## Where else things are recorded
 

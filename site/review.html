@@ -474,11 +474,11 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
 .procs .pqueue li:first-child{border-top:0}
 .procs .pqueue b{font-weight:600;overflow-wrap:anywhere}
 .procs .pnum{font:600 12px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
-.procs .pdone>summary,.procs .phist>summary{cursor:pointer;font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;padding:4px 0;list-style:none}
-.procs .pdone>summary::-webkit-details-marker,.procs .phist>summary::-webkit-details-marker{display:none}
-.procs .pdone>summary::after,.procs .phist>summary::after{content:"";width:6px;height:6px;border:solid var(--muted);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);margin-left:2px;transition:transform .15s}
-.procs .pdone[open]>summary::after,.procs .phist[open]>summary::after{transform:rotate(45deg)}
-.procs .pdone>summary:focus-visible,.procs .phist>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.procs .pdone>summary,.procs .phist>summary,.procs .ivfold>summary{cursor:pointer;font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;padding:4px 0;list-style:none}
+.procs .pdone>summary::-webkit-details-marker,.procs .phist>summary::-webkit-details-marker,.procs .ivfold>summary::-webkit-details-marker{display:none}
+.procs .pdone>summary::after,.procs .phist>summary::after,.procs .ivfold>summary::after{content:"";width:6px;height:6px;border:solid var(--muted);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);margin-left:2px;transition:transform .15s}
+.procs .pdone[open]>summary::after,.procs .phist[open]>summary::after,.procs .ivfold[open]>summary::after{transform:rotate(45deg)}
+.procs .pdone>summary:focus-visible,.procs .phist>summary:focus-visible,.procs .ivfold>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 .procs .pdone ul{list-style:none;margin:8px 0 0;padding:0}
 .procs .pdone li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:4px;padding:7px 0;margin:0;border-top:1px solid var(--line);font-size:13.5px}
 .procs .pdone li b{font-weight:500;color:var(--ink)}
@@ -489,7 +489,7 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
 @media (max-width:640px){.jobs .jpill{min-height:30px;padding:3px 11px}.procs .pcards{grid-template-columns:minmax(0,1fr)}}
 .enter{animation:viewIn .22s ease-out}
 @keyframes viewIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.enter{animation:none}.jobs .dot,.procs .pdot{animation:none}.jobs .jpill,.procs .pdone>summary::after,.procs .phist>summary::after{transition:none}}
+@media (prefers-reduced-motion:reduce){.enter{animation:none}.jobs .dot,.procs .pdot{animation:none}.jobs .jpill,.procs .pdone>summary::after,.procs .phist>summary::after,.procs .ivfold>summary::after{transition:none}}
 .themebtn{font-size:13px;white-space:nowrap}
 .pfil{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 12px}
 .pfil input,.pfil select{font:inherit;font-size:13.5px;padding:6px 10px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink)}
@@ -1962,6 +1962,42 @@ a.plink:hover{text-decoration:underline}
 .procs .ivsname{flex:1 1 200px;min-width:0;overflow-wrap:anywhere}
 .procs .ivsdir{flex-basis:100%;order:3;color:var(--muted);font-size:11.5px;overflow-wrap:anywhere}
 .procs .ivchip.like{border-color:var(--warn);color:var(--warn)}
+/* owner 13 Nov: "We need a general summary at the top of the Paper's tab ... I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses":
+   summary card, Import a course (Go, inline confirm), Running / next, then Choose papers and By course folded away (34_papers_run.js) */
+.procs .ivsum{margin:0 0 12px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.procs .ivsum .ivsubrow{margin-bottom:10px}
+.procs .ivstats{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,2fr);gap:10px 18px}
+.procs .ivstat{display:flex;flex-wrap:wrap;align-items:baseline;align-content:flex-start;gap:0 6px;min-width:0}
+.procs .ivstat b{font:600 22px var(--sans);font-variant-numeric:tabular-nums;color:var(--ink)}
+.procs .ivstat[data-k="imported"] b{color:var(--ok)}.procs .ivstat[data-k="can"] b{color:var(--accent)}.procs .ivstat[data-k="aside"] b{color:var(--muted)}
+.procs .ivstat>span{font-size:13.5px;font-weight:600}
+.procs .ivstat small{flex-basis:100%;color:var(--muted);font-size:12px;line-height:1.45}
+.procs .ivstat small i{display:block;font-style:normal}
+.procs .ivgo,.procs .ivrun{margin:0 0 12px}
+.procs .ivgo h4,.procs .ivrun h4{margin:0 0 6px;font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.procs .ivgo{padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.procs .ivgorow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
+.procs .ivgorow label{display:inline-flex;align-items:center;gap:6px;font-size:13.5px}
+.procs .ivgorow select{font:inherit;font-size:13.5px;padding:4px 8px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink)}
+.procs .ivgob{min-width:64px}
+.procs .ivgocount{margin:10px 0 2px;font-size:14px}.procs .ivgocount b{font-size:18px;font-variant-numeric:tabular-nums}
+.procs .ivgocount.off b{color:var(--muted)}
+.procs .ivgod{margin:0;color:var(--muted);font-size:12.5px}.procs .ivgocost{color:var(--ink)}
+.procs .ivgowhy{margin:4px 0 0;color:var(--warn);font-size:13px}
+.procs .ivgoask{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-soft)}
+.procs .ivgoask p{flex:1 1 220px;margin:0;font-weight:600;font-size:13.5px}
+.procs .ivrcard{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin:0 0 8px;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:var(--panel)}
+.procs .ivrtop{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.procs .ivrcard p{margin:0;font-size:13px}.procs .ivrcard small{color:var(--muted);font-size:12px}
+.procs .ivnfrom,.procs .ivnmore{margin:6px 0 2px;color:var(--muted);font-size:12.5px}
+.procs .ivnb .ivdiv{display:flex;align-items:center;gap:8px;margin:4px 0 0;color:var(--muted);font:500 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase}
+.procs .ivnb .ivdiv::after{content:"";flex:1;border-top:1px dashed var(--line)}
+.procs .ivnb ol{margin:2px 0 4px;padding-left:22px;font-size:13px}.procs .ivnb li{padding:1px 0;overflow-wrap:anywhere}
+.procs .ivfold{margin:0 0 12px}
+.procs .ivfold>summary+*{margin-top:6px}
+.procs .ivhint{margin:6px 0 0;color:var(--muted);font-size:12.5px}
+.procs .ivlink{background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;cursor:pointer}
+@media (max-width:640px){.procs .ivstats{grid-template-columns:1fr 1fr}.procs .ivstat[data-k="aside"]{grid-column:1/-1}}
 /* Bank topic transitions (owner 13 Nov: "animation going between all topics and a subtopic"); see bankGo in 07_bank.js */
 #list{view-transition-name:bk-list}
 ::view-transition-old(bk-list),::view-transition-new(bk-list){animation-duration:.3s;animation-timing-function:cubic-bezier(.2,.7,.2,1);animation-fill-mode:both}
@@ -2028,7 +2064,7 @@ html[data-bkdir=fade]::view-transition-new(bk-list){animation:bk-fade-in .18s ea
   <div class="wrapx exams" id="examsView" hidden></div>   <!-- owner 14 Nov: Exams page -->
   <div class="wrap reports" id="reportsView" hidden><a class="rback" href="#review">← Inbox</a><section id="reportsBox" aria-live="polite"></section></div>   <!-- owner 14 Nov: question reports (alpha) -->
   <div class="levels" id="levelsView" hidden><a class="rback" href="#review">← Inbox</a><section id="levelsBox" aria-live="polite"></section></div>   <!-- owner 14 Nov: difficulty check -->
-  <!-- owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers". Work = running, queued, recently done, Next up; Papers = rescan, import order, the course grid, Import history (collapsed) -->
+  <!-- owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers". Work = running, queued, recently done, Next up; Papers = summary + rescan, Import a course (Go), Running / next, Choose papers ▸, By course ▸, Import history ▸ (owner 13 Nov: "I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses") -->
   <div class="imp procs" id="processesView" hidden>
     <div class="prhead"><h2>Processes</h2><div class="areasw" id="procSw" role="group" aria-label="Processes view"><button type="button" data-ptab="work" aria-pressed="true">Work</button><button type="button" data-ptab="papers" aria-pressed="false">Papers</button><span class="aslider" aria-hidden="true"></span></div></div>
     <div class="prpane" id="procWork"><section id="procBox" aria-live="polite"></section><section id="notesBox" hidden></section></div>   <!-- owner 14 Nov: running jobs and the queue; owner 13 Nov: "add a place somewhere for me to write down what to flesh out next" = #notesBox (Next up) -->
@@ -3211,7 +3247,8 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
    #processesView data-tab, set by route() from #processes/work | #processes/papers).
    Work: Running now (progress/jobs + queue items marked running), Queued (progress/queue, in order, with the owner's own words
    in italics), Recently done (collapsed), Next up (31_notes.js).
-   Papers: Rescan drive, Import order and the course grid (PQ, 32_papers_q.js), then Import history (renderImport, collapsed). */
+   Papers: the summary (with Rescan drive), Import a course (Go), Running / next, then Choose papers (the import order) and By course
+   (the grid), both collapsed (PQ, 32_papers_q.js; PQ.run, 34_papers_run.js), then Import history (renderImport, collapsed). */
 // owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well? Would be helpful":
 // each row shows its step ("Stage 2 of 4", with a small bar), Started, and Est. finish while running/queued or Finished + how long it took once done (jobTimes, 13_shell.js).
 function renderProcesses(){const box=$('#procBox'),pv=$('#processesView');if(!box||!pv)return;
@@ -5126,6 +5163,9 @@ if(view==='processes')renderNotes();   // Processes may already be open when thi
    and pick:1 when it can be queued (Advanced and waiting, not Year 11; old-syllabus papers carry old:1). Courses that are not ready (inventory courses[].ready) show their
    counts with a short "needs course setup" and have no checkboxes. Since 13 Nov (owner: "The process page feels a bit bloated
    now" -> "Two tabs: Work | Papers") this is the Papers tab, and the grid is compact: one row per course, Year 12 / 11 / ? cells.
+   Since 13 Nov ("I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses") the tab leads with a summary,
+   Import a course (Go) and Running / next (PQ.run, 34_papers_run.js); the import order sits in "Choose papers" and the grid in
+   "By course", both collapsed.
    The owner ticks papers (or a whole school / group) and presses "Add to import queue". db collection "importq", one doc per
    paper, id 'd<doc_id>': {doc_id, label, course, year_level, order, added_by, at}. Reorder by drag (desktop) or ↑ ↓; × removes.
    Import itself is paused (owner 14 Nov: "no more importing for a while until we iron these out"), so the card says so.
@@ -5155,12 +5195,18 @@ function invSubscribe(){if(INV.sub||!db||!isEditor())return;
 function renderInv(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
   if(!box.dataset.ready){box.dataset.ready='1';
     // owner 13 Nov ("Two tabs: Work | Papers"): the tab names the section, so no heading; the pause note is one quiet line
+    // owner 13 Nov: "We need a general summary at the top of the Paper's tab ... I'm getting CONFUSED with our current papers page"
+    // -> "Yes, with batch pauses": summary, Import a course (Go), Running / next, then the detail folded away: Choose papers
+    // (the import order) and By course (the grid and its ticks). PQ.run (34_papers_run.js) fills #ivStats, #ivGo and #ivRun.
     box.innerHTML=`<section class="psec ivp" aria-label="Papers">
-      <div class="ivsubrow"><p class="ivsub" id="ivSub"></p><span id="ivScanBtn"></span></div><div id="ivScan"></div>
-      <div class="ivq"><h4 id="ivQH">Import order <span class="pcount" id="ivQN" hidden></span></h4><p class="ivpause" role="note">${esc(IVPAUSE)}</p><div id="ivQList"></div></div>
-      <div id="ivGrid"></div>
+      <div class="ivsum"><div class="ivsubrow"><p class="ivsub" id="ivSub"></p><span id="ivScanBtn"></span></div><div class="ivstats" id="ivStats"></div></div><div id="ivScan"></div>
+      <div class="ivgo" id="ivGo"></div>
+      <details class="ivfold" id="ivPick"><summary>Choose papers</summary><div class="ivq"><h4 id="ivQH">Import order <span class="pcount" id="ivQN" hidden></span></h4><p class="ivpause" role="note">${esc(IVPAUSE)}</p><div id="ivQList"></div>
+        <p class="ivhint">To add papers, open <button type="button" class="ivlink" data-ivby="1">By course</button>, tick them and press Add to import queue.</p></div></details>
+      <div class="ivrun" id="ivRun"></div>
+      <details class="ivfold" id="ivBy"><summary>By course</summary><div id="ivGrid"></div></details>
       <div class="ivbar" id="ivBar" hidden><span id="ivSelN" aria-live="polite"></span><button type="button" class="act" id="ivClear">Clear</button><button type="button" class="act ivadd" id="ivAdd">Add to import queue</button></div></section>`}
-  invLoad();invSubscribe();invSub();invQueue();if(!$('#ivGrid').dataset.built)invGrid();invBar();if(API.scan)API.scan.render()}
+  invLoad();invSubscribe();invSub();invQueue();if(!$('#ivGrid').dataset.built)invGrid();invBar();if(API.scan)API.scan.render();if(API.run)API.run.render()}
 function invSub(){const el=$('#ivSub');if(!el)return;const D=INV.data;
   if(!D){el.textContent=INV.failed?'The paper list could not be loaded.':'Loading the paper list…';return}
   const t=D.totals||{},ls=D.last_scan,ds=API.scan&&API.scan.last(),dl=ds&&(!ls||Date.parse(ds.at)>Date.parse(ls.at));   // a Drive rescan later than the folder scan wins
@@ -5172,14 +5218,22 @@ function invSub(){const el=$('#ivSub');if(!el)return;const D=INV.data;
 const IVBATCH=9;
 const invNextBatch=()=>{const L=(typeof PROG!=='undefined'&&PROG&&PROG.batches)||[];
   return Math.max(0,...L.filter(b=>batchState(b)[0]==='done').map(b=>parseInt(String(b.id).replace(/^\D+/,''),10)).filter(Number.isFinite))+1};
-function invQueue(){const el=$('#ivQList');if(!el)return;const q=invQ(),n=$('#ivQN');if(n){n.hidden=!q.length;n.textContent=q.length}
-  const cost=INV.data&&INV.data.cost_per_paper,b0=invNextBatch();let k=0;   // k: importable rows so far (rows with a warning are skipped by import_next.py too)
-  el.innerHTML=q.length?`<ol class="nlist ivql">${q.map((x,i)=>{const f=invFind(x.doc_id),p=f&&f.p,warn=p&&p.st==='imported'?'already imported':p&&!p.pick?'can no longer be imported':!p&&INV.data?'not in the paper list':'';
-    const div=!warn&&k++%IVBATCH===0?`<li class="ivdiv" role="separator"><span>Batch ${b0+Math.floor((k-1)/IVBATCH)}</span></li>`:'';
+// each queued row with its paper and why import_next.py would skip it ('' = importable), and its batch number when importable
+function invRows(){const b0=invNextBatch();let k=0;
+  return invQ().map(x=>{const f=invFind(x.doc_id),p=f&&f.p,warn=p&&p.st==='imported'?'already imported':p&&!p.pick?'can no longer be imported':!p&&INV.data?'not in the paper list':'';
+    return {x,p,warn,batch:warn?0:b0+Math.floor(k++/IVBATCH)}})}
+// a recorded cost per paper (inventory cost_per_paper: a number, [lo, hi] or {lo, hi}), or null
+function invCost(){const c=INV.data&&INV.data.cost_per_paper,v=typeof c==='number'?[c,c]:Array.isArray(c)?c:c&&typeof c==='object'?[c.lo??c.min,c.hi??c.max]:null;
+  return v&&v.length===2&&v.every(Number.isFinite)?v:null}
+const invUsd=([lo,hi])=>{const f=x=>Math.round(x).toLocaleString('en-AU');return lo===hi?`US$${f(lo)}`:`US$${f(lo)}–${f(hi)}`};
+function invQueue(){const el=$('#ivQList');if(!el)return;const rows=invRows(),n=$('#ivQN');if(n){n.hidden=!rows.length;n.textContent=rows.length}
+  const cost=invCost();let last=0;
+  el.innerHTML=rows.length?`<ol class="nlist ivql">${rows.map(({x,p,warn,batch},i)=>{const div=batch&&batch!==last?`<li class="ivdiv" role="separator"><span>Batch ${last=batch}</span></li>`:'';
     return div+`<li class="nrow" data-ivq="${esc(x.id)}" draggable="true"><span class="ngrip" aria-hidden="true" title="Drag to reorder">⋮⋮</span><span class="ivqn" aria-hidden="true">${i+1}</span>
-      <span class="ntext"><b>${esc(x.label||(p?invLabel(p):'Paper '+x.doc_id))}</b><small>${esc(invShort(x.course))}${x.year_level?' · Year '+esc(x.year_level):''}${p&&p.old?' · old syllabus':''}${cost?` · ${esc(cost)}`:''}${warn?` · <em class="ivwarn">${esc(warn)}</em>`:''}</small></span>
-      <span class="nacts"><button type="button" class="nbtn" data-ivmove="-1" data-ivid="${esc(x.id)}" aria-label="Move up"${i===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-ivmove="1" data-ivid="${esc(x.id)}" aria-label="Move down"${i===q.length-1?' disabled':''}>↓</button><button type="button" class="nbtn ndel" data-ivdel="${esc(x.id)}" aria-label="Remove from the import queue">×</button></span></li>`}).join('')}</ol>`:
-    `<p class="pempty">${INV.loaded||!db?`Nothing queued. Tick ${esc(['papers',...((INV.data&&INV.data.courses)||[]).filter(c=>c.ready).map(c=>c.short||c.name)].reverse().join(' '))} below and press Add to import queue.`:'Loading the import order…'}</p>`}
+      <span class="ntext"><b>${esc(x.label||(p?invLabel(p):'Paper '+x.doc_id))}</b><small>${esc(invShort(x.course))}${x.year_level?' · Year '+esc(x.year_level):''}${p&&p.old?' · old syllabus':''}${cost?` · ${esc(invUsd(cost))}`:''}${warn?` · <em class="ivwarn">${esc(warn)}</em>`:''}</small></span>
+      <span class="nacts"><button type="button" class="nbtn" data-ivmove="-1" data-ivid="${esc(x.id)}" aria-label="Move up"${i===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-ivmove="1" data-ivid="${esc(x.id)}" aria-label="Move down"${i===rows.length-1?' disabled':''}>↓</button><button type="button" class="nbtn ndel" data-ivdel="${esc(x.id)}" aria-label="Remove from the import queue">×</button></span></li>`}).join('')}</ol>`:
+    `<p class="pempty">${INV.loaded||!db?`Nothing queued. Tick ${esc(['papers',...((INV.data&&INV.data.courses)||[]).filter(c=>c.ready).map(c=>c.short||c.name)].reverse().join(' '))} under By course and press Add to import queue.`:'Loading the import order…'}</p>`;
+  if(API.run)API.run.render()}
 // ---- the course grid (owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): one row per
 // course, in the inventory's order, columns Year 12 / Year 11 / Year ?. A ready course's cell reads "imported / waiting waiting";
 // any other cell the papers in the folder. A cell opens that group's papers under its course row (one group at a time).
@@ -5247,14 +5301,16 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
   const cell=t.closest('#ivGrid .ivcell[data-ivg]');if(cell){invOpen(INV.open===cell.dataset.ivg?null:cell.dataset.ivg);return}
   if(t.closest('#ivClear')){INV.sel.clear();$$('#ivGrid [data-ivp]').forEach(b=>b.checked=false);invTicks();invBar();return}
   if(t.closest('#ivAdd')){if(!isEditor())return;const ids=[...INV.sel];const n=await invAdd(ids);INV.sel.clear();invQueue();invGridMarks();
-    if(n)toast(`${n} paper${n===1?'':'s'} added to the import queue`);const h=$('#ivQH');if(h&&n)h.scrollIntoView({block:'nearest'});return}
+    if(n){toast(`${n} paper${n===1?'':'s'} added to the import queue`);$('#ivPick').open=true;$('#ivQH').scrollIntoView({block:'nearest'})}return}
+  if(t.closest('[data-ivby]')){const d=$('#ivBy');d.open=true;d.scrollIntoView({block:'start',behavior:'smooth'});return}
   const mv=t.closest('[data-ivmove]');if(mv){const ids=invQ().map(x=>x.id),i=ids.indexOf(mv.dataset.ivid),j=i+ +mv.dataset.ivmove;if(i<0||j<0||j>=ids.length)return;
     [ids[i],ids[j]]=[ids[j],ids[i]];await invReorder(ids);const b=document.querySelector(`#ivQList [data-ivid="${CSS.escape(mv.dataset.ivid)}"][data-ivmove="${mv.dataset.ivmove}"]`);if(b&&!b.disabled)b.focus();return}
   const dl=t.closest('[data-ivdel]');if(dl){await invRemove(dl.dataset.ivdel);return}});
 sortableList('#ivQList .ivql>li.nrow','ivq',()=>invQ().map(x=>x.id),invReorder,invQueue);   // drag (desktop); ↑ ↓ for keyboard and phone (31_notes.js)
 // sub: the sub line; course, years: names for the Rescan drive results. 33_drive_scan.js adds API.scan (= PQ.scan, no new
 // page-wide name); code in here reaches it through API, since PQ itself is not assigned until this block returns.
-const API={render:renderInv,queue:invQueue,add:invAdd,remove:invRemove,open:invOpen,state:INV,sub:invSub,course:invCourse,years:IVY};
+// run: 34_papers_run.js reads the inventory and the order through these (groups, rows, label, usd, cost)
+const API={render:renderInv,queue:invQueue,add:invAdd,remove:invRemove,open:invOpen,state:INV,sub:invSub,course:invCourse,years:IVY,groups:invGroups,rows:invRows,find:invFind,label:invLabel,cost:invCost,usd:invUsd,nextBatch:invNextBatch,batch:IVBATCH};
 if(view==='processes'&&$('#processesView').dataset.tab==='papers')renderInv();   // Processes › Papers may already be open when this block loads
 return API;
 })();
@@ -5432,4 +5488,100 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest
 if(view==='processes')render();
 return {render,last,start,stop,classify,state:S};
 })();
+// owner 13 Nov: "We need a general summary at the top of the Paper's tab of processes as well. How many papers found, how many imported, a brief breakdown and stuff. Set it up so that once the API is set up, we can choose a grade 11 or 12 and course Adv / std/ extension 1 and extesnion 2 and hit Go and the API would get called to import all papers which are on file but not imported from that level and grade. Is that the best way ? I'm getting CONFUSED with our current papers page" -> chose "Yes, with batch pauses"
+/* ---------- Papers: summary, Import a course (Go), Running / next (Processes › Papers, Curate: editors only) ----------
+   Summary (#ivStats): imported / can be imported (current and old syllabus) / set aside (other courses, Year 11 held, course not
+   known yet, not in scope), counted from data/inventory.json by ONE rule, kind() below; the page test recounts them.
+   Import a course (#ivGo): Year and Course selects (years from the grid's, courses from the inventory: CODE_HEALTH rule 5), the
+   papers not imported yet with their split, batches of 9, a cost range (inventory cost_per_paper, else an estimate of US$12–17 a
+   paper), or why it can't run (course not set up; Year 11 held). Go asks inline (no confirm()), Confirm writes ONE run request
+   to db collection "runs": {year, course, papers:[doc ids in import order], batch_size:9, pause_after_each_batch:true,
+   status:'requested', by, at}. One active run at a time (requested / running / paused); Cancel request sets status 'cancelled'.
+   Claude reads it with tools/import_next.py (it takes precedence over the import order) and sets status as the run goes;
+   after each batch the run waits until the owner has cleared that batch's Review track (IMPORT_PLAYBOOK "Go").
+   Running / next (#ivRun): the active run, then the next batches (from the run, else from the import order).
+   No new page-wide name: PQ.run (as PQ.scan). Only editors write: every handler checks isEditor(). */
+PQ.run=(()=>{
+const R={runs:[],sub:null,yl:'12',course:null,ask:false,busy:false};
+const ACTIVE=['requested','running','paused'];
+// owner 13 Nov ("Yes, with batch pauses"): until a cost per paper is measured, show US$12–17 a paper, labelled an estimate
+const EST=[12,17];
+const nf=x=>Number(x||0).toLocaleString('en-AU');
+const ess=(k,w,ws)=>`${nf(k)} ${k===1?w:(ws||w+'s')}`;
+// owner 13 Nov: "Year 11 papers leave alone for now, would like to finalise Y12 first"
+const HELD='held until Year 12 is finished (your 13 Nov ruling)';
+// the one rule that sorts a paper into the summary's buckets
+function kind(p,g){if(p.st==='imported')return 'imported';if(p.pick)return p.old?'old':'current';if(p.st==='out_of_course')return 'course';
+  if(g.yl==='11'&&(p.st==='waiting'||/^Year 11\b/.test(p.why||'')))return 'held';return p.st==='waiting'?'check':'scope'}
+function tally(gs){const t={imported:0,current:0,old:0,course:0,held:0,check:0,scope:0};for(const g of gs)for(const p of g.papers)t[kind(p,g)]++;return t}
+const active=()=>R.runs.filter(r=>ACTIVE.includes(r.status)).sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null;
+const courses=()=>((PQ.state.data&&PQ.state.data.courses)||[]).filter(c=>c.key!=='unknown');   // "Course not known" is not a course you can pick
+const ylName=yl=>PQ.years[yl]||'Year '+yl;
+function subscribe(){if(R.sub||!db||!isEditor())return;
+  try{R.sub=db.collection('runs').onSnapshot(s=>{const d=s.docs||s;R.runs=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).filter(x=>x&&x.status);draw()},()=>{})}catch(e){}}
+// ---- the chosen year x course: its papers not imported yet (in import order), the split, and why Go can't run
+function choice(){const c=PQ.course(R.course),g=PQ.groups().find(x=>x.course===R.course&&x.yl===R.yl),ps=g?g.papers:[];
+  const can=ps.filter(p=>p.pick),held=g?ps.filter(p=>kind(p,g)==='held').length:0;
+  // papers already in the import order keep the owner's order; then current syllabus before old, newest year first
+  const pos=new Map(PQ.rows().map((r,i)=>[+r.x.doc_id,i])),at=p=>pos.has(p.id)?pos.get(p.id):1e9;
+  const list=can.slice().sort((a,b)=>at(a)-at(b)||(a.old?1:0)-(b.old?1:0)||(b.y||0)-(a.y||0)||a.id-b.id);
+  const why=!c.ready?c.note||'needs course setup':!can.length&&held?HELD:!can.length?`nothing left to import in ${ylName(R.yl)} ${c.short||c.name}`:'';
+  return {c,list,old:can.filter(p=>p.old).length,held,all:ps.length,why}}
+function cost(n){const v=PQ.cost(),e=!v,pp=v||EST;return {pp,est:e,lo:n*pp[0],hi:n*pp[1]}}
+// ---- summary
+function stats(){const el=$('#ivStats');if(!el)return;const D=PQ.state.data;if(!D){el.innerHTML='';return}
+  const t=tally(PQ.groups()),can=t.current+t.old,aside=t.course+t.held+t.check+t.scope;
+  const part=[[t.course,'in other courses that need setup'],[t.held,'Year 11, held until Year 12 is finished'],[t.check,'course not known yet (cover check)'],[t.scope,'not in scope']].filter(x=>x[0]);
+  el.innerHTML=`<div class="ivstat" data-k="imported"><b>${nf(t.imported)}</b><span>imported</span><small>in the bank</small></div>
+    <div class="ivstat" data-k="can"><b>${nf(can)}</b><span>can be imported</span><small>${nf(t.current)} current syllabus · ${nf(t.old)} old syllabus</small></div>
+    <div class="ivstat" data-k="aside"><b>${nf(aside)}</b><span>set aside</span><small>${part.map(([k,w])=>`<i>${nf(k)} ${esc(w)}</i>`).join('')}</small></div>`}
+// ---- Import a course
+function goCard(){const el=$('#ivGo');if(!el||!PQ.state.data)return;
+  const C=courses();if(!R.course||!C.some(c=>c.key===R.course))R.course=(C.find(c=>c.ready)||C[0]||{}).key;
+  if(!el.dataset.ready){el.dataset.ready='1';
+    el.innerHTML=`<h4>Import a course</h4><div class="ivgorow"><label>Year <select id="ivGoY">${Object.keys(PQ.years).filter(y=>y!=='?').sort((a,b)=>b-a).map(y=>`<option value="${esc(y)}">${esc(y)}</option>`).join('')}</select></label>
+      <label>Course <select id="ivGoC">${C.map(c=>`<option value="${esc(c.key)}">${esc(c.short||c.name)}</option>`).join('')}</select></label>
+      <button type="button" class="act primary ivgob" id="ivGoBtn">Go</button></div><div id="ivGoN" aria-live="polite"></div><div id="ivGoAsk"></div>`;
+    $('#ivGoY').value=R.yl;$('#ivGoC').value=R.course}
+  const k=choice(),n=k.list.length,a=active(),cc=cost(n),btn=$('#ivGoBtn');
+  const block=k.why||(a?'a run is already requested: cancel it under Running / next to start another':'');
+  btn.disabled=!!block||R.busy;btn.title=block;
+  $('#ivGoN').innerHTML=k.why?`<p class="ivgocount off"><b>${nf(k.all)}</b> ${ylName(R.yl)} ${esc(k.c.short||k.c.name)} paper${k.all===1?'':'s'} in the folder</p><p class="ivgowhy">Can't import: ${esc(k.why)}</p>`:
+    `<p class="ivgocount"><b>${nf(n)}</b> not imported</p><p class="ivgod">${nf(n-k.old)} current syllabus · ${nf(k.old)} old syllabus</p>
+     <p class="ivgod">${ess(Math.ceil(n/PQ.batch),'batch','batches')} of ${PQ.batch}, pausing after each one until you've cleared it in Review</p>
+     <p class="ivgod ivgocost">${cc.est?'Estimated cost':'Cost'} ${PQ.usd([cc.lo,cc.hi])} <small>(${cc.est?'estimate, ':''}${PQ.usd(cc.pp)} a paper)</small></p>${a?`<p class="ivgowhy">${esc(block)}</p>`:''}`;
+  const ask=$('#ivGoAsk');if(!R.ask||block){R.ask=false;ask.innerHTML='';return}
+  if(!ask.firstChild)ask.innerHTML=`<div class="ivgoask" role="group" aria-label="Confirm"><p>Start importing ${ess(n,'paper')}, ~${PQ.usd([cc.lo,cc.hi])}?</p><button type="button" class="act primary" id="ivGoYes">Confirm</button><button type="button" class="act" id="ivGoNo">Cancel</button></div>`}
+// ---- Running / next
+const STATUS={requested:['Requested','Requested — Claude starts it when importing resumes; later the import API will start it directly.'],
+  running:['Running','Claude is importing it now.'],paused:['Paused','Waiting for you to clear the last batch in Review before the next one starts.']};
+function runCard(){const el=$('#ivRun');if(!el)return;const a=active(),B=PQ.batch;
+  // the next papers: from the active run (skipping any imported since), else from the owner's import order
+  let ids;if(a)ids=(a.papers||[]).filter(id=>{const f=PQ.find(id);return f&&f.p.pick});else ids=PQ.rows().filter(r=>!r.warn).map(r=>+r.x.doc_id);
+  const b0=PQ.nextBatch(),nb=Math.ceil(ids.length/B),show=[0,1].filter(i=>i<nb);
+  const card=a?(s=>`<div class="ivrcard" data-run="${esc(a.id)}"><div class="ivrtop"><b>${esc(ylName(String(a.year)))} ${esc(PQ.course(a.course).short||a.course)} · ${ess((a.papers||[]).length,'paper')}</b><span class="ivchip q">${esc(s[0])}</span></div>
+      <p>${esc(s[1])}</p><small>${ess(Math.ceil((a.papers||[]).length/(a.batch_size||B)),'batch','batches')} of ${a.batch_size||B}${a.pause_after_each_batch?', a pause after each':''} · requested ${esc(clockT(a.at))}</small>
+      <button type="button" class="act" id="ivRunCancel"${R.busy?' disabled':''}>Cancel request</button></div>`)(STATUS[a.status]||[a.status,'']):'';
+  const name=id=>{const f=PQ.find(id);return f?PQ.label(f.p)+(f.p.old?' · old syllabus':''):'Paper '+id};
+  const next=show.map(i=>`<div class="ivnb"><p class="ivdiv" role="separator"><span>Batch ${b0+i}</span></p><ol>${ids.slice(i*B,i*B+B).map(id=>`<li>${esc(name(id))}</li>`).join('')}</ol></div>`).join('');
+  el.innerHTML=`<h4>Running / next</h4>${card}${ids.length?`<p class="ivnfrom">Next ${a?'from this run':'from your import order'}:</p>${next}${nb>2?`<p class="ivnmore">… and ${ess(nb-2,'more batch','more batches')}</p>`:''}`:
+    a?'':`<p class="pempty">Nothing requested yet. Pick a year and course above and press Go, or choose papers one by one.</p>`}`}
+function draw(){if(!isEditor()||!$('#ivGo'))return;stats();goCard();runCard()}
+function render(){if(!isEditor())return;subscribe();draw()}
+// ---- writes (editors only)
+async function request(){const k=choice(),n=k.list.length;if(!isEditor()||!db||k.why||active()||!n)return null;
+  const id='r'+Date.now(),doc={year:+R.yl,course:R.course,papers:k.list.map(p=>p.id),batch_size:PQ.batch,pause_after_each_batch:true,status:'requested',by:me||null,at:new Date().toISOString()};
+  try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});toast(`Requested: ${ess(n,'paper')}`);return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
+async function cancel(){const a=active();if(!isEditor()||!db||!a)return false;const {id,...rest}=a,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:new Date().toISOString()};
+  try{await db.doc('runs/'+id).set(doc);Object.assign(a,doc);toast('Run request cancelled');return true}catch(_){toast('Could not cancel. Try again in a moment.');return false}}
+const busy=async f=>{R.busy=true;draw();try{return await f()}finally{R.busy=false;draw()}};
+document.addEventListener('change',e=>{const t=e.target;if(t.id!=='ivGoY'&&t.id!=='ivGoC')return;if(t.id==='ivGoY')R.yl=t.value;else R.course=t.value;R.ask=false;draw()});
+document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isEditor())return;
+  if(t.closest('#ivGoBtn')){R.ask=true;draw();const y=$('#ivGoYes');if(y)y.focus();return}
+  if(t.closest('#ivGoNo')){R.ask=false;draw();$('#ivGoBtn').focus();return}
+  if(t.closest('#ivGoYes')){R.ask=false;await busy(request);return}
+  if(t.closest('#ivRunCancel')){await busy(cancel);return}});
+return {render,draw,state:R,tally,kind,request,cancel,choice};
+})();
+if(view==='processes'&&$('#processesView').dataset.tab==='papers')PQ.run.render();
 </script>

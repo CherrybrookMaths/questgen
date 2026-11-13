@@ -174,6 +174,7 @@ These are the named checks; each passes or fails:
 | ⓘ card (14 Nov) | no dot-point line or Report link left in any question; every source line ends with an ⓘ (`.scr-only`); the ⓘ opens a card with a dot point, band, kind and Report, one row per part, inside the window, without selecting the question; outside click closes it; Enter opens, Tab reaches Report, Esc closes and refocuses the ⓘ with the preview still open; Report opens the form; the grading panel's question detail lists the dot points. At 390 px on a touch phone the tapped card fits the screen and the ⓘ stays 20 px. Download HTML has no handle, live % or ⓘ. |
 | Papers (13 Nov) | the fixture's small inventory (page_test_fixture.py `sample_papers`, served in place of `data/inventory.json`) and one seeded importq doc: Papers sits between the queue and Next up with the pause note; the grid counts (In folder / Imported / Waiting / New) match the fixture; Extension 1 / Standard rows say "needs course setup (topics, dot points, difficulty references)"; Standard / Extension / unknown / Year 11 groups have no checkboxes and `PQ.add` refuses their papers; a school tick + one paper tick + Add writes 3 importq docs `{doc_id, label, course, year_level, order, added_by, at}` in order; ↑ ↓, drag and × reach the db; 390 px touch phone fits and works by tap; a viewer gets no section, no inventory fetch and no write. |
 | Rescan drive (13 Nov) | a fake Google Drive connector (`use('mcp')`, a 6-folder tree from page_test_fixture.py `sample_drive`, 2 items a page): the button sits on the Papers first line; progress "N of M folders" and Cancel (nothing saved); a full scan finds the 5 new files and 1 same-size file, groups them by course x year as tools/classify_paths.py does, makes only read-only `search_files` parentId queries with pageToken, skips "Claude outputs", and writes one `scans/s<time>` doc with the right fields and counts; the page's classifier equals classify_path on every recorded path; a rate limit is retried once then stops; 7 error codes each give their own message; the last scan shows after a reload; no connector → "Ask Claude to rescan"; 390 px touch phone fits; a viewer gets no button, no `use('mcp')`, no write. |
+| Papers: Go (13 Nov) | the summary's three numbers equal a recount of the fixture inventory (and the live inventory's buckets add up to its totals); Year 12 / 11 and the inventory's courses in the selects; Year 11 "held until Year 12 is finished", Standard / Extension 1 / 2 "needs course setup"; the estimate text and a recorded cost; Go asks inline (no browser dialog), Cancel writes nothing, Confirm writes one `runs` doc with every field and the paper order; Running / next shows it and Batch N; a second request is refused; Cancel request sets cancelled; 390 px fits and works by tap; a viewer gets nothing (no runs subscription, no write). `node tools/page_test.js --only papersQueue,papersRun` runs just these while you work (recorded as quick, so batch_check refuses it). |
 | Offline | no request left localhost. |
 
 **Results:**
@@ -278,13 +279,37 @@ The PC route (when the Drive connector is not available):
    `page_importq`, and then `import_next.py` with no argument). It prints the next batch (default 9 papers) in the owner's
    order with every file and its Drive id, lists anything it skips (already imported, no longer importable) with the reason,
    and writes `work/import/next.json`. Stage those papers into `work/import/papers.json` and run the pipeline above. This
-   replaces picking rows by hand from `import_manifest.csv`.
+   replaces picking rows by hand from `import_manifest.csv`. An active Go run request (db `runs`, 13 Nov) comes first: see "Go" below.
 
-Cost per paper: none is recorded in this playbook or RESUME.md yet, so the page shows none. When one is measured (agent token
-totals for a batch / papers in it), write it here and set `COST_PER_PAPER` in tools/inventory.py.
+Cost per paper: none is measured yet. The import order shows a cost only when one is recorded; the Go card (13 Nov) shows an
+estimate of US$12–17 a paper until then. When one is measured (agent token totals for a batch / papers in it), write it here and
+set `COST_PER_PAPER` in tools/inventory.py.
 
 
 - **Year 11 stays out of the import queue (owner 13 Nov).** Asked whether to let the 177 (now ~700 after the Drive rescan) Year 11 Advanced papers into the queue: "Year 11 papers leave alone for now, would like to finalise Y12 first." Keep inventory.py's queueable set to Year 12 Advanced until he says otherwise.
+
+## Go: import a whole year and course, with batch pauses (13 Nov)
+Owner, 13 Nov: "We need a general summary at the top of the Paper's tab of processes as well. How many papers found, how many imported, a brief breakdown and stuff. Set it up so that once the API is set up, we can choose a grade 11 or 12 and course Adv / std/ extension 1 and extesnion 2 and hit Go and the API would get called to import all papers which are on file but not imported from that level and grade. Is that the best way ? I'm getting CONFUSED with our current papers page". Chosen: "Yes, with batch pauses".
+- **On the page** (Processes › Papers › Import a course): the owner picks Year and Course and presses Go, then Confirm. That
+  writes one **run request** to db collection `runs` (`r<ms>`: `{year, course, papers:[doc ids in order], batch_size:9,
+  pause_after_each_batch:true, status:'requested', by, at}`). One active run at a time; Cancel request sets `cancelled`.
+- **Who starts it.** Today Claude, when importing resumes (import is still paused: owner 14 Nov). Later, once a model API is set
+  up, the API will start it directly from the doc; the doc shape is the hand-off, so keep it stable.
+- **Claude's loop** (when import resumes):
+  1. Export `runs` and `importq` (ArtifactData `list` with `out_dir`, both into one folder) and run
+     `python3 tools/import_next.py <folder>` (or `tools/sync_pagedb.py <folder>`, which mirrors `runs` into `page_runs`, then
+     `import_next.py` with no argument). An active run (requested / running / paused, newest) **takes precedence over the import
+     order**: the next batch is the next `batch_size` papers of the run in its order, skipping imported ones. No active run → the
+     import order, as before.
+  2. Set the run doc's status to `running` (ArtifactData update) and run the pipeline above on the batch.
+  3. **Batch pause.** When the batch is published, set status `paused`. The run waits until the owner has **cleared that batch's
+     Review track** (every paper of the batch approved: no Your calls, Flagged, Topics, Diagrams or Spot-check left; check with the
+     `reviews` export / Review Inbox). `import_next.py` cuts nothing while the run is `paused`. When it is clear, set `running` and
+     cut the next batch.
+  4. When no paper of the run is left, set status `done`. Finished batches go into progress.json as before.
+- **Cost.** The page shows US$12–17 a paper as an estimate until a real figure is recorded (`COST_PER_PAPER` in
+  tools/inventory.py, written to inventory `cost_per_paper`: a number or [lo, hi]).
+- **db rule:** `runs` is editors only (read admin, write admin).
 
 ## Old-syllabus papers, one import list, and what the Papers words mean (13 Nov)
 Owner, 13 Nov: "I can't tell. So does not imported and new mean not in scope? We should take questions too, we'll just have to

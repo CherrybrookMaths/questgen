@@ -158,3 +158,10 @@ Every feature round follows CODE_HEALTH.md: builder prompts include it and revie
 The planned batches b6-b20 are folded into the page's import order (db `importq`; seed work/importq_seed.json, 132 papers);
 progress.json keeps finished batches only. Pre-2019 Year 12 Advanced papers are now Waiting ("old syllabus"). IMPORT_PLAYBOOK
 "Old-syllabus papers, one import list", UI_SPEC "Papers: one import list, old syllabus, New badge".
+
+## Papers summary and Go (13 Nov; owner: "I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses")
+Processes › Papers now opens on a summary (imported / can be imported / set aside), an Import a course card (Year + Course + Go,
+inline confirm with a cost range) and Running / next; the import order is under "Choose papers ▸" and the grid under "By course ▸".
+Go writes a run request to db `runs`; tools/import_next.py takes the next 9 from an active run before the import order, and the run
+pauses after each batch until the owner clears it in Review (IMPORT_PLAYBOOK "Go", UI_SPEC "Papers: summary, Import a course").
+Publish needs a db rule for `runs`: read admin, write admin.
