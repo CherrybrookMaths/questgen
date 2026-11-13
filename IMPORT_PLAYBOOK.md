@@ -191,6 +191,12 @@ Exit codes: 0 means all passed, 1 means a check failed, and 2 means the test cou
 
 **When a check fails.** Look at its screenshot and detail. Fix the page in `page_src/` (never in `site/review.html`), rebuild, and run `prepublish.sh` again. If the page is right and the check is out of date (an owner ruling changed what the page should do), change the check in `tools/page_test.js` and say why in a comment. Add a check for every new page feature the owner asks for.
 
+**Size budget (13 Nov health pass; CODE_HEALTH rule 6, owner: "keep the code proper and [lean] as we develop").** batch_check
+also prints `review.html`, `data/bank.json`, `data/inventory.json` and the whole published set against `tools/size_budget.json`
+(set 13 Nov at the size then + 25%). Anything over its budget is a BLOCKER. Shrink it, or ask the owner; when he agrees, raise
+that budget in the file and add his words and the date under `agreed`. Import will push `bank.json` over first (it was 4.8 MB of
+5.9 MB): plan the split by course/topic before then.
+
 **Needs:** `node` with `playwright` and its Chromium (preinstalled in the sandbox; elsewhere run `npm i playwright` and `npx playwright install chromium`), and `python3`. No network is needed.
 
 ## Version control (15 Nov)

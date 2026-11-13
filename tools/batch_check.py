@@ -182,6 +182,19 @@ try:
     else: I(f'inventory: {_iv["totals"]["papers"]} papers ({_iv["totals"]["imported"]} imported, {_iv["totals"]["waiting"]} waiting); last folder scan {(_iv.get("last_scan") or {}).get("at", "none yet")}')
 except FileNotFoundError: W('site/data/inventory.json missing: run python3 tools/inventory.py (Processes > Papers)')
 except Exception as e: W(f'inventory check failed: {e}')
+# size budget (CODE_HEALTH rule 6; health pass 13 Nov, owner: "keep the code proper and [lean]"): page, bank, inventory and
+# the whole published set against tools/size_budget.json (set at size + 25%). Over budget BLOCKS until the owner agrees and
+# the budget is raised there with his words in "agreed".
+try:
+    _sb = json.load(open(P + 'tools/size_budget.json'))['budgets']
+    sys.path.insert(0, P + 'tools'); import publish_set as _ps
+    _sz = {k: os.path.getsize(P + 'site/' + k) for k in _sb if k != 'published total' and os.path.exists(P + 'site/' + k)}
+    _sz['published total'] = sum(os.path.getsize(P + 'site/' + r) for r in _ps.publishable())
+    _mb = lambda n: f'{n / 2**20:.1f} MB' if n >= 2**20 else f'{n / 1024:.0f} KB'
+    _over = [k for k in _sb if _sz.get(k, 0) > _sb[k]['bytes']]
+    for k in _over: B(f'size budget: {k} is {_mb(_sz[k])}, over its {_mb(_sb[k]["bytes"])} budget (CODE_HEALTH rule 6): shrink it, or ask the owner and raise the budget in tools/size_budget.json')
+    I('size budget: ' + ', '.join(f'{k} {_mb(_sz.get(k, 0))} of {_mb(_sb[k]["bytes"])} ({100 * _sz.get(k, 0) / _sb[k]["bytes"]:.0f}%)' for k in _sb))
+except Exception as e: B(f'size budget check could not run: {e}')
 # version control (stage 1, 15 Nov): never a blocker; --mark-published commits and tags automatically (tools/snapshot.py)
 try:
     import subprocess
