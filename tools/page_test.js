@@ -1063,12 +1063,103 @@ async function genPaper(page) {
   await settle(page, 5000, 2);
 }
 // the first diagram on the paper whose image has loaded, scrolled to the middle of the screen
+// fix 13 Nov: wait for a re-layout of the paper to finish (the quiet-DOM settle alone can return while MathJax is still typesetting
+// on a busy machine, and a control grabbed then is replaced a moment later)
+const laidOut = async page => { await sleep(150); await page.waitForFunction(() => { const i = document.querySelector('#xInfo'); return i && !/Laying out/.test(i.textContent) }, null, {timeout: 60000}); await settle(page, 3000, 2) };
 const figOnScreen = page => page.evaluate(() => {
   const w = [...document.querySelectorAll('#xPages .exfigw')].find(w => { const i = w.querySelector('img'); return i && i.complete && i.naturalWidth });
   if (!w) return null; w.scrollIntoView({block: 'center'}); return w.dataset.figw });
 const figState = (page, k) => page.evaluate(k => { const w = document.querySelector(`#xPages [data-figw="${k}"]`), h = w.querySelector('.figh'), b = w.querySelector('.exfigbox').getBoundingClientRect(), hr = h.getBoundingClientRect();
   return {fs: EX.figscale[k] || 1, img: w.querySelector('img').getBoundingClientRect().width, box: {x: b.x, y: b.y, w: b.width, h: b.height}, hx: hr.x + hr.width / 2, hy: hr.y + hr.height / 2,
     hDisp: getComputedStyle(h).display, pct: getComputedStyle(w.querySelector('.figpct')).display, pctText: w.querySelector('.figpct').textContent} }, k);
+/* ---------------- Exams on other question pools (fix 13 Nov) ----------------
+   Found during the Review redesign: with the Review workload applied (1,499 approved questions instead of 1,576) a marking-guide
+   sheet was 1,350 px (past A4) and a corner drag could not shrink a diagram (1.32 → 1.32). Every exam check above runs on one pool
+   and one generator seed, so these generate exams on two pools (the live approved set, and the Review workload's) with several
+   seeds and sizes, and check every sheet of the paper and the guide, that a question cut inside a part is put back together whole
+   (for Word), that every diagram's corner handle can be grabbed, and that dragging a corner in shrinks the diagram.
+   The seeds include the ones that failed before the fix. */
+const POOL_RUNS = {live: [[1, 40], [4, 100], [5, 60]], workload: [[0, 60], [4, 100], [7, 80]]};
+async function examPools(browser, base, pools) {
+  await Promise.all(Object.entries(pools).map(async ([name, seed]) => {
+    const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+    await boot(page, base, '#exams');
+    const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
+    const waitPv = async () => { await page.waitForFunction(() => { const i = document.querySelector('#xInfo'); return i && !/Laying out/.test(i.textContent) && document.querySelector('#xWord') && document.querySelectorAll('#xPages .sheet').length }, null, {timeout: 120000}); await settle(page, 5000, 2) };
+    const sheets = () => page.evaluate(() => {
+      const host = document.querySelector('#xPages'), pr = document.createElement('div'); pr.style.cssText = 'height:297mm;width:1px;flex:none'; host.appendChild(pr);
+      const H = pr.offsetHeight; pr.remove(); const sh = [...host.querySelectorAll('.sheet')];
+      return {n: sh.length, H, over: sh.map((s, i) => [i + 1, s.offsetHeight, [...s.querySelectorAll('section.xq')].map(x => x.dataset.q).join('/')]).filter(([, h]) => h > H + 1),
+        empty: sh.filter(s => !s.querySelector('.sheetbody').children.length).length} });
+    const approved = await page.evaluate(() => B.questions.filter(q => !q.dup_of && inBank(q)).length);
+    for (const [sd, marks] of POOL_RUNS[name]) {
+      await check(`exams (${name} pool, ${approved} questions, seed ${sd}): ${marks}-mark paper and guide fit A4, handles grabbable`, page, async () => {
+        await page.evaluate(s => { let a = 0x9e3779b9 + s * 7919; Math.random = () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296 } }, sd);
+        await page.evaluate(() => { if (document.body.classList.contains('xpv-on')) exClosePv() }); await settle(page, 1500, 2);
+        await page.click('[data-exv="setup"]'); await settle(page, 2000, 2); await page.click('[data-sall="all"]'); await settle(page, 1500, 2);
+        await page.evaluate(m => { for (const [id, v] of [['gMarks', m], ['gMcq', Math.round(m / 10)]]) { const el = document.getElementById(id); el.value = v; el.dispatchEvent(new Event('input', {bubbles: true})) } }, marks);
+        await page.click('#gGo'); await waitPv();
+        const tot = await page.evaluate(() => xMarks(EX.items.map(xq).filter(Boolean)));
+        const ex = await sheets();
+        await page.click('[data-xdoc="guide"]'); await waitPv();
+        const gd = await sheets();
+        // a question cut inside a part (data-cut pieces) is put back together for Word (exRejoin) with exactly its own text
+        const rj = await page.evaluate(() => {
+          const norm = t => t.replace(/\s+/g, ' ').trim(), cut = [...new Set([...document.querySelectorAll('#xPages section.xq [data-cut]')].map(e => e.closest('section.xq').dataset.q))];
+          const cl = document.querySelector('#xPages').cloneNode(true); exRejoin(cl); const bad = [];
+          for (const q of cut) { const want = document.createElement('div'); want.innerHTML = EXC.get(exCKey(xq(+q), 'guide')) || '';
+            const got = [...cl.querySelectorAll(`section.xq[data-q="${q}"] > .xqb`)].map(b => b.textContent).join('');
+            if (norm(got) !== norm(want.textContent) || cl.querySelector(`section.xq[data-q="${q}"] [data-cut]`)) bad.push(q) }
+          return {cut, bad} });
+        await page.click('[data-xdoc="exam"]'); await waitPv();
+        // every diagram's corner handle is what the pointer finds when its diagram is hovered (not clipped by the text box or covered)
+        const ks = await page.evaluate(() => [...document.querySelectorAll('#xPages .exfigw')].map(w => w.dataset.figw)), hbad = [];
+        for (const k of ks) {
+          const b = await page.evaluate(k => { const w = document.querySelector(`#xPages [data-figw="${k}"]`); w.scrollIntoView({block: 'center'}); const r = w.querySelector('.exfigbox').getBoundingClientRect(); return {x: r.x + r.width / 2, y: r.y + Math.min(r.height / 2, 30)} }, k);
+          await page.mouse.move(b.x, b.y);
+          if (!await page.evaluate(k => { const h = document.querySelector(`#xPages [data-figh="${k}"]`), r = h.getBoundingClientRect(); if (!r.width) return false; const e = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2); return !!e && e.closest('[data-figh]') === h }, k)) hbad.push(k);
+        }
+        await page.mouse.move(2, 2);
+        errs();
+        assert(tot >= marks - 2 && tot <= marks + 2, `${tot} marks, asked for ${marks}`);
+        assert(!ex.over.length, `exam sheet(s) taller than 297 mm (${ex.H}px): ${ex.over.map(([i, h, q]) => `p${i}=${h}px (Q ${q})`).join(', ')}`);
+        assert(!gd.over.length, `marking-guide sheet(s) taller than 297 mm (${gd.H}px): ${gd.over.map(([i, h, q]) => `p${i}=${h}px (Q ${q})`).join(', ')}`);
+        assert(!ex.empty && !gd.empty, `${ex.empty + gd.empty} empty sheet(s)`);
+        assert(!rj.bad.length, `question(s) ${rj.bad.join(', ')} are not put back together whole for Word`);
+        assert(!hbad.length, `${hbad.length} of ${ks.length} diagram corner handle(s) cannot be grabbed (clipped or covered): ${hbad.slice(0, 5).join(', ')}`);
+        return `${tot} marks: paper ${ex.n} sheets, guide ${gd.n} sheets, ${ks.length} diagram handles grabbable${rj.cut.length ? `, Q ${rj.cut.join(', ')} cut inside a part and rejoined` : ''}`;
+      });
+    }
+    await check(`exams (${name} pool): a diagram pushed onto the next page stays under the pointer, and a drag in shrinks it`, page, async () => {
+      // the diagram with the least room below it on its sheet: dragging it out moves its question to the next page, which used to
+      // throw it off screen, so the next drag on its corner found nothing ("scale 1.32 → 1.32")
+      const roomOf = `(w => { const sb = w.closest('.sheetbody'), pr = document.createElement('div'); pr.style.height = '250mm'; sb.appendChild(pr); const H = pr.getBoundingClientRect().height; pr.remove();
+        const last = [...sb.children].pop(); return sb.getBoundingClientRect().top + H - last.getBoundingClientRect().bottom })`;
+      const k = await page.evaluate(roomOf => { const room = eval(roomOf); let best = null, bv = -1e9;
+        document.querySelectorAll('#xPages .exfigw').forEach(w => { const i = w.querySelector('img'); if (!i || !i.complete || !i.naturalWidth) return;
+          const blk = w.closest('.xblk'); if (blk === blk.parentElement.firstElementChild) return;   // the first block on a sheet cannot move to the next
+          const v = w.querySelector('.exfigbox').getBoundingClientRect().height - room(w); if (v > bv) { bv = v; best = w.dataset.figw } });
+        if (best) document.querySelector(`#xPages [data-figw="${best}"]`).scrollIntoView({block: 'center'}); return best }, roomOf);
+      assert(k, 'no loaded diagram on the paper'); await settle(page, 1000, 2);
+      const sheetOf = k => page.evaluate(k => [...document.querySelectorAll('#xPages .sheet')].indexOf(document.querySelector(`#xPages [data-figw="${k}"]`).closest('.sheet')) + 1, k);
+      const grab = async () => { const a = await figState(page, k); await page.mouse.move(a.box.x + a.box.w / 2, a.box.y + Math.min(a.box.h / 2, 30)); return figState(page, k) };
+      const p0 = await sheetOf(k), a = await grab(), room = await page.evaluate(([k, roomOf]) => eval(roomOf)(document.querySelector(`#xPages [data-figw="${k}"]`)), [k, roomOf]);
+      const dy = Math.max(40, Math.min(room + 80, a.box.h * 0.9)), dx = dy * a.box.w / (2 * a.box.h);
+      await page.mouse.move(a.hx, a.hy); await page.mouse.down(); await page.mouse.move(a.hx + dx, a.hy + dy, {steps: 6}); await page.mouse.up(); await laidOut(page);
+      const b = await grab(), p1 = await sheetOf(k);
+      assert(b.fs > 1.05, `drag out: ${a.fs} → ${b.fs}`);
+      assert(Math.abs(b.box.y - a.box.y) < 3 && b.hDisp !== 'none', `after the drag out the diagram moved on screen from y ${Math.round(a.box.y)} to ${Math.round(b.box.y)} (page ${p0} → ${p1})`);
+      await page.mouse.move(b.hx, b.hy); await page.mouse.down(); await page.mouse.move(b.hx - 15, b.hy - 25, {steps: 5}); await page.mouse.up(); await laidOut(page);
+      const c = await figState(page, k);
+      await page.evaluate(() => { EX.figscale = {}; xsave(); exRelayout() }); await laidOut(page);
+      errs();
+      assert(c.fs < b.fs && c.img < b.img, `drag in after a drag out: ${b.fs} → ${c.fs} (image ${Math.round(b.img)} → ${Math.round(c.img)} px)`);
+      return `${k} (${Math.round(room)} px free on page ${p0}): 100% → ${Math.round(b.fs * 100)}% (now on page ${p1}, stayed in place) → ${Math.round(c.fs * 100)}%`;
+    });
+    await page.context().close();
+  }));
+}
+
 async function queueChecks(browser, base, seed) {
   const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
   await boot(page, base, '#exams');
@@ -1119,13 +1210,13 @@ async function queueChecks(browser, base, seed) {
     const big = await drag(900, 1400); const small = await drag(-1500, -2400);
     assert(big.fs === 2, `dragging far out gives ${big.fs}, expected 2`); assert(small.fs === 0.3, `dragging far in gives ${small.fs}, expected 0.3`);
     await page.evaluate(k => document.querySelector(`#xPages [data-figw="${k}"]`).scrollIntoView({block: 'center'}), k); await settle(page, 800, 2); const c = await figState(page, k); await page.mouse.move(c.box.x + c.box.w / 2, c.box.y + c.box.h / 2); const d = await figState(page, k);
-    await page.mouse.dblclick(d.hx, d.hy); await settle(page, 4000, 2);
+    await page.mouse.dblclick(d.hx, d.hy); await laidOut(page);
     const r = await page.evaluate(k => ({has: k in EX.figscale, fs: EX.figscale[k]}), k), e = await figState(page, k);
     errs(); assert(!r.has, `after a double-click EX.figscale[${k}] is ${r.fs}, expected it removed (100%)`);
     assert(e.box.w > small.box.w * 2, 'the diagram did not grow back after the reset');
     // keyboard: the handle is a slider; → steps 5%
     await page.focus(`#xPages [data-figh="${k}"]`); await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowRight');
-    await page.waitForTimeout(900); await settle(page, 3000, 2);
+    await page.waitForTimeout(900); await laidOut(page);
     const kb = await page.evaluate(k => ({fs: EX.figscale[k], now: document.querySelector(`#xPages [data-figh="${k}"]`)?.getAttribute('aria-valuenow'), focus: document.activeElement?.dataset?.figh}), k);
     assert(kb.fs === 1.1 && kb.now === '110', `two → presses: ${JSON.stringify(kb)}`);
     assert(kb.focus === k, 'focus left the handle after the keyboard resize');
@@ -1260,7 +1351,8 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
     await Promise.all([...combos.map(([w, t]) => sweep(browser, base, seedR, w, t)), phone(browser, base, seedR), areas(browser, base, seedR), processes(browser, base, seed), reviewFlow(browser, base, seedR), bankChip(browser, base, seed), nextUp(browser, base, seed), availOverlap(browser, base, seed), queueChecks(browser, base, seed)]);
-    await flows(browser, base, seed, seedR);
+    // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
+    await Promise.all([flows(browser, base, seed, seedR), examPools(browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));
     await check('offline: no requests to public CDNs', null, async () => { assert(!bad.length, `${bad.length} outside request(s): ${bad.slice(0, 5).join(' ')}`); return ext.length ? `${ext.length} Google Fonts request(s) blocked, allowed` : 'none' });
   } catch (e) { fatal = String(e && e.stack || e); console.error('page_test could not finish:', fatal) }

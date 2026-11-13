@@ -316,12 +316,36 @@ function exFitOrder(els,bl,H){let used=0,moved=0;const out=[];
 // it) move to a "(continued)" piece. Shallow copies of the wrappers keep the layout: a part keeps its grid, with empty label
 // and marks columns, and a worked solution keeps its rule. Maths, images and tables are never cut.
 const exBlockish=el=>{if(/^(mjx-|svg$|img$|table$|figure$|canvas$)/i.test(el.tagName))return false;const d=getComputedStyle(el).display;return ['block','grid','flex','list-item','flow-root'].includes(d)};
+// fix 13 Nov (exam pools): a worked solution's text is often ONE inline span holding inline maths, display maths and line
+// breaks (span.pbr). It may be cut too, at a line boundary between its children, so it counts as a container that can be cut
+const exBlockKid=el=>{const d=getComputedStyle(el).display;return d!=='inline'&&d!=='contents'&&d!=='none'};
+const exCuttable=el=>exBlockish(el)||(getComputedStyle(el).display==='inline'&&!/^(mjx-|svg$|img$)/i.test(el.tagName)&&[...el.children].some(exBlockKid));
+// the bottom of what a column actually holds (grid columns are stretched to the row's height, so the box itself says nothing)
+const exInkBottom=el=>{let b=-1e9;for(const c of el.children){const r=c.getBoundingClientRect();if(r.height>0)b=Math.max(b,r.bottom)}return b};
+// the places where a new line starts in running text: before or after a block child, or at a word that wraps to a new line.
+// Returns {at: the node to move on} for the last such place above lim, or {into: a child to cut inside} when none is found.
+function exFlowCut(el,lim){const A=[],rg=document.createRange();
+  const rects=n=>{let L;if(n.nodeType===1)L=[...n.getClientRects()];else{rg.selectNodeContents(n);L=[...rg.getClientRects()]}L=L.filter(r=>r.width>0||r.height>0);return L};
+  for(const n of el.childNodes){
+    if(n.nodeType===1){const L=rects(n);if(!L.length)continue;A.push({node:n,off:null,top:L[0].top,bot:L[L.length-1].bottom,bottom:Math.max(...L.map(r=>r.bottom))});continue}
+    if(n.nodeType!==3)continue;const t=n.textContent;
+    for(let o=0;o<t.length;o++){if(/\s/.test(t[o])||(o>0&&!/\s/.test(t[o-1])))continue;rg.setStart(n,o);rg.setEnd(n,o+1);const r=[...rg.getClientRects()].find(r=>r.height>0);if(r)A.push({node:n,off:o,top:r.top,bot:r.bottom,bottom:r.bottom})}}
+  let best=-1;for(let i=1;i<A.length;i++){if(A[i].top>lim)break;if(A[i].top>=A[i-1].bot-2&&A[i].top>A[0].top+1)best=i}
+  if(best>0){const a=A[best];return {at:a.off?a.node.splitText(a.off):a.node}}
+  const x=A.find(a=>a.bottom>lim);return x&&x.off==null&&exCuttable(x.node)?{into:x.node}:null}
 function exCutTall(blk,H,open){const lim=blk.getBoundingClientRect().top+H*0.98,path=[];let el=blk.querySelector('section.xq > .xqb');
   for(let d=0;el&&d<12;d++){const kids=[...el.children].filter(k=>k.getBoundingClientRect().height>0);if(!kids.length)return null;
     const R=kids.map(k=>k.getBoundingClientRect()),stacked=kids.length===1||R.every((r,i)=>!i||r.top>=R[i-1].bottom-2);
-    if(stacked){const i=R.findIndex(r=>r.bottom>lim);if(i<0)return null;if(i>0)return exCont(blk,path,kids.slice(i),open);
-      if(!exBlockish(kids[0]))return null;path.push({par:el,child:kids[0],stacked:true});el=kids[0];continue}
-    let t=0;R.forEach((r,j)=>{if(r.height>R[t].height)t=j});if(!exBlockish(kids[t]))return null;   // side by side: cut inside the tallest column
+    // fix 13 Nov (exam pools): running text (a worked solution is often ONE inline span of words, inline maths, display maths and
+    // line breaks): cut at the start of the last line that begins above the page end, splitting a text node between words if need be
+    {const ds=getComputedStyle(el).display;if(ds!=='grid'&&ds!=='flex'&&([...el.childNodes].some(n=>n.nodeType===3&&n.textContent.trim())||kids.some(k=>!exBlockKid(k)))){
+      const r=exFlowCut(el,lim);if(r&&r.at)return exCont(blk,path,[r.at],open);
+      if(r&&r.into){path.push({par:el,child:r.into,stacked:true});el=r.into;continue}return null}}
+    if(stacked){const i=R.findIndex(r=>r.bottom>lim);if(i<0)return null;if(i>0)return exCont(blk,path,[kids[i]],open);
+      if(!exCuttable(kids[0]))return null;path.push({par:el,child:kids[0],stacked:true});el=kids[0];continue}
+    // side by side: cut inside the column whose CONTENT runs furthest down (fix 13 Nov: all grid columns are stretched to the
+    // row's height, so "the tallest column" picked the empty label column and the cut gave up)
+    let t=0;const ink=kids.map(exInkBottom);ink.forEach((b,j)=>{if(b>ink[t])t=j});if(!exCuttable(kids[t]))return null;
     path.push({par:el,child:kids[t],stacked:false});el=kids[t]}
   return null}
 function exCont(blk,path,move,open){const q2=open(false),nb=q2.closest('.xblk');blk.after(nb);let host=q2;
@@ -335,7 +359,7 @@ function exCont(blk,path,move,open){const q2=open(false),nb=q2.closest('.xblk');
 function exRejoin(root){let last=new Map();
   const merge=(dst,src)=>{[...src.childNodes].forEach(c=>{if(c.nodeType===1&&c.dataset.cut==='x')return;
     if(c.nodeType===1&&c.dataset.cut==='1'){const t=[...dst.children].reverse().find(d=>d.tagName===c.tagName&&d.className===c.className);if(t){merge(t,c);return}c.removeAttribute('data-cut')}
-    dst.appendChild(c)})};
+    dst.appendChild(c)});dst.normalize()};   // fix 13 Nov: text split at a line (exFlowCut) becomes one text node again
   root.querySelectorAll('section.xq').forEach(sec=>{const qb=sec.querySelector(':scope>.xqb'),prev=last.get(sec.dataset.q);
     if(prev&&qb&&qb.querySelector(':scope>[data-cut]')){merge(prev.querySelector(':scope>.xqb'),qb);const src=sec.querySelector(':scope>.xsrc');if(src)prev.appendChild(src);sec.closest('.xblk')?.remove();return}
     last.set(sec.dataset.q,sec)})}
@@ -408,7 +432,7 @@ function exZoom(){const h=$('#xPages');if(!h)return;const tb=$('#xPv .xtool');if
   // owner 14 Nov (ⓘ, diagram handle): screen-only controls on a scaled paper divide by this, so they keep a usable size on a phone
   h.style.setProperty('--xz',z<.999?String(Math.max(.4,z)):'1')}
 addEventListener('resize',()=>{if(document.body.classList.contains('xpv-on'))exZoom()});
-const exRelayout=()=>{if(document.body.classList.contains('xpv-on'))xPreview(EXV.doc,{keep:true})};
+const exRelayout=()=>document.body.classList.contains('xpv-on')?xPreview(EXV.doc,{keep:true}):Promise.resolve();
 
 /* grading panel */
 const kindCls=k=>k==='Problem solving'?'Problem':k;
@@ -529,15 +553,25 @@ document.addEventListener('focusout',e=>{const el=e.target.closest&&e.target.clo
 let EXFR=null,EXFTAP=null;
 const exFigSet=(w,s)=>{const p=Math.round(s*100);w.style.setProperty('--fs',s);const c=w.querySelector('.figpct');if(c)c.textContent=p+'%';
   const h=w.querySelector('.figh');if(h){h.setAttribute('aria-valuenow',p);h.setAttribute('aria-valuetext',p+'%')}};
-const exFigCommit=(k,s)=>{s=Math.round(Math.max(.3,Math.min(2,s))*100)/100;if(s===(EX.figscale[k]||1))return false;if(s===1)delete EX.figscale[k];else EX.figscale[k]=s;xsave();exRelayout();return true};
-const exFigReset=k=>{if(!(k in EX.figscale))return;delete EX.figscale[k];xsave();exRelayout();toast('Diagram back to 100%')};
+// fix 13 Nov (exam pools): a resized diagram can move to the next page when the paper is laid out again; it then jumped off
+// screen, so the next drag on its corner found nothing under the pointer ("scale 1.32 → 1.32"). The paper now scrolls so the
+// diagram's top edge stays where it was on screen (a diagram grows down from its top, so when it stays on its page nothing moves).
+const exFigKeep=(k,p)=>{const ov=$('#xPv'),q=()=>document.querySelector(`#xPages [data-figw="${k}"] .exfigbox`),el=q();if(!ov||!el)return p;const t0=el.getBoundingClientRect().top;
+  return Promise.resolve(p).then(()=>{const e2=q();if(e2)ov.scrollTop+=e2.getBoundingClientRect().top-t0})};
+const exFigCommit=(k,s)=>{s=Math.round(Math.max(.3,Math.min(2,s))*100)/100;if(s===(EX.figscale[k]||1))return false;if(s===1)delete EX.figscale[k];else EX.figscale[k]=s;xsave();exFigKeep(k,exRelayout());return true};
+const exFigReset=k=>{if(!(k in EX.figscale))return;delete EX.figscale[k];xsave();exFigKeep(k,exRelayout());toast('Diagram back to 100%')};
+// fix 13 Nov (exam pools): a diagram is never drawn wider than the column (max-width), so a scale past that point changed nothing
+// on the paper, and dragging in from there did nothing visible either. The size at 100% is measured (not divided out of a drawn
+// size that may be capped) and the largest scale is the one that fills the column (at most 200%).
+const exFigBase=w=>{const b=w.querySelector('.exfigbox'),old=w.style.getPropertyValue('--fs');w.style.setProperty('--fs','1');const r=b.getBoundingClientRect();w.style.setProperty('--fs',old);
+  const col=w.getBoundingClientRect().width;return {w0:r.width||100,h0:r.height||100,smax:r.width>0&&col>0?Math.max(1,Math.min(2,Math.floor(col/r.width*100)/100)):2}};
 document.addEventListener('pointerdown',e=>{const h=e.target.closest&&e.target.closest('#xPv [data-figh]');if(!h||e.button>0)return;e.preventDefault();e.stopPropagation();
-  const w=h.closest('.exfigw'),r=w.querySelector('.exfigbox').getBoundingClientRect(),s0=EX.figscale[h.dataset.figh]||1;
-  EXFR={k:h.dataset.figh,w,h,x:e.clientX,y:e.clientY,s0,s:s0,w0:(r.width||100)/s0,h0:(r.height||100)/s0,raf:0,moved:false};
+  const w=h.closest('.exfigw'),B=exFigBase(w),s0=Math.min(B.smax,EX.figscale[h.dataset.figh]||1);
+  EXFR={k:h.dataset.figh,w,h,x:e.clientX,y:e.clientY,s0,s:s0,w0:B.w0,h0:B.h0,smax:B.smax,raf:0,moved:false};
   try{h.setPointerCapture(e.pointerId)}catch(_){}});
 document.addEventListener('pointermove',e=>{const f=EXFR;if(!f)return;const dx=e.clientX-f.x,dy=e.clientY-f.y;
   if(!f.moved){if(Math.hypot(dx,dy)<3)return;f.moved=true;f.w.classList.add('resizing');document.body.classList.add('fig-resizing')}
-  const a=f.w0/2,b=f.h0;f.s=Math.max(.3,Math.min(2,f.s0+(dx*a+dy*b)/(a*a+b*b||1)));f.s=Math.round(f.s*100)/100;
+  const a=f.w0/2,b=f.h0;f.s=Math.max(.3,Math.min(f.smax,f.s0+(dx*a+dy*b)/(a*a+b*b||1)));f.s=Math.round(f.s*100)/100;
   if(!f.raf)f.raf=requestAnimationFrame(()=>{f.raf=0;exFigSet(f.w,f.s)})});
 const exFigEnd=()=>{const f=EXFR;if(!f)return;EXFR=null;if(f.raf)cancelAnimationFrame(f.raf);f.w.classList.remove('resizing');document.body.classList.remove('fig-resizing');
   if(f.moved){EXFTAP=null;exFigSet(f.w,f.s);exFigCommit(f.k,f.s);return}
@@ -549,8 +583,8 @@ document.addEventListener('dblclick',e=>{const h=e.target.closest&&e.target.clos
 let EXFKEY=null;
 document.addEventListener('keydown',e=>{const h=e.target.closest&&e.target.closest('#xPv [data-figh]');if(!h)return;
   const d={ArrowRight:.05,ArrowUp:.05,ArrowLeft:-.05,ArrowDown:-.05}[e.key];if(d==null&&e.key!=='Home')return;e.preventDefault();e.stopPropagation();
-  const k=h.dataset.figh,w=h.closest('.exfigw');const cur=EXFKEY&&EXFKEY.k===k?EXFKEY.s:(EX.figscale[k]||1);
-  const s=e.key==='Home'?1:Math.round(Math.max(.3,Math.min(2,cur+d))*100)/100;exFigSet(w,s);w.classList.add('resizing');
+  const k=h.dataset.figh,w=h.closest('.exfigw'),smax=exFigBase(w).smax;const cur=Math.min(smax,EXFKEY&&EXFKEY.k===k?EXFKEY.s:(EX.figscale[k]||1));
+  const s=e.key==='Home'?1:Math.round(Math.max(.3,Math.min(smax,cur+d))*100)/100;exFigSet(w,s);w.classList.add('resizing');
   if(EXFKEY)clearTimeout(EXFKEY.t);EXFKEY={k,s,t:setTimeout(()=>{EXFKEY=null;w.classList.remove('resizing');if(exFigCommit(k,s)){let n=0;const iv=setInterval(()=>{const el=document.querySelector(`#xPv [data-figh="${k}"]`);if(el&&el!==h){clearInterval(iv);el.focus({preventScroll:true})}else if(++n>40)clearInterval(iv)},100)}},600)}});
 // drag to reorder in the grading list
 let EXDRAG=null;

@@ -224,6 +224,11 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 @media screen{
   .exfigw:hover .exfigbox,.exfigw.resizing .exfigbox,.exfigw:focus-within .exfigbox{outline:1px solid color-mix(in srgb,var(--pp-accent) 28%,transparent);outline-offset:3px;border-radius:2px}
   .exfigw:hover .figh,.exfigw:focus-within .figh,.exfigw.resizing .figh{display:block}
+  /* fix 13 Nov (exam pools): the corner handle sits 7 px outside the diagram, and a question's text box (.tx) clips its overflow,
+     so on a diagram as wide as the column (a wide table, or one enlarged to the column) the handle was cut off and could not be
+     grabbed. On the paper, a text box holding a diagram no longer clips; flow-root keeps it a block formatting context exactly as
+     the clipping did, so its height and the page layout are unchanged. */
+  .xpages .tx:has(.exfigw){overflow:visible;display:flow-root}
   .figh{position:absolute;right:-7px;bottom:-7px;width:10px;height:10px;box-sizing:border-box;border-radius:2px;background:var(--pp-paper);border:1.5px solid var(--pp-accent);cursor:nwse-resize;z-index:3;touch-action:none}
   .figh::before{content:"";position:absolute;inset:-14px}
   .xpages .figh,.xpages .figpct{zoom:calc(1/var(--xz,1))}
