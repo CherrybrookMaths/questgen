@@ -7,7 +7,12 @@ const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
    Bank, Exams, topics and dot points are about (see COURSES). New shared state is a QG field, never a new page-wide name.
    The older names B, DOTS, DM, reviews, db, me, EDITOR and view still work: they are window accessors that read and write
    these fields (not declarations), so nothing that used them had to change. New code writes QG.x. */
-const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'bank',course:'advanced'};
+// Course is a dimension (CODE_HEALTH rule 5): the course's name and the files holding its questions (with their topics and
+// difficulty references) and its dot points come from QG.courses[QG.course]; read them with QG.courseData, never type
+// "Advanced". Only Advanced has data so far; a course is added here once it has a bank, dot points and difficulty references.
+const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'bank',course:'advanced',
+  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank.json',dots:'data/dotpoints.json'}},
+  get courseData(){return this.courses[this.course]}};
 for(const [k,f] of [['B','bank'],['DOTS','dots'],['DM','dm'],['reviews','reviews'],['db','db'],['me','me'],['EDITOR','editor'],['view','view']])
   Object.defineProperty(window,k,{get:()=>QG[f],set:v=>{QG[f]=v},configurable:true});
 let sel=null, search='', rlist=[], ridx=0, rfilter='diagrams', rstatus='todo', rdoc='', editing=null, revealed=new Set();

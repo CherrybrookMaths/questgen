@@ -41,7 +41,7 @@ function exPool(A,homes){const T=new Set(A.topics);return exBase(A,homes).filter
 const subName=k=>k.split('|')[2]||k.slice(4).split('|')[1];
 function exAutoTitle(A){const tree=xaTree(),sel=new Set(A.topics),fas=[];
   [12,11].forEach(y=>tree[y].forEach((ks,fa)=>{const s=ks.filter(k=>sel.has(k));if(s.length)fas.push({fa,s,all:ks.length})}));
-  if(!fas.length)return 'Mathematics Advanced practice';
+  if(!fas.length)return QG.courseData.name+' practice';
   if(fas.length===1){const f=fas[0];return f.s.length===1&&f.all>1?subName(f.s[0]):f.fa}
   if(fas.length===2)return fas[0].fa+' and '+fas[1].fa.charAt(0).toLowerCase()+fas[1].fa.slice(1);
   return 'Mixed topics'}
@@ -135,7 +135,7 @@ const sliderCtl=(id,lab,min,max,step,val,ends,hint,cls='')=>`<div class="ctl ${c
 const exOverall=A=>(1-A.pr/100)*A.dF+(A.pr/100)*A.dP;
 function renderSetup(){const A=exA();
   $('#exSetup').innerHTML=`<div class="exsetup">
-    <section class="extopics"><div class="pagehead"><div class="eyebrow">HSC Mathematics Advanced</div><h2>Set up your exam</h2>
+    <section class="extopics"><div class="pagehead"><div class="eyebrow">HSC ${esc(QG.courseData.name)}</div><h2>Set up your exam</h2>
       <p class="lead">Pick the topics to cover. Tick a box to take a whole topic, or open it to choose subtopics. Then set the marks and difficulty, and generate.</p></div>
       <div id="exTopics"></div></section>
     <aside class="exsettings" aria-label="Exam settings">

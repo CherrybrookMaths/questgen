@@ -1987,7 +1987,12 @@ const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
    Bank, Exams, topics and dot points are about (see COURSES). New shared state is a QG field, never a new page-wide name.
    The older names B, DOTS, DM, reviews, db, me, EDITOR and view still work: they are window accessors that read and write
    these fields (not declarations), so nothing that used them had to change. New code writes QG.x. */
-const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'bank',course:'advanced'};
+// Course is a dimension (CODE_HEALTH rule 5): the course's name and the files holding its questions (with their topics and
+// difficulty references) and its dot points come from QG.courses[QG.course]; read them with QG.courseData, never type
+// "Advanced". Only Advanced has data so far; a course is added here once it has a bank, dot points and difficulty references.
+const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'bank',course:'advanced',
+  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank.json',dots:'data/dotpoints.json'}},
+  get courseData(){return this.courses[this.course]}};
 for(const [k,f] of [['B','bank'],['DOTS','dots'],['DM','dm'],['reviews','reviews'],['db','db'],['me','me'],['EDITOR','editor'],['view','view']])
   Object.defineProperty(window,k,{get:()=>QG[f],set:v=>{QG[f]=v},configurable:true});
 let sel=null, search='', rlist=[], ridx=0, rfilter='diagrams', rstatus='todo', rdoc='', editing=null, revealed=new Set();
@@ -2289,7 +2294,7 @@ function cardHTML(q){
   const d=B.docs[q.doc]; const r=reviews['q'+q.id];
   return `<article class="card" data-q="${q.id}"><div class="hd"><span class="qn">${qid(q)}</span><span class="src">${esc(srcLine(q))}</span>
     ${q.type==='mcq'?'<span class="badge">Multiple choice</span>':''}${r?.status==='flagged'?'<span class="badge b-bad">flagged</span>':''}${q.old?'<span class="badge b-old">Old syllabus</span>':''}${q.std?'<span class="badge b-std">Standard course</span>':''}
-    <span class="mk">${q.marks!=null?q.marks+(q.marks===1?' mark':' marks'):''}</span></div>${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not Advanced:</b> ${esc(q.std)}</div>`:''}${dupLine(q)}${qBody(q,'bank')}
+    <span class="mk">${q.marks!=null?q.marks+(q.marks===1?' mark':' marks'):''}</span></div>${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not ${esc(QG.courseData.short)}:</b> ${esc(q.std)}</div>`:''}${dupLine(q)}${qBody(q,'bank')}
     <div class="cfoot">${q.type==='mcq'?`<button class="act ghost" data-reveal="${q.id}">${revealed.has(q.id)?'Hide answer':'Show answer'}</button>`:''}<span class="meta">${(sk=>sk.length?'Needs: '+sk.map(esc).join(' · '):'')(qSkills(q))}${qYear(q)?`${qSkills(q).length?' · ':''}Year ${qYear(q)}`:''}${(l=>l?((qSkills(q).length||qYear(q))?' · ':'')+l:'')(typeof qDifLabel==='function'?qDifLabel(q):'')}</span><button class="act addx" data-addx="${q.id}" aria-pressed="${xIn(q.id)}">${xIn(q.id)?'✓ In exam':'+ Add to exam'}</button><a class="act ghost edonly" href="#review/list/all" data-open="${q.id}">Open in Review</a></div></article>`;
 }
 // owner 12 Nov ("make the bank more usable and clean ... looks really dead" -> warm editorial; topic -> subheadings -> questions)
@@ -2311,12 +2316,12 @@ function homeHTML(){
     const head=`<b>${esc(fa)}</b><span class="n">${c}<small>questions</small></span>`;
     return `<article class="facard y${yl}">${only?`<button class="fah subrow" data-sel="${esc(only)}">${head}</button>`:`<div class="fah static">${head}</div>`}<div class="subrows">${subRows(subs,yl,fa)}</div></article>`}).join('')}</div>`;
   const sum=m=>[...m.values()].reduce((a,subs)=>a+faCount(subs),0);
-  return `<div class="hero"><h1>Question bank</h1><p>Every question from past HSC papers and school trials, filed under the 2024 Mathematics Advanced syllabus. Pick a topic, or search above.</p>
+  return `<div class="hero"><h1>Question bank</h1><p>Every question from past HSC papers and school trials, filed under the 2024 ${esc(QG.courseData.name)} syllabus. Pick a topic, or search above.</p>
     <div class="stats"><span class="stat"><b>${n.toLocaleString()}</b> questions</span><span class="stat"><b>${papers}</b> papers</span><span class="stat"><b>${sum(TOPICS.y12)}</b> Year 12</span><span class="stat"><b>${sum(TOPICS.y11)}</b> Year 11</span>${bankSwitch()}</div></div>
    <div class="yhead"><h2>Year 12</h2><span class="yb y12">Y12</span></div>${cards(TOPICS.y12,12)}
    <div class="yhead"><h2>Year 11</h2><span class="yb y11">Y11</span><span class="muted">assumed knowledge, may be examined</span></div>${cards(TOPICS.y11,11)}
    <div class="yhead"><h2>Outside the 2024 syllabus</h2></div><div class="facards">
-     <article class="facard ys"><button class="fah" data-sel="special:removed"><b>Removed content</b><span class="n">${TOPICS.byKey['special:removed'].qs.length}<small>questions</small></span></button><div class="muted" style="font-size:13px">In past papers but not in the 2024 Advanced course (3D trigonometry, regression, Standard-course statistics).</div></article>
+     <article class="facard ys"><button class="fah" data-sel="special:removed"><b>Removed content</b><span class="n">${TOPICS.byKey['special:removed'].qs.length}<small>questions</small></span></button><div class="muted" style="font-size:13px">In past papers but not in the 2024 ${esc(QG.courseData.short)} course (3D trigonometry, regression, Standard-course statistics).</div></article>
      ${TOPICS.byKey['special:no_match'].qs.length?`<article class="facard ys"><button class="fah" data-sel="special:no_match"><b>No 2024 match</b><span class="n">${TOPICS.byKey['special:no_match'].qs.length}</span></button></article>`:''}</div>`;
 }
 function faHTML(yl,fa){const subs=(yl==='12'?TOPICS.y12:TOPICS.y11).get(fa);if(!subs)return homeHTML();const c=faCount(subs);
@@ -2831,7 +2836,7 @@ function renderReview(){
   $('#srcTitle').textContent=`${docLabel(d)} · page ${q.pages.map(p=>+p.split('_').pop().split('.')[0]+1).join(', ')}`;
   $('#src').innerHTML=q.pages.map(p=>`<img data-page="${p}" alt="Source page">`).join('');
   const rel=q.related.map(x=>{const o=B.questions.find(z=>z.id===x.q);return o&&!(docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number))?`${docLabel(B.docs[o.doc])} Q${o.number} (${Math.round(x.sim*100)}% similar)`:''}).filter(Boolean).join('; ');
-  $('#rout').innerHTML=`${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not Advanced:</b> ${esc(q.std)}</div>`:''}
+  $('#rout').innerHTML=`${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not ${esc(QG.courseData.short)}:</b> ${esc(q.std)}</div>`:''}
     <div class="row"><span class="badge ${d.parse_path==='scan'?'b-scan':'b-acc'}">${d.parse_path}</span>
       ${q.tri?'':`${q.queues.includes('review')?'<span class="badge b-bad">parse flagged</span>':''}`}
       ${r?.status?`<span class="badge ${r.status==='approved'?'b-ok':'b-bad'}">${r.status}</span>`:''}
@@ -3065,7 +3070,7 @@ function renderImport(){
   const t=P.totals||{}, pct=(a,b)=>b?Math.round(100*a/b):0;
   const tile=(v,l,a,b)=>`<div class="tile"><b>${v??'–'}</b><span>${l}</span>${b?`<div class="pr-bar"><i style="width:${pct(a,b)}%"></i></div>`:''}</div>`;
   const run=(P.running||[]),log=(P.log||[]).slice().reverse(),all=box.dataset.logall==='1';
-  box.innerHTML=`<p class="sub">Year 12 Advanced papers, newest first · updated ${esc(ago(P.updated))}${P.eta?` · ${esc(P.eta)}`:''}</p>
+  box.innerHTML=`<p class="sub">Year 12 ${esc(QG.courseData.short)} papers, newest first · updated ${esc(ago(P.updated))}${P.eta?` · ${esc(P.eta)}`:''}</p>
   <div class="tiles">${tile(`${t.parsed||0} / ${t.papers_total||0}`,'papers parsed',t.parsed,t.papers_total)}${tile(`${t.published||0} / ${t.papers_total||0}`,'papers on this page',t.published,t.papers_total)}
   ${tile(t.questions,'questions loaded')}${tile(`${t.figures_redrawn||0} / ${t.figures_total||0}`,'diagrams redrawn',t.figures_redrawn,t.figures_total)}${tile(t.solutions_written,'solutions written by Claude')}</div>
   ${run.length?`<h3>Import stages running</h3><ul>${run.map(r=>`<li><span class="pulse" aria-hidden="true"></span><b>${esc(r.stage)}</b> · ${esc(r.batch||'')} ${r.detail?'· '+esc(r.detail):''} <span class="muted">· started ${esc(ago(r.started))}</span></li>`).join('')}</ul>`:''}
@@ -3180,7 +3185,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
   try{
     // a load during a republish (or a network blip) can fail once: retry 3 times before giving up
     const get=async(u)=>{let err;for(let i=0;i<4;i++){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'r='+i+'_'+Date.now());if(!r.ok)throw new Error(r.status);return await r.json()}catch(e){err=e;await new Promise(z=>setTimeout(z,800*(i+1)))}}throw err};
-    const [b,d]=await Promise.all([get('data/bank.json'),get('data/dotpoints.json')]);
+    const [b,d]=await Promise.all([get(QG.courseData.bank),get(QG.courseData.dots)]);
     QG.bank=b;QG.dots=d;d.forEach(x=>QG.dm[x.id]=x);
   }catch(e){$('#list').innerHTML='<div class="empty">The question bank did not load after 4 tries. <button class="act" onclick="location.reload()">Try again</button></div>';return}
   $('#countAll').textContent=` · ${B.questions.filter(q=>!q.dup_of).length} questions`;
@@ -3209,7 +3214,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
    .html prints or saves as PDF from the browser). Saved exams live in the page database, collection `exams`. */
 const XKEY='qg_exam';
 let EX=(()=>{try{const v=JSON.parse(localStorage.getItem(XKEY));if(v&&Array.isArray(v.items))return v}catch(e){}return null})()||
-  {title:'Mathematics Advanced',sub:'Practice examination',school:'CMC Education',time:'2 hours',reading:'10 minutes',items:[]};
+  {title:QG.courseData.name,sub:'Practice examination',school:'CMC Education',time:'2 hours',reading:'10 minutes',items:[]};
 const xsave=()=>{try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}xCount()};
 const xq=id=>B.questions.find(q=>q.id===id);
 const xIn=id=>EX.items.includes(id);
@@ -3268,7 +3273,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#xGuide')){xPreview('guide');return}
   if(e.target.closest('#xSave')){xSaveDb();return}
   if(e.target.closest('#xNew')){const b=e.target.closest('#xNew');if(!b.dataset.sure){b.dataset.sure=1;b.textContent='Start a new exam? Click again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent='New exam'}},3000);return}
-    EX={title:'Mathematics Advanced',sub:'Practice examination',school:EX.school,time:'2 hours',reading:'10 minutes',items:[]};xsave();return}
+    EX={title:QG.courseData.name,sub:'Practice examination',school:EX.school,time:'2 hours',reading:'10 minutes',items:[]};xsave();return}
   const ld=e.target.closest('[data-xload]');if(ld){const x=XSAVED.find(s=>s.id===ld.dataset.xload);if(x){EX={id:x.id,title:x.title,sub:x.sub,school:x.school,time:x.time,reading:x.reading,items:(x.items||[]).filter(i=>xq(i))};xsave();toast('Exam opened')}}
 });
 document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(_){}}});
@@ -3570,7 +3575,7 @@ function exPool(A,homes){const T=new Set(A.topics);return exBase(A,homes).filter
 const subName=k=>k.split('|')[2]||k.slice(4).split('|')[1];
 function exAutoTitle(A){const tree=xaTree(),sel=new Set(A.topics),fas=[];
   [12,11].forEach(y=>tree[y].forEach((ks,fa)=>{const s=ks.filter(k=>sel.has(k));if(s.length)fas.push({fa,s,all:ks.length})}));
-  if(!fas.length)return 'Mathematics Advanced practice';
+  if(!fas.length)return QG.courseData.name+' practice';
   if(fas.length===1){const f=fas[0];return f.s.length===1&&f.all>1?subName(f.s[0]):f.fa}
   if(fas.length===2)return fas[0].fa+' and '+fas[1].fa.charAt(0).toLowerCase()+fas[1].fa.slice(1);
   return 'Mixed topics'}
@@ -3664,7 +3669,7 @@ const sliderCtl=(id,lab,min,max,step,val,ends,hint,cls='')=>`<div class="ctl ${c
 const exOverall=A=>(1-A.pr/100)*A.dF+(A.pr/100)*A.dP;
 function renderSetup(){const A=exA();
   $('#exSetup').innerHTML=`<div class="exsetup">
-    <section class="extopics"><div class="pagehead"><div class="eyebrow">HSC Mathematics Advanced</div><h2>Set up your exam</h2>
+    <section class="extopics"><div class="pagehead"><div class="eyebrow">HSC ${esc(QG.courseData.name)}</div><h2>Set up your exam</h2>
       <p class="lead">Pick the topics to cover. Tick a box to take a whole topic, or open it to choose subtopics. Then set the marks and difficulty, and generate.</p></div>
       <div id="exTopics"></div></section>
     <aside class="exsettings" aria-label="Exam settings">
@@ -4176,7 +4181,7 @@ document.addEventListener('click',async e=>{const t=e.target;
   if(!t.closest('#exMine'))return;
   if(t.closest('[data-exm-new]')){const b=t.closest('[data-exm-new]'),st=exmState();
     if((st==='new'||st==='changed')&&!b.dataset.sure){b.dataset.sure=1;b.textContent='Discard unsaved changes? Press again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent='New exam'}},3500);return}
-    EX={title:'Mathematics Advanced',sub:'Practice examination',school:EX.school||'CMC Education',time:'2 hours',reading:'10 minutes',items:[],lines:{},figscale:{}};xsave();try{EXC.clear()}catch(_){}
+    EX={title:QG.courseData.name,sub:'Practice examination',school:EX.school||'CMC Education',time:'2 hours',reading:'10 minutes',items:[],lines:{},figscale:{}};xsave();try{EXC.clear()}catch(_){}
     EXV.view='setup';exSaveView();renderExams();toast('New exam started');return}
   const row=t.closest('[data-exm]');if(!row)return;const x=XSAVED.find(s=>s.id===row.dataset.exm);if(!x)return;
   const guard=b=>{const st=exmState();if(x.id!==EX.id&&(st==='new'||st==='changed')&&!b.dataset.sure){const o=b.textContent;b.dataset.sure=1;b.textContent='Replace unsaved exam? Press again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent=o}},3500);return false}return true};
@@ -4255,7 +4260,7 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
 
   <section id="g2-topic" class="g2sec"><h3>1 · Topic</h3>
     <div class="g2tree">${[['Year',2,'Year 12'],['Focus area',S.fas,'Integral calculus'],['Subheading',S.sbs,'Areas and the definite integral'],['Dot point',S.dots,'Y12-279 · areas bounded by a curve']].map(([l,n,e],i)=>`${i?'<span class="g2arr" aria-hidden="true">→</span>':''}<div class="g2node"><b>${n}</b><span>${l}s</span><em>${esc(e)}</em></div>`).join('')}</div>
-    <p class="g2cap">NESA 2024 Mathematics Advanced syllabus. Every tag quotes a dot point verbatim.</p>
+    <p class="g2cap">NESA 2024 ${esc(QG.courseData.name)} syllabus. Every tag quotes a dot point verbatim.</p>
     <div class="g2three">
       <div class="g2card"><div class="g2k">Per part</div><b>Main dot point</b><span>What the part's marks are for</span></div>
       <div class="g2card"><div class="g2k">Per question</div><b>Home</b><span>One subheading. Shown there and only there</span></div>

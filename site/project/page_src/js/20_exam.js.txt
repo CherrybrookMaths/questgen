@@ -5,7 +5,7 @@
    .html prints or saves as PDF from the browser). Saved exams live in the page database, collection `exams`. */
 const XKEY='qg_exam';
 let EX=(()=>{try{const v=JSON.parse(localStorage.getItem(XKEY));if(v&&Array.isArray(v.items))return v}catch(e){}return null})()||
-  {title:'Mathematics Advanced',sub:'Practice examination',school:'CMC Education',time:'2 hours',reading:'10 minutes',items:[]};
+  {title:QG.courseData.name,sub:'Practice examination',school:'CMC Education',time:'2 hours',reading:'10 minutes',items:[]};
 const xsave=()=>{try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}xCount()};
 const xq=id=>B.questions.find(q=>q.id===id);
 const xIn=id=>EX.items.includes(id);
@@ -64,7 +64,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#xGuide')){xPreview('guide');return}
   if(e.target.closest('#xSave')){xSaveDb();return}
   if(e.target.closest('#xNew')){const b=e.target.closest('#xNew');if(!b.dataset.sure){b.dataset.sure=1;b.textContent='Start a new exam? Click again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent='New exam'}},3000);return}
-    EX={title:'Mathematics Advanced',sub:'Practice examination',school:EX.school,time:'2 hours',reading:'10 minutes',items:[]};xsave();return}
+    EX={title:QG.courseData.name,sub:'Practice examination',school:EX.school,time:'2 hours',reading:'10 minutes',items:[]};xsave();return}
   const ld=e.target.closest('[data-xload]');if(ld){const x=XSAVED.find(s=>s.id===ld.dataset.xload);if(x){EX={id:x.id,title:x.title,sub:x.sub,school:x.school,time:x.time,reading:x.reading,items:(x.items||[]).filter(i=>xq(i))};xsave();toast('Exam opened')}}
 });
 document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(_){}}});

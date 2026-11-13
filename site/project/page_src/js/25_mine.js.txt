@@ -47,7 +47,7 @@ document.addEventListener('click',async e=>{const t=e.target;
   if(!t.closest('#exMine'))return;
   if(t.closest('[data-exm-new]')){const b=t.closest('[data-exm-new]'),st=exmState();
     if((st==='new'||st==='changed')&&!b.dataset.sure){b.dataset.sure=1;b.textContent='Discard unsaved changes? Press again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent='New exam'}},3500);return}
-    EX={title:'Mathematics Advanced',sub:'Practice examination',school:EX.school||'CMC Education',time:'2 hours',reading:'10 minutes',items:[],lines:{},figscale:{}};xsave();try{EXC.clear()}catch(_){}
+    EX={title:QG.courseData.name,sub:'Practice examination',school:EX.school||'CMC Education',time:'2 hours',reading:'10 minutes',items:[],lines:{},figscale:{}};xsave();try{EXC.clear()}catch(_){}
     EXV.view='setup';exSaveView();renderExams();toast('New exam started');return}
   const row=t.closest('[data-exm]');if(!row)return;const x=XSAVED.find(s=>s.id===row.dataset.exm);if(!x)return;
   const guard=b=>{const st=exmState();if(x.id!==EX.id&&(st==='new'||st==='changed')&&!b.dataset.sure){const o=b.textContent;b.dataset.sure=1;b.textContent='Replace unsaved exam? Press again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent=o}},3500);return false}return true};

@@ -6,7 +6,7 @@
   try{
     // a load during a republish (or a network blip) can fail once: retry 3 times before giving up
     const get=async(u)=>{let err;for(let i=0;i<4;i++){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'r='+i+'_'+Date.now());if(!r.ok)throw new Error(r.status);return await r.json()}catch(e){err=e;await new Promise(z=>setTimeout(z,800*(i+1)))}}throw err};
-    const [b,d]=await Promise.all([get('data/bank.json'),get('data/dotpoints.json')]);
+    const [b,d]=await Promise.all([get(QG.courseData.bank),get(QG.courseData.dots)]);
     QG.bank=b;QG.dots=d;d.forEach(x=>QG.dm[x.id]=x);
   }catch(e){$('#list').innerHTML='<div class="empty">The question bank did not load after 4 tries. <button class="act" onclick="location.reload()">Try again</button></div>';return}
   $('#countAll').textContent=` · ${B.questions.filter(q=>!q.dup_of).length} questions`;

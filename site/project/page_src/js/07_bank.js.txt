@@ -60,7 +60,7 @@ function cardHTML(q){
   const d=B.docs[q.doc]; const r=reviews['q'+q.id];
   return `<article class="card" data-q="${q.id}"><div class="hd"><span class="qn">${qid(q)}</span><span class="src">${esc(srcLine(q))}</span>
     ${q.type==='mcq'?'<span class="badge">Multiple choice</span>':''}${r?.status==='flagged'?'<span class="badge b-bad">flagged</span>':''}${q.old?'<span class="badge b-old">Old syllabus</span>':''}${q.std?'<span class="badge b-std">Standard course</span>':''}
-    <span class="mk">${q.marks!=null?q.marks+(q.marks===1?' mark':' marks'):''}</span></div>${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not Advanced:</b> ${esc(q.std)}</div>`:''}${dupLine(q)}${qBody(q,'bank')}
+    <span class="mk">${q.marks!=null?q.marks+(q.marks===1?' mark':' marks'):''}</span></div>${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not ${esc(QG.courseData.short)}:</b> ${esc(q.std)}</div>`:''}${dupLine(q)}${qBody(q,'bank')}
     <div class="cfoot">${q.type==='mcq'?`<button class="act ghost" data-reveal="${q.id}">${revealed.has(q.id)?'Hide answer':'Show answer'}</button>`:''}<span class="meta">${(sk=>sk.length?'Needs: '+sk.map(esc).join(' · '):'')(qSkills(q))}${qYear(q)?`${qSkills(q).length?' · ':''}Year ${qYear(q)}`:''}${(l=>l?((qSkills(q).length||qYear(q))?' · ':'')+l:'')(typeof qDifLabel==='function'?qDifLabel(q):'')}</span><button class="act addx" data-addx="${q.id}" aria-pressed="${xIn(q.id)}">${xIn(q.id)?'✓ In exam':'+ Add to exam'}</button><a class="act ghost edonly" href="#review/list/all" data-open="${q.id}">Open in Review</a></div></article>`;
 }
 // owner 12 Nov ("make the bank more usable and clean ... looks really dead" -> warm editorial; topic -> subheadings -> questions)
@@ -82,12 +82,12 @@ function homeHTML(){
     const head=`<b>${esc(fa)}</b><span class="n">${c}<small>questions</small></span>`;
     return `<article class="facard y${yl}">${only?`<button class="fah subrow" data-sel="${esc(only)}">${head}</button>`:`<div class="fah static">${head}</div>`}<div class="subrows">${subRows(subs,yl,fa)}</div></article>`}).join('')}</div>`;
   const sum=m=>[...m.values()].reduce((a,subs)=>a+faCount(subs),0);
-  return `<div class="hero"><h1>Question bank</h1><p>Every question from past HSC papers and school trials, filed under the 2024 Mathematics Advanced syllabus. Pick a topic, or search above.</p>
+  return `<div class="hero"><h1>Question bank</h1><p>Every question from past HSC papers and school trials, filed under the 2024 ${esc(QG.courseData.name)} syllabus. Pick a topic, or search above.</p>
     <div class="stats"><span class="stat"><b>${n.toLocaleString()}</b> questions</span><span class="stat"><b>${papers}</b> papers</span><span class="stat"><b>${sum(TOPICS.y12)}</b> Year 12</span><span class="stat"><b>${sum(TOPICS.y11)}</b> Year 11</span>${bankSwitch()}</div></div>
    <div class="yhead"><h2>Year 12</h2><span class="yb y12">Y12</span></div>${cards(TOPICS.y12,12)}
    <div class="yhead"><h2>Year 11</h2><span class="yb y11">Y11</span><span class="muted">assumed knowledge, may be examined</span></div>${cards(TOPICS.y11,11)}
    <div class="yhead"><h2>Outside the 2024 syllabus</h2></div><div class="facards">
-     <article class="facard ys"><button class="fah" data-sel="special:removed"><b>Removed content</b><span class="n">${TOPICS.byKey['special:removed'].qs.length}<small>questions</small></span></button><div class="muted" style="font-size:13px">In past papers but not in the 2024 Advanced course (3D trigonometry, regression, Standard-course statistics).</div></article>
+     <article class="facard ys"><button class="fah" data-sel="special:removed"><b>Removed content</b><span class="n">${TOPICS.byKey['special:removed'].qs.length}<small>questions</small></span></button><div class="muted" style="font-size:13px">In past papers but not in the 2024 ${esc(QG.courseData.short)} course (3D trigonometry, regression, Standard-course statistics).</div></article>
      ${TOPICS.byKey['special:no_match'].qs.length?`<article class="facard ys"><button class="fah" data-sel="special:no_match"><b>No 2024 match</b><span class="n">${TOPICS.byKey['special:no_match'].qs.length}</span></button></article>`:''}</div>`;
 }
 function faHTML(yl,fa){const subs=(yl==='12'?TOPICS.y12:TOPICS.y11).get(fa);if(!subs)return homeHTML();const c=faCount(subs);

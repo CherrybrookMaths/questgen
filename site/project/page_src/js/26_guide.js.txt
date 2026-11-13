@@ -55,7 +55,7 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
 
   <section id="g2-topic" class="g2sec"><h3>1 · Topic</h3>
     <div class="g2tree">${[['Year',2,'Year 12'],['Focus area',S.fas,'Integral calculus'],['Subheading',S.sbs,'Areas and the definite integral'],['Dot point',S.dots,'Y12-279 · areas bounded by a curve']].map(([l,n,e],i)=>`${i?'<span class="g2arr" aria-hidden="true">→</span>':''}<div class="g2node"><b>${n}</b><span>${l}s</span><em>${esc(e)}</em></div>`).join('')}</div>
-    <p class="g2cap">NESA 2024 Mathematics Advanced syllabus. Every tag quotes a dot point verbatim.</p>
+    <p class="g2cap">NESA 2024 ${esc(QG.courseData.name)} syllabus. Every tag quotes a dot point verbatim.</p>
     <div class="g2three">
       <div class="g2card"><div class="g2k">Per part</div><b>Main dot point</b><span>What the part's marks are for</span></div>
       <div class="g2card"><div class="g2k">Per question</div><b>Home</b><span>One subheading. Shown there and only there</span></div>
