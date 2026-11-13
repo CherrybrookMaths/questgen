@@ -87,7 +87,7 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
       <li><b>"Show the derivative, hence integrate"</b> → integration.</li>
       <li><b>sec, cosec, cot graphs</b> → the trig-graph dot point, with a note.</li>
       <li><b>Product, quotient, chain rule</b>: exp/log/trig → Y12-240; two rules or a choice → Y11-134; else Y11-131/132/133.</li>
-      <li><b>How tags are made</b>: two independent AI taggers; agreement stands; a gate dispute goes to a third check; a home dispute ${isEditor()?'comes to Review › Tags':'goes to an editor'}.</li></ol></details>
+      <li><b>How tags are made</b>: two independent AI taggers; agreement stands; a gate dispute goes to a third check; a home dispute ${isEditor()?'comes to Review › Topics':'goes to an editor'}.</li></ol></details>
   </section>
 
   <section id="g2-diff" class="g2sec"><h3>2 · Difficulty</h3>

@@ -56,16 +56,16 @@ It was started on 12 Nov 2026, after he asked: "are we documenting carefully to 
 
 ## Review
 
-- **Four steps, in order:** Decide, Check, Spot-check, Diagrams, plus Tags when there are any. He said "way too many pills, not sure what I'm meant to check and in what order".
+- **Four steps, in order:** Decide, Check, Spot-check, Diagrams, plus Tags when there are any. He said "way too many pills, not sure what I'm meant to check and in what order". *(Order and names superseded by the 13 Nov answers: Your calls → Flagged → Topics → Diagrams → Spot-check, walked one paper at a time. See "Review: Inbox and one paper at a time".)*
 - **Keys.**
   - One question per page.
   - K goes to the next question.
   - A approves and moves on at once, without waiting for the save ("why doesn't approving auto next").
-  - Number keys switch steps ("let me press the numbers on my keyboard").
+  - Number keys switch steps ("let me press the numbers on my keyboard"). (In the code the numbers pick a diagram in Diagrams and 1 / 2 in Topics; since 13 Nov the steps are switched on the paper's track.)
 - **Flagging.** F opens a one-line box; type the reason and press Enter to send, or Esc to cancel. An empty reason is refused. This matches the diagrams step.
 - **Check and Decide show the full page,** with the question as it will appear next to the source page. The cropped side-by-side view was tried and rolled back: "so much worse and unusable". Don't bring it back.
 - **Recently approved.** Newest approvals first, and F re-flags from there. He said "I need a list of recently approved in case".
-- **Approving whole papers.** "Papers ready" in the Review header approves every paper whose spot-check is clean. He asked: "where do i go and batch approve the rest?".
+- **Approving whole papers.** "Papers ready" in the Review header approves every paper whose spot-check is clean. He asked: "where do i go and batch approve the rest?". (13 Nov: the banner sits in the Inbox's Papers card; each paper's Spot-check step also ends with "Approve the other N questions in this paper".)
 - **Diagrams.**
   - Riskiest types come first.
   - The counter names its unit ("why does my diagram review say 468").
@@ -78,7 +78,7 @@ It was started on 12 Nov 2026, after he asked: "are we documenting carefully to 
   - The owner picks the topic, not the gates ("I don't feel like I can accurately choose the gates").
   - A Y11/Y12 picker for when both suggestions are wrong ("If its both wrong, I should be able to pick from a Y11 and Y12 list").
 - **Solutions** are always visible somewhere for checking ("u need to show solutions somewhere so I can verify it").
-- **Papers page.** It has filters, and there is one compact row per import batch ("each batch takes so much vspace ... find a way to collapse").
+- **Papers page.** It has filters, and there is one compact row per import batch ("each batch takes so much vspace ... find a way to collapse"). *(13 Nov: the Papers tab is superseded, "Merge into Review": the list is Review's papers section, `#review/papers`, with the same filters and columns plus a review track.)*
 - **Guide tab.** It explains how questions are tagged, with live examples.
 
 ## Rendering text and tables
@@ -528,12 +528,12 @@ Small fixes from the review of the five queued requests, keeping every ruling ab
 
 ## Teach | Curate split (15 Nov, stage 3)
 Owner, 15 Nov: "Lets do 2 as well" (the Teach / Curate split; quoted via the workflow brief) and, in his own message, "curate should be hidden to peope except editors."
-- **Two areas.** **Teach**: Bank · Exams · Guide (Worksheets will join later; no placeholder tab). **Curate**: Review · Papers · Processes.
+- **Two areas.** **Teach**: Bank · Exams · Guide (Worksheets will join later; no placeholder tab). **Curate**: Review · Papers · Processes. *(13 Nov: Curate is Review · Processes; Papers merged into Review.)*
 - **Switch.** A small segmented **Teach | Curate** control sits before the tabs in the header: hairline frame, theme2 tokens, and a highlight that slides like the tab pill (12 Nov ruling). Only the open area's tabs show, and the tab pill still slides between them. Choosing an area returns to the last page used in it (first time: Bank / Review).
-- **Difficulty and Reports are Review steps.** The Review step row is Decide, Check, Spot-check, Diagrams, Tags, **Difficulty**, **Reports**, each with its count (Difficulty: parts still to check in the chosen list; Reports: open reports). Difficulty and Reports open their own pages under the same step row (`#review/difficulty`, `#review/reports`), without the paper picker and ← →. Old links `#levels`, `#difficulty` and `#reports` land on those steps; `#import` still lands on Processes. This replaces the "Difficulty tab" and "Reports tab" rulings below as to *where* they sit; their pages are unchanged.
+- **Difficulty and Reports are Review steps.** *(Superseded 13 Nov: the step row is gone; Difficulty and Reports are Inbox sections at the same addresses, with "← Inbox".)* The Review step row is Decide, Check, Spot-check, Diagrams, Tags, **Difficulty**, **Reports**, each with its count (Difficulty: parts still to check in the chosen list; Reports: open reports). Difficulty and Reports open their own pages under the same step row (`#review/difficulty`, `#review/reports`), without the paper picker and ← →. Old links `#levels`, `#difficulty` and `#reports` land on those steps; `#import` still lands on Processes. This replaces the "Difficulty tab" and "Reports tab" rulings below as to *where* they sit; their pages are unchanged.
 - **Who sees Curate.** Only the artifact's owner and editors (`user.isOwner()` or `user.canEdit()`). Everyone else, and any view where the user capability gives no answer, sees no switch, no Curate tab, no Curate group in the phone menu, no running / queued pills (they lead to Processes) and no "Open in Review" on bank cards; a Curate link sends them to `#bank`. While the capability has not answered yet, a Curate link shows the Bank and keeps the address, so an editor's link still opens once the answer arrives. This hides the UI only: what the database lets a viewer write is set by its rules.
 - **Remembered.** For the owner and editors the last area (and page in it) is kept per browser (`qg_area`, `qg_last_teach`, `qg_last_curate`, localStorage in try/catch); opening the page with no address returns to that area.
-- **Phone.** No switch; the menu lists **Teach** (Bank, Exams, Guide) then **Curate** (Review, Papers, Processes) under small headings, the Curate group only for editors. The Review step row scrolls so the open step is in sight. The Difficulty page now has the step row above it, so its phone header is taller than the 53 px measured on 14 Nov.
+- **Phone.** No switch; the menu lists **Teach** (Bank, Exams, Guide) then **Curate** (Review, Papers, Processes; 13 Nov: Review, Processes) under small headings, the Curate group only for editors. The Review step row scrolls so the open step is in sight. The Difficulty page now has the step row above it, so its phone header is taller than the 53 px measured on 14 Nov.
 - **Wording.** The Reports toast says "listed in Review › Reports" for editors and "Thank you" for others; the marking-guide note says ratings are checked in Curate › Review › Difficulty and questioned with Report in the ⓘ card. The Guide's developer page names the two areas in its "Web app" box. Stage 4 review (15 Nov): on the Guide's user page a non-editor reads "References checked by an editor" (no "in Review › Difficulty") and "a home dispute goes to an editor" (not "comes to Review › Tags"); checked by `areas (viewer|none): the Guide names no Curate page`.
 - Code: areas, routing and redirects in `page_src/js/09_router.js`; the step row (`renderSteps`, `XSTEPS`, `goStep`) in `08_review.js`; `lvTodoN` in `21_levels.js`; the phone menu in `22_phone_menu.js`; styles in `css/19_areas.css`. Tests: the `areas (editor|viewer|none): …` checks in `tools/page_test.js` (the fake user takes a role).
 
@@ -543,6 +543,33 @@ Owner, 15 Nov: "Lets do 2 as well" (the Teach / Curate split; quoted via the wor
 - **Approved-only chip.** He asked: "is there a point in this showing if all questions are approvied?" The Bank's "Approved only (x of y) · include unapproved" chip shows only when some questions are unapproved **and** the viewer is an editor (`isEditor()`, the Teach | Curate check). A non-editor never sees unapproved questions, even with `bankall=1` saved in the browser (`bankAll()` = BANKALL and editor). The exam pick list's "· approved only" note follows the same rule. Not changed: the exam generator's own "Approved questions only" box (on by default) still lets anyone turn it off.
 - **Next up.** He said: "add a place somewhere for me to write down what to flesh out next". A **Next up** card on Processes (Curate, editors only), between the queue and the Import dashboard: a text input + Add, the notes in order with drag (desktop) or ↑ ↓ to reorder, a tick moves a note to a collapsed **Done** list (unticking puts it back at the end), × asks "Delete? Delete / Keep" inline (no confirm()). Empty state: "Ideas for what to build next. Claude reads this list." Stored in db collection `notes`, one doc per note `{text, order, done, by, at}` (plus `doneAt` when ticked); only editors write (every handler checks `isEditor()`). Claude reads it with ArtifactData `list` on `notes` when asked what to build next.
 - Code: `parseT`, `clockT`, `durT`, `jobTimes`, `stepBar`, `renderJobs` and the pill handlers in `13_shell.js`; `renderProcesses` in `12_import.js`; `bankAll` / `bankSwitch` in `07_bank.js`; the notes in `31_notes.js` (own script block) and `css/20_notes.css`; `#notesBox` in page.html. Tests: `processes: running and queued pills`, `processes: pills on a touch phone`, `processes: job step, start, est. finish and duration`, `bank: approved-only chip for an editor`, `bank (viewer|none): no approved-only chip, no unapproved questions`, `next up: …` (add, reorder, tick/delete, phone 390 px, viewer).
+
+## Review: Inbox and one paper at a time (13 Nov)
+Owner, 13 Nov: "I think the next thing I want to do is refine the review process. It is just 7 tabs at the top and its not really clear the order / process. Let's clear that up together". His answers, verbatim choices:
+- Paper flow: "One paper at a time": open a paper and walk it top to bottom with a progress track.
+- Upkeep: "An 'Inbox' beside papers": Review opens on a summary: Papers to review · Reports · Difficulty, each with a count and a one-line 'what this is'; empty ones collapse to a tick.
+- Order: "Calls → Check → Topics → Diagrams → Spot-check": spot-check last, because it approves the rest of the paper.
+- Papers tab: "Merge into Review": Curate becomes Review · Processes, and `#papers` lands in Review's papers section.
+- Names: "Your calls · Flagged · Topics · Diagrams · Spot-check" ('Decide'→'Your calls', 'Check'→'Flagged', 'Tags'→'Topics'), each step with a one-line 'what to do here' under the track.
+
+These answers supersede, as to order, names and where things sit: "Four steps, in order" (Review), the Papers tab and "Papers page", "Difficulty and Reports are Review steps" and the Curate tab list (Teach | Curate split). Everything else in those rulings stands (keys, flagging, full-page Check, diagram rules, hidden duplicates, the Difficulty and Reports pages themselves).
+
+- **Inbox (`#review`).** Three cards:
+  - **Papers to review**: the number of papers with any review work left, then one row per paper (name, a 5-dot track, "N left · at <step>"); a row opens that paper. Up to 8 rows, then "N more · Show all papers →". The "Papers ready" banner (approve every paper whose spot-check is clean) sits in this card. With nothing left it collapses to "✓ Papers to review · all approved · Show all papers →".
+  - **Reports**: open reports; "✓ nothing open" when 0.
+  - **Difficulty**: `lvTodoN()`; "✓ check plan finished" when 0, still openable.
+  - The foot has **Recently approved** and **Other lists** (`#review/list/<filter>`), and the "N flags waiting for Claude" note when there are any.
+- **Papers (`#review/papers`).** The old Papers tab, unchanged in what it offers (search, year, task, source and progress filters, sortable columns, a paper filed as two PDFs counted once, totals), plus a **Review** column: the 5-dot track and "N left · at <step>" (or "✓ approved"), a "Review work left" progress filter, and a row (or its Open / Review link) opens the paper.
+- **A paper (`#review/paper/<doc>/<step>`).** The bar under the header is: **← Inbox**, the paper's name and "N left", the position and ← →; then the **track**: 5 numbered steps joined by hairlines, a tick when a step is done, a dashed circle when the paper has nothing in it, the open step in the accent with its count; then the step's **what to do here** line (shown on phones too). Below it, the existing question views for that step, filtered to the paper (both PDFs of a paper filed twice).
+  - Opening a paper without a step goes to its first step with work. When a step hits 0 it moves on to the next step with work, with a small toast ("Flagged done → Topics"). The background "Saved" toast does not cover it.
+  - **Spot-check** keeps "approve the rest of the paper in one click": once the sample is approved, the step shows "Approve the other N questions in this paper" (that click counts as the step's last item). When every step is clear the paper says "<paper> is done", with **Next paper →** and **← Inbox**.
+  - Keys are unchanged: A approves, F flags, K / J move, D uses all redraws, 1 / 2 in Topics, numbers pick a diagram.
+- **Reports and Difficulty** are Inbox sections at `#review/reports` and `#review/difficulty` (their pages unchanged) with **← Inbox** above them. Old `#reports`, `#difficulty`, `#levels`, `#papers` and `#import` still land on the right page.
+- **Gone:** the 7-button step row. **Recently approved** and **Other lists** are reached from the Inbox foot; a list (`#review/list/<filter>`) has ← Inbox, a list picker, the paper picker and ← →. "Open in Review" on a bank card opens `#review/list/all` on that question.
+- **Counts.** The Review tab and the Curate switch label show the Inbox total: papers to review + open reports.
+- **Phone (390 px).** The phone menu's Curate group is Review · Processes. The track shows the number circles, with the label only on the open step, and scrolls sideways if it must, keeping the open step in view. Checked at 390 px in light and dark.
+- **Test data.** Every live paper is approved, so `tools/page_test_fixture.py` lists a workload (`WORKLOAD`): the page test leaves those review docs out on its Review pages only, giving 1346 (+510) Your calls / Topics / Diagrams, 323 Flagged / Topics / Diagrams / Spot-check, and 1601 Spot-check only. Bank and Exams checks keep the live approved set.
+- Code: `STEPS`, `SLUG`, `paperWork`, `allWork`, `trackHTML`, `miniTrack`, `renderInbox`, `renderSteps`, `openReview`, `refreshReview` (auto-advance), `paperNextHTML` in `08_review.js`; `parseHash`, `HASH_ALIAS`, `todoCount` in `09_router.js`; the papers list in `11_papers.js`; markup in `page.html`; styles in `css/21_review_flow.css`. Tests: `review: …` checks in `tools/page_test.js` (Inbox summary; papers list; the track; auto-advance with keys; spot-check approve and paper done; 390 px light and dark), plus the updated `areas (editor): …` and phone menu checks.
 
 ## Where else things are recorded
 

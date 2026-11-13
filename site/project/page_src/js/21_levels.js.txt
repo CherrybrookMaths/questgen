@@ -31,7 +31,7 @@ function lvTodoN(){if(!B)return 0;lvSub();const hot=lvHot();return lvItems().fil
 function lvList(){const all=lvItems();
   const r=all.filter(x=>lvInArea(x)&&(LVSHOW==='all'||!lvDone(x)));
   return LVAREA==='spot'?r.sort((a,b)=>(b.flag?1:0)-(a.flag?1:0)||String(a.d.ar).localeCompare(String(b.d.ar))||b.lean-a.lean):r}
-function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});DIFD=nx;if(['review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
+function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});DIFD=nx;if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
 function renderLevels(keep){
   lvSub();const box=$('#levelsBox');const all=lvItems(),list=lvList();
   const done=all.filter(lvDone).length, anchors=all.filter(x=>!x.flag), adone=anchors.filter(lvDone).length;

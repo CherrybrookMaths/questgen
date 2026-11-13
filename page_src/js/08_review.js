@@ -2,12 +2,23 @@
 const FILTERS=[['recent','Recently approved (newest first)'],['decide','Needs your decision'],['scanqs','Scans: question + solution'],['digitalqs','Digital: quick skim'],['diagrams','Diagrams to approve'],['generated','Generated solutions'],['review','Parse flagged'],['no_match','No match'],['removed','Old syllabus'],['standard','Standard course'],['scan','Scans'],['duplicate','Near-duplicates'],['audited','Self-audited'],['changes','Diagram changes requested'],['redone','Redrawn from your notes'],['all','All questions']];
 const qFigs=q=>figKeys(q).all.filter(redrawable);
 const qGen=q=>q.solutions.filter(s=>s.source==='generated');
-// owner 12 Nov: "way too many pills, not sure what I'm meant to check and in what order". Four steps, in order.
-const STEPS=[['decide','Decide','Calls only you can make: a correction to a school\u2019s or NESA\u2019s solution, a possible error in the source, a borderline syllabus call.'],
-  ['check','Check','Every question with a table (check it against the page), plus anything the automatic checks or the independent maths checker could not clear. Each one says why and what to look at.'],
-  ['sample','Spot-check','A random 10% of each paper that passed every check. When a paper\u2019s sample is all fine, approve the rest of that paper in one click.'],
-  ['diagrams','Diagrams','Every redrawn diagram, one question at a time, original beside redraw. A approves, F flags (type the reason, Enter sends), K next, J back.'],
-  ['tags','Tags','Questions where the tagger and the independent checker would file the question under a different topic (its home: the topic carrying most of the marks). Pick the right home from the question: 1 tagger, 2 checker, F pick a dot point in another topic. Gates are automatic and shown for information only.']];
+// owner 12 Nov: "way too many pills, not sure what I'm meant to check and in what order". Steps, in order.
+// owner 13 Nov: "I think the next thing I want to do is refine the review process. It is just 7 tabs at the top and its not
+// really clear the order / process". He chose, in his words:
+//   order "Calls → Check → Topics → Diagrams → Spot-check" (spot-check last, because it approves the rest of the paper);
+//   names "Your calls · Flagged · Topics · Diagrams · Spot-check" ('Decide'→'Your calls', 'Check'→'Flagged', 'Tags'→'Topics'),
+//   each step with a one-line 'what to do here' under the track. The internal keys (decide, check, tags, diagrams, sample)
+//   are unchanged, so stored decisions, job 'affects' and the Other lists keep working.
+const STEPS=[['decide','Your calls','Calls only you can make: a correction to a school\u2019s or NESA\u2019s solution, a possible error in the source, a borderline syllabus call. A approves, F flags with a reason.'],
+  ['check','Flagged','The automatic checks or the independent maths checker could not clear these (and every table). Compare with the source page: each one says why and what to look at.'],
+  ['tags','Topics','The tagger and the checker would file these under different topics. Pick the right home from the question: 1 tagger, 2 checker, F another dot point. Gates are automatic.'],
+  ['diagrams','Diagrams','Each redrawn diagram beside its original. A approves, F flags (type the reason, Enter sends), K next, J back.'],
+  ['sample','Spot-check','A random 10% of the questions that passed every check. When they are all fine, approve the rest of the paper in one click.']];
+const SLUG={decide:'calls',check:'flagged',tags:'topics',diagrams:'diagrams',sample:'spot-check'};   // #review/paper/<doc>/<slug>
+const UNSLUG=Object.fromEntries(Object.entries(SLUG).map(([k,v])=>[v,k]));
+const stepLabel=k=>(STEPS.find(x=>x[0]===k)||FILTERS.find(x=>x[0]===k)||[,k])[1];
+// Review mode: 'paper' (one paper, walked top to bottom: #review/paper/<doc>/<step>) or 'list' (Recently approved, Other lists: #review/list/<filter>)
+let RMODE='paper';
 const paperOK=doc=>reviews['paper_'+doc]?.status==='approved';
 const chkFigsAll=q=>q.tri?q.tri.chk_figs.filter(redrawable):qFigs(q);
 // owner 12 Nov ("yeah do that"): High-confidence diagrams (question graphs, blank axes: 48 of 50 approved) are spot-checked,
@@ -35,37 +46,104 @@ const RISK={table:['Low',3,'tables: 80% flagged'],table_drawn:['Low',3,'tables: 
 function figRisk(k){const f=B.figs[k]||{};const c=f.status==='table'?'table':(f.cls||'other');return RISK[c+(/_s\d+$/.test(k)?'·s':'')]||RISK[c]||['Medium',2,'']}
 function qRisk(q){return Math.max(0,...chkFigs(q).map(k=>figRisk(k)[1]))}
 // owner 12 Nov: "where do i go and batch approve the rest?" -> papers whose spot-check is clean, approvable from the Review header
-function readyPapers(){const out=[];for(const doc in B.docs){const qs=B.questions.filter(q=>String(q.doc)===doc&&!q.dup_of),smp=qs.filter(q=>q.tri?.tier==='sample'),rest=qs.filter(q=>q.tri?.tier==='auto'&&!reviews['q'+q.id]?.status);
-  if(!rest.length||paperOK(+doc)||paperOK(doc))continue; if(!smp.length||smp.some(q=>reviews['q'+q.id]?.status!=='approved'))continue; out.push([doc,rest.length,smp.length])}return out}
+function paperReady(doc){doc=String(doc);const qs=B.questions.filter(q=>String(q.doc)===doc&&!q.dup_of),smp=qs.filter(q=>q.tri?.tier==='sample'),rest=qs.filter(q=>q.tri?.tier==='auto'&&!reviews['q'+q.id]?.status);
+  if(!rest.length||paperOK(+doc)||paperOK(doc))return null; if(!smp.length||smp.some(q=>reviews['q'+q.id]?.status!=='approved'))return null; return [doc,rest.length,smp.length]}
+function readyPapers(){return Object.keys(B.docs).map(paperReady).filter(Boolean)}
 function readyHTML(){const r=readyPapers(); if(!r.length) return ''; const n=r.reduce((a,x)=>a+x[1],0);
   return `<details class="banner ready"><summary><span><b>${r.length} paper${r.length>1?'s':''} ready:</b> every spot-checked question is approved, so the other ${n} questions can go in the bank.</span> <button class="act ok" id="approveReady">Approve all ${n}</button></summary>
     <ul class="help">${r.map(([d,k,m])=>`<li>${esc(docLabel(B.docs[d]))}: ${m} spot-checked, ${k} to approve <button class="act ghost" data-paperok="${d}">Approve this paper</button></li>`).join('')}</ul></details>`}
 async function approveReady(){const r=readyPapers(); for(const [d] of r) await approvePaper(d); toast(r.length+' papers approved')}
 document.addEventListener('click',e=>{if(e.target.closest('#approveReady')){e.preventDefault();approveReady()}});
-// owner 15 Nov: "Lets do 2 as well". Difficulty and Reports are steps inside Review, after Decide, Check, Spot-check, Diagrams
-// and Tags, with their counts (parts still to check in the chosen Difficulty list; open reports). They open their own
-// pages (#review/difficulty, #review/reports) under the same step row; the paper picker and ← → belong to the question steps only.
-const XSTEPS=[['difficulty','Difficulty','levels','HSC reference ratings: one part at a time, Agree or change the band and kind (2\u20136 set the band, F / P the kind, Enter or A saves).'],
-  ['reports','Reports','reports','Questions reported from an exam paper for a wrong difficulty, a wrong dot point or something else. Resolve or dismiss each one.']];
-function xstepN(k){try{if(k==='difficulty')return typeof lvTodoN==='function'?lvTodoN():0;if(k==='reports')return typeof repOpen==='function'?repOpen().length:0}catch(e){}return 0}
-function renderSteps(){if(!B)return;
-  const base=B.questions.filter(q=>!rdoc||String(q.doc)===rdoc);
-  const sc=STEPS.map(([k])=>base.filter(q=>inFilter(q,k)&&isTodo(q,k)).length);
-  const xs=XSTEPS.find(x=>x[2]===view),onQ=!xs;
-  const cur=onQ?STEPS.find(x=>x[0]===rfilter):null;
+/* ---------- Review: Inbox and one paper at a time (owner 13 Nov) ----------
+   He asked: "I think the next thing I want to do is refine the review process. It is just 7 tabs at the top and its not really
+   clear the order / process. Let's clear that up together", and chose:
+   - Paper flow: "One paper at a time" — open a paper and walk it top to bottom with a progress track (#review/paper/<doc>/<step>).
+   - Upkeep: "An 'Inbox' beside papers" — Review opens on a summary: Papers to review · Reports · Difficulty, each with a count and
+     a one-line 'what this is'; empty ones collapse to a tick (#review).
+   - Papers tab: "Merge into Review" — the papers list is Review's papers section (#review/papers; #papers still lands there).
+   This replaces the 7-button step row (15 Nov). Difficulty and Reports are Inbox sections (#review/difficulty, #review/reports). */
+let _prevLeft=null,_advanced=false,_holdToast=0;
+// a paper filed as two PDFs is one paper (as on the old Papers tab): its documents share a label
+let _grp=null;
+function docGroups(){if(_grp)return _grp;const g=new Map();
+  Object.values(B.docs).forEach(d=>{if(!B.questions.some(q=>q.doc===d.id))return;const k=docLabel(d);if(!g.has(k))g.set(k,[]);g.get(k).push(d)});
+  const n=id=>B.questions.filter(q=>q.doc===id&&!q.dup_of).length;_grp=new Map();
+  g.forEach(ds=>{const main=ds.length>1?ds.slice().sort((a,b)=>n(b.id)-n(a.id))[0]:ds[0];const ids=ds.map(d=>d.id);ids.forEach(i=>_grp.set(String(i),{main:String(main.id),ids}))});return _grp}
+const docIds=doc=>(docGroups().get(String(doc))||{ids:[+doc]}).ids;
+const mainDoc=doc=>(docGroups().get(String(doc))||{main:String(doc)}).main;
+// what is left in each step of one paper. The spot-check step also counts "approve the rest" once its sample is clean.
+function workOf(main,ids,qs){const left={},total={};STEPS.forEach(([k])=>{left[k]=0;total[k]=0});
+  qs.forEach(q=>STEPS.forEach(([k])=>{if(inFilter(q,k)){total[k]++;if(isTodo(q,k))left[k]++}}));
+  const ready=ids.map(paperReady).filter(Boolean);left.sample+=ready.length;
+  const n=STEPS.reduce((a,[k])=>a+left[k],0);
+  return {doc:main,ids,left,total,ready,n,at:(STEPS.find(([k])=>left[k]>0)||[])[0]||null}}
+function paperWork(doc){const ids=docIds(doc);return workOf(mainDoc(doc),ids,B.questions.filter(q=>ids.includes(q.doc)))}
+function allWork(){const by=new Map();B.questions.forEach(q=>{const m=mainDoc(q.doc);if(!by.has(m))by.set(m,[]);by.get(m).push(q)});
+  const W=new Map();by.forEach((qs,m)=>W.set(m,workOf(m,docIds(m),qs)));return W}
+const workYear=w=>+(String(B.docs[w.doc]?.label||'').match(/\d{4}/)||[0])[0];
+const workOrder=(a,b)=>workYear(b)-workYear(a)||docLabel(B.docs[a.doc]).localeCompare(docLabel(B.docs[b.doc]));   // as the papers list: newest first
+function nextStepWith(w,cur){const i=STEPS.findIndex(x=>x[0]===cur),ks=STEPS.map(x=>x[0]);return ks.slice(i+1).concat(ks.slice(0,Math.max(0,i))).find(k=>w.left[k]>0)||null}
+// the paper's track: 5 numbered steps, done ticks, the open step highlighted, counts
+function trackHTML(w,cur){return STEPS.map(([k,l],i)=>{const n=w.left[k],t=w.total[k]+(w.ready.length&&k==='sample'?1:0),on=k===cur;
+    const st=n?'todo':t?'done':'none';
+    const tip=n?`${n} left${k==='sample'&&w.ready.length?' (approve the rest of the paper)':''}`:t?'Done':'Nothing in this paper';
+    return `<li class="tstep ${st}${on?' cur':''}"><button type="button" class="step" data-f="${k}" aria-current="${on?'step':'false'}" title="${esc(l+': '+tip)}"><span class="num" aria-hidden="true">${n||!t?i+1:'✓'}</span><span class="lab">${esc(l)}</span>${n?`<span class="n">${n}</span>`:`<span class="sr">${esc(tip)}</span>`}</button></li>`}).join('')}
+// the papers list and the Inbox: the same track as 5 dots
+function miniTrack(w){return `<span class="mtrack" role="img" aria-label="${esc(STEPS.map(([k,l])=>l+(w.left[k]?' '+w.left[k]+' left':' done')).join(', '))}">${STEPS.map(([k])=>`<i class="${w.left[k]?(k===w.at?'cur':'todo'):'done'}"></i>`).join('')}</span>`}
+const workLine=w=>w.n?`${w.n} left · at ${esc(stepLabel(w.at))}`:'✓ approved';
+// Review tab and Curate switch: the Inbox total (papers to review + open reports)
+function updateCounts(){const n=todoCount();$('#todoN').textContent=n||'';const c=$('#curN');if(c)c.textContent=n||''}
+const otherListsHTML=sel=>`<select data-lists aria-label="Other lists"><option value="">${sel?'Other lists…':'Choose…'}</option>${FILTERS.filter(([k])=>k!=='decide'&&k!=='diagrams').map(([k,l])=>`<option value="${k}"${k===sel?' selected':''}>${esc(l)}</option>`).join('')}</select>`;
+function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
+  const W=[...allWork().values()].filter(w=>w.n).sort(workOrder),rep=typeof repOpen==='function'?repOpen().length:0,lv=typeof lvTodoN==='function'?lvTodoN():0;
+  const card=(k,n,title,what,href,doneText,body='')=>n?`<section class="icard" data-card="${k}"><a class="ihead" href="${href}"><span class="ict">${n}</span><span class="itx"><b>${title}</b><span class="iwhat">${what}</span></span><span class="igo" aria-hidden="true">→</span></a>${body}</section>`
+    :`<section class="icard idone" data-card="${k}"><a class="ihead" href="${href}"><span class="itick" aria-hidden="true">✓</span><span class="itx"><b>${title}</b><span class="iwhat">${doneText}</span></span><span class="igo">${k==='papers'?'Show all papers':'Open'} →</span></a></section>`;
+  const SHOW=8,rows=W.slice(0,SHOW).map(w=>`<li><a class="iprow" href="#review/paper/${w.doc}"><span class="ipn">${esc(docLabel(B.docs[w.doc]))}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`).join('');
+  box.innerHTML=`<div class="ihd"><h2>Review</h2><p class="sub">What is waiting for you. Papers are walked one at a time, top to bottom.</p></div>
+    ${card('papers',W.length,'Papers to review','Open a paper and walk it top to bottom: your calls, flagged, topics, diagrams, then the spot-check that approves the rest.','#review/papers','all approved',
+      readyHTML()+`<ul class="iplist">${rows}</ul><a class="imore" href="#review/papers">${W.length>SHOW?`${W.length-SHOW} more · `:''}Show all papers →</a>`)}
+    <div class="ipair">${card('reports',rep,'Reports','Questions reported from an exam paper: a wrong difficulty, a wrong dot point or something else. Resolve or dismiss each one.','#review/reports','nothing open')}
+    ${card('difficulty',lv,'Difficulty','HSC reference ratings: agree or change the band and kind, one part at a time.','#review/difficulty','check plan finished')}</div>
+    ${handoffHTML()}<div class="ifoot"><a href="#review/list/recent">Recently approved</a><span aria-hidden="true">·</span><label>Other lists ${otherListsHTML('')}</label></div>`}
+// draw the Review chrome for the open view: the Inbox, or the paper's track (list mode: a plain header). Also keeps the counts.
+function renderSteps(){if(!B)return {base:[]};updateCounts();
+  if(view==='inbox'){renderInbox();return {base:[]}}
+  if(view==='papers'&&$('#ptable')){renderPapers();return {base:[]}}
+  if(view!=='review')return {base:[]};
+  const base=rdoc?B.questions.filter(q=>docIds(rdoc).includes(q.doc)):B.questions;
+  const rb=$('#rbar');rb.classList.toggle('paper',RMODE==='paper');rb.classList.toggle('list',RMODE!=='paper');
   const dleft=base.filter(q=>inFilter(q,'diagrams')).reduce((n,q)=>n+chkFigs(q).filter(k=>!reviews['q'+q.id]?.fig?.[k]).length,0);   // owner 12 Nov: "why does my diagram review say 468" -> label the unit
-  $('#filters').innerHTML=STEPS.map(([k,l],i)=>`<button class="step${sc[i]?'':' empty0'}" data-f="${k}" aria-pressed="${onQ&&k===rfilter}"><span class="num">${i+1}</span>${l}<span class="n" title="${sc[i]} question${sc[i]===1?'':'s'} to do${k==='diagrams'?' · '+dleft+' diagrams':''}">${sc[i]}</span></button>`).join('')
-    +XSTEPS.map(([k,l,v],i)=>{const n=xstepN(k);return `<button class="step${n?'':' empty0'}" data-f="${k}" aria-pressed="${view===v}"><span class="num">${STEPS.length+i+1}</span>${l}<span class="n" title="${n} ${k==='reports'?'open report'+(n===1?'':'s'):'part'+(n===1?'':'s')+' to check'}">${n}</span></button>`}).join('')
-    +`<button class="act ghost" id="recentBtn" aria-pressed="${onQ&&rfilter==='recent'}">Recently approved</button><details class="more"><summary>Other lists</summary><select id="moreF" aria-label="Other lists"><option value="">Choose…</option>${FILTERS.filter(([k])=>!['decide','diagrams'].includes(k)).map(([k,l])=>`<option value="${k}"${onQ&&k===rfilter?' selected':''}>${l}</option>`).join('')}</select></details>`
-    +(onQ?readyHTML():'')+`<p class="stephelp">${xs?esc(xs[3]):`${rfilter==='diagrams'?`<b>${sc[STEPS.findIndex(x=>x[0]==='diagrams')]} questions · ${dleft} diagrams left.</b> `:''}${cur?esc(cur[2]):'Showing: '+esc((FILTERS.find(f=>f[0]===rfilter)||[,''])[1])+' (any status). Pick a numbered step to go back to your queue.'}`}</p>`;
-  $('#recentBtn')&&($('#recentBtn').onclick=()=>goStep('recent','any'));
-  const mf=$('#moreF'); if(mf) mf.onchange=()=>{if(!mf.value)return;goStep(mf.value,'any')};
-  try{const fs=$('#filters'),pb=fs.querySelector('.step[aria-pressed="true"]');if(pb&&fs.scrollWidth>fs.clientWidth){const a=fs.getBoundingClientRect(),b=pb.getBoundingClientRect();fs.scrollLeft+=b.left-a.left-(a.width-b.width)/2}}catch(e){}   // phone: the step row scrolls; keep the open step in sight (Difficulty and Reports sit at its end)
+  if(RMODE==='paper'){const w=paperWork(rdoc),cur=STEPS.find(x=>x[0]===rfilter)||STEPS[0];
+    $('#rtitle').innerHTML=`<b>${esc(docLabel(B.docs[w.doc]))}</b><span class="rleft">${w.n?`${w.n} left`:'✓ done'}</span>`;
+    $('#filters').innerHTML=trackHTML(w,rfilter);
+    $('#stephelp').innerHTML=`<b>${STEPS.indexOf(cur)+1}. ${esc(cur[1])}.</b> ${rfilter==='diagrams'&&w.left.diagrams?`${w.left.diagrams} question${w.left.diagrams===1?'':'s'} · ${dleft} diagram${dleft===1?'':'s'} left. `:''}${esc(cur[2])}`;
+    try{const fs=$('#filters'),pb=fs.querySelector('.step[aria-current="step"]');if(pb&&fs.scrollWidth>fs.clientWidth){const a=fs.getBoundingClientRect(),b=pb.getBoundingClientRect();fs.scrollLeft+=b.left-a.left-(a.width-b.width)/2}}catch(e){}
+  }else{const inSel=FILTERS.some(x=>x[0]===rfilter&&x[0]!=='decide'&&x[0]!=='diagrams');$('#rtitle').innerHTML=`${inSel?'':`<b>${esc(stepLabel(rfilter))}</b>`}${otherListsHTML(inSel?rfilter:'')}`;   // the select names the list$('#filters').innerHTML='';
+    $('#stephelp').innerHTML=rfilter==='recent'?'Newest approvals first. F flags a question again; the note says why.':`Every question in this list, any status.${rdoc?'':' Pick a paper to narrow it.'}`}
   return {base}}
-// open a Review step: a question step re-draws Review (going back to #review from Difficulty or Reports); the two page steps change the address
-function goStep(f,st){const xs=XSTEPS.find(x=>x[0]===f);if(xs){location.hash=VHASH[xs[2]];return}
-  rfilter=f;rstatus=st||'todo';save('rf2',rfilter);ridx=0;if(view!=='review'){location.hash='#review';return}refreshReview()}
+// open a step of the paper (or a list); Difficulty and Reports are Inbox sections
+function goStep(f,st){if(f==='difficulty'){location.hash='#review/difficulty';return}if(f==='reports'){location.hash='#review/reports';return}
+  if(RMODE==='paper'&&rdoc&&view==='review'&&STEPS.some(x=>x[0]===f)){const h='#review/paper/'+mainDoc(rdoc)+'/'+SLUG[f];if(location.hash!==h)location.hash=h;return}
+  location.hash='#review/list/'+f}
+// the address names the paper and step (or the list); called by route() once the bank is loaded
+function openReview(P){
+  if(P.doc){if(!docGroups().has(String(P.doc))){setHash('#review');return false}
+    const d=mainDoc(P.doc),k=UNSLUG[P.step]||'';const was=RMODE+'|'+rdoc+'|'+rfilter;
+    RMODE='paper';rdoc=d;rstatus='todo';
+    if(k)rfilter=k;else{rfilter=paperWork(d).at||'sample'}
+    const h='#review/paper/'+d+'/'+SLUG[rfilter];if(location.hash!==h)setHash(h);
+    if(was!==RMODE+'|'+rdoc+'|'+rfilter){ridx=0;_prevLeft=null}}
+  else{const f=FILTERS.some(x=>x[0]===P.list)||STEPS.some(x=>x[0]===P.list)?P.list:'recent';
+    if(RMODE!=='list'||rfilter!==f)ridx=0;RMODE='list';rfilter=f;rstatus='any';rdoc=$('#docF').value}
+  return true}
 function refreshReview(){ if(typeof renderJobs==='function')renderJobs();
+  _advanced=false;
+  // owner 13 Nov: when a step hits 0 it moves on to the next step with work, with a small toast ("Your calls done → Flagged")
+  if(RMODE==='paper'&&rdoc&&rstatus==='todo'){const w=paperWork(rdoc),p=_prevLeft;
+    if(p&&p.doc===rdoc&&p.f===rfilter&&p.n>0&&!w.left[rfilter]){const nx=nextStepWith(w,rfilter);
+      if(nx){_holdToast=Date.now()+2200;toast(`${stepLabel(rfilter)} done → ${stepLabel(nx)}`);rfilter=nx;ridx=0;_advanced=true;setHash('#review/paper/'+rdoc+'/'+SLUG[nx])}
+      else if(!w.n){_holdToast=Date.now()+2200;toast(`${docLabel(B.docs[w.doc])} done`)}}
+    _prevLeft={doc:rdoc,f:rfilter,n:w.left[rfilter]}}
   const {base}=renderSteps();
   rlist=base.filter(q=>inFilter(q,rfilter)&&statusOK(q));
   if(rfilter==='diagrams') rlist.sort((a,b)=>qRisk(b)-qRisk(a));
@@ -110,16 +188,17 @@ function whyHTML(q){
   const t=q.tri; if(!t) return '';
   const cls=t.tier==='decide'?'decide':t.tier==='sample'?'sample':'';
   return `<div class="why ${cls}"><b>Why this is here</b><ul>${t.why.map(w=>`<li>${esc(w)}</li>`).join('')||'<li>Passed every check</li>'}</ul>${t.look.length?`<b>What to check</b><ol>${t.look.map(w=>`<li>${esc(w)}</li>`).join('')}</ol>`:''}</div>`}
-function sampleBanner(doc){
+function sampleBanner(doc){doc=+doc;
   const qs=B.questions.filter(q=>q.doc===doc&&!q.dup_of), smp=qs.filter(q=>q.tri?.tier==='sample'), rest=qs.filter(q=>q.tri?.tier==='auto');
   if(!smp.length||!rest.length||paperOK(doc)) return paperOK(doc)?`<div class="banner">✓ ${esc(docLabel(B.docs[doc]))}: spot-check clean, the other ${rest.length} questions are approved.</div>`:'';
   const ok=smp.filter(q=>reviews['q'+q.id]?.status==='approved').length, bad=smp.filter(q=>reviews['q'+q.id]?.status==='flagged').length;
   if(bad) return `<div class="why"><b>Spot-check</b>${bad} of ${smp.length} sampled questions in ${esc(docLabel(B.docs[doc]))} were flagged, so the rest of this paper stays unapproved. Claude will re-check the paper.</div>`;
   if(ok<smp.length) return `<div class="help">Spot-check for ${esc(docLabel(B.docs[doc]))}: ${ok} of ${smp.length} done. When all are fine you can approve the other ${rest.length} questions in one click.</div>`;
   return `<div class="banner"><span>All ${smp.length} spot-checked questions in <b>${esc(docLabel(B.docs[doc]))}</b> are fine.</span><button class="act ok" data-paperok="${doc}">Approve the other ${rest.length} questions in this paper</button></div>`}
-async function approvePaper(doc){const key='paper_'+doc;const next={status:'approved',doc:+doc,by:me||null,at:new Date().toISOString()};reviews[key]=next;TOPICS=null;
+async function approvePaper(doc){doc=String(doc);const key='paper_'+doc;const next={status:'approved',doc:+doc,by:me||null,at:new Date().toISOString()};reviews[key]=next;TOPICS=null;
   if(!db){toast('Not saved: this view has no shared storage');return}
-  try{await db.doc('reviews/'+key).set(next);toast('Paper approved')}catch(e){toast('Could not save. Try again in a moment.')}refreshReview()}
+  if(view==='review')refreshReview();else renderSteps();   // move on at once (owner 12 Nov: "why doesn't approving auto next"); the save finishes in the background
+  try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Paper approved')}catch(e){toast('Could not save. Try again in a moment.')}}
 // owner 12 Nov: "one question per page ... K should be to go next. Bind a keystroke to approve, bind a keystroke to flag ...
 // pull up a textbox ... hit enter to send the flag through. Keep a log on the side ... That can collapse as well."
 let logOpen=(()=>{try{return localStorage.getItem('dlog')!=='0'}catch(e){return true}})();
@@ -166,16 +245,23 @@ async function diagDecide(v,note,only){const q=rlist[ridx];if(!q)return;const r=
   // owner 12 Nov: flag one diagram, not all of them ("21 flagged" was really ~12). Flagging some approves the rest on the page.
   const fig={...(r.fig||{})},notes={...(r.fig_notes||{})};ks.forEach(k=>{const hit=!only||only.includes(k);fig[k]=hit?v:(fig[k]||'approved');if(note&&hit)notes[k]=note});
   write(q,note?{fig,fig_notes:notes}:{fig}); const was=q.id; refreshReview();   // move on at once; the save finishes in the background
-  if(rlist[ridx]?.id===was) go(1); window.scrollTo({top:0});}   // the decided question leaves the to-do list; the next one takes its place
+  if(!_advanced&&rlist[ridx]?.id===was) go(1); window.scrollTo({top:0});}   // the decided question leaves the to-do list; the next one takes its place
 function bindLog(){
   $('#logT')&&($('#logT').onclick=()=>{logOpen=!logOpen;try{localStorage.setItem('dlog',logOpen?'1':'0')}catch(e){}renderDiag()});
   $$('#rout [data-logq]').forEach(b=>b.onclick=()=>{rstatus='any';pendingOpen=+b.dataset.logq;refreshReview()});
   $$('#rout [data-undo]').forEach(b=>b.onclick=async()=>{const q=B.questions.find(x=>x.id===+b.dataset.undo);const r=reviews['q'+q.id]||{};const fig={...(r.fig||{})};
     chkFigs(q).forEach(k=>delete fig[k]);await write(q,{fig});toast('Undone: '+qid(q)+' is back in the list');refreshReview()});
 }
-function nextStepHTML(){const base=B.questions.filter(q=>!rdoc||String(q.doc)===rdoc);const nx=STEPS.map(([k,l],i)=>[k,l,i,base.filter(q=>inFilter(q,k)&&isTodo(q,k)).length]).filter(x=>x[0]!==rfilter&&x[3]>0);
-  return nx.length?`<div class="row" style="margin-top:10px">${nx.map(([k,l,i,n])=>`<button class="act" data-gof="${k}">Go to ${i+1}. ${l} · ${n}</button>`).join('')}</div>`:'<div style="margin-top:8px">Your queue is empty: everything imported so far is checked.</div>'}
-function bindNext(){$$('#rout [data-gof]').forEach(b=>b.onclick=()=>{rfilter=b.dataset.gof;rstatus='todo';save('rf2',rfilter);ridx=0;refreshReview()})}
+function nextStepHTML(){if(RMODE==='paper'&&rdoc)return paperNextHTML();
+  const base=B.questions.filter(q=>!rdoc||docIds(rdoc).includes(q.doc));const nx=STEPS.map(([k,l],i)=>[k,l,i,base.filter(q=>inFilter(q,k)&&isTodo(q,k)).length]).filter(x=>x[0]!==rfilter&&x[3]>0);
+  return nx.length?`<div class="row" style="margin-top:10px">${nx.map(([k,l,i,n])=>`<button class="act" data-gof="${k}">${i+1}. ${l} · ${n}</button>`).join('')}</div>`:'<div style="margin-top:8px">Your queue is empty: everything imported so far is checked.</div>'}
+// owner 13 Nov ("One paper at a time"): in a paper, an empty step offers the next step with work, or says the paper is done
+function paperNextHTML(){const w=paperWork(rdoc),nx=nextStepWith(w,rfilter),d=B.docs[w.doc];
+  if(!w.n){const more=[...allWork().values()].filter(x=>x.n&&x.doc!==w.doc).sort(workOrder)[0];
+    return `<div class="pdone"><span class="ptick" aria-hidden="true">✓</span><div><b>${esc(docLabel(d))} is done.</b><div class="muted">Every step is clear.</div></div>
+      <div class="row">${more?`<a class="act primary" href="#review/paper/${more.doc}">Next paper: ${esc(docLabel(B.docs[more.doc]))} →</a>`:''}<a class="act" href="#review">← Inbox</a></div></div>`}
+  return `<div class="row" style="margin-top:10px">${nx?`<button class="act primary" data-gof="${nx}">Go to ${STEPS.findIndex(x=>x[0]===nx)+1}. ${esc(stepLabel(nx))} · ${w.left[nx]} →</button>`:''}<a class="act ghost" href="#review">← Inbox</a></div>`}
+function bindNext(){$$('#rout [data-gof]').forEach(b=>b.onclick=()=>goStep(b.dataset.gof,b.dataset.any?'any':'todo'))}
 /* owner 12 Nov ("lets do that"): Tags step — choose between tagger (A) and checker (B) where they disagreed a lot */
 function dpChip(id,role,other){const d=DM[id]||{};const diff=!other.has(id);
   return `<span class="tdp${diff?' tdiff':''}" title="${esc(id+' · '+(d.fa||'')+(d.sub?' › '+d.sub:'')+' — '+(d.text||''))}"><span class="yb y${d.yl||''}">Y${d.yl||'?'}</span><span class="tid">${esc(id)}</span> ${esc(d.short||d.sub||d.fa||'')}${role==='primary'?'':' <span class="muted">(also)</span>'}</span>`}
@@ -261,7 +347,7 @@ function drawTP(){const el=$('#tpList');if(!el)return;const s=($('#tflagtxt')?.v
     el.innerHTML=[...g].map(([k,m])=>`<details><summary>${esc(k)}</summary>${[...m].map(([sk,ds])=>`${sk?`<div class="tpsub">${esc(sk)}</div>`:''}${ds.map(row).join('')}`).join('')}</details>`).join('')}
   $$('#tpList [data-tp]').forEach(b=>b.onclick=()=>tpPick(b.dataset.tp))}
 function tpPick(id){tagChoose({id,note:$('#tpNote')?.value.trim()||null})}
-function tagChoose(v){const q=rlist[ridx];if(!q)return;write(q,{home:v});TOPICS=null;const was=q.id;refreshReview();if(rlist[ridx]?.id===was)go(1);window.scrollTo({top:0})}
+function tagChoose(v){const q=rlist[ridx];if(!q)return;write(q,{home:v});TOPICS=null;const was=q.id;refreshReview();if(!_advanced&&rlist[ridx]?.id===was)go(1);window.scrollTo({top:0})}
 function renderReview(){
   $('#reviewView').classList.toggle('grid',rfilter==='diagrams'||rfilter==='tags'||FOCUS_STEPS.includes(rfilter));
   $('#rout').previousElementSibling.textContent=rfilter==='diagrams'?'Diagrams to check':rfilter==='tags'?'Tags to settle':'Parsed question';
@@ -270,8 +356,13 @@ function renderReview(){
   const done=rlist.filter(q=>!isTodo(q,rfilter)).length;
   $('#prog').style.width=(rlist.length?100*done/rlist.length:0)+'%';
   $('#pos').textContent=rlist.length?`${ridx+1} / ${rlist.length}`+(rfilter==='recent'&&approvedAt(rlist[ridx])?' · approved '+new Date(approvedAt(rlist[ridx])).toLocaleString([], {day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):''):'0 / 0';
+  if(!rlist.length&&RMODE==='paper'){   // owner 13 Nov: one paper at a time; an empty step says so and points to the next one
+    const w=paperWork(rdoc);
+    $('#rout').innerHTML=`<div class="empty pempty">${w.n?`<b>Nothing left in “${esc(stepLabel(rfilter))}” for this paper.</b>`:''}
+      ${rfilter==='sample'?w.ids.map(sampleBanner).join(''):''}${paperNextHTML()}</div>`;
+    $('#src').innerHTML='';$('#srcTitle').textContent='Source page';$('#reviewView').classList.add('grid');bindNext();return}   // no question: no empty source pane
   if(!rlist.length){
-    const base=B.questions.filter(q=>!rdoc||String(q.doc)===rdoc);
+    const base=B.questions.filter(q=>!rdoc||docIds(rdoc).includes(q.doc));
     const next=FILTERS.filter(([k])=>k!==rfilter&&k!=='all').map(([k,l])=>[k,l,base.filter(q=>inFilter(q,k)&&isTodo(q,k)).length]).filter(x=>x[2]>0);
     const label=(FILTERS.find(f=>f[0]===rfilter)||[])[1]||'';
     $('#rout').innerHTML=`<div class="empty" style="text-align:left;display:flex;flex-direction:column;gap:12px">
@@ -279,7 +370,7 @@ function renderReview(){
       <div>All ${B.questions.filter(q=>!q.dup_of).length} questions are still in the bank — open the <a href="#bank">Bank</a> to browse them by topic, or pick what to review next:</div>
       <div class="row">${next.map(([k,l,n])=>`<button class="act" data-gof="${k}">${esc(l)} · ${n}</button>`).join('')}<button class="act" data-gof="all" data-any="1">Every question (any status)</button></div></div>`;
     $('#src').innerHTML='';$('#srcTitle').textContent='Source page';
-    $$('#rout [data-gof]').forEach(b=>b.onclick=()=>{rfilter=b.dataset.gof;save('rf2',rfilter);if(b.dataset.any){rstatus='any';$('#stF').value='any'}ridx=0;refreshReview()});
+    bindNext();
     return}
   const q=rlist[ridx], d=B.docs[q.doc], r=reviews['q'+q.id];
   $('#srcTitle').textContent=`${docLabel(d)} · page ${q.pages.map(p=>+p.split('_').pop().split('.')[0]+1).join(', ')}`;
@@ -323,7 +414,7 @@ async function write(q,patch){
   const next={...cur,...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};
   reviews[key]=next; TOPICS=null; _clean=null;
   if(!db){toast('Not saved: this view has no shared storage');return}
-  try{await db.doc('reviews/'+key).set(next);toast('Saved')}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.')}
+  try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved')}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.')}
 }
 async function setFig(q,k,v){await write(q,{fig:{...(reviews['q'+q.id]?.fig||{}),[k]:v}});afterDecision(q)}
 async function setFigReq(q,k,t){const r=reviews['q'+q.id]||{};await write(q,{fig:{...(r.fig||{}),[k]:'changes'},fig_notes:{...(r.fig_notes||{}),[k]:t}});afterDecision(q)}
@@ -341,7 +432,7 @@ async function decide(status){const q=rlist[ridx];if(!q)return;const patch={stat
   if(status==='approved'){const sol={...(reviews['q'+q.id]?.sol||{})};let n=0;qGen(q).forEach(x=>{if(!sol[x.id]){sol[x.id]='approved';n++}});if(n)patch.sol=sol}
   write(q,patch);   // owner 12 Nov: "why doesn't approving auto next" -> don't wait for the save; move on at once
   const was=q.id; if(rstatus==='todo'&&!['diagrams','generated'].includes(rfilter)){refreshReview()} else renderReview();
-  if(rlist[ridx]?.id===was) go(1); window.scrollTo({top:0})}
+  if(!_advanced&&rlist[ridx]?.id===was) go(1); window.scrollTo({top:0})}
 function setupPicker(){
   const inp=$('#pickQ'); if(!inp) return; inp.focus();
   const draw=()=>{const s=inp.value.toLowerCase().trim();const hits=(s?DOTS.filter(d=>(d.id+' '+d.fa+' '+(d.sub||'')+' '+d.text).toLowerCase().includes(s)):DOTS).slice(0,60);
@@ -352,7 +443,8 @@ function setupPicker(){
   $('#setRemoved').onclick=()=>setTag({cov:'removed'}); $('#setNoMatch').onclick=()=>setTag({cov:'no_match'}); $('#cancelPick').onclick=()=>{editing=null;renderReview()};
 }
 function go(n){editing=null;ridx=Math.min(Math.max(0,ridx+n),Math.max(0,rlist.length-1));renderReview();window.scrollTo({top:0})}   // renderReview shows one diagram question at a time in step 4
-$('#filters').addEventListener('click',e=>{const b=e.target.closest('.step');if(!b)return;goStep(b.dataset.f,'todo')});
+$('#filters').addEventListener('click',e=>{const b=e.target.closest('.step');if(!b)return;goStep(b.dataset.f,'todo')});   // the paper's step track
+document.addEventListener('change',e=>{const m=e.target.closest&&e.target.closest('select[data-lists]');if(m&&m.value)location.hash='#review/list/'+m.value});   // "Other lists" (Inbox foot, list header)
 $('#stF').onchange=e=>{rstatus=e.target.value;ridx=0;refreshReview()};
 $('#docF').onchange=e=>{rdoc=e.target.value;ridx=0;refreshReview()};
 $('#prev').onclick=()=>go(-1); $('#next').onclick=()=>go(1);

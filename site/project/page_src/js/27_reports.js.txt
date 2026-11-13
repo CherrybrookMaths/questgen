@@ -21,7 +21,8 @@ function repSub(){if(REP.sub||!db)return !!REP.sub;
 (()=>{let n=0;const t=setInterval(()=>{if(repSub()||++n>240)clearInterval(t)},500)})();
 const repOpen=()=>REP.list.filter(r=>(r.status||'open')==='open');
 // owner 15 Nov: Reports is a step inside Review; its count is on the step (was the tab badge #repN)
-function repBadge(){if(['review','levels','reports'].includes(view)&&typeof renderSteps==='function')renderSteps()}
+// owner 13 Nov: the count is on the Inbox's Reports card and in the Review tab / Curate switch totals
+function repBadge(){if(typeof renderSteps==='function')renderSteps()}
 async function repNames(){const ids=[...new Set(REP.list.map(x=>x.by).filter(i=>i&&i!==me&&!(i in REP.names)))];if(!ids.length)return;
   try{const u=await window.claude?.use?.('user');if(!u?.profiles)return;const ps=await u.profiles(ids);ids.forEach(i=>REP.names[i]=ps?.[i]?.name||'');if(view==='reports')renderReports()}catch(e){}}
 const repWho=id=>!id?'':id===me?'you':(REP.names[id]||'a colleague');

@@ -161,10 +161,12 @@ const VIEWS = [
   ['exams-setup', '#exams', '#examsView', false, async p => p.evaluate(() => document.querySelector('[data-exv="setup"]').click())],
   ['exams-pick', '#exams', '#examsView', true, async p => p.evaluate(() => document.querySelector('[data-exv="pick"]').click())],
   ['exams-mine', '#exams', '#examsView', false, async p => p.evaluate(() => document.querySelector('[data-exv="mine"]').click())],
-  ['review', '#review', '#reviewView', true, async p => {   // an empty queue shows no question: open "Every question" instead
-    await p.evaluate(() => { if (!document.querySelector('#approve')) document.querySelector('#rout [data-gof="all"]')?.click() }); }],
-  ['reports', '#review/reports', '#reportsView', false],   // owner 15 Nov: Reports is a step inside Review
-  ['papers', '#papers', '#papersView', false],
+  // owner 13 Nov: Review is an Inbox, a papers list, one paper at a time and the lists (Recently approved, Other lists)
+  ['inbox', '#review', '#inboxView', false],
+  ['review-paper', '#review/paper/323', '#reviewView', true],   // the fixture's workload: 2024 Caringbah AT4 has Flagged, Topics, Diagrams and Spot-check left
+  ['review', '#review/list/all', '#reviewView', true],
+  ['reports', '#review/reports', '#reportsView', false],   // owner 15 Nov: Reports is a step inside Review (13 Nov: an Inbox section)
+  ['papers', '#review/papers', '#papersView', false],   // owner 13 Nov: "Merge into Review"
   ['processes', '#processes', '#processesView', false],   // owner 14 Nov: the Import tab is now Processes
   ['levels', '#review/difficulty', '#levelsView', true, async p => {   // owner 15 Nov: Difficulty is a step inside Review   // nothing left to check: show All, so a part is on screen
     await p.evaluate(() => { if (!document.querySelector('#levelsBox .lvcard')) document.querySelector('[data-lvshow="all"]')?.click() }); }],
@@ -203,8 +205,8 @@ async function sweep(browser, base, seed, width, theme) {
   await page.context().close();
 }
 
-async function flows(browser, base, seed) {
-  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+async function flows(browser, base, seed, seedR) {
+  let page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
   await boot(page, base);
   const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
   const db = () => page.evaluate(() => ({log: window.__pt.log.slice(), n: window.__pt.store.size}));
@@ -408,12 +410,14 @@ async function flows(browser, base, seed) {
 
   /* ---- Reports tab ---- */
   await check('reports: the report is on the Reports tab', page, async () => {
+    await page.evaluate(() => { location.hash = '#review' }); await settle(page, 4000, 2);
+    const badge = await page.evaluate(() => document.querySelector('#inboxBox [data-card="reports"] .ict')?.textContent);   // owner 13 Nov: the count is on the Inbox's Reports card
     await page.evaluate(() => { location.hash = '#reports' }); await settle(page, 4000, 2);
-    const r = await page.evaluate(() => ({rows: [...document.querySelectorAll('#reportsBox .rep-row')].map(li => li.innerText), badge: document.querySelector('#filters .step[data-f="reports"] .n')?.textContent}));   // 15 Nov: the count is on the Reports step
+    const r = await page.evaluate(b => ({rows: [...document.querySelectorAll('#reportsBox .rep-row')].map(li => li.innerText), badge: b}), badge);
     errs(); assert(r.rows.length >= 1, 'no report rows');
     assert(r.rows.some(t => /Wrong difficulty/.test(t) && /band 5/.test(t) && /Problem solving/.test(t) && /band looks too low/.test(t)), 'the new report (band 5 · Problem solving) is not listed: ' + (r.rows[0] || '').slice(0, 160));
-    assert(r.badge === String(r.rows.length), `Reports step count “${r.badge}” for ${r.rows.length} open report(s)`);
-    return `${r.rows.length} open, step count ${r.badge}`;
+    assert(r.badge === String(r.rows.length), `Inbox Reports count “${r.badge}” for ${r.rows.length} open report(s)`);
+    return `${r.rows.length} open, Inbox count ${r.badge}`;
   });
 
   /* ---- Grouped data packs (stage 2, 15 Nov): redraws and overlays load from data/<kind>/g<n>.json, never per paper ---- */
@@ -442,12 +446,14 @@ async function flows(browser, base, seed) {
     return `${r.n} redraws from ${r.docs} papers in ${r.urls.filter(u => /svg/.test(u)).length} svg group file(s); ${r.ncm} overlay images`;
   });
 
-  /* ---- Review: Agree (approve) writes and moves on ---- */
+  /* ---- Review: Agree (approve) writes and moves on (on a page with the Review workload) ---- */
+  await page.context().close();
+  page = await newPage(browser, base, seedR, {width: 1280, theme: 'light'});
+  await boot(page, base, '#review');
   await check('review: approve writes to the database and moves on', page, async () => {
-    await page.evaluate(() => { location.hash = '#review' }); await settle(page, 5000, 2);
-    let has = await page.$('#approve');
-    if (!has) { await page.click('#rout [data-gof="all"]'); await settle(page, 4000, 2); has = await page.$('#approve') }   // empty queue: "Every question"
-    assert(has, 'no Approve button in Review, even under "Every question"');
+    await page.evaluate(() => { location.hash = '#review/paper/1346' }); await settle(page, 5000, 2);   // owner 13 Nov: one paper at a time (the fixture's 2022 CSSA AT4 starts at Your calls)
+    const has = await page.$('#approve');
+    assert(has, 'no Approve button in the paper flow');
     const was = await page.evaluate(() => rlist[ridx].id), n0 = (await db()).log.length;
     await page.click('#approve'); await settle(page, 3000, 2);
     const w = (await db()).log.slice(n0).filter(x => x.k === 'reviews/q' + was);
@@ -482,16 +488,16 @@ async function phone(browser, base, seed) {
     await page.click('#menuBtn'); await settle(page, 1500, 2);
     const open = await page.evaluate(() => ({hidden: document.querySelector('#mSheet').hidden, links: [...document.querySelectorAll('#mSheet a')].map(a => a.textContent.trim()), exp: document.querySelector('#menuBtn').getAttribute('aria-expanded')}));
     assert(!open.hidden && open.exp === 'true', 'the menu did not open');
-    assert(open.links.length === 6, `${open.links.length} links in the menu: ${open.links.join(', ')}`);   // 15 Nov: Teach 3 + Curate 3 (Difficulty and Reports are Review steps)
+    assert(open.links.length === 5, `${open.links.length} links in the menu: ${open.links.join(', ')}`);   // 13 Nov: Teach 3 + Curate 2 (Papers merged into Review)
     const heads = await page.evaluate(() => [...document.querySelectorAll('#mSheet .mgrp')].map(g => g.querySelector('.mh').textContent + ':' + [...g.querySelectorAll('a')].map(a => a.textContent.replace(/\d+$/, '').trim()).join('/')));
-    assert(heads.join(' | ') === 'Teach:Bank/Exams/Guide | Curate:Review/Papers/Processes', `menu groups: ${heads.join(' | ')}`);
+    assert(heads.join(' | ') === 'Teach:Bank/Exams/Guide | Curate:Review/Processes', `menu groups: ${heads.join(' | ')}`);
     assert(open.links.includes('Processes') && !open.links.includes('Import'), `the menu should name Processes, not Import: ${open.links.join(', ')}`);   // owner 14 Nov
-    await page.click('#mSheet a[href="#papers"]'); await settle(page, 4000, 2);
-    const r = await page.evaluate(() => ({hash: location.hash, hidden: document.querySelector('#mSheet').hidden, cur: document.querySelector('#menuCur').textContent, pv: !document.querySelector('#papersView').hidden, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth}));
+    await page.click('#mSheet a[href="#review"]'); await settle(page, 4000, 2);
+    const r = await page.evaluate(() => ({hash: location.hash, hidden: document.querySelector('#mSheet').hidden, cur: document.querySelector('#menuCur').textContent, pv: !document.querySelector('#inboxView').hidden, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth}));
     const e = takeErrs(page); assert(!e.length, e.join(' | '));
-    assert(r.hash === '#papers' && r.pv, `did not go to Papers (${r.hash})`); assert(r.hidden, 'the menu stayed open'); assert(r.cur === 'Papers', `menu button says “${r.cur}”`);
+    assert(r.hash === '#review' && r.pv, `did not go to the Review Inbox (${r.hash})`); assert(r.hidden, 'the menu stayed open'); assert(r.cur === 'Review', `menu button says “${r.cur}”`);
     assert(r.sw <= r.cw + 1, `horizontal scroll ${r.sw} > ${r.cw}`);
-    return `${open.links.length} links; Papers opened`;
+    return `${open.links.length} links; the Review Inbox opened`;
   });
   await page.context().close();
 }
@@ -499,7 +505,7 @@ async function phone(browser, base, seed) {
 /* ---------------- Teach | Curate (owner 15 Nov: "Lets do 2 as well" and "curate should be hidden to peope except editors.") ----------------
    Editor (owner / canEdit): the switch, three tabs per area, Difficulty and Reports as Review steps, the old hashes land on their step.
    Viewer (neither) and no user capability at all: no switch, no Curate tab or link anywhere, and a Curate hash goes to #bank. */
-const CURATE_HASHES = ['#review', '#papers', '#processes', '#import', '#levels', '#difficulty', '#reports', '#review/difficulty', '#review/reports'];
+const CURATE_HASHES = ['#review', '#papers', '#processes', '#import', '#levels', '#difficulty', '#reports', '#review/difficulty', '#review/reports', '#review/papers', '#review/paper/323', '#review/paper/323/topics', '#review/list/recent'];
 async function areas(browser, base, seed) {
   const navState = p => p.evaluate(() => ({hash: location.hash, view, sw: (() => { const s = document.querySelector('#areaSw'); return !!s && !s.hidden && s.offsetWidth > 0 })(),
     tabs: [...document.querySelectorAll('.views a')].filter(a => a.offsetWidth > 0).map(a => a.firstChild.textContent.trim()),
@@ -516,40 +522,35 @@ async function areas(browser, base, seed) {
     assert(r.tabs.join('/') === 'Bank/Exams/Guide' && r.pressed === 'teach' && r.area === 'teach', `Teach shows ${r.tabs.join('/')} (switch on ${r.pressed})`);
     await page.click('#areaSw button[data-area="curate"]'); await settle(page, 5000, 2);
     r = await navState(page); errs();
-    assert(r.view === 'review' && r.hash === '#review', `Curate opened ${r.hash} (view ${r.view})`);
-    assert(r.tabs.join('/') === 'Review/Papers/Processes' && r.pressed === 'curate' && r.cur === 'Review', `Curate shows ${r.tabs.join('/')}, current ${r.cur}`);
+    assert(r.view === 'inbox' && r.hash === '#review', `Curate opened ${r.hash} (view ${r.view})`);   // owner 13 Nov: Review opens on the Inbox
+    assert(r.tabs.join('/') === 'Review/Processes' && r.pressed === 'curate' && r.cur === 'Review', `Curate shows ${r.tabs.join('/')}, current ${r.cur}`);   // owner 13 Nov: "Merge into Review"
     const sl = await page.evaluate(async () => { await new Promise(z => setTimeout(z, 400)); const s = document.querySelector('#areaSw .aslider').getBoundingClientRect(), b = document.querySelector('#areaSw button[aria-pressed="true"]').getBoundingClientRect(); return {dx: Math.abs(s.left - b.left), dw: Math.abs(s.width - b.width)} });
     assert(sl.dx < 1.5 && sl.dw < 1.5, `the switch highlight is off the selected area by ${sl.dx.toFixed(1)} px / ${sl.dw.toFixed(1)} px`);
-    await go(page, '#papers'); await page.click('#areaSw button[data-area="teach"]'); await settle(page, 4000, 2);
+    await go(page, '#review/papers'); await page.click('#areaSw button[data-area="teach"]'); await settle(page, 4000, 2);
     r = await navState(page); assert(r.view === 'bank', `Teach went to ${r.hash}`);
     await page.click('#areaSw button[data-area="curate"]'); await settle(page, 4000, 2);
-    r = await navState(page); errs(); assert(r.hash === '#papers', `Curate should return to the last Curate page (#papers), went to ${r.hash}`);
-    return 'Teach: Bank/Exams/Guide · Curate: Review/Papers/Processes · switch slides · last page per area kept';
+    r = await navState(page); errs(); assert(r.hash === '#review/papers', `Curate should return to the last Curate page (#review/papers), went to ${r.hash}`);
+    return 'Teach: Bank/Exams/Guide · Curate: Review/Processes · switch slides · last page per area kept';
   });
-  await check('areas (editor): Difficulty and Reports are Review steps with counts', page, async () => {
+  await check('areas (editor): Difficulty and Reports are Inbox sections with ← Inbox', page, async () => {
+    // owner 13 Nov: the 7-button step row is gone; Reports and Difficulty are Inbox cards that open their own sections
     await go(page, '#review');
-    const st = await page.evaluate(() => [...document.querySelectorAll('#filters .step')].map(b => b.dataset.f + '=' + b.querySelector('.n').textContent));
-    errs();
-    const ks = st.map(x => x.split('=')[0]);
-    assert(['decide', 'check', 'sample', 'diagrams', 'tags', 'difficulty', 'reports'].every(k => ks.includes(k)) && ks.indexOf('difficulty') > ks.indexOf('tags') && ks.indexOf('reports') === ks.indexOf('difficulty') + 1, `steps: ${st.join(' ')}`);
-    const want = await page.evaluate(() => [lvTodoN(), repOpen().length]);
-    assert(st.includes('difficulty=' + want[0]) && st.includes('reports=' + want[1]), `step counts ${st.join(' ')}; expected difficulty=${want[0]} reports=${want[1]}`);
-    await page.click('#filters .step[data-f="difficulty"]'); await settle(page, 5000, 2);
-    let r = await page.evaluate(() => ({hash: location.hash, view, lv: !document.querySelector('#levelsView').hidden, rbar: !document.querySelector('#rbar').hidden, docF: document.querySelector('#docF').offsetWidth,
-      pressed: document.querySelector('#filters .step[aria-pressed="true"]')?.dataset.f, cur: document.querySelector('.views a[aria-current="page"]')?.firstChild.textContent.trim()}));
-    errs(); assert(r.hash === '#review/difficulty' && r.view === 'levels' && r.lv, `Difficulty step opened ${r.hash} (view ${r.view})`);
-    assert(r.rbar && r.pressed === 'difficulty' && r.cur === 'Review' && !r.docF, `step row ${r.rbar}, pressed ${r.pressed}, tab ${r.cur}, paper picker ${r.docF} px`);
-    await page.click('#filters .step[data-f="reports"]'); await settle(page, 4000, 2);
-    r = await page.evaluate(() => ({hash: location.hash, view, rep: !document.querySelector('#reportsView').hidden, pressed: document.querySelector('#filters .step[aria-pressed="true"]')?.dataset.f}));
-    errs(); assert(r.hash === '#review/reports' && r.rep && r.pressed === 'reports', `Reports step opened ${r.hash}, pressed ${r.pressed}`);
-    await page.click('#filters .step[data-f="decide"]'); await settle(page, 4000, 2);
-    r = await page.evaluate(() => ({hash: location.hash, view, rv: !document.querySelector('#reviewView').hidden, rfilter}));
-    errs(); assert(r.hash === '#review' && r.view === 'review' && r.rv && r.rfilter === 'decide', `Decide from Reports went to ${r.hash} (${r.rfilter})`);
-    return st.join(' ');
+    const st = await page.evaluate(() => ({rbar: !document.querySelector('#rbar').hidden, steps: document.querySelectorAll('#filters .step').length, cards: [...document.querySelectorAll('#inboxBox .icard')].map(c => c.dataset.card)}));
+    errs(); assert(!st.rbar && !st.steps, `the old step row is still there (${st.steps} steps, bar ${st.rbar})`);
+    assert(st.cards.join(',') === 'papers,reports,difficulty', `Inbox cards: ${st.cards.join(',')}`);
+    for (const [k, h, v, box] of [['difficulty', '#review/difficulty', 'levels', '#levelsView'], ['reports', '#review/reports', 'reports', '#reportsView']]) {
+      await page.click(`#inboxBox [data-card="${k}"] a.ihead`); await settle(page, 4000, 2);
+      const r = await page.evaluate(box => ({hash: location.hash, view, shown: !document.querySelector(box).hidden, back: document.querySelector(box + ' > a.rback')?.getAttribute('href'), cur: document.querySelector('.views a[aria-current="page"]')?.firstChild.textContent.trim()}), box);
+      errs(); assert(r.hash === h && r.view === v && r.shown, `${k} card opened ${r.hash} (view ${r.view})`);
+      assert(r.back === '#review' && r.cur === 'Review', `${k}: back link ${r.back}, tab ${r.cur}`);
+      await page.click(box + ' > a.rback'); await settle(page, 3000, 2);
+      const b = await page.evaluate(() => ({hash: location.hash, view})); assert(b.hash === '#review' && b.view === 'inbox', `← Inbox from ${k} went to ${b.hash}`);
+    }
+    return 'no step row; cards papers, reports, difficulty; both sections open and ← Inbox returns';
   });
-  await check('areas (editor): old #levels, #difficulty and #reports land on their Review step', page, async () => {
+  await check('areas (editor): old #levels, #difficulty, #reports, #papers and #import still land', page, async () => {
     const out = [];
-    for (const [h, want, v] of [['#levels', '#review/difficulty', 'levels'], ['#difficulty', '#review/difficulty', 'levels'], ['#reports', '#review/reports', 'reports'], ['#import', '#processes', 'processes']]) {
+    for (const [h, want, v] of [['#levels', '#review/difficulty', 'levels'], ['#difficulty', '#review/difficulty', 'levels'], ['#reports', '#review/reports', 'reports'], ['#import', '#processes', 'processes'], ['#papers', '#review/papers', 'papers']]) {
       await go(page, '#bank'); await go(page, h);
       const r = await page.evaluate(() => ({hash: location.hash, view}));
       assert(r.hash === want && r.view === v, `${h} → ${r.hash} (view ${r.view}), expected ${want}`); out.push(`${h}→${r.hash}`);
@@ -557,11 +558,11 @@ async function areas(browser, base, seed) {
     errs(); return out.join(' ');
   });
   await check('areas (editor): the last area is remembered', page, async () => {
-    await go(page, '#papers');
+    await go(page, '#review/papers');
     await page.goto(base + 'review.html'); await page.waitForFunction(() => typeof B !== 'undefined' && B && EDITOR !== null, null, {timeout: 45000}); await settle(page, 5000, 2);
     const r = await navState(page); errs();
-    assert(r.hash === '#papers' && r.area === 'curate', `a bare reload opened ${r.hash || '(no hash)'} in ${r.area}`);
-    return 'reload with no hash reopened #papers (Curate)';
+    assert(r.hash === '#review/papers' && r.area === 'curate', `a bare reload opened ${r.hash || '(no hash)'} in ${r.area}`);
+    return 'reload with no hash reopened #review/papers (Curate)';
   });
   await page.context().close();
 
@@ -613,6 +614,143 @@ async function areas(browser, base, seed) {
     return `link → #bank; menu ${m.links.join(' ')}`;
   });
   await pp.context().close();
+}
+
+/* ---------------- Review: Inbox and one paper at a time (owner 13 Nov) ----------------
+   Owner: "I think the next thing I want to do is refine the review process. It is just 7 tabs at the top and its not really clear the
+   order / process." Chosen: "One paper at a time", "An 'Inbox' beside papers", "Calls → Check → Topics → Diagrams → Spot-check",
+   "Merge into Review", "Your calls · Flagged · Topics · Diagrams · Spot-check". The fixture's workload (page_test_fixture.py WORKLOAD)
+   leaves 3 papers with work: 1346 (+510) Your calls/Topics/Diagrams, 323 Flagged/Topics/Diagrams/Spot-check, 1601 Spot-check only. */
+async function reviewFlow(browser, base, seed) {
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await boot(page, base, '#review');
+  const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  const go = async h => { await page.evaluate(h => { location.hash = h }, h); await settle(page, 5000, 2) };
+  const writes = async (n0, pre) => (await page.evaluate(() => window.__pt.log.slice())).slice(n0).filter(x => x.op === 'set' && x.k.startsWith(pre));
+  const logN = () => page.evaluate(() => window.__pt.log.length);
+  const track = () => page.evaluate(() => ({hash: location.hash, view, rfilter, pos: ridx, left: paperWork(rdoc).left, n: rlist.length,
+    steps: [...document.querySelectorAll('#filters .tstep')].map(li => ({lab: li.querySelector('.lab').textContent, cls: li.className.replace('tstep ', ''), n: li.querySelector('.n')?.textContent || '', num: li.querySelector('.num').textContent})),
+    help: document.querySelector('#stephelp')?.textContent || '', title: document.querySelector('#rtitle')?.textContent || '', back: document.querySelector('#rbar .rback')?.getAttribute('href'), toast: document.querySelector('#toast')?.textContent || ''}));
+
+  await check('review: the Inbox summary', page, async () => {
+    const r = await page.evaluate(() => {
+      const W = [...allWork().values()].filter(w => w.n), card = k => document.querySelector(`#inboxBox [data-card="${k}"]`);
+      return {want: W.length, docs: W.map(w => w.doc).sort(), rep: repOpen().length, lv: lvTodoN(), view, rbar: !document.querySelector('#rbar').hidden,
+        pn: card('papers')?.querySelector('.ict')?.textContent, rows: [...document.querySelectorAll('#inboxBox .iprow')].map(a => ({href: a.getAttribute('href'), dots: a.querySelectorAll('.mtrack i').length, line: a.querySelector('.ipl').textContent})),
+        all: card('papers')?.querySelector('a.imore')?.getAttribute('href'),
+        repDone: card('reports')?.classList.contains('idone'), repTxt: card('reports')?.innerText, lvDone: card('difficulty')?.classList.contains('idone'), lvTxt: card('difficulty')?.innerText, lvHref: card('difficulty')?.querySelector('a')?.getAttribute('href'),
+        tab: document.querySelector('#todoN').textContent, sw: document.querySelector('#curN').textContent,
+        recent: document.querySelector('#inboxBox .ifoot a')?.getAttribute('href'), lists: document.querySelectorAll('#inboxBox .ifoot select[data-lists] option').length};
+    });
+    errs(); assert(r.view === 'inbox' && !r.rbar, `#review opened view ${r.view} (bar shown ${r.rbar})`);
+    assert(r.want === 3 && r.docs.join(',') === '1346,1601,323', `papers with work: ${r.docs.join(',')} (the fixture's workload is 1346, 323, 1601)`);
+    assert(r.pn === String(r.want) && r.rows.length === r.want, `Papers card says ${r.pn}, ${r.rows.length} rows, want ${r.want}`);
+    assert(r.rows.every(x => x.dots === 5 && /^\d+ left · at (Your calls|Flagged|Topics|Diagrams|Spot-check)$/.test(x.line) && /^#review\/paper\/\d+$/.test(x.href)), `rows: ${JSON.stringify(r.rows)}`);
+    assert(r.all === '#review/papers', `"Show all papers" goes to ${r.all}`);
+    assert(r.rep === 0 && r.repDone && /Reports\s*nothing open/.test(r.repTxt), `Reports card with ${r.rep} open: done ${r.repDone} “${r.repTxt}”`);
+    assert(r.lv === 0 && r.lvDone && /check plan finished/.test(r.lvTxt) && r.lvHref === '#review/difficulty', `Difficulty card with ${r.lv} to check: done ${r.lvDone} “${r.lvTxt}” → ${r.lvHref}`);
+    const tot = String(r.want + r.rep); assert(r.tab === tot && r.sw === tot, `Review tab count ${r.tab}, Curate switch count ${r.sw}; want ${tot}`);
+    assert(r.recent === '#review/list/recent' && r.lists > 5, `foot: Recently approved → ${r.recent}, ${r.lists} other lists`);
+    await page.selectOption('#inboxBox .ifoot select[data-lists]', 'all'); await settle(page, 4000, 2);
+    const l = await page.evaluate(() => ({hash: location.hash, view, rfilter, rstatus, n: rlist.length, track: document.querySelector('#filters').offsetHeight}));
+    errs(); assert(l.hash === '#review/list/all' && l.view === 'review' && l.rfilter === 'all' && l.rstatus === 'any' && l.n > 1000 && !l.track, `Other lists → ${l.hash} ${l.rfilter}/${l.rstatus}, ${l.n} questions, track ${l.track}px`);
+    return `${r.want} papers (${r.rows.map(x => x.line).join('; ')}); reports and difficulty ticked; tab and switch ${tot}; Other lists → All questions`;
+  });
+
+  await check('review: papers list (#papers) with tracks opens a paper', page, async () => {
+    await go('#papers');
+    let r = await page.evaluate(() => ({hash: location.hash, view, rows: document.querySelectorAll('#ptable tbody tr').length, tracks: document.querySelectorAll('#ptable tbody .mtrack').length,
+      todo: [...document.querySelectorAll('#ptable tbody tr')].filter(tr => /left · at/.test(tr.innerText)).map(tr => tr.dataset.flow).sort(), cols: [...document.querySelectorAll('#ptable thead th')].map(t => t.textContent.replace(/[▲▼]/, '').trim()), back: document.querySelector('#papersView > a.rback')?.getAttribute('href'),
+      filters: ['#pfQ', '#pfYear', '#pfTask', '#pfSrc', '#pfProg'].filter(s => document.querySelector(s)).length}));
+    errs(); assert(r.hash === '#review/papers' && r.view === 'papers', `#papers → ${r.hash} (view ${r.view})`);
+    assert(r.rows > 40 && r.tracks === r.rows && r.todo.join(',') === '1346,1601,323', `${r.rows} rows, ${r.tracks} tracks, with work: ${r.todo.join(',')}`);
+    assert(['Paper', 'Review', 'Questions', 'Marks', 'Approved', 'MCQ', 'Short answer', 'Type', 'Source'].every(c => r.cols.includes(c)) && r.filters === 5 && r.back === '#review', `columns ${r.cols.join('/')}, ${r.filters} filters, back ${r.back}`);   // the old Papers tab's columns and filters stay
+    await page.selectOption('#pfProg', 'todo'); await settle(page, 3000, 2);
+    const nTodo = await page.evaluate(() => document.querySelectorAll('#ptable tbody tr').length);
+    await page.selectOption('#pfProg', ''); await settle(page, 2000, 2);
+    assert(nTodo === 3, `"Review work left" shows ${nTodo} rows`);
+    await page.click('#ptable tbody tr[data-flow="1346"] td.num'); await settle(page, 5000, 2);
+    r = await track(); errs();
+    assert(r.hash === '#review/paper/1346/calls' && r.view === 'review' && r.rfilter === 'decide', `row click opened ${r.hash} (${r.rfilter})`);
+    return `${r.steps.length} steps; ${nTodo} papers with work; row → ${r.hash}`;
+  });
+
+  await check('review: the paper track (order, names, counts, what to do here)', page, async () => {
+    await go('#review/paper/323');
+    const r = await track(); errs();
+    assert(r.hash === '#review/paper/323/flagged' && r.rfilter === 'check', `#review/paper/323 opened ${r.hash} (${r.rfilter}): the first step with work is Flagged`);
+    assert(r.steps.map(x => x.lab).join(' · ') === 'Your calls · Flagged · Topics · Diagrams · Spot-check', `track: ${r.steps.map(x => x.lab).join(' · ')}`);
+    const K = ['decide', 'check', 'tags', 'diagrams', 'sample'];
+    assert(r.steps.every((x, i) => x.n === (r.left[K[i]] ? String(r.left[K[i]]) : '')), `counts ${r.steps.map(x => x.n).join('/')} vs ${JSON.stringify(r.left)}`);
+    assert(/\bcur\b/.test(r.steps[1].cls) && !/\bcur\b/.test(r.steps[0].cls) && /none/.test(r.steps[0].cls) && r.steps.slice(2).every(x => /todo/.test(x.cls)), `states ${r.steps.map(x => x.cls).join(' | ')}`);
+    assert(/^2\. Flagged\. /.test(r.help) && /source page/.test(r.help), `help line “${r.help}”`);
+    assert(/2024 Caringbah High School AT4/.test(r.title) && r.back === '#review', `title “${r.title}”, back ${r.back}`);
+    await page.click('#filters .step[data-f="diagrams"]'); await settle(page, 5000, 2);
+    const d = await track(); errs();
+    assert(d.hash === '#review/paper/323/diagrams' && d.rfilter === 'diagrams' && /\bcur\b/.test(d.steps[3].cls) && /diagrams? left/.test(d.help), `Diagrams step: ${d.hash} ${d.rfilter} “${d.help.slice(0, 60)}”`);
+    return `${r.steps.map(x => x.lab + (x.n ? ' ' + x.n : ' ' + x.num)).join(' → ')}`;
+  });
+
+  await check('review: a step at 0 moves on to the next step with work (keys)', page, async () => {
+    await go('#review/paper/323/flagged');
+    const n = (await track()).left.check, n0 = await logN();
+    let t;
+    for (let i = 0; i < n; i++) { await page.keyboard.press('a'); await sleep(150); t = await page.evaluate(() => document.querySelector('#toast').textContent); }
+    await settle(page, 3000, 2);
+    const r = await track(); errs();
+    const w = await writes(n0, 'reviews/q');
+    assert(w.length === n && w.every(x => x.v.status === 'approved'), `${w.length} approvals written for ${n} Flagged questions`);
+    assert(r.hash === '#review/paper/323/topics' && r.rfilter === 'tags' && /\bcur\b/.test(r.steps[2].cls) && /done/.test(r.steps[1].cls), `after the last Flagged: ${r.hash} (${r.rfilter}), states ${r.steps.map(x => x.cls).join('|')}`);
+    assert(t === 'Flagged done → Topics', `toast “${t}”`);
+    await page.keyboard.press('k'); await sleep(200);
+    const k = await page.evaluate(() => ridx);
+    assert(k === 1 || r.n < 2, `K did not move on (ridx ${k})`);
+    await page.keyboard.press('j'); await sleep(200);
+    return `${n} × A: ${t}; K/J move within Topics`;
+  });
+
+  await check('review: spot-check approves the rest of the paper, then the paper is done', page, async () => {
+    await go('#review/paper/1601');
+    let r = await track(); errs();
+    assert(r.hash === '#review/paper/1601/spot-check' && r.rfilter === 'sample' && r.left.sample === 3, `opened ${r.hash}, ${JSON.stringify(r.left)}`);
+    const n0 = await logN();
+    for (let i = 0; i < 3; i++) { await page.keyboard.press('a'); await sleep(150) }
+    await settle(page, 3000, 2);
+    r = await track();
+    const btn = await page.evaluate(() => document.querySelector('#rout [data-paperok]')?.textContent || '');
+    errs(); assert(r.rfilter === 'sample' && r.left.sample === 1 && r.steps[4].n === '1', `after the sample: ${r.rfilter}, ${JSON.stringify(r.left)}`);   // "approve the rest" is the step's last item
+    assert(/Approve the other 8 questions in this paper/.test(btn), `button “${btn}”`);
+    await page.click('#rout [data-paperok]'); await settle(page, 3000, 2);
+    r = await track();
+    const w = await writes(n0, 'reviews/');
+    const done = await page.evaluate(() => ({pdone: document.querySelector('#rout .pdone')?.innerText || '', next: document.querySelector('#rout .pdone a.primary')?.getAttribute('href'), ok: paperOK('1601'), inbox: [...allWork().values()].filter(w => w.n).length}));
+    errs(); assert(w.filter(x => x.k.startsWith('reviews/q')).length === 3 && w.some(x => x.k === 'reviews/paper_1601' && x.v.status === 'approved'), `writes: ${w.map(x => x.k).join(' ')}`);
+    assert(done.ok && /is done/.test(done.pdone) && /^#review\/paper\/\d+$/.test(done.next || ''), `paper done panel “${done.pdone.slice(0, 80)}”, next ${done.next}`);
+    assert(/done$/.test(r.toast) || /approved/.test(r.toast), `toast “${r.toast}”`);
+    assert(r.steps.every(x => /done|none/.test(x.cls)) && done.inbox === 2, `track ${r.steps.map(x => x.cls).join('|')}; Inbox papers ${done.inbox}`);
+    return `3 sample approvals + paper_1601; ${done.pdone.split('\n')[0]}; Inbox now ${done.inbox} papers`;
+  });
+  await page.context().close();
+
+  // phone 390 px, both themes: Inbox and a paper fit, the track's open step is on screen, the what-to-do line shows
+  for (const theme of ['light', 'dark']) {
+    const pp = await newPage(browser, base, seed, {width: 390, theme});
+    await boot(pp, base, '#review');
+    await check(`review: Inbox and paper flow at 390 px (${theme})`, pp, async () => {
+      const fit = () => pp.evaluate(() => ({sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth}));
+      let f = await fit(); assert(f.sw <= f.cw + 1, `Inbox: horizontal scroll ${f.sw} > ${f.cw}`);
+      await pp.click('#inboxBox .iprow[href="#review/paper/323"]'); await settle(pp, 5000, 2);
+      f = await fit();
+      const r = await pp.evaluate(() => { const c = document.querySelector('#filters .tstep.cur .step').getBoundingClientRect(), t = document.querySelector('#filters').getBoundingClientRect(), h = document.querySelector('#stephelp');
+        return {hash: location.hash, cur: [Math.round(c.left), Math.round(c.right)], track: [Math.round(t.left), Math.round(t.right)], help: h.offsetHeight > 0 && getComputedStyle(h).display !== 'none', nums: [...document.querySelectorAll('#filters .num')].filter(n => n.offsetWidth > 0).length,
+          hdr: Math.round(document.querySelector('header').getBoundingClientRect().height), bg: getComputedStyle(document.body).backgroundColor} });
+      const e = takeErrs(pp); assert(!e.length, e.slice(0, 3).join(' | '));
+      assert(r.hash === '#review/paper/323/flagged' && f.sw <= f.cw + 1, `${r.hash}: horizontal scroll ${f.sw} > ${f.cw}`);
+      assert(r.cur[0] >= r.track[0] - 1 && r.cur[1] <= r.track[1] + 1 && r.nums === 5 && r.help, `open step ${r.cur} outside the track ${r.track}, ${r.nums} step numbers, help shown ${r.help}`);
+      return `header ${r.hdr}px, 5 steps, open step on screen, bg ${r.bg}`;
+    });
+    await pp.context().close();
+  }
 }
 
 /* ---------------- Processes page and header pills (owner 14 Nov: "need a pill for current jobs and queued jobs ... Can make that page processes") ----------------
@@ -1087,6 +1225,9 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   if (!fs.existsSync(FIXTURE)) { try { cp.execFileSync('python3', [path.join(__dirname, 'page_test_fixture.py'), FIXTURE], {stdio: 'inherit'}) } catch (e) { console.log('(no fixture: the fake database starts empty)') } }
   const fx = fs.existsSync(FIXTURE) ? JSON.parse(fs.readFileSync(FIXTURE, 'utf8')) : {docs: {}};
   const seed = fx.docs || {};
+  // owner 13 Nov (Review: Inbox + one paper at a time): every live paper is approved, so the Review pages get a workload
+  // (page_test_fixture.py WORKLOAD): these review docs are left out. Bank and Exams keep the live approved set.
+  const dropR = new Set((fx.workload || {}).drop || []), seedR = Object.fromEntries(Object.entries(seed).filter(([k]) => !dropR.has(k)));
   const tested = {page: sha(PAGE), bank: sha(path.join(SITE, 'data/bank.json')), dotpoints: sha(path.join(SITE, 'data/dotpoints.json'))};
   const srv = await serve(); const base = `http://127.0.0.1:${srv.address().port}/`;
   console.log(`page_test: ${path.relative(ROOT, PAGE)} sha256 ${tested.page.slice(0, 12)} on ${base} · fixture ${Object.keys(seed).length} db docs${QUICK ? ' · QUICK' : ''}`);
@@ -1094,8 +1235,8 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   let fatal = null;
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
-    await Promise.all([...combos.map(([w, t]) => sweep(browser, base, seed, w, t)), phone(browser, base, seed), areas(browser, base, seed), processes(browser, base, seed), bankChip(browser, base, seed), nextUp(browser, base, seed), availOverlap(browser, base, seed), queueChecks(browser, base, seed)]);
-    await flows(browser, base, seed);
+    await Promise.all([...combos.map(([w, t]) => sweep(browser, base, seedR, w, t)), phone(browser, base, seedR), areas(browser, base, seedR), processes(browser, base, seed), reviewFlow(browser, base, seedR), bankChip(browser, base, seed), nextUp(browser, base, seed), availOverlap(browser, base, seed), queueChecks(browser, base, seed)]);
+    await flows(browser, base, seed, seedR);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));
     await check('offline: no requests to public CDNs', null, async () => { assert(!bad.length, `${bad.length} outside request(s): ${bad.slice(0, 5).join(' ')}`); return ext.length ? `${ext.length} Google Fonts request(s) blocked, allowed` : 'none' });
   } catch (e) { fatal = String(e && e.stack || e); console.error('page_test could not finish:', fatal) }

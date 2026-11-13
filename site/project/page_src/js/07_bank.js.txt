@@ -68,7 +68,7 @@ function cardHTML(q){
   return `<article class="card" data-q="${q.id}"><div class="hd"><span class="qn">${qid(q)}</span><span class="src">${esc(srcLine(q))}</span>
     ${q.type==='mcq'?'<span class="badge">Multiple choice</span>':''}${r?.status==='flagged'?'<span class="badge b-bad">flagged</span>':''}${q.old?'<span class="badge b-old">Old syllabus</span>':''}${q.std?'<span class="badge b-std">Standard course</span>':''}
     <span class="mk">${q.marks!=null?q.marks+(q.marks===1?' mark':' marks'):''}</span></div>${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not Advanced:</b> ${esc(q.std)}</div>`:''}${dupLine(q)}${qBody(q,'bank')}
-    <div class="cfoot">${q.type==='mcq'?`<button class="act ghost" data-reveal="${q.id}">${revealed.has(q.id)?'Hide answer':'Show answer'}</button>`:''}<span class="meta">${(sk=>sk.length?'Needs: '+sk.map(esc).join(' · '):'')(qSkills(q))}${qYear(q)?`${qSkills(q).length?' · ':''}Year ${qYear(q)}`:''}${(l=>l?((qSkills(q).length||qYear(q))?' · ':'')+l:'')(typeof qDifLabel==='function'?qDifLabel(q):'')}</span><button class="act addx" data-addx="${q.id}" aria-pressed="${xIn(q.id)}">${xIn(q.id)?'✓ In exam':'+ Add to exam'}</button><a class="act ghost edonly" href="#review" data-open="${q.id}">Open in Review</a></div></article>`;
+    <div class="cfoot">${q.type==='mcq'?`<button class="act ghost" data-reveal="${q.id}">${revealed.has(q.id)?'Hide answer':'Show answer'}</button>`:''}<span class="meta">${(sk=>sk.length?'Needs: '+sk.map(esc).join(' · '):'')(qSkills(q))}${qYear(q)?`${qSkills(q).length?' · ':''}Year ${qYear(q)}`:''}${(l=>l?((qSkills(q).length||qYear(q))?' · ':'')+l:'')(typeof qDifLabel==='function'?qDifLabel(q):'')}</span><button class="act addx" data-addx="${q.id}" aria-pressed="${xIn(q.id)}">${xIn(q.id)?'✓ In exam':'+ Add to exam'}</button><a class="act ghost edonly" href="#review/list/all" data-open="${q.id}">Open in Review</a></div></article>`;
 }
 // owner 12 Nov ("make the bank more usable and clean ... looks really dead" -> warm editorial; topic -> subheadings -> questions)
 function subRows(subs,yl,fa,max){const rows=[...subs];const top=max||Math.max(1,...rows.map(([k,x])=>x.qs.length));
@@ -199,7 +199,7 @@ $('#list').addEventListener('click',e=>{
   const sb=e.target.closest('.sib'); if(sb){sel=sb.dataset.sel;save('sel',sel);renderBank();return}
   if(e.target.id==='home'){sel=null;save('sel','');renderBank();return}
   const rv=e.target.closest('[data-reveal]'); if(rv){const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card');const q=B.questions.find(x=>x.id===id);c.outerHTML=cardHTML(q);const nc=$(`.card[data-q="${id}"]`);hydrate(nc,q,'bank');typeset(nc);return}
-  const op=e.target.closest('[data-open]'); if(op){rfilter='all';rstatus='any';rdoc='';pendingOpen=+op.dataset.open}
+  const op=e.target.closest('[data-open]'); if(op){rfilter='all';rstatus='any';rdoc='';$('#docF').value='';pendingOpen=+op.dataset.open}   // owner 13 Nov: opens in Review's "All questions" list (#review/list/all)
 });
 let st; $('#q').addEventListener('input',e=>{clearTimeout(st);st=setTimeout(()=>{search=e.target.value.trim();renderBank()},250)});
 
