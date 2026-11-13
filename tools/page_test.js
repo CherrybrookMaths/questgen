@@ -905,6 +905,13 @@ async function processes(browser, base, seed) {
     assert(r.cur === 'Processes' && r.tab === 'Processes' && !r.old, `the nav says “${r.cur}”, an Import link remains: ${r.old}`);
     return 'alias → Papers tab; nav reads Processes';
   });
+  // owner 13 Nov: "so can we sync the number on the bank and the processes pls"
+  await check('processes: Import history counts the same papers and questions as the Bank', page, async () => {
+    const r = await page.evaluate(() => { const t = [...document.querySelectorAll('#importBox .tile')].map(x => [x.querySelector('span')?.textContent, x.querySelector('b')?.textContent]);
+      const g = l => (t.find(x => x[0] === l) || [])[1]; return {p: g('papers in the Bank'), q: g('questions in the Bank'), s: bankStats()} });
+    errs(); assert(r.p === String(r.s.papers) && r.q === r.s.questions.toLocaleString(), `Import history says ${r.p} papers / ${r.q} questions, the Bank ${r.s.papers} / ${r.s.questions}`);
+    return `${r.p} papers, ${r.q} questions in both`;
+  });
   // owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers"
   await check('processes: Work | Papers switch and hashes', page, async () => {
     const st = () => page.evaluate(() => ({hash: location.hash, work: !document.querySelector('#procWork').hidden, papers: !document.querySelector('#procPapers').hidden,
@@ -941,7 +948,7 @@ async function processes(browser, base, seed) {
     await page.hover('#jobs .run .jpill'); await sleep(150);
     const rp = await page.evaluate(() => { const p = document.querySelector('#jobs .run .jpop'), r = p.getBoundingClientRect(); return {vis: getComputedStyle(p).display !== 'none' && r.width > 0, txt: p.innerText, in: r.left >= 0 && r.right <= innerWidth, bar: !!p.querySelector('.jbar')} });
     assert(rp.vis && rp.in, 'hovering the running pill shows no list (or it runs off screen)');
-    assert(/Stage 2 of 4/.test(rp.txt) && rp.bar && /Started \d{1,2}:\d{2} [ap]m/.test(rp.txt) && /Est\. finish \d{1,2}:\d{2} [ap]m/.test(rp.txt), `running popover lacks step / Started / Est. finish: ${rp.txt.replace(/\s+/g, ' ').slice(0, 200)}`);
+    assert(/Stage 2 of 4/.test(rp.txt) && rp.bar && /Started \d{1,2}:\d{2} [ap]m/.test(rp.txt) && /Est\. finish (?:\d{1,2} \w{3}, )?\d{1,2}:\d{2} [ap]m/.test(rp.txt), `running popover lacks step / Started / Est. finish: ${rp.txt.replace(/\s+/g, ' ').slice(0, 200)}`);
     await page.click('#jobs .run .jpill'); await settle(page, 3000, 2);
     const h = await page.evaluate(() => location.hash); errs();
     assert(h === '#processes/work', `clicking the running pill went to ${h}`);
@@ -977,7 +984,7 @@ async function processes(browser, base, seed) {
   });
   // owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well?"
   await check('processes: job step, start, est. finish and duration', page, async () => {
-    const T = /\d{1,2}:\d{2} [ap]m/;
+    const T = /(?:\d{1,2} \w{3}, )?\d{1,2}:\d{2} [ap]m/;   // a time past midnight carries its date ("14 Nov, 12:02 am")
     let r = await page.evaluate(() => ({cards: [...document.querySelectorAll('#procBox .pcard')].map(c => c.innerText.replace(/\s+/g, ' ')),
       done: [...document.querySelectorAll('#procBox .pdone li')].map(c => c.textContent.replace(/\s+/g, ' '))}));
     errs();
@@ -1742,11 +1749,15 @@ async function examPools(browser, base, pools) {
       // throw it off screen, so the next drag on its corner found nothing ("scale 1.32 → 1.32")
       const roomOf = `(w => { const sb = w.closest('.sheetbody'), pr = document.createElement('div'); pr.style.height = '250mm'; sb.appendChild(pr); const H = pr.getBoundingClientRect().height; pr.remove();
         const last = [...sb.children].pop(); return sb.getBoundingClientRect().top + H - last.getBoundingClientRect().bottom })`;
-      const k = await page.evaluate(roomOf => { const room = eval(roomOf); let best = null, bv = -1e9;
+      // the generated paper depends on the pool: if no diagram can move (each one heads its sheet), regenerate, up to 6 tries
+      // (13 Nov: hiding the CSSA 2022 duplicate whole changed the live pool's paper and left none movable)
+      const pick = () => page.evaluate(roomOf => { const room = eval(roomOf); let best = null, bv = -1e9;
         document.querySelectorAll('#xPages .exfigw').forEach(w => { const i = w.querySelector('img'); if (!i || !i.complete || !i.naturalWidth) return;
           const blk = w.closest('.xblk'); if (blk === blk.parentElement.firstElementChild) return;   // the first block on a sheet cannot move to the next
           const v = w.querySelector('.exfigbox').getBoundingClientRect().height - room(w); if (v > bv) { bv = v; best = w.dataset.figw } });
         if (best) document.querySelector(`#xPages [data-figw="${best}"]`).scrollIntoView({block: 'center'}); return best }, roomOf);
+      let k = await pick();
+      for (let i = 0; !k && i < 6; i++) { await page.getByRole('button', {name: 'Regenerate', exact: true}).click(); await settle(page, 1500, 2); k = await pick() }
       assert(k, 'no loaded diagram on the paper'); await settle(page, 1000, 2);
       const sheetOf = k => page.evaluate(k => [...document.querySelectorAll('#xPages .sheet')].indexOf(document.querySelector(`#xPages [data-figw="${k}"]`).closest('.sheet')) + 1, k);
       const grab = async () => { const a = await figState(page, k); await page.mouse.move(a.box.x + a.box.w / 2, a.box.y + Math.min(a.box.h / 2, 30)); return figState(page, k) };

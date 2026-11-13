@@ -29,6 +29,9 @@ let BANKALL=(()=>{try{return localStorage.getItem('bankall')==='1'}catch(e){retu
 // unapproved AND the viewer is an editor (isEditor(), the Teach | Curate check). Non-editors never see unapproved questions, whatever BANKALL says.
 const bankAll=()=>BANKALL&&isEditor();
 const inBank=q=>!q.dup_of&&(bankAll()||qState(q)==='approved');
+// owner 13 Nov: "so can we sync the number on the bank and the processes pls": the Bank hero and Processes › Import history
+// both count from here, so the two can never disagree. A paper filed twice is hidden whole by build_bank.py.
+function bankStats(){const qs=B.questions.filter(inBank);return {questions:qs.length,papers:new Set(qs.map(q=>q.doc)).size}}
 function bankSwitch(){if(!isEditor())return'';const all=B.questions.filter(q=>!q.dup_of).length,ok=B.questions.filter(q=>!q.dup_of&&qState(q)==='approved').length;
   if(ok>=all)return'';
   return `<button class="bankall" data-bankall="1" aria-pressed="${BANKALL}" title="Unapproved questions are still being checked">${BANKALL?`Showing all ${all.toLocaleString()} · <u>approved only</u>`:`Approved only (${ok.toLocaleString()} of ${all.toLocaleString()}) · <u>include unapproved</u>`}</button>`}
@@ -72,7 +75,7 @@ function packCards(){$$('#list .facards').forEach(g=>{const kids=[...g.children]
 addEventListener('resize',()=>{clearTimeout(window._pk);window._pk=setTimeout(()=>{if($('#list .facards'))packCards()},120)});
 if(document.fonts)document.fonts.ready.then(()=>{if($('#list .facards'))packCards()});
 function homeHTML(){
-  const n=B.questions.filter(inBank).length, papers=new Set(B.questions.filter(inBank).map(q=>q.doc)).size;
+  const {questions:n,papers}=bankStats();
   // owner 13 Nov: "an overview of the courses, how many questions in each topic and subtopics and be able to click in, most similar to
   // the original design, just holes everywhere tho" -> the original cards, packed without holes (packCards below)
   const cards=(m,yl)=>`<div class="facards">${[...m].map(([fa,subs])=>{const c=faCount(subs);

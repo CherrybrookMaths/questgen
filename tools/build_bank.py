@@ -114,6 +114,14 @@ for a, b, sim, rel in db.execute("select question_id, related_id, similarity, re
     score = lambda q: (_st(q) != 'approved', q.get('layout') == 'graph' and not all(o.get('fig') for o in q['options']), ('review' in q['queues']), len(q['solutions']) == 0, q['doc'] != 1346, q['id'])
     keep, drop = sorted([qa, qb], key=score)
     drop['dup_of'] = keep['id']
+# owner 13 Nov: "so can we sync the number on the bank and the processes pls". A paper filed twice (CSSA 2022: docs 510 and
+# 1346) must be hidden as a whole, or the Bank counts both files as papers. Where most of one doc's copies are hidden in favour
+# of another doc, hide the rest of that pair the same way round (one copy of the paper stays, the other disappears entirely).
+_pair = collections.Counter((q['doc'], byid[q['dup_of']]['doc']) for q in old['questions'] if q.get('dup_of'))
+for q in old['questions']:
+    k = q.get('dup_of') and byid[q['dup_of']]
+    if k and _pair[(k['doc'], q['doc'])] > _pair[(q['doc'], k['doc'])]:   # this pair mostly runs the other way: flip it
+        q.pop('dup_of'); k['dup_of'] = q['id']
 print('hidden duplicates', sum(1 for q in old['questions'] if q.get('dup_of')))
 # owner 12 Nov: "I don't have time to check 6000 questions" -> triage.py decides what the owner looks at (q.tri)
 TRI = json.load(open(P + 'work/triage.json')) if os.path.exists(P + 'work/triage.json') else {}

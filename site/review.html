@@ -2264,6 +2264,9 @@ let BANKALL=(()=>{try{return localStorage.getItem('bankall')==='1'}catch(e){retu
 // unapproved AND the viewer is an editor (isEditor(), the Teach | Curate check). Non-editors never see unapproved questions, whatever BANKALL says.
 const bankAll=()=>BANKALL&&isEditor();
 const inBank=q=>!q.dup_of&&(bankAll()||qState(q)==='approved');
+// owner 13 Nov: "so can we sync the number on the bank and the processes pls": the Bank hero and Processes › Import history
+// both count from here, so the two can never disagree. A paper filed twice is hidden whole by build_bank.py.
+function bankStats(){const qs=B.questions.filter(inBank);return {questions:qs.length,papers:new Set(qs.map(q=>q.doc)).size}}
 function bankSwitch(){if(!isEditor())return'';const all=B.questions.filter(q=>!q.dup_of).length,ok=B.questions.filter(q=>!q.dup_of&&qState(q)==='approved').length;
   if(ok>=all)return'';
   return `<button class="bankall" data-bankall="1" aria-pressed="${BANKALL}" title="Unapproved questions are still being checked">${BANKALL?`Showing all ${all.toLocaleString()} · <u>approved only</u>`:`Approved only (${ok.toLocaleString()} of ${all.toLocaleString()}) · <u>include unapproved</u>`}</button>`}
@@ -2307,7 +2310,7 @@ function packCards(){$$('#list .facards').forEach(g=>{const kids=[...g.children]
 addEventListener('resize',()=>{clearTimeout(window._pk);window._pk=setTimeout(()=>{if($('#list .facards'))packCards()},120)});
 if(document.fonts)document.fonts.ready.then(()=>{if($('#list .facards'))packCards()});
 function homeHTML(){
-  const n=B.questions.filter(inBank).length, papers=new Set(B.questions.filter(inBank).map(q=>q.doc)).size;
+  const {questions:n,papers}=bankStats();
   // owner 13 Nov: "an overview of the courses, how many questions in each topic and subtopics and be able to click in, most similar to
   // the original design, just holes everywhere tho" -> the original cards, packed without holes (packCards below)
   const cards=(m,yl)=>`<div class="facards">${[...m].map(([fa,subs])=>{const c=faCount(subs);
@@ -3072,8 +3075,8 @@ function renderImport(){
   const tile=(v,l,a,b)=>`<div class="tile"><b>${v??'–'}</b><span>${l}</span>${b?`<div class="pr-bar"><i style="width:${pct(a,b)}%"></i></div>`:''}</div>`;
   const run=(P.running||[]),log=(P.log||[]).slice().reverse(),all=box.dataset.logall==='1';
   box.innerHTML=`<p class="sub">Year 12 ${esc(QG.courseData.short)} papers, newest first · updated ${esc(ago(P.updated))}${P.eta?` · ${esc(P.eta)}`:''}</p>
-  <div class="tiles">${tile(`${t.parsed||0} / ${t.papers_total||0}`,'papers parsed',t.parsed,t.papers_total)}${tile(`${t.published||0} / ${t.papers_total||0}`,'papers on this page',t.published,t.papers_total)}
-  ${tile(t.questions,'questions loaded')}${tile(`${t.figures_redrawn||0} / ${t.figures_total||0}`,'diagrams redrawn',t.figures_redrawn,t.figures_total)}${tile(t.solutions_written,'solutions written by Claude')}</div>
+  <div class="tiles">${(bs=>tile(B.questions?.length?bs.papers:null,'papers in the Bank')+tile(B.questions?.length?bs.questions.toLocaleString():null,'questions in the Bank'))(B.questions?bankStats():{})}
+  ${tile(`${t.figures_redrawn||0} / ${t.figures_total||0}`,'diagrams redrawn',t.figures_redrawn,t.figures_total)}${tile(t.solutions_written,'solutions written by Claude')}</div>
   ${run.length?`<h3>Import stages running</h3><ul>${run.map(r=>`<li><span class="pulse" aria-hidden="true"></span><b>${esc(r.stage)}</b> · ${esc(r.batch||'')} ${r.detail?'· '+esc(r.detail):''} <span class="muted">· started ${esc(ago(r.started))}</span></li>`).join('')}</ul>`:''}
   <h3>Batches</h3>${batchesHTML(P.batches||[])}
   ${log.length?`<h3>Log</h3><ul class="log">${log.map((x,i)=>`<li${i>=5&&!all?' hidden':''}>${esc(x.t?new Date(x.t).toLocaleString('en-AU',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):'')} · ${esc(x.msg)}</li>`).join('')}</ul>${log.length>5&&!all?`<button type="button" class="act plogall" data-logall>Show all ${log.length}</button>`:''}`:''}`;
@@ -3203,7 +3206,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
     if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes')renderProcesses()},()=>{})}catch(e){}}
     if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);if(v){PROG=v;if(view==='processes')renderImport()}},()=>{})}catch(e){}}
     if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=nx;TOPICS=null;_clean=null;
-      updateCounts(); if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh()},()=>{})}
+      updateCounts(); if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh(); else if(view==='processes') renderImport()},()=>{})}   // Import history counts approved questions too (bankStats)
   }catch(e){}
 })();
 </script>

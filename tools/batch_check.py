@@ -179,7 +179,14 @@ try:
         B('site/data/inventory.json must name data/inventory_files.json (files_url) and not carry the files itself: run python3 tools/inventory.py')
     elif len(json.load(open(P + 'site/' + _iv['files_url'])).get('f', [])) != _nd:
         W(f'{_iv["files_url"]} is stale (not one entry per documents row): run python3 tools/inventory.py')
-    else: I(f'inventory: {_iv["totals"]["papers"]} papers ({_iv["totals"]["imported"]} imported, {_iv["totals"]["waiting"]} waiting); last folder scan {(_iv.get("last_scan") or {}).get("at", "none yet")}')
+    else:
+        # owner 13 Nov: "so can we sync the number on the bank and the processes pls": Processes › Papers says N imported,
+        # the Bank says N papers. They must agree (a paper filed twice is hidden whole by build_bank.py).
+        _bq = json.load(open(P + 'site/data/bank.json'))['questions']
+        _bp = len({q['doc'] for q in _bq if not q.get('dup_of')})
+        if _bp != _iv['totals']['imported']:
+            W(f'the Bank shows {_bp} papers but Processes › Papers says {_iv["totals"]["imported"]} imported: check for a paper filed twice (build_bank.py) or run python3 tools/inventory.py')
+        I(f'inventory: {_iv["totals"]["papers"]} papers ({_iv["totals"]["imported"]} imported, {_iv["totals"]["waiting"]} waiting); last folder scan {(_iv.get("last_scan") or {}).get("at", "none yet")}')
 except FileNotFoundError: W('site/data/inventory.json missing: run python3 tools/inventory.py (Processes > Papers)')
 except Exception as e: W(f'inventory check failed: {e}')
 # size budget (CODE_HEALTH rule 6; health pass 13 Nov, owner: "keep the code proper and [lean]"): page, bank, inventory and
