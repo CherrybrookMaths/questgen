@@ -208,3 +208,5 @@ Owner: "would I have to manage version control? I don't want to have to do that.
 - Router (09_router.js) maps hashes to views through one table; internal views `levels` and `reports` are kept, so 21_levels.js and 27_reports.js need only small changes (step counts), but they are reached as `#review/difficulty` and `#review/reports` and drawn under the Review step row (`renderSteps` in 08_review.js, `.rbar.xstep` hides the paper picker and ← →).
 - `EDITOR` is null until `claude.use('user')` answers (isOwner || canEdit), then true/false. While null a Curate hash shows the Bank without rewriting the address; once false it is rewritten to `#bank`.
 - page_test: `fakeClaude` takes `{seed, role}`; `boot()` also waits for `EDITOR !== null`. 9 new checks (editor 4, viewer 3, no user capability 2; see IMPORT_PLAYBOOK).
+
+- 13 Nov, v201: owner confirmed the Teach | Curate switch shows on the live artifact ("I do see that switch"), so isOwner()/canEdit() resolve live.
