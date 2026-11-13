@@ -182,22 +182,40 @@ function placePill(jump){const nav=$('#nav'),pill=nav.querySelector('.navpill');
     if(a.top<m.top||a.bottom>m.bottom)live.scrollIntoView({block:'nearest',behavior:RM.matches?'auto':'smooth'})},340)}
 let _pillFix=0;
 addEventListener('resize',()=>placePill(true));
+// owner 13 Nov: "animation going between all topics and a subtopic. It's currently just snapping to it".
+// Opening a topic slides the list forward and the clicked card grows into the topic heading; All topics slides back and the
+// heading shrinks into its card. Uses the browser's view transitions; without them (older Safari) it snaps as before.
+// Reduced motion: a short fade. Names are bk-* so nothing else on the page is affected (CODE_HEALTH rule 2).
+function bankGo(dir,src,fn){
+  const R=document.documentElement,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!document.startViewTransition||view!=='bank'){fn();return}
+  const prev=sel;R.dataset.bkdir=reduce?'fade':dir;
+  const hero=reduce?null:(src||(dir==='back'?$('#list .listhead h2'):null));if(hero)hero.style.viewTransitionName='bk-hero';
+  let landed=null;
+  const t=document.startViewTransition(()=>{if(hero)hero.style.viewTransitionName='';fn();
+    if(reduce)return;
+    if(dir==='fwd')landed=$('#list .listhead h2');
+    else if(dir==='back'&&prev){const k=CSS.escape(prev),fa=prev.startsWith('fa:')?CSS.escape(prev.slice(3)):null;
+      landed=$(`#list [data-sel="${k}"]`)||(fa&&$(`#list [data-fa="${fa}"]`))}
+    if(landed)landed.style.viewTransitionName='bk-hero'});
+  t.finished.finally(()=>{if(landed)landed.style.viewTransitionName='';delete R.dataset.bkdir});
+}
 $('#nav').addEventListener('click',e=>{
   // owner 13 Nov: "a nice open and close all somewhere for efficiency"
   const all=e.target.closest('[data-navall]'); if(all){const o=all.dataset.navall==='open';$$('#nav .fa[data-area]').forEach(f=>{f.classList.toggle('open',o);f.querySelector('button[data-fa]').setAttribute('aria-expanded',String(o))});placePill(false);return}
   const fa=e.target.closest('button[data-fa]'); if(fa){const f=fa.closest('.fa');const o=!f.classList.contains('open');f.classList.toggle('open',o);fa.setAttribute('aria-expanded',String(o));placePill(false);return}
-  const b=e.target.closest('button[data-sel]'); if(b){sel=b.dataset.sel;search='';$('#q').value='';save('sel',sel);syncNav();requestAnimationFrame(()=>setTimeout(()=>{renderBank();window.scrollTo({top:0})},0))}   // nav moves first, list follows a frame later
+  const b=e.target.closest('button[data-sel]'); if(b){sel=b.dataset.sel;search='';$('#q').value='';save('sel',sel);syncNav();requestAnimationFrame(()=>setTimeout(()=>bankGo('fwd',null,()=>{renderBank();window.scrollTo({top:0})}),0))}   // nav moves first, list follows a frame later
 });
 $('#list').addEventListener('click',e=>{
   const ba=e.target.closest('[data-bankall]'); if(ba&&isEditor()){BANKALL=!BANKALL;try{localStorage.setItem('bankall',BANKALL?'1':'0')}catch(_){}TOPICS=null;renderBank();return}
   const bs=e.target.closest('[data-bsel]'); if(bs){const i=bs.dataset.bsel.indexOf(':'),k=bs.dataset.bsel.slice(0,i),v=bs.dataset.bsel.slice(i+1);BSEL[k]=BSEL[k]===v?null:v;renderBank();return}
   const bf=e.target.closest('[data-bf]'); if(bf){const [k,v]=bf.dataset.bf.split(':');BF[k]=v;try{localStorage.setItem('bf',JSON.stringify(BF))}catch(_){}renderBank();return}
-  const hm=e.target.closest('[data-home]'); if(hm){sel=null;save('sel','');renderBank();window.scrollTo({top:0});return}
+  const hm=e.target.closest('[data-home]'); if(hm){bankGo('back',null,()=>{sel=null;save('sel','');renderBank();window.scrollTo({top:0})});return}
   const t=e.target.closest('[data-fa],.subrow[data-sel],.subcard[data-sel],.fah[data-sel]');
-  if(t){if(t.classList.contains('none'))return; sel=t.dataset.sel||('fa:'+t.dataset.fa);
-    save('sel',sel);renderBank();window.scrollTo({top:0});return}
-  const sb=e.target.closest('.sib'); if(sb){sel=sb.dataset.sel;save('sel',sel);renderBank();return}
-  if(e.target.id==='home'){sel=null;save('sel','');renderBank();return}
+  if(t){if(t.classList.contains('none'))return; const prevSel=sel; sel=t.dataset.sel||('fa:'+t.dataset.fa);
+    const go=sel;sel=prevSel;bankGo('fwd',t.matches('.fah')?null:t,()=>{sel=go;save('sel',sel);renderBank();window.scrollTo({top:0})});return}
+  const sb=e.target.closest('.sib'); if(sb){bankGo('side',null,()=>{sel=sb.dataset.sel;save('sel',sel);renderBank()});return}
+  if(e.target.id==='home'){bankGo('back',null,()=>{sel=null;save('sel','');renderBank()});return}
   const rv=e.target.closest('[data-reveal]'); if(rv){const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card');const q=B.questions.find(x=>x.id===id);c.outerHTML=cardHTML(q);const nc=$(`.card[data-q="${id}"]`);hydrate(nc,q,'bank');typeset(nc);return}
   const op=e.target.closest('[data-open]'); if(op){rfilter='all';rstatus='any';rdoc='';$('#docF').value='';pendingOpen=+op.dataset.open}   // owner 13 Nov: opens in Review's "All questions" list (#review/list/all)
 });
