@@ -121,10 +121,23 @@ for q in old['questions']:
     q.pop('tri', None)
     t = TRI.get(str(q['id']))
     if t: q['tri'] = {k: t[k] for k in ('tier', 'why', 'look', 'ok_figs', 'chk_figs', 'ok_sols')}
+# Your calls raised by Claude (owner 13 Nov: "isn't that the point of your calls?"): site/project/open_decisions.json,
+# "<question id>" -> q.decide (+ q.decide_at), "paper_<doc>" -> docs[doc].call. {text, raised}: raised (UTC ISO) re-opens a
+# question or paper the owner had already approved before the call was raised. Remove the entry once the owner has decided.
 dec = json.load(open(P + 'site/project/open_decisions.json'))
 for q in old['questions']:
-    q.pop('decide', None)
-    if str(q['id']) in dec: q['decide'] = dec[str(q['id'])]
+    q.pop('decide', None); q.pop('decide_at', None)
+    e = dec.get(str(q['id']))
+    if e:
+        q['decide'] = e['text']
+        if e.get('raised'): q['decide_at'] = e['raised']
+for _k, _d in old['docs'].items():
+    _d.pop('call', None)
+    e = dec.get('paper_' + _k)
+    if e: _d['call'] = {'text': e['text'], 'raised': e.get('raised')}
+_have = {'paper_' + k for k in old['docs']} | {str(q['id']) for q in old['questions']}
+_lost = [k for k in dec if k not in _have]
+if _lost: print('WARN open_decisions entries with no question/paper in the bank:', _lost)
 import re as _re
 _docpos = {}
 for _q in old['questions']: _docpos.setdefault(_q['doc'], len(_docpos))

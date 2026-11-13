@@ -9,7 +9,7 @@ const qGen=q=>q.solutions.filter(s=>s.source==='generated');
 //   names "Your calls · Flagged · Topics · Diagrams · Spot-check" ('Decide'→'Your calls', 'Check'→'Flagged', 'Tags'→'Topics'),
 //   each step with a one-line 'what to do here' under the track. The internal keys (decide, check, tags, diagrams, sample)
 //   are unchanged, so stored decisions, job 'affects' and the Other lists keep working.
-const STEPS=[['decide','Your calls','Calls only you can make: a correction to a school\u2019s or NESA\u2019s solution, a possible error in the source, a borderline syllabus call. A approves, F flags with a reason.'],
+const STEPS=[['decide','Your calls','Calls only you can make: a correction to a school\u2019s or NESA\u2019s solution, a possible error in the source, a borderline syllabus call, or a call on the whole paper (shown at the top). A approves, F flags with a reason.'],
   ['check','Flagged','The automatic checks or the independent maths checker could not clear these (and every table). Compare with the source page: each one says why and what to look at.'],
   ['tags','Topics','The tagger and the checker would file these under different topics. Pick the right home from the question: 1 tagger, 2 checker, F another dot point. Gates are automatic.'],
   ['diagrams','Diagrams','Each redrawn diagram beside its original. A approves, F flags (type the reason, Enter sends), K next, J back.'],
@@ -31,14 +31,18 @@ function spotSet(){if(_spot)return _spot;const by={};B.questions.forEach(q=>{if(
 function escalated(doc){return B.questions.some(q=>q.doc===doc&&chkFigsAll(q).some(k=>figRisk(k)[0]==='High'&&reviews['q'+q.id]?.fig?.[k]==='changes'))}
 const chkFigs=q=>chkFigsAll(q).filter(k=>figRisk(k)[0]!=='High'||spotSet().has(k)||reviews['q'+q.id]?.fig?.[k]||escalated(q.doc));
 function qState(q){const r=reviews['q'+(q.dup_of||q.id)]?.status; if(r) return r; const t=q.tri?.tier; if(t==='auto'&&paperOK(q.doc)) return 'approved'; return null}
-function needsDecision(q){if(reviews['q'+q.id]?.status==='flagged')return true;
+// a call Claude raised (site/project/open_decisions.json -> q.decide) is always a decision, imported or not (owner 13 Nov:
+// "isn't that the point of your calls? or is your decision different": import notes are raised as calls, never as loose notes)
+function needsDecision(q){if(reviews['q'+q.id]?.status==='flagged'||q.decide)return true;
   if(q.tri)return q.tri.tier==='decide';   // imported questions: triage already decided (a correction the independent checker confirmed is NOT a decision) — owner 12 Nov: "why is this in decide?"
-  return !!q.decide||q.solutions.some(x=>(x.meta||{}).source_flag||(x.meta||{}).corrected)}
+  return q.solutions.some(x=>(x.meta||{}).source_flag||(x.meta||{}).corrected)}
+// a call raised after the question was approved re-opens it until the owner answers it (decide() stamps call_at)
+const callOpen=q=>!!q.decide_at&&String(reviews['q'+q.id]?.call_at||'')<q.decide_at;
 // owner 12 Nov: "I need a list of recently approved in case" — newest approvals first; F re-flags, the note says why
 function approvedAt(q){const r=reviews['q'+q.id];if(r?.status==='approved')return r.at||'';const pr=reviews['paper_'+q.doc];if(pr?.status==='approved'&&q.tri?.tier==='auto'&&!r?.status)return pr.at||'';return null}
-function inFilter(q,f){if(f==='recent')return !q.dup_of&&approvedAt(q)!=null;if(f==='tags')return homeNeed(q);if(f==='all')return !q.dup_of;if(f==='check'||f==='sample')return !q.dup_of&&q.tri?.tier===f;if(f==='decide')return !q.dup_of&&(q.tri?.tier==='decide'||needsDecision(q));if(f==='diagrams')return !q.dup_of&&chkFigs(q).length>0;if(f==='decide')return !q.dup_of&&needsDecision(q);if(f==='scanqs')return !q.dup_of&&q.queues.includes('scan');if(f==='digitalqs')return !q.dup_of&&!q.queues.includes('scan');if(f==='diagrams')return !q.dup_of&&qFigs(q).length>0;if(f==='changes')return qFigs(q).some(k=>figDec(q,k)==='changes');if(f==='redone')return Object.keys(reviews['q'+q.id]?.fig_done||{}).length>0;if(f==='generated')return !q.dup_of&&qGen(q).length>0;return !q.dup_of&&q.queues.includes(f)}   // owner: hidden duplicate copies never count in a queue ("they are misleading")
+function inFilter(q,f){if(f==='recent')return !q.dup_of&&approvedAt(q)!=null;if(f==='tags')return homeNeed(q);if(f==='all')return !q.dup_of;if(f==='check'||f==='sample')return !q.dup_of&&q.tri?.tier===f;if(f==='decide')return !q.dup_of&&needsDecision(q);if(f==='diagrams')return !q.dup_of&&chkFigs(q).length>0;if(f==='scanqs')return !q.dup_of&&q.queues.includes('scan');if(f==='digitalqs')return !q.dup_of&&!q.queues.includes('scan');if(f==='changes')return qFigs(q).some(k=>figDec(q,k)==='changes');if(f==='redone')return Object.keys(reviews['q'+q.id]?.fig_done||{}).length>0;if(f==='generated')return !q.dup_of&&qGen(q).length>0;return !q.dup_of&&q.queues.includes(f)}   // owner: hidden duplicate copies never count in a queue ("they are misleading")
 function isTodo(q,f){if(q.dup_of)return false;if(f==='tags')return !reviews['q'+q.id]?.home&&!partsDone(q);   // a hidden copy follows the copy that was reviewed
-  if(f==='decide')return reviews['q'+q.id]?.status!=='approved';if(f==='diagrams')return chkFigs(q).some(k=>!reviews['q'+q.id]?.fig?.[k]);if(f==='check'||f==='sample')return !reviews['q'+q.id]?.status;if(f==='redone')return Object.keys(reviews['q'+q.id]?.fig_done||{}).some(k=>!figDec(q,k));if(f==='changes')return qFigs(q).some(k=>figDec(q,k)==='changes');if(f==='diagrams')return qFigs(q).some(k=>!figDec(q,k));if(f==='generated')return qGen(q).some(s=>!solDec(q,s));return !reviews['q'+q.id]?.status}
+  if(f==='decide')return reviews['q'+q.id]?.status!=='approved'||callOpen(q);if(f==='diagrams')return chkFigs(q).some(k=>!reviews['q'+q.id]?.fig?.[k]);if(f==='check'||f==='sample')return !reviews['q'+q.id]?.status;if(f==='redone')return Object.keys(reviews['q'+q.id]?.fig_done||{}).some(k=>!figDec(q,k));if(f==='changes')return qFigs(q).some(k=>figDec(q,k)==='changes');if(f==='generated')return qGen(q).some(s=>!solDec(q,s));return !reviews['q'+q.id]?.status}
 function statusOK(q){const r=reviews['q'+(q.dup_of||q.id)];if(rstatus==='any')return true;if(rstatus==='todo')return isTodo(q,rfilter);return r?.status===rstatus}
 let pendingOpen=null;
 // owner 12 Nov: diagram confidence by type, from first-look flag rates (297 reviewed). Riskiest first in the Diagrams queue.
@@ -74,6 +78,7 @@ const mainDoc=doc=>(docGroups().get(String(doc))||{main:String(doc)}).main;
 // what is left in each step of one paper. The spot-check step also counts "approve the rest" once its sample is clean.
 function workOf(main,ids,qs){const left={},total={};STEPS.forEach(([k])=>{left[k]=0;total[k]=0});
   qs.forEach(q=>STEPS.forEach(([k])=>{if(inFilter(q,k)){total[k]++;if(isTodo(q,k))left[k]++}}));
+  const pc=PCALL.list(ids);total.decide+=pc.length;left.decide+=pc.filter(c=>c.open).length;   // calls on the paper itself count in Your calls
   const ready=ids.map(paperReady).filter(Boolean);left.sample+=ready.length;
   const n=STEPS.reduce((a,[k])=>a+left[k],0);
   return {doc:main,ids,left,total,ready,n,at:(STEPS.find(([k])=>left[k]>0)||[])[0]||null}}
@@ -198,10 +203,34 @@ function sampleBanner(doc){doc=+doc;
   if(bad) return `<div class="why"><b>Spot-check</b>${bad} of ${smp.length} sampled questions in ${esc(docLabel(B.docs[doc]))} were flagged, so the rest of this paper stays unapproved. Claude will re-check the paper.</div>`;
   if(ok<smp.length) return `<div class="help">Spot-check for ${esc(docLabel(B.docs[doc]))}: ${ok} of ${smp.length} done. When all are fine you can approve the other ${rest.length} questions in one click.</div>`;
   return `<div class="banner"><span>All ${smp.length} spot-checked questions in <b>${esc(docLabel(B.docs[doc]))}</b> are fine.</span><button class="act ok" data-paperok="${doc}">Approve the other ${rest.length} questions in this paper</button></div>`}
-async function approvePaper(doc){doc=String(doc);const key='paper_'+doc;const next={status:'approved',doc:+doc,by:me||null,at:new Date().toISOString()};reviews[key]=next;TOPICS=null;
+async function approvePaper(doc){doc=String(doc);const key='paper_'+doc;const next={...(reviews[key]||{}),status:'approved',doc:+doc,by:me||null,at:new Date().toISOString()};reviews[key]=next;TOPICS=null;
   if(!db){toast('Not saved: this view has no shared storage');return}
   if(view==='review')refreshReview();else renderSteps();   // move on at once (owner 12 Nov: "why doesn't approving auto next"); the save finishes in the background
   try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Paper approved')}catch(e){toast('Could not save. Try again in a moment.')}}
+/* Calls on a whole paper (owner 13 Nov, the import notes: a cover label, a trial filed as an assessment task). Raised by Claude
+   in site/project/open_decisions.json as "paper_<doc>" (bank docs[doc].call {text, raised}); shown at the top of the paper's
+   Your calls step and counted in it (workOf), so the paper list and the Inbox count them. The owner answers on the card:
+   "Keep as is" or a typed answer; it is stored in reviews/paper_<doc>.call {status:'approved'|'flagged', note, by, at} next
+   to the paper approval. An answer older than the call's raised time does not count. Claude applies a typed answer and
+   removes the entry. */
+const PCALL={
+  list(ids){return ids.map(d=>{const c=B.docs[d]?.call;if(!c)return null;const a=reviews['paper_'+d]?.call;
+    return {doc:+d,text:c.text,a,open:!(a&&(!c.raised||String(a.at||'')>=c.raised))}}).filter(Boolean)},
+  html(ids){return PCALL.list(ids).map(c=>`<div class="why decide pcall" data-pcall="${c.doc}"><b>Call on this paper · ${esc(docLabel(B.docs[c.doc]))}</b><p>${esc(c.text)}</p>
+    ${c.open?`<div class="row"><button class="act ok" data-pcok="${c.doc}">Keep as is</button><button class="act warn" data-pcopen="${c.doc}">Change…</button></div>
+      <div class="flagbox" data-pcbox="${c.doc}" hidden><label class="help" for="pcn-${c.doc}">What should it be? <kbd>Enter</kbd> sends, <kbd>Esc</kbd> cancels.</label><input id="pcn-${c.doc}" type="text" placeholder="e.g. Label it AT4"></div>`
+    :`<div class="help">✓ Your answer: ${c.a.status==='approved'?'keep as is':esc(c.a.note||'')} <span class="muted">· ${esc(ago(c.a.at))}</span> <button class="lk" data-pcopen="${c.doc}">change</button></div>
+      <div class="flagbox" data-pcbox="${c.doc}" hidden><input id="pcn-${c.doc}" type="text" aria-label="Your answer" value="${esc(c.a.note||'')}"></div>`}</div>`).join('')},
+  async answer(doc,status,note){const key='paper_'+doc;const next={...(reviews[key]||{}),doc:+doc,call:{status,note:note||null,by:me||null,at:new Date().toISOString()}};
+    reviews[key]=next;if(view==='review')refreshReview();else renderSteps();
+    if(!db){toast('Not saved: this view has no shared storage');return}
+    try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved')}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.')}}};
+document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-pcok],[data-pcopen]');if(!t)return;e.preventDefault();
+  if(t.dataset.pcok){PCALL.answer(t.dataset.pcok,'approved');return}
+  const bx=$(`[data-pcbox="${t.dataset.pcopen}"]`);if(bx){bx.hidden=false;bx.querySelector('input').focus()}});
+document.addEventListener('keydown',e=>{const i=e.target.closest&&e.target.closest('[data-pcbox] input');if(!i)return;const d=i.closest('[data-pcbox]').dataset.pcbox;
+  if(e.key==='Enter'){e.preventDefault();const v=i.value.trim();if(!v){toast('Type your answer first');return}PCALL.answer(d,'flagged',v)}
+  else if(e.key==='Escape'){i.closest('[data-pcbox]').hidden=true}},true);
 // owner 12 Nov: "one question per page ... K should be to go next. Bind a keystroke to approve, bind a keystroke to flag ...
 // pull up a textbox ... hit enter to send the flag through. Keep a log on the side ... That can collapse as well."
 let logOpen=(()=>{try{return localStorage.getItem('dlog')!=='0'}catch(e){return true}})();
@@ -361,8 +390,8 @@ function renderReview(){
   $('#pos').textContent=rlist.length?`${ridx+1} / ${rlist.length}`+(rfilter==='recent'&&approvedAt(rlist[ridx])?' · approved '+new Date(approvedAt(rlist[ridx])).toLocaleString([], {day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):''):'0 / 0';
   if(!rlist.length&&RMODE==='paper'){   // owner 13 Nov: one paper at a time; an empty step says so and points to the next one
     const w=paperWork(rdoc);
-    $('#rout').innerHTML=`<div class="empty pempty">${w.n?`<b>Nothing left in “${esc(stepLabel(rfilter))}” for this paper.</b>`:''}
-      ${rfilter==='sample'?w.ids.map(sampleBanner).join(''):''}${paperNextHTML()}</div>`;
+    $('#rout').innerHTML=`<div class="empty pempty">${w.n&&!(rfilter==='decide'&&w.left.decide)?`<b>Nothing left in “${esc(stepLabel(rfilter))}” for this paper.</b>`:''}
+      ${rfilter==='sample'?w.ids.map(sampleBanner).join(''):''}${rfilter==='decide'?PCALL.html(w.ids):''}${paperNextHTML()}</div>`;
     $('#src').innerHTML='';$('#srcTitle').textContent='Source page';$('#reviewView').classList.add('grid');bindNext();return}   // no question: no empty source pane
   if(!rlist.length){
     const base=B.questions.filter(q=>!rdoc||docIds(rdoc).includes(q.doc));
@@ -385,7 +414,7 @@ function renderReview(){
       ${r?.status?`<span class="badge ${r.status==='approved'?'b-ok':'b-bad'}">${r.status}</span>`:''}
       <span class="muted" style="font-size:13px">${esc(docLabel(d))} · Section ${esc(q.section||'–')}${q.marks!=null?' · '+q.marks+(q.marks===1?' mark':' marks'):''}</span></div>
     <h3 style="margin:0;font-size:20px">${qid(q)} <span class="muted" style="font-size:15px;font-weight:400">${esc(srcLine(q))}</span></h3>
-    ${rfilter==='sample'?sampleBanner(q.doc):''}${whyHTML(q)}
+    ${rfilter==='sample'?sampleBanner(q.doc):''}${rfilter==='decide'&&RMODE==='paper'?PCALL.html(docIds(q.doc)):''}${whyHTML(q)}
     ${q.decide?`<div class="callout"><b>Needs your decision:</b> ${tex(q.decide)}</div>`:''}${q.review_note&&!/^scan (path|transcription)[^|;]*$/i.test(q.review_note.trim())?`<details class="figdone" style="color:var(--muted)"><summary style="color:var(--warn)">Transcription notes</summary><div class="help">${esc(q.review_note)}</div></details>`:''}${rel?`<div class="help">Also appears as: ${esc(rel)}</div>`:''}
     ${figCompareHTML(q)}
     ${FOCUS_STEPS.includes(rfilter)?`<div class="focuscmp"><figure><figcaption>On the paper</figcaption><div id="fsrc" class="fsrc"><span class="muted">Loading the paper…</span></div></figure><figure><figcaption>In the bank</figcaption><div class="qtext">${qBody(q,'review')}</div></figure></div>
@@ -431,7 +460,7 @@ async function setTag(t){const q=rlist[ridx];const ed={...(reviews['q'+q.id]?.ta
 const FOCUS_STEPS=[];const _fp={};   // owner 12 Nov: cropped side-by-side was worse; rolled back to the full-page view
 function focusPack(doc){return _fp[doc]=_fp[doc]||fetch('data/focus/'+doc+'.json').then(r=>r.ok?r.json():{}).catch(()=>({}))}
 function openQFlag(){const b=$('#qflag');if(!b)return;b.hidden=false;const n=$('#note');n.focus();n.select()}
-async function decide(status){const q=rlist[ridx];if(!q)return;const patch={status,note:$('#note')?.value.trim()||null};
+async function decide(status){const q=rlist[ridx];if(!q)return;const patch={status,note:$('#note')?.value.trim()||null};if(q.decide)patch.call_at=new Date().toISOString();
   if(status==='approved'){const sol={...(reviews['q'+q.id]?.sol||{})};let n=0;qGen(q).forEach(x=>{if(!sol[x.id]){sol[x.id]='approved';n++}});if(n)patch.sol=sol}
   write(q,patch);   // owner 12 Nov: "why doesn't approving auto next" -> don't wait for the save; move on at once
   const was=q.id; if(rstatus==='todo'&&!['diagrams','generated'].includes(rfilter)){refreshReview()} else renderReview();

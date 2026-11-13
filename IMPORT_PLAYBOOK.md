@@ -95,6 +95,13 @@ Owner, 12 Nov: "I don't have time to check 6000 questions".
 - **Fix the source without asking** when you are certain (`overwritten_from_source`). Infer missing criteria from similar questions (`criteria_inferred`). Make the smallest edit to fix a flawed question (`edited_from_original`; it goes to Check).
 - **Don't bring back the cropped side-by-side Check view.** The owner said "so much worse and unusable", and it was rolled back.
 - **Flagging:** F opens a one-line box, Enter sends. When the owner says "check my flags", fix them, record the rule, then clear the flag so it comes back for approval.
+- **Owner calls are Your calls, never loose notes** (owner 13 Nov, about the 11 "Needs your decision" notes on the import dashboard: "isn't that the point of your calls? or is your decision different"). Anything only the owner can decide is raised in `site/project/open_decisions.json`, nowhere else (no `issues` list in `work/import/batches.json` / `progress.json`, no notes in the log or a report):
+  - a question: key `"<question id>"`, `{"text": "<the call, one or two sentences, ending in what he can answer>", "raised": "<UTC ISO time>"}`. It shows at the top of that question in Review › the paper › **Your calls** ("Needs your decision: …") and counts in the paper's track, the papers list and the Inbox. `raised` re-opens a question he had already approved (until he answers it: `reviews/q<id>.call_at`).
+  - a whole paper (its label, task, course, what file it really is): key `"paper_<doc>"`, same fields. It shows as a card at the top of the paper's Your calls step ("Keep as is" or a typed answer, stored in `reviews/paper_<doc>.call`) and counts there too.
+  - a tagging rule: write it into TAG_SPEC as an open owner question, and raise one Your call on a question it affects if it blocks anything.
+  - Before raising one, check it is not settled already: the owner's rulings in the specs, and the page database (export `reviews`, `tools/sync_pagedb.py`): an approved question whose edit or solution note answers the point is settled.
+  - When he answers: apply it, delete the entry, `build_bank.py`. A duplicate note is one call.
+  - The 13 Nov move (11 notes → 2 paper calls, 9 already settled): `archive/import_issues_moved_20261113.json` holds the old list.
 - **Check what the auto-clear agents found.** On 12 Nov the owner approved 4 questions the agents had flagged (1384 "sea" for "tea", 1272 speed versus velocity, 1504 k ≠ -1, 1020 intercepts). Fix such findings before the owner reaches them, or put the finding at the top of the question.
 
 ## Standing rules

@@ -39,7 +39,6 @@ function renderImport(){
   ${tile(t.questions,'questions loaded')}${tile(`${t.figures_redrawn||0} / ${t.figures_total||0}`,'diagrams redrawn',t.figures_redrawn,t.figures_total)}${tile(t.solutions_written,'solutions written by Claude')}</div>
   ${run.length?`<h3>Import stages running</h3><ul>${run.map(r=>`<li><span class="pulse" aria-hidden="true"></span><b>${esc(r.stage)}</b> · ${esc(r.batch||'')} ${r.detail?'· '+esc(r.detail):''} <span class="muted">· started ${esc(ago(r.started))}</span></li>`).join('')}</ul>`:''}
   <h3>Batches</h3>${batchesHTML(P.batches||[])}
-  ${(P.issues||[]).length?`<h3>Needs your decision</h3><ul>${P.issues.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
   ${log.length?`<h3>Log</h3><ul class="log">${log.map((x,i)=>`<li${i>=5&&!all?' hidden':''}>${esc(x.t?new Date(x.t).toLocaleString('en-AU',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):'')} · ${esc(x.msg)}</li>`).join('')}</ul>${log.length>5&&!all?`<button type="button" class="act plogall" data-logall>Show all ${log.length}</button>`:''}`:''}`;
 }
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#importBox [data-logall]');if(!b)return;const box=$('#importBox');box.dataset.logall='1';box.querySelectorAll('.log li[hidden]').forEach(li=>li.hidden=false);b.remove()});

@@ -1,6 +1,7 @@
 """Build the Import dashboard data (review page #import) from work/import/batches.json + the database.
 Usage: python3 progress.py ["log message"] -> writes site/data/progress.json (also the payload written to the page db doc progress/import).
-batches.json holds per-batch stage states (done/running/waiting/failed/n/a), running workflows, issues and the log;
+batches.json holds per-batch stage states (done/running/waiting/failed/n/a), running workflows and the log;
+owner calls are never kept here: they are raised as Your calls in site/project/open_decisions.json (IMPORT_PLAYBOOK, owner 13 Nov);
 counts (parsed, published, questions, diagrams) are computed here so they never drift."""
 import json, sqlite3, sys, os, glob, datetime
 P = '/home/claude/pilot/'
@@ -25,6 +26,6 @@ out = dict(updated=now, eta=S.get('eta'), totals=dict(papers_total=len(allids), 
            questions=db.execute('select count(*) from questions where document_id in (%s)' % ','.join(map(str, allids))).fetchone()[0],
            figures_total=figs_total, figures_redrawn=figs_done, solutions_written=gen),
            running=S['running'], batches=[{k: b.get(k) for k in ('id', 'papers', 'stages', 'note', 'questions')} for b in S['batches']],
-           issues=S['issues'], log=S['log'][-15:])
+           log=S['log'][-15:])
 json.dump(out, open(P + 'site/data/progress.json', 'w'), ensure_ascii=False)
 print(json.dumps(out['totals']))

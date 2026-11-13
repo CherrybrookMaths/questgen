@@ -702,7 +702,7 @@ async function reviewFlow(browser, base, seed) {
   await check('review: the Inbox summary', page, async () => {
     const r = await page.evaluate(() => {
       const W = [...allWork().values()].filter(w => w.n), card = k => document.querySelector(`#inboxBox [data-card="${k}"]`);
-      return {want: W.length, docs: W.map(w => w.doc).sort(), rep: repOpen().length, lv: lvTodoN(), view, rbar: !document.querySelector('#rbar').hidden,
+      return {want: W.length, docs: W.map(w => w.doc).sort(), pc: Object.keys(B.docs).filter(d => B.docs[d].call && PCALL.list([d])[0].open).map(d => mainDoc(d)), rep: repOpen().length, lv: lvTodoN(), view, rbar: !document.querySelector('#rbar').hidden,
         pn: card('papers')?.querySelector('.ict')?.textContent, rows: [...document.querySelectorAll('#inboxBox .iprow')].map(a => ({href: a.getAttribute('href'), dots: a.querySelectorAll('.mtrack i').length, line: a.querySelector('.ipl').textContent})),
         all: card('papers')?.querySelector('a.imore')?.getAttribute('href'),
         repDone: card('reports')?.classList.contains('idone'), repTxt: card('reports')?.innerText, lvDone: card('difficulty')?.classList.contains('idone'), lvTxt: card('difficulty')?.innerText, lvHref: card('difficulty')?.querySelector('a')?.getAttribute('href'),
@@ -710,7 +710,9 @@ async function reviewFlow(browser, base, seed) {
         recent: document.querySelector('#inboxBox .ifoot a')?.getAttribute('href'), lists: document.querySelectorAll('#inboxBox .ifoot select[data-lists] option').length};
     });
     errs(); assert(r.view === 'inbox' && !r.rbar, `#review opened view ${r.view} (bar shown ${r.rbar})`);
-    assert(r.want === 3 && r.docs.join(',') === '1346,1601,323', `papers with work: ${r.docs.join(',')} (the fixture's workload is 1346, 323, 1601)`);
+    // the fixture's workload is 1346, 323, 1601; every paper with an open call raised on it (open_decisions.json "paper_<doc>") has work too (owner 13 Nov)
+    const wantDocs = [...new Set(['1346', '1601', '323', ...r.pc])].sort();
+    assert(r.want === wantDocs.length && r.docs.join(',') === wantDocs.join(','), `papers with work: ${r.docs.join(',')} (want ${wantDocs.join(',')})`);
     assert(r.pn === String(r.want) && r.rows.length === r.want, `Papers card says ${r.pn}, ${r.rows.length} rows, want ${r.want}`);
     assert(r.rows.every(x => x.dots === 5 && /^\d+ left · at (Your calls|Flagged|Topics|Diagrams|Spot-check)$/.test(x.line) && /^#review\/paper\/\d+$/.test(x.href)), `rows: ${JSON.stringify(r.rows)}`);
     assert(r.all === '#review/papers', `"Show all papers" goes to ${r.all}`);
@@ -727,15 +729,15 @@ async function reviewFlow(browser, base, seed) {
   await check('review: papers list (#papers) with tracks opens a paper', page, async () => {
     await go('#papers');
     let r = await page.evaluate(() => ({hash: location.hash, view, rows: document.querySelectorAll('#ptable tbody tr').length, tracks: document.querySelectorAll('#ptable tbody .mtrack').length,
-      todo: [...document.querySelectorAll('#ptable tbody tr')].filter(tr => /left · at/.test(tr.innerText)).map(tr => tr.dataset.flow).sort(), cols: [...document.querySelectorAll('#ptable thead th')].map(t => t.textContent.replace(/[▲▼]/, '').trim()), back: document.querySelector('#papersView > a.rback')?.getAttribute('href'),
+      todo: [...document.querySelectorAll('#ptable tbody tr')].filter(tr => /left · at/.test(tr.innerText)).map(tr => tr.dataset.flow).sort(), want: [...allWork().values()].filter(w => w.n).map(w => w.doc).sort(), cols: [...document.querySelectorAll('#ptable thead th')].map(t => t.textContent.replace(/[▲▼]/, '').trim()), back: document.querySelector('#papersView > a.rback')?.getAttribute('href'),
       filters: ['#pfQ', '#pfYear', '#pfTask', '#pfSrc', '#pfProg'].filter(s => document.querySelector(s)).length}));
     errs(); assert(r.hash === '#review/papers' && r.view === 'papers', `#papers → ${r.hash} (view ${r.view})`);
-    assert(r.rows > 40 && r.tracks === r.rows && r.todo.join(',') === '1346,1601,323', `${r.rows} rows, ${r.tracks} tracks, with work: ${r.todo.join(',')}`);
+    assert(r.rows > 40 && r.tracks === r.rows && r.todo.join(',') === r.want.join(',') && ['1346', '1601', '323'].every(d => r.todo.includes(d)), `${r.rows} rows, ${r.tracks} tracks, with work: ${r.todo.join(',')} (Inbox: ${r.want.join(',')})`);
     assert(['Paper', 'Review', 'Questions', 'Marks', 'Approved', 'MCQ', 'Short answer', 'Type', 'Source'].every(c => r.cols.includes(c)) && r.filters === 5 && r.back === '#review', `columns ${r.cols.join('/')}, ${r.filters} filters, back ${r.back}`);   // the old Papers tab's columns and filters stay
     await page.selectOption('#pfProg', 'todo'); await settle(page, 3000, 2);
     const nTodo = await page.evaluate(() => document.querySelectorAll('#ptable tbody tr').length);
     await page.selectOption('#pfProg', ''); await settle(page, 2000, 2);
-    assert(nTodo === 3, `"Review work left" shows ${nTodo} rows`);
+    assert(nTodo === r.want.length, `"Review work left" shows ${nTodo} rows, want ${r.want.length}`);
     await page.click('#ptable tbody tr[data-flow="1346"] td.num'); await settle(page, 5000, 2);
     r = await track(); errs();
     assert(r.hash === '#review/paper/1346/calls' && r.view === 'review' && r.rfilter === 'decide', `row click opened ${r.hash} (${r.rfilter})`);
@@ -778,6 +780,7 @@ async function reviewFlow(browser, base, seed) {
 
   await check('review: spot-check approves the rest of the paper, then the paper is done', page, async () => {
     await go('#review/paper/1601');
+    await page.evaluate(() => { window.__inbox0 = [...allWork().values()].filter(w => w.n).length });
     let r = await track(); errs();
     assert(r.hash === '#review/paper/1601/spot-check' && r.rfilter === 'sample' && r.left.sample === 3, `opened ${r.hash}, ${JSON.stringify(r.left)}`);
     const n0 = await logN();
@@ -790,11 +793,11 @@ async function reviewFlow(browser, base, seed) {
     await page.click('#rout [data-paperok]'); await settle(page, 3000, 2);
     r = await track();
     const w = await writes(n0, 'reviews/');
-    const done = await page.evaluate(() => ({pdone: document.querySelector('#rout .ppdone')?.innerText || '', next: document.querySelector('#rout .ppdone a.primary')?.getAttribute('href'), ok: paperOK('1601'), inbox: [...allWork().values()].filter(w => w.n).length}));
+    const done = await page.evaluate(() => ({before: window.__inbox0, pdone: document.querySelector('#rout .ppdone')?.innerText || '', next: document.querySelector('#rout .ppdone a.primary')?.getAttribute('href'), ok: paperOK('1601'), inbox: [...allWork().values()].filter(w => w.n).length}));
     errs(); assert(w.filter(x => x.k.startsWith('reviews/q')).length === 3 && w.some(x => x.k === 'reviews/paper_1601' && x.v.status === 'approved'), `writes: ${w.map(x => x.k).join(' ')}`);
     assert(done.ok && /is done/.test(done.pdone) && /^#review\/paper\/\d+$/.test(done.next || ''), `paper done panel “${done.pdone.slice(0, 80)}”, next ${done.next}`);
     assert(/done$/.test(r.toast) || /approved/.test(r.toast), `toast “${r.toast}”`);
-    assert(r.steps.every(x => /done|none/.test(x.cls)) && done.inbox === 2, `track ${r.steps.map(x => x.cls).join('|')}; Inbox papers ${done.inbox}`);
+    assert(r.steps.every(x => /done|none/.test(x.cls)) && done.inbox === done.before - 1, `track ${r.steps.map(x => x.cls).join('|')}; Inbox papers ${done.inbox}`);
     return `3 sample approvals + paper_1601; ${done.pdone.split('\n')[0]}; Inbox now ${done.inbox} papers`;
   });
   // independent review 13 Nov: a finished paper can still be browsed; dots match the big track; lists reach every paper; odd list names settle
@@ -818,6 +821,48 @@ async function reviewFlow(browser, base, seed) {
     errs(); assert(d.rfilter === 'diagrams' && d.docs > 1 && d.sel === 'diagrams', `Diagrams list: ${JSON.stringify(d)}`);
     assert(u[0] === '#review/list/recent' && u[1] === 'recent', `#review/list/nosuchlist → ${u}`);
     return `browse ${b.n} questions of 1601; ${m.length} mini tracks match; Diagrams list ${d.n} questions over ${d.docs} papers`;
+  });
+  // owner 13 Nov ("isn't that the point of your calls? or is your decision different"): import notes are raised as Your calls,
+  // never as loose notes. A call on a paper (open_decisions.json "paper_<doc>", bank docs[doc].call) and a call on a question
+  // raised after its approval (q.decide_at) put the paper back in the Inbox, its papers-list row and its Your calls step;
+  // answering clears them and keeps the earlier approval. Live paper calls are checked as they are; the question call is injected.
+  await check('review: calls raised after approval (paper and question) show in Your calls, the papers list and the Inbox', page, async () => {
+    const live = await page.evaluate(() => Object.keys(B.docs).filter(d => B.docs[d].call && PCALL.list([d])[0].open).map(d => mainDoc(d)));
+    const qc = await page.evaluate(() => { const busy = new Set([...allWork().values()].filter(w => w.n).map(w => w.doc));
+      const q = B.questions.find(q => !q.dup_of && reviews['q' + q.id]?.status === 'approved' && !busy.has(mainDoc(q.doc)) && !q.decide);
+      q.decide = 'Test call raised after approval'; q.decide_at = new Date().toISOString(); return {id: q.id, doc: mainDoc(q.doc)} });
+    await go('#review');
+    const ib = await page.evaluate(() => ({W: Object.fromEntries([...allWork().values()].filter(w => w.n).map(w => [w.doc, w.left.decide])), card: document.querySelector('#inboxBox [data-card="papers"] .ict')?.textContent, tab: document.querySelector('#todoN').textContent,
+      rows: Object.fromEntries([...document.querySelectorAll('#inboxBox .iprow')].map(a => [a.getAttribute('href').split('/').pop(), a.querySelector('.ipl').textContent]))}));
+    errs();
+    for (const d of [...live, qc.doc]) assert(ib.W[d] >= 1 && (!ib.rows[d] || /at Your calls/.test(ib.rows[d])), `paper ${d} not counted in the Inbox under Your calls: ${JSON.stringify(ib)}`);
+    assert(ib.card === String(Object.keys(ib.W).length) && ib.tab === ib.card, `Inbox card ${ib.card}, tab ${ib.tab}, papers with work ${Object.keys(ib.W).length}`);
+    await go('#review/papers');
+    const pl = await page.evaluate(ds => ds.map(d => document.querySelector(`#ptable tbody tr[data-flow="${d}"]`)?.innerText.replace(/\s+/g, ' ') || 'no row'), [...live, qc.doc]);
+    assert(pl.every(t => /left · at Your calls/.test(t)), `papers list rows: ${pl.join(' | ')}`);
+    const shown = [];
+    for (const [i, d] of live.entries()) {
+      await go('#review/paper/' + d);
+      const r = await track();
+      const card = await page.evaluate(d => ({n: document.querySelectorAll('#rout .pcall').length, txt: document.querySelector(`#rout .pcall[data-pcall="${d}"] p`)?.textContent, want: B.docs[d].call.text, approved: reviews['paper_' + d]?.status}), d);
+      errs(); assert(r.hash === `#review/paper/${d}/calls` && r.rfilter === 'decide' && r.steps[0].n === String(r.left.decide) && r.left.decide >= 1 && /\bcur\b/.test(r.steps[0].cls), `paper ${d}: ${r.hash} ${r.rfilter}, track ${JSON.stringify(r.steps[0])}, left ${JSON.stringify(r.left)}`);
+      assert(card.n >= 1 && card.txt === card.want, `paper ${d} call card: ${JSON.stringify(card)}`);
+      const n0 = await logN();
+      if (i % 2 === 0) await page.click(`#rout [data-pcok="${d}"]`);
+      else { await page.click(`#rout [data-pcopen="${d}"]`); await page.fill(`#pcn-${d}`, 'Label it AT4'); await page.press(`#pcn-${d}`, 'Enter') }
+      await settle(page, 3000, 2);
+      const w = (await writes(n0, 'reviews/paper_' + d)).pop(), left = await page.evaluate(d => paperWork(d).left.decide, d);
+      errs(); assert(w && w.v.call && w.v.call.status === (i % 2 ? 'flagged' : 'approved') && (i % 2 ? w.v.call.note === 'Label it AT4' : true) && w.v.status === card.approved && left === r.left.decide - 1, `answer on ${d}: ${JSON.stringify(w && w.v)}, Your calls left ${left}`);
+      shown.push(`${d} ${i % 2 ? 'typed answer' : 'kept'}`);
+    }
+    await go('#review/paper/' + qc.doc);
+    const q = await page.evaluate(() => ({hash: location.hash, rfilter, id: rlist[ridx]?.id, call: [...document.querySelectorAll('#rout .callout')].map(c => c.textContent).join(' '), left: paperWork(rdoc).left.decide}));
+    errs(); assert(q.hash === `#review/paper/${qc.doc}/calls` && q.rfilter === 'decide' && q.id === qc.id && /Needs your decision: Test call raised after approval/.test(q.call) && q.left === 1, `question call: ${JSON.stringify(q)}`);
+    const n0 = await logN(); await page.keyboard.press('a'); await settle(page, 3000, 2);
+    const w = (await writes(n0, 'reviews/q' + qc.id)).pop(), after = await page.evaluate(d => ({left: paperWork(d).left.decide, inbox: [...allWork().values()].filter(w => w.n).length}), qc.doc);
+    errs(); assert(w && w.v.status === 'approved' && w.v.call_at >= (await page.evaluate(id => B.questions.find(q => q.id === id).decide_at, qc.id)) && after.left === 0, `answering the question call: ${JSON.stringify(w && w.v)}, left ${after.left}`);
+    assert(after.inbox === Object.keys(ib.W).length - live.length - 1, `Inbox papers after answering: ${after.inbox}, before ${Object.keys(ib.W).length}`);
+    return `paper calls ${shown.join(', ') || 'none open'}; question call on ${qc.doc} Q${qc.id}; Inbox ${Object.keys(ib.W).length} → ${after.inbox}`;
   });
   await page.context().close();
 
@@ -1216,18 +1261,21 @@ async function papersQueue(browser, base, seed, fx) {
     return t.join(' › ');
   });
   await check('papers: Import history collapsed; log shows the last 5, then Show all', page, async () => {
-    await page.evaluate(() => { PROG = {...(PROG || {}), log: Array.from({length: 12}, (_, i) => ({t: new Date(Date.now() - (12 - i) * 60000).toISOString(), msg: 'step ' + (i + 1)}))}; renderImport() });
+    // owner 13 Nov ("isn't that the point of your calls?"): import notes are Your calls now. A stale progress/import doc that still
+    // carries an issues list (the live db doc did) must not bring the "Needs your decision" block back.
+    await page.evaluate(() => { PROG = {...(PROG || {}), issues: ['stale loose note'], log: Array.from({length: 12}, (_, i) => ({t: new Date(Date.now() - (12 - i) * 60000).toISOString(), msg: 'step ' + (i + 1)}))}; renderImport() });
     const a = await page.evaluate(() => { const h = document.querySelector('#procHist'); return {open: h.open, sum: h.querySelector('summary').textContent.trim(), inside: ['.tiles', '.bgrp', '.log'].every(s => h.querySelector('#importBox ' + s)), vis: document.querySelector('#importBox').checkVisibility()} });
     assert(a.sum === 'Import history' && a.open === false && a.vis === false && a.inside, `Import history: ${JSON.stringify(a)}`);
     await page.click('#procHist > summary'); await settle(page, 1000, 2);
     const b = await page.evaluate(() => ({shown: [...document.querySelectorAll('#importBox .log li')].filter(l => !l.hidden).map(l => l.textContent.replace(/^.*· /, '')), btn: document.querySelector('#importBox [data-logall]')?.textContent, decide: [...document.querySelectorAll('#importBox h3')].map(h => h.textContent)}));
     assert(b.shown.join(',') === 'step 12,step 11,step 10,step 9,step 8' && b.btn === 'Show all 12', `log: ${b.shown} / ${b.btn}`);
-    assert(b.decide.includes('Needs your decision') && b.decide.includes('Batches'), `history sections: ${b.decide}`);
+    const stale = await page.evaluate(() => document.querySelector('#importBox').textContent.includes('stale loose note'));
+    assert(!b.decide.includes('Needs your decision') && b.decide.includes('Batches') && !stale, `history sections: ${b.decide}${stale ? ' (loose note shown)' : ''}`);
     await page.click('#importBox [data-logall]'); await settle(page, 800, 2);
     const c = await page.evaluate(() => ({n: [...document.querySelectorAll('#importBox .log li')].filter(l => !l.hidden).length, btn: !!document.querySelector('#importBox [data-logall]')}));
     await page.click('#procHist > summary'); errs();
     assert(c.n === 12 && !c.btn, `after Show all: ${JSON.stringify(c)}`);
-    return 'collapsed by default; tiles, batches, Needs your decision and log inside; 5 → Show all 12';
+    return 'collapsed by default; tiles, batches and log inside, no "Needs your decision" block; 5 → Show all 12';
   });
   // review 13 Nov: the order the owner set survives a reload (a new page on the database the first one left behind)
   const kept = await page.evaluate(() => Object.fromEntries([...window.__pt.store.entries()]));
