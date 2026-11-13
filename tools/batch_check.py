@@ -149,6 +149,14 @@ try:
             I(f'page test passed {_r.get("at", "")[:16]}: {_r.get("passed")} checks in {_r.get("seconds")} s')
 except Exception as e:
     B(f'page test result could not be read: {e}')
+# version control (stage 1, 15 Nov): never a blocker; --mark-published commits and tags automatically (tools/snapshot.py)
+try:
+    import subprocess
+    if not os.path.isdir(P + '.git'): W('no git repository: version snapshots are off (RESUME.md "Version control")')
+    else:
+        _tags = subprocess.run(['git', '-C', P, 'tag', '--list', '--sort=-creatordate'], capture_output=True, text=True, timeout=60).stdout.split()
+        I(f'version control: last tag {_tags[0] if _tags else "none"}; the next --mark-published commits and tags automatically')
+except Exception as e: W(f'git state could not be read: {e}')
 print(f'batch_check {time.strftime("%Y-%m-%d %H:%M")}: {len(blockers)} blocker(s), {len(warns)} warning(s)')
 for m in blockers: print('  BLOCKER', m)
 for m in warns: print('  WARN   ', m)

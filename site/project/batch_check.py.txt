@@ -22,7 +22,14 @@ if '--mark-published' in sys.argv:
     files = {os.path.relpath(f, P + 'site'): sha(f) for f in glob.glob(P + 'site/data/**/*.json', recursive=True) + [P + 'site/review.html'] + [f for f in glob.glob(P + 'site/vendor/**/*', recursive=True) if os.path.isfile(f)]
              + [f for f in glob.glob(P + 'site/project/**/*', recursive=True) if os.path.isfile(f)]}   # project/ too, so tools/publish_set.py can list exactly what changed (reviewer 14 Nov)
     json.dump(dict(at=time.strftime('%Y-%m-%d %H:%M'), files=files), open(MAN, 'w'), indent=0)
-    print('recorded', len(files), 'published files'); sys.exit(0)
+    print('recorded', len(files), 'published files')
+    # version control (stage 1, 15 Nov; owner: "I don't want to have to do that"): commit everything, tag publish-vNNN,
+    # refresh the Drive bundle. tools/snapshot.py only warns on a git problem; this guard keeps a crash from blocking too.
+    try:
+        import subprocess
+        subprocess.run([sys.executable, P + 'tools/snapshot.py'] + [a for a in sys.argv[1:] if a.startswith('--version') or a.isdigit()], timeout=600)
+    except Exception as e: print('  WARN    snapshot not taken:', e)
+    sys.exit(0)
 
 allr = {r['id'] for r in json.load(open(P + 'tikz/all_results.json'))}
 
@@ -142,6 +149,14 @@ try:
             I(f'page test passed {_r.get("at", "")[:16]}: {_r.get("passed")} checks in {_r.get("seconds")} s')
 except Exception as e:
     B(f'page test result could not be read: {e}')
+# version control (stage 1, 15 Nov): never a blocker; --mark-published commits and tags automatically (tools/snapshot.py)
+try:
+    import subprocess
+    if not os.path.isdir(P + '.git'): W('no git repository: version snapshots are off (RESUME.md "Version control")')
+    else:
+        _tags = subprocess.run(['git', '-C', P, 'tag', '--list', '--sort=-creatordate'], capture_output=True, text=True, timeout=60).stdout.split()
+        I(f'version control: last tag {_tags[0] if _tags else "none"}; the next --mark-published commits and tags automatically')
+except Exception as e: W(f'git state could not be read: {e}')
 print(f'batch_check {time.strftime("%Y-%m-%d %H:%M")}: {len(blockers)} blocker(s), {len(warns)} warning(s)')
 for m in blockers: print('  BLOCKER', m)
 for m in warns: print('  WARN   ', m)

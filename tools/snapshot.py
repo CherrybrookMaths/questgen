@@ -7,7 +7,7 @@ Owner: "would I have to manage version control? I don't want to have to do that.
   python3 tools/snapshot.py --rollback TAG      print the rollback plan only (changes nothing)
   python3 tools/snapshot.py --rollback TAG --yes   snapshot the current state, then restore every tracked file to TAG and commit
   python3 tools/snapshot.py --status            last tags, uncommitted changes
-  --repo DIR                                    act on another checkout (tests)
+  --repo DIR  /  --out FILE                     act on another checkout (tests; its bundle goes next to it) / bundle path
 
 Publish mode never blocks a publish: any git problem prints a WARN and exits 0.
 What is tracked is decided by .gitignore (an allow-list); see RESUME.md "Version control"."""
@@ -23,6 +23,8 @@ def arg(flag, default=None):
 
 
 REPO = arg('--repo', P)
+if REPO != P: BUNDLE = os.path.join(os.path.dirname(os.path.abspath(REPO)), 'questgen_repo.bundle')   # tests never touch the real bundle
+BUNDLE = arg('--out', BUNDLE)
 
 
 def git(*a, check=True):
@@ -43,7 +45,7 @@ def versions():
 
 def ensure_repo():
     if not os.path.isdir(os.path.join(REPO, '.git')):
-        raise RuntimeError(f'{REPO} is not a git repository (stage 1 setup: git init + tools/snapshot.py --init)')
+        raise RuntimeError(f'{REPO} is not a git repository (see RESUME.md "Version control" to set it up again)')
     git('config', 'user.name', NAME); git('config', 'user.email', EMAIL)
 
 

@@ -103,7 +103,7 @@ Owner, 12 Nov: "I don't have time to check 6000 questions".
 - Keep the bank private. Get copyright advice before sharing.
 - Never send the owner's email to external services.
 - Record every owner ruling in the matching spec, quoting him.
-- Sync to Drive after major changes.
+- Sync to Drive after major changes (include `questgen_repo.bundle`, see "Version control").
 - Import is paused. Knox AT1 waits for the owner's PC.
 - Your review decisions (approvals, flags, home picks) are stored **only** in the page's database. On every Drive sync, export them to `project/reviews_backup.json` inside project_files.zip. The first backup was made on 12 Nov and holds 1,065 docs.
 
@@ -181,3 +181,6 @@ Exit codes: 0 means all passed, 1 means a check failed, and 2 means the test cou
 **When a check fails.** Look at its screenshot and detail. Fix the page in `page_src/` (never in `site/review.html`), rebuild, and run `prepublish.sh` again. If the page is right and the check is out of date (an owner ruling changed what the page should do), change the check in `tools/page_test.js` and say why in a comment. Add a check for every new page feature the owner asks for.
 
 **Needs:** `node` with `playwright` and its Chromium (preinstalled in the sandbox; elsewhere run `npm i playwright` and `npx playwright install chromium`), and `python3`. No network is needed.
+
+## Version control (15 Nov)
+Nothing to do by hand. `batch_check.py --mark-published` (after every publish) commits everything and tags `publish-vNNN` via `tools/snapshot.py`; on a Drive sync also upload `/mnt/user-data/outputs/questgen_repo.bundle`. Never `git add -f` anything under src/, work/ or site/data/img: `.gitignore` is an allow-list on purpose. To undo a bad publish: `python3 tools/snapshot.py --rollback publish-vNNN` (plan only), then `--yes`. Details: RESUME.md "Version control".
