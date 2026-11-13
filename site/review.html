@@ -1808,10 +1808,12 @@ html:not(.editor) .edonly{display:none!important}
 /* ---- a paper with nothing left ---- */
 .pempty{display:flex;flex-direction:column;gap:12px;text-align:left}
 .pempty>b{color:var(--ink);font-size:15px}
-.pdone{display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px}
-.pdone>div:first-of-type{flex:1 1 12em}
-.pdone b{color:var(--ink);font-size:16px}
-.pdone .row{flex-basis:100%}
+/* owner 13 Nov: "recently done looks so big": this panel was named .pdone, the same class as Processes' Recently done list, so its
+   flex layout and 16px bold leaked there. Renamed .ppdone (paper done). */
+.ppdone{display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px}
+.ppdone>div:first-of-type{flex:1 1 12em}
+.ppdone b{color:var(--ink);font-size:16px}
+.ppdone .row{flex-basis:100%}
 .ptick{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--ok-soft);color:var(--ok);font:600 18px var(--sans)}
 
 /* ---- papers list, Reports and Difficulty: ← Inbox ---- */
@@ -2642,7 +2644,7 @@ function nextStepHTML(){if(RMODE==='paper'&&rdoc)return paperNextHTML();
 // owner 13 Nov ("One paper at a time"): in a paper, an empty step offers the next step with work, or says the paper is done
 function paperNextHTML(){const w=paperWork(rdoc),nx=nextStepWith(w,rfilter),d=B.docs[w.doc];
   if(!w.n){const more=[...allWork().values()].filter(x=>x.n&&x.doc!==w.doc).sort(workOrder)[0];
-    return `<div class="pdone"><span class="ptick" aria-hidden="true">✓</span><div><b>${esc(docLabel(d))} is done.</b><div class="muted">Every step is clear.</div></div>
+    return `<div class="ppdone"><span class="ptick" aria-hidden="true">✓</span><div><b>${esc(docLabel(d))} is done.</b><div class="muted">Every step is clear.</div></div>
       <div class="row">${more?`<a class="act primary" href="#review/paper/${more.doc}">Next paper: ${esc(docLabel(B.docs[more.doc]))} →</a>`:''}<a class="act ghost" href="#review/list/all" data-browse="${w.doc}">See its questions</a><a class="act" href="#review">← Inbox</a></div></div>`}
   return `<div class="row" style="margin-top:10px">${nx?`<button class="act primary" data-gof="${nx}">Go to ${STEPS.findIndex(x=>x[0]===nx)+1}. ${esc(stepLabel(nx))} · ${w.left[nx]} →</button>`:''}<a class="act ghost" href="#review">← Inbox</a></div>`}
 function bindNext(){$$('#rout [data-gof]').forEach(b=>b.onclick=()=>goStep(b.dataset.gof,b.dataset.any?'any':'todo'))}

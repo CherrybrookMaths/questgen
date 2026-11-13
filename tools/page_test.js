@@ -723,7 +723,7 @@ async function reviewFlow(browser, base, seed) {
     await page.click('#rout [data-paperok]'); await settle(page, 3000, 2);
     r = await track();
     const w = await writes(n0, 'reviews/');
-    const done = await page.evaluate(() => ({pdone: document.querySelector('#rout .pdone')?.innerText || '', next: document.querySelector('#rout .pdone a.primary')?.getAttribute('href'), ok: paperOK('1601'), inbox: [...allWork().values()].filter(w => w.n).length}));
+    const done = await page.evaluate(() => ({pdone: document.querySelector('#rout .ppdone')?.innerText || '', next: document.querySelector('#rout .ppdone a.primary')?.getAttribute('href'), ok: paperOK('1601'), inbox: [...allWork().values()].filter(w => w.n).length}));
     errs(); assert(w.filter(x => x.k.startsWith('reviews/q')).length === 3 && w.some(x => x.k === 'reviews/paper_1601' && x.v.status === 'approved'), `writes: ${w.map(x => x.k).join(' ')}`);
     assert(done.ok && /is done/.test(done.pdone) && /^#review\/paper\/\d+$/.test(done.next || ''), `paper done panel “${done.pdone.slice(0, 80)}”, next ${done.next}`);
     assert(/done$/.test(r.toast) || /approved/.test(r.toast), `toast “${r.toast}”`);
@@ -732,7 +732,7 @@ async function reviewFlow(browser, base, seed) {
   });
   // independent review 13 Nov: a finished paper can still be browsed; dots match the big track; lists reach every paper; odd list names settle
   await check('review: done paper browse, mini-track dots, Other lists across papers', page, async () => {
-    await page.click('#rout .pdone [data-browse]'); await settle(page, 4000, 2);
+    await page.click('#rout .ppdone [data-browse]'); await settle(page, 4000, 2);
     const b = await page.evaluate(() => ({hash: location.hash, rdoc, docs: [...new Set(rlist.map(q => String(q.doc)))], n: rlist.length, track: document.querySelector('#filters').children.length}));
     errs(); assert(b.hash === '#review/list/all' && b.rdoc === '1601' && b.docs.join() === '1601' && b.n > 5 && !b.track, `"See its questions" → ${b.hash}, paper ${b.rdoc}, docs ${b.docs}, ${b.n} questions, ${b.track} track items left`);
     await go('#review/papers');
@@ -819,13 +819,15 @@ async function processes(browser, base, seed) {
       const v = document.querySelector('#processesView'), heads = [...v.querySelectorAll('#procBox h3, #procBox .pdone>summary, #importBox h2')].map(h => h.textContent.replace(/\s*\d+\s*$/, '').trim());
       return {heads, cards: [...v.querySelectorAll('.pcard')].map(c => ({name: c.querySelector('b').textContent, when: c.querySelector('.pwhen')?.textContent || ''})),
         queue: [...v.querySelectorAll('.pqueue li b')].map(b => b.textContent), asked: [...v.querySelectorAll('.pqueue .pasked')].map(a => getComputedStyle(a).fontStyle),
-        doneOpen: v.querySelector('.pdone')?.open, doneN: v.querySelectorAll('.pdone li').length, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
+        doneOpen: v.querySelector('.pdone')?.open, doneDisp: getComputedStyle(v.querySelector('details.pdone')||v).display, doneBig: (()=>{const d=v.querySelector('details.pdone');if(!d)return 0;d.open=true;const m=Math.max(0,...[...d.querySelectorAll('li *')].map(e=>parseFloat(getComputedStyle(e).fontSize)));d.open=false;return m})(), doneN: v.querySelectorAll('.pdone li').length, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
         // review 14 Nov: one "Running now" on the page; the Import dashboard's sub-headings are the small section labels, below the page title
         runHeads: [...v.querySelectorAll('h2,h3')].filter(h => /^Running now/.test(h.textContent.trim())).length,
         title: parseFloat(getComputedStyle(v.querySelector('#procBox h2')).fontSize), imp: parseFloat(getComputedStyle(v.querySelector('#importBox h2')).fontSize),
         bigSub: [...v.querySelectorAll('#importBox h2 ~ h2')].map(h => h.textContent), subs: [...v.querySelectorAll('#importBox > h3')].map(h => parseFloat(getComputedStyle(h).fontSize))};
     });
     errs();
+    // owner 13 Nov: "recently done looks so big": Review's paper-done styles leaked into Recently done (both were .pdone)
+    assert(r.doneDisp === 'block' && r.doneBig <= 14, `Recently done layout: display ${r.doneDisp}, largest text ${r.doneBig}px`);
     const order = ['Running now', 'Queued', 'Recently done', 'Import'].map(h => r.heads.indexOf(h));
     assert(order.every(i => i >= 0) && order.every((x, i) => !i || x > order[i - 1]), `sections out of order: ${r.heads.join(' | ')}`);
     assert(r.cards.length === wantRun, `${r.cards.length} running cards, expected ${wantRun}`);
