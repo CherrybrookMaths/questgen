@@ -149,5 +149,7 @@ The artifact held 462 of its 511-file limit. Now:
 - Rulings: UI_SPEC.md "Review: Inbox and one paper at a time". The page test's Review pages use a workload from page_test_fixture.py (WORKLOAD), since every live paper is approved.
 
 
+- **13 Nov: Processes in two tabs** (owner: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): `#processes/work` (running, queued, done, Next up) and `#processes/papers` (rescan, import order, a compact course grid, Import history collapsed). UI_SPEC "Processes in two tabs".
+
 ## Code health (owner 13 Nov)
 Every feature round follows CODE_HEALTH.md: builder prompts include it and reviewers check the diff against it.

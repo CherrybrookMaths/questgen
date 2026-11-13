@@ -447,7 +447,10 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
 @keyframes jpulse{50%{opacity:.35}}
 /* Processes page (owner 14 Nov: "Can make that page processes") */
 .procs #procBox{margin-bottom:8px}
-.procs .psec{margin:20px 0 0}
+/* owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers": the title with the Work | Papers switch (the Teach | Curate .areasw look), tighter sections */
+.procs .prhead{display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px;margin:18px 0 6px}.procs .prhead h2{margin:0}
+.procs .prpane[hidden]{display:none}
+.procs .psec{margin:14px 0 0}
 .procs h3{font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 10px;display:flex;align-items:center;gap:8px}
 .procs .pcount{font:600 11px var(--sans);letter-spacing:0;color:var(--muted);background:var(--line);border-radius:999px;padding:1px 7px;font-variant-numeric:tabular-nums}
 .procs .pempty{color:var(--muted);font-size:13.5px;margin:0;padding:12px 14px;border:1px dashed var(--line2);border-radius:8px}
@@ -465,21 +468,22 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
 .procs .pqueue li:first-child{border-top:0}
 .procs .pqueue b{font-weight:600;overflow-wrap:anywhere}
 .procs .pnum{font:600 12px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
-.procs .pdone>summary{cursor:pointer;font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;padding:4px 0;list-style:none}
-.procs .pdone>summary::-webkit-details-marker{display:none}
-.procs .pdone>summary::after{content:"";width:6px;height:6px;border:solid var(--muted);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);margin-left:2px;transition:transform .15s}
-.procs .pdone[open]>summary::after{transform:rotate(45deg)}
-.procs .pdone>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.procs .pdone>summary,.procs .phist>summary{cursor:pointer;font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;padding:4px 0;list-style:none}
+.procs .pdone>summary::-webkit-details-marker,.procs .phist>summary::-webkit-details-marker{display:none}
+.procs .pdone>summary::after,.procs .phist>summary::after{content:"";width:6px;height:6px;border:solid var(--muted);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);margin-left:2px;transition:transform .15s}
+.procs .pdone[open]>summary::after,.procs .phist[open]>summary::after{transform:rotate(45deg)}
+.procs .pdone>summary:focus-visible,.procs .phist>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 .procs .pdone ul{list-style:none;margin:8px 0 0;padding:0}
 .procs .pdone li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:4px;padding:7px 0;margin:0;border-top:1px solid var(--line);font-size:13.5px}
 .procs .pdone li b{font-weight:500;color:var(--ink)}
 .procs .pok{color:var(--ok);font-weight:600}
-.procs #importBox{margin-top:30px;padding-top:6px;border-top:1px solid var(--line)}
-.procs #importBox>h2{font-size:21px;margin-top:22px}.procs #importBox>h3{margin:24px 0 8px}.procs #importBox>.tiles+h3{margin-top:26px}   /* owner 14 Nov: Import is one section of Processes, its sub-headings match the section labels above */
+.procs .phist{margin-top:18px;padding-top:8px;border-top:1px solid var(--line)}   /* Papers › Import history, collapsed: the old import dashboard */
+.procs #importBox{padding-top:6px}.procs #importBox>h3{margin:18px 0 8px}
+.procs .plogall{margin-top:6px;font-size:12.5px;padding:3px 10px}
 @media (max-width:640px){.jobs .jpill{min-height:30px;padding:3px 11px}.procs .pcards{grid-template-columns:minmax(0,1fr)}}
 .enter{animation:viewIn .22s ease-out}
 @keyframes viewIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.enter{animation:none}.jobs .dot,.procs .pdot{animation:none}.jobs .jpill,.procs .pdone>summary::after{transition:none}}
+@media (prefers-reduced-motion:reduce){.enter{animation:none}.jobs .dot,.procs .pdot{animation:none}.jobs .jpill,.procs .pdone>summary::after,.procs .phist>summary::after{transition:none}}
 .themebtn{font-size:13px;white-space:nowrap}
 .pfil{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 12px}
 .pfil input,.pfil select{font:inherit;font-size:13.5px;padding:6px 10px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink)}
@@ -1672,7 +1676,8 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
 .schema .slegend text{font-size:11.5px;fill:var(--muted)}
 .g2keys{grid-template-columns:repeat(5,minmax(0,1fr))}
 @media (max-width:860px){.g2keys{grid-template-columns:1fr 1fr}}@media (max-width:520px){.g2keys{grid-template-columns:1fr}}
-/* ---- Teach | Curate (owner 15 Nov: "Lets do 2 as well" and "curate should be hidden to peope except editors.") ----
+/* ---- segmented switch: Teach | Curate in the header, and (owner 13 Nov, "Two tabs: Work | Papers") Work | Papers on Processes.
+   Teach | Curate (owner 15 Nov: "Lets do 2 as well" and "curate should be hidden to peope except editors.") ----
    A small segmented switch before the tabs, shown only to the owner and editors. Its highlight slides like the tab pill
    (12 Nov ruling); hairline frame, theme2 tokens. Phones have no switch: the menu groups the tabs under Teach / Curate. */
 .areasw{position:relative;display:inline-flex;align-items:center;gap:0;padding:2px;border:1px solid var(--line);border-radius:calc(var(--t2-r) + 2px);background:var(--bg)}
@@ -1689,7 +1694,7 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
 .msheet .mgrp{display:grid;gap:2px}
 .msheet .mgrp+.mgrp{border-top:1px solid var(--line);margin-top:4px;padding-top:4px}
 .msheet .mh{font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 14px 2px}
-@media (max-width:640px){.areasw{display:none!important}}
+@media (max-width:640px){header .areasw{display:none!important}}   /* the header's Teach | Curate only; Processes' Work | Papers stays on phones */
 /* Curate-only controls elsewhere (e.g. "Open in Review" on bank cards) carry .edonly: hidden unless the viewer is the owner or an editor */
 html:not(.editor) .edonly{display:none!important}
 /* owner 13 Nov: "add a place somewhere for me to write down what to flesh out next" — the Next up card on Processes */
@@ -1863,8 +1868,8 @@ a.plink:hover{text-decoration:underline}
 }
 /* owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next?" — Papers + Import order on Processes */
 .procs .ivsub{margin:0 0 8px;color:var(--muted);font-size:13px}
-.procs .ivpause{margin:0 0 12px;padding:8px 12px;border:1px solid var(--warn);background:var(--warn-soft);color:var(--ink);border-radius:8px;font-size:13.5px;display:flex;gap:8px;align-items:baseline}
-.procs .ivpause span{color:var(--warn);flex:none}
+/* owner 13 Nov ("The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): the pause note is one quiet line under Import order */
+.procs .ivpause{margin:-2px 0 8px;color:var(--muted);font-size:12.5px}
 .procs .ivq{margin:0 0 14px}
 .procs .ivq h4,.procs #ivGrid .ivhead{font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .procs .ivq h4{margin:0 0 6px;display:flex;align-items:center;gap:8px}
@@ -1873,25 +1878,27 @@ a.plink:hover{text-decoration:underline}
 .procs .ivql .ntext small{color:var(--muted);font-size:12px}
 .procs .ivql .ivwarn{color:var(--warn);font-style:normal}
 .procs .ivqn{flex:none;min-width:20px;height:20px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:600 11.5px var(--sans);display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
-/* the grid: one summary row per course x year, columns In folder / Imported / Waiting / New */
-.procs #ivGrid{--ivc:repeat(4,minmax(40px,64px));border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden}
-.procs #ivGrid .ivhead{display:grid;grid-template-columns:minmax(0,1fr) var(--ivc);gap:6px;padding:7px 12px;border-bottom:1px solid var(--line);font-size:10.5px}
-.procs #ivGrid .ivhead span:not(:first-child){text-align:right;white-space:nowrap}
-.procs #ivGrid .ivhead i{font-style:normal}.procs #ivGrid .ivshort{display:none}
-.procs .ivg{border-top:1px solid var(--line)}.procs .ivhead+.ivg{border-top:0}
-.procs .ivg>summary{display:grid;grid-template-columns:minmax(0,1fr) var(--ivc);gap:6px;align-items:baseline;padding:9px 12px;cursor:pointer;list-style:none}
-.procs .ivg>summary::-webkit-details-marker{display:none}
-.procs .ivg>summary:hover{background:color-mix(in srgb,var(--accent-soft) 45%,transparent)}
-.procs .ivg>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.procs .ivname{position:relative;min-width:0;padding-left:14px;font-size:14px}
-.procs .ivname::before{content:'▸';position:absolute;left:0;top:.2em;width:10px;color:var(--muted);font-size:11px;line-height:1;transition:transform .15s}
-.procs .ivg[open] .ivname::before{transform:rotate(90deg)}
+/* the compact course grid (owner 13 Nov, Work | Papers): one row per course, cells Year 12 / Year 11 / Year ?; a cell opens its papers under the row */
+.procs #ivGrid{border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden}
+.procs #ivGrid .ivhead,.procs .ivr{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,minmax(96px,150px));gap:6px;align-items:center;padding:0 12px}
+.procs #ivGrid .ivhead{padding-block:7px;border-bottom:1px solid var(--line);font:600 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.procs #ivGrid .ivhead span:not(:first-child){text-align:right;padding-right:9px}
+.procs .ivr{border-top:1px solid var(--line);padding-block:4px}.procs .ivhead+.ivr{border-top:0}
+.procs .ivname{min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 8px;font-size:14px}
+.procs .ivname b{font-weight:600}.procs .ivr.off .ivname b{color:var(--muted)}
+.procs .ivnote{color:var(--muted);font-size:12px}
 .procs .ivyl{color:var(--muted)}
-.procs .ivnote{grid-column:1/-1;margin:-2px 0 0 14px;color:var(--muted);font-size:12px;line-height:1.35}
-.procs .ivn{text-align:right;font:600 14px var(--sans);font-variant-numeric:tabular-nums}
-.procs .ivn.ok{color:var(--ok)}.procs .ivn.wait{color:var(--accent)}.procs .ivn.new{color:var(--warn)}.procs .ivn.ivz{color:var(--muted);font-weight:400}
-.procs .ivg.off .ivname b,.procs .ivg.off .ivn{color:var(--muted)}
-.procs .ivbody{padding:4px 12px 12px 26px;border-top:1px dashed var(--line)}
+.procs .ivcell{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:baseline;gap:2px 6px;min-width:0;padding:6px 8px;border:1px solid transparent;border-radius:6px;background:none;font:400 13px var(--sans);color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.procs button.ivcell{cursor:pointer}
+.procs button.ivcell:hover{background:color-mix(in srgb,var(--accent-soft) 45%,transparent)}
+.procs button.ivcell:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.procs .ivcell.on{border-color:var(--accent);background:var(--accent-soft)}
+.procs .ivcell b{font-weight:600;color:var(--ink)}.procs .ivcell b.ok{color:var(--ok)}.procs .ivcell b.wait{color:var(--accent)}
+.procs .ivr.off .ivcell b{font-weight:500}
+.procs .ivcell .ivcl{display:none;font-style:normal}
+.procs .ivbody{grid-column:1/-1;margin:2px -12px -4px;padding:2px 12px 12px 26px;border-top:1px dashed var(--line)}
+.procs .ivbody[hidden]{display:none}
+.procs .ivbh{margin:8px 0 0;font-size:13px;color:var(--muted)}.procs .ivbh b{color:var(--ink);font-weight:600}
 .procs .ivmsg{margin:8px 0;color:var(--muted);font-size:13px}
 .procs .ivall{display:inline-flex;align-items:center;gap:8px;margin:8px 0 2px;font-weight:600;font-size:13.5px;cursor:pointer}
 .procs .ivs{margin-top:10px}
@@ -1913,7 +1920,10 @@ a.plink:hover{text-decoration:underline}
 .procs .ivbar[hidden]{display:none}
 .procs .ivbar #ivSelN{flex:1 1 auto;font-weight:600;font-size:13.5px}
 .procs .ivbar .ivadd{background:var(--accent);border-color:var(--accent);color:var(--panel)}
-@media (max-width:640px){.procs #ivGrid{--ivc:repeat(4,40px)}.procs #ivGrid .ivlong{display:none}.procs #ivGrid .ivshort{display:inline}.procs #ivGrid .ivhead,.procs .ivg>summary{gap:4px;padding-inline:10px}.procs .ivbody{padding-left:12px}.procs .ivn{font-size:13px}.procs .ivwhy{margin-left:0}}
+/* phone: the grid stacks per course (name on its own line, then three labelled cells); no sideways scroll */
+@media (max-width:640px){.procs #ivGrid .ivhead{display:none}.procs .ivr{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:8px 10px}.procs .ivname{grid-column:1/-1}
+  .procs .ivcell{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:0;text-align:left;border-color:var(--line);padding:4px 8px}.procs .ivcell .ivcl{display:block;font-size:11px}
+  .procs .ivbody{margin:2px -10px -8px;padding-left:12px}.procs .ivwhy{margin-left:0}}
 /* owner 13 Nov: "Where is the button to rescan the drive?" — Rescan drive beside the last-scan time, its progress and results */
 .procs .ivsubrow{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 8px}
 .procs .ivsubrow .ivsub{margin:0;flex:1 1 260px;min-width:0}
@@ -2003,7 +2013,13 @@ html[data-bkdir=fade]::view-transition-new(bk-list){animation:bk-fade-in .18s ea
   <div class="wrapx exams" id="examsView" hidden></div>   <!-- owner 14 Nov: Exams page -->
   <div class="wrap reports" id="reportsView" hidden><a class="rback" href="#review">← Inbox</a><section id="reportsBox" aria-live="polite"></section></div>   <!-- owner 14 Nov: question reports (alpha) -->
   <div class="levels" id="levelsView" hidden><a class="rback" href="#review">← Inbox</a><section id="levelsBox" aria-live="polite"></section></div>   <!-- owner 14 Nov: difficulty check -->
-  <div class="imp procs" id="processesView" hidden><section id="procBox" aria-live="polite"></section><section id="invBox" hidden></section><section id="notesBox" hidden></section><section id="importBox" aria-live="polite"><div class="empty">Loading import progress…</div></section></div>   <!-- owner 14 Nov: Processes page = running jobs, the queue, then the import dashboard; owner 13 Nov: "add a place somewhere for me to write down what to flesh out next" = #notesBox (Next up); owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next?" = #invBox (Papers + Import order, under the queue) -->
+  <!-- owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers". Work = running, queued, recently done, Next up; Papers = rescan, import order, the course grid, Import history (collapsed) -->
+  <div class="imp procs" id="processesView" hidden>
+    <div class="prhead"><h2>Processes</h2><div class="areasw" id="procSw" role="group" aria-label="Processes view"><button type="button" data-ptab="work" aria-pressed="true">Work</button><button type="button" data-ptab="papers" aria-pressed="false">Papers</button><span class="aslider" aria-hidden="true"></span></div></div>
+    <div class="prpane" id="procWork"><section id="procBox" aria-live="polite"></section><section id="notesBox" hidden></section></div>   <!-- owner 14 Nov: running jobs and the queue; owner 13 Nov: "add a place somewhere for me to write down what to flesh out next" = #notesBox (Next up) -->
+    <div class="prpane" id="procPapers" hidden><section id="invBox" hidden></section>   <!-- owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next?" = #invBox -->
+      <details class="phist" id="procHist"><summary>Import history</summary><section id="importBox" aria-live="polite"><div class="empty">Loading import progress…</div></section></details></div>
+  </div>
   <div class="desk" id="reviewView" hidden>
     <section class="pane srcpane" aria-label="Source page"><h2 id="srcTitle">Source page</h2><div id="src"></div></section>
     <section class="pane" aria-label="Parsed question"><h2>Parsed question</h2><div class="rout" id="rout"></div></section>
@@ -2981,11 +2997,12 @@ const AREAS={teach:['bank','exams','guide'],curate:['inbox','review','papers','p
 const REVIEW_VIEWS=['inbox','review','papers','levels','reports'];
 const areaOf=v=>AREAS.curate.includes(v)?'curate':'teach';
 const isEditor=()=>EDITOR===true;
-const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
+const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
 const VHASH={inbox:'#review',review:'#review',levels:'#review/difficulty',reports:'#review/reports',papers:'#review/papers',processes:'#processes',guide:'#guide',exams:'#exams',bank:'#bank'};
-// old links: #import (owner 14 Nov) → Processes; #levels / #difficulty / #reports (tabs until 15 Nov) → their Review section; #papers (tab until 13 Nov) → Review's papers
-const HASH_ALIAS={'#import':'#processes','#levels':'#review/difficulty','#difficulty':'#review/difficulty','#reports':'#review/reports','#papers':'#review/papers'};
-function parseHash(h){if(HASHV[h])return {v:HASHV[h]};let m=/^#review\/paper\/(\d+)(?:\/([\w-]+))?$/.exec(h);if(m)return {v:'review',doc:m[1],step:m[2]||''};
+// old links: #import (owner 14 Nov) → Processes › Papers (owner 13 Nov, two tabs: the import dashboard is in Papers › Import history); #levels / #difficulty / #reports (tabs until 15 Nov) → their Review section; #papers (tab until 13 Nov) → Review's papers
+const HASH_ALIAS={'#import':'#processes/papers','#levels':'#review/difficulty','#difficulty':'#review/difficulty','#reports':'#review/reports','#papers':'#review/papers'};
+// owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers": #processes/work, #processes/papers; bare #processes opens the tab used last (default Work)
+function parseHash(h){if(HASHV[h]){const m=/^#processes\/(\w+)$/.exec(h);return m?{v:HASHV[h],ptab:m[1]}:{v:HASHV[h]}}let m=/^#review\/paper\/(\d+)(?:\/([\w-]+))?$/.exec(h);if(m)return {v:'review',doc:m[1],step:m[2]||''};
   m=/^#review\/list\/(\w+)$/.exec(h);if(m)return {v:'review',list:m[1]};return {v:'bank'}}
 function setHash(h){try{history.replaceState(null,'',h)}catch(e){location.replace(h)}}
 function applyArea(){const a=areaOf(view),ed=isEditor();
@@ -2994,11 +3011,12 @@ function applyArea(){const a=areaOf(view),ed=isEditor();
   const sw=$('#areaSw');if(sw){sw.hidden=!ed;$$('#areaSw button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.area===a)))}
   if(ed){save('qg_area',a);save('qg_last_'+a,parseHash(location.hash).v===view?location.hash:(VHASH[view]||''))}   // owner/editor: remember the last area (and view in it)
   moveAreaSlider()}
-function moveAreaSlider(){const sw=$('#areaSw'),sl=sw&&sw.querySelector('.aslider'),cur=sw&&sw.querySelector('button[aria-pressed="true"]');if(!sl||!cur||sw.hidden)return;
-  sl.style.width=cur.offsetWidth+'px';sl.style.transform=`translateX(${cur.offsetLeft}px)`}
+// every segmented switch (Teach | Curate in the header, Work | Papers on Processes): the highlight sits under the pressed button
+function moveAreaSlider(){$$('.areasw').forEach(sw=>{const sl=sw.querySelector('.aslider'),cur=sw.querySelector('button[aria-pressed="true"]');if(!sl||!cur||sw.hidden||!sw.offsetWidth)return;
+  sl.style.width=cur.offsetWidth+'px';sl.style.transform=`translateX(${cur.offsetLeft}px)`})}
 function goArea(a){if(!isEditor()&&a==='curate')return;const last=load('qg_last_'+a);location.hash=(last&&areaOf(parseHash(last).v)===a)?last:(a==='curate'?'#review':'#bank')}
 function route(){
-  // owner 14 Nov: "Can make that page processes". The Import tab is now Processes (#processes); old #import links still land there.
+  // owner 14 Nov: "Can make that page processes". The Import tab is now Processes (#processes); old #import links land on its Papers tab (owner 13 Nov, Work | Papers).
   const al=HASH_ALIAS[location.hash];if(al)setHash(al);
   const P=parseHash(location.hash);let v=P.v;
   // owner 15 Nov: "curate should be hidden to peope except editors." A viewer who opens a Curate link lands on the Bank.
@@ -3006,6 +3024,9 @@ function route(){
   if(areaOf(v)==='curate'&&!isEditor()){v='bank';if(EDITOR===false)setHash('#bank')}
   // a paper (or list) needs the bank to resolve; until it loads the Inbox stands in
   if(v==='review'&&(!B||!openReview(P)))v='inbox';
+  // Processes: the tab in the address, else the one used last (per browser), else Work; the address then names it
+  if(v==='processes'&&isEditor()){const T=['work','papers'],t=T.includes(P.ptab)?P.ptab:(T.includes(load('qg_proc_tab'))?load('qg_proc_tab'):'work');
+    if(location.hash!=='#processes/'+t)setHash('#processes/'+t);save('qg_proc_tab',t);$('#processesView').dataset.tab=t}
   view=v;
   const inRev=REVIEW_VIEWS.includes(view);
   $('#guideView').hidden=view!=='guide';$('#levelsView').hidden=view!=='levels';$('#reportsView').hidden=view!=='reports';$('#examsView').hidden=view!=='exams';$('#processesView').hidden=view!=='processes';$('#papersView').hidden=view!=='papers';$('#inboxView').hidden=view!=='inbox';
@@ -3018,10 +3039,10 @@ function route(){
   try{const cur=document.querySelector('.views a[aria-current="page"]'),nv=cur?.parentElement;if(nv&&nv.scrollWidth>nv.clientWidth)nv.scrollTo({left:cur.offsetLeft-nv.clientWidth/2+cur.offsetWidth/2,behavior:'smooth'})}catch(e){}   // owner 14 Nov: on a phone the tab row scrolls; keep the open tab in sight
   const shown=[['bank','#bankView'],['review','#reviewView'],['inbox','#inboxView'],['papers','#papersView'],['processes','#processesView'],['guide','#guideView'],['levels','#levelsView'],['reports','#reportsView'],['exams','#examsView']].find(x=>x[0]===view);
   if(shown&&window._lastView!==view){const el=$(shown[1]);if(el){el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter')}window._lastView=view}   // owner 12 Nov: tab switch animation
-  if(view==='processes'){renderProcesses();renderImport();if(!B)return}
+  if(view==='processes'){renderProcesses();if(!B)return}
   if(!B) return;
   updateCounts();
-  if(view==='inbox') renderInbox(); else if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes'){renderProcesses();renderImport()} else { $('#stF').value=rstatus; refreshReview(); }
+  if(view==='inbox') renderInbox(); else if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes') renderProcesses(); else { $('#stF').value=rstatus; refreshReview(); }
 }
 // the user capability answered: show or hide Curate, and send a viewer on a Curate link to the Bank
 function setEditor(ed){EDITOR=!!ed;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role
@@ -3029,7 +3050,7 @@ function setEditor(ed){EDITOR=!!ed;TOPICS=null;   // owner 13 Nov: the Bank's ap
   if(EDITOR&&!location.hash&&load('qg_area')==='curate'&&!window._navved){goArea('curate');return}
   route()}
 window.addEventListener('hashchange',()=>{window._navved=true},true);
-document.addEventListener('click',e=>{const b=e.target.closest('#areaSw button[data-area]');if(b)goArea(b.dataset.area)});
+document.addEventListener('click',e=>{const b=e.target.closest('#areaSw button[data-area]');if(b)goArea(b.dataset.area);const p=e.target.closest('#procSw button[data-ptab]');if(p)location.hash='#processes/'+p.dataset.ptab});
 window.addEventListener('resize',()=>moveAreaSlider());
 /* ---------- papers: every exam ingested, with question counts ----------
    owner 13 Nov: "Merge into Review". This is Review's papers section (#review/papers; #papers lands here). Each row also has the
@@ -3114,43 +3135,49 @@ function batchesHTML(L){const g={done:[],running:[],failed:[],waiting:[]};L.forE
   const grp=(arr,title,open)=>arr.length?`<details class="bgrp"${open?' open':''}><summary>${title} <span class="muted">· ${arr.length} batch${arr.length===1?'':'es'} · ${arr.reduce((n,b)=>n+(b.papers||[]).length,0)} papers</span></summary><div class="bscroll">${stageHead()}${arr.map(batchRow).join('')}</div></details>`:'';
   return `<p class="sub">Tap a batch to see its papers. – means the stage wasn't needed.</p>`+
     grp(g.failed,'Needs attention',true)+grp(g.running,'In progress',true)+grp(g.done,'Finished',false)+grp(g.waiting,'Waiting',false)}
+// owner 13 Nov ("The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): this dashboard now sits inside
+// Processes › Papers › "Import history" (collapsed), so it has no heading of its own; the log shows the last 5 entries, "Show all" the rest.
 function renderImport(){
   const P=PROG, box=$('#importBox'); if(!box) return;
-  if(!P){box.innerHTML='<h2>Import</h2><div class="empty">No import progress recorded yet.</div>';return}
+  if(!P){box.innerHTML='<div class="empty">No import progress recorded yet.</div>';return}
   const t=P.totals||{}, pct=(a,b)=>b?Math.round(100*a/b):0;
   const tile=(v,l,a,b)=>`<div class="tile"><b>${v??'–'}</b><span>${l}</span>${b?`<div class="bar"><i style="width:${pct(a,b)}%"></i></div>`:''}</div>`;
-  const run=(P.running||[]);
-  // owner 14 Nov ("Can make that page processes"): on Processes the dashboard sits under its Import heading, so its own
-  // sub-headings use the page's small section labels, and its stage list is "Import stages running" (shown only when something
-  // is), so the page no longer has two "Running now" headings.
-  box.innerHTML=`<h2>Import</h2><p class="sub">Year 12 Advanced papers, newest first · updated ${esc(ago(P.updated))}${P.eta?` · ${esc(P.eta)}`:''}</p>
+  const run=(P.running||[]),log=(P.log||[]).slice().reverse(),all=box.dataset.logall==='1';
+  box.innerHTML=`<p class="sub">Year 12 Advanced papers, newest first · updated ${esc(ago(P.updated))}${P.eta?` · ${esc(P.eta)}`:''}</p>
   <div class="tiles">${tile(`${t.parsed||0} / ${t.papers_total||0}`,'papers parsed',t.parsed,t.papers_total)}${tile(`${t.published||0} / ${t.papers_total||0}`,'papers on this page',t.published,t.papers_total)}
   ${tile(t.questions,'questions loaded')}${tile(`${t.figures_redrawn||0} / ${t.figures_total||0}`,'diagrams redrawn',t.figures_redrawn,t.figures_total)}${tile(t.solutions_written,'solutions written by Claude')}</div>
   ${run.length?`<h3>Import stages running</h3><ul>${run.map(r=>`<li><span class="pulse" aria-hidden="true"></span><b>${esc(r.stage)}</b> · ${esc(r.batch||'')} ${r.detail?'· '+esc(r.detail):''} <span class="muted">· started ${esc(ago(r.started))}</span></li>`).join('')}</ul>`:''}
   <h3>Batches</h3>${batchesHTML(P.batches||[])}
   ${(P.issues||[]).length?`<h3>Needs your decision</h3><ul>${P.issues.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
-  ${(P.log||[]).length?`<h3>Log</h3><ul class="log">${P.log.slice(-15).reverse().map(x=>`<li>${esc(x.t?new Date(x.t).toLocaleString('en-AU',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):'')} · ${esc(x.msg)}</li>`).join('')}</ul>`:''}`;
+  ${log.length?`<h3>Log</h3><ul class="log">${log.map((x,i)=>`<li${i>=5&&!all?' hidden':''}>${esc(x.t?new Date(x.t).toLocaleString('en-AU',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):'')} · ${esc(x.msg)}</li>`).join('')}</ul>${log.length>5&&!all?`<button type="button" class="act plogall" data-logall>Show all ${log.length}</button>`:''}`:''}`;
 }
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#importBox [data-logall]');if(!b)return;const box=$('#importBox');box.dataset.logall='1';box.querySelectorAll('.log li[hidden]').forEach(li=>li.hidden=false);b.remove()});
 /* ---------- Processes (owner 14 Nov: "Can u show this list of tasks on the artifact somewhere ... Can be on the same as import.
    Can make that page processes") ----------
-   Top to bottom: Running now (progress/jobs + queue items marked running), Queued (progress/queue, in order, with the owner's
-   own words in italics), Recently done (collapsed), then the import dashboard (renderImport, unchanged) under its Import heading. */
+   owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers" (the switch in page.html, the tab in
+   #processesView data-tab, set by route() from #processes/work | #processes/papers).
+   Work: Running now (progress/jobs + queue items marked running), Queued (progress/queue, in order, with the owner's own words
+   in italics), Recently done (collapsed), Next up (31_notes.js).
+   Papers: Rescan drive, Import order and the course grid (PQ, 32_papers_q.js), then Import history (renderImport, collapsed). */
 // owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well? Would be helpful":
 // each row shows its step ("Stage 2 of 4", with a small bar), Started, and Est. finish while running/queued or Finished + how long it took once done (jobTimes, 13_shell.js).
-function renderProcesses(){const box=$('#procBox');if(!box)return;
+function renderProcesses(){const box=$('#procBox'),pv=$('#processesView');if(!box||!pv)return;
+  const tab=pv.dataset.tab==='papers'?'papers':'work';
+  $('#procWork').hidden=tab!=='work';$('#procPapers').hidden=tab!=='papers';
+  $$('#procSw button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.ptab===tab)));moveAreaSlider();
+  if(tab==='papers'){if(typeof PQ!=='undefined')PQ.render();renderImport();return}   // PQ: 32_papers_q.js, a later script block
   const run=runningNow(),que=queueItems('queued'),done=queueItems('done').reverse();
   const asked=x=>x.asked?`<p class="pasked">“${esc(String(x.asked).replace(/^["“]|["”]$/g,''))}”</p>`:'';
   const openDone=!!box.querySelector('details.pdone[open]');
-  box.innerHTML=`<h2>Processes</h2><p class="sub">What Claude is working on now, and what you've asked for next.${QUEUE&&QUEUE.updated?` Queue updated ${esc(ago(QUEUE.updated))}.`:''}</p>
+  box.innerHTML=`<p class="sub">What Claude is working on now, and what you've asked for next.${QUEUE&&QUEUE.updated?` Queue updated ${esc(ago(QUEUE.updated))}.`:''}</p>
   <section class="psec" aria-labelledby="pRunH"><h3 id="pRunH">Running now${run.length?` <span class="pcount">${run.length}</span>`:''}</h3>
   ${run.length?`<div class="pcards">${run.map(j=>`<article class="pcard"><div class="pctop"><span class="pdot" aria-hidden="true"></span><b>${esc(j.name)}</b>${j.started?`<span class="pwhen">${esc(startedAgo(j.started))}</span>`:''}</div>${j.step?`<div class="pstep">${esc(j.step)}${stepBar(j.step)}</div>`:''}${jobTimes(j)}${j.detail?`<p>${esc(j.detail)}</p>`:''}${j.src==='queue'?`<span class="ptag">From the queue</span>`:''}${asked(j)}</article>`).join('')}</div>`:'<p class="pempty">Nothing running right now.</p>'}</section>
   <section class="psec" aria-labelledby="pQueH"><h3 id="pQueH">Queued${que.length?` <span class="pcount">${que.length}</span>`:''}</h3>
   ${que.length?`<ol class="pqueue">${que.map((x,i)=>`<li><span class="pnum" aria-hidden="true">${i+1}</span><div><b>${esc(x.title)}</b>${x.step?`<div class="pstep">${esc(x.step)}</div>`:''}${jobTimes(x)}${x.detail?`<p>${esc(x.detail)}</p>`:''}${asked(x)}</div></li>`).join('')}</ol>`:`<p class="pempty">${QUEUE?'Nothing queued. New requests will show here.':'No queue yet. Requests you line up will show here.'}</p>`}</section>
   ${done.length?`<section class="psec"><details class="pdone"${openDone?' open':''}><summary>Recently done <span class="pcount">${done.length}</span></summary><ul>${done.slice(0,20).map(x=>`<li><span class="pok" aria-hidden="true">✓</span><div><b>${esc(x.title)}</b>${jobTimes({...x,status:'done'})}${x.detail?`<p>${esc(x.detail)}</p>`:''}</div></li>`).join('')}</ul></details></section>`:''}`;
-  if(typeof PQ!=='undefined')PQ.render();   // owner 13 Nov: "me choosing which set of papers to import next" (32_papers_q.js, own script block)
   if(typeof renderNotes==='function')renderNotes()}   // 31_notes.js loads in a later script block; the user answer can arrive before it
 fetch('data/progress.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(p=>{if(p&&!PROG){PROG=p;if(view==='processes')renderImport()}}).catch(()=>{});
-setInterval(()=>{if(view==='processes'){renderProcesses();renderImport()}},60000);   // keeps the "12 min ago" times fresh
+setInterval(()=>{if(view==='processes')renderProcesses()},60000);   // keeps the "12 min ago" times fresh
 document.addEventListener('click',e=>{const b=e.target.closest('[data-paperok]');if(b)approvePaper(b.dataset.paperok)});
 window.addEventListener('hashchange',route);
 // owner 12 Nov: "show somewhere on the artifact things which are running so I know". Source: db doc progress/jobs, written by Claude
@@ -3205,9 +3232,9 @@ function renderJobs(){const el=$('#jobs');if(!el)return;const run=runningNow(),q
   el.hidden=!isEditor()||(!run.length&&!que.length);if(el.hidden){el.innerHTML='';setHdr();return}
   const hit=run.filter(j=>j.affects&&view==='review'&&rfilter===j.affects);
   const row=(j,n)=>`<span class="job"><b>${n?`<span class="qn">${n}</span>`:''}${esc(j.name||j.title)}</b>${j.step?`<span class="jstep">${esc(j.step)}${stepBar(j.step)}</span>`:''}${j.detail?`<span class="muted">${esc(j.detail)}</span>`:''}${jobTimes(j)||(j.started?`<span class="muted when">${esc(startedAgo(j.started))}</span>`:'')}</span>`;
-  const runPill=run.length?`<span class="jp run${hit.length?' hit':''}"><a class="jpill" href="#processes" aria-describedby="jpopR"><span class="dot" aria-hidden="true"></span>${hit.length?'Wait · ':''}${run.length} running</a>
+  const runPill=run.length?`<span class="jp run${hit.length?' hit':''}"><a class="jpill" href="#processes/work" aria-describedby="jpopR"><span class="dot" aria-hidden="true"></span>${hit.length?'Wait · ':''}${run.length} running</a>
     <span class="jpop" role="tooltip" id="jpopR">${run.map(j=>row(j)).join('')}${hit.length?`<span class="jwarn">Wait before reviewing this step: ${esc(hit.map(j=>j.name).join(', '))} will change it.</span>`:''}</span></span>`:'';
-  const quePill=que.length?`<span class="jp que"><a class="jpill" href="#processes" aria-describedby="jpopQ">${que.length} queued</a>
+  const quePill=que.length?`<span class="jp que"><a class="jpill" href="#processes/work" aria-describedby="jpopQ">${que.length} queued</a>
     <span class="jpop" role="tooltip" id="jpopQ">${que.slice(0,6).map((x,i)=>row(x,i+1)).join('')}${que.length>6?`<span class="muted">and ${que.length-6} more</span>`:''}</span></span>`:'';
   el.innerHTML=runPill+quePill;setHdr()}
 function placeJpop(jp){const pill=jp&&jp.querySelector('.jpill'),pop=jp&&jp.querySelector('.jpop');if(!pill||!pop)return;const r=pill.getBoundingClientRect(),w=Math.min(380,innerWidth-32);
@@ -3216,7 +3243,7 @@ document.addEventListener('mouseover',e=>{const jp=e.target.closest&&e.target.cl
 document.addEventListener('focusin',e=>{const jp=e.target.closest&&e.target.closest('.jobs .jp');if(jp)placeJpop(jp)});
 // touch: no hover, so the first tap on a pill opens its list; a tap on the list or a second tap on the pill goes to Processes; a tap elsewhere closes it
 document.addEventListener('click',e=>{const pill=e.target.closest('.jobs .jpill'),pop=e.target.closest('.jobs .jpop'),open=document.querySelector('.jobs .jp.open');
-  if(pop){e.preventDefault();if(open)open.classList.remove('open');location.hash='#processes';return}
+  if(pop){e.preventDefault();if(open)open.classList.remove('open');location.hash='#processes/work';return}   // owner 13 Nov (Work | Papers): the pills lead to Work
   if(open&&!open.contains(e.target))open.classList.remove('open');
   if(!pill)return;const jp=pill.closest('.jp');let touch=false;try{touch=matchMedia('(hover:none)').matches}catch(_){}
   if(touch&&!jp.classList.contains('open')){e.preventDefault();placeJpop(jp);jp.classList.add('open')}else jp.classList.remove('open')});
@@ -5043,8 +5070,9 @@ if(view==='processes')renderNotes();   // Processes may already be open when thi
 /* ---------- Papers and the owner's import order (Processes, Curate: editors only) ----------
    data/inventory.json (tools/inventory.py): every paper in the shared folder, in course x year groups, each paper with its state
    (imported / waiting / out_of_course / out_of_scope / other), "new" when the latest folder scan (tools/scan_folder.py) added it,
-   and pick:1 when it can be queued (Advanced and waiting). Standard / Extension 1 / Extension 2 rows show their counts but
-   "need course setup (topics, dot points, difficulty references)" and have no checkboxes.
+   and pick:1 when it can be queued (Advanced and waiting). Courses that are not ready (inventory courses[].ready) show their
+   counts with a short "needs course setup" and have no checkboxes. Since 13 Nov (owner: "The process page feels a bit bloated
+   now" -> "Two tabs: Work | Papers") this is the Papers tab, and the grid is compact: one row per course, Year 12 / 11 / ? cells.
    The owner ticks papers (or a whole school / group) and presses "Add to import queue". db collection "importq", one doc per
    paper, id 'd<doc_id>': {doc_id, label, course, year_level, order, added_by, at}. Reorder by drag (desktop) or ↑ ↓; × removes.
    Import itself is paused (owner 14 Nov: "no more importing for a while until we iron these out"), so the card says so.
@@ -5052,7 +5080,7 @@ if(view==='processes')renderNotes();   // Processes may already be open when thi
 /* One page-wide name, PQ (code health 13 Nov, rule 1): everything else stays inside this scope.
    PQ.render() draws the card (renderProcesses calls it); PQ.add / PQ.remove / PQ.state are for the page test. */
 const PQ=(()=>{
-const INV={data:null,loading:false,failed:false,q:[],sub:null,loaded:false,sel:new Set()};
+const INV={data:null,loading:false,failed:false,q:[],sub:null,loaded:false,sel:new Set(),open:null};   // open: the course|year group whose papers show under the grid row
 const IVY={'12':'Year 12','11':'Year 11','?':'Year ?'};
 // owner 14 Nov: "no more importing for a while until we iron these out"
 const IVPAUSE='Import is paused. This only sets the order for when it resumes.';
@@ -5073,10 +5101,10 @@ function invSubscribe(){if(INV.sub||!db||!isEditor())return;
 // the card is drawn once (open groups and ticks survive the Processes refresh); the queue, grid and bar redraw inside it
 function renderInv(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
   if(!box.dataset.ready){box.dataset.ready='1';
-    box.innerHTML=`<section class="psec ivp" aria-labelledby="ivH"><h3 id="ivH">Papers</h3>
+    // owner 13 Nov ("Two tabs: Work | Papers"): the tab names the section, so no heading; the pause note is one quiet line
+    box.innerHTML=`<section class="psec ivp" aria-label="Papers">
       <div class="ivsubrow"><p class="ivsub" id="ivSub"></p><span id="ivScanBtn"></span></div><div id="ivScan"></div>
-      <p class="ivpause" role="note"><span aria-hidden="true">⏸</span> ${esc(IVPAUSE)}</p>
-      <div class="ivq"><h4 id="ivQH">Import order <span class="pcount" id="ivQN" hidden></span></h4><div id="ivQList"></div></div>
+      <div class="ivq"><h4 id="ivQH">Import order <span class="pcount" id="ivQN" hidden></span></h4><p class="ivpause" role="note">${esc(IVPAUSE)}</p><div id="ivQList"></div></div>
       <div id="ivGrid"></div>
       <div class="ivbar" id="ivBar" hidden><span id="ivSelN" aria-live="polite"></span><button type="button" class="act" id="ivClear">Clear</button><button type="button" class="act ivadd" id="ivAdd">Add to import queue</button></div></section>`}
   invLoad();invSubscribe();invSub();invQueue();if(!$('#ivGrid').dataset.built)invGrid();invBar();if(API.scan)API.scan.render()}
@@ -5092,13 +5120,27 @@ function invQueue(){const el=$('#ivQList');if(!el)return;const q=invQ(),n=$('#iv
       <span class="ntext"><b>${esc(x.label||(p?invLabel(p):'Paper '+x.doc_id))}</b><small>${esc(invShort(x.course))}${x.year_level?' · Year '+esc(x.year_level):''}${cost?` · ${esc(cost)}`:''}${warn?` · <em class="ivwarn">${esc(warn)}</em>`:''}</small></span>
       <span class="nacts"><button type="button" class="nbtn" data-ivmove="-1" data-ivid="${esc(x.id)}" aria-label="Move up"${i===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-ivmove="1" data-ivid="${esc(x.id)}" aria-label="Move down"${i===q.length-1?' disabled':''}>↓</button><button type="button" class="nbtn ndel" data-ivdel="${esc(x.id)}" aria-label="Remove from the import queue">×</button></span></li>`}).join('')}</ol>`:
     `<p class="pempty">${INV.loaded||!db?`Nothing queued. Tick ${esc(['papers',...((INV.data&&INV.data.courses)||[]).filter(c=>c.ready).map(c=>c.short||c.name)].reverse().join(' '))} below and press Add to import queue.`:'Loading the import order…'}</p>`}
-// ---- the course x year grid
+// ---- the course grid (owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): one row per
+// course, in the inventory's order, columns Year 12 / Year 11 / Year ?. A ready course's cell reads "imported / waiting waiting";
+// any other cell the papers in the folder. A cell opens that group's papers under its course row (one group at a time).
+const IVYL=['12','11','?'];
+const invNote=c=>String(c.note||'needs course setup').split(/\s*[(:]/)[0];   // the short form, once per row; the full note is its title
 function invGrid(){const el=$('#ivGrid');if(!el)return;const G=invGroups();if(!INV.data){el.innerHTML='';return}el.dataset.built='1';
-  const scan=!!INV.data.last_scan,dash='<span class="ivn ivz">–</span>',num=(v,c)=>`<span class="ivn${c?' '+c:''}${v?'':' ivz'}">${v}</span>`;
-  el.innerHTML=`<div class="ivhead" aria-hidden="true"><span>Course</span>${[['In folder','Total'],['Imported','Done'],['Waiting','Wait'],['New','New']].map(([l,sh])=>`<span title="${l}"><i class="ivlong">${l}</i><i class="ivshort">${sh}</i></span>`).join('')}</div>`+
-    G.map(g=>{const c=invCourse(g.course),k=g.counts||{},ready=!!c.ready;
-      return `<details class="ivg${ready?'':' off'}" data-ivg="${esc(invGid(g))}"><summary><span class="ivname"><b>${esc(invShort(g.course))}</b> <span class="ivyl">${esc(IVY[g.yl]||g.yl)}</span></span>
-        ${num(k.papers||0)}${ready?num(k.imported||0,'ok')+num(k.waiting||0,'wait'):dash+dash}${scan?num(k.new||0,'new'):dash}${ready?'':`<small class="ivnote">${esc(c.note||'needs course setup (topics, dot points, difficulty references)')}</small>`}</summary><div class="ivbody" data-ivbody="${esc(invGid(g))}"></div></details>`}).join('')}
+  const scan=!!INV.data.last_scan,keys=[...new Set([...(INV.data.courses||[]).map(c=>c.key),...G.map(g=>g.course)])];
+  const cell=(c,yl)=>{const g=G.find(x=>x.course===c.key&&x.yl===yl),k=(g&&g.counts)||{},yn=IVY[yl]||yl,lab=`<i class="ivcl">${esc(yn)}</i>`;
+    if(!g||!k.papers)return `<span class="ivcell ivz">${lab}<span class="ivct">–</span></span>`;
+    const imp=k.imported||0,wait=k.waiting||0,split=c.ready&&(imp||wait),nw=scan&&k.new?`<span class="ivchip new">${k.new} new</span>`:'';
+    const tip=`${invShort(c.key)} ${yn}: ${k.papers} papers in the folder`+(c.ready?` · ${imp} imported · ${wait} waiting`:'')+(scan?` · ${k.new||0} new`:'');
+    return `<button type="button" class="ivcell" data-ivg="${esc(invGid(g))}" aria-expanded="false" title="${esc(tip)}" aria-label="${esc(tip)}">${lab}<span class="ivct">${split?`<b class="ok">${imp}</b> / <b class="wait">${wait}</b> waiting`:`<b>${k.papers}</b>`}</span>${nw}</button>`};
+  el.innerHTML=`<div class="ivhead" aria-hidden="true"><span>Course</span>${IVYL.map(yl=>`<span>${esc(IVY[yl])}</span>`).join('')}</div>`+
+    keys.map(key=>{const c=invCourse(key);
+      return `<div class="ivr${c.ready?'':' off'}" data-ivc="${esc(key)}"><div class="ivname"><b>${esc(invShort(key))}</b>${c.ready?'':`<small class="ivnote" title="${esc(c.note||'')}">${esc(invNote(c))}</small>`}</div>
+        ${IVYL.map(yl=>cell(c,yl)).join('')}<div class="ivbody" hidden></div></div>`}).join('');
+  if(INV.open)invOpen(INV.open)}
+function invOpen(gid){const g=gid&&invGroups().find(x=>invGid(x)===gid);INV.open=g?gid:null;
+  $$('#ivGrid .ivcell[data-ivg]').forEach(b=>{const on=b.dataset.ivg===INV.open;b.setAttribute('aria-expanded',String(on));b.classList.toggle('on',on)});
+  $$('#ivGrid .ivbody').forEach(b=>{b.hidden=true;b.innerHTML='';delete b.dataset.ivg});
+  const b=g&&$(`#ivGrid .ivr[data-ivc="${CSS.escape(g.course)}"] .ivbody`);if(b){b.dataset.ivg=gid;b.hidden=false;invFill(b)}}
 const IVST={imported:['Imported','ok'],waiting:['Waiting','wait'],out_of_course:['Other course',''],out_of_scope:['Not imported',''],other:['Duplicate / skipped','']};
 function invBody(g){const ready=!!invCourse(g.course).ready,qd=invQueued(),pick=g.papers.filter(p=>invPickable(p,qd)),gid=invGid(g);
   const by=new Map();g.papers.forEach(p=>{const s=p.s||'School not known';if(!by.has(s))by.set(s,[]);by.get(s).push(p)});
@@ -5107,15 +5149,16 @@ function invBody(g){const ready=!!invCourse(g.course).ready,qd=invQueued(),pick=
       <label${can?` for="${cid}"`:''} class="ivpl">${esc(invLabel(p))}</label>
       <span class="ivchips">${qn?`<span class="ivchip q">In queue · #${qn}</span>`:`<span class="ivchip ${st[1]}">${esc(st[0])}</span>`}${p.new?'<span class="ivchip new">New</span>':''}${p.scan?'<span class="ivchip">Scan</span>':''}${p.st==='waiting'&&!p.sol?'<span class="ivchip">No solutions</span>':''}${p.n>1?`<span class="ivchip">${p.n} files</span>`:''}</span>
       ${p.why?`<small class="ivwhy">${esc(p.why)}</small>`:''}</li>`};
-  return (ready?(pick.length?`<label class="ivall"><input type="checkbox" data-ivall="${esc(gid)}"> Select all ${pick.length} waiting</label>`:`<p class="ivmsg">Nothing here can be queued: ${g.counts.imported?'imported papers are done and ':''}the rest are not import papers.</p>`)
-      :`<p class="ivmsg">${esc(invCourse(g.course).note||'Needs course setup (topics, dot points, difficulty references)')}. Papers are listed so you can see what is there; they can't be queued yet.</p>`)+
+  return `<p class="ivbh"><b>${esc(invShort(g.course))}</b> ${esc(IVY[g.yl]||g.yl)} · ${g.papers.length} paper${g.papers.length===1?'':'s'}</p>`+
+    (ready?(pick.length?`<label class="ivall"><input type="checkbox" data-ivall="${esc(gid)}"> Select all ${pick.length} waiting</label>`:`<p class="ivmsg">Nothing here can be queued: ${g.counts.imported?'imported papers are done and ':''}the rest are not import papers.</p>`)
+      :`<p class="ivmsg">Listed so you can see what is there; these can't be queued yet.</p>`)+
     [...by].map(([s,ps])=>{const sp=ps.filter(p=>ready&&invPickable(p,qd));
       return `<div class="ivs"><div class="ivsh">${sp.length?`<label><input type="checkbox" data-ivsch="${esc(gid)}" data-school="${esc(s)}"> ${esc(s)}</label>`:`<span>${esc(s)}</span>`}<span class="pcount">${ps.length}</span></div><ul class="ivpl-list">${ps.map(row).join('')}</ul></div>`}).join('')}
-function invFill(det){const b=det&&det.querySelector('.ivbody');if(!b)return;const g=invGroups().find(x=>invGid(x)===det.dataset.ivg);if(!g)return;b.innerHTML=invBody(g);invTicks(det)}
-// redraw open groups after the queue changes (In queue chips, which boxes are tickable)
-function invGridMarks(){$$('#ivGrid details.ivg[open]').forEach(invFill);for(const id of [...INV.sel]){if(invQueued().has(id))INV.sel.delete(id)}invBar()}
+function invFill(b){const g=b&&invGroups().find(x=>invGid(x)===b.dataset.ivg);if(!g)return;b.innerHTML=invBody(g);invTicks(b)}
+// redraw the open group after the queue changes (In queue chips, which boxes are tickable)
+function invGridMarks(){$$('#ivGrid .ivbody:not([hidden])').forEach(invFill);for(const id of [...INV.sel]){if(invQueued().has(id))INV.sel.delete(id)}invBar()}
 // group / school boxes: ticked when every tickable paper under them is, half when some are
-function invTicks(scope){(scope?[scope]:$$('#ivGrid details.ivg[open]')).forEach(det=>{
+function invTicks(scope){(scope?[scope]:$$('#ivGrid .ivbody:not([hidden])')).forEach(det=>{
   const set=(box,ids)=>{if(!box)return;const n=ids.filter(i=>INV.sel.has(i)).length;box.checked=!!ids.length&&n===ids.length;box.indeterminate=n>0&&n<ids.length};
   const ids=sel=>[...det.querySelectorAll(sel)].map(x=>+x.dataset.ivp);
   set(det.querySelector('[data-ivall]'),ids('[data-ivp]'));
@@ -5130,14 +5173,14 @@ async function invAdd(ids){if(!isEditor()||!db)return 0;const qd=invQueued(),q=i
 async function invSet(x,patch){if(!isEditor()||!db)return false;const {id,...rest}=x;try{await db.doc('importq/'+id).set({...rest,...patch});return true}catch(e){toast('Could not save. Try again in a moment.');return false}}
 async function invReorder(ids){if(!isEditor())return;await writeOrder(INV.q,ids,invSet,()=>{invQueue();invGridMarks()})}
 async function invRemove(id){if(!isEditor()||!db)return false;try{await db.doc('importq/'+id).delete();INV.q=INV.q.filter(x=>x.id!==id);invQueue();invGridMarks();toast('Removed from the import queue');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
-document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.matches&&d.matches('#ivGrid details.ivg')&&d.open)invFill(d)},true);   // toggle does not bubble: capture
 document.addEventListener('change',e=>{const t=e.target;if(!t.closest||!t.closest('#invBox'))return;if(!isEditor()){t.checked=false;return}
-  const det=t.closest('details.ivg');
+  const det=t.closest('.ivbody');
   if(t.dataset.ivp){const id=+t.dataset.ivp;t.checked?INV.sel.add(id):INV.sel.delete(id)}
   else if(t.dataset.ivall||t.dataset.ivsch){const sc=t.dataset.ivall?det:t.closest('.ivs');sc.querySelectorAll('[data-ivp]').forEach(b=>{b.checked=t.checked;const id=+b.dataset.ivp;t.checked?INV.sel.add(id):INV.sel.delete(id)})}
   else return;
   invTicks(det);invBar()});
 document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox'))return;
+  const cell=t.closest('#ivGrid .ivcell[data-ivg]');if(cell){invOpen(INV.open===cell.dataset.ivg?null:cell.dataset.ivg);return}
   if(t.closest('#ivClear')){INV.sel.clear();$$('#ivGrid [data-ivp]').forEach(b=>b.checked=false);invTicks();invBar();return}
   if(t.closest('#ivAdd')){if(!isEditor())return;const ids=[...INV.sel];const n=await invAdd(ids);INV.sel.clear();invQueue();invGridMarks();
     if(n)toast(`${n} paper${n===1?'':'s'} added to the import queue`);const h=$('#ivQH');if(h&&n)h.scrollIntoView({block:'nearest'});return}
@@ -5147,8 +5190,8 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
 sortableList('#ivQList .ivql>li','ivq',()=>invQ().map(x=>x.id),invReorder,invQueue);   // drag (desktop); ↑ ↓ for keyboard and phone (31_notes.js)
 // sub: the sub line; course, years: names for the Rescan drive results. 33_drive_scan.js adds API.scan (= PQ.scan, no new
 // page-wide name); code in here reaches it through API, since PQ itself is not assigned until this block returns.
-const API={render:renderInv,add:invAdd,remove:invRemove,state:INV,sub:invSub,course:invCourse,years:IVY};
-if(view==='processes')renderInv();   // Processes may already be open when this block loads
+const API={render:renderInv,add:invAdd,remove:invRemove,open:invOpen,state:INV,sub:invSub,course:invCourse,years:IVY};
+if(view==='processes'&&$('#processesView').dataset.tab==='papers')renderInv();   // Processes › Papers may already be open when this block loads
 return API;
 })();
 // owner 13 Nov: "Where is the button to rescan the drive?" (earlier: "New exams are gonna be added to this folder periodically we need a way to ... see what we actually haven't ingested yet")

@@ -182,7 +182,8 @@ const VIEWS = [
   ['review', '#review/list/all', '#reviewView', true],
   ['reports', '#review/reports', '#reportsView', false],   // owner 15 Nov: Reports is a step inside Review (13 Nov: an Inbox section)
   ['papers', '#review/papers', '#papersView', false],   // owner 13 Nov: "Merge into Review"
-  ['processes', '#processes', '#processesView', false],   // owner 14 Nov: the Import tab is now Processes
+  ['processes', '#processes/work', '#processesView', false],   // owner 14 Nov: the Import tab is now Processes
+  ['processes-papers', '#processes/papers', '#processesView', false],   // owner 13 Nov: "Two tabs: Work | Papers"
   ['levels', '#review/difficulty', '#levelsView', true, async p => {   // owner 15 Nov: Difficulty is a step inside Review   // nothing left to check: show All, so a part is on screen
     await p.evaluate(() => { if (!document.querySelector('#levelsBox .lvcard')) document.querySelector('[data-lvshow="all"]')?.click() }); }],
   ['guide-users', '#guide', '#guideView', true, async p => p.evaluate(() => document.querySelector('[data-gpg="cat"]').click())],
@@ -551,7 +552,7 @@ async function phone(browser, base, seed) {
 /* ---------------- Teach | Curate (owner 15 Nov: "Lets do 2 as well" and "curate should be hidden to peope except editors.") ----------------
    Editor (owner / canEdit): the switch, three tabs per area, Difficulty and Reports as Review steps, the old hashes land on their step.
    Viewer (neither) and no user capability at all: no switch, no Curate tab or link anywhere, and a Curate hash goes to #bank. */
-const CURATE_HASHES = ['#review', '#papers', '#processes', '#import', '#levels', '#difficulty', '#reports', '#review/difficulty', '#review/reports', '#review/papers', '#review/paper/323', '#review/paper/323/topics', '#review/list/recent'];
+const CURATE_HASHES = ['#review', '#papers', '#processes', '#processes/work', '#processes/papers', '#import', '#levels', '#difficulty', '#reports', '#review/difficulty', '#review/reports', '#review/papers', '#review/paper/323', '#review/paper/323/topics', '#review/list/recent'];
 async function areas(browser, base, seed) {
   const navState = p => p.evaluate(() => ({hash: location.hash, view, sw: (() => { const s = document.querySelector('#areaSw'); return !!s && !s.hidden && s.offsetWidth > 0 })(),
     tabs: [...document.querySelectorAll('.views a')].filter(a => a.offsetWidth > 0).map(a => a.firstChild.textContent.trim()),
@@ -596,7 +597,7 @@ async function areas(browser, base, seed) {
   });
   await check('areas (editor): old #levels, #difficulty, #reports, #papers and #import still land', page, async () => {
     const out = [];
-    for (const [h, want, v] of [['#levels', '#review/difficulty', 'levels'], ['#difficulty', '#review/difficulty', 'levels'], ['#reports', '#review/reports', 'reports'], ['#import', '#processes', 'processes'], ['#papers', '#review/papers', 'papers']]) {
+    for (const [h, want, v] of [['#levels', '#review/difficulty', 'levels'], ['#difficulty', '#review/difficulty', 'levels'], ['#reports', '#review/reports', 'reports'], ['#import', '#processes/papers', 'processes'], ['#papers', '#review/papers', 'papers']]) {
       await go(page, '#bank'); await go(page, h);
       const r = await page.evaluate(() => ({hash: location.hash, view}));
       assert(r.hash === want && r.view === v, `${h} → ${r.hash} (view ${r.view}), expected ${want}`); out.push(`${h}→${r.hash}`);
@@ -830,19 +831,38 @@ async function processes(browser, base, seed) {
   const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
   await boot(page, base, '#import');
   const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
-  await check('processes: #import goes to #processes', page, async () => {
+  await check('processes: #import goes to #processes/papers', page, async () => {
     const r = await page.evaluate(() => ({hash: location.hash, view, shown: !document.querySelector('#processesView').hidden, cur: document.querySelector('.views a[aria-current="page"]')?.textContent.trim(),
-      old: !!document.querySelector('.views a[href="#import"]'), tab: document.querySelector('#vProcesses')?.textContent.trim()}));
-    errs(); assert(r.hash === '#processes' && r.view === 'processes' && r.shown, `#import landed on ${r.hash} (view ${r.view})`);
+      old: !!document.querySelector('.views a[href="#import"]'), tab: document.querySelector('#vProcesses')?.textContent.trim(), pane: !document.querySelector('#procPapers').hidden}));
+    errs(); assert(r.hash === '#processes/papers' && r.view === 'processes' && r.shown && r.pane, `#import landed on ${r.hash} (view ${r.view}, Papers pane ${r.pane})`);   // owner 13 Nov: the import dashboard is in Papers › Import history
     assert(r.cur === 'Processes' && r.tab === 'Processes' && !r.old, `the nav says “${r.cur}”, an Import link remains: ${r.old}`);
-    return 'alias ok; nav reads Processes';
+    return 'alias → Papers tab; nav reads Processes';
+  });
+  // owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers"
+  await check('processes: Work | Papers switch and hashes', page, async () => {
+    const st = () => page.evaluate(() => ({hash: location.hash, work: !document.querySelector('#procWork').hidden, papers: !document.querySelector('#procPapers').hidden,
+      pressed: document.querySelector('#procSw button[aria-pressed="true"]')?.dataset.ptab, cls: document.querySelector('#procSw').className}));
+    const go = async h => { await page.evaluate(h => { location.hash = h }, h); await settle(page, 3000, 2) };
+    await go('#bank'); await go('#processes');
+    let r = await st(); assert(r.hash === '#processes/papers' && r.papers && !r.work && r.pressed === 'papers', `#processes should reopen the last tab (Papers): ${JSON.stringify(r)}`);
+    assert(r.cls === 'areasw', `the switch should reuse the Teach | Curate styles (.areasw), has “${r.cls}”`);
+    await page.click('#procSw button[data-ptab="work"]'); await settle(page, 3000, 2);
+    r = await st(); assert(r.hash === '#processes/work' && r.work && !r.papers && r.pressed === 'work', `Work button: ${JSON.stringify(r)}`);
+    const sl = await page.evaluate(async () => { await new Promise(z => setTimeout(z, 400)); const s = document.querySelector('#procSw .aslider').getBoundingClientRect(), b = document.querySelector('#procSw button[aria-pressed="true"]').getBoundingClientRect(); return {dx: Math.abs(s.left - b.left), dw: Math.abs(s.width - b.width)} });
+    assert(sl.dx < 1.5 && sl.dw < 1.5, `the switch highlight is off Work by ${sl.dx.toFixed(1)} / ${sl.dw.toFixed(1)} px`);
+    await go('#bank'); await go('#processes'); r = await st(); assert(r.hash === '#processes/work' && r.work, `#processes after Work: ${r.hash}`);
+    await page.evaluate(() => localStorage.removeItem('qg_proc_tab')); await go('#bank'); await go('#processes');
+    r = await st(); assert(r.hash === '#processes/work' && r.work, `#processes with nothing remembered should open Work: ${r.hash}`);
+    await go('#processes/papers'); r = await st(); assert(r.papers && r.pressed === 'papers', `#processes/papers: ${JSON.stringify(r)}`);
+    await go('#processes/work'); errs();
+    return '#processes → last tab (default Work); #processes/work, #processes/papers; switch slides';
   });
   await check('processes: running and queued pills', page, async () => {
     const r = await page.evaluate(() => [...document.querySelectorAll('#jobs .jp')].map(jp => ({cls: jp.className, txt: jp.querySelector('.jpill').textContent.trim(), href: jp.querySelector('.jpill').getAttribute('href'), pop: jp.querySelector('.jpop').textContent})));
     errs(); assert(r.length === 2, `${r.length} pills in the header`);
     assert(/\brun\b/.test(r[0].cls) && r[0].txt === `${wantRun} running`, `running pill says “${r[0].txt}”, expected “${wantRun} running”`);
     assert(/\bque\b/.test(r[1].cls) && r[1].txt === `${wantQ.length} queued`, `queued pill says “${r[1].txt}”, expected “${wantQ.length} queued”`);
-    assert(r.every(x => x.href === '#processes'), 'a pill does not link to #processes');
+    assert(r.every(x => x.href === '#processes/work'), 'a pill does not link to #processes/work');   // owner 13 Nov: the pills lead to Work
     assert(!/Queued: 5 tasks/.test(r[0].pop), 'the interim “Queued: …” pseudo-job still shows once the queue doc is loaded');
     await page.evaluate(() => { location.hash = '#bank' }); await settle(page, 3000, 2);
     await page.hover('#jobs .que .jpill'); await sleep(150);
@@ -857,25 +877,27 @@ async function processes(browser, base, seed) {
     assert(/Stage 2 of 4/.test(rp.txt) && rp.bar && /Started \d{1,2}:\d{2} [ap]m/.test(rp.txt) && /Est\. finish \d{1,2}:\d{2} [ap]m/.test(rp.txt), `running popover lacks step / Started / Est. finish: ${rp.txt.replace(/\s+/g, ' ').slice(0, 200)}`);
     await page.click('#jobs .run .jpill'); await settle(page, 3000, 2);
     const h = await page.evaluate(() => location.hash); errs();
-    assert(h === '#processes', `clicking the running pill went to ${h}`);
+    assert(h === '#processes/work', `clicking the running pill went to ${h}`);
     return `“${r[0].txt}”, “${r[1].txt}”; hover list ok; click → Processes`;
   });
-  await check('processes: page sections and order', page, async () => {
+  await check('processes: Work sections and order', page, async () => {
     const r = await page.evaluate(() => {
-      const v = document.querySelector('#processesView'), heads = [...v.querySelectorAll('#procBox h3, #procBox .pdone>summary, #importBox h2')].map(h => h.textContent.replace(/\s*\d+\s*$/, '').trim());
+      const v = document.querySelector('#procWork'), vis = e => !!e && e.offsetWidth > 0 && e.offsetHeight > 0 && e.checkVisibility();
+      const heads = [...v.querySelectorAll('#procBox h3, #procBox .pdone>summary, #nupH')].filter(vis).map(h => h.textContent.replace(/\s*\d+\s*$/, '').trim());
       return {heads, cards: [...v.querySelectorAll('.pcard')].map(c => ({name: c.querySelector('b').textContent, when: c.querySelector('.pwhen')?.textContent || ''})),
         queue: [...v.querySelectorAll('.pqueue li b')].map(b => b.textContent), asked: [...v.querySelectorAll('.pqueue .pasked')].map(a => getComputedStyle(a).fontStyle),
         doneOpen: v.querySelector('.pdone')?.open, doneDisp: getComputedStyle(v.querySelector('details.pdone')||v).display, doneBig: (()=>{const d=v.querySelector('details.pdone');if(!d)return 0;d.open=true;const m=Math.max(0,...[...d.querySelectorAll('li *')].map(e=>parseFloat(getComputedStyle(e).fontSize)));d.open=false;return m})(), doneN: v.querySelectorAll('.pdone li').length, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
-        // review 14 Nov: one "Running now" on the page; the Import dashboard's sub-headings are the small section labels, below the page title
-        runHeads: [...v.querySelectorAll('h2,h3')].filter(h => /^Running now/.test(h.textContent.trim())).length,
-        title: parseFloat(getComputedStyle(v.querySelector('#procBox h2')).fontSize), imp: parseFloat(getComputedStyle(v.querySelector('#importBox h2')).fontSize),
-        bigSub: [...v.querySelectorAll('#importBox h2 ~ h2')].map(h => h.textContent), subs: [...v.querySelectorAll('#importBox > h3')].map(h => parseFloat(getComputedStyle(h).fontSize))};
+        runHeads: [...document.querySelectorAll('#processesView h2,#processesView h3')].filter(h => vis(h) && /^Running now/.test(h.textContent.trim())).length,
+        // owner 13 Nov ("Two tabs: Work | Papers"): nothing of Papers on Work
+        other: ['#invBox', '#importBox', '#procHist', '#ivGrid'].filter(sel => vis(document.querySelector(sel))), title: document.querySelector('#processesView .prhead h2')?.textContent,
+        gap: (() => { const s = [...v.querySelectorAll('#procBox .psec')]; return s.length > 1 ? Math.round(s[1].getBoundingClientRect().top - s[0].getBoundingClientRect().bottom) : 0 })()};
     });
     errs();
     // owner 13 Nov: "recently done looks so big": Review's paper-done styles leaked into Recently done (both were .pdone)
     assert(r.doneDisp === 'block' && r.doneBig <= 14, `Recently done layout: display ${r.doneDisp}, largest text ${r.doneBig}px`);
-    const order = ['Running now', 'Queued', 'Recently done', 'Import'].map(h => r.heads.indexOf(h));
-    assert(order.every(i => i >= 0) && order.every((x, i) => !i || x > order[i - 1]), `sections out of order: ${r.heads.join(' | ')}`);
+    assert(r.heads.join('|') === 'Running now|Queued|Recently done|Next up', `Work sections: ${r.heads.join(' | ')}`);
+    assert(!r.other.length, `Papers content shows on Work: ${r.other.join(', ')}`);
+    assert(r.title === 'Processes', `title “${r.title}”`);
     assert(r.cards.length === wantRun, `${r.cards.length} running cards, expected ${wantRun}`);
     assert(r.cards.some(c => /^\d+ min ago$|^just now$/.test(c.when)), `no “N min ago” started time: ${JSON.stringify(r.cards)}`);
     assert(JSON.stringify(r.queue) === JSON.stringify(wantQ), `queue order ${r.queue.join(' / ')}`);
@@ -883,8 +905,8 @@ async function processes(browser, base, seed) {
     assert(r.doneOpen === false && r.doneN >= 1, 'Recently done should be a collapsed list');
     assert(r.sw <= r.cw + 1, `horizontal scroll ${r.sw} > ${r.cw}`);
     assert(r.runHeads === 1, `${r.runHeads} “Running now” headings on Processes, expected 1`);
-    assert(!r.bigSub.length && r.subs.length && r.subs.every(x => x < 14) && r.imp < r.title, `Import heading ${r.imp}px vs title ${r.title}px; big sub-headings: ${r.bigSub.join(', ')}; sub-heading sizes ${r.subs}`);
-    return `${r.cards.length} running, ${r.queue.length} queued, ${r.doneN} done (collapsed), Import below with ${r.subs.length} small sub-headings`;
+    assert(r.gap <= 16, `sections ${r.gap}px apart (tightened to 14)`);
+    return `${r.heads.join(' › ')}; ${r.cards.length} running, ${r.queue.length} queued, ${r.doneN} done (collapsed); nothing of Papers`;
   });
   // owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well?"
   await check('processes: job step, start, est. finish and duration', page, async () => {
@@ -909,10 +931,10 @@ async function processes(browser, base, seed) {
     await page.evaluate(async () => { await db.doc('progress/jobs').set({jobs: []}); await db.doc('progress/queue').set({items: [], updated: new Date().toISOString()}) });
     await settle(page, 2000, 2);
     const r = await page.evaluate(() => ({jobsHidden: document.querySelector('#jobs').hidden, pills: document.querySelectorAll('#jobs .jpill').length,
-      empty: [...document.querySelectorAll('#procBox .pempty')].map(p => p.textContent.trim()), import: !!document.querySelector('#importBox h2')}));
+      empty: [...document.querySelectorAll('#procBox .pempty')].map(p => p.textContent.trim()), work: !document.querySelector('#procWork').hidden}));
     errs(); assert(r.jobsHidden && !r.pills, `pills still showing with nothing running or queued (${r.pills})`);
     assert(r.empty.length === 2 && r.empty.every(t => t.length > 5 && t.length < 80), `empty states: ${JSON.stringify(r.empty)}`);
-    assert(r.import, 'the Import heading is gone');
+    assert(r.work, 'the Work tab is no longer showing');
     return r.empty.join(' / ');
   });
   await page.context().close();
@@ -932,7 +954,7 @@ async function processes(browser, base, seed) {
     await tp.tap('#jobs .que .jpill'); await sleep(200);
     await tp.tap('#jobs .que .jpop'); await settle(tp, 3000, 2);
     const b = await tp.evaluate(() => ({hash: location.hash, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth}));
-    assert(b.hash === '#processes', `a tap on the list went to ${b.hash}`); assert(b.sw <= b.cw + 1, `horizontal scroll ${b.sw} > ${b.cw}`);
+    assert(b.hash === '#processes/work', `a tap on the list went to ${b.hash}`); assert(b.sw <= b.cw + 1, `horizontal scroll ${b.sw} > ${b.cw}`);
     await tp.evaluate(() => { location.hash = '#bank' }); await settle(tp, 3000, 2);
     await tp.tap('#jobs .run .jpill'); await sleep(200);
     const r = await popState('#jobs .run .jpop');
@@ -941,7 +963,7 @@ async function processes(browser, base, seed) {
     await tp.tap('#jobs .run .jpill'); await settle(tp, 3000, 2);
     const h = await tp.evaluate(() => location.hash);
     const e = takeErrs(tp); assert(!e.length, e.join(' | '));
-    assert(h === '#processes', `a second tap on the pill went to ${h}`);
+    assert(h === '#processes/work', `a second tap on the pill went to ${h}`);
     return 'tap shows the list (inside 390px, no link); tap elsewhere closes; tap on list or second tap → Processes';
   });
   await tp.context().close();
@@ -1000,10 +1022,10 @@ async function nextUp(browser, base, seed) {
   const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
   await check('next up: card, empty state, add', page, async () => {
     const r = await page.evaluate(() => ({shown: !document.querySelector('#notesBox').hidden, h: document.querySelector('#nupH')?.textContent.trim(), empty: document.querySelector('#nupList .pempty')?.textContent.trim(),
-      after: (() => { const v = document.querySelector('#processesView'), n = v.querySelector('#notesBox'), q = v.querySelector('#pQueH'), i = v.querySelector('#importBox'); return !!(n && q && i && (q.compareDocumentPosition(n) & 4) && (n.compareDocumentPosition(i) & 4)) })()}));
+      after: (() => { const w = document.querySelector('#procWork'), n = w.querySelector('#notesBox'), q = w.querySelector('#pQueH'); return location.hash === '#processes/work' && !!(n && q && (q.compareDocumentPosition(n) & 4)) && !w.querySelector('#importBox, #invBox') })()}));
     errs(); assert(r.shown && /^Next up/.test(r.h), `Next up card: shown ${r.shown}, heading “${r.h}”`);
     assert(r.empty === 'Ideas for what to build next. Claude reads this list.', `empty state “${r.empty}”`);
-    assert(r.after, 'Next up is not between the queue and the Import dashboard');
+    assert(r.after, 'Next up is not on Work under the queue (or Work is not the default tab)');
     for (const t of ['Worksheets tab', 'Topic heat map', 'Bulk export']) { await page.fill('#nupIn', t); await page.click('#nupForm button[type=submit]'); await settle(page, 1500, 2) }
     const cleared = await page.evaluate(() => document.querySelector('#nupIn').value === '');
     await page.fill('#nupIn', '   '); await page.press('#nupIn', 'Enter'); await settle(page, 800, 2);
@@ -1080,50 +1102,68 @@ async function papersQueue(browser, base, seed, fx) {
   const serveInv = async p => { p._inv = 0; await p.route(u => /\/data\/inventory\.json/.test(u.href), r => { p._inv++; return r.fulfill({status: 200, contentType: 'application/json', body: JSON.stringify(inv)}) }) };
   const qdocs = p => p.evaluate(() => [...window.__pt.store.entries()].filter(([k]) => k.startsWith('importq/')).map(([k, v]) => ({k, ...v})).sort((a, b) => a.order - b.order));
   const qtexts = p => p.evaluate(() => [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(b => b.textContent));
-  const openG = (p, g) => p.evaluate(g => { const d = document.querySelector(`#ivGrid details[data-ivg="${g}"]`); if (d && !d.open) d.querySelector('summary').click() }, g);
+  // owner 13 Nov ("Two tabs: Work | Papers"): a cell of the compact grid opens its group's papers under the course row
+  const openG = (p, g) => p.evaluate(g => { const b = document.querySelector(`#ivGrid .ivcell[data-ivg="${g}"]`); if (b && b.getAttribute('aria-expanded') !== 'true') b.click() }, g);
   const page = await newPage(browser, base, seedQ, {width: 1280, theme: 'light'});
   await serveInv(page);
-  await boot(page, base, '#processes'); await settle(page, 3000, 2);
+  await boot(page, base, '#processes/papers'); await settle(page, 3000, 2);
   const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
-  await check('papers: course x year grid counts', page, async () => {
+  await check('papers: top line, import order, quiet pause note', page, async () => {
     const r = await page.evaluate(() => {
-      const v = document.querySelector('#processesView'), pos = s => { const a = v.querySelector(s), b = v.querySelector('#ivH'); return a && b ? a.compareDocumentPosition(b) : 0 };
-      return {shown: !document.querySelector('#invBox').hidden, h: document.querySelector('#ivH')?.textContent.trim(), pause: document.querySelector('#invBox .ivpause')?.textContent.trim(),
-        afterQueue: !!(pos('#pQueH') & 4), beforeNotes: !!(pos('#nupH') & 2), sub: document.querySelector('#ivSub')?.textContent,
-        rows: Object.fromEntries([...document.querySelectorAll('#ivGrid details.ivg')].map(d => [d.dataset.ivg, {n: [...d.querySelectorAll('summary .ivn')].map(x => x.textContent.trim()), off: d.classList.contains('off'), note: d.querySelector('.ivnote')?.textContent || ''}])),
-        q: [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(b => b.textContent)};
+      const v = document.querySelector('#procPapers'), at = s => v.querySelector(s), before = (x, y) => !!(at(x) && at(y) && (at(x).compareDocumentPosition(at(y)) & 4));
+      const pz = at('#invBox .ivpause'), cs = pz && getComputedStyle(pz);
+      return {shown: !document.querySelector('#invBox').hidden, pause: pz?.textContent.trim(), pauseBox: cs ? cs.borderTopWidth + ' ' + cs.backgroundColor : '', pauseH: pz ? pz.getBoundingClientRect().height : 0,
+        order: before('#ivSub', '#ivQH') && before('#ivQH', '#ivGrid') && before('#ivGrid', '#procHist'), sub: document.querySelector('#ivSub')?.textContent,
+        q: [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(b => b.textContent), heads: [...v.querySelectorAll('h2,h3')].filter(h => h.checkVisibility()).map(h => h.textContent)};   // checkVisibility: closed <details> content keeps a layout box
     });
-    errs(); assert(r.shown && r.h === 'Papers', `Papers section: shown ${r.shown}, heading “${r.h}”`);
-    assert(r.afterQueue && r.beforeNotes, 'Papers is not between the queue and Next up');
-    assert(/Import is paused\. This only sets the order for when it resumes\.$/.test(r.pause || ''), `pause note: “${r.pause}”`);
+    errs(); assert(r.shown, 'Papers section hidden');
+    assert(r.order, 'Papers is not: top line, Import order, grid, Import history');
+    assert(/^Import is paused\. This only sets the order for when it resumes\.$/.test(r.pause || ''), `pause note: “${r.pause}”`);
+    assert(/^0px/.test(r.pauseBox) && r.pauseH < 24, `pause note should be one quiet line, not a banner (${r.pauseBox}, ${r.pauseH}px)`);
     assert(/^16 papers in the shared folder \(17 files\) · last folder scan .+, 2 new$/.test(r.sub || ''), `sub line: “${r.sub}”`);
-    const want = {'advanced|12': ['8', '3', '4', '1'], 'advanced|11': ['2', '0', '0', '0'], 'ext1|12': ['3', '–', '–', '1'], 'standard|12': ['2', '–', '–', '0'], 'unknown|?': ['1', '–', '–', '0']};
-    for (const [g, n] of Object.entries(want)) assert(r.rows[g] && r.rows[g].n.join(',') === n.join(','), `${g}: ${r.rows[g] && r.rows[g].n.join(',')} (want ${n.join(',')})`);
-    assert(Object.keys(r.rows).join(',') === Object.keys(want).join(','), `rows ${Object.keys(r.rows)}`);
-    for (const g of ['ext1|12', 'standard|12']) assert(r.rows[g].off && r.rows[g].note === 'needs course setup (topics, dot points, difficulty references)', `${g}: off ${r.rows[g].off}, note “${r.rows[g].note}”`);
-    assert(!r.rows['advanced|12'].off && !r.rows['advanced|12'].note, 'the Advanced row is marked as needing setup');
     assert(r.q.join('|') === '2024 Knox Grammar School AT1', `import order from the seeded importq: ${r.q}`);
-    return Object.entries(r.rows).map(([g, x]) => `${g} ${x.n.join('/')}`).join(' · ');
+    assert(!r.heads.length, `extra headings on Papers: ${r.heads}`);
+    return 'top line › Import order (one quiet pause line) › grid › Import history';
   });
-  await check('papers: Standard / Extension / unknown rows cannot be ticked', page, async () => {
-    for (const g of ['ext1|12', 'standard|12', 'unknown|?', 'advanced|11']) await openG(page, g);
-    await settle(page, 1500, 2);
-    const r = await page.evaluate(() => Object.fromEntries(['ext1|12', 'standard|12', 'unknown|?', 'advanced|11'].map(g => { const d = document.querySelector(`#ivGrid details[data-ivg="${g}"]`);
-      return [g, {boxes: d.querySelectorAll('input[type=checkbox]').length, papers: d.querySelectorAll('.ivpp').length, msg: d.querySelector('.ivmsg')?.textContent || '', schools: [...d.querySelectorAll('.ivsh')].map(x => x.textContent.replace(/\d+$/, '').trim())}] })));
+  await check('papers: compact grid counts equal the inventory', page, async () => {
+    const r = await page.evaluate(() => ({rows: [...document.querySelectorAll('#ivGrid .ivr')].map(d => ({c: d.dataset.ivc, name: d.querySelector('.ivname b').textContent, off: d.classList.contains('off'),
+        notes: [...d.querySelectorAll('.ivnote')].map(n => n.textContent), cells: [...d.querySelectorAll(':scope > .ivcell')].map(c => ({g: c.dataset.ivg || '', t: c.querySelector('.ivct').textContent.replace(/\s+/g, ' ').trim(), nw: c.querySelector('.ivchip.new')?.textContent || '', btn: c.tagName === 'BUTTON'}))})),
+      head: [...document.querySelectorAll('#ivGrid .ivhead span')].map(x => x.textContent), old: document.querySelectorAll('#ivGrid details').length}));
+    errs();
+    assert(r.head.join('|') === 'Course|Year 12|Year 11|Year ?', `header ${r.head}`);
+    assert(!r.old, `${r.old} old course x year rows remain`);
+    assert(r.rows.map(x => x.c).join(',') === inv.courses.map(c => c.key).join(','), `rows ${r.rows.map(x => x.c)} (want the inventory's courses in order)`);
+    const scan = !!inv.last_scan; let n = 0;
+    for (const row of r.rows) { const c = inv.courses.find(x => x.key === row.c);
+      assert(row.name === c.short && row.off === !c.ready, `${row.c}: name ${row.name}, off ${row.off}`);
+      assert(c.ready ? !row.notes.length : row.notes.length === 1 && row.notes[0].length <= 40 && c.note.startsWith(row.notes[0]), `${row.c} notes: ${JSON.stringify(row.notes)}`);
+      ['12', '11', '?'].forEach((yl, i) => { const g = inv.groups.find(x => x.course === row.c && x.yl === yl), k = g && g.counts, cell = row.cells[i];
+        const want = !k || !k.papers ? '–' : c.ready && (k.imported || k.waiting) ? `${k.imported} / ${k.waiting} waiting` : String(k.papers);
+        assert(cell.t === want && cell.btn === !!(k && k.papers) && cell.nw === (scan && k && k.new ? `${k.new} new` : ''), `${row.c}|${yl}: “${cell.t}” ${cell.nw} (want “${want}”)`); n++ }) }
+    return `${r.rows.length} courses × 3 = ${n} cells match; ${r.rows.filter(x => x.off).map(x => x.notes[0]).join(' / ')}`;
+  });
+  await check('papers: Standard / Extension / unknown cells cannot be ticked; one group open at a time', page, async () => {
+    const r = {};
+    for (const g of ['ext1|12', 'standard|12', 'unknown|?', 'advanced|11']) { await openG(page, g); await settle(page, 800, 2);
+      r[g] = await page.evaluate(g => { const d = document.querySelector(`#ivGrid .ivbody[data-ivg="${g}"]`);
+        return d && {boxes: d.querySelectorAll('input[type=checkbox]').length, papers: d.querySelectorAll('.ivpp').length, msg: d.querySelector('.ivmsg')?.textContent || '', schools: [...d.querySelectorAll('.ivsh')].map(x => x.textContent.replace(/\d+$/, '').trim()), open: document.querySelectorAll('#ivGrid .ivbody:not([hidden])').length, exp: document.querySelector(`#ivGrid .ivcell[data-ivg="${g}"]`).getAttribute('aria-expanded')} }, g) }
+    await page.click('#ivGrid .ivcell[data-ivg="advanced|11"]'); await settle(page, 800, 2);
+    const closed = await page.evaluate(() => document.querySelectorAll('#ivGrid .ivbody:not([hidden])').length);
     const added = await page.evaluate(() => PQ.add([9401, 9501, 9301, 9601])), w = (await qdocs(page)).length; errs();
-    for (const [g, n] of [['ext1|12', 3], ['standard|12', 2], ['unknown|?', 1], ['advanced|11', 2]]) assert(r[g].boxes === 0 && r[g].papers === n, `${g}: ${r[g].boxes} checkboxes, ${r[g].papers} papers (want 0, ${n})`);
-    assert(/needs course setup \(topics, dot points, difficulty references\)/.test(r['ext1|12'].msg) && /can't be queued yet/.test(r['standard|12'].msg), `messages: ${r['ext1|12'].msg} / ${r['standard|12'].msg}`);
+    for (const [g, n] of [['ext1|12', 3], ['standard|12', 2], ['unknown|?', 1], ['advanced|11', 2]]) assert(r[g] && r[g].boxes === 0 && r[g].papers === n && r[g].open === 1 && r[g].exp === 'true', `${g}: ${JSON.stringify(r[g])} (want 0 boxes, ${n} papers, one open)`);
+    assert(/can't be queued yet/.test(r['ext1|12'].msg) && !/needs course setup/.test(r['ext1|12'].msg), `messages: ${r['ext1|12'].msg}`);
     assert(r['ext1|12'].schools.join('|') === 'Abbotsleigh|CSSA|Knox Grammar School', `ext1 papers by school: ${r['ext1|12'].schools}`);
+    assert(closed === 0, 'a second click on the open cell did not close it');
     assert(added === 0 && w === 1, `PQ.add of non-Advanced / not-waiting papers wrote ${added} (importq docs ${w})`);
-    return 'no checkboxes; listed by school; PQ.add refuses them';
+    return 'no checkboxes; listed by school; one group open; second click closes; PQ.add refuses them';
   });
   await check('papers: tick a school and a paper, Add to import queue', page, async () => {
-    await openG(page, 'advanced|12'); await settle(page, 1500, 2);
-    const before = await page.evaluate(() => { const d = document.querySelector('#ivGrid details[data-ivg="advanced|12"]');
+    await openG(page, 'advanced|12'); await settle(page, 1500, 2);   // expand a cell, then tick
+    const before = await page.evaluate(() => { const d = document.querySelector('#ivGrid .ivbody[data-ivg="advanced|12"]');
       return {boxes: [...d.querySelectorAll('[data-ivp]')].map(b => +b.dataset.ivp).sort(), inq: [...d.querySelectorAll('.ivchip.q')].map(c => c.textContent), all: d.querySelector('[data-ivall]')?.parentElement.textContent.trim(), bar: document.querySelector('#ivBar').hidden} });
     assert(before.boxes.join(',') === '9101,9102,9104', `tickable papers ${before.boxes} (want the 3 waiting ones not queued)`);
     assert(before.inq.join('|') === 'In queue · #1' && before.all === 'Select all 3 waiting' && before.bar, JSON.stringify(before));
-    await page.click('#ivGrid details[data-ivg="advanced|12"] [data-ivsch][data-school="Abbotsleigh"]');
+    await page.click('#ivGrid .ivbody[data-ivg="advanced|12"] [data-ivsch][data-school="Abbotsleigh"]');
     let bar = await page.evaluate(() => ({t: document.querySelector('#ivSelN').textContent, hid: document.querySelector('#ivBar').hidden, all: (b => b && {c: b.checked, i: b.indeterminate})(document.querySelector('[data-ivall="advanced|12"]'))}));
     assert(!bar.hid && bar.t === '2 papers selected' && bar.all.i && !bar.all.c, `after ticking Abbotsleigh: ${JSON.stringify(bar)}`);
     await page.click('#ivc9104');
@@ -1135,7 +1175,7 @@ async function papersQueue(browser, base, seed, fx) {
     const n = d.find(x => x.doc_id === 9104);
     assert(n.k === 'importq/d9104' && n.label === '2026 Knox Grammar School AT4' && n.course === 'advanced' && n.year_level === 12 && n.added_by === 'u_pagetest' && !isNaN(Date.parse(n.at)), `doc fields: ${JSON.stringify(n)}`);
     assert(t.join('|') === '2024 Knox Grammar School AT1|2025 Abbotsleigh AT4|2023 Abbotsleigh AT2|2026 Knox Grammar School AT4', `on screen: ${t.join(' | ')}`);
-    const after = await page.evaluate(() => { const d = document.querySelector('#ivGrid details[data-ivg="advanced|12"]'); return {boxes: d.querySelectorAll('[data-ivp]').length, inq: d.querySelectorAll('.ivchip.q').length, bar: document.querySelector('#ivBar').hidden, msg: d.querySelector('.ivmsg')?.textContent || ''} });
+    const after = await page.evaluate(() => { const d = document.querySelector('#ivGrid .ivbody[data-ivg="advanced|12"]'); return {boxes: d.querySelectorAll('[data-ivp]').length, inq: d.querySelectorAll('.ivchip.q').length, bar: document.querySelector('#ivBar').hidden, msg: d.querySelector('.ivmsg')?.textContent || ''} });
     assert(after.boxes === 0 && after.inq === 4 && after.bar, `after Add: ${JSON.stringify(after)}`);
     return `3 added in order; {doc_id, label, course, year_level, order, added_by, at}`;
   });
@@ -1150,10 +1190,24 @@ async function papersQueue(browser, base, seed, fx) {
     await page.click('#ivQList .ivql > li:nth-child(2) [data-ivdel]'); await settle(page, 1500, 2);
     t = await qtexts(page); const dd = await qdocs(page); errs();
     assert(dd.length === 3 && !dd.some(x => x.doc_id === 9101) && t.length === 3, `after remove: ${t.join(' | ')} (db ${dd.map(x => x.doc_id)})`);
-    const back = await page.evaluate(() => !!document.querySelector('#ivGrid details[data-ivg="advanced|12"] [data-ivp="9101"]'));
+    const back = await page.evaluate(() => !!document.querySelector('#ivGrid .ivbody[data-ivg="advanced|12"] [data-ivp="9101"]'));
     assert(back, 'a removed paper is not tickable again');
     const sw = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth); assert(sw <= 1, `horizontal scroll ${sw}px`);
     return t.join(' › ');
+  });
+  await check('papers: Import history collapsed; log shows the last 5, then Show all', page, async () => {
+    await page.evaluate(() => { PROG = {...(PROG || {}), log: Array.from({length: 12}, (_, i) => ({t: new Date(Date.now() - (12 - i) * 60000).toISOString(), msg: 'step ' + (i + 1)}))}; renderImport() });
+    const a = await page.evaluate(() => { const h = document.querySelector('#procHist'); return {open: h.open, sum: h.querySelector('summary').textContent.trim(), inside: ['.tiles', '.bgrp', '.log'].every(s => h.querySelector('#importBox ' + s)), vis: document.querySelector('#importBox').checkVisibility()} });
+    assert(a.sum === 'Import history' && a.open === false && a.vis === false && a.inside, `Import history: ${JSON.stringify(a)}`);
+    await page.click('#procHist > summary'); await settle(page, 1000, 2);
+    const b = await page.evaluate(() => ({shown: [...document.querySelectorAll('#importBox .log li')].filter(l => !l.hidden).map(l => l.textContent.replace(/^.*· /, '')), btn: document.querySelector('#importBox [data-logall]')?.textContent, decide: [...document.querySelectorAll('#importBox h3')].map(h => h.textContent)}));
+    assert(b.shown.join(',') === 'step 12,step 11,step 10,step 9,step 8' && b.btn === 'Show all 12', `log: ${b.shown} / ${b.btn}`);
+    assert(b.decide.includes('Needs your decision') && b.decide.includes('Batches'), `history sections: ${b.decide}`);
+    await page.click('#importBox [data-logall]'); await settle(page, 800, 2);
+    const c = await page.evaluate(() => ({n: [...document.querySelectorAll('#importBox .log li')].filter(l => !l.hidden).length, btn: !!document.querySelector('#importBox [data-logall]')}));
+    await page.click('#procHist > summary'); errs();
+    assert(c.n === 12 && !c.btn, `after Show all: ${JSON.stringify(c)}`);
+    return 'collapsed by default; tiles, batches, Needs your decision and log inside; 5 → Show all 12';
   });
   // review 13 Nov: the order the owner set survives a reload (a new page on the database the first one left behind)
   const kept = await page.evaluate(() => Object.fromEntries([...window.__pt.store.entries()]));
@@ -1161,7 +1215,7 @@ async function papersQueue(browser, base, seed, fx) {
   await page.context().close();
   const rp = await newPage(browser, base, kept, {width: 1280, theme: 'light'});
   await serveInv(rp);
-  await boot(rp, base, '#processes'); await settle(rp, 3000, 2);
+  await boot(rp, base, '#processes/papers'); await settle(rp, 3000, 2);
   await check('papers: the import order persists after a reload', rp, async () => {
     const t = await qtexts(rp), e = takeErrs(rp); assert(!e.length, e.join(' | '));
     assert(t.length === 3 && t.join('|') === want.join('|'), `after reload: ${t.join(' | ')} (want ${want.join(' | ')})`);
@@ -1171,18 +1225,23 @@ async function papersQueue(browser, base, seed, fx) {
   // phone: the grid and the queue fit 390 px; ticking and ↑ work by tap
   const tp = await newPage(browser, base, seedQ, {width: 390, theme: 'dark', touch: true});
   await serveInv(tp);
-  await boot(tp, base, '#processes'); await settle(tp, 3000, 2);
+  await boot(tp, base, '#processes/papers'); await settle(tp, 3000, 2);
   await check('papers: phone 390px', tp, async () => {
-    await tp.evaluate(() => document.querySelector('#ivGrid details[data-ivg="advanced|12"] summary').click()); await settle(tp, 1500, 2);
+    // the grid stacks per course: no header row, the course name on its own line, three labelled cells under it
+    const g = await tp.evaluate(() => { const row = document.querySelector('#ivGrid .ivr[data-ivc="advanced"]'), nm = row.querySelector('.ivname').getBoundingClientRect(), cs = [...row.querySelectorAll(':scope > .ivcell')].map(c => c.getBoundingClientRect());
+      return {head: document.querySelector('#ivGrid .ivhead').offsetHeight, stacked: cs.every(c => c.top >= nm.bottom - 1), right: Math.max(...[...document.querySelectorAll('#ivGrid .ivcell')].map(c => c.getBoundingClientRect().right)), w: innerWidth,
+        labels: [...row.querySelectorAll('.ivcl')].filter(l => l.offsetWidth).map(l => l.textContent), sw: document.querySelector('#procSw').offsetWidth} });
+    assert(!g.head && g.stacked && g.right <= g.w - 8 && g.labels.join('|') === 'Year 12|Year 11|Year ?' && g.sw > 0, `stacked grid at 390px: ${JSON.stringify(g)}`);
+    await tp.tap('#ivGrid .ivcell[data-ivg="advanced|12"]'); await settle(tp, 1500, 2);
     await tp.tap('#ivc9102'); await tp.tap('#ivAdd'); await settle(tp, 2000, 2);
     await tp.tap('#ivQList .ivql > li:nth-child(2) [data-ivmove="-1"]'); await settle(tp, 1500, 2);
-    const r = await tp.evaluate(() => { const b = document.querySelector('#invBox').getBoundingClientRect(), nums = [...document.querySelectorAll('#ivGrid summary .ivn')].map(n => n.getBoundingClientRect().right);
+    const r = await tp.evaluate(() => { const b = document.querySelector('#invBox').getBoundingClientRect(), nums = [...document.querySelectorAll('#ivGrid .ivcell, #ivGrid .ivbody *')].map(n => n.getBoundingClientRect().right);
       return {t: [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(x => x.textContent), right: b.right, w: innerWidth, nr: Math.max(...nums), sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
-        rowH: document.querySelector('#ivGrid details[data-ivg="ext1|12"] summary').getBoundingClientRect().height} });
+        rowH: document.querySelector('#ivGrid .ivr[data-ivc="ext1"]').getBoundingClientRect().height} });
     const e = takeErrs(tp); assert(!e.length, e.join(' | '));
     assert(r.t.join('|') === '2023 Abbotsleigh AT2|2024 Knox Grammar School AT1', `after tick, Add and ↑ by tap: ${r.t.join(' | ')}`);
     assert(r.right <= r.w && r.nr <= r.right && r.sw <= r.cw + 1, `overflow at 390px: box right ${r.right}, numbers right ${r.nr}, scroll ${r.sw} > ${r.cw}`);
-    return `fits (row with note ${Math.round(r.rowH)} px tall); tick, Add and ↑ work by tap`;
+    return `stacked per course (Extension 1 ${Math.round(r.rowH)} px); fits; tick, Add and ↑ work by tap`;
   });
   await tp.context().close();
   // a viewer: no section, no inventory fetch, no write
@@ -1190,9 +1249,11 @@ async function papersQueue(browser, base, seed, fx) {
   await serveInv(vp);
   await boot(vp, base, '#bank');
   await check('papers (viewer): nothing shows, nothing is written', vp, async () => {
-    await vp.evaluate(() => { location.hash = '#processes' }); await settle(vp, 2000, 2);
+    for (const h of ['#processes/papers', '#processes/work', '#processes']) { await vp.evaluate(h => { location.hash = h }, h); await settle(vp, 2000, 2) }
     const r = await vp.evaluate(async () => { PQ.render(); const n = await PQ.add([9101, 9102]); const rm = await PQ.remove('d9103');
-      return {hash: location.hash, hidden: document.querySelector('#invBox').hidden, html: document.querySelector('#invBox').innerHTML.length, n, rm, w: window.__pt.log.filter(l => l.k.startsWith('importq/')).length} });
+      return {hash: location.hash, hidden: document.querySelector('#invBox').hidden, html: document.querySelector('#invBox').innerHTML.length, n, rm, w: window.__pt.log.filter(l => l.k.startsWith('importq/')).length,
+        curate: ['#processesView', '#procSw', '#ivGrid', '#procHist', '#jobs'].filter(s => { const e = document.querySelector(s); return e && e.offsetWidth > 0 })} });
+    assert(!r.curate.length, `a viewer sees Curate: ${r.curate}`);
     assert(r.hidden && r.html === 0 && r.n === 0 && r.rm === false && r.w === 0 && r.hash === '#bank', JSON.stringify(r));
     assert(vp._inv === 0, `a viewer fetched data/inventory.json ${vp._inv} time(s)`);
     return 'hidden; #processes → #bank; PQ.add / PQ.remove refused; no fetch';
@@ -1211,7 +1272,7 @@ async function driveScan(browser, base, seed, fx) {
   const inv = fx.papers.inventory, dv = fx.drive;
   const serveInv = async p => { p._inv = 0; await p.route(u => /\/data\/inventory\.json/.test(u.href), r => { p._inv++; return r.fulfill({status: 200, contentType: 'application/json', body: JSON.stringify(inv)}) }) };
   const scans = p => p.evaluate(() => [...window.__pt.store.entries()].filter(([k]) => k.startsWith('scans/')).map(([k, v]) => ({k, ...v})));
-  const open = async (opts, seedX = seed) => { const p = await newPage(browser, base, seedX, opts); await serveInv(p); await boot(p, base, '#processes'); await settle(p, 3000, 2); return p };
+  const open = async (opts, seedX = seed) => { const p = await newPage(browser, base, seedX, opts); await serveInv(p); await boot(p, base, '#processes/papers'); await settle(p, 3000, 2); return p };
   const go = p => p.evaluate(() => document.querySelector('#ivScanGo').click());
   const done = p => p.waitForFunction(() => !document.querySelector('#ivScan .ivsprog') && !!document.querySelector('#ivScan .ivsres, #ivScan .ivserr'), null, {timeout: 20000});
   const gid = e => e.course + '|' + (e.yl === 11 || e.yl === 12 ? String(e.yl) : '?');

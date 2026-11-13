@@ -1,4 +1,5 @@
-/* ---- Teach | Curate (owner 15 Nov: "Lets do 2 as well" and "curate should be hidden to peope except editors.") ----
+/* ---- segmented switch: Teach | Curate in the header, and (owner 13 Nov, "Two tabs: Work | Papers") Work | Papers on Processes.
+   Teach | Curate (owner 15 Nov: "Lets do 2 as well" and "curate should be hidden to peope except editors.") ----
    A small segmented switch before the tabs, shown only to the owner and editors. Its highlight slides like the tab pill
    (12 Nov ruling); hairline frame, theme2 tokens. Phones have no switch: the menu groups the tabs under Teach / Curate. */
 .areasw{position:relative;display:inline-flex;align-items:center;gap:0;padding:2px;border:1px solid var(--line);border-radius:calc(var(--t2-r) + 2px);background:var(--bg)}
@@ -15,6 +16,6 @@
 .msheet .mgrp{display:grid;gap:2px}
 .msheet .mgrp+.mgrp{border-top:1px solid var(--line);margin-top:4px;padding-top:4px}
 .msheet .mh{font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 14px 2px}
-@media (max-width:640px){.areasw{display:none!important}}
+@media (max-width:640px){header .areasw{display:none!important}}   /* the header's Teach | Curate only; Processes' Work | Papers stays on phones */
 /* Curate-only controls elsewhere (e.g. "Open in Review" on bank cards) carry .edonly: hidden unless the viewer is the owner or an editor */
 html:not(.editor) .edonly{display:none!important}

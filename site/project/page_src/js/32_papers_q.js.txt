@@ -4,8 +4,9 @@
 /* ---------- Papers and the owner's import order (Processes, Curate: editors only) ----------
    data/inventory.json (tools/inventory.py): every paper in the shared folder, in course x year groups, each paper with its state
    (imported / waiting / out_of_course / out_of_scope / other), "new" when the latest folder scan (tools/scan_folder.py) added it,
-   and pick:1 when it can be queued (Advanced and waiting). Standard / Extension 1 / Extension 2 rows show their counts but
-   "need course setup (topics, dot points, difficulty references)" and have no checkboxes.
+   and pick:1 when it can be queued (Advanced and waiting). Courses that are not ready (inventory courses[].ready) show their
+   counts with a short "needs course setup" and have no checkboxes. Since 13 Nov (owner: "The process page feels a bit bloated
+   now" -> "Two tabs: Work | Papers") this is the Papers tab, and the grid is compact: one row per course, Year 12 / 11 / ? cells.
    The owner ticks papers (or a whole school / group) and presses "Add to import queue". db collection "importq", one doc per
    paper, id 'd<doc_id>': {doc_id, label, course, year_level, order, added_by, at}. Reorder by drag (desktop) or ↑ ↓; × removes.
    Import itself is paused (owner 14 Nov: "no more importing for a while until we iron these out"), so the card says so.
@@ -13,7 +14,7 @@
 /* One page-wide name, PQ (code health 13 Nov, rule 1): everything else stays inside this scope.
    PQ.render() draws the card (renderProcesses calls it); PQ.add / PQ.remove / PQ.state are for the page test. */
 const PQ=(()=>{
-const INV={data:null,loading:false,failed:false,q:[],sub:null,loaded:false,sel:new Set()};
+const INV={data:null,loading:false,failed:false,q:[],sub:null,loaded:false,sel:new Set(),open:null};   // open: the course|year group whose papers show under the grid row
 const IVY={'12':'Year 12','11':'Year 11','?':'Year ?'};
 // owner 14 Nov: "no more importing for a while until we iron these out"
 const IVPAUSE='Import is paused. This only sets the order for when it resumes.';
@@ -34,10 +35,10 @@ function invSubscribe(){if(INV.sub||!db||!isEditor())return;
 // the card is drawn once (open groups and ticks survive the Processes refresh); the queue, grid and bar redraw inside it
 function renderInv(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
   if(!box.dataset.ready){box.dataset.ready='1';
-    box.innerHTML=`<section class="psec ivp" aria-labelledby="ivH"><h3 id="ivH">Papers</h3>
+    // owner 13 Nov ("Two tabs: Work | Papers"): the tab names the section, so no heading; the pause note is one quiet line
+    box.innerHTML=`<section class="psec ivp" aria-label="Papers">
       <div class="ivsubrow"><p class="ivsub" id="ivSub"></p><span id="ivScanBtn"></span></div><div id="ivScan"></div>
-      <p class="ivpause" role="note"><span aria-hidden="true">⏸</span> ${esc(IVPAUSE)}</p>
-      <div class="ivq"><h4 id="ivQH">Import order <span class="pcount" id="ivQN" hidden></span></h4><div id="ivQList"></div></div>
+      <div class="ivq"><h4 id="ivQH">Import order <span class="pcount" id="ivQN" hidden></span></h4><p class="ivpause" role="note">${esc(IVPAUSE)}</p><div id="ivQList"></div></div>
       <div id="ivGrid"></div>
       <div class="ivbar" id="ivBar" hidden><span id="ivSelN" aria-live="polite"></span><button type="button" class="act" id="ivClear">Clear</button><button type="button" class="act ivadd" id="ivAdd">Add to import queue</button></div></section>`}
   invLoad();invSubscribe();invSub();invQueue();if(!$('#ivGrid').dataset.built)invGrid();invBar();if(API.scan)API.scan.render()}
@@ -53,13 +54,27 @@ function invQueue(){const el=$('#ivQList');if(!el)return;const q=invQ(),n=$('#iv
       <span class="ntext"><b>${esc(x.label||(p?invLabel(p):'Paper '+x.doc_id))}</b><small>${esc(invShort(x.course))}${x.year_level?' · Year '+esc(x.year_level):''}${cost?` · ${esc(cost)}`:''}${warn?` · <em class="ivwarn">${esc(warn)}</em>`:''}</small></span>
       <span class="nacts"><button type="button" class="nbtn" data-ivmove="-1" data-ivid="${esc(x.id)}" aria-label="Move up"${i===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-ivmove="1" data-ivid="${esc(x.id)}" aria-label="Move down"${i===q.length-1?' disabled':''}>↓</button><button type="button" class="nbtn ndel" data-ivdel="${esc(x.id)}" aria-label="Remove from the import queue">×</button></span></li>`}).join('')}</ol>`:
     `<p class="pempty">${INV.loaded||!db?`Nothing queued. Tick ${esc(['papers',...((INV.data&&INV.data.courses)||[]).filter(c=>c.ready).map(c=>c.short||c.name)].reverse().join(' '))} below and press Add to import queue.`:'Loading the import order…'}</p>`}
-// ---- the course x year grid
+// ---- the course grid (owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): one row per
+// course, in the inventory's order, columns Year 12 / Year 11 / Year ?. A ready course's cell reads "imported / waiting waiting";
+// any other cell the papers in the folder. A cell opens that group's papers under its course row (one group at a time).
+const IVYL=['12','11','?'];
+const invNote=c=>String(c.note||'needs course setup').split(/\s*[(:]/)[0];   // the short form, once per row; the full note is its title
 function invGrid(){const el=$('#ivGrid');if(!el)return;const G=invGroups();if(!INV.data){el.innerHTML='';return}el.dataset.built='1';
-  const scan=!!INV.data.last_scan,dash='<span class="ivn ivz">–</span>',num=(v,c)=>`<span class="ivn${c?' '+c:''}${v?'':' ivz'}">${v}</span>`;
-  el.innerHTML=`<div class="ivhead" aria-hidden="true"><span>Course</span>${[['In folder','Total'],['Imported','Done'],['Waiting','Wait'],['New','New']].map(([l,sh])=>`<span title="${l}"><i class="ivlong">${l}</i><i class="ivshort">${sh}</i></span>`).join('')}</div>`+
-    G.map(g=>{const c=invCourse(g.course),k=g.counts||{},ready=!!c.ready;
-      return `<details class="ivg${ready?'':' off'}" data-ivg="${esc(invGid(g))}"><summary><span class="ivname"><b>${esc(invShort(g.course))}</b> <span class="ivyl">${esc(IVY[g.yl]||g.yl)}</span></span>
-        ${num(k.papers||0)}${ready?num(k.imported||0,'ok')+num(k.waiting||0,'wait'):dash+dash}${scan?num(k.new||0,'new'):dash}${ready?'':`<small class="ivnote">${esc(c.note||'needs course setup (topics, dot points, difficulty references)')}</small>`}</summary><div class="ivbody" data-ivbody="${esc(invGid(g))}"></div></details>`}).join('')}
+  const scan=!!INV.data.last_scan,keys=[...new Set([...(INV.data.courses||[]).map(c=>c.key),...G.map(g=>g.course)])];
+  const cell=(c,yl)=>{const g=G.find(x=>x.course===c.key&&x.yl===yl),k=(g&&g.counts)||{},yn=IVY[yl]||yl,lab=`<i class="ivcl">${esc(yn)}</i>`;
+    if(!g||!k.papers)return `<span class="ivcell ivz">${lab}<span class="ivct">–</span></span>`;
+    const imp=k.imported||0,wait=k.waiting||0,split=c.ready&&(imp||wait),nw=scan&&k.new?`<span class="ivchip new">${k.new} new</span>`:'';
+    const tip=`${invShort(c.key)} ${yn}: ${k.papers} papers in the folder`+(c.ready?` · ${imp} imported · ${wait} waiting`:'')+(scan?` · ${k.new||0} new`:'');
+    return `<button type="button" class="ivcell" data-ivg="${esc(invGid(g))}" aria-expanded="false" title="${esc(tip)}" aria-label="${esc(tip)}">${lab}<span class="ivct">${split?`<b class="ok">${imp}</b> / <b class="wait">${wait}</b> waiting`:`<b>${k.papers}</b>`}</span>${nw}</button>`};
+  el.innerHTML=`<div class="ivhead" aria-hidden="true"><span>Course</span>${IVYL.map(yl=>`<span>${esc(IVY[yl])}</span>`).join('')}</div>`+
+    keys.map(key=>{const c=invCourse(key);
+      return `<div class="ivr${c.ready?'':' off'}" data-ivc="${esc(key)}"><div class="ivname"><b>${esc(invShort(key))}</b>${c.ready?'':`<small class="ivnote" title="${esc(c.note||'')}">${esc(invNote(c))}</small>`}</div>
+        ${IVYL.map(yl=>cell(c,yl)).join('')}<div class="ivbody" hidden></div></div>`}).join('');
+  if(INV.open)invOpen(INV.open)}
+function invOpen(gid){const g=gid&&invGroups().find(x=>invGid(x)===gid);INV.open=g?gid:null;
+  $$('#ivGrid .ivcell[data-ivg]').forEach(b=>{const on=b.dataset.ivg===INV.open;b.setAttribute('aria-expanded',String(on));b.classList.toggle('on',on)});
+  $$('#ivGrid .ivbody').forEach(b=>{b.hidden=true;b.innerHTML='';delete b.dataset.ivg});
+  const b=g&&$(`#ivGrid .ivr[data-ivc="${CSS.escape(g.course)}"] .ivbody`);if(b){b.dataset.ivg=gid;b.hidden=false;invFill(b)}}
 const IVST={imported:['Imported','ok'],waiting:['Waiting','wait'],out_of_course:['Other course',''],out_of_scope:['Not imported',''],other:['Duplicate / skipped','']};
 function invBody(g){const ready=!!invCourse(g.course).ready,qd=invQueued(),pick=g.papers.filter(p=>invPickable(p,qd)),gid=invGid(g);
   const by=new Map();g.papers.forEach(p=>{const s=p.s||'School not known';if(!by.has(s))by.set(s,[]);by.get(s).push(p)});
@@ -68,15 +83,16 @@ function invBody(g){const ready=!!invCourse(g.course).ready,qd=invQueued(),pick=
       <label${can?` for="${cid}"`:''} class="ivpl">${esc(invLabel(p))}</label>
       <span class="ivchips">${qn?`<span class="ivchip q">In queue · #${qn}</span>`:`<span class="ivchip ${st[1]}">${esc(st[0])}</span>`}${p.new?'<span class="ivchip new">New</span>':''}${p.scan?'<span class="ivchip">Scan</span>':''}${p.st==='waiting'&&!p.sol?'<span class="ivchip">No solutions</span>':''}${p.n>1?`<span class="ivchip">${p.n} files</span>`:''}</span>
       ${p.why?`<small class="ivwhy">${esc(p.why)}</small>`:''}</li>`};
-  return (ready?(pick.length?`<label class="ivall"><input type="checkbox" data-ivall="${esc(gid)}"> Select all ${pick.length} waiting</label>`:`<p class="ivmsg">Nothing here can be queued: ${g.counts.imported?'imported papers are done and ':''}the rest are not import papers.</p>`)
-      :`<p class="ivmsg">${esc(invCourse(g.course).note||'Needs course setup (topics, dot points, difficulty references)')}. Papers are listed so you can see what is there; they can't be queued yet.</p>`)+
+  return `<p class="ivbh"><b>${esc(invShort(g.course))}</b> ${esc(IVY[g.yl]||g.yl)} · ${g.papers.length} paper${g.papers.length===1?'':'s'}</p>`+
+    (ready?(pick.length?`<label class="ivall"><input type="checkbox" data-ivall="${esc(gid)}"> Select all ${pick.length} waiting</label>`:`<p class="ivmsg">Nothing here can be queued: ${g.counts.imported?'imported papers are done and ':''}the rest are not import papers.</p>`)
+      :`<p class="ivmsg">Listed so you can see what is there; these can't be queued yet.</p>`)+
     [...by].map(([s,ps])=>{const sp=ps.filter(p=>ready&&invPickable(p,qd));
       return `<div class="ivs"><div class="ivsh">${sp.length?`<label><input type="checkbox" data-ivsch="${esc(gid)}" data-school="${esc(s)}"> ${esc(s)}</label>`:`<span>${esc(s)}</span>`}<span class="pcount">${ps.length}</span></div><ul class="ivpl-list">${ps.map(row).join('')}</ul></div>`}).join('')}
-function invFill(det){const b=det&&det.querySelector('.ivbody');if(!b)return;const g=invGroups().find(x=>invGid(x)===det.dataset.ivg);if(!g)return;b.innerHTML=invBody(g);invTicks(det)}
-// redraw open groups after the queue changes (In queue chips, which boxes are tickable)
-function invGridMarks(){$$('#ivGrid details.ivg[open]').forEach(invFill);for(const id of [...INV.sel]){if(invQueued().has(id))INV.sel.delete(id)}invBar()}
+function invFill(b){const g=b&&invGroups().find(x=>invGid(x)===b.dataset.ivg);if(!g)return;b.innerHTML=invBody(g);invTicks(b)}
+// redraw the open group after the queue changes (In queue chips, which boxes are tickable)
+function invGridMarks(){$$('#ivGrid .ivbody:not([hidden])').forEach(invFill);for(const id of [...INV.sel]){if(invQueued().has(id))INV.sel.delete(id)}invBar()}
 // group / school boxes: ticked when every tickable paper under them is, half when some are
-function invTicks(scope){(scope?[scope]:$$('#ivGrid details.ivg[open]')).forEach(det=>{
+function invTicks(scope){(scope?[scope]:$$('#ivGrid .ivbody:not([hidden])')).forEach(det=>{
   const set=(box,ids)=>{if(!box)return;const n=ids.filter(i=>INV.sel.has(i)).length;box.checked=!!ids.length&&n===ids.length;box.indeterminate=n>0&&n<ids.length};
   const ids=sel=>[...det.querySelectorAll(sel)].map(x=>+x.dataset.ivp);
   set(det.querySelector('[data-ivall]'),ids('[data-ivp]'));
@@ -91,14 +107,14 @@ async function invAdd(ids){if(!isEditor()||!db)return 0;const qd=invQueued(),q=i
 async function invSet(x,patch){if(!isEditor()||!db)return false;const {id,...rest}=x;try{await db.doc('importq/'+id).set({...rest,...patch});return true}catch(e){toast('Could not save. Try again in a moment.');return false}}
 async function invReorder(ids){if(!isEditor())return;await writeOrder(INV.q,ids,invSet,()=>{invQueue();invGridMarks()})}
 async function invRemove(id){if(!isEditor()||!db)return false;try{await db.doc('importq/'+id).delete();INV.q=INV.q.filter(x=>x.id!==id);invQueue();invGridMarks();toast('Removed from the import queue');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
-document.addEventListener('toggle',e=>{const d=e.target;if(d&&d.matches&&d.matches('#ivGrid details.ivg')&&d.open)invFill(d)},true);   // toggle does not bubble: capture
 document.addEventListener('change',e=>{const t=e.target;if(!t.closest||!t.closest('#invBox'))return;if(!isEditor()){t.checked=false;return}
-  const det=t.closest('details.ivg');
+  const det=t.closest('.ivbody');
   if(t.dataset.ivp){const id=+t.dataset.ivp;t.checked?INV.sel.add(id):INV.sel.delete(id)}
   else if(t.dataset.ivall||t.dataset.ivsch){const sc=t.dataset.ivall?det:t.closest('.ivs');sc.querySelectorAll('[data-ivp]').forEach(b=>{b.checked=t.checked;const id=+b.dataset.ivp;t.checked?INV.sel.add(id):INV.sel.delete(id)})}
   else return;
   invTicks(det);invBar()});
 document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox'))return;
+  const cell=t.closest('#ivGrid .ivcell[data-ivg]');if(cell){invOpen(INV.open===cell.dataset.ivg?null:cell.dataset.ivg);return}
   if(t.closest('#ivClear')){INV.sel.clear();$$('#ivGrid [data-ivp]').forEach(b=>b.checked=false);invTicks();invBar();return}
   if(t.closest('#ivAdd')){if(!isEditor())return;const ids=[...INV.sel];const n=await invAdd(ids);INV.sel.clear();invQueue();invGridMarks();
     if(n)toast(`${n} paper${n===1?'':'s'} added to the import queue`);const h=$('#ivQH');if(h&&n)h.scrollIntoView({block:'nearest'});return}
@@ -108,7 +124,7 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
 sortableList('#ivQList .ivql>li','ivq',()=>invQ().map(x=>x.id),invReorder,invQueue);   // drag (desktop); ↑ ↓ for keyboard and phone (31_notes.js)
 // sub: the sub line; course, years: names for the Rescan drive results. 33_drive_scan.js adds API.scan (= PQ.scan, no new
 // page-wide name); code in here reaches it through API, since PQ itself is not assigned until this block returns.
-const API={render:renderInv,add:invAdd,remove:invRemove,state:INV,sub:invSub,course:invCourse,years:IVY};
-if(view==='processes')renderInv();   // Processes may already be open when this block loads
+const API={render:renderInv,add:invAdd,remove:invRemove,open:invOpen,state:INV,sub:invSub,course:invCourse,years:IVY};
+if(view==='processes'&&$('#processesView').dataset.tab==='papers')renderInv();   // Processes › Papers may already be open when this block loads
 return API;
 })();

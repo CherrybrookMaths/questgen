@@ -4,7 +4,7 @@ After publishing, record what went out:                  python3 tools/batch_che
 Each check exists because the mistake really happened; IMPORT_PLAYBOOK.md says when.
 Exit code 1 if any BLOCKER, so it can gate a publish."""
 import json, glob, os, re, sqlite3, hashlib, sys, time
-P = '/home/claude/pilot/'
+P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
 DB = '/mnt/user-data/outputs/questions.db'
 MAN = P + 'work/published_manifest.json'
 db = sqlite3.connect(DB); db.row_factory = sqlite3.Row

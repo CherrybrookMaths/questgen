@@ -482,7 +482,7 @@ He asked: "Can u show this list of tasks on the artifact somewhere, need a pill 
 - **Tab.** The Import tab is now **Processes** (`#processes`), in the header and the phone menu. Old `#import` links still land on it (the address is rewritten to `#processes`).
 - **Header pills.** The single jobs pill (12 Nov ruling, "should be a simple pill") is now two quiet pills: **N running** (accent tint, slow pulsing dot) and **N queued** (outline, muted). A pill with a count of 0 is hidden. Hover or focus shows the list, with "Open Processes →"; on a touch screen the first tap shows the list and the link goes there. Clicking a pill on a desktop goes straight to Processes. The "Wait" warning for a job that changes the open Review step is kept on the running pill.
 - **Data.** Running = db doc `progress/jobs` (`{jobs:[{name,detail,affects,started}]}`) plus any queue item marked `running` that has no job of the same name. Queue = db doc `progress/queue` (`{items:[{id,title,detail,status:'queued'|'running'|'done',order,asked}],updated}`), sorted by `order`. Once the queue doc is loaded, a job whose name starts with "Queued" (the interim "Queued: 5 tasks" entry) is ignored. `started` may be an ISO time or "HH:MM" and shows as "12 min ago".
-- **The page, top to bottom:** Running now (cards: name, detail, started time); Queued (numbered list: title, detail, and the owner's own words in muted italics); Recently done (collapsed); then the import dashboard under its **Import** heading (content unchanged; its sub-headings restyled in the review pass, see "Review pass on QUEUE #0–#4"). Empty states are one short line.
+- **The page, top to bottom:** *(13 Nov: split into Work | Papers, see "Processes in two tabs".)* Running now (cards: name, detail, started time); Queued (numbered list: title, detail, and the owner's own words in muted italics); Recently done (collapsed); then the import dashboard under its **Import** heading (content unchanged; its sub-headings restyled in the review pass, see "Review pass on QUEUE #0–#4"). Empty states are one short line.
 - Code: `renderJobs` / `runningNow` / `queueItems` in 13_shell.js, `renderProcesses` in 12_import.js, styles in 06_import_jobs_tags.css. Tested by the `processes:` checks in tools/page_test.js.
 
 ## Exam setup: availability table labels (14 Nov, QUEUE #1)
@@ -649,6 +649,37 @@ need a way to ... see what we actually haven't ingested yet").
   first line and hooks in `32_papers_q.js`, styles at the end of `css/22_papers_q.css` (all under `.procs`). Tools:
   `tools/classify_paths.py` (RULES), `tools/inventory.py` (root_drive_id, scan_skip, files, rules), `tools/scan_folder.py` (reads
   a scans doc). Tests: the `rescan: …` checks in tools/page_test.js (fake Google Drive connector with a small folder tree).
+
+## Processes in two tabs: Work | Papers (13 Nov)
+Owner, 13 Nov: "The process page feels a bit bloated now". Chosen: "Two tabs: Work | Papers".
+- **Switch.** A small segmented **Work | Papers** beside the Processes title, the same control as Teach | Curate (`.areasw`, its
+  sliding highlight; shown on phones too). Addresses `#processes/work` and `#processes/papers`; bare `#processes` opens the tab
+  used last (`qg_proc_tab`, per browser), Work the first time, and the address then names it. Old `#import` lands on Papers.
+  The header's running / queued pills link to Work.
+- **Work:** Running now, Queued, Recently done (collapsed), Next up. Nothing else; sections 14 px apart (were 20).
+- **Papers, top to bottom:** the top line (N papers in the shared folder · last scan, K new · **Rescan drive**, with its progress
+  and results under it); **Import order** with the pause note as ONE quiet muted line under its label (no banner); the
+  **course grid**; then **Import history ▸** (collapsed): the old import dashboard (tiles, batches, Needs your decision, log),
+  with no heading of its own; its log shows the last 5 entries and "Show all N".
+- **Course grid.** One row per course in the inventory's order (Advanced, Extension 1, Extension 2, Standard, Course not known),
+  columns **Year 12 / Year 11 / Year ?**. A ready course's cell reads "imported / waiting waiting" (e.g. "52 / 139 waiting");
+  any other cell (and a ready one with nothing importable) the papers in the folder; "–" when the folder has none. "N new" chip
+  after a folder scan. The full counts are the cell's tooltip. A course that is not ready shows its note once, short ("needs
+  course setup"; the full note is the tooltip). This replaces the 15 course x year rows and their In folder / Imported / Waiting /
+  New columns.
+- **Expanding.** Clicking a cell opens that group's papers under its course row ("Advanced Year 12 · 8 papers", then the same
+  list, chips and ticks as before; one group open at a time; a second click closes it). Ticks are kept across groups. A
+  not-ready group says "Listed so you can see what is there; these can't be queued yet."
+- **Phone (390 px).** The grid stacks per course: the name on its own line, then three cells each labelled Year 12 / 11 / ?; no
+  header row, no sideways scroll.
+- Supersedes, as to layout: "Processes page" (the page, top to bottom), "Papers and the import order on Processes" (Where, Pause
+  note, Grid, A group) and Rescan drive's "Where" (the button now heads the Papers tab). Everything else in them stands.
+- Code: switch in page.html (`#procSw`), tab routing in `route()` / `parseHash` (09_router.js; `moveAreaSlider` now moves every
+  `.areasw`), `renderProcesses` (tabs) and `renderImport` (log) in 12_import.js, the grid (`invGrid`, `invOpen`) in
+  32_papers_q.js, styles in 06_import_jobs_tags.css, 19_areas.css (phone hide is now `header .areasw`) and 22_papers_q.css.
+  Tests: `processes: Work | Papers switch and hashes`, `processes: Work sections and order`, `papers: top line, import order,
+  quiet pause note`, `papers: compact grid counts equal the inventory`, `papers: … one group open at a time`, `papers: Import
+  history collapsed; …`, `papers: phone 390px` (stacked grid), `papers (viewer): …` (no Curate on any Processes hash).
 
 ## Where else things are recorded
 
