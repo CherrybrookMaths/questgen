@@ -1,6 +1,15 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-let B=null, DOTS=[], DM={}, reviews={}, db=null, me=null;
+/* Shared page state (health pass 13 Nov; CODE_HEALTH rule 1, owner: "keep the code proper and [lean] as we develop").
+   One object holds what many views share: bank: data/bank.json · dots / dm: the dot points (list / by id) · reviews: review
+   decisions from the db · db: the db capability (null without one) · me: the viewer's user id · editor: null until the user
+   capability answers, then true only for the owner or an editor · view: the view on screen · course: the course the
+   Bank, Exams, topics and dot points are about (see COURSES). New shared state is a QG field, never a new page-wide name.
+   The older names B, DOTS, DM, reviews, db, me, EDITOR and view still work: they are window accessors that read and write
+   these fields (not declarations), so nothing that used them had to change. New code writes QG.x. */
+const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'bank',course:'advanced'};
+for(const [k,f] of [['B','bank'],['DOTS','dots'],['DM','dm'],['reviews','reviews'],['db','db'],['me','me'],['EDITOR','editor'],['view','view']])
+  Object.defineProperty(window,k,{get:()=>QG[f],set:v=>{QG[f]=v},configurable:true});
 let sel=null, search='', rlist=[], ridx=0, rfilter='diagrams', rstatus='todo', rdoc='', editing=null, revealed=new Set();
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),1800)}
 function save(k,v){try{localStorage.setItem(k,v)}catch(e){}}

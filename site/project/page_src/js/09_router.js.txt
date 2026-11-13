@@ -1,20 +1,18 @@
-/* ---------- routing ---------- */
-let view='bank';
+/* ---------- routing (the view on screen is QG.view, alias view) ---------- */
 // owner 13 Nov ("An 'Inbox' beside papers"): the Review tab and the Curate switch count the Inbox: papers with work left + open reports
 function todoCount(){if(!B)return 0;let n=0;allWork().forEach(w=>{if(w.n)n++});return n+(typeof repOpen==='function'?repOpen().length:0)}
 /* ---------- Teach | Curate (owner 15 Nov: "Lets do 2 as well" and "curate should be hidden to peope except editors.") ----------
    Two areas. Teach: Bank · Exams · Guide. Curate: Review · Papers · Processes, where Difficulty and Reports are steps inside
    Review (#review/difficulty, #review/reports; the old #levels, #difficulty and #reports links still land there).
-   EDITOR: null while the user capability has not answered, then true only for the artifact's owner or an editor
+   QG.editor (alias EDITOR): null while the user capability has not answered, then true only for the artifact's owner or an editor
    (user.isOwner() / user.canEdit()). Unknown (null) or no user capability counts as not an editor: Curate stays hidden.
    This hides the Curate UI only; what the database lets a viewer write is decided by its rules, not by this page. */
-let EDITOR=null;
 // owner 13 Nov: Review is an Inbox (#review), the papers list (#review/papers, the old Papers tab: "Merge into Review"), one paper at a
 // time (#review/paper/<doc>/<step>), the lists (#review/list/<filter>), Reports and Difficulty. Curate is Review · Processes.
 const AREAS={teach:['bank','exams','guide'],curate:['inbox','review','papers','processes','levels','reports']};
 const REVIEW_VIEWS=['inbox','review','papers','levels','reports'];
 const areaOf=v=>AREAS.curate.includes(v)?'curate':'teach';
-const isEditor=()=>EDITOR===true;
+const isEditor=()=>QG.editor===true;
 const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
 const VHASH={inbox:'#review',review:'#review',levels:'#review/difficulty',reports:'#review/reports',papers:'#review/papers',processes:'#processes',guide:'#guide',exams:'#exams',bank:'#bank'};
 // old links: #import (owner 14 Nov) → Processes › Papers (owner 13 Nov, two tabs: the import dashboard is in Papers › Import history); #levels / #difficulty / #reports (tabs until 15 Nov) → their Review section; #papers (tab until 13 Nov) → Review's papers
@@ -45,7 +43,7 @@ function route(){
   // Processes: the tab in the address, else the one used last (per browser), else Work; the address then names it
   if(v==='processes'&&isEditor()){const T=['work','papers'],t=T.includes(P.ptab)?P.ptab:(T.includes(load('qg_proc_tab'))?load('qg_proc_tab'):'work');
     if(location.hash!=='#processes/'+t)setHash('#processes/'+t);save('qg_proc_tab',t);$('#processesView').dataset.tab=t}
-  view=v;
+  QG.view=v;
   const inRev=REVIEW_VIEWS.includes(view);
   $('#guideView').hidden=view!=='guide';$('#levelsView').hidden=view!=='levels';$('#reportsView').hidden=view!=='reports';$('#examsView').hidden=view!=='exams';$('#processesView').hidden=view!=='processes';$('#papersView').hidden=view!=='papers';$('#inboxView').hidden=view!=='inbox';
   [['vBank','bank'],['vExams','exams'],['vGuide','guide'],['vProcesses','processes']].forEach(([id,v])=>$('#'+id).setAttribute('aria-current',view===v?'page':'false'));
@@ -63,7 +61,7 @@ function route(){
   if(view==='inbox') renderInbox(); else if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes') renderProcesses(); else { $('#stF').value=rstatus; refreshReview(); }
 }
 // the user capability answered: show or hide Curate, and send a viewer on a Curate link to the Bank
-function setEditor(ed){EDITOR=!!ed;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role
+function setEditor(ed){QG.editor=!!ed;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role
   // owner/editor with no link in the address: open the area used last
   if(EDITOR&&!location.hash&&load('qg_area')==='curate'&&!window._navved){goArea('curate');return}
   route()}

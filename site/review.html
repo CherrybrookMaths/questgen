@@ -1980,7 +1980,16 @@ window.MathJax={
 <script>
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-let B=null, DOTS=[], DM={}, reviews={}, db=null, me=null;
+/* Shared page state (health pass 13 Nov; CODE_HEALTH rule 1, owner: "keep the code proper and [lean] as we develop").
+   One object holds what many views share: bank: data/bank.json · dots / dm: the dot points (list / by id) · reviews: review
+   decisions from the db · db: the db capability (null without one) · me: the viewer's user id · editor: null until the user
+   capability answers, then true only for the owner or an editor · view: the view on screen · course: the course the
+   Bank, Exams, topics and dot points are about (see COURSES). New shared state is a QG field, never a new page-wide name.
+   The older names B, DOTS, DM, reviews, db, me, EDITOR and view still work: they are window accessors that read and write
+   these fields (not declarations), so nothing that used them had to change. New code writes QG.x. */
+const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'bank',course:'advanced'};
+for(const [k,f] of [['B','bank'],['DOTS','dots'],['DM','dm'],['reviews','reviews'],['db','db'],['me','me'],['EDITOR','editor'],['view','view']])
+  Object.defineProperty(window,k,{get:()=>QG[f],set:v=>{QG[f]=v},configurable:true});
 let sel=null, search='', rlist=[], ridx=0, rfilter='diagrams', rstatus='todo', rdoc='', editing=null, revealed=new Set();
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),1800)}
 function save(k,v){try{localStorage.setItem(k,v)}catch(e){}}
@@ -2895,23 +2904,21 @@ document.addEventListener('keydown',e=>{if(view!=='review'||['INPUT','TEXTAREA',
   else if(e.key==='a')decide('approved'); else if(e.key==='f'){e.preventDefault();openQFlag()}
   else if(e.key==='d'){const q=rlist[ridx];if(q&&qFigs(q).length)figAll(q)}});
 
-/* ---------- routing ---------- */
-let view='bank';
+/* ---------- routing (the view on screen is QG.view, alias view) ---------- */
 // owner 13 Nov ("An 'Inbox' beside papers"): the Review tab and the Curate switch count the Inbox: papers with work left + open reports
 function todoCount(){if(!B)return 0;let n=0;allWork().forEach(w=>{if(w.n)n++});return n+(typeof repOpen==='function'?repOpen().length:0)}
 /* ---------- Teach | Curate (owner 15 Nov: "Lets do 2 as well" and "curate should be hidden to peope except editors.") ----------
    Two areas. Teach: Bank · Exams · Guide. Curate: Review · Papers · Processes, where Difficulty and Reports are steps inside
    Review (#review/difficulty, #review/reports; the old #levels, #difficulty and #reports links still land there).
-   EDITOR: null while the user capability has not answered, then true only for the artifact's owner or an editor
+   QG.editor (alias EDITOR): null while the user capability has not answered, then true only for the artifact's owner or an editor
    (user.isOwner() / user.canEdit()). Unknown (null) or no user capability counts as not an editor: Curate stays hidden.
    This hides the Curate UI only; what the database lets a viewer write is decided by its rules, not by this page. */
-let EDITOR=null;
 // owner 13 Nov: Review is an Inbox (#review), the papers list (#review/papers, the old Papers tab: "Merge into Review"), one paper at a
 // time (#review/paper/<doc>/<step>), the lists (#review/list/<filter>), Reports and Difficulty. Curate is Review · Processes.
 const AREAS={teach:['bank','exams','guide'],curate:['inbox','review','papers','processes','levels','reports']};
 const REVIEW_VIEWS=['inbox','review','papers','levels','reports'];
 const areaOf=v=>AREAS.curate.includes(v)?'curate':'teach';
-const isEditor=()=>EDITOR===true;
+const isEditor=()=>QG.editor===true;
 const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
 const VHASH={inbox:'#review',review:'#review',levels:'#review/difficulty',reports:'#review/reports',papers:'#review/papers',processes:'#processes',guide:'#guide',exams:'#exams',bank:'#bank'};
 // old links: #import (owner 14 Nov) → Processes › Papers (owner 13 Nov, two tabs: the import dashboard is in Papers › Import history); #levels / #difficulty / #reports (tabs until 15 Nov) → their Review section; #papers (tab until 13 Nov) → Review's papers
@@ -2942,7 +2949,7 @@ function route(){
   // Processes: the tab in the address, else the one used last (per browser), else Work; the address then names it
   if(v==='processes'&&isEditor()){const T=['work','papers'],t=T.includes(P.ptab)?P.ptab:(T.includes(load('qg_proc_tab'))?load('qg_proc_tab'):'work');
     if(location.hash!=='#processes/'+t)setHash('#processes/'+t);save('qg_proc_tab',t);$('#processesView').dataset.tab=t}
-  view=v;
+  QG.view=v;
   const inRev=REVIEW_VIEWS.includes(view);
   $('#guideView').hidden=view!=='guide';$('#levelsView').hidden=view!=='levels';$('#reportsView').hidden=view!=='reports';$('#examsView').hidden=view!=='exams';$('#processesView').hidden=view!=='processes';$('#papersView').hidden=view!=='papers';$('#inboxView').hidden=view!=='inbox';
   [['vBank','bank'],['vExams','exams'],['vGuide','guide'],['vProcesses','processes']].forEach(([id,v])=>$('#'+id).setAttribute('aria-current',view===v?'page':'false'));
@@ -2960,7 +2967,7 @@ function route(){
   if(view==='inbox') renderInbox(); else if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes') renderProcesses(); else { $('#stF').value=rstatus; refreshReview(); }
 }
 // the user capability answered: show or hide Curate, and send a viewer on a Curate link to the Bank
-function setEditor(ed){EDITOR=!!ed;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role
+function setEditor(ed){QG.editor=!!ed;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role
   // owner/editor with no link in the address: open the area used last
   if(EDITOR&&!location.hash&&load('qg_area')==='curate'&&!window._navved){goArea('curate');return}
   route()}
@@ -3174,7 +3181,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
     // a load during a republish (or a network blip) can fail once: retry 3 times before giving up
     const get=async(u)=>{let err;for(let i=0;i<4;i++){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'r='+i+'_'+Date.now());if(!r.ok)throw new Error(r.status);return await r.json()}catch(e){err=e;await new Promise(z=>setTimeout(z,800*(i+1)))}}throw err};
     const [b,d]=await Promise.all([get('data/bank.json'),get('data/dotpoints.json')]);
-    B=b;DOTS=d;DOTS.forEach(x=>DM[x.id]=x);
+    QG.bank=b;QG.dots=d;d.forEach(x=>QG.dm[x.id]=x);
   }catch(e){$('#list').innerHTML='<div class="empty">The question bank did not load after 4 tries. <button class="act" onclick="location.reload()">Try again</button></div>';return}
   $('#countAll').textContent=` · ${B.questions.filter(q=>!q.dup_of).length} questions`;
   const docs=Object.values(B.docs).filter(x=>B.questions.some(q=>q.doc===x.id)).sort((a,b)=>a.label.localeCompare(b.label));
@@ -3184,12 +3191,12 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
   const c=window.claude; if(!c?.use) return;
   try{
     const [dbns,user]=await Promise.all([c.use('db'),c.use('user')]);
-    if(user){try{me=await user.id()}catch(e){}}
+    if(user){try{QG.me=await user.id()}catch(e){}}
     if(dbns){try{dbns.doc('progress/jobs').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);JOBS=(v&&v.jobs)||[];renderJobs();if(view==='processes')renderProcesses()},()=>{})}catch(e){}}
     // owner 14 Nov: "need a pill for current jobs and queued jobs". The queue: {items:[{id,title,detail,status,order,asked}],updated}
     if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes')renderProcesses()},()=>{})}catch(e){}}
-    if(dbns){try{db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);if(v){PROG=v;if(view==='processes')renderImport()}},()=>{})}catch(e){}}
-    if(dbns){db=dbns; db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});reviews=nx;TOPICS=null;_clean=null;
+    if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);if(v){PROG=v;if(view==='processes')renderImport()}},()=>{})}catch(e){}}
+    if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=nx;TOPICS=null;_clean=null;
       updateCounts(); if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh()},()=>{})}
   }catch(e){}
 })();
