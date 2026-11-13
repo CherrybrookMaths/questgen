@@ -10,8 +10,11 @@ reads a listing; it never touches the folder or the PDFs.
   python3 tools/scan_folder.py LISTING [LISTING ...]            dry run: report only (work/scan/scan_<date>_dry.json)
   python3 tools/scan_folder.py LISTING [LISTING ...] --apply    also insert the new files into documents (backup first)
 
-LISTING is a file saved from the device `list_dir` tool (JSON: entries with name/type/size/mtimeMs/depth, or with relative
-paths), or a tab-separated text file (relative path, size, mtimeMs per line). Append @Sub/Folder when the listing was taken
+LISTING is a Google Drive listing (preferred, no PC needed: JSON {"source": "google_drive", "entries": [{path, type, size,
+mtimeMs, driveId, ...}]} built with the Drive connector, see IMPORT_PLAYBOOK.md "Scan via Google Drive"), a file saved from
+the device `list_dir` tool (JSON: entries with name/type/size/mtimeMs/depth, or with relative paths), or a tab-separated
+text file (relative path, size, mtimeMs per line). A Drive listing's file ids go into documents.drive_file_id: on new rows,
+and (--apply) on recorded rows that match by path and have none yet; an existing id is never overwritten. Append @Sub/Folder when the listing was taken
 of a subfolder rather than the root: `work/scan/listing_Kings.json@Kings`. How the main session produces the listing:
 IMPORT_PLAYBOOK.md "New papers in the shared folder".
 
@@ -51,8 +54,11 @@ SCHEMA = """CREATE TABLE IF NOT EXISTS folder_scans(id INTEGER PRIMARY KEY, at T
 # ---------------------------------------------------------------- listing adapter
 
 def _key(p):
-    """Comparison key for a relative path: '/' separators, NFC, case-folded, single spaces (Windows paths are case-insensitive)."""
+    """Comparison key for a relative path: '/' separators, NFC, case-folded, single spaces (Windows paths are case-insensitive).
+    Characters Windows cannot hold (: * ? " < > |) count as a space: Drive for desktop shows the Drive name
+    "...w: Solutions.pdf" on the PC as "...w  Solutions.pdf" (13 Nov, first Drive scan: 12 such rows)."""
     p = unicodedata.normalize('NFC', p.replace('\\', '/')).strip('/')
+    p = re.sub(r'[:*?"<>|]', ' ', p)
     return re.sub(r'\s+', ' ', p).casefold()
 
 
@@ -105,7 +111,7 @@ def load_listing(spec, root=ROOT_WIN):
                          'mtimeMs': float(c[2]) if len(c) > 2 and re.match(r'^[\d.]+$', c[2].strip()) else None})
     else:
         ents, m = _entries(obj)
-        meta['format'] = 'json'
+        meta['format'] = 'google_drive' if isinstance(obj, dict) and obj.get('source') == 'google_drive' else 'json'
         meta['truncated'] = bool(m.get('truncated'))
         rows = _flatten(ents)
     # absolute paths: strip the listed folder (the tool's own path field, --root, or the known shared-folder root)
@@ -133,8 +139,9 @@ def load_listing(spec, root=ROOT_WIN):
         p = rel(r.get('path') or '').strip('/')
         if not p: continue
         if prefix and not _key(p).startswith(_key(prefix) + '/'): p = prefix + '/' + p
-        files.append({'path': p, 'size': _int(r.get('size', r.get('sizeBytes'))), 'mtime_ms': r.get('mtimeMs', r.get('mtime')), 'dir': _isdir(r)})
-    if len(rows) >= CAP or meta.get('truncated'):
+        files.append({'path': p, 'size': _int(r.get('size', r.get('sizeBytes'))), 'mtime_ms': r.get('mtimeMs', r.get('mtime')), 'dir': _isdir(r),
+                      'drive_id': r.get('driveId')})
+    if meta['format'] != 'google_drive' and (len(rows) >= CAP or meta.get('truncated')):   # the Drive walk has no cap
         meta['warnings'].append(f'{fn}: {len(rows)} entries, at the tool\'s {CAP}-entry cap: some files may be missing. List subfolders '
                                 'separately (file@Subfolder); the missing-file check is skipped for this listing.')
         meta['capped'] = True
@@ -142,7 +149,9 @@ def load_listing(spec, root=ROOT_WIN):
     parents = {_key(f['path']).rsplit('/', 1)[0] for f in files if '/' in f['path']}
     empty = sorted(f['path'] for f in files if f['dir'] and _key(f['path']) not in parents)
     if empty:
-        meta['warnings'].append(f'{fn}: {len(empty)} folder(s) with nothing listed under them (empty, or below the tool\'s depth limit: '
+        meta['warnings'].append(f'{fn}: {len(empty)} empty folder(s): ' + ', '.join(empty[:5]) + (' ...' if len(empty) > 5 else '')
+                                if meta['format'] == 'google_drive' else
+                                f'{fn}: {len(empty)} folder(s) with nothing listed under them (empty, or below the tool\'s depth limit: '
                                 'list them separately): ' + ', '.join(empty[:5]) + (' ...' if len(empty) > 5 else ''))
     meta['entries'] = len(rows)
     meta['dirs'] = len(dirs)
@@ -168,7 +177,7 @@ def stem(p):
 
 
 def compare(files, metas, docs):
-    """docs: [{id, source_path, size_bytes, status, course, year_level, provenance_method}] -> report dict (no writes)."""
+    """docs: [{id, source_path, size_bytes, status, course, year_level, provenance_method, drive_file_id}] -> report dict (no writes)."""
     bykey = {_key(d['source_path']): d for d in docs}
     listed = {_key(f['path']) for f in files}
     pdfs = [f for f in files if f['path'].lower().endswith('.pdf')]
@@ -183,11 +192,14 @@ def compare(files, metas, docs):
         if d.get('size_bytes'): by_size.setdefault(int(d['size_bytes']), []).append(d)
     by_name = {}
     for d in docs: by_name.setdefault(stem(d['source_path']), []).append(d)
+    # two recorded files can share a key (Knox "2023  Y11 MA AT1.pdf" and "2023 Y11 MA AT1.pdf" differ by one space and are
+    # different files): the exact path wins over the key (13 Nov: a Drive id had gone to the wrong one of such a pair)
+    exact = {unicodedata.normalize('NFC', d['source_path']).casefold(): d for d in docs}
     matched, new, held = [], [], []
     for f in sorted(pdfs, key=lambda f: f['path'].lower()):
         k = _key(f['path'])
         if k in bykey:
-            matched.append(f); continue
+            matched.append({**f, 'doc': exact.get(unicodedata.normalize('NFC', f['path']).casefold(), bykey[k])}); continue
         best = None
         st = stem(f['path'])
         cands = (by_size.get(f['size']) or []) if f['size'] else []
@@ -199,7 +211,7 @@ def compare(files, metas, docs):
             if (same_size and sim >= SIM) or (sim == 1.0 and not d.get('size_bytes')):
                 score = sim + (1 if same_size else 0)
                 if not best or score > best[0]: best = (score, d, sim, same_size)
-        row = {'path': f['path'], 'size': f['size'], 'mtime_ms': f['mtime_ms']}
+        row = {'path': f['path'], 'size': f['size'], 'mtime_ms': f['mtime_ms'], **({'drive_id': f['drive_id']} if f.get('drive_id') else {})}
         if best:
             _, d, sim, same_size = best
             gone = _key(d['source_path']) in miss_keys
@@ -209,13 +221,18 @@ def compare(files, metas, docs):
                                   'the row\'s own file is still there: probably a second copy')})
         else:
             new.append({**row, **classify_path(f['path'])})
-    moved_ids = {h['doc_id'] for h in held if h['kind'] == 'moved?'}
+    # Drive ids for recorded rows that have none yet (filled by --apply); a different recorded id is only reported
+    same = lambda m: not (m.get('size') and m['doc'].get('size_bytes')) or int(m['doc']['size_bytes']) == m['size']   # size must agree when both known
+    ids_fill = [{'doc_id': m['doc']['id'], 'drive_id': m['drive_id']} for m in matched if m.get('drive_id') and not m['doc'].get('drive_file_id') and same(m)]
+    ids_differ = [{'doc_id': m['doc']['id'], 'path': m['path'], 'recorded': m['doc']['drive_file_id'], 'listed': m['drive_id']}
+                  for m in matched if m.get('drive_id') and m['doc'].get('drive_file_id') and m['doc']['drive_file_id'] != m['drive_id']]
     return {
         'totals': {'entries': sum(m.get('entries', 0) for m in metas), 'files': len(files), 'pdfs': len(pdfs), 'not_pdf': len(other),
                    'matched': len(matched), 'new': len(new), 'moved': sum(h['kind'] == 'moved?' for h in held),
                    'copies': sum(h['kind'] == 'copy?' for h in held), 'missing': len(missing),
-                   'new_by_status': _count(new, 'status'), 'new_by_course': _count(new, 'course')},
-        'new': new, 'held': held,
+                   'new_by_status': _count(new, 'status'), 'new_by_course': _count(new, 'course'),
+                   'drive_ids_to_fill': len(ids_fill), 'drive_ids_differ': len(ids_differ)},
+        'new': new, 'held': held, 'drive_ids_to_fill': ids_fill, 'drive_ids_differ': ids_differ,
         'missing': [{'doc_id': d['id'], 'path': d['source_path'], 'status': d['status'], 'maybe_moved_to': next((h['path'] for h in held if h['doc_id'] == d['id']), None),
                      'note': 'owner upload, may never have been in the shared folder' if str(d.get('provenance_method') or '').startswith('owner upload') else ''}
                     for d in sorted(missing, key=lambda d: d['source_path'])],
@@ -231,7 +248,7 @@ def _count(rows, k):
     return dict(sorted(c.items()))
 
 
-COLS = ['source_path', 'size_bytes', 'task_type', 'course', 'classification_method', 'year_level', 'school', 'year', 'natural_key',
+COLS = ['source_path', 'drive_file_id', 'size_bytes', 'task_type', 'course', 'classification_method', 'year_level', 'school', 'year', 'natural_key',
         'provenance_method', 'bundled_solutions', 'syllabus_version', 'status', 'failure_reason', 'ingested_at']
 
 
@@ -245,11 +262,13 @@ def apply(db, rep, at, insert_held=False):
             rows.append(r)
     n = 0
     for r in rows:
-        v = {**r, 'source_path': r['path'], 'size_bytes': r['size'], 'ingested_at': at}
+        v = {**r, 'source_path': r['path'], 'drive_file_id': r.get('drive_id'), 'size_bytes': r['size'], 'ingested_at': at}
         # UNIQUE(source_path) plus the case-insensitive check above: a re-run inserts nothing
         if db.execute('SELECT 1 FROM documents WHERE source_path=? COLLATE NOCASE', (v['source_path'],)).fetchone(): continue
         db.execute(f'INSERT INTO documents ({",".join(COLS)}) VALUES ({",".join("?" * len(COLS))})', [v.get(c) for c in COLS])
         n += 1
+    for x in rep.get('drive_ids_to_fill', []):          # never overwrites a recorded id
+        db.execute('UPDATE documents SET drive_file_id=? WHERE id=? AND drive_file_id IS NULL', (x['drive_id'], x['doc_id']))
     return n
 
 
@@ -266,10 +285,11 @@ def main(argv=None):
         f, m = load_listing(spec, a.root); files += f; metas.append(m)
     seen, uniq = set(), []
     for f in files:                                   # overlapping listings (root + a subfolder) list a file twice
-        if _key(f['path']) not in seen: seen.add(_key(f['path'])); uniq.append(f)
+        k = f.get('drive_id') or _key(f['path'])      # a Drive id is unique: two files whose names differ by a space stay two
+        if k not in seen: seen.add(k); uniq.append(f)
     db = sqlite3.connect(DB)
     db.row_factory = sqlite3.Row
-    docs = [dict(r) for r in db.execute('SELECT id, source_path, size_bytes, status, course, year_level, provenance_method FROM documents')]
+    docs = [dict(r) for r in db.execute('SELECT id, source_path, size_bytes, status, course, year_level, provenance_method, drive_file_id FROM documents')]
     rep = compare(uniq, metas, docs)
     now = datetime.datetime.now().astimezone()
     at = now.isoformat(timespec='seconds')
@@ -301,6 +321,8 @@ def main(argv=None):
     print(f'scan {"APPLIED" if a.apply else "dry run"}: {t["pdfs"]} PDFs listed ({t["not_pdf"]} other files) · {t["matched"]} already recorded · '
           f'{t["new"]} new · {t["moved"]} moved? · {t["copies"]} copy? · {t["missing"]} recorded but not listed')
     if t['new']: print(f'  new by status {t["new_by_status"]}, by course {t["new_by_course"]}')
+    if t['drive_ids_to_fill'] or t['drive_ids_differ']:
+        print(f'  Drive ids: {t["drive_ids_to_fill"]} recorded row(s) get one{" with --apply" if not a.apply else ""}; {t["drive_ids_differ"]} differ from the recorded id (reported, not changed)')
     if rep['cover_check']: print(f'  {len(rep["cover_check"])} new file(s) of unknown course need a cover-page check (cover_check in the report)')
     for h in rep['held'][:10]: print(f'  {h["kind"]:7s} {h["path"]}  ~ doc {h["doc_id"]} {h["doc_path"]} (similarity {h["similarity"]})')
     for w in rep['warnings']: print('  WARN', w)

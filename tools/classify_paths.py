@@ -69,6 +69,14 @@ def school_from(cover, name, path):
 
 BUNDLED = r'\bw\.?\s*solu|with solu|w\s+solns|and sol|& solu|and solutions|w/ ?solu'
 
+# 13 Nov (first Drive scan): ~900 PDFs uploaded that day follow one naming pattern, "<School> Yr12 MA 2026 AT4 w Solutions.pdf"
+# ("MA" = Mathematics Advanced, the NESA course code), mostly in school folders the stage-0 lists do not name (Trinity Grammar,
+# Pymble, Barker, ...). These fallbacks apply ONLY where the stage-0 rules above find nothing, so every path they already
+# decide keeps its result (checked against all 1,631 recorded paths: tools/classify_paths.py --selftest).
+MA_NAME = re.compile(r'(?:^|[\s_-])MA(?=[\s_-]|$)')              # the course code as its own word, upper case only
+NEW_NAME = re.compile(r'^(?P<school>[A-Z][A-Za-z\'. -]*?) (?:Yr|Year) ?1[12] (?:MA|Adv)\b')
+OLD_YEAR = re.compile(r'(?<!\d)(19[89]\d)(?!\d)')                # 1980s-1990s papers: the stage-0 year rule reads 2000-2029 only
+
 
 def classify_path(p):
     """A documents row (without id) for a PDF found by name only. p = path relative to the shared folder root, '/' separators.
@@ -79,6 +87,14 @@ def classify_path(p):
     task = task_type_from('', name)
     y, ym = year_from('', name, p)
     s, sm = school_from('', name, p)
+    # fallbacks for the 13 Nov naming pattern (see MA_NAME): only where the stage-0 rules found nothing
+    if course == 'unknown' and MA_NAME.search(name): course = 'advanced'
+    if not s:
+        m = NEW_NAME.match(name)
+        if m: s, sm = m.group('school').strip(), 'filename'
+    if not y:
+        m = OLD_YEAR.search(name)
+        if m: y, ym = int(m.group(1)), 'filename'
     row = dict(source_path=p, course=course, year_level=yl, task_type=task, school=s, year=y,
                classification_method='inferred', provenance_method=ym or sm,
                bundled_solutions=int(bool(re.search(BUNDLED, name, re.I))), syllabus_version=None,
@@ -162,15 +178,39 @@ def as_manifest_row(d):
 
 def selftest(db_path='/mnt/user-data/outputs/questions.db'):
     db = sqlite3.connect('file:' + db_path + '?mode=ro', uri=True)
-    rows = db.execute("SELECT source_path, course, year_level FROM documents WHERE failure_reason LIKE 'path/filename names a non-target%'").fetchall()
+    # rows inserted by tools/scan_folder.py were classified by THESE rules (fallbacks included); test against stage-0 rows only
+    stage0 = (" AND (ingested_at IS NULL OR ingested_at NOT IN (SELECT at FROM folder_scans))"
+              if db.execute("SELECT 1 FROM sqlite_master WHERE name='folder_scans'").fetchone() else '')
+    rows = db.execute("SELECT source_path, course, year_level FROM documents WHERE failure_reason LIKE 'path/filename names a non-target%'" + stage0).fetchall()
     bad = [(p, c, y, course_from(p) or 'unknown', year_level_from(p)) for p, c, y in rows if (course_from(p) or 'unknown', year_level_from(p)) != (c, y)]
     print(f'stage-0 path rules: {len(rows) - len(bad)} of {len(rows)} name-excluded rows reproduced')
     for b in bad[:10]: print('  differs:', b)
     # the name-based fallbacks: rows whose year/school came from the file name or folder (provenance filename|folder)
-    rows = db.execute("SELECT source_path, year, provenance_method FROM documents WHERE provenance_method IN ('filename','folder') AND classification_method='inferred'").fetchall()
+    rows = db.execute("SELECT source_path, year, provenance_method FROM documents WHERE provenance_method IN ('filename','folder') AND classification_method='inferred'" + stage0).fetchall()
     yb = [r for r in rows if r[1] is not None and year_from('', r[0].split('/')[-1], r[0])[0] != r[1]]
     print(f'stage-0 year rule (no cover): {len(rows) - len(yb)} of {len(rows)} reproduced' + (f'; {len(yb)} differ (year came from the cover text)' if yb else ''))
-    return not bad
+    # the 13 Nov fallbacks must not change any path the stage-0 rules already decide: for every recorded path, classify_path
+    # with and without them must agree on every field the stage-0 rules set
+    allp = [r[0] for r in db.execute('SELECT source_path FROM documents WHERE 1' + stage0)]
+    changed = {p: d for p in allp if (d := _changed_by_fallbacks(p))}
+    status = [p for p, d in changed.items() if set(d) & {'status', 'failure_reason'}]
+    print(f'13 Nov fallbacks: {len(allp) - len(changed)} of {len(allp)} recorded paths classified exactly as before'
+          + (f'; {len(changed)} only get a field the old rules left empty ({", ".join(sorted({k for d in changed.values() for k in d}))})' if changed else '')
+          + f'; status changed for {len(status)}')
+    for p in status[:10]: print('  status differs:', p)
+    return not bad and not status
+
+
+def _changed_by_fallbacks(p):
+    """The fields the fallbacks change in classify_path(p), {} when none (they may only fill what the stage-0 rules left empty)."""
+    global MA_NAME, NEW_NAME, OLD_YEAR
+    keep = MA_NAME, NEW_NAME, OLD_YEAR
+    never = re.compile(r'(?!x)x')
+    MA_NAME = NEW_NAME = OLD_YEAR = never
+    try: old = classify_path(p)
+    finally: MA_NAME, NEW_NAME, OLD_YEAR = keep
+    new = classify_path(p)
+    return {k for k in new if new[k] != old[k]}
 
 
 if __name__ == '__main__':

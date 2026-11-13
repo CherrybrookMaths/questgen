@@ -587,6 +587,10 @@ anyways?" and "Can the import queue be dynamic, me choosing which set of papers 
 framework for the courses standard extension and extension two [later] right?"
 - **Where.** A **Papers** section on Processes, under the Queued / Recently done list and above Next up. Curate, so editors only
   (`isEditor()`); a viewer gets no section, no `data/inventory.json` fetch and no write.
+- **No rescan button** (owner 13 Nov: "Where is the button to rescan the drive?"): the page cannot read the school's shared
+  drive, so a rescan is something the owner asks Claude for ("rescan the drive"); Claude lists the folder with the Google Drive
+  connector and updates the counts here (IMPORT_PLAYBOOK "Scan via Google Drive (no PC)"). The "last folder scan" line shows
+  when it last ran.
 - **Pause note.** Always shown at the top: "Import is paused. This only sets the order for when it resumes." (owner 14 Nov:
   "no more importing for a while until we iron these out").
 - **Grid.** One row per course x year level from `data/inventory.json` (tools/inventory.py): columns **In folder**, **Imported**,

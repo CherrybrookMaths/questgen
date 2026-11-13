@@ -200,7 +200,31 @@ use. NEVER move, rename or reorganise anything there; the owner agreed we keep t
 **Import is still paused** (owner 14 Nov: "no more importing for a while until we iron these out"). Steps 1-5 are safe now;
 step 6 waits until the owner resumes import.
 
-The loop:
+**Scan via Google Drive (no PC): the preferred route** (owner 13 Nov: "Where is the button to rescan the drive?"). There is
+no rescan button: the page cannot read the shared drive. When the owner asks for a rescan, Claude lists the folder with the
+Google Drive connector (read-only: `search_files` only, never move / rename / copy / trash / share), then runs steps 3-4.
+1. `python3 tools/drive_listing.py next` prints a query for the folders not listed yet (the first one is the root, folder id
+   `1yItEV6bFpGyrJDpDrAle0RgPKqsfjTOZ`). Run it with `search_files`, `excludeContentSnippets: true`, `pageSize: 100` and
+   **`orderBy: "modifiedTime desc"`** (without it, a query over many parents is ranked by relevance and its pages repeat and
+   drop files: the first walk missed 56 Kings files that way until every folder was re-listed). Save every page (the tool saves a big result to a file; write
+   a small inline one to a file yourself), `python3 tools/drive_listing.py add <page.json>...`, follow `nextPageToken` with the
+   same query, then `done`. Repeat `next` until it says every folder is listed (about 40 folders per query; the 13 Nov walk
+   took about 70 queries for 385 folders and 3,818 files).
+2. `python3 tools/drive_listing.py build` writes `work/scan/drive_listing_<date>.json` (relative paths with `/` like
+   documents.source_path; size, modifiedTime, createdTime, Drive id). A `/` inside a Drive name becomes a space, as Drive for
+   desktop shows it on the PC ("w/ Solutions" is "w  Solutions" there); `scan_folder.py` also treats `: * ? " < > |` as spaces.
+3. `python3 tools/scan_folder.py work/scan/drive_listing_<date>.json` (dry run), read the report, then `--apply`, then
+   `python3 tools/inventory.py` (steps 3-4 below). With a Drive listing, `--apply` also stores each new file's Drive id in
+   documents.drive_file_id and fills it on recorded rows that match by path and size and have none yet (never overwrites one),
+   so any paper can be fetched with the Drive connector. The Drive walk has no 2,000-entry cap, so the missing check covers
+   the whole folder.
+First Drive scan (13 Nov): 3,352 PDFs; 1,684 new rows (843 uploaded that day, mostly "<School> Yr12 MA 2026 AT4 w
+Solutions.pdf"; the rest older files the stage-0 PC listing never reached, mostly deep Knox, Oakhill and Kings folders);
+36 copies held; 2 Hornsby Girls files moved into "Yr 11 Adv"; every recorded row except those 2 now has its Drive id.
+`classify_paths.py` learnt the "MA" course code, the school at the start of that file name, and 1980s-90s years, as
+fallbacks only where the stage-0 rules find nothing (`--selftest`: 0 of the 1,632 stage-0 paths change status; 26 only gain a field the old rules left empty).
+
+The PC route (when the Drive connector is not available):
 1. **Connect the PC.** The owner opens Claude on his PC with the shared drive mounted, so the session has the remote-device tools.
 2. **List the folder.** `device_list_dir` with `path` = the folder above and `recursive: true`. Save the result exactly as
    returned with Write to `work/scan/listing_<date>.json` (entries with name / type / size / mtimeMs / depth; names only is fine,
