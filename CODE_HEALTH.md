@@ -28,6 +28,8 @@ This applies to every round, big or quick. Every builder prompt includes it, and
 - Dead: FOCUS_STEPS/focusPack, unused exam-auto code, site/data/bank_v1_before_split.json still published.
 - Whole 5 MB bank loads at start (split by topic/course when import resumes).
 - "Advanced" assumed in topics, dot points, difficulty references.
+- 07_bank.js renderBank: a `//` comment swallowed the list's enter animation code (`L.classList.remove('enter')...`), so
+  `#list.enter` never runs. Fix in the health pass.
 
 ## Job times on Processes (owner 13 Nov: "Are you times right? It said the recent task started 6:05")
 Times in progress/queue were typed from memory and drifted (the inventory round showed 6:05; it started 7:06).
@@ -37,3 +39,11 @@ Always stamp started/finished/eta from the clock (`TZ=Australia/Sydney date -Imi
 Unrelated changes run in parallel, each in its own git worktree (e.g. /home/claude/wt_<name>, branch <name>), with ignored
 data folders symlinked in but its OWN work/ folder (page_test writes there). Merge into main when the running round has
 committed, rebuild, run prepublish, publish once. Only the publish itself is sequential.
+Worktree setup: symlink node_modules, site/data/{cmp,img,svg}, site/figures, site/pages, tikz; real work/ with copies of
+pilot/work/*.json. A publish made from a worktree is not recorded in main's manifest until the branch is merged and
+--mark-published runs in main.
+
+## Framework (owner 13 Nov)
+Asked "is react better if we are going to deploy?", then "ok great, lets not switch then". Stay on plain JS in page_src/.
+Revisit the framework choice only when moving to real servers (that move rebuilds the data layer anyway). Until then the
+health rules above keep the code shaped so a later move is cheap: state in one module, styles scoped per view, course as data.
