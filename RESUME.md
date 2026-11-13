@@ -146,3 +146,7 @@ The artifact held 462 of its 511-file limit. Now:
 ## Review: Inbox and one paper at a time (13 Nov; owner: "It is just 7 tabs at the top and its not really clear the order / process")
 - Review opens on an Inbox (`#review`: Papers to review · Reports · Difficulty). A paper is walked top to bottom on a 5-step track, `#review/paper/<doc>/<step>`: Your calls → Flagged → Topics → Diagrams → Spot-check (the internal keys decide, check, tags, diagrams, sample are unchanged, so `progress/jobs` `affects` values still match). Papers merged into Review (`#review/papers`); Curate is Review · Processes. Old `#papers`, `#reports`, `#difficulty`, `#levels`, `#import` still land.
 - Rulings: UI_SPEC.md "Review: Inbox and one paper at a time". The page test's Review pages use a workload from page_test_fixture.py (WORKLOAD), since every live paper is approved.
+
+
+## Code health (owner 13 Nov)
+Every feature round follows CODE_HEALTH.md: builder prompts include it and reviewers check the diff against it.
