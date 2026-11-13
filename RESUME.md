@@ -31,7 +31,7 @@ Owner: Steve Yeung (CMC Education). Last updated 11 Nov 2026 (UI v2, diagram red
 
 ## Decisions so far
 - Area between two curves: examinable (tagged Y12-279).
-- Old 2 Unit papers (pre-2020 King's): excluded for now.
+- Old 2 Unit papers: imported since 13 Nov (owner: "We should take questions too, we'll just have to disretard out of scope things"); parts with no current dot point are dropped at tagging (IMPORT_PLAYBOOK "Old-syllabus papers").
 - MA-C2.2 is a split (Y12 "Using derivatives" vs Y11 "Calculations with the derivative").
 - Review write-back: the review page's database.
 - Model calls run in-session (cost is estimated from agent token totals).
@@ -67,7 +67,7 @@ Review queue **Needs your decision** = questions with an entry in `open_decision
 After loading or editing papers run `house_style.py` (fractions, multiplication dots, paragraph breaks) `para_detect.py` (lost paragraph breaks vs page images) and `coverage_check.py` (every MCQ and part has working; must report 0). house_style also converts $A\hat{B}C$ to $\angle ABC$. Product/quotient-rule solutions use the u/v grid (`uv_grid.py`). Tables: `rowspan` for merged header cells, `\\` for line breaks where the paper wraps, never shade empty cells, answer-table key shown as a badge (never bold). No transcription notes in question text (PARSE_SPEC). Judgement rules are in `SOLUTION_SPEC.md`, `MCQ_SPEC.md`, `DIAGRAM_SPEC.md`; every owner correction is in `DIAGRAM_FEEDBACK_LOG.md`.
 
 ## Open
-Human spot-check of ~20 audited questions to confirm the self-audit (it shares the parser's model, so shared blind spots are possible); real pricing or API key; verify mapping against 2017 PDF; solution-generation scope; old 2U papers; copyright advice before any sharing.
+Human spot-check of ~20 audited questions to confirm the self-audit (it shares the parser's model, so shared blind spots are possible); real pricing or API key; verify mapping against 2017 PDF; solution-generation scope; copyright advice before any sharing.
 
 ## Full Year 12 Advanced import (started 11 Nov, owner: "run the rest of the papers as well")
 - All 169 remaining papers' PDFs are staged (no PC needed): `work/import/papers.json` lists id, separate solutions doc id, label, scan, has_sol; PDFs at `src/<id>.pdf`.
@@ -153,3 +153,8 @@ The artifact held 462 of its 511-file limit. Now:
 
 ## Code health (owner 13 Nov)
 Every feature round follows CODE_HEALTH.md: builder prompts include it and reviewers check the diff against it.
+
+## One import list (13 Nov; owner: "but we already have 15 waiting batches?")
+The planned batches b6-b20 are folded into the page's import order (db `importq`; seed work/importq_seed.json, 132 papers);
+progress.json keeps finished batches only. Pre-2019 Year 12 Advanced papers are now Waiting ("old syllabus"). IMPORT_PLAYBOOK
+"Old-syllabus papers, one import list", UI_SPEC "Papers: one import list, old syllabus, New badge".

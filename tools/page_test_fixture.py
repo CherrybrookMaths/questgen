@@ -80,9 +80,14 @@ def sample_papers():
              P_(9003, 'NESA', 2025, 'HSC', 'imported', sol=1),
              P_(9101, 'Abbotsleigh', 2025, 'AT4', 'waiting', sol=1, pick=1), P_(9102, 'Abbotsleigh', 2023, 'AT2', 'waiting', pick=1, scan=1),
              P_(9103, 'Knox Grammar School', 2024, 'AT1', 'waiting', sol=1, pick=1), P_(9104, 'Knox Grammar School', 2026, 'AT4', 'waiting', sol=1, pick=1, new=1, n=2),
-             P_(9201, 'TEC', 2022, 'AT4', 'out_of_scope', sol=1, why='solutions only: question paper not found')]
+             P_(9201, 'TEC', 2022, 'AT4', 'out_of_scope', sol=1, why='solutions only: question paper not found'),
+             # owner 13 Nov: "We should take questions too, we'll just have to disretard out of scope things": an old-syllabus
+             # (pre-2019, old 2 Unit) Year 12 paper is waiting and can be ticked, as tools/inventory.py marks it
+             P_(9105, 'Knox Grammar School', 2017, 'AT4', 'waiting', sol=1, pick=1, old=1)]
     adv11 = [P_(9301, 'Knox Grammar School', 2024, 'AT2', 'out_of_scope', why='Year 11: outside the import scope (Year 12)'),
-             P_(9302, "The King's School", 2023, 'AT1', 'out_of_scope', why='Year 11: outside the import scope (Year 12)')]
+             P_(9302, "The King's School", 2023, 'AT1', 'out_of_scope', why='Year 11: outside the import scope (Year 12)'),
+             # owner 13 Nov: "Year 11 papers leave alone for now": even a waiting old-syllabus Year 11 paper has no pick
+             P_(9303, 'Knox Grammar School', 2017, 'AT1', 'waiting', old=1)]
     ext1 = [P_(9401, 'Knox Grammar School', 2025, 'AT4', 'out_of_course', sol=1), P_(9402, 'Abbotsleigh', 2024, 'AT4', 'out_of_course'),
             P_(9403, 'CSSA', 2026, 'AT4', 'out_of_course', new=1)]
     std = [P_(9501, 'Hornsby Girls High School', 2025, 'AT4', 'out_of_course'), P_(9502, 'Penrith High School', 2024, 'AT3', 'out_of_course')]

@@ -4,7 +4,7 @@
 /* ---------- Papers and the owner's import order (Processes, Curate: editors only) ----------
    data/inventory.json (tools/inventory.py): every paper in the shared folder, in course x year groups, each paper with its state
    (imported / waiting / out_of_course / out_of_scope / other), "new" when the latest folder scan (tools/scan_folder.py) added it,
-   and pick:1 when it can be queued (Advanced and waiting). Courses that are not ready (inventory courses[].ready) show their
+   and pick:1 when it can be queued (Advanced and waiting, not Year 11; old-syllabus papers carry old:1). Courses that are not ready (inventory courses[].ready) show their
    counts with a short "needs course setup" and have no checkboxes. Since 13 Nov (owner: "The process page feels a bit bloated
    now" -> "Two tabs: Work | Papers") this is the Papers tab, and the grid is compact: one row per course, Year 12 / 11 / ? cells.
    The owner ticks papers (or a whole school / group) and presses "Add to import queue". db collection "importq", one doc per
@@ -47,11 +47,18 @@ function invSub(){const el=$('#ivSub');if(!el)return;const D=INV.data;
   const t=D.totals||{},ls=D.last_scan,ds=API.scan&&API.scan.last(),dl=ds&&(!ls||Date.parse(ds.at)>Date.parse(ls.at));   // a Drive rescan later than the folder scan wins
   el.textContent=`${t.papers||0} papers in the shared folder (${D.docs||0} files) · `+(dl?`last scan ${clockT(ds.at)}, ${ds.n} new`:ls?`last folder scan ${clockT(ls.at)}, ${ls.inserted||0} new`:'no folder scan yet: counts are from the first stock-take')}
 // ---- the import order (owner's queue)
+// owner 13 Nov: "but we already have 15 waiting batches?" -> ONE list. The planned batches were folded into this order, and
+// tools/import_next.py cuts batches of 9 from its top, so a faint divider every 9 importable rows names the batch: "Batch 6",
+// "Batch 7", ... counting on from the last finished batch in the import history (PROG, 12_import.js; batchState decides done).
+const IVBATCH=9;
+const invNextBatch=()=>{const L=(typeof PROG!=='undefined'&&PROG&&PROG.batches)||[];
+  return Math.max(0,...L.filter(b=>batchState(b)[0]==='done').map(b=>parseInt(String(b.id).replace(/^\D+/,''),10)).filter(Number.isFinite))+1};
 function invQueue(){const el=$('#ivQList');if(!el)return;const q=invQ(),n=$('#ivQN');if(n){n.hidden=!q.length;n.textContent=q.length}
-  const cost=INV.data&&INV.data.cost_per_paper;
+  const cost=INV.data&&INV.data.cost_per_paper,b0=invNextBatch();let k=0;   // k: importable rows so far (rows with a warning are skipped by import_next.py too)
   el.innerHTML=q.length?`<ol class="nlist ivql">${q.map((x,i)=>{const f=invFind(x.doc_id),p=f&&f.p,warn=p&&p.st==='imported'?'already imported':p&&!p.pick?'can no longer be imported':!p&&INV.data?'not in the paper list':'';
-    return `<li class="nrow" data-ivq="${esc(x.id)}" draggable="true"><span class="ngrip" aria-hidden="true" title="Drag to reorder">⋮⋮</span><span class="ivqn" aria-hidden="true">${i+1}</span>
-      <span class="ntext"><b>${esc(x.label||(p?invLabel(p):'Paper '+x.doc_id))}</b><small>${esc(invShort(x.course))}${x.year_level?' · Year '+esc(x.year_level):''}${cost?` · ${esc(cost)}`:''}${warn?` · <em class="ivwarn">${esc(warn)}</em>`:''}</small></span>
+    const div=!warn&&k++%IVBATCH===0?`<li class="ivdiv" role="separator"><span>Batch ${b0+Math.floor((k-1)/IVBATCH)}</span></li>`:'';
+    return div+`<li class="nrow" data-ivq="${esc(x.id)}" draggable="true"><span class="ngrip" aria-hidden="true" title="Drag to reorder">⋮⋮</span><span class="ivqn" aria-hidden="true">${i+1}</span>
+      <span class="ntext"><b>${esc(x.label||(p?invLabel(p):'Paper '+x.doc_id))}</b><small>${esc(invShort(x.course))}${x.year_level?' · Year '+esc(x.year_level):''}${p&&p.old?' · old syllabus':''}${cost?` · ${esc(cost)}`:''}${warn?` · <em class="ivwarn">${esc(warn)}</em>`:''}</small></span>
       <span class="nacts"><button type="button" class="nbtn" data-ivmove="-1" data-ivid="${esc(x.id)}" aria-label="Move up"${i===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-ivmove="1" data-ivid="${esc(x.id)}" aria-label="Move down"${i===q.length-1?' disabled':''}>↓</button><button type="button" class="nbtn ndel" data-ivdel="${esc(x.id)}" aria-label="Remove from the import queue">×</button></span></li>`}).join('')}</ol>`:
     `<p class="pempty">${INV.loaded||!db?`Nothing queued. Tick ${esc(['papers',...((INV.data&&INV.data.courses)||[]).filter(c=>c.ready).map(c=>c.short||c.name)].reverse().join(' '))} below and press Add to import queue.`:'Loading the import order…'}</p>`}
 // ---- the course grid (owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): one row per
@@ -63,25 +70,29 @@ function invGrid(){const el=$('#ivGrid');if(!el)return;const G=invGroups();if(!I
   const scan=!!INV.data.last_scan,keys=[...new Set([...(INV.data.courses||[]).map(c=>c.key),...G.map(g=>g.course)])];
   const cell=(c,yl)=>{const g=G.find(x=>x.course===c.key&&x.yl===yl),k=(g&&g.counts)||{},yn=IVY[yl]||yl,lab=`<i class="ivcl">${esc(yn)}</i>`;
     if(!g||!k.papers)return `<span class="ivcell ivz">${lab}<span class="ivct">–</span></span>`;
-    const imp=k.imported||0,wait=k.waiting||0,split=c.ready&&(imp||wait),nw=scan&&k.new?`<span class="ivchip new">${k.new} new</span>`:'';
+    // owner 13 Nov ("does not imported and new mean not in scope?"): New is a small "+N new" badge on the waiting (or papers) number
+    const imp=k.imported||0,wait=k.waiting||0,split=c.ready&&(imp||wait),nw=scan&&k.new?`<sup class="ivnew">+${k.new} new</sup>`:'';
     const tip=`${invShort(c.key)} ${yn}: ${k.papers} papers in the folder`+(c.ready?` · ${imp} imported · ${wait} waiting`:'')+(scan?` · ${k.new||0} new`:'');
-    return `<button type="button" class="ivcell" data-ivg="${esc(invGid(g))}" aria-expanded="false" title="${esc(tip)}" aria-label="${esc(tip)}">${lab}<span class="ivct">${split?`<b class="ok">${imp}</b> / <b class="wait">${wait}</b> waiting`:`<b>${k.papers}</b>`}</span>${nw}</button>`};
+    return `<button type="button" class="ivcell" data-ivg="${esc(invGid(g))}" aria-expanded="false" title="${esc(tip)}" aria-label="${esc(tip)}">${lab}<span class="ivct">${split?`<b class="ok">${imp}</b> / <b class="wait">${wait}</b>${nw} waiting`:`<b>${k.papers}</b>${nw}`}</span></button>`};
   el.innerHTML=`<div class="ivhead" aria-hidden="true"><span>Course</span>${IVYL.map(yl=>`<span>${esc(IVY[yl])}</span>`).join('')}</div>`+
     keys.map(key=>{const c=invCourse(key);
       return `<div class="ivr${c.ready?'':' off'}" data-ivc="${esc(key)}"><div class="ivname"><b>${esc(invShort(key))}</b>${c.ready?'':`<small class="ivnote" title="${esc(c.note||'')}">${esc(invNote(c))}</small>`}</div>
-        ${IVYL.map(yl=>cell(c,yl)).join('')}<div class="ivbody" hidden></div></div>`}).join('');
+        ${IVYL.map(yl=>cell(c,yl)).join('')}<div class="ivbody" hidden></div></div>`}).join('')+
+    `<p class="ivlegend">${esc(IVLEGEND)}</p>`;
   if(INV.open)invOpen(INV.open)}
 function invOpen(gid){const g=gid&&invGroups().find(x=>invGid(x)===gid);INV.open=g?gid:null;
   $$('#ivGrid .ivcell[data-ivg]').forEach(b=>{const on=b.dataset.ivg===INV.open;b.setAttribute('aria-expanded',String(on));b.classList.toggle('on',on)});
   $$('#ivGrid .ivbody').forEach(b=>{b.hidden=true;b.innerHTML='';delete b.dataset.ivg});
   const b=g&&$(`#ivGrid .ivr[data-ivc="${CSS.escape(g.course)}"] .ivbody`);if(b){b.dataset.ivg=gid;b.hidden=false;invFill(b)}}
-const IVST={imported:['Imported','ok'],waiting:['Waiting','wait'],out_of_course:['Other course',''],out_of_scope:['Not imported',''],other:['Duplicate / skipped','']};
+const IVST={imported:['Imported','ok'],waiting:['Waiting','wait'],out_of_course:['Other course',''],out_of_scope:['Not in scope',''],other:['Duplicate / skipped','']};
+// owner 13 Nov: "I can't tell. So does not imported and new mean not in scope?"
+const IVLEGEND='Imported: in the bank · Waiting: will be imported · Not in scope: set aside · New: found by the latest scan';
 function invBody(g){const ready=!!invCourse(g.course).ready,qd=invQueued(),pick=g.papers.filter(p=>invPickable(p,qd)),gid=invGid(g);
   const by=new Map();g.papers.forEach(p=>{const s=p.s||'School not known';if(!by.has(s))by.set(s,[]);by.get(s).push(p)});
   const row=p=>{const st=IVST[p.st]||[p.st,''],qn=qd.get(p.id),can=ready&&invPickable(p,qd),cid='ivc'+p.id;
     return `<li class="ivpp st-${esc(p.st)}">${can?`<input type="checkbox" id="${cid}" data-ivp="${p.id}"${INV.sel.has(p.id)?' checked':''}>`:'<span class="ivnobox" aria-hidden="true"></span>'}
       <label${can?` for="${cid}"`:''} class="ivpl">${esc(invLabel(p))}</label>
-      <span class="ivchips">${qn?`<span class="ivchip q">In queue · #${qn}</span>`:`<span class="ivchip ${st[1]}">${esc(st[0])}</span>`}${p.new?'<span class="ivchip new">New</span>':''}${p.scan?'<span class="ivchip">Scan</span>':''}${p.st==='waiting'&&!p.sol?'<span class="ivchip">No solutions</span>':''}${p.n>1?`<span class="ivchip">${p.n} files</span>`:''}</span>
+      <span class="ivchips">${qn?`<span class="ivchip q">In queue · #${qn}</span>`:`<span class="ivchip ${st[1]}">${esc(st[0])}</span>`}${p.old?'<span class="ivchip">old syllabus</span>':''}${p.new?'<span class="ivchip new">New</span>':''}${p.scan?'<span class="ivchip">Scan</span>':''}${p.st==='waiting'&&!p.sol?'<span class="ivchip">No solutions</span>':''}${p.n>1?`<span class="ivchip">${p.n} files</span>`:''}</span>
       ${p.why?`<small class="ivwhy">${esc(p.why)}</small>`:''}</li>`};
   return `<p class="ivbh"><b>${esc(invShort(g.course))}</b> ${esc(IVY[g.yl]||g.yl)} · ${g.papers.length} paper${g.papers.length===1?'':'s'}</p>`+
     (ready?(pick.length?`<label class="ivall"><input type="checkbox" data-ivall="${esc(gid)}"> Select all ${pick.length} waiting</label>`:`<p class="ivmsg">Nothing here can be queued: ${g.counts.imported?'imported papers are done and ':''}the rest are not import papers.</p>`)
@@ -121,10 +132,10 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
   const mv=t.closest('[data-ivmove]');if(mv){const ids=invQ().map(x=>x.id),i=ids.indexOf(mv.dataset.ivid),j=i+ +mv.dataset.ivmove;if(i<0||j<0||j>=ids.length)return;
     [ids[i],ids[j]]=[ids[j],ids[i]];await invReorder(ids);const b=document.querySelector(`#ivQList [data-ivid="${CSS.escape(mv.dataset.ivid)}"][data-ivmove="${mv.dataset.ivmove}"]`);if(b&&!b.disabled)b.focus();return}
   const dl=t.closest('[data-ivdel]');if(dl){await invRemove(dl.dataset.ivdel);return}});
-sortableList('#ivQList .ivql>li','ivq',()=>invQ().map(x=>x.id),invReorder,invQueue);   // drag (desktop); ↑ ↓ for keyboard and phone (31_notes.js)
+sortableList('#ivQList .ivql>li.nrow','ivq',()=>invQ().map(x=>x.id),invReorder,invQueue);   // drag (desktop); ↑ ↓ for keyboard and phone (31_notes.js)
 // sub: the sub line; course, years: names for the Rescan drive results. 33_drive_scan.js adds API.scan (= PQ.scan, no new
 // page-wide name); code in here reaches it through API, since PQ itself is not assigned until this block returns.
-const API={render:renderInv,add:invAdd,remove:invRemove,open:invOpen,state:INV,sub:invSub,course:invCourse,years:IVY};
+const API={render:renderInv,queue:invQueue,add:invAdd,remove:invRemove,open:invOpen,state:INV,sub:invSub,course:invCourse,years:IVY};
 if(view==='processes'&&$('#processesView').dataset.tab==='papers')renderInv();   // Processes › Papers may already be open when this block loads
 return API;
 })();

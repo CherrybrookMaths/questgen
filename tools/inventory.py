@@ -17,8 +17,10 @@ State of a paper:
   imported       a file has questions in the bank
   waiting        a file is discovered / pending (or parsed / tagged with no questions yet), and nothing below blocks it
   out_of_course  every file is excluded and the course is Extension 1, Extension 2 or Standard
-  out_of_scope   excluded for another reason (Year 11, not a question paper, before 2019: old 2 Unit syllabus "excluded for
-                 now", solutions only), course Advanced or not known
+  out_of_scope   excluded for another reason (Year 11, not a question paper, solutions only, course not known and before
+                 2019), course Advanced or not known
+Old syllabus (owner 13 Nov: "We should take questions too, we'll just have to disretard out of scope things"): Advanced papers
+before 2019 (old 2 Unit) are waiting like any other and carry "old": 1 (label "old syllabus"; syllabus_version 'pre2017').
   other          duplicate_file / skipped / failed
 Only waiting Advanced papers outside Year 11 can be ticked on the page ("pick": 1). Standard / Ext 1 / Ext 2 show their counts but need
 course setup (topics, dot points, difficulty references) before they can be imported.
@@ -164,7 +166,11 @@ def build(db, files=False):
         elif sts & {'discovered', 'pending', 'parsed', 'tagged'}:
             st = 'waiting'
             if course in ('ext1', 'ext2', 'standard'): st, why = 'out_of_course', ''
-            elif y and y < 2019: st, why = 'out_of_scope', 'before 2019 (old 2 Unit syllabus): excluded for now'
+            # owner 13 Nov: "So does not imported and new mean not in scope? We should take questions too, we'll just have to
+            # disretard out of scope things": old 2 Unit Advanced papers are imported; at tagging, parts with no current dot
+            # point are dropped (IMPORT_PLAYBOOK "Old-syllabus papers"). Course not known: still out until a cover check.
+            elif y and y < 2019 and course != 'advanced':      # unchanged rule for unknown course (was 'excluded for now')
+                st, why = 'out_of_scope', 'before 2019 and course not known: a cover-page check sorts these'
             elif not q: st, why = 'out_of_scope', 'solutions only: question paper not found'
             elif re.search(r'12ME|\bExt(ension)? ?1\b|\bMX1\b', ' '.join(os.path.basename(f['source_path']) for f in fs)):
                 st, why = 'out_of_scope', 'Extension 1 paper (file name)'      # the same rule as tools/import_manifest.py
@@ -194,6 +200,7 @@ def build(db, files=False):
         if new: e['new'] = 1
         if why: e['why'] = why
         if files: e['f'] = [f['id'] for f in fs]
+        if course == 'advanced' and y and y < RULES['old_syllabus_before']: e['old'] = 1     # old syllabus: syllabus_version 'pre2017'
         # Year 11 stays out of the queue (owner 13 Nov: "Year 11 papers leave alone for now, would like to finalise Y12 first")
         if st == 'waiting' and course == 'advanced' and yl != '11': e['pick'] = 1
         if st == 'waiting' and course == 'unknown': e['why'] = 'course not known: cover page to check'

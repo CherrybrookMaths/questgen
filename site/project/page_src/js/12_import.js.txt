@@ -22,10 +22,10 @@ function batchRow(b){const [cls,lab]=batchState(b);const n=(b.papers||[]).length
     <span class="muted">${n} paper${n===1?'':'s'}${b.questions?` · ${esc(String(b.questions))} questions`:''}</span></summary>
     <div class="bbody">${b.note?`<div class="muted">${esc(b.note)}</div>`:''}<div class="bstages">${STAGES.map(([k,l])=>{const v=(b.stages||{})[k]||'waiting';return `<span><span class="st ${v.replace('/','')}">${SLABEL[v]||esc(v)}</span> ${esc(l)}</span>`}).join('')}</div>
     <ul class="bpapers">${(b.papers||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></details>`}
-function batchesHTML(L){const g={done:[],running:[],failed:[],waiting:[]};L.forEach(b=>g[batchState(b)[0]].push(b));
-  const grp=(arr,title,open)=>arr.length?`<details class="bgrp"${open?' open':''}><summary>${title} <span class="muted">· ${arr.length} batch${arr.length===1?'':'es'} · ${arr.reduce((n,b)=>n+(b.papers||[]).length,0)} papers</span></summary><div class="bscroll">${stageHead()}${arr.map(batchRow).join('')}</div></details>`:'';
-  return `<p class="sub">Tap a batch to see its papers. – means the stage wasn't needed.</p>`+
-    grp(g.failed,'Needs attention',true)+grp(g.running,'In progress',true)+grp(g.done,'Finished',false)+grp(g.waiting,'Waiting',false)}
+// owner 13 Nov: "but we already have 15 waiting batches?" -> ONE list: what is still to import lives only in the Import order
+// (Papers tab, "Batch 6", "Batch 7", ... dividers), so the history shows finished batches only.
+function batchesHTML(L){const done=L.filter(b=>batchState(b)[0]==='done');
+  return done.length?`<p class="sub">Tap a batch to see its papers. – means the stage wasn't needed.</p><details class="bgrp" open><summary>Finished <span class="muted">· ${done.length} batch${done.length===1?'':'es'} · ${done.reduce((n,b)=>n+(b.papers||[]).length,0)} papers</span></summary><div class="bscroll">${stageHead()}${done.map(batchRow).join('')}</div></details>`:'<p class="pempty">No finished batches yet.</p>'}
 // owner 13 Nov ("The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): this dashboard now sits inside
 // Processes › Papers › "Import history" (collapsed), so it has no heading of its own; the log shows the last 5 entries, "Show all" the rest.
 function renderImport(){
@@ -41,6 +41,7 @@ function renderImport(){
   <h3>Batches</h3>${batchesHTML(P.batches||[])}
   ${(P.issues||[]).length?`<h3>Needs your decision</h3><ul>${P.issues.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
   ${log.length?`<h3>Log</h3><ul class="log">${log.map((x,i)=>`<li${i>=5&&!all?' hidden':''}>${esc(x.t?new Date(x.t).toLocaleString('en-AU',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):'')} · ${esc(x.msg)}</li>`).join('')}</ul>${log.length>5&&!all?`<button type="button" class="act plogall" data-logall>Show all ${log.length}</button>`:''}`:''}`;
+  if(typeof PQ!=='undefined')PQ.queue();   // the import order's "Batch N" dividers count on from the last finished batch
 }
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#importBox [data-logall]');if(!b)return;const box=$('#importBox');box.dataset.logall='1';box.querySelectorAll('.log li[hidden]').forEach(li=>li.hidden=false);b.remove()});
 /* ---------- Processes (owner 14 Nov: "Can u show this list of tasks on the artifact somewhere ... Can be on the same as import.

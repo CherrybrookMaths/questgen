@@ -1140,18 +1140,21 @@ async function papersQueue(browser, base, seed, fx) {
     assert(r.order, 'Papers is not: top line, Import order, grid, Import history');
     assert(/^Import is paused\. This only sets the order for when it resumes\.$/.test(r.pause || ''), `pause note: “${r.pause}”`);
     assert(/^0px/.test(r.pauseBox) && r.pauseH < 24, `pause note should be one quiet line, not a banner (${r.pauseBox}, ${r.pauseH}px)`);
-    assert(/^16 papers in the shared folder \(17 files\) · last folder scan .+, 2 new$/.test(r.sub || ''), `sub line: “${r.sub}”`);
+    assert(/^18 papers in the shared folder \(19 files\) · last folder scan .+, 2 new$/.test(r.sub || ''), `sub line: “${r.sub}”`);
     assert(r.q.join('|') === '2024 Knox Grammar School AT1', `import order from the seeded importq: ${r.q}`);
     assert(!r.heads.length, `extra headings on Papers: ${r.heads}`);
     return 'top line › Import order (one quiet pause line) › grid › Import history';
   });
   await check('papers: compact grid counts equal the inventory', page, async () => {
     const r = await page.evaluate(() => ({rows: [...document.querySelectorAll('#ivGrid .ivr')].map(d => ({c: d.dataset.ivc, name: d.querySelector('.ivname b').textContent, off: d.classList.contains('off'),
-        notes: [...d.querySelectorAll('.ivnote')].map(n => n.textContent), cells: [...d.querySelectorAll(':scope > .ivcell')].map(c => ({g: c.dataset.ivg || '', t: c.querySelector('.ivct').textContent.replace(/\s+/g, ' ').trim(), nw: c.querySelector('.ivchip.new')?.textContent || '', btn: c.tagName === 'BUTTON'}))})),
-      head: [...document.querySelectorAll('#ivGrid .ivhead span')].map(x => x.textContent), old: document.querySelectorAll('#ivGrid details').length}));
+        notes: [...d.querySelectorAll('.ivnote')].map(n => n.textContent), cells: [...d.querySelectorAll(':scope > .ivcell')].map(c => ({g: c.dataset.ivg || '', t: [...c.querySelector('.ivct').childNodes].filter(n => !(n.classList && n.classList.contains('ivnew'))).map(n => n.textContent).join('').replace(/\s+/g, ' ').trim(), nw: c.querySelector('.ivct sup.ivnew')?.textContent || '', chip: !!c.querySelector('.ivchip'), btn: c.tagName === 'BUTTON'}))})),
+      head: [...document.querySelectorAll('#ivGrid .ivhead span')].map(x => x.textContent), old: document.querySelectorAll('#ivGrid details').length,
+      legend: document.querySelector('#ivGrid .ivlegend')?.textContent, newCol: [...document.querySelectorAll('#ivGrid .ivhead span')].some(x => /new/i.test(x.textContent))}));
     errs();
     assert(r.head.join('|') === 'Course|Year 12|Year 11|Year ?', `header ${r.head}`);
     assert(!r.old, `${r.old} old course x year rows remain`);
+    // owner 13 Nov: "I can't tell. So does not imported and new mean not in scope?": a "+N new" badge on the number, no New column, one legend line
+    assert(r.legend === 'Imported: in the bank · Waiting: will be imported · Not in scope: set aside · New: found by the latest scan' && !r.newCol, `legend: “${r.legend}”, New column ${r.newCol}`);
     assert(r.rows.map(x => x.c).join(',') === inv.courses.map(c => c.key).join(','), `rows ${r.rows.map(x => x.c)} (want the inventory's courses in order)`);
     const scan = !!inv.last_scan; let n = 0;
     for (const row of r.rows) { const c = inv.courses.find(x => x.key === row.c);
@@ -1159,7 +1162,7 @@ async function papersQueue(browser, base, seed, fx) {
       assert(c.ready ? !row.notes.length : row.notes.length === 1 && row.notes[0].length <= 40 && c.note.startsWith(row.notes[0]), `${row.c} notes: ${JSON.stringify(row.notes)}`);
       ['12', '11', '?'].forEach((yl, i) => { const g = inv.groups.find(x => x.course === row.c && x.yl === yl), k = g && g.counts, cell = row.cells[i];
         const want = !k || !k.papers ? '–' : c.ready && (k.imported || k.waiting) ? `${k.imported} / ${k.waiting} waiting` : String(k.papers);
-        assert(cell.t === want && cell.btn === !!(k && k.papers) && cell.nw === (scan && k && k.new ? `${k.new} new` : ''), `${row.c}|${yl}: “${cell.t}” ${cell.nw} (want “${want}”)`); n++ }) }
+        assert(cell.t === want && cell.btn === !!(k && k.papers) && cell.nw === (scan && k && k.new ? `+${k.new} new` : '') && !cell.chip, `${row.c}|${yl}: “${cell.t}” ${cell.nw} (want “${want}”)`); n++ }) }
     return `${r.rows.length} courses × 3 = ${n} cells match; ${r.rows.filter(x => x.off).map(x => x.notes[0]).join(' / ')}`;
   });
   await check('papers: Standard / Extension / unknown cells cannot be ticked; one group open at a time', page, async () => {
@@ -1169,8 +1172,8 @@ async function papersQueue(browser, base, seed, fx) {
         return d && {boxes: d.querySelectorAll('input[type=checkbox]').length, papers: d.querySelectorAll('.ivpp').length, msg: d.querySelector('.ivmsg')?.textContent || '', schools: [...d.querySelectorAll('.ivsh')].map(x => x.textContent.replace(/\d+$/, '').trim()), open: document.querySelectorAll('#ivGrid .ivbody:not([hidden])').length, exp: document.querySelector(`#ivGrid .ivcell[data-ivg="${g}"]`).getAttribute('aria-expanded')} }, g) }
     await page.click('#ivGrid .ivcell[data-ivg="advanced|11"]'); await settle(page, 800, 2);
     const closed = await page.evaluate(() => document.querySelectorAll('#ivGrid .ivbody:not([hidden])').length);
-    const added = await page.evaluate(() => PQ.add([9401, 9501, 9301, 9601])), w = (await qdocs(page)).length; errs();
-    for (const [g, n] of [['ext1|12', 3], ['standard|12', 2], ['unknown|?', 1], ['advanced|11', 2]]) assert(r[g] && r[g].boxes === 0 && r[g].papers === n && r[g].open === 1 && r[g].exp === 'true', `${g}: ${JSON.stringify(r[g])} (want 0 boxes, ${n} papers, one open)`);
+    const added = await page.evaluate(() => PQ.add([9401, 9501, 9301, 9303, 9601])), w = (await qdocs(page)).length; errs();
+    for (const [g, n] of [['ext1|12', 3], ['standard|12', 2], ['unknown|?', 1], ['advanced|11', 3]]) assert(r[g] && r[g].boxes === 0 && r[g].papers === n && r[g].open === 1 && r[g].exp === 'true', `${g}: ${JSON.stringify(r[g])} (want 0 boxes, ${n} papers, one open)`);
     assert(/can't be queued yet/.test(r['ext1|12'].msg) && !/needs course setup/.test(r['ext1|12'].msg), `messages: ${r['ext1|12'].msg}`);
     assert(r['ext1|12'].schools.join('|') === 'Abbotsleigh|CSSA|Knox Grammar School', `ext1 papers by school: ${r['ext1|12'].schools}`);
     assert(closed === 0, 'a second click on the open cell did not close it');
@@ -1181,14 +1184,17 @@ async function papersQueue(browser, base, seed, fx) {
     await openG(page, 'advanced|12'); await settle(page, 1500, 2);   // expand a cell, then tick
     const before = await page.evaluate(() => { const d = document.querySelector('#ivGrid .ivbody[data-ivg="advanced|12"]');
       return {boxes: [...d.querySelectorAll('[data-ivp]')].map(b => +b.dataset.ivp).sort(), inq: [...d.querySelectorAll('.ivchip.q')].map(c => c.textContent), all: d.querySelector('[data-ivall]')?.parentElement.textContent.trim(), bar: document.querySelector('#ivBar').hidden} });
-    assert(before.boxes.join(',') === '9101,9102,9104', `tickable papers ${before.boxes} (want the 3 waiting ones not queued)`);
-    assert(before.inq.join('|') === 'In queue · #1' && before.all === 'Select all 3 waiting' && before.bar, JSON.stringify(before));
+    assert(before.boxes.join(',') === '9101,9102,9104,9105', `tickable papers ${before.boxes} (want the 4 waiting ones not queued, the old-syllabus 9105 too)`);
+    assert(before.inq.join('|') === 'In queue · #1' && before.all === 'Select all 4 waiting' && before.bar, JSON.stringify(before));
+    // owner 13 Nov: "We should take questions too": the pre-2019 paper is tickable and labelled old syllabus
+    const old = await page.evaluate(() => { const li = document.querySelector('#ivc9105')?.closest('.ivpp'); return li && {chips: [...li.querySelectorAll('.ivchip')].map(c => c.textContent), why: li.querySelector('.ivwhy')?.textContent || ''} });
+    assert(old && old.chips.includes('Waiting') && old.chips.includes('old syllabus') && !old.why, `old-syllabus paper: ${JSON.stringify(old)}`);
     await page.click('#ivGrid .ivbody[data-ivg="advanced|12"] [data-ivsch][data-school="Abbotsleigh"]');
     let bar = await page.evaluate(() => ({t: document.querySelector('#ivSelN').textContent, hid: document.querySelector('#ivBar').hidden, all: (b => b && {c: b.checked, i: b.indeterminate})(document.querySelector('[data-ivall="advanced|12"]'))}));
     assert(!bar.hid && bar.t === '2 papers selected' && bar.all.i && !bar.all.c, `after ticking Abbotsleigh: ${JSON.stringify(bar)}`);
     await page.click('#ivc9104');
     bar = await page.evaluate(() => ({t: document.querySelector('#ivSelN').textContent, all: document.querySelector('[data-ivall="advanced|12"]').checked}));
-    assert(bar.t === '3 papers selected' && bar.all, `after ticking 9104: ${JSON.stringify(bar)}`);
+    assert(bar.t === '3 papers selected' && !bar.all, `after ticking 9104 (9105 still unticked): ${JSON.stringify(bar)}`);
     await page.click('#ivAdd'); await settle(page, 2000, 2);
     const d = await qdocs(page), t = await qtexts(page); errs();
     assert(d.map(x => x.doc_id).join(',') === '9103,9101,9102,9104' && d.map(x => x.order).join(',') === '1,2,3,4', `importq: ${d.map(x => x.doc_id + '@' + x.order)}`);
@@ -1196,24 +1202,50 @@ async function papersQueue(browser, base, seed, fx) {
     assert(n.k === 'importq/d9104' && n.label === '2026 Knox Grammar School AT4' && n.course === 'advanced' && n.year_level === 12 && n.added_by === 'u_pagetest' && !isNaN(Date.parse(n.at)), `doc fields: ${JSON.stringify(n)}`);
     assert(t.join('|') === '2024 Knox Grammar School AT1|2025 Abbotsleigh AT4|2023 Abbotsleigh AT2|2026 Knox Grammar School AT4', `on screen: ${t.join(' | ')}`);
     const after = await page.evaluate(() => { const d = document.querySelector('#ivGrid .ivbody[data-ivg="advanced|12"]'); return {boxes: d.querySelectorAll('[data-ivp]').length, inq: d.querySelectorAll('.ivchip.q').length, bar: document.querySelector('#ivBar').hidden, msg: d.querySelector('.ivmsg')?.textContent || ''} });
-    assert(after.boxes === 0 && after.inq === 4 && after.bar, `after Add: ${JSON.stringify(after)}`);
+    assert(after.boxes === 1 && after.inq === 4 && after.bar, `after Add (9105 left): ${JSON.stringify(after)}`);
     return `3 added in order; {doc_id, label, course, year_level, order, added_by, at}`;
   });
   await check('papers: reorder with ↑ ↓ and drag, remove', page, async () => {
     await page.click('#ivQList [data-ivmove="1"]'); await settle(page, 1500, 2);   // first (9103) down
     let t = await qtexts(page), d = (await qdocs(page)).map(x => x.label);
     assert(t[0] === '2025 Abbotsleigh AT4' && t[1] === '2024 Knox Grammar School AT1' && d.join('|') === t.join('|'), `after ↓: screen ${t.join(' | ')}, db ${d.join(' | ')}`);
-    const last = page.locator('#ivQList .ivql > li').nth(3), first = page.locator('#ivQList .ivql > li').nth(0);
+    const last = page.locator('#ivQList .ivql > li.nrow').nth(3), first = page.locator('#ivQList .ivql > li.nrow').nth(0);   // li.ivdiv: the "Batch N" divider
     await last.dragTo(first, {targetPosition: {x: 40, y: 3}}); await settle(page, 1500, 2);
     t = await qtexts(page); d = (await qdocs(page)).map(x => x.label);
     assert(t[0] === '2026 Knox Grammar School AT4' && d.join('|') === t.join('|'), `after drag: screen ${t.join(' | ')}, db ${d.join(' | ')}`);
-    await page.click('#ivQList .ivql > li:nth-child(2) [data-ivdel]'); await settle(page, 1500, 2);
+    await page.locator('#ivQList .ivql > li.nrow').nth(1).locator('[data-ivdel]').click(); await settle(page, 1500, 2);
     t = await qtexts(page); const dd = await qdocs(page); errs();
     assert(dd.length === 3 && !dd.some(x => x.doc_id === 9101) && t.length === 3, `after remove: ${t.join(' | ')} (db ${dd.map(x => x.doc_id)})`);
     const back = await page.evaluate(() => !!document.querySelector('#ivGrid .ivbody[data-ivg="advanced|12"] [data-ivp="9101"]'));
     assert(back, 'a removed paper is not tickable again');
     const sw = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth); assert(sw <= 1, `horizontal scroll ${sw}px`);
     return t.join(' › ');
+  });
+  // owner 13 Nov: "but we already have 15 waiting batches?" -> ONE list: the import order shows a faint "Batch N" divider every
+  // 9 importable rows (N counts on from the last finished batch), and Import history shows finished batches only
+  await check('papers: Batch N dividers every 9 rows; history shows finished batches only', page, async () => {
+    const r = await page.evaluate(() => {
+      const keepQ = PQ.state.q, keepP = PROG, st = s => ({parse: s, load: s, tag: s, solutions: s, generate: 'n/a', diagrams: s, verify: s, publish: s});
+      PROG = {...(PROG || {}), batches: [...[1, 2, 3, 4, 5, 6, 7].map(i => ({id: 'b' + i, papers: ['P' + i], stages: st('done')})), {id: 'b8', papers: ['W1', 'W2'], stages: {}}, {id: 'b9', papers: ['R1'], stages: {...st('waiting'), parse: 'done'}}]};
+      // 20 importable rows with one already-imported paper (9001) at row 5: it is skipped, as tools/import_next.py skips it
+      PQ.state.q = Array.from({length: 21}, (_, i) => ({id: 'dx' + i, doc_id: i === 4 ? 9001 : 9101, label: 'Row ' + (i + 1), course: 'advanced', year_level: 12, order: i + 1, at: ''}));
+      renderImport();
+      const rows = [...document.querySelectorAll('#ivQList .ivql > li')].map(li => li.classList.contains('ivdiv') ? '[' + li.textContent.trim() + ']' : li.querySelector('.ntext b').textContent);
+      const div = document.querySelector('#ivQList .ivdiv'), cs = getComputedStyle(div), faint = parseFloat(cs.fontSize) <= 12 && cs.color !== getComputedStyle(document.querySelector('#ivQList .ntext b')).color;
+      const hist = {rows: [...document.querySelectorAll('#importBox .brow summary > b')].map(b => b.textContent), groups: [...document.querySelectorAll('#importBox .bgrp > summary')].map(s => s.firstChild.textContent.trim())};
+      const drag = [...document.querySelectorAll('#ivQList .ivdiv')].every(d => !d.hasAttribute('draggable') && !d.querySelector('button')) && div.getAttribute('role') === 'separator';
+      PROG = {...keepP, batches: [...[1, 2, 3, 4, 5].map(i => ({id: 'b' + i, papers: ['P' + i], stages: st('done')}))]}; PQ.state.q = keepQ; renderImport();
+      const first = document.querySelector('#ivQList .ivdiv')?.textContent.trim();
+      PROG = keepP; renderImport();
+      return {rows, hist, drag, first, faint};
+    });
+    errs();
+    const divs = r.rows.map((t, i) => t[0] === '[' ? `${t}@${i}` : '').filter(Boolean);
+    assert(divs.join(' ') === '[Batch 8]@0 [Batch 9]@11 [Batch 10]@21', `dividers ${divs.join(' ')} in ${r.rows.join(' | ')}`);
+    assert(r.drag && r.faint, `divider not a faint, undraggable separator: ${JSON.stringify(r)}`);
+    assert(r.first === 'Batch 6', `with b1–b5 done the first divider is “${r.first}”`);
+    assert(r.hist.rows.join(',') === 'b1,b2,b3,b4,b5,b6,b7' && r.hist.groups.join('|') === 'Finished', `history: ${JSON.stringify(r.hist)}`);
+    return `${divs.length} dividers (Batch 8, 9, 10; the imported row is not counted); history: finished b1–b7 only`;
   });
   await check('papers: Import history collapsed; log shows the last 5, then Show all', page, async () => {
     await page.evaluate(() => { PROG = {...(PROG || {}), log: Array.from({length: 12}, (_, i) => ({t: new Date(Date.now() - (12 - i) * 60000).toISOString(), msg: 'step ' + (i + 1)}))}; renderImport() });
@@ -1254,7 +1286,7 @@ async function papersQueue(browser, base, seed, fx) {
     assert(!g.head && g.stacked && g.right <= g.w - 8 && g.labels.join('|') === 'Year 12|Year 11|Year ?' && g.sw > 0, `stacked grid at 390px: ${JSON.stringify(g)}`);
     await tp.tap('#ivGrid .ivcell[data-ivg="advanced|12"]'); await settle(tp, 1500, 2);
     await tp.tap('#ivc9102'); await tp.tap('#ivAdd'); await settle(tp, 2000, 2);
-    await tp.tap('#ivQList .ivql > li:nth-child(2) [data-ivmove="-1"]'); await settle(tp, 1500, 2);
+    await tp.locator('#ivQList .ivql > li.nrow').nth(1).locator('[data-ivmove="-1"]').tap(); await settle(tp, 1500, 2);
     const r = await tp.evaluate(() => { const b = document.querySelector('#invBox').getBoundingClientRect(), nums = [...document.querySelectorAll('#ivGrid .ivcell, #ivGrid .ivbody *')].map(n => n.getBoundingClientRect().right);
       return {t: [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(x => x.textContent), right: b.right, w: innerWidth, nr: Math.max(...nums), sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
         rowH: document.querySelector('#ivGrid .ivr[data-ivc="ext1"]').getBoundingClientRect().height} });
