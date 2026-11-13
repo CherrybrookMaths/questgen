@@ -27,7 +27,7 @@ Run one batch at a time, about 9 papers per batch.
 | 7 | Verify | `prep_verify.py`, workflow `batch-verify` (VERIFY_SPEC), `render_audit.js` | `verify_out_*.json` for every question |
 | 8 | Triage | `triage.py` | No `pending` questions |
 | 9 | Build | `build_bank.py` | `bank.json` and every `svg/<doc>.json` are rebuilt |
-| 10 | Check | **`bash tools/prepublish.sh`**: build, export sources, page test, `batch_check.py` (see "Pre-publish page test" below) | It exits 0: every page check passed and 0 blockers. Publish exactly what `python3 tools/publish_set.py` lists (`--json` for the `files` map), then `batch_check.py --mark-published` |
+| 10 | Check | **`bash tools/prepublish.sh`**: build, export sources, page test, `batch_check.py` (see "Pre-publish page test" below) | It exits 0: every page check passed and 0 blockers. Publish exactly what `python3 tools/publish_set.py` lists (`--json` for the `files` map; its null entries delete files the artifact no longer needs, keep them), then `batch_check.py --mark-published` |
 | 11 | Publish | Artifact publish of review.html plus **every** changed data file in one call (and any changed `site/vendor/` file: the map is `files` in tools/vendor_manifest.json), then `batch_check.py --mark-published` | The manifest is recorded |
 | 12 | Homes and sync | export home topics from the page (homes.js) into the DB; Drive sync (rename old copies "superseded", never trash) | Drive is current |
 

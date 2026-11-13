@@ -19,8 +19,10 @@ def sha(p):
     return hashlib.sha256(open(p, 'rb').read()).hexdigest()
 
 if '--mark-published' in sys.argv:
-    files = {os.path.relpath(f, P + 'site'): sha(f) for f in glob.glob(P + 'site/data/**/*.json', recursive=True) + [P + 'site/review.html'] + [f for f in glob.glob(P + 'site/vendor/**/*', recursive=True) if os.path.isfile(f)]
-             + [f for f in glob.glob(P + 'site/project/**/*', recursive=True) if os.path.isfile(f)]}   # project/ too, so tools/publish_set.py can list exactly what changed (reviewer 14 Nov)
+    # project/ too, so tools/publish_set.py can list exactly what changed (reviewer 14 Nov). Stage 2, 15 Nov: the same file
+    # list as publish_set.publishable() (excludes data/focus/), so a path removed with null drops out of the manifest.
+    sys.path.insert(0, P + 'tools'); import publish_set as _ps
+    files = {r: sha(P + 'site/' + r) for r in _ps.publishable()}
     json.dump(dict(at=time.strftime('%Y-%m-%d %H:%M'), files=files), open(MAN, 'w'), indent=0)
     print('recorded', len(files), 'published files')
     # version control (stage 1, 15 Nov; owner: "I don't want to have to do that"): commit everything, tag publish-vNNN,
@@ -75,7 +77,11 @@ if max(mt(P + 'work/triage.json'), mt(DB), mt(P + 'tikz/all_results.json')) > mt
 if os.path.exists(MAN):
     man = json.load(open(MAN))
     cur = {os.path.relpath(f, P + 'site'): f for f in glob.glob(P + 'site/data/**/*.json', recursive=True) + [P + 'site/review.html'] + [f for f in glob.glob(P + 'site/vendor/**/*', recursive=True) if os.path.isfile(f)]}
+    sys.path.insert(0, P + 'tools'); import publish_set as _ps
+    cur = {k: f for k, f in cur.items() if not k.startswith(_ps.EXCLUDE)}
     changed = sorted(k for k, f in cur.items() if man['files'].get(k) != sha(f))
+    gone = _ps.removals(man)   # stage 2, 15 Nov: published before, gone now -> the next publish must send them as null
+    if gone: W(f'{len(gone)} published files no longer exist locally; the next publish removes them (null in python3 tools/publish_set.py --json): ' + ', '.join(gone[:5]) + (' ...' if len(gone) > 5 else ''))
     if changed: W(f'{len(changed)} files changed since the last publish ({man["at"]}); publish ALL of them in one call: ' + ', '.join(changed[:15]))
 else: I('no published manifest yet: run with --mark-published after the next publish')
 
@@ -122,6 +128,12 @@ try:
     for m in _vendor.check(quiet=True)[:10]: B('vendor: ' + m + ' (python3 tools/vendor.py --check)')
 except Exception as e:
     B(f'vendor check could not run: {e}')
+# --- grouped data packs (stage 2, 15 Nov): no per-paper svg/cmp files left, every group present, page PACK_G = tools/packs.py ---
+try:
+    import packs as _packs
+    for m in _packs.check(): B('packs: ' + m)
+except Exception as e:
+    B(f'packs check could not run: {e}')
 # --- automated page test (hardening action 1, 14 Nov): tools/page_test.js must have passed on THIS build of the page ---
 # Run it with: bash tools/prepublish.sh (build, page test, this check) or node tools/page_test.js. Its result file records the
 # sha256 of the page and data it tested; a failed, partial (--quick), missing or stale result blocks the publish.

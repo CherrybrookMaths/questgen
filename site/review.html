@@ -1927,8 +1927,13 @@ function figKeys(q){
 const redrawable=k=>{const f=B.figs[k];return f&&(f.status==='ok'||f.status==='approx'||f.status==='table')};
 const PACKS={}, SVGS={};
 const pack=doc=>PACKS[doc]||(PACKS[doc]=fetch('data/img/'+doc+'.json?v='+(B?.built||'')).then(r=>r.json()).catch(()=>({})));
-const CMPS={}; const cmps=doc=>CMPS[doc]||(CMPS[doc]=fetch('data/cmp/'+doc+'.json?v='+(B?.built||'')).then(r=>r.json()).catch(()=>({})));
-const svgs=doc=>SVGS[doc]||(SVGS[doc]=fetch('data/svg/'+doc+'.json?v='+(B?.built||'')).then(r=>r.json()).catch(()=>({})));
+// owner 15 Nov (via workflow brief): "Lets do ... 4" -> fewer published files. Redraw (svg) and overlay/first-redraw (cmp)
+// packs are group files data/<kind>/g<paper id % n>.json, not one per paper; still fetched lazily, once per group.
+// PACK_G must match GROUPS in tools/packs.py (batch_check checks it). Page images (data/img) stay one file per paper.
+const PACK_G={svg:8,cmp:1};
+const packFile=(kind,doc)=>'data/'+kind+'/g'+(parseInt(doc,10)%PACK_G[kind])+'.json';
+const CMPS={}; const cmps=doc=>{const f=packFile('cmp',doc);return CMPS[f]||(CMPS[f]=fetch(f+'?v='+(B?.built||'')).then(r=>r.json()).catch(()=>({})))};
+const svgs=doc=>{const f=packFile('svg',doc);return SVGS[f]||(SVGS[f]=fetch(f+'?v='+(B?.built||'')).then(r=>r.json()).catch(()=>({})))};
 function hydrate(root,q,mode){
   root.querySelectorAll('.figslot[data-fig]').forEach(el=>{
     // owner: "I cannot see the x-axis". Solution diagrams Claude drew (<paper>_q<n>_s<k>) have no original, and their

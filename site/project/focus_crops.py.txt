@@ -1,7 +1,10 @@
 """Focus crops for Review > Check (owner 12 Nov: "its taking too long looking at the question, just show side by side the
 part I actually need to check"). For every Check question: a crop of the source page around each table, and a crop of the
 question itself, found by matching the question's words/numbers against the PDF's word positions.
-Writes site/data/focus/<doc>.json = {qid: {"q": [png...], "t": {table_id: png}}}."""
+Writes site/data/focus/<doc>.json = {qid: {"q": [png...], "t": {table_id: png}}}.
+UNUSED since the owner rolled the cropped view back (12 Nov, UI_SPEC: "so much worse and unusable"; FOCUS_STEPS=[] in
+page_src/js/08_review.js). Stage 2, 15 Nov: the 39 packs were moved to archive/data_unused_1115/focus/ and data/focus/ is
+never published (tools/publish_set.py EXCLUDE). Kept only so the crops can be remade if the owner ever asks."""
 import json, re, sqlite3, base64, collections, pymupdf, os
 P = '/home/claude/pilot/'
 db = sqlite3.connect('/mnt/user-data/outputs/questions.db'); db.row_factory = sqlite3.Row

@@ -1,4 +1,4 @@
-"""Build site/data/bank.json (v2) + site/data/svg/<doc>.json from questions.db and the TikZ redraws.
+"""Build site/data/bank.json (v2) + site/data/svg/g<doc % 8>.json (grouped redraw packs, tools/packs.py) from questions.db and the TikZ redraws.
 Keeps per-part tag data, queues, related, pages and figure lists from the previous bank.json (built by the v1
 inline builder), and refreshes all text, solutions, tables and figure redraw data from the database."""
 import sqlite3, json, csv, glob, os, base64, collections, subprocess
@@ -93,9 +93,12 @@ for k, r in res.items():
             packs[k.split('_')[0]][k] = 'data:image/svg+xml;base64,' + base64.b64encode(open(svg, 'rb').read()).decode()
 dbkeys = {os.path.basename(r['png_path'])[:-4] for r in db.execute('select png_path from figures')}
 figs = {k: v for k, v in figs.items() if k in dbkeys or v['status'] != 'keep_crop'}   # photos removed from the database leave the bank too (solution-document figures are not in the figures table, so keep those)
-os.makedirs(P + 'site/data/svg', exist_ok=True)
-for doc, m in packs.items():
-    json.dump(m, open(P + 'site/data/svg/%s.json' % doc, 'w'))
+# owner 15 Nov (via workflow brief): "Lets do ... 4" -> fewer published files: the redraw packs are written as 8 group
+# files data/svg/g<doc % 8>.json, not one per paper (tools/packs.py; the page picks the group in 05_figures.js PACK_G)
+import sys; sys.path.insert(0, P + 'tools'); import packs as _packs
+_packs.write_groups('svg', packs)
+for _f in _packs.leftovers('svg'):   # a per-paper file from an older build would be published for nothing: archive it
+    os.makedirs(_packs.ARCH + 'svg', exist_ok=True); os.replace(P + 'site/data/svg/' + _f, _packs.ARCH + 'svg/' + _f)
 
 codes17 = {}
 for row in csv.DictReader(open(P + 'site/project/mapping_v1.csv')):

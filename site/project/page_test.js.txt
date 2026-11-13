@@ -414,6 +414,32 @@ async function flows(browser, base, seed) {
     return `${r.rows.length} open, badge ${r.badge}`;
   });
 
+  /* ---- Grouped data packs (stage 2, 15 Nov): redraws and overlays load from data/<kind>/g<n>.json, never per paper ---- */
+  await check('figures: every redraw and overlay loads from the grouped packs', page, async () => {
+    const r = await page.evaluate(async () => {
+      const ks = Object.keys(B.figs).filter(k => ['ok', 'approx'].includes(B.figs[k].status));
+      const docs = [...new Set(ks.map(k => k.split('_')[0]))];
+      const have = new Set(); for (const d of docs) { const m = await svgs(d); Object.keys(m).forEach(k => have.add(k)) }
+      const miss = ks.filter(k => !have.has(k));
+      // the overlay / first-redraw pack (Review > Check, "Overlay" and "Before → now")
+      const ovk = ks.find(k => B.figs[k].ov) || ks[0], cm = await cmps(ovk.split('_')[0]), ncm = Object.keys(cm).length;
+      // hydrate() as the page does it: a redrawn diagram and an overlay image get their data URIs
+      const box = document.createElement('div'); const k = ks.find(k => have.has(k)), ck = Object.keys(cm)[0];
+      box.innerHTML = `<img data-k="${k}" data-kind="svg"><img data-k="${ck.slice(3)}" data-kind="${ck.slice(0, 2)}">`; document.body.appendChild(box);
+      hydrate(box, {id: 0}, 'bank'); await new Promise(z => setTimeout(z, 1500));
+      const srcs = [...box.querySelectorAll('img')].map(i => (i.getAttribute('src') || '').slice(0, 15)); box.remove();
+      const urls = performance.getEntriesByType('resource').map(e => new URL(e.name).pathname).filter(u => /\/data\/(svg|cmp|focus)\//.test(u));
+      return {n: ks.length, docs: docs.length, miss: miss.slice(0, 5), nmiss: miss.length, ncm, srcs, urls: [...new Set(urls)]};
+    });
+    errs();
+    assert(!r.nmiss, `${r.nmiss} of ${r.n} redraws missing from the svg groups: ${r.miss.join(', ')}`);
+    assert(r.ncm > 0, 'the overlay pack (data/cmp) is empty or did not load');
+    assert(r.srcs.every(s => s.startsWith('data:image/')), `hydrate() left an image without data: ${JSON.stringify(r.srcs)}`);
+    const bad = r.urls.filter(u => !/\/data\/(svg|cmp)\/g\d+\.json$/.test(u));
+    assert(!bad.length, `requests outside the group files: ${bad.slice(0, 5).join(' ')}`);
+    return `${r.n} redraws from ${r.docs} papers in ${r.urls.filter(u => /svg/.test(u)).length} svg group file(s); ${r.ncm} overlay images`;
+  });
+
   /* ---- Review: Agree (approve) writes and moves on ---- */
   await check('review: approve writes to the database and moves on', page, async () => {
     await page.evaluate(() => { location.hash = '#review' }); await settle(page, 5000, 2);
