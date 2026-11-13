@@ -730,6 +730,28 @@ async function reviewFlow(browser, base, seed) {
     assert(r.steps.every(x => /done|none/.test(x.cls)) && done.inbox === 2, `track ${r.steps.map(x => x.cls).join('|')}; Inbox papers ${done.inbox}`);
     return `3 sample approvals + paper_1601; ${done.pdone.split('\n')[0]}; Inbox now ${done.inbox} papers`;
   });
+  // independent review 13 Nov: a finished paper can still be browsed; dots match the big track; lists reach every paper; odd list names settle
+  await check('review: done paper browse, mini-track dots, Other lists across papers', page, async () => {
+    await page.click('#rout .pdone [data-browse]'); await settle(page, 4000, 2);
+    const b = await page.evaluate(() => ({hash: location.hash, rdoc, docs: [...new Set(rlist.map(q => String(q.doc)))], n: rlist.length, track: document.querySelector('#filters').children.length}));
+    errs(); assert(b.hash === '#review/list/all' && b.rdoc === '1601' && b.docs.join() === '1601' && b.n > 5 && !b.track, `"See its questions" → ${b.hash}, paper ${b.rdoc}, docs ${b.docs}, ${b.n} questions, ${b.track} track items left`);
+    await go('#review/papers');
+    const m = await page.evaluate(() => [...document.querySelectorAll('#ptable tbody tr[data-flow]')].map(tr => { const w = paperWork(tr.dataset.flow);
+      return {doc: tr.dataset.flow, got: [...tr.querySelectorAll('.mtrack i')].map(i => i.className).join(','), want: STEPS.map(([k]) => w.left[k] ? (k === w.at ? 'cur' : 'todo') : (w.total[k] || (k === 'sample' && w.ready.length)) ? 'done' : 'none').join(',')} }));
+    const off = m.filter(x => x.got !== x.want), c323 = m.find(x => x.doc === '323');
+    errs(); assert(!off.length, `${off.length} mini tracks disagree, e.g. ${JSON.stringify(off[0])}`);
+    assert(c323 && c323.got.split(',')[0] === 'none', `2024 Caringbah AT4 has no Your calls, its first dot is “${c323 && c323.got}”`);
+    const opts = await page.evaluate(() => { location.hash = '#review'; return new Promise(r => setTimeout(() => r([...document.querySelectorAll('#inboxBox select[data-lists] option')].map(o => o.value)), 600)) });
+    assert(opts.includes('decide') && opts.includes('diagrams'), `Other lists: ${opts.join(' ')}`);
+    await page.evaluate(() => { document.querySelector('#docF').value = '' });   // the list's paper picker still holds 1601 from "See its questions"
+    await go('#review/list/diagrams');
+    const d = await page.evaluate(() => ({rfilter, n: rlist.length, docs: new Set(rlist.map(q => q.doc)).size, sel: document.querySelector('#rtitle select[data-lists]')?.value}));
+    await go('#review/list/nosuchlist');
+    const u = await page.evaluate(() => [location.hash, rfilter]);
+    errs(); assert(d.rfilter === 'diagrams' && d.docs > 1 && d.sel === 'diagrams', `Diagrams list: ${JSON.stringify(d)}`);
+    assert(u[0] === '#review/list/recent' && u[1] === 'recent', `#review/list/nosuchlist → ${u}`);
+    return `browse ${b.n} questions of 1601; ${m.length} mini tracks match; Diagrams list ${d.n} questions over ${d.docs} papers`;
+  });
   await page.context().close();
 
   // phone 390 px, both themes: Inbox and a paper fit, the track's open step is on screen, the what-to-do line shows

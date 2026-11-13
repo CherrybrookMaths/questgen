@@ -1766,6 +1766,7 @@ html:not(.editor) .edonly{display:none!important}
 .mtrack{display:inline-flex;gap:4px;align-items:center;vertical-align:middle}
 .mtrack i{display:block;width:8px;height:8px;border-radius:50%;box-sizing:border-box;border:1.5px solid var(--line2);background:var(--panel)}
 .mtrack i.done{background:var(--ok);border-color:var(--ok)}
+.mtrack i.none{width:4px;height:4px;margin:2px;border:0;background:var(--line2)}   /* review 13 Nov: nothing in this paper for that step */
 .mtrack i.cur{width:10px;height:10px;background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft)}
 .ipl{color:var(--muted);font-size:12.5px;white-space:nowrap;font-variant-numeric:tabular-nums}
 
@@ -2468,12 +2469,13 @@ function trackHTML(w,cur){return STEPS.map(([k,l],i)=>{const n=w.left[k],t=w.tot
     const st=n?'todo':t?'done':'none';
     const tip=n?`${n} left${k==='sample'&&w.ready.length?' (approve the rest of the paper)':''}`:t?'Done':'Nothing in this paper';
     return `<li class="tstep ${st}${on?' cur':''}"><button type="button" class="step" data-f="${k}" aria-current="${on?'step':'false'}" title="${esc(l+': '+tip)}"><span class="num" aria-hidden="true">${n||!t?i+1:'✓'}</span><span class="lab">${esc(l)}</span>${n?`<span class="n">${n}</span>`:`<span class="sr">${esc(tip)}</span>`}</button></li>`}).join('')}
-// the papers list and the Inbox: the same track as 5 dots
-function miniTrack(w){return `<span class="mtrack" role="img" aria-label="${esc(STEPS.map(([k,l])=>l+(w.left[k]?' '+w.left[k]+' left':' done')).join(', '))}">${STEPS.map(([k])=>`<i class="${w.left[k]?(k===w.at?'cur':'todo'):'done'}"></i>`).join('')}</span>`}
+// the papers list and the Inbox: the same track as 5 dots (review 13 Nov: a step with nothing in the paper is a faint ring, as on the big track, not a 'done' dot)
+function miniTrack(w){return `<span class="mtrack" role="img" aria-label="${esc(STEPS.map(([k,l])=>l+(w.left[k]?' '+w.left[k]+' left':w.total[k]?' done':' nothing in this paper')).join(', '))}">${STEPS.map(([k])=>`<i class="${w.left[k]?(k===w.at?'cur':'todo'):w.total[k]||(k==='sample'&&w.ready.length)?'done':'none'}"></i>`).join('')}</span>`}
 const workLine=w=>w.n?`${w.n} left · at ${esc(stepLabel(w.at))}`:'✓ approved';
 // Review tab and Curate switch: the Inbox total (papers to review + open reports)
 function updateCounts(){const n=todoCount();$('#todoN').textContent=n||'';const c=$('#curN');if(c)c.textContent=n||''}
-const otherListsHTML=sel=>`<select data-lists aria-label="Other lists"><option value="">${sel?'Other lists…':'Choose…'}</option>${FILTERS.filter(([k])=>k!=='decide'&&k!=='diagrams').map(([k,l])=>`<option value="${k}"${k===sel?' selected':''}>${esc(l)}</option>`).join('')}</select>`;
+// review 13 Nov: the steps are walked per paper now, so "Needs your decision" and "Diagrams to approve" across every paper stay reachable here (the old step row's paper picker did that)
+const otherListsHTML=sel=>`<select data-lists aria-label="Other lists"><option value="">${sel?'Other lists…':'Choose…'}</option>${FILTERS.map(([k,l])=>`<option value="${k}"${k===sel?' selected':''}>${esc(l)}</option>`).join('')}</select>`;
 function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
   const W=[...allWork().values()].filter(w=>w.n).sort(workOrder),rep=typeof repOpen==='function'?repOpen().length:0,lv=typeof lvTodoN==='function'?lvTodoN():0;
   const card=(k,n,title,what,href,doneText,body='')=>n?`<section class="icard" data-card="${k}"><a class="ihead" href="${href}"><span class="ict">${n}</span><span class="itx"><b>${title}</b><span class="iwhat">${what}</span></span><span class="igo" aria-hidden="true">→</span></a>${body}</section>`
@@ -2498,7 +2500,8 @@ function renderSteps(){if(!B)return {base:[]};updateCounts();
     $('#filters').innerHTML=trackHTML(w,rfilter);
     $('#stephelp').innerHTML=`<b>${STEPS.indexOf(cur)+1}. ${esc(cur[1])}.</b> ${rfilter==='diagrams'&&w.left.diagrams?`${w.left.diagrams} question${w.left.diagrams===1?'':'s'} · ${dleft} diagram${dleft===1?'':'s'} left. `:''}${esc(cur[2])}`;
     try{const fs=$('#filters'),pb=fs.querySelector('.step[aria-current="step"]');if(pb&&fs.scrollWidth>fs.clientWidth){const a=fs.getBoundingClientRect(),b=pb.getBoundingClientRect();fs.scrollLeft+=b.left-a.left-(a.width-b.width)/2}}catch(e){}
-  }else{const inSel=FILTERS.some(x=>x[0]===rfilter&&x[0]!=='decide'&&x[0]!=='diagrams');$('#rtitle').innerHTML=`${inSel?'':`<b>${esc(stepLabel(rfilter))}</b>`}${otherListsHTML(inSel?rfilter:'')}`;   // the select names the list$('#filters').innerHTML='';
+  }else{const inSel=FILTERS.some(x=>x[0]===rfilter);$('#rtitle').innerHTML=`${inSel?'':`<b>${esc(stepLabel(rfilter))}</b>`}${otherListsHTML(inSel?rfilter:'')}`;   // the select names the list
+    $('#filters').innerHTML='';
     $('#stephelp').innerHTML=rfilter==='recent'?'Newest approvals first. F flags a question again; the note says why.':`Every question in this list, any status.${rdoc?'':' Pick a paper to narrow it.'}`}
   return {base}}
 // open a step of the paper (or a list); Difficulty and Reports are Inbox sections
@@ -2514,7 +2517,8 @@ function openReview(P){
     const h='#review/paper/'+d+'/'+SLUG[rfilter];if(location.hash!==h)setHash(h);
     if(was!==RMODE+'|'+rdoc+'|'+rfilter){ridx=0;_prevLeft=null}}
   else{const f=FILTERS.some(x=>x[0]===P.list)||STEPS.some(x=>x[0]===P.list)?P.list:'recent';
-    if(RMODE!=='list'||rfilter!==f)ridx=0;RMODE='list';rfilter=f;rstatus='any';rdoc=$('#docF').value}
+    if(RMODE!=='list'||rfilter!==f)ridx=0;RMODE='list';rfilter=f;rstatus='any';rdoc=$('#docF').value;
+    if(f!==P.list)setHash('#review/list/'+f)}   // an unknown list name: the address says which list is shown
   return true}
 function refreshReview(){ if(typeof renderJobs==='function')renderJobs();
   _advanced=false;
@@ -2639,7 +2643,7 @@ function nextStepHTML(){if(RMODE==='paper'&&rdoc)return paperNextHTML();
 function paperNextHTML(){const w=paperWork(rdoc),nx=nextStepWith(w,rfilter),d=B.docs[w.doc];
   if(!w.n){const more=[...allWork().values()].filter(x=>x.n&&x.doc!==w.doc).sort(workOrder)[0];
     return `<div class="pdone"><span class="ptick" aria-hidden="true">✓</span><div><b>${esc(docLabel(d))} is done.</b><div class="muted">Every step is clear.</div></div>
-      <div class="row">${more?`<a class="act primary" href="#review/paper/${more.doc}">Next paper: ${esc(docLabel(B.docs[more.doc]))} →</a>`:''}<a class="act" href="#review">← Inbox</a></div></div>`}
+      <div class="row">${more?`<a class="act primary" href="#review/paper/${more.doc}">Next paper: ${esc(docLabel(B.docs[more.doc]))} →</a>`:''}<a class="act ghost" href="#review/list/all" data-browse="${w.doc}">See its questions</a><a class="act" href="#review">← Inbox</a></div></div>`}
   return `<div class="row" style="margin-top:10px">${nx?`<button class="act primary" data-gof="${nx}">Go to ${STEPS.findIndex(x=>x[0]===nx)+1}. ${esc(stepLabel(nx))} · ${w.left[nx]} →</button>`:''}<a class="act ghost" href="#review">← Inbox</a></div>`}
 function bindNext(){$$('#rout [data-gof]').forEach(b=>b.onclick=()=>goStep(b.dataset.gof,b.dataset.any?'any':'todo'))}
 /* owner 12 Nov ("lets do that"): Tags step — choose between tagger (A) and checker (B) where they disagreed a lot */
@@ -2824,6 +2828,8 @@ function setupPicker(){
 }
 function go(n){editing=null;ridx=Math.min(Math.max(0,ridx+n),Math.max(0,rlist.length-1));renderReview();window.scrollTo({top:0})}   // renderReview shows one diagram question at a time in step 4
 $('#filters').addEventListener('click',e=>{const b=e.target.closest('.step');if(!b)return;goStep(b.dataset.f,'todo')});   // the paper's step track
+// review 13 Nov: a finished paper can still be browsed question by question (the old Papers tab's "Review" link did this): All questions, this paper
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-browse]');if(b){$('#docF').value=b.dataset.browse}},true);
 document.addEventListener('change',e=>{const m=e.target.closest&&e.target.closest('select[data-lists]');if(m&&m.value)location.hash='#review/list/'+m.value});   // "Other lists" (Inbox foot, list header)
 $('#stF').onchange=e=>{rstatus=e.target.value;ridx=0;refreshReview()};
 $('#docF').onchange=e=>{rdoc=e.target.value;ridx=0;refreshReview()};
