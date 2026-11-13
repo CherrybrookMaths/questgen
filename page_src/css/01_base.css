@@ -1,0 +1,59 @@
+:root{
+  /* owner 12 Nov: warm editorial look — paper ground, serif headings, one accent per year */
+  --bg:#f6f2ea; --panel:#fffdf8; --ink:#1f2430; --muted:#6b675f; --line:#e7e0d3; --line2:#d6ccbb;
+  --accent:#1e5f5a; --accent-soft:#e1efec; --ok:#2f7a43; --ok-soft:#e3f1e5; --warn:#9a5b00; --warn-soft:#fbefd9;
+  --bad:#b3261e; --bad-soft:#fbe4e2; --gen:#6a3fa0; --gen-soft:#efe7f8; --page:#ffffff; --hi:#f6ecd2;
+  --y12:#1e5f5a; --y12-soft:#e1efec; --y11:#b0641c; --y11-soft:#f8e9d8;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --display:"Fraunces",Georgia,"Times New Roman",serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  --serif:"Tinos","Times New Roman",Times,serif;   /* exam content: HSC papers are set in Times Roman/Italic */
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17161a; --panel:#211f24; --ink:#ece7de; --muted:#a39d92; --line:#332f36; --line2:#45404a;
+  --accent:#7cc4bb; --accent-soft:#1d3532; --ok:#7ccf94; --ok-soft:#1a3324; --warn:#f0b65a; --warn-soft:#3a2c13;
+  --bad:#f28b82; --bad-soft:#3d1d1b; --gen:#c3a3ef; --gen-soft:#2c2140; --page:#eef0f2; --hi:#3a3418;
+  --y12:#7cc4bb; --y12-soft:#1d3532; --y11:#e9a865; --y11-soft:#3a2a18; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#17161a; --panel:#211f24; --ink:#ece7de; --muted:#a39d92; --line:#332f36; --line2:#45404a;
+  --accent:#7cc4bb; --accent-soft:#1d3532; --ok:#7ccf94; --ok-soft:#1a3324; --warn:#f0b65a; --warn-soft:#3a2c13;
+  --bad:#f28b82; --bad-soft:#3d1d1b; --gen:#c3a3ef; --gen-soft:#2c2140; --page:#eef0f2; --hi:#3a3418;
+  --y12:#7cc4bb; --y12-soft:#1d3532; --y11:#e9a865; --y11-soft:#3a2a18; color-scheme:dark}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--panel)}
+.wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1500px;margin:0 auto}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--panel);border-bottom:1px solid var(--line)}
+.top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding-block:10px}
+.brand{font:600 19px var(--display);margin:0;letter-spacing:-.01em}
+.brand small{font:500 13px var(--sans);color:var(--muted);margin-left:6px}
+.views{display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:3px;position:relative}
+.views a{font:600 14px var(--sans);color:var(--muted);text-decoration:none;padding:5px 14px;border-radius:6px;position:relative;z-index:1;transition:color .2s}
+.views a[aria-current="page"]{color:var(--ink)}
+/* owner 12 Nov: "clicking between tabs the pill should slide to another one" */
+.views .slider{position:absolute;top:3px;bottom:3px;left:0;width:0;border-radius:6px;background:var(--panel);box-shadow:0 1px 2px rgba(0,0,0,.08);transition:transform .28s cubic-bezier(.3,.7,.2,1),width .28s cubic-bezier(.3,.7,.2,1);z-index:0}
+@media (prefers-reduced-motion:reduce){.views .slider{transition:none}}
+.views .n{font:500 12px var(--mono);margin-left:6px;color:var(--warn)}
+.search{margin-left:auto;flex:1 1 160px;max-width:340px}
+.search input{width:100%}
+select,input,textarea{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line2);border-radius:6px;padding:6px 9px}
+button{font:inherit;color:inherit}
+button.act{font:600 13px var(--sans);border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:6px;padding:6px 12px;cursor:pointer}
+button.act:hover{border-color:var(--accent)}
+button.ok{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
+button.warn{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+button.ghost,a.ghost{border-color:transparent;background:none;color:var(--accent);padding:4px 6px;text-decoration:none}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+kbd{font:500 11px var(--mono);border:1px solid var(--line2);border-bottom-width:2px;border-radius:4px;padding:0 4px;color:var(--muted);background:var(--panel)}
+.badge{font:600 11px var(--sans);letter-spacing:.04em;text-transform:uppercase;border-radius:4px;padding:2px 7px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap}
+.b-scan{color:var(--warn);border-color:var(--warn);background:var(--warn-soft)}
+.b-acc{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.b-bad{color:var(--bad);border-color:var(--bad);background:var(--bad-soft)}
+.b-ok{color:var(--ok);border-color:var(--ok);background:var(--ok-soft)}
+.b-gen{color:var(--gen);border-color:var(--gen);background:var(--gen-soft)}
+.muted{color:var(--muted)}
+.empty{padding:36px 16px;text-align:center;color:var(--muted)}
+.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:max(16px,env(safe-area-inset-right,0px));background:var(--ink);color:var(--panel);padding:8px 14px;border-radius:6px;font-size:13px;opacity:0;transition:opacity .2s;z-index:20;pointer-events:none}
+.toast.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+

@@ -1,0 +1,78 @@
+/* ---------- question body ---------- */
+.qbody{display:flex;flex-direction:column;gap:10px;min-width:0}
+.tx{overflow-x:auto;overflow-y:hidden;min-width:0}
+.part{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:2px 10px;padding-top:8px;border-top:1px solid var(--line)}
+.part.child{margin-left:2.2em}
+.part.first{border-top:0;padding-top:0}
+.plabel{font:600 14px var(--mono);color:var(--muted)}
+.pmarks{font:500 12.5px var(--mono);color:var(--muted);white-space:nowrap}
+.under{grid-column:2/4;display:flex;flex-direction:column;gap:6px;min-width:0}
+/* unlabelled text (single-part questions) uses the full width: no empty label column */
+.part.nolabel{grid-template-columns:minmax(0,1fr) auto}
+.part.nolabel .under{grid-column:1/-1}
+.fig{max-width:100%;background:none;margin:6px auto;display:block}
+/* diagrams are transparent black ink; in dark mode flip the ink to light (hue-rotate keeps the overlay colours) */
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .fig{filter:invert(1) hue-rotate(180deg)}}
+:root[data-theme="dark"] .fig{filter:invert(1) hue-rotate(180deg)}
+.figslot{display:block;text-align:center}
+.opts{display:grid;gap:4px;margin-top:4px}
+.opt{display:grid;grid-template-columns:2em minmax(0,1fr) auto;gap:8px;align-items:baseline;padding:3px 6px;border-radius:6px}
+.opt.correct.show{background:var(--ok-soft)}
+.opt b{font-family:var(--mono)}
+.ogrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 18px;margin-top:6px}
+@media (max-width:520px){.ogrid{grid-template-columns:1fr}}
+.ocell{min-width:0;border:1px solid transparent;border-radius:8px;padding:4px 6px}
+.ocell.correct{border-color:var(--ok);background:var(--ok-soft)}
+.ohd{display:flex;gap:8px;align-items:center}.ohd b{font-family:var(--mono)}
+.ocell .fig{max-width:100%}
+table.ot thead th.oth{font-style:italic;font-weight:500}
+/* data tables: label column separate, all value columns identical width */
+.dtwrap{overflow-x:auto;margin:8px 0;max-width:100%;display:flex}
+.dtwrap>table{margin:0 auto;flex:none}
+table.dt{border-collapse:collapse;table-layout:fixed;background:var(--panel)}
+table.dt caption{caption-side:top;text-align:center;font-weight:600;font-size:13.5px;padding-bottom:4px}
+table.dt th,table.dt td{border:1px solid var(--line2);padding:5px 8px;text-align:center;vertical-align:middle;overflow-wrap:anywhere}
+table.dt thead th{background:var(--bg);font-weight:600}
+table.dt th.rl{background:var(--bg);font-weight:600;text-align:center}   /* owner: label column (x, f(x)) centred like the values */
+table.dt .ln{display:block;line-height:1.3;padding:.18em 0}   /* multi-line header: each line its own row, no overlap */
+table.dt th.dg{background:linear-gradient(to top right,transparent calc(50% - .7px),var(--muted) calc(50% - .6px),var(--muted) calc(50% + .6px),transparent calc(50% + .7px)),var(--bg);padding:2px 5px;font-size:.9em;font-weight:600}
+table.dt th.dg .dgtr,table.dt th.dg .dgbl{line-height:1.12}   /* owner 12 Nov: "Period and rate box too tall and wide" */
+table.dt th.dg .dgtr{display:block;text-align:right}
+table.dt th.dg .dgbl{display:block;text-align:left}
+table.slp{border-collapse:collapse;margin:6px auto;font-family:var(--serif,serif);font-size:1.05em}
+table.slp th{font-weight:400;text-align:right;padding:3px 12px 3px 4px;border-right:1.5px solid currentColor}
+table.slp td{text-align:left;padding:3px 4px 3px 12px;white-space:pre;word-spacing:.35em}
+table.dt td:empty{background:none}   /* owner: empty cells are for filling in; never shaded */
+table.dt.blankok td:empty{background:none}
+table.ot tr.correct.show td{background:var(--ok-soft)}   /* owner: "why is D randomly bolded" - no bold; the badge says it is the answer */
+table.ot td.ansc,table.ot th.ansc{border:0;background:none!important;text-align:left;padding-left:8px;width:5.5em}
+table.ot th.lab{border:0;background:none;font-family:var(--mono);text-align:right;padding:5px 10px 5px 0;width:3.2em;white-space:nowrap;overflow-wrap:normal}   /* owner: the letter and its full stop never split ("A" / ".") */
+table.ot thead th.lab{background:none}
+/* exam content (question/solution/rubric text, options, data + answer tables, lists) in Times like the HSC papers;
+   UI chrome (header, buttons, chips, badges, Papers table, part labels, marks) keeps --sans/--mono */
+.qbody{font-size:16px}
+.tx,.opt,.ocell,table.dt,ul.qlist,table.rub td:not(.m),table.rub td.ans{font-family:var(--serif)}
+.opt b,.ohd b,table.ot th.lab{font-family:var(--serif)}
+/* tag chips with hover/tap card */
+.tagfold{margin-top:6px}.tagfold>summary{font-size:12px;color:var(--muted,#888);cursor:pointer}
+.tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.chipw{position:relative;display:inline-flex}
+.chip{border:1px solid var(--line);background:var(--accent-soft);border-radius:999px;padding:2px 10px;font-size:12.5px;cursor:help;color:var(--ink);text-align:left}
+.chip .y{font:500 11px var(--mono);color:var(--muted);margin-right:5px}
+.chip.y11{background:var(--bg);border-style:dashed}
+.chip.removed{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.chip.no_match{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
+.chip.sec{opacity:.75}
+.pop{display:none;position:absolute;left:0;top:calc(100% + 6px);z-index:8;width:max-content;max-width:min(340px,80vw);background:var(--panel);border:1px solid var(--line2);border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.16);padding:10px 12px;font-size:13px;line-height:1.45}
+.chipw:hover .pop,.chipw.open .pop,.chip:focus-visible+.pop{display:block}
+.pop .k{font:11px var(--mono);color:var(--muted);display:block;margin-bottom:4px}
+.pop .t{display:block;margin-bottom:6px}
+.pop .o{display:block;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:6px;margin-top:4px}
+/* solutions + rubric */
+details.solbox{border-top:1px solid var(--line);padding-top:8px}
+details.solbox>summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:13.5px}
+.sol{border-left:3px solid var(--accent);padding:8px 12px;background:var(--bg);border-radius:0 6px 6px 0;margin-top:8px;display:flex;flex-direction:column;gap:8px}
+.sol.generated{border-left-color:var(--gen)}
+.pbr{display:block;height:.45em}
+.tx mjx-container[display="true"]{margin:.35em 0!important}
+.sol .shd{display:flex;flex-wrap:wrap;gap:6px;align-items:center}

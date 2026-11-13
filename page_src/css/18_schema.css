@@ -1,0 +1,21 @@
+
+/* data model diagram (owner 14 Nov: "Show a visual of our db schema and how everything connects") */
+.g2schema{border:1px solid var(--line);border-radius:8px;background:color-mix(in srgb,var(--panel) 55%,var(--bg));padding:8px}
+.schema{display:block;width:100%;min-width:900px;height:auto;font-family:var(--sans)}
+.schema .sb rect{fill:var(--panel);stroke:var(--line2)}
+.schema .sb .sbh{fill:var(--accent-soft);stroke:none}
+.schema .sb.file .sbh{fill:var(--y11-soft)}.schema .sb.page .sbh{fill:var(--gen-soft)}
+.schema .sb.file>rect:first-child,.schema .sb.page>rect:first-child{stroke-dasharray:4 3}
+.schema .st{font-weight:600;font-size:14px;fill:var(--ink)}
+.schema .sn{font-size:12px;fill:var(--muted);font-variant-numeric:tabular-nums}
+.schema .sr{font-size:12px;fill:var(--ink)}.schema .sr.pk{font-weight:600}.schema .sr.fk{fill:var(--accent)}
+.schema .snote{font-size:11px;fill:var(--muted)}
+.schema .se{fill:none;stroke:var(--muted);stroke-width:1.3;opacity:.75}
+.schema .se.link{stroke-dasharray:5 4;stroke:var(--gen)}.schema .se.poly{stroke-dasharray:2 3}
+.schema .se.self,.schema .se.self2{stroke:var(--accent)}.schema .se.sync{stroke:var(--gen);stroke-dasharray:5 4}
+.schema .sarw{fill:var(--muted)}
+.schema .sdiv{stroke:var(--line2);stroke-dasharray:3 4}
+.schema .sz{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;fill:var(--muted)}
+.schema .slegend text{font-size:11.5px;fill:var(--muted)}
+.g2keys{grid-template-columns:repeat(5,minmax(0,1fr))}
+@media (max-width:860px){.g2keys{grid-template-columns:1fr 1fr}}@media (max-width:520px){.g2keys{grid-template-columns:1fr}}

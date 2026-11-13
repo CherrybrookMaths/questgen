@@ -1,0 +1,228 @@
+<title>Question Bank Structure</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; diagrams and grids break out to full width. Exam-paper ink on white, syllabus codes in mono. */
+:root{
+  --bg:#fbfcfd; --panel:#ffffff; --ink:#15202c; --muted:#5b6774; --line:#dde3ea; --soft:#eef2f7;
+  --accent:#2453a3; --accent-soft:#e6eefb; --y11:#0f7a6c; --y11-soft:#e2f4f1; --y12:#6a43a8; --y12-soft:#efe8fa;
+  --warn:#9a5a00; --warn-soft:#fcf1de; --bad:#b0302a; --bad-soft:#fbe7e5;
+  --f-text:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-head:"IBM Plex Sans Condensed","IBM Plex Sans",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#10161d; --panel:#161e27; --ink:#e6ebf1; --muted:#9aa6b3; --line:#2a3542; --soft:#1c2631;
+  --accent:#8db2f0; --accent-soft:#1d2a40; --y11:#5fcab8; --y11-soft:#13302c; --y12:#b99be8; --y12-soft:#28203a;
+  --warn:#e5b25c; --warn-soft:#33270f; --bad:#f08a83; --bad-soft:#3a1d1b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#10161d; --panel:#161e27; --ink:#e6ebf1; --muted:#9aa6b3; --line:#2a3542; --soft:#1c2631;
+  --accent:#8db2f0; --accent-soft:#1d2a40; --y11:#5fcab8; --y11-soft:#13302c; --y12:#b99be8; --y12-soft:#28203a;
+  --warn:#e5b25c; --warn-soft:#33270f; --bad:#f08a83; --bad-soft:#3a1d1b; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-text);margin:0}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:28px 64px}
+h1,h2,h3{font-family:var(--f-head);font-weight:600;text-wrap:balance;margin:0}
+h1{font-size:30px;letter-spacing:-.01em}
+h2{font-size:22px;margin-bottom:6px}
+h3{font-size:16px}
+p{margin:0;max-width:68ch}
+.lede{color:var(--muted);margin-top:8px}
+.eyebrow{font:500 11.5px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.draft{display:inline-block;font:500 12px var(--f-mono);color:var(--warn);background:var(--warn-soft);border-radius:4px;padding:2px 8px;margin-left:10px;vertical-align:middle}
+section{margin-top:44px;display:grid;gap:16px}
+.mono{font-family:var(--f-mono);font-size:12.5px}
+.muted{color:var(--muted)}
+/* layers diagram */
+.layers{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,3fr);gap:14px;align-items:stretch}
+.layer-col{display:grid;gap:10px;min-width:0}
+.layer{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:4px;min-width:0}
+.layer .n{font:600 26px/1 var(--f-head);font-variant-numeric:tabular-nums}
+.layer.teach{border-color:var(--accent);background:var(--accent-soft)}
+.spine{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;position:relative}
+.spine .layer{position:relative}
+.spine .layer:not(:last-child)::after{content:"›";position:absolute;right:-9px;top:50%;transform:translate(50%,-50%);color:var(--muted);font-size:20px}
+.mapsto{display:grid;place-items:center;color:var(--accent);font:500 12px var(--f-mono);writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.08em;text-transform:uppercase}
+.spine-label{grid-column:1/-1;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.below{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:760px){.layers{grid-template-columns:1fr}.mapsto{writing-mode:horizontal-tb;transform:none;padding:4px 0}.spine{grid-template-columns:1fr}.spine .layer:not(:last-child)::after{content:"⌄";right:50%;top:auto;bottom:-14px;transform:translateX(50%)}.below{grid-template-columns:1fr}}
+/* topic grid */
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.topic{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:8px;align-content:start;min-width:0}
+.topic .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.topic .count{font:600 20px/1 var(--f-head);font-variant-numeric:tabular-nums}
+.bar{height:6px;background:var(--soft);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:3px}
+.subs{display:flex;flex-wrap:wrap;gap:4px}
+.sub{font-size:11.5px;line-height:1.3;padding:2px 6px;border-radius:4px;background:var(--soft);color:var(--ink)}
+.sub.y11{background:var(--y11-soft);color:var(--y11)}
+.sub.y12{background:var(--y12-soft);color:var(--y12)}
+.sub.zero{background:transparent;border:1px dashed var(--line);color:var(--muted)}
+.sub b{font-weight:600;font-variant-numeric:tabular-nums}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;gap:6px;align-items:center}
+.sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+/* anatomy */
+.anat{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:start}
+@media (max-width:860px){.anat{grid-template-columns:1fr}}
+.qcard{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.qhead{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline;padding:12px 16px;border-bottom:1px solid var(--line)}
+.qid{font:600 17px var(--f-head)}
+.chip{font:500 11.5px var(--f-mono);padding:2px 7px;border-radius:4px;background:var(--soft);color:var(--muted)}
+.chip.adv{background:var(--accent-soft);color:var(--accent)}
+.qbody{padding:12px 16px;display:grid;gap:10px}
+.part{border-left:3px solid var(--line);padding:2px 0 2px 12px;display:grid;gap:6px}
+.part .t{font-size:14px}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:11.5px;padding:2px 7px;border-radius:4px;border:1px solid var(--line);display:inline-flex;gap:5px;align-items:center}
+.tag.main{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.tag.flag{border-style:dashed;color:var(--warn);border-color:var(--warn)}
+.tag.style{color:var(--y12);border-color:var(--y12)}
+.tag code{font:500 11px var(--f-mono)}
+.callouts{display:grid;gap:10px}
+.callout{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 14px;display:grid;gap:4px}
+.callout .k{font:500 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.callout.issue .k{color:var(--bad)}
+/* fields table */
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:13.5px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--soft)}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.state{font:500 11.5px var(--f-mono);padding:2px 7px;border-radius:4px;white-space:nowrap}
+.state.have{background:var(--y11-soft);color:var(--y11)}
+.state.new{background:var(--accent-soft);color:var(--accent)}
+.state.later{background:var(--soft);color:var(--muted)}
+/* issues */
+.issues{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.issue{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--bad);border-radius:8px;padding:12px 14px;display:grid;gap:4px}
+.issue .n{font:600 26px/1 var(--f-head);font-variant-numeric:tabular-nums}
+/* decisions */
+.decisions{display:grid;gap:10px}
+.dec{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 16px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 14px}
+.dec .no{font:600 15px var(--f-mono);color:var(--accent);grid-row:span 3}
+.dec .rec{font-size:13.5px;color:var(--muted)}
+.dec .rec b{color:var(--ink);font-weight:500}
+footer{margin-top:44px;color:var(--muted);font-size:12.5px}
+</style>
+
+<div class="wrap">
+  <div class="eyebrow">HSC Mathematics Advanced question bank · CMC Education</div>
+  <h1 style="margin-top:6px">Question bank structure <span class="draft">DRAFT v1</span></h1>
+  <p class="lede">How every question would be coded, tagged and organised before the remaining ~130–150 exams are imported. Numbers are from the 301 approved questions in the bank today. Nothing here has been applied yet.</p>
+
+  <section>
+    <div><div class="eyebrow">1 · The layers</div><h2>Teaching topics sit on top of the official syllabus</h2>
+    <p class="muted">The syllabus is the spine and never changes. Teaching topics are our own grouping for revision sets and worksheets: each one is just a list of syllabus subheadings, so it can be renamed or regrouped at any time without re-tagging a single question.</p></div>
+    <div class="layers">
+      <div class="layer-col">
+        <div class="layer teach"><span class="eyebrow">Teaching topic (ours)</span><span class="n">16</span><span>Curve sketching, Optimisation, Probability…</span></div>
+      </div>
+      <div class="mapsto">maps onto</div>
+      <div class="layer-col">
+        <div class="spine">
+          <div class="layer"><span class="eyebrow">Focus area</span><span class="n">14</span><span>e.g. Applications of calculus</span></div>
+          <div class="layer"><span class="eyebrow">Subheading</span><span class="n">52</span><span>e.g. Turning points, inflections and graphing</span></div>
+          <div class="layer"><span class="eyebrow">Dot point</span><span class="n">359</span><span class="mono">e.g. Y12-291 · classify stationary points</span></div>
+        </div>
+        <div class="spine-label muted"><span>2024 NESA Mathematics Advanced syllabus</span><span>tags attach here ↓</span></div>
+        <div class="below">
+          <div class="layer"><span class="eyebrow">Question</span><span>QID, source, type, marks, course status</span></div>
+          <div class="layer"><span class="eyebrow">Part (a), (b)…</span><span>one main dot point, secondary dot points, style, flags</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div><div class="eyebrow">2 · Teaching topics</div><h2>16 proposed topics and what we already have</h2>
+    <p class="muted">Count = approved Advanced questions with at least one part whose main tag falls in the topic (a question can count in two topics). Chips are the syllabus subheadings each topic is built from, with today's count; dashed chips have no questions yet.</p></div>
+    <div class="legend"><span><i class="sw" style="background:var(--y11-soft);border:1px solid var(--y11)"></i>Year 11 content</span><span><i class="sw" style="background:var(--y12-soft);border:1px solid var(--y12)"></i>Year 12 content</span><span><i class="sw" style="border:1px dashed var(--line)"></i>no questions yet</span></div>
+    <div class="topics" id="topics"></div>
+  </section>
+
+  <section>
+    <div><div class="eyebrow">3 · What every question carries</div><h2>Tags go on parts, not whole questions</h2>
+    <p class="muted">A real question from the bank, shown with the proposed fields. Blue is the main tag (exactly one per part), outlined tags are secondary, purple is the question style, dashed amber are flags.</p></div>
+    <div class="anat">
+      <div class="qcard">
+        <div class="qhead"><span class="qid">QID 0089</span><span class="muted">2025 James Ruse Agricultural High School AT4 Q20</span><span class="chip">Short answer · 7 marks</span><span class="chip adv">Advanced</span></div>
+        <div class="qbody">
+          <div class="t">Let <i>f</i>(<i>x</i>) = <i>x</i>³ − 6<i>x</i>² + 9<i>x</i> + 1.</div>
+          <div class="part"><div class="t"><b>(a)</b> Find any stationary points and determine their nature. <span class="muted">3 marks</span></div>
+            <div class="tags"><span class="tag main"><code>Y12-291</code>Turning points, inflections and graphing</span><span class="tag"><code>Y12-295</code>second-derivative test</span><span class="tag style">Find</span></div></div>
+          <div class="part"><div class="t"><b>(b)</b> Find any points of inflexion. <span class="muted">2 marks</span></div>
+            <div class="tags"><span class="tag main"><code>Y12-294</code>Turning points, inflections and graphing</span><span class="tag style">Find</span></div></div>
+          <div class="part"><div class="t"><b>(c)</b> Sketch the curve, showing all important features. <span class="muted">2 marks</span></div>
+            <div class="tags"><span class="tag main"><code>Y12-296</code>Turning points, inflections and graphing</span><span class="tag style">Sketch</span><span class="tag flag">diagram</span><span class="tag flag">uses (a), (b)</span></div></div>
+        </div>
+      </div>
+      <div class="callouts">
+        <div class="callout"><span class="k">Question level</span><span>QID · source (year, school, task, question number) · multiple choice or short answer · marks · course status (Advanced / Standard course / Old syllabus).</span></div>
+        <div class="callout"><span class="k">Part level</span><span>One <b>main</b> dot point decides which topic the part belongs to. Secondary dot points record other skills it uses. Style says what kind of task it is. Flags mark things a worksheet filter needs.</span></div>
+        <div class="callout issue"><span class="k">Why per part</span><span>2022 HSC Q21 has part (a) on compound interest (Geometric sequences) and part (b) on an annuity table (Annuities). Tagged per part, a Sequences set can take (a) and a Finance set takes (b); tagged per question, one of them is always wrong.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div><div class="eyebrow">4 · Fields</div><h2>What is filled in at import</h2>
+    <p class="muted">“Have” is in the bank already; “New” would be added now and filled for every imported part; “Later” waits until the bank is full.</p></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Field</th><th>Level</th><th>Values</th><th>Today (474 parts)</th><th>State</th></tr></thead>
+      <tbody>
+        <tr><td>QID</td><td>Question</td><td class="mono">QID 0089</td><td class="num">301 / 301</td><td><span class="state have">Have</span></td></tr>
+        <tr><td>Source</td><td>Question</td><td>year · school or NESA / CSSA / Independent · AT1–AT4 or HSC · question number</td><td class="num">301 / 301</td><td><span class="state have">Have</span></td></tr>
+        <tr><td>Course status</td><td>Question</td><td>Advanced · Standard course · Old syllabus</td><td class="num">276 · 24 · 1</td><td><span class="state have">Have</span></td></tr>
+        <tr><td>Main dot point</td><td>Part</td><td>exactly one, from the 359</td><td class="num">434 / 474</td><td><span class="state have">Have</span> <span class="muted">40 missing</span></td></tr>
+        <tr><td>Secondary dot points</td><td>Part</td><td>zero or more</td><td class="num">0.85 per part</td><td><span class="state have">Have</span></td></tr>
+        <tr><td>Style</td><td>Part</td><td>Find · Show / prove · Hence · Sketch / draw · Explain / justify</td><td class="num">350 · 66 · 19 · 25 · 14</td><td><span class="state new">New</span></td></tr>
+        <tr><td>Flag: integration</td><td>Part</td><td>yes / no</td><td class="num">30 parts</td><td><span class="state new">New</span></td></tr>
+        <tr><td>Flag: builds on earlier part</td><td>Part</td><td>which part it uses</td><td class="num">26 parts</td><td><span class="state new">New</span></td></tr>
+        <tr><td>Flag: diagram</td><td>Part</td><td>given diagram / student draws</td><td class="num">66 parts</td><td><span class="state new">New</span></td></tr>
+        <tr><td>Calculator</td><td>Part</td><td>needed · not needed</td><td class="num">not recorded</td><td><span class="state new">New</span> <span class="muted">your call</span></td></tr>
+        <tr><td>Difficulty</td><td>Part</td><td>e.g. 1–3</td><td class="num">not recorded</td><td><span class="state later">Later</span></td></tr>
+        <tr><td>Order within topic</td><td>Topic</td><td>teaching order</td><td class="num">not recorded</td><td><span class="state later">Later</span></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <div><div class="eyebrow">5 · What the current tags get wrong</div><h2>Fix these in the 301 before multiplying them by 13</h2></div>
+    <div class="issues">
+      <div class="issue"><span class="n">40</span><span>parts with no main tag (mostly Standard-course and old-syllabus parts, plus some that need one).</span></div>
+      <div class="issue"><span class="n">46</span><span>questions spread over two or more subheadings: fine once every part has its own main tag, but each needs a check.</span></div>
+      <div class="issue"><span class="n">39</span><span>main tags the tagger was unsure of (confidence below 0.6).</span></div>
+      <div class="issue"><span class="n">1+</span><span>known wrong tag: James Ruse Q1 (types of relations) was tagged to a current dot point.</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div><div class="eyebrow">6 · For you to decide</div><h2>Six decisions before the import starts</h2></div>
+    <div class="decisions">
+      <div class="dec"><span class="no">D1</span><b>Are these the right 16 teaching topics?</b><span class="rec">Recommendation: <b>keep these</b>, matching the revision sets you asked for. Rename, merge or split freely; it costs nothing later.</span></div>
+      <div class="dec"><span class="no">D2</span><b>Exactly one main tag per part?</b><span class="rec">Recommendation: <b>yes</b>. It is what lets a set include or exclude a part cleanly (no integration, Standard course out).</span></div>
+      <div class="dec"><span class="no">D3</span><b>Question styles: Find, Show/prove, Hence, Sketch/draw, Explain/justify?</b><span class="rec">Recommendation: <b>yes</b>, five values, filled automatically from the wording and checked on a sample.</span></div>
+      <div class="dec"><span class="no">D4</span><b>Flags: integration, builds on earlier part, diagram?</b><span class="rec">Recommendation: <b>yes</b>. Each one already drove a rule you gave today.</span></div>
+      <div class="dec"><span class="no">D5</span><b>Record calculator needed / not needed?</b><span class="rec">Recommendation: <b>only if you will filter by it</b>. It is the one field that needs judgement on every part.</span></div>
+      <div class="dec"><span class="no">D6</span><b>Who checks tags?</b><span class="rec">Recommendation: <b>you spot-check one topic</b> (say Curve sketching) after the 301 are re-tagged; the rest is self-audited the way the questions were.</span></div>
+    </div>
+  </section>
+
+  <footer>Draft for discussion · 11 Nov 2026 · counts from the approved bank (301 questions, 474 parts) · syllabus: NESA Mathematics Advanced 11–12 (2024)</footer>
+</div>
+
+<script>
+const T = {"topics": {"Functions": ["Algebraic techniques", "Introduction to functions and relations", "Linear functions", "Quadratic and cubic functions", "Reciprocal functions", "Constructing and using functions", "Direct and inverse variation", "Circles and semicircles", "Properties of functions, relations and graphs", "Piecewise-defined functions", "Absolute value functions"], "Graph transformations and modelling": ["Graph transformations", "Transformations of trigonometric functions", "Modelling with functions"], "Trigonometry": ["Trigonometry with acute angles", "Trigonometry with angles of any magnitude", "Radians", "Trigonometric identities and equations"], "Exponentials and logarithms": ["Exponential functions", "Logarithmic functions"], "Introduction to differentiation": ["Estimating change", "The derivative", "Calculations with the derivative", "Graphical applications of the derivative", "The derivative as a rate of change"], "Differential calculus": ["Differentiation with exponential functions", "Differentiation with logarithmic functions", "Differentiation with trigonometric functions", "Using derivatives"], "Curve sketching": ["Turning points, inflections and graphing"], "Optimisation": ["Optimisation"], "Rates of change": ["Rates of change"], "Integral calculus": ["Primitive functions", "The definite integral", "The Fundamental Theorem of Calculus", "Indefinite integrals", "Integration with exponential functions", "Integration with logarithmic functions", "Integration with trigonometric functions"], "Areas": ["Areas and the definite integral"], "Sequences and series": ["Sequences and series", "Arithmetic sequences and series", "Geometric sequences and series"], "Financial mathematics": ["Reducing balance loans", "Annuities"], "Probability": ["Sets and set notation", "Probability", "Conditional probability", "Data"], "Random variables": ["Discrete random variables", "Continuous random variables"], "Normal distribution": ["The normal distribution"]}, "counts": {"Functions": 34, "Graph transformations and modelling": 35, "Trigonometry": 23, "Exponentials and logarithms": 11, "Introduction to differentiation": 15, "Differential calculus": 24, "Curve sketching": 16, "Optimisation": 11, "Rates of change": 12, "Integral calculus": 26, "Areas": 25, "Sequences and series": 26, "Financial mathematics": 10, "Probability": 18, "Random variables": 15, "Normal distribution": 12}};
+const SUBCOUNT = {"Properties of functions, relations and graphs": 13, "Quadratic and cubic functions": 6, "Constructing and using functions": 1, "Algebraic techniques": 4, "Linear functions": 3, "Direct and inverse variation": 1, "Reciprocal functions": 2, "Absolute value functions": 5, "Introduction to functions and relations": 1, "Graph transformations": 16, "The normal distribution": 12, "Continuous random variables": 10, "Discrete random variables": 5, "Integration with exponential functions": 4, "The definite integral": 1, "Integration with trigonometric functions": 6, "Integration with logarithmic functions": 7, "Areas and the definite integral": 25, "Primitive functions": 5, "Indefinite integrals": 4, "Transformations of trigonometric functions": 15, "Modelling with functions": 9, "Turning points, inflections and graphing": 16, "Optimisation": 11, "Rates of change": 12, "Calculations with the derivative": 12, "Graphical applications of the derivative": 3, "Arithmetic sequences and series": 12, "Geometric sequences and series": 13, "Sequences and series": 1, "Sets and set notation": 2, "Conditional probability": 11, "Data": 4, "Probability": 6, "Trigonometry with acute angles": 5, "Trigonometry with angles of any magnitude": 8, "Radians": 6, "Using derivatives": 11, "Differentiation with exponential functions": 6, "Differentiation with trigonometric functions": 4, "Differentiation with logarithmic functions": 5, "Trigonometric identities and equations": 8, "Logarithmic functions": 8, "Exponential functions": 3, "Reducing balance loans": 6, "Annuities": 6};
+const Y12 = new Set(["Transformations of trigonometric functions", "Modelling with functions", "Sequences and series", "Arithmetic sequences and series", "Geometric sequences and series", "Differentiation with exponential functions", "Differentiation with logarithmic functions", "Differentiation with trigonometric functions", "Using derivatives", "Primitive functions", "The definite integral", "The Fundamental Theorem of Calculus", "Indefinite integrals", "Integration with exponential functions", "Integration with logarithmic functions", "Integration with trigonometric functions", "Areas and the definite integral", "Turning points, inflections and graphing", "Optimisation", "Rates of change", "Discrete random variables", "Continuous random variables", "The normal distribution", "Reducing balance loans", "Annuities"]);
+const max = Math.max(...Object.values(T.counts));
+document.getElementById('topics').innerHTML = Object.entries(T.topics).map(([name, subs]) => {
+  const n = T.counts[name];
+  const chips = subs.map(s => { const c = SUBCOUNT[s] || 0; const cls = c ? (Y12.has(s) ? 'y12' : 'y11') : 'zero';
+    return `<span class="sub ${cls}">${s}${c ? ` <b>${c}</b>` : ''}</span>`; }).join('');
+  return `<div class="topic"><div class="top"><h3>${name}</h3><span class="count">${n}</span></div>
+    <div class="bar" aria-hidden="true"><i style="width:${(n / max * 100).toFixed(0)}%"></i></div><div class="subs">${chips}</div></div>`;
+}).join('');
+</script>

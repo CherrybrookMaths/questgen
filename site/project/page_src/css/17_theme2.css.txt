@@ -1,0 +1,302 @@
+/* ==== theme2: site-wide refinement pass (owner 14 Nov: "Questgen is buns, make it more sophisticated" ... "It should all feel clean and sophisticated")
+   Inserted as the LAST css in the first style block, so it overrides earlier rules. Scope: tokens, header, buttons/inputs,
+   Bank, Review, Papers, Difficulty, Guide, phone menu. It does NOT style the Exams page internals (exams.* / mine.* /
+   exam_auto.*) or the A4 paper (.sheet / .x*), which another pass owns; those only inherit the tokens and the button system.
+   Kept from UI_SPEC: warm editorial identity, sliding tab pill, topic list behaviour, no pills on bank cards, logo. ==== */
+
+/* ---- tokens: calmer paper ground, crisper ink, one confident accent, hairline borders ---- */
+:root{
+  --bg:#f6f4ef; --panel:#fffefb; --ink:#16181d; --muted:#5d5a54; --line:#e9e5dd; --line2:#d8d2c7;
+  --accent:#1a5a53; --accent-soft:#e4eeeb; --ok:#26703c; --ok-soft:#e4f0e6; --warn:#8a5200; --warn-soft:#f8eedb;
+  --bad:#a8251d; --bad-soft:#f9e5e3; --gen:#5f3a94; --gen-soft:#eee8f6; --hi:#f4ebd2;
+  --y12:#1a5a53; --y12-soft:#e4eeeb; --y11:#9c5617; --y11-soft:#f6eadb;
+  --t2-hover:color-mix(in srgb,var(--ink) 4%,transparent);
+  --t2-press:color-mix(in srgb,var(--ink) 7%,transparent);
+  --t2-ring:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent);
+  --t2-shadow:0 1px 2px rgba(22,24,29,.04),0 4px 14px -8px rgba(22,24,29,.10);
+  --t2-pop:0 1px 2px rgba(22,24,29,.06),0 16px 40px -16px rgba(22,24,29,.28);
+  --t2-r:6px; --t2-rl:8px;
+}
+/* dark: deep and neutral (no purple cast), not muddy */
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#111113; --panel:#18181b; --ink:#ecebe7; --muted:#9c9991; --line:#27272b; --line2:#36363b;
+  --accent:#7fc3b9; --accent-soft:#16292a; --ok:#7dcb93; --ok-soft:#15281c; --warn:#e8b25e; --warn-soft:#2e2412;
+  --bad:#f08a80; --bad-soft:#331a18; --gen:#bea0ea; --gen-soft:#251d33; --hi:#322e19;
+  --y12:#7fc3b9; --y12-soft:#16292a; --y11:#e4a463; --y11-soft:#2f2316;
+  --t2-hover:color-mix(in srgb,var(--ink) 5%,transparent);
+  --t2-press:color-mix(in srgb,var(--ink) 9%,transparent);
+  --t2-shadow:0 1px 2px rgba(0,0,0,.3);
+  --t2-pop:0 1px 2px rgba(0,0,0,.4),0 18px 44px -16px rgba(0,0,0,.7)}}
+:root[data-theme="dark"]{
+  --bg:#111113; --panel:#18181b; --ink:#ecebe7; --muted:#9c9991; --line:#27272b; --line2:#36363b;
+  --accent:#7fc3b9; --accent-soft:#16292a; --ok:#7dcb93; --ok-soft:#15281c; --warn:#e8b25e; --warn-soft:#2e2412;
+  --bad:#f08a80; --bad-soft:#331a18; --gen:#bea0ea; --gen-soft:#251d33; --hi:#322e19;
+  --y12:#7fc3b9; --y12-soft:#16292a; --y11:#e4a463; --y11-soft:#2f2316;
+  --t2-hover:color-mix(in srgb,var(--ink) 5%,transparent);
+  --t2-press:color-mix(in srgb,var(--ink) 9%,transparent);
+  --t2-shadow:0 1px 2px rgba(0,0,0,.3);
+  --t2-pop:0 1px 2px rgba(0,0,0,.4),0 18px 44px -16px rgba(0,0,0,.7)}
+
+/* ---- type: Inter 14px UI, Fraunces only for page titles ---- */
+body{margin:0;font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility}
+::selection{background:color-mix(in srgb,var(--accent) 22%,transparent)}
+.hero h1,.listhead h2,.lvtitle h2,.gwrap h2,.papers h2,.imp h2{font-family:var(--display);font-weight:500;letter-spacing:-.022em;font-variation-settings:"opsz" 72}
+.hero h1{font-size:32px;line-height:1.12}
+.listhead h2{font-size:26px;line-height:1.18}
+.lvtitle h2,.papers h2,.gwrap h2,.imp h2{font-size:24px;line-height:1.2}
+/* section and card titles move to Inter (they were Fraunces) */
+.yhead h2{font:600 15px/1.3 var(--sans);letter-spacing:-.005em}
+.facard .fah b,.fatile b,.tixfa b,.subcard b{font:600 14.5px/1.35 var(--sans);letter-spacing:-.006em}
+.card .qn{font:600 13.5px var(--sans);letter-spacing:0;font-variant-numeric:tabular-nums}
+.lvcard h3{font:600 15px var(--sans);letter-spacing:-.005em}
+.gwrap h3{font:600 15px var(--sans)}
+/* labels: small caps-style eyebrows with air */
+.nav h3,.pane>h2,.section>h4,.home-sec,table.pp th,table.rub th,.gtab th,.cmp figcaption,.cmp3 figcaption,.ovfig figcaption,.focuscmp figcaption,.trow>b,.tchead,.tgates>b,.tpsub,.why b{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+/* numbers line up */
+.views .n,.brand small,.hero .stat b,.facard .fah .n,.subrow .c,.fa>button .c,.fa li .c,.tixsub .c,.sib .c,.bfilters .c,.bfilters .shown,
+.card .mk,.pmarks,.step .n,.pos,table.pp td,.tile b,.lvprog b,.lvpos,.msheet .n,.xbtn .n{font-variant-numeric:tabular-nums}
+
+/* ---- header: slimmer bar, quiet segmented tabs ---- */
+header{background:color-mix(in srgb,var(--panel) 92%,transparent);-webkit-backdrop-filter:saturate(1.4) blur(10px);backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--line)}
+body::before{background:var(--panel)}
+.top{gap:8px 16px;padding-block:7px;min-height:38px}
+.brand{gap:10px}
+.brand .logo{height:21px}
+.brand small{font:500 12px var(--sans);color:var(--muted);margin-left:0;letter-spacing:.01em}
+/* owner 12 Nov: the pill still slides; it is now a quiet tint instead of a raised chip in a box */
+.views{gap:2px;background:none;border:0;border-radius:0;padding:0}
+.views a{font:500 13.5px var(--sans);letter-spacing:-.003em;color:var(--muted);padding:6px 11px;border-radius:var(--t2-r);transition:color .18s}
+.views a:hover{color:var(--ink)}
+.views a[aria-current="page"]{color:var(--ink);font-weight:600}
+.views .slider{top:0;bottom:0;border-radius:var(--t2-r);background:var(--t2-press);box-shadow:none}
+.views .n{font:500 11.5px var(--sans);color:var(--warn);margin-left:5px}
+.search{max-width:300px}
+.search input{height:32px;padding:0 10px;background:var(--bg);border-color:var(--line)}
+.search input:hover{border-color:var(--line2)}
+.themebtn{font:500 12.5px var(--sans)!important;color:var(--muted)!important;padding:0 8px!important}
+.themebtn:hover{color:var(--ink)!important;background:var(--t2-hover)!important}
+/* Exam button: a plain secondary button with a quiet count, not a pill */
+.xbtn{border-radius:var(--t2-r)!important;gap:8px}
+.xbtn .n{background:none;color:var(--muted);border-radius:0;padding:0 0 0 8px;min-width:0;font:500 12.5px var(--sans);border-left:1px solid var(--line2)}
+.rbar{border-top:1px solid var(--line);padding-block:8px;gap:8px 10px}
+.progress{height:2px}
+
+/* ---- one button and input system: primary / secondary / ghost, 32px desktop ---- */
+/* no display change here: some pages set .act to block/grid, and a <button> centres its label vertically on its own */
+button.act,a.act{min-height:32px;padding:5px 12px;line-height:20px;border-radius:var(--t2-r);
+  font:500 13px var(--sans);letter-spacing:-.003em;border:1px solid var(--line2);background:var(--panel);color:var(--ink);
+  box-shadow:0 1px 1px rgba(0,0,0,.03);transition:background-color .15s,border-color .15s,color .15s,box-shadow .15s}
+button.act:hover{border-color:color-mix(in srgb,var(--ink) 22%,var(--line2));background:color-mix(in srgb,var(--ink) 3%,var(--panel))}
+button.act:active{background:var(--t2-press)}
+button.act:disabled{opacity:.45;cursor:default}
+a.act{display:inline-flex;align-items:center;gap:6px;text-decoration:none}
+button.act.primary,button.act.addx[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+button.act.ok{background:var(--ok-soft);border-color:color-mix(in srgb,var(--ok) 45%,transparent);color:var(--ok)}
+button.act.ok:hover{border-color:var(--ok)}
+button.act.warn{background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 45%,transparent);color:var(--warn)}
+button.act.warn:hover{border-color:var(--warn)}
+button.ghost,a.ghost,button.act.ghost{border-color:transparent;background:none;box-shadow:none;color:var(--accent);padding:0 8px}
+button.ghost:hover,a.ghost:hover,button.act.ghost:hover{background:var(--t2-hover);border-color:transparent}
+button.act.addx{border-color:color-mix(in srgb,var(--accent) 45%,var(--line2));color:var(--accent);background:transparent}
+button.act.addx:hover{border-color:var(--accent);background:var(--accent-soft)}
+select,input,textarea{border-radius:var(--t2-r);border-color:var(--line2);transition:border-color .15s,box-shadow .15s}
+select:not([multiple]),input:not([type=checkbox]):not([type=radio]):not([type=range]){min-height:32px}
+select:focus-visible,input:focus-visible,textarea:focus-visible{outline:none;border-color:var(--accent);box-shadow:var(--t2-ring)}
+:focus-visible{outline:2px solid color-mix(in srgb,var(--accent) 70%,transparent);outline-offset:2px}
+kbd{font:500 10.5px var(--sans);border:1px solid var(--line2);border-bottom-width:1px;border-radius:4px;padding:1px 5px;background:var(--bg);color:var(--muted)}
+.badge{font:600 10.5px var(--sans);letter-spacing:.06em;border-radius:4px;padding:2px 6px}
+.toast{border-radius:var(--t2-rl);font:500 13px var(--sans);padding:9px 14px;box-shadow:var(--t2-pop)}
+
+/* ---- Bank: home ---- */
+.bank{gap:36px;padding-block:28px}
+.hero{gap:8px;margin:2px 0 26px}
+.hero p{font-size:14.5px;line-height:1.6;max-width:64ch}
+/* the stat chips become a quiet inline line of figures */
+.hero .stats{gap:6px 18px;margin-top:10px;align-items:center}
+.hero .stat{background:none;border:0;border-radius:0;padding:0;font-size:13px}
+.hero .stat b{font-weight:600}
+.bankall{border:1px solid var(--line2);border-style:solid;border-radius:var(--t2-r);padding:3px 10px;font:500 12.5px var(--sans);transition:border-color .15s,background-color .15s}
+.bankall:hover{background:var(--t2-hover)}
+.bankall[aria-pressed="true"]{background:var(--warn-soft);border-color:color-mix(in srgb,var(--warn) 40%,transparent)}
+.yhead{gap:10px;margin:34px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
+.yhead span.muted{font-size:12.5px}
+.yb{font:600 10px var(--sans);letter-spacing:.04em;border-radius:3px;padding:1px 5px}
+.facards{grid-template-columns:repeat(auto-fill,minmax(340px,1fr));column-gap:14px}   /* 3 columns at desktop width; row gap stays 14px because packCards() adds 14 */
+.facard{border-radius:var(--t2-rl);padding:18px 20px 14px;gap:12px;border-color:var(--line);box-shadow:none}
+.facard::before{width:2px}
+.facard:hover{border-color:var(--line2);box-shadow:var(--t2-shadow)}
+.facard .fah .n{font:600 20px/1.1 var(--sans);letter-spacing:-.02em;color:var(--ink)}
+.facard .fah .n small{font:500 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.subrows{gap:0}
+.subrow{grid-template-columns:minmax(0,1fr) 56px 30px;gap:12px;padding:5px 8px;margin:0 -8px;border-radius:var(--t2-r);font-size:13px;transition:background-color .12s}
+.subrow:hover{background:var(--t2-hover)}
+.subrow .bar{height:3px;border-radius:2px;background:var(--line)}
+.subrow .bar i{border-radius:2px;opacity:.85}
+.subrow .c{font-size:12.5px}
+.fatile,.tix,.subcard{border-radius:var(--t2-rl)}
+.fatile{border-left-width:2px}
+.subcard{border-top-width:2px}
+.subcard:hover{box-shadow:var(--t2-shadow)}
+.tixsub:hover,.fatile:hover,.tixfa:hover{background:var(--t2-hover)}
+
+/* ---- Bank: sidebar topic list (owner 13 Nov motion rules untouched; only the look) ---- */
+.navtools button{border-radius:var(--t2-r);font:500 12px var(--sans);padding:3px 8px}
+.navtools button:hover{background:var(--t2-hover)}
+.nav h3{margin:22px 0 6px 10px}
+.nav h3:first-child{margin-top:0}
+.fa>button{border-radius:var(--t2-r);padding:6px 10px;font-size:13.5px;font-weight:500;letter-spacing:-.003em}
+.fa>button:hover,.fa li button:hover{background:var(--t2-hover)}
+.fa ul{margin:0 0 6px 14px;padding-left:8px;border-left-color:var(--line)}
+.fa li button{border-radius:var(--t2-r);padding:4px 8px;font-size:13px;color:color-mix(in srgb,var(--ink) 82%,var(--muted))}
+.fa li button[aria-current="true"]{color:var(--accent);font-weight:600}
+.navpill{border-radius:var(--t2-r);background:var(--accent-soft)}
+
+/* ---- Bank: subtopic page ---- */
+.crumbs{font-size:12.5px;gap:6px}
+.crumbs button:hover{text-decoration:underline;text-underline-offset:3px}
+.listhead{gap:8px 14px;margin-bottom:18px}
+.dps{border-radius:var(--t2-rl);padding:10px 16px;margin-bottom:16px;font-size:13px}
+.dps summary{font-size:13px}
+.bfilters{border-radius:var(--t2-rl);padding:10px 14px;gap:8px 18px;margin-bottom:18px;font-size:13px}
+.bfilters .grp>span,.bfilters .fl>span{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+/* filter choices: a quiet segmented look instead of rounded pills */
+.bfilters button{border-radius:5px;padding:3px 9px;font:500 12.5px var(--sans);transition:background-color .12s,color .12s}
+.bfilters button:hover{background:var(--t2-hover)}
+.bfilters button[aria-pressed="true"]{background:var(--accent-soft);border-color:transparent;color:var(--accent);font-weight:600}
+.bfilters .fl button{border-color:var(--line)}
+.bfilters .fl button[aria-pressed="true"]{border-color:color-mix(in srgb,var(--accent) 40%,transparent)}
+.sib{border-radius:var(--t2-r);font-size:12.5px;padding:4px 10px;border-color:var(--line2)}
+.sib[aria-current="true"]{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 40%,transparent);color:var(--accent);font-weight:600}
+.cards{gap:14px}
+.card{border-radius:var(--t2-rl);padding:18px 22px 14px;box-shadow:none;transition:border-color .15s}
+.card:hover{border-color:var(--line2)}
+.card .hd{gap:6px 10px;margin-bottom:12px;padding-bottom:12px}
+.card .src{font-size:12.5px}
+/* marks: plain figure, not a pill (owner 12 Nov: "I see pills everywhere") */
+.card .mk{background:none;border-radius:0;padding:0;font:500 12.5px var(--sans);color:var(--muted)}
+.cfoot{margin-top:12px;padding-top:10px;font-size:12.5px;gap:6px 10px}
+.cfoot .meta{line-height:1.5}
+.cfoot a.act,.cfoot button.act{font-size:12.5px}
+.plabel{font:500 13px var(--mono);letter-spacing:-.01em}
+.pmarks{font:500 12px var(--sans);letter-spacing:.01em}
+details.solbox>summary{font:500 13px var(--sans);color:var(--accent)}
+details.solbox>summary:hover{text-decoration:underline;text-underline-offset:3px}
+.sol{border-left-width:2px;border-radius:0 var(--t2-r) var(--t2-r) 0;padding:10px 14px}
+.chip{border-radius:5px;font-size:12px}
+.pop{border-radius:var(--t2-rl);box-shadow:var(--t2-pop);border-color:var(--line)}
+.callout{border-radius:var(--t2-r);border-left-width:2px}
+
+/* ---- Review ---- */
+.step{font:500 13px var(--sans);border-color:var(--line2);border-radius:var(--t2-r);padding:0 12px;min-height:32px;gap:8px;transition:background-color .15s,border-color .15s}
+.step:hover{background:color-mix(in srgb,var(--ink) 3%,var(--panel))}
+.step .num{width:18px;height:18px;font:600 11px var(--sans);background:var(--bg);border:1px solid var(--line)}
+.step .n{font:500 11.5px var(--sans);padding:0 6px;border-radius:4px}
+.step[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--panel)}
+.step[aria-pressed="true"] .num{background:var(--panel);color:var(--ink);border-color:transparent}
+.step[aria-pressed="true"] .n{color:var(--panel);background:color-mix(in srgb,var(--panel) 18%,transparent)}
+.stephelp{font-size:12.5px}
+.fchip{border-radius:var(--t2-r);font:500 12.5px var(--sans)}
+.fchip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--panel)}
+.desk{gap:20px;padding-block:20px}
+.pane{border-radius:var(--t2-rl)}
+.pane>h2{padding:11px 16px}
+.rout{padding:16px 18px 22px;gap:16px}
+.section{border-radius:var(--t2-rl);padding:12px 14px;gap:12px}
+.why{border-radius:var(--t2-r);border-left-width:2px;font-size:13.5px}
+.why.decide{border-left-color:var(--bad)}
+.notes{border-radius:var(--t2-r)}
+.seg{border-radius:var(--t2-r);padding:2px;background:var(--bg)}
+.segb{border-radius:4px;font:500 12.5px var(--sans)}
+.segb[aria-pressed="true"]{box-shadow:0 1px 2px rgba(0,0,0,.08),0 0 0 1px var(--line)}
+.cmp figure,.cmp3 figure,.ovfig,.dq figure,.focuscmp figure{border-radius:var(--t2-r)}
+.dcard,.figdone,.banner,.tpart,.tside,.tqsum,.tchoice,.picker ul,.tplist{border-radius:var(--t2-rl)}
+.tpart.active,.tchoice.active{box-shadow:0 0 0 1px var(--accent)}
+
+/* ---- Papers / Import ---- */
+.papers{padding-block:24px}
+.papers .sub,.imp .sub{font-size:13.5px}
+table.pp{font-size:13.5px}
+table.pp th,table.pp td{padding:9px 12px}
+table.pp tbody tr:hover td{background:var(--t2-hover)}
+.pfil input,.pfil select{border-radius:var(--t2-r);font-size:13px;min-height:32px}
+.bgrp{border-radius:var(--t2-rl);margin-bottom:10px}
+.bgrp>summary{padding:10px 14px;font-weight:600;font-size:13.5px}
+.brow>summary:hover{background:var(--t2-hover)}
+.tile{border-radius:var(--t2-rl);padding:12px 14px}
+.tile b{font:600 22px var(--sans);letter-spacing:-.02em}
+.imp table{border-radius:var(--t2-rl)}
+.handoff{border-radius:var(--t2-rl)}
+.st{border-radius:4px;font-size:10.5px;letter-spacing:.03em}
+
+/* ---- Difficulty ---- */
+.levels{padding-block:22px 0}
+.lvtop{gap:12px;margin-bottom:16px}
+.lvbar{height:3px}
+.lvctl select{border-color:var(--line2);border-radius:var(--t2-r);font:500 13.5px var(--sans)}
+.lvseg{border-color:var(--line2);border-radius:var(--t2-r);padding:2px;gap:2px;background:var(--bg)}
+.lvseg button{border-radius:4px;font:500 13px var(--sans);min-height:34px;color:var(--muted)}
+.lvseg button[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08),0 0 0 1px var(--line)}
+.lvcard{border-radius:var(--t2-rl);padding:16px 20px 12px}
+.lvtag{font-size:11px;font-weight:600;letter-spacing:.08em}
+.lvq .part.lvhit{box-shadow:inset 2px 0 0 var(--accent)}
+.lvact{box-shadow:0 -10px 20px -16px rgba(0,0,0,.3)}
+.lvbands button,.lvwm button,.lvnav{border-color:var(--line2);border-radius:var(--t2-rl)}
+.lvbands button:hover,.lvwm button:hover,.lvnav:hover:not(:disabled){border-color:color-mix(in srgb,var(--ink) 25%,var(--line2))}
+.lvbands button b{font:600 17px var(--sans)}
+.lvbands button[aria-pressed="true"],.lvwm button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+.lvbands button[aria-pressed="true"] span{color:color-mix(in srgb,var(--panel) 80%,transparent)}
+.lvok{border-radius:var(--t2-rl);font:600 15px var(--sans);letter-spacing:-.005em;background:var(--ok);color:var(--panel)}
+.lvok kbd{border-color:color-mix(in srgb,var(--panel) 45%,transparent);background:none;color:inherit}
+.lvempty{border-radius:var(--t2-rl)}
+
+/* ---- Guide ---- */
+.gwrap{padding-block:24px;gap:14px}
+.gcard,.gex{border-radius:var(--t2-rl);padding:14px 16px}
+.gcard>b{font-size:14px}
+.gn{width:18px;height:18px;font-size:11px;font-weight:600;color:var(--panel)}
+
+/* ---- jobs pill (owner 12 Nov: "should be a simple pill") stays a pill, just quieter ---- */
+.jobs .jpill{font-size:12.5px;padding:2px 10px}   /* owner 14 Nov: now two pills, running and queued */
+.jobs .jpop{border-radius:var(--t2-rl);box-shadow:var(--t2-pop);border-color:var(--line)}
+
+/* ---- phone menu and touch targets ---- */
+.msheet{border-radius:10px;border-color:var(--line);box-shadow:var(--t2-pop);padding:6px}
+.msheet a,.msheet button{min-height:44px;border-radius:var(--t2-r);font:500 15px var(--sans);letter-spacing:-.005em}
+.msheet a:hover,.msheet button:hover{background:var(--t2-hover)}
+.msheet a[aria-current="page"]{font-weight:600}
+.msheet .n{font:500 11.5px var(--sans);border-radius:4px;padding:1px 6px}
+.msheet .mt{font-size:14px}
+@media (max-width:640px){
+  .top{padding-block:6px;gap:8px}
+  .brand .logo{height:19px}
+  .menubtn{border-radius:var(--t2-r)!important;font:500 14px var(--sans)!important;padding:0 10px 0 12px!important;min-height:40px}
+  .xbtn{min-height:40px}
+  .search{max-width:none}
+  .search input{height:40px;font-size:16px}   /* 16px stops iOS zooming into the field */
+  button.act,a.act,.step,select:not([multiple]){min-height:40px}
+  .bank{padding-block:18px;gap:20px}
+  .hero h1{font-size:27px}
+  .listhead h2{font-size:23px}
+  .card{padding:14px 14px 12px}
+  .facard{padding:16px 16px 12px}
+  .subrow{min-height:36px}
+  .fa>button,.fa li button{min-height:40px}
+  .bfilters button,.sib{min-height:34px}
+  .rbar .step{min-height:36px}
+  .rbar .rnav .act{min-height:40px}
+}
+@media (prefers-reduced-motion:reduce){button.act,.step,.subrow,.card,.facard,.bfilters button{transition:none}}
+
+/* ---- critic pass (14 Nov) ---- */
+/* owner 14 Nov: "It should all feel clean and sophisticated". With the body margin gone the page sat 16px from the edge on desktop;
+   give it a proper 28px gutter there (phones keep 16px, per the 14 Nov phone layout). */
+@media (min-width:641px){.wrap{padding-left:max(28px,env(safe-area-inset-left,0px));padding-right:max(28px,env(safe-area-inset-right,0px))}}
+/* UI_SPEC Look: "Warm editorial: serif headings". Year headings are section headings, so they stay serif (card titles are labels and stay Inter). */
+.yhead h2{font:500 21px/1.2 var(--display);letter-spacing:-.018em;font-variation-settings:"opsz" 48}
+/* sidebar: counts sit on the first line of a wrapped name, the same for areas and subheadings (they were centred on one, top on the other) */
+.fa>button,.fa li button{align-items:baseline}
+/* review bar: "Other lists" sat above the line of step buttons */
+.steps{align-items:center}
+/* review progress: the empty grey track stacked on the header's hairline read as a thick double rule ("No bar under the header", 12 Nov);
+   only the filled part shows now */
+.progress{background:transparent}

@@ -1,0 +1,138 @@
+"""Build site/data/bank.json (v2) + site/data/svg/<doc>.json from questions.db and the TikZ redraws.
+Keeps per-part tag data, queues, related, pages and figure lists from the previous bank.json (built by the v1
+inline builder), and refreshes all text, solutions, tables and figure redraw data from the database."""
+import sqlite3, json, csv, glob, os, base64, collections, subprocess
+P = '/home/claude/pilot/'
+db = sqlite3.connect('/mnt/user-data/outputs/questions.db'); db.row_factory = sqlite3.Row
+old = json.load(open(P + 'site/data/bank.json'))
+if 'v' in old and old['v'] == 2 and os.path.exists(P + 'site/data/bank_v1.json'):
+    old = json.load(open(P + 'site/data/bank_v1.json'))
+elif not os.path.exists(P + 'site/data/bank_v1.json'):
+    json.dump(old, open(P + 'site/data/bank_v1.json', 'w'))
+
+J = lambda s, d=None: json.loads(s) if s else d
+_dis = {}
+for _f in ('work/tag_full/disagreements.json', 'work/tag_pilot/disagreements.json'):   # main re-tag + pilot re-tag (12 Nov)
+    if os.path.exists(P + _f): _dis.update(json.load(open(P + _f)))
+_slim = lambda x: dict(dp=[[d['id'], d.get('role')] for d in x.get('dot_points') or []], req=x.get('required_skills') or [], can=x.get('can_use_skills') or [], removed=x.get('removed_reason') or '', note=(x.get('note') or '')[:200], conf=x.get('confidence'))
+TAGD = {k: dict(A=_slim(v['A']), B=_slim(v['B'])) for k, v in _dis.items()}
+# owner 12 Nov: gates settled automatically with quoted evidence (work/gates); shown read-only in Review > Tags
+GATES = {}
+for _f in ('work/gates/gates_applied.json', 'work/gates_pilot/gates_applied.json'):
+    if os.path.exists(P + _f): GATES.update(json.load(open(P + _f)))
+for q in old['questions']:
+    r = db.execute('select * from questions where id=?', (q['id'],)).fetchone()
+    q['stem'] = r['stem_latex']; q['number'] = r['number']
+    q['opt_table'] = J(r['options_table_json'])
+    q['layout'] = r['options_layout'] if 'options_layout' in r.keys() else None
+    # owner 11 Nov: "they should be marked old syllabus": content with no 2024 dot point (questions.old_syllabus = reason)
+    q['old'] = r['old_syllabus'] if 'old_syllabus' in r.keys() else None
+    # owner 11 Nov: content that left Advanced but is in the 2024 Mathematics Standard syllabus goes to a Standard section
+    q['std'] = r['standard_topic'] if 'standard_topic' in r.keys() else None
+    q['queues'] = [x for x in q['queues'] if x not in ('removed', 'standard')] + (['removed'] if q['old'] else []) + (['standard'] if q['std'] else [])
+    dbfigs = {f['png_path'] for f in db.execute('select png_path from figures where question_id=?', (q['id'],))}
+    q['figures'] = [f for f in q['figures'] if f['src'] in dbfigs]
+    for p in q['parts']:
+        pr = db.execute('select * from parts where id=?', (p['id'],)).fetchone()
+        p['latex'] = pr['latex']; p['marks'] = pr['marks']; p['label'] = pr['label']   # owner 12 Nov: split questions relabelled (tools/relabel_split.py)
+        if 'src_label' in pr.keys() and pr['src_label']: p['src_label'] = pr['src_label']
+        # difficulty + working mathematically (diff-v1, owner 13 Nov): band 2-6, wm UF/PR, anchor flag, nearest anchor, confidence, reason
+        dr = db.execute('select * from part_difficulty where part_id=?', (p['id'],)).fetchone() if db.execute("select 1 from sqlite_master where name='part_difficulty'").fetchone() else None
+        if dr: p['dif'] = dict(b=dr['band'], wm=dr['wm'], a=dr['is_anchor'], na=dr['nearest_anchor'], c=(dr['confidence'] or '')[:1], r=dr['reason'], ar=dr['area'])
+        else: p.pop('dif', None)
+        if dr and 'band_ai' in dr.keys() and dr['band_ai'] is not None and (dr['band_ai']!=dr['band'] or dr['wm_ai']!=dr['wm']): p['dif'].update(m=dr['band_ai'], mw=dr['wm_ai'], s=dr['source'])   # owner 14 Nov: model's original rating kept for the Difficulty tab
+        # tags live from the DB (tag-v2.2, owner 12 Nov). Slim: dot point text/focus area come from dotpoints.json on the page.
+        tg = db.execute("select * from tags where part_id=? and scheme in ('2024','skill','note','2017')", (p['id'],)).fetchall()
+        if any((t['prompt_version'] or '').startswith('tag-v2') for t in tg):
+            p['t24'] = [dict(id=t['code'], primary=t['is_primary'], cov=t['coverage'], conf=t['confidence']) for t in tg if t['scheme'] == '2024']
+            p['skills'] = [t['dot_point'] for t in tg if t['scheme'] == 'skill' and t['coverage'] == 'required']
+            p['can_use'] = [t['dot_point'] for t in tg if t['scheme'] == 'skill' and t['coverage'] == 'can_use']
+            p['note'] = next((t['dot_point'] for t in tg if t['scheme'] == 'note'), None)
+            p.pop('free', None)
+            if str(p['id']) in TAGD: p['tagd'] = TAGD[str(p['id'])]
+            if str(p['id']) in GATES: p['gates'] = GATES[str(p['id'])]
+        else:
+            p['t24'] = [{k: v for k, v in t.items() if k in ('id', 'primary', 'cov', 'conf', 'edited')} for t in (p.get('t24') or [])]
+    q['options'] = [dict(label=o['label'], latex=o['latex'], is_correct=o['is_correct'], key_source=o['key_source'], fig=o['figure_key'] if 'figure_key' in o.keys() else None)
+                    for o in db.execute('select * from mcq_options where question_id=? order by label', (q['id'],))]
+    pids = [p['id'] for p in q['parts']]
+    sols = db.execute('select * from solutions where question_id=? or part_id in (%s) order by id' % ','.join('?' * len(pids)),
+                      [q['id']] + pids).fetchall() if pids else db.execute('select * from solutions where question_id=? order by id', (q['id'],)).fetchall()
+    q['solutions'] = [dict(id=s['id'], part_id=s['part_id'], source=s['source'], latex=s['latex'],
+                           criteria=J(s['criteria_json'], []), meta={k: v for k, v in J(s['meta_json'], {}).items() if k not in ('source_original', 'criteria_original')}) for s in sols]
+
+tables = {}
+for t in db.execute('select * from data_tables'):
+    tables[t['id']] = dict(cap=t['caption'], hr=t['header_rows'] or 0, lc=t['label_col'] or 0,
+                           rows=J(t['rows_json'], []), spans=J(t['spans_json'], []))
+
+res = {r['id']: r for r in json.load(open(P + 'tikz/all_results.json'))}
+chk = {}
+for f in glob.glob(P + 'tikz/check_*.json'):
+    for r in json.load(open(f))['results']: chk[r['id']] = r
+figtab = {os.path.basename(r['png_path'])[:-4]: r['redraw_table_id'] for r in db.execute('select png_path, redraw_table_id from figures')}
+ovs = json.load(open(P + 'tikz/overlay_scores.json')) if os.path.exists(P + 'tikz/overlay_scores.json') else {}
+figs, packs = {}, collections.defaultdict(dict)
+for k, r in res.items():
+    c = chk.get(k, {})
+    tid = figtab.get(k)
+    if r['status'] == 'table' and not tid:   # solution-document table not in figures table: store it here
+        tb = r['table']; tid = 'Tx_' + k
+        tables[tid] = dict(cap=None, hr=tb.get('header_rows', 0), lc=tb.get('label_col', 0), rows=tb['rows'], spans=[])
+    figs[k] = dict(status=r['status'], cls=r.get('class'), notes=r.get('notes'),
+                   check=c.get('verdict'), check_notes=c.get('notes'), table=tid,
+                   ov=[ovs[k]['orig_covered'], ovs[k]['redraw_covered']] if k in ovs and 'orig_covered' in ovs[k] else None, v=r.get('version', 1))
+    svg = P + 'tikz/svg/%s.svg' % k
+    if r['status'] in ('ok', 'approx') and os.path.exists(svg):
+        if os.path.getsize(svg) > 3_000_000:   # (stipple is now real dots, so SVGs stay small)   # pattern fills explode into thousands of SVG paths: ship a 300 dpi PNG instead
+            pdf = P + 'tikz/build/%s.pdf' % k; hi = P + 'tikz/hi/%s' % k
+            os.makedirs(P + 'tikz/hi', exist_ok=True)
+            subprocess.run(['pdftoppm', '-png', '-r', '300', '-singlefile', pdf, hi], check=True)
+            packs[k.split('_')[0]][k] = 'data:image/png;base64,' + base64.b64encode(open(hi + '.png', 'rb').read()).decode()
+        else:
+            packs[k.split('_')[0]][k] = 'data:image/svg+xml;base64,' + base64.b64encode(open(svg, 'rb').read()).decode()
+dbkeys = {os.path.basename(r['png_path'])[:-4] for r in db.execute('select png_path from figures')}
+figs = {k: v for k, v in figs.items() if k in dbkeys or v['status'] != 'keep_crop'}   # photos removed from the database leave the bank too (solution-document figures are not in the figures table, so keep those)
+os.makedirs(P + 'site/data/svg', exist_ok=True)
+for doc, m in packs.items():
+    json.dump(m, open(P + 'site/data/svg/%s.json' % doc, 'w'))
+
+codes17 = {}
+for row in csv.DictReader(open(P + 'site/project/mapping_v1.csv')):
+    codes17.setdefault(row['code_2017'], row['title_2017'])
+
+# exact/near-exact duplicates (same paper filed twice etc.): keep one copy in the Bank, hide the other there
+byid = {q['id']: q for q in old['questions']}
+for q in old['questions']: q.pop('dup_of', None)
+for a, b, sim, rel in db.execute("select question_id, related_id, similarity, relation from related_questions where relation='duplicate' and question_id<related_id"):
+    qa, qb = byid.get(a), byid.get(b)
+    if not qa or not qb or qa.get('dup_of') or qb.get('dup_of'): continue
+    _st = lambda q: (db.execute('select review_status from questions where id=?', (q['id'],)).fetchone() or [None])[0]
+    score = lambda q: (_st(q) != 'approved', q.get('layout') == 'graph' and not all(o.get('fig') for o in q['options']), ('review' in q['queues']), len(q['solutions']) == 0, q['doc'] != 1346, q['id'])
+    keep, drop = sorted([qa, qb], key=score)
+    drop['dup_of'] = keep['id']
+print('hidden duplicates', sum(1 for q in old['questions'] if q.get('dup_of')))
+# owner 12 Nov: "I don't have time to check 6000 questions" -> triage.py decides what the owner looks at (q.tri)
+TRI = json.load(open(P + 'work/triage.json')) if os.path.exists(P + 'work/triage.json') else {}
+for q in old['questions']:
+    q.pop('tri', None)
+    t = TRI.get(str(q['id']))
+    if t: q['tri'] = {k: t[k] for k in ('tier', 'why', 'look', 'ok_figs', 'chk_figs', 'ok_sols')}
+dec = json.load(open(P + 'site/project/open_decisions.json'))
+for q in old['questions']:
+    q.pop('decide', None)
+    if str(q['id']) in dec: q['decide'] = dec[str(q['id'])]
+import re as _re
+_docpos = {}
+for _q in old['questions']: _docpos.setdefault(_q['doc'], len(_docpos))
+def _qkey(q):   # natural question order within a paper: 10, 10(a), 10(b), 11 ... (split questions sit with their number)
+    m = _re.match(r'(\d+)(.*)', str(q['number'] or '')); return (_docpos[q['doc']], int(m.group(1)) if m else 9999, m.group(2) if m else str(q['number']), q['id'])
+old['questions'].sort(key=_qkey)
+import sys as _s; _s.path.insert(0, P + 'tools'); import exam_name; exam_name.main()   # owner: firm exam naming, labels rebuilt from year / school / task
+# owner 11 Nov: source = full school name + task ("2023 Cherrybrook Technology High School AT1"); stored in documents.display_label
+for _id, _lab in db.execute('select id, display_label from documents where display_label is not null'):
+    if str(_id) in old['docs']: old['docs'][str(_id)]['label'] = _lab
+out = dict(v=2, built=__import__('datetime').datetime.now().strftime('%Y%m%d%H%M%S'), docs=old['docs'], questions=old['questions'], tables=tables, figs=figs, codes17=codes17)
+json.dump(out, open(P + 'site/data/bank.json', 'w'), ensure_ascii=False)
+print('questions', len(out['questions']), 'tables', len(tables), 'figs', len(figs), 'svg packs', {k: len(v) for k, v in packs.items()},
+      'bank KB', os.path.getsize(P + 'site/data/bank.json') // 1024)
