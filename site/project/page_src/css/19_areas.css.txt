@@ -1,0 +1,20 @@
+/* ---- Teach | Curate (owner 15 Nov: "Lets do 2 as well" and "curate should be hidden to peope except editors.") ----
+   A small segmented switch before the tabs, shown only to the owner and editors. Its highlight slides like the tab pill
+   (12 Nov ruling); hairline frame, theme2 tokens. Phones have no switch: the menu groups the tabs under Teach / Curate. */
+.areasw{position:relative;display:inline-flex;align-items:center;gap:0;padding:2px;border:1px solid var(--line);border-radius:calc(var(--t2-r) + 2px);background:var(--bg)}
+.areasw[hidden]{display:none}
+.areasw button{position:relative;z-index:1;background:none;border:0;cursor:pointer;font:500 12px var(--sans);letter-spacing:.01em;color:var(--muted);padding:3px 10px;border-radius:var(--t2-r);line-height:18px;transition:color .18s}
+.areasw button:hover{color:var(--ink)}
+.areasw button[aria-pressed="true"]{color:var(--ink);font-weight:600}
+.areasw button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.areasw .aslider{position:absolute;top:2px;bottom:2px;left:0;width:0;border-radius:var(--t2-r);background:var(--panel);box-shadow:0 0 0 1px var(--line),0 1px 2px rgba(0,0,0,.06);transition:transform .28s cubic-bezier(.3,.7,.2,1),width .28s cubic-bezier(.3,.7,.2,1);z-index:0}
+@media (prefers-reduced-motion:reduce){.areasw .aslider{transition:none}}
+.views a[hidden]{display:none!important}
+/* Difficulty and Reports are Review steps: under them the row has no paper picker or ← → */
+.rbar.xstep #docF,.rbar.xstep .rnav,.rbar.xstep #stF{display:none!important}
+.msheet .mgrp{display:grid;gap:2px}
+.msheet .mgrp+.mgrp{border-top:1px solid var(--line);margin-top:4px;padding-top:4px}
+.msheet .mh{font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 14px 2px}
+@media (max-width:640px){.areasw{display:none!important}}
+/* Curate-only controls elsewhere (e.g. "Open in Review" on bank cards) carry .edonly: hidden unless the viewer is the owner or an editor */
+html:not(.editor) .edonly{display:none!important}

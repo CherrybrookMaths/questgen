@@ -21,11 +21,13 @@ function lvItems(){if(LVQ)return LVQ;const out=[];
   Object.values(by).forEach(xs=>xs.slice().sort((a,b)=>b.lean-a.lean||a.p.id-b.p.id).slice(0,3).forEach(x=>x.spot=1));
   return LVQ=out}
 const lvDone=x=>!!DIFD[x.p.id]?.status;
+const lvInArea=x=>LVAREA==='all'||(LVAREA==='spot'?!!x.spot:LVAREA==='thin'?LV_FIRST.includes(x.d.ar)&&!x.flag:LVAREA==='flags'?x.flag:x.d.ar===LVAREA&&!x.flag);
+// owner 15 Nov: the Difficulty step in Review shows this count: parts still to check in the chosen list
+function lvTodoN(){if(!B)return 0;lvSub();return lvItems().filter(x=>lvInArea(x)&&!lvDone(x)).length}
 function lvList(){const all=lvItems();
-  const inArea=x=>LVAREA==='all'||(LVAREA==='spot'?!!x.spot:LVAREA==='thin'?LV_FIRST.includes(x.d.ar)&&!x.flag:LVAREA==='flags'?x.flag:x.d.ar===LVAREA&&!x.flag);
-  const r=all.filter(x=>inArea(x)&&(LVSHOW==='all'||!lvDone(x)));
+  const r=all.filter(x=>lvInArea(x)&&(LVSHOW==='all'||!lvDone(x)));
   return LVAREA==='spot'?r.sort((a,b)=>(b.flag?1:0)-(a.flag?1:0)||String(a.d.ar).localeCompare(String(b.d.ar))||b.lean-a.lean):r}
-function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});DIFD=nx;if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
+function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});DIFD=nx;if(['review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
 function renderLevels(keep){
   lvSub();const box=$('#levelsBox');const all=lvItems(),list=lvList();
   const done=all.filter(lvDone).length, anchors=all.filter(x=>!x.flag), adone=anchors.filter(lvDone).length;
@@ -72,7 +74,7 @@ async function lvSave(){const box=$('#levelsBox'),list=lvList(),x=list[LVI];if(!
   window.scrollTo({top:0,behavior:RM.matches?'auto':'smooth'});
   if(!db){toast('Not saved: open the page in claude.ai to save');return}
   try{await db.doc('difficulty/'+x.p.id).set(v)}catch(e){toast('Could not save. Try again in a moment.')}}
-document.addEventListener('change',e=>{if(e.target.id==='lvArea'){LVAREA=e.target.value;try{localStorage.setItem('lv_area',LVAREA)}catch(_){}LVI=0;renderLevels()}});
+document.addEventListener('change',e=>{if(e.target.id==='lvArea'){LVAREA=e.target.value;try{localStorage.setItem('lv_area',LVAREA)}catch(_){}LVI=0;renderLevels();renderSteps()}});
 document.addEventListener('click',e=>{if(view!=='levels')return;
   const s=e.target.closest('[data-lvshow]');if(s){LVSHOW=s.dataset.lvshow;try{localStorage.setItem('lv_show',LVSHOW)}catch(_){}LVI=0;renderLevels();return}
   const b=e.target.closest('[data-lvb]');if(b){lvSet('band',+b.dataset.lvb);return}

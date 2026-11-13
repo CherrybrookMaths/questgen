@@ -42,16 +42,31 @@ function readyHTML(){const r=readyPapers(); if(!r.length) return ''; const n=r.r
     <ul class="help">${r.map(([d,k,m])=>`<li>${esc(docLabel(B.docs[d]))}: ${m} spot-checked, ${k} to approve <button class="act ghost" data-paperok="${d}">Approve this paper</button></li>`).join('')}</ul></details>`}
 async function approveReady(){const r=readyPapers(); for(const [d] of r) await approvePaper(d); toast(r.length+' papers approved')}
 document.addEventListener('click',e=>{if(e.target.closest('#approveReady')){e.preventDefault();approveReady()}});
-function refreshReview(){ if(typeof renderJobs==='function')renderJobs();
+// owner 15 Nov: "Lets do 2 as well". Difficulty and Reports are steps inside Review, after Decide, Check, Spot-check, Diagrams
+// and Tags, with their counts (parts still to check in the chosen Difficulty list; open reports). They open their own
+// pages (#review/difficulty, #review/reports) under the same step row; the paper picker and ← → belong to the question steps only.
+const XSTEPS=[['difficulty','Difficulty','levels','HSC reference ratings: one part at a time, Agree or change the band and kind (2\u20136 set the band, F / P the kind, Enter or A saves).'],
+  ['reports','Reports','reports','Questions reported from an exam paper for a wrong difficulty, a wrong dot point or something else. Resolve or dismiss each one.']];
+function xstepN(k){try{if(k==='difficulty')return typeof lvTodoN==='function'?lvTodoN():0;if(k==='reports')return typeof repOpen==='function'?repOpen().length:0}catch(e){}return 0}
+function renderSteps(){if(!B)return;
   const base=B.questions.filter(q=>!rdoc||String(q.doc)===rdoc);
   const sc=STEPS.map(([k])=>base.filter(q=>inFilter(q,k)&&isTodo(q,k)).length);
-  const cur=STEPS.find(x=>x[0]===rfilter);
+  const xs=XSTEPS.find(x=>x[2]===view),onQ=!xs;
+  const cur=onQ?STEPS.find(x=>x[0]===rfilter):null;
   const dleft=base.filter(q=>inFilter(q,'diagrams')).reduce((n,q)=>n+chkFigs(q).filter(k=>!reviews['q'+q.id]?.fig?.[k]).length,0);   // owner 12 Nov: "why does my diagram review say 468" -> label the unit
-  $('#filters').innerHTML=STEPS.map(([k,l],i)=>`<button class="step${sc[i]?'':' empty0'}" data-f="${k}" aria-pressed="${k===rfilter}"><span class="num">${i+1}</span>${l}<span class="n" title="${sc[i]} question${sc[i]===1?'':'s'} to do${k==='diagrams'?' · '+dleft+' diagrams':''}">${sc[i]}</span></button>`).join('')
-    +`<button class="act ghost" id="recentBtn" aria-pressed="${rfilter==='recent'}">Recently approved</button><details class="more"><summary>Other lists</summary><select id="moreF" aria-label="Other lists"><option value="">Choose…</option>${FILTERS.filter(([k])=>!['decide','diagrams'].includes(k)).map(([k,l])=>`<option value="${k}"${k===rfilter?' selected':''}>${l}</option>`).join('')}</select></details>`
-    +readyHTML()+`<p class="stephelp">${rfilter==='diagrams'?`<b>${sc[STEPS.findIndex(x=>x[0]==='diagrams')]} questions · ${dleft} diagrams left.</b> `:''}${cur?esc(cur[2]):'Showing: '+esc((FILTERS.find(f=>f[0]===rfilter)||[,''])[1])+' (any status). Pick a numbered step to go back to your queue.'}</p>`;
-  $('#recentBtn')&&($('#recentBtn').onclick=()=>{rfilter='recent';rstatus='any';save('rf2',rfilter);ridx=0;refreshReview()});
-  const mf=$('#moreF'); if(mf) mf.onchange=()=>{if(!mf.value)return;rfilter=mf.value;rstatus='any';save('rf2',rfilter);ridx=0;refreshReview()};
+  $('#filters').innerHTML=STEPS.map(([k,l],i)=>`<button class="step${sc[i]?'':' empty0'}" data-f="${k}" aria-pressed="${onQ&&k===rfilter}"><span class="num">${i+1}</span>${l}<span class="n" title="${sc[i]} question${sc[i]===1?'':'s'} to do${k==='diagrams'?' · '+dleft+' diagrams':''}">${sc[i]}</span></button>`).join('')
+    +XSTEPS.map(([k,l,v],i)=>{const n=xstepN(k);return `<button class="step${n?'':' empty0'}" data-f="${k}" aria-pressed="${view===v}"><span class="num">${STEPS.length+i+1}</span>${l}<span class="n" title="${n} ${k==='reports'?'open report'+(n===1?'':'s'):'part'+(n===1?'':'s')+' to check'}">${n}</span></button>`}).join('')
+    +`<button class="act ghost" id="recentBtn" aria-pressed="${onQ&&rfilter==='recent'}">Recently approved</button><details class="more"><summary>Other lists</summary><select id="moreF" aria-label="Other lists"><option value="">Choose…</option>${FILTERS.filter(([k])=>!['decide','diagrams'].includes(k)).map(([k,l])=>`<option value="${k}"${onQ&&k===rfilter?' selected':''}>${l}</option>`).join('')}</select></details>`
+    +(onQ?readyHTML():'')+`<p class="stephelp">${xs?esc(xs[3]):`${rfilter==='diagrams'?`<b>${sc[STEPS.findIndex(x=>x[0]==='diagrams')]} questions · ${dleft} diagrams left.</b> `:''}${cur?esc(cur[2]):'Showing: '+esc((FILTERS.find(f=>f[0]===rfilter)||[,''])[1])+' (any status). Pick a numbered step to go back to your queue.'}`}</p>`;
+  $('#recentBtn')&&($('#recentBtn').onclick=()=>goStep('recent','any'));
+  const mf=$('#moreF'); if(mf) mf.onchange=()=>{if(!mf.value)return;goStep(mf.value,'any')};
+  try{const fs=$('#filters'),pb=fs.querySelector('.step[aria-pressed="true"]');if(pb&&fs.scrollWidth>fs.clientWidth){const a=fs.getBoundingClientRect(),b=pb.getBoundingClientRect();fs.scrollLeft+=b.left-a.left-(a.width-b.width)/2}}catch(e){}   // phone: the step row scrolls; keep the open step in sight (Difficulty and Reports sit at its end)
+  return {base}}
+// open a Review step: a question step re-draws Review (going back to #review from Difficulty or Reports); the two page steps change the address
+function goStep(f,st){const xs=XSTEPS.find(x=>x[0]===f);if(xs){location.hash=VHASH[xs[2]];return}
+  rfilter=f;rstatus=st||'todo';save('rf2',rfilter);ridx=0;if(view!=='review'){location.hash='#review';return}refreshReview()}
+function refreshReview(){ if(typeof renderJobs==='function')renderJobs();
+  const {base}=renderSteps();
   rlist=base.filter(q=>inFilter(q,rfilter)&&statusOK(q));
   if(rfilter==='diagrams') rlist.sort((a,b)=>qRisk(b)-qRisk(a));
   if(rfilter==='recent') rlist.sort((a,b)=>String(approvedAt(b)).localeCompare(String(approvedAt(a))));   // riskiest diagrams first (stable: paper order within a level)
@@ -337,7 +352,7 @@ function setupPicker(){
   $('#setRemoved').onclick=()=>setTag({cov:'removed'}); $('#setNoMatch').onclick=()=>setTag({cov:'no_match'}); $('#cancelPick').onclick=()=>{editing=null;renderReview()};
 }
 function go(n){editing=null;ridx=Math.min(Math.max(0,ridx+n),Math.max(0,rlist.length-1));renderReview();window.scrollTo({top:0})}   // renderReview shows one diagram question at a time in step 4
-$('#filters').addEventListener('click',e=>{const b=e.target.closest('.step');if(!b)return;rfilter=b.dataset.f;rstatus='todo';save('rf2',rfilter);ridx=0;refreshReview()});
+$('#filters').addEventListener('click',e=>{const b=e.target.closest('.step');if(!b)return;goStep(b.dataset.f,'todo')});
 $('#stF').onchange=e=>{rstatus=e.target.value;ridx=0;refreshReview()};
 $('#docF').onchange=e=>{rdoc=e.target.value;ridx=0;refreshReview()};
 $('#prev').onclick=()=>go(-1); $('#next').onclick=()=>go(1);

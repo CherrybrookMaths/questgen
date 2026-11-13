@@ -10,7 +10,7 @@
      {question_id, part_id?, reason: difficulty|dot_point|other, suggested_band?, suggested_wm?, suggested_dot?, note, exam_id?, by, at, status:'open'}
      suggested_wm: 'UF' (fluency) | 'PR' (problem solving), owner 14 Nov: "Should let you pick UF and PS in the wrong diff".
    - A Reports tab (#reports) lists them with the question rendered; Resolve (optional reply) and Dismiss; a count badge
-     on the tab shows open reports. */
+     on the tab shows open reports. (15 Nov: now the Reports step inside Review, #review/reports, with its count on the step.) */
 const REP={list:[],sub:null,filter:(()=>{try{return localStorage.getItem('rep_filter')||'open'}catch(e){return 'open'}})(),dlg:null,res:null,names:{}};
 const REP_WHY={difficulty:'Wrong difficulty',dot_point:'Wrong dot point',other:'Other'};
 const REP_WM={UF:'Fluency',PR:'Problem solving'};
@@ -20,7 +20,8 @@ function repSub(){if(REP.sub||!db)return !!REP.sub;
 // db arrives asynchronously (claude.use('db')); subscribe as soon as it exists
 (()=>{let n=0;const t=setInterval(()=>{if(repSub()||++n>240)clearInterval(t)},500)})();
 const repOpen=()=>REP.list.filter(r=>(r.status||'open')==='open');
-function repBadge(){const el=$('#repN');if(el)el.textContent=repOpen().length||''}
+// owner 15 Nov: Reports is a step inside Review; its count is on the step (was the tab badge #repN)
+function repBadge(){if(['review','levels','reports'].includes(view)&&typeof renderSteps==='function')renderSteps()}
 async function repNames(){const ids=[...new Set(REP.list.map(x=>x.by).filter(i=>i&&i!==me&&!(i in REP.names)))];if(!ids.length)return;
   try{const u=await window.claude?.use?.('user');if(!u?.profiles)return;const ps=await u.profiles(ids);ids.forEach(i=>REP.names[i]=ps?.[i]?.name||'');if(view==='reports')renderReports()}catch(e){}}
 const repWho=id=>!id?'':id===me?'you':(REP.names[id]||'a colleague');
@@ -117,7 +118,7 @@ async function repSend(){const D=REP.dlg,el=$('#repDlg');if(!D)return;const msg=
   if(D.reason==='dot'&&(dot||dotx))doc.suggested_dot=dot||dotx;
   const id='r'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
   const b=el.querySelector('[data-rsend]');b.disabled=true;b.textContent='Sending…';
-  try{await db.doc('reports/'+id).set(doc);repClose();toast('Report sent. It is listed on the Reports tab.')}
+  try{await db.doc('reports/'+id).set(doc);repClose();toast(isEditor()?'Report sent. It is listed in Review › Reports.':'Report sent. Thank you.')}
   catch(e){b.disabled=false;b.textContent='Send report';say('Could not send. Try again in a moment.')}}
 // capture: a Report click must not also select the question on the paper
 document.addEventListener('click',e=>{const t=e.target;

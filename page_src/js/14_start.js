@@ -1,5 +1,8 @@
 (async function start(){
   route();
+  // owner 15 Nov: "curate should be hidden to peope except editors." Curate shows only for the owner or an editor (user.isOwner() / canEdit());
+  // no user capability, or no answer, counts as not an editor, so Curate stays hidden.
+  {const c=window.claude;if(!c?.use)setEditor(false);else c.use('user').then(async u=>{let ed=false;if(u){try{ed=!!(await u.isOwner())}catch(e){}if(!ed){try{ed=!!(await u.canEdit())}catch(e){}}}setEditor(ed)}).catch(()=>setEditor(false))}
   try{
     // a load during a republish (or a network blip) can fail once: retry 3 times before giving up
     const get=async(u)=>{let err;for(let i=0;i<4;i++){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'r='+i+'_'+Date.now());if(!r.ok)throw new Error(r.status);return await r.json()}catch(e){err=e;await new Promise(z=>setTimeout(z,800*(i+1)))}}throw err};

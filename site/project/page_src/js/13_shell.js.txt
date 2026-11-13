@@ -29,7 +29,8 @@ function runningNow(){const jobs=JOBS.filter(j=>j&&j.name&&!(QUEUE&&/^\s*queued\
   const have=new Set(jobs.map(j=>String(j.name).trim().toLowerCase()));
   return jobs.concat(queueItems('running').filter(x=>!have.has(String(x.title).trim().toLowerCase())).map(x=>({name:x.title,detail:x.detail,started:x.started,asked:x.asked,src:'queue'})))}
 function renderJobs(){const el=$('#jobs');if(!el)return;const run=runningNow(),que=queueItems('queued');
-  el.hidden=!run.length&&!que.length;if(el.hidden){el.innerHTML='';setHdr();return}
+  // owner 15 Nov: the pills lead to Processes (Curate), so only editors see them
+  el.hidden=!isEditor()||(!run.length&&!que.length);if(el.hidden){el.innerHTML='';setHdr();return}
   const hit=run.filter(j=>j.affects&&view==='review'&&rfilter===j.affects);
   const go=`<a class="jgo" href="#processes">Open Processes →</a>`;
   const runPill=run.length?`<span class="jp run${hit.length?' hit':''}"><a class="jpill" href="#processes" aria-describedby="jpopR"><span class="dot" aria-hidden="true"></span>${hit.length?'Wait · ':''}${run.length} running</a>

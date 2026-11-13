@@ -433,7 +433,7 @@ function exGrading(){const el=$('#exGSide');if(!el)return;const qs=EX.items.map(
       return `${head}<li class="gq${s?' sel':''}${EXV.moved===q.id?' moved':''}" data-gqli="${q.id}"><div class="gqrow" draggable="true" data-drag="${q.id}"><span class="grip" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
         <button type="button" class="gqh" data-gq="${q.id}" aria-expanded="${s}"><span class="exgn">Q${i+1}</span><span class="exgk ${kindCls(k)}">${k==='Problem solving'?'Problem':k}</span>${e?exMeter(e.d,k):'<span></span>'}<span class="exgd">${q.marks}</span></button>
         <span class="gmv"><button type="button" data-gmv="-1" data-id="${q.id}" aria-label="Move up"${first?' disabled':''}>▲</button><button type="button" data-gmv="1" data-id="${q.id}" aria-label="Move down"${last?' disabled':''}>▼</button></span></div>${s?det(q):''}</li>`}).join('')}</ol>
-    <div class="gnote">Bands run from 2 to 6, as in the HSC. Each part was rated against HSC reference parts that you checked on the Difficulty tab. To change a rating, use the Difficulty tab.</div>`;
+    <div class="gnote">Bands run from 2 to 6, as in the HSC. Each part was rated against HSC reference parts checked by an editor (Curate › Review › Difficulty). To question a rating, use Report in a question\u2019s ⓘ card.</div>`;
   $$('#xPages .xq').forEach(x=>x.classList.toggle('sel',+x.dataset.q===EXV.sel))}
 function exSelect(id,from){EXV.sel=EXV.sel===id&&from==='list'?null:id;exGrading();
   if(from==='paper'&&innerWidth<=1000&&!EXV.grade){EXV.grade=true;$('#xPv')?.classList.remove('grade-off');$('#exGrade')?.setAttribute('aria-pressed','true')}

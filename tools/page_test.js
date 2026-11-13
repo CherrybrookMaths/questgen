@@ -76,7 +76,9 @@ function serve() {
 }
 
 /* ---------------- the fake runtime (runs in the page before its own scripts) ---------------- */
-function fakeClaude(seed) {
+function fakeClaude(arg) {
+  // role (15 Nov, Teach | Curate): 'editor' (default: owner + canEdit), 'viewer' (neither), 'none' (no user capability: use('user') → null)
+  const seed = arg && arg.seed, role = (arg && arg.role) || 'editor';
   // deterministic Math.random, so a failing run can be repeated
   let a = 0x9e3779b9; Math.random = () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296 };
   const store = new Map(Object.entries(seed || {})), log = [], cs = [], ds = [];
@@ -94,7 +96,7 @@ function fakeClaude(seed) {
       onSnapshot: (cb, err) => sub(ds, [k, cb], () => cb(docSnap(k)))
     })
   };
-  const user = {id: async () => 'u_pagetest', profiles: async ids => Object.fromEntries(ids.map(i => [i, {name: i === 'u_pagetest' ? 'Page test' : 'Colleague'}]))};
+  const user = {isOwner: async () => role === 'editor', canEdit: async () => role === 'editor', id: async () => 'u_pagetest', profiles: async ids => Object.fromEntries(ids.map(i => [i, {name: i === 'u_pagetest' ? 'Page test' : 'Colleague'}]))};
   const downloads = {save: async ({filename, data}) => {
     let bytes;
     if (typeof data === 'string') bytes = new TextEncoder().encode(data);
@@ -104,7 +106,7 @@ function fakeClaude(seed) {
     window.__pt.downloads.push({filename, size: bytes.length});
   }};
   window.__pt = {store, log, downloads: []};
-  window.claude = {use: async n => n === 'db' ? db : n === 'user' ? user : n === 'downloads' ? downloads : null};
+  window.claude = {use: async n => n === 'db' ? db : n === 'user' ? (role === 'none' ? null : user) : n === 'downloads' ? downloads : null};
 }
 
 /* ---------------- checks ---------------- */
@@ -120,7 +122,7 @@ async function check(name, page, fn) {
 }
 function assert(c, m) { if (!c) throw new Error(m) }
 
-async function newPage(browser, base, seed, {width = 1280, theme = 'light', touch = false} = {}) {
+async function newPage(browser, base, seed, {width = 1280, theme = 'light', touch = false, role = 'editor'} = {}) {
   const ctx = await browser.newContext({viewport: {width, height: width > 800 ? 900 : 844}, colorScheme: theme, deviceScaleFactor: 1, reducedMotion: 'reduce', acceptDownloads: false, hasTouch: touch, isMobile: touch});
   const page = await ctx.newPage();
   page._errs = [];
@@ -132,7 +134,7 @@ async function newPage(browser, base, seed, {width = 1280, theme = 'light', touc
   });
   await page.route(u => !u.href.startsWith(base), r => { outside.push(r.request().url()); return r.abort() });
   await page.exposeFunction('__ptSave', (fn, b64) => { const f = path.join(DL, fn.replace(/[^\w.\- ]+/g, '_')); fs.writeFileSync(f, Buffer.from(b64, 'base64')); });
-  await page.addInitScript(fakeClaude, seed);
+  await page.addInitScript(fakeClaude, {seed, role});
   return page;
 }
 // wait until the page stops changing (text length, element count, typeset maths count)
@@ -146,7 +148,7 @@ async function settle(page, max = 8000, quiet = 3) {
 }
 async function boot(page, base, hash = '#bank') {
   await page.goto(base + 'review.html' + hash);
-  await page.waitForFunction(() => typeof B !== 'undefined' && B && B.questions && typeof db !== 'undefined' && db && window.MathJax && MathJax.startup && MathJax.startup.promise, null, {timeout: 45000});
+  await page.waitForFunction(() => typeof B !== 'undefined' && B && B.questions && typeof db !== 'undefined' && db && typeof EDITOR !== 'undefined' && EDITOR !== null && window.MathJax && MathJax.startup && MathJax.startup.promise, null, {timeout: 45000});
   await page.evaluate(() => MathJax.startup.promise);
   await settle(page);
 }
@@ -161,10 +163,10 @@ const VIEWS = [
   ['exams-mine', '#exams', '#examsView', false, async p => p.evaluate(() => document.querySelector('[data-exv="mine"]').click())],
   ['review', '#review', '#reviewView', true, async p => {   // an empty queue shows no question: open "Every question" instead
     await p.evaluate(() => { if (!document.querySelector('#approve')) document.querySelector('#rout [data-gof="all"]')?.click() }); }],
-  ['reports', '#reports', '#reportsView', false],
+  ['reports', '#review/reports', '#reportsView', false],   // owner 15 Nov: Reports is a step inside Review
   ['papers', '#papers', '#papersView', false],
   ['processes', '#processes', '#processesView', false],   // owner 14 Nov: the Import tab is now Processes
-  ['levels', '#levels', '#levelsView', true, async p => {   // nothing left to check: show All, so a part is on screen
+  ['levels', '#review/difficulty', '#levelsView', true, async p => {   // owner 15 Nov: Difficulty is a step inside Review   // nothing left to check: show All, so a part is on screen
     await p.evaluate(() => { if (!document.querySelector('#levelsBox .lvcard')) document.querySelector('[data-lvshow="all"]')?.click() }); }],
   ['guide-users', '#guide', '#guideView', true, async p => p.evaluate(() => document.querySelector('[data-gpg="cat"]').click())],
   ['guide-developers', '#guide', '#guideView', false, async p => p.evaluate(() => document.querySelector('[data-gpg="dev"]').click())],
@@ -407,11 +409,11 @@ async function flows(browser, base, seed) {
   /* ---- Reports tab ---- */
   await check('reports: the report is on the Reports tab', page, async () => {
     await page.evaluate(() => { location.hash = '#reports' }); await settle(page, 4000, 2);
-    const r = await page.evaluate(() => ({rows: [...document.querySelectorAll('#reportsBox .rep-row')].map(li => li.innerText), badge: document.querySelector('#repN')?.textContent}));
+    const r = await page.evaluate(() => ({rows: [...document.querySelectorAll('#reportsBox .rep-row')].map(li => li.innerText), badge: document.querySelector('#filters .step[data-f="reports"] .n')?.textContent}));   // 15 Nov: the count is on the Reports step
     errs(); assert(r.rows.length >= 1, 'no report rows');
     assert(r.rows.some(t => /Wrong difficulty/.test(t) && /band 5/.test(t) && /Problem solving/.test(t) && /band looks too low/.test(t)), 'the new report (band 5 · Problem solving) is not listed: ' + (r.rows[0] || '').slice(0, 160));
-    assert(r.badge === String(r.rows.length), `tab badge “${r.badge}” for ${r.rows.length} open report(s)`);
-    return `${r.rows.length} open, badge ${r.badge}`;
+    assert(r.badge === String(r.rows.length), `Reports step count “${r.badge}” for ${r.rows.length} open report(s)`);
+    return `${r.rows.length} open, step count ${r.badge}`;
   });
 
   /* ---- Grouped data packs (stage 2, 15 Nov): redraws and overlays load from data/<kind>/g<n>.json, never per paper ---- */
@@ -480,7 +482,9 @@ async function phone(browser, base, seed) {
     await page.click('#menuBtn'); await settle(page, 1500, 2);
     const open = await page.evaluate(() => ({hidden: document.querySelector('#mSheet').hidden, links: [...document.querySelectorAll('#mSheet a')].map(a => a.textContent.trim()), exp: document.querySelector('#menuBtn').getAttribute('aria-expanded')}));
     assert(!open.hidden && open.exp === 'true', 'the menu did not open');
-    assert(open.links.length === 8, `${open.links.length} links in the menu: ${open.links.join(', ')}`);
+    assert(open.links.length === 6, `${open.links.length} links in the menu: ${open.links.join(', ')}`);   // 15 Nov: Teach 3 + Curate 3 (Difficulty and Reports are Review steps)
+    const heads = await page.evaluate(() => [...document.querySelectorAll('#mSheet .mgrp')].map(g => g.querySelector('.mh').textContent + ':' + [...g.querySelectorAll('a')].map(a => a.textContent.replace(/\d+$/, '').trim()).join('/')));
+    assert(heads.join(' | ') === 'Teach:Bank/Exams/Guide | Curate:Review/Papers/Processes', `menu groups: ${heads.join(' | ')}`);
     assert(open.links.includes('Processes') && !open.links.includes('Import'), `the menu should name Processes, not Import: ${open.links.join(', ')}`);   // owner 14 Nov
     await page.click('#mSheet a[href="#papers"]'); await settle(page, 4000, 2);
     const r = await page.evaluate(() => ({hash: location.hash, hidden: document.querySelector('#mSheet').hidden, cur: document.querySelector('#menuCur').textContent, pv: !document.querySelector('#papersView').hidden, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth}));
@@ -490,6 +494,116 @@ async function phone(browser, base, seed) {
     return `${open.links.length} links; Papers opened`;
   });
   await page.context().close();
+}
+
+/* ---------------- Teach | Curate (owner 15 Nov: "Lets do 2 as well" and "curate should be hidden to peope except editors.") ----------------
+   Editor (owner / canEdit): the switch, three tabs per area, Difficulty and Reports as Review steps, the old hashes land on their step.
+   Viewer (neither) and no user capability at all: no switch, no Curate tab or link anywhere, and a Curate hash goes to #bank. */
+const CURATE_HASHES = ['#review', '#papers', '#processes', '#import', '#levels', '#difficulty', '#reports', '#review/difficulty', '#review/reports'];
+async function areas(browser, base, seed) {
+  const navState = p => p.evaluate(() => ({hash: location.hash, view, sw: (() => { const s = document.querySelector('#areaSw'); return !!s && !s.hidden && s.offsetWidth > 0 })(),
+    tabs: [...document.querySelectorAll('.views a')].filter(a => a.offsetWidth > 0).map(a => a.firstChild.textContent.trim()),
+    cur: document.querySelector('.views a[aria-current="page"]')?.firstChild.textContent.trim(), area: document.documentElement.dataset.area,
+    pressed: document.querySelector('#areaSw button[aria-pressed="true"]')?.dataset.area}));
+  const go = async (p, h) => { await p.evaluate(h => { location.hash = h }, h); await settle(p, 4000, 2) };
+
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await boot(page, base);
+  const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  await check('areas (editor): Teach | Curate switch and tabs', page, async () => {
+    let r = await navState(page); errs();
+    assert(r.sw, 'no Teach | Curate switch for an editor');
+    assert(r.tabs.join('/') === 'Bank/Exams/Guide' && r.pressed === 'teach' && r.area === 'teach', `Teach shows ${r.tabs.join('/')} (switch on ${r.pressed})`);
+    await page.click('#areaSw button[data-area="curate"]'); await settle(page, 5000, 2);
+    r = await navState(page); errs();
+    assert(r.view === 'review' && r.hash === '#review', `Curate opened ${r.hash} (view ${r.view})`);
+    assert(r.tabs.join('/') === 'Review/Papers/Processes' && r.pressed === 'curate' && r.cur === 'Review', `Curate shows ${r.tabs.join('/')}, current ${r.cur}`);
+    const sl = await page.evaluate(async () => { await new Promise(z => setTimeout(z, 400)); const s = document.querySelector('#areaSw .aslider').getBoundingClientRect(), b = document.querySelector('#areaSw button[aria-pressed="true"]').getBoundingClientRect(); return {dx: Math.abs(s.left - b.left), dw: Math.abs(s.width - b.width)} });
+    assert(sl.dx < 1.5 && sl.dw < 1.5, `the switch highlight is off the selected area by ${sl.dx.toFixed(1)} px / ${sl.dw.toFixed(1)} px`);
+    await go(page, '#papers'); await page.click('#areaSw button[data-area="teach"]'); await settle(page, 4000, 2);
+    r = await navState(page); assert(r.view === 'bank', `Teach went to ${r.hash}`);
+    await page.click('#areaSw button[data-area="curate"]'); await settle(page, 4000, 2);
+    r = await navState(page); errs(); assert(r.hash === '#papers', `Curate should return to the last Curate page (#papers), went to ${r.hash}`);
+    return 'Teach: Bank/Exams/Guide · Curate: Review/Papers/Processes · switch slides · last page per area kept';
+  });
+  await check('areas (editor): Difficulty and Reports are Review steps with counts', page, async () => {
+    await go(page, '#review');
+    const st = await page.evaluate(() => [...document.querySelectorAll('#filters .step')].map(b => b.dataset.f + '=' + b.querySelector('.n').textContent));
+    errs();
+    const ks = st.map(x => x.split('=')[0]);
+    assert(['decide', 'check', 'sample', 'diagrams', 'tags', 'difficulty', 'reports'].every(k => ks.includes(k)) && ks.indexOf('difficulty') > ks.indexOf('tags') && ks.indexOf('reports') === ks.indexOf('difficulty') + 1, `steps: ${st.join(' ')}`);
+    const want = await page.evaluate(() => [lvTodoN(), repOpen().length]);
+    assert(st.includes('difficulty=' + want[0]) && st.includes('reports=' + want[1]), `step counts ${st.join(' ')}; expected difficulty=${want[0]} reports=${want[1]}`);
+    await page.click('#filters .step[data-f="difficulty"]'); await settle(page, 5000, 2);
+    let r = await page.evaluate(() => ({hash: location.hash, view, lv: !document.querySelector('#levelsView').hidden, rbar: !document.querySelector('#rbar').hidden, docF: document.querySelector('#docF').offsetWidth,
+      pressed: document.querySelector('#filters .step[aria-pressed="true"]')?.dataset.f, cur: document.querySelector('.views a[aria-current="page"]')?.firstChild.textContent.trim()}));
+    errs(); assert(r.hash === '#review/difficulty' && r.view === 'levels' && r.lv, `Difficulty step opened ${r.hash} (view ${r.view})`);
+    assert(r.rbar && r.pressed === 'difficulty' && r.cur === 'Review' && !r.docF, `step row ${r.rbar}, pressed ${r.pressed}, tab ${r.cur}, paper picker ${r.docF} px`);
+    await page.click('#filters .step[data-f="reports"]'); await settle(page, 4000, 2);
+    r = await page.evaluate(() => ({hash: location.hash, view, rep: !document.querySelector('#reportsView').hidden, pressed: document.querySelector('#filters .step[aria-pressed="true"]')?.dataset.f}));
+    errs(); assert(r.hash === '#review/reports' && r.rep && r.pressed === 'reports', `Reports step opened ${r.hash}, pressed ${r.pressed}`);
+    await page.click('#filters .step[data-f="decide"]'); await settle(page, 4000, 2);
+    r = await page.evaluate(() => ({hash: location.hash, view, rv: !document.querySelector('#reviewView').hidden, rfilter}));
+    errs(); assert(r.hash === '#review' && r.view === 'review' && r.rv && r.rfilter === 'decide', `Decide from Reports went to ${r.hash} (${r.rfilter})`);
+    return st.join(' ');
+  });
+  await check('areas (editor): old #levels, #difficulty and #reports land on their Review step', page, async () => {
+    const out = [];
+    for (const [h, want, v] of [['#levels', '#review/difficulty', 'levels'], ['#difficulty', '#review/difficulty', 'levels'], ['#reports', '#review/reports', 'reports'], ['#import', '#processes', 'processes']]) {
+      await go(page, '#bank'); await go(page, h);
+      const r = await page.evaluate(() => ({hash: location.hash, view}));
+      assert(r.hash === want && r.view === v, `${h} → ${r.hash} (view ${r.view}), expected ${want}`); out.push(`${h}→${r.hash}`);
+    }
+    errs(); return out.join(' ');
+  });
+  await check('areas (editor): the last area is remembered', page, async () => {
+    await go(page, '#papers');
+    await page.goto(base + 'review.html'); await page.waitForFunction(() => typeof B !== 'undefined' && B && EDITOR !== null, null, {timeout: 45000}); await settle(page, 5000, 2);
+    const r = await navState(page); errs();
+    assert(r.hash === '#papers' && r.area === 'curate', `a bare reload opened ${r.hash || '(no hash)'} in ${r.area}`);
+    return 'reload with no hash reopened #papers (Curate)';
+  });
+  await page.context().close();
+
+  for (const role of ['viewer', 'none']) {
+    const vp = await newPage(browser, base, seed, {width: 1280, theme: 'dark', role});
+    await boot(vp, base);
+    const verrs = () => { const e = takeErrs(vp); assert(!e.length, e.slice(0, 3).join(' | ')) };
+    await check(`areas (${role}): no Curate anywhere`, vp, async () => {
+      await vp.waitForFunction(() => EDITOR === false, null, {timeout: 15000});
+      await vp.evaluate(() => { const b = [...document.querySelectorAll('#list .subrow[data-sel]:not(.none)')][0]; b && b.click() }); await settle(vp, 5000, 2);   // a subtopic, so bank cards are on screen
+      const r = await navState(vp);
+      const extra = await vp.evaluate(() => ({open: [...document.querySelectorAll('#list [data-open], .edonly')].filter(e => e.offsetWidth > 0).length, jobs: (() => { const j = document.querySelector('#jobs'); return !!j && !j.hidden && j.offsetWidth > 0 })(),
+        rbar: !document.querySelector('#rbar').hidden, cards: document.querySelectorAll('#list .edonly').length}));
+      verrs();
+      assert(!r.sw, `the Teach | Curate switch shows for a ${role}`);
+      assert(r.tabs.join('/') === 'Bank/Exams/Guide', `tabs for a ${role}: ${r.tabs.join('/')}`);
+      assert(extra.cards > 0, 'no bank cards on screen to check for "Open in Review"');
+      assert(!extra.jobs && !extra.rbar && !extra.open, `Curate pieces visible: jobs pills ${extra.jobs}, review bar ${extra.rbar}, ${extra.open} "Open in Review" link(s)`);
+      return `tabs ${r.tabs.join('/')}; no switch or jobs pills; Open in Review hidden on ${extra.cards} cards`;
+    });
+    await check(`areas (${role}): Curate hashes go to #bank`, vp, async () => {
+      const bad = [];
+      for (const h of CURATE_HASHES) { await go(vp, '#guide'); await go(vp, h); const r = await vp.evaluate(() => ({hash: location.hash, view, bank: !document.querySelector('#bankView').hidden})); if (r.hash !== '#bank' || r.view !== 'bank' || !r.bank) bad.push(`${h}→${r.hash}/${r.view}`) }
+      verrs(); assert(!bad.length, bad.join(' '));
+      return `${CURATE_HASHES.length} Curate hashes → #bank`;
+    });
+    await vp.context().close();
+  }
+  // a viewer opening a Curate link directly, and the phone menu without a Curate group
+  const pp = await newPage(browser, base, seed, {width: 390, theme: 'light', role: 'viewer'});
+  await check('areas (viewer): a Curate link and the phone menu', pp, async () => {
+    await boot(pp, base, '#review/difficulty');
+    await pp.waitForFunction(() => EDITOR === false, null, {timeout: 15000}); await settle(pp, 3000, 2);
+    const r = await pp.evaluate(() => ({hash: location.hash, view, lv: !document.querySelector('#levelsView').hidden}));
+    assert(r.hash === '#bank' && r.view === 'bank' && !r.lv, `#review/difficulty opened for a viewer: ${r.hash} (view ${r.view})`);
+    await pp.click('#menuBtn'); await settle(pp, 1500, 2);
+    const m = await pp.evaluate(() => ({heads: [...document.querySelectorAll('#mSheet .mh')].map(h => h.textContent), links: [...document.querySelectorAll('#mSheet a')].map(a => a.getAttribute('href'))}));
+    const e = takeErrs(pp); assert(!e.length, e.join(' | '));
+    assert(m.heads.join('/') === 'Teach' && m.links.join(' ') === '#bank #exams #guide', `viewer menu: ${m.heads.join('/')} · ${m.links.join(' ')}`);
+    return `link → #bank; menu ${m.links.join(' ')}`;
+  });
+  await pp.context().close();
 }
 
 /* ---------------- Processes page and header pills (owner 14 Nov: "need a pill for current jobs and queued jobs ... Can make that page processes") ----------------
@@ -811,7 +925,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   let fatal = null;
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
-    await Promise.all([...combos.map(([w, t]) => sweep(browser, base, seed, w, t)), phone(browser, base, seed), processes(browser, base, seed), availOverlap(browser, base, seed), queueChecks(browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => sweep(browser, base, seed, w, t)), phone(browser, base, seed), areas(browser, base, seed), processes(browser, base, seed), availOverlap(browser, base, seed), queueChecks(browser, base, seed)]);
     await flows(browser, base, seed);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));
     await check('offline: no requests to public CDNs', null, async () => { assert(!bad.length, `${bad.length} outside request(s): ${bad.slice(0, 5).join(' ')}`); return ext.length ? `${ext.length} Google Fonts request(s) blocked, allowed` : 'none' });

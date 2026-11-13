@@ -1662,6 +1662,26 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
 .schema .slegend text{font-size:11.5px;fill:var(--muted)}
 .g2keys{grid-template-columns:repeat(5,minmax(0,1fr))}
 @media (max-width:860px){.g2keys{grid-template-columns:1fr 1fr}}@media (max-width:520px){.g2keys{grid-template-columns:1fr}}
+/* ---- Teach | Curate (owner 15 Nov: "Lets do 2 as well" and "curate should be hidden to peope except editors.") ----
+   A small segmented switch before the tabs, shown only to the owner and editors. Its highlight slides like the tab pill
+   (12 Nov ruling); hairline frame, theme2 tokens. Phones have no switch: the menu groups the tabs under Teach / Curate. */
+.areasw{position:relative;display:inline-flex;align-items:center;gap:0;padding:2px;border:1px solid var(--line);border-radius:calc(var(--t2-r) + 2px);background:var(--bg)}
+.areasw[hidden]{display:none}
+.areasw button{position:relative;z-index:1;background:none;border:0;cursor:pointer;font:500 12px var(--sans);letter-spacing:.01em;color:var(--muted);padding:3px 10px;border-radius:var(--t2-r);line-height:18px;transition:color .18s}
+.areasw button:hover{color:var(--ink)}
+.areasw button[aria-pressed="true"]{color:var(--ink);font-weight:600}
+.areasw button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.areasw .aslider{position:absolute;top:2px;bottom:2px;left:0;width:0;border-radius:var(--t2-r);background:var(--panel);box-shadow:0 0 0 1px var(--line),0 1px 2px rgba(0,0,0,.06);transition:transform .28s cubic-bezier(.3,.7,.2,1),width .28s cubic-bezier(.3,.7,.2,1);z-index:0}
+@media (prefers-reduced-motion:reduce){.areasw .aslider{transition:none}}
+.views a[hidden]{display:none!important}
+/* Difficulty and Reports are Review steps: under them the row has no paper picker or ← → */
+.rbar.xstep #docF,.rbar.xstep .rnav,.rbar.xstep #stF{display:none!important}
+.msheet .mgrp{display:grid;gap:2px}
+.msheet .mgrp+.mgrp{border-top:1px solid var(--line);margin-top:4px;padding-top:4px}
+.msheet .mh{font:600 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:8px 14px 2px}
+@media (max-width:640px){.areasw{display:none!important}}
+/* Curate-only controls elsewhere (e.g. "Open in Review" on bank cards) carry .edonly: hidden unless the viewer is the owner or an editor */
+html:not(.editor) .edonly{display:none!important}
 </style>
 
 <header>
@@ -1669,15 +1689,15 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
     <p class="brand"><svg class="logo" viewBox="-10 -52 289.1 82" role="img" aria-label="Questgen"><g class="lq" transform="translate(-6,-53.16) scale(0.68)"><path fill-rule="evenodd" d="M45 12 a33 34 0 1 0 0.01 0 Z M45 20.5 a21 25.5 0 1 1 -0.01 0 Z" transform="rotate(-14 45 46)"/>
 <path d="M54.6 58.3 C 61.6 55.4 67.8 58.2 70.1 66.4 L 73.4 81.1 C 74.6 86.6 78.1 89 82.6 88 C 86.4 87.2 87.5 91.3 84.2 92.5 C 76.2 95.4 69.9 91.1 67.9 82.7 L 64.7 68.6 C 63.6 63.6 60.9 61.9 57.3 62.8 C 53.9 63.7 51.9 59.5 54.6 58.3 Z"/></g><path class="lw" transform="translate(48,0)" d="M24.119999999999997 -4.32V-5.79L23.849999999999998 -5.91V-21.99Q23.849999999999998 -22.74 23.625 -23.085Q23.4 -23.43 22.89 -23.52L21.3 -23.64Q20.759999999999998 -23.759999999999998 20.519999999999996 -24.03Q20.279999999999998 -24.3 20.279999999999998 -24.72Q20.279999999999998 -25.2 20.564999999999998 -25.515Q20.849999999999998 -25.83 21.66 -26.099999999999998L27.24 -28.14Q28.38 -28.56 29.085 -28.755Q29.79 -28.95 30.39 -28.95Q31.32 -28.95 31.815 -28.424999999999997Q32.31 -27.9 32.31 -27.029999999999998V-4.8Q32.31 -3.8699999999999997 32.565 -3.4349999999999996Q32.82 -3.0 33.36 -2.82L34.5 -2.52Q35.07 -2.34 35.34 -2.025Q35.61 -1.71 35.61 -1.23Q35.61 -0.6599999999999999 35.22 -0.32999999999999996Q34.83 0.0 33.96 0.0H27.93Q26.31 0.0 25.214999999999996 -1.2149999999999999Q24.119999999999997 -2.4299999999999997 24.119999999999997 -4.32ZM4.95 -8.34V-21.99Q4.95 -22.74 4.71 -23.085Q4.47 -23.43 3.96 -23.52L2.37 -23.64Q1.8299999999999998 -23.759999999999998 1.5899999999999999 -24.03Q1.3499999999999999 -24.3 1.3499999999999999 -24.72Q1.3499999999999999 -25.2 1.65 -25.515Q1.95 -25.83 2.73 -26.099999999999998L8.34 -28.14Q9.51 -28.59 10.2 -28.77Q10.889999999999999 -28.95 11.4 -28.95Q12.389999999999999 -28.95 12.884999999999998 -28.424999999999997Q13.379999999999999 -27.9 13.379999999999999 -27.029999999999998V-9.57Q13.379999999999999 -6.93 14.639999999999999 -5.625Q15.899999999999999 -4.32 18.06 -4.32Q19.38 -4.32 20.88 -4.965Q22.38 -5.609999999999999 23.97 -6.96L25.169999999999998 -8.01L26.55 -6.6L25.38 -5.55Q21.599999999999998 -2.07 18.779999999999998 -0.6599999999999999Q15.959999999999999 0.75 13.469999999999999 0.75Q9.629999999999999 0.75 7.289999999999999 -1.725Q4.95 -4.2 4.95 -8.34Z M67.29 -17.73Q67.29 -16.14 66.39000000000001 -15.285Q65.49000000000001 -14.43 63.75 -14.43H45.03V-16.71H57.300000000000004Q58.83 -16.71 58.83 -18.09Q58.83 -22.05 57.39 -24.105Q55.95 -26.16 53.52 -26.16Q51.660000000000004 -26.16 50.22 -25.02Q48.78 -23.88 47.97 -21.765Q47.160000000000004 -19.65 47.160000000000004 -16.65Q47.160000000000004 -10.86 49.875 -7.949999999999999Q52.59 -5.04 57.120000000000005 -5.04Q59.760000000000005 -5.04 61.755 -6.09Q63.75 -7.14 64.86 -9.09Q65.4 -9.69 65.715 -9.899999999999999Q66.03 -10.11 66.36 -10.11Q66.84 -10.11 67.05000000000001 -9.675Q67.26 -9.24 67.26 -8.64Q67.14 -6.12 65.46000000000001 -3.975Q63.78 -1.8299999999999998 60.93 -0.5399999999999999Q58.08 0.75 54.39 0.75Q50.040000000000006 0.75 46.68000000000001 -1.035Q43.32000000000001 -2.82 41.415000000000006 -6.045Q39.510000000000005 -9.27 39.510000000000005 -13.59Q39.510000000000005 -18.12 41.325 -21.630000000000003Q43.14 -25.14 46.53 -27.119999999999997Q49.92 -29.099999999999998 54.63 -29.099999999999998Q58.650000000000006 -29.099999999999998 61.48500000000001 -27.644999999999996Q64.32000000000001 -26.189999999999998 65.805 -23.625Q67.29 -21.06 67.29 -17.73Z M84.36 -1.98Q86.43 -1.98 87.555 -3.0149999999999997Q88.68 -4.05 88.68 -5.609999999999999Q88.68 -6.6 88.245 -7.409999999999999Q87.81 -8.219999999999999 86.565 -8.879999999999999Q85.32000000000001 -9.54 82.95 -10.11Q78.33 -11.04 75.795 -12.48Q73.26 -13.92 72.285 -15.825Q71.31 -17.73 71.31 -20.009999999999998Q71.31 -24.18 74.265 -26.64Q77.22 -29.099999999999998 82.8 -29.099999999999998Q84.81 -29.099999999999998 86.08500000000001 -28.769999999999996Q87.36 -28.439999999999998 88.17 -28.095Q88.98 -27.75 89.61 -27.75Q90.27000000000001 -27.75 90.61500000000001 -28.095Q90.96000000000001 -28.439999999999998 91.305 -28.769999999999996Q91.65 -29.099999999999998 92.28 -29.099999999999998Q92.73 -29.099999999999998 93.09 -28.814999999999998Q93.45 -28.529999999999998 93.69 -27.72L95.67 -21.689999999999998Q96.03 -20.64 95.89500000000001 -19.98Q95.76 -19.32 95.07000000000001 -19.05Q94.38 -18.779999999999998 93.88499999999999 -19.034999999999997Q93.39 -19.29 92.91 -19.98Q91.59 -22.349999999999998 90.045 -23.744999999999997Q88.5 -25.14 86.805 -25.755Q85.11 -26.369999999999997 83.28 -26.369999999999997Q80.73 -26.369999999999997 79.44 -25.335Q78.15 -24.3 78.15 -22.529999999999998Q78.15 -21.48 78.69 -20.64Q79.23 -19.8 80.715 -19.095Q82.2 -18.39 84.96000000000001 -17.73Q88.89 -16.89 91.17 -15.555Q93.45 -14.219999999999999 94.45500000000001 -12.344999999999999Q95.46000000000001 -10.469999999999999 95.46000000000001 -7.949999999999999Q95.46000000000001 -5.37 94.125 -3.4050000000000002Q92.79 -1.44 90.405 -0.345Q88.02000000000001 0.75 84.9 0.75Q82.92 0.75 81.735 0.36Q80.55 -0.03 79.785 -0.405Q79.02000000000001 -0.78 78.3 -0.78Q77.64 -0.78 77.20500000000001 -0.405Q76.77000000000001 -0.03 76.38000000000001 0.36Q75.99000000000001 0.75 75.42 0.75Q74.97 0.75 74.655 0.42Q74.34 0.09 74.19 -0.69L73.02000000000001 -6.42Q72.81 -7.62 72.945 -8.205Q73.08 -8.79 73.71000000000001 -9.03Q74.37 -9.299999999999999 74.88 -8.985Q75.39 -8.67 75.9 -7.83Q77.76 -4.68 79.935 -3.33Q82.11 -1.98 84.36 -1.98Z M101.85 -25.47 100.47 -25.89Q99.75 -26.13 99.44999999999999 -26.445Q99.14999999999999 -26.759999999999998 99.14999999999999 -27.18Q99.14999999999999 -27.779999999999998 99.55499999999999 -28.095Q99.96 -28.41 100.64999999999999 -28.41H102.47999999999999Q103.19999999999999 -28.41 103.67999999999999 -28.68Q104.16 -28.95 104.66999999999999 -29.64L107.94 -34.23Q108.57 -35.01 109.13999999999999 -35.37Q109.71 -35.73 110.27999999999999 -35.73Q110.91 -35.73 111.27 -35.339999999999996Q111.63 -34.949999999999996 111.63 -34.199999999999996V-8.549999999999999Q111.63 -6.45 112.45499999999998 -5.34Q113.27999999999999 -4.2299999999999995 114.75 -4.2299999999999995Q115.85999999999999 -4.2299999999999995 116.475 -4.664999999999999Q117.08999999999999 -5.1 117.44999999999999 -5.67Q117.80999999999999 -6.24 118.155 -6.675Q118.5 -7.109999999999999 119.03999999999999 -7.14Q119.49 -7.14 119.745 -6.84Q120.0 -6.54 120.0 -5.85Q119.97 -4.14 118.875 -2.67Q117.78 -1.2 115.83 -0.285Q113.88 0.63 111.38999999999999 0.63Q107.55 0.63 105.375 -1.305Q103.19999999999999 -3.2399999999999998 103.19999999999999 -7.14V-23.7Q103.19999999999999 -24.48 102.88499999999999 -24.855Q102.57 -25.23 101.85 -25.47ZM108.3 -25.439999999999998V-28.41H118.22999999999999Q118.91999999999999 -28.41 119.32499999999999 -28.125Q119.72999999999999 -27.84 119.72999999999999 -27.3Q119.72999999999999 -26.52 118.94999999999999 -25.979999999999997Q118.16999999999999 -25.439999999999998 116.42999999999999 -25.439999999999998Z M142.52999999999997 -2.76Q138.35999999999999 -3.36 136.48499999999999 -3.825Q134.60999999999999 -4.29 134.13 -4.71Q133.64999999999998 -5.13 133.64999999999998 -5.58Q133.64999999999998 -6.06 134.03999999999996 -6.4799999999999995Q134.42999999999998 -6.8999999999999995 135.32999999999998 -7.29L134.7 -7.77Q131.73 -7.47 130.03499999999997 -6.675Q128.33999999999997 -5.88 127.63499999999998 -4.77Q126.92999999999998 -3.6599999999999997 126.92999999999998 -2.4Q126.92999999999998 -0.96 127.78499999999998 0.06000000000000005Q128.64 1.08 130.98 1.875Q133.32 2.67 137.82 3.33Q141.48 3.8699999999999997 143.51999999999998 4.484999999999999Q145.55999999999997 5.1 146.36999999999998 5.88Q147.17999999999998 6.66 147.17999999999998 7.71Q147.17999999999998 9.03 146.33999999999997 9.975Q145.5 10.92 143.67 11.415Q141.83999999999997 11.91 138.80999999999997 11.91Q133.52999999999997 11.91 131.39999999999998 10.335Q129.26999999999998 8.76 129.26999999999998 6.18Q129.26999999999998 4.77 130.45499999999998 3.6449999999999996Q131.64 2.52 133.89 2.16L133.41 1.26Q127.43999999999998 1.98 125.12999999999998 3.8099999999999996Q122.81999999999998 5.64 122.81999999999998 8.01Q122.81999999999998 9.93 124.19999999999999 11.445Q125.57999999999998 12.959999999999999 128.77499999999998 13.829999999999998Q131.96999999999997 14.7 137.39999999999998 14.7Q145.76999999999998 14.7 150.195 12.075Q154.61999999999998 9.45 154.61999999999998 5.34Q154.61999999999998 3.09 153.46499999999997 1.5Q152.30999999999997 -0.09 149.65499999999997 -1.125Q147.0 -2.16 142.52999999999997 -2.76ZM143.21999999999997 -25.98 145.17 -25.709999999999997Q146.27999999999997 -27.9 146.99999999999997 -28.65Q147.71999999999997 -29.4 148.67999999999998 -29.4Q149.54999999999998 -29.4 150.045 -28.964999999999996Q150.54 -28.529999999999998 150.93 -27.96Q151.32 -27.39 151.85999999999999 -26.955Q152.39999999999998 -26.52 153.35999999999999 -26.52Q154.73999999999998 -26.52 155.54999999999998 -27.525Q156.35999999999999 -28.529999999999998 156.35999999999999 -30.18Q156.35999999999999 -32.04 155.15999999999997 -33.105000000000004Q153.95999999999998 -34.17 152.07 -34.17Q149.76 -34.17 147.70499999999998 -32.655Q145.64999999999998 -31.14 144.23999999999998 -28.08ZM152.13 -18.27Q152.13 -21.3 150.46499999999997 -23.744999999999997Q148.79999999999998 -26.189999999999998 145.72499999999997 -27.599999999999998Q142.64999999999998 -29.009999999999998 138.39 -29.009999999999998Q134.01 -29.009999999999998 130.725 -27.54Q127.43999999999998 -26.07 125.62499999999999 -23.445Q123.80999999999999 -20.82 123.80999999999999 -17.34Q123.80999999999999 -14.309999999999999 125.475 -11.864999999999998Q127.13999999999999 -9.42 130.23 -8.01Q133.32 -6.6 137.57999999999998 -6.6Q141.95999999999998 -6.6 145.24499999999998 -8.07Q148.52999999999997 -9.54 150.32999999999998 -12.165Q152.13 -14.79 152.13 -18.27ZM136.89 -26.459999999999997Q139.46999999999997 -26.64 141.11999999999998 -24.42Q142.76999999999998 -22.2 143.25 -18.0Q143.73 -13.889999999999999 142.635 -11.669999999999998Q141.54 -9.45 139.04999999999998 -9.27Q137.33999999999997 -9.18 136.01999999999998 -10.125Q134.7 -11.07 133.85999999999999 -13.004999999999999Q133.01999999999998 -14.94 132.69 -17.73Q132.39 -20.49 132.765 -22.38Q133.14 -24.27 134.19 -25.305Q135.23999999999998 -26.34 136.89 -26.459999999999997Z M185.33999999999997 -17.73Q185.33999999999997 -16.14 184.43999999999997 -15.285Q183.53999999999996 -14.43 181.79999999999998 -14.43H163.07999999999998V-16.71H175.34999999999997Q176.87999999999997 -16.71 176.87999999999997 -18.09Q176.87999999999997 -22.05 175.43999999999997 -24.105Q173.99999999999997 -26.16 171.57 -26.16Q169.70999999999998 -26.16 168.26999999999998 -25.02Q166.82999999999998 -23.88 166.01999999999998 -21.765Q165.20999999999998 -19.65 165.20999999999998 -16.65Q165.20999999999998 -10.86 167.92499999999998 -7.949999999999999Q170.64 -5.04 175.17 -5.04Q177.80999999999997 -5.04 179.80499999999998 -6.09Q181.79999999999998 -7.14 182.90999999999997 -9.09Q183.45 -9.69 183.765 -9.899999999999999Q184.07999999999998 -10.11 184.40999999999997 -10.11Q184.89 -10.11 185.09999999999997 -9.675Q185.30999999999997 -9.24 185.30999999999997 -8.64Q185.18999999999997 -6.12 183.51 -3.975Q181.82999999999998 -1.8299999999999998 178.97999999999996 -0.5399999999999999Q176.12999999999997 0.75 172.43999999999997 0.75Q168.08999999999997 0.75 164.72999999999996 -1.035Q161.36999999999998 -2.82 159.46499999999997 -6.045Q157.55999999999997 -9.27 157.55999999999997 -13.59Q157.55999999999997 -18.12 159.37499999999997 -21.630000000000003Q161.18999999999997 -25.14 164.57999999999998 -27.119999999999997Q167.96999999999997 -29.099999999999998 172.67999999999998 -29.099999999999998Q176.7 -29.099999999999998 179.53499999999997 -27.644999999999996Q182.36999999999998 -26.189999999999998 183.85499999999996 -23.625Q185.33999999999997 -21.06 185.33999999999997 -17.73Z M201.26999999999998 -27.06V-4.8Q201.26999999999998 -3.8699999999999997 201.53999999999996 -3.4499999999999997Q201.80999999999997 -3.03 202.35 -2.82L203.42999999999998 -2.52Q204.39 -2.13 204.39 -1.3199999999999998Q204.39 0.0 202.70999999999998 0.0H191.13Q190.29 0.0 189.89999999999998 -0.32999999999999996Q189.51 -0.6599999999999999 189.51 -1.23Q189.51 -1.68 189.765 -1.995Q190.01999999999998 -2.31 190.58999999999997 -2.52L191.79 -2.82Q192.32999999999998 -3.03 192.58499999999998 -3.4499999999999997Q192.83999999999997 -3.8699999999999997 192.83999999999997 -4.8V-21.99Q192.83999999999997 -22.77 192.61499999999998 -23.1Q192.39 -23.43 191.88 -23.52L190.29 -23.64Q189.75 -23.759999999999998 189.51 -24.03Q189.26999999999998 -24.3 189.26999999999998 -24.72Q189.26999999999998 -25.23 189.55499999999998 -25.53Q189.83999999999997 -25.83 190.64999999999998 -26.13L196.23 -28.169999999999998Q197.36999999999998 -28.59 198.06 -28.77Q198.75 -28.95 199.38 -28.95Q200.30999999999997 -28.95 200.78999999999996 -28.424999999999997Q201.26999999999998 -27.9 201.26999999999998 -27.06ZM200.36999999999998 -20.37 198.98999999999998 -21.779999999999998 200.16 -22.83Q203.94 -26.22 206.64 -27.659999999999997Q209.33999999999997 -29.099999999999998 211.76999999999998 -29.099999999999998Q215.45999999999998 -29.099999999999998 217.5 -26.625Q219.54 -24.15 219.98999999999998 -20.04L221.67 -4.89Q221.76 -3.9 222.0 -3.45Q222.23999999999998 -3.0 222.81 -2.82L223.85999999999999 -2.52Q224.42999999999998 -2.31 224.7 -1.995Q224.96999999999997 -1.68 224.96999999999997 -1.23Q224.96999999999997 -0.6599999999999999 224.57999999999998 -0.32999999999999996Q224.19 0.0 223.32 0.0H211.61999999999998Q209.96999999999997 0.0 209.96999999999997 -1.3199999999999998Q209.96999999999997 -2.13 210.89999999999998 -2.52L212.04 -2.82Q212.60999999999999 -3.03 212.92499999999998 -3.4799999999999995Q213.23999999999998 -3.9299999999999997 213.11999999999998 -4.89L211.55999999999997 -18.81Q211.26 -21.419999999999998 210.225 -22.74Q209.19 -24.06 207.17999999999998 -24.06Q205.92 -24.06 204.52499999999998 -23.4Q203.13 -22.74 201.57 -21.419999999999998Z"/></svg><small id="countAll"></small></p>
     <button class="act menubtn" id="menuBtn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="mSheet"><span id="menuCur">Bank</span><span class="n" id="menuN"></span><svg viewBox="0 0 12 8" width="11" height="8" aria-hidden="true"><path d="M1 1.5l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    <!-- owner 15 Nov: "Lets do 2 as well" (a Teach | Curate split) and "curate should be hidden to peope except editors." The switch and the Curate tabs show only for the owner and editors. -->
+    <div class="areasw" id="areaSw" role="group" aria-label="Area" hidden><button type="button" data-area="teach" aria-pressed="true">Teach</button><button type="button" data-area="curate" aria-pressed="false">Curate</button><span class="aslider" aria-hidden="true"></span></div>
     <nav class="views" aria-label="Views">
-      <a href="#bank" id="vBank">Bank</a>
-      <a href="#exams" id="vExams">Exams</a>
-      <a href="#review" id="vReview">Review<span class="n" id="todoN"></span></a>
-      <a href="#reports" id="vReports">Reports<span class="n" id="repN"></span></a>
-      <a href="#papers" id="vPapers">Papers</a>
-      <a href="#processes" id="vProcesses">Processes</a> <!-- owner 14 Nov: "Can make that page processes" (was Import; #import still works) -->
-      <a href="#levels" id="vLevels">Difficulty</a>
-      <a href="#guide" id="vGuide">Guide</a>
+      <a href="#bank" id="vBank" data-area="teach">Bank</a>
+      <a href="#exams" id="vExams" data-area="teach">Exams</a>
+      <a href="#guide" id="vGuide" data-area="teach">Guide</a>
+      <a href="#review" id="vReview" data-area="curate" hidden>Review<span class="n" id="todoN"></span></a>   <!-- owner 15 Nov: Difficulty and Reports are now steps inside Review -->
+      <a href="#papers" id="vPapers" data-area="curate" hidden>Papers</a>
+      <a href="#processes" id="vProcesses" data-area="curate" hidden>Processes</a> <!-- owner 14 Nov: "Can make that page processes" (was Import; #import still works) -->
       <span class="slider" aria-hidden="true"></span>
     </nav>
     <span class="jobs" id="jobs" hidden aria-live="polite"></span>   <!-- owner 14 Nov: "need a pill for current jobs and queued jobs" -->
@@ -2045,7 +2065,7 @@ function cardHTML(q){
   return `<article class="card" data-q="${q.id}"><div class="hd"><span class="qn">${qid(q)}</span><span class="src">${esc(srcLine(q))}</span>
     ${q.type==='mcq'?'<span class="badge">Multiple choice</span>':''}${r?.status==='flagged'?'<span class="badge b-bad">flagged</span>':''}${q.old?'<span class="badge b-old">Old syllabus</span>':''}${q.std?'<span class="badge b-std">Standard course</span>':''}
     <span class="mk">${q.marks!=null?q.marks+(q.marks===1?' mark':' marks'):''}</span></div>${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not Advanced:</b> ${esc(q.std)}</div>`:''}${dupLine(q)}${qBody(q,'bank')}
-    <div class="cfoot">${q.type==='mcq'?`<button class="act ghost" data-reveal="${q.id}">${revealed.has(q.id)?'Hide answer':'Show answer'}</button>`:''}<span class="meta">${(sk=>sk.length?'Needs: '+sk.map(esc).join(' · '):'')(qSkills(q))}${qYear(q)?`${qSkills(q).length?' · ':''}Year ${qYear(q)}`:''}${(l=>l?((qSkills(q).length||qYear(q))?' · ':'')+l:'')(typeof qDifLabel==='function'?qDifLabel(q):'')}</span><button class="act addx" data-addx="${q.id}" aria-pressed="${xIn(q.id)}">${xIn(q.id)?'✓ In exam':'+ Add to exam'}</button><a class="act ghost" href="#review" data-open="${q.id}">Open in Review</a></div></article>`;
+    <div class="cfoot">${q.type==='mcq'?`<button class="act ghost" data-reveal="${q.id}">${revealed.has(q.id)?'Hide answer':'Show answer'}</button>`:''}<span class="meta">${(sk=>sk.length?'Needs: '+sk.map(esc).join(' · '):'')(qSkills(q))}${qYear(q)?`${qSkills(q).length?' · ':''}Year ${qYear(q)}`:''}${(l=>l?((qSkills(q).length||qYear(q))?' · ':'')+l:'')(typeof qDifLabel==='function'?qDifLabel(q):'')}</span><button class="act addx" data-addx="${q.id}" aria-pressed="${xIn(q.id)}">${xIn(q.id)?'✓ In exam':'+ Add to exam'}</button><a class="act ghost edonly" href="#review" data-open="${q.id}">Open in Review</a></div></article>`;
 }
 // owner 12 Nov ("make the bank more usable and clean ... looks really dead" -> warm editorial; topic -> subheadings -> questions)
 function subRows(subs,yl,fa,max){const rows=[...subs];const top=max||Math.max(1,...rows.map(([k,x])=>x.qs.length));
@@ -2224,16 +2244,31 @@ function readyHTML(){const r=readyPapers(); if(!r.length) return ''; const n=r.r
     <ul class="help">${r.map(([d,k,m])=>`<li>${esc(docLabel(B.docs[d]))}: ${m} spot-checked, ${k} to approve <button class="act ghost" data-paperok="${d}">Approve this paper</button></li>`).join('')}</ul></details>`}
 async function approveReady(){const r=readyPapers(); for(const [d] of r) await approvePaper(d); toast(r.length+' papers approved')}
 document.addEventListener('click',e=>{if(e.target.closest('#approveReady')){e.preventDefault();approveReady()}});
-function refreshReview(){ if(typeof renderJobs==='function')renderJobs();
+// owner 15 Nov: "Lets do 2 as well". Difficulty and Reports are steps inside Review, after Decide, Check, Spot-check, Diagrams
+// and Tags, with their counts (parts still to check in the chosen Difficulty list; open reports). They open their own
+// pages (#review/difficulty, #review/reports) under the same step row; the paper picker and ← → belong to the question steps only.
+const XSTEPS=[['difficulty','Difficulty','levels','HSC reference ratings: one part at a time, Agree or change the band and kind (2\u20136 set the band, F / P the kind, Enter or A saves).'],
+  ['reports','Reports','reports','Questions reported from an exam paper for a wrong difficulty, a wrong dot point or something else. Resolve or dismiss each one.']];
+function xstepN(k){try{if(k==='difficulty')return typeof lvTodoN==='function'?lvTodoN():0;if(k==='reports')return typeof repOpen==='function'?repOpen().length:0}catch(e){}return 0}
+function renderSteps(){if(!B)return;
   const base=B.questions.filter(q=>!rdoc||String(q.doc)===rdoc);
   const sc=STEPS.map(([k])=>base.filter(q=>inFilter(q,k)&&isTodo(q,k)).length);
-  const cur=STEPS.find(x=>x[0]===rfilter);
+  const xs=XSTEPS.find(x=>x[2]===view),onQ=!xs;
+  const cur=onQ?STEPS.find(x=>x[0]===rfilter):null;
   const dleft=base.filter(q=>inFilter(q,'diagrams')).reduce((n,q)=>n+chkFigs(q).filter(k=>!reviews['q'+q.id]?.fig?.[k]).length,0);   // owner 12 Nov: "why does my diagram review say 468" -> label the unit
-  $('#filters').innerHTML=STEPS.map(([k,l],i)=>`<button class="step${sc[i]?'':' empty0'}" data-f="${k}" aria-pressed="${k===rfilter}"><span class="num">${i+1}</span>${l}<span class="n" title="${sc[i]} question${sc[i]===1?'':'s'} to do${k==='diagrams'?' · '+dleft+' diagrams':''}">${sc[i]}</span></button>`).join('')
-    +`<button class="act ghost" id="recentBtn" aria-pressed="${rfilter==='recent'}">Recently approved</button><details class="more"><summary>Other lists</summary><select id="moreF" aria-label="Other lists"><option value="">Choose…</option>${FILTERS.filter(([k])=>!['decide','diagrams'].includes(k)).map(([k,l])=>`<option value="${k}"${k===rfilter?' selected':''}>${l}</option>`).join('')}</select></details>`
-    +readyHTML()+`<p class="stephelp">${rfilter==='diagrams'?`<b>${sc[STEPS.findIndex(x=>x[0]==='diagrams')]} questions · ${dleft} diagrams left.</b> `:''}${cur?esc(cur[2]):'Showing: '+esc((FILTERS.find(f=>f[0]===rfilter)||[,''])[1])+' (any status). Pick a numbered step to go back to your queue.'}</p>`;
-  $('#recentBtn')&&($('#recentBtn').onclick=()=>{rfilter='recent';rstatus='any';save('rf2',rfilter);ridx=0;refreshReview()});
-  const mf=$('#moreF'); if(mf) mf.onchange=()=>{if(!mf.value)return;rfilter=mf.value;rstatus='any';save('rf2',rfilter);ridx=0;refreshReview()};
+  $('#filters').innerHTML=STEPS.map(([k,l],i)=>`<button class="step${sc[i]?'':' empty0'}" data-f="${k}" aria-pressed="${onQ&&k===rfilter}"><span class="num">${i+1}</span>${l}<span class="n" title="${sc[i]} question${sc[i]===1?'':'s'} to do${k==='diagrams'?' · '+dleft+' diagrams':''}">${sc[i]}</span></button>`).join('')
+    +XSTEPS.map(([k,l,v],i)=>{const n=xstepN(k);return `<button class="step${n?'':' empty0'}" data-f="${k}" aria-pressed="${view===v}"><span class="num">${STEPS.length+i+1}</span>${l}<span class="n" title="${n} ${k==='reports'?'open report'+(n===1?'':'s'):'part'+(n===1?'':'s')+' to check'}">${n}</span></button>`}).join('')
+    +`<button class="act ghost" id="recentBtn" aria-pressed="${onQ&&rfilter==='recent'}">Recently approved</button><details class="more"><summary>Other lists</summary><select id="moreF" aria-label="Other lists"><option value="">Choose…</option>${FILTERS.filter(([k])=>!['decide','diagrams'].includes(k)).map(([k,l])=>`<option value="${k}"${onQ&&k===rfilter?' selected':''}>${l}</option>`).join('')}</select></details>`
+    +(onQ?readyHTML():'')+`<p class="stephelp">${xs?esc(xs[3]):`${rfilter==='diagrams'?`<b>${sc[STEPS.findIndex(x=>x[0]==='diagrams')]} questions · ${dleft} diagrams left.</b> `:''}${cur?esc(cur[2]):'Showing: '+esc((FILTERS.find(f=>f[0]===rfilter)||[,''])[1])+' (any status). Pick a numbered step to go back to your queue.'}`}</p>`;
+  $('#recentBtn')&&($('#recentBtn').onclick=()=>goStep('recent','any'));
+  const mf=$('#moreF'); if(mf) mf.onchange=()=>{if(!mf.value)return;goStep(mf.value,'any')};
+  try{const fs=$('#filters'),pb=fs.querySelector('.step[aria-pressed="true"]');if(pb&&fs.scrollWidth>fs.clientWidth){const a=fs.getBoundingClientRect(),b=pb.getBoundingClientRect();fs.scrollLeft+=b.left-a.left-(a.width-b.width)/2}}catch(e){}   // phone: the step row scrolls; keep the open step in sight (Difficulty and Reports sit at its end)
+  return {base}}
+// open a Review step: a question step re-draws Review (going back to #review from Difficulty or Reports); the two page steps change the address
+function goStep(f,st){const xs=XSTEPS.find(x=>x[0]===f);if(xs){location.hash=VHASH[xs[2]];return}
+  rfilter=f;rstatus=st||'todo';save('rf2',rfilter);ridx=0;if(view!=='review'){location.hash='#review';return}refreshReview()}
+function refreshReview(){ if(typeof renderJobs==='function')renderJobs();
+  const {base}=renderSteps();
   rlist=base.filter(q=>inFilter(q,rfilter)&&statusOK(q));
   if(rfilter==='diagrams') rlist.sort((a,b)=>qRisk(b)-qRisk(a));
   if(rfilter==='recent') rlist.sort((a,b)=>String(approvedAt(b)).localeCompare(String(approvedAt(a))));   // riskiest diagrams first (stable: paper order within a level)
@@ -2519,7 +2554,7 @@ function setupPicker(){
   $('#setRemoved').onclick=()=>setTag({cov:'removed'}); $('#setNoMatch').onclick=()=>setTag({cov:'no_match'}); $('#cancelPick').onclick=()=>{editing=null;renderReview()};
 }
 function go(n){editing=null;ridx=Math.min(Math.max(0,ridx+n),Math.max(0,rlist.length-1));renderReview();window.scrollTo({top:0})}   // renderReview shows one diagram question at a time in step 4
-$('#filters').addEventListener('click',e=>{const b=e.target.closest('.step');if(!b)return;rfilter=b.dataset.f;rstatus='todo';save('rf2',rfilter);ridx=0;refreshReview()});
+$('#filters').addEventListener('click',e=>{const b=e.target.closest('.step');if(!b)return;goStep(b.dataset.f,'todo')});
 $('#stF').onchange=e=>{rstatus=e.target.value;ridx=0;refreshReview()};
 $('#docF').onchange=e=>{rdoc=e.target.value;ridx=0;refreshReview()};
 $('#prev').onclick=()=>go(-1); $('#next').onclick=()=>go(1);
@@ -2534,17 +2569,44 @@ document.addEventListener('keydown',e=>{if(view!=='review'||['INPUT','TEXTAREA',
 /* ---------- routing ---------- */
 let view='bank';
 function todoCount(){return STEPS.reduce((n,[k])=>n+B.questions.filter(q=>inFilter(q,k)&&isTodo(q,k)).length,0)}
+/* ---------- Teach | Curate (owner 15 Nov: "Lets do 2 as well" and "curate should be hidden to peope except editors.") ----------
+   Two areas. Teach: Bank · Exams · Guide. Curate: Review · Papers · Processes, where Difficulty and Reports are steps inside
+   Review (#review/difficulty, #review/reports; the old #levels, #difficulty and #reports links still land there).
+   EDITOR: null while the user capability has not answered, then true only for the artifact's owner or an editor
+   (user.isOwner() / user.canEdit()). Unknown (null) or no user capability counts as not an editor: Curate stays hidden.
+   This hides the Curate UI only; what the database lets a viewer write is decided by its rules, not by this page. */
+let EDITOR=null;
+const AREAS={teach:['bank','exams','guide'],curate:['review','papers','processes','levels','reports']};
+const areaOf=v=>AREAS.curate.includes(v)?'curate':'teach';
+const isEditor=()=>EDITOR===true;
+const HASHV={'#review':'review','#review/difficulty':'levels','#review/reports':'reports','#papers':'papers','#processes':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
+const VHASH={review:'#review',levels:'#review/difficulty',reports:'#review/reports',papers:'#papers',processes:'#processes',guide:'#guide',exams:'#exams',bank:'#bank'};
+// old links: #import (owner 14 Nov) → Processes; #levels / #difficulty / #reports (tabs until 15 Nov) → their Review step
+const HASH_ALIAS={'#import':'#processes','#levels':'#review/difficulty','#difficulty':'#review/difficulty','#reports':'#review/reports'};
+function setHash(h){try{history.replaceState(null,'',h)}catch(e){location.replace(h)}}
+function applyArea(){const a=areaOf(view),ed=isEditor();
+  document.documentElement.dataset.area=a;document.documentElement.classList.toggle('editor',ed);
+  $$('.views a[data-area]').forEach(x=>x.hidden=!ed?x.dataset.area!=='teach':x.dataset.area!==a);
+  const sw=$('#areaSw');if(sw){sw.hidden=!ed;$$('#areaSw button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.area===a)))}
+  if(ed){save('qg_area',a);save('qg_last_'+a,VHASH[view]||'')}   // owner/editor: remember the last area (and view in it)
+  moveAreaSlider()}
+function moveAreaSlider(){const sw=$('#areaSw'),sl=sw&&sw.querySelector('.aslider'),cur=sw&&sw.querySelector('button[aria-pressed="true"]');if(!sl||!cur||sw.hidden)return;
+  sl.style.width=cur.offsetWidth+'px';sl.style.transform=`translateX(${cur.offsetLeft}px)`}
+function goArea(a){if(!isEditor()&&a==='curate')return;const last=load('qg_last_'+a);location.hash=(last&&areaOf(HASHV[last])===a)?last:(a==='curate'?'#review':'#bank')}
 function route(){
   // owner 14 Nov: "Can make that page processes". The Import tab is now Processes (#processes); old #import links still land there.
-  if(location.hash==='#import'){try{history.replaceState(null,'','#processes')}catch(e){location.replace('#processes');return}}
-  view=location.hash==='#review'?'review':location.hash==='#papers'?'papers':location.hash==='#processes'?'processes':location.hash==='#guide'?'guide':location.hash==='#levels'?'levels':location.hash==='#reports'?'reports':location.hash==='#exams'?'exams':'bank';
-  $('#vGuide').setAttribute('aria-current',view==='guide'?'page':'false');$('#guideView').hidden=view!=='guide';
-  $('#vLevels').setAttribute('aria-current',view==='levels'?'page':'false');$('#levelsView').hidden=view!=='levels';
-  $('#vReports').setAttribute('aria-current',view==='reports'?'page':'false');$('#reportsView').hidden=view!=='reports';
-  $('#vExams').setAttribute('aria-current',view==='exams'?'page':'false');$('#examsView').hidden=view!=='exams';
-  $('#vProcesses').setAttribute('aria-current',view==='processes'?'page':'false');$('#processesView').hidden=view!=='processes';
-  $('#vBank').setAttribute('aria-current',view==='bank'?'page':'false');$('#vReview').setAttribute('aria-current',view==='review'?'page':'false');$('#vPapers').setAttribute('aria-current',view==='papers'?'page':'false');$('#papersView').hidden=view!=='papers';
-  $('#bankView').hidden=view!=='bank'; $('#reviewView').hidden=view!=='review'; $('#rbar').hidden=view!=='review'; $('#progbar').hidden=view!=='review'; $('#searchBox').hidden=view!=='bank';
+  const al=HASH_ALIAS[location.hash];if(al)setHash(al);
+  let v=HASHV[location.hash]||'bank';
+  // owner 15 Nov: "curate should be hidden to peope except editors." A viewer who opens a Curate link lands on the Bank.
+  // While the user capability has not answered yet (EDITOR null) the Bank shows and the link is kept, so an editor's link still works once it answers.
+  if(areaOf(v)==='curate'&&!isEditor()){v='bank';if(EDITOR===false)setHash('#bank')}
+  view=v;
+  const inRev=['review','levels','reports'].includes(view);
+  $('#guideView').hidden=view!=='guide';$('#levelsView').hidden=view!=='levels';$('#reportsView').hidden=view!=='reports';$('#examsView').hidden=view!=='exams';$('#processesView').hidden=view!=='processes';$('#papersView').hidden=view!=='papers';
+  [['vBank','bank'],['vExams','exams'],['vGuide','guide'],['vPapers','papers'],['vProcesses','processes']].forEach(([id,v])=>$('#'+id).setAttribute('aria-current',view===v?'page':'false'));
+  $('#vReview').setAttribute('aria-current',inRev?'page':'false');   // owner 15 Nov: Difficulty and Reports are steps inside Review
+  $('#bankView').hidden=view!=='bank'; $('#reviewView').hidden=view!=='review'; $('#rbar').hidden=!inRev; $('#rbar').classList.toggle('xstep',inRev&&view!=='review'); $('#progbar').hidden=view!=='review'; $('#searchBox').hidden=view!=='bank';
+  applyArea();
   renderJobs(); moveSlider();
   try{const cur=document.querySelector('.views a[aria-current="page"]'),nv=cur?.parentElement;if(nv&&nv.scrollWidth>nv.clientWidth)nv.scrollTo({left:cur.offsetLeft-nv.clientWidth/2+cur.offsetWidth/2,behavior:'smooth'})}catch(e){}   // owner 14 Nov: on a phone the tab row scrolls; keep the open tab in sight
   const shown=[['bank','#bankView'],['review','#reviewView'],['papers','#papersView'],['processes','#processesView'],['guide','#guideView'],['levels','#levelsView'],['reports','#reportsView'],['exams','#examsView']].find(x=>x[0]===view);
@@ -2552,8 +2614,17 @@ function route(){
   if(view==='processes'){renderProcesses();renderImport();if(!B)return}
   if(!B) return;
   $('#todoN').textContent=todoCount()||'';
+  if(inRev&&view!=='review')renderSteps();
   if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes'){renderProcesses();renderImport()} else { $('#stF').value=rstatus; refreshReview(); }
 }
+// the user capability answered: show or hide Curate, and send a viewer on a Curate link to the Bank
+function setEditor(ed){EDITOR=!!ed;
+  // owner/editor with no link in the address: open the area used last
+  if(EDITOR&&!location.hash&&load('qg_area')==='curate'&&!window._navved){goArea('curate');return}
+  route()}
+window.addEventListener('hashchange',()=>{window._navved=true},true);
+document.addEventListener('click',e=>{const b=e.target.closest('#areaSw button[data-area]');if(b)goArea(b.dataset.area)});
+window.addEventListener('resize',()=>moveAreaSlider());
 /* ---------- papers: every exam ingested, with question counts ---------- */
 const TYPE_LABEL={hsc:'HSC',trial:'Trial',internal_exam:'School task',internal_other:'School task'};
 function renderPapers(){
@@ -2697,7 +2768,8 @@ function runningNow(){const jobs=JOBS.filter(j=>j&&j.name&&!(QUEUE&&/^\s*queued\
   const have=new Set(jobs.map(j=>String(j.name).trim().toLowerCase()));
   return jobs.concat(queueItems('running').filter(x=>!have.has(String(x.title).trim().toLowerCase())).map(x=>({name:x.title,detail:x.detail,started:x.started,asked:x.asked,src:'queue'})))}
 function renderJobs(){const el=$('#jobs');if(!el)return;const run=runningNow(),que=queueItems('queued');
-  el.hidden=!run.length&&!que.length;if(el.hidden){el.innerHTML='';setHdr();return}
+  // owner 15 Nov: the pills lead to Processes (Curate), so only editors see them
+  el.hidden=!isEditor()||(!run.length&&!que.length);if(el.hidden){el.innerHTML='';setHdr();return}
   const hit=run.filter(j=>j.affects&&view==='review'&&rfilter===j.affects);
   const go=`<a class="jgo" href="#processes">Open Processes →</a>`;
   const runPill=run.length?`<span class="jp run${hit.length?' hit':''}"><a class="jpill" href="#processes" aria-describedby="jpopR"><span class="dot" aria-hidden="true"></span>${hit.length?'Wait · ':''}${run.length} running</a>
@@ -2718,6 +2790,9 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
 
 (async function start(){
   route();
+  // owner 15 Nov: "curate should be hidden to peope except editors." Curate shows only for the owner or an editor (user.isOwner() / canEdit());
+  // no user capability, or no answer, counts as not an editor, so Curate stays hidden.
+  {const c=window.claude;if(!c?.use)setEditor(false);else c.use('user').then(async u=>{let ed=false;if(u){try{ed=!!(await u.isOwner())}catch(e){}if(!ed){try{ed=!!(await u.canEdit())}catch(e){}}}setEditor(ed)}).catch(()=>setEditor(false))}
   try{
     // a load during a republish (or a network blip) can fail once: retry 3 times before giving up
     const get=async(u)=>{let err;for(let i=0;i<4;i++){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'r='+i+'_'+Date.now());if(!r.ok)throw new Error(r.status);return await r.json()}catch(e){err=e;await new Promise(z=>setTimeout(z,800*(i+1)))}}throw err};
@@ -2917,11 +2992,13 @@ function lvItems(){if(LVQ)return LVQ;const out=[];
   Object.values(by).forEach(xs=>xs.slice().sort((a,b)=>b.lean-a.lean||a.p.id-b.p.id).slice(0,3).forEach(x=>x.spot=1));
   return LVQ=out}
 const lvDone=x=>!!DIFD[x.p.id]?.status;
+const lvInArea=x=>LVAREA==='all'||(LVAREA==='spot'?!!x.spot:LVAREA==='thin'?LV_FIRST.includes(x.d.ar)&&!x.flag:LVAREA==='flags'?x.flag:x.d.ar===LVAREA&&!x.flag);
+// owner 15 Nov: the Difficulty step in Review shows this count: parts still to check in the chosen list
+function lvTodoN(){if(!B)return 0;lvSub();return lvItems().filter(x=>lvInArea(x)&&!lvDone(x)).length}
 function lvList(){const all=lvItems();
-  const inArea=x=>LVAREA==='all'||(LVAREA==='spot'?!!x.spot:LVAREA==='thin'?LV_FIRST.includes(x.d.ar)&&!x.flag:LVAREA==='flags'?x.flag:x.d.ar===LVAREA&&!x.flag);
-  const r=all.filter(x=>inArea(x)&&(LVSHOW==='all'||!lvDone(x)));
+  const r=all.filter(x=>lvInArea(x)&&(LVSHOW==='all'||!lvDone(x)));
   return LVAREA==='spot'?r.sort((a,b)=>(b.flag?1:0)-(a.flag?1:0)||String(a.d.ar).localeCompare(String(b.d.ar))||b.lean-a.lean):r}
-function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});DIFD=nx;if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
+function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});DIFD=nx;if(['review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
 function renderLevels(keep){
   lvSub();const box=$('#levelsBox');const all=lvItems(),list=lvList();
   const done=all.filter(lvDone).length, anchors=all.filter(x=>!x.flag), adone=anchors.filter(lvDone).length;
@@ -2968,7 +3045,7 @@ async function lvSave(){const box=$('#levelsBox'),list=lvList(),x=list[LVI];if(!
   window.scrollTo({top:0,behavior:RM.matches?'auto':'smooth'});
   if(!db){toast('Not saved: open the page in claude.ai to save');return}
   try{await db.doc('difficulty/'+x.p.id).set(v)}catch(e){toast('Could not save. Try again in a moment.')}}
-document.addEventListener('change',e=>{if(e.target.id==='lvArea'){LVAREA=e.target.value;try{localStorage.setItem('lv_area',LVAREA)}catch(_){}LVI=0;renderLevels()}});
+document.addEventListener('change',e=>{if(e.target.id==='lvArea'){LVAREA=e.target.value;try{localStorage.setItem('lv_area',LVAREA)}catch(_){}LVI=0;renderLevels();renderSteps()}});
 document.addEventListener('click',e=>{if(view!=='levels')return;
   const s=e.target.closest('[data-lvshow]');if(s){LVSHOW=s.dataset.lvshow;try{localStorage.setItem('lv_show',LVSHOW)}catch(_){}LVI=0;renderLevels();return}
   const b=e.target.closest('[data-lvb]');if(b){lvSet('band',+b.dataset.lvb);return}
@@ -2981,10 +3058,13 @@ document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('in
 </script>
 <script>
 /* phone menu (owner 14 Nov: "it'll have to be some pop up or side bar right?") */
-(()=>{const btn=$('#menuBtn'),sh=$('#mSheet');const NAMES={bank:'Bank',review:'Review',papers:'Papers',processes:'Processes',levels:'Difficulty',reports:'Reports',guide:'Guide',exams:'Exams'};
+(()=>{const btn=$('#menuBtn'),sh=$('#mSheet');const NAMES={bank:'Bank',review:'Review',papers:'Papers',processes:'Processes',levels:'Difficulty',reports:'Reports',guide:'Guide',exams:'Exams'};   // Difficulty and Reports: Review steps since 15 Nov
   const sync=()=>{$('#menuCur').textContent=NAMES[view]||'Menu';$('#menuN').textContent=''   /* owner 14 Nov: "Exams 935" read as a count of exams; counts stay in the menu list */};
   const close=()=>{sh.hidden=true;btn.setAttribute('aria-expanded','false')};
-  const open=()=>{sh.innerHTML=[...document.querySelectorAll('.views a')].map(a=>{const n=a.querySelector('.n')?.textContent||'';return `<a href="${a.getAttribute('href')}" aria-current="${a.getAttribute('aria-current')==='page'?'page':'false'}">${esc(a.firstChild.textContent)}${n?`<span class="n">${esc(n)}</span>`:''}</a>`}).join('')
+  // owner 15 Nov: the menu is grouped by area, Teach then Curate; the Curate group is there only for the owner and editors
+  const link=a=>{const n=a.querySelector('.n')?.textContent||'';return `<a href="${a.getAttribute('href')}" aria-current="${a.getAttribute('aria-current')==='page'?'page':'false'}">${esc(a.firstChild.textContent)}${n?`<span class="n">${esc(n)}</span>`:''}</a>`};
+  const group=(k,l)=>{const as=[...document.querySelectorAll(`.views a[data-area="${k}"]`)];return `<div class="mgrp" data-marea="${k}"><div class="mh">${l}</div>${as.map(link).join('')}</div>`};
+  const open=()=>{sh.innerHTML=group('teach','Teach')+(isEditor()?group('curate','Curate'):'')
       +`<hr><button type="button" data-mtheme>Theme <span class="mt">${esc(($('#themeBtn')?.textContent||'').replace(/^Theme:\s*/,''))}</span></button>`;
     sh.hidden=false;btn.setAttribute('aria-expanded','true')};
   btn.addEventListener('click',e=>{e.stopPropagation();sh.hidden?open():close()});
@@ -3619,7 +3699,7 @@ function exGrading(){const el=$('#exGSide');if(!el)return;const qs=EX.items.map(
       return `${head}<li class="gq${s?' sel':''}${EXV.moved===q.id?' moved':''}" data-gqli="${q.id}"><div class="gqrow" draggable="true" data-drag="${q.id}"><span class="grip" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
         <button type="button" class="gqh" data-gq="${q.id}" aria-expanded="${s}"><span class="exgn">Q${i+1}</span><span class="exgk ${kindCls(k)}">${k==='Problem solving'?'Problem':k}</span>${e?exMeter(e.d,k):'<span></span>'}<span class="exgd">${q.marks}</span></button>
         <span class="gmv"><button type="button" data-gmv="-1" data-id="${q.id}" aria-label="Move up"${first?' disabled':''}>▲</button><button type="button" data-gmv="1" data-id="${q.id}" aria-label="Move down"${last?' disabled':''}>▼</button></span></div>${s?det(q):''}</li>`}).join('')}</ol>
-    <div class="gnote">Bands run from 2 to 6, as in the HSC. Each part was rated against HSC reference parts that you checked on the Difficulty tab. To change a rating, use the Difficulty tab.</div>`;
+    <div class="gnote">Bands run from 2 to 6, as in the HSC. Each part was rated against HSC reference parts checked by an editor (Curate › Review › Difficulty). To question a rating, use Report in a question\u2019s ⓘ card.</div>`;
   $$('#xPages .xq').forEach(x=>x.classList.toggle('sel',+x.dataset.q===EXV.sel))}
 function exSelect(id,from){EXV.sel=EXV.sel===id&&from==='list'?null:id;exGrading();
   if(from==='paper'&&innerWidth<=1000&&!EXV.grade){EXV.grade=true;$('#xPv')?.classList.remove('grade-off');$('#exGrade')?.setAttribute('aria-pressed','true')}
@@ -3847,7 +3927,7 @@ const g2pct=(a,t)=>t?Math.round(a/t*100):0;
 function g2Bars(rows,max,cls=''){return `<div class="g2bars ${cls}">${rows.map(([l,v,sub])=>`<div class="g2bar"><span class="l">${l}</span><i><s style="width:${max?Math.max(1.5,v/max*100):0}%"></s></i><b>${v}</b>${sub?`<em>${sub}</em>`:''}</div>`).join('')}</div>`}
 const G2_BAND=[[2,'Routine','One step: recall, read a graph, substitute'],[3,'Standard','Two steps, or one technique applied cleanly'],[4,'Multi-step','Several steps, ideas combined, careful algebra'],[5,'Non-routine','Unfamiliar set-up, general proof, extended reasoning'],[6,'Insight','Novel model or a long argument taken to the end']];
 function g2Checked(){let chk=0,chg=0;try{Object.values(DIFD||{}).forEach(d=>{if(d.status&&d.anchor!==false){chk++;if(d.status==='changed')chg++}})}catch(e){}return {chk,chg}}
-const g2ChkHTML=(chk,chg,ref)=>`<b>${chk}<small> / ${ref}</small></b><span>References checked by you</span><em>${chk?`${chg} changed · on the Difficulty tab`:'Not loaded yet, or none checked'}</em>`;
+const g2ChkHTML=(chk,chg,ref)=>`<b>${chk}<small> / ${ref}</small></b><span>References checked by you</span><em>${chk?`${chg} changed · in Review › Difficulty`:'Not loaded yet, or none checked'}</em>`;
 // owner 14 Nov: "what is the _ references checked by you": the count comes from the page database after the Guide is drawn, so refresh the tile when it arrives
 function g2ChkRefresh(){const el=$('#g2chk');if(!el)return;const {chk,chg}=g2Checked();let ref=0;B.questions.forEach(q=>{if(!q.dup_of&&!q.old&&!q.std)q.parts.forEach(p=>{if(p.dif&&p.dif.a)ref++})});el.innerHTML=g2ChkHTML(chk,chg,ref)}
 const G2_PAGE=()=>{try{return localStorage.getItem('g2page')==='dev'?'dev':'cat'}catch(e){return 'cat'}};
@@ -3961,7 +4041,7 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
     <div class="g2arch">
       <div class="g2lane"><div class="g2box user"><b>Teachers</b><span>Browser, phone</span></div></div>
       <span class="g2arr down" aria-hidden="true">↓</span>
-      <div class="g2lane"><div class="g2box"><b>Web app</b><span>Bank · Exams · Review · Difficulty</span></div><div class="g2box"><b>Accounts</b><span>Sign-in, roles, schools</span></div></div>
+      <div class="g2lane"><div class="g2box"><b>Web app</b><span>Teach: Bank · Exams · Guide. Curate (editors): Review · Papers · Processes</span></div><div class="g2box"><b>Accounts</b><span>Sign-in, roles, schools</span></div></div>
       <span class="g2arr down" aria-hidden="true">↓</span>
       <div class="g2lane"><div class="g2box"><b>API</b><span>Search, exams, reviews, reports, PDF export</span></div></div>
       <span class="g2arr down" aria-hidden="true">↓</span>
@@ -4004,7 +4084,7 @@ document.addEventListener('click',e=>{const a=e.target.closest('.g2nav a');if(!a
      {question_id, part_id?, reason: difficulty|dot_point|other, suggested_band?, suggested_wm?, suggested_dot?, note, exam_id?, by, at, status:'open'}
      suggested_wm: 'UF' (fluency) | 'PR' (problem solving), owner 14 Nov: "Should let you pick UF and PS in the wrong diff".
    - A Reports tab (#reports) lists them with the question rendered; Resolve (optional reply) and Dismiss; a count badge
-     on the tab shows open reports. */
+     on the tab shows open reports. (15 Nov: now the Reports step inside Review, #review/reports, with its count on the step.) */
 const REP={list:[],sub:null,filter:(()=>{try{return localStorage.getItem('rep_filter')||'open'}catch(e){return 'open'}})(),dlg:null,res:null,names:{}};
 const REP_WHY={difficulty:'Wrong difficulty',dot_point:'Wrong dot point',other:'Other'};
 const REP_WM={UF:'Fluency',PR:'Problem solving'};
@@ -4014,7 +4094,8 @@ function repSub(){if(REP.sub||!db)return !!REP.sub;
 // db arrives asynchronously (claude.use('db')); subscribe as soon as it exists
 (()=>{let n=0;const t=setInterval(()=>{if(repSub()||++n>240)clearInterval(t)},500)})();
 const repOpen=()=>REP.list.filter(r=>(r.status||'open')==='open');
-function repBadge(){const el=$('#repN');if(el)el.textContent=repOpen().length||''}
+// owner 15 Nov: Reports is a step inside Review; its count is on the step (was the tab badge #repN)
+function repBadge(){if(['review','levels','reports'].includes(view)&&typeof renderSteps==='function')renderSteps()}
 async function repNames(){const ids=[...new Set(REP.list.map(x=>x.by).filter(i=>i&&i!==me&&!(i in REP.names)))];if(!ids.length)return;
   try{const u=await window.claude?.use?.('user');if(!u?.profiles)return;const ps=await u.profiles(ids);ids.forEach(i=>REP.names[i]=ps?.[i]?.name||'');if(view==='reports')renderReports()}catch(e){}}
 const repWho=id=>!id?'':id===me?'you':(REP.names[id]||'a colleague');
@@ -4111,7 +4192,7 @@ async function repSend(){const D=REP.dlg,el=$('#repDlg');if(!D)return;const msg=
   if(D.reason==='dot'&&(dot||dotx))doc.suggested_dot=dot||dotx;
   const id='r'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
   const b=el.querySelector('[data-rsend]');b.disabled=true;b.textContent='Sending…';
-  try{await db.doc('reports/'+id).set(doc);repClose();toast('Report sent. It is listed on the Reports tab.')}
+  try{await db.doc('reports/'+id).set(doc);repClose();toast(isEditor()?'Report sent. It is listed in Review › Reports.':'Report sent. Thank you.')}
   catch(e){b.disabled=false;b.textContent='Send report';say('Could not send. Try again in a moment.')}}
 // capture: a Report click must not also select the question on the paper
 document.addEventListener('click',e=>{const t=e.target;

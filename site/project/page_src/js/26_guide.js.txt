@@ -24,7 +24,7 @@ const g2pct=(a,t)=>t?Math.round(a/t*100):0;
 function g2Bars(rows,max,cls=''){return `<div class="g2bars ${cls}">${rows.map(([l,v,sub])=>`<div class="g2bar"><span class="l">${l}</span><i><s style="width:${max?Math.max(1.5,v/max*100):0}%"></s></i><b>${v}</b>${sub?`<em>${sub}</em>`:''}</div>`).join('')}</div>`}
 const G2_BAND=[[2,'Routine','One step: recall, read a graph, substitute'],[3,'Standard','Two steps, or one technique applied cleanly'],[4,'Multi-step','Several steps, ideas combined, careful algebra'],[5,'Non-routine','Unfamiliar set-up, general proof, extended reasoning'],[6,'Insight','Novel model or a long argument taken to the end']];
 function g2Checked(){let chk=0,chg=0;try{Object.values(DIFD||{}).forEach(d=>{if(d.status&&d.anchor!==false){chk++;if(d.status==='changed')chg++}})}catch(e){}return {chk,chg}}
-const g2ChkHTML=(chk,chg,ref)=>`<b>${chk}<small> / ${ref}</small></b><span>References checked by you</span><em>${chk?`${chg} changed · on the Difficulty tab`:'Not loaded yet, or none checked'}</em>`;
+const g2ChkHTML=(chk,chg,ref)=>`<b>${chk}<small> / ${ref}</small></b><span>References checked by you</span><em>${chk?`${chg} changed · in Review › Difficulty`:'Not loaded yet, or none checked'}</em>`;
 // owner 14 Nov: "what is the _ references checked by you": the count comes from the page database after the Guide is drawn, so refresh the tile when it arrives
 function g2ChkRefresh(){const el=$('#g2chk');if(!el)return;const {chk,chg}=g2Checked();let ref=0;B.questions.forEach(q=>{if(!q.dup_of&&!q.old&&!q.std)q.parts.forEach(p=>{if(p.dif&&p.dif.a)ref++})});el.innerHTML=g2ChkHTML(chk,chg,ref)}
 const G2_PAGE=()=>{try{return localStorage.getItem('g2page')==='dev'?'dev':'cat'}catch(e){return 'cat'}};
@@ -138,7 +138,7 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
     <div class="g2arch">
       <div class="g2lane"><div class="g2box user"><b>Teachers</b><span>Browser, phone</span></div></div>
       <span class="g2arr down" aria-hidden="true">↓</span>
-      <div class="g2lane"><div class="g2box"><b>Web app</b><span>Bank · Exams · Review · Difficulty</span></div><div class="g2box"><b>Accounts</b><span>Sign-in, roles, schools</span></div></div>
+      <div class="g2lane"><div class="g2box"><b>Web app</b><span>Teach: Bank · Exams · Guide. Curate (editors): Review · Papers · Processes</span></div><div class="g2box"><b>Accounts</b><span>Sign-in, roles, schools</span></div></div>
       <span class="g2arr down" aria-hidden="true">↓</span>
       <div class="g2lane"><div class="g2box"><b>API</b><span>Search, exams, reviews, reports, PDF export</span></div></div>
       <span class="g2arr down" aria-hidden="true">↓</span>

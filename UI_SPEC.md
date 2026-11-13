@@ -136,7 +136,7 @@ He showed his own HSC exam maker and asked "can we implement something like this
 
 ## Difficulty check (14 Nov)
 He said: "Make it both desktop and mobile friendly, I might want to approve on the go today". This is the review screen for the HSC reference ratings (DIFFICULTY_SPEC.md).
-- **Where.** A **Difficulty** tab (`#levels`). On a phone the tab row scrolls, and the open tab is scrolled into view.
+- **Where.** A **Difficulty** tab (`#levels`). On a phone the tab row scrolls, and the open tab is scrolled into view. (15 Nov: now the Difficulty step inside Review, `#review/difficulty`; see "Teach | Curate split".)
 - **Order.** Thin topics first (Exponential and logarithmic functions, Trig identities and equations, Sequences and series), then one topic at a time from a dropdown, then the 9 parts flagged by the audit.
 - **One part at a time.** The whole question shows, with the rated part highlighted and the other parts dimmed. Solutions start collapsed. Each card also shows:
   - our band, label and reason;
@@ -342,7 +342,7 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
 - **Screen only.** Both the line and the link carry `.scr-only`: they are removed from the download (with `.lnctl`, `.figctl` and the others) and hidden in print.
 
 ## Reports tab
-- **Tab.** **Reports** (`#reports`) sits after Review, with a count badge of open reports. It also appears in the phone menu.
+- **Tab.** **Reports** (`#reports`) sits after Review, with a count badge of open reports. It also appears in the phone menu. (15 Nov: now the Reports step inside Review, `#review/reports`, its count on the step; see "Teach | Curate split".)
 - **Why a tab, not a Review step.** Review's steps are one-question-per-page queues of bank questions. Reports are a list of their own, so a tab was the least invasive choice.
 - **Filters.** Open / Resolved / Dismissed / All, with counts.
 - **Each report shows:**
@@ -525,6 +525,17 @@ Small fixes from the review of the five queued requests, keeping every ruling ab
 - **Grading panel dot points.** Parts filed under the same dot point(s) share one row, "(a)(b) Y12-285 …", as the old line did, instead of the same line under each part. The ⓘ card still lists every part, since each has its own band and kind.
 - **Phone toolbar.** On the exam preview, the paper's "− N lines +" controls and the diagram corner handle now scroll under the sticky toolbar instead of being drawn over it.
 - Tested in tools/page_test.js: `processes: page sections and order` (one Running now, small Import sub-headings), `exams: the grading panel lists the dot points` (no repeated row), `exams: diagram resize and ⓘ on a touch phone` (controls stay under the toolbar).
+
+## Teach | Curate split (15 Nov, stage 3)
+Owner, 15 Nov: "Lets do 2 as well" (the Teach / Curate split; quoted via the workflow brief) and, in his own message, "curate should be hidden to peope except editors."
+- **Two areas.** **Teach**: Bank · Exams · Guide (Worksheets will join later; no placeholder tab). **Curate**: Review · Papers · Processes.
+- **Switch.** A small segmented **Teach | Curate** control sits before the tabs in the header: hairline frame, theme2 tokens, and a highlight that slides like the tab pill (12 Nov ruling). Only the open area's tabs show, and the tab pill still slides between them. Choosing an area returns to the last page used in it (first time: Bank / Review).
+- **Difficulty and Reports are Review steps.** The Review step row is Decide, Check, Spot-check, Diagrams, Tags, **Difficulty**, **Reports**, each with its count (Difficulty: parts still to check in the chosen list; Reports: open reports). Difficulty and Reports open their own pages under the same step row (`#review/difficulty`, `#review/reports`), without the paper picker and ← →. Old links `#levels`, `#difficulty` and `#reports` land on those steps; `#import` still lands on Processes. This replaces the "Difficulty tab" and "Reports tab" rulings below as to *where* they sit; their pages are unchanged.
+- **Who sees Curate.** Only the artifact's owner and editors (`user.isOwner()` or `user.canEdit()`). Everyone else, and any view where the user capability gives no answer, sees no switch, no Curate tab, no Curate group in the phone menu, no running / queued pills (they lead to Processes) and no "Open in Review" on bank cards; a Curate link sends them to `#bank`. While the capability has not answered yet, a Curate link shows the Bank and keeps the address, so an editor's link still opens once the answer arrives. This hides the UI only: what the database lets a viewer write is set by its rules.
+- **Remembered.** For the owner and editors the last area (and page in it) is kept per browser (`qg_area`, `qg_last_teach`, `qg_last_curate`, localStorage in try/catch); opening the page with no address returns to that area.
+- **Phone.** No switch; the menu lists **Teach** (Bank, Exams, Guide) then **Curate** (Review, Papers, Processes) under small headings, the Curate group only for editors. The Review step row scrolls so the open step is in sight. The Difficulty page now has the step row above it, so its phone header is taller than the 53 px measured on 14 Nov.
+- **Wording.** The Reports toast says "listed in Review › Reports" for editors and "Thank you" for others; the marking-guide note says ratings are checked in Curate › Review › Difficulty and questioned with Report in the ⓘ card. The Guide's developer page names the two areas in its "Web app" box.
+- Code: areas, routing and redirects in `page_src/js/09_router.js`; the step row (`renderSteps`, `XSTEPS`, `goStep`) in `08_review.js`; `lvTodoN` in `21_levels.js`; the phone menu in `22_phone_menu.js`; styles in `css/19_areas.css`. Tests: the `areas (editor|viewer|none): …` checks in `tools/page_test.js` (the fake user takes a role).
 
 ## Where else things are recorded
 
