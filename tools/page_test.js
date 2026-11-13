@@ -247,6 +247,21 @@ async function flows(browser, base, seed, seedR) {
     assert(!r.dir && !r.named, `transition left state behind: bkdir “${r.dir}”, ${r.named} named elements`);
     return `${vt ? 'view transitions' : 'no view transitions (snaps)'}; back, then “${r.h}”`;
   });
+  // owner 13 Nov: "theres now some lag going between subtopics on the side bar": sidebar jumps must not run a view transition
+  await check('bank: sidebar subtopic switch has no view transition', page, async () => {
+    const r = await page.evaluate(async () => {
+      let vt = 0; const orig = document.startViewTransition; if (orig) document.startViewTransition = function (...a) { vt++; return orig.apply(document, a) };
+      const bs = [...document.querySelectorAll('#nav button[data-sel]')].filter(b => b.dataset.sel !== sel && b.offsetParent);
+      if (!bs.length) { if (orig) document.startViewTransition = orig; return {skip: true} }
+      const t0 = performance.now(); bs[0].click();
+      await new Promise(r => { const t = setInterval(() => { if (sel === bs[0].dataset.sel && document.querySelector('#list .listhead h2')) { clearInterval(t); r() } }, 10) });
+      await new Promise(r => setTimeout(r, 300)); if (orig) document.startViewTransition = orig;
+      return {vt, ms: Math.round(performance.now() - t0), fade: document.querySelector('#list').classList.contains('bk-swap')};
+    });
+    errs(); if (r.skip) return 'no other sidebar subtopic visible';
+    assert(r.vt === 0, `sidebar click started ${r.vt} view transition(s)`);
+    return `no view transition, list in ${r.ms} ms${r.fade ? ', faded in' : ''}`;
+  });
   await check('bank: search', page, async () => {
     await page.fill('#q', 'annuity');
     await page.waitForFunction(() => /Search:/.test(document.querySelector('#list .listhead h2')?.textContent || ''), null, {timeout: 5000});
