@@ -262,6 +262,26 @@ async function flows(browser, base, seed, seedR) {
     assert(r.vt === 0, `sidebar click started ${r.vt} view transition(s)`);
     return `no view transition, list in ${r.ms} ms${r.fade ? ', faded in' : ''}`;
   });
+  // owner 13 Nov: "in the bank, the pills at the top, make them animated"
+  await check('bank: filter pills slide to the chosen option', page, async () => {
+    const pos = () => page.evaluate(() => { const g = document.querySelector('#list .bfilters .grp[data-bfg="type"]'); if (!g) return null;
+      const p = g.querySelector('.bfpill'), b = g.querySelector('button[aria-pressed="true"]'), pr = p.getBoundingClientRect(), br = b.getBoundingClientRect();
+      return {on: p.classList.contains('on'), dx: Math.round(Math.abs(pr.left - br.left)), dw: Math.round(Math.abs(pr.width - br.width)), label: b.textContent} });
+    const a = await pos(); if (!a) return 'no filter bar on this page';
+    await page.emulateMedia({reducedMotion: 'no-preference'});
+    await page.evaluate(() => { window.__bfrun = 0; document.addEventListener('transitionrun', e => { if (e.target.classList && e.target.classList.contains('bfpill') && e.propertyName === 'transform') window.__bfrun++ }, true) });
+    await page.click('#list .bfilters [data-bf="type:written"]');
+    await page.waitForTimeout(400); const b = await pos();
+    await page.click('#list .bfilters [data-bf="type:all"]'); await page.waitForTimeout(400); const c = await pos();
+    await page.emulateMedia({reducedMotion: 'reduce'});
+    errs();
+    const runs = await page.evaluate(() => window.__bfrun);
+    assert(runs >= 2, `pill did not slide (${runs} slide animations started for 2 clicks)`);
+    assert(a.on && a.dx <= 1 && a.dw <= 1, `pill not on the chosen option at start (${JSON.stringify(a)})`);
+    assert(b.on && b.dx <= 1 && b.dw <= 1 && b.label === 'Written', `pill did not land on “Written” (${JSON.stringify(b)})`);
+    assert(c.dx <= 1 && c.label === 'All', `pill did not return to “All” (${JSON.stringify(c)})`);
+    return `${runs} slides started; lands on Written, back to All`;
+  });
   await check('bank: search', page, async () => {
     await page.fill('#q', 'annuity');
     await page.waitForFunction(() => /Search:/.test(document.querySelector('#list .listhead h2')?.textContent || ''), null, {timeout: 5000});
