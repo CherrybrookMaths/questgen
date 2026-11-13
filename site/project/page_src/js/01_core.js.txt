@@ -1,13 +1,14 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-/* Shared page state (health pass 13 Nov; CODE_HEALTH rule 1, owner: "keep the code proper and [lean] as we develop").
+/* Shared page state. owner 13 Nov: "keep the code proper and [lean] as we develop", "run the refactor overnight" (health
+   pass, CODE_HEALTH rule 1).
    One object holds what many views share: bank: data/bank.json · dots / dm: the dot points (list / by id) · reviews: review
    decisions from the db · db: the db capability (null without one) · me: the viewer's user id · editor: null until the user
    capability answers, then true only for the owner or an editor · view: the view on screen · course: the course the
-   Bank, Exams, topics and dot points are about (see COURSES). New shared state is a QG field, never a new page-wide name.
+   Bank, Exams, topics and dot points are about (courses below). New shared state is a QG field, never a new page-wide name.
    The older names B, DOTS, DM, reviews, db, me, EDITOR and view still work: they are window accessors that read and write
    these fields (not declarations), so nothing that used them had to change. New code writes QG.x. */
-// Course is a dimension (CODE_HEALTH rule 5): the course's name and the files holding its questions (with their topics and
+// owner 13 Nov (health pass, CODE_HEALTH rule 5): course is a dimension: the course's name and the files holding its questions (with their topics and
 // difficulty references) and its dot points come from QG.courses[QG.course]; read them with QG.courseData, never type
 // "Advanced". Only Advanced has data so far; a course is added here once it has a bank, dot points and difficulty references.
 const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'bank',course:'advanced',

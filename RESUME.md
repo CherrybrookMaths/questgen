@@ -165,3 +165,10 @@ inline confirm with a cost range) and Running / next; the import order is under 
 Go writes a run request to db `runs`; tools/import_next.py takes the next 9 from an active run before the import order, and the run
 pauses after each batch until the owner clears it in Review (IMPORT_PLAYBOOK "Go", UI_SPEC "Papers: summary, Import a course").
 Publish needs a db rule for `runs`: read admin, write admin.
+
+## Code health pass (13 Nov night; owner: "keep the code proper and [lean] as we develop", "run the refactor overnight")
+No visible change. Dead code and files removed (bank_v1_before_split.json and focus_crops.py archived in
+archive/data_unused_1113/; the next publish sends null for them), five cross-view class clashes renamed (`pr-`, `rv-`, `ex-`
+prefixes), a size budget in batch_check (tools/size_budget.json; over budget blocks until the owner agrees), one shared
+state object `QG` in page_src/js/01_core.js (B, db, me, EDITOR, view ... are aliases onto it), and the course as a setting
+(`QG.course`, `QG.courseData`). Details, numbers and the debt left: CODE_HEALTH.md "Health pass" and "Known debt".
