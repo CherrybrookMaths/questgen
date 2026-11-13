@@ -56,16 +56,16 @@ It was started on 12 Nov 2026, after he asked: "are we documenting carefully to 
 
 ## Review
 
-- **Four steps, in order:** Decide, Check, Spot-check, Diagrams, plus Tags when there are any. He said "way too many pills, not sure what I'm meant to check and in what order".
+- **Four steps, in order:** Decide, Check, Spot-check, Diagrams, plus Tags when there are any. He said "way too many pills, not sure what I'm meant to check and in what order". *(Order and names superseded by the 13 Nov answers: Your calls → Flagged → Topics → Diagrams → Spot-check, walked one paper at a time. See "Review: Inbox and one paper at a time".)*
 - **Keys.**
   - One question per page.
   - K goes to the next question.
   - A approves and moves on at once, without waiting for the save ("why doesn't approving auto next").
-  - Number keys switch steps ("let me press the numbers on my keyboard").
+  - Number keys switch steps ("let me press the numbers on my keyboard"). (In the code the numbers pick a diagram in Diagrams and 1 / 2 in Topics; since 13 Nov the steps are switched on the paper's track.)
 - **Flagging.** F opens a one-line box; type the reason and press Enter to send, or Esc to cancel. An empty reason is refused. This matches the diagrams step.
 - **Check and Decide show the full page,** with the question as it will appear next to the source page. The cropped side-by-side view was tried and rolled back: "so much worse and unusable". Don't bring it back.
 - **Recently approved.** Newest approvals first, and F re-flags from there. He said "I need a list of recently approved in case".
-- **Approving whole papers.** "Papers ready" in the Review header approves every paper whose spot-check is clean. He asked: "where do i go and batch approve the rest?".
+- **Approving whole papers.** "Papers ready" in the Review header approves every paper whose spot-check is clean. He asked: "where do i go and batch approve the rest?". (13 Nov: the banner sits in the Inbox's Papers card; each paper's Spot-check step also ends with "Approve the other N questions in this paper".)
 - **Diagrams.**
   - Riskiest types come first.
   - The counter names its unit ("why does my diagram review say 468").
@@ -78,7 +78,7 @@ It was started on 12 Nov 2026, after he asked: "are we documenting carefully to 
   - The owner picks the topic, not the gates ("I don't feel like I can accurately choose the gates").
   - A Y11/Y12 picker for when both suggestions are wrong ("If its both wrong, I should be able to pick from a Y11 and Y12 list").
 - **Solutions** are always visible somewhere for checking ("u need to show solutions somewhere so I can verify it").
-- **Papers page.** It has filters, and there is one compact row per import batch ("each batch takes so much vspace ... find a way to collapse").
+- **Papers page.** It has filters, and there is one compact row per import batch ("each batch takes so much vspace ... find a way to collapse"). *(13 Nov: the Papers tab is superseded, "Merge into Review": the list is Review's papers section, `#review/papers`, with the same filters and columns plus a review track.)*
 - **Guide tab.** It explains how questions are tagged, with live examples.
 
 ## Rendering text and tables
@@ -472,13 +472,17 @@ He said "Word too pls". The preview has **Download Word** beside Download PDF, f
 The automated page test (`tools/page_test.js`) found two ways a sheet grew taller than 297 mm. The PDF and the printed HTML crop each sheet to A4, so the bottom was silently lost. Both were found in a 60-mark paper over all topics.
 - **Cover.** With many topics (12 in the test), "Marks by topic" pushed the cover to about 350 mm, and the table's last rows and Total were cut off. Now, only when the cover would run past the page, the table moves to a page of its own straight after the cover, still titled "Marks by topic". A cover that fits is unchanged. The Word file still puts the table on its cover page, as before (`cvcont` block in `xPreview`; `30_word.js` reads it from there).
 - **One long part.** A question taller than a page was already cut between its parts, but one part (or one part's worked solution) taller than a page stayed whole. In the test, a marking-guide page was 324 mm and the rubric and marker's note were lost. Such a piece is now also cut inside the part, between lines, and the next page starts "Question N (continued)". The part keeps its layout: an empty label column, and the solution's left rule continues. Maths, images and tables are never cut. Questions that fit are laid out exactly as before (`exCutTall` / `exCont` in 24_exams.js). The Word file puts each such question back together (`exRejoin`), so the .docx is unchanged.
+- **Other question pools (13 Nov fix).** With a different pool of approved questions (the Review workload's 1,499 instead of 1,576), a marking-guide page was 1,350 px (about 357 mm). Two causes, both fixed in `exCutTall` (24_exams.js):
+  - A part is a grid of three columns (label, body, marks) that are all stretched to the part's height, so "cut inside the tallest column" picked the empty label column and gave up. It now picks the column whose content runs furthest down.
+  - A worked solution's text is often one inline run of words, inline maths, display maths and line breaks, which had no place to cut. It is now cut at the start of the last line that begins above the page end (`exFlowCut`), splitting the text between words if need be. Maths, images and tables are still never cut. The Word file joins the text back into one piece (`exRejoin`).
+  - Papers and guides that already fitted are laid out exactly as before: on 16 generated exams (two pools, 8 seeds, 30 to 100 marks) every sheet that fitted on the old page is identical on the new one; the 7 guides with a sheet past A4 now fit.
 
 ## Processes page and the running / queued pills (14 Nov, QUEUE #0)
 He asked: "Can u show this list of tasks on the artifact somewhere, need a pill for current jobs and queued jobs. Can be on the same as import. Can make that page processes".
 - **Tab.** The Import tab is now **Processes** (`#processes`), in the header and the phone menu. Old `#import` links still land on it (the address is rewritten to `#processes`).
 - **Header pills.** The single jobs pill (12 Nov ruling, "should be a simple pill") is now two quiet pills: **N running** (accent tint, slow pulsing dot) and **N queued** (outline, muted). A pill with a count of 0 is hidden. Hover or focus shows the list, with "Open Processes →"; on a touch screen the first tap shows the list and the link goes there. Clicking a pill on a desktop goes straight to Processes. The "Wait" warning for a job that changes the open Review step is kept on the running pill.
 - **Data.** Running = db doc `progress/jobs` (`{jobs:[{name,detail,affects,started}]}`) plus any queue item marked `running` that has no job of the same name. Queue = db doc `progress/queue` (`{items:[{id,title,detail,status:'queued'|'running'|'done',order,asked}],updated}`), sorted by `order`. Once the queue doc is loaded, a job whose name starts with "Queued" (the interim "Queued: 5 tasks" entry) is ignored. `started` may be an ISO time or "HH:MM" and shows as "12 min ago".
-- **The page, top to bottom:** Running now (cards: name, detail, started time); Queued (numbered list: title, detail, and the owner's own words in muted italics); Recently done (collapsed); then the import dashboard under its **Import** heading (content unchanged; its sub-headings restyled in the review pass, see "Review pass on QUEUE #0–#4"). Empty states are one short line.
+- **The page, top to bottom:** *(13 Nov: split into Work | Papers, see "Processes in two tabs".)* Running now (cards: name, detail, started time); Queued (numbered list: title, detail, and the owner's own words in muted italics); Recently done (collapsed); then the import dashboard under its **Import** heading (content unchanged; its sub-headings restyled in the review pass, see "Review pass on QUEUE #0–#4"). Empty states are one short line.
 - Code: `renderJobs` / `runningNow` / `queueItems` in 13_shell.js, `renderProcesses` in 12_import.js, styles in 06_import_jobs_tags.css. Tested by the `processes:` checks in tools/page_test.js.
 
 ## Exam setup: availability table labels (14 Nov, QUEUE #1)
@@ -497,6 +501,10 @@ He said: "resizing is really unintuitive, it should just be drag the corner in a
 - **Storage and exports.** The size is still `EX.figscale[k]` (100% removes the key). The download, PDF and Word use it as before; the handle and the live % are removed from all three and hidden in print.
 - On a phone-sized (scaled) paper, the handle and the ⓘ keep their real size.
 - Code: `exFigWrap` and the pointer handlers in 24_exams.js, styles in 12_exams.css. Tests: `exams: diagram resize …` (drag, clamp and reset, touch phone) and `export: a resized diagram keeps its size in the HTML download`.
+- **13 Nov fix: a drag that did nothing.** Found with the Review workload's question pool (a drag in left the diagram at 132%). Three causes, all fixed in 24_exams.js / 12_exams.css:
+  - When a resized diagram's question moved to the next page, the paper re-laid out and the diagram jumped off screen, so the next drag found nothing under the pointer. Now the paper scrolls so the diagram's top edge stays where it was on screen (`exFigKeep`); when the diagram stays on its page nothing moves, as before.
+  - A diagram is never drawn wider than the column, so a scale past that point changed nothing on the paper, and dragging in from there changed nothing visible either. The largest scale is now the one that fills the column (still at most 200%), measured from the diagram's size at 100% (`exFigBase`). The keyboard steps use the same limit.
+  - A question's text box clipped its overflow, so on a diagram as wide as the column the handle (which sits 7 px outside the corner) was cut off and could not be grabbed. On the paper, a text box holding a diagram no longer clips; it stays a block formatting context (flow-root), so its height and the layout are unchanged.
 
 ## Report form: Fluency / Problem solving (14 Nov, QUEUE #3)
 He said: "Should let you pick UF and PS in the wrong diff" (work/queue/3_report_form.png).
@@ -528,14 +536,223 @@ Small fixes from the review of the five queued requests, keeping every ruling ab
 
 ## Teach | Curate split (15 Nov, stage 3)
 Owner, 15 Nov: "Lets do 2 as well" (the Teach / Curate split; quoted via the workflow brief) and, in his own message, "curate should be hidden to peope except editors."
-- **Two areas.** **Teach**: Bank · Exams · Guide (Worksheets will join later; no placeholder tab). **Curate**: Review · Papers · Processes.
+- **Two areas.** **Teach**: Bank · Exams · Guide (Worksheets will join later; no placeholder tab). **Curate**: Review · Papers · Processes. *(13 Nov: Curate is Review · Processes; Papers merged into Review.)*
 - **Switch.** A small segmented **Teach | Curate** control sits before the tabs in the header: hairline frame, theme2 tokens, and a highlight that slides like the tab pill (12 Nov ruling). Only the open area's tabs show, and the tab pill still slides between them. Choosing an area returns to the last page used in it (first time: Bank / Review).
-- **Difficulty and Reports are Review steps.** The Review step row is Decide, Check, Spot-check, Diagrams, Tags, **Difficulty**, **Reports**, each with its count (Difficulty: parts still to check in the chosen list; Reports: open reports). Difficulty and Reports open their own pages under the same step row (`#review/difficulty`, `#review/reports`), without the paper picker and ← →. Old links `#levels`, `#difficulty` and `#reports` land on those steps; `#import` still lands on Processes. This replaces the "Difficulty tab" and "Reports tab" rulings below as to *where* they sit; their pages are unchanged.
+- **Difficulty and Reports are Review steps.** *(Superseded 13 Nov: the step row is gone; Difficulty and Reports are Inbox sections at the same addresses, with "← Inbox".)* The Review step row is Decide, Check, Spot-check, Diagrams, Tags, **Difficulty**, **Reports**, each with its count (Difficulty: parts still to check in the chosen list; Reports: open reports). Difficulty and Reports open their own pages under the same step row (`#review/difficulty`, `#review/reports`), without the paper picker and ← →. Old links `#levels`, `#difficulty` and `#reports` land on those steps; `#import` still lands on Processes. This replaces the "Difficulty tab" and "Reports tab" rulings below as to *where* they sit; their pages are unchanged.
 - **Who sees Curate.** Only the artifact's owner and editors (`user.isOwner()` or `user.canEdit()`). Everyone else, and any view where the user capability gives no answer, sees no switch, no Curate tab, no Curate group in the phone menu, no running / queued pills (they lead to Processes) and no "Open in Review" on bank cards; a Curate link sends them to `#bank`. While the capability has not answered yet, a Curate link shows the Bank and keeps the address, so an editor's link still opens once the answer arrives. This hides the UI only: what the database lets a viewer write is set by its rules.
 - **Remembered.** For the owner and editors the last area (and page in it) is kept per browser (`qg_area`, `qg_last_teach`, `qg_last_curate`, localStorage in try/catch); opening the page with no address returns to that area.
-- **Phone.** No switch; the menu lists **Teach** (Bank, Exams, Guide) then **Curate** (Review, Papers, Processes) under small headings, the Curate group only for editors. The Review step row scrolls so the open step is in sight. The Difficulty page now has the step row above it, so its phone header is taller than the 53 px measured on 14 Nov.
+- **Phone.** No switch; the menu lists **Teach** (Bank, Exams, Guide) then **Curate** (Review, Papers, Processes; 13 Nov: Review, Processes) under small headings, the Curate group only for editors. The Review step row scrolls so the open step is in sight. The Difficulty page now has the step row above it, so its phone header is taller than the 53 px measured on 14 Nov.
 - **Wording.** The Reports toast says "listed in Review › Reports" for editors and "Thank you" for others; the marking-guide note says ratings are checked in Curate › Review › Difficulty and questioned with Report in the ⓘ card. The Guide's developer page names the two areas in its "Web app" box. Stage 4 review (15 Nov): on the Guide's user page a non-editor reads "References checked by an editor" (no "in Review › Difficulty") and "a home dispute goes to an editor" (not "comes to Review › Tags"); checked by `areas (viewer|none): the Guide names no Curate page`.
 - Code: areas, routing and redirects in `page_src/js/09_router.js`; the step row (`renderSteps`, `XSTEPS`, `goStep`) in `08_review.js`; `lvTodoN` in `21_levels.js`; the phone menu in `22_phone_menu.js`; styles in `css/19_areas.css`. Tests: the `areas (editor|viewer|none): …` checks in `tools/page_test.js` (the fake user takes a role).
+
+## Pills, job times, Approved-only chip, Next up (13 Nov, quick lane)
+- **Pill hover.** He said: "the stuff should show over the pill on hover instead. Also remove the open processes button there because clicking on the pill already takes you there". Hovering (or focusing) a running / queued pill shows a small popover with those jobs: title, step, Started / Est. finish. The "Open Processes →" link is gone; a click on the pill goes to `#processes`, and so does a click on the popover. Touch (no hover): the first tap shows the popover; a tap on the popover or a second tap on the pill opens Processes; a tap elsewhere (or Esc) closes it. It stays inside a 390 px screen (16 px gutters). This replaces the "Open Processes →" part of the 14 Nov pill ruling; the rest of it stands.
+- **Job times.** He asked: "Is there a way to see how far long the running process is, start and finish time as well? Would be helpful". The queue doc's items may carry `step` ("Stage 2 of 4"), `started`, `eta`, `finished` (ISO, Claude writes +11:00). On Processes and in the pill popover each job shows its step (with a small bar when it reads "N of M"), **Started 2:05 pm**, then **Est. finish 3:10 pm** while not done (if `eta`), or **Finished 3:17 pm · took 1 h 12 min** once done. Times are in the viewer's local time; the date shows only when it is not today ("11 Nov, 9:05 am"). The "12 min ago" on running cards is kept.
+- **Approved-only chip.** He asked: "is there a point in this showing if all questions are approvied?" The Bank's "Approved only (x of y) · include unapproved" chip shows only when some questions are unapproved **and** the viewer is an editor (`isEditor()`, the Teach | Curate check). A non-editor never sees unapproved questions, even with `bankall=1` saved in the browser (`bankAll()` = BANKALL and editor). The exam pick list's "· approved only" note follows the same rule. Not changed: the exam generator's own "Approved questions only" box (on by default) still lets anyone turn it off.
+- **Next up.** He said: "add a place somewhere for me to write down what to flesh out next". A **Next up** card on Processes (Curate, editors only), between the queue and the Import dashboard: a text input + Add, the notes in order with drag (desktop) or ↑ ↓ to reorder, a tick moves a note to a collapsed **Done** list (unticking puts it back at the end), × asks "Delete? Delete / Keep" inline (no confirm()). Empty state: "Ideas for what to build next. Claude reads this list." Stored in db collection `notes`, one doc per note `{text, order, done, by, at}` (plus `doneAt` when ticked); only editors write (every handler checks `isEditor()`). Claude reads it with ArtifactData `list` on `notes` when asked what to build next.
+- Code: `parseT`, `clockT`, `durT`, `jobTimes`, `stepBar`, `renderJobs` and the pill handlers in `13_shell.js`; `renderProcesses` in `12_import.js`; `bankAll` / `bankSwitch` in `07_bank.js`; the notes in `31_notes.js` (own script block) and `css/20_notes.css`; `#notesBox` in page.html. Tests: `processes: running and queued pills`, `processes: pills on a touch phone`, `processes: job step, start, est. finish and duration`, `bank: approved-only chip for an editor`, `bank (viewer|none): no approved-only chip, no unapproved questions`, `next up: …` (add, reorder, tick/delete, phone 390 px, viewer).
+
+## Review: Inbox and one paper at a time (13 Nov)
+Owner, 13 Nov: "I think the next thing I want to do is refine the review process. It is just 7 tabs at the top and its not really clear the order / process. Let's clear that up together". His answers, verbatim choices:
+- Paper flow: "One paper at a time": open a paper and walk it top to bottom with a progress track.
+- Upkeep: "An 'Inbox' beside papers": Review opens on a summary: Papers to review · Reports · Difficulty, each with a count and a one-line 'what this is'; empty ones collapse to a tick.
+- Order: "Calls → Check → Topics → Diagrams → Spot-check": spot-check last, because it approves the rest of the paper.
+- Papers tab: "Merge into Review": Curate becomes Review · Processes, and `#papers` lands in Review's papers section.
+- Names: "Your calls · Flagged · Topics · Diagrams · Spot-check" ('Decide'→'Your calls', 'Check'→'Flagged', 'Tags'→'Topics'), each step with a one-line 'what to do here' under the track.
+
+These answers supersede, as to order, names and where things sit: "Four steps, in order" (Review), the Papers tab and "Papers page", "Difficulty and Reports are Review steps" and the Curate tab list (Teach | Curate split). Everything else in those rulings stands (keys, flagging, full-page Check, diagram rules, hidden duplicates, the Difficulty and Reports pages themselves).
+
+- **Inbox (`#review`).** Three cards:
+  - **Papers to review**: the number of papers with any review work left, then one row per paper (name, a 5-dot track, "N left · at <step>"); a row opens that paper. Up to 8 rows, then "N more · Show all papers →". The "Papers ready" banner (approve every paper whose spot-check is clean) sits in this card. With nothing left it collapses to "✓ Papers to review · all approved · Show all papers →".
+  - **Reports**: open reports; "✓ nothing open" when 0.
+  - **Difficulty**: `lvTodoN()`; "✓ check plan finished" when 0, still openable.
+  - The foot has **Recently approved** and **Other lists** (`#review/list/<filter>`), and the "N flags waiting for Claude" note when there are any.
+- **Papers (`#review/papers`).** The old Papers tab, unchanged in what it offers (search, year, task, source and progress filters, sortable columns, a paper filed as two PDFs counted once, totals), plus a **Review** column: the 5-dot track and "N left · at <step>" (or "✓ approved"), a "Review work left" progress filter, and a row (or its Open / Review link) opens the paper.
+- **A paper (`#review/paper/<doc>/<step>`).** The bar under the header is: **← Inbox**, the paper's name and "N left", the position and ← →; then the **track**: 5 numbered steps joined by hairlines, a tick when a step is done, a dashed circle when the paper has nothing in it, the open step in the accent with its count; then the step's **what to do here** line (shown on phones too). Below it, the existing question views for that step, filtered to the paper (both PDFs of a paper filed twice).
+  - Opening a paper without a step goes to its first step with work. When a step hits 0 it moves on to the next step with work, with a small toast ("Flagged done → Topics"). The background "Saved" toast does not cover it.
+  - **Spot-check** keeps "approve the rest of the paper in one click": once the sample is approved, the step shows "Approve the other N questions in this paper" (that click counts as the step's last item). When every step is clear the paper says "<paper> is done", with **Next paper →** and **← Inbox**.
+  - Keys are unchanged: A approves, F flags, K / J move, D uses all redraws, 1 / 2 in Topics, numbers pick a diagram.
+- **Reports and Difficulty** are Inbox sections at `#review/reports` and `#review/difficulty` (their pages unchanged) with **← Inbox** above them. Old `#reports`, `#difficulty`, `#levels`, `#papers` and `#import` still land on the right page.
+- **Gone:** the 7-button step row. **Recently approved** and **Other lists** are reached from the Inbox foot; a list (`#review/list/<filter>`) has ← Inbox, a list picker, the paper picker and ← →. "Open in Review" on a bank card opens `#review/list/all` on that question.
+- **Counts.** The Review tab and the Curate switch label show the Inbox total: papers to review + open reports.
+- **Phone (390 px).** The phone menu's Curate group is Review · Processes. The track shows the number circles, with the label only on the open step, and scrolls sideways if it must, keeping the open step in view. Checked at 390 px in light and dark.
+- **Independent review (13 Nov).** Fixed after a check of the build: the 5 dots now show a step with nothing in the paper as a faint small dot (as the big track's dashed circle), not as a green "done" dot; a finished paper's panel has **See its questions** (All questions for that paper, as the old Papers tab's Review link did); **Other lists** also offers "Needs your decision" and "Diagrams to approve" across every paper (the old step row's "All papers" picker did that); an unknown `#review/list/<name>` settles on `#review/list/recent`; a list no longer keeps the last paper's track in the DOM. Test: `review: done paper browse, mini-track dots, Other lists across papers`.
+- **Calls Claude raises (13 Nov).** Owner, about the import dashboard's "Needs your decision" notes: "isn't that the point of your calls? or is your decision different". So there is one place for calls: `site/project/open_decisions.json`, built into the bank by `build_bank.py`. A question call (`q.decide`, `q.decide_at`) puts the question in its paper's Your calls with the "Needs your decision" callout, even an imported question and even one approved before the call was raised (A stamps `call_at`). A paper call (`docs[doc].call`) is a card at the top of the paper's Your calls step, "Call on this paper · <paper>": the call, **Keep as is**, and **Change…** (a one-line answer, Enter sends, Esc cancels); the answer is kept in `reviews/paper_<doc>.call` beside the paper approval (approving a paper keeps it) and shows as "✓ Your answer: … · change". Each open call counts 1 in Your calls, so the track, the papers list and the Inbox show the paper as having work. Import history has no "Needs your decision" block any more. Code: `needsDecision`, `callOpen`, `workOf`, `PCALL` in `08_review.js`; `.why.pcall` in `css/21_review_flow.css`. Test: `review: calls raised after approval (paper and question) …`.
+- **Test data.** Every live paper is approved, so `tools/page_test_fixture.py` lists a workload (`WORKLOAD`): the page test leaves those review docs out on its Review pages only, giving 1346 (+510) Your calls / Topics / Diagrams, 323 Flagged / Topics / Diagrams / Spot-check, and 1601 Spot-check only. Bank and Exams checks keep the live approved set.
+- Code: `STEPS`, `SLUG`, `paperWork`, `allWork`, `trackHTML`, `miniTrack`, `renderInbox`, `renderSteps`, `openReview`, `refreshReview` (auto-advance), `paperNextHTML` in `08_review.js`; `parseHash`, `HASH_ALIAS`, `todoCount` in `09_router.js`; the papers list in `11_papers.js`; markup in `page.html`; styles in `css/21_review_flow.css`. Tests: `review: …` checks in `tools/page_test.js` (Inbox summary; papers list; the track; auto-advance with keys; spot-check approve and paper done; 390 px light and dark), plus the updated `areas (editor): …` and phone menu checks.
+
+## Papers and the import order on Processes (13 Nov)
+Owner, 13 Nov (dictated): "New exams are gonna be added to this folder periodically we need a way to ... see what we actually
+haven't ingested yet", "Should we also order what's in standard and also extension one and extension two while we're scanning
+anyways?" and "Can the import queue be dynamic, me choosing which set of papers to import next? We can always [build the]
+framework for the courses standard extension and extension two [later] right?"
+- **Where.** A **Papers** section on Processes, under the Queued / Recently done list and above Next up. Curate, so editors only
+  (`isEditor()`); a viewer gets no section, no `data/inventory.json` fetch and no write.
+- **Rescanning: two routes** (owner 13 Nov: "Where is the button to rescan the drive?"). (1) The **Rescan drive** button here
+  (Processes › Papers; see "Rescan drive on Processes › Papers" below) walks the shared folder read-only with the viewer's own
+  Google Drive connector, finds and lists the new files, and saves the scan for Claude; Claude adds them to the record at the
+  next import step. (2) Or ask Claude ("rescan the drive"): Claude lists the folder with the Google Drive connector and adds the
+  new files to the record directly (IMPORT_PLAYBOOK "Two ways to rescan"). The "last folder scan" line shows when the record
+  was last updated from the folder.
+- **Pause note.** Always shown at the top: "Import is paused. This only sets the order for when it resumes." (owner 14 Nov:
+  "no more importing for a while until we iron these out").
+- **Grid.** One row per course x year level from `data/inventory.json` (tools/inventory.py): columns **In folder**, **Imported**,
+  **Waiting**, **New** (added by the latest folder scan; "–" before the first scan). On phones the headings shorten to Total,
+  Done, Wait, New. Under the title: "N papers in the shared folder (M files) · last folder scan <time>, K new".
+- **Courses.** Course names and whether a course can be queued come from the inventory (`courses[].ready`), never from the page
+  (CODE_HEALTH rule 5). Today only Advanced is ready. Standard, Extension 1 and Extension 2 rows are muted, show "needs course
+  setup (topics, dot points, difficulty references)", show "–" for Imported / Waiting, and have no checkboxes; "Course not known"
+  rows say a cover-page check sorts them.
+- **A group.** Clicking a row opens its papers, grouped by school, newest year first: a checkbox (only for papers that can be
+  queued: Year 12 Advanced, waiting, not already queued; Year 11 never, owner 13 Nov: "Year 11 papers leave alone for now, would like to finalise Y12 first"), the paper's name, a state chip (Imported, Waiting, In queue · #n, Not imported,
+  Other course), and New / Scan / No solutions / "N files" chips; a muted line says why a paper is not importable. A school line
+  and "Select all N waiting" tick every queueable paper under them (half-ticked when some are).
+- **Adding.** Ticking shows a bar at the foot of the section ("N papers selected · Clear · Add to import queue"). Add writes one
+  db doc per paper to collection `importq`, id `d<doc_id>`: `{doc_id, label, course, year_level, order, added_by, at}`, after the
+  ones already there, in the order shown.
+- **Import order.** Above the grid: the queued papers in order (number, name, course and year, a warning if a paper has since
+  been imported or can no longer be imported), with drag (desktop) or ↑ ↓ to reorder and × to remove (no confirm: it can be
+  re-added). Empty state: "Nothing queued. Tick Advanced papers under By course and press Add to import queue." (13 Nov: the grid moved under By course ▸) A cost estimate per paper
+  shows only if one is recorded (`cost_per_paper` in the inventory; none yet).
+- Claude reads the order with `tools/import_next.py` (IMPORT_PLAYBOOK "New papers in the shared folder, and choosing what to
+  import next").
+- Code: `page_src/js/32_papers_q.js` (one page-wide name, `PQ`: `render`, `add`, `remove`, `state`), the shared order writer and
+  drag-to-reorder (`writeOrder`, `sortableList`) now in `31_notes.js` and used by Next up too, `#invBox` in page.html,
+  `css/22_papers_q.css` (all under `.procs`). Tests: the `papers: …` checks in tools/page_test.js.
+
+## Rescan drive on Processes › Papers (13 Nov)
+Owner, 13 Nov: "Where is the button to rescan the drive?" (earlier: "New exams are gonna be added to this folder periodically we
+need a way to ... see what we actually haven't ingested yet").
+- **Where.** A **Rescan drive** button on the Papers section's first line, right of "N papers in the shared folder · last folder
+  scan <time>, K new". Curate, so editors only; a viewer gets nothing (no button, no connector request, no write).
+- **How.** It walks the shared exam folder in Google Drive with the viewer's own **Google Drive** connector (runtime capability
+  `mcp`, tool `search_files` only: one query per folder, `parentId = '<id>' and (mimeType = folder or PDF) and trashed = false`,
+  `pageToken`, `excludeContentSnippets`). Read-only: it never moves, renames or changes anything in the shared drive (other staff
+  use it). The folder id is `root_drive_id` in data/inventory.json (tools/inventory.py); `scan_skip` lists folders not walked
+  ("Claude outputs").
+- **Progress.** "Scanning Google Drive · N of M folders · K PDFs" with a bar (M grows as folders are found) and **Cancel**. A
+  cancelled or failed scan saves nothing.
+- **Known or new.** A Drive file is known when its Drive id (documents.drive_file_id, 303 files so far) or its path
+  (case-insensitive) is in inventory `files`. A file with the same size as a recorded one is listed with "Same size as a recorded
+  file" (probably moved or copied) and not counted as new; tools/scan_folder.py makes the real moved?/copy? call when Claude records it.
+- **Result.** "N new files since <the later of the last rescan and the last folder scan>", plus "M found in an earlier scan, still
+  not in the record" and the same-size count. The list is grouped by course x year level (open for courses that are ready), each
+  file with its folder, year, school and "Not a question paper" / "Not imported" where the rules exclude it. New files are
+  classified with the SAME rules as tools/classify_paths.py: its `RULES` are written into the inventory (`rules`) and the page
+  runs them (CODE_HEALTH rule 3), including the 13 Nov name fallbacks (`RULES.fallback`: "MA" = Advanced, the school at
+  the start of "<School> Yr12 MA 2026 AT4 w Solutions", 1980s-90s years). The page test checks the page's port against the Python on every recorded path, and
+  batch_check blocks an inventory whose rules differ from `RULES`.
+- **Recorded files load on demand (13 Nov merge).** The list of recorded files the scan compares against (~3,300 after the
+  Drive rescan) is `data/inventory_files.json` (inventory `files_url`), fetched only when Rescan drive is pressed or a saved
+  scan is listed, so opening Processes stays at the ~360 KB inventory (CODE_HEALTH rule 6). The page test checks Papers opens
+  without fetching it; batch_check blocks an inventory.json that carries the files itself.
+- **Saved for Claude.** Each finished scan is one doc in db collection `scans`: `{at, by, root, new:[{id, name, path, size, course,
+  year, yl, task, school, status, why, like?}], counts:{folders, pdfs, matched, new, like, since_last, groups}}` (at most 500 files;
+  `counts.truncated` beyond). The section then shows "Found in the last scan, not yet in the record: N" with the note "Claude
+  adds these to the record at the next import step." The sub line's "last scan" becomes the rescan when it is later.
+- **No connector in this view** (`claude.use('mcp')` null, or the inventory has no Drive id): no button, a muted "Ask Claude to
+  rescan".
+- **Errors, one message per code** (never a generic banner): not allowed / declined (`not_in_manifest`, `approval_required`,
+  `consent_required`), reconnect (`needs_reauth`), add the connector (`server_not_connected`), choose one (`selection_required`),
+  organisation policy (`blocked_by_policy`), Drive's own error (`tool_error`), busy (`server_unavailable`, `rate_limited`). A
+  retryable error waits (`retryAfterMs`, else 1.5-4 s) and is tried ONCE more, then the scan stops; it never loops. Limits: 3
+  folders at a time, 60 pages per folder, 3,000 folders.
+- Code: `page_src/js/33_drive_scan.js` (`PQ.scan`: render, last, start, stop, classify, state; no new page-wide name), the
+  first line and hooks in `32_papers_q.js`, styles at the end of `css/22_papers_q.css` (all under `.procs`). Tools:
+  `tools/classify_paths.py` (RULES), `tools/inventory.py` (root_drive_id, scan_skip, files, rules), `tools/scan_folder.py` (reads
+  a scans doc). Tests: the `rescan: …` checks in tools/page_test.js (fake Google Drive connector with a small folder tree).
+
+## Processes in two tabs: Work | Papers (13 Nov)
+Owner, 13 Nov: "The process page feels a bit bloated now". Chosen: "Two tabs: Work | Papers".
+- **Switch.** A small segmented **Work | Papers** beside the Processes title, the same control as Teach | Curate (`.areasw`, its
+  sliding highlight; shown on phones too). Addresses `#processes/work` and `#processes/papers`; bare `#processes` opens the tab
+  used last (`qg_proc_tab`, per browser), Work the first time, and the address then names it. Old `#import` lands on Papers.
+  The header's running / queued pills link to Work.
+- **Work:** Running now, Queued, Recently done (collapsed), Next up. Nothing else; sections 14 px apart (were 20).
+- **Papers, top to bottom:** the top line (N papers in the shared folder · last scan, K new · **Rescan drive**, with its progress
+  and results under it); **Import order** with the pause note as ONE quiet muted line under its label (no banner); the
+  **course grid**; then **Import history ▸** (collapsed): the old import dashboard (tiles, batches, Needs your decision, log),
+  with no heading of its own; its log shows the last 5 entries and "Show all N".
+- **Course grid.** One row per course in the inventory's order (Advanced, Extension 1, Extension 2, Standard, Course not known),
+  columns **Year 12 / Year 11 / Year ?**. A ready course's cell reads "imported / waiting waiting" (e.g. "52 / 139 waiting");
+  any other cell (and a ready one with nothing importable) the papers in the folder; "–" when the folder has none. "N new" chip
+  after a folder scan. The full counts are the cell's tooltip. A course that is not ready shows its note once, short ("needs
+  course setup"; the full note is the tooltip). This replaces the 15 course x year rows and their In folder / Imported / Waiting /
+  New columns.
+- **Expanding.** Clicking a cell opens that group's papers under its course row ("Advanced Year 12 · 8 papers", then the same
+  list, chips and ticks as before; one group open at a time; a second click closes it). Ticks are kept across groups. A
+  not-ready group says "Listed so you can see what is there; these can't be queued yet."
+- **Phone (390 px).** The grid stacks per course: the name on its own line, then three cells each labelled Year 12 / 11 / ?; no
+  header row, no sideways scroll.
+- Supersedes, as to layout: "Processes page" (the page, top to bottom), "Papers and the import order on Processes" (Where, Pause
+  note, Grid, A group) and Rescan drive's "Where" (the button now heads the Papers tab). Everything else in them stands.
+- Code: switch in page.html (`#procSw`), tab routing in `route()` / `parseHash` (09_router.js; `moveAreaSlider` now moves every
+  `.areasw`), `renderProcesses` (tabs) and `renderImport` (log) in 12_import.js, the grid (`invGrid`, `invOpen`) in
+  32_papers_q.js, styles in 06_import_jobs_tags.css, 19_areas.css (phone hide is now `header .areasw`) and 22_papers_q.css.
+  Tests: `processes: Work | Papers switch and hashes`, `processes: Work sections and order`, `papers: top line, import order,
+  quiet pause note`, `papers: compact grid counts equal the inventory`, `papers: … one group open at a time`, `papers: Import
+  history collapsed; …`, `papers: phone 390px` (stacked grid), `papers (viewer): …` (no Curate on any Processes hash).
+
+## Papers: one import list, old syllabus, New badge (13 Nov)
+Owner, 13 Nov: "I can't tell. So does not imported and new mean not in scope? We should take questions too, we'll just have to
+disretard out of scope things" and "but we already have 15 waiting batches?"
+- **Old syllabus.** Pre-2019 (old 2 Unit) Year 12 Advanced papers are Waiting and tickable, with an "old syllabus" chip in their
+  group and "· old syllabus" in the import order (inventory `old: 1`). Year 11 stays not tickable. The out-of-scope chip reads
+  **Not in scope** (was "Not imported").
+- **One list.** The planned batches are in the Import order (seeded from progress.json b6-b20). A faint divider ("Batch 6",
+  "Batch 7", ..., small caps, muted, dashed rule; `role="separator"`, not draggable) sits before every 9th importable row; rows
+  with a warning (already imported, can no longer be imported) are not counted, as tools/import_next.py skips them. The first
+  number is the last finished batch in the import history + 1 (`batchState`), so it moves on by itself after each batch.
+- **Import history** shows finished batches only (one "Finished" group, open inside the collapsed history); "No finished batches
+  yet." when none.
+- **New** is a small "+N new" badge on the cell's waiting number (or its papers number), not a chip of its own and never a column.
+  Under the grid one legend line: "Imported: in the bank · Waiting: will be imported · Not in scope: set aside · New: found by the
+  latest scan".
+- Code: `invNextBatch`, `IVBATCH`, `IVLEGEND` inside PQ (32_papers_q.js; `PQ.queue` redraws the order when progress arrives),
+  `batchesHTML` in 12_import.js, styles `.ivdiv`, `.ivnew`, `.ivlegend` in 22_papers_q.css. Tests: `papers: Batch N dividers every
+  9 rows; history shows finished batches only`, the legend / badge asserts in `papers: compact grid counts equal the inventory`,
+  the old-syllabus paper 9105 (tickable) and Year 11 9303 (waiting, not tickable) in page_test_fixture.py.
+
+## Papers: summary, Import a course (Go), Running / next (13 Nov)
+Owner, 13 Nov: "We need a general summary at the top of the Paper's tab of processes as well. How many papers found, how many imported, a brief breakdown and stuff. Set it up so that once the API is set up, we can choose a grade 11 or 12 and course Adv / std/ extension 1 and extesnion 2 and hit Go and the API would get called to import all papers which are on file but not imported from that level and grade. Is that the best way ? I'm getting CONFUSED with our current papers page". Chosen: "Yes, with batch pauses".
+- **Top to bottom** (Processes › Papers, editors only): **summary card** · **Import a course** · **Running / next** · **Choose
+  papers ▸** (the import order, collapsed) · **By course ▸** (the course grid with its ticks, collapsed) · **Import history ▸**
+  (collapsed). (Review 13 Nov night: Running / next moved above Choose papers, as the build report and code comments described;
+  it had been built below, where an open import order of 132 rows pushed the run out of sight.) Section labels are small caps h4, no h2/h3. Supersedes the order in "Processes in two tabs" (Papers); the rest stands.
+- **Summary card.** First line unchanged: "N papers in the shared folder (M files) · last folder scan …, K new" + **Rescan drive**
+  (its progress and results under the card). Three numbers: **imported** (in the bank); **can be imported** (current syllabus ·
+  old syllabus); **set aside**, one line each: in other courses that need setup · Year 11, held until Year 12 is finished · course
+  not known yet (cover check) · not in scope (zero lines hidden). Every paper is in exactly one bucket (`kind()` in
+  34_papers_run.js: imported; pick → old / current; out_of_course; Year 11 waiting or "Year 11: …" → held; other waiting → course
+  not known; the rest → not in scope). Live, 13 Nov: 52 / 513 (232 current, 281 old) / 2,093 (1,002 · 801 · 49 · 241).
+- **Import a course.** Year select (12, 11) and Course select (the inventory's courses, not "Course not known"; inventory order:
+  Advanced, Extension 1, Extension 2, Standard), **Go**. Shows "N not imported", "a current syllabus · b old syllabus", "K batches
+  of 9, pausing after each one until you've cleared it in Review" and "Estimated cost US$lo–hi (estimate, US$12–17 a paper)"; a
+  recorded inventory `cost_per_paper` (number, [lo, hi] or {lo, hi}) replaces the estimate ("Cost US$… (US$x a paper)").
+  Disabled, with the reason in place of the counts: a course that is not ready → its inventory note ("needs course setup
+  (topics, dot points, difficulty references)"); a ready course whose year has nothing pickable but held papers → "held until
+  Year 12 is finished (your 13 Nov ruling)" (Year 11); nothing left → "nothing left to import in …"; an active run → "a run is
+  already requested: cancel it under Running / next to start another".
+- **Go → inline confirm** (never `confirm()`): "Start importing 486 papers, ~US$5,832–8,262?" **Confirm** / **Cancel**. Confirm
+  writes ONE doc to db collection **`runs`**, id `r<ms>`: `{year, course, papers:[doc ids], batch_size:9,
+  pause_after_each_batch:true, status:'requested', by, at}`. Paper order: those already in the import order first (in its
+  order), then current syllabus before old, newest year first.
+- **One active run** (status requested / running / paused) at a time. **Cancel request** rewrites the doc with
+  `status:'cancelled', cancelled_by, cancelled_at` (kept, not deleted).
+- **Running / next.** The active run as a card: "Year 12 Advanced · 486 papers", a status chip, and for `requested`: "Requested —
+  Claude starts it when importing resumes; later the import API will start it directly." (`running`: "Claude is importing it
+  now."; `paused`: "Waiting for you to clear the last batch in Review before the next one starts."), batches and request time,
+  Cancel request. Then "Next from this run:" (or "Next from your import order:" when there is no run) with the next two batches
+  under faint "Batch N" dividers (N counts on from the last finished batch, as the import order does) and "… and K more batches".
+  Empty: "Nothing requested yet. Pick a year and course above and press Go, or choose papers one by one below."
+- **Choose papers ▸** holds the import order exactly as before (drag, ↑ ↓, ×, Batch dividers, the pause note) and a hint with a
+  link that opens **By course**. Add to import queue opens Choose papers.
+- **db rule needed at publish:** `runs` editors only (read admin, write admin), like `importq` and `scans`.
+- Code: `page_src/js/34_papers_run.js` (`PQ.run`: render, draw, request, cancel, choice, tally, kind; no new page-wide name), the
+  layout and the shared `invRows` / `invCost` / `invUsd` in 32_papers_q.js, styles at the end of 22_papers_q.css (all under
+  `.procs`; the folds reuse the `.phist` summary style in 06_import_jobs_tags.css; Go and Confirm use `button.act.primary`).
+  Claude's side: tools/import_next.py (a run beats the import order), tools/sync_pagedb.py (`page_runs`), IMPORT_PLAYBOOK "Go".
+  Tests: `run: …` checks (papersRun in tools/page_test.js) and the updated `papers: top line …` order check.
 
 ## Where else things are recorded
 
@@ -550,3 +767,8 @@ Owner, 15 Nov: "Lets do 2 as well" (the Teach / Curate split; quoted via the wor
 | Where everything lives, and how to resume | RESUME.md |
 
 Copies: every spec is published with the page under `project/` and synced to the Drive folder.
+
+- **Bank topic transitions (13 Nov).** Owner: "animation going between all topics and a subtopic. It's currently just snapping to it". Opening a topic slides the list forward and the clicked card grows into the heading; All topics slides back. View transitions (bankGo in 07_bank.js, css/23_bank_motion.css); snaps where unsupported; fades under reduced motion.
+- **Logo v2 (13 Nov).** Owner: "Can the questgen logo be more sophisticated and elegant as well", chose option A, "top is fine": Fraunces at weight 480, optical size 72, the integral-tail Q kept in the accent colour. Header height 23px (21px on phones). Supersedes the 600-weight wordmark.
+- **Bank filter pills slide (13 Nov).** Owner: "in the bank, the pills at the top, make them animated". Each filter group has one highlight that slides to the chosen option (bfPills in 07_bank.js; position kept across redraws in BFPOS). Appears without sliding under reduced motion.
+- **Code health pass (13 Nov night).** Owner: "keep the code proper and [lean] as we develop", "run the refactor overnight". No visible change. The Bank list keeps one animation, bankGo's view transition: the list's own enter animation (swallowed by a comment in renderBank) was not restored, because it would run inside the transition and double the slide. Class names a view owns use its prefix (`pr-` Processes, `rv-` Review, `ex-` Exams) or sit under the view's root (`.procs .x`). The course name shown in the Bank, Review and Exams comes from `QG.courseData` (CODE_HEALTH.md "Health pass").

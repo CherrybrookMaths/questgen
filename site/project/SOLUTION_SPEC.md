@@ -35,7 +35,7 @@ Applied automatically by `tools/dotstyle.py`.
 **Decimal points sit on the baseline (owner: "the decimal points are floating").** Write $0.4$, never $0\cdot 4$, even when the paper prints a raised decimal point; `dotstyle.py` converts digit `\cdot` digit.
 
 ## Errors in source marking guidelines (owner, 11 Nov: "correct them with a note")
-Fix the error in the solution/criteria, keep the source text in `meta.source_original`, and write a one-line `meta.corrected` ("Corrected from source: …"). The note shows to teachers in the Bank and as a callout in Review. If the question itself is flawed, don't rewrite it: add an entry to `open_decisions.json` for the owner. Script: `tools/source_corrections.py`.
+Fix the error in the solution/criteria, keep the source text in `meta.source_original`, and write a one-line `meta.corrected` ("Corrected from source: …"). The note shows to teachers in the Bank and as a callout in Review. If the question itself is flawed, don't rewrite it: add an entry to `site/project/open_decisions.json` for the owner (`"<question id>": {"text", "raised"}`, IMPORT_PLAYBOOK "Owner calls are Your calls"). Script: `tools/source_corrections.py`.
 
 ## Paragraph breaks (owner: "make sure all paragraph breaks are preserved")
 Question text keeps every paragraph break of the paper, as a blank line. Checked against the page images by `tools/para_detect.py`; `parastyle.py` (in `house_style.py`) stops single newlines from collapsing into spaces.

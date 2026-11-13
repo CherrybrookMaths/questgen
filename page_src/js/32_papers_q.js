@@ -42,12 +42,14 @@ function renderInv(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor(
     // owner 13 Nov: "We need a general summary at the top of the Paper's tab ... I'm getting CONFUSED with our current papers page"
     // -> "Yes, with batch pauses": summary, Import a course (Go), Running / next, then the detail folded away: Choose papers
     // (the import order) and By course (the grid and its ticks). PQ.run (34_papers_run.js) fills #ivStats, #ivGo and #ivRun.
+    // (review 13 Nov night: Running / next sits above Choose papers, as this comment and the owner's report said; it had been
+    // built below it, where an open import order of 132 rows pushed the run out of sight)
     box.innerHTML=`<section class="psec ivp" aria-label="Papers">
       <div class="ivsum"><div class="ivsubrow"><p class="ivsub" id="ivSub"></p><span id="ivScanBtn"></span></div><div class="ivstats" id="ivStats"></div></div><div id="ivScan"></div>
       <div class="ivgo" id="ivGo"></div>
+      <div class="ivrun" id="ivRun"></div>
       <details class="ivfold" id="ivPick"><summary>Choose papers</summary><div class="ivq"><h4 id="ivQH">Import order <span class="pcount" id="ivQN" hidden></span></h4><p class="ivpause" role="note">${esc(IVPAUSE)}</p><div id="ivQList"></div>
         <p class="ivhint">To add papers, open <button type="button" class="ivlink" data-ivby="1">By course</button>, tick them and press Add to import queue.</p></div></details>
-      <div class="ivrun" id="ivRun"></div>
       <details class="ivfold" id="ivBy"><summary>By course</summary><div id="ivGrid"></div></details>
       <div class="ivbar" id="ivBar" hidden><span id="ivSelN" aria-live="polite"></span><button type="button" class="act" id="ivClear">Clear</button><button type="button" class="act ivadd" id="ivAdd">Add to import queue</button></div></section>`}
   invLoad();invSubscribe();invSub();invQueue();if(!$('#ivGrid').dataset.built)invGrid();invBar();if(API.scan)API.scan.render();if(API.run)API.run.render()}

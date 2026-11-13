@@ -31,7 +31,7 @@ Owner: Steve Yeung (CMC Education). Last updated 11 Nov 2026 (UI v2, diagram red
 
 ## Decisions so far
 - Area between two curves: examinable (tagged Y12-279).
-- Old 2 Unit papers (pre-2020 King's): excluded for now.
+- Old 2 Unit papers: imported since 13 Nov (owner: "We should take questions too, we'll just have to disretard out of scope things"); parts with no current dot point are dropped at tagging (IMPORT_PLAYBOOK "Old-syllabus papers").
 - MA-C2.2 is a split (Y12 "Using derivatives" vs Y11 "Calculations with the derivative").
 - Review write-back: the review page's database.
 - Model calls run in-session (cost is estimated from agent token totals).
@@ -61,13 +61,13 @@ Every MCQ has one `options_layout` (text / table / graph); see `MCQ_SPEC.md`. Ne
 Steve reviews **questions and solutions only, not syllabus tags**. Approving a question means stem, parts, options and solutions are right; tags stay model-assigned (`tag_source='model'`) and are unverified unless a tag was changed in review. In Review, tags are folded away. If tags ever need checking, that is a separate pass.
 
 ## Decisions waiting for the owner
-Review queue **Needs your decision** = questions with an entry in `open_decisions.json` (answer-key doubts, flags without a note, shown as a callout at the top), a `source_flag` on a solution (possible error in the source marking guideline), or status `flagged`. When Steve decides, apply it and remove the entry.
+Review › a paper › **Your calls** (the decide queue) = questions with an entry in `site/project/open_decisions.json` (shown as a callout at the top), triage tier `decide` (a `source_flag` or an unconfirmed correction on a source solution), or status `flagged`; plus calls on a whole paper (`"paper_<doc>"` entries, a card at the top of the step). Entries are `{text, raised}`; `raised` re-opens a question or paper approved before the call. Since 13 Nov every owner call from an import goes there, never into a loose list (owner: "isn't that the point of your calls?"; IMPORT_PLAYBOOK "Owner calls are Your calls"). When Steve decides, apply it, remove the entry and rebuild the bank. Open on 13 Nov: 2024 North Sydney Boys (AT3 on the cover, but a trial) and 2025 Cherrybrook (cover "AP3").
 
 ## House style
 After loading or editing papers run `house_style.py` (fractions, multiplication dots, paragraph breaks) `para_detect.py` (lost paragraph breaks vs page images) and `coverage_check.py` (every MCQ and part has working; must report 0). house_style also converts $A\hat{B}C$ to $\angle ABC$. Product/quotient-rule solutions use the u/v grid (`uv_grid.py`). Tables: `rowspan` for merged header cells, `\\` for line breaks where the paper wraps, never shade empty cells, answer-table key shown as a badge (never bold). No transcription notes in question text (PARSE_SPEC). Judgement rules are in `SOLUTION_SPEC.md`, `MCQ_SPEC.md`, `DIAGRAM_SPEC.md`; every owner correction is in `DIAGRAM_FEEDBACK_LOG.md`.
 
 ## Open
-Human spot-check of ~20 audited questions to confirm the self-audit (it shares the parser's model, so shared blind spots are possible); real pricing or API key; verify mapping against 2017 PDF; solution-generation scope; old 2U papers; copyright advice before any sharing.
+Human spot-check of ~20 audited questions to confirm the self-audit (it shares the parser's model, so shared blind spots are possible); real pricing or API key; verify mapping against 2017 PDF; solution-generation scope; copyright advice before any sharing.
 
 ## Full Year 12 Advanced import (started 11 Nov, owner: "run the rest of the papers as well")
 - All 169 remaining papers' PDFs are staged (no PC needed): `work/import/papers.json` lists id, separate solutions doc id, label, scan, has_sol; PDFs at `src/<id>.pdf`.
@@ -109,6 +109,7 @@ Human spot-check of ~20 audited questions to confirm the self-audit (it shares t
 ## 13 Nov — difficulty pilot and exam builder
 - **Difficulty.** NESA's 2020–2025 mapping grids have no targeted-performance-band column, so there are no official bands. The pilot rated the 182 Sequences and series parts against 34 HSC anchor parts whose bands Claude judged (work/difficulty/pilot_report.md; ratings in pilot_ratings.json, with nearest_anchor kept so they can be re-rated). The owner must approve the anchor table before the full run. The full run adds fluency/problem-solving per part. The pilot cost about 0.25M tokens.
 - **Exam builder stage 1** is live (see UI_SPEC "Exam builder"). Code: page_src/js/20_exam.js (was site/exam.js.txt). Capabilities are now db, user and downloads.
+- **13 Nov: Rescan drive** (owner: "Where is the button to rescan the drive?"): Processes › Papers walks the shared folder read-only with the viewer's Google Drive connector and saves each scan to db `scans` (UI_SPEC "Rescan drive"; IMPORT_PLAYBOOK step 3). It needs the `mcp` capability too: publish with `capabilities` = db (its rules, unchanged), downloads, user, and `mcp: {servers: [{server: "Google Drive", tools: ["search_files"]}]}`.
 - **13 Nov night: full difficulty run launched** (workflow difficulty-full, run wf_a4ec6628-5b2). It covers 2,292 leaf parts: 312 HSC anchors across 14 areas, then 1,985 others in 24 batches, then a merge. It follows DIFFICULTY_SPEC.md (diff-v1). Outputs: work/difficulty/full/anchors_*.json and ratings_*.json, and work/difficulty/ratings_all.json plus full_report.md. Old-syllabus and Standard-course questions (131) were skipped. Nothing goes into the page until the owner has reviewed the anchors.
 - **14 Nov early: difficulty run finished.** 2,292/2,292 parts were rated (307 anchors), using about 3.9M tokens in 26 min. The results are loaded into the new DB table `part_difficulty` (diff-v1), but nothing is shown on the page yet. Report: project/difficulty_report.md. The owner reviews anchors first; the thin areas are Exponential & log (3 anchors), Trig identities (3) and Sequences (no band-5 anchor). Flags to check: 2066 (maybe band 4); 1137, 2209, 2547 and 2625 were rated without their figure; 2303, 2817, 1311 and 1587 look like homing errors.
 
@@ -142,3 +143,32 @@ The artifact held 462 of its 511-file limit. Now:
 - The header has a Teach | Curate switch. Teach: Bank · Exams · Guide. Curate: Review · Papers · Processes; Difficulty and Reports are now steps 6 and 7 inside Review (`#review/difficulty`, `#review/reports`; `#levels`, `#difficulty`, `#reports` redirect).
 - Curate (switch, tabs, phone-menu group, jobs pills, "Open in Review") shows only when `user.isOwner()` or `user.canEdit()` is true; unknown counts as no. It is a UI gate, not access control: the db rules still decide writes.
 - Rulings and details: UI_SPEC.md "Teach | Curate split". Tests: page_test `areas (…)` checks (fake user roles editor / viewer / none).
+
+## Review: Inbox and one paper at a time (13 Nov; owner: "It is just 7 tabs at the top and its not really clear the order / process")
+- Review opens on an Inbox (`#review`: Papers to review · Reports · Difficulty). A paper is walked top to bottom on a 5-step track, `#review/paper/<doc>/<step>`: Your calls → Flagged → Topics → Diagrams → Spot-check (the internal keys decide, check, tags, diagrams, sample are unchanged, so `progress/jobs` `affects` values still match). Papers merged into Review (`#review/papers`); Curate is Review · Processes. Old `#papers`, `#reports`, `#difficulty`, `#levels`, `#import` still land.
+- Rulings: UI_SPEC.md "Review: Inbox and one paper at a time". The page test's Review pages use a workload from page_test_fixture.py (WORKLOAD), since every live paper is approved.
+
+
+- **13 Nov: Processes in two tabs** (owner: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): `#processes/work` (running, queued, done, Next up) and `#processes/papers` (rescan, import order, a compact course grid, Import history collapsed). UI_SPEC "Processes in two tabs".
+
+## Code health (owner 13 Nov)
+Every feature round follows CODE_HEALTH.md: builder prompts include it and reviewers check the diff against it.
+
+## One import list (13 Nov; owner: "but we already have 15 waiting batches?")
+The planned batches b6-b20 are folded into the page's import order (db `importq`; seed work/importq_seed.json, 132 papers);
+progress.json keeps finished batches only. Pre-2019 Year 12 Advanced papers are now Waiting ("old syllabus"). IMPORT_PLAYBOOK
+"Old-syllabus papers, one import list", UI_SPEC "Papers: one import list, old syllabus, New badge".
+
+## Papers summary and Go (13 Nov; owner: "I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses")
+Processes › Papers now opens on a summary (imported / can be imported / set aside), an Import a course card (Year + Course + Go,
+inline confirm with a cost range) and Running / next; the import order is under "Choose papers ▸" and the grid under "By course ▸".
+Go writes a run request to db `runs`; tools/import_next.py takes the next 9 from an active run before the import order, and the run
+pauses after each batch until the owner clears it in Review (IMPORT_PLAYBOOK "Go", UI_SPEC "Papers: summary, Import a course").
+Publish needs a db rule for `runs`: read admin, write admin.
+
+## Code health pass (13 Nov night; owner: "keep the code proper and [lean] as we develop", "run the refactor overnight")
+No visible change. Dead code and files removed (bank_v1_before_split.json and focus_crops.py archived in
+archive/data_unused_1113/; the next publish sends null for them), five cross-view class clashes renamed (`pr-`, `rv-`, `ex-`
+prefixes), a size budget in batch_check (tools/size_budget.json; over budget blocks until the owner agrees), one shared
+state object `QG` in page_src/js/01_core.js (B, db, me, EDITOR, view ... are aliases onto it), and the course as a setting
+(`QG.course`, `QG.courseData`). Details, numbers and the debt left: CODE_HEALTH.md "Health pass" and "Known debt".

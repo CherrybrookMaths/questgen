@@ -9,6 +9,39 @@ TOOLS = {296:28,568:29,34:34,222:52,268:42,408:37,642:34,33:31,226:36,267:47,295
 # ASSUMPTION, not a price quote: blended $ per 1M tokens for in-session agent work (mostly cached input)
 RATE_PER_M = 3.0
 now = datetime.datetime.now().isoformat(timespec='seconds')
+import sys
+# Usage: python3 load.py <doc_id> [<doc_id> ...]   (import batches, 11 Nov). Loads ONLY the named out/<id>.json files.
+# A paper that already has questions in the database is never wiped (owner edits live there) unless --force is given.
+IDS = [a for a in sys.argv[1:] if a.isdigit()]
+FORCE = '--force' in sys.argv
+if not IDS: sys.exit('name the document ids to load, e.g. python3 load.py 1628 1630')
+FILES = [f'/home/claude/pilot/out/{i}.json' for i in IDS]
+for i in IDS:
+    if not FORCE and db.execute('select count(*) from questions where document_id=?', (int(i),)).fetchone()[0]:
+        sys.exit(f'document {i} already has questions: refusing to wipe it (use --force only if you mean to discard its edits)')
+
+import re
+def norm_topic(v):
+    # house format, e.g. "Standard, Year 11: Data analysis (MST-11-08)"; parts or "(borderline)" kept at the end
+    if isinstance(v, dict):
+        return f"Standard, Year {v.get('year')}: {v.get('topic')} ({v.get('outcome')})"
+    m = re.match(r'(?:Mathematics )?Standard, Year (\d+), (.*?),? (MST-[\w/ -]+?)(\s*\(borderline\))?(:.*)?$', v)
+    if m: return f"Standard, Year {m.group(1)}: {m.group(2)} ({m.group(3).strip()})" + (m.group(4) or '') + (m.group(5) or '')
+    return v
+
+def norm_cell(c):
+    # the page renders table cells as maths: $...$ segments become maths, other text \text{} (owner 12 Nov: broken tables)
+    if not isinstance(c, str): return c
+    c = c.strip()
+    if c.startswith('\\diag'): return c.replace('$', '')
+    if '$' in c.replace('\\$', ''):
+        segs = re.split(r'(?<!\\)\$', c); out = ''
+        for i, sg in enumerate(segs):
+            if i % 2: out += sg
+            elif sg.strip(): out += sg if re.fullmatch(r'\s*\\(text|textit|textbf)\{[^{}]*\}\s*', sg) else '\\text{' + sg + '}'
+        return out
+    if re.fullmatch(r"[A-Za-z][A-Za-z '\-]{2,}[A-Za-z]", c): return '\\text{' + c + '}'
+    return c
 
 def wipe(doc):
     qids = [r[0] for r in db.execute('select id from questions where document_id=?', (doc,))]
@@ -29,7 +62,7 @@ def leaf_key(p, parts):
         chain.insert(0, par); par = next((x.get('parent_label') for x in parts if x['label'] == par and x is not p), None)
     return '.'.join(c for c in chain if c)
 
-for f in sorted(glob.glob('/home/claude/pilot/out/*.json')):
+for f in FILES:
     d = json.load(open(f)); doc = d['document_id']
     wipe(doc)
     target = d.get('links_to_document_id') or doc
@@ -48,11 +81,19 @@ for f in sorted(glob.glob('/home/claude/pilot/out/*.json')):
             partmap[(str(q['number']), leaf_key(p, q['parts']) or None)] = pid
         partmap.setdefault((str(q['number']), None), None)
         partmap[('Q', str(q['number']))] = qid
+        for col in ('standard_topic', 'old_syllabus'):
+            v = q.get(col)
+            if v: db.execute(f'update questions set {col}=? where id=?', (norm_topic(v) if col == 'standard_topic' else v, qid))
+        if q.get('options_layout'):
+            db.execute('update questions set options_layout=?, options_table_json=? where id=?', (q['options_layout'], json.dumps(q['options_table']) if q.get('options_table') else None, qid))
         key = (d.get('mcq_key') or {}).get(str(q['number']))
-        for o in q.get('mcq_options', []):
+        for o in [o for o in q.get('mcq_options', []) if isinstance(o, dict)]:
             ic = o.get('is_correct')
             if ic is None and key: ic = int(o['label'] == key)
-            db.execute('insert into mcq_options(question_id,label,latex,is_correct,key_source) values (?,?,?,?,?)', (qid, o['label'], o.get('latex') or '', ic, 'extracted' if ic is not None else None))
+            fk = None
+            for fig in q.get('figures', []):
+                if (fig.get('attach') or '').lower() == 'option ' + o['label'].lower(): fk = fig.get('id')
+            db.execute('insert into mcq_options(question_id,label,latex,is_correct,key_source,figure_key) values (?,?,?,?,?,?)', (qid, o['label'], o.get('latex') or '', ic, 'extracted' if ic is not None else None, fk))
         for fig in q.get('figures', []):
             att = fig.get('attach') or 'question'
             pid = None if att == 'question' or att.startswith('option') else partmap.get((str(q['number']), att))
@@ -62,7 +103,7 @@ for f in sorted(glob.glob('/home/claude/pilot/out/*.json')):
 
 # second pass: solutions (need target doc parts loaded)
 stats = {}
-for f in sorted(glob.glob('/home/claude/pilot/out/*.json')):
+for f in FILES:
     d = json.load(open(f)); doc = d['document_id']; target = d.get('links_to_document_id') or doc
     qrows = {r[1]: r[0] for r in db.execute('select id,number from questions where document_id=?', (target,))}
     matched = unmatched = 0
@@ -81,8 +122,26 @@ for f in sorted(glob.glob('/home/claude/pilot/out/*.json')):
             pid = parent
         if qid is None: unmatched += 1; continue
         matched += 1
-        db.execute('insert into solutions(part_id,question_id,source,latex,marks_breakdown,source_document_id,model,prompt_version,verified_by,verified_at) values (?,?,?,?,?,?,?,?,?,?)',
-                   (pid, None if pid else qid, 'extracted', s.get('latex') or '', s.get('marks_breakdown'), doc, None, 'parse-v1', None, None))
+        meta = dict(s.get('meta') or {})
+        if s.get('needs_review') and s.get('review_reasons'): meta['concern'] = '; '.join(s['review_reasons'])
+        src = s.get('source') or 'extracted'
+        db.execute('insert into solutions(part_id,question_id,source,latex,marks_breakdown,source_document_id,model,prompt_version,verified_by,verified_at,meta_json) values (?,?,?,?,?,?,?,?,?,?,?)',
+                   (pid, None if pid else qid, src, s.get('latex') or '', s.get('marks_breakdown'), doc, 'claude-opus-5-5' if src == 'generated' else None, 'parse-v1', None, None, json.dumps(meta) if meta else None))
+    # tables the parser stored as data (\extable{id} in the text)
+    for t in d.get('tables', []):
+        t['rows'] = [[norm_cell(c) for c in r] for r in t['rows']]
+        for r in t['rows']:   # a line break inside \text{} breaks the page's line split (Hornsby 2024 Q29): close/reopen \text around it
+            for j, c in enumerate(r):
+                if isinstance(c, str):
+                    for m in re.finditer(r'\\text\{([^{}]*)\}', c):
+                        if '\\\\' in m.group(1): r[j] = r[j].replace(m.group(0), '\\\\'.join('\\text{' + x + '}' for x in m.group(1).split('\\\\')))
+        own = None
+        for tab, col in (('parts', 'latex'), ('questions', 'stem_latex')):
+            r = db.execute(f'select x.id from {tab} x' + (' join questions q on q.id=x.question_id where q.document_id=?' if tab == 'parts' else ' where x.document_id=?') + f' and x.{col} like ?', (target, '%\\extable{' + t['id'] + '}%')).fetchone()
+            if r: own = (tab, r[0]); break
+        db.execute('insert or replace into data_tables(id,owner_table,owner_id,caption,header_rows,label_col,rows_json,source_latex,spans_json) values (?,?,?,?,?,?,?,?,?)',
+                   (t['id'], own[0] if own else None, own[1] if own else None, t.get('caption'), t.get('header_rows', 0), int(bool(t.get('label_column', t.get('label_col')))), json.dumps(t['rows']), None, json.dumps(t.get('spans') or [])))
+        if not own: print('table not referenced in text:', t['id'])
     # MCQ key from a linked solutions doc
     if d.get('links_to_document_id') and d.get('mcq_key'):
         for qn, k in d['mcq_key'].items():

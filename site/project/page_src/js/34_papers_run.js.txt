@@ -75,7 +75,7 @@ function runCard(){const el=$('#ivRun');if(!el)return;const a=active(),B=PQ.batc
   const name=id=>{const f=PQ.find(id);return f?PQ.label(f.p)+(f.p.old?' · old syllabus':''):'Paper '+id};
   const next=show.map(i=>`<div class="ivnb"><p class="ivdiv" role="separator"><span>Batch ${b0+i}</span></p><ol>${ids.slice(i*B,i*B+B).map(id=>`<li>${esc(name(id))}</li>`).join('')}</ol></div>`).join('');
   el.innerHTML=`<h4>Running / next</h4>${card}${ids.length?`<p class="ivnfrom">Next ${a?'from this run':'from your import order'}:</p>${next}${nb>2?`<p class="ivnmore">… and ${ess(nb-2,'more batch','more batches')}</p>`:''}`:
-    a?'':`<p class="pempty">Nothing requested yet. Pick a year and course above and press Go, or choose papers one by one.</p>`}`}
+    a?'':`<p class="pempty">Nothing requested yet. Pick a year and course above and press Go, or choose papers one by one below.</p>`}`}
 function draw(){if(!isEditor()||!$('#ivGo'))return;stats();goCard();runCard()}
 function render(){if(!isEditor())return;subscribe();draw()}
 // ---- writes (editors only)

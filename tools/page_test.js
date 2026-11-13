@@ -1184,18 +1184,18 @@ async function papersQueue(browser, base, seed, fx) {
       const folds = ['#ivPick', '#ivBy'].map(s => at(s)?.open);
       ['#ivPick', '#ivBy'].forEach(s => { at(s).open = true });
       return {shown: !document.querySelector('#invBox').hidden, pause: pz?.textContent.trim(), pauseBox: cs ? cs.borderTopWidth + ' ' + cs.backgroundColor : '', pauseH: pz ? pz.getBoundingClientRect().height : 0, folds,
-        order: ['#ivSub', '#ivStats', '#ivGo', '#ivPick', '#ivQH', '#ivRun', '#ivBy', '#ivGrid', '#procHist'].every((x, i, a) => !i || before(a[i - 1], x)), sub: document.querySelector('#ivSub')?.textContent,
+        order: ['#ivSub', '#ivStats', '#ivGo', '#ivRun', '#ivPick', '#ivQH', '#ivBy', '#ivGrid', '#procHist'].every((x, i, a) => !i || before(a[i - 1], x)), sub: document.querySelector('#ivSub')?.textContent,
         q: [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(b => b.textContent), heads: [...v.querySelectorAll('h2,h3')].filter(h => h.checkVisibility()).map(h => h.textContent)};   // checkVisibility: closed <details> content keeps a layout box
     });
     errs(); assert(r.shown, 'Papers section hidden');
-    assert(r.order, 'Papers is not: summary, Import a course, Choose papers › Import order, Running / next, By course › grid, Import history');
+    assert(r.order, 'Papers is not: summary, Import a course, Running / next, Choose papers › Import order, By course › grid, Import history');
     assert(r.folds.join() === 'false,false', `Choose papers / By course should start collapsed: ${r.folds}`);
     assert(/^Import is paused\. This only sets the order for when it resumes\.$/.test(r.pause || ''), `pause note: “${r.pause}”`);
     assert(/^0px/.test(r.pauseBox) && r.pauseH < 24, `pause note should be one quiet line, not a banner (${r.pauseBox}, ${r.pauseH}px)`);
     assert(/^18 papers in the shared folder \(19 files\) · last folder scan .+, 2 new$/.test(r.sub || ''), `sub line: “${r.sub}”`);
     assert(r.q.join('|') === '2024 Knox Grammar School AT1', `import order from the seeded importq: ${r.q}`);
     assert(!r.heads.length, `extra headings on Papers: ${r.heads}`);
-    return 'summary › Import a course › Choose papers (Import order, one quiet pause line) › Running / next › By course (grid) › Import history';
+    return 'summary › Import a course › Running / next › Choose papers (Import order, one quiet pause line) › By course (grid) › Import history';
   });
   await check('papers: compact grid counts equal the inventory', page, async () => {
     const r = await page.evaluate(() => ({rows: [...document.querySelectorAll('#ivGrid .ivr')].map(d => ({c: d.dataset.ivc, name: d.querySelector('.ivname b').textContent, off: d.classList.contains('off'),

@@ -13,10 +13,18 @@ for doc,ts in bydoc.items():
     db.execute('update documents set text_fingerprint=? where id=?',(hashlib.sha256(''.join(ts).replace(' ','').encode()).hexdigest(),doc))
 def sh(w): return {' '.join(w[i:i+3]) for i in range(max(1,len(w)-2))}
 S={k:sh(v[2]) for k,v in qs.items() if len(v[2])>=6}
-db.execute('delete from related_questions')
+import sys
+NEW={int(a) for a in sys.argv[1:] if a.isdigit()}   # import batches (11 Nov): only pairs touching these papers are recomputed; earlier pairs stay as reviewed
+if NEW:
+    newq={k for k,v in qs.items() if v[0] in NEW}
+    _ids=','.join(map(str,newq)) or '0'
+    db.execute(f'delete from related_questions where question_id in ({_ids}) or related_id in ({_ids})')
+else:
+    db.execute('delete from related_questions')
 pairs=[]
 for a,b in itertools.combinations(S,2):
     if qs[a][0]==qs[b][0]: continue
+    if NEW and qs[a][0] not in NEW and qs[b][0] not in NEW: continue
     j=len(S[a]&S[b])/len(S[a]|S[b])
     if j>=0.5:
         rel='duplicate' if j>=0.85 else ('numbers_changed' if j>=0.65 else 'variant')

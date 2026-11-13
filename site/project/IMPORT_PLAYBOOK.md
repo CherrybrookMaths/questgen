@@ -95,6 +95,13 @@ Owner, 12 Nov: "I don't have time to check 6000 questions".
 - **Fix the source without asking** when you are certain (`overwritten_from_source`). Infer missing criteria from similar questions (`criteria_inferred`). Make the smallest edit to fix a flawed question (`edited_from_original`; it goes to Check).
 - **Don't bring back the cropped side-by-side Check view.** The owner said "so much worse and unusable", and it was rolled back.
 - **Flagging:** F opens a one-line box, Enter sends. When the owner says "check my flags", fix them, record the rule, then clear the flag so it comes back for approval.
+- **Owner calls are Your calls, never loose notes** (owner 13 Nov, about the 11 "Needs your decision" notes on the import dashboard: "isn't that the point of your calls? or is your decision different"). Anything only the owner can decide is raised in `site/project/open_decisions.json`, nowhere else (no `issues` list in `work/import/batches.json` / `progress.json`, no notes in the log or a report):
+  - a question: key `"<question id>"`, `{"text": "<the call, one or two sentences, ending in what he can answer>", "raised": "<UTC ISO time>"}`. It shows at the top of that question in Review › the paper › **Your calls** ("Needs your decision: …") and counts in the paper's track, the papers list and the Inbox. `raised` re-opens a question he had already approved (until he answers it: `reviews/q<id>.call_at`).
+  - a whole paper (its label, task, course, what file it really is): key `"paper_<doc>"`, same fields. It shows as a card at the top of the paper's Your calls step ("Keep as is" or a typed answer, stored in `reviews/paper_<doc>.call`) and counts there too.
+  - a tagging rule: write it into TAG_SPEC as an open owner question, and raise one Your call on a question it affects if it blocks anything.
+  - Before raising one, check it is not settled already: the owner's rulings in the specs, and the page database (export `reviews`, `tools/sync_pagedb.py`): an approved question whose edit or solution note answers the point is settled.
+  - When he answers: apply it, delete the entry, `build_bank.py`. A duplicate note is one call.
+  - The 13 Nov move (11 notes → 2 paper calls, 9 already settled): `archive/import_issues_moved_20261113.json` holds the old list.
 - **Check what the auto-clear agents found.** On 12 Nov the owner approved 4 questions the agents had flagged (1384 "sea" for "tea", 1272 speed versus velocity, 1504 k ≠ -1, 1020 intercepts). Fix such findings before the owner reaches them, or put the finding at the top of the question.
 
 ## Standing rules
@@ -165,6 +172,9 @@ These are the named checks; each passes or fails:
 | Availability table (14 Nov) | Exam setup at 1280, 1000 and 390 px, all topics chosen: the drawn text of each row label ends at least 4 px before the B2 cell, never overlaps it, and wraps onto at most 2 lines. |
 | Diagram resize (14 Nov) | on a generated paper: no − / + pill; hovering shows the handle on the diagram's corner; a mouse drag out changes `EX.figscale` and the image width in proportion, shows a live % only while dragging, and lays the paper out once, after the drag; a drag in shrinks it; far out / far in clamp to 200% / 30%; double-click resets to 100%; → → on the focused handle gives 110%; a 150% diagram keeps `--fs:1.5` in the HTML download. At 390 px on a touch phone, a finger drag resizes it. |
 | ⓘ card (14 Nov) | no dot-point line or Report link left in any question; every source line ends with an ⓘ (`.scr-only`); the ⓘ opens a card with a dot point, band, kind and Report, one row per part, inside the window, without selecting the question; outside click closes it; Enter opens, Tab reaches Report, Esc closes and refocuses the ⓘ with the preview still open; Report opens the form; the grading panel's question detail lists the dot points. At 390 px on a touch phone the tapped card fits the screen and the ⓘ stays 20 px. Download HTML has no handle, live % or ⓘ. |
+| Papers (13 Nov) | the fixture's small inventory (page_test_fixture.py `sample_papers`, served in place of `data/inventory.json`) and one seeded importq doc: Papers sits between the queue and Next up with the pause note; the grid counts (In folder / Imported / Waiting / New) match the fixture; Extension 1 / Standard rows say "needs course setup (topics, dot points, difficulty references)"; Standard / Extension / unknown / Year 11 groups have no checkboxes and `PQ.add` refuses their papers; a school tick + one paper tick + Add writes 3 importq docs `{doc_id, label, course, year_level, order, added_by, at}` in order; ↑ ↓, drag and × reach the db; 390 px touch phone fits and works by tap; a viewer gets no section, no inventory fetch and no write. |
+| Rescan drive (13 Nov) | a fake Google Drive connector (`use('mcp')`, a 6-folder tree from page_test_fixture.py `sample_drive`, 2 items a page): the button sits on the Papers first line; progress "N of M folders" and Cancel (nothing saved); a full scan finds the 5 new files and 1 same-size file, groups them by course x year as tools/classify_paths.py does, makes only read-only `search_files` parentId queries with pageToken, skips "Claude outputs", and writes one `scans/s<time>` doc with the right fields and counts; the page's classifier equals classify_path on every recorded path; a rate limit is retried once then stops; 7 error codes each give their own message; the last scan shows after a reload; no connector → "Ask Claude to rescan"; 390 px touch phone fits; a viewer gets no button, no `use('mcp')`, no write. |
+| Papers: Go (13 Nov) | the summary's three numbers equal a recount of the fixture inventory (and the live inventory's buckets add up to its totals); Year 12 / 11 and the inventory's courses in the selects; Year 11 "held until Year 12 is finished", Standard / Extension 1 / 2 "needs course setup"; the estimate text and a recorded cost; Go asks inline (no browser dialog), Cancel writes nothing, Confirm writes one `runs` doc with every field and the paper order; Running / next shows it and Batch N; a second request is refused; Cancel request sets cancelled; 390 px fits and works by tap; a viewer gets nothing (no runs subscription, no write). `node tools/page_test.js --only papersQueue,papersRun` runs just these while you work (recorded as quick, so batch_check refuses it). |
 | Offline | no request left localhost. |
 
 **Results:**
@@ -181,7 +191,150 @@ Exit codes: 0 means all passed, 1 means a check failed, and 2 means the test cou
 
 **When a check fails.** Look at its screenshot and detail. Fix the page in `page_src/` (never in `site/review.html`), rebuild, and run `prepublish.sh` again. If the page is right and the check is out of date (an owner ruling changed what the page should do), change the check in `tools/page_test.js` and say why in a comment. Add a check for every new page feature the owner asks for.
 
+**Size budget (13 Nov health pass; CODE_HEALTH rule 6, owner: "keep the code proper and [lean] as we develop").** batch_check
+also prints `review.html`, `data/bank.json`, `data/inventory.json` and the whole published set against `tools/size_budget.json`
+(set 13 Nov at the size then + 25%). Anything over its budget is a BLOCKER. Shrink it, or ask the owner; when he agrees, raise
+that budget in the file and add his words and the date under `agreed`. Import will push `bank.json` over first (it was 4.8 MB of
+5.9 MB): plan the split by course/topic before then.
+
 **Needs:** `node` with `playwright` and its Chromium (preinstalled in the sandbox; elsewhere run `npm i playwright` and `npx playwright install chromium`), and `python3`. No network is needed.
 
 ## Version control (15 Nov)
 Nothing to do by hand. `batch_check.py --mark-published` (after every publish) commits everything and tags `publish-vNNN` via `tools/snapshot.py`; on a Drive sync also upload `/mnt/user-data/outputs/questgen_repo.bundle`. Never `git add -f` anything under src/, work/ or site/data/img: `.gitignore` is an allow-list on purpose. To undo a bad publish: `python3 tools/snapshot.py --rollback publish-vNNN` (plan only), then `--yes`. Details: RESUME.md "Version control".
+
+## New papers in the shared folder, and choosing what to import next (13 Nov)
+Owner, 13 Nov (dictated): "New exams are gonna be added to this folder periodically we need a way to ... see what we actually
+haven't ingested yet", "Should we also order what's in standard and also extension one and extension two while we're scanning
+anyways?" and "Can the import queue be dynamic, me choosing which set of papers to import next? We can always [build the]
+framework for the courses standard extension and extension two [later] right?"
+
+**The folder is not ours.** G:\Shared drives\CMC Resources\Exams\External Exams Stage 6 is a school shared drive other staff
+use. NEVER move, rename or reorganise anything there; the owner agreed we keep the record on our side instead (documents table,
+`work/scan/`, `site/data/inventory.json`). Nothing below writes to the folder.
+
+**Import is still paused** (owner 14 Nov: "no more importing for a while until we iron these out"). Steps 1-5 are safe now;
+step 6 waits until the owner resumes import.
+
+**Two ways to rescan (no PC needed for either)** (owner 13 Nov: "Where is the button to rescan the drive?"):
+- **The page's Rescan drive button** (Curate > Processes > Papers, next to "last folder scan"). It walks the folder read-only
+  with the owner's own Google Drive connector, FINDS and LISTS the new files (classified with the same rules as the tools) and
+  saves the scan to db collection `scans`. It does not change the record: Claude adds those files to it at the next import
+  step (step 3 "Or from the page" below).
+- **Ask Claude ("rescan the drive").** Claude lists the folder with the Google Drive connector (read-only: `search_files`
+  only, never move / rename / copy / trash / share) and ADDS the new files to the record directly: the steps below, then 3-4.
+1. `python3 tools/drive_listing.py next` prints a query for the folders not listed yet (the first one is the root, folder id
+   `1yItEV6bFpGyrJDpDrAle0RgPKqsfjTOZ`). Run it with `search_files`, `excludeContentSnippets: true`, `pageSize: 100` and
+   **`orderBy: "modifiedTime desc"`** (without it, a query over many parents is ranked by relevance and its pages repeat and
+   drop files: the first walk missed 56 Kings files that way until every folder was re-listed). Save every page (the tool saves a big result to a file; write
+   a small inline one to a file yourself), `python3 tools/drive_listing.py add <page.json>...`, follow `nextPageToken` with the
+   same query, then `done`. Repeat `next` until it says every folder is listed (about 40 folders per query; the 13 Nov walk
+   took about 70 queries for 385 folders and 3,818 files).
+2. `python3 tools/drive_listing.py build` writes `work/scan/drive_listing_<date>.json` (relative paths with `/` like
+   documents.source_path; size, modifiedTime, createdTime, Drive id). A `/` inside a Drive name becomes a space, as Drive for
+   desktop shows it on the PC ("w/ Solutions" is "w  Solutions" there); `scan_folder.py` also treats `: * ? " < > |` as spaces.
+3. `python3 tools/scan_folder.py work/scan/drive_listing_<date>.json` (dry run), read the report, then `--apply`, then
+   `python3 tools/inventory.py` (steps 3-4 below). With a Drive listing, `--apply` also stores each new file's Drive id in
+   documents.drive_file_id and fills it on recorded rows that match by path and size and have none yet (never overwrites one),
+   so any paper can be fetched with the Drive connector. The Drive walk has no 2,000-entry cap, so the missing check covers
+   the whole folder.
+First Drive scan (13 Nov): 3,352 PDFs; 1,684 new rows (843 uploaded that day, mostly "<School> Yr12 MA 2026 AT4 w
+Solutions.pdf"; the rest older files the stage-0 PC listing never reached, mostly deep Knox, Oakhill and Kings folders);
+36 copies held; 2 Hornsby Girls files moved into "Yr 11 Adv"; every recorded row except those 2 now has its Drive id.
+`classify_paths.py` learnt the "MA" course code, the school at the start of that file name, and 1980s-90s years, as
+fallbacks only where the stage-0 rules find nothing (`RULES['fallback']`, plain data, so the page's Rescan drive applies them
+too; the page test checks the page's port against the Python on every recorded path) (`--selftest`: 0 of the 1,632 stage-0 paths change status; 26 only gain a field the old rules left empty).
+
+The PC route (when the Drive connector is not available):
+1. **Connect the PC.** The owner opens Claude on his PC with the shared drive mounted, so the session has the remote-device tools.
+2. **List the folder.** `device_list_dir` with `path` = the folder above and `recursive: true`. Save the result exactly as
+   returned with Write to `work/scan/listing_<date>.json` (entries with name / type / size / mtimeMs / depth; names only is fine,
+   `scan_folder.py` rebuilds the paths from the depth order). The tool returns at most 2,000 entries and walks 5 levels: the
+   folder has about 1,630 PDFs plus folders, so it will usually hit the cap. Then list each top-level folder separately
+   (`.../External Exams Stage 6\Kings`, `...\Trial Exams`, ...) and save each as `work/scan/listing_<date>_<folder>.json`, plus a
+   non-recursive listing of the root for loose files. A listing of a subfolder is passed as `file@Subfolder`. If
+   `device_bash` works on the PC, a tab-separated list (relative path, size, mtimeMs per line) is accepted too.
+3. **Scan.** `python3 tools/scan_folder.py work/scan/listing_<date>.json [work/scan/listing_<date>_Kings.json@Kings ...]`
+   is a dry run (report `work/scan/scan_<date>_dry.json`). Read it: `new` (classified by the stage-0 path and file-name rules in
+   `tools/classify_paths.py`), `held` (`moved?` = same size and similar name as a recorded file that is no longer listed,
+   `copy?` = the recorded file is still there; never merged, not inserted), `missing` (recorded but not listed; the 5 owner
+   uploads under `HSC 2024-2026/` are always here) and `cover_check` (new files whose course the name does not tell). Then
+   `--apply`: it copies questions.db to `archive/questions_before_scan_<time>.db`, inserts the new rows (status `discovered` for
+   Advanced or not-yet-known, `excluded` with course and year level for the rest, as stage 0 did) and logs the scan in table
+   `folder_scans`. Running it again inserts nothing (and never overwrites an earlier backup, even within the same second). A cover-page check of the `cover_check` files needs their PDFs (Drive
+   connector or the PC); that is a later, separate step.
+   **Or from the page (13 Nov, owner: "Where is the button to rescan the drive?").** Curate > Processes > Papers has
+   **Rescan drive**: it walks the folder read-only with the owner's Google Drive connector and saves each scan to db collection
+   `scans` (UI_SPEC "Rescan drive"). At the next import step: export the latest doc (ArtifactData `get` on `scans/<id>`, or `list`
+   with `out_dir`), save it as JSON, and run `python3 tools/scan_folder.py <that file>` (dry run, then `--apply`). scan_folder
+   reads a scans doc as a PARTIAL listing (new files only: no missing check), re-classifies with the same rules, makes the
+   moved?/copy? calls, and records each file's Drive id in documents.drive_file_id. Then step 4 rebuilds the inventory, so the
+   page's "Found in the last scan, not yet in the record" drops to 0.
+4. **Inventory.** `python3 tools/inventory.py` writes `site/data/inventory.json` (every paper, course x year level, state,
+   "new" = added by the latest scan). `batch_check.py` warns when it is stale. Files whose names carry different years are never
+   one paper, even when documents.year gives them the same key (review 13 Nov: "H1 Adv 2023 (for 2024 HSC)" + "H1 Adv 2024",
+   "2020 (for 2021 HSC)" + "2021 (for 2021 HSC)", CTHS 2022 + 2023 AT1, and "2024 Y12 MA AT1 solns", recorded as 2023, which had
+   joined Knox 2023 AT1 instead of 2024). A split-off file moves to the paper of the year its name gives (the "for 20xx HSC"
+   rule), else it is its own paper labelled by its file name. documents rows are not changed.
+5. **Publish** (normal rules: `bash tools/prepublish.sh`, then the `publish_set.py --json` map, which includes
+   `data/inventory.json`). The owner opens Curate > Processes > Papers, ticks Year 12 Advanced papers, old-syllabus ones included (Year 11 cannot be ticked: owner ruling below) (or a school, or a whole group) and
+   presses "Add to import queue"; he reorders or removes them there. The page stores the order in db collection `importq`
+   (one doc per paper, `d<doc_id>`: `{doc_id, label, course, year_level, order, added_by, at}`). Standard, Extension 1 and
+   Extension 2 are listed but cannot be queued until their course is set up (topics, dot points, difficulty references).
+6. **Import next** (only once import resumes). Export the queue with ArtifactData `list` on `importq` with `out_dir`, then
+   `python3 tools/import_next.py <export_dir>` (or run `tools/sync_pagedb.py <export_dir>`, which now mirrors `importq` into
+   `page_importq`, and then `import_next.py` with no argument). It prints the next batch (default 9 papers) in the owner's
+   order with every file and its Drive id, lists anything it skips (already imported, no longer importable) with the reason,
+   and writes `work/import/next.json`. Stage those papers into `work/import/papers.json` and run the pipeline above. This
+   replaces picking rows by hand from `import_manifest.csv`. An active Go run request (db `runs`, 13 Nov) comes first: see "Go" below.
+
+Cost per paper: none is measured yet. The import order shows a cost only when one is recorded; the Go card (13 Nov) shows an
+estimate of US$12–17 a paper until then. When one is measured (agent token totals for a batch / papers in it), write it here and
+set `COST_PER_PAPER` in tools/inventory.py.
+
+
+- **Year 11 stays out of the import queue (owner 13 Nov).** Asked whether to let the 177 (now ~700 after the Drive rescan) Year 11 Advanced papers into the queue: "Year 11 papers leave alone for now, would like to finalise Y12 first." Keep inventory.py's queueable set to Year 12 Advanced until he says otherwise.
+
+## Go: import a whole year and course, with batch pauses (13 Nov)
+Owner, 13 Nov: "We need a general summary at the top of the Paper's tab of processes as well. How many papers found, how many imported, a brief breakdown and stuff. Set it up so that once the API is set up, we can choose a grade 11 or 12 and course Adv / std/ extension 1 and extesnion 2 and hit Go and the API would get called to import all papers which are on file but not imported from that level and grade. Is that the best way ? I'm getting CONFUSED with our current papers page". Chosen: "Yes, with batch pauses".
+- **On the page** (Processes › Papers › Import a course): the owner picks Year and Course and presses Go, then Confirm. That
+  writes one **run request** to db collection `runs` (`r<ms>`: `{year, course, papers:[doc ids in order], batch_size:9,
+  pause_after_each_batch:true, status:'requested', by, at}`). One active run at a time; Cancel request sets `cancelled`.
+- **Who starts it.** Today Claude, when importing resumes (import is still paused: owner 14 Nov). Later, once a model API is set
+  up, the API will start it directly from the doc; the doc shape is the hand-off, so keep it stable.
+- **Claude's loop** (when import resumes):
+  1. Export `runs` and `importq` (ArtifactData `list` with `out_dir`, both into one folder) and run
+     `python3 tools/import_next.py <folder>` (or `tools/sync_pagedb.py <folder>`, which mirrors `runs` into `page_runs`, then
+     `import_next.py` with no argument). An active run (requested / running / paused, newest) **takes precedence over the import
+     order**: the next batch is the next `batch_size` papers of the run in its order, skipping imported ones. No active run → the
+     import order, as before.
+  2. Set the run doc's status to `running` (ArtifactData update) and run the pipeline above on the batch.
+  3. **Batch pause.** When the batch is published, set status `paused`. The run waits until the owner has **cleared that batch's
+     Review track** (every paper of the batch approved: no Your calls, Flagged, Topics, Diagrams or Spot-check left; check with the
+     `reviews` export / Review Inbox). `import_next.py` cuts nothing while the run is `paused`. When it is clear, set `running` and
+     cut the next batch.
+  4. When no paper of the run is left, set status `done`. Finished batches go into progress.json as before.
+- **Cost.** The page shows US$12–17 a paper as an estimate until a real figure is recorded (`COST_PER_PAPER` in
+  tools/inventory.py, written to inventory `cost_per_paper`: a number or [lo, hi]).
+- **db rule:** `runs` is editors only (read admin, write admin).
+
+## Old-syllabus papers, one import list, and what the Papers words mean (13 Nov)
+Owner, 13 Nov: "I can't tell. So does not imported and new mean not in scope? We should take questions too, we'll just have to
+disretard out of scope things", then "but we already have 15 waiting batches?"
+- **Old-syllabus Year 12 Advanced papers are imported.** Advanced papers from before the 2017 syllabus took effect (old 2 Unit,
+  last HSC 2019; 245 pre-2019 Year 12 papers were "Not in scope", plus 11 from 2019 that were already waiting) are WAITING and can
+  be queued; tools/inventory.py marks them `old: 1` and the page labels them "old syllabus". The other 13 Year 12 Advanced "Not in
+  scope" papers stay out (not a question paper, solutions only, other course). Course-not-known papers before 2019 stay out until a
+  cover-page check. Year 11 is still never queueable (owner: "Year 11 papers leave alone for now, would like to finalise Y12 first").
+- **Import rule for them.** Old-syllabus papers carry `syllabus_version 'pre2017'` (documents; tools/import_next.py writes it on
+  each paper in work/import/next.json). Parse and load the whole paper as usual. At tagging (TAG_SPEC), a part with no matching
+  current dot point is **dropped (not loaded into the bank)**; a question that mixes current and removed content becomes a **Your
+  call** for the owner (Review step 1) instead of being trimmed silently. Content that is in the Standard course still follows
+  PARSE_SPEC's standard_topic rule.
+- **One list.** The 15 pre-planned waiting batches (b6-b20, 133 papers in progress.json) were folded into the page's import order
+  (db `importq`, seeded in batch order from work/importq_seed.json by work/importq_seed.py; 132 papers, since 2020 Knox AT3 is a
+  research project, not a question paper). progress.json now holds finished batches only (b1-b5). `tools/import_next.py` cuts the
+  next 9 importable papers from the top and numbers the batch after the last finished one (b6, b7, ...); the page shows the same
+  "Batch 6", "Batch 7", ... dividers every 9 rows. Import history shows finished batches only. When a batch finishes, add it to
+  progress.json (and db progress/import) as done and remove its papers from `importq`.
+- **Words on the Papers grid** (one legend line): Imported: in the bank · Waiting: will be imported · Not in scope: set aside ·
+  New: found by the latest scan (a "+N new" badge on the number, not a column).

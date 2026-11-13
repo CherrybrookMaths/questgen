@@ -715,9 +715,10 @@ disretard out of scope things" and "but we already have 15 waiting batches?"
 
 ## Papers: summary, Import a course (Go), Running / next (13 Nov)
 Owner, 13 Nov: "We need a general summary at the top of the Paper's tab of processes as well. How many papers found, how many imported, a brief breakdown and stuff. Set it up so that once the API is set up, we can choose a grade 11 or 12 and course Adv / std/ extension 1 and extesnion 2 and hit Go and the API would get called to import all papers which are on file but not imported from that level and grade. Is that the best way ? I'm getting CONFUSED with our current papers page". Chosen: "Yes, with batch pauses".
-- **Top to bottom** (Processes › Papers, editors only): **summary card** · **Import a course** · **Choose papers ▸** (the import
-  order, collapsed) · **Running / next** · **By course ▸** (the course grid with its ticks, collapsed) · **Import history ▸**
-  (collapsed). Section labels are small caps h4, no h2/h3. Supersedes the order in "Processes in two tabs" (Papers); the rest stands.
+- **Top to bottom** (Processes › Papers, editors only): **summary card** · **Import a course** · **Running / next** · **Choose
+  papers ▸** (the import order, collapsed) · **By course ▸** (the course grid with its ticks, collapsed) · **Import history ▸**
+  (collapsed). (Review 13 Nov night: Running / next moved above Choose papers, as the build report and code comments described;
+  it had been built below, where an open import order of 132 rows pushed the run out of sight.) Section labels are small caps h4, no h2/h3. Supersedes the order in "Processes in two tabs" (Papers); the rest stands.
 - **Summary card.** First line unchanged: "N papers in the shared folder (M files) · last folder scan …, K new" + **Rescan drive**
   (its progress and results under the card). Three numbers: **imported** (in the bank); **can be imported** (current syllabus ·
   old syllabus); **set aside**, one line each: in other courses that need setup · Year 11, held until Year 12 is finished · course
@@ -743,7 +744,7 @@ Owner, 13 Nov: "We need a general summary at the top of the Paper's tab of proce
   now."; `paused`: "Waiting for you to clear the last batch in Review before the next one starts."), batches and request time,
   Cancel request. Then "Next from this run:" (or "Next from your import order:" when there is no run) with the next two batches
   under faint "Batch N" dividers (N counts on from the last finished batch, as the import order does) and "… and K more batches".
-  Empty: "Nothing requested yet. Pick a year and course above and press Go, or choose papers one by one."
+  Empty: "Nothing requested yet. Pick a year and course above and press Go, or choose papers one by one below."
 - **Choose papers ▸** holds the import order exactly as before (drag, ↑ ↓, ×, Batch dividers, the pause note) and a hint with a
   link that opens **By course**. Add to import queue opens Choose papers.
 - **db rule needed at publish:** `runs` editors only (read admin, write admin), like `importq` and `scans`.

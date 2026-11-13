@@ -15,58 +15,10 @@ rows = [r for r in csv.DictReader(open(P + 'site/project/stage0_manifest.csv'))
 db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
 loaded = {r[0] for r in db.execute('select source_path from documents where id in (select distinct document_id from questions)')}
 
-# formal names from the official NSW school list (project/nsw_schools.csv), keyed by the short names used in folders and file names
-SCHOOL = {
-    'Abbotsleigh': 'Abbotsleigh', 'Arden': 'Arden Anglican School, Epping campus', 'Baulkham Hills': 'Baulkham Hills High School',
-    'CHHS': 'Castle Hill High School', 'CTHS': 'Cherrybrook Technology High School', 'Cherrybrook': 'Cherrybrook Technology High School',
-    'Gosford': 'Gosford High School', 'Hornsby Girls': 'Hornsby Girls High School', 'Hunters Hill': 'Hunters Hill High School',
-    'Hurlstone': 'Hurlstone Agricultural High School', 'James Ruse': 'James Ruse Agricultural High School', 'Kings': "The King's School",
-    'Manly': 'Northern Beaches Secondary College Manly Campus', 'Normanhurst': 'Normanhurst Boys High School',
-    'North Sydney Boys': 'North Sydney Boys High School', 'North Sydney Girls': 'North Sydney Girls High School', 'Penrith': 'Penrith High School',
-    'St George': 'St George Girls High School', 'Sydney Boys': 'Sydney Boys High School', 'Sydney Girls': 'Sydney Girls High School',
-    'Sydney Grammar': 'Sydney Grammar School', 'Ascham': 'Ascham School', 'Blacktown Boys': 'Blacktown Boys High School',
-    'Caringbah': 'Caringbah High School', 'Killara': 'Killara High School', 'Knox': 'Knox Grammar School', 'Oakhill': 'Oakhill College',
-    'Fort Street': 'Fort Street High School', 'Girraween': 'Girraween High School', 'Grafton': 'Grafton High School',
-    'Moorebank': 'Moorebank High School', 'Ryde': 'Ryde Secondary College', 'Sydney Tech': 'Sydney Technical High School',
-}
-SETTER_OK = {'NESA', 'CSSA', 'Independent', 'NEAP', 'Western Mathematics', 'MathsBank', 'ACE', 'Bookminders', 'PEM', 'QATS', 'TEC', 'Trialmaths'}   # owner: "Commercial trial papers are fine"
-SETTER_ASK = set()
-
-ALIASES = dict(SCHOOL, **{'Sydney Technical': 'Sydney Technical High School', 'Sydney Technology': 'Sydney Technical High School',
-    'Manly Selective': 'Northern Beaches Secondary College Manly Campus', 'Hornsby Girls': 'Hornsby Girls High School',
-    'St George Girls': 'St George Girls High School', 'The Kings School': "The King's School", 'Fort Street': 'Fort Street High School'})
-def school_of(r):
-    s, p = r['school'], r['source_path']
-    f = os.path.basename(p)
-    for k in sorted(ALIASES, key=len, reverse=True):          # the file name is more reliable than the folder or old metadata
-        if len(k) > 4 and re.search(r'\b' + re.escape(k), f): return ALIASES[k]
-    if p.startswith('HSC 20') and not s and re.search(r'hsc-math|hsc-maths', p, re.I): return 'NESA'
-    if s == 'Catholic': return 'CSSA'                               # "2021 12MATAd Catholic Trial": the Catholic Schools NSW (CSSA) trial; confirm on the cover at import
-    if s in SETTER_OK or s in SETTER_ASK: return s
-    if s in SCHOOL: return SCHOOL[s]
-    if 'SSC' in p.split('/'): return '?'
-    return s or '?'
-
-def year_of(r):
-    m = re.search(r'for (20\d\d) HSC', r['source_path'], re.I)   # owner: label by graduation year (a Term 4 AT1 belongs to the next year)
-    if m: return int(m.group(1))
-    if r['year'].isdigit(): return int(r['year'])
-    m = re.search(r'(20\d\d|19\d\d)', r['source_path']); return int(m.group(1)) if m else None
-
-def task_of(r):
-    p = r['source_path']; f = p.lower()
-    if r['task_type'] == 'hsc' or re.search(r'hsc-math', f): return 'HSC'
-    if re.search(r'trial|at4|task ?4|ap4|_task4', f): return 'AT4'
-    m = re.search(r'(?:at|task|ap)[ _]?([1-4])(?![0-9])', f) or re.search(r'/at([1-4])/', f) or re.search(r'\bh([1-4]) adv', f) or re.search(r'\bt([1-4])\b', f)
-    if m: return 'AT' + m.group(1)
-    if r['task_type'] == 'trial' or school_of(r) in SETTER_OK | SETTER_ASK | {'CSSA?'}: return 'AT4'   # commercial and association papers are trials
-    return '?'
-
-def kind_of(r):
-    f = os.path.basename(r['source_path']).lower()
-    if re.search(r'with solutions|w solutions|w solns|& solutions|and solutions', f): return 'combined'
-    if r['task_type'] == 'solutions' or re.search(r'solution|solns|_mg\b|\bmg\b|marking|answers', f): return 'solutions'
-    return 'questions'
+# The naming rules (SCHOOL, SETTER_OK, SETTER_ASK, ALIASES, school_of, year_of, task_of, kind_of) moved verbatim to
+# tools/classify_paths.py on 13 Nov, so tools/scan_folder.py and tools/inventory.py name papers the same way.
+import sys; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from classify_paths import SCHOOL, SETTER_OK, SETTER_ASK, ALIASES, school_of, year_of, task_of, kind_of
 
 papers = collections.OrderedDict()
 for r in rows:
