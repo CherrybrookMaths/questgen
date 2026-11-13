@@ -284,6 +284,9 @@ def main(argv=None):
         bdir = P + 'archive/' if 'QG_DB' not in os.environ else os.path.dirname(os.path.abspath(DB)) + '/'   # tests back up beside their copy
         os.makedirs(bdir, exist_ok=True)
         bak = bdir + f'questions_before_scan_{now:%Y%m%d_%H%M%S}.db'
+        k = 1
+        while os.path.exists(bak):                    # review 13 Nov: two runs in one second must not overwrite the first backup
+            k += 1; bak = bdir + f'questions_before_scan_{now:%Y%m%d_%H%M%S}_{k}.db'
         src = sqlite3.connect(DB); dst = sqlite3.connect(bak); src.backup(dst); dst.close(); src.close()
         rep['backup'] = bak
         db.execute(SCHEMA)

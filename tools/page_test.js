@@ -1109,7 +1109,19 @@ async function papersQueue(browser, base, seed, fx) {
     const sw = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth); assert(sw <= 1, `horizontal scroll ${sw}px`);
     return t.join(' › ');
   });
+  // review 13 Nov: the order the owner set survives a reload (a new page on the database the first one left behind)
+  const kept = await page.evaluate(() => Object.fromEntries([...window.__pt.store.entries()]));
+  const want = await qtexts(page);
   await page.context().close();
+  const rp = await newPage(browser, base, kept, {width: 1280, theme: 'light'});
+  await serveInv(rp);
+  await boot(rp, base, '#processes'); await settle(rp, 3000, 2);
+  await check('papers: the import order persists after a reload', rp, async () => {
+    const t = await qtexts(rp), e = takeErrs(rp); assert(!e.length, e.join(' | '));
+    assert(t.length === 3 && t.join('|') === want.join('|'), `after reload: ${t.join(' | ')} (want ${want.join(' | ')})`);
+    return t.join(' › ');
+  });
+  await rp.context().close();
   // phone: the grid and the queue fit 390 px; ticking and ↑ work by tap
   const tp = await newPage(browser, base, seedQ, {width: 390, theme: 'dark', touch: true});
   await serveInv(tp);

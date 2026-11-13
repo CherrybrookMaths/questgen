@@ -216,10 +216,14 @@ The loop:
    uploads under `HSC 2024-2026/` are always here) and `cover_check` (new files whose course the name does not tell). Then
    `--apply`: it copies questions.db to `archive/questions_before_scan_<time>.db`, inserts the new rows (status `discovered` for
    Advanced or not-yet-known, `excluded` with course and year level for the rest, as stage 0 did) and logs the scan in table
-   `folder_scans`. Running it again inserts nothing. A cover-page check of the `cover_check` files needs their PDFs (Drive
+   `folder_scans`. Running it again inserts nothing (and never overwrites an earlier backup, even within the same second). A cover-page check of the `cover_check` files needs their PDFs (Drive
    connector or the PC); that is a later, separate step.
 4. **Inventory.** `python3 tools/inventory.py` writes `site/data/inventory.json` (every paper, course x year level, state,
-   "new" = added by the latest scan). `batch_check.py` warns when it is stale.
+   "new" = added by the latest scan). `batch_check.py` warns when it is stale. Files whose names carry different years are never
+   one paper, even when documents.year gives them the same key (review 13 Nov: "H1 Adv 2023 (for 2024 HSC)" + "H1 Adv 2024",
+   "2020 (for 2021 HSC)" + "2021 (for 2021 HSC)", CTHS 2022 + 2023 AT1, and "2024 Y12 MA AT1 solns", recorded as 2023, which had
+   joined Knox 2023 AT1 instead of 2024). A split-off file moves to the paper of the year its name gives (the "for 20xx HSC"
+   rule), else it is its own paper labelled by its file name. documents rows are not changed.
 5. **Publish** (normal rules: `bash tools/prepublish.sh`, then the `publish_set.py --json` map, which includes
    `data/inventory.json`). The owner opens Curate > Processes > Papers, ticks Advanced papers (or a school, or a whole group) and
    presses "Add to import queue"; he reorders or removes them there. The page stores the order in db collection `importq`

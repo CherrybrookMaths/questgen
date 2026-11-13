@@ -48,6 +48,12 @@ YLS = ['12', '11', '?']
 STATES = ['imported', 'waiting', 'out_of_course', 'out_of_scope', 'other']
 
 
+def name_year(path):
+    """The first year written in the file name itself ("H1 Adv 2023 (for 2024 HSC)" -> 2023), or None."""
+    m = re.search(r'(?<!\d)(20\d\d)(?!\d)', os.path.basename(path.replace('\\', '/')))
+    return int(m.group(1)) if m else None
+
+
 def yl_of(d):
     return str(d['year_level']) if d['year_level'] in (11, 12) else '?'
 
@@ -75,7 +81,7 @@ def build(db, files=False):
                 papers.append({'ids': ids, 'label': x.get('label')}); taken.update(ids)
     # 2. everything else: by (course, year level, year, school, task) with the import_manifest naming rules
     groups = collections.OrderedDict()
-    loose = []
+    loose, split_off = [], set()
     for i, d in sorted(docs.items()):
         if i in taken: continue
         m = as_manifest_row(d)
@@ -85,6 +91,22 @@ def build(db, files=False):
             groups.setdefault((d['course'], yl_of(d), y, s, t), []).append(i)
         else:
             loose.append(i)
+    # Review 13 Nov: documents.year can put two different exams under one key ("H1 Adv 2023 (for 2024 HSC)" and "H1 Adv 2024",
+    # or "2024 Y12 MA AT1 solns" recorded as 2023, which then joined the 2023 paper). Files whose names carry different years
+    # are different papers: split them, and move a split-off piece to the year its name gives (the "for 20xx HSC" rule).
+    for k in list(groups):
+        parts = collections.OrderedDict()
+        for i in groups[k]: parts.setdefault(name_year(docs[i]['source_path']), []).append(i)
+        named = [y for y in parts if y]
+        if len(named) < 2: continue
+        home = k[2] if k[2] in named else named[0]
+        if None in parts: parts[home] = parts.pop(None) + parts.get(home, [])
+        groups[k] = parts.pop(home)
+        for ry, ids in parts.items():
+            ny = {year_of(as_manifest_row({**docs[i], 'year': ''})) for i in ids}
+            k2 = (k[0], k[1], ny.pop() if len(ny) == 1 and None not in ny else k[2], k[3], k[4])
+            if k2 != k and k2 in groups and {name_year(docs[i]['source_path']) for i in groups[k2]} <= {ry, None}: groups[k2] += ids
+            else: groups[k2 + (ry,)] = ids; split_off.update(ids)
     # a file with no year level joins the one paper of the same course / year / school / task, if there is exactly one
     for k in [k for k in groups if k[1] == '?']:
         same = [g for g in groups if g[1] != '?' and (g[0], g[2], g[3], g[4]) == (k[0], k[2], k[3], k[4])]
@@ -101,8 +123,15 @@ def build(db, files=False):
     fixed = {}
     for p in papers:
         for i in p['ids']: fixed.setdefault(key_of(i), p)
+    def nys(ids): return {name_year(docs[i]['source_path']) for i in ids} - {None}
     for k in list(groups):
-        if k in fixed: fixed[k]['ids'] += groups.pop(k)
+        if k not in fixed: continue
+        if len(nys(fixed[k]['ids']) | nys(groups[k])) <= 1: fixed[k]['ids'] += groups.pop(k); continue
+        # names give another year (review 13 Nov: "2024 Y12 MA AT1 solns" recorded as 2023): the paper of that year, else its own
+        ny = {year_of(as_manifest_row({**docs[i], 'year': ''})) for i in groups[k]}
+        k2 = (*k[:2], ny.pop() if len(ny) == 1 and None not in ny else None, *k[3:])
+        if k2 in fixed and len(nys(fixed[k2]['ids']) | nys(groups[k])) <= 1: fixed[k2]['ids'] += groups.pop(k)
+        else: split_off.update(groups[k])
     papers += [{'ids': ids} for ids in list(groups.values()) + list(lg.values())]
 
     out = {(c, y): {'course': c, 'yl': y, 'counts': dict.fromkeys(STATES + ['new', 'papers', 'files'], 0), 'papers': []} for c, *_ in COURSES for y in YLS}
@@ -139,6 +168,8 @@ def build(db, files=False):
             st = 'other'
             why = '; '.join(sorted({f['status'] + (': ' + f['failure_reason'] if f['failure_reason'] else '') for f in fs if f['status'] not in ('discovered', 'excluded')}))[:120]
         label = prim['display_label'] or p.get('label')
+        if not label and split_off & set(p['ids']):     # split from a paper of the same name: its file name tells them apart
+            label = os.path.splitext(os.path.basename(prim['source_path']))[0][:70]
         if not label:
             if t == 'HSC' and y: label = f'{y} NESA HSC'
             elif y and s != '?' and t != '?': label = f'{y} {s} {t}'
