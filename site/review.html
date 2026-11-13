@@ -3058,7 +3058,11 @@ function lvItems(){if(LVQ)return LVQ;const out=[];
 const lvDone=x=>!!DIFD[x.p.id]?.status;
 const lvInArea=x=>LVAREA==='all'||(LVAREA==='spot'?!!x.spot:LVAREA==='thin'?LV_FIRST.includes(x.d.ar)&&!x.flag:LVAREA==='flags'?x.flag:x.d.ar===LVAREA&&!x.flag);
 // owner 15 Nov: the Difficulty step in Review shows this count: parts still to check in the chosen list
-function lvTodoN(){if(!B)return 0;lvSub();return lvItems().filter(x=>lvInArea(x)&&!lvDone(x)).length}
+// owner 13 Nov: "Why are there still difficulty checks to go through": the count followed whichever dropdown list was open
+// (e.g. All = 217 optional references), so it never reached 0. It now counts only the plan: thin topics, the spot-check,
+// and any topic with two or more changes (checked in full). The optional references stay reachable from the dropdown.
+function lvHot(){const chg={};lvItems().forEach(y=>{if(DIFD[y.p.id]?.status==='changed'&&!y.flag)chg[y.d.ar]=(chg[y.d.ar]||0)+1});return Object.keys(chg).filter(a=>chg[a]>=2)}
+function lvTodoN(){if(!B)return 0;lvSub();const hot=lvHot();return lvItems().filter(x=>(x.spot||x.flag||(LV_FIRST.includes(x.d.ar)&&!x.flag)||hot.includes(x.d.ar))&&!lvDone(x)).length}
 function lvList(){const all=lvItems();
   const r=all.filter(x=>lvInArea(x)&&(LVSHOW==='all'||!lvDone(x)));
   return LVAREA==='spot'?r.sort((a,b)=>(b.flag?1:0)-(a.flag?1:0)||String(a.d.ar).localeCompare(String(b.d.ar))||b.lean-a.lean):r}
@@ -3070,7 +3074,7 @@ function renderLevels(keep){
   const areas=[...new Set(anchors.map(x=>x.d.ar))].sort((a,b)=>(LV_FIRST.includes(a)?0:1)-(LV_FIRST.includes(b)?0:1)||a.localeCompare(b));
   const cnt=f=>{const xs=all.filter(f);return `${xs.filter(lvDone).length}/${xs.length}`};
   const x=list[LVI];
-  const head=`<div class="lvtop"><div class="lvtitle"><h2>Difficulty check</h2><span class="lvprog"><b>${adone}</b> of ${anchors.length} HSC references checked${done>adone?` · ${done-adone} flagged parts`:''}</span></div>
+  const head=`<div class="lvtop"><div class="lvtitle"><h2>Difficulty check</h2><span class="lvprog"><b>${adone}</b> of ${anchors.length} HSC references checked${done>adone?` · ${done-adone} flagged parts`:''}${lvTodoN()===0?' · <b>check plan finished</b>; anything left in this list is optional':''}</span></div>
     <div class="lvbar"><i style="width:${Math.round(100*adone/Math.max(1,anchors.length))}%"></i></div>
     <div class="lvctl"><select id="lvArea" aria-label="Which parts"><option value="thin"${LVAREA==='thin'?' selected':''}>Start here: thin topics (${cnt(x=>LV_FIRST.includes(x.d.ar)&&!x.flag)})</option><option value="spot"${LVAREA==='spot'?' selected':''}>Spot-check: flagged + 3 per topic (${cnt(x=>x.spot)})</option>
       ${areas.map(a=>`<option value="${esc(a)}"${LVAREA===a?' selected':''}>${lvYear(a)} ${esc(lvName(a))} (${cnt(x=>x.d.ar===a&&!x.flag)})</option>`).join('')}
