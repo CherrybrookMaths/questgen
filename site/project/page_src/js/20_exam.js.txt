@@ -34,7 +34,7 @@ function xPanel(){
     <div class="xacts"><button class="act ghost" id="xSave" ${EX.items.length&&db?'':'disabled'} title="${db?'':'Saving needs the shared database (open the page in claude.ai)'}">Save exam</button><button class="act ghost" id="xNew">New exam</button></div>
     <div class="xsaved" id="xSaved"></div>`;
   xSavedList();
-  exHead();if(view==='exams'&&EXV.view==='pick'){const n=$('#exLs');if(n&&EXCUR.length){const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;n.textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${BANKALL?'':' · approved only'}`}}
+  exHead();if(view==='exams'&&EXV.view==='pick'){const n=$('#exLs');if(n&&EXCUR.length){const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;n.textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${bankAll()||!isEditor()?'':' · approved only'}`}}
 }
 function xOpen(){const p=$('#xPanel');p.hidden=false;requestAnimationFrame(()=>document.body.classList.add('x-open'));xPanel()}
 function xClose(){document.body.classList.remove('x-open');setTimeout(()=>{if(!document.body.classList.contains('x-open'))$('#xPanel').hidden=true},250)}

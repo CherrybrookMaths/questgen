@@ -436,8 +436,13 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
 .jobs .jpop .when{font-size:12px}
 .jobs .jpop .qn{display:inline-block;min-width:1.4em;color:var(--muted);font-weight:500;font-variant-numeric:tabular-nums}
 .jobs .jwarn{color:var(--bad);font-weight:600}
-.jobs .jgo{align-self:flex-start;color:var(--accent);font-weight:600;text-decoration:none;padding-top:7px;border-top:1px solid var(--line);width:100%}
-.jobs .jgo:hover{text-decoration:underline}
+/* owner 13 Nov: no "Open Processes" link in the list (the pill goes there); the list is clickable instead, and shows step and times */
+.jobs .jpop{cursor:pointer}
+.jobs .jpop .jstep{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink);font-variant-numeric:tabular-nums}
+.jobs .jpop .jtimes,.procs .jtimes{display:flex;flex-wrap:wrap;column-gap:0;row-gap:1px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;min-width:0}
+.jtimes .jt{white-space:nowrap}.jtimes .jt b,.jobs .jpop .job .jt b{display:inline;font-weight:600;color:var(--ink)}.jtimes .jsep{white-space:pre}
+.jbar{display:inline-block;flex:none;width:64px;height:4px;border-radius:2px;background:var(--line);overflow:hidden;vertical-align:middle}
+.jbar>i{display:block;height:100%;background:var(--accent);border-radius:2px}
 @keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--warn) 60%,transparent)}70%{box-shadow:0 0 0 7px transparent}100%{box-shadow:0 0 0 0 transparent}}
 @keyframes jpulse{50%{opacity:.35}}
 /* Processes page (owner 14 Nov: "Can make that page processes") */
@@ -1682,6 +1687,38 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
 @media (max-width:640px){.areasw{display:none!important}}
 /* Curate-only controls elsewhere (e.g. "Open in Review" on bank cards) carry .edonly: hidden unless the viewer is the owner or an editor */
 html:not(.editor) .edonly{display:none!important}
+/* owner 13 Nov: "add a place somewhere for me to write down what to flesh out next" — the Next up card on Processes */
+.procs #notesBox .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.procs .nupadd{display:flex;gap:8px;margin:0 0 10px;min-width:0}
+.procs .nupadd input{flex:1 1 auto;min-width:0;font:400 14px var(--sans);color:var(--ink);background:var(--panel);border:1px solid var(--line2);border-radius:var(--t2-r,6px);padding:6px 10px;min-height:32px;box-sizing:border-box}
+.procs .nupadd input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.procs .nupadd .act{flex:none}
+.procs .nlist{list-style:none;margin:0;padding:0;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+.procs .nrow{display:flex;align-items:center;gap:8px;padding:7px 10px;margin:0;border-top:1px solid var(--line);min-width:0;font-size:14px}
+.procs .nrow:first-child{border-top:0}
+.procs .nrow.ndrag{opacity:.45}
+.procs .nrow.nover-b{box-shadow:inset 0 2px 0 var(--accent)}.procs .nrow.nover-a{box-shadow:inset 0 -2px 0 var(--accent)}
+.procs .ngrip{flex:none;color:var(--muted);cursor:grab;font-size:12px;letter-spacing:-2px;user-select:none;padding:0 2px}
+.procs .ntick{flex:none;width:16px;height:16px;margin:0;accent-color:var(--accent);cursor:pointer}
+.procs .ntext{flex:1 1 auto;min-width:0;overflow-wrap:anywhere;line-height:1.4}
+.procs .nrow.isdone .ntext{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line2)}
+.procs .nacts{flex:none;display:inline-flex;align-items:center;gap:2px}
+.procs .nbtn{font:500 14px var(--sans);width:28px;height:28px;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--muted);cursor:pointer;padding:0}
+.procs .nbtn:hover:not(:disabled){border-color:var(--line2);color:var(--ink)}.procs .nbtn:disabled{opacity:.3;cursor:default}
+.procs .nbtn.ndel:hover{color:var(--bad);border-color:var(--bad)}
+.procs .nbtn:focus-visible,.procs .ndelq button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.procs .ndelq{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);white-space:nowrap}
+.procs .ndelq button{font:600 12px var(--sans);border-radius:6px;padding:3px 8px;min-height:26px;cursor:pointer;border:1px solid var(--line2);background:var(--panel);color:var(--ink)}
+.procs .ndelq .nyes{border-color:var(--bad);color:var(--bad)}
+.procs .ndone{margin-top:10px}
+.procs .ndone>summary{cursor:pointer;font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;padding:4px 0;list-style:none}
+.procs .ndone>summary::-webkit-details-marker{display:none}
+.procs .ndone>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.procs .ndone .nlist{margin-top:6px}
+.procs .pstep{display:flex;align-items:center;gap:8px;margin-top:5px;font-size:12.5px;font-weight:500;font-variant-numeric:tabular-nums}
+.procs .pcard .jtimes,.procs .pqueue .jtimes,.procs .pdone .jtimes{margin-top:3px}
+@media (hover:none){.procs .ngrip{display:none}}
+@media (max-width:640px){.procs .nbtn{width:32px;height:32px}.procs .nrow{flex-wrap:wrap}.procs .nrow .ntext{flex-basis:calc(100% - 40px)}.procs .nacts{margin-left:auto}}
 </style>
 
 <header>
@@ -1728,7 +1765,7 @@ html:not(.editor) .edonly{display:none!important}
   <div class="wrapx exams" id="examsView" hidden></div>   <!-- owner 14 Nov: Exams page -->
   <div class="wrap reports" id="reportsView" hidden><section id="reportsBox" aria-live="polite"></section></div>   <!-- owner 14 Nov: question reports (alpha) -->
   <div class="levels" id="levelsView" hidden><section id="levelsBox" aria-live="polite"></section></div>   <!-- owner 14 Nov: difficulty check -->
-  <div class="imp procs" id="processesView" hidden><section id="procBox" aria-live="polite"></section><section id="importBox" aria-live="polite"><div class="empty">Loading import progress…</div></section></div>   <!-- owner 14 Nov: Processes page = running jobs, the queue, then the import dashboard -->
+  <div class="imp procs" id="processesView" hidden><section id="procBox" aria-live="polite"></section><section id="notesBox" hidden></section><section id="importBox" aria-live="polite"><div class="empty">Loading import progress…</div></section></div>   <!-- owner 14 Nov: Processes page = running jobs, the queue, then the import dashboard; owner 13 Nov: "add a place somewhere for me to write down what to flesh out next" = #notesBox (Next up) -->
   <div class="desk" id="reviewView" hidden>
     <section class="pane srcpane" aria-label="Source page"><h2 id="srcTitle">Source page</h2><div id="src"></div></section>
     <section class="pane" aria-label="Parsed question"><h2>Parsed question</h2><div class="rout" id="rout"></div></section>
@@ -2033,8 +2070,12 @@ function qPlacesOld(q){ // (before 12 Nov) primary placement of every part
 // owner 12 Nov ("Questions aren't showing in the bank until approved right?" -> "yeah do that"): the Bank shows approved
 // questions only; the owner can switch unapproved ones back on (remembered per browser)
 let BANKALL=(()=>{try{return localStorage.getItem('bankall')==='1'}catch(e){return false}})();
-const inBank=q=>!q.dup_of&&(BANKALL||qState(q)==='approved');
-function bankSwitch(){const all=B.questions.filter(q=>!q.dup_of).length,ok=B.questions.filter(q=>!q.dup_of&&qState(q)==='approved').length;
+// owner 13 Nov: "is there a point in this showing if all questions are approvied?" The chip shows only when some questions are
+// unapproved AND the viewer is an editor (isEditor(), the Teach | Curate check). Non-editors never see unapproved questions, whatever BANKALL says.
+const bankAll=()=>BANKALL&&isEditor();
+const inBank=q=>!q.dup_of&&(bankAll()||qState(q)==='approved');
+function bankSwitch(){if(!isEditor())return'';const all=B.questions.filter(q=>!q.dup_of).length,ok=B.questions.filter(q=>!q.dup_of&&qState(q)==='approved').length;
+  if(ok>=all)return'';
   return `<button class="bankall" data-bankall="1" aria-pressed="${BANKALL}" title="Unapproved questions are still being checked">${BANKALL?`Showing all ${all.toLocaleString()} · <u>approved only</u>`:`Approved only (${ok.toLocaleString()} of ${all.toLocaleString()}) · <u>include unapproved</u>`}</button>`}
 function buildTopics(){
   const T={y12:new Map(),y11:new Map(),byKey:{}};
@@ -2186,7 +2227,7 @@ $('#nav').addEventListener('click',e=>{
   const b=e.target.closest('button[data-sel]'); if(b){sel=b.dataset.sel;search='';$('#q').value='';save('sel',sel);syncNav();requestAnimationFrame(()=>setTimeout(()=>{renderBank();window.scrollTo({top:0})},0))}   // nav moves first, list follows a frame later
 });
 $('#list').addEventListener('click',e=>{
-  const ba=e.target.closest('[data-bankall]'); if(ba){BANKALL=!BANKALL;try{localStorage.setItem('bankall',BANKALL?'1':'0')}catch(_){}TOPICS=null;renderBank();return}
+  const ba=e.target.closest('[data-bankall]'); if(ba&&isEditor()){BANKALL=!BANKALL;try{localStorage.setItem('bankall',BANKALL?'1':'0')}catch(_){}TOPICS=null;renderBank();return}
   const bs=e.target.closest('[data-bsel]'); if(bs){const i=bs.dataset.bsel.indexOf(':'),k=bs.dataset.bsel.slice(0,i),v=bs.dataset.bsel.slice(i+1);BSEL[k]=BSEL[k]===v?null:v;renderBank();return}
   const bf=e.target.closest('[data-bf]'); if(bf){const [k,v]=bf.dataset.bf.split(':');BF[k]=v;try{localStorage.setItem('bf',JSON.stringify(BF))}catch(_){}renderBank();return}
   const hm=e.target.closest('[data-home]'); if(hm){sel=null;save('sel','');renderBank();window.scrollTo({top:0});return}
@@ -2618,7 +2659,7 @@ function route(){
   if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes'){renderProcesses();renderImport()} else { $('#stF').value=rstatus; refreshReview(); }
 }
 // the user capability answered: show or hide Curate, and send a viewer on a Curate link to the Bank
-function setEditor(ed){EDITOR=!!ed;
+function setEditor(ed){EDITOR=!!ed;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role
   // owner/editor with no link in the address: open the area used last
   if(EDITOR&&!location.hash&&load('qg_area')==='curate'&&!window._navved){goArea('curate');return}
   route()}
@@ -2725,16 +2766,19 @@ function renderImport(){
    Can make that page processes") ----------
    Top to bottom: Running now (progress/jobs + queue items marked running), Queued (progress/queue, in order, with the owner's
    own words in italics), Recently done (collapsed), then the import dashboard (renderImport, unchanged) under its Import heading. */
+// owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well? Would be helpful":
+// each row shows its step ("Stage 2 of 4", with a small bar), Started, and Est. finish while running/queued or Finished + how long it took once done (jobTimes, 13_shell.js).
 function renderProcesses(){const box=$('#procBox');if(!box)return;
   const run=runningNow(),que=queueItems('queued'),done=queueItems('done').reverse();
   const asked=x=>x.asked?`<p class="pasked">“${esc(String(x.asked).replace(/^["“]|["”]$/g,''))}”</p>`:'';
   const openDone=!!box.querySelector('details.pdone[open]');
   box.innerHTML=`<h2>Processes</h2><p class="sub">What Claude is working on now, and what you've asked for next.${QUEUE&&QUEUE.updated?` Queue updated ${esc(ago(QUEUE.updated))}.`:''}</p>
   <section class="psec" aria-labelledby="pRunH"><h3 id="pRunH">Running now${run.length?` <span class="pcount">${run.length}</span>`:''}</h3>
-  ${run.length?`<div class="pcards">${run.map(j=>`<article class="pcard"><div class="pctop"><span class="pdot" aria-hidden="true"></span><b>${esc(j.name)}</b>${j.started?`<span class="pwhen">${esc(startedAgo(j.started))}</span>`:''}</div>${j.detail?`<p>${esc(j.detail)}</p>`:''}${j.src==='queue'?`<span class="ptag">From the queue</span>`:''}${asked(j)}</article>`).join('')}</div>`:'<p class="pempty">Nothing running right now.</p>'}</section>
+  ${run.length?`<div class="pcards">${run.map(j=>`<article class="pcard"><div class="pctop"><span class="pdot" aria-hidden="true"></span><b>${esc(j.name)}</b>${j.started?`<span class="pwhen">${esc(startedAgo(j.started))}</span>`:''}</div>${j.step?`<div class="pstep">${esc(j.step)}${stepBar(j.step)}</div>`:''}${jobTimes(j)}${j.detail?`<p>${esc(j.detail)}</p>`:''}${j.src==='queue'?`<span class="ptag">From the queue</span>`:''}${asked(j)}</article>`).join('')}</div>`:'<p class="pempty">Nothing running right now.</p>'}</section>
   <section class="psec" aria-labelledby="pQueH"><h3 id="pQueH">Queued${que.length?` <span class="pcount">${que.length}</span>`:''}</h3>
-  ${que.length?`<ol class="pqueue">${que.map((x,i)=>`<li><span class="pnum" aria-hidden="true">${i+1}</span><div><b>${esc(x.title)}</b>${x.detail?`<p>${esc(x.detail)}</p>`:''}${asked(x)}</div></li>`).join('')}</ol>`:`<p class="pempty">${QUEUE?'Nothing queued. New requests will show here.':'No queue yet. Requests you line up will show here.'}</p>`}</section>
-  ${done.length?`<section class="psec"><details class="pdone"${openDone?' open':''}><summary>Recently done <span class="pcount">${done.length}</span></summary><ul>${done.slice(0,20).map(x=>`<li><span class="pok" aria-hidden="true">✓</span><div><b>${esc(x.title)}</b>${x.detail?`<p>${esc(x.detail)}</p>`:''}</div></li>`).join('')}</ul></details></section>`:''}`}
+  ${que.length?`<ol class="pqueue">${que.map((x,i)=>`<li><span class="pnum" aria-hidden="true">${i+1}</span><div><b>${esc(x.title)}</b>${x.step?`<div class="pstep">${esc(x.step)}</div>`:''}${jobTimes(x)}${x.detail?`<p>${esc(x.detail)}</p>`:''}${asked(x)}</div></li>`).join('')}</ol>`:`<p class="pempty">${QUEUE?'Nothing queued. New requests will show here.':'No queue yet. Requests you line up will show here.'}</p>`}</section>
+  ${done.length?`<section class="psec"><details class="pdone"${openDone?' open':''}><summary>Recently done <span class="pcount">${done.length}</span></summary><ul>${done.slice(0,20).map(x=>`<li><span class="pok" aria-hidden="true">✓</span><div><b>${esc(x.title)}</b>${jobTimes({...x,status:'done'})}${x.detail?`<p>${esc(x.detail)}</p>`:''}</div></li>`).join('')}</ul></details></section>`:''}`;
+  if(typeof renderNotes==='function')renderNotes()}   // 31_notes.js loads in a later script block; the user answer can arrive before it
 fetch('data/progress.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(p=>{if(p&&!PROG){PROG=p;if(view==='processes')renderImport()}}).catch(()=>{});
 setInterval(()=>{if(view==='processes'){renderProcesses();renderImport()}},60000);   // keeps the "12 min ago" times fresh
 document.addEventListener('click',e=>{const b=e.target.closest('[data-paperok]');if(b)approvePaper(b.dataset.paperok)});
@@ -2760,29 +2804,49 @@ if(window.ResizeObserver){new ResizeObserver(()=>setHdr()).observe(document.quer
 // Running = progress/jobs plus any progress/queue item marked running. Once the queue doc is loaded, the old
 // "Queued: 5 tasks" pseudo-job in progress/jobs is ignored: the queued pill says it properly.
 let QUEUE=null;
-function startedAgo(s){if(!s)return'';let d=null;const hm=/^(\d{1,2}):(\d{2})$/.exec(String(s).trim());
+// a time from the queue: an ISO string (Claude writes +11:00) or a bare "HH:MM" (today, or yesterday if that is in the future)
+function parseT(s){if(!s)return null;let d=null;const hm=/^(\d{1,2}):(\d{2})$/.exec(String(s).trim());
   if(hm){d=new Date();d.setHours(+hm[1],+hm[2],0,0);if(d-Date.now()>5*60000)d.setDate(d.getDate()-1)}else d=new Date(s);
-  return isNaN(d)?'since '+s:ago(d)}
+  return isNaN(d)?null:d}
+function startedAgo(s){if(!s)return'';const d=parseT(s);return d?ago(d):'since '+s}
+// owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well? Would be helpful"
+// Clock times in the viewer's own time zone ("2:05 pm"); the date only when it is not today ("12 Nov, 2:05 pm").
+function clockT(s){const d=parseT(s);if(!d)return s?String(s):'';const t=d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit',hour12:true}).replace(/[\u00a0\u202f]/g,' ').replace(/\s*([ap])\.?m\.?$/i,(m,x)=>' '+x.toLowerCase()+'m');
+  return d.toDateString()===new Date().toDateString()?t:d.toLocaleDateString('en-AU',{day:'numeric',month:'short'})+', '+t}
+function durT(a,b){const x=parseT(a),y=parseT(b);if(!x||!y||y<x)return'';const m=Math.round((y-x)/60000);return m<60?m+' min':Math.floor(m/60)+' h'+(m%60?' '+(m%60)+' min':'')}
+// one line of times for a job: "Started 2:05 pm · Est. finish 3:10 pm" (running/queued) or "Started … · Finished … · took 42 min" (done)
+function jobTimes(j){const done=(j.status||'')==='done'||!!j.finished,out=[];
+  if(j.started)out.push(`<span class="jt">Started <b>${esc(clockT(j.started))}</b></span>`);
+  if(done&&j.finished){out.push(`<span class="jt">Finished <b>${esc(clockT(j.finished))}</b></span>`);const d=durT(j.started,j.finished);if(d)out.push(`<span class="jt">took ${esc(d)}</span>`)}
+  else if(!done&&j.eta)out.push(`<span class="jt">Est. finish <b>${esc(clockT(j.eta))}</b></span>`);
+  return out.length?`<span class="jtimes">${out.join('<span class="jsep" aria-hidden="true"> · </span>')}</span>`:''}
+// "Stage 2 of 4" as a small bar, when the step says "N of M"
+function stepBar(step){const m=/(\d+)\s*(?:of|\/)\s*(\d+)/i.exec(String(step||''));if(!m||!+m[2])return'';const f=Math.max(0,Math.min(1,+m[1]/+m[2]));
+  return `<span class="jbar" role="progressbar" aria-valuemin="0" aria-valuemax="${+m[2]}" aria-valuenow="${+m[1]}" aria-label="${esc(step)}"><i style="width:${Math.round(f*100)}%"></i></span>`}
 function queueItems(st){return ((QUEUE&&QUEUE.items)||[]).filter(x=>x&&x.title&&(!st||(x.status||'queued')===st)).sort((a,b)=>(+a.order||1e9)-(+b.order||1e9))}
 function runningNow(){const jobs=JOBS.filter(j=>j&&j.name&&!(QUEUE&&/^\s*queued\b/i.test(j.name))).map(j=>({...j,src:'job'}));
   const have=new Set(jobs.map(j=>String(j.name).trim().toLowerCase()));
-  return jobs.concat(queueItems('running').filter(x=>!have.has(String(x.title).trim().toLowerCase())).map(x=>({name:x.title,detail:x.detail,started:x.started,asked:x.asked,src:'queue'})))}
+  return jobs.concat(queueItems('running').filter(x=>!have.has(String(x.title).trim().toLowerCase())).map(x=>({name:x.title,detail:x.detail,started:x.started,eta:x.eta,step:x.step,status:'running',asked:x.asked,src:'queue'})))}
+// owner 13 Nov: "the stuff should show over the pill on hover instead. Also remove the open processes button there because
+// clicking on the pill already takes you there". The popover lists the jobs (title, step, started / est. finish) and has no
+// "Open Processes" link: a click on the pill goes there. Touch (no hover): the first tap shows it, a tap on it or a second tap on the pill opens Processes.
 function renderJobs(){const el=$('#jobs');if(!el)return;const run=runningNow(),que=queueItems('queued');
   // owner 15 Nov: the pills lead to Processes (Curate), so only editors see them
   el.hidden=!isEditor()||(!run.length&&!que.length);if(el.hidden){el.innerHTML='';setHdr();return}
   const hit=run.filter(j=>j.affects&&view==='review'&&rfilter===j.affects);
-  const go=`<a class="jgo" href="#processes">Open Processes →</a>`;
+  const row=(j,n)=>`<span class="job"><b>${n?`<span class="qn">${n}</span>`:''}${esc(j.name||j.title)}</b>${j.step?`<span class="jstep">${esc(j.step)}${stepBar(j.step)}</span>`:''}${j.detail?`<span class="muted">${esc(j.detail)}</span>`:''}${jobTimes(j)||(j.started?`<span class="muted when">${esc(startedAgo(j.started))}</span>`:'')}</span>`;
   const runPill=run.length?`<span class="jp run${hit.length?' hit':''}"><a class="jpill" href="#processes" aria-describedby="jpopR"><span class="dot" aria-hidden="true"></span>${hit.length?'Wait · ':''}${run.length} running</a>
-    <span class="jpop" role="tooltip" id="jpopR">${run.map(j=>`<span class="job"><b>${esc(j.name)}</b>${j.detail?`<span class="muted">${esc(j.detail)}</span>`:''}${j.started?`<span class="muted when">${esc(startedAgo(j.started))}</span>`:''}</span>`).join('')}${hit.length?`<span class="jwarn">Wait before reviewing this step: ${esc(hit.map(j=>j.name).join(', '))} will change it.</span>`:''}${go}</span></span>`:'';
+    <span class="jpop" role="tooltip" id="jpopR">${run.map(j=>row(j)).join('')}${hit.length?`<span class="jwarn">Wait before reviewing this step: ${esc(hit.map(j=>j.name).join(', '))} will change it.</span>`:''}</span></span>`:'';
   const quePill=que.length?`<span class="jp que"><a class="jpill" href="#processes" aria-describedby="jpopQ">${que.length} queued</a>
-    <span class="jpop" role="tooltip" id="jpopQ">${que.slice(0,6).map((x,i)=>`<span class="job"><b><span class="qn">${i+1}</span>${esc(x.title)}</b>${x.detail?`<span class="muted">${esc(x.detail)}</span>`:''}</span>`).join('')}${que.length>6?`<span class="muted">and ${que.length-6} more</span>`:''}${go}</span></span>`:'';
+    <span class="jpop" role="tooltip" id="jpopQ">${que.slice(0,6).map((x,i)=>row(x,i+1)).join('')}${que.length>6?`<span class="muted">and ${que.length-6} more</span>`:''}</span></span>`:'';
   el.innerHTML=runPill+quePill;setHdr()}
 function placeJpop(jp){const pill=jp&&jp.querySelector('.jpill'),pop=jp&&jp.querySelector('.jpop');if(!pill||!pop)return;const r=pill.getBoundingClientRect(),w=Math.min(380,innerWidth-32);
   pop.style.width=w+'px';pop.style.top=(r.bottom+8)+'px';pop.style.left=Math.max(16,Math.min(r.left,innerWidth-16-w))+'px'}
 document.addEventListener('mouseover',e=>{const jp=e.target.closest&&e.target.closest('.jobs .jp');if(jp&&!jp.contains(e.relatedTarget))placeJpop(jp)});
 document.addEventListener('focusin',e=>{const jp=e.target.closest&&e.target.closest('.jobs .jp');if(jp)placeJpop(jp)});
-// touch: no hover, so the first tap on a pill opens its list (with "Open Processes →"), a second tap goes there
-document.addEventListener('click',e=>{const pill=e.target.closest('.jobs .jpill'),open=document.querySelector('.jobs .jp.open');
+// touch: no hover, so the first tap on a pill opens its list; a tap on the list or a second tap on the pill goes to Processes; a tap elsewhere closes it
+document.addEventListener('click',e=>{const pill=e.target.closest('.jobs .jpill'),pop=e.target.closest('.jobs .jpop'),open=document.querySelector('.jobs .jp.open');
+  if(pop){e.preventDefault();if(open)open.classList.remove('open');location.hash='#processes';return}
   if(open&&!open.contains(e.target))open.classList.remove('open');
   if(!pill)return;const jp=pill.closest('.jp');let touch=false;try{touch=matchMedia('(hover:none)').matches}catch(_){}
   if(touch&&!jp.classList.contains('open')){e.preventDefault();placeJpop(jp);jp.classList.add('open')}else jp.classList.remove('open')});
@@ -2854,7 +2918,7 @@ function xPanel(){
     <div class="xacts"><button class="act ghost" id="xSave" ${EX.items.length&&db?'':'disabled'} title="${db?'':'Saving needs the shared database (open the page in claude.ai)'}">Save exam</button><button class="act ghost" id="xNew">New exam</button></div>
     <div class="xsaved" id="xSaved"></div>`;
   xSavedList();
-  exHead();if(view==='exams'&&EXV.view==='pick'){const n=$('#exLs');if(n&&EXCUR.length){const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;n.textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${BANKALL?'':' · approved only'}`}}
+  exHead();if(view==='exams'&&EXV.view==='pick'){const n=$('#exLs');if(n&&EXCUR.length){const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;n.textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${bankAll()||!isEditor()?'':' · approved only'}`}}
 }
 function xOpen(){const p=$('#xPanel');p.hidden=false;requestAnimationFrame(()=>document.body.classList.add('x-open'));xPanel()}
 function xClose(){document.body.classList.remove('x-open');setTimeout(()=>{if(!document.body.classList.contains('x-open'))$('#xPanel').hidden=true},250)}
@@ -3514,7 +3578,7 @@ function exList(reset=true){const box=$('#exCards');if(!box)return;const F=EXV.p
   EXCUR=exFiltered();const t=F.topic;
   $('#exLt').textContent=t==='all'?'All questions':t.startsWith('fa:')?t.split('|')[1]:subName(t);
   const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;
-  $('#exLs').textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${BANKALL?'':' · approved only'}`;
+  $('#exLs').textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${bankAll()||!isEditor()?'':' · approved only'}`;
   const show=EXCUR.slice(0,F.limit);const have=new Set($$('#exCards > .card').map(c=>+c.dataset.q));
   if(reset){box.innerHTML='';have.clear()}
   const add=show.filter(q=>!have.has(q.id)),tmp=document.createElement('div');tmp.innerHTML=add.map(cardHTML).join('');
@@ -4493,4 +4557,67 @@ async function xWord(doc){
   finally{host?.remove();if(btn)btn.disabled=false;say(old||'')}}
 // the button sits after "Download PDF"; xPreview (24_exams.js) adds it once the pages are laid out
 document.addEventListener('click',e=>{const b=e.target.closest('#xWord');if(!b||b.disabled)return;e.preventDefault();xWord($('#xDl')?.dataset.doc||EXV?.doc||'exam')});
+</script>
+<script>
+// owner 13 Nov: "add a place somewhere for me to write down what to flesh out next"
+/* ---------- Next up notes (owner 13 Nov: "add a place somewhere for me to write down what to flesh out next") ----------
+   A "Next up" card on Processes (Curate, so editors only). db collection "notes", one doc per note:
+   {text, order, done, by, at}. Open notes in `order`; ticked ones move to a collapsed "Done" list. Reorder by dragging
+   (desktop) or the ↑ ↓ buttons; delete asks inline (no confirm()). Only editors write: every handler checks isEditor().
+   Claude reads this list (ArtifactData list on "notes") when asked what to build next. */
+const NOTES={list:[],sub:null,loaded:false,del:null,drag:null};
+const notesOpen=()=>NOTES.list.filter(n=>!n.done).sort((a,b)=>(+a.order||0)-(+b.order||0)||String(a.at).localeCompare(String(b.at)));
+const notesDone=()=>NOTES.list.filter(n=>n.done).sort((a,b)=>String(b.doneAt||b.at).localeCompare(String(a.doneAt||a.at)));
+function notesSubscribe(){if(NOTES.sub||!db||!isEditor())return;
+  try{NOTES.sub=db.collection('notes').onSnapshot(s=>{const d=s.docs||s;NOTES.list=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).filter(n=>n&&typeof n.text==='string');NOTES.loaded=true;notesList()},()=>{})}catch(e){}}
+// the card is drawn once (so a half-typed note survives the Processes refresh); only the list inside it is redrawn
+function renderNotes(){const box=$('#notesBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
+  if(!box.dataset.ready){box.dataset.ready='1';
+    box.innerHTML=`<section class="psec nup" aria-labelledby="nupH"><h3 id="nupH">Next up <span class="pcount" id="nupN" hidden></span></h3>
+      <form class="nupadd" id="nupForm" autocomplete="off"><label class="sr" for="nupIn">New note</label><input id="nupIn" type="text" maxlength="500" placeholder="What to flesh out next…"><button type="submit" class="act">Add</button></form>
+      <div id="nupList"></div></section>`}
+  notesSubscribe();notesList()}
+function noteRow(n,i,len){const del=NOTES.del===n.id;
+  return `<li class="nrow" data-note="${esc(n.id)}" draggable="${del?'false':'true'}"><span class="ngrip" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
+    <input type="checkbox" class="ntick" data-ntick="${esc(n.id)}" aria-label="Done: ${esc(n.text)}">
+    <span class="ntext">${esc(n.text)}</span>
+    <span class="nacts">${del?`<span class="ndelq">Delete? <button type="button" class="nyes" data-ndelok="${esc(n.id)}">Delete</button><button type="button" class="nno" data-ndelno="1">Keep</button></span>`:
+      `<button type="button" class="nbtn" data-nmove="-1" data-nid="${esc(n.id)}" aria-label="Move up"${i===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-nmove="1" data-nid="${esc(n.id)}" aria-label="Move down"${i===len-1?' disabled':''}>↓</button><button type="button" class="nbtn ndel" data-ndel="${esc(n.id)}" aria-label="Delete note">×</button>`}</span></li>`}
+function notesList(){const el=$('#nupList');if(!el)return;const op=notesOpen(),dn=notesDone(),wasOpen=!!el.querySelector('details.ndone[open]');
+  const n=$('#nupN');if(n){n.hidden=!op.length;n.textContent=op.length}
+  el.innerHTML=(op.length?`<ol class="nlist">${op.map((x,i)=>noteRow(x,i,op.length)).join('')}</ol>`:`<p class="pempty">${NOTES.loaded||!db?'Ideas for what to build next. Claude reads this list.':'Loading notes…'}</p>`)+
+    (dn.length?`<details class="ndone"${wasOpen?' open':''}><summary>Done <span class="pcount">${dn.length}</span></summary><ul class="nlist">${dn.map(x=>`<li class="nrow isdone" data-note="${esc(x.id)}"><input type="checkbox" class="ntick" data-ntick="${esc(x.id)}" checked aria-label="Not done: ${esc(x.text)}"><span class="ntext">${esc(x.text)}</span><span class="nacts">${NOTES.del===x.id?`<span class="ndelq">Delete? <button type="button" class="nyes" data-ndelok="${esc(x.id)}">Delete</button><button type="button" class="nno" data-ndelno="1">Keep</button></span>`:`<button type="button" class="nbtn ndel" data-ndel="${esc(x.id)}" aria-label="Delete note">×</button>`}</span></li>`).join('')}</ul></details>`:'')}
+async function noteSet(n,patch){if(!isEditor()||!db)return false;const {id,...rest}=n;
+  try{await db.doc('notes/'+id).set({...rest,...patch});return true}catch(e){toast('Could not save. Try again in a moment.');return false}}
+// write a new order 1..n for the open notes, only for the ones that moved
+async function notesReorder(ids){if(!isEditor())return;const by=Object.fromEntries(NOTES.list.map(n=>[n.id,n]));
+  const ch=ids.map((id,i)=>[by[id],i+1]).filter(([n,o])=>n&&+n.order!==o);ch.forEach(([n,o])=>n.order=o);notesList();
+  for(const [n,o] of ch)await noteSet(n,{order:o})}
+document.addEventListener('submit',async e=>{if(e.target.id!=='nupForm')return;e.preventDefault();if(!isEditor()||!db)return;
+  const inp=$('#nupIn'),t=inp.value.trim();if(!t)return;const op=notesOpen();
+  const id='n'+Date.now().toString(36)+Math.floor(Math.random()*1e6).toString(36);
+  const doc={text:t.slice(0,500),order:(op.length?Math.max(...op.map(n=>+n.order||0)):0)+1,done:false,by:me||null,at:new Date().toISOString()};
+  try{await db.doc('notes/'+id).set(doc);inp.value='';inp.focus()}catch(_){toast('Could not save. Try again in a moment.')}});
+document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#notesBox'))return;
+  const mv=t.closest('[data-nmove]');if(mv){const ids=notesOpen().map(n=>n.id),i=ids.indexOf(mv.dataset.nid),j=i+ +mv.dataset.nmove;if(i<0||j<0||j>=ids.length)return;
+    [ids[i],ids[j]]=[ids[j],ids[i]];await notesReorder(ids);const b=document.querySelector(`#nupList [data-nid="${CSS.escape(mv.dataset.nid)}"][data-nmove="${mv.dataset.nmove}"]`);if(b&&!b.disabled)b.focus();return}
+  const dl=t.closest('[data-ndel]');if(dl){NOTES.del=dl.dataset.ndel;notesList();const k=$('#nupList [data-ndelno]');if(k)k.focus();return}
+  if(t.closest('[data-ndelno]')){const id=NOTES.del;NOTES.del=null;notesList();const b=id&&document.querySelector(`#nupList [data-ndel="${CSS.escape(id)}"]`);if(b)b.focus();return}
+  const ok=t.closest('[data-ndelok]');if(ok){if(!isEditor()||!db)return;const id=ok.dataset.ndelok;NOTES.del=null;
+    try{await db.doc('notes/'+id).delete();NOTES.list=NOTES.list.filter(n=>n.id!==id);notesList();toast('Note deleted')}catch(_){toast('Could not delete. Try again in a moment.')}return}});
+document.addEventListener('change',async e=>{const c=e.target.closest&&e.target.closest('#notesBox [data-ntick]');if(!c)return;
+  const n=NOTES.list.find(x=>x.id===c.dataset.ntick);if(!n)return;if(!isEditor()){c.checked=!!n.done;return}
+  const done=c.checked,patch={done,doneAt:done?new Date().toISOString():null};
+  if(!done)patch.order=(Math.max(0,...notesOpen().map(x=>+x.order||0)))+1;   // un-ticked: back to the end of the list
+  Object.assign(n,patch);notesList();await noteSet(n,patch)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&NOTES.del&&e.target.closest&&e.target.closest('#notesBox')){NOTES.del=null;notesList()}});
+// drag to reorder (desktop); the ↑ ↓ buttons do the same from the keyboard or a phone
+document.addEventListener('dragstart',e=>{const li=e.target.closest&&e.target.closest('#nupList .nlist>li[draggable="true"]');if(!li)return;NOTES.drag=li.dataset.note;li.classList.add('ndrag');try{e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',NOTES.drag)}catch(_){}});
+document.addEventListener('dragover',e=>{if(!NOTES.drag)return;const li=e.target.closest&&e.target.closest('#nupList .nlist>li[draggable]');if(!li||li.dataset.note===NOTES.drag)return;e.preventDefault();
+  const r=li.getBoundingClientRect(),after=e.clientY>r.top+r.height/2;$$('#nupList .nover-a,#nupList .nover-b').forEach(x=>x.classList.remove('nover-a','nover-b'));li.classList.add(after?'nover-a':'nover-b')});
+document.addEventListener('drop',async e=>{if(!NOTES.drag)return;const li=e.target.closest&&e.target.closest('#nupList .nlist>li[draggable]');e.preventDefault();const from=NOTES.drag;NOTES.drag=null;
+  if(!li||li.dataset.note===from){notesList();return}const after=li.classList.contains('nover-a'),ids=notesOpen().map(n=>n.id).filter(x=>x!==from);
+  let k=ids.indexOf(li.dataset.note);if(k<0){notesList();return}ids.splice(after?k+1:k,0,from);await notesReorder(ids)});
+document.addEventListener('dragend',()=>{if(NOTES.drag){NOTES.drag=null;notesList()}});
+if(view==='processes')renderNotes();   // Processes may already be open when this block loads
 </script>

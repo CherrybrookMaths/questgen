@@ -20,6 +20,8 @@ TABLES = [('reviews', 'page_reviews', 'doc_key'), ('difficulty', 'page_difficult
 
 def sample_progress():
     iso = lambda m: time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime(time.time() - m * 60))
+    # owner 13 Nov ("start and finish time as well"): Claude writes queue times as ISO strings with +11:00
+    iso11 = lambda m: time.strftime('%Y-%m-%dT%H:%M:%S+11:00', time.gmtime(time.time() - m * 60 + 11 * 3600))
     return {
         'progress/jobs': {'jobs': [
             {'name': 'Redrawing diagrams, batch 6', 'detail': '41 of 120 figures', 'affects': 'diagrams', 'started': iso(12)},
@@ -28,13 +30,14 @@ def sample_progress():
             {'id': 'q2', 'title': 'Figure resize by the corner', 'detail': 'Drag the bottom-right corner, 30% to 200%.',
              'status': 'queued', 'order': 2, 'asked': 'resizing is really unintuitive, it should just be drag the corner in and out diagonally'},
             {'id': 'q1', 'title': 'Overlap in the availability table', 'detail': 'Labels get their own column.',
-             'status': 'running', 'order': 1, 'asked': 'overlap'},
+             'status': 'running', 'order': 1, 'asked': 'overlap', 'step': 'Stage 2 of 4', 'started': iso11(25), 'eta': iso11(-20)},
             {'id': 'q3', 'title': 'Fluency / Problem solving in Wrong difficulty', 'detail': 'Optional choice, stored as suggested_wm.',
              'status': 'queued', 'order': 3, 'asked': 'Should let you pick UF and PS in the wrong diff'},
             {'id': 'q4', 'title': 'Dot points behind an info button', 'detail': 'An ⓘ on the source line; dot points in the grading panel.',
              'status': 'queued', 'order': 4, 'asked': 'The dot point home looks stupid in a question'},
             {'id': 'q0', 'title': 'Processes page', 'detail': 'Running and queued pills, and this page.',
-             'status': 'done', 'order': 0, 'asked': 'Can make that page processes'}]},
+             'status': 'done', 'order': 0, 'asked': 'Can make that page processes', 'step': 'Stage 4 of 4',
+             'started': iso11(102), 'finished': iso11(30)}]},
     }
 
 

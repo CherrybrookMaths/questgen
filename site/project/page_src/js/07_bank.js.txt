@@ -32,8 +32,12 @@ function qPlacesOld(q){ // (before 12 Nov) primary placement of every part
 // owner 12 Nov ("Questions aren't showing in the bank until approved right?" -> "yeah do that"): the Bank shows approved
 // questions only; the owner can switch unapproved ones back on (remembered per browser)
 let BANKALL=(()=>{try{return localStorage.getItem('bankall')==='1'}catch(e){return false}})();
-const inBank=q=>!q.dup_of&&(BANKALL||qState(q)==='approved');
-function bankSwitch(){const all=B.questions.filter(q=>!q.dup_of).length,ok=B.questions.filter(q=>!q.dup_of&&qState(q)==='approved').length;
+// owner 13 Nov: "is there a point in this showing if all questions are approvied?" The chip shows only when some questions are
+// unapproved AND the viewer is an editor (isEditor(), the Teach | Curate check). Non-editors never see unapproved questions, whatever BANKALL says.
+const bankAll=()=>BANKALL&&isEditor();
+const inBank=q=>!q.dup_of&&(bankAll()||qState(q)==='approved');
+function bankSwitch(){if(!isEditor())return'';const all=B.questions.filter(q=>!q.dup_of).length,ok=B.questions.filter(q=>!q.dup_of&&qState(q)==='approved').length;
+  if(ok>=all)return'';
   return `<button class="bankall" data-bankall="1" aria-pressed="${BANKALL}" title="Unapproved questions are still being checked">${BANKALL?`Showing all ${all.toLocaleString()} · <u>approved only</u>`:`Approved only (${ok.toLocaleString()} of ${all.toLocaleString()}) · <u>include unapproved</u>`}</button>`}
 function buildTopics(){
   const T={y12:new Map(),y11:new Map(),byKey:{}};
@@ -185,7 +189,7 @@ $('#nav').addEventListener('click',e=>{
   const b=e.target.closest('button[data-sel]'); if(b){sel=b.dataset.sel;search='';$('#q').value='';save('sel',sel);syncNav();requestAnimationFrame(()=>setTimeout(()=>{renderBank();window.scrollTo({top:0})},0))}   // nav moves first, list follows a frame later
 });
 $('#list').addEventListener('click',e=>{
-  const ba=e.target.closest('[data-bankall]'); if(ba){BANKALL=!BANKALL;try{localStorage.setItem('bankall',BANKALL?'1':'0')}catch(_){}TOPICS=null;renderBank();return}
+  const ba=e.target.closest('[data-bankall]'); if(ba&&isEditor()){BANKALL=!BANKALL;try{localStorage.setItem('bankall',BANKALL?'1':'0')}catch(_){}TOPICS=null;renderBank();return}
   const bs=e.target.closest('[data-bsel]'); if(bs){const i=bs.dataset.bsel.indexOf(':'),k=bs.dataset.bsel.slice(0,i),v=bs.dataset.bsel.slice(i+1);BSEL[k]=BSEL[k]===v?null:v;renderBank();return}
   const bf=e.target.closest('[data-bf]'); if(bf){const [k,v]=bf.dataset.bf.split(':');BF[k]=v;try{localStorage.setItem('bf',JSON.stringify(BF))}catch(_){}renderBank();return}
   const hm=e.target.closest('[data-home]'); if(hm){sel=null;save('sel','');renderBank();window.scrollTo({top:0});return}

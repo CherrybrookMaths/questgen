@@ -248,7 +248,7 @@ function exList(reset=true){const box=$('#exCards');if(!box)return;const F=EXV.p
   EXCUR=exFiltered();const t=F.topic;
   $('#exLt').textContent=t==='all'?'All questions':t.startsWith('fa:')?t.split('|')[1]:subName(t);
   const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;
-  $('#exLs').textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${BANKALL?'':' · approved only'}`;
+  $('#exLs').textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${bankAll()||!isEditor()?'':' · approved only'}`;
   const show=EXCUR.slice(0,F.limit);const have=new Set($$('#exCards > .card').map(c=>+c.dataset.q));
   if(reset){box.innerHTML='';have.clear()}
   const add=show.filter(q=>!have.has(q.id)),tmp=document.createElement('div');tmp.innerHTML=add.map(cardHTML).join('');

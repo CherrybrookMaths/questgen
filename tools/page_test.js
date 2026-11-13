@@ -642,7 +642,13 @@ async function processes(browser, base, seed) {
     await page.hover('#jobs .que .jpill'); await sleep(150);
     const pop = await page.evaluate(() => { const p = document.querySelector('#jobs .que .jpop'), r = p.getBoundingClientRect(); return {vis: getComputedStyle(p).display !== 'none' && r.width > 0, txt: p.innerText, in: r.left >= 0 && r.right <= innerWidth} });
     assert(pop.vis && pop.in, 'hovering the queued pill shows no list (or it runs off screen)');
-    assert(wantQ.every(t => pop.txt.includes(t)) && /Open Processes/.test(pop.txt), `the queued list is missing items: ${pop.txt.slice(0, 160)}`);
+    assert(wantQ.every(t => pop.txt.includes(t)), `the queued list is missing items: ${pop.txt.slice(0, 160)}`);
+    // owner 13 Nov: "remove the open processes button there because clicking on the pill already takes you there"
+    assert(!/Open Processes/.test(pop.txt) && !(await page.$('#jobs .jgo')), 'the popover still has an “Open Processes” link');
+    await page.hover('#jobs .run .jpill'); await sleep(150);
+    const rp = await page.evaluate(() => { const p = document.querySelector('#jobs .run .jpop'), r = p.getBoundingClientRect(); return {vis: getComputedStyle(p).display !== 'none' && r.width > 0, txt: p.innerText, in: r.left >= 0 && r.right <= innerWidth, bar: !!p.querySelector('.jbar')} });
+    assert(rp.vis && rp.in, 'hovering the running pill shows no list (or it runs off screen)');
+    assert(/Stage 2 of 4/.test(rp.txt) && rp.bar && /Started \d{1,2}:\d{2} [ap]m/.test(rp.txt) && /Est\. finish \d{1,2}:\d{2} [ap]m/.test(rp.txt), `running popover lacks step / Started / Est. finish: ${rp.txt.replace(/\s+/g, ' ').slice(0, 200)}`);
     await page.click('#jobs .run .jpill'); await settle(page, 3000, 2);
     const h = await page.evaluate(() => location.hash); errs();
     assert(h === '#processes', `clicking the running pill went to ${h}`);
@@ -672,6 +678,25 @@ async function processes(browser, base, seed) {
     assert(!r.bigSub.length && r.subs.length && r.subs.every(x => x < 14) && r.imp < r.title, `Import heading ${r.imp}px vs title ${r.title}px; big sub-headings: ${r.bigSub.join(', ')}; sub-heading sizes ${r.subs}`);
     return `${r.cards.length} running, ${r.queue.length} queued, ${r.doneN} done (collapsed), Import below with ${r.subs.length} small sub-headings`;
   });
+  // owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well?"
+  await check('processes: job step, start, est. finish and duration', page, async () => {
+    const T = /\d{1,2}:\d{2} [ap]m/;
+    let r = await page.evaluate(() => ({cards: [...document.querySelectorAll('#procBox .pcard')].map(c => c.innerText.replace(/\s+/g, ' ')),
+      done: [...document.querySelectorAll('#procBox .pdone li')].map(c => c.textContent.replace(/\s+/g, ' '))}));
+    errs();
+    const qc = r.cards.find(c => /Stage 2 of 4/.test(c));
+    assert(qc && new RegExp('Started ' + T.source).test(qc) && new RegExp('Est\\. finish ' + T.source).test(qc) && !/Finished/.test(qc), `running card: ${qc || r.cards.join(' | ')}`);
+    const dc = r.done.find(c => /Processes page/.test(c));
+    assert(dc && new RegExp('Started ' + T.source).test(dc) && new RegExp('Finished ' + T.source).test(dc) && /took 1 h 12 min/.test(dc) && !/Est\. finish/.test(dc), `done row: ${dc}`);
+    // not today: the date shows; times are in the viewer's local zone (the fixture writes +11:00)
+    await page.evaluate(async () => { const q = JSON.parse(JSON.stringify(window.__pt.store.get('progress/queue'))); const it = q.items.find(x => x.status === 'running');
+      const d = new Date(Date.now() - 2 * 86400000); d.setHours(9, 5, 0, 0); it.started = d.toISOString(); await db.doc('progress/queue').set(q) });
+    await settle(page, 2000, 2);
+    r = await page.evaluate(() => { const d = new Date(Date.now() - 2 * 86400000); d.setHours(9, 5, 0, 0);
+      return {card: [...document.querySelectorAll('#procBox .pcard')].map(c => c.innerText.replace(/\s+/g, ' ')).find(c => /Stage 2 of 4/.test(c)), want: d.toLocaleDateString('en-AU', {day: 'numeric', month: 'short'}) + ', 9:05 am'} });
+    assert(r.card && r.card.includes('Started ' + r.want), `an older start should read “Started ${r.want}”: ${r.card}`);
+    return `running: ${qc.match(/Started [^·]+· Est\. finish \S+ [ap]m/)?.[0]}; done: ${dc.match(/took [^A-Z]+/)?.[0].trim()}; older start shows its date`;
+  });
   await check('processes: empty states and hidden pills', page, async () => {
     await page.evaluate(async () => { await db.doc('progress/jobs').set({jobs: []}); await db.doc('progress/queue').set({items: [], updated: new Date().toISOString()}) });
     await settle(page, 2000, 2);
@@ -683,21 +708,156 @@ async function processes(browser, base, seed) {
     return r.empty.join(' / ');
   });
   await page.context().close();
-  // touch: the first tap shows the list, a tap on "Open Processes" goes there
+  // touch (owner 13 Nov): the first tap shows the list; a tap elsewhere closes it; a tap on the list, or a second tap on the pill, opens Processes
   const tp = await newPage(browser, base, seed, {width: 390, theme: 'dark', touch: true});
   await boot(tp, base, '#bank');
+  const popState = sel => tp.evaluate(sel => { const p = document.querySelector(sel), r = p.getBoundingClientRect(); return {hash: location.hash, vis: getComputedStyle(p).display !== 'none' && r.width > 0, l: r.left, r: r.right, w: innerWidth, link: !!p.querySelector('.jgo'), txt: p.innerText} }, sel);
   await check('processes: pills on a touch phone', tp, async () => {
     await tp.tap('#jobs .que .jpill'); await sleep(200);
-    const a = await tp.evaluate(() => { const p = document.querySelector('#jobs .que .jpop'), r = p.getBoundingClientRect(); return {hash: location.hash, vis: getComputedStyle(p).display !== 'none', l: r.left, r: r.right, w: innerWidth} });
+    const a = await popState('#jobs .que .jpop');
     assert(a.hash === '#bank' && a.vis, `first tap: hash ${a.hash}, list shown ${a.vis}`);
     assert(a.l >= 0 && a.r <= a.w, `the list runs off a ${a.w}px screen (${Math.round(a.l)}–${Math.round(a.r)})`);
-    await tp.tap('#jobs .que .jgo'); await settle(tp, 3000, 2);
+    assert(!a.link && !/Open Processes/.test(a.txt), 'the popover still has “Open Processes”');
+    await tp.touchscreen.tap(195, 600); await sleep(200);
+    const c = await tp.evaluate(() => !document.querySelector('#jobs .jp.open'));
+    assert(c, 'a tap elsewhere did not close the list');
+    await tp.tap('#jobs .que .jpill'); await sleep(200);
+    await tp.tap('#jobs .que .jpop'); await settle(tp, 3000, 2);
     const b = await tp.evaluate(() => ({hash: location.hash, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth}));
+    assert(b.hash === '#processes', `a tap on the list went to ${b.hash}`); assert(b.sw <= b.cw + 1, `horizontal scroll ${b.sw} > ${b.cw}`);
+    await tp.evaluate(() => { location.hash = '#bank' }); await settle(tp, 3000, 2);
+    await tp.tap('#jobs .run .jpill'); await sleep(200);
+    const r = await popState('#jobs .run .jpop');
+    assert(r.vis && r.l >= 0 && r.r <= r.w, `running list at 390px: shown ${r.vis}, ${Math.round(r.l)}–${Math.round(r.r)}`);
+    assert(/Started/.test(r.txt) && /Est\. finish/.test(r.txt), `running list has no times: ${r.txt.replace(/\s+/g, ' ').slice(0, 160)}`);
+    await tp.tap('#jobs .run .jpill'); await settle(tp, 3000, 2);
+    const h = await tp.evaluate(() => location.hash);
     const e = takeErrs(tp); assert(!e.length, e.join(' | '));
-    assert(b.hash === '#processes', `“Open Processes” went to ${b.hash}`); assert(b.sw <= b.cw + 1, `horizontal scroll ${b.sw} > ${b.cw}`);
-    return 'tap shows the list; Open Processes navigates';
+    assert(h === '#processes', `a second tap on the pill went to ${h}`);
+    return 'tap shows the list (inside 390px, no link); tap elsewhere closes; tap on list or second tap → Processes';
   });
   await tp.context().close();
+}
+
+/* ---------------- Bank "Approved only" chip (owner 13 Nov: "is there a point in this showing if all questions are approvied?") ----------------
+   Shown only when some questions are unapproved AND the viewer is an editor. A non-editor never sees unapproved questions, even with bankall=1. */
+async function bankChip(browser, base, seed) {
+  const state = p => p.evaluate(() => { const all = B.questions.filter(q => !q.dup_of), ok = all.filter(q => qState(q) === 'approved');
+    return {chip: document.querySelectorAll('#bankView .bankall').length, all: all.length, ok: ok.length, shown: B.questions.filter(inBank).length,
+      stat: +(document.querySelector('#bankView .stats .stat b')?.textContent.replace(/\D/g, '') || -1)} });
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await boot(page, base, '#bank');
+  await check('bank: approved-only chip for an editor', page, async () => {
+    // the fixture may have every question approved: make every 7th one unapproved for this check
+    await page.evaluate(() => { window.__qs = qState; const real = qState; if (B.questions.filter(q => !q.dup_of).every(q => real(q) === 'approved')) { qState = q => q.id % 7 ? real(q) : null; TOPICS = null; renderBank() } });
+    await settle(page, 3000, 2);
+    let r = await state(page);
+    assert(r.ok < r.all, `could not make questions unapproved (${r.ok}/${r.all})`);
+    assert(r.chip === 1, `editor with ${r.all - r.ok} unapproved: ${r.chip} chips`);
+    await page.click('#bankView .bankall'); await settle(page, 3000, 2);
+    r = await state(page); assert(r.shown === r.all && r.chip === 1, `include unapproved shows ${r.shown} of ${r.all}`);
+    await page.click('#bankView .bankall'); await settle(page, 3000, 2);
+    // every question approved: the chip goes
+    await page.evaluate(() => { qState = () => 'approved'; TOPICS = null; renderBank() }); await settle(page, 3000, 2);
+    const r2 = await state(page);
+    await page.evaluate(() => { qState = window.__qs; TOPICS = null; renderBank() });
+    const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | '));
+    assert(r2.chip === 0, `all approved, but the chip still shows (${r2.chip})`);
+    return `${r.ok} of ${r.all} approved: chip shown and toggles; all approved: hidden`;
+  });
+  await page.context().close();
+  for (const role of ['viewer', 'none']) {
+    const vp = await newPage(browser, base, seed, {width: 390, theme: 'light', role});
+    await vp.addInitScript(() => { try { localStorage.setItem('bankall', '1') } catch (e) {} });
+    await boot(vp, base, '#bank');
+    await check(`bank (${role}): no approved-only chip, no unapproved questions`, vp, async () => {
+      await vp.evaluate(() => { const real = qState; qState = q => q.id % 7 ? real(q) : null; TOPICS = null; renderBank() }); await settle(vp, 3000, 2);
+      const r = await state(vp); const e = takeErrs(vp); assert(!e.length, e.slice(0, 3).join(' | '));
+      assert(r.chip === 0, `a ${role} sees the approved-only chip`);
+      assert(r.ok < r.all && r.shown === r.ok && r.stat === r.ok, `a ${role} with bankall=1 sees ${r.shown} questions (stat ${r.stat}), approved ${r.ok} of ${r.all}`);
+      return `${r.shown} approved questions only`;
+    });
+    await vp.context().close();
+  }
+}
+
+/* ---------------- Next up notes on Processes (owner 13 Nov: "add a place somewhere for me to write down what to flesh out next") ----------------
+   db collection "notes", one doc per note {text, order, done, by, at}: add, ↑ ↓ and drag reorder, tick → collapsed Done, inline delete confirm. */
+async function nextUp(browser, base, seed) {
+  const notes = p => p.evaluate(() => [...window.__pt.store.entries()].filter(([k]) => k.startsWith('notes/')).map(([k, v]) => ({id: k.slice(6), ...v})).sort((a, b) => a.order - b.order));
+  const openTexts = p => p.evaluate(() => [...document.querySelectorAll('#nupList > .nlist .ntext')].map(x => x.textContent));
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await page.addInitScript(() => { window.__confirms = 0; window.confirm = () => { window.__confirms++; return true } });
+  await boot(page, base, '#processes');
+  const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  await check('next up: card, empty state, add', page, async () => {
+    const r = await page.evaluate(() => ({shown: !document.querySelector('#notesBox').hidden, h: document.querySelector('#nupH')?.textContent.trim(), empty: document.querySelector('#nupList .pempty')?.textContent.trim(),
+      after: (() => { const v = document.querySelector('#processesView'), n = v.querySelector('#notesBox'), q = v.querySelector('#pQueH'), i = v.querySelector('#importBox'); return !!(n && q && i && (q.compareDocumentPosition(n) & 4) && (n.compareDocumentPosition(i) & 4)) })()}));
+    errs(); assert(r.shown && /^Next up/.test(r.h), `Next up card: shown ${r.shown}, heading “${r.h}”`);
+    assert(r.empty === 'Ideas for what to build next. Claude reads this list.', `empty state “${r.empty}”`);
+    assert(r.after, 'Next up is not between the queue and the Import dashboard');
+    for (const t of ['Worksheets tab', 'Topic heat map', 'Bulk export']) { await page.fill('#nupIn', t); await page.click('#nupForm button[type=submit]'); await settle(page, 1500, 2) }
+    const cleared = await page.evaluate(() => document.querySelector('#nupIn').value === '');
+    await page.fill('#nupIn', '   '); await page.press('#nupIn', 'Enter'); await settle(page, 800, 2);
+    const n = await notes(page); errs();
+    assert(n.length === 3 && n.map(x => x.text).join('|') === 'Worksheets tab|Topic heat map|Bulk export', `notes in db: ${JSON.stringify(n.map(x => x.text))}`);
+    assert(n.every(x => x.done === false && x.by === 'u_pagetest' && !isNaN(Date.parse(x.at)) && typeof x.order === 'number'), `note fields: ${JSON.stringify(n[0])}`);
+    assert((await openTexts(page)).join('|') === 'Worksheets tab|Topic heat map|Bulk export', 'list order on screen');
+    assert(cleared, 'the input was not cleared after Add');
+    return '3 notes added (blank ignored); {text, order, done, by, at}';
+  });
+  await check('next up: reorder with ↑ ↓ and drag', page, async () => {
+    await page.click('#nupList [data-nmove="1"][data-nid]'); await settle(page, 1500, 2);   // first note down
+    let t = await openTexts(page); assert(t.join('|') === 'Topic heat map|Worksheets tab|Bulk export', `after ↓: ${t.join('|')}`);
+    const ids = (await notes(page)).map(x => x.text); assert(ids.join('|') === 'Topic heat map|Worksheets tab|Bulk export', `db order after ↓: ${ids.join('|')}`);
+    const last = page.locator('#nupList > .nlist > li').nth(2), first = page.locator('#nupList > .nlist > li').nth(0);
+    await last.dragTo(first, {targetPosition: {x: 40, y: 3}}); await settle(page, 1500, 2);
+    t = await openTexts(page); const d = (await notes(page)).map(x => x.text); errs();
+    assert(t.join('|') === 'Bulk export|Topic heat map|Worksheets tab' && d.join('|') === t.join('|'), `after drag: screen ${t.join('|')}, db ${d.join('|')}`);
+    return t.join(' › ');
+  });
+  await check('next up: tick done, inline delete', page, async () => {
+    await page.click('#nupList > .nlist li:nth-child(1) .ntick'); await settle(page, 1500, 2);
+    let r = await page.evaluate(() => ({open: [...document.querySelectorAll('#nupList > .nlist .ntext')].map(x => x.textContent), done: document.querySelector('#nupList details.ndone'), dn: [...document.querySelectorAll('#nupList details.ndone .ntext')].map(x => x.textContent)}));
+    const n = await notes(page);
+    assert(r.open.join('|') === 'Topic heat map|Worksheets tab' && r.dn.join('|') === 'Bulk export', `after tick: open ${r.open}, done ${r.dn}`);
+    assert(await page.evaluate(() => !document.querySelector('#nupList details.ndone').open), 'the Done list should start collapsed');
+    assert(n.find(x => x.text === 'Bulk export').done === true, 'tick not saved');
+    await page.click('#nupList > .nlist li:nth-child(1) [data-ndel]'); await settle(page, 800, 2);
+    r = await page.evaluate(() => document.querySelector('#nupList > .nlist li:nth-child(1) .ndelq')?.textContent || '');
+    assert(/Delete\?/.test(r), `no inline confirm: “${r}”`);
+    await page.click('#nupList [data-ndelno]'); await settle(page, 800, 2);
+    assert((await notes(page)).length === 3, '“Keep” deleted the note');
+    await page.click('#nupList > .nlist li:nth-child(1) [data-ndel]'); await page.click('#nupList [data-ndelok]'); await settle(page, 1500, 2);
+    const left = (await notes(page)).map(x => x.text), conf = await page.evaluate(() => window.__confirms); errs();
+    assert(left.join('|') === 'Worksheets tab|Bulk export' || left.sort().join('|') === 'Bulk export|Worksheets tab', `after delete: ${left}`);
+    assert(conf === 0, `confirm() was called ${conf} times`);
+    const sw = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth); assert(sw <= 1, `horizontal scroll ${sw}px`);
+    return 'ticked → Done (collapsed); Keep / Delete inline; no confirm()';
+  });
+  await page.context().close();
+  // phone: the card fits 390px and the ↑ ↓ buttons work by tap
+  const tp = await newPage(browser, base, seed, {width: 390, theme: 'dark', touch: true});
+  await boot(tp, base, '#processes');
+  await check('next up: phone 390px', tp, async () => {
+    for (const t of ['A fairly long note about what to flesh out next, so it has to wrap on a phone screen', 'Short']) { await tp.fill('#nupIn', t); await tp.tap('#nupForm button[type=submit]'); await settle(tp, 1500, 2) }
+    await tp.tap('#nupList [data-nmove="-1"]:not([disabled])'); await settle(tp, 1500, 2);
+    const r = await tp.evaluate(() => { const b = document.querySelector('#notesBox').getBoundingClientRect(); return {t: [...document.querySelectorAll('#nupList > .nlist .ntext')].map(x => x.textContent), r: b.right, w: innerWidth,
+      sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth} });
+    const e = takeErrs(tp); assert(!e.length, e.join(' | '));
+    assert(r.t[0] === 'Short', `↑ by tap: ${r.t.join(' | ')}`); assert(r.r <= r.w && r.sw <= r.cw + 1, `overflow at 390px: card right ${r.r}, scroll ${r.sw} > ${r.cw}`);
+    return 'fits; ↑ works by tap';
+  });
+  await tp.context().close();
+  // a viewer never gets the card or a write
+  const vp = await newPage(browser, base, seed, {width: 1280, theme: 'light', role: 'viewer'});
+  await boot(vp, base, '#bank');
+  await check('next up (viewer): no card, no writes', vp, async () => {
+    const r = await vp.evaluate(async () => { renderNotes(); const ok = await noteSet({id: 'nx', text: 'x', order: 1, done: false}, {}); return {hidden: document.querySelector('#notesBox').hidden, ok, w: window.__pt.log.filter(l => l.k.startsWith('notes/')).length} });
+    assert(r.hidden && r.ok === false && r.w === 0, JSON.stringify(r));
+    return 'hidden; noteSet refused';
+  });
+  await vp.context().close();
 }
 
 /* ---------------- Exam setup: availability table labels (owner 14 Nov: "overlap") ----------------
@@ -934,7 +1094,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   let fatal = null;
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
-    await Promise.all([...combos.map(([w, t]) => sweep(browser, base, seed, w, t)), phone(browser, base, seed), areas(browser, base, seed), processes(browser, base, seed), availOverlap(browser, base, seed), queueChecks(browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => sweep(browser, base, seed, w, t)), phone(browser, base, seed), areas(browser, base, seed), processes(browser, base, seed), bankChip(browser, base, seed), nextUp(browser, base, seed), availOverlap(browser, base, seed), queueChecks(browser, base, seed)]);
     await flows(browser, base, seed);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));
     await check('offline: no requests to public CDNs', null, async () => { assert(!bad.length, `${bad.length} outside request(s): ${bad.slice(0, 5).join(' ')}`); return ext.length ? `${ext.length} Google Fonts request(s) blocked, allowed` : 'none' });

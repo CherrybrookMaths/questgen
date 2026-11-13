@@ -1,0 +1,32 @@
+/* owner 13 Nov: "add a place somewhere for me to write down what to flesh out next" — the Next up card on Processes */
+.procs #notesBox .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.procs .nupadd{display:flex;gap:8px;margin:0 0 10px;min-width:0}
+.procs .nupadd input{flex:1 1 auto;min-width:0;font:400 14px var(--sans);color:var(--ink);background:var(--panel);border:1px solid var(--line2);border-radius:var(--t2-r,6px);padding:6px 10px;min-height:32px;box-sizing:border-box}
+.procs .nupadd input:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.procs .nupadd .act{flex:none}
+.procs .nlist{list-style:none;margin:0;padding:0;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+.procs .nrow{display:flex;align-items:center;gap:8px;padding:7px 10px;margin:0;border-top:1px solid var(--line);min-width:0;font-size:14px}
+.procs .nrow:first-child{border-top:0}
+.procs .nrow.ndrag{opacity:.45}
+.procs .nrow.nover-b{box-shadow:inset 0 2px 0 var(--accent)}.procs .nrow.nover-a{box-shadow:inset 0 -2px 0 var(--accent)}
+.procs .ngrip{flex:none;color:var(--muted);cursor:grab;font-size:12px;letter-spacing:-2px;user-select:none;padding:0 2px}
+.procs .ntick{flex:none;width:16px;height:16px;margin:0;accent-color:var(--accent);cursor:pointer}
+.procs .ntext{flex:1 1 auto;min-width:0;overflow-wrap:anywhere;line-height:1.4}
+.procs .nrow.isdone .ntext{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line2)}
+.procs .nacts{flex:none;display:inline-flex;align-items:center;gap:2px}
+.procs .nbtn{font:500 14px var(--sans);width:28px;height:28px;border:1px solid transparent;border-radius:6px;background:transparent;color:var(--muted);cursor:pointer;padding:0}
+.procs .nbtn:hover:not(:disabled){border-color:var(--line2);color:var(--ink)}.procs .nbtn:disabled{opacity:.3;cursor:default}
+.procs .nbtn.ndel:hover{color:var(--bad);border-color:var(--bad)}
+.procs .nbtn:focus-visible,.procs .ndelq button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.procs .ndelq{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink);white-space:nowrap}
+.procs .ndelq button{font:600 12px var(--sans);border-radius:6px;padding:3px 8px;min-height:26px;cursor:pointer;border:1px solid var(--line2);background:var(--panel);color:var(--ink)}
+.procs .ndelq .nyes{border-color:var(--bad);color:var(--bad)}
+.procs .ndone{margin-top:10px}
+.procs .ndone>summary{cursor:pointer;font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;padding:4px 0;list-style:none}
+.procs .ndone>summary::-webkit-details-marker{display:none}
+.procs .ndone>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.procs .ndone .nlist{margin-top:6px}
+.procs .pstep{display:flex;align-items:center;gap:8px;margin-top:5px;font-size:12.5px;font-weight:500;font-variant-numeric:tabular-nums}
+.procs .pcard .jtimes,.procs .pqueue .jtimes,.procs .pdone .jtimes{margin-top:3px}
+@media (hover:none){.procs .ngrip{display:none}}
+@media (max-width:640px){.procs .nbtn{width:32px;height:32px}.procs .nrow{flex-wrap:wrap}.procs .nrow .ntext{flex-basis:calc(100% - 40px)}.procs .nacts{margin-left:auto}}

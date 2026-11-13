@@ -47,15 +47,18 @@ function renderImport(){
    Can make that page processes") ----------
    Top to bottom: Running now (progress/jobs + queue items marked running), Queued (progress/queue, in order, with the owner's
    own words in italics), Recently done (collapsed), then the import dashboard (renderImport, unchanged) under its Import heading. */
+// owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well? Would be helpful":
+// each row shows its step ("Stage 2 of 4", with a small bar), Started, and Est. finish while running/queued or Finished + how long it took once done (jobTimes, 13_shell.js).
 function renderProcesses(){const box=$('#procBox');if(!box)return;
   const run=runningNow(),que=queueItems('queued'),done=queueItems('done').reverse();
   const asked=x=>x.asked?`<p class="pasked">“${esc(String(x.asked).replace(/^["“]|["”]$/g,''))}”</p>`:'';
   const openDone=!!box.querySelector('details.pdone[open]');
   box.innerHTML=`<h2>Processes</h2><p class="sub">What Claude is working on now, and what you've asked for next.${QUEUE&&QUEUE.updated?` Queue updated ${esc(ago(QUEUE.updated))}.`:''}</p>
   <section class="psec" aria-labelledby="pRunH"><h3 id="pRunH">Running now${run.length?` <span class="pcount">${run.length}</span>`:''}</h3>
-  ${run.length?`<div class="pcards">${run.map(j=>`<article class="pcard"><div class="pctop"><span class="pdot" aria-hidden="true"></span><b>${esc(j.name)}</b>${j.started?`<span class="pwhen">${esc(startedAgo(j.started))}</span>`:''}</div>${j.detail?`<p>${esc(j.detail)}</p>`:''}${j.src==='queue'?`<span class="ptag">From the queue</span>`:''}${asked(j)}</article>`).join('')}</div>`:'<p class="pempty">Nothing running right now.</p>'}</section>
+  ${run.length?`<div class="pcards">${run.map(j=>`<article class="pcard"><div class="pctop"><span class="pdot" aria-hidden="true"></span><b>${esc(j.name)}</b>${j.started?`<span class="pwhen">${esc(startedAgo(j.started))}</span>`:''}</div>${j.step?`<div class="pstep">${esc(j.step)}${stepBar(j.step)}</div>`:''}${jobTimes(j)}${j.detail?`<p>${esc(j.detail)}</p>`:''}${j.src==='queue'?`<span class="ptag">From the queue</span>`:''}${asked(j)}</article>`).join('')}</div>`:'<p class="pempty">Nothing running right now.</p>'}</section>
   <section class="psec" aria-labelledby="pQueH"><h3 id="pQueH">Queued${que.length?` <span class="pcount">${que.length}</span>`:''}</h3>
-  ${que.length?`<ol class="pqueue">${que.map((x,i)=>`<li><span class="pnum" aria-hidden="true">${i+1}</span><div><b>${esc(x.title)}</b>${x.detail?`<p>${esc(x.detail)}</p>`:''}${asked(x)}</div></li>`).join('')}</ol>`:`<p class="pempty">${QUEUE?'Nothing queued. New requests will show here.':'No queue yet. Requests you line up will show here.'}</p>`}</section>
-  ${done.length?`<section class="psec"><details class="pdone"${openDone?' open':''}><summary>Recently done <span class="pcount">${done.length}</span></summary><ul>${done.slice(0,20).map(x=>`<li><span class="pok" aria-hidden="true">✓</span><div><b>${esc(x.title)}</b>${x.detail?`<p>${esc(x.detail)}</p>`:''}</div></li>`).join('')}</ul></details></section>`:''}`}
+  ${que.length?`<ol class="pqueue">${que.map((x,i)=>`<li><span class="pnum" aria-hidden="true">${i+1}</span><div><b>${esc(x.title)}</b>${x.step?`<div class="pstep">${esc(x.step)}</div>`:''}${jobTimes(x)}${x.detail?`<p>${esc(x.detail)}</p>`:''}${asked(x)}</div></li>`).join('')}</ol>`:`<p class="pempty">${QUEUE?'Nothing queued. New requests will show here.':'No queue yet. Requests you line up will show here.'}</p>`}</section>
+  ${done.length?`<section class="psec"><details class="pdone"${openDone?' open':''}><summary>Recently done <span class="pcount">${done.length}</span></summary><ul>${done.slice(0,20).map(x=>`<li><span class="pok" aria-hidden="true">✓</span><div><b>${esc(x.title)}</b>${jobTimes({...x,status:'done'})}${x.detail?`<p>${esc(x.detail)}</p>`:''}</div></li>`).join('')}</ul></details></section>`:''}`;
+  if(typeof renderNotes==='function')renderNotes()}   // 31_notes.js loads in a later script block; the user answer can arrive before it
 fetch('data/progress.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(p=>{if(p&&!PROG){PROG=p;if(view==='processes')renderImport()}}).catch(()=>{});
 setInterval(()=>{if(view==='processes'){renderProcesses();renderImport()}},60000);   // keeps the "12 min ago" times fresh

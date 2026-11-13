@@ -50,7 +50,7 @@ function route(){
   if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes'){renderProcesses();renderImport()} else { $('#stF').value=rstatus; refreshReview(); }
 }
 // the user capability answered: show or hide Curate, and send a viewer on a Curate link to the Bank
-function setEditor(ed){EDITOR=!!ed;
+function setEditor(ed){EDITOR=!!ed;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role
   // owner/editor with no link in the address: open the area used last
   if(EDITOR&&!location.hash&&load('qg_area')==='curate'&&!window._navved){goArea('curate');return}
   route()}
