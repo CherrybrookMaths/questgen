@@ -263,3 +263,5 @@ The PC route (when the Drive connector is not available):
 Cost per paper: none is recorded in this playbook or RESUME.md yet, so the page shows none. When one is measured (agent token
 totals for a batch / papers in it), write it here and set `COST_PER_PAPER` in tools/inventory.py.
 
+
+- **Year 11 stays out of the import queue (owner 13 Nov).** Asked whether to let the 177 (now ~700 after the Drive rescan) Year 11 Advanced papers into the queue: "Year 11 papers leave alone for now, would like to finalise Y12 first." Keep inventory.py's queueable set to Year 12 Advanced until he says otherwise.
