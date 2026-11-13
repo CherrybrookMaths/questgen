@@ -166,6 +166,7 @@ These are the named checks; each passes or fails:
 | Diagram resize (14 Nov) | on a generated paper: no − / + pill; hovering shows the handle on the diagram's corner; a mouse drag out changes `EX.figscale` and the image width in proportion, shows a live % only while dragging, and lays the paper out once, after the drag; a drag in shrinks it; far out / far in clamp to 200% / 30%; double-click resets to 100%; → → on the focused handle gives 110%; a 150% diagram keeps `--fs:1.5` in the HTML download. At 390 px on a touch phone, a finger drag resizes it. |
 | ⓘ card (14 Nov) | no dot-point line or Report link left in any question; every source line ends with an ⓘ (`.scr-only`); the ⓘ opens a card with a dot point, band, kind and Report, one row per part, inside the window, without selecting the question; outside click closes it; Enter opens, Tab reaches Report, Esc closes and refocuses the ⓘ with the preview still open; Report opens the form; the grading panel's question detail lists the dot points. At 390 px on a touch phone the tapped card fits the screen and the ⓘ stays 20 px. Download HTML has no handle, live % or ⓘ. |
 | Papers (13 Nov) | the fixture's small inventory (page_test_fixture.py `sample_papers`, served in place of `data/inventory.json`) and one seeded importq doc: Papers sits between the queue and Next up with the pause note; the grid counts (In folder / Imported / Waiting / New) match the fixture; Extension 1 / Standard rows say "needs course setup (topics, dot points, difficulty references)"; Standard / Extension / unknown / Year 11 groups have no checkboxes and `PQ.add` refuses their papers; a school tick + one paper tick + Add writes 3 importq docs `{doc_id, label, course, year_level, order, added_by, at}` in order; ↑ ↓, drag and × reach the db; 390 px touch phone fits and works by tap; a viewer gets no section, no inventory fetch and no write. |
+| Rescan drive (13 Nov) | a fake Google Drive connector (`use('mcp')`, a 6-folder tree from page_test_fixture.py `sample_drive`, 2 items a page): the button sits on the Papers first line; progress "N of M folders" and Cancel (nothing saved); a full scan finds the 5 new files and 1 same-size file, groups them by course x year as tools/classify_paths.py does, makes only read-only `search_files` parentId queries with pageToken, skips "Claude outputs", and writes one `scans/s<time>` doc with the right fields and counts; the page's classifier equals classify_path on every recorded path; a rate limit is retried once then stops; 7 error codes each give their own message; the last scan shows after a reload; no connector → "Ask Claude to rescan"; 390 px touch phone fits; a viewer gets no button, no `use('mcp')`, no write. |
 | Offline | no request left localhost. |
 
 **Results:**
@@ -200,9 +201,13 @@ use. NEVER move, rename or reorganise anything there; the owner agreed we keep t
 **Import is still paused** (owner 14 Nov: "no more importing for a while until we iron these out"). Steps 1-5 are safe now;
 step 6 waits until the owner resumes import.
 
-**Scan via Google Drive (no PC): the preferred route** (owner 13 Nov: "Where is the button to rescan the drive?"). There is
-no rescan button: the page cannot read the shared drive. When the owner asks for a rescan, Claude lists the folder with the
-Google Drive connector (read-only: `search_files` only, never move / rename / copy / trash / share), then runs steps 3-4.
+**Two ways to rescan (no PC needed for either)** (owner 13 Nov: "Where is the button to rescan the drive?"):
+- **The page's Rescan drive button** (Curate > Processes > Papers, next to "last folder scan"). It walks the folder read-only
+  with the owner's own Google Drive connector, FINDS and LISTS the new files (classified with the same rules as the tools) and
+  saves the scan to db collection `scans`. It does not change the record: Claude adds those files to it at the next import
+  step (step 3 "Or from the page" below).
+- **Ask Claude ("rescan the drive").** Claude lists the folder with the Google Drive connector (read-only: `search_files`
+  only, never move / rename / copy / trash / share) and ADDS the new files to the record directly: the steps below, then 3-4.
 1. `python3 tools/drive_listing.py next` prints a query for the folders not listed yet (the first one is the root, folder id
    `1yItEV6bFpGyrJDpDrAle0RgPKqsfjTOZ`). Run it with `search_files`, `excludeContentSnippets: true`, `pageSize: 100` and
    **`orderBy: "modifiedTime desc"`** (without it, a query over many parents is ranked by relevance and its pages repeat and
@@ -222,7 +227,8 @@ First Drive scan (13 Nov): 3,352 PDFs; 1,684 new rows (843 uploaded that day, mo
 Solutions.pdf"; the rest older files the stage-0 PC listing never reached, mostly deep Knox, Oakhill and Kings folders);
 36 copies held; 2 Hornsby Girls files moved into "Yr 11 Adv"; every recorded row except those 2 now has its Drive id.
 `classify_paths.py` learnt the "MA" course code, the school at the start of that file name, and 1980s-90s years, as
-fallbacks only where the stage-0 rules find nothing (`--selftest`: 0 of the 1,632 stage-0 paths change status; 26 only gain a field the old rules left empty).
+fallbacks only where the stage-0 rules find nothing (`RULES['fallback']`, plain data, so the page's Rescan drive applies them
+too; the page test checks the page's port against the Python on every recorded path) (`--selftest`: 0 of the 1,632 stage-0 paths change status; 26 only gain a field the old rules left empty).
 
 The PC route (when the Drive connector is not available):
 1. **Connect the PC.** The owner opens Claude on his PC with the shared drive mounted, so the session has the remote-device tools.
@@ -242,6 +248,13 @@ The PC route (when the Drive connector is not available):
    Advanced or not-yet-known, `excluded` with course and year level for the rest, as stage 0 did) and logs the scan in table
    `folder_scans`. Running it again inserts nothing (and never overwrites an earlier backup, even within the same second). A cover-page check of the `cover_check` files needs their PDFs (Drive
    connector or the PC); that is a later, separate step.
+   **Or from the page (13 Nov, owner: "Where is the button to rescan the drive?").** Curate > Processes > Papers has
+   **Rescan drive**: it walks the folder read-only with the owner's Google Drive connector and saves each scan to db collection
+   `scans` (UI_SPEC "Rescan drive"). At the next import step: export the latest doc (ArtifactData `get` on `scans/<id>`, or `list`
+   with `out_dir`), save it as JSON, and run `python3 tools/scan_folder.py <that file>` (dry run, then `--apply`). scan_folder
+   reads a scans doc as a PARTIAL listing (new files only: no missing check), re-classifies with the same rules, makes the
+   moved?/copy? calls, and records each file's Drive id in documents.drive_file_id. Then step 4 rebuilds the inventory, so the
+   page's "Found in the last scan, not yet in the record" drops to 0.
 4. **Inventory.** `python3 tools/inventory.py` writes `site/data/inventory.json` (every paper, course x year level, state,
    "new" = added by the latest scan). `batch_check.py` warns when it is stale. Files whose names carry different years are never
    one paper, even when documents.year gives them the same key (review 13 Nov: "H1 Adv 2023 (for 2024 HSC)" + "H1 Adv 2024",
@@ -249,7 +262,7 @@ The PC route (when the Drive connector is not available):
    joined Knox 2023 AT1 instead of 2024). A split-off file moves to the paper of the year its name gives (the "for 20xx HSC"
    rule), else it is its own paper labelled by its file name. documents rows are not changed.
 5. **Publish** (normal rules: `bash tools/prepublish.sh`, then the `publish_set.py --json` map, which includes
-   `data/inventory.json`). The owner opens Curate > Processes > Papers, ticks Advanced papers (or a school, or a whole group) and
+   `data/inventory.json`). The owner opens Curate > Processes > Papers, ticks Year 12 Advanced papers (Year 11 cannot be ticked: owner ruling below) (or a school, or a whole group) and
    presses "Add to import queue"; he reorders or removes them there. The page stores the order in db collection `importq`
    (one doc per paper, `d<doc_id>`: `{doc_id, label, course, year_level, order, added_by, at}`). Standard, Extension 1 and
    Extension 2 are listed but cannot be queued until their course is set up (topics, dot points, difficulty references).

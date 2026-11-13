@@ -50,7 +50,13 @@
   <div class="wrapx exams" id="examsView" hidden></div>   <!-- owner 14 Nov: Exams page -->
   <div class="wrap reports" id="reportsView" hidden><a class="rback" href="#review">← Inbox</a><section id="reportsBox" aria-live="polite"></section></div>   <!-- owner 14 Nov: question reports (alpha) -->
   <div class="levels" id="levelsView" hidden><a class="rback" href="#review">← Inbox</a><section id="levelsBox" aria-live="polite"></section></div>   <!-- owner 14 Nov: difficulty check -->
-  <div class="imp procs" id="processesView" hidden><section id="procBox" aria-live="polite"></section><section id="invBox" hidden></section><section id="notesBox" hidden></section><section id="importBox" aria-live="polite"><div class="empty">Loading import progress…</div></section></div>   <!-- owner 14 Nov: Processes page = running jobs, the queue, then the import dashboard; owner 13 Nov: "add a place somewhere for me to write down what to flesh out next" = #notesBox (Next up); owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next?" = #invBox (Papers + Import order, under the queue) -->
+  <!-- owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers". Work = running, queued, recently done, Next up; Papers = rescan, import order, the course grid, Import history (collapsed) -->
+  <div class="imp procs" id="processesView" hidden>
+    <div class="prhead"><h2>Processes</h2><div class="areasw" id="procSw" role="group" aria-label="Processes view"><button type="button" data-ptab="work" aria-pressed="true">Work</button><button type="button" data-ptab="papers" aria-pressed="false">Papers</button><span class="aslider" aria-hidden="true"></span></div></div>
+    <div class="prpane" id="procWork"><section id="procBox" aria-live="polite"></section><section id="notesBox" hidden></section></div>   <!-- owner 14 Nov: running jobs and the queue; owner 13 Nov: "add a place somewhere for me to write down what to flesh out next" = #notesBox (Next up) -->
+    <div class="prpane" id="procPapers" hidden><section id="invBox" hidden></section>   <!-- owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next?" = #invBox -->
+      <details class="phist" id="procHist"><summary>Import history</summary><section id="importBox" aria-live="polite"><div class="empty">Loading import progress…</div></section></details></div>
+  </div>
   <div class="desk" id="reviewView" hidden>
     <section class="pane srcpane" aria-label="Source page"><h2 id="srcTitle">Source page</h2><div id="src"></div></section>
     <section class="pane" aria-label="Parsed question"><h2>Parsed question</h2><div class="rout" id="rout"></div></section>

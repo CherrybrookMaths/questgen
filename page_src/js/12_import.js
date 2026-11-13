@@ -26,40 +26,46 @@ function batchesHTML(L){const g={done:[],running:[],failed:[],waiting:[]};L.forE
   const grp=(arr,title,open)=>arr.length?`<details class="bgrp"${open?' open':''}><summary>${title} <span class="muted">· ${arr.length} batch${arr.length===1?'':'es'} · ${arr.reduce((n,b)=>n+(b.papers||[]).length,0)} papers</span></summary><div class="bscroll">${stageHead()}${arr.map(batchRow).join('')}</div></details>`:'';
   return `<p class="sub">Tap a batch to see its papers. – means the stage wasn't needed.</p>`+
     grp(g.failed,'Needs attention',true)+grp(g.running,'In progress',true)+grp(g.done,'Finished',false)+grp(g.waiting,'Waiting',false)}
+// owner 13 Nov ("The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): this dashboard now sits inside
+// Processes › Papers › "Import history" (collapsed), so it has no heading of its own; the log shows the last 5 entries, "Show all" the rest.
 function renderImport(){
   const P=PROG, box=$('#importBox'); if(!box) return;
-  if(!P){box.innerHTML='<h2>Import</h2><div class="empty">No import progress recorded yet.</div>';return}
+  if(!P){box.innerHTML='<div class="empty">No import progress recorded yet.</div>';return}
   const t=P.totals||{}, pct=(a,b)=>b?Math.round(100*a/b):0;
   const tile=(v,l,a,b)=>`<div class="tile"><b>${v??'–'}</b><span>${l}</span>${b?`<div class="bar"><i style="width:${pct(a,b)}%"></i></div>`:''}</div>`;
-  const run=(P.running||[]);
-  // owner 14 Nov ("Can make that page processes"): on Processes the dashboard sits under its Import heading, so its own
-  // sub-headings use the page's small section labels, and its stage list is "Import stages running" (shown only when something
-  // is), so the page no longer has two "Running now" headings.
-  box.innerHTML=`<h2>Import</h2><p class="sub">Year 12 Advanced papers, newest first · updated ${esc(ago(P.updated))}${P.eta?` · ${esc(P.eta)}`:''}</p>
+  const run=(P.running||[]),log=(P.log||[]).slice().reverse(),all=box.dataset.logall==='1';
+  box.innerHTML=`<p class="sub">Year 12 Advanced papers, newest first · updated ${esc(ago(P.updated))}${P.eta?` · ${esc(P.eta)}`:''}</p>
   <div class="tiles">${tile(`${t.parsed||0} / ${t.papers_total||0}`,'papers parsed',t.parsed,t.papers_total)}${tile(`${t.published||0} / ${t.papers_total||0}`,'papers on this page',t.published,t.papers_total)}
   ${tile(t.questions,'questions loaded')}${tile(`${t.figures_redrawn||0} / ${t.figures_total||0}`,'diagrams redrawn',t.figures_redrawn,t.figures_total)}${tile(t.solutions_written,'solutions written by Claude')}</div>
   ${run.length?`<h3>Import stages running</h3><ul>${run.map(r=>`<li><span class="pulse" aria-hidden="true"></span><b>${esc(r.stage)}</b> · ${esc(r.batch||'')} ${r.detail?'· '+esc(r.detail):''} <span class="muted">· started ${esc(ago(r.started))}</span></li>`).join('')}</ul>`:''}
   <h3>Batches</h3>${batchesHTML(P.batches||[])}
   ${(P.issues||[]).length?`<h3>Needs your decision</h3><ul>${P.issues.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}
-  ${(P.log||[]).length?`<h3>Log</h3><ul class="log">${P.log.slice(-15).reverse().map(x=>`<li>${esc(x.t?new Date(x.t).toLocaleString('en-AU',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):'')} · ${esc(x.msg)}</li>`).join('')}</ul>`:''}`;
+  ${log.length?`<h3>Log</h3><ul class="log">${log.map((x,i)=>`<li${i>=5&&!all?' hidden':''}>${esc(x.t?new Date(x.t).toLocaleString('en-AU',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):'')} · ${esc(x.msg)}</li>`).join('')}</ul>${log.length>5&&!all?`<button type="button" class="act plogall" data-logall>Show all ${log.length}</button>`:''}`:''}`;
 }
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#importBox [data-logall]');if(!b)return;const box=$('#importBox');box.dataset.logall='1';box.querySelectorAll('.log li[hidden]').forEach(li=>li.hidden=false);b.remove()});
 /* ---------- Processes (owner 14 Nov: "Can u show this list of tasks on the artifact somewhere ... Can be on the same as import.
    Can make that page processes") ----------
-   Top to bottom: Running now (progress/jobs + queue items marked running), Queued (progress/queue, in order, with the owner's
-   own words in italics), Recently done (collapsed), then the import dashboard (renderImport, unchanged) under its Import heading. */
+   owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers" (the switch in page.html, the tab in
+   #processesView data-tab, set by route() from #processes/work | #processes/papers).
+   Work: Running now (progress/jobs + queue items marked running), Queued (progress/queue, in order, with the owner's own words
+   in italics), Recently done (collapsed), Next up (31_notes.js).
+   Papers: Rescan drive, Import order and the course grid (PQ, 32_papers_q.js), then Import history (renderImport, collapsed). */
 // owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well? Would be helpful":
 // each row shows its step ("Stage 2 of 4", with a small bar), Started, and Est. finish while running/queued or Finished + how long it took once done (jobTimes, 13_shell.js).
-function renderProcesses(){const box=$('#procBox');if(!box)return;
+function renderProcesses(){const box=$('#procBox'),pv=$('#processesView');if(!box||!pv)return;
+  const tab=pv.dataset.tab==='papers'?'papers':'work';
+  $('#procWork').hidden=tab!=='work';$('#procPapers').hidden=tab!=='papers';
+  $$('#procSw button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.ptab===tab)));moveAreaSlider();
+  if(tab==='papers'){if(typeof PQ!=='undefined')PQ.render();renderImport();return}   // PQ: 32_papers_q.js, a later script block
   const run=runningNow(),que=queueItems('queued'),done=queueItems('done').reverse();
   const asked=x=>x.asked?`<p class="pasked">“${esc(String(x.asked).replace(/^["“]|["”]$/g,''))}”</p>`:'';
   const openDone=!!box.querySelector('details.pdone[open]');
-  box.innerHTML=`<h2>Processes</h2><p class="sub">What Claude is working on now, and what you've asked for next.${QUEUE&&QUEUE.updated?` Queue updated ${esc(ago(QUEUE.updated))}.`:''}</p>
+  box.innerHTML=`<p class="sub">What Claude is working on now, and what you've asked for next.${QUEUE&&QUEUE.updated?` Queue updated ${esc(ago(QUEUE.updated))}.`:''}</p>
   <section class="psec" aria-labelledby="pRunH"><h3 id="pRunH">Running now${run.length?` <span class="pcount">${run.length}</span>`:''}</h3>
   ${run.length?`<div class="pcards">${run.map(j=>`<article class="pcard"><div class="pctop"><span class="pdot" aria-hidden="true"></span><b>${esc(j.name)}</b>${j.started?`<span class="pwhen">${esc(startedAgo(j.started))}</span>`:''}</div>${j.step?`<div class="pstep">${esc(j.step)}${stepBar(j.step)}</div>`:''}${jobTimes(j)}${j.detail?`<p>${esc(j.detail)}</p>`:''}${j.src==='queue'?`<span class="ptag">From the queue</span>`:''}${asked(j)}</article>`).join('')}</div>`:'<p class="pempty">Nothing running right now.</p>'}</section>
   <section class="psec" aria-labelledby="pQueH"><h3 id="pQueH">Queued${que.length?` <span class="pcount">${que.length}</span>`:''}</h3>
   ${que.length?`<ol class="pqueue">${que.map((x,i)=>`<li><span class="pnum" aria-hidden="true">${i+1}</span><div><b>${esc(x.title)}</b>${x.step?`<div class="pstep">${esc(x.step)}</div>`:''}${jobTimes(x)}${x.detail?`<p>${esc(x.detail)}</p>`:''}${asked(x)}</div></li>`).join('')}</ol>`:`<p class="pempty">${QUEUE?'Nothing queued. New requests will show here.':'No queue yet. Requests you line up will show here.'}</p>`}</section>
   ${done.length?`<section class="psec"><details class="pdone"${openDone?' open':''}><summary>Recently done <span class="pcount">${done.length}</span></summary><ul>${done.slice(0,20).map(x=>`<li><span class="pok" aria-hidden="true">✓</span><div><b>${esc(x.title)}</b>${jobTimes({...x,status:'done'})}${x.detail?`<p>${esc(x.detail)}</p>`:''}</div></li>`).join('')}</ul></details></section>`:''}`;
-  if(typeof PQ!=='undefined')PQ.render();   // owner 13 Nov: "me choosing which set of papers to import next" (32_papers_q.js, own script block)
   if(typeof renderNotes==='function')renderNotes()}   // 31_notes.js loads in a later script block; the user answer can arrive before it
 fetch('data/progress.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(p=>{if(p&&!PROG){PROG=p;if(view==='processes')renderImport()}}).catch(()=>{});
-setInterval(()=>{if(view==='processes'){renderProcesses();renderImport()}},60000);   // keeps the "12 min ago" times fresh
+setInterval(()=>{if(view==='processes')renderProcesses()},60000);   // keeps the "12 min ago" times fresh

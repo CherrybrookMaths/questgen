@@ -20,22 +20,33 @@ State of a paper:
   out_of_scope   excluded for another reason (Year 11, not a question paper, before 2019: old 2 Unit syllabus "excluded for
                  now", solutions only), course Advanced or not known
   other          duplicate_file / skipped / failed
-Only waiting Advanced papers can be ticked on the page ("pick": 1). Standard / Ext 1 / Ext 2 show their counts but need
+Only waiting Advanced papers outside Year 11 can be ticked on the page ("pick": 1). Standard / Ext 1 / Ext 2 show their counts but need
 course setup (topics, dot points, difficulty references) before they can be imported.
 "new" = inserted by the latest folder scan (table folder_scans, written by tools/scan_folder.py --apply).
+For the page's "Rescan drive" (owner 13 Nov: "Where is the button to rescan the drive?") the json also carries root_drive_id
+(the shared folder in Google Drive), scan_skip (folders not walked), files_url and rules (tools/classify_paths.py RULES, so the
+page classifies a new Drive file exactly as the tools do). Every recorded file (folder, name, size, Drive id) goes to a separate
+site/data/inventory_files.json (files_url), which the page fetches only for Rescan drive: with the 13 Nov Drive rescan's 1,684
+more files it would have taken inventory.json past 600 KB on every Processes load (CODE_HEALTH rule 6).
 Cost: IMPORT_PLAYBOOK.md and RESUME.md record no per-paper import cost yet (13 Nov), so COST_PER_PAPER is None and the page
 shows none. Set it (e.g. '≈ 0.4M tokens') when one is recorded there.
 """
 import collections, datetime, json, os, re, sqlite3, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from classify_paths import school_of, year_of, task_of, kind_of, as_manifest_row
+from classify_paths import school_of, year_of, task_of, kind_of, as_manifest_row, RULES
 
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
 DB = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
 OUT = P + 'site/data/inventory.json'
+FILES_URL = 'data/inventory_files.json'     # beside OUT; the page fetches it only for Rescan drive
 PAPERS = P + 'work/import/papers.json'
 COST_PER_PAPER = None
+# The shared folder in Google Drive (G:\\Shared drives\\CMC Resources\\Exams\\External Exams Stage 6; drive_ids.csv lists it as
+# the parent of the loose files at its root). The page's "Rescan drive" button (owner 13 Nov: "Where is the button to rescan
+# the drive?") walks it READ-ONLY with the viewer's Google Drive connector; the id lives here, never in the page.
+ROOT_DRIVE_ID = '1yItEV6bFpGyrJDpDrAle0RgPKqsfjTOZ'
+SCAN_SKIP = ['Claude outputs']      # our own folder inside it (csv/png exports, not exam papers): not walked
 # (key, name, short name, ready). ready = the bank has this course's topics, dot points and difficulty references, so its
 # papers can be queued. Only Advanced so far (owner 13 Nov: "We can always [build the] framework for the courses standard
 # extension and extension two [later] right?"). The page takes names and readiness from here, never hard-codes a course.
@@ -62,7 +73,8 @@ def build(db, files=False):
     """files=True adds 'f' (every documents.id in the paper) to each paper, for tools/import_next.py; never written to the json."""
     db.row_factory = sqlite3.Row
     docs = {r['id']: dict(r) for r in db.execute('SELECT id, source_path, status, course, year_level, task_type, school, year, display_label, '
-                                                   'school_formal, task_code, failure_reason, page_count, parse_path, ingested_at FROM documents')}
+                                                   'school_formal, task_code, failure_reason, page_count, parse_path, ingested_at, '
+                                                   'size_bytes, drive_file_id FROM documents')}
     has_q = {r[0] for r in db.execute('SELECT DISTINCT document_id FROM questions')}
     last = None
     if db.execute("SELECT 1 FROM sqlite_master WHERE name='folder_scans'").fetchone():
@@ -182,7 +194,8 @@ def build(db, files=False):
         if new: e['new'] = 1
         if why: e['why'] = why
         if files: e['f'] = [f['id'] for f in fs]
-        if st == 'waiting' and course == 'advanced': e['pick'] = 1
+        # Year 11 stays out of the queue (owner 13 Nov: "Year 11 papers leave alone for now, would like to finalise Y12 first")
+        if st == 'waiting' and course == 'advanced' and yl != '11': e['pick'] = 1
         if st == 'waiting' and course == 'unknown': e['why'] = 'course not known: cover page to check'
         g = out[(course if course in dict((c, 1) for c, *_ in COURSES) else 'unknown', yl)]
         g['papers'].append(e)
@@ -199,7 +212,21 @@ def build(db, files=False):
         'courses': [{'key': c, 'name': n, 'short': sh, 'ready': r, **({} if r else {'note': UNKNOWN if c == 'unknown' else SETUP})} for c, n, sh, r in COURSES],
         'cost_per_paper': COST_PER_PAPER,
         'groups': [g for g in out.values() if g['counts']['papers']],
+        'root_drive_id': ROOT_DRIVE_ID, 'scan_skip': SCAN_SKIP,
+        'files_url': FILES_URL, 'files': known_files(docs.values()),     # main() writes 'files' to FILES_URL, not into OUT
+        'rules': RULES,
     }
+
+
+def known_files(docs):
+    """Every recorded file, for the page's Drive rescan to tell new files from known ones: {dirs: [folder paths],
+    f: [[dir index, file name, size in bytes or null, Drive file id or ""], ...]}. Folders are stored once (the paths share them)."""
+    dirs, f = {}, []
+    for d in sorted(docs, key=lambda d: d['source_path'].lower()):
+        p = d['source_path'].replace('\\', '/')
+        folder, _, name = p.rpartition('/')
+        f.append([dirs.setdefault(folder, len(dirs)), name, d.get('size_bytes'), d.get('drive_file_id') or ''])
+    return {'dirs': list(dirs), 'f': f}
 
 
 def table(inv):
@@ -220,13 +247,16 @@ def main():
     print('last folder scan: ' + (f'{ls["at"]} ({ls["inserted"]} new)' if ls else 'none yet'))
     if '--print' in sys.argv: return
     out = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else OUT
-    s = json.dumps(inv, ensure_ascii=False, separators=(',', ':'))
-    old = open(out).read() if os.path.exists(out) else None
-    if old:   # unchanged apart from the build time: leave the file alone (so the publish set does not list it)
-        o = json.loads(old); o.pop('built', None); n = json.loads(s); n.pop('built', None)
-        if o == n: print(f'{os.path.relpath(out, P)} unchanged'); return
-    open(out, 'w').write(s)
-    print(f'wrote {os.path.relpath(out, P)} ({len(s):,} bytes)')
+    files = {'built': inv['built'], **inv.pop('files')}
+    fout = os.path.join(os.path.dirname(out), os.path.basename(FILES_URL))
+    for path, obj in ((out, inv), (fout, files)):
+        s = json.dumps(obj, ensure_ascii=False, separators=(',', ':'))
+        old = open(path).read() if os.path.exists(path) else None
+        if old:   # unchanged apart from the build time: leave the file alone (so the publish set does not list it)
+            o = json.loads(old); o.pop('built', None); n = json.loads(s); n.pop('built', None)
+            if o == n: print(f'{os.path.relpath(path, P)} unchanged'); continue
+        open(path, 'w').write(s)
+        print(f'wrote {os.path.relpath(path, P)} ({len(s):,} bytes)')
 
 
 if __name__ == '__main__':

@@ -1,7 +1,7 @@
 /* owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next?" — Papers + Import order on Processes */
 .procs .ivsub{margin:0 0 8px;color:var(--muted);font-size:13px}
-.procs .ivpause{margin:0 0 12px;padding:8px 12px;border:1px solid var(--warn);background:var(--warn-soft);color:var(--ink);border-radius:8px;font-size:13.5px;display:flex;gap:8px;align-items:baseline}
-.procs .ivpause span{color:var(--warn);flex:none}
+/* owner 13 Nov ("The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): the pause note is one quiet line under Import order */
+.procs .ivpause{margin:-2px 0 8px;color:var(--muted);font-size:12.5px}
 .procs .ivq{margin:0 0 14px}
 .procs .ivq h4,.procs #ivGrid .ivhead{font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .procs .ivq h4{margin:0 0 6px;display:flex;align-items:center;gap:8px}
@@ -10,25 +10,27 @@
 .procs .ivql .ntext small{color:var(--muted);font-size:12px}
 .procs .ivql .ivwarn{color:var(--warn);font-style:normal}
 .procs .ivqn{flex:none;min-width:20px;height:20px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:600 11.5px var(--sans);display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
-/* the grid: one summary row per course x year, columns In folder / Imported / Waiting / New */
-.procs #ivGrid{--ivc:repeat(4,minmax(40px,64px));border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden}
-.procs #ivGrid .ivhead{display:grid;grid-template-columns:minmax(0,1fr) var(--ivc);gap:6px;padding:7px 12px;border-bottom:1px solid var(--line);font-size:10.5px}
-.procs #ivGrid .ivhead span:not(:first-child){text-align:right;white-space:nowrap}
-.procs #ivGrid .ivhead i{font-style:normal}.procs #ivGrid .ivshort{display:none}
-.procs .ivg{border-top:1px solid var(--line)}.procs .ivhead+.ivg{border-top:0}
-.procs .ivg>summary{display:grid;grid-template-columns:minmax(0,1fr) var(--ivc);gap:6px;align-items:baseline;padding:9px 12px;cursor:pointer;list-style:none}
-.procs .ivg>summary::-webkit-details-marker{display:none}
-.procs .ivg>summary:hover{background:color-mix(in srgb,var(--accent-soft) 45%,transparent)}
-.procs .ivg>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.procs .ivname{position:relative;min-width:0;padding-left:14px;font-size:14px}
-.procs .ivname::before{content:'▸';position:absolute;left:0;top:.2em;width:10px;color:var(--muted);font-size:11px;line-height:1;transition:transform .15s}
-.procs .ivg[open] .ivname::before{transform:rotate(90deg)}
+/* the compact course grid (owner 13 Nov, Work | Papers): one row per course, cells Year 12 / Year 11 / Year ?; a cell opens its papers under the row */
+.procs #ivGrid{border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden}
+.procs #ivGrid .ivhead,.procs .ivr{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,minmax(96px,150px));gap:6px;align-items:center;padding:0 12px}
+.procs #ivGrid .ivhead{padding-block:7px;border-bottom:1px solid var(--line);font:600 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.procs #ivGrid .ivhead span:not(:first-child){text-align:right;padding-right:9px}
+.procs .ivr{border-top:1px solid var(--line);padding-block:4px}.procs .ivhead+.ivr{border-top:0}
+.procs .ivname{min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 8px;font-size:14px}
+.procs .ivname b{font-weight:600}.procs .ivr.off .ivname b{color:var(--muted)}
+.procs .ivnote{color:var(--muted);font-size:12px}
 .procs .ivyl{color:var(--muted)}
-.procs .ivnote{grid-column:1/-1;margin:-2px 0 0 14px;color:var(--muted);font-size:12px;line-height:1.35}
-.procs .ivn{text-align:right;font:600 14px var(--sans);font-variant-numeric:tabular-nums}
-.procs .ivn.ok{color:var(--ok)}.procs .ivn.wait{color:var(--accent)}.procs .ivn.new{color:var(--warn)}.procs .ivn.ivz{color:var(--muted);font-weight:400}
-.procs .ivg.off .ivname b,.procs .ivg.off .ivn{color:var(--muted)}
-.procs .ivbody{padding:4px 12px 12px 26px;border-top:1px dashed var(--line)}
+.procs .ivcell{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:baseline;gap:2px 6px;min-width:0;padding:6px 8px;border:1px solid transparent;border-radius:6px;background:none;font:400 13px var(--sans);color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.procs button.ivcell{cursor:pointer}
+.procs button.ivcell:hover{background:color-mix(in srgb,var(--accent-soft) 45%,transparent)}
+.procs button.ivcell:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.procs .ivcell.on{border-color:var(--accent);background:var(--accent-soft)}
+.procs .ivcell b{font-weight:600;color:var(--ink)}.procs .ivcell b.ok{color:var(--ok)}.procs .ivcell b.wait{color:var(--accent)}
+.procs .ivr.off .ivcell b{font-weight:500}
+.procs .ivcell .ivcl{display:none;font-style:normal}
+.procs .ivbody{grid-column:1/-1;margin:2px -12px -4px;padding:2px 12px 12px 26px;border-top:1px dashed var(--line)}
+.procs .ivbody[hidden]{display:none}
+.procs .ivbh{margin:8px 0 0;font-size:13px;color:var(--muted)}.procs .ivbh b{color:var(--ink);font-weight:600}
 .procs .ivmsg{margin:8px 0;color:var(--muted);font-size:13px}
 .procs .ivall{display:inline-flex;align-items:center;gap:8px;margin:8px 0 2px;font-weight:600;font-size:13.5px;cursor:pointer}
 .procs .ivs{margin-top:10px}
@@ -50,4 +52,30 @@
 .procs .ivbar[hidden]{display:none}
 .procs .ivbar #ivSelN{flex:1 1 auto;font-weight:600;font-size:13.5px}
 .procs .ivbar .ivadd{background:var(--accent);border-color:var(--accent);color:var(--panel)}
-@media (max-width:640px){.procs #ivGrid{--ivc:repeat(4,40px)}.procs #ivGrid .ivlong{display:none}.procs #ivGrid .ivshort{display:inline}.procs #ivGrid .ivhead,.procs .ivg>summary{gap:4px;padding-inline:10px}.procs .ivbody{padding-left:12px}.procs .ivn{font-size:13px}.procs .ivwhy{margin-left:0}}
+/* phone: the grid stacks per course (name on its own line, then three labelled cells); no sideways scroll */
+@media (max-width:640px){.procs #ivGrid .ivhead{display:none}.procs .ivr{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:8px 10px}.procs .ivname{grid-column:1/-1}
+  .procs .ivcell{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:0;text-align:left;border-color:var(--line);padding:4px 8px}.procs .ivcell .ivcl{display:block;font-size:11px}
+  .procs .ivbody{margin:2px -10px -8px;padding-left:12px}.procs .ivwhy{margin-left:0}}
+/* owner 13 Nov: "Where is the button to rescan the drive?" — Rescan drive beside the last-scan time, its progress and results */
+.procs .ivsubrow{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 8px}
+.procs .ivsubrow .ivsub{margin:0;flex:1 1 260px;min-width:0}
+.procs .ivscanb{font-size:13px;padding:4px 12px}
+.procs .ivask{color:var(--muted);font-size:12.5px;font-style:italic}
+.procs .ivsprog{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin:0 0 10px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel);font-size:13px}
+.procs .ivsptxt{flex:1 1 240px;min-width:0;font-variant-numeric:tabular-nums}
+.procs .ivsptxt em{color:var(--warn);font-style:normal}
+.procs .ivsprog progress{flex:1 1 120px;min-width:0;height:6px;accent-color:var(--accent)}
+.procs .ivserr{margin:0 0 10px;padding:8px 12px;border:1px solid var(--warn);background:var(--warn-soft);border-radius:8px;font-size:13px;color:var(--ink)}
+.procs .ivsres{margin:0 0 8px;font-size:13.5px}
+.procs .ivsres small,.procs .ivslast small{color:var(--muted)}
+.procs .ivslast{margin:0 0 12px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.procs .ivslast p{margin:0;font-size:13.5px}
+.procs .ivslast .ivsnote{margin:2px 0 4px;color:var(--muted);font-size:12.5px}
+.procs .ivsg{border-top:1px solid var(--line);margin-top:6px;padding-top:4px}
+.procs .ivsg>summary{cursor:pointer;font-size:13.5px;padding:3px 0}
+.procs .ivslist{list-style:none;margin:0 0 4px;padding:0 0 0 14px}
+.procs .ivslist li{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;padding:3px 0;border-top:1px dashed var(--line);font-size:13px;min-width:0}
+.procs .ivslist li:first-child{border-top:0}
+.procs .ivsname{flex:1 1 200px;min-width:0;overflow-wrap:anywhere}
+.procs .ivsdir{flex-basis:100%;order:3;color:var(--muted);font-size:11.5px;overflow-wrap:anywhere}
+.procs .ivchip.like{border-color:var(--warn);color:var(--warn)}

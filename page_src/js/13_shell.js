@@ -52,9 +52,9 @@ function renderJobs(){const el=$('#jobs');if(!el)return;const run=runningNow(),q
   el.hidden=!isEditor()||(!run.length&&!que.length);if(el.hidden){el.innerHTML='';setHdr();return}
   const hit=run.filter(j=>j.affects&&view==='review'&&rfilter===j.affects);
   const row=(j,n)=>`<span class="job"><b>${n?`<span class="qn">${n}</span>`:''}${esc(j.name||j.title)}</b>${j.step?`<span class="jstep">${esc(j.step)}${stepBar(j.step)}</span>`:''}${j.detail?`<span class="muted">${esc(j.detail)}</span>`:''}${jobTimes(j)||(j.started?`<span class="muted when">${esc(startedAgo(j.started))}</span>`:'')}</span>`;
-  const runPill=run.length?`<span class="jp run${hit.length?' hit':''}"><a class="jpill" href="#processes" aria-describedby="jpopR"><span class="dot" aria-hidden="true"></span>${hit.length?'Wait · ':''}${run.length} running</a>
+  const runPill=run.length?`<span class="jp run${hit.length?' hit':''}"><a class="jpill" href="#processes/work" aria-describedby="jpopR"><span class="dot" aria-hidden="true"></span>${hit.length?'Wait · ':''}${run.length} running</a>
     <span class="jpop" role="tooltip" id="jpopR">${run.map(j=>row(j)).join('')}${hit.length?`<span class="jwarn">Wait before reviewing this step: ${esc(hit.map(j=>j.name).join(', '))} will change it.</span>`:''}</span></span>`:'';
-  const quePill=que.length?`<span class="jp que"><a class="jpill" href="#processes" aria-describedby="jpopQ">${que.length} queued</a>
+  const quePill=que.length?`<span class="jp que"><a class="jpill" href="#processes/work" aria-describedby="jpopQ">${que.length} queued</a>
     <span class="jpop" role="tooltip" id="jpopQ">${que.slice(0,6).map((x,i)=>row(x,i+1)).join('')}${que.length>6?`<span class="muted">and ${que.length-6} more</span>`:''}</span></span>`:'';
   el.innerHTML=runPill+quePill;setHdr()}
 function placeJpop(jp){const pill=jp&&jp.querySelector('.jpill'),pop=jp&&jp.querySelector('.jpop');if(!pill||!pop)return;const r=pill.getBoundingClientRect(),w=Math.min(380,innerWidth-32);
@@ -63,7 +63,7 @@ document.addEventListener('mouseover',e=>{const jp=e.target.closest&&e.target.cl
 document.addEventListener('focusin',e=>{const jp=e.target.closest&&e.target.closest('.jobs .jp');if(jp)placeJpop(jp)});
 // touch: no hover, so the first tap on a pill opens its list; a tap on the list or a second tap on the pill goes to Processes; a tap elsewhere closes it
 document.addEventListener('click',e=>{const pill=e.target.closest('.jobs .jpill'),pop=e.target.closest('.jobs .jpop'),open=document.querySelector('.jobs .jp.open');
-  if(pop){e.preventDefault();if(open)open.classList.remove('open');location.hash='#processes';return}
+  if(pop){e.preventDefault();if(open)open.classList.remove('open');location.hash='#processes/work';return}   // owner 13 Nov (Work | Papers): the pills lead to Work
   if(open&&!open.contains(e.target))open.classList.remove('open');
   if(!pill)return;const jp=pill.closest('.jp');let touch=false;try{touch=matchMedia('(hover:none)').matches}catch(_){}
   if(touch&&!jp.classList.contains('open')){e.preventDefault();placeJpop(jp);jp.classList.add('open')}else jp.classList.remove('open')});

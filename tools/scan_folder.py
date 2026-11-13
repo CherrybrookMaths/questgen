@@ -11,10 +11,12 @@ reads a listing; it never touches the folder or the PDFs.
   python3 tools/scan_folder.py LISTING [LISTING ...] --apply    also insert the new files into documents (backup first)
 
 LISTING is a Google Drive listing (preferred, no PC needed: JSON {"source": "google_drive", "entries": [{path, type, size,
-mtimeMs, driveId, ...}]} built with the Drive connector, see IMPORT_PLAYBOOK.md "Scan via Google Drive"), a file saved from
-the device `list_dir` tool (JSON: entries with name/type/size/mtimeMs/depth, or with relative paths), or a tab-separated
-text file (relative path, size, mtimeMs per line). A Drive listing's file ids go into documents.drive_file_id: on new rows,
-and (--apply) on recorded rows that match by path and have none yet; an existing id is never overwritten. Append @Sub/Folder when the listing was taken
+mtimeMs, driveId, ...}]} built with the Drive connector, see IMPORT_PLAYBOOK.md "Scan via Google Drive"), a "Rescan drive"
+result from the review page (one doc of db collection `scans`, saved as JSON with ArtifactData: its new files only, so the
+missing check is skipped for it), a file saved from the device `list_dir` tool (JSON: entries with name/type/size/mtimeMs/depth,
+or with relative paths), or a tab-separated text file (relative path, size, mtimeMs per line). A Drive listing's (or page
+scan's) file ids go into documents.drive_file_id: on new rows, and (--apply) on recorded rows that match by path and have none
+yet; an existing id is never overwritten. Append @Sub/Folder when the listing was taken
 of a subfolder rather than the root: `work/scan/listing_Kings.json@Kings`. How the main session produces the listing:
 IMPORT_PLAYBOOK.md "New papers in the shared folder".
 
@@ -109,6 +111,12 @@ def load_listing(spec, root=ROOT_WIN):
             rows.append({'path': c[0], 'type': 'directory' if c[0].endswith(('/', '\\')) else 'file',
                          'size': int(c[1]) if len(c) > 1 and c[1].strip().isdigit() else None,
                          'mtimeMs': float(c[2]) if len(c) > 2 and re.match(r'^[\d.]+$', c[2].strip()) else None})
+    elif _page_scan(obj) is not None:
+        # a "Rescan drive" result from the review page (db collection scans, exported with ArtifactData): only the files that
+        # scan did not find in the record, so it is PARTIAL: the missing check is skipped for it (as for a capped listing)
+        meta['format'] = 'page_scan'
+        rows = [{'path': n['path'], 'type': 'file', 'size': n.get('size'), 'drive_id': n.get('id')} for n in _page_scan(obj)]
+        meta['truncated'] = True
     else:
         ents, m = _entries(obj)
         meta['format'] = 'google_drive' if isinstance(obj, dict) and obj.get('source') == 'google_drive' else 'json'
@@ -140,8 +148,10 @@ def load_listing(spec, root=ROOT_WIN):
         if not p: continue
         if prefix and not _key(p).startswith(_key(prefix) + '/'): p = prefix + '/' + p
         files.append({'path': p, 'size': _int(r.get('size', r.get('sizeBytes'))), 'mtime_ms': r.get('mtimeMs', r.get('mtime')), 'dir': _isdir(r),
-                      'drive_id': r.get('driveId')})
-    if meta['format'] != 'google_drive' and (len(rows) >= CAP or meta.get('truncated')):   # the Drive walk has no cap
+                      'drive_id': r.get('driveId') or r.get('drive_id')})
+    if meta['format'] == 'page_scan':
+        meta['capped'] = True
+    elif meta['format'] != 'google_drive' and (len(rows) >= CAP or meta.get('truncated')):   # the Drive walk has no cap
         meta['warnings'].append(f'{fn}: {len(rows)} entries, at the tool\'s {CAP}-entry cap: some files may be missing. List subfolders '
                                 'separately (file@Subfolder); the missing-file check is skipped for this listing.')
         meta['capped'] = True
@@ -156,6 +166,15 @@ def load_listing(spec, root=ROOT_WIN):
     meta['entries'] = len(rows)
     meta['dirs'] = len(dirs)
     return [f for f in files if not f['dir']], meta
+
+
+def _page_scan(obj):
+    """The new-file list of a page scan doc ({at, by, new: [{id, name, path, size, course, year}], counts}), also inside an export
+    wrapper ({data: {...}} or a one-doc list), else None."""
+    if isinstance(obj, list) and len(obj) == 1: obj = obj[0]
+    if isinstance(obj, dict) and isinstance(obj.get('data'), dict): obj = obj['data']
+    if isinstance(obj, dict) and isinstance(obj.get('new'), list) and 'counts' in obj and 'at' in obj: return obj['new']
+    return None
 
 
 def _isdir(r):

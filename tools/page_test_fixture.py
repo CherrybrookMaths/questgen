@@ -11,6 +11,9 @@ Usage: python3 tools/page_test_fixture.py [out.json]
 """
 import json, os, sqlite3, sys, time
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from classify_paths import RULES, classify_path
+
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DB = '/mnt/user-data/outputs/questions.db'
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(P, 'work', 'page_test', 'fixture.json')
@@ -98,10 +101,59 @@ def sample_papers():
                        {'key': 'ext2', 'name': 'Mathematics Extension 2', 'short': 'Extension 2', 'ready': False, 'note': setup},
                        {'key': 'standard', 'name': 'Mathematics Standard', 'short': 'Standard', 'ready': False, 'note': setup},
                        {'key': 'unknown', 'name': 'Course not known yet', 'short': 'Course not known', 'ready': False, 'note': 'course not known from the file name: a cover-page check sorts these'}],
-           'cost_per_paper': None, 'groups': groups}
+           'cost_per_paper': None, 'groups': groups, **sample_drive_known()}
     importq = {'importq/d9103': {'doc_id': 9103, 'label': '2024 Knox Grammar School AT1', 'course': 'advanced', 'year_level': 12, 'order': 1,
                                  'added_by': 'u_owner', 'at': '2026-11-13T18:40:00+11:00'}}
-    return {'inventory': inv, 'importq': importq}
+    files = inv.pop('files')      # as tools/inventory.py writes it: the recorded files are data/inventory_files.json, fetched for Rescan drive only
+    return {'inventory': inv, 'inventory_files': {'built': inv['built'], **files}, 'importq': importq}
+
+
+# owner 13 Nov: "Where is the button to rescan the drive?" The page's Rescan drive walks a Drive folder with the viewer's
+# Google Drive connector. The page test fakes that connector (tools/page_test.js fakeClaude, mcp) with THIS small tree, and the
+# fixture inventory above carries the matching record (root_drive_id, scan_skip, files) and the real rules (RULES).
+# Known: dK1 by Drive id, '2024 knox ...' by path (other case), 2025 HSC by id. New: n1, n2, n4, n5, n6. n3 has the size of a
+# recorded file (probably moved). 'Claude outputs' is skipped. per=2: the fake answers 2 items a page, so pageToken is used.
+DRIVE_KNOWN = [('Knox/Y12', '2025 Knox Year 12 Mathematics Advanced Trial.pdf', 1000, 'dK1'), ('Knox/Y12', '2024 Knox Year 12 Adv AT1.pdf', 2000, ''),
+               ('HSC 2025', '2025-hsc-maths-advanced.pdf', 3000, 'dH1'), ('', 'Loose Adv notes.pdf', 4000, '')]
+def sample_drive_known():
+    dirs = list(dict.fromkeys(d for d, *_ in DRIVE_KNOWN))
+    return {'root_drive_id': 'ROOTFAKE', 'scan_skip': ['Claude outputs'], 'rules': RULES, 'files_url': 'data/inventory_files.json',
+            'files': {'dirs': dirs, 'f': [[dirs.index(d), n, sz, i] for d, n, sz, i in DRIVE_KNOWN]}}
+
+
+def sample_drive():
+    F = lambda i, t: {'id': i, 'title': t, 'mimeType': 'application/vnd.google-apps.folder'}
+    D = lambda i, t, sz: {'id': i, 'title': t, 'mimeType': 'application/pdf', 'fileSize': str(sz)}
+    folders = {
+        'ROOTFAKE': [F('fK', 'Knox'), F('fH25', 'HSC 2025'), F('fH27', 'HSC 2027'), F('fCO', 'Claude outputs')],
+        'fK': [F('fKY12', 'Y12'), F('fKY11', 'Y11')],
+        'fKY12': [D('dK1', '2025 Knox Year 12 Mathematics Advanced Trial.pdf', 1000), D('x2', '2024 knox year 12 adv at1.pdf', 2000),
+                  D('n1', '2026 Knox Year 12 Mathematics Advanced Trial.pdf', 5001), D('n2', '2026 Knox Year 12 Mathematics Extension 1 Trial.pdf', 5002),
+                  D('n3', 'Knox Adv notes copy.pdf', 4000)],
+        'fKY11': [D('n4', '2026 Knox Year 11 Mathematics Advanced Yearly.pdf', 5004)],
+        'fH25': [D('dH1', '2025-hsc-maths-advanced.pdf', 3000)],
+        'fH27': [D('n5', '2027-hsc-maths-advanced.pdf', 5005), D('n6', '2027-hsc-maths-advanced-mg.pdf', 5006)],
+        'fCO': [D('n7', 'export.pdf', 5007)],
+    }
+    path = {'n1': 'Knox/Y12/', 'n2': 'Knox/Y12/', 'n3': 'Knox/Y12/', 'n4': 'Knox/Y11/', 'n5': 'HSC 2027/', 'n6': 'HSC 2027/'}
+    names = {x['id']: x['title'] for xs in folders.values() for x in xs}
+    expect = {}
+    for i, d in path.items():
+        c = classify_path(d + names[i])
+        expect[i] = {'path': d + names[i], 'course': c['course'], 'yl': c['year_level'], 'year': c['year'], 'status': c['status']}
+    return {'folders': folders, 'per': 2, 'folder_count': 6, 'expect': expect, 'like': {'n3': 'Loose Adv notes.pdf'}}
+
+
+def classify_cases():
+    """Every recorded path with what tools/classify_paths.py says about it: the page's port must agree (page_test)."""
+    if not os.path.exists(DB):
+        return []
+    db = sqlite3.connect('file:' + DB + '?mode=ro', uri=True)
+    out = []
+    for (p,) in db.execute('SELECT source_path FROM documents ORDER BY id'):
+        c = classify_path(p)
+        out.append([p, c['course'], c['year_level'], c['task_type'], c['year'], c['school'], c['status'], c['failure_reason']])
+    return out
 
 
 def main():
@@ -126,7 +178,7 @@ def main():
     drop = workload(docs)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump({'made': time.strftime('%Y-%m-%dT%H:%M:%S'), 'synced': synced, 'workload': {'papers': WORKLOAD, 'drop': drop}, 'docs': docs,
-               'papers': sample_papers()}, open(OUT, 'w'))
+               'papers': sample_papers(), 'drive': sample_drive(), 'classify': classify_cases()}, open(OUT, 'w'))
     counts = {}
     for k in docs:
         counts[k.split('/')[0]] = counts.get(k.split('/')[0], 0) + 1

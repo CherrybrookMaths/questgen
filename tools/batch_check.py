@@ -168,8 +168,17 @@ try:
     _iv = json.load(open(P + 'site/data/inventory.json'))
     _nd = db.execute('select count(*) from documents').fetchone()[0]
     _nq = db.execute('select count(distinct document_id) from questions').fetchone()[0]
+    sys.path.insert(0, P + 'tools'); from classify_paths import RULES as _rules
     if (_iv.get('docs'), _iv.get('docs_with_questions')) != (_nd, _nq):
         W(f'site/data/inventory.json is stale ({_iv.get("docs")} files, {_iv.get("docs_with_questions")} with questions; the database has {_nd}, {_nq}): run python3 tools/inventory.py')
+    # the page's Rescan drive classifies new Drive files with the rules copied into the inventory (CODE_HEALTH rule 3)
+    elif _iv.get('rules') != json.loads(json.dumps(_rules)):
+        B('site/data/inventory.json carries other path rules than tools/classify_paths.py RULES: run python3 tools/inventory.py')
+    # 13 Nov: the recorded files live in a separate file the page fetches for Rescan drive only (CODE_HEALTH rule 6)
+    elif 'files' in _iv or not os.path.exists(P + 'site/' + str(_iv.get('files_url'))):
+        B('site/data/inventory.json must name data/inventory_files.json (files_url) and not carry the files itself: run python3 tools/inventory.py')
+    elif len(json.load(open(P + 'site/' + _iv['files_url'])).get('f', [])) != _nd:
+        W(f'{_iv["files_url"]} is stale (not one entry per documents row): run python3 tools/inventory.py')
     else: I(f'inventory: {_iv["totals"]["papers"]} papers ({_iv["totals"]["imported"]} imported, {_iv["totals"]["waiting"]} waiting); last folder scan {(_iv.get("last_scan") or {}).get("at", "none yet")}')
 except FileNotFoundError: W('site/data/inventory.json missing: run python3 tools/inventory.py (Processes > Papers)')
 except Exception as e: W(f'inventory check failed: {e}')

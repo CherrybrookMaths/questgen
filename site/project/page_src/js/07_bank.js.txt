@@ -104,7 +104,16 @@ function faHTML(yl,fa){const subs=(yl==='12'?TOPICS.y12:TOPICS.y11).get(fa);if(!
 let BF={type:'all',src:'all',fig:'all',band:'all',wm:'all'};try{BF=Object.assign(BF,JSON.parse(localStorage.getItem('bf')||'{}'))}catch(e){}
 const bfOK=q=>(BF.type==='all'||(BF.type==='mcq')===(q.type==='mcq'))&&(BF.src==='all'||(BF.src==='hsc')===(B.docs[q.doc]?.task_type==='hsc'))&&(BF.fig==='all'||(figKeys(q).all.length>0)===(BF.fig==='yes'))&&(typeof qDifOK!=='function'||qDifOK(q,BF));   // owner 14 Nov: difficulty filters (exam builder stage 2)
 let BSEL={key:null,skill:null,dp:null};
-function bfHTML(all,shown,narrow){const g=(k,lab,opts)=>`<span class="grp"><span>${lab}</span>${opts.map(([v,l])=>`<button data-bf="${k}:${v}" aria-pressed="${BF[k]===v}">${l}</button>`).join('')}</span>`;
+// owner 13 Nov: "in the bank, the pills at the top, make them animated": each filter group (Type, Source, Diagram, Band, Kind)
+// has one highlight that slides to the chosen option. The list is redrawn on every click, so the last position of each group's
+// highlight is kept in BFPOS and the new highlight starts there, then slides. Reduced motion: it just appears.
+const BFPOS={};
+function bfPills(){$$('#list .bfilters .grp[data-bfg]').forEach(g=>{const k=g.dataset.bfg,p=g.querySelector('.bfpill'),b=g.querySelector('button[aria-pressed="true"]');if(!p||!b)return;
+  const to={x:b.offsetLeft,w:b.offsetWidth,y:b.offsetTop,h:b.offsetHeight},from=BFPOS[k];BFPOS[k]=to;
+  const set=v=>{p.style.transform=`translate(${v.x}px,${v.y}px)`;p.style.width=v.w+'px';p.style.height=v.h+'px'};
+  if(!from||(from.x===to.x&&from.w===to.w)||matchMedia('(prefers-reduced-motion: reduce)').matches){p.style.transition='none';set(to);p.classList.add('on');return}
+  p.style.transition='none';set(from);p.classList.add('on');void p.offsetWidth;p.style.transition='';set(to)})}
+function bfHTML(all,shown,narrow){const g=(k,lab,opts)=>`<span class="grp" data-bfg="${k}"><i class="bfpill" aria-hidden="true"></i><span>${lab}</span>${opts.map(([v,l])=>`<button data-bf="${k}:${v}" aria-pressed="${BF[k]===v}">${l}</button>`).join('')}</span>`;
   return `<div class="bfilters">${g('type','Type',[['all','All'],['mcq','Multiple choice'],['written','Written']])}${g('src','Source',[['all','All'],['hsc','HSC'],['school','Trials & school']])}${g('fig','Diagram',[['all','Any'],['yes','With'],['no','Without']])}${g('band','Band',[['all','All'],['lo','2–3'],['mid','4'],['hi','5–6']])}${g('wm','Kind',[['all','All'],['uf','Fluency'],['pr','Problem solving'],['mix','Mixed']])}<span class="shown">${shown} of ${all}</span>${narrow?`<div class="narrow">${narrow}</div>`:''}</div>`}
 function renderBank(){
   if(!TOPICS) buildTopics();
@@ -145,7 +154,7 @@ function renderBank(){
   const batch=n=>{if(L._gen!==gen)return;const part=qs.slice(i,i+n);i+=part.length;const tmp=document.createElement('div');tmp.innerHTML=part.map(cardHTML).join('');
     const els=[...tmp.children];els.forEach(c=>{box.appendChild(c);const q=B.questions.find(x=>x.id===+c.dataset.q);hydrate(c,q,'bank')});
     els.forEach(c=>TSIO.observe(c));if(i<qs.length)setTimeout(()=>batch(12),16)};
-  batch(8);
+  batch(8);bfPills();
 }
 // owner 13 Nov: "smoother animations ... opening/closing should be smooth, clicking between subtopics should be a smooth pill movement,
 // add anything else ... people will be using this a lot". The tree is rendered once and then only updated in place (open state,
