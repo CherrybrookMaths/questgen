@@ -67,6 +67,43 @@ def workload(docs):
     return sorted(k for k in drop if k in docs)
 
 
+# owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next? We can always [build the]
+# framework for the courses standard extension and extension two [later] right?" The Papers section on Processes reads
+# data/inventory.json (tools/inventory.py) and db collection importq. The page test serves THIS small inventory instead of the
+# live one (route data/inventory.json), so the grid counts are known, and seeds one importq doc (paper 9103) on its own pages only.
+def sample_papers():
+    P_ = lambda i, s, y, t, st, **k: {'id': i, 's': s, 'y': y, 't': t, 'st': st, 'n': k.pop('n', 1), **k}
+    adv12 = [P_(9001, 'Abbotsleigh', 2024, 'AT4', 'imported', sol=1), P_(9002, 'Knox Grammar School', 2025, 'AT2', 'imported', sol=1),
+             P_(9003, 'NESA', 2025, 'HSC', 'imported', sol=1),
+             P_(9101, 'Abbotsleigh', 2025, 'AT4', 'waiting', sol=1, pick=1), P_(9102, 'Abbotsleigh', 2023, 'AT2', 'waiting', pick=1, scan=1),
+             P_(9103, 'Knox Grammar School', 2024, 'AT1', 'waiting', sol=1, pick=1), P_(9104, 'Knox Grammar School', 2026, 'AT4', 'waiting', sol=1, pick=1, new=1, n=2),
+             P_(9201, 'TEC', 2022, 'AT4', 'out_of_scope', sol=1, why='solutions only: question paper not found')]
+    adv11 = [P_(9301, 'Knox Grammar School', 2024, 'AT2', 'out_of_scope', why='Year 11: outside the import scope (Year 12)'),
+             P_(9302, "The King's School", 2023, 'AT1', 'out_of_scope', why='Year 11: outside the import scope (Year 12)')]
+    ext1 = [P_(9401, 'Knox Grammar School', 2025, 'AT4', 'out_of_course', sol=1), P_(9402, 'Abbotsleigh', 2024, 'AT4', 'out_of_course'),
+            P_(9403, 'CSSA', 2026, 'AT4', 'out_of_course', new=1)]
+    std = [P_(9501, 'Hornsby Girls High School', 2025, 'AT4', 'out_of_course'), P_(9502, 'Penrith High School', 2024, 'AT3', 'out_of_course')]
+    unk = [P_(9601, '', None, '', 'out_of_scope', l='Adv Math - Graphing Techniques', why='path/filename names a non-target course or year (not cover-checked)')]
+    def grp(c, yl, ps):
+        ps = sorted(ps, key=lambda e: (e['s'] or '~', -(e['y'] or 0), e['t'], e.get('l', '')))   # as tools/inventory.py sorts them
+        k = {s: sum(p['st'] == s for p in ps) for s in ('imported', 'waiting', 'out_of_course', 'out_of_scope', 'other')}
+        return {'course': c, 'yl': yl, 'counts': {**k, 'new': sum(p.get('new', 0) for p in ps), 'papers': len(ps), 'files': sum(p['n'] for p in ps)}, 'papers': ps}
+    groups = [grp('advanced', '12', adv12), grp('advanced', '11', adv11), grp('ext1', '12', ext1), grp('standard', '12', std), grp('unknown', '?', unk)]
+    setup = 'needs course setup (topics, dot points, difficulty references)'
+    inv = {'built': '2026-11-13T19:00:00+11:00', 'docs': sum(g['counts']['files'] for g in groups),
+           'last_scan': {'at': '2026-11-13T18:30:00+11:00', 'pdfs': 1634, 'new': 2, 'inserted': 2, 'moved': 0, 'copies': 0, 'missing': 0, 'report': 'work/scan/scan_2026-11-13.json'},
+           'totals': {k: sum(g['counts'][k] for g in groups) for k in groups[0]['counts']},
+           'courses': [{'key': 'advanced', 'name': 'Mathematics Advanced', 'short': 'Advanced', 'ready': True},
+                       {'key': 'ext1', 'name': 'Mathematics Extension 1', 'short': 'Extension 1', 'ready': False, 'note': setup},
+                       {'key': 'ext2', 'name': 'Mathematics Extension 2', 'short': 'Extension 2', 'ready': False, 'note': setup},
+                       {'key': 'standard', 'name': 'Mathematics Standard', 'short': 'Standard', 'ready': False, 'note': setup},
+                       {'key': 'unknown', 'name': 'Course not known yet', 'short': 'Course not known', 'ready': False, 'note': 'course not known from the file name: a cover-page check sorts these'}],
+           'cost_per_paper': None, 'groups': groups}
+    importq = {'importq/d9103': {'doc_id': 9103, 'label': '2024 Knox Grammar School AT1', 'course': 'advanced', 'year_level': 12, 'order': 1,
+                                 'added_by': 'u_owner', 'at': '2026-11-13T18:40:00+11:00'}}
+    return {'inventory': inv, 'importq': importq}
+
+
 def main():
     docs, synced = {}, {}
     if os.path.exists(DB):
@@ -88,7 +125,8 @@ def main():
     docs.update(sample_progress())
     drop = workload(docs)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump({'made': time.strftime('%Y-%m-%dT%H:%M:%S'), 'synced': synced, 'workload': {'papers': WORKLOAD, 'drop': drop}, 'docs': docs}, open(OUT, 'w'))
+    json.dump({'made': time.strftime('%Y-%m-%dT%H:%M:%S'), 'synced': synced, 'workload': {'papers': WORKLOAD, 'drop': drop}, 'docs': docs,
+               'papers': sample_papers()}, open(OUT, 'w'))
     counts = {}
     for k in docs:
         counts[k.split('/')[0]] = counts.get(k.split('/')[0], 0) + 1

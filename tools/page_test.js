@@ -1022,6 +1022,126 @@ async function nextUp(browser, base, seed) {
   await vp.context().close();
 }
 
+/* ---------------- Papers and the owner's import order on Processes ----------------
+   owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next? We can always [build the]
+   framework for the courses standard extension and extension two [later] right?" The page reads data/inventory.json (here the
+   fixture's small inventory, served in place of the live one) and db collection importq (seeded with one doc, paper 9103).
+   Grid counts; Standard / Extension 1 / unknown rows have no checkboxes; tick a school + a paper, Add, ↑ ↓, drag, remove;
+   390 px on a touch phone; a viewer gets no section, no fetch and no write. */
+async function papersQueue(browser, base, seed, fx) {
+  if (!fx) { await check('papers: fixture', null, async () => { throw new Error('work/page_test/fixture.json has no "papers": run tools/page_test_fixture.py') }); return }
+  const inv = fx.inventory, seedQ = {...seed, ...fx.importq};
+  const serveInv = async p => { p._inv = 0; await p.route(u => /\/data\/inventory\.json/.test(u.href), r => { p._inv++; return r.fulfill({status: 200, contentType: 'application/json', body: JSON.stringify(inv)}) }) };
+  const qdocs = p => p.evaluate(() => [...window.__pt.store.entries()].filter(([k]) => k.startsWith('importq/')).map(([k, v]) => ({k, ...v})).sort((a, b) => a.order - b.order));
+  const qtexts = p => p.evaluate(() => [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(b => b.textContent));
+  const openG = (p, g) => p.evaluate(g => { const d = document.querySelector(`#ivGrid details[data-ivg="${g}"]`); if (d && !d.open) d.querySelector('summary').click() }, g);
+  const page = await newPage(browser, base, seedQ, {width: 1280, theme: 'light'});
+  await serveInv(page);
+  await boot(page, base, '#processes'); await settle(page, 3000, 2);
+  const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  await check('papers: course x year grid counts', page, async () => {
+    const r = await page.evaluate(() => {
+      const v = document.querySelector('#processesView'), pos = s => { const a = v.querySelector(s), b = v.querySelector('#ivH'); return a && b ? a.compareDocumentPosition(b) : 0 };
+      return {shown: !document.querySelector('#invBox').hidden, h: document.querySelector('#ivH')?.textContent.trim(), pause: document.querySelector('#invBox .ivpause')?.textContent.trim(),
+        afterQueue: !!(pos('#pQueH') & 4), beforeNotes: !!(pos('#nupH') & 2), sub: document.querySelector('#ivSub')?.textContent,
+        rows: Object.fromEntries([...document.querySelectorAll('#ivGrid details.ivg')].map(d => [d.dataset.ivg, {n: [...d.querySelectorAll('summary .ivn')].map(x => x.textContent.trim()), off: d.classList.contains('off'), note: d.querySelector('.ivnote')?.textContent || ''}])),
+        q: [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(b => b.textContent)};
+    });
+    errs(); assert(r.shown && r.h === 'Papers', `Papers section: shown ${r.shown}, heading “${r.h}”`);
+    assert(r.afterQueue && r.beforeNotes, 'Papers is not between the queue and Next up');
+    assert(/Import is paused\. This only sets the order for when it resumes\.$/.test(r.pause || ''), `pause note: “${r.pause}”`);
+    assert(/^16 papers in the shared folder \(17 files\) · last folder scan .+, 2 new$/.test(r.sub || ''), `sub line: “${r.sub}”`);
+    const want = {'advanced|12': ['8', '3', '4', '1'], 'advanced|11': ['2', '0', '0', '0'], 'ext1|12': ['3', '–', '–', '1'], 'standard|12': ['2', '–', '–', '0'], 'unknown|?': ['1', '–', '–', '0']};
+    for (const [g, n] of Object.entries(want)) assert(r.rows[g] && r.rows[g].n.join(',') === n.join(','), `${g}: ${r.rows[g] && r.rows[g].n.join(',')} (want ${n.join(',')})`);
+    assert(Object.keys(r.rows).join(',') === Object.keys(want).join(','), `rows ${Object.keys(r.rows)}`);
+    for (const g of ['ext1|12', 'standard|12']) assert(r.rows[g].off && r.rows[g].note === 'needs course setup (topics, dot points, difficulty references)', `${g}: off ${r.rows[g].off}, note “${r.rows[g].note}”`);
+    assert(!r.rows['advanced|12'].off && !r.rows['advanced|12'].note, 'the Advanced row is marked as needing setup');
+    assert(r.q.join('|') === '2024 Knox Grammar School AT1', `import order from the seeded importq: ${r.q}`);
+    return Object.entries(r.rows).map(([g, x]) => `${g} ${x.n.join('/')}`).join(' · ');
+  });
+  await check('papers: Standard / Extension / unknown rows cannot be ticked', page, async () => {
+    for (const g of ['ext1|12', 'standard|12', 'unknown|?', 'advanced|11']) await openG(page, g);
+    await settle(page, 1500, 2);
+    const r = await page.evaluate(() => Object.fromEntries(['ext1|12', 'standard|12', 'unknown|?', 'advanced|11'].map(g => { const d = document.querySelector(`#ivGrid details[data-ivg="${g}"]`);
+      return [g, {boxes: d.querySelectorAll('input[type=checkbox]').length, papers: d.querySelectorAll('.ivpp').length, msg: d.querySelector('.ivmsg')?.textContent || '', schools: [...d.querySelectorAll('.ivsh')].map(x => x.textContent.replace(/\d+$/, '').trim())}] })));
+    const added = await page.evaluate(() => PQ.add([9401, 9501, 9301, 9601])), w = (await qdocs(page)).length; errs();
+    for (const [g, n] of [['ext1|12', 3], ['standard|12', 2], ['unknown|?', 1], ['advanced|11', 2]]) assert(r[g].boxes === 0 && r[g].papers === n, `${g}: ${r[g].boxes} checkboxes, ${r[g].papers} papers (want 0, ${n})`);
+    assert(/needs course setup \(topics, dot points, difficulty references\)/.test(r['ext1|12'].msg) && /can't be queued yet/.test(r['standard|12'].msg), `messages: ${r['ext1|12'].msg} / ${r['standard|12'].msg}`);
+    assert(r['ext1|12'].schools.join('|') === 'Abbotsleigh|CSSA|Knox Grammar School', `ext1 papers by school: ${r['ext1|12'].schools}`);
+    assert(added === 0 && w === 1, `PQ.add of non-Advanced / not-waiting papers wrote ${added} (importq docs ${w})`);
+    return 'no checkboxes; listed by school; PQ.add refuses them';
+  });
+  await check('papers: tick a school and a paper, Add to import queue', page, async () => {
+    await openG(page, 'advanced|12'); await settle(page, 1500, 2);
+    const before = await page.evaluate(() => { const d = document.querySelector('#ivGrid details[data-ivg="advanced|12"]');
+      return {boxes: [...d.querySelectorAll('[data-ivp]')].map(b => +b.dataset.ivp).sort(), inq: [...d.querySelectorAll('.ivchip.q')].map(c => c.textContent), all: d.querySelector('[data-ivall]')?.parentElement.textContent.trim(), bar: document.querySelector('#ivBar').hidden} });
+    assert(before.boxes.join(',') === '9101,9102,9104', `tickable papers ${before.boxes} (want the 3 waiting ones not queued)`);
+    assert(before.inq.join('|') === 'In queue · #1' && before.all === 'Select all 3 waiting' && before.bar, JSON.stringify(before));
+    await page.click('#ivGrid details[data-ivg="advanced|12"] [data-ivsch][data-school="Abbotsleigh"]');
+    let bar = await page.evaluate(() => ({t: document.querySelector('#ivSelN').textContent, hid: document.querySelector('#ivBar').hidden, all: (b => b && {c: b.checked, i: b.indeterminate})(document.querySelector('[data-ivall="advanced|12"]'))}));
+    assert(!bar.hid && bar.t === '2 papers selected' && bar.all.i && !bar.all.c, `after ticking Abbotsleigh: ${JSON.stringify(bar)}`);
+    await page.click('#ivc9104');
+    bar = await page.evaluate(() => ({t: document.querySelector('#ivSelN').textContent, all: document.querySelector('[data-ivall="advanced|12"]').checked}));
+    assert(bar.t === '3 papers selected' && bar.all, `after ticking 9104: ${JSON.stringify(bar)}`);
+    await page.click('#ivAdd'); await settle(page, 2000, 2);
+    const d = await qdocs(page), t = await qtexts(page); errs();
+    assert(d.map(x => x.doc_id).join(',') === '9103,9101,9102,9104' && d.map(x => x.order).join(',') === '1,2,3,4', `importq: ${d.map(x => x.doc_id + '@' + x.order)}`);
+    const n = d.find(x => x.doc_id === 9104);
+    assert(n.k === 'importq/d9104' && n.label === '2026 Knox Grammar School AT4' && n.course === 'advanced' && n.year_level === 12 && n.added_by === 'u_pagetest' && !isNaN(Date.parse(n.at)), `doc fields: ${JSON.stringify(n)}`);
+    assert(t.join('|') === '2024 Knox Grammar School AT1|2025 Abbotsleigh AT4|2023 Abbotsleigh AT2|2026 Knox Grammar School AT4', `on screen: ${t.join(' | ')}`);
+    const after = await page.evaluate(() => { const d = document.querySelector('#ivGrid details[data-ivg="advanced|12"]'); return {boxes: d.querySelectorAll('[data-ivp]').length, inq: d.querySelectorAll('.ivchip.q').length, bar: document.querySelector('#ivBar').hidden, msg: d.querySelector('.ivmsg')?.textContent || ''} });
+    assert(after.boxes === 0 && after.inq === 4 && after.bar, `after Add: ${JSON.stringify(after)}`);
+    return `3 added in order; {doc_id, label, course, year_level, order, added_by, at}`;
+  });
+  await check('papers: reorder with ↑ ↓ and drag, remove', page, async () => {
+    await page.click('#ivQList [data-ivmove="1"]'); await settle(page, 1500, 2);   // first (9103) down
+    let t = await qtexts(page), d = (await qdocs(page)).map(x => x.label);
+    assert(t[0] === '2025 Abbotsleigh AT4' && t[1] === '2024 Knox Grammar School AT1' && d.join('|') === t.join('|'), `after ↓: screen ${t.join(' | ')}, db ${d.join(' | ')}`);
+    const last = page.locator('#ivQList .ivql > li').nth(3), first = page.locator('#ivQList .ivql > li').nth(0);
+    await last.dragTo(first, {targetPosition: {x: 40, y: 3}}); await settle(page, 1500, 2);
+    t = await qtexts(page); d = (await qdocs(page)).map(x => x.label);
+    assert(t[0] === '2026 Knox Grammar School AT4' && d.join('|') === t.join('|'), `after drag: screen ${t.join(' | ')}, db ${d.join(' | ')}`);
+    await page.click('#ivQList .ivql > li:nth-child(2) [data-ivdel]'); await settle(page, 1500, 2);
+    t = await qtexts(page); const dd = await qdocs(page); errs();
+    assert(dd.length === 3 && !dd.some(x => x.doc_id === 9101) && t.length === 3, `after remove: ${t.join(' | ')} (db ${dd.map(x => x.doc_id)})`);
+    const back = await page.evaluate(() => !!document.querySelector('#ivGrid details[data-ivg="advanced|12"] [data-ivp="9101"]'));
+    assert(back, 'a removed paper is not tickable again');
+    const sw = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth); assert(sw <= 1, `horizontal scroll ${sw}px`);
+    return t.join(' › ');
+  });
+  await page.context().close();
+  // phone: the grid and the queue fit 390 px; ticking and ↑ work by tap
+  const tp = await newPage(browser, base, seedQ, {width: 390, theme: 'dark', touch: true});
+  await serveInv(tp);
+  await boot(tp, base, '#processes'); await settle(tp, 3000, 2);
+  await check('papers: phone 390px', tp, async () => {
+    await tp.evaluate(() => document.querySelector('#ivGrid details[data-ivg="advanced|12"] summary').click()); await settle(tp, 1500, 2);
+    await tp.tap('#ivc9102'); await tp.tap('#ivAdd'); await settle(tp, 2000, 2);
+    await tp.tap('#ivQList .ivql > li:nth-child(2) [data-ivmove="-1"]'); await settle(tp, 1500, 2);
+    const r = await tp.evaluate(() => { const b = document.querySelector('#invBox').getBoundingClientRect(), nums = [...document.querySelectorAll('#ivGrid summary .ivn')].map(n => n.getBoundingClientRect().right);
+      return {t: [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(x => x.textContent), right: b.right, w: innerWidth, nr: Math.max(...nums), sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
+        rowH: document.querySelector('#ivGrid details[data-ivg="ext1|12"] summary').getBoundingClientRect().height} });
+    const e = takeErrs(tp); assert(!e.length, e.join(' | '));
+    assert(r.t.join('|') === '2023 Abbotsleigh AT2|2024 Knox Grammar School AT1', `after tick, Add and ↑ by tap: ${r.t.join(' | ')}`);
+    assert(r.right <= r.w && r.nr <= r.right && r.sw <= r.cw + 1, `overflow at 390px: box right ${r.right}, numbers right ${r.nr}, scroll ${r.sw} > ${r.cw}`);
+    return `fits (row with note ${Math.round(r.rowH)} px tall); tick, Add and ↑ work by tap`;
+  });
+  await tp.context().close();
+  // a viewer: no section, no inventory fetch, no write
+  const vp = await newPage(browser, base, seedQ, {width: 1280, theme: 'light', role: 'viewer'});
+  await serveInv(vp);
+  await boot(vp, base, '#bank');
+  await check('papers (viewer): nothing shows, nothing is written', vp, async () => {
+    await vp.evaluate(() => { location.hash = '#processes' }); await settle(vp, 2000, 2);
+    const r = await vp.evaluate(async () => { PQ.render(); const n = await PQ.add([9101, 9102]); const rm = await PQ.remove('d9103');
+      return {hash: location.hash, hidden: document.querySelector('#invBox').hidden, html: document.querySelector('#invBox').innerHTML.length, n, rm, w: window.__pt.log.filter(l => l.k.startsWith('importq/')).length} });
+    assert(r.hidden && r.html === 0 && r.n === 0 && r.rm === false && r.w === 0 && r.hash === '#bank', JSON.stringify(r));
+    assert(vp._inv === 0, `a viewer fetched data/inventory.json ${vp._inv} time(s)`);
+    return 'hidden; #processes → #bank; PQ.add / PQ.remove refused; no fetch';
+  });
+  await vp.context().close();
+}
+
 /* ---------------- Exam setup: availability table labels (owner 14 Nov: "overlap") ----------------
    "Fluency" / "Problem solving" must sit in their own column: the drawn text of each label (measured with a Range, not the
    cell box) ends at least 4px before the first band cell, at desktop (380px settings panel), the narrow two-column width, and phone. */
@@ -1350,7 +1470,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   let fatal = null;
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
-    await Promise.all([...combos.map(([w, t]) => sweep(browser, base, seedR, w, t)), phone(browser, base, seedR), areas(browser, base, seedR), processes(browser, base, seed), reviewFlow(browser, base, seedR), bankChip(browser, base, seed), nextUp(browser, base, seed), availOverlap(browser, base, seed), queueChecks(browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => sweep(browser, base, seedR, w, t)), phone(browser, base, seedR), areas(browser, base, seedR), processes(browser, base, seed), reviewFlow(browser, base, seedR), bankChip(browser, base, seed), nextUp(browser, base, seed), papersQueue(browser, base, seed, fx.papers), availOverlap(browser, base, seed), queueChecks(browser, base, seed)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([flows(browser, base, seed, seedR), examPools(browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));

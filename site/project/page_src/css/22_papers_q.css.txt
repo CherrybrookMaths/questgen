@@ -1,0 +1,53 @@
+/* owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next?" — Papers + Import order on Processes */
+.procs .ivsub{margin:0 0 8px;color:var(--muted);font-size:13px}
+.procs .ivpause{margin:0 0 12px;padding:8px 12px;border:1px solid var(--warn);background:var(--warn-soft);color:var(--ink);border-radius:8px;font-size:13.5px;display:flex;gap:8px;align-items:baseline}
+.procs .ivpause span{color:var(--warn);flex:none}
+.procs .ivq{margin:0 0 14px}
+.procs .ivq h4,.procs #ivGrid .ivhead{font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.procs .ivq h4{margin:0 0 6px;display:flex;align-items:center;gap:8px}
+.procs .ivql .ntext{display:flex;flex-direction:column;gap:1px}
+.procs .ivql .ntext b{font-weight:600}
+.procs .ivql .ntext small{color:var(--muted);font-size:12px}
+.procs .ivql .ivwarn{color:var(--warn);font-style:normal}
+.procs .ivqn{flex:none;min-width:20px;height:20px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:600 11.5px var(--sans);display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
+/* the grid: one summary row per course x year, columns In folder / Imported / Waiting / New */
+.procs #ivGrid{--ivc:repeat(4,minmax(40px,64px));border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden}
+.procs #ivGrid .ivhead{display:grid;grid-template-columns:minmax(0,1fr) var(--ivc);gap:6px;padding:7px 12px;border-bottom:1px solid var(--line);font-size:10.5px}
+.procs #ivGrid .ivhead span:not(:first-child){text-align:right;white-space:nowrap}
+.procs #ivGrid .ivhead i{font-style:normal}.procs #ivGrid .ivshort{display:none}
+.procs .ivg{border-top:1px solid var(--line)}.procs .ivhead+.ivg{border-top:0}
+.procs .ivg>summary{display:grid;grid-template-columns:minmax(0,1fr) var(--ivc);gap:6px;align-items:baseline;padding:9px 12px;cursor:pointer;list-style:none}
+.procs .ivg>summary::-webkit-details-marker{display:none}
+.procs .ivg>summary:hover{background:color-mix(in srgb,var(--accent-soft) 45%,transparent)}
+.procs .ivg>summary:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.procs .ivname{position:relative;min-width:0;padding-left:14px;font-size:14px}
+.procs .ivname::before{content:'▸';position:absolute;left:0;top:.2em;width:10px;color:var(--muted);font-size:11px;line-height:1;transition:transform .15s}
+.procs .ivg[open] .ivname::before{transform:rotate(90deg)}
+.procs .ivyl{color:var(--muted)}
+.procs .ivnote{grid-column:1/-1;margin:-2px 0 0 14px;color:var(--muted);font-size:12px;line-height:1.35}
+.procs .ivn{text-align:right;font:600 14px var(--sans);font-variant-numeric:tabular-nums}
+.procs .ivn.ok{color:var(--ok)}.procs .ivn.wait{color:var(--accent)}.procs .ivn.new{color:var(--warn)}.procs .ivn.ivz{color:var(--muted);font-weight:400}
+.procs .ivg.off .ivname b,.procs .ivg.off .ivn{color:var(--muted)}
+.procs .ivbody{padding:4px 12px 12px 26px;border-top:1px dashed var(--line)}
+.procs .ivmsg{margin:8px 0;color:var(--muted);font-size:13px}
+.procs .ivall{display:inline-flex;align-items:center;gap:8px;margin:8px 0 2px;font-weight:600;font-size:13.5px;cursor:pointer}
+.procs .ivs{margin-top:10px}
+.procs .ivsh{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px;margin-bottom:2px}
+.procs .ivsh label{display:inline-flex;align-items:center;gap:8px;cursor:pointer;min-width:0}
+.procs .ivpl-list{list-style:none;margin:0;padding:0}
+.procs .ivpp{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:4px 0;border-top:1px solid var(--line);font-size:13.5px;min-width:0}
+.procs .ivpp:first-child{border-top:0}
+.procs .ivpp input,.procs .ivall input,.procs .ivsh input{flex:none;width:16px;height:16px;margin:0;accent-color:var(--accent);cursor:pointer}
+.procs .ivnobox{flex:none;width:16px}
+.procs .ivpl{flex:1 1 180px;min-width:0;overflow-wrap:anywhere}
+.procs .ivpp input+.ivpl{cursor:pointer}
+.procs .ivchips{display:inline-flex;flex-wrap:wrap;gap:4px}
+.procs .ivchip{font:500 11px var(--sans);padding:1px 7px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap}
+.procs .ivchip.ok{border-color:var(--ok);color:var(--ok)}.procs .ivchip.wait{border-color:var(--accent);color:var(--accent)}
+.procs .ivchip.q{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}.procs .ivchip.new{border-color:var(--warn);color:var(--warn)}
+.procs .ivwhy{flex-basis:100%;margin-left:24px;color:var(--muted);font-size:12px}
+.procs .ivbar{position:sticky;bottom:0;z-index:2;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;padding:10px 12px;background:var(--panel);border:1px solid var(--accent);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.procs .ivbar[hidden]{display:none}
+.procs .ivbar #ivSelN{flex:1 1 auto;font-weight:600;font-size:13.5px}
+.procs .ivbar .ivadd{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+@media (max-width:640px){.procs #ivGrid{--ivc:repeat(4,40px)}.procs #ivGrid .ivlong{display:none}.procs #ivGrid .ivshort{display:inline}.procs #ivGrid .ivhead,.procs .ivg>summary{gap:4px;padding-inline:10px}.procs .ivbody{padding-left:12px}.procs .ivn{font-size:13px}.procs .ivwhy{margin-left:0}}

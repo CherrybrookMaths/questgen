@@ -4,7 +4,7 @@
    {text, order, done, by, at}. Open notes in `order`; ticked ones move to a collapsed "Done" list. Reorder by dragging
    (desktop) or the ↑ ↓ buttons; delete asks inline (no confirm()). Only editors write: every handler checks isEditor().
    Claude reads this list (ArtifactData list on "notes") when asked what to build next. */
-const NOTES={list:[],sub:null,loaded:false,del:null,drag:null};
+const NOTES={list:[],sub:null,loaded:false,del:null};
 const notesOpen=()=>NOTES.list.filter(n=>!n.done).sort((a,b)=>(+a.order||0)-(+b.order||0)||String(a.at).localeCompare(String(b.at)));
 const notesDone=()=>NOTES.list.filter(n=>n.done).sort((a,b)=>String(b.doneAt||b.at).localeCompare(String(a.doneAt||a.at)));
 function notesSubscribe(){if(NOTES.sub||!db||!isEditor())return;
@@ -28,10 +28,23 @@ function notesList(){const el=$('#nupList');if(!el)return;const op=notesOpen(),d
     (dn.length?`<details class="ndone"${wasOpen?' open':''}><summary>Done <span class="pcount">${dn.length}</span></summary><ul class="nlist">${dn.map(x=>`<li class="nrow isdone" data-note="${esc(x.id)}"><input type="checkbox" class="ntick" data-ntick="${esc(x.id)}" checked aria-label="Not done: ${esc(x.text)}"><span class="ntext">${esc(x.text)}</span><span class="nacts">${NOTES.del===x.id?`<span class="ndelq">Delete? <button type="button" class="nyes" data-ndelok="${esc(x.id)}">Delete</button><button type="button" class="nno" data-ndelno="1">Keep</button></span>`:`<button type="button" class="nbtn ndel" data-ndel="${esc(x.id)}" aria-label="Delete note">×</button>`}</span></li>`).join('')}</ul></details>`:'')}
 async function noteSet(n,patch){if(!isEditor()||!db)return false;const {id,...rest}=n;
   try{await db.doc('notes/'+id).set({...rest,...patch});return true}catch(e){toast('Could not save. Try again in a moment.');return false}}
-// write a new order 1..n for the open notes, only for the ones that moved
-async function notesReorder(ids){if(!isEditor())return;const by=Object.fromEntries(NOTES.list.map(n=>[n.id,n]));
-  const ch=ids.map((id,i)=>[by[id],i+1]).filter(([n,o])=>n&&+n.order!==o);ch.forEach(([n,o])=>n.order=o);notesList();
-  for(const [n,o] of ch)await noteSet(n,{order:o})}
+/* Shared by the Processes lists that the owner orders by hand: Next up (here) and Import order (32_papers_q.js).
+   Code health 13 Nov, rule 3 "Reshape, don't bolt on": one copy of the order writer and of drag-to-reorder. */
+// give the items in `ids` the order 1..n, repaint, then save only the ones that moved
+async function writeOrder(items,ids,save,redraw){const by=Object.fromEntries(items.map(x=>[x.id,x]));
+  const ch=ids.map((id,i)=>[by[id],i+1]).filter(([x,o])=>x&&+x.order!==o);ch.forEach(([x,o])=>x.order=o);redraw();
+  for(const [x,o] of ch)await save(x,{order:o})}
+// drag to reorder (desktop); ↑ ↓ buttons do the same from the keyboard or a phone. rows = selector of the list's <li> (each
+// carries its id in data-<key>); ids() = the current order; reorder(ids) saves a new order; redraw() repaints after a cancelled drag
+function sortableList(rows,key,ids,reorder,redraw){let drag=null;const R=rows+'[draggable]';
+  document.addEventListener('dragstart',e=>{const li=e.target.closest&&e.target.closest(rows+'[draggable="true"]');if(!li)return;drag=li.dataset[key];li.classList.add('ndrag');try{e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',drag)}catch(_){}});
+  document.addEventListener('dragover',e=>{if(!drag)return;const li=e.target.closest&&e.target.closest(R);if(!li||li.dataset[key]===drag)return;e.preventDefault();
+    const r=li.getBoundingClientRect(),after=e.clientY>r.top+r.height/2;$$(rows+'.nover-a,'+rows+'.nover-b').forEach(x=>x.classList.remove('nover-a','nover-b'));li.classList.add(after?'nover-a':'nover-b')});
+  document.addEventListener('drop',async e=>{if(!drag)return;const li=e.target.closest&&e.target.closest(R);e.preventDefault();const from=drag;drag=null;
+    if(!li||li.dataset[key]===from){redraw();return}const after=li.classList.contains('nover-a'),L=ids().filter(x=>x!==from);
+    const k=L.indexOf(li.dataset[key]);if(k<0){redraw();return}L.splice(after?k+1:k,0,from);await reorder(L)});
+  document.addEventListener('dragend',()=>{if(drag){drag=null;redraw()}})}
+async function notesReorder(ids){if(!isEditor())return;await writeOrder(NOTES.list,ids,noteSet,notesList)}
 document.addEventListener('submit',async e=>{if(e.target.id!=='nupForm')return;e.preventDefault();if(!isEditor()||!db)return;
   const inp=$('#nupIn'),t=inp.value.trim();if(!t)return;const op=notesOpen();
   const id='n'+Date.now().toString(36)+Math.floor(Math.random()*1e6).toString(36);
@@ -50,12 +63,5 @@ document.addEventListener('change',async e=>{const c=e.target.closest&&e.target.
   if(!done)patch.order=(Math.max(0,...notesOpen().map(x=>+x.order||0)))+1;   // un-ticked: back to the end of the list
   Object.assign(n,patch);notesList();await noteSet(n,patch)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&NOTES.del&&e.target.closest&&e.target.closest('#notesBox')){NOTES.del=null;notesList()}});
-// drag to reorder (desktop); the ↑ ↓ buttons do the same from the keyboard or a phone
-document.addEventListener('dragstart',e=>{const li=e.target.closest&&e.target.closest('#nupList .nlist>li[draggable="true"]');if(!li)return;NOTES.drag=li.dataset.note;li.classList.add('ndrag');try{e.dataTransfer.effectAllowed='move';e.dataTransfer.setData('text/plain',NOTES.drag)}catch(_){}});
-document.addEventListener('dragover',e=>{if(!NOTES.drag)return;const li=e.target.closest&&e.target.closest('#nupList .nlist>li[draggable]');if(!li||li.dataset.note===NOTES.drag)return;e.preventDefault();
-  const r=li.getBoundingClientRect(),after=e.clientY>r.top+r.height/2;$$('#nupList .nover-a,#nupList .nover-b').forEach(x=>x.classList.remove('nover-a','nover-b'));li.classList.add(after?'nover-a':'nover-b')});
-document.addEventListener('drop',async e=>{if(!NOTES.drag)return;const li=e.target.closest&&e.target.closest('#nupList .nlist>li[draggable]');e.preventDefault();const from=NOTES.drag;NOTES.drag=null;
-  if(!li||li.dataset.note===from){notesList();return}const after=li.classList.contains('nover-a'),ids=notesOpen().map(n=>n.id).filter(x=>x!==from);
-  let k=ids.indexOf(li.dataset.note);if(k<0){notesList();return}ids.splice(after?k+1:k,0,from);await notesReorder(ids)});
-document.addEventListener('dragend',()=>{if(NOTES.drag){NOTES.drag=null;notesList()}});
+sortableList('#nupList .nlist>li','note',()=>notesOpen().map(n=>n.id),notesReorder,notesList);
 if(view==='processes')renderNotes();   // Processes may already be open when this block loads

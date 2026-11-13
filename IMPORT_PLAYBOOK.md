@@ -165,6 +165,7 @@ These are the named checks; each passes or fails:
 | Availability table (14 Nov) | Exam setup at 1280, 1000 and 390 px, all topics chosen: the drawn text of each row label ends at least 4 px before the B2 cell, never overlaps it, and wraps onto at most 2 lines. |
 | Diagram resize (14 Nov) | on a generated paper: no − / + pill; hovering shows the handle on the diagram's corner; a mouse drag out changes `EX.figscale` and the image width in proportion, shows a live % only while dragging, and lays the paper out once, after the drag; a drag in shrinks it; far out / far in clamp to 200% / 30%; double-click resets to 100%; → → on the focused handle gives 110%; a 150% diagram keeps `--fs:1.5` in the HTML download. At 390 px on a touch phone, a finger drag resizes it. |
 | ⓘ card (14 Nov) | no dot-point line or Report link left in any question; every source line ends with an ⓘ (`.scr-only`); the ⓘ opens a card with a dot point, band, kind and Report, one row per part, inside the window, without selecting the question; outside click closes it; Enter opens, Tab reaches Report, Esc closes and refocuses the ⓘ with the preview still open; Report opens the form; the grading panel's question detail lists the dot points. At 390 px on a touch phone the tapped card fits the screen and the ⓘ stays 20 px. Download HTML has no handle, live % or ⓘ. |
+| Papers (13 Nov) | the fixture's small inventory (page_test_fixture.py `sample_papers`, served in place of `data/inventory.json`) and one seeded importq doc: Papers sits between the queue and Next up with the pause note; the grid counts (In folder / Imported / Waiting / New) match the fixture; Extension 1 / Standard rows say "needs course setup (topics, dot points, difficulty references)"; Standard / Extension / unknown / Year 11 groups have no checkboxes and `PQ.add` refuses their papers; a school tick + one paper tick + Add writes 3 importq docs `{doc_id, label, course, year_level, order, added_by, at}` in order; ↑ ↓, drag and × reach the db; 390 px touch phone fits and works by tap; a viewer gets no section, no inventory fetch and no write. |
 | Offline | no request left localhost. |
 
 **Results:**
@@ -185,3 +186,52 @@ Exit codes: 0 means all passed, 1 means a check failed, and 2 means the test cou
 
 ## Version control (15 Nov)
 Nothing to do by hand. `batch_check.py --mark-published` (after every publish) commits everything and tags `publish-vNNN` via `tools/snapshot.py`; on a Drive sync also upload `/mnt/user-data/outputs/questgen_repo.bundle`. Never `git add -f` anything under src/, work/ or site/data/img: `.gitignore` is an allow-list on purpose. To undo a bad publish: `python3 tools/snapshot.py --rollback publish-vNNN` (plan only), then `--yes`. Details: RESUME.md "Version control".
+
+## New papers in the shared folder, and choosing what to import next (13 Nov)
+Owner, 13 Nov (dictated): "New exams are gonna be added to this folder periodically we need a way to ... see what we actually
+haven't ingested yet", "Should we also order what's in standard and also extension one and extension two while we're scanning
+anyways?" and "Can the import queue be dynamic, me choosing which set of papers to import next? We can always [build the]
+framework for the courses standard extension and extension two [later] right?"
+
+**The folder is not ours.** G:\Shared drives\CMC Resources\Exams\External Exams Stage 6 is a school shared drive other staff
+use. NEVER move, rename or reorganise anything there; the owner agreed we keep the record on our side instead (documents table,
+`work/scan/`, `site/data/inventory.json`). Nothing below writes to the folder.
+
+**Import is still paused** (owner 14 Nov: "no more importing for a while until we iron these out"). Steps 1-5 are safe now;
+step 6 waits until the owner resumes import.
+
+The loop:
+1. **Connect the PC.** The owner opens Claude on his PC with the shared drive mounted, so the session has the remote-device tools.
+2. **List the folder.** `device_list_dir` with `path` = the folder above and `recursive: true`. Save the result exactly as
+   returned with Write to `work/scan/listing_<date>.json` (entries with name / type / size / mtimeMs / depth; names only is fine,
+   `scan_folder.py` rebuilds the paths from the depth order). The tool returns at most 2,000 entries and walks 5 levels: the
+   folder has about 1,630 PDFs plus folders, so it will usually hit the cap. Then list each top-level folder separately
+   (`.../External Exams Stage 6\Kings`, `...\Trial Exams`, ...) and save each as `work/scan/listing_<date>_<folder>.json`, plus a
+   non-recursive listing of the root for loose files. A listing of a subfolder is passed as `file@Subfolder`. If
+   `device_bash` works on the PC, a tab-separated list (relative path, size, mtimeMs per line) is accepted too.
+3. **Scan.** `python3 tools/scan_folder.py work/scan/listing_<date>.json [work/scan/listing_<date>_Kings.json@Kings ...]`
+   is a dry run (report `work/scan/scan_<date>_dry.json`). Read it: `new` (classified by the stage-0 path and file-name rules in
+   `tools/classify_paths.py`), `held` (`moved?` = same size and similar name as a recorded file that is no longer listed,
+   `copy?` = the recorded file is still there; never merged, not inserted), `missing` (recorded but not listed; the 5 owner
+   uploads under `HSC 2024-2026/` are always here) and `cover_check` (new files whose course the name does not tell). Then
+   `--apply`: it copies questions.db to `archive/questions_before_scan_<time>.db`, inserts the new rows (status `discovered` for
+   Advanced or not-yet-known, `excluded` with course and year level for the rest, as stage 0 did) and logs the scan in table
+   `folder_scans`. Running it again inserts nothing. A cover-page check of the `cover_check` files needs their PDFs (Drive
+   connector or the PC); that is a later, separate step.
+4. **Inventory.** `python3 tools/inventory.py` writes `site/data/inventory.json` (every paper, course x year level, state,
+   "new" = added by the latest scan). `batch_check.py` warns when it is stale.
+5. **Publish** (normal rules: `bash tools/prepublish.sh`, then the `publish_set.py --json` map, which includes
+   `data/inventory.json`). The owner opens Curate > Processes > Papers, ticks Advanced papers (or a school, or a whole group) and
+   presses "Add to import queue"; he reorders or removes them there. The page stores the order in db collection `importq`
+   (one doc per paper, `d<doc_id>`: `{doc_id, label, course, year_level, order, added_by, at}`). Standard, Extension 1 and
+   Extension 2 are listed but cannot be queued until their course is set up (topics, dot points, difficulty references).
+6. **Import next** (only once import resumes). Export the queue with ArtifactData `list` on `importq` with `out_dir`, then
+   `python3 tools/import_next.py <export_dir>` (or run `tools/sync_pagedb.py <export_dir>`, which now mirrors `importq` into
+   `page_importq`, and then `import_next.py` with no argument). It prints the next batch (default 9 papers) in the owner's
+   order with every file and its Drive id, lists anything it skips (already imported, no longer importable) with the reason,
+   and writes `work/import/next.json`. Stage those papers into `work/import/papers.json` and run the pipeline above. This
+   replaces picking rows by hand from `import_manifest.csv`.
+
+Cost per paper: none is recorded in this playbook or RESUME.md yet, so the page shows none. When one is measured (agent token
+totals for a batch / papers in it), write it here and set `COST_PER_PAPER` in tools/inventory.py.
+

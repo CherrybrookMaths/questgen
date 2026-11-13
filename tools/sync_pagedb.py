@@ -5,7 +5,8 @@ the page database and reached SQLite by hand).
 Input: a folder exported with ArtifactData `list` + `out_dir` (one sub-folder per collection: reviews, difficulty, exams,
 reports; one JSON file per document). Each run REPLACES the mirror tables with the export, so it always equals the page.
 Usage: python3 tools/sync_pagedb.py <export_dir>
-Tables: page_reviews, page_difficulty, page_exams, page_exam_items, page_reports (incl. suggested_wm 'UF'|'PR', 14 Nov), page_sync.
+Tables: page_reviews, page_difficulty, page_exams, page_exam_items, page_reports (incl. suggested_wm 'UF'|'PR', 14 Nov),
+page_importq (13 Nov: the owner's import order), page_sync.
 QG_DB=<path> runs it against another database file (a copy, for tests).
 The full document is kept in data_json, so nothing on the page is lost even if a field is not split out yet."""
 import json, glob, os, sqlite3, sys, datetime
@@ -21,6 +22,8 @@ CREATE TABLE IF NOT EXISTS page_exam_items(exam_id TEXT REFERENCES page_exams(id
 CREATE TABLE IF NOT EXISTS page_reports(id TEXT PRIMARY KEY, question_id INTEGER REFERENCES questions(id), part_id INTEGER REFERENCES parts(id),
   reason TEXT, suggested_band INTEGER, suggested_dot TEXT, note TEXT, status TEXT, reply TEXT, exam_id TEXT, by TEXT, at TEXT, data_json TEXT NOT NULL,
   suggested_wm TEXT);
+CREATE TABLE IF NOT EXISTS page_importq(doc_key TEXT PRIMARY KEY, doc_id INTEGER REFERENCES documents(id), label TEXT, course TEXT,
+  year_level INTEGER, ord REAL, added_by TEXT, at TEXT, data_json TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS page_sync(collection TEXT PRIMARY KEY, docs INTEGER, synced_at TEXT, unmatched INTEGER);
 """
 def docs(d, coll):
@@ -77,6 +80,15 @@ def main(d):
                        'VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)', (k, v.get('question_id'), v.get('part_id'), v.get('reason'),
                        v.get('suggested_band'), v.get('suggested_dot'), v.get('note'), v.get('status'), v.get('reply'), v.get('exam_id'), v.get('by'), v.get('at'), J(v), wm))
         rep.append(('reports', len(L), bad))
+    # owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next?" The Processes page's
+    # Papers section writes collection importq (one doc per paper, d<doc_id>); tools/import_next.py reads this mirror.
+    if os.path.isdir(os.path.join(d, 'importq')):
+        db.execute('DELETE FROM page_importq'); L = docs(d, 'importq'); bad = 0
+        for k, v in L:
+            if not have('documents', v.get('doc_id')): bad += 1
+            db.execute('INSERT INTO page_importq VALUES(?,?,?,?,?,?,?,?,?)', (k, v.get('doc_id'), v.get('label'), v.get('course'), v.get('year_level'),
+                       v.get('order'), v.get('added_by'), v.get('at'), J(v)))
+        rep.append(('importq', len(L), bad))
     for c, n, bad in rep:
         db.execute('INSERT OR REPLACE INTO page_sync VALUES(?,?,?,?)', (c, n, now, bad))
         print(f'{c:11s} {n:5d} docs mirrored' + (f'  ({bad} point at rows not in the database)' if bad else ''))

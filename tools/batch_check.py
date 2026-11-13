@@ -161,6 +161,16 @@ try:
             I(f'page test passed {_r.get("at", "")[:16]}: {_r.get("passed")} checks in {_r.get("seconds")} s')
 except Exception as e:
     B(f'page test result could not be read: {e}')
+# folder inventory (owner 13 Nov: "see what we actually haven't ingested yet"): site/data/inventory.json must match documents
+try:
+    _iv = json.load(open(P + 'site/data/inventory.json'))
+    _nd = db.execute('select count(*) from documents').fetchone()[0]
+    _nq = db.execute('select count(distinct document_id) from questions').fetchone()[0]
+    if (_iv.get('docs'), _iv.get('docs_with_questions')) != (_nd, _nq):
+        W(f'site/data/inventory.json is stale ({_iv.get("docs")} files, {_iv.get("docs_with_questions")} with questions; the database has {_nd}, {_nq}): run python3 tools/inventory.py')
+    else: I(f'inventory: {_iv["totals"]["papers"]} papers ({_iv["totals"]["imported"]} imported, {_iv["totals"]["waiting"]} waiting); last folder scan {(_iv.get("last_scan") or {}).get("at", "none yet")}')
+except FileNotFoundError: W('site/data/inventory.json missing: run python3 tools/inventory.py (Processes > Papers)')
+except Exception as e: W(f'inventory check failed: {e}')
 # version control (stage 1, 15 Nov): never a blocker; --mark-published commits and tags automatically (tools/snapshot.py)
 try:
     import subprocess

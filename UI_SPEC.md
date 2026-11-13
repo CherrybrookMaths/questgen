@@ -580,6 +580,39 @@ These answers supersede, as to order, names and where things sit: "Four steps, i
 - **Test data.** Every live paper is approved, so `tools/page_test_fixture.py` lists a workload (`WORKLOAD`): the page test leaves those review docs out on its Review pages only, giving 1346 (+510) Your calls / Topics / Diagrams, 323 Flagged / Topics / Diagrams / Spot-check, and 1601 Spot-check only. Bank and Exams checks keep the live approved set.
 - Code: `STEPS`, `SLUG`, `paperWork`, `allWork`, `trackHTML`, `miniTrack`, `renderInbox`, `renderSteps`, `openReview`, `refreshReview` (auto-advance), `paperNextHTML` in `08_review.js`; `parseHash`, `HASH_ALIAS`, `todoCount` in `09_router.js`; the papers list in `11_papers.js`; markup in `page.html`; styles in `css/21_review_flow.css`. Tests: `review: …` checks in `tools/page_test.js` (Inbox summary; papers list; the track; auto-advance with keys; spot-check approve and paper done; 390 px light and dark), plus the updated `areas (editor): …` and phone menu checks.
 
+## Papers and the import order on Processes (13 Nov)
+Owner, 13 Nov (dictated): "New exams are gonna be added to this folder periodically we need a way to ... see what we actually
+haven't ingested yet", "Should we also order what's in standard and also extension one and extension two while we're scanning
+anyways?" and "Can the import queue be dynamic, me choosing which set of papers to import next? We can always [build the]
+framework for the courses standard extension and extension two [later] right?"
+- **Where.** A **Papers** section on Processes, under the Queued / Recently done list and above Next up. Curate, so editors only
+  (`isEditor()`); a viewer gets no section, no `data/inventory.json` fetch and no write.
+- **Pause note.** Always shown at the top: "Import is paused. This only sets the order for when it resumes." (owner 14 Nov:
+  "no more importing for a while until we iron these out").
+- **Grid.** One row per course x year level from `data/inventory.json` (tools/inventory.py): columns **In folder**, **Imported**,
+  **Waiting**, **New** (added by the latest folder scan; "–" before the first scan). On phones the headings shorten to Total,
+  Done, Wait, New. Under the title: "N papers in the shared folder (M files) · last folder scan <time>, K new".
+- **Courses.** Course names and whether a course can be queued come from the inventory (`courses[].ready`), never from the page
+  (CODE_HEALTH rule 5). Today only Advanced is ready. Standard, Extension 1 and Extension 2 rows are muted, show "needs course
+  setup (topics, dot points, difficulty references)", show "–" for Imported / Waiting, and have no checkboxes; "Course not known"
+  rows say a cover-page check sorts them.
+- **A group.** Clicking a row opens its papers, grouped by school, newest year first: a checkbox (only for papers that can be
+  queued: Advanced, waiting, not already queued), the paper's name, a state chip (Imported, Waiting, In queue · #n, Not imported,
+  Other course), and New / Scan / No solutions / "N files" chips; a muted line says why a paper is not importable. A school line
+  and "Select all N waiting" tick every queueable paper under them (half-ticked when some are).
+- **Adding.** Ticking shows a bar at the foot of the section ("N papers selected · Clear · Add to import queue"). Add writes one
+  db doc per paper to collection `importq`, id `d<doc_id>`: `{doc_id, label, course, year_level, order, added_by, at}`, after the
+  ones already there, in the order shown.
+- **Import order.** Above the grid: the queued papers in order (number, name, course and year, a warning if a paper has since
+  been imported or can no longer be imported), with drag (desktop) or ↑ ↓ to reorder and × to remove (no confirm: it can be
+  re-added). Empty state: "Nothing queued. Tick Advanced papers below and press Add to import queue." A cost estimate per paper
+  shows only if one is recorded (`cost_per_paper` in the inventory; none yet).
+- Claude reads the order with `tools/import_next.py` (IMPORT_PLAYBOOK "New papers in the shared folder, and choosing what to
+  import next").
+- Code: `page_src/js/32_papers_q.js` (one page-wide name, `PQ`: `render`, `add`, `remove`, `state`), the shared order writer and
+  drag-to-reorder (`writeOrder`, `sortableList`) now in `31_notes.js` and used by Next up too, `#invBox` in page.html,
+  `css/22_papers_q.css` (all under `.procs`). Tests: the `papers: …` checks in tools/page_test.js.
+
 ## Where else things are recorded
 
 | What | File |
