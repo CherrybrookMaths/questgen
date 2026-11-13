@@ -231,6 +231,22 @@ async function flows(browser, base, seed, seedR) {
     errs(); assert(r.cards > 0, 'no question cards'); assert(r.mjx > 0, 'cards have no typeset maths');
     return `“${r.h}”: ${r.cards} cards, ${r.mjx} maths`;
   });
+  // owner 13 Nov: "animation going between all topics and a subtopic. It's currently just snapping to it"
+  await check('bank: topic transitions (back to All topics, into a topic)', page, async () => {
+    const vt = await page.evaluate(() => !!document.startViewTransition);
+    await page.click('#list [data-home]');
+    const mid = await page.evaluate(() => document.documentElement.dataset.bkdir || '');
+    await page.waitForFunction(() => !document.querySelector('#list .listhead h2') && !document.documentElement.dataset.bkdir, null, {timeout: 5000});
+    const back = await page.evaluate(() => sel);
+    await page.click('#list .subrow[data-sel]:not(.none)');
+    await page.waitForSelector('#list .cards .card', {timeout: 10000}); await settle(page, 4000, 2);
+    const r = await page.evaluate(() => ({sel, dir: document.documentElement.dataset.bkdir || '', named: [...document.querySelectorAll('#list [style*="view-transition-name"]')].filter(e => e.style.viewTransitionName).length, h: document.querySelector('#list .listhead h2')?.textContent}));
+    errs();
+    assert(!vt || mid === 'back' || mid === 'fade', `going back did not start a transition (bkdir “${mid}”)`);
+    assert(back === null && r.sel && r.h, `navigation broke: back sel ${back}, sel ${r.sel}`);
+    assert(!r.dir && !r.named, `transition left state behind: bkdir “${r.dir}”, ${r.named} named elements`);
+    return `${vt ? 'view transitions' : 'no view transitions (snaps)'}; back, then “${r.h}”`;
+  });
   await check('bank: search', page, async () => {
     await page.fill('#q', 'annuity');
     await page.waitForFunction(() => /Search:/.test(document.querySelector('#list .listhead h2')?.textContent || ''), null, {timeout: 5000});

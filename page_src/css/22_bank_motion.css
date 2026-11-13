@@ -1,0 +1,17 @@
+/* Bank topic transitions (owner 13 Nov: "animation going between all topics and a subtopic"); see bankGo in 07_bank.js */
+#list{view-transition-name:bk-list}
+::view-transition-old(bk-list),::view-transition-new(bk-list){animation-duration:.3s;animation-timing-function:cubic-bezier(.2,.7,.2,1);animation-fill-mode:both}
+html[data-bkdir=fwd]::view-transition-old(bk-list){animation-name:bk-out-l}
+html[data-bkdir=fwd]::view-transition-new(bk-list){animation-name:bk-in-r}
+html[data-bkdir=back]::view-transition-old(bk-list){animation-name:bk-out-r}
+html[data-bkdir=back]::view-transition-new(bk-list){animation-name:bk-in-l}
+html[data-bkdir=side]::view-transition-old(bk-list),html[data-bkdir=fade]::view-transition-old(bk-list){animation:bk-fade-out .18s ease both}
+html[data-bkdir=side]::view-transition-new(bk-list),html[data-bkdir=fade]::view-transition-new(bk-list){animation:bk-fade-in .18s ease both}
+::view-transition-group(bk-hero){animation-duration:.34s;animation-timing-function:cubic-bezier(.2,.7,.2,1)}
+::view-transition-old(bk-hero),::view-transition-new(bk-hero){height:100%;object-fit:fill}
+@keyframes bk-out-l{to{opacity:0;transform:translateX(-28px)}}
+@keyframes bk-in-r{from{opacity:0;transform:translateX(28px)}}
+@keyframes bk-out-r{to{opacity:0;transform:translateX(28px)}}
+@keyframes bk-in-l{from{opacity:0;transform:translateX(-28px)}}
+@keyframes bk-fade-out{to{opacity:0}}
+@keyframes bk-fade-in{from{opacity:0}}
