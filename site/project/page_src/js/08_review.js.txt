@@ -353,7 +353,7 @@ function renderReview(){
   $('#pos').textContent=rlist.length?`${ridx+1} / ${rlist.length}`+(rfilter==='recent'&&approvedAt(rlist[ridx])?' · approved '+new Date(approvedAt(rlist[ridx])).toLocaleString([], {day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):''):'0 / 0';
   if(!rlist.length&&RMODE==='paper'){   // owner 13 Nov: one paper at a time; an empty step says so and points to the next one
     const w=paperWork(rdoc);
-    $('#rout').innerHTML=`<div class="empty pempty">${w.n&&!(rfilter==='decide'&&w.left.decide)?`<b>Nothing left in “${esc(stepLabel(rfilter))}” for this paper.</b>`:''}
+    $('#rout').innerHTML=`<div class="empty rv-pempty">${w.n&&!(rfilter==='decide'&&w.left.decide)?`<b>Nothing left in “${esc(stepLabel(rfilter))}” for this paper.</b>`:''}
       ${rfilter==='sample'?w.ids.map(sampleBanner).join(''):''}${rfilter==='decide'?PCALL.html(w.ids):''}${paperNextHTML()}</div>`;
     $('#src').innerHTML='';$('#srcTitle').textContent='Source page';$('#reviewView').classList.add('grid');bindNext();return}   // no question: no empty source pane
   if(!rlist.length){

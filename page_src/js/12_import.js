@@ -17,10 +17,10 @@ function batchState(b){const st=STAGES.map(([k])=>(b.stages||{})[k]||'waiting');
   const r=STAGES.find(([k])=>(b.stages||{})[k]==='running');if(r)return['running',r[1]];
   if(st.some(v=>v==='done'))return['running','Part done'];return['waiting','Waiting']}
 function batchRow(b){const [cls,lab]=batchState(b);const n=(b.papers||[]).length;
-  return `<details class="brow"><summary><b>${esc(b.id)}</b><span class="st ${cls}">${esc(lab)}</span>
+  return `<details class="brow"><summary><b>${esc(b.id)}</b><span class="pr-st ${cls}">${esc(lab)}</span>
     ${stageCells(b)}
     <span class="muted">${n} paper${n===1?'':'s'}${b.questions?` · ${esc(String(b.questions))} questions`:''}</span></summary>
-    <div class="bbody">${b.note?`<div class="muted">${esc(b.note)}</div>`:''}<div class="bstages">${STAGES.map(([k,l])=>{const v=(b.stages||{})[k]||'waiting';return `<span><span class="st ${v.replace('/','')}">${SLABEL[v]||esc(v)}</span> ${esc(l)}</span>`}).join('')}</div>
+    <div class="bbody">${b.note?`<div class="muted">${esc(b.note)}</div>`:''}<div class="bstages">${STAGES.map(([k,l])=>{const v=(b.stages||{})[k]||'waiting';return `<span><span class="pr-st ${v.replace('/','')}">${SLABEL[v]||esc(v)}</span> ${esc(l)}</span>`}).join('')}</div>
     <ul class="bpapers">${(b.papers||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></details>`}
 // owner 13 Nov: "but we already have 15 waiting batches?" -> ONE list: what is still to import lives only in the Import order
 // (Papers tab, "Batch 6", "Batch 7", ... dividers), so the history shows finished batches only.
@@ -32,7 +32,7 @@ function renderImport(){
   const P=PROG, box=$('#importBox'); if(!box) return;
   if(!P){box.innerHTML='<div class="empty">No import progress recorded yet.</div>';return}
   const t=P.totals||{}, pct=(a,b)=>b?Math.round(100*a/b):0;
-  const tile=(v,l,a,b)=>`<div class="tile"><b>${v??'–'}</b><span>${l}</span>${b?`<div class="bar"><i style="width:${pct(a,b)}%"></i></div>`:''}</div>`;
+  const tile=(v,l,a,b)=>`<div class="tile"><b>${v??'–'}</b><span>${l}</span>${b?`<div class="pr-bar"><i style="width:${pct(a,b)}%"></i></div>`:''}</div>`;
   const run=(P.running||[]),log=(P.log||[]).slice().reverse(),all=box.dataset.logall==='1';
   box.innerHTML=`<p class="sub">Year 12 Advanced papers, newest first · updated ${esc(ago(P.updated))}${P.eta?` · ${esc(P.eta)}`:''}</p>
   <div class="tiles">${tile(`${t.parsed||0} / ${t.papers_total||0}`,'papers parsed',t.parsed,t.papers_total)}${tile(`${t.published||0} / ${t.papers_total||0}`,'papers on this page',t.published,t.papers_total)}

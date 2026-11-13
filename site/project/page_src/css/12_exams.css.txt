@@ -33,7 +33,7 @@
 .extiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:10px;align-items:start}
 .extile{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 12px 12px 14px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,background .15s;min-width:0}
 .extile:hover{border-color:var(--line2)}
-.extile.on,.extile.part{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.extile.on,.extile.ex-part{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
 .extile.on{background:color-mix(in srgb,var(--accent) 4%,var(--panel))}
 .extile-h{display:flex;gap:11px;align-items:flex-start}
 .extile-t{flex:1;min-width:0;display:flex;gap:10px;align-items:flex-start;justify-content:space-between;background:none;border:0;padding:0;text-align:left;border-radius:4px;cursor:pointer;color:var(--ink);font:inherit}
@@ -49,7 +49,7 @@
 .tbox:hover:not(:disabled){border-color:var(--accent)}
 .tbox:disabled{cursor:default;opacity:.4}
 .extile.on .tbox{background:var(--accent);border-color:var(--accent)}
-.extile.part .tbox{border-color:var(--accent)}.extile.part .tbox::after{content:"";width:8px;height:1.5px;background:var(--accent);border-radius:1px}
+.extile.ex-part .tbox{border-color:var(--accent)}.extile.ex-part .tbox::after{content:"";width:8px;height:1.5px;background:var(--accent);border-radius:1px}
 /* subtopics inside a tile: a quiet checklist (was mint pills) */
 .extile .pills{display:grid;gap:1px;margin:2px -4px 0 23px;padding-top:6px;border-top:1px solid var(--line)}
 .extile .pills[hidden]{display:none}
@@ -136,7 +136,7 @@ input[type=range].rng:disabled{opacity:.35;cursor:default}
 .exside .tb:hover{background:var(--line)}
 .exside .tb[aria-current="true"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
 .exside .tb .c{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px;flex:none}
-.exside .tb .none{color:var(--muted);font-size:11px;font-style:italic;flex:none}.exside .tb.empty{color:var(--muted)}
+.exside .tb .none{color:var(--muted);font-size:11px;font-style:italic;flex:none}.exside .tb.ex-empty{color:var(--muted)}
 .exside details.exfa>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:8px;padding:6px 8px;border-radius:6px;font:600 13px var(--sans)}
 .exside details.exfa>summary::-webkit-details-marker{display:none}
 .exside details.exfa>summary:hover{background:var(--line)}
@@ -206,9 +206,9 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
   #xPages .ed-empty:not(:focus){color:#a7adb5;font-style:italic}
   #xPages .ed-empty:not(:focus)::before{content:attr(data-ph)}
 }
-.exln{position:relative}.exln.empty{min-height:4px}
+.exln{position:relative}.exln.ex-empty{min-height:4px;padding:36px 16px;text-align:center;color:var(--muted)}   /* padding etc. inherited from the shared .empty until the 13 Nov health pass; kept so nothing moves (likely unintended: owner to decide) */
 .lnctl{position:absolute;right:0;top:-1.6mm;z-index:2;display:flex;align-items:center;gap:2px;font-family:var(--sans);background:#fff;border:1px solid #dcd6cb;border-radius:999px;padding:1px 2px;opacity:.75;transition:opacity .12s}
-.lnctl:hover{opacity:1}.exln.empty .lnctl{top:-6mm}
+.lnctl:hover{opacity:1}.exln.ex-empty .lnctl{top:-6mm}
 .lnctl button{width:18px;height:18px;border-radius:50%;border:0;background:#f1eee8;color:#333;font-size:12px;line-height:1;display:grid;place-items:center;padding:0;cursor:pointer}
 .lnctl button:hover:not(:disabled){color:#1e5f5a}.lnctl button:disabled{opacity:.35;cursor:default}
 .lnn{font-size:9.5px;color:#666;font-variant-numeric:tabular-nums;min-width:4.2em;text-align:center}

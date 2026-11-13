@@ -140,7 +140,7 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line2);border-bottom-width:
 .subrow{display:grid;grid-template-columns:minmax(0,1fr) 52px 28px;gap:10px;align-items:center;background:none;border:0;border-radius:6px;padding:4px 6px;margin:0 -6px;text-align:left;cursor:pointer;color:var(--ink);font-size:13px}
 .subrow:hover{background:var(--ys)}
 .subrow .nm{line-height:1.3}
-.subrow .bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.subrow .bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:6px}   /* margin was inherited from Processes' bare .bar until the 13 Nov health pass */
 .subrow .bar i{display:block;height:100%;background:var(--yc);border-radius:3px}
 .subrow .c{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
 .subrow.none .nm,.subrow.none .c{color:var(--muted);font-style:italic}
@@ -380,13 +380,13 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
 .tile{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
 .tile b{display:block;font:700 22px var(--sans);font-variant-numeric:tabular-nums}.tile span{color:var(--muted);font-size:13px}
-.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:6px}.bar i{display:block;height:100%;background:var(--accent)}
+.pr-bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:6px}.pr-bar i{display:block;height:100%;background:var(--accent)}
 .imp table{border-collapse:collapse;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;font-size:13px}
 .imp th,.imp td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 .imp th{font-weight:600;color:var(--muted);white-space:nowrap}
-.st{display:inline-block;font:600 11px var(--sans);border-radius:4px;padding:1px 6px;white-space:nowrap;border:1px solid var(--line2);color:var(--muted)}
-.st.done{background:var(--ok-soft);color:var(--ok);border-color:transparent}.st.running{background:var(--accent-soft);color:var(--accent);border-color:transparent}
-.st.failed{background:var(--warn-soft);color:var(--warn);border-color:transparent}
+.pr-st{display:inline-block;font:600 11px var(--sans);border-radius:4px;padding:1px 6px;white-space:nowrap;border:1px solid var(--line2);color:var(--muted)}
+.pr-st.done{background:var(--ok-soft);color:var(--ok);border-color:transparent}.pr-st.running{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.pr-st.failed{background:var(--warn-soft);color:var(--warn);border-color:transparent}
 .imp ul{margin:6px 0 0;padding-left:18px}.imp ul:not(.log){list-style:none;padding-left:0}.imp li{margin:3px 0}.imp .log{font-size:13px;color:var(--muted)}
 .imp .papers{color:var(--muted);font-size:12px;max-width:420px}
 .pulse{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--accent);margin-right:6px;animation:pl 1.6s infinite}
@@ -681,7 +681,7 @@ body.xpv-on{overflow:hidden}
 .extiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:10px;align-items:start}
 .extile{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:12px 12px 12px 14px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s,background .15s;min-width:0}
 .extile:hover{border-color:var(--line2)}
-.extile.on,.extile.part{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.extile.on,.extile.ex-part{border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
 .extile.on{background:color-mix(in srgb,var(--accent) 4%,var(--panel))}
 .extile-h{display:flex;gap:11px;align-items:flex-start}
 .extile-t{flex:1;min-width:0;display:flex;gap:10px;align-items:flex-start;justify-content:space-between;background:none;border:0;padding:0;text-align:left;border-radius:4px;cursor:pointer;color:var(--ink);font:inherit}
@@ -697,7 +697,7 @@ body.xpv-on{overflow:hidden}
 .tbox:hover:not(:disabled){border-color:var(--accent)}
 .tbox:disabled{cursor:default;opacity:.4}
 .extile.on .tbox{background:var(--accent);border-color:var(--accent)}
-.extile.part .tbox{border-color:var(--accent)}.extile.part .tbox::after{content:"";width:8px;height:1.5px;background:var(--accent);border-radius:1px}
+.extile.ex-part .tbox{border-color:var(--accent)}.extile.ex-part .tbox::after{content:"";width:8px;height:1.5px;background:var(--accent);border-radius:1px}
 /* subtopics inside a tile: a quiet checklist (was mint pills) */
 .extile .pills{display:grid;gap:1px;margin:2px -4px 0 23px;padding-top:6px;border-top:1px solid var(--line)}
 .extile .pills[hidden]{display:none}
@@ -784,7 +784,7 @@ input[type=range].rng:disabled{opacity:.35;cursor:default}
 .exside .tb:hover{background:var(--line)}
 .exside .tb[aria-current="true"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
 .exside .tb .c{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px;flex:none}
-.exside .tb .none{color:var(--muted);font-size:11px;font-style:italic;flex:none}.exside .tb.empty{color:var(--muted)}
+.exside .tb .none{color:var(--muted);font-size:11px;font-style:italic;flex:none}.exside .tb.ex-empty{color:var(--muted)}
 .exside details.exfa>summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:8px;padding:6px 8px;border-radius:6px;font:600 13px var(--sans)}
 .exside details.exfa>summary::-webkit-details-marker{display:none}
 .exside details.exfa>summary:hover{background:var(--line)}
@@ -854,9 +854,9 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
   #xPages .ed-empty:not(:focus){color:#a7adb5;font-style:italic}
   #xPages .ed-empty:not(:focus)::before{content:attr(data-ph)}
 }
-.exln{position:relative}.exln.empty{min-height:4px}
+.exln{position:relative}.exln.ex-empty{min-height:4px;padding:36px 16px;text-align:center;color:var(--muted)}   /* padding etc. inherited from the shared .empty until the 13 Nov health pass; kept so nothing moves (likely unintended: owner to decide) */
 .lnctl{position:absolute;right:0;top:-1.6mm;z-index:2;display:flex;align-items:center;gap:2px;font-family:var(--sans);background:#fff;border:1px solid #dcd6cb;border-radius:999px;padding:1px 2px;opacity:.75;transition:opacity .12s}
-.lnctl:hover{opacity:1}.exln.empty .lnctl{top:-6mm}
+.lnctl:hover{opacity:1}.exln.ex-empty .lnctl{top:-6mm}
 .lnctl button{width:18px;height:18px;border-radius:50%;border:0;background:#f1eee8;color:#333;font-size:12px;line-height:1;display:grid;place-items:center;padding:0;cursor:pointer}
 .lnctl button:hover:not(:disabled){color:#1e5f5a}.lnctl button:disabled{opacity:.35;cursor:default}
 .lnn{font-size:9.5px;color:#666;font-variant-numeric:tabular-nums;min-width:4.2em;text-align:center}
@@ -1016,7 +1016,7 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .bhead,.brow>summary{display:grid!important;grid-template-columns:3.2em 7.5em repeat(8,minmax(46px,1fr)) minmax(170px,auto);align-items:center;gap:0 4px;min-width:760px}
 .bhead{padding:6px 12px 4px;border-top:1px solid var(--line);font:600 11px var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
 .bhead .sh{text-align:center;cursor:help}
-.brow>summary .st{justify-self:start}
+.brow>summary .pr-st{justify-self:start}
 .sc{justify-self:center;display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;font:700 11px var(--sans);color:var(--muted)}
 .sc.done{background:var(--ok-soft);color:var(--ok)}
 .sc.na{color:var(--muted);font-weight:400}
@@ -1470,7 +1470,7 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
 .tile b{font:600 22px var(--sans);letter-spacing:-.02em}
 .imp table{border-radius:var(--t2-rl)}
 .handoff{border-radius:var(--t2-rl)}
-.st{border-radius:4px;font-size:10.5px;letter-spacing:.03em}
+.pr-st{border-radius:4px;font-size:10.5px;letter-spacing:.03em}
 
 /* ---- Difficulty ---- */
 .levels{padding-block:22px 0}
@@ -1547,7 +1547,7 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
 .schema .sb .sbh{fill:var(--accent-soft);stroke:none}
 .schema .sb.file .sbh{fill:var(--y11-soft)}.schema .sb.page .sbh{fill:var(--gen-soft)}
 .schema .sb.file>rect:first-child,.schema .sb.page>rect:first-child{stroke-dasharray:4 3}
-.schema .st{font-weight:600;font-size:14px;fill:var(--ink)}
+.schema .st{font-family:var(--sans);font-weight:600;font-size:14px;letter-spacing:.03em;white-space:nowrap;fill:var(--ink)}   /* family, spacing, nowrap were inherited from Processes' bare .st until the 13 Nov health pass */
 .schema .sn{font-size:12px;fill:var(--muted);font-variant-numeric:tabular-nums}
 .schema .sr{font-size:12px;fill:var(--ink)}.schema .sr.pk{font-weight:600}.schema .sr.fk{fill:var(--accent)}
 .schema .snote{font-size:11px;fill:var(--muted)}
@@ -1694,13 +1694,13 @@ html:not(.editor) .edonly{display:none!important}
 .ifoot{margin-top:18px;font-size:13px;color:var(--muted);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 .ifoot label{display:inline-flex;gap:6px;align-items:center}
 .ifoot select{font-size:13px;max-width:16em}
-.inbox a.imore,.ifoot a,.pempty a.act.ghost{color:var(--accent)}
+.inbox a.imore,.ifoot a,.rv-pempty a.act.ghost{color:var(--accent)}
 .inbox a.imore,.ifoot a{text-decoration:none}.inbox a.imore:hover,.ifoot a:hover{text-decoration:underline}
 .inbox .handoff{margin-top:14px}
 
 /* ---- a paper with nothing left ---- */
-.pempty{display:flex;flex-direction:column;gap:12px;text-align:left}
-.pempty>b{color:var(--ink);font-size:15px}
+.rv-pempty{display:flex;flex-direction:column;gap:12px;text-align:left}
+.rv-pempty>b{color:var(--ink);font-size:15px}
 /* owner 13 Nov: "recently done looks so big": this panel was named .pdone, the same class as Processes' Recently done list, so its
    flex layout and 16px bold leaked there. Renamed .ppdone (paper done). */
 .ppdone{display:flex;flex-wrap:wrap;align-items:center;gap:12px 14px}
@@ -2804,7 +2804,7 @@ function renderReview(){
   $('#pos').textContent=rlist.length?`${ridx+1} / ${rlist.length}`+(rfilter==='recent'&&approvedAt(rlist[ridx])?' · approved '+new Date(approvedAt(rlist[ridx])).toLocaleString([], {day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):''):'0 / 0';
   if(!rlist.length&&RMODE==='paper'){   // owner 13 Nov: one paper at a time; an empty step says so and points to the next one
     const w=paperWork(rdoc);
-    $('#rout').innerHTML=`<div class="empty pempty">${w.n&&!(rfilter==='decide'&&w.left.decide)?`<b>Nothing left in “${esc(stepLabel(rfilter))}” for this paper.</b>`:''}
+    $('#rout').innerHTML=`<div class="empty rv-pempty">${w.n&&!(rfilter==='decide'&&w.left.decide)?`<b>Nothing left in “${esc(stepLabel(rfilter))}” for this paper.</b>`:''}
       ${rfilter==='sample'?w.ids.map(sampleBanner).join(''):''}${rfilter==='decide'?PCALL.html(w.ids):''}${paperNextHTML()}</div>`;
     $('#src').innerHTML='';$('#srcTitle').textContent='Source page';$('#reviewView').classList.add('grid');bindNext();return}   // no question: no empty source pane
   if(!rlist.length){
@@ -3041,10 +3041,10 @@ function batchState(b){const st=STAGES.map(([k])=>(b.stages||{})[k]||'waiting');
   const r=STAGES.find(([k])=>(b.stages||{})[k]==='running');if(r)return['running',r[1]];
   if(st.some(v=>v==='done'))return['running','Part done'];return['waiting','Waiting']}
 function batchRow(b){const [cls,lab]=batchState(b);const n=(b.papers||[]).length;
-  return `<details class="brow"><summary><b>${esc(b.id)}</b><span class="st ${cls}">${esc(lab)}</span>
+  return `<details class="brow"><summary><b>${esc(b.id)}</b><span class="pr-st ${cls}">${esc(lab)}</span>
     ${stageCells(b)}
     <span class="muted">${n} paper${n===1?'':'s'}${b.questions?` · ${esc(String(b.questions))} questions`:''}</span></summary>
-    <div class="bbody">${b.note?`<div class="muted">${esc(b.note)}</div>`:''}<div class="bstages">${STAGES.map(([k,l])=>{const v=(b.stages||{})[k]||'waiting';return `<span><span class="st ${v.replace('/','')}">${SLABEL[v]||esc(v)}</span> ${esc(l)}</span>`}).join('')}</div>
+    <div class="bbody">${b.note?`<div class="muted">${esc(b.note)}</div>`:''}<div class="bstages">${STAGES.map(([k,l])=>{const v=(b.stages||{})[k]||'waiting';return `<span><span class="pr-st ${v.replace('/','')}">${SLABEL[v]||esc(v)}</span> ${esc(l)}</span>`}).join('')}</div>
     <ul class="bpapers">${(b.papers||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></details>`}
 // owner 13 Nov: "but we already have 15 waiting batches?" -> ONE list: what is still to import lives only in the Import order
 // (Papers tab, "Batch 6", "Batch 7", ... dividers), so the history shows finished batches only.
@@ -3056,7 +3056,7 @@ function renderImport(){
   const P=PROG, box=$('#importBox'); if(!box) return;
   if(!P){box.innerHTML='<div class="empty">No import progress recorded yet.</div>';return}
   const t=P.totals||{}, pct=(a,b)=>b?Math.round(100*a/b):0;
-  const tile=(v,l,a,b)=>`<div class="tile"><b>${v??'–'}</b><span>${l}</span>${b?`<div class="bar"><i style="width:${pct(a,b)}%"></i></div>`:''}</div>`;
+  const tile=(v,l,a,b)=>`<div class="tile"><b>${v??'–'}</b><span>${l}</span>${b?`<div class="pr-bar"><i style="width:${pct(a,b)}%"></i></div>`:''}</div>`;
   const run=(P.running||[]),log=(P.log||[]).slice().reverse(),all=box.dataset.logall==='1';
   box.innerHTML=`<p class="sub">Year 12 Advanced papers, newest first · updated ${esc(ago(P.updated))}${P.eta?` · ${esc(P.eta)}`:''}</p>
   <div class="tiles">${tile(`${t.parsed||0} / ${t.papers_total||0}`,'papers parsed',t.parsed,t.papers_total)}${tile(`${t.published||0} / ${t.papers_total||0}`,'papers on this page',t.published,t.papers_total)}
@@ -3688,7 +3688,7 @@ function exTopics(){const el=$('#exTopics');if(!el)return;const A=exA(),tree=xaT
   [12,11].forEach(y=>{h+=`<section class="strand"><div class="strand-h"><h3>Year ${y}</h3><button type="button" class="linkbtn" data-sall="${y}">Select all</button><button type="button" class="linkbtn" data-snone="${y}">Clear</button></div><div class="extiles">`;
     tree[y].forEach((ks,fa)=>{const key=y+'|'+fa,live=ks.filter(k=>cnt[k]),on=ks.filter(k=>sel.has(k)).length,state=on&&on>=live.length&&live.length?'on':on?'part':'';
       const q=ks.reduce((t,k)=>t+(cnt[k]||0),0),open=EXV.open.has(key),chosen=ks.filter(k=>sel.has(k)).map(subName);
-      h+=`<div class="extile ${state}${open?' open':''}"><div class="extile-h">
+      h+=`<div class="extile ${state==='part'?'ex-part':state}${open?' open':''}"><div class="extile-h">
         <button type="button" class="tbox" data-tfa="${esc(key)}" role="checkbox" aria-checked="${state==='on'?'true':state==='part'?'mixed':'false'}" aria-label="Choose all of ${esc(fa)}"${live.length?'':' disabled'}>${state==='on'?'✓':''}</button>
         <button type="button" class="extile-t" data-texp="${esc(key)}" aria-expanded="${open}"><span class="tt"><b>${esc(fa)}</b><small>${q} question${q===1?'':'s'} · ${on?`${on} of ${ks.length} chosen`:`${ks.length} subtopic${ks.length===1?'':'s'}`}</small>${chosen.length&&!open&&state!=='on'?`<small class="expicked">${esc(chosen.join(', '))}</small>`:''}</span><span class="exchev" aria-hidden="true">▾</span></button></div>
         <div class="pills" ${open?'':'hidden'}>${ks.map(k=>{const n=cnt[k]||0;return `<button type="button" class="pill" data-tsub="${esc(k)}" aria-pressed="${sel.has(k)}"${n?'':' disabled title="No questions yet"'}>${esc(subName(k))}<span class="n">${n}</span></button>`}).join('')}</div></div>`});
@@ -3736,7 +3736,7 @@ function exSideNav(){const el=$('#exSide');if(!el)return;const tree=xaTree(),hom
   el.innerHTML=`<div class="exsidehd"><b>Topics</b><button type="button" class="linkbtn exnarrow-s" data-exclose>Close</button></div><button type="button" class="tb" data-pt="all" aria-current="${T==='all'}"><span>All questions</span><span class="c">${all}</span></button>`+[12,11].map(y=>`<h3>Year ${y}</h3>`+[...tree[y]].map(([fa,ks])=>{const ak=y+'|'+fa,open=EXV.pkOpen.has(ak)||T==='fa:'+ak||(T.startsWith('sub:')&&ks.includes(T));
     return `<details class="exfa"${open?' open':''} data-pfa="${esc(ak)}"><summary><span>${esc(fa)}</span><span class="c">${cntA[ak]||0}</span></summary><div class="subs">
       ${ks.length>1?`<button type="button" class="tb" data-pt="fa:${esc(ak)}" aria-current="${T==='fa:'+ak}"><span>All of ${esc(fa)}</span><span class="c">${cntA[ak]||0}</span></button>`:''}
-      ${ks.map(k=>`<button type="button" class="tb${cnt[k]?'':' empty'}" data-pt="${esc(k)}" aria-current="${T===k}"><span>${esc(subName(k))}</span>${cnt[k]?`<span class="c">${cnt[k]}</span>`:'<span class="none">none yet</span>'}</button>`).join('')}</div></details>`}).join('')).join('')}
+      ${ks.map(k=>`<button type="button" class="tb${cnt[k]?'':' ex-empty'}" data-pt="${esc(k)}" aria-current="${T===k}"><span>${esc(subName(k))}</span>${cnt[k]?`<span class="c">${cnt[k]}</span>`:'<span class="none">none yet</span>'}</button>`).join('')}</div></details>`}).join('')).join('')}
 function exFilters(){const el=$('#exMain');if(!el||el.dataset.ready)return;el.dataset.ready=1;const F=EXV.pk;
   const groups={hsc:'NESA HSC',trial:'Trial papers',internal_exam:'School tasks'};let o='<option value="all">All papers</option>';
   Object.entries(groups).forEach(([k,lab])=>{const ds=Object.values(B.docs).filter(d=>d.task_type===k&&B.questions.some(q=>String(q.doc)===String(d.id))).sort((a,b)=>String(b.label).localeCompare(String(a.label)));if(!ds.length)return;
@@ -3791,7 +3791,7 @@ const exLnDef=m=>Math.max(3,Math.min(24,Math.round((+m||1)*3)));
 const exFigWrap=k=>{const s=EX.figscale[k]||1,p=Math.round(s*100);return `<span class="exfigw" data-figw="${k}" style="--fs:${s}"><span class="exfigbox"><span class="figslot" data-fig="${k}"></span><span class="figpct" aria-hidden="true">${p}%</span><span class="figh" data-figh="${k}" role="slider" tabindex="0" aria-label="Diagram size" aria-valuemin="30" aria-valuemax="200" aria-valuenow="${p}" aria-valuetext="${p}%" title="Drag the corner to resize · double-click to reset"></span></span></span>`};
 // a leaf part's answer lines: the per-part count (EX.lines) with +/- controls; the default is 3 per mark (3 to 24)
 const exLines=(q,p)=>{const k=exLnKey(q,p),def=exLnDef(p.marks??q.marks),v=EX.lines[k]??def;
-    return `<div class="xlines exln${v?'':' empty'}" data-ln="${k}">${'<i></i>'.repeat(v)}<span class="lnctl"><button type="button" data-lnd="-1" aria-label="Fewer lines"${v<=0?' disabled':''}>−</button><span class="lnn">${v} line${v===1?'':'s'}</span><button type="button" data-lnd="1" aria-label="More lines"${v>=40?' disabled':''}>+</button></span></div>`};
+    return `<div class="xlines exln${v?'':' ex-empty'}" data-ln="${k}">${'<i></i>'.repeat(v)}<span class="lnctl"><button type="button" data-lnd="-1" aria-label="Fewer lines"${v<=0?' disabled':''}>−</button><span class="lnn">${v} line${v===1?'':'s'}</span><button type="button" data-lnd="1" aria-label="More lines"${v>=40?' disabled':''}>+</button></span></div>`};
 const ED=(field,tag,cls,ph,val)=>{const v=val!=null?val:(EX[field]||'');return `<${tag} class="${cls} ed${v?'':' ed-empty'}" contenteditable="true" spellcheck="true" data-edit="${field}" data-ph="${esc(ph)}" title="Click to edit">${esc(v)}</${tag}>`};
 const exRuns=a=>{const o=[];for(let i=0;i<a.length;i++){let j=i;while(j+1<a.length&&a[j+1]===a[j]+1)j++;o.push(j>i+1?`${a[i]}–${a[j]}`:j===i+1?`${a[i]}, ${a[j]}`:`${a[i]}`);i=j}return o.join(', ')};
 const EX_INSTR=['Write using black pen','Calculators approved by NESA may be used','A reference sheet is provided'];
