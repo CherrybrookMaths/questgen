@@ -626,3 +626,6 @@ framework for the courses standard extension and extension two [later] right?"
 | Where everything lives, and how to resume | RESUME.md |
 
 Copies: every spec is published with the page under `project/` and synced to the Drive folder.
+
+- **Bank topic transitions (13 Nov).** Owner: "animation going between all topics and a subtopic. It's currently just snapping to it". Opening a topic slides the list forward and the clicked card grows into the heading; All topics slides back. View transitions (bankGo in 07_bank.js, css/23_bank_motion.css); snaps where unsupported; fades under reduced motion.
+- **Logo v2 (13 Nov).** Owner: "Can the questgen logo be more sophisticated and elegant as well", chose option A, "top is fine": Fraunces at weight 480, optical size 72, the integral-tail Q kept in the accent colour. Header height 23px (21px on phones). Supersedes the 600-weight wordmark.
