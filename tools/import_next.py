@@ -6,9 +6,14 @@ dynamic, me choosing which set of papers to import next?").
 
 EXPORT_DIR: a folder exported with ArtifactData `list` on collection importq (out_dir; one JSON file per doc, importq/d<id>.json),
 the same export tools/sync_pagedb.py takes. Without it, the page_importq mirror in questions.db is read (run sync_pagedb.py first).
-Prints the owner's order, then the next N importable papers (default 9, one batch) with every file and its Drive id
+Prints the owner's order, then the next N importable papers (default 9, one batch, cut from the top) with every file and its Drive id
 (drive_ids.csv), and writes work/import/next.json. Papers that are already imported, or that can no longer be imported
 (their state changed since they were queued), are listed as skipped with the reason; nothing is ever dropped silently.
+
+One list (owner 13 Nov: "but we already have 15 waiting batches?"): the planned batches b6-b20 were folded into this order,
+so progress.json holds only finished batches; the next batch is numbered after the last one there ("Batch 6", ...), as the page's
+dividers show. Old-syllabus papers (inventory "old", before 2020) are marked syllabus_version 'pre2017' (IMPORT_PLAYBOOK
+"Old-syllabus papers").
 
 Read-only: it changes nothing in the database or on the page. Import is PAUSED (owner 14 Nov: "no more importing for a while
 until we iron these out"); when it resumes, this list replaces picking rows by hand from import_manifest.csv (IMPORT_PLAYBOOK
@@ -23,6 +28,16 @@ import inventory
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
 DB = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
 OUT = P + 'work/import/next.json'
+PROGRESS = P + 'site/data/progress.json'
+
+
+def next_batch_no():
+    """Last finished batch in progress.json + 1 (b1..b5 done -> 6). The page's import-order dividers use the same rule."""
+    try: bs = json.load(open(PROGRESS)).get('batches') or []
+    except (OSError, ValueError): bs = []
+    done = [int(b['id'][1:]) for b in bs if str(b.get('id', ''))[1:].isdigit() and (b.get('stages') or {})
+            and all(v in ('done', 'n/a') for v in b['stages'].values())]
+    return max(done, default=0) + 1
 
 
 def read_queue(src, db):
@@ -53,7 +68,7 @@ def main():
         for p in g['papers']:
             for f in p['f']: papers.setdefault(f, (p, g))     # any file of the paper finds it, if the paper's lead file changed
             papers[p['id']] = (p, g)
-    paths = {r['id']: dict(r) for r in db.execute('SELECT id, source_path, status, parse_path, page_count FROM documents')}
+    paths = {r['id']: dict(r) for r in db.execute('SELECT id, source_path, status, parse_path, page_count, drive_file_id FROM documents')}
     drive = {}
     dp = P + 'drive_ids.csv'
     if os.path.exists(dp):
@@ -67,17 +82,19 @@ def main():
         if p['st'] == 'imported' or not p.get('pick'):
             skipped.append({'pos': i, 'doc_id': p['id'], 'label': x.get('label'), 'why': 'already imported' if p['st'] == 'imported' else (p.get('why') or p['st'])}); continue
         take.append({'pos': i, 'doc_id': p['id'], 'label': x.get('label'), 'course': g['course'], 'year_level': g['yl'],
+                     **({'syllabus_version': 'pre2017'} if p.get('old') else {}),
                      'added_by': x.get('added_by'), 'at': x.get('at'),
                      'files': [{'doc_id': f, 'path': paths[f]['source_path'], 'status': paths[f]['status'], 'scan': paths[f]['parse_path'] == 'scan',
-                                'pages': paths[f]['page_count'], 'drive_file_id': drive.get(f)} for f in p['f']]})
-    res = {'source': src, 'queued': len(q), 'next': take[:n], 'later': len(take[n:]), 'skipped': skipped,
+                                'pages': paths[f]['page_count'], 'drive_file_id': drive.get(f) or paths[f]['drive_file_id']} for f in p['f']]})
+    res = {'source': src, 'queued': len(q), 'batch': f'b{next_batch_no()}', 'next': take[:n], 'later': len(take[n:]), 'skipped': skipped,
            'paused': 'Import is paused (owner 14 Nov: "no more importing for a while until we iron these out"). Do not start an import from this list until the owner resumes it.'}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(res, open(OUT, 'w'), indent=1, ensure_ascii=False)
     print(f'owner\'s import order: {len(q)} queued ({src})')
     print('  ' + res['paused'])
+    print(f'  next batch: {res["batch"]} ({len(take[:n])} papers)')
     for t in take[:n]:
-        print(f'  {t["pos"]:3d}. {t["label"]}  [{t["course"]} Y{t["year_level"]}]  ' + ', '.join(
+        print(f'  {t["pos"]:3d}. {t["label"]}  [{t["course"]} Y{t["year_level"]}{", old syllabus" if t.get("syllabus_version") else ""}]  ' + ', '.join(
             f'{f["path"]}{" (scan)" if f["scan"] else ""}{"" if f["drive_file_id"] else " (no Drive id)"}' for f in t['files']))
     if res['later']: print(f'  ... and {res["later"]} more after this batch')
     for s in skipped: print(f'  skip {s["pos"]:3d}. {s["label"]}: {s["why"]}')

@@ -269,7 +269,7 @@ The PC route (when the Drive connector is not available):
    joined Knox 2023 AT1 instead of 2024). A split-off file moves to the paper of the year its name gives (the "for 20xx HSC"
    rule), else it is its own paper labelled by its file name. documents rows are not changed.
 5. **Publish** (normal rules: `bash tools/prepublish.sh`, then the `publish_set.py --json` map, which includes
-   `data/inventory.json`). The owner opens Curate > Processes > Papers, ticks Year 12 Advanced papers (Year 11 cannot be ticked: owner ruling below) (or a school, or a whole group) and
+   `data/inventory.json`). The owner opens Curate > Processes > Papers, ticks Year 12 Advanced papers, old-syllabus ones included (Year 11 cannot be ticked: owner ruling below) (or a school, or a whole group) and
    presses "Add to import queue"; he reorders or removes them there. The page stores the order in db collection `importq`
    (one doc per paper, `d<doc_id>`: `{doc_id, label, course, year_level, order, added_by, at}`). Standard, Extension 1 and
    Extension 2 are listed but cannot be queued until their course is set up (topics, dot points, difficulty references).
@@ -285,3 +285,25 @@ totals for a batch / papers in it), write it here and set `COST_PER_PAPER` in to
 
 
 - **Year 11 stays out of the import queue (owner 13 Nov).** Asked whether to let the 177 (now ~700 after the Drive rescan) Year 11 Advanced papers into the queue: "Year 11 papers leave alone for now, would like to finalise Y12 first." Keep inventory.py's queueable set to Year 12 Advanced until he says otherwise.
+
+## Old-syllabus papers, one import list, and what the Papers words mean (13 Nov)
+Owner, 13 Nov: "I can't tell. So does not imported and new mean not in scope? We should take questions too, we'll just have to
+disretard out of scope things", then "but we already have 15 waiting batches?"
+- **Old-syllabus Year 12 Advanced papers are imported.** Advanced papers from before the 2017 syllabus took effect (old 2 Unit,
+  last HSC 2019; 245 pre-2019 Year 12 papers were "Not in scope", plus 11 from 2019 that were already waiting) are WAITING and can
+  be queued; tools/inventory.py marks them `old: 1` and the page labels them "old syllabus". The other 13 Year 12 Advanced "Not in
+  scope" papers stay out (not a question paper, solutions only, other course). Course-not-known papers before 2019 stay out until a
+  cover-page check. Year 11 is still never queueable (owner: "Year 11 papers leave alone for now, would like to finalise Y12 first").
+- **Import rule for them.** Old-syllabus papers carry `syllabus_version 'pre2017'` (documents; tools/import_next.py writes it on
+  each paper in work/import/next.json). Parse and load the whole paper as usual. At tagging (TAG_SPEC), a part with no matching
+  current dot point is **dropped (not loaded into the bank)**; a question that mixes current and removed content becomes a **Your
+  call** for the owner (Review step 1) instead of being trimmed silently. Content that is in the Standard course still follows
+  PARSE_SPEC's standard_topic rule.
+- **One list.** The 15 pre-planned waiting batches (b6-b20, 133 papers in progress.json) were folded into the page's import order
+  (db `importq`, seeded in batch order from work/importq_seed.json by work/importq_seed.py; 132 papers, since 2020 Knox AT3 is a
+  research project, not a question paper). progress.json now holds finished batches only (b1-b5). `tools/import_next.py` cuts the
+  next 9 importable papers from the top and numbers the batch after the last finished one (b6, b7, ...); the page shows the same
+  "Batch 6", "Batch 7", ... dividers every 9 rows. Import history shows finished batches only. When a batch finishes, add it to
+  progress.json (and db progress/import) as done and remove its papers from `importq`.
+- **Words on the Papers grid** (one legend line): Imported: in the bank · Waiting: will be imported · Not in scope: set aside ·
+  New: found by the latest scan (a "+N new" badge on the number, not a column).

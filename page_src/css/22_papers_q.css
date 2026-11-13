@@ -9,6 +9,10 @@
 .procs .ivql .ntext b{font-weight:600}
 .procs .ivql .ntext small{color:var(--muted);font-size:12px}
 .procs .ivql .ivwarn{color:var(--warn);font-style:normal}
+/* owner 13 Nov ("but we already have 15 waiting batches?" -> one list): a faint divider every 9 rows names the batch it becomes */
+.procs .ivql>li.ivdiv{display:flex;align-items:center;gap:8px;margin:0;padding:8px 10px 2px;border-top:1px solid var(--line);color:var(--muted);font:500 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;opacity:.8}
+.procs .ivql>li.ivdiv::after{content:"";flex:1;border-top:1px dashed var(--line)}
+.procs .ivql>li.ivdiv:first-child{border-top:0;padding-top:6px}.procs .ivql>li.ivdiv+.nrow{border-top:0}
 .procs .ivqn{flex:none;min-width:20px;height:20px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:600 11.5px var(--sans);display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
 /* the compact course grid (owner 13 Nov, Work | Papers): one row per course, cells Year 12 / Year 11 / Year ?; a cell opens its papers under the row */
 .procs #ivGrid{border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden}
@@ -52,6 +56,9 @@
 .procs .ivbar[hidden]{display:none}
 .procs .ivbar #ivSelN{flex:1 1 auto;font-weight:600;font-size:13.5px}
 .procs .ivbar .ivadd{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+/* owner 13 Nov ("does not imported and new mean not in scope?"): New is a small badge on the number, plus a one-line legend */
+.procs .ivcell sup.ivnew{margin-left:3px;font:600 10px var(--sans);color:var(--warn);vertical-align:super;line-height:0;white-space:nowrap}
+.procs .ivlegend{margin:0;padding:7px 12px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
 /* phone: the grid stacks per course (name on its own line, then three labelled cells); no sideways scroll */
 @media (max-width:640px){.procs #ivGrid .ivhead{display:none}.procs .ivr{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:8px 10px}.procs .ivname{grid-column:1/-1}
   .procs .ivcell{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:0;text-align:left;border-color:var(--line);padding:4px 8px}.procs .ivcell .ivcl{display:block;font-size:11px}

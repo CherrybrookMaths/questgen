@@ -693,6 +693,26 @@ Owner, 13 Nov: "The process page feels a bit bloated now". Chosen: "Two tabs: Wo
   quiet pause note`, `papers: compact grid counts equal the inventory`, `papers: … one group open at a time`, `papers: Import
   history collapsed; …`, `papers: phone 390px` (stacked grid), `papers (viewer): …` (no Curate on any Processes hash).
 
+## Papers: one import list, old syllabus, New badge (13 Nov)
+Owner, 13 Nov: "I can't tell. So does not imported and new mean not in scope? We should take questions too, we'll just have to
+disretard out of scope things" and "but we already have 15 waiting batches?"
+- **Old syllabus.** Pre-2019 (old 2 Unit) Year 12 Advanced papers are Waiting and tickable, with an "old syllabus" chip in their
+  group and "· old syllabus" in the import order (inventory `old: 1`). Year 11 stays not tickable. The out-of-scope chip reads
+  **Not in scope** (was "Not imported").
+- **One list.** The planned batches are in the Import order (seeded from progress.json b6-b20). A faint divider ("Batch 6",
+  "Batch 7", ..., small caps, muted, dashed rule; `role="separator"`, not draggable) sits before every 9th importable row; rows
+  with a warning (already imported, can no longer be imported) are not counted, as tools/import_next.py skips them. The first
+  number is the last finished batch in the import history + 1 (`batchState`), so it moves on by itself after each batch.
+- **Import history** shows finished batches only (one "Finished" group, open inside the collapsed history); "No finished batches
+  yet." when none.
+- **New** is a small "+N new" badge on the cell's waiting number (or its papers number), not a chip of its own and never a column.
+  Under the grid one legend line: "Imported: in the bank · Waiting: will be imported · Not in scope: set aside · New: found by the
+  latest scan".
+- Code: `invNextBatch`, `IVBATCH`, `IVLEGEND` inside PQ (32_papers_q.js; `PQ.queue` redraws the order when progress arrives),
+  `batchesHTML` in 12_import.js, styles `.ivdiv`, `.ivnew`, `.ivlegend` in 22_papers_q.css. Tests: `papers: Batch N dividers every
+  9 rows; history shows finished batches only`, the legend / badge asserts in `papers: compact grid counts equal the inventory`,
+  the old-syllabus paper 9105 (tickable) and Year 11 9303 (waiting, not tickable) in page_test_fixture.py.
+
 ## Where else things are recorded
 
 | What | File |
