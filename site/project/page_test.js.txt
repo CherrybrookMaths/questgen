@@ -588,6 +588,15 @@ async function areas(browser, base, seed) {
       verrs(); assert(!bad.length, bad.join(' '));
       return `${CURATE_HASHES.length} Curate hashes → #bank`;
     });
+    // stage 4 review, 15 Nov: the Guide must not point a viewer at Curate pages they cannot open
+    await check(`areas (${role}): the Guide names no Curate page`, vp, async () => {
+      await go(vp, '#guide'); await vp.evaluate(() => document.querySelector('[data-gpg="cat"]')?.click()); await settle(vp, 4000, 2);
+      const t = await vp.evaluate(() => { document.querySelectorAll('#guideView details').forEach(d => d.open = true); return document.querySelector('#guideView').innerText });
+      verrs();
+      const hits = (t.match(/Review ›[^\n]{0,30}|checked by you/g) || []);
+      assert(!hits.length, `the Guide still says: ${hits.slice(0, 3).join(' | ')}`);
+      return `${t.length} chars, no "Review ›" or "checked by you"`;
+    });
     await vp.context().close();
   }
   // a viewer opening a Curate link directly, and the phone menu without a Curate group

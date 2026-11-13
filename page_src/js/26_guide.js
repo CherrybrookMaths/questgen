@@ -24,7 +24,8 @@ const g2pct=(a,t)=>t?Math.round(a/t*100):0;
 function g2Bars(rows,max,cls=''){return `<div class="g2bars ${cls}">${rows.map(([l,v,sub])=>`<div class="g2bar"><span class="l">${l}</span><i><s style="width:${max?Math.max(1.5,v/max*100):0}%"></s></i><b>${v}</b>${sub?`<em>${sub}</em>`:''}</div>`).join('')}</div>`}
 const G2_BAND=[[2,'Routine','One step: recall, read a graph, substitute'],[3,'Standard','Two steps, or one technique applied cleanly'],[4,'Multi-step','Several steps, ideas combined, careful algebra'],[5,'Non-routine','Unfamiliar set-up, general proof, extended reasoning'],[6,'Insight','Novel model or a long argument taken to the end']];
 function g2Checked(){let chk=0,chg=0;try{Object.values(DIFD||{}).forEach(d=>{if(d.status&&d.anchor!==false){chk++;if(d.status==='changed')chg++}})}catch(e){}return {chk,chg}}
-const g2ChkHTML=(chk,chg,ref)=>`<b>${chk}<small> / ${ref}</small></b><span>References checked by you</span><em>${chk?`${chg} changed · in Review › Difficulty`:'Not loaded yet, or none checked'}</em>`;
+// owner 15 Nov: "curate should be hidden to peope except editors." Viewers are not pointed at Review steps they cannot see.
+const g2ChkHTML=(chk,chg,ref)=>{const ed=typeof isEditor==='function'&&isEditor();return `<b>${chk}<small> / ${ref}</small></b><span>References checked by ${ed?'you':'an editor'}</span><em>${chk?`${chg} changed${ed?' · in Review › Difficulty':''}`:'Not loaded yet, or none checked'}</em>`};
 // owner 14 Nov: "what is the _ references checked by you": the count comes from the page database after the Guide is drawn, so refresh the tile when it arrives
 function g2ChkRefresh(){const el=$('#g2chk');if(!el)return;const {chk,chg}=g2Checked();let ref=0;B.questions.forEach(q=>{if(!q.dup_of&&!q.old&&!q.std)q.parts.forEach(p=>{if(p.dif&&p.dif.a)ref++})});el.innerHTML=g2ChkHTML(chk,chg,ref)}
 const G2_PAGE=()=>{try{return localStorage.getItem('g2page')==='dev'?'dev':'cat'}catch(e){return 'cat'}};
@@ -86,7 +87,7 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
       <li><b>"Show the derivative, hence integrate"</b> → integration.</li>
       <li><b>sec, cosec, cot graphs</b> → the trig-graph dot point, with a note.</li>
       <li><b>Product, quotient, chain rule</b>: exp/log/trig → Y12-240; two rules or a choice → Y11-134; else Y11-131/132/133.</li>
-      <li><b>How tags are made</b>: two independent AI taggers; agreement stands; a gate dispute goes to a third check; a home dispute comes to Review › Tags.</li></ol></details>
+      <li><b>How tags are made</b>: two independent AI taggers; agreement stands; a gate dispute goes to a third check; a home dispute ${isEditor()?'comes to Review › Tags':'goes to an editor'}.</li></ol></details>
   </section>
 
   <section id="g2-diff" class="g2sec"><h3>2 · Difficulty</h3>
