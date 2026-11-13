@@ -23,19 +23,27 @@ State of a paper:
 Only waiting Advanced papers can be ticked on the page ("pick": 1). Standard / Ext 1 / Ext 2 show their counts but need
 course setup (topics, dot points, difficulty references) before they can be imported.
 "new" = inserted by the latest folder scan (table folder_scans, written by tools/scan_folder.py --apply).
+For the page's "Rescan drive" (owner 13 Nov: "Where is the button to rescan the drive?") the json also carries root_drive_id
+(the shared folder in Google Drive), scan_skip (folders not walked), files (every recorded file: folder, name, size, Drive id)
+and rules (tools/classify_paths.py RULES, so the page classifies a new Drive file exactly as the tools do).
 Cost: IMPORT_PLAYBOOK.md and RESUME.md record no per-paper import cost yet (13 Nov), so COST_PER_PAPER is None and the page
 shows none. Set it (e.g. '≈ 0.4M tokens') when one is recorded there.
 """
 import collections, datetime, json, os, re, sqlite3, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from classify_paths import school_of, year_of, task_of, kind_of, as_manifest_row
+from classify_paths import school_of, year_of, task_of, kind_of, as_manifest_row, RULES
 
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
 DB = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
 OUT = P + 'site/data/inventory.json'
 PAPERS = P + 'work/import/papers.json'
 COST_PER_PAPER = None
+# The shared folder in Google Drive (G:\\Shared drives\\CMC Resources\\Exams\\External Exams Stage 6; drive_ids.csv lists it as
+# the parent of the loose files at its root). The page's "Rescan drive" button (owner 13 Nov: "Where is the button to rescan
+# the drive?") walks it READ-ONLY with the viewer's Google Drive connector; the id lives here, never in the page.
+ROOT_DRIVE_ID = '1yItEV6bFpGyrJDpDrAle0RgPKqsfjTOZ'
+SCAN_SKIP = ['Claude outputs']      # our own folder inside it (csv/png exports, not exam papers): not walked
 # (key, name, short name, ready). ready = the bank has this course's topics, dot points and difficulty references, so its
 # papers can be queued. Only Advanced so far (owner 13 Nov: "We can always [build the] framework for the courses standard
 # extension and extension two [later] right?"). The page takes names and readiness from here, never hard-codes a course.
@@ -62,7 +70,8 @@ def build(db, files=False):
     """files=True adds 'f' (every documents.id in the paper) to each paper, for tools/import_next.py; never written to the json."""
     db.row_factory = sqlite3.Row
     docs = {r['id']: dict(r) for r in db.execute('SELECT id, source_path, status, course, year_level, task_type, school, year, display_label, '
-                                                   'school_formal, task_code, failure_reason, page_count, parse_path, ingested_at FROM documents')}
+                                                   'school_formal, task_code, failure_reason, page_count, parse_path, ingested_at, '
+                                                   'size_bytes, drive_file_id FROM documents')}
     has_q = {r[0] for r in db.execute('SELECT DISTINCT document_id FROM questions')}
     last = None
     if db.execute("SELECT 1 FROM sqlite_master WHERE name='folder_scans'").fetchone():
@@ -199,7 +208,21 @@ def build(db, files=False):
         'courses': [{'key': c, 'name': n, 'short': sh, 'ready': r, **({} if r else {'note': UNKNOWN if c == 'unknown' else SETUP})} for c, n, sh, r in COURSES],
         'cost_per_paper': COST_PER_PAPER,
         'groups': [g for g in out.values() if g['counts']['papers']],
+        'root_drive_id': ROOT_DRIVE_ID, 'scan_skip': SCAN_SKIP,
+        'files': known_files(docs.values()),
+        'rules': RULES,
     }
+
+
+def known_files(docs):
+    """Every recorded file, for the page's Drive rescan to tell new files from known ones: {dirs: [folder paths],
+    f: [[dir index, file name, size in bytes or null, Drive file id or ""], ...]}. Folders are stored once (the paths share them)."""
+    dirs, f = {}, []
+    for d in sorted(docs, key=lambda d: d['source_path'].lower()):
+        p = d['source_path'].replace('\\', '/')
+        folder, _, name = p.rpartition('/')
+        f.append([dirs.setdefault(folder, len(dirs)), name, d.get('size_bytes'), d.get('drive_file_id') or ''])
+    return {'dirs': list(dirs), 'f': f}
 
 
 def table(inv):

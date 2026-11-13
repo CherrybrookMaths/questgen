@@ -10,7 +10,9 @@ reads a listing; it never touches the folder or the PDFs.
   python3 tools/scan_folder.py LISTING [LISTING ...]            dry run: report only (work/scan/scan_<date>_dry.json)
   python3 tools/scan_folder.py LISTING [LISTING ...] --apply    also insert the new files into documents (backup first)
 
-LISTING is a file saved from the device `list_dir` tool (JSON: entries with name/type/size/mtimeMs/depth, or with relative
+LISTING may also be a "Rescan drive" result from the review page (one doc of db collection `scans`, saved as JSON with
+ArtifactData): its new files only, so the missing check is skipped for it.
+LISTING is otherwise a file saved from the device `list_dir` tool (JSON: entries with name/type/size/mtimeMs/depth, or with relative
 paths), or a tab-separated text file (relative path, size, mtimeMs per line). Append @Sub/Folder when the listing was taken
 of a subfolder rather than the root: `work/scan/listing_Kings.json@Kings`. How the main session produces the listing:
 IMPORT_PLAYBOOK.md "New papers in the shared folder".
@@ -103,6 +105,12 @@ def load_listing(spec, root=ROOT_WIN):
             rows.append({'path': c[0], 'type': 'directory' if c[0].endswith(('/', '\\')) else 'file',
                          'size': int(c[1]) if len(c) > 1 and c[1].strip().isdigit() else None,
                          'mtimeMs': float(c[2]) if len(c) > 2 and re.match(r'^[\d.]+$', c[2].strip()) else None})
+    elif _page_scan(obj) is not None:
+        # a "Rescan drive" result from the review page (db collection scans, exported with ArtifactData): only the files that
+        # scan did not find in the record, so it is PARTIAL: the missing check is skipped for it (as for a capped listing)
+        meta['format'] = 'page_scan'
+        rows = [{'path': n['path'], 'type': 'file', 'size': n.get('size'), 'drive_id': n.get('id')} for n in _page_scan(obj)]
+        meta['truncated'] = True
     else:
         ents, m = _entries(obj)
         meta['format'] = 'json'
@@ -133,8 +141,11 @@ def load_listing(spec, root=ROOT_WIN):
         p = rel(r.get('path') or '').strip('/')
         if not p: continue
         if prefix and not _key(p).startswith(_key(prefix) + '/'): p = prefix + '/' + p
-        files.append({'path': p, 'size': _int(r.get('size', r.get('sizeBytes'))), 'mtime_ms': r.get('mtimeMs', r.get('mtime')), 'dir': _isdir(r)})
-    if len(rows) >= CAP or meta.get('truncated'):
+        files.append({'path': p, 'size': _int(r.get('size', r.get('sizeBytes'))), 'mtime_ms': r.get('mtimeMs', r.get('mtime')), 'dir': _isdir(r),
+                      **({'drive_id': r['drive_id']} if r.get('drive_id') else {})})
+    if meta['format'] == 'page_scan':
+        meta['capped'] = True
+    elif len(rows) >= CAP or meta.get('truncated'):
         meta['warnings'].append(f'{fn}: {len(rows)} entries, at the tool\'s {CAP}-entry cap: some files may be missing. List subfolders '
                                 'separately (file@Subfolder); the missing-file check is skipped for this listing.')
         meta['capped'] = True
@@ -147,6 +158,15 @@ def load_listing(spec, root=ROOT_WIN):
     meta['entries'] = len(rows)
     meta['dirs'] = len(dirs)
     return [f for f in files if not f['dir']], meta
+
+
+def _page_scan(obj):
+    """The new-file list of a page scan doc ({at, by, new: [{id, name, path, size, course, year}], counts}), also inside an export
+    wrapper ({data: {...}} or a one-doc list), else None."""
+    if isinstance(obj, list) and len(obj) == 1: obj = obj[0]
+    if isinstance(obj, dict) and isinstance(obj.get('data'), dict): obj = obj['data']
+    if isinstance(obj, dict) and isinstance(obj.get('new'), list) and 'counts' in obj and 'at' in obj: return obj['new']
+    return None
 
 
 def _isdir(r):
@@ -199,7 +219,7 @@ def compare(files, metas, docs):
             if (same_size and sim >= SIM) or (sim == 1.0 and not d.get('size_bytes')):
                 score = sim + (1 if same_size else 0)
                 if not best or score > best[0]: best = (score, d, sim, same_size)
-        row = {'path': f['path'], 'size': f['size'], 'mtime_ms': f['mtime_ms']}
+        row = {'path': f['path'], 'size': f['size'], 'mtime_ms': f['mtime_ms'], 'drive_file_id': f.get('drive_id')}
         if best:
             _, d, sim, same_size = best
             gone = _key(d['source_path']) in miss_keys
@@ -231,7 +251,7 @@ def _count(rows, k):
     return dict(sorted(c.items()))
 
 
-COLS = ['source_path', 'size_bytes', 'task_type', 'course', 'classification_method', 'year_level', 'school', 'year', 'natural_key',
+COLS = ['source_path', 'size_bytes', 'drive_file_id', 'task_type', 'course', 'classification_method', 'year_level', 'school', 'year', 'natural_key',
         'provenance_method', 'bundled_solutions', 'syllabus_version', 'status', 'failure_reason', 'ingested_at']
 
 

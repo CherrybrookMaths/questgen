@@ -613,6 +613,43 @@ framework for the courses standard extension and extension two [later] right?"
   drag-to-reorder (`writeOrder`, `sortableList`) now in `31_notes.js` and used by Next up too, `#invBox` in page.html,
   `css/22_papers_q.css` (all under `.procs`). Tests: the `papers: …` checks in tools/page_test.js.
 
+## Rescan drive on Processes › Papers (13 Nov)
+Owner, 13 Nov: "Where is the button to rescan the drive?" (earlier: "New exams are gonna be added to this folder periodically we
+need a way to ... see what we actually haven't ingested yet").
+- **Where.** A **Rescan drive** button on the Papers section's first line, right of "N papers in the shared folder · last folder
+  scan <time>, K new". Curate, so editors only; a viewer gets nothing (no button, no connector request, no write).
+- **How.** It walks the shared exam folder in Google Drive with the viewer's own **Google Drive** connector (runtime capability
+  `mcp`, tool `search_files` only: one query per folder, `parentId = '<id>' and (mimeType = folder or PDF) and trashed = false`,
+  `pageToken`, `excludeContentSnippets`). Read-only: it never moves, renames or changes anything in the shared drive (other staff
+  use it). The folder id is `root_drive_id` in data/inventory.json (tools/inventory.py); `scan_skip` lists folders not walked
+  ("Claude outputs").
+- **Progress.** "Scanning Google Drive · N of M folders · K PDFs" with a bar (M grows as folders are found) and **Cancel**. A
+  cancelled or failed scan saves nothing.
+- **Known or new.** A Drive file is known when its Drive id (documents.drive_file_id, 303 files so far) or its path
+  (case-insensitive) is in inventory `files`. A file with the same size as a recorded one is listed with "Same size as a recorded
+  file" (probably moved or copied) and not counted as new; tools/scan_folder.py makes the real moved?/copy? call when Claude records it.
+- **Result.** "N new files since <the later of the last rescan and the last folder scan>", plus "M found in an earlier scan, still
+  not in the record" and the same-size count. The list is grouped by course x year level (open for courses that are ready), each
+  file with its folder, year, school and "Not a question paper" / "Not imported" where the rules exclude it. New files are
+  classified with the SAME rules as tools/classify_paths.py: its `RULES` are written into the inventory (`rules`) and the page
+  runs them (CODE_HEALTH rule 3). The page test checks the page's port against the Python on every recorded path, and
+  batch_check blocks an inventory whose rules differ from `RULES`.
+- **Saved for Claude.** Each finished scan is one doc in db collection `scans`: `{at, by, root, new:[{id, name, path, size, course,
+  year, yl, task, school, status, why, like?}], counts:{folders, pdfs, matched, new, like, since_last, groups}}` (at most 500 files;
+  `counts.truncated` beyond). The section then shows "Found in the last scan, not yet in the record: N" with the note "Claude
+  adds these to the record at the next import step." The sub line's "last scan" becomes the rescan when it is later.
+- **No connector in this view** (`claude.use('mcp')` null, or the inventory has no Drive id): no button, a muted "Ask Claude to
+  rescan".
+- **Errors, one message per code** (never a generic banner): not allowed / declined (`not_in_manifest`, `approval_required`,
+  `consent_required`), reconnect (`needs_reauth`), add the connector (`server_not_connected`), choose one (`selection_required`),
+  organisation policy (`blocked_by_policy`), Drive's own error (`tool_error`), busy (`server_unavailable`, `rate_limited`). A
+  retryable error waits (`retryAfterMs`, else 1.5-4 s) and is tried ONCE more, then the scan stops; it never loops. Limits: 3
+  folders at a time, 60 pages per folder, 3,000 folders.
+- Code: `page_src/js/33_drive_scan.js` (`PQ.scan`: render, last, start, stop, classify, state; no new page-wide name), the
+  first line and hooks in `32_papers_q.js`, styles at the end of `css/22_papers_q.css` (all under `.procs`). Tools:
+  `tools/classify_paths.py` (RULES), `tools/inventory.py` (root_drive_id, scan_skip, files, rules), `tools/scan_folder.py` (reads
+  a scans doc). Tests: the `rescan: …` checks in tools/page_test.js (fake Google Drive connector with a small folder tree).
+
 ## Where else things are recorded
 
 | What | File |

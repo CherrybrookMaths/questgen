@@ -35,16 +35,16 @@ function invSubscribe(){if(INV.sub||!db||!isEditor())return;
 function renderInv(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
   if(!box.dataset.ready){box.dataset.ready='1';
     box.innerHTML=`<section class="psec ivp" aria-labelledby="ivH"><h3 id="ivH">Papers</h3>
-      <p class="ivsub" id="ivSub"></p>
+      <div class="ivsubrow"><p class="ivsub" id="ivSub"></p><span id="ivScanBtn"></span></div><div id="ivScan"></div>
       <p class="ivpause" role="note"><span aria-hidden="true">⏸</span> ${esc(IVPAUSE)}</p>
       <div class="ivq"><h4 id="ivQH">Import order <span class="pcount" id="ivQN" hidden></span></h4><div id="ivQList"></div></div>
       <div id="ivGrid"></div>
       <div class="ivbar" id="ivBar" hidden><span id="ivSelN" aria-live="polite"></span><button type="button" class="act" id="ivClear">Clear</button><button type="button" class="act ivadd" id="ivAdd">Add to import queue</button></div></section>`}
-  invLoad();invSubscribe();invSub();invQueue();if(!$('#ivGrid').dataset.built)invGrid();invBar()}
+  invLoad();invSubscribe();invSub();invQueue();if(!$('#ivGrid').dataset.built)invGrid();invBar();if(API.scan)API.scan.render()}
 function invSub(){const el=$('#ivSub');if(!el)return;const D=INV.data;
   if(!D){el.textContent=INV.failed?'The paper list could not be loaded.':'Loading the paper list…';return}
-  const t=D.totals||{},ls=D.last_scan;
-  el.textContent=`${t.papers||0} papers in the shared folder (${D.docs||0} files) · `+(ls?`last folder scan ${clockT(ls.at)}, ${ls.inserted||0} new`:'no folder scan yet: counts are from the first stock-take')}
+  const t=D.totals||{},ls=D.last_scan,ds=API.scan&&API.scan.last(),dl=ds&&(!ls||Date.parse(ds.at)>Date.parse(ls.at));   // a Drive rescan later than the folder scan wins
+  el.textContent=`${t.papers||0} papers in the shared folder (${D.docs||0} files) · `+(dl?`last scan ${clockT(ds.at)}, ${ds.n} new`:ls?`last folder scan ${clockT(ls.at)}, ${ls.inserted||0} new`:'no folder scan yet: counts are from the first stock-take')}
 // ---- the import order (owner's queue)
 function invQueue(){const el=$('#ivQList');if(!el)return;const q=invQ(),n=$('#ivQN');if(n){n.hidden=!q.length;n.textContent=q.length}
   const cost=INV.data&&INV.data.cost_per_paper;
@@ -106,6 +106,9 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
     [ids[i],ids[j]]=[ids[j],ids[i]];await invReorder(ids);const b=document.querySelector(`#ivQList [data-ivid="${CSS.escape(mv.dataset.ivid)}"][data-ivmove="${mv.dataset.ivmove}"]`);if(b&&!b.disabled)b.focus();return}
   const dl=t.closest('[data-ivdel]');if(dl){await invRemove(dl.dataset.ivdel);return}});
 sortableList('#ivQList .ivql>li','ivq',()=>invQ().map(x=>x.id),invReorder,invQueue);   // drag (desktop); ↑ ↓ for keyboard and phone (31_notes.js)
+// sub: the sub line; course, years: names for the Rescan drive results. 33_drive_scan.js adds API.scan (= PQ.scan, no new
+// page-wide name); code in here reaches it through API, since PQ itself is not assigned until this block returns.
+const API={render:renderInv,add:invAdd,remove:invRemove,state:INV,sub:invSub,course:invCourse,years:IVY};
 if(view==='processes')renderInv();   // Processes may already be open when this block loads
-return {render:renderInv,add:invAdd,remove:invRemove,state:INV};
+return API;
 })();

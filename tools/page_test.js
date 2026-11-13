@@ -11,6 +11,10 @@
                  (tools/page_test_fixture.py, a copy of the real page database mirrored in questions.db), every write logged
        user      id() and profiles()
        downloads save({filename,data}): filename, size and the bytes are captured and checked here
+       mcp       (13 Nov, Rescan drive) only when a page is given a fake Drive tree: callTool('Google Drive', 'search_files',
+                 {query: "parentId = '<id>' ...", pageToken}) answers from the fixture's folders, 2 items a page; every call is
+                 logged in window.__pt.mcp; window.__pt.driveDelay (ms) slows it, window.__pt.driveErr {n, err} rejects n calls
+                 with err. Without a tree use('mcp') is null, as in a view with no connector.
    Every check is named and passes or fails; a failure saves a screenshot to work/page_test/shots/<check>.png.
    The result goes to work/page_test/last_result.json (with the sha256 of the page and data it tested), which
    tools/batch_check.py reads: a failed, missing or stale result BLOCKS the publish.
@@ -78,7 +82,7 @@ function serve() {
 /* ---------------- the fake runtime (runs in the page before its own scripts) ---------------- */
 function fakeClaude(arg) {
   // role (15 Nov, Teach | Curate): 'editor' (default: owner + canEdit), 'viewer' (neither), 'none' (no user capability: use('user') → null)
-  const seed = arg && arg.seed, role = (arg && arg.role) || 'editor';
+  const seed = arg && arg.seed, role = (arg && arg.role) || 'editor', drive = arg && arg.drive;
   // deterministic Math.random, so a failing run can be repeated
   let a = 0x9e3779b9; Math.random = () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296 };
   const store = new Map(Object.entries(seed || {})), log = [], cs = [], ds = [];
@@ -105,8 +109,19 @@ function fakeClaude(arg) {
     await window.__ptSave(filename, btoa(s));
     window.__pt.downloads.push({filename, size: bytes.length});
   }};
-  window.__pt = {store, log, downloads: []};
-  window.claude = {use: async n => n === 'db' ? db : n === 'user' ? (role === 'none' ? null : user) : n === 'downloads' ? downloads : null};
+  // the viewer's Google Drive connector, faked from a small folder tree (read-only: search_files is the only tool it knows)
+  const mcp = drive ? {callTool: async (server, tool, input, opts) => {
+    window.__pt.mcp.push({server, tool, input: clone(input)});
+    const sig = opts && opts.signal;
+    await new Promise((res, rej) => { const t = setTimeout(res, window.__pt.driveDelay || 0); if (sig) sig.addEventListener('abort', () => { clearTimeout(t); rej({code: 'cancelled', message: 'aborted'}) }, {once: true}) });
+    const e = window.__pt.driveErr; if (e && e.n > 0) { e.n--; throw {...e.err} }
+    if (server !== 'Google Drive' || tool !== 'search_files') throw {code: 'not_in_manifest', message: 'not in the manifest'};
+    const m = /parentId = '([^']+)'/.exec(input.query || ''), items = (m && drive.folders[m[1]]) || [];
+    const from = +(input.pageToken || 0), per = Math.min(input.pageSize || 100, drive.per || 100), files = clone(items.slice(from, from + per));
+    return {content: [{type: 'text', text: JSON.stringify({files})}], payload: {files, ...(from + per < items.length ? {nextPageToken: String(from + per)} : {})}};
+  }} : null;
+  window.__pt = {store, log, downloads: [], mcp: [], used: [], driveDelay: 0, driveErr: null};
+  window.claude = {use: async n => { window.__pt.used.push(n); return n === 'db' ? db : n === 'user' ? (role === 'none' ? null : user) : n === 'downloads' ? downloads : n === 'mcp' ? mcp : null }};
 }
 
 /* ---------------- checks ---------------- */
@@ -122,7 +137,7 @@ async function check(name, page, fn) {
 }
 function assert(c, m) { if (!c) throw new Error(m) }
 
-async function newPage(browser, base, seed, {width = 1280, theme = 'light', touch = false, role = 'editor'} = {}) {
+async function newPage(browser, base, seed, {width = 1280, theme = 'light', touch = false, role = 'editor', drive = null} = {}) {
   const ctx = await browser.newContext({viewport: {width, height: width > 800 ? 900 : 844}, colorScheme: theme, deviceScaleFactor: 1, reducedMotion: 'reduce', acceptDownloads: false, hasTouch: touch, isMobile: touch});
   const page = await ctx.newPage();
   page._errs = [];
@@ -134,7 +149,7 @@ async function newPage(browser, base, seed, {width = 1280, theme = 'light', touc
   });
   await page.route(u => !u.href.startsWith(base), r => { outside.push(r.request().url()); return r.abort() });
   await page.exposeFunction('__ptSave', (fn, b64) => { const f = path.join(DL, fn.replace(/[^\w.\- ]+/g, '_')); fs.writeFileSync(f, Buffer.from(b64, 'base64')); });
-  await page.addInitScript(fakeClaude, {seed, role});
+  await page.addInitScript(fakeClaude, {seed, role, drive});
   return page;
 }
 // wait until the page stops changing (text length, element count, typeset maths count)
@@ -1185,6 +1200,146 @@ async function papersQueue(browser, base, seed, fx) {
   await vp.context().close();
 }
 
+/* ---------------- Rescan drive (Processes › Papers) ----------------
+   owner 13 Nov: "Where is the button to rescan the drive?" (earlier: "New exams are gonna be added to this folder periodically
+   we need a way to ... see what we actually haven't ingested yet"). The fake Google Drive connector answers from the fixture's
+   small tree (tools/page_test_fixture.py sample_drive); the inventory carries the matching record and the real path rules.
+   Progress and Cancel; new files grouped by course x year as tools/classify_paths.py classifies them; the scans doc; the
+   classifier port against every recorded path; back-off and per-code errors; no connector; a viewer; 390 px; reload. */
+async function driveScan(browser, base, seed, fx) {
+  if (!fx.papers || !fx.drive) { await check('rescan: fixture', null, async () => { throw new Error('work/page_test/fixture.json has no "drive": run tools/page_test_fixture.py') }); return }
+  const inv = fx.papers.inventory, dv = fx.drive;
+  const serveInv = async p => { p._inv = 0; await p.route(u => /\/data\/inventory\.json/.test(u.href), r => { p._inv++; return r.fulfill({status: 200, contentType: 'application/json', body: JSON.stringify(inv)}) }) };
+  const scans = p => p.evaluate(() => [...window.__pt.store.entries()].filter(([k]) => k.startsWith('scans/')).map(([k, v]) => ({k, ...v})));
+  const open = async (opts, seedX = seed) => { const p = await newPage(browser, base, seedX, opts); await serveInv(p); await boot(p, base, '#processes'); await settle(p, 3000, 2); return p };
+  const go = p => p.evaluate(() => document.querySelector('#ivScanGo').click());
+  const done = p => p.waitForFunction(() => !document.querySelector('#ivScan .ivsprog') && !!document.querySelector('#ivScan .ivsres, #ivScan .ivserr'), null, {timeout: 20000});
+  const gid = e => e.course + '|' + (e.yl === 11 || e.yl === 12 ? String(e.yl) : '?');
+  const want = {}; for (const [i, e] of Object.entries(dv.expect)) if (!dv.like[i]) (want[gid(e)] = want[gid(e)] || []).push(i);
+  const nNew = Object.values(want).flat().length;
+
+  const page = await open({width: 1280, theme: 'light', drive: dv});
+  const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  await check('rescan: button beside the last scan, progress, Cancel saves nothing', page, async () => {
+    await page.waitForSelector('#ivScanGo', {timeout: 12000});
+    const pos = await page.evaluate(() => { const b = document.querySelector('#ivScanGo'), s = document.querySelector('#ivSub'); return {row: b.parentElement.parentElement === s.parentElement, txt: b.textContent, sub: s.textContent} });
+    assert(pos.row && pos.txt === 'Rescan drive' && /last folder scan/.test(pos.sub), JSON.stringify(pos));
+    await page.evaluate(() => { window.__pt.driveDelay = 400 });
+    await go(page);
+    await page.waitForFunction(() => /Scanning Google Drive · \d+ of \d+ folders/.test(document.querySelector('#ivScan .ivsprog')?.textContent || ''), null, {timeout: 5000});
+    const pr = await page.evaluate(() => ({t: document.querySelector('#ivScan .ivsptxt').textContent, dis: document.querySelector('#ivScanGo').disabled, bar: !!document.querySelector('#ivScan progress')}));
+    assert(pr.dis && pr.bar, `while scanning: ${JSON.stringify(pr)}`);
+    await page.click('#ivScanStop');
+    await page.waitForFunction(() => /Scan cancelled\. Nothing was saved\./.test(document.querySelector('#ivScan .ivserr')?.textContent || ''), null, {timeout: 5000});
+    const n = (await scans(page)).length, en = await page.evaluate(() => !document.querySelector('#ivScanGo').disabled); errs();
+    assert(n === 0 && en, `after Cancel: ${n} scans docs, button enabled ${en}`);
+    return pr.t.trim();
+  });
+  await check('rescan: new files grouped by course x year, scan doc saved', page, async () => {
+    await page.evaluate(() => { window.__pt.driveDelay = 20; window.__pt.mcp.length = 0 });
+    const t0 = Date.now(); await go(page);
+    await done(page);
+    const r = await page.evaluate(() => ({res: document.querySelector('#ivScan .ivsres')?.textContent || '', err: document.querySelector('#ivScan .ivserr')?.textContent || '',
+      last: document.querySelector('#ivScan .ivslast p')?.textContent || '', note: document.querySelector('#ivScan .ivsnote')?.textContent || '',
+      groups: Object.fromEntries([...document.querySelectorAll('#ivScan .ivslast details.ivsg')].map(d => [d.dataset.ivsg, [...d.querySelectorAll('.ivsname')].map(x => x.textContent)])),
+      like: [...document.querySelectorAll('#ivScan .ivchip.like')].map(c => c.closest('li').querySelector('.ivsname').textContent),
+      sub: document.querySelector('#ivSub').textContent, calls: window.__pt.mcp.slice()}));
+    errs();
+    assert(!r.err, `error shown: ${r.err}`);
+    assert(new RegExp(`^${nNew} new files since `).test(r.res) && /1 file with the same size as a recorded file/.test(r.res), `headline: “${r.res}”`);
+    assert(r.last.startsWith(`Found in the last scan, not yet in the record: ${nNew}`) && r.note === 'Claude adds these to the record at the next import step.', `last-scan line: “${r.last}” / “${r.note}”`);
+    const name = i => dv.expect[i].path.split('/').pop();
+    for (const [g, ids] of Object.entries(want)) assert((r.groups[g] || []).filter(x => ids.map(name).includes(x)).length === ids.length, `group ${g}: ${JSON.stringify(r.groups[g])} (want ${ids.map(name)})`);
+    assert(r.like.join('|') === name('n3'), `same-size chip on: ${r.like}`);
+    assert(new RegExp(`· last scan .+, ${nNew} new$`).test(r.sub), `sub line: “${r.sub}”`);
+    // read-only: only search_files on Google Drive, one parentId query per folder, paging used, the skipped folder never opened
+    assert(r.calls.every(c => c.server === 'Google Drive' && c.tool === 'search_files' && /^parentId = '[\w-]+' and \(mimeType = 'application\/vnd\.google-apps\.folder' or mimeType = 'application\/pdf'\) and trashed = false$/.test(c.input.query) && c.input.excludeContentSnippets === true), `unexpected call: ${JSON.stringify(r.calls.find(c => c.tool !== 'search_files' || !/^parentId/.test(c.input.query)))}`);
+    assert(r.calls.some(c => c.input.pageToken) && !r.calls.some(c => /'fCO'/.test(c.input.query)), 'pageToken never used, or the skipped folder was opened');
+    const parents = new Set(r.calls.map(c => /'([^']+)'/.exec(c.input.query)[1]));
+    assert(parents.size === dv.folder_count, `folders walked ${parents.size} (want ${dv.folder_count})`);
+    const ss = await scans(page); assert(ss.length === 1, `${ss.length} scans docs`);
+    const d = ss[0];
+    assert(/^scans\/s\d{14}$/.test(d.k) && d.by === 'u_pagetest' && !isNaN(Date.parse(d.at)) && d.root === 'ROOTFAKE', `scan doc: ${d.k} ${d.by} ${d.at} ${d.root}`);
+    assert(d.counts.new === nNew && d.counts.like === 1 && d.counts.folders === dv.folder_count && d.counts.matched === 3 && d.counts.pdfs === 9, `counts ${JSON.stringify(d.counts)}`);
+    for (const [i, e] of Object.entries(dv.expect)) { const f = d.new.find(x => x.id === i);
+      assert(f && f.path === e.path && f.course === e.course && f.yl === e.yl && f.year === e.year && f.status === e.status && typeof f.size === 'number' && f.name === name(i), `scan doc file ${i}: ${JSON.stringify(f)} (want ${JSON.stringify(e)})`) }
+    assert(d.new.find(x => x.id === 'n3').like === dv.like.n3, 'n3 has no like');
+    return `${nNew} new + 1 same size in ${Date.now() - t0} ms; ${r.calls.length} calls; ${Object.entries(r.groups).map(([g, x]) => g + ' ' + x.length).join(', ')}`;
+  });
+  await check('rescan: page classification = tools/classify_paths.py on every recorded path', page, async () => {
+    const bad = await page.evaluate(cases => cases.filter(([p, c, yl, t, y, s, st, why]) => { const r = PQ.scan.classify(p);
+      return !r || r.course !== c || r.yl !== yl || r.task !== t || r.year !== y || r.school !== s || r.status !== st || (r.why || null) !== (why || null) }).slice(0, 5).map(x => x[0]), fx.classify || []);
+    assert((fx.classify || []).length > 100, `only ${(fx.classify || []).length} recorded paths in the fixture`);
+    assert(!bad.length, `differs on: ${bad.join(' | ')}`);
+    return `${fx.classify.length} paths agree`;
+  });
+  await check('rescan: back-off once on a rate limit, then stop; errors per code', page, async () => {
+    const run = async err => { await page.evaluate(e => { window.__pt.driveDelay = 0; window.__pt.mcp.length = 0; window.__pt.driveErr = e }, err);
+      const n0 = (await scans(page)).length; await go(page); await done(page);
+      return page.evaluate(n0 => ({msg: document.querySelector('#ivScan .ivserr')?.textContent || '', calls: window.__pt.mcp.length, w: [...window.__pt.store.keys()].filter(k => k.startsWith('scans/')).length - n0}), n0) };
+    // retryable, twice in a row: one wait and one retry, then the scan stops (never a loop)
+    let r = await run({n: 2, err: {code: 'rate_limited', message: 'slow down', retryable: true, retryAfterMs: 300}});
+    assert(/busy and did not answer\. Nothing was saved/.test(r.msg) && r.calls === 2 && r.w === 0, `rate limit twice: ${JSON.stringify(r)}`);
+    // retryable once: the retry succeeds and the scan completes
+    r = await run({n: 1, err: {code: 'server_unavailable', message: '503', retryable: true, retryAfterMs: 200}});
+    assert(!r.msg && r.w === 1, `one transient error: ${JSON.stringify(r)}`);
+    const codes = {not_in_manifest: /was not allowed for this page/, approval_required: /was not allowed for this page/, needs_reauth: /needs reconnecting/, server_not_connected: /not connected for you/,
+      blocked_by_policy: /block Google Drive search/, tool_error: /reported an error: boom/, weird_code: /The scan stopped \(weird_code\)/};
+    for (const [code, re] of Object.entries(codes)) { r = await run({n: 1, err: {code, message: 'boom'}});
+      assert(re.test(r.msg) && r.calls === 1 && r.w === 0, `${code}: ${JSON.stringify(r)}`) }
+    await page.evaluate(() => { window.__pt.driveErr = null }); errs();
+    return 'rate limit: 1 retry then stop; 7 codes, each with its own message; nothing saved';
+  });
+  await page.context().close();
+  // reload: the last scan is read back from the database
+  const kept = await (async () => { const p = await open({width: 1280, theme: 'light', drive: dv}); await p.waitForSelector('#ivScanGo'); await go(p); await done(p);
+    const st = await p.evaluate(() => Object.fromEntries([...window.__pt.store.entries()])); await p.context().close(); return st })();
+  const rp = await open({width: 1280, theme: 'light', drive: dv}, kept);
+  await check('rescan: the last scan is shown after a reload', rp, async () => {
+    await rp.waitForFunction(() => !!document.querySelector('#ivScan .ivslast'), null, {timeout: 8000});
+    const r = await rp.evaluate(() => ({last: document.querySelector('#ivScan .ivslast p').textContent, res: !!document.querySelector('#ivScan .ivsres'), n: document.querySelectorAll('#ivScan .ivslast .ivsname').length, calls: window.__pt.mcp.length}));
+    const e = takeErrs(rp); assert(!e.length, e.join(' | '));
+    assert(r.last.startsWith(`Found in the last scan, not yet in the record: ${nNew}`) && !r.res && r.n === nNew + 1 && r.calls === 0, JSON.stringify(r));
+    return r.last;
+  });
+  await rp.context().close();
+  // no connector in this view: no button, "Ask Claude to rescan"
+  const np = await open({width: 1280, theme: 'light'});
+  await check('rescan: no Google Drive in this view → Ask Claude to rescan', np, async () => {
+    await np.waitForFunction(() => !!document.querySelector('#ivScanBtn .ivask'), null, {timeout: 12000});
+    const r = await np.evaluate(() => ({btn: !!document.querySelector('#ivScanGo'), ask: document.querySelector('#ivScanBtn .ivask').textContent, used: window.__pt.used.includes('mcp')}));
+    const e = takeErrs(np); assert(!e.length, e.join(' | '));
+    assert(!r.btn && r.ask === 'Ask Claude to rescan' && r.used, JSON.stringify(r));
+    return 'button hidden';
+  });
+  await np.context().close();
+  // phone: progress and results fit 390 px; the button works by tap
+  const tp = await open({width: 390, theme: 'dark', touch: true, drive: dv});
+  await check('rescan: phone 390px', tp, async () => {
+    await tp.waitForSelector('#ivScanGo'); await tp.evaluate(() => { window.__pt.driveDelay = 300 }); await tp.tap('#ivScanGo');
+    await tp.waitForSelector('#ivScan .ivsprog', {timeout: 5000});
+    const a = await tp.evaluate(() => ({r: document.querySelector('#ivScan .ivsprog').getBoundingClientRect().right, w: innerWidth, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth}));
+    await tp.evaluate(() => { window.__pt.driveDelay = 0 }); await done(tp);
+    const b = await tp.evaluate(() => ({r: Math.max(...[...document.querySelectorAll('#ivScan *')].map(x => x.getBoundingClientRect().right)), w: innerWidth, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth, res: document.querySelector('#ivScan .ivsres')?.textContent || ''}));
+    const e = takeErrs(tp); assert(!e.length, e.join(' | '));
+    assert(a.r <= a.w && a.sw <= a.cw + 1, `progress overflows at 390px: ${JSON.stringify(a)}`);
+    assert(b.r <= b.w && b.sw <= b.cw + 1 && /new files since/.test(b.res), `results overflow at 390px: ${JSON.stringify(b)}`);
+    return 'progress and results fit';
+  });
+  await tp.context().close();
+  // a viewer: nothing shows, the connector is never asked for, nothing is written
+  const vp = await newPage(browser, base, seed, {width: 1280, theme: 'light', role: 'viewer', drive: dv});
+  await serveInv(vp); await boot(vp, base, '#bank');
+  await check('rescan (viewer): no button, no Drive call, nothing written', vp, async () => {
+    await vp.evaluate(() => { location.hash = '#processes' }); await settle(vp, 2000, 2);
+    const r = await vp.evaluate(async () => { PQ.scan.render(); await PQ.scan.start();
+      return {btn: !!document.querySelector('#ivScanGo'), box: document.querySelector('#invBox').hidden, used: window.__pt.used.includes('mcp'), calls: window.__pt.mcp.length, w: window.__pt.log.filter(l => l.k.startsWith('scans/')).length} });
+    assert(!r.btn && r.box && !r.used && r.calls === 0 && r.w === 0, JSON.stringify(r));
+    return 'hidden; use("mcp") never called; start() refused';
+  });
+  await vp.context().close();
+}
+
 /* ---------------- Exam setup: availability table labels (owner 14 Nov: "overlap") ----------------
    "Fluency" / "Problem solving" must sit in their own column: the drawn text of each label (measured with a Range, not the
    cell box) ends at least 4px before the first band cell, at desktop (380px settings panel), the narrow two-column width, and phone. */
@@ -1513,7 +1668,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   let fatal = null;
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
-    await Promise.all([...combos.map(([w, t]) => sweep(browser, base, seedR, w, t)), phone(browser, base, seedR), areas(browser, base, seedR), processes(browser, base, seed), reviewFlow(browser, base, seedR), bankChip(browser, base, seed), nextUp(browser, base, seed), papersQueue(browser, base, seed, fx.papers), availOverlap(browser, base, seed), queueChecks(browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => sweep(browser, base, seedR, w, t)), phone(browser, base, seedR), areas(browser, base, seedR), processes(browser, base, seed), reviewFlow(browser, base, seedR), bankChip(browser, base, seed), nextUp(browser, base, seed), papersQueue(browser, base, seed, fx.papers), driveScan(browser, base, seed, fx), availOverlap(browser, base, seed), queueChecks(browser, base, seed)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([flows(browser, base, seed, seedR), examPools(browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));
