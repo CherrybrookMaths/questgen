@@ -40,7 +40,9 @@ REMOVE = [f'project/{n}' for n in (
 
 # never publish these, even if a tool writes them again. data/focus/: stage 2, 15 Nov. data/bank_v1_before_split.json: health
 # pass 13 Nov (a pre-split snapshot nothing reads; archived in archive/data_unused_1113/, sent once as null to delete it)
-EXCLUDE = ('data/focus/', 'data/bank_v1_before_split.json')
+# data/bank_v1.json: 14 Nov, tracked in git at state/site/data/bank_v1.json (a build input the page never reads; the live
+# artifact does not hold it, so it was dropped from the manifest instead of being sent as null)
+EXCLUDE = ('data/focus/', 'data/bank_v1_before_split.json', 'data/bank_v1.json')
 
 
 def sha(p):
