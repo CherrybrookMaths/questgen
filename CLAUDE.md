@@ -65,8 +65,11 @@ work/batches.json (lanes), importq_seed.json, keys_migration/ (batches + report)
 site/data/bank_v1.json (build_bank.py input) and out/ (parse outputs). About 11 MB. Tools write it in place; it is committed
 at every publish.
 
-**Not anywhere you can fetch:** the original figure crops (`figures/`, 60 MB) and the exam PDFs' page renders. The data/img
-packs hold processed copies of the crops (see "Fresh session" step 5).
+**Figure crop originals** (`figures/`, 992 PNGs, 60 MB): not in git and not published. Backed up 14 Nov to Drive, in the
+folder above, subfolder "Figure crops backup 14 Nov (tar in 21 parts)", id `1iW16viNoAenpGwbxbYZSsUbVrgoGsMnB`: download
+`figures_20261114.tar.part00` … `part20` and `SHA256SUMS.txt`, check with `sha256sum -c SHA256SUMS.txt`, then
+`cat figures_20261114.tar.part* | tar -x` in the repo root (gives `figures/`). Each crop can also be recut from its PDF page with
+`figures.page` + `figures.bbox` in the database. The exam PDFs' page renders are rebuilt from the PDFs (pdftoppm).
 
 ## Fresh session: start here
 Run from the repo root (e.g. /home/user/questgen). Shell variables do not survive between Bash calls: either restore the DB to
@@ -121,16 +124,39 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
 6. Drive sync after major changes: zip questions.db, upload to the Drive folder, rename the old copy "(superseded <date>, safe
    to delete)". Export `reviews` to project/reviews_backup.json (IMPORT_PLAYBOOK "Standing rules").
 
+## First jobs in this session (in order; owner agreed 14 Nov)
+Imports stay paused until 1-4 are done. Tick each off in the page's Next up list (db `notes`) as it lands.
+1. **Prove the move.** Restore the database, fetch the published packs, `bash tools/prepublish.sh` (0 blockers), publish once
+   from here, push to GitHub. Done when: a publish from this session is live and its commit is on GitHub.
+2. **Split the start-up index** (data/bank/advanced/index.json is 1.8 MB of its 2.2 MB budget; it blocks after about 10 more
+   papers). Per topic or per course, or trim fields; keep bankStats() and every view working. Done when: the budget has room
+   for 538 papers.
+3. **Images: re-render into the asset store, don't move them** (owner 14 Nov: "What if we dropped them and rerendered them in
+   the new location?"). The artifact is capped at 256 MB per version (about 170 MB now, ~3 MB per paper), so images must leave
+   the published files before imports get far.
+   - What is permanent: redrawn diagrams (render from state/tikz/tex, ~25 min), plus figure crops only where a diagram has no
+     approved redraw. Page scans and comparison overlays exist only while a paper is in review; drop them once it is cleared.
+   - Sources: exam PDFs (shared drive / owner's PC, by Drive id), figures.page + figures.bbox in the database, the figures/
+     backup on Drive (above), state/tikz.
+   - Before switching: compare every re-rendered redraw with the published approved version (tools/render_audit / pixel
+     compare); list anything beyond a pixel or two for the owner instead of assuming it matches. Check the hand-fixed crops
+     (state crop_fixes) against the backup.
+   - Measure the asset store quota first (assets.list() usage at runtime). Fewer, larger uploads: approvals should be a handful,
+     not 66. If the quota is too small, stop and ask the owner.
+   - Then remove the published packs (null in publish_set) and add `"assets": {}` to the capabilities.
+4. **Remove published files the page no longer uses** (first publish from here, after 1): data/bank.json (build tools read the
+   local copy), the project/ copies now on GitHub (keep project/open_decisions.json, which Review reads, or move it to data/;
+   point the Guide's links at GitHub), stale project/*.txt tools. About 22 MB.
+5. **Reviews to key docs**: apply state/work/keys_migration (re-export reviews and regenerate first if they changed since
+   14 Nov). Then re-run tools/triage.py (needs the PDFs in src/).
+6. **Nightly import scheduled task** (~10:30 pm Sydney): a fresh session with this repo attached; restore DB, run the queue
+   (tools/import_next.py; no review lock, stop-early rules only), push, back up the DB to Drive. Then run the first batch and
+   record real tokens/minutes per paper.
+
 ## Open items (14 Nov)
-- **Index size budget.** data/bank/advanced/index.json is 1.8 MB of its 2.2 MB start-load budget and grows about 1.1 KB per
-  question: it blocks after roughly 10 more papers. Split the index per course/topic (or trim it) before imports resume.
-- **Image packs to the asset store: redesign first.** The plan (IMPORT_PLAYBOOK "Asset store") needs 66 one-file-per-call
-  uploads and the store's quota is unknown (only visible at runtime). data/assets.json is empty; every pack is still a
-  published file.
-- **Reviews migration to key docs not applied.** 22 ArtifactData batches (1,052 writes: k_<key> and p_<paper key> docs) are
-  ready in state/work/keys_migration/ (report.txt: 1,615 approvals kept). Until applied, the page reads the old q<id> /
-  paper_<doc> docs as a fallback. Re-export reviews and regenerate the batches first if reviews changed since 14 Nov.
-- **Nightly import scheduled task**: set up after the move (IMPORT_PLAYBOOK "Queue": import_next.py loop, stop-early rules).
+- Details for jobs 2, 3, 5 and 6 above: the reviews migration has 22 ArtifactData batches (1,052 writes: k_<key> and
+  p_<paper key> docs) in state/work/keys_migration/ (report.txt: 1,615 approvals kept); until applied, the page reads the old
+  q<id> / paper_<doc> docs as a fallback. The old asset-store plan (IMPORT_PLAYBOOK "Asset store") is superseded by job 3.
 - **API decision** (run imports through the API or in-session): decide after 1-2 weeks of measured nightly runs (tokens,
   minutes and failures per paper; inventory.py COST_PER_PAPER is a placeholder).
 - **Review grouped by batch**: a Next up note in the page (db `notes`).
@@ -142,5 +168,5 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
   offers as optional nulls. Compare with Artifact `list` `scope: "files"` before trusting the manifest.
 - **What a fresh session still cannot do**: re-crop or add papers without the source PDFs (download them by Drive id to src/;
   add_to_bank.py, crop_check.py, prep_verify.py and triage.py open src/<doc>.pdf, and triage.py crashes without it); rebuild
-  data/img packs exactly or compare redraws against the original crops (figures/ originals are not stored anywhere); run the
+  data/img packs exactly without the figures/ backup from Drive; run the
   render audit offline (it installs MathJax 4.1.3 from npm into SCRATCH).
