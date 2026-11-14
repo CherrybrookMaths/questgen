@@ -215,8 +215,8 @@ try:
       + (f', largest {_mb(max(os.path.getsize(P + "site/" + r) for r in _tf))}' if _tf else '')
       + (f'; data/bank.json {_mb(os.path.getsize(P + "site/data/bank.json"))} (no longer read by the page)' if 'data/bank.json' in _pub else ''))
     import bank_split as _bs, asset_manifest as _am
-    if not os.path.exists(_bs.INDEX) or os.path.getmtime(_bs.INDEX) + 1 < os.path.getmtime(P + 'site/data/bank.json'):
-        B('the split bank (site/data/bank/) is missing or older than site/data/bank.json: run python3 tools/bank_split.py')
+    if _bs.stale():
+        B('the split bank (site/data/bank/) is missing or was split from a different site/data/bank.json: run python3 tools/bank_split.py')
     if not os.path.exists(_am.MAN): B('site/data/assets.json is missing (the page reads it at start): run python3 tools/asset_manifest.py --init')
     else:
         _st = _am.stale(_am.load())

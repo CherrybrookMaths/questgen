@@ -6,7 +6,8 @@ keep the published page small; fetch data only when needed. The whole 5 MB bank.
 (about 3 MB per new paper of images and diagrams, ~90 KB of bank text per paper, target 538 papers) would only grow it.
 
   python3 tools/bank_split.py          read site/data/bank.json (written by build_bank.py), write the split files
-  python3 tools/bank_split.py --check  exit 1 when the split files are missing or older than bank.json (batch_check uses it)
+  python3 tools/bank_split.py --check  exit 1 when the split files are missing or were split from a different bank.json
+                                       (by content: index.json records bank.json's sha256 as src; batch_check uses stale())
 
 Output, per course (only Advanced has data; CODE_HEALTH rule 5: the course is a folder, never typed into the page):
   site/data/bank/<course>/index.json   docs, tables, figs, codes17, files, and every question WITHOUT its text:
@@ -93,7 +94,20 @@ def dump(o):
     return json.dumps(o, ensure_ascii=False, separators=(',', ':'))
 
 
-def split(bank, home):
+def src_hash(path=None):
+    """sha256 (16 hex) of site/data/bank.json: the index records the bank.json it was split from (idx['src'])."""
+    return hashlib.sha256(open(path or P + 'site/data/bank.json', 'rb').read()).hexdigest()[:16]
+
+
+def stale():
+    """True when the index is missing or was split from a different bank.json. By content, not file times: a git merge or
+    checkout rewrites both files with arbitrary times (e.g. merging Fix 2's bank.json, which adds question keys)."""
+    if not os.path.exists(INDEX): return True
+    try: return json.load(open(INDEX, encoding='utf-8')).get('src') != src_hash()
+    except Exception: return True
+
+
+def split(bank, home, src=None):
     files, slugs, content = [], {}, {}
     idx_q, figs, moved = [], bank['figs'], set()
     for q in bank['questions']:
@@ -138,7 +152,7 @@ def split(bank, home):
             arch = P + 'archive/bank_split_unused/' + COURSE + '/'
             os.makedirs(arch, exist_ok=True); os.replace(OUT + f, arch + time.strftime('%Y%m%d%H%M%S_') + f)
             print('archived unused topic file', f)
-    idx = {'v': 3, 'built': bank.get('built'), 'course': COURSE, 'docs': bank['docs'], 'tables': bank['tables'], 'figs': {k: {kk: v for kk, v in f.items() if not (k in moved and kk in F_CONTENT)} for k, f in figs.items()},
+    idx = {'v': 3, 'built': bank.get('built'), 'src': src, 'course': COURSE, 'docs': bank['docs'], 'tables': bank['tables'], 'figs': {k: {kk: v for kk, v in f.items() if not (k in moved and kk in F_CONTENT)} for k, f in figs.items()},
            'codes17': bank.get('codes17', {}), 'files': files, 'questions': idx_q}
     open(INDEX, 'w', encoding='utf-8').write(dump(idx))
     return idx
@@ -147,11 +161,11 @@ def split(bank, home):
 def main():
     src = P + 'site/data/bank.json'
     if '--check' in sys.argv:
-        bad = not os.path.exists(INDEX) or os.path.getmtime(INDEX) + 1 < os.path.getmtime(src)
+        bad = stale()
         print('bank split ' + ('STALE or missing: run python3 tools/bank_split.py' if bad else 'ok'))
         sys.exit(1 if bad else 0)
     bank = json.load(open(src, encoding='utf-8'))
-    idx = split(bank, homes())
+    idx = split(bank, homes(), src_hash(src))
     tot = sum(os.path.getsize(P + 'site/' + f['f']) for f in idx['files'])
     print('bank split: index %d KB (%d questions), %d topic files %d KB (largest %d KB), bank.json %d KB' % (
         os.path.getsize(INDEX) // 1024, len(idx['questions']), len(idx['files']), tot // 1024,
