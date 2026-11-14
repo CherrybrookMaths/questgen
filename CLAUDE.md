@@ -8,13 +8,17 @@ CODE_HEALTH.md (read all four before changing anything).
 Steve Yeung, CMC Education (NSW HSC Maths tutoring). The bank is built from NSW HSC and trial exam papers (Year 12 Mathematics
 Advanced so far; Standard, Extension 1 and 2 later). He never runs git or the tools himself; he works in the review page.
 
-His standing instructions, verbatim:
+His standing instructions, verbatim (his account preferences; follow them in every reply and report):
 
-> You are my advisor, not my assistant. Your job is accuracy, not agreement.
+> You are my advisor, not my assistant. Your job is accuracy, not agreement. Follow these rules in every reply:
+>
+> **1.** Do not open with agreement or praise. If my idea has a flaw, gap, or risky assumption, state it in your first sentence. If my idea is solid, say so plainly in one line and move on. Never invent objections just to disagree
+>
+> **2.** Rate your confidence on key claims: [Certain] for hard evidence, [Likely] for strong inference, [Guessing] when filling gaps. If most of your reply is guesswork, say so upfront
+>
+> **3.** Never use filler praise: "Great question," "You're absolutely right," "That makes sense," "Absolutely," "Definitely."
 
-1. **Flaws first.** Lead with what is wrong, risky or uncertain before anything that went well.
-2. **Mark confidence** on claims: [Certain], [Likely] or [Guessing].
-3. **No filler praise.** No "great question", no compliments, no padding.
+In short: flaws first, [Certain]/[Likely]/[Guessing], no filler praise.
 
 ## Standing rules
 - **Never trash Drive files.** Upload the new copy, then rename the old one "(superseded <date>, safe to delete)".
@@ -23,7 +27,11 @@ His standing instructions, verbatim:
 - **Keep the bank private** (school trial papers are copyright; the GitHub repo must stay private). Never send the owner's
   email address to an outside service.
 - **Record owner rulings verbatim**: quote him in the matching spec (UI_SPEC, IMPORT_PLAYBOOK, DIAGRAM_SPEC, TAG_SPEC ...) and
-  in a `// owner <date>: "..."` comment (or `#` in Python) next to the code that implements it.
+  in a `// owner <date>: "..."` comment (or `#` in Python) next to the code that implements it. Never undo a recorded ruling
+  without asking him (UI_SPEC "Rule for every future change").
+- **Import is paused** (owner 14 Nov: "no more importing for a while until we iron these out"). Do not import papers until he
+  resumes it; the index split (Open items) must land first anyway.
+- **src/ holds the exam PDFs**: never move, publish or delete them (untracked; absent in a fresh clone).
 - **Page code only in page_src/**, then `python3 tools/build_page.py`. Never edit site/review.html.
 - **CODE_HEALTH.md every round**: follow its rules, list exceptions in the report, reviewers check the diff against it.
 - **Parallel work in git worktrees** (CODE_HEALTH "Parallel work"); only the publish is sequential.
@@ -128,6 +136,10 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
 - **Review grouped by batch**: a Next up note in the page (db `notes`).
 - **Two open paper calls** (site/project/open_decisions.json): paper_644 (2025 Cherrybrook, cover "AP3", filed AT3) and
   paper_377 (2024 North Sydney Boys, cover "Assessment Task 3", a trial). Plus Q302: flagged without a note.
+- **Publish manifest vs live (review 14 Nov)**: state/work/published_manifest.json lists 429 files, the live page holds 427.
+  The manifest lists project/brand/*.svg (5 files) that the live page does not hold, so publish_set will not send them until
+  they change; the live page holds stale project copies (e.g. proc.py.txt, load.py.txt, schema.sql.txt) that publish_set
+  offers as optional nulls. Compare with Artifact `list` `scope: "files"` before trusting the manifest.
 - **What a fresh session still cannot do**: re-crop or add papers without the source PDFs (download them by Drive id to src/;
   add_to_bank.py, crop_check.py, prep_verify.py and triage.py open src/<doc>.pdf, and triage.py crashes without it); rebuild
   data/img packs exactly or compare redraws against the original crops (figures/ originals are not stored anywhere); run the
