@@ -160,3 +160,6 @@ out = dict(v=2, built=__import__('datetime').datetime.now().strftime('%Y%m%d%H%M
 json.dump(out, open(P + 'site/data/bank.json', 'w'), ensure_ascii=False)
 print('questions', len(out['questions']), 'tables', len(tables), 'figs', len(figs), 'svg packs', {k: len(v) for k, v in packs.items()},
       'bank KB', os.path.getsize(P + 'site/data/bank.json') // 1024)
+# Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): the page loads a small index at start and each topic's question text on
+# demand: split what was just written (site/data/bank/<course>/, tools/bank_split.py). bank.json itself is still written above.
+import bank_split as _split; _split.main()

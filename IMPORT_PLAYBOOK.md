@@ -191,11 +191,26 @@ Exit codes: 0 means all passed, 1 means a check failed, and 2 means the test cou
 
 **When a check fails.** Look at its screenshot and detail. Fix the page in `page_src/` (never in `site/review.html`), rebuild, and run `prepublish.sh` again. If the page is right and the check is out of date (an owner ruling changed what the page should do), change the check in `tools/page_test.js` and say why in a comment. Add a check for every new page feature the owner asks for.
 
-**Size budget (13 Nov health pass; CODE_HEALTH rule 6, owner: "keep the code proper and [lean] as we develop").** batch_check
-also prints `review.html`, `data/bank.json`, `data/inventory.json` and the whole published set against `tools/size_budget.json`
-(set 13 Nov at the size then + 25%). Anything over its budget is a BLOCKER. Shrink it, or ask the owner; when he agrees, raise
-that budget in the file and add his words and the date under `agreed`. Import will push `bank.json` over first (it was 4.8 MB of
-5.9 MB): plan the split by course/topic before then.
+**Size budget (13 Nov health pass; CODE_HEALTH rule 6, owner: "keep the code proper and [lean] as we develop").** Since 14 Nov
+(Fix 1, owner: "Ok we should run Fix 1 and 2"; plan: keep the published page small; fetch data only when needed) the budget in
+`tools/size_budget.json` is what the page loads at start: `review.html`, the course index `data/bank/<course>/index.json` and
+`data/assets.json`, each and together ("start load"), plus `data/inventory.json`. Anything over its budget is a BLOCKER. Shrink it,
+or ask the owner; when he agrees, raise that budget in the file and add his words and the date under `agreed`. Topic files,
+image packs, the old `bank.json` and the whole published set are printed as info. batch_check also blocks a split bank older than
+`bank.json` (run `python3 tools/bank_split.py`; `build_bank.py` runs it) and a stale `data/assets.json` entry.
+
+**Asset store (14 Nov, Fix 1).** Image packs move out of the published files into the review page's asset store, step by step:
+1. `python3 tools/asset_upload_plan.py`: lists every `data/img`, `data/svg`, `data/cmp` pack not yet in `data/assets.json` at its
+   current sha256 (path, size, sha256; anything over the 20 MiB per-file limit is flagged) into `work/assets/upload_plan.json`.
+2. Upload each with the Artifact tool: `url` = the review page, `asset: true`, `file_path` = the plan's `local` path, one JSON file
+   per call (the tool takes JSON only singly). Append each result `{path, id, url, sizeBytes}` to `work/assets/upload_results.json`.
+3. `python3 tools/asset_manifest.py` writes `site/data/assets.json` (path → url, sha256, bytes). Publish the page with
+   `capabilities` including `"assets": {}` (with db and its rules, user, downloads, mcp as now). `publish_set.py` then leaves the
+   uploaded packs out and sends null for each once.
+4. After a rebuild changes a pack, batch_check blocks: re-plan and re-upload it, or `python3 tools/asset_manifest.py --prune` (the
+   page then reads the published file again; publish it).
+The store's total quota and file count are not in the capability contract (only `usage.maxBytes` / `maxFiles` at runtime): check
+them before uploading the full set (UI_SPEC "Data on demand").
 
 **Needs:** `node` with `playwright` and its Chromium (preinstalled in the sandbox; elsewhere run `npm i playwright` and `npx playwright install chromium`), and `python3`. No network is needed.
 

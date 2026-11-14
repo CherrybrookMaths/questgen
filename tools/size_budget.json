@@ -1,11 +1,53 @@
 {
  "rule": "CODE_HEALTH rule 6 (owner 13 Nov: 'keep the code proper and [lean] as we develop'). batch_check.py reports each size against its budget; over budget is a BLOCKER until the owner agrees. When the owner agrees, raise that budget here and add an entry to 'agreed' quoting the owner and the date.",
- "set": "2026-11-13 health pass: current size + 25% (review.html measured after the dead-code removal)",
+ "meaning": "Since 14 Nov (Fix 1): the budgets cover what the page loads at start, before anyone opens a topic: the page itself (review.html), the course index (data/bank/<course>/index.json) and the image-address manifest (data/assets.json), each on its own and together ('start load'). Everything the page fetches only when needed (topic files, page-image and diagram packs, data/inventory.json for Processes) and the whole published set are printed as info and never block. The published set's own limits (256 MB and 511 files per version, 64 MB and 255 files per publish) are checked by tools/publish_set.py.",
+ "set": "2026-11-14 (Fix 1): start-load sizes then + 25%; data/assets.json sized for about 800 entries (one per image pack at the 538-paper target); data/inventory.json kept from 13 Nov",
  "budgets": {
-  "review.html": {"bytes": 745031, "at_set": 596025},
-  "data/bank.json": {"bytes": 6226044, "at_set": 4980835},
-  "data/inventory.json": {"bytes": 443828, "at_set": 355062},
-  "published total": {"bytes": 215603863, "at_set": 172483090, "note": "every file tools/publish_set.py would leave on the artifact (page, data, vendor, project)"}
+  "review.html": {
+   "bytes": 745031,
+   "at_set": 605003,
+   "note": "unchanged from 13 Nov"
+  },
+  "data/bank/advanced/index.json": {
+   "bytes": 2351716,
+   "at_set": 1881373
+  },
+  "data/assets.json": {
+   "bytes": 131072,
+   "at_set": 46
+  },
+  "start load": {
+   "bytes": 3227819,
+   "at_set": 2486422,
+   "parts": [
+    "review.html",
+    "data/bank/advanced/index.json",
+    "data/assets.json"
+   ]
+  },
+  "data/inventory.json": {
+   "bytes": 443828,
+   "at_set": 355062,
+   "note": "loaded by Processes > Papers only; kept from 13 Nov"
+  }
  },
- "agreed": []
+ "retired": {
+  "data/bank.json": {
+   "bytes": 6226044,
+   "at_set": 4980835,
+   "why": "14 Nov, Fix 1: the page no longer loads it (the index + topic files replace it); still built until the main session drops it from the publish set"
+  },
+  "published total": {
+   "bytes": 215603863,
+   "at_set": 172483090,
+   "why": "14 Nov, Fix 1: now info only; images move to the asset store"
+  }
+ },
+ "agreed": [
+  {
+   "date": "2026-11-14",
+   "owner": "Ok we should run Fix 1 and 2",
+   "what": "approved the plan 'Questgen architecture plan: before imports resume'; Fix 1 = keep the published page small; fetch data only when needed. The budget now means the page + index + manifest loaded at start; the published total is reported separately as info."
+  }
+ ]
 }

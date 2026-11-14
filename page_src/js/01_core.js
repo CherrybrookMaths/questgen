@@ -12,8 +12,49 @@ const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 // difficulty references) and its dot points come from QG.courses[QG.course]; read them with QG.courseData, never type
 // "Advanced". Only Advanced has data so far; a course is added here once it has a bank, dot points and difficulty references.
 const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'bank',course:'advanced',
-  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank.json',dots:'data/dotpoints.json'}},
-  get courseData(){return this.courses[this.course]}};
+  // owner 14 Nov: "Ok we should run Fix 1 and 2" (Fix 1: keep the published page small; fetch data only when needed): bank is
+  // the course's small index (tools/bank_split.py); each question's text arrives with its topic file (QG.need below)
+  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.json',dots:'data/dotpoints.json'}},
+  get courseData(){return this.courses[this.course]},
+  byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0};
+/* ---------- data on demand (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2") ----------
+   The index (QG.bank) holds every question without its text: ids, paper, marks, parts with tags and difficulty, triage, figure
+   keys (q.fk), the "hence integrate" flag (q.hx) and q.h, the topic file its text lives in (bank.files[q.h]). Lists, counts,
+   bankStats, the exam generator and Review's tracks run on the index alone. A view that shows questions calls QG.need(qs) first;
+   qBody() of a question whose file has not arrived draws a placeholder (QG.pending) that fills itself in when it lands.
+   Images (page images, figure crops, redraws, overlays) are read from the address in data/assets.json when it has one (the
+   artifact's asset store, uploaded by the main session), else from the published file as before (QG.url). */
+Object.assign(QG,{
+  // fetch JSON, retrying a load that fails during a republish or a network blip (3 retries, 0.8 s, 1.6 s, 2.4 s)
+  async get(u,tries=4){let err;for(let i=0;i<tries;i++){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'r='+i+'_'+Date.now());if(!r.ok)throw new Error(r.status);return await r.json()}catch(e){err=e;if(i<tries-1)await new Promise(z=>setTimeout(z,800*(i+1)))}}throw err},
+  url(p,v){const a=QG.assets[p];return a?(a.url||a):p+(v?'?v='+encodeURIComponent(v):'')},
+  has(q){return !!q&&QG.got.has(q.id)},
+  hasAll(){return QG.got.size>=(QG.bank?.questions.length||0)},
+  setBank(b){QG.bank=b;QG.byId=new Map(b.questions.map(q=>[q.id,q]));QG.got=new Set();QG.fileP={};QG.failed=new Set()},
+  file(h){const f=QG.bank.files[h];if(!f)return Promise.resolve();
+    return QG.fileP[h]||(QG.fileP[h]=QG.get(f.f+'?v='+f.s,3).then(d=>{QG.failed.delete(h);
+      Object.entries(d.q||{}).forEach(([id,c])=>{const q=QG.byId.get(+id);if(!q)return;const {parts,fn,...rest}=c;
+        Object.assign(q,rest);const pm=new Map(q.parts.map(p=>[p.id,p]));(parts||[]).forEach(cp=>{const p=pm.get(cp.id);if(p)Object.assign(p,cp)});
+        Object.entries(fn||{}).forEach(([k,v])=>{if(QG.bank.figs[k])Object.assign(QG.bank.figs[k],v)});QG.got.add(q.id)})},
+      e=>{delete QG.fileP[h];QG.failed.add(h)}))},
+  need(qs){const hs=new Set();(qs||[]).forEach(q=>{if(q&&!QG.got.has(q.id)&&q.h!=null)hs.add(q.h)});return Promise.all([...hs].map(QG.file)).then(()=>{})},
+  needAll(){return QG.need(QG.bank.questions)},
+  pending(q,mode){QG.need([q]).then(QG.fill);const bad=QG.failed.has(q.h);
+    return `<div class="qbody qpend muted" data-qpend="${q.id}" data-qmode="${esc(mode)}">${bad?'This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>':'Loading question…'}</div>`},
+  // fill in every placeholder whose question has arrived. Review binds its buttons when it draws, so it is redrawn whole.
+  fill(){if(QG._fillT)return;QG._fillT=setTimeout(()=>{QG._fillT=0;let rv=false;
+    document.querySelectorAll('[data-qpend]').forEach(el=>{const q=QG.byId.get(+el.dataset.qpend);if(!q)return;
+      if(!QG.has(q)){if(QG.failed.has(q.h)&&!el.querySelector('[data-qretry]'))el.innerHTML='This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>';return}
+      if(el.closest('#rout')){rv=true;return}
+      const mode=el.dataset.qmode,t=document.createElement('div');t.innerHTML=qBody(q,mode);const n=t.firstElementChild;el.replaceWith(n);hydrate(n,q,mode);typeset(n)});
+    if(rv&&typeof renderReview==='function')renderReview()},0)},
+  // Review › a paper: its questions are about to be shown one by one, so their files load as soon as the paper opens
+  prefetch(){const m=/^#review\/paper\/(\d+)/.exec(location.hash);if(!m||!QG.bank)return;const ids=(typeof docIds==='function'?docIds(m[1]):[+m[1]]).map(String);
+    QG.need(QG.bank.questions.filter(q=>ids.includes(String(q.doc)))).then(QG.fill)}
+});
+addEventListener('hashchange',()=>QG.prefetch());
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-qretry]');if(!b)return;const q=QG.byId.get(+b.closest('[data-qpend]').dataset.qpend);
+  b.disabled=true;QG.failed.delete(q.h);QG.need([q]).then(QG.fill)});
 for(const [k,f] of [['B','bank'],['DOTS','dots'],['DM','dm'],['reviews','reviews'],['db','db'],['me','me'],['EDITOR','editor'],['view','view']])
   Object.defineProperty(window,k,{get:()=>QG[f],set:v=>{QG[f]=v},configurable:true});
 let sel=null, search='', rlist=[], ridx=0, rfilter='diagrams', rstatus='todo', rdoc='', editing=null, revealed=new Set();

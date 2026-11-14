@@ -16,7 +16,7 @@ def W(m): warns.append(m)
 def I(m): infos.append(m)
 def mt(p): return os.path.getmtime(p) if os.path.exists(p) else 0
 def sha(p):
-    if p.endswith('data/bank.json'):   # ignore the build timestamp: only content changes need a publish
+    if p.endswith('data/bank.json') or ('data/bank/' in p and p.endswith('/index.json')):   # ignore the build timestamp: only content changes need a publish (the bank index too, Fix 1)
         d = json.load(open(p)); d.pop('built', None); return hashlib.sha256(json.dumps(d, sort_keys=True).encode()).hexdigest()
     return hashlib.sha256(open(p, 'rb').read()).hexdigest()
 
@@ -148,6 +148,9 @@ try:
         _r = json.load(open(_pt)); _t = _r.get('tested', {})
         _now = {'page': sha(_page), 'bank': hashlib.sha256(open(P + 'site/data/bank.json', 'rb').read()).hexdigest(),
                 'dotpoints': hashlib.sha256(open(P + 'site/data/dotpoints.json', 'rb').read()).hexdigest()}
+        # Fix 1 (14 Nov): the page loads the split bank (data/bank/<course>/): same digest as page_test.js `tested.index`
+        _bf = sorted(os.path.join(d, f) for d, _, fs in os.walk(P + 'site/data/bank') for f in fs)
+        _now['index'] = hashlib.sha256('\n'.join(os.path.relpath(f, P + 'site') + ':' + hashlib.sha256(open(f, 'rb').read()).hexdigest() for f in _bf).encode()).hexdigest()
         _stale = [k for k in _now if _t.get(k) != _now[k]]
         if not _r.get('ok'):
             _f = [c['name'] for c in _r.get('checks', []) if not c.get('ok')]
@@ -156,7 +159,7 @@ try:
         elif _r.get('quick'):
             B('page test: the last run was --quick (no exports, no dark theme): run the full test: node tools/page_test.js')
         elif _stale:
-            B(f'page test is stale: {", ".join("site/review.html" if k == "page" else f"site/data/{k}.json" for k in _stale)} changed since it ran: run node tools/page_test.js')
+            B(f'page test is stale: {", ".join("site/review.html" if k == "page" else "site/data/bank/" if k == "index" else f"site/data/{k}.json" for k in _stale)} changed since it ran: run node tools/page_test.js')
         elif mt(_pt) < mt(_page):
             B('page test is older than site/review.html: run node tools/page_test.js')
         else:
@@ -189,18 +192,37 @@ try:
         I(f'inventory: {_iv["totals"]["papers"]} papers ({_iv["totals"]["imported"]} imported, {_iv["totals"]["waiting"]} waiting); last folder scan {(_iv.get("last_scan") or {}).get("at", "none yet")}')
 except FileNotFoundError: W('site/data/inventory.json missing: run python3 tools/inventory.py (Processes > Papers)')
 except Exception as e: W(f'inventory check failed: {e}')
-# size budget (CODE_HEALTH rule 6; health pass 13 Nov, owner: "keep the code proper and [lean]"): page, bank, inventory and
-# the whole published set against tools/size_budget.json (set at size + 25%). Over budget BLOCKS until the owner agrees and
-# the budget is raised there with his words in "agreed".
+# size budget (CODE_HEALTH rule 6; health pass 13 Nov, owner: "keep the code proper and [lean]"). Since Fix 1 (owner 14 Nov:
+# "Ok we should run Fix 1 and 2"; plan: keep the published page small; fetch data only when needed) the budget is what the page
+# loads at start: review.html + the course index + data/assets.json, each and together ("start load"). Over budget BLOCKS until
+# the owner agrees and the budget is raised in tools/size_budget.json with his words in "agreed". Everything fetched only when
+# needed (topic files, image packs, the old bank.json) and the whole published set are reported as info, never blocking.
 try:
-    _sb = json.load(open(P + 'tools/size_budget.json'))['budgets']
+    _sbj = json.load(open(P + 'tools/size_budget.json')); _sb = _sbj['budgets']
     sys.path.insert(0, P + 'tools'); import publish_set as _ps
-    _sz = {k: os.path.getsize(P + 'site/' + k) for k in _sb if k != 'published total' and os.path.exists(P + 'site/' + k)}
-    _sz['published total'] = sum(os.path.getsize(P + 'site/' + r) for r in _ps.publishable())
     _mb = lambda n: f'{n / 2**20:.1f} MB' if n >= 2**20 else f'{n / 1024:.0f} KB'
+    _sz = {k: os.path.getsize(P + 'site/' + k) for k in _sb if 'parts' not in _sb[k] and os.path.exists(P + 'site/' + k)}
+    for k in _sb:
+        if 'parts' in _sb[k]: _sz[k] = sum(os.path.getsize(P + 'site/' + x) for x in _sb[k]['parts'] if os.path.exists(P + 'site/' + x))
+    for k in _sb:
+        if 'parts' not in _sb[k] and k not in _sz: B(f'size budget: site/{k} is missing (python3 tools/bank_split.py / tools/asset_manifest.py --init)')
     _over = [k for k in _sb if _sz.get(k, 0) > _sb[k]['bytes']]
     for k in _over: B(f'size budget: {k} is {_mb(_sz[k])}, over its {_mb(_sb[k]["bytes"])} budget (CODE_HEALTH rule 6): shrink it, or ask the owner and raise the budget in tools/size_budget.json')
-    I('size budget: ' + ', '.join(f'{k} {_mb(_sz.get(k, 0))} of {_mb(_sb[k]["bytes"])} ({100 * _sz.get(k, 0) / _sb[k]["bytes"]:.0f}%)' for k in _sb))
+    I('size budget (start load): ' + ', '.join(f'{k} {_mb(_sz.get(k, 0))} of {_mb(_sb[k]["bytes"])} ({100 * _sz.get(k, 0) / _sb[k]["bytes"]:.0f}%)' for k in _sb))
+    _pub = _ps.publishable(); _tf = [r for r in _pub if r.startswith('data/bank/') and not r.endswith('/index.json')]
+    I(f'size (info, loaded only when needed): published total {_mb(sum(os.path.getsize(P + "site/" + r) for r in _pub))} in {len(_pub)} files '
+      f'(limit per version 256 MB, 511 files); {len(_tf)} topic files {_mb(sum(os.path.getsize(P + "site/" + r) for r in _tf))}'
+      + (f', largest {_mb(max(os.path.getsize(P + "site/" + r) for r in _tf))}' if _tf else '')
+      + (f'; data/bank.json {_mb(os.path.getsize(P + "site/data/bank.json"))} (no longer read by the page)' if 'data/bank.json' in _pub else ''))
+    import bank_split as _bs, asset_manifest as _am
+    if not os.path.exists(_bs.INDEX) or os.path.getmtime(_bs.INDEX) + 1 < os.path.getmtime(P + 'site/data/bank.json'):
+        B('the split bank (site/data/bank/) is missing or older than site/data/bank.json: run python3 tools/bank_split.py')
+    if not os.path.exists(_am.MAN): B('site/data/assets.json is missing (the page reads it at start): run python3 tools/asset_manifest.py --init')
+    else:
+        _st = _am.stale(_am.load())
+        for _p, _why in _st[:5]: B(f'asset store: {_p} {_why} (or python3 tools/asset_manifest.py --prune to fall back to the published file)')
+        _n = len(_am.load()['assets'])
+        I(f'asset store: {_n} image pack(s) served from data/assets.json addresses' + (' (the page must be published with capabilities {"assets": {}})' if _n else ', none yet: every image pack is a published file'))
 except Exception as e: B(f'size budget check could not run: {e}')
 # version control (stage 1, 15 Nov): never a blocker; --mark-published commits and tags automatically (tools/snapshot.py)
 try:

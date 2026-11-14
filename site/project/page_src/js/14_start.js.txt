@@ -4,10 +4,13 @@
   // no user capability, or no answer, counts as not an editor, so Curate stays hidden.
   {const c=window.claude;if(!c?.use)setEditor(false);else c.use('user').then(async u=>{let ed=false;if(u){try{ed=!!(await u.isOwner())}catch(e){}if(!ed){try{ed=!!(await u.canEdit())}catch(e){}}}setEditor(ed)}).catch(()=>setEditor(false))}
   try{
-    // a load during a republish (or a network blip) can fail once: retry 3 times before giving up
-    const get=async(u)=>{let err;for(let i=0;i<4;i++){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'r='+i+'_'+Date.now());if(!r.ok)throw new Error(r.status);return await r.json()}catch(e){err=e;await new Promise(z=>setTimeout(z,800*(i+1)))}}throw err};
-    const [b,d]=await Promise.all([get(QG.courseData.bank),get(QG.courseData.dots)]);
-    QG.bank=b;QG.dots=d;d.forEach(x=>QG.dm[x.id]=x);
+    // a load during a republish (or a network blip) can fail once: QG.get retries 3 times before giving up.
+    // owner 14 Nov: "Ok we should run Fix 1 and 2" (Fix 1): the index and the dot points load first; question text comes per
+    // topic when a view needs it (QG.need). data/assets.json (image addresses in the asset store) is optional: none = the
+    // published image files, as before.
+    const [b,d,a]=await Promise.all([QG.get(QG.courseData.bank),QG.get(QG.courseData.dots),
+      fetch('data/assets.json?r='+Date.now()).then(r=>r.ok?r.json():null).catch(()=>null)]);
+    QG.assets=(a&&a.assets)||{};QG.setBank(b);QG.dots=d;d.forEach(x=>QG.dm[x.id]=x);QG.prefetch();
   }catch(e){$('#list').innerHTML='<div class="empty">The question bank did not load after 4 tries. <button class="act" onclick="location.reload()">Try again</button></div>';return}
   $('#countAll').textContent=` · ${B.questions.filter(q=>!q.dup_of).length} questions`;
   const docs=Object.values(B.docs).filter(x=>B.questions.some(q=>q.doc===x.id)).sort((a,b)=>a.label.localeCompare(b.label));

@@ -20,6 +20,11 @@ into a group pack, or excluded below) is sent as null, so the publish deletes it
 includes those nulls; pass it as `files` unchanged. After the publish, `batch_check.py --mark-published` records only
 the files that exist, so the nulls appear once. Paths under EXCLUDE are never published (data/focus/: unused since the
 owner's 12 Nov rollback of the cropped Check view; data/bank_v1_before_split.json: unused, health pass 13 Nov).
+
+Asset store (Fix 1, 14 Nov): image packs listed in site/data/assets.json at their current sha256 are served from the artifact's
+asset store and left out of the publish set (tools/asset_upload_plan.py, tools/asset_manifest.py). The split bank
+(data/bank/<course>/index.json + one file per topic, tools/bank_split.py) is published like any data file; data/bank.json is
+still built and published until the main session drops it (then add it to EXCLUDE).
 """
 import glob, hashlib, json, os, sys, time
 
@@ -38,7 +43,7 @@ EXCLUDE = ('data/focus/', 'data/bank_v1_before_split.json')
 
 
 def sha(p):
-    if p.endswith('data/bank.json'):   # same rule as batch_check.py: ignore the build timestamp
+    if p.endswith('data/bank.json') or ('data/bank/' in p and p.endswith('/index.json')):   # same rule as batch_check.py: ignore the build timestamp (the bank index too, Fix 1)
         d = json.load(open(p)); d.pop('built', None); return hashlib.sha256(json.dumps(d, sort_keys=True).encode()).hexdigest()
     return hashlib.sha256(open(p, 'rb').read()).hexdigest()
 
@@ -47,7 +52,11 @@ def publishable():
     fs = [S + 'review.html'] + glob.glob(S + 'data/**/*.json', recursive=True)
     fs += [f for f in glob.glob(S + 'vendor/**/*', recursive=True) if os.path.isfile(f)]
     fs += [f for f in glob.glob(S + 'project/**/*', recursive=True) if os.path.isfile(f)]
-    return sorted(r for r in (os.path.relpath(f, S) for f in fs) if not r.startswith(EXCLUDE))
+    # Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): an image pack the asset store serves at its current sha256
+    # (site/data/assets.json, tools/asset_manifest.py) is no longer published; removals() then sends null for it once
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import asset_manifest
+    instore = asset_manifest.fresh_paths()
+    return sorted(r for r in (os.path.relpath(f, S) for f in fs) if not r.startswith(EXCLUDE) and r not in instore)
 
 
 def removals(man):

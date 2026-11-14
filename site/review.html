@@ -1992,8 +1992,49 @@ const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 // difficulty references) and its dot points come from QG.courses[QG.course]; read them with QG.courseData, never type
 // "Advanced". Only Advanced has data so far; a course is added here once it has a bank, dot points and difficulty references.
 const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'bank',course:'advanced',
-  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank.json',dots:'data/dotpoints.json'}},
-  get courseData(){return this.courses[this.course]}};
+  // owner 14 Nov: "Ok we should run Fix 1 and 2" (Fix 1: keep the published page small; fetch data only when needed): bank is
+  // the course's small index (tools/bank_split.py); each question's text arrives with its topic file (QG.need below)
+  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.json',dots:'data/dotpoints.json'}},
+  get courseData(){return this.courses[this.course]},
+  byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0};
+/* ---------- data on demand (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2") ----------
+   The index (QG.bank) holds every question without its text: ids, paper, marks, parts with tags and difficulty, triage, figure
+   keys (q.fk), the "hence integrate" flag (q.hx) and q.h, the topic file its text lives in (bank.files[q.h]). Lists, counts,
+   bankStats, the exam generator and Review's tracks run on the index alone. A view that shows questions calls QG.need(qs) first;
+   qBody() of a question whose file has not arrived draws a placeholder (QG.pending) that fills itself in when it lands.
+   Images (page images, figure crops, redraws, overlays) are read from the address in data/assets.json when it has one (the
+   artifact's asset store, uploaded by the main session), else from the published file as before (QG.url). */
+Object.assign(QG,{
+  // fetch JSON, retrying a load that fails during a republish or a network blip (3 retries, 0.8 s, 1.6 s, 2.4 s)
+  async get(u,tries=4){let err;for(let i=0;i<tries;i++){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'r='+i+'_'+Date.now());if(!r.ok)throw new Error(r.status);return await r.json()}catch(e){err=e;if(i<tries-1)await new Promise(z=>setTimeout(z,800*(i+1)))}}throw err},
+  url(p,v){const a=QG.assets[p];return a?(a.url||a):p+(v?'?v='+encodeURIComponent(v):'')},
+  has(q){return !!q&&QG.got.has(q.id)},
+  hasAll(){return QG.got.size>=(QG.bank?.questions.length||0)},
+  setBank(b){QG.bank=b;QG.byId=new Map(b.questions.map(q=>[q.id,q]));QG.got=new Set();QG.fileP={};QG.failed=new Set()},
+  file(h){const f=QG.bank.files[h];if(!f)return Promise.resolve();
+    return QG.fileP[h]||(QG.fileP[h]=QG.get(f.f+'?v='+f.s,3).then(d=>{QG.failed.delete(h);
+      Object.entries(d.q||{}).forEach(([id,c])=>{const q=QG.byId.get(+id);if(!q)return;const {parts,fn,...rest}=c;
+        Object.assign(q,rest);const pm=new Map(q.parts.map(p=>[p.id,p]));(parts||[]).forEach(cp=>{const p=pm.get(cp.id);if(p)Object.assign(p,cp)});
+        Object.entries(fn||{}).forEach(([k,v])=>{if(QG.bank.figs[k])Object.assign(QG.bank.figs[k],v)});QG.got.add(q.id)})},
+      e=>{delete QG.fileP[h];QG.failed.add(h)}))},
+  need(qs){const hs=new Set();(qs||[]).forEach(q=>{if(q&&!QG.got.has(q.id)&&q.h!=null)hs.add(q.h)});return Promise.all([...hs].map(QG.file)).then(()=>{})},
+  needAll(){return QG.need(QG.bank.questions)},
+  pending(q,mode){QG.need([q]).then(QG.fill);const bad=QG.failed.has(q.h);
+    return `<div class="qbody qpend muted" data-qpend="${q.id}" data-qmode="${esc(mode)}">${bad?'This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>':'Loading question…'}</div>`},
+  // fill in every placeholder whose question has arrived. Review binds its buttons when it draws, so it is redrawn whole.
+  fill(){if(QG._fillT)return;QG._fillT=setTimeout(()=>{QG._fillT=0;let rv=false;
+    document.querySelectorAll('[data-qpend]').forEach(el=>{const q=QG.byId.get(+el.dataset.qpend);if(!q)return;
+      if(!QG.has(q)){if(QG.failed.has(q.h)&&!el.querySelector('[data-qretry]'))el.innerHTML='This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>';return}
+      if(el.closest('#rout')){rv=true;return}
+      const mode=el.dataset.qmode,t=document.createElement('div');t.innerHTML=qBody(q,mode);const n=t.firstElementChild;el.replaceWith(n);hydrate(n,q,mode);typeset(n)});
+    if(rv&&typeof renderReview==='function')renderReview()},0)},
+  // Review › a paper: its questions are about to be shown one by one, so their files load as soon as the paper opens
+  prefetch(){const m=/^#review\/paper\/(\d+)/.exec(location.hash);if(!m||!QG.bank)return;const ids=(typeof docIds==='function'?docIds(m[1]):[+m[1]]).map(String);
+    QG.need(QG.bank.questions.filter(q=>ids.includes(String(q.doc)))).then(QG.fill)}
+});
+addEventListener('hashchange',()=>QG.prefetch());
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-qretry]');if(!b)return;const q=QG.byId.get(+b.closest('[data-qpend]').dataset.qpend);
+  b.disabled=true;QG.failed.delete(q.h);QG.need([q]).then(QG.fill)});
 for(const [k,f] of [['B','bank'],['DOTS','dots'],['DM','dm'],['reviews','reviews'],['db','db'],['me','me'],['EDITOR','editor'],['view','view']])
   Object.defineProperty(window,k,{get:()=>QG[f],set:v=>{QG[f]=v},configurable:true});
 let sel=null, search='', rlist=[], ridx=0, rfilter='diagrams', rstatus='todo', rdoc='', editing=null, revealed=new Set();
@@ -2171,23 +2212,21 @@ function spotClean(doc){_clean=_clean||{};if(doc in _clean)return _clean[doc];le
   B.questions.forEach(q=>{if(q.doc!==doc||q.dup_of)return;chkFigsAll(q).forEach(k=>{if(figRisk(k)[0]==='High'&&spotSet().has(k)){any=true;if(reviews['q'+q.id]?.fig?.[k]!=='approved')ok=false}})});
   return _clean[doc]=any&&ok&&!escalated(doc)}
 const figDec=(q,k)=>reviews['q'+q.id]?.fig?.[k]??(q.tri?.ok_figs?.includes(k)?'approved':(figRisk(k)[0]==='High'&&!spotSet().has(k)&&spotClean(q.doc)?'approved':undefined));
-function figKeys(q){
-  const s=[q.stem,...q.parts.map(p=>p.latex),...q.solutions.map(x=>x.latex),...q.options.map(o=>o.latex)].join(' ');
-  const inl=[...s.matchAll(/\\exfigure\{([\w.-]+)\}/g)].map(m=>m[1]);
-  const lst=q.figures.map(f=>f.src.split('/').pop().replace('.png',''));
-  const of=q.options.map(o=>o.fig).filter(Boolean);
-  return {inline:new Set(inl),all:[...new Set([...lst,...inl,...of])],opt:new Set(of)};
-}
+// Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): a question's figure keys come with the index (q.fk, worked out once by
+// tools/bank_split.py from the figure list, every \exfigure{} in its text and the option figures), so Review's counts and the
+// Diagram filter never need the question text. all keeps that order; inline and opt are the \exfigure and option keys.
+function figKeys(q){const f=q.fk||{};return {inline:new Set(f.i||[]),all:f.a||[],opt:new Set(f.o||[])}}
 const redrawable=k=>{const f=B.figs[k];return f&&(f.status==='ok'||f.status==='approx'||f.status==='table')};
 const PACKS={}, SVGS={};
-const pack=doc=>PACKS[doc]||(PACKS[doc]=fetch('data/img/'+doc+'.json?v='+(B?.built||'')).then(r=>r.json()).catch(()=>({})));
+// Fix 1: each pack is fetched from its asset-store address when data/assets.json lists one, else from the published file (QG.url)
+const pack=doc=>PACKS[doc]||(PACKS[doc]=fetch(QG.url('data/img/'+doc+'.json',B?.built)).then(r=>r.json()).catch(()=>({})));
 // owner 15 Nov (via workflow brief): "Lets do ... 4" -> fewer published files. Redraw (svg) and overlay/first-redraw (cmp)
 // packs are group files data/<kind>/g<paper id % n>.json, not one per paper; still fetched lazily, once per group.
 // PACK_G must match GROUPS in tools/packs.py (batch_check checks it). Page images (data/img) stay one file per paper.
 const PACK_G={svg:8,cmp:1};
 const packFile=(kind,doc)=>'data/'+kind+'/g'+(parseInt(doc,10)%PACK_G[kind])+'.json';
-const CMPS={}; const cmps=doc=>{const f=packFile('cmp',doc);return CMPS[f]||(CMPS[f]=fetch(f+'?v='+(B?.built||'')).then(r=>r.json()).catch(()=>({})))};
-const svgs=doc=>{const f=packFile('svg',doc);return SVGS[f]||(SVGS[f]=fetch(f+'?v='+(B?.built||'')).then(r=>r.json()).catch(()=>({})))};
+const CMPS={}; const cmps=doc=>{const f=packFile('cmp',doc);return CMPS[f]||(CMPS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
+const svgs=doc=>{const f=packFile('svg',doc);return SVGS[f]||(SVGS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
 function hydrate(root,q,mode){
   root.querySelectorAll('.figslot[data-fig]').forEach(el=>{
     // owner: "I cannot see the x-axis". Solution diagrams Claude drew (<paper>_q<n>_s<k>) have no original, and their
@@ -2208,6 +2247,7 @@ function hydrate(root,q,mode){
 /* ---------- question body (shared by both views) ---------- */
 function leaf(q,p){return !q.parts.some(c=>c.parent===p.id)}
 function qBody(q,mode){
+  if(!QG.has(q))return QG.pending(q,mode);   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): text not here yet: a placeholder that fills itself in
   const show=mode==='review'||revealed.has(q.id);
   const fk=figKeys(q);
   const loose=fk.all.filter(k=>!fk.inline.has(k)&&!fk.opt.has(k)&&!q.figures.find(f=>f.src.endsWith('/'+k+'.png')&&f.part)).map(k=>`<span class="figslot" data-fig="${k}"></span>`).join('');
@@ -2244,9 +2284,10 @@ function partPri(q,p,side){if(side==='res'){const v=reviews['q'+q.id]?.tagres?.[
 // tie on marks -> the topic of the LATER part wins (spec: "on a tie, the final answer decides"; owner 12 Nov on QID 1221:
 // "both were wrong here, this should've been in integration")
 function homeOf(q,side){const w=new Map(),last=new Map();q.parts.filter(p=>leaf(q,p)).forEach((p,pi)=>{const ids=partPri(q,p,side),m=(p.marks||1)/(ids.length||1);ids.forEach(i=>{const k=subKey(i);if(k){w.set(k,(w.get(k)||0)+m);last.set(k,pi)}})});
-  // owner 12 Nov: "show the derivative, hence integrate" -> integration, whatever the marks
+  // owner 12 Nov: "show the derivative, hence integrate" -> integration, whatever the marks. The test reads the part text, so it
+  // runs once in tools/bank_split.py (q.hx); the index has no text (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2")
   const lv=q.parts.filter(p=>leaf(q,p)),lp=lv[lv.length-1];
-  if(lv.length>1&&/\bhence\b/i.test(lp.latex||'')&&/\\int/.test(lp.latex||'')&&lv.slice(0,-1).some(p=>/\\dfrac\{d\}\{dx\}|\\frac\{d\}\{dx\}|differentiate|derivative|f'|\\prime/i.test(p.latex||''))){const k=subKey(partPri(q,lp,side)[0]);if(k)return k}
+  if(q.hx){const k=subKey(partPri(q,lp,side)[0]);if(k)return k}
   if(w.size>1&&w.has('special:removed'))w.delete('special:removed');   // owner 12 Nov: a removed 3D part never decides the home when other parts are in the course
   let best=null,bv=-1,bp=-1;w.forEach((v,k)=>{const lp=last.get(k);if(v>bv+1e-9||(Math.abs(v-bv)<1e-9&&lp>bp)){bv=v;best=k;bp=lp}});return best}
 function homeNeed(q){return !q.dup_of&&q.parts.some(p=>p.tagd)&&homeOf(q,'A')!==homeOf(q,'B')}
@@ -2355,6 +2396,9 @@ function renderBank(){
   if(!search&&sel&&sel.startsWith('fa:')){const [yl,fa]=sel.slice(3).split('|');$('#list').innerHTML=faHTML(yl,fa);return}
   let qs=null, head='';
   if(search){
+    // Fix 1: search reads the question text, which arrives per topic: the first search loads every topic file once
+    if(!QG.hasAll()&&!QG.failed.size){const s0=search;$('#list').innerHTML=`<div class="listhead"><h2>Search: “${esc(search)}”</h2><span class="crumb">Searching every topic…</span></div>`;
+      QG.needAll().then(()=>{if(search===s0&&view==='bank')renderBank()});return}
     const s=search.toLowerCase();
     qs=B.questions.filter(inBank).filter(q=>[qid(q),qid(q).replace(' ',''),String(q.id),srcLine(q),q.stem,...q.parts.map(p=>p.latex),...q.parts.flatMap(p=>(p.t24||[]).map(t=>(DM[t.id]?.sub||'')+' '+(DM[t.id]?.text||'')+' '+(DM[t.id]?.short||'')+' '+(p.free||[]).join(' '))),...q.parts.flatMap(p=>[...(p.skills||[]),...(p.can_use||[])])].join(' ').toLowerCase().includes(s)).slice(0,60);
     head=`<div class="listhead"><h2>Search: “${esc(search)}”</h2><span class="crumb">${qs.length===60?'first 60 matches':qs.length+(qs.length===1?' match':' matches')}</span></div>`;
@@ -2380,6 +2424,9 @@ function renderBank(){
   // owner 13 Nov ("there's some lag when clicking between subtopics"): a long list (140 cards) took ~170 ms to build in one go and froze
   // the pill. Now the first 8 cards go in at once and the rest follow in small batches between frames.
   const L=$('#list');const gen=(L._gen=(L._gen||0)+1);
+  // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): a topic's questions load with its topic file the first time it opens
+  if(qs.some(q=>!QG.has(q)&&!QG.failed.has(q.h))){L.innerHTML=`<div class="lhead">${head}</div><div class="cards"><div class="empty">Loading questions…</div></div>`;typeset(L.querySelector('.lhead'));
+    QG.need(qs).then(()=>{if(L._gen===gen&&view==='bank')renderBank()});return}
   L.innerHTML=`<div class="lhead">${head}</div><div class="cards"></div>`;typeset(L.querySelector('.lhead'));   // owner 13 Nov: the dot-point list in the header lost its maths when cards went lazy
   // (health pass 13 Nov: the list's own enter animation, swallowed by this comment, was not restored: bankGo's view
   // transition already animates #list, and a second animation inside it would double the slide; #list.enter CSS removed)
@@ -3187,10 +3234,13 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
   // no user capability, or no answer, counts as not an editor, so Curate stays hidden.
   {const c=window.claude;if(!c?.use)setEditor(false);else c.use('user').then(async u=>{let ed=false;if(u){try{ed=!!(await u.isOwner())}catch(e){}if(!ed){try{ed=!!(await u.canEdit())}catch(e){}}}setEditor(ed)}).catch(()=>setEditor(false))}
   try{
-    // a load during a republish (or a network blip) can fail once: retry 3 times before giving up
-    const get=async(u)=>{let err;for(let i=0;i<4;i++){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'r='+i+'_'+Date.now());if(!r.ok)throw new Error(r.status);return await r.json()}catch(e){err=e;await new Promise(z=>setTimeout(z,800*(i+1)))}}throw err};
-    const [b,d]=await Promise.all([get(QG.courseData.bank),get(QG.courseData.dots)]);
-    QG.bank=b;QG.dots=d;d.forEach(x=>QG.dm[x.id]=x);
+    // a load during a republish (or a network blip) can fail once: QG.get retries 3 times before giving up.
+    // owner 14 Nov: "Ok we should run Fix 1 and 2" (Fix 1): the index and the dot points load first; question text comes per
+    // topic when a view needs it (QG.need). data/assets.json (image addresses in the asset store) is optional: none = the
+    // published image files, as before.
+    const [b,d,a]=await Promise.all([QG.get(QG.courseData.bank),QG.get(QG.courseData.dots),
+      fetch('data/assets.json?r='+Date.now()).then(r=>r.ok?r.json():null).catch(()=>null)]);
+    QG.assets=(a&&a.assets)||{};QG.setBank(b);QG.dots=d;d.forEach(x=>QG.dm[x.id]=x);QG.prefetch();
   }catch(e){$('#list').innerHTML='<div class="empty">The question bank did not load after 4 tries. <button class="act" onclick="location.reload()">Try again</button></div>';return}
   $('#countAll').textContent=` · ${B.questions.filter(q=>!q.dup_of).length} questions`;
   const docs=Object.values(B.docs).filter(x=>B.questions.some(q=>q.doc===x.id)).sort((a,b)=>a.label.localeCompare(b.label));
@@ -3783,11 +3833,16 @@ function exFiltered(){const F=EXV.pk,homes=xaHomes();let qs=B.questions.filter(q
     easy:(a,b)=>d(a)-d(b),hard:(a,b)=>d(b)-d(a),mup:(a,b)=>(+a.marks||0)-(+b.marks||0),mdown:(a,b)=>(+b.marks||0)-(+a.marks||0)}[F.sort]||(()=>0);
   return qs.sort(cmp)}
 function exList(reset=true){const box=$('#exCards');if(!box)return;const F=EXV.pk;if(reset)F.limit=20;
+  // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): search reads the question text, so the first search loads every topic
+  // file; the cards shown load their topic files before they are drawn (exList._g drops an answer a newer call has replaced)
+  const g=exList._g=(exList._g||0)+1,again=()=>{if(exList._g===g)exList(reset)};
+  if(F.q&&!QG.hasAll()&&!QG.failed.size){box.innerHTML='<div class="exempty">Searching every topic…</div>';QG.needAll().then(again);return}
   EXCUR=exFiltered();const t=F.topic;
   $('#exLt').textContent=t==='all'?'All questions':t.startsWith('fa:')?t.split('|')[1]:subName(t);
   const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;
   $('#exLs').textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${bankAll()||!isEditor()?'':' · approved only'}`;
-  const show=EXCUR.slice(0,F.limit);const have=new Set($$('#exCards > .card').map(c=>+c.dataset.q));
+  const show=EXCUR.slice(0,F.limit);if(show.some(q=>!QG.has(q)&&!QG.failed.has(q.h))){if(reset)box.innerHTML='<div class="exempty">Loading questions…</div>';QG.need(show).then(again);return}
+  const have=new Set($$('#exCards > .card').map(c=>+c.dataset.q));
   if(reset){box.innerHTML='';have.clear()}
   const add=show.filter(q=>!have.has(q.id)),tmp=document.createElement('div');tmp.innerHTML=add.map(cardHTML).join('');
   [...tmp.children].forEach(c=>{box.appendChild(c);const q=xq(+c.dataset.q);hydrate(c,q,'bank');TSIO.observe(c)});
@@ -3915,6 +3970,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!opts.keep)EXV.grade=innerWidth>1000;   // phones: the grading panel is a slide-over, closed until asked for
   if(!document.body.classList.contains('xpv-on')){EXV.pageY=scrollY;window.scrollTo(0,0)}   // a scrolled page underneath misplaces the fixed panels on phones
   ov.hidden=false;document.body.classList.add('xpv-on');ov.classList.toggle('grade-off',!EXV.grade);$('#exGrade')?.setAttribute('aria-pressed',String(EXV.grade));
+  await QG.need(EX.items.map(xq));   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): the paper's questions' topic files, before layout
   const bl=xBlocks(doc),meas=document.createElement('div');meas.className='xmeasure sheetbody';
   meas.innerHTML=bl.map((b,i)=>`<div class="xblk${b.cover?' cover':''}" data-i="${i}">${b.html}</div>`).join('');document.body.appendChild(meas);
   bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`),c=EXC.get(exCKey(b.q,doc)),qb=el.querySelector('.xqb');

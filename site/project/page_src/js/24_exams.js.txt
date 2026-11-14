@@ -245,11 +245,16 @@ function exFiltered(){const F=EXV.pk,homes=xaHomes();let qs=B.questions.filter(q
     easy:(a,b)=>d(a)-d(b),hard:(a,b)=>d(b)-d(a),mup:(a,b)=>(+a.marks||0)-(+b.marks||0),mdown:(a,b)=>(+b.marks||0)-(+a.marks||0)}[F.sort]||(()=>0);
   return qs.sort(cmp)}
 function exList(reset=true){const box=$('#exCards');if(!box)return;const F=EXV.pk;if(reset)F.limit=20;
+  // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): search reads the question text, so the first search loads every topic
+  // file; the cards shown load their topic files before they are drawn (exList._g drops an answer a newer call has replaced)
+  const g=exList._g=(exList._g||0)+1,again=()=>{if(exList._g===g)exList(reset)};
+  if(F.q&&!QG.hasAll()&&!QG.failed.size){box.innerHTML='<div class="exempty">Searching every topic…</div>';QG.needAll().then(again);return}
   EXCUR=exFiltered();const t=F.topic;
   $('#exLt').textContent=t==='all'?'All questions':t.startsWith('fa:')?t.split('|')[1]:subName(t);
   const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;
   $('#exLs').textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${bankAll()||!isEditor()?'':' · approved only'}`;
-  const show=EXCUR.slice(0,F.limit);const have=new Set($$('#exCards > .card').map(c=>+c.dataset.q));
+  const show=EXCUR.slice(0,F.limit);if(show.some(q=>!QG.has(q)&&!QG.failed.has(q.h))){if(reset)box.innerHTML='<div class="exempty">Loading questions…</div>';QG.need(show).then(again);return}
+  const have=new Set($$('#exCards > .card').map(c=>+c.dataset.q));
   if(reset){box.innerHTML='';have.clear()}
   const add=show.filter(q=>!have.has(q.id)),tmp=document.createElement('div');tmp.innerHTML=add.map(cardHTML).join('');
   [...tmp.children].forEach(c=>{box.appendChild(c);const q=xq(+c.dataset.q);hydrate(c,q,'bank');TSIO.observe(c)});
@@ -377,6 +382,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!opts.keep)EXV.grade=innerWidth>1000;   // phones: the grading panel is a slide-over, closed until asked for
   if(!document.body.classList.contains('xpv-on')){EXV.pageY=scrollY;window.scrollTo(0,0)}   // a scrolled page underneath misplaces the fixed panels on phones
   ov.hidden=false;document.body.classList.add('xpv-on');ov.classList.toggle('grade-off',!EXV.grade);$('#exGrade')?.setAttribute('aria-pressed',String(EXV.grade));
+  await QG.need(EX.items.map(xq));   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): the paper's questions' topic files, before layout
   const bl=xBlocks(doc),meas=document.createElement('div');meas.className='xmeasure sheetbody';
   meas.innerHTML=bl.map((b,i)=>`<div class="xblk${b.cover?' cover':''}" data-i="${i}">${b.html}</div>`).join('');document.body.appendChild(meas);
   bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`),c=EXC.get(exCKey(b.q,doc)),qb=el.querySelector('.xqb');

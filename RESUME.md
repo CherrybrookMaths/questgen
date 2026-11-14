@@ -4,6 +4,9 @@ Owner: Steve Yeung (CMC Education). Last updated 11 Nov 2026 (UI v2, diagram red
 
 ## Where things live
 - **Review page (the hub):** https://claude.ai/artifact/MSd3GSrwsAqwzmBX8wSC8f
+  - Since 14 Nov (Fix 1, owner: "Ok we should run Fix 1 and 2") the page reads `data/bank/advanced/index.json` at start and one
+    `data/bank/advanced/<topic>.json` per topic on demand (tools/bank_split.py); image packs come from the asset store when
+    `data/assets.json` lists them (IMPORT_PLAYBOOK "Asset store"). `data/bank.json` is still built for the tools.
   - Published files: `review.html`, `data/bank.json` (all parsed questions, tags and solutions shown in the tool), `data/dotpoints.json`, `data/img/<doc>.json` (page images and figure crops, one per paper), `data/svg/g0..g7.json` (redrawn diagrams, grouped by paper id % 8) and `data/cmp/g0.json` (Review overlay / first-redraw images) since 15 Nov stage 2, `project/*` (everything below).
   - Review decisions are kept in the page's database, collection `reviews` (one doc per question, `q<question_id>`).
 - **Pilot report (Claude Doc):** https://claude.ai/artifact/5S6LcYaFK4h8ot2yA4WihH

@@ -9,9 +9,10 @@ function partPri(q,p,side){if(side==='res'){const v=reviews['q'+q.id]?.tagres?.[
 // tie on marks -> the topic of the LATER part wins (spec: "on a tie, the final answer decides"; owner 12 Nov on QID 1221:
 // "both were wrong here, this should've been in integration")
 function homeOf(q,side){const w=new Map(),last=new Map();q.parts.filter(p=>leaf(q,p)).forEach((p,pi)=>{const ids=partPri(q,p,side),m=(p.marks||1)/(ids.length||1);ids.forEach(i=>{const k=subKey(i);if(k){w.set(k,(w.get(k)||0)+m);last.set(k,pi)}})});
-  // owner 12 Nov: "show the derivative, hence integrate" -> integration, whatever the marks
+  // owner 12 Nov: "show the derivative, hence integrate" -> integration, whatever the marks. The test reads the part text, so it
+  // runs once in tools/bank_split.py (q.hx); the index has no text (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2")
   const lv=q.parts.filter(p=>leaf(q,p)),lp=lv[lv.length-1];
-  if(lv.length>1&&/\bhence\b/i.test(lp.latex||'')&&/\\int/.test(lp.latex||'')&&lv.slice(0,-1).some(p=>/\\dfrac\{d\}\{dx\}|\\frac\{d\}\{dx\}|differentiate|derivative|f'|\\prime/i.test(p.latex||''))){const k=subKey(partPri(q,lp,side)[0]);if(k)return k}
+  if(q.hx){const k=subKey(partPri(q,lp,side)[0]);if(k)return k}
   if(w.size>1&&w.has('special:removed'))w.delete('special:removed');   // owner 12 Nov: a removed 3D part never decides the home when other parts are in the course
   let best=null,bv=-1,bp=-1;w.forEach((v,k)=>{const lp=last.get(k);if(v>bv+1e-9||(Math.abs(v-bv)<1e-9&&lp>bp)){bv=v;best=k;bp=lp}});return best}
 function homeNeed(q){return !q.dup_of&&q.parts.some(p=>p.tagd)&&homeOf(q,'A')!==homeOf(q,'B')}
@@ -120,6 +121,9 @@ function renderBank(){
   if(!search&&sel&&sel.startsWith('fa:')){const [yl,fa]=sel.slice(3).split('|');$('#list').innerHTML=faHTML(yl,fa);return}
   let qs=null, head='';
   if(search){
+    // Fix 1: search reads the question text, which arrives per topic: the first search loads every topic file once
+    if(!QG.hasAll()&&!QG.failed.size){const s0=search;$('#list').innerHTML=`<div class="listhead"><h2>Search: “${esc(search)}”</h2><span class="crumb">Searching every topic…</span></div>`;
+      QG.needAll().then(()=>{if(search===s0&&view==='bank')renderBank()});return}
     const s=search.toLowerCase();
     qs=B.questions.filter(inBank).filter(q=>[qid(q),qid(q).replace(' ',''),String(q.id),srcLine(q),q.stem,...q.parts.map(p=>p.latex),...q.parts.flatMap(p=>(p.t24||[]).map(t=>(DM[t.id]?.sub||'')+' '+(DM[t.id]?.text||'')+' '+(DM[t.id]?.short||'')+' '+(p.free||[]).join(' '))),...q.parts.flatMap(p=>[...(p.skills||[]),...(p.can_use||[])])].join(' ').toLowerCase().includes(s)).slice(0,60);
     head=`<div class="listhead"><h2>Search: “${esc(search)}”</h2><span class="crumb">${qs.length===60?'first 60 matches':qs.length+(qs.length===1?' match':' matches')}</span></div>`;
@@ -145,6 +149,9 @@ function renderBank(){
   // owner 13 Nov ("there's some lag when clicking between subtopics"): a long list (140 cards) took ~170 ms to build in one go and froze
   // the pill. Now the first 8 cards go in at once and the rest follow in small batches between frames.
   const L=$('#list');const gen=(L._gen=(L._gen||0)+1);
+  // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): a topic's questions load with its topic file the first time it opens
+  if(qs.some(q=>!QG.has(q)&&!QG.failed.has(q.h))){L.innerHTML=`<div class="lhead">${head}</div><div class="cards"><div class="empty">Loading questions…</div></div>`;typeset(L.querySelector('.lhead'));
+    QG.need(qs).then(()=>{if(L._gen===gen&&view==='bank')renderBank()});return}
   L.innerHTML=`<div class="lhead">${head}</div><div class="cards"></div>`;typeset(L.querySelector('.lhead'));   // owner 13 Nov: the dot-point list in the header lost its maths when cards went lazy
   // (health pass 13 Nov: the list's own enter animation, swallowed by this comment, was not restored: bankGo's view
   // transition already animates #list, and a second animation inside it would double the slide; #list.enter CSS removed)

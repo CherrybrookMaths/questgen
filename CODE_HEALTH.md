@@ -50,7 +50,9 @@ Numbers: top-level declared names 498 → 463 (declaration statements 475 → 44
   names a new view is most likely to reuse by accident. Older views' own CSS is mostly unprefixed.
 - Exams: an empty answer-lines block (`.exln.ex-empty`) has 72 px of padding, inherited by accident from the shared `.empty`.
   Kept so no exam paper reflows; probably unintended. Owner to decide.
-- The whole 5 MB bank loads at start (split by topic/course when import resumes; bank.json is at 80% of its budget).
+- ~~The whole 5 MB bank loads at start~~ Fix 1, 14 Nov (owner: "Ok we should run Fix 1 and 2"): the page loads a 1.8 MB index and
+  each topic's text on demand (tools/bank_split.py, QG.need). The index still grows with every paper (~1.1 KB a question: tags,
+  difficulty, triage); before ~150 papers it needs trimming (per-course or derived counts) or the start-load budget blocks.
 - Course outside the page: build_bank.py, add_to_bank.py, inventory.py, the tag/difficulty specs and dotpoints.json are
   Advanced-only. The Guide's worked examples are facts about Advanced; "2024 syllabus" wording is shared by all courses.
 - Local variables named `B` in 24_exams.js, 28_schema.js and 34_papers_run.js shadow the bank alias: rename when touched.

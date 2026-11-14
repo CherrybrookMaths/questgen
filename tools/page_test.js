@@ -201,6 +201,10 @@ async function sweep(browser, base, seed, width, theme) {
       await page.evaluate(h => { if (location.hash !== h) location.hash = h; else route() }, hash);
       await settle(page, 4000, 2);
       if (sub) { await sub(page); await settle(page, 6000, 3) }
+      // Fix 1 (14 Nov): question text arrives per topic after the view draws; "Loading…" is static text, so settle() alone can
+      // return while it shows. Wait for the loads to finish first (a load that never finishes fails the checks below).
+      await page.waitForFunction(() => !document.querySelector('[data-qpend]') && !/Loading questions…/.test(document.body.innerText), null, {timeout: 20000}).catch(() => {});
+      await settle(page, 4000, 2);
       await page.evaluate(() => window.scrollTo(0, 0));
       const r = await page.evaluate(([box]) => {
         const el = document.querySelector(box), de = document.documentElement;
@@ -1950,6 +1954,128 @@ async function queueChecks(browser, base, seed) {
   await tp.context().close();
 }
 
+/* ---------------- Data on demand (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2") ----------------
+   Plan "Questgen architecture plan: before imports resume", Fix 1: keep the published page small; fetch data only when needed.
+   The page loads the course index (data/bank/<course>/index.json) and the dot points at start, never bank.json; a topic's
+   question text (one file per topic home, tools/bank_split.py) loads when a view shows it; image packs come from the address in
+   data/assets.json when it has one (the asset store), else from the published file. */
+async function dataSplit(browser, base, seed) {
+  const log = p => { p._req = []; p.on('request', r => { const u = r.url(); if (u.startsWith(base)) p._req.push({u: u.slice(base.length).split('?')[0], t: Date.now()}) });
+    p._done = {}; p.on('requestfinished', r => { const u = r.url().slice(base.length).split('?')[0]; if (!(u in p._done)) p._done[u] = Date.now() }) };
+  const topicRe = /^data\/bank\/[^/]+\/(?!index\.json)[^/]+\.json$/;
+  const errs = p => { const e = takeErrs(p); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  const openSub = async p => { await p.click('#list .subrow[data-sel]:not(.none)'); await p.waitForSelector('#list .cards .card', {timeout: 15000}); await settle(p, 5000, 2) };
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  log(page);
+  await boot(page, base, '#bank');
+  await check('data: the index loads first, no question text at start', page, async () => {
+    const urls = page._req.map(x => x.u), ix = urls.findIndex(u => /^data\/bank\/[^/]+\/index\.json$/.test(u));
+    const r = await page.evaluate(() => ({index: QG.courseData.bank, files: B.files.length, got: QG.got.size, n: B.questions.length, text: B.questions.some(q => 'stem' in q || q.parts.some(p => 'latex' in p))}));
+    errs(page);
+    assert(ix >= 0, `the index ${r.index} was never requested: ${urls.filter(u => u.startsWith('data/')).join(' ')}`);
+    assert(!urls.includes('data/bank.json'), 'the page still loads data/bank.json');
+    assert(urls.includes('data/assets.json'), 'data/assets.json (image addresses) was not read at start');
+    const topics = urls.filter(u => topicRe.test(u));
+    assert(!topics.length, `the Bank home loaded ${topics.length} topic file(s) before any topic opened: ${topics.slice(0, 3).join(' ')}`);
+    assert(!r.got && !r.text, `question text is in the page before any view asked for it (${r.got} questions loaded)`);
+    return `${r.index} at start (start requests: ${urls.filter(u => u.startsWith('data/')).join(', ')}); ${r.n} questions, ${r.files} topic files, none loaded`;
+  });
+  await check('data: a topic\'s file loads when the topic opens, and only its files', page, async () => {
+    const n0 = page._req.length;
+    await openSub(page);
+    const r = await page.evaluate(() => { const t = TOPICS.byKey[sel]; return {sel, need: [...new Set(t.qs.map(q => B.files[q.h].f))], all: t.qs.every(q => QG.has(q)),
+      cards: document.querySelectorAll('#list .card').length, pend: document.querySelectorAll('#list [data-qpend]').length, mjx: document.querySelectorAll('#list mjx-container').length} });
+    const got = [...new Set(page._req.slice(n0).map(x => x.u).filter(u => topicRe.test(u)))];
+    errs(page);
+    const ixAt = Object.entries(page._done).find(([u]) => /index\.json$/.test(u))?.[1], first = page._req.find(x => topicRe.test(x.u));
+    assert(ixAt && first && first.t >= ixAt, 'a topic file was requested before the index had arrived');
+    assert(r.need.every(f => got.includes(f)), `opening ${r.sel} did not load ${r.need.filter(f => !got.includes(f)).join(' ')}`);
+    assert(got.every(f => r.need.includes(f)), `opening ${r.sel} also loaded ${got.filter(f => !r.need.includes(f)).join(' ')}`);
+    assert(r.all && r.cards > 0 && !r.pend && r.mjx > 0, `${r.cards} cards, ${r.pend} still loading, ${r.mjx} maths`);
+    // a second visit reads nothing again
+    const n1 = page._req.length; await page.click('#list [data-home]'); await settle(page, 3000, 2); await openSub(page);
+    const again = page._req.slice(n1).map(x => x.u).filter(u => topicRe.test(u));
+    assert(!again.length, `reopening the topic fetched ${again.join(' ')} again`);
+    return `${r.sel.split('|').pop()}: ${got.length} file(s) (${got.map(f => f.split('/').pop()).join(', ')}), ${r.cards} cards, ${r.mjx} maths`;
+  });
+  // which image packs this topic reads (redraws and/or page-image packs): the next check moves one of them to a "store" address
+  const packs = [...new Set(page._req.map(x => x.u).filter(u => /^data\/(img|svg|cmp)\/[^/]+\.json$/.test(u)))];
+  await page.context().close();
+
+  await check('data: images come from data/assets.json when it lists them, else from the published file', null, async () => {
+    assert(packs.length, 'the topic opened above read no image pack: pick a topic with diagrams');
+    const moved = packs[0], storeUrl = '__store/' + moved.replace(/\//g, '_');
+    const p = await newPage(browser, base, seed, {width: 1280, theme: 'light'}); log(p);
+    await p.route(u => /\/data\/assets\.json(\?|$)/.test(u.href), r => r.fulfill({status: 200, contentType: 'application/json',
+      body: JSON.stringify({v: 1, assets: {[moved]: {url: '/' + storeUrl, sha256: 'test', bytes: 0}}})}));
+    await p.route(u => u.href.startsWith(base + '__store/'), r => r.fulfill({status: 200, contentType: 'application/json', body: fs.readFileSync(path.join(SITE, moved))}));
+    try {
+      await boot(p, base, '#bank'); await openSub(p);
+      await p.waitForFunction(() => [...document.querySelectorAll('#list img.fig')].every(i => i.getAttribute('src') || /missing/i.test(i.alt)), null, {timeout: 15000}).catch(() => {});
+      await settle(p, 4000, 2);
+      const urls = p._req.map(x => x.u), r = await p.evaluate(() => { const im = [...document.querySelectorAll('#list img.fig')];
+        return {n: im.length, missing: im.filter(i => /missing|not available/i.test(i.alt) || !i.getAttribute('src')).map(i => i.dataset.k), broken: im.filter(i => i.complete && i.getAttribute('src') && !i.naturalWidth).length} });
+      const e = takeErrs(p); assert(!e.length, e.slice(0, 3).join(' | '));
+      assert(urls.includes(storeUrl), `${moved} is listed in data/assets.json but /${storeUrl} was never fetched`);
+      assert(!urls.includes(moved), `${moved} was still fetched from the published file`);
+      const rest = packs.slice(1);
+      assert(rest.every(u => urls.includes(u)), `packs not in the manifest did not come from their published files: ${rest.filter(u => !urls.includes(u)).join(' ')}`);
+      assert(r.n > 0 && !r.missing.length && !r.broken, `${r.n} diagrams, missing ${r.missing.slice(0, 4).join(' ')}, ${r.broken} broken`);
+      return `${moved} from the store address; ${rest.length} other pack(s) from the published files; ${r.n} diagrams drawn`;
+    } finally { await p.context().close() }
+  });
+
+  // 390 px with slow topic files: the loading state and the filled-in page both fit; Review fills its placeholder itself
+  const tp = await newPage(browser, base, seed, {width: 390, theme: 'light'}); log(tp);
+  let hold = true, fail = false; const held = [];
+  await tp.route(u => topicRe.test(u.href.slice(base.length).split('?')[0]), r => fail ? r.fulfill({status: 500, body: 'down'}) : hold ? held.push(r) : r.continue());
+  const release = () => { hold = false; held.splice(0).forEach(r => r.continue()) };
+  await boot(tp, base, '#bank');
+  await check('data: 390px while a topic loads, and after', tp, async () => {
+    await tp.evaluate(() => { const b = [...document.querySelectorAll('#list .subrow[data-sel]:not(.none)')][0]; b && b.click() });
+    await tp.waitForFunction(() => /Loading questions/.test(document.querySelector('#list')?.innerText || ''), null, {timeout: 8000});
+    const w = await tp.evaluate(() => ({sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth, cards: document.querySelectorAll('#list .card').length}));
+    assert(w.sw <= w.cw + 1, `while loading the page is ${w.sw}px wide in ${w.cw}px`);
+    assert(!w.cards, 'cards were drawn before their text arrived');
+    release(); await tp.waitForSelector('#list .cards .card', {timeout: 15000}); await settle(tp, 5000, 2);
+    const a = await tp.evaluate(() => ({sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth, cards: document.querySelectorAll('#list .card').length, mjx: document.querySelectorAll('#list mjx-container').length}));
+    errs(tp);
+    assert(a.sw <= a.cw + 1, `after loading the page is ${a.sw}px wide in ${a.cw}px`);
+    assert(a.cards && a.mjx, `${a.cards} cards, ${a.mjx} maths after loading`);
+    return `“Loading questions…” then ${a.cards} cards, ${a.mjx} maths; fits ${a.cw}px`;
+  });
+  await check('data: Review shows a placeholder until the question\'s file lands, then the question', tp, async () => {
+    hold = true;
+    const target = await tp.evaluate(() => { const q = B.questions.find(q => !q.dup_of && !QG.has(q)); return q && q.id });
+    assert(target, 'every question is already loaded');
+    await tp.evaluate(id => { pendingOpen = id; location.hash = '#review/list/all' }, target);
+    await tp.waitForFunction(() => document.querySelector('#rout [data-qpend]'), null, {timeout: 8000});
+    const w = await tp.evaluate(() => ({sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth, t: document.querySelector('#rout [data-qpend]').innerText}));
+    assert(w.sw <= w.cw + 1, `the placeholder page is ${w.sw}px wide in ${w.cw}px`);
+    release();
+    await tp.waitForFunction(() => !document.querySelector('#rout [data-qpend]') && document.querySelector('#rout .qbody'), null, {timeout: 15000}); await settle(tp, 5000, 2);
+    const r = await tp.evaluate(() => ({mjx: document.querySelectorAll('#rout mjx-container').length, appr: !!document.querySelector('#approve'), sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth}));
+    errs(tp);
+    assert(r.mjx > 0 && r.appr, `after loading: ${r.mjx} maths, approve button ${r.appr}`);
+    assert(r.sw <= r.cw + 1, `the filled-in page is ${r.sw}px wide in ${r.cw}px`);
+    return `“${w.t.trim()}”, then the question with ${r.mjx} maths; fits ${r.cw}px`;
+  });
+  await check('data: a topic file that fails says so, and Try again loads it', tp, async () => {
+    fail = true;
+    const target = await tp.evaluate(() => { const q = B.questions.find(q => !q.dup_of && !QG.has(q)); return q && q.id });
+    assert(target, 'every question is already loaded');
+    await tp.evaluate(id => { pendingOpen = id; refreshReview() }, target);
+    await tp.waitForSelector('#rout [data-qretry]', {timeout: 20000});
+    takeErrs(tp);   // the failed loads log 500s on purpose
+    fail = false;
+    await tp.click('#rout [data-qretry]');
+    await tp.waitForFunction(() => !document.querySelector('#rout [data-qpend]') && document.querySelector('#rout .qbody'), null, {timeout: 15000}); await settle(tp, 4000, 2);
+    takeErrs(tp);
+    return `QID ${target}: “did not load” with Try again, then the question`;
+  });
+  await tp.context().close();
+}
+
 /* ---------------- main ---------------- */
 if (require.main !== module) { /* required by a debugging script: hand over the helpers, run nothing */ module.exports = {serve, newPage, boot, settle, unzip, FIXTURE, OUT}; return }
 (async () => {
@@ -1961,7 +2087,10 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   // owner 13 Nov (Review: Inbox + one paper at a time): every live paper is approved, so the Review pages get a workload
   // (page_test_fixture.py WORKLOAD): these review docs are left out. Bank and Exams keep the live approved set.
   const dropR = new Set((fx.workload || {}).drop || []), seedR = Object.fromEntries(Object.entries(seed).filter(([k]) => !dropR.has(k)));
-  const tested = {page: sha(PAGE), bank: sha(path.join(SITE, 'data/bank.json')), dotpoints: sha(path.join(SITE, 'data/dotpoints.json'))};
+  // Fix 1 (14 Nov): the page loads the course index, not bank.json; index = sha256 of every file under data/bank/ (index + topic files)
+  const bankDir = path.join(SITE, 'data/bank'), walk = d => fs.readdirSync(d, {withFileTypes: true}).flatMap(e => e.isDirectory() ? walk(path.join(d, e.name)) : [path.join(d, e.name)]);
+  const tested = {page: sha(PAGE), bank: sha(path.join(SITE, 'data/bank.json')), dotpoints: sha(path.join(SITE, 'data/dotpoints.json')),
+    index: crypto.createHash('sha256').update(walk(bankDir).sort().map(f => path.relative(SITE, f) + ':' + sha(f)).join('\n')).digest('hex')};
   const srv = await serve(); const base = `http://127.0.0.1:${srv.address().port}/`;
   console.log(`page_test: ${path.relative(ROOT, PAGE)} sha256 ${tested.page.slice(0, 12)} on ${base} · fixture ${Object.keys(seed).length} db docs${QUICK ? ' · QUICK' : ''}${ONLY ? ' · only ' + [...ONLY].join(',') : ''}`);
   const browser = await chromium.launch({headless: !HEADED, args: ['--disable-dev-shm-usage']});
@@ -1969,7 +2098,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
     const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
-    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersQueue, browser, base, seed, fx.papers), run(papersRun, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersQueue, browser, base, seed, fx.papers), run(papersRun, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));

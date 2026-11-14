@@ -7,23 +7,21 @@ function spotClean(doc){_clean=_clean||{};if(doc in _clean)return _clean[doc];le
   B.questions.forEach(q=>{if(q.doc!==doc||q.dup_of)return;chkFigsAll(q).forEach(k=>{if(figRisk(k)[0]==='High'&&spotSet().has(k)){any=true;if(reviews['q'+q.id]?.fig?.[k]!=='approved')ok=false}})});
   return _clean[doc]=any&&ok&&!escalated(doc)}
 const figDec=(q,k)=>reviews['q'+q.id]?.fig?.[k]??(q.tri?.ok_figs?.includes(k)?'approved':(figRisk(k)[0]==='High'&&!spotSet().has(k)&&spotClean(q.doc)?'approved':undefined));
-function figKeys(q){
-  const s=[q.stem,...q.parts.map(p=>p.latex),...q.solutions.map(x=>x.latex),...q.options.map(o=>o.latex)].join(' ');
-  const inl=[...s.matchAll(/\\exfigure\{([\w.-]+)\}/g)].map(m=>m[1]);
-  const lst=q.figures.map(f=>f.src.split('/').pop().replace('.png',''));
-  const of=q.options.map(o=>o.fig).filter(Boolean);
-  return {inline:new Set(inl),all:[...new Set([...lst,...inl,...of])],opt:new Set(of)};
-}
+// Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): a question's figure keys come with the index (q.fk, worked out once by
+// tools/bank_split.py from the figure list, every \exfigure{} in its text and the option figures), so Review's counts and the
+// Diagram filter never need the question text. all keeps that order; inline and opt are the \exfigure and option keys.
+function figKeys(q){const f=q.fk||{};return {inline:new Set(f.i||[]),all:f.a||[],opt:new Set(f.o||[])}}
 const redrawable=k=>{const f=B.figs[k];return f&&(f.status==='ok'||f.status==='approx'||f.status==='table')};
 const PACKS={}, SVGS={};
-const pack=doc=>PACKS[doc]||(PACKS[doc]=fetch('data/img/'+doc+'.json?v='+(B?.built||'')).then(r=>r.json()).catch(()=>({})));
+// Fix 1: each pack is fetched from its asset-store address when data/assets.json lists one, else from the published file (QG.url)
+const pack=doc=>PACKS[doc]||(PACKS[doc]=fetch(QG.url('data/img/'+doc+'.json',B?.built)).then(r=>r.json()).catch(()=>({})));
 // owner 15 Nov (via workflow brief): "Lets do ... 4" -> fewer published files. Redraw (svg) and overlay/first-redraw (cmp)
 // packs are group files data/<kind>/g<paper id % n>.json, not one per paper; still fetched lazily, once per group.
 // PACK_G must match GROUPS in tools/packs.py (batch_check checks it). Page images (data/img) stay one file per paper.
 const PACK_G={svg:8,cmp:1};
 const packFile=(kind,doc)=>'data/'+kind+'/g'+(parseInt(doc,10)%PACK_G[kind])+'.json';
-const CMPS={}; const cmps=doc=>{const f=packFile('cmp',doc);return CMPS[f]||(CMPS[f]=fetch(f+'?v='+(B?.built||'')).then(r=>r.json()).catch(()=>({})))};
-const svgs=doc=>{const f=packFile('svg',doc);return SVGS[f]||(SVGS[f]=fetch(f+'?v='+(B?.built||'')).then(r=>r.json()).catch(()=>({})))};
+const CMPS={}; const cmps=doc=>{const f=packFile('cmp',doc);return CMPS[f]||(CMPS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
+const svgs=doc=>{const f=packFile('svg',doc);return SVGS[f]||(SVGS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
 function hydrate(root,q,mode){
   root.querySelectorAll('.figslot[data-fig]').forEach(el=>{
     // owner: "I cannot see the x-axis". Solution diagrams Claude drew (<paper>_q<n>_s<k>) have no original, and their

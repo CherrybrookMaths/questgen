@@ -1,6 +1,7 @@
 /* ---------- question body (shared by both views) ---------- */
 function leaf(q,p){return !q.parts.some(c=>c.parent===p.id)}
 function qBody(q,mode){
+  if(!QG.has(q))return QG.pending(q,mode);   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): text not here yet: a placeholder that fills itself in
   const show=mode==='review'||revealed.has(q.id);
   const fk=figKeys(q);
   const loose=fk.all.filter(k=>!fk.inline.has(k)&&!fk.opt.has(k)&&!q.figures.find(f=>f.src.endsWith('/'+k+'.png')&&f.part)).map(k=>`<span class="figslot" data-fig="${k}"></span>`).join('');

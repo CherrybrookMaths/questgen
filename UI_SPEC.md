@@ -54,6 +54,25 @@ It was started on 12 Nov 2026, after he asked: "are we documenting carefully to 
 - **Labels.** Every question shows its QID. The source line is the paper plus the question number.
 - **Split questions** (12 Nov). When a question was one part of a larger, unrelated question on the paper, its old letter is removed and its sub-parts move up a level: (i), (ii) become (a), (b), and cross-references follow. The source line keeps the paper's number (Q9(b)). The tool is `tools/relabel_split.py`, and the paper's label is kept in `parts.src_label`.
 
+## Data on demand (14 Nov, Fix 1)
+Owner, 14 Nov, approving the plan "Questgen architecture plan: before imports resume": "Ok we should run Fix 1 and 2". Fix 1:
+keep the published page small; fetch data only when needed. Imports stay paused.
+- **At start** the page loads only the course index (`data/bank/<course>/index.json`: every question without its text), the dot
+  points and `data/assets.json`. Never `data/bank.json` (still built for the tools until it is dropped from the publish set).
+  Counts, `bankStats()`, the Bank home, Review's tracks and counts, the exam generator, Difficulty and the Guide's numbers run on
+  the index alone.
+- **Question text** (stem, parts, options, solutions, figure lists, redraw notes) is in one file per topic home
+  (`data/bank/<course>/<topic>.json`). It loads when a view shows the question: opening a Bank topic, a Review paper (all its
+  questions as the paper opens), an exam preview (its questions), the Exams list (the cards shown). The first search, in the Bank or
+  the Exams list, loads every topic file once, because search reads the text.
+- **While it loads** the Bank shows "Loading questions…" under the topic heading, and any other question shows "Loading
+  question…" in place; it fills itself in. A file that fails after 3 tries shows "This question did not load" with **Try again**.
+  Review redraws the whole question when its text lands (its buttons are bound when it draws).
+- **Images** (page images and figure crops `data/img/<paper>.json`, redraws `data/svg/g<n>.json`, overlays `data/cmp/g0.json`) are
+  fetched from the address `data/assets.json` gives (the artifact's asset store), else from the published file as before.
+- Code: `QG.need / QG.pending / QG.fill / QG.url` in 01_core.js; build: tools/bank_split.py (called by build_bank.py); upload:
+  tools/asset_upload_plan.py and tools/asset_manifest.py (IMPORT_PLAYBOOK "Asset store"). Page test: the `data:` checks.
+
 ## Review
 
 - **Four steps, in order:** Decide, Check, Spot-check, Diagrams, plus Tags when there are any. He said "way too many pills, not sure what I'm meant to check and in what order". *(Order and names superseded by the 13 Nov answers: Your calls → Flagged → Topics → Diagrams → Spot-check, walked one paper at a time. See "Review: Inbox and one paper at a time".)*
