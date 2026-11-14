@@ -172,3 +172,11 @@ archive/data_unused_1113/; the next publish sends null for them), five cross-vie
 prefixes), a size budget in batch_check (tools/size_budget.json; over budget blocks until the owner agrees), one shared
 state object `QG` in page_src/js/01_core.js (B, db, me, EDITOR, view ... are aliases onto it), and the course as a setting
 (`QG.course`, `QG.courseData`). Details, numbers and the debt left: CODE_HEALTH.md "Health pass" and "Known debt".
+
+## Papers: course lanes, one queue, 3 batches before the lock (14 Nov; owner: "I like A's design much more", "Let's do 3 batches before the lock")
+Processes › Papers is now mockup A: one status per paper (tools/inventory.py; the summary adds up to the folder total), course
+lanes of fixed numbered batches of 9 (tools/batches.py, work/batches.json), a batch panel with Swap, one queue across courses
+with Start the queue (stops when 3 imported batches wait for review, or early on unusual problems; tools/import_next.py), and a
+Needs a check view (#processes/papers/check) with the proposed path-rule fixes (Accept) and the owner's own answers (paperfix).
+Go and the per-batch pause are gone. New db collections queue, batches, paperfix (read admin, write admin). Details: UI_SPEC
+"Papers: course lanes", IMPORT_PLAYBOOK "Queue".

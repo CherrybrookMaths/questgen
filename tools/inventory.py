@@ -10,33 +10,30 @@ extension and extension two [later] right?").
 Read-only on the database. Groups: course (advanced / ext1 / ext2 / standard / unknown) x year level (12 / 11 / ?), and in
 each group one entry per PAPER (a question file plus its solutions file, or one combined file), sorted by school then year.
 Each paper: id (its question file's documents.id), l (label, only when it is not "<y> <s> <t>" or "<y> NESA HSC"), s school,
-y year, t task, st state, n files, and flags sol (solutions present), scan, new, pick (can be queued), why (reason it can't).
+y year, t task, st status (STATUSES), n files, and flags sol (solutions present), scan, new, old, placed (by the owner), why
+(a reason of its own, else STATUS_TEXT[st]); a needs_check paper also has f (file ids) and p (paths).
 Papers are formed with the same naming rules as tools/import_manifest.py (tools/classify_paths.py: school_of, year_of,
 task_of, kind_of); the Year 12 Advanced import list work/import/papers.json (id + separate solutions id) wins where it applies.
-State of a paper:
-  imported       a file has questions in the bank
-  waiting        a file is discovered / pending (or parsed / tagged with no questions yet), and nothing below blocks it
-  out_of_course  every file is excluded and the course is Extension 1, Extension 2 or Standard
-  out_of_scope   excluded for another reason (Year 11, not a question paper, solutions only, course not known and before
-                 2019), course Advanced or not known
-Old syllabus (owner 13 Nov: "We should take questions too, we'll just have to disretard out of scope things"): Advanced papers
-before 2019 (old 2 Unit) are waiting like any other and carry "old": 1 (label "old syllabus"; syllabus_version 'pre2017').
-  other          duplicate_file / skipped / failed
-Only waiting Advanced papers outside Year 11 can be ticked on the page ("pick": 1). Standard / Ext 1 / Ext 2 show their counts but need
-course setup (topics, dot points, difficulty references) before they can be imported.
-"new" = inserted by the latest folder scan (table folder_scans, written by tools/scan_folder.py --apply).
+Status of a paper: exactly one of STATUSES below, with one reason (STATUS_TEXT, or a 'why' of its own), owner 14 Nov ("there
+seems to be some inconsistencies in paper numbers"): imported / ready_current / ready_old (Advanced Year 12; old = before 2020,
+old 2 Unit, syllabus_version 'pre2017') / needs_check (course, year level or year not known) / held_y11 (owner 13 Nov: "Year 11
+papers leave alone for now") / held_course (Standard, Extension 1, Extension 2: course setup first) / not_in_scope / duplicate.
+Rules: the active path rules (tools/classify_paths.py RULES, plus RULES_PROPOSED once the owner pressed Accept in Needs a check,
+work/rules_accepted.json). Owner answers in Needs a check (page db paperfix, mirror page_paperfix) win over every rule.
+Lanes: tools/batches.py assigns every ready paper to a fixed numbered batch of 9 once (work/batches.json); the json carries them.
+"new" = first seen after the baseline scan (BASELINE_SCAN, 13 Nov 8:42 pm).
 For the page's "Rescan drive" (owner 13 Nov: "Where is the button to rescan the drive?") the json also carries root_drive_id
 (the shared folder in Google Drive), scan_skip (folders not walked), files_url and rules (tools/classify_paths.py RULES, so the
 page classifies a new Drive file exactly as the tools do). Every recorded file (folder, name, size, Drive id) goes to a separate
 site/data/inventory_files.json (files_url), which the page fetches only for Rescan drive: with the 13 Nov Drive rescan's 1,684
 more files it would have taken inventory.json past 600 KB on every Processes load (CODE_HEALTH rule 6).
-Cost: IMPORT_PLAYBOOK.md and RESUME.md record no per-paper import cost yet (13 Nov), so COST_PER_PAPER is None and the page
-shows none. Set it (e.g. '≈ 0.4M tokens') when one is recorded there.
+Cost: IMPORT_PLAYBOOK.md and RESUME.md record no per-paper import cost yet, so COST_PER_PAPER is None and the page shows the
+US$12-17 a paper estimate. Set it (a number, or [lo, hi] in US$) when one is recorded there.
 """
 import collections, datetime, json, os, re, sqlite3, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from classify_paths import school_of, year_of, task_of, kind_of, as_manifest_row, RULES
+from classify_paths import school_of, year_of, task_of, kind_of, as_manifest_row, classify_path, RULES, RULES_PROPOSED, with_proposed, active_rules
 
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
 DB = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
@@ -58,7 +55,25 @@ COURSES = [('advanced', 'Mathematics Advanced', 'Advanced', True), ('ext1', 'Mat
 SETUP = 'needs course setup (topics, dot points, difficulty references)'
 UNKNOWN = 'course not known from the file name: a cover-page check sorts these'
 YLS = ['12', '11', '?']
-STATES = ['imported', 'waiting', 'out_of_course', 'out_of_scope', 'other']
+COURSE_KEYS = [c for c, *_ in COURSES]
+READY = [c for c, _, _, r in COURSES if r]
+OFF_COURSES = [c for c in COURSE_KEYS if c not in READY and c != 'unknown']
+# ONE status per paper (owner 14 Nov: "there seems to be some inconsistencies in paper numbers"). Every count on the page is a
+# count of these, in papers (files only as a secondary figure); the summary's four numbers add up to the folder total.
+STATUSES = ['imported', 'ready_current', 'ready_old', 'needs_check', 'held_y11', 'held_course', 'not_in_scope', 'duplicate']
+STATUS_TEXT = {
+    'imported': 'in the bank',
+    'ready_current': 'ready to import, current syllabus',
+    'ready_old': 'ready to import, old syllabus (2 Unit, before 2020)',
+    'needs_check': 'year or course not known yet',
+    # owner 13 Nov: "Year 11 papers leave alone for now, would like to finalise Y12 first"
+    'held_y11': 'held until Year 12 is finished (your 13 Nov ruling)',
+    'held_course': 'needs course setup (topics, dot points, difficulty references)',
+    'not_in_scope': 'not in scope',
+    'duplicate': 'a copy of another paper',
+}
+# 'New' = first seen after this scan (the first full Drive scan, 13 Nov 8:42 pm): papers a later scan adds (0 on 14 Nov)
+BASELINE_SCAN = '2026-11-13T20:42:46+11:00'
 
 
 def name_year(path):
@@ -71,19 +86,58 @@ def yl_of(d):
     return str(d['year_level']) if d['year_level'] in (11, 12) else '?'
 
 
-def build(db, files=False):
-    """files=True adds 'f' (every documents.id in the paper) to each paper, for tools/import_next.py; never written to the json."""
+def read_overrides(db):
+    """The owner's answers in Needs a check (page db collection paperfix, mirrored into page_paperfix by tools/sync_pagedb.py):
+    {doc id: {'yl': 11|12|None, 'course': key|None, 'out': bool, 'paper': id}} for every file of an answered paper. A paper is
+    answered when it has both a year and a course, or is set aside (Not in scope); a half answer changes nothing."""
+    if not db.execute("SELECT 1 FROM sqlite_master WHERE name='page_paperfix'").fetchone(): return {}
+    out = {}
+    for (d,) in db.execute('SELECT data_json FROM page_paperfix'):
+        try: v = json.loads(d)
+        except ValueError: continue
+        yl, c, x = v.get('yl'), v.get('course'), bool(v.get('out'))
+        if not (x or (yl in (11, 12) and c in COURSE_KEYS)): continue
+        for i in [v.get('id')] + list(v.get('files') or []):
+            if isinstance(i, int): out[i] = {'yl': yl, 'course': c, 'out': x, 'paper': v.get('id')}
+    return out
+
+
+def is_new(d):
+    """First seen after the baseline scan (13 Nov, 8:42 pm): 'New' counts only what later scans add."""
+    t = d.get('ingested_at')
+    if not t: return False
+    try: return datetime.datetime.fromisoformat(t).astimezone() > datetime.datetime.fromisoformat(BASELINE_SCAN)
+    except ValueError: return False
+
+
+def build(db, files=False, rules=None, overrides=None):
+    """files=True adds 'f' (every documents.id in the paper) to each paper, for tools/import_next.py and tools/batches.py; the
+    json carries 'f' only on needs_check papers (the page stores them with an owner's answer).
+    rules: the path rules to apply (default: active_rules(): RULES, plus RULES_PROPOSED once the owner accepted it). A file whose
+    recorded course / year level is exactly what the stage-0 RULES give for its path (it was decided by name, not by a cover)
+    takes what `rules` give instead. overrides: read_overrides(db) by default."""
     db.row_factory = sqlite3.Row
+    rules = rules or active_rules()
+    overrides = read_overrides(db) if overrides is None else overrides
     docs = {r['id']: dict(r) for r in db.execute('SELECT id, source_path, status, course, year_level, task_type, school, year, display_label, '
                                                    'school_formal, task_code, failure_reason, page_count, parse_path, ingested_at, '
                                                    'size_bytes, drive_file_id FROM documents')}
+    if rules is not RULES:      # proposed fixes: only files the stage-0 rules decided by name, and only where the result differs
+        for d in docs.values():
+            a, b = classify_path(d['source_path'], RULES), classify_path(d['source_path'], rules)
+            if (a['course'], a['year_level']) != (b['course'], b['year_level']) and (d['course'], d['year_level']) == (a['course'], a['year_level']):
+                d['course'], d['year_level'], d['_rule'] = b['course'], b['year_level'], ('yl11' if b['year_level'] != a['year_level'] else b['course'])
+    for i, o in overrides.items():   # the owner placed it (or set it aside): that wins over every rule
+        if i in docs:
+            d = docs[i]
+            if o['out']: d['_out'] = True
+            else: d['course'], d['year_level'], d['_placed'] = o['course'], o['yl'], True
     has_q = {r[0] for r in db.execute('SELECT DISTINCT document_id FROM questions')}
     last = None
     if db.execute("SELECT 1 FROM sqlite_master WHERE name='folder_scans'").fetchone():
         r = db.execute('SELECT at, pdfs, new, inserted, moved, copies, missing, report FROM folder_scans ORDER BY id DESC LIMIT 1').fetchone()
         if r: last = dict(r)
-    new_ids = {i for i, d in docs.items() if last and d['ingested_at'] == last['at']}
-
+    new_ids = {i for i, d in docs.items() if is_new(d)}
     # 1. papers fixed by the import list (Year 12 Advanced): question doc + its separate solutions doc
     papers, taken = [], set()
     bypath = {d['source_path']: i for i, d in docs.items()}
@@ -148,7 +202,8 @@ def build(db, files=False):
         else: split_off.update(groups[k])
     papers += [{'ids': ids} for ids in list(groups.values()) + list(lg.values())]
 
-    out = {(c, y): {'course': c, 'yl': y, 'counts': dict.fromkeys(STATES + ['new', 'papers', 'files'], 0), 'papers': []} for c, *_ in COURSES for y in YLS}
+    out = {(c, y): {'course': c, 'yl': y, 'counts': dict.fromkeys(STATUSES + ['new', 'papers', 'files'], 0), 'papers': []} for c, *_ in COURSES for y in YLS}
+    keys = set(COURSE_KEYS)
     for p in papers:
         fs = [docs[i] for i in p['ids']]
         q = [f for f in fs if f.get('_k', kind_of(as_manifest_row(f))) != 'solutions']
@@ -159,32 +214,9 @@ def build(db, files=False):
         course = prim['course'] if prim['course'] != 'unknown' else next((f['course'] for f in fs if f['course'] != 'unknown'), 'unknown')
         yl = next((yl_of(f) for f in [prim] + fs if yl_of(f) != '?'), '?')
         y, s, t = prim['_y'], prim['_s'], prim['_t']
-        sts = {f['status'] for f in fs}
-        why = ''
-        if any(f['id'] in has_q for f in fs):
-            st = 'imported'
-        elif sts & {'discovered', 'pending', 'parsed', 'tagged'}:
-            st = 'waiting'
-            if course in ('ext1', 'ext2', 'standard'): st, why = 'out_of_course', ''
-            # owner 13 Nov: "So does not imported and new mean not in scope? We should take questions too, we'll just have to
-            # disretard out of scope things": old 2 Unit Advanced papers are imported; at tagging, parts with no current dot
-            # point are dropped (IMPORT_PLAYBOOK "Old-syllabus papers"). Course not known: still out until a cover check.
-            elif y and y < 2019 and course != 'advanced':      # unchanged rule for unknown course (was 'excluded for now')
-                st, why = 'out_of_scope', 'before 2019 and course not known: a cover-page check sorts these'
-            elif not q: st, why = 'out_of_scope', 'solutions only: question paper not found'
-            elif re.search(r'12ME|\bExt(ension)? ?1\b|\bMX1\b', ' '.join(os.path.basename(f['source_path']) for f in fs)):
-                st, why = 'out_of_scope', 'Extension 1 paper (file name)'      # the same rule as tools/import_manifest.py
-        elif sts <= {'excluded'}:
-            if course in ('ext1', 'ext2', 'standard'): st = 'out_of_course'
-            else:
-                st = 'out_of_scope'
-                fr = ' '.join(f['failure_reason'] or '' for f in fs).lower()
-                why = ('not a question paper' if 'not a question paper' in fr else
-                       f'Year {yl}: outside the import scope (Year 12)' if yl in ('11',) else
-                       (fs[0]['failure_reason'] or 'excluded'))
-        else:
-            st = 'other'
-            why = '; '.join(sorted({f['status'] + (': ' + f['failure_reason'] if f['failure_reason'] else '') for f in fs if f['status'] not in ('discovered', 'excluded')}))[:120]
+        names = ' '.join(os.path.basename(f['source_path']) for f in fs)
+        if course == 'advanced' and re.search(r'12ME|\bExt(ension)? ?1\b|\bMX1\b', names): course = 'ext1'   # the same rule as tools/import_manifest.py
+        st, why = status_of(fs, course, yl, y, bool(q), has_q)
         label = prim['display_label'] or p.get('label')
         if not label and split_off & set(p['ids']):     # split from a paper of the same name: its file name tells them apart
             label = os.path.splitext(os.path.basename(prim['source_path']))[0][:70]
@@ -199,12 +231,11 @@ def build(db, files=False):
         if prim['parse_path'] == 'scan': e['scan'] = 1
         if new: e['new'] = 1
         if why: e['why'] = why
-        if files: e['f'] = [f['id'] for f in fs]
+        if files or st == 'needs_check': e['f'] = [f['id'] for f in fs]
+        if st == 'needs_check': e['p'] = [f['source_path'] for f in fs][:4]      # the paths, for the Needs a check view
+        if any(f.get('_placed') for f in fs): e['placed'] = 1
         if course == 'advanced' and y and y < RULES['old_syllabus_before']: e['old'] = 1     # old syllabus: syllabus_version 'pre2017'
-        # Year 11 stays out of the queue (owner 13 Nov: "Year 11 papers leave alone for now, would like to finalise Y12 first")
-        if st == 'waiting' and course == 'advanced' and yl != '11': e['pick'] = 1
-        if st == 'waiting' and course == 'unknown': e['why'] = 'course not known: cover page to check'
-        g = out[(course if course in dict((c, 1) for c, *_ in COURSES) else 'unknown', yl)]
+        g = out[(course if course in keys else 'unknown', yl)]
         g['papers'].append(e)
         g['counts'][st] += 1; g['counts']['new'] += new; g['counts']['papers'] += 1; g['counts']['files'] += len(fs)
     for g in out.values():
@@ -213,16 +244,89 @@ def build(db, files=False):
     for g in out.values():
         for k, v in g['counts'].items(): total[k] += v
     assert total['files'] == len(docs), (total['files'], len(docs))
+    assert sum(total[k] for k in STATUSES) == total['papers'], 'every paper has exactly one status'
     return {
         'built': datetime.datetime.now().astimezone().isoformat(timespec='seconds'),
-        'last_scan': last, 'docs': len(docs), 'docs_with_questions': len(has_q & set(docs)), 'totals': dict(total),
+        'last_scan': last, 'baseline_scan': BASELINE_SCAN, 'docs': len(docs), 'docs_with_questions': len(has_q & set(docs)), 'totals': dict(total),
+        'statuses': STATUS_TEXT,
         'courses': [{'key': c, 'name': n, 'short': sh, 'ready': r, **({} if r else {'note': UNKNOWN if c == 'unknown' else SETUP})} for c, n, sh, r in COURSES],
         'cost_per_paper': COST_PER_PAPER,
         'groups': [g for g in out.values() if g['counts']['papers']],
         'root_drive_id': ROOT_DRIVE_ID, 'scan_skip': SCAN_SKIP,
         'files_url': FILES_URL, 'files': known_files(docs.values()),     # main() writes 'files' to FILES_URL, not into OUT
-        'rules': RULES,
+        'rules': rules,
     }
+
+
+def status_of(fs, course, yl, y, has_question_file, has_q):
+    """ONE status and one reason per paper (owner 14 Nov: "there seems to be some inconsistencies in paper numbers"). The reason is
+    '' when the status says it all (STATUS_TEXT); the page derives every number from these statuses."""
+    sts = {f['status'] for f in fs}
+    if any(f['id'] in has_q for f in fs): return 'imported', ''
+    if sts == {'duplicate_file'}: return 'duplicate', 'a copy of a recorded file'
+    if all(f.get('_out') for f in fs): return 'not_in_scope', 'you set it aside (Needs a check)'
+    placed = any(f.get('_placed') for f in fs)
+    if placed or sts & {'discovered', 'pending', 'parsed', 'tagged'}:
+        if course in OFF_COURSES: return 'held_course', ''
+        if yl == '11': return 'held_y11', ''
+        if not has_question_file: return 'not_in_scope', 'solutions only: question paper not found'
+        if course == 'unknown': return 'needs_check', 'course not known from the folder or file name'
+        if yl == '?': return 'needs_check', 'year level not known from the folder or file name'
+        if not y: return 'needs_check', 'year not known from the folder or file name'
+        # owner 13 Nov: "We should take questions too, we'll just have to disretard out of scope things": old 2 Unit papers are
+        # imported; at tagging, parts with no current dot point are dropped (IMPORT_PLAYBOOK "Old-syllabus papers")
+        if course in READY: return ('ready_old' if y < RULES['old_syllabus_before'] else 'ready_current'), ''
+        return 'held_course', ''
+    if sts <= {'excluded', 'duplicate_file'}:
+        if course in OFF_COURSES: return 'held_course', ''
+        fr = ' '.join(f['failure_reason'] or '' for f in fs).lower()
+        if 'not a question paper' in fr: return 'not_in_scope', 'not a question paper'
+        # owner 13 Nov: "Year 11 papers leave alone for now, would like to finalise Y12 first"
+        if yl == '11': return 'held_y11', ''
+        return 'not_in_scope', (next((f['failure_reason'] for f in fs if f['failure_reason']), '') or 'excluded at the first stock-take')
+    return 'not_in_scope', '; '.join(sorted({f['status'] + (': ' + f['failure_reason'] if f['failure_reason'] else '') for f in fs if f['status'] not in ('discovered', 'excluded')}))[:120]
+
+
+def proposed(db, inv, overrides=None):
+    """What RULES_PROPOSED would change, for the Needs a check view (owner presses Accept there). Built from two full builds,
+    so the page can show the result at once: replace = ids of papers that change, papers = the new entries by group
+    ("course|yl"), rules = one row per fix with the papers it places (out of Needs a check), an example and their ids.
+    changed_other = papers outside Needs a check that change too (reported; the counts it moves stay in Held or not in scope)."""
+    rp = with_proposed()
+    if inv['rules'] == rp:
+        return {'accepted': True, 'version': RULES_PROPOSED['version'], 'show': RULES_PROPOSED['show']}
+    db.row_factory = sqlite3.Row
+    after = build(db, files=True, rules=rp, overrides=overrides)
+    flat = lambda v: {p['id']: (g['course'] + '|' + g['yl'], p) for g in v['groups'] for p in g['papers']}
+    A, Bf = flat(inv), flat(after)
+    def same(a, b): return a and b and a[0] == b[0] and {k: v for k, v in a[1].items() if k not in ('f', 'p')} == {k: v for k, v in b[1].items() if k not in ('f', 'p')}
+    gone = [i for i in A if not same(A[i], Bf.get(i))]
+    add = [i for i in Bf if not same(Bf[i], A.get(i))]
+    docs = {r['id']: r['source_path'] for r in db.execute('SELECT id, source_path FROM documents')}
+    # which fix placed each Needs a check paper: where the paper with its id lands (a merged paper whose files the fixes split
+    # counts once, under the course its lead file gets)
+    rows = {r['key']: {**r, 'n': 0, 'ids': [], 'example': ''} for r in RULES_PROPOSED['show']}
+    other = []
+    for i in gone:
+        k, p = A[i]
+        if p['st'] != 'needs_check': other.append(i); continue
+        b = Bf.get(i)
+        if not b or b[1]['st'] == 'needs_check': continue
+        c, yl = b[0].split('|')
+        key = 'yl11' if yl == '11' and k.split('|')[1] != '11' else c
+        if key in rows:
+            r = rows[key]; r['n'] += 1; r['ids'].append(i)
+            if not r['example']: r['example'] = docs.get(i, '')
+    new_papers = {}
+    for i in add:
+        k, p = Bf[i]
+        e = {kk: v for kk, v in p.items() if kk != 'f' or p['st'] == 'needs_check'}
+        new_papers.setdefault(k, []).append(e)
+    return {'accepted': False, 'version': RULES_PROPOSED['version'], 'rules_after': rp,
+            'rules': [rows[r['key']] for r in RULES_PROPOSED['show']], 'replace': gone, 'papers': new_papers,
+            'changed_other': len(other), 'totals_after': after['totals'],
+            # the papers outside Needs a check that the fixes move, by (status before, status after): all inside Held or not in scope
+            'other_moves': [[a, b, n] for (a, b), n in collections.Counter((A[i][1]['st'], Bf[i][1]['st'] if i in Bf else 'merged') for i in other).most_common()]}
 
 
 def known_files(docs):
@@ -237,12 +341,10 @@ def known_files(docs):
 
 
 def table(inv):
-    rows = [f'{"course":9s} {"yl":3s} {"papers":>6s} {"imported":>8s} {"waiting":>7s} {"new":>4s} {"out_crs":>7s} {"out_scope":>9s} {"other":>5s} {"files":>5s}']
-    for g in inv['groups']:
-        c = g['counts']
-        rows.append(f'{g["course"]:9s} {g["yl"]:3s} {c["papers"]:6d} {c["imported"]:8d} {c["waiting"]:7d} {c["new"]:4d} {c["out_of_course"]:7d} {c["out_of_scope"]:9d} {c["other"]:5d} {c["files"]:5d}')
-    t = inv['totals']
-    rows.append(f'{"total":9s} {"":3s} {t["papers"]:6d} {t["imported"]:8d} {t["waiting"]:7d} {t["new"]:4d} {t["out_of_course"]:7d} {t["out_of_scope"]:9d} {t["other"]:5d} {t["files"]:5d}')
+    cols = STATUSES + ['papers', 'files']
+    rows = [f'{"course":9s} {"yl":3s} ' + ' '.join(f'{c[:9]:>9s}' for c in cols)]
+    for g in inv['groups'] + [{'course': 'total', 'yl': '', 'counts': inv['totals']}]:
+        rows.append(f'{g["course"]:9s} {g["yl"]:3s} ' + ' '.join(f'{g["counts"].get(c, 0):9d}' for c in cols))
     return '\n'.join(rows)
 
 
@@ -250,8 +352,16 @@ def main():
     db = sqlite3.connect('file:' + DB + '?mode=ro', uri=True)
     inv = build(db)
     print(table(inv))
+    inv['proposed'] = proposed(db, inv)
+    pr = inv['proposed']
+    if not pr['accepted']:
+        print('proposed rule fixes (not accepted yet): ' + ', '.join(f'{r["key"]} {r["n"]}' for r in pr['rules'])
+              + f'; {len(pr["replace"])} papers change, {pr["changed_other"]} of them outside Needs a check')
+    import batches       # fixed numbered batches of 9 per ready lane (work/batches.json; assigned once)
+    inv['lanes'] = batches.lanes(inv, write='--print' not in sys.argv)
+    for L in inv['lanes']: print(f'lane {L["course"]}|{L["yl"]}: batches {L["first"]}-{L["first"] + len(L["batches"]) - 1} ({sum(map(len, L["batches"]))} papers), {len(L["done"])} finished')
     ls = inv['last_scan']
-    print('last folder scan: ' + (f'{ls["at"]} ({ls["inserted"]} new)' if ls else 'none yet'))
+    print('last folder scan: ' + (f'{ls["at"]} ({ls["inserted"]} files added)' if ls else 'none yet') + f'; new since the baseline scan: {inv["totals"]["new"]}')
     if '--print' in sys.argv: return
     out = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else OUT
     files = {'built': inv['built'], **inv.pop('files')}

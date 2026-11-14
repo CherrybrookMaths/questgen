@@ -6,7 +6,10 @@ Input: a folder exported with ArtifactData `list` + `out_dir` (one sub-folder pe
 reports; one JSON file per document). Each run REPLACES the mirror tables with the export, so it always equals the page.
 Usage: python3 tools/sync_pagedb.py <export_dir>
 Tables: page_reviews, page_difficulty, page_exams, page_exam_items, page_reports (incl. suggested_wm 'UF'|'PR', 14 Nov),
-page_importq (13 Nov: the owner's import order), page_runs (13 Nov: Go run requests), page_sync.
+page_importq (13 Nov: the owner's import order; since 14 Nov only the seed of tools/batches.py), page_runs (run requests: the
+queue's Start and the cover-page check, 14 Nov), page_queue, page_batches, page_paperfix (14 Nov, Processes › Papers lanes:
+the queue, Swap and the owner's answers in Needs a check), page_sync. A scans/rules.json in the export (the owner's Accept of
+the proposed path rules) is written to work/rules_accepted.json, which tools/classify_paths.py reads.
 QG_DB=<path> runs it against another database file (a copy, for tests).
 The full document is kept in data_json, so nothing on the page is lost even if a field is not split out yet."""
 import json, glob, os, sqlite3, sys, datetime
@@ -26,6 +29,10 @@ CREATE TABLE IF NOT EXISTS page_importq(doc_key TEXT PRIMARY KEY, doc_id INTEGER
   year_level INTEGER, ord REAL, added_by TEXT, at TEXT, data_json TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS page_runs(doc_key TEXT PRIMARY KEY, year INTEGER, course TEXT, status TEXT, papers_json TEXT, batch_size INTEGER,
   by TEXT, at TEXT, data_json TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS page_queue(doc_key TEXT PRIMARY KEY, course TEXT, yl TEXT, batch INTEGER, ord REAL, by TEXT, at TEXT, data_json TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS page_batches(doc_key TEXT PRIMARY KEY, course TEXT, yl TEXT, swaps_json TEXT, data_json TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS page_paperfix(doc_key TEXT PRIMARY KEY, paper_id INTEGER REFERENCES documents(id), files_json TEXT, yl INTEGER,
+  course TEXT, out INTEGER, by TEXT, at TEXT, data_json TEXT NOT NULL);
 CREATE TABLE IF NOT EXISTS page_sync(collection TEXT PRIMARY KEY, docs INTEGER, synced_at TEXT, unmatched INTEGER);
 """
 def docs(d, coll):
@@ -101,6 +108,34 @@ def main(d):
             db.execute('INSERT INTO page_runs VALUES(?,?,?,?,?,?,?,?,?)', (k, v.get('year'), v.get('course'), v.get('status'), J(ps), v.get('batch_size'),
                        v.get('by'), v.get('at'), J(v)))
         rep.append(('runs', len(L), bad))
+    # owner 14 Nov (mockup A, "I like A's design much more"): Processes › Papers lanes. queue: one doc per queued batch
+    # ('<course>_<yl>_<n>'); batches: Swap, one doc per lane; paperfix: the owner's answers in Needs a check (tools/inventory.py
+    # applies them, so a rescan never asks again). tools/import_next.py and tools/inventory.py read these mirrors.
+    if os.path.isdir(os.path.join(d, 'queue')):
+        db.execute('DELETE FROM page_queue'); L = docs(d, 'queue')
+        for k, v in L:
+            db.execute('INSERT INTO page_queue VALUES(?,?,?,?,?,?,?,?)', (k, v.get('course'), str(v.get('yl')), v.get('batch'), v.get('order'), v.get('by'), v.get('at'), J(v)))
+        rep.append(('queue', len(L), 0))
+    if os.path.isdir(os.path.join(d, 'batches')):
+        db.execute('DELETE FROM page_batches'); L = docs(d, 'batches'); bad = 0
+        for k, v in L:
+            sw = v.get('swaps') if isinstance(v.get('swaps'), list) else []
+            bad += sum(not have('documents', x.get('id') if isinstance(x, dict) else x) for x in sw)
+            db.execute('INSERT INTO page_batches VALUES(?,?,?,?,?)', (k, v.get('course'), str(v.get('yl')), J(sw), J(v)))
+        rep.append(('batches', len(L), bad))
+    if os.path.isdir(os.path.join(d, 'paperfix')):
+        db.execute('DELETE FROM page_paperfix'); L = docs(d, 'paperfix'); bad = 0
+        for k, v in L:
+            if not have('documents', v.get('id')): bad += 1
+            db.execute('INSERT INTO page_paperfix VALUES(?,?,?,?,?,?,?,?,?)', (k, v.get('id'), J(v.get('files')), v.get('yl'), v.get('course'),
+                       1 if v.get('out') else 0, v.get('by'), v.get('at'), J(v)))
+        rep.append(('paperfix', len(L), bad))
+    rules = os.path.join(d, 'scans', 'rules.json')
+    if os.path.exists(rules):   # the owner's Accept of RULES_PROPOSED (page db scans/rules) -> work/rules_accepted.json
+        x = json.load(open(rules)); v = x['data'] if isinstance(x, dict) and isinstance(x.get('data'), dict) else x
+        out = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'work', 'rules_accepted.json')
+        json.dump({'version': v.get('version'), 'accepted': bool(v.get('accepted')), 'by': v.get('by'), 'at': v.get('at')}, open(out, 'w'), indent=1)
+        print(f'rules      accepted={bool(v.get("accepted"))} version {v.get("version")} -> work/rules_accepted.json (run tools/inventory.py)')
     for c, n, bad in rep:
         db.execute('INSERT OR REPLACE INTO page_sync VALUES(?,?,?,?)', (c, n, now, bad))
         print(f'{c:11s} {n:5d} docs mirrored' + (f'  ({bad} point at rows not in the database)' if bad else ''))

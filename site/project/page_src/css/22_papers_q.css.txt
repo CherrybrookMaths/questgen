@@ -1,68 +1,8 @@
-/* owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next?" — Papers + Import order on Processes */
+/* Processes › Papers (owner 14 Nov, mockup A: "I like A's design much more"): top line, summary, course lanes, queue; all under .procs, pr- prefix */
 .procs .ivsub{margin:0 0 8px;color:var(--muted);font-size:13px}
-/* owner 13 Nov ("The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): the pause note is one quiet line under Import order */
-.procs .ivpause{margin:-2px 0 8px;color:var(--muted);font-size:12.5px}
-.procs .ivq{margin:0 0 14px}
-.procs .ivq h4,.procs #ivGrid .ivhead{font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.procs .ivq h4{margin:0 0 6px;display:flex;align-items:center;gap:8px}
-.procs .ivql .ntext{display:flex;flex-direction:column;gap:1px}
-.procs .ivql .ntext b{font-weight:600}
-.procs .ivql .ntext small{color:var(--muted);font-size:12px}
-.procs .ivql .ivwarn{color:var(--warn);font-style:normal}
-/* owner 13 Nov ("but we already have 15 waiting batches?" -> one list): a faint divider every 9 rows names the batch it becomes */
-.procs .ivql>li.ivdiv{display:flex;align-items:center;gap:8px;margin:0;padding:8px 10px 2px;border-top:1px solid var(--line);color:var(--muted);font:500 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;opacity:.8}
-.procs .ivql>li.ivdiv::after{content:"";flex:1;border-top:1px dashed var(--line)}
-.procs .ivql>li.ivdiv:first-child{border-top:0;padding-top:6px}.procs .ivql>li.ivdiv+.nrow{border-top:0}
-.procs .ivqn{flex:none;min-width:20px;height:20px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:600 11.5px var(--sans);display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
-/* the compact course grid (owner 13 Nov, Work | Papers): one row per course, cells Year 12 / Year 11 / Year ?; a cell opens its papers under the row */
-.procs #ivGrid{border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden}
-.procs #ivGrid .ivhead,.procs .ivr{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,minmax(96px,150px));gap:6px;align-items:center;padding:0 12px}
-.procs #ivGrid .ivhead{padding-block:7px;border-bottom:1px solid var(--line);font:600 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.procs #ivGrid .ivhead span:not(:first-child){text-align:right;padding-right:9px}
-.procs .ivr{border-top:1px solid var(--line);padding-block:4px}.procs .ivhead+.ivr{border-top:0}
-.procs .ivname{min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 8px;font-size:14px}
-.procs .ivname b{font-weight:600}.procs .ivr.off .ivname b{color:var(--muted)}
-.procs .ivnote{color:var(--muted);font-size:12px}
-.procs .ivyl{color:var(--muted)}
-.procs .ivcell{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:baseline;gap:2px 6px;min-width:0;padding:6px 8px;border:1px solid transparent;border-radius:6px;background:none;font:400 13px var(--sans);color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-.procs button.ivcell{cursor:pointer}
-.procs button.ivcell:hover{background:color-mix(in srgb,var(--accent-soft) 45%,transparent)}
-.procs button.ivcell:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.procs .ivcell.on{border-color:var(--accent);background:var(--accent-soft)}
-.procs .ivcell b{font-weight:600;color:var(--ink)}.procs .ivcell b.ok{color:var(--ok)}.procs .ivcell b.wait{color:var(--accent)}
-.procs .ivr.off .ivcell b{font-weight:500}
-.procs .ivcell .ivcl{display:none;font-style:normal}
-.procs .ivbody{grid-column:1/-1;margin:2px -12px -4px;padding:2px 12px 12px 26px;border-top:1px dashed var(--line)}
-.procs .ivbody[hidden]{display:none}
-.procs .ivbh{margin:8px 0 0;font-size:13px;color:var(--muted)}.procs .ivbh b{color:var(--ink);font-weight:600}
-.procs .ivmsg{margin:8px 0;color:var(--muted);font-size:13px}
-.procs .ivall{display:inline-flex;align-items:center;gap:8px;margin:8px 0 2px;font-weight:600;font-size:13.5px;cursor:pointer}
-.procs .ivs{margin-top:10px}
-.procs .ivsh{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px;margin-bottom:2px}
-.procs .ivsh label{display:inline-flex;align-items:center;gap:8px;cursor:pointer;min-width:0}
-.procs .ivpl-list{list-style:none;margin:0;padding:0}
-.procs .ivpp{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:4px 0;border-top:1px solid var(--line);font-size:13.5px;min-width:0}
-.procs .ivpp:first-child{border-top:0}
-.procs .ivpp input,.procs .ivall input,.procs .ivsh input{flex:none;width:16px;height:16px;margin:0;accent-color:var(--accent);cursor:pointer}
-.procs .ivnobox{flex:none;width:16px}
-.procs .ivpl{flex:1 1 180px;min-width:0;overflow-wrap:anywhere}
-.procs .ivpp input+.ivpl{cursor:pointer}
 .procs .ivchips{display:inline-flex;flex-wrap:wrap;gap:4px}
 .procs .ivchip{font:500 11px var(--sans);padding:1px 7px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap}
-.procs .ivchip.ok{border-color:var(--ok);color:var(--ok)}.procs .ivchip.wait{border-color:var(--accent);color:var(--accent)}
-.procs .ivchip.q{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}.procs .ivchip.new{border-color:var(--warn);color:var(--warn)}
-.procs .ivwhy{flex-basis:100%;margin-left:24px;color:var(--muted);font-size:12px}
-.procs .ivbar{position:sticky;bottom:0;z-index:2;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;padding:10px 12px;background:var(--panel);border:1px solid var(--accent);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.08)}
-.procs .ivbar[hidden]{display:none}
-.procs .ivbar #ivSelN{flex:1 1 auto;font-weight:600;font-size:13.5px}
-.procs .ivbar .ivadd{background:var(--accent);border-color:var(--accent);color:var(--panel)}
-/* owner 13 Nov ("does not imported and new mean not in scope?"): New is a small badge on the number, plus a one-line legend */
-.procs .ivcell sup.ivnew{margin-left:3px;font:600 10px var(--sans);color:var(--warn);vertical-align:super;line-height:0;white-space:nowrap}
-.procs .ivlegend{margin:0;padding:7px 12px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
-/* phone: the grid stacks per course (name on its own line, then three labelled cells); no sideways scroll */
-@media (max-width:640px){.procs #ivGrid .ivhead{display:none}.procs .ivr{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:8px 10px}.procs .ivname{grid-column:1/-1}
-  .procs .ivcell{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:0;text-align:left;border-color:var(--line);padding:4px 8px}.procs .ivcell .ivcl{display:block;font-size:11px}
-  .procs .ivbody{margin:2px -10px -8px;padding-left:12px}.procs .ivwhy{margin-left:0}}
+.procs .ivyl{color:var(--muted)}
 /* owner 13 Nov: "Where is the button to rescan the drive?" — Rescan drive beside the last-scan time, its progress and results */
 .procs .ivsubrow{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 8px}
 .procs .ivsubrow .ivsub{margin:0;flex:1 1 260px;min-width:0}
@@ -86,39 +26,114 @@
 .procs .ivsname{flex:1 1 200px;min-width:0;overflow-wrap:anywhere}
 .procs .ivsdir{flex-basis:100%;order:3;color:var(--muted);font-size:11.5px;overflow-wrap:anywhere}
 .procs .ivchip.like{border-color:var(--warn);color:var(--warn)}
-/* owner 13 Nov: "We need a general summary at the top of the Paper's tab ... I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses":
-   summary card, Import a course (Go, inline confirm), Running / next, then Choose papers and By course folded away (34_papers_run.js) */
-.procs .ivsum{margin:0 0 12px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
-.procs .ivsum .ivsubrow{margin-bottom:10px}
-.procs .ivstats{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,2fr);gap:10px 18px}
-.procs .ivstat{display:flex;flex-wrap:wrap;align-items:baseline;align-content:flex-start;gap:0 6px;min-width:0}
-.procs .ivstat b{font:600 22px var(--sans);font-variant-numeric:tabular-nums;color:var(--ink)}
-.procs .ivstat[data-k="imported"] b{color:var(--ok)}.procs .ivstat[data-k="can"] b{color:var(--accent)}.procs .ivstat[data-k="aside"] b{color:var(--muted)}
-.procs .ivstat>span{font-size:13.5px;font-weight:600}
-.procs .ivstat small{flex-basis:100%;color:var(--muted);font-size:12px;line-height:1.45}
-.procs .ivstat small i{display:block;font-style:normal}
-.procs .ivgo,.procs .ivrun{margin:0 0 12px}
-.procs .ivgo h4,.procs .ivrun h4{margin:0 0 6px;font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.procs .ivgo{padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
-.procs .ivgorow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
-.procs .ivgorow label{display:inline-flex;align-items:center;gap:6px;font-size:13.5px}
-.procs .ivgorow select{font:inherit;font-size:13.5px;padding:4px 8px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink)}
-.procs .ivgob{min-width:64px}
-.procs .ivgocount{margin:10px 0 2px;font-size:14px}.procs .ivgocount b{font-size:18px;font-variant-numeric:tabular-nums}
-.procs .ivgocount.off b{color:var(--muted)}
-.procs .ivgod{margin:0;color:var(--muted);font-size:12.5px}.procs .ivgocost{color:var(--ink)}
-.procs .ivgowhy{margin:4px 0 0;color:var(--warn);font-size:13px}
-.procs .ivgoask{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-soft)}
-.procs .ivgoask p{flex:1 1 220px;margin:0;font-weight:600;font-size:13.5px}
-.procs .ivrcard{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin:0 0 8px;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:var(--panel)}
-.procs .ivrtop{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
-.procs .ivrcard p{margin:0;font-size:13px}.procs .ivrcard small{color:var(--muted);font-size:12px}
-.procs .ivnfrom,.procs .ivnmore{margin:6px 0 2px;color:var(--muted);font-size:12.5px}
-.procs .ivnb .ivdiv{display:flex;align-items:center;gap:8px;margin:4px 0 0;color:var(--muted);font:500 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase}
-.procs .ivnb .ivdiv::after{content:"";flex:1;border-top:1px dashed var(--line)}
-.procs .ivnb ol{margin:2px 0 4px;padding-left:22px;font-size:13px}.procs .ivnb li{padding:1px 0;overflow-wrap:anywhere}
-.procs .ivfold{margin:0 0 12px}
-.procs .ivfold>summary+*{margin-top:6px}
-.procs .ivhint{margin:6px 0 0;color:var(--muted);font-size:12.5px}
-.procs .ivlink{background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;cursor:pointer}
-@media (max-width:640px){.procs .ivstats{grid-template-columns:1fr 1fr}.procs .ivstat[data-k="aside"]{grid-column:1/-1}}
+/* the summary: four numbers that add up to the folder total (owner 14 Nov: "there seems to be some inconsistencies in paper numbers") */
+.procs .pr-sum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 16px}
+.procs .pr-tile{display:flex;flex-direction:column;gap:2px;min-width:0;padding:12px 16px;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+.procs .pr-tile b{font:600 24px var(--sans);font-variant-numeric:tabular-nums;color:var(--muted)}
+.procs .pr-tile[data-k="imported"] b{color:var(--ok)}.procs .pr-tile[data-k="ready"] b{color:var(--accent)}.procs .pr-tile[data-k="check"] b{color:var(--warn)}
+.procs .pr-tile span{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+/* two panels: the lanes (wide) and the queue; they stack when the window is narrow */
+.procs .pr-main{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.procs .pr-card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.procs .pr-lanes{flex:999 1 560px;display:flex;flex-direction:column}
+.procs .pr-queue{flex:1 1 360px;display:flex;flex-direction:column;gap:10px}
+.procs .pr-lhead,.procs .pr-qhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding-bottom:8px}
+.procs .pr-qhead{flex-direction:column;padding-bottom:0}
+.procs .pr-lhead h4,.procs .pr-qhead h4{margin:0;font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.procs .pr-lhead span,.procs .pr-qhead span{font-size:12.5px;color:var(--muted)}
+.procs .pr-lane{display:flex;flex-direction:column;gap:10px;padding:14px 0;border-top:1px solid var(--line)}
+.procs .pr-lrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.procs .pr-lname{display:flex;flex-direction:column;gap:2px;min-width:200px;flex:1 1 200px}
+.procs .pr-lname b{font-size:15px;font-weight:600}
+.procs .pr-lname small{font-size:12.5px;color:var(--muted)}
+.procs .pr-lacts{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
+.procs .pr-lacts .act:disabled{opacity:.45;cursor:default}
+.procs a.act.pr-link{font:600 13px var(--sans);border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:6px;padding:6px 12px;text-decoration:none}
+.procs a.act.pr-link:hover{border-color:var(--accent)}
+/* a square per batch of 9 (imported / in the queue / ready, current syllabus / ready, old syllabus) */
+.procs .pr-sq{display:flex;flex-wrap:wrap;gap:4px}
+.procs .pr-b{width:18px;height:18px;padding:0;border-radius:4px;box-sizing:border-box;border:1px solid var(--line2);background:var(--bg);cursor:pointer;flex:none}
+.procs .pr-b.done{background:var(--ok);border-color:var(--ok)}
+.procs .pr-b.queued{background:var(--accent);border-color:var(--accent)}
+.procs .pr-b.cur{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 35%,var(--line2))}
+.procs .pr-b.old{background:var(--bg);border-color:var(--line2)}
+.procs button.pr-b:hover{outline:1px solid var(--ink);outline-offset:1px}
+.procs button.pr-b:focus-visible,.procs .pr-b.on{outline:2px solid var(--ink);outline-offset:2px}
+/* the batch panel */
+.procs .pr-panel{margin-top:4px;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line2));background:color-mix(in srgb,var(--accent-soft) 30%,var(--panel));border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.procs .pr-phead{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px}
+.procs .pr-phead b{font-size:15px}.procs .pr-phead>span{font-size:12.5px;color:var(--muted);flex:1 1 200px;min-width:0}
+.procs .pr-x{width:32px;height:32px;border:0;background:transparent;color:var(--muted);border-radius:6px;font:500 16px var(--sans);cursor:pointer;flex:none}
+.procs .pr-x:hover{color:var(--ink);background:var(--line)}
+.procs .pr-plist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 16px}
+.procs .pr-plist li{display:flex;align-items:center;gap:8px;min-width:0;font-size:13px;padding:4px 0;border-bottom:1px solid var(--line)}
+.procs .pr-plist li>span:first-child{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.procs .pr-plist li.off>span:first-child{color:var(--muted);text-decoration:line-through}
+.procs .pr-swap{font-size:12px;padding:3px 8px;flex:none}
+.procs .pr-chip{font:500 11px var(--sans);padding:1px 7px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap;flex:none}
+.procs .pr-chip.ok{border-color:var(--ok);color:var(--ok)}
+.procs .pr-note{margin:0;font-size:12px;color:var(--muted)}
+/* locked courses, one folded row; the legend */
+.procs .pr-lock{border-top:1px solid var(--line);padding:12px 0 4px}
+.procs .pr-lock>summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--muted)}
+.procs .pr-lock ul{list-style:none;margin:0;padding:10px 0 0;display:flex;flex-direction:column;gap:8px}
+.procs .pr-lock li{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:13.5px}
+.procs .pr-lock li b{min-width:200px;color:var(--muted);font-weight:600}.procs .pr-lock li>span{color:var(--muted)}
+.procs .pr-why{margin-left:auto;font-size:12.5px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 12px}
+.procs .pr-legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;color:var(--muted);padding-top:10px;margin-top:6px;border-top:1px solid var(--line)}
+.procs .pr-legend span{display:inline-flex;align-items:center;gap:6px}.procs .pr-legend .pr-b{width:12px;height:12px;border-radius:3px;cursor:default}
+/* the queue */
+.procs .pr-qlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.procs .pr-qi{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:8px 6px 8px 10px;min-width:0}
+.procs .pr-qi.next{border-color:color-mix(in srgb,var(--accent) 35%,var(--line2));background:var(--accent-soft)}
+.procs .pr-qi.done{opacity:.6}
+.procs .pr-qn{flex:none;width:18px;font:600 13px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
+.procs .pr-qt{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+.procs .pr-qt b{font-size:13.5px;font-weight:600;overflow-wrap:anywhere}.procs .pr-qt small{font-size:12px;color:var(--muted)}
+.procs .pr-qs{flex:none;font:600 12px var(--sans);color:var(--muted)}.procs .pr-qi.next .pr-qs{color:var(--accent)}
+.procs .pr-qacts{flex:none;display:inline-flex}.procs .pr-qacts .nbtn{width:26px}
+.procs .pr-qfoot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+.procs .pr-start{padding:9px 14px;font-size:14px}
+.procs .pr-start:disabled{opacity:.45;cursor:default}
+.procs .pr-limit,.procs .pr-api{margin:0;font-size:12px;color:var(--muted)}
+.procs .pr-limit{color:var(--ink)}
+.procs .pr-run{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-soft)}
+.procs .pr-run b{font-size:13.5px}.procs .pr-run small{font-size:12px;color:var(--muted)}
+/* Needs a check (#processes/papers/check) */
+.procs .pr-check{display:flex;flex-direction:column;gap:16px}
+.procs .pr-check[hidden],.procs #prMainWrap[hidden]{display:none}
+.procs .pr-chead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px}
+.procs .pr-chead h3,.procs .pr-cc h3{margin:0;font:600 17px var(--sans);letter-spacing:0;text-transform:none;color:var(--ink)}
+.procs .pr-chead span{font-size:13.5px;color:var(--muted)}
+.procs .pr-back{font-size:13.5px;color:var(--accent);text-decoration:none}.procs .pr-back:hover{text-decoration:underline}
+.procs .pr-cc{display:flex;flex-direction:column;gap:12px}
+.procs .pr-cchead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+.procs .pr-cchead>div{display:flex;flex-direction:column;gap:4px;flex:1 1 260px;min-width:0}
+.procs .pr-cchead>div>span{font-size:13px;color:var(--muted)}
+.procs .pr-rules{border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.procs .pr-rule{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.2fr) 90px auto;gap:6px 12px;align-items:center;padding:10px 14px;border-top:1px solid var(--line);font-size:13px}
+.procs .pr-rule:first-child{border-top:0}
+.procs .pr-rt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.procs .pr-rt code,.procs .pr-see code,.procs .pr-path{font:12px var(--mono);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.procs .pr-rn{color:var(--muted)}
+.procs .pr-see{grid-column:1/-1;list-style:none;margin:4px 0 0;padding:0 0 0 12px;display:flex;flex-direction:column;gap:3px;max-height:280px;overflow:auto}
+.procs .pr-see li{display:flex;flex-direction:column;font-size:12.5px;min-width:0}
+.procs .pr-place{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.procs .pr-place.done{border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
+.procs .pr-cover{flex:none;width:72px;height:96px;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line2);border-radius:4px;font-size:11px;color:var(--muted)}
+.procs .pr-pbody{flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.procs .pr-path{color:var(--ink);font-size:12.5px;white-space:normal;overflow-wrap:anywhere}
+.procs .pr-guess{font-size:13px;color:var(--muted)}
+.procs .pr-picks{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.procs .pr-picks>span{width:48px;font-size:12px;color:var(--muted)}
+.procs .pr-pill{font:500 13px var(--sans);padding:5px 12px;border-radius:999px;cursor:pointer;border:1px solid var(--line2);background:var(--panel);color:var(--ink);min-height:32px}
+.procs .pr-pill[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+.procs .pr-pill.pr-out{margin-left:8px;border-style:dashed;color:var(--muted)}.procs .pr-pill.pr-out[aria-pressed="true"]{border-style:solid;color:var(--panel);background:var(--muted);border-color:var(--muted)}
+.procs .pr-pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.procs .pr-res{margin:0;font-size:12.5px;color:var(--ok)}
+/* phone: the summary in two columns, the lanes' buttons wrap, the panel and the rules stack */
+@media (max-width:640px){.procs .pr-sum{grid-template-columns:1fr 1fr;gap:8px}.procs .pr-tile{padding:10px 12px}.procs .pr-tile b{font-size:20px}
+  .procs .pr-card{padding:12px}.procs .pr-lacts{margin-left:0}.procs .pr-lname{min-width:0}
+  .procs .pr-plist{grid-template-columns:1fr}.procs .pr-phead>span{flex-basis:100%;order:3}.procs .pr-x{margin-left:auto}.procs .pr-b{width:22px;height:22px}
+  .procs .pr-rule{grid-template-columns:minmax(0,1fr) auto}.procs .pr-rt{grid-column:1/-1}
+  .procs .pr-lock li b{min-width:0}.procs .pr-why{margin-left:0}.procs .pr-pill.pr-out{margin-left:0}}

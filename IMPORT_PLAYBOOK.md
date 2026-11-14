@@ -172,9 +172,8 @@ These are the named checks; each passes or fails:
 | Availability table (14 Nov) | Exam setup at 1280, 1000 and 390 px, all topics chosen: the drawn text of each row label ends at least 4 px before the B2 cell, never overlaps it, and wraps onto at most 2 lines. |
 | Diagram resize (14 Nov) | on a generated paper: no − / + pill; hovering shows the handle on the diagram's corner; a mouse drag out changes `EX.figscale` and the image width in proportion, shows a live % only while dragging, and lays the paper out once, after the drag; a drag in shrinks it; far out / far in clamp to 200% / 30%; double-click resets to 100%; → → on the focused handle gives 110%; a 150% diagram keeps `--fs:1.5` in the HTML download. At 390 px on a touch phone, a finger drag resizes it. |
 | ⓘ card (14 Nov) | no dot-point line or Report link left in any question; every source line ends with an ⓘ (`.scr-only`); the ⓘ opens a card with a dot point, band, kind and Report, one row per part, inside the window, without selecting the question; outside click closes it; Enter opens, Tab reaches Report, Esc closes and refocuses the ⓘ with the preview still open; Report opens the form; the grading panel's question detail lists the dot points. At 390 px on a touch phone the tapped card fits the screen and the ⓘ stays 20 px. Download HTML has no handle, live % or ⓘ. |
-| Papers (13 Nov) | the fixture's small inventory (page_test_fixture.py `sample_papers`, served in place of `data/inventory.json`) and one seeded importq doc: Papers sits between the queue and Next up with the pause note; the grid counts (In folder / Imported / Waiting / New) match the fixture; Extension 1 / Standard rows say "needs course setup (topics, dot points, difficulty references)"; Standard / Extension / unknown / Year 11 groups have no checkboxes and `PQ.add` refuses their papers; a school tick + one paper tick + Add writes 3 importq docs `{doc_id, label, course, year_level, order, added_by, at}` in order; ↑ ↓, drag and × reach the db; 390 px touch phone fits and works by tap; a viewer gets no section, no inventory fetch and no write. |
+| Papers: lanes (14 Nov) | the fixture's small inventory (page_test_fixture.py `sample_papers`, served in place of `data/inventory.json`): the four summary numbers equal a recount of the statuses and add up to the folder total (and the live inventory's statuses add up); one lane "Year 12 Advanced" with its line, squares (done b5, batches 6-8) and buttons; Needs a check lane; "Locked · 3 courses, 8 papers"; the legend; a square opens Batch 6 with 9 papers, Swap writes `batches/advanced_12` and the page's batches equal tools/batches.py `apply_swaps` (fixture `swap_expect`); +1 / +2 batches write `queue/advanced_12_6..8` in order, ↓ and × reach the db, "Stops when 3 batches are waiting for review", the API line, the estimate; Start the queue writes one `runs` doc {kind:'queue', limit:3}, Cancel; Run the cover-page check writes {kind:'cover_check'}; #processes/papers/check: Accept writes `scans/rules`, Year 12 + Advanced and Not in scope write `paperfix`, the summary follows and still adds up; Import history collapsed; 390 px phone (fits, panel one column, queue under the lanes, +1 by tap); a viewer: nothing shown, fetched, subscribed or written. `node tools/page_test.js --only papersLanes` while you work (recorded as quick). |
 | Rescan drive (13 Nov) | a fake Google Drive connector (`use('mcp')`, a 6-folder tree from page_test_fixture.py `sample_drive`, 2 items a page): the button sits on the Papers first line; progress "N of M folders" and Cancel (nothing saved); a full scan finds the 5 new files and 1 same-size file, groups them by course x year as tools/classify_paths.py does, makes only read-only `search_files` parentId queries with pageToken, skips "Claude outputs", and writes one `scans/s<time>` doc with the right fields and counts; the page's classifier equals classify_path on every recorded path; a rate limit is retried once then stops; 7 error codes each give their own message; the last scan shows after a reload; no connector → "Ask Claude to rescan"; 390 px touch phone fits; a viewer gets no button, no `use('mcp')`, no write. |
-| Papers: Go (13 Nov) | the summary's three numbers equal a recount of the fixture inventory (and the live inventory's buckets add up to its totals); Year 12 / 11 and the inventory's courses in the selects; Year 11 "held until Year 12 is finished", Standard / Extension 1 / 2 "needs course setup"; the estimate text and a recorded cost; Go asks inline (no browser dialog), Cancel writes nothing, Confirm writes one `runs` doc with every field and the paper order; Running / next shows it and Batch N; a second request is refused; Cancel request sets cancelled; 390 px fits and works by tap; a viewer gets nothing (no runs subscription, no write). `node tools/page_test.js --only papersQueue,papersRun` runs just these while you work (recorded as quick, so batch_check refuses it). |
 | Offline | no request left localhost. |
 
 **Results:**
@@ -280,7 +279,8 @@ The PC route (when the Drive connector is not available):
    presses "Add to import queue"; he reorders or removes them there. The page stores the order in db collection `importq`
    (one doc per paper, `d<doc_id>`: `{doc_id, label, course, year_level, order, added_by, at}`). Standard, Extension 1 and
    Extension 2 are listed but cannot be queued until their course is set up (topics, dot points, difficulty references).
-6. **Import next** (only once import resumes). Export the queue with ArtifactData `list` on `importq` with `out_dir`, then
+6. **Import next** (only once import resumes). **Since 14 Nov: see "Queue" below** (fixed batches, one queue, the 3-batch
+   limit); the rest of this step describes the 13 Nov import order and is kept for history. Export the queue with ArtifactData `list` on `importq` with `out_dir`, then
    `python3 tools/import_next.py <export_dir>` (or run `tools/sync_pagedb.py <export_dir>`, which now mirrors `importq` into
    `page_importq`, and then `import_next.py` with no argument). It prints the next batch (default 9 papers) in the owner's
    order with every file and its Drive id, lists anything it skips (already imported, no longer importable) with the reason,
@@ -294,7 +294,7 @@ set `COST_PER_PAPER` in tools/inventory.py.
 
 - **Year 11 stays out of the import queue (owner 13 Nov).** Asked whether to let the 177 (now ~700 after the Drive rescan) Year 11 Advanced papers into the queue: "Year 11 papers leave alone for now, would like to finalise Y12 first." Keep inventory.py's queueable set to Year 12 Advanced until he says otherwise.
 
-## Go: import a whole year and course, with batch pauses (13 Nov)
+## Go: import a whole year and course, with batch pauses (13 Nov; SUPERSEDED 14 Nov by "Queue" below: no Go button, no per-batch pause)
 Owner, 13 Nov: "We need a general summary at the top of the Paper's tab of processes as well. How many papers found, how many imported, a brief breakdown and stuff. Set it up so that once the API is set up, we can choose a grade 11 or 12 and course Adv / std/ extension 1 and extesnion 2 and hit Go and the API would get called to import all papers which are on file but not imported from that level and grade. Is that the best way ? I'm getting CONFUSED with our current papers page". Chosen: "Yes, with batch pauses".
 - **On the page** (Processes › Papers › Import a course): the owner picks Year and Course and presses Go, then Confirm. That
   writes one **run request** to db collection `runs` (`r<ms>`: `{year, course, papers:[doc ids in order], batch_size:9,
@@ -338,3 +338,45 @@ disretard out of scope things", then "but we already have 15 waiting batches?"
   progress.json (and db progress/import) as done and remove its papers from `importq`.
 - **Words on the Papers grid** (one legend line): Imported: in the bank · Waiting: will be imported · Not in scope: set aside ·
   New: found by the latest scan (a "+N new" badge on the number, not a column).
+
+## Queue: fixed batches, one queue, 3 batches before the lock (14 Nov)
+Owner, 14 Nov: "I like A's design much more" (mockup A: course lanes, batch panel, queue, Needs a check), "there seems to be
+some inconsistencies in paper numbers", then "we might want to run multiple batches over the night" and **"Let's do 3 batches
+before the lock"**. This replaces the 13 Nov per-batch pause ("Yes, with batch pauses") and the Go button. Page: UI_SPEC
+"Papers: course lanes".
+- **One status per paper.** `tools/inventory.py` gives every paper exactly one of imported / ready_current / ready_old /
+  needs_check / held_y11 / held_course / not_in_scope / duplicate, with one reason; batch_check blocks when the statuses do not
+  add up to the folder total or the lanes' ready papers differ from the summary.
+- **Fixed batches.** `tools/batches.py` (called by inventory.py) puts each ready paper of a course + year lane in a numbered
+  batch of 9 ONCE (`work/batches.json`, and `lanes` in site/data/inventory.json, which restores the store in a new sandbox).
+  Year 12 Advanced: 1-5 = finished b1-b5; 6 on = the owner's import order (page_importq mirror if it has rows, else
+  work/importq_seed.json: 132 papers), then current syllabus newest first, then old syllabus. New papers start new batches at
+  the end; numbering never reshuffles. `--reset <lane>` only before any of its batches is queued, and tell the owner.
+- **Swap** (page, db `batches/<lane>`): the paper goes to the end of the lane and every later batch passes its first paper back
+  one; batches holding an imported paper are fixed. `batches.apply_swaps` = the page's `swapsApply` (page test).
+- **The queue** (db `queue/<lane>_<n>`, ordered) and **Start the queue** (db `runs` {kind:'queue', status:'requested', limit:3,
+  stop_early, ...}). Claude's loop, once import resumes:
+  1. Export `queue`, `runs`, `batches`, `reviews` (ArtifactData `list` with `out_dir`, one folder) and run
+     `python3 tools/import_next.py <folder>` (or `tools/sync_pagedb.py <folder>`, then import_next.py with no argument).
+  2. It prints how many imported batches wait for review and whether to STOP, and writes work/import/next.json with the next
+     batch (lane, number, papers with files and Drive ids). Set the run doc to `running` and run the pipeline on that batch.
+  3. When the batch is published: add it to progress.json as done with `ids` (every file's doc id) and `failed_papers`,
+     `failed_pages`, `your_calls`; delete its `queue` doc; run import_next.py again.
+  4. **Stop** when 3 imported batches are waiting for review (imported, not yet cleared in Review: every paper approved, or all
+     its questions), or early when the batch that just finished had unusual problems: **a paper that loaded no questions, 3 or
+     more pages the parser could not read, or more than 12 Your calls** (chosen 14 Nov while the owner was away; b1, the first
+     batch, had 11 Your calls for 8 papers, later batches far fewer). Set the run doc to `paused` and tell the owner; after an
+     early stop he has seen, set `stop_ack: true` on that progress.json batch. When he clears a batch in Review, carry on.
+  5. When the queue is empty set the run doc `done`.
+- **Cost.** US$12–17 a paper until a real figure is recorded (`COST_PER_PAPER` in tools/inventory.py).
+- **Needs a check.** Run the cover-page check writes `runs` {kind:'cover_check', papers}: Claude reads each front page (Drive
+  connector) and records course / year level; what it can't settle stays for the owner. His answers are db `paperfix/p<id>`
+  {id, files, yl, course, out}; `tools/sync_pagedb.py` mirrors them (page_paperfix) and inventory.py applies them.
+- **Proposed rule fixes** (`RULES_PROPOSED` in tools/classify_paths.py: "EXT1" without a space / "Y12 Ext1" → Extension 1; a
+  folder named "11" → Year 11; "Std"/"Standard" folder → Standard; "Ext 2"/"Ext2" folder → Extension 2) apply only after the
+  owner presses Accept (db `scans/rules`); `tools/sync_pagedb.py` writes it to `work/rules_accepted.json`, then run
+  `tools/inventory.py`. `python3 tools/classify_paths.py --selftest` checks the fixes only fill what the stage-0 rules left
+  empty (one known exception: "Baulkham Hills/11/Ext1/P1 Adv 2020 Yearly Exams solutions.pdf", Advanced → Extension 1, held
+  either way).
+- **db rules at publish:** `queue`, `batches`, `paperfix`: read admin, write admin. (`runs`, `scans`, `importq` already are.)
+

@@ -581,7 +581,7 @@ These answers supersede, as to order, names and where things sit: "Four steps, i
 - **Test data.** Every live paper is approved, so `tools/page_test_fixture.py` lists a workload (`WORKLOAD`): the page test leaves those review docs out on its Review pages only, giving 1346 (+510) Your calls / Topics / Diagrams, 323 Flagged / Topics / Diagrams / Spot-check, and 1601 Spot-check only. Bank and Exams checks keep the live approved set.
 - Code: `STEPS`, `SLUG`, `paperWork`, `allWork`, `trackHTML`, `miniTrack`, `renderInbox`, `renderSteps`, `openReview`, `refreshReview` (auto-advance), `paperNextHTML` in `08_review.js`; `parseHash`, `HASH_ALIAS`, `todoCount` in `09_router.js`; the papers list in `11_papers.js`; markup in `page.html`; styles in `css/21_review_flow.css`. Tests: `review: …` checks in `tools/page_test.js` (Inbox summary; papers list; the track; auto-advance with keys; spot-check approve and paper done; 390 px light and dark), plus the updated `areas (editor): …` and phone menu checks.
 
-## Papers and the import order on Processes (13 Nov)
+## Papers and the import order on Processes (13 Nov; superseded 14 Nov by "Papers: course lanes")
 Owner, 13 Nov (dictated): "New exams are gonna be added to this folder periodically we need a way to ... see what we actually
 haven't ingested yet", "Should we also order what's in standard and also extension one and extension two while we're scanning
 anyways?" and "Can the import queue be dynamic, me choosing which set of papers to import next? We can always [build the]
@@ -693,7 +693,7 @@ Owner, 13 Nov: "The process page feels a bit bloated now". Chosen: "Two tabs: Wo
   quiet pause note`, `papers: compact grid counts equal the inventory`, `papers: … one group open at a time`, `papers: Import
   history collapsed; …`, `papers: phone 390px` (stacked grid), `papers (viewer): …` (no Curate on any Processes hash).
 
-## Papers: one import list, old syllabus, New badge (13 Nov)
+## Papers: one import list, old syllabus, New badge (13 Nov; list and grid superseded 14 Nov by "Papers: course lanes")
 Owner, 13 Nov: "I can't tell. So does not imported and new mean not in scope? We should take questions too, we'll just have to
 disretard out of scope things" and "but we already have 15 waiting batches?"
 - **Old syllabus.** Pre-2019 (old 2 Unit) Year 12 Advanced papers are Waiting and tickable, with an "old syllabus" chip in their
@@ -713,7 +713,7 @@ disretard out of scope things" and "but we already have 15 waiting batches?"
   9 rows; history shows finished batches only`, the legend / badge asserts in `papers: compact grid counts equal the inventory`,
   the old-syllabus paper 9105 (tickable) and Year 11 9303 (waiting, not tickable) in page_test_fixture.py.
 
-## Papers: summary, Import a course (Go), Running / next (13 Nov)
+## Papers: summary, Import a course (Go), Running / next (13 Nov; superseded 14 Nov by "Papers: course lanes")
 Owner, 13 Nov: "We need a general summary at the top of the Paper's tab of processes as well. How many papers found, how many imported, a brief breakdown and stuff. Set it up so that once the API is set up, we can choose a grade 11 or 12 and course Adv / std/ extension 1 and extesnion 2 and hit Go and the API would get called to import all papers which are on file but not imported from that level and grade. Is that the best way ? I'm getting CONFUSED with our current papers page". Chosen: "Yes, with batch pauses".
 - **Top to bottom** (Processes › Papers, editors only): **summary card** · **Import a course** · **Running / next** · **Choose
   papers ▸** (the import order, collapsed) · **By course ▸** (the course grid with its ticks, collapsed) · **Import history ▸**
@@ -753,6 +753,49 @@ Owner, 13 Nov: "We need a general summary at the top of the Paper's tab of proce
   `.procs`; the folds reuse the `.phist` summary style in 06_import_jobs_tags.css; Go and Confirm use `button.act.primary`).
   Claude's side: tools/import_next.py (a run beats the import order), tools/sync_pagedb.py (`page_runs`), IMPORT_PLAYBOOK "Go".
   Tests: `run: …` checks (papersRun in tools/page_test.js) and the updated `papers: top line …` order check.
+
+## Papers: course lanes, batches, one queue, Needs a check (14 Nov)
+Owner, 14 Nov, choosing between three mockups: "I like A's design much more" (mockup A: Main + NeedsCheck), after "there seems
+to be some inconsistencies in paper numbers". Then, about running the queue: "we might want to run multiple batches over the
+night" and "Let's do 3 batches before the lock". **Supersedes** "Papers: summary, Import a course (Go), Running / next", the
+import order and course grid of "Papers and the import order on Processes" / "Processes in two tabs" / "Papers: one import
+list", and the 13 Nov per-batch pause. Import history (collapsed, at the bottom) and Rescan drive stand.
+- **One status per paper** (tools/inventory.py `STATUSES`): imported · ready_current · ready_old · needs_check · held_y11 ·
+  held_course · not_in_scope · duplicate, each with one reason (`statuses` text, or the paper's own `why`). Every number on the
+  tab is a count of that one list, in papers; files appear only in the top line.
+- **Top line:** "N papers in the shared folder (M files) · last scan <time> · K new since" + Rescan drive. New = first seen after
+  the baseline scan (13 Nov, 8:42 pm; inventory `baseline_scan`), so 0 on 14 Nov.
+- **Summary, four numbers that add up to the folder total:** imported · ready to import · <ready lanes> · need a check (year or
+  course unknown) · held or not in scope (held_y11 + held_course + not_in_scope + duplicate).
+- **Courses panel.** One lane per course + year level with ready papers (today: Year 12 Advanced). "52 imported · 485 to go ·
+  54 batches"; +1 batch, +2 batches, Queue all N (the lane's next batches not queued yet). A square per batch: imported (ok
+  green), in the queue (accent), ready current syllabus (accent soft), ready old syllabus (page background). Batches are fixed
+  (tools/batches.py, inventory `lanes`): batch 1-5 = the finished b1-b5; batch 6 on = the owner's import order (132 papers, the
+  planned b6-b20), then current syllabus newest year first, then old syllabus; papers found later start new batches at the end;
+  numbering never reshuffles. A click opens the **batch panel**: "Batch 10 · 9 papers · current syllabus · 2022 · in the queue,
+  5th", Add to the queue, ×, its papers (3 columns, 1 on a phone) each with **Swap** ("Swap moves the paper to the end of the
+  course and pulls the next one in": every later batch passes its first paper back one, sizes and numbers stay; a batch with an
+  imported paper is fixed). Swap is db `batches/<lane>` {course, yl, swaps:[{id, by, at}]}.
+- **Needs a check lane:** "N papers: year or course not read yet. Sorted into lanes once checked." **Run the cover-page check**
+  (writes a `runs` request {kind:'cover_check', papers}; Claude does the check later) and **Resolve** (#processes/papers/check).
+- **Locked · N courses, M papers** (one folded row): one line per course + year of held papers with its reason (Year 11:
+  "Held until Year 12 is finished (your 13 Nov ruling)"; other courses: "Needs course setup"). Then the legend.
+- **Queue panel** (right; under the lanes when narrow): one ordered list across courses, db `queue/<lane>_<n>` {course, yl,
+  batch, order, by, at}; ↑ ↓ and ×; "N batches · M papers", "Est. US$lo–hi" (US$12–17 a paper, or the recorded
+  `cost_per_paper`); **Start the queue** writes `runs` {kind:'queue', status:'requested', limit:3, stop_early, queue, papers,
+  est, by, at} (Cancel sets cancelled); "Stops when 3 batches are waiting for review"; "Until the import API is connected, this
+  sends the queue to Claude." Owner 14 Nov: "Let's do 3 batches before the lock": the queue runs batch after batch and stops
+  when 3 imported batches wait for review, or early on unusual problems (IMPORT_PLAYBOOK "Queue").
+- **Needs a check view** (#processes/papers/check, "← Import papers"): "N placed by better rules" (tools/classify_paths.py
+  RULES_PROPOSED: rule, example path, result, papers, See all; **Accept all** writes db `scans/rules` {version, accepted, by,
+  at} and the page applies the fixes at once from inventory `proposed`), then "N for you to place": paths, the rules' guess, a
+  cover placeholder (page images exist only for imported papers), Year 11 / 12 and course pills, Not in scope. Answers: db
+  `paperfix/p<id>` {id, files, yl, course, out, by, at}; tools/inventory.py applies them (a rescan never asks again).
+- **db rules at publish:** `queue`, `batches`, `paperfix`: read admin, write admin (like `importq`, `scans`, `runs`).
+- Code: `page_src/js/32_papers_q.js` (PQ: model, summary, lanes, batch panel, Swap), `34_papers_run.js` (PQ.run: queue, Start,
+  cover-page check), `35_papers_check.js` (PQ.check), `33_drive_scan.js` (PQ.scan, classifies with `PQ.rules()`), router
+  `psub` in 09_router.js, styles `css/22_papers_q.css` (pr- prefix, under .procs). Tests: the papersLanes block in
+  tools/page_test.js.
 
 ## Where else things are recorded
 
