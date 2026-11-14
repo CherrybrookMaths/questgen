@@ -123,6 +123,14 @@ try:
         elif (_dt.datetime.now() - _dt.datetime.fromisoformat(t)).total_seconds() > 86400: W(f'page database: {c} last mirrored {t}: export and run tools/sync_pagedb.py')
 except Exception as e:
     W(f'integrity check could not run: {e}')
+# --- question keys (Fix 2; owner 14 Nov: "Ok we should run Fix 1 and 2"): every review / difficulty / exam / report key in the
+# page mirror (page_* tables, tools/sync_pagedb.py) must name a live question; bank.json keys must equal question_keys ---
+try:
+    sys.path.insert(0, P + "tools"); import qkeys as _qk
+    _kdb = sqlite3.connect('file:%s?mode=ro' % os.environ.get('QG_DB', DB), uri=True)
+    for lv, m in _qk.check(_kdb, json.load(open(P + 'site/data/bank.json'))): {'blocker': B, 'warn': W}.get(lv, I)('keys: ' + m)
+except Exception as e:
+    B(f'question key check could not run: {e}')
 # --- self-hosted libraries and fonts (hardening action 3, 14 Nov): site/vendor/ must match tools/vendor_manifest.json ---
 try:
     sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__))))

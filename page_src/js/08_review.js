@@ -19,6 +19,37 @@ const UNSLUG=Object.fromEntries(Object.entries(SLUG).map(([k,v])=>[v,k]));
 const stepLabel=k=>(STEPS.find(x=>x[0]===k)||FILTERS.find(x=>x[0]===k)||[,k])[1];
 // Review mode: 'paper' (one paper, walked top to bottom: #review/paper/<doc>/<step>) or 'list' (Recently approved, Other lists: #review/list/<filter>)
 let RMODE='paper';
+/* Question keys (Fix 2 of the plan "Questgen architecture plan: before imports resume"; owner 14 Nov: "Ok we should run Fix 1
+   and 2"). Decisions are stored by permanent key, not by question id: reviews/k_<key> ('2022-CSSA-AT4-Q10', bank q.key from
+   tools/qkeys.py) and reviews/p_<paper key> ('2022-CSSA-AT4', bank docs[d].key). Every copy of a question shares its key, so
+   an approval on any copy counts for all of them (14 Nov: the CSSA paper filed twice hid the approved 274/275 behind
+   unapproved copies 44/45). index() turns the raw collection into the in-page map the rest of the page reads, still by
+   'q<id>' / 'paper_<doc>', one shared record per key. Old 'q<id>' / 'paper_<doc>' docs are read as a fallback while the
+   migration (tools/migrate_reviews_to_keys.py) has not reached them; a k_/p_ doc, once it exists, is the decision.
+   Saved exams (keys), difficulty checks (key) and reports (key) also carry the key, so tools can re-attach them. */
+const RKEY={_g:null,
+  groups(){if(this._g)return this._g;const q={},p={};
+    B.questions.forEach(x=>{if(x.key)(q[x.key]=q[x.key]||[]).push(x.id)});
+    Object.values(B.docs).forEach(d=>{if(d.key)(p[d.key]=p[d.key]||[]).push(d.id)});return this._g={q,p}},
+  qdoc:q=>q.key?'k_'+q.key:'q'+q.id,                                      // where a question's decision is written
+  pdoc:d=>B.docs[d]?.key?'p_'+B.docs[d].key:'paper_'+d,                    // where a paper's decision is written
+  copies(q){return q.key?this.groups().q[q.key]||[q.id]:[q.id]},
+  docsOf(d){const k=B.docs[d]?.key;return k?this.groups().p[k]||[+d]:[+d]},
+  // old docs of several copies: an approval wins, then the newest; the newest note is kept; maps (fig, sol ...) merge, newest wins
+  rank:r=>[r?.status==='approved'?3:r?.status==='flagged'?2:r?.status?1:0,String(r?.at||'')],
+  merge(list){if(list.length<2)return list[0];const obj=(k,v)=>v&&typeof v==='object'&&!Array.isArray(v)&&k!=='call',out={};
+    const asc=[...list].sort((a,b)=>String(a.at||'').localeCompare(String(b.at||'')));
+    const top=[...asc].sort((a,b)=>{const x=this.rank(a),y=this.rank(b);return x[0]-y[0]||x[1].localeCompare(y[1])}).pop();
+    asc.forEach(r=>Object.entries(r).forEach(([k,v])=>{if(obj(k,v))out[k]={...(out[k]||{}),...v}}));
+    Object.entries(top).forEach(([k,v])=>{if(!obj(k,v))out[k]=v});
+    const n=asc.filter(r=>r.note).pop(),c=asc.filter(r=>r.call).pop();if(n)out.note=n.note;if(c)out.call=c.call;return out},
+  index(raw){const nx={...raw},{q,p}=this.groups();
+    Object.entries(q).forEach(([k,ids])=>{const r=raw['k_'+k]||this.merge(ids.map(i=>raw['q'+i]).filter(Boolean));if(r)ids.forEach(i=>nx['q'+i]=r)});
+    Object.entries(p).forEach(([k,ds])=>{const r=raw['p_'+k]||this.merge(ds.map(d=>raw['paper_'+d]).filter(Boolean));if(r)ds.forEach(d=>nx['paper_'+d]=r)});
+    return nx},
+  // a saved exam's questions: by key when it has keys (the copy the Bank shows), else by id
+  items(x){const ks=x.keys||[];return (x.items||[]).map((id,i)=>{const k=ks[i];if(!k)return id;const g=this.groups().q[k]||[];
+    if(g.includes(id)&&!xq(id)?.dup_of)return id;return g.find(j=>!xq(j)?.dup_of)??g[0]??id})}};
 const paperOK=doc=>reviews['paper_'+doc]?.status==='approved';
 const chkFigsAll=q=>q.tri?q.tri.chk_figs.filter(redrawable):qFigs(q);
 // owner 12 Nov ("yeah do that"): High-confidence diagrams (question graphs, blank axes: 48 of 50 approved) are spot-checked,
@@ -203,7 +234,8 @@ function sampleBanner(doc){doc=+doc;
   if(bad) return `<div class="why"><b>Spot-check</b>${bad} of ${smp.length} sampled questions in ${esc(docLabel(B.docs[doc]))} were flagged, so the rest of this paper stays unapproved. Claude will re-check the paper.</div>`;
   if(ok<smp.length) return `<div class="help">Spot-check for ${esc(docLabel(B.docs[doc]))}: ${ok} of ${smp.length} done. When all are fine you can approve the other ${rest.length} questions in one click.</div>`;
   return `<div class="banner"><span>All ${smp.length} spot-checked questions in <b>${esc(docLabel(B.docs[doc]))}</b> are fine.</span><button class="act ok" data-paperok="${doc}">Approve the other ${rest.length} questions in this paper</button></div>`}
-async function approvePaper(doc){doc=String(doc);const key='paper_'+doc;const next={...(reviews[key]||{}),status:'approved',doc:+doc,by:me||null,at:new Date().toISOString()};reviews[key]=next;TOPICS=null;
+async function approvePaper(doc){doc=String(doc);const key=RKEY.pdoc(doc);const next={...(reviews['paper_'+doc]||{}),status:'approved',doc:+doc,by:me||null,at:new Date().toISOString()};if(B.docs[doc]?.key)next.key=B.docs[doc].key;
+  RKEY.docsOf(doc).forEach(d=>reviews['paper_'+d]=next);TOPICS=null;   // owner 14 Nov (Fix 2): one decision for every file of the paper
   if(!db){toast('Not saved: this view has no shared storage');return}
   if(view==='review')refreshReview();else renderSteps();   // move on at once (owner 12 Nov: "why doesn't approving auto next"); the save finishes in the background
   try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Paper approved')}catch(e){toast('Could not save. Try again in a moment.')}}
@@ -221,8 +253,8 @@ const PCALL={
       <div class="flagbox" data-pcbox="${c.doc}" hidden><label class="help" for="pcn-${c.doc}">What should it be? <kbd>Enter</kbd> sends, <kbd>Esc</kbd> cancels.</label><input id="pcn-${c.doc}" type="text" placeholder="e.g. Label it AT4"></div>`
     :`<div class="help">✓ Your answer: ${c.a.status==='approved'?'keep as is':esc(c.a.note||'')} <span class="muted">· ${esc(ago(c.a.at))}</span> <button class="lk" data-pcopen="${c.doc}">change</button></div>
       <div class="flagbox" data-pcbox="${c.doc}" hidden><input id="pcn-${c.doc}" type="text" aria-label="Your answer" value="${esc(c.a.note||'')}"></div>`}</div>`).join('')},
-  async answer(doc,status,note){const key='paper_'+doc;const next={...(reviews[key]||{}),doc:+doc,call:{status,note:note||null,by:me||null,at:new Date().toISOString()}};
-    reviews[key]=next;if(view==='review')refreshReview();else renderSteps();
+  async answer(doc,status,note){const key=RKEY.pdoc(doc);const next={...(reviews['paper_'+doc]||{}),doc:+doc,call:{status,note:note||null,by:me||null,at:new Date().toISOString()}};
+    if(B.docs[doc]?.key)next.key=B.docs[doc].key;RKEY.docsOf(doc).forEach(d=>reviews['paper_'+d]=next);if(view==='review')refreshReview();else renderSteps();
     if(!db){toast('Not saved: this view has no shared storage');return}
     try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved')}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.')}}};
 document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-pcok],[data-pcopen]');if(!t)return;e.preventDefault();
@@ -400,9 +432,9 @@ function renderReview(){
   if(editing) setupPicker();
 }
 async function write(q,patch){
-  const key='q'+q.id; const cur=reviews[key]||{};
-  const next={...cur,...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};
-  reviews[key]=next; TOPICS=null; _clean=null;
+  const key=RKEY.qdoc(q); const cur=reviews['q'+q.id]||{};   // owner 14 Nov (Fix 2): stored by key, shared by every copy
+  const next={...cur,...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};if(q.key)next.key=q.key;
+  RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;
   if(!db){toast('Not saved: this view has no shared storage');return}
   try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved')}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.')}
 }

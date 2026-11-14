@@ -71,8 +71,9 @@ function renderLevels(keep){
 function lvSet(k,v){const box=$('#levelsBox');if(!box._pick)return;box._pick[k]=v;
   $$(k==='band'?'[data-lvb]':'[data-lvw]',box).forEach(b=>b.setAttribute('aria-pressed',String((k==='band'?+b.dataset.lvb:b.dataset.lvw)===v)));
   const x=lvList()[LVI],ok=$('#lvOk');if(x&&ok){const ch=box._pick.band!==x.d.b||box._pick.wm!==x.d.wm;ok.firstChild.textContent=ch?'Save change':'Agree';ok.classList.toggle('chg',ch)}}
+// owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": a check carries its question's key and part label so it can be re-attached
 async function lvSave(){const box=$('#levelsBox'),list=lvList(),x=list[LVI];if(!x)return;const {band,wm}=box._pick;
-  const v={band,wm,orig_band:x.d.b,orig_wm:x.d.wm,status:band===x.d.b&&wm===x.d.wm?'agreed':'changed',part_id:x.p.id,question_id:x.q.id,area:x.d.ar,anchor:!x.flag,by:me||null,at:new Date().toISOString()};
+  const v={band,wm,orig_band:x.d.b,orig_wm:x.d.wm,status:band===x.d.b&&wm===x.d.wm?'agreed':'changed',part_id:x.p.id,question_id:x.q.id,key:x.q.key||null,part:x.p.label||null,area:x.d.ar,anchor:!x.flag,by:me||null,at:new Date().toISOString()};
   DIFD[x.p.id]=v;   // optimistic; move on at once (owner: "why doesn't approving auto next")
   if(LVSHOW==='todo'){renderLevels(true)}else{LVI=Math.min(LVI+1,list.length-1);renderLevels(true)}
   window.scrollTo({top:0,behavior:RM.matches?'auto':'smooth'});

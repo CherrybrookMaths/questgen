@@ -64,6 +64,7 @@ def publish():
         tag = f'publish-v{v:03d}'
         if tag in git('tag', '--list').split():
             print(f'  WARN    snapshot: tag {tag} already exists; not re-tagging (pass --version N)'); return
+        subprocess.run([sys.executable, os.path.join(REPO, 'tools', 'export_db_text.py'), '--out', os.path.join(REPO, 'dbtext')], timeout=600)   # owner 14 Nov (Fix 2): questions.db as text, so git keeps its history
         sha, made = commit_all(f'publish v{v:03d} {time.strftime("%Y-%m-%d %H:%M")}')
         git('tag', '-a', tag, '-m', f'published {time.strftime("%Y-%m-%d %H:%M")}')
         print(f'snapshot: {"committed" if made else "no file changes;"} {sha}, tagged {tag}')

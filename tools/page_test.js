@@ -525,9 +525,11 @@ async function flows(browser, base, seed, seedR) {
     assert(has, 'no Approve button in the paper flow');
     const was = await page.evaluate(() => rlist[ridx].id), n0 = (await db()).log.length;
     await page.click('#approve'); await settle(page, 3000, 2);
-    const w = (await db()).log.slice(n0).filter(x => x.k === 'reviews/q' + was);
+    // owner 14 Nov (Fix 2, "Ok we should run Fix 1 and 2"): decisions are written by question key, reviews/k_<key> (RKEY.qdoc)
+    const dk = await page.evaluate(id => 'reviews/' + RKEY.qdoc(B.questions.find(q => q.id === id)), was);
+    const w = (await db()).log.slice(n0).filter(x => x.k === dk);
     const now = await page.evaluate(() => rlist[ridx] && rlist[ridx].id);
-    errs(); assert(w.length && w[0].v.status === 'approved', `no approved write for reviews/q${was}`);
+    errs(); assert(w.length && w[0].v.status === 'approved', `no approved write for ${dk}`);
     assert(now !== was, `still on QID ${was}`);
     return `QID ${was} approved, now on QID ${now}`;
   });
@@ -769,7 +771,7 @@ async function reviewFlow(browser, base, seed) {
     for (let i = 0; i < n; i++) { await page.keyboard.press('a'); await sleep(150); t = await page.evaluate(() => document.querySelector('#toast').textContent); }
     await settle(page, 3000, 2);
     const r = await track(); errs();
-    const w = await writes(n0, 'reviews/q');
+    const w = await writes(n0, 'reviews/k_');   // Fix 2: by key
     assert(w.length === n && w.every(x => x.v.status === 'approved'), `${w.length} approvals written for ${n} Flagged questions`);
     assert(r.hash === '#review/paper/323/topics' && r.rfilter === 'tags' && /\bcur\b/.test(r.steps[2].cls) && /done/.test(r.steps[1].cls), `after the last Flagged: ${r.hash} (${r.rfilter}), states ${r.steps.map(x => x.cls).join('|')}`);
     assert(t === 'Flagged done → Topics', `toast “${t}”`);
@@ -794,9 +796,9 @@ async function reviewFlow(browser, base, seed) {
     assert(/Approve the other 8 questions in this paper/.test(btn), `button “${btn}”`);
     await page.click('#rout [data-paperok]'); await settle(page, 3000, 2);
     r = await track();
-    const w = await writes(n0, 'reviews/');
+    const w = await writes(n0, 'reviews/'), pk1601 = await page.evaluate(() => RKEY.pdoc(1601));   // Fix 2: p_<paper key>
     const done = await page.evaluate(() => ({before: window.__inbox0, pdone: document.querySelector('#rout .ppdone')?.innerText || '', next: document.querySelector('#rout .ppdone a.primary')?.getAttribute('href'), ok: paperOK('1601'), inbox: [...allWork().values()].filter(w => w.n).length}));
-    errs(); assert(w.filter(x => x.k.startsWith('reviews/q')).length === 3 && w.some(x => x.k === 'reviews/paper_1601' && x.v.status === 'approved'), `writes: ${w.map(x => x.k).join(' ')}`);
+    errs(); assert(w.filter(x => x.k.startsWith('reviews/k_')).length === 3 && w.some(x => x.k === 'reviews/' + pk1601 && x.v.status === 'approved'), `writes: ${w.map(x => x.k).join(' ')}`);
     assert(done.ok && /is done/.test(done.pdone) && /^#review\/paper\/\d+$/.test(done.next || ''), `paper done panel “${done.pdone.slice(0, 80)}”, next ${done.next}`);
     assert(/done$/.test(r.toast) || /approved/.test(r.toast), `toast “${r.toast}”`);
     assert(r.steps.every(x => /done|none/.test(x.cls)) && done.inbox === done.before - 1, `track ${r.steps.map(x => x.cls).join('|')}; Inbox papers ${done.inbox}`);
@@ -853,7 +855,7 @@ async function reviewFlow(browser, base, seed) {
       if (i % 2 === 0) await page.click(`#rout [data-pcok="${d}"]`);
       else { await page.click(`#rout [data-pcopen="${d}"]`); await page.fill(`#pcn-${d}`, 'Label it AT4'); await page.press(`#pcn-${d}`, 'Enter') }
       await settle(page, 3000, 2);
-      const w = (await writes(n0, 'reviews/paper_' + d)).pop(), left = await page.evaluate(d => paperWork(d).left.decide, d);
+      const w = (await writes(n0, 'reviews/' + await page.evaluate(d => RKEY.pdoc(d), d))).pop(), left = await page.evaluate(d => paperWork(d).left.decide, d);
       errs(); assert(w && w.v.call && w.v.call.status === (i % 2 ? 'flagged' : 'approved') && (i % 2 ? w.v.call.note === 'Label it AT4' : true) && w.v.status === card.approved && left === r.left.decide - 1, `answer on ${d}: ${JSON.stringify(w && w.v)}, Your calls left ${left}`);
       shown.push(`${d} ${i % 2 ? 'typed answer' : 'kept'}`);
     }
@@ -861,7 +863,7 @@ async function reviewFlow(browser, base, seed) {
     const q = await page.evaluate(() => ({hash: location.hash, rfilter, id: rlist[ridx]?.id, call: [...document.querySelectorAll('#rout .callout')].map(c => c.textContent).join(' '), left: paperWork(rdoc).left.decide}));
     errs(); assert(q.hash === `#review/paper/${qc.doc}/calls` && q.rfilter === 'decide' && q.id === qc.id && /Needs your decision: Test call raised after approval/.test(q.call) && q.left === 1, `question call: ${JSON.stringify(q)}`);
     const n0 = await logN(); await page.keyboard.press('a'); await settle(page, 3000, 2);
-    const w = (await writes(n0, 'reviews/q' + qc.id)).pop(), after = await page.evaluate(d => ({left: paperWork(d).left.decide, inbox: [...allWork().values()].filter(w => w.n).length}), qc.doc);
+    const w = (await writes(n0, 'reviews/' + await page.evaluate(id => RKEY.qdoc(B.questions.find(q => q.id === id)), qc.id))).pop(), after = await page.evaluate(d => ({left: paperWork(d).left.decide, inbox: [...allWork().values()].filter(w => w.n).length}), qc.doc);
     errs(); assert(w && w.v.status === 'approved' && w.v.call_at >= (await page.evaluate(id => B.questions.find(q => q.id === id).decide_at, qc.id)) && after.left === 0, `answering the question call: ${JSON.stringify(w && w.v)}, left ${after.left}`);
     assert(after.inbox === Object.keys(ib.W).length - live.length - 1, `Inbox papers after answering: ${after.inbox}, before ${Object.keys(ib.W).length}`);
     return `paper calls ${shown.join(', ') || 'none open'}; question call on ${qc.doc} Q${qc.id}; Inbox ${Object.keys(ib.W).length} → ${after.inbox}`;
@@ -1950,6 +1952,69 @@ async function queueChecks(browser, base, seed) {
   await tp.context().close();
 }
 
+/* ---------------- question keys (Fix 2) ----------------
+   owner 14 Nov: "Ok we should run Fix 1 and 2" (plan "Questgen architecture plan: before imports resume", Fix 2: stable
+   question keys; approvals follow the question). Decisions are stored as reviews/k_<key> and reviews/p_<paper key>; old
+   reviews/q<id> and reviews/paper_<doc> docs are still read until a key doc exists. The fixture is the live mirror, which
+   holds only old docs, so these checks run the fallback against real data. */
+async function questionKeys(browser, base, seed) {
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await boot(page, base, '#bank'); await settle(page, 5000, 2);
+  const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  await check('keys: the CSSA 2022 copies share keys and the approvals on 274/275 count for 44/45', page, async () => {
+    const r = await page.evaluate(() => ['2022-CSSA-AT4-Q10', '2022-CSSA-AT4-Q11'].map(k => {
+      const qs = B.questions.filter(q => q.key === k);
+      return {k, ids: qs.map(q => q.id).sort((a, b) => a - b), state: qs.map(q => [q.id, qState(q), !!q.dup_of]), raw: !!reviews['k_' + k]} }));
+    errs();
+    for (const x of r) {
+      assert(x.ids.length === 2, `${x.k}: ${JSON.stringify(x.ids)}`);
+      assert(x.state.every(([, st]) => st === 'approved'), `${x.k}: ${JSON.stringify(x.state)}`);
+    }
+    assert(JSON.stringify(r.map(x => x.ids)) === '[[44,274],[45,275]]', `copies ${JSON.stringify(r.map(x => x.ids))}`);
+    return r.map(x => `${x.k}: ${x.state.map(([i, st, d]) => `${i}${d ? ' (hidden)' : ''} ${st}`).join(', ')}${x.raw ? '' : ' (from old q<id> docs)'}`).join('; ');
+  });
+  await check('keys: old q<id> and paper_<doc> docs are read until a key doc exists; writes go to the key', page, async () => {
+    const r = await page.evaluate(async () => {
+      const a = RKEY.index({q274: {status: 'approved', at: '2026-11-10T00:00:00Z', fig: {f1: 'approved'}}, q44: {fig: {f2: 'changes'}, note: 'newer', at: '2026-11-11T00:00:00Z'}});
+      const b = RKEY.index({q274: {status: 'approved'}, 'k_2022-CSSA-AT4-Q10': {status: 'flagged', note: 'key doc'}});
+      const c = RKEY.index({paper_510: {status: 'approved', doc: 510}});
+      const n0 = window.__pt.log.length, q = B.questions.find(x => x.id === 45);
+      await write(q, {status: 'flagged', note: 'page test'});
+      const w = window.__pt.log.slice(n0).map(x => x.k);
+      return {a44: a.q44, b44: b.q44.status, b274: b.q274.status, c1346: c.paper_1346?.status, pdoc: RKEY.pdoc(1346), w, s275: reviews.q275.status, k: reviews.q275.key};
+    });
+    errs();
+    assert(r.a44.status === 'approved' && r.a44.fig.f1 === 'approved' && r.a44.fig.f2 === 'changes' && r.a44.note === 'newer', `merged old docs: ${JSON.stringify(r.a44)}`);
+    assert(r.b44 === 'flagged' && r.b274 === 'flagged', `a key doc decides: ${r.b44}/${r.b274}`);
+    assert(r.c1346 === 'approved' && r.pdoc === 'p_2022-CSSA-AT4', `paper: ${r.c1346}, ${r.pdoc}`);
+    assert(r.w.length === 1 && r.w[0] === 'reviews/k_2022-CSSA-AT4-Q11' && r.s275 === 'flagged' && r.k === '2022-CSSA-AT4-Q11', `write: ${JSON.stringify(r)}`);
+    return `old docs merged (approval wins, newest note); key doc wins; paper_510 counts for 1346; write → ${r.w[0]}, copy 275 follows`;
+  });
+  await check('keys: saved exams still load (old ids; keys find the copy the Bank shows)', page, async () => {
+    const r = await page.evaluate(async () => {
+      const ok = B.questions.filter(q => !q.dup_of && qState(q) === 'approved').slice(0, 4).map(q => q.id);
+      const hid = B.questions.find(q => q.id === 274).dup_of ? 274 : 44, vis = hid === 274 ? 44 : 274;
+      exmLoad({id: 'pt_old', title: 'T', sub: 'Old format', items: ok});
+      const old = EX.items.slice();
+      exmLoad({id: 'pt_key', title: 'T', sub: 'With keys', items: [hid, ...ok], keys: ['2022-CSSA-AT4-Q10', ...ok.map(i => B.questions.find(q => q.id === i).key)]});
+      const key = EX.items.slice();
+      const ex = await new Promise(res => db.collection('exams').onSnapshot(sn => res((sn.docs || sn).map(x => ({id: x.id, ...x.data()})))));
+      const all = ex.map(x => ({id: x.id, n: (x.items || []).filter(i => xq(i)).length, m: RKEY.items(x).filter(i => xq(i)).length}));
+      const n0 = window.__pt.log.length; await xSaveDb();
+      const w = window.__pt.log.slice(n0).find(x => x.k === 'exams/pt_key');
+      return {ok, old, key, vis, all, w: w && w.v};
+    });
+    errs();
+    assert(JSON.stringify(r.old) === JSON.stringify(r.ok), `old exam: ${JSON.stringify(r.old)} vs ${JSON.stringify(r.ok)}`);
+    assert(r.key[0] === r.vis && r.key.length === r.ok.length + 1, `keyed exam: ${JSON.stringify(r.key)}, visible copy ${r.vis}`);
+    assert(r.all.every(x => x.m >= x.n), `saved exams lose questions: ${JSON.stringify(r.all.filter(x => x.m < x.n))}`);
+    assert(r.w && Array.isArray(r.w.keys) && r.w.keys.length === r.w.items.length && r.w.keys[0] === '2022-CSSA-AT4-Q10', `saved: ${JSON.stringify(r.w && {items: r.w.items, keys: r.w.keys})}`);
+    assert(r.all.length > 0, 'no saved exams in the fixture');
+    return `old-format exam loads ${r.old.length}/${r.ok.length}; hidden copy → ${r.vis}; ${r.all.length} fixture exams load; save writes keys`;
+  });
+  await page.context().close();
+}
+
 /* ---------------- main ---------------- */
 if (require.main !== module) { /* required by a debugging script: hand over the helpers, run nothing */ module.exports = {serve, newPage, boot, settle, unzip, FIXTURE, OUT}; return }
 (async () => {
@@ -1969,7 +2034,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
     const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
-    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersQueue, browser, base, seed, fx.papers), run(papersRun, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersQueue, browser, base, seed, fx.papers), run(papersRun, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(questionKeys, browser, base, seed)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));

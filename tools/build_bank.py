@@ -156,6 +156,11 @@ import sys as _s; _s.path.insert(0, P + 'tools'); import exam_name; exam_name.ma
 # owner 11 Nov: source = full school name + task ("2023 Cherrybrook Technology High School AT1"); stored in documents.display_label
 for _id, _lab in db.execute('select id, display_label from documents where display_label is not null'):
     if str(_id) in old['docs']: old['docs'][str(_id)]['label'] = _lab
+# --- Fix 2: permanent question keys (owner 14 Nov: "Ok we should run Fix 1 and 2"; tools/qkeys.py) -------------------------
+# Sets q['key'] ('2022-CSSA-AT4-Q10'; copies share one) and docs[doc]['key'] (paper key); new questions get a key stored in
+# questions.db table question_keys. The page addresses reviews, difficulty, exams and reports by these keys. Keep on its own.
+import qkeys as _qkeys; _qkeys.attach(db, old['questions'], old['docs'])
+# --- end Fix 2 ---------------------------------------------------------------------------------------------------------------
 out = dict(v=2, built=__import__('datetime').datetime.now().strftime('%Y%m%d%H%M%S'), docs=old['docs'], questions=old['questions'], tables=tables, figs=figs, codes17=codes17)
 json.dump(out, open(P + 'site/data/bank.json', 'w'), ensure_ascii=False)
 print('questions', len(out['questions']), 'tables', len(tables), 'figs', len(figs), 'svg packs', {k: len(v) for k, v in packs.items()},

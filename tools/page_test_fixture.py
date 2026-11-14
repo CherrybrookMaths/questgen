@@ -66,7 +66,10 @@ def workload(docs):
         tier = (q.get('tri') or {}).get('tier')
         if q['doc'] in WORKLOAD['all'] or (q['doc'] in WORKLOAD['sample'] and tier == 'sample'):
             drop.add(f"reviews/q{q['id']}")
+            if q.get('key'): drop.add(f"reviews/k_{q['key']}")   # owner 14 Nov (Fix 2): decisions by question key too
     drop |= {f'reviews/paper_{d}' for d in WORKLOAD['paper']}
+    docs_ = json.load(open(bank)).get('docs', {})
+    drop |= {f"reviews/p_{docs_[str(d)]['key']}" for d in WORKLOAD['paper'] if docs_.get(str(d), {}).get('key')}
     return sorted(k for k in drop if k in docs)
 
 

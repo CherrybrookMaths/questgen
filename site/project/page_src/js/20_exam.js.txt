@@ -42,12 +42,14 @@ let XSAVED=[],_xsub=null;
 function xSavedList(){const el=$('#xSaved');if(!el)return;if(!db){el.innerHTML='';return}
   if(!_xsub){try{_xsub=db.collection('exams').onSnapshot(s=>{const d=s.docs||s;XSAVED=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).sort((a,b)=>String(b.at).localeCompare(String(a.at)));xSavedList()},()=>{})}catch(e){}}
   el.innerHTML=XSAVED.length?`<div class="xsec">Saved exams</div><ul class="xslist">${XSAVED.slice(0,30).map(x=>`<li><button data-xload="${esc(x.id)}">${esc(x.title||'Untitled')}<small>${esc(x.sub||'')} · ${(x.items||[]).length} questions · ${esc(String(x.at||'').slice(0,10))}</small></button></li>`).join('')}</ul>`:''}
+// owner 14 Nov (Fix 2, "Ok we should run Fix 1 and 2"): keys (question keys, parallel to items) let a saved exam find its
+// questions again after a re-parse or a change of which copy the Bank shows (RKEY.items).
 // saving: every field, including settings, lines, diagram sizes and locks (Exams page, owner 14 Nov); then My exams and the
 // page head's Saved / Unsaved marker refresh (they refresh even when there is no database)
 async function xSaveDb(){
   if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;xsave();
     const A=EX.auto||{},keep={topics:A.topics,total:A.total,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
-    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',time:EX.time,reading:EX.reading,items:EX.items,instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});toast('Exam saved')}
+    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',time:EX.time,reading:EX.reading,items:EX.items,keys:EX.items.map(i=>xq(i)?.key||null),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});toast('Exam saved')}
     catch(e){toast('Could not save. Try again in a moment.')}}
   if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}}
 document.addEventListener('click',e=>{
