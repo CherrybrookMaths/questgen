@@ -778,7 +778,8 @@ list", and the 13 Nov per-batch pause. Import history (collapsed, at the bottom)
   imported paper is fixed). Swap is db `batches/<lane>` {course, yl, swaps:[{id, by, at}]}.
 - **Needs a check lane:** "N papers: year or course not read yet. Sorted into lanes once checked." **Run the cover-page check**
   (writes a `runs` request {kind:'cover_check', papers}; Claude does the check later) and **Resolve** (#processes/papers/check).
-- **Locked · N courses, M papers** (one folded row): one line per course + year of held papers with its reason (Year 11:
+- **Locked · N courses, M papers** (one folded row; N = Year 11 held + each course that needs setup, as the mockup's 4): one
+  line per course + year of held papers with its reason (Year 11:
   "Held until Year 12 is finished (your 13 Nov ruling)"; other courses: "Needs course setup"). Then the legend.
 - **Queue panel** (right; under the lanes when narrow): one ordered list across courses, db `queue/<lane>_<n>` {course, yl,
   batch, order, by, at}; ↑ ↓ and ×; "N batches · M papers", "Est. US$lo–hi" (US$12–17 a paper, or the recorded

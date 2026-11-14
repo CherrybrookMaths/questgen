@@ -157,7 +157,10 @@ def lanes(inv, write=True, reset=()):
         if write:
             os.makedirs(os.path.dirname(STORE), exist_ok=True)
             json.dump(st, open(STORE, 'w'), indent=1)
-    labels = label_map(inv)
+    # finished batches name their papers by label: map only to IMPORTED papers (review 14 Nov: b5's "2024 Knox Grammar School
+    # AT1" was never loaded and fell back to the ready doc 1589, which then sat in done Batch 5 and in a ready batch at once)
+    stat = {p['id']: p['st'] for g in inv['groups'] for p in g['papers']}
+    labels = {l: i for l, i in label_map(inv).items() if stat.get(i) == 'imported'}
     out = []
     for key, L in st['lanes'].items():
         c, yl = key.split('|')

@@ -5015,8 +5015,9 @@ function panelHTML(L,n){const d=L.done.find(x=>x.n===n),b=L.batches.find(x=>x.n=
 // the locked courses, folded into one row (owner 13 Nov: Year 11 held; the other courses need setup)
 function lockedHTML(m){const by=new Map();m.ps.filter(p=>p.st==='held_y11'||p.st==='held_course').forEach(p=>{const k=p.c+'|'+p.yl;if(!by.has(k))by.set(k,{c:p.c,yl:p.yl,n:0,st:p.st});by.get(k).n++});
   const rows=[...by.values()].sort((a,b)=>b.n-a.n),tot=rows.reduce((s,r)=>s+r.n,0);if(!rows.length)return '';
+  const nc=new Set(rows.map(r=>r.st==='held_y11'?'y11':r.c)).size;   // courses as the mockup counts them: Year 11 (held) + each course that needs setup
   const why=r=>r.st==='held_y11'?'Held until Year 12 is finished (your 13 Nov ruling)':'Needs course setup';
-  return `<details class="pr-lock" id="prLock"><summary>Locked · ${plural(rows.length,'course')}, ${plural(tot,'paper')}</summary><ul>${rows.map(r=>`<li><b>${esc(laneName(r.c,r.yl))}</b><span>${plural(r.n,'paper')}</span><span class="pr-why" title="${esc(r.st==='held_y11'?m.D.statuses.held_y11:course(r.c).note||'')}">${esc(why(r))}</span></li>`).join('')}</ul></details>`}
+  return `<details class="pr-lock" id="prLock"><summary>Locked · ${plural(nc,'course')}, ${plural(tot,'paper')}</summary><ul>${rows.map(r=>`<li><b>${esc(laneName(r.c,r.yl))}</b><span>${plural(r.n,'paper')}</span><span class="pr-why" title="${esc(r.st==='held_y11'?m.D.statuses.held_y11:course(r.c).note||'')}">${esc(why(r))}</span></li>`).join('')}</ul></details>`}
 function lanesHTML(){const el=$('#prLanes');if(!el)return;const m=model();if(!m){el.innerHTML='';return}
   const L=lanes(),lock=$('#prLock'),wasOpen=!!(lock&&lock.open),cc=API.run&&API.run.cover();
   el.innerHTML=`<div class="pr-lhead"><h4>Courses</h4><span>Each square is a batch of 9 papers. Current syllabus first, newest year first. Click a square to see its papers.</span></div>

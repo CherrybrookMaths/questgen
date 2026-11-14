@@ -53,21 +53,33 @@ def read(src, coll, db, table):
     return [(k, json.loads(d)) for k, d in db.execute(f'SELECT doc_key, data_json FROM {table}')]
 
 
-def cleared(doc_ids, reviews, qs_of):
+def cleared(doc_ids, reviews, qs_of, key_of=None):
     """Every paper approved in Review (paper doc approved, or all its questions approved). doc_ids: every file of the batch's
-    papers; only files that hold questions count (Review keys a paper by the file its questions came from)."""
+    papers; only files that hold questions count (Review keys a paper by the file its questions came from).
+    key_of: question id -> permanent key (questions.db question_keys, Fix 2 branch fix2-keys): once Review writes reviews/k_<key>
+    and reviews/p_<paper key> (the paper key is the question key without '-Q...'), those count too (review 14 Nov: without this
+    the queue would never see a batch cleared after Fix 2 lands and would stay stopped at the limit)."""
+    key_of = key_of or {}
+    ok = lambda k: (reviews.get(k) or {}).get('status') == 'approved'
     for d in doc_ids:
-        if not qs_of.get(d): continue
-        if (reviews.get(f'paper_{d}') or {}).get('status') == 'approved': continue
         qs = qs_of.get(d) or []
-        if qs and all((reviews.get(f'q{q}') or {}).get('status') == 'approved' for q in qs): continue
+        if not qs: continue
+        pk = {key_of[q].rsplit('-Q', 1)[0] for q in qs if key_of.get(q)}
+        if ok(f'paper_{d}') or any(ok(f'p_{k}') for k in pk): continue
+        if all(ok(f'q{q}') or (key_of.get(q) and ok(f'k_{key_of[q]}')) for q in qs): continue
         return False
     return True
 
 
-def stop_reason(fin, reviews, qs_of, lab):
+def question_keys(db):
+    """question id -> key, if the Fix 2 table exists (else {})."""
+    if not db.execute("SELECT 1 FROM sqlite_master WHERE name='question_keys'").fetchone(): return {}
+    return {q: k for q, k in db.execute('SELECT question_id, key FROM question_keys')}
+
+
+def stop_reason(fin, reviews, qs_of, lab, key_of=None):
     """(waiting batch ids, why the queue must stop or '')."""
-    waiting = [b for b in fin if not cleared([f for x in b.get('papers') or [] if x in lab for f in lab[x]] + list(b.get('ids') or []), reviews, qs_of)]
+    waiting = [b for b in fin if not cleared([f for x in b.get('papers') or [] if x in lab for f in lab[x]] + list(b.get('ids') or []), reviews, qs_of, key_of)]
     if len(waiting) >= LIMIT:
         return [b['id'] for b in waiting], f'{len(waiting)} imported batches are waiting for review ({", ".join(b["id"] for b in waiting)}); the limit is {LIMIT}: stop until the owner clears one in Review'
     last = fin[-1] if fin else None
@@ -96,7 +108,9 @@ def main():
     lanes = {(L['course'], L['yl']): L for L in BT.lanes(inv, write=False)}
     try: fin = [b for b in json.load(open(PROGRESS)).get('batches') or [] if (b.get('stages') or {}) and all(v in ('done', 'n/a') for v in b['stages'].values())]
     except (OSError, ValueError): fin = []
-    waiting, why = stop_reason(fin, reviews, qs_of, lab)
+    waiting, why = stop_reason(fin, reviews, qs_of, lab, question_keys(db))
+    # a finished batch whose paper labels match no imported paper and that has no `ids` cannot be checked: say so
+    unmatched = [(b['id'], x) for b in fin if not b.get('ids') for x in b.get('papers') or [] if x not in lab and not str(x).startswith('(')]
     paths = {r['id']: dict(r) for r in db.execute('SELECT id, source_path, status, parse_path, page_count, drive_file_id FROM documents')}
     drive = {}
     if os.path.exists(P + 'drive_ids.csv'):
@@ -128,6 +142,7 @@ def main():
     print('  ' + res['paused'])
     print(f'  waiting for review: {len(waiting)} of {LIMIT}' + (f' ({", ".join(waiting)})' if waiting else ''))
     if why: print('  STOP: ' + why)
+    if unmatched: print('  note: not matched to an imported paper, so not checked for review: ' + '; '.join(f'{b} "{x}"' for b, x in unmatched) + ' (add `ids` to that batch in progress.json)')
     for it in items[:6]:
         print(f'  {it["pos"]:3d}. {it["course"]} Year {it["yl"]} · Batch {it["batch"]}: {len(it["papers"])} papers' + (f' ({len(it["left_out"])} left out)' if it['left_out'] else ''))
     if nxt and res['next']:
