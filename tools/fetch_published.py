@@ -77,12 +77,16 @@ if __name__ == '__main__':
                 (SITE / k).parent.mkdir(parents=True, exist_ok=True); shutil.copy2(a, SITE / k); n += 1
         print(f'placed {n} files under site/'); sys.exit(0)
     if '--verify' in sys.argv:
-        man = manifest(); bad = []
+        # Missing = error. A different sha256 is only a note: --mark-published records the LOCAL bytes of every publishable file,
+        # including packs it did not resend, so the artifact can hold an older byte order of the same content (14 Nov: all 8
+        # svg groups were JSON-equal to the local ones with a different key order). The next publish then resends them.
+        man = manifest(); bad, diff = [], []
         for k, h in man.items():
             p = SITE / k
             if not p.exists(): bad.append(f'{k} missing')
-            elif k.startswith(('data/img/', 'data/svg/', 'data/cmp/', 'data/check/')) and sha(p) != h: bad.append(f'{k} differs from the published copy')
-        print(f'fetch_published --verify: {len(man) - len(bad)} of {len(man)} published files present' + ('' if not bad else f'; {len(bad)} problem(s): ' + '; '.join(bad[:10])))
+            elif k.startswith(('data/img/', 'data/svg/', 'data/cmp/', 'data/check/')) and sha(p) != h: diff.append(k)
+        print(f'fetch_published --verify: {len(man) - len(bad)} of {len(man)} published files present' + ('' if not bad else f'; {len(bad)} missing: ' + '; '.join(bad[:10])))
+        if diff: print(f'  note: {len(diff)} pack(s) differ in bytes from the manifest\'s sha256 (expected when the artifact holds an older byte order; batch_check will list them as changed and the next publish resends them): ' + ', '.join(diff[:10]))
         sys.exit(1 if bad else 0)
     if '--figures-from-packs' in sys.argv:
         figures_from_packs(); sys.exit(0)

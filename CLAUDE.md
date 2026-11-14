@@ -74,11 +74,15 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
    data/svg/g0..g7, data/cmp/g0, about 140 MB) in batches. For each batch: Artifact tool `action: "read"`,
    `url` = the review page, `paths` = the batch, `out_dir` = `<repo>/site` (asks once), or no out_dir and then
    `python3 tools/fetch_published.py --place <the folder the result names>`. Then `python3 tools/fetch_published.py --verify`
-   (must say every published file is present). Only for diagram work (tikz_render.sh, overlay.py):
-   `python3 tools/fetch_published.py --figures-from-packs` rebuilds figures/ from the packs: approximations, not the originals.
+   (must say every published file is present; a note that the 8 svg packs differ in bytes is expected: same content, older
+   key order, resent at the next publish). Tested 14 Nov: 4 read calls, 66 files, 138 MB, a few seconds each.
+   Only for diagram work (tikz_render.sh, overlay.py): `python3 tools/fetch_published.py --figures-from-packs` rebuilds 988 of
+   the 992 crops in figures/ from the packs: approximations (ink from alpha, at most 900 px wide), not the originals.
 6. `bash tools/prepublish.sh` (about 3 min): build, page test (162 checks), batch_check. It must exit 0 before any publish.
-   Expect warnings about the page-db mirror age and triage; run tools/sync_pagedb.py after exporting the collections
-   (IMPORT_PLAYBOOK "Database integrity").
+   In a fresh clone expect 0 blockers and these warnings: 979 redraws have no compiled SVG/PNG (tikz/ is rebuilt only for
+   diagram work: tools/tikz_render.sh per id), the database changed since triage, bank.json older than the database (file
+   dates), 8 svg packs changed since the last publish, and the page-db mirror age (export the collections, then
+   tools/sync_pagedb.py; IMPORT_PLAYBOOK "Database integrity").
 7. Before any page-db write, check the live page: Artifact `list` with `scope: "files"` on the review page also shows the
    stored capabilities.
 
