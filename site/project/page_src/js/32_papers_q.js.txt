@@ -122,7 +122,7 @@ function tiles(){const el=$('#prSum');if(!el)return;const m=model();if(!m){el.in
   const what={imported:'imported',ready:'ready to import'+(L.length?' · '+L.map(x=>x.name).join(', '):''),check:'need a check (year or course unknown)',aside:'held or not in scope'};
   el.innerHTML=AREAS.map(([k])=>`<div class="pr-tile" data-k="${k}"><b>${nf(n(k))}</b><span>${esc(what[k])}</span></div>`).join('')}
 // owner 14 Nov: imported squares split into cleared review (solid green) and imported, waiting for review (pale, green border)
-const SQW={clr:'cleared review',wait:'imported, waiting for review',queued:'in the queue',cur:'ready, current syllabus',old:'ready, old syllabus'};
+const SQW={clr:'imported, cleared review',wait:'imported, waiting for review',queued:'in the queue',cur:'ready, current syllabus',old:'ready, old syllabus'};
 function sqState(b){if(b.done)return batchState(b.ps);if(API.run&&API.run.pos(b.key,b.n))return 'queued';return b.cur?'cur':'old'}
 // a paper's chip in the batch panel: its review state, with a link into Review when it is still waiting
 function rvChip(p){const s=reviewState(p);if(s==='cleared')return '<span class="pr-chip ok">Cleared review</span>';

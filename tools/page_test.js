@@ -1238,7 +1238,7 @@ async function papersLanes(browser, base, seed, fx) {
     assert(l.acts.join('|') === '+1 batch|+2 batches|Queue all 3', `lane buttons ${l.acts}`);
     assert(r.chk === '3 papers: year or course not read yet. Sorted into lanes once checked.' && r.chkActs.join('|') === 'Run the cover-page check|Resolve', `Needs a check lane: ${r.chk} ${r.chkActs}`);
     assert(r.lock === 'Locked · 3 courses, 8 papers' && r.lockRows.some(x => /^Year 11 Advanced 3 papers Held until Year 12 is finished \(your 13 Nov ruling\)$/.test(x)) && r.lockRows.some(x => /^Year 12 Extension 1 3 papers Needs course setup$/.test(x)), `locked: ${r.lock} ${JSON.stringify(r.lockRows)}`);
-    assert(r.legend.join('|') === 'Cleared review|Imported, waiting for review|In the queue|Ready, current syllabus|Ready, old syllabus', `legend ${r.legend}`);
+    assert(r.legend.join('|') === 'Imported, cleared review|Imported, waiting for review|In the queue|Ready, current syllabus|Ready, old syllabus', `legend ${r.legend}`);
     return `${l.name}: ${l.sub}; ${l.sq.length} squares; ${r.lock}`;
   });
   // owner 14 Nov: "I would like to see how many of the batches have cleared checks on the import page too, its good to know."
@@ -1370,7 +1370,7 @@ async function papersLanes(browser, base, seed, fx) {
         drive: [...row(9140).querySelectorAll('a.pr-drive')].map(a => [a.textContent, a.getAttribute('href'), a.target, a.rel]), drive2: row(9601).querySelectorAll('a.pr-drive').length} });
     assert(pg.a.length === 4 && pg.a.every((x, i) => x[0] === '9140:' + i && x[1] === 'data:image/png;base64,') && pg.a.map(x => x[2]).join() === 'Cover,Page 3,Page 6,Page 9', `9140 pages ${JSON.stringify(pg.a)}`);
     assert(pg.ph === 4 && pg.phBtn === 0, `9601 placeholders ${pg.ph} (buttons ${pg.phBtn})`);
-    assert(pg.drive.length === 1 && pg.drive[0][0] === 'Open the whole PDF in Drive' && pg.drive[0][1] === 'https://drive.google.com/file/d/1fixtureAscham9140abcdEF/view' && pg.drive[0][2] === '_blank' && /noopener/.test(pg.drive[0][3]) && pg.drive2 === 0, `Drive link ${JSON.stringify(pg.drive)} / 9601 ${pg.drive2}`);
+    assert(pg.drive.length === 1 && pg.drive[0][0] === 'Open the whole PDF in Drive ↗' && pg.drive[0][1] === 'https://drive.google.com/file/d/1fixtureAscham9140abcdEF/view' && pg.drive[0][2] === '_blank' && /noopener/.test(pg.drive[0][3]) && pg.drive2 === 0, `Drive link ${JSON.stringify(pg.drive)} / 9601 ${pg.drive2}`);
     // the viewer: click page 2 of 4, → → ← ← ←, Esc; focus back on the page clicked
     await page.click('#prCheck [data-prpg="9140:1"]'); await settle(page, 500, 2);
     const vw = () => page.evaluate(() => { const d = document.querySelector('#prView'); return {open: !!(d && d.open), t: d?.querySelector('#prViewT').textContent, n: d?.querySelector('.pr-vn').textContent, src: d?.querySelector('img').src.length, alt: d?.querySelector('img').alt, modal: !!(d && d.matches(':modal')), focus: document.activeElement?.getAttribute('aria-label') || document.activeElement?.dataset.prpg, btns: d ? [...d.querySelectorAll('button')].map(b => b.getAttribute('aria-label')) : []} });

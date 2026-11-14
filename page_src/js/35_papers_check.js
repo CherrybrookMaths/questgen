@@ -39,7 +39,7 @@ function pagesHTML(p){const x=C.packs[p.id],e=C.man&&C.man[p.id];
   const why=e?'Loading the page pictures':'The cover-page check adds a picture of this page';
   return `<div class="pr-pages"${e&&!x?` data-prwait="${p.id}"`:''} role="group" aria-label="Cover and question pages">${Array.from({length:PAGES},(_,i)=>`<span class="pr-pg pr-pgph" role="img" aria-label="${i?'Question page':'Cover'}: no picture yet" title="${why}"><span>${i?'Page':'Cover'}</span></span>`).join('')}</div>`}
 // the Drive link: the paper's first file with a Drive id
-function driveHTML(p){const id=(p.g||[]).find(Boolean);return id&&/^[\w-]{10,}$/.test(id)?`<a class="pr-drive" href="https://drive.google.com/file/d/${esc(id)}/view" target="_blank" rel="noopener">Open the whole PDF in Drive</a>`:''}
+function driveHTML(p){const id=(p.g||[]).find(Boolean);return id&&/^[\w-]{10,}$/.test(id)?`<a class="pr-drive" href="https://drive.google.com/file/d/${esc(id)}/view" target="_blank" rel="noopener">Open the whole PDF in Drive<span aria-hidden="true"> ↗</span></a>`:''}
 // ---- the viewer: one modal dialog for the page, built once
 function viewer(){let d=$('#prView');if(d)return d;d=document.createElement('dialog');d.id='prView';d.className='pr-view';d.setAttribute('aria-labelledby','prViewT');
   d.innerHTML=`<div class="pr-vhead"><b id="prViewT"></b><span class="pr-vn" aria-live="polite"></span><button type="button" class="pr-x" data-prvx aria-label="Close">×</button></div>
@@ -92,7 +92,7 @@ function draw(){const el=$('#prCheck');if(!el||el.hidden||!isEditor())return;con
   el.innerHTML=`<div class="pr-chead"><a href="#processes/papers" class="pr-back">← Import papers</a><h3>Needs a check</h3><span>${PQ.plural(all,'paper')} the scan couldn't place from their folder and file name</span></div>
     ${rulesCard(m)}
     <div class="pr-card pr-cc" data-prcard="place"><div class="pr-cchead"><div><h3>${PQ.nf(left)} for you to place</h3>
-      <span>The cover-page check reads each front page first; what it can't settle waits here. Your answer is kept, so a rescan never asks again.</span></div>
+      <span>The cover-page check reads each front page first; what it can't settle waits here with its cover and 3 pages picked at random from the questions. Click a page to enlarge it. Your answer is kept, so a rescan never asks again.</span></div>
       <button type="button" class="act" data-prcover${cc||!all?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button></div>
       ${mine.length?mine.map(placeRow).join(''):'<p class="pempty">Nothing left to place.</p>'}</div>`;
   manifest();watch()}

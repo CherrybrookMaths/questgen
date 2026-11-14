@@ -825,8 +825,8 @@ list", and the 13 Nov per-batch pause. Import history (collapsed, at the bottom)
   Start stays enabled): "N batches are waiting for review" ("1 batch is …", "No batches are …"). Below: "Estimate US$12–17 a
   paper" (or the recorded cost).
 - **Review state on the lanes.** Owner: "I would like to see how many of the batches have cleared checks on the import page too, its good to know." Imported batch squares split in two:
-  **cleared review** (solid green) and **imported, waiting for review** (pale green fill, 2px green border); legend: Cleared
-  review · Imported, waiting for review · In the queue · Ready, current syllabus · Ready, old syllabus. Lane line: "N batches
+  **cleared review** (solid green) and **imported, waiting for review** (pale green fill, 2px green border); legend (mockup wording): Imported,
+  cleared review · Imported, waiting for review · In the queue · Ready, current syllabus · Ready, old syllabus. Lane line: "N batches
   imported (X cleared review, Y waiting) · M papers to go · K batches". The batch panel says "imported (b5) · X of N cleared
   review" and gives each paper a chip: "Cleared review", or "Waiting for review" linking to #review/paper/<doc>. **Cleared** = the
   paper's Review flow is complete: Review's own per-paper track (08_review.js `paperWork(doc).n === 0`: every step done, no open
@@ -836,12 +836,14 @@ list", and the 13 Nov per-batch pause. Import history (collapsed, at the bottom)
 - **Needs a check rows: the cover + 3 pages, a viewer and Drive.** Owner: "Needs a check rows show the cover + 3 pages picked at
   random from the question pages (enlarge on click) and an 'Open the whole PDF in Drive' link (Drive file id from
   inventory_files.json). The cover-page check renders the 4 images and stores them in the asset store (needs Fix 1)."
+  - The card says (mockup): "... what it can't settle waits here with its cover and 3 pages picked at random from the questions.
+    Click a page to enlarge it. Your answer is kept, so a rescan never asks again."
   - A strip of 4: Cover, Page n, Page n, Page n (thumbnails, 54 px wide). Until the paper has pictures, 4 dashed placeholders
     ("Cover", "Page"), not clickable.
   - Click a page: an in-page viewer (a modal `<dialog>`, real buttons: × Close, ‹ Previous page, › Next page) shows it full size
     with "<paper>: Page n" and "2 of 4"; ← / → step through the 4 (wrapping), Esc or × closes, a click on the backdrop closes,
     focus goes to Close on opening and back to the page clicked on closing.
-  - "Open the whole PDF in Drive": https://drive.google.com/file/d/<id>/view, new tab, from the paper's first file with a Drive
+  - "Open the whole PDF in Drive ↗" (the arrow, as in the mockup, marks the new tab): https://drive.google.com/file/d/<id>/view, new tab, from the paper's first file with a Drive
     id (inventory paper `g`, written by tools/inventory.py from documents.drive_file_id, the same ids as inventory_files.json).
   - Where the pictures live: one JSON pack per paper, `data/check/<paper id>.json` {v, id, seed, pdf_pages, pages: [{n, role,
     w, h, thumb, full}]} (WebP data URLs, 180 / 1100 px), listed in `data/check_pages.json` {papers: {id: {path, sha256, bytes,
