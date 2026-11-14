@@ -12,12 +12,13 @@ and `git diff` shows exactly what changed. Files of papers that left the databas
 When: on every publish. `python3 tools/batch_check.py --mark-published` -> tools/snapshot.py publish() runs this into
 <repo>/dbtext/ just before `git add -A`, so each publish-vNNN tag holds the database as text. By hand:
   python3 tools/export_db_text.py [--db DB] [--out dbtext]
-DB defaults to $QG_DB or /mnt/user-data/outputs/questions.db (opened read only).
+DB defaults to tools/paths.py DB ($QG_DB, ...) (opened read only).
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import argparse, json, os, re, sqlite3, sys
 
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
+DB = paths.DBS
 SKIP = {'sha256', 'text_fingerprint', 'cover_excerpt'}   # bulky or machine-only document columns
 
 

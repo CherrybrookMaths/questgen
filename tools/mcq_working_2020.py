@@ -1,8 +1,9 @@
 """Owner (11 Nov): "why no working out, ensure mcq has working out too". Worked solutions for the MCQs that still had
 none (2020 NESA HSC Q1-10 had only an answer key; 2023 Cherrybrook Q2). Style of the approved MCQ solutions: 1-5 lines
 that show why the keyed option is right. Stored as source=generated (shown once approved)."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, json
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
+db = sqlite3.connect(paths.DBS)
 S = {
 202: r"""The expression under the square root cannot be negative:
 $$\begin{aligned} 2x-3&\ge 0\\ x&\ge \dfrac{3}{2}\end{aligned}$$""",

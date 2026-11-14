@@ -57,8 +57,8 @@ Numbers: top-level declared names 498 → 463 (declaration statements 475 → 44
   Advanced-only. The Guide's worked examples are facts about Advanced; "2024 syllabus" wording is shared by all courses.
 - Local variables named `B` in 24_exams.js, 28_schema.js and 34_papers_run.js shadow the bank alias: rename when touched.
 - `XA_DEF` still carries the old drawer fields (`open`, `topen`); saved exams hold them. Harmless.
-- `data/bank_v1.json` (3.3 MB) is published but only build tools read it. Kept because it is not in git and the artifact is
-  its only off-sandbox copy.
+- ~~`data/bank_v1.json` is published only as an off-sandbox copy~~ 14 Nov: it is tracked at state/site/data/bank_v1.json (and is
+  no longer among the live published files).
 
 ## Job times on Processes (owner 13 Nov: "Are you times right? It said the recent task started 6:05")
 Times in progress/queue were typed from memory and drifted (the inventory round showed 6:05; it started 7:06).
@@ -68,11 +68,26 @@ Always stamp started/finished/eta from the clock (`TZ=Australia/Sydney date -Imi
 Unrelated changes run in parallel, each in its own git worktree (e.g. /home/claude/wt_<name>, branch <name>), with ignored
 data folders symlinked in but its OWN work/ folder (page_test writes there). Merge into main when the running round has
 committed, rebuild, run prepublish, publish once. Only the publish itself is sequential.
-Worktree setup: symlink node_modules, site/data/{cmp,img,svg}, site/figures, site/pages, tikz; real work/ with copies of
-pilot/work/*.json. A publish made from a worktree is not recorded in main's manifest until the branch is merged and
+Worktree setup: symlink node_modules, site/data/{cmp,img,svg}, figures, tikz (build outputs only); real work/ (page_test writes
+there). Since 14 Nov the state files come with the checkout (state/, tracked), so nothing needs copying; a worktree commits its
+own state/ changes and they merge like code. A publish made from a worktree is not recorded in main's manifest until the branch is merged and
 --mark-published runs in main.
 
 ## Framework (owner 13 Nov)
 Asked "is react better if we are going to deploy?", then "ok great, lets not switch then". Stay on plain JS in page_src/.
 Revisit the framework choice only when moving to real servers (that move rebuilds the data layer anyway). Until then the
 health rules above keep the code shaped so a later move is cheap: state in one module, styles scoped per view, course as data.
+
+## Portable checkout (14 Nov; move to a fresh Claude Code cloud session)
+Brief: the repo must run from a fresh clone at another path, with the database restored from Drive to `$QG_DB` and the image
+packs read back from the published page.
+- **One place for locations:** tools/paths.py (ROOT from its own location, DB, OUT, STATE, WORK, SRC, TIKZ, SCRATCH). Every
+  Python tool imports it; tikz_render.sh, run_render_audit.sh, render_audit.js and check_latex.js derive the root from their own
+  location. batch_check blocks any hard-coded /home/<user>, /mnt/<outputs> or session scratch path in tools/ or page_src/
+  (paths.py is the one exception, for its fallback).
+- **state/** (tracked, about 11 MB): the MUST MOVE items of the move inventory, at their old relative paths. The old locations in
+  the first sandbox are symlinks into state/, so nothing reads a stale copy there.
+- **Diagram sources:** site/project/tikz_sources.json is regenerated whole from state/tikz by tools/tikz_sources.py (apply_diagrams
+  calls it; batch_check blocks a difference). It had been stale (0.4 pt style, no tree_style, pre-fix 373_q25_s1).
+- Exceptions to the rules above: none. Debt left: specs and docstrings still name the old relative paths (`work/triage.json`);
+  CLAUDE.md and paths.py explain the mirror instead of rewriting ~40 docstrings.

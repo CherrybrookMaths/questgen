@@ -4,9 +4,10 @@
 5  tables_checked.json -> data_tables (+spans_json); figure-tables -> data_tables owner 'figures'
 3  tikz results + checks -> figures.tikz_path / redraw_* columns
 Idempotent: safe to re-run."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, json, re, glob, os
-P = '/home/claude/pilot/'
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
+P = paths.P
+db = sqlite3.connect(paths.DBS)
 
 def addcol(t, c, typ='text'):
     if c not in [r[1] for r in db.execute(f'pragma table_info({t})')]:
@@ -74,7 +75,7 @@ for t in tc:
 print('checked tables applied', len(tc))
 
 # ---- 3. diagrams
-res = {r['id']: r for r in json.load(open(P + 'tikz/all_results.json'))}
+res = {r['id']: r for r in json.load(open(paths.S + 'tikz/all_results.json'))}
 chk = {}
 for f in glob.glob(P + 'tikz/check_*.json'):
     for r in json.load(open(f))['results']: chk[r['id']] = r

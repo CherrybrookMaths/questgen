@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (S) at (123.5,398); \coordinate (T) at (327,364); \coordinate (L) at (430,128);
+  % north-south / east-west lines
+  \draw[aux] (55,398) -- (192,398);
+  \draw[aux] (123.5,501) -- (123.5,310); \draw[->] (123.5,312) -- (123.5,295);
+  \draw[aux] (327,433) -- (327,310);     \draw[->] (327,312) -- (327,295);
+  \draw[aux] (361,128) -- (498,128);
+  \draw[aux] (430,230) -- (430,40);      \draw[->] (430,42) -- (430,25);
+  \draw (S) -- (T) -- (L) -- cycle;
+  \foreach \p in {S,T,L}{\fill (\p) circle[radius=6.5];}
+  \node at (458,103) {$L$};
+  \node at (362,386) {$T$};
+  \node at (98,426) {$S$};
+\end{tikzpicture}
+\end{document}

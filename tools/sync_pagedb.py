@@ -12,8 +12,9 @@ the queue, Swap and the owner's answers in Needs a check), page_sync. A scans/ru
 the proposed path rules) is written to work/rules_accepted.json, which tools/classify_paths.py reads.
 QG_DB=<path> runs it against another database file (a copy, for tests).
 The full document is kept in data_json, so nothing on the page is lost even if a field is not split out yet."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, glob, os, sqlite3, sys, datetime
-DB = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')   # QG_DB: run against a copy (tests)
+DB = paths.DBS   # QG_DB: run against a copy (tests)
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS page_reviews(doc_key TEXT PRIMARY KEY, question_id INTEGER REFERENCES questions(id), document_id INTEGER REFERENCES documents(id),
   status TEXT, note TEXT, home_json TEXT, fig_json TEXT, sol_json TEXT, by TEXT, at TEXT, data_json TEXT NOT NULL);
@@ -134,7 +135,7 @@ def main(d):
     rules = os.path.join(d, 'scans', 'rules.json')
     if os.path.exists(rules):   # the owner's Accept of RULES_PROPOSED (page db scans/rules) -> work/rules_accepted.json
         x = json.load(open(rules)); v = x['data'] if isinstance(x, dict) and isinstance(x.get('data'), dict) else x
-        out = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'work', 'rules_accepted.json')
+        out = str(paths.state('work/rules_accepted.json'))
         json.dump({'version': v.get('version'), 'accepted': bool(v.get('accepted')), 'by': v.get('by'), 'at': v.get('at')}, open(out, 'w'), indent=1)
         print(f'rules      accepted={bool(v.get("accepted"))} version {v.get("version")} -> work/rules_accepted.json (run tools/inventory.py)')
     for c, n, bad in rep:

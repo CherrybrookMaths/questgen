@@ -21,9 +21,10 @@ SVG, 16 MiB for CSS/JS; accepted JSON type is exactly application/json, valid UT
 are NOT published in the contract: they are runtime values (usage.maxBytes, usage.maxFiles from assets.list()). This tool
 flags any file over 20 MiB; it cannot check the total.
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import glob, hashlib, json, os, sys, time
 
-P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
+P = paths.P
 S = P + 'site/'
 KINDS = ('data/img/*.json', 'data/svg/*.json', 'data/cmp/*.json',   # the image packs the page fetches (05_figures.js pack/svgs/cmps)
          'data/check/*.json')   # owner 14 Nov: Needs a check page pictures (tools/check_pages.py; 35_papers_check.js)

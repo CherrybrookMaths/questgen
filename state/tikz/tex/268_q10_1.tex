@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% units = crop pixels at 200 dpi; curves fitted to the crop: f = 0.0436x^2, g = 28.2 + 735/(x-25.85) (through O)
+\begin{tikzpicture}[x=0.0127cm, y=0.0127cm]
+  \begin{scope}
+    \draw[->] (-243,0) -- (242,0);
+    \draw[->] (0,-263) -- (0,261);
+    \node[inner sep=0pt] at (233,-25.5) {$x$};
+    \node[inner sep=0pt] at (-15.5,251) {$y$};
+    \draw[curve] plot[domain=-70.5:71, samples=120] (\x,{0.0436*\x*\x});
+    \node[inner sep=0pt] at (-140.5,137) {$y=f(x)$};
+  \end{scope}
+  \begin{scope}[shift={(600,0)}]
+    \draw[->] (-243,0) -- (242,0);
+    \draw[->] (0,-263) -- (0,261);
+    \node[inner sep=0pt] at (233,-25.5) {$x$};
+    \node[inner sep=0pt] at (-15.5,251) {$y$};
+    \draw[curve] plot[domain=-216:22.8, samples=300] (\x,{28.2+735/(\x-25.85)});
+    \draw[curve] plot[domain=29.8:217, samples=300] (\x,{28.2+735/(\x-25.85)});
+    \node[inner sep=0pt] at (117,137) {$y=g(x)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

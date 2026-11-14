@@ -38,13 +38,14 @@ to archive/questions_before_scan_<time>.db first and records the scan in table f
 report path), which tools/inventory.py reads for "last scan" and "new since last scan".
 QG_DB=<path> runs against another database file (tests).
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import argparse, datetime, difflib, json, os, re, shutil, sqlite3, sys, unicodedata
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from classify_paths import classify_path
 
-P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
-DB = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
+P = paths.P
+DB = paths.DBS
 OUT = P + 'work/scan/'
 ROOT_WIN = r'G:\Shared drives\CMC Resources\Exams\External Exams Stage 6'
 CAP = 2000          # the device list_dir tool returns at most 2,000 entries

@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates are crop pixels (200 dpi) with y negated (crop is not to scale)
+\begin{tikzpicture}[x=0.0127cm, y=0.0127cm]
+  \coordinate (T) at (330,-241);
+  \coordinate (M) at (57,-379);
+  \coordinate (C) at (590,-507);
+  \tikzset{chev/.style={-{Latex[length=2mm,width=1.3mm]}}}
+  \draw (T) -- (M) -- (C) -- cycle;
+  \draw[dash pattern=on 2pt off 1.5pt, chev] (T) -- (330,-72);
+  \draw[dash pattern=on 2pt off 1.5pt, chev] (M) -- (57,-206);
+  \node at (312,-37) {$N_{\scriptscriptstyle 1}$};
+  \node at (37,-180) {$N_{\scriptscriptstyle 2}$};
+  % 095 at M: from north clockwise to MC
+  \draw (57,-317) arc[start angle=90, end angle=-13.5, radius=62];
+  \node at (135,-315) {$095^\circ$};
+  % 247 at T: double arc from north clockwise round to TM
+  \draw (330,-191) arc[start angle=90, end angle=-153.2, radius=50];
+  \draw (330,-183) arc[start angle=90, end angle=-153.2, radius=58];
+  \node at (428,-262) {$247^\circ$};
+  \node at (305,-227) {$T$};
+  \node at (35,-397) {$M$};
+  \node at (588,-538) {$C$};
+\end{tikzpicture}
+\end{document}

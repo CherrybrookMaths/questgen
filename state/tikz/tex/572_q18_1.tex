@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (451.5,628.5); 1 unit = 78.25 px across, 52.8 px up
+  \def\X#1{451.5+78.25*(#1)}\def\Y#1{628.5-52.8*(#1)}
+  \draw[<->] (27,628.5) -- (874,628.5);
+  \draw[<->] (451.5,764) -- (451.5,69);
+  \node[font=\Large] at (896,630) {$x$};
+  \node[font=\Large] at (452,30) {$y$};
+  \foreach \i in {-5,-3,-1,1,3,5}{\draw ({\X{\i}},{628.5-6.5}) -- ({\X{\i}},{628.5+6.5});}
+  \foreach \i in {-4,-2,2,4}{\draw ({\X{\i}},{628.5-11}) -- ({\X{\i}},{628.5+11});\node[anchor=base] at ({\X{\i}},676) {$\i$};}
+  \foreach \j in {-1,1,3,5,7,9}{\draw ({451.5-6},{\Y{\j}}) -- ({451.5+6},{\Y{\j}});}
+  \foreach \j in {-2,2,4,6,8,10}{\draw ({451.5-11},{\Y{\j}}) -- ({451.5+11},{\Y{\j}});\node[anchor=east,inner sep=0pt] at (434,{\Y{\j}}) {$\j$};}
+  \draw[<->,line width=0.9pt] plot[smooth,domain=-5.39:3.41,samples=90,variable=\t] ({\X{\t}},{\Y{2^(\t)}});
+
+\end{tikzpicture}
+\end{document}

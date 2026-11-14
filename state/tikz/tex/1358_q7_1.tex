@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% shared frame for options A-D (crop pixel units, y down): axis y=206, z=0 at x=251, 59 px per unit;
+% curve 206-155 exp(-z^2/3.6) fitted to the crop's bell (wider than true N(0,1) at this scale)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\C#1{206-155*exp(-(#1)*(#1)/3.6)}
+  \fill[shade] plot[smooth, domain=-0.66:0.66, samples=40] ({251+59*\x},{\C{\x}}) -- (289.9,206) -- (212.1,206) -- cycle;
+  \draw (15,206) -- (486,206);
+  \draw[line width=0.9pt] plot[smooth, domain=-4:4, samples=91] ({251+59*\x},{\C{\x}});
+  \foreach \z in {-2,-1,0,1,2} \draw[aux] ({251+59*\z},206) -- ({251+59*\z},{\C{\z}});
+  \foreach \z in {-3,3} \draw ({251+59*\z},206) -- ({251+59*\z},200);
+  \foreach \z/\l in {-3/$-3$,-2/$-2$,-1/$-1$,0/$0$,1/$1$,2/$2$,3/$3$} \node[font=\fontsize{11.7}{14}\selectfont, anchor=base, inner sep=0pt] at ({251+59*\z},239) {\l};
+\end{tikzpicture}
+\end{document}

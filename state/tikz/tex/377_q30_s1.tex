@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % faint minor grid (half units) and major grid (2 units)
+  \foreach \px in {85.5,186.5,237,287.5,387.5,438,488.5} \draw[black!25,dash pattern=on 0.6pt off 2pt] (\px,20) -- (\px,750);
+  \foreach \py in {89,139.5,190,290.5,341,391.5,492.5,543,593.5,694.5} \draw[black!25,dash pattern=on 0.6pt off 2pt] (28,\py) -- (565,\py);
+  \foreach \py in {38,240,644} \draw (28,\py) -- (565,\py);
+  \foreach \px in {136,539} \draw (\px,20) -- (\px,750);
+  \draw[->] (28,442) -- (568,442);
+  \draw[->] (336,750) -- (336,20);
+  \draw[<->, line width=0.9pt] plot[smooth,samples=90,domain=-2.76:0.76] ({336+101*\x},{442-101*(2*\x*\x+4*\x)});
+  \fill (136,442) circle (2.4pt) (336,442) circle (2.4pt) (235,644) circle (2.4pt);
+  \node at (356,30) {$y$};
+  \node at (556,484) {$x$};
+  \node at (326,38) [font=\footnotesize] {\halo{4}};
+  \node at (326,240) [font=\footnotesize] {\halo{2}};
+  \node at (322,644) [font=\footnotesize] {\halo{$-2$}};
+  \node at (120,456) [font=\footnotesize] {\halo{$-2$}};
+  \node at (326,429) [font=\footnotesize] {\halo{0}};
+  \node at (539,456) [font=\footnotesize] {\halo{2}};
+  \node at (205,402) {\halo{$(-2,0)$}};
+  \node at (395,483) {\halo{$(0,0)$}};
+  \node at (234,686) {\halo{$(-1,-2)$}};
+  \node[font=\large] at (235,828) {$y=2f(1-x)+6$};
+\end{tikzpicture}
+\end{document}

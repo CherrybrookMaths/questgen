@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.012217cm,y=-0.012192cm]
+  \begin{scope}[shift={(7.90,44.17)}] % coordinates of question figure 1359_q16_1, scaled to this crop
+  % grid: 59.06 px columns, 62.15 px rows (crop pixels); darker line every 4th
+  \foreach \k in {0,...,16}{\draw[black!15,line width=0.3pt] ({16+59.06*\k},18) -- ({16+59.06*\k},814);}
+  \foreach \k in {-5,...,6}{\draw[black!15,line width=0.3pt] (16,{385.5+62.15*\k}) -- (961,{385.5+62.15*\k});}
+  \foreach \gx in {251.5,726}{\draw[black!45] (\gx,18) -- (\gx,814);}
+  \foreach \k in {-4,4}{\draw[black!45] (16,{385.5+62.15*\k}) -- (961,{385.5+62.15*\k});}
+  \draw[<->] (18,385.5) -- (960,385.5);
+  \draw[<->] (488.5,815) -- (488.5,18);
+  \node at (988,390) {$x$};
+  \node at (470,57) {$y$};
+  \draw[line width=0.9pt] plot[domain=-4.1234:4.3983,smooth,samples=90] ({488.5+59.06*\x},{385.5-62.15*(0.24649*\x*\x*\x+0.005573*\x*\x-2.98615*\x-2.03683)});
+  % primitive y = f(x): 0.4414*(integral of the cubic f') + C, heights of its turning points matched to the sketch
+  \draw[<->,line width=0.9pt] plot[domain=-4.6587:5.3223,smooth,samples=90] ({488.5+59.06*\x},{385.5-62.15*((0.027203)*(\x)^4+(0.000820)*(\x)^3-(0.659102)*(\x)^2-(0.899135)*\x+(3.990420))});
+  \draw[aux] (306.4,203.3) -- (306.4,385.5);
+  \draw[aux] (446.5,118.1) -- (446.5,385.5);
+  \draw[aux] (711.2,586.1) -- (711.2,385.5);
+  \draw[aux] (369.4,163.9) -- (369.4,262.1);
+  \draw[aux] (606.7,386.0) -- (606.7,759.3);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

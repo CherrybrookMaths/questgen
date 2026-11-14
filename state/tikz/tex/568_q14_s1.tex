@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, axis line style={draw=none}, x=1.5cm, y=3.6cm, xmin=-1.0, xmax=6.6, ymin=-1.15, ymax=1.15,
+  xlabel={}, ylabel={}, xtick=\empty, ytick=\empty]
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:-1.0,0) -- (axis cs:6.6,0) node[right] {$x$};
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:0,-1.15) -- (axis cs:0,1.15) node[above] {$y$};
+  \draw[aux] (axis cs:1,0) -- (axis cs:1,0.7358) -- (axis cs:0,0.7358);
+  \draw[aux] (axis cs:2,0) -- (axis cs:2,0.5413);
+  \addplot[<->, domain=-0.33:5.4, samples=90, smooth] {2*x*exp(-x)};
+  \node[pt] at (axis cs:1,0.7358) {}; \node[pt] at (axis cs:2,0.5413) {};
+  \node[above, inner sep=4pt] at (axis cs:1,0.7358) {$\left(1,\dfrac{2}{e}\right)$};
+  \node[above right, inner sep=3pt] at (axis cs:2,0.5413) {$\left(2,\dfrac{4}{e^2}\right)$};
+  \node[below, inner sep=3pt] at (axis cs:1,0) {$1$};
+  \node[below, inner sep=3pt] at (axis cs:2,0) {$2$};
+  \node[below right, inner sep=2pt] at (axis cs:0,0) {$O$};
+  \node[anchor=west] at (axis cs:3.3,0.62) {$y=2xe^{-x}$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

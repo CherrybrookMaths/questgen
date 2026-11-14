@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\large}]
+  \draw[->] (35,697) -- (722,697);
+  \draw[->] (415,1072) -- (415,20);
+  \foreach \px/\l/\q in {138/-10/138,277/-5/259,553/5/553,692/10/692} {\draw (\px,691) -- (\px,703); \node[font=\normalsize] at (\q,722) {$\l$};}
+  \node[font=\normalsize] at (384,720) {0};
+  \foreach \py in {143,281,419,557,834} \draw (409,\py) -- (421,\py);
+  \begin{scope}[every node/.style={font=\normalsize}]\node[anchor=east] at (405,143) {$20$}; \node[anchor=east] at (405,281) {$15$}; \node at (440,419) {10}; \node at (435,557) {5}; \node at (382,834) {$-5$}; \node at (376,940) {$-10$};\end{scope}
+  \draw[<->] (22,973.5) -- (722,973.5);
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=-5:3] ({415+27.6*\x},{697-27.65*((\x)^3+3*(\x)^2-9*\x-5)}); % y = x^3+3x^2-9x-5 (max (-3,22), min (1,-10))
+  \fill (277,973.5) circle (2.2pt) (442.6,973.5) circle (2.2pt) (332.2,88.7) circle (2.2pt) (497.8,88.7) circle (2.2pt);
+  \node at (222,85) {$(-3,22)$};
+  \node at (595,88) {$(3,22)$};
+  \node at (160,912) {$(-5,-10)$};
+  \node at (540,1022) {$(1,-10)$};
+  \node at (86,1022) {$y=-10$};
+  \draw[->] (150,1018) to[out=0,in=-100] (172,978);
+  \node at (712,668) {$x$};
+  \node at (452,38) {$y$};
+\end{tikzpicture}
+\end{document}

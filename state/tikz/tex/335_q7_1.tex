@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+  % common frame for options A-D (axes measured on option A); each curve traced from its own crop, scaled to this frame
+  \draw[<->] (-224,0) -- (223,0) node[right=-1pt,font=\footnotesize] {$x$};
+  \draw[<->] (0,-236) -- (0,231) node[above=-1pt,font=\footnotesize] {$y$};
+  % true cubic y=k(x+83)^2(x-41.5): double root at the crop's touch point, min at x=0 (y=-86), crossing at 41.5
+  \draw[<->, line width=0.9pt] plot[smooth,domain=-146.6:72.8,samples=90] (\x,{3.008e-4*(\x+83)*(\x+83)*(\x-41.5)});
+\end{tikzpicture}
+\end{document}

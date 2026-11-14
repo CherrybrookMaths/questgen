@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.8cm, y=0.8cm, xmin=-3.77, xmax=3.75, ymin=-3.23, ymax=3.2,
+  xtick=\empty, ytick=\empty,
+  xlabel style={at={(axis cs:3.75,0)}, anchor=north east, inner sep=2pt, yshift=-1pt},
+  ylabel style={at={(axis cs:0,3.2)}, anchor=north east, inner sep=2pt, xshift=-1pt}]
+  \addplot[curve, line width=0.6pt, domain=-1.45:2.45] {-x^2+x+1};
+  \draw (axis cs:-0.18,1) -- (axis cs:0.18,1);
+  \node[anchor=east, inner sep=1.5pt, xshift=-2pt] at (axis cs:0,1) {$1$};
+  \node[anchor=north east, inner sep=2pt] at (axis cs:0,0) {$O$};
+  \node[anchor=north west, inner sep=0pt] at (axis cs:-3.77,3.2) {\phantom{A.}};  % option letter removed (layout adds it outside)
+\end{axis}
+\end{tikzpicture}
+\end{document}

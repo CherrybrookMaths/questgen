@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9.5}{11}\selectfont]
+  \def\X#1{130.5+23.68*#1}\def\Y#1{480.5-12.76*#1}
+  \draw[black!25] (3.5,3.5) rectangle (1003.5,603.5);
+  \foreach \t in {5,10,...,35} \draw[black!25] ({\X{\t}},{\Y{0}}) -- ({\X{\t}},{\Y{35}});
+  \foreach \t in {5,10,...,35} \draw[black!25] ({\X{0}},{\Y{\t}}) -- ({\X{35}},{\Y{\t}});
+  \draw[black!50] ({\X{0}},{\Y{0}}) -- ({\X{35}},{\Y{0}});
+  \foreach \t in {0,5,...,35} \node at ({\X{\t}},512) {$\t$};
+  \foreach \t in {0,5,...,35} \node[left,inner sep=0pt] at (111,{\Y{\t}}) {$\t$};
+  \node at (545,552) {\fontsize{10.5}{12}\selectfont time (minutes)};
+  \node[rotate=90] at (58,255) {\fontsize{10.5}{12}\selectfont mass (kg)};
+  \foreach \p/\q in {7/18,10/23,12/25,12/15,13/24,16/20,17/19,18/24,22/26,24/30,30/24}
+    \fill ({\X{\p}},{\Y{\q}}) circle[radius=7.5];
+\end{tikzpicture}
+\end{document}

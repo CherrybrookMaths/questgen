@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2024 Ascham AT4 Q25: rectangular prism with plane XYZ (crop pixel units, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{13}{15}\selectfont}]
+  \coordinate (X) at (286,59.4); \coordinate (W) at (286,278); \coordinate (Y) at (804,279);
+  \coordinate (M) at (429.2,327.3); \coordinate (Z) at (55.5,374.5);
+  \fill[fill=black!11] (X) -- (Z) -- (Y) -- cycle;
+  % prism
+  \draw (55.5,154) rectangle (579.5,374.5);
+  \draw (55.5,154) -- (X) -- (804.5,59) -- (579.5,154);
+  \draw (804.5,59) -- (804.5,278) -- (579.5,374.5);
+  % hidden edges
+  \draw[dotted] (X) -- (W) -- (Z);
+  \draw[aux] (W) -- (Y);
+  % plane and lines
+  \draw (X) -- (Z) -- (Y) -- cycle;
+  \draw (X) -- (M) -- (W);
+  % equal-length ticks
+  \draw (240,341) -- (247,360); \draw (614,294) -- (620,313); \draw (353,292) -- (360,311);
+  \foreach \p in {X,W,Y,M,Z} \fill (\p) circle (7);
+  \node at (287,26) {X};
+  \node at (259,259) {W};
+  \node at (838,291) {Y};
+  \node at (459,352) {M};
+  \node at (28,385) {Z};
+  \node at (873,157) {3 cm};
+  \node at (737,353) {6 cm};
+  \node at (298,410) {8 cm};
+\end{tikzpicture}
+\end{document}

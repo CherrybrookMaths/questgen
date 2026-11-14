@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\R{4.32cm} \def\r{2.25cm}
+  \coordinate (O) at (0,0);
+  \begin{scope}[x=1cm,y=1cm]
+  \fill[shade dots] (O) -- (175.4:\R) arc[start angle=175.4, end angle=98.2, radius=\R] -- cycle;
+  \fill[shade dots] (O) -- (98.2:\r) arc[start angle=98.2, end angle=51.5, radius=\r] -- cycle;
+  \draw (O) -- (175.4:\R) arc[start angle=175.4, end angle=98.2, radius=\R] -- (O);
+  \draw (98.2:\r) arc[start angle=98.2, end angle=51.5, radius=\r] -- (O);
+  \end{scope}
+  \node at (-44,-30) {$2\theta$};
+  \node at (12,-43) {$\theta$};
+  \node at (66,-63) {$r$};
+  \node at (-170,10) {$2r$};
+\end{tikzpicture}
+\end{document}

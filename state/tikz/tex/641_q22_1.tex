@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel units (y down). Three squares corner to corner as printed (NOT TO SCALE): 5 cm, 8 cm, 11 cm.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{12.3}{15}\selectfont}]
+  \draw (9.5,402.5) rectangle (102.5,495.5);
+  \draw (102.5,243.5) rectangle (262,402.5);
+  \draw (262,34.5) rectangle (472.5,243.5);
+  \node[anchor=base] at (368,28) {11 cm};
+  \node[anchor=base] at (186.5,240) {8 cm};
+  \node[anchor=base] at (57.5,398) {5 cm};
+  \node[anchor=base] at (570,125) {NOT TO};
+  \node[anchor=base] at (570.5,180) {SCALE};
+\end{tikzpicture}
+\end{document}

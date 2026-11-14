@@ -26,10 +26,11 @@ The page groups loads by file, so a question whose home the owner later changes 
 it was built into. site/data/bank.json stays as it is (build tools, page_test_fixture, render_audit read it) until the main
 session removes it from the publish set.
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import hashlib, json, os, re, sqlite3, sys, time
 
-P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
-DB = '/mnt/user-data/outputs/questions.db'
+P = paths.P
+DB = paths.DBS
 COURSE = 'advanced'   # QG.courses key in page_src/js/01_core.js
 OUT = P + 'site/data/bank/' + COURSE + '/'
 INDEX = OUT + 'index.json'

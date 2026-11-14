@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Sydney Grammar AT4 Q3 solution: y = 1 - e^x with asymptote y = 1 (crop scale: 80 px per unit across, 79 up)
+\begin{tikzpicture}[x=1.016cm,y=1.0033cm]
+  \draw[->] (-2.21,0) -- (1.96,0) node[right,inner sep=3pt] {$x$};
+  \draw[->] (0,-1.98) -- (0,1.98) node[above,inner sep=2pt] {$y$};
+  \draw[aux] (-2.2,1) -- (1.96,1) node[right,inner sep=1pt] {$y=1$};
+  \draw[<->] plot[smooth,domain=-2.19:1.09,samples=90] (\x,{1-exp(\x)});
+\end{tikzpicture}
+\end{document}

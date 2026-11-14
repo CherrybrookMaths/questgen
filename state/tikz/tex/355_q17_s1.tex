@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+  \draw[->] (25,451) -- (1112,451) node[right] {$x$};
+  \draw[->] (520,905) -- (520,25) node[right] {$y$};
+  \draw[->, line width=0.9pt] plot[smooth,samples=90,domain=-2.15:6.33] ({520+74.5*\x},{451-14.84*((\x)^3-6*(\x)^2+7)}); % y = x^3-6x^2+7, even scale
+  \fill (520,347) circle (2.2pt); \fill (669,584.6) circle (2.2pt); \fill (818,822) circle (2.2pt);
+  \node[anchor=south west] at (535,338) {$(0,7)$};
+  \node[anchor=south west] at (684,575) {$(2,-9)$};
+  \node[anchor=north] at (850,836) {$(4,-25)$};
+  \node[anchor=east] at (962,258) {$y=x^3-6x^2+7$};
+\end{tikzpicture}
+\end{document}

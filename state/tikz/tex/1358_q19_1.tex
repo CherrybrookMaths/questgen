@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel units (y down). Axis: 120 at x=148.5, 33.53 px per unit, axis y=260.5.
+% The light grey grid is offset ~15 px right of the axis ticks in the crop; kept as printed.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt}]
+  \begin{scope}[black!30]
+    \foreach \k in {0,...,14} \draw ({164+67.04*\k},30) -- ({164+67.04*\k},262.5);
+    \foreach \y in {30,146.5,262.5} \draw (164,\y) -- (1102.5,\y);
+  \end{scope}
+  \draw (140,260.5) -- (1095,260.5);
+  \foreach \k in {0,...,14} \draw ({148.5+67.04*\k},252) -- ({148.5+67.04*\k},268);
+  \foreach \k in {0,...,14} \node[font=\sffamily\fontsize{10.5}{12}\selectfont, anchor=base] at ({155+66.5*\k},299) {\pgfmathparse{int(120+2*\k)}\pgfmathresult};
+  % John: 124.5, 126.5, 130.5, 138.5, 144.5 (as printed)
+  \draw[line width=0.9pt] (366,60) rectangle (769,109); \draw[line width=0.9pt] (500.5,60) -- (500.5,109);
+  \draw[line width=0.9pt] (300,84.5) -- (366,84.5); \draw[line width=0.9pt] (769,84.5) -- (969,84.5);
+  \draw[line width=0.9pt] (300,68) -- (300,101); \draw[line width=0.9pt] (969,68) -- (969,101);
+  % Robert: 128.5, 132.5, 136.5, 140.5, 142.5
+  \draw[line width=0.9pt] (565,177) rectangle (833,225); \draw[line width=0.9pt] (698.5,177) -- (698.5,225);
+  \draw[line width=0.9pt] (433,203) -- (565,203); \draw[line width=0.9pt] (833,203) -- (899.5,203);
+  \draw[line width=0.9pt] (433,186) -- (433,220); \draw[line width=0.9pt] (899.5,186) -- (899.5,220);
+  \draw (22.5,55) rectangle (154.5,111.5); \node[font=\fontsize{11.5}{13}\selectfont, anchor=base west] at (40,90) {John};
+  \draw (16,174.5) rectangle (156.5,230.5); \node[font=\fontsize{11.5}{13}\selectfont, anchor=base west] at (38,209) {Robert};
+\end{tikzpicture}
+\end{document}

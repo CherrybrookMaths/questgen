@@ -1,8 +1,9 @@
 """Owner rule (11 Nov): every marking rubric is top-down (HSC style): N marks = Correct answer, then each lower
 mark describes the furthest step reached, 'or equivalent merit'. One-mark-per-step rubrics (source or generated) are
 rewritten; the original stays in meta.criteria_original. Safe to re-run."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, json, re
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
+db = sqlite3.connect(paths.DBS)
 # step wording where the source line is only a noun or a value (solution id -> phrases for marks 1..N-1)
 P = {
  99: ['Recognises the cancelling pattern'], 100: ['Finds the centre'], 101: [r'Forms the discriminant equation $(6m-4)^2-4(m^2+1)(4)=0$'],

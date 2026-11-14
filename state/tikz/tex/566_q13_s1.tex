@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2024 Baulkham Hills AT1 Q13 solution: y=8/(x^2+4) (crop pixel units, y down; X=196+16.2x, Y=205-54.6y)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{6.5}{8}\selectfont}]
+  \draw[->] (11,205) -- (381,205);
+  \draw[<->] (196,279) -- (196,22);
+  \foreach \i in {-9,...,-6,-4,-3,-2,-1,1,2,3,4,6,7,8,9} \draw ({196+16.2*\i},202) -- ({196+16.2*\i},208);
+  \foreach \i in {-10,-5,5,10} \draw ({196+16.2*\i},199) -- ({196+16.2*\i},211);
+  \foreach \v in {-1.2,-0.8,-0.6,-0.4,-0.2,0.2,0.4,0.6,0.8,1.2,1.4,1.6,1.8,2.2,2.4,2.6,2.8} \draw (193,{205-54.6*\v}) -- (199,{205-54.6*\v});
+  \foreach \v in {-1,1,2,3} \draw (189,{205-54.6*\v}) -- (203,{205-54.6*\v});
+  \foreach \i/\l in {-10/-10,-5/-5,5/5,10/10} \node at ({196+16.2*\i},229) {$\l$};
+  \foreach \v in {1,2,3} \node[anchor=east] at (181,{205-54.6*\v}) {$\v$};
+  \node[anchor=east] at (181,260) {$-1$};
+  \node at (196,6) {$y$};
+  \node at (391,206) {$x$};
+  \draw[<->, line width=0.9pt] plot[smooth, domain=-11.4:11.6, samples=91] ({196+16.2*\x},{205-54.6*8/(\x*\x+4)});
+\end{tikzpicture}
+\end{document}

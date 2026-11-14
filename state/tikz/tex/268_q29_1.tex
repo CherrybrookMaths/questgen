@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.856cm, y=3.43cm]
+  \foreach \n in {0,...,4} {
+    \fill[shade dots, stipple color=black!38] (\n,0) rectangle (\n+1,{2^(-\n)});
+    \draw (\n,{2^(-\n)}) -- (\n+1,{2^(-\n)}) -- (\n+1,0);  % top + right edge only (no doubled strokes)
+  }
+  \draw[->] (-1.26,0) -- (8.15,0);
+  \draw[->] (0,-0.156) -- (0,1.737);
+  \node[anchor=north east, inner sep=1pt] at (8.15,-0.04) {$x$};
+  \node[anchor=north east, inner sep=1pt] at (-0.06,1.757) {$y$};
+  \draw[curve, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] plot[domain=-0.67:6.16, samples=120] (\x,{2^(-\x)});
+  \foreach \n in {1,...,5} \node[below] at (\n,0) {$\n$};
+  \node[anchor=north east] at (0,0) {$O$};
+  \node[left, inner sep=1pt] at (0,1) {$1$};
+  \node at (-1.45,1.43) {$y=2^{-x}$};
+  \node[align=center] at (7.03,1.20) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

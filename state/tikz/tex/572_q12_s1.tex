@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % y = 1/(x+2) - 1 from the equation: px = 386.5 + 34.25x, py = 303.5 - 23.5y (source layout)
+  \def\X#1{386.5+34.25*(#1)}\def\Y#1{303.5-23.5*(#1)}
+  \draw[<->] (22,303.5) -- (680,303.5);
+  \draw[<->] (386.5,558) -- (386.5,48);
+  \node[font=\large] at (695,304) {$x$};
+  \node[font=\large] at (384,28) {$y$};
+  % asymptotes
+  \draw[aux] (318,48) -- (318,559);
+  \draw[aux] (22,327) -- (685,327);
+  \node[font=\footnotesize] at (262,193) {$x=-2$};
+  \node[font=\footnotesize] at (536,346) {$y=-1$};
+  \draw[<->, line width=0.9pt] plot[smooth,samples=90,domain=-1.915:8.6] ({\X{\x}},{\Y{1/(\x+2)-1}});
+  \draw[<->, line width=0.9pt] plot[smooth,samples=90,domain=-10.6:-2.103] ({\X{\x}},{\Y{1/(\x+2)-1}});
+  % intercepts (-1,0) and (0,-1/2)
+  \fill (352.25,303.5) circle (3) (386.5,315.25) circle (3);
+  \node[font=\footnotesize,anchor=south] at (361,282) {$-1$};
+  \node[font=\footnotesize,anchor=south west,inner sep=2pt] at (390,304) {$-\dfrac{1}{2}$};
+\end{tikzpicture}
+\end{document}

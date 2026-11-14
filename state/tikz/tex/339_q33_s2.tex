@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% triangle ABH, right-angled at B, angle A = 19, angle AHB = 71 (true shape: AB = 1244 tan 71 = 2.90 HB)
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (A) at (20,175); \coordinate (B) at (380,175); \coordinate (H) at (380,50.9);
+  \draw (A) -- (B) -- (H) -- cycle;
+  \draw (366,175) -- (366,161) -- (380,161);
+  \draw (A) ++(0:85) arc[start angle=0, end angle=-19, radius=85];
+  \node at ($(A)+(-9.5:118)$) {$19^\circ$};
+  \draw (H) ++(90:42) arc[start angle=90, end angle=160.98, radius=42];
+  \node at ($(H)+(126:68)$) {$71^\circ$};
+  \node[anchor=west] at (388,113) {$1244$ m};
+  \node at (395,38) {$H$}; \node at (395,190) {$B$}; \node at (6,190) {$A$};
+\end{tikzpicture}
+\end{document}

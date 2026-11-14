@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down: X(x)=107+236x, Y(y)=331-236y; y=(1/2)^x matches the printed curve within 1 px
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \fill[shade dots] (107,331) -- plot[smooth, domain=0:2, samples=90] ({107+236*\x},{331-236*0.5^\x}) -- (579,331) -- cycle;
+  \draw[line width=0.9pt] plot[smooth, domain=0:2, samples=90] ({107+236*\x},{331-236*0.5^\x}) -- (579,331);
+  \draw[->] (4,331) -- (697,331);
+  \draw[->] (107,396) -- (107,18);
+  \draw (92,95) -- (107,95);
+  \draw (343.5,331) -- (343.5,338);
+  \node at (91,30.5) {$y$};
+  \node at (77.5,91.5) {$1$};
+  \node at (88,350) {$O$};
+  \node at (685.5,351) {$x$};
+  \node at (343.5,351.5) {$1$};
+  \node at (579,350) {$2$};
+\end{tikzpicture}
+\end{document}

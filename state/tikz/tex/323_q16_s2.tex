@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+  % triangle TSB
+  \draw (90,293) -- (343,293) -- (343,62) -- cycle;
+  \draw (343,277) -- (327,277) -- (327,293);
+  \node at (82,320) {$S$}; \node at (343,320) {$B$}; \node at (343,36) {$T$};
+  \node at (157,272) {$48^\circ$}; \node at (300,138) {$42^\circ$}; \node at (380,180) {$50$};
+  % triangle TDB
+  \draw (100,598) -- (355,598) -- (355,370) -- cycle;
+  \draw (355,582) -- (339,582) -- (339,598);
+  \node at (100,626) {$D$}; \node at (355,626) {$B$}; \node at (376,352) {$T$};
+  \node at (165,578) {$35^\circ$}; \node at (318,452) {$55^\circ$}; \node at (390,490) {$50$};
+  % triangle SBD
+  \draw (325,753) -- (472,912) -- (72,967) -- cycle;
+  \node at (322,730) {$S$}; \node at (500,928) {$B$}; \node at (62,992) {$D$};
+  \node at (418,896) {$62^\circ$};
+  \node[rotate=-47] at (446,803) {$50\tan42^\circ$};
+  \node[rotate=8] at (265,960) {$50\tan55^\circ$};
+\end{tikzpicture}
+\end{document}

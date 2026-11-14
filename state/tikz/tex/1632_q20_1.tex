@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+% 1632_q20_1: probability tree drawn with the shared tree template (DIAGRAM_SPEC rule 21; tikz/tree_style.tex).
+% Level gaps D_k (cm): 1: 4.76, 2: 2.38, computed by work/diag_fix5_2/treegen.py.
+\treewidth{1}{Walk}
+\treewidth{2}{Correct uniform}
+\treewidth{2}{Not correct uniform}
+\treewidth{1}{Not walk}
+\treewidth{2}{Correct uniform}
+\treewidth{2}{Not correct uniform}
+\treecolumns{2}
+\begin{tikzpicture}
+  \treeroot{r}{0cm}
+  \treenode{n1}{1}{2.380cm}{Walk}
+  \treebranch{r}{n1}{$\dfrac{3}{10}$}
+  \treenode{n2}{2}{3.570cm}{Correct uniform}
+  \treebranch{n1}{n2}{$\dfrac{9}{10}$}
+  \treenode{n3}{2}{1.190cm}{Not correct uniform}
+  \treebranch{n1}{n3}{$\dfrac{1}{10}$}
+  \treenode{n4}{1}{-2.380cm}{Not walk}
+  \treebranch{r}{n4}{$\dfrac{7}{10}$}
+  \treenode{n5}{2}{-1.190cm}{Correct uniform}
+  \treebranch{n4}{n5}{$\dfrac{9}{10}$}
+  \treenode{n6}{2}{-3.570cm}{Not correct uniform}
+  \treebranch{n4}{n6}{$\dfrac{1}{10}$}
+\end{tikzpicture}
+\end{document}

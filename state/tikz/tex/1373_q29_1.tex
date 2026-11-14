@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{8.6}{10}\selectfont]
+  \def\X(#1){48+35.9*(#1)}
+  \fill[shade] (48,181) -- (407,181)
+    -- plot[smooth,domain=10:1,samples=90,variable=\t] ({48+35.9*\t},{503-107.34*sqrt(\t-1)}) -- (48,503) -- cycle;
+  \draw[->] (38,503) -- (494,503) node[right,inner sep=2pt] {\fontsize{11}{12}\selectfont$x$};
+  \draw[->] (48,515) -- (48,64); \node at (48,40) {\fontsize{11}{12}\selectfont$y$};
+  \draw (48,181) -- (407,181) -- (407,515);
+  \node[below,inner sep=2pt] at (407,517) {$10$};
+  \draw[curve,line width=0.9pt] plot[smooth,domain=1:12.05,samples=90,variable=\t] ({48+35.9*\t},{503-107.34*sqrt(\t-1)});
+  \node at (391,127) {\fontsize{12}{14}\selectfont$y=2\sqrt{x-1}$};
+\end{tikzpicture}
+\end{document}

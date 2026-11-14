@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % GeoGebra plot (to scale): origin (393,675) px, 115 px per unit
+  \begin{scope}[shift={(393,675)}, xscale=115, yscale=-115]
+    \draw (-3.357,0) -- (3.408,0);
+    \draw (0,5.826) -- (0,-0.8);
+    \foreach \i in {-3,...,-1,1,2,3} {
+      \draw (\i,0) -- (\i,-0.05);
+      \node[font=\small, anchor=north] at (\i,-0.06) {$\i$};
+    }
+    \foreach \i in {1,...,5} {\draw (0,\i) -- (-0.05,\i);}
+    \foreach \i in {1,2,4} {\node[font=\small, anchor=east] at (-0.06,\i) {$\i$};}
+    \node[font=\small, anchor=south east] at (-0.06,5.02) {$5$};
+    \node[font=\small, anchor=north east] at (-0.06,2.98) {$3$};
+    \node[font=\small, anchor=north east] at (-0.06,-0.06) {$0$};
+    % option 1: y = 3 + sqrt(4 - x^2) (top half, centre (0,3))
+    \draw[line width=0.9pt] (2,3) arc[start angle=0, end angle=180, radius=2];
+    % option 2: y = 5 - sqrt(4 - x^2) (bottom half, centre (0,5))
+    \draw[line width=0.9pt] (-2,5) arc[start angle=180, end angle=360, radius=2];
+  \end{scope}
+\end{tikzpicture}
+\end{document}

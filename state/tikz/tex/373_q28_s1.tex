@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(-11,-8)}]
+\def\ox{140.5}\def\oy{357.5}\def\sx{220}\def\sy{100}
+\path[shade hatch reverse, draw=none] plot[domain=0:0.7854, smooth, samples=60] ({\ox+\sx*\x},{\oy-\sy*tan(\x r)})
+  -- plot[domain=0.7854:0, smooth, samples=60] ({\ox+\sx*\x},{\oy-\sy*(2*tan(\x r)-1)}) -- cycle;
+\draw[->] (30,\oy) -- (580,\oy);
+\draw[->] (\ox,607) -- (\ox,58);
+\draw[<->] plot[domain=-0.502:1.2477, smooth, samples=90] ({\ox+\sx*\x},{\oy-\sy*tan(\x r)});
+\draw[<->] plot[domain=-0.5:1.1023, smooth, samples=90] ({\ox+\sx*\x},{\oy-\sy*(2*tan(\x r)-1)});
+\fill (\ox+172.8,\oy-100) circle (3);
+\node at (603,357) {$x$};
+\node at (140,33) {$y$};
+\node at (256,119) {$y=2\tan x-1$};
+\node at (443,187) {$y=\tan x$};
+\node at (335,281) {$P$};
+\draw[aux] (\ox+172.8,\oy-100) -- (\ox+172.8,\oy);
+\node at (\ox+172.8,\oy+38) {$\dfrac{\pi}{4}$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

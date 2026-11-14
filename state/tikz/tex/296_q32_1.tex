@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop-pixel coordinates (200 dpi), y downward; origin at (157,587), 417 px per unit on both axes (crop is to scale)
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm,
+   declare function={X(\t)=157+417*\t; Ya(\t)=587-417*exp(-2*\t); Yb(\t)=587-417*(exp(-\t)-0.25);}]
+  \fill[shade dots] plot[domain=0:0.6931, samples=60] ({X(\x)},{Ya(\x)})
+     -- plot[domain=0.6931:0, samples=60] ({X(\x)},{Yb(\x)}) -- cycle;
+  \draw[->] (22,587) -- (1068,587);
+  \draw[->] (157,648) -- (157,14);
+  \draw[curve] plot[domain=-0.077:2.07, samples=150] ({X(\x)},{Ya(\x)});
+  \draw[curve] plot[domain=-0.261:2.07, samples=150] ({X(\x)},{Yb(\x)});
+  \node[pt, inner sep=1.3pt] at ({X(0.6931)},{Yb(0.6931)}) {};
+  \node at (511,442) {$\left(\ln 2,\dfrac{1}{4}\right)$};
+  \node at (285,265) {$y=e^{-2x}$};
+  \node at (255,455) {$y=e^{-x}-\dfrac{1}{4}$};
+  \node at (138,606) {$O$};
+  \node at (141,31) {$y$};
+  \node at (1057,607) {$x$};
+\end{tikzpicture}
+\end{document}

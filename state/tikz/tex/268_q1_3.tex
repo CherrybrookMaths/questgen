@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.508cm, y=0.508cm,
+  xmin=-3.98, xmax=3.93, ymin=-4.43, ymax=4.43,
+  xtick=\empty, ytick=\empty, xlabel={}, ylabel={}]
+  \addplot[domain=-0.73:2.73, <->] {2*x-2};
+  \node[anchor=north east, inner sep=1.5pt] at (axis cs:0,0) {$O$};
+  \node[anchor=north east, inner sep=1pt] at (axis cs:3.93,-0.08) {$x$};
+  \node[anchor=north east, inner sep=1pt] at (axis cs:-0.12,4.55) {$y$};
+  \node[anchor=north west, inner sep=0pt] at (axis cs:-4.95,4.6) {\phantom{A.}};  % option letter removed (layout adds it outside)
+\end{axis}
+\end{tikzpicture}
+\end{document}

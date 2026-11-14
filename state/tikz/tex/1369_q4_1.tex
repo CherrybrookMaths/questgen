@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{13}{15}\selectfont]
+  \def\X#1{194+16.9*#1}
+  % minor grid (1 mark across, 25 rows down), major every 5
+  \foreach \i in {1,...,39}{\pgfmathparse{mod(\i,5)==0?0:1}\ifnum\pgfmathresult=1 \draw[black!30] ({\X{\i}},21.5) -- ({\X{\i}},442);\fi}
+  \foreach \j in {1,...,24}{\pgfmathparse{mod(\j,5)==0?0:1}\ifnum\pgfmathresult=1 \draw[black!30] (194,{21.5+16.82*\j}) -- (870,{21.5+16.82*\j});\fi}
+  \foreach \i in {5,10,...,35} \draw[black!60] ({\X{\i}},21.5) -- ({\X{\i}},442);
+  \foreach \j in {5,10,15,20} \draw[black!60] (194,{21.5+16.82*\j}) -- (870,{21.5+16.82*\j});
+  \draw (194,21.5) rectangle (870,442);
+  \foreach \i in {0,10,20,30,40} \node[anchor=north, inner sep=2pt] at ({\X{\i}},452) {\i};
+  \foreach \i in {0,5,...,40} \draw ({\X{\i}},442) -- ({\X{\i}},454);
+  \node at (532,522) {Marks};
+  \node[anchor=east, inner sep=0pt] at (170,152) {History};
+  \node[anchor=east, inner sep=0pt] at (170,322) {Geography};
+  \begin{scope}[line width=0.9pt]  % rule 9 (owner: box plots a bit thicker)
+  % History: 10, 16.5, 25, 30, 38
+  \draw ({\X{10}},148.5) -- ({\X{16.5}},148.5); \draw ({\X{30}},148.5) -- ({\X{38}},148.5);
+  \draw ({\X{10}},127) -- ({\X{10}},170); \draw ({\X{38}},127) -- ({\X{38}},170);
+  \draw ({\X{16.5}},106) rectangle ({\X{30}},190.5); \draw ({\X{25}},106) -- ({\X{25}},190.5);
+  % Geography: 10, 22, 30, 32, 38
+  \draw ({\X{10}},318) -- ({\X{22}},318); \draw ({\X{32}},318) -- ({\X{38}},318);
+  \draw ({\X{10}},296) -- ({\X{10}},339); \draw ({\X{38}},296) -- ({\X{38}},339);
+  \draw ({\X{22}},275.5) rectangle ({\X{32}},360); \draw ({\X{30}},275.5) -- ({\X{30}},360);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,6 +1,7 @@
 """Stage 3 loader: out/<id>.json -> questions.db. Idempotent per document (deletes that doc's rows first)."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, sqlite3, glob, os, datetime
-DB = '/mnt/user-data/outputs/questions.db'
+DB = paths.DBS
 db = sqlite3.connect(DB); db.execute('PRAGMA foreign_keys=ON')
 # measured sub-agent token totals per document (from Agent tool usage), parse stage
 TOK = {296:164111,568:119512,34:144401,222:163613,268:152874,408:163933,642:142754,33:127516,226:144853,
@@ -15,7 +16,7 @@ import sys
 IDS = [a for a in sys.argv[1:] if a.isdigit()]
 FORCE = '--force' in sys.argv
 if not IDS: sys.exit('name the document ids to load, e.g. python3 load.py 1628 1630')
-FILES = [f'/home/claude/pilot/out/{i}.json' for i in IDS]
+FILES = [paths.S + f'out/{i}.json' for i in IDS]   # state/out/ (tracked parse outputs)
 for i in IDS:
     if not FORCE and db.execute('select count(*) from questions where document_id=?', (int(i),)).fetchone()[0]:
         sys.exit(f'document {i} already has questions: refusing to wipe it (use --force only if you mean to discard its edits)')

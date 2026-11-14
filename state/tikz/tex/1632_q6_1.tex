@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (E) at (41,54); \coordinate (F) at (701,54); \coordinate (G) at (348,271); \coordinate (H) at (348,54);
+  \draw (E) -- (F) -- (G) -- cycle;
+  \draw[aux] (H) -- (G);
+  \draw (348,77) -- (372,77) -- (372,54);
+  \draw (140,54) arc[start angle=0, end angle=35.3, radius=99];
+  \draw (348,186) arc[start angle=-90, end angle=-144.7, radius=85];
+  \node at (26,56) {$E$};
+  \node at (714,56) {$F$};
+  \node at (349,289) {$G$};
+  \node at (369,33) {81};
+  \node at (110,72) {$35^\circ$};
+  \node at (320,220) {$55^\circ$};
+  \node at (530,190) {50};
+  \node[align=center, inner sep=0pt, font=\normalsize] at (762,214) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

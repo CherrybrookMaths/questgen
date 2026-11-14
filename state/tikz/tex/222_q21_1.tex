@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+% f(x) = x^2(x-6)/4 : double root at 0, min (4,-8), root 6; scales fitted to the crop
+\begin{axis}[exam axes, x=0.728cm, y=0.179cm, xmin=-5.17, xmax=8.71, ymin=-16.7, ymax=16.5,
+  xtick=\empty, ytick=\empty,
+  xlabel style={anchor=center, at={(axis cs:8.55,-1.7)}},
+  ylabel style={anchor=center, at={(axis cs:-0.31,15.9)}}]
+  \addplot[open arrow, shorten <=0pt, domain=-2.64:7.19, samples=200] {x^2*(x-6)/4};
+  \draw[open arrow] (axis cs:-2.4,{(-2.4)^2*(-2.4-6)/4}) -- (axis cs:-2.64,{(-2.64)^2*(-2.64-6)/4});
+  \node[pt] at (axis cs:4,-8) {}; \node at (axis cs:4,-9.8) {$(4,-8)$};
+  \node[pt] at (axis cs:6,0) {}; \node at (axis cs:6.05,-1.7) {$6$};
+  \node at (axis cs:-0.31,-1.7) {$O$};
+  \node[align=center, inner sep=0pt] at (axis cs:10.8,9.4) {NOT TO\\SCALE};
+\end{axis}
+\end{tikzpicture}
+\end{document}

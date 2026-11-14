@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[gl/.style={dotted, line width=0.6pt, black!45}]
+\begin{axis}[exam axes, x=1.7653cm, y=2.1082cm, xmin=-0.35, xmax=3.6, ymin=-1.69, ymax=1.83,
+  axis line style={->, line width=0.6pt}, label style={font=\large}, every node/.append style={font=\large},
+  xtick=\empty, ytick=\empty, xlabel={$t$}, ylabel={$x$},
+  xlabel style={at={(axis cs:3.6,0)}, anchor=west, inner sep=2pt, yshift=-1.4pt},
+  ylabel style={at={(axis cs:0,1.83)}, anchor=north east, inner sep=2pt, xshift=-1pt, yshift=2.2pt}]
+  \draw[gl] (axis cs:1,-1) -- (axis cs:1,1);
+  \draw[gl] (axis cs:2,-1) -- (axis cs:2,1);
+  \draw[gl] (axis cs:3,-1) -- (axis cs:3,1);
+  \draw[gl] (axis cs:0,-1) -- (axis cs:3.5,-1);
+  \draw[gl] (axis cs:0,1) -- (axis cs:3.5,1);
+  \addplot[curve, line width=0.6pt, domain=0:3.25, ->] {1.5-x};
+  \node[anchor=north, inner sep=3pt] at (axis cs:1,0) {$1$};
+  \node[anchor=north, inner sep=3pt] at (axis cs:2,0) {$2$};
+  \node[anchor=north, inner sep=3pt] at (axis cs:3,0) {$3$};
+  \node[anchor=north east, inner sep=3pt] at (axis cs:0,0) {$0$};
+
+\end{axis}
+\end{tikzpicture}
+\end{document}

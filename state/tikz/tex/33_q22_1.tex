@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates in crop pixels (200 dpi), y downward
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (A) at (33,45);
+  \coordinate (B) at (427,45);
+  \coordinate (O) at (230,421);
+  \draw (A) -- (B) -- (O) -- cycle;
+  \pic[draw, angle radius=1.10cm] {angle=O--A--B};
+  \pic[draw, angle radius=1.10cm] {angle=A--B--O};
+  \pic[draw, angle radius=1.12cm] {angle=B--O--A};
+  \node at (16,48) {$A$};
+  \node at (445,48) {$B$};
+  \node at (230,442) {$O$};
+  \node at (230,22) {$8$};
+  \node at (345,242) {$r$};
+  \node at (82,77) {$72^\circ$};
+  \node at (382,77) {$72^\circ$};
+  \node at (233,363) {$36^\circ$};
+\end{tikzpicture}
+\end{document}

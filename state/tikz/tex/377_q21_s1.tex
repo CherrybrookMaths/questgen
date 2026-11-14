@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\Large}]
+  % true y=sin 2x and y=cos x on 0..pi/2 (1 rad = 429.7 px, 1 unit = 508 px); meet at (pi/6, sqrt3/2) and (pi/2, 0)
+  \path[shade hatch] plot[domain=0.52360:1.57080,samples=60,smooth] ({160+429.718*\x},{641-508*sin(2*\x r)}) -- plot[domain=1.57080:0.52360,samples=60,smooth] ({160+429.718*\x},{641-508*cos(\x r)}) -- cycle;
+  \draw[->] (15,641) -- (1035,641);
+  \draw[->] (160,646) -- (160,15);
+  \draw[line width=0.9pt] plot[domain=0:1.57080,samples=90,smooth] ({160+429.718*\x},{641-508*sin(2*\x r)});
+  \draw[line width=0.9pt] plot[domain=0:1.57080,samples=90,smooth] ({160+429.718*\x},{641-508*cos(\x r)});
+  \draw[aux] (160,201.1) -- (385.0,201.1) -- (385.0,641);
+  \draw (152,133.0) -- (168,133.0);
+  \foreach \t in {497.5,610.0} \draw (\t,634) -- (\t,648);
+  \fill (385.0,641) circle (2pt) (835.0,641) circle (2pt) (497.5,133.0) circle (2pt);
+  \node at (112,22) {$y$};
+  \node at (1065,641) {$x$};
+  \node at (98,120.0) {$1$};
+  \node at (92,224.1) {$\dfrac{\sqrt3}{2}$};
+  \node at (385.0,703) {$\dfrac{\pi}{6}$};
+  \node at (497.5,703) {$\dfrac{\pi}{4}$};
+  \node at (610.0,703) {$\dfrac{\pi}{3}$};
+  \node at (845.0,703) {$\dfrac{\pi}{2}$};
+\end{tikzpicture}
+\end{document}

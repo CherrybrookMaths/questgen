@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{10.5}{12.5}\selectfont]
+\coordinate (T) at (203,44); \coordinate (O) at (203,445); \coordinate (A) at (630,443.5); \coordinate (B) at (339,596);
+\draw[aux,->] (8,629) -- (491,177);
+\draw[aux,->] (A) -- (815,271);
+\draw[aux,->] (O) -- (733,444);
+\draw[aux] (O) -- (B) -- (A);
+\draw (T) -- (O); \draw (T) -- (B); \draw (T) -- (A);
+\draw (203,421) -- (227,421) -- (227,445);
+\draw (O) ++(0:20) arc[start angle=0,end angle=48,radius=20];
+\draw (A) ++(180:54) arc[start angle=180,end angle=223.1,radius=54];
+\draw (B) ++(228:48) arc[start angle=228,end angle=256.2,radius=48];
+\draw[<->] (A) ++({45*cos(-42.9)},{37*sin(-42.9)}) arc[start angle=-42.9,end angle=152.3,x radius=45,y radius=37];
+\node[anchor=base,inner sep=0] at (192,33) {T};
+\node[anchor=base,inner sep=0] at (188.5,442) {O};
+\node[anchor=base,inner sep=0] at (639,469) {A};
+\node[anchor=base,inner sep=0] at (350.5,629) {B};
+\node[anchor=base,inner sep=0,font=\fontsize{9.6}{11}\selectfont] at (417.5,433) {18 m};
+\node[anchor=base,inner sep=0,font=\fontsize{9.6}{11}\selectfont] at (505,560) {12 m};
+\node[anchor=base,inner sep=0,font=\fontsize{9.6}{11}\selectfont] at (552,420) {$30^\circ$};
+\node[anchor=base,inner sep=0,font=\fontsize{9.6}{11}\selectfont] at (690,499) {$210^\circ$};
+\node[inner sep=0] at (302.5,531) {$\theta$};
+\node[anchor=base,inner sep=0,font=\fontsize{12}{14}\selectfont\bfseries] at (504,166) {North};
+\node[anchor=base,inner sep=0,font=\fontsize{12}{14}\selectfont\bfseries] at (823.5,263) {North};
+\node[anchor=base,inner sep=0,font=\fontsize{12}{14}\selectfont\bfseries] at (789.5,454) {East};
+\end{tikzpicture}
+\end{document}

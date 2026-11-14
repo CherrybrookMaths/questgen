@@ -23,13 +23,14 @@ work/batches.json: {version, made, updated, lanes: {"advanced|12": {first, batch
 why}]}}}. If it is missing (a new sandbox) it is rebuilt from site/data/inventory.json "lanes" (tracked in git), so the numbering
 survives. --reset starts a lane over (only before any of its batches is queued: say so to the owner first).
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import datetime, glob, json, os, sqlite3, sys
 
-P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
-STORE = P + 'work/batches.json'
+P = paths.P
+STORE = paths.S + 'work/batches.json'
 INV = P + 'site/data/inventory.json'
 PROGRESS = P + 'site/data/progress.json'
-SEED = P + 'work/importq_seed.json'
+SEED = paths.S + 'work/importq_seed.json'
 SIZE = 9
 READY = ('ready_current', 'ready_old')
 FIRST_LANE = 'advanced|12'      # the lane the finished batches b1-b5 belong to (every import so far was Year 12 Advanced)
@@ -70,7 +71,7 @@ def finished():
 
 def seed_order():
     """The owner's import order (doc ids): the page_importq mirror if it has rows, else the 13 Nov seed file."""
-    db_path = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
+    db_path = paths.DBS
     try:
         db = sqlite3.connect('file:' + db_path + '?mode=ro', uri=True)
         if db.execute("SELECT 1 FROM sqlite_master WHERE name='page_importq'").fetchone():

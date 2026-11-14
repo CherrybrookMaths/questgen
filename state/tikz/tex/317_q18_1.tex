@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+% 317_q18_1: probability tree drawn with the shared tree template (DIAGRAM_SPEC rule 21; tikz/tree_style.tex).
+% Level gaps D_k (cm): 1: 4.75, 2: 2.38, computed by work/diag_fix5_2/treegen.py.
+\treewidth{1}{\hspace*{1.1cm}}
+\treewidth{2}{\hspace*{1.1cm}}
+\treewidth{2}{\hspace*{1.1cm}}
+\treewidth{1}{\hspace*{1.1cm}}
+\treewidth{2}{\hspace*{1.1cm}}
+\treewidth{2}{\hspace*{1.1cm}}
+\treewidth{1}{\hspace*{1.1cm}}
+\treewidth{2}{\hspace*{1.1cm}}
+\treewidth{2}{\hspace*{1.1cm}}
+\treecolumns{2}
+\begin{tikzpicture}
+  \treeroot{r}{0cm}
+  \treenode{n1}{1}{4.751cm}{\hspace*{1.1cm}}
+  \treebranch{r}{n1}{}
+  \treenode{n2}{2}{5.939cm}{\hspace*{1.1cm}}
+  \treebranch{n1}{n2}{}
+  \treenode{n3}{2}{3.563cm}{\hspace*{1.1cm}}
+  \treebranch{n1}{n3}{}
+  \treenode{n4}{1}{0.000cm}{\hspace*{1.1cm}}
+  \treebranch{r}{n4}{}
+  \treenode{n5}{2}{1.188cm}{\hspace*{1.1cm}}
+  \treebranch{n4}{n5}{}
+  \treenode{n6}{2}{-1.188cm}{\hspace*{1.1cm}}
+  \treebranch{n4}{n6}{}
+  \treenode{n7}{1}{-4.751cm}{\hspace*{1.1cm}}
+  \treebranch{r}{n7}{}
+  \treenode{n8}{2}{-3.563cm}{\hspace*{1.1cm}}
+  \treebranch{n7}{n8}{}
+  \treenode{n9}{2}{-5.939cm}{\hspace*{1.1cm}}
+  \treebranch{n7}{n9}{}
+\end{tikzpicture}
+\end{document}

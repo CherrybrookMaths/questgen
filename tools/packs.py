@@ -17,12 +17,13 @@ The page-image packs (data/img/<doc>.json, 0.1-3 MB each) stay one per paper: Re
                                      work/restructure/merge_map.json (old path -> new path). Idempotent.
   python3 tools/packs.py --check    exit 1 if per-paper files are left or a group is missing
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, os, re, shutil, sys
 
-P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
+P = paths.P
 GROUPS = {'svg': 8, 'cmp': 1}   # must match PACK_G in page_src/js/05_figures.js
 ARCH = P + 'archive/packs_perpaper_1115/'
-MAP = P + 'work/restructure/merge_map.json'
+MAP = paths.S + 'work/restructure/merge_map.json'
 PER_PAPER = re.compile(r'^(\d+)\.json$')
 GROUP_FILE = re.compile(r'^g(\d+)\.json$')
 

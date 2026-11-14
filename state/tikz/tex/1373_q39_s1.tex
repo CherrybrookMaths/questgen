@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\usetikzlibrary{decorations.pathreplacing}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{13}{15}\selectfont]
+  \draw (52,228) -- (164,70) -- (457,70) -- (558,228) -- cycle;
+  \draw (164,70) -- (164,228);
+  \draw[aux] (457,70) -- (457,228);
+  \draw (90,228) arc[start angle=0, end angle=-54.7, radius=38];
+  \node at (102,196) {$\theta$};
+  \node at (80,132) {$7$};
+  \node at (192,158) {$h$};
+  \node at (116,252) {$x$};
+  \node at (336,258) {$7$};
+  \node at (532,252) {$x$};
+  \draw[decorate,decoration={brace,amplitude=8pt}] (164,52) -- (457,52);
+  \node at (325,20) {$a$};
+  \draw[decorate,decoration={brace,amplitude=8pt,mirror}] (52,282) -- (558,282);
+  \node at (305,322) {$b$};
+\end{tikzpicture}
+\end{document}

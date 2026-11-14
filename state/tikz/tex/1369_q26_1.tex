@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % sketch: arc centre sits below the vertex in the crop (kept, rule 1)
+  \coordinate (O) at (259,352);
+  \draw (24,253) -- (O) -- (487,253);
+  \draw (255.5,372.5) ++(-152.7:260.5) arc[start angle=-152.7, end angle=-27.3, radius=260.5];
+  \draw (O) ++(-157.2:53) arc[start angle=-157.2, end angle=-23.5, radius=53];
+  \node at (259,330) {$\thetaup$};
+  \node at (101,323) {$r$};
+  \node[font=\fontsize{14}{17}\selectfont] at (261,50) {$\dfrac{10\pi}{3}$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+  \path[shade hatch] plot[smooth,samples=31,domain=90:180] ({186+1.75556*\x},{282.5-197.5*sin(\x)}) -- plot[smooth,samples=31,domain=180:90] ({186+1.75556*\x},{282.5-118.5*cos(\x)}) -- cycle;
+  \draw[aux] (344,85.0) -- (344,282.5);
+  \draw[aux] (502,282.5) -- (502,401.0);
+  \draw (28,282.5) -- (1015,282.5);
+  \draw[->] (186,521.5) -- (186,21.5);
+  \foreach \v/\l in {6/6,4/4,2/2,-2/-2,-4/-4,-6/-6}{\draw (178,282.5-39.5*\v) -- (195,282.5-39.5*\v); \node[anchor=east] at (168,282.5-39.5*\v) {$\l$};}
+  \draw (502,274.5) -- (502,290.5) (818,274.5) -- (818,290.5);
+  \node at (160,320.5) {$O$};
+  \node at (484,322.5) {$\pi$};
+  \node at (845,322.5) {$2\pi$};
+  \node at (210,23.5) {$y$};
+  \draw[line width=0.9pt,smooth,samples=91,domain=0:360] plot ({186+1.75556*\x},{282.5-197.5*sin(\x)});
+  \draw[line width=0.9pt,smooth,samples=91,domain=0:360] plot ({186+1.75556*\x},{282.5-118.5*cos(\x)});
+  \node[anchor=west] at (850,156.1) {$y=3\cos x$};
+  \node[anchor=west] at (760,460.2) {$y=5\sin x$};
+  \fill (344,85.0) circle (3.5);
+  \fill (660,480.0) circle (3.5);
+  \fill (502,282.5) circle (3.5);
+  \fill (818,282.5) circle (3.5);
+  \fill (186,164.0) circle (3.5);
+  \fill (344,282.5) circle (3.5);
+  \fill (502,401.0) circle (3.5);
+  \fill (660,282.5) circle (3.5);
+  \fill (818,164.0) circle (3.5);
+\end{tikzpicture}
+\end{document}

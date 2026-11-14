@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% clean redraw of the marking-guideline sketch on its grid (crop pixel units, y down):
+% origin (306.5,290.5), 28.95 px per x unit, 34.0 px per y unit (grid cells are not square in the crop).
+% Line y=x-2 exact. Cubic follows the sketch (min ~-8.2 near x=0.2, right branch reaching the arrow at (3,4.2)) as a smooth
+% curve through points read from the crop, pinned to the labelled (-3,-5),(-2,0),(-1,-3),(0,-8),(2,0); marker notes omitted.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{11}{13}\selectfont}]
+  \def\X#1{306.5+28.95*(#1)}\def\Y#1{290.5-34.0*(#1)}
+  \begin{scope}[black!55]
+    \draw (37,64) rectangle (585,582);
+    \foreach \x in {47.5,76.5,105.4,134.3,163.3,192.2,221.2,250.2,279.1,337.0,365.9,394.9,423.8,452.8,481.8,510.7,539.6,568.6} \draw (\x,64) -- (\x,582);
+    \foreach \y in {88,122,156,190,224.5,258,326,360,394,428,462,496,531,565} \draw (37,\y) -- (585,\y);
+  \end{scope}
+  \draw[->] (27,290.5) -- (612,290.5);
+  \draw[->] (306.5,600) -- (306.5,26);
+  \node[font=\fontsize{12}{14}\selectfont] at (604,318) {$x$};
+  \node[font=\fontsize{12}{14}\selectfont] at (288,22) {$y$};
+  \node at (293,309) {$O$};
+  \draw[<->,line width=0.9pt] plot[smooth] coordinates {(207.5,528.5) (219.7,460.5) (228.9,392.5) (237.0,331.3) (242.8,300.7) (248.6,290.5) (254.4,300.7) (263.1,334.7) (270.9,368.7) (277.6,392.5) (283.1,440.1) (290.9,491.1) (297.8,530.2) (306.5,562.5) (312.3,569.3) (317.5,564.2) (323.9,540.4) (334.9,477.5) (343.0,431.9) (349.9,392.5) (357.2,341.5) (364.4,290.5) (376.0,239.5) (386.1,193.6) (393.1,147.7)};
+  \draw[line width=0.9pt] plot[domain=-6.05:8.1] ({\X{\x}},{\Y{\x-2}});
+  \node[anchor=north east] at ({\X{-2}-15},{\Y{0}+4}) {\halo{$-2$}};
+  \node[anchor=north west] at ({\X{2}+6},{\Y{0}+5}) {\halo{$2$}};
+  \node[anchor=east] at ({\X{0}-6},{\Y{-8}+6}) {\halo{$-8$}};
+  \node[anchor=east] at ({\X{-3}-10},{\Y{-5}+2}) {\halo{$(-3,-5)$}};
+  \node[anchor=west] at ({\X{-1}+9},{\Y{-3}-4}) {\halo{$(-1,-3)$}};
+  \node[anchor=south, rotate=8] at (448,55) {$y=(x+2)(x^2-4)$};
+  \node[anchor=west] at (556,66) {\halo{$y=x-2$}};
+\end{tikzpicture}
+\end{document}

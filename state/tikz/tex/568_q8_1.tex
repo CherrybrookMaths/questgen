@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\tikzset{oa/.style={{Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}}}
+\begin{axis}[exam axes, axis line style={draw=none},
+  x=0.533cm, y=0.97cm, xmin=-6.1, xmax=6.1, ymin=-1.8, ymax=4.55,
+  xtick=\empty, ytick=\empty, xlabel={}, ylabel={}]
+  \addplot[shade dots, draw=none, domain=1:2.62] {2/x} \closedcycle;
+  \draw[oa] (axis cs:-6.1,0) -- (axis cs:6.1,0) node[right] {x};
+  \draw[oa] (axis cs:0,-1.8) -- (axis cs:0,4.55) node[above] {y};
+  \addplot[<->, domain=0.445:6.0] {2/x};
+  \draw (axis cs:1,0) -- (axis cs:1,2);
+  \draw (axis cs:2.62,0) -- (axis cs:2.62,{2/2.62});
+  \node[below left, inner xsep=1pt] at (axis cs:0,0) {$0$};
+  \node[below] at (axis cs:1,0) {$1$};
+  \node[below] at (axis cs:2.62,0) {$d$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

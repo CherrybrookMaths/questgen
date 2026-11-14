@@ -1,0 +1,49 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % grey (blanked) cells: month 4 balance; month 5 principal, interest, withdrawal
+  \fill[black!18] (806,248) rectangle (1059,302);
+  \fill[black!18] (152,302) rectangle (806,356);
+  \draw (8,8) rectangle (1059,356);
+  \draw (8,86) -- (1059,86);
+  \draw (8,140) -- (1059,140);
+  \draw (8,194) -- (1059,194);
+  \draw (8,248) -- (1059,248);
+  \draw (8,302) -- (1059,302);
+  \draw (152,8) -- (152,356);
+  \draw (390,8) -- (390,356);
+  \draw (610,8) -- (610,356);
+  \draw (806,8) -- (806,356);
+  \node[anchor=base] at (80.0,58.0) {Month};
+  \node[anchor=base] at (271.0,40.0) {Principal};
+  \node[anchor=base] at (271.0,73.0) {$(P)$};
+  \node[anchor=base] at (500.0,40.0) {Interest};
+  \node[anchor=base] at (500.0,73.0) {$(I)$};
+  \node[anchor=base] at (708.0,40.0) {Withdrawal};
+  \node[anchor=base] at (708.0,73.0) {$(M)$};
+  \node[anchor=base] at (932.5,40.0) {Balance};
+  \node[anchor=base] at (932.5,73.0) {$(P\;+\;I\;-\;M)$};
+  \node[anchor=base] at (80.0,124.0) {1};
+  \node[anchor=base] at (271.0,124.0) {500~000.00};
+  \node[anchor=base] at (500.0,124.0) {1500.00};
+  \node[anchor=base] at (708.0,124.0) {2000};
+  \node[anchor=base] at (932.5,124.0) {499~500.00};
+  \node[anchor=base] at (80.0,178.0) {2};
+  \node[anchor=base] at (271.0,178.0) {499~500.00};
+  \node[anchor=base] at (500.0,178.0) {1498.50};
+  \node[anchor=base] at (708.0,178.0) {2500};
+  \node[anchor=base] at (932.5,178.0) {498~498.50};
+  \node[anchor=base] at (80.0,232.0) {3};
+  \node[anchor=base] at (271.0,232.0) {498~498.50};
+  \node[anchor=base] at (500.0,232.0) {1495.50};
+  \node[anchor=base] at (708.0,232.0) {3000};
+  \node[anchor=base] at (932.5,232.0) {496~994.00};
+  \node[anchor=base] at (80.0,286.0) {4};
+  \node[anchor=base] at (271.0,286.0) {496~994.00};
+  \node[anchor=base] at (500.0,286.0) {1490.98};
+  \node[anchor=base] at (708.0,286.0) {3800};
+  \node[anchor=base] at (80.0,340.0) {5};
+  \node[anchor=base] at (932.5,340.0) {491~969.03};
+\end{tikzpicture}
+\end{document}

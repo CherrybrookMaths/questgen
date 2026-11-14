@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel coordinates (200 dpi), y down; axes cross at (186,229.5); full plane (x-axis from the left edge)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, anchor=base west, font=\fontsize{12.5}{14}\selectfont}]
+  \draw[->] (7,229.5) -- (367,229.5);
+  \draw[->] (186,431) -- (186,29);
+  \draw[<->] (151,77) -- (321,375);
+  \node at (165,45) {$y$};
+  \node at (157,259) {$O$};
+  \node at (346,258) {$x$};
+  \node[anchor=base] at (542.5,116.5) {NOT TO};
+  \node[anchor=base] at (543,156.5) {SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.749cm, y=0.749cm, xmin=-6.19, xmax=6.05, ymin=-7.3, ymax=6.05,
+  xtick=\empty, ytick=\empty,
+  xlabel style={at={(axis cs:5.88,-0.39)}, anchor=center},
+  ylabel style={at={(axis cs:-0.29,5.92)}, anchor=center}]
+  \foreach \i in {-5,...,5} \edef\tmp{\noexpand\draw[black!35, line width=0.6pt] (axis cs:\i,-6) -- (axis cs:\i,5);}\tmp
+  \foreach \j in {-6,...,5} \edef\tmp{\noexpand\draw[black!35, line width=0.6pt] (axis cs:-5,\j) -- (axis cs:5,\j);}\tmp
+  \addplot[curve, domain=-4.19:2.2, samples=200] {(1-x)*(3+x)};
+  \addplot[curve, domain=-4.83:4.78] {x-1};
+  \node at (axis cs:-3.02,-0.53) {$-3$};
+  \node at (axis cs:-0.34,-0.39) {$O$};
+  \node at (axis cs:0.98,-0.53) {$1$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

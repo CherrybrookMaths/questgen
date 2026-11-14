@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% blank answer grid: 13 x 14 squares of 63.26 px (crop pixel units), turned 0.25 deg to follow the scan's slight tilt.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \begin{scope}[rotate around={-0.25:(416.9,451.0)}]
+    \foreach \i in {0,...,13} \draw ({5.5+63.26*\i},7.2) -- ({5.5+63.26*\i},{7.2+63.26*14});
+    \foreach \j in {0,...,14} \draw (5.5,{7.2+63.26*\j}) -- ({5.5+63.26*13},{7.2+63.26*\j});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% Rebuilt from the solution: A to B 20 km on 150T, B to C 40 km on 020T (11 px per km); alternate 20 deg angles at B and C
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (40,300); \coordinate (B) at (150,490.53); \coordinate (C) at (300.48,77.07);
+  \draw[->] (40,370) -- (40,120);
+  \draw[->] (150,545) -- (150,235);
+  \draw[->] (300.48,300) -- (300.48,8);
+  \draw[line join=round] (A) -- (B) -- (C) -- cycle;
+  \draw (B) ++(-90:165) arc[start angle=-90, end angle=-70, radius=165];
+  \draw (C) ++(90:165) arc[start angle=90, end angle=110, radius=165];
+  \node at ($(B)+(-80:228)$) {$20^\circ$};
+  \node at ($(C)+(100:228)$) {$20^\circ$};
+  \node at (40,100) {$N$};
+  \node at (18,300) {$A$};
+  \node at (128,505) {$B$};
+  \node at (322,70) {$C$};
+  \node at (76,407) {20};
+  \node at (206,420) {40};
+  \node[anchor=west] at (345,175) {Not to scale};
+\end{tikzpicture}
+\end{document}

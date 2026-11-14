@@ -1,5 +1,11 @@
 # HSC Advanced Question Bank: how to resume
 
+**Start with CLAUDE.md** (repo root, loaded automatically): the owner's rules, where everything lives, the fresh-session steps,
+the publish procedure and the open items. Since 14 Nov the repo runs from any clone path: locations come from tools/paths.py
+(`$QG_DB` for the database), and the state no tool can rebuild is tracked in `state/` (it mirrors the old paths, so `work/triage.json`
+below means `state/work/triage.json`, `tikz/tex/` means `state/tikz/tex/`, `out/` means `state/out/`). Paths below that start with
+/home/claude/pilot or /mnt/user-data/outputs describe the first sandbox.
+
 Owner: Steve Yeung (CMC Education). Last updated 11 Nov 2026 (UI v2, diagram redraws).
 
 ## Where things live

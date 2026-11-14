@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 NESA HSC Q23 solution: normal curve, mean 76.2, upper 2.5% tail beyond x shaded (crop pixels, y down; curve drawn from the normal pdf, mean 321 px, sd 80.6 px)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade] (479,250.5) -- (479,217.2) -- plot[smooth, domain=479:597, samples=40] (\x,{250.5-227.4*exp(-((\x-321)/80.6)^2/2)}) -- (598,250.5) -- cycle;
+  \draw[<->] (12,250.5) -- (630,250.5);
+  \draw[line width=0.9pt] plot[smooth, domain=45:597, samples=90] (\x,{250.5-227.4*exp(-((\x-321)/80.6)^2/2)});
+  \draw[aux] (321,22) -- (321,250.5);
+  \draw (479,217.2) -- (479,264);
+  \draw[->] (549,195) -- (503,240);
+  \node at (546,179) {2.5\%};
+  \node at (321,283) {76.2};
+  \node at (479,286) {$x$};
+  \node at (623,275) {$z$};
+\end{tikzpicture}
+\end{document}

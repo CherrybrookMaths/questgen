@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{9.5}{11}\selectfont}]
+  % crop pixel units; NOT TO SCALE. Blue photograph drawn in flat house grey; handwritten working on the
+  % crop (x-4, y-2 or y, y or y+2) is not part of the figure and is left out
+  \draw (1.5,11) rectangle (647.5,508.5);
+  \draw[shade] (118.5,98.5) rectangle (529,419);
+  \draw[<->] (324,11) -- (324,98.5);
+  \draw[<->] (324,419) -- (324,508.5);
+  \draw[<->] (1.5,216) -- (118.5,216);
+  \draw[<->] (529,216) -- (647.5,216);
+  \draw[<->] (3,538.5) -- (646,538.5);
+  \node at (287,69) {\textbf{1 cm}};
+  \node at (287,450) {\textbf{1 cm}};
+  \node at (46,201) {\textbf{2 cm}};
+  \node at (603,201) {\textbf{2 cm}};
+  \node at (339,239) {20\ \ cm$^2$};
+  \node at (293,553) {$\boldsymbol{x}$ \textbf{cm}};
+  \node[font=\fontsize{11}{13}\selectfont] at (898,45) {\textbf{NOT TO SCALE}};
+\end{tikzpicture}
+\end{document}

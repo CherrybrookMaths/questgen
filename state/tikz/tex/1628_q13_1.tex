@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down: X(x)=131+15.745x, Y(p)=711-1.5725p
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \i in {1,...,54} {\pgfmathparse{int(mod(\i,5))}\ifnum\pgfmathresult=0\else
+    \draw[black!40, line width=0.25pt] ({131+15.745*\i},82) -- ({131+15.745*\i},711);\fi}
+  \foreach \i in {1,...,39} {\pgfmathparse{int(mod(\i,5))}\ifnum\pgfmathresult=0\else
+    \draw[black!40, line width=0.25pt] (131,{711-15.725*\i}) -- (997,{711-15.725*\i});\fi}
+  \foreach \i in {5,10,...,55} \draw ({131+15.745*\i},82) -- ({131+15.745*\i},723);
+  \foreach \p in {50,100,...,400} \draw (115,{711-1.5725*\p}) -- (997,{711-1.5725*\p});
+  \draw[->] (116,711) -- (1061,711);
+  \draw[->] (131,727) -- (131,20);
+  \foreach \i in {0,5,...,55} \node at ({131+15.745*\i},746) {\i};
+  \foreach \p in {0,50,...,400} \node[anchor=east, inner sep=0pt] at (113,{711-1.5725*\p}) {\p};
+  \node at (112,31) {$y$};
+  \node at (1053,731) {$x$};
+  \node at (563,797) {Number of years since 1985};
+  \node[rotate=90] at (28.5,397) {Population};
+  \draw plot[smooth, domain=0:45.6, samples=90] ({131+15.745*\x},{711-1.5725*35*1.055^\x});
+  \draw plot[smooth, domain=0:55, samples=90] ({131+15.745*\x},{711-1.5725*280*0.97^\x});
+\end{tikzpicture}
+\end{document}

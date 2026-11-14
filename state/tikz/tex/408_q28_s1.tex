@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, axis line style={draw=none}, x=0.3cm, y=4.5cm, xmin=-2, xmax=33, ymin=-0.18, ymax=1.28,
+  xlabel={}, ylabel={}, xtick=\empty, ytick=\empty]
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:-2,0) -- (axis cs:33,0) node[right] {$t$};
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:0,-0.18) -- (axis cs:0,1.28) node[above] {$M$};
+  \draw[aux] (axis cs:0,0.5) -- (axis cs:31,0.5);
+  \draw[aux] (axis cs:0,1) -- (axis cs:20.5,1) -- (axis cs:20.5,0);
+  \draw[aux] (axis cs:30,0) -- (axis cs:30,0.297);
+  \draw[aux] (axis cs:13,0) -- (axis cs:13,0.5); \draw[aux] (axis cs:28,0) -- (axis cs:28,0.5);
+  \addplot[domain=0:30, samples=90, smooth] {0.5*sin(deg(pi/15*(x-13)))+0.5};
+  \node[pt] at (axis cs:0,0.297) {}; \node[pt] at (axis cs:5.5,0) {}; \node[pt] at (axis cs:13,0.5) {}; \node[pt] at (axis cs:20.5,1) {}; \node[pt] at (axis cs:28,0.5) {}; \node[pt] at (axis cs:30,0.297) {};
+  \node[left, inner sep=3pt] at (axis cs:0,0.297) {$0.297$};
+  \node[left, inner sep=3pt] at (axis cs:0,0.5) {$0.5$};
+  \node[left, inner sep=3pt] at (axis cs:0,1) {$1$};
+  \node[below, inner sep=3pt] at (axis cs:5.5,0) {$5.5$};
+  \node[below, inner sep=3pt] at (axis cs:13,0) {$13$};
+  \node[below, inner sep=3pt] at (axis cs:20.5,0) {$20.5$};
+  \node[below, inner sep=3pt] at (axis cs:28,0) {$28$};
+  \node[below, inner sep=3pt] at (axis cs:30.6,0) {$30$};
+  \node[below left, inner sep=2pt] at (axis cs:0,0) {$O$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

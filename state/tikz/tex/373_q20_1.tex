@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\normalsize]
+\coordinate (O) at (63,340); \coordinate (H) at (63,48); \coordinate (X) at (497,340); \coordinate (Y) at (352,485);
+\draw (O) -- (H) -- (X) -- (O) -- (Y) -- (X); \draw (H) -- (Y);
+\draw ($(O)+(0,-20)$) -- ++(20,0) -- ++(0,20);
+\draw ($(X)!0.06!(O)$) -- ($(X)!0.06!(O)+($(X)!0.06!(Y)-(X)$)$) -- ($(X)!0.06!(Y)$);
+\pic[draw,angle radius=1.4cm] {angle=H--X--O};
+\pic[draw,angle radius=1.0cm] {angle=H--Y--O};
+\node at (428,327) {$31^\circ$}; \node at (266,408) {$25^\circ$};
+\node at (40,28) {$H$}; \node at (40,362) {$O$}; \node at (528,341) {$X$}; \node at (380,486) {$Y$};
+\node at (40,196) {$h$}; \node at (475,435) {$150\,\mathrm{m}$};
+\draw (415,242) -- (487,242); \draw[->] (426,267) -- (475,218); \node at (497,196) {N};
+\end{tikzpicture}
+\end{document}

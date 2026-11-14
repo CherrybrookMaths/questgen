@@ -1,8 +1,9 @@
 """Apply review decisions exported from the review artifact into questions.db.
-Usage: ArtifactData list reviews with out_dir=/home/claude/pilot/reviews_export, then: python3 reconcile.py /home/claude/pilot/reviews_export/reviews"""
+Usage: ArtifactData list reviews with out_dir=<repo>/reviews_export, then: python3 tools/reconcile.py <repo>/reviews_export/reviews"""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json,glob,sqlite3,sys,datetime
-db=sqlite3.connect('/mnt/user-data/outputs/questions.db')
-dps={d['id']:d for d in json.load(open('/home/claude/pilot/syllabus_dotpoints.json'))}
+db=sqlite3.connect(paths.DBS)
+dps={d['id']:d for d in json.load(open(paths.P + 'site/project/syllabus_dotpoints.json'))}
 n=t=fa=sa=0
 if 'redraw_request' not in [c[1] for c in db.execute('pragma table_info(figures)')]: db.execute('alter table figures add column redraw_request text')
 figid={}

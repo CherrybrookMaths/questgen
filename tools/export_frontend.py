@@ -1,7 +1,8 @@
-"""Export a self-contained seed bundle for a frontend developer: /home/claude/pilot/export/hsc-advanced-seed/
+"""Export a self-contained seed bundle for a frontend developer: <repo>/export/hsc-advanced-seed/
 Usage: python3 export_frontend.py <reviews_export_dir>"""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, os, glob, shutil, sqlite3, sys, re, base64, datetime
-P = '/home/claude/pilot/'
+P = paths.P
 OUT = P + 'export/hsc-advanced-seed/'
 shutil.rmtree(OUT, ignore_errors=True)
 for d in ('data', 'figures/crop', 'figures/crop_300dpi', 'figures/redraw', 'figures/redraw_pdf', 'figures/tikz', 'reference', 'pages', 'database', 'tools', 'samples'):
@@ -9,7 +10,7 @@ for d in ('data', 'figures/crop', 'figures/crop_300dpi', 'figures/redraw', 'figu
 
 B = json.load(open(P + 'site/data/bank.json'))
 DOTS = json.load(open(P + 'site/data/dotpoints.json'))
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db'); db.row_factory = sqlite3.Row
+db = sqlite3.connect(paths.DBS); db.row_factory = sqlite3.Row
 
 # owner's review decisions (from the review page database)
 rev = {}
@@ -70,7 +71,7 @@ for q in B['questions']:
                 shutil.copy(P + f'tikz/hi/{k}.png', OUT + f'figures/redraw/{k}.png'); red = f'figures/redraw/{k}.png'
             else:
                 shutil.copy(svg, OUT + f'figures/redraw/{k}.svg'); red = f'figures/redraw/{k}.svg'
-            shutil.copy(P + f'tikz/tex/{k}.tex', OUT + f'figures/tikz/{k}.tex')
+            shutil.copy(paths.S + f'tikz/tex/{k}.tex', OUT + f'figures/tikz/{k}.tex')
         sys.path.insert(0, P + 'tools'); from transparent import to_alpha
         to_alpha(P + f'figures/{k}.png', OUT + f'figures/crop/{k}.png')   # transparent background (works on any page colour)
         crop_print = f'figures/crop/{k}.png'
@@ -119,7 +120,7 @@ syl = [dict(id=d['id'], year=d['yl'], focus_area=d['fa'], subheading=d['sub'] or
 J = lambda name, obj: json.dump(obj, open(OUT + 'data/' + name, 'w'), ensure_ascii=False, indent=1)
 J('questions.json', questions); J('papers.json', list(docs.values())); J('figures.json', figures)
 J('tables.json', tables); J('syllabus_2024.json', syl); J('codes_2017.json', B['codes17'])
-shutil.copy(P + 'tikz/examstyle.tex', OUT + 'figures/tikz/examstyle.tex')
+shutil.copy(paths.S + 'tikz/examstyle.tex', OUT + 'figures/tikz/examstyle.tex')
 shutil.copy(P + 'site/review.html', OUT + 'reference/review_page.html')
 shutil.copy(P + 'DIAGRAM_SPEC.md', OUT + 'reference/DIAGRAM_SPEC.md')
 shutil.copy(P + 'DIAGRAM_FEEDBACK_LOG.md', OUT + 'reference/DIAGRAM_FEEDBACK_LOG.md')
@@ -137,7 +138,7 @@ for f in glob.glob(P + 'site/data/img/*.json'):
     for path, uri in json.load(open(f)).items():
         if path.startswith('pages/'):
             open(OUT + path, 'wb').write(base64.b64decode(uri.split(',', 1)[1]))
-shutil.copy('/mnt/user-data/outputs/questions.db', OUT + 'database/questions.db')
+shutil.copy(paths.DBS, OUT + 'database/questions.db')
 _e = sqlite3.connect(OUT + 'database/questions.db')   # the exported database leaves out the duplicate copies too
 for _q in DUPS:
     _p = [r[0] for r in _e.execute('select id from parts where question_id=?', (_q,))]

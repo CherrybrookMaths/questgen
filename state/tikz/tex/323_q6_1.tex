@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (237.5,237.5);
+  \coordinate (P) at ($(O)+(-96.79:212.4)$); \coordinate (Q) at ($(O)+(-43.09:212.4)$);
+  \fill[shade] (Q) arc[start angle=-43.09, end angle=-96.79, radius=212.4] -- cycle;
+  \draw (O) circle (212.4);
+  \draw (O) -- (P) -- (Q) -- cycle;
+  \draw (O) ++(-96.79:63) arc[start angle=-96.79, end angle=-43.09, radius=63];
+  \fill (O) circle (3.5);
+  % equal-length marks
+  \foreach \t in {-4.5,4.5}{
+    \draw ($(O)!0.5!(P)+(-96.79:\t)$) ++(-6.79:11) -- ++(173.21:22);
+    \draw ($(O)!0.5!(Q)+(-43.09:\t)$) ++(46.91:11) -- ++(226.91:22);}
+  \node at (272.5,144) {\footnotesize$\dfrac{\pi}{6}$};
+  \node at (357.5,197) {$r$ cm};
+  \node at (655,260) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

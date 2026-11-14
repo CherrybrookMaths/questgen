@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (O) at (357,240); \coordinate (A) at (592,107); \coordinate (B) at (617,310);
+  \coordinate (C) at (126,447); \coordinate (D) at (126,130);
+  \path[shade dots] (O) -- (A) -- (B) -- cycle;
+  \draw (O) -- (A) -- (B) -- cycle;
+  \draw (D) -- (A); \draw (D) -- (C); \draw (C) -- (B);
+  \draw[->] (O) -- (46,93);  \draw[->] (A) -- ($(O)!1.281!(A)$);  % owner: bearing 056 line lies on OA
+  \draw[->] (B) -- ($(O)!1.2637!(B)$);
+  \draw[->] (O) -- (72,497);  % 101 line above lies on OB (same fault)
+  \draw[aux,->] (O) -- (357,40);
+  \node[font=\sffamily\bfseries] at (357,22) {N};
+  \node at (48,74) {$315^\circ$}; \node at (699,63) {$056^\circ$};
+  \node at (728,330) {$101^\circ$}; \node at (70,520) {$253^\circ$};
+  \node at (580,90) {$A$}; \node at (612,336) {$B$}; \node at (134,466) {$C$}; \node at (136,112) {$D$};
+  \node at (357,268) {$O$};
+  % equal sides OA = OB = x
+  \draw ($(O)!0.55!(A)+(-5,-9)$) -- ($(O)!0.55!(A)+(5,9)$);
+  \draw ($(O)!0.5!(B)+(-3,10)$) -- ($(O)!0.5!(B)+(3,-10)$);
+  \node at ($(O)!0.5!(B)+(8,28)$) {$x$};
+  \node at ($(O)!0.62!(A)+(-14,-22)$) {$x$};
+  % 45 degree angle AOB
+  \draw ([shift={(-29.5:100)}]O) arc[start angle=-29.5, end angle=15.1, radius=100];
+  \node at (421,235) {\halo{$45^\circ$}};
+  % 152 degree angle BOC (through south)
+  \draw ([shift={(15.1:62)}]O) arc[start angle=15.1, end angle=136.1, radius=62];
+  \node at (352,330) {$152^\circ$};
+  \node[rotate=45.8] at (224,324) {$25$ km};
+\end{tikzpicture}
+\end{document}

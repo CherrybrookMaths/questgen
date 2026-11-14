@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Baulkham Hills AT4 Q6 solution (B): pdf triangle from (0,1) to (1,0) on 0.1 grid (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{7}{8.5}\selectfont]
+  \def\ox{42}\def\oy{238.5}\def\ux{162.5}\def\uy{100.75}
+  \foreach \i in {1,...,20}{\pgfmathsetmacro\xx{\ox+\ux*\i/10}
+    \pgfmathsetmacro\cc{mod(\i,5)==0?32:13}\draw[black!\cc] (\xx,\oy) -- (\xx,37);}
+  \foreach \i in {1,...,20}{\pgfmathsetmacro\yy{\oy-\uy*\i/10}
+    \pgfmathsetmacro\cc{mod(\i,5)==0?32:13}\draw[black!\cc] (\ox,\yy) -- (367,\yy);}
+  \foreach \i in {1,...,20}{\pgfmathsetmacro\xx{\ox+\ux*\i/10}\draw (\xx,\oy-2.5) -- (\xx,\oy+2.5);}
+  \foreach \i in {1,...,20}{\pgfmathsetmacro\yy{\oy-\uy*\i/10}\draw (\ox-2.5,\yy) -- (\ox+2.5,\yy);}
+  \draw[->] (\ox,\oy) -- (378,\oy);
+  \draw[->] (\ox,\oy) -- (\ox,27);
+  \node[anchor=west,inner sep=1pt] at (378,\oy) {$x$};
+  \node[anchor=south east,inner sep=1pt] at (\ox,26) {$y$};
+  \foreach \v/\t in {0.5/0.5,1/1,1.5/1.5,2/2}{\node[anchor=north,inner sep=0pt] at ({\ox+\ux*\v},250) {$\t$};}
+  \foreach \v/\t in {0.5/0.5,1/1,1.5/1.5,2/2}{\node[anchor=east,inner sep=0pt] at (35,{\oy-\uy*\v}) {$\t$};}
+  \draw[line width=0.9pt] (\ox,{\oy-\uy}) -- ({\ox+\ux},\oy);
+\end{tikzpicture}
+\end{document}

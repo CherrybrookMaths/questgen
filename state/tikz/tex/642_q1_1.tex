@@ -1,0 +1,19 @@
+\documentclass[border=4pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.055cm, y=0.06cm, xmin=0, xmax=191.5, ymin=0, ymax=88,
+  xlabel={}, ylabel={},
+  xtick={15,30,...,180}, ytick={10,20,...,80},
+  tick style={draw=none},
+  tick label style={font=\normalsize}, x tick label style={yshift=-3pt}, y tick label style={xshift=-3pt}]
+  \addplot[mark=*, mark size=1.5pt] coordinates
+   {(15,0) (30,5) (45,10) (60,15) (75,25) (90,35) (105,55) (120,65) (135,70) (150,75) (165,78) (180,80)};
+  \foreach \v in {15,30,...,180} {\edef\tmp{\noexpand\draw[line width=0.6pt] (axis cs:\v,0) -- (axis cs:\v,-2.2);}\tmp}
+  \foreach \v in {10,20,...,80} {\edef\tmp{\noexpand\draw[line width=0.6pt] (axis cs:0,\v) -- (axis cs:-3,\v);}\tmp}
+  \node[anchor=north east] at (axis cs:-1,-1) {$0$};
+  \node at (axis cs:96,-18.3) {Duration of game (minutes)};
+  \node[rotate=90] at (axis cs:-21.6,39.7) {Cumulative frequency};
+\end{axis}
+\end{tikzpicture}
+\end{document}

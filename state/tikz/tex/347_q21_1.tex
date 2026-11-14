@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\X#1{264+18.875*(#1-100)}
+  \foreach \v in {102,104,...,138} {\pgfmathparse{mod(\v,10)==0}\ifnum\pgfmathresult=0 \draw[aux,black!40] ({\X{\v}},40) -- ({\X{\v}},410);\fi}
+  \foreach \v in {100,110,...,140} {\draw[black!60] ({\X{\v}},40) -- ({\X{\v}},410); \node at ({\X{\v}},442) {$\v$};}
+  \draw (192,402) -- (192,418);
+  \draw (192,410) -- (210,410) -- (222,398) -- (233,423) -- (245,410);
+  \draw[->] (245,410) -- (1065,410);
+  \foreach \v in {100,102,...,140} \draw ({\X{\v}},404) -- ({\X{\v}},416);
+  \begin{scope}[line width=0.9pt]
+  % Trial
+  \draw ({\X{104}},55) rectangle ({\X{116}},186); \draw ({\X{108}},55) -- ({\X{108}},186);
+  \draw ({\X{102}},120) -- ({\X{104}},120); \draw ({\X{116}},120) -- ({\X{135}},120);
+  \draw ({\X{102}},105) -- ({\X{102}},135); \draw ({\X{135}},105) -- ({\X{135}},135);
+  % Control
+  \draw ({\X{119}},217) rectangle ({\X{131}},349); \draw ({\X{129}},217) -- ({\X{129}},349);
+  \draw ({\X{102}},283) -- ({\X{119}},283); \draw ({\X{131}},283) -- ({\X{135}},283);
+  \draw ({\X{102}},268) -- ({\X{102}},298); \draw ({\X{135}},268) -- ({\X{135}},298);
+  \end{scope}
+  \node at (105,93) {Trial Group};
+  \node at (112,272) {Control Group};
+\end{tikzpicture}
+\end{document}

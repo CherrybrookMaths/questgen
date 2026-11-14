@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.1163cm, y=0.0179cm, every node/.style={font=\normalsize}, >={Latex[length=2mm,width=1.3mm]}]
+  \draw[->] (-7.2,0) -- (64.4,0) node[below left, inner sep=1pt, yshift=-6pt, xshift=1pt] {$t$};
+  \draw[->] (0,-43) -- (0,254) node[left, inner sep=1pt, yshift=-6pt, xshift=-1pt] {$c(t)$};
+  \foreach \v in {50,100,150,200} {\draw (0,\v) -- (-1.1,\v); \node[left, xshift=-0.9cm*0.1163] at (0,\v) {$\v$};}
+  \foreach \v in {25,75,125,175} \draw (0,\v) -- (-1.1,\v);
+  \foreach \t in {10,13,36,52} \draw (\t,0) -- (\t,-9);
+  \node[below, yshift=-0.12cm] at (9.0,0) {$10$};
+  \node[below, yshift=-0.12cm] at (14.1,0) {$13$};
+  \node[below, yshift=-0.12cm] at (36,0) {$36$};
+  \node[below, yshift=-0.12cm] at (52,0) {$52$};
+  \draw[curve] plot[domain=0:52, samples=150] (\x,{-80*cos(deg(pi/26*(\x-10)))+120});
+  \node[below left, yshift=-4pt] at (0,0) {$O$};
+\end{tikzpicture}
+\end{document}

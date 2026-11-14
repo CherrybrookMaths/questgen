@@ -1,0 +1,45 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{14}{16.8}\selectfont]
+\draw[->] (45,695)--(1097,695);
+\draw[<->] (557,12)--(557,1200);
+\draw (316.1,689)--(316.1,701);
+\node[anchor=base,inner sep=0] at (312.1,728) {$-3$};
+\draw (396.4,689)--(396.4,701);
+\node[anchor=base,inner sep=0] at (392.4,728) {$-2$};
+\draw (476.7,689)--(476.7,701);
+\node[anchor=base,inner sep=0] at (472.7,728) {$-1$};
+\draw (637.3,689)--(637.3,701);
+\node[anchor=base,inner sep=0] at (637.3,728) {$1$};
+\draw (717.6,689)--(717.6,701);
+\node[anchor=base,inner sep=0] at (717.6,728) {$2$};
+\draw (797.9,689)--(797.9,701);
+\node[anchor=base,inner sep=0] at (797.9,728) {$3$};
+\draw (551,235.8)--(563,235.8);
+\node[anchor=west,inner sep=0] at (567,235.8) {$8$};
+\draw (551,350.6)--(563,350.6);
+\node[anchor=west,inner sep=0] at (567,350.6) {$6$};
+\draw (551,465.4)--(563,465.4);
+\node[anchor=west,inner sep=0] at (567,465.4) {$4$};
+\draw (551,580.2)--(563,580.2);
+\node[anchor=west,inner sep=0] at (567,574.2) {$2$};
+\draw (551,637.6)--(563,637.6);
+\node[anchor=west,inner sep=0] at (567,628) {$1$};
+\draw (551,809.8)--(563,809.8);
+\node[anchor=west,inner sep=0] at (567,809.8) {$-2$};
+\draw (551,924.6)--(563,924.6);
+\node[anchor=west,inner sep=0] at (567,924.6) {$-4$};
+\draw (551,1039.4)--(563,1039.4);
+\node[anchor=west,inner sep=0] at (567,1039.4) {$-6$};
+\draw (551,1154.2)--(563,1154.2);
+\node[anchor=west,inner sep=0] at (567,1154.2) {$-8$};
+\draw[<->, line width=0.9pt] plot[smooth,domain=-5.58:3.94,samples=90] ({557+80.3*\x},{695-57.4*(\x*\x*\x/6+\x*\x/4-3*\x+1)});
+\fill (516.85,549.1) circle (3.2);
+\node[inner sep=0] at (300,212) {$\left(-3,\,7\tfrac{3}{4}\right)$};
+\node[anchor=east,inner sep=0] at (507,555) {$\left(-\tfrac{1}{2},\,2\tfrac{13}{24}\right)$};
+\node[inner sep=0] at (785,882) {$\left(2,\,-2\tfrac{2}{3}\right)$};
+\node[anchor=south west,inner sep=0] at (572,4) {$y$};
+\node[anchor=west,inner sep=0] at (1104,707) {$x$};
+\end{tikzpicture}
+\end{document}

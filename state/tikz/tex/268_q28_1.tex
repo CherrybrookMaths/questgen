@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[scale=1.456]
+  \fill[shade dots] (1,0) -- (1,1) arc[start angle=45, end angle=0, radius={sqrt(2)}] -- cycle;
+  \draw[->] (-2.43,0) -- (2.43,0) node[below left=1pt] {$x$};
+  \draw[->] (0,-2.43) -- (0,2.43) node[anchor=north east, inner sep=1pt, xshift=-3pt] {$y$};
+  \draw (0,0) circle[radius={sqrt(2)}];
+  \draw (0,0) -- (1,1) -- (1,0);
+  \node[pt] at (1,1) {};
+  \node[anchor=west] at (1.02,1.08) {$(1,1)$};
+  \node[anchor=north east, inner sep=2pt] at (0,0) {$O$};
+  \node at (0.32,0.11) {$\theta$};
+  \node at (-1.69,1.18) {$x^2+y^2=2$};
+  \node[align=center] at (3.80,0.81) {NOT\\TO\\SCALE};
+\end{tikzpicture}
+\end{document}

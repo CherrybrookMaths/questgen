@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mk/.style={inner sep=0,minimum size=#1*0.0127cm},
+  circ/.style={circle,mk=26}, sq/.style={rectangle,mk=26}, dia/.style={diamond,mk=24},
+  tri/.style={regular polygon,regular polygon sides=3,mk=34,inner sep=0},
+  dtri/.style={regular polygon,regular polygon sides=3,shape border rotate=180,mk=34,inner sep=0}]
+\begin{scope}[shift={(155,663)},xscale=51.11,yscale=-12.54]
+  \foreach \b in {122,124,...,168}{\pgfmathtruncatemacro\m{mod(\b,10)}\ifnum\m=0\else\draw[black!25,line width=0.3pt] (0,\b-120)--(22.5,\b-120);\fi}
+  \foreach \b in {130,140,...,170}\draw[black!45,line width=0.3pt] (0,\b-120)--(22.5,\b-120);
+  \foreach \a in {37.5,40,...,55}\draw[black!45,line width=0.3pt] (\a-35,0)--(\a-35,50);
+  \draw[black!45,line width=0.3pt] (22.5,0)--(22.5,50);
+  \draw (0,50)--(0,0)--(22.5,0);
+  \foreach \a in {35,37.5,...,57.5}{\draw (\a-35,0)--(\a-35,-0.7); \node[font=\footnotesize,below] at (\a-35,-0.7) {\a};}
+  \foreach \b in {120,130,...,170}{\draw (0,\b-120)--(-0.1,\b-120); \node[font=\footnotesize,left] at (-0.1,\b-120) {\b};}
+  \draw (37-35,10)--(55-35,46);
+  \path (2,10) node[circ,fill]{} (3,20) node[dia,fill]{} (5,12) node[sq,fill]{} (7,29.4) node[tri,fill]{} (10,23.4) node[dtri,fill]{}
+        (13,37) node[circ,fill=black!40]{} (15,41) node[dia,fill=black!40]{} (17,25) node[sq,fill=black!40]{} (18,45.4) node[tri,fill=black!40]{} (20,41.6) node[dtri,fill=black!40]{};
+\end{scope}
+\node[font=\small\bfseries] at (730,737) {Age};
+\node[font=\small\bfseries,rotate=90] at (52,350) {Systolic Blood Pressure};
+\foreach \n/\x/\y/\s/\c in {1/133/804/circ/black,2/360/804/dia/black,3/585/804/sq/black,4/812/804/tri/black,5/1038/804/dtri/black,6/133/835/circ/black!40,7/360/835/dia/black!40,8/585/835/sq/black!40,9/812/835/tri/black!40,10/1038/835/dtri/black!40}{
+  \path (\x,\y) node[\s,fill=\c]{}; \node[anchor=west,font=\small] at (\x+20,\y) {Employee \n};}
+\end{tikzpicture}
+\end{document}

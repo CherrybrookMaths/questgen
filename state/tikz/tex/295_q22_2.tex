@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.503cm, y=0.503cm]
+  \coordinate (A) at (0,8); \coordinate (M) at ({sqrt(58)},8); \coordinate (E) at (0,0);
+  \draw (A) -- (M) -- (E) -- cycle;
+  \draw (0,7.45) -- (0.55,7.45) -- (0.55,8);
+  \pic[draw, angle radius=0.85cm, "$\alpha$", angle eccentricity=0.68] {angle=M--E--A};
+  \node at (-0.5,8) {$A$};
+  \node at (8.1,8) {$M$};
+  \node at (-0.5,0) {$E$};
+  \node[anchor=south, inner sep=0pt] at ({sqrt(58)/2},8.15) {$\sqrt{58}$};
+  \node at (-0.43,4.72) {$8$};
+\end{tikzpicture}
+\end{document}

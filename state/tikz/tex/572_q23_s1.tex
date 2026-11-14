@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % x: 0 at 95.5, one grid column = pi/6 = 60.1 px; y: 0 at 337, one grid row = 0.2 = 24.95 px
+  \def\X#1{95.5+114.8*(#1)}\def\Y#1{337-124.75*(#1)}
+  \foreach \i in {1,...,12}{\draw[black!13] ({95.5+60.1*\i},87.5) -- ({95.5+60.1*\i},586);}
+  \foreach \j in {0,...,20}{\ifnum\j=10\else\draw[black!13] (95.5,{87.5+24.95*\j}) -- (816.7,{87.5+24.95*\j});\fi}
+  \draw[->] (95.5,337) -- (851,337);
+  \draw[<->] (95.5,616) -- (95.5,56);
+  \node at (870,338) {$x$};
+  \node at (95,33) {$y$};
+  % y = sin(2x + pi/3), 0 <= x <= pi
+  \draw[line width=0.9pt] plot[smooth,domain=0:3.14159,samples=90,variable=\t] ({\X{\t}},{\Y{sin(2*\t r+pi/3 r)}});
+  \foreach \a/\b in {0/0.866,0.2618/1,1.8326/-1,3.14159/0.866}{\fill ({\X{\a}},{\Y{\b}}) circle (4.5);}
+  \node at (49.5,235.5) {$\dfrac{\sqrt{3}}{2}$};
+  \node at (205.5,202) {$\left(\dfrac{\pi}{12},1\right)$};
+  \node at (199,374.5) {$\dfrac{\pi}{3}$};
+  \node at (423.5,377.5) {$\dfrac{5\pi}{6}$};
+  \node at (410.5,472) {$\left(\dfrac{7\pi}{12},-1\right)$};
+  \node at (523.5,226) {$\left(\pi,\dfrac{\sqrt{3}}{2}\right)$};
+\end{tikzpicture}
+\end{document}

@@ -1,5 +1,9 @@
 # Import playbook: from a paper PDF to approved questions in the bank
 
+> 14 Nov: start from CLAUDE.md. State files named below by their old paths (`work/import/`, `work/triage.json`, `tikz/tex/`,
+> `tikz/all_results.json`, `out/`, `site/data/bank_v1.json`, ...) now live under `state/` at the same relative path; the database
+> is `$QG_DB` (tools/paths.py).
+
 Owner: Steve Yeung (CMC Education). Written 12 Nov 2026, after the full Year 12 Advanced import and review. Steve asked: "have you learnt lots about importing and tagging questions now? Is that logged somewhere?" and then said "yeah".
 
 This file covers **how** to run an import. **What** the owner wants is in the specs, which have the final say:

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% x: 0 min at 107.5 px, 16.57 px per min; y: 0 kg at 513.5 px, 18.115 px per kg (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{11}{13}\selectfont},declare function={px(\u)=107.5+16.57*\u; py(\v)=513.5-18.115*\v;}]
+  \foreach \u in {5,10,...,45}{\draw[black!37] ({px(\u)},{py(0)}) -- ({px(\u)},42);
+    \draw ({px(\u)},{py(0)}) -- ({px(\u)},523); \node at ({px(\u)},550) {$\u$};}
+  \foreach \v in {2,4,...,24}{\draw[black!37] ({px(0)},{py(\v)}) -- (853,{py(\v)});
+    \draw (97,{py(\v)}) -- ({px(0)},{py(\v)}); \node[anchor=east] at (93,{py(\v)}) {$\v$};}
+  \draw[->] (97,513.5) -- (887,513.5);
+  \draw[->] (107.5,524) -- (107.5,27);
+  \node at (497,587) {Time (min)};
+  \node[rotate=90] at (31,296) {Mass (kg)};
+  \foreach \x/\y in {190/83.7,272.7/172.5,355.7/308.5,438.5/355.7,521.5/401,604.5/413.7,687.5/471.7,770.5/486.3}{\filldraw[fill=black!45] (\x,\y) circle[radius=4.5];}
+\end{tikzpicture}
+\end{document}

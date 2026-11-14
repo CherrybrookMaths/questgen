@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+  \coordinate (A) at (0,0); \coordinate (B) at (5.08,2.55); \coordinate (T) at (5.08,5.60);
+  \draw (A) -- (B) -- (T) -- cycle;
+  \draw ($(B)!0.32cm!(T)$) -- ($(B)!0.32cm!(T)+(B)!0.32cm!(A)-(B)$) -- ($(B)!0.32cm!(A)$);
+  % angle arc as printed: flatter than a circle about A (meets AB at 98 px, AT at 115 px)
+  \draw ($(A)!0.2195!(B)$) to[out=96, in=-52] ($(A)!0.1925!(T)$);
+  \node[rotate=23] at (1.41,1.05) {$26^\circ$};
+  \foreach \p in {A,B,T} \node[pt] at (\p) {};
+  \node[left=2pt] at (A) {$A$};
+  \node[right=2pt] at (B) {$B$};
+  \node[right=2pt] at (T) {$T$};
+  \node at (5.35,4.19) {$h$};
+  \node[align=center] at (7.11,4.35) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

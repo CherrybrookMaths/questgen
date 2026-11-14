@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % t -> 122 + 11.84 t ; mark m -> 772 - 5.92 m ; grid to t=55, m=110
+  \foreach \k in {1,...,55} {\pgfmathtruncatemacro\r{mod(\k,5)}\ifnum\r=0\else
+    \draw[black!50,dash pattern=on 0.5pt off 0.9pt] ({122+11.84*\k},772) -- ({122+11.84*\k},{772-5.92*110});\fi}
+  \foreach \k in {1,...,55} {\pgfmathtruncatemacro\r{mod(\k,5)}\ifnum\r=0\else
+    \draw[black!50,dash pattern=on 0.5pt off 0.9pt] (122,{772-11.84*\k}) -- (773,{772-11.84*\k});\fi}
+  \foreach \k in {1,...,11} \draw[black!75] ({122+59.2*\k},785) -- ({122+59.2*\k},{772-5.92*110});
+  \foreach \k in {1,...,11} \draw[black!75] (107,{772-59.2*\k}) -- (773,{772-59.2*\k});
+  \draw[->] (107,772) -- (837,772) node[above=1pt,font=\small] {$t$};
+  \draw[->] (122,785) -- (122,25);
+  \foreach \k in {0,...,11} \node[anchor=north,inner sep=1pt] at ({122+59.2*\k},787) {\the\numexpr\k*5\relax};
+  \foreach \k in {0,...,10} \node[anchor=east,inner sep=2pt] at (105,{772-59.2*\k}) {\the\numexpr\k*10\relax};
+  \node[anchor=north,font=\fontsize{9}{10}\selectfont] at (838,797) {(minutes)};
+  \node[align=left,anchor=north west,inner sep=0pt,font=\fontsize{9}{11}\selectfont] at (30,32) {Exam\\mark\\(\%)};
+  \foreach \t/\m in {7/50,10/44,15/90,15/40,17/64,20/60,27/72,27/58,32/68,35/84,35/30,40/80,43/60,45/86,47/94,50/70}
+    \fill ({122+11.84*\t},{772-5.92*\m}) circle (2.6pt);
+\end{tikzpicture}
+\end{document}

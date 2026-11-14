@@ -1,6 +1,7 @@
 """Layers 2-3: text fingerprint per document and near-duplicate questions (Jaccard on word 3-shingles; exact, not MinHash, at pilot scale)."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3,re,hashlib,itertools,collections
-db=sqlite3.connect('/mnt/user-data/outputs/questions.db')
+db=sqlite3.connect(paths.DBS)
 def norm(s): return re.sub(r'[^a-z0-9]+',' ',(s or '').lower().replace('\\dfrac','\\frac')).split()
 qs={}
 for qid,doc,num,stem in db.execute("select id,document_id,number,stem_latex from questions"):

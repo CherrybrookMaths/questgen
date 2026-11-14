@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[font=\normalsize, x=1.70cm, y=1.143cm]
+\fill[shade dots] plot[domain=-1:2, samples=150] (\x,{(\x)^3-2*\x}) -- plot[domain=2:-1, samples=150] (\x,{(\x)^2}) -- cycle;
+\draw[->] (-2.29,0) -- (2.66,0);
+\draw[->] (0,-1.51) -- (0,4.88);
+\draw[curve,<->] plot[domain=-1.69:2.09, samples=150] (\x,{(\x)^3-2*\x});
+\draw[curve,<->] plot[domain=-2.17:2.12, samples=150] (\x,{(\x)^2});
+\draw[densely dotted] (-1,0) -- (-1,1);
+\draw[densely dotted] (2,0) -- (2,4);
+\node[pt] at (-1,1) {}; \node[pt] at (2,4) {}; \node[pt] at (0,0) {};
+\node at (-0.94,1.35) {$A$};
+\node at (2.15,3.98) {$B$};
+\node at (-0.14,-0.22) {$O$};
+\node at (2.6,-0.27) {$x$};
+\node at (-0.15,4.75) {$y$};
+\end{tikzpicture}
+\end{document}

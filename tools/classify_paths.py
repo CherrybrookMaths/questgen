@@ -16,6 +16,7 @@ classify.py itself is kept as the historical record (it points at a scratchpad t
 Self-test against the database: python3 tools/classify_paths.py --selftest
   every row stage 0 excluded by path/file name (1,184) must get the same course and year level from these rules.
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, os, re, sqlite3, sys
 
 # ---------------------------------------------------------------- 1. stage-0 rules (verbatim from site/project/classify.py)
@@ -101,7 +102,7 @@ RULES_PROPOSED = {
         {'key': 'ext2', 'rule': '"Ext 2" or "Ext2" as a folder', 'result': 'Extension 2'},
     ],
 }
-ACCEPTED_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'work', 'rules_accepted.json')
+ACCEPTED_FILE = str(paths.state('work/rules_accepted.json'))   # state/ (tracked), written by tools/sync_pagedb.py
 
 
 def with_proposed(rules=None, proposed=None):
@@ -293,7 +294,7 @@ def as_manifest_row(d):
 # ---------------------------------------------------------------- self-test
 
 def selftest(db_path=None):
-    db_path = db_path or os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
+    db_path = db_path or paths.DBS
     db = sqlite3.connect('file:' + db_path + '?mode=ro', uri=True)
     # rows inserted by tools/scan_folder.py were classified by THESE rules (fallbacks included); test against stage-0 rows only
     stage0 = (" AND (ingested_at IS NULL OR ingested_at NOT IN (SELECT at FROM folder_scans))"

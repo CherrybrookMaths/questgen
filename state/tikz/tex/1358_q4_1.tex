@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel units (y down). Students 0..20 -> y 826..54 (38.6 px/student); grid columns at 292, 446 + 77.2k .. 1063
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt}]
+  \def\Y#1{826-38.6*(#1)}
+  % minor dotted lines every 0.4 student (2%)
+  \foreach \k in {1,...,49} {\pgfmathtruncatemacro\r{mod(\k,5)}\ifnum\r=0\else \draw[dash pattern=on 0.3pt off 0.6pt, line width=0.3pt, black!60] (292,{826-15.44*\k}) -- (1063,{826-15.44*\k});\fi}
+  \foreach \s in {0,2,...,20} \draw (282,{\Y{\s}}) -- (1080,{\Y{\s}});
+  \foreach \x in {292,446,523.5,600.5,677.5,755,831.5,909,986,1063} \draw (\x,54) -- (\x,826);
+  % Dogs bar (20 students)
+  \filldraw[fill=black!25, draw=black!45] (306,54) rectangle (430,826);
+  % cumulative percentage line
+  \draw[line width=0.9pt] (369,519) -- (523,305) -- (678,178) -- (832,85) -- (986,54);
+  \foreach \p in {(369,519),(523,305),(678,178),(832,85),(986,54)} \fill \p circle[radius=3.6];
+  \begin{scope}[every node/.append style={font=\fontsize{11.7}{14}\selectfont}]
+    \foreach \s in {0,2,...,20} \node[anchor=east] at (261,{\Y{\s}}) {\s};
+    \foreach \s [evaluate=\s as \pc using int(5*\s)] in {0,2,...,20} \node[anchor=west] at (1100,{\Y{\s}}) {\pc\%};
+    \node[anchor=base] at (980.5,35) {100\%};
+    \node[anchor=base] at (794.5,67) {96\%};
+    \node[anchor=base] at (629,163) {84\%};
+    \node[anchor=base] at (482.5,288) {68\%};
+    \node[anchor=base] at (372.5,567) {40\%};
+    \node[rotate=90] at (151,437.5) {Students};
+    \node[rotate=90] at (1205,439) {Cumulative Percentage};
+    \node[anchor=base, font=\fontsize{11}{13}\selectfont] at (677,940) {Favourite pet};
+  \end{scope}
+  \begin{scope}[every node/.append style={font=\fontsize{9}{11}\selectfont\bfseries, anchor=base}]
+    \node at (368,871) {Dogs}; \node at (523,871) {Cats}; \node at (677.5,871) {Birds};
+    \node at (831.5,871) {Goats}; \node at (985,871) {Fish};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

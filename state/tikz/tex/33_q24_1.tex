@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.754cm, y=0.754cm, >={Latex[length=2mm,width=1.3mm]}]
+  \draw[->] (-1.72,0) -- (8.3,0) node[below left, inner sep=1pt, yshift=-3pt] {$x$};
+  \draw[->] (0,-3.2) -- (0,6.15) node[left, inner sep=1pt, yshift=-5pt, xshift=-3pt] {$y$};
+  \foreach \t in {1,2,3} \draw (\t,-0.09) -- (\t,0.09);
+  \foreach \t in {-2,-1,1,2} \draw (-0.09,\t) -- (0.09,\t);
+  \node[below, yshift=-4pt] at (3,0) {$3$};
+  \node[left, xshift=-2pt] at (0,2) {$2$};
+  \node[left, xshift=-2pt] at (0,-2) {$-2$};
+  \draw (3,2) circle (4);
+  \draw (3,2) -- (7,2);
+  \node[pt, inner sep=1.5pt] at (3,2) {};
+  \node[above, yshift=2pt] at (3,2) {$(3,\,2)$};
+  \node[below, yshift=-1pt] at (5.05,2) {$4$};
+\end{tikzpicture}
+\end{document}

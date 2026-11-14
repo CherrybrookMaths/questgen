@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, axis line style={draw=none}, x=1.372cm, y=1.227cm,
+  xmin=-4.35, xmax=2.38, ymin=-1.44, ymax=5.41, xlabel={}, ylabel={},
+  xtick={-4,-3,-2,-1,1,2}, ytick={-1,1,2,3,4,5},
+  xticklabels={$-4$,$-3$,$-2$,$-1$,$1$,$2$}, yticklabels={$-1$,$1$,$2$,{},$4$,$5$},
+  minor xtick={-4.2,-3.8,-3.6,-3.4,-3.2,-2.8,-2.6,-2.4,-2.2,-1.8,-1.6,-1.4,-1.2,-0.8,-0.6,-0.4,-0.2,0.2,0.4,0.6,0.8,1.2,1.4,1.6,1.8}, minor ytick={-1.2,-0.8,-0.6,-0.4,-0.2,0.2,0.4,0.6,0.8,1.2,1.4,1.6,1.8,2.2,2.4,2.6,2.8,3.2,3.4,3.6,3.8,4.2,4.4,4.6,4.8,5.2},
+  every tick/.style={black, line width=0.6pt}, major tick length=7pt, minor tick length=3.5pt, tick align=center,
+  tick label style={font=\normalsize},
+  xticklabel style={yshift=-5pt}, yticklabel style={xshift=-4pt}]
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}]
+    (axis cs:-4.35,0) -- (axis cs:2.38,0) node[right, font=\large] {x};
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}]
+    (axis cs:0,-1.44) -- (axis cs:0,5.41) node[above, font=\large] {y};
+  \addplot[line width=0.6pt, <->, >={Latex[length=2mm,width=1.3mm]}, domain=-2.75:0.77] {2*x+4};
+  % owner rule 6a: the 3 sits clear of the line (in the crop the line runs through it)
+  \node[font=\normalsize] at (axis cs:-0.28,3) {$3$};
+  \node[anchor=west, font=\large] at (axis cs:0.81,5.03) {$y=f\mathrm{'}(x)$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

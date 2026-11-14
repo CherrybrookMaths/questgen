@@ -1,0 +1,40 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.127mm, y=-0.127mm, every node/.style={font=\normalsize}]
+  % --- canvas sheet (net), pixel-based coordinates of the original
+  \draw[line width=0.6pt] (200,10) rectangle (937,327);
+  \foreach \u in {358,570,785} \draw[dash pattern=on 1.2pt off 1.2pt, line width=0.6pt] (\u,10) -- (\u,327);
+  \node at (274,355) {$y$}; \node at (466,355) {$4x$}; \node at (688,355) {$4x$}; \node at (867,355) {$y$};
+  \node[right] at (940,173) {$6$ m};
+  % --- curved fold arrow (decorative): grey upper band, twisting into white lower band with arrowhead
+  \fill[black!30] plot[smooth] coordinates {(1020,268) (1100,292) (1158,350) (1172,410)}
+     -- plot[smooth] coordinates {(1166,410) (1140,360) (1085,322) (1020,312)} -- cycle;
+  \draw[line width=0.6pt] plot[smooth] coordinates {(1020,268) (1100,292) (1158,350) (1172,410) (1160,462) (1112,500) (1062,522)};
+  \draw[line width=0.6pt] plot[smooth] coordinates {(1020,312) (1085,322) (1140,360) (1166,410)};
+  \draw[line width=0.6pt] (1020,268) -- (1020,312);
+  \draw[line width=0.6pt] plot[smooth] coordinates {(1166,410) (1150,448) (1105,476) (1058,488)};
+  \draw[line width=0.6pt,fill=white] (1058,488) -- (1052,470) -- (1022,515) -- (1060,548) -- (1062,522);
+  % --- folded tent
+  \coordinate (P1) at (205,657); \coordinate (P2) at (205,740);
+  \coordinate (R1) at (418,647); \coordinate (R2) at (775,447);
+  \coordinate (Q1) at (560,457); \coordinate (Q2) at (560,540);
+  \coordinate (E1) at (630,903); \coordinate (E2) at (630,985);
+  \coordinate (F1) at (987,703); \coordinate (F2) at (987,785);
+  \coordinate (X) at (370,647);
+  \draw (P2) -- (P1) -- (Q1) -- (R2) -- (F1) -- (F2) -- (E2) -- (E1) -- (R1) -- (P1);
+  \draw (R1) -- (R2); \draw (E1) -- (F1);
+  \draw (P2) -- ($(P2)!0.465!(Q2)$);
+  \draw[dash pattern=on 2pt off 1.5pt] ($(P2)!0.465!(Q2)$) -- (Q2) -- (Q1);
+  % dimension 5x
+  \draw[dash pattern=on 0.8pt off 0.8pt, line width=0.6pt] (205,765) -- (380,866);
+  \draw[dash pattern=on 0.8pt off 0.8pt, line width=0.6pt] (430,895) -- (605,996);
+  \node at (389,870) {$5x$};
+  \node at (870,893) {$6$ m};
+  \node[right] at (983,748) {$y$};
+  \node at (909,563) {$4x$};
+  \node at (669,432) {$4x$};
+  \node[right] at (564,500) {$y$};
+  \node at (135,470) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

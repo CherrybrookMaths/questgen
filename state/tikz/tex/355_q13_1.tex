@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\t{74.9}
+  \coordinate (O) at (270,244);
+  \draw (67,244) -- (424,244);
+  \draw (O) -- ++({203*cos(\t)},{-203*sin(\t)}) coordinate (B);
+  % y axis is flipped, so angles are measured clockwise from +x in these units: use explicit arcs
+  \draw (67,244) arc[start angle=-180, end angle=-\t, radius=203];
+  \draw ({270+154*cos(\t)},{244-154*sin(\t)}) coordinate (D) arc[start angle=-\t, end angle=0, radius=154];
+  \draw (321,244) arc[start angle=0, end angle=-\t, radius=51];
+  \node[anchor=east] at (68,251) {$A$};
+  \node[anchor=west] at (320,46) {$B$};
+  \node[anchor=west] at (430,247) {$C$};
+  \node[anchor=east] at (314,99) {$D$};
+  \node at (268,266) {$O$};
+  \node at (166,268) {4 m};
+  \node at (354,268) {3m};
+  \node at (183,165) {$A_1$};
+  \node at (372,186) {$A_2$};
+  \node at (326,203) {$\theta$};
+\end{tikzpicture}
+\end{document}

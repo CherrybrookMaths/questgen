@@ -1,0 +1,50 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+% 355_q12_s1: probability tree drawn with the shared tree template (DIAGRAM_SPEC rule 21; tikz/tree_style.tex).
+% Level gaps D_k (cm): 1: 3.70, 2: 1.23, 3: 1.23, computed by work/diag_fix5_2/treegen.py.
+\treewidth{1}{$J$}
+\treewidth{2}{$J$}
+\treewidth{2}{$A$}
+\treewidth{3}{$J$}
+\treewidth{3}{$A$}
+\treewidth{1}{$A$}
+\treewidth{2}{$J$}
+\treewidth{3}{$J$}
+\treewidth{3}{$A$}
+\treewidth{2}{$A$}
+\treecolumns{3}
+\begin{tikzpicture}
+  \treeroot{r}{0cm}
+  \treenode{n1}{1}{1.850cm}{$J$}
+  \treebranch{r}{n1}{$0.3$}
+  \treenode{n2}{2}{2.466cm}{$J$}
+  \treebranch{n1}{n2}{$0.6$}
+  \treeresult{2.466cm}{\makebox[2.4em][l]{$JJ$}$=\ 0.18$}
+  \treenode{n3}{2}{1.233cm}{$A$}
+  \treebranch{n1}{n3}{$0.4$}
+  \treenode{n4}{3}{1.850cm}{$J$}
+  \treebranch{n3}{n4}{$0.4$}
+  \treeresult{1.850cm}{\makebox[2.4em][l]{$JAJ$}$=\ 0.048$}
+  \treenode{n5}{3}{0.617cm}{$A$}
+  \treebranch{n3}{n5}{$0.6$}
+  \treeresult{0.617cm}{\makebox[2.4em][l]{$JAA$}$=\ 0.072$}
+  \treenode{n6}{1}{-1.850cm}{$A$}
+  \treebranch{r}{n6}{$0.7$}
+  \treenode{n7}{2}{-1.233cm}{$J$}
+  \treebranch{n6}{n7}{$0.4$}
+  \treenode{n8}{3}{-0.617cm}{$J$}
+  \treebranch{n7}{n8}{$0.6$}
+  \treeresult{-0.617cm}{\makebox[2.4em][l]{$AJJ$}$=\ 0.168$}
+  \treenode{n9}{3}{-1.850cm}{$A$}
+  \treebranch{n7}{n9}{$0.4$}
+  \treeresult{-1.850cm}{\makebox[2.4em][l]{$AJA$}$=\ 0.112$}
+  \treenode{n10}{2}{-2.466cm}{$A$}
+  \treebranch{n6}{n10}{$0.6$}
+  \treeresult{-2.466cm}{\makebox[2.4em][l]{$AA$}$=\ 0.42$}
+  \treehead{1}{3.139cm}{1st set}
+  \treehead{2}{3.139cm}{2nd set}
+  \treehead{3}{3.139cm}{3rd set}
+\end{tikzpicture}
+\end{document}

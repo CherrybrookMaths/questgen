@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates in crop pixels (200 dpi), y downward
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\normalsize}]
+  \coordinate (P) at (40,222);
+  \coordinate (A) at (198,59);
+  \coordinate (B) at (418,328);
+  \coordinate (PN) at (40,125);
+  \coordinate (AS) at (198,173);
+  \draw[line width=0.6pt, black!60] (P) -- (PN);
+  \draw[line width=0.6pt, black!60] (198,5) -- (AS);
+  \draw (P) -- (A) -- (B) -- cycle;
+  \pic[draw, line width=0.3pt, black!60, angle radius=0.57cm] {angle=A--P--PN};
+  \pic[draw, line width=0.3pt, black!60, angle radius=0.57cm] {angle=B--P--A};
+  \pic[draw, line width=0.3pt, black!60, angle radius=0.40cm] {angle=P--A--AS};
+  \node[pt, inner sep=1.6pt] at (P) {}; \node[pt, inner sep=1.6pt] at (A) {}; \node[pt, inner sep=1.6pt] at (B) {};
+  \node at (14,235) {$P$};
+  \node at (215,37) {$A$};
+  \node at (436,333) {$B$};
+  \node at (68,162) {$35^\circ$};
+  \node at (113,207) {$65^\circ$};
+  \node at (173,122) {$35^\circ$};
+  \node at (100,103) {7 km};
+  \node at (228,298) {9 km};
+  \node at (365,156) {8.76\ldots\ km};
+\end{tikzpicture}
+\end{document}

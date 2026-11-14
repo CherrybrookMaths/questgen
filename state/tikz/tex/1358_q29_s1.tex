@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\usetikzlibrary{decorations.pathreplacing}
+\begin{document}
+% 2025 Fort Street AT4 Q29 solution: right triangle AB=a, BC=2a with inscribed squares a_1=2a/3, a_{n+1}=2a_n/3
+% (computed, rule 16). Brace labels clear of the vertex A and the braces (owner: "the A is overlapping with the
+% bracket and 2a is touching the bracket too"; rule 11). Unit a = 213.25 crop px.
+\begin{tikzpicture}[x=2.708cm,y=2.708cm, every node/.style={font=\fontsize{12}{14}\selectfont}]
+  \draw (0,1) -- (0,0) -- (2,0) -- cycle;
+  \foreach \x/\s in {0/0.666667, 0.666667/0.444444, 1.111111/0.296296, 1.407407/0.197531}
+    \draw (\x,0) rectangle ++(\s,\s);
+  \node[above=1pt] at (0,1) {$A$};
+  \node[left=2pt] at (0,0) {$B$};
+  \node[right=2pt] at (2,0) {$C$};
+  \node at (0.3333,0.56) {$a_1$};
+  \node at (0.8889,0.35) {$a_2$};
+  \node at (0.3333,0.27) {$A_1$};
+  \node at (0.8889,0.17) {$A_2$};
+  \node at (1.2593,0.14) {$A_3$};
+  \draw[decorate, decoration={brace, amplitude=5pt}] (-0.05,0.6667) -- (-0.05,1);
+  \node[anchor=east] at (-0.11,0.8333) {$a-a_1$};
+  \draw[decorate, decoration={brace, amplitude=6pt, mirror}] (0,-0.05) -- (2,-0.05);
+  \node[anchor=north] at (1,-0.15) {$2a$};
+\end{tikzpicture}
+\end{document}

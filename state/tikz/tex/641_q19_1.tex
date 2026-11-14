@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel units (y down). B(37,40), C(37,623), A(498.5,173); north line through A with arrow to N;
+% bearing arc (r 43.5) clockwise from north round to AB, arrowhead at its end, labelled 294 degrees. NOT TO SCALE.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{13.5}{16}\selectfont}]
+  \coordinate (A) at (498.5,173); \coordinate (B) at (37,40); \coordinate (C) at (37,623);
+  \draw (B) -- (A) -- (C) -- cycle;
+  \draw[->] (499.5,276) -- (499.5,80);
+  \draw[->] (499.5,129.5) arc[start angle=-90, end angle=187, radius=43.5];
+  \node at (499.5,61.5) {\textbf{N}};
+  \node at (22,21.5) {$B$};
+  \node at (29,649) {$C$};
+  \node at (519.5,169.5) {$A$};
+  \node[anchor=base west] at (535,238) {$294^\circ$};
+  \node[align=center, font=\fontsize{12.5}{14}\selectfont] at (433,476) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{11}{13}\selectfont]
+\begin{scope}\clip (0,183) rectangle (240,0);
+\path[shade hatch] (10,183) -- plot[domain=10:205.3,samples=90,smooth] (\x,{183-162*exp(-((\x-197.5)/73.5)*((\x-197.5)/73.5)/2)}) -- (205.3,183) -- cycle;
+\end{scope}
+\draw (8,183) -- (383,183);
+\draw[line width=0.9pt] plot[domain=10:380,samples=90,smooth] (\x,{183-162*exp(-((\x-197.5)/73.5)*((\x-197.5)/73.5)/2)});
+\draw[aux] (205.3,183) -- (205.3,21.9);
+\draw (197.5,183) -- (197.5,193);
+\node[anchor=north east,inner sep=1pt] at (200.5,195) {$5.73$};
+\node[anchor=north west,inner sep=1pt] at (208.3,195) {$5.9$};
+\end{tikzpicture}
+\end{document}

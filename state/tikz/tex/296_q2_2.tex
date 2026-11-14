@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % grey header cells: SPINNER numbers row and DIE numbers column
+  \fill[black!18] (200,54) rectangle (578,98);
+  \fill[black!18] (105,98) rectangle (200,413);
+  % outer border
+  \draw (10,9) rectangle (578,413);
+  % horizontal rules
+  \draw (200,54) -- (578,54);
+  \draw (10,98) -- (578,98);
+  \foreach \y in {151,203,256,308,361} \draw (105,\y) -- (578,\y);
+  % vertical rules
+  \draw (105,98) -- (105,413);
+  \draw (200,9) -- (200,413);
+  \foreach \x in {294,389,483} \draw (\x,54) -- (\x,413);
+  % headings
+  \node[anchor=base] at (389,41) {SPINNER};
+  \node[rotate=90] at (59.5,255.5) {DIE};
+  \foreach \c [count=\k] in {247,341.5,436,530.5} \node[anchor=base] at (\c,86) {\k};
+  \foreach \yb [count=\k] in {134,187,239,292,344,397} \node[anchor=base] at (152.5,\yb) {\k};
+  % entries
+  \node[anchor=base] at (247,134) {2}; \node[anchor=base] at (341.5,134) {3}; \node[anchor=base] at (436,134) {4};
+  \node[anchor=base] at (247,187) {3}; \node[anchor=base] at (341.5,187) {4}; \node[anchor=base] at (436,187) {5};
+  \node[anchor=base] at (341.5,239) {5}; \node[anchor=base] at (436,239) {6};
+  \node[anchor=base] at (436,292) {7};
+\end{tikzpicture}
+\end{document}

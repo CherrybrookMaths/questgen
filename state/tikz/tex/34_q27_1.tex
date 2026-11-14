@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.801cm, y=0.801cm]
+  \foreach \t in {13,...,28} {
+    \draw[black!50, line width=0.6pt] (\t,0) -- (\t,2.727);
+    \node at (\t,-0.53) {$\t$};
+  }
+  \draw (12.51,0) -- (28.49,0);
+  \begin{scope}[line width=0.6pt]
+    \draw (13,1.40) -- (19,1.40) (25,1.40) -- (27,1.40);
+    \draw (13,0.872) -- (13,1.887) (27,0.872) -- (27,1.887);
+    \draw[fill=white] (19,0.872) rectangle (25,1.887);
+    \draw (22,0.872) -- (22,1.887);
+  \end{scope}
+  \node at (20.5,-1.36) {Temperature (degrees Celsius)};
+\end{tikzpicture}
+\end{document}

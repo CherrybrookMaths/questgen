@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9}{11}\selectfont]
+  \coordinate (T) at (387,50); \coordinate (C) at (387,264); \coordinate (A) at (723,264); \coordinate (B) at (102,519);
+  \draw (B) -- (T) -- (A);
+  \draw (T) -- (C) -- (A);
+  \draw (C) -- (B);
+  \draw[aux] (B) -- (A);
+  \draw (387,250) -- (401,250) -- (401,264);
+  \draw (387,252) -- (378,260) -- (378,272);
+  \draw (622,264) arc[start angle=-180, end angle=-147.5, radius=101];
+  \draw ($(B)+(-41.8:230)$) arc[start angle=-41.8, end angle=-58.7, radius=230];
+  \node at (392,25) {\fontsize{10}{12}\selectfont$T$};
+  \node at (388,293) {\fontsize{10}{12}\selectfont$C$};
+  \node at (746,263) {\fontsize{10}{12}\selectfont$A$};
+  \node at (82,528) {\fontsize{10}{12}\selectfont$B$};
+  \node at (421,162) {40 m};
+  \node at (660,247) {$45^\circ$};
+  \node at (223.5,373) {$30^\circ$};
+  \node[rotate=22.3] at (393,371) {100 m};
+  \node at (697,438) {\fontsize{8.8}{11}\selectfont NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, line width=0.6pt]
+  % --- 3D cone with inscribed square prism ---
+  \draw (248,50) -- (72,390);
+  \draw (248,50) -- (424,390);
+  \draw[line width=0.6pt] (248,400) ellipse [x radius=180, y radius=45];
+  \draw (173,194) -- (297,194) -- (327,211) -- (204,211) -- cycle;
+  \draw (173,392) -- (299,392) -- (327,409) -- (204,409) -- cycle;
+  \draw (173,194) -- (173,392);
+  \draw (297,194) -- (299,392);
+  \draw (204,211) -- (204,409);
+  \draw (327,211) -- (327,409);
+  % --- cross-section ---
+  \draw (558,437) -- (743,42) -- (930,437) -- cycle;
+  \draw (669,437) -- (669,204) -- (818,204) -- (818,437);
+  \draw[aux, line width=0.6pt, dash pattern=on 4pt off 2.5pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (743,44) -- (743,436);
+  \node[font=\footnotesize] at (722,256) {$H$};
+  \draw[aux, line width=0.6pt, dash pattern=on 4pt off 2.5pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (750,449) -- (929,449);
+  \node[font=\footnotesize] at (832,472) {$R$};
+\end{tikzpicture}
+\end{document}

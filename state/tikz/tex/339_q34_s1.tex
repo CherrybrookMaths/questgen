@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\small]
+  \coordinate (C) at (200,110);
+  \draw (75,110) -- (325,110);
+  \draw (200,15) -- (200,205);
+  \draw (C) -- ++(240:110);
+  \draw (C) -- ++(120:110);
+  \draw (C) ++(180:36) arc[start angle=180, end angle=240, radius=36];
+  \draw (C) ++(180:36) arc[start angle=180, end angle=120, radius=36];
+  \node at ($(C)+(206:92)$) {$\dfrac{\pi}{3}$};
+  \node at ($(C)+(154:92)$) {$\dfrac{\pi}{3}$};
+  \node[anchor=east] at (71,110) {$6.25$};
+  \node[anchor=west] at (329,110) {$0,\ 12.5$};
+\end{tikzpicture}
+\end{document}

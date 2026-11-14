@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 NESA HSC Q29 solution: triangle FOY on the ground, OF = h, OY = h/sqrt3, angle OYF = 45, theta = angle OFY (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (R) at (34.5,86); \coordinate (O) at (96.5,86); \coordinate (Y) at (410,86); \coordinate (F) at (34.5,541);
+  \draw (R) -- (Y) -- (F) -- cycle;
+  \draw (O) -- (F);
+  \draw (34.5,106) -- (54.5,106) -- (54.5,86);
+  \draw (34.5,348) arc[start angle=-90, end angle=-82.2, radius=193];
+  \node at (101,70) {$O$};
+  \node at (429,86) {$Y$};
+  \node at (13,543) {$F$};
+  \node at (60,231) {$h$};
+  \node at (60,479) {$\theta$};
+  \node at (351,110) {$45^\circ$};
+  \node at (241,43) {$\dfrac{h}{\sqrt{3}}$};
+\end{tikzpicture}
+\end{document}

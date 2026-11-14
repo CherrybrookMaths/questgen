@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Fort Street AT4 Q24(b) solution: g(x)=f(3x)-4, max (1,0), min (-1,-4), y-intercept (0,-2), asymptote y=-2.
+% Clean redraw (owner: "graph left side looks wobbly"; rules 10, 16, 17): drawn from the smooth model
+% g(x)=-2+4x/(1+x^2), which has exactly these key points and asymptote (f(x)=2+4(x/3)/(1+(x/3)^2) matches the
+% question's f: min (-3,0), (0,2), max (3,4), y=2). Points computed and dotted; answer-box border omitted.
+\begin{tikzpicture}[x=0.95cm,y=0.75cm,font=\fontsize{13}{15}\selectfont]
+  \draw[->] (-6.2,0) -- (6.4,0) node[right=1pt] {$x$};
+  \draw[->] (0,-5.2) -- (0,1.9) node[above=1pt] {$y$};
+  \draw[aux] (-6.2,-2) -- (6.4,-2) node[right=2pt] {$y=-2$};
+  \draw[<->,line width=0.9pt] plot[domain=-5.6:5.6,samples=120,smooth] (\x,{-2+4*\x/(1+\x*\x)});
+  \fill (1,0) circle (2.3pt); \fill (-1,-4) circle (2.3pt); \fill (0,-2) circle (2.3pt);
+  \node[anchor=north east,inner sep=1.5pt] at (0,0) {$O$};
+  \node[anchor=south,inner sep=0pt] at (1.05,0.22) {$(1,0)$};
+  \node[anchor=north,inner sep=0pt] at (-1,-4.25) {$(-1,-4)$};
+  \node[anchor=north west,inner sep=0pt] at (0.12,-2.25) {$-2$};
+\end{tikzpicture}
+\end{document}

@@ -24,14 +24,15 @@ work/import/next.json: the batch (lane, number, papers with every file and Drive
 why, the run and the stop decision. Read-only on the database and the page.
 Import is PAUSED (owner 14 Nov: "no more importing for a while until we iron these out") until the owner resumes it.
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import csv, glob, json, os, sqlite3, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import inventory, batches as BT
 
-P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
-DB = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
-OUT = P + 'work/import/next.json'
+P = paths.P
+DB = paths.DBS
+OUT = paths.S + 'work/import/next.json'
 PROGRESS = P + 'site/data/progress.json'
 # unusual problems that stop the queue early (chosen 14 Nov while the owner was away; b1, the very first batch, had 11 Your
 # calls for 8 papers, later batches far fewer): any paper with no questions loaded, 3+ unreadable pages, or more than 12 Your calls
@@ -111,8 +112,8 @@ def main():
     unmatched = [(b['id'], x) for b in fin if not b.get('ids') for x in b.get('papers') or [] if x not in lab and not str(x).startswith('(')]
     paths = {r['id']: dict(r) for r in db.execute('SELECT id, source_path, status, parse_path, page_count, drive_file_id FROM documents')}
     drive = {}
-    if os.path.exists(P + 'drive_ids.csv'):
-        drive = {int(r['doc_id']): r['drive_file_id'] for r in csv.DictReader(open(P + 'drive_ids.csv')) if r.get('doc_id', '').isdigit()}
+    if os.path.exists(P + 'site/project/drive_ids.csv'):   # tracked copy (the old top-level drive_ids.csv was identical)
+        drive = {int(r['doc_id']): r['drive_file_id'] for r in csv.DictReader(open(P + 'site/project/drive_ids.csv')) if r.get('doc_id', '').isdigit()}
     items, skipped = [], []
     for pos, x in enumerate(queue, 1):
         L = lanes.get((x.get('course'), str(x.get('yl'))))

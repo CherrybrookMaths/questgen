@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% clean redraw of the solution sketch (crop pixel units, y down). Curve: the density on [0,3] fitted to the crop,
+% X = 56.29 + 112.03 x, Y = 302.77 - 40.65 (sin(pi x)+2x) (max error 0.6 px). Dashed line marks the mode x = 2.72
+% (the curve's maximum), down to the x-axis, labelled "mode" as printed. Blue dashes drawn black (rule 6).
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{11}{13}\selectfont}]
+  \def\modex{2.7197}
+  \draw (15,303.5) -- (483,303.5);
+  \draw (56.5,18) -- (56.5,342);
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=0:3, variable=\t] ({56.29+112.03*\t},{302.77-40.65*(sin(deg(pi*\t))+2*\t)});
+  \draw[aux] ({56.29+112.03*\modex},{302.77-40.65*(sin(deg(pi*\modex))+2*\modex)}) -- ({56.29+112.03*\modex},303.5);
+  \node at (38.5,324) {$0$};
+  \node at (395,324) {$3$};
+  \node[font=\fontsize{12.5}{15}\selectfont, anchor=base] at (344.5,340) {mode};
+\end{tikzpicture}
+\end{document}

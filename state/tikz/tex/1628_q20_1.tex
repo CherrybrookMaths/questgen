@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (T) at (319,25); \coordinate (C) at (319,244);
+  \coordinate (A) at (701,243.5); \coordinate (B) at (42,452);
+  \draw (T) -- (C) -- (A) -- cycle;
+  \draw (T) -- (B) -- (C);
+  \draw[aux] (B) -- (A);
+  % right angles at C
+  \draw (319,220) -- (343.5,220) -- (343.5,244);
+  \draw (319,221) -- (301.5,233) -- (301.5,257);
+  % angle arcs
+  \draw plot[smooth, domain=0:29.8, samples=12] ({701-116*cos(\x)},{243.5-116*sin(\x)});
+  \draw plot[smooth] coordinates {(127.5,320) (130.5,328) (132.5,334) (134,340) (135.5,346) (136.5,352) (137.5,358) (138,364) (138.6,370) (139,376)};
+  \node at (302,26) {$T$};
+  \node at (323,268) {$C$};
+  \node at (718,244) {$A$};
+  \node at (24,455) {$B$};
+  \node at (363,141) {$40$ m};
+  \node at (616,220) {$35^\circ$};
+  \node[rotate=38] at (116,377) {$30^\circ$};
+  \node[rotate=19] at (364,330) {$100$ m};
+  \node at (666.5,404.5) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

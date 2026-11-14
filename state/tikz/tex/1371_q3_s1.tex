@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 St George Girls AT4 Q3 solution: y=x^2 with x^2>0 hatched either side of the origin, open circle at 0 (crop pixel units, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{13}{15}\selectfont}]
+  \def\P{(133,28) (137,52) (140,62) (145,76) (155,92) (166,108) (182,124) (205,140) (227,148) (247,151) (262,148) (279,140) (292,126) (302,114) (310,100) (318,84) (324,68) (330,48) (334,30)}
+  \begin{scope}
+    \clip (68,66) rectangle (362,151);
+    \path[shade hatch, even odd rule] (62,20) rectangle (432,151) plot[smooth] coordinates {\P} -- cycle;
+  \end{scope}
+  \draw[<->] (30,152) -- (451,152);
+  \draw[<->,line width=0.9pt] plot[smooth] coordinates {\P};
+  \draw[fill=white] (247,148) circle (13);
+  \node at (382,60) {\halo{$x^2$}};
+\end{tikzpicture}
+\end{document}

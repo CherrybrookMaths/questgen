@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, xlabel={}, ylabel={}, font=\footnotesize, x=1.254cm, y=1.27cm,
+  xmin=0, xmax=6.45, ymin=0, ymax=4.45, axis line style={draw=none},
+  xtick={1.5708,3.14159,4.71239,6.28319}, xticklabels={$\dfrac{\pi}{2}$,$\pi$,$\dfrac{3\pi}{2}$,$2\pi$},
+  ytick={1}, extra y ticks={0}, extra y tick labels={$0$}, tick label style={font=\footnotesize}, every tick label/.append style={font=\footnotesize}, typeset ticklabels with strut,
+  xticklabel style={yshift=-2pt}, major tick length=4pt]
+  \draw[->] (axis cs:0,0) -- (axis cs:6.45,0) node[right,inner sep=1pt] {$x$};
+  \draw[->] (axis cs:0,0) -- (axis cs:0,4.45) node[above] {$y$};
+  % asymptotes
+  \draw (axis cs:1.5708,0) -- (axis cs:1.5708,4.2);
+  \draw (axis cs:4.71239,0) -- (axis cs:4.71239,4.2);
+  \node[left,font=\footnotesize] at (axis cs:1.5708,0.58) {$x=\dfrac{\pi}{2}$};
+  \node[left,font=\footnotesize] at (axis cs:4.71239,0.58) {$x=\dfrac{3\pi}{2}$};
+  % y = sec^2 x  (cut at y=4.2: x=1.0608)
+  \addplot[->, >={Latex[length=2mm,width=1.3mm]}, domain=0:1.0608] {1/cos(deg(x))^2};
+  \addplot[<->, >={Latex[length=2mm,width=1.3mm]}, domain=3.14159-1.0608:3.14159+1.0608] {1/cos(deg(x))^2};
+  \addplot[<-, >={Latex[length=2mm,width=1.3mm]}, domain=6.28319-1.0608:6.28319] {1/cos(deg(x))^2};
+  % y = 2 tan^2 x  (cut at y=4.2: x=0.9670)
+  \addplot[->, >={Latex[length=2mm,width=1.3mm]}, domain=0:0.9670] {2*tan(deg(x))^2};
+  \addplot[<->, >={Latex[length=2mm,width=1.3mm]}, domain=3.14159-0.9670:3.14159+0.9670] {2*tan(deg(x))^2};
+  \addplot[<-, >={Latex[length=2mm,width=1.3mm]}, domain=6.28319-0.9670:6.28319] {2*tan(deg(x))^2};
+  \node[pt] at (axis cs:6.28319,1) {};
+  \node[anchor=west,font=\footnotesize] at (axis cs:5.9,1.33) {$y=\sec^2 x$};
+  \node[anchor=west,font=\footnotesize] at (axis cs:5.9,0.38) {$y=2\tan^2 x$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

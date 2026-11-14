@@ -1,0 +1,42 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, line width=0.6pt]
+  % crop's arc: ellipse fitted to crop pixels, centre (284.9,268.7) below AD, rx 254, ry 246.4
+  \coordinate (O) at (286,251);
+  \coordinate (A) at (31.6,251);
+  \coordinate (D) at (538.2,251);
+  \coordinate (B) at (140,66.5);
+  \coordinate (C) at (432,67.5);
+  \coordinate (E) at (140,251);
+  \coordinate (F) at (432,251);
+  \draw (D) arc[start angle=-4.12, end angle=-175.88, x radius=254, y radius=246.4];
+  \draw (A) -- (D);
+  \draw[line join=round] (A) -- (B) -- (C) -- (D);
+  \draw (B) -- (O);
+  \draw[aux] (B) -- (E);
+  \draw[aux] (C) -- (F);
+  \draw[line width=0.6pt] (140,233) -- (159,233) -- (159,251);
+  \draw[line width=0.6pt] (432,233) -- (451,233) -- (451,251);
+  % equal-length double ticks on AB and CD
+  \foreach \P/\Q in {A/B, D/C} {
+    \foreach \t in {0.47,0.505} {
+      \path ($(\P)!\t!(\Q)$) coordinate (M);
+      \draw[line width=0.6pt] ($(M)!0.2cm!90:(\Q)$) -- ($(M)!0.2cm!-90:(\Q)$);
+    }
+  }
+  \begin{scope}[every node/.style={font=\large}]
+  \node at (22,277) {A};
+  \node at (140,277) {E};
+  \node at (288,271) {O};
+  \node at (434,277) {F};
+  \node at (552,280) {D};
+  \node at (112,54) {B};
+  \node at (453,50) {C};
+  \node at (216,298) {$\dfrac{x}{2}$};
+  \node at (378,298) {$\dfrac{x}{2}$};
+  \node at (297,372) {20 cm};
+  \end{scope}
+  \draw[line width=0.6pt, <->, >={Latex[length=2mm,width=1.3mm]}] (27,345) -- (543,345);
+\end{tikzpicture}
+\end{document}

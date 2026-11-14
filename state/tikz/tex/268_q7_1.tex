@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=7.14cm, y=2.477cm, every node/.style={font=\normalsize}]
+  % t = x/pi, Y = pi f(x) = 1 + sin(2x)/2 (fitted to crop)
+  \draw[->] (-0.085,0) -- (1.16,0);
+  \draw[->] (0,-0.215) -- (0,2.10);
+  \node at (1.142,-0.10) {$x$};
+  \node at (-0.083,2.04) {$f(x)$};
+  \draw[curve] plot[domain=0:1, samples=150] (\x,{1+0.495*sin(360*\x)});
+  \node[pt] at (0.25,1.495) {}; \node[pt] at (1,1) {};
+  \node at (0.249,1.76) {\scalebox{1.1}{$\Biggl(\dfrac{\pi}{4},\,\dfrac{3}{2\pi}\Biggr)$}};
+  \node at (1.0,1.246) {\scalebox{1.1}{$\Biggl(\pi,\,\dfrac{1}{\pi}\Biggr)$}};
+  \node at (-0.036,0.99) {$\dfrac{1}{\pi}$};
+  \node at (-0.03,-0.10) {$O$};
+  \node[align=center] at (1.352,1.69) {NOT\\TO\\SCALE};
+\end{tikzpicture}
+\end{document}

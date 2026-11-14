@@ -1,8 +1,9 @@
 """Item 5: convert LaTeX array tables in question/part/option/solution text into structured tables.
 Each converted block becomes \\extable{<id>} in the text; rows live in table data_tables.
 Renderer draws an HTML table: optional label column + equal-width value columns."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, re, json, sys
-DB = '/mnt/user-data/outputs/questions.db'
+DB = paths.DBS
 db = sqlite3.connect(DB)
 db.execute("""create table if not exists data_tables(id text primary key, owner_table text, owner_id integer,
   caption text, header_rows integer, label_col integer, rows_json text, source_latex text)""")

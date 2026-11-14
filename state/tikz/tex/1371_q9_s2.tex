@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (K) at (90,73); \coordinate (M) at (90,238); \coordinate (L) at (316,238);
+  \draw (K) -- (M) -- (L) -- cycle;
+  \draw (90,224) -- (104,224) -- (104,238);
+  \draw (316,238) ++(180:62) arc[start angle=180, end angle=216.1, radius=62];
+  \node at (232,214) {$30^\circ$};
+  \node[anchor=east] at (80,72) {$K$};
+  \node[anchor=east] at (80,241) {$M$};
+  \node[anchor=west] at (326,241) {$L$};
+  \node[anchor=east] at (82,155) {$h$};
+  \node[anchor=north] at (203,247) {$17$};
+\end{tikzpicture}
+\end{document}

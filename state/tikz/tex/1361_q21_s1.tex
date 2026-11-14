@@ -1,0 +1,39 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{9.5}{11}\selectfont},
+    lbl/.style={align=left, anchor=north west, inner sep=0pt, font=\fontsize{9.5}{13.2}\selectfont}]
+  % crop pixel units; origin (341.5,397.7), 1 x-unit = 120.7 px, 1 y-unit = 53.6 px (the crop is a computer plot)
+  \def\X#1{341.5+120.7*(#1)}\def\Y#1{397.7-53.6*(#1)}
+  % axes and ticks
+  \draw[<->] (197,397.7) -- (790,397.7);
+  \draw[<->] (341.5,637) -- (341.5,46);
+  \foreach \t in {-1,1,2,3} \draw ({\X{\t}},392.7) -- ({\X{\t}},402.7);
+  \foreach \t in {-4,-3,-2,-1,1,2,3,4,5,6} \draw (336.5,{\Y{\t}}) -- (346.5,{\Y{\t}});
+  \foreach \t in {-1,1,2,3} \node at ({\X{\t}},429) {$\t$};
+  \foreach \t in {1,...,6} \node[anchor=east] at (333,{\Y{\t}}) {$\t$};
+  \foreach \t in {1,2,3,4} \node[anchor=east] at (333,{\Y{-\t}}) {$-\t$};
+  \node at (803,398) {x};
+  \node at (342,22) {y};
+  % curve y = x^3 - 3x^2 on its domain -1 <= x <= 3.5 (endpoints as closed dots, not arrows: see notes)
+  \draw[curve, line width=0.9pt] plot[domain=-1:3.5, samples=90, smooth] ({\X{\x}},{\Y{(\x)^3-3*(\x)^2}});
+  \fill ({\X{-1}},{\Y{-4}}) circle (5);
+  \fill ({\X{3.5}},{\Y{6.125}}) circle (5);
+  \fill ({\X{0}},{\Y{0}}) circle (5);
+  \fill ({\X{2}},{\Y{-4}}) circle (5);
+  \fill ({\X{1}},{\Y{-2}}) circle (3.5);
+  \fill ({\X{3}},{\Y{0}}) circle (3.5);
+  % labels
+  \node[anchor=west] at (782,55) {Endpoint $(3.5,\,6.125)$};
+  \node[anchor=east] at (205,628) {Endpoint $(-1,\,-4)$};
+  \node at (764,378) {$(3,\,0)$};
+  \node[lbl] at (356,512) {Point of\\inflection\\$(1,\,-2)$};
+  % call-out boxes
+  \draw[fill=black!10] (65,162.5) rectangle (262,296);
+  \node[lbl] at (75,178) {$y$ Intercept\\Local Maximum\\$(\,0\,,\,0\,)$};
+  \draw (229,296) -- (334,391);
+  \draw[fill=black!10] (608,625.5) rectangle (800,722.5);
+  \node[lbl] at (618,643) {Local Minimum\\$(\,2\,,\,-4\,)$};
+  \draw (590,617) -- (608,628);
+\end{tikzpicture}
+\end{document}

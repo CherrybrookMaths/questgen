@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[line width=0.6pt, dim/.style={<->, line width=0.6pt, >={Latex[length=2mm,width=1.3mm]}}]
+  \coordinate (O) at (0,0); \coordinate (A) at (5.98,0); \coordinate (B) at (0,4.50);
+  % lamp
+  \draw (0,8.99) -- (0,6.45);
+  \draw (0,6.45) -- (-0.44,5.99) -- (0.44,5.99) -- cycle;
+  \draw (-0.30,5.99) arc[start angle=180, end angle=360, radius=0.30];
+  \foreach \a in {-150,-130,-110,-90,-70,-50,-30}
+    \draw ($(0,5.99)+(\a:0.52)$) -- ($(0,5.99)+(\a:0.72)$);
+  % triangle
+  \draw (O) -- (A);
+  \draw[aux, line width=0.6pt, dash pattern=on 1.2mm off 0.7mm] (O) -- (B) -- (A);
+  \draw[line width=0.6pt] (0,0.46) -- (0.46,0.46) -- (0.46,0);
+  \pic[draw, line width=0.6pt, angle radius=0.74cm, "$\phi$", angle eccentricity=1.65] {angle=B--A--O};
+  % dimensions
+  \draw[dim] (-0.31,0) -- node[fill=white, inner sep=2pt] {$h$} (-0.31,4.50);
+  \draw[dim] (0,-0.31) -- node[fill=white, inner sep=3pt] {$d$} (5.98,-0.31);
+  \draw[dim] ($(B)+(0.18,0.30)$) -- node[fill=white, inner sep=3pt] {$r$} ($(A)+(0.15,0.30)$);
+  \node at (-0.31,4.78) {$B$};
+  \node at (-0.31,-0.31) {$O$};
+  \node at (6.30,-0.31) {$A$};
+\end{tikzpicture}
+\end{document}

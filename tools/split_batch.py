@@ -5,9 +5,10 @@ split_out.json: {"splits":[{"question_id":123,"groups":[["a"],["b","c"]],"reason
 Each group becomes its own question numbered "<n>(<first label>)" (e.g. 13(a), 13(b)); parts keep their labels; part
 solutions, figures and tags move with their parts; question-level solutions/figures stay with the first group.
 Run BEFORE tagging/verify where possible (question ids of the later groups are new)."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sys, json, sqlite3
-P = '/home/claude/pilot/'
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db'); db.row_factory = sqlite3.Row
+P = paths.P
+db = sqlite3.connect(paths.DBS); db.row_factory = sqlite3.Row
 mode, B = sys.argv[1], sys.argv[2]
 if mode == 'prep':
     out = []

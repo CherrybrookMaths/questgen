@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, axis line style={draw=none}, x=3cm, y=1.6cm, xmin=-0.3, xmax=2.45, ymin=-2.35, ymax=0.9,
+  xlabel={}, ylabel={}, xtick=\empty, ytick=\empty]
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:-0.3,0) -- (axis cs:2.45,0) node[right] {$t$};
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:0,-2.35) -- (axis cs:0,0.9) node[above] {$\dfrac{dx}{dt}$};
+  \addplot[domain=0:2, samples=90, smooth] {x-x^2};
+  \node[pt] at (axis cs:2,-2) {}; \node[pt] at (axis cs:0.5,0.25) {};
+  \node[above, yshift=1pt] at (axis cs:0.5,0.25) {$\left(\dfrac{1}{2},\dfrac{1}{4}\right)$};
+  \node[right, xshift=2pt] at (axis cs:2,-2) {$(2,-2)$};
+  \node[above right, inner sep=2pt] at (axis cs:1,0) {$1$};
+  \node[below left, inner sep=2pt] at (axis cs:0,0) {$O$};
+  \draw[aux] (axis cs:2,0) -- (axis cs:2,-2); \node[above, inner sep=2pt] at (axis cs:2,0) {$2$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

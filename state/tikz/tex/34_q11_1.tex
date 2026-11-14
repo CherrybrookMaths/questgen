@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.21995cm, y=0.011008cm]
+  % minor grid: 1 minute by 20 litres
+  \foreach \t in {1,...,54} {\draw[densely dotted, line width=0.35pt] (\t,0) -- (\t,1100);}
+  \foreach \v in {20,40,...,1080} {\draw[densely dotted, line width=0.35pt] (0,\v) -- (55,\v);}
+  % major grid: 5 minutes by 100 litres
+  \foreach \t in {5,10,...,55} {\draw[line width=0.6pt] (\t,-24) -- (\t,1100);}
+  \foreach \v in {100,200,...,1100} {\draw[line width=0.6pt] (-1.1,\v) -- (55,\v);}
+  % axes
+  \draw[->] (0,-24) -- (0,1257);
+  \draw[->] (-1.1,0) -- (60.3,0);
+  \foreach \t in {0,5,...,55} {\node[below, font=\normalsize] at (\t,-24) {$\t$};}
+  \foreach \v in {0,100,...,1100} {\node[left, font=\normalsize] at (-1.1,\v) {$\v$};}
+  \node[align=center, font=\normalsize, anchor=center] at (-3.67,1219) {$V$\\(litres)};
+  \node[align=center, font=\normalsize, anchor=center] at (60.5,-52) {$t$\\(minutes)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % GeoGebra plot (to scale): origin (351,305) px, 138.8 px/unit in x, 138.5 in y
+  \begin{scope}[shift={(351,305)}, xscale=138.8, yscale=-138.5]
+    \draw (-2.493,0) -- (3.58,0);
+    \draw (0,2.166) -- (0,-3.35);
+    \foreach \i in {-2,-1,1,2,3} {
+      \draw (\i,0) -- (\i,-0.04);
+    }
+    \foreach \i in {-2,-1,1,3} {
+      \node[font=\small, anchor=north] at (\i,-0.05) {$\i$};
+    }
+    \node[font=\small, anchor=north west] at (2.05,-0.05) {$2$};
+    \foreach \i in {-3,-2,-1,1,2} {
+      \draw (0,\i) -- (-0.04,\i);
+      \node[font=\small, anchor=east] at (-0.05,\i) {$\i$};
+    }
+    \node[font=\small, anchor=north east] at (-0.05,-0.05) {$0$};
+    \draw[line width=0.9pt] plot[smooth, domain=-0.555:2.336, samples=90] (\x, {\x*\x*\x - 2*\x*\x + \x - 2});
+    \foreach \p in {(1/3,-50/27),(1,-2)} \filldraw[fill=black!45] \p circle[radius=0.07];
+    \node at (0.54,-1.48) {$\left(\dfrac{1}{3},-\dfrac{50}{27}\right)$};
+    \node at (1.3,-2.32) {$(1,-2)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

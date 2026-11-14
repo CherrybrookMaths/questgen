@@ -30,12 +30,13 @@ Usage:
   python3 tools/qkeys.py --db DB --assign [--bank site/data/bank.json]   assign missing keys (writes question_keys)
   python3 tools/qkeys.py --db DB --assign --dry-run [--bank ...]          print what would be assigned, write nothing
   python3 tools/qkeys.py --db DB --show 274 44                            key of these question ids
-DB defaults to $QG_DB or /mnt/user-data/outputs/questions.db. Copy it into archive/ before the first --assign on the live file.
+DB defaults to tools/paths.py DB ($QG_DB, ...). Copy it into archive/ before the first --assign on the live file.
 build_bank.py calls attach() once per build (one block), so new imports get their keys there.
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import argparse, collections, datetime, json, os, re, sqlite3, sys
 
-DB = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
+DB = paths.DBS
 COURSE_TAG = {'advanced': '', 'standard': 'STD', 'ext1': 'X1', 'ext2': 'X2'}
 SCHEMA = """CREATE TABLE IF NOT EXISTS question_keys(question_id INTEGER PRIMARY KEY, key TEXT NOT NULL, assigned_at TEXT NOT NULL,
   document_id INTEGER);

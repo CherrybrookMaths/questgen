@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+% 166_q8_1: probability tree drawn with the shared tree template (DIAGRAM_SPEC rule 21; tikz/tree_style.tex).
+% Level gaps D_k (cm): 1: 4.04, 2: 1.35, computed by work/diag_fix5_2/treegen.py.
+\treewidth{1}{Grace}
+\treewidth{2}{Sophie}
+\treewidth{2}{Rachel}
+\treewidth{2}{Chloe}
+\treewidth{1}{Olivia}
+\treewidth{2}{Sophie}
+\treewidth{2}{Rachel}
+\treewidth{2}{Chloe}
+\treecolumns{2}
+\begin{tikzpicture}
+  \treeroot{r}{0cm}
+  \treenode{n1}{1}{2.022cm}{Grace}
+  \treebranch{r}{n1}{$0.60$}
+  \treenode{n2}{2}{3.370cm}{Sophie}
+  \treebranch{n1}{n2}{$0.35$}
+  \treenode{n3}{2}{2.022cm}{Rachel}
+  \treebranch{n1}{n3}{}
+  \treenode{n4}{2}{0.674cm}{Chloe}
+  \treebranch{n1}{n4}{$0.45$}
+  \treenode{n5}{1}{-2.022cm}{Olivia}
+  \treebranch{r}{n5}{}
+  \treenode{n6}{2}{-0.674cm}{Sophie}
+  \treebranch{n5}{n6}{$0.35$}
+  \treenode{n7}{2}{-2.022cm}{Rachel}
+  \treebranch{n5}{n7}{}
+  \treenode{n8}{2}{-3.370cm}{Chloe}
+  \treebranch{n5}{n8}{$0.45$}
+  \treehead{1}{4.054cm}{Chairperson}
+  \treehead{2}{4.054cm}{Deputy-chairperson}
+\end{tikzpicture}
+\end{document}

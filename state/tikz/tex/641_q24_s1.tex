@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% clean redraw of the solution graph (crop pixel units, y down): X = 390.3 + 78.4 x, Y = 554.5 - 7.088 y.
+% Curve y = x^3 + 3x^2 - 9x - 10 on [-4,4] (exact); GeoGebra grid: majors every 2 (x) / 20 (y), faint minors every 0.5 / 5.
+% Yellow background left out (transparent). Tick and point labels as printed, with \halo where they sit on grid lines.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{8.5}{10}\selectfont}]
+  \def\X#1{390.3+78.4*(#1)}\def\Y#1{554.5-7.088*(#1)}
+  \begin{scope}[black!14, dash pattern=on 0.8pt off 1.2pt]
+    \foreach \x in {-4.5,-3.5,-3,-2.5,-1.5,-1,-0.5,0.5,1,1.5,2.5,3,3.5,4.5} \draw ({\X{\x}},7) -- ({\X{\x}},760);
+    \foreach \y in {75,70,65,55,50,45,35,30,25,15,10,5,-5,-10,-15,-25,-30} \draw (16,{\Y{\y}}) -- (837,{\Y{\y}});
+  \end{scope}
+  \begin{scope}[black!25]
+    \foreach \x in {-4,-2,2,4} \draw ({\X{\x}},7) -- ({\X{\x}},760);
+    \foreach \y in {60,40,20,-20} \draw (16,{\Y{\y}}) -- (837,{\Y{\y}});
+  \end{scope}
+  \draw (16,{\Y{0}}) -- (837,{\Y{0}});
+  \draw ({\X{0}},7) -- ({\X{0}},760);
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=-4:4] ({\X{\x}},{\Y{\x*\x*\x+3*\x*\x-9*\x-10}});
+  \foreach \a/\b in {-4/10,-3/17,-1/1,1/-15,4/66} \fill ({\X{\a}},{\Y{\b}}) circle[radius=6.5];
+  \foreach \v/\x in {-4/75,-2/231,2/549,4/705} \node at (\x,572.5) {\halo{$\v$}};
+  \node at (378,572.5) {\halo{$0$}};
+  \foreach \v/\y in {60/130,40/272,20/412,-20/697} \node[anchor=east] at (384,\y) {\halo{$\v$}};
+  \node[font=\fontsize{14}{16}\selectfont] at (827,573) {$x$};
+  \node[font=\fontsize{14}{16}\selectfont] at (368,17) {$y$};
+  \begin{scope}[every node/.style={inner sep=0pt, font=\fontsize{13}{15}\selectfont}]
+    \node at (156.5,400.5) {\halo{$(-3,17)$}};
+    \node at (151,516) {\halo{$(-4,10)$}};
+    \node[anchor=south west] at (321,539) {\halo{$(-1,1)$}};
+    \node at (470.5,697.5) {\halo{$(1,-15)$}};
+    \node at (772.5,86) {\halo{$(4,66)$}};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% origin (98,421) crop px; 1.583 px per day, 19.55 px per hour
+\begin{tikzpicture}[x=0.0127cm*1.583,y=0.0127cm*19.55,font=\fontsize{18}{21}\selectfont]
+  \draw[<->] (-27.2,0)--(624,0);
+  \draw[<->] (0,-6.55)--(0,17.5);
+  \foreach \i in {1,...,31} {\pgfmathtruncatemacro\m{mod(\i,5)}\ifnum\m=0 \draw (20*\i,-9/19.55)--(20*\i,9/19.55);\else\draw (20*\i,-6.5/19.55)--(20*\i,6.5/19.55);\fi}
+  \foreach \j in {-6,...,17} {\pgfmathtruncatemacro\m{mod(\j+30,5)}\ifnum\j=0\else
+    \ifnum\m=0 \draw (-8/1.583,\j)--(8/1.583,\j);\else\draw (-3.5/1.583,\j)--(3.5/1.583,\j);\fi\fi}
+  \foreach \i in {100,200,...,600} \node at (\i,-2.55) {$\i$};
+  \foreach \j in {-5,5,10,15} \node[left] at (-5/1.583,\j) {$\j$};
+  \draw[->] plot[smooth,domain=-27:623,samples=90] (\x,{2.3*sin(deg(0.005*(pi*\x-265)))+13.1});
+  \node at (-0.6,19.55) {$H$};
+  \node at (633.5,0) [inner sep=0pt] {$t$};
+\end{tikzpicture}
+\end{document}

@@ -4,7 +4,7 @@
 Reviewer, 14 Nov (hardening). batch_check.py's "changed since the last publish" warning covers review.html, site/data/
 and site/vendor/ only; this also covers site/project/ (the published resume copy: specs, tools as .txt, page_src/).
 
-  python3 tools/publish_set.py            summary + the publish `files` map as JSON (paths relative to /home/claude/pilot)
+  python3 tools/publish_set.py            summary + the publish `files` map as JSON (paths relative to the repo root)
   python3 tools/publish_set.py --all      every publishable file, not only the changed ones
   python3 tools/publish_set.py --json     only the JSON map (for the publish call)
 
@@ -26,11 +26,12 @@ asset store and left out of the publish set (tools/asset_upload_plan.py, tools/a
 (data/bank/<course>/index.json + one file per topic, tools/bank_split.py) is published like any data file; data/bank.json is
 still built and published until the main session drops it (then add it to EXCLUDE).
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import glob, hashlib, json, os, sys, time
 
-P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
+P = paths.P
 S = P + 'site/'
-MAN = P + 'work/published_manifest.json'
+MAN = paths.S + 'work/published_manifest.json'
 REMOVE = [f'project/{n}' for n in (
     'exam.js.txt exam_auto.css.txt exam_auto.js.txt exams.css.txt exams.js.txt guide2.css.txt guide2.js.txt levels.js.txt '
     'mine.css.txt mine.js.txt pdf.js.txt reports.css.txt reports.js.txt schema.js.txt theme2.css.txt word.js.txt '
@@ -101,7 +102,7 @@ def main():
           + ('OK' if n <= 255 and size <= 64 * 2**20 else 'OVER LIMIT: split into several publishes to the same url'))
     print(f'  page: file_path site/review.html{" (changed)" if "review.html" in out else " (unchanged)"}; '
           f'optional nulls for {len(removes)} archived project files: ' + ', '.join(removes[:3]) + (' ...' if len(removes) > 3 else ''))
-    print('files map (paths relative to /home/claude/pilot):')
+    print('files map (paths relative to the repo root):')
     print(json.dumps(files, indent=0))
 
 

@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% Solution diagram for part (c), drawn by Claude (no original). Same triangle as the question figure (not to scale).
+\begin{tikzpicture}[x=0.0127cm, y=0.0127cm]
+  \coordinate (T) at (330,-241);
+  \coordinate (M) at (57,-379);
+  \coordinate (C) at (590,-507);
+  \tikzset{chev/.style={-{Latex[length=2mm,width=1.3mm]}}}
+  \draw (T) -- (M) -- (C) -- cycle;
+  \draw[dash pattern=on 2pt off 1.5pt, chev] (T) -- (330,-72);
+  \node at (312,-50) {$N$};
+  % bearing of C from T: north clockwise to TC
+  \draw (330,-196) arc[start angle=90, end angle=-45.65, radius=45];
+  \node[anchor=west] at (380,-196) {$119^\circ$};
+  % angle MTC (obtuse): from TC clockwise round to TM
+  \draw (330+0.6995*28,-241-0.7146*28) arc[start angle=-45.65, end angle=-153.2, radius=28];
+  \node at (312,-316) {$128.27^\circ$};
+  % angle TMC = 28 from part (a)
+  \draw (57+0.9724*70,-379-0.2334*70) arc[start angle=-13.5, end angle=26.8, radius=70];
+  \node at (162,-368) {$28^\circ$};
+  % sides
+  \node at (178,-288) {$50$};
+  \node at (488,-362) {$58$};
+  \node at (318,-470) {$97$};
+  \node at (300,-222) {$T$};
+  \node at (35,-397) {$M$};
+  \node at (588,-538) {$C$};
+\end{tikzpicture}
+\end{document}

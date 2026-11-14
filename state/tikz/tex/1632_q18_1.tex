@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (11,281) -- (622,281);
+  \draw[->] (299.5,496) -- (299.5,20);
+  \draw (191.5,281) -- (191.5,290); \draw (442,281) -- (442,290);
+  % parabola fitted to the crop: intercepts 191.5 and 441.5, vertex height 155 px
+  \draw[curve, line width=0.9pt, <->] plot[domain=133.4:499.6, samples=90, smooth] (\x,{281-155*(1-((\x-316.5)/125)^2)});
+  \draw[<->] (213,102) -- (534,440.5);
+  \node at (285,27) {$y$};
+  \node at (612,301) {$x$};
+  \node at (282,297) {$O$};
+  \node at (203,311) {$-3$};
+  \node at (429,312) {4};
+\end{tikzpicture}
+\end{document}

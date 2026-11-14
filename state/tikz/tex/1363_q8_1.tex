@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{13}\selectfont]
+  \coordinate (A) at (139,25); \coordinate (B) at (319,97); \coordinate (C) at (102,240);
+  \draw[line join=round] (A)--(B)--(C)--cycle;
+  \pic[draw,angle radius=0.0127cm*43] {angle=C--A--B};
+  \pic[draw,angle radius=0.0127cm*44] {angle=A--B--C};
+  \pic[draw,angle radius=0.0127cm*57] {angle=B--C--A};
+  \node at (262,40) {1.9\,cm};
+  \node at (161,80) {$78^\circ$};
+  \node at (242,103) {$55^\circ$};
+  \node at (66,113) {2.1\,cm};
+  \node at (144,174) {$47^\circ$};
+  \node at (262,182) {3.7\,cm};
+  \node[align=center] at (464,84) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

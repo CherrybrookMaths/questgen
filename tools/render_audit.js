@@ -6,7 +6,9 @@ const {chromium}=require('playwright');
   const docs=(process.argv[2]||'').split(',').filter(Boolean).map(Number);
   const b=await chromium.launch(); const p=await b.newPage({viewport:{width:1200,height:900}});
   // the sandbox cannot reach the CDN: serve the same pinned MathJax 4.1.3 from a local npm copy
-  const NM='/tmp/claude-0/mj/node_modules/', fs=require('fs');
+  // MathJax install from tools/run_render_audit.sh: $QG_MJ, else <QG_SCRATCH or system temp>/questgen/mj
+  const os=require('os'), path=require('path');
+  const NM=path.join(process.env.QG_MJ||path.join(process.env.QG_SCRATCH||path.join(os.tmpdir(),'questgen'),'mj'),'node_modules')+'/', fs=require('fs');
   await p.route(/cdn\.jsdelivr\.net\/npm\//,r=>{const u=new URL(r.request().url()).pathname.replace(/^\/npm\//,'').replace(/@\d+\.\d+\.\d+/g,'');
     const f=NM+u; if(fs.existsSync(f)) r.fulfill({path:f,contentType:f.endsWith('.js')?'application/javascript':f.endsWith('.json')?'application/json':undefined}); else r.abort()});
   await p.route(/fonts\.(googleapis|gstatic)\.com/,r=>r.abort());

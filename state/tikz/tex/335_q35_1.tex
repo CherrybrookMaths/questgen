@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel units (y down). Curve is the given density f(x)=k(sin(pi x)+2x) on [0,3], fitted to the crop:
+% X = 71.64 + 189.82 x, Y = 484.78 - 68.82 (sin(pi x)+2x) (max fit error 1.9 px). No arrowheads, as printed.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{16.5}{19}\selectfont}]
+  \draw (5,484.8) -- (789,484.8);
+  \draw (71.6,6) -- (71.6,547);
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=0:3, variable=\t] ({71.64+189.82*\t},{484.78-68.82*(sin(deg(pi*\t))+2*\t)});
+  \node at (41,519.5) {$0$};
+  \node at (645,519.5) {$3$};
+\end{tikzpicture}
+\end{document}

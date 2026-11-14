@@ -13,8 +13,9 @@ Rules
   A row that owns a table cannot be deleted while the table points at it.
 - part_difficulty.nearest_anchor must be a rated part flagged is_anchor.
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, sys, re
-DB = '/mnt/user-data/outputs/questions.db'
+DB = paths.DBS
 OWNERS = ['questions', 'parts', 'solutions', 'mcq_options', 'figures']
 CHILDREN = ['tags', 'solutions', 'figures', 'part_difficulty']
 

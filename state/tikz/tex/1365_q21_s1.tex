@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.6cm, y=8.5cm]
+  \def\ph(#1){exp(-(#1)^2/2)/sqrt(2*pi)}
+  \fill[black!18] (-1.2,0) -- plot[domain=-1.2:1.2, samples=60, smooth] (\x,{exp(-(\x)^2/2)/sqrt(2*pi)}) -- (1.2,0) -- cycle;
+  \draw[->] (-3.6,0) -- (3.8,0) node[right] {$z$};
+  \draw[curve] plot[domain=-3.4:3.4, samples=120, smooth] (\x,{exp(-(\x)^2/2)/sqrt(2*pi)});
+  \draw (-1.2,0) -- (-1.2,-0.015) node[below] {$-N$};
+  \draw (1.2,0) -- (1.2,-0.015) node[below] {$N$};
+  \draw (0,0) -- (0,-0.015) node[below] {$0$};
+  \node at (0,0.14) {\halo{$p$}};
+  \node[font=\small] (L) at (-2.6,0.17) {$\dfrac{1-p}{2}$};
+  \draw[open arrow] (L.south) to[out=-90, in=150] (-1.55,0.035);
+  \node[font=\small] (R) at (2.6,0.17) {$\dfrac{1-p}{2}$};
+  \draw[open arrow] (R.south) to[out=-90, in=30] (1.55,0.035);
+\end{tikzpicture}
+\end{document}

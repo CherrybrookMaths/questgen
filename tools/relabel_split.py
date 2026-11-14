@@ -5,8 +5,9 @@ A question whose only top-level part carries a label (e.g. Q13(d), Q9(b) with (i
 move up one level: i, ii, iii -> a, b, c (their own sub-parts -> i, ii, iii). Cross-references in the question, options and
 solutions ("part (ii)", "from (i)") follow. The paper's label is kept in parts.src_label; the source line (Q9(b)) is unchanged.
 Idempotent: a part with src_label set is never relabelled again."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, re, string, sys
-DB = '/mnt/user-data/outputs/questions.db'
+DB = paths.DBS
 db = sqlite3.connect(DB); db.row_factory = sqlite3.Row
 if 'src_label' not in [c[1] for c in db.execute('pragma table_info(parts)')]:
     db.execute('alter table parts add column src_label text')

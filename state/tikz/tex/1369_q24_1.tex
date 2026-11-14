@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\X#1{50.5+102.2*#1}
+  \foreach \i in {1,...,5} \draw[black!35] ({\X{\i}},12) -- ({\X{\i}},492);
+  \draw[->] (50.5,508) -- (50.5,60);
+  \draw[->] (50.5,498.5) -- (639,498.5);
+  \foreach \i in {1,...,5} {\draw ({\X{\i}},492) -- ({\X{\i}},505); \node at ({\X{\i}},530) {\i};}
+  \draw[aux] (50.5,115) -- ({\X{5}},115);
+  \draw ({\X{1}},372) -- ({\X{4}},372) -- ({\X{5}},115);
+  \node at (49,38) {$f\,(b)$};
+  \node at (24,117) {$k$};
+  \node at (651,499) {$b$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (42,414) -- (627,414);
+  \draw[->] (117,488) -- (117,45);
+  \draw[aux] (557,42) -- (557,488);
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=0.785:3.515] ({117+146.5*\x},{414-149*2*ln(\x)});
+  \node at (119,22) {$y$};
+  \node at (649,413) {$x$};
+  \node at (100,433) {0};
+  \node at (275,436) {1};
+  \node at (543,436) {3};
+  \node[rotate=41] at (403,180) {$y=\log_e(x^2)$};
+\end{tikzpicture}
+\end{document}

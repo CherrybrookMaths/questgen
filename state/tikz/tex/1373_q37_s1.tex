@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{12}{14}\selectfont]
+  \draw[->] (0,334) -- (985,333);
+  \draw[->] (133,695) -- (140.5,28);
+  \node at (940,370) {$x$};
+  \node at (106,44) {$y$};
+  \draw[line width=0.9pt,->] plot[smooth,domain=-0.25:5.07,samples=90] ({137+136.7*\x},{334-85*(4*\x-1)*exp(-\x/2)});
+  \node[pt] at (137,419) {};
+  \node[pt] at (171.2,334) {};
+  \node[pt] at (444.6,112.9) {};
+  \node at (100,432) {$-1$};
+  \node at (171,306) {$\frac{1}{4}$};
+  \node at (453,64) {$\left(\dfrac{9}{4},\,8e^{-\frac{9}{8}}\right)$};
+\end{tikzpicture}
+\end{document}

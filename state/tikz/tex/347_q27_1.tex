@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (50,916)--(50,51);
+  \draw (17,863)--(1174,863);
+  \draw (50,119)--(1031,119)--(1031,863);
+  \begin{scope}[shift={(50,863)},xscale=981,yscale=-744]
+    \draw[line width=0.9pt] plot[smooth,domain=0:1,samples=90] (\x,{sin(90*\x)});
+    \draw[line width=0.9pt] plot[smooth,domain=0:1,samples=90] (\x,{\x*\x});
+  \end{scope}
+  \fill[black!40] (50,863) circle[radius=6] (1031,119) circle[radius=6];
+  \node[font=\large,anchor=west] at (1046,119) {$(1,1)$};
+  \node[font=\Large] at (48,26) {$y$};
+  \node[font=\Large] at (1172,862) {$x$};
+  \node[font=\Large] at (28,892) {$O$};
+  \node[font=\large] at (380,322) {$y=\sin\dfrac{\pi x}{2}$};
+  \node[font=\large] at (742,586) {$y=x^2$};
+  \node[font=\Large] at (110,596) {$I$};
+  \node[font=\Large] at (312,724) {$I\!I$};
+  \node[font=\Large] at (646,815) {$I\!I\!I$};
+\end{tikzpicture}
+\end{document}

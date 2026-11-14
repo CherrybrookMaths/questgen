@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel units (y down). A=(71,329.5); radius 326; B at 56.3 deg, C at -23.9 deg (y-up angles)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (71,329.5);
+  \coordinate (B) at ({71+326*cos(56.3)},{329.5-326*sin(56.3)});
+  \coordinate (C) at ({71+326*cos(-23.9)},{329.5-326*sin(-23.9)});
+  \path[shade hatch] (B) arc[start angle=-56.3, end angle=23.9, radius=326] -- cycle;
+  \draw (B) arc[start angle=-56.3, end angle=23.9, radius=326] -- cycle;
+  \draw[aux] (A) -- (B); \draw[aux] (A) -- (C);
+  \draw ({71+126*cos(56.3)},{329.5-126*sin(56.3)}) arc[start angle=-56.3, end angle=23.9, radius=126];
+  \foreach \p in {A,B,C} \fill (\p) circle[radius=4.5];
+  \begin{scope}[every node/.style={font=\fontsize{13}{15}\selectfont, inner sep=0pt}]
+    \node at (44,342) {$A$}; \node at (282.5,35.5) {$B$}; \node at (406.5,462.5) {$C$};
+    \node[font=\fontsize{11}{13}\selectfont, rotate=56.3] at (106,182.5) {1.6\,m};
+    \node at (150.5,304) {$\frac{4\pi}{9}$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

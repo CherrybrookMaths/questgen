@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{8.5}{10}\selectfont]
+  \def\V#1{50+8.9*(#1-100)}
+  \newcommand\bw[7]{% top y, bottom y, min, Q1, median, Q3, max
+    \pgfmathsetmacro\m{(#1+#2)/2}
+    \foreach \v in {102,104,...,198} {\pgfmathtruncatemacro\r{mod(\v,10)}
+      \ifnum\r=0\else\draw[black!20] ({\V{\v}},#1) -- ({\V{\v}},#2);\fi}
+    \foreach \v in {100,110,...,200} {\draw[black!40] ({\V{\v}},#1) -- ({\V{\v}},#2);
+      \node at ({\V{\v}},#2+28) {$\v$};}
+    \draw[line width=0.9pt] ({\V{#3}},\m) -- ({\V{#4}},\m);
+    \draw[line width=0.9pt] ({\V{#6}},\m) -- ({\V{#7}},\m);
+    \draw[line width=0.9pt] ({\V{#3}},\m-6) -- ({\V{#3}},\m+6);
+    \draw[line width=0.9pt] ({\V{#7}},\m-6) -- ({\V{#7}},\m+6);
+    \draw[line width=0.9pt] ({\V{#4}},#1+39) rectangle ({\V{#6}},#1+91);
+    \draw[line width=0.9pt] ({\V{#5}},#1+39) -- ({\V{#5}},#1+91);
+  }
+  \bw{82}{212}{114}{130}{148}{162}{190}
+  \bw{383}{512}{102}{124}{138}{162}{194}
+  \node at (494,33) {\fontsize{11.5}{13}\selectfont\bfseries Inside Greenhouse};
+  \node at (494,334) {\fontsize{11.5}{13}\selectfont\bfseries Outside Greenhouse};
+  \node at (494,275) {Height (in centimetres)};
+  \node at (494,577) {Height (in centimetres)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,36 @@
+\documentclass[border=4pt,11pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% solution diagram for 2021 Independent Trial Q16(a), drawn on the question's figure (NOT TO SCALE; crop pixels, y up)
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+  \coordinate (A) at (47,-162);
+  \coordinate (B) at (268,-29);
+  \coordinate (C) at (503,-247);
+  \draw (A) -- (B) -- (C) -- cycle;
+  % north lines
+  \draw[->] (A) -- ++(0,125) node[above, inner sep=2pt] {N};
+  \draw[->] (B) -- ++(0,125) node[above, inner sep=2pt] {N};
+  % AB produced beyond B
+  \draw[aux] (B) -- ++(31:120);
+  % bearing 070 at A, 130 at B
+  \draw (A) ++(90:34) arc[start angle=90, end angle=31, radius=34];
+  \node at ($(A)+(60:66)$) {$070^\circ$};
+  \draw (B) ++(90:22) arc[start angle=90, end angle=-42.8, radius=22];
+  \node at ($(B)+(50:66)$) {$130^\circ$};
+  % turning angle between AB produced and BC
+  \draw (B) ++(31:50) arc[start angle=31, end angle=-42.8, radius=50];
+  \node at ($(B)+(-6:74)$) {$60^\circ$};
+  % interior angle ABC
+  \draw (B) ++(211:28) arc[start angle=211, end angle=317.2, radius=28];
+  \node at ($(B)+(264:58)$) {$120^\circ$};
+  % theta at A
+  \draw (A) ++(-10.6:70) arc[start angle=-10.6, end angle=31, radius=70];
+  \node at ($(A)+(10:88)$) {$\theta$};
+  \node[left, inner sep=2pt] at (A) {A};
+  \node[above left, inner sep=2pt] at (B) {B};
+  \node[right, inner sep=3pt] at (C) {C};
+  \node[rotate=31] at (183,-55) {6 km};
+  \node[rotate=-43] at (392,-100) {10 km};
+  \node[align=center, inner sep=0pt] at (687,-82) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

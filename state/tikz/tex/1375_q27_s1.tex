@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{13}\selectfont]
+  \def\Ny(#1){108-92*exp(-((#1-188)/58)^2/2)}
+  \draw (30,108) -- (360,108);
+  \draw[line width=0.9pt] plot[smooth,domain=30:348,samples=90,variable=\t] (\t,{\Ny(\t)});
+  \draw (130,108) -- (130,{\Ny(130)});
+  \draw (188,108) -- (188,{\Ny(188)});
+  \draw (304,108) -- (304,{\Ny(304)});
+  \node at (130,128) {$-1$};
+  \node at (304,128) {$2$};
+\end{tikzpicture}
+\end{document}

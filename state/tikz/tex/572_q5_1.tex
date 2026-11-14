@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+  \def\U#1{193.5+62*(#1)}\def\V#1{196.5-55*(#1)}
+  \draw[black!60,<->] (19,196.5) -- (370,196.5);
+  \draw[black!60,<->] (193.5,351) -- (193.5,44);
+  \node at (381,196) {$x$};
+  \node at (193,26) {$y$};
+  \draw[aux] ({\U{1}},44) -- ({\U{1}},351);
+  \draw[aux] (19,{\V{-1}}) -- (370,{\V{-1}});
+  \draw[<->, line width=0.9pt] plot[smooth,domain=1.0708:2.8,samples=90,variable=\t] ({\U{\t}},{\V{-1+0.25/(\t-(1))}});
+  \draw[<->, line width=0.9pt] plot[smooth,domain=-2.8:0.8406,samples=90,variable=\t] ({\U{\t}},{\V{-1+0.25/(\t-(1))}});
+  \node[anchor=north east,inner sep=3pt] at ({\U{1}},196.5) {$1$};
+  \node[anchor=south west,inner sep=3pt] at (193.5,{\V{-1}}) {$-1$};
+\end{tikzpicture}
+\end{document}

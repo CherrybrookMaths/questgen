@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % t -> 36.5+81.2t px, g' -> 664-57.2 g' px; curve shape g'(t)=3.3 t e^{-2t/15} fitted to the crop
+  \def\G#1{664-57.2*3.3*(#1)*exp(-2*(#1)/15)}
+  \fill[shade] plot[smooth, domain=0:12, samples=61] ({36.5+81.2*\x},{\G{\x}}) -- (1011,664) -- cycle;
+  \foreach \t/\px in {3/280,6/521,9/765,12/1011} \draw[aux] (\px,664) -- (\px,{\G{(\px-36.5)/81.2}});
+  \draw[->] (36.5,664) -- (36.5,44);
+  \draw[->] (36.5,664) -- (1259,664);
+  \draw[->, line width=0.9pt] plot[smooth, domain=0:14.92, samples=90] ({36.5+81.2*\x},{\G{\x}});
+  \node[font=\large] at (38,19) {$g'(t)$};
+  \node[font=\large] at (1263,662) {$t$};
+  \foreach \t/\px in {3/280,6/521,9/765,12/1011} \node[font=\small] at (\px,690) {\t};
+  \node[font=\small] at (37,689) {0};
+\end{tikzpicture}
+\end{document}

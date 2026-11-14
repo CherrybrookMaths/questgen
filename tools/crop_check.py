@@ -2,13 +2,14 @@
 cartesian plane") and widen them.
 For each figure with a page bbox: render the page, and while ink touches a crop edge AND continues outside it, move
 that edge outward (2 pt steps) until the edge is clear, stopping at a line of question text (a word of 4+ letters
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 from the PDF text layer) or 90 pt. Re-crops figures/<id>.png at 200 dpi and updates figures.bbox.
 Usage: python3 crop_check.py <doc_id> [...] [--apply]   -> lists widened crops (ids) in work/crop_fixes.json"""
 import sys, json, sqlite3, os
 import pymupdf, numpy as np
-P = '/home/claude/pilot/'
+P = paths.P
 APPLY = '--apply' in sys.argv; IDS = [int(a) for a in sys.argv[1:] if a.isdigit()]
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
+db = sqlite3.connect(paths.DBS)
 DPI = 150; Z = DPI / 72
 fixed = []
 for doc in IDS:
@@ -46,11 +47,11 @@ for doc in IDS:
                 pdf[page].get_pixmap(dpi=200, clip=pymupdf.Rect(nb)).save(P + png)
                 db.execute('update figures set bbox=? where id=?', (json.dumps(nb), fid))
 db.commit()
-old = json.load(open(P + 'work/crop_fixes.json')) if os.path.exists(P + 'work/crop_fixes.json') else []
-json.dump(old + [f for f in fixed if APPLY], open(P + 'work/crop_fixes.json', 'w'), indent=1)
+old = json.load(open(paths.S + 'work/crop_fixes.json')) if os.path.exists(paths.S + 'work/crop_fixes.json') else []
+json.dump(old + [f for f in fixed if APPLY], open(paths.S + 'work/crop_fixes.json', 'w'), indent=1)
 flags = [f for f in fixed if db.execute('select parse_path from documents where id=?', (f['doc'],)).fetchone()[0] == 'scan']
-old_flags = json.load(open(P + 'work/crop_flags.json')) if os.path.exists(P + 'work/crop_flags.json') else []
-json.dump(old_flags + flags, open(P + 'work/crop_flags.json', 'w'), indent=1)   # scans: not re-cropped automatically (handwriting); triage asks for a look
+old_flags = json.load(open(paths.S + 'work/crop_flags.json')) if os.path.exists(paths.S + 'work/crop_flags.json') else []
+json.dump(old_flags + flags, open(paths.S + 'work/crop_flags.json', 'w'), indent=1)   # scans: not re-cropped automatically (handwriting); triage asks for a look
 print(len(fixed), 'crops cut a drawing off' + (' (re-cropped)' if APPLY else ''))
-json.dump(fixed, open(P + "work/crop_candidates.json", "w"))
+json.dump(fixed, open(paths.S + "work/crop_candidates.json", "w"))
 for f in fixed: print(f['id'], 'widened by', f['grow'], 'pt')

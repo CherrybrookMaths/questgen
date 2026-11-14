@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down: X(x)=271.5+94.5x, Y(y)=461.5-378y; both printed pieces are f(x)=x^2e^{-x} on this scale (match within 1-2 px)
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (12,461.5) -- (1034,461.5);
+  \draw[->] (271.5,689) -- (271.5,14);
+  \foreach \i in {-2,-1,1,2,...,7} \draw ({271.5+94.5*\i},461.5) -- ({271.5+94.5*\i},477);
+  \foreach \j in {0.5,1} \draw (260,{461.5-378*\j}) -- (271.5,{461.5-378*\j});
+  \draw[->] plot[smooth, domain=-0.5025:-0.7035, samples=30] ({271.5+94.5*\x},{461.5-378*exp(0-(\x))*(\x)*(\x)});
+  \draw[->] plot[smooth, domain=5:7.4, samples=60] ({271.5+94.5*\x},{461.5-378*exp(0-(\x))*(\x)*(\x)});
+  \foreach \i in {1,...,7} \node at ({271.5+94.5*\i},496) {$\i$};
+  \node at (81.5,496) {$-2$};
+  \node at (175,496) {$-1$};
+  \node at (252,482) {$O$};
+  \node[anchor=east, inner sep=0pt] at (257.5,82.5) {$1$};
+  \node[anchor=west, inner sep=0pt] at (277,271) {$0.5$};
+  \node at (256,23.5) {$y$};
+  \node at (1024.5,485) {$x$};
+\end{tikzpicture}
+\end{document}

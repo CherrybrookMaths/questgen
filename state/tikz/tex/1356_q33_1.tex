@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{12}{14}\selectfont]
+  \coordinate (F) at (584,53); \coordinate (G) at (584,378); \coordinate (P) at (870,378); \coordinate (S) at (47,378);
+  \draw[->] (S)--(1158,378);
+  \draw (F)--(P);
+  \draw[aux] (F)--(G);
+  \draw (584,357)--(604,357)--(604,378);
+  \draw (584,124) arc[start angle=90,end angle=48.65,radius=71];
+  \foreach \p in {F,G,P,S} \fill (\p) circle (4);
+  \node at (577,29) {$F$};
+  \node at (28,378) {$S$};
+  \node at (575,402) {$G$};
+  \node at (874,400) {$P$};
+  \node at (620,148) {$\thetaup$};
+  \node at (531,214) {300\,m};
+  \node[font=\fontsize{11.4}{14}\selectfont] at (858,176) {Lucas' path};
+  \draw[->] (835,201)--(797,275);
+  \draw[->] (230,450)--(47,450);
+  \draw[->] (377,450)--(584,450);
+  \node at (304,450) {4\,000\,m};
+\end{tikzpicture}
+\end{document}

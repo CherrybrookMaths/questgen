@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\pgfmathsetmacro{\a}{0.45}
+\pgfmathsetmacro{\xA}{4/(\a+1)}
+\pgfmathsetmacro{\yA}{\a*\xA*\xA}
+\tikzset{bb/.style={{Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}}}
+\begin{axis}[exam axes, x=0.7652cm, y=0.7652cm, xmin=-4.22, xmax=6.27, ymin=-2.24, ymax=6.02,
+  xtick=\empty, ytick=\empty, xlabel=\empty, ylabel=\empty]
+  \addplot[shade dots, draw=none, domain=0:\xA, samples=100] {4*x-x^2} -- plot[domain=\xA:0, samples=100] (\x,{\a*\x^2}) -- cycle;
+  \addplot[bb, domain=-3.39:3.38] {\a*x^2};
+  \addplot[bb, domain=-0.41:4.41] {4*x-x^2};
+  \draw[aux] (axis cs:\xA,0) -- (axis cs:\xA,\yA);
+  \node[pt, inner sep=1.5pt] at (axis cs:\xA,\yA) {};
+  \node at (axis cs:3.12,3.50) {$A$};
+  \draw (axis cs:0,4) -- (axis cs:-0.24,4);
+  \node at (axis cs:-0.50,3.98) {$4$};
+  \node at (axis cs:3.78,-0.56) {$4$};
+  \node at (axis cs:-0.36,-0.33) {$O$};
+  \node at (axis cs:6.08,-0.33) {$x$};
+  \node at (axis cs:-0.29,5.91) {$y$};
+  \node at (axis cs:4.10,4.41) {$y=ax^2$};
+  \node at (axis cs:5.16,1.26) {$y=4x-x^2$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

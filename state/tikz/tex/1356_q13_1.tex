@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels: n at x = 128 + 6.37 n ; C at y = 570 - 0.04875 C
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{13}{15}\selectfont]
+  \foreach \i in {-2,...,20} {\pgfmathtruncatemacro\m{mod(\i+20,4)}\ifnum\i=0\else
+     \ifnum\m=0 \draw[black!30] ({128+31.85*\i},594.4)--({128+31.85*\i},82.5);\else\draw[black!15] ({128+31.85*\i},594.4)--({128+31.85*\i},82.5);\fi\fi}
+  \foreach \j in {-1,...,20} {\pgfmathtruncatemacro\m{mod(\j+20,4)}\ifnum\j=0\else
+     \ifnum\m=0 \draw[black!30] (64,{570-24.375*\j})--(764.5,{570-24.375*\j});\else\draw[black!15] (64,{570-24.375*\j})--(764.5,{570-24.375*\j});\fi\fi}
+  \draw[<->] (41,570)--(808,570);
+  \draw[<->] (128,597)--(128,61);
+  \foreach \i in {-2,...,20} {\ifnum\i=0\else\draw ({128+31.85*\i},566)--({128+31.85*\i},574);\fi}
+  \foreach \j in {-1,...,20} {\ifnum\j=0\else\draw (124,{570-24.375*\j})--(132,{570-24.375*\j});\fi}
+  \foreach \n in {20,40,...,100} \node[below] at ({128+6.37*\n},576) {$\n$};
+  \node[left] at (118,{570-0.04875*2000-6}) {$2\,000$};
+  \foreach \c/\t in {4000/4\,000,6000/6\,000,8000/8\,000,10000/10\,000} \node[left] at (124,{570-0.04875*\c}) {$\t$};
+  \draw[<->,line width=0.9pt] (41,{570-0.04875*(2000+80*(-13.7))})--(790,{570-0.04875*(2000+80*103.9)});
+  \draw[<->,line width=0.9pt] (98,{570-0.04875*120*(-4.71)})--(685,{570-0.04875*120*87.4});
+  \node at (127,36) {$C$};
+  \node at (817,571) {$n$};
+\end{tikzpicture}
+\end{document}

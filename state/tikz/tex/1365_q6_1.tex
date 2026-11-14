@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, line width=0.6pt]
+  \def\r{180}
+  \coordinate (O) at (0,0);
+  \coordinate (A) at (-180,0);
+  \coordinate (B) at (-90,-155.9);
+  \draw (O) circle (\r);
+  \draw (180,0) -- (90,-155.9) -- (B) -- (A) -- (-90,155.9) -- (90,155.9) -- cycle;
+  \draw (A) -- (O) -- (B);
+  \node[font=\sffamily\scriptsize] at (-199,2) {A};
+  \node[font=\sffamily\scriptsize] at (-100,-163) {B};
+  \node[font=\sffamily\scriptsize] at (2,22) {O};
+  \node[font=\footnotesize] at (-26,-13) {$\theta$};
+\end{tikzpicture}
+\end{document}

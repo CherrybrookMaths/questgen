@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{10}{12}\selectfont]
+  % depth vector (312,-201); wall height 64 px; cross-section at 0.577 of the depth
+  \begin{scope}[even odd rule]
+    \clip (-20,-20) rectangle (900,400) (241,104) rectangle (534,168);
+    \path[shade dots] (61,284) -- (354,284) -- (666,83) -- (373,83) -- cycle;
+    \path[shade dots] (61,284) -- (61,220) -- (373,19) -- (373,83) -- cycle;
+    \path[shade dots] (354,284) -- (354,220) -- (666,19) -- (666,83) -- cycle;
+  \end{scope}
+  \path[shade hatch] (241,104) rectangle (534,168);
+  \draw[aux] (241,104) rectangle (534,168);
+  % outlines
+  \draw (61,284) -- (354,284);
+  \draw (61,284) -- (61,220) -- (373,19) -- (373,83) -- (565,83);
+  \draw (61,284) -- (241,168);
+  \draw (354,284) -- (354,220) -- (666,19) -- (666,83) -- (354,284);
+  % flat sheet (dashed)
+  \draw[aux] (0,284) -- (61,284); \draw[aux] (354,284) -- (418,284) -- (730,82) -- (666,82);
+  \draw[aux] (0,284) -- (56,248);
+  % dimensions
+  \draw[<->,dotted] (88,222) -- (88,262);
+  \draw[<->,dotted] (380,222) -- (380,262);
+  \node[rotate=33] at (120,229) {\halo{$x$ cm}};
+  \node[rotate=33] at (412,229) {\halo{$x$ cm}};
+  \node at (386,137) {\halo{$A$}};
+  \draw[<-,dotted] (0,303) -- (150,303); \draw[->,dotted] (265,303) -- (416,303);
+  \draw (418,294) -- (418,314);
+  \node at (208,303) {28 cm};
+\end{tikzpicture}
+\end{document}

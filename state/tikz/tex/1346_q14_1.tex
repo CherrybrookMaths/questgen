@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+  % geometry measured from the crop (drawn angle ~127.6 deg, NOT TO SCALE)
+  \def\r{3.47}
+  \coordinate (O) at (0,0);
+  \coordinate (X) at (206.2:\r); \coordinate (Z) at (333.6:\r);
+  % shaded major sector (owner: much lighter than the crop's solid black)
+  \fill[shade] (O) -- (Z) arc[start angle=-26.4, end angle=206.2, radius=\r] -- cycle;
+  \draw[line width=0.6pt] (0,0) circle[radius=\r];
+  \draw[line width=0.6pt] (X) -- (O) -- (Z);
+  \draw[line width=0.6pt] (206.2:0.95) arc[start angle=206.2, end angle=333.6, radius=0.95];
+  \node[font=\large] at (0,-1.56) {$\dfrac{2\pi}{3}$};
+  \node[font=\Large] at (-3.45,-1.69) {$X$};
+  \node[font=\Large] at (3.35,-1.63) {$Z$};
+  \node[anchor=west] at (3.26,2.45) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

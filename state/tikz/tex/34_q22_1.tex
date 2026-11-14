@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+  \def\R{2.0}
+  \coordinate (O) at (0,0);
+  \draw (90-18:\R) \foreach \k in {1,...,9} { -- ({90-18+36*\k}:\R) } -- cycle;
+  \coordinate (A) at (108:\R); \coordinate (B) at (72:\R);
+  \draw[aux, dash pattern=on 2pt off 1.6pt] (O) -- (A) (O) -- (B);
+  \draw[decoration={markings, mark=at position 0.5 with {\draw[line width=0.6pt] (0,-3pt) -- (0,3pt);}}, decorate] (O) -- (A);
+  \draw[decoration={markings, mark=at position 0.5 with {\draw[line width=0.6pt] (0,-3pt) -- (0,3pt);}}, decorate] (O) -- (B);
+  \node[pt, inner sep=1.4pt] at (O) {};
+  \node[below, inner sep=2pt, font=\large] at (O) {$O$};
+  \node[above, inner sep=2pt, font=\large] at (A) {$A$};
+  \node[above, inner sep=2pt, font=\large] at (B) {$B$};
+\end{tikzpicture}
+\end{document}

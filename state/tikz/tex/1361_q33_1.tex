@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % crop pixel units; blue solid drawn in grey (black-and-white bank)
+  % outline: hemisphere cap (rx 157.5, ry 161) on a cylinder; rims are half-ellipses (ry 43.5)
+  \path[shade, draw] (13,169) arc[start angle=180, end angle=0, x radius=157.5, y radius=-161]
+     -- (328,353) arc[start angle=0, end angle=-180, x radius=157.5, y radius=-43.5] -- cycle;
+  \draw (13,169) arc[start angle=180, end angle=0, x radius=157.5, y radius=43.5];
+\end{tikzpicture}
+\end{document}

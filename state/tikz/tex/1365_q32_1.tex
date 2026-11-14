@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, >={Latex[length=2mm,width=1.3mm]}]
+  % ceiling
+  \draw[line width=0.6pt] (20,38) -- (405,38);
+  \foreach \i in {0,...,21} \draw[line width=0.6pt] (24+\i*17.8,38) -- (40+\i*17.8,22);
+  % slats (outlined strips)
+  \foreach \s in {77,118,158,442,483} \draw[line width=0.6pt] (30,\s-2.2) rectangle (398,\s+2.2);
+  % cords
+  \foreach \c in {81,347} {
+    \draw[line width=0.6pt] (\c,38) -- (\c,156);
+    \draw[line width=0.6pt, dash pattern=on 3.8pt off 2.6pt] (\c,166) -- (\c,438);
+    \draw[line width=0.6pt] (\c,440) -- (\c,481);
+  }
+  % dimension: 27 mm (top)
+  \draw[<->] (171,39) -- (171,74);
+  \node[anchor=west,font=\small] at (180,58) {27 mm};
+  % dimension: 2.5 mm
+  \draw[->] (390,138) -- (390,155);
+  \draw[->] (390,178) -- (390,161);
+  \node[anchor=west,font=\small] at (410,158) {2.5 mm};
+  % dimension: 27 mm (bottom)
+  \draw[<->] (171,445) -- (171,480);
+  \node[anchor=west,font=\small] at (180,465) {27 mm};
+\end{tikzpicture}
+\end{document}

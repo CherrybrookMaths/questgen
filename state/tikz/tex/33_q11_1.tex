@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.2cm, y=0.01cm]
+  % minor and major grid
+  \draw[densely dotted, line width=0.25pt, black!60] (0,0) grid[xstep=1, ystep=20] (55,1100);
+  \draw[line width=0.6pt] (0,0) grid[xstep=5, ystep=100] (55,1100);
+  \foreach \t in {0,5,...,55} \draw (\t,0) -- (\t,-12);
+  \foreach \v in {0,100,...,1100} \draw (0,\v) -- (-0.8,\v);
+  % axes
+  \draw[->] (0,0) -- (62,0) node[below, align=center, yshift=-2pt, font=\normalsize] {$t$\\(minutes)};
+  \draw[->] (0,0) -- (0,1250) node[left, align=center, xshift=-2pt, yshift=-12pt, font=\normalsize] {$V$\\(litres)};
+  \foreach \t in {0,5,...,55} \node[below, font=\normalsize] at (\t,-8) {$\t$};
+  \foreach \v in {0,100,...,1100} \node[left, font=\normalsize] at (-0.8,\v) {$\v$};
+  % lines
+  \draw[curve] (0,1000) -- (50,0);
+  \draw[curve] (15,0) -- (51.667,1100);
+  \draw[aux, open arrow] (29,420) -- (29,0);
+  \node[font=\normalsize, fill=white, inner sep=1pt] (ta) at (7,1025) {Tank $A$};
+  \draw[open arrow, line width=0.6pt] (ta.south) to[out=230, in=10] (2.4,960);
+  \node[font=\normalsize, fill=white, inner sep=1pt] (b) at (34,120) {(b)};
+  \draw[open arrow, line width=0.6pt] (b.south) to[out=230, in=10] (29.6,55);
+\end{tikzpicture}
+\end{document}

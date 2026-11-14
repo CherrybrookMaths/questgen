@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels: value v at x = 37.5 + 61.14 (v-1)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9.5}{12}\selectfont]
+  \def\X#1{{37.5+61.14*(#1-1)}}
+  % older adults: 1.5, 4, 5.5, 7, 8.5
+  \draw[line width=0.9pt] (\X{1.5},47)--(\X{4},47) (\X{7},47)--(\X{8.5},47);
+  \draw[line width=0.9pt] (\X{4},19) rectangle (\X{7},75); \draw[line width=0.9pt] (\X{5.5},19)--(\X{5.5},75);
+  % young adults: 3, 5, 6, 8.5, 15
+  \draw[line width=0.9pt] (\X{3},166)--(\X{5},166) (\X{8.5},166)--(\X{15},166);
+  \draw[line width=0.9pt] (\X{5},137) rectangle (\X{8.5},195); \draw[line width=0.9pt] (\X{6},137)--(\X{6},195);
+  \draw[<->] (19,252.5)--(912,252.5);
+  \foreach \v in {1,...,15} {\draw (\X{\v},246)--(\X{\v},258.5); \node[anchor=base] at (\X{\v},287) {\v};}
+  \foreach \v in {1,...,14} \draw (\X{\v+0.5},249)--(\X{\v+0.5},256);
+  \node[anchor=base west,inner sep=0pt] at (600,48) {Older Adults};
+  \node[anchor=base west,inner sep=0pt] at (914,165) {Young Adults};
+  \node[anchor=base west,inner sep=0pt] at (880,320) {steps (in\ \ \ '000)};
+\end{tikzpicture}
+\end{document}

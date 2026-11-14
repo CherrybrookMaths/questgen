@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Cherrybrook AT3 Q14(c) solution: y=-x^3+6x^2-1, min TP (0,-1), POI (2,15), max TP (4,31).
+% Clean redraw from the equation (owner: "curve is wonky", "associate the (4,31) and max TP with the actual point";
+% rules 10, 16, 17): every labelled point computed and dotted, its label beside the dot; teacher marking notes dropped.
+\begin{tikzpicture}[x=1.05cm,y=0.13cm,font=\fontsize{12}{14}\selectfont]
+  \draw[->] (-2.6,0) -- (7.4,0) node[right=1pt] {$x$};
+  \draw[->] (0,-12) -- (0,37) node[above=1pt] {$y$};
+  \draw[<->,line width=0.9pt] plot[domain=-1.62:6.25,samples=90,smooth] (\x,{-(\x)^3+6*(\x)^2-1});
+  \draw[aux] (4,0) -- (4,31) -- (0,31);
+  \draw[aux] (2,0) -- (2,15) -- (0,15);
+  \foreach \x in {2,4}{\node[below=2pt] at (\x,0) {$\x$};}
+  \node[left=2pt] at (0,31) {$31$};
+  \node[left=2pt] at (0,15) {$15$};
+  \fill (0,-1) circle (2.4pt); \fill (2,15) circle (2.4pt); \fill (4,31) circle (2.4pt);
+  \node[anchor=south west,inner sep=0pt,align=left] at (4.3,31.2) {Max TP\\$(4,31)$};
+  \node[anchor=south east,inner sep=0pt,align=right] at (1.85,16.3) {POI\\$(2,15)$};
+  \node[anchor=north east,inner sep=0pt] at (-0.25,-2.8) {$(0,-1)$ Min TP};
+\end{tikzpicture}
+\end{document}

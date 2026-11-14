@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\coordinate (O) at (33,277); \coordinate (A) at (400,480); \coordinate (B) at (454,238); \coordinate (C) at (224,46);
+\draw (A) -- (O) -- (C) -- (B);
+\draw[dotted, line width=0.6pt] (O) -- (B);
+\draw (B) arc[start angle=-5.29, end angle=28.95, radius=421];
+\draw (O) ++(-5.29:66) arc[start angle=-5.29, end angle=28.95, radius=66];
+\node[anchor=east,font=\normalsize] at (25,281) {O};
+\node[anchor=west] at (459,238) {\normalsize B};
+\node[anchor=north] at (402,486) {\normalsize A};
+\node[anchor=south] at (226,40) {\normalsize C};
+\node at (120,298) {$\theta$};
+\node at (118,123) {$\boldsymbol{x}$};
+\node at (350,105) {$\boldsymbol{x}$};
+\node at (205,400) {$\boldsymbol{x}$};
+\end{tikzpicture}
+\end{document}

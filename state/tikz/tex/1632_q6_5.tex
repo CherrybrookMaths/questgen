@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % shared frame for options A-D (only the right-hand angle at G differs)
+  \path (10,5) rectangle (535,235);
+  \coordinate (E) at (47,49); \coordinate (F) at (500,49); \coordinate (G) at (259,197); \coordinate (H) at (259,49);
+  \draw (E) -- (F) -- (G) -- cycle;
+  \draw[aux] (H) -- (G);
+  \draw (259,64) -- (274,64) -- (274,49);
+  \draw (146,49) arc[start angle=0, end angle=34.9, radius=99];
+  \draw (259,115) arc[start angle=-90, end angle=-145.1, radius=82];
+  \draw (259,91) arc[start angle=-90, end angle=-31.6, radius=106];
+  \node at (33,50) {$E$};
+  \node at (513,50) {$F$};
+  \node at (259,215) {$G$};
+  \node at (272,27) {81};
+  \node at (117,67) {$35^\circ$};
+  \node at (231,148) {$55^\circ$};
+  \node[font=\footnotesize] at (301,142) {$111.7^\circ$};
+  \node at (398,141) {50};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{12}{14}\selectfont}]
+  % crop pixel units; NOT TO SCALE sketch: the curve is a smooth spline through the crop trace
+  % curve traced from the crop and refitted with desmooth.py; the x-axis follows the scan tilt
+  \draw[->] (4,397.5) -- (575,400.2);
+  \draw[->] (102.5,469) -- (102.5,9);
+  \draw[curve,line width=0.9pt] plot[smooth] coordinates {(50.5,441) (54.41,424.4) (58.29,408.3) (62.32,392.7) (66.82,376.8) (71.2,361) (75.23,345.6) (79.69,332) (85.35,316.9) (89.96,302.6) (94.48,288.6) (100.4,274) (105.5,260.4) (110.3,245.2) (115.3,231.3) (121.3,217.1) (128.1,202.5) (135.2,187.4) (142.2,172.6) (149.3,158.8) (157.2,144.5) (165.3,130.8) (173.6,117.9) (182.3,105.9) (191.7,94.77) (201.5,85.01) (212,76.4) (222.7,69.62) (233.9,64.51) (245.7,60.63) (252.8,60.22) (264.3,62.52) (274.5,66.12) (285,72.26) (295.8,80.41) (306.2,89.98) (316.2,100.6) (325.6,112.2) (334.4,124.4) (342.7,137.4) (350.6,151) (358.1,165.1) (365.3,179.5) (372.2,194.1) (378.8,209.1) (385.3,224.3) (391.4,239.5) (397.4,254.9) (403.3,270.5) (409,286) (414.4,301.7) (419.6,317.2) (424.5,333) (429.2,348.7) (433.8,364.9) (438.4,381) (443.2,396.9) (447.8,412.3) (451.5,427.1) (454,441)};
+  \fill (248,59.5) circle (4.5); \fill (102.5,265) circle (4.5); \fill (443,398) circle (4.5);
+  \node at (80,27) {$y$};
+  \node at (563,436) {$x$};
+  \node at (245,38) {$(2,5)$};
+  \node at (77,268) {$1$};
+  \node[font=\fontsize{11}{13}\selectfont] at (390,437) {$2+\sqrt{5}$};
+  \node[align=left, font=\fontsize{10}{14.5}\selectfont] at (600,163) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

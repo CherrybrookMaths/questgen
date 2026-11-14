@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Sydney Technical HS AT4 Q35 solution sketch: drain with height 2 sin theta and projection 2 cos theta
+% (crop pixels, y down; handwritten "(1 mark if on diagram)" marker note left out)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (TL) at (147,20);
+  \coordinate (BL) at (298,227);
+  \coordinate (BR) at (559,227);
+  \coordinate (TR) at (708,20);
+  \coordinate (F) at (147,227);
+  \draw (TL) -- (BL) -- (BR) -- (TR);
+  % height of the left triangle and its horizontal projection
+  \draw (TL) -- (F);
+  \draw[aux] (BL) -- (F);
+  \draw[aux,->] (BR) -- (675,227);
+  % equal-length tick marks
+  \draw (214.9,126.7) -- (227.9,117.3);
+  \draw (425.5,221) -- (425.5,233);
+  \draw (618.7,130.3) -- (631.7,139.7);
+  % printed labels
+  \node[font=\scriptsize] at (262,214) {$\theta$};
+  \node[font=\scriptsize] at (579,215) {$\theta$};
+  \node[font=\scriptsize] at (660,118) {2\,m};
+  % solution labels
+  \node[font=\normalsize] at (249,110) {$2$};
+  \node[font=\normalsize] at (602,107) {$2$};
+  \node[font=\normalsize] at (444,258) {$2$};
+  \node[font=\normalsize] at (86,135) {$2\sin\theta$};
+  \node[font=\normalsize] at (222,252) {$2\cos\theta$};
+\end{tikzpicture}
+\end{document}

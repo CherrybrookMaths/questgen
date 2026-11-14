@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down: X(age)=139+78.6 age, Y(len)=797.5-1.5756 len
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \i in {1,...,49} {\pgfmathparse{int(mod(\i,5))}\ifnum\pgfmathresult=0\else
+    \draw[black!40, line width=0.25pt] ({139+15.72*\i},88.5) -- ({139+15.72*\i},797.5);\fi}
+  \foreach \i in {1,...,44} {\pgfmathparse{int(mod(\i,5))}\ifnum\pgfmathresult=0\else
+    \draw[black!40, line width=0.25pt] (139,{797.5-15.756*\i}) -- (925,{797.5-15.756*\i});\fi}
+  \foreach \a in {1,...,10} \draw ({139+78.6*\a},88.5) -- ({139+78.6*\a},809);
+  \foreach \v in {50,100,...,450} \draw (123,{797.5-1.5756*\v}) -- (925,{797.5-1.5756*\v});
+  \draw[->] (123,797.5) -- (991,797.5);
+  \draw[->] (139,813) -- (139,20);
+  \foreach \a in {0,...,10} \node at ({139+78.6*\a},825.5) {\a};
+  \foreach \v in {0,50,...,450} \node[anchor=east, inner sep=0pt] at (121,{797.5-1.5756*\v}) {\v};
+  \node at (119,30) {$y$};
+  \node at (982,812) {$x$};
+  \node at (533,884) {Age (years)};
+  \node[rotate=90] at (35.5,443.5) {Length (cm)};
+  % data
+  \foreach \a/\v in {0/87.3,1/140,2/200,3/265,4/285,4/270,5/290,6/325,7/350,7/335,8/360,8/345,9/395,10/400}
+    \draw ({139+78.6*\a-5.5},{797.5-1.5756*\v-5.5}) rectangle ++(11,11);
+  \foreach \a/\v in {0/75,1/125,2/150,3/200,3/185,4/240,4/230,5/245,6/260,6/245,7/270,7/255,8/265,8/250,9/290,9/270,10/285,10/275}
+    \fill ({139+78.6*\a},{797.5-1.5756*\v}) circle (3.2);
+  % key
+  \node[anchor=west, inner sep=0pt] at (975,101.5) {KEY};
+  \draw (976,145) rectangle (987,156);
+  \node[anchor=west, inner sep=0pt] at (1011,150) {Female};
+  \fill (981.5,199.5) circle (3.2);
+  \node[anchor=west, inner sep=0pt] at (1011,199) {Male};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates in crop pixels (200 dpi), y downward
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \i in {0,...,10} \draw[black!45, line width=0.6pt] ({94+58.7*\i},86) -- ({94+58.7*\i},791);
+  \foreach \j in {0,...,12} \draw[black!45, line width=0.6pt] (94,{86+58.75*\j}) -- (681,{86+58.75*\j});
+  \draw[->] (22,438.5) -- (746,438.5);
+  \draw[->] (387.5,870) -- (387.5,18);
+  \node at (372,32) {$y$};
+  \node at (735,463) {$x$};
+  \node at (367,461) {$O$};
+\end{tikzpicture}
+\end{document}

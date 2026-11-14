@@ -4,11 +4,12 @@ Agreed or small differences -> B's answer. Real disagreements (topic differs, ga
 Writes, per part: scheme '2024' rows (is_primary 1 = primary, 0 = also assessed; coverage 'removed' when no dot point),
 scheme 'skill' rows (dot_point = skill name, coverage 'required' | 'can_use'), scheme 'note' (removed_reason),
 replacing the old '2024', 'free', 'note' rows. 2017 rows are kept."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, sqlite3, glob
-P = '/home/claude/pilot/'; W = P + 'work/tag_full/'
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
-DP = {x['id']: x for x in json.load(open(P + 'work/skills/dotpoints.json'))}
-PRE = {x['skill']: x['requires'] for x in json.load(open(P + 'work/skills/skill_prereqs.json'))}
+P = paths.P; W = P + 'work/tag_full/'
+db = sqlite3.connect(paths.DBS)
+DP = {x['id']: x for x in json.load(open(paths.S + 'work/skills/dotpoints.json'))}
+PRE = {x['skill']: x['requires'] for x in json.load(open(paths.S + 'work/skills/skill_prereqs.json'))}
 def clos(sk):
     out = set(sk); st = list(sk)
     while st:
@@ -41,5 +42,5 @@ for pid, b in B.items():
     for s in b.get('can_use_skills') or []: ins(pid, 'skill', None, s, None, None, 'can_use', 0, None, src, None, 'tag-v2.2')
     n += 1
 db.commit()
-json.dump(dis, open(W + 'disagreements.json', 'w'), ensure_ascii=False)
+json.dump(dis, open(paths.S + W[len(P):] + 'disagreements.json', 'w'), ensure_ascii=False)
 print('merged', n, 'parts;', len(dis), 'disagreements for the owner')

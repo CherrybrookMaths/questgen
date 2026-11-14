@@ -1,0 +1,61 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{12}{14}\selectfont]
+  \begin{scope}\clip (142,557) rectangle (200,103.0);
+    \foreach \v in {10,20,...,190} \draw[black!45,dash pattern=on 0.4pt off 1.2pt] (142,557-2.27*\v) -- (200,557-2.27*\v);\end{scope}
+  \begin{scope}\clip (227,557) rectangle (285,216.5);
+    \foreach \v in {10,20,...,190} \draw[black!45,dash pattern=on 0.4pt off 1.2pt] (227,557-2.27*\v) -- (285,557-2.27*\v);\end{scope}
+  \begin{scope}\clip (313,557) rectangle (371,239.2);
+    \foreach \v in {10,20,...,190} \draw[black!45,dash pattern=on 0.4pt off 1.2pt] (313,557-2.27*\v) -- (371,557-2.27*\v);\end{scope}
+  \begin{scope}\clip (398,557) rectangle (456,284.6);
+    \foreach \v in {10,20,...,190} \draw[black!45,dash pattern=on 0.4pt off 1.2pt] (398,557-2.27*\v) -- (456,557-2.27*\v);\end{scope}
+  \begin{scope}\clip (483,557) rectangle (541,284.6);
+    \foreach \v in {10,20,...,190} \draw[black!45,dash pattern=on 0.4pt off 1.2pt] (483,557-2.27*\v) -- (541,557-2.27*\v);\end{scope}
+  \begin{scope}\clip (566,557) rectangle (624,398.1);
+    \foreach \v in {10,20,...,190} \draw[black!45,dash pattern=on 0.4pt off 1.2pt] (566,557-2.27*\v) -- (624,557-2.27*\v);\end{scope}
+  \draw[black!70,dash pattern=on 2pt off 1.5pt] (122,443.5) -- (640,443.5);
+  \draw[black!70,dash pattern=on 2pt off 1.5pt] (122,330.0) -- (640,330.0);
+  \draw[black!70,dash pattern=on 2pt off 1.5pt] (122,216.5) -- (640,216.5);
+  \draw[black!70,dash pattern=on 2pt off 1.5pt] (122,103.0) -- (640,103.0);
+  \draw[black!70,dash pattern=on 2pt off 1.5pt] (171,557) -- (171,103.0);
+  \draw[black!70,dash pattern=on 2pt off 1.5pt] (256,557) -- (256,103.0);
+  \draw[black!70,dash pattern=on 2pt off 1.5pt] (342,557) -- (342,103.0);
+  \draw[black!70,dash pattern=on 2pt off 1.5pt] (427,557) -- (427,103.0);
+  \draw[black!70,dash pattern=on 2pt off 1.5pt] (512,557) -- (512,103.0);
+  \draw[black!70,dash pattern=on 2pt off 1.5pt] (595,557) -- (595,103.0);
+  \draw (142,557) rectangle (200,103.0);
+  \draw (227,557) rectangle (285,216.5);
+  \draw (313,557) rectangle (371,239.2);
+  \draw (398,557) rectangle (456,284.6);
+  \draw (483,557) rectangle (541,284.6);
+  \draw (566,557) rectangle (624,398.1);
+  \draw (122,101.0) -- (122,557) -- (640,557) -- (640,101.0);
+  \foreach \v in {10,20,...,200} \draw (122,557-2.27*\v) -- (117,557-2.27*\v);
+  \foreach \p in {5,10,...,100} \draw (640,557-4.54*\p) -- (645,557-4.54*\p);
+  \node[anchor=east] at (116,443.5) {50};
+  \node[anchor=east] at (116,330.0) {100};
+  \node[anchor=east] at (116,216.5) {150};
+  \node[anchor=east] at (116,103.0) {200};
+  \node[anchor=west] at (646,466.2) {20};
+  \node[anchor=west] at (646,375.4) {40};
+  \node[anchor=west] at (646,284.6) {60};
+  \node[anchor=west] at (646,193.8) {80};
+  \node[anchor=west] at (646,103.0) {100};
+  \node at (640,73) {\%};
+  \node[rotate=90] at (10,330.0) {Number of complaints};
+  \node[font=\fontsize{11.5}{14}\selectfont] at (381.0,35) {Reasons for customer dissatisfaction};
+  \node[rotate=60,anchor=east,inner sep=1pt] at (179,571) {Wait time};
+  \node[rotate=60,anchor=east,inner sep=1pt] at (264,571) {Guac amount};
+  \node[rotate=60,anchor=east,inner sep=1pt] at (350,571) {Not Fresh};
+  \node[rotate=60,anchor=east,inner sep=1pt] at (435,571) {Too spicy};
+  \node[rotate=60,anchor=east,inner sep=1pt] at (520,571) {Filling amount};
+  \node[rotate=60,anchor=east,inner sep=1pt] at (603,571) {Expensive};
+  \draw (171,443.5) -- (256,358.4) -- (342,278.9) -- (427,210.8) -- (512,142.7) -- (640,103.0);
+  \fill (171,443.5) circle (1.6pt);
+  \fill (256,358.4) circle (1.6pt);
+  \fill (342,278.9) circle (1.6pt);
+  \fill (427,210.8) circle (1.6pt);
+  \fill (512,142.7) circle (1.6pt);
+\end{tikzpicture}
+\end{document}

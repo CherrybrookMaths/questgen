@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.641cm, y=0.699cm, xmin=-3.4, xmax=10.9, ymin=-2.58, ymax=6.31,
+  xtick=\empty, ytick=\empty,
+  xlabel style={anchor=center, at={(axis cs:10.65,-0.42)}},
+  ylabel style={anchor=center, at={(axis cs:-0.34,6.1)}}]
+  \fill[shade dots] (axis cs:0,0) -- (axis cs:2,3) -- plot[domain=2:4, samples=60] (axis cs:\x,{3/(\x-1)}) -- (axis cs:4,0) -- cycle;
+  \addplot[domain=1.545:10.2] {3/(x-1)};
+  \addplot[domain=-1.44:3.56] {1.5*x};
+  \draw (axis cs:4,-1.67) -- (axis cs:4,2.67);
+  \node[pt] at (axis cs:2,3) {}; \node at (axis cs:2.83,3) {$(2{,}3)$};
+  \node at (axis cs:4.27,-0.4) {$4$};
+  \node at (axis cs:-0.39,0.24) {$O$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{11}{13}\selectfont}]
+  % crop pixel units; x: 1.0 -> 127.5 px, 181.8 px per hour; y: 60 -> 613.5 px, 18.04 px per mark
+  \def\X#1{127.5+181.8*((#1)-1)}\def\Y#1{613.5-18.04*((#1)-60)}
+  \foreach \t in {1,1.5,...,5} \draw[aux, black!45] ({\X{\t}},45) -- ({\X{\t}},641);
+  \foreach \m in {60,65,...,90} \draw[aux, black!45] (91,{\Y{\m}}) -- (893,{\Y{\m}});
+  \draw (91,45) -- (91,641) -- (893,641);
+  \foreach \t in {1,1.5,...,5} {\draw ({\X{\t}},641) -- ({\X{\t}},647);
+    \node[font=\fontsize{10}{12}\selectfont] at ({\X{\t}},662) {\pgfmathprintnumber[fixed,fixed zerofill,precision=1]{\t}};}
+  \foreach \m in {60,65,...,90} {\draw (85,{\Y{\m}}) -- (91,{\Y{\m}});
+    \node[font=\fontsize{10}{12}\selectfont, anchor=east] at (82,{\Y{\m}}) {\m};}
+  \foreach \p/\q in {1/60,1/70,2/70,3/75,3/80,3.5/80,4/85,5/90} \filldraw[fill=black!75] ({\X{\p}},{\Y{\q}}) circle (9.5);
+  \node[font=\fontsize{12}{14}\selectfont] at (513,25) {Time Spent and Percentage Mark};
+  \node at (481,701) {Time Spent (hours)};
+  \node[rotate=90] at (26,358) {Percentage Mark};
+\end{tikzpicture}
+\end{document}

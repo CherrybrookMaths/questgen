@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % standard normal curve, mean at x=340, sigma = 85 px, axis at y=170, peak height 140 px
+  \def\f(#1){170-140*exp(-((#1-340)/85)^2/2)}
+  \path[shade hatch] (85,170) -- plot[smooth,samples=40,domain=85:255,variable=\t] (\t,{\f(\t)}) -- (255,170) -- cycle;
+  \draw[->] (20,170) -- (670,170);
+  \draw[smooth,samples=90,domain=30:650,variable=\t,line width=0.9pt] plot (\t,{\f(\t)});
+  \draw (255,170) -- (255,{\f(255)});
+  \draw (85,170) -- (85,{\f(85)});
+  \draw[aux] (340,170) -- (340,30);
+  \foreach \x in {85,255,340} \draw (\x,170) -- (\x,177);
+  \node[below=5pt] at (85,170) {$\mu-3\sigma$};
+  \node[below=5pt] at (255,170) {$\mu-\sigma$};
+  \node[below=5pt] at (340,170) {$\mu$};
+  \node at (300,140) {$34\%$};
+  \node at (40,95) {$0.15\%$};
+  \draw[->] (48,112) -- (62,165);
+\end{tikzpicture}
+\end{document}

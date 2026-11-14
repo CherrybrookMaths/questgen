@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Hunters Hill AT4 Q8 solution: triangle with the two sides enclosing the angle highlighted (crop's yellow -> light grey band)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{8.5}{10}\selectfont]
+  \fill[black!28] (92.4,20.4) -- (67.2,186.3) -- (75.6,187.6) -- (100.8,21.7) -- cycle;
+  \fill[black!28] (90.7,27.4) -- (231.1,84.4) -- (234.3,76.6) -- (93.9,19.6) -- cycle;
+  \coordinate (T) at (96,25); \coordinate (R) at (229,79); \coordinate (B) at (72,183);
+  \draw (T) -- (R) -- (B) -- cycle;
+  \pic[draw,angle radius=0.39cm] {angle=B--T--R};
+  \pic[draw,angle radius=0.37cm] {angle=T--R--B};
+  \pic[draw,angle radius=0.5cm] {angle=R--B--T};
+  \node at (188,36) {1.9 cm};
+  \node at (121,65) {$78^\circ$};
+  \node at (182,84) {$55^\circ$};
+  \node at (42,90) {2.1 cm};
+  \node at (101,134) {$47^\circ$};
+  \node at (189,140) {3.7 cm};
+\end{tikzpicture}
+\end{document}

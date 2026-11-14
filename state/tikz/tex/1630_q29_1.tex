@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down: T(298.5,23) O(298.5,305) Y(659,305) F(41,573), from the printed lines.
+% The paper draws TO, OY, OF heavy; house rule 3 keeps every line at 0.4pt.
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (T) at (298.5,23); \coordinate (O) at (298.5,305); \coordinate (Y) at (659,305); \coordinate (F) at (41,573);
+  \draw (T) -- (O) -- (Y) -- cycle;
+  \draw (T) -- (F) -- (O);
+  \draw[aux] (F) -- (Y);
+  \draw (298.5,272) -- (330,272) -- (330,305);
+  \draw (298.5,273) -- (281.2,291) -- (281.2,323);
+  \draw (Y) ++(180:120) arc[start angle=180, end angle=218.03, radius=120];
+  \draw (57.72,470.9) ++(-40.66:64.57) arc[start angle=-40.66, end angle=14.39, radius=64.57];
+  \node at (282,27.5) {$T$};
+  \node at (317,175) {$h$};
+  \node at (302.5,334) {$O$};
+  \node at (674,307.5) {$Y$};
+  \node at (24,578.5) {$F$};
+  \node at (577,279) {$60^\circ$};
+  \node[rotate=55] at (100.5,486) {$45^\circ$};
+  \node[rotate=17] at (340,419) {$4$ km};
+  \node at (641,490.5) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

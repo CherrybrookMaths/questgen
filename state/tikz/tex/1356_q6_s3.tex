@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Baulkham Hills AT4 Q6 solution (D): y=1-x^2 with unit square [0,1]x[0,1] shaded (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{10}{12}\selectfont]
+  \def\ox{195.5}\def\oy{202.5}\def\ux{80.5}\def\uy{73.5}
+  % grid
+  \foreach \v in {-2,-1,1,2}{\draw[black!30] ({\ox+\ux*\v},55.5) -- ({\ox+\ux*\v},290);}
+  \foreach \v in {2,1.5,1,0.5,-0.5,-1}{\draw[black!30] (34.5,{\oy-\uy*\v}) -- (356.5,{\oy-\uy*\v});}
+  % shaded square
+  \fill[black!10] (\ox,\oy) rectangle ({\ox+\ux},{\oy-\uy});
+  \draw (\ox,{\oy-\uy}) -- ({\ox+\ux},{\oy-\uy}) -- ({\ox+\ux},\oy);
+  % axes
+  \draw[<->] (17,\oy) -- (373,\oy);
+  \draw[<->] (\ox,291) -- (\ox,42);
+  \node[anchor=west,inner sep=1pt] at (373,\oy) {$x$};
+  \node[anchor=south,inner sep=1pt] at (\ox-2,38) {$y$};
+  % labels
+  \node at (41,229) {\halo{$-2$}};
+  \node at (122,229) {\halo{$-1$}};
+  \node at (276,229) {\halo{$1$}};
+  \node at (356,229) {\halo{$2$}};
+  \node[anchor=east,inner sep=0pt] at (184,{\oy-\uy*2}) {\halo{$2$}};
+  \node[anchor=east,inner sep=0pt] at (184,{\oy-\uy*1.5}) {\halo{$1.5$}};
+  \node[anchor=east,inner sep=0pt] at (184,{\oy-\uy*1}) {\halo{$1$}};
+  \node[anchor=east,inner sep=0pt] at (184,{\oy-\uy*0.5}) {\halo{$0.5$}};
+  \node[anchor=east,inner sep=0pt] at (184,{\oy+\uy*0.5}) {\halo{$-0.5$}};
+  \node[anchor=east,inner sep=0pt] at (184,{\oy+\uy*1}) {\halo{$-1$}};
+  % curve
+  \draw[<->,smooth,line width=0.9pt] plot[domain=-1.47:1.47,samples=90] ({\ox+\ux*\x},{\oy-\uy*(1-\x*\x)});
+\end{tikzpicture}
+\end{document}

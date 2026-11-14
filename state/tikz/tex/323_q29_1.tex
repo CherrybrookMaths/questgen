@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % t = 0 at x 91, 1 hour = 43.44 px; h = 0 at y 498.5, 1 unit = 24.76 px
+  \def\X#1{91+43.44*(#1)}\def\Y#1{498.5-24.76*(#1)}
+  % grid: very light grey, every 5 a little darker
+  \foreach \i in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19,21,22,23,24}{\draw[black!9] ({\X{\i}},{\Y{17}}) -- ({\X{\i}},{\Y{-17}});}
+  \foreach \j in {-16,-14,-13,-12,-11,-9,-8,-7,-6,-4,-3,-2,-1,1,2,3,4,6,7,8,9,11,12,13,14,16}{\draw[black!9] ({\X{0}},{\Y{\j}}) -- ({\X{25}},{\Y{\j}});}
+  \draw[black!9] ({\X{0}},{\Y{17}}) -- ({\X{25}},{\Y{17}}) ({\X{0}},{\Y{-17}}) -- ({\X{25}},{\Y{-17}});
+  \foreach \i in {5,10,15,20,25}{\draw[black!20] ({\X{\i}},{\Y{17}}) -- ({\X{\i}},{\Y{-17}});}
+  \foreach \j in {-15,-10,-5,5,10,15}{\draw[black!20] ({\X{0}},{\Y{\j}}) -- ({\X{25}},{\Y{\j}});}
+  % axes
+  \draw[->] (65,498.5) -- (1213,498.5);
+  \draw[<->] (90.5,953) -- (90.5,44);
+  \node at (91,13) {$h$};
+  \node at (1222,498) {$t$};
+  % ticks
+  \foreach \i in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19,21,22,23,24}{\draw ({\X{\i}},492.5) -- ({\X{\i}},504.5);}
+  \foreach \i in {5,10,15,20,25}{\draw ({\X{\i}},487.5) -- ({\X{\i}},509.5);}
+  \foreach \j in {-17,-16,-14,-13,-12,-11,-9,-8,-7,-6,-4,-3,-2,-1,1,2,3,4,6,7,8,9,11,12,13,14,16,17}{\draw (84.5,{\Y{\j}}) -- (96.5,{\Y{\j}});}
+  \foreach \j in {-15,-10,-5,5,10,15}{\draw (79.5,{\Y{\j}}) -- (101.5,{\Y{\j}});}
+  % labels
+  \foreach \i in {5,10,15,20,25}{\node[anchor=north,inner sep=0pt] at ({\X{\i}},526) {$\i$};}
+  \foreach \j in {-15,-10,-5,0,5,10,15}{\node[anchor=east,inner sep=0pt] at (67,{\Y{\j}}) {$\j$};}
+\end{tikzpicture}
+\end{document}

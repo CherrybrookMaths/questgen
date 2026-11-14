@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.98cm, y=1.98cm, declare function={f(\x)=0.3298*\x*\x*(\x*\x-1)*(\x*\x-4)*exp(-0.71*\x*\x)*(1+0.5*\x*\x);}]
+  % even curve fitted to crop: roots +-1,+-2, double at 0, max 0.26 at +-0.65, min -0.71 at +-1.56
+  \fill[shade dots, stipple color=black!38] plot[domain=0:1, samples=60] (\x,{f(\x)}) -- cycle;
+  \fill[shade dots, stipple color=black!38] plot[domain=1:2, samples=60] (\x,{f(\x)}) -- cycle;
+  \draw[->] (-2.63,0) -- (2.77,0);
+  \draw[->] (0,-0.885) -- (0,1.49);
+  \node[anchor=north east, inner sep=1pt] at (2.77,-0.05) {$x$};
+  \node[anchor=north east, inner sep=1pt] at (-0.03,1.5) {$y$};
+  \draw[curve, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] plot[domain=-2.47:2.47, samples=200] (\x,{f(\x)});
+  \foreach \v in {-2,-1,1,2} \draw (\v,0) -- (\v,-0.06);
+  \node at (-2.04,-0.26) {$-2$};
+  \node at (-1.04,-0.26) {$-1$};
+  \node at (1.0,-0.26) {$1$};
+  \node at (2.0,-0.26) {$2$};
+  \node at (-0.11,-0.12) {$O$};
+  \node at (0.63,0.14) {$A$};
+  \node at (1.53,-0.29) {$B$};
+  \node at (-1.68,0.635) {$y=f(x)$};
+  \node[align=center] at (3.32,0.58) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

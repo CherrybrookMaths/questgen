@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % crop pixel units; option 4 of four: common frame (712 x 90 px), box height 71 px, caps 36 px
+  \useasboundingbox (0,-6) rectangle (712,77);
+  \begin{scope}[line width=0.9pt]
+  \draw (18,35.5) -- (222,35.5); \draw (493,35.5) -- (696,35.5);
+  \draw (18,17.5) -- (18,53.5); \draw (696,17.5) -- (696,53.5);
+  \draw (222,0) rectangle (493,71);
+  \draw (358,0) -- (358,71);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

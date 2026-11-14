@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates in crop pixels (200 dpi), y downward
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (15,395) -- (645,395);
+  \draw[->] (330,498) -- (330,15);
+  \draw[curve] plot[domain=-154.7:154.7, samples=120] ({330+\x},{395-1.37*(\x/10)*(\x/10)});
+  \draw (55,247) -- (606,247);
+  \node[pt, inner sep=1.2pt] at (226.1,247) {};
+  \node[pt, inner sep=1.2pt] at (433.9,247) {};
+  \node at (207,266) {$P$};
+  \node at (450,268) {$Q$};
+  \node at (565,228) {$y=k$};
+  \node at (533,90) {$y=x^2$};
+  \node at (315,26) {$y$};
+  \node at (634,416) {$x$};
+  \node at (313,416) {$O$};
+\end{tikzpicture}
+\end{document}

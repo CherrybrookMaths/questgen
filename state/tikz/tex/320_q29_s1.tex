@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+  \draw[->] (8,257) -- (777,257);
+  \draw[->] (87,387) -- (87,17);
+  \foreach \i in {245,482,715.5}{\draw (\i,249) -- (\i,265);}
+  \draw (79,100.5) -- (95,100.5);
+  \node at (44,103) {$\tfrac{1}{4}$};
+  \node at (241,296) {$3\pi$};
+  \node at (482,296) {$4\pi$};
+  \node at (724,296) {$5\pi$};
+  \draw[smooth,samples=90,domain=0:180,line width=0.9pt] plot ({245+2.6139*\x},{257-156.5*sin(\x)});
+\end{tikzpicture}
+\end{document}

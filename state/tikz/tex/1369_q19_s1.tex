@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 North Sydney Girls AT4 Q19 solution: U, V, W bearings with the solution's added north-south lines and angles (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{10.5}{12.5}\selectfont]
+  \coordinate (U) at (85,348); \coordinate (V) at (413,125); \coordinate (W) at (628,515);
+  \draw (U) -- (V) -- (W) -- cycle;
+  % north lines (dotted, from the question figure)
+  \draw[dotted,->] (U) -- (85,182);
+  \draw[dotted,->] (V) -- (411,14);
+  \node[font=\bfseries\fontsize{9}{11}\selectfont] at (66,266) {N};
+  \node[font=\bfseries\fontsize{9}{11}\selectfont] at (393,73) {N};
+  % bearing arcs
+  \draw[dotted] (85,218) arc[start angle=-90, end angle=-34.2, radius=130];
+  \node at (131,262) {$55^\circ$};
+  \draw[dotted] (412.6,23) arc[start angle=-90, end angle=60, radius=102];
+  \node at (467,112) {$150^\circ$};
+  % solution additions: south line at V, N-S and E-W lines at W
+  \draw (V) -- (414.5,290);
+  \draw (628,388) -- (628,582);
+  \draw (487,515) -- (766,515);
+  \node at (364,214) {$55^\circ$};
+  \node at (439,222) {$30^\circ$};
+  \node at (606,420) {$30^\circ$};
+  \node at (566,468) {$\theta$};
+  % side lengths
+  \node[rotate=34.2] at (240,221) {70 km};
+  \node[rotate=-61.1] at (531,299) {82 km};
+  % vertices
+  \node[font=\itshape\fontsize{15}{17}\selectfont] at (45,370) {$U$};
+  \node[font=\fontsize{13}{15}\selectfont] at (398,170) {$V$};
+  \node[font=\fontsize{13}{15}\selectfont] at (686,499) {$W$};
+\end{tikzpicture}
+\end{document}

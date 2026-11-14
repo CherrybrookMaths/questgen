@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.2807cm, y=0.437cm,
+  xmin=-8.75*pi, xmax=8.93*pi, ymin=-5.7, ymax=5.64,
+  xtick={-8*pi,-6*pi,-4*pi,-2*pi,2*pi,4*pi,6*pi,8*pi},
+  xticklabels={$-8\pi$,$-6\pi$,$-4\pi$,$-2\pi$,$2\pi$,$4\pi$,$6\pi$,$8\pi$},
+  ytick={-4,-2,2,4}, tick label style={font=\normalsize},
+  xlabel={}, ylabel={}]
+  \addplot[domain=-8.35*pi:8.4*pi, samples=400] {4*sin(deg(x/3))};
+  \node[anchor=north west, font=\normalsize] at (axis cs:8.93*pi,0) {$x$};
+  \node[anchor=east, font=\normalsize] at (axis cs:-0.3*pi,5.5) {$y$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{13}\selectfont\bfseries]
+  \begin{scope}[shift={(97,693)},x=1.93675cm,y=0.8001cm]
+    \path[shade dots] plot[domain=1:4,samples=40,smooth] (\x,{sqrt(\x*\x+9)}) -- (4,0) -- (1,0) -- cycle;
+    \foreach \x in {0.5,1.5,...,4.5} \draw[black!50,dash pattern=on 0.5pt off 1.2pt] (\x,0) -- (\x,10);
+    \foreach \y in {0.5,1,1.5,2.5,3,3.5,4.5,5,5.5,6.5,7,7.5,8.5,9,9.5} \draw[black!50,dash pattern=on 0.5pt off 1.2pt] (0,\y) -- (5,\y);
+    \foreach \x in {1,...,5} \draw (\x,0) -- (\x,10);
+    \foreach \y in {2,4,...,10} \draw (0,\y) -- (5,\y);
+    \draw[->] (0,0) -- (5.25,0) node[right,font=\normalfont] {$x$};
+    \draw[->] (0,0) -- (0,10.3) node[above,font=\normalfont] {$y$};
+    \foreach \x in {0.5,1.5,...,4.5} \draw (\x,0) -- (\x,0.12);
+    \foreach \y in {0.5,1,...,10} \draw (0,\y) -- (-0.025,\y);
+    \foreach \x in {1,...,5} \node[below=3pt] at (\x,0) {\x};
+    \foreach \y in {2,4,...,10} \node[left=2pt] at (0,\y) {\y};
+    \draw[->,line width=0.9pt] plot[domain=0:5.12,samples=90,smooth] (\x,{sqrt(\x*\x+9)});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

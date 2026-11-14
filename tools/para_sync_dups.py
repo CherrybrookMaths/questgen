@@ -1,7 +1,8 @@
 """Second paragraph-break check: two copies of the same paper (duplicate questions) must have the same breaks.
 Where the words are identical but one copy has more paragraph breaks, the other copy is lost breaks -> copy them over."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, re
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db'); norm = lambda s: re.sub(r'\s+', ' ', s).strip(); m = 0
+db = sqlite3.connect(paths.DBS); norm = lambda s: re.sub(r'\s+', ' ', s).strip(); m = 0
 for a, b in db.execute("select question_id,related_id from related_questions where relation='duplicate'").fetchall():
     pa = db.execute('select id,latex from parts where question_id=? order by ordinal', (a,)).fetchall()
     pb = db.execute('select id,latex from parts where question_id=? order by ordinal', (b,)).fetchall()

@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Baulkham Hills AT4 Q27 solution sketch: y=(x^2+3)/(1-x^2) shape, asymptotes x=+-1, y=-1 (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{13}\selectfont]
+  \def\X(#1){(514+67*#1)}
+  % axes
+  \draw[<->] (12,351.5) -- (1008,351.5);
+  \draw[<->] (514,580) -- (514,47);
+  \node[anchor=west,inner sep=1pt] at (1008,353) {$x$};
+  \node[anchor=south,inner sep=1pt] at (514,44) {$y$};
+  % x ticks and labels
+  \foreach \v in {-6,-4,-2,2,4,6}{\draw ({514+67*\v},344) -- ({514+67*\v},359);
+    \node at ({514+67*\v},388) {\halo{$\v$}};}
+  \foreach \v in {2,4,6,8}{\draw (507,{351.5-34.75*\v}) -- (521,{351.5-34.75*\v});
+    \node[anchor=east,inner sep=0pt] at (504,{351.5-34.75*\v}) {\halo{$\v$}};}
+  \foreach \v in {-2,-4,-6}{\draw (507,{351.5-34.75*\v}) -- (521,{351.5-34.75*\v});
+    \node[anchor=east,inner sep=0pt] at (504,{351.5-34.75*\v}) {$\v$};}
+  % asymptotes
+  \draw[aux] (447,22) -- (447,580);
+  \draw[aux] (581,22) -- (581,580);
+  \draw[aux] (8,386.25) -- (1010,386.25);
+  % curve
+  \draw[<->,smooth] plot[domain=-0.755:0.755,samples=60] ({514+67*\x},{351.5-34.75*(\x*\x+3)/(1-\x*\x)});
+  \draw[<->,smooth] plot[domain=-7.5:-1.31,samples=90] ({514+67*\x},{351.5-34.75*(\x*\x+3)/(1-\x*\x)});
+  \draw[<->,smooth] plot[domain=1.31:7.4,samples=90] ({514+67*\x},{351.5-34.75*(\x*\x+3)/(1-\x*\x)});
+\end{tikzpicture}
+\end{document}

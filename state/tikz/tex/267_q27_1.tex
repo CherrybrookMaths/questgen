@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=3.72cm, y=9.8cm, xmin=-0.38, xmax=2.49, ymin=-0.323, ymax=0.389,
+  xtick={0.5,1}, xticklabels={,}, ytick=\empty,
+  major tick length=2mm, tick align=center,
+  xlabel style={anchor=north east, xshift=2pt, yshift=-3pt},
+  ylabel style={anchor=east, xshift=-1pt, yshift=-8pt}]
+  \addplot[curve, open arrow, domain=-0.21:2.27, samples=200] {x*exp(-2*x)};
+  \coordinate (S) at (axis cs:0.5,0.18394);
+  \coordinate (I) at (axis cs:1,0.13534);
+  \node[anchor=north east, inner sep=2pt] at (axis cs:0,0) {$O$};
+  \node at (axis cs:0.5,-0.067) {$\dfrac{1}{2}$};
+  \node at (axis cs:1,-0.039) {$1$};
+  \node at (axis cs:0.49,0.247) {$\left(\dfrac{1}{2},\, \dfrac{1}{2e}\right)$};
+  \node at (axis cs:1.18,0.189) {$\left(1,\ \dfrac{1}{e^2}\right)$};
+\end{axis}
+\node[pt] at (S) {}; \node[pt] at (I) {};
+\end{tikzpicture}
+\end{document}

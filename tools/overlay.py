@@ -1,8 +1,9 @@
 """Overlay each original crop (red) on its current redraw (blue) at the same 200 dpi scale, aligned on the ink
 bounding box. Where both have ink the pixel is black, so a perfect match looks black and any mismatch shows colour."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import numpy as np, sys, glob, os
 from PIL import Image
-P='/home/claude/pilot/'
+P=paths.P
 def ink(path):
     a=np.asarray(Image.open(path).convert('L'),dtype=np.uint8); m=a<170
     ys,xs=np.nonzero(m)
@@ -27,11 +28,11 @@ def overlay(k):
     return round(float((A&Bd).sum()/max(A.sum(),1)),3), round(float((B&Ad).sum()/max(B.sum(),1)),3), a.shape, b.shape, (int(dx),int(dy))
 if __name__=='__main__':
     import json
-    ids=sys.argv[1:] or [os.path.basename(f)[:-4] for f in glob.glob(P+'tikz/tex/*.tex')]
-    sp=P+'tikz/overlay_scores.json'
+    ids=sys.argv[1:] or [os.path.basename(f)[:-4] for f in glob.glob(paths.S + 'tikz/tex/*.tex')]
+    sp=paths.S + 'tikz/overlay_scores.json'
     res=json.load(open(sp)) if os.path.exists(sp) else {}
     for k in ids:
         try: r=overlay(k); res[k]={'orig_covered':r[0],'redraw_covered':r[1],'orig_px':r[2],'redraw_px':r[3],'shift':r[4]}
         except Exception as e: res[k]={'error':str(e)}
-    json.dump(res,open(P+'tikz/overlay_scores.json','w'),indent=1)
+    json.dump(res,open(paths.S + 'tikz/overlay_scores.json','w'),indent=1)
     for k in ids: print(k, res[k])

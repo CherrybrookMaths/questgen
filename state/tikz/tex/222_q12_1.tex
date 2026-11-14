@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\tikzset{stip/.style={shade dots}}
+\begin{document}
+\begin{tikzpicture}[scale=0.546]
+  \coordinate (X) at (-8,0); \coordinate (Z) at (8,0); \coordinate (O) at (0,0);
+  \coordinate (Y) at (57:8);
+  \fill[stip] (X) arc[start angle=180, end angle=57, radius=8] -- cycle;
+  \fill[stip] (Y) arc[start angle=57, end angle=0, radius=8] -- cycle;
+  \draw (Z) arc[start angle=0, end angle=180, radius=8];
+  \draw (X) -- (Y) -- (Z);
+  \draw[aux] (X) -- (Z);
+  \draw ($(Y)!0.75cm!(X)$) -- ($(Y)!0.75cm!(X)!0.75cm!90:(X)$) -- ($(Y)!0.75cm!(Z)$);
+  \node at (-5.56,0.51) {$30^\circ$};
+  \node[pt] at (O) {}; \node[above] at (O) {$O$};
+  \node[left] at (X) {$X$}; \node[right] at (Z) {$Z$}; \node[above right=-1pt] at (Y) {$Y$};
+  \node[align=center, inner sep=0pt] at (9.03,5.86) {NOT TO\\SCALE};
+  \draw[|<->|] (-8,-0.88) -- node[fill=white, inner sep=1pt] {16 cm} (8,-0.88);
+\end{tikzpicture}
+\end{document}

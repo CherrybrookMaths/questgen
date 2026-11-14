@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Sydney Technical HS AT4 Q35: drain cross-section (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (TL) at (69,45);
+  \coordinate (BL) at (290,336.5);
+  \coordinate (BR) at (660,336.5);
+  \coordinate (TR) at (872,44);
+  \draw (TL) -- (BL) -- (BR) -- (TR);
+  % horizontal dotted lines with arrowheads at outer ends
+  \draw[aux,->] (BL) -- (139,336.5);
+  \draw[aux,->] (BR) -- (825,336.5);
+  % equal-length tick marks
+  \draw (171.2,194.2) -- (185.6,183.4);
+  \draw (469,327) -- (469,343);
+  \draw (746.6,201.7) -- (761.2,212.3);
+  % labels
+  \node[font=\small] at (238,316) {$\vartheta$};
+  \node[font=\small] at (689,322) {$\vartheta$};
+  \node[font=\small] at (802,181) {2\,m};
+\end{tikzpicture}
+\end{document}

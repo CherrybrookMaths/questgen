@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% units = crop pixels at 200 dpi, origin at the bottom of the left axis; 1 complaint = 3.9375 px (120 at the top), 100% = 120
+\begin{tikzpicture}[x=0.0127cm, y=0.0127cm]
+  \def\R{834}% right axis
+  \def\u{3.9375}
+  \foreach \f in {20,40,...,120} \draw[black!35, line width=0.6pt] (0,\f*\u) -- (\R,\f*\u);
+  \foreach \i/\f in {0/98,1/62,2/24,3/8,4/6,5/1}
+    \draw[fill=black!26, line width=0.6pt] (146*\i,0) rectangle (146*\i+104,\f*\u);
+  \draw (0,0) -- (\R,0);
+  \draw (0,0) -- (0,120*\u);
+  \draw (\R,0) -- (\R,120*\u);
+  \foreach \f in {0,20,...,120} \draw (0,\f*\u) -- (-18,\f*\u) node[left, inner sep=3pt] {$\f$};
+  \foreach \p in {0,10,...,100} \draw (\R,1.2*\p*\u) -- (\R+19,1.2*\p*\u) node[right, inner sep=3pt] {$\p\%$};
+  % cumulative percentage line (98, 160, 184, 192, 198, 199 of 199)
+  \draw[line width=0.6pt] plot coordinates {(52,59.10*\u) (198,96.48*\u) (344,110.95*\u) (490,115.78*\u) (636,119.40*\u) (782,120*\u)};
+  \foreach \x/\y in {52/59.10,198/96.48,344/110.95,490/115.78,636/119.40,782/120}
+    \node[pt, inner sep=1.25pt] at (\x,\y*\u) {};
+  \foreach \i/\a/\b in {0/Stock/shortage,1/Delivery/fee,2/Delivery/time,3/Damaged/item,4/Returns/policy,5/Product/information}
+    \node[align=center, inner sep=0pt] at (146*\i+52,-40) {\vphantom{Dy}\a\\[-3pt]\vphantom{Dy}\b};
+  \node at (417,-120.5) {Type of complaint};
+  \node[rotate=90] at (-93.5,236.5) {Frequency};
+  \node[rotate=90] at (959.5,236.5) {Cumulative percentage};
+  \node[font=\sffamily\bfseries\small] at (417.5,505.5) {Customer complaints};
+\end{tikzpicture}
+\end{document}

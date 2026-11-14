@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5cm, y=0.5cm]
+  % axes
+  \draw[->] (-1.75,0) -- (15.65,0) node[below left, inner sep=2pt, yshift=-1pt] {$x$};
+  \draw[->] (0,-5.98) -- (0,5.98) node[below left, inner sep=2pt, xshift=-1pt] {$y$};
+  \foreach \i in {1,...,14} \draw (\i,0) -- (\i,-0.25);
+  \foreach \j in {-4,...,-1,1,2,3,4} \draw (0,\j) -- (-0.25,\j);
+  % dash pattern=on 2pt off 1.5pt guides
+  \draw[aux] (4,0) -- (4,3);
+  \draw[aux] (8,0) -- (8,3);
+  \draw[aux] (12,0) -- (12,-3);
+  \draw[aux] (0,-3) -- (14,-3);
+  % graph
+  \draw[curve, line width=0.6pt] (0,3) -- (4,3) arc[start angle=180, end angle=0, radius=2] -- (12,-3);
+  % labels
+  \node[left, inner sep=2pt] at (-0.25,3) {$3$};
+  \node[left, inner sep=2pt] at (-0.25,-3) {$-3$};
+  \node[below, inner sep=2pt] at (4,-0.25) {$4$};
+  \node[below, inner sep=2pt] at (8,-0.25) {$8$};
+  \node[below, inner sep=2pt] at (10,-0.25) {$10$};
+  \node[above, inner sep=2pt] at (12,0) {$12$};
+  \node[below left, inner sep=2pt] at (0,0) {$O$};
+\end{tikzpicture}
+\end{document}

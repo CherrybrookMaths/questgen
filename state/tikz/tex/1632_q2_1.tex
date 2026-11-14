@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down: origin (204.5,263.5); x=2 at 519.5; peak (650.5,113.9) = (2 sqrt2, sqrt2/2).
+% The PDF's zero parts lie on the x-axis (drawn heavy on the paper; house 0.4pt here), broken at the open circle.
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw (204.5,356) -- (204.5,18);
+  % rule 9: the graph (zero pieces on the axis and the slanted piece) at 0.8pt; the axis itself 0.4pt
+  \draw (204.5,263.5) -- (640.5,263.5);
+  \draw[line width=0.9pt,<-] (18,263.5) -- (204.5,263.5);
+  \draw[line width=0.9pt,->] (660.5,263.5) -- (867,263.5);
+  \draw (189,113.5) -- (204.5,113.5);
+  \draw (519.5,263.5) -- (519.5,278);
+  \draw[line width=0.9pt] (204.5,263.5) -- (650.5,113.9);
+  \fill (204.5,263.5) circle[radius=10];
+  \fill (650.5,113.9) circle[radius=10];
+  \draw[line width=0.9pt] (650.5,263.5) circle[radius=10];
+  \node at (153,110) {$\dfrac{\sqrt{2}}{2}$};
+  \node at (519.5,299) {$2$};
+  \node at (650.5,298) {$2\!\sqrt{2}$};
+  \node at (184.5,291) {$O$};
+\end{tikzpicture}
+\end{document}

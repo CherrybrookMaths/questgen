@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+  \coordinate (O) at (0,0); \coordinate (Y) at (0,3.76); \coordinate (X) at (3.53,0);
+  \coordinate (P) at ($(Y)!0.306!(X)$);
+  \fill[shade dots] (O) -- (Y) -- (X) -- cycle;
+  \draw[->] (O) -- (5.94,0);
+  \draw[->] (O) -- (0,5.51);
+  \node[anchor=north east, inner sep=1pt] at (5.94,-0.08) {$x$};
+  \node[anchor=north east, inner sep=1pt] at (-0.1,5.55) {$y$};
+  \draw ($(Y)!-0.19!(X)$) -- ($(Y)!1.18!(X)$);
+  \node[pt] at (Y) {}; \node[pt] at (X) {}; \node[pt] at (P) {};
+  \node[left, inner sep=2pt] at ($(Y)+(-0.06,-0.15)$) {$Y(0,y)$};
+  \node[anchor=south west, inner sep=2pt] at ($(X)+(-0.12,0)$) {$X(x,0)$};
+  \node[right] at (P) {$P(1,2)$};
+  \node[anchor=north east] at (O) {$O$};
+  \node[align=center] at (7.21,2.90) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

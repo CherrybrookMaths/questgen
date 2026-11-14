@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\large}]
+  \def\t{1.03}
+  \fill[shade] plot[smooth,samples=45,domain=0:\t] ({458+320*\x},{272-334*\x/(\x*\x+1)}) -- cycle;
+  \fill[shade] plot[smooth,samples=45,domain=-\t:0] ({458+320*\x},{272-334*\x/(\x*\x+1)}) -- cycle;
+  \draw (5,272) -- (940,272);
+  \draw (458,476) -- (458,8);
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=-1.416:1.506] ({458+320*\x},{272-334*\x/(\x*\x+1)});
+  \draw[line width=0.9pt] plot[domain=-1.28:1.507,samples=2] ({458+320*\x},{272-334*0.4852*\x});
+  \foreach \s in {-1,0,1} \fill[black!35] ({458+320*\t*\s},{272-334*\s*\t/(\t*\t+1)}) circle (2.2pt);
+  \node[font=\normalsize] at (583,75) {$y=\dfrac{x}{x^2+1}$};
+  \node at (718,205) {$y=mx$};
+\end{tikzpicture}
+\end{document}

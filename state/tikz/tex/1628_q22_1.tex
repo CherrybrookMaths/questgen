@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down: X(x)=578+393.5x, Y(y)=506.5-394y  (the crop is drawn to scale); full crop incl. x-axis arrow and x label
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \path[shade dots] (184.5,506.5) -- plot[smooth, domain=-1:1, samples=60] ({578+393.5*\x},{506.5-394*ln(1+\x*\x)}) -- (971.5,506.5) -- cycle;
+  \draw[->] (27,506.5) -- (1140,506.5);
+  \draw[->] (578,582) -- (578,29);
+  \draw plot[smooth, domain=-1.3:1.3, samples=90] ({578+393.5*\x},{506.5-394*ln(1+\x*\x)});
+  \draw (184.5,{506.5-394*ln(2)}) -- (184.5,526) (971.5,{506.5-394*ln(2)}) -- (971.5,526);
+  \draw (381.25,506.5) -- (381.25,526) (774.75,506.5) -- (774.75,526);
+  \draw (560.5,112.5) -- (578,112.5) (560.5,309.5) -- (578,309.5);
+  \node at (180.5,544.5) {$\text{--}1$};
+  \node at (382.5,544.5) {$\text{--}0.5$};
+  \node at (774,544.5) {$0.5$};
+  \node at (972,544.5) {$1$};
+  \node[anchor=east, inner sep=0pt] at (550.5,111) {$1$};
+  \node[anchor=east, inner sep=0pt] at (550.5,307.5) {$0.5$};
+  \node at (558,525.5) {$O$};
+  \node at (561,40.5) {$y$};
+  \node at (1130.5,529) {$x$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2024 Ascham AT4 Q28 solution: normal curve (symmetric, mean x=280, sd 90.5 px, fitted to the sketch), 194 to 206 marked, 198 to 204 hatched (crop pixel units, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{11}{13}\selectfont}]
+  \def\C{(25,253.4) (35,251.8) (45,249.7) (55,247.0) (65,243.6) (75,239.4) (85,234.3) (95,228.1) (105,220.8) (115,212.2) (125,202.3) (135,191.1) (145,178.6) (155,165.0) (165,150.3) (175,134.8) (185,118.8) (195,102.6) (205,86.7) (215,71.4) (225,57.2) (235,44.6) (245,33.9) (255,25.5) (265,19.8) (275,16.9) (285,16.9) (295,19.8) (305,25.5) (315,33.9) (325,44.6) (335,57.2) (345,71.4) (355,86.7) (365,102.6) (375,118.8) (385,134.8) (395,150.3) (405,165.0) (415,178.6) (425,191.1) (435,202.3) (445,212.2) (455,220.8) (465,228.1) (475,234.3) (485,239.4) (495,243.6) (505,247.0) (515,249.7) (525,251.8) (535,253.4) (545,254.7) (555,255.6)}
+  \begin{scope}
+    \clip (216,260) rectangle (280,0);
+    \path[shade hatch reverse] plot[smooth] coordinates {\C} -- (555,260) -- (25,260) -- cycle;
+  \end{scope}
+  \begin{scope}
+    \clip (280,260) rectangle (389,0);
+    \path[shade hatch] plot[smooth] coordinates {\C} -- (555,260) -- (25,260) -- cycle;
+  \end{scope}
+  \draw (20,260) -- (576,260);
+  \draw[line width=0.9pt] plot[smooth] coordinates {\C};
+  \draw[aux] (105,260) -- (105,220.8);
+  \draw[aux] (158,260) -- (158,160.7);
+  \draw (216,260) -- (216,69.9);
+  \draw[aux] (280,260) -- (280,16.5);
+  \draw (389,260) -- (389,141.1);
+  \draw[aux] (451,260) -- (451,217.5);
+  \foreach \x/\l in {105/194,158/196,216/198,280/200,332/202,389/204,451/206} \node at (\x,293) {$\l$};
+\end{tikzpicture}
+\end{document}

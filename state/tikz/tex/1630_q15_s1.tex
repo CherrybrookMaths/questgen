@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 NESA HSC Q15 solution: P1 = 2 sin(2 pi t/5) and P2 = 4 sin(pi t/10) on the question's grid
+% (crop pixels, y down; origin (94,261), 78.7 px per ms, 39.3 px per Pa)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\T#1{(94+78.7*(#1))}
+  % grey grid every 0.5 ms and 1 Pa
+  \foreach \i in {-1,...,21} \draw[black!45] ({94+39.35*\i},64) -- ({94+39.35*\i},457);
+  \foreach \j in {-4,...,4} \draw[black!45] (15,{261-39.3*\j}) -- (958,{261-39.3*\j});
+  % darker lines every 2 ms and at P = 4, -4
+  \foreach \i in {2,4,6,8,10} \draw ({94+78.7*\i},64) -- ({94+78.7*\i},457);
+  \draw (15,103.8) -- (958,103.8);
+  \draw (15,418.2) -- (958,418.2);
+  % axes
+  \draw[->] (0,261) -- (1008,261);
+  \draw[->] (94,497) -- (94,18);
+  % curves
+  \draw[line width=0.9pt] plot[smooth,domain=0:10.75,samples=120] ({94+78.7*\x},{261-78.6*sin(72*\x)});
+  \draw[line width=0.9pt] plot[smooth,domain=0:10.75,samples=90] ({94+78.7*\x},{261-157.2*sin(18*\x)});
+  \foreach \t/\p in {0/0,1.25/2,2.5/0,3.75/-2,5/4,5/0,6.25/2,7.5/0,8.75/-2,10/0}
+    \node[pt] at ({94+78.7*\t},{261-39.3*\p}) {};
+  % labels
+  \node at (52,30) {\halo{$P(t)$}};
+  \node at (995,282) {$t$};
+  \node at (70,283) {\halo{$O$}};
+  \foreach \t/\dx/\dy in {1/0/0,2/0/0,3/16/0,4/0/0,5/8/0,6/0/0,7/0/0,8/14/0,9/0/0,10/0/16} \node at ({94+78.7*\t+\dx},{284+\dy}) {\halo{$\t$}};
+  \foreach \p in {4,2,-2,-4} \node[anchor=east,inner sep=0pt] at (84,{261-39.3*\p}) {\halo{$\p$}};
+\end{tikzpicture}
+\end{document}

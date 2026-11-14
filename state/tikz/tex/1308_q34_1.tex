@@ -1,0 +1,27 @@
+\documentclass[border=4pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.02004cm, y=0.3637cm, xmin=0, xmax=427, ymin=0, ymax=15.9,
+  xlabel={$t$}, ylabel={$D,\ N$},
+  xlabel style={anchor=west}, ylabel style={anchor=south east, xshift=12pt, yshift=2pt},
+  xtick={50,100,...,400}, ytick={5,10,15},
+  axis on top=false, tick style={draw=none},
+  x tick label style={yshift=-3pt},
+  y tick label style={anchor=east, xshift=-2pt}, tick label style={font=\normalsize}]
+  % grid
+  \foreach \t in {25,75,...,375} {\edef\tmp{\noexpand\draw[dash pattern=on 2pt off 1.5pt, line width=0.3pt, black!55] (axis cs:\t,0) -- (axis cs:\t,15);}\tmp}
+  \foreach \v in {1,2,3,4,6,7,8,9,11,12,13,14} {\edef\tmp{\noexpand\draw[dash pattern=on 2pt off 1.5pt, line width=0.3pt, black!55] (axis cs:0,\v) -- (axis cs:400,\v);}\tmp}
+  \foreach \t in {50,100,...,400} {\edef\tmp{\noexpand\draw[line width=0.6pt] (axis cs:\t,0) -- (axis cs:\t,15);}\tmp}
+  \foreach \v in {5,10,15} {\edef\tmp{\noexpand\draw[line width=0.6pt] (axis cs:0,\v) -- (axis cs:400,\v);}\tmp}
+  \addplot[curve, domain=0:400, samples=90, smooth] {11.87+2.35*cos(deg(pi/183*(x+10)))};
+  \addplot[curve, domain=0:400, samples=90, smooth] {12.13-2.35*cos(deg(pi/183*(x+10)))};
+  \node[inner sep=1pt, anchor=west] at (axis cs:325,15.3) {$D = 11.87 + 2.35\cos\dfrac{\piup}{183}(t+10)$};
+  \node[inner sep=1pt, anchor=west] at (axis cs:327,8.8) {$N = 12.13 - 2.35\cos\dfrac{\piup}{183}(t+10)$};
+  \node[anchor=east] at (axis cs:-4,0) {$0$};
+  \node[font=\bfseries\fontsize{11}{13}\selectfont] at (axis cs:243,18.9) {\textit{Hours of Daytime and Nighttime in Sydney during} 2020};
+  \node[font=\fontsize{11}{13}\selectfont] at (axis cs:224,-2.9) {\textit{Number of days after} 31/12/19\ \ ($t$)};
+  \node[font=\itshape\fontsize{11.2}{13}\selectfont, rotate=90] at (axis cs:-46,9.0) {Hours of daytime ($D$) / Hours of nighttime ($N$)};
+\end{axis}
+\end{tikzpicture}
+\end{document}

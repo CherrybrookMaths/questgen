@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{16}{19.2}\selectfont]
+\draw[->] (107,604)--(107,25);
+\draw[->] (107,604)--(1155,604);
+\node at (1176,606) {$x$};
+\node at (98,30) {$y$};
+\draw[->,line width=0.9pt] plot[smooth,domain=1.709:19.47,samples=90] ({107+51.83*\x},{604-36.74*27/\x});
+\fill (210.7,108) circle (4);
+\draw[aux] (210.7,108)--(210.7,604);
+\draw[aux] (210.7,108)--(107,108);
+\fill (573.5,493.8) circle (4);
+\draw[aux] (573.5,493.8)--(573.5,604);
+\draw[aux] (573.5,493.8)--(107,493.8);
+\fill (1040,548.9) circle (4);
+\draw[aux] (1040,548.9)--(1040,604);
+\draw[aux] (1040,548.9)--(107,548.9);
+\node at (303,58) {$\left(2,\dfrac{27}{2}\right)$};
+\node at (611,432) {$(9,3)$};
+\node at (1058,486) {$\left(18,\dfrac{3}{2}\right)$};
+\node[left] at (100,108) {$\dfrac{27}{2}$};
+\node[left] at (100,490) {$3$};
+\node[left] at (100,560) {$\dfrac{3}{2}$};
+\node[below] at (210.7,612) {$2$};
+\node[below] at (573.5,612) {$9$};
+\node[below] at (1040,612) {$18$};\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.813cm, y=0.813cm, xmin=-8.53, xmax=3.5, ymin=-4.39, ymax=7.42,
+  xtick=\empty, ytick=\empty,
+  xlabel style={at={(axis cs:3.31,-0.33)}, anchor=center},
+  ylabel style={at={(axis cs:-0.31,7.27)}, anchor=center}]
+  \draw[aux, dash pattern=on 0.9mm off 0.7mm, line width=0.6pt] (axis cs:-4,-3.80) -- (axis cs:-4,6.86);
+  \draw[aux, dash pattern=on 0.9mm off 0.7mm, line width=0.6pt] (axis cs:-8.98,2) -- (axis cs:3.97,2);
+  \addplot[curve, domain=-3.773:2.45, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}, samples=400] {2+1/(x+4)};
+  \addplot[curve, domain=-7.47:-4.185, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}, samples=400] {2+1/(x+4)};
+  \node at (axis cs:-0.34,3.08) {$\dfrac{9}{4}$};
+  \node at (axis cs:-0.31,1.64) {$2$};
+  \node at (axis cs:-4.97,-0.67) {$-\dfrac{9}{2}$};
+  \node at (axis cs:-3.61,-0.31) {$-4$};
+  \node at (axis cs:-0.375,-0.31) {$O$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

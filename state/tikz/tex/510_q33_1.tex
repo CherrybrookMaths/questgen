@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\usepgfplotslibrary{fillbetween}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=1.69cm, y=1.17cm, xmin=-2.27, xmax=2.74, ymin=-1.49, ymax=4.82,
+   xtick=\empty, ytick=\empty, xlabel={}, ylabel={}]
+  \addplot[draw=none, name path=c, domain=-1:2] {x^3-2*x};
+  \addplot[draw=none, name path=p, domain=-1:2] {x^2};
+  \addplot[shade, fill=black!50] fill between[of=c and p];
+  \draw[densely dotted, line width=0.6pt] (axis cs:-1,0) -- (axis cs:-1,1);
+  \draw[densely dotted, line width=0.6pt] (axis cs:2,0) -- (axis cs:2,4);
+  \addplot[<->, domain=-1.70:2.07] {x^3-2*x};
+  \addplot[<->, domain=-2.157:2.155] {x^2};
+  \node[pt] at (axis cs:-1,1) {}; \node[pt] at (axis cs:2,4) {};
+  \node[font=\normalsize] at (axis cs:-0.96,1.33) {$A$};
+  \node[font=\normalsize] at (axis cs:2.15,3.92) {$B$};
+  \node[font=\normalsize] at (axis cs:-0.14,-0.24) {$O$};
+  \node[font=\normalsize] at (axis cs:2.6,-0.27) {$x$};
+  \node[font=\normalsize] at (axis cs:-0.2,4.75) {$y$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

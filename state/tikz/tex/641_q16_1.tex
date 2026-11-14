@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel units (y down). Scale: value v at X = 9.5 + 10.23 v. Faint dotted grid as printed, double rule at the base.
+% Amy: 10, 30, 40, 50, 70. Beth: 5, 20, 30, 50, 100.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{11.5}{14}\selectfont}]
+  \def\V#1{9.5+10.23*(#1)}
+  \begin{scope}[black!40, dash pattern=on 0.8pt off 0.8pt]
+    \foreach \v in {0,10,...,100} \draw ({\V{\v}},7.5) -- ({\V{\v}},360);
+    \draw[line width=0.9pt] (1158,7.5) -- (1158,360);
+    \foreach \y in {7.5,78.5,149.5,220,290} \draw (9.5,\y) -- (1158,\y);
+  \end{scope}
+  \draw[black!60,line width=0.9pt] (9.5,360) -- (1158,360);
+  \draw[black!60,line width=0.9pt] (9.5,363.5) -- (1158,363.5);
+  \foreach \v in {10,20,...,100} \node[anchor=base] at ({\V{\v}-1.5},392) {\v};
+  % Amy
+  \draw[line width=0.9pt] ({\V{30}},78.5) rectangle ({\V{50}},149.5);
+  \draw[line width=0.9pt] ({\V{40}},78.5) -- ({\V{40}},149.5);
+  \draw[line width=0.9pt] ({\V{10}},112.5) -- ({\V{30}},112.5);
+  \draw[line width=0.9pt] ({\V{50}},112.5) -- ({\V{70}},112.5);
+  \draw[line width=0.9pt] ({\V{10}},79) -- ({\V{10}},149);
+  \draw[line width=0.9pt] ({\V{70}},77.5) -- ({\V{70}},149.5);
+  \node[anchor=base west] at (754,114) {Amy};
+  % Beth
+  \draw[line width=0.9pt] ({\V{20}},220.5) rectangle ({\V{50}},288.5);
+  \draw[line width=0.9pt] ({\V{30}},220.5) -- ({\V{30}},288.5);
+  \draw[line width=0.9pt] ({\V{5}},258.5) -- ({\V{20}},258.5);
+  \draw[line width=0.9pt] ({\V{50}},258.5) -- ({\V{100}},258.5);
+  \draw[line width=0.9pt] ({\V{5}},222) -- ({\V{5}},287);
+  \draw[line width=0.9pt] ({\V{100}},220.5) -- ({\V{100}},289);
+  \node[anchor=base west] at (1083,267) {Beth};
+\end{tikzpicture}
+\end{document}

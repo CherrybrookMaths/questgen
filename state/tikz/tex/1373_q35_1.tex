@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9.5}{11}\selectfont]
+  % 1 unit = 114 px horizontally, 38 px vertically; origin (462,272)
+  \def\gx(#1){(462+114*#1)}
+  \fill[black!30]
+    plot[smooth,domain=-1.7918:0.6931,samples=60,variable=\t] ({462+114*\t},{272-38*(4-exp(2*\t))})
+    -- plot[smooth,domain=0.6931:-1.7918,samples=60,variable=\t] ({462+114*\t},{272-38*(exp(\t)-5)}) -- cycle;
+  \draw[<->] (4,272) -- (806,272);
+  \draw[<->] (462,546) -- (462,7);
+  \foreach \x in {-3,3} \draw ({462+114*\x},267) -- ({462+114*\x},277);
+  \foreach \y in {-6,-3,3,6} \draw (457,{272-38*\y}) -- (467,{272-38*\y});
+  \node at (119,290) {$-3$};
+  \node at (796,290) {$3$};
+  \node at (449,290) {$0$};
+  \node at (433,160) {$3$};
+  \node at (447,44) {$6$};
+  \node at (444,387) {$-3$};
+  \node at (444,501) {$-6$};
+  \node at (779,321) {\fontsize{12}{14}\selectfont$x$};
+  \node at (420,43) {\fontsize{12}{14}\selectfont$y$};
+  \draw[curve,line width=0.9pt] plot[smooth,domain=-4.02:2.485,samples=90,variable=\t] ({462+114*\t},{272-38*(exp(\t)-5)});
+  \draw[curve,line width=0.9pt] plot[smooth,domain=-4.02:1.205,samples=90,variable=\t] ({462+114*\t},{272-38*(4-exp(2*\t))});
+  \node[pt,inner sep=1.5pt] at (257.7,272) {};
+  \node[pt,inner sep=1.5pt] at (541,272) {};
+  \node at (224,253) {$-\!\ln(6)$};
+  \node at (574,253) {$\ln(2)$};
+  \node at (765,141) {\fontsize{12}{14}\selectfont$f(x)$};
+  \node at (633,462) {\fontsize{12}{14}\selectfont$g(x)$};
+\end{tikzpicture}
+\end{document}

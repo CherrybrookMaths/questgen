@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates are crop pixels at 200 dpi (y downward)
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+\coordinate (BL) at (40,312); \coordinate (TL) at (40,183); \coordinate (P) at (410,15);
+\coordinate (TR) at (770,183); \coordinate (BR) at (770,312); \coordinate (M) at (410,183);
+\draw[line width=0.6pt, line join=miter] (BL) -- (TL) -- (P) -- (TR) -- (BR);
+\draw[dash pattern=on 1.3pt off 0.8pt] (BL) -- (BR);
+\draw[dash pattern=on 1.3pt off 0.8pt] (TL) -- (TR);
+\draw[dash pattern=on 1.3pt off 0.8pt] (P) -- (M);
+\draw (410,162) -- (431,162) -- (431,183);
+\node at (200,77) {$4x$};
+\node at (610,80) {$4x$};
+\node at (428,105) {$h$};
+\node at (18,250) {$y$};
+\node at (412,290) {$5x$};
+\node[font=\normalsize] at (808,36) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

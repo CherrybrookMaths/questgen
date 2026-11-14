@@ -48,10 +48,10 @@
 \pgfdeclarepatternformonly{exam stipple}{\pgfpointorigin}{\pgfqpoint{2.2pt}{2.2pt}}{\pgfqpoint{2.2pt}{2.2pt}}{%
   \pgfpathcircle{\pgfqpoint{0.55pt}{0.55pt}}{0.42pt}\pgfpathcircle{\pgfqpoint{1.65pt}{1.65pt}}{0.42pt}\pgfusepath{fill}}
 \tikzset{
-  every picture/.style={line width=0.4pt, >={Latex[length=2mm,width=1.3mm]}},
-  curve/.style={line width=0.4pt},
+  every picture/.style={line width=0.6pt, >={Latex[length=2mm,width=1.3mm]}},
+  curve/.style={line width=0.6pt},
   open arrow/.style={-{Latex[length=2mm,width=1.3mm]}},  % owner: filled -latex heads everywhere, no open chevrons
-  aux/.style={dash pattern=on 2pt off 1.5pt, line width=0.4pt},
+  aux/.style={dash pattern=on 2pt off 1.5pt, line width=0.6pt},
   shade/.code={\def\exA{#1}\def\exB{none}\ifx\exA\exB\else\pgfkeysalso{fill=black!18}\fi},
   shade/.default=on,
   shade dots/.style={fill=none, path picture={\examstipple}},
@@ -67,6 +67,6 @@
 \pgfplotsset{
   exam axes/.style={axis lines=middle, axis line style={->}, xlabel={$x$}, ylabel={$y$},
     xlabel style={anchor=west}, ylabel style={anchor=south}, tick label style={font=\small},
-    every axis plot/.append style={line width=0.4pt, black}, samples=200, clip=false,
+    every axis plot/.append style={line width=0.6pt, black}, samples=200, clip=false,
     enlargelimits=false, axis on top},
 }

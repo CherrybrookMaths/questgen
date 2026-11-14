@@ -3,7 +3,7 @@ Owner: "would I have to manage version control? I don't want to have to do that.
 
   python3 tools/snapshot.py                     commit everything + tag publish-vNNN (called by batch_check.py --mark-published)
   python3 tools/snapshot.py --version 205       same, with an explicit version number (default: highest vNNN tag + 1)
-  python3 tools/snapshot.py --bundle            write /mnt/user-data/outputs/questgen_repo.bundle (git bundle --all) for the Drive sync
+  python3 tools/snapshot.py --bundle            write <OUT>/questgen_repo.bundle (git bundle --all) for the Drive sync (OUT: tools/paths.py)
   python3 tools/snapshot.py --rollback TAG      print the rollback plan only (changes nothing)
   python3 tools/snapshot.py --rollback TAG --yes   snapshot the current state, then restore every tracked file to TAG and commit
   python3 tools/snapshot.py --status            last tags, uncommitted changes
@@ -12,9 +12,10 @@ Owner: "would I have to manage version control? I don't want to have to do that.
 Publish mode never blocks a publish: any git problem prints a WARN and exits 0.
 What is tracked is decided by .gitignore (an allow-list); see RESUME.md "Version control"."""
 import os, re, subprocess, sys, time
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 
-P = '/home/claude/pilot'
-BUNDLE = '/mnt/user-data/outputs/questgen_repo.bundle'
+P = str(paths.ROOT)   # this checkout (a worktree snapshots its own branch)
+BUNDLE = str(paths.OUT / 'questgen_repo.bundle')
 NAME, EMAIL = 'Questgen bot', 'questgen@localhost'   # never a real address
 
 

@@ -17,9 +17,10 @@ Results file: a JSON list of {"path": "data/img/1308.json", "url": "/_blob/<id>"
 local file no longer has that sha256 is refused (re-plan and re-upload it).
 Manifest: {"v": 1, "made": ..., "assets": {path: {"url", "sha256", "bytes"}}}.
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import hashlib, json, os, re, sys, time
 
-P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
+P = paths.P
 S = P + 'site/'
 MAN = S + 'data/assets.json'
 PLAN = P + 'work/assets/upload_plan.json'

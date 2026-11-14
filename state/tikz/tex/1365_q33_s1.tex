@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, axis line style={<->}, x=1.016cm, y=1.118cm,
+  xmin=-1, xmax=10, ymin=-6, ymax=4,
+  xtick={1,...,10}, ytick={-6,...,-1,1,2,3,4},
+  xticklabels={1,2,3,4,5,6,7,8,9,10}, yticklabels={-6,-5,-4,-3,-2,-1,1,2,3,4},
+  xlabel={}, ylabel={}, major tick length=5pt, tick align=center,
+  tick label style={font=\sffamily\tiny, inner sep=1.5pt},
+  xticklabel style={yshift=1pt}]
+  \node[font=\footnotesize] at (axis cs:9.8,-0.33) {\scriptsize $x$};
+  \node[font=\footnotesize] at (axis cs:-0.35,3.74) {\scriptsize $y$};
+  \addplot[domain=0:10, samples=120, smooth, line width=0.6pt] {sqrt(x)};
+  \node[font=\sffamily\tiny] at (axis cs:-0.1,-0.13) {0};
+  \addplot[domain=1:10, samples=120, smooth] {-2*sqrt(x-1)+3};
+  \node[pt] at (axis cs:1,3) {}; \node[pt] at (axis cs:3.25,0) {};
+  \node[above, inner sep=3pt, font=\footnotesize] at (axis cs:1,3) {$(1,3)$};
+  \node[above right, inner sep=2pt, font=\footnotesize] at (axis cs:3.25,0) {$\dfrac{13}{4}$};
+  \node[anchor=west, font=\footnotesize] at (axis cs:7.3,3.25) {$y=f(x)$};
+  \node[anchor=west, font=\footnotesize] at (axis cs:7.6,-2.0) {$y=g(x)$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

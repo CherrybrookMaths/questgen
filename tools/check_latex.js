@@ -1,5 +1,5 @@
 // usage: node check_latex.js file.json  -> validates every latex field renders in KaTeX (text with $...$ math)
-const katex=require('/home/claude/pilot/node_modules/katex');
+const katex=require(require('path').join(__dirname,'..','node_modules','katex'));   // the repo's own npm install
 const fs=require('fs');const d=JSON.parse(fs.readFileSync(process.argv[2]));
 let bad=[];
 function chk(where,s){ if(!s)return; s=s.replace(/\\\$/g,'\uE000'); const re=/\$\$([\s\S]+?)\$\$|\\\[([\s\S]+?)\\\]|\$([^$]+?)\$|\\\(([\s\S]+?)\\\)/g; let m;

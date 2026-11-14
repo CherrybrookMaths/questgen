@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Hornsby Girls AT4 Q19(a) solution: f(x)=x-3 and g(x)=(3-x)(x+1) on the question's grid, axes exactly on the
+% centre grid lines (owner: "the y axis doesn't line up with the dotted line"; rule 12). Intercepts and intersections
+% computed (rule 16); teacher's scribbled tick numbers replaced by the intercept values only (rule 17).
+\begin{tikzpicture}[x=0.605cm,y=0.602cm, every node/.style={font=\fontsize{13}{15}\selectfont},
+    lb/.style={font=\fontsize{12}{14}\selectfont}]
+  \foreach \i in {-7,...,7}{\draw[aux, black!40] (\i,-7) -- (\i,7); \draw[aux, black!40] (-7,\i) -- (7,\i);}
+  \draw[->] (-7.6,0) -- (10.1,0) node[right=1pt] {$x$};
+  \draw[->] (0,-9.1) -- (0,8.6) node[left=2pt] {$y$};
+  \node[anchor=north east,inner sep=2pt] at (0,0) {$0$};
+  \draw[<->, line width=0.9pt] plot[domain=-2.2:4.2, samples=90, smooth] (\x,{(3-\x)*(\x+1)});
+  \draw[<->, line width=0.9pt] (-4,-7) -- (7,4);
+  \foreach \p/\q in {1/4,-2/-5,3/0,-1/0,0/3,0/-3} \fill (\p,\q) circle (2.3pt);
+  \node[lb,anchor=south east,inner sep=1pt] at (-1.1,0.1) {$-1$};
+  \node[lb,anchor=north west,inner sep=1pt] at (3.45,-0.1) {$3$};
+  \node[lb,anchor=south east,inner sep=1pt] at (-0.08,3.15) {$3$};
+  \node[lb,anchor=north west,inner sep=1pt] at (0.15,-3.2) {$-3$};
+  \node[lb,anchor=south west,inner sep=1pt] at (1.2,4.15) {$(1,4)$};
+  \node[lb,anchor=east,inner sep=1pt] at (-2.45,-4.8) {$(-2,-5)$};
+  \node[lb,anchor=west,inner sep=1pt] at (7.2,4) {$f(x)=x-3$};
+  \node[lb,anchor=west,inner sep=1pt] at (4.6,-5.6) {$g(x)=(3-x)(x+1)$};
+\end{tikzpicture}
+\end{document}

@@ -1,13 +1,14 @@
 """After load.py for an import batch: register solution sketches as figures rows, parse marking criteria for the
 batch's solutions only, then house style, tables, dedup (batch pairs only) and naming check.
 Usage: python3 post_load.py <doc_id> [...]"""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, sqlite3, re, sys, subprocess
-P = '/home/claude/pilot/'
+P = paths.P
 IDS = [int(a) for a in sys.argv[1:]]
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
+db = sqlite3.connect(paths.DBS)
 n = 0
 for d in IDS:
-    j = json.load(open(P + f'out/{d}.json'))
+    j = json.load(open(paths.S + f'out/{d}.json'))
     for sf in j.get('solution_figures', []):
         png = f"figures/{sf['id']}.png"
         if db.execute('select 1 from figures where png_path=?', (png,)).fetchone(): continue

@@ -1,0 +1,71 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{7}{8.4}\selectfont]
+\begin{scope}\clip (0,0) rectangle (634,428);
+\draw[black!22] (11.4,0)--(11.4,428);
+\draw[black!9] (36.5,0)--(36.5,428);
+\draw[black!9] (61.7,0)--(61.7,428);
+\draw[black!22] (86.8,0)--(86.8,428);
+\draw[black!9] (111.9,0)--(111.9,428);
+\draw[black!9] (137.1,0)--(137.1,428);
+\draw[black!22] (162.2,0)--(162.2,428);
+\draw[black!9] (187.3,0)--(187.3,428);
+\draw[black!9] (212.5,0)--(212.5,428);
+\draw[black!22] (237.6,0)--(237.6,428);
+\draw[black!9] (262.7,0)--(262.7,428);
+\draw[black!9] (287.9,0)--(287.9,428);
+\draw[black!22] (313.0,0)--(313.0,428);
+\draw[black!9] (338.1,0)--(338.1,428);
+\draw[black!9] (363.3,0)--(363.3,428);
+\draw[black!22] (388.4,0)--(388.4,428);
+\draw[black!9] (413.5,0)--(413.5,428);
+\draw[black!9] (438.7,0)--(438.7,428);
+\draw[black!22] (463.8,0)--(463.8,428);
+\draw[black!9] (488.9,0)--(488.9,428);
+\draw[black!9] (514.1,0)--(514.1,428);
+\draw[black!22] (539.2,0)--(539.2,428);
+\draw[black!9] (564.3,0)--(564.3,428);
+\draw[black!9] (589.5,0)--(589.5,428);
+\draw[black!22] (614.6,0)--(614.6,428);
+\draw[black!9] (0,422.1)--(634,422.1);
+\draw[black!22] (0,398.0)--(634,398.0);
+\draw[black!9] (0,373.9)--(634,373.9);
+\draw[black!22] (0,349.7)--(634,349.7);
+\draw[black!9] (0,325.5)--(634,325.5);
+\draw[black!22] (0,301.4)--(634,301.4);
+\draw[black!9] (0,277.2)--(634,277.2);
+\draw[black!22] (0,253.1)--(634,253.1);
+\draw[black!9] (0,228.9)--(634,228.9);
+\draw[black!22] (0,204.8)--(634,204.8);
+\draw[black!9] (0,180.7)--(634,180.7);
+\draw[black!22] (0,156.5)--(634,156.5);
+\draw[black!9] (0,132.3)--(634,132.3);
+\draw[black!22] (0,108.2)--(634,108.2);
+\draw[black!9] (0,84.1)--(634,84.1);
+\draw[black!22] (0,59.9)--(634,59.9);
+\draw[black!9] (0,35.8)--(634,35.8);
+\draw[black!22] (0,11.6)--(634,11.6);
+\end{scope}
+\draw (0,156.5)--(634,156.5); \draw (313,0)--(313,428);
+% y = 4 sin x - 1 on the question domain -2pi..2pi only: px = 313 + 48.0x, py = 156.5 - 48.3y
+\draw[line width=0.9pt] plot[smooth,samples=121,domain=-6.2832:6.2832] ({313+48.0*\x},{156.5-48.3*(4*sin(\x r)-1)});
+\fill (11.4,204.8) circle[radius=0.045cm]; \fill (614.6,204.8) circle[radius=0.045cm];
+\node[inner sep=0.6pt,anchor=north east] at (9,161) {$-2\pi$};
+\node[inner sep=0.6pt,anchor=north] at (86.8,162) {$-\dfrac{3\pi}{2}$};
+\node[inner sep=0.6pt,anchor=north west] at (166,161) {$-\pi$};
+\node[inner sep=0.6pt,anchor=north] at (237.6,162) {$-\dfrac{\pi}{2}$};
+\node[inner sep=0.6pt,anchor=north] at (388.4,162) {$\dfrac{\pi}{2}$};
+\node[inner sep=0.6pt,anchor=north west] at (467,161) {$\pi$};
+\node[inner sep=0.6pt,anchor=north] at (539.2,162) {$\dfrac{3\pi}{2}$};
+\node[inner sep=0.6pt,anchor=north] at (614.6,162) {$2\pi$};
+\node[inner sep=0.6pt,anchor=north east] at (309,162) {$0$};
+\node[inner sep=0.6pt,anchor=west] at (317,253.1) {$-2$};
+\node[inner sep=0.6pt,anchor=east] at (309,11.6) {$3$};
+\node[inner sep=0.6pt,anchor=east] at (309,59.9) {$2$};
+\node[inner sep=0.6pt,anchor=east] at (309,108.2) {$1$};
+\node[inner sep=0.6pt,anchor=east] at (309,204.8) {$-1$};
+\node[inner sep=0.6pt,anchor=west] at (317,301.4) {$-3$};
+\node[inner sep=0.6pt,anchor=east] at (309,349.7) {$-4$};
+\node[inner sep=0.6pt,anchor=east] at (309,398.0) {$-5$};\end{tikzpicture}
+\end{document}

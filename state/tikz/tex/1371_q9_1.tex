@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (205,63); \coordinate (B) at (598,63); \coordinate (C) at (471,207); \coordinate (D) at (78,207);
+  \coordinate (H) at (205,260); \coordinate (E) at (598,260); \coordinate (F) at (471,403); \coordinate (G) at (78,403);
+  \coordinate (K) at (164.5,108); \coordinate (M) at (164.5,305); \coordinate (L) at (388,403);
+  \fill[shade] (K) -- (M) -- (L) -- cycle;
+  \draw (A) -- (B) -- (C) -- (D) -- cycle;
+  \draw (D) -- (G) -- (F) -- (C); \draw (F) -- (E) -- (B);
+  \draw (A) -- (H) -- (E); \draw (H) -- (G);
+  \draw (K) -- (M) -- (L) -- cycle;
+  \draw (315.09,306.77) arc[start angle=-71.26, end angle=-217.74, radius=31.4];
+  \node[anchor=base] at (305,358) {$30^\circ$};
+  \node[anchor=base] at (210.5,50) {A}; \node[anchor=base] at (400,50) {18\,cm}; \node[anchor=base] at (594,50) {B};
+  \node[anchor=base] at (152,81) {3\,cm}; \node[anchor=base] at (142,119) {K}; \node[anchor=base] at (623.5,168) {$h$};
+  \node[anchor=base] at (460,190) {C}; \node[anchor=base] at (52.5,221) {D}; \node[anchor=base] at (620,273) {E};
+  \node[anchor=base] at (140.5,304) {M}; \node[anchor=base] at (587,354) {11\,cm};
+  \node[anchor=base] at (61.5,428) {G}; \node[anchor=base] at (384,435) {L}; \node[anchor=base] at (436.5,435) {3\,cm}; \node[anchor=base] at (491.5,431) {F};
+\end{tikzpicture}
+\end{document}

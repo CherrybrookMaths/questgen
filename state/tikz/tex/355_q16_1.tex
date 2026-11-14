@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9}{10}\selectfont]
+  \coordinate (O) at (159,184); \coordinate (A) at (159,294); \coordinate (B) at (245,163);
+  \coordinate (FA) at (159,403); \coordinate (FB) at (245,387); \coordinate (D) at (563,452);
+  % wall
+  \draw[shade] (43,47) -- (275,2) -- (275,381) -- (43,425) -- cycle;
+  \draw (159,184.5) ellipse[x radius=87, y radius=110];
+  \draw (O) -- (B); \draw (O) -- (FA); \draw (B) -- (FB);
+  \draw (FA) -- (D) -- (FB); \draw (A) -- (D) -- (B);
+  % right angles
+  \draw (159,198) -- (174,195) -- (174,181);
+  \draw (159,390) -- (174,387) -- (174,400);
+  \draw (245,374) -- (260,371) -- (260,384);
+  % angle at D (shaded) and angle arcs, drawn about D with y pointing up
+  \begin{scope}[shift={(D)},yscale=-1]
+    \filldraw[fill=black!30] (0,0) -- (158.7:89) arc[start angle=158.7,end angle=137.7,radius=89] -- cycle;
+    \draw[<->] (172.9:224.6) arc[start angle=172.9,end angle=158.7,radius=224.6];
+    \draw[<->] (168.3:189) arc[start angle=168.3,end angle=137.7,radius=189];
+  \end{scope}
+  \draw (A) -- (D) -- (B);
+  \node at (327,392) {$30^\circ$};
+  \node at (380,358) {$60^\circ$};
+  \node at (468,392) {$30^\circ$};
+  \node[align=center,font=\fontsize{8.5}{14}\selectfont] at (462,145) {NOT TO\\SCALE};
+  \node at (146,188) {$O$};
+  \node at (228,155) {$B$};
+  \node at (144,280) {$A$};
+  \node at (143,354) {$h$};
+  \node at (576,466) {$D$};
+\end{tikzpicture}
+\end{document}

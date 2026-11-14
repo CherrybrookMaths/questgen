@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates in crop pixels (200 dpi), y downward
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (A) at (47,70); \coordinate (B) at (549,70);
+  \coordinate (C) at (549,297); \coordinate (D) at (47,297);
+  \coordinate (O) at (298,147);
+  \coordinate (P) at ($(O)+(-108.7,-76.1)$);
+  \coordinate (Q) at ($(O)+(108.7,-76.1)$);
+  \draw (P) -- (A) -- (D) -- (C) -- (B) -- (Q);
+  \draw (Q) arc[start angle=-35, end angle=-145, radius=132.7];
+  \draw[aux] (P) -- (Q);
+  \draw[aux] (P) -- (O) -- (Q);
+  \node[pt, inner sep=1.1pt] at (O) {};
+  \node at (298,170) {$O$};
+  \node at (300,115) {$110^\circ$};
+  \node[rotate=35] at (372,122) {$2.1$ m};
+  \node at (185,48) {$P$};
+  \node at (418,52) {$Q$};
+  \node at (28,72) {$A$}; \node at (567,72) {$B$};
+  \node at (568,300) {$C$}; \node at (28,300) {$D$};
+  \node at (598,186) {$3.6$ m};
+  \node at (298,322) {$8.0$ m};
+  \node[align=center] at (780,146) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

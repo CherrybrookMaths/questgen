@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (O) at (181,230); \coordinate (C) at (33,83); \coordinate (M) at (365,230);
+  \draw[aux,->] (181,275) -- (181,47);
+  \draw[aux,->] (O) -- (58,230);
+  \draw (O) -- (C) -- (M);
+  \draw[decoration={markings, mark=at position 0.68 with {\arrow{>}}}, postaction={decorate}] (O) -- (M);
+  \draw (181,190) arc[start angle=90, end angle=135, radius=40*0.0127cm];
+  \node at (180,24) {N};
+  \node at (28,57) {$C$};
+  \node at (93,183) {$80$};
+  \node[font=\small] at (157,168) {$30^\circ$};
+  \node at (192,249) {$O$};
+  \node at (268,247) {$60$};
+  \node at (380,246) {$M$};
+\end{tikzpicture}
+\end{document}

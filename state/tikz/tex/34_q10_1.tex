@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=1cm, y=1cm, xmin=-1.53, xmax=7.7, ymin=-0.4, ymax=6.55,
+  xtick={-1,1,2,3,4,5,6}, ytick={1,2,3,4,5}, xticklabel style={anchor=north}, tick label style={font=\normalsize},
+  major tick length=4pt, tick style={black, line width=0.6pt}, xtick align=center, ytick align=outside,
+  xlabel style={anchor=north east}, ylabel style={anchor=east}]
+  \addplot[{Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}, black!40, line width=0.6pt, domain=-0.45:6.45] {0.5*(x-3)^2};
+  \addplot[open arrow, line width=0.6pt, domain=-1.25:6.45] {2*exp(-(x-0.75)^2/3.9)};
+  \node[below left] at (axis cs:0,0) {$O$};
+  \node at (axis cs:2.6,1.87) {$y=f(x)$};
+  \node at (axis cs:6.45,3.65) {$y=g(x)$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

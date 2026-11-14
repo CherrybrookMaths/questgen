@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel units, y down; centre (198,197.5), R=172, r=62; rays at 83.4 and 4.5 degrees (as printed, not true 60)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\cx{198}\def\cy{197.5}
+  \fill[shade] ({\cx+62*cos(83.4)},{\cy-62*sin(83.4)}) -- ({\cx+172*cos(83.4)},{\cy-172*sin(83.4)})
+     arc[start angle=-83.4, end angle=-4.5, radius=172] -- ({\cx+62*cos(4.5)},{\cy-62*sin(4.5)}) -- cycle;
+  \draw (\cx,\cy) circle[radius=172];
+  \draw (\cx,\cy) circle[radius=62];
+  \draw (\cx,\cy) -- ({\cx+172*cos(83.4)},{\cy-172*sin(83.4)});
+  \draw (\cx,\cy) -- ({\cx+172*cos(4.5)},{\cy-172*sin(4.5)});
+  \draw ({\cx+62*cos(83.4)},{\cy-62*sin(83.4)}) -- ({\cx+62*cos(4.5)},{\cy-62*sin(4.5)});
+  \fill (\cx,\cy) circle[radius=6.5];
+\end{tikzpicture}
+\end{document}

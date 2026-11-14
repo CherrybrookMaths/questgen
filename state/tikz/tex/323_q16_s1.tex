@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (S) at (216,104); \coordinate (B) at (458,280); \coordinate (D) at (42,370);
+  \draw (S) -- (B) -- (D);
+  \draw[->] (S) -- (216,44);
+  \draw[->] (B) -- (458,213);
+  \draw[->] (D) -- (42,309);
+  \draw[aux] (B) -- (458,350);
+  \foreach \p in {S,B,D}{\fill (\p) circle (4.5);}
+  % bearings
+  \draw[->] (S) ++(-90:42) arc[start angle=-90, end angle=36, radius=42];
+  \draw[->] (D) ++(-90:40) arc[start angle=-90, end angle=-12.2, radius=40];
+  \draw (B) ++(-144:30) arc[start angle=-144, end angle=-90, radius=30];
+  \draw (B) ++(167.8:40) arc[start angle=167.8, end angle=216, radius=40];
+  \draw (B) ++(90:34) arc[start angle=90, end angle=167.8, radius=34];
+  \node at (217,22) {N};
+  \node at (459,195) {N};
+  \node at (43,291) {N};
+  \node at (190,90) {$S$};
+  \node at (14,404) {$D$};
+  \node at (480,300) {$B$};
+  \node at (290,72) {$140^\circ$};
+  \node at (100,326) {$78^\circ$};
+  \node at (426,222) {$40^\circ$};
+  \node at (398,272) {$\theta$};
+  \node at (418,330) {$78^\circ$};
+\end{tikzpicture}
+\end{document}

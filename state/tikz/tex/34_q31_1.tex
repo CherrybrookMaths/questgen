@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+  % vertical scale follows the (not-to-scale) original: 35000 / 20000 / 5000 ticks at crop positions
+  \draw[->] (-0.597,0) -- (7.049,0);
+  \draw[->] (0,-0.597) -- (0,4.597);
+  % the crop is a sketch: its sine has a slightly shorter period than t=0..52, so the curve ends above the midline at t=52 (reproduced)
+  \draw[curve, domain=0:6.045, samples=200, variable=\u] plot (\u,{2.108+1.473*(sin(\u*180/2.955)+0.056*sin(3*\u*180/2.955))/0.944});
+  \foreach \yy in {3.581,2.108,0.635} \draw (-0.09,\yy) -- (0.09,\yy);
+  \draw (6.045,-0.09) -- (6.045,0.09);
+  \node[anchor=east, inner sep=0pt] at (-0.178,3.581) {$35\,000$};
+  \node[anchor=east, inner sep=0pt] at (-0.165,0.635) {$5000$};
+  \node at (6.06,-0.38) {$52$};
+  \node at (6.92,-0.25) {$t$};
+  \node at (-0.56,4.42) {$m(t)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{17}{20}\selectfont}]
+  % crop scale (true to scale): x = 1 <-> 107.5 px, y = 1 <-> 14.7 px; origin (271,462.5)
+  \def\X#1{271+107.5*(#1)} \def\Y#1{462.5-14.7*(#1)}
+  \draw[<->] (22,462.5) -- (972,462.5);
+  \draw[<->] (271,568) -- (271,68);
+  \foreach \i in {-2,2,4,6} \draw ({\X{\i}},453.5) -- ({\X{\i}},471.5);
+  \foreach \j in {-6,-4,-3,-2,-1,1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19,21,22,23,24,26} \draw (266,{\Y{\j}}) -- (276,{\Y{\j}});
+  \foreach \j in {-5,5,10,15,20,25} \draw (262,{\Y{\j}}) -- (280,{\Y{\j}});
+  \draw[curve, line width=0.9pt, <->] plot[domain=-1.70:4.16, samples=90, smooth, variable=\t] ({\X{\t}},{\Y{\t*\t*\t-3*\t*\t+7}});
+  \node at (268,36) {$y$};
+  \node at (970,465) {$x$};
+  \foreach \v/\x/\y in {25/221/94,20/221/169,15/221/242,10/221/314,5/234/389} \node at (\x,\y) {\v};
+  \node at (220,535) {$-5$};
+  \node at (52,510) {$-2$};
+  \foreach \v/\x in {2/483.5,4/698,6/915} \node at (\x,510) {\v};
+\end{tikzpicture}
+\end{document}

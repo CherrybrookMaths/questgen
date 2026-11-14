@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\xs{{11.5,100.5,243,386.5,528.5,671.5,814.5,957.5}}
+  % outer border and rules
+  \draw (11.5,8.5) rectangle (957.5,540);
+  \foreach \y in {67,126,185,244,303,362,421,480} \draw (11.5,\y) -- (957.5,\y);
+  \foreach \x in {100.5,243,386.5,528.5,671.5,814.5} \draw (\x,67) -- (\x,540);
+  % title (spans all columns)
+  \node[font=\fontsize{9.4}{11}\selectfont\sffamily\bfseries] at (466,43) {Table of present value interest factors};
+  % r row / n row
+  \node[anchor=base,font=\fontsize{10}{12}\selectfont] at (56,107) {$r$};
+  \node[anchor=base,font=\fontsize{10}{12}\selectfont] at (56,166) {$n$};
+  \foreach \v [count=\k from 1] in {0.0060,0.0065,0.0070,0.0075,0.0080,0.0085}
+    \node[anchor=base,font=\fontsize{9}{11}\selectfont\bfseries] at ({172+(\k-1)*143},109) {\v};
+  % body: n label (bold, centred) then values (right aligned)
+  \foreach \n/\yb/\a/\b/\c/\d/\e/\f in {
+      45/226/39.33406/38.90738/38.48712/38.07318/37.66545/37.26383,
+      46/286/40.09350/39.64965/39.21263/38.78231/38.35859/37.94133,
+      47/345/40.84841/40.38714/39.93310/39.48617/39.04622/38.61311,
+      48/404/41.59882/41.11986/40.64856/40.18478/39.72839/39.27924,
+      49/463/42.34475/41.84785/41.35905/40.87820/40.40515/39.93975,
+      50/522/43.08623/42.57113/42.06459/41.56645/41.07653/40.59470} {
+    \node[anchor=base,font=\fontsize{9.5}{11}\selectfont\bfseries] at (56,\yb) {\n};
+    \foreach \v [count=\k from 1] in {\a,\b,\c,\d,\e,\f}
+      \node[anchor=base east,inner sep=0pt,font=\fontsize{10}{12}\selectfont] at ({233+(\k-1)*143},\yb) {\scalebox{0.97}[0.94]{\v}};
+  }
+\end{tikzpicture}
+\end{document}

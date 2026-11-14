@@ -9,21 +9,22 @@ Every imported question gets q.tri in bank.json (merged by build_bank.py):
   automatically; chk_figs: redraws that need a look.
 Inputs: database, work/verify/render.json (render_audit.js), work/*/verify_out_*.json, tikz/all_results.json.
 Usage: python3 triage.py  -> work/triage.json and a summary."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, json, glob, re, os, hashlib, collections
 import pymupdf
-P = '/home/claude/pilot/'
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db'); db.row_factory = sqlite3.Row
-S = json.load(open(P + 'work/import/batches.json'))
+P = paths.P
+db = sqlite3.connect(paths.DBS); db.row_factory = sqlite3.Row
+S = json.load(open(paths.S + 'work/import/batches.json'))
 DOCS = [i for b in S['batches'] for i in b['ids']]
-render = {x['id']: x['err'] for x in json.load(open(P + 'work/verify/render.json'))['problems']} if os.path.exists(P + 'work/verify/render.json') else {}
-render_done = os.path.exists(P + 'work/verify/render.json')
+render = {x['id']: x['err'] for x in json.load(open(paths.S + 'work/verify/render.json'))['problems']} if os.path.exists(paths.S + 'work/verify/render.json') else {}
+render_done = os.path.exists(paths.S + 'work/verify/render.json')
 ver = {}
-for f in glob.glob(P + 'work/*/verify_out_*.json'):
+for f in glob.glob(paths.S + 'work/*/verify_out_*.json'):
     try:
         for r in json.load(open(f))['results']: ver[r['question_id']] = r
     except Exception: pass
-figres = {r['id']: r for r in json.load(open(P + 'tikz/all_results.json'))}
-cropflag = {f['id'] for f in json.load(open(P + 'work/crop_flags.json'))} if os.path.exists(P + 'work/crop_flags.json') else set()
+figres = {r['id']: r for r in json.load(open(paths.S + 'tikz/all_results.json'))}
+cropflag = {f['id'] for f in json.load(open(paths.S + 'work/crop_flags.json'))} if os.path.exists(paths.S + 'work/crop_flags.json') else set()
 pdfs = {}
 def pagewords(doc, a, b):
     if doc not in pdfs: pdfs[doc] = pymupdf.open(P + f'src/{doc}.pdf')
@@ -112,7 +113,7 @@ by = collections.defaultdict(list)
 for qid, t in out.items():
     if t['tier'] == 'auto': by[t['doc']].append(qid)
 # owner 12 Nov (Knox AT2 re-triage): a sample the owner already reviewed stays the sample; new cleared questions never reshuffle it
-LOCK = P + 'work/sample_locked.json'
+LOCK = paths.S + 'work/sample_locked.json'
 locked = set(json.load(open(LOCK))) if os.path.exists(LOCK) else {k for k, v in json.load(open(P + 'work/triage_before_b5merge.json')).items() if v['tier'] == 'sample'}
 for doc, ids in by.items():
     n = len(ids); k = min(n, max(3, -(-n // 10)))
@@ -120,10 +121,10 @@ for doc, ids in by.items():
     for qid in (keep + [i for i in sorted(ids, key=lambda i: hashlib.md5(str(i).encode()).hexdigest()) if str(i) not in locked])[:max(k, len(keep))]:
         out[qid]['tier'] = 'sample'; out[qid]['why'] = ['Random spot-check: passed every automatic check'] + out[qid]['why']
         out[qid]['look'] = ['Read the question and solution against the source page'] + out[qid]['look']
-json.dump(out, open(P + 'work/triage.json', 'w'))
+json.dump(out, open(paths.S + 'work/triage.json', 'w'))
 json.dump(sorted(str(k) for k, v in out.items() if v["tier"] == "sample"), open(LOCK, "w"))
 # batch_check: triage is stale when the database content has changed since this run
-import hashlib as _h; json.dump(dict(db_sha=_h.sha256(open("/mnt/user-data/outputs/questions.db", "rb").read()).hexdigest()), open(P + "work/triage_inputs.json", "w"))
+import hashlib as _h; json.dump(dict(db_sha=_h.sha256(open(paths.DBS, "rb").read()).hexdigest()), open(paths.S + "work/triage_inputs.json", "w"))
 c = collections.Counter(t['tier'] for t in out.values())
 print(json.dumps(dict(questions=len(out), **c, diagrams_to_check=sum(len(t['chk_figs']) for t in out.values() if t['tier'] != 'pending'),
                       diagrams_cleared=sum(len(t['ok_figs']) for t in out.values()))))

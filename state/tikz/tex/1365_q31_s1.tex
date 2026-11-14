@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% drawn on the question's own axes (1365_q31_1): 1 tick = 0.25 on the x-axis, 1 tick = 1 on the y-axis
+\begin{tikzpicture}[x=0.775cm, y=0.775cm, line width=0.6pt, >={Latex[length=2mm,width=1.3mm]}]
+  \draw[->] (-11.2,0) -- (12.97,0) node[right] {$x$};
+  \draw[->] (0,-5.08) -- (0,5.98) node[above] {$y$};
+  \foreach \i in {-11,...,-1,1,2,...,12} \draw (\i,0) -- (\i,-0.07);
+  \foreach \j in {-5,...,-1,1,2,...,5} \draw (0,\j) -- (-0.07,\j);
+  \node[left, font=\small] at (-0.07,2) {$2$};
+  \node[left, font=\small] at (-0.07,-2) {$-2$};
+  \draw[curve] plot[domain=-4:6, samples=240, smooth] (\x,{-2*cos(90*\x)});
+  \foreach \x/\l/\p in {-4/{(-1,-2)}/below, 0/{(0,-2)}/below right, 4/{(1,-2)}/below} {\node[pt] at (\x,-2) {}; \node[\p, font=\small] at (\x,-2) {$\l$};}
+  \foreach \x/\l in {-2/{(-0.5,2)}, 2/{(0.5,2)}, 6/{(1.5,2)}} {\node[pt] at (\x,2) {}; \node[above, font=\small] at (\x,2) {$\l$};}
+  \foreach \x/\l/\a in {-3/-0.75/north east,-1/-0.25/north east,1/0.25/north west,3/0.75/north west,5/1.25/north west}
+    { \node[pt, inner sep=0.8pt] at (\x,0) {}; \node[font=\scriptsize, anchor=\a, inner sep=2pt] at (\x,0) {\halo{$\l$}}; }
+\end{tikzpicture}
+\end{document}

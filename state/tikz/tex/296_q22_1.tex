@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates in crop pixels (200 dpi), y downward
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (A) at (50,168);  \coordinate (B) at (288,168);
+  \coordinate (E) at (50,452);  \coordinate (F) at (288,452);
+  \coordinate (D) at (138,52);  \coordinate (C) at (375,52);
+  \coordinate (G) at (375,337); \coordinate (H) at (138,337);
+  \coordinate (M) at ($(D)!0.5!(C)$);
+  \draw (A) -- (B) -- (F) -- (E) -- cycle;
+  \draw (A) -- (D) -- (C) -- (B);
+  \draw (C) -- (G) -- (F);
+  \draw[aux] (D) -- (H) -- (G);
+  \draw[aux] (H) -- (E);
+  \draw[aux] (E) -- (M);
+  % right-angle marks (direction vector along DA/HE/CB: (-88,116) normalised *20 = (-12.1,15.9))
+  \draw[line width=0.6pt] ($(H)+(0,-20)$) -- ++(20,0) -- ++(0,20);
+  \draw[line width=0.6pt] ($(G)+(-22,0)$) -- ++(-12.1,15.9) -- ++(22,0);
+  \draw[line width=0.6pt] ($(F)+(0,-22)$) -- ++(12.1,-15.9) -- ++(0,22);
+  % equal-length ticks
+  \foreach \xx in {197,315} {
+    \draw[line width=0.6pt] (\xx-3.5,43) -- ++(0,18);
+    \draw[line width=0.6pt] (\xx+3.5,43) -- ++(0,18);
+  }
+  \node[pt, inner sep=1.2pt] at (M) {};
+  \node at (258,28) {$M$};
+  \node at (33,172) {$A$}; \node at (306,173) {$B$};
+  \node at (113,55) {$D$}; \node at (392,55) {$C$};
+  \node at (33,460) {$E$}; \node at (306,460) {$F$};
+  \node at (393,344) {$G$};
+  \node at (73,108) {$7$};
+  \node at (33,310) {$8$};
+  \node at (168,476) {$6$};
+  \node[align=center] at (518,216) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

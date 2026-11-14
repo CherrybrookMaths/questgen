@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down; value v -> x = 157.5 + 15.75 (v-140)
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[<->] (80,196) -- (944,196);
+  \foreach \v in {140,145,...,185} {
+    \draw ({157.5+15.75*(\v-140)},185) -- ({157.5+15.75*(\v-140)},207);
+    \node at ({157.5+15.75*(\v-140)},231) {\v};}
+  % Garden A
+  \draw (228,42) -- (456.5,42) (724.5,42) -- (850.5,42);
+  \draw (456.5,10) rectangle (724.5,73);
+  \draw (645.5,10) -- (645.5,73);
+  \fill (228,42) circle (4.5) (850.5,42) circle (4.5);
+  % Garden B
+  \draw (220.5,128.5) -- (299.5,128.5) (441,128.5) -- (661.5,128.5);
+  \draw (299.5,96.5) rectangle (441,159.5);
+  \draw (346.5,96.5) -- (346.5,159.5);
+  \fill (220.5,128.5) circle (4.5) (661.5,128.5) circle (4.5);
+  \node[anchor=west, inner sep=0pt] at (16,40.5) {Garden A};
+  \node[anchor=west, inner sep=0pt] at (16,127.5) {Garden B};
+\end{tikzpicture}
+\end{document}

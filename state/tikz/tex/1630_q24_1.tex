@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down, origin (309.5,331.5). Curves fitted to the printed ones (95% of traced points within 2 px):
+% parabola Y=297.5-0.0073154(X-309.8)^2 ; log Y=331.5-67.59 ln((X-310.07)/24.48) ; line y=x at 45 degrees.
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (13,331.5) -- (713,331.5);
+  \draw[->] (309.5,508) -- (309.5,12);
+  \draw[<->,line width=0.9pt] (193,448) -- (579,62);
+  \draw[<->,line width=0.9pt] plot[smooth, domain=-180.2:180.2, samples=90] ({309.8+\x},{297.5-0.0073154*(\x)*(\x)});
+  \draw[<->,line width=0.9pt] plot[smooth, variable=\t, domain=-2.09:2.525, samples=90] ({310.07+24.48*exp(\t)},{331.5-67.59*\t});
+  \node[anchor=base west, inner sep=0pt] at (401,47.5) {$y=ax^2+c$};
+  \node[anchor=base west, inner sep=0pt] at (583,71.5) {$y=x$};
+  \node[anchor=base west, inner sep=0pt] at (626,165.5) {$y=e\ln x$};
+  \node at (294,21.5) {$y$};
+  \node at (702.5,352) {$x$};
+  \node at (294.5,369) {$O$};
+\end{tikzpicture}
+\end{document}

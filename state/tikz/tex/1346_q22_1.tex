@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[font=\large]
+\coordinate (A) at (0,0); \coordinate (D) at (9.69,0); \coordinate (B) at (9.69,1.31); \coordinate (C) at (4.11,5.18);
+\draw (A) -- (C) -- (B) -- (A);
+\draw[densely dotted] (A) -- (D) -- (B);
+\foreach \P/\l/\r/\d in {A/0.99/0.89/0.83, B/0.89/0.83/0.80, C/0.88/0.84/0.81}{
+  \draw[line width=0.6pt] ($(\P)+(-\l,0)$) -- ($(\P)+(\r,0)$);
+  \draw[line width=0.6pt] ($(\P)+(0,-\d)$) -- ($(\P)+(0,1.0)$);
+  \draw[line width=0.6pt,-{Latex[length=2mm,width=1.3mm]}] ($(\P)+(0,0.6)$) -- ($(\P)+(0,1.1)$);
+}
+\node[font=\small\bfseries] at (0,1.27) {N};
+\node[font=\small\bfseries] at (9.68,2.63) {N};
+\node[font=\small\bfseries] at (4.11,6.45) {N};
+\node at (-0.28,-0.32) {$A$};
+\node at (3.85,5.46) {$C$};
+\node at (9.98,1.61) {$B$};
+\node at (9.88,-0.29) {$D$};
+\node at (5.46,-0.34) {85 km};
+\node[anchor=west] at (9.75,0.6) {33 km};
+\node[font=\normalsize] at (10.92,5.84) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

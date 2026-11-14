@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% origin (447.5,376.5) crop px; 39.35 px per x unit, 98 px per y unit
+\begin{tikzpicture}[x=0.0127cm*39.35,y=0.0127cm*98,font=\fontsize{13}{15}\selectfont]
+  \fill[shade] plot[smooth,domain=0:3,samples=40] (\x,{4*\x/(\x*\x+3)}) -- cycle;
+  \draw[<->] (-10.4,0)--(10.4,0);
+  \draw[<->] (0,-3.25)--(0,3.27);
+  \foreach \i in {-10,...,10} {\pgfmathtruncatemacro\m{mod(\i+10,5)}\ifnum\i=0\else
+    \ifnum\m=0 \draw (\i,-7/98)--(\i,7/98);\else\draw (\i,-4/98)--(\i,4/98);\fi\fi}
+  \foreach \j in {-15,...,15} {\pgfmathtruncatemacro\m{mod(\j+15,5)}\ifnum\j=0\else
+    \ifnum\m=0 \draw (-7/39.35,\j/5)--(7/39.35,\j/5);\else\draw (-4/39.35,\j/5)--(4/39.35,\j/5);\fi\fi}
+  \foreach \i in {-5,5,10} \node at (\i,-0.38) {$\i$};
+  \node at (-10,-0.62) {$-10$};
+  \node[right] at (6/39.35,-1) {$-1$};
+  \foreach \j in {-3,-2,1,2,3} \node[left] at (-6/39.35,\j) {$\j$};
+  \draw[<->] (-9.72,-3.24)--(9.8,3.267);
+  \draw[<->] plot[smooth,domain=-10.6:10.7,samples=90] (\x,{4*\x/(\x*\x+3)});
+  \node at (10.95,0) {$x$};
+  \node at (-0.05,3.5) {$y$};
+\end{tikzpicture}
+\end{document}

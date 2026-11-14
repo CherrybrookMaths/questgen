@@ -5,14 +5,15 @@ Groups every discovered Year 12 Advanced / unknown-course PDF into papers: one q
 task AT1-AT4 with Trials = AT4, or HSC). Marks what is already loaded, duplicated, out of scope, or needs a decision.
 Output: work/import/import_manifest.csv and a printed summary.
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import csv, re, os, sqlite3, collections, json
 
-P = '/home/claude/pilot/'
-OUT = P + 'work/import/'
+P = paths.P
+OUT = paths.S + 'work/import/'
 os.makedirs(OUT, exist_ok=True)
 rows = [r for r in csv.DictReader(open(P + 'site/project/stage0_manifest.csv'))
         if r['status'] == 'discovered' and r['year_level'] == '12' and r['course'] in ('advanced', 'unknown')]
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
+db = sqlite3.connect(paths.DBS)
 loaded = {r[0] for r in db.execute('select source_path from documents where id in (select distinct document_id from questions)')}
 
 # The naming rules (SCHOOL, SETTER_OK, SETTER_ASK, ALIASES, school_of, year_of, task_of, kind_of) moved verbatim to

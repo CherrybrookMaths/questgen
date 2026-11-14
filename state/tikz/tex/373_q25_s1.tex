@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% owner 12 Nov: "meant to be a prism ... don't be too wonky" -> true rectangular prism (oblique view): parallel depth edges, vertical back edge; no hidden edges (they cut through the hatching), as in the original sketch
+\begin{tikzpicture}[font=\large]
+\def\L{4.6}\def\H{2.2}\def\dx{1.3}\def\dy{0.9}
+\path[shade hatch] (0,0) rectangle (\L,\H);
+\path[shade hatch] (\L,0) -- (\L+\dx,\dy) -- (\L+\dx,\H+\dy) -- (\L,\H) -- cycle;
+\draw (0,0) rectangle (\L,\H);
+\draw (0,\H) -- (\dx,\H+\dy) -- (\L+\dx,\H+\dy) -- (\L,\H);
+\draw (\L,0) -- (\L+\dx,\dy) -- (\L+\dx,\H+\dy);
+\node[anchor=east] at (-0.15,\H/2) {$h$};
+\node[anchor=north] at (\L/2,-0.15) {$2x$};
+\node[anchor=north west,inner sep=2pt] at (\L+\dx/2+0.05,\dy/2-0.05) {$x$};
+\end{tikzpicture}
+\end{document}

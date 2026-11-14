@@ -3,12 +3,13 @@ Run after every import batch and before every publish:   python3 tools/batch_che
 After publishing, record what went out:                  python3 tools/batch_check.py --mark-published
 Each check exists because the mistake really happened; IMPORT_PLAYBOOK.md says when.
 Exit code 1 if any BLOCKER, so it can gate a publish."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, glob, os, re, sqlite3, hashlib, sys, time
 # 13 Nov: the repo root this copy of the tools lives in, so a check run in a git worktree checks that worktree, not the main
-# checkout (it used to be hard-coded to /home/claude/pilot/, and worktree gates silently reported the main page's test result).
-P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
-DB = '/mnt/user-data/outputs/questions.db'
-MAN = P + 'work/published_manifest.json'
+# checkout (it used to be hard-coded to the first sandbox's path, and worktree gates silently reported the main page's test result).
+P = paths.P
+DB = paths.DBS
+MAN = paths.S + 'work/published_manifest.json'
 db = sqlite3.connect(DB); db.row_factory = sqlite3.Row
 blockers, warns, infos = [], [], []
 def B(m): blockers.append(m)
@@ -35,10 +36,10 @@ if '--mark-published' in sys.argv:
     except Exception as e: print('  WARN    snapshot not taken:', e)
     sys.exit(0)
 
-allr = {r['id'] for r in json.load(open(P + 'tikz/all_results.json'))}
+allr = {r['id'] for r in json.load(open(paths.S + 'tikz/all_results.json'))}
 
 # 1. Redraws made but never merged (12 Nov: 17 Knox AT2 / Normanhurst redraws sat in result_b5_*.json; 9 questions vanished)
-recrop = {x['id'] for x in json.load(open(P + 'work/crop_fixes.json'))} if os.path.exists(P + 'work/crop_fixes.json') else set()
+recrop = {x['id'] for x in json.load(open(paths.S + 'work/crop_fixes.json'))} if os.path.exists(paths.S + 'work/crop_fixes.json') else set()
 unmerged = {}
 for f in glob.glob(P + 'tikz/result_*.json'):
     try: d = json.load(open(f))
@@ -53,26 +54,26 @@ nofig = [(r['question_id'], os.path.basename(r['png_path'])[:-4]) for r in db.ex
          if os.path.basename(r['png_path'])[:-4] not in allr]
 if nofig: B(f'{len(nofig)} figures have no redraw result, so their questions are hidden: ' + ', '.join(f'Q{q}:{k}' for q, k in nofig[:10]))
 # 2b. merged redraw without a compiled SVG -> "Redraw missing" on the page
-_st = {r['id']: r.get('status') for r in json.load(open(P + 'tikz/all_results.json'))}
+_st = {r['id']: r.get('status') for r in json.load(open(paths.S + 'tikz/all_results.json'))}
 nosvg = [k for k in allr if _st.get(k) in ('ok', 'approx') and not os.path.exists(P + f'tikz/svg/{k}.svg') and not os.path.exists(P + f'tikz/png/{k}.png')]
 if nosvg: W(f'{len(nosvg)} redraws have no compiled SVG/PNG (tikz_render.sh): {", ".join(sorted(nosvg)[:8])}')
 
 # 3. Triage state
-tri = json.load(open(P + 'work/triage.json'))
+tri = json.load(open(paths.S + 'work/triage.json'))
 pend = [k for k, v in tri.items() if v['tier'] == 'pending']
 if pend: B(f'{len(pend)} questions are triage "pending" (no queue shows them): {", ".join(pend[:12])}')
-ti = json.load(open(P + 'work/triage_inputs.json')) if os.path.exists(P + 'work/triage_inputs.json') else {}
+ti = json.load(open(paths.S + 'work/triage_inputs.json')) if os.path.exists(paths.S + 'work/triage_inputs.json') else {}
 if ti.get('db_sha') != sha(DB): W('the database changed since triage.py last ran: re-run tools/triage.py')
-inputs = [P + 'tikz/all_results.json'] + glob.glob(P + 'work/*/verify_out_*.json')
+inputs = [paths.S + 'tikz/all_results.json'] + glob.glob(paths.S + 'work/*/verify_out_*.json')
 newest = max(inputs, key=mt)
-if mt(newest) > mt(P + 'work/triage.json') + 1: W(f'triage.json is older than {os.path.relpath(newest, P) if newest.startswith(P) else newest}: re-run tools/triage.py')
-if not os.path.exists(P + 'work/sample_locked.json'): W('work/sample_locked.json missing: a re-triage could reshuffle spot-checks the owner already reviewed')
+if mt(newest) > mt(paths.S + 'work/triage.json') + 1: W(f'triage.json is older than {os.path.relpath(newest, P) if newest.startswith(P) else newest}: re-run tools/triage.py')
+if not os.path.exists(paths.S + 'work/sample_locked.json'): W('work/sample_locked.json missing: a re-triage could reshuffle spot-checks the owner already reviewed')
 qids = {r['id'] for r in db.execute('select id from questions')}
 untri = [q for q in qids if str(q) not in tri]
 if untri: I(f'{len(untri)} questions have no triage entry (pilot questions predate triage; new imports must have one)')
 
 # 4. Bank build freshness
-if max(mt(P + 'work/triage.json'), mt(DB), mt(P + 'tikz/all_results.json')) > mt(P + 'site/data/bank.json') + 1:
+if max(mt(paths.S + 'work/triage.json'), mt(DB), mt(paths.S + 'tikz/all_results.json')) > mt(P + 'site/data/bank.json') + 1:
     W('site/data/bank.json is older than the database / triage / redraws: run tools/build_bank.py')
 
 # 5. Unpublished local changes (12 Nov: bank.json republished but svg packs not -> "Redraw missing")
@@ -114,7 +115,7 @@ try:
     import importlib.util, sqlite3 as _sq, datetime as _dt
     _sp = importlib.util.spec_from_file_location('integrity', os.path.join(os.path.dirname(os.path.abspath(__file__)), 'integrity.py'))
     _ig = importlib.util.module_from_spec(_sp); _sp.loader.exec_module(_ig)
-    _db = _sq.connect('/mnt/user-data/outputs/questions.db')
+    _db = _sq.connect(paths.DBS)
     for lv, m in _ig.check(_db): (B if lv == 'blocker' else W)('integrity: ' + m)
     _ps = dict(_db.execute('SELECT collection, synced_at FROM page_sync').fetchall()) if _db.execute("SELECT 1 FROM sqlite_master WHERE name='page_sync'").fetchone() else {}
     for c in ['reviews', 'difficulty', 'exams', 'reports']:
@@ -259,6 +260,28 @@ try:
         _n = len(_am.load()['assets'])
         I(f'asset store: {_n} image pack(s) served from data/assets.json addresses' + (' (the page must be published with capabilities {"assets": {}})' if _n else ', none yet: every image pack is a published file'))
 except Exception as e: B(f'size budget check could not run: {e}')
+# published diagram sources (14 Nov): site/project/tikz_sources.json + examstyle.tex.txt must equal state/tikz (tools/tikz_sources.py)
+try:
+    import tikz_sources as _tz
+    _bad = _tz.check()
+    if _bad: B(f'site/project/tikz_sources.json differs from state/tikz in {len(_bad)} entr{"y" if len(_bad) == 1 else "ies"} ({", ".join(_bad[:5])}): run python3 tools/tikz_sources.py')
+except Exception as e: B(f'tikz sources check could not run: {e}')
+# portable checkout (14 Nov, move to a fresh cloud session at another path): no tool may hard-code a machine path. Locations come
+# from tools/paths.py (ROOT from the file's own location, $QG_DB, $QG_OUT, $QG_SCRATCH); JS/sh derive the root from their own
+# location. paths.py is the one file allowed to name the old sandbox outputs folder (as a fallback when it exists).
+try:
+    _abs = re.compile('|'.join(re.escape(x) for x in ('/home/' + 'claude', '/mnt/' + 'user-data', '/tmp/' + 'claude-', '/root/' + '.claude')))
+    _hits = []
+    for _d in ('tools', 'page_src'):
+        for _dp, _dn, _fn in os.walk(P + _d):
+            _dn[:] = [x for x in _dn if x not in ('__pycache__', 'node_modules')]
+            for _f in _fn:
+                _fp = os.path.join(_dp, _f)
+                if os.path.relpath(_fp, P) == 'tools/paths.py' or not _f.endswith(('.py', '.js', '.sh', '.json', '.css', '.html', '.txt')): continue
+                for _i, _l in enumerate(open(_fp, encoding='utf-8', errors='replace'), 1):
+                    if _abs.search(_l): _hits.append(f'{os.path.relpath(_fp, P)}:{_i}')
+    if _hits: B(f'{len(_hits)} hard-coded machine path(s) in tools/ or page_src/ (use tools/paths.py, or derive the root from the file\'s location): {", ".join(_hits[:8])}{" ..." if len(_hits) > 8 else ""}')
+except Exception as e: B(f'machine-path check could not run: {e}')
 # version control (stage 1, 15 Nov): never a blocker; --mark-published commits and tags automatically (tools/snapshot.py)
 try:
     import subprocess

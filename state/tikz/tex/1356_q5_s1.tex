@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Baulkham Hills AT4 Q5 solution: possible graph of concentration C against time t (decreasing, concave up)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9}{11}\selectfont]
+  \draw[->] (18,299.5) -- (396,299.5);  % rule 13: axes run past the curve
+  \draw[->] (18,299.5) -- (18,10);
+  \node[anchor=west,inner sep=1pt] at (396,300) {$t$};
+  \node[anchor=south,inner sep=1pt] at (17,7) {$C$};
+  \foreach \i in {1,...,20}{\pgfmathsetmacro\xx{18+16.8*\i}
+    \pgfmathsetmacro\tl{mod(\i,4)==0?4:2.5}\draw (\xx,299.5-\tl) -- (\xx,299.5+\tl);}
+  \foreach \i in {1,...,25}{\pgfmathsetmacro\yy{299.5-10.26*\i}
+    \pgfmathsetmacro\tl{mod(\i,5)==0?4:2.5}\draw (18-\tl,\yy) -- (18+\tl,\yy);}
+  \draw[smooth,line width=0.9pt] plot[domain=18:345,samples=90] (\x,{299.5-256*exp(-0.0202*(\x-18))});
+\end{tikzpicture}
+\end{document}

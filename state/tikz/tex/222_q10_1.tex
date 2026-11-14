@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\pgfmathsetmacro{\a}{6.1221}
+\pgfmathsetmacro{\m}{-sin(\a r)}
+\begin{axis}[exam axes, x=1.189cm, y=1.168cm, xmin=-1.53, xmax=9.45, ymin=-2.2, ymax=1.87,
+  xtick=\empty, ytick={-1,1}, yticklabels={$-1$,$1$}, tick label style={font=\normalsize},
+  yticklabel style={anchor=east}, xlabel style={anchor=north, at={(axis cs:9.4,0)}, yshift=-4pt},
+  ylabel style={anchor=east, at={(axis cs:0,1.85)}, xshift=-1pt}, label style={font=\normalsize}]
+  \addplot[domain=-1.1:8.96] {cos(deg(x))};
+  \addplot[domain=-0.76:8.88] {\m*x};
+  \draw (axis cs:\a,0) -- (axis cs:\a,{cos(\a r)});
+  \node[below=1pt,font=\normalsize] at (axis cs:\a,0) {$a$};
+  \node[below left,font=\normalsize] at (axis cs:0,0) {$O$};
+  \node[font=\normalsize] at (axis cs:3.94,0.84) {$y=mx$};
+  \node[font=\normalsize] at (axis cs:3.12,-1.24) {$y=\cos x$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

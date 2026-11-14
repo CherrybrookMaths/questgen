@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+  \coordinate (O) at (270,57); \coordinate (B) at (270,361); \coordinate (C) at (533,209);
+  \coordinate (A) at ($(O)+(135:304)$);
+  \draw (A) -- (O) -- (B) -- (C);
+  \draw (O) -- (C);
+  \draw (A) arc[start angle=135, end angle=90, radius=304];
+  \foreach \p/\q in {O/A,O/B,O/C,B/C} {
+    \draw ($($(\p)!0.5!(\q)$)!0.13cm!90:(\q)$) -- ($($(\p)!0.5!(\q)$)!-0.13cm!90:(\q)$);}
+  \node[anchor=south,inner sep=3pt] at (O) {$O$};
+  \node[anchor=north,inner sep=3pt] at (B) {$B$};
+  \node[anchor=west,inner sep=4pt] at (C) {$C$};
+  \node[anchor=east,inner sep=4pt] at (A) {$A$};
+  \node at (249,112) {$\theta$};
+  \node at (148,150) {$r$};
+\end{tikzpicture}
+\end{document}

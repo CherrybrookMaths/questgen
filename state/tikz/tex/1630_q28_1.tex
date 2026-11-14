@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down: circle centre (221.4,212.8), r 197.1; chord x=319.5 (ends at -60.2 and +60.2 degrees)
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \fill[shade dots] (319.5,41.8) arc[start angle=-60.2, end angle=60.2, radius=197.1] -- cycle;
+  \draw (221.4,212.8) circle[radius=197.1];
+  \draw (319.5,41.8) -- (319.5,383.8);
+  \draw[aux] (319.5,41.8) -- (221.4,212.8) -- (319.5,383.8);
+  \draw (221.4,212.8) ++(-60.2:31) arc[start angle=-60.2, end angle=60.2, radius=31];
+  \node at (266.5,213.5) {$\theta$};
+  \node at (224,113) {$10$ m};
+  \node at (588,193.5) {NOT TO};
+  \node at (588,233.5) {SCALE};
+\end{tikzpicture}
+\end{document}

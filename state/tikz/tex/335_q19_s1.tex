@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade] (66,316) -- plot[smooth,domain=66:314.5,samples=60] (\x,{316-281*exp(-((\x-411.5)/97)^2/2)}) -- (314.5,316) -- cycle;
+  \draw[line width=0.9pt] plot[smooth,domain=66:754,samples=90] (\x,{316-281*exp(-((\x-411.5)/97)^2/2)});
+  \draw[<->] (29,316) -- (793,316);
+  \draw (119.5,331) -- (119.5,312.9);
+  \draw (216.5,331) -- (216.5,278.0);
+  \draw (314.5,331) -- (314.5,145.6);
+  \draw (508.5,331) -- (508.5,145.6);
+  \draw (605.5,331) -- (605.5,278.0);
+  \draw (702.5,331) -- (702.5,312.9);
+  \draw[aux] (411.5,316) -- (411.5,35.0);
+  \node at (314.5,352) {2};
+  \node at (411.5,352) {2.05};
+  \node at (368,241) {34\%};
+  \node at (818,358) {Weight (kg)};
+\end{tikzpicture}
+\end{document}

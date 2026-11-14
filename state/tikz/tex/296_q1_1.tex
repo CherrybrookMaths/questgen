@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates in crop pixels (200 dpi), y downward; t (hours) -> 194+141.5(t-8), bees v -> 461-4.925v
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \t in {8,8.5,...,12} \draw[black!45, line width=0.6pt] ({194+141.5*(\t-8)},67) -- ({194+141.5*(\t-8)},473);
+  \foreach \v in {10,20,...,80} \draw[black!45, line width=0.6pt] (130,{461-4.925*\v}) -- (760,{461-4.925*\v});
+  \draw[->] (130,478) -- (130,14);
+  \draw (130,461) -- (139,461);
+  \draw[line width=0.3pt, black!70] (139,461) -- (143.3,468) -- (148.7,456) -- (153.7,468) -- (158.3,456) -- (163,461);
+  \draw[->] (163,461) -- (816,461);
+  \foreach \v in {0,10,...,80} {\draw (116,{461-4.925*\v}) -- (130,{461-4.925*\v});
+     \node[anchor=east] at (113,{461-4.925*\v}) {\v};}
+  \foreach \t/\l in {8/8 am,9/9 am,10/10 am,11/11 am,12/12 pm} \node at ({194+141.5*(\t-8)},494) {\l};
+  \node[rotate=90] at (37,263) {Number of bees};
+  \node at (477,545) {Time};
+  \foreach \t/\n in {8/20, 8.5/28, 8.5/20, 9/31, 9.5/36, 9.5/24.4, 10/37, 10.5/38, 10.5/29,
+                     11/45, 11/41, 11.5/48, 12/59.4, 12/42.7}
+    \node[pt, inner sep=1.15pt] at ({194+141.5*(\t-8)},{461-4.925*\n}) {};
+\end{tikzpicture}
+\end{document}

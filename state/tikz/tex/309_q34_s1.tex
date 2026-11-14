@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2024 Ascham AT4 Q34(c) solution: y=10e^{-x}(1-x), x>=0, on the question's axes (crop pixel units, y down; true function on an even scale)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{13}{15}\selectfont}]
+  \draw[->] (14,639) -- (1197,639);
+  \draw[->] (100,861) -- (100,53);
+  \node[anchor=west] at (1203,642) {$x$};
+  \node[anchor=south] at (98,45) {$y$};
+  \foreach \t/\l in {309/1,518/2,727/3,936/4,1145/5} {\draw (\t,629) -- (\t,649);}
+  \foreach \t/\l in {518/2,1145/5} {\node[anchor=north] at (\t,662) {$\l$};}
+  \node[anchor=south] at (936,622) {$4$};
+  \node at (290,672) {$1$};
+  \node[anchor=south] at (727,622) {$3$};
+  \draw (90,180) -- (110,180);
+  \node[anchor=east] at (78,180) {$10$};
+  \draw[->, line width=0.9pt] plot[smooth,domain=0:4.6,samples=90] ({100+209*\x},{639-459*exp(-\x)*(1-\x)});
+  \foreach \p in {(100,180),(309,639),(518,701.1),(727,684.7)} \fill \p circle (5);
+  \node at (518,745) {$(2,-10e^{-2})$};
+  \node at (800,728) {$(3,-20e^{-3})$};
+\end{tikzpicture}
+\end{document}

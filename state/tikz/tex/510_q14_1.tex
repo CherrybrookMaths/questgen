@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[font=\large]
+\def\r{3.48}
+\coordinate (O) at (0,0);
+\coordinate (X) at (206:\r); \coordinate (Z) at (334:\r);
+\fill[shade] (O) -- (Z) arc[start angle=-26, end angle=206, radius=\r] -- cycle;
+\draw (O) circle[radius=\r];
+\draw (X) -- (O) -- (Z);
+\draw[line width=0.6pt] (206:0.97) arc[start angle=206, end angle=334, radius=0.97];
+\node at (0,0.27) {$O$};
+\node at (0,-1.55) {$\dfrac{2\pi}{3}$};
+\node at (-3.40,-1.75) {$X$};
+\node at (3.38,-1.63) {$Z$};
+\node[font=\normalsize] at (4.78,2.44) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

@@ -2,10 +2,11 @@
 Usage: python3 load_tags_batch.py tag/out_b1_*.json
 Replaces tags only for the part_ids in the given files. Same rules as load_tags.py, except area between two curves
 is examinable (decision: tagged Y12-279), so no two-curve override."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, sqlite3, sys, collections
-P = '/home/claude/pilot/'
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
-dps = {d['id']: d for d in json.load(open(P + 'syllabus_dotpoints.json'))}
+P = paths.P
+db = sqlite3.connect(paths.DBS)
+dps = {d['id']: d for d in json.load(open(P + 'site/project/syllabus_dotpoints.json'))}
 stats = collections.Counter(); bad = []
 for f in sys.argv[1:]:
     for r in json.load(open(f))['results']:

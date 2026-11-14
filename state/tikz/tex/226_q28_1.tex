@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+% sketch fitted to the crop (not true scale): passes through (2,0), asymptote y=-8
+\begin{axis}[exam axes, x=0.6477cm, y=0.1318cm, xmin=-5.39, xmax=14.02, ymin=-19.2, ymax=47.1,
+  xtick=\empty, ytick=\empty,
+  xlabel style={at={(axis cs:13.82,-2.3)}, anchor=center},
+  ylabel style={at={(axis cs:-0.37,46.6)}, anchor=center}]
+  \draw[aux, dash pattern=on 0.9mm off 0.7mm, line width=0.6pt] (axis cs:-4.14,-8) -- (axis cs:10.78,-8);
+  \node at (axis cs:11.8,-7.7) {$y=-8$};
+  \addplot[curve, domain=-0.695:9.25, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}, samples=300] {29.52*exp(-0.702*x)-7.25};
+  \draw (axis cs:2,0) -- (axis cs:2,-1.35);
+  \node[pt] at (axis cs:2,0) {};
+  \node at (axis cs:2,-3.3) {$2$};
+  \node at (axis cs:-0.43,-2.1) {$O$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

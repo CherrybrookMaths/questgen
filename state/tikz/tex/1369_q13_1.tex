@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\X#1{108+15.25*#1}\def\Y#1{500-14*#1}
+  \foreach \i in {10,20,...,60} \draw[black!25] ({\X{\i}},{\Y{0}}) -- ({\X{\i}},{\Y{30}});
+  \foreach \j in {5,10,...,30} \draw[black!25] ({\X{0}},{\Y{\j}}) -- ({\X{60}},{\Y{\j}});
+  \draw[->] ({\X{0}},{\Y{0}}) -- ({\X{62}},{\Y{0}});
+  \draw[->] ({\X{0}},{\Y{0}}) -- ({\X{0}},{\Y{32}});
+  \foreach \i in {0,10,...,60} \node[font=\small] at ({\X{\i}},531) {\i};
+  \foreach \j in {0,5,...,30} \node[font=\small, anchor=east, inner sep=0pt] at (89,{\Y{\j}}) {\j};
+  \fill ({\X{19}},{\Y{24}}) circle[radius=7];
+  \fill ({\X{22}},{\Y{22}}) circle[radius=7];
+  \fill ({\X{27}},{\Y{18}}) circle[radius=7];
+  \fill ({\X{31}},{\Y{16}}) circle[radius=7];
+  \fill ({\X{36}},{\Y{15}}) circle[radius=7];
+  \fill ({\X{40}},{\Y{12}}) circle[radius=7];
+  \fill ({\X{53}},{\Y{7}}) circle[radius=7];
+  \node at (110,36) {$y$};
+  \node at (1068,502) {$x$};
+  \node at (525,28) {Social Media Usage vs Age};
+  \node at (566,571) {Age};
+  \node[rotate=90,font=\fontsize{11.5}{13}\selectfont] at (40,314) {Social Media Usage (hours per week)};
+\end{tikzpicture}
+\end{document}

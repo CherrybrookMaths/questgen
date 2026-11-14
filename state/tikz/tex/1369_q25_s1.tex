@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 North Sydney Girls AT4 Q25(b) solution: h(x)=g(-x)-1 on the grid (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{12}{14}\selectfont]
+  \def\ox{267}\def\oy{296}\def\u{57.6}
+  \foreach \i in {-4,...,4}{\draw[black!25] ({\ox+\u*\i},{\oy-4*\u}) -- ({\ox+\u*\i},{\oy+4*\u});
+    \draw[black!25] ({\ox-4*\u},{\oy-\u*\i}) -- ({\ox+4*\u},{\oy-\u*\i});}
+  \draw[<->] (14,\oy) -- (521,\oy);
+  \draw[<->] (\ox,549) -- (\ox,40);
+  \node[anchor=south,inner sep=1pt] at (\ox-3,37) {$y$};
+  \foreach \i in {-4,...,4}{\ifnum\i=0\else
+    \draw ({\ox+\u*\i},\oy-5) -- ({\ox+\u*\i},\oy+5);
+    \draw (\ox-5,{\oy-\u*\i}) -- (\ox+5,{\oy-\u*\i});
+    \node[anchor=north,inner sep=0pt] at ({\ox+\u*\i-(\i<0?6:0)},309) {\halo{$\i$}};
+    \node[anchor=east,inner sep=0pt] at (257,{\oy-\u*\i}) {\halo{$\i$}};\fi}
+  % h(x)
+  \draw[line width=0.9pt] ({\ox-3*\u},{\oy+\u}) -- ({\ox-\u},{\oy-\u});
+  \draw[line width=0.9pt] ({\ox-\u},{\oy-2*\u}) -- ({\ox+3*\u},{\oy-2*\u});
+  \fill ({\ox-3*\u},{\oy+\u}) circle (5.5);
+  \draw[fill=white] ({\ox-\u},{\oy-\u}) circle (5.5);
+  \fill ({\ox-\u},{\oy-2*\u}) circle (5);
+  \fill ({\ox+3*\u},{\oy-2*\u}) circle (5);
+\end{tikzpicture}
+\end{document}

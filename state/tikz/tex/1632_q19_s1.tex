@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % axes as on the question's blank axes (crop pixels, y down); origin (115,342), 1 unit = 63.7 px
+  \draw[->] (14,342) -- (945,342);
+  \draw[->] (115,662) -- (115,14);
+  \node at (936,362) {$x$};
+  \node at (98,22) {$y$};
+  \draw (242,331) -- (242,342); \node at (242,375) {$2$};
+  \draw (433,331) -- (433,342); \node at (433,375) {$5$};
+  % y = f'(x): f'(x) negative on 0<x<2, zero at 2, greatest at x=5 (inflection of f), tends to 0 as x -> infinity
+  \draw[->, line width=0.9pt, smooth, samples=90, domain=0:12, variable=\t]
+     plot ({115+63.7*\t}, {342-45*(\t-2)/(1+((\t-2)/3.948)^4)});
+  \draw[aux] (433,342) -- (433,{342-45*2.25});
+  \node[pt] at (242,342) {};
+  \node[pt] at (433,{342-45*2.25}) {};
+  \node[pt] at (115,{342+45*1.877}) {};
+  \node[anchor=south] at (433,{342-45*2.25-6}) {greatest value of $f'(x)$};
+  \node[anchor=west] at (640,250) {$y=f'(x)$};
+  \node[anchor=west] at (128,{342+45*1.877+12}) {$f'(0)<0$};
+\end{tikzpicture}
+\end{document}

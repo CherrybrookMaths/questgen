@@ -4,13 +4,14 @@ Writes: tag/in_<batch>_<g>.json (~150 parts each), work/<batch>/solfmt_in_<g>.js
 work/<batch>/gen_in_<g>.json (questions with leaf parts / MCQs lacking any working, ~16 questions each),
 tikz/group_<batch>_<g>.json (~26 figures each, a question's figures kept together).
 Prints JSON counts {tag, solfmt, gen, diag} = number of groups of each kind."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, json, glob, os, re, sys
 from itertools import groupby
-P = '/home/claude/pilot/'
+P = paths.P
 B = sys.argv[1]; NEW = tuple(int(a) for a in sys.argv[2:])
 os.makedirs(P + f'work/{B}', exist_ok=True)
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db'); db.row_factory = sqlite3.Row
-dps = json.load(open(P + 'syllabus_dotpoints.json'))
+db = sqlite3.connect(paths.DBS); db.row_factory = sqlite3.Row
+dps = json.load(open(P + 'site/project/syllabus_dotpoints.json'))
 IN = '(%s)' % ','.join(map(str, NEW))
 lab = {r['id']: r['display_label'] for r in db.execute(f'select id,display_label from documents where id in {IN}')}
 def ctx_of(q):
@@ -63,7 +64,7 @@ gs = split(gen, 16)
 for g, it in enumerate(gs): json.dump(it, open(P + f'work/{B}/gen_in_{g+1}.json', 'w'), ensure_ascii=False, indent=1)
 out['gen'] = len(gs)
 # diagrams (question figures + solution sketches); skip ones already redrawn
-done = {r['id'] for r in json.load(open(P + 'tikz/all_results.json'))}
+done = {r['id'] for r in json.load(open(paths.S + 'tikz/all_results.json'))}
 figs = []
 for f in db.execute(f'select f.*, q.document_id doc, q.number, q.stem_latex from figures f join questions q on q.id=f.question_id where q.document_id in {IN} order by q.document_id, q.id, f.id'):
     k = os.path.basename(f['png_path'])[:-4]

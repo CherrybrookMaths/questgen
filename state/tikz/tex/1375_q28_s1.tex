@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{8.5}{10}\selectfont]
+  % 9.46 px per t unit, 8.08 px per h unit, origin (106,502); grid t -8..80, h -11..60
+  \def\T#1{106+9.46*(#1)}\def\H#1{502-8.08*(#1)}
+  \foreach \t in {-8,-6,-4,-2,2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48,52,54,56,58,62,64,66,68,72,74,76,78}
+    \draw[black!40,dash pattern=on 1.5pt off 1pt] ({\T{\t}},{\H{-11}}) -- ({\T{\t}},{\H{60}});
+  \foreach \h in {-8,-6,-4,-2,2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48,52,54,56,58}
+    \draw[black!40,dash pattern=on 1.5pt off 1pt] ({\T{-8}},{\H{\h}}) -- ({\T{80}},{\H{\h}});
+  \foreach \t in {10,20,...,80} \draw[black!70] ({\T{\t}},{\H{-11}}) -- ({\T{\t}},{\H{60}});
+  \foreach \h in {-10,10,20,...,60} \draw[black!70] ({\T{-8}},{\H{\h}}) -- ({\T{80}},{\H{\h}});
+  \draw ({\T{0}},{\H{-11}}) -- ({\T{0}},{\H{60}});
+  \draw ({\T{-8}},{\H{0}}) -- ({\T{80}},{\H{0}});
+  \foreach \t in {10,20,...,80} \node at ({\T{\t}-9},{\H{0}+10}) {\halo{$\t$}};
+  \node at ({\T{0}-8},{\H{0}+10}) {\halo{$0$}};
+  \foreach \h in {10,20,...,60} \node at ({\T{0}-14},{\H{\h}-7}) {\halo{$\h$}};
+  \node at ({\T{0}-12},{\H{-10}+8}) {\halo{$-10$}};
+  \node at (68,30) {\fontsize{10}{12}\selectfont\halo{$h$}};
+  \node at (870,516) {\fontsize{10}{12}\selectfont\halo{$t$}};
+  % solution sketch
+  \draw[curve,line width=0.9pt] plot[smooth,domain=0:72,samples=90,variable=\s] ({\T{\s}},{\H{30-20*cos(5*\s)}});
+  \foreach \p/\q in {0/10,18/30,36/50,54/30,72/10} \fill ({\T{\p}},{\H{\q}}) circle[radius=6];
+  \node at ({\T{36}},{\H{55}}) {\fontsize{10}{12}\selectfont\halo{$(36,50)$}};
+  \node[anchor=north west] at ({\T{0}+4},{\H{8}}) {\fontsize{10}{12}\selectfont\halo{$(0,10)$}};
+  \node[anchor=north east] at ({\T{72}-2},{\H{8}}) {\fontsize{10}{12}\selectfont\halo{$(72,10)$}};
+  \node[anchor=south east] at ({\T{18}-6},{\H{31}}) {\fontsize{10}{12}\selectfont\halo{$(18,30)$}};
+  \node[anchor=south west] at ({\T{54}+6},{\H{31}}) {\fontsize{10}{12}\selectfont\halo{$(54,30)$}};
+\end{tikzpicture}
+\end{document}

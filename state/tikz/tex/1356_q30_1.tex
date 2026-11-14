@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop px, y down: centre (181,177.5), radius 163.5; angles measured clockwise from east (image orientation)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{12.6}\selectfont]
+  \coordinate (O) at (181,177.5);
+  \draw (O) circle (163.5);
+  \foreach \a in {-140.5,-68.5,-32.5,3.5,39.5,111.5,183.5} \draw ($(O)+(\a:156)$)--($(O)+(\a:163.5)$);
+  \foreach \a in {-104.5,75.5,148.5} \draw ($(O)+(\a:8)$)--($(O)+(\a:163.5)$);
+  \draw (O) circle (8);
+  \fill ($(O)+(18:126)$)--($(O)+(18+90:7.5)$) arc[start angle=108,end angle=-72,radius=7.5]--cycle;
+  \node[align=center] at (104,134) {Blue\\Jonathan\\wins};
+  \node[align=center] at (258,130) {Green\\Spin\\Again};
+  \node[align=center] at (163,264) {Red\\Sunya\\wins};
+\end{tikzpicture}
+\end{document}

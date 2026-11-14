@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\large}]
+  \coordinate (O) at (318,140); \coordinate (Mp) at (234.2,27.8); \coordinate (M) at (318,280);
+  \coordinate (F) at (234.2,140);
+  \draw (10,280) -- (580,280);
+  \draw (O) circle[radius=140];
+  \draw (Mp) -- (O) -- (F) -- (Mp);
+  \draw[aux] (F) -- (234.2,280);
+  \draw[aux] (O) -- (M);
+  \draw (234.2,280) rectangle ++(9,-9);
+  % equal-length ticks
+  \draw ($(Mp)!0.5!(O)+(-6,6)$) -- ($(Mp)!0.5!(O)+(6,-6)$);
+  \draw (311,210) -- (325,210);
+  % angle at O (two arcs) = (5-pi)/2 rad from the solution; M' placed at that computed angle
+  \draw ($(O)+(180:40)$) arc[start angle=180,end angle=233.24,radius=40];
+  \draw ($(O)+(180:46)$) arc[start angle=180,end angle=233.24,radius=46];
+  % height h
+  \draw[->] (112,126) -- (112,27.8);
+  \draw[->] (112,170) -- (112,278);
+  \foreach \p in {O,Mp,M} \fill (\p) circle (1.8pt);
+  \node at (112,148) {$h$};
+  \node at (196.2,25.8) {$M'$};
+  \node at (349,140) {$O$};
+  \node at (318,318) {$M$};
+  \node at (318,58) {40};
+  \node at (352,214) {40};
+  \node at (213.2,95) {$x$};
+  \node at (218,206) {$r$};
+\end{tikzpicture}
+\end{document}

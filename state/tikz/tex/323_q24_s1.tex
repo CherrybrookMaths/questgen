@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+  % axes
+  \draw[<->] (121,422) -- (890,422);
+  \draw[<->] (217.5,762) -- (217.5,73);
+  \node at (217,48) {$y$};
+  \node at (910,423) {$x$};
+  % horizontal lines y = 1/3 and y = -1/3
+  \draw[<->,line width=0.9pt] (59,351) -- (840,351);
+  \draw[<->,line width=0.9pt] (82,491) -- (820,491);
+  \node[anchor=west] at (848,349) {$y=\frac{1}{3}$};
+  \node[anchor=west] at (828,491) {$y=-\frac{1}{3}$};
+  % y = ln x on the scale set by the lines y=+-1/3 (71 px = 1/3); dots at x=e^{+-1/3}
+  \draw[<->,line width=0.9pt] plot[smooth,samples=90,domain=262.4:620] (\x,{422-213*ln((\x-217.5)/185.6)});
+  \node[anchor=west] at (704,268) {$y=\ln x$};
+  % points of intersection and guides
+  \fill (476.5,351) circle (6) (350.5,491) circle (6);
+  \draw[aux] (476.5,351) -- (476.5,422);
+  \draw[aux] (350.5,491) -- (350.5,422);
+  % labels
+  \node at (232,322) {$\frac{1}{3}$};
+  \node at (188,470) {$-\frac{1}{3}$};
+  \node at (342.5,396) {$e^{-\frac{1}{3}}$};
+  \node at (401,456) {$1$};
+  \node at (488.5,452) {$e^{\frac{1}{3}}$};
+\end{tikzpicture}
+\end{document}

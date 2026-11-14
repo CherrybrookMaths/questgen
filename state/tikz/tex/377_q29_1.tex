@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (121,284); \coordinate (B) at (326,284); \coordinate (D) at (121,78);
+  \coordinate (C) at ($(A)+(-35:205)$);
+  \draw[->] (52,284) -- (360,284);
+  \draw[->] (121,354) -- (121,45);
+  \draw (B) arc[start angle=0,end angle=-90,radius=205];
+  \draw (D) -- (C) -- (B);
+  \draw[aux] (A) -- (C);
+  \draw (121,264) -| (141,284);
+  \draw ($(A)+(0:47)$) arc[start angle=0,end angle=-35,radius=47];
+  \node at (120,18) {$y$};
+  \node at (383,284) {$x$};
+  \node at (93,78) {$D$};
+  \node at (306,148) {$C$};
+  \node at (103,302) {$A$};
+  \node at (325,313) {$B$};
+  \node at (193,261) {$\alpha$};
+  \node at (222,307) {100\,m};
+\end{tikzpicture}
+\end{document}

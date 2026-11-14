@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (25,180) -- (990,180);
+  \node[anchor=west] at (994,182) {$x$};
+  \foreach \x in {201,490,910} \draw (\x,172) -- (\x,188);
+  \node[anchor=north] at (201,194) {$-5.5$};
+  \node[anchor=north] at (490,194) {$0$};
+  \node[anchor=north] at (910,194) {$8$};
+  \fill (490,125) circle[radius=1.3pt];
+  \draw[->] (490,125) -- (201,125);
+  \node[anchor=south] at (201,108) {$t=1$};
+  \draw[->] (201,62) -- (910,62);
+  \node[anchor=south] at (910,44) {$t=4$};
+\end{tikzpicture}
+\end{document}

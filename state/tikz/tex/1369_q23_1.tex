@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit up = 108 px, pi across = 587 px; origin (48,320)
+  \draw[<->] (48,608) -- (48,30);
+  \draw[->] (42,320) -- (1246,320);
+  \foreach \k in {1,...,13} {\draw (44,{320-21.6*\k}) -- (52,{320-21.6*\k}); \draw (44,{320+21.6*\k}) -- (52,{320+21.6*\k});}
+  \foreach \k in {1,...,6} \draw ({48+587*\k/3},315) -- ({48+587*\k/3},325);
+  \draw[->,line width=0.9pt] plot[smooth, domain=0:6.37, samples=91] ({48+587*\x/pi},{320+216*cos(3*\x r)});
+  \node[anchor=east, inner sep=0pt] at (32,104) {2};
+  \node[anchor=east, inner sep=0pt] at (32,211.5) {1};
+  \node[anchor=east, inner sep=0pt] at (39,428) {$-1$};
+  \node[anchor=east, inner sep=0pt] at (39,536) {$-2$};
+  \node at (635,354) {$\piup$};
+  \node at (1222,354) {$2\piup$};
+  \node at (1255,321) {$x$};
+  \node at (45,14) {$y$};
+\end{tikzpicture}
+\end{document}

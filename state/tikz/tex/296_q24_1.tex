@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates in crop pixels (200 dpi), y downward
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % stipple the whole garden, then labels with a glyph-hugging knock-out (\halo), no box (owner's note)
+  \path[shade dots] (261,72) rectangle (634,260);
+  \node at (447,138) {\halo{Garden}};
+  \node at (447,196) {\halo{Area 50 m$^2$}};
+  \draw (261,72) rectangle (634,260);
+  \draw (198,72) -- (198,323) -- (697,323) -- (697,72);
+  \draw (15,72) -- (880,72);
+  \node[anchor=east] at (948,56) {Existing wall};
+  \tikzset{dim/.style={aux, <->}}
+  \draw[dim] (198,55) -- (261,55); \node at (229.5,27) {1 m};
+  \draw[dim] (634,55) -- (697,55); \node at (665.5,27) {1 m};
+  \draw[dim] (178,72) -- (178,323); \node at (140,215) {$y$ m};
+  \draw[dim] (198,343) -- (697,343); \node at (447.5,366) {$x$ m};
+  \draw[dim] (717,260) -- (717,323); \node at (760,293) {1 m};
+\end{tikzpicture}
+\end{document}

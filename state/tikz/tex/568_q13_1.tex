@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, axis line style={draw=none}, x=2.159cm, y=2.22cm, xlabel={}, ylabel={},
+  xmin=-2.6, xmax=2.59, ymin=-1.83, ymax=1.84, xtick=\empty, ytick=\empty]
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}]
+    (axis cs:-2.6,0) -- (axis cs:2.59,0) node[right, font=\normalsize\bfseries] {x};
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}]
+    (axis cs:0,-1.83) -- (axis cs:0,1.84) node[above, font=\normalsize\bfseries] {y};
+  \addplot[line width=0.6pt, <->, >={Latex[length=2mm,width=1.3mm]}, domain=-1.641:1.644, samples=300] {x^4-2*x^2};
+  \draw[line width=0.6pt, dash pattern=on 3pt off 1.8pt] (axis cs:-1,0) -- (axis cs:-1,-1);
+  \draw[line width=0.6pt, dash pattern=on 3pt off 1.8pt] (axis cs:1,0) -- (axis cs:1,-1);
+  \node[above, font=\normalsize] at (axis cs:-1.07,0.02) {$-\,a$};
+  \node[above, font=\normalsize] at (axis cs:1,-0.02) {$a$};
+  \node[above right, inner sep=2pt, font=\normalsize\bfseries] at (axis cs:0,0.03) {0};
+  \node[anchor=west, font=\large] at (axis cs:1.71,1.77) {$y=f(x)$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

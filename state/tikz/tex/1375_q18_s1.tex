@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{12}{14}\selectfont]
+  \draw[->] (133,218) -- (555,218);
+  \draw[->] (343,395) -- (343,70);
+  \node at (395,31) {\fontsize{14}{16}\selectfont North};
+  \node at (279,201) {\fontsize{14}{16}\selectfont Port $O$};
+  \fill (343,218) circle[radius=5];
+  \draw (343,218) -- (545,97) -- (716,313) -- cycle;
+  \fill (545,97) circle[radius=4]; \fill (716,313) circle[radius=4];
+  \draw[->] (545,97) -- (545,35);
+  \draw[aux] (545,97) -- (545,155);
+  \node[rotate=30.9] at (452,116) {120 km};
+  \node at (707,185) {150 km};
+  \node at (372,166) {$57^\circ$};
+  \node at (520,165) {\fontsize{10}{12}\selectfont$57^\circ$};
+  \node at (565,167) {\fontsize{10}{12}\selectfont$15^\circ$};
+  \node at (650,87) {$165^\circ$};
+  % triangle sketch (true shape from the solution: 120, 150, d; 72 deg at first buoy, alpha = 45.3 deg)
+  \coordinate (S0) at (62.8,405.0); \coordinate (S1) at (234.0,293.7); \coordinate (S2) at (300,540);
+  \draw (S0) -- (S1) -- (S2) -- cycle;
+  \draw[->] (S2) -- (300,468);
+  \node[rotate=33.0] at (133,326) {120 km};
+  \node[rotate=-75.0] at (290,400) {150 km};
+  \node at (172,489) {$d$};
+  \draw (S1) ++(75:40) arc[start angle=75, end angle=146.97, radius=40];
+  \node at ($(S1)+(111:58)$) {$72^\circ$};
+  \draw (S2) ++(209.7:70) arc[start angle=209.7, end angle=255, radius=70];
+  \node at ($(S2)+(232.3:52)$) {$\alpha$};
+  % bearing of O from the second buoy: north, clockwise, ending on d (where alpha starts)
+  \draw[->] (S2) ++(-90:32) arc[start angle=-90, end angle=209.7, radius=32];
+  \node[anchor=west] at (342,552) {Bearing};
+  \draw[] (343.0,128.0) arc[start angle=-90.0, end angle=-30.9, radius=90];
+  \draw[] (463.5,145.8) arc[start angle=149.1, end angle=51.6, radius=95];
+  \draw[->] (545.0,61.0) arc[start angle=-90.0, end angle=51.6, radius=36];
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+  % y=16/x^2+3x-4 on px=43+68x, py=440-21.7y; normal from P(4,9) drawn (not to scale) to its x-intercept 26.5 at px 597, as the crop shows
+  \path[shade hatch] plot[domain=1:4,samples=60,smooth] ({43+68*\x},{440-21.7*(16/(\x*\x)+3*\x-4)}) -- (597,440) -- (111,440) -- cycle;
+  \draw[->] (12,440) -- (775,440);
+  \draw[->] (43,468) -- (43,45);
+  \draw[line width=0.9pt,domain=0.93:5.35,samples=90,smooth] plot ({43+68*\x},{440-21.7*(16/(\x*\x)+3*\x-4)});
+  \draw[line width=0.9pt] ($(315,244.7)!-0.36!(597,440)$) -- ($(315,244.7)!1.49!(597,440)$);
+  \draw[aux] (111,114.5) -- (111,440);
+  \draw[aux] (315,244.7) -- (315,440);
+  \fill (111,114.5) circle (3.5) (315,244.7) circle (3.5);
+  \node at (111,470) {$1$};
+  \node at (315,472) {$4$};
+  \node at (572,474) {$26.5$};
+  \node at (275,183) {$l$};
+  \node at (364,241) {$P$};
+  \node[anchor=west] at (420,125) {$y=\dfrac{16}{x^2}+3x-4$};
+\end{tikzpicture}
+\end{document}

@@ -9,13 +9,14 @@ Writes work/page_test/fixture.json: {"made": ..., "synced": {...}, "docs": {"rev
 Nothing is written to the database. Read-only.
 Usage: python3 tools/page_test_fixture.py [out.json]
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, os, sqlite3, sys, time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from classify_paths import RULES, classify_path
 
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-DB = '/mnt/user-data/outputs/questions.db'
+DB = paths.DBS
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(P, 'work', 'page_test', 'fixture.json')
 TABLES = [('reviews', 'page_reviews', 'doc_key'), ('difficulty', 'page_difficulty', 'part_id'),
           ('exams', 'page_exams', 'id'), ('reports', 'page_reports', 'id')]

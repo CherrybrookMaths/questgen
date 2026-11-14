@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % crop pixels: origin (84.5,236); 18.25 px per x unit, 39.4 px per y unit
+  \def\ox{84.5}\def\oy{236}\def\sx{18.25}\def\sy{39.4}
+  \draw[->] (28,236) -- (523,236);
+  \draw[->] (84.5,440) -- (84.5,33);
+  \foreach \t in {2,10,18} \draw ({\ox+\sx*\t},233) -- ({\ox+\sx*\t},239);
+  \foreach \t in {4,-4} \draw (81.5,{\oy-\sy*\t}) -- (87.5,{\oy-\sy*\t});
+  \draw[->,line width=0.9pt, smooth, samples=180, domain=0:19.72, variable=\t] plot ({\ox+\sx*\t},{\oy-\sy*4*sin(45*\t)});
+  \draw[->,line width=0.9pt, smooth, samples=90, domain=-2.64:3.04, variable=\u] plot ({\ox+\sx*exp(\u)},{\oy-\sy*\u});
+  \node[font=\large] at (69,31) {$y$};
+  \node[font=\large] at (526,252) {$x$};
+  \node[font=\large] at (63,263) {$O$};
+  \node[font=\large] at (63,80) {$4$};
+  \node[font=\large] at (58,393) {$-4$};
+  \node[font=\large] at (121,263) {$2$};
+  \node[font=\large] at (268,263) {$10$};
+  \node[font=\large] at (414,263) {$18$};
+\end{tikzpicture}
+\end{document}

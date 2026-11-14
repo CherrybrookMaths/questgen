@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.324cm, y=1.324cm,
+  declare function={f(\z)=0.107+1.932*exp(-0.5*((abs(\z)+0.0001)/0.922)^2.193);}]
+  % shaded region (weight below lower quartile / bottom 10% etc.)
+  \fill[shade dots, stipple color=black!75] (-1.67,0) -- plot[domain=-1.67:-1.34, samples=60] (\x,{f(\x)}) -- (-1.34,0) -- cycle;
+  \draw (-1.67,0) -- (-1.67,{f(-1.67)});
+  \draw (-1.34,0) -- (-1.34,{f(-1.34)});
+  % dash pattern=on 2pt off 1.5pt ordinates
+  \foreach \m in {-2,-1,0,1,2} \draw[aux] (\m,0) -- (\m,{f(\m)});
+  % axis and curve
+  \draw (-2.495,0) -- (2.495,0);
+  \draw[curve, line width=0.6pt] plot[domain=-2.47:2.47, samples=200] (\x,{f(\x)});
+  \foreach \m in {-2,-1,0,1,2} \node[pt] at (\m,0) {};
+  \node[below, inner sep=7pt] at (-2,0) {$\mu-2\sigma$};
+  \node[below, inner sep=7pt] at (-1,0) {$\mu-\sigma$};
+  \node[below, inner sep=7pt] at (0,0) {$\mu$};
+  \node[below, inner sep=7pt] at (1,0) {$\mu+\sigma$};
+  \node[below, inner sep=7pt] at (2,0) {$\mu+2\sigma$};
+  \node[anchor=north west, inner sep=0pt] at (-2.495,2.165) {\phantom{A.}};  % option letter removed (layout adds it outside)
+\end{tikzpicture}
+\end{document}

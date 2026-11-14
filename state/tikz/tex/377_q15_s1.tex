@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% Solution sketch rebuilt from the worked solution: OA = 24 on 248T, OB = 35 on 165T (248 - 83), AB = 40; 8 px per km
+\begin{tikzpicture}[x=0.0159cm,y=-0.0159cm,every node/.style={font=\large}]
+  \coordinate (O) at (250,150); \coordinate (A) at (71.98,221.92); \coordinate (B) at (322.47,420.46);
+  % north lines and east-west guide lines
+  \draw[->] (O) -- (250,25);
+  \draw[aux] (115,150) -- (395,150);
+  \draw[->] (B) -- (322.47,305);
+  \draw[aux] (322.47,420.46) -- (322.47,480);
+  \draw[aux] (250,420.46) -- (400,420.46);
+  \draw (A) -- (O) -- (B) -- cycle;
+  % 248 bearing of A from O (N clockwise to OA)
+  \draw[->] (O) ++(-90:40) arc[start angle=-90,end angle=158,radius=40];
+  % 165 bearing of B from O (N clockwise to OB)
+  \draw[->] (O) ++(-90:110) arc[start angle=-90,end angle=75,radius=110];
+  % 83 between OB and OA
+  \draw[<->] (O) ++(75:115) arc[start angle=75,end angle=158,radius=115];
+  % 15 at B between north and BO
+  \draw (B) ++(-90:62) arc[start angle=-90,end angle=-105,radius=62];
+  \draw[->] (372,{420.46-61.5}) -- ({322.47-7.6},{420.46-61.5});
+  \foreach \p in {O,A,B} \fill (\p) circle (1.6pt);
+  \node[anchor=west] at (255,30) {$N$};
+  \node[anchor=west] at (327,310) {$N$};
+  \node at (230,128) {$O$};
+  \node at (50,222) {$A$};
+  \node at (342,445) {$B$};
+  \node at ($(O)+(24:76)$) {$248^\circ$};
+  \node at ($(O)+(-30:150)$) {$165^\circ$};
+  \node at ($(O)+(116.5:142)$) {$83^\circ$};
+  \node[anchor=west] at (374,358.96) {$15^\circ$};
+  \node at (150,166) {24};
+  \node at (311,278) {35};
+  \node at (185,345) {40};
+\end{tikzpicture}
+\end{document}

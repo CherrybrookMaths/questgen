@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\large}]
+  \draw (15,370) -- (905,370);
+  \draw[->] (188,415) -- (188,18);
+  \foreach \v/\py in {1/312,2/254,3/196} {\draw (182,\py) -- (194,\py); \node at (150,\py) {\v};}
+  \node at (150,140) {4};
+  \draw[<->, line width=0.9pt] plot[smooth,samples=90,domain=-0.1:1.16] ({188+530*\x},{370-232*exp(-2*\x)});
+  \fill (188,138) circle (1.8pt);
+  \fill (555,312) circle (1.8pt);
+  \node at (214,32) {$y$};
+  \node at (630,285) {$(\ln 2,1)$};
+\end{tikzpicture}
+\end{document}

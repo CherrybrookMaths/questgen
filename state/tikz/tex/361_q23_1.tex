@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+  \coordinate (P) at (80,321); \coordinate (Q) at (341,213); \coordinate (R) at (471,482);
+  \draw (P) -- (Q) -- (R);
+  \draw[aux,->] (P) -- (80,155); \node[font=\normalsize] at (85,131) {N};
+  \draw[aux,->] (Q) -- (342,52); \node[font=\normalsize] at (343,28) {N};
+  \begin{scope}[shift={(P)},yscale=-1]
+    \draw[->] (90:57) arc[start angle=90,end angle=22.5,radius=57];
+  \end{scope}
+  \begin{scope}[shift={(Q)},yscale=-1]
+    \draw[->] (90:37) arc[start angle=90,end angle=-64.2,radius=37];
+  \end{scope}
+  \foreach \p in {P,Q,R} \fill (\p) circle (1.5pt);
+  \node at (138,240) {$060^\circ$};
+  \node at (437,192) {$160^\circ$};
+  \node[rotate=22.5] at (226,284) {150 km};
+  \node[rotate=-64.2] at (375,357) {200 km};
+  \node at (46,350) {$P$};
+  \node at (309,187) {$Q$};
+  \node at (490,516) {$R$};
+  \draw (715,152) rectangle (1000,260);
+  \node[align=center,font=\normalsize\bfseries] at (858,206) {Diagram not to\\scale};
+\end{tikzpicture}
+\end{document}

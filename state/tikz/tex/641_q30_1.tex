@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel units (y down). Q: straight line from the common start (72,650) to (587,137).
+% P: parabola fitted to the printed curve, Y = -0.0049057 X^2 + 1.72363 X + 549.94 (max error 0.9 px), X 72..535. NOT TO SCALE.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{13}{14}\selectfont}]
+  \draw[->] (25,718.5) -- (637,718.5);
+  \draw[->] (72,763) -- (72,14);
+  \draw[line width=0.9pt] (72,650) -- (587,137);
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=72:535] (\x,{-0.0049057*\x*\x+1.72363*\x+549.94+1.4*(535-\x)/463});
+  \node at (49.5,24) {$v$};
+  \node at (542.5,51) {$P$};
+  \node at (605.5,125.5) {$Q$};
+  \node at (54.5,738) {$O$};
+  \node at (627,743.5) {$t$};
+  \node[anchor=base] at (769,416) {NOT TO};
+  \node[anchor=base] at (762.5,455) {SCALE};
+\end{tikzpicture}
+\end{document}

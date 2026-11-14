@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+\coordinate (O) at (190,187);
+\fill[shade] (O) ++(-85.9:167.5) arc[start angle=-85.9, end angle=-20.6, radius=167.5] -- cycle;
+\draw (O) circle[radius=167.5];
+\draw (O) ++(-85.9:167.5) -- (O) -- ++(-20.6:167.5) -- (O) ++(-85.9:167.5);
+\draw (O) ++(-20.6:40) arc[start angle=-20.6, end angle=-85.9, radius=40];
+\node at (173,102) {$r$};
+\node at (277,182) {$r$};
+\node at (238,122) {$30^\circ$};
+\end{tikzpicture}
+\end{document}

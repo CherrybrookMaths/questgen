@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % question's axes (crop pixels, y down): origin (93,332); pi/2 = 123.5 px; 1 unit of y = 60 px
+  \draw[->] (8,332) -- (748,332);
+  \draw[->] (93,672) -- (93,14);
+  \node at (733,356) {$x$};
+  \node at (74,30) {$y$};
+  \node at (68,356) {$O$};
+  \foreach \px in {217,341,463,587} \draw (\px,322) -- (\px,332);
+  \node at (203,386) {$\dfrac{\pi}{2}$};
+  \node at (341,356) {$\pi$};
+  \node at (449,386) {$\dfrac{3\pi}{2}$};
+  \node at (587,356) {$2\pi$};
+  \draw (93,272) -- (103,272); \node at (78,272) {$1$};
+  \draw (93,392) -- (103,392); \node at (70,392) {$-1$};
+  % asymptotes x = pi, x = 2pi (x = 0 is the y-axis)
+  \draw[aux] (341,40) -- (341,322); \draw[aux] (341,372) -- (341,640);
+  \draw[aux] (587,40) -- (587,322); \draw[aux] (587,372) -- (587,640);
+  % y = cot x on the two branches, stopped at |y| = 4.6
+  \draw[<->, line width=0.9pt, smooth, samples=90, domain=0.2142:2.9274, variable=\t]
+     plot ({93+78.62*\t}, {332-60*cot(\t r)});
+  \draw[<->, line width=0.9pt, smooth, samples=90, domain=3.3558:6.0690, variable=\t]
+     plot ({93+78.62*\t}, {332-60*cot(\t r)});
+  \node[pt] at (217,332) {}; \node[pt] at (463,332) {};
+  \node[anchor=west] at (128,92) {$y=\cot x$};
+\end{tikzpicture}
+\end{document}

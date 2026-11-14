@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+  \draw[->] (75,600) -- (1125,600);
+  \draw[->] (197,815) -- (197,140);
+  \foreach \i in {1,...,5} {\draw ({197+124.8*\i},600) -- ({197+124.8*\i},588);
+    \node[anchor=north,inner sep=3pt] at ({197+124.8*\i},606) {$\i$};}
+  \foreach \v/\y in {0.2/535,0.4/470,0.6/405,1/275} {\draw (197,\y) -- (209,\y);
+    \node[anchor=east,inner sep=3pt] at (191,\y) {$\v$};}
+  \node[anchor=north east,inner sep=3pt] at (191,606) {$0$};
+  \node[anchor=west,inner sep=3pt] at (1125,600) {$x$};
+  \node[anchor=south,inner sep=3pt] at (197,140) {$y$};
+  \draw[<->,line width=0.9pt,domain=-0.32:5.2,samples=90,smooth] plot ({197+124.8*\x},{600-325*\x*\x*exp(-\x)});
+  \fill (270.1,537.9) circle (2.2pt); \fill (446.6,424.1) circle (2.2pt); \fill (623.1,475.4) circle (2.2pt);
+  \node[anchor=north west,inner sep=3pt] at (276.1,540.9) {$(0.6,\,0.2)$};
+  \node[anchor=south,inner sep=6pt] at (466.6,424.1) {$(2,\,4e^{-2})$};
+  \node[anchor=south west,inner sep=4pt] at (631.1,467.4) {$(3.4,\,0.4)$};
+\end{tikzpicture}
+\end{document}

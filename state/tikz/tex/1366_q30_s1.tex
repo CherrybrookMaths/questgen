@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{13}{15}\selectfont}]
+\fill[shade hatch reverse] (176.5,636.5) -- plot[smooth,samples=40,domain=0:1] ({176.5+141.5*\x},{636.5-511.5*(\x-1)^2*exp(-\x)}) -- cycle;
+\draw[<->] (42,636.5) -- (940,636.5);
+\draw[<->] (176.5,727) -- (176.5,5);
+\draw[->,line width=0.9pt] plot[smooth,samples=90,domain=0:5.3] ({176.5+141.5*\x},{636.5-511.5*(\x-1)^2*exp(-\x)});
+\fill (601,534.7) circle (4);
+\draw[aux] (601,538) -- (601,636.5);
+\node at (125,27) {$\boldsymbol{f(t)}$};
+\node at (160,655) {$\boldsymbol{O}$};
+\node at (318,656) {$\boldsymbol{a}$};
+\node at (318,686) {$1$};
+\node at (601,662) {$3$};
+\node at (642,478) {$(3,\,4e^{-3})$};
+\node at (953,650) {$\boldsymbol{t}$};
+\end{tikzpicture}
+\end{document}

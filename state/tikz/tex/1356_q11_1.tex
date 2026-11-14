@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel coordinates (200 dpi), y downwards: frequency f at y = 605.6 - 10.14 f; bars 132..998 split at 302.5, 477.5, 650.5, 823.5
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\sffamily\fontsize{8.6}{10}\selectfont, text=black!75}]
+  \draw[black!20] (5.5,7.5) rectangle (1155.5,718.5);
+  \foreach \f in {5,10,...,45} \draw[black!20] (132,{605.6-10.14*\f}) -- (1001,{605.6-10.14*\f});
+  \foreach \a/\b/\f in {132/302.5/45, 302.5/477.5/40, 477.5/650.5/30, 650.5/823.5/20, 823.5/998/15}
+    \fill[black!35] (\a,605.6) rectangle (\b,{605.6-10.14*\f});
+  \foreach \x/\f in {302.5/40,477.5/30,650.5/20,823.5/15} \draw[white] (\x,605.6) -- (\x,{605.6-10.14*\f});
+  \draw (127.5,95.5) rectangle (1002,608);
+  \draw (130.5,95.5) -- (130.5,608);
+  \draw[line join=round] (217,{605.6-5.07*30}) -- (390,{605.6-5.07*56.667}) -- (564,{605.6-5.07*76.667}) -- (737,{605.6-5.07*90}) -- (911,{605.6-5.07*100});
+  \foreach \f in {0,5,...,50} \node[anchor=east, inner sep=0pt] at (112,{605.6-10.14*\f}) {\f};
+  \foreach \p in {0,10,...,100} \node[anchor=west, inner sep=0pt] at (1017,{605.6-5.07*\p}) {\p\%};
+  \foreach \x/\l in {217/Word of Mouth,390/Radio,564/Social Media,737/Television,911/Pamphlets} \node at (\x,640) {\l};
+  \node at (565,688) {Source};
+  \node[rotate=90] at (55,352) {Frequency};
+  \node[rotate=90] at (1108,352) {Cumulative Percentage};
+  \node[font=\sffamily\fontsize{12.6}{15}\selectfont] at (580,47) {Sources of New Customers};
+\end{tikzpicture}
+\end{document}

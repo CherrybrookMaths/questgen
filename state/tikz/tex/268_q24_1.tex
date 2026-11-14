@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm, y=0.25cm]
+  % drawing origin = (10,10)
+  \foreach \x in {11,13,15,17,19} \draw[densely dotted, line width=0.6pt] (\x-10,0) -- (\x-10,24);
+  \foreach \y in {12,16,20,24,28,32} \draw[densely dotted, line width=0.6pt] (0,\y-10) -- (10,\y-10);
+  \foreach \x in {12,14,16,18,20} \draw (\x-10,0) -- (\x-10,24);
+  \foreach \y in {14,18,22,26,30,34} \draw (0,\y-10) -- (10,\y-10);
+  % axes with breaks
+  \draw (0,24) -- (0,2.0) -- (-0.07,1.7) -- (0.07,1.3) -- (-0.07,0.9) -- (0.07,0.5) -- (0,0.3) -- (0,-0.75);
+  \draw (-0.23,0) -- (0.3,0) -- (0.34,-0.4) -- (0.40,0.4) -- (0.46,-0.4) -- (0.50,0.4) -- (0.54,0) -- (10,0);
+  \foreach \x in {11,...,20} \draw (\x-10,0) -- (\x-10,-0.75);
+  \foreach \y in {12,14,...,34} \draw (0,\y-10) -- (-0.22,\y-10);
+  \foreach \x in {12,14,16,18,20} \node[below, font=\normalsize] at (\x-10,-0.8) {$\x$};
+  \foreach \y in {14,18,...,34} \node[left, font=\normalsize] at (-0.2,\y-10) {$\y$};
+  % data
+  \foreach \x/\y in {14/23,14/21,14/20,14/18,14/15,14/14,
+     15/27,15/26,15/25,15/24,15/23,15/22,15/20,15/19,15/18,15/17,15/15,15/14,
+     16/27,16/26,16/24,16/22,16/21,16/20,
+     17/30,17/28,17/26,17/24,17/23,17/22,17/21,17/20,17/19}
+     \node[diamond, fill, inner sep=1.8pt] at (\x-10,\y-10) {};
+  % line of best fit
+  \draw[curve, line width=0.6pt] (2.5,{-7.51+1.85*12.5-10}) -- (8.5,{-7.51+1.85*18.5-10});
+  \node[font=\normalsize] at (5,-5.2) {Age of character ($x$ years)};
+  \node[rotate=90, font=\normalsize] at (-1.18,12) {Age of actor ($y$ years)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,35 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% oblique projection fitted to the crop (1 unit = 1 crop px): X along rows, D = depth fraction, Z up
+\begin{tikzpicture}[x=0.0130cm, y=0.0130cm,
+  card/.style={fill=black!12, draw=black, line width=0.6pt, rounded corners=2pt, line join=round}]
+  \def\b{132}\def\H{125}\def\o{17}
+  \newcommand{\Pj}[3]{({#1+57*(#2)},{0.266*(#1)-31*(#2)+(#3)})}
+  % flat card at height z from X=a to X=c
+  \newcommand{\flatcard}[3]{\draw[card] \Pj{#1}{0}{#3} -- \Pj{#2}{0}{#3} -- \Pj{#2}{1}{#3} -- \Pj{#1}{1}{#3} -- cycle;}
+  % leaning card from base (x0,z) to apex (x1,z+H)
+  \newcommand{\leancard}[3]{\draw[card] \Pj{#1}{0}{#3} -- \Pj{#2}{0}{#3+\H} -- \Pj{#2}{1}{#3+\H} -- \Pj{#1}{1}{#3} -- cycle;}
+  % Draw order reproduces the crop's overlaps exactly (it is not a consistent 3-D painter's order):
+  %  floor: middle card lowest; right and left floor cards lie on top of it
+  %  bottom row: right triangle "/" over its "\"; middle triangle "\" OVER its "/" (as printed);
+  %   left floor card's right end over the middle "/" foot; left triangle "\" over middle "/"; left "/" over left "\"
+  %  middle row: left platform card over right one (its right tip shows beside the right "/" foot); left "\" over right "/"
+  % --- floor
+  \flatcard{1*\b-\o}{2*\b+\o}{0}
+  \flatcard{2*\b-\o}{3*\b+\o}{0}
+  \leancard{3*\b}{5*\b/2}{0} \leancard{2*\b}{5*\b/2}{0}   % right triangle: "\" then "/"
+  \leancard{1*\b}{3*\b/2}{0} \leancard{2*\b}{3*\b/2}{0}   % middle triangle: "/" then "\" (\ in front)
+  \flatcard{0*\b-\o}{1*\b+\o}{0}                         % left floor card over middle "/" foot
+  \leancard{1*\b}{\b/2}{0} \leancard{0}{\b/2}{0}          % left triangle: "\" then "/"
+  % --- platform 1 and middle row
+  \flatcard{3*\b/2-\o}{5*\b/2+\o}{\H}                    % right platform card (under the left one)
+  \flatcard{\b/2-\o}{3*\b/2+\o}{\H}                      % left platform card on top of it
+  \leancard{5*\b/2}{2*\b}{\H} \leancard{3*\b/2}{2*\b}{\H} % right triangle: "\" then "/"
+  \leancard{3*\b/2}{\b}{\H} \leancard{\b/2}{\b}{\H}       % left triangle: "\" then "/"
+  % --- platform 2 and top
+  \flatcard{\b-\o}{2*\b+\o}{2*\H}
+  \leancard{2*\b}{3*\b/2}{2*\H}
+  \leancard{\b}{3*\b/2}{2*\H}
+\end{tikzpicture}
+\end{document}

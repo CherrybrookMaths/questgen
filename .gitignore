@@ -11,6 +11,10 @@
 # owner 14 Nov (Fix 2, "Ok we should run Fix 1 and 2"): questions.db as plain text, one file per paper (tools/export_db_text.py,
 # written by tools/snapshot.py at every publish), so the database has a line-by-line history.
 !/dbtext/
+# 14 Nov (move to a fresh cloud session): state/ holds the small state no tool can rebuild (import state, triage, verifier
+# results, crop flags, published manifest, tag disagreements and gates, TikZ sources, bank_v1.json, parse outputs ...).
+# It mirrors the old paths (state/work/triage.json was work/triage.json); tools find it through tools/paths.py. CLAUDE.md.
+!/state/
 
 # site/: the built page, the vendored libraries, the published project/ copies and the small data files.
 !/site/
@@ -43,3 +47,5 @@ __pycache__/
 *.db
 *.zip
 *.bundle
+# ... except state/work/ (tracked state, see !/state/ above). Keep this line last: the last matching pattern wins.
+!/state/work/

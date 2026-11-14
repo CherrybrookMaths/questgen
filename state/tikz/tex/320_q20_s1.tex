@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+  \draw[->] (19,488) -- (812,488);
+  \draw[->] (531,592) -- (531,16);
+  \foreach \i in {60,217,373,687}{\draw (\i,479) -- (\i,497);}
+  \foreach \j in {172,330}{\draw (522,\j) -- (540,\j);}
+  \node[anchor=base] at (215,545) {$-1$};
+  \node at (373,545) {$-\tfrac{1}{2}$};
+  \node at (687,545) {$\tfrac{1}{2}$};
+  \node[anchor=base] at (500,530) {$0$};
+  \node at (270,444) {$-\tfrac{3}{4}$};
+  \node at (366,128) {$\bigl(-\tfrac{1}{2},\,2\bigr)$};
+  \node[anchor=west] at (552,172) {$2$};
+  \node[anchor=east] at (512,330) {$1$};
+  \node at (568,48) {$y$};
+  \node[anchor=base] at (843,525) {$x$};
+  \draw[<->,line width=0.9pt] plot[smooth,samples=90,domain=-0.772:0.276] ({531+314*\x},{488-158*8*(\x)^2*(4*\x+3)}); % y = 1/2 f(4x) = 8x^2(4x+3)
+  \fill (295.5,488) circle (4) (374,172) circle (4);
+\end{tikzpicture}
+\end{document}

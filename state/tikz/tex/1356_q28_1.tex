@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% origin (95.5,309.5) crop px; 565 px per x unit (pi/2 at 983), 475 px per y unit
+\begin{tikzpicture}[x=0.0127cm*565,y=0.0127cm*475,font=\fontsize{12}{14}\selectfont]
+  \fill[shade] plot[smooth,domain=0:pi/2,samples=90] (\x,{cos(deg(2*\x))*sin(deg(2*\x))^4}) -- cycle;
+  \draw[->] (0,0)--(1008/565-95.5/565,0);
+  \draw[<->] (0,-254.5/475)--(0,255.5/475);
+  \foreach \k in {1,...,9} {\ifnum\k=3 \draw ({\k*pi/18},-6.5/475)--({\k*pi/18},6.5/475);\else\ifnum\k=6 \draw ({\k*pi/18},-6.5/475)--({\k*pi/18},6.5/475);\else\ifnum\k=9 \draw ({\k*pi/18},-6.5/475)--({\k*pi/18},6.5/475);\else\draw ({\k*pi/18},-3.5/475)--({\k*pi/18},3.5/475);\fi\fi\fi}
+  \foreach \j in {-10,...,10} {\pgfmathtruncatemacro\m{mod(\j+20,4)}\ifnum\j=0\else
+    \ifnum\m=0 \draw (-7/565,\j/20)--(7/565,\j/20);\else\draw (-3.5/565,\j/20)--(3.5/565,\j/20);\fi\fi}
+  \foreach \d in {6,3,2} \node at ({pi/\d},-53/475) {$\dfrac{\piup}{\d}$};
+  \node at (422.5/565,-53/475) {$\dfrac{\piup}{4}$};
+  \foreach \v in {-0.4,-0.2,0.2,0.4} \node[left] at (-1/565,\v) {$\v$};
+  \draw plot[smooth,domain=0:pi/2,samples=90] (\x,{cos(deg(2*\x))*sin(deg(2*\x))^4});
+  \node at (-2.5/565,280.5/475) {$y$};
+  \node at (923.5/565,-1.5/475) {$x$};
+\end{tikzpicture}
+\end{document}

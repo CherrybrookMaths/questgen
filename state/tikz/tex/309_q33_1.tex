@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2024 Ascham AT4 Q33: y=-sqrt(2x+16) and the parabola, region between shaded (crop pixel units, y down; X=305+27.7x, Y=150-56y)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{13}{15}\selectfont}]
+  \def\S(#1){(305+27.7*(#1)),(150+56*sqrt(2*(#1)+16))}
+  \fill[shade] plot[smooth, domain=4:6, samples=40] ({305+27.7*(\x*\x-16)/2},{150+56*\x}) --
+     plot[smooth, domain=10:0, samples=40] ({305+27.7*\x},{150-56*(-\x*\x/25+\x/5-4)}) -- cycle;
+  \draw[->] (20,150) -- (650,150);
+  \draw[->] (305,629) -- (305,58);
+  \node[anchor=west] at (656,152) {$x$};
+  \node[anchor=south] at (300,50) {$y$};
+  \draw[->,line width=0.9pt] plot[smooth, domain=0:6.33, samples=90] ({305+27.7*(\x*\x-16)/2},{150+56*\x});
+  \draw[<->,line width=0.9pt] plot[smooth, domain=-8.4:12.2, samples=90] ({305+27.7*\x},{150-56*(-\x*\x/25+\x/5-4)});
+  \foreach \p in {(83,150),(305,374),(582.3,486)} \fill \p circle (6);
+  \node at (84,122) {-8};
+  \node at (289,404) {-4};
+  \node at (640,457) {(10, -6)};
+  \node[anchor=west] at (652,505) {$y=-\sqrt{2x+16}$};
+  \node[anchor=west] at (652,590) {$y=-\dfrac{x^2}{25}+\dfrac{x}{5}-4$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(47,420)},xscale=162.7,yscale=-162.4]
+  \fill[shade] plot[smooth,domain=0:pi,samples=90] (\x,{sin(\x r)}) -- plot[smooth,domain=pi:0,samples=90] (\x,{\x*sin(\x r)}) -- cycle;
+  \draw[line width=0.9pt] plot[smooth,domain=0:pi,samples=90] (\x,{sin(\x r)});
+  \draw[line width=0.9pt] plot[smooth,domain=0:pi,samples=90] (\x,{\x*sin(\x r)});
+  \draw[->] (-0.22,0)--(3.47,0);
+  \draw[->] (0,-0.27)--(0,2.43);
+\end{scope}
+\node[font=\normalsize] at (70,52) {$y$};
+\node[font=\normalsize] at (598,450) {$x$};
+\end{tikzpicture}
+\end{document}

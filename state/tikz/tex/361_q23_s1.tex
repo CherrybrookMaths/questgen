@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% Rebuilt from the solution: PQ 150 km on 060, QR 200 km on 160 (1.8 px per km); PR 228.21, angle PQR 80,
+% angle QRP 40.3, bearing of P from R 300 (= 360 - 20 - 40.3)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\normalsize]
+  \coordinate (P) at (80,300); \coordinate (Q) at (313.83,165); \coordinate (R) at (436.95,503.29);
+  \draw (P) -- (Q) -- (R) -- cycle;
+  \draw[aux,->] (P) -- (80,170); \node at (80,152) {$N$};
+  \draw[aux,->] (Q) -- (313.83,45); \node at (313.83,27) {$N$};
+  \draw[aux,->] (R) -- (436.95,300); \node at (436.95,282) {$N$};
+  % at P: 060 bearing
+  \draw[->] (P) ++(-90:52) arc[start angle=-90,end angle=-30,radius=52];
+  % at Q: 160 bearing (N clockwise to QR), 120 (N anticlockwise to QP), 80 (angle PQR)
+  \draw[->] (Q) ++(-90:50) arc[start angle=-90,end angle=70,radius=50];
+  \draw (Q) ++(-90:56) arc[start angle=-90,end angle=-210,radius=56];
+  \draw (Q) ++(70:64) arc[start angle=70,end angle=150,radius=64];
+  % at R: 20 (N to RQ), angle QRP, and the bearing of P from R (N clockwise to RP)
+  \draw (R) ++(-90:132) arc[start angle=-90,end angle=-110,radius=132];
+  \draw (R) ++(-110:82) arc[start angle=-110,end angle=-150.34,radius=82];
+  \draw[->] (R) ++(-90:40) arc[start angle=-90,end angle=209.66,radius=40];
+  \foreach \p in {P,Q,R} \fill (\p) circle (1.3pt);
+  \node at ($(P)+(-60:86)$) {$060^\circ$};
+  \node at ($(Q)+(-12:92)$) {$160^\circ$};
+  \node at ($(Q)+(-150:92)$) {$120^\circ$};
+  \node at ($(Q)+(110:94)$) {$80^\circ$};
+  \node at ($(R)+(-100:174)$) {$20^\circ$};
+  \node at ($(R)+(-130:118)$) {$40.3^\circ$};
+  \node at ($(R)+(30:72)$) {$300^\circ$};
+  \node[rotate=30] at (207,251) {150 km};
+  \node[rotate=-70] at (342,326) {200 km};
+  \node at ($(P)+(200:26)$) {$P$};
+  \node at ($(Q)+(-150:28)$) {$Q$};
+  \node at ($(R)+(118:62)$) {$R$};
+  \draw (560,110) rectangle (770,190);
+  \node[align=center,font=\small\bfseries] at (665,150) {Diagram not to\\scale};
+\end{tikzpicture}
+\end{document}

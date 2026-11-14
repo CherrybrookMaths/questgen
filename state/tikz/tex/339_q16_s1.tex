@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % left table
+  \draw (103,98) rectangle (335,185); \draw (103,140) -- (335,140);
+  \foreach \c in {140,200,265} \draw (\c,98) -- (\c,185);
+  \foreach \t/\x in {x/121.5,-1/170,0/232.5,1/300} \node at (\x,119) {$\t$};
+  \foreach \t/\x in {y'/121.5,\frac{5}{9}/170,0/232.5,-3/300} \node at (\x,162.5) {$\t$};
+  \node[anchor=base] at (220,45) {Testing nature $(0,0)$};
+  \draw (165,298) -- (200,230) -- (268,230) -- (318,300);
+  \node at (160,250) {$+$}; \node[font=\small] at (234,215) {$0$}; \node at (307,258) {$-$};
+  % right table
+  \draw (603,118) rectangle (852,210); \draw (603,163) -- (852,163);
+  \foreach \c in {645,715,780} \draw (\c,118) -- (\c,210);
+  \foreach \t/\x in {x/624,3/680,4/747.5,5/816} \node at (\x,140.5) {$\t$};
+  \foreach \t/\x in {y'/624,-3/680,0/747.5,\frac{5}{9}/816} \node at (\x,186.5) {$\t$};
+  \node[anchor=base] at (727,65) {Testing nature $(4,8)$};
+  \draw (657,233) -- (712,315) -- (785,315) -- (825,233);
+  \node at (655,280) {$-$}; \node[font=\small] at (750,332) {$0$}; \node at (830,278) {$+$};
+\end{tikzpicture}
+\end{document}

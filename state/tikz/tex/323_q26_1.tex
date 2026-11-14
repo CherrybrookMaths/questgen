@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+  % 1 unit of age = 36.65 px (x = 0 at 174), 1 cm of foot length = 14.6 px (y = 0 at 505)
+  \def\X#1{174+36.65*#1}\def\Y#1{505-14.6*#1}
+  % minor grid (grey)
+  \foreach \i in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19}{\draw[black!25] ({\X{\i}},{\Y{30}}) -- ({\X{\i}},{\Y{0}});}
+  \foreach \j in {2.5,5,...,30}{\draw[black!25] ({\X{0}},{\Y{\j}}) -- ({\X{20}},{\Y{\j}});}
+  % major verticals and x-axis (black)
+  \foreach \i in {0,5,10,15,20}{\draw ({\X{\i}},{\Y{30}}) -- ({\X{\i}},{\Y{0}});}
+  \draw ({\X{0}},{\Y{0}}) -- ({\X{20}},{\Y{0}});
+  % ticks
+  \foreach \i in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19}{\draw ({\X{\i}},505) -- ({\X{\i}},514);}
+  \foreach \i in {0,5,10,15,20}{\draw ({\X{\i}},505) -- ({\X{\i}},522);}
+  \foreach \j in {0,5,...,30}{\draw (164,{\Y{\j}}) -- (174,{\Y{\j}});}
+  % tick labels
+  \foreach \i in {0,5,10,15,20}{\node[anchor=base] at ({\X{\i}},556) {$\mathrm{\i}$};}
+  \foreach \j in {0,5,...,30}{\node[anchor=east] at (154,{\Y{\j}}) {$\mathrm{\j}$};}
+  % titles
+  \node at (540,34) {\sffamily\bfseries Foot length};
+  \node at (540,585) {Age ($x$ years)};
+  \node[rotate=90,font=\footnotesize] at (69,285) {Foot length ($y$ centimetres)};
+  % regression line through (12,22.5) and (19,27.5)
+  \draw[aux] ({\X{10.15}},{\Y{21.11}}) -- ({\X{20}},{\Y{28.14}});
+  % data
+  \foreach \a/\b in {12/25,12/20,13/27.5,13/25,13/20,14/25,14/17.5,15/25,16/27.5,16/25,16/20,17/30,17/25,18/30,18/22.5}
+    {\fill ({\X{\a}},{\Y{\b}}) circle (4);}
+\end{tikzpicture}
+\end{document}

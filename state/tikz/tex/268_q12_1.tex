@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.2cm, y=0.2cm]
+  % minor grid every 1 unit (dotted), major every 5 units (solid)
+  \foreach \k in {1,...,39} {
+    \draw[densely dotted, line width=0.35pt, black] (\k,0) -- (\k,40);
+    \draw[densely dotted, line width=0.35pt, black] (0,\k) -- (40,\k);
+  }
+  \foreach \k in {0,5,...,40} {
+    \draw[line width=0.6pt] (\k,0) -- (\k,40);
+    \draw[line width=0.6pt] (0,\k) -- (40,\k);
+    \draw (\k,0) -- (\k,-0.7);
+    \draw (0,\k) -- (-0.7,\k);
+  }
+  \foreach \k in {0,10,...,40} {
+    \node[below, inner sep=4pt] at (\k,-0.7) {$\k$};
+    \node[left, inner sep=3pt] at (-0.7,\k) {$\k$};
+  }
+  \node at (20,-5.9) {Temperature ($T^\circ$C)};
+  \node[rotate=90] at (-6.1,20) {Time ($M$ minutes)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{12}{14}\selectfont]
+  % origin (141,209); 234 px per x unit, 307 px per y unit (sketch proportions of the crop)
+  \def\ox{140.5}\def\oy{209}\def\sx{234}\def\sy{307}
+  \fill[fill=black!33] plot[smooth, samples=40, domain=0:1, variable=\u] ({\ox+\sx*\u},{\oy-\sy*\u*exp(-\u)}) -- cycle;
+  \draw[->] (14,209) -- (735,209);
+  \draw[->] (140.5,371) -- (140.5,48);
+  \draw[<->,line width=0.9pt, smooth, samples=90, domain=-0.36:2.54, variable=\u] plot ({\ox+\sx*\u},{\oy-\sy*\u*exp(-\u)});
+  \draw[<->,line width=0.9pt] ({\ox+\sx*(-0.548)},{\oy+\sy*0.548/2.71828}) -- ({\ox+\sx*1.42},{\oy-\sy*1.42/2.71828});
+  \node at (139.5,30) {$y$};
+  \node at (744,211) {$x$};
+  \node at (516,40) {$y=\dfrac{x}{e}$};
+  \node at (536,140) {$y=xe^{-x}$};
+\end{tikzpicture}
+\end{document}

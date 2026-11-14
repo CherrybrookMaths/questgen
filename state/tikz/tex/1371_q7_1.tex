@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 St George Girls AT4 Q7: square of side 10 with shaded semicircle on the top side (crop pixel units, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{15}{17}\selectfont}]
+  \fill[shade] (44,87.5) arc[start angle=180, end angle=0, radius=181.75] -- cycle;
+  \draw (44,87.5) arc[start angle=180, end angle=0, radius=181.75];
+  \draw (44,87.5) rectangle (407.5,449.5);
+  \fill (225.75,87.5) circle (4);
+  \node at (147,41) {$5$};
+  \node at (322,41) {$5$};
+  \node at (480,273) {$10$};
+\end{tikzpicture}
+\end{document}

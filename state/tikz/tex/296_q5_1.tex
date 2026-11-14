@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=2.333cm, y=1.163cm, xmin=-2.567, xmax=2.561, ymin=-3.652, ymax=3.64,
+  xtick=\empty, ytick={-3,-2,-1,1,2,3}, yticklabels={$-3$,$-2$,$-1$,$1$,$2$,$3$},
+  yticklabel style={font=\normalsize, inner sep=1pt}, ytick align=outside, major tick length=1.8mm,
+  tick style={black, line width=0.6pt}, xlabel=\empty, ylabel=\empty]
+  \addplot[shade dots, draw=none, domain=0:1] {4*x^3-4*x} \closedcycle;
+  \addplot[domain=-1.287:1.287] {4*x^3-4*x};
+  \draw ([yshift=0.9mm]axis cs:-2,0) -- ([yshift=-1mm]axis cs:-2,0);
+  \draw (axis cs:-1.287,0) -- ([yshift=-1mm]axis cs:-1.287,0);
+  \draw (axis cs:1.287,0) -- ([yshift=-1mm]axis cs:1.287,0);
+  \draw ([yshift=0.9mm]axis cs:2,0) -- ([yshift=-1mm]axis cs:2,0);
+  \node at (axis cs:-2.05,0.31) {$-2$};
+  \node at (axis cs:-1.11,0.31) {$-1$};
+  \node at (axis cs:0.95,0.31) {$1$};
+  \node at (axis cs:2,0.31) {$2$};
+  \node at (axis cs:-1.34,-0.24) {$-a$};
+  \node at (axis cs:1.287,-0.24) {$a$};
+  \node at (axis cs:-0.13,-0.24) {$O$};
+  \node at (axis cs:2.50,-0.24) {$x$};
+  \node at (axis cs:-0.12,3.56) {$y$};
+  \node[align=center, inner sep=0pt] at (axis cs:2.87,2.53) {NOT TO\\[1pt]SCALE};
+\end{axis}
+\end{tikzpicture}
+\end{document}

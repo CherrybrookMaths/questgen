@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\normalsize]
+\coordinate (B) at (60,388); \coordinate (C) at (263,388); \coordinate (D) at (600,388); \coordinate (A) at (330,50);
+\draw (B) -- (D) -- (A) -- cycle; \draw (C) -- (A);
+\pic[draw,angle radius=0.42cm] {angle=C--B--A};
+\pic[draw,angle radius=0.42cm] {angle=D--C--A};
+\pic[draw,angle radius=0.42cm] {angle=A--D--C};
+\node at (126,360) {$45^\circ$}; \node at (319,346) {$75^\circ$}; \node at (535,360) {$60^\circ$};
+\node at (37,412) {$B$}; \node at (263,415) {$C$}; \node at (625,412) {$D$}; \node at (331,27) {$A$};
+\node at (160,410) {$x$}; \node at (431,410) {$y$};
+\end{tikzpicture}
+\end{document}

@@ -2,8 +2,9 @@
 Lists every MCQ with no solution text, and every leaf part of a written question with no solution text (its own,
 its parent's, or the whole question's). Run after loading a paper; the list must be empty before the paper is reviewed.
 Exit code 1 if anything is missing."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, sys
-db = sqlite3.connect(sys.argv[1] if len(sys.argv) > 1 else '/mnt/user-data/outputs/questions.db')
+db = sqlite3.connect(sys.argv[1] if len(sys.argv) > 1 else paths.DBS)
 has = lambda where, args: any((l or '').strip() for l, in db.execute(f'select latex from solutions where {where}', args))
 miss = []
 for qid, typ, num, doc in db.execute('select id, question_type, number, document_id from questions'):

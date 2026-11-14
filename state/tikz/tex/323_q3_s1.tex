@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\normalsize]
+  \draw (-10,100) -- (277,100);
+  \draw (125,3) -- (125,166);
+  % true y=x^2-1 (roots +-1 symmetric about the y-axis; 57 px across, 25 px up per unit)
+  \draw[<->, line width=0.9pt] plot[smooth,samples=90,domain=-2.05:2.05] ({125+57*\x},{100-25*(\x*\x-1)});
+  \draw (68,100) circle (11) (182,100) circle (11);
+  \node at (60,145) {$-1$};
+  \node at (184,145) {$1$};
+\end{tikzpicture}
+\end{document}

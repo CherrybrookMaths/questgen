@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{8}{10}\selectfont]
+  % bell fitted to the crop: peak (294,11); spread 53 px left, 48.7 px right of the peak
+  \def\Ny(#1){171-160*exp(-((#1-294)/(#1<294?53:48.7))^2/2)}
+  \fill[black!30] (90,171) -- plot[smooth,domain=90:366,samples=70,variable=\t] (\t,{\Ny(\t)}) -- (366,171) -- cycle;
+  \draw[<->] (80,171) -- (502,171);
+  \draw[curve,line width=0.9pt] plot[smooth,domain=90:498,samples=90,variable=\t] (\t,{\Ny(\t)});
+  \draw (366,171) -- (366,{\Ny(366)});
+  \draw (294,171) -- (294,175);
+  \node at (294,182) {$0$};
+  \node at (368,181) {$z$};
+\end{tikzpicture}
+\end{document}

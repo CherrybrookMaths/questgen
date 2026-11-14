@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.42cm, y=0.42cm]
+  % left: a possible y = f(x)
+  \begin{scope}
+  \draw[->] (-2.2,0) -- (12.2,0) node[right] {$x$};
+  \draw[->] (0,-6.6) -- (0,7.2) node[above] {$y$};
+  \draw[aux] (-2,-4) -- (11.8,-4); \node[right, font=\small] at (11.8,-4.5) {$y=-4$};
+  \draw[curve] plot[smooth, tension=0.55] coordinates {(-1.1,6.0) (-0.5,3.7) (0,2) (0.5,0.85) (1,0) (2,-1.75) (3,-3.45) (4,-4.6) (5,-5) (6,-4.85) (7.5,-4.45) (9.5,-4.2) (11.5,-4.08)};
+  \node[pt] at (0,2) {}; \node[right, font=\small] at (0.1,2.3) {$2$};
+  \node[pt] at (1,0) {}; \node[above right, font=\small, inner sep=1pt] at (1,0) {$1$};
+  \node[pt] at (5,-5) {}; \node[below, font=\small] at (5,-5) {$(5,-5)$};
+  \node at (5.5,6.2) {$y=f(x)$};
+  \end{scope}
+  % right: y = -f(x-2)
+  \begin{scope}[xshift=7.2cm]
+  \draw[->] (-2.2,0) -- (14.2,0) node[right] {$x$};
+  \draw[->] (0,-7.2) -- (0,6.6) node[above] {$y$};
+  \draw[aux] (-2,4) -- (13.8,4); \node[right, font=\small] at (13.8,4.5) {$y=4$};
+  \draw[curve] plot[smooth, tension=0.55] coordinates {(0.8999999999999999,-6.0) (1.5,-3.7) (2,-2) (2.5,-0.85) (3,0) (4,1.75) (5,3.45) (6,4.6) (7,5) (8,4.85) (9.5,4.45) (11.5,4.2) (13.5,4.08)};
+  \node[pt] at (3,0) {}; \node[below right, font=\small, inner sep=1pt] at (3,0) {$3$};
+  \node[pt] at (7,5) {}; \node[above, font=\small] at (7,5) {$(7,5)$};
+  \node at (7,-5.5) {$y=-f(x-2)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

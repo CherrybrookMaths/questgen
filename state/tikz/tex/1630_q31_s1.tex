@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 NESA HSC Q31 solution: y = cos x with y = 1/2 meeting it at pi/3, 5pi/3, 7pi/3 (crop pixels, y down; 78.8 px per radian, amplitude 123 px)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\oy{195}
+  \draw[->] (14,\oy) -- (740,\oy);
+  \draw[->] (66,{\oy+130}) -- (66,{\oy-184});
+  \draw (54,{\oy-123}) -- (66,{\oy-123});
+  \draw (54,{\oy-61.5}) -- (66,{\oy-61.5});
+  \node at (45,{\oy-173}) {$y$};
+  \node at (34,{\oy-126}) {$1$};
+  \node at (34,{\oy-62}) {$\dfrac{1}{2}$};
+  \node at (731,{\oy+25}) {$x$};
+  \draw[line width=0.9pt] plot[smooth,domain=0:7.3304,samples=90] ({66+78.8*\x},{\oy-123*cos(\x r)});
+  \draw[dotted] (66,{\oy-61.5}) -- (670,{\oy-61.5});
+  \foreach \k in {1,5,7} \draw[dotted] ({66+78.8*\k*pi/3},{\oy-61.5}) -- ({66+78.8*\k*pi/3},\oy);
+  \node at (149,240) {$\dfrac{\pi}{3}$};
+  \node at (478,240) {$\dfrac{5\pi}{3}$};
+  \node at (643,240) {$\dfrac{7\pi}{3}$};
+  \node at (669,70) {$y=\cos x$};
+\end{tikzpicture}
+\end{document}

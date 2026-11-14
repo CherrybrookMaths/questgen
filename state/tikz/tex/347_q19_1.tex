@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\Y#1{558-5.7625*#1}
+  \foreach \v in {10,20,...,80} \draw[black!35] (142,{\Y{\v}}) -- (1012,{\Y{\v}});
+  \foreach \l/\r/\f in {142/316/70,316/490/40,490/664/25,664/838/15,838/1012/10}
+    \draw[fill=black!25] (\l,558) rectangle (\r,{\Y{\f}});
+  \draw (142,97) -- (142,558) -- (1012,558) -- (1012,97);
+  \foreach \v in {0,10,...,80} {\draw (134,{\Y{\v}}) -- (142,{\Y{\v}}); \node[anchor=east] at (132,{\Y{\v}}) {$\v$};}
+  \foreach \p in {0,10,...,100} {\draw (1012,{558-4.61*\p}) -- (1020,{558-4.61*\p}); \node[anchor=west] at (1020,{558-4.61*\p}) {$\p$};}
+  \draw[line width=0.9pt] (229,356.3) -- (403,241.1) -- (577,169.0) -- (751,125.8) -- (925,97);
+  \foreach \x/\t in {229/Traffic,403/Childcare,577/Overslept,751/Weather,925/Emergency} \node[] at (\x,588) {\t};
+  \node[font=\bfseries] at (577,42) {Reasons for arriving late to work};
+  \node[rotate=90] at (40,325) {Frequency};
+  \node[rotate=-90] at (1115,330) {Cumulative percentage (\%)};
+\end{tikzpicture}
+\end{document}

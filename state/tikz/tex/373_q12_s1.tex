@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+% y=(x+8)(x+2): px=256.5+24.9x, py=122-8.67y ; intercepts x=-8, x=-2 on the axis
+\draw (12,122) -- (360,122);
+\draw (265,12) -- (265,228); % y-axis at the crop's position (sketch, not to scale), leaving room for the -2 label
+\draw[line width=0.9pt,smooth,samples=90,domain=-9.3:-0.7] plot ({256.5+24.9*\x},{122-8.67*(\x+8)*(\x+2)});
+\fill (57.3,122) circle (3.2) (206.7,122) circle (3.2);
+% tick labels below the axis, outside the parabola (owner: "-8 and -2 go under and outside the axes")
+\node[anchor=north east,inner sep=0pt] at (51,131) {$-8$};
+\node[anchor=north,inner sep=0pt] at (237,131) {$-2$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2024 Ascham AT4 Q24: circle centre O, shaded sector XOY (crop pixel units, y down; tikz angles negated)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{12}{14}\selectfont}]
+  \coordinate (O) at (228.4,257.9);
+  \fill[shade] (O) -- ($(O)+(9.44:212.9)$) arc[start angle=9.44, end angle=-127.85, radius=212.9] -- cycle;
+  \draw (O) circle (212.9);
+  \draw ($(O)+(-127.85:212.9)$) -- (O) -- ($(O)+(9.44:212.9)$);
+  \draw ($(O)+(9.44:28)$) arc[start angle=9.44, end angle=-127.85, radius=28];
+  \fill (O) circle (5); \fill ($(O)+(-127.85:212.9)$) circle (5); \fill ($(O)+(9.44:212.9)$) circle (5);
+  \node at (70,76) {X};
+  \node at (460,298) {Y};
+  \node at (214,285) {O};
+  \node at (258,211) {$\theta$};
+  \node at (405,42) {$\dfrac{5\pi}{2}$\ cm};
+  \node at (641,233) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

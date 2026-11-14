@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (110,283)--(690,283);
+  \draw[<->] (368,470)--(368,85);
+  \draw[aux] (115,258)--(680,258);
+  % true y=3e^{-x}+1: origin (368,283), 60 px per x unit, 25 px per y unit (asymptote y=1 at 258, intercept 4 at 183)
+  \draw[<->, line width=0.9pt] plot[smooth,samples=90,domain=-0.95:2.5] ({368+60*\x},{283-25*(3*exp(-\x)+1)});
+  \node[font=\large] at (384,70) {$y$};
+  \node[font=\large] at (707,285) {$x$};
+  \node[font=\large,anchor=south west,inner sep=2pt] at (375,177) {$4$};
+  \node[font=\large,anchor=south west,inner sep=1pt] at (684,256) {$y=1$};
+  \node[font=\large,anchor=west] at (100,30) {$y=3e^{-x}+1$};
+\end{tikzpicture}
+\end{document}

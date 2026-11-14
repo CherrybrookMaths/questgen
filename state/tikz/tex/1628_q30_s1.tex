@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2024 NESA HSC Q30 solution: y = x/(1-x), asymptotes x = 1 and y = -1 (crop pixels, y down; origin (388,337), 71.5 px per unit across, 73 down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (23,337) -- (898,337);
+  \draw[->] (388,789) -- (388,30);
+  \draw[aux] (69,410) -- (852,410);
+  \draw[aux] (461,45) -- (461,775);
+  \draw plot[smooth,domain=-4.2:0.794,samples=90] ({388+71.5*\x},{337-73*\x/(1-\x)});
+  \draw plot[smooth,domain=1.206:6.27,samples=90] ({388+71.5*\x},{337-73*\x/(1-\x)});
+  \draw (316,330) -- (316,344);
+  \draw (316,366) -- (316,382);
+  \draw (370,373.5) -- (388,373.5);
+  \node at (372,42) {$y$};
+  \node at (887,356) {$x$};
+  \node at (314,311) {$-1$};
+  \node at (475,353) {$1$};
+  \node at (360,432) {$-1$};
+  \node at (416,374) {$-\dfrac{1}{2}$};
+\end{tikzpicture}
+\end{document}

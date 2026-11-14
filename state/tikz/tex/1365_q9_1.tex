@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=2.997cm, y=0.97cm, axis line style={draw=none},
+  xmin=-1.16, xmax=1.155, ymin=-2.6, ymax=2.55, xlabel={}, ylabel={},
+  xtick={-0.8333,-0.5,-0.1667,0,0.1667,0.5,0.8333}, xticklabels={}, ytick=\empty,
+  extra x ticks={-1,-0.6667,-0.3333,0.3333,0.6667,1},
+  extra x tick labels={$-\pi$,$-\dfrac{2\pi}{3}$,$-\dfrac{\pi}{3}$,$\dfrac{\pi}{3}$,$\dfrac{2\pi}{3}$,$\pi$},
+  extra x tick style={tick label style={yshift=-4pt}},
+  tick label style={font=\normalsize},
+  major tick length=8pt, tick align=center, xtick style={black, line width=0.6pt}]
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:-1.16,0) -- (axis cs:1.155,0) node[right, font=\large] {$x$};
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:0,-2.55) -- (axis cs:0,2.55) node[above, font=\large] {$y$};
+  % y = -cot(2x) (x in units of pi), fitted to the crop: 74 px per unit, branches end at |y| ~ 2.53
+  \foreach \c in {-0.75,-0.25,0.25,0.75} {
+    \addplot[<->, >={Latex[length=2mm,width=1.3mm]}, line width=0.6pt, domain=\c-0.19:\c+0.19] {-cot(360*x)};
+  }
+  \addplot[<->, >={Latex[length=2mm,width=1.3mm]}, line width=0.6pt, domain=-1.157:-1.0597] {-cot(360*x)};
+  \addplot[<->, >={Latex[length=2mm,width=1.3mm]}, line width=0.6pt, domain=1.0605:1.144] {-cot(360*x)};
+\end{axis}
+\end{tikzpicture}
+\end{document}

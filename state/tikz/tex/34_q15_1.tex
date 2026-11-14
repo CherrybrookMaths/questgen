@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+  % positions taken from the (not-to-scale) original sketch, 1 unit = 1 cm
+  \coordinate (P) at (0,0);
+  \coordinate (A) at (1.792,1.852);
+  \coordinate (B) at (4.302,-1.219);
+  \draw[->] (0,-1.446) -- (0,2.239);
+  \node at (0,2.53) {\textbf{N}};
+  \draw (P) -- (A) (P) -- (B);
+  \node[pt] at (P) {}; \node[pt] at (A) {}; \node[pt] at (B) {};
+  \node at (-0.31,0) {$P$};
+  \node at (1.99,1.79) {$A$};
+  \node at (4.51,-1.24) {$B$};
+  \node at (1.64,0.93) {7 km};
+  \node at (2.14,-0.92) {9 km};
+  \node[align=center] at (6.31,0.35) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

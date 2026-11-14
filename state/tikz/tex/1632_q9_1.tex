@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % curve fitted to the crop: y = 220.9 - 195.4 exp(-((x-448.5)/100.5)^2/2)
+  \def\nc(#1){220.9-195.4*exp(-((#1-448.5)/100.5)^2/2)}
+  \fill[shade dots, stipple color=black!55] (106,231.5) -- plot[domain=106:285, samples=40, smooth] (\x,{\nc(\x)}) -- (285,231.5) -- cycle;
+  \fill[shade dots, stipple color=black!55] (580,231.5) -- plot[domain=580:791, samples=40, smooth] (\x,{\nc(\x)}) -- (791,231.5) -- cycle;
+  \draw[curve, line width=0.9pt] plot[domain=106:791, samples=90, smooth] (\x,{\nc(\x)});
+  \draw[<->] (14,231.5) -- (878,231.5);
+  \draw (448.5,216) -- (448.5,247);
+  \draw[aux] (285,{\nc(285)}) -- (285,231.5);
+  \draw[aux] (580,{\nc(580)}) -- (580,231.5);
+  \draw (285,231.5) -- (285,247);
+  \draw (580,231.5) -- (580,247);
+  \node at (285,265) {$-1.5$};
+  \node at (448.5,265) {0};
+  \node at (581,265) {1.2};
+\end{tikzpicture}
+\end{document}

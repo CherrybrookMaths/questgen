@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 North Sydney Girls AT4 Q18 solution: v=8t-16 for 0<=t<=5, areas to the axis hatched.
+% Owner (12 Nov): the teacher's pen tilt is not copied (rule 10): upright v-axis, straight line through
+% (0,-16), (2,0), (5,24) at the crop's position and size. Crop pixels, y down; origin (244,264.5),
+% 46.5 px per unit of t, 9.6 px per unit of v.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{12}{14}\selectfont]
+  \coordinate (L) at (244,418.1); \coordinate (Z) at (337,264.5);
+  \coordinate (U) at (476.5,34.1); \coordinate (F) at (476.5,264.5);
+  \path[shade hatch reverse] (244,264.5) -- (Z) -- (L) -- cycle;
+  \path[shade hatch reverse] (Z) -- (F) -- (U) -- cycle;
+  \draw[->] (5,264.5) -- (552,264.5);
+  \draw[->] (244,440) -- (244,2);
+  \draw (L) -- (U);
+  \draw[aux] (U) -- (F);
+  \draw (476.5,259.5) -- (476.5,269.5);
+  \draw (239,418.1) -- (249,418.1);
+  \node[anchor=west,inner sep=1pt] at (555,265.5) {$t$};
+  \node at (348,291) {$2$};
+  \node at (478,292) {$5$};
+  \node at (200,36) {$24$};
+  \node at (204,418) {$-16$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small},declare function={g(\x)=106-91*exp(-0.5*((\x-117.5)/52.3)^2);}]
+  \draw (0,106) -- (272,106);
+  \draw[line width=0.9pt] plot[domain=0:272,smooth,samples=90] (\x,{g(\x)});
+  \draw (48,106) -- (48,{g(48)});
+  \draw (187,106) -- (187,{g(187)});
+  \draw (117.5,106) -- (117.5,98);
+  \node at (36,133) {$152$};
+  \node at (120,133) {$176$};
+  \node at (196,133) {$200$};
+  \node at (38,162) {$z=-1$};
+  \node at (196,162) {$z=1$};
+\end{tikzpicture}
+\end{document}

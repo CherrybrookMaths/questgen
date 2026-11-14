@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down: T(t)=106.5+78.75t, Y(P)=263-39.25P; P_1(t)=2sin(2pi t/5) for 0<=t<=10.7 as printed
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \i in {-1,1,2,3,5,6,7,9,10,11,13,14,15,17,18,19,21} \draw[black!35] ({106.5+39.375*\i},66) -- ({106.5+39.375*\i},459);
+  \foreach \j in {-3,-2,-1,1,2,3} \draw[black!35] (28,{263-39.25*\j}) -- (971,{263-39.25*\j});
+  \foreach \i in {2,4,...,10} \draw ({106.5+78.75*\i},66) -- ({106.5+78.75*\i},459);
+  \foreach \j in {-4,4} \draw (28,{263-39.25*\j}) -- (971,{263-39.25*\j});
+  \draw[->] (0,263) -- (1019,263);
+  \draw[->] (106.5,497) -- (106.5,10);
+  \draw[line width=0.9pt] plot[smooth, domain=0:10.7, samples=90] ({106.5+78.75*\x},{263-39.25*2*sin(72*\x)});
+  \foreach \t in {0,1.25,...,10} \fill ({106.5+78.75*\t},{263-39.25*2*sin(72*\t)}) circle[radius=4];
+  \foreach \i in {1,...,9} \node at ({106.5+78.75*\i},284.5) {\halo{$\i$}};
+  \node at ({106.5+78.75*10+12},284.5) {\halo{$10$}};
+  \node at (83,281.5) {\halo{$O$}};
+  \node[anchor=east, inner sep=0pt] at (96,{263-39.25*4+1}) {\halo{$4$}};
+  \node[anchor=east, inner sep=0pt] at (96,{263-39.25*2+1}) {\halo{$2$}};
+  \node[anchor=east, inner sep=0pt] at (96,{263+39.25*2+1}) {\halo{$-2$}};
+  \node[anchor=east, inner sep=0pt] at (96,{263+39.25*4+1}) {\halo{$-4$}};
+  \node at (74,30) {$P(t)$};
+  \node at (1008,284) {$t$};
+\end{tikzpicture}
+\end{document}

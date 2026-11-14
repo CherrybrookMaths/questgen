@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % GeoGebra plot (to scale): origin (135,293) px, 96.3 px per unit
+  \begin{scope}[shift={(135,293)}, xscale=96.3, yscale=-96.3]
+    \draw (-1.34,0) -- (2.94,0);
+    \draw (0,2.96) -- (0,-0.85);
+    \draw[line width=0.9pt] plot[smooth, domain=-0.2765:0.7801, samples=90] (\x, {3*tan(\x r)});
+    \draw[line width=0.9pt] plot[smooth, domain=0.3245:2.2762, samples=90] (\x, {cot(\x r)});
+    \filldraw[fill=black!45] ({pi/6},{sqrt(3)}) circle[radius=0.062];
+    \node at (0.866,1.71) {$A$};
+    \node at (1.469,-0.46) {$\dfrac{\pi}{2}$};
+    \node[anchor=west,inner sep=0pt] at (0.862,2.68) {$y=3\tan x$};
+    \node[anchor=west,inner sep=0pt] at (2.461,-0.39) {$y=\cot x$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

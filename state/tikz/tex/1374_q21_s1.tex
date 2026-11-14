@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Sydney Grammar AT4 Q21 solution: y=x^3/27-x+2 with max (-3,4), inflection (0,2), min (3,0), x-intercept -6 (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{13}\selectfont]
+  \def\ox{409}\def\oy{371}\def\u{59}
+  \draw[->] (0,\oy) -- (768,\oy);
+  \draw[->] (408.5,518) -- (408.5,46);
+  \node[anchor=west,inner sep=2pt] at (768,\oy) {$x$};
+  \node[anchor=south,inner sep=2pt] at (\ox,44) {$y$};
+  \draw[<->,smooth] plot[domain=-6.75:6.38,samples=90] ({\ox+\u*\x},{\oy-\u*(\x*\x*\x/27-\x+2)});
+  \foreach \px/\py in {-6/0,-3/4,0/2,3/0}{\fill ({\ox+\u*\px},{\oy-\u*\py}) circle (3);}
+  \node[anchor=south,inner sep=5pt] at ({\ox-3*\u},{\oy-4*\u}) {$(-3,4)$};
+  \node[anchor=west,inner sep=5pt] at (\ox,{\oy-2*\u}) {$(0,2)$};
+  \node[anchor=north,inner sep=5pt] at ({\ox+3*\u},\oy) {$(3,0)$};
+  \node at (40,355) {$-6$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel units (y down). Open box as printed (NOT TO SCALE): front face, top rim, back-left and back-right edges.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{12.8}{14}\selectfont}]
+  \draw (9.5,91) rectangle (379.5,213.5);
+  \draw (9.5,91) -- (90.5,11) -- (459.5,11) -- (379.5,91);
+  \draw (90.5,11) -- (90.5,91);
+  \draw (459.5,11) -- (459.5,133.5) -- (379.5,213.5);
+  \node at (475.5,81) {$x$};
+  \node at (446.5,183.5) {$2x$};
+  \node at (193,235.5) {$l$};
+  \node[anchor=base] at (598.5,93) {NOT TO};
+  \node[anchor=base] at (599.5,132) {SCALE};
+\end{tikzpicture}
+\end{document}

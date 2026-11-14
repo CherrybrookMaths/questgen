@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.527cm, y=0.527cm, xmin=-2.63, xmax=14.48, ymin=-4.65, ymax=5.45,
+  xtick=\empty, ytick=\empty, xlabel=\empty, ylabel=\empty]
+  \addplot[{Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}, domain=0.1446:11.2, samples=400] {2*ln(x)};
+  \draw (axis cs:1,0) -- (axis cs:1,-0.40);
+  \node at (axis cs:1.0,-0.94) {$1$};
+  \node at (axis cs:-0.46,-0.46) {$O$};
+  \node at (axis cs:14.24,-0.46) {$x$};
+  \node at (axis cs:-0.41,5.25) {$y$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

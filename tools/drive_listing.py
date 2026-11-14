@@ -17,9 +17,10 @@ State lives in work/scan/drive_walk_<date>/state.json (items by Drive id, folder
   - A "/" or "\\" inside a Drive name becomes a space in the path (Drive for desktop shows "w/ Solutions" as "w  Solutions"
     on the PC); the original name is kept as driveName.
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import datetime, json, os, re, sys
 
-P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
+P = paths.P
 ROOT_ID = '1yItEV6bFpGyrJDpDrAle0RgPKqsfjTOZ'          # "External Exams Stage 6"
 SHARED_DRIVE = '1RtOEps_I-vXw0s3fi_VNMaZRHu6d3ldVei8'  # "CMC Resources"
 ROOT_WIN = r'G:\Shared drives\CMC Resources\Exams\External Exams Stage 6'

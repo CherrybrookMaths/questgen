@@ -1,5 +1,5 @@
 """Find tick marks drawn twice (a short segment lying on another short collinear segment), e.g. minor ticks under major ticks."""
-import sys,glob,os; sys.path.insert(0,'/home/claude/pilot/tools'); import overlap_segs as O  # overlap_segs.py
+import sys,glob,os; sys.path.insert(0,os.path.dirname(os.path.abspath(__file__))); import overlap_segs as O  # overlap_segs.py
 from collections import defaultdict
 def find(svg,tol=0.05):
     B=defaultdict(list); out=[]

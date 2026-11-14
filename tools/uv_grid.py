@@ -1,8 +1,9 @@
 """Owner (11 Nov, 2020 HSC Q18(a)): "should say applying product rule and showing u u' v v' in a grid".
 Every product- or quotient-rule solution names the rule, states it, and lists u, v, u', v' as a 2x2 grid before the working.
 Applied to all such solutions in the bank; text and other notes kept. Safe to re-run (skips solutions already done)."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, json
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
+db = sqlite3.connect(paths.DBS)
 G = lambda u, v, du, dv: "$$\\begin{aligned} u&=%s & v&=%s\\\\ u'&=%s & v'&=%s\\end{aligned}$$" % (u, v, du, dv)
 PR = "Using the product rule, $\\dfrac{d}{dx}(uv)=u'v+uv'$, with\n"
 QR = "Using the quotient rule, $\\dfrac{d}{dx}\\left(\\dfrac{u}{v}\\right)=\\dfrac{u'v-uv'}{v^2}$, with\n"

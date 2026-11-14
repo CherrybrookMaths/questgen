@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Cherrybrook AT3 Q16(b) solution: ASTC diagram, cos = 1/2 at 60 and 300 degrees; arc shows the domain
+% 0 to 12pi/7 (308.6 degrees). Teacher's "308" reference mark and dotted ray removed (owner; rule 17).
+\begin{tikzpicture}[x=1cm,y=1cm,font=\fontsize{12}{14}\selectfont]
+  \draw (-1.9,0) -- (1.9,0);
+  \draw (0,-1.6) -- (0,1.6);
+  \draw (0,0) -- (60:1.55);
+  \draw (0,0) -- (-60:1.55);
+  \draw[->] (0.45,0) arc[start angle=0,end angle=308.6,radius=0.45];
+  \node at (-1.1,0.62) {S};
+  \node at (1.1,0.62) {A};
+  \node at (-1.1,-0.62) {T};
+  \node at (1.1,-0.62) {C};
+  \node[anchor=west,inner sep=1pt] at (60:1.6) {$60^\circ$};
+  \node[anchor=west,inner sep=1pt] at (-60:1.6) {$300^\circ$};
+  \node at (1.52,0.62) {$\checkmark$};
+  \node at (1.52,-0.62) {$\checkmark$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Sydney Grammar AT4 Q9 solution: y = x^2 and y = x, meeting at (0,0) and (1,1) (79 px per unit)
+\begin{tikzpicture}[x=1.0033cm,y=1.0033cm]
+  \draw[->] (-1.99,0) -- (1.98,0) node[right,inner sep=3pt] {$x$};
+  \draw[->] (0,-1.1) -- (0,2.47) node[above,inner sep=2pt] {$y$};
+  \draw (-1.09,-1.09) -- (2.09,2.09);
+  \draw plot[smooth,domain=-1.48:1.48,samples=90] (\x,{\x*\x});
+  \draw[aux] (1,1) -- (1,0);
+  \node[pt] at (0,0) {};
+  \node[pt] at (1,1) {};
+  \node[below,inner sep=3pt] at (1,0) {$1$};
+\end{tikzpicture}
+\end{document}

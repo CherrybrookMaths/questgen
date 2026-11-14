@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=3.515cm, y=1cm, every node/.style={font=\normalsize}, >={Latex[length=2mm,width=1.3mm]}]
+  \foreach \i in {101,...,144} {\draw[black!12, line width=0.3pt] (\i/10,0) -- (\i/10,5.42);}
+  \foreach \i in {11,12,13,14} {\draw[black!25, line width=0.6pt] (\i,0) -- (\i,5.42);}
+  \foreach \i in {101,...,144} {\draw[line width=0.3pt] (\i/10,-0.05) -- (\i/10,0);}
+  \draw[->] (10.1,0) -- (14.45,0);
+  \foreach \i in {11,12,13,14} {\node[below, yshift=-1pt] at (\i,0) {$\i$};}
+  \node at (12.3,-0.88) {time (seconds)};
+  \node[anchor=west] at (10.19,4.07) {Team A};
+  \node[anchor=west] at (10.19,1.33) {Team B};
+  % Team A: 11.4, 11.8, 12.2, 12.5, 14
+  \draw (11.4,3.74) -- (11.4,4.40);
+  \draw (14,3.74) -- (14,4.40);
+  \draw (11.4,4.07) -- (11.8,4.07);
+  \draw (12.5,4.07) -- (14,4.07);
+  \filldraw[shade] (11.8,3.39) rectangle (12.5,4.75);
+  \draw (12.2,3.39) -- (12.2,4.75);
+\end{tikzpicture}
+\end{document}

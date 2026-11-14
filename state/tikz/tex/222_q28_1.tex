@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=1.113cm, y=0.387cm, xmin=-3.9, xmax=5.94, ymin=-2.5, ymax=10.2,
+  xtick=\empty, ytick=\empty,
+  xlabel style={anchor=center, at={(axis cs:5.8,-0.72)}},
+  ylabel style={anchor=center, at={(axis cs:-0.24,9.9)}}]
+  \fill[shade dots] (axis cs:0,0) -- plot[domain=0:3, samples=60] (axis cs:\x,{8-2^\x}) -- cycle;
+  \draw[aux, <->] (axis cs:-3.89,8) -- (axis cs:5.8,8);
+  \addplot[open arrow, domain=-3.0:3.27] {8-2^x};
+  \draw[open arrow] (axis cs:-2.9,{8-2^(-2.9)}) -- (axis cs:-3.24,{8-2^(-3.24)});
+  \node[fill=white, inner sep=1pt] at (axis cs:0.22,8) {$8$};
+  \node at (axis cs:-0.26,-0.66) {$O$};
+  \node at (axis cs:2.95,4.62) {$y=f(x)$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[x=0.2cm, y=0.2cm, xmin=0, xmax=40, ymin=0, ymax=40, axis lines=left,
+  axis line style={-}, separate axis lines,
+  xtick={0,5,...,40}, ytick={0,5,...,40},
+  xticklabels={0,,10,,20,,30,,40}, yticklabels={0,,10,,20,,30,,40},
+  minor xtick={1,2,...,39}, minor ytick={1,2,...,39},
+  grid=minor, minor grid style={densely dotted, line width=0.25pt, black!60},
+  tick align=outside, major tick length=2.4mm, minor tick length=0pt,
+  tick style={black, line width=0.6pt}, tick label style={font=\normalsize},
+  xlabel={Temperature ($T^\circ$C)}, ylabel={Time ($M$ minutes)},
+  label style={font=\normalsize},
+  every axis plot/.append style={black}, clip=false]
+  \foreach \v in {5,10,...,40} {\edef\tmp{\noexpand\draw (axis cs:\v,0) -- (axis cs:\v,40); \noexpand\draw (axis cs:0,\v) -- (axis cs:40,\v);}\tmp}
+  \addplot[curve, domain=5:33, samples=150] {180/x};
+  \addplot[only marks, mark=*, mark size=2.6pt] coordinates {(5,36) (15,12) (30,6)};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (263,151); \coordinate (A) at (94,220); \coordinate (B) at (416,371);
+  \draw[->] (O) -- (263,36);
+  \draw (A) -- (O) -- (B) -- cycle;
+  \draw[->] ($(O)+(-90:38)$) arc[start angle=-90,end angle=145,radius=38];
+  \foreach \p in {O,A,B} \fill (\p) circle (1.6pt);
+  \node at (288,38) {N};
+  \node at (241,128) {$O$};
+  \node at (66,236) {$A$};
+  \node at (437,397) {$B$};
+  \node at (342,176) {$248^\circ$T};
+  \node[rotate=22] at (170,163) {24\,km};
+  \node[rotate=-55] at (356,247) {35\,km};
+  \node[rotate=-25] at (240,320) {40\,km};
+\end{tikzpicture}
+\end{document}

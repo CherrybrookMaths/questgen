@@ -1,0 +1,63 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{10}{12}\selectfont\bfseries\itshape]
+\newcommand{\lab}[1]{\ifnum#1<0 $\boldsymbol{-}$\the\numexpr-#1\relax\else#1\fi}
+\begin{scope}[black!40]
+\draw (71.9,20.0) -- (71.9,690.0);
+\draw (121.7,20.0) -- (121.7,690.0);
+\draw (65.0,665.8) -- (779.0,665.8);
+\draw (171.5,20.0) -- (171.5,690.0);
+\draw (65.0,616.0) -- (779.0,616.0);
+\draw (221.3,20.0) -- (221.3,690.0);
+\draw (65.0,566.2) -- (779.0,566.2);
+\draw (271.1,20.0) -- (271.1,690.0);
+\draw (65.0,516.4) -- (779.0,516.4);
+\draw (320.9,20.0) -- (320.9,690.0);
+\draw (65.0,466.6) -- (779.0,466.6);
+\draw (370.7,20.0) -- (370.7,690.0);
+\draw (65.0,416.8) -- (779.0,416.8);
+\draw (470.3,20.0) -- (470.3,690.0);
+\draw (65.0,317.2) -- (779.0,317.2);
+\draw (520.1,20.0) -- (520.1,690.0);
+\draw (65.0,267.4) -- (779.0,267.4);
+\draw (569.9,20.0) -- (569.9,690.0);
+\draw (65.0,217.6) -- (779.0,217.6);
+\draw (619.7,20.0) -- (619.7,690.0);
+\draw (65.0,167.8) -- (779.0,167.8);
+\draw (669.5,20.0) -- (669.5,690.0);
+\draw (65.0,118.0) -- (779.0,118.0);
+\draw (719.3,20.0) -- (719.3,690.0);
+\draw (65.0,68.2) -- (779.0,68.2);
+\draw (769.1,20.0) -- (769.1,690.0);
+\end{scope}
+\draw[<->] (72.0,367.0) -- (779.0,367.0);
+\draw[<->] (420.5,676.0) -- (420.5,38.0);
+\def\ox{420.50}\def\oy{367.00}\def\u{49.800}
+\node[anchor=north,inner sep=2pt] at (121.7,375.0) {\lab{-6}};
+\node[anchor=east,inner sep=2pt] at (414.5,665.8) {\lab{-6}};
+\node[anchor=north,inner sep=2pt] at (221.3,375.0) {\lab{-4}};
+\node[anchor=east,inner sep=2pt] at (414.5,566.2) {\lab{-4}};
+\node[anchor=north,inner sep=2pt] at (310.9,375.0) {\lab{-2}};
+\node[anchor=east,inner sep=2pt] at (414.5,466.6) {\lab{-2}};
+\node[anchor=north,inner sep=2pt] at (520.1,375.0) {\lab{2}};
+\node[anchor=east,inner sep=2pt] at (414.5,267.4) {\lab{2}};
+\node[anchor=north,inner sep=2pt] at (619.7,375.0) {\lab{4}};
+\node[anchor=east,inner sep=2pt] at (414.5,167.8) {\lab{4}};
+\node[anchor=north,inner sep=2pt] at (719.3,375.0) {\lab{6}};
+\node[anchor=east,inner sep=2pt] at (414.5,68.2) {\lab{6}};
+\node[anchor=north east,inner sep=2pt] at (418.5,375.0) {0};
+\node[anchor=north,inner sep=1pt] at (766,375) {\fontsize{12}{14}\selectfont\mdseries\upshape$x$};
+\node[anchor=west,inner sep=1pt] at (428.5,52.0) {\fontsize{12}{14}\selectfont\mdseries\upshape$y$};
+\begin{scope}[shift={(\ox,\oy)},x=0.6325cm,y=0.6325cm]
+\draw[<->,line width=0.9pt] (-7.6,2.8) -- (2,-2) -- (7.2,0.6);
+\foreach \p in {(-2,0),(2,-2),(6,0)} \fill \p circle (1.5pt);
+\end{scope}
+\begin{scope}[font=\large\mdseries\upshape]
+\node at (285,450) {$(-2,0)$};
+\node at (620,488) {$(2,-2)$};
+\node at (680,328) {$(6,0)$};
+\end{scope}
+
+\end{tikzpicture}
+\end{document}

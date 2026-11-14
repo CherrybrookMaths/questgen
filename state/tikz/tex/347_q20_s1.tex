@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (O) at (205,155); \coordinate (D) at (60,65); \coordinate (A) at (355,35);
+  \draw (D) -- (A) -- (O) -- cycle;
+  \draw ($(O)+(38.7:25*0.0127cm)$) arc[start angle=38.7, end angle=148.2, radius=25*0.0127cm];
+  \node at (36,72) {$D$}; \node at (378,30) {$A$}; \node at (205,192) {$O$};
+  \node at (114,124) {$a$}; \node at (200,104) {$96^\circ$}; \node at (305,122) {$8$ m};
+  \node[anchor=west] at (410,115) {$A=24\ \text{m}^2$};
+\end{tikzpicture}
+\end{document}

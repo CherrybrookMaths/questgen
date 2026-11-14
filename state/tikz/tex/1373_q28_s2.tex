@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{11}{13}\selectfont]
+% true normal curve: mean 5.73 at x=207, sigma 1.6 = 52 px; 5.5 and 8.5 at their computed z-positions
+\path[shade hatch] (199.5,174) -- plot[smooth,samples=40,domain=199.5:297] (\x,{174-164*exp(-((\x-207)/52)^2/2)}) -- (297,174) -- cycle;
+\draw (18,174) -- (383,174);
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=22:392] (\x,{174-164*exp(-((\x-207)/52)^2/2)});
+\draw (199.5,174) -- (199.5,{174-164*exp(-((199.5-207)/52)^2/2)});
+\draw (297,174) -- (297,{174-164*exp(-((297-207)/52)^2/2)});
+\draw (207,174) -- (207,182);
+\node at (186,201) {$5.5$};
+\node at (297,201) {$8.5$};
+\node[font=\fontsize{10}{12}\selectfont] at (240,150) {\halo{$5.73$}};
+\end{tikzpicture}
+\end{document}

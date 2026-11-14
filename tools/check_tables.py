@@ -1,9 +1,10 @@
 """Automatic table check for Review > Check (owner 12 Nov: "yeah" to auto-clearing what does not need him).
 Every number in a bank table must appear among the PDF's words on the question's pages (searching one page either side),
 and most of its words too. Digital papers only; scanned papers have no text layer and stay with the owner."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, re, glob, os, sqlite3, pymupdf, collections
-P = '/home/claude/pilot/'; S = '/tmp/claude-0/-home-claude/800fc37d-9da1-531b-8789-51723586bf26/scratchpad/'
-B = json.load(open(P + 'site/data/bank.json')); db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
+P = paths.P; S = str(paths.scratch('check_tables')) + '/'
+B = json.load(open(P + 'site/data/bank.json')); db = sqlite3.connect(paths.DBS)
 R = {os.path.basename(f)[:-5]: json.load(open(f)) for f in glob.glob(S + 'rv6/reviews/*.json')}
 def frac(s): return re.sub(r'\\d?frac\{([^{}]*)\}\{([^{}]*)\}', r' \1 \2 ', s)
 def nums(s): s = frac(re.sub(r'\\(?:text|textit|textbf|mathrm)\{([^}]*)\}', r'\1', str(s))); s = s.replace('\\,', '').replace('{,}', ''); return re.findall(r'\d+(?:\.\d+)?', s)

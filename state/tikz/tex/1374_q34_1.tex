@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel coordinates (200 dpi), y down; circle centre O (274,261), radius 217.5.
+% AP (swim) and arc PB (run) are drawn bold as on the paper: the bold marks Alice's route, so it carries meaning.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, anchor=base west, font=\fontsize{12.5}{14}\selectfont},
+  route/.style={line width=1.1pt, line cap=round}]
+  \draw (274,261) circle (217.5);
+  \draw (72.13,341.95) -- (475.87,180.05);
+  \draw (303.92,45.57) -- (274,261);
+  \draw[dotted] (188.02,193.76) -- (274,261);
+  \draw (173.24,212.66) -- (192.14,227.45) -- (206.93,208.54);
+  \draw plot[smooth, domain=-51.97:-21.85, samples=30, variable=\t] ({72.13+50*cos(\t)},{341.95+50*sin(\t)});
+  \draw[route] (72.13,341.95) -- (303.92,45.57);
+  \draw[route] plot[smooth, domain=-82.09:-21.85, samples=60, variable=\t] ({274+217.5*cos(\t)},{261+217.5*sin(\t)});
+  \foreach \p in {(72.13,341.95),(303.92,45.57),(475.87,180.05),(188.02,193.76),(274,261)} \fill \p circle (4.4);
+  \node at (304,34) {$P$};
+  \node at (157,183) {$M$};
+  \node at (486,190) {$B$};
+  \node at (274,294) {$O$};
+  \node at (121,308) {$\theta$};
+  \node at (43,369) {$A$};
+\end{tikzpicture}
+\end{document}

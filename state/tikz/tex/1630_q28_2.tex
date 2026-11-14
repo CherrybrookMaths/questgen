@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down: X(theta)=81.5+157.5theta, Y(y)=551.5-157.5y; grid 0.1 (light grey) and 0.5 (black) as printed
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \i in {1,...,72} {\pgfmathparse{int(mod(\i,5))}\ifnum\pgfmathresult=0\else
+    \draw[black!45] ({81.5+15.75*\i},79) -- ({81.5+15.75*\i},551.5);\fi}
+  \foreach \j in {1,...,29} {\pgfmathparse{int(mod(\j,5))}\ifnum\pgfmathresult=0\else
+    \draw[black!45] (81.5,{551.5-15.75*\j}) -- (1215.5,{551.5-15.75*\j});\fi}
+  \foreach \i in {1,...,14} \draw ({81.5+78.75*\i},79) -- ({81.5+78.75*\i},551.5);
+  \foreach \j in {1,...,6} \draw (81.5,{551.5-78.75*\j}) -- (1215.5,{551.5-78.75*\j});
+  \draw[->] (27,551.5) -- (1272,551.5);
+  \draw[->] (81.5,609) -- (81.5,8);
+  \foreach \i in {1,...,7} {\draw ({81.5+157.5*\i},551.5) -- ({81.5+157.5*\i},567); \node at ({81.5+157.5*\i},586) {$\i$};}
+  \foreach \j in {1,2,3} {\draw (66,{551.5-157.5*\j}) -- (81.5,{551.5-157.5*\j}); \node[anchor=east, inner sep=0pt] at (60,{551.5-157.5*\j-1}) {$\j$};}
+  \draw[->, line width=0.9pt] plot[smooth, domain=0:7.49, samples=90] ({81.5+157.5*\x},{551.5-157.5*(sin(\x r)+pi/2)});
+  \node at (59.5,572) {$O$};
+  \node at (1261.5,578.5) {$\theta$};
+  \node at (63,19.5) {$y$};
+\end{tikzpicture}
+\end{document}

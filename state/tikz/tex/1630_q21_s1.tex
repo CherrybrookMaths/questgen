@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 NESA HSC Q21 solution: f(x) = 1/x on [1, e] with closed end points (crop pixels, y down; 94.9 px per unit across, 130 up)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (19,259) -- (537,259);
+  \draw[->] (174.5,355) -- (174.5,3);
+  \draw (263,259) -- (263,272);
+  \draw (424,259) -- (424,272);
+  \draw plot[smooth,domain=1:2.718,samples=60] ({263+94.9*(\x-1)},{259-130/\x});
+  \node[pt] at (263,129) {};
+  \node[pt] at (424,211.2) {};
+  \node at (132,19) {$f(x)$};
+  \node at (528,282) {$x$};
+  \node at (263,292) {$1$};
+  \node at (425,295) {$e$};
+\end{tikzpicture}
+\end{document}

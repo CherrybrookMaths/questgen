@@ -3,9 +3,10 @@ Usage: python3 apply_text.py <batch>
 Reads tag/out_<batch>_*.json, work/solfmt_<batch>_*.json, work/<batch>/gen_out_*.json (whatever exists).
 Then: removed parts without a syllabus flag get one (annuity/interest tables -> Standard MST-12-S2-03; Pareto -> old
 syllabus; others listed for a manual call), house_style, coverage report."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, sqlite3, glob, sys, subprocess, re
-P = '/home/claude/pilot/'; B = sys.argv[1]
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
+P = paths.P; B = sys.argv[1]
+db = sqlite3.connect(paths.DBS)
 tags = sorted(glob.glob(P + f'tag/out_{B}_*.json'))
 if tags: print(subprocess.run(['python3', P + 'tools/load_tags_batch.py'] + tags, capture_output=True, text=True).stdout.strip())
 n = 0

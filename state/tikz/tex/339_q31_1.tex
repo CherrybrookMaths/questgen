@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\U{171.57}\def\A{141}
+  \fill[shade] plot[smooth,samples=90,domain=0:pi,variable=\t] ({58+\U*\t},{349-\A*\t*sin(deg(\t))})
+     -- plot[smooth,samples=90,domain=pi:0,variable=\t] ({58+\U*\t},{349-\A*sin(deg(\t))}) -- cycle;
+  \draw[->] (45,349) -- (662,349);
+  \draw[->] (58,385) -- (58,10);
+  \draw[line width=0.9pt,smooth,samples=90,domain=0:pi,variable=\t] plot ({58+\U*\t},{349-\A*\t*sin(deg(\t))});
+  \draw[line width=0.9pt,smooth,samples=90,domain=0:pi,variable=\t] plot ({58+\U*\t},{349-\A*sin(deg(\t))});
+  \node at (73,30) {$y$};
+  \node at (74,381) {$0$};
+  \node at (597,382) {$\pi$};
+  \node at (634,376) {$x$};
+  \node[anchor=west] at (458,88) {$y=x\sin x$};
+  \node at (368,248) {$y=\sin x$};
+  \node[font=\bfseries] at (885,68) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

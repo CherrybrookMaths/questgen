@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel units (y down). Branches fitted to the printed curve as y = cot x:
+% X = 469.45 + 154.53 u, Y = 458.72 - 151.48 cot u (median error 0.5 px), each branch ending where the crop's does.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{14}{17}\selectfont}]
+  \draw[->] (11,459) -- (957,459);
+  \draw[->] (469,935) -- (469,7);
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain={-pi+0.3438}:{-0.3107}, variable=\u] ({469.45+154.53*\u},{458.72-151.48*cot(deg(\u))});
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=0.3438:{pi-0.3107}, variable=\u] ({469.45+154.53*\u},{458.72-151.48*cot(deg(\u))});
+  \node at (441,26) {$y$};
+  \node at (451,481) {$O$};
+  \node at (938,488.5) {$x$};
+\end{tikzpicture}
+\end{document}

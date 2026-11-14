@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% drawn on the question's grid (1359_q24_1 coordinates), scaled to this crop; 1 unit = 6 squares on both axes; crop ends 3.2 squares below the x-axis
+\begin{tikzpicture}[x=0.012370cm,y=-0.012103cm,declare function={X(\u)=436+234*\u; Y(\v)=492.5-251.85*\v;}]
+\begin{scope}[shift={(-15.1,-7.7)}]
+  \begin{scope}
+  \clip (40,60) rectangle (830,627);
+  \foreach \k in {0,...,20}{\pgfmathtruncatemacro\m{mod(\k,5)}\ifnum\m=0\def\c{black!28}\else\def\c{black!13}\fi
+    \draw[\c,line width=0.3pt] ({45.5+39*\k},72.5) -- ({45.5+39*\k},912);
+    \draw[\c,line width=0.3pt] (45.5,{72.5+41.975*\k}) -- (825.5,{72.5+41.975*\k});}
+  \end{scope}
+  \draw[<->] (31,492.5) -- (841,492.5);
+  \draw[->] (436,627) -- (436,46);
+  \foreach \k in {1,...,19}{\ifnum\k=10\else
+    \draw ({45.5+39*\k},488.5) -- ({45.5+39*\k},496.5);\fi}
+  \foreach \k in {1,...,13}{\ifnum\k=10\else
+    \draw (432,{72.5+41.975*\k}) -- (440,{72.5+41.975*\k});\fi}
+  \node at (853,493) {$x$};
+  \node at (436,28) {$y$};
+  % y = (1+x)e^{-2x}
+  \draw[<->,line width=0.9pt] plot[domain=-1.065:1.62,smooth,samples=90] ({X(\x)},{Y((1+\x)*exp(-2*\x))});
+  \draw ({X(0)-6},{Y(1.3591)}) -- ({X(0)+6},{Y(1.3591)});
+  \foreach \u/\v in {-0.5/1.3591,0/1,-1/0}{\fill ({X(\u)},{Y(\v)}) circle[radius=5];}
+  \node at ({X(-0.5)-68},{Y(1.3591)-42}) {$\left(-\dfrac{1}{2},\dfrac{e}{2}\right)$};
+  \node[anchor=west] at ({X(0)+10},{Y(1.3591)}) {$\dfrac{e}{2}$};
+  \node[anchor=south west] at ({X(0)+10},{Y(1)-4}) {$1$};
+  \node at ({X(-1)-32},{Y(0)+26}) {$-1$};
+  \node at ({X(-0.5)},{Y(0)+36}) {$-\dfrac{1}{2}$};
+  \node[align=left,anchor=west] at (872,475) {asymptote\\$y=0$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

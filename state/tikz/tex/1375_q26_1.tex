@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{7}{8}\selectfont]
+  % 25 px per x unit, 41.8 px per y unit, origin (123,423)
+  \fill[shade] (223,214) -- (323,423) -- (425,214)
+    -- plot[smooth,domain=12:4,samples=60,variable=\t] ({123+25*\t},{423-41.8*(3*\t-6)*(14-\t)/12}) -- cycle;
+  \draw (25,423) -- (657,423);
+  \draw (123,440) -- (123,18);
+  \node at (115,33) {$y$};
+  \node at (645,431) {$x$};
+  \draw[curve, line width=0.9pt] plot[smooth,domain=1.94:14.06,samples=90,variable=\t] ({123+25*\t},{423-41.8*(3*\t-6)*(14-\t)/12});
+  \draw[curve] (223,214) -- (323,423) -- (425,214);
+  \fill (123,423) circle[radius=3.5];
+  \fill (223,214) circle[radius=2.5]; \fill (425,214) circle[radius=2.5];
+  \node at (147,409) {$(0,0)$};
+  \node at (187,214) {$A$};
+  \node at (436,214) {$B$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2024 Baulkham Hills AT1 Q10: T against t, T=5cos(pi t/6)+22 (crop pixel units, y down; X=57+44.4t, Y=402-10.93T)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{7.5}{9}\selectfont}]
+  \draw[->] (57,402) -- (648,402);
+  \draw[->] (57,402) -- (57,50);
+  % x ticks: minor every 0.5 (skipping majors), major every 2
+  \foreach \i in {1,2,3,5,6,7,9,10,11,13,14,15,17,18,19,21,22,23,25} \draw ({57+22.2*\i},398) -- ({57+22.2*\i},405);
+  \foreach \t in {2,4,...,12} {\draw ({57+44.4*\t},394) -- ({57+44.4*\t},409); \node at ({57+44.4*\t},429) {$\t$};}
+  % T ticks: minor every 1, major every 5
+  \foreach \v in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19,21,22,23,24,26,27,28,29,31} \draw (53,{402-10.93*\v}) -- (60,{402-10.93*\v});
+  \foreach \v in {5,10,...,30} {\draw (49,{402-10.93*\v}) -- (64,{402-10.93*\v}); \node[anchor=east] at (41,{402-10.93*\v}) {$\v$};}
+  \node at (57,29) {$T$};
+  \node at (661,403) {$t$};
+  \draw[->,line width=0.9pt] plot[smooth, domain=0:12.75, samples=90] ({57+44.4*\x},{402-10.93*(5*cos(30*\x)+22)});
+\end{tikzpicture}
+\end{document}

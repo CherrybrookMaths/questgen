@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm, y=1cm]
+  % bell curve shape fitted to the crop pixels: L + H*exp(-|x/s|^2.84), all in cm
+  \def\f(#1){0.1746+2.219*exp(-(abs(#1)/2.217)^2.837)}
+  \def\z{1.016}
+  \fill[shade dots] (0,0) -- plot[domain=0:\z, samples=40] (\x,{\f(\x)}) -- (\z,0) -- cycle;
+  \draw (-3.85,0) -- (3.86,0);
+  \draw[curve] plot[domain=-3.85:3.86, samples=150] (\x,{\f(\x)});
+  \draw (0,0) -- (0,{\f(0)}); \draw (\z,0) -- (\z,{\f(\z)});
+  \node[anchor=base] at (0,-0.48) {$0$}; \node[anchor=base] at (\z,-0.48) {$z$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,72 @@
+% Probability-tree template (DIAGRAM_SPEC rule 21, owner 12 Nov). \input after examstyle.tex by every tree diagram.
+% One look for every tree in the bank:
+%  * horizontal, left to right; every branch has the same horizontal run \treeL at every level;
+%  * outcome labels at the branch ends are left-aligned in one column per level (column = widest label of that level);
+%  * branches from one node fan symmetrically with equal vertical gaps; the gap of each level is the same for every
+%    node of that level and grows towards the root so that no two labels come within a label-height of each other
+%    (vertical positions are computed by work/diag_fix5_2/treegen.py from the measured label sizes);
+%  * each probability is horizontal, the same size everywhere, centred over the branch midpoint and lifted just enough
+%    that its lower corners clear the sloping branch by \treegap (computed here from the branch slope and label width);
+%  * all branches straight, 0.4pt; no node dots.
+% Use:  \treewidth{k}{label} for every label of level k, then \treecolumns{n}; \treeroot{name}{y};
+%       \treenode{name}{k}{y}{label}; \treebranch{parent}{child}{prob} (or \treebranchblank for an answer blank);
+%       \treehead{k}{y}{text} (column title, centred over the column); \treeresult{y}{text} (outcome column).
+\makeatletter
+\newlength\treeL      \setlength\treeL{2.5cm}        % horizontal run of every branch
+\newlength\treepad    \setlength\treepad{3.5pt}    % gap between an outcome label and the branch ends
+\newlength\treegap    \setlength\treegap{2.5pt}    % clearance between a probability and any branch
+\newlength\treeresultsep \setlength\treeresultsep{0.9cm} % gap before the outcome/result column
+\newlength\treeblankw \setlength\treeblankw{0.65cm} % answer-blank length
+\def\treeoutfont{\fontsize{11}{13}\selectfont}
+\def\treeprobfont{\fontsize{10}{12}\selectfont}
+\tikzset{
+  tree branch/.style={line width=0.6pt},
+  tree outcome/.style={anchor=mid west, inner sep=0pt, font=\treeoutfont},
+  tree prob/.style={anchor=south, inner sep=0pt, font=\treeprobfont},
+  tree head/.style={anchor=base, inner sep=0pt, font=\treeoutfont, align=center},
+  tree result/.style={anchor=mid west, inner sep=0pt, font=\treeoutfont},
+}
+% circled outcome (e.g. a game-ending outcome ringed on the paper)
+\newcommand\treecircled[1]{\tikz[baseline=(c.base)]\node[circle,draw,line width=0.6pt,inner sep=0.6pt](c){#1};}
+% answer blank: fine dotted line with the (optional) probability written on it
+\newcommand\treeblank[1]{\vbox{\hbox to\treeblankw{\hss\strut#1\hss}\kern0.6pt
+  \hbox to\treeblankw{\color{black!70}\xleaders\hbox to1.5pt{\hss\vrule width0.45pt height0.45pt\hss}\hfil}}}
+\newsavebox\tree@box
+\newdimen\tree@d \newdimen\tree@e \newcount\tree@k \newcount\tree@kk
+\newcommand\treewidth[2]{\sbox\tree@box{\treeoutfont #2}%
+  \@ifundefined{tree@W\number#1}{\expandafter\xdef\csname tree@W\number#1\endcsname{0pt}}{}%
+  \ifdim\wd\tree@box>\csname tree@W\number#1\endcsname\relax
+    \expandafter\xdef\csname tree@W\number#1\endcsname{\the\wd\tree@box}\fi}
+\def\treeW#1{\csname tree@W\number#1\endcsname}
+\def\treeX#1{\csname tree@X\number#1\endcsname}
+\newcommand\treecolumns[1]{% column k starts at X_k; the branches of level k+1 start at X_k+W_k(+pad) and run \treeL
+  \tree@k=0 \expandafter\xdef\csname tree@X0\endcsname{0pt}\gdef\tree@Xend{0pt}%
+  \loop
+    \@ifundefined{tree@W\the\tree@k}{\expandafter\xdef\csname tree@W\the\tree@k\endcsname{0pt}}{}%
+    \tree@d=\treeX{\tree@k}\relax \advance\tree@d by \treeW{\tree@k}\relax
+    \ifdim\tree@d>\tree@Xend\relax \xdef\tree@Xend{\the\tree@d}\fi
+    \ifdim\treeW{\tree@k}>0pt \advance\tree@d by \treepad \fi
+    \expandafter\xdef\csname tree@S\the\tree@k\endcsname{\the\tree@d}% branch start of the next level
+    \advance\tree@d by \treeL \advance\tree@d by \treepad
+    \tree@kk=\tree@k \advance\tree@kk by 1
+    \expandafter\xdef\csname tree@X\the\tree@kk\endcsname{\the\tree@d}%
+  \ifnum\tree@k<#1 \advance\tree@k by 1 \repeat}
+\newcommand\treeroot[2]{\coordinate (#1-out) at (0pt,#2);}
+\newcommand\treenode[4]{% name, level, y, label
+  \coordinate (#1-in) at ({\treeX{#2}-\treepad},#3);
+  \tree@kk=#2 \coordinate (#1-out) at (\csname tree@S\the\tree@kk\endcsname,#3);
+  \node[tree outcome] (#1) at (\treeX{#2},#3) {#4};}
+\newcommand\tree@prob[3]{% centred over the midpoint of #1--#2, lower corners \treegap clear of the branch
+  \sbox\tree@box{\treeprobfont #3}%
+  % owner 12 Nov: "the Cassie W' prob should be below, like Bala W'": a branch that goes DOWN carries its probability
+  % below the branch; a branch that goes up or across carries it above.
+  \path let \p1=(#1), \p2=(#2), \n1={abs(\y2-\y1)/(\x2-\x1)}, \n2={\y2-\y1} in
+    \pgfextra{\ifdim\n2<-0.5pt\gdef\tree@anc{north}\gdef\tree@sg{-1}\else\gdef\tree@anc{south}\gdef\tree@sg{1}\fi}
+    node[tree prob, anchor=\tree@anc] at ($(\p1)!0.5!(\p2)+(0pt,{\tree@sg*(\n1*0.5*\wd\tree@box+\treegap)})$) {\usebox\tree@box};}
+\newcommand\treebranch[3]{\draw[tree branch] (#1-out) -- (#2-in);
+  \if\relax\detokenize{#3}\relax\else\tree@prob{#1-out}{#2-in}{#3}\fi}
+\newcommand\treebranchblank[3]{\draw[tree branch] (#1-out) -- (#2-in); \tree@prob{#1-out}{#2-in}{\treeblank{#3}}}
+\newcommand\treehead[3]{\node[tree head] at ({\treeX{#1}+0.5*\treeW{#1}},#2) {#3};}
+\newcommand\treeresult[2]{\node[tree result] at ({\tree@Xend+\treeresultsep},#1) {#2};}
+\newcommand\treeresulthead[2]{\node[tree head, anchor=base west] at ({\tree@Xend+\treeresultsep},#1) {#2};}
+\makeatother

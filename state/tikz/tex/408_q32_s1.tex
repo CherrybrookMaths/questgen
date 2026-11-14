@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+% drawn for b = 3 (any b > 1 gives this shape)
+\begin{axis}[exam axes, axis line style={draw=none}, x=2cm, y=1.1cm, xmin=-2.2, xmax=2.6, ymin=-3.6, ymax=4.3,
+  xlabel={}, ylabel={}, xtick=\empty, ytick=\empty]
+  \fill[shade dots, domain=-1:0, samples=60] (axis cs:-1,0) -- plot[domain=-1:0] (axis cs:\x,{3-3^(-\x)}) -- (axis cs:0,0) -- cycle;
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:-2.2,0) -- (axis cs:2.6,0) node[right] {$x$};
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:0,-3.6) -- (axis cs:0,4.3) node[above] {$y$};
+  \draw[aux] (axis cs:-2.2,3) -- (axis cs:2.6,3) node[right] {$y=b$};
+  \addplot[<->, domain=-1.75:2.5, samples=90, smooth] {3-3^(-x)};
+  \node[pt] at (axis cs:0,2) {}; \node[pt] at (axis cs:-1,0) {};
+  \node[left, inner sep=3pt] at (axis cs:0,2) {$b-1$};
+  \node[above left, inner sep=3pt] at (axis cs:-1,0) {$-\log_3 b$};
+  \node[below right, inner sep=2pt] at (axis cs:0,0) {$O$};
+  \node[anchor=west] at (axis cs:1.15,1.9) {$y=h(x)$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

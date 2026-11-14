@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\footnotesize]
+  \coordinate (A) at (48,125); \coordinate (B) at (205,22); \coordinate (D) at (370,125);
+  \draw (A) -- (B) -- (D) -- cycle;
+  \draw[->] (A) -- (48,28); \node at (32,36) {N};
+  \draw[->] (D) -- (370,48); \node at (382,52) {N};
+  \draw[aux] (B) -- (205,62);
+  \draw (48,95) arc[start angle=90, end angle=33.3, radius=30*0.0127cm];
+  \node at (72,78) {$70^\circ$};
+  \node at (181,62) {$70^\circ$};
+  \node at (230,62) {$20^\circ$};
+  \draw (370,100) arc[start angle=90, end angle=148, radius=25*0.0127cm];
+  \node at (346,78) {$20^\circ$};
+  \draw[->] (370,111) arc[start angle=90, end angle=-212, radius=14*0.0127cm];
+  \node[anchor=west] at (388,118) {$340^\circ$};
+  \node at (40,140) {$A$}; \node at (205,8) {$B$}; \node at (347,150) {$D$};
+\end{tikzpicture}
+\end{document}

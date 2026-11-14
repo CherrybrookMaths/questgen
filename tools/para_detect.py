@@ -2,13 +2,14 @@
 Source paragraphs: digital PDFs from the text layer (PyMuPDF lines), scans via tesseract lines; a paragraph starts
 where the vertical gap to the previous line is clearly larger than normal line spacing.
 Each paragraph's first words are located in our text; if our text runs straight on there (no blank line), propose a break."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import pymupdf, sqlite3, re, json, subprocess, statistics, sys, os, io
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
+db = sqlite3.connect(paths.DBS)
 W = re.compile(r"[A-Za-z]{3,}")
 def src_lines(doc, pno, digital):
     # OCR the same page image the review page shows (work/<doc>/pNN.png, NN = page_start), so page numbering always agrees
-    png = f'/home/claude/pilot/work/{doc}/p{pno:02d}.png'
-    cache = f'/home/claude/pilot/work/paras/{doc}_{pno}.tsv'
+    png = paths.W + f'{doc}/p{pno:02d}.png'
+    cache = paths.W + f'paras/{doc}_{pno}.tsv'
     if not os.path.exists(cache):
         open(cache, 'w').write(subprocess.run(['tesseract', png, '-', '--psm', '4', 'tsv'], capture_output=True, text=True).stdout)
     lines = {}
@@ -65,6 +66,6 @@ for doc, digital in docs.items():
                         if not re.search(r'[.?!:)]$|\$$', before): break
                         props.append(dict(tbl=tbl, col=col, id=rid, qid=qid, doc=doc, pos=pos, ctx=s[max(0, pos - 50):pos] + ' ¶ ' + s[pos:pos + 50], head=h[:60]))
                         break
-json.dump(props, open('/home/claude/pilot/work/paras/proposals.json', 'w'), indent=1, ensure_ascii=False)
+json.dump(props, open(paths.W + 'paras/proposals.json', 'w'), indent=1, ensure_ascii=False)
 print(len(props), 'proposed breaks in', len({p['qid'] for p in props}), 'questions')
 import collections; print(collections.Counter(p['doc'] for p in props))

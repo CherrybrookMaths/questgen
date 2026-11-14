@@ -1,17 +1,17 @@
 """Merge TikZ redraw results of an import batch into the bank (import batches, 11 Nov 2026).
 Usage: python3 apply_diagrams.py tikz/result_b1_*.json [work/b1/gen2026_out_*.json]
 - appends/replaces entries in tikz/all_results.json and site/project/diagram_results.json
-- stores the .tex source in site/project/tikz_sources.json
+- regenerates site/project/tikz_sources.json whole from state/tikz (tools/tikz_sources.py; it used to patch bodies only and went stale)
 - updates the figures row (adds one for a solution figure that has none); tables -> data_tables 'Tf<figure id>'
 Same field rules as ui_v2_data.py section 3, but only for the given ids (never re-parses other data)."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, sys, os, sqlite3, re
-P = '/home/claude/pilot/'
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
-allr = json.load(open(P + 'tikz/all_results.json')); byid = {r['id']: i for i, r in enumerate(allr)}
+P = paths.P
+db = sqlite3.connect(paths.DBS)
+allr = json.load(open(paths.S + 'tikz/all_results.json')); byid = {r['id']: i for i, r in enumerate(allr)}
 dres = json.load(open(P + 'site/project/diagram_results.json')); dby = {r['id']: i for i, r in enumerate(dres)}
-srcs = json.load(open(P + 'site/project/tikz_sources.json'))
 n = nt = miss = 0
-recrop = {x['id'] for x in json.load(open(P + 'work/crop_fixes.json'))} if os.path.exists(P + 'work/crop_fixes.json') else set()
+recrop = {x['id'] for x in json.load(open(paths.S + 'work/crop_fixes.json'))} if os.path.exists(paths.S + 'work/crop_fixes.json') else set()
 for f in sys.argv[1:]:
     d = json.load(open(f))
     for r in d.get('results') or d.get('figures') or []:
@@ -22,8 +22,7 @@ for f in sys.argv[1:]:
         else: byid[k] = len(allr); allr.append(rec)
         if k in dby: dres[dby[k]] = rec
         else: dby[k] = len(dres); dres.append(rec)
-        tex = P + f'tikz/tex/{k}.tex'
-        if os.path.exists(tex): srcs[k] = open(tex).read()
+        tex = paths.S + f'tikz/tex/{k}.tex'
         png = f'figures/{k}.png'
         row = db.execute('select id from figures where png_path=?', (png,)).fetchone()
         if not row:
@@ -40,7 +39,7 @@ for f in sys.argv[1:]:
                    (f'tikz/tex/{k}.tex' if r['status'] in ('ok', 'approx') else None, r['status'], r.get('class'), r.get('notes'), tid, fid))
         n += 1
 db.commit()
-json.dump(allr, open(P + 'tikz/all_results.json', 'w'), indent=1)
+json.dump(allr, open(paths.S + 'tikz/all_results.json', 'w'), indent=1)
 json.dump(dres, open(P + 'site/project/diagram_results.json', 'w'), indent=1)
-json.dump(srcs, open(P + 'site/project/tikz_sources.json', 'w'))
+import subprocess; subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'tikz_sources.py')], check=True)
 print('applied', n, 'tables', nt, 'unmatched', miss)

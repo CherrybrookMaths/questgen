@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel coordinates (200 dpi), y down. Plot x 111.5..972.5, returns n at y = 422.5 - 6.69n, percent p at y = 422.5 - 3.345p
+% 5 categories 172.2 px apart, bar width 53; counts 44, 24, 14, 8, 6 (total 96); cumulative 45.8, 70.8, 85.4, 93.8, 100 %
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\sffamily\fontsize{7.6}{9}\selectfont, text=black!75, inner sep=0pt}]
+  \foreach \n in {5,10,...,50} \draw[black!18] (111.5,{422.5-6.69*\n}) -- (972.5,{422.5-6.69*\n});
+  \foreach \i/\n in {0/44,1/24,2/14,3/8,4/6}
+    \fill[black!50] ({197.6+172.2*\i-26.5},422.5) rectangle ({197.6+172.2*\i+26.5},{422.5-6.69*\n});
+  \draw (111.5,{422.5-6.69*50}) -- (111.5,422.5) -- (972.5,422.5) -- (972.5,{422.5-6.69*50});
+  \foreach \n in {0,5,...,50} \draw (105,{422.5-6.69*\n}) -- (111.5,{422.5-6.69*\n});
+  \foreach \p in {0,10,...,100} \draw (972.5,{422.5-3.345*\p}) -- (979,{422.5-3.345*\p});
+  \draw[line join=round] (197.6,{422.5-3.345*45.83}) -- (369.8,{422.5-3.345*70.83}) -- (542,{422.5-3.345*85.42})
+     -- (714.2,{422.5-3.345*93.75}) -- (886.4,{422.5-3.345*100});
+  \foreach \i/\p in {0/45.83,1/70.83,2/85.42,3/93.75,4/100} \fill ({197.6+172.2*\i},{422.5-3.345*\p}) circle (4.5);
+  \foreach \n in {0,5,...,50} \node[anchor=east] at (91.5,{422.5-6.69*\n}) {\n};
+  \foreach \p in {0,10,...,100} \node[anchor=west] at (995,{422.5-3.345*\p}) {\p\%};
+  \node[align=center, anchor=north] at (197.6,444) {Colour different\\[1.2pt]from website};
+  \foreach \i/\l in {1/Zipper broken,2/Button broken,3/Stitching loose,4/Pockets too tight}
+    \node[anchor=north] at ({197.6+172.2*\i},444) {\vphantom{Cp}\l};
+  \node[font=\sffamily\fontsize{11.5}{13}\selectfont] at (555.5,39.5) {Reason for jeans returned from online store};
+  \node[font=\sffamily\fontsize{8.3}{10}\selectfont] at (543,512) {Reason for return};
+  \node[font=\sffamily\fontsize{8.3}{10}\selectfont, rotate=90] at (47,254) {Number of returns};
+  \node[font=\sffamily\fontsize{8.3}{10}\selectfont, rotate=90] at (1068,255.5) {Cumulative Percentage};
+\end{tikzpicture}
+\end{document}

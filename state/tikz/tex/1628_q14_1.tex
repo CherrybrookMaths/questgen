@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down. Cap: y=233.5+0.00213(x-368.87)^2 ; U: y=347.45-0.00213(x-472.23)^2 (fitted to the crop)
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \path[shade dots] plot[smooth, domain=265.38:575.72, samples=60] (\x,{233.5+(0.046152*(\x-368.87))^2})
+     -- plot[smooth, domain=575.72:265.38, samples=60] (\x,{347.45-(0.046152*(\x-472.23))^2}) -- cycle;
+  \draw[->] (19,347.5) -- (747,347.5);
+  \draw[->] (369.5,502) -- (369.5,23);
+  \draw plot[smooth, domain=82:680, samples=90] (\x,{233.5+(0.046152*(\x-368.87))^2});
+  \draw plot[smooth, domain=112:680, samples=90] (\x,{347.45-(0.046152*(\x-472.23))^2});
+  \node at (355,33) {$y$};
+  \node at (737,366) {$x$};
+  \node at (359,370) {$O$};
+  \node[align=center] at (821,87) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

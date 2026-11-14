@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % ---- die (isometric, original pixel coords, y downward) ----
+  \coordinate (c) at (108,116);
+  \draw[fill=white] (108,116) -- (198,63) -- (108,12) -- (18,63) -- cycle;
+  \draw (18,63) -- (18,168) -- (108,220) -- (198,168) -- (198,63);
+  \draw (108,116) -- (108,220);
+  % face transforms: (s,t) -> c + s*U + t*V  (vectors in pixels, y downward)
+  \tikzset{topface/.style={shift={(c)}, x={(1.143cm,0.660cm)}, y={(-1.143cm,0.660cm)}},
+           leftface/.style={shift={(c)}, x={(-1.143cm,0.660cm)}, y={(0cm,-1.321cm)}},
+           rightface/.style={shift={(c)}, x={(1.143cm,0.660cm)}, y={(0cm,-1.321cm)}}}
+  \foreach \s/\t in {0.23/0.23,0.77/0.77,0.23/0.77,0.77/0.23,0.5/0.5}
+    {\begin{scope}[topface]\fill (\s,\t) circle (0.097);\end{scope}}
+  \foreach \s/\t in {0.25/0.25,0.75/0.25,0.25/0.75,0.75/0.75}
+    {\begin{scope}[leftface]\fill (\s,\t) circle (0.097);\end{scope}}
+  \foreach \s/\t in {0.22/0.23,0.22/0.5,0.22/0.78,0.78/0.23,0.78/0.5,0.78/0.78}
+    {\begin{scope}[rightface]\fill (\s,\t) circle (0.097);\end{scope}}
+  % ---- spinner ----
+  \coordinate (o) at (480,117);
+  \draw (o) circle (101);
+  \draw (o) circle (93);
+  \draw (480,24) -- (480,210);
+  \draw (387,117) -- (573,117);
+  \node[font=\large\bfseries] at (434,77) {1};
+  \node[font=\large\bfseries] at (525,77) {2};
+  \node[font=\large\bfseries] at (525,158) {3};
+  \node[font=\large\bfseries] at (434,158) {4};
+  \draw[line width=0.6pt, -{Latex[length=2mm,width=1.3mm]}] (o) -- (457,64);
+  \fill (o) circle (5);
+\end{tikzpicture}
+\end{document}

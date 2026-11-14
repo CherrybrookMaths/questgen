@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw (0,184) -- (284,184);
+  \draw (143,28) -- (143,203);
+  \foreach \x in {40,92,193,239} \draw (\x,180) -- (\x,188);
+  \foreach \y in {35,85,134} \draw (139,\y) -- (147,\y);
+  \draw[line width=0.9pt] (40,184) -- (40,35) -- (193,184) -- (239,134) -- (239,184);
+  \foreach \t/\x in {-2/40,-1/92,1/193,2/241} \node[font=\scriptsize,below] at (\x,188) {$\t$};
+  \node[font=\tiny,below left] at (143,184) {$0$};
+  \node[font=\scriptsize,right] at (150,129) {$1$};
+  \foreach \t/\y in {3/35,2/85} \node[font=\scriptsize,right] at (147,\y) {$\t$};
+\end{tikzpicture}
+\end{document}

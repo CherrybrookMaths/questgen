@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (125,614) -- (1217,614) node[below right=2pt] {$t$};
+  \draw[->] (210,720) -- (210,12) node[left=6pt] {$d$};
+  \foreach \x in {275,340,470,600,665,730,860,990} \draw (\x,606) -- (\x,622);
+  \foreach \y in {100,228.5,357,485.5} \draw (202,\y) -- (218,\y);
+  \draw[aux] (210,117) -- (990,117);
+  \draw[line width=0.9pt] plot[domain=0:18.8496,samples=90,smooth] ({210+130*\x/pi},{228.5-128.5*cos((\x/3-pi/6) r)});
+  \foreach \p in {(210,117),(275,100),(665,357),(990,117)} \fill \p circle (2.4pt);
+  \node[anchor=east] at (196,92) {16};
+  \node[anchor=east] at (196,228) {12};
+  \node[anchor=east] at (196,356) {8};
+  \node[anchor=east] at (196,128) {$12+2\sqrt3$};
+  \node[anchor=north east] at (204,621) {$0$};
+  \node[anchor=north] at (277,627) {$\dfrac{\pi}{2}$};
+  \node[anchor=north] at (343,627) {$\pi$};
+  \node[anchor=north] at (470,627) {$2\pi$};
+  \node[anchor=north] at (600,627) {$3\pi$};
+  \node[anchor=north] at (668,627) {$\dfrac{7\pi}{2}$};
+  \node[anchor=north] at (990,627) {$6\pi$};
+  \node at (345,35) {$\left(\dfrac{\pi}{2},16\right)$};
+  \node at (748,402) {$\left(\dfrac{7\pi}{2},8\right)$};
+  \node[anchor=west] at (1012,117) {$(6\pi,\,12+2\sqrt3)$};
+\end{tikzpicture}
+\end{document}

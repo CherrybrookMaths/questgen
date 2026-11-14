@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{12}{14}\selectfont]
+% normal curve mean 70 (px 500), sigma 10 (= 140 px), peak height 440 px, axis at py 470; drawn from the equation, enlarged so each percentage fits inside its region
+\def\F(#1){470-440*exp(-((#1-500)/140)^2/2)}
+\draw (10,470) -- (990,470);
+\draw[line width=0.9pt,smooth,samples=90,domain=20:980,variable=\t] plot (\t,{\F(\t)});
+\foreach \t/\l in {500/70,640/80,780/90,920/100} {
+  \draw (\t,470) -- (\t,{\F(\t)});
+  \node[anchor=north,inner sep=0] at (\t,484) {$\l$};}
+\node at (570,400) {$34\%$};
+\node at (708,446) {$13.5\%$};
+% thin tail regions: same label size, short arrows from outside (owner: "don't decrease the font size ... use arrows for both")
+\node at (838,372) {$2.35\%$};
+\draw[->] (832,386) -- (815,458);
+\node at (958,372) {$0.15\%$};
+\draw[->] (952,386) -- (937,466);
+\end{tikzpicture}
+\end{document}

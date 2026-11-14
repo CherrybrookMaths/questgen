@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Hunters Hill AT4 Q21 solution: y=-3/x+4 with asymptotes and x-intercept annotated (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{5.3}{6.4}\selectfont]
+  \def\ox{366}\def\oy{300.5}\def\ux{82.3}\def\uy{25.8}
+  % grid: x every 0.5, y every 0.5; darker every 2
+  \foreach \i in {-8,...,8}{\pgfmathsetmacro\xx{\ox+\ux*\i/2}\pgfmathsetmacro\cc{mod(abs(\i),4)==0?30:14}
+    \draw[black!\cc] (\xx,30) -- (\xx,390);}
+  \foreach \j in {-6,...,20}{\pgfmathsetmacro\yy{\oy-\uy*\j/2}\pgfmathsetmacro\cc{mod(abs(\j),4)==0?30:14}
+    \draw[black!\cc] (14,\yy) -- (695,\yy);}
+  % axes
+  \draw[<->] (14,\oy) -- (697,\oy);
+  \draw[<->] (\ox,391) -- (\ox,29);
+  \node[anchor=west,inner sep=1pt] at (697,\oy) {x};
+  \node[anchor=south,inner sep=1pt] at (\ox,27) {y};
+  \foreach \i in {-8,...,8}{\pgfmathsetmacro\xx{\ox+\ux*\i/2}\draw (\xx,\oy-2) -- (\xx,\oy+2);}
+  \foreach \j in {-6,...,20}{\pgfmathsetmacro\yy{\oy-\uy*\j/2}\draw (\ox-2,\yy) -- (\ox+2,\yy);}
+  \foreach \v in {-4,-2,2}{\node[anchor=north,inner sep=0pt] at ({\ox+\ux*\v},307) {\halo{$\v$}};}
+  \foreach \v in {10,8,6,4,2,-2}{\node[anchor=east,inner sep=0pt] at (361,{\oy-\uy*\v}) {\halo{$\v$}};}
+  % asymptote y=4
+  \draw[aux] (14,{\oy-4*\uy}) -- (695,{\oy-4*\uy});
+  % curve
+  \draw[<->,smooth] plot[domain=-4.15:-0.46,samples=90] ({\ox+\ux*\x},{\oy-\uy*(4-3/\x)});
+  \draw[<->,smooth] plot[domain=0.405:3.9,samples=90] ({\ox+\ux*\x},{\oy-\uy*(4-3/\x)});
+  \fill ({\ox+\ux*0.75},\oy) circle (2.5);
+  % annotations
+  \node at (228,113) {\halo{$y=-\dfrac{3}{x}+4$}};
+  \node[anchor=west,inner sep=0pt,font=\fontsize{6.6}{8.6}\selectfont,align=left] at (466,155) {\halo{Horizontal Asymptote}\\\halo{$y=4$}};
+  \draw[->] (467,154) -- (418,194);
+  \node[anchor=west,inner sep=0pt,font=\fontsize{6.6}{8.6}\selectfont,align=left] at (177,255) {\halo{Vertical Asymptote}\\\halo{$x=0$}};
+  \draw[->] (258,264) -- (364,264);
+  \node[anchor=north,inner sep=0pt,align=center] at (459,318) {\halo{$x$ Intercept}\\[2pt]\halo{$\left(\dfrac{3}{4},0\right)$}};
+  \draw (431,305) -- (439,315);
+\end{tikzpicture}
+\end{document}

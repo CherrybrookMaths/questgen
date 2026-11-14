@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[scale=1.456]
+  \fill[shade dots] plot[domain=0:1, samples=60] (\x,{\x/(2-\x)}) arc[start angle=45, end angle=0, radius={sqrt(2)}] -- cycle;
+  \draw[->] (-2.43,0) -- (2.43,0) node[below left=1pt, xshift=5pt] {$x$};
+  \draw[->] (0,-2.43) -- (0,2.43) node[anchor=north east, inner sep=1pt, xshift=-3pt] {$y$};
+  \draw (0,0) circle[radius={sqrt(2)}];
+  \draw[curve, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] plot[domain=-2.2:1.355, samples=120] (\x,{\x/(2-\x)});
+  \node[pt] at (1,1) {};
+  \node[anchor=west] at (1.04,1.06) {$(1,1)$};
+  \node[anchor=north east, inner sep=2pt] at (0,0) {$O$};
+  \node at (-1.69,1.18) {$x^2+y^2=2$};
+  \node[anchor=west] at (1.37,2.0) {$y=\dfrac{a}{b-x}-1$};
+  \node[align=center] at (3.80,0.81) {NOT\\TO\\SCALE};
+\end{tikzpicture}
+\end{document}

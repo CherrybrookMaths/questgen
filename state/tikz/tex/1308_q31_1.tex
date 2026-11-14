@@ -1,0 +1,25 @@
+\documentclass[border=4pt]{standalone}
+\input{../examstyle.tex}
+\usepgfplotslibrary{fillbetween}
+\begin{document}
+\small
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.865cm, y=0.98cm, xmin=0, xmax=6.75, ymin=-2.31, ymax=2.2,
+  xtick={0.7854,1.5708,2.3562,3.14159,3.9270,4.71239,5.4978,6.28319}, xticklabels={},
+  ytick={-1.5,-0.5,0,0.5,1.5}, yticklabels={},
+  major tick length=1.6mm, tick align=center,
+  extra y ticks={-2,-1,1,2}, extra y tick labels={}, extra y tick style={major tick length=2.6mm},
+  ylabel style={anchor=south east, xshift=4pt, yshift=1pt}]
+  \addplot[name path=s, domain=0:6.71] {sin(deg(x))};
+  \addplot[name path=c, domain=0:6.70] {2*cos(deg(x))};
+  \addplot[shade dots] fill between[of=s and c, soft clip={domain=1.10715:4.24874}];
+  \foreach \v/\l in {2/2,1/1,0/0,-1/-1,-2/-2} {\edef\tmp{\noexpand\node[anchor=east, inner sep=2pt] at (axis cs:-0.15,\v) {\l};}\tmp}
+  \node[anchor=north] at (axis cs:1.5708,-0.1) {$\dfrac{\piup}{2}$};
+  \node[anchor=north] at (axis cs:3.14159,-0.1) {$\piup$};
+  \node[anchor=north] at (axis cs:4.71239,-0.1) {$\dfrac{3\piup}{2}$};
+  \node[anchor=north] at (axis cs:6.28319,-0.1) {$2\piup$};
+  \node at (axis cs:5.1,2.04) {$y = 2\cos x$};
+  \node at (axis cs:5.79,-1.16) {$y = \sin x$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

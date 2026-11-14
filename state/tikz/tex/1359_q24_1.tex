@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% blank answer grid: 20 x 20 squares, 39.0 px wide, 41.975 px high (crop pixels); darker line every 5th
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \k in {0,...,20}{\pgfmathtruncatemacro\m{mod(\k,5)}\ifnum\m=0\def\c{black!28}\else\def\c{black!13}\fi
+    \draw[\c,line width=0.3pt] ({45.5+39*\k},72.5) -- ({45.5+39*\k},912);
+    \draw[\c,line width=0.3pt] (45.5,{72.5+41.975*\k}) -- (825.5,{72.5+41.975*\k});}
+  \draw[<->] (31,492.5) -- (841,492.5);
+  \draw[<->] (436,939) -- (436,46);
+  \foreach \k in {1,...,19}{\ifnum\k=10\else
+    \draw ({45.5+39*\k},488.5) -- ({45.5+39*\k},496.5);
+    \draw (432,{72.5+41.975*\k}) -- (440,{72.5+41.975*\k});\fi}
+  \node at (853,493) {$x$};
+  \node at (436,28) {$y$};
+\end{tikzpicture}
+\end{document}

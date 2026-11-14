@@ -1,0 +1,20 @@
+\documentclass[border=4pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel coordinates (200 dpi), y downwards: plot x 122..646 (5 bars of 104.8px), cakes c at y = 411 - 1.304c
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\sffamily\bfseries\footnotesize, text=black!65}]
+  \foreach \c in {50,100,...,250} \draw[black!20] (122,{411-1.304*\c}) -- (646,{411-1.304*\c});
+  \foreach \i/\c in {0/195,1/130,2/48,3/19,4/12}
+    \fill[black!35] ({122+104.8*\i+0.5},411) rectangle ({122+104.8*(\i+1)-0.5},{411-1.304*\c});
+  \draw[black!20] (122,411) -- (646,411) (122,85) -- (122,411) (646,85) -- (646,411);
+  \draw[line width=0.6pt, line join=round, line cap=round]
+    (174.4,{411-3.26*48.27}) -- (279.2,{411-3.26*80.45}) -- (384,{411-3.26*92.33}) -- (488.8,{411-3.26*97.03}) -- (593.6,{411-3.26*100});
+  \foreach \c in {0,50,...,250} \node[anchor=east, inner sep=0pt] at (106,{411-1.304*\c}) {\c};
+  \foreach \p in {0,10,...,100} \node[anchor=west, inner sep=0pt] at (661,{411-3.26*\p}) {\p\%};
+  \foreach \i/\l in {0/Chocolate,1/Carrot,2/Vanilla,3/Rainbow,4/Pistacho} \node at ({174.4+104.8*\i},440) {\l};
+  \node[font=\sffamily\bfseries\normalsize] at (392,46) {ABC Bakery Cake Sales};
+  \node[font=\sffamily\bfseries\small] at (383,485) {Flavours of Cakes sold};
+  \node[font=\sffamily\bfseries\small, rotate=90] at (40,248) {Number of cakes sold};
+  \node[font=\sffamily\bfseries\small, rotate=90] at (747,248) {Cumulative percentages};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % value v -> y = 433 - 31 v ; percent p -> y = 433 - 3.88 p
+  \foreach \v in {2,4,...,12} \draw[black!15] (194,433-31*\v) -- (726,433-31*\v);
+  \foreach \v in {0,2,...,12} \node[anchor=east,font=\fontsize{6.2}{7}\selectfont,text=black!80] at (188,433-31*\v) {\v};
+  \foreach \x/\v/\n in {247/12/{Mobile\\Phone},332/10/Plagiarism,417/6/Truanting,502/3/Theft,587/2/Fighting,672/1/Other} {
+    \fill[black!40] (\x-31,425) rectangle (\x+31,433-31*\v);
+    \node[anchor=north,font=\fontsize{5.2}{5.6}\selectfont,inner sep=0pt,align=center] at (\x,439) {\n};
+  }
+  \draw (193,20) -- (193,433) -- (199,433);
+  \draw (727,20) -- (727,433);
+  \foreach \p in {0,20,...,100} {\draw (727,433-3.88*\p) -- (732,433-3.88*\p);
+    \node[anchor=west,font=\fontsize{6.2}{7}\selectfont,text=black!80,inner sep=1pt] at (733,433-3.88*\p) {\p\%};}
+  \draw[line width=0.9pt] (247,296) -- (332,182) -- (417,115) -- (502,80) -- (587,56) -- (672,45);
+  \foreach \x/\p in {247/35.29,332/64.71,417/82.35,502/91.18,587/97.06,672/100} \fill (\x,433-3.88*\p) circle (1.5pt);
+  \node[rotate=90,font=\sffamily\fontsize{6.7}{8}\selectfont,text=black!80] at (794,233) {Cumulative percentage};
+  \node[align=left,anchor=west,inner sep=0pt,font=\fontsize{8.4}{10}\selectfont] at (22,228) {Number of\\Suspensions};
+  \node[font=\fontsize{8.5}{10}\selectfont] at (454,504) {Reason for Suspension};
+\end{tikzpicture}
+\end{document}

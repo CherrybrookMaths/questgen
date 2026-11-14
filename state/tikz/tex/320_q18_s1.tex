@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (9,149) -- (444,149);
+  \draw (225,-8) -- (225,149);
+  \draw[line width=0.9pt, smooth,samples=90,domain=180:0] plot ({225+131*cos(\x)},{149-131*sin(\x)});
+  \node at (101,183) {$-2$};
+  \node at (356,183) {$2$};
+  \node[anchor=south west,inner sep=2pt] at (233,14) {$2$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Hunters Hill AT4 Q20 solution: scatterplot of d against h with least-squares line d=-3.273h+29.818 (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{12.5}{15}\selectfont]
+  \def\H(#1){(111+156.2*(#1-5))}
+  \pgfmathsetmacro\ux{156.2}\pgfmathsetmacro\uy{26.13}
+  % grid: h every 0.5, d every 1 (darker every 1 in h and every 5 in d)
+  \foreach \i in {0,...,6}{\pgfmathsetmacro\xx{111+78.1*\i}\pgfmathsetmacro\cc{mod(\i,2)==0?40:20}
+    \draw[black!\cc] (\xx,84.5) -- (\xx,530);}
+  \foreach \j in {1,...,17}{\pgfmathsetmacro\yy{530-\uy*\j}\pgfmathsetmacro\cc{mod(\j,5)==0?40:20}
+    \draw[black!\cc] (111,\yy) -- (579.5,\yy);}
+  % axes with break on h axis
+  \draw (67,530) -- (81,530); \draw[->] (94,530) -- (603,530);
+  \draw[->] (67,530) -- (67,61);
+  \foreach \j in {1,...,17}{\pgfmathsetmacro\yy{530-\uy*\j}\pgfmathsetmacro\tl{mod(\j,5)==0?7:4}
+    \draw (67-\tl,\yy) -- (67+\tl,\yy);}
+  \foreach \i in {0,...,6}{\pgfmathsetmacro\xx{111+78.1*\i}\pgfmathsetmacro\tl{mod(\i,2)==0?7:4}
+    \draw (\xx,530-\tl) -- (\xx,530+\tl);}
+  \draw (78,539) -- (86,521); \draw (89,539) -- (97,521);
+  \node[anchor=west,inner sep=1pt] at (607,531) {$h$};
+  \node at (67,34) {$d$};
+  \foreach \v in {5,6,7,8}{\node at ({111+\ux*(\v-5)},567) {$\v$};}
+  \foreach \v in {5,10,15}{\node[anchor=east,inner sep=0pt] at (52,{530-\uy*\v}) {$\v$};}
+  % least squares line
+  \draw ({111+\ux*(5-5)},{530-\uy*(-3.273*5+29.818)}) -- ({111+\ux*(8.04-5)},{530-\uy*(-3.273*8.04+29.818)});
+  % data points
+  \foreach \h/\d in {5/8,5.5/17,6/15,6/6,6.5/12,7/5,7.5/3,8/4}
+    \filldraw[fill=black!45,draw=black] ({111+\ux*(\h-5)},{530-\uy*\d}) circle (5);
+\end{tikzpicture}
+\end{document}

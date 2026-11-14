@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={g(\x)=218-171*exp(-0.5*((\x-297)/115)^2);}]
+  \fill[shade hatch] (40,218) -- plot[domain=40:190,smooth,samples=30] (\x,{g(\x)}) -- (190,218) -- cycle;
+  \fill[shade hatch] (403,218) -- plot[domain=403:550,smooth,samples=30] (\x,{g(\x)}) -- (550,218) -- cycle;
+  \draw (0,218) -- (680,218);
+  \draw[line width=0.9pt] plot[domain=40:550,smooth,samples=90] (\x,{g(\x)});
+  \draw (190,218) -- (190,{g(190)});
+  \draw (297,218) -- (297,47);
+  \draw (403,218) -- (403,{g(403)});
+  \draw[->] (310,36) -- (612,36);
+  \node at (440,14) {$0.5$};
+  \node at (68,140) {$0.1587$};
+  \node at (520,132) {$0.1587$};
+  \node at (190,242) {$85$};
+  \node at (297,242) {$90$};
+  \node at (403,242) {$95$};
+\end{tikzpicture}
+\end{document}

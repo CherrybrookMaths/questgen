@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Penrith AT4 Q19 solution: A, B, C bearings diagram (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{12.5}{15}\selectfont]
+  \coordinate (A) at (72,377); \coordinate (B) at (546,186); \coordinate (C) at (378,602);
+  \draw (A) -- (B) -- (C) -- cycle;
+  \draw[->] (A) -- (72,97);
+  \draw[->] (B) -- (546,14);
+  \draw[->] (C) -- (378,432);
+  \node at (46,84) {$N_1$};
+  \node at (582,28) {$N_2$};
+  \node at (356,430) {$N_3$};
+  \node at (46,384) {$A$};
+  \node at (526,170) {$B$};
+  \node at (396,618) {$C$};
+  % 50 deg at A (from north clockwise to AB)
+  \draw (72,288) arc[start angle=-90, end angle=-21.9, radius=89];
+  \node at (110,338) {$50^\circ$};
+  % 200 deg at B (from north clockwise to BC)
+  \draw[->] (546,128) arc[start angle=-90, end angle=111, radius=58];
+  \node at (632,240) {$200^\circ$};
+  \node[rotate=21.9] at (320,250) {10 km};
+  \node at (512,384) {8 km};
+\end{tikzpicture}
+\end{document}

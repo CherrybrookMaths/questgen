@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[scale only axis, width=12.41cm, height=10.41cm, xmin=-80, xmax=100, ymin=-80, ymax=120,
+  xtick distance=20, ytick distance=20, grid=major, grid style={line width=0.3pt, black!20},
+  major tick length=0pt, tick label style={font=\normalsize}, label style={font=\normalsize},
+  axis line style={black, line width=0.6pt},
+  xlabel={Change in GDP per capita (\%)}, ylabel={Change in Fast Food Sales (\%)}, clip=false]
+  \addplot[only marks, mark=*, mark size=2.1pt] coordinates {
+    (-36,-29) (-28,61) (-22,2) (-17,-20) (-10,0) (-1,7) (0,29) (0,20.3) (2,-7) (8,48)
+    (12,28.94) (18,18) (20,75) (20,70) (21,18) (30,21) (37,36) (38,38) (58,90) (78,64)};
+  \addplot[black, line width=0.6pt, domain=-60:85] {20.3+0.72*x};
+  \node[font=\normalsize] at (axis cs:16.5,27.5) {$A$};
+  \node[font=\normalsize] at (axis cs:1.2,14) {$B$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

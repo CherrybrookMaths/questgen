@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates in crop pixels (200 dpi), y downward; bell curve fitted to the crop's (stylised, fat-tailed) curve
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm,
+  declare function={bell(\x)=245.5-162.8*exp(-((\x-325.9)/54.34)^2/2)-66.9*exp(-((\x-325.9)/124.06)^2/2);}]
+  \fill[shade dots] (47,245) -- plot[domain=47:458, samples=150] (\x,{bell(\x)}) -- (458,245) -- cycle;
+  \draw[<->] (14,245) -- (637,245);
+  \draw[curve] plot[domain=47:603, samples=200] (\x,{bell(\x)});
+  \draw (458,245) -- (458,{bell(458)});
+  \node at (458,264) {$z$};
+\end{tikzpicture}
+\end{document}

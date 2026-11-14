@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[font=\normalsize, x=1.746cm, y=0.644cm]
+\draw[->] (-2.82,0) -- (2.85,0);
+\draw[->] (0,-9.11) -- (0,3.02);
+\draw[curve,<->] plot[domain=-2.33:2.33, samples=100] (\x,{2*\x*\x-8});
+\node[pt] at (0,-8) {};
+\node[anchor=north west, inner sep=2pt] at (0.05,-8.1) {$(0, -8)$};
+\node[anchor=north east] at (2.85,-0.15) {$x$};
+\node[anchor=east] at (-0.03,2.75) {$y$};
+\end{tikzpicture}
+\end{document}

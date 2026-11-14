@@ -7,6 +7,7 @@
   liststyle.py  - dot points become \\begin{itemize} \\item ... \\end{itemize} (rendered as a bulleted list)
   parastyle.py  - every line break in the source is a paragraph break (single newline -> blank line)
 Rules that need judgement (layout of working, long inline maths, sign analysis) are in SOLUTION_SPEC.md."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, json, sys, os, re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import fracstyle, dotstyle, parastyle, liststyle
@@ -26,7 +27,7 @@ def style(s, bare=False):
     s = fracstyle.restyle('$' + s + '$')[1:-1] if bare and s else fracstyle.restyle(s)
     s = dotstyle.restyle(s, bare=bare)
     return s if bare else liststyle.restyle(parastyle.restyle(s))
-db = sqlite3.connect(sys.argv[1] if len(sys.argv) > 1 else '/mnt/user-data/outputs/questions.db'); n = 0
+db = sqlite3.connect(sys.argv[1] if len(sys.argv) > 1 else paths.DBS); n = 0
 for tbl, col in (('questions', 'stem_latex'), ('parts', 'latex'), ('mcq_options', 'latex'), ('solutions', 'latex')):
     for rid, s in db.execute(f'select id,{col} from {tbl}').fetchall():
         t = style(s)

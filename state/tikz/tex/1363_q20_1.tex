@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop px: h at x = 121 + 168.3 (h-5) ; d at y = 571.5 - 28.25 d
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{12.5}{15}\selectfont]
+  \def\X#1{{121+168.3*(#1-5)}}\def\Y#1{{571.5-28.25*(#1)}}
+  \foreach \d in {1,...,17} {\pgfmathtruncatemacro\m{mod(\d,5)}\ifnum\m=0 \draw[black!30] (\X{5},\Y{\d})--(\X{8},\Y{\d});\else\draw[black!18] (\X{5},\Y{\d})--(\X{8},\Y{\d});\fi}
+  \foreach \h in {5,6,7,8} \draw[black!30] (\X{\h},\Y{0})--(\X{\h},\Y{17});
+  \foreach \h in {5.5,6.5,7.5} \draw[black!18] (\X{\h},\Y{0})--(\X{\h},\Y{17});
+  \draw[->] (66,571.5)--(651,571.5);
+  \draw[->] (73,579)--(73,68);
+  \foreach \d in {1,...,17} \draw (70,\Y{\d})--(76,\Y{\d});
+  \foreach \h in {5,5.5,...,8} \draw (\X{\h},571.5)--(\X{\h},565.5);
+  \draw (90,579)--(100,564) (99,579)--(109,564);
+  \foreach \h in {5,6,7,8} \node at (\X{\h},607) {$\h$};
+  \foreach \d in {5,10,15} \node[left] at (66,\Y{\d}) {$\d$};
+  \foreach \h/\d in {5/8,5.5/17,6/15,6.5/12,6/6,7/5,7.5/3,8/4} \filldraw[fill=black!45] (\X{\h},\Y{\d}) circle (5.5);
+  \node at (74,36) {$d$};
+  \node at (667,571) {$h$};
+\end{tikzpicture}
+\end{document}

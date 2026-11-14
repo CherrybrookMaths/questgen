@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% option C of 222 Q5: curve traced from the crop (sketch, not to scale); frame shared by q5_1..4 (units = crop pixels at 200 dpi)
+\begin{tikzpicture}[x=0.0127cm, y=0.0127cm]
+  \draw[->] (-51,0) -- (284,0);
+  \draw[->] (0,-54) -- (0,253);
+  \node[anchor=north east, inner sep=0pt] at (282,-8) {$x$};
+  \node[anchor=north east, inner sep=0pt] at (-8,252) {$y$};
+  \draw[curve] plot[domain=-44:129, samples=120] (\x,{23.1064+(19.79865)*exp(0.017845*\x)+(0.117680)*\x});
+  \node[anchor=east, inner sep=0pt] at (-9,60) {$10$};
+\end{tikzpicture}
+\end{document}

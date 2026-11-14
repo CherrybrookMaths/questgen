@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (84,463) -- plot[smooth,domain=84:447,samples=60] (\x,{463-416.3*exp(-((\x-590)/143.5)^2/2)}) -- (447,463) -- cycle;
+\fill[shade] (876,463) -- plot[smooth,domain=876:1097,samples=50] (\x,{463-416.3*exp(-((\x-590)/143.5)^2/2)}) -- (1097,463) -- cycle;
+\draw[line width=0.9pt] plot[smooth,domain=84:1097,samples=90] (\x,{463-416.3*exp(-((\x-590)/143.5)^2/2)});
+\draw[<->] (26,463) -- (1155,463);
+\draw (158.5,479) -- (158.5,458.4);
+\draw (302,479) -- (302,406.7);
+\draw (447,479) -- (447,210.5);
+\draw (733,479) -- (733,210.5);
+\draw (876,479) -- (876,406.7);
+\draw (1019.5,479) -- (1019.5,458.4);
+\draw[aux] (590.5,463) -- (590.5,46.7);
+\node at (101,403) {0.15\%};
+\node at (231,403) {2.35\%};
+\node at (521,403) {34\%};
+\node at (651,403) {34\%};
+\node at (796,403) {13.5\%};
+\node at (963,403) {2.35\%};
+\node at (1066,403) {0.15\%};
+\node at (378,403) {\halo{13.5\%}};
+\node at (445,519) {150};
+\node at (879,519) {300};
+\node[anchor=west, inner sep=0pt] at (1090,520) {Weight (g)};
+\end{tikzpicture}
+\end{document}

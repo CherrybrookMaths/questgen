@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % ceiling
+  \draw[line width=0.6pt] (15,43) -- (470,43);
+  \foreach \i in {0,...,24} \draw[line width=0.6pt] (30+\i*17.6,43) -- (46+\i*17.6,25);
+  % 20 slats stacked with no gaps (drawn as close parallel lines, as in the crop)
+  \foreach \k in {1,...,25} \draw[line width=0.6pt] (27,43+\k*4.6) -- (457,43+\k*4.6);
+  \draw[line width=0.6pt] (27,43) -- (27,158) -- (457,158) -- (457,43);
+  % cords
+  \draw[line width=0.6pt] (88,43) -- (88,158);
+  \draw[line width=0.6pt] (396,43) -- (396,158);
+\end{tikzpicture}
+\end{document}

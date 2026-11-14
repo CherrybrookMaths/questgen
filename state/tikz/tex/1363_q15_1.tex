@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop px: frequency f at y = 479.5 - 8.69 f ; percentage p at y = 479.5 - 3.325 p ; bar centres 278.5 + 138 i (width 110)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\sffamily\fontsize{6}{7}\selectfont}]
+  \foreach \f in {5,10,...,40} \draw[aux,black!15] (190.5,{479.5-8.69*\f})--(918,{479.5-8.69*\f});
+  \foreach \p in {20,40,...,100} \draw[aux,black!15] (190.5,{479.5-3.325*\p})--(918,{479.5-3.325*\p});
+  \foreach \i in {0,...,4} \draw[aux,black!15] ({278.5+138*\i},114)--({278.5+138*\i},479.5);
+  \foreach \i/\f in {0/40,1/25,2/15,3/10,4/10} \filldraw[fill=black!17] ({223.5+138*\i},479.5) rectangle ({333.5+138*\i},{479.5-8.69*\f});
+  \draw (190.5,114)--(190.5,479.5)--(918,479.5);
+  \foreach \f in {0,5,...,40} {\draw (184,{479.5-8.69*\f})--(190.5,{479.5-8.69*\f}); \node[anchor=east,inner sep=0pt] at (182,{479.5-8.69*\f}) {\f};}
+  \foreach \p in {0,20,...,100} {\draw (918,{479.5-3.325*\p})--(924.5,{479.5-3.325*\p}); \node[anchor=west,inner sep=0pt] at (927,{479.5-3.325*\p}) {\p};}
+  \foreach \i/\l in {0/Late delivery,1/Damaged products,2/Wrong item sent,3/Poor customer service,4/Missing items} {
+    \draw ({278.5+138*\i},479.5)--({278.5+138*\i},486);
+    \node[anchor=north east,rotate=30,inner sep=1pt] at ({320+138*\i},485) {\l};}
+  \draw[line join=round] (278.5,{479.5-3.325*40}) -- (416.5,{479.5-3.325*65}) -- (554.5,{479.5-3.325*80}) -- (692.5,{479.5-3.325*90}) -- (830.5,{479.5-3.325*100});
+  \foreach \i/\p in {0/40,1/65,2/80,3/90,4/100} \fill ({278.5+138*\i},{479.5-3.325*\p}) circle (3.2);
+  \node[font=\sffamily\fontsize{8.1}{9}\selectfont] at (555,101) {Pareto Chart of Customer Complaints (B/W)};
+  \node[rotate=90] at (155,298) {Frequency};
+  \node[rotate=90] at (958,298) {Cumulative Percentage (\%)};
+\end{tikzpicture}
+\end{document}

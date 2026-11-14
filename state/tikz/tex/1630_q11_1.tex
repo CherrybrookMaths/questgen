@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixels, y down: T(t)=95.5+39.33t, H(h)=325.5-19.71h; h=t^2-8t+12 matches the printed curve within 1 px
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (13,325.5) -- (488,325.5);
+  \draw[->] (95.5,439) -- (95.5,8);
+  \draw (174.2,325.5) -- (174.2,334);
+  \draw (331.5,325.5) -- (331.5,334);
+  \draw (81,89) -- (95.5,89);
+  \draw[line width=0.9pt] plot[smooth, domain=0:8.04, samples=90] ({95.5+39.33*\x},{325.5-19.71*(\x*\x-8*\x+12)});
+  \node at (76,22) {$h$};
+  \node at (477,344) {$t$};
+  \node at (79,345) {$O$};
+  \node at (57.5,85.5) {$12$};
+  \node at (174,359) {$2$};
+  \node at (331.5,359) {$6$};
+\end{tikzpicture}
+\end{document}

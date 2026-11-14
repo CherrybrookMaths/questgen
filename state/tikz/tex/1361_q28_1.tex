@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{12}{14}\selectfont}]
+  % crop pixel units; not to scale
+  \coordinate (P) at (231,59.5); \coordinate (C) at (230.5,266.5);
+  \coordinate (A) at (45,413.4); \coordinate (B) at (528,413.4);
+  \fill[black!10] (A) -- (C) -- (B) -- cycle;
+  \draw (A) -- (C) -- (B) -- cycle;
+  \draw (A) -- (P) -- (B); \draw (P) -- (C);
+  \foreach \p in {P,C,A,B} \fill (\p) circle (4.5);
+  \node at (231,32) {$P$};
+  \node at (259,244) {$C$};
+  \node at (26,425) {A};
+  \node at (548,427) {$B$};
+  \node at (100,182) {9.12 km};
+  \node at (420,175) {15.52 km};
+  \node at (274,441) {20 km};
+  \node at (237,311) {$120^\circ$};
+  \node at (114,388) {$40^\circ$};
+\end{tikzpicture}
+\end{document}

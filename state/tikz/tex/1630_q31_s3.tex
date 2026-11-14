@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 NESA HSC Q31 solution: y = cos px with p = 7/6, ending at (2pi, 1/2) (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\oy{195}
+  \draw[->] (14,\oy) -- (740,\oy);
+  \draw[->] (66,{\oy+130}) -- (66,{\oy-184});
+  \draw (54,{\oy-123}) -- (66,{\oy-123});
+  \draw (54,{\oy-61.5}) -- (66,{\oy-61.5});
+  \node at (45,{\oy-173}) {$y$};
+  \node at (34,{\oy-126}) {$1$};
+  \node at (34,{\oy-62}) {$\dfrac{1}{2}$};
+  \node at (731,{\oy+25}) {$x$};
+  \draw[line width=0.9pt] plot[smooth,domain=0:496.5,samples=90] ({66+\x},{\oy-123*cos(0.845921*\x)});
+  \draw[dotted] (562.5,{\oy-61.5}) -- (562.5,\oy);
+  \node[pt] at (562.5,{\oy-61.5}) {};
+  \node at (562,{\oy+23}) {$2\pi$};
+  \node at (673,{\oy-121}) {$y=\cos px$};
+\end{tikzpicture}
+\end{document}

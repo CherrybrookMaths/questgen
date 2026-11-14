@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2024 NESA HSC Q28 solution: heights 3, 21, 39 m with two 18 m gaps (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (93.5,31) -- (93.5,344);
+  \foreach \y in {31,187,344} \draw (67,\y) -- (121,\y);
+  \node at (149,33) {$39$};
+  \node at (148,188) {$21$};
+  \node at (140,343) {$3$};
+  \draw[->] (32,93) -- (32,31);
+  \draw[->] (32,124) -- (32,187);
+  \draw[->] (32,250) -- (32,188);
+  \draw[->] (32,282) -- (32,344);
+  \node at (32,108) {$18$};
+  \node at (32,266) {$18$};
+\end{tikzpicture}
+\end{document}

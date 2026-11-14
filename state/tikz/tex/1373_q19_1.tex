@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{11}{13}\selectfont]
+  % O (88.5,53), G (88.5,255), F (491,255); arc centre O radius 202 from G to E on OF
+  \pgfmathsetmacro\th{atan2(255-53,491-88.5)}
+  \fill[shade] plot[smooth, samples=40, domain=0:90-\th, variable=\a] ({88.5+202*sin(\a)},{53+202*cos(\a)}) -- (491,255) -- cycle;
+  \draw (88.5,53) -- (88.5,255) -- (491,255) -- cycle;
+  \draw plot[smooth, samples=40, domain=0:90-\th, variable=\a] ({88.5+202*sin(\a)},{53+202*cos(\a)});
+  \node at (78.5,32.5) {$O$};
+  \node at (275,122.5) {$E$};
+  \node at (78.5,278) {$G$};
+  \node at (510,259) {$F$};
+  \node at (45,151.5) {$r\,$cm};
+\end{tikzpicture}
+\end{document}

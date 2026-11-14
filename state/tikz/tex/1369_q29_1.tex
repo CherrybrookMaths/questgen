@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (61,422); \coordinate (A) at (460,422); \coordinate (B) at ($(O)+(-76.03:399)$);
+  \coordinate (P) at (342,142); \coordinate (Q) at (130.6,142); \coordinate (R) at (130.6,422); \coordinate (S) at (342,422);
+  \draw (B) -- (O) -- (A);
+  \draw (A) arc[start angle=0, end angle=-76.03, radius=399];
+  \draw (Q) -- (P) -- (S);
+  \draw (Q) -- (R);
+  \draw[aux] (O) -- (P);
+  \draw (130.6,160) -- (148.6,160) -- (148.6,142);
+  \draw (324,142) -- (324,160) -- (342,160);
+  \draw (130.6,404) -- (148.6,404) -- (148.6,422);
+  \draw (324,422) -- (324,404) -- (342,404);
+  \node[font=\large] at (122,26) {$B$};
+  \node[font=\large] at (104,140) {$Q$};
+  \node[font=\large] at (367,138) {$P$};
+  \node[font=\large] at (40,442) {$O$};
+  \node[font=\large] at (128,444) {$R$};
+  \node[font=\large] at (344,444) {$S$};
+  \node[font=\large] at (470,444) {$A$};
+  \node[font=\normalsize] at (157,262) {$2x$};
+  \node[font=\normalsize] at (239,279) {6};
+  \node[font=\normalsize] at (91,441) {$x$};
+  \node[font=\normalsize] at (240,446) {$y$};
+  \node[font=\fontsize{12.6}{15}\selectfont] at (716,79) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

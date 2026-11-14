@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, font=\fontfamily{ptm}\selectfont,
+  par/.style={postaction={decorate}, decoration={markings, mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+  \coordinate (A) at (47,237); \coordinate (B) at (514,237);
+  \coordinate (C) at (390,66); \coordinate (D) at (170,66); \coordinate (Q) at (390,237);
+  \draw (A) -- (D);
+  \draw (C) -- (B);
+  \draw[par=0.31] (D) -- (C);
+  \draw[par=0.42] (A) -- (B);
+  \draw[aux] (C) -- (Q);
+  \draw (390,214) -- (412,214) -- (412,237);
+  % equal-side ticks
+  \draw (276,58) -- (276,74);
+  \draw ($(A)!0.5!(D)+(-7,-5)$) -- ($(A)!0.5!(D)+(7,5)$);
+  \draw ($(C)!0.5!(B)+(-7,5)$) -- ($(C)!0.5!(B)+(7,-5)$);
+  % dimensions
+  \draw[<-] (175,40) -- (233,40); \draw[->] (330,40) -- (392,40);
+  \node at (281,40) {12 cm};
+  \draw[<-] (395,262) -- (441,262); \draw[->] (462,262) -- (512,262);
+  \node at (451,262) {$x$};
+  \node at (152,53) {$D$};
+  \node at (409,56) {$C$};
+  \node at (30,239) {$A$};
+  \node at (532,241) {$B$};
+  \node at (374,262) {$Q$};
+  \node at (374,150) {$h$};
+  \node[align=left, inner sep=0pt, anchor=west] at (552,100) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

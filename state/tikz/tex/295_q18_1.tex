@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm, y=1cm]
+  % y map: Y(v) = 0.762 + (v-160)*0.1001 ; axis break between 0 and 160
+  \def\top{8.77}
+  % minor grid (dotted)
+  \foreach \i in {1,...,49} \draw[densely dotted, line width=0.3pt, black!60] (\i/5,0) -- (\i/5,\top);
+  \foreach \j in {1,...,39} \draw[densely dotted, line width=0.3pt, black!60] (0,{0.762+\j*0.2002}) -- (10,{0.762+\j*0.2002});
+  % major grid
+  \foreach \i in {1,...,10} \draw[line width=0.6pt] (\i,0) -- (\i,\top);
+  \foreach \v in {160,170,...,240} \draw[line width=0.6pt] (0,{0.762+(\v-160)*0.1001}) -- (10,{0.762+(\v-160)*0.1001});
+  % axes
+  \draw[->] (0,0) -- (10.87,0);
+  \node at (10.74,-0.26) {$x$};
+  \draw (0,0) -- (0,0.21);
+  \draw (0,0.21) -- (-0.08,0.27) -- (0.08,0.36) -- (-0.08,0.45) -- (0.08,0.53) -- (0,0.565);
+  \draw[->] (0,0.565) -- (0,9.41);
+  \node at (-0.24,9.32) {$y$};
+  % tick labels
+  \foreach \v in {160,170,...,240} \draw (-0.12,{0.762+(\v-160)*0.1001}) -- (0,{0.762+(\v-160)*0.1001}) node[pos=0, anchor=east, inner sep=1.5pt] {$\v$};
+  \draw (-0.12,0) -- (0,0); \node[anchor=east, inner sep=1.5pt] at (-0.12,0) {$0$};
+  \foreach \u in {0,2,...,10} \draw (\u,0) -- (\u,-0.1) node[anchor=north, inner sep=3.5pt] {$\u$};
+  \node at (5,-0.91) {Average daily outside temperature ($^\circ$C)};
+  \node[rotate=90] at (-1.35,4.76) {Daily gas usage (MW)};
+  % points
+  \node[pt, inner sep=1.5pt] at (0,{0.762+76*0.1001}) {};
+  \node[pt, inner sep=1.5pt] at (5,{0.762+24*0.1001}) {};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[font=\footnotesize]
+\pgfmathdeclarefunction{f}{1}{\pgfmathparse{3.34425e-06*#1^6-1.58799e-05*#1^5+0.00038048*#1^4+0.0066491*#1^3-0.0796189*#1^2-0.186799*#1+1.26318}}
+\begin{axis}[exam axes, axis line style={draw=none}, x=0.635cm, y=0.635cm, xmin=-5.82, xmax=8.78, ymin=-3.06, ymax=3.82,
+  xtick=\empty, ytick=\empty, xlabel={}, ylabel={}]
+  \draw[open arrow] (axis cs:-5.82,0) -- (axis cs:8.78,0) node[right] {x};
+  \draw[open arrow] (axis cs:0,-3.06) -- (axis cs:0,3.82) node[above right, inner sep=1pt] {y};
+  \addplot[open arrow, domain=-5.82:9.26] {f(x)};
+  \foreach \p/\n/\pos in {-5.28/A/below, 1.04/B/above, 4.88/C/below, 7.7/D/below} {
+    \edef\tmp{\noexpand\node[pt] at (axis cs:\p,{f(\p)}) {};
+      \noexpand\node[\pos] at (axis cs:\p,{f(\p)}) {\n};}\tmp
+  }
+  \node[anchor=east, inner xsep=0pt] at (axis cs:8.62,1.42) {$y=f(x)$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\U{114.3}% px per radian
+  % asymptotes
+  \foreach \a in {499,738,978} \draw[aux] (\a,45) -- (\a,563);
+  % axes
+  \draw[<->] (22,307) -- (1040,307);
+  \draw[<->] (259,563) -- (259,28);
+  \node[font=\itshape] at (1050,307) {$x$};
+  \node at (242,30) {$y$};
+  % ticks every pi/6
+  \foreach \k in {-3,...,12} {\pgfmathsetmacro\tx{259+\k*59.85}\draw (\tx,302) -- (\tx,312);}
+  % tick labels
+  % labels set beside their ticks, on the side the curves leave free (owner rule 11)
+  \foreach \x/\t in {136/{-\dfrac{\pi}{3}},374/{\dfrac{\pi}{3}},853/{\dfrac{5\pi}{3}}}
+     \node[anchor=north east,font=\small,inner sep=1pt] at (\x,318) {\halo{$\t$}};
+  \foreach \x/\t in {505/{\dfrac{2\pi}{3}},744/{\dfrac{4\pi}{3}}}
+     \node[anchor=north west,font=\small,inner sep=1pt] at (\x,318) {\halo{$\t$}};
+  \node[anchor=north east,font=\small,inner sep=1pt] at (613,318) {$\pi$};
+  \node[anchor=north west,font=\small,inner sep=1pt] at (984,318) {\halo{$2\pi$}};
+  % y = 4 sin x
+  \draw[<->, line width=0.9pt, smooth, samples=90, domain=-2.0:6.745, variable=\t] plot ({259+\U*\t}, {307-91*sin(deg(\t))});
+  % y = cot(3x/2) branches (asymptotes at 0, 2pi/3, 4pi/3, 2pi)
+  \foreach \lo/\hi in {-2.0353/-0.0589, 0.0589/2.0355, 2.153/4.130, 4.2477/6.2243} {
+    \draw[<->, line width=0.9pt, smooth, samples=90, domain=\lo:\hi, variable=\t] plot ({259+\U*\t}, {307-22.75*cot(deg(1.5*\t))});
+  }
+  \draw[<->, line width=0.9pt, smooth, samples=60, domain=6.342:6.73, variable=\t] plot ({259+\U*\t}, {307-22.75*cot(deg(1.5*\t))});
+\end{tikzpicture}
+\end{document}

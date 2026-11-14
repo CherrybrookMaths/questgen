@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=4.27cm, y=4.93cm, >={Latex[length=2mm,width=1.3mm]}]
+  \fill[shade] plot[domain=0:1, samples=120] ({(\x)^3},{\x}) -- plot[domain=1:0, samples=60] (\x,{(\x)^2}) -- cycle;
+  \draw[->] (0,0) -- (1.503,0);
+  \draw[->] (0,0) -- (0,1.304);
+  \foreach \v in {0.5,1} \draw (0,\v) -- (-0.02,\v);
+  \draw plot[domain=0:1.1447, samples=200] ({(\x)^3},{\x});
+  \draw plot[domain=0:1.142, samples=100] (\x,{(\x)^2});
+  \node at (1.44,0.05) {$x$};
+  \node at (0.05,1.25) {$y$};
+  \node[below, yshift=-2pt] at (0,0) {$0$};
+  \node[below, yshift=-2pt] at (0.5,0) {$0.5$};
+  \node[below, yshift=-2pt] at (1,0) {$1$};
+  \node[left, xshift=-3pt] at (0,0.5) {$0.5$};
+  \node[left, xshift=-3pt] at (0,1) {$1$};
+  \node at (0.91,1.19) {$y=x^2$};
+  \node at (1.315,0.97) {$y=x^{\genfrac{}{}{}{1}{1}{3}}$};
+\end{tikzpicture}
+\end{document}

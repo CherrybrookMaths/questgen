@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{9.5}{11}\selectfont}]
+  % crop pixel units; the crop is a computer plot: origin (60.5,208.3), 72.25 px per radian, 68.6 px per y-unit
+  \def\X#1{60.5+72.25*(#1)}\def\Y#1{208.3-68.6*(#1)}
+  % shaded region between the intersections x = pi/6 and 7pi/6
+  \fill[shade] plot[domain=pi/6:7*pi/6, samples=60, smooth] ({\X{\x}},{\Y{sqrt(3)*sin(\x r)}})
+     -- plot[domain=7*pi/6:pi/6, samples=60, smooth] ({\X{\x}},{\Y{cos(\x r)}}) -- cycle;
+  % axes and ticks
+  \draw[->] (54,208.3) -- (547,208.3);
+  \draw[<->] (60.5,362) -- (60.5,48);
+  \foreach \k in {1,2,3,4} \draw ({\X{\k*pi/2}},203.3) -- ({\X{\k*pi/2}},213.3);
+  \foreach \k in {-4,-3,-2,-1,1,2,3,4} \draw (55.5,{\Y{\k/2}}) -- (65.5,{\Y{\k/2}});
+  \node at (547,212) {x};
+  \node at (60.5,31) {y};
+  \node at (40,{\Y{2}}) {$2$};
+  \node at (40,{\Y{1}}) {$1$};
+  \node at (34,{\Y{-1}}) {$-1$};
+  \node at (34,{\Y{-2}}) {$-2$};
+  \node at (172,246) {$\dfrac{\pi}{2}$};
+  \node at (287,238) {$\pi$};
+  \node at (401,246) {$\dfrac{3\pi}{2}$};
+  \node at (527,240) {$2\pi$};
+  % curves (arrowheads at the right-hand ends as in the crop)
+  \draw[curve,->,line width=0.9pt] plot[domain=0:6.57, samples=90, smooth] ({\X{\x}},{\Y{sqrt(3)*sin(\x r)}});
+  \draw[curve,->,line width=0.9pt] plot[domain=0:6.57, samples=90, smooth] ({\X{\x}},{\Y{cos(\x r)}});
+  \node at (531,124) {$y=\cos x$};
+  \node at (530,318) {$y=\sqrt{3}\,\sin x$};
+\end{tikzpicture}
+\end{document}

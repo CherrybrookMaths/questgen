@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (S) at (242,94); \coordinate (B) at (479,271); \coordinate (D) at (64.5,359.5);
+  \draw (S) -- (B) -- (D);
+  \draw[->] (S) -- (242,36);
+  \draw[->] (B) -- (479,207);
+  \draw[->] (D) -- (64.5,300);
+  \foreach \p in {S,B,D}{\fill (\p) circle (5);}
+  \node at (243,19) {N};
+  \node at (481,196) {N};
+  \node at (66,291) {N};
+  \node at (214.5,81) {$S$};
+  \node at (478,308) {$B$};
+  \node at (35,395) {$D$};
+\end{tikzpicture}
+\end{document}

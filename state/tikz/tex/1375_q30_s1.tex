@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{13}\selectfont]
+  % true cubic y = 2x^3 - 3x^2 - 12x + 10: x = 210 + 78.3u, y = 190 - 8.94v
+  \draw[->] (30,190) -- (565,190);
+  \draw[->] (210,292) -- (210,8);
+  \node at (575,201) {$x$};
+  \node at (226,12) {$y$};
+  \draw[<->,line width=0.9pt] plot[smooth,samples=90,domain=-2.4:3.45] ({210+78.3*\x},{190-8.94*(2*(\x)^3-3*(\x)^2-12*\x+10)});
+  \draw (204,100.6) -- (216,100.6);
+  \node[anchor=east] at (202,100.6) {$10$};
+  \fill (131.7,38) circle[radius=4];
+  \fill (366.6,279.4) circle[radius=4];
+  \fill (249.2,158.7) circle[radius=3.5];
+  \node at (131.7,16) {$(-1,17)$};
+  \node at (366.6,308) {$(2,-10)$};
+  \node[anchor=west] at (258,140) {inflexion $\left(\frac{1}{2},\frac{7}{2}\right)$};
+\end{tikzpicture}
+\end{document}

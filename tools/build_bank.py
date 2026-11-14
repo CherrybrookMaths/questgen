@@ -1,25 +1,26 @@
 """Build site/data/bank.json (v2) + site/data/svg/g<doc % 8>.json (grouped redraw packs, tools/packs.py) from questions.db and the TikZ redraws.
 Keeps per-part tag data, queues, related, pages and figure lists from the previous bank.json (built by the v1
 inline builder), and refreshes all text, solutions, tables and figure redraw data from the database."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, json, csv, glob, os, base64, collections, subprocess
-P = '/home/claude/pilot/'
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db'); db.row_factory = sqlite3.Row
+P = paths.P
+db = sqlite3.connect(paths.DBS); db.row_factory = sqlite3.Row
 old = json.load(open(P + 'site/data/bank.json'))
-if 'v' in old and old['v'] == 2 and os.path.exists(P + 'site/data/bank_v1.json'):
-    old = json.load(open(P + 'site/data/bank_v1.json'))
-elif not os.path.exists(P + 'site/data/bank_v1.json'):
-    json.dump(old, open(P + 'site/data/bank_v1.json', 'w'))
+if 'v' in old and old['v'] == 2 and os.path.exists(paths.S + 'site/data/bank_v1.json'):
+    old = json.load(open(paths.S + 'site/data/bank_v1.json'))
+elif not os.path.exists(paths.S + 'site/data/bank_v1.json'):
+    json.dump(old, open(paths.S + 'site/data/bank_v1.json', 'w'))
 
 J = lambda s, d=None: json.loads(s) if s else d
 _dis = {}
 for _f in ('work/tag_full/disagreements.json', 'work/tag_pilot/disagreements.json'):   # main re-tag + pilot re-tag (12 Nov)
-    if os.path.exists(P + _f): _dis.update(json.load(open(P + _f)))
+    if os.path.exists(paths.S + _f): _dis.update(json.load(open(paths.S + _f)))   # state/ (tracked)
 _slim = lambda x: dict(dp=[[d['id'], d.get('role')] for d in x.get('dot_points') or []], req=x.get('required_skills') or [], can=x.get('can_use_skills') or [], removed=x.get('removed_reason') or '', note=(x.get('note') or '')[:200], conf=x.get('confidence'))
 TAGD = {k: dict(A=_slim(v['A']), B=_slim(v['B'])) for k, v in _dis.items()}
 # owner 12 Nov: gates settled automatically with quoted evidence (work/gates); shown read-only in Review > Tags
 GATES = {}
 for _f in ('work/gates/gates_applied.json', 'work/gates_pilot/gates_applied.json'):
-    if os.path.exists(P + _f): GATES.update(json.load(open(P + _f)))
+    if os.path.exists(paths.S + _f): GATES.update(json.load(open(paths.S + _f)))
 for q in old['questions']:
     r = db.execute('select * from questions where id=?', (q['id'],)).fetchone()
     q['stem'] = r['stem_latex']; q['number'] = r['number']
@@ -66,12 +67,12 @@ for t in db.execute('select * from data_tables'):
     tables[t['id']] = dict(cap=t['caption'], hr=t['header_rows'] or 0, lc=t['label_col'] or 0,
                            rows=J(t['rows_json'], []), spans=J(t['spans_json'], []))
 
-res = {r['id']: r for r in json.load(open(P + 'tikz/all_results.json'))}
+res = {r['id']: r for r in json.load(open(paths.S + 'tikz/all_results.json'))}
 chk = {}
 for f in glob.glob(P + 'tikz/check_*.json'):
     for r in json.load(open(f))['results']: chk[r['id']] = r
 figtab = {os.path.basename(r['png_path'])[:-4]: r['redraw_table_id'] for r in db.execute('select png_path, redraw_table_id from figures')}
-ovs = json.load(open(P + 'tikz/overlay_scores.json')) if os.path.exists(P + 'tikz/overlay_scores.json') else {}
+ovs = json.load(open(paths.S + 'tikz/overlay_scores.json')) if os.path.exists(paths.S + 'tikz/overlay_scores.json') else {}
 figs, packs = {}, collections.defaultdict(dict)
 for k, r in res.items():
     c = chk.get(k, {})
@@ -124,7 +125,7 @@ for q in old['questions']:
         q.pop('dup_of'); k['dup_of'] = q['id']
 print('hidden duplicates', sum(1 for q in old['questions'] if q.get('dup_of')))
 # owner 12 Nov: "I don't have time to check 6000 questions" -> triage.py decides what the owner looks at (q.tri)
-TRI = json.load(open(P + 'work/triage.json')) if os.path.exists(P + 'work/triage.json') else {}
+TRI = json.load(open(paths.S + 'work/triage.json')) if os.path.exists(paths.S + 'work/triage.json') else {}
 for q in old['questions']:
     q.pop('tri', None)
     t = TRI.get(str(q['id']))

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.13cm, y=1.13cm, every node/.style={font=\normalsize}, >={Latex[length=2mm,width=1.3mm]}]
+  \draw[->] (-2.11,0) -- (4.46,0) node[below left, inner sep=1pt, yshift=-3pt] {$x$};
+  \draw[->] (0,-2.54) -- (0,3.75) node[left, inner sep=1pt, yshift=-6pt, xshift=-2pt] {$y$};
+  \foreach \t in {1,2} \draw (\t,-0.06) -- (\t,0.06);
+  \foreach \t in {1,2,3} \draw (-0.06,\t) -- (0.06,\t);
+  \node[below, yshift=-2pt] at (2,0) {$2$};
+  \node[left, xshift=-1pt] at (0,3) {$3$};
+  \node[left, xshift=-2pt] at (0,-1.2) {$-1$};
+  \draw[<->] plot[domain=-0.913:3.13, samples=200] (\x,{-(\x)^3+3*(\x)^2-1});
+  \node[pt] at (0,-1) {}; \node[right, xshift=1pt] at (0,-1.2) {$(0,\,-1)$};
+  \node[pt] at (1,1) {}; \node[right] at (1,1) {$(1,\,1)$};
+  \node[pt] at (2,3) {}; \node[above, yshift=1pt] at (2,3) {$(2,\,3)$};
+\end{tikzpicture}
+\end{document}

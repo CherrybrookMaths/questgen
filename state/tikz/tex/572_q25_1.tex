@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % river: light diagonal hatching as in the crop
+  \begin{scope}[opacity=0.35]\path[shade hatch] (100,169.5) rectangle (738,488.5);\end{scope}
+  \draw (100,169.5) -- (738,169.5) (100,488.5) -- (738,488.5);
+  \node[font=\large\bfseries] at (364,337) {\halo{RIVER}};
+  \node[font=\large\bfseries] at (435,32) {SHORE};
+  \node[font=\large\bfseries] at (402.5,551) {SHORE};
+  % points and path
+  \draw[aux] (478,169.5) -- (579,488.5);
+  \fill (287,169.5) circle (3.5) (478,169.5) circle (3.5) (579,488.5) circle (3.5);
+  \node[font=\footnotesize] at (281,153) {$A$};
+  \node[font=\footnotesize] at (465,160) {$E$};
+  \node at (590,508) {$F$};
+  % dimensions
+  \draw[<->] (286,116.5) -- (579,116.5);
+  \node at (440.5,98) {2.5km};
+  \draw[<->] (472,143) -- (579,143);
+  \node at (522,155) {$x$};
+  \draw[<->] (790.5,169.5) -- (790.5,488.5);
+  \node at (838,323) {800$m$};
+\end{tikzpicture}
+\end{document}

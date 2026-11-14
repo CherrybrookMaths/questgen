@@ -11,8 +11,9 @@ Rules (idempotent: always recomputed from the model's original rating, kept in b
   * everything else -> band_ai / wm_ai, source='model'
 Usage: apply_difficulty_reviews.py [dir of difficulty/*.json]   (no dir: use the page_difficulty mirror from tools/sync_pagedb.py)
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, glob, os, sqlite3, sys, collections
-DB = '/mnt/user-data/outputs/questions.db'
+DB = paths.DBS
 src = sys.argv[1] if len(sys.argv) > 1 else None
 dec = {}
 if src:

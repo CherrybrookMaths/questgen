@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% shared frame for options A-D: 308 x 221 px, circles r 78.5 at (97,113) and (209.5,113) (crop pixel units, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \begin{scope}\clip (209.5,113) circle[radius=78.5]; \fill[shade, even odd rule] (100,0) rectangle (308,221) (97,113) circle[radius=78.5];\end{scope}
+  \draw (0,0) rectangle (308,221);
+  \draw (97,113) circle[radius=78.5];
+  \draw (209.5,113) circle[radius=78.5];
+  \node[font=\fontsize{13}{15}\selectfont] at (34,38) {$A$};
+  \node[font=\fontsize{13}{15}\selectfont] at (274,38) {$B$};
+\end{tikzpicture}
+\end{document}

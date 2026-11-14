@@ -1,0 +1,42 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates are crop pixels at 200 dpi (y downward)
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+% flat sheet
+\draw (188,13) rectangle (924,328);
+\foreach \x in {347,557,770} \draw[densely dotted, line width=0.6pt] (\x,13) -- (\x,328);
+\foreach \x/\l in {265/y,455/4x,676/4x,855/y} \node at (\x,355) {$\l$};
+\node at (962,176) {6 m};
+% tent
+\coordinate (a) at (197,660); \coordinate (a2) at (197,743);
+\coordinate (p) at (410,650);
+\coordinate (r) at (622,905); \coordinate (r2) at (622,988);
+\coordinate (b) at (550,459); \coordinate (b2) at (550,545);
+\coordinate (q) at (764,448);
+\coordinate (s) at (975,705); \coordinate (s2) at (975,788);
+\draw (a2) -- (a) -- (p) -- (r) -- (r2) -- (s2) -- (s) -- (r);
+\draw (p) -- (q) -- (s);
+\draw (a) -- (b) -- (q);
+\path[name path=bot] (a2) -- (b2); \path[name path=slope] (a) -- (p);
+\path[name intersections={of=bot and slope, by=X}];
+\draw (a2) -- (X);
+\draw[dash pattern=on 2pt off 1.5pt] (X) -- (b2) -- (b);
+\node at (657,433) {$4x$};
+\node at (568,502) {$y$};
+\node at (898,567) {$4x$};
+\node at (993,745) {$y$};
+\node at (862,895) {6 m};
+\node at (383,873) {$5x$};
+\node at (125,472) {NOT TO SCALE};
+\draw[densely dotted, line width=0.6pt, <-] (200,767) -- (355,853);
+\draw[densely dotted, line width=0.6pt, ->] (412,891) -- (600,995);
+% hollow curved arrow
+\draw[fill=white, line width=0.6pt, line join=miter]
+  (1007,273) .. controls (1110,268) and (1162,340) .. (1160,420)
+  .. controls (1158,465) and (1110,488) .. (1048,490)
+  -- (1048,470) -- (1010,515) -- (1050,548) -- (1050,525)
+  .. controls (1120,520) and (1162,480) .. (1158,420)
+  .. controls (1155,355) and (1100,313) .. (1007,313) -- cycle;
+\end{tikzpicture}
+\end{document}

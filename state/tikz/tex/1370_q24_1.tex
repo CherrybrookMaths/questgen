@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% crop pixel coordinates (200 dpi), y down. Origin (90,301.5); X maps to 90+80.25X, ln X maps to 301.5-79.6 ln X
+% (the crop's curve is exactly y = ln x on this scale, so the plot is the function itself).
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, anchor=base west, font=\fontsize{13}{15}\selectfont}]
+  \def\cx(#1){90+80.25*(#1)}
+  % A: whole rectangle light grey; B: region under the curve darker grey
+  \fill[black!20] (90,142.3) rectangle (683,301.5);
+  \fill[black!37] (170.25,301.5) -- plot[smooth, domain=1:7.389, samples=90, variable=\t] ({90+80.25*\t},{301.5-79.6*ln(\t)}) -- (683,301.5) -- cycle;
+  \draw (90,142.3) rectangle (683,301.5);
+  \draw (90,5) -- (90,430);
+  \draw (9,301.5) -- (762,301.5);
+  \draw[line width=0.9pt] plot[smooth, domain=0.223:8.37, samples=90, variable=\t] ({90+80.25*\t},{301.5-79.6*ln(\t)});
+  \node at (63.5,153) {$a$};
+  \node at (172.5,210) {$A$};
+  \node at (447,256.5) {$B$};
+  \node at (669,342) {$e^2$};
+  \node at (706,116) {$y=\ln x$};
+\end{tikzpicture}
+\end{document}

@@ -1,6 +1,7 @@
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json,glob,sqlite3,re,collections
-db=sqlite3.connect('/mnt/user-data/outputs/questions.db')
-dps={d['id']:d for d in json.load(open('syllabus_dotpoints.json'))}
+db=sqlite3.connect(paths.DBS)
+dps={d['id']:d for d in json.load(open(paths.P + 'site/project/syllabus_dotpoints.json'))}
 db.execute("delete from tags")
 AREA_PAT=re.compile(r'area (enclosed )?between|between the (two )?curves|bounded by the (two )?curves|region bounded by .* and the (curve|line) y',re.I)
 stats=collections.Counter(); verbatim_fail=0; flags=[]

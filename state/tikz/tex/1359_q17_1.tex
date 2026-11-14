@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% x: 0 m at 139.5 px, 135.92 px per m; y: 0 shots at 578.5 px, 26.9 px per shot (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,X/.code={},declare function={px(\u)=139.5+135.92*\u; py(\v)=578.5-26.9*\v;}]
+  \draw[black!25] (4.5,8.5) rectangle (992,712);
+  \foreach \i in {1,...,59}{\pgfmathtruncatemacro\m{mod(\i,10)}\ifnum\m=0\else
+    \draw[black!8,line width=0.3pt] ({px(\i/10)},{py(0)}) -- ({px(\i/10)},{py(20)});
+    \draw[black!28,line width=0.3pt] ({px(\i/10)},{py(0)}) -- ({px(\i/10)},{py(0)-6});\fi}
+  \foreach \i in {1,...,39}{\pgfmathtruncatemacro\m{mod(\i,4)}\ifnum\m=0\else
+    \draw[black!8,line width=0.3pt] ({px(0)},{py(\i/2)}) -- ({px(6)},{py(\i/2)});
+    \draw[black!28,line width=0.3pt] ({px(0)},{py(\i/2)}) -- ({px(0)+8},{py(\i/2)});\fi}
+  \foreach \i in {1,...,6}{\draw[black!25] ({px(\i)},{py(0)}) -- ({px(\i)},{py(20)});}
+  \foreach \i in {2,4,...,20}{\draw[black!25] ({px(0)},{py(\i)}) -- ({px(6)},{py(\i)});}
+  \draw[black!32] ({px(0)},{py(20)}) -- ({px(0)},{py(0)}) -- ({px(6)},{py(0)});
+  \foreach \i in {0,...,6}{\node[font=\fontsize{11}{13}\selectfont] at ({px(\i)},613) {$\i$};}
+  \foreach \i in {0,2,...,20}{\node[font=\fontsize{11}{13}\selectfont,anchor=east] at (127,{py(\i)}) {$\i$};}
+  \node[font=\fontsize{12}{14}\selectfont] at (547,660) {Distance (m)};
+  \node[font=\fontsize{12}{14}\selectfont,rotate=90] at (60,309) {Successful Shots};
+  \foreach \u/\v in {1/18,1.2/17,1.8/16,2.4/15,2.6/14,3.1/12,4.2/11,5/9}{\fill ({px(\u)},{py(\v)}) circle[radius=7];}
+\end{tikzpicture}
+\end{document}

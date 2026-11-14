@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% origin (537.5,702) crop px; 122.9 px per x unit, 62.6 px per y unit
+\begin{tikzpicture}[x=0.0127cm*122.9,y=0.0127cm*62.6,font=\fontsize{9.5}{11}\selectfont]
+  \draw[black!22] (-4,-3) grid (4,10);
+  \draw[<->] (-4.21,0)--(4.22,0);
+  \draw[<->] (0,-3.42)--(0,10.4);
+  \foreach \i in {-4,...,4} {\ifnum\i=0\else\draw (\i,-7/62.6)--(\i,7/62.6); \ifnum\i<0 \node at (\i+5/122.9,-31.5/62.6) {$\i$};\else\node at (\i,-31.5/62.6) {$\i$};\fi\fi}
+  \foreach \j in {-3,...,10} {\ifnum\j=0\else\draw (-7/122.9,\j)--(7/122.9,\j); \node[anchor=east,inner sep=0pt] at (-16/122.9,\j) {$\j$};\fi}
+  \draw (0,0) circle[radius=0.0127cm*7];
+  \node[font=\fontsize{12}{14}\selectfont] at (0.02,10.7) {$y$};
+  \node[font=\fontsize{12}{14}\selectfont] at (4.33,0) {$x$};
+\end{tikzpicture}
+\end{document}

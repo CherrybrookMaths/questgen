@@ -7,16 +7,17 @@ site/data/img/<doc>.json. Idempotent: re-run after tagging or dedup to refresh t
 
 Usage: python3 add_to_bank.py <doc_id> [<doc_id> ...]
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sys, json, sqlite3, base64, io, os
 import pymupdf
 from PIL import Image
-P = '/home/claude/pilot/'
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db'); db.row_factory = sqlite3.Row
+P = paths.P
+db = sqlite3.connect(paths.DBS); db.row_factory = sqlite3.Row
 IDS = [int(a) for a in sys.argv[1:] if a.isdigit()]
 if not IDS: sys.exit('name the document ids')
-B = json.load(open(P + 'site/data/bank_v1.json'))
+B = json.load(open(paths.S + 'site/data/bank_v1.json'))
 B['questions'] = [q for q in B['questions'] if q['doc'] not in IDS]
-dps = {d['id']: d for d in json.load(open(P + 'syllabus_dotpoints.json'))}
+dps = {d['id']: d for d in json.load(open(P + 'site/project/syllabus_dotpoints.json'))}
 
 def jpg(page):
     pix = page.get_pixmap(dpi=85); im = Image.frombytes('RGB', (pix.width, pix.height), pix.samples)
@@ -41,7 +42,7 @@ for a, b2, sim, rel in db.execute("select question_id, related_id, similarity, r
 for doc in IDS:
     d = db.execute('select * from documents where id=?', (doc,)).fetchone()
     B['docs'][str(doc)] = dict(id=doc, label=d['display_label'] or '', path=d['source_path'], parse_path=d['parse_path'], task_type=d['task_type'])
-    pdf = pymupdf.open(P + f'src/{doc}.pdf'); img = {}
+    pdf = pymupdf.open(str(paths.SRC / f'{doc}.pdf')); img = {}
     for q in db.execute('select * from questions where document_id=? order by id', (doc,)).fetchall():
         parts = []
         for p in db.execute('select * from parts where question_id=? order by ordinal, id', (q['id'],)).fetchall():
@@ -71,4 +72,4 @@ for doc in IDS:
         if k not in img: img[k] = png(f)
     json.dump(img, open(P + f'site/data/img/{doc}.json', 'w'))
     print(doc, B['docs'][str(doc)]['label'], sum(1 for q in B['questions'] if q['doc'] == doc), 'questions,', len(img), 'images,', round(os.path.getsize(P + f'site/data/img/{doc}.json') / 1e6, 2), 'MB')
-json.dump(B, open(P + 'site/data/bank_v1.json', 'w'))
+json.dump(B, open(paths.S + 'site/data/bank_v1.json', 'w'))

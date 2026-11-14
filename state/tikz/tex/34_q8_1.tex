@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=1.0cm, y=1.0cm, xmin=-2.83, xmax=4.32, ymin=-2.03, ymax=3.13,
+  xtick=\empty, ytick=\empty,
+  xlabel style={at={(axis cs:4.32,0)}, anchor=north east, inner sep=2pt, yshift=-1pt},
+  ylabel style={at={(axis cs:0,3.13)}, anchor=north east, inner sep=2pt, xshift=-1pt}]
+  \addplot[curve, line width=0.6pt, open arrow, domain=0:3.95] {2.557*(1-exp(-0.7444*x))};
+  \draw (axis cs:1,0) -- (axis cs:1,-0.17);
+  \node[below, inner sep=2pt] at (axis cs:1,-0.17) {$1$};
+  \node[pt] at (axis cs:1,{2.557*(1-exp(-0.7444))}) {};
+  \node[anchor=north east, inner sep=2pt] at (axis cs:0,0) {$O$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

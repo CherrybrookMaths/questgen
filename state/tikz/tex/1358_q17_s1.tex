@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Fort Street AT4 Q17 solution: right triangle with angle x, opposite sqrt5, hypotenuse 5, adjacent sqrt20.
+% x is the marked angle (owner: "x should be the angle"; rule 18); true proportions; teacher's arrow and
+% working line dropped, the found side sqrt20 labelled instead (rules 16, 17).
+\begin{tikzpicture}[x=0.8cm,y=0.8cm, every node/.style={font=\fontsize{13}{15}\selectfont}]
+  \coordinate (L) at (0,0); \coordinate (R) at (4.4721,0); \coordinate (T) at (0,2.2361);
+  \draw (T) -- (L) -- (R) -- cycle;
+  \draw (0,0.3) -- (0.3,0.3) -- (0.3,0);
+  \draw ($(R)+(-1.1,0)$) arc[start angle=180, end angle=153.43, radius=1.1];
+  \node at ($(R)+(169:1.6)$) {$x$};
+  \node[left=3pt] at (0,1.118) {$\sqrt{5}$};
+  \node[above right=1pt] at (2.236,1.118) {$5$};
+  \node[below=3pt] at (2.236,0) {$\sqrt{20}$};
+\end{tikzpicture}
+\end{document}

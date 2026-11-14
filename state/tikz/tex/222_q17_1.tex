@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[scale only axis, width=12.8cm, height=6.71cm, xmin=0, xmax=1000, ymin=0, ymax=40,
+  xtick distance=100, ytick distance=5, grid=major, grid style={densely dotted, black!70},
+  tick label style={font=\normalsize}, tick style={black}, major tick length=0pt, xticklabel style={/pgf/number format/set thousands separator={}}, axis line style={black},
+  title style={yshift=-5pt}, title={\small\sffamily\bfseries Average maximum daily temperature},
+  xlabel={Height above sea level ($x$ metres)},
+  ylabel={Average maximum daily temperature ($y\,^\circ$C)}, clip=false]
+  \addplot[only marks, mark=*, mark size=1.9pt] coordinates {
+   (112,34.1) (112,28.4) (131,24.2) (168,22.0) (195,31.4) (226,21.0) (232,28.0)
+   (268,25.0) (298,28.0) (321,24.1) (366,32.0) (389,25.0) (449,18.0) (573,20.0)
+   (586,29.1) (601,23.0) (869,18.0)};
+  \addplot[dash pattern=on 2pt off 1.5pt, domain=112:862] {29.2-0.011*x};
+\end{axis}
+\end{tikzpicture}
+\end{document}

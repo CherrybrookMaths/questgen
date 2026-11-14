@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (M) at (312.5,40); \coordinate (A) at (30,377.3); \coordinate (B) at (394.5,377.3);
+  \coordinate (C) at (594,285); \coordinate (D) at (231,285); \coordinate (O) at (313,331);
+  \draw (A) -- (M) -- (B) -- cycle; \draw (M) -- (C) -- (B);
+  \draw[aux] (A) -- (D) -- (C); \draw[aux] (M) -- (D); \draw[aux] (M) -- (O); \draw[aux] (A) -- (O);
+  \draw (289.5,334.8) -- (289.5,310.5) -- (313,310.5);
+  \draw[->] (91.3,305) .. controls (103,317) and (107.5,335) .. (106.5,363.5);
+  \node at (315,24) {$M$};
+  \node at (25,393) {$A$};
+  \node at (394,393) {$B$};
+  \node at (610,286) {$C$};
+  \node at (213,276) {$D$};
+  \node at (327,334) {$O$};
+  \node at (75,339) {$\theta$};  % rule 11: clear of dashed AD and of AM
+  \node at (146,179) {$\ell$ cm};
+\end{tikzpicture}
+\end{document}

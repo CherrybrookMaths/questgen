@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{8.5}{10}\selectfont}]
+  % crop pixel units; normal curve fitted to the crop: centre 440, sd 101 px, peak height 379 px
+  \fill[shade] (339,395.5) -- plot[domain=339:543, samples=60, smooth] (\x,{395.5-379*exp(-0.5*((\x-440)/101)^2)}) -- (543,395.5) -- cycle;
+  \draw[<->] (6,395.5) -- (882,395.5);
+  \draw[curve,line width=0.9pt] plot[domain=20:860, samples=90, smooth] (\x,{395.5-379*exp(-0.5*((\x-440)/101)^2)});
+  \draw (339,395.5) -- (339,{395.5-379*exp(-0.5*(101/101)^2)});
+  \draw (543,395.5) -- (543,{395.5-379*exp(-0.5*(103/101)^2)});
+  \node at (440,243) {$P(-N<z<N)=p$};
+  \node at (281,360) {$\dfrac{1-p}{2}$};
+  \node at (597,360) {$\dfrac{1-p}{2}$};
+  \node at (332,415) {$-N$};
+  \node at (541,415) {$N$};
+\end{tikzpicture}
+\end{document}

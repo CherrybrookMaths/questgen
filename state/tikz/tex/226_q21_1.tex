@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.737cm, y=0.0448cm, xmin=-4.93, xmax=8.6, ymin=-66.9, ymax=66.3,
+  xtick=\empty, ytick=\empty,
+  xlabel style={at={(axis cs:8.45,-6.5)}, anchor=center},
+  ylabel style={at={(axis cs:-0.31,64.3)}, anchor=center}]
+  \addplot[curve, domain=-1.39:3.57, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}, samples=300] {8*x^2*(x-3)};
+  \node[pt] at (axis cs:2,-32) {};
+  \node[pt] at (axis cs:3,0) {};
+  \node at (axis cs:2,-39.4) {$(2,-32)$};
+  \node at (axis cs:3.12,-6.2) {$3$};
+  \node at (axis cs:-0.38,5.1) {$O$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

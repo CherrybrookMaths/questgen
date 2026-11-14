@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{12.5}{15}\selectfont}]
+  % table frame
+  \foreach \y in {6,46,133,405.5,493,751.5} \draw (6.5,\y) -- (917,\y);
+  \foreach \x in {6.5,124,399.5,658.5,917} \draw (\x,6) -- (\x,751.5);
+  \node at (29,27) {$x$};
+  \node at (261,26) {1}; \node at (529,26) {1.25}; \node at (788,26) {1.7};
+  \node at (43,92) {$\dfrac{dy}{dx}$};
+  \node[anchor=west, inner sep=0pt] at (139,67) {$-6.07\ldots$};
+  \node[anchor=west, inner sep=0pt] at (414,67) {$-6.97$};
+  \node[anchor=west, inner sep=0pt] at (673,67) {$-2.49\ldots$};
+  % gradient sketches: decreasing in all three columns
+  \draw (162,148.5) -- (362,391); \draw (429,148.5) -- (629,391); \draw (688,148.5) -- (887,391);
+  \node at (56,450) {$\dfrac{d^2y}{dx^2}$};
+  \node at (256,450) {$-6.49\ldots$};
+  \node at (529,450) {0};
+  \node at (772,450) {$21.47\ldots$};
+  % concavity sketches: concave down at x = 1, concave up at x = 1.7
+  \draw[curve, <->] plot[domain=-62.5:62.5, samples=60, smooth] ({262.5+\x},{509+228*(\x/62.5)^2});
+  \draw[curve, <->] plot[domain=-77:77, samples=60, smooth] ({788+\x},{737-229*(\x/77)^2});
+\end{tikzpicture}
+\end{document}

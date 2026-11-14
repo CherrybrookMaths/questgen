@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% coordinates in crop pixels (200 dpi), origin at the axes' intersection
+\begin{tikzpicture}[x=0.0127cm, y=0.0127cm]
+  \coordinate (O) at (0,0);
+  \coordinate (P) at (-123,-212);
+  \coordinate (Q) at (122,-212);
+  \draw (-296,0) -- (296,0);
+  \draw (0,-273) -- (0,159);
+  \draw (O) -- (P); \draw (O) -- (Q);
+  \draw (-123,0) -- (P);
+  \draw (-12,-212) -- (12,-212);
+  \node[pt, inner sep=1.4pt] at (P) {};
+  \coordinate (L) at (-100,0); \coordinate (R) at (100,0);
+  \pic[draw, angle radius=0.965cm, "$60^\circ$", angle eccentricity=0.62] {angle=L--O--P};
+  \pic[draw, angle radius=0.965cm, "$60^\circ$", angle eccentricity=0.62] {angle=Q--O--R};
+  \node at (-77,51) {$\dfrac{1}{2}$};
+  \node at (-158,-109) {$\dfrac{\sqrt{3}}{2}$};
+  \node at (-53,-211) {$-\dfrac{\sqrt{3}}{2}$};
+\end{tikzpicture}
+\end{document}

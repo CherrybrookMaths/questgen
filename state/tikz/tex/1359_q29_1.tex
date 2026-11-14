@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (T) at (221,77); \coordinate (R) at (221,313); \coordinate (Q) at (68,478); \coordinate (P) at (373,410);
+  \draw (T) -- (Q) -- (P) -- cycle;
+  \draw (T) -- (R); \draw (Q) -- (R) -- (P);
+  \draw[aux] (R) -- (369,144);
+  \draw[->] (366,147.5) -- (381,130);
+  % 3D right angles at R
+  \draw (202.2,333.2) -- (202.2,298.2) -- (221,278);
+  \draw (244,327.7) -- (244,292.7) -- (221,278);
+  \fill (Q) circle[radius=3.2]; \fill (P) circle[radius=3.2];
+  \node at (216,48) {$T$};
+  \node at (207,215) {$h$};
+  \node at (223,337) {$R$};
+  \node at (393,130) {$N$};
+  \node[font=\small] at (311,338) {$45^\circ$};
+  \node[font=\small] at (145,348) {$30^\circ$};
+  \node at (393,413) {$P$};
+  \node at (45,479) {$Q$};
+  \node at (240,466) {$40$ $m$};
+\end{tikzpicture}
+\end{document}

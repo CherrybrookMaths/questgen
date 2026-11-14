@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (T) at (449.7,35); \coordinate (B) at (449.7,331.7);
+  \coordinate (S) at (71,230); \coordinate (D) at (33,493.5);
+  \draw (T) -- (S) -- (B) -- cycle;
+  \draw (T) -- (D) -- (B);
+  \draw (449.7,293.3) -- (412.5,284) -- (412.5,320.8);
+  \draw (412.5,286) -- (B);
+  \draw (449.7,304.7) -- (425,314.2) -- (425,341.7);
+  \draw (425.8,318.3) -- (B);
+  \foreach \p in {T,S,D}{\fill (\p) circle (5);}
+  \node at (488,32) {$T$};
+  \node at (31,228) {$S$};
+  \node at (58,520) {$D$};
+  \node at (146,226) {$48^\circ$};
+  \node at (124,432) {$35^\circ$};
+  \node at (508,194) {50 m};
+  \node at (764,252) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

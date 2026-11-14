@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (52,163); \coordinate (B) at (309,163);
+  \coordinate (E) at (52,474); \coordinate (F) at (309,474);
+  \coordinate (D) at (148,40); \coordinate (C) at (404,40);
+  \coordinate (H) at (148,350); \coordinate (G) at (404,350);
+  \coordinate (M) at (276,40);
+  \draw (A) -- (B) -- (F) -- (E) -- cycle;
+  \draw (A) -- (D) -- (C) -- (B);
+  \draw (C) -- (G) -- (F);
+  \draw[aux] (D) -- (H) -- (G);
+  \draw[aux] (H) -- (E);
+  \draw[aux] (E) -- (M);
+  \fill (M) circle[radius=4];
+  % equal marks on DM and MC
+  \foreach \x in {212,340} {\draw (\x-3,32) -- (\x-3,48); \draw (\x+3,32) -- (\x+3,48);}
+  % right angles
+  \draw (148,327) -- (171,327) -- (171,350);
+  \draw (384.0,350.0) -- (371.8,365.9) -- (391.8,365.9);
+  \draw (309.0,454.0) -- (321.2,438.1) -- (321.2,458.1);
+  \node at (119,40) {$D$};
+  \node at (275,14) {$M$};
+  \node at (421,40) {$C$};
+  \node at (33,167) {$A$};
+  \node at (328,168) {$B$};
+  \node at (424,354) {$G$};
+  \node at (34,477) {$E$};
+  \node at (327,477) {$F$};
+  \node at (78,98) {7};
+  \node at (34,322) {8};
+  \node at (180,500) {6};
+  \node[align=center, inner sep=0pt, font=\fontsize{13}{16}\selectfont] at (557,218) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

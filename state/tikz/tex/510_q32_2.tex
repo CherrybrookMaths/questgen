@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[every node/.style={font=\large}]
+  % traced from the crop (1 px = 0.0127 cm), including the crop's slight slope of the horizontals
+  \coordinate (L) at (0,0); \coordinate (R) at (9.258,-0.19); \coordinate (T) at (4.68,2.045);
+  \coordinate (F) at (4.68,-0.097); \coordinate (BL) at (0,-1.651); \coordinate (BR) at (9.258,-1.816);
+  \draw[line width=0.6pt] (BL) -- (L) -- (T) -- (R) -- (BR);
+  \draw[dash pattern=on 0.6pt off 0.6pt, line width=0.6pt] (L) -- (R) (BL) -- (BR) (T) -- (F);
+  \draw (F) ++(0,0.27) -- ++(0.27,-0.006) -- ($(F)+(0.27,-0.006)$);
+  \node at (2.064,1.314) {$4x$};
+  \node at (7.27,1.213) {$4x$};
+  \node at (4.934,0.921) {$h$};
+  \node at (-0.279,-0.902) {$y$};
+  \node at (4.705,-1.441) {$5x$};
+  \node[font=\normalsize] at (9.785,1.753) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

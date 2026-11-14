@@ -2,11 +2,12 @@
 (b) pool volume) become separate questions numbered 13(a), 13(b). Related parts (shared stem, 'hence', 'use part (a)') stay together.
 Moves parts (with sub-parts), solutions follow their parts, figures follow their parts, tags follow parts.
 Updates questions.db and site/data/bank_v1.json (the per-question shell build_bank.py starts from)."""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, json, copy
-P = '/home/claude/pilot/'
+P = paths.P
 SPLIT = {310: None, 311: None, 312: {'a': ['pages/568_10.jpg'], 'b': ['pages/568_11.jpg']}, 325: None}
-db = sqlite3.connect('/mnt/user-data/outputs/questions.db')
-bank = json.load(open(P + 'site/data/bank_v1.json')); BQ = {q['id']: q for q in bank['questions']}
+db = sqlite3.connect(paths.DBS)
+bank = json.load(open(paths.S + 'site/data/bank_v1.json')); BQ = {q['id']: q for q in bank['questions']}
 dec = json.load(open(P + 'site/project/open_decisions.json'))
 for qid, pages in SPLIT.items():
     num, = db.execute('select number from questions where id=?', (qid,)).fetchone()
@@ -53,4 +54,4 @@ for q in bank['questions']:
     for p in q['parts']:
         r = db.execute('select label from parts where id=?', (p['id'],)).fetchone()
         if r: p['label'] = r[0]
-db.commit(); json.dump(bank, open(P + 'site/data/bank_v1.json', 'w')); json.dump(dec, open(P + 'site/project/open_decisions.json', 'w'), ensure_ascii=False, indent=1)
+db.commit(); json.dump(bank, open(paths.S + 'site/data/bank_v1.json', 'w')); json.dump(dec, open(P + 'site/project/open_decisions.json', 'w'), ensure_ascii=False, indent=1)

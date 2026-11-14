@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\usepgfplotslibrary{fillbetween}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, axis line style={draw=none}, x=1.162cm, y=0.50cm, xlabel={}, ylabel={},
+  xmin=-2.37, xmax=4.35, ymin=-4.76, ymax=8.9,
+  xtick={-2,-1,1,2,3,4}, ytick={-4,-2,2,4,6,8}, yticklabels={$-4$,{},{},$4$,$6$,$8$}, major tick length=0pt,
+  tick label style={font=\footnotesize}, xticklabel style={yshift=-4pt}, yticklabel style={xshift=-2pt},
+  axis on top=false]
+  \addplot[name path=P1, draw=none, domain=0:3] {(x-1)^2};
+  \addplot[name path=L1, draw=none, domain=0:3] {2*x-2};
+  \addplot[shade, draw=none] fill between[of=P1 and L1];
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}]
+    (axis cs:-2.37,0) -- (axis cs:4.35,0) node[right, font=\small] {x};
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}]
+    (axis cs:0,-4.76) -- (axis cs:0,8.9) node[above, font=\small] {y};
+  % in the crop the axes show white through the shading
+  \draw[white, line width=0.6pt] (axis cs:0.02,0) -- (axis cs:0.98,0);
+  \draw[white, line width=0.6pt] (axis cs:0.01,-1.9) -- (axis cs:0.01,0.95);
+  \addplot[line width=0.6pt, <->, >={Latex[length=2mm,width=1.3mm]}, domain=-1.93:3.98] {(x-1)^2};
+  \addplot[line width=0.6pt, <->, >={Latex[length=2mm,width=1.3mm]}, domain=-1.36:4.37] {2*x-2};
+  % owner rule 6a: 2 and -2 sit clear of the curve and line (they touch in the crop)
+  \node[font=\footnotesize] at (axis cs:-0.17,2.05) {$2$};
+  \node[font=\footnotesize] at (axis cs:-0.33,-1.78) {$-2$};
+  \node[pt] at (axis cs:3,4) {};
+  \node[anchor=west, font=\small] at (axis cs:3.1,3.77) {$(3,\,4)$};
+  \node[anchor=east, font=\small] at (axis cs:3.70,8.0) {$y=(x-1)^2$};
+  \node[anchor=west, font=\small] at (axis cs:4.3,5.9) {$y=2x-2$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

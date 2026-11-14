@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% option frame shared by 1628_q8_2..5 (identical axes, grid and bar positions; only the bar heights differ).
+% crop pixel coordinates (200 dpi), y down; baseline y=289.5, 1 unit = 63 px; 7 bars 47.14 px wide from x=145.5
+% heights: 1, 2, 4, 2, 4, 2, 1. Grid lines stop at the bars (the paper's bars are opaque).
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{11.7}{14}\selectfont}]
+  \draw[black!40] (122.0,226.5) -- (145.5,226.5);
+  \draw[black!40] (475.5,226.5) -- (499.0,226.5);
+  \draw[black!40] (122.0,163.5) -- (192.6,163.5);
+  \draw[black!40] (428.3,163.5) -- (499.0,163.5);
+  \draw[black!40] (122.0,100.5) -- (239.8,100.5);
+  \draw[black!40] (286.9,100.5) -- (334.1,100.5);
+  \draw[black!40] (381.2,100.5) -- (499.0,100.5);
+  \draw[black!40] (122.0,37.5) -- (239.8,37.5);
+  \draw[black!40] (286.9,37.5) -- (334.1,37.5);
+  \draw[black!40] (381.2,37.5) -- (499.0,37.5);
+  \path[shade dots, stipple color=black!60] (145.5,289.5) rectangle (192.6,226.5);
+  \draw (145.5,289.5) rectangle (192.6,226.5);
+  \path[shade dots, stipple color=black!60] (192.6,289.5) rectangle (239.8,163.5);
+  \draw (192.6,289.5) rectangle (239.8,163.5);
+  \path[shade dots, stipple color=black!60] (239.8,289.5) rectangle (286.9,37.5);
+  \draw (239.8,289.5) rectangle (286.9,37.5);
+  \path[shade dots, stipple color=black!60] (286.9,289.5) rectangle (334.1,163.5);
+  \draw (286.9,289.5) rectangle (334.1,163.5);
+  \path[shade dots, stipple color=black!60] (334.1,289.5) rectangle (381.2,37.5);
+  \draw (334.1,289.5) rectangle (381.2,37.5);
+  \path[shade dots, stipple color=black!60] (381.2,289.5) rectangle (428.3,163.5);
+  \draw (381.2,289.5) rectangle (428.3,163.5);
+  \path[shade dots, stipple color=black!60] (428.3,289.5) rectangle (475.5,226.5);
+  \draw (428.3,289.5) rectangle (475.5,226.5);
+  \draw (121.5,8) -- (121.5,289.5);
+  \draw (106,289.5) -- (515,289.5);
+  \foreach \g in {1,2,3,4} \draw (106,{289.5-63*\g}) -- (121.5,{289.5-63*\g});
+  \foreach \g in {0,1,2,3,4} \node[anchor=east] at (98.5,{289.5-63*\g}) {$\g$};
+\end{tikzpicture}
+\end{document}

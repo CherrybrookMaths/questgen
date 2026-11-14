@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% clean redraw of the handwritten solution Venn diagram (crop pixel units, y down); answer-line dots omitted
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{12}{14}\selectfont}]
+  \begin{scope}
+    \clip (243,91) circle[radius=49];
+    \path[shade hatch, even odd rule] (180,30) rectangle (300,150) (170,91) circle[radius=48];
+  \end{scope}
+  \draw (87,13) rectangle (350,163);
+  \draw (170,91) circle[radius=48];
+  \draw (243,91) circle[radius=49];
+  \node at (158,64) {$A$};
+  \node at (243,64) {\halo{$B$}};
+  \draw (268,124) -- (268,190);
+  \node[anchor=north] at (268,196) {$\overline{A}\cap B$};
+\end{tikzpicture}
+\end{document}

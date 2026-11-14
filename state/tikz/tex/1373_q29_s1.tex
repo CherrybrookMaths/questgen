@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9}{10}\selectfont]
+  \fill[shade] (96.5,161.5) -- (442,161.5)
+    -- plot[smooth,domain=10:1,samples=90,variable=\t] ({96.5+34.55*\t},{473.5-104*sqrt(\t-1)}) -- (96.5,473.5) -- cycle;
+  \draw[->] (84,473.5) -- (522,473.5);
+  \node at (532,471) {\fontsize{10}{11}\selectfont$x$};
+  \draw[->] (96.5,481) -- (96.5,38);
+  \node at (97,26) {\fontsize{10}{11}\selectfont$y$};
+  \draw (96.5,161.5) -- (442,161.5) -- (442,481);
+  \node at (442,492) {$10$};
+  \draw[curve, line width=0.9pt] plot[smooth,domain=1:12.0,samples=90,variable=\t] ({96.5+34.55*\t},{473.5-104*sqrt(\t-1)});
+  \node at (425,109) {\fontsize{10.5}{12}\selectfont$y=2\sqrt{x-1}$};
+  % solution annotations
+  \node[left,inner sep=3pt] at (96.5,161.5) {\fontsize{10.5}{12}\selectfont$6$};
+  \node[below,inner sep=3pt] at (131,476) {\fontsize{10.5}{12}\selectfont$1$};
+\end{tikzpicture}
+\end{document}

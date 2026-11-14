@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% blank answer grid, crop pixel units (y down); grid lines and partial border cells as printed
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={inner sep=0pt, font=\fontsize{13}{15}\selectfont}]
+  \begin{scope}[black!55]
+    \draw (46,62.5) rectangle (805,673);
+    \foreach \x in {59.5,99.7,139.8,179.9,220.1,260.2,300.4,340.6,380.7,461.0,501.1,541.3,581.4,621.6,661.8,701.9,742.0,782.2} \draw (\x,62.5) -- (\x,673);
+    \foreach \y in {90.5,130.7,170.8,210.9,251.1,291.2,371.6,411.7,451.8,492.0,532.1,572.3,612.4,652.6} \draw (46,\y) -- (805,\y);
+  \end{scope}
+  \draw[->] (33,330) -- (846,330);
+  \draw[->] (419.5,694) -- (419.5,16);
+  \node at (837.5,360) {$x$};
+  \node at (380,18) {$y$};
+  \node at (403,352.5) {$O$};
+\end{tikzpicture}
+\end{document}

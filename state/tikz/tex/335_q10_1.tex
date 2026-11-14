@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % GeoGebra plot at true scale: origin (504.5,533) px, 110.1 px per unit in x, 109.8 in y
+  \begin{scope}[shift={(504.5,533)}, xscale=110.1, yscale=-109.8]
+    \draw (-4.537,0) -- (4.68,0);
+    \draw (0,4.79) -- (0,-4.73);
+    \foreach \i in {-4,...,-1,1,2,3,4} {
+      \draw (\i,0) -- (\i,-0.055);
+      \draw (0,\i) -- (-0.055,\i);
+      \node[font=\small, anchor=east] at (-0.06,\i) {$\i$};
+    }
+    \foreach \i in {-4,-3,-1,1,2,4} \node[font=\small, anchor=north] at (\i,-0.1) {$\i$};
+    \node[font=\small, anchor=north east] at (-2.2,-0.08) {$-2$}; % rule 11: clear of g at its touch point
+    \node[font=\small, anchor=north east] at (2.95,-0.1) {$3$};   % rule 11: clear of f crossing
+    \node[font=\small, anchor=north east] at (-0.06,-0.1) {$0$};
+    % y = f(x) = 3x^2 - x^3 (dashed)
+    \draw[aux,line width=0.9pt] plot[smooth, domain=-1.086:3.413, samples=90] (\x, {3*\x*\x - \x*\x*\x});
+    % y = g(x) = -f(2x+4)
+    \draw[line width=0.9pt] plot[smooth, domain=-2.51:-0.292, samples=90] (\x, {-(3*(2*\x+4)^2 - (2*\x+4)^3)});
+    \foreach \p in {(-2,0),(-1,-4),(0,0),(2,4)} \filldraw[fill=black!45] \p circle[radius=0.085];
+    \node at (2.02,4.32) {$(2,4)$};
+    \node at (-0.98,-4.36) {$(-1,-4)$};
+    \node at (-3.03,-3) {$y=g(x)$};
+    \node at (3.98,-2.92) {$y=f(x)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

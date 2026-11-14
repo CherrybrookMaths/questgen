@@ -1,0 +1,82 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[font=\large]
+\begin{scope}[shift={(0.7747cm,-7.5184cm)}, x=1.7716cm, y=2.8575cm]
+\draw[black!30, line width=0.6pt] (1,0.00) -- (1,2.18);
+\draw[black!30, line width=0.6pt] (2,0.00) -- (2,2.18);
+\draw[black!30, line width=0.6pt] (3,0.00) -- (3,2.18);
+\draw[black!30, line width=0.6pt] (0.00,1) -- (3.45,1);
+\draw[black!30, line width=0.6pt] (0.00,2) -- (3.45,2);
+\draw[->] (-0.29,0) -- (3.52,0);
+\draw[->] (0,-0.20) -- (0,2.23);
+\draw[curve,-{Latex[length=2mm,width=1.3mm]}] plot[domain=0.000:3.300, samples=150] (\x,{-(\x)^3/3+1.5*(\x)^2-2*\x+2});
+\end{scope}
+\begin{scope}[shift={(9.1376cm,-1.9177cm)}, x=1.7843cm, y=2.8829cm]
+\draw[black!30, line width=0.6pt] (1,-2.22) -- (1,0.00);
+\draw[black!30, line width=0.6pt] (2,-2.22) -- (2,0.00);
+\draw[black!30, line width=0.6pt] (3,-2.22) -- (3,0.00);
+\draw[black!30, line width=0.6pt] (0.00,-1) -- (3.71,-1);
+\draw[black!30, line width=0.6pt] (0.00,-2) -- (3.71,-2);
+\draw[->] (-0.44,0) -- (3.75,0);
+\draw[->] (0,-2.22) -- (0,0.34);
+\draw[curve,-{Latex[length=2mm,width=1.3mm]}] plot[domain=0.000:3.335, samples=150] (\x,{(\x)^3/3-1.5*(\x)^2+2*\x-2});
+\end{scope}
+\begin{scope}[shift={(1.0096cm,-11.4109cm)}, x=1.8377cm, y=2.3177cm]
+\draw[black!30, line width=0.6pt] (1,-2.69) -- (1,0.56);
+\draw[black!30, line width=0.6pt] (2,-2.69) -- (2,0.56);
+\draw[black!30, line width=0.6pt] (3,-2.69) -- (3,0.56);
+\draw[black!30, line width=0.6pt] (0.00,-1) -- (3.49,-1);
+\draw[black!30, line width=0.6pt] (0.00,-2) -- (3.49,-2);
+\draw[->] (-0.30,0) -- (3.56,0);
+\draw[->] (0,-2.69) -- (0,0.59);
+\draw[curve,-{Latex[length=2mm,width=1.3mm]}] plot[domain=0.000:3.230, samples=150] (\x,{-(\x-1)*(\x-2)});
+\end{scope}
+\begin{scope}[shift={(9.3155cm,-13.7604cm)}, x=1.7018cm, y=2.1209cm]
+\draw[black!30, line width=0.6pt] (1,-1.73) -- (1,1.75);
+\draw[black!30, line width=0.6pt] (2,-1.73) -- (2,1.75);
+\draw[black!30, line width=0.6pt] (3,-1.73) -- (3,1.75);
+\draw[black!30, line width=0.6pt] (0.03,-1) -- (3.47,-1);
+\draw[black!30, line width=0.6pt] (0.03,1) -- (3.47,1);
+\draw[->] (-0.34,0) -- (3.56,0);
+\draw[->] (0,-1.73) -- (0,1.77);
+\draw[curve,-{Latex[length=2mm,width=1.3mm]}] plot[domain=0.000:3.310, samples=150] (\x,{1.5-\x});
+\end{scope}
+\begin{scope}[x=0.0127cm, y=-0.0127cm]
+\node at (30,28) {A.};
+\node at (39,98) {$x$};
+\node at (41,143) {$2$};
+\node at (42,367) {$1$};
+\node at (44,614) {$0$};
+\node at (203,618) {$1$};
+\node at (341,620) {$2$};
+\node at (480,619) {$3$};
+\node at (563,595) {$t$};
+\node at (660,19) {B.};
+\node at (702,81) {$x$};
+\node at (705,174) {$0$};
+\node at (849,170) {$1$};
+\node at (988,170) {$2$};
+\node at (1130,170) {$3$};
+\node at (1260,153) {$t$};
+\node at (697,381) {$\text{-}1$};
+\node at (697,606) {$\text{-}2$};
+\node at (31,723) {C.};
+\node at (58,789) {$x$};
+\node at (63,925) {$0$};
+\node at (234,925) {$1$};
+\node at (356,925) {$2$};
+\node at (503,922) {$3$};
+\node at (605,902) {$t$};
+\node at (50,1086) {$\text{-}1$};
+\node at (52,1267) {$\text{-}2$};
+\node at (663,725) {D.};
+\node at (716,789) {$x$};
+\node at (724,1110) {$0$};
+\node at (858,1110) {$1$};
+\node at (991,1108) {$2$};
+\node at (1129,1108) {$3$};
+\node at (1223,1088) {$t$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

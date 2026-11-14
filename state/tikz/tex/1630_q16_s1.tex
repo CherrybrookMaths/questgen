@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 NESA HSC Q16 solution: y = x^2/e^x (crop true scale: origin (274,465), 94.4 px per unit across, 377 px per unit up)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (15,465) -- (1035,465);
+  \draw[->] (274,693) -- (274,18);
+  \foreach \i in {-2,-1,1,2,...,7} {\draw ({274+94.4*\i},465) -- ({274+94.4*\i},474);
+    \node at ({274+94.4*\i},501) {$\i$};}
+  \draw (274,88) -- (282,88);
+  \draw (274,277) -- (282,277);
+  \draw[<->,line width=0.9pt] plot[smooth,domain=-0.705:7.42,samples=120] ({274+94.4*\x},{465-377*exp(-\x)*\x*\x});
+  \node at (258,28) {$y$};
+  \node at (1027,489) {$x$};
+  \node at (254,486) {$O$};
+  \node at (254,87) {$1$};
+  \node[anchor=east,inner sep=0pt] at (270,277) {\fontsize{11}{13}\selectfont$0.5$};
+\end{tikzpicture}
+\end{document}

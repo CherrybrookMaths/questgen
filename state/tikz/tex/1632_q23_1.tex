@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (357,240); \coordinate (A) at (592,105); \coordinate (B) at (616,310);
+  \coordinate (C) at (126.5,447); \coordinate (D) at (126.5,130);
+  \fill[shade dots, stipple color=black!60] (O) -- (A) -- (B) -- cycle;
+  \draw (D) -- (A) -- (B) -- (C) -- cycle;
+  \draw[->] (O) -- (653,70.5);
+  \draw[->] (O) -- (685,328.5);
+  \draw[->] (O) -- (69,499);
+  \draw[->] (O) -- (44,90.5);
+  \draw[aux,->] (O) -- (357,43);
+  \draw ($(O)+(-29.9:98.5)$) arc[start angle=-29.9, end angle=15.1, radius=98.5];
+  \draw ($(474.5,172.5)+(60.1:9)$) -- ($(474.5,172.5)+(240.1:9)$);
+  \draw ($(486,275)+(105.1:9)$) -- ($(486,275)+(285.1:9)$);
+  \node[font=\sffamily\bfseries] at (357,24) {N};
+  \node at (51,72) {$315^\circ$};
+  \node at (690,67) {$056^\circ$};
+  \node at (720,332) {$101^\circ$};
+  \node at (67,520) {$253^\circ$};
+  \node at (580,88) {$A$};
+  \node at (136,110) {$D$};
+  \node at (361,264) {$O$};
+  \node at (612,336) {$B$};
+  \node at (135,467) {$C$};
+  \node at (420,232) {\halo{$45^\circ$}};
+  \node[rotate=42] at (224,336) {25 km};
+  \node[align=center, inner sep=0pt] at (838,190) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

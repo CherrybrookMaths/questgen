@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{13.5}{16}\selectfont}]
+  % crop scale (true to scale): x = 1 <-> 110.8 px, y = 1 <-> 102.5 px; origin (156.5,367)
+  \def\X#1{156.5+110.8*(#1)} \def\Y#1{367-102.5*(#1)}
+  \draw[<->] (23,367) -- (749,367);
+  \draw[->] (156.5,374) -- (156.5,20);
+  \foreach \i in {-1,1,2,3,4,5} \draw ({\X{\i}},362) -- ({\X{\i}},372);
+  \foreach \j in {0.5,1,1.5,2,2.5,3} \draw (151.5,{\Y{\j}}) -- (161.5,{\Y{\j}});
+  \draw[curve, line width=0.9pt, ->] plot[domain=1:5.21, samples=90, smooth, variable=\t] ({\X{\t}},{\Y{sqrt(\t-1)}});
+  \draw ({\X{1}},{\Y{0}}) -- ({\X{2}},{\Y{1}}) -- ({\X{3}},{\Y{sqrt(2)}}) -- ({\X{4}},{\Y{sqrt(3)}});
+  \foreach \i in {2,3,4} \draw ({\X{\i}},367) -- ({\X{\i}},{\Y{sqrt(\i-1)}});
+  \node at (154,15) {$y$};
+  \node at (761,367) {$x$};
+  \foreach \v/\y in {3/3,2.5/2.5,2/2,1.5/1.5,1/1,0.5/0.5} \node[left, inner sep=0pt] at (141.5,{\Y{\y}}) {\v};
+  \node at (43,400) {$-1$};
+  \foreach \i in {1,2,3,4,5} \node at ({\X{\i}-1.5},400) {\i};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Hunters Hill AT4 Q24 solution: y=x^3-12x^2+36x for -1<=x<=7 (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{10}{12}\selectfont]
+  \def\ox{143.5}\def\oy{291.5}\def\ux{50.7}\def\uy{6.25}
+  \draw[<->] (12,\oy) -- (531,\oy);
+  \draw[<->] (\ox,640) -- (\ox,39);
+  \node[anchor=west,inner sep=1pt] at (531,\oy) {$x$};
+  \node[anchor=south,inner sep=1pt] at (\ox,36) {$y$};
+  \foreach \v in {-2,-1,1,2,3,4,5,6,7}{\draw ({\ox+\ux*\v},\oy-6) -- ({\ox+\ux*\v},\oy+6);
+    \node[anchor=north,inner sep=0pt] at ({\ox+\ux*\v},313) {$\v$};}
+  \foreach \v in {10,20,30}{\draw (\ox-6,{\oy-\uy*\v}) -- (\ox+6,{\oy-\uy*\v});
+    \node[anchor=east,inner sep=0pt] at (133,{\oy-\uy*\v}) {$\v$};}
+  \foreach \v in {-10,-20,-30,-40,-50}{\draw (\ox-6,{\oy-\uy*\v}) -- (\ox+6,{\oy-\uy*\v});
+    \node[anchor=east,inner sep=0pt] at (138,{\oy-\uy*\v}) {\halo{$\v$}};}
+  \draw[smooth] plot[domain=-1:7,samples=90] ({\ox+\ux*\x},{\oy-\uy*(\x*\x*\x-12*\x*\x+36*\x)});
+  \foreach \px/\py in {-1/-49,0/0,7/7}{\fill ({\ox+\ux*\px},{\oy-\uy*\py}) circle (2.6);}
+  \fill ({\ox+\ux*2},{\oy-\uy*32}) circle (4.5);
+  \fill ({\ox+\ux*4},{\oy-\uy*16}) circle (5.5);
+  \node at (238,69) {$(2,32)$};
+  \node at (386,143) {$(4,16)$};
+  \node at (497,223) {$(7,7)$};
+  \node at (187,265) {$(0,0)$};
+  \node at (68,633) {$(-1,-49)$};
+\end{tikzpicture}
+\end{document}

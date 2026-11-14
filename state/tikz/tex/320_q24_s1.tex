@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\Large]
+  % y = -x^3 + 12x - 7 on an even scale: x = 658 + 79u, y = 521 - 8v
+  \draw[->] (28,521) -- (1240,521);
+  \draw[->] (658,1160) -- (658,10);
+  \foreach \i in {263,500,816,1053}{\draw (\i,513) -- (\i,529);}
+  \foreach \j in {57,449,577,705,1097}{\draw (650,\j) -- (666,\j);}
+  \foreach \i/\l in {263/-5,500/-2,816/2,1053/5}{\node[anchor=base] at (\i,568) {$\l$};}
+  \node[anchor=base] at (630,505) {$0$};
+  \node[anchor=base] at (1258,588) {$x$};
+  \node at (612,14) {$y$};
+  \node[anchor=west] at (676,57) {$58$};
+  \node[anchor=east] at (640,449) {$9$};
+  \node[anchor=west] at (676,600) {$-7$};
+  \node[anchor=west] at (676,705) {$-23$};
+  \node[anchor=west] at (676,1097) {$-72$};
+  \node[anchor=west] at (285,55) {$(-5,\,58)$};
+  \node[anchor=west] at (850,425) {$(2,\,9)$};
+  \node at (500,760) {$(-2,\,-23)$};
+  \node[anchor=west] at (1082,1095) {$(5,\,-72)$};
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=-5:5] ({658+79*\x},{521-8*(-(\x)^3+12*\x-7)});
+  \fill (263,57) circle (5) (816,449) circle (5) (500,705) circle (5) (658,577) circle (5) (1053,1097) circle (5);
+\end{tikzpicture}
+\end{document}

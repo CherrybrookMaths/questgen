@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{12}{14}\selectfont]
+  \coordinate (J) at (65.5,168); \coordinate (L) at (288,351); \coordinate (M) at (727,56);
+  \draw[line join=round] (J)--(L)--(M)--cycle;
+  \draw[->] (J)--(65.5,31);
+  \draw[->] (L)--(288,211);
+  \draw[->] ($(J)+(0,-63)$) arc[start angle=270,end angle=399.4,radius=63];
+  \draw[->] ($(L)+(0,-96)$) arc[start angle=270,end angle=326.1,radius=96];
+  \node at (42,158) {$J$};
+  \node at (288,381) {$L$};
+  \node at (754,50) {$M$};
+  \node at (143,107) {$105^\circ$};
+  \node at (361,237) {$45^\circ$};
+  \node at (126,270) {5\,km};
+  \node at (523,251) {16\,km};
+  \node[align=center] at (653,322) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

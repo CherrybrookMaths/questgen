@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (S) at (131,373.5); \coordinate (T) at (327.5,340); \coordinate (L) at (426.5,113);
+  % north-south / east-west lines
+  \draw[aux] (65,373.5) -- (232,373.5);
+  \draw[aux] (131,471) -- (131,292); \draw[->] (131,294) -- (131,276);
+  \draw[aux] (327.5,406) -- (327.5,292); \draw[->] (327.5,294) -- (327.5,276);
+  \draw[aux] (361,113) -- (492,113);
+  \draw[aux] (426.5,260) -- (426.5,34); \draw[->] (426.5,36) -- (426.5,17);
+  \draw (S) -- (T) -- (L) -- cycle;
+  % angles at S
+  \draw (S) ++(-90:44) arc[start angle=-90,end angle=-41.4,radius=44];
+  \node[font=\small] at (163,305) {$26^\circ$};
+  \draw (S) ++(-90:24) arc[start angle=-90,end angle=-9.7,radius=24];
+  \node[font=\small] at (52,322) {$70^\circ$};
+  \draw[->] (72,336) to[out=-20,in=170] (126,350);
+  \draw (S) ++(-41.4:62) arc[start angle=-41.4,end angle=-9.7,radius=62];
+  \node[font=\small] at (217,334) {$44^\circ$};
+  % angle at T
+  \draw (T) ++(-90:34) arc[start angle=-90,end angle=-66.3,radius=34];
+  \node[font=\small] at (338,256) {$15^\circ$};
+  % angles at L
+  \draw (L) ++(113.7:78) arc[start angle=113.7,end angle=138.6,radius=78];
+  \node[font=\small] at (368,194) {$11^\circ$};
+  \draw (L) ++(90:64) arc[start angle=90,end angle=113.7,radius=64];
+  \node[font=\small] at (403,230) {$15^\circ$};
+  % lengths
+  \node at (411,293) {$6.8$ km};
+  \node at (258,377) {$x$};
+  \foreach \p in {S,T,L}{\fill (\p) circle[radius=6.5];}
+  \node at (452,90) {$L$};
+  \node at (362,362) {$T$};
+  \node at (110,400) {$S$};
+\end{tikzpicture}
+\end{document}

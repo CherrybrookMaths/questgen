@@ -24,12 +24,13 @@ page. A scanned page (no text layer) counts as a question page when it has ink. 
 Who runs it: the cover-page check run (IMPORT_PLAYBOOK "Queue": Run the cover-page check writes runs {kind: 'cover_check'}),
 with each paper's PDF downloaded from Drive to a local path first. Never on src/ in place of the check (src/ is read-only).
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import argparse, base64, hashlib, io, json, os, random, re, sys, time
 
 import pymupdf as fitz
 from PIL import Image
 
-P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
+P = paths.P
 OUT = P + 'site/data/check'
 MANIFEST = P + 'site/data/check_pages.json'
 THUMB_W, FULL_W = 180, 1100          # px: the row's strip, the viewer

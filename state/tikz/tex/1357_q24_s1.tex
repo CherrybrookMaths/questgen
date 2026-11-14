@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{14}{16.8}\selectfont]
+\draw[->] (23,395.5)--(773,395.5); \draw[->] (390,445)--(390,38);
+\begin{scope}[font=\fontsize{12}{14}\selectfont]\node[anchor=base,inner sep=0] at (369,427) {$O$}; \node[anchor=base,inner sep=0] at (769,423) {$x$}; \node[anchor=base,inner sep=0] at (376,39) {$y$};\end{scope}
+\draw[line width=0.9pt] (115,395.5)--(530,395.5);
+\draw[line width=0.9pt] plot[smooth] coordinates {(530,395.5) (542,393) (562,388) (582,381) (602,370) (622,356) (642,338) (662,311) (680,281) (692,244)} -- (1023,244);
+\draw (384,244.0)--(396,244.0); \draw (530,389)--(530,402); \draw (713.0,389)--(713.0,402);
+\node[anchor=east] at (376,244.0) {$1$}; \node at (530,445) {$1$}; \node at (713.0,440) {$2$};\end{tikzpicture}
+\end{document}

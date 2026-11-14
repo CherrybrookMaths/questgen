@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Hornsby Girls AT4 Q19(a): blank answer grid, 14 x 14 squares, axes lying exactly on the centre grid lines
+% (owner: "the y axis doesn't line up with the dotted line"; rule 12). 1 square = 47.6 px on the crop.
+\begin{tikzpicture}[x=0.605cm,y=0.602cm, every node/.style={font=\fontsize{13}{15}\selectfont}]
+  \foreach \i in {-7,...,7}{\draw[aux, black!40] (\i,-7) -- (\i,7); \draw[aux, black!40] (-7,\i) -- (7,\i);}
+  \draw[->] (-7.6,0) -- (10.1,0) node[right=1pt] {$x$};
+  \draw[->] (0,-9.1) -- (0,8.6) node[left=2pt] {$y$};
+  \node[anchor=north east,inner sep=2pt] at (0,0) {$0$};
+\end{tikzpicture}
+\end{document}

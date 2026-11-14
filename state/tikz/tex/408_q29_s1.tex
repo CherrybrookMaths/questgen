@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, axis line style={draw=none}, x=1.5cm, y=5cm, xmin=-3.3, xmax=3.3, ymin=-0.65, ymax=0.68,
+  xlabel={}, ylabel={}, xtick=\empty, ytick=\empty]
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:-3.3,0) -- (axis cs:3.3,0) node[right] {$x$};
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:0,-0.65) -- (axis cs:0,0.68) node[above] {$y$};
+  \addplot[<->, domain=-2.3:2.3, samples=90, smooth] {x*exp(-x^2)};
+  \node[pt] at (axis cs:0.7071,0.4289) {}; \node[pt] at (axis cs:-0.7071,-0.4289) {};
+  \node[above right, inner sep=3pt] at (axis cs:0.7071,0.4289) {$\left(\dfrac{\sqrt{2}}{2},\dfrac{1}{\sqrt{2e}}\right)$};
+  \node[below left, inner sep=3pt] at (axis cs:-0.7071,-0.4289) {$\left(-\dfrac{\sqrt{2}}{2},-\dfrac{1}{\sqrt{2e}}\right)$};
+  \node[below right, inner sep=2pt] at (axis cs:0,0) {$O$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

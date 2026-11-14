@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+% f(x) as in the question (a = 1 in drawing units); dy/dx = k(x^3 - a^2 x)
+\begin{axis}[exam axes, axis line style={draw=none}, x=2.159cm, y=2.0cm, xmin=-2.0, xmax=2.0, ymin=-1.75, ymax=1.75,
+  xlabel={}, ylabel={}, xtick=\empty, ytick=\empty]
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:-2.0,0) -- (axis cs:2.0,0) node[right] {$x$};
+  \draw[line width=0.6pt, {Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]}] (axis cs:0,-1.75) -- (axis cs:0,1.75) node[above] {$\dfrac{dy}{dx}$};
+  \addplot[<->, domain=-1.4:1.4, samples=90, smooth] {1.2*(x^3-x)};
+  \node[below left, inner sep=3pt] at (axis cs:-1,0) {$-a$};
+  \node[above right, inner sep=3pt] at (axis cs:1,0) {$a$};
+  \node[below left, inner sep=2pt] at (axis cs:0,0) {$O$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Baulkham Hills AT4 Q6 solution (C): pdf triangle (0,0)-(2,0.5)-(4,0) (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{5.5}{6.5}\selectfont]
+  \def\ox{31.5}\def\oy{248}\def\ux{86}\def\uy{216.6}
+  \foreach \i in {1,...,20}{\pgfmathsetmacro\xx{\ox+\ux*\i/5}\pgfmathsetmacro\tl{mod(\i,5)==0?3:1.8}
+    \draw (\xx,\oy-\tl) -- (\xx,\oy+\tl);}
+  \foreach \i in {1,...,20}{\pgfmathsetmacro\yy{\oy-\uy*\i/20}\pgfmathsetmacro\tl{mod(\i,4)==0?3:1.8}
+    \draw (\ox-\tl,\yy) -- (\ox+\tl,\yy);}
+  \draw[->] (\ox,\oy) -- (405,\oy);
+  \draw[->] (\ox,\oy) -- (\ox,1);
+  \node[anchor=west,inner sep=1pt] at (405,\oy) {$x$};
+  \node[anchor=south east,inner sep=0pt] at (\ox,0) {$y$};
+  \foreach \v in {1,2,3,4}{\node[anchor=north,inner sep=0pt] at ({\ox+\ux*\v},256) {$\v$};}
+  \foreach \v in {0.2,0.4,0.6,0.8,1}{\node[anchor=east,inner sep=0pt] at (28,{\oy-\uy*\v}) {$\v$};}
+  \draw[line width=0.9pt] (\ox,\oy) -- ({\ox+2*\ux},{\oy-0.5*\uy}) -- ({\ox+4*\ux},\oy);
+  \fill (\ox,\oy) circle (3.3);
+  \fill ({\ox+2*\ux},{\oy-0.5*\uy}) circle (3.3);
+\end{tikzpicture}
+\end{document}

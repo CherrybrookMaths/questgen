@@ -30,16 +30,17 @@ more files it would have taken inventory.json past 600 KB on every Processes loa
 Cost: IMPORT_PLAYBOOK.md and RESUME.md record no per-paper import cost yet, so COST_PER_PAPER is None and the page shows the
 US$12-17 a paper estimate. Set it (a number, or [lo, hi] in US$) when one is recorded there.
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import collections, datetime, json, os, re, sqlite3, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from classify_paths import school_of, year_of, task_of, kind_of, as_manifest_row, classify_path, RULES, RULES_PROPOSED, with_proposed, active_rules
 
-P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
-DB = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
+P = paths.P
+DB = paths.DBS
 OUT = P + 'site/data/inventory.json'
 FILES_URL = 'data/inventory_files.json'     # beside OUT; the page fetches it only for Rescan drive
-PAPERS = P + 'work/import/papers.json'
+PAPERS = paths.S + 'work/import/papers.json'
 COST_PER_PAPER = None
 # The shared folder in Google Drive (G:\\Shared drives\\CMC Resources\\Exams\\External Exams Stage 6; drive_ids.csv lists it as
 # the parent of the loose files at its root). The page's "Rescan drive" button (owner 13 Nov: "Where is the button to rescan

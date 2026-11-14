@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+  \def\X{2.489} \def\Y{5.994} \def\r{0.29}
+  \draw (\Y,\X) -- (0,\X) -- (0,0) -- (\Y+\X,0) arc[start angle=0, end angle=90, radius=\X];
+  \draw[aux] (\Y,\X) -- (\Y,0);
+  \draw[line width=0.6pt] (0,\X-\r) -- (\r,\X-\r) -- (\r,\X);
+  \draw[line width=0.6pt] (0,\r) -- (\r,\r) -- (\r,0);
+  \draw[line width=0.6pt] (\Y,\r) -- (\Y+\r,\r) -- (\Y+\r,0);
+  \node[font=\large] at (\Y/2,\X+0.28) {$y$};
+  \node[font=\large] at (-0.22,\X/2-0.08) {$x$};
+\end{tikzpicture}
+\end{document}

@@ -16,13 +16,14 @@ behind, or an approved paper with the question in the auto tier: the page's qSta
 k_/p_ docs. The count must match exactly. Questions approved only after (other copies of an approved question, e.g. CSSA
 2022 Q10-Q11: 44/45 behind 274/275) are listed.
 
-Usage: python3 tools/migrate_reviews_to_keys.py EXPORT_DIR --out work/keys_migration [--db DB] [--bank site/data/bank.json]
-DB must hold question_keys (tools/qkeys.py --assign); defaults to $QG_DB or /mnt/user-data/outputs/questions.db (read only).
+Usage: python3 tools/migrate_reviews_to_keys.py EXPORT_DIR --out state/work/keys_migration [--db DB] [--bank site/data/bank.json]
+DB must hold question_keys (tools/qkeys.py --assign); defaults to tools/paths.py DB ($QG_DB, ...) (read only).
 Old q<id> / paper_<doc> docs are not deleted: the page reads them as a fallback, and they are the history.
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import argparse, collections, datetime, glob, json, os, sqlite3, sys
 
-DB = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
+DB = paths.DBS
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BATCH = 50
 

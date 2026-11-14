@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{11}{13}\selectfont}]
+  % crop pixel units; NOT TO SCALE. Arc PQ is centred on O (329.5,228), radius 210.7 px, as in the crop (scope shift: crop was re-cut with a 9 px margin; the handwritten "120" at the right is an annotation and is left out)
+  \begin{scope}[shift={(9,9.5)}]
+  \coordinate (A) at (36.5,111); \coordinate (P) at (154,111); \coordinate (Q) at (502,107.5);
+  \coordinate (B) at (650.5,110); \coordinate (C) at (652.5,478.5); \coordinate (D) at (39.5,478.5);
+  \coordinate (O) at (329.5,228);
+  \draw (P) -- (A) -- (D) -- (C) -- (B) -- (Q);
+  \draw[curve] plot[domain=34.9:146.3, samples=60, smooth] ({329.5+210.7*cos(\x)},{228-210.7*sin(\x)});
+  \draw[aux] (P) -- (Q); \draw[aux] (P) -- (O) -- (Q);
+  \draw plot[domain=34.9:146.3, samples=20, smooth] ({329.5+15*cos(\x)},{228-15*sin(\x)});
+  \fill (O) circle (6.5);
+  \node at (14,103) {$A$};
+  \node at (673,114) {$B$};
+  \node at (675,482) {$C$};
+  \node at (14,485) {$D$};
+  \node at (140,90) {$P$};
+  \node at (511,88) {$Q$};
+  \node at (340,125) {O};
+  \node at (331,257) {$O$};
+  \node at (333,189) {$120^\circ$};
+  \node at (449,186) {\textit{2.1m}};
+  \node at (691,300) {\textit{4.6m}};
+  \node at (371,511) {\textit{7.0m}};
+  \node[font=\fontsize{9.5}{11}\selectfont] at (812,190) {\textit{NOT TO SCALE}};
+\end{scope}
+\end{tikzpicture}
+\end{document}

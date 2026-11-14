@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 2025 Sydney Grammar AT4 Q4 solution: cosine-shaped curve and parabola meeting twice (crop pixels, y down)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (5,244) -- (514,244) node[right,inner sep=3pt] {$x$};
+  \draw[->] (258,334) -- (258,46) node[above,inner sep=2pt] {$y$};
+  \draw plot[smooth,domain=-248:248,samples=90] ({258+\x},{244-79*cos(0.7258*\x)});
+  \draw plot[smooth,domain=-118:118,samples=90] ({258+\x},{244-1.27*(\x/10)*(\x/10)});
+  \node[pt] at (192,190) {};
+  \node[pt] at (324,190) {};
+\end{tikzpicture}
+\end{document}
