@@ -73,47 +73,59 @@ def workload(docs):
     return sorted(k for k in drop if k in docs)
 
 
-# owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next? We can always [build the]
-# framework for the courses standard extension and extension two [later] right?" The Papers section on Processes reads
-# data/inventory.json (tools/inventory.py) and db collection importq. The page test serves THIS small inventory instead of the
-# live one (route data/inventory.json), so the grid counts are known, and seeds one importq doc (paper 9103) on its own pages only.
+# ======== Processes › Papers (owner 14 Nov, mockup A: "I like A's design much more") ========
+# The Papers tab reads data/inventory.json (tools/inventory.py: ONE status per paper, lanes of fixed batches, the proposed rule
+# fixes) and db collections queue, batches (Swap), paperfix (answers in Needs a check), runs and scans/rules. The page test serves
+# THIS small inventory in place of the live one, so every count is known:
+#   Year 12 Advanced: 3 imported (finished batch b5), 20 ready current + 3 ready old in batches 6 (9), 7 (9), 8 (5), 1 not in
+#   scope; Year 11 Advanced: 3 held; Extension 1 Year 12: 3 held; Standard Year 12: 2 held; Needs a check: 9140 (Advanced, year
+#   level not known), 9141 (an "EXT1" path the proposed fix places in Extension 1), 9601 (course and year not known).
+# swap_expect: tools/batches.py apply_swaps after Swap on 9101 (the page's swapsApply must give the same).
 def sample_papers():
+    import batches as BT
+    from inventory import STATUS_TEXT, STATUSES
+    from classify_paths import RULES_PROPOSED, with_proposed
     P_ = lambda i, s, y, t, st, **k: {'id': i, 's': s, 'y': y, 't': t, 'st': st, 'n': k.pop('n', 1), **k}
+    schools = ['Abbotsleigh', 'Knox Grammar School', 'Caringbah High School', 'Penrith High School']
+    cur = [P_(9101 + k, schools[k % 4], 2025 - k // 4, f'AT{1 + k % 4}', 'ready_current', sol=1) for k in range(20)]
+    old = [P_(9121 + k, schools[k % 4], 2017 - k, 'AT4', 'ready_old', sol=1, old=1) for k in range(3)]
     adv12 = [P_(9001, 'Abbotsleigh', 2024, 'AT4', 'imported', sol=1), P_(9002, 'Knox Grammar School', 2025, 'AT2', 'imported', sol=1),
-             P_(9003, 'NESA', 2025, 'HSC', 'imported', sol=1),
-             P_(9101, 'Abbotsleigh', 2025, 'AT4', 'waiting', sol=1, pick=1), P_(9102, 'Abbotsleigh', 2023, 'AT2', 'waiting', pick=1, scan=1),
-             P_(9103, 'Knox Grammar School', 2024, 'AT1', 'waiting', sol=1, pick=1), P_(9104, 'Knox Grammar School', 2026, 'AT4', 'waiting', sol=1, pick=1, new=1, n=2),
-             P_(9201, 'TEC', 2022, 'AT4', 'out_of_scope', sol=1, why='solutions only: question paper not found'),
-             # owner 13 Nov: "We should take questions too, we'll just have to disretard out of scope things": an old-syllabus
-             # (pre-2019, old 2 Unit) Year 12 paper is waiting and can be ticked, as tools/inventory.py marks it
-             P_(9105, 'Knox Grammar School', 2017, 'AT4', 'waiting', sol=1, pick=1, old=1)]
-    adv11 = [P_(9301, 'Knox Grammar School', 2024, 'AT2', 'out_of_scope', why='Year 11: outside the import scope (Year 12)'),
-             P_(9302, "The King's School", 2023, 'AT1', 'out_of_scope', why='Year 11: outside the import scope (Year 12)'),
-             # owner 13 Nov: "Year 11 papers leave alone for now": even a waiting old-syllabus Year 11 paper has no pick
-             P_(9303, 'Knox Grammar School', 2017, 'AT1', 'waiting', old=1)]
-    ext1 = [P_(9401, 'Knox Grammar School', 2025, 'AT4', 'out_of_course', sol=1), P_(9402, 'Abbotsleigh', 2024, 'AT4', 'out_of_course'),
-            P_(9403, 'CSSA', 2026, 'AT4', 'out_of_course', new=1)]
-    std = [P_(9501, 'Hornsby Girls High School', 2025, 'AT4', 'out_of_course'), P_(9502, 'Penrith High School', 2024, 'AT3', 'out_of_course')]
-    unk = [P_(9601, '', None, '', 'out_of_scope', l='Adv Math - Graphing Techniques', why='path/filename names a non-target course or year (not cover-checked)')]
+             P_(9003, 'NESA', 2025, 'HSC', 'imported', sol=1), *cur, *old,
+             P_(9201, 'TEC', 2022, 'AT4', 'not_in_scope', sol=1, why='solutions only: question paper not found')]
+    adv11 = [P_(9301, 'Knox Grammar School', 2024, 'AT2', 'held_y11'), P_(9302, "The King's School", 2023, 'AT1', 'held_y11'),
+             P_(9303, 'Knox Grammar School', 2017, 'AT1', 'held_y11', old=1)]
+    advx = [P_(9140, 'Ascham School', 2019, 'AT3', 'needs_check', why='year level not known from the folder or file name', f=[9140], p=['Ascham/MA AT3 2019.pdf'])]
+    ext1 = [P_(9401, 'Knox Grammar School', 2025, 'AT4', 'held_course', sol=1), P_(9402, 'Abbotsleigh', 2024, 'AT4', 'held_course'),
+            P_(9403, 'CSSA', 2026, 'AT4', 'held_course', new=1)]
+    std = [P_(9501, 'Hornsby Girls High School', 2025, 'AT4', 'held_course'), P_(9502, 'Penrith High School', 2024, 'AT3', 'held_course')]
+    unk12 = [P_(9141, 'Oakhill College', 2024, 'AT2', 'needs_check', why='course not known from the folder or file name', f=[9141, 9142], n=2, sol=1,
+                p=['Oakhill College/Y12 Ext1/Task 2/2024/12EXT1_T2_HY_2024.pdf', 'Oakhill College/Y12 Ext1/Task 2/2024/12EXT1_T2_HY_2024_Sols.pdf'])]
+    unk = [P_(9601, '', None, '', 'needs_check', l='barker-2024-w-sol', why='course not known from the folder or file name', f=[9601], p=['Barker/barker-2024-w-sol.pdf'])]
     def grp(c, yl, ps):
         ps = sorted(ps, key=lambda e: (e['s'] or '~', -(e['y'] or 0), e['t'], e.get('l', '')))   # as tools/inventory.py sorts them
-        k = {s: sum(p['st'] == s for p in ps) for s in ('imported', 'waiting', 'out_of_course', 'out_of_scope', 'other')}
+        k = {s: sum(p['st'] == s for p in ps) for s in STATUSES}
         return {'course': c, 'yl': yl, 'counts': {**k, 'new': sum(p.get('new', 0) for p in ps), 'papers': len(ps), 'files': sum(p['n'] for p in ps)}, 'papers': ps}
-    groups = [grp('advanced', '12', adv12), grp('advanced', '11', adv11), grp('ext1', '12', ext1), grp('standard', '12', std), grp('unknown', '?', unk)]
+    groups = [grp('advanced', '12', adv12), grp('advanced', '11', adv11), grp('advanced', '?', advx), grp('ext1', '12', ext1),
+              grp('standard', '12', std), grp('unknown', '12', unk12), grp('unknown', '?', unk)]
     setup = 'needs course setup (topics, dot points, difficulty references)'
-    inv = {'built': '2026-11-13T19:00:00+11:00', 'docs': sum(g['counts']['files'] for g in groups),
-           'last_scan': {'at': '2026-11-13T18:30:00+11:00', 'pdfs': 1634, 'new': 2, 'inserted': 2, 'moved': 0, 'copies': 0, 'missing': 0, 'report': 'work/scan/scan_2026-11-13.json'},
-           'totals': {k: sum(g['counts'][k] for g in groups) for k in groups[0]['counts']},
+    lane = {'course': 'advanced', 'yl': '12', 'first': 6, 'batches': [[p['id'] for p in (cur + old)[i:i + 9]] for i in range(0, 23, 9)],
+            'done': [{'n': 5, 'id': 'b5', 'ids': [9001, 9002, 9003], 'labels': ['2024 Abbotsleigh AT4', '2025 Knox Grammar School AT2', '2025 NESA HSC']}]}
+    pr_rows = [{**r, 'n': 0, 'ids': [], 'example': ''} for r in RULES_PROPOSED['show']]
+    pr_rows[0].update(n=1, ids=[9141], example=unk12[0]['p'][0])
+    proposed = {'accepted': False, 'version': RULES_PROPOSED['version'], 'rules_after': with_proposed(), 'rules': pr_rows, 'replace': [9141],
+                'papers': {'ext1|12': [P_(9141, 'Oakhill College', 2024, 'AT2', 'held_course', n=2, sol=1)]}, 'changed_other': 0, 'other_moves': []}
+    inv = {'built': '2026-11-14T19:00:00+11:00', 'docs': sum(g['counts']['files'] for g in groups), 'baseline_scan': '2026-11-13T20:42:46+11:00',
+           'last_scan': {'at': '2026-11-13T20:42:46+11:00', 'pdfs': 3350, 'new': 2, 'inserted': 2, 'moved': 0, 'copies': 0, 'missing': 0, 'report': 'work/scan/scan_2026-11-13.json'},
+           'totals': {k: sum(g['counts'][k] for g in groups) for k in groups[0]['counts']}, 'statuses': STATUS_TEXT,
            'courses': [{'key': 'advanced', 'name': 'Mathematics Advanced', 'short': 'Advanced', 'ready': True},
                        {'key': 'ext1', 'name': 'Mathematics Extension 1', 'short': 'Extension 1', 'ready': False, 'note': setup},
                        {'key': 'ext2', 'name': 'Mathematics Extension 2', 'short': 'Extension 2', 'ready': False, 'note': setup},
                        {'key': 'standard', 'name': 'Mathematics Standard', 'short': 'Standard', 'ready': False, 'note': setup},
                        {'key': 'unknown', 'name': 'Course not known yet', 'short': 'Course not known', 'ready': False, 'note': 'course not known from the file name: a cover-page check sorts these'}],
-           'cost_per_paper': None, 'groups': groups, **sample_drive_known()}
-    importq = {'importq/d9103': {'doc_id': 9103, 'label': '2024 Knox Grammar School AT1', 'course': 'advanced', 'year_level': 12, 'order': 1,
-                                 'added_by': 'u_owner', 'at': '2026-11-13T18:40:00+11:00'}}
+           'cost_per_paper': None, 'groups': groups, 'lanes': [lane], 'proposed': proposed, **sample_drive_known()}
     files = inv.pop('files')      # as tools/inventory.py writes it: the recorded files are data/inventory_files.json, fetched for Rescan drive only
-    return {'inventory': inv, 'inventory_files': {'built': inv['built'], **files}, 'importq': importq}
+    swap_expect = BT.apply_swaps(lane['batches'], [{'id': 9101}], {9001, 9002, 9003})
+    return {'inventory': inv, 'inventory_files': {'built': inv['built'], **files}, 'swap_expect': swap_expect}
 
 
 # owner 13 Nov: "Where is the button to rescan the drive?" The page's Rescan drive walks a Drive folder with the viewer's

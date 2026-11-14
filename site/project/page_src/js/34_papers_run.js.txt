@@ -1,96 +1,83 @@
-// owner 13 Nov: "We need a general summary at the top of the Paper's tab of processes as well. How many papers found, how many imported, a brief breakdown and stuff. Set it up so that once the API is set up, we can choose a grade 11 or 12 and course Adv / std/ extension 1 and extesnion 2 and hit Go and the API would get called to import all papers which are on file but not imported from that level and grade. Is that the best way ? I'm getting CONFUSED with our current papers page" -> chose "Yes, with batch pauses"
-/* ---------- Papers: summary, Import a course (Go), Running / next (Processes › Papers, Curate: editors only) ----------
-   Summary (#ivStats): imported / can be imported (current and old syllabus) / set aside (other courses, Year 11 held, course not
-   known yet, not in scope), counted from data/inventory.json by ONE rule, kind() below; the page test recounts them.
-   Import a course (#ivGo): Year and Course selects (years from the grid's, courses from the inventory: CODE_HEALTH rule 5), the
-   papers not imported yet with their split, batches of 9, a cost range (inventory cost_per_paper, else an estimate of US$12–17 a
-   paper), or why it can't run (course not set up; Year 11 held). Go asks inline (no confirm()), Confirm writes ONE run request
-   to db collection "runs": {year, course, papers:[doc ids in import order], batch_size:9, pause_after_each_batch:true,
-   status:'requested', by, at}. One active run at a time (requested / running / paused); Cancel request sets status 'cancelled'.
-   Claude reads it with tools/import_next.py (it takes precedence over the import order) and sets status as the run goes;
-   after each batch the run waits until the owner has cleared that batch's Review track (IMPORT_PLAYBOOK "Go").
-   Running / next (#ivRun): the active run, then the next batches (from the run, else from the import order).
-   No new page-wide name: PQ.run (as PQ.scan). Only editors write: every handler checks isEditor(). */
+// owner 14 Nov: "we might want to run multiple batches over the night", then "Let's do 3 batches before the lock"
+// (this replaces the 13 Nov per-batch pause, "Yes, with batch pauses")
+/* ---------- Processes › Papers › Queue (Curate: editors only) ----------
+   ONE ordered list of batches across courses: db collection "queue", one doc per batch, id '<lane>_<n>' ('advanced_12_6'):
+   {course, yl, batch, order, by, at}. Batches come in from the lanes (+1 batch, +2 batches, Queue all, a batch panel's Add to
+   the queue); ↑ ↓ reorder (the shared writeOrder, 31_notes.js), × removes (no confirm: it can be added again).
+   Start the queue writes ONE request to db collection "runs" (as Go did): {kind:'queue', status:'requested', limit:3,
+   stop_early, queue:[{course, yl, batch, papers}], papers, est, by, at}; Cancel sets status 'cancelled' (kept). Until the
+   import API is connected, Claude runs it (tools/import_next.py follows the queue and the limit): batch after batch, stopping
+   when LIMIT imported batches are waiting for review (imported, not yet cleared in Review), or early when a batch comes back
+   with unusual problems (STOP_EARLY, IMPORT_PLAYBOOK "Queue"). Run the cover-page check writes {kind:'cover_check',
+   status:'requested', papers:[the Needs a check papers], by, at} to "runs" too; Claude does the check.
+   No new page-wide name: PQ.run. Only editors read or write: every handler checks isEditor(). */
 PQ.run=(()=>{
-const R={runs:[],sub:null,yl:'12',course:null,ask:false,busy:false};
-const ACTIVE=['requested','running','paused'];
-// owner 13 Nov ("Yes, with batch pauses"): until a cost per paper is measured, show US$12–17 a paper, labelled an estimate
+const R={q:[],runs:[],subs:{},busy:false};
+// owner 14 Nov: "Let's do 3 batches before the lock"
+const LIMIT=3;
+// unusual problems that stop the queue early (chosen 14 Nov while the owner was away; tools/import_next.py STOP_EARLY): a paper
+// that loaded no questions, 3 or more pages the parser could not read, or more than 12 Your calls in one batch
+const STOP_EARLY={failed_papers:1,failed_pages:3,your_calls:13};
+// until a cost per paper is measured, US$12–17 a paper, labelled an estimate (owner 13 Nov)
 const EST=[12,17];
-const nf=x=>Number(x||0).toLocaleString('en-AU');
-const ess=(k,w,ws)=>`${nf(k)} ${k===1?w:(ws||w+'s')}`;
-// owner 13 Nov: "Year 11 papers leave alone for now, would like to finalise Y12 first"
-const HELD='held until Year 12 is finished (your 13 Nov ruling)';
-// the one rule that sorts a paper into the summary's buckets
-function kind(p,g){if(p.st==='imported')return 'imported';if(p.pick)return p.old?'old':'current';if(p.st==='out_of_course')return 'course';
-  if(g.yl==='11'&&(p.st==='waiting'||/^Year 11\b/.test(p.why||'')))return 'held';return p.st==='waiting'?'check':'scope'}
-function tally(gs){const t={imported:0,current:0,old:0,course:0,held:0,check:0,scope:0};for(const g of gs)for(const p of g.papers)t[kind(p,g)]++;return t}
-const active=()=>R.runs.filter(r=>ACTIVE.includes(r.status)).sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null;
-const courses=()=>((PQ.state.data&&PQ.state.data.courses)||[]).filter(c=>c.key!=='unknown');   // "Course not known" is not a course you can pick
-const ylName=yl=>PQ.years[yl]||'Year '+yl;
-function subscribe(){if(R.sub||!db||!isEditor())return;
-  try{R.sub=db.collection('runs').onSnapshot(s=>{const d=s.docs||s;R.runs=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).filter(x=>x&&x.status);draw()},()=>{})}catch(e){}}
-// ---- the chosen year x course: its papers not imported yet (in import order), the split, and why Go can't run
-function choice(){const c=PQ.course(R.course),g=PQ.groups().find(x=>x.course===R.course&&x.yl===R.yl),ps=g?g.papers:[];
-  const can=ps.filter(p=>p.pick),held=g?ps.filter(p=>kind(p,g)==='held').length:0;
-  // papers already in the import order keep the owner's order; then current syllabus before old, newest year first
-  const pos=new Map(PQ.rows().map((r,i)=>[+r.x.doc_id,i])),at=p=>pos.has(p.id)?pos.get(p.id):1e9;
-  const list=can.slice().sort((a,b)=>at(a)-at(b)||(a.old?1:0)-(b.old?1:0)||(b.y||0)-(a.y||0)||a.id-b.id);
-  const why=!c.ready?c.note||'needs course setup':!can.length&&held?HELD:!can.length?`nothing left to import in ${ylName(R.yl)} ${c.short||c.name}`:'';
-  return {c,list,old:can.filter(p=>p.old).length,held,all:ps.length,why}}
-function cost(n){const v=PQ.cost(),e=!v,pp=v||EST;return {pp,est:e,lo:n*pp[0],hi:n*pp[1]}}
-// ---- summary
-function stats(){const el=$('#ivStats');if(!el)return;const D=PQ.state.data;if(!D){el.innerHTML='';return}
-  const t=tally(PQ.groups()),can=t.current+t.old,aside=t.course+t.held+t.check+t.scope;
-  const part=[[t.course,'in other courses that need setup'],[t.held,'Year 11, held until Year 12 is finished'],[t.check,'course not known yet (cover check)'],[t.scope,'not in scope']].filter(x=>x[0]);
-  el.innerHTML=`<div class="ivstat" data-k="imported"><b>${nf(t.imported)}</b><span>imported</span><small>in the bank</small></div>
-    <div class="ivstat" data-k="can"><b>${nf(can)}</b><span>can be imported</span><small>${nf(t.current)} current syllabus · ${nf(t.old)} old syllabus</small></div>
-    <div class="ivstat" data-k="aside"><b>${nf(aside)}</b><span>set aside</span><small>${part.map(([k,w])=>`<i>${nf(k)} ${esc(w)}</i>`).join('')}</small></div>`}
-// ---- Import a course
-function goCard(){const el=$('#ivGo');if(!el||!PQ.state.data)return;
-  const C=courses();if(!R.course||!C.some(c=>c.key===R.course))R.course=(C.find(c=>c.ready)||C[0]||{}).key;
-  if(!el.dataset.ready){el.dataset.ready='1';
-    el.innerHTML=`<h4>Import a course</h4><div class="ivgorow"><label>Year <select id="ivGoY">${Object.keys(PQ.years).filter(y=>y!=='?').sort((a,b)=>b-a).map(y=>`<option value="${esc(y)}">${esc(y)}</option>`).join('')}</select></label>
-      <label>Course <select id="ivGoC">${C.map(c=>`<option value="${esc(c.key)}">${esc(c.short||c.name)}</option>`).join('')}</select></label>
-      <button type="button" class="act primary ivgob" id="ivGoBtn">Go</button></div><div id="ivGoN" aria-live="polite"></div><div id="ivGoAsk"></div>`;
-    $('#ivGoY').value=R.yl;$('#ivGoC').value=R.course}
-  const k=choice(),n=k.list.length,a=active(),cc=cost(n),btn=$('#ivGoBtn');
-  const block=k.why||(a?'a run is already requested: cancel it under Running / next to start another':'');
-  btn.disabled=!!block||R.busy;btn.title=block;
-  $('#ivGoN').innerHTML=k.why?`<p class="ivgocount off"><b>${nf(k.all)}</b> ${ylName(R.yl)} ${esc(k.c.short||k.c.name)} paper${k.all===1?'':'s'} in the folder</p><p class="ivgowhy">Can't import: ${esc(k.why)}</p>`:
-    `<p class="ivgocount"><b>${nf(n)}</b> not imported</p><p class="ivgod">${nf(n-k.old)} current syllabus · ${nf(k.old)} old syllabus</p>
-     <p class="ivgod">${ess(Math.ceil(n/PQ.batch),'batch','batches')} of ${PQ.batch}, pausing after each one until you've cleared it in Review</p>
-     <p class="ivgod ivgocost">${cc.est?'Estimated cost':'Cost'} ${PQ.usd([cc.lo,cc.hi])} <small>(${cc.est?'estimate, ':''}${PQ.usd(cc.pp)} a paper)</small></p>${a?`<p class="ivgowhy">${esc(block)}</p>`:''}`;
-  const ask=$('#ivGoAsk');if(!R.ask||block){R.ask=false;ask.innerHTML='';return}
-  if(!ask.firstChild)ask.innerHTML=`<div class="ivgoask" role="group" aria-label="Confirm"><p>Start importing ${ess(n,'paper')}, ~${PQ.usd([cc.lo,cc.hi])}?</p><button type="button" class="act primary" id="ivGoYes">Confirm</button><button type="button" class="act" id="ivGoNo">Cancel</button></div>`}
-// ---- Running / next
-const STATUS={requested:['Requested','Requested — Claude starts it when importing resumes; later the import API will start it directly.'],
-  running:['Running','Claude is importing it now.'],paused:['Paused','Waiting for you to clear the last batch in Review before the next one starts.']};
-function runCard(){const el=$('#ivRun');if(!el)return;const a=active(),B=PQ.batch;
-  // the next papers: from the active run (skipping any imported since), else from the owner's import order
-  let ids;if(a)ids=(a.papers||[]).filter(id=>{const f=PQ.find(id);return f&&f.p.pick});else ids=PQ.rows().filter(r=>!r.warn).map(r=>+r.x.doc_id);
-  const b0=PQ.nextBatch(),nb=Math.ceil(ids.length/B),show=[0,1].filter(i=>i<nb);
-  const card=a?(s=>`<div class="ivrcard" data-run="${esc(a.id)}"><div class="ivrtop"><b>${esc(ylName(String(a.year)))} ${esc(PQ.course(a.course).short||a.course)} · ${ess((a.papers||[]).length,'paper')}</b><span class="ivchip q">${esc(s[0])}</span></div>
-      <p>${esc(s[1])}</p><small>${ess(Math.ceil((a.papers||[]).length/(a.batch_size||B)),'batch','batches')} of ${a.batch_size||B}${a.pause_after_each_batch?', a pause after each':''} · requested ${esc(clockT(a.at))}</small>
-      <button type="button" class="act" id="ivRunCancel"${R.busy?' disabled':''}>Cancel request</button></div>`)(STATUS[a.status]||[a.status,'']):'';
-  const name=id=>{const f=PQ.find(id);return f?PQ.label(f.p)+(f.p.old?' · old syllabus':''):'Paper '+id};
-  const next=show.map(i=>`<div class="ivnb"><p class="ivdiv" role="separator"><span>Batch ${b0+i}</span></p><ol>${ids.slice(i*B,i*B+B).map(id=>`<li>${esc(name(id))}</li>`).join('')}</ol></div>`).join('');
-  el.innerHTML=`<h4>Running / next</h4>${card}${ids.length?`<p class="ivnfrom">Next ${a?'from this run':'from your import order'}:</p>${next}${nb>2?`<p class="ivnmore">… and ${ess(nb-2,'more batch','more batches')}</p>`:''}`:
-    a?'':`<p class="pempty">Nothing requested yet. Pick a year and course above and press Go, or choose papers one by one below.</p>`}`}
-function draw(){if(!isEditor()||!$('#ivGo'))return;stats();goCard();runCard()}
+const ACTIVE=['requested','running'];
+const snap=s=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
+function subscribe(){if(!db||!isEditor())return;
+  if(!R.subs.q)try{R.subs.q=db.collection('queue').onSnapshot(s=>{R.q=snap(s).filter(x=>x&&x.course&&Number.isFinite(+x.batch));PQ.redraw();draw()},()=>{})}catch(e){}
+  if(!R.subs.r)try{R.subs.r=db.collection('runs').onSnapshot(s=>{R.runs=snap(s).filter(x=>x&&x.status);PQ.redraw();draw()},()=>{})}catch(e){}}
+const key=x=>PQ.laneKey(x.course,String(x.yl));
+const ordered=()=>R.q.slice().sort((a,b)=>(+a.order||0)-(+b.order||0)||String(a.at).localeCompare(String(b.at)));
+// the queue with each batch resolved (papers still ready); an imported batch stays listed as Imported until Claude removes it
+function items(){return ordered().map(x=>{const f=PQ.batch(key(x),x.batch);return {x,f,ready:f?f.b.ready:[],done:!!(f&&f.b.done)||!!(f&&!f.b.ready.length)}})}
+const live=()=>items().filter(i=>!i.done);
+function pos(k,n){const i=live().findIndex(i=>key(i.x)===k&&+i.x.batch===+n);return i+1}
+const active=kind=>R.runs.filter(r=>r.kind===kind&&ACTIVE.includes(r.status)).sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null;
+function cost(n){const v=PQ.cost(),pp=v||EST;return {est:!v,pp,lo:n*pp[0],hi:n*pp[1]}}
+function draw(){const el=$('#prQueue');if(!el||!isEditor())return;if(!PQ.state.data){el.innerHTML='';return}
+  const L=items(),n=live(),np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np),run=active('queue');
+  const row=(i,k)=>{const f=i.f,nm=f?f.lane.name:PQ.laneName(i.x.course,String(i.x.yl)),st=i.done?'Imported':k===0?(run&&run.status==='running'?'Running':'Next'):'Waiting';
+    return `<li class="pr-qi${!i.done&&k===0?' next':''}${i.done?' done':''}" data-prq="${esc(i.x.id)}"><span class="pr-qn" aria-hidden="true">${i.done?'✓':k+1}</span>
+      <span class="pr-qt"><b>${esc(nm)} · Batch ${esc(i.x.batch)}</b><small>${i.done?'imported':`${PQ.plural(i.ready.length,'paper')}${i.ready.length?' · '+esc(PQ.yrs(i.ready)):''}`}</small></span>
+      <span class="pr-qs">${st}</span><span class="pr-qacts">${i.done?'':`<button type="button" class="nbtn" data-prqmv="-1" data-prq-id="${esc(i.x.id)}" aria-label="Move up"${k===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-prqmv="1" data-prq-id="${esc(i.x.id)}" aria-label="Move down"${k===n.length-1?' disabled':''}>↓</button>`}<button type="button" class="nbtn ndel" data-prqdel="${esc(i.x.id)}" aria-label="Remove from the queue">×</button></span></li>`};
+  let k=0;
+  el.innerHTML=`<div class="pr-qhead"><h4>Queue</h4><span>Runs top to bottom, batch after batch. Stops when ${LIMIT} batches are waiting for review, or early if a batch comes back with unusual problems.</span></div>
+    ${L.length?`<ol class="pr-qlist">${L.map(i=>row(i,i.done?-1:k++)).join('')}</ol>`:`<p class="pempty">Nothing queued. Add batches from a course: +1 batch, or click a square.</p>`}
+    <div class="pr-qfoot"><span>${PQ.plural(n.length,'batch','batches')} · ${PQ.plural(np,'paper')}</span><span>${c.est?'Est. ':'Cost '}${np?PQ.usd([c.lo,c.hi]):'US$0'}</span></div>
+    ${run?`<div class="pr-run" role="status"><b>${run.status==='running'?'Claude is running the queue':'Sent to Claude'}</b><small>requested ${esc(clockT(run.at))}${run.status==='requested'?' · Claude starts it when importing resumes; later the import API will start it directly.':''}</small><button type="button" class="act" id="prQCancel"${R.busy?' disabled':''}>Cancel</button></div>`:
+      `<button type="button" class="act primary pr-start" id="prQStart"${!n.length||R.busy?' disabled':''}>Start the queue</button>`}
+    <p class="pr-limit">Stops when ${LIMIT} batches are waiting for review${c.est?` · estimate US$${EST[0]}–${EST[1]} a paper`:` · ${esc(PQ.usd(c.pp))} a paper`}</p>
+    <p class="pr-api">Until the import API is connected, this sends the queue to Claude.</p>`}
 function render(){if(!isEditor())return;subscribe();draw()}
 // ---- writes (editors only)
-async function request(){const k=choice(),n=k.list.length;if(!isEditor()||!db||k.why||active()||!n)return null;
-  const id='r'+Date.now(),doc={year:+R.yl,course:R.course,papers:k.list.map(p=>p.id),batch_size:PQ.batch,pause_after_each_batch:true,status:'requested',by:me||null,at:new Date().toISOString()};
-  try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});toast(`Requested: ${ess(n,'paper')}`);return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
-async function cancel(){const a=active();if(!isEditor()||!db||!a)return false;const {id,...rest}=a,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:new Date().toISOString()};
-  try{await db.doc('runs/'+id).set(doc);Object.assign(a,doc);toast('Run request cancelled');return true}catch(_){toast('Could not cancel. Try again in a moment.');return false}}
+const now=()=>new Date().toISOString();
+async function add(list){if(!isEditor()||!db)return 0;const have=new Set(R.q.map(x=>x.id));let o=R.q.length?Math.max(...R.q.map(x=>+x.order||0)):0,n=0;
+  for(const {key:k,n:b} of list){const f=PQ.batch(k,b);if(!f||!f.b.ready.length||f.b.done)continue;const id=`${k}_${b}`;if(have.has(id))continue;
+    const doc={course:f.lane.course,yl:f.lane.yl,batch:+b,order:++o,by:me||null,at:now()};
+    try{await db.doc('queue/'+id).set(doc);n++;have.add(id);if(!R.q.some(x=>x.id===id))R.q.push({id,...doc})}catch(_){toast('Could not save. Try again in a moment.');break}}
+  if(n){PQ.redraw();draw();toast(`${PQ.plural(n,'batch','batches')} added to the queue`)}return n}
+// the lane's next batches that are not queued yet, in lane order
+function addNext(k,count){const L=PQ.lanes().find(x=>x.key===k);if(!L)return Promise.resolve(0);
+  return add(L.batches.filter(b=>b.ready.length&&!b.done&&!pos(k,b.n)).slice(0,count).map(b=>({key:k,n:b.n})))}
+async function setOrder(x,patch){const {id,...rest}=x;try{await db.doc('queue/'+id).set({...rest,...patch});return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
+async function move(id,d){if(!isEditor()||!db)return;const ids=live().map(i=>i.x.id),i=ids.indexOf(id),j=i+d;if(i<0||j<0||j>=ids.length)return;
+  [ids[i],ids[j]]=[ids[j],ids[i]];await writeOrder(R.q,ids.concat(items().filter(i=>i.done).map(i=>i.x.id)),setOrder,()=>{PQ.redraw();draw()})}
+async function remove(id){if(!isEditor()||!db)return false;try{await db.doc('queue/'+id).delete();R.q=R.q.filter(x=>x.id!==id);PQ.redraw();draw();toast('Removed from the queue');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
+async function start(){const n=live();if(!isEditor()||!db||!n.length||active('queue'))return null;const np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np);
+  const id='r'+Date.now(),doc={kind:'queue',status:'requested',limit:LIMIT,stop_early:STOP_EARLY,queue:n.map(i=>({course:i.x.course,yl:i.x.yl,batch:+i.x.batch,papers:i.ready.map(p=>p.id)})),papers:np,est:[c.lo,c.hi],by:me||null,at:now()};
+  try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});toast('Queue sent to Claude');return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
+async function cancel(){const a=active('queue');if(!isEditor()||!db||!a)return false;const {id,...rest}=a,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
+  try{await db.doc('runs/'+id).set(doc);Object.assign(a,doc);toast('Queue run cancelled');return true}catch(_){toast('Could not cancel. Try again in a moment.');return false}}
+// Run the cover-page check: a request for Claude (it reads each front page; what it can't settle waits in Needs a check)
+const cover=()=>active('cover_check');
+async function coverCheck(){const m=PQ.model();if(!isEditor()||!db||!m||cover())return null;const ids=m.ps.filter(p=>p.st==='needs_check').map(p=>p.id);if(!ids.length)return null;
+  const id='r'+Date.now(),doc={kind:'cover_check',status:'requested',papers:ids,by:me||null,at:now()};
+  try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});PQ.redraw();toast('Cover-page check requested');return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
 const busy=async f=>{R.busy=true;draw();try{return await f()}finally{R.busy=false;draw()}};
-document.addEventListener('change',e=>{const t=e.target;if(t.id!=='ivGoY'&&t.id!=='ivGoC')return;if(t.id==='ivGoY')R.yl=t.value;else R.course=t.value;R.ask=false;draw()});
 document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isEditor())return;
-  if(t.closest('#ivGoBtn')){R.ask=true;draw();const y=$('#ivGoYes');if(y)y.focus();return}
-  if(t.closest('#ivGoNo')){R.ask=false;draw();$('#ivGoBtn').focus();return}
-  if(t.closest('#ivGoYes')){R.ask=false;await busy(request);return}
-  if(t.closest('#ivRunCancel')){await busy(cancel);return}});
-return {render,draw,state:R,tally,kind,request,cancel,choice};
+  const mv=t.closest('[data-prqmv]');if(mv){await move(mv.dataset.prqId,+mv.dataset.prqmv);const b=document.querySelector(`#prQueue [data-prq-id="${CSS.escape(mv.dataset.prqId)}"][data-prqmv="${mv.dataset.prqmv}"]`);if(b&&!b.disabled)b.focus();return}
+  const dl=t.closest('[data-prqdel]');if(dl){await remove(dl.dataset.prqdel);return}
+  if(t.closest('#prQStart')){await busy(start);return}
+  if(t.closest('#prQCancel')){await busy(cancel);return}});
+return {render,draw,state:R,pos,add,addNext,remove,move,start,cancel,cover,coverCheck,items,LIMIT};
 })();
 if(view==='processes'&&$('#processesView').dataset.tab==='papers')PQ.run.render();

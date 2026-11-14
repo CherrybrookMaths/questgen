@@ -39,7 +39,7 @@ const OTHER = PAGE !== path.join(SITE, 'review.html');
 const RESULT = path.join(OUT, OTHER ? 'other_result.json' : 'last_result.json');
 const SHOTS = path.join(OUT, OTHER ? 'shots_other' : 'shots');
 const DL = path.join(OUT, OTHER ? 'downloads_other' : 'downloads');
-// --only papersQueue,driveScan: run just those groups while you work (recorded as quick, so batch_check will not accept it)
+// --only papersLanes,driveScan: run just those groups while you work (recorded as quick, so batch_check will not accept it)
 const ONLY = process.argv.includes('--only') ? new Set(process.argv[process.argv.indexOf('--only') + 1].split(',')) : null;
 const QUICK = process.argv.includes('--quick') || !!ONLY;
 const HEADED = process.argv.includes('--headed');
@@ -969,7 +969,7 @@ async function processes(browser, base, seed) {
         doneOpen: v.querySelector('.pdone')?.open, doneDisp: getComputedStyle(v.querySelector('details.pdone')||v).display, doneBig: (()=>{const d=v.querySelector('details.pdone');if(!d)return 0;d.open=true;const m=Math.max(0,...[...d.querySelectorAll('li *')].map(e=>parseFloat(getComputedStyle(e).fontSize)));d.open=false;return m})(), doneN: v.querySelectorAll('.pdone li').length, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
         runHeads: [...document.querySelectorAll('#processesView h2,#processesView h3')].filter(h => vis(h) && /^Running now/.test(h.textContent.trim())).length,
         // owner 13 Nov ("Two tabs: Work | Papers"): nothing of Papers on Work
-        other: ['#invBox', '#importBox', '#procHist', '#ivGrid'].filter(sel => vis(document.querySelector(sel))), title: document.querySelector('#processesView .prhead h2')?.textContent,
+        other: ['#invBox', '#importBox', '#procHist', '#prLanes'].filter(sel => vis(document.querySelector(sel))), title: document.querySelector('#processesView .prhead h2')?.textContent,
         gap: (() => { const s = [...v.querySelectorAll('#procBox .psec')]; return s.length > 1 ? Math.round(s[1].getBoundingClientRect().top - s[0].getBoundingClientRect().bottom) : 0 })()};
     });
     errs();
@@ -1170,333 +1170,186 @@ async function nextUp(browser, base, seed) {
   await vp.context().close();
 }
 
-/* ---------------- Papers and the owner's import order on Processes ----------------
-   owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next? We can always [build the]
-   framework for the courses standard extension and extension two [later] right?" The page reads data/inventory.json (here the
-   fixture's small inventory, served in place of the live one) and db collection importq (seeded with one doc, paper 9103).
-   Grid counts; Standard / Extension 1 / unknown rows have no checkboxes; tick a school + a paper, Add, ↑ ↓, drag, remove;
-   390 px on a touch phone; a viewer gets no section, no fetch and no write. */
-async function papersQueue(browser, base, seed, fx) {
-  if (!fx) { await check('papers: fixture', null, async () => { throw new Error('work/page_test/fixture.json has no "papers": run tools/page_test_fixture.py') }); return }
-  const inv = fx.inventory, seedQ = {...seed, ...fx.importq};
+/* ======== Processes › Papers: lanes, batch panel, queue, Needs a check (owner 14 Nov, mockup A: "I like A's design much more") ========
+   Own block (14 Nov, import-lanes round): replaces the 13 Nov papersQueue (import order, grid) and papersRun (Go) groups.
+   The fixture's small inventory (tools/page_test_fixture.py sample_papers, served in place of data/inventory.json):
+   summary adds up; lanes and their counts; the batch panel opens with 9 papers and Swap matches tools/batches.py apply_swaps;
+   queue add / reorder / remove, the limit text (owner 14 Nov: "Let's do 3 batches before the lock") and Start the queue;
+   Needs a check: Accept the proposed rules and place a paper; Import history collapsed; 390 px phone (lanes wrap, panel
+   stacks); a viewer sees nothing, fetches nothing, writes nothing. */
+const LANE_STATUSES = ['imported', 'ready_current', 'ready_old', 'needs_check', 'held_y11', 'held_course', 'not_in_scope', 'duplicate'];
+function laneTally(inv) {   // written apart from the page's model(), so the two can disagree
+  const t = Object.fromEntries(LANE_STATUSES.map(s => [s, 0])); let n = 0;
+  for (const g of inv.groups) for (const p of g.papers) { t[p.st]++; n++ }
+  return {t, n, imported: t.imported, ready: t.ready_current + t.ready_old, check: t.needs_check, aside: t.held_y11 + t.held_course + t.not_in_scope + t.duplicate};
+}
+async function papersLanes(browser, base, seed, fx) {
+  if (!fx || !fx.inventory || !fx.inventory.lanes) { await check('papers: fixture', null, async () => { throw new Error('work/page_test/fixture.json has no lanes inventory: run tools/page_test_fixture.py') }); return }
+  const inv = fx.inventory;
   const serveInv = async p => { p._inv = 0; await p.route(u => /\/data\/inventory\.json/.test(u.href), r => { p._inv++; return r.fulfill({status: 200, contentType: 'application/json', body: JSON.stringify(inv)}) }) };
-  const qdocs = p => p.evaluate(() => [...window.__pt.store.entries()].filter(([k]) => k.startsWith('importq/')).map(([k, v]) => ({k, ...v})).sort((a, b) => a.order - b.order));
-  const qtexts = p => p.evaluate(() => [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(b => b.textContent));
-  // owner 13 Nov ("Two tabs: Work | Papers"): a cell of the compact grid opens its group's papers under the course row
-  const openG = (p, g) => p.evaluate(g => { const b = document.querySelector(`#ivGrid .ivcell[data-ivg="${g}"]`); if (b && b.getAttribute('aria-expanded') !== 'true') b.click() }, g);
-  const page = await newPage(browser, base, seedQ, {width: 1280, theme: 'light'});
+  const docs = (p, c) => p.evaluate(c => [...window.__pt.store.entries()].filter(([k]) => k.startsWith(c + '/')).map(([k, v]) => ({k, ...v})), c);
+  const tiles = p => p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#prSum .pr-tile')].map(t => [t.dataset.k, {n: +t.querySelector('b').textContent.replace(/\D/g, ''), w: t.querySelector('span').textContent}])));
+  const qtitles = p => p.evaluate(() => [...document.querySelectorAll('#prQueue .pr-qi b')].map(b => b.textContent));
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
   await serveInv(page);
   await boot(page, base, '#processes/papers'); await settle(page, 3000, 2);
   const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
-  await check('papers: top line, import order, quiet pause note', page, async () => {
-    const r = await page.evaluate(() => {
-      const v = document.querySelector('#procPapers'), at = s => v.querySelector(s), before = (x, y) => !!(at(x) && at(y) && (at(x).compareDocumentPosition(at(y)) & 4));
-      const pz = at('#invBox .ivpause'), cs = pz && getComputedStyle(pz);
-      // owner 13 Nov ("I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses"): summary, Import a course,
-      // Running / next, then Choose papers (the import order) and By course (the grid), both collapsed, then Import history
-      const folds = ['#ivPick', '#ivBy'].map(s => at(s)?.open);
-      ['#ivPick', '#ivBy'].forEach(s => { at(s).open = true });
-      return {shown: !document.querySelector('#invBox').hidden, pause: pz?.textContent.trim(), pauseBox: cs ? cs.borderTopWidth + ' ' + cs.backgroundColor : '', pauseH: pz ? pz.getBoundingClientRect().height : 0, folds,
-        order: ['#ivSub', '#ivStats', '#ivGo', '#ivRun', '#ivPick', '#ivQH', '#ivBy', '#ivGrid', '#procHist'].every((x, i, a) => !i || before(a[i - 1], x)), sub: document.querySelector('#ivSub')?.textContent,
-        q: [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(b => b.textContent), heads: [...v.querySelectorAll('h2,h3')].filter(h => h.checkVisibility()).map(h => h.textContent)};   // checkVisibility: closed <details> content keeps a layout box
-    });
-    errs(); assert(r.shown, 'Papers section hidden');
-    assert(r.order, 'Papers is not: summary, Import a course, Running / next, Choose papers › Import order, By course › grid, Import history');
-    assert(r.folds.join() === 'false,false', `Choose papers / By course should start collapsed: ${r.folds}`);
-    assert(/^Import is paused\. This only sets the order for when it resumes\.$/.test(r.pause || ''), `pause note: “${r.pause}”`);
-    assert(/^0px/.test(r.pauseBox) && r.pauseH < 24, `pause note should be one quiet line, not a banner (${r.pauseBox}, ${r.pauseH}px)`);
-    assert(/^18 papers in the shared folder \(19 files\) · last folder scan .+, 2 new$/.test(r.sub || ''), `sub line: “${r.sub}”`);
-    assert(r.q.join('|') === '2024 Knox Grammar School AT1', `import order from the seeded importq: ${r.q}`);
-    assert(!r.heads.length, `extra headings on Papers: ${r.heads}`);
-    return 'summary › Import a course › Running / next › Choose papers (Import order, one quiet pause line) › By course (grid) › Import history';
-  });
-  await check('papers: compact grid counts equal the inventory', page, async () => {
-    const r = await page.evaluate(() => ({rows: [...document.querySelectorAll('#ivGrid .ivr')].map(d => ({c: d.dataset.ivc, name: d.querySelector('.ivname b').textContent, off: d.classList.contains('off'),
-        notes: [...d.querySelectorAll('.ivnote')].map(n => n.textContent), cells: [...d.querySelectorAll(':scope > .ivcell')].map(c => ({g: c.dataset.ivg || '', t: [...c.querySelector('.ivct').childNodes].filter(n => !(n.classList && n.classList.contains('ivnew'))).map(n => n.textContent).join('').replace(/\s+/g, ' ').trim(), nw: c.querySelector('.ivct sup.ivnew')?.textContent || '', chip: !!c.querySelector('.ivchip'), btn: c.tagName === 'BUTTON'}))})),
-      head: [...document.querySelectorAll('#ivGrid .ivhead span')].map(x => x.textContent), old: document.querySelectorAll('#ivGrid details').length,
-      legend: document.querySelector('#ivGrid .ivlegend')?.textContent, newCol: [...document.querySelectorAll('#ivGrid .ivhead span')].some(x => /new/i.test(x.textContent))}));
+  // owner 14 Nov: "there seems to be some inconsistencies in paper numbers": one status per paper; the four numbers add up
+  await check('papers: the summary adds up to the folder total', page, async () => {
+    const L = laneTally(inv), r = await tiles(page), sub = await page.evaluate(() => document.querySelector('#ivSub').textContent);
     errs();
-    assert(r.head.join('|') === 'Course|Year 12|Year 11|Year ?', `header ${r.head}`);
-    assert(!r.old, `${r.old} old course x year rows remain`);
-    // owner 13 Nov: "I can't tell. So does not imported and new mean not in scope?": a "+N new" badge on the number, no New column, one legend line
-    assert(r.legend === 'Imported: in the bank · Waiting: will be imported · Not in scope: set aside · New: found by the latest scan' && !r.newCol, `legend: “${r.legend}”, New column ${r.newCol}`);
-    assert(r.rows.map(x => x.c).join(',') === inv.courses.map(c => c.key).join(','), `rows ${r.rows.map(x => x.c)} (want the inventory's courses in order)`);
-    const scan = !!inv.last_scan; let n = 0;
-    for (const row of r.rows) { const c = inv.courses.find(x => x.key === row.c);
-      assert(row.name === c.short && row.off === !c.ready, `${row.c}: name ${row.name}, off ${row.off}`);
-      assert(c.ready ? !row.notes.length : row.notes.length === 1 && row.notes[0].length <= 40 && c.note.startsWith(row.notes[0]), `${row.c} notes: ${JSON.stringify(row.notes)}`);
-      ['12', '11', '?'].forEach((yl, i) => { const g = inv.groups.find(x => x.course === row.c && x.yl === yl), k = g && g.counts, cell = row.cells[i];
-        const want = !k || !k.papers ? '–' : c.ready && (k.imported || k.waiting) ? `${k.imported} / ${k.waiting} waiting` : String(k.papers);
-        assert(cell.t === want && cell.btn === !!(k && k.papers) && cell.nw === (scan && k && k.new ? `+${k.new} new` : '') && !cell.chip, `${row.c}|${yl}: “${cell.t}” ${cell.nw} (want “${want}”)`); n++ }) }
-    return `${r.rows.length} courses × 3 = ${n} cells match; ${r.rows.filter(x => x.off).map(x => x.notes[0]).join(' / ')}`;
+    assert(L.n === inv.totals.papers && LANE_STATUSES.every(s => L.t[s] === inv.totals[s]), `fixture totals ${JSON.stringify(inv.totals)} vs recount ${JSON.stringify(L.t)}`);
+    assert(r.imported.n === L.imported && r.ready.n === L.ready && r.check.n === L.check && r.aside.n === L.aside, `tiles ${JSON.stringify(r)} (want ${L.imported} / ${L.ready} / ${L.check} / ${L.aside})`);
+    assert(r.imported.n + r.ready.n + r.check.n + r.aside.n === L.n, 'the four numbers do not add up to the papers in the folder');
+    assert(r.ready.w === 'ready to import · Year 12 Advanced' && r.check.w === 'need a check (year or course unknown)' && r.aside.w === 'held or not in scope', `tile words ${JSON.stringify(r)}`);
+    assert(new RegExp(`^${L.n} papers in the shared folder \\(${inv.docs} files\\) · last scan .+ · 1 new since$`).test(sub), `top line: “${sub}”`);
+    // the same rule on the live inventory: every paper has one status, they add up, and the lanes hold only ready papers
+    const live = JSON.parse(fs.readFileSync(path.join(SITE, 'data/inventory.json'), 'utf8')), LL = laneTally(live);
+    assert(LL.n === live.totals.papers && LANE_STATUSES.every(s => LL.t[s] === (live.totals[s] || 0)), `live inventory: statuses ${JSON.stringify(LL.t)} vs totals ${JSON.stringify(live.totals)}`);
+    return `fixture ${L.imported} + ${L.ready} + ${L.check} + ${L.aside} = ${L.n}; live ${LL.imported} + ${LL.ready} + ${LL.check} + ${LL.aside} = ${LL.n}`;
   });
-  await check('papers: Standard / Extension / unknown cells cannot be ticked; one group open at a time', page, async () => {
-    const r = {};
-    for (const g of ['ext1|12', 'standard|12', 'unknown|?', 'advanced|11']) { await openG(page, g); await settle(page, 800, 2);
-      r[g] = await page.evaluate(g => { const d = document.querySelector(`#ivGrid .ivbody[data-ivg="${g}"]`);
-        return d && {boxes: d.querySelectorAll('input[type=checkbox]').length, papers: d.querySelectorAll('.ivpp').length, msg: d.querySelector('.ivmsg')?.textContent || '', schools: [...d.querySelectorAll('.ivsh')].map(x => x.textContent.replace(/\d+$/, '').trim()), open: document.querySelectorAll('#ivGrid .ivbody:not([hidden])').length, exp: document.querySelector(`#ivGrid .ivcell[data-ivg="${g}"]`).getAttribute('aria-expanded')} }, g) }
-    await page.click('#ivGrid .ivcell[data-ivg="advanced|11"]'); await settle(page, 800, 2);
-    const closed = await page.evaluate(() => document.querySelectorAll('#ivGrid .ivbody:not([hidden])').length);
-    const added = await page.evaluate(() => PQ.add([9401, 9501, 9301, 9303, 9601])), w = (await qdocs(page)).length; errs();
-    for (const [g, n] of [['ext1|12', 3], ['standard|12', 2], ['unknown|?', 1], ['advanced|11', 3]]) assert(r[g] && r[g].boxes === 0 && r[g].papers === n && r[g].open === 1 && r[g].exp === 'true', `${g}: ${JSON.stringify(r[g])} (want 0 boxes, ${n} papers, one open)`);
-    assert(/can't be queued yet/.test(r['ext1|12'].msg) && !/needs course setup/.test(r['ext1|12'].msg), `messages: ${r['ext1|12'].msg}`);
-    assert(r['ext1|12'].schools.join('|') === 'Abbotsleigh|CSSA|Knox Grammar School', `ext1 papers by school: ${r['ext1|12'].schools}`);
-    assert(closed === 0, 'a second click on the open cell did not close it');
-    assert(added === 0 && w === 1, `PQ.add of non-Advanced / not-waiting papers wrote ${added} (importq docs ${w})`);
-    return 'no checkboxes; listed by school; one group open; second click closes; PQ.add refuses them';
-  });
-  await check('papers: tick a school and a paper, Add to import queue', page, async () => {
-    await openG(page, 'advanced|12'); await settle(page, 1500, 2);   // expand a cell, then tick
-    const before = await page.evaluate(() => { const d = document.querySelector('#ivGrid .ivbody[data-ivg="advanced|12"]');
-      return {boxes: [...d.querySelectorAll('[data-ivp]')].map(b => +b.dataset.ivp).sort(), inq: [...d.querySelectorAll('.ivchip.q')].map(c => c.textContent), all: d.querySelector('[data-ivall]')?.parentElement.textContent.trim(), bar: document.querySelector('#ivBar').hidden} });
-    assert(before.boxes.join(',') === '9101,9102,9104,9105', `tickable papers ${before.boxes} (want the 4 waiting ones not queued, the old-syllabus 9105 too)`);
-    assert(before.inq.join('|') === 'In queue · #1' && before.all === 'Select all 4 waiting' && before.bar, JSON.stringify(before));
-    // owner 13 Nov: "We should take questions too": the pre-2019 paper is tickable and labelled old syllabus
-    const old = await page.evaluate(() => { const li = document.querySelector('#ivc9105')?.closest('.ivpp'); return li && {chips: [...li.querySelectorAll('.ivchip')].map(c => c.textContent), why: li.querySelector('.ivwhy')?.textContent || ''} });
-    assert(old && old.chips.includes('Waiting') && old.chips.includes('old syllabus') && !old.why, `old-syllabus paper: ${JSON.stringify(old)}`);
-    await page.click('#ivGrid .ivbody[data-ivg="advanced|12"] [data-ivsch][data-school="Abbotsleigh"]');
-    let bar = await page.evaluate(() => ({t: document.querySelector('#ivSelN').textContent, hid: document.querySelector('#ivBar').hidden, all: (b => b && {c: b.checked, i: b.indeterminate})(document.querySelector('[data-ivall="advanced|12"]'))}));
-    assert(!bar.hid && bar.t === '2 papers selected' && bar.all.i && !bar.all.c, `after ticking Abbotsleigh: ${JSON.stringify(bar)}`);
-    await page.click('#ivc9104');
-    bar = await page.evaluate(() => ({t: document.querySelector('#ivSelN').textContent, all: document.querySelector('[data-ivall="advanced|12"]').checked}));
-    assert(bar.t === '3 papers selected' && !bar.all, `after ticking 9104 (9105 still unticked): ${JSON.stringify(bar)}`);
-    await page.click('#ivAdd'); await settle(page, 2000, 2);
-    const d = await qdocs(page), t = await qtexts(page); errs();
-    assert(d.map(x => x.doc_id).join(',') === '9103,9101,9102,9104' && d.map(x => x.order).join(',') === '1,2,3,4', `importq: ${d.map(x => x.doc_id + '@' + x.order)}`);
-    const n = d.find(x => x.doc_id === 9104);
-    assert(n.k === 'importq/d9104' && n.label === '2026 Knox Grammar School AT4' && n.course === 'advanced' && n.year_level === 12 && n.added_by === 'u_pagetest' && !isNaN(Date.parse(n.at)), `doc fields: ${JSON.stringify(n)}`);
-    assert(t.join('|') === '2024 Knox Grammar School AT1|2025 Abbotsleigh AT4|2023 Abbotsleigh AT2|2026 Knox Grammar School AT4', `on screen: ${t.join(' | ')}`);
-    const after = await page.evaluate(() => { const d = document.querySelector('#ivGrid .ivbody[data-ivg="advanced|12"]'); return {boxes: d.querySelectorAll('[data-ivp]').length, inq: d.querySelectorAll('.ivchip.q').length, bar: document.querySelector('#ivBar').hidden, msg: d.querySelector('.ivmsg')?.textContent || ''} });
-    assert(after.boxes === 1 && after.inq === 4 && after.bar, `after Add (9105 left): ${JSON.stringify(after)}`);
-    return `3 added in order; {doc_id, label, course, year_level, order, added_by, at}`;
-  });
-  await check('papers: reorder with ↑ ↓ and drag, remove', page, async () => {
-    await page.click('#ivQList [data-ivmove="1"]'); await settle(page, 1500, 2);   // first (9103) down
-    let t = await qtexts(page), d = (await qdocs(page)).map(x => x.label);
-    assert(t[0] === '2025 Abbotsleigh AT4' && t[1] === '2024 Knox Grammar School AT1' && d.join('|') === t.join('|'), `after ↓: screen ${t.join(' | ')}, db ${d.join(' | ')}`);
-    const last = page.locator('#ivQList .ivql > li.nrow').nth(3), first = page.locator('#ivQList .ivql > li.nrow').nth(0);   // li.ivdiv: the "Batch N" divider
-    await last.dragTo(first, {targetPosition: {x: 40, y: 3}}); await settle(page, 1500, 2);
-    t = await qtexts(page); d = (await qdocs(page)).map(x => x.label);
-    assert(t[0] === '2026 Knox Grammar School AT4' && d.join('|') === t.join('|'), `after drag: screen ${t.join(' | ')}, db ${d.join(' | ')}`);
-    await page.locator('#ivQList .ivql > li.nrow').nth(1).locator('[data-ivdel]').click(); await settle(page, 1500, 2);
-    t = await qtexts(page); const dd = await qdocs(page); errs();
-    assert(dd.length === 3 && !dd.some(x => x.doc_id === 9101) && t.length === 3, `after remove: ${t.join(' | ')} (db ${dd.map(x => x.doc_id)})`);
-    const back = await page.evaluate(() => !!document.querySelector('#ivGrid .ivbody[data-ivg="advanced|12"] [data-ivp="9101"]'));
-    assert(back, 'a removed paper is not tickable again');
-    const sw = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth); assert(sw <= 1, `horizontal scroll ${sw}px`);
-    return t.join(' › ');
-  });
-  // owner 13 Nov: "but we already have 15 waiting batches?" -> ONE list: the import order shows a faint "Batch N" divider every
-  // 9 importable rows (N counts on from the last finished batch), and Import history shows finished batches only
-  await check('papers: Batch N dividers every 9 rows; history shows finished batches only', page, async () => {
-    const r = await page.evaluate(() => {
-      const keepQ = PQ.state.q, keepP = PROG, st = s => ({parse: s, load: s, tag: s, solutions: s, generate: 'n/a', diagrams: s, verify: s, publish: s});
-      PROG = {...(PROG || {}), batches: [...[1, 2, 3, 4, 5, 6, 7].map(i => ({id: 'b' + i, papers: ['P' + i], stages: st('done')})), {id: 'b8', papers: ['W1', 'W2'], stages: {}}, {id: 'b9', papers: ['R1'], stages: {...st('waiting'), parse: 'done'}}]};
-      // 20 importable rows with one already-imported paper (9001) at row 5: it is skipped, as tools/import_next.py skips it
-      PQ.state.q = Array.from({length: 21}, (_, i) => ({id: 'dx' + i, doc_id: i === 4 ? 9001 : 9101, label: 'Row ' + (i + 1), course: 'advanced', year_level: 12, order: i + 1, at: ''}));
-      renderImport();
-      const rows = [...document.querySelectorAll('#ivQList .ivql > li')].map(li => li.classList.contains('ivdiv') ? '[' + li.textContent.trim() + ']' : li.querySelector('.ntext b').textContent);
-      const div = document.querySelector('#ivQList .ivdiv'), cs = getComputedStyle(div), faint = parseFloat(cs.fontSize) <= 12 && cs.color !== getComputedStyle(document.querySelector('#ivQList .ntext b')).color;
-      const hist = {rows: [...document.querySelectorAll('#importBox .brow summary > b')].map(b => b.textContent), groups: [...document.querySelectorAll('#importBox .bgrp > summary')].map(s => s.firstChild.textContent.trim())};
-      const drag = [...document.querySelectorAll('#ivQList .ivdiv')].every(d => !d.hasAttribute('draggable') && !d.querySelector('button')) && div.getAttribute('role') === 'separator';
-      PROG = {...keepP, batches: [...[1, 2, 3, 4, 5].map(i => ({id: 'b' + i, papers: ['P' + i], stages: st('done')}))]}; PQ.state.q = keepQ; renderImport();
-      const first = document.querySelector('#ivQList .ivdiv')?.textContent.trim();
-      PROG = keepP; renderImport();
-      return {rows, hist, drag, first, faint};
-    });
+  await check('papers: lanes render with the right counts', page, async () => {
+    const r = await page.evaluate(() => ({lanes: [...document.querySelectorAll('#prLanes .pr-lane:not(.pr-chk)')].map(l => ({name: l.querySelector('.pr-lname b').textContent, sub: l.querySelector('.pr-lname small').textContent,
+        sq: [...l.querySelectorAll('.pr-sq .pr-b')].map(b => b.className.replace('pr-b ', '') + ':' + b.dataset.prb.split(':')[1]), acts: [...l.querySelectorAll('.pr-lacts button')].map(b => b.textContent)})),
+      chk: document.querySelector('#prLanes .pr-chk .pr-lname small')?.textContent, chkActs: [...document.querySelectorAll('#prLanes .pr-chk .pr-lacts > *')].map(b => b.textContent),
+      lock: document.querySelector('#prLock > summary')?.textContent, lockRows: [...document.querySelectorAll('#prLock li')].map(li => [...li.children].map(c => c.textContent.trim()).join(' ')),
+      legend: [...document.querySelectorAll('#prLanes .pr-legend span')].map(s => s.textContent), old: ['#ivGrid', '#ivGo', '#ivRun', '#ivPick', '#ivBy', '#ivStats'].filter(s => document.querySelector(s)),
+      order: (() => { const at = s => document.querySelector(s); return ['#ivSub', '#prSum', '#prLanes', '#prQueue', '#procHist'].every((s, i, a) => !i || (at(a[i - 1]).compareDocumentPosition(at(s)) & 4)) })()}));
     errs();
-    const divs = r.rows.map((t, i) => t[0] === '[' ? `${t}@${i}` : '').filter(Boolean);
-    assert(divs.join(' ') === '[Batch 8]@0 [Batch 9]@11 [Batch 10]@21', `dividers ${divs.join(' ')} in ${r.rows.join(' | ')}`);
-    assert(r.drag && r.faint, `divider not a faint, undraggable separator: ${JSON.stringify(r)}`);
-    assert(r.first === 'Batch 6', `with b1–b5 done the first divider is “${r.first}”`);
-    assert(r.hist.rows.join(',') === 'b1,b2,b3,b4,b5,b6,b7' && r.hist.groups.join('|') === 'Finished', `history: ${JSON.stringify(r.hist)}`);
-    return `${divs.length} dividers (Batch 8, 9, 10; the imported row is not counted); history: finished b1–b7 only`;
+    assert(r.order, 'Papers is not: top line, summary, lanes, queue, Import history');
+    assert(!r.old.length, `old Papers parts remain: ${r.old}`);
+    assert(r.lanes.length === 1 && r.lanes[0].name === 'Year 12 Advanced', `lanes ${JSON.stringify(r.lanes.map(l => l.name))}`);
+    const l = r.lanes[0];
+    assert(l.sub === '3 imported · 23 to go · 3 batches · 1 new' || l.sub === '3 imported · 23 to go · 3 batches', `lane line “${l.sub}”`);
+    assert(l.sq.join(' ') === 'done:5 cur:6 cur:7 cur:8', `squares ${l.sq.join(' ')}`);
+    assert(l.acts.join('|') === '+1 batch|+2 batches|Queue all 3', `lane buttons ${l.acts}`);
+    assert(r.chk === '3 papers: year or course not read yet. Sorted into lanes once checked.' && r.chkActs.join('|') === 'Run the cover-page check|Resolve', `Needs a check lane: ${r.chk} ${r.chkActs}`);
+    assert(r.lock === 'Locked · 3 courses, 8 papers' && r.lockRows.some(x => /^Year 11 Advanced 3 papers Held until Year 12 is finished \(your 13 Nov ruling\)$/.test(x)) && r.lockRows.some(x => /^Year 12 Extension 1 3 papers Needs course setup$/.test(x)), `locked: ${r.lock} ${JSON.stringify(r.lockRows)}`);
+    assert(r.legend.join('|') === 'Imported|In the queue|Ready, current syllabus|Ready, old syllabus', `legend ${r.legend}`);
+    return `${l.name}: ${l.sub}; ${l.sq.length} squares; ${r.lock}`;
   });
-  await check('papers: Import history collapsed; log shows the last 5, then Show all', page, async () => {
-    // owner 13 Nov ("isn't that the point of your calls?"): import notes are Your calls now. A stale progress/import doc that still
-    // carries an issues list (the live db doc did) must not bring the "Needs your decision" block back.
-    await page.evaluate(() => { PROG = {...(PROG || {}), issues: ['stale loose note'], log: Array.from({length: 12}, (_, i) => ({t: new Date(Date.now() - (12 - i) * 60000).toISOString(), msg: 'step ' + (i + 1)}))}; renderImport() });
-    const a = await page.evaluate(() => { const h = document.querySelector('#procHist'); return {open: h.open, sum: h.querySelector('summary').textContent.trim(), inside: ['.tiles', '.bgrp', '.log'].every(s => h.querySelector('#importBox ' + s)), vis: document.querySelector('#importBox').checkVisibility()} });
-    assert(a.sum === 'Import history' && a.open === false && a.vis === false && a.inside, `Import history: ${JSON.stringify(a)}`);
-    await page.click('#procHist > summary'); await settle(page, 1000, 2);
-    const b = await page.evaluate(() => ({shown: [...document.querySelectorAll('#importBox .log li')].filter(l => !l.hidden).map(l => l.textContent.replace(/^.*· /, '')), btn: document.querySelector('#importBox [data-logall]')?.textContent, decide: [...document.querySelectorAll('#importBox h3')].map(h => h.textContent)}));
-    assert(b.shown.join(',') === 'step 12,step 11,step 10,step 9,step 8' && b.btn === 'Show all 12', `log: ${b.shown} / ${b.btn}`);
-    const stale = await page.evaluate(() => document.querySelector('#importBox').textContent.includes('stale loose note'));
-    assert(!b.decide.includes('Needs your decision') && b.decide.includes('Batches') && !stale, `history sections: ${b.decide}${stale ? ' (loose note shown)' : ''}`);
-    await page.click('#importBox [data-logall]'); await settle(page, 800, 2);
-    const c = await page.evaluate(() => ({n: [...document.querySelectorAll('#importBox .log li')].filter(l => !l.hidden).length, btn: !!document.querySelector('#importBox [data-logall]')}));
-    await page.click('#procHist > summary'); errs();
-    assert(c.n === 12 && !c.btn, `after Show all: ${JSON.stringify(c)}`);
-    return 'collapsed by default; tiles, batches and log inside, no "Needs your decision" block; 5 → Show all 12';
-  });
-  // review 13 Nov: the order the owner set survives a reload (a new page on the database the first one left behind)
-  const kept = await page.evaluate(() => Object.fromEntries([...window.__pt.store.entries()]));
-  const want = await qtexts(page);
-  await page.context().close();
-  const rp = await newPage(browser, base, kept, {width: 1280, theme: 'light'});
-  await serveInv(rp);
-  await boot(rp, base, '#processes/papers'); await settle(rp, 3000, 2);
-  await check('papers: the import order persists after a reload', rp, async () => {
-    const t = await qtexts(rp), e = takeErrs(rp); assert(!e.length, e.join(' | '));
-    assert(t.length === 3 && t.join('|') === want.join('|'), `after reload: ${t.join(' | ')} (want ${want.join(' | ')})`);
-    return t.join(' › ');
-  });
-  await rp.context().close();
-  // phone: the grid and the queue fit 390 px; ticking and ↑ work by tap
-  const tp = await newPage(browser, base, seedQ, {width: 390, theme: 'dark', touch: true});
-  await serveInv(tp);
-  await boot(tp, base, '#processes/papers'); await settle(tp, 3000, 2);
-  await check('papers: phone 390px', tp, async () => {
-    await tp.tap('#ivBy > summary'); await tp.tap('#ivPick > summary'); await settle(tp, 600, 2);
-    // the grid stacks per course: no header row, the course name on its own line, three labelled cells under it
-    const g = await tp.evaluate(() => { const row = document.querySelector('#ivGrid .ivr[data-ivc="advanced"]'), nm = row.querySelector('.ivname').getBoundingClientRect(), cs = [...row.querySelectorAll(':scope > .ivcell')].map(c => c.getBoundingClientRect());
-      return {head: document.querySelector('#ivGrid .ivhead').offsetHeight, stacked: cs.every(c => c.top >= nm.bottom - 1), right: Math.max(...[...document.querySelectorAll('#ivGrid .ivcell')].map(c => c.getBoundingClientRect().right)), w: innerWidth,
-        labels: [...row.querySelectorAll('.ivcl')].filter(l => l.offsetWidth).map(l => l.textContent), sw: document.querySelector('#procSw').offsetWidth} });
-    assert(!g.head && g.stacked && g.right <= g.w - 8 && g.labels.join('|') === 'Year 12|Year 11|Year ?' && g.sw > 0, `stacked grid at 390px: ${JSON.stringify(g)}`);
-    await tp.tap('#ivGrid .ivcell[data-ivg="advanced|12"]'); await settle(tp, 1500, 2);
-    await tp.tap('#ivc9102'); await tp.tap('#ivAdd'); await settle(tp, 2000, 2);
-    await tp.locator('#ivQList .ivql > li.nrow').nth(1).locator('[data-ivmove="-1"]').tap(); await settle(tp, 1500, 2);
-    const r = await tp.evaluate(() => { const b = document.querySelector('#invBox').getBoundingClientRect(), nums = [...document.querySelectorAll('#ivGrid .ivcell, #ivGrid .ivbody *')].map(n => n.getBoundingClientRect().right);
-      return {t: [...document.querySelectorAll('#ivQList .ivql .ntext b')].map(x => x.textContent), right: b.right, w: innerWidth, nr: Math.max(...nums), sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth,
-        rowH: document.querySelector('#ivGrid .ivr[data-ivc="ext1"]').getBoundingClientRect().height} });
-    const e = takeErrs(tp); assert(!e.length, e.join(' | '));
-    assert(r.t.join('|') === '2023 Abbotsleigh AT2|2024 Knox Grammar School AT1', `after tick, Add and ↑ by tap: ${r.t.join(' | ')}`);
-    assert(r.right <= r.w && r.nr <= r.right && r.sw <= r.cw + 1, `overflow at 390px: box right ${r.right}, numbers right ${r.nr}, scroll ${r.sw} > ${r.cw}`);
-    return `stacked per course (Extension 1 ${Math.round(r.rowH)} px); fits; tick, Add and ↑ work by tap`;
-  });
-  await tp.context().close();
-  // a viewer: no section, no inventory fetch, no write
-  const vp = await newPage(browser, base, seedQ, {width: 1280, theme: 'light', role: 'viewer'});
-  await serveInv(vp);
-  await boot(vp, base, '#bank');
-  await check('papers (viewer): nothing shows, nothing is written', vp, async () => {
-    for (const h of ['#processes/papers', '#processes/work', '#processes']) { await vp.evaluate(h => { location.hash = h }, h); await settle(vp, 2000, 2) }
-    const r = await vp.evaluate(async () => { PQ.render(); const n = await PQ.add([9101, 9102]); const rm = await PQ.remove('d9103');
-      return {hash: location.hash, hidden: document.querySelector('#invBox').hidden, html: document.querySelector('#invBox').innerHTML.length, n, rm, w: window.__pt.log.filter(l => l.k.startsWith('importq/')).length,
-        curate: ['#processesView', '#procSw', '#ivGrid', '#procHist', '#jobs'].filter(s => { const e = document.querySelector(s); return e && e.offsetWidth > 0 })} });
-    assert(!r.curate.length, `a viewer sees Curate: ${r.curate}`);
-    assert(r.hidden && r.html === 0 && r.n === 0 && r.rm === false && r.w === 0 && r.hash === '#bank', JSON.stringify(r));
-    assert(vp._inv === 0, `a viewer fetched data/inventory.json ${vp._inv} time(s)`);
-    return 'hidden; #processes → #bank; PQ.add / PQ.remove refused; no fetch';
-  });
-  await vp.context().close();
-}
-
-/* ---------------- Papers: summary, Import a course (Go), Running / next ----------------
-   owner 13 Nov: "We need a general summary at the top of the Paper's tab of processes as well. How many papers found, how many
-   imported, a brief breakdown and stuff. Set it up so that once the API is set up, we can choose a grade 11 or 12 and course Adv /
-   std/ extension 1 and extesnion 2 and hit Go ..." -> "Yes, with batch pauses". Summary numbers equal the inventory (recounted
-   here, also on the live inventory); the selects; the disabled reasons; the cost text; Go asks inline (no dialog); Confirm writes
-   one runs doc; Cancel request; one active run at a time; 390 px; a viewer sees nothing and writes nothing. */
-const RUN_TEXT = 'Requested — Claude starts it when importing resumes; later the import API will start it directly.';
-function runTally(inv) {   // written apart from the page's kind(), so the two can disagree
-  const t = {imported: 0, current: 0, old: 0, course: 0, held: 0, check: 0, scope: 0};
-  for (const g of inv.groups) for (const p of g.papers) {
-    if (p.st === 'imported') t.imported++; else if (p.pick) p.old ? t.old++ : t.current++; else if (p.st === 'out_of_course') t.course++;
-    else if (g.yl === '11' && (p.st === 'waiting' || /^Year 11\b/.test(p.why || ''))) t.held++; else if (p.st === 'waiting') t.check++; else t.scope++ }
-  return t;
-}
-async function papersRun(browser, base, seed, fx) {
-  if (!fx) return;
-  const inv = fx.inventory, seedQ = {...seed, ...fx.importq};
-  const serveInv = async p => { p._inv = 0; await p.route(u => /\/data\/inventory\.json/.test(u.href), r => { p._inv++; return r.fulfill({status: 200, contentType: 'application/json', body: JSON.stringify(inv)}) }) };
-  const runs = p => p.evaluate(() => [...window.__pt.store.entries()].filter(([k]) => k.startsWith('runs/')).map(([k, v]) => ({k, ...v})));
-  const go = p => p.evaluate(() => ({btn: !document.querySelector('#ivGoBtn').disabled, title: document.querySelector('#ivGoBtn').title, n: document.querySelector('#ivGoN').innerText.replace(/\s+/g, ' ').trim(), ask: document.querySelector('#ivGoAsk').innerText.replace(/\s+/g, ' ').trim()}));
-  const pick = (p, y, c) => p.evaluate(([y, c]) => { for (const [id, v] of [['#ivGoY', y], ['#ivGoC', c]]) { const s = document.querySelector(id); s.value = v; s.dispatchEvent(new Event('change', {bubbles: true})) } }, [y, c]);
-  const page = await newPage(browser, base, seedQ, {width: 1280, theme: 'light'});
-  let dialogs = 0; page.on('dialog', d => { dialogs++; d.dismiss() });
-  await serveInv(page);
-  await boot(page, base, '#processes/papers'); await settle(page, 3000, 2);
-  const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
-  await check('run: summary numbers equal the inventory', page, async () => {
-    const t = runTally(inv), r = await page.evaluate(() => Object.fromEntries([...document.querySelectorAll('#ivStats .ivstat')].map(s => [s.dataset.k, {n: s.querySelector('b').textContent, w: s.querySelector('span').textContent, sm: [...s.querySelector('small').childNodes].map(x => x.textContent.trim()).filter(Boolean).join(' | ')}])));
+  await check('papers: a square opens its batch with 9 papers; Swap = tools/batches.py', page, async () => {
+    await page.click('#prLanes [data-prb="advanced_12:6"]'); await settle(page, 800, 2);
+    let r = await page.evaluate(() => ({head: [...document.querySelector('#prLanes .pr-panel .pr-phead').children].map(c => c.textContent.trim()).filter(Boolean).join(' '), li: [...document.querySelectorAll('#prLanes .pr-panel .pr-plist li')].map(li => li.querySelector('span').textContent), swaps: document.querySelectorAll('#prLanes .pr-panel [data-prswap]').length, on: document.querySelector('#prLanes .pr-b.on')?.dataset.prb}));
+    assert(r.li.length === 9 && r.swaps === 9 && r.on === 'advanced_12:6', `batch panel: ${JSON.stringify(r)}`);
+    assert(r.head === 'Batch 6 9 papers · current syllabus · 2023–25 · not in the queue Add to the queue ×', `panel heading “${r.head}”`);
+    await page.click('#prLanes .pr-panel [data-prswap="9101"]'); await settle(page, 1200, 2);
+    const d = await docs(page, 'batches'), got = await page.evaluate(() => PQ.lanes()[0].batches.map(b => b.ids));
     errs();
-    const sum = Object.values(t).reduce((a, b) => a + b, 0), aside = t.course + t.held + t.check + t.scope;
-    assert(sum === inv.totals.papers && t.imported === inv.totals.imported, `recount ${JSON.stringify(t)} vs totals ${JSON.stringify(inv.totals)}`);
-    assert(r.imported && r.imported.n === String(t.imported) && r.imported.w === 'imported', `imported tile ${JSON.stringify(r.imported)}`);
-    assert(r.can && r.can.n === String(t.current + t.old) && r.can.sm === `${t.current} current syllabus · ${t.old} old syllabus`, `can tile ${JSON.stringify(r.can)}`);
-    const want = [[t.course, 'in other courses that need setup'], [t.held, 'Year 11, held until Year 12 is finished'], [t.check, 'course not known yet (cover check)'], [t.scope, 'not in scope']].filter(x => x[0]).map(x => x.join(' ')).join(' | ');
-    assert(r.aside && r.aside.n === String(aside) && r.aside.sm === want, `set aside tile ${JSON.stringify(r.aside)} (want ${aside}: ${want})`);
-    // the same rule on the live inventory: every paper lands in exactly one bucket
-    const live = JSON.parse(fs.readFileSync(path.join(SITE, 'data/inventory.json'), 'utf8')), L = runTally(live), ls = Object.values(L).reduce((a, b) => a + b, 0);
-    assert(ls === live.totals.papers && L.imported === live.totals.imported, `live inventory recount ${JSON.stringify(L)} vs ${JSON.stringify(live.totals)}`);
-    return `fixture ${t.imported} / ${t.current + t.old} / ${aside}; live ${L.imported} imported, ${L.current + L.old} can be imported (${L.current} current, ${L.old} old), ${ls - L.imported - L.current - L.old} set aside`;
+    assert(d.length === 1 && d[0].k === 'batches/advanced_12' && d[0].course === 'advanced' && d[0].yl === '12' && d[0].swaps.length === 1 && d[0].swaps[0].id === 9101 && d[0].swaps[0].by === 'u_pagetest', `batches doc ${JSON.stringify(d)}`);
+    assert(JSON.stringify(got) === JSON.stringify(fx.swap_expect), `after Swap the page has ${JSON.stringify(got)}, tools/batches.py ${JSON.stringify(fx.swap_expect)}`);
+    r = await page.evaluate(() => ({li: [...document.querySelectorAll('#prLanes .pr-panel .pr-plist li')].length}));
+    await page.click('#prLanes .pr-panel [data-prclose]'); await settle(page, 500, 2);
+    const closed = await page.evaluate(() => !document.querySelector('#prLanes .pr-panel'));
+    assert(r.li === 9 && closed, `after Swap ${r.li} papers in Batch 6; closed ${closed}`);
+    return 'Batch 6: 9 papers, Swap moved 9101 to the end; batch sizes kept; page = Python';
   });
-  await check('run: Year and Course selects, disabled reasons, cost text', page, async () => {
-    const o = await page.evaluate(() => ({y: [...document.querySelectorAll('#ivGoY option')].map(x => x.value), c: [...document.querySelectorAll('#ivGoC option')].map(x => x.textContent), yv: document.querySelector('#ivGoY').value, cv: document.querySelector('#ivGoC').value}));
-    assert(o.y.join() === '12,11' && o.yv === '12' && o.cv === 'advanced', `selects ${JSON.stringify(o)}`);
-    assert(o.c.join('|') === inv.courses.filter(c => c.key !== 'unknown').map(c => c.short).join('|'), `courses ${o.c} (want the inventory's, without Course not known)`);
-    const g = inv.groups.find(x => x.course === 'advanced' && x.yl === '12'), can = g.papers.filter(p => p.pick), old = can.filter(p => p.old).length, n = can.length;
-    let r = await go(page);
-    assert(r.btn && r.n.startsWith(`${n} not imported ${n - old} current syllabus · ${old} old syllabus 1 batch of 9, pausing after each one`), `Year 12 Advanced: “${r.n}”`);
-    assert(new RegExp(`Estimated cost US\\$${n * 12}–${n * 17} \\(estimate, US\\$12–17 a paper\\)$`).test(r.n), `cost: “${r.n}”`);
-    const res = {};
-    for (const [y, c] of [['11', 'advanced'], ['12', 'standard'], ['12', 'ext1'], ['12', 'ext2'], ['11', 'ext1']]) { await pick(page, y, c); res[y + c] = await go(page) }
-    // owner 13 Nov: "Year 11 papers leave alone for now, would like to finalise Y12 first"
-    assert(!res['11advanced'].btn && /Can't import: held until Year 12 is finished \(your 13 Nov ruling\)$/.test(res['11advanced'].n) && /^3 Year 11 Advanced papers in the folder/.test(res['11advanced'].n), `Year 11: “${res['11advanced'].n}”`);
-    for (const k of ['12standard', '12ext1', '12ext2', '11ext1']) assert(!res[k].btn && /Can't import: needs course setup \(topics, dot points, difficulty references\)$/.test(res[k].n), `${k}: “${res[k].n}”`);
-    // a measured cost per paper replaces the estimate
-    await pick(page, '12', 'advanced');
-    const m = await page.evaluate(() => { PQ.state.data.cost_per_paper = 10; PQ.run.draw(); const t = document.querySelector('#ivGoN .ivgocost').textContent; PQ.state.data.cost_per_paper = null; PQ.run.draw(); return t });
+  // owner 14 Nov: "we might want to run multiple batches over the night", then "Let's do 3 batches before the lock"
+  await check('queue: +1 / +2 batches, reorder, remove, limit text, Start the queue', page, async () => {
+    await page.click('#prLanes [data-pradd="1"]'); await settle(page, 1000, 2);
+    await page.click('#prLanes [data-pradd="2"]'); await settle(page, 1000, 2);
+    let t = await qtitles(page), d = (await docs(page, 'queue')).sort((a, b) => a.order - b.order);
+    assert(t.join('|') === 'Year 12 Advanced · Batch 6|Year 12 Advanced · Batch 7|Year 12 Advanced · Batch 8', `queue ${t}`);
+    assert(d.map(x => x.k).join() === 'queue/advanced_12_6,queue/advanced_12_7,queue/advanced_12_8' && d.every((x, i) => x.order === i + 1 && x.course === 'advanced' && x.yl === '12' && x.by === 'u_pagetest'), `queue docs ${JSON.stringify(d)}`);
+    const sq = await page.evaluate(() => [...document.querySelectorAll('#prLanes .pr-sq .pr-b')].map(b => b.className.replace('pr-b ', '').replace(' on', '')).join(' '));
+    assert(sq === 'done queued queued queued', `squares after queueing: ${sq}`);
+    const r = await page.evaluate(() => ({st: [...document.querySelectorAll('#prQueue .pr-qs')].map(s => s.textContent), foot: document.querySelector('#prQueue .pr-qfoot').textContent.replace(/\s+/g, ' '), lim: document.querySelector('#prQueue .pr-limit').textContent, api: document.querySelector('#prQueue .pr-api').textContent, head: document.querySelector('#prQueue .pr-qhead span').textContent, all: document.querySelector('[data-pradd="all"]').disabled}));
+    assert(r.st.join() === 'Next,Waiting,Waiting', `states ${r.st}`);
+    assert(r.foot === '3 batches · 23 papersEst. US$276–391' || r.foot === '3 batches · 23 papers Est. US$276–391', `footer “${r.foot}”`);
+    assert(/^Stops when 3 batches are waiting for review/.test(r.lim) && r.api === 'Until the import API is connected, this sends the queue to Claude.' && /Stops when 3 batches are waiting for review, or early if a batch comes back with unusual problems\./.test(r.head), `limit texts: ${r.lim} / ${r.api} / ${r.head}`);
+    assert(r.all, 'Queue all should be disabled with every batch queued');
+    await page.click('#prQueue [data-prq-id="advanced_12_6"][data-prqmv="1"]'); await settle(page, 1000, 2);
+    t = await qtitles(page); d = (await docs(page, 'queue')).sort((a, b) => a.order - b.order);
+    assert(t[0] === 'Year 12 Advanced · Batch 7' && t[1] === 'Year 12 Advanced · Batch 6' && d.map(x => x.batch).join() === '7,6,8', `after ↓: ${t} / db ${d.map(x => x.batch)}`);
+    await page.click('#prQueue [data-prqdel="advanced_12_8"]'); await settle(page, 1000, 2);
+    t = await qtitles(page); d = await docs(page, 'queue');
+    assert(t.length === 2 && d.length === 2 && !d.some(x => x.batch === 8), `after ×: ${t}`);
+    await page.click('#prQStart'); await settle(page, 1200, 2);
+    const runs = await docs(page, 'runs'), card = await page.evaluate(() => document.querySelector('#prQueue .pr-run')?.textContent || '');
     errs();
-    assert(m === `Cost US$${n * 10} (US$10 a paper)`, `measured cost: “${m}”`);
-    return `Year 12 Advanced: ${n} (${old} old), US$${n * 12}–${n * 17}; Year 11 held; Standard / Extension 1 / 2 need setup`;
+    assert(runs.length === 1 && runs[0].kind === 'queue' && runs[0].status === 'requested' && runs[0].limit === 3 && runs[0].queue.map(x => x.batch).join() === '7,6' && runs[0].queue[0].papers.length === 9 && runs[0].by === 'u_pagetest', `runs doc ${JSON.stringify(runs)}`);
+    assert(/Sent to Claude/.test(card) && !(await page.$('#prQStart')), `after Start: “${card}”`);
+    await page.click('#prQCancel'); await settle(page, 1000, 2);
+    const c = await docs(page, 'runs');
+    assert(c[0].status === 'cancelled' && !!(await page.$('#prQStart')), `after Cancel: ${c[0].status}`);
+    return 'queue/advanced_12_6..8 written in order; ↓ and × reach the db; limit 3; runs doc kind queue; Cancel';
   });
-  await check('run: Go asks inline, Cancel, Confirm writes one runs doc', page, async () => {
-    await page.click('#ivGoBtn'); await settle(page, 600, 2);
-    let r = await go(page); const n = inv.groups.find(x => x.course === 'advanced' && x.yl === '12').papers.filter(p => p.pick).length;
-    assert(new RegExp(`^Start importing ${n} papers, ~US\\$${n * 12}–${n * 17}\\? Confirm Cancel$`).test(r.ask), `confirm: “${r.ask}”`);
-    await page.click('#ivGoNo'); await settle(page, 600, 2); r = await go(page);
-    assert(!r.ask && !(await runs(page)).length, `after Cancel: ask “${r.ask}”`);
-    await page.click('#ivGoBtn'); await page.click('#ivGoYes'); await settle(page, 1500, 2);
-    const d = await runs(page); errs();
-    assert(dialogs === 0, `${dialogs} browser dialog(s)`);
-    assert(d.length === 1, `${d.length} runs docs`);
-    const x = d[0], want = [9103, 9104, 9101, 9102, 9105];   // 9103 is in the import order; then current syllabus newest first; the old-syllabus 9105 last
-    assert(/^runs\/r\d+$/.test(x.k) && x.year === 12 && x.course === 'advanced' && x.papers.join() === want.join() && x.batch_size === 9 && x.pause_after_each_batch === true && x.status === 'requested' && x.by === 'u_pagetest' && !isNaN(Date.parse(x.at)), `runs doc ${JSON.stringify(x)}`);
-    const v = await page.evaluate(() => ({card: document.querySelector('#ivRun .ivrcard')?.innerText || '', div: [...document.querySelectorAll('#ivRun .ivnb .ivdiv')].map(x => x.textContent), b0: PQ.nextBatch(), names: [...document.querySelectorAll('#ivRun .ivnb li')].map(x => x.textContent), go: document.querySelector('#ivGoBtn').disabled}));
-    assert(v.card.includes(RUN_TEXT) && /Year 12 Advanced · 5 papers/.test(v.card) && /Requested/.test(v.card), `Running / next card: “${v.card}”`);
-    assert(v.div.join() === `Batch ${v.b0}` && v.names.length === 5 && v.names[0] === '2024 Knox Grammar School AT1' && v.names[4] === '2017 Knox Grammar School AT4 · old syllabus', `next batch: ${v.div} ${v.names.join(' | ')}`);
-    assert(v.go, 'Go should be disabled while a run is requested');
-    return `${x.k}: ${x.papers.length} papers, Batch ${v.b0} shown`;
+  await check('papers: Run the cover-page check records a request in runs', page, async () => {
+    await page.click('#prLanes [data-prcover]'); await settle(page, 1000, 2);
+    const r = (await docs(page, 'runs')).filter(x => x.kind === 'cover_check'), b = await page.evaluate(() => ({t: document.querySelector('#prLanes [data-prcover]').textContent, d: document.querySelector('#prLanes [data-prcover]').disabled}));
+    errs();
+    assert(r.length === 1 && r[0].status === 'requested' && r[0].papers.slice().sort().join() === '9140,9141,9601', `cover_check doc ${JSON.stringify(r)}`);
+    assert(b.d && b.t === 'Cover-page check requested', `button ${JSON.stringify(b)}`);
+    return 'one cover_check request with the 3 Needs a check papers';
   });
-  await check('run: one active run at a time; Cancel request', page, async () => {
-    const again = await page.evaluate(() => PQ.run.request()), r0 = await go(page);
-    assert(again === null && (await runs(page)).length === 1 && /a run is already requested/.test(r0.n), `second request: ${again}, “${r0.n}”`);
-    await page.click('#ivRunCancel'); await settle(page, 1500, 2);
-    const d = await runs(page), v = await page.evaluate(() => ({card: !!document.querySelector('#ivRun .ivrcard'), from: document.querySelector('#ivRun .ivnfrom')?.textContent, names: [...document.querySelectorAll('#ivRun .ivnb li')].map(x => x.textContent)})), r = await go(page); errs();
-    assert(d.length === 1 && d[0].status === 'cancelled' && d[0].cancelled_by === 'u_pagetest' && d[0].papers.length === 5, `after Cancel request: ${JSON.stringify(d)}`);
-    assert(!v.card && v.from === 'Next from your import order:' && v.names.join() === '2024 Knox Grammar School AT1' && r.btn, `after cancel: ${JSON.stringify(v)}, Go ${r.btn}`);
-    await page.click('#ivGoBtn'); await page.click('#ivGoYes'); await settle(page, 1500, 2);
-    const d2 = await runs(page);
-    assert(d2.length === 2 && d2.filter(x => x.status === 'requested').length === 1, `a new request after cancelling: ${d2.map(x => x.status)}`);
-    return 'a second request is refused; Cancel request sets cancelled; the import order shows again; a new request is allowed';
+  await check('needs a check: Accept the better rules, place a paper', page, async () => {
+    await page.click('#prLanes a[href="#processes/papers/check"]'); await settle(page, 1500, 2);
+    let r = await page.evaluate(() => ({hash: location.hash, main: document.querySelector('#prMainWrap').hidden, chk: !document.querySelector('#prCheck').hidden, hist: document.querySelector('#procHist').hidden,
+      h: [...document.querySelectorAll('#prCheck h3')].map(h => h.textContent), rules: [...document.querySelectorAll('#prCheck .pr-rule')].map(x => x.querySelector('.pr-rt b').textContent + ' ' + x.querySelector('.pr-rn').textContent),
+      rows: [...document.querySelectorAll('#prCheck .pr-place')].map(x => +x.dataset.prplace), acc: document.querySelector('#prAccept')?.textContent, cover: !!document.querySelector('#prCheck .pr-cover')}));
+    assert(r.hash === '#processes/papers/check' && r.main && r.chk && r.hist, `the check view: ${JSON.stringify(r)}`);
+    assert(r.h.join('|') === 'Needs a check|1 paper placed by better rules|2 for you to place' && r.acc === 'Accept all 1', `headings ${r.h} / ${r.acc}`);
+    assert(r.rules[0] === '"EXT1" written without a space, or a "Y12 Ext1" folder 1 paper' && r.rules.length === 4, `rules ${r.rules}`);
+    assert(r.rows.join() === '9140,9601' && r.cover, `rows to place ${r.rows}`);
+    await page.click('#prCheck [data-prsee="ext1"]'); await settle(page, 500, 2);
+    const see = await page.evaluate(() => [...document.querySelectorAll('#prCheck .pr-see li')].map(li => li.textContent));
+    assert(see.length === 1 && /2024 Oakhill College AT2/.test(see[0]), `See all: ${see}`);
+    await page.click('#prAccept'); await settle(page, 1200, 2);
+    const acc = await docs(page, 'scans');
+    assert(acc.length === 1 && acc[0].k === 'scans/rules' && acc[0].accepted === true && acc[0].version === 2 && acc[0].by === 'u_pagetest', `scans/rules ${JSON.stringify(acc)}`);
+    // place: Ascham 2019 (year level not known) as Year 12 Advanced -> ready, old syllabus (before 2020); the Barker file not in scope
+    await page.click('#prCheck [data-prplace="9140"] [data-pryl="12"]'); await settle(page, 800, 2);
+    await page.click('#prCheck [data-prplace="9140"] [data-prc="advanced"]'); await settle(page, 800, 2);
+    await page.click('#prCheck [data-prplace="9601"] [data-prout]'); await settle(page, 800, 2);
+    const fx2 = await docs(page, 'paperfix'), res = await page.evaluate(() => ({h: [...document.querySelectorAll('#prCheck h3')].map(h => h.textContent), res: [...document.querySelectorAll('#prCheck .pr-res')].map(x => x.textContent)}));
+    const a = fx2.find(x => x.k === 'paperfix/p9140'), b = fx2.find(x => x.k === 'paperfix/p9601');
+    assert(a && a.yl === 12 && a.course === 'advanced' && !a.out && a.files.join() === '9140' && a.by === 'u_pagetest' && b && b.out === true, `paperfix docs ${JSON.stringify(fx2)}`);
+    assert(res.h.includes('0 for you to place') && res.res.some(x => /Placed: Year 12 Advanced · ready to import, old syllabus/.test(x)) && res.res.some(x => /Set aside: not in scope/.test(x)), `after placing: ${JSON.stringify(res)}`);
+    await page.evaluate(() => document.querySelector('#prCheck .pr-back').click()); await settle(page, 1500, 2);
+    const back = await page.evaluate(() => location.hash === '#processes/papers' && !document.querySelector('#prMainWrap').hidden && document.querySelector('#prCheck').hidden);
+    const t = await tiles(page), L = laneTally(inv); errs();
+    assert(back, '← Import papers did not lead back to the lanes');
+    // Accept: 9141 -> Extension 1 (held); 9140 -> ready; 9601 -> not in scope; the four numbers still add up
+    assert(t.check.n === 0 && t.ready.n === L.ready + 1 && t.aside.n === L.aside + 2 && t.imported.n + t.ready.n + t.check.n + t.aside.n === L.n, `tiles after Accept and placing ${JSON.stringify(t)}`);
+    return 'Accept writes scans/rules; Year 12 + Advanced and Not in scope write paperfix; the summary follows and still adds up';
+  });
+  await check('papers: Import history collapsed at the bottom', page, async () => {
+    const a = await page.evaluate(() => { const h = document.querySelector('#procHist'); return {open: h.open, hidden: h.hidden, sum: h.querySelector('summary').textContent.trim(), inside: ['.tiles', '.bgrp'].every(s => h.querySelector('#importBox ' + s))} });
+    errs(); assert(a.sum === 'Import history' && a.open === false && !a.hidden && a.inside, `Import history: ${JSON.stringify(a)}`);
+    return 'collapsed; tiles and finished batches inside';
   });
   await page.context().close();
-  const tp = await newPage(browser, base, seedQ, {width: 390, theme: 'dark', touch: true});
+  // phone: lanes wrap, the batch panel and the queue stack, nothing runs off 390 px
+  const tp = await newPage(browser, base, seed, {width: 390, theme: 'dark', touch: true});
   await serveInv(tp); await boot(tp, base, '#processes/papers'); await settle(tp, 3000, 2);
-  await check('run: phone 390px', tp, async () => {
-    await tp.tap('#ivGoBtn'); await settle(tp, 600, 2);
-    const r = await tp.evaluate(() => { const box = s => document.querySelector(s)?.getBoundingClientRect(), els = ['#ivStats', '#ivGo', '#ivGoAsk .ivgoask', '#ivGoYes', '#ivRun'].map(box);
-      return {right: Math.max(...els.map(b => b ? b.right : 999)), w: innerWidth, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth, tiles: [...document.querySelectorAll('#ivStats .ivstat')].map(s => Math.round(s.getBoundingClientRect().width))} });
-    await tp.tap('#ivGoYes'); await settle(tp, 1500, 2);
-    const n = (await runs(tp)).length, e = takeErrs(tp); assert(!e.length, e.join(' | '));
-    assert(r.right <= r.w && r.sw <= r.cw + 1, `overflow at 390px: ${JSON.stringify(r)}`);
-    assert(n === 1, `tap Confirm wrote ${n} runs docs`);
-    return `fits (tiles ${r.tiles.join(' / ')} px); Go and Confirm by tap`;
+  await check('papers: phone 390px (lanes wrap, panel stacks)', tp, async () => {
+    await tp.tap('#prLanes [data-prb="advanced_12:7"]'); await settle(tp, 800, 2);
+    await tp.tap('#prLanes [data-pradd="1"]'); await settle(tp, 1000, 2);
+    const r = await tp.evaluate(() => { const R = s => document.querySelector(s).getBoundingClientRect(), lis = [...document.querySelectorAll('#prLanes .pr-panel .pr-plist li')].map(l => l.getBoundingClientRect());
+      return {w: innerWidth, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth, right: Math.max(...[...document.querySelectorAll('#invBox *')].filter(e => e.offsetWidth).map(e => e.getBoundingClientRect().right)),
+        oneCol: lis.length === 9 && lis.every(l => Math.abs(l.left - lis[0].left) < 1), stacked: R('#prQueue').top >= R('#prLanes').bottom - 1, tiles: [...document.querySelectorAll('#prSum .pr-tile')].map(t => Math.round(t.getBoundingClientRect().width)),
+        q: [...document.querySelectorAll('#prQueue .pr-qi b')].map(b => b.textContent)} });
+    const e = takeErrs(tp); assert(!e.length, e.join(' | '));
+    assert(r.sw <= r.cw + 1 && r.right <= r.w + 0.5, `overflow at 390px: ${JSON.stringify(r)}`);
+    assert(r.oneCol && r.stacked, `panel one column ${r.oneCol}, queue under the lanes ${r.stacked}`);
+    assert(r.q.join() === 'Year 12 Advanced · Batch 6', `+1 batch by tap: ${r.q}`);
+    return `fits; tiles ${r.tiles.join('/')} px; panel one column; queue under the lanes`;
   });
   await tp.context().close();
-  const vp = await newPage(browser, base, seedQ, {width: 1280, theme: 'light', role: 'viewer'});
+  // a viewer: no section, no inventory fetch, no subscriptions, no writes
+  const vp = await newPage(browser, base, seed, {width: 1280, theme: 'light', role: 'viewer'});
   await serveInv(vp); await boot(vp, base, '#bank');
-  await check('run (viewer): nothing shows, nothing is written', vp, async () => {
-    await vp.evaluate(() => { location.hash = '#processes/papers' }); await settle(vp, 2000, 2);
-    const r = await vp.evaluate(async () => { PQ.run.render(); const id = await PQ.run.request(); const c = await PQ.run.cancel();
-      return {id, c, sub: PQ.run.state.sub, go: document.querySelector('#ivGo')?.innerHTML.length || 0, used: window.__pt.log.filter(l => l.k.startsWith('runs/')).length} });
-    assert(r.id === null && r.c === false && !r.sub && !r.go && !r.used && vp._inv === 0, JSON.stringify({...r, inv: vp._inv}));
-    return 'no card, no runs subscription, request / cancel refused, no inventory fetch';
+  await check('papers (viewer): nothing shows, nothing is written', vp, async () => {
+    for (const h of ['#processes/papers', '#processes/papers/check', '#processes']) { await vp.evaluate(h => { location.hash = h }, h); await settle(vp, 2000, 2) }
+    const r = await vp.evaluate(async () => { PQ.render(); PQ.run.render(); const a = await PQ.run.add([{key: 'advanced_12', n: 6}]); const s = await PQ.run.start(); const c = await PQ.run.coverCheck(); const acc = await PQ.check.accept(); const pl = await PQ.check.place(9140, {yl: 12});
+      return {hash: location.hash, hidden: document.querySelector('#invBox').hidden, html: document.querySelector('#invBox').innerHTML.length, a, s, c, acc, pl, w: window.__pt.log.length, subs: Object.keys(PQ.state.subs).length + Object.keys(PQ.run.state.subs).length} });
+    assert(r.hidden && r.html === 0 && r.a === 0 && r.s === null && r.c === null && r.acc === false && r.pl === false && r.w === 0 && r.subs === 0 && r.hash === '#bank', JSON.stringify(r));
+    assert(vp._inv === 0, `a viewer fetched data/inventory.json ${vp._inv} time(s)`);
+    return 'hidden; Curate hashes → #bank; every write refused; no fetch, no subscription';
   });
   await vp.context().close();
 }
+/* ======== end of the Processes › Papers lanes block ======== */
 
 /* ---------------- Rescan drive (Processes › Papers) ----------------
    owner 13 Nov: "Where is the button to rescan the drive?" (earlier: "New exams are gonna be added to this folder periodically
@@ -1523,7 +1376,7 @@ async function driveScan(browser, base, seed, fx) {
   await check('rescan: button beside the last scan, progress, Cancel saves nothing', page, async () => {
     await page.waitForSelector('#ivScanGo', {timeout: 12000});
     const pos = await page.evaluate(() => { const b = document.querySelector('#ivScanGo'), s = document.querySelector('#ivSub'); return {row: b.parentElement.parentElement === s.parentElement, txt: b.textContent, sub: s.textContent} });
-    assert(pos.row && pos.txt === 'Rescan drive' && /last folder scan/.test(pos.sub), JSON.stringify(pos));
+    assert(pos.row && pos.txt === 'Rescan drive' && /last scan/.test(pos.sub), JSON.stringify(pos));
     assert(page._files === 0, `opening Processes › Papers fetched data/inventory_files.json ${page._files} time(s): it is for Rescan drive only`);
     await page.evaluate(() => { window.__pt.driveDelay = 400 });
     await go(page);
@@ -1553,7 +1406,7 @@ async function driveScan(browser, base, seed, fx) {
     const name = i => dv.expect[i].path.split('/').pop();
     for (const [g, ids] of Object.entries(want)) assert((r.groups[g] || []).filter(x => ids.map(name).includes(x)).length === ids.length, `group ${g}: ${JSON.stringify(r.groups[g])} (want ${ids.map(name)})`);
     assert(r.like.join('|') === name('n3'), `same-size chip on: ${r.like}`);
-    assert(new RegExp(`· last scan .+, ${nNew} new$`).test(r.sub), `sub line: “${r.sub}”`);
+    assert(new RegExp(`· last scan .+, ${nNew} new since$`).test(r.sub), `sub line: “${r.sub}”`);
     // read-only: only search_files on Google Drive, one parentId query per folder, paging used, the skipped folder never opened
     assert(r.calls.every(c => c.server === 'Google Drive' && c.tool === 'search_files' && /^parentId = '[\w-]+' and \(mimeType = 'application\/vnd\.google-apps\.folder' or mimeType = 'application\/pdf'\) and trashed = false$/.test(c.input.query) && c.input.excludeContentSnippets === true), `unexpected call: ${JSON.stringify(r.calls.find(c => c.tool !== 'search_files' || !/^parentId/.test(c.input.query)))}`);
     assert(r.calls.some(c => c.input.pageToken) && !r.calls.some(c => /'fCO'/.test(c.input.query)), 'pageToken never used, or the skipped folder was opened');
@@ -2163,7 +2016,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
     const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
-    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersQueue, browser, base, seed, fx.papers), run(papersRun, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));

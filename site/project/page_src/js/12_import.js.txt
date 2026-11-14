@@ -22,8 +22,8 @@ function batchRow(b){const [cls,lab]=batchState(b);const n=(b.papers||[]).length
     <span class="muted">${n} paper${n===1?'':'s'}${b.questions?` · ${esc(String(b.questions))} questions`:''}</span></summary>
     <div class="bbody">${b.note?`<div class="muted">${esc(b.note)}</div>`:''}<div class="bstages">${STAGES.map(([k,l])=>{const v=(b.stages||{})[k]||'waiting';return `<span><span class="pr-st ${v.replace('/','')}">${SLABEL[v]||esc(v)}</span> ${esc(l)}</span>`}).join('')}</div>
     <ul class="bpapers">${(b.papers||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></details>`}
-// owner 13 Nov: "but we already have 15 waiting batches?" -> ONE list: what is still to import lives only in the Import order
-// (Papers tab, "Batch 6", "Batch 7", ... dividers), so the history shows finished batches only.
+// owner 13 Nov: "but we already have 15 waiting batches?" -> ONE list; since 14 Nov what is still to import is the course lanes'
+// numbered batches (Papers tab, PQ), so the history shows finished batches only.
 function batchesHTML(L){const done=L.filter(b=>batchState(b)[0]==='done');
   return done.length?`<p class="sub">Tap a batch to see its papers. – means the stage wasn't needed.</p><details class="bgrp" open><summary>Finished <span class="muted">· ${done.length} batch${done.length===1?'':'es'} · ${done.reduce((n,b)=>n+(b.papers||[]).length,0)} papers</span></summary><div class="bscroll">${stageHead()}${done.map(batchRow).join('')}</div></details>`:'<p class="pempty">No finished batches yet.</p>'}
 // owner 13 Nov ("The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): this dashboard now sits inside
@@ -40,7 +40,6 @@ function renderImport(){
   ${run.length?`<h3>Import stages running</h3><ul>${run.map(r=>`<li><span class="pulse" aria-hidden="true"></span><b>${esc(r.stage)}</b> · ${esc(r.batch||'')} ${r.detail?'· '+esc(r.detail):''} <span class="muted">· started ${esc(ago(r.started))}</span></li>`).join('')}</ul>`:''}
   <h3>Batches</h3>${batchesHTML(P.batches||[])}
   ${log.length?`<h3>Log</h3><ul class="log">${log.map((x,i)=>`<li${i>=5&&!all?' hidden':''}>${esc(x.t?new Date(x.t).toLocaleString('en-AU',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):'')} · ${esc(x.msg)}</li>`).join('')}</ul>${log.length>5&&!all?`<button type="button" class="act plogall" data-logall>Show all ${log.length}</button>`:''}`:''}`;
-  if(typeof PQ!=='undefined')PQ.queue();   // the import order's "Batch N" dividers count on from the last finished batch
 }
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#importBox [data-logall]');if(!b)return;const box=$('#importBox');box.dataset.logall='1';box.querySelectorAll('.log li[hidden]').forEach(li=>li.hidden=false);b.remove()});
 /* ---------- Processes (owner 14 Nov: "Can u show this list of tasks on the artifact somewhere ... Can be on the same as import.
@@ -49,8 +48,9 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
    #processesView data-tab, set by route() from #processes/work | #processes/papers).
    Work: Running now (progress/jobs + queue items marked running), Queued (progress/queue, in order, with the owner's own words
    in italics), Recently done (collapsed), Next up (31_notes.js).
-   Papers: the summary (with Rescan drive), Import a course (Go), Running / next, then Choose papers (the import order) and By course
-   (the grid), both collapsed (PQ, 32_papers_q.js; PQ.run, 34_papers_run.js), then Import history (renderImport, collapsed). */
+   Papers (owner 14 Nov, mockup A: "I like A's design much more"): the top line with Rescan drive, the summary, the course lanes
+   and the queue (PQ, 32-35_papers_*.js; #processes/papers/check is its Needs a check view), then Import history (renderImport,
+   collapsed). */
 // owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well? Would be helpful":
 // each row shows its step ("Stage 2 of 4", with a small bar), Started, and Est. finish while running/queued or Finished + how long it took once done (jobTimes, 13_shell.js).
 function renderProcesses(){const box=$('#procBox'),pv=$('#processesView');if(!box||!pv)return;

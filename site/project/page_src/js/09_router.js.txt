@@ -13,12 +13,13 @@ const AREAS={teach:['bank','exams','guide'],curate:['inbox','review','papers','p
 const REVIEW_VIEWS=['inbox','review','papers','levels','reports'];
 const areaOf=v=>AREAS.curate.includes(v)?'curate':'teach';
 const isEditor=()=>QG.editor===true;
-const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
+const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#processes/papers/check':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
 const VHASH={inbox:'#review',review:'#review',levels:'#review/difficulty',reports:'#review/reports',papers:'#review/papers',processes:'#processes',guide:'#guide',exams:'#exams',bank:'#bank'};
 // old links: #import (owner 14 Nov) → Processes › Papers (owner 13 Nov, two tabs: the import dashboard is in Papers › Import history); #levels / #difficulty / #reports (tabs until 15 Nov) → their Review section; #papers (tab until 13 Nov) → Review's papers
 const HASH_ALIAS={'#import':'#processes/papers','#levels':'#review/difficulty','#difficulty':'#review/difficulty','#reports':'#review/reports','#papers':'#review/papers'};
 // owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers": #processes/work, #processes/papers; bare #processes opens the tab used last (default Work)
-function parseHash(h){if(HASHV[h]){const m=/^#processes\/(\w+)$/.exec(h);return m?{v:HASHV[h],ptab:m[1]}:{v:HASHV[h]}}let m=/^#review\/paper\/(\d+)(?:\/([\w-]+))?$/.exec(h);if(m)return {v:'review',doc:m[1],step:m[2]||''};
+// owner 14 Nov (mockup A): #processes/papers/check is the Papers tab's Needs a check view (psub 'check')
+function parseHash(h){if(HASHV[h]){const m=/^#processes\/(\w+)(?:\/(\w+))?$/.exec(h);return m?{v:HASHV[h],ptab:m[1],psub:m[2]||''}:{v:HASHV[h]}}let m=/^#review\/paper\/(\d+)(?:\/([\w-]+))?$/.exec(h);if(m)return {v:'review',doc:m[1],step:m[2]||''};
   m=/^#review\/list\/(\w+)$/.exec(h);if(m)return {v:'review',list:m[1]};return {v:'bank'}}
 function setHash(h){try{history.replaceState(null,'',h)}catch(e){location.replace(h)}}
 function applyArea(){const a=areaOf(view),ed=isEditor();
@@ -42,7 +43,8 @@ function route(){
   if(v==='review'&&(!B||!openReview(P)))v='inbox';
   // Processes: the tab in the address, else the one used last (per browser), else Work; the address then names it
   if(v==='processes'&&isEditor()){const T=['work','papers'],t=T.includes(P.ptab)?P.ptab:(T.includes(load('qg_proc_tab'))?load('qg_proc_tab'):'work');
-    if(location.hash!=='#processes/'+t)setHash('#processes/'+t);save('qg_proc_tab',t);$('#processesView').dataset.tab=t}
+    const sub=t==='papers'&&P.ptab==='papers'&&P.psub==='check'?'check':'';
+    if(location.hash!=='#processes/'+t+(sub?'/'+sub:''))setHash('#processes/'+t+(sub?'/'+sub:''));save('qg_proc_tab',t);$('#processesView').dataset.tab=t;$('#processesView').dataset.sub=sub}
   QG.view=v;
   const inRev=REVIEW_VIEWS.includes(view);
   $('#guideView').hidden=view!=='guide';$('#levelsView').hidden=view!=='levels';$('#reportsView').hidden=view!=='reports';$('#examsView').hidden=view!=='exams';$('#processesView').hidden=view!=='processes';$('#papersView').hidden=view!=='papers';$('#inboxView').hidden=view!=='inbox';

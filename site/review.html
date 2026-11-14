@@ -446,11 +446,11 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
 .procs .pqueue li:first-child{border-top:0}
 .procs .pqueue b{font-weight:600;overflow-wrap:anywhere}
 .procs .pnum{font:600 12px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums;padding-top:2px}
-.procs .pdone>summary,.procs .phist>summary,.procs .ivfold>summary{cursor:pointer;font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;padding:4px 0;list-style:none}
-.procs .pdone>summary::-webkit-details-marker,.procs .phist>summary::-webkit-details-marker,.procs .ivfold>summary::-webkit-details-marker{display:none}
-.procs .pdone>summary::after,.procs .phist>summary::after,.procs .ivfold>summary::after{content:"";width:6px;height:6px;border:solid var(--muted);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);margin-left:2px;transition:transform .15s}
-.procs .pdone[open]>summary::after,.procs .phist[open]>summary::after,.procs .ivfold[open]>summary::after{transform:rotate(45deg)}
-.procs .pdone>summary:focus-visible,.procs .phist>summary:focus-visible,.procs .ivfold>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.procs .pdone>summary,.procs .phist>summary{cursor:pointer;font:600 12px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:8px;padding:4px 0;list-style:none}
+.procs .pdone>summary::-webkit-details-marker,.procs .phist>summary::-webkit-details-marker{display:none}
+.procs .pdone>summary::after,.procs .phist>summary::after{content:"";width:6px;height:6px;border:solid var(--muted);border-width:0 1.5px 1.5px 0;transform:rotate(-45deg);margin-left:2px;transition:transform .15s}
+.procs .pdone[open]>summary::after,.procs .phist[open]>summary::after{transform:rotate(45deg)}
+.procs .pdone>summary:focus-visible,.procs .phist>summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 .procs .pdone ul{list-style:none;margin:8px 0 0;padding:0}
 .procs .pdone li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:4px;padding:7px 0;margin:0;border-top:1px solid var(--line);font-size:13.5px}
 .procs .pdone li b{font-weight:500;color:var(--ink)}
@@ -461,7 +461,7 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
 @media (max-width:640px){.jobs .jpill{min-height:30px;padding:3px 11px}.procs .pcards{grid-template-columns:minmax(0,1fr)}}
 .enter{animation:viewIn .22s ease-out}
 @keyframes viewIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-@media (prefers-reduced-motion:reduce){.enter{animation:none}.jobs .dot,.procs .pdot{animation:none}.jobs .jpill,.procs .pdone>summary::after,.procs .phist>summary::after,.procs .ivfold>summary::after{transition:none}}
+@media (prefers-reduced-motion:reduce){.enter{animation:none}.jobs .dot,.procs .pdot{animation:none}.jobs .jpill,.procs .pdone>summary::after,.procs .phist>summary::after{transition:none}}
 .themebtn{font-size:13px;white-space:nowrap}
 .pfil{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 12px}
 .pfil input,.pfil select{font:inherit;font-size:13.5px;padding:6px 10px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink)}
@@ -1751,71 +1751,11 @@ a.plink:hover{text-decoration:underline}
 }
 /* a call on the whole paper, top of Your calls (owner 13 Nov) */
 .why.pcall{margin:0 0 10px;text-align:left}.why.pcall p{margin:4px 0 8px;color:var(--ink)}.why.pcall .flagbox input{width:100%}
-/* owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next?" — Papers + Import order on Processes */
+/* Processes › Papers (owner 14 Nov, mockup A: "I like A's design much more"): top line, summary, course lanes, queue; all under .procs, pr- prefix */
 .procs .ivsub{margin:0 0 8px;color:var(--muted);font-size:13px}
-/* owner 13 Nov ("The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): the pause note is one quiet line under Import order */
-.procs .ivpause{margin:-2px 0 8px;color:var(--muted);font-size:12.5px}
-.procs .ivq{margin:0 0 14px}
-.procs .ivq h4,.procs #ivGrid .ivhead{font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.procs .ivq h4{margin:0 0 6px;display:flex;align-items:center;gap:8px}
-.procs .ivql .ntext{display:flex;flex-direction:column;gap:1px}
-.procs .ivql .ntext b{font-weight:600}
-.procs .ivql .ntext small{color:var(--muted);font-size:12px}
-.procs .ivql .ivwarn{color:var(--warn);font-style:normal}
-/* owner 13 Nov ("but we already have 15 waiting batches?" -> one list): a faint divider every 9 rows names the batch it becomes */
-.procs .ivql>li.ivdiv{display:flex;align-items:center;gap:8px;margin:0;padding:8px 10px 2px;border-top:1px solid var(--line);color:var(--muted);font:500 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;opacity:.8}
-.procs .ivql>li.ivdiv::after{content:"";flex:1;border-top:1px dashed var(--line)}
-.procs .ivql>li.ivdiv:first-child{border-top:0;padding-top:6px}.procs .ivql>li.ivdiv+.nrow{border-top:0}
-.procs .ivqn{flex:none;min-width:20px;height:20px;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:600 11.5px var(--sans);display:inline-flex;align-items:center;justify-content:center;font-variant-numeric:tabular-nums}
-/* the compact course grid (owner 13 Nov, Work | Papers): one row per course, cells Year 12 / Year 11 / Year ?; a cell opens its papers under the row */
-.procs #ivGrid{border:1px solid var(--line);border-radius:8px;background:var(--panel);overflow:hidden}
-.procs #ivGrid .ivhead,.procs .ivr{display:grid;grid-template-columns:minmax(0,1fr) repeat(3,minmax(96px,150px));gap:6px;align-items:center;padding:0 12px}
-.procs #ivGrid .ivhead{padding-block:7px;border-bottom:1px solid var(--line);font:600 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.procs #ivGrid .ivhead span:not(:first-child){text-align:right;padding-right:9px}
-.procs .ivr{border-top:1px solid var(--line);padding-block:4px}.procs .ivhead+.ivr{border-top:0}
-.procs .ivname{min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:0 8px;font-size:14px}
-.procs .ivname b{font-weight:600}.procs .ivr.off .ivname b{color:var(--muted)}
-.procs .ivnote{color:var(--muted);font-size:12px}
-.procs .ivyl{color:var(--muted)}
-.procs .ivcell{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:baseline;gap:2px 6px;min-width:0;padding:6px 8px;border:1px solid transparent;border-radius:6px;background:none;font:400 13px var(--sans);color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
-.procs button.ivcell{cursor:pointer}
-.procs button.ivcell:hover{background:color-mix(in srgb,var(--accent-soft) 45%,transparent)}
-.procs button.ivcell:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.procs .ivcell.on{border-color:var(--accent);background:var(--accent-soft)}
-.procs .ivcell b{font-weight:600;color:var(--ink)}.procs .ivcell b.ok{color:var(--ok)}.procs .ivcell b.wait{color:var(--accent)}
-.procs .ivr.off .ivcell b{font-weight:500}
-.procs .ivcell .ivcl{display:none;font-style:normal}
-.procs .ivbody{grid-column:1/-1;margin:2px -12px -4px;padding:2px 12px 12px 26px;border-top:1px dashed var(--line)}
-.procs .ivbody[hidden]{display:none}
-.procs .ivbh{margin:8px 0 0;font-size:13px;color:var(--muted)}.procs .ivbh b{color:var(--ink);font-weight:600}
-.procs .ivmsg{margin:8px 0;color:var(--muted);font-size:13px}
-.procs .ivall{display:inline-flex;align-items:center;gap:8px;margin:8px 0 2px;font-weight:600;font-size:13.5px;cursor:pointer}
-.procs .ivs{margin-top:10px}
-.procs .ivsh{display:flex;align-items:center;gap:8px;font-weight:600;font-size:13.5px;margin-bottom:2px}
-.procs .ivsh label{display:inline-flex;align-items:center;gap:8px;cursor:pointer;min-width:0}
-.procs .ivpl-list{list-style:none;margin:0;padding:0}
-.procs .ivpp{display:flex;flex-wrap:wrap;align-items:center;gap:4px 8px;padding:4px 0;border-top:1px solid var(--line);font-size:13.5px;min-width:0}
-.procs .ivpp:first-child{border-top:0}
-.procs .ivpp input,.procs .ivall input,.procs .ivsh input{flex:none;width:16px;height:16px;margin:0;accent-color:var(--accent);cursor:pointer}
-.procs .ivnobox{flex:none;width:16px}
-.procs .ivpl{flex:1 1 180px;min-width:0;overflow-wrap:anywhere}
-.procs .ivpp input+.ivpl{cursor:pointer}
 .procs .ivchips{display:inline-flex;flex-wrap:wrap;gap:4px}
 .procs .ivchip{font:500 11px var(--sans);padding:1px 7px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap}
-.procs .ivchip.ok{border-color:var(--ok);color:var(--ok)}.procs .ivchip.wait{border-color:var(--accent);color:var(--accent)}
-.procs .ivchip.q{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}.procs .ivchip.new{border-color:var(--warn);color:var(--warn)}
-.procs .ivwhy{flex-basis:100%;margin-left:24px;color:var(--muted);font-size:12px}
-.procs .ivbar{position:sticky;bottom:0;z-index:2;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px;padding:10px 12px;background:var(--panel);border:1px solid var(--accent);border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.08)}
-.procs .ivbar[hidden]{display:none}
-.procs .ivbar #ivSelN{flex:1 1 auto;font-weight:600;font-size:13.5px}
-.procs .ivbar .ivadd{background:var(--accent);border-color:var(--accent);color:var(--panel)}
-/* owner 13 Nov ("does not imported and new mean not in scope?"): New is a small badge on the number, plus a one-line legend */
-.procs .ivcell sup.ivnew{margin-left:3px;font:600 10px var(--sans);color:var(--warn);vertical-align:super;line-height:0;white-space:nowrap}
-.procs .ivlegend{margin:0;padding:7px 12px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
-/* phone: the grid stacks per course (name on its own line, then three labelled cells); no sideways scroll */
-@media (max-width:640px){.procs #ivGrid .ivhead{display:none}.procs .ivr{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;padding:8px 10px}.procs .ivname{grid-column:1/-1}
-  .procs .ivcell{flex-direction:column;align-items:flex-start;justify-content:flex-start;gap:0;text-align:left;border-color:var(--line);padding:4px 8px}.procs .ivcell .ivcl{display:block;font-size:11px}
-  .procs .ivbody{margin:2px -10px -8px;padding-left:12px}.procs .ivwhy{margin-left:0}}
+.procs .ivyl{color:var(--muted)}
 /* owner 13 Nov: "Where is the button to rescan the drive?" — Rescan drive beside the last-scan time, its progress and results */
 .procs .ivsubrow{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;margin:0 0 8px}
 .procs .ivsubrow .ivsub{margin:0;flex:1 1 260px;min-width:0}
@@ -1839,42 +1779,117 @@ a.plink:hover{text-decoration:underline}
 .procs .ivsname{flex:1 1 200px;min-width:0;overflow-wrap:anywhere}
 .procs .ivsdir{flex-basis:100%;order:3;color:var(--muted);font-size:11.5px;overflow-wrap:anywhere}
 .procs .ivchip.like{border-color:var(--warn);color:var(--warn)}
-/* owner 13 Nov: "We need a general summary at the top of the Paper's tab ... I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses":
-   summary card, Import a course (Go, inline confirm), Running / next, then Choose papers and By course folded away (34_papers_run.js) */
-.procs .ivsum{margin:0 0 12px;padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
-.procs .ivsum .ivsubrow{margin-bottom:10px}
-.procs .ivstats{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,2fr);gap:10px 18px}
-.procs .ivstat{display:flex;flex-wrap:wrap;align-items:baseline;align-content:flex-start;gap:0 6px;min-width:0}
-.procs .ivstat b{font:600 22px var(--sans);font-variant-numeric:tabular-nums;color:var(--ink)}
-.procs .ivstat[data-k="imported"] b{color:var(--ok)}.procs .ivstat[data-k="can"] b{color:var(--accent)}.procs .ivstat[data-k="aside"] b{color:var(--muted)}
-.procs .ivstat>span{font-size:13.5px;font-weight:600}
-.procs .ivstat small{flex-basis:100%;color:var(--muted);font-size:12px;line-height:1.45}
-.procs .ivstat small i{display:block;font-style:normal}
-.procs .ivgo,.procs .ivrun{margin:0 0 12px}
-.procs .ivgo h4,.procs .ivrun h4{margin:0 0 6px;font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.procs .ivgo{padding:12px 14px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
-.procs .ivgorow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px}
-.procs .ivgorow label{display:inline-flex;align-items:center;gap:6px;font-size:13.5px}
-.procs .ivgorow select{font:inherit;font-size:13.5px;padding:4px 8px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink)}
-.procs .ivgob{min-width:64px}
-.procs .ivgocount{margin:10px 0 2px;font-size:14px}.procs .ivgocount b{font-size:18px;font-variant-numeric:tabular-nums}
-.procs .ivgocount.off b{color:var(--muted)}
-.procs .ivgod{margin:0;color:var(--muted);font-size:12.5px}.procs .ivgocost{color:var(--ink)}
-.procs .ivgowhy{margin:4px 0 0;color:var(--warn);font-size:13px}
-.procs .ivgoask{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:10px;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-soft)}
-.procs .ivgoask p{flex:1 1 220px;margin:0;font-weight:600;font-size:13.5px}
-.procs .ivrcard{display:flex;flex-direction:column;align-items:flex-start;gap:4px;margin:0 0 8px;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:var(--panel)}
-.procs .ivrtop{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
-.procs .ivrcard p{margin:0;font-size:13px}.procs .ivrcard small{color:var(--muted);font-size:12px}
-.procs .ivnfrom,.procs .ivnmore{margin:6px 0 2px;color:var(--muted);font-size:12.5px}
-.procs .ivnb .ivdiv{display:flex;align-items:center;gap:8px;margin:4px 0 0;color:var(--muted);font:500 10.5px var(--sans);letter-spacing:.06em;text-transform:uppercase}
-.procs .ivnb .ivdiv::after{content:"";flex:1;border-top:1px dashed var(--line)}
-.procs .ivnb ol{margin:2px 0 4px;padding-left:22px;font-size:13px}.procs .ivnb li{padding:1px 0;overflow-wrap:anywhere}
-.procs .ivfold{margin:0 0 12px}
-.procs .ivfold>summary+*{margin-top:6px}
-.procs .ivhint{margin:6px 0 0;color:var(--muted);font-size:12.5px}
-.procs .ivlink{background:none;border:0;padding:0;font:inherit;color:var(--accent);text-decoration:underline;cursor:pointer}
-@media (max-width:640px){.procs .ivstats{grid-template-columns:1fr 1fr}.procs .ivstat[data-k="aside"]{grid-column:1/-1}}
+/* the summary: four numbers that add up to the folder total (owner 14 Nov: "there seems to be some inconsistencies in paper numbers") */
+.procs .pr-sum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 16px}
+.procs .pr-tile{display:flex;flex-direction:column;gap:2px;min-width:0;padding:12px 16px;background:var(--panel);border:1px solid var(--line);border-radius:8px}
+.procs .pr-tile b{font:600 24px var(--sans);font-variant-numeric:tabular-nums;color:var(--muted)}
+.procs .pr-tile[data-k="imported"] b{color:var(--ok)}.procs .pr-tile[data-k="ready"] b{color:var(--accent)}.procs .pr-tile[data-k="check"] b{color:var(--warn)}
+.procs .pr-tile span{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+/* two panels: the lanes (wide) and the queue; they stack when the window is narrow */
+.procs .pr-main{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
+.procs .pr-card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.procs .pr-lanes{flex:999 1 560px;display:flex;flex-direction:column}
+.procs .pr-queue{flex:1 1 360px;display:flex;flex-direction:column;gap:10px}
+.procs .pr-lhead,.procs .pr-qhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding-bottom:8px}
+.procs .pr-qhead{flex-direction:column;padding-bottom:0}
+.procs .pr-lhead h4,.procs .pr-qhead h4{margin:0;font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.procs .pr-lhead span,.procs .pr-qhead span{font-size:12.5px;color:var(--muted)}
+.procs .pr-lane{display:flex;flex-direction:column;gap:10px;padding:14px 0;border-top:1px solid var(--line)}
+.procs .pr-lrow{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+.procs .pr-lname{display:flex;flex-direction:column;gap:2px;min-width:200px;flex:1 1 200px}
+.procs .pr-lname b{font-size:15px;font-weight:600}
+.procs .pr-lname small{font-size:12.5px;color:var(--muted)}
+.procs .pr-lacts{display:flex;flex-wrap:wrap;gap:8px;margin-left:auto}
+.procs .pr-lacts .act:disabled{opacity:.45;cursor:default}
+.procs a.act.pr-link{font:600 13px var(--sans);border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:6px;padding:6px 12px;text-decoration:none}
+.procs a.act.pr-link:hover{border-color:var(--accent)}
+/* a square per batch of 9 (imported / in the queue / ready, current syllabus / ready, old syllabus) */
+.procs .pr-sq{display:flex;flex-wrap:wrap;gap:4px}
+.procs .pr-b{width:18px;height:18px;padding:0;border-radius:4px;box-sizing:border-box;border:1px solid var(--line2);background:var(--bg);cursor:pointer;flex:none}
+.procs .pr-b.done{background:var(--ok);border-color:var(--ok)}
+.procs .pr-b.queued{background:var(--accent);border-color:var(--accent)}
+.procs .pr-b.cur{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 35%,var(--line2))}
+.procs .pr-b.old{background:var(--bg);border-color:var(--line2)}
+.procs button.pr-b:hover{outline:1px solid var(--ink);outline-offset:1px}
+.procs button.pr-b:focus-visible,.procs .pr-b.on{outline:2px solid var(--ink);outline-offset:2px}
+/* the batch panel */
+.procs .pr-panel{margin-top:4px;border:1px solid color-mix(in srgb,var(--accent) 35%,var(--line2));background:color-mix(in srgb,var(--accent-soft) 30%,var(--panel));border-radius:8px;padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.procs .pr-phead{display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px}
+.procs .pr-phead b{font-size:15px}.procs .pr-phead>span{font-size:12.5px;color:var(--muted);flex:1 1 200px;min-width:0}
+.procs .pr-x{width:32px;height:32px;border:0;background:transparent;color:var(--muted);border-radius:6px;font:500 16px var(--sans);cursor:pointer;flex:none}
+.procs .pr-x:hover{color:var(--ink);background:var(--line)}
+.procs .pr-plist{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 16px}
+.procs .pr-plist li{display:flex;align-items:center;gap:8px;min-width:0;font-size:13px;padding:4px 0;border-bottom:1px solid var(--line)}
+.procs .pr-plist li>span:first-child{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.procs .pr-plist li.off>span:first-child{color:var(--muted);text-decoration:line-through}
+.procs .pr-swap{font-size:12px;padding:3px 8px;flex:none}
+.procs .pr-chip{font:500 11px var(--sans);padding:1px 7px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap;flex:none}
+.procs .pr-chip.ok{border-color:var(--ok);color:var(--ok)}
+.procs .pr-note{margin:0;font-size:12px;color:var(--muted)}
+/* locked courses, one folded row; the legend */
+.procs .pr-lock{border-top:1px solid var(--line);padding:12px 0 4px}
+.procs .pr-lock>summary{cursor:pointer;font-size:14px;font-weight:600;color:var(--muted)}
+.procs .pr-lock ul{list-style:none;margin:0;padding:10px 0 0;display:flex;flex-direction:column;gap:8px}
+.procs .pr-lock li{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:13.5px}
+.procs .pr-lock li b{min-width:200px;color:var(--muted);font-weight:600}.procs .pr-lock li>span{color:var(--muted)}
+.procs .pr-why{margin-left:auto;font-size:12.5px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 12px}
+.procs .pr-legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;color:var(--muted);padding-top:10px;margin-top:6px;border-top:1px solid var(--line)}
+.procs .pr-legend span{display:inline-flex;align-items:center;gap:6px}.procs .pr-legend .pr-b{width:12px;height:12px;border-radius:3px;cursor:default}
+/* the queue */
+.procs .pr-qlist{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.procs .pr-qi{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--panel);border-radius:6px;padding:8px 6px 8px 10px;min-width:0}
+.procs .pr-qi.next{border-color:color-mix(in srgb,var(--accent) 35%,var(--line2));background:var(--accent-soft)}
+.procs .pr-qi.done{opacity:.6}
+.procs .pr-qn{flex:none;width:18px;font:600 13px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
+.procs .pr-qt{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
+.procs .pr-qt b{font-size:13.5px;font-weight:600;overflow-wrap:anywhere}.procs .pr-qt small{font-size:12px;color:var(--muted)}
+.procs .pr-qs{flex:none;font:600 12px var(--sans);color:var(--muted)}.procs .pr-qi.next .pr-qs{color:var(--accent)}
+.procs .pr-qacts{flex:none;display:inline-flex}.procs .pr-qacts .nbtn{width:26px}
+.procs .pr-qfoot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+.procs .pr-start{padding:9px 14px;font-size:14px}
+.procs .pr-start:disabled{opacity:.45;cursor:default}
+.procs .pr-limit,.procs .pr-api{margin:0;font-size:12px;color:var(--muted)}
+.procs .pr-limit{color:var(--ink)}
+.procs .pr-run{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-soft)}
+.procs .pr-run b{font-size:13.5px}.procs .pr-run small{font-size:12px;color:var(--muted)}
+/* Needs a check (#processes/papers/check) */
+.procs .pr-check{display:flex;flex-direction:column;gap:16px}
+.procs .pr-check[hidden],.procs #prMainWrap[hidden]{display:none}
+.procs .pr-chead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px}
+.procs .pr-chead h3,.procs .pr-cc h3{margin:0;font:600 17px var(--sans);letter-spacing:0;text-transform:none;color:var(--ink)}
+.procs .pr-chead span{font-size:13.5px;color:var(--muted)}
+.procs .pr-back{font-size:13.5px;color:var(--accent);text-decoration:none}.procs .pr-back:hover{text-decoration:underline}
+.procs .pr-cc{display:flex;flex-direction:column;gap:12px}
+.procs .pr-cchead{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px}
+.procs .pr-cchead>div{display:flex;flex-direction:column;gap:4px;flex:1 1 260px;min-width:0}
+.procs .pr-cchead>div>span{font-size:13px;color:var(--muted)}
+.procs .pr-rules{border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.procs .pr-rule{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1.2fr) 90px auto;gap:6px 12px;align-items:center;padding:10px 14px;border-top:1px solid var(--line);font-size:13px}
+.procs .pr-rule:first-child{border-top:0}
+.procs .pr-rt{display:flex;flex-direction:column;gap:2px;min-width:0}
+.procs .pr-rt code,.procs .pr-see code,.procs .pr-path{font:12px var(--mono);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.procs .pr-rn{color:var(--muted)}
+.procs .pr-see{grid-column:1/-1;list-style:none;margin:4px 0 0;padding:0 0 0 12px;display:flex;flex-direction:column;gap:3px;max-height:280px;overflow:auto}
+.procs .pr-see li{display:flex;flex-direction:column;font-size:12.5px;min-width:0}
+.procs .pr-place{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:12px 14px}
+.procs .pr-place.done{border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
+.procs .pr-cover{flex:none;width:72px;height:96px;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line2);border-radius:4px;font-size:11px;color:var(--muted)}
+.procs .pr-pbody{flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.procs .pr-path{color:var(--ink);font-size:12.5px;white-space:normal;overflow-wrap:anywhere}
+.procs .pr-guess{font-size:13px;color:var(--muted)}
+.procs .pr-picks{display:flex;flex-wrap:wrap;align-items:center;gap:6px}
+.procs .pr-picks>span{width:48px;font-size:12px;color:var(--muted)}
+.procs .pr-pill{font:500 13px var(--sans);padding:5px 12px;border-radius:999px;cursor:pointer;border:1px solid var(--line2);background:var(--panel);color:var(--ink);min-height:32px}
+.procs .pr-pill[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--panel)}
+.procs .pr-pill.pr-out{margin-left:8px;border-style:dashed;color:var(--muted)}.procs .pr-pill.pr-out[aria-pressed="true"]{border-style:solid;color:var(--panel);background:var(--muted);border-color:var(--muted)}
+.procs .pr-pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.procs .pr-res{margin:0;font-size:12.5px;color:var(--ok)}
+/* phone: the summary in two columns, the lanes' buttons wrap, the panel and the rules stack */
+@media (max-width:640px){.procs .pr-sum{grid-template-columns:1fr 1fr;gap:8px}.procs .pr-tile{padding:10px 12px}.procs .pr-tile b{font-size:20px}
+  .procs .pr-card{padding:12px}.procs .pr-lacts{margin-left:0}.procs .pr-lname{min-width:0}
+  .procs .pr-plist{grid-template-columns:1fr}.procs .pr-phead>span{flex-basis:100%;order:3}.procs .pr-x{margin-left:auto}.procs .pr-b{width:22px;height:22px}
+  .procs .pr-rule{grid-template-columns:minmax(0,1fr) auto}.procs .pr-rt{grid-column:1/-1}
+  .procs .pr-lock li b{min-width:0}.procs .pr-why{margin-left:0}.procs .pr-pill.pr-out{margin-left:0}}
 /* Bank topic transitions (owner 13 Nov: "animation going between all topics and a subtopic"); see bankGo in 07_bank.js */
 #list{view-transition-name:bk-list}
 ::view-transition-old(bk-list),::view-transition-new(bk-list){animation-duration:.3s;animation-timing-function:cubic-bezier(.2,.7,.2,1);animation-fill-mode:both}
@@ -3007,12 +3022,13 @@ const AREAS={teach:['bank','exams','guide'],curate:['inbox','review','papers','p
 const REVIEW_VIEWS=['inbox','review','papers','levels','reports'];
 const areaOf=v=>AREAS.curate.includes(v)?'curate':'teach';
 const isEditor=()=>QG.editor===true;
-const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
+const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#processes/papers/check':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
 const VHASH={inbox:'#review',review:'#review',levels:'#review/difficulty',reports:'#review/reports',papers:'#review/papers',processes:'#processes',guide:'#guide',exams:'#exams',bank:'#bank'};
 // old links: #import (owner 14 Nov) → Processes › Papers (owner 13 Nov, two tabs: the import dashboard is in Papers › Import history); #levels / #difficulty / #reports (tabs until 15 Nov) → their Review section; #papers (tab until 13 Nov) → Review's papers
 const HASH_ALIAS={'#import':'#processes/papers','#levels':'#review/difficulty','#difficulty':'#review/difficulty','#reports':'#review/reports','#papers':'#review/papers'};
 // owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers": #processes/work, #processes/papers; bare #processes opens the tab used last (default Work)
-function parseHash(h){if(HASHV[h]){const m=/^#processes\/(\w+)$/.exec(h);return m?{v:HASHV[h],ptab:m[1]}:{v:HASHV[h]}}let m=/^#review\/paper\/(\d+)(?:\/([\w-]+))?$/.exec(h);if(m)return {v:'review',doc:m[1],step:m[2]||''};
+// owner 14 Nov (mockup A): #processes/papers/check is the Papers tab's Needs a check view (psub 'check')
+function parseHash(h){if(HASHV[h]){const m=/^#processes\/(\w+)(?:\/(\w+))?$/.exec(h);return m?{v:HASHV[h],ptab:m[1],psub:m[2]||''}:{v:HASHV[h]}}let m=/^#review\/paper\/(\d+)(?:\/([\w-]+))?$/.exec(h);if(m)return {v:'review',doc:m[1],step:m[2]||''};
   m=/^#review\/list\/(\w+)$/.exec(h);if(m)return {v:'review',list:m[1]};return {v:'bank'}}
 function setHash(h){try{history.replaceState(null,'',h)}catch(e){location.replace(h)}}
 function applyArea(){const a=areaOf(view),ed=isEditor();
@@ -3036,7 +3052,8 @@ function route(){
   if(v==='review'&&(!B||!openReview(P)))v='inbox';
   // Processes: the tab in the address, else the one used last (per browser), else Work; the address then names it
   if(v==='processes'&&isEditor()){const T=['work','papers'],t=T.includes(P.ptab)?P.ptab:(T.includes(load('qg_proc_tab'))?load('qg_proc_tab'):'work');
-    if(location.hash!=='#processes/'+t)setHash('#processes/'+t);save('qg_proc_tab',t);$('#processesView').dataset.tab=t}
+    const sub=t==='papers'&&P.ptab==='papers'&&P.psub==='check'?'check':'';
+    if(location.hash!=='#processes/'+t+(sub?'/'+sub:''))setHash('#processes/'+t+(sub?'/'+sub:''));save('qg_proc_tab',t);$('#processesView').dataset.tab=t;$('#processesView').dataset.sub=sub}
   QG.view=v;
   const inRev=REVIEW_VIEWS.includes(view);
   $('#guideView').hidden=view!=='guide';$('#levelsView').hidden=view!=='levels';$('#reportsView').hidden=view!=='reports';$('#examsView').hidden=view!=='exams';$('#processesView').hidden=view!=='processes';$('#papersView').hidden=view!=='papers';$('#inboxView').hidden=view!=='inbox';
@@ -3141,8 +3158,8 @@ function batchRow(b){const [cls,lab]=batchState(b);const n=(b.papers||[]).length
     <span class="muted">${n} paper${n===1?'':'s'}${b.questions?` · ${esc(String(b.questions))} questions`:''}</span></summary>
     <div class="bbody">${b.note?`<div class="muted">${esc(b.note)}</div>`:''}<div class="bstages">${STAGES.map(([k,l])=>{const v=(b.stages||{})[k]||'waiting';return `<span><span class="pr-st ${v.replace('/','')}">${SLABEL[v]||esc(v)}</span> ${esc(l)}</span>`}).join('')}</div>
     <ul class="bpapers">${(b.papers||[]).map(x=>`<li>${esc(x)}</li>`).join('')}</ul></div></details>`}
-// owner 13 Nov: "but we already have 15 waiting batches?" -> ONE list: what is still to import lives only in the Import order
-// (Papers tab, "Batch 6", "Batch 7", ... dividers), so the history shows finished batches only.
+// owner 13 Nov: "but we already have 15 waiting batches?" -> ONE list; since 14 Nov what is still to import is the course lanes'
+// numbered batches (Papers tab, PQ), so the history shows finished batches only.
 function batchesHTML(L){const done=L.filter(b=>batchState(b)[0]==='done');
   return done.length?`<p class="sub">Tap a batch to see its papers. – means the stage wasn't needed.</p><details class="bgrp" open><summary>Finished <span class="muted">· ${done.length} batch${done.length===1?'':'es'} · ${done.reduce((n,b)=>n+(b.papers||[]).length,0)} papers</span></summary><div class="bscroll">${stageHead()}${done.map(batchRow).join('')}</div></details>`:'<p class="pempty">No finished batches yet.</p>'}
 // owner 13 Nov ("The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): this dashboard now sits inside
@@ -3159,7 +3176,6 @@ function renderImport(){
   ${run.length?`<h3>Import stages running</h3><ul>${run.map(r=>`<li><span class="pulse" aria-hidden="true"></span><b>${esc(r.stage)}</b> · ${esc(r.batch||'')} ${r.detail?'· '+esc(r.detail):''} <span class="muted">· started ${esc(ago(r.started))}</span></li>`).join('')}</ul>`:''}
   <h3>Batches</h3>${batchesHTML(P.batches||[])}
   ${log.length?`<h3>Log</h3><ul class="log">${log.map((x,i)=>`<li${i>=5&&!all?' hidden':''}>${esc(x.t?new Date(x.t).toLocaleString('en-AU',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):'')} · ${esc(x.msg)}</li>`).join('')}</ul>${log.length>5&&!all?`<button type="button" class="act plogall" data-logall>Show all ${log.length}</button>`:''}`:''}`;
-  if(typeof PQ!=='undefined')PQ.queue();   // the import order's "Batch N" dividers count on from the last finished batch
 }
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('#importBox [data-logall]');if(!b)return;const box=$('#importBox');box.dataset.logall='1';box.querySelectorAll('.log li[hidden]').forEach(li=>li.hidden=false);b.remove()});
 /* ---------- Processes (owner 14 Nov: "Can u show this list of tasks on the artifact somewhere ... Can be on the same as import.
@@ -3168,8 +3184,9 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
    #processesView data-tab, set by route() from #processes/work | #processes/papers).
    Work: Running now (progress/jobs + queue items marked running), Queued (progress/queue, in order, with the owner's own words
    in italics), Recently done (collapsed), Next up (31_notes.js).
-   Papers: the summary (with Rescan drive), Import a course (Go), Running / next, then Choose papers (the import order) and By course
-   (the grid), both collapsed (PQ, 32_papers_q.js; PQ.run, 34_papers_run.js), then Import history (renderImport, collapsed). */
+   Papers (owner 14 Nov, mockup A: "I like A's design much more"): the top line with Rescan drive, the summary, the course lanes
+   and the queue (PQ, 32-35_papers_*.js; #processes/papers/check is its Needs a check view), then Import history (renderImport,
+   collapsed). */
 // owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well? Would be helpful":
 // each row shows its step ("Stage 2 of 4", with a small bar), Started, and Est. finish while running/queued or Finished + how long it took once done (jobTimes, 13_shell.js).
 function renderProcesses(){const box=$('#procBox'),pv=$('#processesView');if(!box||!pv)return;
@@ -4965,166 +4982,174 @@ sortableList('#nupList .nlist>li','note',()=>notesOpen().map(n=>n.id),notesReord
 if(view==='processes')renderNotes();   // Processes may already be open when this block loads
 </script>
 <script>
-// owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next? We can always [build the] framework for the courses standard extension and extension two [later] right?"
+// owner 14 Nov (mockup A of three): "I like A's design much more" — course lanes, a batch panel, one queue
+// owner 14 Nov: "there seems to be some inconsistencies in paper numbers" — one status per paper, every number from one list
 // owner 13 Nov: "New exams are gonna be added to this folder periodically we need a way to ... see what we actually haven't ingested yet"
-// owner 13 Nov: "Should we also order what's in standard and also extension one and extension two while we're scanning anyways?"
-/* ---------- Papers and the owner's import order (Processes, Curate: editors only) ----------
-   data/inventory.json (tools/inventory.py): every paper in the shared folder, in course x year groups, each paper with its state
-   (imported / waiting / out_of_course / out_of_scope / other), "new" when the latest folder scan (tools/scan_folder.py) added it,
-   and pick:1 when it can be queued (Advanced and waiting, not Year 11; old-syllabus papers carry old:1). Courses that are not ready (inventory courses[].ready) show their
-   counts with a short "needs course setup" and have no checkboxes. Since 13 Nov (owner: "The process page feels a bit bloated
-   now" -> "Two tabs: Work | Papers") this is the Papers tab, and the grid is compact: one row per course, Year 12 / 11 / ? cells.
-   Since 13 Nov ("I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses") the tab leads with a summary,
-   Import a course (Go) and Running / next (PQ.run, 34_papers_run.js); the import order sits in "Choose papers" and the grid in
-   "By course", both collapsed.
-   The owner ticks papers (or a whole school / group) and presses "Add to import queue". db collection "importq", one doc per
-   paper, id 'd<doc_id>': {doc_id, label, course, year_level, order, added_by, at}. Reorder by drag (desktop) or ↑ ↓; × removes.
-   Import itself is paused (owner 14 Nov: "no more importing for a while until we iron these out"), so the card says so.
-   Claude reads the order with ArtifactData list on "importq" (tools/import_next.py). Only editors write: every handler checks isEditor(). */
-/* One page-wide name, PQ (code health 13 Nov, rule 1): everything else stays inside this scope.
-   PQ.render() draws the card (renderProcesses calls it); PQ.add / PQ.remove / PQ.state are for the page test. */
+/* ---------- Processes › Papers (Curate: editors only) ----------
+   data/inventory.json (tools/inventory.py) gives every paper in the shared folder ONE status (st): imported, ready_current,
+   ready_old, needs_check, held_y11, held_course, not_in_scope, duplicate. Every number on this tab is a count of that one list,
+   in papers (files only in the top line), so the summary's four numbers add up to the folder total.
+   Top to bottom: the top line (papers in the folder, last scan, new since the baseline scan, Rescan drive: PQ.scan,
+   33_drive_scan.js), the summary (imported · ready to import · need a check · held or not in scope), then two panels:
+   - Courses (#prLanes): one lane per course + year level with ready papers (inventory "lanes", tools/batches.py: each ready
+     paper sits in a fixed numbered batch of 9, assigned once). A square per batch (imported / in the queue / ready, current
+     syllabus / ready, old syllabus); a click opens the batch panel (its papers, Swap). +1 batch, +2 batches and Queue all add
+     the lane's next batches that are not queued yet. Then the Needs a check lane (Run the cover-page check; Resolve opens
+     #processes/papers/check, PQ.check in 35_papers_check.js), the locked courses folded into one row, and the legend.
+   - Queue (#prQueue): PQ.run (34_papers_run.js).
+   Swap (owner's mockup: "Swap moves the paper to the end of the course and pulls the next one in") is db collection "batches",
+   one doc per lane ('advanced_12'): {course, yl, swaps: [{id, by, at}]}; swapsApply below = tools/batches.py apply_swaps.
+   The proposed path-rule fixes (tools/classify_paths.py RULES_PROPOSED) and the owner's answers in Needs a check (db paperfix)
+   apply here at once (model()), before Claude rebuilds the inventory: the inventory carries both outcomes (proposed).
+   One page-wide name, PQ (CODE_HEALTH rule 1); PQ.scan, PQ.run and PQ.check hang off it. Only editors read or write. */
 const PQ=(()=>{
-const INV={data:null,loading:false,failed:false,q:[],sub:null,loaded:false,sel:new Set(),open:null};   // open: the course|year group whose papers show under the grid row
-const IVY={'12':'Year 12','11':'Year 11','?':'Year ?'};
-// owner 14 Nov: "no more importing for a while until we iron these out"
-const IVPAUSE='Import is paused. This only sets the order for when it resumes.';
-const invLabel=p=>p.l||(p.t==='HSC'?`${p.y} NESA HSC`:`${p.y} ${p.s} ${p.t}`);
-const invCourse=k=>((INV.data&&INV.data.courses)||[]).find(c=>c.key===k)||{key:k,name:k,ready:false};
-const invShort=k=>invCourse(k).short||invCourse(k).name||k;
-const invGroups=()=>(INV.data&&INV.data.groups)||[];
-const invGid=g=>g.course+'|'+g.yl;
-function invFind(id){for(const g of invGroups()){const p=g.papers.find(x=>x.id===+id);if(p)return{p,g}}return null}
-const invQ=()=>INV.q.slice().sort((a,b)=>(+a.order||0)-(+b.order||0)||String(a.at).localeCompare(String(b.at)));
-const invQueued=()=>new Map(invQ().map((x,i)=>[+x.doc_id,i+1]));
-const invPickable=(p,qd)=>!!p.pick&&!(qd||invQueued()).has(p.id);
-function invLoad(){if(INV.data||INV.loading||!isEditor())return;INV.loading=true;
-  fetch('data/inventory.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{INV.data=d&&Array.isArray(d.groups)?d:null;INV.failed=!INV.data})
-    .catch(()=>{INV.failed=true}).finally(()=>{INV.loading=false;if(view==='processes')renderInv()})}
-function invSubscribe(){if(INV.sub||!db||!isEditor())return;
-  try{INV.sub=db.collection('importq').onSnapshot(s=>{const d=s.docs||s;INV.q=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).filter(x=>x&&Number.isFinite(+x.doc_id));INV.loaded=true;invQueue();invGridMarks()},()=>{})}catch(e){}}
-// the card is drawn once (open groups and ticks survive the Processes refresh); the queue, grid and bar redraw inside it
-function renderInv(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
+const S={data:null,loading:false,failed:false,acc:null,fix:{},swaps:{},subs:{},open:null,busy:false};
+const YN={'12':'Year 12','11':'Year 11','?':'Year ?'};
+const READY=['ready_current','ready_old'];
+const SIZE=9;
+const nf=x=>Number(x||0).toLocaleString('en-AU');
+const plural=(n,w,ws)=>`${nf(n)} ${n===1?w:(ws||w+'s')}`;
+const ord=n=>n+(['th','st','nd','rd'][(n%100-20)%10]||['th','st','nd','rd'][n%100]||'th');
+const label=p=>p.l||(p.t==='HSC'?`${p.y} NESA HSC`:`${p.y} ${p.s} ${p.t}`);
+const courses=()=>(S.data&&S.data.courses)||[];
+const course=k=>courses().find(c=>c.key===k)||{key:k,name:k,ready:false};
+const short=k=>course(k).short||course(k).name||k;
+// a lane's name, e.g. "Year 12 Advanced" (course names come from the inventory: CODE_HEALTH rule 5)
+const laneName=(c,yl)=>c==='unknown'?(yl==='?'?'Course and year not known':`${YN[yl]}, course not known`):yl==='?'?`${short(c)}, year not known`:`${YN[yl]} ${short(c)}`;
+const laneKey=(c,yl)=>c+'_'+(yl==='?'?'x':yl);
+const yrs=ps=>{const y=ps.map(p=>p.y).filter(Boolean);if(!y.length)return '';const a=Math.min(...y),b=Math.max(...y);return a===b?String(a):`${a}–${String(b).slice(-2)}`};
+const snap=(s)=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
+
+// ---- loading (editors only: a viewer never fetches the inventory or subscribes)
+function load(){if(S.data||S.loading||!isEditor())return;S.loading=true;
+  fetch('data/inventory.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{S.data=d&&Array.isArray(d.groups)?d:null;S.failed=!S.data})
+    .catch(()=>{S.failed=true}).finally(()=>{S.loading=false;if(view==='processes')render()})}
+function subscribe(){if(!db||!isEditor())return;
+  const on=(k,f)=>{if(S.subs[k])return;try{S.subs[k]=f()}catch(e){}};
+  on('fix',()=>db.collection('paperfix').onSnapshot(s=>{S.fix={};snap(s).forEach(x=>{if(Number.isFinite(+x.id))S.fix[+x.id]=x});redraw()},()=>{}));
+  on('swaps',()=>db.collection('batches').onSnapshot(s=>{S.swaps={};snap(s).forEach(x=>{S.swaps[x.id]=Array.isArray(x.swaps)?x.swaps:[]});redraw();if(API.run)API.run.draw()},()=>{}));
+  on('acc',()=>db.doc('scans/rules').onSnapshot(d=>{S.acc=d&&d.exists?(typeof d.data==='function'?d.data():d.data):null;redraw()},()=>{}))}
+
+// ---- the proposed rule fixes: accepted in the page db (scans/rules) or already in the inventory
+function accepted(){const pr=S.data&&S.data.proposed;if(!pr)return false;if(pr.accepted)return true;const a=S.acc;return !!(a&&a.accepted&&a.version===pr.version)}
+// the rules a new Drive file is classified with (33_drive_scan.js): the inventory's, or the proposed set once accepted here
+function rules(){const D=S.data;if(!D)return null;const pr=D.proposed;return pr&&!pr.accepted&&accepted()&&pr.rules_after?pr.rules_after:D.rules}
+// a paper the owner placed: the same decisions as tools/inventory.py status_of
+function placedStatus(c,yl,y){const C=course(c);
+  if(c!=='unknown'&&!C.ready)return 'held_course';if(yl==='11')return 'held_y11';if(c==='unknown'||yl==='?'||!y)return 'needs_check';
+  const old=(S.data.rules&&S.data.rules.old_syllabus_before)||2020;return y<old?'ready_old':'ready_current'}
+
+// ---- the one list every number comes from (memoised on the inventory, the Accept and the owner's answers)
+let M=null;
+function model(){const D=S.data;if(!D)return null;const k=accepted()+'|'+JSON.stringify(S.fix);if(M&&M.D===D&&M.k===k)return M;
+  let ps=[];for(const g of D.groups)for(const p of g.papers)ps.push({...p,c:g.course,yl:g.yl});
+  const pr=D.proposed;
+  if(pr&&!pr.accepted&&accepted()){const rm=new Set(pr.replace||[]);ps=ps.filter(p=>!rm.has(p.id));
+    for(const [gk,xs] of Object.entries(pr.papers||{})){const [c,yl]=gk.split('|');xs.forEach(p=>ps.push({...p,c,yl}))}}
+  for(const p of ps){const f=S.fix[p.id];if(!f||p.st!=='needs_check')continue;
+    if(f.out){p.st='not_in_scope';p.why='you set it aside';p.mine=1}
+    else if((f.yl===11||f.yl===12)&&f.course){p.c=f.course;p.yl=String(f.yl);p.st=placedStatus(p.c,p.yl,p.y);p.mine=1}}
+  const t={};(D.statuses?Object.keys(D.statuses):[]).forEach(s=>t[s]=0);ps.forEach(p=>{t[p.st]=(t[p.st]||0)+1});
+  return M={D,k,ps,t,total:ps.length,byId:new Map(ps.map(p=>[p.id,p]))}}
+
+// ---- lanes and batches
+// Swap: the paper leaves its batch for the end of the lane; every later batch passes its first paper back one batch, so each
+// batch keeps its size and number. A batch with an imported paper is fixed (skipped). Same as tools/batches.py apply_swaps.
+function swapsApply(bs,sw,fixed){const B=bs.map(b=>b.slice()),sizes=B.map(b=>b.length),frozen=b=>b.some(i=>fixed.has(i));
+  for(const s of sw||[]){const i=s&&typeof s==='object'?s.id:s,k=B.findIndex(b=>b.includes(i));if(k<0||frozen(B[k]))continue;
+    const idx=[];for(let j=k;j<B.length;j++)if(!frozen(B[j]))idx.push(j);
+    const flat=idx.flatMap(j=>B[j]).filter(x=>x!==i).concat(i);let o=0;for(const j of idx){B[j]=flat.slice(o,o+sizes[j]);o+=sizes[j]}}
+  return B}
+function lanes(){const m=model();if(!m)return [];const imp=new Set(m.ps.filter(p=>p.st==='imported').map(p=>p.id));
+  return (m.D.lanes||[]).map(L=>{const key=laneKey(L.course,L.yl),bs=swapsApply(L.batches||[],S.swaps[key],imp);
+    const batches=bs.map((ids,k)=>{const ps=ids.map(i=>m.byId.get(i)).filter(Boolean),ready=ps.filter(p=>READY.includes(p.st)&&p.c===L.course&&p.yl===L.yl);
+      const n=L.first+k,done=ps.length&&ps.every(p=>p.st==='imported');
+      return {n,ids,ps,ready,done,frozen:ps.some(p=>p.st==='imported'),cur:ready.some(p=>p.st==='ready_current'),key}});
+    const inLane=m.ps.filter(p=>p.c===L.course&&p.yl===L.yl),batched=new Set(bs.flat());
+    return {...L,key,name:laneName(L.course,L.yl),batches,done:L.done||[],imported:inLane.filter(p=>p.st==='imported').length,
+      ready:inLane.filter(p=>READY.includes(p.st)).length,unbatched:inLane.filter(p=>READY.includes(p.st)&&!batched.has(p.id)).length,
+      newN:inLane.filter(p=>p.new).length}}).filter(L=>L.ready||L.batches.some(b=>b.ready.length))}
+// one batch of a lane: {lane, b} (PQ.run reads it for the queue)
+function batch(key,n){const L=lanes().find(x=>x.key===key);const b=L&&L.batches.find(x=>x.n===+n);return b?{lane:L,b}:null}
+
+// ---- drawing
+function sub(){const el=$('#ivSub');if(!el)return;const D=S.data,m=model();
+  if(!D){el.textContent=S.failed?'The paper list could not be loaded.':'Loading the paper list…';return}
+  const ls=D.last_scan,ds=API.scan&&API.scan.last(),dl=ds&&(!ls||Date.parse(ds.at)>Date.parse(ls.at));   // a Drive rescan later than the folder scan wins
+  el.textContent=`${nf(m.total)} papers in the shared folder (${nf(D.docs)} files) · `+(dl?`last scan ${clockT(ds.at)}, ${ds.n} new since`:ls?`last scan ${clockT(ls.at)} · ${nf(m.ps.filter(p=>p.new).length)} new since`:'no folder scan yet')}
+// the summary: four numbers, one bucket per status, adding up to the folder total
+const AREAS=[['imported',['imported']],['ready',READY],['check',['needs_check']],['aside',['held_y11','held_course','not_in_scope','duplicate']]];
+function tiles(){const el=$('#prSum');if(!el)return;const m=model();if(!m){el.innerHTML='';return}
+  const n=k=>AREAS.find(a=>a[0]===k)[1].reduce((s,x)=>s+(m.t[x]||0),0),L=lanes();
+  const what={imported:'imported',ready:'ready to import'+(L.length?' · '+L.map(x=>x.name).join(', '):''),check:'need a check (year or course unknown)',aside:'held or not in scope'};
+  el.innerHTML=AREAS.map(([k])=>`<div class="pr-tile" data-k="${k}"><b>${nf(n(k))}</b><span>${esc(what[k])}</span></div>`).join('')}
+const SQW={done:'imported',queued:'in the queue',cur:'ready, current syllabus',old:'ready, old syllabus'};
+function sqState(b){if(b.done)return 'done';if(API.run&&API.run.pos(b.key,b.n))return 'queued';return b.cur?'cur':'old'}
+function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.batches.filter(b=>b.ready.length);
+  const free=todo.filter(b=>!(API.run&&API.run.pos(L.key,b.n))).length;
+  const sq=L.done.map(d=>`<button type="button" class="pr-b done" data-prb="${esc(L.key)}:${d.n}" title="Batch ${d.n}, imported" aria-label="Batch ${d.n}, imported"></button>`).join('')+
+    L.batches.filter(b=>b.ready.length||b.done).map(b=>{const s=sqState(b),t=`Batch ${b.n}, ${SQW[s]}`;
+      return `<button type="button" class="pr-b ${s}${open===b.n?' on':''}" data-prb="${esc(L.key)}:${b.n}" title="${esc(t)}" aria-label="${esc(t)}" aria-expanded="${open===b.n}"></button>`}).join('');
+  return `<div class="pr-lane" data-lane="${esc(L.key)}"><div class="pr-lrow"><div class="pr-lname"><b>${esc(L.name)}</b>
+      <small>${nf(L.imported)} imported · ${nf(L.ready)} to go · ${plural(todo.length,'batch','batches')}${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.newN?` · ${nf(L.newN)} new`:''}</small></div>
+    <div class="pr-lacts"><button type="button" class="act" data-pradd="1" data-lane="${esc(L.key)}"${free?'':' disabled'}>+1 batch</button><button type="button" class="act" data-pradd="2" data-lane="${esc(L.key)}"${free>1?'':' disabled'}>+2 batches</button><button type="button" class="act primary" data-pradd="all" data-lane="${esc(L.key)}"${free?'':' disabled'}>Queue all ${nf(free)}</button></div></div>
+    <div class="pr-sq" role="group" aria-label="${esc(L.name)} batches">${sq}</div>${open!=null?panelHTML(L,open):''}</div>`}
+// the batch panel: its papers and Swap
+function panelHTML(L,n){const d=L.done.find(x=>x.n===n),b=L.batches.find(x=>x.n===n),m=model();
+  if(d)return `<div class="pr-panel" role="region" aria-label="Batch ${n}"><div class="pr-phead"><b>Batch ${n}</b><span>${plural(d.ids.length,'paper')} · imported (${esc(d.id)})</span><button type="button" class="pr-x" data-prclose aria-label="Close batch">×</button></div>
+    <ul class="pr-plist">${d.ids.map(i=>m.byId.get(i)).filter(Boolean).map(p=>`<li><span>${esc(label(p))}</span><span class="pr-chip ok">Imported</span></li>`).join('')}</ul></div>`;
+  if(!b)return '';const q=API.run?API.run.pos(L.key,n):0,ready=new Set(b.ready.map(p=>p.id));
+  const syl=b.ready.every(p=>p.st==='ready_old')?'old syllabus':b.ready.some(p=>p.st==='ready_old')?'current and old syllabus':'current syllabus';
+  const where=b.done?'imported':q?`in the queue, ${ord(q)}`:'not in the queue',gone=b.ps.filter(p=>!ready.has(p.id)&&p.st!=='imported');
+  const last=L.batches.length?L.batches[L.batches.length-1].n:n;
+  return `<div class="pr-panel" role="region" aria-label="Batch ${n}"><div class="pr-phead"><b>Batch ${n}</b><span>${plural(b.ready.length,'paper')} · ${syl} · ${esc(yrs(b.ready))} · ${where}${gone.length?` · ${gone.length} no longer ready`:''}</span>
+      ${!q&&!b.done&&b.ready.length?`<button type="button" class="act" data-prqone="${esc(L.key)}:${n}">Add to the queue</button>`:''}<button type="button" class="pr-x" data-prclose aria-label="Close batch">×</button></div>
+    <ul class="pr-plist">${b.ps.map(p=>{const r=ready.has(p.id);return `<li${r?'':' class="off"'}><span title="${esc(label(p))}">${esc(label(p))}</span>${p.st==='ready_old'?'<span class="pr-chip">old</span>':''}${p.st==='imported'?'<span class="pr-chip ok">Imported</span>':''}${r&&!b.frozen?`<button type="button" class="act pr-swap" data-prswap="${p.id}" data-lane="${esc(L.key)}">Swap</button>`:''}${!r&&p.st!=='imported'?`<span class="pr-chip">${esc((m.D.statuses||{})[p.st]||p.st)}</span>`:''}</li>`}).join('')}</ul>
+    <p class="pr-note">Swap moves the paper to the end of the course and pulls the next one in. A batch keeps its papers; new papers from a rescan start new batches after Batch ${last}.</p></div>`}
+// the locked courses, folded into one row (owner 13 Nov: Year 11 held; the other courses need setup)
+function lockedHTML(m){const by=new Map();m.ps.filter(p=>p.st==='held_y11'||p.st==='held_course').forEach(p=>{const k=p.c+'|'+p.yl;if(!by.has(k))by.set(k,{c:p.c,yl:p.yl,n:0,st:p.st});by.get(k).n++});
+  const rows=[...by.values()].sort((a,b)=>b.n-a.n),tot=rows.reduce((s,r)=>s+r.n,0);if(!rows.length)return '';
+  const nc=new Set(rows.map(r=>r.st==='held_y11'?'y11':r.c)).size;   // courses as the mockup counts them: Year 11 (held) + each course that needs setup
+  const why=r=>r.st==='held_y11'?'Held until Year 12 is finished (your 13 Nov ruling)':'Needs course setup';
+  return `<details class="pr-lock" id="prLock"><summary>Locked · ${plural(nc,'course')}, ${plural(tot,'paper')}</summary><ul>${rows.map(r=>`<li><b>${esc(laneName(r.c,r.yl))}</b><span>${plural(r.n,'paper')}</span><span class="pr-why" title="${esc(r.st==='held_y11'?m.D.statuses.held_y11:course(r.c).note||'')}">${esc(why(r))}</span></li>`).join('')}</ul></details>`}
+function lanesHTML(){const el=$('#prLanes');if(!el)return;const m=model();if(!m){el.innerHTML='';return}
+  const L=lanes(),lock=$('#prLock'),wasOpen=!!(lock&&lock.open),cc=API.run&&API.run.cover();
+  el.innerHTML=`<div class="pr-lhead"><h4>Courses</h4><span>Each square is a batch of 9 papers. Current syllabus first, newest year first. Click a square to see its papers.</span></div>
+    ${L.length?L.map(laneHTML).join(''):`<p class="pempty">Nothing ready to import.</p>`}
+    <div class="pr-lane pr-chk"><div class="pr-lrow"><div class="pr-lname"><b>Needs a check</b><small>${plural(m.t.needs_check||0,'paper')}: year or course not read yet. Sorted into lanes once checked.</small></div>
+      <div class="pr-lacts"><button type="button" class="act" data-prcover${cc||!m.t.needs_check?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button><a class="act pr-link" href="#processes/papers/check">Resolve</a></div></div></div>
+    ${lockedHTML(m)}
+    <div class="pr-legend" aria-hidden="true">${Object.entries(SQW).map(([k,w])=>`<span><i class="pr-b ${k}"></i>${esc(w[0].toUpperCase()+w.slice(1))}</span>`).join('')}</div>`;
+  if(wasOpen&&$('#prLock'))$('#prLock').open=true}
+function redraw(){if(!isEditor()||!$('#prLanes'))return;M=null;sub();tiles();lanesHTML();if(API.check)API.check.draw()}
+function render(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
   if(!box.dataset.ready){box.dataset.ready='1';
-    // owner 13 Nov ("Two tabs: Work | Papers"): the tab names the section, so no heading; the pause note is one quiet line
-    // owner 13 Nov: "We need a general summary at the top of the Paper's tab ... I'm getting CONFUSED with our current papers page"
-    // -> "Yes, with batch pauses": summary, Import a course (Go), Running / next, then the detail folded away: Choose papers
-    // (the import order) and By course (the grid and its ticks). PQ.run (34_papers_run.js) fills #ivStats, #ivGo and #ivRun.
-    // (review 13 Nov night: Running / next sits above Choose papers, as this comment and the owner's report said; it had been
-    // built below it, where an open import order of 132 rows pushed the run out of sight)
-    box.innerHTML=`<section class="psec ivp" aria-label="Papers">
-      <div class="ivsum"><div class="ivsubrow"><p class="ivsub" id="ivSub"></p><span id="ivScanBtn"></span></div><div class="ivstats" id="ivStats"></div></div><div id="ivScan"></div>
-      <div class="ivgo" id="ivGo"></div>
-      <div class="ivrun" id="ivRun"></div>
-      <details class="ivfold" id="ivPick"><summary>Choose papers</summary><div class="ivq"><h4 id="ivQH">Import order <span class="pcount" id="ivQN" hidden></span></h4><p class="ivpause" role="note">${esc(IVPAUSE)}</p><div id="ivQList"></div>
-        <p class="ivhint">To add papers, open <button type="button" class="ivlink" data-ivby="1">By course</button>, tick them and press Add to import queue.</p></div></details>
-      <details class="ivfold" id="ivBy"><summary>By course</summary><div id="ivGrid"></div></details>
-      <div class="ivbar" id="ivBar" hidden><span id="ivSelN" aria-live="polite"></span><button type="button" class="act" id="ivClear">Clear</button><button type="button" class="act ivadd" id="ivAdd">Add to import queue</button></div></section>`}
-  invLoad();invSubscribe();invSub();invQueue();if(!$('#ivGrid').dataset.built)invGrid();invBar();if(API.scan)API.scan.render();if(API.run)API.run.render()}
-function invSub(){const el=$('#ivSub');if(!el)return;const D=INV.data;
-  if(!D){el.textContent=INV.failed?'The paper list could not be loaded.':'Loading the paper list…';return}
-  const t=D.totals||{},ls=D.last_scan,ds=API.scan&&API.scan.last(),dl=ds&&(!ls||Date.parse(ds.at)>Date.parse(ls.at));   // a Drive rescan later than the folder scan wins
-  el.textContent=`${t.papers||0} papers in the shared folder (${D.docs||0} files) · `+(dl?`last scan ${clockT(ds.at)}, ${ds.n} new`:ls?`last folder scan ${clockT(ls.at)}, ${ls.inserted||0} new`:'no folder scan yet: counts are from the first stock-take')}
-// ---- the import order (owner's queue)
-// owner 13 Nov: "but we already have 15 waiting batches?" -> ONE list. The planned batches were folded into this order, and
-// tools/import_next.py cuts batches of 9 from its top, so a faint divider every 9 importable rows names the batch: "Batch 6",
-// "Batch 7", ... counting on from the last finished batch in the import history (PROG, 12_import.js; batchState decides done).
-const IVBATCH=9;
-const invNextBatch=()=>{const L=(typeof PROG!=='undefined'&&PROG&&PROG.batches)||[];
-  return Math.max(0,...L.filter(b=>batchState(b)[0]==='done').map(b=>parseInt(String(b.id).replace(/^\D+/,''),10)).filter(Number.isFinite))+1};
-// each queued row with its paper and why import_next.py would skip it ('' = importable), and its batch number when importable
-function invRows(){const b0=invNextBatch();let k=0;
-  return invQ().map(x=>{const f=invFind(x.doc_id),p=f&&f.p,warn=p&&p.st==='imported'?'already imported':p&&!p.pick?'can no longer be imported':!p&&INV.data?'not in the paper list':'';
-    return {x,p,warn,batch:warn?0:b0+Math.floor(k++/IVBATCH)}})}
-// a recorded cost per paper (inventory cost_per_paper: a number, [lo, hi] or {lo, hi}), or null
-function invCost(){const c=INV.data&&INV.data.cost_per_paper,v=typeof c==='number'?[c,c]:Array.isArray(c)?c:c&&typeof c==='object'?[c.lo??c.min,c.hi??c.max]:null;
-  return v&&v.length===2&&v.every(Number.isFinite)?v:null}
-const invUsd=([lo,hi])=>{const f=x=>Math.round(x).toLocaleString('en-AU');return lo===hi?`US$${f(lo)}`:`US$${f(lo)}–${f(hi)}`};
-function invQueue(){const el=$('#ivQList');if(!el)return;const rows=invRows(),n=$('#ivQN');if(n){n.hidden=!rows.length;n.textContent=rows.length}
-  const cost=invCost();let last=0;
-  el.innerHTML=rows.length?`<ol class="nlist ivql">${rows.map(({x,p,warn,batch},i)=>{const div=batch&&batch!==last?`<li class="ivdiv" role="separator"><span>Batch ${last=batch}</span></li>`:'';
-    return div+`<li class="nrow" data-ivq="${esc(x.id)}" draggable="true"><span class="ngrip" aria-hidden="true" title="Drag to reorder">⋮⋮</span><span class="ivqn" aria-hidden="true">${i+1}</span>
-      <span class="ntext"><b>${esc(x.label||(p?invLabel(p):'Paper '+x.doc_id))}</b><small>${esc(invShort(x.course))}${x.year_level?' · Year '+esc(x.year_level):''}${p&&p.old?' · old syllabus':''}${cost?` · ${esc(invUsd(cost))}`:''}${warn?` · <em class="ivwarn">${esc(warn)}</em>`:''}</small></span>
-      <span class="nacts"><button type="button" class="nbtn" data-ivmove="-1" data-ivid="${esc(x.id)}" aria-label="Move up"${i===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-ivmove="1" data-ivid="${esc(x.id)}" aria-label="Move down"${i===rows.length-1?' disabled':''}>↓</button><button type="button" class="nbtn ndel" data-ivdel="${esc(x.id)}" aria-label="Remove from the import queue">×</button></span></li>`}).join('')}</ol>`:
-    `<p class="pempty">${INV.loaded||!db?`Nothing queued. Tick ${esc(['papers',...((INV.data&&INV.data.courses)||[]).filter(c=>c.ready).map(c=>c.short||c.name)].reverse().join(' '))} under By course and press Add to import queue.`:'Loading the import order…'}</p>`;
-  if(API.run)API.run.render()}
-// ---- the course grid (owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): one row per
-// course, in the inventory's order, columns Year 12 / Year 11 / Year ?. A ready course's cell reads "imported / waiting waiting";
-// any other cell the papers in the folder. A cell opens that group's papers under its course row (one group at a time).
-const IVYL=['12','11','?'];
-const invNote=c=>String(c.note||'needs course setup').split(/\s*[(:]/)[0];   // the short form, once per row; the full note is its title
-function invGrid(){const el=$('#ivGrid');if(!el)return;const G=invGroups();if(!INV.data){el.innerHTML='';return}el.dataset.built='1';
-  const scan=!!INV.data.last_scan,keys=[...new Set([...(INV.data.courses||[]).map(c=>c.key),...G.map(g=>g.course)])];
-  const cell=(c,yl)=>{const g=G.find(x=>x.course===c.key&&x.yl===yl),k=(g&&g.counts)||{},yn=IVY[yl]||yl,lab=`<i class="ivcl">${esc(yn)}</i>`;
-    if(!g||!k.papers)return `<span class="ivcell ivz">${lab}<span class="ivct">–</span></span>`;
-    // owner 13 Nov ("does not imported and new mean not in scope?"): New is a small "+N new" badge on the waiting (or papers) number
-    const imp=k.imported||0,wait=k.waiting||0,split=c.ready&&(imp||wait),nw=scan&&k.new?`<sup class="ivnew">+${k.new} new</sup>`:'';
-    const tip=`${invShort(c.key)} ${yn}: ${k.papers} papers in the folder`+(c.ready?` · ${imp} imported · ${wait} waiting`:'')+(scan?` · ${k.new||0} new`:'');
-    return `<button type="button" class="ivcell" data-ivg="${esc(invGid(g))}" aria-expanded="false" title="${esc(tip)}" aria-label="${esc(tip)}">${lab}<span class="ivct">${split?`<b class="ok">${imp}</b> / <b class="wait">${wait}</b>${nw} waiting`:`<b>${k.papers}</b>${nw}`}</span></button>`};
-  el.innerHTML=`<div class="ivhead" aria-hidden="true"><span>Course</span>${IVYL.map(yl=>`<span>${esc(IVY[yl])}</span>`).join('')}</div>`+
-    keys.map(key=>{const c=invCourse(key);
-      return `<div class="ivr${c.ready?'':' off'}" data-ivc="${esc(key)}"><div class="ivname"><b>${esc(invShort(key))}</b>${c.ready?'':`<small class="ivnote" title="${esc(c.note||'')}">${esc(invNote(c))}</small>`}</div>
-        ${IVYL.map(yl=>cell(c,yl)).join('')}<div class="ivbody" hidden></div></div>`}).join('')+
-    `<p class="ivlegend">${esc(IVLEGEND)}</p>`;
-  if(INV.open)invOpen(INV.open)}
-function invOpen(gid){const g=gid&&invGroups().find(x=>invGid(x)===gid);INV.open=g?gid:null;
-  $$('#ivGrid .ivcell[data-ivg]').forEach(b=>{const on=b.dataset.ivg===INV.open;b.setAttribute('aria-expanded',String(on));b.classList.toggle('on',on)});
-  $$('#ivGrid .ivbody').forEach(b=>{b.hidden=true;b.innerHTML='';delete b.dataset.ivg});
-  const b=g&&$(`#ivGrid .ivr[data-ivc="${CSS.escape(g.course)}"] .ivbody`);if(b){b.dataset.ivg=gid;b.hidden=false;invFill(b)}}
-const IVST={imported:['Imported','ok'],waiting:['Waiting','wait'],out_of_course:['Other course',''],out_of_scope:['Not in scope',''],other:['Duplicate / skipped','']};
-// owner 13 Nov: "I can't tell. So does not imported and new mean not in scope?"
-const IVLEGEND='Imported: in the bank · Waiting: will be imported · Not in scope: set aside · New: found by the latest scan';
-function invBody(g){const ready=!!invCourse(g.course).ready,qd=invQueued(),pick=g.papers.filter(p=>invPickable(p,qd)),gid=invGid(g);
-  const by=new Map();g.papers.forEach(p=>{const s=p.s||'School not known';if(!by.has(s))by.set(s,[]);by.get(s).push(p)});
-  const row=p=>{const st=IVST[p.st]||[p.st,''],qn=qd.get(p.id),can=ready&&invPickable(p,qd),cid='ivc'+p.id;
-    return `<li class="ivpp st-${esc(p.st)}">${can?`<input type="checkbox" id="${cid}" data-ivp="${p.id}"${INV.sel.has(p.id)?' checked':''}>`:'<span class="ivnobox" aria-hidden="true"></span>'}
-      <label${can?` for="${cid}"`:''} class="ivpl">${esc(invLabel(p))}</label>
-      <span class="ivchips">${qn?`<span class="ivchip q">In queue · #${qn}</span>`:`<span class="ivchip ${st[1]}">${esc(st[0])}</span>`}${p.old?'<span class="ivchip">old syllabus</span>':''}${p.new?'<span class="ivchip new">New</span>':''}${p.scan?'<span class="ivchip">Scan</span>':''}${p.st==='waiting'&&!p.sol?'<span class="ivchip">No solutions</span>':''}${p.n>1?`<span class="ivchip">${p.n} files</span>`:''}</span>
-      ${p.why?`<small class="ivwhy">${esc(p.why)}</small>`:''}</li>`};
-  return `<p class="ivbh"><b>${esc(invShort(g.course))}</b> ${esc(IVY[g.yl]||g.yl)} · ${g.papers.length} paper${g.papers.length===1?'':'s'}</p>`+
-    (ready?(pick.length?`<label class="ivall"><input type="checkbox" data-ivall="${esc(gid)}"> Select all ${pick.length} waiting</label>`:`<p class="ivmsg">Nothing here can be queued: ${g.counts.imported?'imported papers are done and ':''}the rest are not import papers.</p>`)
-      :`<p class="ivmsg">Listed so you can see what is there; these can't be queued yet.</p>`)+
-    [...by].map(([s,ps])=>{const sp=ps.filter(p=>ready&&invPickable(p,qd));
-      return `<div class="ivs"><div class="ivsh">${sp.length?`<label><input type="checkbox" data-ivsch="${esc(gid)}" data-school="${esc(s)}"> ${esc(s)}</label>`:`<span>${esc(s)}</span>`}<span class="pcount">${ps.length}</span></div><ul class="ivpl-list">${ps.map(row).join('')}</ul></div>`}).join('')}
-function invFill(b){const g=b&&invGroups().find(x=>invGid(x)===b.dataset.ivg);if(!g)return;b.innerHTML=invBody(g);invTicks(b)}
-// redraw the open group after the queue changes (In queue chips, which boxes are tickable)
-function invGridMarks(){$$('#ivGrid .ivbody:not([hidden])').forEach(invFill);for(const id of [...INV.sel]){if(invQueued().has(id))INV.sel.delete(id)}invBar()}
-// group / school boxes: ticked when every tickable paper under them is, half when some are
-function invTicks(scope){(scope?[scope]:$$('#ivGrid .ivbody:not([hidden])')).forEach(det=>{
-  const set=(box,ids)=>{if(!box)return;const n=ids.filter(i=>INV.sel.has(i)).length;box.checked=!!ids.length&&n===ids.length;box.indeterminate=n>0&&n<ids.length};
-  const ids=sel=>[...det.querySelectorAll(sel)].map(x=>+x.dataset.ivp);
-  set(det.querySelector('[data-ivall]'),ids('[data-ivp]'));
-  det.querySelectorAll('.ivs').forEach(s=>set(s.querySelector('[data-ivsch]'),[...s.querySelectorAll('[data-ivp]')].map(x=>+x.dataset.ivp)))})}
-function invBar(){const bar=$('#ivBar');if(!bar)return;const n=INV.sel.size;bar.hidden=!n;const t=$('#ivSelN');if(t)t.textContent=`${n} paper${n===1?'':'s'} selected`}
+    box.innerHTML=`<section class="psec pr-papers" aria-label="Papers"><div id="prMainWrap">
+      <div class="ivsubrow"><p class="ivsub" id="ivSub"></p><span id="ivScanBtn"></span></div><div id="ivScan"></div>
+      <div class="pr-sum" id="prSum"></div>
+      <div class="pr-main"><section class="pr-card pr-lanes" id="prLanes" aria-label="Courses"></section><aside class="pr-card pr-queue" id="prQueue" aria-label="Queue"></aside></div></div>
+      <section class="pr-check" id="prCheck" hidden></section></section>`}
+  const chk=$('#processesView').dataset.sub==='check';$('#prMainWrap').hidden=chk;$('#prCheck').hidden=!chk;const h=$('#procHist');if(h)h.hidden=chk;
+  load();subscribe();redraw();if(API.scan)API.scan.render();if(API.run)API.run.render();if(API.check)API.check.render()}
+
 // ---- writes (editors only)
-async function invAdd(ids){if(!isEditor()||!db)return 0;const qd=invQueued(),q=invQ();let o=q.length?Math.max(...q.map(x=>+x.order||0)):0,n=0;
-  for(const id of ids){const f=invFind(id);if(!f||!f.p.pick||qd.has(+id))continue;const {p,g}=f;
-    const doc={doc_id:p.id,label:invLabel(p),course:g.course,year_level:g.yl==='?'?null:+g.yl,order:++o,added_by:me||null,at:new Date().toISOString()};
-    try{await db.doc('importq/d'+p.id).set(doc);n++;if(!INV.q.some(x=>+x.doc_id===p.id))INV.q.push({id:'d'+p.id,...doc})}catch(_){toast('Could not save. Try again in a moment.');break}}
-  return n}
-async function invSet(x,patch){if(!isEditor()||!db)return false;const {id,...rest}=x;try{await db.doc('importq/'+id).set({...rest,...patch});return true}catch(e){toast('Could not save. Try again in a moment.');return false}}
-async function invReorder(ids){if(!isEditor())return;await writeOrder(INV.q,ids,invSet,()=>{invQueue();invGridMarks()})}
-async function invRemove(id){if(!isEditor()||!db)return false;try{await db.doc('importq/'+id).delete();INV.q=INV.q.filter(x=>x.id!==id);invQueue();invGridMarks();toast('Removed from the import queue');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
-document.addEventListener('change',e=>{const t=e.target;if(!t.closest||!t.closest('#invBox'))return;if(!isEditor()){t.checked=false;return}
-  const det=t.closest('.ivbody');
-  if(t.dataset.ivp){const id=+t.dataset.ivp;t.checked?INV.sel.add(id):INV.sel.delete(id)}
-  else if(t.dataset.ivall||t.dataset.ivsch){const sc=t.dataset.ivall?det:t.closest('.ivs');sc.querySelectorAll('[data-ivp]').forEach(b=>{b.checked=t.checked;const id=+b.dataset.ivp;t.checked?INV.sel.add(id):INV.sel.delete(id)})}
-  else return;
-  invTicks(det);invBar()});
-document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox'))return;
-  const cell=t.closest('#ivGrid .ivcell[data-ivg]');if(cell){invOpen(INV.open===cell.dataset.ivg?null:cell.dataset.ivg);return}
-  if(t.closest('#ivClear')){INV.sel.clear();$$('#ivGrid [data-ivp]').forEach(b=>b.checked=false);invTicks();invBar();return}
-  if(t.closest('#ivAdd')){if(!isEditor())return;const ids=[...INV.sel];const n=await invAdd(ids);INV.sel.clear();invQueue();invGridMarks();
-    if(n){toast(`${n} paper${n===1?'':'s'} added to the import queue`);$('#ivPick').open=true;$('#ivQH').scrollIntoView({block:'nearest'})}return}
-  if(t.closest('[data-ivby]')){const d=$('#ivBy');d.open=true;d.scrollIntoView({block:'start',behavior:'smooth'});return}
-  const mv=t.closest('[data-ivmove]');if(mv){const ids=invQ().map(x=>x.id),i=ids.indexOf(mv.dataset.ivid),j=i+ +mv.dataset.ivmove;if(i<0||j<0||j>=ids.length)return;
-    [ids[i],ids[j]]=[ids[j],ids[i]];await invReorder(ids);const b=document.querySelector(`#ivQList [data-ivid="${CSS.escape(mv.dataset.ivid)}"][data-ivmove="${mv.dataset.ivmove}"]`);if(b&&!b.disabled)b.focus();return}
-  const dl=t.closest('[data-ivdel]');if(dl){await invRemove(dl.dataset.ivdel);return}});
-sortableList('#ivQList .ivql>li.nrow','ivq',()=>invQ().map(x=>x.id),invReorder,invQueue);   // drag (desktop); ↑ ↓ for keyboard and phone (31_notes.js)
-// sub: the sub line; course, years: names for the Rescan drive results. 33_drive_scan.js adds API.scan (= PQ.scan, no new
-// page-wide name); code in here reaches it through API, since PQ itself is not assigned until this block returns.
-// run: 34_papers_run.js reads the inventory and the order through these (groups, rows, label, usd, cost)
-const API={render:renderInv,queue:invQueue,add:invAdd,remove:invRemove,open:invOpen,state:INV,sub:invSub,course:invCourse,years:IVY,groups:invGroups,rows:invRows,find:invFind,label:invLabel,cost:invCost,usd:invUsd,nextBatch:invNextBatch,batch:IVBATCH};
-if(view==='processes'&&$('#processesView').dataset.tab==='papers')renderInv();   // Processes › Papers may already be open when this block loads
+async function swap(key,id){const L=lanes().find(x=>x.key===key);if(!isEditor()||!db||!L)return false;
+  const doc={course:L.course,yl:L.yl,swaps:[...(S.swaps[key]||[]),{id:+id,by:me||null,at:new Date().toISOString()}]};
+  try{await db.doc('batches/'+key).set(doc);S.swaps[key]=doc.swaps;redraw();if(API.run)API.run.draw();toast('Moved to the end of '+L.name);return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
+document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isEditor())return;
+  const sq=t.closest('[data-prb]');if(sq){const [key,n]=sq.dataset.prb.split(':');S.open=S.open&&S.open.key===key&&S.open.n===+n?null:{key,n:+n};lanesHTML();
+    const p=$('#prLanes .pr-panel');if(p)p.scrollIntoView({block:'nearest'});return}
+  if(t.closest('[data-prclose]')){const k=S.open;S.open=null;lanesHTML();const b=k&&$(`#prLanes [data-prb="${CSS.escape(k.key+':'+k.n)}"]`);if(b)b.focus();return}
+  const sw=t.closest('[data-prswap]');if(sw){if(S.busy)return;S.busy=true;try{await swap(sw.dataset.lane,sw.dataset.prswap)}finally{S.busy=false}return}
+  const ad=t.closest('[data-pradd]');if(ad&&API.run){await API.run.addNext(ad.dataset.lane,ad.dataset.pradd==='all'?Infinity:+ad.dataset.pradd);return}
+  const one=t.closest('[data-prqone]');if(one&&API.run){const [key,n]=one.dataset.prqone.split(':');await API.run.add([{key,n:+n}]);return}
+  if(t.closest('[data-prcover]')&&API.run){await API.run.coverCheck();return}});
+// scan, run, check: the parts in 33-35 hang off this object (no new page-wide name); code here reaches them through API
+const API={render,redraw,state:S,model,lanes,batch,label,course,short,laneName,laneKey,years:YN,yrs,plural,nf,accepted,rules,placedStatus,swapsApply,sub,
+  cost:()=>{const c=S.data&&S.data.cost_per_paper,v=typeof c==='number'?[c,c]:Array.isArray(c)?c:c&&typeof c==='object'?[c.lo??c.min,c.hi??c.max]:null;return v&&v.length===2&&v.every(Number.isFinite)?v:null},
+  usd:([lo,hi])=>{const f=x=>Math.round(x).toLocaleString('en-AU');return lo===hi?`US$${f(lo)}`:`US$${f(lo)}–${f(hi)}`},size:SIZE,
+  groups:()=>(S.data&&S.data.groups)||[]};
+if(view==='processes'&&$('#processesView').dataset.tab==='papers')render();   // Processes › Papers may already be open when this block loads
 return API;
 })();
 // owner 13 Nov: "Where is the button to rescan the drive?" (earlier: "New exams are gonna be added to this folder periodically we need a way to ... see what we actually haven't ingested yet")
@@ -5136,7 +5161,8 @@ return API;
    move, rename or reorganise anything there).
    A file is known when its Drive id or its path (case-insensitive, as Windows is) is in the recorded-files list; a file with the same
    size as a recorded one is shown as "same size as <path>" (probably moved or copied; tools/scan_folder.py decides when Claude
-   records it). New files are classified with inventory.rules = tools/classify_paths.py RULES (one copy of the rules; the page
+   records it). New files are classified with PQ.rules(): inventory.rules = tools/classify_paths.py's active rules, or the
+   proposed fixes once the owner accepted them in Needs a check (one copy of the rules; the page
    test checks this port against the Python on every recorded path) and grouped by course x year level, as the grid is.
    Each finished scan is saved to db collection "scans", one doc per scan: {at, by, new:[{id, name, path, size, course, year,
    yl, task, school, status, why, like?}], counts}. Claude folds them into the documents table at the next import step
@@ -5172,7 +5198,8 @@ function needFiles(){if(!S.filesP&&!known()&&filesUrl())loadFiles().then(f=>{if(
 const isKnown=(K,f)=>!!(f.id&&K.ids.has(f.id))||K.paths.has(key(f.path));
 
 // ---- tools/classify_paths.py classify_path, from the rules it exports (RULES): course, year level, task, year, school, status
-function rx(){const R=inv()&&inv().rules;if(!R)return null;if(S.RF===R)return S.RX;
+function rx(){const R=inv()&&PQ.rules();   // the inventory's rules, or the proposed fixes once accepted (32_papers_q.js)
+if(!R)return null;if(S.RF===R)return S.RX;
   const c=x=>new RegExp(x);
   S.RX={R,course:R.course.map(([x,v])=>[c(x),v]),yl:R.year_level.map(([x,v])=>[c(x),v]),
     task:R.task.map(r=>({on:r.on,re:c(r.re),not:r.not?c(r.not):null,task:r.task})),year:c(R.year),
@@ -5301,100 +5328,158 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest
 if(view==='processes')render();
 return {render,last,start,stop,classify,state:S};
 })();
-// owner 13 Nov: "We need a general summary at the top of the Paper's tab of processes as well. How many papers found, how many imported, a brief breakdown and stuff. Set it up so that once the API is set up, we can choose a grade 11 or 12 and course Adv / std/ extension 1 and extesnion 2 and hit Go and the API would get called to import all papers which are on file but not imported from that level and grade. Is that the best way ? I'm getting CONFUSED with our current papers page" -> chose "Yes, with batch pauses"
-/* ---------- Papers: summary, Import a course (Go), Running / next (Processes › Papers, Curate: editors only) ----------
-   Summary (#ivStats): imported / can be imported (current and old syllabus) / set aside (other courses, Year 11 held, course not
-   known yet, not in scope), counted from data/inventory.json by ONE rule, kind() below; the page test recounts them.
-   Import a course (#ivGo): Year and Course selects (years from the grid's, courses from the inventory: CODE_HEALTH rule 5), the
-   papers not imported yet with their split, batches of 9, a cost range (inventory cost_per_paper, else an estimate of US$12–17 a
-   paper), or why it can't run (course not set up; Year 11 held). Go asks inline (no confirm()), Confirm writes ONE run request
-   to db collection "runs": {year, course, papers:[doc ids in import order], batch_size:9, pause_after_each_batch:true,
-   status:'requested', by, at}. One active run at a time (requested / running / paused); Cancel request sets status 'cancelled'.
-   Claude reads it with tools/import_next.py (it takes precedence over the import order) and sets status as the run goes;
-   after each batch the run waits until the owner has cleared that batch's Review track (IMPORT_PLAYBOOK "Go").
-   Running / next (#ivRun): the active run, then the next batches (from the run, else from the import order).
-   No new page-wide name: PQ.run (as PQ.scan). Only editors write: every handler checks isEditor(). */
+// owner 14 Nov: "we might want to run multiple batches over the night", then "Let's do 3 batches before the lock"
+// (this replaces the 13 Nov per-batch pause, "Yes, with batch pauses")
+/* ---------- Processes › Papers › Queue (Curate: editors only) ----------
+   ONE ordered list of batches across courses: db collection "queue", one doc per batch, id '<lane>_<n>' ('advanced_12_6'):
+   {course, yl, batch, order, by, at}. Batches come in from the lanes (+1 batch, +2 batches, Queue all, a batch panel's Add to
+   the queue); ↑ ↓ reorder (the shared writeOrder, 31_notes.js), × removes (no confirm: it can be added again).
+   Start the queue writes ONE request to db collection "runs" (as Go did): {kind:'queue', status:'requested', limit:3,
+   stop_early, queue:[{course, yl, batch, papers}], papers, est, by, at}; Cancel sets status 'cancelled' (kept). Until the
+   import API is connected, Claude runs it (tools/import_next.py follows the queue and the limit): batch after batch, stopping
+   when LIMIT imported batches are waiting for review (imported, not yet cleared in Review), or early when a batch comes back
+   with unusual problems (STOP_EARLY, IMPORT_PLAYBOOK "Queue"). Run the cover-page check writes {kind:'cover_check',
+   status:'requested', papers:[the Needs a check papers], by, at} to "runs" too; Claude does the check.
+   No new page-wide name: PQ.run. Only editors read or write: every handler checks isEditor(). */
 PQ.run=(()=>{
-const R={runs:[],sub:null,yl:'12',course:null,ask:false,busy:false};
-const ACTIVE=['requested','running','paused'];
-// owner 13 Nov ("Yes, with batch pauses"): until a cost per paper is measured, show US$12–17 a paper, labelled an estimate
+const R={q:[],runs:[],subs:{},busy:false};
+// owner 14 Nov: "Let's do 3 batches before the lock"
+const LIMIT=3;
+// unusual problems that stop the queue early (chosen 14 Nov while the owner was away; tools/import_next.py STOP_EARLY): a paper
+// that loaded no questions, 3 or more pages the parser could not read, or more than 12 Your calls in one batch
+const STOP_EARLY={failed_papers:1,failed_pages:3,your_calls:13};
+// until a cost per paper is measured, US$12–17 a paper, labelled an estimate (owner 13 Nov)
 const EST=[12,17];
-const nf=x=>Number(x||0).toLocaleString('en-AU');
-const ess=(k,w,ws)=>`${nf(k)} ${k===1?w:(ws||w+'s')}`;
-// owner 13 Nov: "Year 11 papers leave alone for now, would like to finalise Y12 first"
-const HELD='held until Year 12 is finished (your 13 Nov ruling)';
-// the one rule that sorts a paper into the summary's buckets
-function kind(p,g){if(p.st==='imported')return 'imported';if(p.pick)return p.old?'old':'current';if(p.st==='out_of_course')return 'course';
-  if(g.yl==='11'&&(p.st==='waiting'||/^Year 11\b/.test(p.why||'')))return 'held';return p.st==='waiting'?'check':'scope'}
-function tally(gs){const t={imported:0,current:0,old:0,course:0,held:0,check:0,scope:0};for(const g of gs)for(const p of g.papers)t[kind(p,g)]++;return t}
-const active=()=>R.runs.filter(r=>ACTIVE.includes(r.status)).sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null;
-const courses=()=>((PQ.state.data&&PQ.state.data.courses)||[]).filter(c=>c.key!=='unknown');   // "Course not known" is not a course you can pick
-const ylName=yl=>PQ.years[yl]||'Year '+yl;
-function subscribe(){if(R.sub||!db||!isEditor())return;
-  try{R.sub=db.collection('runs').onSnapshot(s=>{const d=s.docs||s;R.runs=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).filter(x=>x&&x.status);draw()},()=>{})}catch(e){}}
-// ---- the chosen year x course: its papers not imported yet (in import order), the split, and why Go can't run
-function choice(){const c=PQ.course(R.course),g=PQ.groups().find(x=>x.course===R.course&&x.yl===R.yl),ps=g?g.papers:[];
-  const can=ps.filter(p=>p.pick),held=g?ps.filter(p=>kind(p,g)==='held').length:0;
-  // papers already in the import order keep the owner's order; then current syllabus before old, newest year first
-  const pos=new Map(PQ.rows().map((r,i)=>[+r.x.doc_id,i])),at=p=>pos.has(p.id)?pos.get(p.id):1e9;
-  const list=can.slice().sort((a,b)=>at(a)-at(b)||(a.old?1:0)-(b.old?1:0)||(b.y||0)-(a.y||0)||a.id-b.id);
-  const why=!c.ready?c.note||'needs course setup':!can.length&&held?HELD:!can.length?`nothing left to import in ${ylName(R.yl)} ${c.short||c.name}`:'';
-  return {c,list,old:can.filter(p=>p.old).length,held,all:ps.length,why}}
-function cost(n){const v=PQ.cost(),e=!v,pp=v||EST;return {pp,est:e,lo:n*pp[0],hi:n*pp[1]}}
-// ---- summary
-function stats(){const el=$('#ivStats');if(!el)return;const D=PQ.state.data;if(!D){el.innerHTML='';return}
-  const t=tally(PQ.groups()),can=t.current+t.old,aside=t.course+t.held+t.check+t.scope;
-  const part=[[t.course,'in other courses that need setup'],[t.held,'Year 11, held until Year 12 is finished'],[t.check,'course not known yet (cover check)'],[t.scope,'not in scope']].filter(x=>x[0]);
-  el.innerHTML=`<div class="ivstat" data-k="imported"><b>${nf(t.imported)}</b><span>imported</span><small>in the bank</small></div>
-    <div class="ivstat" data-k="can"><b>${nf(can)}</b><span>can be imported</span><small>${nf(t.current)} current syllabus · ${nf(t.old)} old syllabus</small></div>
-    <div class="ivstat" data-k="aside"><b>${nf(aside)}</b><span>set aside</span><small>${part.map(([k,w])=>`<i>${nf(k)} ${esc(w)}</i>`).join('')}</small></div>`}
-// ---- Import a course
-function goCard(){const el=$('#ivGo');if(!el||!PQ.state.data)return;
-  const C=courses();if(!R.course||!C.some(c=>c.key===R.course))R.course=(C.find(c=>c.ready)||C[0]||{}).key;
-  if(!el.dataset.ready){el.dataset.ready='1';
-    el.innerHTML=`<h4>Import a course</h4><div class="ivgorow"><label>Year <select id="ivGoY">${Object.keys(PQ.years).filter(y=>y!=='?').sort((a,b)=>b-a).map(y=>`<option value="${esc(y)}">${esc(y)}</option>`).join('')}</select></label>
-      <label>Course <select id="ivGoC">${C.map(c=>`<option value="${esc(c.key)}">${esc(c.short||c.name)}</option>`).join('')}</select></label>
-      <button type="button" class="act primary ivgob" id="ivGoBtn">Go</button></div><div id="ivGoN" aria-live="polite"></div><div id="ivGoAsk"></div>`;
-    $('#ivGoY').value=R.yl;$('#ivGoC').value=R.course}
-  const k=choice(),n=k.list.length,a=active(),cc=cost(n),btn=$('#ivGoBtn');
-  const block=k.why||(a?'a run is already requested: cancel it under Running / next to start another':'');
-  btn.disabled=!!block||R.busy;btn.title=block;
-  $('#ivGoN').innerHTML=k.why?`<p class="ivgocount off"><b>${nf(k.all)}</b> ${ylName(R.yl)} ${esc(k.c.short||k.c.name)} paper${k.all===1?'':'s'} in the folder</p><p class="ivgowhy">Can't import: ${esc(k.why)}</p>`:
-    `<p class="ivgocount"><b>${nf(n)}</b> not imported</p><p class="ivgod">${nf(n-k.old)} current syllabus · ${nf(k.old)} old syllabus</p>
-     <p class="ivgod">${ess(Math.ceil(n/PQ.batch),'batch','batches')} of ${PQ.batch}, pausing after each one until you've cleared it in Review</p>
-     <p class="ivgod ivgocost">${cc.est?'Estimated cost':'Cost'} ${PQ.usd([cc.lo,cc.hi])} <small>(${cc.est?'estimate, ':''}${PQ.usd(cc.pp)} a paper)</small></p>${a?`<p class="ivgowhy">${esc(block)}</p>`:''}`;
-  const ask=$('#ivGoAsk');if(!R.ask||block){R.ask=false;ask.innerHTML='';return}
-  if(!ask.firstChild)ask.innerHTML=`<div class="ivgoask" role="group" aria-label="Confirm"><p>Start importing ${ess(n,'paper')}, ~${PQ.usd([cc.lo,cc.hi])}?</p><button type="button" class="act primary" id="ivGoYes">Confirm</button><button type="button" class="act" id="ivGoNo">Cancel</button></div>`}
-// ---- Running / next
-const STATUS={requested:['Requested','Requested — Claude starts it when importing resumes; later the import API will start it directly.'],
-  running:['Running','Claude is importing it now.'],paused:['Paused','Waiting for you to clear the last batch in Review before the next one starts.']};
-function runCard(){const el=$('#ivRun');if(!el)return;const a=active(),B=PQ.batch;
-  // the next papers: from the active run (skipping any imported since), else from the owner's import order
-  let ids;if(a)ids=(a.papers||[]).filter(id=>{const f=PQ.find(id);return f&&f.p.pick});else ids=PQ.rows().filter(r=>!r.warn).map(r=>+r.x.doc_id);
-  const b0=PQ.nextBatch(),nb=Math.ceil(ids.length/B),show=[0,1].filter(i=>i<nb);
-  const card=a?(s=>`<div class="ivrcard" data-run="${esc(a.id)}"><div class="ivrtop"><b>${esc(ylName(String(a.year)))} ${esc(PQ.course(a.course).short||a.course)} · ${ess((a.papers||[]).length,'paper')}</b><span class="ivchip q">${esc(s[0])}</span></div>
-      <p>${esc(s[1])}</p><small>${ess(Math.ceil((a.papers||[]).length/(a.batch_size||B)),'batch','batches')} of ${a.batch_size||B}${a.pause_after_each_batch?', a pause after each':''} · requested ${esc(clockT(a.at))}</small>
-      <button type="button" class="act" id="ivRunCancel"${R.busy?' disabled':''}>Cancel request</button></div>`)(STATUS[a.status]||[a.status,'']):'';
-  const name=id=>{const f=PQ.find(id);return f?PQ.label(f.p)+(f.p.old?' · old syllabus':''):'Paper '+id};
-  const next=show.map(i=>`<div class="ivnb"><p class="ivdiv" role="separator"><span>Batch ${b0+i}</span></p><ol>${ids.slice(i*B,i*B+B).map(id=>`<li>${esc(name(id))}</li>`).join('')}</ol></div>`).join('');
-  el.innerHTML=`<h4>Running / next</h4>${card}${ids.length?`<p class="ivnfrom">Next ${a?'from this run':'from your import order'}:</p>${next}${nb>2?`<p class="ivnmore">… and ${ess(nb-2,'more batch','more batches')}</p>`:''}`:
-    a?'':`<p class="pempty">Nothing requested yet. Pick a year and course above and press Go, or choose papers one by one below.</p>`}`}
-function draw(){if(!isEditor()||!$('#ivGo'))return;stats();goCard();runCard()}
+const ACTIVE=['requested','running'];
+const snap=s=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
+function subscribe(){if(!db||!isEditor())return;
+  if(!R.subs.q)try{R.subs.q=db.collection('queue').onSnapshot(s=>{R.q=snap(s).filter(x=>x&&x.course&&Number.isFinite(+x.batch));PQ.redraw();draw()},()=>{})}catch(e){}
+  if(!R.subs.r)try{R.subs.r=db.collection('runs').onSnapshot(s=>{R.runs=snap(s).filter(x=>x&&x.status);PQ.redraw();draw()},()=>{})}catch(e){}}
+const key=x=>PQ.laneKey(x.course,String(x.yl));
+const ordered=()=>R.q.slice().sort((a,b)=>(+a.order||0)-(+b.order||0)||String(a.at).localeCompare(String(b.at)));
+// the queue with each batch resolved (papers still ready); an imported batch stays listed as Imported until Claude removes it
+function items(){return ordered().map(x=>{const f=PQ.batch(key(x),x.batch);return {x,f,ready:f?f.b.ready:[],done:!!(f&&f.b.done)||!!(f&&!f.b.ready.length)}})}
+const live=()=>items().filter(i=>!i.done);
+function pos(k,n){const i=live().findIndex(i=>key(i.x)===k&&+i.x.batch===+n);return i+1}
+const active=kind=>R.runs.filter(r=>r.kind===kind&&ACTIVE.includes(r.status)).sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null;
+function cost(n){const v=PQ.cost(),pp=v||EST;return {est:!v,pp,lo:n*pp[0],hi:n*pp[1]}}
+function draw(){const el=$('#prQueue');if(!el||!isEditor())return;if(!PQ.state.data){el.innerHTML='';return}
+  const L=items(),n=live(),np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np),run=active('queue');
+  const row=(i,k)=>{const f=i.f,nm=f?f.lane.name:PQ.laneName(i.x.course,String(i.x.yl)),st=i.done?'Imported':k===0?(run&&run.status==='running'?'Running':'Next'):'Waiting';
+    return `<li class="pr-qi${!i.done&&k===0?' next':''}${i.done?' done':''}" data-prq="${esc(i.x.id)}"><span class="pr-qn" aria-hidden="true">${i.done?'✓':k+1}</span>
+      <span class="pr-qt"><b>${esc(nm)} · Batch ${esc(i.x.batch)}</b><small>${i.done?'imported':`${PQ.plural(i.ready.length,'paper')}${i.ready.length?' · '+esc(PQ.yrs(i.ready)):''}`}</small></span>
+      <span class="pr-qs">${st}</span><span class="pr-qacts">${i.done?'':`<button type="button" class="nbtn" data-prqmv="-1" data-prq-id="${esc(i.x.id)}" aria-label="Move up"${k===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-prqmv="1" data-prq-id="${esc(i.x.id)}" aria-label="Move down"${k===n.length-1?' disabled':''}>↓</button>`}<button type="button" class="nbtn ndel" data-prqdel="${esc(i.x.id)}" aria-label="Remove from the queue">×</button></span></li>`};
+  let k=0;
+  el.innerHTML=`<div class="pr-qhead"><h4>Queue</h4><span>Runs top to bottom, batch after batch. Stops when ${LIMIT} batches are waiting for review, or early if a batch comes back with unusual problems.</span></div>
+    ${L.length?`<ol class="pr-qlist">${L.map(i=>row(i,i.done?-1:k++)).join('')}</ol>`:`<p class="pempty">Nothing queued. Add batches from a course: +1 batch, or click a square.</p>`}
+    <div class="pr-qfoot"><span>${PQ.plural(n.length,'batch','batches')} · ${PQ.plural(np,'paper')}</span><span>${c.est?'Est. ':'Cost '}${np?PQ.usd([c.lo,c.hi]):'US$0'}</span></div>
+    ${run?`<div class="pr-run" role="status"><b>${run.status==='running'?'Claude is running the queue':'Sent to Claude'}</b><small>requested ${esc(clockT(run.at))}${run.status==='requested'?' · Claude starts it when importing resumes; later the import API will start it directly.':''}</small><button type="button" class="act" id="prQCancel"${R.busy?' disabled':''}>Cancel</button></div>`:
+      `<button type="button" class="act primary pr-start" id="prQStart"${!n.length||R.busy?' disabled':''}>Start the queue</button>`}
+    <p class="pr-limit">Stops when ${LIMIT} batches are waiting for review${c.est?` · estimate US$${EST[0]}–${EST[1]} a paper`:` · ${esc(PQ.usd(c.pp))} a paper`}</p>
+    <p class="pr-api">Until the import API is connected, this sends the queue to Claude.</p>`}
 function render(){if(!isEditor())return;subscribe();draw()}
 // ---- writes (editors only)
-async function request(){const k=choice(),n=k.list.length;if(!isEditor()||!db||k.why||active()||!n)return null;
-  const id='r'+Date.now(),doc={year:+R.yl,course:R.course,papers:k.list.map(p=>p.id),batch_size:PQ.batch,pause_after_each_batch:true,status:'requested',by:me||null,at:new Date().toISOString()};
-  try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});toast(`Requested: ${ess(n,'paper')}`);return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
-async function cancel(){const a=active();if(!isEditor()||!db||!a)return false;const {id,...rest}=a,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:new Date().toISOString()};
-  try{await db.doc('runs/'+id).set(doc);Object.assign(a,doc);toast('Run request cancelled');return true}catch(_){toast('Could not cancel. Try again in a moment.');return false}}
+const now=()=>new Date().toISOString();
+async function add(list){if(!isEditor()||!db)return 0;const have=new Set(R.q.map(x=>x.id));let o=R.q.length?Math.max(...R.q.map(x=>+x.order||0)):0,n=0;
+  for(const {key:k,n:b} of list){const f=PQ.batch(k,b);if(!f||!f.b.ready.length||f.b.done)continue;const id=`${k}_${b}`;if(have.has(id))continue;
+    const doc={course:f.lane.course,yl:f.lane.yl,batch:+b,order:++o,by:me||null,at:now()};
+    try{await db.doc('queue/'+id).set(doc);n++;have.add(id);if(!R.q.some(x=>x.id===id))R.q.push({id,...doc})}catch(_){toast('Could not save. Try again in a moment.');break}}
+  if(n){PQ.redraw();draw();toast(`${PQ.plural(n,'batch','batches')} added to the queue`)}return n}
+// the lane's next batches that are not queued yet, in lane order
+function addNext(k,count){const L=PQ.lanes().find(x=>x.key===k);if(!L)return Promise.resolve(0);
+  return add(L.batches.filter(b=>b.ready.length&&!b.done&&!pos(k,b.n)).slice(0,count).map(b=>({key:k,n:b.n})))}
+async function setOrder(x,patch){const {id,...rest}=x;try{await db.doc('queue/'+id).set({...rest,...patch});return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
+async function move(id,d){if(!isEditor()||!db)return;const ids=live().map(i=>i.x.id),i=ids.indexOf(id),j=i+d;if(i<0||j<0||j>=ids.length)return;
+  [ids[i],ids[j]]=[ids[j],ids[i]];await writeOrder(R.q,ids.concat(items().filter(i=>i.done).map(i=>i.x.id)),setOrder,()=>{PQ.redraw();draw()})}
+async function remove(id){if(!isEditor()||!db)return false;try{await db.doc('queue/'+id).delete();R.q=R.q.filter(x=>x.id!==id);PQ.redraw();draw();toast('Removed from the queue');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
+async function start(){const n=live();if(!isEditor()||!db||!n.length||active('queue'))return null;const np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np);
+  const id='r'+Date.now(),doc={kind:'queue',status:'requested',limit:LIMIT,stop_early:STOP_EARLY,queue:n.map(i=>({course:i.x.course,yl:i.x.yl,batch:+i.x.batch,papers:i.ready.map(p=>p.id)})),papers:np,est:[c.lo,c.hi],by:me||null,at:now()};
+  try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});toast('Queue sent to Claude');return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
+async function cancel(){const a=active('queue');if(!isEditor()||!db||!a)return false;const {id,...rest}=a,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
+  try{await db.doc('runs/'+id).set(doc);Object.assign(a,doc);toast('Queue run cancelled');return true}catch(_){toast('Could not cancel. Try again in a moment.');return false}}
+// Run the cover-page check: a request for Claude (it reads each front page; what it can't settle waits in Needs a check)
+const cover=()=>active('cover_check');
+async function coverCheck(){const m=PQ.model();if(!isEditor()||!db||!m||cover())return null;const ids=m.ps.filter(p=>p.st==='needs_check').map(p=>p.id);if(!ids.length)return null;
+  const id='r'+Date.now(),doc={kind:'cover_check',status:'requested',papers:ids,by:me||null,at:now()};
+  try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});PQ.redraw();toast('Cover-page check requested');return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
 const busy=async f=>{R.busy=true;draw();try{return await f()}finally{R.busy=false;draw()}};
-document.addEventListener('change',e=>{const t=e.target;if(t.id!=='ivGoY'&&t.id!=='ivGoC')return;if(t.id==='ivGoY')R.yl=t.value;else R.course=t.value;R.ask=false;draw()});
 document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isEditor())return;
-  if(t.closest('#ivGoBtn')){R.ask=true;draw();const y=$('#ivGoYes');if(y)y.focus();return}
-  if(t.closest('#ivGoNo')){R.ask=false;draw();$('#ivGoBtn').focus();return}
-  if(t.closest('#ivGoYes')){R.ask=false;await busy(request);return}
-  if(t.closest('#ivRunCancel')){await busy(cancel);return}});
-return {render,draw,state:R,tally,kind,request,cancel,choice};
+  const mv=t.closest('[data-prqmv]');if(mv){await move(mv.dataset.prqId,+mv.dataset.prqmv);const b=document.querySelector(`#prQueue [data-prq-id="${CSS.escape(mv.dataset.prqId)}"][data-prqmv="${mv.dataset.prqmv}"]`);if(b&&!b.disabled)b.focus();return}
+  const dl=t.closest('[data-prqdel]');if(dl){await remove(dl.dataset.prqdel);return}
+  if(t.closest('#prQStart')){await busy(start);return}
+  if(t.closest('#prQCancel')){await busy(cancel);return}});
+return {render,draw,state:R,pos,add,addNext,remove,move,start,cancel,cover,coverCheck,items,LIMIT};
 })();
 if(view==='processes'&&$('#processesView').dataset.tab==='papers')PQ.run.render();
+// owner 14 Nov (mockup A, its "Needs a check" view): the papers the scan couldn't place from their folder and file name
+/* ---------- Processes › Papers › Needs a check (#processes/papers/check; Curate: editors only) ----------
+   Two cards:
+   1. "N placed by better rules": tools/classify_paths.py RULES_PROPOSED, one row per fix (rule, an example path, the result, how
+      many papers, See all). Nothing changes until the owner presses Accept all: that writes db scans/rules {version, accepted:
+      true, by, at} (scans is editors only already). The page applies the fixes at once (PQ.model, from the inventory's
+      "proposed": both outcomes are built by tools/inventory.py); Claude mirrors the doc into work/rules_accepted.json
+      (tools/sync_pagedb.py) and rebuilds the inventory, which then applies them for good, in every later scan too.
+   2. "N for you to place": the rest. Each row: the paths, the rules' guess, a cover placeholder (page images exist only for
+      imported papers), Year 11 / 12 and course quick picks, Not in scope. An answer is db collection paperfix, one doc per
+      paper, 'p<id>': {id, files, yl, course, out, by, at}; tools/inventory.py applies it (mirror page_paperfix), so a rescan
+      never asks again. A paper counts as placed once it has a year and a course, or is set aside.
+   No new page-wide name: PQ.check. Only editors read or write. */
+PQ.check=(()=>{
+const C={see:null,busy:false};
+// what the rules make of a paper: its course if they named one, what is missing, the year, solutions
+function guess(p){const c=p.c!=='unknown'?PQ.short(p.c):'';
+  const miss=p.c==='unknown'&&p.yl==='?'?'no course or year level in the name':p.c==='unknown'?'no course in the name':p.yl==='?'?'year level not in the name':String(p.why||'');
+  return [c?`Rules say ${c}; ${miss}`:miss.charAt(0).toUpperCase()+miss.slice(1),p.y?String(p.y):'',p.sol?'with solutions':'',p.n>1?`${p.n} files`:''].filter(Boolean).join('. ')+'.'}
+function rulesCard(m){const pr=m.D.proposed;if(!pr||(!pr.accepted&&!(pr.rules||[]).some(r=>r.n)))return '';
+  const acc=PQ.accepted(),rs=pr.rules||[],n=rs.reduce((s,r)=>s+r.n,0),a=PQ.state.acc;
+  if(acc)return `<div class="pr-card pr-cc" data-prcard="rules"><div class="pr-cchead"><div><h3>${pr.accepted?'Better rules in use':`${PQ.plural(n,'paper')} placed by better rules`}</h3>
+    <span>✓ Accepted${a&&a.at?` ${esc(clockT(a.at))}`:''}. ${pr.accepted?'The rules apply to every scan.':'Claude applies the rule change to the record and every future scan at the next inventory build.'}</span></div></div></div>`;
+  return `<div class="pr-card pr-cc" data-prcard="rules"><div class="pr-cchead"><div><h3>${PQ.plural(n,'paper')} placed by better rules</h3>
+      <span>The names were clear; the rules just didn't recognise them. Accept to apply the rule change to these and every future scan.</span></div>
+      <button type="button" class="act primary" id="prAccept"${C.busy?' disabled':''}>Accept all ${PQ.nf(n)}</button></div>
+    <div class="pr-rules">${rs.map(r=>`<div class="pr-rule" data-prrule="${esc(r.key)}"><div class="pr-rt"><b>${esc(r.rule)}</b><code title="${esc(r.example)}">${esc(r.example||'–')}</code></div>
+      <span class="pr-rres">→ <b>${esc(r.result)}</b></span><span class="pr-rn">${PQ.plural(r.n,'paper')}</span>
+      <button type="button" class="act" data-prsee="${esc(r.key)}" aria-expanded="${C.see===r.key}"${r.n?'':' disabled'}>${C.see===r.key?'Hide':'See all'}</button>
+      ${C.see===r.key?`<ul class="pr-see">${r.ids.map(i=>m.byId.get(i)||(m.D.groups.flatMap(g=>g.papers).find(p=>p.id===i))).filter(Boolean).map(p=>`<li>${esc(PQ.label(p))}${p.p?`<code>${esc(p.p[0])}</code>`:''}</li>`).join('')}</ul>`:''}</div>`).join('')}</div>
+    ${pr.changed_other?`<p class="pr-note">The same fixes also sort ${PQ.plural(pr.changed_other,'paper')} that are already held or not in scope into their course (Extension 1, Extension 2, Standard) or Year 11; nothing ready to import changes.</p>`:''}</div>`}
+function placeRow(p){const f=PQ.state.fix[p.id]||{},yl=f.yl?String(f.yl):'',c=f.course||'',out=!!f.out;
+  const pill=(attr,v,on,lab)=>`<button type="button" class="pr-pill" ${attr}="${esc(v)}" data-prp="${p.id}" aria-pressed="${on}">${esc(lab)}</button>`;
+  const cs=(PQ.state.data.courses||[]).filter(x=>x.key!=='unknown');
+  const done=out||(yl&&c),res=done?(out?'Set aside: not in scope.':`Placed: ${PQ.laneName(c,yl)} · ${(PQ.state.data.statuses||{})[PQ.placedStatus(c,yl,p.y)]||''}.`):'';
+  return `<div class="pr-place${done?' done':''}" data-prplace="${p.id}"><div class="pr-cover" role="img" aria-label="Cover page preview" title="The cover-page check adds a picture of the front page">cover</div>
+    <div class="pr-pbody"><code class="pr-path">${(p.p||[PQ.label(p)]).map(esc).join('<br>')}</code><span class="pr-guess">${esc(guess(p))}</span>
+      <div class="pr-picks"><span>Year</span>${['11','12'].map(y=>pill('data-pryl',y,yl===y&&!out,y)).join('')}</div>
+      <div class="pr-picks"><span>Course</span>${cs.map(x=>pill('data-prc',x.key,c===x.key&&!out,x.short||x.name)).join('')}<button type="button" class="pr-pill pr-out" data-prout="${p.id}" aria-pressed="${out}">Not in scope</button></div>
+      ${res?`<p class="pr-res" role="status">✓ ${esc(res)}</p>`:''}</div></div>`}
+function draw(){const el=$('#prCheck');if(!el||el.hidden||!isEditor())return;const m=PQ.model();if(!m){el.innerHTML='<p class="pempty">Loading the paper list…</p>';return}
+  const pr=m.D.proposed,ruleIds=new Set(pr&&!pr.accepted&&!PQ.accepted()?(pr.rules||[]).flatMap(r=>r.ids):[]);
+  // the owner's own: every paper still needing a check that no proposed fix places, plus those he has answered (kept, so he can change them)
+  const mine=[...m.ps.filter(p=>p.st==='needs_check'&&!ruleIds.has(p.id)),...m.ps.filter(p=>p.mine)].sort((a,b)=>String((a.p||[''])[0]).localeCompare(String((b.p||[''])[0])));
+  const left=mine.filter(p=>p.st==='needs_check').length,all=m.ps.filter(p=>p.st==='needs_check').length,cc=PQ.run&&PQ.run.cover();
+  el.innerHTML=`<div class="pr-chead"><a href="#processes/papers" class="pr-back">← Import papers</a><h3>Needs a check</h3><span>${PQ.plural(all,'paper')} the scan couldn't place from their folder and file name</span></div>
+    ${rulesCard(m)}
+    <div class="pr-card pr-cc" data-prcard="place"><div class="pr-cchead"><div><h3>${PQ.nf(left)} for you to place</h3>
+      <span>The cover-page check reads each front page first; what it can't settle waits here. Your answer is kept, so a rescan never asks again.</span></div>
+      <button type="button" class="act" data-prcover${cc||!all?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button></div>
+      ${mine.length?mine.map(placeRow).join(''):'<p class="pempty">Nothing left to place.</p>'}</div>`}
+function render(){if(!isEditor())return;draw()}
+// ---- writes (editors only)
+async function accept(){const pr=PQ.state.data&&PQ.state.data.proposed;if(!isEditor()||!db||!pr||pr.accepted||PQ.accepted())return false;
+  const doc={version:pr.version,accepted:true,by:me||null,at:new Date().toISOString()};
+  try{await db.doc('scans/rules').set(doc);PQ.state.acc=doc;PQ.redraw();toast('Rules accepted');return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
+async function place(id,patch){const m=PQ.model(),p=m&&m.byId.get(+id);if(!isEditor()||!db||!p)return false;const cur=PQ.state.fix[p.id]||{};
+  const doc={id:p.id,files:cur.files||p.f||[p.id],yl:cur.yl||null,course:cur.course||null,out:false,...patch,by:me||null,at:new Date().toISOString()};
+  try{await db.doc('paperfix/p'+p.id).set(doc);PQ.state.fix[p.id]=doc;PQ.redraw();return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
+document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#prCheck')||!isEditor())return;
+  if(t.closest('#prAccept')){C.busy=true;draw();try{await accept()}finally{C.busy=false;draw()}return}
+  const see=t.closest('[data-prsee]');if(see){C.see=C.see===see.dataset.prsee?null:see.dataset.prsee;draw();return}
+  const b=t.closest('[data-prp],[data-prout]');if(b){const id=b.dataset.prp||b.dataset.prout,cur=PQ.state.fix[+id]||{};
+    if(b.dataset.prout)await place(id,{out:!cur.out});
+    else if(b.dataset.pryl)await place(id,{yl:cur.yl===+b.dataset.pryl&&!cur.out?null:+b.dataset.pryl,out:false});
+    else await place(id,{course:cur.course===b.dataset.prc&&!cur.out?null:b.dataset.prc,out:false});
+    const again=$(`#prCheck [data-prplace="${CSS.escape(id)}"]`);if(again){const k=b.dataset.pryl?`[data-pryl="${b.dataset.pryl}"]`:b.dataset.prc?`[data-prc="${CSS.escape(b.dataset.prc)}"]`:'[data-prout]';const x=again.querySelector(k);if(x)x.focus()}
+    return}});   // Run the cover-page check: the Papers click handler (32_papers_q.js) takes it, here as on the lane
+return {render,draw,accept,place,guess,state:C};
+})();
+if(view==='processes'&&$('#processesView').dataset.tab==='papers')PQ.check.render();
 </script>

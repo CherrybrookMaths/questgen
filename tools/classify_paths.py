@@ -16,7 +16,7 @@ classify.py itself is kept as the historical record (it points at a scratchpad t
 Self-test against the database: python3 tools/classify_paths.py --selftest
   every row stage 0 excluded by path/file name (1,184) must get the same course and year level from these rules.
 """
-import os, re, sqlite3, sys
+import json, os, re, sqlite3, sys
 
 # ---------------------------------------------------------------- 1. stage-0 rules (verbatim from site/project/classify.py)
 # The patterns live in RULES (plain data), so tools/inventory.py can write them into site/data/inventory.json ("rules") and the
@@ -72,15 +72,71 @@ RULES = {
     },
 }
 
-def course_from(text):
+# ---------------------------------------------------------------- 1b. proposed rule fixes, applied only once the owner accepts
+# Owner 14 Nov (mockup A, "I like A's design much more"): the Needs a check view lists papers the rules could not place
+# although their folder or file name is clear. These fixes are PENDING: they change nothing until the owner presses Accept
+# there (page db scans/rules {accepted: true}, mirrored by tools/sync_pagedb.py into work/rules_accepted.json). Each fix is one
+# extra alternative OR-ed onto the matching stage-0 pattern (same first-match order), so every path the stage-0 rules already
+# decide keeps its result unless one of these names it (checked: tools/classify_paths.py --proposed).
+# Patterns must stay valid in both Python `re` and JavaScript RegExp (the page applies them too, for its preview).
+RULES_PROPOSED = {
+    'version': 2,
+    'course': {
+        # "12EXT1_T2_HY_2024.pdf", "Y12 Ext1/" ("ext1" written without a space; the stage-0 rule wants "extension 1" or "x1")
+        'ext1': r'(?<![a-z])ext1(?![0-9])',
+        # an "Ext 2" / "Ext2" folder
+        'ext2': r'(?:^|/)[^/]*(?<![a-z])ext ?2(?![0-9])[^/]*/',
+        # a "Std" / "Standard" folder ("Y12 Std/")
+        'standard': r'(?:^|/)[^/]*\b(?:std|standard)\b[^/]*/',
+    },
+    'year_level': {
+        # a folder named just "11" ("Baulkham Hills/11/Adv/...")
+        '11': r'(?:^|/)11(?:/|$)',
+    },
+    # what the Needs a check view says about each fix (rule, result), in this order
+    'show': [
+        {'key': 'ext1', 'rule': '"EXT1" written without a space, or a "Y12 Ext1" folder', 'result': 'Extension 1'},
+        {'key': 'yl11', 'rule': 'A folder named just "11" under the school', 'result': 'Year 11 (held)'},
+        {'key': 'standard', 'rule': '"Std" or "Standard" as a folder', 'result': 'Standard'},
+        {'key': 'ext2', 'rule': '"Ext 2" or "Ext2" as a folder', 'result': 'Extension 2'},
+    ],
+}
+ACCEPTED_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'work', 'rules_accepted.json')
+
+
+def with_proposed(rules=None, proposed=None):
+    """A copy of the full rule set with the proposed fixes OR-ed onto the matching patterns (first-match order unchanged)."""
+    import copy
+    r, pr = copy.deepcopy(rules or RULES), proposed or RULES_PROPOSED
+    r['course'] = [[rx + ('|' + pr['course'][c] if c in pr['course'] else ''), c] for rx, c in r['course']]
+    r['year_level'] = [[rx + ('|' + pr['year_level'][str(y)] if str(y) in pr['year_level'] else ''), y] for rx, y in r['year_level']]
+    r['version'] = pr['version']
+    return r
+
+
+def accepted():
+    """The owner's Accept of RULES_PROPOSED: work/rules_accepted.json {"version": 2, "accepted": true, "by", "at"} (the main
+    session writes it from the page db doc scans/rules; tools/sync_pagedb.py does it when the export has scans/rules.json)."""
+    try:
+        a = json.load(open(ACCEPTED_FILE))
+        return bool(a.get('accepted')) and a.get('version') == RULES_PROPOSED['version']
+    except (OSError, ValueError):
+        return False
+
+
+def active_rules():
+    return with_proposed() if accepted() else RULES
+
+
+def course_from(text, rules=None):
     t = text.lower()
-    for rx, c in RULES['course']:
+    for rx, c in (rules or RULES)['course']:
         if re.search(rx, t): return c
     return None
 
-def year_level_from(text):
+def year_level_from(text, rules=None):
     t = text.lower()
-    for rx, y in RULES['year_level']:
+    for rx, y in (rules or RULES)['year_level']:
         if re.search(rx, t): return y
     return None
 
@@ -125,13 +181,15 @@ NEW_NAME = re.compile(RULES['fallback']['school'])
 OLD_YEAR = re.compile(RULES['fallback']['old_year'])
 
 
-def classify_path(p):
+def classify_path(p, rules=None):
     """A documents row (without id) for a PDF found by name only. p = path relative to the shared folder root, '/' separators.
     Same decisions as stage 0 made without a cover: classification_method 'inferred', provenance 'filename' or 'folder'.
-    The page's port (33_drive_scan.js, dsClassify) makes the same decisions from RULES; page_test checks both agree."""
+    The page's port (33_drive_scan.js, dsClassify) makes the same decisions from the rules in the inventory; page_test checks
+    both agree. rules: a full rule set (default: active_rules(), i.e. RULES plus RULES_PROPOSED once the owner accepted it)."""
+    rules = rules or active_rules()
     name = p.split('/')[-1]
-    course = course_from(p) or 'unknown'
-    yl = year_level_from(p)
+    course = course_from(p, rules) or 'unknown'
+    yl = year_level_from(p, rules)
     task = task_type_from('', name)
     y, ym = year_from('', name, p)
     s, sm = school_from('', name, p)
@@ -151,7 +209,7 @@ def classify_path(p):
     elif y: row['syllabus_version'] = '2017'
     if task == 'other':
         row.update(status='excluded', failure_reason='not a question paper (name)')
-    elif course in RULES['off_courses'] or yl in RULES['off_year_levels']:
+    elif course in rules['off_courses'] or yl in rules['off_year_levels']:
         row.update(status='excluded', failure_reason='non-target course/year (name)')
     elif course == 'unknown' or yl is None or task == 'unknown':
         row['failure_reason'] = 'review queue: ' + ', '.join(k for k, v in (('course', course == 'unknown'), ('year_level', yl is None), ('task_type', task == 'unknown')) if v)
@@ -234,7 +292,8 @@ def as_manifest_row(d):
 
 # ---------------------------------------------------------------- self-test
 
-def selftest(db_path='/mnt/user-data/outputs/questions.db'):
+def selftest(db_path=None):
+    db_path = db_path or os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
     db = sqlite3.connect('file:' + db_path + '?mode=ro', uri=True)
     # rows inserted by tools/scan_folder.py were classified by THESE rules (fallbacks included); test against stage-0 rows only
     stage0 = (" AND (ingested_at IS NULL OR ingested_at NOT IN (SELECT at FROM folder_scans))"
@@ -260,7 +319,33 @@ def selftest(db_path='/mnt/user-data/outputs/questions.db'):
     tb = [p for p in paths if classify_name_only(p) != task_type_from('', p.split('/')[-1])]
     print(f'RULES["task"] in page order: {len(paths) - len(tb)} of {len(paths)} paths agree with task_type_from')
     for p in tb[:10]: print('  differs:', p)
-    return not bad and not status and not tb
+    pb = proposed_check(paths)
+    return not bad and not status and not tb and not pb
+
+
+# 14 Nov: the one recorded path where a proposed fix changes a course the stage-0 rules had already set (Advanced -> Extension 1:
+# "P1 Adv" solutions filed in a Year 11 "Ext1" folder; held either way: Year 11). Reported to the owner with the counts.
+PROPOSED_KNOWN = {'Baulkham Hills/11/Ext1/P1 Adv 2020 Yearly Exams solutions.pdf'}
+
+
+def proposed_check(paths):
+    """RULES_PROPOSED may only fill what the stage-0 rules left empty (course 'unknown', year level None) and change nothing else
+    (status follows course / year level), apart from PROPOSED_KNOWN. Returns the paths that break this."""
+    import collections
+    rp, n, bad, by = with_proposed(), 0, [], collections.Counter()
+    for p in paths:
+        a, b = classify_path(p, RULES), classify_path(p, rp)
+        d = {k for k in a if a[k] != b[k]}
+        if not d: continue
+        n += 1
+        ok = d <= {'course', 'year_level', 'status', 'failure_reason', 'natural_key', 'syllabus_version'} and \
+            ('course' not in d or a['course'] == 'unknown') and ('year_level' not in d or a['year_level'] is None)
+        if ok or p in PROPOSED_KNOWN: by[('course ' + a['course'] + ' -> ' + b['course']) if 'course' in d else 'year level -> ' + str(b['year_level'])] += 1
+        else: bad.append(p)
+    print(f'RULES_PROPOSED (accepted: {accepted()}): {n} of {len(paths)} recorded files change: ' + ', '.join(f'{k} {v}' for k, v in by.most_common())
+          + f'; {len(bad)} change a field the stage-0 rules had set')
+    for p in bad[:10]: print('  changes a set field:', p)
+    return bad
 
 
 def _changed_by_fallbacks(p):

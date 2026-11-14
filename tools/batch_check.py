@@ -179,7 +179,7 @@ try:
     _iv = json.load(open(P + 'site/data/inventory.json'))
     _nd = db.execute('select count(*) from documents').fetchone()[0]
     _nq = db.execute('select count(distinct document_id) from questions').fetchone()[0]
-    sys.path.insert(0, P + 'tools'); from classify_paths import RULES as _rules
+    sys.path.insert(0, P + 'tools'); from classify_paths import active_rules as _ar; _rules = _ar()   # 14 Nov lanes block below: RULES + RULES_PROPOSED once accepted
     if (_iv.get('docs'), _iv.get('docs_with_questions')) != (_nd, _nq):
         W(f'site/data/inventory.json is stale ({_iv.get("docs")} files, {_iv.get("docs_with_questions")} with questions; the database has {_nd}, {_nq}): run python3 tools/inventory.py')
     # the page's Rescan drive classifies new Drive files with the rules copied into the inventory (CODE_HEALTH rule 3)
@@ -197,9 +197,28 @@ try:
         _bp = len({q['doc'] for q in _bq if not q.get('dup_of')})
         if _bp != _iv['totals']['imported']:
             W(f'the Bank shows {_bp} papers but Processes › Papers says {_iv["totals"]["imported"]} imported: check for a paper filed twice (build_bank.py) or run python3 tools/inventory.py')
-        I(f'inventory: {_iv["totals"]["papers"]} papers ({_iv["totals"]["imported"]} imported, {_iv["totals"]["waiting"]} waiting); last folder scan {(_iv.get("last_scan") or {}).get("at", "none yet")}')
+        I(f'inventory: {_iv["totals"]["papers"]} papers ({_iv["totals"]["imported"]} imported, {_iv["totals"].get("ready_current", 0) + _iv["totals"].get("ready_old", 0)} ready); last folder scan {(_iv.get("last_scan") or {}).get("at", "none yet")}')
 except FileNotFoundError: W('site/data/inventory.json missing: run python3 tools/inventory.py (Processes > Papers)')
 except Exception as e: W(f'inventory check failed: {e}')
+# ======== Processes › Papers lanes (14 Nov, import-lanes round; owner: "there seems to be some inconsistencies in paper numbers") ========
+# One status per paper: the statuses add up to the folder total (per group and overall); the lanes' batches hold every ready
+# paper exactly once, and the papers ready in the lanes equal the summary's "ready to import" (tools/inventory.py, tools/batches.py).
+try:
+    _iv = json.load(open(P + 'site/data/inventory.json'))
+    sys.path.insert(0, P + 'tools'); from inventory import STATUSES as _ST
+    _bad = [f'{g["course"]}|{g["yl"]}' for g in _iv['groups'] if sum(g['counts'].get(k, 0) for k in _ST) != g['counts']['papers'] or len(g['papers']) != g['counts']['papers']]
+    _sum = sum(_iv['totals'].get(k, 0) for k in _ST)
+    if _bad or _sum != _iv['totals']['papers']:
+        B(f'inventory statuses do not add up: {_sum} papers by status vs {_iv["totals"]["papers"]} in the folder; groups {", ".join(_bad) or "ok"}: run python3 tools/inventory.py')
+    _st = {p['id']: (g['course'], g['yl'], p['st']) for g in _iv['groups'] for p in g['papers']}
+    _ready = {i for i, (c, y, s) in _st.items() if s in ('ready_current', 'ready_old')}
+    _inl = [i for L in _iv.get('lanes') or [] for b in L['batches'] for i in b if _st.get(i, ('', '', ''))[2] in ('ready_current', 'ready_old') and _st[i][:2] == (L['course'], L['yl'])]
+    if len(_inl) != len(set(_inl)): B('a ready paper sits in two lane batches (tools/batches.py): rebuild work/batches.json')
+    if set(_inl) != _ready:
+        B(f'lane counts differ from the summary: {len(set(_inl))} ready papers in lane batches, {len(_ready)} ready in the summary: run python3 tools/inventory.py (it assigns new ready papers to batches)')
+    else: I(f'lanes: {len(_ready)} ready papers in {sum(len(L["batches"]) for L in _iv.get("lanes") or [])} batches; statuses add up to {_iv["totals"]["papers"]} papers')
+except Exception as e: W(f'lanes check failed: {e}')
+# ======== end of the lanes block ========
 # size budget (CODE_HEALTH rule 6; health pass 13 Nov, owner: "keep the code proper and [lean]"). Since Fix 1 (owner 14 Nov:
 # "Ok we should run Fix 1 and 2"; plan: keep the published page small; fetch data only when needed) the budget is what the page
 # loads at start: review.html + the course index + data/assets.json, each and together ("start load"). Over budget BLOCKS until

@@ -7,7 +7,8 @@
    move, rename or reorganise anything there).
    A file is known when its Drive id or its path (case-insensitive, as Windows is) is in the recorded-files list; a file with the same
    size as a recorded one is shown as "same size as <path>" (probably moved or copied; tools/scan_folder.py decides when Claude
-   records it). New files are classified with inventory.rules = tools/classify_paths.py RULES (one copy of the rules; the page
+   records it). New files are classified with PQ.rules(): inventory.rules = tools/classify_paths.py's active rules, or the
+   proposed fixes once the owner accepted them in Needs a check (one copy of the rules; the page
    test checks this port against the Python on every recorded path) and grouped by course x year level, as the grid is.
    Each finished scan is saved to db collection "scans", one doc per scan: {at, by, new:[{id, name, path, size, course, year,
    yl, task, school, status, why, like?}], counts}. Claude folds them into the documents table at the next import step
@@ -43,7 +44,8 @@ function needFiles(){if(!S.filesP&&!known()&&filesUrl())loadFiles().then(f=>{if(
 const isKnown=(K,f)=>!!(f.id&&K.ids.has(f.id))||K.paths.has(key(f.path));
 
 // ---- tools/classify_paths.py classify_path, from the rules it exports (RULES): course, year level, task, year, school, status
-function rx(){const R=inv()&&inv().rules;if(!R)return null;if(S.RF===R)return S.RX;
+function rx(){const R=inv()&&PQ.rules();   // the inventory's rules, or the proposed fixes once accepted (32_papers_q.js)
+if(!R)return null;if(S.RF===R)return S.RX;
   const c=x=>new RegExp(x);
   S.RX={R,course:R.course.map(([x,v])=>[c(x),v]),yl:R.year_level.map(([x,v])=>[c(x),v]),
     task:R.task.map(r=>({on:r.on,re:c(r.re),not:r.not?c(r.not):null,task:r.task})),year:c(R.year),
