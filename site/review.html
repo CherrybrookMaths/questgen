@@ -2535,6 +2535,37 @@ const UNSLUG=Object.fromEntries(Object.entries(SLUG).map(([k,v])=>[v,k]));
 const stepLabel=k=>(STEPS.find(x=>x[0]===k)||FILTERS.find(x=>x[0]===k)||[,k])[1];
 // Review mode: 'paper' (one paper, walked top to bottom: #review/paper/<doc>/<step>) or 'list' (Recently approved, Other lists: #review/list/<filter>)
 let RMODE='paper';
+/* Question keys (Fix 2 of the plan "Questgen architecture plan: before imports resume"; owner 14 Nov: "Ok we should run Fix 1
+   and 2"). Decisions are stored by permanent key, not by question id: reviews/k_<key> ('2022-CSSA-AT4-Q10', bank q.key from
+   tools/qkeys.py) and reviews/p_<paper key> ('2022-CSSA-AT4', bank docs[d].key). Every copy of a question shares its key, so
+   an approval on any copy counts for all of them (14 Nov: the CSSA paper filed twice hid the approved 274/275 behind
+   unapproved copies 44/45). index() turns the raw collection into the in-page map the rest of the page reads, still by
+   'q<id>' / 'paper_<doc>', one shared record per key. Old 'q<id>' / 'paper_<doc>' docs are read as a fallback while the
+   migration (tools/migrate_reviews_to_keys.py) has not reached them; a k_/p_ doc, once it exists, is the decision.
+   Saved exams (keys), difficulty checks (key) and reports (key) also carry the key, so tools can re-attach them. */
+const RKEY={_g:null,
+  groups(){if(this._g)return this._g;const q={},p={};
+    B.questions.forEach(x=>{if(x.key)(q[x.key]=q[x.key]||[]).push(x.id)});
+    Object.values(B.docs).forEach(d=>{if(d.key)(p[d.key]=p[d.key]||[]).push(d.id)});return this._g={q,p}},
+  qdoc:q=>q.key?'k_'+q.key:'q'+q.id,                                      // where a question's decision is written
+  pdoc:d=>B.docs[d]?.key?'p_'+B.docs[d].key:'paper_'+d,                    // where a paper's decision is written
+  copies(q){return q.key?this.groups().q[q.key]||[q.id]:[q.id]},
+  docsOf(d){const k=B.docs[d]?.key;return k?this.groups().p[k]||[+d]:[+d]},
+  // old docs of several copies: an approval wins, then the newest; the newest note is kept; maps (fig, sol ...) merge, newest wins
+  rank:r=>[r?.status==='approved'?3:r?.status==='flagged'?2:r?.status?1:0,String(r?.at||'')],
+  merge(list){if(list.length<2)return list[0];const obj=(k,v)=>v&&typeof v==='object'&&!Array.isArray(v)&&k!=='call',out={};
+    const asc=[...list].sort((a,b)=>String(a.at||'').localeCompare(String(b.at||'')));
+    const top=[...asc].sort((a,b)=>{const x=this.rank(a),y=this.rank(b);return x[0]-y[0]||x[1].localeCompare(y[1])}).pop();
+    asc.forEach(r=>Object.entries(r).forEach(([k,v])=>{if(obj(k,v))out[k]={...(out[k]||{}),...v}}));
+    Object.entries(top).forEach(([k,v])=>{if(!obj(k,v))out[k]=v});
+    const n=asc.filter(r=>r.note).pop(),c=asc.filter(r=>r.call).pop();if(n)out.note=n.note;if(c)out.call=c.call;return out},
+  index(raw){const nx={...raw},{q,p}=this.groups();
+    Object.entries(q).forEach(([k,ids])=>{const r=raw['k_'+k]||this.merge(ids.map(i=>raw['q'+i]).filter(Boolean));if(r)ids.forEach(i=>nx['q'+i]=r)});
+    Object.entries(p).forEach(([k,ds])=>{const r=raw['p_'+k]||this.merge(ds.map(d=>raw['paper_'+d]).filter(Boolean));if(r)ds.forEach(d=>nx['paper_'+d]=r)});
+    return nx},
+  // a saved exam's questions: by key when it has keys (the copy the Bank shows), else by id
+  items(x){const ks=x.keys||[];return (x.items||[]).map((id,i)=>{const k=ks[i];if(!k)return id;const g=this.groups().q[k]||[];
+    if(g.includes(id)&&!xq(id)?.dup_of)return id;return g.find(j=>!xq(j)?.dup_of)??g[0]??id})}};
 const paperOK=doc=>reviews['paper_'+doc]?.status==='approved';
 const chkFigsAll=q=>q.tri?q.tri.chk_figs.filter(redrawable):qFigs(q);
 // owner 12 Nov ("yeah do that"): High-confidence diagrams (question graphs, blank axes: 48 of 50 approved) are spot-checked,
@@ -2719,7 +2750,8 @@ function sampleBanner(doc){doc=+doc;
   if(bad) return `<div class="why"><b>Spot-check</b>${bad} of ${smp.length} sampled questions in ${esc(docLabel(B.docs[doc]))} were flagged, so the rest of this paper stays unapproved. Claude will re-check the paper.</div>`;
   if(ok<smp.length) return `<div class="help">Spot-check for ${esc(docLabel(B.docs[doc]))}: ${ok} of ${smp.length} done. When all are fine you can approve the other ${rest.length} questions in one click.</div>`;
   return `<div class="banner"><span>All ${smp.length} spot-checked questions in <b>${esc(docLabel(B.docs[doc]))}</b> are fine.</span><button class="act ok" data-paperok="${doc}">Approve the other ${rest.length} questions in this paper</button></div>`}
-async function approvePaper(doc){doc=String(doc);const key='paper_'+doc;const next={...(reviews[key]||{}),status:'approved',doc:+doc,by:me||null,at:new Date().toISOString()};reviews[key]=next;TOPICS=null;
+async function approvePaper(doc){doc=String(doc);const key=RKEY.pdoc(doc);const next={...(reviews['paper_'+doc]||{}),status:'approved',doc:+doc,by:me||null,at:new Date().toISOString()};if(B.docs[doc]?.key)next.key=B.docs[doc].key;
+  RKEY.docsOf(doc).forEach(d=>reviews['paper_'+d]=next);TOPICS=null;   // owner 14 Nov (Fix 2): one decision for every file of the paper
   if(!db){toast('Not saved: this view has no shared storage');return}
   if(view==='review')refreshReview();else renderSteps();   // move on at once (owner 12 Nov: "why doesn't approving auto next"); the save finishes in the background
   try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Paper approved')}catch(e){toast('Could not save. Try again in a moment.')}}
@@ -2737,8 +2769,8 @@ const PCALL={
       <div class="flagbox" data-pcbox="${c.doc}" hidden><label class="help" for="pcn-${c.doc}">What should it be? <kbd>Enter</kbd> sends, <kbd>Esc</kbd> cancels.</label><input id="pcn-${c.doc}" type="text" placeholder="e.g. Label it AT4"></div>`
     :`<div class="help">✓ Your answer: ${c.a.status==='approved'?'keep as is':esc(c.a.note||'')} <span class="muted">· ${esc(ago(c.a.at))}</span> <button class="lk" data-pcopen="${c.doc}">change</button></div>
       <div class="flagbox" data-pcbox="${c.doc}" hidden><input id="pcn-${c.doc}" type="text" aria-label="Your answer" value="${esc(c.a.note||'')}"></div>`}</div>`).join('')},
-  async answer(doc,status,note){const key='paper_'+doc;const next={...(reviews[key]||{}),doc:+doc,call:{status,note:note||null,by:me||null,at:new Date().toISOString()}};
-    reviews[key]=next;if(view==='review')refreshReview();else renderSteps();
+  async answer(doc,status,note){const key=RKEY.pdoc(doc);const next={...(reviews['paper_'+doc]||{}),doc:+doc,call:{status,note:note||null,by:me||null,at:new Date().toISOString()}};
+    if(B.docs[doc]?.key)next.key=B.docs[doc].key;RKEY.docsOf(doc).forEach(d=>reviews['paper_'+d]=next);if(view==='review')refreshReview();else renderSteps();
     if(!db){toast('Not saved: this view has no shared storage');return}
     try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved')}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.')}}};
 document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-pcok],[data-pcopen]');if(!t)return;e.preventDefault();
@@ -2916,9 +2948,9 @@ function renderReview(){
   if(editing) setupPicker();
 }
 async function write(q,patch){
-  const key='q'+q.id; const cur=reviews[key]||{};
-  const next={...cur,...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};
-  reviews[key]=next; TOPICS=null; _clean=null;
+  const key=RKEY.qdoc(q); const cur=reviews['q'+q.id]||{};   // owner 14 Nov (Fix 2): stored by key, shared by every copy
+  const next={...cur,...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};if(q.key)next.key=q.key;
+  RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;
   if(!db){toast('Not saved: this view has no shared storage');return}
   try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved')}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.')}
 }
@@ -3255,7 +3287,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
     // owner 14 Nov: "need a pill for current jobs and queued jobs". The queue: {items:[{id,title,detail,status,order,asked}],updated}
     if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes')renderProcesses()},()=>{})}catch(e){}}
     if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);if(v){PROG=v;if(view==='processes')renderImport()}},()=>{})}catch(e){}}
-    if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=nx;TOPICS=null;_clean=null;
+    if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=RKEY.index(nx);TOPICS=null;_clean=null;
       updateCounts(); if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh(); else if(view==='processes') renderImport()},()=>{})}   // Import history counts approved questions too (bankStats)
   }catch(e){}
 })();
@@ -3305,12 +3337,14 @@ let XSAVED=[],_xsub=null;
 function xSavedList(){const el=$('#xSaved');if(!el)return;if(!db){el.innerHTML='';return}
   if(!_xsub){try{_xsub=db.collection('exams').onSnapshot(s=>{const d=s.docs||s;XSAVED=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).sort((a,b)=>String(b.at).localeCompare(String(a.at)));xSavedList()},()=>{})}catch(e){}}
   el.innerHTML=XSAVED.length?`<div class="xsec">Saved exams</div><ul class="xslist">${XSAVED.slice(0,30).map(x=>`<li><button data-xload="${esc(x.id)}">${esc(x.title||'Untitled')}<small>${esc(x.sub||'')} · ${(x.items||[]).length} questions · ${esc(String(x.at||'').slice(0,10))}</small></button></li>`).join('')}</ul>`:''}
+// owner 14 Nov (Fix 2, "Ok we should run Fix 1 and 2"): keys (question keys, parallel to items) let a saved exam find its
+// questions again after a re-parse or a change of which copy the Bank shows (RKEY.items).
 // saving: every field, including settings, lines, diagram sizes and locks (Exams page, owner 14 Nov); then My exams and the
 // page head's Saved / Unsaved marker refresh (they refresh even when there is no database)
 async function xSaveDb(){
   if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;xsave();
     const A=EX.auto||{},keep={topics:A.topics,total:A.total,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
-    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',time:EX.time,reading:EX.reading,items:EX.items,instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});toast('Exam saved')}
+    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',time:EX.time,reading:EX.reading,items:EX.items,keys:EX.items.map(i=>xq(i)?.key||null),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});toast('Exam saved')}
     catch(e){toast('Could not save. Try again in a moment.')}}
   if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}}
 document.addEventListener('click',e=>{
@@ -3485,8 +3519,9 @@ function renderLevels(keep){
 function lvSet(k,v){const box=$('#levelsBox');if(!box._pick)return;box._pick[k]=v;
   $$(k==='band'?'[data-lvb]':'[data-lvw]',box).forEach(b=>b.setAttribute('aria-pressed',String((k==='band'?+b.dataset.lvb:b.dataset.lvw)===v)));
   const x=lvList()[LVI],ok=$('#lvOk');if(x&&ok){const ch=box._pick.band!==x.d.b||box._pick.wm!==x.d.wm;ok.firstChild.textContent=ch?'Save change':'Agree';ok.classList.toggle('chg',ch)}}
+// owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": a check carries its question's key and part label so it can be re-attached
 async function lvSave(){const box=$('#levelsBox'),list=lvList(),x=list[LVI];if(!x)return;const {band,wm}=box._pick;
-  const v={band,wm,orig_band:x.d.b,orig_wm:x.d.wm,status:band===x.d.b&&wm===x.d.wm?'agreed':'changed',part_id:x.p.id,question_id:x.q.id,area:x.d.ar,anchor:!x.flag,by:me||null,at:new Date().toISOString()};
+  const v={band,wm,orig_band:x.d.b,orig_wm:x.d.wm,status:band===x.d.b&&wm===x.d.wm?'agreed':'changed',part_id:x.p.id,question_id:x.q.id,key:x.q.key||null,part:x.p.label||null,area:x.d.ar,anchor:!x.flag,by:me||null,at:new Date().toISOString()};
   DIFD[x.p.id]=v;   // optimistic; move on at once (owner: "why doesn't approving auto next")
   if(LVSHOW==='todo'){renderLevels(true)}else{LVI=Math.min(LVI+1,list.length-1);renderLevels(true)}
   window.scrollTo({top:0,behavior:RM.matches?'auto':'smooth'});
@@ -4206,12 +4241,13 @@ const exmWho=x=>!x.by?'':x.by===me?'you':(EXM.names[x.by]||'a colleague');
 // the fields that make up a saved exam; "unsaved" = the open exam differs from its saved copy
 const exmSig=x=>JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.time||'',x.reading||'',x.items||[],x.instr||null,x.lines||{},x.figscale||{}]);
 function exmState(){if(!EX.items.length)return '';if(!EX.id)return 'new';const s=XSAVED.find(x=>x.id===EX.id);if(!s)return db?'new':'';return exmSig(s)===exmSig(EX)?'saved':'changed'}
-function exmStats(x){const qs=(x.items||[]).map(xq).filter(Boolean);let m=0,pr=0,w=0,mc=0;
+// owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": a saved exam finds its questions by key (RKEY.items), id as fallback
+function exmStats(x){const qs=RKEY.items(x).map(xq).filter(Boolean);let m=0,pr=0,w=0,mc=0;
   qs.forEach(q=>{const k=+q.marks||0;m+=k;if(q.type==='mcq')mc++;const d=qDiff(q);if(d){pr+=d.pr*k;w+=k}});return {n:qs.length,m,mc,pr:w?pr/w:0,miss:(x.items||[]).length-qs.length}}
 const exmWhen=t=>{const d=new Date(t);if(isNaN(d))return '';const days=Math.floor((Date.now()-d)/864e5);
   return days<1?d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}):days<7?d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}):d.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})};
 // owner 14 Nov: cert line saved with the exam; "remove Skip questions used in my other saved exams for now" (avoid forced off)
-function exmLoad(x){EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',time:x.time,reading:x.reading,items:(x.items||[]).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
+function exmLoad(x){EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',time:x.time,reading:x.reading,items:RKEY.items(x).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
   xsave();try{EXC.clear()}catch(e){}}
 function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
   if(!db){el.innerHTML='<div class="exm-empty">Saved exams live in the shared database. Open the page in claude.ai to see them.</div>';return}
@@ -4543,13 +4579,14 @@ function repForm(qidn,n){const q=xq(qidn);if(!q)return;const lv=qLeaves(q),e=typ
     <div class="repacts"><button type="button" class="act ghost" data-rclose>Cancel</button><button type="button" class="act ok" data-rsend>Send report</button></div></div>`;
   el.hidden=false;document.body.classList.add('rep-on');setTimeout(()=>el.querySelector('[data-rr]')?.focus(),30)}
 function repClose(){const el=$('#repDlg');if(el){el.hidden=true;el.innerHTML=''}document.body.classList.remove('rep-on');const p=REP.dlg?.prev;REP.dlg=null;try{p?.focus()}catch(e){}}
+// owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": a report carries its question's key (tools/qkeys.py)
 async function repSend(){const D=REP.dlg,el=$('#repDlg');if(!D)return;const msg=el.querySelector('[data-rmsg]'),say=t=>{msg.textContent=t;msg.hidden=false};
   if(!D.reason){say('Choose what is wrong.');return}
   const note=el.querySelector('textarea').value.trim(),dot=el.querySelector('[data-rdot]')?.value||'',dotx=el.querySelector('[data-rdotx]')?.value.trim()||'';
   if(D.reason==='other'&&!note){say('Add a note to say what is wrong.');return}
   if(!db){say('Reports are saved in the shared database. Open the page in claude.ai to send one.');return}
   const part=el.querySelector('[data-rpart]')?.value||'';
-  const doc={question_id:D.q,reason:D.reason==='dif'?'difficulty':D.reason==='dot'?'dot_point':'other',note,by:me||null,at:new Date().toISOString(),status:'open'};
+  const doc={question_id:D.q,key:xq(D.q)?.key||null,reason:D.reason==='dif'?'difficulty':D.reason==='dot'?'dot_point':'other',note,by:me||null,at:new Date().toISOString(),status:'open'};
   if(part)doc.part_id=+part||part;if(EX.id)doc.exam_id=EX.id;
   if(D.reason==='dif'&&D.band)doc.suggested_band=D.band;
   if(D.reason==='dif'&&D.wm)doc.suggested_wm=D.wm;   // owner 14 Nov: "Should let you pick UF and PS in the wrong diff"
@@ -4643,7 +4680,8 @@ const SCH={W:1220,H:830,w:250,rh:19,hh:30,
   ['diff','part_difficulty',640,420,[['part_id','','pk'],['band · wm','2–6 · UF/PR'],['nearest_anchor','HSC reference','fk'],['band_ai · owner_band','model vs you'],['source','owner / shifted / model']],2292,'db'],
   ['tags','tags',950,20,[['id','','pk'],['part_id','','fk'],['question_id','→ questions','fk'],['dot_point','Y12-279','fk'],['is_primary · coverage','main / gate'],['scheme','2024 / 2017']],12625,'db'],
   ['dots','dotpoints.json',950,240,[['id','Y11-001 … Y12-359','pk'],['focus area · subheading',''],['text · short','']],359,'file'],
-  ['pagedb','Page database',950,380,[['reviews/q<id>','→ questions'],['difficulty/<part_id>','your checks'],['exams/<id>','→ questions (list)'],['reports/<id>','→ questions · parts'],['progress/*','jobs · queue · import']],null,'page'],
+  // owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": review decisions are stored by question key (reviews/k_<key>)
+  ['pagedb','Page database',950,380,[['reviews/k_<key>','→ question keys'],['difficulty/<part_id>','your checks'],['exams/<id>','→ questions (list)'],['reports/<id>','→ questions · parts'],['progress/*','jobs · queue · import']],null,'page'],
   ['mirror','page_* mirror tables',20,580,[['page_reviews','1,066 · → questions'],['page_difficulty','99 · → parts'],['page_exams · …_items','→ questions'],['page_reports','→ questions · parts'],['page_sync','when each was copied']],null,'db'],
   ['bank','bank.json',950,600,[['questions[]','built from all tables'],['parts[].dif','difficulty'],['docs · tables','']],1618,'file']],
  e:[ // from table, from row index, to table, to row index, style, label

@@ -17,7 +17,8 @@ const SCH={W:1220,H:830,w:250,rh:19,hh:30,
   ['diff','part_difficulty',640,420,[['part_id','','pk'],['band · wm','2–6 · UF/PR'],['nearest_anchor','HSC reference','fk'],['band_ai · owner_band','model vs you'],['source','owner / shifted / model']],2292,'db'],
   ['tags','tags',950,20,[['id','','pk'],['part_id','','fk'],['question_id','→ questions','fk'],['dot_point','Y12-279','fk'],['is_primary · coverage','main / gate'],['scheme','2024 / 2017']],12625,'db'],
   ['dots','dotpoints.json',950,240,[['id','Y11-001 … Y12-359','pk'],['focus area · subheading',''],['text · short','']],359,'file'],
-  ['pagedb','Page database',950,380,[['reviews/q<id>','→ questions'],['difficulty/<part_id>','your checks'],['exams/<id>','→ questions (list)'],['reports/<id>','→ questions · parts'],['progress/*','jobs · queue · import']],null,'page'],
+  // owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": review decisions are stored by question key (reviews/k_<key>)
+  ['pagedb','Page database',950,380,[['reviews/k_<key>','→ question keys'],['difficulty/<part_id>','your checks'],['exams/<id>','→ questions (list)'],['reports/<id>','→ questions · parts'],['progress/*','jobs · queue · import']],null,'page'],
   ['mirror','page_* mirror tables',20,580,[['page_reviews','1,066 · → questions'],['page_difficulty','99 · → parts'],['page_exams · …_items','→ questions'],['page_reports','→ questions · parts'],['page_sync','when each was copied']],null,'db'],
   ['bank','bank.json',950,600,[['questions[]','built from all tables'],['parts[].dif','difficulty'],['docs · tables','']],1618,'file']],
  e:[ // from table, from row index, to table, to row index, style, label

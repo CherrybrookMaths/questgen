@@ -52,7 +52,8 @@ def main(d):
     if os.path.isdir(os.path.join(d, 'reviews')):
         db.execute('DELETE FROM page_reviews'); L = docs(d, 'reviews'); bad = 0
         for k, v in L:
-            qid = v.get('question_id') if k.startswith('q') else None; did = v.get('doc') if k.startswith('paper_') else None
+            # owner 14 Nov (Fix 2, "Ok we should run Fix 1 and 2"): k_<question key> / p_<paper key> docs too (tools/qkeys.py)
+            qid = v.get('question_id') if k[:1] == 'q' or k.startswith('k_') else None; did = v.get('doc') if k.startswith(('paper_', 'p_')) else None
             if (qid and not have('questions', qid)) or (did and not have('documents', did)): bad += 1
             db.execute('INSERT INTO page_reviews VALUES(?,?,?,?,?,?,?,?,?,?,?)', (k, qid, did, v.get('status'), v.get('note') or v.get('flag_note'),
                        J(v.get('home')), J(v.get('fig')), J(v.get('sol')), v.get('by'), v.get('at'), J(v)))

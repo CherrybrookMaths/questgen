@@ -25,7 +25,7 @@
     // owner 14 Nov: "need a pill for current jobs and queued jobs". The queue: {items:[{id,title,detail,status,order,asked}],updated}
     if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes')renderProcesses()},()=>{})}catch(e){}}
     if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);if(v){PROG=v;if(view==='processes')renderImport()}},()=>{})}catch(e){}}
-    if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=nx;TOPICS=null;_clean=null;
+    if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=RKEY.index(nx);TOPICS=null;_clean=null;
       updateCounts(); if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh(); else if(view==='processes') renderImport()},()=>{})}   // Import history counts approved questions too (bankStats)
   }catch(e){}
 })();

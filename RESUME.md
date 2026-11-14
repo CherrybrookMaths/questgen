@@ -8,7 +8,7 @@ Owner: Steve Yeung (CMC Education). Last updated 11 Nov 2026 (UI v2, diagram red
     `data/bank/advanced/<topic>.json` per topic on demand (tools/bank_split.py); image packs come from the asset store when
     `data/assets.json` lists them (IMPORT_PLAYBOOK "Asset store"). `data/bank.json` is still built for the tools.
   - Published files: `review.html`, `data/bank.json` (all parsed questions, tags and solutions shown in the tool), `data/dotpoints.json`, `data/img/<doc>.json` (page images and figure crops, one per paper), `data/svg/g0..g7.json` (redrawn diagrams, grouped by paper id % 8) and `data/cmp/g0.json` (Review overlay / first-redraw images) since 15 Nov stage 2, `project/*` (everything below).
-  - Review decisions are kept in the page's database, collection `reviews` (one doc per question, `q<question_id>`).
+  - Review decisions are kept in the page's database, collection `reviews`: since 14 Nov (Fix 2) one doc per question key, `k_<key>`, and `p_<paper key>` for papers; the old `q<question_id>` / `paper_<doc>` docs are still read as a fallback (IMPORT_PLAYBOOK "Question keys").
 - **Pilot report (Claude Doc):** https://claude.ai/artifact/5S6LcYaFK4h8ot2yA4WihH
 - **Drive copy:** "HSC Advanced Question Bank" folder in Steve's My Drive, id `1mD-XIPf4vrrtJSFybjsjXgl_ezPq2F8S` (https://drive.google.com/drive/folders/1mD-XIPf4vrrtJSFybjsjXgl_ezPq2F8S): `questions.db.zip` (the database zipped, since 12 Nov), `project_files.zip` (same files as `project/`), `review_page_and_data.zip` (review.html, bank.json, dotpoints.json), `RESUME.md`. Page images and figure crops are NOT in Drive (upload size limit); they are stored in the review page (`data/img/*.json`) and can be re-rendered from the source PDFs. Sync after every major change: upload new copies, then rename the old ones "(superseded <date>, safe to delete)"; never trash.
 - **Source PDFs:** Google shared drive "CMC Resources" › Exams › External Exams Stage 6. `stage0_manifest.csv` lists every PDF; `drive_ids.csv` (when present) maps each Year 12 Advanced paper to its Drive file id so it can be fetched with the Drive connector, no PC needed.
@@ -175,3 +175,6 @@ archive/data_unused_1113/; the next publish sends null for them), five cross-vie
 prefixes), a size budget in batch_check (tools/size_budget.json; over budget blocks until the owner agrees), one shared
 state object `QG` in page_src/js/01_core.js (B, db, me, EDITOR, view ... are aliases onto it), and the course as a setting
 (`QG.course`, `QG.courseData`). Details, numbers and the debt left: CODE_HEALTH.md "Health pass" and "Known debt".
+
+## Question keys (14 Nov, Fix 2; owner: "Ok we should run Fix 1 and 2")
+Questions have permanent keys (`2022-CSSA-AT4-Q10`; tools/qkeys.py, table question_keys, bank q.key). Reviews, paper approvals, saved exams, difficulty checks and reports address questions by key, so approvals follow the question across copies and re-parses. questions.db is exported as text to dbtext/ at every publish. Migration and commands: IMPORT_PLAYBOOK "Question keys and the database's text history".
