@@ -1,0 +1,1614 @@
+# paper 2024-Cherrybrook-AT1 (document 642)
+document
+  id: 642
+  drive_file_id: 1hh9hlVsEHje-T-tduewOp8vdCPx1wW67
+  source_path: CTHS/Adv/Y12/2024 Y12 Adv AT1 Seq n Series, Bivariate Data w Solutions.pdf
+  size_bytes: 3089979
+  task_type: internal_exam
+  course: advanced
+  classification_method: explicit_cover
+  year_level: 12
+  school: Cherrybrook
+  year: 2024
+  natural_key: internal_exam|2023|cherrybrook|advanced
+  provenance_method: coverpage
+  page_count: 32
+  has_text_layer: 1
+  parse_path: digital
+  bundled_solutions: 1
+  syllabus_version: 2017
+  status: tagged
+  ingested_at: 2026-11-10T22:53:15
+  display_label: 2024 Cherrybrook Technology High School AT1
+  school_formal: Cherrybrook Technology High School
+  task_code: AT1
+
+## Q1  key 2024-Cherrybrook-AT1-Q1  id 316
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 1
+  review_status: approved
+  review_note: bundled key D (112.5) uses cf 60 (upper quartile) but stem says 75% took MORE than n minutes; key may not match wording | AUDIT audit-v1: ok
+  options_layout: text
+  home_topic: special:removed
+  home_source: computed
+  option A
+    latex: $165$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $67.5$
+    is_correct: 1
+    key_source: corrected
+  option C
+    latex: $70$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $112.5$
+    is_correct: 0
+    key_source: extracted
+  solution 376
+    source: extracted
+    latex: |
+      75% of games took more than $n$ minutes, so 25% took at most $n$ minutes:
+      $$25\%\times80=20\text{ games}$$
+      Read across from cumulative frequency $20$ to the curve, then down. The point lies halfway between $(60,15)$ and $(75,25)$:
+      $$n=60+\dfrac{20-15}{25-15}\times15=67.5$$
+    marks_breakdown: 1: D
+    source_document_id: 642
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"corrected": "Corrected from source: the school key gave D ($112.5$), which answers \"75% took LESS than $n$ minutes\". The question says MORE, so the answer is B ($67.5$).", "source_original": {"latex": "Graph annotated: horizontal line drawn from cumulative frequency $60$ across to the curve, then vertical line down to the duration axis (between $105$ and $120$ minutes).\n$$n = 112.5$$"}}
+  figure 642_q1_1.png
+    page: 1
+    bbox: [118, 228, 496, 436]
+    png_path: figures/642_q1_1.png
+    tikz_path: tikz/tex/642_q1_1.tex
+    caption: cumulative frequency graph of chess game duration (minutes), 15 to 180, cumulative frequency to 80
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: v2: Removed 0.8pt polyline override (house 0.5pt); x-axis length and axis-title positions matched to crop; geometry already at crop scale | still different: Crop polyline/points drawn heavier and in dark grey.
+  part -  id 503
+    ordinal: 1
+    latex: |
+      The duration of each game in a chess tournament was recorded. The data is represented in the cumulative frequency graph.
+
+      \exfigure{642_q1_1}
+
+      If 75% of the games took more than $n$ minutes, what is the value of $n$?
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-S2.1
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-200
+      focus_area: Probability and data
+      dot_point: Graph the frequency, relative frequency, and cumulative frequency histograms and polygons of datasets, using spreadsheets or graphing applications, and identify the mode and median from the graphs, and from tables
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 1.0
+      tag_source: owner
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Frequency tables and histograms
+      coverage: required
+      is_primary: 1
+      tag_source: owner
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 216
+      confidence: medium
+      reason: Convert "more than" to 25th percentile, read and interpolate ogive
+      area: Unhomed
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q2  key 2024-Cherrybrook-AT1-Q2  id 317
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  review_note: AUDIT audit-v1: ok
+  options_layout: text
+  standard_topic: Standard 2, Year 12: Bivariate data analysis (MST-12-S2-08)
+  home_topic: special:removed
+  home_source: computed
+  option A
+    latex: increasing spending on advertising will decrease profits.
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: increased spending of advertising is associated with increased profits.
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: the amount spent on advertising by a business is 89% of its profit.
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: the amount spent on advertising by a business is 11% of its profits.
+    is_correct: 0
+    key_source: extracted
+  solution 533
+    source: generated
+    latex: |
+      $r=0.89$ is a strong positive correlation: higher advertising spending is associated with higher profits.
+
+      $r$ measures the strength of a linear association; it is not a percentage (C, D), and a positive $r$ rules out A.
+    marks_breakdown: 1: Correct answer (B)
+    model: claude-opus-5-5
+    prompt_version: gen-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  part -  id 504
+    ordinal: 1
+    latex: Profit and the amount spent on advertising are strongly correlated with a correlation coefficient $r = 0.89$. Which of the following could be the most likely conclusion from this information?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-S2.2
+      is_primary: 0
+      confidence: 0.95
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-S2.2
+      dot_point: Interpreting a correlation coefficient: bivariate data not in 2024 Advanced. · Standard: MST-12-S2-08
+      is_primary: 0
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+
+## Q3  key 2024-Cherrybrook-AT1-Q3  id 318
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_table_json: {"headers": ["Lowest Mark", "Median"], "rows": {"A": ["$24$", "$46$"], "B": ["$24$", "$59$"], "C": ["$11$", "$46$"], "D": ["$11$", "$59$"]}}
+  options_layout: table
+  standard_topic: Standard, Year 11: Data analysis (MST-11-08)
+  home_topic: special:removed
+  home_source: computed
+  option A
+    latex: Lowest mark $24$, median $46$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: Lowest mark $24$, median $59$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: Lowest mark $11$, median $46$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: Lowest mark $11$, median $59$
+    is_correct: 0
+    key_source: extracted
+  solution 378
+    source: extracted
+    latex: |
+      Box plot sketched: lowest $24$, $Q_1 = 35$, median $= 59$, $Q_3 = 83$, highest $94$.
+
+      The lowest mark is $24$ and the median is $59$.
+    marks_breakdown: 1: B
+    source_document_id: 642
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 505
+    ordinal: 1
+    latex: |
+      In a mathematics examination, 25% of students scored less than 35 marks, 75% of students scored less than 83 marks and the highest mark was 94.
+
+      Given that the distribution is perfectly symmetrical with no outliers, what is the lowest mark and the median of this data set?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-S2.1
+      is_primary: 0
+      confidence: 0.85
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-S2.1
+      dot_point: Quartiles / box plot of a data set: Standard data analysis · Standard: MST-11-08
+      is_primary: 0
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+
+## Q4  key 2024-Cherrybrook-AT1-Q4  id 319
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Sequences and series|Geometric sequences and series
+  home_source: computed
+  option A
+    latex: $\dfrac{1}{6}$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $\dfrac{1}{7}$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $\dfrac{5}{6}$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $\dfrac{6}{7}$
+    is_correct: 0
+    key_source: extracted
+  solution 379
+    source: extracted
+    latex: |
+      $$a = 7, \qquad S_\infty = 42$$
+      $$\begin{aligned} 42 &= \dfrac{a}{1-r} \\ 42 &= \dfrac{7}{1-r} \\ 1 - r &= \dfrac{7}{42} \\ 1 - \dfrac{7}{42} &= r \\ r &= \dfrac{5}{6} \end{aligned}$$
+    marks_breakdown: 1: C
+    source_document_id: 642
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 506
+    ordinal: 1
+    latex: An infinite geometric series has a first term of 7 and a limiting sum of 42. What is the common ratio?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-M1.3
+      is_primary: 0
+      confidence: 0.9
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-227
+      focus_area: Sequences and series
+      dot_point: Develop the formula S∞= a 1―r for the limiting sum of a geometric series with |r|< 1, and use this formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Limiting sums
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 170
+      confidence: medium
+      reason: MCQ: limiting sum formula used in reverse for r
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q5  key 2024-Cherrybrook-AT1-Q5  id 320
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Exponential and logarithmic functions|Logarithmic functions
+  home_source: computed
+  option A
+    latex: $55\log_a x$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $45\log_a x$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $40\log_a x$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $6\log_a x$
+    is_correct: 0
+    key_source: extracted
+  solution 380
+    source: extracted
+    latex: $$\begin{aligned} \log_a x^5 + \log_a x^6 + \cdots + \log_a x^{10} &= \log_a\left(x^{5+6+7+8+9+10}\right) \\ &= \log_a x^{45} \\ &= 45\log_a x \end{aligned}$$
+    marks_breakdown: 1: B
+    source_document_id: 642
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 507
+    ordinal: 1
+    latex: |
+      Which of the following could be the sum of the series
+      $$\log_a x^5 + \log_a x^6 + \log_a x^7 + \cdots + \log_a x^{10}?$$
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-M1.2
+      is_primary: 0
+      confidence: 0.75
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-158
+      focus_area: Exponential and logarithmic functions
+      dot_point: Apply the logarithmic laws and results to simplify expressions, solve equations and prove results, using digital tools where necessary
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Arithmetic series
+      coverage: can_use
+      is_primary: 0
+      tag_source: gate-check
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Logarithm laws
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 264
+      confidence: medium
+      reason: power law then sum exponents 5 to 10
+      area: Y11_Exponential_and_logarithmic_functions
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q6  key 2024-Cherrybrook-AT1-Q6  id 321
+  section: II
+  question_type: short
+  stem_latex: |
+    A shopkeeper is reconsidering whether it is worth having a pop-up stall on a Sunday. She records the number of sales made on Saturdays and Sundays over a long period of time.
+
+    The data is displayed in the parallel box plots shown below.
+
+    \exfigure{642_q6_1}
+  marks_total: 3
+  page_start: 3
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  review_note: AUDIT audit-v1: ok
+  standard_topic: Standard, Year 11: Data analysis (MST-11-08)
+  home_topic: special:removed
+  home_source: computed
+  figure 642_q6_1.png
+    page: 3
+    bbox: [140, 318, 427, 440]
+    png_path: figures/642_q6_1.png
+    tikz_path: tikz/tex/642_q6_1.tex
+    caption: parallel box plots of number of sales in a day, Saturdays and Sundays, scale 0 to 100
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: v2: Rebuilt in crop pixel coordinates: scale 0.0864cm/unit (was 0.1), box heights (Sat taller than Sun) and positions, gap to axis, label positions as crop; removed 0.8pt override; short upward axis ticks | still different: Crop draws the right-hand whiskers extra heavy; kept at house 0.5pt. Crop tick labels look bold (scan). | v2.1 overlay fix: Tick numbers shifted 6.5px right of their ticks as in the crop (0 kept at its tick); caption enlarged to the crop width; Saturdays/Sundays moved left 5px. | remaining: Font shape of the crop's bold-ish scanned digits ('100' wider).
+  part a  id 508
+    ordinal: 1
+    latex: Compare and contrast the sales made by the pop-up stall on Saturdays and Sundays using statistical measures (skewness, spread etc).
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-S2.1
+      is_primary: 0
+      confidence: 0.95
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-S2.1
+      dot_point: Comparing parallel box plots (skewness, spread): not in 2024 Advanced. · Standard: MST-11-08
+      is_primary: 0
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 381
+      source: extracted
+      latex: |
+        Same: the median is the same on Saturdays and Sundays.
+
+        Contrast: the range on Sunday ($70 - 10 = 60$) is larger than the range on Saturday ($70 - 30 = 40$).
+
+        The spread on Sunday is symmetrical. There are the same number of days with low transactions as there are with high numbers of transactions.
+
+        The data on Saturdays is positively skewed.
+      marks_breakdown: 1: similarity (same median); 1: contrast (range/spread/skewness)
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Identifies a similarity (same median), or equivalent merit"]]
+      meta_json: {"criteria_original": [[1, "Similarity (same median)"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Contrast (range/spread/skewness)"}
+  part b  id 509
+    ordinal: 2
+    latex: The shopkeeper’s husband, Michael, believes that there is not much difference in the number of sales on a Saturday and on a Sunday because of the same median number of sales. Explain whether his view is justified.
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-S2.1
+      is_primary: 0
+      confidence: 0.95
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-S2.1
+      dot_point: Interpreting medians and ranges from parallel box plots: not in 2024 Advanced. · Standard: MST-11-08
+      is_primary: 0
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 382
+      source: extracted
+      latex: |
+        Michael's view is not justified.
+
+        Saturday is a better day to trade since the lowest number of transactions is $30$ and the highest is $70$. On Sunday the lowest number of transactions is $10$.
+      marks_breakdown: 1: not justified with reasoning (lowest values 30 vs 10)
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"top_criterion_original": "Not justified, with reasoning (lowest values $30$ vs $10$)"}
+
+## Q7  key 2024-Cherrybrook-AT1-Q7  id 322
+  section: II
+  question_type: short
+  stem_latex: |
+    During December, a local ABC Bakery recorded the average number of cakes sold each day of different flavours.
+
+    The figures are shown in the table below.
+
+    \extable{Tq322_1}
+
+    \exfigure{642_q7_1}
+  marks_total: 3
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  review_note: AUDIT audit-v1: ok
+  home_topic: sub:11|Probability and data|Data
+  home_source: computed
+  data_table Tq322_1
+    header_rows: 1
+    label_col: 0
+    rows_json: [["\\textbf{Flavours of cakes}", "\\textbf{Cumulative frequency}"], ["\\text{Chocolate}", "195"], ["\\text{Carrot}", "325"], ["\\text{Vanilla}", "373"], ["\\text{Rainbow}", "392"], ["\\text{Pistacho}", "404"]]
+    source_latex: $$\begin{array}{|l|l|} \hline \textbf{Flavours of cakes} & \textbf{Cumulative frequency} \\ \hline \text{Chocolate} & 195 \\ \hline \text{Carrot} & 325 \\ \hline \text{Vanilla} & 373 \\ \hline \text{Rainbow} & 392 \\ \hline \text{Pistacho} & 404 \\ \hline \end{array}$$
+    spans_json: []
+  figure 642_q7_1.png
+    page: 5
+    bbox: [142, 268, 425, 455]
+    png_path: figures/642_q7_1.png
+    tikz_path: tikz/tex/642_q7_1.tex
+    caption: Pareto chart 'ABC Bakery Cake Sales': bars of number of cakes sold by flavour with cumulative percentage line
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: v2: Rebuilt at crop size in crop pixel coordinates (old version ~35% too big): plot area, gridlines, bar widths, label positions and text sizes (footnotesize/small bold sans) measured from crop; values from table Tq322_1 (195,130,48,19,12; cumulative 48.3/80.4/92.3/97.0/100%); cumulative line kept heavy (1.6pt) as in crop | still different: Bars are blue in the crop; drawn as grey fill. Crop font is Calibri-like; sans bold used.
+  part a  id 510
+    ordinal: 1
+    latex: What is the average number of carrot cakes sold per day in December?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-S2.1
+      is_primary: 0
+      confidence: 0.6
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-199
+      focus_area: Probability and data
+      dot_point: Organise finite datasets using a table or a spreadsheet, listing the values, frequency, relative frequency, cumulative frequency, and cumulative relative frequency
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Frequency tables and histograms
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 383
+      source: extracted
+      latex: |
+        $$325 - 195 = 130$$
+        $\therefore$ An average of $130$ carrot cakes were sold per day.
+      marks_breakdown: 1: 130
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"top_criterion_original": "$130$"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 215
+      confidence: high
+      reason: one subtraction read from table
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 511
+    ordinal: 2
+    latex: Due to a decline in January sales, ABC Bakery aims to minimise cake production to prevent wastage. Applying the Pareto principle, suggest which flavours the bakery should retain in stock. Support your recommendation with relevant reasoning.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-S2.1
+      is_primary: 0
+      confidence: 0.5
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-S2.1
+      dot_point: Pareto charts / Pareto principle are not in the 2024 Advanced syllabus
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 384
+      source: extracted
+      latex: |
+        Chocolate and carrot.
+
+        Over $80\%$ of sales are chocolate and carrot, so these flavours should be retained. If they run out of other flavours, this will only impact $20\%$ of their sales.
+      marks_breakdown: 1: chocolate and carrot; 1: reasoning with 80%/20%
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Identifies chocolate and carrot, or equivalent merit"]]
+      meta_json: {"criteria_original": [[1, "Chocolate and carrot"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Reasoning with $80\\%$/$20\\%$"}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 216
+      confidence: medium
+      reason: apply Pareto 80% and justify recommendation in context
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: PR
+      source: model
+
+## Q8  key 2024-Cherrybrook-AT1-Q8  id 323
+  section: II
+  question_type: short
+  stem_latex: |
+    A class of 30 students sat an algebra test and a geometry test. The results were displayed in a scatterplot, and a line of best fit was drawn, as shown in the graph below.
+
+    \exfigure{642_q8_1}
+  marks_total: 3
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  standard_topic: Standard 1 and 2, Year 12: Bivariate data analysis (MST-12-S1-06, MST-12-S2-08)
+  home_topic: sub:11|Working with functions|Linear functions
+  home_source: computed
+  figure 642_q8_1.png
+    page: 6
+    bbox: [57, 114, 445, 418]
+    png_path: figures/642_q8_1.png
+    tikz_path: tikz/tex/642_q8_1.tex
+    caption: scatterplot of Geometry test results (G) against Algebra test result (A) with line of best fit
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: v2: Shrunk to crop scale (0.0775/0.0785 cm per unit, was 0.095); axis extents, tick-label offsets and axis-title positions measured from crop; text ~13pt as crop; removed 0.6pt line override | still different: Crop line of best fit is grey; drawn black at 0.5pt. | v2.1 overlay fix: y tick numbers moved left (6.5pt) and x tick numbers right/down to the crop positions; duplicate 0 tick labels removed (separate 0 nodes kept and repositioned); y label left, x caption lowered. | remaining: x labels 20/40 ~5px right of crop (crop label spacing drifts irregularly); 1px axis-line fringe; italic font shape.
+  part a  id 512
+    ordinal: 1
+    latex: Using the graph, find the equation of the line of best fit in terms of $G$ and $A$.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-S2.2
+      is_primary: 0
+      confidence: 0.95
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-022
+      focus_area: Working with functions
+      dot_point: Determine the equation of a straight line passing through two points (x1,y1) and (x2,y2) by calculating its gradient m using the formula m = y2 ― y1 x2 ― x1
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Equations of straight lines
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 385
+      source: extracted
+      latex: |
+        $$m = \dfrac{50 - 30}{80 - 40} = \dfrac{20}{40} = \dfrac{1}{2}$$
+        Equation of the line of best fit:
+        $$\begin{aligned} y - 30 &= \dfrac{1}{2}(x - 40) \\ 2y - 60 &= x - 40 \\ x - 2y + 20 &= 0 \end{aligned}$$
+        $$\therefore\ G = \dfrac{1}{2}A + 10$$
+      marks_breakdown: 1: gradient $\frac{1}{2}$; 1: $G = \frac{1}{2}A + 10$
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds the gradient, $\\dfrac{1}{2}$, or equivalent merit"]]
+      meta_json: {"criteria_original": [[1, "Gradient $\\dfrac{1}{2}$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$G = \\dfrac{1}{2}A + 10$"}
+  part b  id 513
+    ordinal: 2
+    latex: Adrian looked at the scatterplot and said: “Students who perform well in Algebra, also perform well in Geometry.” Is the statement true for all students, justify your answer.
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-S2.2
+      is_primary: 0
+      confidence: 0.95
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-S2.2
+      dot_point: Bivariate data analysis (scatterplots, association) is not in the 2024 Advanced course · Standard: MST-12-S1-06
+      is_primary: 0
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 386
+      source: extracted
+      latex: |
+        The statement is only true for some students, as there are students who got $95$ marks in the Algebra test and only $32$ marks in the Geometry test.
+
+        OR
+
+        Incorrect, as a few students got higher marks in the Algebra test but low marks in the Geometry test.
+      marks_breakdown: 1: not true for all, with counterexample from graph
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"top_criterion_original": "Not true for all, with counterexample from graph"}
+
+## Q9  key 2024-Cherrybrook-AT1-Q9  id 324
+  section: II
+  question_type: extended
+  stem_latex: |
+    The table below shows the relationship between expenditure per secondary school student, as a percentage of country’s Gross Domestic product (GDP), and the life expectancy in years of 10 countries.
+
+    \extable{Tq324_1}
+  marks_total: 6
+  page_start: 7
+  page_end: 8
+  needs_review: 0
+  review_status: unreviewed
+  standard_topic: Standard 2, Year 12: Bivariate data analysis (MST-12-S2-08)
+  home_topic: special:removed
+  home_source: computed
+  data_table Tq324_1
+    header_rows: 1
+    label_col: 1
+    rows_json: [["\\textbf{Country}", "\\textbf{Expenditure per}\\\\\\textbf{student (\\%GDP)}\\\\(\\boldsymbol{E})", "\\textbf{Life expectancy}\\\\\\textbf{(years)}\\\\(\\boldsymbol{L})"], ["\\text{A}", "5.9", "56"], ["\\text{B}", "7.6", "72"], ["\\text{C}", "8.4", "62"], ["\\text{D}", "11.2", "56"], ["\\text{E}", "13.7", "73"], ["\\text{F}", "17.1", "62"], ["\\text{G}", "18.7", "81"], ["\\text{H}", "22.5", "82"], ["\\text{I}", "23.4", "82"], ["\\text{K}", "27.5", "84"]]
+    source_latex: $$\begin{array}{|c|c|c|} \hline \textbf{Country} & \begin{matrix}\textbf{Expenditure per} \\ \textbf{student (\%GDP)} \\ (\boldsymbol{E})\end{matrix} & \begin{matrix}\textbf{Life expectancy} \\ \textbf{(years)} \\ (\boldsymbol{L})\end{matrix} \\ \hline \text{A} & 5.9 & 56 \\ \hline \text{B} & 7.6 & 72 \\ \hline \text{C} & 8.4 & 62 \\ \hline \text{D} & 11.2 & 56 \\ \hline \text{E} & 13.7 & 73 \\ \hline \text{F} & 17.1 & 62 \\ \hline \text{G} & 18.7 & 81 \\ \hline \text{H} & 22.5 & 82 \\ \hline \text{I} & 23.4 & 82 \\ \hline \text{K} & 27.5 & 84 \\ \hline \end{array}$$
+    spans_json: []
+  part a  id 514
+    ordinal: 1
+    latex: |
+      Calculate the Pearson’s correlation coefficient for the data, correct to three decimal places.
+
+      Identify the direction and strength of the linear association between expenditure per secondary school student and life expectancy for the 10 countries?
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-S2.2
+      is_primary: 0
+      confidence: 0.95
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-S2.2
+      dot_point: Pearson correlation coefficient: bivariate data analysis (Standard), not 2024 Advanced · Standard: MST-12-S2-08
+      is_primary: 0
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 387
+      source: extracted
+      latex: |
+        $$r = 0.801$$
+        Strong positive correlation.
+      marks_breakdown: 1: $r = 0.801$; 1: strong positive
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Obtains $r = 0.801$, or equivalent merit"]]
+      meta_json: {"criteria_original": [[1, "$r = 0.801$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Strong positive"}
+  part b  id 515
+    ordinal: 2
+    latex: Find the equation of the least squares regression line in terms of $\boldsymbol{E}$ and $\boldsymbol{L}$.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-S2.2
+      is_primary: 0
+      confidence: 0.95
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-S2.2
+      dot_point: Least-squares regression line from data: bivariate data analysis (Standard), not 2024 Advanced · Standard: MST-12-S2-08
+      is_primary: 0
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 388
+      source: extracted
+      latex: |
+        $$A = 52.13, \qquad B = 1.21$$
+        $$\therefore\ L = 1.21E + 52.13$$
+      marks_breakdown: 1: values of A and B; 1: $L = 1.21E + 52.13$
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds the values of $A$ and $B$, or equivalent merit"]]
+      meta_json: {"criteria_original": [[1, "Values of $A$ and $B$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$L = 1.21E + 52.13$"}
+  part c  id 516
+    ordinal: 3
+    latex: In the context of the dataset, identify ONE problem with using the regression line to predict the life expectancy in a country which has an expenditure per secondary student of 70% of its GDP. Justify your answer with appropriate mathematical calculations.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-S2.2
+      is_primary: 0
+      confidence: 0.95
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-S2.2
+      dot_point: Extrapolation with a regression line: bivariate data analysis (Standard), not 2024 Advanced · Standard: MST-12-S2-08
+      is_primary: 0
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 389
+      source: extracted
+      latex: |
+        $$\begin{aligned} L &= 1.21 \times 70 + 52.13 \\ &= 136.83 \text{ years} \end{aligned}$$
+        It is extrapolation. The line of best fit is based on $x$ values from $5\%$ to $30\%$, and beyond that the value of life expectancy is too high. This makes it invalid to draw conclusions from it.
+      marks_breakdown: 1: calculation 136.83 years; 1: extrapolation explanation
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Calculates $136.83$ years, or equivalent merit"]]
+      meta_json: {"criteria_original": [[1, "Calculation $136.83$ years"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Extrapolation explanation"}
+
+## Q10(a)  key 2024-Cherrybrook-AT1-Q10a  id 325
+  section: II
+  question_type: extended
+  marks_total: 2
+  page_start: 8
+  page_end: 9
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Sequences and series|Arithmetic sequences and series
+  home_source: computed
+  part -  id 517
+    ordinal: 1
+    latex: |
+      Find the simplified exact sum of the arithmetic series
+      $$\left(\sqrt{3}\right) + \left(2 + \sqrt{3}\right) + \left(4 + \sqrt{3}\right) + \cdots + \left(100 + \sqrt{3}\right)$$
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-M1.2
+      is_primary: 0
+      confidence: 0.9
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-216
+      focus_area: Sequences and series
+      dot_point: Develop the formula an = a + (n ― 1)d for the nth term of an AP, where a is the first term and n ≥1, and use it to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-218
+      focus_area: Sequences and series
+      dot_point: Develop the formula Sn = n 2(a + an) for the nth partial sum of an AP, and use the formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Arithmetic series
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Terms of an arithmetic sequence
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 390
+      source: extracted
+      latex: |
+        $$\begin{aligned} T_n &= a + (n-1)d \\ 100 + \sqrt{3} &= \sqrt{3} + (n-1)2 \\ n - 1 &= 50 \\ n &= 51 \end{aligned}$$
+        $$\begin{aligned} S_n &= \dfrac{n}{2}(a + l) \\ &= \dfrac{51}{2}\left(\sqrt{3} + \sqrt{3} + 100\right) \\ &= \dfrac{51}{2}\left(2\sqrt{3} + 100\right) \\ &= 51\left(\sqrt{3} + 50\right) \\ &= 51\sqrt{3} + 2550 \end{aligned}$$
+      marks_breakdown: 1: correct substitution into $S_n$ with $n = 51$; 1: $51\sqrt{3} + 2550$
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Substitutes correctly into $S_n$ with $n=51$, or equivalent merit"]]
+      meta_json: {"criteria_original": [[1, "Correct substitution into $S_n$ with $n = 51$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$51\\sqrt{3} + 2550$"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 318
+      confidence: high
+      reason: n from last term then sum, surd tidy-up
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q10(b)  key 2024-Cherrybrook-AT1-Q10b  id 335
+  section: II
+  question_type: extended
+  marks_total: 2
+  page_start: 8
+  page_end: 9
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Sequences and series|Arithmetic sequences and series
+  home_source: computed
+  part -  id 518
+    ordinal: 2
+    latex: |
+      The sum of three consecutive terms which are in an A.P. is 33, while their product is 1232.
+
+      Find the terms.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-M1.2
+      is_primary: 0
+      confidence: 0.85
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-215
+      focus_area: Sequences and series
+      dot_point: Define a sequence an to be an arithmetic sequence, or arithmetic progression (AP), if every difference an ― an―1 of successive terms is the same where n ≥2, that is an ― an―1 = d for some constant d called the common difference
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.6
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-216
+      focus_area: Sequences and series
+      dot_point: Develop the formula an = a + (n ― 1)d for the nth term of an AP, where a is the first term and n ≥1, and use it to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.6
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Terms of an arithmetic sequence
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    solution 391
+      source: extracted
+      latex: |
+        Sum: $a - d + a + a + d = 33$
+        $$\begin{aligned} 3a &= 33 \\ a &= 11 \end{aligned}$$
+        Product: $a(a-d)(a+d) = 1232$
+        $$\begin{aligned} a(a^2 - d^2) &= 1232 \\ 11(11^2 - d^2) &= 1232 \\ 121 - d^2 &= 112 \\ 9 &= d^2 \\ d &= \pm 3 \end{aligned}$$
+        When $d = 3$: $11 - 3, 11, 11 + 3$, i.e. $8, 11, 14$.
+
+        When $d = -3$: $11 + 3, 11, 11 - 3$, i.e. $14, 11, 8$.
+
+        $\therefore$ The terms are $8, 11, 14$.
+      marks_breakdown: 1: $d = \pm 3$; 1: terms 8, 11, 14
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Obtains $d = \\pm 3$, or equivalent merit"]]
+      meta_json: {"criteria_original": [[1, "$d = \\pm 3$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Terms $8, 11, 14$"}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 282
+      confidence: medium
+      reason: needs a-d,a,a+d set-up; sum and product equations
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q10(c)  key 2024-Cherrybrook-AT1-Q10c  id 336
+  section: II
+  question_type: extended
+  marks_total: 2
+  page_start: 8
+  page_end: 9
+  needs_review: 0
+  review_status: approved
+  home_topic: sub:12|Sequences and series|Geometric sequences and series
+  home_source: computed
+  part -  id 519
+    ordinal: 3
+    latex: Write $0.2\dot{3}2\dot{7}$ as sum of an infinite G.P., hence express it as a rational number
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-M1.3
+      is_primary: 0
+      confidence: 0.85
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-227
+      focus_area: Sequences and series
+      dot_point: Develop the formula S∞= a 1―r for the limiting sum of a geometric series with |r|< 1, and use this formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Limiting sums
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Recurring decimals as limiting sums
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 392
+      source: extracted
+      latex: $$\begin{aligned} 0.2327327\ldots &= 0.2 + 0.0327 + 0.0000327 + \cdots \\ &= \dfrac{2}{10} + 0.0327\left[1 + \dfrac{1}{1000} + \cdots\right] \\ &= \dfrac{2}{10} + 0.0327\left(\dfrac{1}{1 - \frac{1}{1000}}\right) \\ &= \dfrac{2}{10} + 0.0327 \times \dfrac{1000}{999} \\ &= \dfrac{2}{10} + \dfrac{109}{3330} \\ &= \dfrac{155}{666} \end{aligned}$$
+      marks_breakdown: 1: infinite G.P. with $r = \frac{1}{1000}$ and limiting sum; 1: $\frac{155}{666}$
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Uses an infinite geometric series with $r=\\dfrac{1}{1000}$ and its limiting sum, or equivalent merit"]]
+      meta_json: {"corrected": "Corrected from source: two intermediate steps read $\\dfrac{1000}{9990}$ and $\\dfrac{109}{33300}$.", "criteria_original": [[1, "Infinite G.P. with $r = \\dfrac{1}{1000}$ and limiting sum"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"criteria": [[1, "Infinite G.P. with $r = \\dfrac{1}{1000}$ and limiting sum"], [1, "Correct answer"]], "latex": "$$\\begin{aligned} 0.2327327\\ldots &= 0.2 + 0.0327 + 0.0000327 + \\cdots \\\\ &= \\dfrac{2}{10} + 0.0327\\left[1 + \\dfrac{1}{1000} + \\cdots\\right] \\\\ &= \\dfrac{2}{10} + 0.0327\\left(\\dfrac{1}{1 - \\frac{1}{1000}}\\right) \\\\ &= \\dfrac{2}{10} + 0.0327 \\times \\dfrac{1000}{9990} \\\\ &= \\dfrac{2}{10} + \\dfrac{109}{33300} \\\\ &= \\dfrac{155}{666} \\end{aligned}$$"}, "top_criterion_original": "$\\dfrac{155}{666}$"}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 282
+      confidence: medium
+      reason: mixed recurring decimal split into GP; non-routine set-up
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q11  key 2024-Cherrybrook-AT1-Q11  id 326
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 9
+  page_end: 9
+  needs_review: 0
+  review_status: unreviewed
+  review_note: AUDIT audit-v1: ok
+  home_topic: sub:12|Sequences and series|Arithmetic sequences and series
+  home_source: computed
+  solution 393
+    source: extracted
+    latex: |
+      AP: $4 - x = y - 4$
+      $$8 = y + x \quad (1)$$
+      GP:
+      $$\begin{aligned} \dfrac{3}{x} &= \dfrac{y}{3} \quad (2) \\ 9 &= xy \end{aligned}$$
+      $$\therefore\ \dfrac{1}{x} + \dfrac{1}{y} = \dfrac{x+y}{xy} = \dfrac{8}{9}$$
+    marks_breakdown: 1: both equations $x + y = 8$ and $xy = 9$; 1: $\frac{8}{9}$
+    source_document_id: 642
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Forms both equations $x+y=8$ and $xy=9$, or equivalent merit"]]
+    meta_json: {"criteria_original": [[1, "Both equations $x + y = 8$ and $xy = 9$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$\\dfrac{8}{9}$"}
+  part -  id 520
+    ordinal: 1
+    latex: If $x$, $4$ and $y$ are successive terms in an arithmetic sequence and $x$, $3$ and $y$ are successive terms in a geometric sequence, calculate the value of $\dfrac{1}{x} + \dfrac{1}{y}$.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-M1.3
+      is_primary: 0
+      confidence: 0.75
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-215
+      focus_area: Sequences and series
+      dot_point: Define a sequence an to be an arithmetic sequence, or arithmetic progression (AP), if every difference an ― an―1 of successive terms is the same where n ≥2, that is an ― an―1 = d for some constant d called the common difference
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-221
+      focus_area: Sequences and series
+      dot_point: Define a sequence an to be a geometric sequence, or geometric progression (GP), if every ratio an an―1 of successive terms is the same where n ≥2, that is an = ran―1 for some non-zero real number r called the common ratio
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Testing for arithmetic and geometric sequences
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 282
+      confidence: medium
+      reason: AP and GP conditions combined; spot (x+y)/xy
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q12  key 2024-Cherrybrook-AT1-Q12  id 327
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 10
+  page_end: 10
+  needs_review: 0
+  review_status: approved
+  home_topic: sub:12|Sequences and series|Geometric sequences and series
+  home_source: computed
+  solution 394
+    source: extracted
+    latex: |
+      For $S_\infty$: $|r| < 1$
+      $$\begin{aligned} \left|\dfrac{x-2}{2}\right| &< 1 \\ -1 < \dfrac{x-2}{2} &< 1 \\ -2 < x - 2 &< 2 \end{aligned}$$
+      $$\therefore\ 0 < x < 4$$
+    marks_breakdown: No mark allocation shown in the solutions (2 marks).
+    source_document_id: 642
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Uses $|r|<1$ with $r=\\dfrac{x-2}{2}$, or equivalent merit"]]
+    meta_json: {"corrected": "The source had no marking criteria; these were written by Claude.", "marker_note": "No mark allocation shown in the solutions (2 marks)."}
+  part -  id 521
+    ordinal: 1
+    latex: |
+      Consider the geometric series.
+      $$\dfrac{1}{3} + \dfrac{(x-2)}{6} + \dfrac{(x-2)^2}{12} + \cdots$$
+      Find the values of $x$ for which this geometric series has a limiting sum.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-M1.3
+      is_primary: 0
+      confidence: 0.9
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-221
+      focus_area: Sequences and series
+      dot_point: Define a sequence an to be a geometric sequence, or geometric progression (GP), if every ratio an an―1 of successive terms is the same where n ≥2, that is an = ran―1 for some non-zero real number r called the common ratio
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-227
+      focus_area: Sequences and series
+      dot_point: Develop the formula S∞= a 1―r for the limiting sum of a geometric series with |r|< 1, and use this formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Absolute value equations and inequalities
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Limiting sums
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 805
+      confidence: high
+      reason: |r|<1 linear inequality, routine
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q13  key 2024-Cherrybrook-AT1-Q13  id 328
+  section: II
+  question_type: extended
+  stem_latex: A ball is dropped from a height of 15 metres. After each subsequent bounce on the ground, the ball rises to $\dfrac{4}{5}$ of its previous height.
+  marks_total: 4
+  page_start: 10
+  page_end: 10
+  needs_review: 0
+  review_status: approved
+  home_topic: sub:12|Sequences and series|Geometric sequences and series
+  home_source: computed
+  part a  id 522
+    ordinal: 1
+    latex: To what height will the ball reach on its 10th rebound? (Correct to 2 decimal places)
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-M1.3
+      is_primary: 0
+      confidence: 0.85
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-222
+      focus_area: Sequences and series
+      dot_point: Develop the formula an = arn―1 for the nth term of a GP, where a is the first term and n ≥1, and use it to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-228
+      focus_area: Sequences and series
+      dot_point: Apply the formulas for geometric sequences and series to model and solve growth and decay problems where a quantity is an exponential function of time
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Applications of arithmetic and geometric sequences
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Terms of a geometric sequence
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 395
+      source: extracted
+      latex: |
+        $$12, 9.6, 7.68, 6.144, \ldots$$
+        $$a = 12, \qquad r = \dfrac{4}{5}$$
+        $$\begin{aligned} T_{10} &= 12\left(\dfrac{4}{5}\right)^{10-1} \\ &= 12\left(\dfrac{4}{5}\right)^9 \\ &= 1.61 \text{ m} \end{aligned}$$
+      marks_breakdown: 1: $a = 12$, $r = \frac{4}{5}$; 1: $1.61$ m
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Identifies $a=12$ and $r=\\dfrac{4}{5}$, or equivalent merit"]]
+      meta_json: {"corrected": "Corrected from source: the listed terms used ratio $\\dfrac34$ instead of $\\dfrac45$.", "criteria_original": [[1, "$a = 12$, $r = \\dfrac{4}{5}$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"criteria": [[1, "$a = 12$, $r = \\dfrac{4}{5}$"], [1, "Correct answer"]], "latex": "$$12, 9, 6.75, 5.0625, \\ldots$$\n$$a = 12, \\qquad r = \\dfrac{4}{5}$$\n$$\\begin{aligned} T_{10} &= 12\\left(\\dfrac{4}{5}\\right)^{10-1} \\\\ &= 12\\left(\\dfrac{4}{5}\\right)^9 \\\\ &= 1.61 \\text{ m} \\end{aligned}$$"}, "top_criterion_original": "$1.61$ m"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 805
+      confidence: medium
+      reason: GP term; care with a=12 (first rebound) not 15
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 523
+    ordinal: 2
+    latex: Determine the distance covered by the ball upon reaching the ground after the 12th rebound.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-M1.3
+      is_primary: 0
+      confidence: 0.85
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-225
+      focus_area: Sequences and series
+      dot_point: Develop the formula Sn = a(1―rn) 1―r for the sum of the first n terms of a GP where r ≠1, and use this formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-228
+      focus_area: Sequences and series
+      dot_point: Apply the formulas for geometric sequences and series to model and solve growth and decay problems where a quantity is an exponential function of time
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Applications of arithmetic and geometric sequences
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Geometric series
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 396
+      source: extracted
+      latex: $$\begin{aligned} \text{Total distance} &= 15 + 2 \times 12 \times \left[\dfrac{1 - (0.8)^{12}}{1 - 0.8}\right] \\ &= 15 + 111.75 \\ &= 126.75 \text{ m} \end{aligned}$$
+      marks_breakdown: 1: correct expression; 1: $126.75$ m
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Writes a correct expression, or equivalent merit"]]
+      meta_json: {"criteria_original": [[1, "Correct expression"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$126.75$ m"}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 282
+      confidence: medium
+      reason: finite GP sum with up-and-down doubling and offset
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q14  key 2024-Cherrybrook-AT1-Q14  id 329
+  section: II
+  question_type: extended
+  stem_latex: |
+    A brand of rechargeable batteries provides power for 25 hours when first purchased fully charged.
+
+    After its first recharge it only provides power for a further 20 hours.
+
+    After its second recharge it only supplies power for 16 hours.
+
+    Each subsequent recharge after the second recharge results in the battery having 90% of its previous power available.
+  marks_total: 6
+  page_start: 11
+  page_end: 11
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Sequences and series|Geometric sequences and series
+  home_source: computed
+  part a  id 524
+    ordinal: 1
+    latex: What is the available power after the third recharge?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-M1.3
+      is_primary: 0
+      confidence: 0.75
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-228
+      focus_area: Sequences and series
+      dot_point: Apply the formulas for geometric sequences and series to model and solve growth and decay problems where a quantity is an exponential function of time
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Geometric growth and decay
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 397
+      source: extracted
+      latex: |
+        After the 3rd recharge it will be $90\%$ of $16$ hours.
+        $$\begin{aligned} &= 16 \times 0.90 \\ &= 14.4 \text{ hours} \end{aligned}$$
+      marks_breakdown: 1: 14.4 hours
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"top_criterion_original": "$14.4$ hours"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 267
+      confidence: high
+      reason: one multiplication, 90% of 16
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 525
+    ordinal: 2
+    latex: What is the total expected battery life in hours?
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-M1.3
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-227
+      focus_area: Sequences and series
+      dot_point: Develop the formula S∞= a 1―r for the limiting sum of a geometric series with |r|< 1, and use this formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-228
+      focus_area: Sequences and series
+      dot_point: Apply the formulas for geometric sequences and series to model and solve growth and decay problems where a quantity is an exponential function of time
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Geometric growth and decay
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Limiting sums
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 398
+      source: extracted
+      latex: |
+        $$S_\infty = \dfrac{a}{1-r} = \dfrac{14.4}{1 - 0.9} = 144 \text{ hours}$$
+        The battery will last
+        $$\begin{aligned} &= 25 + 20 + 16 + 144 \\ &= 205 \text{ hours} \end{aligned}$$
+      marks_breakdown: 1: $S_\infty = 144$; 1: 205 hours
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Obtains $S_\\infty = 144$, or equivalent merit"]]
+      meta_json: {"criteria_original": [[1, "$S_\\infty = 144$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$205$ hours"}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 282
+      confidence: medium
+      reason: limiting sum of tail plus first three terms
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: PR
+      source: model
+  part c  id 526
+    ordinal: 3
+    latex: If the battery is discarded when its power level falls below one hour after recharging, how many recharge cycles would it undergo before being disposed of?
+    marks: 3
+    needs_review: 0
+    tag 2017 MA-M1.3
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-154
+      focus_area: Exponential and logarithmic functions
+      dot_point: Explain that y = ax is equivalent to x = loga y for a > 0 and a ≠1, and use the equivalence to solve equations of the form ax = b, for a > 0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-222
+      focus_area: Sequences and series
+      dot_point: Develop the formula an = arn―1 for the nth term of a GP, where a is the first term and n ≥1, and use it to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-228
+      focus_area: Sequences and series
+      dot_point: Apply the formulas for geometric sequences and series to model and solve growth and decay problems where a quantity is an exponential function of time
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Exponential equations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Geometric growth and decay
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Terms of a geometric sequence
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 399
+      source: extracted
+      latex: |
+        $T_n < 1$, $n = ?$
+        $$\begin{aligned} 14.4 \times 0.9^{n-1} &< 1 \\ 0.9^{n-1} &< \dfrac{1}{14.4} \end{aligned}$$
+        Taking logs of both sides:
+        $$\begin{aligned} (n-1)\log 0.9 &< \log\left(\dfrac{1}{14.4}\right) \\ n - 1 &> \dfrac{\log\left(\frac{1}{14.4}\right)}{\log 0.9} \\ n &> 25.3152 + 1 \\ n &> 26.3152 \end{aligned}$$
+        $$\begin{aligned} n &= 27 + 2 \text{ previous charges} \\ n &= 29 \end{aligned}$$
+        $\therefore$ The power is less than $1$ hour after the $29^{\text{th}}$ charge.
+      marks_breakdown: 1: $0.9^{n-1} < \frac{1}{14.4}$; 1: $n > 26.3152$; 1: 29 (adding 2 previous charges)
+      source_document_id: 642
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Obtains $n > 26.3152$, or equivalent merit"], [1, "Obtains $0.9^{n-1} < \\dfrac{1}{14.4}$, or equivalent merit"]]
+      meta_json: {"criteria_original": [[1, "$0.9^{n-1} < \\dfrac{1}{14.4}$"], [1, "$n > 26.3152$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$29$ (adding $2$ previous charges)"}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 817
+      confidence: medium
+      reason: log inequality on GP term with recharge-count offset
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: PR
+      source: model

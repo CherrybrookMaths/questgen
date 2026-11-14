@@ -1,0 +1,4289 @@
+# paper 2021-NESA-HSC (document 222)
+document
+  id: 222
+  drive_file_id: 1xu8fUkzJl0mW7PioDOPCfuNfqFjDwr-b
+  source_path: HSC 2021/HSC/2021-hsc-mathematics-advanced.pdf
+  size_bytes: 1349734
+  task_type: hsc
+  course: advanced
+  classification_method: explicit_cover
+  year_level: 12
+  year: 2021
+  natural_key: hsc|2021|advanced
+  provenance_method: coverpage
+  page_count: 44
+  has_text_layer: 1
+  parse_path: digital
+  bundled_solutions: 0
+  syllabus_version: 2017
+  status: tagged
+  ingested_at: 2026-11-10T22:53:15
+  display_label: 2021 NESA HSC
+  school_formal: NESA
+  task_code: HSC
+
+## Q1  key 2021-NESA-HSC-Q1  id 104
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Trigonometric identities and equations|
+  home_source: computed
+  option A
+    latex: $1+\cos^2 5x$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $1-\cos^2 5x$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $-1+\cos^2 5x$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $-1-\cos^2 5x$
+    is_correct: 0
+    key_source: extracted
+  solution 474
+    source: generated
+    latex: |
+      Using the Pythagorean identity $\sin^2\theta + \cos^2\theta = 1$ with $\theta = 5x$:
+      $$\sin^2 5x = 1 - \cos^2 5x$$
+    marks_breakdown: 1: Correct answer (B)
+    model: claude-opus-5-5
+    prompt_version: gen-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 1.0}
+  part -  id 156
+    ordinal: 1
+    latex: Which of the following is equivalent to $\sin^2 5x$?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-T2
+      is_primary: 0
+      confidence: 0.9
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-102
+      focus_area: Trigonometric identities and equations
+      dot_point: Prove the Pythagorean identity cos2 x + sin2 x = 1, and the identities 1 + tan2 x = sec2 x and 1 + cot2 x = cosec2 x
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-103
+      focus_area: Trigonometric identities and equations
+      dot_point: Apply trigonometric identities to solve problems, simplify expressions and prove further trigonometric identities using substitution and/or reduction to sin x and cos x
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Pythagorean identities
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: MCQ: direct recall of Pythagorean identity with angle 5x
+      area: Y11_Trigonometric_identities_and_equations
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      owner_band: 2
+      owner_wm: UF
+      source: owner
+
+## Q2  key 2021-NESA-HSC-Q2  id 105
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  review_note: AUDIT audit-v1: ok
+  options_layout: text
+  home_topic: sub:12|Random variables|Discrete random variables
+  home_source: computed
+  option A
+    latex: $0.6$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $1.0$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $1.5$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $2.0$
+    is_correct: 0
+    key_source: extracted
+  solution 475
+    source: generated
+    latex: |
+      $E(X)$ is the sum of each value times its probability:
+      $$\begin{aligned} E(X) &= 1\times 0.6 + 2\times 0.3 + 3\times 0.1 \\ &= 0.6 + 0.6 + 0.3 \\ &= 1.5 \end{aligned}$$
+    marks_breakdown: 1: Correct answer (C)
+    model: claude-opus-5-5
+    prompt_version: gen-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 1.0}
+  part -  id 157
+    ordinal: 1
+    latex: |
+      The probability distribution table for a discrete random variable $X$ is shown.
+
+      \extable{Tp157_1}
+
+      What is the expected value of $X$?
+    marks: 1
+    needs_review: 0
+    data_table Tp157_1
+      header_rows: 1
+      label_col: 0
+      rows_json: [["x", "P(X=x)"], ["1", "0.6"], ["2", "0.3"], ["3", "0.1"]]
+      source_latex: $$\begin{array}{|c|c|}\hline x & P(X=x)\\ \hline 1 & 0.6\\ \hline 2 & 0.3\\ \hline 3 & 0.1\\ \hline\end{array}$$
+      spans_json: []
+    tag 2017 MA-S1.2
+      is_primary: 0
+      confidence: 0.95
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-317
+      focus_area: Random variables
+      dot_point: Recognise the mean, or expected value, μ or E(X), of a discrete random variable X as a measure of centre for its distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-318
+      focus_area: Random variables
+      dot_point: Generate and use the formulas E(X)= μ = ΣxP(x) and Var(X)= σ2 = Σ(x ― μ)2P(x)= Σx2P(x)― μ2 for the random variable X, where Var(X) is the variance and σ is the standard deviation of the distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Expected value
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: MCQ: direct E(X) from table
+      area: Y12_Random_variables
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q3  key 2021-NESA-HSC-Q3  id 106
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  review_note: AUDIT audit-v1: ok
+  options_layout: text
+  home_topic: sub:11|Working with functions|Properties of functions, relations and graphs
+  home_source: computed
+  option A
+    latex: $[1,\infty)$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $(1,\infty)$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $(-\infty,1]$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $(-\infty,1)$
+    is_correct: 1
+    key_source: extracted
+  solution 476
+    source: generated
+    latex: |
+      The logarithm is only defined for positive arguments:
+      $$\begin{aligned} 1 - x &> 0 \\ x &< 1 \end{aligned}$$
+      $$\therefore\ \text{domain} = (-\infty, 1)$$
+    marks_breakdown: 1: Correct answer (D)
+    model: claude-opus-5-5
+    prompt_version: gen-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 1.0}
+  part -  id 158
+    ordinal: 1
+    latex: Which of the following represents the domain of the function $f(x)=\ln(1-x)$?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-E1
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-055
+      focus_area: Working with functions
+      dot_point: Determine and describe the domain and range of functions and relations, using interval notation, inequalities or worded descriptions
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Domain and range
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: one inequality: log argument > 0
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q4  key 2021-NESA-HSC-Q4  id 107
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: graph
+  home_topic: sub:11|Probability and data|Data
+  home_source: computed
+  option A
+    latex: Graph A
+    is_correct: 0
+    key_source: extracted
+    figure_key: 222_q4_2
+  option B
+    latex: Graph B
+    is_correct: 0
+    key_source: extracted
+    figure_key: 222_q4_3
+  option C
+    latex: Graph C
+    is_correct: 1
+    key_source: extracted
+    figure_key: 222_q4_4
+  option D
+    latex: Graph D
+    is_correct: 0
+    key_source: extracted
+    figure_key: 222_q4_5
+  solution 477
+    source: generated
+    latex: |
+      The cumulative total can never decrease, and each day it grows by that day's downloads.
+
+      The daily downloads are small for the first few days, largest around days 8 to 11, then small again. So the cumulative graph rises slowly at first, rises steeply in the middle and then levels off (an S shape).
+
+      Graph C is the only graph with this shape: A rises fastest at the start, B rises fastest at the end, and D rises quickly, flattens, then rises again.
+    marks_breakdown: 1: Correct answer (C)
+    model: claude-opus-5-5
+    prompt_version: gen-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.9}
+  figure 222_q4_1.png
+    page: 2
+    bbox: [127.5, 104.5, 426.0, 210.0]
+    png_path: figures/222_q4_1.png
+    tikz_path: tikz/tex/222_q4_1.tex
+    caption: column graph of number of downloads each day, days 1 to 20
+    redraw_status: approx
+    redraw_class: statistical
+    redraw_notes: v2: Rebuilt in plain TikZ from crop pixel measurements at crop size (8.4cm wide); 12pt doc with condensed Helvetica labels (~10.5pt) as on paper; bar tops re-measured; tick marks, label and axis-title positions from crop | still different: bar heights measured from pixels (about +-1 download); house Latex arrowheads slightly larger than crop
+  figure 222_q4_2.png
+    page: 2
+    bbox: [127.5, 262.5, 426.0, 375.5]
+    png_path: figures/222_q4_2.png
+    tikz_path: tikz/tex/222_q4_2.tex
+    caption: option A: option A: cumulative downloads column graph
+    redraw_status: approx
+    redraw_class: statistical
+    redraw_notes: v2: Rebuilt in plain TikZ from crop pixel measurements at crop size (8.4cm wide); 12pt doc with condensed Helvetica labels (~10.5pt) as on paper; bar tops re-measured; tick marks, label and axis-title positions from crop; option A shares identical frame with A-C | still different: bar heights measured from pixels (about +-5 downloads); house Latex arrowheads slightly larger than crop
+  figure 222_q4_3.png
+    page: 2
+    bbox: [127.5, 391.0, 426.0, 504.5]
+    png_path: figures/222_q4_3.png
+    tikz_path: tikz/tex/222_q4_3.tex
+    caption: option B: option B: cumulative downloads column graph
+    redraw_status: approx
+    redraw_class: statistical
+    redraw_notes: v2: Rebuilt in plain TikZ from crop pixel measurements at crop size (8.4cm wide); 12pt doc with condensed Helvetica labels (~10.5pt) as on paper; bar tops re-measured; tick marks, label and axis-title positions from crop; option B shares identical frame with A-C | still different: bar heights measured from pixels (about +-5 downloads); house Latex arrowheads slightly larger than crop
+  figure 222_q4_4.png
+    page: 2
+    bbox: [127.5, 520.0, 426.0, 633.5]
+    png_path: figures/222_q4_4.png
+    tikz_path: tikz/tex/222_q4_4.tex
+    caption: option C: option C: cumulative downloads column graph
+    redraw_status: approx
+    redraw_class: statistical
+    redraw_notes: v2: Rebuilt in plain TikZ from crop pixel measurements at crop size (8.4cm wide); 12pt doc with condensed Helvetica labels (~10.5pt) as on paper; bar tops re-measured; tick marks, label and axis-title positions from crop; option C shares identical frame with A-C | still different: bar heights measured from pixels (about +-5 downloads); house Latex arrowheads slightly larger than crop
+  figure 222_q4_5.png
+    page: 2
+    bbox: [127.5, 648.5, 426.0, 762.0]
+    png_path: figures/222_q4_5.png
+    tikz_path: tikz/tex/222_q4_5.tex
+    caption: option D: option D: cumulative downloads column graph
+    redraw_status: approx
+    redraw_class: statistical
+    redraw_notes: v2: 12pt class; axis enlarged to crop size (8.45x3.0cm, y to 980, x to 21.5); tick/label fonts \small/\footnotesize to match crop text size; ticks 4pt outside; lighter grey bars (black!35) with white edges; y-label placement default. | still different: Column heights still read from crop pixels (approx). Crop uses sans-serif font; house serif used. q4_1-4 are in another group: frame may need aligning with them.
+  part -  id 159
+    ordinal: 1
+    latex: |
+      The number of downloads of a song on each of twenty consecutive days is shown in the following graph.
+
+      \exfigure{222_q4_1}
+
+      Which of the following graphs best shows the cumulative number of downloads up to and including each day?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-S2.1
+      is_primary: 0
+      confidence: 0.6
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-199
+      focus_area: Probability and data
+      dot_point: Organise finite datasets using a table or a spreadsheet, listing the values, frequency, relative frequency, cumulative frequency, and cumulative relative frequency
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-200
+      focus_area: Probability and data
+      dot_point: Graph the frequency, relative frequency, and cumulative frequency histograms and polygons of datasets, using spreadsheets or graphing applications, and identify the mode and median from the graphs, and from tables
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Frequency tables and histograms
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: medium
+      reason: match daily counts to slope of cumulative graph
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q5  key 2021-NESA-HSC-Q5  id 108
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: graph
+  home_topic: sub:11|Exponential and logarithmic functions|Exponential functions
+  home_source: computed
+  option A
+    latex: Graph A
+    is_correct: 1
+    key_source: extracted
+    figure_key: 222_q5_1
+  option B
+    latex: Graph B
+    is_correct: 0
+    key_source: extracted
+    figure_key: 222_q5_2
+  option C
+    latex: Graph C
+    is_correct: 0
+    key_source: extracted
+    figure_key: 222_q5_3
+  option D
+    latex: Graph D
+    is_correct: 0
+    key_source: extracted
+    figure_key: 222_q5_4
+  related 500 (2025-NESA-HSC-Q4) variant 0.577
+  solution 478
+    source: generated
+    latex: |
+      When $x = 0$, $y = 10(0.8)^0 = 10$, so the $y$-intercept is $10$.
+
+      The base $0.8$ is between $0$ and $1$, so $y$ decreases as $x$ increases, approaching $0$.
+
+      Graph A is the decreasing exponential with $y$-intercept $10$.
+    marks_breakdown: 1: Correct answer (A)
+    model: claude-opus-5-5
+    prompt_version: gen-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  figure 222_q5_1.png
+    page: 3
+    bbox: [125.5, 97.5, 252.5, 214.5]
+    png_path: figures/222_q5_1.png
+    tikz_path: tikz/tex/222_q5_1.tex
+    caption: option A: decreasing exponential curve, y-intercept 10
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: v2: Redrawn in crop-pixel units so axes, extents, label positions and size match the crop exactly; curve traced from the crop and fitted with a smooth a+b e^{kx}+cx (max error <5px); 12pt class, labels normal size; house line weights; same frame for all four options. | still different: Curve shape is the crop's sketch, not the true function (as the crop). | round 2 (your note): Lines are already house 0.4pt; measured curve ink per column matches the crop (1.26 vs 1.27 px). The traced polyline had integer-rounded points that looked wobbly and heavier, so it is now one smooth fitted curve a+b·e^{kx}+cx (max error 1.5 px). The same treatment is used for all four options; frame unchanged. | remaining: None.
+  figure 222_q5_2.png
+    page: 3
+    bbox: [370.0, 97.5, 497.0, 214.5]
+    png_path: figures/222_q5_2.png
+    tikz_path: tikz/tex/222_q5_2.tex
+    caption: option B: decreasing exponential curve, y-intercept 8
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: v2: Redrawn in crop-pixel units so axes, extents, label positions and size match the crop exactly; curve traced from the crop and fitted with a smooth a+b e^{kx}+cx (max error <5px); 12pt class, labels normal size; house line weights; same frame for all four options. | still different: Curve shape is the crop's sketch, not the true function (as the crop). | round 2 (your note): Lines are already house 0.4pt; measured curve ink per column matches the crop (1.26 vs 1.27 px). The traced polyline had integer-rounded points that looked wobbly and heavier, so it is now one smooth fitted curve a+b·e^{kx}+cx (max error 1.5 px). The same treatment is used for all four options; frame unchanged. | remaining: None.
+  figure 222_q5_3.png
+    page: 3
+    bbox: [125.5, 249.0, 252.0, 365.5]
+    png_path: figures/222_q5_3.png
+    tikz_path: tikz/tex/222_q5_3.tex
+    caption: option C: increasing exponential curve, y-intercept 10
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: v2: Redrawn in crop-pixel units so axes, extents, label positions and size match the crop exactly; curve traced from the crop and fitted with a smooth a+b e^{kx}+cx (max error <5px); 12pt class, labels normal size; house line weights; same frame for all four options. | still different: Curve shape is the crop's sketch, not the true function (as the crop). | round 2 (your note): Lines are already house 0.4pt; measured curve ink per column matches the crop (1.26 vs 1.27 px). The traced polyline had integer-rounded points that looked wobbly and heavier, so it is now one smooth fitted curve a+b·e^{kx}+cx (max error 1.5 px). The same treatment is used for all four options; frame unchanged. | remaining: None.
+  figure 222_q5_4.png
+    page: 3
+    bbox: [370.0, 249.0, 497.0, 365.5]
+    png_path: figures/222_q5_4.png
+    tikz_path: tikz/tex/222_q5_4.tex
+    caption: option D: increasing exponential curve, y-intercept 8
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: v2: Redrawn in crop-pixel units so axes, extents, label positions and size match the crop exactly; curve traced from the crop and fitted with a smooth a+b e^{kx}+cx (max error <5px); 12pt class, labels normal size; house line weights; same frame for all four options. | still different: Curve shape is the crop's sketch, not the true function (as the crop). | round 2 (your note): Lines are already house 0.4pt; measured curve ink per column matches the crop (1.26 vs 1.27 px). The traced polyline had integer-rounded points that looked wobbly and heavier, so it is now one smooth fitted curve a+b·e^{kx}+cx (max error 1.5 px). The same treatment is used for all four options; frame unchanged. | remaining: None.
+  part -  id 160
+    ordinal: 1
+    latex: Which of the following best represents the graph of $y=10(0.8)^x$?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-E1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-145
+      focus_area: Exponential and logarithmic functions
+      dot_point: Graph the exponential functions y = k(ax) and y = k(a―x) for constants a and k where a > 0, a ≠1 and k ≠0, and identify its asymptote, y-intercept, domain and range
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Graphs of exponential and logarithmic functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: recognise decay graph from base 0.8 and intercept 10; pilot anchor band 2
+      area: Y11_Exponential_and_logarithmic_functions
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      owner_band: 2
+      owner_wm: UF
+      source: owner
+
+## Q6  key 2021-NESA-HSC-Q6  id 109
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Probability and data|Probability
+  home_source: computed
+  option A
+    latex: $\dfrac{15}{64}$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $\dfrac{15}{56}$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $\dfrac{15}{32}$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $\dfrac{15}{28}$
+    is_correct: 1
+    key_source: extracted
+  solution 479
+    source: generated
+    latex: |
+      After Kim eats one chocolate, 7 remain.
+
+      Different centres means peppermint then caramel, or caramel then peppermint:
+      $$\begin{aligned} P(\text{different}) &= \dfrac{3}{8}\times\dfrac{5}{7} + \dfrac{5}{8}\times\dfrac{3}{7} \\ &= \dfrac{15}{56} + \dfrac{15}{56} \\ &= \dfrac{15}{28} \end{aligned}$$
+    marks_breakdown: 1: Correct answer (D)
+    model: claude-opus-5-5
+    prompt_version: gen-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 1.0}
+  figure 222_q6_1.png
+    page: 4
+    bbox: [221.5, 179.5, 368.5, 295.0]
+    png_path: figures/222_q6_1.png
+    tikz_path: tikz/tex/222_q6_1.tex
+    caption: partially completed probability tree, first branches 3/8 P and 5/8 C
+    redraw_status: ok
+    redraw_class: tree
+    redraw_notes: v2: Rebuilt in crop-pixel coordinates: branch endpoints, label and fraction positions measured from the crop; 12pt class so letters/fractions are the crop's size (previously ~20% small and tree too wide/tall). | still different: House line weight slightly heavier than the crop's hairlines.
+  part -  id 161
+    ordinal: 1
+    latex: |
+      There are 8 chocolates in a box. Three have peppermint centres (P) and five have caramel centres (C).
+
+      Kim randomly chooses a chocolate from the box and eats it. Sam then randomly chooses and eats one of the remaining chocolates.
+
+      A partially completed probability tree is shown.
+
+      \exfigure{222_q6_1}
+
+      What is the probability that Kim and Sam choose chocolates with different centres?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-S1.1
+      is_primary: 0
+      confidence: 0.9
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-188
+      focus_area: Probability and data
+      dot_point: Use arrays and tree diagrams to determine the outcomes and probabilities for multistage events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Multistage events and tree diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: tree without replacement: two products added
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q7  key 2021-NESA-HSC-Q7  id 110
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
+  option A
+    latex: $f(0)<f'(3)<f''(-2)$
+    is_correct: 1
+    key_source: extracted
+  option B
+    latex: $f(0)<f''(-2)<f'(3)$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $f''(-2)<f'(3)<f(0)$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $f''(-2)<f(0)<f'(3)$
+    is_correct: 0
+    key_source: extracted
+  solution 480
+    source: generated
+    latex: |
+      Read each value from the graph:
+
+      $x = -2$ is a local minimum, so the curve is concave up there: $f''(-2) > 0$.
+
+      $x = 3$ is a stationary point: $f'(3) = 0$.
+
+      The curve is below the $x$-axis at $x = 0$: $f(0) < 0$.
+
+      $$\therefore\ f(0) < f'(3) < f''(-2)$$
+    marks_breakdown: 1: Correct answer (A)
+    model: claude-opus-5-5
+    prompt_version: gen-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  figure 222_q7_1.png
+    page: 5
+    bbox: [173.5, 108.5, 419.0, 281.5]
+    png_path: figures/222_q7_1.png
+    tikz_path: tikz/tex/222_q7_1.tex
+    caption: cubic-like curve with local minimum at x=-2 and local maximum at x=3
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: v2: Re-traced the curve from the crop in crop-pixel units (degree-5 fit, <1.2px error): local min now sits left of the -2 tick exactly as in the crop (v1 had moved it onto the tick); tick positions/lengths, labels and axis extents measured from the crop; curve ends changed from filled to open chevrons (house Straight Barb); 12pt labels. | still different: House open-arrow chevron is slightly wider than the crop's.
+  part -  id 162
+    ordinal: 1
+    latex: |
+      The diagram shows part of $y=f(x)$ which has a local minimum at $x=-2$ and a local maximum at $x=3$.
+
+      \exfigure{222_q7_1}
+
+      Which of the following shows the correct relationship between $f''(-2)$, $f(0)$ and $f'(3)$?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-C3.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-136
+      focus_area: Introduction to differentiation
+      dot_point: Describe the behaviour of a function at a point as stationary when the tangent at the point is parallel to the x-axis, and recognise that f(x) is stationary at x = c when f'(c)= 0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-292
+      focus_area: Applications of calculus
+      dot_point: Interpret the second derivative y'' as the gradient function of the first derivative y', and deduce that if y'' > 0 the curve is concave up and if y'' < 0 the curve is concave down
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-297
+      focus_area: Applications of calculus
+      dot_point: Graph y = f'(x) and y = f''(x) for a function y = f(x), given only a graph of y = f(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Concavity and points of inflection
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Graphs of f, f′ and f″
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Stationary points and their nature
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: combine three graph facts: concavity, f'=0, sign of f
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q8  key 2021-NESA-HSC-Q8  id 111
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Working with functions|Quadratic and cubic functions
+  home_source: computed
+  option A
+    latex: $y=(1-x)(2+x)^3$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $y=(x+1)(x-2)^3$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $y=(x+1)(2-x)^3$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $y=(x-1)(2+x)^3$
+    is_correct: 0
+    key_source: extracted
+  solution 481
+    source: generated
+    latex: |
+      From the graph: the curve crosses the $x$-axis at $x = -1$ (a single root) and has a horizontal point of inflection on the $x$-axis at $x = 2$ (a triple root, factor $(x-2)^3$ or $(2-x)^3$).
+
+      Both ends of the graph go down, so the quartic has a negative leading coefficient.
+
+      $y = (x+1)(2-x)^3$ has roots $-1$ and $2$ (triple), and its leading term is $x\cdot(-x)^3 = -x^4$, which is negative.
+
+      Options A and D have roots at $1$ and $-2$; option B has a positive leading coefficient.
+    marks_breakdown: 1: Correct answer (C)
+    model: claude-opus-5-5
+    prompt_version: gen-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  figure 222_q8_1.png
+    page: 6
+    bbox: [170.0, 97.5, 423.5, 265.0]
+    png_path: figures/222_q8_1.png
+    tikz_path: tikz/tex/222_q8_1.tex
+    caption: quartic graph with single root on negative x-axis and horizontal point of inflection on positive x-axis
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: v2: Re-traced the curve from the crop in crop-pixel units (fit a(x-r)(s-x)^3(1+bx), <1.5px error, inflection on the axis); axis extents and O/x/y label positions measured from the crop; ends changed to open chevrons; 12pt labels; house line weights. | still different: House chevron a little wider than the crop's.
+  part -  id 163
+    ordinal: 1
+    latex: |
+      The graph of $y=f(x)$ is shown.
+
+      \exfigure{222_q8_1}
+
+      Which of the following could be the equation of this graph?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-F1.4
+      is_primary: 0
+      confidence: 0.4
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-037
+      focus_area: Working with functions
+      dot_point: Recognise and graph cubic functions of the form f(x) = kx3 and f(x)= k(x ― a)(x ― b)(x ― c), where a, b, c and k are constants and k ≠0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Graphs of cubic and polynomial functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: read single/triple roots and end behaviour sign
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q9  key 2021-NESA-HSC-Q9  id 112
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Working with functions|Properties of functions, relations and graphs
+  home_source: computed
+  option A
+    latex: $y=mx+c$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $y=-mx+c$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $y=mx-c$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $y=-mx-c$
+    is_correct: 0
+    key_source: extracted
+  solution 482
+    source: generated
+    latex: |
+      $g$ is even, so $h(-x) = f\big(g(-x)\big) = f\big(g(x)\big) = h(x)$: $h$ is an even function.
+
+      The graph of an even function is symmetric about the $y$-axis, so
+      $$h(-k) = h(k) = mk + c \qquad\text{and}\qquad h'(-k) = -h'(k) = -m$$
+      Tangent at $x = -k$:
+      $$\begin{aligned} y - (mk + c) &= -m(x + k) \\ y &= -mx - mk + mk + c \\ y &= -mx + c \end{aligned}$$
+    marks_breakdown: 1: Correct answer (B)
+    model: claude-opus-5-5
+    prompt_version: gen-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  part -  id 164
+    ordinal: 1
+    latex: |
+      Let $h(x)=f(g(x))$ where the function $f(x)$ is an odd function and the function $g(x)$ is an even function.
+
+      The tangent to $y=h(x)$ at $x=k$, where $k>0$, has the equation $y=mx+c$.
+
+      What is the equation of the tangent to $y=h(x)$ at $x=-k$?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-F1.2
+      is_primary: 0
+      confidence: 0.55
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-058
+      focus_area: Working with functions
+      dot_point: Solve problems involving even and odd functions
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-059
+      focus_area: Working with functions
+      dot_point: Use the composite function f g(x) , where the output of g(x) becomes the input of f(x)
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-128
+      focus_area: Introduction to differentiation
+      dot_point: Use the rules for differentiation to find equations of tangents and normals to a curve at points on the curve
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Composite functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Odd and even functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Tangents and normals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 5
+      wm: PR
+      is_anchor: 1
+      confidence: medium
+      reason: abstract parity of composite, then tangent symmetry argument
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 5
+      wm_ai: PR
+      source: model
+
+## Q10  key 2021-NESA-HSC-Q10  id 113
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 7
+  page_end: 7
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Differential calculus|Using derivatives
+  home_source: computed
+  option A
+    latex: $m<\dfrac{1}{a}<\dfrac{1}{2\pi}$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $\dfrac{1}{2\pi}<m<\dfrac{1}{a}$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $\dfrac{1}{2\pi}<\dfrac{1}{a}<m$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $m<\dfrac{1}{2\pi}<\dfrac{1}{a}$
+    is_correct: 0
+    key_source: extracted
+  solution 483
+    source: generated
+    latex: |
+      The tangent passes through the origin and the point $(a, \cos a)$, so
+      $$m = \dfrac{\cos a}{a}$$
+      From the diagram $\cos a < 1$, so $m < \dfrac{1}{a}$.
+
+      At $x = 2\pi$ the curve has $\cos 2\pi = 1$. The tangent touches the curve where it is concave down, so near the peak at $2\pi$ the line lies above the curve:
+      $$\begin{aligned} m(2\pi) &> 1 \\ m &> \dfrac{1}{2\pi} \end{aligned}$$
+      $$\therefore\ \dfrac{1}{2\pi} < m < \dfrac{1}{a}$$
+    marks_breakdown: 1: Correct answer (B)
+    model: claude-opus-5-5
+    prompt_version: gen-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.85}
+  figure 222_q10_1.png
+    page: 7
+    bbox: [107.0, 111.5, 481.5, 263.5]
+    png_path: figures/222_q10_1.png
+    tikz_path: tikz/tex/222_q10_1.tex
+    caption: graph of y=cos x with line y=mx through O tangent at x=a
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: v2: 12pt; scaled to crop size (x 1.19cm/rad, y 1.17cm/unit); extents matched to crop; tick labels normal size; label positions from crop | still different: none significant
+  part -  id 165
+    ordinal: 1
+    latex: |
+      The line $y=mx$ is a tangent to the curve $y=\cos x$ at the point where $x=a$, as shown in the diagram.
+
+      \exfigure{222_q10_1}
+
+      Which of the following statements is true?
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-C2.1
+      is_primary: 0
+      confidence: 0.6
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-088
+      focus_area: Trigonometry and measure of angles
+      dot_point: Graph y = sin x, y = cos x and y = tan x over domains given in degrees or radians, showing intercepts with the x-axis and y-axis and any asymptotes, determine their domains and ranges, and period and amplitude where appropriate, and whether each is even or odd or neither
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.55
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-241
+      focus_area: Differential calculus
+      dot_point: Solve problems involving equations of tangents and normals to curves involving any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.55
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Graphs of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Tangents and normals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 5
+      wm: PR
+      is_anchor: 1
+      confidence: medium
+      reason: tangent through origin; reason m=-sin a=cos a/a, bound by graph
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 5
+      wm_ai: PR
+      owner_band: 5
+      owner_wm: PR
+      source: owner
+
+## Q11  key 2021-NESA-HSC-Q11  id 114
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 9
+  page_end: 9
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Working with functions|Linear functions
+  home_source: computed
+  solution 146
+    source: extracted
+    latex: $$\begin{aligned} x+\dfrac{x-1}{2} &= 9 \\ 2x+x-1 &= 18 \\ 3x &= 19 \\ x &= \dfrac{19}{3} \end{aligned}$$
+    marks_breakdown: 2: Provides correct solution; 1: Writes fraction using a common denominator, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Writes fraction using a common denominator, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  part -  id 166
+    ordinal: 1
+    latex: Solve $x+\dfrac{x-1}{2}=9$.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-F1.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-026
+      focus_area: Working with functions
+      dot_point: Solve linear inequalities and graph the solution on a number line
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Linear equations and inequalities
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: one routine linear equation with fraction
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      owner_band: 2
+      owner_wm: UF
+      source: owner
+
+## Q12  key 2021-NESA-HSC-Q12  id 115
+  section: II
+  question_type: extended
+  stem_latex: |
+    A right-angled triangle $XYZ$ is cut out from a semicircle with centre $O$. The length of the diameter $XZ$ is 16 cm and $\angle YXZ=30^\circ$, as shown on the diagram.
+
+    \exfigure{222_q12_1}
+  marks_total: 5
+  page_start: 10
+  page_end: 10
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Trigonometry and measure of angles|Trigonometry with angles of any magnitude
+  home_source: computed
+  figure 222_q12_1.png
+    page: 10
+    bbox: [147.0, 134.5, 448.5, 282.0]
+    png_path: figures/222_q12_1.png
+    tikz_path: tikz/tex/222_q12_1.tex
+    caption: semicircle on diameter XZ = 16 cm with inscribed right-angled triangle XYZ, angle YXZ = 30 degrees, shaded segments
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: v2: 12pt; scale 0.546 to crop size; Y moved to 57deg as in crop; grey fill replaced by staggered dot stipple (local stagdots pattern, shade dots family) matching crop density; right-angle mark and NOT TO SCALE/dimension positions from crop | still different: stipple is a local staggered-dot pattern (house shade dots is a square grid, visibly different)
+  part a  id 167
+    ordinal: 1
+    latex: Find the length of $XY$ in centimetres, correct to two decimal places.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-T1
+      is_primary: 0
+      confidence: 0.9
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-073
+      focus_area: Trigonometry and measure of angles
+      dot_point: Apply trigonometry to solve problems involving right-angled triangles in two dimensions, true and compass bearings, and angles of elevation and depression
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Right-angled trigonometry
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 147
+      source: extracted
+      latex: |
+        In $\triangle XYZ$,
+        $$\cos 30^\circ = \dfrac{XY}{16}$$
+        $\therefore\ XY = 13.86 \text{ cm}$ (two decimal places)
+      marks_breakdown: 2: Provides correct solution; 1: Uses correct trigonometric ratio, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Uses correct trigonometric ratio, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: one right-triangle cosine ratio
+      area: Y11_Trigonometry_and_measure_of_angles
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      owner_band: 2
+      owner_wm: UF
+      source: owner
+  part b  id 168
+    ordinal: 2
+    latex: Hence, find the area of the shaded region in square centimetres, correct to one decimal place.
+    marks: 3
+    needs_review: 0
+    tag 2017 MA-T1
+      is_primary: 0
+      confidence: 0.85
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-083
+      focus_area: Trigonometry and measure of angles
+      dot_point: Apply the sine rule, cosine rule and formula for the area of a triangle to solve problems where angles are measured in degrees, or degrees and minutes
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Area of a triangle (½ab sin C)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 148
+      source: extracted
+      latex: $$\begin{aligned} \text{Shaded area} &= \dfrac{1}{2}\pi(8)^2 - \dfrac{1}{2}\times 13.86\times 16\times \sin 30^\circ \\ &= 45.1 \text{ cm}^2 \text{ (one decimal place)} \end{aligned}$$
+      marks_breakdown: 3: Provides correct solution; 2: Calculates the area of $\triangle XYZ$ and the semicircle, or equivalent merit; 1: Calculates the area of a semicircle, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Calculates the area of $\\triangle XYZ$ and the semicircle, or equivalent merit"], [1, "Calculates the area of a semicircle, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: semicircle area minus triangle area, two standard formulas
+      area: Y11_Trigonometry_and_measure_of_angles
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      owner_band: 3
+      owner_wm: UF
+      source: owner
+
+## Q13  key 2021-NESA-HSC-Q13  id 116
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 11
+  page_end: 11
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Differential calculus|Using derivatives
+  home_source: computed
+  solution 149
+    source: extracted
+    latex: |
+      $$y = x\tan x$$
+      $$\dfrac{dy}{dx} = x\sec^2 x + \tan x$$
+      $$\begin{aligned} \text{Gradient of tangent} &= \dfrac{\pi}{3}\sec^2\left(\dfrac{\pi}{3}\right) + \tan\left(\dfrac{\pi}{3}\right) \\ &= \dfrac{\pi}{3}\cdot\dfrac{1}{\left(\frac{1}{2}\right)^2} + \sqrt{3} \\ &= \dfrac{4\pi}{3} + \sqrt{3} \end{aligned}$$
+    marks_breakdown: 3: Provides correct solution; 2: Finds the derivative and attempts to calculate gradient; 1: Applies the product rule, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Finds the derivative and attempts to calculate gradient"], [1, "Applies the product rule, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  part -  id 169
+    ordinal: 1
+    latex: Find the exact gradient of the tangent to the curve $y=x\tan x$ at the point where $x=\dfrac{\pi}{3}$.
+    marks: 3
+    needs_review: 0
+    tag 2017 MA-C2.2
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-237
+      focus_area: Differential calculus
+      dot_point: Use the rules of differentiation to show that d dx ( tan x) = sec2 x
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: rule-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: rule-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Derivatives of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: rule-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Product rule
+      coverage: required
+      is_primary: 1
+      tag_source: rule-fix
+      prompt_version: tag-v2.3
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: product rule with tan, exact substitution at pi/3
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      owner_band: 4
+      owner_wm: UF
+      source: owner
+
+## Q14  key 2021-NESA-HSC-Q14  id 117
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 11
+  page_end: 11
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Sequences and series|Arithmetic sequences and series
+  home_source: computed
+  solution 150
+    source: extracted
+    latex: |
+      $a = 5,\ S_{43} = 2021$
+      $$\begin{aligned} \therefore\ 2021 &= \dfrac{43}{2}\big(2\times 5 + (43-1)d\big) \\ 94 &= 10 + 42d \\ d &= 2 \end{aligned}$$
+    marks_breakdown: 2: Provides correct solution; 1: Substitutes into sum of an arithmetic series formula
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Substitutes into sum of an arithmetic series formula"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  part -  id 170
+    ordinal: 1
+    latex: |
+      The first term of an arithmetic sequence is 5. The sum of the first 43 terms is 2021.
+
+      What is the common difference of the sequence?
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-M1.2
+      is_primary: 0
+      confidence: 0.9
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-219
+      focus_area: Sequences and series
+      dot_point: Develop the formula Sn = n 2[2a +(n ― 1)d] for the nth partial sum of an AP, and use the formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Arithmetic series
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: S_n formula used in reverse to find d
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      owner_band: 3
+      owner_wm: UF
+      source: owner
+
+## Q15  key 2021-NESA-HSC-Q15  id 118
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 12
+  page_end: 12
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Primitive functions
+  home_source: computed
+  solution 151
+    source: extracted
+    latex: $$\begin{aligned} \int_{-2}^{0} \sqrt{2x+4}\,dx &= \int_{-2}^{0} (2x+4)^{\frac{1}{2}}\,dx \\ &= \dfrac{1}{2}\cdot\dfrac{2}{3}\left[(2x+4)^{\frac{3}{2}}\right]_{-2}^{0} \\ &= \dfrac{1}{3}\left(4^{\frac{3}{2}} - 0\right) \\ &= \dfrac{8}{3} \end{aligned}$$
+    marks_breakdown: 2: Provides correct solution; 1: Finds the anti-derivative of $\sqrt{2x+4}$, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Finds the anti-derivative of $\\sqrt{2x+4}$, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  part -  id 171
+    ordinal: 1
+    latex: Evaluate $\displaystyle\int_{-2}^{0}\sqrt{2x+4}\,dx$.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-C4.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-248
+      focus_area: Integral calculus
+      dot_point: Determine the primitive function for functions of the form f(x)= (ax + b)n, for all real n ≠―1, where a and b are constants
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Reverse chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: reverse chain rule on (2x+4)^{1/2}, exact evaluation
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q16  key 2021-NESA-HSC-Q16  id 119
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 12
+  page_end: 12
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Introduction to differentiation|Graphical applications of the derivative
+  home_source: computed
+  solution 152
+    source: extracted
+    latex: |
+      $$f(x) = x^2 - 2x^3$$
+      $$f'(x) = 2x - 6x^2$$
+      For $f(x)$ to be increasing, we need $f'(x) > 0$.
+      $$\begin{aligned} 2x - 6x^2 &> 0 \\ 2x(1-3x) &> 0 \end{aligned}$$
+      \exfigure{226_q16_1}
+      $$\therefore\ 0 < x < \dfrac{1}{3}$$
+    marks_breakdown: 3: Provides correct solution; 2: States $2x - 6x^2 > 0$, or equivalent merit; 1: Finds the derivative, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "States $2x - 6x^2 > 0$, or equivalent merit"], [1, "Finds the derivative, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  part -  id 172
+    ordinal: 1
+    latex: For what values of $x$ is $f(x)=x^2-2x^3$ increasing?
+    marks: 3
+    needs_review: 0
+    tag 2017 MA-C3.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-036
+      focus_area: Working with functions
+      dot_point: Solve quadratic inequalities
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-135
+      focus_area: Introduction to differentiation
+      dot_point: Interpret f(x) as increasing at x = c when f'(c)> 0 and decreasing at x = c when f'(c)< 0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Increasing and decreasing functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Quadratic inequalities
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: differentiate then solve quadratic inequality 2x(1-3x)>0
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q17  key 2021-NESA-HSC-Q17  id 120
+  section: II
+  question_type: extended
+  stem_latex: |
+    For a sample of 17 inland towns in Australia, the height above sea level, $x$ (metres), and the average maximum daily temperature, $y$ ($^\circ$C), were recorded.
+
+    The graph shows the data as well as a regression line.
+
+    \exfigure{222_q17_1}
+
+    The equation of the regression line is $y=29.2-0.011x$.
+
+    The correlation coefficient is $r=-0.494$.
+  marks_total: 4
+  page_start: 13
+  page_end: 14
+  needs_review: 0
+  review_status: unreviewed
+  standard_topic: Parts (i), (ii), (b): Standard 2, Year 12: Bivariate data analysis (MST-12-S2-08)
+  home_topic: special:removed
+  home_source: computed
+  figure 222_q17_1.png
+    page: 13
+    bbox: [69.0, 165.0, 485.0, 410.5]
+    png_path: figures/222_q17_1.png
+    tikz_path: tikz/tex/222_q17_1.tex
+    caption: scatter plot of average maximum daily temperature against height above sea level with regression line
+    redraw_status: approx
+    redraw_class: statistical
+    redraw_notes: v2: 12pt; axis box enlarged to crop size (12.8x6.71cm); tick labels normal size; marks resized; title smaller and closer; regression line plain dashed (removed 0.7pt override) | still different: data points still read from pixels (+-5 m, +-0.2 C)
+  part a  id 173
+    ordinal: 1
+    latex: 
+    needs_review: 0
+  part i  id 174
+    parent_part_id: 173
+    ordinal: 2
+    latex: By using the equation of the regression line, predict the average maximum daily temperature, in degrees Celsius, for a town that is 540 m above sea level. Give your answer correct to one decimal place.
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-S2.2
+      is_primary: 0
+      confidence: 0.95
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-S2.2
+      dot_point: Prediction from a least-squares regression line: bivariate data not in 2024 Advanced. · Standard: MST-12-S2-08
+      is_primary: 0
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 153
+      source: extracted
+      latex: $$\begin{aligned} y &= 29.2 - 0.011\times 540 \\ &= 23.3^\circ\text{C} \end{aligned}$$
+      marks_breakdown: 1: Provides correct answer
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"top_criterion_original": "Provides correct answer"}
+  part ii  id 175
+    parent_part_id: 173
+    ordinal: 3
+    latex: The gradient of the regression line is $-0.011$. Interpret the value of this gradient in the given context.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-S2.2
+      is_primary: 0
+      confidence: 0.95
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-S2.2
+      dot_point: Interpreting the gradient of a regression line: bivariate data not in 2024 Advanced. · Standard: MST-12-S2-08
+      is_primary: 0
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 154
+      source: extracted
+      latex: For a one metre increase in the height above sea level, we expect a $0.011^\circ$C drop in average maximum daily temperature.
+      marks_breakdown: 2: Provides correct solution; 1: Provides a correct relevant statement relating temperature to height above sea level, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Provides a correct relevant statement relating temperature to height above sea level, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+  part b  id 176
+    ordinal: 4
+    latex: |
+      The graph below shows the relationship between the latitude, $x$ (degrees south), and the average maximum daily temperature, $y$ ($^\circ$C), for the same 17 towns, as well as a regression line.
+
+      \exfigure{222_q17_2}
+
+      The equation of the regression line is $y=45.6-0.683x$.
+
+      The correlation coefficient is $r=-0.897$.
+
+      Another inland town in Australia is 540 m above sea level. Its latitude is 28 degrees south.
+
+      Which measurement, height above sea level or latitude, would be better to use to predict this town's average maximum daily temperature? Give a reason for your answer.
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-S2.2
+      is_primary: 0
+      confidence: 0.95
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-S2.2
+      dot_point: Choosing a predictor by correlation coefficient: bivariate data not in 2024 Advanced. · Standard: MST-12-S2-08
+      is_primary: 0
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 155
+      source: extracted
+      latex: It would be better to use the latitude. From the information given, the average maximum daily temperature has a stronger correlation with latitude than with height above sea level.
+      marks_breakdown: 1: Provides correct solution
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    figure 222_q17_2.png
+      page: 14
+      bbox: [97.5, 151.0, 507.5, 396.5]
+      png_path: figures/222_q17_2.png
+      tikz_path: tikz/tex/222_q17_2.tex
+      caption: scatter plot of average maximum daily temperature against latitude with regression line
+      redraw_status: approx
+      redraw_class: statistical
+      redraw_notes: v2: 12pt; axis box enlarged to crop size (12.8x6.71cm); tick labels normal size; marks resized; title smaller and closer; regression line plain dashed (removed 0.7pt override) | still different: data points still read from pixels (+-0.1 deg, +-0.2 C)
+
+## Q18  key 2021-NESA-HSC-Q18  id 121
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 15
+  page_end: 15
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Trigonometry and measure of angles|Trigonometry with angles of any magnitude
+  home_source: computed
+  solution 156
+    source: extracted
+    latex: |
+      $$\dfrac{\sin \angle ABC}{25} = \dfrac{\sin 28^\circ}{16}$$
+      $$\therefore\ \sin \angle ABC = 0.733\ldots$$
+      $$\begin{aligned} \therefore\ \angle ABC &= 180^\circ - 47.18\ldots^\circ \\ &= 133^\circ \text{ (nearest degree)} \end{aligned}$$
+    marks_breakdown: 3: Provides correct solution; 2: Calculates $47.18^\circ$, or equivalent merit; 1: Substitutes into the sine rule correctly, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Calculates $47.18^\\circ$, or equivalent merit"], [1, "Substitutes into the sine rule correctly, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  figure 222_q18_1.png
+    page: 15
+    bbox: [167.5, 137.0, 424.5, 265.5]
+    png_path: figures/222_q18_1.png
+    tikz_path: tikz/tex/222_q18_1.tex
+    caption: triangle ABC with AC = 25 cm, BC = 16 cm, angle BAC = 28 degrees
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: v2: Redrawn from crop positions instead of true scale (AB now longer than BC as in crop); 12pt; crop size; label positions from crop | still different: none
+  part -  id 177
+    ordinal: 1
+    latex: |
+      The diagram shows a triangle $ABC$ where $AC=25$ cm, $BC=16$ cm, $\angle BAC=28^\circ$ and angle $ABC$ is obtuse.
+
+      \exfigure{222_q18_1}
+
+      Find the size of the obtuse angle $ABC$ correct to the nearest degree.
+    marks: 3
+    needs_review: 0
+    tag 2017 MA-T1
+      is_primary: 0
+      confidence: 0.9
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-082
+      focus_area: Trigonometry and measure of angles
+      dot_point: Use graphing applications or geometric construction to examine the ambiguous case of the sine rule, in which there are two possible solutions for an angle, and the condition for it to arise
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-083
+      focus_area: Trigonometry and measure of angles
+      dot_point: Apply the sine rule, cosine rule and formula for the area of a triangle to solve problems where angles are measured in degrees, or degrees and minutes
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Ambiguous case of the sine rule
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Sine rule
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 1
+      confidence: medium
+      reason: sine rule for angle plus ambiguous case: take obtuse supplement
+      area: Y11_Trigonometry_and_measure_of_angles
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q19  key 2021-NESA-HSC-Q19  id 122
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 16
+  page_end: 16
+  needs_review: 0
+  review_status: unreviewed
+  review_note: AUDIT audit-v1: ok
+  home_topic: sub:11|Working with functions|Reciprocal functions
+  home_source: computed
+  solution 157
+    source: extracted
+    latex: |
+      \exfigure{226_q19_1}
+      $$\begin{aligned} y\text{-intercept: } y &= 2 + \dfrac{1}{4} \\ &= \dfrac{9}{4} \end{aligned}$$
+      $$\begin{aligned} x\text{-intercept: } 0 &= 2 + \dfrac{1}{x+4} \\ x &= -\dfrac{9}{2} \end{aligned}$$
+    marks_breakdown: 3: Provides correct solution; 2: Provides correct graph without $x$ and $y$ intercepts, or equivalent merit; 1: Draws a hyperbola, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Provides correct graph without $x$ and $y$ intercepts, or equivalent merit"], [1, "Draws a hyperbola, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  part -  id 178
+    ordinal: 1
+    latex: Without using calculus, sketch the graph of $y=2+\dfrac{1}{x+4}$, showing the asymptotes and the $x$ and $y$ intercepts.
+    marks: 3
+    needs_review: 0
+    tag 2017 MA-F1.4
+      is_primary: 0
+      confidence: 0.6
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-018
+      focus_area: Working with functions
+      dot_point: Recognise that the x-intercepts of the graph of y = f(x) are its zeroes, the solutions of f(x)= 0, and that the y-intercept is f(0)
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-038
+      focus_area: Working with functions
+      dot_point: Graph functions of the form f(x) = k x, where k is a constant and k ≠0, and identify their hyperbolic shape and their asymptotes
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-167
+      focus_area: Graph transformations
+      dot_point: Apply reflections, translations and dilations to functions within the scope of the Mathematics Advanced course, excluding trigonometric functions, determine the function rule and the graph of the transformed function, the domain and range of the transformed graph, any intercepts, asymptotes and discontinuities where appropriate, and describe which transformations have been applied
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Sketching transformed graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Transformations of hyperbolas
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Translations of graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: standard translated hyperbola: asymptotes and two intercepts
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q20  key 2021-NESA-HSC-Q20  id 123
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 16
+  page_end: 16
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Further graph transformations and modelling|Transformations of trigonometric functions
+  home_source: computed
+  solution 158
+    source: extracted
+    latex: |
+      Since $0 \le x \le \dfrac{\pi}{4}$, then $0 \le 4x \le \pi$.
+      $$\begin{aligned} 2\sin 4x &= 1 \\ \sin 4x &= \dfrac{1}{2} \\ 4x &= \dfrac{\pi}{6},\ \dfrac{5\pi}{6} \\ x &= \dfrac{\pi}{24},\ \dfrac{5\pi}{24} \end{aligned}$$
+    marks_breakdown: 2: Provides correct solution; 1: Provides $\dfrac{\pi}{6}$, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Provides $\\dfrac{\\pi}{6}$, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  part -  id 179
+    ordinal: 1
+    latex: For what values of $x$, in the interval $0\le x\le\dfrac{\pi}{4}$, does the line $y=1$ intersect the graph of $y=2\sin 4x$?
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-T3
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-204
+      focus_area: Further graph transformations and modelling
+      dot_point: Solve equations and graphical problems involving transformations of the trigonometric functions f(x)= sin x, f(x)= cos x or f(x) = tan x, using graphing applications or otherwise, within a specified domain
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Trigonometric equations
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: solve sin4x=1/2 with scaled domain 0 to pi
+      area: Y12_Further_graph_transformations_and_modelling
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      owner_band: 4
+      owner_wm: UF
+      source: owner
+
+## Q21  key 2021-NESA-HSC-Q21  id 124
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 17
+  page_end: 17
+  needs_review: 0
+  review_status: unreviewed
+  review_note: AUDIT audit-v1: ok
+  home_topic: sub:11|Graph transformations|
+  home_source: computed
+  related 1326 (2024-BlacktownBoys-AT4-Q20) variant 0.5
+  solution 159
+    source: extracted
+    latex: \exfigure{226_q21_1}
+    marks_breakdown: 2: Provides correct graph; 1: Provides graph with correct $x$ intercepts, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Provides graph with correct $x$ intercepts, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct graph"}
+  figure 222_q21_1.png
+    page: 17
+    bbox: [120.0, 125.5, 473.0, 301.0]
+    png_path: figures/222_q21_1.png
+    tikz_path: tikz/tex/222_q21_1.tex
+    caption: graph of y=f(x) touching origin, minimum at (4,-8), x-intercept 6
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: v2: 12pt; axis scales refit to crop (x 0.728cm, y 0.179cm/unit); open chevron arrows both curve ends (smaller local open arrow); label and NOT TO SCALE positions from crop | still different: none | round 2 (your note): Curve ends and axes use the house filled Latex heads; removed the local open arrow redefinition so the house style applies. | remaining: None.
+  part -  id 180
+    ordinal: 1
+    latex: |
+      Consider the graph of $y=f(x)$ as shown.
+
+      \exfigure{222_q21_1}
+
+      Sketch the graph of $y=4f(2x)$ showing the $x$-intercepts and the coordinates of the turning points.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-F2
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-165
+      focus_area: Graph transformations
+      dot_point: Establish using graphing applications that replacing x by x k in the equation of a graph corresponds to a horizontal dilation of a graph by a factor of k, that replacing y by y l corresponds to a vertical dilation by a factor of l, and determine the effects on the graph when the magnitude of the dilation factor lies between 0 and 1
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-166
+      focus_area: Graph transformations
+      dot_point: Establish, using graphing applications, replacing x by x k and replacing y by y k in the equation of a graph corresponds to a dilation by a factor of k, that is, an enlargement of the graph when k > 1 and a reduction of the graph when 0 < k < 1
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-167
+      focus_area: Graph transformations
+      dot_point: Apply reflections, translations and dilations to functions within the scope of the Mathematics Advanced course, excluding trigonometric functions, determine the function rule and the graph of the transformed function, the domain and range of the transformed graph, any intercepts, asymptotes and discontinuities where appropriate, and describe which transformations have been applied
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Dilations of graphs
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Sketching transformed graphs
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: medium
+      reason: combined vertical and horizontal dilation applied to intercepts and turning points
+      area: Y11_Graph_transformations
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      owner_band: 3
+      owner_wm: UF
+      source: owner
+
+## Q22  key 2021-NESA-HSC-Q22  id 125
+  section: II
+  question_type: extended
+  stem_latex: |
+    A random variable is normally distributed with mean 0 and standard deviation 1. The table gives the probability that this random variable lies between 0 and $z$ for different values of $z$.
+
+    \extable{Tq125_1}
+
+    The probability values given in the table for different values of $z$ are represented by the shaded area in the following diagram.
+
+    \exfigure{222_q22_1}
+  marks_total: 4
+  page_start: 18
+  page_end: 18
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Random variables|The normal distribution
+  home_source: computed
+  data_table Tq125_1
+    header_rows: 0
+    label_col: 1
+    rows_json: [["z", "0.1", "0.2", "0.3", "0.4", "0.5", "0.6"], ["\\text{Probability}", "0.0398", "0.0793", "0.1179", "0.1554", "0.1915", "0.2257"]]
+    source_latex: $$\begin{array}{|c|c|c|c|c|c|c|}\hline z & 0.1 & 0.2 & 0.3 & 0.4 & 0.5 & 0.6\\ \hline \text{Probability} & 0.0398 & 0.0793 & 0.1179 & 0.1554 & 0.1915 & 0.2257\\ \hline\end{array}$$
+    spans_json: []
+  figure 222_q22_1.png
+    page: 18
+    bbox: [184.5, 253.0, 410.0, 340.5]
+    png_path: figures/222_q22_1.png
+    tikz_path: tikz/tex/222_q22_1.tex
+    caption: standard normal curve with area between 0 and z shaded
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: v2: 12pt; curve refit to crop pixels (L+H*exp(-|x/s|^2.84), within ~2px), crop width 7.7cm; z at crop position; grey fill replaced by light staggered dot stipple; labels on common baseline | still different: curve is the crop's shape, not an exact normal pdf (crop itself is not a true normal); stipple regular rather than random | round 2 (your note): Removed the local stagdots pattern and stip style; the shaded strip 0..z now uses house shade dots. | remaining: Regular stipple vs the crop's random dots; the redraw score of 0.60 is all stipple.
+  part a  id 181
+    ordinal: 1
+    latex: Using the table, find the probability that a value from a random variable that is normally distributed with mean 0 and standard deviation 1 lies between 0.1 and 0.5.
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-S3.2
+      is_primary: 0
+      confidence: 0.85
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-350
+      focus_area: Random variables
+      dot_point: Use z-scores to identify probabilities of events less or more extreme than a given outcome and solve problems using tables for the standard normal distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Standard normal tables
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 160
+      source: extracted
+      latex: $$\begin{aligned} \text{Probability} &= 0.1915 - 0.0398 \\ &= 0.1517 \end{aligned}$$
+      marks_breakdown: 1: Provides correct solution
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: read two table values and subtract
+      area: Y12_Random_variables
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 182
+    ordinal: 2
+    latex: Birth weights are normally distributed with a mean of 3300 grams and a standard deviation of 570 grams. By first calculating a $z$-score, find how many babies, out of 1000 born, are expected to have a birth weight greater than 3528 grams.
+    marks: 3
+    needs_review: 0
+    tag 2017 MA-S3.2
+      is_primary: 0
+      confidence: 0.9
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-201
+      focus_area: Probability and data
+      dot_point: Use the relative frequency to estimate the probability of results in experiments
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-347
+      focus_area: Random variables
+      dot_point: Define the z-score, or standardised score, by the formula z = x―μ σ , where μ is the mean and σ is the standard deviation, and x is an observed value of a random variable
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-350
+      focus_area: Random variables
+      dot_point: Use z-scores to identify probabilities of events less or more extreme than a given outcome and solve problems using tables for the standard normal distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Expected frequency
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Standard normal tables
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: z-scores
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 161
+      source: extracted
+      latex: |
+        $$\begin{aligned} z &= \dfrac{3528 - 3300}{570} \\ &= 0.4 \end{aligned}$$
+        $$\begin{aligned} P(Z > 0.4) &= 0.5 - 0.1554 \\ &= 0.3446 \end{aligned}$$
+        $\therefore$ Expect $1000\times 0.3446 = 344.6$ babies born to have a birth weight greater than 3528 grams.
+      marks_breakdown: 3: Provides correct solution; 2: Finds associated probability, or equivalent merit; 1: Calculates z-score, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Finds associated probability, or equivalent merit"], [1, "Calculates $z$-score, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: z-score, table lookup, complement, scale to 1000
+      area: Y12_Random_variables
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      owner_band: 3
+      owner_wm: UF
+      source: owner
+
+## Q23  key 2021-NESA-HSC-Q23  id 126
+  section: II
+  question_type: extended
+  marks_total: 4
+  page_start: 19
+  page_end: 19
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
+  solution 162
+    source: extracted
+    latex: |
+      $$P = 5000b^{-\frac{t}{10}}$$
+      When $t = 20$, $P = 1250$:
+      $$\begin{aligned} 1250 &= 5000\,b^{-2} \\ b^{-2} &= \dfrac{1}{4} \\ b &= 2 \quad (b > 0) \end{aligned}$$
+      $$\therefore\ P = 5000(2)^{-\frac{t}{10}}$$
+      $$\dfrac{dP}{dt} = 5000\times\ln 2\times\dfrac{-1}{10}\times 2^{\frac{-t}{10}}$$
+      Find $t$ when $\dfrac{dP}{dt} = -30$:
+      $$\begin{aligned} -30 &= -500\times\ln 2\times 2^{\frac{-t}{10}} \\ 2^{\frac{t}{10}} &= \dfrac{500\ln 2}{30} \\ 2^{\frac{t}{10}} &= 11.55\ldots \\ \dfrac{t}{10}\ln 2 &= \ln 11.55\ldots \\ t &= 35.3 \end{aligned}$$
+    marks_breakdown: 4: Provides correct solution; 3: Equates $-30$ to a correct derivative, with $b = 2$, or equivalent merit; 2: Finds $b$ and provides correct derivative, or equivalent merit; 1: Provides correct derivative, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[4, "Correct answer"], [3, "Equates $-30$ to a correct derivative, with $b = 2$, or equivalent merit"], [2, "Finds $b$ and provides correct derivative, or equivalent merit"], [1, "Provides correct derivative, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  part -  id 183
+    ordinal: 1
+    latex: |
+      A population, $P$, which is initially 5000, varies according to the formula
+
+      $$P=5000b^{\frac{-t}{10}},$$
+
+      where $b$ is a positive constant and $t$ is time in years, $t\ge 0$.
+
+      The population is 1250 after 20 years.
+
+      Find the value of $t$, correct to one decimal place, for which the instantaneous rate of decrease is 30 people per year.
+    marks: 4
+    needs_review: 0
+    tag 2017 MA-C2.1
+      is_primary: 0
+      confidence: 0.5
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-154
+      focus_area: Exponential and logarithmic functions
+      dot_point: Explain that y = ax is equivalent to x = loga y for a > 0 and a ≠1, and use the equivalence to solve equations of the form ax = b, for a > 0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-206
+      focus_area: Further graph transformations and modelling
+      dot_point: Model and solve practical problems involving functions and their transformations, within the scope of the Mathematics Advanced course, using graphical and algebraic techniques
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-231
+      focus_area: Differential calculus
+      dot_point: Prove and use the formula d dx(ax)= ( ln a )ax, where a is a constant and a > 0
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-303
+      focus_area: Applications of calculus
+      dot_point: Use differentiation to find and interpret the first and second derivatives, dQ dt and d2Q dt2 , in practical problems where a quantity Q is a function of time t
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Derivatives of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Exponential and logarithmic models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Exponential equations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Rates of change
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: find b, differentiate b^(-t/10), solve with logs
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q24  key 2021-NESA-HSC-Q24  id 127
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 20
+  page_end: 20
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
+  solution 163
+    source: extracted
+    latex: $$\begin{aligned} \text{Area} &= \dfrac{2\times 3}{2} + \int_2^4 \dfrac{3}{x-1}\,dx \\ &= 3 + 3\big[\ln(x-1)\big]_2^4 \\ &= (3 + 3\ln 3)\ \text{units}^2 \end{aligned}$$
+    marks_breakdown: 3: Provides the correct solution; 2: Evaluates $\displaystyle\int_2^4 \dfrac{3}{x-1}\,dx$, or equivalent merit; 1: Calculates the area of the triangle, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Evaluates $\\displaystyle\\int_2^4 \\dfrac{3}{x-1}\\,dx$, or equivalent merit"], [1, "Calculates the area of the triangle, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides the correct solution"}
+  figure 222_q24_1.png
+    page: 20
+    bbox: [162.0, 199.5, 426.5, 381.0]
+    png_path: figures/222_q24_1.png
+    tikz_path: tikz/tex/222_q24_1.tex
+    caption: region bounded by y=3/(x-1), y=3x/2, x-axis and x=4, intersection at (2,3)
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: v2: 12pt; axis scales/extents fitted to crop (0.641 x 0.699 cm/unit); grey fill replaced by dot stipple (staggered dots); curve/line/x=4 segment extents and label positions from crop | still different: none significant | round 2 (your note): Removed the local stagdots pattern and stip style; the region now uses house shade dots. | remaining: Stipple placement only.
+  part -  id 184
+    ordinal: 1
+    latex: |
+      The curve $y=\dfrac{3}{x-1}$ intersects the line $y=\dfrac{3}{2}x$ at the point $(2,3)$.
+
+      The region bounded by the curve $y=\dfrac{3}{x-1}$, the line $y=\dfrac{3}{2}x$, the $x$-axis and the line $x=4$ is shaded in the diagram.
+
+      \exfigure{222_q24_1}
+
+      Find the exact area of the shaded region.
+    marks: 3
+    needs_review: 0
+    tag 2017 MA-C4.2
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-270
+      focus_area: Integral calculus
+      dot_point: Establish and use the formula ∫ 1 ax+b dx = 1 a ln|ax + b| + C, where a and b are constants and a ≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-279
+      focus_area: Integral calculus
+      dot_point: Use definite integrals to solve problems involving the areas of regions bounded by the graph of the continuous function y = f(x), the x-axis and the lines x = a and x = b, in cases where f(x)≥0 throughout a ≤x ≤b, f(x)≤0 throughout a ≤x ≤b or where f(x) changes sign in the interval a ≤x ≤b, with or without the graph provided
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Area under a curve
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Integrals giving logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 1
+      confidence: medium
+      reason: split region: triangle plus log integral of 3/(x-1)
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q25  key 2021-NESA-HSC-Q25  id 128
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 21
+  page_end: 21
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: special:removed
+  home_source: computed
+  solution 164
+    source: extracted
+    latex: |
+      $$\begin{aligned} \text{Money in account after 8 years} &= 1000\times 8.2132 \\ &= \$8213.20 \end{aligned}$$
+      $$\begin{aligned} \text{Amount after 2 more years} &= 8213.20\,(1.0125)^2 \\ &= \$8419.81 \end{aligned}$$
+    marks_breakdown: 3: Provides correct solution; 2: Finds the correct future value of the annuity and attempts to apply the compound interest formula, or equivalent merit; 1: Identifies the correct interest factor from the table, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Finds the correct future value of the annuity and attempts to apply the compound interest formula, or equivalent merit"], [1, "Identifies the correct interest factor from the table, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  part -  id 185
+    ordinal: 1
+    latex: |
+      A table of future value interest factors for an annuity of $\text{\textdollar}1$ is shown.
+
+      \extable{Tp185_1}
+
+      Simone deposits $\text{\textdollar}1000$ into a savings account at the end of each year for 8 years. The interest rate for these 8 years is 0.75% per annum, compounded annually.
+
+      After the 8th deposit, Simone stops making deposits but leaves the money in the savings account. The money in her savings account then earns interest at 1.25% per annum, compounded annually, for a further two years.
+
+      Find the amount of money in Simone's savings account at the end of ten years.
+    marks: 3
+    needs_review: 0
+    data_table Tp185_1
+      caption: Table of future value interest factors
+      header_rows: 2
+      label_col: 1
+      rows_json: [["\\textit{Number of}\\\\\\textit{periods}", "\\textit{Interest rate per period}", "", "", "", ""], ["", "0.25\\%", "0.5\\%", "0.75\\%", "1\\%", "1.25\\%"], ["2", "2.0025", "2.0050", "2.0075", "2.0100", "2.0125"], ["4", "4.0150", "4.0301", "4.0452", "4.0604", "4.0756"], ["6", "6.0376", "6.0755", "6.1136", "6.1520", "6.1907"], ["8", "8.0704", "8.1414", "8.2132", "8.2857", "8.3589"], ["10", "10.1133", "10.2280", "10.3443", "10.4622", "10.5817"]]
+      source_latex: $$\begin{array}{|c|c|c|c|c|c|}\hline \textit{Number of periods} & 0.25\% & 0.5\% & 0.75\% & 1\% & 1.25\%\\ \hline 2 & 2.0025 & 2.0050 & 2.0075 & 2.0100 & 2.0125\\ \hline 4 & 4.0150 & 4.0301 & 4.0452 & 4.0604 & 4.0756\\ \hline 6 & 6.0376 & 6.0755 & 6.1136 & 6.1520 & 6.1907\\ \hline 8 & 8.0704 & 8.1414 & 8.2132 & 8.2857 & 8.3589\\ \hline 10 & 10.1133 & 10.2280 & 10.3443 & 10.4622 & 10.5817\\ \hline\end{array}$$
+      spans_json: [[0, 1, 5], [0, 0, 1, 2]]
+    tag 2017 MA-M1.4
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.55
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-M1.4
+      dot_point: Future value of an annuity from an interest-factor table (table look-up), then compound interest on the balance.
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 233
+      confidence: high
+      reason: Annuity table value then two years compound growth combined
+      area: Unhomed
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q26  key 2021-NESA-HSC-Q26  id 129
+  section: II
+  question_type: extended
+  stem_latex: A particle is shot vertically upwards from a point 100 metres above ground level. The position of the particle, $y$ metres above the ground after $t$ seconds, is given by $y(t)=-5t^2+70t+100$.
+  marks_total: 5
+  page_start: 22
+  page_end: 22
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Introduction to differentiation|The derivative as a rate of change
+  home_source: computed
+  part a  id 186
+    ordinal: 1
+    latex: Find the maximum height above ground level reached by the particle.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-C3.2
+      is_primary: 0
+      confidence: 0.6
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-136
+      focus_area: Introduction to differentiation
+      dot_point: Describe the behaviour of a function at a point as stationary when the tangent at the point is parallel to the x-axis, and recognise that f(x) is stationary at x = c when f'(c)= 0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.65
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-144
+      focus_area: Introduction to differentiation
+      dot_point: Solve problems by determining the velocity of a particle moving in a straight line, given its displacement from a point as a function of time
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.65
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Particles at rest and changing direction
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Quadratic models
+      coverage: can_use
+      is_primary: 0
+      tag_source: gate-check
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Stationary points and their nature
+      coverage: can_use
+      is_primary: 0
+      tag_source: gate-check
+      prompt_version: tag-v2.3
+    solution 165
+      source: extracted
+      latex: |
+        $$\begin{aligned} y(t) &= -5t^2 + 70t + 100 \\ y'(t) &= -10t + 70 \end{aligned}$$
+        When $y'(t) = 0$,
+        $$\begin{aligned} -10t + 70 &= 0 \\ t &= 7 \end{aligned}$$
+        At $t = 7$,
+        $$\begin{aligned} y &= -5(7)^2 + 70(7) + 100 \\ &= 345 \text{ m} \end{aligned}$$
+      marks_breakdown: 2: Provides correct solution; 1: Finds the time it takes to reach maximum height, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds the time it takes to reach maximum height, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: set derivative zero, solve, substitute back: standard maximum
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 187
+    ordinal: 2
+    latex: Find the velocity of the particle, in metres per second, immediately before it hits the ground, leaving your answer in the form $a\sqrt{b}$, where $a$ and $b$ are integers.
+    marks: 3
+    needs_review: 0
+    tag 2017 MA-C3.2
+      is_primary: 0
+      confidence: 0.5
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-144
+      focus_area: Introduction to differentiation
+      dot_point: Solve problems by determining the velocity of a particle moving in a straight line, given its displacement from a point as a function of time
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.75
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Velocity as a rate of change
+      coverage: required
+      is_primary: 1
+      tag_source: gate-check
+      prompt_version: tag-v2.3
+    solution 166
+      source: extracted
+      latex: |
+        To find when the particle hits the ground, we solve
+        $$\begin{aligned} -5t^2 + 70t + 100 &= 0 \\ t^2 - 14t - 20 &= 0 \\ t &= \dfrac{14 \pm \sqrt{196 + 80}}{2} \\ &= 7 \pm \sqrt{69} \end{aligned}$$
+        $t = 7 + \sqrt{69}$, since $t > 0$
+        $$\begin{aligned} y'(7+\sqrt{69}) &= -10(7+\sqrt{69}) + 70 \\ &= -10\sqrt{69} \end{aligned}$$
+        $\therefore\ a = -10$ and $b = 69$
+      marks_breakdown: 3: Provides correct solution; 2: Finds the correct value of $t$, or equivalent merit; 1: Attempts to solve to find the time $y(t) = 0$, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Finds the correct value of $t$, or equivalent merit"], [1, "Attempts to solve to find the time $y(t) = 0$, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 1
+      confidence: medium
+      reason: solve y=0 by quadratic formula, reject root, surd velocity
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q27  key 2021-NESA-HSC-Q27  id 130
+  section: II
+  question_type: extended
+  stem_latex: |
+    Kenzo has a solar powered phone charger. Its power, $P$, can be modelled by the function
+
+    $$P(t)=400\sin\left(\dfrac{\pi}{12}t\right),\ 0\le t\le 12,$$
+
+    where $t$ is the number of hours after sunrise.
+  marks_total: 8
+  page_start: 23
+  page_end: 24
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
+  part a  id 188
+    ordinal: 1
+    latex: Sketch the graph of $P$ for $0\le t\le 12$.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-T3
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-203
+      focus_area: Further graph transformations and modelling
+      dot_point: Apply the principles of transformations to graph transformations of the trigonometric functions f(x)= sin x, f(x)= cos x and f(x) = tan x, describe which transformations have been applied to y = f(x) and determine the domain, range, horizontal translation, vertical translation, dilation factor, period and amplitude when applicable
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-205
+      focus_area: Further graph transformations and modelling
+      dot_point: Model and solve problems involving periodic phenomena using transformations of the trigonometric functions f(x)= sin x, f(x)= cos x or f(x) = tan x, without the use of calculus
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Amplitude, period and phase
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Transformations of trigonometric graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Trigonometric models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 167
+      source: extracted
+      latex: |
+        $$\begin{aligned} \text{Period} &= \dfrac{2\pi}{\frac{\pi}{12}} \\ &= 24 \text{ hours} \end{aligned}$$
+        \exfigure{226_q27_1}
+      marks_breakdown: 2: Provides correct sketch; 1: Provides a sine graph with the correct amplitude, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Provides a sine graph with the correct amplitude, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct sketch"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 1
+      confidence: medium
+      reason: sketch sine hump; period 24 so half-period shown
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 189
+    ordinal: 2
+    latex: |
+      Power is the rate of change of energy. Hence the amount of energy, $E$ units, generated by the solar powered phone charger from $t=a$ to $t=b$, where $0\le a\le b\le 12$ is given by
+
+      $$E=\int_a^b P(t)\,dt.$$
+
+      Show that $E=\dfrac{4800}{\pi}\left(\cos\dfrac{a\pi}{12}-\cos\dfrac{b\pi}{12}\right)$.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-C4.1
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-273
+      focus_area: Integral calculus
+      dot_point: Establish and use indefinite integrals of the form ∫f(ax + b)dx, where a and b are constants and a ≠0, and f(x)= sin x, f(x)= cos x and f(x)= sec2 x
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-304
+      focus_area: Applications of calculus
+      dot_point: Use integration to solve practical problems on the rate of change of a quantity Q, where dQ dt or d2Q dt2 is given as a function of time t, together with sufficient initial conditions
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Integrals of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Rates of change using integration
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 168
+      source: extracted
+      latex: $$\begin{aligned} E &= \int_a^b P(t)\,dt \\ &= \int_a^b 400\sin\left(\dfrac{\pi}{12}t\right)dt \\ &= -\dfrac{400(12)}{\pi}\left[\cos\left(\dfrac{\pi}{12}t\right)\right]_a^b \\ &= -\dfrac{4800}{\pi}\left(\cos\dfrac{b\pi}{12} - \cos\dfrac{a\pi}{12}\right) \\ &= \dfrac{4800}{\pi}\left(\cos\dfrac{a\pi}{12} - \cos\dfrac{b\pi}{12}\right) \end{aligned}$$
+      marks_breakdown: 2: Provides correct solution; 1: Provides correct anti-derivative of $\sin\left(\dfrac{\pi}{12}t\right)$, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Provides correct anti-derivative of $\\sin\\left(\\dfrac{\\pi}{12}t\\right)$, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: integrate sin(kt) with limits, rearrange
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 190
+    ordinal: 3
+    latex: |
+      To make a phone call, a phone battery needs at least 300 units of energy. Kenzo woke up 3 hours after sunrise and found that his phone battery had no units of energy. He immediately began to use his solar powered charger to charge his phone battery.
+
+      Find the least amount of time he needed to wait before he could make a phone call. Give your answer correct to the nearest minute.
+    marks: 3
+    needs_review: 0
+    tag 2017 MA-C4.2
+      is_primary: 0
+      confidence: 0.5
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-204
+      focus_area: Further graph transformations and modelling
+      dot_point: Solve equations and graphical problems involving transformations of the trigonometric functions f(x)= sin x, f(x)= cos x or f(x) = tan x, using graphing applications or otherwise, within a specified domain
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-205
+      focus_area: Further graph transformations and modelling
+      dot_point: Model and solve problems involving periodic phenomena using transformations of the trigonometric functions f(x)= sin x, f(x)= cos x or f(x) = tan x, without the use of calculus
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-304
+      focus_area: Applications of calculus
+      dot_point: Use integration to solve practical problems on the rate of change of a quantity Q, where dQ dt or d2Q dt2 is given as a function of time t, together with sufficient initial conditions
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Rates of change using integration
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Trigonometric equations
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Trigonometric models
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 169
+      source: extracted
+      latex: |
+        $$\begin{aligned} 300 &= \dfrac{4800}{\pi}\left(\cos\dfrac{3\pi}{12} - \cos\dfrac{b\pi}{12}\right) \\ \dfrac{\pi}{16} &= \dfrac{1}{\sqrt{2}} - \cos\dfrac{b\pi}{12} \\ \cos\dfrac{b\pi}{12} &= \dfrac{1}{\sqrt{2}} - \dfrac{\pi}{16} \\ b &= \dfrac{12}{\pi}\cos^{-1}\left(\dfrac{1}{\sqrt{2}} - \dfrac{\pi}{16}\right) \\ b &= 3.95 \end{aligned}$$
+        $\therefore$ He needs to wait $0.95\times 60 = 57$ minutes (to the nearest minute).
+      marks_breakdown: 3: Provides correct solution; 2: Calculates the value of $b$, or equivalent merit; 1: Substitutes into $E$ given in part (b), or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Calculates the value of $b$, or equivalent merit"], [1, "Substitutes into $E$ given in part (b), or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 1
+      confidence: high
+      reason: set a=3, solve inverse cos for b, convert wait time
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: PR
+      source: model
+  part d  id 191
+    ordinal: 4
+    latex: |
+      The next day, Kenzo woke up 6 hours after sunrise and again found that his phone battery had no units of energy. He immediately began to use his solar powered charger to charge his phone battery.
+
+      Would it take more time or less time or the same amount of time, compared to the answer in part (c), to charge his phone battery in order to make a phone call? Explain your answer by referring to the graph drawn in part (a).
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-T3
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-205
+      focus_area: Further graph transformations and modelling
+      dot_point: Model and solve problems involving periodic phenomena using transformations of the trigonometric functions f(x)= sin x, f(x)= cos x or f(x) = tan x, without the use of calculus
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.55
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-304
+      focus_area: Applications of calculus
+      dot_point: Use integration to solve practical problems on the rate of change of a quantity Q, where dQ dt or d2Q dt2 is given as a function of time t, together with sufficient initial conditions
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.55
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Area under a curve
+      coverage: can_use
+      is_primary: 0
+      tag_source: checker
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Trigonometric models
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    solution 170
+      source: extracted
+      latex: |
+        It would take less time to charge his phone battery.
+
+        By starting to charge the battery six hours after sunrise, he is charging the phone at the time when the power is greatest.
+      marks_breakdown: 1: Provides correct solution
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 1
+      confidence: medium
+      reason: explain via area under graph near peak power
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: PR
+      source: model
+
+## Q28  key 2021-NESA-HSC-Q28  id 131
+  section: II
+  question_type: extended
+  stem_latex: |
+    The region bounded by the graph of the function $f(x)=8-2^x$ and the coordinate axes is shown.
+
+    \exfigure{222_q28_1}
+  marks_total: 6
+  page_start: 25
+  page_end: 26
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
+  figure 222_q28_1.png
+    page: 25
+    bbox: [138.5, 139.5, 455.0, 281.5]
+    png_path: figures/222_q28_1.png
+    tikz_path: tikz/tex/222_q28_1.tex
+    caption: region bounded by y=f(x)=8-2^x and the coordinate axes, asymptote y=8
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: v2: 12pt; scales fitted to crop (1.113 x 0.387 cm/unit); grey fill replaced by dot stipple; thin shorter-dash asymptote with Latex arrows both ends; smaller open chevrons on both curve ends; labels positioned from crop | still different: none significant | round 2 (your note): Removed the local stagdots pattern and stip style and now use house shade dots. The y=8 asymptote dash (on 4.5 off 3) is replaced by house aux. The local open arrow redefinition is removed. | remaining: None.
+  part a  id 192
+    ordinal: 1
+    latex: Show that the exact area of the shaded region is given by $24-\dfrac{7}{\ln 2}$.
+    marks: 3
+    needs_review: 0
+    tag 2017 MA-C4.2
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-266
+      focus_area: Integral calculus
+      dot_point: Establish and use the formula ∫axdx = ax ln a + C, where a is a constant and a > 0
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-279
+      focus_area: Integral calculus
+      dot_point: Use definite integrals to solve problems involving the areas of regions bounded by the graph of the continuous function y = f(x), the x-axis and the lines x = a and x = b, in cases where f(x)≥0 throughout a ≤x ≤b, f(x)≤0 throughout a ≤x ≤b or where f(x) changes sign in the interval a ≤x ≤b, with or without the graph provided
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Area under a curve
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Integrals of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 171
+      source: extracted
+      latex: $$\begin{aligned} &\int_0^3 8 - 2^x\,dx \\ &= \left[8x - \dfrac{2^x}{\ln 2}\right]_0^3 \\ &= \left(24 - \dfrac{8}{\ln 2}\right) - \left(0 - \dfrac{1}{\ln 2}\right) \\ &= 24 - \dfrac{8}{\ln 2} + \dfrac{1}{\ln 2} \\ &= 24 - \dfrac{7}{\ln 2} \end{aligned}$$
+      marks_breakdown: 3: Provides correct solution; 2: Finds the correct anti-derivative, or equivalent merit; 1: Writes the correct definite integral, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Finds the correct anti-derivative, or equivalent merit"], [1, "Writes the correct definite integral, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 1
+      confidence: medium
+      reason: find intercept x=3, integrate 2^x via a^x formula
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: UF
+      source: model
+  part b  id 193
+    ordinal: 2
+    latex: |
+      A new function $g(x)$ is found by taking the graph of $y=-f(-x)$ and translating it by 5 units to the right.
+
+      Sketch the graph of $y=g(x)$ showing the $x$-intercept and the asymptote.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-F2
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-145
+      focus_area: Exponential and logarithmic functions
+      dot_point: Graph the exponential functions y = k(ax) and y = k(a―x) for constants a and k where a > 0, a ≠1 and k ≠0, and identify its asymptote, y-intercept, domain and range
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.75
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-167
+      focus_area: Graph transformations
+      dot_point: Apply reflections, translations and dilations to functions within the scope of the Mathematics Advanced course, excluding trigonometric functions, determine the function rule and the graph of the transformed function, the domain and range of the transformed graph, any intercepts, asymptotes and discontinuities where appropriate, and describe which transformations have been applied
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.75
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Combined transformations
+      coverage: required
+      is_primary: 1
+      tag_source: gate-check
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Exponential equations
+      coverage: can_use
+      is_primary: 0
+      tag_source: gate-check
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Reflections of graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Sketching transformed graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Transformations of exponential and logarithmic graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Translations of graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 172
+      source: extracted
+      latex: \exfigure{226_q28_1}
+      marks_breakdown: 2: Provides correct graph; 1: Draws the graph $y = f(-x)$, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Draws the graph $y = f(-x)$, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct graph"}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 1
+      confidence: medium
+      reason: combined reflection and translation, track intercept and asymptote
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: UF
+      source: model
+  part c  id 194
+    ordinal: 3
+    latex: Hence, find the exact value of $\displaystyle\int_2^5 g(x)\,dx$.
+    marks: 1
+    needs_review: 0
+    tag 2017 MA-C4.2
+      is_primary: 0
+      confidence: 0.5
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-167
+      focus_area: Graph transformations
+      dot_point: Apply reflections, translations and dilations to functions within the scope of the Mathematics Advanced course, excluding trigonometric functions, determine the function rule and the graph of the transformed function, the domain and range of the transformed graph, any intercepts, asymptotes and discontinuities where appropriate, and describe which transformations have been applied
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-252
+      focus_area: Integral calculus
+      dot_point: Consider the definite integral as ∫b a f(x) dx = lim Δx→0 ∑ b af(x)Δx, noting that this implies that the result of a definite integral will be negative when f(x)≤0 throughout the interval a ≤x ≤b
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-277
+      focus_area: Integral calculus
+      dot_point: Recognise, in the case where f(x)≤0 for all values of x in the interval a ≤x ≤b, the area bounded by the graph of the continuous function y = f(x), the x-axis and the lines x = a and x = b, as |∫b a f(x) dx| or ― ∫ b a f(x) dx
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Areas below the x-axis
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Reflections of graphs
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Translations of graphs
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 173
+      source: extracted
+      latex: $$\int_2^5 g(x)\,dx = \dfrac{7}{\ln 2} - 24$$
+      marks_breakdown: 1: Provides correct answer
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"top_criterion_original": "Provides correct answer"}
+    difficulty
+      band: 5
+      wm: PR
+      is_anchor: 1
+      confidence: medium
+      reason: recognise transformed region, sign of integral flips
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 5
+      wm_ai: PR
+      source: model
+
+## Q29  key 2021-NESA-HSC-Q29  id 132
+  section: II
+  question_type: extended
+  marks_total: 5
+  page_start: 29
+  page_end: 30
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Financial mathematics|Annuities
+  home_source: computed
+  part a  id 195
+    ordinal: 1
+    latex: |
+      On the day that Megan was born, her grandfather deposited $\text{\textdollar}5000$ into an account earning 3% per annum compounded annually. On each birthday after this, her grandfather deposited $\text{\textdollar}1000$ into the same account, making his final deposit on Megan's 17th birthday. That is, a total of 18 deposits were made.
+
+      Let $A_n$ be the amount in the account on Megan's $n$th birthday, after the deposit is made.
+
+      Show that $A_3=\text{\textdollar}8554.54$.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-M1.4
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-357
+      focus_area: Financial mathematics
+      dot_point: Define and model the future value of an annuity as the sum of all the payments, together with the interest they have earned
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-359
+      focus_area: Financial mathematics
+      dot_point: Solve problems involving annuities in which payments are made at the end of each time period and the future value of an annuity is calculated at the end of one of these periods using the formula for the sum of the first n terms of a geometric sequence
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Annuities: contributions
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Recurrence relations
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    solution 174
+      source: extracted
+      latex: $$\begin{aligned} A_0 &= \$5000 \\ A_1 &= 5000(1.03) + 1000 \\ &= \$6150 \\ A_2 &= 6150(1.03) + 1000 \\ &= \$7334.50 \\ A_3 &= 7334.50(1.03) + 1000 \\ &= \$8554.54 \end{aligned}$$
+      marks_breakdown: 2: Provides correct solution; 1: Finds the correct value of $A_1$, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds the correct value of $A_1$, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 1
+      confidence: medium
+      reason: build annuity recurrence from words with different initial deposit; pilot kept
+      area: Y12_Financial_mathematics
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: UF
+      source: model
+  part b  id 196
+    ordinal: 2
+    latex: |
+      On her 17th birthday, just after the final deposit is made, Megan has $\text{\textdollar}30\,025.83$ in her account. You are NOT required to show this.
+
+      Megan then decides to leave all the money in the same account continuing to earn interest at 3% per annum compounded annually. On her 18th birthday, and on each birthday after this, Megan withdraws $\text{\textdollar}2000$ from the account.
+
+      How many withdrawals of $\text{\textdollar}2000$ will Megan be able to make?
+    marks: 3
+    needs_review: 0
+    tag 2017 MA-M1.4
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-225
+      focus_area: Sequences and series
+      dot_point: Develop the formula Sn = a(1―rn) 1―r for the sum of the first n terms of a GP where r ≠1, and use this formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-356
+      focus_area: Financial mathematics
+      dot_point: Identify an annuity as either an investment account with regular, equal contributions and interest compounding at the end of each period, or as a single sum investment from which regular equal withdrawals are made
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-359
+      focus_area: Financial mathematics
+      dot_point: Solve problems involving annuities in which payments are made at the end of each time period and the future value of an annuity is calculated at the end of one of these periods using the formula for the sum of the first n terms of a geometric sequence
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Annuities: withdrawals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Geometric series
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Number of payments using logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Recurrence relations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 175
+      source: extracted
+      latex: |
+        Let $B_n =$ the amount in the account after $n$ withdrawals.
+
+        Then
+        $$\begin{aligned} B_0 &= 30\,025.83 \\ B_1 &= 30\,025.83(1.03) - 2000 \\ B_2 &= 30\,025.83(1.03)^2 - 2000(1.03) - 2000 \\ B_n &= 30\,025.83(1.03)^n - 2000\left[1 + (1.03) + \cdots + (1.03)^{n-1}\right] \end{aligned}$$
+        We want $B_n < 0$.
+
+        Find $n$ so that $B_n = 0$.
+        $$\begin{aligned} 30\,025.83(1.03)^n &= 2000\left[\dfrac{(1.03)^n - 1}{1.03 - 1}\right] \\ \dfrac{0.03\times 30\,025.83}{2000}(1.03)^n &= (1.03)^n - 1 \\ 0.45039(1.03)^n &= (1.03)^n - 1 \\ 0.54961(1.03)^n &= 1 \\ (1.03)^n &= 1.8194\ldots \\ n\ln(1.03) &= \ln(1.8194) \\ n &= \dfrac{\ln(1.8194)}{\ln(1.03)} \\ n &\approx 20.25 \end{aligned}$$
+        $\therefore$ Megan makes 20 withdrawals of $\$2000$.
+      marks_breakdown: 3: Provides correct solution; 2: Finds the correct expression for the amount after $n$ withdrawals using the sum of GP formula, or equivalent merit; 1: Attempts to find an expression for the amount after $n$ withdrawals, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Finds the correct expression for the amount after $n$ withdrawals using the sum of GP formula, or equivalent merit"], [1, "Attempts to find an expression for the amount after $n$ withdrawals, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 5
+      wm: PR
+      is_anchor: 1
+      confidence: high
+      reason: new withdrawal model, GP sum, logs, interpret whole withdrawals; pilot kept
+      area: Y12_Financial_mathematics
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 5
+      wm_ai: PR
+      source: model
+
+## Q30  key 2021-NESA-HSC-Q30  id 133
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 31
+  page_end: 31
+  needs_review: 0
+  review_status: unreviewed
+  review_note: AUDIT audit-v1: ok
+  home_topic: sub:12|Random variables|Continuous random variables
+  home_source: computed
+  solution 176
+    source: extracted
+    latex: $$\begin{aligned} F(x) &= 0.99 \\ 1 - e^{-0.01x} &= 0.99 \\ e^{-0.01x} &= 0.01 \\ -0.01x &= \ln(0.01) \\ x &= 460.517\ldots \\ &= 460.52 \text{ hours (two decimal places)} \end{aligned}$$
+    marks_breakdown: 2: Provides correct solution; 1: Writes $1 - e^{-0.01x} = 0.99$, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Writes $1 - e^{-0.01x} = 0.99$, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  part -  id 197
+    ordinal: 1
+    latex: |
+      The number of hours for which light bulbs will work before failing can be modelled by the random variable $X$ with cumulative distribution function
+
+      $$F(x)=\begin{cases}1-e^{-0.01x}, & x\ge 0\\ 0, & x<0\end{cases}.$$
+
+      Jane sells light bulbs and promises that they will work for longer than exactly 99% of all light bulbs.
+
+      Find how long, according to Jane's promise, a light bulb bought from her should work. Give your answer in hours, rounded to two decimal places.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-S3.1
+      is_primary: 0
+      confidence: 0.75
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-154
+      focus_area: Exponential and logarithmic functions
+      dot_point: Explain that y = ax is equivalent to x = loga y for a > 0 and a ≠1, and use the equivalence to solve equations of the form ax = b, for a > 0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-324
+      focus_area: Random variables
+      dot_point: Define the cumulative distribution function (CDF), F(x), as the probability of a random variable, X, having values less than or equal to x, so F(x)= P(X ≤x) and P(a ≤x ≤b)= F(b)― F(a)
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-332
+      focus_area: Random variables
+      dot_point: Use a cumulative distribution function to calculate the median and quartiles for a continuous random variable
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Cumulative distribution functions
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Exponential equations
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Median, mode and percentiles of a pdf
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 1
+      confidence: medium
+      reason: interpret promise as 99th percentile, solve exponential CDF with ln
+      area: Y12_Random_variables
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q31  key 2021-NESA-HSC-Q31  id 134
+  section: II
+  question_type: extended
+  marks_total: 4
+  page_start: 32
+  page_end: 32
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Introduction to differentiation|Calculations with the derivative
+  home_source: computed
+  solution 177
+    source: extracted
+    latex: |
+      \exfigure{226_q31_1}
+      $$y = x^2 - 1$$
+      $$y' = 2x$$
+      Gradient of tangent at $x = a$ is $2a$.
+
+      $\therefore$ Equation of tangent at $(a, a^2 - 1)$ is
+      $$\begin{aligned} y - \left(a^2 - 1\right) &= 2a(x - a) \\ y - a^2 + 1 &= 2ax - 2a^2 \\ y &= 2ax - a^2 - 1 \end{aligned}$$
+      Since the tangent passes through $(3, -8)$, then
+      $$\begin{aligned} -8 &= 6a - a^2 - 1 \\ a^2 - 6a - 7 &= 0 \\ (a-7)(a+1) &= 0 \\ a &= 7 \text{ or } a = -1 \end{aligned}$$
+      $\therefore$ The equations of the two tangents are:
+
+      When $a = 7$,
+      $$\begin{aligned} y &= 2(7)x - 7^2 - 1 \\ y &= 14x - 50 \end{aligned}$$
+      and when $a = -1$,
+      $$\begin{aligned} y &= 2(-1)x - (-1)^2 - 1 \\ y &= -2x - 2 \end{aligned}$$
+    marks_breakdown: 4: Provides correct solution; 3: Substitute $(3, -8)$ into the equation of the tangent at $x = a$, or equivalent merit; 2: Finds the equation of the tangent at $x = a$, or equivalent merit; 1: Finds the gradient of the tangent at $x = a$, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[4, "Correct answer"], [3, "Substitute $(3, -8)$ into the equation of the tangent at $x = a$, or equivalent merit"], [2, "Finds the equation of the tangent at $x = a$, or equivalent merit"], [1, "Finds the gradient of the tangent at $x = a$, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  part -  id 198
+    ordinal: 1
+    latex: By considering the equation of the tangent to $y=x^2-1$ at the point $(a,a^2-1)$, find the equations of the two tangents to $y=x^2-1$ which pass through $(3,-8)$.
+    marks: 4
+    needs_review: 0
+    tag 2017 MA-C2.2
+      is_primary: 0
+      confidence: 0.5
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-128
+      focus_area: Introduction to differentiation
+      dot_point: Use the rules for differentiation to find equations of tangents and normals to a curve at points on the curve
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-129
+      focus_area: Introduction to differentiation
+      dot_point: Find points on a curve where the tangent or normal has a given gradient
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Tangents and normals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 5
+      wm: PR
+      is_anchor: 1
+      confidence: high
+      reason: general tangent at (a,a^2-1) through external point gives quadratic in a
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 5
+      wm_ai: PR
+      source: model
+
+## Q32  key 2021-NESA-HSC-Q32  id 135
+  section: II
+  question_type: extended
+  marks_total: 4
+  page_start: 33
+  page_end: 33
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Random variables|The normal distribution
+  home_source: computed
+  solution 178
+    source: extracted
+    latex: |
+      \exfigure{226_q32_1}
+      $$\begin{aligned} \sigma &= \dfrac{175 - 160.6}{3} \\ &= 4.8 \end{aligned}$$
+      $$\begin{aligned} \mu &= 160.6 + 4.8 \\ &= 165.4 \end{aligned}$$
+      Selected male is taller than $84\%$ of population.
+
+      $\therefore$ Selected male is 1 standard deviation above mean.
+      $$\begin{aligned} \text{Mean height for males} &= 1.05\times 165.4 \\ &= 173.67 \end{aligned}$$
+      $$\begin{aligned} \text{Standard deviation of height for males} &= 4.8\times 1.1 \\ &= 5.28 \end{aligned}$$
+      $$\begin{aligned} \therefore\ \text{Height} &= 1.05\mu + 1.1\sigma \\ &= 173.67 + 5.28 \\ &= 178.95 \text{ cm} \end{aligned}$$
+    marks_breakdown: 4: Provides correct solution; 3: Finds the mean and standard deviation for the heights of adult males, or equivalent merit; 2: Finds $\sigma$, or equivalent merit; 1: Labels the diagram, or equivalent merit
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[4, "Correct answer"], [3, "Finds the mean and standard deviation for the heights of adult males, or equivalent merit"], [2, "Finds $\\sigma$, or equivalent merit"], [1, "Labels the diagram, or equivalent merit"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  figure 222_q32_1.png
+    page: 33
+    bbox: [163.5, 406.5, 431.0, 484.5]
+    png_path: figures/222_q32_1.png
+    tikz_path: tikz/tex/222_q32_1.tex
+    caption: blank normal distribution curve with seven tick marks for labelling
+    redraw_status: ok
+    redraw_class: blank_axes
+    redraw_notes: v2: 12pt; curve traced from crop pixels (smooth plot, keeps the crop's slightly pointed hand-drawn top and asymmetry), crop size 9.2cm; baseline and 7 ticks at crop positions (1.41cm spacing, ticks crossing baseline) | still different: minor smoothing wobble at the shoulders
+  part -  id 199
+    ordinal: 1
+    latex: |
+      In a particular city, the heights of adult females and the heights of adult males are each normally distributed.
+
+      Information relating to two females from that city is given in Table 1.
+
+      \extable{Tp199_1}
+
+      The means and standard deviations of adult females and males, in centimetres, are given in Table 2.
+
+      \extable{Tp199_2}
+
+      A selected male is taller than 84% of the population of adult males in this city.
+
+      By first labelling the normal distribution curve below with the heights of the two females given in Table 1, calculate the height of the selected male, in centimetres, correct to two decimal places.
+
+      \exfigure{222_q32_1}
+    marks: 4
+    needs_review: 0
+    data_table Tp199_1
+      caption: Table 1
+      header_rows: 1
+      label_col: 0
+      rows_json: [["\\textit{Height}", "\\textit{Gender}", "\\textit{Percentage of females in this}\\\\\\textit{city shorter than this person}"], ["175\\text{ cm}", "\\text{Female}", "97.5\\%"], ["160.6\\text{ cm}", "\\text{Female}", "16\\%"]]
+      source_latex: $$\text{Table 1}\quad\begin{array}{|c|c|c|}\hline \textit{Height} & \textit{Gender} & \textit{Percentage of females in this city shorter than this person}\\ \hline 175\text{ cm} & \text{Female} & 97.5\%\\ \hline 160.6\text{ cm} & \text{Female} & 16\%\\ \hline\end{array}$$
+      spans_json: []
+    data_table Tp199_2
+      caption: Table 2
+      header_rows: 1
+      label_col: 1
+      rows_json: [["", "\\textit{Mean}", "\\textit{Standard deviation}"], ["\\text{Females}", "\\mu", "\\sigma"], ["\\text{Males}", "1.05\\mu", "1.1\\sigma"]]
+      source_latex: $$\text{Table 2}\quad\begin{array}{|l|c|c|}\hline & \textit{Mean} & \textit{Standard deviation}\\ \hline \text{Females} & \mu & \sigma\\ \hline \text{Males} & 1.05\mu & 1.1\sigma\\ \hline\end{array}$$
+      spans_json: []
+    tag 2017 MA-S3.2
+      is_primary: 0
+      confidence: 0.85
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-343
+      focus_area: Random variables
+      dot_point: Apply the empirical rule to make judgements and solve problems involving probabilities of normally distributed data: that for normal distributions, approximately 68% of data lie within one standard deviation of the mean, approximately 95% within two standard deviations of the mean and approximately 99.7% within three standard deviations of the mean
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-347
+      focus_area: Random variables
+      dot_point: Define the z-score, or standardised score, by the formula z = x―μ σ , where μ is the mean and σ is the standard deviation, and x is an observed value of a random variable
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-351
+      focus_area: Random variables
+      dot_point: Solve problems involving finding the mean or standard deviation of a normal random variable given the probability of an event less or more extreme than a given outcome
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Inverse normal problems
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Normal distribution and the empirical rule
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: z-scores
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    difficulty
+      band: 5
+      wm: PR
+      is_anchor: 1
+      confidence: medium
+      reason: deduce mu, sigma from labelled females, scale to males, 84% = +1 sd
+      area: Y12_Random_variables
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 5
+      wm_ai: PR
+      source: model
+
+## Q33  key 2021-NESA-HSC-Q33  id 136
+  section: II
+  question_type: extended
+  stem_latex: |
+    People are given a maximum of six hours to complete a puzzle. The time spent on the puzzle, in hours, can be modelled using the continuous random variable $X$ which has probability density function
+
+    $$f(x)=\begin{cases}\dfrac{Ax}{x^2+4}, & \text{for } 0\le x\le 6,\ (\text{where } A>0)\\[6pt] 0, & \text{for all other values of } x\end{cases}.$$
+
+    The graph of the probability density function is shown below. The graph has a local maximum.
+
+    \exfigure{222_q33_1}
+  marks_total: 8
+  page_start: 34
+  page_end: 36
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Random variables|Continuous random variables
+  home_source: computed
+  figure 222_q33_1.png
+    page: 34
+    bbox: [164.5, 269.0, 427.5, 403.0]
+    png_path: figures/222_q33_1.png
+    tikz_path: tikz/tex/222_q33_1.tex
+    caption: graph of probability density function f(x) on 0 to 6 with a local maximum
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: v2: 12pt; curve traced from the crop (peak near x=1.5 as drawn, not the true mode x=2), crop size; plain axes with -latex arrows; 6 tick and labels at crop positions | still different: curve follows the crop, not the exact pdf formula
+  part a  id 200
+    ordinal: 1
+    latex: Show that $A=\dfrac{2}{\ln 10}$.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-S3.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-271
+      focus_area: Integral calculus
+      dot_point: Establish and use ∫u' u dx = ln|u| + C, where u is a function of x, or ∫f'(x) f(x) dx = ln |f(x)| + C, on a domain where f(x)≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-327
+      focus_area: Random variables
+      dot_point: Recognise the properties of a probability density function: f(x) ≥0 for all x in the domain of f(x), and ∫b a f(x )dx = 1 if the domain of f(x) is [a,b], or ∫∞ ―∞f(x )dx = 1 if the domain of f(x) is all real x
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Integrals giving logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Probability density functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 179
+      source: extracted
+      latex: |
+        $$\int_0^6 \dfrac{Ax}{x^2+4}\,dx = 1$$
+        $$\begin{aligned} \dfrac{A}{2}\left[\ln\left(x^2+4\right)\right]_0^6 &= 1 \\ \dfrac{A}{2}(\ln 40 - \ln 4) &= 1 \\ \dfrac{A}{2}\left(\ln\dfrac{40}{4}\right) &= 1 \\ \dfrac{A}{2}\ln 10 &= 1 \\ A &= \dfrac{2}{\ln 10} \end{aligned}$$
+      marks_breakdown: 2: Provides correct solution; 1: Finds the anti-derivative of $\dfrac{Ax}{x^2+4}$, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds the anti-derivative of $\\dfrac{Ax}{x^2+4}$, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: total area 1 with log integral, show given A
+      area: Y12_Random_variables
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 201
+    ordinal: 2
+    latex: Show that the mode of $X$ is two hours.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-S3.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-132
+      focus_area: Introduction to differentiation
+      dot_point: Apply the quotient rule: if y = u v, where u and v are both differentiable functions of x, then dy dx = v du dx―u dv dx v2 or if h(x)= f(x) g(x) then h'(x)= g(x)f'(x)―f(x)g'(x) [g(x)]2
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-136
+      focus_area: Introduction to differentiation
+      dot_point: Describe the behaviour of a function at a point as stationary when the tangent at the point is parallel to the x-axis, and recognise that f(x) is stationary at x = c when f'(c)= 0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-329
+      focus_area: Random variables
+      dot_point: Find the mode from a given probability density function
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Median, mode and percentiles of a pdf
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Quotient rule
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Stationary points and their nature
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 180
+      source: extracted
+      latex: |
+        $$\begin{aligned} f'(x) &= \dfrac{A\left(x^2+4\right) - Ax(2x)}{\left(x^2+4\right)^2} \\ &= \dfrac{Ax^2 + 4A - 2Ax^2}{\left(x^2+4\right)^2} \\ &= \dfrac{4A - Ax^2}{\left(x^2+4\right)^2} = 0 \end{aligned}$$
+        $$\begin{aligned} \therefore\ 4A - Ax^2 &= 0 \\ Ax^2 &= 4A \\ x^2 &= 4 \\ x &= 2 \quad (x > 0) \end{aligned}$$
+        $\therefore$ The mode of $X$ is 2.
+      marks_breakdown: 2: Provides correct solution; 1: Finds the correct derivative of $f(x)$, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds the correct derivative of $f(x)$, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: quotient rule, stationary point of pdf
+      area: Y12_Random_variables
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 202
+    ordinal: 3
+    latex: Show that $P(X<2)=\log_{10}2$.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-S3.1
+      is_primary: 0
+      confidence: 0.75
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-159
+      focus_area: Exponential and logarithmic functions
+      dot_point: Prove the change of base rule loga x = logb x logb a and use it to solve problems
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-271
+      focus_area: Integral calculus
+      dot_point: Establish and use ∫u' u dx = ln|u| + C, where u is a function of x, or ∫f'(x) f(x) dx = ln |f(x)| + C, on a domain where f(x)≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-328
+      focus_area: Random variables
+      dot_point: Apply the properties of a probability density function to solve problems and justify conclusions
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Change of base
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Integrals giving logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Probabilities from a probability density function
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 181
+      source: extracted
+      latex: $$\begin{aligned} P(X < 2) &= \int_0^2 \dfrac{Ax}{x^2+4}\,dx \\ &= \dfrac{A}{2}\left[\ln\left(x^2+4\right)\right]_0^2 \\ &= \dfrac{A}{2}(\ln 8 - \ln 4) \\ &= \dfrac{A}{2}\ln 2 \\ &= \dfrac{2}{\ln 10}\times\dfrac{1}{2}\times\ln 2 \\ &= \dfrac{\ln 2}{\ln 10} \\ &= \log_{10} 2 \end{aligned}$$
+      marks_breakdown: 2: Provides correct solution; 1: Provides correct definite integral, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Provides correct definite integral, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 1
+      confidence: high
+      reason: log integral then change of base to log10 2
+      area: Y12_Random_variables
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part d  id 203
+    ordinal: 4
+    latex: |
+      The Intelligence Quotient (IQ) scores of people are normally distributed with a mean of 100 and standard deviation of 15.
+
+      It has been observed that the puzzle is generally completed more quickly by people with a high IQ.
+
+      It is known that 80% of people with an IQ greater than 130 can complete the puzzle in less than two hours.
+
+      A person chosen at random can complete the puzzle in less than two hours.
+
+      What is the probability that this person has an IQ greater than 130? Give your answer correct to three decimal places.
+    marks: 2
+    needs_review: 0
+    tag 2017 MA-S3.2
+      is_primary: 0
+      confidence: 0.5
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-192
+      focus_area: Probability and data
+      dot_point: Use the formulas for P(A|B) to solve practical problems involving conditional probability
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-343
+      focus_area: Random variables
+      dot_point: Apply the empirical rule to make judgements and solve problems involving probabilities of normally distributed data: that for normal distributions, approximately 68% of data lie within one standard deviation of the mean, approximately 95% within two standard deviations of the mean and approximately 99.7% within three standard deviations of the mean
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-347
+      focus_area: Random variables
+      dot_point: Define the z-score, or standardised score, by the formula z = x―μ σ , where μ is the mean and σ is the standard deviation, and x is an observed value of a random variable
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Conditional probability
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Normal distribution and the empirical rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: z-scores
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 182
+      source: extracted
+      latex: |
+        $$\begin{aligned} &P(\text{IQ} > 130) \\ &= P\left(\dfrac{\text{IQ} - 100}{15} > \dfrac{130 - 100}{15}\right) \\ &= P(Z > 2) \\ &= 2.5\% \end{aligned}$$
+        $$\begin{aligned} &P\left(\text{IQ} > 130 \;\middle|\; \text{Time to complete} < 2\right) \\ &= \dfrac{P\left(\text{IQ} > 130 \cap \text{Time to complete} < 2\right)}{P\left(\text{Time to complete} < 2\right)} \\ &= \dfrac{2.5\%\times 80\%}{\log_{10} 2} \\ &= 0.06643\ldots \\ &= 0.066 \text{ (three decimal places)} \end{aligned}$$
+      marks_breakdown: 2: Provides correct solution; 1: Attempts to find the conditional probability, or equivalent merit
+      source_document_id: 226
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Attempts to find the conditional probability, or equivalent merit"]]
+      meta_json: {"top_criterion_original": "Provides correct solution"}
+    difficulty
+      band: 5
+      wm: PR
+      is_anchor: 1
+      confidence: high
+      reason: conditional probability combining normal IQ with pdf result
+      area: Y12_Random_variables
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 5
+      wm_ai: PR
+      source: model
+
+## Q34  key 2021-NESA-HSC-Q34  id 137
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 37
+  page_end: 37
+  needs_review: 0
+  review_status: unreviewed
+  review_note: AUDIT audit-v1: ok
+  home_topic: sub:12|Random variables|Discrete random variables
+  home_source: computed
+  solution 183
+    source: extracted
+    latex: |
+      $$r + r^2 + \cdots + r^n = 1$$
+      Sum of GP with $a = r$, common ratio $= r$, number of terms $= n$
+      $$\begin{aligned} \therefore\ \dfrac{r\left(r^n - 1\right)}{r - 1} &= 1 \\ r^{n+1} - r &= r - 1 \\ r^{n+1} &= 2r - 1 \qquad (*) \end{aligned}$$
+      $$\begin{aligned} E(X) &= \sum xP(X = x) \\ &= r\times r^n + r^2\times r^{n-1} + \cdots + r^n\times r \\ &= r^{n+1} + r^{n+1} + \cdots + r^{n+1} \\ &= r^{n+1}\times n \\ &= nr^{n+1} \\ &= n(2r - 1) \qquad \text{from } (*) \end{aligned}$$
+    marks_breakdown: 3: Provides correct solution; 2: Shows $E(X) = nr^{n+1}$ and attempts to find the sum of probabilities using sum of GP formula, or equivalent merit; 1: Finds correct expression for $E(X)$ or writes the sum of probabilities equal to 1
+    source_document_id: 226
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Shows $E(X) = nr^{n+1}$ and attempts to find the sum of probabilities using sum of GP formula, or equivalent merit"], [1, "Finds correct expression for $E(X)$ or writes the sum of probabilities equal to 1"]]
+    meta_json: {"top_criterion_original": "Provides correct solution"}
+  part -  id 204
+    ordinal: 1
+    latex: |
+      A discrete random variable has probability distribution as shown in the table where $n$ is a finite positive integer.
+
+      \extable{Tp204_1}
+
+      Show that $E(X)=n(2r-1)$.
+    marks: 3
+    needs_review: 0
+    data_table Tp204_1
+      header_rows: 0
+      label_col: 1
+      rows_json: [["x", "r", "r^2", "r^3", "\\dots", "r^k", "\\dots", "r^n"], ["P(X=x)", "r^n", "r^{n-1}", "r^{n-2}", "\\dots", "r^{n-k+1}", "\\dots", "r"]]
+      source_latex: $$\begin{array}{|c|c|c|c|c|c|c|c|}\hline x & r & r^2 & r^3 & \dots & r^k & \dots & r^n\\ \hline P(X=x) & r^n & r^{n-1} & r^{n-2} & \dots & r^{n-k+1} & \dots & r\\ \hline\end{array}$$
+      spans_json: []
+    tag 2017 MA-S1.2
+      is_primary: 0
+      confidence: 0.85
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-225
+      focus_area: Sequences and series
+      dot_point: Develop the formula Sn = a(1―rn) 1―r for the sum of the first n terms of a GP where r ≠1, and use this formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-315
+      focus_area: Random variables
+      dot_point: Define a discrete probability distribution to be the set of values x taken by a discrete random variable X, together with the probabilities P(x) that x is the outcome of the experiment
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-318
+      focus_area: Random variables
+      dot_point: Generate and use the formulas E(X)= μ = ΣxP(x) and Var(X)= σ2 = Σ(x ― μ)2P(x)= Σx2P(x)― μ2 for the random variable X, where Var(X) is the variance and σ is the standard deviation of the distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-321
+      focus_area: Random variables
+      dot_point: Solve problems involving probabilities, expectation and variance of discrete random variables
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Discrete probability distributions
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Expected value
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Geometric series
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    difficulty
+      band: 6
+      wm: PR
+      is_anchor: 1
+      confidence: medium
+      reason: GP sum condition gives r^(n+1)=2r-1, then E(X) general show-that
+      area: Y12_Random_variables
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 6
+      wm_ai: PR
+      source: model

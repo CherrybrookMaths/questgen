@@ -1,0 +1,3137 @@
+# paper 2020-BaulkhamHills-AT2 (document 568)
+document
+  id: 568
+  drive_file_id: 1JMcMPUSZzxCia2TQ1xpJq7N0v3Tl3DBG
+  source_path: Baulkham Hills/12/Adv/H2 Adv 2020 - Question Only - No Solutions.pdf
+  size_bytes: 383596
+  task_type: internal_exam
+  course: advanced
+  classification_method: explicit_cover
+  year_level: 12
+  school: Baulkham Hills
+  year: 2020
+  natural_key: solutions|2020|baulkham hills|unknown
+  provenance_method: filename
+  page_count: 20
+  has_text_layer: 0
+  parse_path: scan
+  bundled_solutions: 0
+  syllabus_version: 2017
+  status: tagged
+  ingested_at: 2026-11-10T22:53:15
+  display_label: 2020 Baulkham Hills High School AT2
+  school_formal: Baulkham Hills High School
+  task_code: AT2
+
+## Q1  key 2020-BaulkhamHills-AT2-Q1  id 300
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images
+  options_layout: text
+  home_topic: sub:12|Differential calculus|Differentiation with trigonometric functions
+  home_source: computed
+  option A
+    latex: $\dfrac{dy}{dx}=\cos x^\circ$
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: $\dfrac{dy}{dx}=-\sin x^\circ$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $\dfrac{dy}{dx}=\dfrac{\pi}{180}\cos\dfrac{\pi}{180}x$
+    is_correct: 1
+    key_source: generated
+  option D
+    latex: $\dfrac{dy}{dx}=-\dfrac{\pi}{180}\cos\dfrac{\pi}{180}x$
+    is_correct: 0
+    key_source: generated
+  solution 438
+    source: generated
+    latex: |
+      Convert degrees to radians: $x^\circ = \dfrac{\pi x}{180}$ radians, so $y = \sin\left(\dfrac{\pi}{180}x\right)$.
+
+      By the chain rule,
+      $$\dfrac{dy}{dx} = \dfrac{\pi}{180}\cos\left(\dfrac{\pi}{180}x\right)$$
+    marks_breakdown: 1: rewrite in radians and apply the chain rule to get C [confidence 0.95; check: passed]
+    model: claude-opus-5-5 (subagent)
+    prompt_version: gen-v1
+    verified_by: human:approved
+    verified_at: 2026-11-10T23:52:32.946Z
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  part -  id 466
+    ordinal: 1
+    latex: The derivative of $y=\sin x^\circ$ is
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-C2.1
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-086
+      focus_area: Trigonometry and measure of angles
+      dot_point: Explain why 360° = 2π radians and 1 radian = 180 π degrees
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-239
+      focus_area: Differential calculus
+      dot_point: Use the chain rule to differentiate functions of the form sin f(x), cos f(x) and tan f(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Derivatives of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Radian measure
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 858
+      confidence: medium
+      reason: must convert degrees to radians before chain rule
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q2  key 2020-BaulkhamHills-AT2-Q2  id 301
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images
+  options_layout: text
+  home_topic: special:removed
+  home_source: computed
+  option A
+    latex: $\dfrac{2}{3}$
+    is_correct: 1
+    key_source: generated
+  option B
+    latex: $0$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $\dfrac{3}{2}$
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: $1$
+    is_correct: 0
+    key_source: generated
+  solution 439
+    source: generated
+    latex: |
+      Use
+      $$\lim_{\theta \to 0}\dfrac{\sin\theta}{\theta} = 1$$
+
+      $$\begin{aligned} \lim_{x \to 0}\dfrac{\sin 2x}{3x} &= \lim_{x \to 0}\dfrac{2}{3}\cdot\dfrac{\sin 2x}{2x} \\ &= \dfrac{2}{3}\times 1 \\ &= \dfrac{2}{3} \end{aligned}$$
+    marks_breakdown: 1: rewrite as (2/3)(sin 2x)/(2x), limit 2/3 [confidence 0.95; check: passed]
+    model: claude-opus-5-5 (subagent)
+    prompt_version: gen-v1
+    verified_by: human:approved
+    verified_at: 2026-11-10T23:54:58.850Z
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  part -  id 467
+    ordinal: 1
+    latex: $$\lim_{x\to 0}\dfrac{\sin 2x}{3x}=$$
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-C2.1
+      is_primary: 0
+      confidence: 0.5
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.55
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag note MA-C2.1
+      dot_point: Limit sin x / x as x -> 0: not in 2024 Advanced.
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 209
+      confidence: high
+      reason: Standard sin x/x limit with a constant factor adjustment
+      area: Unhomed
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q3  key 2020-BaulkhamHills-AT2-Q3  id 302
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images | AUDIT audit-v1: ok
+  options_layout: text
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
+  option A
+    latex: $-1$
+    is_correct: 1
+    key_source: generated
+  option B
+    latex: $0$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $1$
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: $2$
+    is_correct: 0
+    key_source: generated
+  solution 440
+    source: generated
+    latex: |
+      $$\int_0^3 f(x)\,dx = \int_0^1 f(x)\,dx + \int_1^3 f(x)\,dx$$
+      $$\begin{aligned} 5 &= 6 + \int_1^3 f(x)\,dx \\ \int_1^3 f(x)\,dx &= -1 \end{aligned}$$
+    marks_breakdown: 1: split the integral at x=1 to get -1 [confidence 0.95; check: passed]
+    model: claude-opus-5-5 (subagent)
+    prompt_version: gen-v1
+    verified_by: human:approved
+    verified_at: 2026-11-11T00:49:22.688Z
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  part -  id 468
+    ordinal: 1
+    latex: |
+      The function $y=f(x)$ is continuous for all $x$.
+
+      Given that $\displaystyle \int_0^1 f(x)\,dx=6$ and $\displaystyle \int_0^3 f(x)\,dx=5$, what is the value of $\displaystyle \int_1^3 f(x)\,dx$ ?
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-C4.2
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-282
+      focus_area: Integral calculus
+      dot_point: Recognise and use the result, where f(x) is continuous on the interval a ≤x ≤c, ∫b a f(x)dx + ∫c b f(x)dx = ∫c a f(x)dx for all c such that a ≤b ≤c
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Properties of definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 796
+      confidence: high
+      reason: additivity of intervals, one subtraction
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q4  key 2020-BaulkhamHills-AT2-Q4  id 303
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images
+  options_layout: text
+  home_topic: sub:12|Further graph transformations and modelling|Transformations of trigonometric functions
+  home_source: computed
+  option A
+    latex: $6\pi$
+    is_correct: 1
+    key_source: generated
+  option B
+    latex: $4$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $\dfrac{2\pi}{3}$
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: $\dfrac{1}{4}$
+    is_correct: 0
+    key_source: generated
+  solution 441
+    source: generated
+    latex: |
+      For $y = a\sin(bx)$ the period is $\dfrac{2\pi}{b}$. Here $b = \dfrac{1}{3}$, so the period is
+      $$\dfrac{2\pi}{\frac{1}{3}} = 6\pi$$
+    marks_breakdown: 1: period = 2pi/(1/3) = 6pi [confidence 0.95; check: passed]
+    model: claude-opus-5-5 (subagent)
+    prompt_version: gen-v1
+    verified_by: human:approved
+    verified_at: 2026-11-11T00:00:06.345Z
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  part -  id 469
+    ordinal: 1
+    latex: What is the period of the function $y=4\sin\left(\dfrac{x}{3}\right)$?
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-T3
+      is_primary: 0
+      confidence: 0.9
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-203
+      focus_area: Further graph transformations and modelling
+      dot_point: Apply the principles of transformations to graph transformations of the trigonometric functions f(x)= sin x, f(x)= cos x and f(x) = tan x, describe which transformations have been applied to y = f(x) and determine the domain, range, horizontal translation, vertical translation, dilation factor, period and amplitude when applicable
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Amplitude, period and phase
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 236
+      confidence: high
+      reason: period 2pi/n directly
+      area: Y12_Further_graph_transformations_and_modelling
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: shifted
+
+## Q4  key 2020-BaulkhamHills-AT2-Q4~2  id 304
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images; printed question number is '4' (duplicate); renumbered 5 by sequence | AUDIT audit-v1: minor - question number: page 'printed as '4.' (paper duplicates number 4 on page 3)' vs 'number 5' | printed number kept (paper misnumbers MCQ: 1,2,3,4,4,5,7…)
+  options_layout: text
+  home_topic: sub:11|Working with functions|Properties of functions, relations and graphs
+  home_source: computed
+  option A
+    latex: All real $x$, $x\neq\dfrac{1}{2}$
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: $x\geq\dfrac{1}{2}$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $x>\dfrac{1}{2}$
+    is_correct: 1
+    key_source: generated
+  option D
+    latex: $x\leq\dfrac{1}{2}$
+    is_correct: 0
+    key_source: generated
+  solution 442
+    source: generated
+    latex: |
+      The logarithm is defined only for positive arguments, so
+      $$\begin{aligned} 2x - 1 &> 0 \\ x &> \dfrac{1}{2} \end{aligned}$$
+      ($x = \dfrac{1}{2}$ is excluded because $\log_e 0$ is undefined.)
+    marks_breakdown: 1: 2x-1>0 gives x>1/2 [confidence 0.95; check: passed]
+    model: claude-opus-5-5 (subagent)
+    prompt_version: gen-v1
+    verified_by: human:approved
+    verified_at: 2026-11-11T00:00:25.199Z
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  part -  id 470
+    ordinal: 1
+    latex: The domain for the function $y=\log_e(2x-1)$ is:
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-E1
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-055
+      focus_area: Working with functions
+      dot_point: Determine and describe the domain and range of functions and relations, using interval notation, inequalities or worded descriptions
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Domain and range
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 158
+      confidence: high
+      reason: one inequality: log argument > 0
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q5  key 2020-BaulkhamHills-AT2-Q5  id 305
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images; printed question number is '5'; renumbered 6 by sequence; options A and C appear identical on the page (typeset differently); transcribed as printed | AUDIT audit-v1: minor - question number: page 'printed as '5.'' vs 'number 6' | printed number kept (paper misnumbers MCQ: 1,2,3,4,4,5,7…) | EDITED 11 Nov (owner request): option C was printed identical to A on the paper; replaced with the distractor ∫_1^3 (2x−2)−(x−1)^2 dx (the right-hand region only). Answer D unchanged.
+  options_layout: text
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
+  option A
+    latex: $\displaystyle \int_0^3 2x-2-(x-1)^2\,dx$
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: $\displaystyle \int_1^3 (x-1)^2-2x-2\,dx+\int_0^1 2x-2-(x-1)^2\,dx$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $\displaystyle \int_1^3 2x-2-(x-1)^2\,dx$
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: $\displaystyle \int_0^1 ((x-1)^2-2x+2)\,dx+\int_1^3 (2x-2)-(x-1)^2\,dx$
+    is_correct: 1
+    key_source: generated
+  solution 443
+    source: generated
+    latex: |
+      From the diagram, the shaded region has two parts.
+
+      For $0 \le x \le 1$ the parabola $y = (x-1)^2$ is above the line $y = 2x - 2$, so the area is
+      $$\int_0^1\big((x-1)^2 - (2x-2)\big)dx = \int_0^1\big((x-1)^2 - 2x + 2\big)dx$$
+
+      For $1 \le x \le 3$ the line is above the parabola (they meet at $(1, 0)$ and $(3, 4)$), so the area is
+      $$\int_1^3\big((2x-2) - (x-1)^2\big)dx$$
+
+      Total area:
+      $$\int_0^1\big((x-1)^2 - 2x + 2\big)dx + \int_1^3\big((2x-2) - (x-1)^2\big)dx$$
+    marks_breakdown: 1: upper minus lower on [0,1] and on [1,3]: option D [confidence 0.9; check: passed] CONCERN: Options A and C are printed identically in the source; this does not affect the answer D.
+    model: claude-opus-5-5 (subagent)
+    prompt_version: gen-v1
+    verified_by: human:approved
+    verified_at: 2026-11-11T00:05:15.183Z
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.9}
+  figure 568_q6_1.png
+    page: 2
+    bbox: [178, 335, 462, 556]
+    png_path: figures/568_q6_1.png
+    tikz_path: tikz/tex/568_q6_1.tex
+    caption: graphs of y=(x-1)^2 and y=2x-2 intersecting at (1,0) and (3,4), shaded regions from x=0 to x=3
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: v2: 12pt; scaled to crop (1.162cm per x unit, 0.50cm per y unit); grey shade replaced by house shade dense dots over a black!45 base to match the crop's dark stipple; axes show white through the shading as in crop; open chevron axis arrows at both ends; heavier curves with large filled arrowheads, ends at crop positions; label sizes reduced | still different: shading is house dense stipple on a grey base (the crop's stipple is darker than either house dot pattern alone); crop's curve-end arrows drawn slightly off-function, redraw keeps true functions | round 2 (your note): Shading lightened from dense dots over black!45 to the house light grey `shade`; y=(x-1)^2 moved left (anchor east 3.92->3.70) so the superscript is clear of the parabola's arrowhead; all arrows filled Latex[length=2mm,width=1.3mm] at 0.4pt (smaller than the scan's big heads). Rule 6a: y tick labels 2 and -2 redrawn as separate nodes clear of the parabola and the line. | remaining: Overlay orig 0.43 because the scan's dark fill and heavy lines are no longer matched by ink; geometry matches.
+  part -  id 471
+    ordinal: 1
+    latex: |
+      The area of the shaded region in the diagram below is given by:
+
+      \exfigure{568_q6_1}
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-C4.2
+      is_primary: 0
+      confidence: 0.9
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-279
+      focus_area: Integral calculus
+      dot_point: Use definite integrals to solve problems involving the areas of regions bounded by the graph of the continuous function y = f(x), the x-axis and the lines x = a and x = b, in cases where f(x)≥0 throughout a ≤x ≤b, f(x)≤0 throughout a ≤x ≤b or where f(x) changes sign in the interval a ≤x ≤b, with or without the graph provided
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Area between curves
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 212
+      confidence: medium
+      reason: choose split area expression where curves swap
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q7  key 2020-BaulkhamHills-AT2-Q7  id 306
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images | AUDIT audit-v1: ok
+  options_layout: text
+  home_topic: sub:12|Differential calculus|Differentiation with logarithmic functions
+  home_source: computed
+  option A
+    latex: $\dfrac{1}{\sec^2 x}$
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: $\dfrac{\sec x}{\tan x}$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $\sec x \cdot \operatorname{cosec} x$
+    is_correct: 1
+    key_source: generated
+  option D
+    latex: $\cot x$
+    is_correct: 0
+    key_source: generated
+  solution 444
+    source: generated
+    latex: |
+      Using
+      $$\dfrac{d}{dx}\ln f(x) = \dfrac{f'(x)}{f(x)}$$
+
+      $$\begin{aligned} f'(x) &= \dfrac{\sec^2 x}{\tan x} \\ &= \dfrac{1}{\cos^2 x}\cdot\dfrac{\cos x}{\sin x} \\ &= \dfrac{1}{\cos x\,\sin x} \\ &= \sec x\operatorname{cosec} x \end{aligned}$$
+    marks_breakdown: 1: f'(x) = sec^2 x / tan x = sec x cosec x [confidence 0.95; check: passed]
+    model: claude-opus-5-5 (subagent)
+    prompt_version: gen-v1
+    verified_by: human:approved
+    verified_at: 2026-11-11T00:10:04.877Z
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  part -  id 472
+    ordinal: 1
+    latex: What is $f'(x)$ if $f(x)=\ln(\tan x)$?
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-C2.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-096
+      focus_area: Trigonometric identities and equations
+      dot_point: Establish the reciprocal ratios sec A = 1 cos A, cosec A = 1 sin A, and cot A = 1 tan A, identifying the angles to be excluded in each identity
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-235
+      focus_area: Differential calculus
+      dot_point: Use the chain rule to differentiate functions of the form ln f(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-237
+      focus_area: Differential calculus
+      dot_point: Use the rules of differentiation to show that d dx ( tan x) = sec2 x
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Derivatives of logarithmic functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Derivatives of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Reciprocal trigonometric ratios
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 884
+      confidence: high
+      reason: f prime over f then simplify to sec cosec
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: shifted
+
+## Q8  key 2020-BaulkhamHills-AT2-Q8  id 307
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images
+  options_layout: text
+  home_topic: sub:12|Integral calculus|Integration with logarithmic functions
+  home_source: computed
+  option A
+    latex: $e$
+    is_correct: 1
+    key_source: generated
+  option B
+    latex: $e+1$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $2e$
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: $e^2$
+    is_correct: 0
+    key_source: generated
+  solution 445
+    source: generated
+    latex: |
+      $$\int_1^d\dfrac{2}{x}\,dx = \Big[2\ln x\Big]_1^d = 2\ln d$$
+      Set this equal to $2$:
+      $$\begin{aligned} 2\ln d &= 2 \\ \ln d &= 1 \\ d &= e \end{aligned}$$
+    marks_breakdown: 1: 2 ln d = 2 gives d = e [confidence 0.95; check: passed]
+    model: claude-opus-5-5 (subagent)
+    prompt_version: gen-v1
+    verified_by: human:approved
+    verified_at: 2026-11-11T02:21:07.012Z
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  figure 568_q8_1.png
+    page: 3
+    bbox: [190, 226, 400, 420]
+    png_path: figures/568_q8_1.png
+    tikz_path: tikz/tex/568_q8_1.tex
+    caption: area under y=2/x shaded from x=1 to x=d
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: v2: 12pt; resized to crop scale (x 0.533cm, y 0.97cm); open-chevron axes both ends, upright x/y labels; shade dots instead of grey; d moved to crop position (2.62). | still different: Curve drawn thin per house style (crop curve is heavy).
+  part -  id 473
+    ordinal: 1
+    latex: |
+      The diagram shows the area under the curve $y=\dfrac{2}{x}$ from $x=1$ to $x=d$.
+
+      \exfigure{568_q8_1}
+
+      What value of $d$ makes the shaded area equal to 2 square units?
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-C4.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-269
+      focus_area: Integral calculus
+      dot_point: Derive and use the formula ∫1 x dx = ln |x| + C where x ≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-279
+      focus_area: Integral calculus
+      dot_point: Use definite integrals to solve problems involving the areas of regions bounded by the graph of the continuous function y = f(x), the x-axis and the lines x = a and x = b, in cases where f(x)≥0 throughout a ≤x ≤b, f(x)≤0 throughout a ≤x ≤b or where f(x) changes sign in the interval a ≤x ≤b, with or without the graph provided
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Area under a curve
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Integrals giving logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: e and natural logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: gate-check
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 210
+      confidence: medium
+      reason: log primitive set equal to 2, solve for d
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q9  key 2020-BaulkhamHills-AT2-Q9  id 308
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images
+  options_layout: text
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
+  option A
+    latex: A
+    is_correct: 1
+    key_source: generated
+  option B
+    latex: B
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: C
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: D
+    is_correct: 0
+    key_source: generated
+  solution 446
+    source: generated
+    latex: |
+      We need a point that is below the $x$-axis ($f < 0$), on an increasing part of the curve ($f' > 0$) and where the curve is concave down ($f'' < 0$).
+
+      $A$: below the axis, the curve is rising towards the maximum, and it is concave down there. All three conditions hold.
+
+      $B$: $f(x) > 0$. Fails.
+
+      $C$: $f'(x) < 0$ (the curve is still falling to its minimum). Fails.
+
+      $D$: below the axis and rising, but concave up (after the minimum). Fails.
+    marks_breakdown: 1: only A has f<0, f'>0, f''<0 [confidence 0.95; check: passed]
+    model: claude-opus-5-5 (subagent)
+    prompt_version: gen-v1
+    verified_by: human:approved
+    verified_at: 2026-11-11T02:22:53.680Z
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  figure 568_q9_1.png
+    page: 3
+    bbox: [156, 538, 440, 674]
+    png_path: figures/568_q9_1.png
+    tikz_path: tikz/tex/568_q9_1.tex
+    caption: cubic-like curve y=f(x) with points A, B, C, D marked
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: v2: 12pt; refit sextic to crop pixel positions (unit 0.635cm, same size as crop) with f''(A)<0 kept; open chevron arrows on axes and curve end; upright A-D/x/y labels at crop size; y axis extends below as in crop. | still different: Curve within ~3px of crop; no equation given so shape is a fit. Lines thin per house style. | round 2 (your note): Axes and curve end use filled house Latex heads (open arrow), 0.4pt; verified in re-render. | remaining: none
+  part -  id 474
+    ordinal: 1
+    latex: |
+      The diagram shows the points $A, B, C$ and $D$ on the graph $y=f(x)$
+
+      \exfigure{568_q9_1}
+
+      At which point is $f(x)<0$, $f'(x)>0$ and $f''(x)<0$?
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-C3.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-135
+      focus_area: Introduction to differentiation
+      dot_point: Interpret f(x) as increasing at x = c when f'(c)> 0 and decreasing at x = c when f'(c)< 0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-292
+      focus_area: Applications of calculus
+      dot_point: Interpret the second derivative y'' as the gradient function of the first derivative y', and deduce that if y'' > 0 the curve is concave up and if y'' < 0 the curve is concave down
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-297
+      focus_area: Applications of calculus
+      dot_point: Graph y = f'(x) and y = f''(x) for a function y = f(x), given only a graph of y = f(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Concavity and points of inflection
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Graphs of f, f′ and f″
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 755
+      confidence: high
+      reason: read signs of f, f', f'' at points
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q10  key 2020-BaulkhamHills-AT2-Q10  id 309
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images
+  options_layout: text
+  home_topic: sub:12|Integral calculus|Primitive functions
+  home_source: computed
+  option A
+    latex: $y=x^2-4x+2$
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: $y=x^2-4x+10$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $y=x^2+4x+2$
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: $y=x^2+4x+10$
+    is_correct: 1
+    key_source: generated
+  solution 447
+    source: generated
+    latex: |
+      From the graph, $f'(x)$ is a straight line with $x$-intercept $-2$ and $y$-intercept $4$, so $f'(x) = 2x + 4$.
+
+      Integrating: $f(x) = x^2 + 4x + c$.
+
+      The minimum is at $f'(x) = 0$, that is at $x = -2$:
+      $$f(-2) = 4 - 8 + c = c - 4$$
+      $$\begin{aligned} c - 4 &= 6 \\ c &= 10 \end{aligned}$$
+      $$\therefore\ y = x^2 + 4x + 10$$
+    marks_breakdown: 1: f'=2x+4, integrate, and use min value 6 at x=-2 to get c=10 [confidence 0.95; check: passed]
+    model: claude-opus-5-5 (subagent)
+    prompt_version: gen-v1
+    verified_by: human:approved
+    verified_at: 2026-11-11T02:36:24.666Z
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"check": "passed", "confidence": 0.95}
+  figure 568_q10_1.png
+    page: 4
+    bbox: [156, 65, 440, 328]
+    png_path: figures/568_q10_1.png
+    tikz_path: tikz/tex/568_q10_1.tex
+    caption: straight line graph of y=f'(x) through (-2,0) and (0,4)
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: v2: 12pt; enlarged to crop size (1.372cm per x unit, 1.227cm per y unit); open chevron arrows on both ends of both axes as in crop; heavy line with large filled arrowheads, ends at the crop's positions; major/minor ticks crossing the axes; upright x, y axis labels like the crop | still different: none significant | v2.1 overlay fix: Line domain extended to the crop's arrow-tip positions (-2.75:0.77); x tick labels lowered 3pt; y=f'(x) label nudged left. | remaining: Red fringe along the line and axes: the crop's line is a heavy ~5px stroke vs house 0.5pt; tick-label font shape. Geometry black-overlapping. | round 2 (your note): Line and both axes use filled Latex[length=2mm,width=1.3mm] heads at both ends, all strokes 0.4pt (was heavy). Also rule 6a: the y tick label 3 was crossed by the line; it is now a separate node at (-0.28,3), clear of the line and the ticks. | remaining: Overlay orig score 0.71 because the scan's line is very heavy; positions match.
+  part -  id 475
+    ordinal: 1
+    latex: |
+      The graph of $y=f'(x)$ is given below.
+
+      \exfigure{568_q10_1}
+
+      The curve $y=f(x)$ has a minimum value of 6. What is the equation of the curve ?
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-C4.1
+      is_primary: 0
+      confidence: 0.6
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-019
+      focus_area: Working with functions
+      dot_point: Determine the equations of straight lines in gradient–intercept form y = mx + c with gradient m and y-intercept c
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y11-136
+      focus_area: Introduction to differentiation
+      dot_point: Describe the behaviour of a function at a point as stationary when the tangent at the point is parallel to the x-axis, and recognise that f(x) is stationary at x = c when f'(c)= 0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-250
+      focus_area: Integral calculus
+      dot_point: Determine f(x), given f'(x) and an initial condition f(a) = b where a and b are constants
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-261
+      focus_area: Integral calculus
+      dot_point: Use the formula ∫xndx = 1 n+1 xn+1 + C for real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-297
+      focus_area: Applications of calculus
+      dot_point: Graph y = f'(x) and y = f''(x) for a function y = f(x), given only a graph of y = f(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Equations of straight lines
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Graphs of f, f′ and f″
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Primitives with initial conditions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Stationary points and their nature
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 270
+      confidence: medium
+      reason: read f' line, integrate, fix constant from minimum value
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q11(a)  key 2020-BaulkhamHills-AT2-Q11a  id 310
+  section: II
+  question_type: extended
+  marks_total: 5
+  page_start: 5
+  page_end: 7
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images | AUDIT audit-v1: ok
+  home_topic: sub:12|Differential calculus|Using derivatives
+  home_source: computed
+  part -  id 476
+    ordinal: 1
+    latex: Differentiate the following
+    needs_review: 1
+  part i  id 477
+    parent_part_id: 476
+    ordinal: 2
+    latex: $y=\log_e(2x-1)^4$
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C2.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-158
+      focus_area: Exponential and logarithmic functions
+      dot_point: Apply the logarithmic laws and results to simplify expressions, solve equations and prove results, using digital tools where necessary
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-235
+      focus_area: Differential calculus
+      dot_point: Use the chain rule to differentiate functions of the form ln f(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Derivatives of logarithmic functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Logarithm laws in differentiation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 448
+      source: generated
+      latex: |
+        Read $\log_e(2x-1)^4$ as $\ln\big[(2x-1)^4\big]$. By the log laws,
+        $$y = 4\ln(2x-1)$$
+        Then
+        $$\begin{aligned} \dfrac{dy}{dx} &= 4\times\dfrac{2}{2x-1} \\ &= \dfrac{8}{2x-1} \end{aligned}$$
+      marks_breakdown: 1: simplify to 4ln(2x-1) (or use the chain rule); 1: dy/dx = 8/(2x-1) [confidence 0.5; check: passed] CONCERN: The notation $\log_e(2x-1)^4$ is ambiguous. It is read here as $\ln[(2x-1)^4]$. If it means $[\ln(2x-1)]^4$, the answer is $\frac{8[\ln(2x-1)]^3}{2x-1}$.
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:38:00.773Z
+      criteria_json: [[2, "Correct answer"], [1, "Simplifies to $4\\ln(2x-1)$, or uses the chain rule, or equivalent merit"]]
+      meta_json: {"check": "passed", "concern": "The notation $\\log_e(2x-1)^4$ is ambiguous. It is read here as $\\ln[(2x-1)^4]$. If it means $[\\ln(2x-1)]^4$, the answer is $\\dfrac{8[\\ln(2x-1)]^3}{2x-1}$.", "confidence": 0.5, "criteria_original": [[1, "Simplify to $4\\ln(2x-1)$ (or use the chain rule)"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$\\dfrac{dy}{dx} = \\dfrac{8}{2x-1}$"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 858
+      confidence: medium
+      reason: log law to bring power down, then chain rule
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part ii  id 478
+    parent_part_id: 476
+    ordinal: 3
+    latex: $y=\dfrac{x}{\sin^2 x}$
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C2.2
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-236
+      focus_area: Differential calculus
+      dot_point: Determine the formulas d dx(sin x)= cos x and d dx(cos x)= ― sin x informally by using the graphs of y = sin x and y = cos x and verify with graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: rule-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: rule-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: rule-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Derivatives of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: rule-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Quotient rule
+      coverage: required
+      is_primary: 1
+      tag_source: rule-fix
+      prompt_version: tag-v2.3
+    solution 449
+      source: generated
+      latex: |
+        Using the quotient rule, $\dfrac{d}{dx}\left(\dfrac{u}{v}\right)=\dfrac{u'v-uv'}{v^2}$, with
+        $$\begin{aligned} u&=x & v&=\sin^2 x\\ u'&=1 & v'&=2\sin x\cos x\end{aligned}$$
+        $$\dfrac{dy}{dx} = \dfrac{vu' - uv'}{v^2} = \dfrac{\sin^2 x - 2x\sin x\cos x}{\sin^4 x}$$
+        Cancel a factor of $\sin x$:
+        $$\dfrac{dy}{dx} = \dfrac{\sin x - 2x\cos x}{\sin^3 x}$$
+      marks_breakdown: 1: correct u, v, u', v' (with chain rule for sin^2 x); 1: correct quotient-rule result [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:38:00.773Z
+      criteria_json: [[2, "Correct answer"], [1, "Finds the correct $u$, $v$, $u'$, $v'$ (with the chain rule for $\\sin^2 x$), or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "Correct $u$, $v$, $u'$, $v'$ (with chain rule for $\\sin^2 x$)"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"latex": "Use the quotient rule with $u = x$, $v = \\sin^2 x$: $u' = 1$, $v' = 2\\sin x\\cos x$.\n$$\\dfrac{dy}{dx} = \\dfrac{vu' - uv'}{v^2} = \\dfrac{\\sin^2 x - 2x\\sin x\\cos x}{\\sin^4 x}$$\nCancel a factor of $\\sin x$:\n$$\\dfrac{dy}{dx} = \\dfrac{\\sin x - 2x\\cos x}{\\sin^3 x}$$"}, "top_criterion_original": "Correct quotient-rule result"}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 169
+      confidence: high
+      reason: quotient rule with sin^2 x, then simplify
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: shifted
+  part iii  id 479
+    parent_part_id: 476
+    ordinal: 4
+    latex: $y=3^x$
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-C2.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-231
+      focus_area: Differential calculus
+      dot_point: Prove and use the formula d dx(ax)= ( ln a )ax, where a is a constant and a > 0
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Derivatives of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 450
+      source: generated
+      latex: |
+        Using the standard form $\dfrac{d}{dx}a^x = a^x\ln a$:
+        $$\dfrac{dy}{dx} = 3^x\ln 3$$
+      marks_breakdown: 1: 3^x ln 3 [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:38:00.773Z
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "top_criterion_original": "$3^x\\ln 3$"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 852
+      confidence: high
+      reason: standard a^x derivative, one step
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q11(b)  key 2020-BaulkhamHills-AT2-Q11b  id 330
+  section: II
+  question_type: extended
+  marks_total: 2
+  page_start: 5
+  page_end: 7
+  needs_review: 1
+  review_status: approved
+  home_topic: sub:12|Integral calculus|Integration with exponential functions
+  home_source: computed
+  part -  id 480
+    ordinal: 5
+    latex: |
+      Integrate the following
+      $$\int 3e^{5x+1}-\dfrac{1}{x^3}\,dx$$
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C4.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-261
+      focus_area: Integral calculus
+      dot_point: Use the formula ∫xndx = 1 n+1 xn+1 + C for real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-265
+      focus_area: Integral calculus
+      dot_point: Establish and use the formula ∫eax+bdx = 1 a eax+b + C, where a and b are constants and a ≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Integrals of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 451
+      source: generated
+      latex: $$\begin{aligned} \int\left(3e^{5x+1} - x^{-3}\right)dx &= \dfrac{3}{5}e^{5x+1} - \dfrac{x^{-2}}{-2} + C \\ &= \dfrac{3}{5}e^{5x+1} + \dfrac{1}{2x^2} + C \end{aligned}$$
+      marks_breakdown: 1: (3/5)e^{5x+1}; 1: +1/(2x^2) + C [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:39:04.468Z
+      criteria_json: [[2, "Correct answer"], [1, "Obtains $\\dfrac{3}{5}e^{5x+1}$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "$\\dfrac{3}{5}e^{5x+1}$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$+\\dfrac{1}{2x^2} + C$"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 308
+      confidence: high
+      reason: exponential and negative power primitives, routine
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q11(c)  key 2020-BaulkhamHills-AT2-Q11c  id 331
+  section: II
+  question_type: extended
+  marks_total: 2
+  page_start: 5
+  page_end: 7
+  needs_review: 1
+  review_status: approved
+  home_topic: sub:12|Integral calculus|Integration with trigonometric functions
+  home_source: computed
+  part -  id 481
+    ordinal: 6
+    latex: Evaluate $\displaystyle\int_0^{\frac{\pi}{8}} \sec^2 2x\,dx$
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C4.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-273
+      focus_area: Integral calculus
+      dot_point: Establish and use indefinite integrals of the form ∫f(ax + b)dx, where a and b are constants and a ≠0, and f(x)= sin x, f(x)= cos x and f(x)= sec2 x
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Integrals of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 452
+      source: generated
+      latex: $$\begin{aligned} \int_0^{\frac{\pi}{8}}\sec^2 2x\,dx &= \left[\dfrac{1}{2}\tan 2x\right]_0^{\frac{\pi}{8}} \\ &= \dfrac{1}{2}\tan\dfrac{\pi}{4} - \dfrac{1}{2}\tan 0 \\ &= \dfrac{1}{2}(1) - 0 \\ &= \dfrac{1}{2} \end{aligned}$$
+      marks_breakdown: 1: primitive (1/2)tan 2x; 1: value 1/2 [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:39:27.860Z
+      criteria_json: [[2, "Correct answer"], [1, "Finds the primitive $\\dfrac{1}{2}\\tan 2x$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "Primitive $\\dfrac{1}{2}\\tan 2x$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Value $\\dfrac{1}{2}$"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 319
+      confidence: high
+      reason: sec^2 2x primitive, exact values
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q11(d)  key 2020-BaulkhamHills-AT2-Q11d  id 332
+  section: II
+  question_type: extended
+  marks_total: 3
+  page_start: 5
+  page_end: 7
+  needs_review: 1
+  review_status: approved
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
+  part -  id 482
+    ordinal: 7
+    latex: Find the area bounded by $y=\ln x$ and the y-axis from $y=0$ to $y=\ln 3$.
+    marks: 3
+    needs_review: 1
+    tag 2017 MA-C4.2
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-264
+      focus_area: Integral calculus
+      dot_point: Establish and use the formula ∫exdx = ex + C
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-280
+      focus_area: Integral calculus
+      dot_point: Use definite integrals to solve problems involving the areas of regions bounded by the graph of the continuous function y = f(x), the y-axis and the lines y = a and y = b, in cases where x ≥0 throughout a ≤y ≤b, x ≤0 throughout a ≤y ≤b or where x changes sign in the interval a ≤y ≤b with or without the graph provided
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-281
+      focus_area: Integral calculus
+      dot_point: Use the fact that the graphs of y = ax and y = loga x are reflections of each other in the line y = x to solve problems involving areas between the x-axis or y-axis and a curve involving either an exponential or logarithmic function
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Area with respect to the y-axis
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Integrals of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: e and natural logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 453
+      source: generated
+      latex: |
+        The region lies between the curve and the $y$-axis, so integrate with respect to $y$.
+
+        From $y = \ln x$, $x = e^y$.
+        $$\begin{aligned} A &= \int_0^{\ln 3}e^y\,dy \\ &= \Big[e^y\Big]_0^{\ln 3} \\ &= e^{\ln 3} - e^0 \\ &= 3 - 1 \\ &= 2 \end{aligned}$$
+        $\therefore$ The area is $2$ square units.
+      marks_breakdown: 1: x = e^y; 1: A = integral of e^y dy from 0 to ln 3; 1: area = 2 units^2 [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:39:50.243Z
+      criteria_json: [[3, "Correct answer"], [2, "Obtains $A = \\displaystyle\\int_0^{\\ln 3} e^y\\,dy$, or equivalent merit"], [1, "Obtains $x = e^y$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "$x = e^y$"], [1, "$A = \\displaystyle\\int_0^{\\ln 3} e^y\\,dy$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Area $= 2 \\text{ units}^2$"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 833
+      confidence: medium
+      reason: area against y-axis: invert to x=e^y, integrate
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q12(a)  key 2020-BaulkhamHills-AT2-Q12a  id 311
+  section: II
+  question_type: extended
+  marks_total: 4
+  page_start: 8
+  page_end: 9
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images | AUDIT audit-v1: ok
+  home_topic: sub:12|Integral calculus|Integration with trigonometric functions
+  home_source: computed
+  part -  id 483
+    ordinal: 1
+    latex: 
+    needs_review: 1
+  part i  id 484
+    parent_part_id: 483
+    ordinal: 2
+    latex: Differentiate $\cos 3x^3$
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C2.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-239
+      focus_area: Differential calculus
+      dot_point: Use the chain rule to differentiate functions of the form sin f(x), cos f(x) and tan f(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Derivatives of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    solution 454
+      source: generated
+      latex: |
+        Let $u = 3x^3$, so $\dfrac{du}{dx} = 9x^2$. By the chain rule,
+        $$\begin{aligned} \dfrac{d}{dx}\cos 3x^3 &= -\sin(3x^3)\cdot 9x^2 \\ &= -9x^2\sin 3x^3 \end{aligned}$$
+      marks_breakdown: 1: inner derivative 9x^2; 1: -9x^2 sin 3x^3 [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:40:32.970Z
+      criteria_json: [[2, "Correct answer"], [1, "Finds the inner derivative $9x^2$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "Inner derivative $9x^2$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$-9x^2\\sin 3x^3$"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 226
+      confidence: high
+      reason: chain rule on cos of cubic
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part ii  id 485
+    parent_part_id: 483
+    ordinal: 3
+    latex: Hence find $\displaystyle \int x^2\sin 3x^3\,dx$
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C4.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-242
+      focus_area: Integral calculus
+      dot_point: Define a primitive of a function f(x) as a function F(x) whose derivative F'(x)= f(x) and recognise the process of finding the primitive as the reverse of differentiation
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-274
+      focus_area: Integral calculus
+      dot_point: Determine indefinite integrals of the form ∫f'(x) sin f(x) dx, ∫f'(x) cos f(x) dx and ∫f'(x) sec2 f(x) dx
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Integration using a given derivative
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 455
+      source: generated
+      latex: |
+        From (i),
+        $$\dfrac{d}{dx}\cos 3x^3 = -9x^2\sin 3x^3$$
+        so
+        $$\begin{aligned} \int x^2\sin 3x^3\,dx &= -\dfrac{1}{9}\int -9x^2\sin 3x^3\,dx \\ &= -\dfrac{1}{9}\cos 3x^3 + C \end{aligned}$$
+      marks_breakdown: 1: use (i) and adjust the constant factor -1/9; 1: -(1/9)cos 3x^3 + C [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:40:32.970Z
+      criteria_json: [[2, "Correct answer"], [1, "Uses part (i) and adjusts the constant factor $-\\dfrac{1}{9}$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "Use (i) and adjust the constant factor $-\\dfrac{1}{9}$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$-\\dfrac{1}{9}\\cos 3x^3 + C$"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 227
+      confidence: high
+      reason: reverse chain from (a), adjust constant
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q12(b)  key 2020-BaulkhamHills-AT2-Q12b  id 333
+  section: II
+  question_type: extended
+  marks_total: 3
+  page_start: 8
+  page_end: 9
+  needs_review: 1
+  review_status: approved
+  home_topic: sub:11|Exponential and logarithmic functions|Logarithmic functions
+  home_source: computed
+  part -  id 486
+    ordinal: 4
+    latex: Solve the equation given by $2\ln x=\ln(3-2x)$
+    marks: 3
+    needs_review: 1
+    tag 2017 MA-E1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-158
+      focus_area: Exponential and logarithmic functions
+      dot_point: Apply the logarithmic laws and results to simplify expressions, solve equations and prove results, using digital tools where necessary
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Logarithmic equations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 456
+      source: generated
+      latex: |
+        We need $x > 0$ and $3 - 2x > 0$, so $0 < x < \dfrac{3}{2}$.
+
+        Using log laws, $2\ln x = \ln x^2$, so
+        $$\begin{aligned} \ln x^2 &= \ln(3 - 2x) \\ x^2 &= 3 - 2x \\ x^2 + 2x - 3 &= 0 \\ (x+3)(x-1) &= 0 \\ x &= 1 \text{ or } x = -3 \end{aligned}$$
+        $x = -3$ is rejected because $\ln(-3)$ is undefined.
+        $$\therefore\ x = 1$$
+      marks_breakdown: 1: log law gives x^2 = 3-2x; 1: solve quadratic x=1 or -3; 1: reject x=-3, x=1 [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:41:20.534Z
+      criteria_json: [[3, "Correct answer"], [2, "Solves the quadratic: $x=1$ or $x=-3$, or equivalent merit"], [1, "Uses a log law to obtain $x^2=3-2x$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "Log law gives $x^2 = 3 - 2x$"], [1, "Solve quadratic: $x = 1$ or $x = -3$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Reject $x = -3$, so $x = 1$"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 264
+      confidence: medium
+      reason: log law to quadratic, reject root outside domain
+      area: Y11_Exponential_and_logarithmic_functions
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q13(a)  key 2020-BaulkhamHills-AT2-Q13a  id 312
+  section: II
+  question_type: extended
+  marks_total: 2
+  page_start: 10
+  page_end: 11
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images; 'minut' typo/truncation in (b) as printed | AUDIT audit-v1: ok
+  home_topic: sub:11|Introduction to differentiation|Graphical applications of the derivative
+  home_source: computed
+  part -  id 487
+    ordinal: 1
+    latex: |
+      Given the graph of $y=f(x)$ below
+
+      \exfigure{568_q13_1}
+
+      Sketch a possible graph of $\dfrac{dy}{dx}$ on the axes provided.
+
+      \exfigure{568_q13_2}
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C3.1
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-137
+      focus_area: Introduction to differentiation
+      dot_point: Graph y = f'(x) for a given graph of a function y = f(x)
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-297
+      focus_area: Applications of calculus
+      dot_point: Graph y = f'(x) and y = f''(x) for a function y = f(x), given only a graph of y = f(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Graphs of f, f′ and f″
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 457
+      source: generated
+      latex: |
+        Read the features of $f'(x)$ from $y = f(x)$.
+
+        $f$ has stationary points at $x = -a$ (minimum), $x = 0$ (maximum) and $x = a$ (minimum), so $\dfrac{dy}{dx} = 0$ at $x = -a, 0, a$.
+
+        Sign of $f'(x)$:
+        $$\begin{aligned} f'(x) &< 0 &&\text{for } x < -a &&\text{decreasing}\\ f'(x) &> 0 &&\text{for } -a < x < 0 &&\text{increasing}\\ f'(x) &< 0 &&\text{for } 0 < x < a &&\text{decreasing}\\ f'(x) &> 0 &&\text{for } x > a &&\text{increasing} \end{aligned}$$
+        Because $f$ is even, $f'$ is odd: the graph has point symmetry about the origin. Its turning points are at the $x$-values of the two points of inflection of $f$.
+
+        \exfigure{568_q13_s1}
+      marks_breakdown: 1: x-intercepts at -a, 0, a; 1: correct signs (-,+,-,+) giving the cubic shape through the origin [confidence 0.9; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:42:37.277Z
+      criteria_json: [[2, "Correct answer"], [1, "Finds the $x$-intercepts at $-a$, $0$, $a$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.9, "criteria_original": [[1, "$x$-intercepts at $-a$, $0$, $a$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Correct signs ($-$, $+$, $-$, $+$) giving the cubic shape through the origin"}
+    figure 568_q13_1.png
+      page: 10
+      bbox: [128, 128, 463, 381]
+      png_path: figures/568_q13_1.png
+      tikz_path: tikz/tex/568_q13_1.tex
+      caption: quartic-shaped graph y=f(x) with local max at origin and minima at x=-a and x=a
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: v2: 12pt; enlarged to crop size (a = 2.16cm, min depth 2.22cm), curve ends where the crop's do; heavy curve with large filled arrowheads, heavy dashed drops, open chevron axis arrows at both ends; bold upright x, y, 0 labels; label sizes matched | still different: none significant | v2.1 overlay fix: Curve domain trimmed so the arrow tips sit where the crop's do; -a and y=f(x) labels moved left to the crop positions. | remaining: Red halo on the curve = crop's heavy stroke vs 0.5pt house line; slight scan skew on x-axis ends.
+    figure 568_q13_2.png
+      page: 10
+      bbox: [137, 430, 448, 736]
+      png_path: figures/568_q13_2.png
+      tikz_path: tikz/tex/568_q13_2.tex
+      caption: blank dy/dx vs x axes for answer
+      redraw_status: ok
+      redraw_class: blank_axes
+      redraw_notes: v2: 12pt; enlarged to crop size (0.0127cm/px, 10.2 x 9.9cm); open chevron arrows at all four ends as in crop; bold italic x and dy/dx labels placed as in crop; 0.75pt lines | still different: crop's slight hand-drawn axis tilt not reproduced | v2.1 overlay fix: Axes endpoints re-measured from the crop pixels (crop axes are slightly rotated by the scan), so both axes now overlap end-to-end. | remaining: Thin fringes only at arrow barbs (barb shape).
+    figure 568_q13_s1.png
+      page: 10
+      bbox: []
+      png_path: figures/568_q13_s1.png
+      tikz_path: tikz/tex/568_q13_s1.tex
+      caption: solution sketch
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Solution sketch drawn by Claude: dy/dx for the question's quartic (odd cubic shape through -a, 0, a), on axes like the answer space.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 866
+      confidence: medium
+      reason: sketch f' from f: zeros and signs from turning points
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q13(b)  key 2020-BaulkhamHills-AT2-Q13b  id 334
+  section: II
+  question_type: extended
+  marks_total: 3
+  page_start: 10
+  page_end: 11
+  needs_review: 1
+  review_status: approved
+  review_note: Adapted from the paper: initial volume changed from 10 to 20 cubic metres so the question can be solved (owner, 11 Nov).
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
+  part -  id 488
+    ordinal: 2
+    latex: |
+      Water is flowing out of a pool at a rate given by $R=4t-t^2$ cubic metres/minute.
+
+      If the volume of water in the pool is initially 20 cubic metres, find the amount of the water in the pool after 4 minutes.
+    marks: 3
+    needs_review: 1
+    tag 2017 MA-C4.1
+      is_primary: 0
+      confidence: 0.65
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-304
+      focus_area: Applications of calculus
+      dot_point: Use integration to solve practical problems on the rate of change of a quantity Q, where dQ dt or d2Q dt2 is given as a function of time t, together with sufficient initial conditions
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Primitives with initial conditions
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Rates of change using integration
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 458
+      source: generated
+      latex: |
+        Let $V$ be the volume of water in m$^3$. Water flows out, so
+        $$\dfrac{dV}{dt}=-(4t-t^2)$$
+        Volume that flows out in the first $4$ minutes:
+        $$\begin{aligned}\int_0^4(4t-t^2)\,dt&=\left[2t^2-\dfrac{t^3}{3}\right]_0^4\\ &=32-\dfrac{64}{3}\\ &=\dfrac{32}{3}\text{ m}^3\end{aligned}$$
+        Volume left after $4$ minutes:
+        $$\begin{aligned}V(4)&=20-\dfrac{32}{3}\\ &=\dfrac{28}{3}\approx9.33\text{ m}^3\end{aligned}$$
+      marks_breakdown: 1: dV/dt = -(4t - t^2) and integrate; 1: volume lost = 32/3 m^3; 1: V(4) = 10 - 32/3 (negative, so the pool is empty by t=4) [confidence 0.3; check: passed] CONCERN: The question looks flawed: the outflow over 4 minutes (32/3 m^3) is more than the initial 10 m^3, so the literal answer is negative. The wording is also cut off ('minut'). The intended answer is probably either 'empty' or 62/3 m^3 (if the water flows in). Needs human review.
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T01:31:07.722Z
+      criteria_json: [[3, "Correct answer"], [2, "Finds the volume lost, $\\dfrac{32}{3}\\text{ m}^3$, or equivalent merit"], [1, "Forms $\\dfrac{dV}{dt}=-(4t-t^2)$ and integrates, or equivalent merit"]]
+      meta_json: {"check": "passed", "concern": "The question looks flawed: the outflow over 4 minutes (32/3 m^3) is more than the initial 10 m^3, so the literal answer is negative. The wording is also cut off ('minut'). The intended answer is probably either 'empty' or 62/3 m^3 (if the water flows in). Needs human review.", "confidence": 0.3, "corrected": "Question adapted so it can be solved: the paper starts the pool at $10$ m$^3$, but $\\dfrac{32}{3}$ m$^3$ flows out in $4$ minutes, which would empty it. The starting volume is now $20$ m$^3$.", "criteria_original": [[1, "$\\dfrac{dV}{dt} = -(4t - t^2)$ and integrate"], [1, "Volume lost $= \\dfrac{32}{3} \\text{ m}^3$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"latex": "Let $V$ be the volume of water in m$^3$. Water flows out, so\n$$\\dfrac{dV}{dt} = -(4t - t^2)$$\nVolume lost in the first $4$ minutes:\n$$\\begin{aligned} \\int_0^4(4t - t^2)\\,dt &= \\left[2t^2 - \\dfrac{t^3}{3}\\right]_0^4 \\\\ &= 32 - \\dfrac{64}{3} \\\\ &= \\dfrac{32}{3} \\text{ m}^3 \\end{aligned}$$\nThen\n$$V(4) = 10 - \\dfrac{32}{3} = -\\dfrac{2}{3}$$\nwhich is impossible. The pool cannot hold a negative volume.\n\nIn fact $V(t) = 10 - 2t^2 + \\dfrac{t^3}{3}$ reaches $0$ at $t \\approx 3.39$ minutes, so under this model the pool is empty ($0 \\text{ m}^3$) before $4$ minutes.\n\nIf the question meant water flowing into the pool at this rate, then\n$$V(4) = 10 + \\dfrac{32}{3} = \\dfrac{62}{3} \\approx 20.7 \\text{ m}^3$$"}, "top_criterion_original": "$V(4) = 10 - \\dfrac{32}{3}$ (negative, so the pool is empty by $t = 4$)"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 760
+      confidence: high
+      reason: integrate outflow rate, subtract from initial volume
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q14  key 2020-BaulkhamHills-AT2-Q14  id 313
+  section: II
+  question_type: extended
+  stem_latex: For the curve given by $f(x)=2xe^{-x}$
+  marks_total: 8
+  page_start: 12
+  page_end: 13
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images | AUDIT audit-v1: ok
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
+  part i  id 489
+    ordinal: 1
+    latex: Show that $f'(x)=2e^{-x}(1-x)$.
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-C2.2
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-229
+      focus_area: Differential calculus
+      dot_point: Apply the rules of differentiation to find the derivative of f(x)= keax, where k and a are constants
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: rule-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: rule-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Derivatives of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: rule-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Product rule
+      coverage: required
+      is_primary: 1
+      tag_source: rule-fix
+      prompt_version: tag-v2.3
+    solution 459
+      source: generated
+      latex: |
+        Using the product rule, $\dfrac{d}{dx}(uv)=u'v+uv'$, with
+        $$\begin{aligned} u&=2x & v&=e^{-x}\\ u'&=2 & v'&=-e^{-x}\end{aligned}$$
+        $$\begin{aligned} f'(x) &= 2e^{-x} + 2x(-e^{-x}) \\ &= 2e^{-x} - 2xe^{-x} \\ &= 2e^{-x}(1-x) \end{aligned}$$
+      marks_breakdown: 1: product rule, factorised to 2e^{-x}(1-x) [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:57:47.350Z
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "source_original": {"latex": "Product rule with $u = 2x$, $v = e^{-x}$: $u' = 2$, $v' = -e^{-x}$.\n$$\\begin{aligned} f'(x) &= 2e^{-x} + 2x(-e^{-x}) \\\\ &= 2e^{-x} - 2xe^{-x} \\\\ &= 2e^{-x}(1-x) \\end{aligned}$$"}, "top_criterion_original": "Product rule, factorised to $2e^{-x}(1-x)$"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 869
+      confidence: high
+      reason: direct product rule show
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: shifted
+  part ii  id 490
+    ordinal: 2
+    latex: Hence or otherwise find any stationary point(s) and determine their nature.
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C3.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-291
+      focus_area: Applications of calculus
+      dot_point: Analyse the stationary points of a function by testing values for f'(x), then classify the stationary points as local minima or local maxima where gradients change around the point, or horizontal points of inflection where gradients have the same sign on both sides of the point
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Product rule
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Second derivative
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Second derivative test
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Stationary points and their nature
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 460
+      source: generated
+      latex: |
+        Stationary points occur where $f'(x) = 0$.
+
+        Since $2e^{-x} > 0$ for all $x$, we need $1 - x = 0$, so $x = 1$.
+
+        $f(1) = 2e^{-1} = \dfrac{2}{e}$.
+
+        Nature:
+        $$\begin{aligned} f''(x) &= -2e^{-x}(1-x) - 2e^{-x} \\ &= 2e^{-x}(x-2) \end{aligned}$$
+        $f''(1) = 2e^{-1}(-1) = -\dfrac{2}{e} < 0$, so the curve is concave down there.
+
+        $\therefore$ $\left(1, \dfrac{2}{e}\right)$ is a maximum turning point.
+      marks_breakdown: 1: x=1, stationary point (1, 2/e); 1: f''(1) = -2/e < 0, so a maximum [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:57:47.350Z
+      criteria_json: [[2, "Correct answer"], [1, "Finds $x=1$ and the stationary point $\\left(1,\\dfrac{2}{e}\\right)$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "$x = 1$, stationary point $\\left(1, \\dfrac{2}{e}\\right)$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$f''(1) = -\\dfrac{2}{e} < 0$, so a maximum"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 242
+      confidence: high
+      reason: solve f'=0, nature by f''
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part iii  id 491
+    ordinal: 3
+    latex: Determine $\displaystyle \lim_{x\to\infty} f(x)$.
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-C3.1
+      is_primary: 0
+      confidence: 0.4
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-296
+      focus_area: Applications of calculus
+      dot_point: Graph a function by determining local maxima and minima and points of inflection, horizontal and non-horizontal, considering any even or odd symmetry, the domain, any vertical asymptotes or other discontinuities, and where applicable, the behaviour of a function as x→± ∞
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Asymptotes and limiting behaviour
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 461
+      source: generated
+      latex: |
+        $f(x) = \dfrac{2x}{e^x}$. As $x \to \infty$, $e^x$ grows much faster than $2x$, so
+        $$\lim_{x \to \infty} 2xe^{-x} = 0$$
+      marks_breakdown: 1: limit = 0 [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:57:47.350Z
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "top_criterion_original": "Limit $= 0$"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 755
+      confidence: medium
+      reason: limit: exponential dominates linear
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part iv  id 492
+    ordinal: 4
+    latex: Find any possible point of inflection.
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C3.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-230
+      focus_area: Differential calculus
+      dot_point: Use the chain rule to prove d dx(eax+b)= aeax+b, where a and b are constants and a ≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-290
+      focus_area: Applications of calculus
+      dot_point: Use repeated differentiation to find second derivatives of a function y = f(x), denoting them by f''(x) or d2y dx2 or y''
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-294
+      focus_area: Applications of calculus
+      dot_point: Analyse the value of f''(x) either side of the roots of f''(x)= 0, and use the resulting concavities to identify which zeroes of f''(x) are points of inflection
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Concavity and points of inflection
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Derivatives of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: gate-check
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Product rule
+      coverage: required
+      is_primary: 1
+      tag_source: gate-check
+      prompt_version: tag-v2.3
+    solution 462
+      source: generated
+      latex: |
+        $f''(x) = 2e^{-x}(x-2)$.
+
+        Since $2e^{-x} > 0$, $f''(x) = 0$ only when $x = 2$.
+
+        Check the change in concavity:
+        $$\begin{aligned} f''(1) &= -2e^{-1} < 0 &&\text{concave down}\\ f''(3) &= 2e^{-3} > 0 &&\text{concave up} \end{aligned}$$
+        The sign changes, so it is a point of inflection.
+        $$f(2) = 4e^{-2}$$
+        $\therefore$ The point of inflection is $\left(2, \dfrac{4}{e^2}\right)$.
+      marks_breakdown: 1: f''(x) = 2e^{-x}(x-2) = 0 at x=2; 1: concavity changes, so the point of inflection is (2, 4/e^2) [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:57:47.350Z
+      criteria_json: [[2, "Correct answer"], [1, "Shows $f''(x)=2e^{-x}(x-2)=0$ at $x=2$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "$f''(x) = 2e^{-x}(x-2) = 0$ at $x = 2$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Concavity changes, so the point of inflection is $\\left(2, \\dfrac{4}{e^2}\\right)$"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 242
+      confidence: high
+      reason: f''=0 and concavity change check
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part v  id 493
+    ordinal: 5
+    latex: |
+      Hence sketch the curve.
+
+      \exfigure{568_q14_1}
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C3.1
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-296
+      focus_area: Applications of calculus
+      dot_point: Graph a function by determining local maxima and minima and points of inflection, horizontal and non-horizontal, considering any even or odd symmetry, the domain, any vertical asymptotes or other discontinuities, and where applicable, the behaviour of a function as x→± ∞
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Curve sketching using calculus
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 463
+      source: generated
+      latex: |
+        From part (iv), the concavity changes at $x=2$:
+        $$\begin{aligned} &\text{concave down} &&\text{for } x < 2\\ &\text{concave up} &&\text{for } x > 2 \end{aligned}$$
+        so there is a point of inflection at $\left(2, \dfrac{4}{e^2}\right) \approx (2, 0.54)$.
+
+        As $x \to \infty$, $y \to 0^+$: the $x$-axis is a horizontal asymptote on the right, and the curve stays above it for $x > 0$.
+
+        \exfigure{568_q14_s1}
+      marks_breakdown: 1: correct shape through origin with max (1,2/e) and asymptote y=0 as x -> infinity; 1: inflection (2,4/e^2) and y -> -infinity as x -> -infinity shown [confidence 0.9; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T02:57:47.350Z
+      criteria_json: [[2, "Correct answer"], [1, "Draws the correct shape through the origin with maximum $\\left(1,\\dfrac{2}{e}\\right)$ and asymptote $y=0$ as $x\\to\\infty$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.9, "criteria_original": [[1, "Correct shape through origin with maximum $\\left(1, \\dfrac{2}{e}\\right)$ and asymptote $y = 0$ as $x \\to \\infty$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Inflection $\\left(2, \\dfrac{4}{e^2}\\right)$ and $y \\to -\\infty$ as $x \\to -\\infty$ shown"}
+    figure 568_q14_1.png
+      page: 13
+      bbox: [118, 450, 546, 726]
+      png_path: figures/568_q14_1.png
+      tikz_path: tikz/tex/568_q14_1.tex
+      caption: blank axes for sketch
+      redraw_status: ok
+      redraw_class: blank_axes
+      redraw_notes: v2: 12pt; enlarged to crop size (0.0127cm/px, 14.9 x 9.6cm); heavy 1.6pt axes with small open chevrons at all four ends, as in the crop | still different: crop's hand-drawn axis tilt not reproduced | v2.1 overlay fix: Axes endpoints re-measured from crop pixels: the hand-drawn axes tilt (x-axis drops ~20px across, y-axis leans ~9px); redraw now follows them. | remaining: Crop's axes are a heavy ~5px marker stroke; only that thickness fringe remains.
+    figure 568_q14_s1.png
+      page: 13
+      bbox: []
+      png_path: figures/568_q14_s1.png
+      tikz_path: tikz/tex/568_q14_s1.tex
+      caption: solution sketch
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Solution sketch drawn by Claude: y = 2x e^{-x} with maximum (1, 2/e), inflection (2, 4/e^2), x-axis asymptote on the right.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 814
+      confidence: medium
+      reason: sketch from found features plus asymptote
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q15  key 2020-BaulkhamHills-AT2-Q15  id 314
+  section: II
+  question_type: extended
+  stem_latex: |
+    The velocity of a particle is given by $v=2\sin\left(t-\dfrac{\pi}{3}\right)$ metres per second.
+
+    Find:
+  marks_total: 10
+  page_start: 14
+  page_end: 16
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images | AUDIT audit-v1: ok
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
+  part i  id 494
+    ordinal: 1
+    latex: the equation of the displacement $x$ of the particle as a function of time if the particle is initially at the origin.
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C4.1
+      is_primary: 0
+      confidence: 0.65
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-250
+      focus_area: Integral calculus
+      dot_point: Determine f(x), given f'(x) and an initial condition f(a) = b where a and b are constants
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-273
+      focus_area: Integral calculus
+      dot_point: Establish and use indefinite integrals of the form ∫f(ax + b)dx, where a and b are constants and a ≠0, and f(x)= sin x, f(x)= cos x and f(x)= sec2 x
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Displacement, velocity and acceleration
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Integrals of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Primitives with initial conditions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 464
+      source: generated
+      latex: |
+        $$x = \int 2\sin\left(t - \dfrac{\pi}{3}\right)dt = -2\cos\left(t - \dfrac{\pi}{3}\right) + C$$
+        When $t = 0$, $x = 0$:
+        $$\begin{aligned} 0 &= -2\cos\left(-\dfrac{\pi}{3}\right) + C \\ 0 &= -2\cdot\dfrac{1}{2} + C \\ C &= 1 \end{aligned}$$
+        $$\therefore\ x = 1 - 2\cos\left(t - \dfrac{\pi}{3}\right)$$
+      marks_breakdown: 1: integrate to -2cos(t - pi/3) + C; 1: C = 1 [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T03:03:13.062Z
+      criteria_json: [[2, "Correct answer"], [1, "Integrates to $-2\\cos\\left(t-\\dfrac{\\pi}{3}\\right)+C$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "Integrate to $-2\\cos\\left(t - \\dfrac{\\pi}{3}\\right) + C$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "$C = 1$"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 189
+      confidence: high
+      reason: integrate shifted sine, find C from x(0)=0
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part ii  id 495
+    ordinal: 2
+    latex: when the particle comes to rest for first time.
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-C3.2
+      is_primary: 0
+      confidence: 0.65
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-204
+      focus_area: Further graph transformations and modelling
+      dot_point: Solve equations and graphical problems involving transformations of the trigonometric functions f(x)= sin x, f(x)= cos x or f(x) = tan x, using graphing applications or otherwise, within a specified domain
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: gap-fix
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Particles at rest and changing direction
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Trigonometric equations
+      coverage: required
+      is_primary: 1
+      tag_source: gap-fix
+      prompt_version: tag-v2.3
+    solution 465
+      source: generated
+      latex: |
+        At rest means $v = 0$: $\sin\left(t - \dfrac{\pi}{3}\right) = 0$, so $t - \dfrac{\pi}{3} = 0, \pi, \dots$
+
+        $\therefore$ The first time with $t \ge 0$ is $t = \dfrac{\pi}{3}$ seconds.
+      marks_breakdown: 1: t = pi/3 s [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T03:03:13.062Z
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "top_criterion_original": "$t = \\dfrac{\\pi}{3}$ s"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 877
+      confidence: high
+      reason: v=0 first positive solution
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part iii  id 496
+    ordinal: 3
+    latex: the exact initial velocity.
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-T3
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-080
+      focus_area: Trigonometry and measure of angles
+      dot_point: Establish and use the results cos( ― θ) = cos θ, sin( ― θ) = ― sin θ and tan( ― θ) = ― tan θ
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.7
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Displacement, velocity and acceleration
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Related and complementary angles
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    solution 466
+      source: generated
+      latex: $$\begin{aligned} v(0) &= 2\sin\left(-\dfrac{\pi}{3}\right) \\ &= 2\left(-\dfrac{\sqrt{3}}{2}\right) \\ &= -\sqrt{3} \text{ m/s} \end{aligned}$$
+      marks_breakdown: 1: v(0) = -sqrt3 m/s [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T03:03:13.062Z
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "top_criterion_original": "$v(0) = -\\sqrt{3}$ m/s"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 229
+      confidence: high
+      reason: substitute t=0, exact trig value
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part iv  id 497
+    ordinal: 4
+    latex: the maximum speed of the particle.
+    marks: 1
+    needs_review: 1
+    tag 2017 MA-T3
+      is_primary: 0
+      confidence: 0.7
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-203
+      focus_area: Further graph transformations and modelling
+      dot_point: Apply the principles of transformations to graph transformations of the trigonometric functions f(x)= sin x, f(x)= cos x and f(x) = tan x, describe which transformations have been applied to y = f(x) and determine the domain, range, horizontal translation, vertical translation, dilation factor, period and amplitude when applicable
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Amplitude, period and phase
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Displacement, velocity and acceleration
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Maxima and minima from the range
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 467
+      source: generated
+      latex: |
+        $v=2\sin\left(t-\dfrac{\pi}{3}\right)$. Start from the range of sine:
+        $$\begin{aligned} -1&\le \sin\left(t-\dfrac{\pi}{3}\right)\le 1\\ -2&\le v\le 2 &&(\text{multiply by } 2)\end{aligned}$$
+
+        $\therefore$ The maximum speed is $|v|_{\max} = 2$ m/s. (It occurs, for example, at $t = \dfrac{5\pi}{6}$.)
+      marks_breakdown: 1: maximum speed 2 m/s [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T03:03:13.062Z
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "top_criterion_original": "Maximum speed $2$ m/s"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 188
+      confidence: medium
+      reason: max speed from amplitude
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part v  id 498
+    ordinal: 5
+    latex: |
+      Draw the graph of the velocity $v=2\sin\left(t-\dfrac{\pi}{3}\right)$ for $0\leq t\leq 2\pi$.
+
+      Show all intercepts and stationary points.
+
+      \exfigure{568_q15_1}
+    marks: 3
+    needs_review: 1
+    tag 2017 MA-T3
+      is_primary: 0
+      confidence: 0.8
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-203
+      focus_area: Further graph transformations and modelling
+      dot_point: Apply the principles of transformations to graph transformations of the trigonometric functions f(x)= sin x, f(x)= cos x and f(x) = tan x, describe which transformations have been applied to y = f(x) and determine the domain, range, horizontal translation, vertical translation, dilation factor, period and amplitude when applicable
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Amplitude, period and phase
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Motion graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Transformations of trigonometric graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 468
+      source: generated
+      latex: |
+        $v = 2\sin\left(t - \dfrac{\pi}{3}\right)$ is the graph of $y = 2\sin t$ shifted $\dfrac{\pi}{3}$ to the right. It has amplitude $2$ and period $2\pi$.
+
+        \exfigure{568_q15_s1}
+      marks_breakdown: 1: correct shape (shifted sine, amplitude 2) over [0, 2pi]; 1: intercepts (0,-sqrt3), pi/3, 4pi/3; 1: stationary points (5pi/6, 2) and (11pi/6, -2) [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T03:03:13.062Z
+      criteria_json: [[3, "Correct answer"], [2, "Shows the intercepts $(0,-\\sqrt{3})$, $\\dfrac{\\pi}{3}$, $\\dfrac{4\\pi}{3}$, or equivalent merit"], [1, "Draws the correct shape (shifted sine, amplitude $2$) over $[0,2\\pi]$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "Correct shape (shifted sine, amplitude $2$) over $[0, 2\\pi]$"], [1, "Intercepts $(0, -\\sqrt{3})$, $\\dfrac{\\pi}{3}$, $\\dfrac{4\\pi}{3}$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Stationary points $\\left(\\dfrac{5\\pi}{6}, 2\\right)$ and $\\left(\\dfrac{11\\pi}{6}, -2\\right)$"}
+    figure 568_q15_1.png
+      page: 15
+      bbox: [74, 502, 438, 730]
+      png_path: figures/568_q15_1.png
+      tikz_path: tikz/tex/568_q15_1.tex
+      caption: blank v vs t axes for answer
+      redraw_status: ok
+      redraw_class: blank_axes
+      redraw_notes: v2: 12pt; enlarged to crop size (0.0127cm/px, 12.1 x 7.9cm); open chevron arrows at all four ends; bold upright v and t labels as in crop; 0.6pt lines | still different: crop's slight axis tilt not reproduced | v2.1 overlay fix: Axes endpoints re-measured from crop pixels to follow the crop's slight tilt; t label lowered accordingly. | remaining: Thin arrow-barb fringes only.
+    figure 568_q15_s1.png
+      page: 15
+      bbox: []
+      png_path: figures/568_q15_s1.png
+      tikz_path: tikz/tex/568_q15_s1.tex
+      caption: solution sketch
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Solution sketch drawn by Claude: v = 2 sin(t - pi/3) on [0, 2pi] with intercepts, stationary points and end points.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 188
+      confidence: medium
+      reason: sketch shifted sine with intercepts and turning points
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part vi  id 499
+    ordinal: 6
+    latex: Using your graph above or otherwise, find the total distance travelled by the particle in the first $\pi$ seconds.
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C4.2
+      is_primary: 0
+      confidence: 0.6
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: checker
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Distance travelled
+      coverage: required
+      is_primary: 1
+      tag_source: checker
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Motion graphs
+      coverage: can_use
+      is_primary: 0
+      tag_source: checker
+      prompt_version: tag-v2.3
+    solution 469
+      source: generated
+      latex: |
+        The particle changes direction at $t = \dfrac{\pi}{3}$, so split the time interval there. Using $x = 1 - 2\cos\left(t - \dfrac{\pi}{3}\right)$ from (i):
+        $$x(0) = 0, \qquad x\left(\dfrac{\pi}{3}\right) = 1 - 2\cos 0 = -1, \qquad x(\pi) = 1 - 2\cos\dfrac{2\pi}{3} = 1 + 1 = 2$$
+        Distance for $0 \le t \le \dfrac{\pi}{3}$: $|-1 - 0| = 1$ m.
+
+        Distance for $\dfrac{\pi}{3} \le t \le \pi$: $|2 - (-1)| = 3$ m.
+
+        $\therefore$ Total distance $= 1 + 3 = 4$ m.
+      marks_breakdown: 1: split at t = pi/3 (change of direction) and find displacements; 1: total distance 4 m [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T03:03:13.062Z
+      criteria_json: [[2, "Correct answer"], [1, "Splits at $t=\\dfrac{\\pi}{3}$ (change of direction) and finds the displacements, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "Split at $t = \\dfrac{\\pi}{3}$ (change of direction) and find displacements"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Total distance $4$ m"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 189
+      confidence: medium
+      reason: distance: split at rest time from (ii), use x(t)
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q16  key 2020-BaulkhamHills-AT2-Q16  id 315
+  section: II
+  question_type: extended
+  stem_latex: |
+    An isosceles trapezium $ABCD$ is drawn with its vertices on a semicircle centre $O$ and diameter 20 cm. Perpendiculars $BE$ and $CF$ are drawn to meet the diameter $AD$ as shown in the diagram below.
+
+    \exfigure{568_q16_1}
+  marks_total: 7
+  page_start: 17
+  page_end: 18
+  needs_review: 1
+  review_status: approved
+  review_note: scan path: transcribed from rendered images | AUDIT audit-v1: ok
+  home_topic: sub:12|Applications of calculus|Optimisation
+  home_source: computed
+  figure 568_q16_1.png
+    page: 17
+    bbox: [200, 142, 428, 286]
+    png_path: figures/568_q16_1.png
+    tikz_path: tikz/tex/568_q16_1.tex
+    caption: isosceles trapezium ABCD inscribed in semicircle centre O, diameter AD = 20 cm, perpendiculars BE and CF, EO = OF = x/2
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: v2: 12pt; traced from crop at 0.0127cm/px instead of a true circle: semicircle flattened as in crop (rx 256.5, ry 231 px), B and C at crop positions; heavy 1.5pt lines and heavy dashed perpendiculars like the crop; upright serif point labels; filled-arrow 20 cm dimension; label sizes matched | still different: none significant | v2.1 overlay fix: Semicircle refitted to crop pixels (ellipse centre 17px below AD, rx 254, ry 246 instead of a centred half-ellipse); B and C lowered onto the fitted arc so BC matches. | remaining: Red halo = crop's heavy (~5px) stroke vs 0.5pt; letter font shapes. | round 2 (your note): Dashed BE and CF now use the house `aux` style (on 2pt off 1.5pt) instead of the longer on 3.2pt off 2pt dashes; all strokes 0.4pt; A and D moved onto the arc (31.6/538.2) so the semicircle meets AD cleanly instead of leaving a gap at D; round joins on A-B-C-D. | remaining: Overlay orig 0.815: remainder is the scan's heavy strokes.
+  part i  id 500
+    ordinal: 1
+    latex: If $EO=OF=\dfrac{x}{2}$, show that $BE=\dfrac{1}{2}\sqrt{400-x^2}$.
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C3.2
+      is_primary: 0
+      confidence: 0.4
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-073
+      focus_area: Trigonometry and measure of angles
+      dot_point: Apply trigonometry to solve problems involving right-angled triangles in two dimensions, true and compass bearings, and angles of elevation and depression
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-300
+      focus_area: Applications of calculus
+      dot_point: Model optimisation problems in a variety of contexts by defining variables, noting domain restrictions if necessary, and establishing functions to represent the relationship between variables
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Right-angled trigonometry
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Setting up optimisation problems
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 470
+      source: generated
+      latex: |
+        $O$ is the centre and the diameter is $20$ cm, so $OB = 10$ cm (radius).
+
+        In right-angled triangle $BEO$ (right angle at $E$), $EO = \dfrac{x}{2}$. By Pythagoras:
+        $$\begin{aligned} BE^2 &= OB^2 - EO^2 \\ &= 100 - \dfrac{x^2}{4} \\ &= \dfrac{400 - x^2}{4} \end{aligned}$$
+        $$\therefore\ BE = \dfrac{\sqrt{400 - x^2}}{2} = \dfrac{1}{2}\sqrt{400 - x^2}$$
+      marks_breakdown: 1: OB = 10 (radius) and Pythagoras in triangle BEO; 1: simplify to (1/2)sqrt(400 - x^2) [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T03:05:46.133Z
+      criteria_json: [[2, "Correct answer"], [1, "Uses $OB=10$ (radius) and Pythagoras in triangle $BEO$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "$OB = 10$ (radius) and Pythagoras in triangle $BEO$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Simplify to $\\dfrac{1}{2}\\sqrt{400 - x^2}$"}
+    difficulty
+      band: 2
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 285
+      confidence: high
+      reason: one Pythagoras step with radius
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 2
+      wm_ai: PR
+      source: model
+  part ii  id 501
+    ordinal: 2
+    latex: |
+      Show that the area of the trapezium $ABCD$ is given by
+      $$A=\dfrac{1}{4}(x+20)\sqrt{400-x^2}.$$
+    marks: 2
+    needs_review: 1
+    tag 2017 MA-C3.2
+      is_primary: 0
+      confidence: 0.5
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y12-300
+      focus_area: Applications of calculus
+      dot_point: Model optimisation problems in a variety of contexts by defining variables, noting domain restrictions if necessary, and establishing functions to represent the relationship between variables
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Setting up optimisation problems
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 471
+      source: generated
+      latex: |
+        $BCFE$ is a rectangle, so $BC = EF = EO + OF = x$. The parallel sides are $AD = 20$ and $BC = x$, and the height is $BE$.
+
+        Area of a trapezium:
+        $$\begin{aligned} A &= \dfrac{1}{2}(AD + BC)\times BE \\ &= \dfrac{1}{2}(20 + x)\cdot\dfrac{1}{2}\sqrt{400 - x^2} \\ &= \dfrac{1}{4}(x + 20)\sqrt{400 - x^2} \end{aligned}$$
+      marks_breakdown: 1: BC = x and height BE; 1: substitute into the trapezium area formula [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T03:05:46.133Z
+      criteria_json: [[2, "Correct answer"], [1, "Uses $BC=x$ and finds the height $BE$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "$BC = x$ and height $BE$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "top_criterion_original": "Substitute into the trapezium area formula"}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 252
+      confidence: medium
+      reason: identify BC=x, trapezium area formula
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 3
+      wm_ai: PR
+      source: model
+  part iii  id 502
+    ordinal: 3
+    latex: Hence find the length of $BC$ so that the area of the trapezium $ABCD$ is maximum.
+    marks: 3
+    needs_review: 1
+    tag 2017 MA-C3.2
+      is_primary: 0
+      confidence: 0.9
+      tag_source: model
+      mapping_version: v1
+      prompt_version: tag-v1
+    tag 2024 Y11-134
+      focus_area: Introduction to differentiation
+      dot_point: Identify and apply the product, quotient or chain rule, or a combination of the rules, as appropriate to differentiate a given function
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-301
+      focus_area: Applications of calculus
+      dot_point: Solve optimisation problems by using calculus to find local and global maxima and minima of differentiable functions, checking discontinuities of f'(x) and endpoints of the domain if applicable
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag 2024 Y12-302
+      focus_area: Applications of calculus
+      dot_point: Formulate conclusions to optimisation problems by evaluating solutions given the constraints of the domain
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Product rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    tag skill
+      dot_point: Solving optimisation problems
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.3
+    solution 472
+      source: generated
+      latex: |
+        Using the product rule, $\dfrac{d}{dx}(uv)=u'v+uv'$, on $(x+20)\sqrt{400-x^2}$, with
+        $$\begin{aligned} u&=x+20 & v&=\sqrt{400-x^2}\\ u'&=1 & v'&=\dfrac{-x}{\sqrt{400-x^2}}\end{aligned}$$
+        $$\begin{aligned} \dfrac{dA}{dx} &= \dfrac{1}{4}\left[\sqrt{400 - x^2} + (x + 20)\cdot\dfrac{-x}{\sqrt{400 - x^2}}\right] \\ &= \dfrac{400 - x^2 - x^2 - 20x}{4\sqrt{400 - x^2}} \\ &= \dfrac{-2(x^2 + 10x - 200)}{4\sqrt{400 - x^2}} \\ &= -\dfrac{(x + 20)(x - 10)}{2\sqrt{400 - x^2}} \end{aligned}$$
+        Set $\dfrac{dA}{dx} = 0$: since $0 < x < 20$, $x + 20 \neq 0$, so $x = 10$.
+
+        Nature:
+        $$\begin{aligned} x &< 10 &&\text{(just below)}: & \dfrac{dA}{dx} &> 0\\ x &> 10 &&\text{(just above)}: & \dfrac{dA}{dx} &< 0\end{aligned}$$
+        The sign of $\dfrac{dA}{dx}$ changes from $+$ to $-$, so $x = 10$ gives a maximum.
+
+        $\therefore$ Since $BC = x$, the area is maximised when $BC = 10$ cm. (The maximum area is $75\sqrt{3} \text{ cm}^2$.)
+      marks_breakdown: 1: dA/dx correctly found and simplified; 1: dA/dx = 0 gives x = 10; 1: test shows maximum, BC = 10 cm [confidence 0.95; check: passed]
+      model: claude-opus-5-5 (subagent)
+      prompt_version: gen-v1
+      verified_by: human:approved
+      verified_at: 2026-11-11T03:05:46.133Z
+      criteria_json: [[3, "Correct answer"], [2, "Shows $\\dfrac{dA}{dx}=0$ gives $x=10$, or equivalent merit"], [1, "Finds and simplifies $\\dfrac{dA}{dx}$, or equivalent merit"]]
+      meta_json: {"check": "passed", "confidence": 0.95, "criteria_original": [[1, "$\\dfrac{dA}{dx}$ correctly found and simplified"], [1, "$\\dfrac{dA}{dx} = 0$ gives $x = 10$"], [1, "Correct answer"]], "rubric_note": "Rewritten top-down from a one-mark-per-step rubric (owner rule, 11 Nov).", "source_original": {"latex": "Product rule:\n$$\\begin{aligned} \\dfrac{dA}{dx} &= \\dfrac{1}{4}\\left[\\sqrt{400 - x^2} + (x + 20)\\cdot\\dfrac{-x}{\\sqrt{400 - x^2}}\\right] \\\\ &= \\dfrac{400 - x^2 - x^2 - 20x}{4\\sqrt{400 - x^2}} \\\\ &= \\dfrac{-2(x^2 + 10x - 200)}{4\\sqrt{400 - x^2}} \\\\ &= -\\dfrac{(x + 20)(x - 10)}{2\\sqrt{400 - x^2}} \\end{aligned}$$\nSet $\\dfrac{dA}{dx} = 0$: since $0 < x < 20$, $x + 20 \\neq 0$, so $x = 10$.\n\nNature:\n$$\\begin{aligned} x &< 10 &&\\text{(just below)}: & \\dfrac{dA}{dx} &> 0\\\\ x &> 10 &&\\text{(just above)}: & \\dfrac{dA}{dx} &< 0\\end{aligned}$$\nThe sign of $\\dfrac{dA}{dx}$ changes from $+$ to $-$, so $x = 10$ gives a maximum.\n\n$\\therefore$ Since $BC = x$, the area is maximised when $BC = 10$ cm. (The maximum area is $75\\sqrt{3} \\text{ cm}^2$.)"}, "top_criterion_original": "Test shows maximum, $BC = 10$ cm"}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 253
+      confidence: medium
+      reason: product rule with surd, solve, justify maximum
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1
+      rated_at: 2026-11-13
+      band_ai: 4
+      wm_ai: UF
+      source: model
