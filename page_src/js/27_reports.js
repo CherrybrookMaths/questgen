@@ -113,7 +113,7 @@ async function repSend(){const D=REP.dlg,el=$('#repDlg');if(!D)return;const msg=
   if(D.reason==='other'&&!note){say('Add a note to say what is wrong.');return}
   if(!db){say('Reports are saved in the shared database. Open the page in claude.ai to send one.');return}
   const part=el.querySelector('[data-rpart]')?.value||'';
-  const doc={question_id:D.q,key:B.questions.find(q=>q.id===D.q)?.key||null,reason:D.reason==='dif'?'difficulty':D.reason==='dot'?'dot_point':'other',note,by:me||null,at:new Date().toISOString(),status:'open'};
+  const doc={question_id:D.q,key:xq(D.q)?.key||null,reason:D.reason==='dif'?'difficulty':D.reason==='dot'?'dot_point':'other',note,by:me||null,at:new Date().toISOString(),status:'open'};
   if(part)doc.part_id=+part||part;if(EX.id)doc.exam_id=EX.id;
   if(D.reason==='dif'&&D.band)doc.suggested_band=D.band;
   if(D.reason==='dif'&&D.wm)doc.suggested_wm=D.wm;   // owner 14 Nov: "Should let you pick UF and PS in the wrong diff"
