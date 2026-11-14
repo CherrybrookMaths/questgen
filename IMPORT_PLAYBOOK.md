@@ -172,7 +172,7 @@ These are the named checks; each passes or fails:
 | Availability table (14 Nov) | Exam setup at 1280, 1000 and 390 px, all topics chosen: the drawn text of each row label ends at least 4 px before the B2 cell, never overlaps it, and wraps onto at most 2 lines. |
 | Diagram resize (14 Nov) | on a generated paper: no − / + pill; hovering shows the handle on the diagram's corner; a mouse drag out changes `EX.figscale` and the image width in proportion, shows a live % only while dragging, and lays the paper out once, after the drag; a drag in shrinks it; far out / far in clamp to 200% / 30%; double-click resets to 100%; → → on the focused handle gives 110%; a 150% diagram keeps `--fs:1.5` in the HTML download. At 390 px on a touch phone, a finger drag resizes it. |
 | ⓘ card (14 Nov) | no dot-point line or Report link left in any question; every source line ends with an ⓘ (`.scr-only`); the ⓘ opens a card with a dot point, band, kind and Report, one row per part, inside the window, without selecting the question; outside click closes it; Enter opens, Tab reaches Report, Esc closes and refocuses the ⓘ with the preview still open; Report opens the form; the grading panel's question detail lists the dot points. At 390 px on a touch phone the tapped card fits the screen and the ⓘ stays 20 px. Download HTML has no handle, live % or ⓘ. |
-| Papers: lanes (14 Nov) | the fixture's small inventory (page_test_fixture.py `sample_papers`, served in place of `data/inventory.json`): the four summary numbers equal a recount of the statuses and add up to the folder total (and the live inventory's statuses add up); one lane "Year 12 Advanced" with its line, squares (done b5, batches 6-8) and buttons; Needs a check lane; "Locked · 3 courses, 8 papers"; the legend; a square opens Batch 6 with 9 papers, Swap writes `batches/advanced_12` and the page's batches equal tools/batches.py `apply_swaps` (fixture `swap_expect`); +1 / +2 batches write `queue/advanced_12_6..8` in order, ↓ and × reach the db, "Stops when 3 batches are waiting for review", the API line, the estimate; Start the queue writes one `runs` doc {kind:'queue', limit:3}, Cancel; Run the cover-page check writes {kind:'cover_check'}; #processes/papers/check: Accept writes `scans/rules`, Year 12 + Advanced and Not in scope write `paperfix`, the summary follows and still adds up; Import history collapsed; 390 px phone (fits, panel one column, queue under the lanes, +1 by tap); a viewer: nothing shown, fetched, subscribed or written. `node tools/page_test.js --only papersLanes` while you work (recorded as quick). |
+| Papers: lanes (14 Nov) | the fixture's small inventory (page_test_fixture.py `sample_papers`, served in place of `data/inventory.json`): the four summary numbers equal a recount of the statuses and add up to the folder total (and the live inventory's statuses add up); one lane "Year 12 Advanced" with its line, squares (cleared b4, waiting b5, batches 6-8) and buttons; Needs a check lane; "Locked · 3 courses, 8 papers"; the legend; cleared vs waiting (owner 14 Nov: "I would like to see how many of the batches have cleared checks on the import page too, its good to know."): the fixture's imported papers are real bank papers (`LANE_REVIEW`), 1601 cleared only through `k_`/`p_` key docs and 323 with its decisions taken off; Review's own track decides; the batch panels' chips and "N of M cleared review"; a key doc deleted and restored flips the square, the lane line and the queue's waiting count live; a square opens Batch 6 with 9 papers, Swap writes `batches/advanced_12` and the page's batches equal tools/batches.py `apply_swaps` (fixture `swap_expect`); +1 / +2 batches write `queue/advanced_12_6..8` in order, ↓ and × reach the db, no lock text (owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import"): "Runs top to bottom until the queue is empty. Stops early only if a batch comes back with unusual problems.", "1 batch is waiting for review" as plain text beside an enabled Start, the API line, the estimate; Start the queue writes one `runs` doc {kind:'queue', stop_early} with no `limit`, Cancel; a queued "Batch 10" stays on one line at 1280 px; Run the cover-page check writes {kind:'cover_check'}; #processes/papers/check: Accept writes `scans/rules`, the rules' course guess (Advanced) is pre-picked and not saved, Year 12 and Not in scope write `paperfix`, the summary follows and still adds up; the cover + 3 pages (fixture pack for 9140, served in place of `data/check_pages.json` / `data/check/9140.json`) and 4 placeholders for 9601; the viewer opens on a click, ← / → step through the 4 (wrapping), Esc and × close it and focus returns to the page clicked; "Open the whole PDF in Drive" → https://drive.google.com/file/d/<id>/view in a new tab; Import history collapsed; 390 px phone (fits, panel one column, queue under the lanes, +1 by tap); a viewer: nothing shown, fetched, subscribed or written. `node tools/page_test.js --only papersLanes` while you work (recorded as quick). |
 | Rescan drive (13 Nov) | a fake Google Drive connector (`use('mcp')`, a 6-folder tree from page_test_fixture.py `sample_drive`, 2 items a page): the button sits on the Papers first line; progress "N of M folders" and Cancel (nothing saved); a full scan finds the 5 new files and 1 same-size file, groups them by course x year as tools/classify_paths.py does, makes only read-only `search_files` parentId queries with pageToken, skips "Claude outputs", and writes one `scans/s<time>` doc with the right fields and counts; the page's classifier equals classify_path on every recorded path; a rate limit is retried once then stops; 7 error codes each give their own message; the last scan shows after a reload; no connector → "Ask Claude to rescan"; 390 px touch phone fits; a viewer gets no button, no `use('mcp')`, no write. |
 | Question keys (14 Nov, Fix 2) | the CSSA 2022 copies 44/274 and 45/275 share keys and the approvals on 274/275 make 44/45 approved; old q<id>/paper_<doc> docs merge as a fallback and a k_ doc wins; an approval is written to `reviews/k_<key>` and every copy follows; an old-format saved exam (ids only) loads, a keyed one finds the copy the Bank shows, every fixture exam loads, Save writes `keys`. |
 | Offline | no request left localhost. |
@@ -363,11 +363,14 @@ Owner 14 Nov, approving the plan "Questgen architecture plan: before imports res
 - **batch_check** blocks when any review, difficulty, exam or report in the page mirror points at a key no live question has, or bank.json keys differ from question_keys (warns while question_keys does not exist yet).
 - **Text history:** `tools/export_db_text.py` writes questions.db as text, one file per paper, to `dbtext/` (tracked in git). `batch_check.py --mark-published` → `snapshot.py` runs it before every publish commit, so `git diff publish-vA publish-vB -- dbtext/` shows what changed in the database.
 
-## Queue: fixed batches, one queue, 3 batches before the lock (14 Nov)
+## Queue: fixed batches, one queue, runs until empty (14 Nov)
 Owner, 14 Nov: "I like A's design much more" (mockup A: course lanes, batch panel, queue, Needs a check), "there seems to be
 some inconsistencies in paper numbers", then "we might want to run multiple batches over the night" and **"Let's do 3 batches
 before the lock"**. This replaces the 13 Nov per-batch pause ("Yes, with batch pauses") and the Go button. Page: UI_SPEC
 "Papers: course lanes".
+**Owner, 14 Nov, later (supersedes the 3-batch lock): "Maybe remove the lock for now since I'm in charge of import".** The queue runs every batch in it, top to
+bottom, until it is empty. There is no waiting-for-review limit; the early stop on unusual problems stays. The page shows
+"N batches are waiting for review" beside Start the queue as information only.
 - **One status per paper.** `tools/inventory.py` gives every paper exactly one of imported / ready_current / ready_old /
   needs_check / held_y11 / held_course / not_in_scope / duplicate, with one reason; batch_check blocks when the statuses do not
   add up to the folder total or the lanes' ready papers differ from the summary.
@@ -378,24 +381,37 @@ before the lock"**. This replaces the 13 Nov per-batch pause ("Yes, with batch p
   the end; numbering never reshuffles. `--reset <lane>` only before any of its batches is queued, and tell the owner.
 - **Swap** (page, db `batches/<lane>`): the paper goes to the end of the lane and every later batch passes its first paper back
   one; batches holding an imported paper are fixed. `batches.apply_swaps` = the page's `swapsApply` (page test).
-- **The queue** (db `queue/<lane>_<n>`, ordered) and **Start the queue** (db `runs` {kind:'queue', status:'requested', limit:3,
-  stop_early, ...}). Claude's loop, once import resumes:
+- **The queue** (db `queue/<lane>_<n>`, ordered) and **Start the queue** (db `runs` {kind:'queue', status:'requested', stop_early,
+  ...}; no `limit` since the owner's 14 Nov ruling; run docs written before it may still carry `limit: 3`: ignore it). Claude's loop, once import resumes:
   1. Export `queue`, `runs`, `batches`, `reviews` (ArtifactData `list` with `out_dir`, one folder) and run
      `python3 tools/import_next.py <folder>` (or `tools/sync_pagedb.py <folder>`, then import_next.py with no argument).
-  2. It prints how many imported batches wait for review and whether to STOP, and writes work/import/next.json with the next
+  2. It prints how many imported batches wait for review (information only) and whether to STOP, and writes work/import/next.json with the next
      batch (lane, number, papers with files and Drive ids). Set the run doc to `running` and run the pipeline on that batch.
   3. When the batch is published: add it to progress.json as done with `ids` (every file's doc id) and `failed_papers`,
      `failed_pages`, `your_calls`; delete its `queue` doc; run import_next.py again.
-  4. **Stop** when 3 imported batches are waiting for review (imported, not yet cleared in Review: every paper approved, or all
-     its questions), or early when the batch that just finished had unusual problems: **a paper that loaded no questions, 3 or
-     more pages the parser could not read, or more than 12 Your calls** (chosen 14 Nov while the owner was away; b1, the first
-     batch, had 11 Your calls for 8 papers, later batches far fewer). Set the run doc to `paused` and tell the owner; after an
-     early stop he has seen, set `stop_ack: true` on that progress.json batch. When he clears a batch in Review, carry on.
+  4. **Carry on** with the next batch: no review lock (owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import"). **Stop early** only when
+     the batch that just finished had unusual problems: **a paper that loaded no questions, 3 or more pages the parser could
+     not read, or more than 12 Your calls** (`STOP_EARLY`; chosen 14 Nov while the owner was away; b1, the first batch, had 11
+     Your calls for 8 papers, later batches far fewer). Set the run doc to `paused` and tell the owner; after an early stop he
+     has seen, set `stop_ack: true` on that progress.json batch and carry on.
   5. When the queue is empty set the run doc `done`.
+- **Review state on the lanes** (owner 14 Nov: "I would like to see how many of the batches have cleared checks on the import page too, its good to know."). An imported batch's
+  square is solid green once every paper in it has cleared Review (Review's own per-paper track: every step done, no open Your
+  calls; key docs `k_`/`p_` count), pale green with a green border while any paper waits. Nothing to run: the page works it out
+  from the reviews collection, live. import_next.py prints its own approval-based count, as information.
 - **Cost.** US$12–17 a paper until a real figure is recorded (`COST_PER_PAPER` in tools/inventory.py).
 - **Needs a check.** Run the cover-page check writes `runs` {kind:'cover_check', papers}: Claude reads each front page (Drive
   connector) and records course / year level; what it can't settle stays for the owner. His answers are db `paperfix/p<id>`
   {id, files, yl, course, out}; `tools/sync_pagedb.py` mirrors them (page_paperfix) and inventory.py applies them.
+- **Page pictures for Needs a check** (owner 14 Nov: Needs a check rows show "the cover + 3 pages picked at random from the
+  question pages (enlarge on click) and an 'Open the whole PDF in Drive' link"; "The cover-page check renders the 4 images and
+  stores them in the asset store"). During the cover-page check, for each paper: download its PDF from Drive to a local path
+  (never src/ in place of Drive), then `python3 tools/check_pages.py --pdf <local.pdf> --paper <paper id>` (repeat the pair for
+  several). It writes `site/data/check/<id>.json` (cover + 3 question pages, WebP, 180 px and 1100 px wide; blank,
+  instructions, reference-sheet and writing-booklet pages skipped; seed `qg-check-<id>`, so the pages never reshuffle) and lists
+  it in `site/data/check_pages.json` {papers: {id: {path, sha256, bytes, pages}}}. To serve them from the asset store, run the
+  "Asset store" steps (asset_upload_plan.py includes `data/check/*.json`). batch_check blocks a listed pack that is missing or
+  changed. The Drive link needs no step: inventory.py writes each Needs a check paper's Drive ids (`g`).
 - **Proposed rule fixes** (`RULES_PROPOSED` in tools/classify_paths.py: "EXT1" without a space / "Y12 Ext1" → Extension 1; a
   folder named "11" → Year 11; "Std"/"Standard" folder → Standard; "Ext 2"/"Ext2" folder → Extension 2) apply only after the
   owner presses Accept (db `scans/rules`); `tools/sync_pagedb.py` writes it to `work/rules_accepted.json`, then run
@@ -403,4 +419,5 @@ before the lock"**. This replaces the 13 Nov per-batch pause ("Yes, with batch p
   empty (one known exception: "Baulkham Hills/11/Ext1/P1 Adv 2020 Yearly Exams solutions.pdf", Advanced → Extension 1, held
   either way).
 - **db rules at publish:** `queue`, `batches`, `paperfix`: read admin, write admin. (`runs`, `scans`, `importq` already are.)
+  The 14 Nov follow-ups add no collection (the review state reads `reviews`, which every viewer already reads).
 

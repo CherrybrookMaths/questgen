@@ -6,17 +6,17 @@
 Owner 14 Nov (mockup A: "I like A's design much more"): every ready paper sits in a fixed numbered batch of 9 per course + year
 lane (tools/batches.py; site/data/inventory.json "lanes"); the owner puts whole batches in ONE ordered queue across courses
 (db collection `queue`, one doc per batch: '<course>_<yl>_<n>' {course, yl, batch, order, by, at}) and presses Start the queue,
-which writes a request to db collection `runs` ({kind: 'queue', status: 'requested', limit: 3, stop_early, by, at}).
+which writes a request to db collection `runs` ({kind: 'queue', status: 'requested', stop_early, by, at}).
 Swap (db collection `batches`, one doc per lane: {course, yl, swaps: [{id, by, at}]}) is applied on top (batches.apply_swaps).
 
-Owner 14 Nov: "we might want to run multiple batches over the night", then "Let's do 3 batches before the lock". This REPLACES
-the 13 Nov per-batch pause ("Yes, with batch pauses"): the queue runs batch after batch and STOPS when
-  - LIMIT (3) imported batches are waiting for review (imported, not yet cleared in Review), or
-  - the batch that just finished came back with unusual problems (STOP_EARLY): a paper that loaded no questions, FAILED_PAGES
-    or more pages the parser could not read, or more than YOUR_CALLS Your calls (progress.json batch fields failed_papers,
-    failed_pages, your_calls, written by Claude when a batch finishes; IMPORT_PLAYBOOK "Queue").
-"Cleared in Review" here: every paper of the batch has reviews/paper_<doc> approved, or every one of its questions approved
-(page_reviews mirror); the Review Inbox is the authority when in doubt.
+Owner 14 Nov: "we might want to run multiple batches over the night"; then, superseding "Let's do 3 batches before the lock":
+owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import". The queue runs every batch in it until it is
+EMPTY; there is no waiting-for-review limit. It STOPS early only when the batch that just finished came back with unusual
+problems (STOP_EARLY): a paper that loaded no questions, 3 or more pages the parser could not read, or more than 12 Your calls
+(progress.json batch fields failed_papers, failed_pages, your_calls, written by Claude when a batch finishes; IMPORT_PLAYBOOK "Queue").
+How many imported batches wait for review is printed as information only (the page shows the same count next to Start the
+queue). "Cleared in Review" here: every paper of the batch has its paper approval, or every one of its questions approved
+(page_reviews mirror, by key too); the page's own count follows Review's per-paper track and is the authority when in doubt.
 
 EXPORT_DIR: one folder holding the ArtifactData `list` exports (out_dir) of queue/, runs/, batches/ and reviews/ (one JSON file per
 doc). Without it, the page_* mirrors in questions.db are read (tools/sync_pagedb.py <export_dir> first). Writes
@@ -33,10 +33,9 @@ P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
 DB = os.environ.get('QG_DB', '/mnt/user-data/outputs/questions.db')
 OUT = P + 'work/import/next.json'
 PROGRESS = P + 'site/data/progress.json'
-# owner 14 Nov: "Let's do 3 batches before the lock"
-LIMIT = 3
 # unusual problems that stop the queue early (chosen 14 Nov while the owner was away; b1, the very first batch, had 11 Your
 # calls for 8 papers, later batches far fewer): any paper with no questions loaded, 3+ unreadable pages, or more than 12 Your calls
+# owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import": no waiting-for-review limit, only the early stop
 STOP_EARLY = {'failed_papers': 1, 'failed_pages': 3, 'your_calls': 13}
 ACTIVE = ('requested', 'running')
 
@@ -78,10 +77,9 @@ def question_keys(db):
 
 
 def stop_reason(fin, reviews, qs_of, lab, key_of=None):
-    """(waiting batch ids, why the queue must stop or '')."""
+    """(waiting batch ids, why the queue must stop or ''). The waiting batches are information only: no limit (owner 14 Nov:
+    "Maybe remove the lock for now since I'm in charge of import")."""
     waiting = [b for b in fin if not cleared([f for x in b.get('papers') or [] if x in lab for f in lab[x]] + list(b.get('ids') or []), reviews, qs_of, key_of)]
-    if len(waiting) >= LIMIT:
-        return [b['id'] for b in waiting], f'{len(waiting)} imported batches are waiting for review ({", ".join(b["id"] for b in waiting)}); the limit is {LIMIT}: stop until the owner clears one in Review'
     last = fin[-1] if fin else None
     if last:
         bad = [f'{k.replace("_", " ")} {last.get(k)}' for k, lim in STOP_EARLY.items() if (last.get(k) or 0) >= lim]
@@ -132,15 +130,15 @@ def main():
                          'files': [{'doc_id': f, 'path': paths[f]['source_path'], 'status': paths[f]['status'], 'scan': paths[f]['parse_path'] == 'scan',
                                     'pages': paths[f]['page_count'], 'drive_file_id': drive.get(f) or paths[f]['drive_file_id']} for f in papers[i][0]['f']]}
                         for i in nxt['papers']]
-    res = {'source': f'export {src}' if src else 'page_* mirrors in questions.db', 'run': run and {k: run.get(k) for k in ('key', 'status', 'by', 'at', 'limit')},
-           'limit': LIMIT, 'stop_early': STOP_EARLY, 'waiting_for_review': waiting, 'stop': why,
+    res = {'source': f'export {src}' if src else 'page_* mirrors in questions.db', 'run': run and {k: run.get(k) for k in ('key', 'status', 'by', 'at')},
+           'stop_early': STOP_EARLY, 'waiting_for_review': waiting, 'stop': why,
            'next': None if (why or not run) else nxt, 'queue': [{k: v for k, v in it.items() if k != 'files'} for it in items], 'skipped': skipped,
            'paused': 'Import is paused (owner 14 Nov: "no more importing for a while until we iron these out"). Do not start an import until the owner resumes it.'}
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(res, open(OUT, 'w'), indent=1, ensure_ascii=False)
     print(f'queue: {len(items)} batches ({res["source"]}); ' + (f'run {run["key"]} {run["status"]}' if run else 'not started (no queue run requested)'))
     print('  ' + res['paused'])
-    print(f'  waiting for review: {len(waiting)} of {LIMIT}' + (f' ({", ".join(waiting)})' if waiting else ''))
+    print(f'  waiting for review (information only, no limit): {len(waiting)}' + (f' ({", ".join(waiting)})' if waiting else ''))
     if why: print('  STOP: ' + why)
     if unmatched: print('  note: not matched to an imported paper, so not checked for review: ' + '; '.join(f'{b} "{x}"' for b, x in unmatched) + ' (add `ids` to that batch in progress.json)')
     for it in items[:6]:

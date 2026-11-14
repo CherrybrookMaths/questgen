@@ -25,7 +25,8 @@ import glob, hashlib, json, os, sys, time
 
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/'
 S = P + 'site/'
-KINDS = ('data/img/*.json', 'data/svg/*.json', 'data/cmp/*.json')   # the image packs the page fetches (05_figures.js pack/svgs/cmps)
+KINDS = ('data/img/*.json', 'data/svg/*.json', 'data/cmp/*.json',   # the image packs the page fetches (05_figures.js pack/svgs/cmps)
+         'data/check/*.json')   # owner 14 Nov: Needs a check page pictures (tools/check_pages.py; 35_papers_check.js)
 MAN = S + 'data/assets.json'
 OUT = P + 'work/assets/upload_plan.json'
 MAX_FILE = 20 * 2**20   # assets.d.ts: 20 MiB for JSON (and every type but SVG 2 MiB and CSS/JS 16 MiB)

@@ -89,17 +89,19 @@ def sample_papers():
     schools = ['Abbotsleigh', 'Knox Grammar School', 'Caringbah High School', 'Penrith High School']
     cur = [P_(9101 + k, schools[k % 4], 2025 - k // 4, f'AT{1 + k % 4}', 'ready_current', sol=1) for k in range(20)]
     old = [P_(9121 + k, schools[k % 4], 2017 - k, 'AT4', 'ready_old', sol=1, old=1) for k in range(3)]
-    adv12 = [P_(9001, 'Abbotsleigh', 2024, 'AT4', 'imported', sol=1), P_(9002, 'Knox Grammar School', 2025, 'AT2', 'imported', sol=1),
-             P_(9003, 'NESA', 2025, 'HSC', 'imported', sol=1), *cur, *old,
+    # owner 14 Nov ("I would like to see how many of the batches have cleared checks on the import page too"): the imported papers
+    # are REAL bank papers, so Review's own per-paper track decides cleared / waiting (lane_reviews below sets their reviews)
+    adv12 = [P_(LANE_REVIEW['cleared'], 'Knox Grammar School', 2024, 'AT2', 'imported', sol=1, f=[LANE_REVIEW['cleared']]),
+             P_(LANE_REVIEW['waiting'], 'Caringbah High School', 2024, 'AT4', 'imported', sol=1, f=[LANE_REVIEW['waiting']]), *cur, *old,
              P_(9201, 'TEC', 2022, 'AT4', 'not_in_scope', sol=1, why='solutions only: question paper not found')]
     adv11 = [P_(9301, 'Knox Grammar School', 2024, 'AT2', 'held_y11'), P_(9302, "The King's School", 2023, 'AT1', 'held_y11'),
              P_(9303, 'Knox Grammar School', 2017, 'AT1', 'held_y11', old=1)]
-    advx = [P_(9140, 'Ascham School', 2019, 'AT3', 'needs_check', why='year level not known from the folder or file name', f=[9140], p=['Ascham/MA AT3 2019.pdf'])]
+    advx = [P_(9140, 'Ascham School', 2019, 'AT3', 'needs_check', why='year level not known from the folder or file name', f=[9140], p=['Ascham/MA AT3 2019.pdf'], g=[DRIVE_9140])]
     ext1 = [P_(9401, 'Knox Grammar School', 2025, 'AT4', 'held_course', sol=1), P_(9402, 'Abbotsleigh', 2024, 'AT4', 'held_course'),
             P_(9403, 'CSSA', 2026, 'AT4', 'held_course', new=1)]
     std = [P_(9501, 'Hornsby Girls High School', 2025, 'AT4', 'held_course'), P_(9502, 'Penrith High School', 2024, 'AT3', 'held_course')]
     unk12 = [P_(9141, 'Oakhill College', 2024, 'AT2', 'needs_check', why='course not known from the folder or file name', f=[9141, 9142], n=2, sol=1,
-                p=['Oakhill College/Y12 Ext1/Task 2/2024/12EXT1_T2_HY_2024.pdf', 'Oakhill College/Y12 Ext1/Task 2/2024/12EXT1_T2_HY_2024_Sols.pdf'])]
+                p=['Oakhill College/Y12 Ext1/Task 2/2024/12EXT1_T2_HY_2024.pdf', 'Oakhill College/Y12 Ext1/Task 2/2024/12EXT1_T2_HY_2024_Sols.pdf'], g=['1fixtureOakhill9141aa', ''])]
     unk = [P_(9601, '', None, '', 'needs_check', l='barker-2024-w-sol', why='course not known from the folder or file name', f=[9601], p=['Barker/barker-2024-w-sol.pdf'])]
     def grp(c, yl, ps):
         ps = sorted(ps, key=lambda e: (e['s'] or '~', -(e['y'] or 0), e['t'], e.get('l', '')))   # as tools/inventory.py sorts them
@@ -109,7 +111,8 @@ def sample_papers():
               grp('standard', '12', std), grp('unknown', '12', unk12), grp('unknown', '?', unk)]
     setup = 'needs course setup (topics, dot points, difficulty references)'
     lane = {'course': 'advanced', 'yl': '12', 'first': 6, 'batches': [[p['id'] for p in (cur + old)[i:i + 9]] for i in range(0, 23, 9)],
-            'done': [{'n': 5, 'id': 'b5', 'ids': [9001, 9002, 9003], 'labels': ['2024 Abbotsleigh AT4', '2025 Knox Grammar School AT2', '2025 NESA HSC']}]}
+            'done': [{'n': 4, 'id': 'b4', 'ids': [LANE_REVIEW['cleared']], 'labels': ['2024 Knox Grammar School AT2']},
+                     {'n': 5, 'id': 'b5', 'ids': [LANE_REVIEW['waiting']], 'labels': ['2024 Caringbah High School AT4']}]}
     pr_rows = [{**r, 'n': 0, 'ids': [], 'example': ''} for r in RULES_PROPOSED['show']]
     pr_rows[0].update(n=1, ids=[9141], example=unk12[0]['p'][0])
     proposed = {'accepted': False, 'version': RULES_PROPOSED['version'], 'rules_after': with_proposed(), 'rules': pr_rows, 'replace': [9141],
@@ -124,8 +127,53 @@ def sample_papers():
                        {'key': 'unknown', 'name': 'Course not known yet', 'short': 'Course not known', 'ready': False, 'note': 'course not known from the file name: a cover-page check sorts these'}],
            'cost_per_paper': None, 'groups': groups, 'lanes': [lane], 'proposed': proposed, **sample_drive_known()}
     files = inv.pop('files')      # as tools/inventory.py writes it: the recorded files are data/inventory_files.json, fetched for Rescan drive only
-    swap_expect = BT.apply_swaps(lane['batches'], [{'id': 9101}], {9001, 9002, 9003})
-    return {'inventory': inv, 'inventory_files': {'built': inv['built'], **files}, 'swap_expect': swap_expect}
+    swap_expect = BT.apply_swaps(lane['batches'], [{'id': 9101}], set(LANE_REVIEW.values()))
+    return {'inventory': inv, 'inventory_files': {'built': inv['built'], **files}, 'swap_expect': swap_expect, 'check': check_pages_sample()}
+
+
+# owner 14 Nov: Needs a check rows show the cover + 3 question pages and "Open the whole PDF in Drive". 9140 has a pack (the
+# shape tools/check_pages.py writes; 4 small made-up pictures), 9601 none (placeholders). Served by the page test in place of
+# data/check_pages.json and data/check/9140.json.
+DRIVE_9140 = '1fixtureAscham9140abcdEF'
+def check_pages_sample():
+    import base64, hashlib, io
+    from PIL import Image, ImageDraw
+    def img(w, n, shade):
+        h = round(w * 1.414); im = Image.new('RGB', (w, h), 'white'); d = ImageDraw.Draw(im)
+        d.rectangle([w // 10, h // 12, w - w // 10, h // 12 + max(2, h // 40)], fill=shade); d.text((w // 10, h // 6), f'page {n}', fill='black')
+        b = io.BytesIO(); im.save(b, 'PNG'); return 'data:image/png;base64,' + base64.b64encode(b.getvalue()).decode(), w, h
+    pages = []
+    for n, shade in ((1, (40, 90, 160)), (3, (160, 60, 40)), (6, (40, 140, 60)), (9, (120, 40, 140))):
+        th, _, _ = img(60, n, shade); fu, w, h = img(400, n, shade)
+        pages.append({'n': n, 'role': 'cover' if n == 1 else 'question', 'w': w, 'h': h, 'thumb': th, 'full': fu})
+    pk = {'v': 1, 'id': 9140, 'made': '2026-11-14T20:00:00', 'seed': 'qg-check-9140', 'pdf_pages': 12, 'question_pages': 8, 'pages': pages}
+    body = json.dumps(pk, separators=(',', ':'))
+    return {'manifest': {'v': 1, 'made': '2026-11-14 20:00', 'papers': {'9140': {'path': 'data/check/9140.json', 'sha256': hashlib.sha256(body.encode()).hexdigest(), 'bytes': len(body), 'pages': [1, 3, 6, 9]}}},
+            'packs': {'data/check/9140.json': body}}
+
+
+# The two imported fixture papers and their review docs on the Papers test page (never the real database):
+#   1601 2024 Knox AT2: every decision moved from q<id> / paper_<doc> to the key docs k_<key> / p_<paper key> (Fix 2), so it is
+#        cleared review ONLY through the key docs; 323 2024 Caringbah AT4: every decision taken off, so it waits for review.
+LANE_REVIEW = {'cleared': 1601, 'waiting': 323}
+def lane_reviews(docs):
+    bank = os.path.join(P, 'site', 'data', 'bank.json')
+    if not os.path.exists(bank): return {'drop': [], 'add': {}}
+    b = json.load(open(bank)); qs, dd = b['questions'], b.get('docs', {})
+    drop, add = set(), {}
+    for q in qs:
+        if q['doc'] == LANE_REVIEW['cleared']:
+            k = f"reviews/q{q['id']}"
+            if k in docs and q.get('key'): add[f"reviews/k_{q['key']}"] = docs[k]; drop.add(k)
+        if q['doc'] == LANE_REVIEW['waiting']:
+            drop.add(f"reviews/q{q['id']}")
+            if q.get('key'): drop.add(f"reviews/k_{q['key']}")
+    for d in LANE_REVIEW.values():
+        pk = dd.get(str(d), {}).get('key')
+        if d == LANE_REVIEW['cleared'] and f'reviews/paper_{d}' in docs and pk: add[f'reviews/p_{pk}'] = docs[f'reviews/paper_{d}']
+        drop.add(f'reviews/paper_{d}')
+        if pk and d == LANE_REVIEW['waiting']: drop.add(f'reviews/p_{pk}')
+    return {'drop': sorted(k for k in drop if k in docs), 'add': add}
 
 
 # owner 13 Nov: "Where is the button to rescan the drive?" The page's Rescan drive walks a Drive folder with the viewer's
@@ -196,9 +244,10 @@ def main():
     # the page must ignore it once the queue doc is there.
     docs.update(sample_progress())
     drop = workload(docs)
+    papers = sample_papers(); papers['reviews'] = lane_reviews(docs)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump({'made': time.strftime('%Y-%m-%dT%H:%M:%S'), 'synced': synced, 'workload': {'papers': WORKLOAD, 'drop': drop}, 'docs': docs,
-               'papers': sample_papers(), 'drive': sample_drive(), 'classify': classify_cases()}, open(OUT, 'w'))
+               'papers': papers, 'drive': sample_drive(), 'classify': classify_cases()}, open(OUT, 'w'))
     counts = {}
     for k in docs:
         counts[k.split('/')[0]] = counts.get(k.split('/')[0], 0) + 1

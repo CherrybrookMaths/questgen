@@ -13,6 +13,11 @@
      the lane's next batches that are not queued yet. Then the Needs a check lane (Run the cover-page check; Resolve opens
      #processes/papers/check, PQ.check in 35_papers_check.js), the locked courses folded into one row, and the legend.
    - Queue (#prQueue): PQ.run (34_papers_run.js).
+   Review state (owner 14 Nov: "I would like to see how many of the batches have cleared checks on the import page too, its good
+   to know"): an imported batch is "cleared review" when every one of its papers has finished Review's flow, else "imported,
+   waiting for review". A paper's state is Review's own per-paper track (08_review.js paperWork: every step done, no open Your
+   calls), which reads the reviews through RKEY, so key docs (reviews/k_<key>, p_<paper key>, Fix 2) count; nothing here
+   re-implements it (CODE_HEALTH rule 3). The reviews subscription (14_start.js) redraws this tab, so it updates live.
    Swap (owner's mockup: "Swap moves the paper to the end of the course and pulls the next one in") is db collection "batches",
    one doc per lane ('advanced_12'): {course, yl, swaps: [{id, by, at}]}; swapsApply below = tools/batches.py apply_swaps.
    The proposed path-rule fixes (tools/classify_paths.py RULES_PROPOSED) and the owner's answers in Needs a check (db paperfix)
@@ -68,6 +73,23 @@ function model(){const D=S.data;if(!D)return null;const k=accepted()+'|'+JSON.st
   const t={};(D.statuses?Object.keys(D.statuses):[]).forEach(s=>t[s]=0);ps.forEach(p=>{t[p.st]=(t[p.st]||0)+1});
   return M={D,k,ps,t,total:ps.length,byId:new Map(ps.map(p=>[p.id,p]))}}
 
+// ---- review state (owner 14 Nov: "I would like to see how many of the batches have cleared checks on the import page too")
+// 'cleared' | 'waiting' for an imported paper, from Review's own paperWork (08_review.js) on each file that has questions in the
+// bank index; null until the index has loaded. Memoised on the reviews map and the index (both replaced, never mutated).
+const RV={rv:null,b:null,m:new Map()};
+function reviewState(p){if(!B||!B.questions||typeof paperWork!=='function')return null;
+  if(RV.rv!==reviews||RV.b!==B){RV.rv=reviews;RV.b=B;RV.m=new Map()}
+  if(!RV.m.has(p.id)){const fs=(p.f||[p.id]).filter(d=>B.docs[d]&&B.questions.some(q=>q.doc===d));
+    RV.m.set(p.id,fs.every(d=>paperWork(d).n===0)?'cleared':'waiting')}
+  return RV.m.get(p.id)}
+// a batch of imported papers: cleared when every paper is (a paper not found stays waiting)
+const batchState=ps=>ps.length&&ps.every(p=>reviewState(p)==='cleared')?'clr':'wait';
+// every imported batch on the tab: [{key, n, st}] (finished batches and lane batches whose papers are all imported)
+function imported(){const m=model();if(!m)return [];return lanes().flatMap(L=>[...L.done.map(d=>({key:L.key,n:d.n,ps:d.ids.map(i=>m.byId.get(i)).filter(Boolean)})),
+  ...L.batches.filter(b=>b.done).map(b=>({key:L.key,n:b.n,ps:b.ps}))]).map(x=>({...x,st:batchState(x.ps)}))}
+// owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import": the waiting count is shown as information only
+const waiting=()=>imported().filter(x=>x.st==='wait').length;
+
 // ---- lanes and batches
 // Swap: the paper leaves its batch for the end of the lane; every later batch passes its first paper back one batch, so each
 // batch keeps its size and number. A batch with an imported paper is fixed (skipped). Same as tools/batches.py apply_swaps.
@@ -99,28 +121,35 @@ function tiles(){const el=$('#prSum');if(!el)return;const m=model();if(!m){el.in
   const n=k=>AREAS.find(a=>a[0]===k)[1].reduce((s,x)=>s+(m.t[x]||0),0),L=lanes();
   const what={imported:'imported',ready:'ready to import'+(L.length?' · '+L.map(x=>x.name).join(', '):''),check:'need a check (year or course unknown)',aside:'held or not in scope'};
   el.innerHTML=AREAS.map(([k])=>`<div class="pr-tile" data-k="${k}"><b>${nf(n(k))}</b><span>${esc(what[k])}</span></div>`).join('')}
-const SQW={done:'imported',queued:'in the queue',cur:'ready, current syllabus',old:'ready, old syllabus'};
-function sqState(b){if(b.done)return 'done';if(API.run&&API.run.pos(b.key,b.n))return 'queued';return b.cur?'cur':'old'}
-function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.batches.filter(b=>b.ready.length);
-  const free=todo.filter(b=>!(API.run&&API.run.pos(L.key,b.n))).length;
-  const sq=L.done.map(d=>`<button type="button" class="pr-b done" data-prb="${esc(L.key)}:${d.n}" title="Batch ${d.n}, imported" aria-label="Batch ${d.n}, imported"></button>`).join('')+
+// owner 14 Nov: imported squares split into cleared review (solid green) and imported, waiting for review (pale, green border)
+const SQW={clr:'cleared review',wait:'imported, waiting for review',queued:'in the queue',cur:'ready, current syllabus',old:'ready, old syllabus'};
+function sqState(b){if(b.done)return batchState(b.ps);if(API.run&&API.run.pos(b.key,b.n))return 'queued';return b.cur?'cur':'old'}
+// a paper's chip in the batch panel: its review state, with a link into Review when it is still waiting
+function rvChip(p){const s=reviewState(p);if(s==='cleared')return '<span class="pr-chip ok">Cleared review</span>';
+  const d=(p.f||[p.id]).find(x=>B&&B.docs[x]);return s==='waiting'&&d!=null?`<a class="pr-chip pr-wt" href="#review/paper/${esc(mainDoc(d))}">Waiting for review</a>`:'<span class="pr-chip ok">Imported</span>'}
+function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.batches.filter(b=>b.ready.length),m=model();
+  const free=todo.filter(b=>!(API.run&&API.run.pos(L.key,b.n))).length,im=imported().filter(x=>x.key===L.key),clr=im.filter(x=>x.st==='clr').length;
+  const sq=L.done.map(d=>{const s=batchState(d.ids.map(i=>m.byId.get(i)).filter(Boolean)),t=`Batch ${d.n}, ${SQW[s]}`;
+      return `<button type="button" class="pr-b ${s}${open===d.n?' on':''}" data-prb="${esc(L.key)}:${d.n}" title="${esc(t)}" aria-label="${esc(t)}" aria-expanded="${open===d.n}"></button>`}).join('')+
     L.batches.filter(b=>b.ready.length||b.done).map(b=>{const s=sqState(b),t=`Batch ${b.n}, ${SQW[s]}`;
       return `<button type="button" class="pr-b ${s}${open===b.n?' on':''}" data-prb="${esc(L.key)}:${b.n}" title="${esc(t)}" aria-label="${esc(t)}" aria-expanded="${open===b.n}"></button>`}).join('');
   return `<div class="pr-lane" data-lane="${esc(L.key)}"><div class="pr-lrow"><div class="pr-lname"><b>${esc(L.name)}</b>
-      <small>${nf(L.imported)} imported · ${nf(L.ready)} to go · ${plural(todo.length,'batch','batches')}${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.newN?` · ${nf(L.newN)} new`:''}</small></div>
+      <small>${plural(im.length,'batch','batches')} imported (${nf(clr)} cleared review, ${nf(im.length-clr)} waiting) · ${nf(L.ready)} papers to go · ${plural(todo.length,'batch','batches')}${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.newN?` · ${nf(L.newN)} new`:''}</small></div>
     <div class="pr-lacts"><button type="button" class="act" data-pradd="1" data-lane="${esc(L.key)}"${free?'':' disabled'}>+1 batch</button><button type="button" class="act" data-pradd="2" data-lane="${esc(L.key)}"${free>1?'':' disabled'}>+2 batches</button><button type="button" class="act primary" data-pradd="all" data-lane="${esc(L.key)}"${free?'':' disabled'}>Queue all ${nf(free)}</button></div></div>
     <div class="pr-sq" role="group" aria-label="${esc(L.name)} batches">${sq}</div>${open!=null?panelHTML(L,open):''}</div>`}
 // the batch panel: its papers and Swap
 function panelHTML(L,n){const d=L.done.find(x=>x.n===n),b=L.batches.find(x=>x.n===n),m=model();
-  if(d)return `<div class="pr-panel" role="region" aria-label="Batch ${n}"><div class="pr-phead"><b>Batch ${n}</b><span>${plural(d.ids.length,'paper')} · imported (${esc(d.id)})</span><button type="button" class="pr-x" data-prclose aria-label="Close batch">×</button></div>
-    <ul class="pr-plist">${d.ids.map(i=>m.byId.get(i)).filter(Boolean).map(p=>`<li><span>${esc(label(p))}</span><span class="pr-chip ok">Imported</span></li>`).join('')}</ul></div>`;
+  const rvs=ps=>{const c=ps.filter(p=>reviewState(p)==='cleared').length;return `${nf(c)} of ${nf(ps.length)} cleared review`};
+  if(d){const ps=d.ids.map(i=>m.byId.get(i)).filter(Boolean);
+    return `<div class="pr-panel" role="region" aria-label="Batch ${n}"><div class="pr-phead"><b>Batch ${n}</b><span>${plural(d.ids.length,'paper')} · imported (${esc(d.id)}) · ${rvs(ps)}</span><button type="button" class="pr-x" data-prclose aria-label="Close batch">×</button></div>
+    <ul class="pr-plist">${ps.map(p=>`<li><span>${esc(label(p))}</span>${rvChip(p)}</li>`).join('')}</ul></div>`}
   if(!b)return '';const q=API.run?API.run.pos(L.key,n):0,ready=new Set(b.ready.map(p=>p.id));
   const syl=b.ready.every(p=>p.st==='ready_old')?'old syllabus':b.ready.some(p=>p.st==='ready_old')?'current and old syllabus':'current syllabus';
-  const where=b.done?'imported':q?`in the queue, ${ord(q)}`:'not in the queue',gone=b.ps.filter(p=>!ready.has(p.id)&&p.st!=='imported');
+  const where=b.done?`imported · ${rvs(b.ps)}`:q?`in the queue, ${ord(q)}`:'not in the queue',gone=b.ps.filter(p=>!ready.has(p.id)&&p.st!=='imported');
   const last=L.batches.length?L.batches[L.batches.length-1].n:n;
   return `<div class="pr-panel" role="region" aria-label="Batch ${n}"><div class="pr-phead"><b>Batch ${n}</b><span>${plural(b.ready.length,'paper')} · ${syl} · ${esc(yrs(b.ready))} · ${where}${gone.length?` · ${gone.length} no longer ready`:''}</span>
       ${!q&&!b.done&&b.ready.length?`<button type="button" class="act" data-prqone="${esc(L.key)}:${n}">Add to the queue</button>`:''}<button type="button" class="pr-x" data-prclose aria-label="Close batch">×</button></div>
-    <ul class="pr-plist">${b.ps.map(p=>{const r=ready.has(p.id);return `<li${r?'':' class="off"'}><span title="${esc(label(p))}">${esc(label(p))}</span>${p.st==='ready_old'?'<span class="pr-chip">old</span>':''}${p.st==='imported'?'<span class="pr-chip ok">Imported</span>':''}${r&&!b.frozen?`<button type="button" class="act pr-swap" data-prswap="${p.id}" data-lane="${esc(L.key)}">Swap</button>`:''}${!r&&p.st!=='imported'?`<span class="pr-chip">${esc((m.D.statuses||{})[p.st]||p.st)}</span>`:''}</li>`}).join('')}</ul>
+    <ul class="pr-plist">${b.ps.map(p=>{const r=ready.has(p.id);return `<li${r?'':' class="off"'}><span title="${esc(label(p))}">${esc(label(p))}</span>${p.st==='ready_old'?'<span class="pr-chip">old</span>':''}${p.st==='imported'?rvChip(p):''}${r&&!b.frozen?`<button type="button" class="act pr-swap" data-prswap="${p.id}" data-lane="${esc(L.key)}">Swap</button>`:''}${!r&&p.st!=='imported'?`<span class="pr-chip">${esc((m.D.statuses||{})[p.st]||p.st)}</span>`:''}</li>`}).join('')}</ul>
     <p class="pr-note">Swap moves the paper to the end of the course and pulls the next one in. A batch keeps its papers; new papers from a rescan start new batches after Batch ${last}.</p></div>`}
 // the locked courses, folded into one row (owner 13 Nov: Year 11 held; the other courses need setup)
 function lockedHTML(m){const by=new Map();m.ps.filter(p=>p.st==='held_y11'||p.st==='held_course').forEach(p=>{const k=p.c+'|'+p.yl;if(!by.has(k))by.set(k,{c:p.c,yl:p.yl,n:0,st:p.st});by.get(k).n++});
@@ -135,7 +164,7 @@ function lanesHTML(){const el=$('#prLanes');if(!el)return;const m=model();if(!m)
     <div class="pr-lane pr-chk"><div class="pr-lrow"><div class="pr-lname"><b>Needs a check</b><small>${plural(m.t.needs_check||0,'paper')}: year or course not read yet. Sorted into lanes once checked.</small></div>
       <div class="pr-lacts"><button type="button" class="act" data-prcover${cc||!m.t.needs_check?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button><a class="act pr-link" href="#processes/papers/check">Resolve</a></div></div></div>
     ${lockedHTML(m)}
-    <div class="pr-legend" aria-hidden="true">${Object.entries(SQW).map(([k,w])=>`<span><i class="pr-b ${k}"></i>${esc(w[0].toUpperCase()+w.slice(1))}</span>`).join('')}</div>`;
+    <div class="pr-legend" aria-hidden="true">${Object.entries(SQW).map(([k,w])=>`<span><i class="pr-b ${k}"></i>${esc(w[0].toUpperCase()+w.slice(1))}</span>`).join('')}</div>`;   // owner 14 Nov: cleared vs waiting in the legend
   if(wasOpen&&$('#prLock'))$('#prLock').open=true}
 function redraw(){if(!isEditor()||!$('#prLanes'))return;M=null;sub();tiles();lanesHTML();if(API.check)API.check.draw()}
 function render(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
@@ -161,7 +190,7 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
   const one=t.closest('[data-prqone]');if(one&&API.run){const [key,n]=one.dataset.prqone.split(':');await API.run.add([{key,n:+n}]);return}
   if(t.closest('[data-prcover]')&&API.run){await API.run.coverCheck();return}});
 // scan, run, check: the parts in 33-35 hang off this object (no new page-wide name); code here reaches them through API
-const API={render,redraw,state:S,model,lanes,batch,label,course,short,laneName,laneKey,years:YN,yrs,plural,nf,accepted,rules,placedStatus,swapsApply,sub,
+const API={render,redraw,state:S,model,lanes,batch,reviewState,imported,waiting,label,course,short,laneName,laneKey,years:YN,yrs,plural,nf,accepted,rules,placedStatus,swapsApply,sub,
   cost:()=>{const c=S.data&&S.data.cost_per_paper,v=typeof c==='number'?[c,c]:Array.isArray(c)?c:c&&typeof c==='object'?[c.lo??c.min,c.hi??c.max]:null;return v&&v.length===2&&v.every(Number.isFinite)?v:null},
   usd:([lo,hi])=>{const f=x=>Math.round(x).toLocaleString('en-AU');return lo===hi?`US$${f(lo)}`:`US$${f(lo)}–${f(hi)}`},size:SIZE,
   groups:()=>(S.data&&S.data.groups)||[]};

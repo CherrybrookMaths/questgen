@@ -786,9 +786,10 @@ list", and the 13 Nov per-batch pause. Import history (collapsed, at the bottom)
   the baseline scan (13 Nov, 8:42 pm; inventory `baseline_scan`), so 0 on 14 Nov.
 - **Summary, four numbers that add up to the folder total:** imported · ready to import · <ready lanes> · need a check (year or
   course unknown) · held or not in scope (held_y11 + held_course + not_in_scope + duplicate).
-- **Courses panel.** One lane per course + year level with ready papers (today: Year 12 Advanced). "52 imported · 485 to go ·
-  54 batches"; +1 batch, +2 batches, Queue all N (the lane's next batches not queued yet). A square per batch: imported (ok
-  green), in the queue (accent), ready current syllabus (accent soft), ready old syllabus (page background). Batches are fixed
+- **Courses panel.** One lane per course + year level with ready papers (today: Year 12 Advanced). "5 batches imported (X cleared
+  review, Y waiting) · 485 papers to go · 54 batches"; +1 batch, +2 batches, Queue all N (the lane's next batches not queued yet). A square per batch: cleared review (ok
+  green) or imported, waiting for review (pale green, green border; "Follow-up rulings" below), in the queue (accent), ready
+  current syllabus (accent soft), ready old syllabus (page background). Batches are fixed
   (tools/batches.py, inventory `lanes`): batch 1-5 = the finished b1-b5; batch 6 on = the owner's import order (132 papers, the
   planned b6-b20), then current syllabus newest year first, then old syllabus; papers found later start new batches at the end;
   numbering never reshuffles. A click opens the **batch panel**: "Batch 10 · 9 papers · current syllabus · 2022 · in the queue,
@@ -802,20 +803,59 @@ list", and the 13 Nov per-batch pause. Import history (collapsed, at the bottom)
   "Held until Year 12 is finished (your 13 Nov ruling)"; other courses: "Needs course setup"). Then the legend.
 - **Queue panel** (right; under the lanes when narrow): one ordered list across courses, db `queue/<lane>_<n>` {course, yl,
   batch, order, by, at}; ↑ ↓ and ×; "N batches · M papers", "Est. US$lo–hi" (US$12–17 a paper, or the recorded
-  `cost_per_paper`); **Start the queue** writes `runs` {kind:'queue', status:'requested', limit:3, stop_early, queue, papers,
-  est, by, at} (Cancel sets cancelled); "Stops when 3 batches are waiting for review"; "Until the import API is connected, this
-  sends the queue to Claude." Owner 14 Nov: "Let's do 3 batches before the lock": the queue runs batch after batch and stops
-  when 3 imported batches wait for review, or early on unusual problems (IMPORT_PLAYBOOK "Queue").
+  `cost_per_paper`); **Start the queue** writes `runs` {kind:'queue', status:'requested', stop_early, queue, papers, est, by,
+  at} (Cancel sets cancelled); "Until the import API is connected, this sends the queue to Claude." (The 3-batch lock, "Let's do
+  3 batches before the lock", was removed the same day: see "Follow-up rulings" below.)
 - **Needs a check view** (#processes/papers/check, "← Import papers"): "N placed by better rules" (tools/classify_paths.py
   RULES_PROPOSED: rule, example path, result, papers, See all; **Accept all** writes db `scans/rules` {version, accepted, by,
   at} and the page applies the fixes at once from inventory `proposed`), then "N for you to place": paths, the rules' guess, a
-  cover placeholder (page images exist only for imported papers), Year 11 / 12 and course pills, Not in scope. Answers: db
+  the cover + 3 question pages and the Drive link (below), Year 11 / 12 and course pills, Not in scope. Answers: db
   `paperfix/p<id>` {id, files, yl, course, out, by, at}; tools/inventory.py applies them (a rescan never asks again).
 - **db rules at publish:** `queue`, `batches`, `paperfix`: read admin, write admin (like `importq`, `scans`, `runs`).
 - Code: `page_src/js/32_papers_q.js` (PQ: model, summary, lanes, batch panel, Swap), `34_papers_run.js` (PQ.run: queue, Start,
   cover-page check), `35_papers_check.js` (PQ.check), `33_drive_scan.js` (PQ.scan, classifies with `PQ.rules()`), router
   `psub` in 09_router.js, styles `css/22_papers_q.css` (pr- prefix, under .procs). Tests: the papersLanes block in
   tools/page_test.js.
+
+### Follow-up rulings (14 Nov, applied when import-lanes was merged onto Fix 1 + Fix 2)
+- **No review lock.** Owner: "Maybe remove the lock for now since I'm in charge of import" (supersedes "Let's do 3 batches before the lock"). The queue runs every
+  batch in it, top to bottom, until it is empty; no `limit` in the runs doc. The early stop stays (`STOP_EARLY`: a paper that
+  loaded no questions, 3 or more unreadable pages, 13 or more Your calls). Queue text: "Runs top to bottom until the queue is
+  empty. Stops early only if a batch comes back with unusual problems." Beside Start the queue, as plain text (information only,
+  Start stays enabled): "N batches are waiting for review" ("1 batch is …", "No batches are …"). Below: "Estimate US$12–17 a
+  paper" (or the recorded cost).
+- **Review state on the lanes.** Owner: "I would like to see how many of the batches have cleared checks on the import page too, its good to know." Imported batch squares split in two:
+  **cleared review** (solid green) and **imported, waiting for review** (pale green fill, 2px green border); legend: Cleared
+  review · Imported, waiting for review · In the queue · Ready, current syllabus · Ready, old syllabus. Lane line: "N batches
+  imported (X cleared review, Y waiting) · M papers to go · K batches". The batch panel says "imported (b5) · X of N cleared
+  review" and gives each paper a chip: "Cleared review", or "Waiting for review" linking to #review/paper/<doc>. **Cleared** = the
+  paper's Review flow is complete: Review's own per-paper track (08_review.js `paperWork(doc).n === 0`: every step done, no open
+  Your calls), which reads decisions through `RKEY` so the key docs `k_<key>` / `p_<paper key>` of Fix 2 count. Nothing is
+  re-implemented (CODE_HEALTH rule 3): PQ.reviewState() calls it per file with questions and memoises on the reviews map. The
+  reviews subscription (14_start.js) redraws the tab, so a decision in Review changes the square live.
+- **Needs a check rows: the cover + 3 pages, a viewer and Drive.** Owner: "Needs a check rows show the cover + 3 pages picked at
+  random from the question pages (enlarge on click) and an 'Open the whole PDF in Drive' link (Drive file id from
+  inventory_files.json). The cover-page check renders the 4 images and stores them in the asset store (needs Fix 1)."
+  - A strip of 4: Cover, Page n, Page n, Page n (thumbnails, 54 px wide). Until the paper has pictures, 4 dashed placeholders
+    ("Cover", "Page"), not clickable.
+  - Click a page: an in-page viewer (a modal `<dialog>`, real buttons: × Close, ‹ Previous page, › Next page) shows it full size
+    with "<paper>: Page n" and "2 of 4"; ← / → step through the 4 (wrapping), Esc or × closes, a click on the backdrop closes,
+    focus goes to Close on opening and back to the page clicked on closing.
+  - "Open the whole PDF in Drive": https://drive.google.com/file/d/<id>/view, new tab, from the paper's first file with a Drive
+    id (inventory paper `g`, written by tools/inventory.py from documents.drive_file_id, the same ids as inventory_files.json).
+  - Where the pictures live: one JSON pack per paper, `data/check/<paper id>.json` {v, id, seed, pdf_pages, pages: [{n, role,
+    w, h, thumb, full}]} (WebP data URLs, 180 / 1100 px), listed in `data/check_pages.json` {papers: {id: {path, sha256, bytes,
+    pages}}}. The page reads the manifest when Needs a check opens and fetches a row's pack when the row nears the screen, through
+    `QG.url(path, sha256)` (Fix 1): from the asset store once data/assets.json lists the pack, else the published file. Made by
+    tools/check_pages.py during the cover-page check (cover + 3 random question pages: blank, instructions, reference-sheet and
+    writing-booklet pages skipped; fixed seed per paper, so they never reshuffle).
+  - The rules' course guess is pre-picked (as the mockup shows), and the year when the rules read one: the pill shows pressed,
+    nothing is saved until the owner picks; one tap on Year 12 then saves {yl: 12, course: <the guess>}. Tapping a pre-picked
+    pill clears it. "Placed" only ever reflects what is saved.
+- **Queue line at 1280 px.** "Year 12 Advanced · Batch 10" wrapped. The queue's basis is now 430 px (lanes 500 px), so a lane
+  name, "Batch 10", Waiting and ↑ ↓ × fit on one line, and "Batch N" never splits (`.pr-nw`). Side by side from about 1000 px.
+- **Code health.** All new styles are `.procs .pr-…`; no new page-wide name (PQ.reviewState / imported / waiting, PQ.check's
+  viewer); removed: the run doc's `limit`, `PQ.run.LIMIT`, `.pr-limit`, `.pr-cover`, the `done` square state.
 
 ## Where else things are recorded
 

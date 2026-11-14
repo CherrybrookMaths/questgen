@@ -233,6 +233,8 @@ def build(db, files=False, rules=None, overrides=None):
         if why: e['why'] = why
         if files or st == 'needs_check': e['f'] = [f['id'] for f in fs]
         if st == 'needs_check': e['p'] = [f['source_path'] for f in fs][:4]      # the paths, for the Needs a check view
+        # owner 14 Nov: Needs a check rows have an "Open the whole PDF in Drive" link (https://drive.google.com/file/d/<id>/view)
+        if st == 'needs_check' and any(f.get('drive_file_id') for f in fs): e['g'] = [f.get('drive_file_id') or '' for f in fs][:4]
         if any(f.get('_placed') for f in fs): e['placed'] = 1
         if course == 'advanced' and y and y < RULES['old_syllabus_before']: e['old'] = 1     # old syllabus: syllabus_version 'pre2017'
         g = out[(course if course in keys else 'unknown', yl)]

@@ -1,20 +1,19 @@
-// owner 14 Nov: "we might want to run multiple batches over the night", then "Let's do 3 batches before the lock"
-// (this replaces the 13 Nov per-batch pause, "Yes, with batch pauses")
+// owner 14 Nov: "we might want to run multiple batches over the night" (this replaced the 13 Nov per-batch pause)
+// owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import" (supersedes "Let's do 3 batches before the lock")
 /* ---------- Processes › Papers › Queue (Curate: editors only) ----------
    ONE ordered list of batches across courses: db collection "queue", one doc per batch, id '<lane>_<n>' ('advanced_12_6'):
    {course, yl, batch, order, by, at}. Batches come in from the lanes (+1 batch, +2 batches, Queue all, a batch panel's Add to
    the queue); ↑ ↓ reorder (the shared writeOrder, 31_notes.js), × removes (no confirm: it can be added again).
-   Start the queue writes ONE request to db collection "runs" (as Go did): {kind:'queue', status:'requested', limit:3,
-   stop_early, queue:[{course, yl, batch, papers}], papers, est, by, at}; Cancel sets status 'cancelled' (kept). Until the
-   import API is connected, Claude runs it (tools/import_next.py follows the queue and the limit): batch after batch, stopping
-   when LIMIT imported batches are waiting for review (imported, not yet cleared in Review), or early when a batch comes back
-   with unusual problems (STOP_EARLY, IMPORT_PLAYBOOK "Queue"). Run the cover-page check writes {kind:'cover_check',
+   Start the queue writes ONE request to db collection "runs" (as Go did): {kind:'queue', status:'requested', stop_early,
+   queue:[{course, yl, batch, papers}], papers, est, by, at}; Cancel sets status 'cancelled' (kept). Until the import API is
+   connected, Claude runs it (tools/import_next.py follows the queue): every batch in it, top to bottom, until it is empty;
+   no review lock. It stops early only when a batch comes back with unusual problems (STOP_EARLY, IMPORT_PLAYBOOK "Queue").
+   "N batches are waiting for review" beside Start is information only (PQ.waiting(): imported batches whose papers have not
+   all cleared Review, by Review's own per-paper track). Run the cover-page check writes {kind:'cover_check',
    status:'requested', papers:[the Needs a check papers], by, at} to "runs" too; Claude does the check.
    No new page-wide name: PQ.run. Only editors read or write: every handler checks isEditor(). */
 PQ.run=(()=>{
 const R={q:[],runs:[],subs:{},busy:false};
-// owner 14 Nov: "Let's do 3 batches before the lock"
-const LIMIT=3;
 // unusual problems that stop the queue early (chosen 14 Nov while the owner was away; tools/import_next.py STOP_EARLY): a paper
 // that loaded no questions, 3 or more pages the parser could not read, or more than 12 Your calls in one batch
 const STOP_EARLY={failed_papers:1,failed_pages:3,your_calls:13};
@@ -37,15 +36,17 @@ function draw(){const el=$('#prQueue');if(!el||!isEditor())return;if(!PQ.state.d
   const L=items(),n=live(),np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np),run=active('queue');
   const row=(i,k)=>{const f=i.f,nm=f?f.lane.name:PQ.laneName(i.x.course,String(i.x.yl)),st=i.done?'Imported':k===0?(run&&run.status==='running'?'Running':'Next'):'Waiting';
     return `<li class="pr-qi${!i.done&&k===0?' next':''}${i.done?' done':''}" data-prq="${esc(i.x.id)}"><span class="pr-qn" aria-hidden="true">${i.done?'✓':k+1}</span>
-      <span class="pr-qt"><b>${esc(nm)} · Batch ${esc(i.x.batch)}</b><small>${i.done?'imported':`${PQ.plural(i.ready.length,'paper')}${i.ready.length?' · '+esc(PQ.yrs(i.ready)):''}`}</small></span>
+      <span class="pr-qt"><b>${esc(nm)} · <span class="pr-nw">Batch ${esc(i.x.batch)}</span></b><small>${i.done?'imported':`${PQ.plural(i.ready.length,'paper')}${i.ready.length?' · '+esc(PQ.yrs(i.ready)):''}`}</small></span>
       <span class="pr-qs">${st}</span><span class="pr-qacts">${i.done?'':`<button type="button" class="nbtn" data-prqmv="-1" data-prq-id="${esc(i.x.id)}" aria-label="Move up"${k===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-prqmv="1" data-prq-id="${esc(i.x.id)}" aria-label="Move down"${k===n.length-1?' disabled':''}>↓</button>`}<button type="button" class="nbtn ndel" data-prqdel="${esc(i.x.id)}" aria-label="Remove from the queue">×</button></span></li>`};
   let k=0;
-  el.innerHTML=`<div class="pr-qhead"><h4>Queue</h4><span>Runs top to bottom, batch after batch. Stops when ${LIMIT} batches are waiting for review, or early if a batch comes back with unusual problems.</span></div>
+  // owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import": no limit; the waiting count is information only
+  const wt=PQ.waiting(),wtxt=wt===1?'1 batch is waiting for review':`${wt?PQ.nf(wt):'No'} batches are waiting for review`;
+  el.innerHTML=`<div class="pr-qhead"><h4>Queue</h4><span>Runs top to bottom until the queue is empty. Stops early only if a batch comes back with unusual problems.</span></div>
     ${L.length?`<ol class="pr-qlist">${L.map(i=>row(i,i.done?-1:k++)).join('')}</ol>`:`<p class="pempty">Nothing queued. Add batches from a course: +1 batch, or click a square.</p>`}
     <div class="pr-qfoot"><span>${PQ.plural(n.length,'batch','batches')} · ${PQ.plural(np,'paper')}</span><span>${c.est?'Est. ':'Cost '}${np?PQ.usd([c.lo,c.hi]):'US$0'}</span></div>
     ${run?`<div class="pr-run" role="status"><b>${run.status==='running'?'Claude is running the queue':'Sent to Claude'}</b><small>requested ${esc(clockT(run.at))}${run.status==='requested'?' · Claude starts it when importing resumes; later the import API will start it directly.':''}</small><button type="button" class="act" id="prQCancel"${R.busy?' disabled':''}>Cancel</button></div>`:
-      `<button type="button" class="act primary pr-start" id="prQStart"${!n.length||R.busy?' disabled':''}>Start the queue</button>`}
-    <p class="pr-limit">Stops when ${LIMIT} batches are waiting for review${c.est?` · estimate US$${EST[0]}–${EST[1]} a paper`:` · ${esc(PQ.usd(c.pp))} a paper`}</p>
+      `<div class="pr-startrow"><button type="button" class="act primary pr-start" id="prQStart"${!n.length||R.busy?' disabled':''}>Start the queue</button><span class="pr-wait" role="status">${wtxt}</span></div>`}
+    <p class="pr-est">${c.est?`Estimate US$${EST[0]}–${EST[1]} a paper`:`${esc(PQ.usd(c.pp))} a paper`}</p>
     <p class="pr-api">Until the import API is connected, this sends the queue to Claude.</p>`}
 function render(){if(!isEditor())return;subscribe();draw()}
 // ---- writes (editors only)
@@ -63,7 +64,7 @@ async function move(id,d){if(!isEditor()||!db)return;const ids=live().map(i=>i.x
   [ids[i],ids[j]]=[ids[j],ids[i]];await writeOrder(R.q,ids.concat(items().filter(i=>i.done).map(i=>i.x.id)),setOrder,()=>{PQ.redraw();draw()})}
 async function remove(id){if(!isEditor()||!db)return false;try{await db.doc('queue/'+id).delete();R.q=R.q.filter(x=>x.id!==id);PQ.redraw();draw();toast('Removed from the queue');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
 async function start(){const n=live();if(!isEditor()||!db||!n.length||active('queue'))return null;const np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np);
-  const id='r'+Date.now(),doc={kind:'queue',status:'requested',limit:LIMIT,stop_early:STOP_EARLY,queue:n.map(i=>({course:i.x.course,yl:i.x.yl,batch:+i.x.batch,papers:i.ready.map(p=>p.id)})),papers:np,est:[c.lo,c.hi],by:me||null,at:now()};
+  const id='r'+Date.now(),doc={kind:'queue',status:'requested',stop_early:STOP_EARLY,queue:n.map(i=>({course:i.x.course,yl:i.x.yl,batch:+i.x.batch,papers:i.ready.map(p=>p.id)})),papers:np,est:[c.lo,c.hi],by:me||null,at:now()};
   try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});toast('Queue sent to Claude');return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
 async function cancel(){const a=active('queue');if(!isEditor()||!db||!a)return false;const {id,...rest}=a,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
   try{await db.doc('runs/'+id).set(doc);Object.assign(a,doc);toast('Queue run cancelled');return true}catch(_){toast('Could not cancel. Try again in a moment.');return false}}
@@ -78,6 +79,6 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
   const dl=t.closest('[data-prqdel]');if(dl){await remove(dl.dataset.prqdel);return}
   if(t.closest('#prQStart')){await busy(start);return}
   if(t.closest('#prQCancel')){await busy(cancel);return}});
-return {render,draw,state:R,pos,add,addNext,remove,move,start,cancel,cover,coverCheck,items,LIMIT};
+return {render,draw,state:R,pos,add,addNext,remove,move,start,cancel,cover,coverCheck,items};
 })();
 if(view==='processes'&&$('#processesView').dataset.tab==='papers')PQ.run.render();

@@ -219,6 +219,14 @@ try:
     else: I(f'lanes: {len(_ready)} ready papers in {sum(len(L["batches"]) for L in _iv.get("lanes") or [])} batches; statuses add up to {_iv["totals"]["papers"]} papers')
 except Exception as e: W(f'lanes check failed: {e}')
 # ======== end of the lanes block ========
+# owner 14 Nov: Needs a check page pictures (tools/check_pages.py): every pack data/check_pages.json lists exists at its sha256
+try:
+    _cm = json.load(open(P + 'site/data/check_pages.json')).get('papers') or {}
+    _bad = [k for k, e in _cm.items() if not os.path.exists(P + 'site/' + e['path']) or hashlib.sha256(open(P + 'site/' + e['path'], 'rb').read()).hexdigest() != e.get('sha256')]
+    if _bad: B(f'data/check_pages.json lists {len(_bad)} page-picture pack(s) missing or changed ({", ".join(_bad[:5])}): rerun python3 tools/check_pages.py for them')
+    else: I(f'check pages: {len(_cm)} papers have cover + question page pictures')
+except FileNotFoundError: W('site/data/check_pages.json missing (the Needs a check page-picture manifest): write {"v": 1, "papers": {}}')
+except Exception as e: W(f'check pages check failed: {e}')
 # size budget (CODE_HEALTH rule 6; health pass 13 Nov, owner: "keep the code proper and [lean]"). Since Fix 1 (owner 14 Nov:
 # "Ok we should run Fix 1 and 2"; plan: keep the published page small; fetch data only when needed) the budget is what the page
 # loads at start: review.html + the course index + data/assets.json, each and together ("start load"). Over budget BLOCKS until

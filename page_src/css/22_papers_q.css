@@ -35,8 +35,10 @@
 /* two panels: the lanes (wide) and the queue; they stack when the window is narrow */
 .procs .pr-main{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
 .procs .pr-card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
-.procs .pr-lanes{flex:999 1 560px;display:flex;flex-direction:column}
-.procs .pr-queue{flex:1 1 360px;display:flex;flex-direction:column;gap:10px}
+/* owner 14 Nov review: at 1280 px the queue line wrapped "Batch 10": the queue's basis is the width of its widest line (a lane
+   name, "Batch 10", Waiting, ↑ ↓ ×), and the lanes give up 60 px so the two panels still sit side by side from about 1000 px */
+.procs .pr-lanes{flex:999 1 500px;display:flex;flex-direction:column}
+.procs .pr-queue{flex:1 1 430px;display:flex;flex-direction:column;gap:10px}
 .procs .pr-lhead,.procs .pr-qhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding-bottom:8px}
 .procs .pr-qhead{flex-direction:column;padding-bottom:0}
 .procs .pr-lhead h4,.procs .pr-qhead h4{margin:0;font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
@@ -50,10 +52,13 @@
 .procs .pr-lacts .act:disabled{opacity:.45;cursor:default}
 .procs a.act.pr-link{font:600 13px var(--sans);border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:6px;padding:6px 12px;text-decoration:none}
 .procs a.act.pr-link:hover{border-color:var(--accent)}
-/* a square per batch of 9 (imported / in the queue / ready, current syllabus / ready, old syllabus) */
+/* a square per batch of 9 (cleared review / imported, waiting for review / in the queue / ready, current syllabus / ready, old syllabus)
+   owner 14 Nov: "I would like to see how many of the batches have cleared checks on the import page too": solid green = cleared,
+   pale green with a 2px green border = imported, waiting for review */
 .procs .pr-sq{display:flex;flex-wrap:wrap;gap:4px}
 .procs .pr-b{width:18px;height:18px;padding:0;border-radius:4px;box-sizing:border-box;border:1px solid var(--line2);background:var(--bg);cursor:pointer;flex:none}
-.procs .pr-b.done{background:var(--ok);border-color:var(--ok)}
+.procs .pr-b.clr{background:var(--ok);border-color:var(--ok)}
+.procs .pr-b.wait{background:color-mix(in srgb,var(--ok) 18%,var(--panel));border:2px solid var(--ok)}
 .procs .pr-b.queued{background:var(--accent);border-color:var(--accent)}
 .procs .pr-b.cur{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 35%,var(--line2))}
 .procs .pr-b.old{background:var(--bg);border-color:var(--line2)}
@@ -72,6 +77,8 @@
 .procs .pr-swap{font-size:12px;padding:3px 8px;flex:none}
 .procs .pr-chip{font:500 11px var(--sans);padding:1px 7px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap;flex:none}
 .procs .pr-chip.ok{border-color:var(--ok);color:var(--ok)}
+.procs a.pr-chip.pr-wt{border:2px solid var(--ok);background:color-mix(in srgb,var(--ok) 12%,var(--panel));color:var(--ink);text-decoration:none;padding:0 6px}
+.procs a.pr-chip.pr-wt:hover{text-decoration:underline}
 .procs .pr-note{margin:0;font-size:12px;color:var(--muted)}
 /* locked courses, one folded row; the legend */
 .procs .pr-lock{border-top:1px solid var(--line);padding:12px 0 4px}
@@ -89,14 +96,16 @@
 .procs .pr-qi.done{opacity:.6}
 .procs .pr-qn{flex:none;width:18px;font:600 13px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
 .procs .pr-qt{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
-.procs .pr-qt b{font-size:13.5px;font-weight:600;overflow-wrap:anywhere}.procs .pr-qt small{font-size:12px;color:var(--muted)}
+.procs .pr-qt b{font-size:13.5px;font-weight:600;overflow-wrap:anywhere}.procs .pr-qt b .pr-nw{white-space:nowrap}.procs .pr-qt small{font-size:12px;color:var(--muted)}
 .procs .pr-qs{flex:none;font:600 12px var(--sans);color:var(--muted)}.procs .pr-qi.next .pr-qs{color:var(--accent)}
 .procs .pr-qacts{flex:none;display:inline-flex}.procs .pr-qacts .nbtn{width:26px}
 .procs .pr-qfoot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
 .procs .pr-start{padding:9px 14px;font-size:14px}
 .procs .pr-start:disabled{opacity:.45;cursor:default}
-.procs .pr-limit,.procs .pr-api{margin:0;font-size:12px;color:var(--muted)}
-.procs .pr-limit{color:var(--ink)}
+.procs .pr-est,.procs .pr-api{margin:0;font-size:12px;color:var(--muted)}
+/* owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import": the waiting count beside Start is information only */
+.procs .pr-startrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.procs .pr-wait{font-size:12.5px;color:var(--muted)}
 .procs .pr-run{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-soft)}
 .procs .pr-run b{font-size:13.5px}.procs .pr-run small{font-size:12px;color:var(--muted)}
 /* Needs a check (#processes/papers/check) */
@@ -120,7 +129,22 @@
 .procs .pr-see li{display:flex;flex-direction:column;font-size:12.5px;min-width:0}
 .procs .pr-place{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:12px 14px}
 .procs .pr-place.done{border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
-.procs .pr-cover{flex:none;width:72px;height:96px;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line2);border-radius:4px;font-size:11px;color:var(--muted)}
+/* owner 14 Nov: the cover + 3 question pages (click: full size in the viewer) and the Drive link */
+.procs .pr-pages{flex:none;display:flex;gap:6px}
+.procs .pr-pg{flex:none;width:58px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:2px;border:1px solid var(--line2);border-radius:4px;background:var(--panel);font:500 10.5px var(--sans);color:var(--muted)}
+.procs button.pr-pg{cursor:zoom-in}.procs button.pr-pg:hover{border-color:var(--accent)}
+.procs .pr-pg:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.procs .pr-pg img{display:block;width:54px;height:auto;background:#fff}
+.procs .pr-pgph{height:96px;justify-content:center;border-style:dashed;box-sizing:border-box}
+.procs .pr-drive{font-size:13px;color:var(--accent);text-decoration:none;align-self:flex-start}.procs .pr-drive:hover{text-decoration:underline}
+.procs .pr-view{width:min(920px,calc(100vw - 32px));max-height:calc(100vh - 32px);padding:0;border:1px solid var(--line2);border-radius:10px;background:var(--panel);color:var(--ink);overflow:hidden}
+.procs .pr-view::backdrop{background:rgb(0 0 0 / .55)}
+.procs .pr-vhead{display:flex;align-items:center;gap:8px 12px;padding:8px 10px 8px 16px;border-bottom:1px solid var(--line)}
+.procs .pr-vhead b{flex:1;min-width:0;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.procs .pr-vn{font-size:12.5px;color:var(--muted);flex:none}
+.procs .pr-vbody{display:flex;align-items:center;gap:8px;padding:10px;max-height:calc(100vh - 100px)}
+.procs .pr-vbody img{flex:1;min-width:0;max-height:calc(100vh - 120px);object-fit:contain;background:#fff;border-radius:4px}
+.procs .pr-vstep{flex:none;width:40px;height:56px;border:1px solid var(--line2);border-radius:8px;background:var(--panel);color:var(--ink);font:500 24px var(--sans);cursor:pointer}
+.procs .pr-vstep:hover{border-color:var(--accent)}.procs .pr-vstep:focus-visible,.procs .pr-view .pr-x:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .procs .pr-pbody{flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:8px}
 .procs .pr-path{color:var(--ink);font-size:12.5px;white-space:normal;overflow-wrap:anywhere}
 .procs .pr-guess{font-size:13px;color:var(--muted)}
@@ -136,4 +160,5 @@
   .procs .pr-card{padding:12px}.procs .pr-lacts{margin-left:0}.procs .pr-lname{min-width:0}
   .procs .pr-plist{grid-template-columns:1fr}.procs .pr-phead>span{flex-basis:100%;order:3}.procs .pr-x{margin-left:auto}.procs .pr-b{width:22px;height:22px}
   .procs .pr-rule{grid-template-columns:minmax(0,1fr) auto}.procs .pr-rt{grid-column:1/-1}
+  .procs .pr-pg{width:52px}.procs .pr-pg img{width:48px}.procs .pr-vbody{padding:6px;gap:4px}.procs .pr-vstep{width:32px}
   .procs .pr-lock li b{min-width:0}.procs .pr-why{margin-left:0}.procs .pr-pill.pr-out{margin-left:0}}

@@ -1174,9 +1174,17 @@ async function nextUp(browser, base, seed) {
    Own block (14 Nov, import-lanes round): replaces the 13 Nov papersQueue (import order, grid) and papersRun (Go) groups.
    The fixture's small inventory (tools/page_test_fixture.py sample_papers, served in place of data/inventory.json):
    summary adds up; lanes and their counts; the batch panel opens with 9 papers and Swap matches tools/batches.py apply_swaps;
-   queue add / reorder / remove, the limit text (owner 14 Nov: "Let's do 3 batches before the lock") and Start the queue;
-   Needs a check: Accept the proposed rules and place a paper; Import history collapsed; 390 px phone (lanes wrap, panel
-   stacks); a viewer sees nothing, fetches nothing, writes nothing. */
+   queue add / reorder / remove and Start the queue; Needs a check: Accept the proposed rules and place a paper; Import history
+   collapsed; 390 px phone (lanes wrap, panel stacks); a viewer sees nothing, fetches nothing, writes nothing.
+   Owner 14 Nov follow-ups (merge of import-lanes):
+   - "Maybe remove the lock for now since I'm in charge of import": no limit text, no `limit` in the runs doc; "N batches are
+     waiting for review" beside Start is information only (Start stays enabled).
+   - "I would like to see how many of the batches have cleared checks on the import page too": the fixture's imported papers are
+     real bank papers (page_test_fixture.py LANE_REVIEW): 1601 cleared ONLY through key docs (k_/p_), 323 with its decisions
+     taken off; squares clr / wait, the lane line, the batch panel chips, and a live change from the reviews collection.
+   - Needs a check rows: the cover + 3 question pages (fixture pack for 9140, placeholders for 9601), the in-page viewer
+     (opens, ← / → step through 4, Esc closes, focus returns), the Drive link, the rules' course guess pre-picked.
+   - the queue line "Batch 10" stays on one line at 1280 px. */
 const LANE_STATUSES = ['imported', 'ready_current', 'ready_old', 'needs_check', 'held_y11', 'held_course', 'not_in_scope', 'duplicate'];
 function laneTally(inv) {   // written apart from the page's model(), so the two can disagree
   const t = Object.fromEntries(LANE_STATUSES.map(s => [s, 0])); let n = 0;
@@ -1185,8 +1193,13 @@ function laneTally(inv) {   // written apart from the page's model(), so the two
 }
 async function papersLanes(browser, base, seed, fx) {
   if (!fx || !fx.inventory || !fx.inventory.lanes) { await check('papers: fixture', null, async () => { throw new Error('work/page_test/fixture.json has no lanes inventory: run tools/page_test_fixture.py') }); return }
-  const inv = fx.inventory;
-  const serveInv = async p => { p._inv = 0; await p.route(u => /\/data\/inventory\.json/.test(u.href), r => { p._inv++; return r.fulfill({status: 200, contentType: 'application/json', body: JSON.stringify(inv)}) }) };
+  const inv = fx.inventory, ck = fx.check || {manifest: {papers: {}}, packs: {}};
+  const serveInv = async p => { p._inv = 0; await p.route(u => /\/data\/inventory\.json/.test(u.href), r => { p._inv++; return r.fulfill({status: 200, contentType: 'application/json', body: JSON.stringify(inv)}) });
+    await p.route(u => /\/data\/check_pages\.json/.test(u.href), r => r.fulfill({status: 200, contentType: 'application/json', body: JSON.stringify(ck.manifest)}));
+    await p.route(u => /\/data\/check\/\d+\.json/.test(u.href), r => { const k = new URL(r.request().url()).pathname.slice(1); return ck.packs[k] ? r.fulfill({status: 200, contentType: 'application/json', body: ck.packs[k]}) : r.fulfill({status: 404, body: ''}) }) };
+  // owner 14 Nov: the imported fixture papers' review docs (1601 by key docs only, 323 with nothing): page_test_fixture.py lane_reviews
+  const rv = fx.reviews || {drop: [], add: {}}, dropL = new Set(rv.drop);
+  seed = {...Object.fromEntries(Object.entries(seed).filter(([k]) => !dropL.has(k))), ...rv.add};
   const docs = (p, c) => p.evaluate(c => [...window.__pt.store.entries()].filter(([k]) => k.startsWith(c + '/')).map(([k, v]) => ({k, ...v})), c);
   const tiles = p => p.evaluate(() => Object.fromEntries([...document.querySelectorAll('#prSum .pr-tile')].map(t => [t.dataset.k, {n: +t.querySelector('b').textContent.replace(/\D/g, ''), w: t.querySelector('span').textContent}])));
   const qtitles = p => p.evaluate(() => [...document.querySelectorAll('#prQueue .pr-qi b')].map(b => b.textContent));
@@ -1220,13 +1233,42 @@ async function papersLanes(browser, base, seed, fx) {
     assert(!r.old.length, `old Papers parts remain: ${r.old}`);
     assert(r.lanes.length === 1 && r.lanes[0].name === 'Year 12 Advanced', `lanes ${JSON.stringify(r.lanes.map(l => l.name))}`);
     const l = r.lanes[0];
-    assert(l.sub === '3 imported · 23 to go · 3 batches · 1 new' || l.sub === '3 imported · 23 to go · 3 batches', `lane line “${l.sub}”`);
-    assert(l.sq.join(' ') === 'done:5 cur:6 cur:7 cur:8', `squares ${l.sq.join(' ')}`);
+    assert(/^2 batches imported \(1 cleared review, 1 waiting\) · 23 papers to go · 3 batches( · 1 new)?$/.test(l.sub), `lane line “${l.sub}”`);
+    assert(l.sq.join(' ') === 'clr:4 wait:5 cur:6 cur:7 cur:8', `squares ${l.sq.join(' ')}`);
     assert(l.acts.join('|') === '+1 batch|+2 batches|Queue all 3', `lane buttons ${l.acts}`);
     assert(r.chk === '3 papers: year or course not read yet. Sorted into lanes once checked.' && r.chkActs.join('|') === 'Run the cover-page check|Resolve', `Needs a check lane: ${r.chk} ${r.chkActs}`);
     assert(r.lock === 'Locked · 3 courses, 8 papers' && r.lockRows.some(x => /^Year 11 Advanced 3 papers Held until Year 12 is finished \(your 13 Nov ruling\)$/.test(x)) && r.lockRows.some(x => /^Year 12 Extension 1 3 papers Needs course setup$/.test(x)), `locked: ${r.lock} ${JSON.stringify(r.lockRows)}`);
-    assert(r.legend.join('|') === 'Imported|In the queue|Ready, current syllabus|Ready, old syllabus', `legend ${r.legend}`);
+    assert(r.legend.join('|') === 'Cleared review|Imported, waiting for review|In the queue|Ready, current syllabus|Ready, old syllabus', `legend ${r.legend}`);
     return `${l.name}: ${l.sub}; ${l.sq.length} squares; ${r.lock}`;
+  });
+  // owner 14 Nov: "I would like to see how many of the batches have cleared checks on the import page too, its good to know."
+  await check('papers: cleared review vs waiting (Review\'s own track, key docs, live)', page, async () => {
+    const C = fx.reviews ? 1601 : null;
+    const st = await page.evaluate(() => ({keyOnly: Object.keys(reviews).length > 0, store: [...window.__pt.store.keys()].filter(k => /^reviews\/(k_2024-Knox-AT2|p_2024-Knox-AT2$|paper_1601$)/.test(k)),
+      q1601: B.questions.filter(q => q.doc === 1601).map(q => window.__pt.store.has('reviews/q' + q.id)).filter(Boolean).length,
+      work: {c: paperWork(1601).n, w: paperWork(323).n}, rs: {c: PQ.reviewState(PQ.model().byId.get(1601)), w: PQ.reviewState(PQ.model().byId.get(323))},
+      look: ['clr', 'wait'].map(c => { const e = document.querySelector('#prLanes .pr-sq .pr-b.' + c), cs = getComputedStyle(e); return [cs.backgroundColor, cs.borderTopWidth, cs.borderTopColor] })}));
+    assert(C && st.store.some(k => k.startsWith('reviews/k_')) && st.store.includes('reviews/p_2024-Knox-AT2') && !st.store.includes('reviews/paper_1601') && st.q1601 === 0, `1601 should be decided by key docs only: ${JSON.stringify(st.store.slice(0, 4))} q docs ${st.q1601}`);
+    assert(st.work.c === 0 && st.work.w > 0 && st.rs.c === 'cleared' && st.rs.w === 'waiting', `Review's track: 1601 ${st.work.c} left (${st.rs.c}), 323 ${st.work.w} left (${st.rs.w})`);
+    assert(st.look[0][1] === '1px' && st.look[1][1] === '2px' && st.look[0][0] === st.look[1][2] && st.look[1][0] !== st.look[0][0], `square look: cleared ${st.look[0]}, waiting ${st.look[1]}`);
+    await page.click('#prLanes [data-prb="advanced_12:5"]'); await settle(page, 600, 2);
+    let r = await page.evaluate(() => ({head: document.querySelector('#prLanes .pr-panel .pr-phead > span').textContent, chips: [...document.querySelectorAll('#prLanes .pr-panel .pr-plist li')].map(li => [li.querySelector('span').textContent, li.querySelector('.pr-chip').textContent, li.querySelector('.pr-chip').getAttribute('href')])}));
+    assert(r.head === '1 paper · imported (b5) · 0 of 1 cleared review' && r.chips.length === 1 && r.chips[0][0] === '2024 Caringbah High School AT4' && r.chips[0][1] === 'Waiting for review' && r.chips[0][2] === '#review/paper/323', `Batch 5 panel ${JSON.stringify(r)}`);
+    await page.click('#prLanes [data-prb="advanced_12:4"]'); await settle(page, 600, 2);
+    r = await page.evaluate(() => ({head: document.querySelector('#prLanes .pr-panel .pr-phead > span').textContent, chips: [...document.querySelectorAll('#prLanes .pr-panel .pr-plist li')].map(li => li.querySelector('.pr-chip').textContent)}));
+    assert(r.head === '1 paper · imported (b4) · 1 of 1 cleared review' && r.chips.join() === 'Cleared review', `Batch 4 panel ${JSON.stringify(r)}`);
+    await page.click('#prLanes .pr-panel [data-prclose]'); await settle(page, 400, 2);
+    // live: take one key doc away (as Review's undo would) and put it back; the square, the lane line and the queue's count follow
+    const k = st.store.find(x => x.startsWith('reviews/k_')), saved = await page.evaluate(k => JSON.parse(JSON.stringify(window.__pt.store.get(k))), k);
+    const look = () => page.evaluate(() => ({sq: document.querySelector('#prLanes [data-prb="advanced_12:4"]').className.replace('pr-b ', ''), sub: document.querySelector('#prLanes .pr-lane .pr-lname small').textContent.split(' · ')[0], wait: document.querySelector('#prQueue .pr-wait')?.textContent}));
+    const before = await look();
+    await page.evaluate(k => QG.db.doc(k).delete(), k); await settle(page, 800, 2);
+    const mid = await look();
+    await page.evaluate(([k, v]) => QG.db.doc(k).set(v), [k, saved]); await settle(page, 800, 2);
+    const after = await look(); errs();
+    assert(before.sq === 'clr' && before.wait === '1 batch is waiting for review' && mid.sq === 'wait' && mid.sub === '2 batches imported (0 cleared review, 2 waiting)' && mid.wait === '2 batches are waiting for review' && after.sq === 'clr' && after.sub === '2 batches imported (1 cleared review, 1 waiting)',
+      `live: ${JSON.stringify({before, mid, after})}`);
+    return `1601 cleared through ${st.store.length} key docs, 323 waiting (${st.work.w} left); panels; live ${before.sq} → ${mid.sq} → ${after.sq}`;
   });
   await check('papers: a square opens its batch with 9 papers; Swap = tools/batches.py', page, async () => {
     await page.click('#prLanes [data-prb="advanced_12:6"]'); await settle(page, 800, 2);
@@ -1252,11 +1294,14 @@ async function papersLanes(browser, base, seed, fx) {
     assert(t.join('|') === 'Year 12 Advanced · Batch 6|Year 12 Advanced · Batch 7|Year 12 Advanced · Batch 8', `queue ${t}`);
     assert(d.map(x => x.k).join() === 'queue/advanced_12_6,queue/advanced_12_7,queue/advanced_12_8' && d.every((x, i) => x.order === i + 1 && x.course === 'advanced' && x.yl === '12' && x.by === 'u_pagetest'), `queue docs ${JSON.stringify(d)}`);
     const sq = await page.evaluate(() => [...document.querySelectorAll('#prLanes .pr-sq .pr-b')].map(b => b.className.replace('pr-b ', '').replace(' on', '')).join(' '));
-    assert(sq === 'done queued queued queued', `squares after queueing: ${sq}`);
-    const r = await page.evaluate(() => ({st: [...document.querySelectorAll('#prQueue .pr-qs')].map(s => s.textContent), foot: document.querySelector('#prQueue .pr-qfoot').textContent.replace(/\s+/g, ' '), lim: document.querySelector('#prQueue .pr-limit').textContent, api: document.querySelector('#prQueue .pr-api').textContent, head: document.querySelector('#prQueue .pr-qhead span').textContent, all: document.querySelector('[data-pradd="all"]').disabled}));
+    assert(sq === 'clr wait queued queued queued', `squares after queueing: ${sq}`);
+    const r = await page.evaluate(() => ({st: [...document.querySelectorAll('#prQueue .pr-qs')].map(s => s.textContent), foot: document.querySelector('#prQueue .pr-qfoot').textContent.replace(/\s+/g, ' '), lim: document.querySelector('#prQueue .pr-limit'), txt: document.querySelector('#prQueue').textContent, est: document.querySelector('#prQueue .pr-est').textContent, api: document.querySelector('#prQueue .pr-api').textContent, head: document.querySelector('#prQueue .pr-qhead span').textContent, all: document.querySelector('[data-pradd="all"]').disabled,
+      wait: (() => { const w = document.querySelector('#prQueue .pr-startrow .pr-wait'), s = document.querySelector('#prQueue .pr-startrow #prQStart'); return w && {t: w.textContent, tag: w.tagName, ctl: !!w.querySelector('button,a,input'), start: s && !s.disabled, beside: Math.abs(w.getBoundingClientRect().top + w.getBoundingClientRect().height / 2 - (s.getBoundingClientRect().top + s.getBoundingClientRect().height / 2)) < 12} })()}));
     assert(r.st.join() === 'Next,Waiting,Waiting', `states ${r.st}`);
     assert(r.foot === '3 batches · 23 papersEst. US$276–391' || r.foot === '3 batches · 23 papers Est. US$276–391', `footer “${r.foot}”`);
-    assert(/^Stops when 3 batches are waiting for review/.test(r.lim) && r.api === 'Until the import API is connected, this sends the queue to Claude.' && /Stops when 3 batches are waiting for review, or early if a batch comes back with unusual problems\./.test(r.head), `limit texts: ${r.lim} / ${r.api} / ${r.head}`);
+    // owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import"
+    assert(!r.lim && !/Stops when \d|before the lock|limit/i.test(r.txt) && r.head === 'Runs top to bottom until the queue is empty. Stops early only if a batch comes back with unusual problems.' && r.est === 'Estimate US$12–17 a paper' && r.api === 'Until the import API is connected, this sends the queue to Claude.', `queue texts: ${r.head} / ${r.est} / ${r.api} / lock text ${!!r.lim}`);
+    assert(r.wait && r.wait.t === '1 batch is waiting for review' && r.wait.tag === 'SPAN' && !r.wait.ctl && r.wait.start && r.wait.beside, `waiting count beside Start (information only): ${JSON.stringify(r.wait)}`);
     assert(r.all, 'Queue all should be disabled with every batch queued');
     await page.click('#prQueue [data-prq-id="advanced_12_6"][data-prqmv="1"]'); await settle(page, 1000, 2);
     t = await qtitles(page); d = (await docs(page, 'queue')).sort((a, b) => a.order - b.order);
@@ -1267,12 +1312,22 @@ async function papersLanes(browser, base, seed, fx) {
     await page.click('#prQStart'); await settle(page, 1200, 2);
     const runs = await docs(page, 'runs'), card = await page.evaluate(() => document.querySelector('#prQueue .pr-run')?.textContent || '');
     errs();
-    assert(runs.length === 1 && runs[0].kind === 'queue' && runs[0].status === 'requested' && runs[0].limit === 3 && runs[0].queue.map(x => x.batch).join() === '7,6' && runs[0].queue[0].papers.length === 9 && runs[0].by === 'u_pagetest', `runs doc ${JSON.stringify(runs)}`);
+    assert(runs.length === 1 && runs[0].kind === 'queue' && runs[0].status === 'requested' && !('limit' in runs[0]) && runs[0].stop_early && runs[0].stop_early.your_calls === 13 && runs[0].queue.map(x => x.batch).join() === '7,6' && runs[0].queue[0].papers.length === 9 && runs[0].by === 'u_pagetest', `runs doc ${JSON.stringify(runs)}`);
     assert(/Sent to Claude/.test(card) && !(await page.$('#prQStart')), `after Start: “${card}”`);
     await page.click('#prQCancel'); await settle(page, 1000, 2);
     const c = await docs(page, 'runs');
     assert(c[0].status === 'cancelled' && !!(await page.$('#prQStart')), `after Cancel: ${c[0].status}`);
-    return 'queue/advanced_12_6..8 written in order; ↓ and × reach the db; limit 3; runs doc kind queue; Cancel';
+    return 'queue/advanced_12_6..8 written in order; ↓ and × reach the db; no lock (no limit), waiting count beside Start; runs doc kind queue; Cancel';
+  });
+  // owner 14 Nov review: the queue line wrapped "Batch 10" at 1280 px. A queued batch numbered 10 (no such batch in the fixture lane:
+  // listed by name only) must keep "<lane> · Batch 10" on one line, and "Batch 10" is never split.
+  await check('queue: "Batch 10" stays on one line at 1280px', page, async () => {
+    await page.evaluate(() => QG.db.doc('queue/advanced_12_10').set({course: 'advanced', yl: '12', batch: 10, order: 99, by: 'u_pagetest', at: new Date().toISOString()})); await settle(page, 800, 2);
+    const r = await page.evaluate(() => [...document.querySelectorAll('#prQueue .pr-qi .pr-qt b')].map(b => { const lh = parseFloat(getComputedStyle(b).lineHeight) || 20, n = b.querySelector('.pr-nw'); return {t: b.textContent, lines: Math.round(b.getBoundingClientRect().height / lh), nw: n && n.getClientRects().length} }));
+    await page.evaluate(() => QG.db.doc('queue/advanced_12_10').delete()); await settle(page, 600, 2); errs();
+    const b10 = r.find(x => /Batch 10$/.test(x.t));
+    assert(b10 && r.every(x => x.lines === 1 && x.nw === 1), `queue titles ${JSON.stringify(r)}`);
+    return r.map(x => x.t).join(' | ');
   });
   await check('papers: Run the cover-page check records a request in runs', page, async () => {
     await page.click('#prLanes [data-prcover]'); await settle(page, 1000, 2);
@@ -1286,7 +1341,7 @@ async function papersLanes(browser, base, seed, fx) {
     await page.click('#prLanes a[href="#processes/papers/check"]'); await settle(page, 1500, 2);
     let r = await page.evaluate(() => ({hash: location.hash, main: document.querySelector('#prMainWrap').hidden, chk: !document.querySelector('#prCheck').hidden, hist: document.querySelector('#procHist').hidden,
       h: [...document.querySelectorAll('#prCheck h3')].map(h => h.textContent), rules: [...document.querySelectorAll('#prCheck .pr-rule')].map(x => x.querySelector('.pr-rt b').textContent + ' ' + x.querySelector('.pr-rn').textContent),
-      rows: [...document.querySelectorAll('#prCheck .pr-place')].map(x => +x.dataset.prplace), acc: document.querySelector('#prAccept')?.textContent, cover: !!document.querySelector('#prCheck .pr-cover')}));
+      rows: [...document.querySelectorAll('#prCheck .pr-place')].map(x => +x.dataset.prplace), acc: document.querySelector('#prAccept')?.textContent, cover: [...document.querySelectorAll('#prCheck .pr-place')].every(x => x.querySelectorAll('.pr-pages .pr-pg').length === 4)}));
     assert(r.hash === '#processes/papers/check' && r.main && r.chk && r.hist, `the check view: ${JSON.stringify(r)}`);
     assert(r.h.join('|') === 'Needs a check|1 paper placed by better rules|2 for you to place' && r.acc === 'Accept all 1', `headings ${r.h} / ${r.acc}`);
     assert(r.rules[0] === '"EXT1" written without a space, or a "Y12 Ext1" folder 1 paper' && r.rules.length === 4, `rules ${r.rules}`);
@@ -1297,21 +1352,49 @@ async function papersLanes(browser, base, seed, fx) {
     await page.click('#prAccept'); await settle(page, 1200, 2);
     const acc = await docs(page, 'scans');
     assert(acc.length === 1 && acc[0].k === 'scans/rules' && acc[0].accepted === true && acc[0].version === 2 && acc[0].by === 'u_pagetest', `scans/rules ${JSON.stringify(acc)}`);
-    // place: Ascham 2019 (year level not known) as Year 12 Advanced -> ready, old syllabus (before 2020); the Barker file not in scope
+    // owner 14 Nov (mockup): the rules' course guess is pre-picked, not saved: Ascham 2019 shows Advanced pressed and no paperfix yet
+    const pre = await page.evaluate(() => ({c: [...document.querySelectorAll('#prCheck [data-prplace="9140"] [data-prc]')].filter(b => b.getAttribute('aria-pressed') === 'true').map(b => b.dataset.prc),
+      y: [...document.querySelectorAll('#prCheck [data-prplace="9140"] [data-pryl]')].filter(b => b.getAttribute('aria-pressed') === 'true').length, n: [...window.__pt.store.keys()].filter(k => k.startsWith('paperfix/')).length,
+      none: [...document.querySelectorAll('#prCheck [data-prplace="9601"] [aria-pressed="true"]')].length}));
+    assert(pre.c.join() === 'advanced' && pre.y === 0 && pre.n === 0 && pre.none === 0, `pre-pick: ${JSON.stringify(pre)}`);
+    // place: Ascham 2019 (year level not known) as Year 12 -> with the pre-picked Advanced: ready, old syllabus (before 2020); the Barker file not in scope
     await page.click('#prCheck [data-prplace="9140"] [data-pryl="12"]'); await settle(page, 800, 2);
-    await page.click('#prCheck [data-prplace="9140"] [data-prc="advanced"]'); await settle(page, 800, 2);
     await page.click('#prCheck [data-prplace="9601"] [data-prout]'); await settle(page, 800, 2);
     const fx2 = await docs(page, 'paperfix'), res = await page.evaluate(() => ({h: [...document.querySelectorAll('#prCheck h3')].map(h => h.textContent), res: [...document.querySelectorAll('#prCheck .pr-res')].map(x => x.textContent)}));
     const a = fx2.find(x => x.k === 'paperfix/p9140'), b = fx2.find(x => x.k === 'paperfix/p9601');
     assert(a && a.yl === 12 && a.course === 'advanced' && !a.out && a.files.join() === '9140' && a.by === 'u_pagetest' && b && b.out === true, `paperfix docs ${JSON.stringify(fx2)}`);
     assert(res.h.includes('0 for you to place') && res.res.some(x => /Placed: Year 12 Advanced · ready to import, old syllabus/.test(x)) && res.res.some(x => /Set aside: not in scope/.test(x)), `after placing: ${JSON.stringify(res)}`);
+    // owner 14 Nov: the cover + 3 question pages (9140 has a pack; 9601 placeholders) and "Open the whole PDF in Drive"
+    const pg = await page.evaluate(() => { const row = id => document.querySelector(`#prCheck [data-prplace="${id}"]`);
+      return {a: [...row(9140).querySelectorAll('.pr-pages button.pr-pg')].map(b => [b.dataset.prpg, b.querySelector('img')?.src.slice(0, 22), b.textContent]), ph: [...row(9601).querySelectorAll('.pr-pages .pr-pgph')].length, phBtn: row(9601).querySelectorAll('.pr-pages button').length,
+        drive: [...row(9140).querySelectorAll('a.pr-drive')].map(a => [a.textContent, a.getAttribute('href'), a.target, a.rel]), drive2: row(9601).querySelectorAll('a.pr-drive').length} });
+    assert(pg.a.length === 4 && pg.a.every((x, i) => x[0] === '9140:' + i && x[1] === 'data:image/png;base64,') && pg.a.map(x => x[2]).join() === 'Cover,Page 3,Page 6,Page 9', `9140 pages ${JSON.stringify(pg.a)}`);
+    assert(pg.ph === 4 && pg.phBtn === 0, `9601 placeholders ${pg.ph} (buttons ${pg.phBtn})`);
+    assert(pg.drive.length === 1 && pg.drive[0][0] === 'Open the whole PDF in Drive' && pg.drive[0][1] === 'https://drive.google.com/file/d/1fixtureAscham9140abcdEF/view' && pg.drive[0][2] === '_blank' && /noopener/.test(pg.drive[0][3]) && pg.drive2 === 0, `Drive link ${JSON.stringify(pg.drive)} / 9601 ${pg.drive2}`);
+    // the viewer: click page 2 of 4, → → ← ← ←, Esc; focus back on the page clicked
+    await page.click('#prCheck [data-prpg="9140:1"]'); await settle(page, 500, 2);
+    const vw = () => page.evaluate(() => { const d = document.querySelector('#prView'); return {open: !!(d && d.open), t: d?.querySelector('#prViewT').textContent, n: d?.querySelector('.pr-vn').textContent, src: d?.querySelector('img').src.length, alt: d?.querySelector('img').alt, modal: !!(d && d.matches(':modal')), focus: document.activeElement?.getAttribute('aria-label') || document.activeElement?.dataset.prpg, btns: d ? [...d.querySelectorAll('button')].map(b => b.getAttribute('aria-label')) : []} });
+    const full = JSON.parse(ck.packs['data/check/9140.json']).pages.map(p => p.full.length), seen = [];
+    let v = await vw(); seen.push(v.n);
+    assert(v.open && v.modal && v.t === '2019 Ascham School AT3: Page 3' && v.n === '2 of 4' && v.src === full[1] && v.alt === 'Page 3 of the PDF' && v.focus === 'Close' && v.btns.join() === 'Close,Previous page,Next page', `viewer opened: ${JSON.stringify(v)}`);
+    for (const k of ['ArrowRight', 'ArrowRight', 'ArrowLeft', 'ArrowLeft', 'ArrowLeft']) { await page.keyboard.press(k); await settle(page, 300, 1); v = await vw(); seen.push(v.n + (v.src === full[+v.n[0] - 1] ? '' : ' (wrong picture)')) }
+    assert(seen.join('|') === '2 of 4|3 of 4|4 of 4|3 of 4|2 of 4|1 of 4', `stepping: ${seen.join(' | ')}`);
+    await page.keyboard.press('ArrowLeft'); await settle(page, 300, 1); v = await vw(); seen.push(v.n);
+    await page.keyboard.press('Escape'); await settle(page, 400, 2);
+    const closed = await vw(), foc = await page.evaluate(() => document.activeElement?.dataset.prpg);
+    errs();
+    assert(v.n === '4 of 4' && !closed.open && foc === '9140:1', `wrap ${v.n}; after Esc open ${closed.open}, focus on ${foc}`);
+    await page.click('#prCheck [data-prpg="9140:3"]'); await settle(page, 400, 2);
+    await page.click('#prView [data-prvx]'); await settle(page, 400, 2);
+    const c2 = await vw(), foc2 = await page.evaluate(() => document.activeElement?.dataset.prpg);
+    assert(!c2.open && foc2 === '9140:3', `× closes and refocuses: open ${c2.open}, focus ${foc2}`);
     await page.evaluate(() => document.querySelector('#prCheck .pr-back').click()); await settle(page, 1500, 2);
     const back = await page.evaluate(() => location.hash === '#processes/papers' && !document.querySelector('#prMainWrap').hidden && document.querySelector('#prCheck').hidden);
     const t = await tiles(page), L = laneTally(inv); errs();
     assert(back, '← Import papers did not lead back to the lanes');
     // Accept: 9141 -> Extension 1 (held); 9140 -> ready; 9601 -> not in scope; the four numbers still add up
     assert(t.check.n === 0 && t.ready.n === L.ready + 1 && t.aside.n === L.aside + 2 && t.imported.n + t.ready.n + t.check.n + t.aside.n === L.n, `tiles after Accept and placing ${JSON.stringify(t)}`);
-    return 'Accept writes scans/rules; Year 12 + Advanced and Not in scope write paperfix; the summary follows and still adds up';
+    return 'Accept writes scans/rules; Advanced pre-picked, Year 12 and Not in scope write paperfix; 4 pages + placeholders, viewer ← → Esc, Drive link; the summary follows and still adds up';
   });
   await check('papers: Import history collapsed at the bottom', page, async () => {
     const a = await page.evaluate(() => { const h = document.querySelector('#procHist'); return {open: h.open, hidden: h.hidden, sum: h.querySelector('summary').textContent.trim(), inside: ['.tiles', '.bgrp'].every(s => h.querySelector('#importBox ' + s))} });

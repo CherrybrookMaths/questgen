@@ -1788,8 +1788,10 @@ a.plink:hover{text-decoration:underline}
 /* two panels: the lanes (wide) and the queue; they stack when the window is narrow */
 .procs .pr-main{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start}
 .procs .pr-card{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
-.procs .pr-lanes{flex:999 1 560px;display:flex;flex-direction:column}
-.procs .pr-queue{flex:1 1 360px;display:flex;flex-direction:column;gap:10px}
+/* owner 14 Nov review: at 1280 px the queue line wrapped "Batch 10": the queue's basis is the width of its widest line (a lane
+   name, "Batch 10", Waiting, ↑ ↓ ×), and the lanes give up 60 px so the two panels still sit side by side from about 1000 px */
+.procs .pr-lanes{flex:999 1 500px;display:flex;flex-direction:column}
+.procs .pr-queue{flex:1 1 430px;display:flex;flex-direction:column;gap:10px}
 .procs .pr-lhead,.procs .pr-qhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding-bottom:8px}
 .procs .pr-qhead{flex-direction:column;padding-bottom:0}
 .procs .pr-lhead h4,.procs .pr-qhead h4{margin:0;font:600 11.5px var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
@@ -1803,10 +1805,13 @@ a.plink:hover{text-decoration:underline}
 .procs .pr-lacts .act:disabled{opacity:.45;cursor:default}
 .procs a.act.pr-link{font:600 13px var(--sans);border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:6px;padding:6px 12px;text-decoration:none}
 .procs a.act.pr-link:hover{border-color:var(--accent)}
-/* a square per batch of 9 (imported / in the queue / ready, current syllabus / ready, old syllabus) */
+/* a square per batch of 9 (cleared review / imported, waiting for review / in the queue / ready, current syllabus / ready, old syllabus)
+   owner 14 Nov: "I would like to see how many of the batches have cleared checks on the import page too": solid green = cleared,
+   pale green with a 2px green border = imported, waiting for review */
 .procs .pr-sq{display:flex;flex-wrap:wrap;gap:4px}
 .procs .pr-b{width:18px;height:18px;padding:0;border-radius:4px;box-sizing:border-box;border:1px solid var(--line2);background:var(--bg);cursor:pointer;flex:none}
-.procs .pr-b.done{background:var(--ok);border-color:var(--ok)}
+.procs .pr-b.clr{background:var(--ok);border-color:var(--ok)}
+.procs .pr-b.wait{background:color-mix(in srgb,var(--ok) 18%,var(--panel));border:2px solid var(--ok)}
 .procs .pr-b.queued{background:var(--accent);border-color:var(--accent)}
 .procs .pr-b.cur{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 35%,var(--line2))}
 .procs .pr-b.old{background:var(--bg);border-color:var(--line2)}
@@ -1825,6 +1830,8 @@ a.plink:hover{text-decoration:underline}
 .procs .pr-swap{font-size:12px;padding:3px 8px;flex:none}
 .procs .pr-chip{font:500 11px var(--sans);padding:1px 7px;border-radius:999px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap;flex:none}
 .procs .pr-chip.ok{border-color:var(--ok);color:var(--ok)}
+.procs a.pr-chip.pr-wt{border:2px solid var(--ok);background:color-mix(in srgb,var(--ok) 12%,var(--panel));color:var(--ink);text-decoration:none;padding:0 6px}
+.procs a.pr-chip.pr-wt:hover{text-decoration:underline}
 .procs .pr-note{margin:0;font-size:12px;color:var(--muted)}
 /* locked courses, one folded row; the legend */
 .procs .pr-lock{border-top:1px solid var(--line);padding:12px 0 4px}
@@ -1842,14 +1849,16 @@ a.plink:hover{text-decoration:underline}
 .procs .pr-qi.done{opacity:.6}
 .procs .pr-qn{flex:none;width:18px;font:600 13px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
 .procs .pr-qt{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
-.procs .pr-qt b{font-size:13.5px;font-weight:600;overflow-wrap:anywhere}.procs .pr-qt small{font-size:12px;color:var(--muted)}
+.procs .pr-qt b{font-size:13.5px;font-weight:600;overflow-wrap:anywhere}.procs .pr-qt b .pr-nw{white-space:nowrap}.procs .pr-qt small{font-size:12px;color:var(--muted)}
 .procs .pr-qs{flex:none;font:600 12px var(--sans);color:var(--muted)}.procs .pr-qi.next .pr-qs{color:var(--accent)}
 .procs .pr-qacts{flex:none;display:inline-flex}.procs .pr-qacts .nbtn{width:26px}
 .procs .pr-qfoot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
 .procs .pr-start{padding:9px 14px;font-size:14px}
 .procs .pr-start:disabled{opacity:.45;cursor:default}
-.procs .pr-limit,.procs .pr-api{margin:0;font-size:12px;color:var(--muted)}
-.procs .pr-limit{color:var(--ink)}
+.procs .pr-est,.procs .pr-api{margin:0;font-size:12px;color:var(--muted)}
+/* owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import": the waiting count beside Start is information only */
+.procs .pr-startrow{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px}
+.procs .pr-wait{font-size:12.5px;color:var(--muted)}
 .procs .pr-run{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:10px 12px;border:1px solid var(--accent);border-radius:8px;background:var(--accent-soft)}
 .procs .pr-run b{font-size:13.5px}.procs .pr-run small{font-size:12px;color:var(--muted)}
 /* Needs a check (#processes/papers/check) */
@@ -1873,7 +1882,22 @@ a.plink:hover{text-decoration:underline}
 .procs .pr-see li{display:flex;flex-direction:column;font-size:12.5px;min-width:0}
 .procs .pr-place{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-start;border:1px solid var(--line);border-radius:8px;padding:12px 14px}
 .procs .pr-place.done{border-color:color-mix(in srgb,var(--ok) 40%,var(--line))}
-.procs .pr-cover{flex:none;width:72px;height:96px;display:flex;align-items:center;justify-content:center;background:var(--panel);border:1px solid var(--line2);border-radius:4px;font-size:11px;color:var(--muted)}
+/* owner 14 Nov: the cover + 3 question pages (click: full size in the viewer) and the Drive link */
+.procs .pr-pages{flex:none;display:flex;gap:6px}
+.procs .pr-pg{flex:none;width:58px;display:flex;flex-direction:column;align-items:center;gap:2px;padding:2px;border:1px solid var(--line2);border-radius:4px;background:var(--panel);font:500 10.5px var(--sans);color:var(--muted)}
+.procs button.pr-pg{cursor:zoom-in}.procs button.pr-pg:hover{border-color:var(--accent)}
+.procs .pr-pg:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.procs .pr-pg img{display:block;width:54px;height:auto;background:#fff}
+.procs .pr-pgph{height:96px;justify-content:center;border-style:dashed;box-sizing:border-box}
+.procs .pr-drive{font-size:13px;color:var(--accent);text-decoration:none;align-self:flex-start}.procs .pr-drive:hover{text-decoration:underline}
+.procs .pr-view{width:min(920px,calc(100vw - 32px));max-height:calc(100vh - 32px);padding:0;border:1px solid var(--line2);border-radius:10px;background:var(--panel);color:var(--ink);overflow:hidden}
+.procs .pr-view::backdrop{background:rgb(0 0 0 / .55)}
+.procs .pr-vhead{display:flex;align-items:center;gap:8px 12px;padding:8px 10px 8px 16px;border-bottom:1px solid var(--line)}
+.procs .pr-vhead b{flex:1;min-width:0;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.procs .pr-vn{font-size:12.5px;color:var(--muted);flex:none}
+.procs .pr-vbody{display:flex;align-items:center;gap:8px;padding:10px;max-height:calc(100vh - 100px)}
+.procs .pr-vbody img{flex:1;min-width:0;max-height:calc(100vh - 120px);object-fit:contain;background:#fff;border-radius:4px}
+.procs .pr-vstep{flex:none;width:40px;height:56px;border:1px solid var(--line2);border-radius:8px;background:var(--panel);color:var(--ink);font:500 24px var(--sans);cursor:pointer}
+.procs .pr-vstep:hover{border-color:var(--accent)}.procs .pr-vstep:focus-visible,.procs .pr-view .pr-x:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .procs .pr-pbody{flex:1 1 300px;min-width:0;display:flex;flex-direction:column;gap:8px}
 .procs .pr-path{color:var(--ink);font-size:12.5px;white-space:normal;overflow-wrap:anywhere}
 .procs .pr-guess{font-size:13px;color:var(--muted)}
@@ -1889,6 +1913,7 @@ a.plink:hover{text-decoration:underline}
   .procs .pr-card{padding:12px}.procs .pr-lacts{margin-left:0}.procs .pr-lname{min-width:0}
   .procs .pr-plist{grid-template-columns:1fr}.procs .pr-phead>span{flex-basis:100%;order:3}.procs .pr-x{margin-left:auto}.procs .pr-b{width:22px;height:22px}
   .procs .pr-rule{grid-template-columns:minmax(0,1fr) auto}.procs .pr-rt{grid-column:1/-1}
+  .procs .pr-pg{width:52px}.procs .pr-pg img{width:48px}.procs .pr-vbody{padding:6px;gap:4px}.procs .pr-vstep{width:32px}
   .procs .pr-lock li b{min-width:0}.procs .pr-why{margin-left:0}.procs .pr-pill.pr-out{margin-left:0}}
 /* Bank topic transitions (owner 13 Nov: "animation going between all topics and a subtopic"); see bankGo in 07_bank.js */
 #list{view-transition-name:bk-list}
@@ -3305,7 +3330,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
     if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes')renderProcesses()},()=>{})}catch(e){}}
     if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);if(v){PROG=v;if(view==='processes')renderImport()}},()=>{})}catch(e){}}
     if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=RKEY.index(nx);TOPICS=null;_clean=null;
-      updateCounts(); if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh(); else if(view==='processes') renderImport()},()=>{})}   // Import history counts approved questions too (bankStats)
+      updateCounts(); if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh(); else if(view==='processes'){renderImport();let pq=null;try{pq=PQ}catch(e){}if(pq){pq.redraw();pq.run.draw()}}},()=>{})}   // Import history counts approved questions too (bankStats); owner 14 Nov: the lanes' cleared / waiting squares and the queue's waiting count follow Review live (PQ is read guarded: an early snapshot can arrive before 32_papers_q.js has run)
   }catch(e){}
 })();
 </script>
@@ -4997,6 +5022,11 @@ if(view==='processes')renderNotes();   // Processes may already be open when thi
      the lane's next batches that are not queued yet. Then the Needs a check lane (Run the cover-page check; Resolve opens
      #processes/papers/check, PQ.check in 35_papers_check.js), the locked courses folded into one row, and the legend.
    - Queue (#prQueue): PQ.run (34_papers_run.js).
+   Review state (owner 14 Nov: "I would like to see how many of the batches have cleared checks on the import page too, its good
+   to know"): an imported batch is "cleared review" when every one of its papers has finished Review's flow, else "imported,
+   waiting for review". A paper's state is Review's own per-paper track (08_review.js paperWork: every step done, no open Your
+   calls), which reads the reviews through RKEY, so key docs (reviews/k_<key>, p_<paper key>, Fix 2) count; nothing here
+   re-implements it (CODE_HEALTH rule 3). The reviews subscription (14_start.js) redraws this tab, so it updates live.
    Swap (owner's mockup: "Swap moves the paper to the end of the course and pulls the next one in") is db collection "batches",
    one doc per lane ('advanced_12'): {course, yl, swaps: [{id, by, at}]}; swapsApply below = tools/batches.py apply_swaps.
    The proposed path-rule fixes (tools/classify_paths.py RULES_PROPOSED) and the owner's answers in Needs a check (db paperfix)
@@ -5052,6 +5082,23 @@ function model(){const D=S.data;if(!D)return null;const k=accepted()+'|'+JSON.st
   const t={};(D.statuses?Object.keys(D.statuses):[]).forEach(s=>t[s]=0);ps.forEach(p=>{t[p.st]=(t[p.st]||0)+1});
   return M={D,k,ps,t,total:ps.length,byId:new Map(ps.map(p=>[p.id,p]))}}
 
+// ---- review state (owner 14 Nov: "I would like to see how many of the batches have cleared checks on the import page too")
+// 'cleared' | 'waiting' for an imported paper, from Review's own paperWork (08_review.js) on each file that has questions in the
+// bank index; null until the index has loaded. Memoised on the reviews map and the index (both replaced, never mutated).
+const RV={rv:null,b:null,m:new Map()};
+function reviewState(p){if(!B||!B.questions||typeof paperWork!=='function')return null;
+  if(RV.rv!==reviews||RV.b!==B){RV.rv=reviews;RV.b=B;RV.m=new Map()}
+  if(!RV.m.has(p.id)){const fs=(p.f||[p.id]).filter(d=>B.docs[d]&&B.questions.some(q=>q.doc===d));
+    RV.m.set(p.id,fs.every(d=>paperWork(d).n===0)?'cleared':'waiting')}
+  return RV.m.get(p.id)}
+// a batch of imported papers: cleared when every paper is (a paper not found stays waiting)
+const batchState=ps=>ps.length&&ps.every(p=>reviewState(p)==='cleared')?'clr':'wait';
+// every imported batch on the tab: [{key, n, st}] (finished batches and lane batches whose papers are all imported)
+function imported(){const m=model();if(!m)return [];return lanes().flatMap(L=>[...L.done.map(d=>({key:L.key,n:d.n,ps:d.ids.map(i=>m.byId.get(i)).filter(Boolean)})),
+  ...L.batches.filter(b=>b.done).map(b=>({key:L.key,n:b.n,ps:b.ps}))]).map(x=>({...x,st:batchState(x.ps)}))}
+// owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import": the waiting count is shown as information only
+const waiting=()=>imported().filter(x=>x.st==='wait').length;
+
 // ---- lanes and batches
 // Swap: the paper leaves its batch for the end of the lane; every later batch passes its first paper back one batch, so each
 // batch keeps its size and number. A batch with an imported paper is fixed (skipped). Same as tools/batches.py apply_swaps.
@@ -5083,28 +5130,35 @@ function tiles(){const el=$('#prSum');if(!el)return;const m=model();if(!m){el.in
   const n=k=>AREAS.find(a=>a[0]===k)[1].reduce((s,x)=>s+(m.t[x]||0),0),L=lanes();
   const what={imported:'imported',ready:'ready to import'+(L.length?' · '+L.map(x=>x.name).join(', '):''),check:'need a check (year or course unknown)',aside:'held or not in scope'};
   el.innerHTML=AREAS.map(([k])=>`<div class="pr-tile" data-k="${k}"><b>${nf(n(k))}</b><span>${esc(what[k])}</span></div>`).join('')}
-const SQW={done:'imported',queued:'in the queue',cur:'ready, current syllabus',old:'ready, old syllabus'};
-function sqState(b){if(b.done)return 'done';if(API.run&&API.run.pos(b.key,b.n))return 'queued';return b.cur?'cur':'old'}
-function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.batches.filter(b=>b.ready.length);
-  const free=todo.filter(b=>!(API.run&&API.run.pos(L.key,b.n))).length;
-  const sq=L.done.map(d=>`<button type="button" class="pr-b done" data-prb="${esc(L.key)}:${d.n}" title="Batch ${d.n}, imported" aria-label="Batch ${d.n}, imported"></button>`).join('')+
+// owner 14 Nov: imported squares split into cleared review (solid green) and imported, waiting for review (pale, green border)
+const SQW={clr:'cleared review',wait:'imported, waiting for review',queued:'in the queue',cur:'ready, current syllabus',old:'ready, old syllabus'};
+function sqState(b){if(b.done)return batchState(b.ps);if(API.run&&API.run.pos(b.key,b.n))return 'queued';return b.cur?'cur':'old'}
+// a paper's chip in the batch panel: its review state, with a link into Review when it is still waiting
+function rvChip(p){const s=reviewState(p);if(s==='cleared')return '<span class="pr-chip ok">Cleared review</span>';
+  const d=(p.f||[p.id]).find(x=>B&&B.docs[x]);return s==='waiting'&&d!=null?`<a class="pr-chip pr-wt" href="#review/paper/${esc(mainDoc(d))}">Waiting for review</a>`:'<span class="pr-chip ok">Imported</span>'}
+function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.batches.filter(b=>b.ready.length),m=model();
+  const free=todo.filter(b=>!(API.run&&API.run.pos(L.key,b.n))).length,im=imported().filter(x=>x.key===L.key),clr=im.filter(x=>x.st==='clr').length;
+  const sq=L.done.map(d=>{const s=batchState(d.ids.map(i=>m.byId.get(i)).filter(Boolean)),t=`Batch ${d.n}, ${SQW[s]}`;
+      return `<button type="button" class="pr-b ${s}${open===d.n?' on':''}" data-prb="${esc(L.key)}:${d.n}" title="${esc(t)}" aria-label="${esc(t)}" aria-expanded="${open===d.n}"></button>`}).join('')+
     L.batches.filter(b=>b.ready.length||b.done).map(b=>{const s=sqState(b),t=`Batch ${b.n}, ${SQW[s]}`;
       return `<button type="button" class="pr-b ${s}${open===b.n?' on':''}" data-prb="${esc(L.key)}:${b.n}" title="${esc(t)}" aria-label="${esc(t)}" aria-expanded="${open===b.n}"></button>`}).join('');
   return `<div class="pr-lane" data-lane="${esc(L.key)}"><div class="pr-lrow"><div class="pr-lname"><b>${esc(L.name)}</b>
-      <small>${nf(L.imported)} imported · ${nf(L.ready)} to go · ${plural(todo.length,'batch','batches')}${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.newN?` · ${nf(L.newN)} new`:''}</small></div>
+      <small>${plural(im.length,'batch','batches')} imported (${nf(clr)} cleared review, ${nf(im.length-clr)} waiting) · ${nf(L.ready)} papers to go · ${plural(todo.length,'batch','batches')}${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.newN?` · ${nf(L.newN)} new`:''}</small></div>
     <div class="pr-lacts"><button type="button" class="act" data-pradd="1" data-lane="${esc(L.key)}"${free?'':' disabled'}>+1 batch</button><button type="button" class="act" data-pradd="2" data-lane="${esc(L.key)}"${free>1?'':' disabled'}>+2 batches</button><button type="button" class="act primary" data-pradd="all" data-lane="${esc(L.key)}"${free?'':' disabled'}>Queue all ${nf(free)}</button></div></div>
     <div class="pr-sq" role="group" aria-label="${esc(L.name)} batches">${sq}</div>${open!=null?panelHTML(L,open):''}</div>`}
 // the batch panel: its papers and Swap
 function panelHTML(L,n){const d=L.done.find(x=>x.n===n),b=L.batches.find(x=>x.n===n),m=model();
-  if(d)return `<div class="pr-panel" role="region" aria-label="Batch ${n}"><div class="pr-phead"><b>Batch ${n}</b><span>${plural(d.ids.length,'paper')} · imported (${esc(d.id)})</span><button type="button" class="pr-x" data-prclose aria-label="Close batch">×</button></div>
-    <ul class="pr-plist">${d.ids.map(i=>m.byId.get(i)).filter(Boolean).map(p=>`<li><span>${esc(label(p))}</span><span class="pr-chip ok">Imported</span></li>`).join('')}</ul></div>`;
+  const rvs=ps=>{const c=ps.filter(p=>reviewState(p)==='cleared').length;return `${nf(c)} of ${nf(ps.length)} cleared review`};
+  if(d){const ps=d.ids.map(i=>m.byId.get(i)).filter(Boolean);
+    return `<div class="pr-panel" role="region" aria-label="Batch ${n}"><div class="pr-phead"><b>Batch ${n}</b><span>${plural(d.ids.length,'paper')} · imported (${esc(d.id)}) · ${rvs(ps)}</span><button type="button" class="pr-x" data-prclose aria-label="Close batch">×</button></div>
+    <ul class="pr-plist">${ps.map(p=>`<li><span>${esc(label(p))}</span>${rvChip(p)}</li>`).join('')}</ul></div>`}
   if(!b)return '';const q=API.run?API.run.pos(L.key,n):0,ready=new Set(b.ready.map(p=>p.id));
   const syl=b.ready.every(p=>p.st==='ready_old')?'old syllabus':b.ready.some(p=>p.st==='ready_old')?'current and old syllabus':'current syllabus';
-  const where=b.done?'imported':q?`in the queue, ${ord(q)}`:'not in the queue',gone=b.ps.filter(p=>!ready.has(p.id)&&p.st!=='imported');
+  const where=b.done?`imported · ${rvs(b.ps)}`:q?`in the queue, ${ord(q)}`:'not in the queue',gone=b.ps.filter(p=>!ready.has(p.id)&&p.st!=='imported');
   const last=L.batches.length?L.batches[L.batches.length-1].n:n;
   return `<div class="pr-panel" role="region" aria-label="Batch ${n}"><div class="pr-phead"><b>Batch ${n}</b><span>${plural(b.ready.length,'paper')} · ${syl} · ${esc(yrs(b.ready))} · ${where}${gone.length?` · ${gone.length} no longer ready`:''}</span>
       ${!q&&!b.done&&b.ready.length?`<button type="button" class="act" data-prqone="${esc(L.key)}:${n}">Add to the queue</button>`:''}<button type="button" class="pr-x" data-prclose aria-label="Close batch">×</button></div>
-    <ul class="pr-plist">${b.ps.map(p=>{const r=ready.has(p.id);return `<li${r?'':' class="off"'}><span title="${esc(label(p))}">${esc(label(p))}</span>${p.st==='ready_old'?'<span class="pr-chip">old</span>':''}${p.st==='imported'?'<span class="pr-chip ok">Imported</span>':''}${r&&!b.frozen?`<button type="button" class="act pr-swap" data-prswap="${p.id}" data-lane="${esc(L.key)}">Swap</button>`:''}${!r&&p.st!=='imported'?`<span class="pr-chip">${esc((m.D.statuses||{})[p.st]||p.st)}</span>`:''}</li>`}).join('')}</ul>
+    <ul class="pr-plist">${b.ps.map(p=>{const r=ready.has(p.id);return `<li${r?'':' class="off"'}><span title="${esc(label(p))}">${esc(label(p))}</span>${p.st==='ready_old'?'<span class="pr-chip">old</span>':''}${p.st==='imported'?rvChip(p):''}${r&&!b.frozen?`<button type="button" class="act pr-swap" data-prswap="${p.id}" data-lane="${esc(L.key)}">Swap</button>`:''}${!r&&p.st!=='imported'?`<span class="pr-chip">${esc((m.D.statuses||{})[p.st]||p.st)}</span>`:''}</li>`}).join('')}</ul>
     <p class="pr-note">Swap moves the paper to the end of the course and pulls the next one in. A batch keeps its papers; new papers from a rescan start new batches after Batch ${last}.</p></div>`}
 // the locked courses, folded into one row (owner 13 Nov: Year 11 held; the other courses need setup)
 function lockedHTML(m){const by=new Map();m.ps.filter(p=>p.st==='held_y11'||p.st==='held_course').forEach(p=>{const k=p.c+'|'+p.yl;if(!by.has(k))by.set(k,{c:p.c,yl:p.yl,n:0,st:p.st});by.get(k).n++});
@@ -5119,7 +5173,7 @@ function lanesHTML(){const el=$('#prLanes');if(!el)return;const m=model();if(!m)
     <div class="pr-lane pr-chk"><div class="pr-lrow"><div class="pr-lname"><b>Needs a check</b><small>${plural(m.t.needs_check||0,'paper')}: year or course not read yet. Sorted into lanes once checked.</small></div>
       <div class="pr-lacts"><button type="button" class="act" data-prcover${cc||!m.t.needs_check?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button><a class="act pr-link" href="#processes/papers/check">Resolve</a></div></div></div>
     ${lockedHTML(m)}
-    <div class="pr-legend" aria-hidden="true">${Object.entries(SQW).map(([k,w])=>`<span><i class="pr-b ${k}"></i>${esc(w[0].toUpperCase()+w.slice(1))}</span>`).join('')}</div>`;
+    <div class="pr-legend" aria-hidden="true">${Object.entries(SQW).map(([k,w])=>`<span><i class="pr-b ${k}"></i>${esc(w[0].toUpperCase()+w.slice(1))}</span>`).join('')}</div>`;   // owner 14 Nov: cleared vs waiting in the legend
   if(wasOpen&&$('#prLock'))$('#prLock').open=true}
 function redraw(){if(!isEditor()||!$('#prLanes'))return;M=null;sub();tiles();lanesHTML();if(API.check)API.check.draw()}
 function render(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
@@ -5145,7 +5199,7 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
   const one=t.closest('[data-prqone]');if(one&&API.run){const [key,n]=one.dataset.prqone.split(':');await API.run.add([{key,n:+n}]);return}
   if(t.closest('[data-prcover]')&&API.run){await API.run.coverCheck();return}});
 // scan, run, check: the parts in 33-35 hang off this object (no new page-wide name); code here reaches them through API
-const API={render,redraw,state:S,model,lanes,batch,label,course,short,laneName,laneKey,years:YN,yrs,plural,nf,accepted,rules,placedStatus,swapsApply,sub,
+const API={render,redraw,state:S,model,lanes,batch,reviewState,imported,waiting,label,course,short,laneName,laneKey,years:YN,yrs,plural,nf,accepted,rules,placedStatus,swapsApply,sub,
   cost:()=>{const c=S.data&&S.data.cost_per_paper,v=typeof c==='number'?[c,c]:Array.isArray(c)?c:c&&typeof c==='object'?[c.lo??c.min,c.hi??c.max]:null;return v&&v.length===2&&v.every(Number.isFinite)?v:null},
   usd:([lo,hi])=>{const f=x=>Math.round(x).toLocaleString('en-AU');return lo===hi?`US$${f(lo)}`:`US$${f(lo)}–${f(hi)}`},size:SIZE,
   groups:()=>(S.data&&S.data.groups)||[]};
@@ -5328,23 +5382,22 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest
 if(view==='processes')render();
 return {render,last,start,stop,classify,state:S};
 })();
-// owner 14 Nov: "we might want to run multiple batches over the night", then "Let's do 3 batches before the lock"
-// (this replaces the 13 Nov per-batch pause, "Yes, with batch pauses")
+// owner 14 Nov: "we might want to run multiple batches over the night" (this replaced the 13 Nov per-batch pause)
+// owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import" (supersedes "Let's do 3 batches before the lock")
 /* ---------- Processes › Papers › Queue (Curate: editors only) ----------
    ONE ordered list of batches across courses: db collection "queue", one doc per batch, id '<lane>_<n>' ('advanced_12_6'):
    {course, yl, batch, order, by, at}. Batches come in from the lanes (+1 batch, +2 batches, Queue all, a batch panel's Add to
    the queue); ↑ ↓ reorder (the shared writeOrder, 31_notes.js), × removes (no confirm: it can be added again).
-   Start the queue writes ONE request to db collection "runs" (as Go did): {kind:'queue', status:'requested', limit:3,
-   stop_early, queue:[{course, yl, batch, papers}], papers, est, by, at}; Cancel sets status 'cancelled' (kept). Until the
-   import API is connected, Claude runs it (tools/import_next.py follows the queue and the limit): batch after batch, stopping
-   when LIMIT imported batches are waiting for review (imported, not yet cleared in Review), or early when a batch comes back
-   with unusual problems (STOP_EARLY, IMPORT_PLAYBOOK "Queue"). Run the cover-page check writes {kind:'cover_check',
+   Start the queue writes ONE request to db collection "runs" (as Go did): {kind:'queue', status:'requested', stop_early,
+   queue:[{course, yl, batch, papers}], papers, est, by, at}; Cancel sets status 'cancelled' (kept). Until the import API is
+   connected, Claude runs it (tools/import_next.py follows the queue): every batch in it, top to bottom, until it is empty;
+   no review lock. It stops early only when a batch comes back with unusual problems (STOP_EARLY, IMPORT_PLAYBOOK "Queue").
+   "N batches are waiting for review" beside Start is information only (PQ.waiting(): imported batches whose papers have not
+   all cleared Review, by Review's own per-paper track). Run the cover-page check writes {kind:'cover_check',
    status:'requested', papers:[the Needs a check papers], by, at} to "runs" too; Claude does the check.
    No new page-wide name: PQ.run. Only editors read or write: every handler checks isEditor(). */
 PQ.run=(()=>{
 const R={q:[],runs:[],subs:{},busy:false};
-// owner 14 Nov: "Let's do 3 batches before the lock"
-const LIMIT=3;
 // unusual problems that stop the queue early (chosen 14 Nov while the owner was away; tools/import_next.py STOP_EARLY): a paper
 // that loaded no questions, 3 or more pages the parser could not read, or more than 12 Your calls in one batch
 const STOP_EARLY={failed_papers:1,failed_pages:3,your_calls:13};
@@ -5367,15 +5420,17 @@ function draw(){const el=$('#prQueue');if(!el||!isEditor())return;if(!PQ.state.d
   const L=items(),n=live(),np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np),run=active('queue');
   const row=(i,k)=>{const f=i.f,nm=f?f.lane.name:PQ.laneName(i.x.course,String(i.x.yl)),st=i.done?'Imported':k===0?(run&&run.status==='running'?'Running':'Next'):'Waiting';
     return `<li class="pr-qi${!i.done&&k===0?' next':''}${i.done?' done':''}" data-prq="${esc(i.x.id)}"><span class="pr-qn" aria-hidden="true">${i.done?'✓':k+1}</span>
-      <span class="pr-qt"><b>${esc(nm)} · Batch ${esc(i.x.batch)}</b><small>${i.done?'imported':`${PQ.plural(i.ready.length,'paper')}${i.ready.length?' · '+esc(PQ.yrs(i.ready)):''}`}</small></span>
+      <span class="pr-qt"><b>${esc(nm)} · <span class="pr-nw">Batch ${esc(i.x.batch)}</span></b><small>${i.done?'imported':`${PQ.plural(i.ready.length,'paper')}${i.ready.length?' · '+esc(PQ.yrs(i.ready)):''}`}</small></span>
       <span class="pr-qs">${st}</span><span class="pr-qacts">${i.done?'':`<button type="button" class="nbtn" data-prqmv="-1" data-prq-id="${esc(i.x.id)}" aria-label="Move up"${k===0?' disabled':''}>↑</button><button type="button" class="nbtn" data-prqmv="1" data-prq-id="${esc(i.x.id)}" aria-label="Move down"${k===n.length-1?' disabled':''}>↓</button>`}<button type="button" class="nbtn ndel" data-prqdel="${esc(i.x.id)}" aria-label="Remove from the queue">×</button></span></li>`};
   let k=0;
-  el.innerHTML=`<div class="pr-qhead"><h4>Queue</h4><span>Runs top to bottom, batch after batch. Stops when ${LIMIT} batches are waiting for review, or early if a batch comes back with unusual problems.</span></div>
+  // owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import": no limit; the waiting count is information only
+  const wt=PQ.waiting(),wtxt=wt===1?'1 batch is waiting for review':`${wt?PQ.nf(wt):'No'} batches are waiting for review`;
+  el.innerHTML=`<div class="pr-qhead"><h4>Queue</h4><span>Runs top to bottom until the queue is empty. Stops early only if a batch comes back with unusual problems.</span></div>
     ${L.length?`<ol class="pr-qlist">${L.map(i=>row(i,i.done?-1:k++)).join('')}</ol>`:`<p class="pempty">Nothing queued. Add batches from a course: +1 batch, or click a square.</p>`}
     <div class="pr-qfoot"><span>${PQ.plural(n.length,'batch','batches')} · ${PQ.plural(np,'paper')}</span><span>${c.est?'Est. ':'Cost '}${np?PQ.usd([c.lo,c.hi]):'US$0'}</span></div>
     ${run?`<div class="pr-run" role="status"><b>${run.status==='running'?'Claude is running the queue':'Sent to Claude'}</b><small>requested ${esc(clockT(run.at))}${run.status==='requested'?' · Claude starts it when importing resumes; later the import API will start it directly.':''}</small><button type="button" class="act" id="prQCancel"${R.busy?' disabled':''}>Cancel</button></div>`:
-      `<button type="button" class="act primary pr-start" id="prQStart"${!n.length||R.busy?' disabled':''}>Start the queue</button>`}
-    <p class="pr-limit">Stops when ${LIMIT} batches are waiting for review${c.est?` · estimate US$${EST[0]}–${EST[1]} a paper`:` · ${esc(PQ.usd(c.pp))} a paper`}</p>
+      `<div class="pr-startrow"><button type="button" class="act primary pr-start" id="prQStart"${!n.length||R.busy?' disabled':''}>Start the queue</button><span class="pr-wait" role="status">${wtxt}</span></div>`}
+    <p class="pr-est">${c.est?`Estimate US$${EST[0]}–${EST[1]} a paper`:`${esc(PQ.usd(c.pp))} a paper`}</p>
     <p class="pr-api">Until the import API is connected, this sends the queue to Claude.</p>`}
 function render(){if(!isEditor())return;subscribe();draw()}
 // ---- writes (editors only)
@@ -5393,7 +5448,7 @@ async function move(id,d){if(!isEditor()||!db)return;const ids=live().map(i=>i.x
   [ids[i],ids[j]]=[ids[j],ids[i]];await writeOrder(R.q,ids.concat(items().filter(i=>i.done).map(i=>i.x.id)),setOrder,()=>{PQ.redraw();draw()})}
 async function remove(id){if(!isEditor()||!db)return false;try{await db.doc('queue/'+id).delete();R.q=R.q.filter(x=>x.id!==id);PQ.redraw();draw();toast('Removed from the queue');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
 async function start(){const n=live();if(!isEditor()||!db||!n.length||active('queue'))return null;const np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np);
-  const id='r'+Date.now(),doc={kind:'queue',status:'requested',limit:LIMIT,stop_early:STOP_EARLY,queue:n.map(i=>({course:i.x.course,yl:i.x.yl,batch:+i.x.batch,papers:i.ready.map(p=>p.id)})),papers:np,est:[c.lo,c.hi],by:me||null,at:now()};
+  const id='r'+Date.now(),doc={kind:'queue',status:'requested',stop_early:STOP_EARLY,queue:n.map(i=>({course:i.x.course,yl:i.x.yl,batch:+i.x.batch,papers:i.ready.map(p=>p.id)})),papers:np,est:[c.lo,c.hi],by:me||null,at:now()};
   try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});toast('Queue sent to Claude');return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
 async function cancel(){const a=active('queue');if(!isEditor()||!db||!a)return false;const {id,...rest}=a,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
   try{await db.doc('runs/'+id).set(doc);Object.assign(a,doc);toast('Queue run cancelled');return true}catch(_){toast('Could not cancel. Try again in a moment.');return false}}
@@ -5408,7 +5463,7 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
   const dl=t.closest('[data-prqdel]');if(dl){await remove(dl.dataset.prqdel);return}
   if(t.closest('#prQStart')){await busy(start);return}
   if(t.closest('#prQCancel')){await busy(cancel);return}});
-return {render,draw,state:R,pos,add,addNext,remove,move,start,cancel,cover,coverCheck,items,LIMIT};
+return {render,draw,state:R,pos,add,addNext,remove,move,start,cancel,cover,coverCheck,items};
 })();
 if(view==='processes'&&$('#processesView').dataset.tab==='papers')PQ.run.render();
 // owner 14 Nov (mockup A, its "Needs a check" view): the papers the scan couldn't place from their folder and file name
@@ -5419,13 +5474,55 @@ if(view==='processes'&&$('#processesView').dataset.tab==='papers')PQ.run.render(
       true, by, at} (scans is editors only already). The page applies the fixes at once (PQ.model, from the inventory's
       "proposed": both outcomes are built by tools/inventory.py); Claude mirrors the doc into work/rules_accepted.json
       (tools/sync_pagedb.py) and rebuilds the inventory, which then applies them for good, in every later scan too.
-   2. "N for you to place": the rest. Each row: the paths, the rules' guess, a cover placeholder (page images exist only for
-      imported papers), Year 11 / 12 and course quick picks, Not in scope. An answer is db collection paperfix, one doc per
+   2. "N for you to place": the rest. Each row: the paths, the rules' guess, the cover and 3 question pages, an "Open the whole
+      PDF in Drive" link, Year 11 / 12 and course quick picks (the rules' course guess, and year if they read one, pre-picked
+      as the mockup shows: a pre-pick is a suggestion, saved only with the owner's own pick), Not in scope.
+   Page pictures (owner 14 Nov: "Needs a check rows show the cover + 3 pages picked at random from the question pages (enlarge
+   on click) and an 'Open the whole PDF in Drive' link"): tools/check_pages.py renders them during the cover-page check, one
+   JSON pack per paper (data/check/<id>.json: {pages:[{n, role, w, h, thumb, full}]}), listed in data/check_pages.json
+   {papers:{<id>:{path, sha256, pages}}}. The manifest is read when this view opens; each row's pack is fetched when the row
+   nears the screen, through QG.url(path, sha256), so a pack in data/assets.json comes from the asset store (Fix 1). Until a
+   paper has a pack each page is a placeholder. A click on a page opens it full size in an in-page viewer (a modal <dialog>:
+   ← / → step through the 4, Esc or × closes, focus returns to the page clicked). The Drive link is built from the file's
+   Drive id (inventory paper "g", from documents.drive_file_id): https://drive.google.com/file/d/<id>/view. An answer is db collection paperfix, one doc per
       paper, 'p<id>': {id, files, yl, course, out, by, at}; tools/inventory.py applies it (mirror page_paperfix), so a rescan
       never asks again. A paper counts as placed once it has a year and a course, or is set aside.
    No new page-wide name: PQ.check. Only editors read or write. */
 PQ.check=(()=>{
-const C={see:null,busy:false};
+const C={see:null,busy:false,man:null,manP:null,packs:{},io:null,vw:null};
+const PAGES=4;   // the cover + 3 question pages (tools/check_pages.py PICK)
+// ---- page pictures: the manifest (once), then each row's pack when the row nears the screen
+function manifest(){if(C.man||C.manP)return;C.manP=fetch(QG.url('data/check_pages.json')+(QG.assets['data/check_pages.json']?'':'?r='+Date.now())).then(r=>r.ok?r.json():null).catch(()=>null)
+  .then(m=>{C.man=(m&&m.papers&&typeof m.papers==='object')?m.papers:{};draw()})}
+function pack(id){const e=C.man&&C.man[id];if(!e||C.packs[id])return;C.packs[id]='loading';
+  fetch(QG.url(e.path,e.sha256)).then(r=>r.ok?r.json():null).catch(()=>null).then(x=>{C.packs[id]=x&&Array.isArray(x.pages)?x:'none';
+    const row=$(`#prCheck [data-prplace="${id}"] .pr-pages`);if(row)row.outerHTML=pagesHTML(PQ.model().byId.get(+id)||{id:+id})})}
+function watch(){if(C.io)C.io.disconnect();const rows=[...document.querySelectorAll('#prCheck .pr-pages[data-prwait]')];if(!rows.length)return;
+  if(!('IntersectionObserver' in window)){rows.forEach(r=>pack(r.dataset.prwait));return}
+  C.io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){C.io.unobserve(e.target);pack(e.target.dataset.prwait)}}),{rootMargin:'400px 0px'});rows.forEach(r=>C.io.observe(r))}
+const pgName=(pg,i)=>pg&&pg.role==='cover'||i===0?'Cover':`Page ${pg?pg.n:''}`.trim();
+// the 4 pages of a row: buttons with thumbnails once the pack is here, else placeholders
+function pagesHTML(p){const x=C.packs[p.id],e=C.man&&C.man[p.id];
+  if(x&&typeof x==='object')return `<div class="pr-pages" role="group" aria-label="Cover and question pages">${x.pages.slice(0,PAGES).map((pg,i)=>`<button type="button" class="pr-pg" data-prpg="${p.id}:${i}" aria-label="Open ${esc(pgName(pg,i).toLowerCase())} full size"><img src="${esc(pg.thumb)}" alt="" width="${54}" height="${Math.round(54*(pg.h||1414)/(pg.w||1000))}"><span>${esc(pgName(pg,i))}</span></button>`).join('')}</div>`;
+  const why=e?'Loading the page pictures':'The cover-page check adds a picture of this page';
+  return `<div class="pr-pages"${e&&!x?` data-prwait="${p.id}"`:''} role="group" aria-label="Cover and question pages">${Array.from({length:PAGES},(_,i)=>`<span class="pr-pg pr-pgph" role="img" aria-label="${i?'Question page':'Cover'}: no picture yet" title="${why}"><span>${i?'Page':'Cover'}</span></span>`).join('')}</div>`}
+// the Drive link: the paper's first file with a Drive id
+function driveHTML(p){const id=(p.g||[]).find(Boolean);return id&&/^[\w-]{10,}$/.test(id)?`<a class="pr-drive" href="https://drive.google.com/file/d/${esc(id)}/view" target="_blank" rel="noopener">Open the whole PDF in Drive</a>`:''}
+// ---- the viewer: one modal dialog for the page, built once
+function viewer(){let d=$('#prView');if(d)return d;d=document.createElement('dialog');d.id='prView';d.className='pr-view';d.setAttribute('aria-labelledby','prViewT');
+  d.innerHTML=`<div class="pr-vhead"><b id="prViewT"></b><span class="pr-vn" aria-live="polite"></span><button type="button" class="pr-x" data-prvx aria-label="Close">×</button></div>
+    <div class="pr-vbody"><button type="button" class="pr-vstep" data-prvs="-1" aria-label="Previous page">‹</button><img alt=""><button type="button" class="pr-vstep" data-prvs="1" aria-label="Next page">›</button></div>`;
+  ($('#processesView')||document.body).appendChild(d);
+  d.addEventListener('close',()=>{const v=C.vw;C.vw=null;const b=v&&(v.from&&v.from.isConnected?v.from:$(`#prCheck [data-prpg="${v.id}:0"]`));if(b)b.focus()});   // Esc closes it natively
+  d.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();step(-1)}else if(e.key==='ArrowRight'){e.preventDefault();step(1)}});
+  d.addEventListener('click',e=>{if(e.target===d)closeView();else if(e.target.closest('[data-prvx]'))closeView();else{const b=e.target.closest('[data-prvs]');if(b)step(+b.dataset.prvs)}});
+  return d}
+function showPage(){const v=C.vw,x=C.packs[v.id],pg=x.pages[v.i],d=viewer(),m=PQ.model(),p=m&&m.byId.get(v.id);
+  d.querySelector('#prViewT').textContent=`${p?PQ.label(p):'Paper'}: ${pgName(pg,v.i)}`;d.querySelector('.pr-vn').textContent=`${v.i+1} of ${Math.min(PAGES,x.pages.length)}`;
+  const im=d.querySelector('img');im.src=pg.full;im.alt=`${pgName(pg,v.i)} of the PDF`}
+function openView(id,i,from){const x=C.packs[id];if(!x||typeof x!=='object')return;C.vw={id:+id,i:+i,from};const d=viewer();showPage();if(!d.open)d.showModal();d.querySelector('[data-prvx]').focus()}
+function step(k){const v=C.vw;if(!v)return;const n=Math.min(PAGES,C.packs[v.id].pages.length);v.i=(v.i+k+n)%n;showPage()}
+function closeView(){const d=$('#prView');if(d&&d.open)d.close()}
 // what the rules make of a paper: its course if they named one, what is missing, the year, solutions
 function guess(p){const c=p.c!=='unknown'?PQ.short(p.c):'';
   const miss=p.c==='unknown'&&p.yl==='?'?'no course or year level in the name':p.c==='unknown'?'no course in the name':p.yl==='?'?'year level not in the name':String(p.why||'');
@@ -5442,12 +5539,16 @@ function rulesCard(m){const pr=m.D.proposed;if(!pr||(!pr.accepted&&!(pr.rules||[
       <button type="button" class="act" data-prsee="${esc(r.key)}" aria-expanded="${C.see===r.key}"${r.n?'':' disabled'}>${C.see===r.key?'Hide':'See all'}</button>
       ${C.see===r.key?`<ul class="pr-see">${r.ids.map(i=>m.byId.get(i)||(m.D.groups.flatMap(g=>g.papers).find(p=>p.id===i))).filter(Boolean).map(p=>`<li>${esc(PQ.label(p))}${p.p?`<code>${esc(p.p[0])}</code>`:''}</li>`).join('')}</ul>`:''}</div>`).join('')}</div>
     ${pr.changed_other?`<p class="pr-note">The same fixes also sort ${PQ.plural(pr.changed_other,'paper')} that are already held or not in scope into their course (Extension 1, Extension 2, Standard) or Year 11; nothing ready to import changes.</p>`:''}</div>`}
-function placeRow(p){const f=PQ.state.fix[p.id]||{},yl=f.yl?String(f.yl):'',c=f.course||'',out=!!f.out;
+// the pre-pick: what the rules read (course, and the year when they read one), until the owner answers that pick himself
+function pre(p){const f=PQ.state.fix[p.id]||{};return {yl:'yl' in f?(f.yl?String(f.yl):''):(p.yl==='11'||p.yl==='12'?p.yl:''),
+  course:'course' in f?(f.course||''):(p.c&&p.c!=='unknown'&&(PQ.state.data.courses||[]).some(x=>x.key===p.c)?p.c:'')}}
+function placeRow(p){const f=PQ.state.fix[p.id]||{},pk=pre(p),yl=pk.yl,c=pk.course,out=!!f.out;
   const pill=(attr,v,on,lab)=>`<button type="button" class="pr-pill" ${attr}="${esc(v)}" data-prp="${p.id}" aria-pressed="${on}">${esc(lab)}</button>`;
   const cs=(PQ.state.data.courses||[]).filter(x=>x.key!=='unknown');
-  const done=out||(yl&&c),res=done?(out?'Set aside: not in scope.':`Placed: ${PQ.laneName(c,yl)} · ${(PQ.state.data.statuses||{})[PQ.placedStatus(c,yl,p.y)]||''}.`):'';
-  return `<div class="pr-place${done?' done':''}" data-prplace="${p.id}"><div class="pr-cover" role="img" aria-label="Cover page preview" title="The cover-page check adds a picture of the front page">cover</div>
-    <div class="pr-pbody"><code class="pr-path">${(p.p||[PQ.label(p)]).map(esc).join('<br>')}</code><span class="pr-guess">${esc(guess(p))}</span>
+  const fy=f.yl?String(f.yl):'',fc=f.course||'';   // placed = what is saved, never the pre-pick
+  const done=out||(fy&&fc),res=done?(out?'Set aside: not in scope.':`Placed: ${PQ.laneName(fc,fy)} · ${(PQ.state.data.statuses||{})[PQ.placedStatus(fc,fy,p.y)]||''}.`):'';
+  return `<div class="pr-place${done?' done':''}" data-prplace="${p.id}">${pagesHTML(p)}
+    <div class="pr-pbody"><code class="pr-path">${(p.p||[PQ.label(p)]).map(esc).join('<br>')}</code><span class="pr-guess">${esc(guess(p))}</span>${driveHTML(p)}
       <div class="pr-picks"><span>Year</span>${['11','12'].map(y=>pill('data-pryl',y,yl===y&&!out,y)).join('')}</div>
       <div class="pr-picks"><span>Course</span>${cs.map(x=>pill('data-prc',x.key,c===x.key&&!out,x.short||x.name)).join('')}<button type="button" class="pr-pill pr-out" data-prout="${p.id}" aria-pressed="${out}">Not in scope</button></div>
       ${res?`<p class="pr-res" role="status">✓ ${esc(res)}</p>`:''}</div></div>`}
@@ -5461,25 +5562,27 @@ function draw(){const el=$('#prCheck');if(!el||el.hidden||!isEditor())return;con
     <div class="pr-card pr-cc" data-prcard="place"><div class="pr-cchead"><div><h3>${PQ.nf(left)} for you to place</h3>
       <span>The cover-page check reads each front page first; what it can't settle waits here. Your answer is kept, so a rescan never asks again.</span></div>
       <button type="button" class="act" data-prcover${cc||!all?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button></div>
-      ${mine.length?mine.map(placeRow).join(''):'<p class="pempty">Nothing left to place.</p>'}</div>`}
+      ${mine.length?mine.map(placeRow).join(''):'<p class="pempty">Nothing left to place.</p>'}</div>`;
+  manifest();watch()}
 function render(){if(!isEditor())return;draw()}
 // ---- writes (editors only)
 async function accept(){const pr=PQ.state.data&&PQ.state.data.proposed;if(!isEditor()||!db||!pr||pr.accepted||PQ.accepted())return false;
   const doc={version:pr.version,accepted:true,by:me||null,at:new Date().toISOString()};
   try{await db.doc('scans/rules').set(doc);PQ.state.acc=doc;PQ.redraw();toast('Rules accepted');return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
-async function place(id,patch){const m=PQ.model(),p=m&&m.byId.get(+id);if(!isEditor()||!db||!p)return false;const cur=PQ.state.fix[p.id]||{};
-  const doc={id:p.id,files:cur.files||p.f||[p.id],yl:cur.yl||null,course:cur.course||null,out:false,...patch,by:me||null,at:new Date().toISOString()};
+async function place(id,patch){const m=PQ.model(),p=m&&m.byId.get(+id);if(!isEditor()||!db||!p)return false;const cur=PQ.state.fix[p.id]||{},pk=pre(p);
+  const doc={id:p.id,files:cur.files||p.f||[p.id],yl:pk.yl?+pk.yl:null,course:pk.course||null,out:false,...patch,by:me||null,at:new Date().toISOString()};
   try{await db.doc('paperfix/p'+p.id).set(doc);PQ.state.fix[p.id]=doc;PQ.redraw();return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
 document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#prCheck')||!isEditor())return;
   if(t.closest('#prAccept')){C.busy=true;draw();try{await accept()}finally{C.busy=false;draw()}return}
   const see=t.closest('[data-prsee]');if(see){C.see=C.see===see.dataset.prsee?null:see.dataset.prsee;draw();return}
-  const b=t.closest('[data-prp],[data-prout]');if(b){const id=b.dataset.prp||b.dataset.prout,cur=PQ.state.fix[+id]||{};
+  const pg=t.closest('[data-prpg]');if(pg){const [id,i]=pg.dataset.prpg.split(':');openView(id,i,pg);return}
+  const b=t.closest('[data-prp],[data-prout]');if(b){const id=b.dataset.prp||b.dataset.prout,cur=PQ.state.fix[+id]||{},pp=PQ.model().byId.get(+id),pk=pp?pre(pp):{yl:'',course:''};
     if(b.dataset.prout)await place(id,{out:!cur.out});
-    else if(b.dataset.pryl)await place(id,{yl:cur.yl===+b.dataset.pryl&&!cur.out?null:+b.dataset.pryl,out:false});
-    else await place(id,{course:cur.course===b.dataset.prc&&!cur.out?null:b.dataset.prc,out:false});
+    else if(b.dataset.pryl)await place(id,{yl:pk.yl===b.dataset.pryl&&!cur.out?null:+b.dataset.pryl,out:false});
+    else await place(id,{course:pk.course===b.dataset.prc&&!cur.out?null:b.dataset.prc,out:false});
     const again=$(`#prCheck [data-prplace="${CSS.escape(id)}"]`);if(again){const k=b.dataset.pryl?`[data-pryl="${b.dataset.pryl}"]`:b.dataset.prc?`[data-prc="${CSS.escape(b.dataset.prc)}"]`:'[data-prout]';const x=again.querySelector(k);if(x)x.focus()}
     return}});   // Run the cover-page check: the Papers click handler (32_papers_q.js) takes it, here as on the lane
-return {render,draw,accept,place,guess,state:C};
+return {render,draw,accept,place,guess,state:C,openView,closeView};
 })();
 if(view==='processes'&&$('#processesView').dataset.tab==='papers')PQ.check.render();
 </script>
