@@ -51,7 +51,7 @@ const RKEY={_g:null,
   items(x){const ks=x.keys||[];return (x.items||[]).map((id,i)=>{const k=ks[i];if(!k)return id;const g=this.groups().q[k]||[];
     if(g.includes(id)&&!xq(id)?.dup_of)return id;return g.find(j=>!xq(j)?.dup_of)??g[0]??id})}};
 const paperOK=doc=>reviews['paper_'+doc]?.status==='approved';
-const chkFigsAll=q=>q.tri?q.tri.chk_figs.filter(redrawable):qFigs(q);
+const chkFigsAll=q=>q.tri?(q.tri.chk_figs||[]).filter(redrawable):qFigs(q);
 // owner 12 Nov ("yeah do that"): High-confidence diagrams (question graphs, blank axes: 48 of 50 approved) are spot-checked,
 // not checked one by one: a stable random 10% per paper (at least 1) stays in the queue. A flag on any High diagram of a
 // paper puts all of that paper's High diagrams back on full check. Already-decided diagrams always stay visible.

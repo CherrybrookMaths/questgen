@@ -18,7 +18,7 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'b
   // review notes, full tags and difficulty) comes in det, read right after start (QG.det)
   courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.json.gz',det:'data/bank/advanced/details.json.gz',dots:'data/dotpoints.json'}},
   get courseData(){return this.courses[this.course]},
-  byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false};
+  byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0};
 /* ---------- data on demand (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2") ----------
    The index (QG.bank) holds every question without its text: ids, paper, marks, parts with tags and difficulty, triage, figure
    keys (q.fk), the "hence integrate" flag (q.hx) and q.h, the topic file its text lives in (bank.files[q.h]). Lists, counts,
@@ -39,6 +39,7 @@ Object.assign(QG,{
       return JSON.parse(await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip'))).text())}
     return JSON.parse(new TextDecoder().decode(b))},
   canGz(){return typeof DecompressionStream==='function'},
+  OLD:'This browser is too old to open the question bank: please update it (Safari 16.4, Chrome 80, Firefox 113 or later).',
   url(p,v){const a=QG.assets[p];return a?(a.url||a):p+(v?'?v='+encodeURIComponent(v):'')},
   has(q){return !!q&&QG.detOK&&QG.got.has(q.id)},
   hasAll(){return QG.detOK&&QG.got.size>=(QG.bank?.questions.length||0)},
@@ -49,6 +50,8 @@ Object.assign(QG,{
   // that file's full solutions (with their text) instead of the index list.
   det(){if(QG.detOK||!QG.bank)return Promise.resolve();const b=QG.bank;
     return QG.detP||(QG.detP=QG.get(QG.courseData.det).then(d=>{if(QG.bank!==b)return;
+      // the index and the details come from one build (src = bank.json's hash); a load during a republish can mix two: read both again
+      if(d.src&&b.src&&d.src!==b.src&&!QG._remix){QG._remix=1;return QG.get(QG.courseData.bank).then(nb=>{QG.setBank(nb);return QG.det()})}   // once: a second mismatch merges what matches
       Object.entries(d.q||{}).forEach(([id,c])=>{const q=QG.byId.get(+id);if(!q)return;const {parts,solutions,...rest}=c;Object.assign(q,rest);
         if(solutions&&!QG.got.has(q.id))q.solutions=solutions;
         if(parts){const pm=new Map(q.parts.map(p=>[String(p.id),p]));Object.entries(parts).forEach(([pid,v])=>{const p=pm.get(pid);if(p)Object.assign(p,v)})}});
@@ -65,14 +68,14 @@ Object.assign(QG,{
   waitNote(){let n=document.getElementById('detWait');const on=!QG.ready(view);
     if(!on){if(n)n.hidden=true;return}
     if(!n){n=document.createElement('div');n.id='detWait';n.setAttribute('role','status');document.body.appendChild(n)}
-    n.hidden=false;n.innerHTML=QG.detFail?(QG.canGz()?'The question details did not load. <button class="act" type="button" data-detretry="1">Try again</button>':'This browser is too old to open the question bank: please update it (Safari 16.4, Chrome 80, Firefox 113 or later).'):'Loading question details…'},
+    n.hidden=false;n.innerHTML=QG.detFail?(QG.canGz()?'The question details did not load. <button class="act" type="button" data-detretry="1">Try again</button>':QG.OLD):'Loading question details…'},
   file(h){const f=QG.bank.files[h];if(!f)return Promise.resolve();
     return QG.fileP[h]||(QG.fileP[h]=QG.get(f.f+'?v='+f.s,3).then(d=>{QG.failed.delete(h);
       Object.entries(d.q||{}).forEach(([id,c])=>{const q=QG.byId.get(+id);if(!q)return;const {parts,fn,...rest}=c;
         Object.assign(q,rest);const pm=new Map(q.parts.map(p=>[p.id,p]));(parts||[]).forEach(cp=>{const p=pm.get(cp.id);if(p)Object.assign(p,cp)});
         Object.entries(fn||{}).forEach(([k,v])=>{if(QG.bank.figs[k])Object.assign(QG.bank.figs[k],v)});QG.got.add(q.id)})},
       e=>{delete QG.fileP[h];QG.failed.add(h)}))},
-  need(qs){const hs=new Set();(qs||[]).forEach(q=>{if(q&&!QG.got.has(q.id)&&q.h!=null)hs.add(q.h)});return Promise.all([...[...hs].map(QG.file),QG.det().catch(()=>{})]).then(()=>{})},
+  need(qs){const hs=new Set();(qs||[]).forEach(q=>{if(q&&!QG.got.has(q.id)&&q.h!=null)hs.add(q.h)});return Promise.all([...[...hs].map(QG.file),QG.detFail?null:QG.det()]).then(()=>{})},   // after a failure the details load again only on Try again
   needAll(){return QG.need(QG.bank.questions)},
   pending(q,mode){QG.need([q]).then(QG.fill);const bad=QG.failed.has(q.h)||QG.detFail;
     return `<div class="qbody qpend muted" data-qpend="${q.id}" data-qmode="${esc(mode)}">${bad?'This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>':'Loading question…'}</div>`},
@@ -90,7 +93,7 @@ Object.assign(QG,{
 addEventListener('hashchange',()=>QG.prefetch());
 document.addEventListener('click',e=>{const d=e.target.closest&&e.target.closest('[data-detretry]');if(!d)return;d.disabled=true;QG.detFail=false;QG.wait()});
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-qretry]');if(!b)return;const q=QG.byId.get(+b.closest('[data-qpend]').dataset.qpend);
-  b.disabled=true;QG.failed.delete(q.h);QG.need([q]).then(QG.fill)});
+  b.disabled=true;QG.failed.delete(q.h);QG.detFail=false;QG.need([q]).then(QG.fill)});
 for(const [k,f] of [['B','bank'],['DOTS','dots'],['DM','dm'],['reviews','reviews'],['db','db'],['me','me'],['EDITOR','editor'],['view','view']])
   Object.defineProperty(window,k,{get:()=>QG[f],set:v=>{QG[f]=v},configurable:true});
 let sel=null, search='', rlist=[], ridx=0, rfilter='diagrams', rstatus='todo', rdoc='', editing=null, revealed=new Set();

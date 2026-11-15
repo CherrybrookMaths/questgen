@@ -2066,6 +2066,26 @@ async function dataSplit(browser, base, seed) {
       return `index and details read as plain JSON: ${r.n} questions, Exams drawn`;
     } finally { await p.context().close() }
   });
+  await check('data: a details file that fails: the Bank says so with Try again, which then loads it', null, async () => {
+    const p = await newPage(browser, base, seed, {width: 1280, theme: 'light'}); log(p);
+    let down = true;
+    await p.route(u => /\/data\/bank\/[^/]+\/details\.json\.gz/.test(u.href), r => down ? r.fulfill({status: 500, body: 'down'}) : r.continue());
+    try {
+      await boot(p, base, '#bank');
+      await p.click('#list .subrow[data-sel]:not(.none)');
+      await p.waitForSelector('#list [data-qretry]', {timeout: 20000});
+      const n500 = p._req.filter(x => /details\.json\.gz$/.test(x.u)).length;
+      await p.waitForTimeout(3000);
+      const n2 = p._req.filter(x => /details\.json\.gz$/.test(x.u)).length;
+      takeErrs(p);   // the failed loads log 500s on purpose
+      assert(n2 === n500, `the details kept being requested after failing (${n500} → ${n2})`);
+      down = false;
+      await p.click('#list [data-qretry]');
+      await p.waitForFunction(() => QG.detOK && !document.querySelector('#list [data-qpend]') && document.querySelector('#list .card .qbody'), null, {timeout: 20000});
+      takeErrs(p);
+      return `“did not load” with Try again after ${n500} tries, no further requests; Try again loaded the details and the cards`;
+    } finally { await p.context().close() }
+  });
 }
 
 /* ---------------- question keys (Fix 2) ----------------

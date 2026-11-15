@@ -23,7 +23,7 @@ start. At 538 papers the old index would have been ~18 MB (budget 2.35 MB; the p
            computed here, once, instead of in the page: 07_bank.js homeOf reads it),
       fk = figure keys {a: all, i: inline \\exfigure, o: option figures} (05_figures.js figKeys reads it; Review counts need
            it for every question, and it comes from the question text).
-  site/data/bank/<course>/details.json.gz   (gzip) {v, q: {id: {section, review_note, pages, related, queues, solutions
+  site/data/bank/<course>/details.json.gz   (gzip) {v, src, q: {id: {every other field (section, review_note, pages, related, queues, decide_at ...), solutions
       [{id, part_id, source, meta}], tri (full), parts: {part id: {t24, tagd, dif, skills} in full}}}}: what Review, Exams,
       Reports, Difficulty and the Guide read. The page merges it into the same question objects (01_core.js QG.det) and
       those views wait for it (09_router.js route); a question card waits for it too (QG.has).
@@ -50,7 +50,7 @@ Q_CONTENT = ('stem', 'options', 'opt_table', 'layout', 'figures')            # w
 P_INDEX = ('id', 'label', 'parent', 'marks', 't24', 'dif', 'skills', 'tagd')   # part fields every list needs; the rest is content
 # job 2 (owner 16 Nov: "Yeah build it"): of those, what the start index keeps; the rest goes to details.json.gz
 Q_START = ('id', 'doc', 'number', 'type', 'marks', 'key', 'dup_of', 'decide', 'old', 'std')
-Q_DETAIL = ('section', 'review_note', 'pages', 'related', 'queues')          # + solutions, tri (full)
+# details: every other question field (section, review_note, pages, related, queues, decide_at, ...) + solutions, tri (full)
 P_START = ('id', 'label', 'parent', 'marks')                                  # + slim t24 / tagd / dif below
 P_DETAIL = ('t24', 'tagd', 'dif', 'skills')                                   # in full
 S_INDEX = ('id', 'part_id', 'source')
@@ -161,7 +161,10 @@ def split(bank, home, src=None):
         x = {kk: q[kk] for kk in Q_START if q.get(kk) not in (None, '', [])}
         if q.get('tri', {}).get('tier'): x['tri'] = {'tier': q['tri']['tier']}
         x['parts'] = [slim_part(p) for p in q['parts']]
-        dt = {kk: q[kk] for kk in Q_DETAIL if q.get(kk) not in (None, '', [])}
+        # every other question field goes to the details, listed or not (review 16 Nov: a fixed list dropped decide_at, which
+        # build_bank.py writes for a call raised after approval; a field added to build_bank later must not vanish either)
+        dt = {kk: v for kk, v in q.items() if kk not in Q_START and kk not in Q_CONTENT and kk not in ('parts', 'solutions', 'tri', 'h')
+              and v not in (None, '', [])}
         if q.get('tri'): dt['tri'] = q['tri']
         sols = []
         for s_ in q['solutions']:

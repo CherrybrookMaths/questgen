@@ -16,8 +16,9 @@ def B(m): blockers.append(m)
 def W(m): warns.append(m)
 def I(m): infos.append(m)
 def mt(p): return os.path.getmtime(p) if os.path.exists(p) else 0
+sys.path.insert(0, P + 'tools')
 def sha(p):   # one copy, in publish_set.py (job 2: it also reads the gzip bank index and details)
-    sys.path.insert(0, P + 'tools'); import publish_set; return publish_set.sha(p)
+    import publish_set; return publish_set.sha(p)
 
 if '--mark-published' in sys.argv:
     # project/ too, so tools/publish_set.py can list exactly what changed (reviewer 14 Nov). Stage 2, 15 Nov: the same file

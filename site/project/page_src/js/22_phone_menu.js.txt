@@ -1,6 +1,6 @@
 /* phone menu (owner 14 Nov: "it'll have to be some pop up or side bar right?") */
 (()=>{const btn=$('#menuBtn'),sh=$('#mSheet');const NAMES={bank:'Bank',inbox:'Review',review:'Review',papers:'Papers',processes:'Processes',levels:'Difficulty',reports:'Reports',guide:'Guide',exams:'Exams'};   // Difficulty and Reports: Review steps since 15 Nov; owner 13 Nov: Papers, Reports and Difficulty are sections of Review (the menu lists Review · Processes)
-  const sync=()=>{$('#menuCur').textContent=NAMES[view]||'Menu';$('#menuN').textContent=''   /* owner 14 Nov: "Exams 935" read as a count of exams; counts stay in the menu list */};
+  const sync=()=>{$('#menuCur').textContent=NAMES[String(view).replace(/^wait:/,'')]||'Menu';$('#menuN').textContent=''   /* owner 14 Nov: "Exams 935" read as a count of exams; counts stay in the menu list */};
   const close=()=>{sh.hidden=true;btn.setAttribute('aria-expanded','false')};
   // owner 15 Nov: the menu is grouped by area, Teach then Curate; the Curate group is there only for the owner and editors
   const link=a=>{const n=a.querySelector('.n')?.textContent||'';return `<a href="${a.getAttribute('href')}" aria-current="${a.getAttribute('aria-current')==='page'?'page':'false'}">${esc(a.firstChild.textContent)}${n?`<span class="n">${esc(n)}</span>`:''}</a>`};

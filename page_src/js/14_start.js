@@ -11,7 +11,7 @@
     const [b,d,a]=await Promise.all([QG.get(QG.courseData.bank),QG.get(QG.courseData.dots),
       fetch('data/assets.json?r='+Date.now()).then(r=>r.ok?r.json():null).catch(()=>null)]);
     QG.assets=(a&&a.assets)||{};QG.setBank(b);QG.dots=d;d.forEach(x=>QG.dm[x.id]=x);QG.det();QG.prefetch();   // job 2 (owner 16 Nov: "Yeah build it"): the details start loading at once, after the index
-  }catch(e){$('#list').innerHTML=QG.canGz()?'<div class="empty">The question bank did not load after 4 tries. <button class="act" onclick="location.reload()">Try again</button></div>':'<div class="empty">This browser is too old to open the question bank: please update it (Safari 16.4, Chrome 80, Firefox 113 or later).</div>';return}
+  }catch(e){$('#list').innerHTML=QG.canGz()?'<div class="empty">The question bank did not load after 4 tries. <button class="act" onclick="location.reload()">Try again</button></div>':'<div class="empty">'+QG.OLD+'</div>';return}
   $('#countAll').textContent=` · ${B.questions.filter(q=>!q.dup_of).length} questions`;
   const docs=Object.values(B.docs).filter(x=>B.questions.some(q=>q.doc===x.id)).sort((a,b)=>a.label.localeCompare(b.label));
   $('#docF').insertAdjacentHTML('beforeend',docs.map(x=>`<option value="${x.id}">${esc(docLabel(x))}</option>`).join(''));

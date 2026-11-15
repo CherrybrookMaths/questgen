@@ -122,7 +122,7 @@ function renderBank(){
   let qs=null, head='';
   if(search){
     // Fix 1: search reads the question text, which arrives per topic: the first search loads every topic file once
-    if(!QG.hasAll()&&!QG.failed.size){const s0=search;$('#list').innerHTML=`<div class="listhead"><h2>Search: “${esc(search)}”</h2><span class="crumb">Searching every topic…</span></div>`;
+    if(!QG.hasAll()&&!QG.failed.size&&!QG.detFail){const s0=search;$('#list').innerHTML=`<div class="listhead"><h2>Search: “${esc(search)}”</h2><span class="crumb">Searching every topic…</span></div>`;
       QG.needAll().then(()=>{if(search===s0&&view==='bank')renderBank()});return}
     const s=search.toLowerCase();
     qs=B.questions.filter(inBank).filter(q=>[qid(q),qid(q).replace(' ',''),String(q.id),srcLine(q),q.stem,...q.parts.map(p=>p.latex),...q.parts.flatMap(p=>(p.t24||[]).map(t=>(DM[t.id]?.sub||'')+' '+(DM[t.id]?.text||'')+' '+(DM[t.id]?.short||'')+' '+(p.free||[]).join(' '))),...q.parts.flatMap(p=>[...(p.skills||[]),...(p.can_use||[])])].join(' ').toLowerCase().includes(s)).slice(0,60);
@@ -150,7 +150,8 @@ function renderBank(){
   // the pill. Now the first 8 cards go in at once and the rest follow in small batches between frames.
   const L=$('#list');const gen=(L._gen=(L._gen||0)+1);
   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): a topic's questions load with its topic file the first time it opens
-  if(qs.some(q=>!QG.has(q)&&!QG.failed.has(q.h))){L.innerHTML=`<div class="lhead">${head}</div><div class="cards"><div class="empty">Loading questions…</div></div>`;typeset(L.querySelector('.lhead'));
+  if(qs.some(q=>!QG.has(q)&&!QG.failed.has(q.h))&&!QG.detFail){   // job 2: a failed details file ends the wait too (cards say so, with Try again)
+  L.innerHTML=`<div class="lhead">${head}</div><div class="cards"><div class="empty">Loading questions…</div></div>`;typeset(L.querySelector('.lhead'));
     QG.need(qs).then(()=>{if(L._gen===gen&&view==='bank')renderBank()});return}
   L.innerHTML=`<div class="lhead">${head}</div><div class="cards"></div>`;typeset(L.querySelector('.lhead'));   // owner 13 Nov: the dot-point list in the header lost its maths when cards went lazy
   // (health pass 13 Nov: the list's own enter animation, swallowed by this comment, was not restored: bankGo's view
