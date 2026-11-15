@@ -11,7 +11,9 @@ Owner: "would I have to manage version control? I don't want to have to do that.
 
 Publish mode never blocks a publish: any git problem prints a WARN and exits 0.
 What is tracked is decided by .gitignore (an allow-list); see RESUME.md "Version control"."""
-import os, re, subprocess, sys, time
+import os, re, subprocess, sys
+from datetime import datetime
+from zoneinfo import ZoneInfo
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 
 P = str(paths.ROOT)   # this checkout (a worktree snapshots its own branch)
@@ -36,10 +38,20 @@ def git(*a, check=True):
     return r.stdout.strip()
 
 
+def sydney(fmt='%Y-%m-%d %H:%M'):
+    # Sydney time whatever the machine's zone: a cloud container runs on UTC (CLAUDE.md "Read the clock before stamping")
+    return datetime.now(ZoneInfo('Australia/Sydney')).strftime(fmt)
+
+
 def versions():
+    # Tags cannot be pushed through the cloud session's GitHub proxy, so a fresh clone lacks the newest ones. Read the
+    # "publish vNNN" commit messages too, or the next publish reuses a number (v214 nearly repeated, 16 Nov).
     out = []
     for t in git('tag', '--list').split():
         m = re.fullmatch(r'(?:publish|baseline)-v(\d+)', t)
+        if m: out.append(int(m.group(1)))
+    for subj in git('log', '--format=%s', '--grep=^publish v[0-9]', check=False).splitlines():
+        m = re.match(r'publish v(\d+)\b', subj)
         if m: out.append(int(m.group(1)))
     return out
 
@@ -66,8 +78,8 @@ def publish():
         if tag in git('tag', '--list').split():
             print(f'  WARN    snapshot: tag {tag} already exists; not re-tagging (pass --version N)'); return
         subprocess.run([sys.executable, os.path.join(REPO, 'tools', 'export_db_text.py'), '--out', os.path.join(REPO, 'dbtext')], timeout=600)   # owner 14 Nov (Fix 2): questions.db as text, so git keeps its history
-        sha, made = commit_all(f'publish v{v:03d} {time.strftime("%Y-%m-%d %H:%M")}')
-        git('tag', '-a', tag, '-m', f'published {time.strftime("%Y-%m-%d %H:%M")}')
+        sha, made = commit_all(f'publish v{v:03d} {sydney("%Y-%m-%d %H:%M")}')
+        git('tag', '-a', tag, '-m', f'published {sydney("%Y-%m-%d %H:%M")}')
         print(f'snapshot: {"committed" if made else "no file changes;"} {sha}, tagged {tag}')
         try: bundle(quiet=True)
         except Exception as e: print(f'  WARN    snapshot: bundle not written: {e}')
@@ -103,8 +115,8 @@ def rollback(tag):
     print('Not rolled back: questions.db, work/, src/, page images (untracked). site/project/questions.sql at the tag is the DB dump of that time.')
     if '--yes' not in sys.argv:
         print('\nDry run. Add --yes to do it.'); return
-    stamp = time.strftime('%Y%m%d-%H%M%S')
-    sha, made = commit_all(f'pre-rollback snapshot {time.strftime("%Y-%m-%d %H:%M")}')
+    stamp = sydney('%Y%m%d-%H%M%S')
+    sha, made = commit_all(f'pre-rollback snapshot {sydney("%Y-%m-%d %H:%M")}')
     git('tag', f'pre-rollback-{stamp}', sha)
     git('restore', f'--source={tag}', '--staged', '--worktree', '--', ':/')
     sha2, made2 = commit_all(f'rollback to {tag}')

@@ -74,6 +74,10 @@ folder above, subfolder "Figure crops backup 14 Nov (tar in 21 parts)", id `1iW1
 ## Fresh session: start here
 Run from the repo root (e.g. /home/user/questgen). Shell variables do not survive between Bash calls: either restore the DB to
 the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashrc.
+0. **Time zone:** a cloud container runs on UTC and most tools stamp local time (batch_check, page_test). Prefix tool runs
+   with `TZ=Australia/Sydney` (e.g. `TZ=Australia/Sydney bash tools/prepublish.sh`). snapshot.py stamps Sydney time itself,
+   and takes the next version from the "publish vNNN" commit messages as well as the tags (tags do not reach GitHub, so a
+   fresh clone lacks the newest ones).
 1. `npm ci` (katex + mathjax for tools/check_latex.js and vendor checks).
 2. `pip install pymupdf pillow numpy scipy` (if `python3 -c "import pymupdf,PIL,numpy,scipy"` fails).
 3. Playwright for the page test: `node -e "require('playwright')"`. If that fails: `npm i --no-save playwright@1.63.0 &&
