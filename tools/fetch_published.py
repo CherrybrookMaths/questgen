@@ -33,11 +33,8 @@ def manifest():
     return json.load(open(MAN))['files']
 
 
-def sha(p):
-    sys.path.insert(0, str(paths.ROOT / 'tools'))
-    if p.name == 'bank.json' or (p.name == 'index.json' and '/data/bank/' in str(p)):   # same canonical digest as batch_check
-        d = json.load(open(p)); d.pop('built', None); return hashlib.sha256(json.dumps(d, sort_keys=True).encode()).hexdigest()
-    return hashlib.sha256(open(p, 'rb').read()).hexdigest()
+def sha(p):   # the manifest's digest: one copy, in publish_set.py
+    sys.path.insert(0, str(paths.ROOT / 'tools')); import publish_set; return publish_set.sha(p)
 
 
 def missing():

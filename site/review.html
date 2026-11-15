@@ -62,6 +62,10 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line2);border-bottom-width:
 .toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:max(16px,env(safe-area-inset-right,0px));background:var(--ink);color:var(--panel);padding:8px 14px;border-radius:6px;font-size:13px;opacity:0;transition:opacity .2s;z-index:20;pointer-events:none}
 .toast.on{opacity:1}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
+/* job 2 (owner 16 Nov: "Yeah build it"): a view other than the Bank waits for the question details (01_core.js QG.waitNote) */
+#detWait{position:fixed;top:calc(64px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);max-width:calc(100% - 32px);background:var(--panel);color:var(--ink);border:1px solid var(--line);padding:8px 14px;border-radius:6px;font-size:13px;z-index:20;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+#detWait[hidden]{display:none}
+#detWait .act{margin-left:8px}
 
 /* ---------- Bank (owner 12 Nov: warm editorial redesign) ---------- */
 .bank{display:grid;grid-template-columns:260px minmax(0,1fr);gap:28px;padding-block:22px}
@@ -2034,37 +2038,72 @@ const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'bank',course:'advanced',
   // owner 14 Nov: "Ok we should run Fix 1 and 2" (Fix 1: keep the published page small; fetch data only when needed): bank is
   // the course's small index (tools/bank_split.py); each question's text arrives with its topic file (QG.need below)
-  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.json',dots:'data/dotpoints.json'}},
+  // owner 16 Nov: "Yeah build it" (job 2): the index is slim and compressed; the rest of each question's index fields (triage,
+  // review notes, full tags and difficulty) comes in det, read right after start (QG.det)
+  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.json.gz',det:'data/bank/advanced/details.json.gz',dots:'data/dotpoints.json'}},
   get courseData(){return this.courses[this.course]},
-  byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0};
+  byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false};
 /* ---------- data on demand (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2") ----------
    The index (QG.bank) holds every question without its text: ids, paper, marks, parts with tags and difficulty, triage, figure
    keys (q.fk), the "hence integrate" flag (q.hx) and q.h, the topic file its text lives in (bank.files[q.h]). Lists, counts,
    bankStats, the exam generator and Review's tracks run on the index alone. A view that shows questions calls QG.need(qs) first;
+   Job 2 (owner 16 Nov: "Yeah build it"): the index at start holds only what the Bank needs (main tags, difficulty band and kind,
+   triage tier, figure keys); the rest of the index fields arrive in the course's details file right after start (QG.det) and
+   are merged into the same objects. Every view but the Bank waits for them (QG.ready, 09_router.js route), and so does a
+   question card (QG.has). Both files are gzip: QG.get unpacks them (DecompressionStream, browsers from 2023 on).
    qBody() of a question whose file has not arrived draws a placeholder (QG.pending) that fills itself in when it lands.
    Images (page images, figure crops, redraws, overlays) are read from the address in data/assets.json when it has one (the
    artifact's asset store, uploaded by the main session), else from the published file as before (QG.url). */
 Object.assign(QG,{
   // fetch JSON, retrying a load that fails during a republish or a network blip (3 retries, 0.8 s, 1.6 s, 2.4 s)
-  async get(u,tries=4){let err;for(let i=0;i<tries;i++){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'r='+i+'_'+Date.now());if(!r.ok)throw new Error(r.status);return await r.json()}catch(e){err=e;if(i<tries-1)await new Promise(z=>setTimeout(z,800*(i+1)))}}throw err},
+  async get(u,tries=4){let err;for(let i=0;i<tries;i++){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'r='+i+'_'+Date.now());if(!r.ok)throw new Error(r.status);return await QG.json(r)}catch(e){err=e;if(i<tries-1)await new Promise(z=>setTimeout(z,800*(i+1)))}}throw err},
+  // a .gz file arrives as gzip bytes, or already unpacked when the host sends it with Content-Encoding: read the first two bytes
+  async json(r){const b=new Uint8Array(await r.arrayBuffer());
+    if(b[0]===0x1f&&b[1]===0x8b){if(!QG.canGz())throw new Error('this browser cannot unpack the question bank');
+      return JSON.parse(await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip'))).text())}
+    return JSON.parse(new TextDecoder().decode(b))},
+  canGz(){return typeof DecompressionStream==='function'},
   url(p,v){const a=QG.assets[p];return a?(a.url||a):p+(v?'?v='+encodeURIComponent(v):'')},
-  has(q){return !!q&&QG.got.has(q.id)},
-  hasAll(){return QG.got.size>=(QG.bank?.questions.length||0)},
-  setBank(b){QG.bank=b;QG.byId=new Map(b.questions.map(q=>[q.id,q]));QG.got=new Set();QG.fileP={};QG.failed=new Set()},
+  has(q){return !!q&&QG.detOK&&QG.got.has(q.id)},
+  hasAll(){return QG.detOK&&QG.got.size>=(QG.bank?.questions.length||0)},
+  // fields that moved to the details file start as empty lists, so a list read before they arrive cannot throw
+  setBank(b){b.questions.forEach(q=>{for(const k of ['solutions','related','queues','pages'])if(!q[k])q[k]=[]});
+    QG.bank=b;QG.byId=new Map(b.questions.map(q=>[q.id,q]));QG.got=new Set();QG.fileP={};QG.failed=new Set();QG.detOK=false;QG.detP=null;QG.detFail=false},
+  // the details file (job 2): merged into the same question and part objects. A question whose topic file came first keeps
+  // that file's full solutions (with their text) instead of the index list.
+  det(){if(QG.detOK||!QG.bank)return Promise.resolve();const b=QG.bank;
+    return QG.detP||(QG.detP=QG.get(QG.courseData.det).then(d=>{if(QG.bank!==b)return;
+      Object.entries(d.q||{}).forEach(([id,c])=>{const q=QG.byId.get(+id);if(!q)return;const {parts,solutions,...rest}=c;Object.assign(q,rest);
+        if(solutions&&!QG.got.has(q.id))q.solutions=solutions;
+        if(parts){const pm=new Map(q.parts.map(p=>[String(p.id),p]));Object.entries(parts).forEach(([pid,v])=>{const p=pm.get(pid);if(p)Object.assign(p,v)})}});
+      QG.detOK=true;QG.detFail=false;QG.onDet()},
+      e=>{QG.detP=null;QG.detFail=true;QG.waitNote()}))},
+  // a view other than the Bank draws only once the details are in (09_router.js route calls QG.wait instead)
+  ready(v){return !QG.bank||v==='bank'||QG.detOK},
+  // caches built from the index are rebuilt with the full fields, then the open view is drawn again
+  onDet(){TOPICS=null;
+    for(const f of [()=>{_clean=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null}])try{f()}catch(e){}
+    QG.waitNote();route();QG.fill()},
+  wait(){QG.waitNote();QG.det()},   // onDet draws the view when they land
+  // one notice while a view waits for the details (or they failed to load)
+  waitNote(){let n=document.getElementById('detWait');const on=!QG.ready(view);
+    if(!on){if(n)n.hidden=true;return}
+    if(!n){n=document.createElement('div');n.id='detWait';n.setAttribute('role','status');document.body.appendChild(n)}
+    n.hidden=false;n.innerHTML=QG.detFail?(QG.canGz()?'The question details did not load. <button class="act" type="button" data-detretry="1">Try again</button>':'This browser is too old to open the question bank: please update it (Safari 16.4, Chrome 80, Firefox 113 or later).'):'Loading question details…'},
   file(h){const f=QG.bank.files[h];if(!f)return Promise.resolve();
     return QG.fileP[h]||(QG.fileP[h]=QG.get(f.f+'?v='+f.s,3).then(d=>{QG.failed.delete(h);
       Object.entries(d.q||{}).forEach(([id,c])=>{const q=QG.byId.get(+id);if(!q)return;const {parts,fn,...rest}=c;
         Object.assign(q,rest);const pm=new Map(q.parts.map(p=>[p.id,p]));(parts||[]).forEach(cp=>{const p=pm.get(cp.id);if(p)Object.assign(p,cp)});
         Object.entries(fn||{}).forEach(([k,v])=>{if(QG.bank.figs[k])Object.assign(QG.bank.figs[k],v)});QG.got.add(q.id)})},
       e=>{delete QG.fileP[h];QG.failed.add(h)}))},
-  need(qs){const hs=new Set();(qs||[]).forEach(q=>{if(q&&!QG.got.has(q.id)&&q.h!=null)hs.add(q.h)});return Promise.all([...hs].map(QG.file)).then(()=>{})},
+  need(qs){const hs=new Set();(qs||[]).forEach(q=>{if(q&&!QG.got.has(q.id)&&q.h!=null)hs.add(q.h)});return Promise.all([...[...hs].map(QG.file),QG.det().catch(()=>{})]).then(()=>{})},
   needAll(){return QG.need(QG.bank.questions)},
-  pending(q,mode){QG.need([q]).then(QG.fill);const bad=QG.failed.has(q.h);
+  pending(q,mode){QG.need([q]).then(QG.fill);const bad=QG.failed.has(q.h)||QG.detFail;
     return `<div class="qbody qpend muted" data-qpend="${q.id}" data-qmode="${esc(mode)}">${bad?'This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>':'Loading question…'}</div>`},
   // fill in every placeholder whose question has arrived. Review binds its buttons when it draws, so it is redrawn whole.
   fill(){if(QG._fillT)return;QG._fillT=setTimeout(()=>{QG._fillT=0;let rv=false;
     document.querySelectorAll('[data-qpend]').forEach(el=>{const q=QG.byId.get(+el.dataset.qpend);if(!q)return;
-      if(!QG.has(q)){if(QG.failed.has(q.h)&&!el.querySelector('[data-qretry]'))el.innerHTML='This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>';return}
+      if(!QG.has(q)){if((QG.failed.has(q.h)||QG.detFail)&&!el.querySelector('[data-qretry]'))el.innerHTML='This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>';return}
       if(el.closest('#rout')){rv=true;return}
       const mode=el.dataset.qmode,t=document.createElement('div');t.innerHTML=qBody(q,mode);const n=t.firstElementChild;el.replaceWith(n);hydrate(n,q,mode);typeset(n)});
     if(rv&&typeof renderReview==='function')renderReview()},0)},
@@ -2073,6 +2112,7 @@ Object.assign(QG,{
     QG.need(QG.bank.questions.filter(q=>ids.includes(String(q.doc)))).then(QG.fill)}
 });
 addEventListener('hashchange',()=>QG.prefetch());
+document.addEventListener('click',e=>{const d=e.target.closest&&e.target.closest('[data-detretry]');if(!d)return;d.disabled=true;QG.detFail=false;QG.wait()});
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-qretry]');if(!b)return;const q=QG.byId.get(+b.closest('[data-qpend]').dataset.qpend);
   b.disabled=true;QG.failed.delete(q.h);QG.need([q]).then(QG.fill)});
 for(const [k,f] of [['B','bank'],['DOTS','dots'],['DM','dm'],['reviews','reviews'],['db','db'],['me','me'],['EDITOR','editor'],['view','view']])
@@ -2684,7 +2724,8 @@ function trackHTML(w,cur){return STEPS.map(([k,l],i)=>{const n=w.left[k],t=w.tot
 function miniTrack(w){return `<span class="mtrack" role="img" aria-label="${esc(STEPS.map(([k,l])=>l+(w.left[k]?' '+w.left[k]+' left':w.total[k]?' done':' nothing in this paper')).join(', '))}">${STEPS.map(([k])=>`<i class="${w.left[k]?(k===w.at?'cur':'todo'):w.total[k]||(k==='sample'&&w.ready.length)?'done':'none'}"></i>`).join('')}</span>`}
 const workLine=w=>w.n?`${w.n} left · at ${esc(stepLabel(w.at))}`:'✓ approved';
 // Review tab and Curate switch: the Inbox total (papers to review + open reports)
-function updateCounts(){const n=todoCount();$('#todoN').textContent=n||'';const c=$('#curN');if(c)c.textContent=n||''}
+function updateCounts(){if(!QG.detOK)return;const n=todoCount();   // job 2: the to-do count reads triage, which arrives with the details
+  $('#todoN').textContent=n||'';const c=$('#curN');if(c)c.textContent=n||''}
 // review 13 Nov: the steps are walked per paper now, so "Needs your decision" and "Diagrams to approve" across every paper stay reachable here (the old step row's paper picker did that)
 const otherListsHTML=sel=>`<select data-lists aria-label="Other lists"><option value="">${sel?'Other lists…':'Choose…'}</option>${FILTERS.map(([k,l])=>`<option value="${k}"${k===sel?' selected':''}>${esc(l)}</option>`).join('')}</select>`;
 function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
@@ -2699,7 +2740,8 @@ function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
     ${card('difficulty',lv,'Difficulty','HSC reference ratings: agree or change the band and kind, one part at a time.','#review/difficulty','check plan finished')}</div>
     ${handoffHTML()}<div class="ifoot"><a href="#review/list/recent">Recently approved</a><span aria-hidden="true">·</span><label>Other lists ${otherListsHTML('')}</label></div>`}
 // draw the Review chrome for the open view: the Inbox, or the paper's track (list mode: a plain header). Also keeps the counts.
-function renderSteps(){if(!B)return {base:[]};updateCounts();
+function renderSteps(){if(!B||!QG.detOK)return {base:[]};updateCounts();   // job 2: steps count triage, which comes with the details
+  
   if(view==='inbox'){renderInbox();return {base:[]}}
   if(view==='papers'&&$('#ptable')){renderPapers();return {base:[]}}
   if(view!=='review')return {base:[]};
@@ -3074,7 +3116,7 @@ function route(){
   // While the user capability has not answered yet (EDITOR null) the Bank shows and the link is kept, so an editor's link still works once it answers.
   if(areaOf(v)==='curate'&&!isEditor()){v='bank';if(EDITOR===false)setHash('#bank')}
   // a paper (or list) needs the bank to resolve; until it loads the Inbox stands in
-  if(v==='review'&&(!B||!openReview(P)))v='inbox';
+  if(v==='review'&&(!B||(QG.ready(v)&&!openReview(P))))v='inbox';   // job 2: a paper's first step reads triage: opened once the details are in
   // Processes: the tab in the address, else the one used last (per browser), else Work; the address then names it
   if(v==='processes'&&isEditor()){const T=['work','papers'],t=T.includes(P.ptab)?P.ptab:(T.includes(load('qg_proc_tab'))?load('qg_proc_tab'):'work');
     const sub=t==='papers'&&P.ptab==='papers'&&P.psub==='check'?'check':'';
@@ -3091,6 +3133,11 @@ function route(){
   try{const cur=document.querySelector('.views a[aria-current="page"]'),nv=cur?.parentElement;if(nv&&nv.scrollWidth>nv.clientWidth)nv.scrollTo({left:cur.offsetLeft-nv.clientWidth/2+cur.offsetWidth/2,behavior:'smooth'})}catch(e){}   // owner 14 Nov: on a phone the tab row scrolls; keep the open tab in sight
   const shown=[['bank','#bankView'],['review','#reviewView'],['inbox','#inboxView'],['papers','#papersView'],['processes','#processesView'],['guide','#guideView'],['levels','#levelsView'],['reports','#reportsView'],['exams','#examsView']].find(x=>x[0]===view);
   if(shown&&window._lastView!==view){const el=$(shown[1]);if(el){el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter')}window._lastView=view}   // owner 12 Nov: tab switch animation
+  // job 2 (owner 16 Nov: "Yeah build it"): every view but the Bank draws once the question details are in (QG.det)
+  // While it waits, the view is named 'wait:<view>': every live redraw that checks view==='...' (snapshots, timers) skips until
+  // the details land and QG.onDet routes again.
+  if(!QG.ready(view)){QG.view='wait:'+view;QG.wait();return}
+  QG.waitNote();
   if(view==='processes'){renderProcesses();if(!B)return}
   if(!B) return;
   updateCounts();
@@ -3314,8 +3361,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
     // published image files, as before.
     const [b,d,a]=await Promise.all([QG.get(QG.courseData.bank),QG.get(QG.courseData.dots),
       fetch('data/assets.json?r='+Date.now()).then(r=>r.ok?r.json():null).catch(()=>null)]);
-    QG.assets=(a&&a.assets)||{};QG.setBank(b);QG.dots=d;d.forEach(x=>QG.dm[x.id]=x);QG.prefetch();
-  }catch(e){$('#list').innerHTML='<div class="empty">The question bank did not load after 4 tries. <button class="act" onclick="location.reload()">Try again</button></div>';return}
+    QG.assets=(a&&a.assets)||{};QG.setBank(b);QG.dots=d;d.forEach(x=>QG.dm[x.id]=x);QG.det();QG.prefetch();   // job 2 (owner 16 Nov: "Yeah build it"): the details start loading at once, after the index
+  }catch(e){$('#list').innerHTML=QG.canGz()?'<div class="empty">The question bank did not load after 4 tries. <button class="act" onclick="location.reload()">Try again</button></div>':'<div class="empty">This browser is too old to open the question bank: please update it (Safari 16.4, Chrome 80, Firefox 113 or later).</div>';return}
   $('#countAll').textContent=` · ${B.questions.filter(q=>!q.dup_of).length} questions`;
   const docs=Object.values(B.docs).filter(x=>B.questions.some(q=>q.doc===x.id)).sort((a,b)=>a.label.localeCompare(b.label));
   $('#docF').insertAdjacentHTML('beforeend',docs.map(x=>`<option value="${x.id}">${esc(docLabel(x))}</option>`).join(''));
@@ -3325,12 +3372,12 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
   try{
     const [dbns,user]=await Promise.all([c.use('db'),c.use('user')]);
     if(user){try{QG.me=await user.id()}catch(e){}}
-    if(dbns){try{dbns.doc('progress/jobs').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);JOBS=(v&&v.jobs)||[];renderJobs();if(view==='processes')renderProcesses()},()=>{})}catch(e){}}
+    if(dbns){try{dbns.doc('progress/jobs').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);JOBS=(v&&v.jobs)||[];renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
     // owner 14 Nov: "need a pill for current jobs and queued jobs". The queue: {items:[{id,title,detail,status,order,asked}],updated}
-    if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes')renderProcesses()},()=>{})}catch(e){}}
-    if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);if(v){PROG=v;if(view==='processes')renderImport()}},()=>{})}catch(e){}}
+    if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
+    if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);if(v){PROG=v;if(view==='processes'&&QG.ready(view))renderImport()}},()=>{})}catch(e){}}
     if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=RKEY.index(nx);TOPICS=null;_clean=null;
-      updateCounts(); if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh(); else if(view==='processes'){renderImport();let pq=null;try{pq=PQ}catch(e){}if(pq){pq.redraw();pq.run.draw()}}},()=>{})}   // Import history counts approved questions too (bankStats); owner 14 Nov: the lanes' cleared / waiting squares and the queue's waiting count follow Review live (PQ is read guarded: an early snapshot can arrive before 32_papers_q.js has run)
+      updateCounts(); if(!QG.ready(view))return; if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh(); else if(view==='processes'){renderImport();let pq=null;try{pq=PQ}catch(e){}if(pq){pq.redraw();pq.run.draw()}}},()=>{})}   // Import history counts approved questions too (bankStats); owner 14 Nov: the lanes' cleared / waiting squares and the queue's waiting count follow Review live (PQ is read guarded: an early snapshot can arrive before 32_papers_q.js has run)
   }catch(e){}
 })();
 </script>
@@ -5084,9 +5131,9 @@ function model(){const D=S.data;if(!D)return null;const k=accepted()+'|'+JSON.st
 
 // ---- review state (owner 14 Nov: "I would like to see how many of the batches have cleared checks on the import page too")
 // 'cleared' | 'waiting' for an imported paper, from Review's own paperWork (08_review.js) on each file that has questions in the
-// bank index; null until the index has loaded. Memoised on the reviews map and the index (both replaced, never mutated).
+// bank index; null until the index and the question details (job 2) have loaded. Memoised on the reviews map and the index (both replaced, never mutated).
 const RV={rv:null,b:null,m:new Map()};
-function reviewState(p){if(!B||!B.questions||typeof paperWork!=='function')return null;
+function reviewState(p){if(!B||!B.questions||!QG.detOK||typeof paperWork!=='function')return null;   // job 2: Review's work counts read triage, which comes with the details
   if(RV.rv!==reviews||RV.b!==B){RV.rv=reviews;RV.b=B;RV.m=new Map()}
   if(!RV.m.has(p.id)){const fs=(p.f||[p.id]).filter(d=>B.docs[d]&&B.questions.some(q=>q.doc===d));
     RV.m.set(p.id,fs.every(d=>paperWork(d).n===0)?'cleared':'waiting')}

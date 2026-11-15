@@ -13,6 +13,9 @@ Owner: Steve Yeung (CMC Education). Last updated 11 Nov 2026 (UI v2, diagram red
   - Since 14 Nov (Fix 1, owner: "Ok we should run Fix 1 and 2") the page reads `data/bank/advanced/index.json` at start and one
     `data/bank/advanced/<topic>.json` per topic on demand (tools/bank_split.py); image packs come from the asset store when
     `data/assets.json` lists them (IMPORT_PLAYBOOK "Asset store"). `data/bank.json` is still built for the tools.
+  - Since 16 Nov (job 2, owner: "Yeah build it") the start index is `data/bank/advanced/index.json.gz` (gzip, slim: what the
+    Bank needs) and the page reads `data/bank/advanced/details.json.gz` (triage, notes, full tags and difficulty) right after
+    start; every view but the Bank waits for it. CODE_HEALTH "Job 2" has the details.
   - Published files: `review.html`, `data/bank.json` (all parsed questions, tags and solutions shown in the tool), `data/dotpoints.json`, `data/img/<doc>.json` (page images and figure crops, one per paper), `data/svg/g0..g7.json` (redrawn diagrams, grouped by paper id % 8) and `data/cmp/g0.json` (Review overlay / first-redraw images) since 15 Nov stage 2, `project/*` (everything below).
   - Review decisions are kept in the page's database, collection `reviews`: since 14 Nov (Fix 2) one doc per question key, `k_<key>`, and `p_<paper key>` for papers; the old `q<question_id>` / `paper_<doc>` docs are still read as a fallback (IMPORT_PLAYBOOK "Question keys").
 - **Pilot report (Claude Doc):** https://claude.ai/artifact/5S6LcYaFK4h8ot2yA4WihH

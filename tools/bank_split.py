@@ -9,34 +9,50 @@ keep the published page small; fetch data only when needed. The whole 5 MB bank.
   python3 tools/bank_split.py --check  exit 1 when the split files are missing or were split from a different bank.json
                                        (by content: index.json records bank.json's sha256 as src; batch_check uses stale())
 
-Output, per course (only Advanced has data; CODE_HEALTH rule 5: the course is a folder, never typed into the page):
-  site/data/bank/<course>/index.json   docs, tables, figs, codes17, files, and every question WITHOUT its text:
-      id, doc, number, section, type, marks, old, std, dup_of, decide(_at), tri, queues, related, pages, review_note,
-      parts [{id, label, parent, marks, t24, dif, skills, tagd}], solutions [{id, part_id, source, meta: the decide flags}],
+Output, per course (only Advanced has data; CODE_HEALTH rule 5: the course is a folder, never typed into the page).
+Job 2, 16 Nov (owner: "Yeah build it", agreeing to the split and to the start-load budget counting compressed bytes): the
+index that loads at start holds only what the Bank needs; everything else waits in a details file the page reads right after
+start. At 538 papers the old index would have been ~18 MB (budget 2.35 MB; the platform refuses any file over 16 MB).
+  site/data/bank/<course>/index.json.gz   (gzip; the page unpacks it, 01_core.js QG.get) docs, tables, figs, codes17, files,
+      and every question as the Bank needs it, no text: id, doc, number, type, marks, key, dup_of, decide, old, std, h, hx, fk,
+      tri {tier} (the approved-only filter, 08_review.js qState), parts [{id, label, parent, marks, t24: primary tags only
+      [{id, primary, cov when removed/no_match}], tagd: primary dot points only per side {A|B: {dp, removed}}, dif {b, wm}}]:
+      exactly what topic homes (07_bank.js homeOf/partPri), counts, bankStats and the Bank filters (bfOK, qDifOK) read.
       h  = index into files (the question's content file = its topic home in the database, questions.home_topic),
       hx = 1 when the "show the derivative, hence integrate" rule applies (owner 12 Nov; needs the part text, so it is
            computed here, once, instead of in the page: 07_bank.js homeOf reads it),
       fk = figure keys {a: all, i: inline \\exfigure, o: option figures} (05_figures.js figKeys reads it; Review counts need
            it for every question, and it comes from the question text).
+  site/data/bank/<course>/details.json.gz   (gzip) {v, q: {id: {section, review_note, pages, related, queues, solutions
+      [{id, part_id, source, meta}], tri (full), parts: {part id: {t24, tagd, dif, skills} in full}}}}: what Review, Exams,
+      Reports, Difficulty and the Guide read. The page merges it into the same question objects (01_core.js QG.det) and
+      those views wait for it (09_router.js route); a question card waits for it too (QG.has).
   site/data/bank/<course>/<topic slug>.json   {v, topic, q: {id: {stem, options, opt_table, layout, figures, solutions (full),
       parts [{id, latex, c17, can_use, note, free, gates, ...}], fn: {figure key: {notes, check_notes}}}}}: what only a
       rendered question needs. The page merges it
       into the same question objects (01_core.js QG.need), so every view keeps reading q.stem, p.latex, s.latex as before.
+Both .gz files are written byte-for-byte reproducibly (gzip mtime 0): an unchanged bank gives unchanged files.
 The page groups loads by file, so a question whose home the owner later changes (Review > Topics) still loads from the file
 it was built into. site/data/bank.json stays as it is (build tools, page_test_fixture, render_audit read it) until the main
 session removes it from the publish set.
 """
 import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
-import hashlib, json, os, re, sqlite3, sys, time
+import gzip, hashlib, json, os, re, sqlite3, sys, time
 
 P = paths.P
 DB = paths.DBS
 COURSE = 'advanced'   # QG.courses key in page_src/js/01_core.js
 OUT = P + 'site/data/bank/' + COURSE + '/'
-INDEX = OUT + 'index.json'
+INDEX = OUT + 'index.json.gz'
+DETAILS = OUT + 'details.json.gz'
 
 Q_CONTENT = ('stem', 'options', 'opt_table', 'layout', 'figures')            # whole fields that move to the topic file
 P_INDEX = ('id', 'label', 'parent', 'marks', 't24', 'dif', 'skills', 'tagd')   # part fields every list needs; the rest is content
+# job 2 (owner 16 Nov: "Yeah build it"): of those, what the start index keeps; the rest goes to details.json.gz
+Q_START = ('id', 'doc', 'number', 'type', 'marks', 'key', 'dup_of', 'decide', 'old', 'std')
+Q_DETAIL = ('section', 'review_note', 'pages', 'related', 'queues')          # + solutions, tri (full)
+P_START = ('id', 'label', 'parent', 'marks')                                  # + slim t24 / tagd / dif below
+P_DETAIL = ('t24', 'tagd', 'dif', 'skills')                                   # in full
 S_INDEX = ('id', 'part_id', 'source')
 S_META = ('source_flag', 'corrected')
 F_CONTENT = ('notes', 'check_notes')   # figs[k] text fields: in the content file of the question that shows figure k (c.fn)   # 08_review.js needsDecision reads these for questions with no triage
@@ -95,6 +111,30 @@ def dump(o):
     return json.dumps(o, ensure_ascii=False, separators=(',', ':'))
 
 
+def write_gz(path, o):
+    """gzip, reproducible (mtime 0, no file name): the same content always gives the same bytes, so publish_set sees no change."""
+    raw = dump(o).encode()
+    with open(path, 'wb') as f, gzip.GzipFile(filename='', mode='wb', fileobj=f, mtime=0, compresslevel=9) as g: g.write(raw)
+    return len(raw)
+
+
+def read_gz(path):
+    return json.loads(gzip.decompress(open(path, 'rb').read()).decode('utf-8'))
+
+
+def slim_part(p):
+    """A part as the Bank needs it: main tags only (topic homes), difficulty band and kind (Bank filters)."""
+    x = {k: p[k] for k in P_START if p.get(k) is not None}
+    t = [{'id': t.get('id'), 'primary': t['primary'], **({'cov': t['cov']} if t.get('cov') in ('removed', 'no_match') else {})}
+         for t in (p.get('t24') or []) if t.get('primary')]
+    if t: x['t24'] = t
+    if p.get('tagd'):
+        x['tagd'] = {sd: {'dp': [d for d in v.get('dp', []) if d[1] == 'primary'], **({'removed': v['removed']} if v.get('removed') else {})}
+                     for sd, v in p['tagd'].items()}
+    if p.get('dif'): x['dif'] = {k: p['dif'][k] for k in ('b', 'wm') if k in p['dif']}
+    return x
+
+
 def src_hash(path=None):
     """sha256 (16 hex) of site/data/bank.json: the index records the bank.json it was split from (idx['src'])."""
     return hashlib.sha256(open(path or P + 'site/data/bank.json', 'rb').read()).hexdigest()[:16]
@@ -103,14 +143,14 @@ def src_hash(path=None):
 def stale():
     """True when the index is missing or was split from a different bank.json. By content, not file times: a git merge or
     checkout rewrites both files with arbitrary times (e.g. merging Fix 2's bank.json, which adds question keys)."""
-    if not os.path.exists(INDEX): return True
-    try: return json.load(open(INDEX, encoding='utf-8')).get('src') != src_hash()
+    if not (os.path.exists(INDEX) and os.path.exists(DETAILS)): return True
+    try: return read_gz(INDEX).get('src') != src_hash()
     except Exception: return True
 
 
 def split(bank, home, src=None):
     files, slugs, content = [], {}, {}
-    idx_q, figs, moved = [], bank['figs'], set()
+    idx_q, figs, moved, details = [], bank['figs'], set(), {}
     for q in bank['questions']:
         k = home.get(q['id']) or 'other'
         sl = slug(k)
@@ -118,14 +158,22 @@ def split(bank, home, src=None):
             if any(f['f'].endswith('/' + sl + '.json') for f in files): sl += '-' + hashlib.sha1(k.encode()).hexdigest()[:6]
             slugs[sl] = len(files); files.append({'k': k, 'f': 'data/bank/%s/%s.json' % (COURSE, sl)}); content[sl] = {}
         h = slugs[sl]
-        x = {kk: v for kk, v in q.items() if kk not in Q_CONTENT and kk not in ('parts', 'solutions')}
-        x['parts'] = [{kk: p[kk] for kk in P_INDEX if p.get(kk) is not None} for p in q['parts']]
-        x['solutions'] = []
-        for s in q['solutions']:
-            st = {kk: s.get(kk) for kk in S_INDEX}
-            m = {kk: s['meta'][kk] for kk in S_META if (s.get('meta') or {}).get(kk)}
+        x = {kk: q[kk] for kk in Q_START if q.get(kk) not in (None, '', [])}
+        if q.get('tri', {}).get('tier'): x['tri'] = {'tier': q['tri']['tier']}
+        x['parts'] = [slim_part(p) for p in q['parts']]
+        dt = {kk: q[kk] for kk in Q_DETAIL if q.get(kk) not in (None, '', [])}
+        if q.get('tri'): dt['tri'] = q['tri']
+        sols = []
+        for s_ in q['solutions']:
+            st = {kk: s_.get(kk) for kk in S_INDEX}
+            m = {kk: s_['meta'][kk] for kk in S_META if (s_.get('meta') or {}).get(kk)}
             if m: st['meta'] = m
-            x['solutions'].append(st)
+            sols.append(st)
+        if sols: dt['solutions'] = sols
+        pd = {str(p['id']): {kk: p[kk] for kk in P_DETAIL if p.get(kk) is not None} for p in q['parts']}
+        pd = {k: v for k, v in pd.items() if v}
+        if pd: dt['parts'] = pd
+        if dt: details[str(q['id'])] = dt
         x['h'] = h
         if hence(q): x['hx'] = 1
         fk = fig_keys(q)
@@ -147,7 +195,7 @@ def split(bank, home, src=None):
         old = open(OUT + sl + '.json', encoding='utf-8').read() if os.path.exists(OUT + sl + '.json') else None
         if old != body: open(OUT + sl + '.json', 'w', encoding='utf-8').write(body)
     # CODE_HEALTH rule 4: a topic file no question uses any more is archived, and publish_set sends null for it once
-    keep = {sl + '.json' for sl in content} | {'index.json'}
+    keep = {sl + '.json' for sl in content}   # index.json (before job 2) is archived here and sent as null once
     for f in sorted(os.listdir(OUT)):
         if f.endswith('.json') and f not in keep:
             arch = P + 'archive/bank_split_unused/' + COURSE + '/'
@@ -155,7 +203,8 @@ def split(bank, home, src=None):
             print('archived unused topic file', f)
     idx = {'v': 3, 'built': bank.get('built'), 'src': src, 'course': COURSE, 'docs': bank['docs'], 'tables': bank['tables'], 'figs': {k: {kk: v for kk, v in f.items() if not (k in moved and kk in F_CONTENT)} for k, f in figs.items()},
            'codes17': bank.get('codes17', {}), 'files': files, 'questions': idx_q}
-    open(INDEX, 'w', encoding='utf-8').write(dump(idx))
+    idx['raw'] = write_gz(INDEX, idx)
+    idx['raw_details'] = write_gz(DETAILS, {'v': 1, 'src': src, 'q': details})
     return idx
 
 
@@ -168,8 +217,8 @@ def main():
     bank = json.load(open(src, encoding='utf-8'))
     idx = split(bank, homes(), src_hash(src))
     tot = sum(os.path.getsize(P + 'site/' + f['f']) for f in idx['files'])
-    print('bank split: index %d KB (%d questions), %d topic files %d KB (largest %d KB), bank.json %d KB' % (
-        os.path.getsize(INDEX) // 1024, len(idx['questions']), len(idx['files']), tot // 1024,
+    print('bank split: index %d KB gzip (%d KB unpacked, %d questions), details %d KB gzip (%d KB unpacked), %d topic files %d KB (largest %d KB), bank.json %d KB' % (
+        os.path.getsize(INDEX) // 1024, idx['raw'] // 1024, len(idx['questions']), os.path.getsize(DETAILS) // 1024, idx['raw_details'] // 1024, len(idx['files']), tot // 1024,
         max(os.path.getsize(P + 'site/' + f['f']) for f in idx['files']) // 1024, os.path.getsize(src) // 1024))
 
 

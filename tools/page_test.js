@@ -163,10 +163,12 @@ async function settle(page, max = 8000, quiet = 3) {
     if (sig === last) { if (++same >= quiet) return } else { same = 0; last = sig }
   }
 }
-async function boot(page, base, hash = '#bank') {
+// det: also wait for the question details (job 2, QG.det), as every view but the Bank does before it draws
+async function boot(page, base, hash = '#bank', det = true) {
   await page.goto(base + 'review.html' + hash);
   await page.waitForFunction(() => typeof B !== 'undefined' && B && B.questions && typeof db !== 'undefined' && db && typeof EDITOR !== 'undefined' && EDITOR !== null && window.MathJax && MathJax.startup && MathJax.startup.promise, null, {timeout: 45000});
   await page.evaluate(() => MathJax.startup.promise);
+  if (det) await page.waitForFunction(() => QG.detOK || QG.detFail, null, {timeout: 30000});
   await settle(page);
 }
 const takeErrs = page => page._errs.splice(0);
@@ -1894,7 +1896,7 @@ async function queueChecks(browser, base, seed) {
 
 /* ---------------- Data on demand (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2") ----------------
    Plan "Questgen architecture plan: before imports resume", Fix 1: keep the published page small; fetch data only when needed.
-   The page loads the course index (data/bank/<course>/index.json) and the dot points at start, never bank.json; a topic's
+   The page loads the course index (data/bank/<course>/index.json.gz since job 2; the details file right after) and the dot points at start, never bank.json; a topic's
    question text (one file per topic home, tools/bank_split.py) loads when a view shows it; image packs come from the address in
    data/assets.json when it has one (the asset store), else from the published file. */
 async function dataSplit(browser, base, seed) {
@@ -1907,7 +1909,7 @@ async function dataSplit(browser, base, seed) {
   log(page);
   await boot(page, base, '#bank');
   await check('data: the index loads first, no question text at start', page, async () => {
-    const urls = page._req.map(x => x.u), ix = urls.findIndex(u => /^data\/bank\/[^/]+\/index\.json$/.test(u));
+    const urls = page._req.map(x => x.u), ix = urls.findIndex(u => /^data\/bank\/[^/]+\/index\.json\.gz$/.test(u));
     const r = await page.evaluate(() => ({index: QG.courseData.bank, files: B.files.length, got: QG.got.size, n: B.questions.length, text: B.questions.some(q => 'stem' in q || q.parts.some(p => 'latex' in p))}));
     errs(page);
     assert(ix >= 0, `the index ${r.index} was never requested: ${urls.filter(u => u.startsWith('data/')).join(' ')}`);
@@ -1925,7 +1927,7 @@ async function dataSplit(browser, base, seed) {
       cards: document.querySelectorAll('#list .card').length, pend: document.querySelectorAll('#list [data-qpend]').length, mjx: document.querySelectorAll('#list mjx-container').length} });
     const got = [...new Set(page._req.slice(n0).map(x => x.u).filter(u => topicRe.test(u)))];
     errs(page);
-    const ixAt = Object.entries(page._done).find(([u]) => /index\.json$/.test(u))?.[1], first = page._req.find(x => topicRe.test(x.u));
+    const ixAt = Object.entries(page._done).find(([u]) => /index\.json\.gz$/.test(u))?.[1], first = page._req.find(x => topicRe.test(x.u));
     assert(ixAt && first && first.t >= ixAt, 'a topic file was requested before the index had arrived');
     assert(r.need.every(f => got.includes(f)), `opening ${r.sel} did not load ${r.need.filter(f => !got.includes(f)).join(' ')}`);
     assert(got.every(f => r.need.includes(f)), `opening ${r.sel} also loaded ${got.filter(f => !r.need.includes(f)).join(' ')}`);
@@ -2012,6 +2014,58 @@ async function dataSplit(browser, base, seed) {
     return `QID ${target}: “did not load” with Try again, then the question`;
   });
   await tp.context().close();
+
+  // job 2 (owner 16 Nov: "Yeah build it"): the slim index at start, the details right after; every view but the Bank waits for them
+  const dp = await newPage(browser, base, seed, {width: 1280, theme: 'light'}); log(dp);
+  let dhold = true; const dheld = [];
+  await dp.route(u => /\/data\/bank\/[^/]+\/details\.json\.gz/.test(u.href), r => dhold ? dheld.push(r) : r.continue());
+  await boot(dp, base, '#bank', false);
+  await check('data: the Bank works from the slim index while the details load', dp, async () => {
+    const r = await dp.evaluate(() => ({det: QG.detOK, stats: bankStats(), rows: document.querySelectorAll('#list .subrow[data-sel]:not(.none)').length,
+      slim: B.questions.every(q => !('review_note' in q) && q.parts.every(p => !('skills' in p)))}));
+    errs(dp);
+    assert(!r.det, 'the details had already been merged although their file was held back');
+    assert(r.slim, 'the start index carries detail fields (review notes or skills)');
+    assert(r.stats.questions > 0 && r.rows > 0, `Bank home: ${r.stats.questions} questions, ${r.rows} topic rows`);
+    const ix = dp._req.findIndex(x => /index\.json\.gz$/.test(x.u)), dt = dp._req.findIndex(x => /details\.json\.gz$/.test(x.u));
+    assert(ix >= 0 && dt > ix, `the details were not requested after the index (index #${ix}, details #${dt})`);
+    return `${r.stats.questions} questions in ${r.stats.papers} papers, ${r.rows} topic rows from the slim index; details requested after it`;
+  });
+  await check('data: another view waits for the details, then draws; counts and topic homes do not change', dp, async () => {
+    const before = await dp.evaluate(() => ({stats: bankStats(), homes: B.questions.map(q => qHome(q)).join('|')}));
+    // every other view, opened while the details are held back, waits without a page error (live redraws included)
+    const tour = ['#review', '#processes/work', '#processes/papers', '#guide', '#review/reports', '#exams'];
+    for (const h of tour) { await dp.evaluate(h => { location.hash = h }, h); await dp.waitForTimeout(700) }
+    const shown = await dp.evaluate(() => view);
+    await dp.waitForFunction(() => { const n = document.getElementById('detWait'); return n && !n.hidden && /Loading question details/.test(n.textContent) }, null, {timeout: 8000});
+    const mid = await dp.evaluate(() => !!document.querySelector('#examsView [data-exv]'));
+    dhold = false; dheld.splice(0).forEach(r => r.continue());
+    await dp.waitForFunction(() => QG.detOK && document.querySelector('#examsView [data-exv]'), null, {timeout: 15000}); await settle(dp, 4000, 2);
+    const after = await dp.evaluate(() => { const n = document.getElementById('detWait'); return {stats: bankStats(), homes: B.questions.map(q => qHome(q)).join('|'), note: !n || n.hidden,
+      full: B.questions.some(q => q.tri?.why) && B.questions.some(q => q.parts.some(p => p.dif?.r)), sols: B.questions.some(q => q.solutions.length)} });
+    errs(dp);
+    assert(!mid, 'Exams drew before the details arrived');
+    assert(shown === 'wait:exams', `while waiting the view was named ${shown}, not wait:exams (live redraws would draw it)`);
+    assert(after.note, 'the "Loading question details" notice stayed after they arrived');
+    assert(after.full && after.sols, 'the details were not merged (no triage reasons, difficulty reasons or solutions)');
+    assert(JSON.stringify(before.stats) === JSON.stringify(after.stats), `bankStats changed when the details landed: ${JSON.stringify(before.stats)} → ${JSON.stringify(after.stats)}`);
+    assert(before.homes === after.homes, 'a question\'s topic home changed when the details landed');
+    return `${tour.length} views opened while waiting, no errors; “Loading question details…”, then Exams; bankStats ${after.stats.questions} questions / ${after.stats.papers} papers and every topic home unchanged`;
+  });
+  await dp.context().close();
+  await check('data: a host that unpacks the .gz files itself (Content-Encoding) still works', null, async () => {
+    const p = await newPage(browser, base, seed, {width: 1280, theme: 'light'}); log(p);
+    await p.route(u => /\/data\/bank\/[^/]+\/(index|details)\.json\.gz/.test(u.href), r => r.fulfill({status: 200, contentType: 'application/json',
+      body: zlib.gunzipSync(fs.readFileSync(path.join(SITE, new URL(r.request().url()).pathname.slice(1))))}));
+    try {
+      await boot(p, base, '#exams');
+      await p.waitForSelector('#examsView [data-exv]', {timeout: 15000});
+      const r = await p.evaluate(() => ({det: QG.detOK, n: B.questions.length}));
+      const e = takeErrs(p); assert(!e.length, e.slice(0, 3).join(' | '));
+      assert(r.det && r.n, `details ${r.det}, ${r.n} questions`);
+      return `index and details read as plain JSON: ${r.n} questions, Exams drawn`;
+    } finally { await p.context().close() }
+  });
 }
 
 /* ---------------- question keys (Fix 2) ----------------

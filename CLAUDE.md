@@ -132,9 +132,8 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
 Imports stay paused until 1-4 are done. Tick each off in the page's Next up list (db `notes`) as it lands.
 1. **Prove the move.** Restore the database, fetch the published packs, `bash tools/prepublish.sh` (0 blockers), publish once
    from here, push to GitHub. Done when: a publish from this session is live and its commit is on GitHub.
-2. **Split the start-up index** (data/bank/advanced/index.json is 1.8 MB of its 2.2 MB budget; it blocks after about 10 more
-   papers). Per topic or per course, or trim fields; keep bankStats() and every view working. Done when: the budget has room
-   for 538 papers.
+2. **Split the start-up index**: done 16 Nov (owner: "Yeah build it"). Slim gzip index + details file read after start;
+   76 KB today, ~0.8 MB projected at 538 papers of the 2.35 MB budget (CODE_HEALTH "Job 2").
 3. **Images: re-render into the asset store, don't move them** (owner 14 Nov: "What if we dropped them and rerendered them in
    the new location?"). The artifact is capped at 256 MB per version (about 170 MB now, ~3 MB per paper), so images must leave
    the published files before imports get far.

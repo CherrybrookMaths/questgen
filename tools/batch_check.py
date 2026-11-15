@@ -16,10 +16,8 @@ def B(m): blockers.append(m)
 def W(m): warns.append(m)
 def I(m): infos.append(m)
 def mt(p): return os.path.getmtime(p) if os.path.exists(p) else 0
-def sha(p):
-    if p.endswith('data/bank.json') or ('data/bank/' in p and p.endswith('/index.json')):   # ignore the build timestamp: only content changes need a publish (the bank index too, Fix 1)
-        d = json.load(open(p)); d.pop('built', None); return hashlib.sha256(json.dumps(d, sort_keys=True).encode()).hexdigest()
-    return hashlib.sha256(open(p, 'rb').read()).hexdigest()
+def sha(p):   # one copy, in publish_set.py (job 2: it also reads the gzip bank index and details)
+    sys.path.insert(0, P + 'tools'); import publish_set; return publish_set.sha(p)
 
 if '--mark-published' in sys.argv:
     # project/ too, so tools/publish_set.py can list exactly what changed (reviewer 14 Nov). Stage 2, 15 Nov: the same file
@@ -245,7 +243,17 @@ try:
     _over = [k for k in _sb if _sz.get(k, 0) > _sb[k]['bytes']]
     for k in _over: B(f'size budget: {k} is {_mb(_sz[k])}, over its {_mb(_sb[k]["bytes"])} budget (CODE_HEALTH rule 6): shrink it, or ask the owner and raise the budget in tools/size_budget.json')
     I('size budget (start load): ' + ', '.join(f'{k} {_mb(_sz.get(k, 0))} of {_mb(_sb[k]["bytes"])} ({100 * _sz.get(k, 0) / _sb[k]["bytes"]:.0f}%)' for k in _sb))
-    _pub = _ps.publishable(); _tf = [r for r in _pub if r.startswith('data/bank/') and not r.endswith('/index.json')]
+    # job 2 (owner 16 Nov: "Yeah build it"): the target is 538 papers (tools/asset_upload_plan.py TARGET_PAPERS). Straight-line
+    # projection from today's papers; the details file is not in the start load but must stay under the platform's 16 MB per file.
+    try:
+        import bank_split as _bs0
+        _np = len({q['doc'] for q in _bs0.read_gz(_bs0.INDEX)['questions']}) or 1
+        _ix, _dt = os.path.getsize(_bs0.INDEX), os.path.getsize(_bs0.DETAILS)
+        _k = next(k for k in _sb if k.endswith('/index.json.gz'))
+        _p538 = _ix / _np * 538
+        (I if _p538 <= _sb[_k]['bytes'] else W)(f'bank index at 538 papers (from {_np} today): about {_mb(_p538)} of its {_mb(_sb[_k]["bytes"])} budget; details file about {_mb(_dt / _np * 538)} (platform limit 16 MB per file)')
+    except Exception as e: W(f'bank index projection could not run: {e}')
+    _pub = _ps.publishable(); _tf = [r for r in _pub if r.startswith('data/bank/') and r.endswith('.json')]   # topic files (the index and details are .json.gz)
     I(f'size (info, loaded only when needed): published total {_mb(sum(os.path.getsize(P + "site/" + r) for r in _pub))} in {len(_pub)} files '
       f'(limit per version 256 MB, 511 files); {len(_tf)} topic files {_mb(sum(os.path.getsize(P + "site/" + r) for r in _tf))}'
       + (f', largest {_mb(max(os.path.getsize(P + "site/" + r) for r in _tf))}' if _tf else '')

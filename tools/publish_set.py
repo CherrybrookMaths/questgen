@@ -27,7 +27,7 @@ asset store and left out of the publish set (tools/asset_upload_plan.py, tools/a
 still built and published until the main session drops it (then add it to EXCLUDE).
 """
 import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
-import glob, hashlib, json, os, sys, time
+import glob, gzip, hashlib, json, os, sys, time
 
 P = paths.P
 S = P + 'site/'
@@ -46,13 +46,19 @@ EXCLUDE = ('data/focus/', 'data/bank_v1_before_split.json', 'data/bank_v1.json')
 
 
 def sha(p):
-    if p.endswith('data/bank.json') or ('data/bank/' in p and p.endswith('/index.json')):   # same rule as batch_check.py: ignore the build timestamp (the bank index too, Fix 1)
-        d = json.load(open(p)); d.pop('built', None); return hashlib.sha256(json.dumps(d, sort_keys=True).encode()).hexdigest()
+    """The digest the manifest records. The ONE copy (batch_check.py and fetch_published.py call this one; CODE_HEALTH rule 3).
+    bank.json and the bank index ignore their build timestamp: only content changes need a publish (Fix 1). Job 2, 16 Nov: the
+    index and the details file are gzip (tools/bank_split.py): digest the unpacked content."""
+    p = str(p)
+    if p.endswith('data/bank.json') or ('data/bank/' in p and p.endswith(('/index.json', '/index.json.gz', '/details.json.gz'))):
+        raw = open(p, 'rb').read()
+        if p.endswith('.gz'): raw = gzip.decompress(raw)
+        d = json.loads(raw); d.pop('built', None); return hashlib.sha256(json.dumps(d, sort_keys=True).encode()).hexdigest()
     return hashlib.sha256(open(p, 'rb').read()).hexdigest()
 
 
 def publishable():
-    fs = [S + 'review.html'] + glob.glob(S + 'data/**/*.json', recursive=True)
+    fs = [S + 'review.html'] + glob.glob(S + 'data/**/*.json', recursive=True) + glob.glob(S + 'data/**/*.json.gz', recursive=True)   # job 2: the bank index + details
     fs += [f for f in glob.glob(S + 'vendor/**/*', recursive=True) if os.path.isfile(f)]
     fs += [f for f in glob.glob(S + 'project/**/*', recursive=True) if os.path.isfile(f)]
     # Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): an image pack the asset store serves at its current sha256
@@ -81,7 +87,8 @@ def main():
         elif rel.startswith('project/'): changed = os.path.getmtime(f) > t0
         else: changed = True
         if changed: out.append(rel)
-    files = {r: 'site/' + r for r in out if r != 'review.html'}
+    # job 2: the gzip bank files go up as gzip bytes with their media type named (the page unpacks them itself)
+    files = {r: ({'from': 'site/' + r, 'contentType': 'application/gzip'} if r.endswith('.gz') else 'site/' + r) for r in out if r != 'review.html'}
     nulls = removals(man)
     files.update({r: None for r in nulls})
     removes = [r for r in REMOVE if not os.path.exists(S + r) and r not in man['files']]
