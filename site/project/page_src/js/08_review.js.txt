@@ -128,7 +128,8 @@ function trackHTML(w,cur){return STEPS.map(([k,l],i)=>{const n=w.left[k],t=w.tot
 function miniTrack(w){return `<span class="mtrack" role="img" aria-label="${esc(STEPS.map(([k,l])=>l+(w.left[k]?' '+w.left[k]+' left':w.total[k]?' done':' nothing in this paper')).join(', '))}">${STEPS.map(([k])=>`<i class="${w.left[k]?(k===w.at?'cur':'todo'):w.total[k]||(k==='sample'&&w.ready.length)?'done':'none'}"></i>`).join('')}</span>`}
 const workLine=w=>w.n?`${w.n} left · at ${esc(stepLabel(w.at))}`:'✓ approved';
 // Review tab and Curate switch: the Inbox total (papers to review + open reports)
-function updateCounts(){const n=todoCount();$('#todoN').textContent=n||'';const c=$('#curN');if(c)c.textContent=n||''}
+function updateCounts(){if(!QG.detOK)return;const n=todoCount();   // job 2: the to-do count reads triage, which arrives with the details
+  $('#todoN').textContent=n||'';const c=$('#curN');if(c)c.textContent=n||''}
 // review 13 Nov: the steps are walked per paper now, so "Needs your decision" and "Diagrams to approve" across every paper stay reachable here (the old step row's paper picker did that)
 const otherListsHTML=sel=>`<select data-lists aria-label="Other lists"><option value="">${sel?'Other lists…':'Choose…'}</option>${FILTERS.map(([k,l])=>`<option value="${k}"${k===sel?' selected':''}>${esc(l)}</option>`).join('')}</select>`;
 function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
@@ -143,7 +144,8 @@ function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
     ${card('difficulty',lv,'Difficulty','HSC reference ratings: agree or change the band and kind, one part at a time.','#review/difficulty','check plan finished')}</div>
     ${handoffHTML()}<div class="ifoot"><a href="#review/list/recent">Recently approved</a><span aria-hidden="true">·</span><label>Other lists ${otherListsHTML('')}</label></div>`}
 // draw the Review chrome for the open view: the Inbox, or the paper's track (list mode: a plain header). Also keeps the counts.
-function renderSteps(){if(!B)return {base:[]};updateCounts();
+function renderSteps(){if(!B||!QG.detOK)return {base:[]};updateCounts();   // job 2: steps count triage, which comes with the details
+  
   if(view==='inbox'){renderInbox();return {base:[]}}
   if(view==='papers'&&$('#ptable')){renderPapers();return {base:[]}}
   if(view!=='review')return {base:[]};

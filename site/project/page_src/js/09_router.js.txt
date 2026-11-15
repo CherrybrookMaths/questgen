@@ -40,7 +40,7 @@ function route(){
   // While the user capability has not answered yet (EDITOR null) the Bank shows and the link is kept, so an editor's link still works once it answers.
   if(areaOf(v)==='curate'&&!isEditor()){v='bank';if(EDITOR===false)setHash('#bank')}
   // a paper (or list) needs the bank to resolve; until it loads the Inbox stands in
-  if(v==='review'&&(!B||!openReview(P)))v='inbox';
+  if(v==='review'&&(!B||(QG.ready(v)&&!openReview(P))))v='inbox';   // job 2: a paper's first step reads triage: opened once the details are in
   // Processes: the tab in the address, else the one used last (per browser), else Work; the address then names it
   if(v==='processes'&&isEditor()){const T=['work','papers'],t=T.includes(P.ptab)?P.ptab:(T.includes(load('qg_proc_tab'))?load('qg_proc_tab'):'work');
     const sub=t==='papers'&&P.ptab==='papers'&&P.psub==='check'?'check':'';
@@ -57,6 +57,11 @@ function route(){
   try{const cur=document.querySelector('.views a[aria-current="page"]'),nv=cur?.parentElement;if(nv&&nv.scrollWidth>nv.clientWidth)nv.scrollTo({left:cur.offsetLeft-nv.clientWidth/2+cur.offsetWidth/2,behavior:'smooth'})}catch(e){}   // owner 14 Nov: on a phone the tab row scrolls; keep the open tab in sight
   const shown=[['bank','#bankView'],['review','#reviewView'],['inbox','#inboxView'],['papers','#papersView'],['processes','#processesView'],['guide','#guideView'],['levels','#levelsView'],['reports','#reportsView'],['exams','#examsView']].find(x=>x[0]===view);
   if(shown&&window._lastView!==view){const el=$(shown[1]);if(el){el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter')}window._lastView=view}   // owner 12 Nov: tab switch animation
+  // job 2 (owner 16 Nov: "Yeah build it"): every view but the Bank draws once the question details are in (QG.det)
+  // While it waits, the view is named 'wait:<view>': every live redraw that checks view==='...' (snapshots, timers) skips until
+  // the details land and QG.onDet routes again.
+  if(!QG.ready(view)){QG.view='wait:'+view;QG.wait();return}
+  QG.waitNote();
   if(view==='processes'){renderProcesses();if(!B)return}
   if(!B) return;
   updateCounts();

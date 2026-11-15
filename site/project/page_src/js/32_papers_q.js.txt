@@ -75,9 +75,9 @@ function model(){const D=S.data;if(!D)return null;const k=accepted()+'|'+JSON.st
 
 // ---- review state (owner 14 Nov: "I would like to see how many of the batches have cleared checks on the import page too")
 // 'cleared' | 'waiting' for an imported paper, from Review's own paperWork (08_review.js) on each file that has questions in the
-// bank index; null until the index has loaded. Memoised on the reviews map and the index (both replaced, never mutated).
+// bank index; null until the index and the question details (job 2) have loaded. Memoised on the reviews map and the index (both replaced, never mutated).
 const RV={rv:null,b:null,m:new Map()};
-function reviewState(p){if(!B||!B.questions||typeof paperWork!=='function')return null;
+function reviewState(p){if(!B||!B.questions||!QG.detOK||typeof paperWork!=='function')return null;   // job 2: Review's work counts read triage, which comes with the details
   if(RV.rv!==reviews||RV.b!==B){RV.rv=reviews;RV.b=B;RV.m=new Map()}
   if(!RV.m.has(p.id)){const fs=(p.f||[p.id]).filter(d=>B.docs[d]&&B.questions.some(q=>q.doc===d));
     RV.m.set(p.id,fs.every(d=>paperWork(d).n===0)?'cleared':'waiting')}
