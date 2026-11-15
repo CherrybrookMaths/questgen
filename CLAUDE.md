@@ -133,7 +133,7 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
 1. **Prove the move.** Restore the database, fetch the published packs, `bash tools/prepublish.sh` (0 blockers), publish once
    from here, push to GitHub. Done when: a publish from this session is live and its commit is on GitHub.
 2. **Split the start-up index**: done 16 Nov (owner: "Yeah build it"). Slim gzip index + details file read after start;
-   76 KB today, ~0.8 MB projected at 538 papers of the 2.35 MB budget (CODE_HEALTH "Job 2").
+   ~103 KB today, ~1.0 MB projected at 538 papers of the 2.35 MB budget (CODE_HEALTH "Job 2").
 3. **Images: re-render into the asset store, don't move them** (owner 14 Nov: "What if we dropped them and rerendered them in
    the new location?"). The artifact is capped at 256 MB per version (about 170 MB now, ~3 MB per paper), so images must leave
    the published files before imports get far.

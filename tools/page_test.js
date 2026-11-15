@@ -1896,20 +1896,20 @@ async function queueChecks(browser, base, seed) {
 
 /* ---------------- Data on demand (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2") ----------------
    Plan "Questgen architecture plan: before imports resume", Fix 1: keep the published page small; fetch data only when needed.
-   The page loads the course index (data/bank/<course>/index.json.gz since job 2; the details file right after) and the dot points at start, never bank.json; a topic's
+   The page loads the course index (data/bank/<course>/index.gz.json since job 2; the details file right after) and the dot points at start, never bank.json; a topic's
    question text (one file per topic home, tools/bank_split.py) loads when a view shows it; image packs come from the address in
    data/assets.json when it has one (the asset store), else from the published file. */
 async function dataSplit(browser, base, seed) {
   const log = p => { p._req = []; p.on('request', r => { const u = r.url(); if (u.startsWith(base)) p._req.push({u: u.slice(base.length).split('?')[0], t: Date.now()}) });
     p._done = {}; p.on('requestfinished', r => { const u = r.url().slice(base.length).split('?')[0]; if (!(u in p._done)) p._done[u] = Date.now() }) };
-  const topicRe = /^data\/bank\/[^/]+\/(?!index\.json)[^/]+\.json$/;
+  const topicRe = /^data\/bank\/[^/]+\/(?!index\.json)(?![^/]+\.gz\.json$)[^/]+\.json$/;
   const errs = p => { const e = takeErrs(p); assert(!e.length, e.slice(0, 3).join(' | ')) };
   const openSub = async p => { await p.click('#list .subrow[data-sel]:not(.none)'); await p.waitForSelector('#list .cards .card', {timeout: 15000}); await settle(p, 5000, 2) };
   const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
   log(page);
   await boot(page, base, '#bank');
   await check('data: the index loads first, no question text at start', page, async () => {
-    const urls = page._req.map(x => x.u), ix = urls.findIndex(u => /^data\/bank\/[^/]+\/index\.json\.gz$/.test(u));
+    const urls = page._req.map(x => x.u), ix = urls.findIndex(u => /^data\/bank\/[^/]+\/index\.gz\.json$/.test(u));
     const r = await page.evaluate(() => ({index: QG.courseData.bank, files: B.files.length, got: QG.got.size, n: B.questions.length, text: B.questions.some(q => 'stem' in q || q.parts.some(p => 'latex' in p))}));
     errs(page);
     assert(ix >= 0, `the index ${r.index} was never requested: ${urls.filter(u => u.startsWith('data/')).join(' ')}`);
@@ -1927,7 +1927,7 @@ async function dataSplit(browser, base, seed) {
       cards: document.querySelectorAll('#list .card').length, pend: document.querySelectorAll('#list [data-qpend]').length, mjx: document.querySelectorAll('#list mjx-container').length} });
     const got = [...new Set(page._req.slice(n0).map(x => x.u).filter(u => topicRe.test(u)))];
     errs(page);
-    const ixAt = Object.entries(page._done).find(([u]) => /index\.json\.gz$/.test(u))?.[1], first = page._req.find(x => topicRe.test(x.u));
+    const ixAt = Object.entries(page._done).find(([u]) => /index\.gz\.json$/.test(u))?.[1], first = page._req.find(x => topicRe.test(x.u));
     assert(ixAt && first && first.t >= ixAt, 'a topic file was requested before the index had arrived');
     assert(r.need.every(f => got.includes(f)), `opening ${r.sel} did not load ${r.need.filter(f => !got.includes(f)).join(' ')}`);
     assert(got.every(f => r.need.includes(f)), `opening ${r.sel} also loaded ${got.filter(f => !r.need.includes(f)).join(' ')}`);
@@ -2018,7 +2018,7 @@ async function dataSplit(browser, base, seed) {
   // job 2 (owner 16 Nov: "Yeah build it"): the slim index at start, the details right after; every view but the Bank waits for them
   const dp = await newPage(browser, base, seed, {width: 1280, theme: 'light'}); log(dp);
   let dhold = true; const dheld = [];
-  await dp.route(u => /\/data\/bank\/[^/]+\/details\.json\.gz/.test(u.href), r => dhold ? dheld.push(r) : r.continue());
+  await dp.route(u => /\/data\/bank\/[^/]+\/details\.gz\.json/.test(u.href), r => dhold ? dheld.push(r) : r.continue());
   await boot(dp, base, '#bank', false);
   await check('data: the Bank works from the slim index while the details load', dp, async () => {
     const r = await dp.evaluate(() => ({det: QG.detOK, stats: bankStats(), rows: document.querySelectorAll('#list .subrow[data-sel]:not(.none)').length,
@@ -2027,7 +2027,7 @@ async function dataSplit(browser, base, seed) {
     assert(!r.det, 'the details had already been merged although their file was held back');
     assert(r.slim, 'the start index carries detail fields (review notes or skills)');
     assert(r.stats.questions > 0 && r.rows > 0, `Bank home: ${r.stats.questions} questions, ${r.rows} topic rows`);
-    const ix = dp._req.findIndex(x => /index\.json\.gz$/.test(x.u)), dt = dp._req.findIndex(x => /details\.json\.gz$/.test(x.u));
+    const ix = dp._req.findIndex(x => /index\.gz\.json$/.test(x.u)), dt = dp._req.findIndex(x => /details\.gz\.json$/.test(x.u));
     assert(ix >= 0 && dt > ix, `the details were not requested after the index (index #${ix}, details #${dt})`);
     return `${r.stats.questions} questions in ${r.stats.papers} papers, ${r.rows} topic rows from the slim index; details requested after it`;
   });
@@ -2053,30 +2053,17 @@ async function dataSplit(browser, base, seed) {
     return `${tour.length} views opened while waiting, no errors; “Loading question details…”, then Exams; bankStats ${after.stats.questions} questions / ${after.stats.papers} papers and every topic home unchanged`;
   });
   await dp.context().close();
-  await check('data: a host that unpacks the .gz files itself (Content-Encoding) still works', null, async () => {
-    const p = await newPage(browser, base, seed, {width: 1280, theme: 'light'}); log(p);
-    await p.route(u => /\/data\/bank\/[^/]+\/(index|details)\.json\.gz/.test(u.href), r => r.fulfill({status: 200, contentType: 'application/json',
-      body: zlib.gunzipSync(fs.readFileSync(path.join(SITE, new URL(r.request().url()).pathname.slice(1))))}));
-    try {
-      await boot(p, base, '#exams');
-      await p.waitForSelector('#examsView [data-exv]', {timeout: 15000});
-      const r = await p.evaluate(() => ({det: QG.detOK, n: B.questions.length}));
-      const e = takeErrs(p); assert(!e.length, e.slice(0, 3).join(' | '));
-      assert(r.det && r.n, `details ${r.det}, ${r.n} questions`);
-      return `index and details read as plain JSON: ${r.n} questions, Exams drawn`;
-    } finally { await p.context().close() }
-  });
   await check('data: a details file that fails: the Bank says so with Try again, which then loads it', null, async () => {
     const p = await newPage(browser, base, seed, {width: 1280, theme: 'light'}); log(p);
     let down = true;
-    await p.route(u => /\/data\/bank\/[^/]+\/details\.json\.gz/.test(u.href), r => down ? r.fulfill({status: 500, body: 'down'}) : r.continue());
+    await p.route(u => /\/data\/bank\/[^/]+\/details\.gz\.json/.test(u.href), r => down ? r.fulfill({status: 500, body: 'down'}) : r.continue());
     try {
       await boot(p, base, '#bank');
       await p.click('#list .subrow[data-sel]:not(.none)');
       await p.waitForSelector('#list [data-qretry]', {timeout: 20000});
-      const n500 = p._req.filter(x => /details\.json\.gz$/.test(x.u)).length;
+      const n500 = p._req.filter(x => /details\.gz\.json$/.test(x.u)).length;
       await p.waitForTimeout(3000);
-      const n2 = p._req.filter(x => /details\.json\.gz$/.test(x.u)).length;
+      const n2 = p._req.filter(x => /details\.gz\.json$/.test(x.u)).length;
       takeErrs(p);   // the failed loads log 500s on purpose
       assert(n2 === n500, `the details kept being requested after failing (${n500} → ${n2})`);
       down = false;

@@ -13,7 +13,7 @@ Output, per course (only Advanced has data; CODE_HEALTH rule 5: the course is a 
 Job 2, 16 Nov (owner: "Yeah build it", agreeing to the split and to the start-load budget counting compressed bytes): the
 index that loads at start holds only what the Bank needs; everything else waits in a details file the page reads right after
 start. At 538 papers the old index would have been ~18 MB (budget 2.35 MB; the platform refuses any file over 16 MB).
-  site/data/bank/<course>/index.json.gz   (gzip; the page unpacks it, 01_core.js QG.get) docs, tables, figs, codes17, files,
+  site/data/bank/<course>/index.gz.json   (gzip as base64 text: {v, gz}; the page unpacks it, 01_core.js QG.json) docs, tables, figs, codes17, files,
       and every question as the Bank needs it, no text: id, doc, number, type, marks, key, dup_of, decide, old, std, h, hx, fk,
       tri {tier} (the approved-only filter, 08_review.js qState), parts [{id, label, parent, marks, t24: primary tags only
       [{id, primary, cov when removed/no_match}], tagd: primary dot points only per side {A|B: {dp, removed}}, dif {b, wm}}]:
@@ -23,7 +23,7 @@ start. At 538 papers the old index would have been ~18 MB (budget 2.35 MB; the p
            computed here, once, instead of in the page: 07_bank.js homeOf reads it),
       fk = figure keys {a: all, i: inline \\exfigure, o: option figures} (05_figures.js figKeys reads it; Review counts need
            it for every question, and it comes from the question text).
-  site/data/bank/<course>/details.json.gz   (gzip) {v, src, q: {id: {every other field (section, review_note, pages, related, queues, decide_at ...), solutions
+  site/data/bank/<course>/details.gz.json   (gzip as base64 text) {v, src, q: {id: {every other field (section, review_note, pages, related, queues, decide_at ...), solutions
       [{id, part_id, source, meta}], tri (full), parts: {part id: {t24, tagd, dif, skills} in full}}}}: what Review, Exams,
       Reports, Difficulty and the Guide read. The page merges it into the same question objects (01_core.js QG.det) and
       those views wait for it (09_router.js route); a question card waits for it too (QG.has).
@@ -31,24 +31,25 @@ start. At 538 papers the old index would have been ~18 MB (budget 2.35 MB; the p
       parts [{id, latex, c17, can_use, note, free, gates, ...}], fn: {figure key: {notes, check_notes}}}}}: what only a
       rendered question needs. The page merges it
       into the same question objects (01_core.js QG.need), so every view keeps reading q.stem, p.latex, s.latex as before.
-Both .gz files are written byte-for-byte reproducibly (gzip mtime 0): an unchanged bank gives unchanged files.
+Both are written reproducibly (gzip mtime 0): an unchanged bank gives unchanged files. The host serves no .gz files
+(publish refused 16 Nov), hence the base64 wrapper (+33%; the budget counts the file as published).
 The page groups loads by file, so a question whose home the owner later changes (Review > Topics) still loads from the file
 it was built into. site/data/bank.json stays as it is (build tools, page_test_fixture, render_audit read it) until the main
 session removes it from the publish set.
 """
 import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
-import gzip, hashlib, json, os, re, sqlite3, sys, time
+import base64, gzip, hashlib, io, json, os, re, sqlite3, sys, time
 
 P = paths.P
 DB = paths.DBS
 COURSE = 'advanced'   # QG.courses key in page_src/js/01_core.js
 OUT = P + 'site/data/bank/' + COURSE + '/'
-INDEX = OUT + 'index.json.gz'
-DETAILS = OUT + 'details.json.gz'
+INDEX = OUT + 'index.gz.json'
+DETAILS = OUT + 'details.gz.json'
 
 Q_CONTENT = ('stem', 'options', 'opt_table', 'layout', 'figures')            # whole fields that move to the topic file
 P_INDEX = ('id', 'label', 'parent', 'marks', 't24', 'dif', 'skills', 'tagd')   # part fields every list needs; the rest is content
-# job 2 (owner 16 Nov: "Yeah build it"): of those, what the start index keeps; the rest goes to details.json.gz
+# job 2 (owner 16 Nov: "Yeah build it"): of those, what the start index keeps; the rest goes to details.gz.json
 Q_START = ('id', 'doc', 'number', 'type', 'marks', 'key', 'dup_of', 'decide', 'old', 'std')
 # details: every other question field (section, review_note, pages, related, queues, decide_at, ...) + solutions, tri (full)
 P_START = ('id', 'label', 'parent', 'marks')                                  # + slim t24 / tagd / dif below
@@ -112,14 +113,18 @@ def dump(o):
 
 
 def write_gz(path, o):
-    """gzip, reproducible (mtime 0, no file name): the same content always gives the same bytes, so publish_set sees no change."""
+    """gzip, reproducible (mtime 0, no file name), as base64 text in a JSON file {"v": 1, "gz": "..."}: the artifact host serves
+    no .gz files (publish refused 16 Nov), so the bytes travel as text (+33%) and the page unpacks them (01_core.js QG.json).
+    The same content always gives the same file, so publish_set sees no change."""
     raw = dump(o).encode()
-    with open(path, 'wb') as f, gzip.GzipFile(filename='', mode='wb', fileobj=f, mtime=0, compresslevel=9) as g: g.write(raw)
+    buf = io.BytesIO()
+    with gzip.GzipFile(filename='', mode='wb', fileobj=buf, mtime=0, compresslevel=9) as g: g.write(raw)
+    open(path, 'w', encoding='ascii').write(json.dumps({'v': 1, 'gz': base64.b64encode(buf.getvalue()).decode('ascii')}, separators=(',', ':')))
     return len(raw)
 
 
 def read_gz(path):
-    return json.loads(gzip.decompress(open(path, 'rb').read()).decode('utf-8'))
+    return json.loads(gzip.decompress(base64.b64decode(json.load(open(path, encoding='ascii'))['gz'])).decode('utf-8'))
 
 
 def slim_part(p):
@@ -198,7 +203,7 @@ def split(bank, home, src=None):
         old = open(OUT + sl + '.json', encoding='utf-8').read() if os.path.exists(OUT + sl + '.json') else None
         if old != body: open(OUT + sl + '.json', 'w', encoding='utf-8').write(body)
     # CODE_HEALTH rule 4: a topic file no question uses any more is archived, and publish_set sends null for it once
-    keep = {sl + '.json' for sl in content}   # index.json (before job 2) is archived here and sent as null once
+    keep = {sl + '.json' for sl in content} | {os.path.basename(INDEX), os.path.basename(DETAILS)}   # index.json (before job 2) is archived here and sent as null once
     for f in sorted(os.listdir(OUT)):
         if f.endswith('.json') and f not in keep:
             arch = P + 'archive/bank_split_unused/' + COURSE + '/'

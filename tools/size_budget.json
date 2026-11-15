@@ -1,6 +1,6 @@
 {
  "rule": "CODE_HEALTH rule 6 (owner 13 Nov: 'keep the code proper and [lean] as we develop'). batch_check.py reports each size against its budget; over budget is a BLOCKER until the owner agrees. When the owner agrees, raise that budget here and add an entry to 'agreed' quoting the owner and the date.",
- "meaning": "Since 14 Nov (Fix 1): the budgets cover what the page loads at start, before anyone opens a topic: the page itself (review.html), the course index (data/bank/<course>/index.json.gz since 16 Nov, counted compressed) and the image-address manifest (data/assets.json), each on its own and together ('start load'). Everything the page fetches only when needed (topic files, page-image and diagram packs, data/inventory.json for Processes) and the whole published set are printed as info and never block. The published set's own limits (256 MB and 511 files per version, 64 MB and 255 files per publish) are checked by tools/publish_set.py.",
+ "meaning": "Since 14 Nov (Fix 1): the budgets cover what the page loads at start, before anyone opens a topic: the page itself (review.html), the course index (data/bank/<course>/index.gz.json since 16 Nov, counted compressed (gzip as base64 text)) and the image-address manifest (data/assets.json), each on its own and together ('start load'). Everything the page fetches only when needed (topic files, page-image and diagram packs, data/inventory.json for Processes) and the whole published set are printed as info and never block. The published set's own limits (256 MB and 511 files per version, 64 MB and 255 files per publish) are checked by tools/publish_set.py.",
  "set": "2026-11-14 (Fix 1): start-load sizes then + 25%; data/assets.json sized for about 800 entries (one per image pack at the 538-paper target); data/inventory.json kept from 13 Nov",
  "budgets": {
   "review.html": {
@@ -8,10 +8,10 @@
    "at_set": 605003,
    "note": "unchanged from 13 Nov"
   },
-  "data/bank/advanced/index.json.gz": {
+  "data/bank/advanced/index.gz.json": {
    "bytes": 2351716,
    "at_set": 1881373,
-   "note": "since 16 Nov (job 2): the slim index, gzip; counted at its compressed size (what the browser downloads). At set: 1,881,373 bytes uncompressed (the old index.json)"
+   "note": "since 16 Nov (job 2): the slim index, gzip carried as base64 text (the host serves no .gz files); counted as the published file (compressed + 33%). At set: 1,881,373 bytes uncompressed (the old index.json)"
   },
   "data/assets.json": {
    "bytes": 131072,
@@ -22,7 +22,7 @@
    "at_set": 2486422,
    "parts": [
     "review.html",
-    "data/bank/advanced/index.json.gz",
+    "data/bank/advanced/index.gz.json",
     "data/assets.json"
    ]
   },

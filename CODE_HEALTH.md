@@ -53,8 +53,8 @@ Numbers: top-level declared names 498 → 463 (declaration statements 475 → 44
 - ~~The whole 5 MB bank loads at start~~ Fix 1, 14 Nov (owner: "Ok we should run Fix 1 and 2"): the page loads a 1.8 MB index and
   each topic's text on demand (tools/bank_split.py, QG.need). The index still grows with every paper (~1.1 KB a question: tags,
   difficulty, triage); before ~150 papers it needs trimming (per-course or derived counts) or the start-load budget blocks.
-  Job 2, 16 Nov (owner: "Yeah build it"): done. The start index is slim and gzip (76 KB today, ~0.8 MB projected at 538
-  papers, budget 2.35 MB); the rest is in details.json.gz (~1.8 MB at 538, read after start). See "Job 2" below.
+  Job 2, 16 Nov (owner: "Yeah build it"): done. The start index is slim and gzip (as base64: ~103 KB today, ~1.0 MB projected
+  at 538 papers, budget 2.35 MB); the rest is in details.gz.json (~2.4 MB at 538, read after start). See "Job 2" below.
 - Course outside the page: build_bank.py, add_to_bank.py, inventory.py, the tag/difficulty specs and dotpoints.json are
   Advanced-only. The Guide's worked examples are facts about Advanced; "2024 syllabus" wording is shared by all courses.
 - Local variables named `B` in 24_exams.js, 28_schema.js and 34_papers_run.js shadow the bank alias: rename when touched.
@@ -99,19 +99,19 @@ Problem: the start index grew ~32 KB a paper (1.9 MB at 52 papers); at the 538-p
 the 2.35 MB start budget and over the platform's hard 16 MB limit per published file. All 538 papers are Advanced, so a
 per-course split would not have helped. The owner chose the split after asking whether the limit was hard and what best
 practice is (a real database and server is the long-term answer; deferred: "Let's not move over now").
-- **Files** (tools/bank_split.py): `index.json.gz` (slim: what the Bank needs: main tags only, difficulty band and kind,
-  triage tier, figure keys, key) and `details.json.gz` (the other index fields in full). Both gzip, reproducible (mtime 0).
+- **Files** (tools/bank_split.py): `index.gz.json` (slim: what the Bank needs: main tags only, difficulty band and kind,
+  triage tier, figure keys, key) and `details.gz.json` (every other index field). Both gzip, reproducible (mtime 0), carried
+  as base64 text in JSON `{v, gz}`: the first publish was refused because the artifact host serves no .gz files (+33% size).
 - **Budget**: the owner agreed that the start-load budget counts the index at its compressed size (what the browser downloads);
   budget numbers unchanged (tools/size_budget.json "agreed"). batch_check prints the projection at 538 papers.
-- **Page**: QG.get unpacks gzip (DecompressionStream; browsers from 2023 on) or reads plain JSON when the host already
-  unpacked it. QG.det merges the details into the same objects; QG.ready(view) is false for every view but the Bank until
+- **Page**: QG.json unpacks the base64 gzip (DecompressionStream; browsers from 2023 on); other files are plain JSON. QG.det merges the details into the same objects; QG.ready(view) is false for every view but the Bank until
   they land, and route() renames the view 'wait:<view>' meanwhile so live redraws (snapshots, timers) that check view==='x'
   skip. renderSteps, updateCounts and Papers' reviewState also wait. QG.onDet clears the caches built from the slim index.
 - **Rule for new code**: a field read in the Bank (list, nav, filters, bankStats, cards before QG.has) must be in the slim
   index (bank_split.py Q_START / slim_part); anything else may live in the details. page_test "data:" checks cover it,
   including a tour of every view while the details are held back.
 - **Tools**: the manifest digest has one copy, publish_set.sha (batch_check and fetch_published call it; it unpacks the .gz
-  files). publish_set includes data/**/*.json.gz and sends them with contentType application/gzip.
+  files).
 - Exceptions to the rules above: none. New page-wide names: none (QG fields only). New CSS: `#detWait` (an id, scoped).
 - Debt: the details file still holds every question; past ~538 papers or with other courses, split it per topic too (and
   give Review/Exams counts from a summary) or move to a real database.

@@ -2040,7 +2040,7 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'b
   // the course's small index (tools/bank_split.py); each question's text arrives with its topic file (QG.need below)
   // owner 16 Nov: "Yeah build it" (job 2): the index is slim and compressed; the rest of each question's index fields (triage,
   // review notes, full tags and difficulty) comes in det, read right after start (QG.det)
-  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.json.gz',det:'data/bank/advanced/details.json.gz',dots:'data/dotpoints.json'}},
+  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json'}},
   get courseData(){return this.courses[this.course]},
   byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0};
 /* ---------- data on demand (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2") ----------
@@ -2050,18 +2050,18 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'b
    Job 2 (owner 16 Nov: "Yeah build it"): the index at start holds only what the Bank needs (main tags, difficulty band and kind,
    triage tier, figure keys); the rest of the index fields arrive in the course's details file right after start (QG.det) and
    are merged into the same objects. Every view but the Bank waits for them (QG.ready, 09_router.js route), and so does a
-   question card (QG.has). Both files are gzip: QG.get unpacks them (DecompressionStream, browsers from 2023 on).
+   question card (QG.has). Both files are gzip as base64 text: QG.json unpacks them (DecompressionStream, browsers from 2023 on).
    qBody() of a question whose file has not arrived draws a placeholder (QG.pending) that fills itself in when it lands.
    Images (page images, figure crops, redraws, overlays) are read from the address in data/assets.json when it has one (the
    artifact's asset store, uploaded by the main session), else from the published file as before (QG.url). */
 Object.assign(QG,{
   // fetch JSON, retrying a load that fails during a republish or a network blip (3 retries, 0.8 s, 1.6 s, 2.4 s)
   async get(u,tries=4){let err;for(let i=0;i<tries;i++){try{const r=await fetch(u+(u.includes('?')?'&':'?')+'r='+i+'_'+Date.now());if(!r.ok)throw new Error(r.status);return await QG.json(r)}catch(e){err=e;if(i<tries-1)await new Promise(z=>setTimeout(z,800*(i+1)))}}throw err},
-  // a .gz file arrives as gzip bytes, or already unpacked when the host sends it with Content-Encoding: read the first two bytes
-  async json(r){const b=new Uint8Array(await r.arrayBuffer());
-    if(b[0]===0x1f&&b[1]===0x8b){if(!QG.canGz())throw new Error('this browser cannot unpack the question bank');
-      return JSON.parse(await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip'))).text())}
-    return JSON.parse(new TextDecoder().decode(b))},
+  // job 2: the bank index and details are gzip carried as base64 text, {v, gz} (the host serves no .gz files); anything else is plain JSON
+  async json(r){const o=await r.json();if(!o||typeof o.gz!=='string')return o;
+    if(!QG.canGz())throw new Error('this browser cannot unpack the question bank');
+    const b=Uint8Array.from(atob(o.gz),c=>c.charCodeAt(0));
+    return JSON.parse(await new Response(new Blob([b]).stream().pipeThrough(new DecompressionStream('gzip'))).text())},
   canGz(){return typeof DecompressionStream==='function'},
   OLD:'This browser is too old to open the question bank: please update it (Safari 16.4, Chrome 80, Firefox 113 or later).',
   url(p,v){const a=QG.assets[p];return a?(a.url||a):p+(v?'?v='+encodeURIComponent(v):'')},

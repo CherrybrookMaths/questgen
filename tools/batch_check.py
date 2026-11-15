@@ -250,11 +250,11 @@ try:
         import bank_split as _bs0
         _np = len({q['doc'] for q in _bs0.read_gz(_bs0.INDEX)['questions']}) or 1
         _ix, _dt = os.path.getsize(_bs0.INDEX), os.path.getsize(_bs0.DETAILS)
-        _k = next(k for k in _sb if k.endswith('/index.json.gz'))
+        _k = next(k for k in _sb if k.endswith('/index.gz.json'))
         _p538 = _ix / _np * 538
         (I if _p538 <= _sb[_k]['bytes'] else W)(f'bank index at 538 papers (from {_np} today): about {_mb(_p538)} of its {_mb(_sb[_k]["bytes"])} budget; details file about {_mb(_dt / _np * 538)} (platform limit 16 MB per file)')
     except Exception as e: W(f'bank index projection could not run: {e}')
-    _pub = _ps.publishable(); _tf = [r for r in _pub if r.startswith('data/bank/') and r.endswith('.json')]   # topic files (the index and details are .json.gz)
+    _pub = _ps.publishable(); _tf = [r for r in _pub if r.startswith('data/bank/') and not r.endswith('.gz.json')]   # topic files (not the index and details)
     I(f'size (info, loaded only when needed): published total {_mb(sum(os.path.getsize(P + "site/" + r) for r in _pub))} in {len(_pub)} files '
       f'(limit per version 256 MB, 511 files); {len(_tf)} topic files {_mb(sum(os.path.getsize(P + "site/" + r) for r in _tf))}'
       + (f', largest {_mb(max(os.path.getsize(P + "site/" + r) for r in _tf))}' if _tf else '')
