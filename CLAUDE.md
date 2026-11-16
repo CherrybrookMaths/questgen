@@ -94,7 +94,8 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
    txfonts, pdfrender), pdftoppm/pdftocairo, tesseract.
 4. Database: download the newest `questions.db.zip` from the Drive folder above (Google Drive connector `download_file_content`;
    read only), unzip it to `$QG_DB` (or `<repo>/../questions.db`), then `python3 tools/paths.py` must show DB without "(missing)".
-5. Image packs from the published page: `python3 tools/fetch_published.py` prints the missing published files (data/img/*,
+5. **Required before any publish** (17 Nov: image files are not in git; a publish from a session without them deletes them from
+   the live page, and batch_check blocks it). Image packs from the published page: `python3 tools/fetch_published.py` prints the missing published files (data/img/*,
    data/svg/g0..g7, data/cmp/g0, about 140 MB) in batches. For each batch: Artifact tool `action: "read"`,
    `url` = the review page, `paths` = the batch, `out_dir` = `<repo>/site` (asks once), or no out_dir and then
    `python3 tools/fetch_published.py --place <the folder the result names>`. Then `python3 tools/fetch_published.py --verify`

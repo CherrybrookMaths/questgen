@@ -90,6 +90,15 @@ if os.path.exists(MAN):
     cur = {k: f for k, f in cur.items() if k not in _as}
     changed = sorted(k for k, f in cur.items() if man['files'].get(k) != sha(f))
     gone = _ps.removals(man)   # stage 2, 15 Nov: published before, gone now -> the next publish must send them as null
+    # 17 Nov: image files are not in git, so a fresh session (every night run) starts without them and the publish would delete
+    # them from the live page. A removal of a page-image, overlay, cover-picture or redraw pack is only allowed when it was
+    # archived on purpose (tools/image_lifecycle.py: archive/img_cleared/); anything else blocks until it is fetched back
+    # (python3 tools/fetch_published.py, CLAUDE.md "Fresh session" step 5).
+    unexplained = [g for g in gone if g.startswith(('data/img/', 'data/cmp/', 'data/check/', 'data/svg/', 'data/crop/'))
+                   and not os.path.exists(P + 'archive/img_cleared/' + os.path.basename(g))]
+    if unexplained: B(f'{len(unexplained)} published image file(s) are missing here and the next publish would DELETE them from the live page: '
+                      + ', '.join(unexplained[:5]) + ' ... fetch them first: python3 tools/fetch_published.py (then the Artifact read it prints)')
+    gone = [g for g in gone if g not in unexplained]
     if gone: W(f'{len(gone)} published files no longer exist locally; the next publish removes them (null in python3 tools/publish_set.py --json): ' + ', '.join(gone[:5]) + (' ...' if len(gone) > 5 else ''))
     if changed: W(f'{len(changed)} files changed since the last publish ({man["at"]}); publish ALL of them in one call: ' + ', '.join(changed[:15]))
 else: I('no published manifest yet: run with --mark-published after the next publish')

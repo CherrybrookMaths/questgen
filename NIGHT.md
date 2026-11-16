@@ -15,7 +15,9 @@ The Tonight card on Processes › Work shows exactly what this run does, from tw
 
 ## 0. Start
 1. The repo: if /home/user/questgen is missing, attach CherrybrookMaths/questgen with the add_repo tool (push access) and
-   clone it there. Read CLAUDE.md (it loads automatically) and follow "Fresh session: start here" steps 0–4 and 7.
+   clone it there. Read CLAUDE.md (it loads automatically) and follow "Fresh session: start here" steps 0–5 and 7. Step 5 (fetch the published image files with
+   tools/fetch_published.py) is required, not optional: image files are not in git, and a publish from a session that lacks them
+   deletes them from the live page (17 Nov; batch_check now blocks that).
 2. `TZ=Australia/Sydney date -Iminutes` → write `progress/jobs` {jobs: [{name: "Night run", started: <now>}], updated} and
    `progress/night` `last: {at: <now>, items: [], running: true}` (ArtifactData; read the doc first, pass its version).
 
