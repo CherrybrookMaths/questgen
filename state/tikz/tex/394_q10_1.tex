@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% y = 3 cos 2x on [-9pi/4, 9pi/4] (x unit = pi)
+\begin{tikzpicture}[x=2.5654cm,y=0.6731cm]
+  \draw[<->] (-2.265,0) -- (2.24,0); \node[right,inner sep=2pt] at (2.24,0) {$x$};
+  \draw[->] (0,-3.12) -- (0,3.5); \node[above,inner sep=1pt] at (0,3.5) {$y$};
+  \foreach \t in {-2,-1.5,...,2}{\draw (\t,-0.12) -- (\t,0.12);}
+  \draw (-0.03,3) -- (0.03,3); \draw (-0.03,-3) -- (0.03,-3);
+  \node[left,inner sep=2pt] at (-0.01,3.1) {$3$}; \node[left,inner sep=2pt] at (-0.01,-3) {$-3$};
+  \tikzset{tl/.style={below,inner sep=2pt,yshift=-1pt}}
+  \node[tl] at (-2,-0.12) {$-2\pi$}; \node[tl] at (-1,-0.12) {$-\pi$};
+  \node[tl] at (1,-0.12) {$\pi$}; \node[tl] at (2,-0.12) {$2\pi$};
+  \node[tl] at (-1.5,-0.12) {$-\dfrac{3\pi}{2}$}; \node[tl] at (-0.5,-0.12) {$-\dfrac{\pi}{2}$};
+  \node[tl] at (0.5,-0.12) {$\dfrac{\pi}{2}$}; \node[tl] at (1.5,-0.12) {$\dfrac{3\pi}{2}$};
+  \draw[line width=0.9pt] plot[domain=-2.25:2.25,samples=181,smooth] (\x,{3*cos(360*\x)});
+\end{tikzpicture}
+\end{document}

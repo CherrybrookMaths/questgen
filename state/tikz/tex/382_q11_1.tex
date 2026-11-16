@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % crop pixel units: O (356,265), radius 323.4 px; OA at 141.0 deg, OB at 196.5 deg (maths angles, y up) as the crop
+  \def\r{323.4}\def\aA{141.0}\def\aB{196.5}
+  \coordinate (O) at (356,265);
+  \coordinate (A) at ({356+\r*cos(\aA)},{265-\r*sin(\aA)});
+  \coordinate (B) at ({356+\r*cos(\aB)},{265-\r*sin(\aB)});
+  % shaded segment between chord AB and arc AB (crop's mid grey as black!30, rule 5)
+  \fill[black!30] plot[smooth, samples=40, domain=\aA:\aB, variable=\t] ({356+\r*cos(\t)},{265-\r*sin(\t)}) -- cycle;
+  \draw[smooth, samples=60, domain=\aA:\aB, variable=\t] plot ({356+\r*cos(\t)},{265-\r*sin(\t)});
+  \draw[line join=round] (B) -- (O) -- (A) -- (B);
+  % angle at O: true arc centred on O between the two radii (rule 22)
+  \draw[smooth, samples=30, domain=\aA:\aB, variable=\t] plot ({356+49*cos(\t)},{265-49*sin(\t)});
+  \node at (274.5,252.5) {$\dfrac{\pi}{3}$};
+  \node at (394.5,272) {$O$};
+  \node at (112.5,33.5) {$A$};
+  \node at (36.5,389.5) {$B$};
+  \node at (218,337) {6\,cm};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % solution sketch, crop pixels (y down); sketch proportions kept, lines straightened
+  \coordinate (A) at (65,122); \coordinate (B) at (65,450); \coordinate (Y) at (277,353); \coordinate (F) at (65,353);
+  \draw[->] (A) -- (65,38);
+  \draw (A) -- (B) -- (Y) -- cycle;
+  \draw (49,122) -- (118,122);
+  \draw (F) -- (Y);
+  \draw (65,331) -- (87,331) -- (87,353);
+  % angle marks: circular arcs centred on the vertex, ending on both arms (rule 22)
+  \draw (A) ++(0:24) arc[start angle=0, end angle=47.47, radius=24];
+  \draw (A) ++(47.47:34) arc[start angle=47.47, end angle=90, radius=34];
+  \draw (Y) ++(180:44) arc[start angle=180, end angle=227.47, radius=44];
+  \node at (131,138) {$30^\circ$};
+  \node at (88,182) {$60^\circ$};
+  \node at (205,331) {$30^\circ$};
+  \node at (37,128) {$A$};
+  \node at (57,476) {$B$};
+  \node at (293,374) {$Y$};
+  \node at (65,16) {$N$};
+\end{tikzpicture}
+\end{document}

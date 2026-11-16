@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% x + y = 3 and y = e^{-x}; intersections a = -1.5052, b = 2.9475; region between them shaded
+\begin{tikzpicture}[x=0.9779cm,y=0.8382cm,every node/.style={font=\large}]
+  \fill[shade] (-1.5052,4.5052) -- (2.9475,0.0525) -- plot[domain=2.9475:-1.5052,samples=60,smooth] (\x,{exp(-\x)}) -- cycle;
+  \draw[<->] (-3.35,0) -- (3.4,0); \node[right] at (3.4,0) {$x$};
+  \draw[<->] (0,-1.4) -- (0,5.45); \node[above] at (0,5.45) {$y$};
+  \foreach \i in {-3,...,-1,1,2,3}{\draw (\i,-0.1) -- (\i,0.1); \node[below] at (\i,-0.12) {$\i$};}
+  \foreach \j in {-1,1,2,...,5}{\draw (-0.1,\j) -- (0.1,\j); \node[left] at (-0.12,\j) {$\j$};}
+  \draw[line width=0.9pt] (-2.35,5.35) -- (3.33,-0.33);
+  \draw[line width=0.9pt] plot[domain=-1.66:3.3,samples=90,smooth] (\x,{exp(-\x)});
+  \node[left] at (-1.6,4.4) {$(a,f(a))$};
+  \node[above right,inner sep=1pt] at (2.97,0.18) {$(b,f(b))$};
+\end{tikzpicture}
+\end{document}

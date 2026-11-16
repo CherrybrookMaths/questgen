@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (1109,418);
+  % graph paper as on the paper: 71.1 px per x unit, 2.55 px per y unit, origin (53.5,398)
+  \begin{scope}[shift={(53.5,398)}, x=0.90297cm, y=0.032385cm]
+    \foreach \i in {1,...,73} \draw[black!25, line width=0.3pt, dash pattern=on 1pt off 1pt] ({0.2*\i},0) -- ({0.2*\i},152);
+    \foreach \j in {1,...,15} \draw[black!25, line width=0.3pt, dash pattern=on 1pt off 1pt] (0,{10*\j}) -- (14.62,{10*\j});
+    \foreach \i in {1,...,14} \draw[black!40, line width=0.5pt] (\i,0) -- (\i,152);
+    \foreach \j in {50,100,150} \draw[black!40, line width=0.5pt] (0,\j) -- (14.62,\j);
+    \draw[->] (0,0) -- (14.85,0);
+    \draw[->] (0,0) -- (0,154);
+    \foreach \i in {1,...,14} \node[font=\footnotesize, below, inner sep=2pt] at (\i,0) {$\i$};
+    \foreach \j in {50,100} \node[font=\footnotesize, left, inner sep=5pt] at (0,\j) {$\j$};
+    \node[font=\footnotesize, anchor=east, inner sep=5pt] at (0,147) {$150$};
+    \node[font=\normalsize] at (14.4,12) {$x$};
+    \node[font=\normalsize] at (0.3,140) {$y$};
+    % income y = 20x and the sketched cost line y = 2x + 50
+    \draw[line width=0.9pt] (0,0) -- (7.75,155);
+    \draw[line width=0.9pt] (0,50) -- (14.62,79.24);
+    \node[font=\normalsize] at (8.77,138) {$y=20x$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

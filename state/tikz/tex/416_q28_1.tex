@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % crop pixels (NOT TO SCALE: positions kept as printed)
+  \coordinate (A) at (410.1,119.4); \coordinate (B) at (410.1,543); \coordinate (Y) at (1076.9,370.6);
+  \draw[->] (B) -- (410.1,20);
+  \draw (A) -- (Y);
+  \foreach \p in {A,B,Y} \fill (\p) circle (8);
+  \begin{scope}[font=\large]
+    \node at (379,108) {$A$};
+    \node at (374,526) {$B$};
+    \node at (1094,335) {$Y$};
+    \node[anchor=west] at (440,36) {North};
+    \node[font=\large\bfseries, align=center] at (112,330) {NOT TO\\SCALE};
+  \end{scope}
+\end{tikzpicture}
+\end{document}
