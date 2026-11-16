@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop pixel; origin (158,188); x: 40 px per unit, y: 45 px per unit (true shape, rules 10 and 16:
+  % the hand sketch squeezes (1,2) and (e^2,0) next to the y-axis, which no true curve can do)
+  \def\ox{158}\def\oy{188}\def\ux{40}\def\uy{45}
+  \draw[->] (25,\oy) -- (552,\oy) node[anchor=north, inner sep=6pt] {$x$};
+  \draw[->] (\ox,300) -- (\ox,12) node[anchor=east, inner sep=6pt, yshift=-4pt] {$y$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=-1.73:2.12, variable=\u]
+    plot ({\ox+\ux*exp(\u)},{\oy-\uy*(2-\u)});
+  \node[pt] at ({\ox+\ux},{\oy-2*\uy}) {};
+  \node[pt] at ({\ox+\ux*7.389},\oy) {};
+  \node[anchor=south west, inner sep=3pt] at ({\ox+\ux},{\oy-2*\uy}) {$(1,2)$};
+  \node[anchor=south, inner sep=6pt] at ({\ox+\ux*7.389},\oy) {$(e^2,0)$};
+  \node[anchor=north, inner sep=0pt, align=center] at (\ox,312) {$x=0$\\asymptote};
+\end{tikzpicture}
+\end{document}

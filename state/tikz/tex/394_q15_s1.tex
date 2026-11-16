@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (728,651);
+  \coordinate (A) at (58,562);
+  \coordinate (B) at (618,562);
+  \coordinate (C) at (317,87);
+  \draw (A) -- (B) -- (C) -- cycle;
+  \fill (A) circle (2.2pt) (B) circle (2.2pt) (C) circle (2.2pt);
+  % angle C between CA and CB, arrow onto CA (as on the paper)
+  \pgfmathsetmacro\cA{atan2(562-87,58-317)}
+  \pgfmathsetmacro\cB{atan2(562-87,618-317)}
+  \draw[->] ($(C)+(\cB:105)$) arc[start angle=\cB, end angle=\cA, radius=105];
+  % angle A between AC and AB, arrow onto AB
+  \pgfmathsetmacro\aC{atan2(87-562,317-58)}
+  \draw[->] ($(A)+(\aC:105)$) arc[start angle=\aC, end angle=0, radius=105];
+  % angle B (found) between BC and BA, same style: arrow onto BA
+  \pgfmathsetmacro\bC{atan2(87-562,317-618)}
+  \draw[->] ($(B)+(\bC:105)$) arc[start angle=\bC, end angle=-180, radius=105];
+  \node[font=\large] at (318,158) {$60^\circ$};
+  \node[font=\large] at (120,530) {$70^\circ$};
+  \node[font=\large] at (546,532) {$50^\circ$};
+  \node[font=\large] at (133,281) {$8$ cm};
+  \node[font=\large] at (338,598) {$9.04$ cm};
+  \node[font=\large] at (36,580) {$A$};
+  \node[font=\large] at (650,576) {$B$};
+  \node[font=\large] at (318,58) {$C$};
+\end{tikzpicture}
+\end{document}

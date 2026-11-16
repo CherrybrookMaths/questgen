@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,5) rectangle (1080,1142);
+  % question's grid: origin at crop pixel (136,1050); 1 unit of N = 21.875 px, 1 unit of C = 0.80833 px
+  \begin{scope}[shift={(136,1050)}, x=0.27781cm, y=0.010266cm]
+    \foreach \n in {1,...,40} {\draw[black!22, line width=0.4pt] (\n,0) -- (\n,1200);}
+    \foreach \c in {10,20,...,1200} {\draw[black!22, line width=0.4pt] (0,\c) -- (40,\c);}
+    \foreach \n in {5,10,...,40} {\draw[black!35, line width=0.45pt] (\n,0) -- (\n,1200);}
+    \foreach \c in {100,200,...,1200} {\draw[black!35, line width=0.45pt] (0,\c) -- (40,\c);}
+    % axes
+    \draw[->] (0,0) -- (41.6,0) node[right, font=\normalsize] {$N$};
+    \draw[->] (0,0) -- (0,1240) node[above, font=\normalsize] {$C/I$};
+    \foreach \n in {1,...,40} {\draw (\n,0) -- (\n,-12);}
+    \foreach \c in {10,20,...,1200} {\draw (0,\c) -- (-0.22,\c);}
+    \foreach \c in {100,200,...,1200} {\draw (0,\c) -- (-0.45,\c);}
+    \foreach \n in {5,10,...,40} {\node[below, font=\normalsize] at (\n,-12) {$\n$};}
+    \foreach \c/\t in {100/100,200/200,300/300,400/400,500/500,600/600,700/700,800/800,900/900,1000/1\,000,1100/1\,100,1200/1\,200}
+      {\node[left, font=\normalsize] at (-0.5,\c) {$\t$};}
+    \node[font=\normalsize] at (20,-92) {Number of Units Sold};
+    \node[font=\normalsize, rotate=90] at (-4.6,600) {Cost/Income};
+    % I = 30N (given)
+    \draw[line width=0.9pt, ->] (0,0) -- (40.9,1227);
+    \node[font=\normalsize, rotate=56.4] at (17.9,655) {\halo{$I=30N$}};
+    % C = 10N + 300 (solution)
+    \draw[line width=0.9pt, ->] (0,300) -- (40.9,709);
+    \node[font=\normalsize, rotate=20.3] at (27,618) {\halo{$C=10N+300$}};
+    \fill (0,300) circle (2.6pt) (20,500) circle (2.6pt) (40,700) circle (2.6pt) (15,450) circle (2.6pt);
+    \node[font=\normalsize, anchor=north west] at (0.6,282) {\halo{$(0,\,300)$}};
+    \node[font=\normalsize, anchor=north west] at (20.4,482) {\halo{$(20,\,500)$}};
+    \node[font=\normalsize, anchor=north east] at (39.8,655) {\halo{$(40,\,700)$}};
+    \node[font=\normalsize, anchor=south east] at (14.4,468) {\halo{$(15,\,450)$}};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

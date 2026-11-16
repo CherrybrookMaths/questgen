@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (290,213);
+  \coordinate (A) at (40,147);
+  \coordinate (B) at (165,147);
+  \coordinate (C) at (165,18);
+  \draw (A) -- (B) -- (C) -- cycle;
+  \draw (B) ++(-16,0) -- ++(0,-16) -- ++(16,0);
+  \pgfmathsetmacro\t{atan2(18-147,165-40)}
+  \draw (A) ++(\t:52) arc[start angle=\t, end angle=0, radius=52];
+  \node[font=\large] at (106,124) {$\theta$};
+  \node[font=\large] at (52,68) {$\sqrt{19}$};
+  \node[font=\large] at (198,82) {$2$};
+  \node[font=\large] at (106,180) {$\sqrt{15}$};
+\end{tikzpicture}
+\end{document}

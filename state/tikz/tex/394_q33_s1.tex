@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (953,1021);
+  \draw[<->] (33,545) -- (900,545);
+  \draw[<->] (466,95) -- (466,997);
+  \node[font=\large] at (917,548) {$x$};
+  \node[font=\large] at (464,68) {$y$};
+  % scale: origin at (466,545); 150 px per unit in x, 360 px per unit in y
+  \begin{scope}[shift={(466,545)}, x=1.905cm, y=4.572cm]
+    \draw[aux] (-2.75,1) -- (2.75,1);
+    \node[font=\large, anchor=south east] at (2.75,1.03) {$y=1$};
+    \draw[line width=0.9pt, smooth, samples=90, domain=-2.6:2.6] plot (\x, {1-exp(-(\x)^2)});
+    \pgfmathsetmacro\yi{1-exp(-0.5)}
+    \fill (0,0) circle (2.4pt) (0.70711,\yi) circle (2.4pt) (-0.70711,\yi) circle (2.4pt);
+    \node[font=\large, anchor=north west] at (0.06,-0.03) {$(0,\,0)$};
+    \node[font=\large, anchor=north west] at (0.80,\yi-0.04) {$\left(\dfrac{1}{\sqrt{2}},\,1-e^{-\frac{1}{2}}\right)$};
+    \node[font=\large, anchor=north east] at (-0.80,\yi-0.04) {$\left(-\dfrac{1}{\sqrt{2}},\,1-e^{-\frac{1}{2}}\right)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

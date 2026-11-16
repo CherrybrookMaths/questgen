@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (1128,663);
+  \coordinate (A) at (208.5,574);
+  \coordinate (B) at (469.5,323);
+  \coordinate (C) at (469.5,100);
+  \coordinate (D) at (905,210);
+  \draw[->] (17,267.5) -- (998,267.5);
+  \draw[->] (383.5,654) -- (383.5,14);
+  \draw[aux] (208.5,267.5) -- (A);
+  \draw[aux] (C) -- (B);
+  \draw[aux] (D) -- (905,267.5);
+  \draw[line width=0.9pt] (A) -- (B);
+  \draw[line width=0.9pt] (C) -- (D);
+  \node at (992,250) {$x$};
+  \node at (399,27) {$y$};
+  \node[font=\small] at (458,80) {$(2,6)$};
+  \node[font=\small, anchor=west] at (911,202) {$(12,k)$};
+  \node[font=\small, anchor=west] at (476,332) {$(2,-2)$};
+  \node[font=\small] at (200,594) {$(-4,-11)$};
+  \node[font=\normalsize] at (1046,53) {Not to Scale};
+\end{tikzpicture}
+\end{document}

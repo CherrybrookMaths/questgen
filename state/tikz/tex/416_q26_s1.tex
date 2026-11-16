@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % y = 3x^4 - 4x^3 + 2 drawn from its equation: X = 706 + 84 x, Y = 1163 - 107 y, so (0,2), (2/3,38/27) and (1,1) sit
+  % where the sketch puts them; arms end at the sketch's arm height (the page frame around the scan is left out)
+  \draw[->] (349,1163) -- (1280,1163);
+  \draw[->] (706,1305) -- (706,410);
+  \draw[<->, line width=0.9pt, domain=-0.805:1.604, samples=90, smooth] plot ({706+84*\x},{1163-107*(3*\x*\x*\x*\x-4*\x*\x*\x+2)});
+  \fill (706,949) circle (5);
+  \fill (762,1012.4) circle (5);
+  \fill (790,1056) circle (5);
+  \node at (722,930) {$2$};
+  \node at (808,962) {$\left(\dfrac{2}{3},\,\dfrac{38}{27}\right)$};
+  \node at (806,1090) {$(1,\,1)$};
+  \node[font=\Large] at (1120,812) {$y=3x^4-4x^3+2$};
+  \node at (724,1196) {$O$};
+  \node at (1345,1160) {$x$};
+  \node at (706,380) {$y$};
+\end{tikzpicture}
+\end{document}

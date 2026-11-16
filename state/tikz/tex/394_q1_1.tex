@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+% 394_q1_1: partially completed probability tree (DIAGRAM_SPEC rule 21; tikz/tree_style.tex). Unlabelled branches stay
+% unlabelled, as on the paper (the question asks for the missing values).
+\setlength\treeL{3.2cm}
+\treewidth{1}{Jo}\treewidth{1}{Ali}
+\treewidth{2}{Louis}\treewidth{2}{Connor}\treewidth{2}{Britt}
+\treecolumns{2}
+\begin{tikzpicture}
+  \treeroot{r}{0cm}
+  \treenode{a}{1}{2.55cm}{Jo}
+  \treebranch{r}{a}{$0.4$}
+  \treenode{b}{1}{-2.55cm}{Ali}
+  \treebranch{r}{b}{}
+  \treenode{a1}{2}{4.15cm}{Louis}   \treebranch{a}{a1}{$0.25$}
+  \treenode{a2}{2}{2.55cm}{Connor}  \treebranch{a}{a2}{$0.35$}
+  \treenode{a3}{2}{0.95cm}{Britt}   \treebranch{a}{a3}{}
+  \treenode{b1}{2}{-0.95cm}{Louis}  \treebranch{b}{b1}{$0.25$}
+  \treenode{b2}{2}{-2.55cm}{Connor} \treebranch{b}{b2}{$0.35$}
+  \treenode{b3}{2}{-4.15cm}{Britt}  \treebranch{b}{b3}{}
+  \treehead{1}{4.05cm}{President}
+  \treehead{2}{5.25cm}{Vice-President}
+\end{tikzpicture}
+\end{document}
