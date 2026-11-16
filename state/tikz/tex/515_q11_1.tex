@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % frequency scale: 0 at y=680, 15 per 65.6 px; percentage scale: 0% at 680, 10% per 65.6 px
+  \foreach \k in {1,...,10} \draw[black!12] (111,{680-65.6*\k}) -- (1189,{680-65.6*\k});
+  % bars (measured tops)
+  \foreach \a/\t in {173/56,344/165,513/405,684/443,853/568,1023/607}
+    \fill[black!35] (\a,680) rectangle ({\a+108},\t);
+  % axes and ticks
+  \draw (111,{680-65.6*10}) -- (111,680) -- (1189,680) -- (1189,{680-65.6*10});
+  \foreach \k in {0,...,10} {
+    \draw (105,{680-65.6*\k}) -- (111,{680-65.6*\k});
+    \draw (1189,{680-65.6*\k}) -- (1195,{680-65.6*\k});
+    \pgfmathtruncatemacro\v{15*\k}\pgfmathtruncatemacro\p{10*\k}
+    \node[anchor=east,inner sep=0pt] at (94,{680-65.6*\k}) {\v};
+    \node[anchor=west,inner sep=0pt] at (1203,{680-65.6*\k}) {\p\%};
+  }
+  % cumulative percentage line
+  \draw (229.5,458) -- (396.5,277) -- (564,178) -- (734,91.5) -- (900.5,52.5) -- (1074,24.5);
+  \foreach \p in {(229.5,458),(396.5,277),(564,178),(734,91.5),(900.5,52.5),(1074,24.5)} \fill \p circle (7.5);
+  % labels
+  \foreach \c/\l in {227/{Internet\\Speed},398/{Printer Error},567/{Forgotten\\Password},737/{Missing\\Files},907/{Slow\\Computer},1077/{Other}}
+    \node[anchor=north,align=center,inner sep=0pt,font=\linespread{0.85}\selectfont] at (\c,701) {\l};
+  \node[rotate=90] at (32,360) {Frequency};
+  \node[rotate=90] at (1295,355) {Cumulative Percentage};
+  \node at (662,817) {Type of Issue};
+\end{tikzpicture}
+\end{document}
