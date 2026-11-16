@@ -14,11 +14,15 @@ function figKeys(q){const f=q.fk||{};return {inline:new Set(f.i||[]),all:f.a||[]
 const redrawable=k=>{const f=B.figs[k];return f&&(f.status==='ok'||f.status==='approx'||f.status==='table')};
 const PACKS={}, SVGS={};
 // Fix 1: each pack is fetched from its asset-store address when data/assets.json lists one, else from the published file (QG.url)
-const pack=doc=>PACKS[doc]||(PACKS[doc]=fetch(QG.url('data/img/'+doc+'.json',B?.built)).then(r=>r.json()).catch(()=>({})));
+// Job 3 (owner 14 Nov: "What if we dropped them and rerendered them in the new location?"): a paper in review keeps its own
+// pack (page scans + crops, docs[doc].ip); once cleared, its scans are gone and the crops the page can still show are in the
+// crop group data/crop/g<doc % 8>.json (tools/image_lifecycle.py). The key is the same in both: 'figures/<key>.png'.
+const pack=doc=>{const f=B?.docs?.[doc]?.ip?'data/img/'+doc+'.json':packFile('crop',doc);
+  return PACKS[f]||(PACKS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
 // owner 15 Nov (via workflow brief): "Lets do ... 4" -> fewer published files. Redraw (svg) and overlay/first-redraw (cmp)
 // packs are group files data/<kind>/g<paper id % n>.json, not one per paper; still fetched lazily, once per group.
-// PACK_G must match GROUPS in tools/packs.py (batch_check checks it). Page images (data/img) stay one file per paper.
-const PACK_G={svg:8,cmp:1};
+// PACK_G must match GROUPS in tools/packs.py (batch_check checks it). Page images (data/img) stay one file per paper while in review.
+const PACK_G={svg:32,cmp:1,crop:8};
 const packFile=(kind,doc)=>'data/'+kind+'/g'+(parseInt(doc,10)%PACK_G[kind])+'.json';
 const CMPS={}; const cmps=doc=>{const f=packFile('cmp',doc);return CMPS[f]||(CMPS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
 const svgs=doc=>{const f=packFile('svg',doc);return SVGS[f]||(SVGS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
@@ -36,6 +40,8 @@ function hydrate(root,q,mode){
     if(im.dataset.kind==='svg') svgs(doc).then(m=>{if(m[k]){if(m[k].startsWith('data:image/png'))im.onload=()=>{im.style.width=Math.round(im.naturalWidth*0.32)+'px'};im.src=m[k]}else im.alt='Redraw missing'});
     else pack(doc).then(m=>{const p='figures/'+k+'.png';if(m[p]){im.onload=()=>{im.style.width=Math.round(im.naturalWidth*0.48)+'px'};im.src=m[p]}else im.alt='Image missing: '+k});
   });
-  root.querySelectorAll('img[data-page]').forEach(im=>{const p=im.dataset.page;pack(p.split('/').pop().split('_')[0]).then(m=>{if(m[p])im.src=m[p]})});
+  root.querySelectorAll('img[data-page]').forEach(im=>{const p=im.dataset.page,d=p.split('/').pop().split('_')[0];
+    if(!B?.docs?.[d]?.ip){im.alt='Page image removed after review (Claude can re-render it from the PDF)';im.classList.add('rv-gone');return}   // job 3
+    pack(d).then(m=>{if(m[p])im.src=m[p]})});
 }
 

@@ -2053,6 +2053,32 @@ async function dataSplit(browser, base, seed) {
     return `${tour.length} views opened while waiting, no errors; “Loading question details…”, then Exams; bankStats ${after.stats.questions} questions / ${after.stats.papers} papers and every topic home unchanged`;
   });
   await dp.context().close();
+  // job 3 (owner 14 Nov: "What if we dropped them and rerendered them in the new location?"): tools/image_lifecycle.py
+  await check('images: a cleared paper reads crops from its crop group and says its scans are gone; a paper in review keeps both', null, async () => {
+    const crop = {}; for (const f of fs.readdirSync(path.join(SITE, 'data/crop')).filter(f => /^g\d+\.json$/.test(f))) Object.assign(crop, JSON.parse(fs.readFileSync(path.join(SITE, 'data/crop', f), 'utf8')));
+    const ck = Object.keys(crop)[0].replace(/^figures\/|\.png$/g, ''), cdoc = ck.split('_')[0];
+    const kept = fs.readdirSync(path.join(SITE, 'data/img')).filter(f => /^\d+\.json$/.test(f)).map(f => f.slice(0, -5));
+    assert(kept.length, 'no paper in review has a per-paper pack: pick another fixture');
+    const kpack = JSON.parse(fs.readFileSync(path.join(SITE, 'data/img', kept[0] + '.json'), 'utf8')), kpage = Object.keys(kpack).find(k => k.startsWith('pages/'));
+    const p = await newPage(browser, base, seed, {width: 1280, theme: 'light'}); log(p);
+    try {
+      await boot(p, base, '#bank');
+      const r = await p.evaluate(async ({ck, cdoc, kpage, kdoc}) => {
+        const box = document.createElement('div'); document.body.appendChild(box);
+        box.innerHTML = `<img class="fig" data-k="${ck}" data-kind="png"><img data-page="pages/${cdoc}_1.jpg"><img data-page="${kpage}">`;
+        hydrate(box, {id: 0, parts: [], figures: []}, 'bank');
+        const t0 = Date.now(); while (Date.now() - t0 < 10000 && (!box.children[0].getAttribute('src') || !box.children[2].getAttribute('src'))) await new Promise(z => setTimeout(z, 100));
+        const out = {crop: !!box.children[0].getAttribute('src'), gone: box.children[1].classList.contains('rv-gone') && !box.children[1].getAttribute('src'),
+          scan: !!box.children[2].getAttribute('src'), ipC: !!B.docs[cdoc]?.ip, ipK: !!B.docs[kdoc]?.ip}; box.remove(); return out }, {ck, cdoc, kpage, kdoc: kept[0]});
+      const urls = p._req.map(x => x.u), e = takeErrs(p);
+      assert(!e.length, e.slice(0, 3).join(' | '));
+      assert(!r.ipC && r.ipK, `index flags: cleared paper ${cdoc} ip=${r.ipC}, paper in review ${kept[0]} ip=${r.ipK}`);
+      assert(r.crop && urls.some(u => /^data\/crop\/g\d+\.json$/.test(u)) && !urls.includes(`data/img/${cdoc}.json`), `crop ${ck}: shown ${r.crop}; requests ${urls.filter(u => /^data\/(img|crop)\//.test(u)).join(' ')}`);
+      assert(r.gone, `the cleared paper's page scan did not say it was removed`);
+      assert(r.scan && urls.includes(`data/img/${kept[0]}.json`), `paper in review ${kept[0]}: scan shown ${r.scan}`);
+      return `crop ${ck} from ${urls.find(u => /^data\/crop\//.test(u))}; paper ${cdoc}'s scan: "removed after review"; paper ${kept[0]} (in review) scan from its own pack`;
+    } finally { await p.context().close() }
+  });
   await check('data: a details file that fails: the Bank says so with Try again, which then loads it', null, async () => {
     const p = await newPage(browser, base, seed, {width: 1280, theme: 'light'}); log(p);
     let down = true;

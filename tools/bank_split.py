@@ -140,9 +140,18 @@ def slim_part(p):
     return x
 
 
+def img_packs():
+    """Papers that still have a per-paper image pack (site/data/img/<doc>.json: page scans + crops, while in review). Job 3
+    (tools/image_lifecycle.py): a cleared paper's crops are in site/data/crop/ instead; the index marks docs[doc].ip = 1."""
+    return sorted(int(f[:-5]) for f in os.listdir(P + 'site/data/img') if f[:-5].isdigit()) if os.path.isdir(P + 'site/data/img') else []
+
+
 def src_hash(path=None):
-    """sha256 (16 hex) of site/data/bank.json: the index records the bank.json it was split from (idx['src'])."""
-    return hashlib.sha256(open(path or P + 'site/data/bank.json', 'rb').read()).hexdigest()[:16]
+    """sha256 (16 hex) of site/data/bank.json and the list of per-paper image packs: the index records what it was split
+    from (idx['src']), so a paper cleared in Review (its pack archived) makes the index stale too (job 3)."""
+    h = hashlib.sha256(open(path or P + 'site/data/bank.json', 'rb').read())
+    h.update(json.dumps(img_packs()).encode())
+    return h.hexdigest()[:16]
 
 
 def stale():
@@ -209,7 +218,9 @@ def split(bank, home, src=None):
             arch = P + 'archive/bank_split_unused/' + COURSE + '/'
             os.makedirs(arch, exist_ok=True); os.replace(OUT + f, arch + time.strftime('%Y%m%d%H%M%S_') + f)
             print('archived unused topic file', f)
-    idx = {'v': 3, 'built': bank.get('built'), 'src': src, 'course': COURSE, 'docs': bank['docs'], 'tables': bank['tables'], 'figs': {k: {kk: v for kk, v in f.items() if not (k in moved and kk in F_CONTENT)} for k, f in figs.items()},
+    ip = set(img_packs())
+    docs = {k: ({**d, 'ip': 1} if int(k) in ip else d) for k, d in bank['docs'].items()}
+    idx = {'v': 3, 'built': bank.get('built'), 'src': src, 'course': COURSE, 'docs': docs, 'tables': bank['tables'], 'figs': {k: {kk: v for kk, v in f.items() if not (k in moved and kk in F_CONTENT)} for k, f in figs.items()},
            'codes17': bank.get('codes17', {}), 'files': files, 'questions': idx_q}
     idx['raw'] = write_gz(INDEX, idx)
     idx['raw_details'] = write_gz(DETAILS, {'v': 1, 'src': src, 'q': details})

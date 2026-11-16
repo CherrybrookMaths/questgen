@@ -21,7 +21,10 @@ import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abs
 import json, os, re, shutil, sys
 
 P = paths.P
-GROUPS = {'svg': 8, 'cmp': 1}   # must match PACK_G in page_src/js/05_figures.js
+# Job 3, 16 Nov (owner 14 Nov: "What if we dropped them and rerendered them in the new location?"): svg 8 -> 32 groups, so each
+# group stays well under the asset store's 20 MiB per file at 538 papers (~11 MB each); crop = figure crops kept after a paper
+# is cleared in Review (tools/image_lifecycle.py).
+GROUPS = {'svg': 32, 'cmp': 1, 'crop': 8}   # must match PACK_G in page_src/js/05_figures.js
 ARCH = P + 'archive/packs_perpaper_1115/'
 MAP = paths.S + 'work/restructure/merge_map.json'
 PER_PAPER = re.compile(r'^(\d+)\.json$')
@@ -91,11 +94,13 @@ def check():
         if leftovers(kind): bad.append(f'{len(leftovers(kind))} per-paper files left in site/data/{kind}/ (run tools/packs.py)')
         for i in range(n):
             if not os.path.exists(P + f'site/data/{kind}/g{i}.json'): bad.append(f'missing site/data/{kind}/g{i}.json')
+        if not os.path.isdir(P + f'site/data/{kind}/'): continue
         extra = [f for f in os.listdir(P + f'site/data/{kind}/') if GROUP_FILE.match(f) and int(GROUP_FILE.match(f).group(1)) >= n]
         if extra: bad.append(f'site/data/{kind}/ has group files beyond g{n - 1}: {extra} (GROUPS changed? archive them)')
     js = open(P + 'page_src/js/05_figures.js').read()
-    m = re.search(r'const PACK_G=\{svg:(\d+),cmp:(\d+)\}', js)
-    if not m or (int(m.group(1)), int(m.group(2))) != (GROUPS['svg'], GROUPS['cmp']):
+    m = re.search(r'const PACK_G=\{([^}]*)\}', js)
+    pg = {k: int(v) for k, v in re.findall(r'(\w+):(\d+)', m.group(1))} if m else None
+    if pg != GROUPS:
         bad.append(f'PACK_G in page_src/js/05_figures.js does not match tools/packs.py GROUPS {GROUPS}')
     return bad
 
