@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % graphing-app screen: origin (20,194); x: 36.4 px/unit; y: 1750 px/unit (0.1 at y=19); f(x)=0.1 on [0,10], area shaded (flat purple on the screen: flat grey here)
+  \fill[shade] (20,194) rectangle (384,19);
+  \draw (0,194) -- (426,194);
+  \draw (20,223) -- (20,0);
+  \draw[line width=0.9pt] (20,19) -- (384,19);
+  \foreach \v in {2,4,6,8,10} {
+    \draw ({20+36.4*\v},194) -- ({20+36.4*\v},199);
+    \node[font=\tiny, anchor=north] at ({20+36.4*\v},199) {$\v$};
+  }
+  \node[font=\tiny, anchor=north east] at (17,198) {$0$};
+  \draw (15,19) -- (20,19);
+  \draw (15,106.5) -- (20,106.5);
+  \node[font=\tiny, anchor=east] at (15,19) {$0.1$};
+  \node[font=\tiny, anchor=east] at (15,106.5) {$0.05$};
+\end{tikzpicture}
+\end{document}

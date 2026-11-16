@@ -36,6 +36,16 @@ def load(f):
     return json.load(open(f)) if os.path.exists(f) else {}
 
 
+def ov_png(f, width=700):
+    """A Review overlay image as a small data URI: at most `width` px wide, 4-colour palette PNG (about 15 KB)."""
+    import base64, io
+    from PIL import Image
+    im = Image.open(f).convert('RGB')
+    if im.width > width: im = im.resize((width, round(im.height * width / im.width)), Image.LANCZOS)
+    b = io.BytesIO(); im.quantize(colors=4).save(b, 'PNG', optimize=True)
+    return 'data:image/png;base64,' + base64.b64encode(b.getvalue()).decode()
+
+
 def groups(kind):
     """Every existing group file of `kind`, whatever its count, merged: {key: value}."""
     out = {}
@@ -82,18 +92,24 @@ def main():
             if k in approved: dropped += 1; continue
             by_doc.setdefault(str(d), {})[p] = v; kept += 1
         moved.append(d)
-    cmp = groups('cmp')
+    cmp = groups('cmp'); n_cmp = len(cmp)
+    # 16 Nov (Batch 6): papers still in review get their Review overlay images ("ov:<key>": red only in the original, blue only
+    # in the redraw, black both) packed from the diagram run's tikz/overlay/<key>.png, as the old pipeline did (4-colour PNG)
+    in_review = {d for d in img if d not in cleared}
+    for f in sorted(glob.glob(P + 'tikz/overlay/*.png')):
+        k = os.path.basename(f)[:-4]
+        if int(KEY_DOC.match(k).group(1)) in in_review and 'ov:' + k not in cmp: cmp['ov:' + k] = ov_png(f)
     cmp_drop = {k: v for k, v in cmp.items() if int(KEY_DOC.match(k).group(1)) in cleared}
     svg = groups('svg')
     svg_files = sorted(glob.glob(S + 'svg/g*.json'))
     regroup = len(svg_files) != packs.GROUPS['svg']
     print(f'image_lifecycle: {len(img)} paper packs, {len(cleared)} cleared -> archive; crops kept {kept}, dropped {dropped} '
-          f'(redraw approved); overlays dropped {len(cmp_drop)} of {len(cmp)}; svg groups {len(svg_files)} -> {packs.GROUPS["svg"]}'
+          f'(redraw approved); overlays added {len(cmp) - n_cmp}, dropped {len(cmp_drop)} of {len(cmp)}; svg groups {len(svg_files)} -> {packs.GROUPS["svg"]}'
           + (' (regroup)' if regroup else ''))
     if dry: return
     os.makedirs(ARCH + 'cmp', exist_ok=True)
     packs.write_groups('crop', by_doc)
-    if cmp_drop:
+    if cmp_drop or len(cmp) != n_cmp:
         old = load(ARCH + 'cmp/dropped.json'); old.update(cmp_drop); json.dump(old, open(ARCH + 'cmp/dropped.json', 'w'))
         keep = {k: v for k, v in cmp.items() if k not in cmp_drop}
         packs.write_groups('cmp', {d: {k: v for k, v in keep.items() if KEY_DOC.match(k).group(1) == d} for d in {KEY_DOC.match(k).group(1) for k in keep}})
