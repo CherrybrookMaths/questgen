@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 638_q18_1: y = 2^{3x} from the equation, fitted to the crop: origin (245,308), y-intercept 1 at 28 px above the axis,
+% 149 px per x-unit so the curve leaves the top at the crop's position (crop pixels, y down). Blue drawn black (rule 6).
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (28,308) -- (562,308) node[right, inner sep=3pt] {$x$};
+  \draw[->] (245,352) -- (245,38) node[above, inner sep=2pt] {$y$};
+  \draw[line width=0.9pt, smooth, samples=90, variable=\t, domain=-1.2:1.078] plot ({245+149*\t},{308-28*2^(3*\t)});
+  \node[anchor=north east, inner sep=3pt] at (243,310) {$O$};
+\end{tikzpicture}
+\end{document}

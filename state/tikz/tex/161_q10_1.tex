@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 161_q10_1: river cross-section, crop pixel units (y down). Water surface straightened (the scan's line wavers by 3 px);
+% bed drawn as straight segments between the measured depth points; depth lines dashed (house aux).
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (28,38) -- (103.5,68) -- (904.5,68) -- (992,29);
+  \draw (103.5,68) -- (103.5,115.5) -- (305.5,222.5) -- (504.5,261.5) -- (705,323) -- (904.5,209.5) -- (904.5,68);
+  \draw[aux] (305.5,68) -- (305.5,222.5);
+  \draw[aux] (504.5,68) -- (504.5,261.5);
+  \draw[aux] (705,68) -- (705,323);
+  \foreach \x in {204,404.5,604,803.5} \node at (\x,43) {$3$};
+  \node at (134,95) {$0.5$};
+  \node at (335,145) {$2.3$};
+  \node at (535,164.5) {$2.9$};
+  \node at (735,194) {$3.8$};
+  \node at (932.5,137.5) {$2.1$};
+\end{tikzpicture}
+\end{document}

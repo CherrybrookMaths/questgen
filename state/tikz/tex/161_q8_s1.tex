@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 161_q8_s1: hand solution sketch redrawn clean (rules 10, 17): one cycle of y = sin(kx) from its equation, crop pixel
+% units (origin (32,98); one period = 218 px, amplitude 43 px). Axes straightened (the scan's x-axis tilts ~2 deg);
+% no arrowheads, as on the sketch (rule 4: match which ends have arrows).
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (32,98) -- (455,98);
+  \draw (32,10) -- (32,182);
+  \draw[line width=0.9pt, domain=0:1, samples=90, smooth] plot ({32+218*\x},{98-43*sin(360*\x)});
+  \node[inner sep=0pt] at (272,145) {$\dfrac{2\pi}{k}$};
+\end{tikzpicture}
+\end{document}
