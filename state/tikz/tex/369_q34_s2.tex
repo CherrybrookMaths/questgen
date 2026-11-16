@@ -6,10 +6,11 @@
   % red line h = 60 and blue line h = 85 drawn black (rule 6)
   \draw (10,279.5) -- (598,279.5);
   \draw (14,301) -- (14,0);
-  \foreach \t/\l in {0/0,7.5/7.5,15/15,22.5/22.5,30/30,37.5/37.5,45/45,52.5/52.5,60/60} { \draw ({14+9.417*\t},279.5) -- ({14+9.417*\t},284.5); \node[font=\tiny, anchor=north] at ({14+9.417*\t},284.5) {$\l$}; }
+  \foreach \t/\l in {0/{},7.5/7.5,15/15,22.5/22.5,30/30,37.5/37.5,45/45,52.5/52.5,60/60} { \draw ({14+9.417*\t},279.5) -- ({14+9.417*\t},284.5); \node[font=\tiny, anchor=north] at ({14+9.417*\t},284.5) {$\l$}; }
   \foreach \h in {10,20,...,110} { \draw (9,{279.5-2.42*\h}) -- (14,{279.5-2.42*\h}); \node[font=\tiny, anchor=east] at (9,{279.5-2.42*\h}) {$\h$}; }
   \draw (14,{279.5-2.42*60}) -- (577,{279.5-2.42*60});
   \draw (14,{279.5-2.42*85}) -- (598,{279.5-2.42*85});
+  \node[font=\tiny, anchor=north east] at (11.0,283.5) {$0$};
   \draw[line width=0.9pt] plot[domain=0:60, samples=90, smooth, variable=\t] ({14+9.417*\t},{279.5-2.42*(60-50*cos(12*\t))});
 \end{tikzpicture}
 \end{document}
