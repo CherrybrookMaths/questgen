@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 637_q15_s1: solution sketch of y = 5 sin(x/2), -2pi <= x <= 2pi, with the line y = 3, redrawn as a clean exam diagram
+% (rules 10, 17). Crop pixel units (y down): origin (543,495), 2pi = 487 px, 5 = 205 px; y = 3 at its true height.
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\Large}]
+  \draw (25,495) -- (543,495);
+  \draw[->] (543,495) -- (1110,495) node[right, inner sep=3pt] {$x$};
+  \draw (543,750) -- (543,495);
+  \draw[->] (543,495) -- (543,145) node[above, inner sep=3pt] {$y$};
+  \draw (533,290) -- (553,290); \draw (533,700) -- (553,700);
+  \node[anchor=west] at (558,290) {$5$};
+  \node[anchor=west] at (558,700) {$-5$};
+  \draw[aux] (35,372) -- (1110,372) node[right, inner sep=3pt] {$y=3$};
+  \draw[line width=0.9pt, smooth, samples=90, variable=\t, domain=-2*pi:2*pi]
+     plot ({543+487/(2*pi)*\t},{495-205*sin(\t/2 r)});
+  \draw (56,485) -- (56,505); \draw (1030,485) -- (1030,505);
+  \node[anchor=north east, inner sep=1pt] at (54,503) {$-2\pi$};
+  \node[anchor=north] at (1030,510) {$2\pi$};
+\end{tikzpicture}
+\end{document}

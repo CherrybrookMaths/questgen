@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 637_q16_1: y = g(x) = x^2(x-3) (double root at 0, root 3, through P(-1,-4) and minimum (2,-4)), drawn from the
+% equation on the paper's grid: 51.68 px per x-unit, 29.27 px per y-unit, origin (582.5,398) in crop pixels (y down).
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\ux{51.68}\def\uy{29.27}
+  \foreach \i in {-11,...,11} \draw[black!35, line width=0.4pt] ({582.5+\i*\ux},17.5) -- ({582.5+\i*\ux},778.5);
+  \foreach \j in {-13,...,13} \draw[black!35, line width=0.4pt] (13.5,{398-\j*\uy}) -- (1150.5,{398-\j*\uy});
+  \draw[<->] (8,398) -- (1157,398) node[above left, inner sep=2pt] {$x$};
+  \draw[<->] (582.5,785) -- (582.5,11) node[below right, inner sep=2pt] {$y$};
+  \foreach \i in {-10,...,-1} \node[font=\small, anchor=north, inner sep=2pt] at ({582.5+\i*\ux-3},402) {$\i$};
+  \foreach \i in {1,...,10} \node[font=\small, anchor=north, inner sep=2pt] at ({582.5+\i*\ux+3},402) {$\i$};
+  \node[font=\small, anchor=north east, inner sep=2pt] at (580,402) {$0$};
+  \foreach \j in {-12,-10,-8,-6,-4,-2,2,4,6,8,10,12} \node[font=\small, anchor=east, inner sep=2pt] at (579,{398-\j*\uy}) {$\j$};
+  \draw[<->, line width=0.9pt, smooth, samples=90, variable=\t, domain=-1.655:3.855]
+     plot ({582.5+\ux*\t},{398-\uy*(\t*\t*(\t-3))});
+  \fill ({582.5-\ux},{398+4*\uy}) circle (5);
+  \node[anchor=east, font=\large, inner sep=2pt] at ({582.5-\ux-8},{398+4*\uy}) {$P(-1,-4)$};
+  \node[font=\large] at (865,120) {$y=g(x)$};
+\end{tikzpicture}
+\end{document}

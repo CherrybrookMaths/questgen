@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % option D of four; all four options share one frame (rule 7), crop pixels of options A-C
+  \draw[<->] (6,242.5) -- (446,242.5);
+  \draw[<->] (92,307) -- (92,29);
+  \node[font=\scriptsize, anchor=base west] at (451,246.5) {$x$};
+  \node[font=\scriptsize, anchor=base] at (91,15) {$y$};
+  \draw[aux] (167,179) -- (167,242.5);
+  \draw[aux] (327,79.5) -- (327,242.5);
+  \node[font=\scriptsize, anchor=base] at (167,265.5) {$a$};
+  \node[font=\scriptsize, anchor=base] at (327,265.5) {$b$};
+  \draw (167,179) -- (327,79.5);
+  \node[pt] at (167,179) {};
+  \node[pt] at (327,79.5) {};
+\end{tikzpicture}
+\end{document}
