@@ -40,8 +40,10 @@ In short: flaws first, [Certain]/[Likely]/[Guessing], no filler praise.
   ({items:[{id,title,detail,status:'queued'|'running'|'done',order,asked}],updated}) and `progress/jobs` with ArtifactData.
 - Copy questions.db into archive/ (or next to it) before any tool writes to it for the first time in a session.
 - No machine paths in tools/: locations come from tools/paths.py (batch_check blocks a hard-coded one).
-- **Unattended sessions (16 Nov)**: .claude/settings.json allows `git push` (owner: "yes night can push") and the Artifact tool
-  (owner: "yes publishing rule"), so the nightly task can push and publish without a person. Publish only the review page, and only
+- **Unattended sessions (16 Nov)**: .claude/settings.json pre-approves every tool this project uses (owner 16 Nov: "So can u stop
+  asking me FOR PERMISSION? I GIVE ALL PERMISSION"; earlier "yes night can push", "yes publishing rule"): shell, files, the
+  Artifact tools, the page database and Google Drive. Nothing stops to ask, so the standing rules above are the only guard:
+  follow them exactly. Publish only the review page, and only
   after `prepublish.sh` exits 0 (0 blockers). The night task holds the Google Drive connector (owner: "yes Drive for the night
   task"): read the exam folder and the DB backup, upload the new backup; never trash, move or rename. Imports stay paused
   (owner 16 Nov: "no imports yet") until he resumes them.
