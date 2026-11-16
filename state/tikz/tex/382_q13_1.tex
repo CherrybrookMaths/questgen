@@ -25,7 +25,7 @@
   \fill ({237.5+138.8*\cc},{\yz-85.86*\p/10}) circle (1.6pt);
 % labels
 \foreach \cc/\lab in {0/Venue,1/Food,2/Waitstaff,3/{Photo/video},4/D\'ecor,5/Beverages,6/Other}
-  \node at ({237.5+138.8*\cc},933) {\lab};
+  \node[font=\small] at ({237.5+138.8*\cc},933) {\lab}; % owner 17 Nov (checker): "The x-axis labels "Waiststaff" and "Photo/video" are overlapping." -> category labels \small so they clear each other
 \node at (655,987) {Type of Cost};
 \node[rotate=90] at (58,466) {Cost (\$)};
 \node[rotate=90] at (1268,466) {Cumulative Percentage};

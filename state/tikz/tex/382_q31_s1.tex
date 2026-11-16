@@ -2,8 +2,9 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\small]
-\def\A{(140,112) ellipse [x radius=82, y radius=76]}
-\def\B{(232,115) ellipse [x radius=68, y radius=70]}
+% owner 17 Nov (checker): "Make the circles in the redrawn diagram have the same diameter." -> both circles radius 74 (was ellipses 82x76 and 68x70), centres kept
+\def\A{(140,112) circle [radius=74]}
+\def\B{(232,115) circle [radius=74]}
 \fill[black!8] \B;
 \begin{scope}\clip \A; \fill[shade] \B; \end{scope}
 \draw (20,20) rectangle (328,215);

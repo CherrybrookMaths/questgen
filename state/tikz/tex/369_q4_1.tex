@@ -6,7 +6,8 @@
   \def\X#1{52+(#1-120)*12.225}
   \def\ay{421.5}
   % axis: major ticks every 20 (labelled), minor every 5
-  \draw[->] (52,\ay) -- (1109,\ay);
+  % owner 17 Nov (checker): "For the Q4 on the New Box and whisker plot you cannot see the axis mark" -> axis runs past 205 so its tick clears the arrowhead
+  \draw[->] (52,\ay) -- (1135,\ay);
   \foreach \v in {120,140,...,200} {
     \draw ({\X{\v}},\ay-4) -- ({\X{\v}},\ay+4);
     \node[anchor=north, inner sep=0pt, font=\fontsize{8.5}{10}\selectfont] at ({\X{\v}},440) {\v};}
