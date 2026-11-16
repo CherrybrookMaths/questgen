@@ -83,8 +83,16 @@ def convert(text, owner_table, owner_id, counter):
 
 if __name__ == '__main__':
     total = 0
+    # 17 Nov (second time, Batch 7): run over the whole database it re-converted the owner's 2025 HSC Q8 display array and
+    # approved sign tables. Doc ids on the command line limit it to those papers (post_load.py passes the batch); with none it
+    # still covers everything, for a deliberate full pass only.
+    DOCS = [int(a) for a in sys.argv[1:] if a.isdigit()]
+    QSEL = f"select id from questions where document_id in ({','.join(map(str, DOCS))})" if DOCS else None
+    SCOPE = {'parts': f'question_id in ({QSEL})', 'questions': f'id in ({QSEL})',
+             'mcq_options': f'question_id in ({QSEL})',
+             'solutions': f'(question_id in ({QSEL}) or part_id in (select id from parts where question_id in ({QSEL})))'} if DOCS else {}
     for tbl, col in (('parts', 'latex'), ('questions', 'stem_latex'), ('mcq_options', 'latex'), ('solutions', 'latex')):
-        for rid, s in db.execute(f"select id,{col} from {tbl} where {col} like '%begin{{array}}%'").fetchall():
+        for rid, s in db.execute(f"select id,{col} from {tbl} where {col} like '%begin{{array}}%'" + (f' and {SCOPE[tbl]}' if DOCS else '')).fetchall():
             new, made = convert(s, tbl, rid, [0])
             if made:
                 db.execute(f'update {tbl} set {col}=? where id=?', (new, rid)); total += len(made)

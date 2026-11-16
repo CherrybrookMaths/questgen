@@ -27,5 +27,6 @@ for sid, mb, mj in db.execute(f"select s.id,s.marks_breakdown,s.meta_json from s
     crit, meta = parse_criteria(mb); meta = {**meta, **json.loads(mj or '{}')}
     db.execute('update solutions set criteria_json=?, meta_json=? where id=?', (json.dumps(crit, ensure_ascii=False), json.dumps(meta, ensure_ascii=False), sid)); c += 1
 db.commit(); print('solution figures', n, 'criteria parsed', c)
-for cmd in (['crop_check.py'] + [str(i) for i in IDS] + ['--apply'], ['house_style.py'], ['tables.py'], ['dedup.py'] + [str(i) for i in IDS], ['exam_name.py']):
+for cmd in (['crop_check.py'] + [str(i) for i in IDS] + ['--apply'], ['house_style.py'], ['tables.py'] + [str(i) for i in IDS],   # 17 Nov: the batch's papers only (IMPORT_PLAYBOOK lessons)
+                 ['dedup.py'] + [str(i) for i in IDS], ['exam_name.py']):
     r = subprocess.run(['python3', P + 'tools/' + cmd[0]] + cmd[1:], capture_output=True, text=True); print(cmd[0], (r.stdout.strip().splitlines() or [''])[-1], r.stderr[-300:])

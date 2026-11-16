@@ -140,6 +140,10 @@ for f in FILES:
         for tab, col in (('parts', 'latex'), ('questions', 'stem_latex')):
             r = db.execute(f'select x.id from {tab} x' + (' join questions q on q.id=x.question_id where q.document_id=?' if tab == 'parts' else ' where x.document_id=?') + f' and x.{col} like ?', (target, '%\\extable{' + t['id'] + '}%')).fetchone()
             if r: own = (tab, r[0]); break
+        if not own:   # 17 Nov (Batch 7, Ascham 2023 Q30): a table inside a worked solution belongs to that solution
+            r = db.execute('select s.id from solutions s left join parts p on p.id=s.part_id join questions q on q.id=coalesce(s.question_id,p.question_id) '
+                           'where q.document_id=? and s.latex like ?', (target, '%\\extable{' + t['id'] + '}%')).fetchone()
+            if r: own = ('solutions', r[0])
         db.execute('insert or replace into data_tables(id,owner_table,owner_id,caption,header_rows,label_col,rows_json,source_latex,spans_json) values (?,?,?,?,?,?,?,?,?)',
                    (t['id'], own[0] if own else None, own[1] if own else None, t.get('caption'), t.get('header_rows', 0), int(bool(t.get('label_column', t.get('label_col')))), json.dumps(t['rows']), None, json.dumps(t.get('spans') or [])))
         if not own: print('table not referenced in text:', t['id'])
