@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% solution plan view (from above), true scale in metres: A at bearing 045, 100 m; B at bearing 120, x ~ 216 m
+\begin{tikzpicture}[x=0.026cm,y=0.026cm]
+  \coordinate (M) at (0,0);
+  \coordinate (A) at ({100*sin(45)},{100*cos(45)});
+  \coordinate (B) at ({216*sin(120)},{216*cos(120)});
+  \draw[->] (0,-125) -- (0,105) node[above] {$N$};
+  \draw (-40,0) -- (25,0);
+  \draw (M) -- (A) -- (B) -- cycle;
+  \draw (M) ++(45:30) arc[start angle=45,end angle=-30,radius=30];
+  \node at (7.5:50) {$75^\circ$};
+  \foreach \p in {M,A,B} \fill (\p) circle (2.2);
+  \node[below left,inner sep=3pt] at (M) {$M$};
+  \node[above,inner sep=4pt] at (A) {$A$};
+  \node[below right,inner sep=2pt] at (B) {$B$};
+  \node[rotate=45,above,inner sep=3pt] at ($(M)!0.55!(A)$) {$100$ m};
+  \node[below left,inner sep=3pt] at ($(M)!0.55!(B)$) {$x$};
+  \node (ar) at (55,-130) {$10\,432$ m$^2$};
+  \draw[->] (ar.north) -- (88,-20);
+  \node[anchor=west] at (-40,150) {From above:};
+\end{tikzpicture}
+\end{document}

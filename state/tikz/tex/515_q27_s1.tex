@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% solution sketch: y = -3/16 (x-4)^2 + 3, vertex (4,3), intercepts (0,0) and (8,0)
+\begin{tikzpicture}[x=0.8cm,y=0.8cm]
+  \draw[->] (-2.3,0) -- (10.3,0) node[right] {$x$};
+  \draw[->] (0,-3.4) -- (0,4.4) node[above] {$y$};
+  \draw (4,-0.1) -- (4,0.1); \draw (-0.1,3) -- (0.1,3);
+  \node[below,inner sep=4pt] at (4,0) {$4$};
+  \node[below left,inner sep=3pt] at (8,0) {$8$};
+  \node[left,inner sep=4pt] at (0,3) {$3$};
+  \node[below right,inner sep=3pt] at (0,0) {$O$};
+  \draw[line width=0.9pt,<->] plot[domain=-1.55:9.55,smooth,samples=90] (\x,{-3/16*(\x-4)^2+3});
+  \fill (4,3) circle (2pt) (0,0) circle (2pt) (8,0) circle (2pt);
+  \node[above,inner sep=5pt] at (4,3) {$(4,3)$};
+\end{tikzpicture}
+\end{document}

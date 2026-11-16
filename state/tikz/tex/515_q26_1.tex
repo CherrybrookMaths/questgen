@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (T) at (61,40); \coordinate (M) at (61,380);
+  \coordinate (A) at (322,215); \coordinate (B) at (457,560);
+  \draw[aux] (T) -- (A); \draw[aux] (T) -- (B);
+  \draw (T) -- (M) -- (A); \draw (M) -- (B);
+  \node at (38,27) {$T$};
+  \node at (36,400) {$M$};
+  \node[anchor=west,inner sep=0pt] at (344,205) {$A$\ \,(045$^\circ$)};
+  \node[anchor=west,inner sep=0pt] at (470,571) {$B$\ \,(120$^\circ$)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% solution: motion diagram for x = 2ln(t^2+3) - t, true scale (6 cm per metre):
+% t=0: x=2ln3 ~ 2.197 (moving left); at rest t=1: x=4ln2-1 ~ 1.773; at rest t=3: x=2ln12-3 ~ 1.970; then moving left (v -> -1)
+\begin{tikzpicture}[x=6cm,y=1cm]
+  \draw[->] (-0.1,0) -- (2.45,0) node[right] {$x$};
+  \draw (0,-0.1) -- (0,0.1); \node[below,inner sep=4pt] at (0,0) {$0$};
+  \def\xa{2.1972}\def\xb{1.7726}\def\xc{1.9698}
+  \draw[->] (\xa,-0.7) -- (\xb+0.015,-0.7);
+  \fill (\xa,-0.7) circle (2pt) node[right,inner sep=4pt] {$t=0$};
+  \fill (\xb,-0.7) circle (2pt);
+  \draw (\xb,-0.7) -- (\xb,-1.4);
+  \node[left,inner sep=4pt] at (\xb,-1.05) {$t=1$};
+  \draw[->] (\xb,-1.4) -- (\xc-0.015,-1.4);
+  \fill (\xb,-1.4) circle (2pt) (\xc,-1.4) circle (2pt);
+  \draw (\xc,-1.4) -- (\xc,-2.1);
+  \node[right,inner sep=4pt] at (\xc,-1.75) {$t=3$};
+  \draw[->] (\xc,-2.1) -- (1.25,-2.1);
+  \fill (\xc,-2.1) circle (2pt);
+\end{tikzpicture}
+\end{document}
