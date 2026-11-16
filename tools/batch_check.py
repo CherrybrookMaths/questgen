@@ -240,6 +240,8 @@ try:
     _fi = _INV.build(sqlite3.connect('file:%s?mode=ro' % os.environ.get('QG_DB', DB), uri=True), files=True)
     _in = sorted({i for g in _fi['groups'] for p in g['papers'] for i in p['f']} & _cp)
     _lb = sorted({i for L in json.load(open(P + 'site/data/inventory.json')).get('lanes') or [] for b in L['batches'] for i in b} & _cp)
+    _ss = _INV.same_size_copies(sqlite3.connect('file:%s?mode=ro' % os.environ.get('QG_DB', DB), uri=True))
+    if _ss: B(f'{len(_ss)} file(s) share a paper with an identical file (same size): record them as copies (scan_folder.py --apply does; first: {_ss[:3]})')
     if _in or _lb: B(f'recorded copies sit in a paper ({_in[:5]}) or a lane batch ({_lb[:5]}): a copy must never be imported (tools/inventory.py copy_of)')
     else: I(f'copies: {len(_cp)} recorded, none in a paper or a batch')
 except Exception as e: W(f'copies check failed: {e}')

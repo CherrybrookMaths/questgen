@@ -385,11 +385,20 @@ def main(argv=None):
         rep['backup'] = bak
         db.execute(SCHEMA)
         rep['inserted'] = apply(db, rep, at)
+        import inventory   # same paper + same size in bytes = the same file, whatever its name (16 Nov, Manly 2024)
+        ss = inventory.same_size_copies(db)
+        for c, o in ss:
+            db.execute("UPDATE documents SET status='duplicate_file', failure_reason=? WHERE id=? AND status!='duplicate_file'",
+                       (f'copy of document {o}: same paper and same size in bytes (scan {at[:10]})', c))
+        rep['same_size_copies'] = ss
         t = rep['totals']
         db.execute('INSERT INTO folder_scans(at, listings, files, pdfs, matched, new, inserted, moved, copies, missing, report) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
                    (at, json.dumps([m['listing'] for m in rep['listings']]), t['files'], t['pdfs'], t['matched'], t['new'], rep['inserted'],
                     t['moved'], t['copies'], t['missing'], os.path.relpath(out, P)))
         db.commit()
+        rep['held'] += [{'kind': 'copy?', 'path': db.execute('SELECT source_path FROM documents WHERE id=?', (c,)).fetchone()[0], 'doc_id': o,
+                         'doc_path': db.execute('SELECT source_path FROM documents WHERE id=?', (o,)).fetchone()[0], 'size': None, 'similarity': None}
+                        for c, o in rep.get('same_size_copies', [])]
         write_held(rep, db, HELD if 'QG_DB' not in os.environ else os.path.join(bdir, 'held.json'))   # tests write beside their copy
     json.dump(rep, open(out, 'w'), indent=1, ensure_ascii=False)
     t = rep['totals']

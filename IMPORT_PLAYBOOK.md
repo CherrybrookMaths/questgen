@@ -37,6 +37,20 @@ Run one batch at a time, about 9 papers per batch.
 
 Whenever a background job starts or ends, update the jobs pill (db doc `progress/jobs`). Keep the owner's queued requests in db doc `progress/queue` too (`{items:[{id,title,detail,status:'queued'|'running'|'done',order,asked}],updated}`): it feeds the "N queued" pill and the Processes page (14 Nov).
 
+## Models per step (16 Nov; owner: "I want improt to run tonight with teh optimal model layout", then "go")
+Agents are started with the Agent tool's `model`; no API needed (owner: "I can't get the API working by tmrw. Does that mean we
+are stuck using opus?"). Evidence: the owner's external trial (3 papers, 94 questions, blind-marked 16 Nov: Opus 129 / Sonnet 130 /
+Haiku 123 of 131 written parts correct; Haiku left out or leaked diagrams in ~12 places) and the tagging test (paper 296, 42 parts:
+main dot point exact Opus 34, Sonnet 27, Haiku 27).
+| Step | Model |
+|---|---|
+| Parse (PARSE_SPEC) | sonnet |
+| Solutions: formatting, missing solutions, criteria (SOLUTION_SPEC) | sonnet |
+| Tag (TAG_SPEC) | opus |
+| Diagrams (DIAGRAM_SPEC), verify (VERIFY_SPEC) | opus |
+Haiku is not used. Files over 10 MB cannot come through the Drive connector: use a smaller copy of the same paper (a combined
+"w Solutions" file) when there is one; otherwise import the questions and generate solutions (marked in the solution note).
+
 ## Mistakes we have made, and the rule each one taught
 
 Each of these happened. `batch_check.py` catches the ones a script can catch.
@@ -115,7 +129,7 @@ Owner, 12 Nov: "I don't have time to check 6000 questions".
 - Never send the owner's email to external services.
 - Record every owner ruling in the matching spec, quoting him.
 - Sync to Drive after major changes (include `questgen_repo.bundle`, see "Version control").
-- Import is paused. Knox AT1 waits for the owner's PC.
+- Import resumed 16 Nov for supervised sessions (owner: "go"); the night run still skips it. Knox AT1 waits for the owner's PC.
 - Your review decisions (approvals, flags, home picks) are stored **only** in the page's database. On every Drive sync, export them to `project/reviews_backup.json` inside project_files.zip. The first backup was made on 12 Nov and holds 1,065 docs.
 
 ## Database integrity and the page mirror (14 Nov)

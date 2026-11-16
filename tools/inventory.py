@@ -277,6 +277,25 @@ def build(db, files=False, rules=None, overrides=None):
     }
 
 
+def same_size_copies(db):
+    """[(copy id, original id)]: two files of ONE paper with the same size in bytes are the same file (owner 16 Nov: "duplicate exams
+    will never be batched and imported right?"; Manly 2024 was filed twice under names too different for the scan's name match).
+    The original is the file with questions loaded, else the lower id. tools/scan_folder.py --apply records them as copies."""
+    sz = {r[0]: r[1] for r in db.execute('SELECT id, size_bytes FROM documents')}
+    hq = {r[0] for r in db.execute('SELECT DISTINCT document_id FROM questions')}
+    out = []
+    for g in build(db, files=True)['groups']:
+        for p in g['papers']:
+            by = collections.defaultdict(list)
+            for f in p['f']:
+                if sz.get(f): by[sz[f]].append(f)
+            for fs in by.values():
+                if len(fs) > 1:
+                    keep = max(fs, key=lambda f: (f in hq, -f))
+                    out += [(f, keep) for f in fs if f != keep and f not in hq]
+    return out
+
+
 def held_list(docs, copy_of, paper_of):
     """For Processes > Papers > Copies and missing files: every recorded copy beside its original (path, Drive id, the paper
     it belongs to), and the latest applied scan's moved files and missing rows (tools/scan_folder.py HELD)."""

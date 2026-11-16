@@ -29,8 +29,10 @@ In short: flaws first, [Certain]/[Likely]/[Guessing], no filler praise.
 - **Record owner rulings verbatim**: quote him in the matching spec (UI_SPEC, IMPORT_PLAYBOOK, DIAGRAM_SPEC, TAG_SPEC ...) and
   in a `// owner <date>: "..."` comment (or `#` in Python) next to the code that implements it. Never undo a recorded ruling
   without asking him (UI_SPEC "Rule for every future change").
-- **Import is paused** (owner 14 Nov: "no more importing for a while until we iron these out"). Do not import papers until he
-  resumes it; the index split (Open items) must land first anyway.
+- **Import resumed 16 Nov** (owner: "I want improt to run tonight with teh optimal model layout so that my checker human can do that
+  tmrw", then "go"), supervised in a session, one batch at a time. **Model per step** (IMPORT_PLAYBOOK "Models per step", from the
+  16 Nov trials): parse and solutions Sonnet, tagging Opus, diagrams and verify Opus, no Haiku. The night run still skips imports
+  until the owner says otherwise.
 - **src/ holds the exam PDFs**: never move, publish or delete them (untracked; absent in a fresh clone).
 - **Page code only in page_src/**, then `python3 tools/build_page.py`. Never edit site/review.html.
 - **CODE_HEALTH.md every round**: follow its rules, list exceptions in the report, reviewers check the diff against it.
@@ -46,7 +48,7 @@ In short: flaws first, [Certain]/[Likely]/[Guessing], no filler praise.
   follow them exactly. Publish only the review page, and only
   after `prepublish.sh` exits 0 (0 blockers). The night task holds the Google Drive connector (owner: "yes Drive for the night
   task"): read the exam folder and the DB backup, upload the new backup; never trash, move or rename. Imports stay paused
-  (owner 16 Nov: "no imports yet") until he resumes them.
+  (owner 16 Nov: "no imports yet"); the owner resumed imports for supervised sessions on 16 Nov ("go"), not for the night run.
 
 ## Where everything lives
 | What | Where |
