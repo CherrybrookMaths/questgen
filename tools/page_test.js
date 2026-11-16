@@ -73,6 +73,12 @@ function serve() {
   const srv = http.createServer((req, res) => {
     let u = decodeURIComponent(new URL(req.url, 'http://x').pathname);
     if (u === '/' || u === '/review.html') { res.writeHead(200, {'Content-Type': CTYPE['.html'], 'Cache-Control': 'no-store'}); return res.end(skeleton); }
+    // job 3: the asset store serves a pack at the url data/assets.json records (/_blob/<id>); here, the local file it was
+    // uploaded from (tools/asset_manifest.py --check proves they are the same bytes)
+    if (u.startsWith('/_blob/')) { const m = (JSON.parse(fs.readFileSync(path.join(SITE, 'data/assets.json'), 'utf8')).assets) || {};
+      const hit = Object.entries(m).find(([, a]) => (a.url || a) === u);
+      if (!hit) { res.writeHead(404); return res.end('not found'); }
+      res.writeHead(200, {'Content-Type': 'application/json'}); return fs.createReadStream(path.join(SITE, hit[0])).pipe(res); }
     const f = path.normalize(path.join(SITE, u));
     if (!f.startsWith(SITE + path.sep) || !fs.existsSync(f) || !fs.statSync(f).isFile()) { res.writeHead(404); return res.end('not found'); }
     res.writeHead(200, {'Content-Type': CTYPE[path.extname(f)] || 'application/octet-stream', 'Access-Control-Allow-Origin': '*'});
@@ -1924,7 +1930,9 @@ async function queueChecks(browser, base, seed) {
    question text (one file per topic home, tools/bank_split.py) loads when a view shows it; image packs come from the address in
    data/assets.json when it has one (the asset store), else from the published file. */
 async function dataSplit(browser, base, seed) {
-  const log = p => { p._req = []; p.on('request', r => { const u = r.url(); if (u.startsWith(base)) p._req.push({u: u.slice(base.length).split('?')[0], t: Date.now()}) });
+  // job 3: a pack served from the asset store (/_blob/<id>) is logged as the published path data/assets.json maps it to
+  const blob = Object.fromEntries(Object.entries((JSON.parse(fs.readFileSync(path.join(SITE, 'data/assets.json'), 'utf8')).assets) || {}).map(([k, a]) => [String(a.url || a).replace(/^\//, ''), k]));
+  const log = p => { p._req = []; p.on('request', r => { const u = r.url(); if (u.startsWith(base)) { const x = u.slice(base.length).split('?')[0]; p._req.push({u: blob[x] || x, t: Date.now(), store: !!blob[x]}) } });
     p._done = {}; p.on('requestfinished', r => { const u = r.url().slice(base.length).split('?')[0]; if (!(u in p._done)) p._done[u] = Date.now() }) };
   const topicRe = /^data\/bank\/[^/]+\/(?!index\.json)(?![^/]+\.gz\.json$)[^/]+\.json$/;
   const errs = p => { const e = takeErrs(p); assert(!e.length, e.slice(0, 3).join(' | ')) };

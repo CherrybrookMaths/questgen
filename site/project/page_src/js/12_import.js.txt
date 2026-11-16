@@ -53,6 +53,20 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
    collapsed). */
 // owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well? Would be helpful":
 // each row shows its step ("Stage 2 of 4", with a small bar), Started, and Est. finish while running/queued or Finished + how long it took once done (jobTimes, 13_shell.js).
+// job 6 (owner 16 Nov: "I need a place to see ... what's in that night's automated tasks"): what the night session will do, in
+// order: its fixed steps (progress/night, kept by NIGHT.md), the requests waiting in db runs (removable), what it skips and why,
+// and how last night went. The night session works from the same two sources, so the card is the night's to-do list.
+const NIGHT_KIND={cover_check:'Cover-page check',queue:'Import queue'};
+function tonightHTML(){const N=QG.night||{},run=(typeof PQ!=='undefined'&&PQ.run)||null;if(run&&run.watch)run.watch();
+  const req=run&&run.pending?run.pending():[],steps=N.steps||[],skip=N.skipped||[],last=N.last;
+  if(!steps.length&&!req.length&&!last)return'';
+  const st={done:'✓',failed:'✗',skipped:'–'};
+  return `<section class="psec pr-night" aria-labelledby="pNightH"><h3 id="pNightH">Tonight${N.time?` <span class="pcount">${esc(N.time)}</span>`:''}</h3>
+  <ol class="pqueue">${steps.map((x,i)=>`<li><span class="pnum" aria-hidden="true">${i+1}</span><div><b>${esc(x.title)}</b>${x.detail?`<p>${esc(x.detail)}</p>`:''}</div></li>`).join('')}
+  ${req.map(r=>`<li><span class="pnum" aria-hidden="true">+</span><div><b>${esc(NIGHT_KIND[r.kind]||r.kind)}${r.papers?.length?`: ${r.papers.length} paper${r.papers.length===1?'':'s'}`:''}</b><p>Requested ${esc(ago(r.at))}${isEditor()?` · <button type="button" class="linkbtn" data-night-drop="${esc(r.id)}">Remove</button>`:''}</p></div></li>`).join('')}
+  ${skip.map(x=>`<li class="pr-nskip"><span class="pnum" aria-hidden="true">–</span><div><b>${esc(x.title)}</b>${x.why?`<p>Skipped: ${esc(x.why)}</p>`:''}</div></li>`).join('')}</ol>
+  ${last&&last.items?.length?`<details class="pr-nlast"><summary>Last night${last.at?`, ${esc(ago(last.at))}`:''}</summary><ul>${last.items.map(x=>`<li><span class="pr-nst" aria-hidden="true">${st[x.status]||'·'}</span><div><b>${esc(x.title)}</b>${x.result?`<p>${esc(x.result)}</p>`:''}</div></li>`).join('')}</ul></details>`:''}</section>`}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-night-drop]');if(!b||typeof PQ==='undefined'||!PQ.run)return;b.disabled=true;PQ.run.drop(b.dataset.nightDrop)});
 function renderProcesses(){const box=$('#procBox'),pv=$('#processesView');if(!box||!pv)return;
   const tab=pv.dataset.tab==='papers'?'papers':'work';
   $('#procWork').hidden=tab!=='work';$('#procPapers').hidden=tab!=='papers';
@@ -64,6 +78,7 @@ function renderProcesses(){const box=$('#procBox'),pv=$('#processesView');if(!bo
   box.innerHTML=`<p class="sub">What Claude is working on now, and what you've asked for next.${QUEUE&&QUEUE.updated?` Queue updated ${esc(ago(QUEUE.updated))}.`:''}</p>
   <section class="psec" aria-labelledby="pRunH"><h3 id="pRunH">Running now${run.length?` <span class="pcount">${run.length}</span>`:''}</h3>
   ${run.length?`<div class="pcards">${run.map(j=>`<article class="pcard"><div class="pctop"><span class="pdot" aria-hidden="true"></span><b>${esc(j.name)}</b>${j.started?`<span class="pwhen">${esc(startedAgo(j.started))}</span>`:''}</div>${j.step?`<div class="pstep">${esc(j.step)}${stepBar(j.step)}</div>`:''}${jobTimes(j)}${j.detail?`<p>${esc(j.detail)}</p>`:''}${j.src==='queue'?`<span class="ptag">From the queue</span>`:''}${asked(j)}</article>`).join('')}</div>`:'<p class="pempty">Nothing running right now.</p>'}</section>
+  ${tonightHTML()}
   <section class="psec" aria-labelledby="pQueH"><h3 id="pQueH">Queued${que.length?` <span class="pcount">${que.length}</span>`:''}</h3>
   ${que.length?`<ol class="pqueue">${que.map((x,i)=>`<li><span class="pnum" aria-hidden="true">${i+1}</span><div><b>${esc(x.title)}</b>${x.step?`<div class="pstep">${esc(x.step)}</div>`:''}${jobTimes(x)}${x.detail?`<p>${esc(x.detail)}</p>`:''}${asked(x)}</div></li>`).join('')}</ol>`:`<p class="pempty">${QUEUE?'Nothing queued. New requests will show here.':'No queue yet. Requests you line up will show here.'}</p>`}</section>
   ${done.length?`<section class="psec"><details class="pdone"${openDone?' open':''}><summary>Recently done <span class="pcount">${done.length}</span></summary><ul>${done.slice(0,20).map(x=>`<li><span class="pok" aria-hidden="true">✓</span><div><b>${esc(x.title)}</b>${jobTimes({...x,status:'done'})}${x.detail?`<p>${esc(x.detail)}</p>`:''}</div></li>`).join('')}</ul></details></section>`:''}`;

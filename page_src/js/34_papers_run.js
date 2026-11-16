@@ -23,7 +23,8 @@ const ACTIVE=['requested','running'];
 const snap=s=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
 function subscribe(){if(!db||!isEditor())return;
   if(!R.subs.q)try{R.subs.q=db.collection('queue').onSnapshot(s=>{R.q=snap(s).filter(x=>x&&x.course&&Number.isFinite(+x.batch));PQ.redraw();draw()},()=>{})}catch(e){}
-  if(!R.subs.r)try{R.subs.r=db.collection('runs').onSnapshot(s=>{R.runs=snap(s).filter(x=>x&&x.status);PQ.redraw();draw()},()=>{})}catch(e){}}
+  if(!R.subs.r)try{R.subs.r=db.collection('runs').onSnapshot(s=>{R.runs=snap(s).filter(x=>x&&x.status);PQ.redraw();draw();
+    if(view==='processes'&&$('#processesView').dataset.tab!=='papers')renderProcesses()},()=>{})}catch(e){}}   // job 6: the Tonight card lists waiting requests
 const key=x=>PQ.laneKey(x.course,String(x.yl));
 const ordered=()=>R.q.slice().sort((a,b)=>(+a.order||0)-(+b.order||0)||String(a.at).localeCompare(String(b.at)));
 // the queue with each batch resolved (papers still ready); an imported batch stays listed as Imported until Claude removes it
