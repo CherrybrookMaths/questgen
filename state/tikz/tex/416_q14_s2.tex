@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % y = f(-x): origin (447,365); 1 unit = 137 px across, 110.25 px up (ticks evenly spaced, rule 17)
+  \draw[->] (97,365) -- (769,365);
+  \draw[->] (447,709) -- (447,30);
+  \foreach \tx in {310,584} \draw (\tx,358) -- (\tx,372);
+  \foreach \ty in {144.5,585.5} \draw (440,\ty) -- (454,\ty);
+  \draw[<->, line width=0.9pt] (35,144.5) -- (310,144.5) -- (584,585.5) -- (844,585.5);
+  \node at (310,392) {$-1$};
+  \node at (584,340) {$1$};
+  \node at (474,144.5) {$2$};
+  \node at (414,585.5) {$-2$};
+  \node at (428,385) {$O$};
+  \node at (429,31) {$y$};
+  \node at (763,386) {$x$};
+\end{tikzpicture}
+\end{document}

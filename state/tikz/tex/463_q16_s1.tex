@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop pixel; origin (142.5,528); t: 43.3 px per hour, h: 22.8 px per metre; scan tilt followed (rotate)
+  \begin{scope}[rotate around={0.9:(142.5,528)}]
+  \def\ox{142.5}\def\oy{528}\def\ux{43.3}\def\uy{22.8}
+  \foreach \t in {2,6,...,22} \draw[black!15] ({\ox+\ux*\t},{\oy}) -- ({\ox+\ux*\t},{\oy-20*\uy});
+  \foreach \t in {4,8,...,24} \draw[black!30] ({\ox+\ux*\t},{\oy}) -- ({\ox+\ux*\t},{\oy-20*\uy});
+  \foreach \h in {2,6,...,18} \draw[black!15] (\ox,{\oy-\uy*\h}) -- ({\ox+24*\ux},{\oy-\uy*\h});
+  \foreach \h in {4,8,...,20} \draw[black!30] (\ox,{\oy-\uy*\h}) -- ({\ox+24*\ux},{\oy-\uy*\h});
+  \draw[->] (\ox,\oy) -- ({\ox+24*\ux+28},\oy) node[right, inner sep=2pt] {$t$};
+  \draw[->] (\ox,\oy) -- (\ox,{\oy-20*\uy-28}) node[above, inner sep=2pt] {$h$};
+  \foreach \t in {2,4,...,24} \draw ({\ox+\ux*\t},\oy) -- ({\ox+\ux*\t},{\oy+6});
+  \foreach \h in {2,4,...,20} \draw (\ox,{\oy-\uy*\h}) -- ({\ox-6},{\oy-\uy*\h});
+  \foreach \t in {4,8,...,24} \node[anchor=north, inner sep=0pt] at ({\ox+\ux*\t},{\oy+20}) {$\t$};
+  \foreach \h in {4,8,...,20} \node[left, inner sep=0pt] at ({\ox-12},{\oy-\uy*\h}) {$\h$};
+  % h = 3cos(pi t/6) + 13, 0 <= t <= 24
+  \draw[line width=0.9pt, smooth, domain=0:24, samples=90, variable=\t]
+    plot ({\ox+\ux*\t},{\oy-\uy*(3*cos(30*\t)+13)});
+  % depth limit h = 11 (solution part (b))
+  \draw (\ox,{\oy-11*\uy}) -- ({\ox+24*\ux},{\oy-11*\uy}) node[right, inner sep=4pt] {$h=11$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

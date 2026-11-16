@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+\coordinate (A) at (95,425); \coordinate (B) at (344,113); \coordinate (C) at (656,550);
+\path[shade hatch] (A) -- (B) -- (C) -- cycle;
+\draw[line join=round] (A) -- (B) -- (C) -- cycle;
+% north arrows and east-west lines at each point
+\draw[->] (95,495) -- (95,340);  \draw (30,425) -- (158,425);
+\draw[->] (344,182) -- (344,30); \draw (280,113) -- (408,113);
+\draw[->] (656,620) -- (656,468); \draw (593,550) -- (722,550);
+\node at (62,452) {$A$};
+\node at (368,78) {$B$};
+\node at (684,580) {$C$};
+\end{tikzpicture}
+\end{document}

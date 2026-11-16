@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% solution sketch 2024 King's AT1 Q14(b): h(t)=6cos(pi t/15)+22 over 60 h with the line h=20 and its four intersections
+% (crop pixels, y down; 11.93 px per hour from t=0 at x=145, 18 px per metre with h=22 at y=183)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\X#1{145+11.93*(#1)}
+  % level guides
+  \foreach \y in {75,129,237,291} \draw[aux] (145,\y) -- (950,\y);
+  \node[left, inner sep=3pt] at (130,75) {$28$};
+  \node[left, inner sep=3pt] at (130,129) {$25$};
+  \node[left, inner sep=3pt] at (130,183) {$22$};
+  \node[left, inner sep=3pt] at (130,237) {$19$};
+  \node[left, inner sep=3pt] at (130,291) {$16$};
+  % axes
+  \draw[->] (145,275) -- (145,18);
+  \draw[->] (145,183) -- (918,183);
+  % ticks every 15 h, labelled above the axis
+  \foreach \t in {15,30,45} {\draw ({\X{\t}},177) -- ({\X{\t}},189); \node[above, inner sep=5pt] at ({\X{\t}},183) {$\t$};}
+  \draw ({\X{60}},177) -- ({\X{60}},189);
+  \node[above left, inner sep=3pt] at ({\X{60}},183) {$60$};
+  % t = 60 guide from the curve down to the 16 level
+  \draw[aux] ({\X{60}},75) -- ({\X{60}},291);
+  % the line h = 20
+  \draw[line width=0.9pt] (145,219) -- (925,219);
+  % curve
+  \draw[line width=0.9pt, domain=0:60, samples=120, smooth] plot ({\X{\x}},{183-108*cos(12*\x)});
+  \node[above right, inner sep=3pt] at ({\X{60}+6},75) {$h(t)$};
+  % intersections with h = 20: t = 15/pi*(pi -+ acos(1/3)) and +30
+  \pgfmathsetmacro\a{15/pi*acos(1/3)*pi/180}
+  \foreach \t in {15-\a,15+\a,45-\a,45+\a} \draw ({\X{\t}},219) circle[radius=6.5];
+\end{tikzpicture}
+\end{document}

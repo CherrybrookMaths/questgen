@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (434,385);
+  \coordinate (O) at (212,330);
+  \pgfmathsetmacro\R{262}
+  \pgfmathsetmacro\aA{atan2(83-330,117-212)}
+  \pgfmathsetmacro\aB{atan2(83-330,314-212)}
+  \coordinate (A) at ($(O)+(\aA:\R)$);
+  \coordinate (B) at ($(O)+(\aB:\R)$);
+  \begin{scope}
+    \clip (8,11) rectangle (434,385);
+    \draw (O) ++(-152:\R) arc[start angle=-152, end angle=-29, radius=\R];
+  \end{scope}
+  \draw (A) -- (B) -- (O) -- cycle;
+  \draw (A) -- ++(-97,104);
+  \draw (B) -- ++(117,119);
+  \node[font=\large] at (112,59) {$A$};
+  \node[font=\large] at (329,61) {$B$};
+  \node[font=\large] at (221,352) {$O$};
+  \node[font=\large] at (318,211) {$r$ cm};
+\end{tikzpicture}
+\end{document}

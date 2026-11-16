@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop pixel; axes meet at (77,283), no arrowheads (as the crop)
+  \draw (77,40) -- (77,283) -- (379,283);
+  \node[anchor=south east, inner sep=0pt, font=\Large] at (72,60) {$y$};
+  \node[anchor=north west, inner sep=0pt, font=\Large] at (386,285) {$x$};
+  \foreach \p in {(138.5,81.5),(183.5,98.5),(214.5,143.5),(276.5,174.5),(333.5,217.5)}
+    \fill \p circle (2.7pt);
+\end{tikzpicture}
+\end{document}

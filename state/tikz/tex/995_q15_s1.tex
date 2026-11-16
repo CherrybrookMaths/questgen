@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% solution sketch 2024 King's AT1 Q15(b): y=(1+x)e^{-x}, max (0,1), POI (1,2/e)
+% (crop pixels, y down; origin at (258,222), 170 px per x unit, 135 px per y unit)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\small}]
+  \def\X#1{258+170*(#1)}\def\Y#1{222-135*(#1)}
+  % axes
+  \draw[->] (45,222) -- (668,222);
+  \draw[->] (258,271) -- (258,28);
+  \node[right, inner sep=5pt] at (258,36) {$y$};
+  % ticks
+  \foreach \t in {-1,1,2} \draw ({\X{\t}},216) -- ({\X{\t}},228);
+  \node[below right, inner sep=3pt] at ({\X{-1}},224) {$-1$};
+  \node[below, inner sep=4pt] at ({\X{1}},226) {$1$};
+  \node[below, inner sep=4pt] at ({\X{2}},226) {$2$};
+  % curve
+  \draw[line width=0.9pt, domain=-1.105:2.25, samples=90, smooth] plot ({\X{\x}},{\Y{(1+\x)*exp(-\x)}});
+  % marked points
+  \fill ({\X{0}},{\Y{1}}) circle[radius=3.5];
+  \fill ({\X{1}},{\Y{2*exp(-1)}}) circle[radius=3.5];
+  \node[anchor=south west, inner sep=0pt] at (272,80) {$(0,1)$};
+  \node[anchor=west, inner sep=0pt] at (454,190) {$\left(1,\dfrac{2}{e}\right)$ POI};
+\end{tikzpicture}
+\end{document}

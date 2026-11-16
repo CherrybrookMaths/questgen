@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (829,876);
+  % 1 unit = 73.6 px; origin at (418.5,469.5)
+  \begin{scope}[shift={(418.5,469.5)}, x=0.93472cm, y=0.93472cm]
+    \draw[<->] (-5.2,0) -- (5.2,0);
+    \draw[<->] (0,-5.3) -- (0,5.38);
+    \foreach \k in {-5,...,-1,1,2,...,5} {
+      \draw (\k,0.08) -- (\k,-0.08);
+      \draw (0.08,\k) -- (-0.08,\k);
+      \node[below, inner sep=4pt] at (\k,-0.08) {$\k$};
+    }
+    \foreach \k in {-5,-4,-3,-1,1,2,3,4,5} \node[left, inner sep=3pt] at (-0.08,\k) {$\k$};
+    \node[left, inner sep=3pt, anchor=south east] at (-0.08,-1.97) {$-2$};
+    \node[right, inner sep=2pt] at (5.2,0) {$x$};
+    \node[above, inner sep=2pt] at (0,5.38) {$y$};
+    \draw[aux] (-5.2,-2) -- (5.2,-2);
+    \draw[line width=0.9pt, <->, smooth, samples=90, domain=-5.18:0.29] plot (\x, {2*exp(\x+1)-2});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

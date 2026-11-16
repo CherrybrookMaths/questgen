@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{8.5}{10}\selectfont]
+  % option set 369_q3_1..4: one frame (axes 225 px each way horizontally, 236 px vertically), crop pixel units
+  \draw[<->] (-225,0) -- (225,0) node[right=1pt] {$x$};
+  \draw[<->] (0,236) -- (0,-236) node[above=0pt] {$y$};
+  % cubic fitted to the crop: y = 2.7612 e-4 (X - (-85.5))^2 (X - (42.2)) px, double root (touch) at X = -85.5, single root at X = 42.2
+  \draw[line width=0.9pt, <->, smooth, samples=90, domain=-151.9:75.2, variable=\t]
+    plot (\t, {-(2.7612*0.0001*(\t-(-85.5))*(\t-(-85.5))*(\t-(42.2)))});
+\end{tikzpicture}
+\end{document}

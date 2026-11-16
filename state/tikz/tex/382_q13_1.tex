@@ -7,11 +7,11 @@
 % grid: minor every 200, major every 1000
 \foreach \vv in {200,400,600,800,1200,1400,1600,1800,2200,2400,2600,2800,3200,3400,3600,3800,4200,4400,4600,4800,5200,5400,5600,5800,6200,6400,6600,6800,7200,7400,7600,7800,8200,8400,8600,8800}
   \draw[black!18, line width=0.4pt] (171,{\yz-\pk*\vv}) -- (1140,{\yz-\pk*\vv});
-\foreach \vv in {1000,...,9000} \draw[black!40, line width=0.5pt] (171,{\yz-\pk*\vv}) -- (1140,{\yz-\pk*\vv});
+\foreach \vv in {1000,2000,...,9000} \draw[black!30, line width=0.5pt] (171,{\yz-\pk*\vv}) -- (1140,{\yz-\pk*\vv});
 % bars (Waitstaff bar not shown on the paper)
 \foreach \cc/\vv in {0/8000,1/5000,3/3000,4/2200,5/2000,6/800}
   \fill[black!40] ({186+138.8*\cc},\yz) rectangle ({289+138.8*\cc},{\yz-\pk*\vv});
-\draw[black!40, line width=0.5pt] (171,\yz) -- (1140,\yz);
+\draw[black!30, line width=0.5pt] (171,\yz) -- (1140,\yz);
 % right axis with ticks every 2 %
 \draw (1140,\yz) -- (1140,{\yz-\pk*9000});
 \foreach \p in {0,2,...,100} \draw (1140,{\yz-85.86*\p/10}) -- (1145,{\yz-85.86*\p/10});
@@ -24,8 +24,8 @@
 \foreach \cc/\p in {0/32,1/52,2/68,3/80,4/88.8,5/96.8,6/100}
   \fill ({237.5+138.8*\cc},{\yz-85.86*\p/10}) circle (1.6pt);
 % labels
-\foreach \cc/\tt in {0/Venue,1/Food,2/Waitstaff,3/{Photo/video},4/D\'ecor,5/Beverages,6/Other}
-  \node at ({237.5+138.8*\cc},933) {\tt};
+\foreach \cc/\lab in {0/Venue,1/Food,2/Waitstaff,3/{Photo/video},4/D\'ecor,5/Beverages,6/Other}
+  \node at ({237.5+138.8*\cc},933) {\lab};
 \node at (655,987) {Type of Cost};
 \node[rotate=90] at (58,466) {Cost (\$)};
 \node[rotate=90] at (1268,466) {Cumulative Percentage};
