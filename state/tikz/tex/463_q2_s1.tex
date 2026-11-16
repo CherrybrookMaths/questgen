@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % solution sketch, crop pixels: X = 439 + 78.8 x, Y = 285 - 81 y (sine's zeros/turning points and the ticks agree)
+  \draw (8,285) -- (790,285);
+  \draw (439,135) -- (439,442);
+  \foreach \i in {-3,-2,-1,1,2,3} \draw ({439+78.8*\i},278) -- ({439+78.8*\i},292);
+  \draw (432,204) -- (446,204);
+  \draw[line width=0.9pt, domain=-4.657:3.756, samples=90, smooth] plot ({439+78.8*\x},{285-81*sin(\x r)});
+  % y = |x + 1|: vertex (-1,0); arms end at the sketch's heights, arrow on the left arm only (as sketched)
+  \draw[<-, line width=0.9pt] (142.6,62) -- (360.2,285) -- (561.3,78);
+  \begin{scope}[font=\small]
+    \node at (420,204) {$1$};
+    \node at (360.2,314) {$-1$};
+    \node at (517.8,314) {$1$};
+    \node at (452,307) {$O$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

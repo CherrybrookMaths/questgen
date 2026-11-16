@@ -3,20 +3,20 @@
 \begin{document}
 % income line I = 30N on a 1-unit by $10 grid (N up to 40, C/I up to 1200)
 \begin{tikzpicture}[x=0.27762cm,y=0.010282cm]
-  \draw[black!18,line width=0.3pt] (0,0) grid[xstep=1,ystep=10] (40,1200);
-  \draw[black!40,line width=0.4pt] (0,0) grid[xstep=5,ystep=100] (40,1200);
+  \draw[black!15,line width=0.3pt] (0,0) grid[xstep=1,ystep=10] (40,1200);
+  \draw[black!30,line width=0.4pt] (0,0) grid[xstep=5,ystep=100] (40,1200);
   \draw[->] (0,0) -- (41.2,0); \node[right,inner sep=1pt,font=\large] at (41.2,0) {$N$};
-  \draw[->] (0,0) -- (0,1235); \node[above,inner sep=2pt,font=\large] at (0,1235) {C/I};
+  \draw[->] (0,0) -- (0,1235); \node[above,inner sep=2pt] at (0,1235) {C/I};
   \foreach \i in {1,...,40}{\draw (\i,0) -- (\i,-9);}
-  \foreach \j in {20,40,...,1200}{\draw (0,\j) -- (-0.3,\j);}
-  \foreach \i in {5,10,...,40}{\node[below,font=\large,inner sep=2pt] at (\i,-10) {$\i$};}
-  \foreach \j in {100,200,...,900}{\node[left,font=\large,inner sep=2pt] at (-0.35,\j) {$\j$};}
-  \node[left,font=\large,inner sep=2pt] at (-0.35,1000) {$1\,000$};
-  \node[left,font=\large,inner sep=2pt] at (-0.35,1100) {$1\,100$};
-  \node[left,font=\large,inner sep=2pt] at (-0.35,1200) {$1\,200$};
-  \node at (20,-75) {Number of Units Sold};
-  \node[rotate=90] at (-4.85,600) {Cost/Income};
-  \draw[->] (0,0) -- (40.9,1227);
-  \node[rotate=48,font=\large,above,inner sep=3pt] at (19.2,576) {\halo{$I=30N$}};
+  \foreach \j in {10,20,...,1200}{\draw (0,\j) -- (-0.3,\j);}
+  \foreach \i in {5,10,...,40}{\node[below,font=\normalsize,inner sep=2pt] at (\i,-10) {$\i$};}
+  \foreach \j in {100,200,...,900}{\node[left,font=\normalsize,inner sep=2pt] at (-0.35,\j) {$\j$};}
+  \node[left,font=\normalsize,inner sep=2pt] at (-0.35,1000) {$1\,000$};
+  \node[left,font=\normalsize,inner sep=2pt] at (-0.35,1100) {$1\,100$};
+  \node[left,font=\normalsize,inner sep=2pt] at (-0.35,1200) {$1\,200$};
+  \node[font=\small] at (20,-68) {Number of Units Sold};
+  \node[rotate=90,font=\small] at (-4.6,600) {Cost/Income};
+  \draw[->,line width=0.9pt] (0,0) -- (40.9,1227);
+  \node[rotate=48,font=\large,above,inner sep=3pt] at (20.3,640) {\halo{$I=30N$}};
 \end{tikzpicture}
 \end{document}

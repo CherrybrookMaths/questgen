@@ -1,0 +1,42 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (220,405);
+  \coordinate (B) at (568,405);
+  \coordinate (O) at (394,405);
+  \pgfmathsetmacro\R{388.18}
+  \pgfmathsetmacro\aD{atan2(-347,-174)}
+  \pgfmathsetmacro\aC{atan2(-347,174)}
+  \coordinate (D) at ($(O)+(\aD:\R)$);
+  \coordinate (C) at ($(O)+(\aC:\R)$);
+  \fill[shade] (A) -- (D) arc[start angle=\aD, end angle=\aC, radius=\R] -- (B) -- cycle;
+  \draw (C) -- (B) -- (A) -- (D) arc[start angle=\aD, end angle=\aC, radius=\R];
+  \draw (D) -- (O) -- (C);
+  \draw[aux] (D) -- (C);
+  % right angle at A
+  \draw (220,390) -- (235,390) -- (235,405);
+  % equal-length ticks (double) on DO and OC
+  \foreach \P in {D,C}{
+    \foreach \t in {-2.2pt,2.2pt}{
+      \path ($($(O)!0.5!(\P)$)!\t!(O)$) coordinate (q);
+      \draw ($(q)!5pt!90:(O)$) -- ($(q)!-5pt!90:(O)$);
+    }
+  }
+  \draw (307,397) -- (307,413);
+  \draw (481,397) -- (481,413);
+  % dimensions
+  \draw[<->] (175,64) -- (175,402);
+  \draw[<->] (215,447) -- (552,447);
+  \node at (92,236) {$2$ cm};
+  \node at (388,474) {$2$ cm};
+  \node at (296,374) {$1$ cm};
+  \node at (497,374) {$1$ cm};
+  \node at (392,342) {$\theta$};
+  \node[font=\small] at (212,45) {$D$};
+  \node[font=\small] at (576,45) {$C$};
+  \node[font=\small] at (217,423) {$A$};
+  \node[font=\small] at (394,423) {$O$};
+  \node[font=\small] at (572,423) {$B$};
+\end{tikzpicture}
+\end{document}
