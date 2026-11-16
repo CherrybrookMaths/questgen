@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% solution sketch of y=f(x)=cos(x/2) on [0,4pi], area from 0 to pi hatched (the solution's 2*int_0^pi)
+\begin{tikzpicture}[x=1.7cm/pi, y=1.1cm]
+  \fill[shade hatch] (0,0) -- plot[domain=0:pi,smooth,samples=40] (\x,{cos(deg(\x/2))}) -- cycle;
+  \draw[->] (-0.6,0) -- (4*pi+0.7,0) node[right] {$x$};
+  \draw[->] (0,-1.35) -- (0,1.45) node[above] {$y$};
+  \foreach \k/\l in {1/\pi,2/2\pi,3/3\pi,4/4\pi} {
+    \draw (\k*pi,-0.06) -- (\k*pi,0.06);
+  }
+  \node[below left,inner sep=2pt] at (pi,0) {$\pi$};
+  \node[above,inner sep=3pt] at (2*pi,0) {$2\pi$};
+  \node[below right,inner sep=2pt] at (3*pi,0) {$3\pi$};
+  \node[below,inner sep=4pt] at (4*pi,0) {$4\pi$};
+  \node[below left,inner sep=2pt] at (0,0) {$O$};
+  \draw[line width=0.9pt] plot[domain=0:4*pi,smooth,samples=90] (\x,{cos(deg(\x/2))});
+  \node[right] at (0.15*pi,1.1) {$y=f(x)$};
+\end{tikzpicture}
+\end{document}
