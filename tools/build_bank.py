@@ -24,6 +24,7 @@ for _f in ('work/gates/gates_applied.json', 'work/gates_pilot/gates_applied.json
 for q in old['questions']:
     r = db.execute('select * from questions where id=?', (q['id'],)).fetchone()
     q['stem'] = r['stem_latex']; q['number'] = r['number']
+    q['section'] = r['section'] if 'section' in r.keys() else q.get('section')
     q['opt_table'] = J(r['options_table_json'])
     q['layout'] = r['options_layout'] if 'options_layout' in r.keys() else None
     # owner 11 Nov: "they should be marked old syllabus": content with no 2024 dot point (questions.old_syllabus = reason)
@@ -150,7 +151,15 @@ if _lost: print('WARN open_decisions entries with no question/paper in the bank:
 import re as _re
 _docpos = {}
 for _q in old['questions']: _docpos.setdefault(_q['doc'], len(_docpos))
+# owner 17 Nov: "Keep the native numbering": a paper whose sections each restart at Question 1 (2024 Abbotsleigh AT1) keeps the
+# printed numbers; the page shows them with their section (nlabel "1 (Section II)") and the paper is ordered as printed (by id)
+_dupnum = {d for d, n in __import__('collections').Counter((q['doc'], str(q['number'])) for q in old['questions']).items() if n > 1 and len({x.get('section') for x in old['questions'] if x['doc'] == d[0] and str(x['number']) == d[1]}) > 1}
+_restart = {d for d, _ in _dupnum}
+for q in old['questions']:
+    if q['doc'] in _restart and q.get('section'): q['nlabel'] = f"{q['number']} (Section {q['section']})"
+    else: q.pop('nlabel', None)
 def _qkey(q):   # natural question order within a paper: 10, 10(a), 10(b), 11 ... (split questions sit with their number)
+    if q['doc'] in _restart: return (_docpos[q['doc']], 0, '', q['id'])
     m = _re.match(r'(\d+)(.*)', str(q['number'] or '')); return (_docpos[q['doc']], int(m.group(1)) if m else 9999, m.group(2) if m else str(q['number']), q['id'])
 old['questions'].sort(key=_qkey)
 import sys as _s; _s.path.insert(0, P + 'tools'); import exam_name; exam_name.main()   # owner: firm exam naming, labels rebuilt from year / school / task

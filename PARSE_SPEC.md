@@ -56,7 +56,13 @@ LaTeX must match the page exactly. Do not solve questions, do not invent content
 `free_tags`: 1–3 short question-type labels a student would search for ('trapezoidal rule', 'limiting sum', 'z-score comparison'). Optional.
 
 ## Numbering
-Keep `number` exactly as printed, even if the paper misnumbers (e.g. two Q4s). Add `"seq": <1-based order in paper>` to every question, and note misnumbering in `notes`. Never renumber.
+Keep `number` exactly as printed, even if the paper misnumbers (e.g. two Q4s). A paper whose sections each restart at Question 1 keeps the printed numbers, with `section` set (owner 17 Nov: "Keep the native numbering"; the page shows "Q1 (Section II)"); never "II.1". Add `"seq": <1-based order in paper>` to every question, and note misnumbering in `notes`. Never renumber.
+
+## Mistakes in the paper are fixed (owner 17 Nov)
+Owner: "if the paper has a mistake, we should fix it." Transcribe exactly as printed, then list the error in `notes` with the
+fix (a later step corrects it). Once fixed, the question text differs from the paper: the solution's meta `edited_from_original`
+says what was printed and what it is now, so the checker sees the change. First case: 2023 CSSA AT4 Q10 (C printed as
+\int_2^4 f-g, so no option was right; corrected to \int_2^4 g-f, the teacher's correction).
 
 ## Hard stop
 If you have used more than ~150 tool calls, or the document is not an exam at all, stop: write what you have with `"status": "partial"` and explain in `notes`. A clean partial is better than a guessed full.

@@ -2442,7 +2442,7 @@ function navHTML(){
 }
 function dupLine(q){const c=B.questions.filter(x=>x.dup_of===q.id);const v=q.related.filter(x=>x.rel!=='duplicate').map(x=>B.questions.find(z=>z.id===x.q)).filter(Boolean);
   const same=o=>docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number);   // owner 12 Nov: "the also prose is redundant ... they're literally the same exam twice": a copy of the same paper filed twice says nothing
-  const t=[...c.filter(o=>!same(o)).map(o=>`also in ${esc(docLabel(B.docs[o.doc]))} as Q${esc(o.number)}`),...v.map(o=>`similar to ${esc(docLabel(B.docs[o.doc]))} Q${esc(o.number)}`)];
+  const t=[...c.filter(o=>!same(o)).map(o=>`also in ${esc(docLabel(B.docs[o.doc]))} as Q${esc(o.nlabel||o.number)}`),...v.map(o=>`similar to ${esc(docLabel(B.docs[o.doc]))} Q${esc(o.nlabel||o.number)}`)];
   return t.length?`<div class="help" style="margin:-4px 0 8px">${t.join(' · ')}</div>`:''}
 const qLeaves=q=>q.parts.filter(p=>leaf(q,p));
 const qSkills=q=>[...new Set(qLeaves(q).flatMap(p=>p.skills||[]))];
@@ -3045,7 +3045,7 @@ function renderReview(){
   const q=rlist[ridx], d=B.docs[q.doc], r=reviews['q'+q.id];
   $('#srcTitle').textContent=`${docLabel(d)} · page ${q.pages.map(p=>+p.split('_').pop().split('.')[0]+1).join(', ')}`;
   $('#src').innerHTML=q.pages.map(p=>`<img data-page="${p}" alt="Source page">`).join('');
-  const rel=q.related.map(x=>{const o=B.questions.find(z=>z.id===x.q);return o&&!(docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number))?`${docLabel(B.docs[o.doc])} Q${o.number} (${Math.round(x.sim*100)}% similar)`:''}).filter(Boolean).join('; ');
+  const rel=q.related.map(x=>{const o=B.questions.find(z=>z.id===x.q);return o&&!(docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number))?`${docLabel(B.docs[o.doc])} Q${esc(o.nlabel||o.number)} (${Math.round(x.sim*100)}% similar)`:''}).filter(Boolean).join('; ');
   $('#rout').innerHTML=`${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not ${esc(QG.courseData.short)}:</b> ${esc(q.std)}</div>`:''}
     <div class="row"><span class="badge ${d.parse_path==='scan'?'b-scan':'b-acc'}">${d.parse_path}</span>
       ${q.tri?'':`${q.queues.includes('review')?'<span class="badge b-bad">parse flagged</span>':''}`}

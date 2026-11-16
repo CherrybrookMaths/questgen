@@ -54,7 +54,7 @@ function navHTML(){
 }
 function dupLine(q){const c=B.questions.filter(x=>x.dup_of===q.id);const v=q.related.filter(x=>x.rel!=='duplicate').map(x=>B.questions.find(z=>z.id===x.q)).filter(Boolean);
   const same=o=>docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number);   // owner 12 Nov: "the also prose is redundant ... they're literally the same exam twice": a copy of the same paper filed twice says nothing
-  const t=[...c.filter(o=>!same(o)).map(o=>`also in ${esc(docLabel(B.docs[o.doc]))} as Q${esc(o.number)}`),...v.map(o=>`similar to ${esc(docLabel(B.docs[o.doc]))} Q${esc(o.number)}`)];
+  const t=[...c.filter(o=>!same(o)).map(o=>`also in ${esc(docLabel(B.docs[o.doc]))} as Q${esc(o.nlabel||o.number)}`),...v.map(o=>`similar to ${esc(docLabel(B.docs[o.doc]))} Q${esc(o.nlabel||o.number)}`)];
   return t.length?`<div class="help" style="margin:-4px 0 8px">${t.join(' · ')}</div>`:''}
 const qLeaves=q=>q.parts.filter(p=>leaf(q,p));
 const qSkills=q=>[...new Set(qLeaves(q).flatMap(p=>p.skills||[]))];

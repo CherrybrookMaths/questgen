@@ -34,8 +34,9 @@ Working in the crop's own pixel units is easiest: `x=0.0127cm, y=-0.0127cm` make
 1. **Match the crop, not the mathematics (owner).** Same proportions, positions, aspect ratio, curve shape, label
    placement and printed size. Never draw to true scale when the crop is a sketch or NOT TO SCALE; never move a turning
    point, intercept, angle or length to its "true" position. An equation may be used only to get a smooth curve that is
-   then fitted to the positions the crop shows. Follow a scan's slight tilt rather than straightening it if the overlay
-   shows the difference.
+   then fitted to the positions the crop shows. Draw level: a scan's slight tilt is straightened, never
+   copied (owner 17 Nov: "Draw level.", after the checker's "Make the whole graph not tilted to the left."; this replaces
+   the earlier "follow a scan's slight tilt").
 10. **Don't copy hand wobble (owner: "it's wonky but it shouldn't be, the teacher just drew it not perfectly"; "the normal dist, its wonky at the start").** Rule 1 is about layout and proportions, not drawing faults. Curves with a known equation or shape (normal curves, parabolas, exponentials, trig) are drawn from the mathematics at the crop's size and position — smooth and symmetric where the curve is — never traced from an uneven pen or scan line.
 16. **Marked points sit at their true coordinates (owner: "the 6,6 point doesn't look like the actual intersection of the graphs"; "associate the (4,31) and max TP with the actual point").** Any labelled point (intersection, turning point, intercept) is plotted at its computed position on the drawn curves, and its label is attached to that dot. Compute it; never copy its position from the sketch.
 17. **Leave out the teacher's working marks (owner: "remove the 308 degrees, that was a reference for 30 degrees"; "JANKY teaching drawing"; "uneven and ticks bad because of teacher, make it much more organised").** Solution sketches are redrawn as clean exam diagrams: drop scribbles, reference numbers, crossed-out marks and uneven ticks; ticks evenly spaced on a true scale.

@@ -818,20 +818,21 @@ document
   solution 3365
     source: extracted
     latex: |
-      Let $f$ be even and $g$ be odd. The integrals are signed areas: $A<0$ (region $A$ is below the $x$-axis), $B>0$ (region $B$ is above it), and $C>0$ (on $[2,4]$ the graph of $f$ is above the graph of $g$, so $f(x)-g(x)>0$).
+      Let $f$ be even and $g$ be odd. The integrals are signed areas: $A<0$ (region $A$ is below the $x$-axis), $B>0$ (region $B$ is above it), and $C<0$ (on $[2,4]$ the graph of $g$ is below the graph of $f$, so $g(x)-f(x)<0$).
 
       Split the required integral:
       $$\displaystyle\int_0^4 g(x)\,dx=\int_0^2 g(x)\,dx+\int_2^4 g(x)\,dx$$
       Since $g$ is odd, $\displaystyle\int_0^2 g(x)\,dx=-\int_{-2}^0 g(x)\,dx=-B$.
 
       Since $f$ is even, $\displaystyle\int_2^4 f(x)\,dx=\int_{-4}^{-2} f(x)\,dx=A$, so
-      $$\displaystyle\int_2^4 g(x)\,dx=\int_2^4 f(x)\,dx-C=A-C$$
-      $$\displaystyle\int_0^4 g(x)\,dx=A-B-C$$
+      $$\displaystyle\int_2^4 g(x)\,dx=\int_2^4 f(x)\,dx+C=A+C$$
+      $$\displaystyle\int_0^4 g(x)\,dx=A-B+C$$
+      This is option B.
     marks_breakdown: 1: Correct answer
     source_document_id: 515
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {"format_note": "Source reasoning ('all three need to be negative') did not follow from the figure; replaced by the symmetry derivation above. The working ends with A - B - C and does not pick a listed option; see content_flags.", "overwritten_from_source": "Source argued A<0, B>0, C<0 and chose A-B+C; with C as printed (f above g on [2,4]) C>0 and the integral is A-B-C. Key B kept pending owner decision.", "source_flag": "Key is B (A - B + C), but with C = integral of f(x) - g(x) as printed, the even/odd symmetry gives integral of g from 0 to 4 = A - B - C, which is not among the options. In the figure f is above g on [2,4], so C > 0 (the source said C < 0). A - B + C would be correct if C were the integral of g(x) - f(x). Question or key needs the owner's decision; key B kept."}
+    meta_json: {"edited_from_original": "Owner 17 Nov: \"if the paper has a mistake, we should fix it.\" The paper printed C = ∫₂⁴ f(x) − g(x) dx, which makes the answer A − B − C (not an option); C is now ∫₂⁴ (g(x) − f(x)) dx, the teacher's correction on the marked copy, so key B is right.", "format_note": "Source reasoning ('all three need to be negative') did not follow from the figure; replaced by the symmetry derivation above. The working ends with A - B - C and does not pick a listed option; see content_flags.", "overwritten_from_source": "Working rewritten for the corrected C (key B)."}
   figure 515_q10_1.png
     page: 5
     bbox: [85, 100, 545, 368]
@@ -848,7 +849,7 @@ document
 
       \exfigure{515_q10_1}
 
-      Let $A=\int_{-4}^{-2}f(x)\,dx$, $B=\int_{-2}^{0}g(x)\,dx$ and $C=\int_{2}^{4}f(x)-g(x)\,dx$.
+      Let $A=\int_{-4}^{-2}f(x)\,dx$, $B=\int_{-2}^{0}g(x)\,dx$ and $C=\int_{2}^{4}\big(g(x)-f(x)\big)\,dx$.
 
       Which of the following expressions equals $\int_{0}^{4}g(x)\,dx$?
     marks: 1
@@ -902,14 +903,15 @@ document
     source: extracted
     latex: |
       Read the cumulative percentage line of the Pareto chart.
-      $$\begin{aligned} \text{Internet Speed, Printer Error and Forgotten Password} &= 77\% \\ \text{Internet Speed only} &= 35\% \end{aligned}$$
+      $$\begin{aligned} \text{Internet Speed, Printer Error and Forgotten Password} &\approx 77\% \\ \text{Internet Speed only} &\approx 34\% \end{aligned}$$
       Subtract to leave Printer Error and Forgotten Password.
-      $$\begin{aligned} \text{Percentage} &= 77\%-35\% \\ &= 42\% \end{aligned}$$
+      $$\begin{aligned} \text{Percentage} &\approx 77\%-34\% \\ &\approx 43\% \end{aligned}$$
+      Readings off the chart vary slightly: accept answers from $41\%$ to $43\%$ (the school's answer is $42\%$).
     marks_breakdown: 
     source_document_id: 515
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Reads the cumulative percentages for Internet Speed and for Forgotten Password, or equivalent merit"]]
-    meta_json: {"format_note": "Source gave no marks breakdown; criteria rows written by us in NESA style.", "source_flag": "The cumulative point for Internet Speed reads about 34%, not 35%, and the bar heights (about 144, 119, 64, 56, 27, 18) give (119+64)/428 = 42.8%, i.e. about 43%. The source answer of 42% depends on reading 35%. Kept as in the source."}
+    meta_json: {"checked_source_ok": "Owner 17 Nov: \"Accept the answer in Q11.\" Accept 41% to 43%.", "format_note": "Source gave no marks breakdown; criteria rows written by us in NESA style."}
   figure 515_q11_1.png
     page: 7
     bbox: [58, 152, 540, 452]
@@ -3516,7 +3518,7 @@ document
     source_document_id: 515
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Writes $\\dfrac{dh}{dt}=2f(x)f'(x)g'(t)$, or equivalent merit"], [1, "Finds $\\dfrac{dh}{dx}=2f(x)f'(x)$, or equivalent merit"]]
-    meta_json: {"format_note": "Source gave no marks breakdown; criteria rows written by us in NESA style. The answer is left as the bare number 80 because the question gives no units for h. The question's hint 'f'(x) = f'(g(t)) x g'(t)' is the derivative of f(g(t)), not f'(x); left as printed (question not changed)."}
+    meta_json: {"edited_from_original": "Owner 17 Nov: \"if the paper has a mistake, we should fix it.\" Printed the chain rule as f'(x) = f'(g(t)) × g'(t); now d/dt f(g(t)) = f'(g(t)) × g'(t).", "format_note": "Source gave no marks breakdown; criteria rows written by us in NESA style. The answer is left as the bare number 80 because the question gives no units for h. The question's hint 'f'(x) = f'(g(t)) x g'(t)' is the derivative of f(g(t)), not f'(x); left as printed (question not changed)."}
   part -  id 4009
     ordinal: 1
     latex: |
@@ -3526,7 +3528,7 @@ document
 
       The power output at time $t=1$ is 3 watts and is increasing at a rate of 4 watts per second.
 
-      By considering $h'(x)$ and using the fact that $f'(x)=f'\left(g(t)\right)\times g'(t)$, find the rate of change of the heat produced at time $t=1$, given that $f(3)=5$ and $f'(3)=2$.
+      By considering $h'(x)$ and using the fact that $\dfrac{d}{dt}f\left(g(t)\right)=f'\left(g(t)\right)\times g'(t)$, find the rate of change of the heat produced at time $t=1$, given that $f(3)=5$ and $f'(3)=2$.
     marks: 3
     needs_review: 1
     tag 2024 Y11-133

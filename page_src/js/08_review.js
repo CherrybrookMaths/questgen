@@ -415,7 +415,7 @@ function renderReview(){
   const q=rlist[ridx], d=B.docs[q.doc], r=reviews['q'+q.id];
   $('#srcTitle').textContent=`${docLabel(d)} · page ${q.pages.map(p=>+p.split('_').pop().split('.')[0]+1).join(', ')}`;
   $('#src').innerHTML=q.pages.map(p=>`<img data-page="${p}" alt="Source page">`).join('');
-  const rel=q.related.map(x=>{const o=B.questions.find(z=>z.id===x.q);return o&&!(docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number))?`${docLabel(B.docs[o.doc])} Q${o.number} (${Math.round(x.sim*100)}% similar)`:''}).filter(Boolean).join('; ');
+  const rel=q.related.map(x=>{const o=B.questions.find(z=>z.id===x.q);return o&&!(docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number))?`${docLabel(B.docs[o.doc])} Q${esc(o.nlabel||o.number)} (${Math.round(x.sim*100)}% similar)`:''}).filter(Boolean).join('; ');
   $('#rout').innerHTML=`${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not ${esc(QG.courseData.short)}:</b> ${esc(q.std)}</div>`:''}
     <div class="row"><span class="badge ${d.parse_path==='scan'?'b-scan':'b-acc'}">${d.parse_path}</span>
       ${q.tri?'':`${q.queues.includes('review')?'<span class="badge b-bad">parse flagged</span>':''}`}
