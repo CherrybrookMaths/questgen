@@ -18,7 +18,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import paths  # 
 
 P = str(paths.ROOT)   # this checkout (a worktree snapshots its own branch)
 BUNDLE = str(paths.OUT / 'questgen_repo.bundle')
-NAME, EMAIL = 'Questgen bot', 'questgen@localhost'   # never a real address
+# owner 16 Nov: "Commit from Claude" (GitHub showed the bot's commits as Unverified); still never the owner's address
+NAME, EMAIL = 'Claude', 'noreply@anthropic.com'
 
 
 def arg(flag, default=None):
