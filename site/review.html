@@ -1783,7 +1783,7 @@ a.plink:hover{text-decoration:underline}
 .procs .ivsres small,.procs .ivslast small{color:var(--muted)}
 .procs .ivslast{margin:0 0 12px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
 .procs .ivslast p{margin:0;font-size:13.5px}
-.procs .ivslast .ivsnote{margin:2px 0 4px;color:var(--muted);font-size:12.5px}
+.procs .ivsnote{margin:2px 0 4px;color:var(--muted);font-size:12.5px}
 .procs .ivsg{border-top:1px solid var(--line);margin-top:6px;padding-top:4px}
 .procs .ivsg>summary{cursor:pointer;font-size:13.5px;padding:3px 0}
 .procs .ivslist{list-style:none;margin:0 0 4px;padding:0 0 0 14px}
@@ -5313,7 +5313,7 @@ return API;
 PQ.scan=(()=>{
 const SERVER='Google Drive',TOOL='search_files',FOLDER='application/vnd.google-apps.folder',PDF='application/pdf';
 // limits so a scan can never run away: folders walked, pages per folder, calls at once, files kept in one scan doc
-const LIM={folders:3000,pages:60,workers:3,keep:500,page:100};
+const LIM={folders:3000,pages:60,workers:3,bytes:200000,page:100};   // bytes: rows per saved part (a document holds 256 KiB)
 const S={mcp:undefined,run:null,prog:null,fresh:null,err:'',scans:[],sub:null,K:null,KF:null,RX:null,RF:null,files:null,filesP:null,filesFor:null};
 const inv=()=>PQ.state.data;
 const sleep=(ms,signal)=>new Promise((res,rej)=>{const t=setTimeout(res,ms);signal&&signal.addEventListener('abort',()=>{clearTimeout(t);rej({code:'cancelled'})},{once:true})});
@@ -5363,7 +5363,9 @@ function classify(p){const X=rx();if(!X)return null;const R=X.R,name=p.split('/'
 
 // ---- the saved scans (db collection scans), newest first
 function subscribe(){if(S.sub||!db||!isEditor())return;
-  try{S.sub=db.collection('scans').onSnapshot(s=>{const d=s.docs||s;S.scans=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).filter(x=>x&&x.at&&Array.isArray(x.new)).sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));paint();PQ.sub()},()=>{})}catch(e){}}
+  try{S.sub=db.collection('scans').onSnapshot(s=>{const d=s.docs||s,all=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}));
+    const parts={};all.filter(x=>x&&x.of&&Array.isArray(x.new)).forEach(x=>(parts[x.of]=parts[x.of]||[]).push(x));   // 16 Nov: a scan saved in parts
+    S.scans=all.filter(x=>x&&x.at&&Array.isArray(x.new)).map(x=>x.parts>1?{...x,new:x.new.concat(...(parts[x.id]||[]).sort((a,b)=>a.part-b.part).map(p=>p.new))}:x).sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));paint();PQ.sub()},()=>{})}catch(e){}}
 // the latest scan for the sub line: {at, n} (n = its new files still not in the record; same-size look-alikes not counted)
 function last(){const s=S.scans[0];if(!s)return null;const K=known();if(!K)needFiles();return {at:s.at,n:s.new.filter(f=>!f.like&&!(K&&isKnown(K,f))).length}}
 
@@ -5378,11 +5380,12 @@ async function call(input,signal){
 // walk the folder tree breadth first, LIM.workers folders at a time
 async function walk(root,signal){const skip=new Set((inv().scan_skip||[]).map(key)),seen=new Set([root]),queue=[{id:root,path:''}],files=new Map(),P=S.prog;
   async function folder(f){let tok=null,pages=0;
-    do{const input={query:`parentId = '${f.id}' and (mimeType = '${FOLDER}' or mimeType = '${PDF}') and trashed = false`,pageSize:LIM.page,excludeContentSnippets:true};if(tok)input.pageToken=tok;
+    // 16 Nov: a fixed order, so pages of one folder never repeat or skip items (tools/drive_listing.py learnt this on 13 Nov)
+    do{const input={query:`parentId = '${f.id}' and (mimeType = '${FOLDER}' or mimeType = '${PDF}') and trashed = false`,pageSize:LIM.page,orderBy:'modifiedTime desc',excludeContentSnippets:true};if(tok)input.pageToken=tok;
       const p=await call(input,signal),list=Array.isArray(p.files)?p.files:[];
       for(const x of list){if(!x||!x.id)continue;const path=(f.path?f.path+'/':'')+String(x.title||x.name||'');
         if(x.mimeType===FOLDER){if(seen.has(x.id)||skip.has(key(path))||!/^[\w-]+$/.test(x.id))continue;seen.add(x.id);queue.push({id:x.id,path});P.total++;if(P.total>LIM.folders)throw {code:'too_big'}}
-        else if(!files.has(x.id)){files.set(x.id,{id:x.id,name:String(x.title||x.name||''),path,size:+x.fileSize||null});P.pdfs++}}
+        else if(!files.has(x.id)){files.set(x.id,{id:x.id,name:String(x.title||x.name||''),path,size:+x.fileSize||null,created:x.createdTime||null});P.pdfs++}}
       tok=list.length&&p.nextPageToken?p.nextPageToken:null}while(tok&&++pages<LIM.pages)}
   await new Promise((res,rej)=>{let active=0,dead=false;
     const pump=()=>{if(dead)return;if(!queue.length&&!active)return res();
@@ -5403,12 +5406,17 @@ async function start(){if(!isEditor()||!S.mcp||typeof S.mcp!=='object'||S.run||!
     const groups={};rows.filter(r=>!r.like).forEach(r=>{groups[gid(r)]=(groups[gid(r)]||0)+1});
     const fresh=rows.filter(r=>!r.like&&!before.has(r.id)).length;
     const at=new Date().toISOString(),since=[prev&&prev.at,D.last_scan&&D.last_scan.at].filter(Boolean).sort((a,b)=>Date.parse(a)-Date.parse(b)).pop()||null;   // the later of the last Drive rescan and the last folder scan
-    const doc={at,by:me||null,root,new:rows.slice(0,LIM.keep),
-      counts:{folders:S.prog.done,pdfs:files.length,matched,new:rows.filter(r=>!r.like).length,like:rows.filter(r=>r.like).length,since_last:fresh,groups,...(rows.length>LIM.keep?{truncated:rows.length}:{})}};
+    // 16 Nov (owner: "can you fix it all?"): every unrecorded file is kept. A document holds at most 256 KiB, so the rows go in
+    // parts: the scan doc carries the first part and `parts`; parts 2..n are docs '<id>-p<k>' {of, part, new} (merged on read)
+    const chunks=[];let cur=[],size=0;for(const r of rows){const n=JSON.stringify(r).length+1;if(cur.length&&size+n>LIM.bytes){chunks.push(cur);cur=[];size=0}cur.push(r);size+=n}chunks.push(cur);
+    const id='s'+at.replace(/\D/g,'').slice(0,14);
+    const doc={at,by:me||null,root,new:chunks[0],parts:chunks.length,
+      counts:{folders:S.prog.done,pdfs:files.length,matched,new:rows.filter(r=>!r.like).length,like:rows.filter(r=>r.like).length,since_last:fresh,groups,
+        recent:files.filter(f=>f.created&&Date.now()-Date.parse(f.created)<36e5).length}};
     let saved=true;
-    try{await db.doc('scans/s'+at.replace(/\D/g,'').slice(0,14)).set(doc)}catch(e){saved=false}
-    if(saved&&!S.scans.some(s=>s.at===at))S.scans.unshift({id:'s'+at,...doc});
-    S.fresh={n:fresh,earlier:doc.counts.new-fresh,like:doc.counts.like,since,saved,rows:saved?null:rows,pdfs:files.length,folders:S.prog.done};
+    try{for(let k=chunks.length;k>=2;k--)await db.doc(`scans/${id}-p${k}`).set({of:id,part:k,new:chunks[k-1]});await db.doc('scans/'+id).set(doc)}catch(e){saved=false}   // parts first: the scan doc appears only when all its parts exist
+    if(saved&&!S.scans.some(s=>s.at===at))S.scans.unshift({id,...doc,new:rows});
+    S.fresh={n:fresh,earlier:doc.counts.new-fresh,like:doc.counts.like,since,saved,rows:saved?null:rows,pdfs:files.length,folders:S.prog.done,recent:doc.counts.recent};
   }catch(e){S.err=message(e);if(e&&['not_granted','capability_disabled','capability_removed'].includes(e.code))S.mcp=null}
   finally{S.run=null;S.prog=null;paint();PQ.sub()}}
 function stop(){if(S.run)S.run.abort()}
@@ -5438,7 +5446,9 @@ function listHTML(rows){const D=inv(),order=((D&&D.groups)||[]).map(g=>g.course+
   rows.forEach(r=>{const g=gid(r);if(!by.has(g))by.set(g,[]);by.get(g).push(r)});
   const ks=[...by.keys()].sort((a,b)=>((order.indexOf(a)+1)||99)-((order.indexOf(b)+1)||99)||a.localeCompare(b));
   return ks.map(k=>{const [c,yl]=k.split('|'),rs=by.get(k),cc=PQ.course(c);
-    return `<details class="ivsg" data-ivsg="${esc(k)}"${cc.ready?' open':''}><summary><b>${esc(cc.short||cc.name||c)}</b> <span class="ivyl">${esc(PQ.years[yl]||yl)}</span> <span class="pcount">${rs.length}</span></summary><ul class="ivslist">${rs.map(r=>{const dir=r.path.includes('/')?r.path.slice(0,r.path.lastIndexOf('/')):'';
+    // owner 16 Nov: "once the scan finishes, should't it just add it to the record? Instead of sitting in a massive list?" The
+    // night run records them (NIGHT.md step 2), so the groups start folded: the counts are the summary, the list is on demand
+    return `<details class="ivsg" data-ivsg="${esc(k)}"><summary><b>${esc(cc.short||cc.name||c)}</b> <span class="ivyl">${esc(PQ.years[yl]||yl)}</span> <span class="pcount">${rs.length}</span></summary><ul class="ivslist">${rs.map(r=>{const dir=r.path.includes('/')?r.path.slice(0,r.path.lastIndexOf('/')):'';
       return `<li><span class="ivsname">${esc(r.name)}</span>${dir?`<small class="ivsdir">${esc(dir)}</small>`:''}<span class="ivchips">${r.year?`<span class="ivchip">${esc(r.year)}</span>`:''}${r.school?`<span class="ivchip">${esc(r.school)}</span>`:''}${r.status==='excluded'?`<span class="ivchip">${esc(/not a question/.test(r.why||'')?'Not a question paper':'Not imported')}</span>`:''}${r.like?`<span class="ivchip like" title="${esc(r.like)}">Same size as a recorded file</span>`:''}</span></li>`}).join('')}</ul></details>`}).join('')}
 function button(){const el=$('#ivScanBtn');if(!el)return;const D=inv();
   if(S.mcp===undefined||S.mcp==='asking'||!D){el.innerHTML='';return}
@@ -5451,11 +5461,13 @@ function paint(){if(!isEditor())return;button();const el=$('#ivScan');if(!el)ret
   if(S.err)h+=`<p class="ivserr" role="alert">${esc(S.err)}</p>`;
   const F=S.fresh;
   if(F){h+=`<p class="ivsres" role="status"><b>${plural(F.n,'new file')} since ${esc(F.since?clockT(F.since):'the first stock-take')}</b> <small>(${plural(F.pdfs,'PDF')} in ${plural(F.folders,'folder')})</small>${F.earlier?` · ${F.earlier} found in an earlier scan, still not in the record`:''}${F.like?` · ${plural(F.like,'file')} with the same size as a recorded file (probably moved or copied)`:''}</p>`;
+    // 16 Nov: on 16 Nov a scan 35 minutes after a large upload missed 43 of the newest PDFs: Drive's search can lag behind uploads
+    if(F.recent)h+=`<p class="ivsnote">${plural(F.recent,'PDF')} in the folder were uploaded in the last hour. Google Drive can take a while to list new uploads, so some may not be found yet: rescan later today to be sure.</p>`;
     if(!F.saved)h+=`<p class="ivserr" role="alert">Could not save this scan for Claude: the list below is on this screen only.</p>${listHTML(F.rows)}`}
   const s=S.scans[0],K=known();if(s&&!K)needFiles();
   if(s&&K){const rows=s.new.filter(f=>!isKnown(K,f)),n=rows.filter(r=>!r.like).length;
     h+=`<div class="ivslast"><p><b>Found in the last scan, not yet in the record: ${n}</b> <small>· scanned ${esc(clockT(s.at))}</small></p>
-      <p class="ivsnote">Claude adds these to the record at the next import step.</p>${rows.length?listHTML(rows):''}</div>`}
+      <p class="ivsnote">Tonight's night run adds these to the record (Processes › Work › Tonight). Open a group to see its files.</p>${rows.length?listHTML(rows):''}</div>`}
   el.innerHTML=h}
 function render(){if(!isEditor()||!$('#ivScan'))return;subscribe();
   if(S.mcp===undefined){const c=window.claude;if(!c||!c.use)S.mcp=null;

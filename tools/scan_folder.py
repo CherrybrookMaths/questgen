@@ -116,7 +116,18 @@ def load_listing(spec, root=ROOT_WIN):
         # a "Rescan drive" result from the review page (db collection scans, exported with ArtifactData): only the files that
         # scan did not find in the record, so it is PARTIAL: the missing check is skipped for it (as for a capped listing)
         meta['format'] = 'page_scan'
-        rows = [{'path': n['path'], 'type': 'file', 'size': n.get('size'), 'drive_id': n.get('id')} for n in _page_scan(obj)]
+        new = list(_page_scan(obj))
+        doc = obj[0] if isinstance(obj, list) else obj
+        doc = doc.get('data', doc) if isinstance(doc, dict) else {}
+        # 16 Nov: a page scan saved in parts (scans/<id>-p<k>.json exported next to it): merge them, or say what is missing
+        base = os.path.splitext(fn)[0]
+        for k in range(2, int(doc.get('parts') or 1) + 1):
+            pf = f'{base}-p{k}.json'
+            if os.path.exists(pf):
+                pd = json.load(open(pf, encoding='utf-8')); pd = pd.get('data', pd)
+                new += pd.get('new') or []
+            else: meta['warnings'].append(f'page scan part {k} of {doc.get("parts")} not found ({pf}): export the whole scans collection')
+        rows = [{'path': n['path'], 'type': 'file', 'size': n.get('size'), 'drive_id': n.get('id')} for n in new]
         meta['truncated'] = True
     else:
         ents, m = _entries(obj)

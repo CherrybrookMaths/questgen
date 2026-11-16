@@ -1517,7 +1517,7 @@ async function driveScan(browser, base, seed, fx) {
     errs();
     assert(!r.err, `error shown: ${r.err}`);
     assert(new RegExp(`^${nNew} new files since `).test(r.res) && /1 file with the same size as a recorded file/.test(r.res), `headline: “${r.res}”`);
-    assert(r.last.startsWith(`Found in the last scan, not yet in the record: ${nNew}`) && r.note === 'Claude adds these to the record at the next import step.', `last-scan line: “${r.last}” / “${r.note}”`);
+    assert(r.last.startsWith(`Found in the last scan, not yet in the record: ${nNew}`) && r.note === 'Tonight\'s night run adds these to the record (Processes › Work › Tonight). Open a group to see its files.', `last-scan line: “${r.last}” / “${r.note}”`);
     const name = i => dv.expect[i].path.split('/').pop();
     for (const [g, ids] of Object.entries(want)) assert((r.groups[g] || []).filter(x => ids.map(name).includes(x)).length === ids.length, `group ${g}: ${JSON.stringify(r.groups[g])} (want ${ids.map(name)})`);
     assert(r.like.join('|') === name('n3'), `same-size chip on: ${r.like}`);
@@ -1535,6 +1535,35 @@ async function driveScan(browser, base, seed, fx) {
       assert(f && f.path === e.path && f.course === e.course && f.yl === e.yl && f.year === e.year && f.status === e.status && typeof f.size === 'number' && f.name === name(i), `scan doc file ${i}: ${JSON.stringify(f)} (want ${JSON.stringify(e)})`) }
     assert(d.new.find(x => x.id === 'n3').like === dv.like.n3, 'n3 has no like');
     return `${nNew} new + 1 same size in ${Date.now() - t0} ms; ${r.calls.length} calls; ${Object.entries(r.groups).map(([g, x]) => g + ' ' + x.length).join(', ')}`;
+  });
+  // 16 Nov (owner: "can you fix it all?"): no cap on saved files (a scan kept only 500 of 583), saved in parts under the 256 KiB a
+  // document holds and merged back on read; folders walked in a fixed order; a note when PDFs were uploaded in the last hour
+  await check('rescan: 1,500 new files are all saved in parts (each under 256 KiB), merged back after a reload; fixed order; recent-upload note', null, async () => {
+    const big = JSON.parse(JSON.stringify(dv)), now = new Date().toISOString();
+    big.per = 100;   // Drive's real page size (the small fixture pages would hit the walk's 60-pages-per-folder limit first)
+    for (let i = 0; i < 1500; i++) big.folders.fKY12.push({id: 'bulk' + i, title: `2025 Knox Year 12 Mathematics Advanced Assessment Task ${i % 4 + 1} with worked solutions copy ${i}.pdf`, mimeType: 'application/pdf', fileSize: String(200000 + i), createdTime: now});
+    const p = await open({width: 1280, theme: 'light', drive: big});
+    try {
+      await p.evaluate(() => { window.__pt.driveDelay = 0 }); await go(p); await done(p);
+      const r = await p.evaluate(() => ({err: document.querySelector('#ivScan .ivserr')?.textContent || '', note: [...document.querySelectorAll('#ivScan .ivsnote')].map(x => x.textContent).join(' | '),
+        calls: window.__pt.mcp.map(c => c.input.orderBy)}));
+      const ss = await scans(p), main = ss.find(x => !x.of), parts = ss.filter(x => x.of);
+      const e = takeErrs(p); assert(!e.length, e.slice(0, 3).join(' | '));
+      assert(!r.err, `error: ${r.err}`);
+      assert(r.calls.length && r.calls.every(o => o === 'modifiedTime desc'), `orderBy: ${[...new Set(r.calls)]}`);
+      assert(/uploaded in the last hour/.test(r.note), `no recent-upload note: “${r.note}”`);
+      const all = main.new.length + parts.reduce((n, x) => n + x.new.length, 0), want = main.counts.new + main.counts.like;
+      assert(main.parts === parts.length + 1 && parts.length >= 1 && all === want && want >= 1500, `parts ${main.parts}, docs ${parts.length + 1}, rows ${all} of ${want}`);
+      const big1 = Math.max(...ss.map(x => JSON.stringify(x).length)); assert(big1 < 256 * 1024, `a scans doc is ${big1} bytes`);
+      // reload: a fresh page seeded with the saved docs reads every part back
+      const seed2 = {...seed}; for (const x of ss) { const {k, ...v} = x; seed2[k] = v }
+      const q = await open({width: 1280, theme: 'light'}, seed2);
+      try { await q.waitForFunction(() => /Found in the last scan, not yet in the record: \d+/.test(document.querySelector('#ivScan .ivslast p')?.textContent || ''), null, {timeout: 15000});
+        const n = await q.evaluate(() => +/record: (\d+)/.exec(document.querySelector('#ivScan .ivslast p').textContent)[1]);
+        const e2 = takeErrs(q); assert(!e2.length, e2.slice(0, 3).join(' | '));
+        assert(n === main.counts.new, `after a reload the last scan lists ${n} new files (want ${main.counts.new})`);
+        return `${want} rows in ${main.parts} docs (largest ${big1} bytes); reload lists all ${n} new; every call orderBy modifiedTime desc` } finally { await q.context().close() }
+    } finally { await p.context().close() }
   });
   await check('rescan: page classification = tools/classify_paths.py on every recorded path', page, async () => {
     const bad = await page.evaluate(cases => cases.filter(([p, c, yl, t, y, s, st, why]) => { const r = PQ.scan.classify(p);
