@@ -452,6 +452,7 @@ bottom, until it is empty. There is no waiting-for-review limit; the early stop 
   it in `site/data/check_pages.json` {papers: {id: {path, sha256, bytes, pages}}}. To serve them from the asset store, run the
   "Asset store" steps (asset_upload_plan.py includes `data/check/*.json`). batch_check blocks a listed pack that is missing or
   changed. The Drive link needs no step: inventory.py writes each Needs a check paper's Drive ids (`g`).
+- **Paper 5 left out (17 Nov).** "Adv Math - Graphing Techniques and Trig Functions and Graphs.pdf" (top of the folder; cover: only "Practice Assessment Task 2" and topics, no year or school). Owner: "yeah leave that paper out then" (db paperfix/p5 out: true).
 - **Proposed rule fixes** (`RULES_PROPOSED` in tools/classify_paths.py: "EXT1" without a space / "Y12 Ext1" → Extension 1; a
   folder named "11" → Year 11; "Std"/"Standard" folder → Standard; "Ext 2"/"Ext2" folder → Extension 2) apply only after the
   owner presses Accept (db `scans/rules`); `tools/sync_pagedb.py` writes it to `work/rules_accepted.json`, then run
