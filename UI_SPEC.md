@@ -885,3 +885,15 @@ The owner approved the plan doc "Questgen architecture plan: before imports resu
 - **Reviews** are written to `reviews/k_<key>` (questions) and `reviews/p_<paper key>` (paper approvals and paper calls). An approval on any copy counts for every copy. The page still reads the old `reviews/q<id>` and `reviews/paper_<doc>` docs as a fallback (copies merged: an approval wins, the newest note is kept) until a key doc exists; then the key doc decides. Code: `RKEY` in page_src/js/08_review.js; 14_start.js indexes the collection through it.
 - **Saved exams** also store `keys` (parallel to `items`); opening one finds each question by key, as the copy the Bank shows, and falls back to the id. **Difficulty checks** store `key` and the part `part`, **reports** store `key`, so tools can re-attach them after a re-parse.
 - Tests: page_test "keys: …" (the CSSA case, the fallback and the key write, saved exams load).
+
+## Rescan drive: no cap, fixed order, folded list (16 Nov)
+Owner 16 Nov: "So the rescan drive does not do a perfect job right?" then "Yeah can you fix it all?", and "once the scan
+finishes, should't it just add it to the record? Instead of sitting in a massive list?"
+- Every unrecorded file is saved (the 500-file cap is gone): rows go in parts of at most 200,000 characters, scans/<id> plus
+  scans/<id>-p<k> {of, part, new}; the page and tools/scan_folder.py merge them.
+- Each folder is listed in a fixed order (orderBy "modifiedTime desc"), as tools/drive_listing.py does.
+- A note says how many PDFs were uploaded in the last hour: on 16 Nov a scan 35 minutes after a large upload missed 43 of the
+  newest files (Google Drive's search had not caught up); rescan later to be sure.
+- The page cannot write the record (questions.db); the night run records new files every night (NIGHT.md step 2), so the
+  course groups start folded with their counts, and the note says the night run records them.
+
