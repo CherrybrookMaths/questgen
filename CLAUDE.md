@@ -175,8 +175,7 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
 - **API decision** (run imports through the API or in-session): decide after 1-2 weeks of measured nightly runs (tokens,
   minutes and failures per paper; inventory.py COST_PER_PAPER is a placeholder).
 - **Review grouped by batch**: a Next up note in the page (db `notes`).
-- **Two open paper calls** (site/project/open_decisions.json): paper_644 (2025 Cherrybrook, cover "AP3", filed AT3) and
-  paper_377 (2024 North Sydney Boys, cover "Assessment Task 3", a trial). Plus Q302: flagged without a note.
+- **Paper calls 644 and 377 and Q302**: resolved: all three approved in Review (checked 16 Nov); nothing is waiting there.
 - **Publish manifest vs live**: resolved 16 Nov (v217): the stale project/ copies are gone. publish_set `--live FILE` (one published
   path per line, from Artifact `list` scope "files") also nulls anything the live page holds outside the publish set.
 - **What a fresh session still cannot do**: re-crop or add papers without the source PDFs (download them by Drive id to src/;
