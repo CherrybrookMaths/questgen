@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% V=10e^{-sqrt t}: origin (50.5,557.5), 242 px per unit t, 47.85 px per unit V
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, declare function={X(\t)=50.5+242*\t; Y(\v)=557.5-47.85*\v;}]
+  \draw[->] (10,557.5) -- (842,557.5);
+  \draw[->] (50.5,598) -- (50.5,38);
+  \node at (856,560) {$t$};
+  \node at (48,17) {$V$};
+  \node at (35,580) {$0$};
+  % curve parametrised by s=sqrt(t) so the vertical tangent at t=0 is smooth
+  \draw[line width=0.9pt] plot[domain=0:1.789,smooth,samples=90] ({X(\x*\x)},{Y(10*exp(-\x))});
+  \foreach \t in {0,1,2,3} \fill ({X(\t)},{Y(10*exp(-sqrt(\t)))}) circle (7);
+  \node[anchor=west] at (63,78) {$(0,10)$};
+  \node at (350,355) {$(1,3.68)$};
+  \node at (595,413) {$(2,2.43)$};
+  \node at (830,445) {$(3,1.77)$};
+\end{tikzpicture}
+\end{document}

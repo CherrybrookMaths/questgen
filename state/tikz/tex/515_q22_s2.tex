@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% solution sketch: X ~ N(602, 2.5^2), P(599 < X < 604) hatched
+\begin{tikzpicture}[x=0.5cm,y=2.1cm, declare function={n(\x)=exp(-0.5*(((\x)-602)/2.5)^2);}]
+  \fill[shade hatch] (599,0) -- plot[domain=599:604,smooth,samples=40] (\x,{n(\x)}) -- (604,0) -- cycle;
+  \draw (594.5,0) -- (609.5,0);
+  \draw plot[domain=595:609,smooth,samples=90] (\x,{n(\x)});
+  \draw (599,0) -- (599,{n(599)});
+  \draw (604,0) -- (604,{n(604)});
+  \draw (602,-0.05) -- (602,0.05);
+  \foreach \v in {599,602,604} \node[below,inner sep=4pt] at (\v,0) {$\v$};
+\end{tikzpicture}
+\end{document}

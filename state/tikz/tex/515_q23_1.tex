@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% grid: n=0 at x=161, 209.8 px per week; $0 at y=760, 146 px per $100
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, declare function={X(\n)=161+209.8*\n; Y(\a)=760-1.46*\a;}]
+  \foreach \n in {1,...,5} \draw[black!25] ({X(\n)},{Y(0)}) -- ({X(\n)},{Y(500)});
+  \foreach \a in {100,200,...,500} \draw[black!25] ({X(0)},{Y(\a)}) -- ({X(5)},{Y(\a)});
+  \draw ({X(0)},{Y(500)}) -- ({X(0)},{Y(0)}) -- ({X(5)},{Y(0)});
+  \foreach \a in {100,200,...,500} \node[anchor=east,inner sep=0pt] at (122,{Y(\a)}) {$\a$};
+  \node[anchor=east,inner sep=0pt] at (126,775) {$0$};
+  \foreach \n in {1,...,5} \node at ({X(\n)+2},800) {$\n$};
+  \node[rotate=90] at (32,395) {Amount (\$)};
+  \node at (683,845) {Weeks $(n)$};
+  \foreach \n/\a in {1/200,2/100,3/300,4/300,5/400} \fill ({X(\n)},{Y(\a)}) circle (11.5);
+\end{tikzpicture}
+\end{document}

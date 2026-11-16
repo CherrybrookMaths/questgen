@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% solution: V=10e^{-sqrt t}: origin (50.5,557.5), 242 px per unit t, 47.85 px per unit V
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, declare function={X(\t)=50.5+242*\t; Y(\v)=557.5-47.85*\v;}]
+  \draw[->] (10,557.5) -- (842,557.5);
+  \draw[->] (50.5,598) -- (50.5,38);
+  \node at (856,560) {$t$};
+  \node at (48,17) {$V$};
+  \node at (35,580) {$0$};
+  % curve parametrised by s=sqrt(t) so the vertical tangent at t=0 is smooth
+  \draw[line width=0.9pt] plot[domain=0:1.789,smooth,samples=90] ({X(\x*\x)},{Y(10*exp(-\x))});
+  \foreach \t in {0,1,2,3} \fill ({X(\t)},{Y(10*exp(-sqrt(\t)))}) circle (7);
+  \node[anchor=west] at (63,78) {$(0,10)$};
+  \node at (350,355) {$(1,3.68)$};
+  \node at (595,413) {$(2,2.43)$};
+  \node at (830,445) {$(3,1.77)$};
+  % solution: trapezoidal-rule chords joining the four points
+  \draw ({X(0)},{Y(10)}) -- ({X(1)},{Y(3.68)}) -- ({X(2)},{Y(2.43)}) -- ({X(3)},{Y(1.77)});
+  % table of values
+  \draw (455,160) rectangle (1035,290); \draw (455,225) -- (1035,225);
+  \foreach \x in {575,690,805,920} \draw (\x,160) -- (\x,290);
+  \node at (515,192.5) {$t$}; \node at (515,257.5) {$V$};
+  \foreach \c/\a/\b in {632.5/0/10,747.5/1/3.68,862.5/2/2.43,977.5/3/1.77} {\node at (\c,192.5) {$\a$}; \node at (\c,257.5) {$\b$};}
+\end{tikzpicture}
+\end{document}

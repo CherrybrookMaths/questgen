@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% solution sketch: P(Z>-1.2) (top) equals P(Z<1.2) (bottom) by symmetry
+\begin{tikzpicture}[x=0.65cm,y=1.4cm, declare function={n(\x)=exp(-0.5*(\x)^2);}]
+  \begin{scope}
+    \fill[shade hatch] (-1.2,0) -- plot[domain=-1.2:3.3,smooth,samples=60] (\x,{n(\x)}) -- (3.3,0) -- cycle;
+    \draw (-3.5,0) -- (3.5,0);
+    \draw (-1.2,0) -- (-1.2,{n(-1.2)});
+    \draw plot[domain=-3.3:3.3,smooth,samples=90] (\x,{n(\x)});
+    \node[below] at (-1.2,0) {$-1.2$};
+  \end{scope}
+  \begin{scope}[yshift=-2.3cm]
+    \fill[shade hatch] (-3.3,0) -- plot[domain=-3.3:1.2,smooth,samples=60] (\x,{n(\x)}) -- (1.2,0) -- cycle;
+    \draw (-3.5,0) -- (3.5,0);
+    \draw (1.2,0) -- (1.2,{n(1.2)});
+    \draw plot[domain=-3.3:3.3,smooth,samples=90] (\x,{n(\x)});
+    \node[below] at (1.2,0) {$1.2$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

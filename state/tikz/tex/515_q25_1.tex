@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% half-cylinder in oblique view: front semicircle centre (231.5,236) r 193.5; depth vector (340,-170)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (38,236) -- (425,236);
+  \draw (425,236) arc[start angle=0,end angle=180,radius=193.5];
+  \draw (38,236) -- (378,66) -- (766,66) -- (425,236);
+  % back arc from its rim to the tangent point of the silhouette line
+  \draw (765,66) arc[start angle=0,end angle=63.43,radius=193.5];
+  \draw ({231.5+86.55},{236+173.07}) -- ({571.5+86.55},{66+173.07});
+  % dimensions
+  \draw[aux,<->] (378,46) -- (766,46);
+  \node at (572,22) {$2r$};
+  \draw[aux,<->] (433,247) -- (757,87);
+  \node at (600,197) {$h$};
+  \node[align=center,inner sep=0pt] at (75,77) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

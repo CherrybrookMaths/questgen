@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% normal curve fitted to the crop: centre x=408.6, sd 130.6 px, peak 342.7 px above its tails' level y=358.6; baseline y=383.5
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, declare function={N(\x)=358.6-342.65*exp(-0.5*(((\x)-408.6)/130.6)^2);}]
+  \fill[shade] (18,383.5) -- plot[domain=18:499.5,smooth,samples=60] (\x,{N(\x)}) -- (499.5,383.5) -- cycle;
+  \draw (18,383.5) -- (800,383.5);
+  \draw (408.6,383.5) -- (408.6,{N(408.6)});
+  \draw (499.5,383.5) -- (499.5,{N(499.5)});
+  \draw plot[domain=18:800,smooth,samples=90] (\x,{N(\x)});
+  \node at (408.6,414) {$0$};
+  \node at (500,414) {$z$};
+\end{tikzpicture}
+\end{document}

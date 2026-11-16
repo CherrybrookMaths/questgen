@@ -65,7 +65,7 @@ def finished():
     for b in bs:
         st = (b.get('stages') or {}).values()
         if str(b.get('id', ''))[1:].isdigit() and st and all(v in ('done', 'n/a') for v in st):
-            out.append((int(b['id'][1:]), b['id'], b.get('papers') or []))
+            out.append((int(b['id'][1:]), b['id'], b.get('papers') or [], b.get('ids')))
     return sorted(out)
 
 
@@ -165,7 +165,9 @@ def lanes(inv, write=True, reset=()):
     out = []
     for key, L in st['lanes'].items():
         c, yl = key.split('|')
-        done = [{'n': n, 'id': bid, 'ids': [labels[x] for x in ps if x in labels], 'labels': ps} for n, bid, ps in fin if key == FIRST_LANE and n < L['first']]
+        # 17 Nov: renaming 2024 Abbotsleigh AT1 to 2025 moved Batch 3's slot onto the new paper that took the old name. A finished
+        # batch's 'ids' in progress.json (pinned that day) win over its labels; labels only for a batch without them.
+        done = [{'n': n, 'id': bid, 'ids': list(ids) if ids else [labels[x] for x in ps if x in labels], 'labels': ps} for n, bid, ps, ids in fin if key == FIRST_LANE and n < L['first']]
         out.append({'course': c, 'yl': yl, 'first': L['first'], 'batches': L['batches'], 'done': done})
     return out
 
