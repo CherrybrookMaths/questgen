@@ -86,8 +86,16 @@
 .procs .pr-lock ul{list-style:none;margin:0;padding:10px 0 0;display:flex;flex-direction:column;gap:8px}
 .procs .pr-lock li{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:13.5px}
 .procs .pr-lock li b{min-width:200px;color:var(--muted);font-weight:600}.procs .pr-lock li>span{color:var(--muted)}
-.procs .pr-cps h5{margin:12px 0 0;font-size:13px;font-weight:600}.procs .pr-cps .pr-note{margin:8px 0 0}
-.procs .pr-cps .pr-cpf{min-width:0;max-width:100%;overflow-wrap:anywhere;color:var(--ink)}.procs .pr-cps .pr-why{overflow-wrap:anywhere}
+.procs .pr-cps>.pr-note{margin:8px 0 0}
+.procs .pr-cpp{margin-top:10px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.procs .pr-cpp>summary{cursor:pointer;padding:9px 12px;font-size:13.5px;font-weight:600;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+.procs .pr-cpp>summary span{font-variant-numeric:tabular-nums;color:var(--muted)}.procs .pr-cpp>summary small{flex-basis:100%;font-weight:400;font-size:12px;color:var(--muted)}
+.procs .pr-cps .pr-cpp ul{padding:0;gap:0;border-top:1px solid var(--line);max-height:420px;overflow-y:auto}
+.procs .pr-cps .pr-cpp li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--line)}
+.procs .pr-cps .pr-cpp li:last-child{border-bottom:0}
+.procs .pr-cpm{min-width:0;display:flex;flex-direction:column}.procs .pr-cps .pr-cpm b{font-size:13.5px;font-weight:600;color:var(--ink);min-width:0}
+.procs .pr-cpm small{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.procs .pr-cpl{display:flex;gap:12px;white-space:nowrap}.procs .pr-cpl .pr-drive{font-size:12.5px}
 .procs .pr-why{margin-left:auto;font-size:12.5px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 12px}
 .procs .pr-legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;color:var(--muted);padding-top:10px;margin-top:6px;border-top:1px solid var(--line)}
 .procs .pr-legend span{display:inline-flex;align-items:center;gap:6px}.procs .pr-legend .pr-b{width:12px;height:12px;border-radius:3px;cursor:default}

@@ -1852,8 +1852,16 @@ a.plink:hover{text-decoration:underline}
 .procs .pr-lock ul{list-style:none;margin:0;padding:10px 0 0;display:flex;flex-direction:column;gap:8px}
 .procs .pr-lock li{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;font-size:13.5px}
 .procs .pr-lock li b{min-width:200px;color:var(--muted);font-weight:600}.procs .pr-lock li>span{color:var(--muted)}
-.procs .pr-cps h5{margin:12px 0 0;font-size:13px;font-weight:600}.procs .pr-cps .pr-note{margin:8px 0 0}
-.procs .pr-cps .pr-cpf{min-width:0;max-width:100%;overflow-wrap:anywhere;color:var(--ink)}.procs .pr-cps .pr-why{overflow-wrap:anywhere}
+.procs .pr-cps>.pr-note{margin:8px 0 0}
+.procs .pr-cpp{margin-top:10px;border:1px solid var(--line);border-radius:8px;background:var(--panel)}
+.procs .pr-cpp>summary{cursor:pointer;padding:9px 12px;font-size:13.5px;font-weight:600;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 8px}
+.procs .pr-cpp>summary span{font-variant-numeric:tabular-nums;color:var(--muted)}.procs .pr-cpp>summary small{flex-basis:100%;font-weight:400;font-size:12px;color:var(--muted)}
+.procs .pr-cps .pr-cpp ul{padding:0;gap:0;border-top:1px solid var(--line);max-height:420px;overflow-y:auto}
+.procs .pr-cps .pr-cpp li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--line)}
+.procs .pr-cps .pr-cpp li:last-child{border-bottom:0}
+.procs .pr-cpm{min-width:0;display:flex;flex-direction:column}.procs .pr-cps .pr-cpm b{font-size:13.5px;font-weight:600;color:var(--ink);min-width:0}
+.procs .pr-cpm small{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.procs .pr-cpl{display:flex;gap:12px;white-space:nowrap}.procs .pr-cpl .pr-drive{font-size:12.5px}
 .procs .pr-why{margin-left:auto;font-size:12.5px;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 12px}
 .procs .pr-legend{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:12px;color:var(--muted);padding-top:10px;margin-top:6px;border-top:1px solid var(--line)}
 .procs .pr-legend span{display:inline-flex;align-items:center;gap:6px}.procs .pr-legend .pr-b{width:12px;height:12px;border-radius:3px;cursor:default}
@@ -5256,23 +5264,29 @@ function lockedHTML(m){const by=new Map();m.ps.filter(p=>p.st==='held_y11'||p.st
 // in bytes and a similar name as a recorded file; tools/scan_folder.py) are kept out of every paper's files (tools/inventory.py
 // held); this lists them beside their original with both Drive links, plus the last scan's moved and missing files
 function copiesHTML(m){const H=m.D.held||{},cp=H.copies||[],mv=H.moved||[],ms=H.missing||[];if(!cp.length&&!mv.length&&!ms.length)return '';
-  const dl=(g,t)=>g&&/^[\w-]{10,}$/.test(g)?`<a class="pr-drive" href="https://drive.google.com/file/d/${esc(g)}/view" target="_blank" rel="noopener">${esc(t)}<span aria-hidden="true"> ↗</span></a>`:'',nm=p=>p.split('/').pop();
-  const row=c=>{const p=m.byId.get(c[6]);return `<li data-cp="${c[0]}"><span class="pr-cpf" title="${esc(c[1])}">${esc(nm(c[1]))}</span>${dl(c[2],'Copy')}<span class="pr-why">same file as ${esc(p?label(p):nm(c[4]))}${p?` · ${esc((m.D.statuses||{})[p.st]||p.st)}`:''}</span>${dl(c[5],'Original')}</li>`};
-  const sec=(h,n,items)=>n?`<h5>${esc(h)} (${nf(n)})</h5><ul>${items}</ul>`:'';
-  return `<details class="pr-lock pr-cps" id="prCopies"><summary>Copies and missing files · ${plural(cp.length,'copy','copies')}${mv.length?`, ${nf(mv.length)} moved`:''}${ms.length?`, ${nf(ms.length)} missing`:''}</summary>
-    <p class="pr-note">A copy is never batched or imported: only its original is. "Same file" means the same size in bytes and a similar name (Drive does not give a checksum), so open both if one looks wrong and tell Claude.</p>
-    ${sec('Copies',cp.length,cp.map(row).join(''))}
-    ${sec('Moved in the folder (the record follows the file)',mv.length,mv.map(x=>`<li><span class="pr-cpf" title="${esc(x[1])}">${esc(nm(x[1]))}</span><span class="pr-why">was ${esc(x[2])}</span></li>`).join(''))}
-    ${sec('Recorded but not in the folder any more',ms.length,ms.map(x=>`<li><span class="pr-cpf" title="${esc(x[1])}">${esc(nm(x[1]))}</span><span class="pr-why">${esc(x[1])} · ${esc(x[2]==='excluded'?'was set aside (not in the bank)':x[2])}</span></li>`).join(''))}</details>`}
+  // owner 16 Nov (screenshot): "can't tell anything from it just looks like a SUPER long list": the verdict first, each part folded,
+  // one line per file: the paper you know, where the file sits, the links
+  const dl=(g,t)=>g&&/^[\w-]{10,}$/.test(g)?`<a class="pr-drive" href="https://drive.google.com/file/d/${esc(g)}/view" target="_blank" rel="noopener">${esc(t)}<span aria-hidden="true"> ↗</span></a>`:'';
+  const dir=p=>p.split('/').slice(0,-1).join(' › ')||'top folder',stx=p=>p?((m.D.statuses||{})[p.st]||p.st):'';
+  const rows=cp.map(c=>{const p=m.byId.get(c[6]);return {c,p,l:p?label(p):c[4].split('/').pop()}}).sort((a,b)=>a.l.localeCompare(b.l));
+  const line=(k,main,sub,links)=>`<li ${k}><div class="pr-cpm"><b>${main}</b><small>${sub}</small></div><div class="pr-cpl">${links}</div></li>`;
+  const part=(id,h,n,why,items)=>n?`<details class="pr-cpp" data-cpp="${id}"><summary>${esc(h)} <span>${nf(n)}</span><small>${esc(why)}</small></summary><ul>${items}</ul></details>`:'';
+  const act=ms.filter(x=>x[2]!=='excluded').length;
+  return `<details class="pr-lock pr-cps" id="prCopies"><summary>Copies and missing files · ${act?`${plural(act,'file')} need you`:'nothing needs you'}</summary>
+    <p class="pr-note">Found by the folder scan${H.at?` of ${esc(clockT(H.at))}`:''}. Open a part to see its files.</p>
+    ${part('cp','Copies set aside',cp.length,'a second copy of a paper already recorded: never batched or imported',rows.map(({c,p,l})=>line(`data-cp="${c[0]}"`,esc(l),`${p?esc(stx(p))+' · ':''}copy in ${esc(dir(c[1]))}`,dl(c[2],'Copy')+dl(c[5],'Original'))).join(''))}
+    ${part('mv','Moved',mv.length,'the record now follows the file',mv.map(x=>line('',esc(x[1].split('/').pop()),`now in ${esc(dir(x[1]))} · was in ${esc(dir(x[2]))}`,'')).join(''))}
+    ${part('ms','No longer in the folder',ms.length,act?'some were in use: check these':'all were set aside already: nothing lost',ms.map(x=>line('',esc(x[1].split('/').pop()),`was in ${esc(dir(x[1]))} · ${esc(x[2]==='excluded'?'set aside, not in the bank':x[2])}`,'')).join(''))}
+    <p class="pr-note">"Same file" = same size in bytes and a similar name (Drive gives no checksum). If one looks wrong, open both and tell Claude.</p></details>`}
 function lanesHTML(){const el=$('#prLanes');if(!el)return;const m=model();if(!m){el.innerHTML='';return}
-  const L=lanes(),lock=$('#prLock'),wasOpen=!!(lock&&lock.open),cpo=!!($('#prCopies')||{}).open,cc=API.run&&API.run.cover();
+  const L=lanes(),lock=$('#prLock'),wasOpen=!!(lock&&lock.open),cpo=!!($('#prCopies')||{}).open,cpp=[...document.querySelectorAll('#prCopies .pr-cpp[open]')].map(d=>d.dataset.cpp),cc=API.run&&API.run.cover();
   el.innerHTML=`<div class="pr-lhead"><h4>Courses</h4><span>Each square is a batch of 9 papers. Current syllabus first, newest year first. Click a square to see its papers.</span></div>
     ${L.length?L.map(laneHTML).join(''):`<p class="pempty">Nothing ready to import.</p>`}
     <div class="pr-lane pr-chk"><div class="pr-lrow"><div class="pr-lname"><b>Needs a check</b><small>${plural(m.t.needs_check||0,'paper')}: year or course not read yet. Sorted into lanes once checked.</small></div>
       <div class="pr-lacts"><button type="button" class="act" data-prcover${cc||!m.t.needs_check?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button><a class="act pr-link" href="#processes/papers/check">Resolve</a></div></div></div>
     ${lockedHTML(m)}${copiesHTML(m)}
     <div class="pr-legend" aria-hidden="true">${Object.entries(SQW).map(([k,w])=>`<span><i class="pr-b ${k}"></i>${esc(w[0].toUpperCase()+w.slice(1))}</span>`).join('')}</div>`;   // owner 14 Nov: cleared vs waiting in the legend
-  if(wasOpen&&$('#prLock'))$('#prLock').open=true;if(cpo&&$('#prCopies'))$('#prCopies').open=true}
+  if(wasOpen&&$('#prLock'))$('#prLock').open=true;if(cpo&&$('#prCopies'))$('#prCopies').open=true;cpp.forEach(k=>{const d=$(`#prCopies [data-cpp="${k}"]`);if(d)d.open=true})}
 function redraw(){if(!isEditor()||!$('#prLanes'))return;M=null;sub();tiles();lanesHTML();if(API.check)API.check.draw()}
 function render(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
   if(!box.dataset.ready){box.dataset.ready='1';

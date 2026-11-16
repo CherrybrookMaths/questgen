@@ -659,6 +659,10 @@ need a way to ... see what we actually haven't ingested yet").
   missing files · N copies, M moved, K missing"): each copy with its Copy and Original Drive links and the paper it belongs to,
   the last applied scan's moved files and the recorded files no longer in the folder. A copy is never batched or imported
   (tools/inventory.py held_list / copy_of; batch_check blocks otherwise). Read-only: a wrong match is reported to Claude.
+  Owner 16 Nov (screenshot of the first version): "fix this blockers UI, can't tell anything from it just looks like a SUPER long
+  list". Now: the row's summary is the verdict ("nothing needs you" / "N files need you"); inside, three folded parts (Copies set
+  aside, Moved, No longer in the folder), each with its count and one line on what it means; one line per file: the paper's name
+  (not the file name) and status, "copy in <folder>", and the Copy / Original links; long parts scroll inside their box.
 - **Result.** "N new files since <the later of the last rescan and the last folder scan>", plus "M found in an earlier scan, still
   not in the record" and the same-size count. The list is grouped by course x year level (open for courses that are ready), each
   file with its folder, year, school and "Not a question paper" / "Not imported" where the rules exclude it. New files are
