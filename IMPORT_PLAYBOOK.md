@@ -51,6 +51,13 @@ main dot point exact Opus 34, Sonnet 27, Haiku 27).
 Haiku is not used. Files over 10 MB cannot come through the Drive connector: use a smaller copy of the same paper (a combined
 "w Solutions" file) when there is one; otherwise import the questions and generate solutions (marked in the solution note).
 
+## Back up the batch's figure crops (17 Nov)
+The original crops (`figures/<doc>_q<n>_<k>.png`) exist only in the session that made them: not in git, not published (the page
+holds resized copies in data/img packs; each crop can be re-cut from its PDF with figures.page + figures.bbox). At the end of a
+batch, tar the batch's new crops into **3 MB parts** with SHA256SUMS.txt and upload them to the Drive folder as
+"Figure crops backup <date> (tar in N parts)". From a supervised session each part asks for one approval; the night run does it
+unattended (NIGHT.md step 5b). Batch 6's 180 crops (16 Nov) are not backed up yet (owner 17 Nov: "leave it as it is").
+
 ## Mistakes we have made, and the rule each one taught
 
 Each of these happened. `batch_check.py` catches the ones a script can catch.
