@@ -275,11 +275,17 @@ The PC route (when the Drive connector is not available):
 3. **Scan.** `python3 tools/scan_folder.py work/scan/listing_<date>.json [work/scan/listing_<date>_Kings.json@Kings ...]`
    is a dry run (report `work/scan/scan_<date>_dry.json`). Read it: `new` (classified by the stage-0 path and file-name rules in
    `tools/classify_paths.py`), `held` (`moved?` = same size and similar name as a recorded file that is no longer listed,
-   `copy?` = the recorded file is still there; never merged, not inserted), `missing` (recorded but not listed; the 5 owner
+   `copy?` = the recorded file is still there; with `--apply` a copy is recorded as status `duplicate_file`, "copy of document
+   <original>", and a moved row follows its file (old path kept in failure_reason); owner 16 Nov: "duplicate exams will never be
+   batched and imported right?": tools/inventory.py keeps copies out of every paper's files and batch, batch_check blocks one
+   that got back in, and Processes > Papers > "Copies and missing files" lists each copy beside its original with both Drive
+   links. "Same file" = same size in bytes + similar name; the Drive connector gives no checksum, so it is not a byte
+   comparison), `missing` (recorded but not listed; the 5 owner
    uploads under `HSC 2024-2026/` are always here) and `cover_check` (new files whose course the name does not tell). Then
    `--apply`: it copies questions.db to `archive/questions_before_scan_<time>.db`, inserts the new rows (status `discovered` for
    Advanced or not-yet-known, `excluded` with course and year level for the rest, as stage 0 did) and logs the scan in table
-   `folder_scans`. Running it again inserts nothing (and never overwrites an earlier backup, even within the same second). A cover-page check of the `cover_check` files needs their PDFs (Drive
+   `folder_scans`, and writes `state/work/scan/held.json` (tracked: the copies, moved files and missing rows of that scan; the
+   full report stays in work/scan/, untracked). Running it again inserts nothing (and never overwrites an earlier backup, even within the same second). A cover-page check of the `cover_check` files needs their PDFs (Drive
    connector or the PC); that is a later, separate step.
    **Or from the page (13 Nov, owner: "Where is the button to rescan the drive?").** Curate > Processes > Papers has
    **Rescan drive**: it walks the folder read-only with the owner's Google Drive connector and saves each scan to db collection

@@ -81,6 +81,13 @@ if os.path.exists(MAN):
     cur = {os.path.relpath(f, P + 'site'): f for f in glob.glob(P + 'site/data/**/*.json', recursive=True) + [P + 'site/review.html'] + [f for f in glob.glob(P + 'site/vendor/**/*', recursive=True) if os.path.isfile(f)]}
     sys.path.insert(0, P + 'tools'); import publish_set as _ps
     cur = {k: f for k, f in cur.items() if not k.startswith(_ps.EXCLUDE)}
+    # a pack served from the asset store (data/assets.json) is current when its bytes match the uploaded copy (16 Nov: 43 packs
+    # were reported "changed" because the manifest does not list them; asset_upload_plan.py re-uploads one that differs)
+    try: _as = json.load(open(P + 'site/data/assets.json')).get('assets') or {}
+    except (OSError, ValueError): _as = {}
+    stale_assets = sorted(k for k, f in cur.items() if k in _as and _as[k].get('sha256') != sha(f))
+    if stale_assets: W(f'{len(stale_assets)} asset-store pack(s) differ from the uploaded copy: re-upload (tools/asset_upload_plan.py, then tools/asset_manifest.py): ' + ', '.join(stale_assets[:8]))
+    cur = {k: f for k, f in cur.items() if k not in _as}
     changed = sorted(k for k, f in cur.items() if man['files'].get(k) != sha(f))
     gone = _ps.removals(man)   # stage 2, 15 Nov: published before, gone now -> the next publish must send them as null
     if gone: W(f'{len(gone)} published files no longer exist locally; the next publish removes them (null in python3 tools/publish_set.py --json): ' + ', '.join(gone[:5]) + (' ...' if len(gone) > 5 else ''))
@@ -225,6 +232,17 @@ try:
     else: I(f'lanes: {len(_ready)} ready papers in {sum(len(L["batches"]) for L in _iv.get("lanes") or [])} batches; statuses add up to {_iv["totals"]["papers"]} papers')
 except Exception as e: W(f'lanes check failed: {e}')
 # ======== end of the lanes block ========
+# owner 16 Nov: "duplicate exams will never be batched and imported right?" A recorded copy (duplicate_file, "copy of document <id>")
+# is in no paper's files and no lane batch: tools/inventory.py keeps it out; this blocks a build where one got back in.
+try:
+    import inventory as _INV
+    _cp = {r[0] for r in db.execute("SELECT id FROM documents WHERE status='duplicate_file' AND failure_reason LIKE '%copy of document %'")}
+    _fi = _INV.build(sqlite3.connect('file:%s?mode=ro' % os.environ.get('QG_DB', DB), uri=True), files=True)
+    _in = sorted({i for g in _fi['groups'] for p in g['papers'] for i in p['f']} & _cp)
+    _lb = sorted({i for L in json.load(open(P + 'site/data/inventory.json')).get('lanes') or [] for b in L['batches'] for i in b} & _cp)
+    if _in or _lb: B(f'recorded copies sit in a paper ({_in[:5]}) or a lane batch ({_lb[:5]}): a copy must never be imported (tools/inventory.py copy_of)')
+    else: I(f'copies: {len(_cp)} recorded, none in a paper or a batch')
+except Exception as e: W(f'copies check failed: {e}')
 # owner 14 Nov: Needs a check page pictures (tools/check_pages.py): every pack data/check_pages.json lists exists at its sha256
 try:
     _cm = json.load(open(P + 'site/data/check_pages.json')).get('papers') or {}

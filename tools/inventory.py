@@ -41,6 +41,7 @@ DB = paths.DBS
 OUT = P + 'site/data/inventory.json'
 FILES_URL = 'data/inventory_files.json'     # beside OUT; the page fetches it only for Rescan drive
 PAPERS = paths.S + 'work/import/papers.json'
+HELD = paths.S + 'work/scan/held.json'      # tools/scan_folder.py --apply writes it
 COST_PER_PAPER = None
 # The shared folder in Google Drive (G:\\Shared drives\\CMC Resources\\Exams\\External Exams Stage 6; drive_ids.csv lists it as
 # the parent of the loose files at its root). The page's "Rescan drive" button (owner 13 Nov: "Where is the button to rescan
@@ -134,6 +135,16 @@ def build(db, files=False, rules=None, overrides=None):
             if o['out']: d['_out'] = True
             else: d['course'], d['year_level'], d['_placed'] = o['course'], o['yl'], True
     has_q = {r[0] for r in db.execute('SELECT DISTINCT document_id FROM questions')}
+    # owner 16 Nov: "duplicate exams will never be batched and imported right?" A copy (status duplicate_file, "copy of document
+    # <id>", tools/scan_folder.py) is in no paper's files: it is counted on its original's paper (cp) and listed in 'held'.
+    copy_of = {}
+    for i, d in docs.items():
+        m = d['status'] == 'duplicate_file' and re.search(r'copy of document (\d+)', d['failure_reason'] or '')
+        if m and int(m.group(1)) in docs and int(m.group(1)) != i: copy_of[i] = int(m.group(1))
+    for i in list(copy_of):                          # a copy of a copy counts on the first original
+        seen = {i}
+        while copy_of[i] in copy_of and copy_of[i] not in seen: seen.add(copy_of[i]); copy_of[i] = copy_of[copy_of[i]]
+    copies = collections.Counter(copy_of.values())
     last = None
     if db.execute("SELECT 1 FROM sqlite_master WHERE name='folder_scans'").fetchone():
         r = db.execute('SELECT at, pdfs, new, inserted, moved, copies, missing, report FROM folder_scans ORDER BY id DESC LIMIT 1').fetchone()
@@ -145,14 +156,14 @@ def build(db, files=False, rules=None, overrides=None):
     if os.path.exists(PAPERS):
         for x in json.load(open(PAPERS)):
             ids = [x['id']] + ([x['sol']] if x.get('sol') else []) + [bypath[f] for f in x.get('files', []) if f in bypath]
-            ids = [i for i in dict.fromkeys(ids) if i in docs and i not in taken]
+            ids = [i for i in dict.fromkeys(ids) if i in docs and i not in taken and i not in copy_of]
             if ids:
                 papers.append({'ids': ids, 'label': x.get('label')}); taken.update(ids)
     # 2. everything else: by (course, year level, year, school, task) with the import_manifest naming rules
     groups = collections.OrderedDict()
     loose, split_off = [], set()
     for i, d in sorted(docs.items()):
-        if i in taken: continue
+        if i in taken or i in copy_of: continue
         m = as_manifest_row(d)
         y, s, t = year_of(m), d['school_formal'] or school_of(m), d['task_code'] or task_of(m)
         d['_y'], d['_s'], d['_t'], d['_k'] = y, s, t, kind_of(m)
@@ -205,6 +216,7 @@ def build(db, files=False, rules=None, overrides=None):
 
     out = {(c, y): {'course': c, 'yl': y, 'counts': dict.fromkeys(STATUSES + ['new', 'papers', 'files'], 0), 'papers': []} for c, *_ in COURSES for y in YLS}
     keys = set(COURSE_KEYS)
+    paper_of = {}
     for p in papers:
         fs = [docs[i] for i in p['ids']]
         q = [f for f in fs if f.get('_k', kind_of(as_manifest_row(f))) != 'solutions']
@@ -226,11 +238,13 @@ def build(db, files=False, rules=None, overrides=None):
             elif y and s != '?' and t != '?': label = f'{y} {s} {t}'
             else: label = os.path.splitext(os.path.basename(prim['source_path']))[0][:70]
         new = int(any(f['id'] in new_ids for f in fs))
+        cp = sum(copies[f['id']] for f in fs)
         dflt = (f'{y} NESA HSC' if t == 'HSC' else f'{y} {s} {t}') if y and s != '?' and t != '?' else None
         e = {'id': prim['id'], **({} if label == dflt else {'l': label}), 's': s if s != '?' else '', 'y': y, 't': t if t != '?' else '', 'st': st, 'n': len(fs)}
         if any(f.get('_k') in ('solutions', 'combined') or kind_of(as_manifest_row(f)) in ('solutions', 'combined') for f in fs): e['sol'] = 1
         if prim['parse_path'] == 'scan': e['scan'] = 1
         if new: e['new'] = 1
+        if cp: e['cp'] = cp
         if why: e['why'] = why
         if files or st == 'needs_check': e['f'] = [f['id'] for f in fs]
         if st == 'needs_check': e['p'] = [f['source_path'] for f in fs][:4]      # the paths, for the Needs a check view
@@ -240,7 +254,8 @@ def build(db, files=False, rules=None, overrides=None):
         if course == 'advanced' and y and y < RULES['old_syllabus_before']: e['old'] = 1     # old syllabus: syllabus_version 'pre2017'
         g = out[(course if course in keys else 'unknown', yl)]
         g['papers'].append(e)
-        g['counts'][st] += 1; g['counts']['new'] += new; g['counts']['papers'] += 1; g['counts']['files'] += len(fs)
+        for f in fs: paper_of[f['id']] = e['id']
+        g['counts'][st] += 1; g['counts']['new'] += new; g['counts']['papers'] += 1; g['counts']['files'] += len(fs) + cp
     for g in out.values():
         g['papers'].sort(key=lambda e: (e['s'] or '~', -(e['y'] or 0), e['t'], e.get('l', '')))
     total = collections.Counter()
@@ -258,7 +273,19 @@ def build(db, files=False, rules=None, overrides=None):
         'root_drive_id': ROOT_DRIVE_ID, 'scan_skip': SCAN_SKIP,
         'files_url': FILES_URL, 'files': known_files(docs.values()),     # main() writes 'files' to FILES_URL, not into OUT
         'rules': rules,
+        'held': held_list(docs, copy_of, paper_of),
     }
+
+
+def held_list(docs, copy_of, paper_of):
+    """For Processes > Papers > Copies and missing files: every recorded copy beside its original (path, Drive id, the paper
+    it belongs to), and the latest applied scan's moved files and missing rows (tools/scan_folder.py HELD)."""
+    def f(i): d = docs[i]; return [i, d['source_path'], d.get('drive_file_id') or '']
+    h = json.load(open(HELD)) if os.path.exists(HELD) else {}
+    return {'at': h.get('at'),
+            'copies': [f(i) + f(o) + [paper_of.get(o)] for i, o in sorted(copy_of.items(), key=lambda x: docs[x[0]]['source_path'].lower())],
+            'moved': [[m['id'], m['path'], m['from']] for m in h.get('moved', [])],
+            'missing': [[m['doc_id'], m['path'], m['status']] for m in h.get('missing', [])]}
 
 
 def status_of(fs, course, yl, y, has_question_file, has_q):

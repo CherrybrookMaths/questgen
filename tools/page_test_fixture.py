@@ -126,7 +126,12 @@ def sample_papers():
                        {'key': 'ext2', 'name': 'Mathematics Extension 2', 'short': 'Extension 2', 'ready': False, 'note': setup},
                        {'key': 'standard', 'name': 'Mathematics Standard', 'short': 'Standard', 'ready': False, 'note': setup},
                        {'key': 'unknown', 'name': 'Course not known yet', 'short': 'Course not known', 'ready': False, 'note': 'course not known from the file name: a cover-page check sorts these'}],
-           'cost_per_paper': None, 'groups': groups, 'lanes': [lane], 'proposed': proposed, **sample_drive_known()}
+           'cost_per_paper': None, 'groups': groups, 'lanes': [lane], 'proposed': proposed, **sample_drive_known(),
+           # owner 16 Nov ("duplicate exams will never be batched and imported right?"): tools/inventory.py held_list
+           'held': {'at': '2026-11-16T15:55:39+11:00',
+                    'copies': [[9701, 'Abbotsleigh/Yr 12 Adv/Abbotsleigh Yr12 MA 2025 AT1.pdf', '1copyfixture9701aa', 9101, 'Trial Exams/Abbotsleigh 2025 AT1.pdf', '1origfixture9101aa', 9101]],
+                    'moved': [[9702, 'Hornsby Girls/Yr 11 Adv/Y11 Ext1 T1 2025.pdf', 'Hornsby Girls/Y11 Ext1 T1 2025.pdf']],
+                    'missing': [[9703, 'Kings/Year 12 Mathematics Extension 2/12MATX2 AT1 2024 w solns.pdf', 'excluded']]}}
     files = inv.pop('files')      # as tools/inventory.py writes it: the recorded files are data/inventory_files.json, fetched for Rescan drive only
     swap_expect = BT.apply_swaps(lane['batches'], [{'id': 9101}], set(LANE_REVIEW.values()))
     return {'inventory': inv, 'inventory_files': {'built': inv['built'], **files}, 'swap_expect': swap_expect, 'check': check_pages_sample()}

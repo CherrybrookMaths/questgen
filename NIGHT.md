@@ -1,7 +1,7 @@
 # Night run (job 6)
 
-The nightly scheduled task starts a fresh Claude Code session around 10:15 pm Sydney with the prompt "Read NIGHT.md in the
-questgen repo and run it." Follow this file top to bottom. Nobody is watching: never ask a question; when something needs
+The nightly scheduled task ("Questgen night run") starts a fresh Claude Code session at 10:11 pm Sydney with the prompt "read
+NIGHT.md and run it". Follow this file top to bottom. Nobody is watching: never ask a question; when something needs
 the owner, write it into the results (step 6) and carry on with the next item.
 
 Owner rulings this follows (CLAUDE.md "Standing rules"): "yes night can push", "yes publishing rule", "yes Drive for the night
@@ -35,7 +35,8 @@ The Tonight card on Processes › Work shows exactly what this run does, from tw
 ## 2. Rescan the exam folder (read-only)
 Walk the shared folder with tools/drive_listing.py (its docstring has the loop; always orderBy "modifiedTime desc"), then
 `python3 tools/scan_folder.py <listing>` (dry run). If it reports new files, `--apply` (it backs up the database itself) and
-`python3 tools/inventory.py`. Result: "<n> new files recorded, <m> possibly moved/copied, <k> missing". Never touch the folder.
+`python3 tools/inventory.py`. --apply records copies (never imported) and follows moved files; they show on Processes > Papers >
+Copies and missing files. Result: "<n> new files recorded, <c> copies set aside, <m> moved, <k> missing". Never touch the folder.
 
 ## 3. Images (job 3)
 Export `reviews` (ArtifactData `list`, limit 1000 + cursor, out_dir work/pagedb_export_<date>/), then
@@ -49,7 +50,8 @@ publish only the review page; then --mark-published). If prepublish fails, do NO
 <first failure>", and stop changing things.
 
 ## 5. Back up and push
-If questions.db changed: zip it, upload to the Drive folder "HSC Advanced Question Bank" as questions.db.zip, rename the
+If questions.db changed: zip it into work/ (a file reference works only for a file inside the repo: 16 Nov, a zip in
+../outputs was refused), upload it with `base64Content` = `sha256:<hash>:<absolute path>` to the Drive folder "HSC Advanced Question Bank" as questions.db.zip, rename the
 previous one "questions.db (superseded <date>, safe to delete).zip" (never trash). Commit anything left and
 `git -c push.negotiate=true push origin main`.
 

@@ -654,6 +654,11 @@ need a way to ... see what we actually haven't ingested yet").
 - **Known or new.** A Drive file is known when its Drive id (documents.drive_file_id, 303 files so far) or its path
   (case-insensitive) is in inventory `files`. A file with the same size as a recorded one is listed with "Same size as a recorded
   file" (probably moved or copied) and not counted as new; tools/scan_folder.py makes the real moved?/copy? call when Claude records it.
+- **Copies and missing files (16 Nov).** Owner: "Where does point 13 exist?", "I want it now. How are we dealing with the dupes?",
+  "duplicate exams will never be batched and imported right?" A folded row under Locked on Processes > Papers ("Copies and
+  missing files · N copies, M moved, K missing"): each copy with its Copy and Original Drive links and the paper it belongs to,
+  the last applied scan's moved files and the recorded files no longer in the folder. A copy is never batched or imported
+  (tools/inventory.py held_list / copy_of; batch_check blocks otherwise). Read-only: a wrong match is reported to Claude.
 - **Result.** "N new files since <the later of the last rescan and the last folder scan>", plus "M found in an earlier scan, still
   not in the record" and the same-size count. The list is grouped by course x year level (open for courses that are ready), each
   file with its folder, year, school and "Not a question paper" / "Not imported" where the rules exclude it. New files are

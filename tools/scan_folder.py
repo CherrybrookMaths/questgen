@@ -27,9 +27,17 @@ For each PDF in the listing:
             or 'excluded' (another course, Year 10/11, or not a question paper), course / year level set, provenance
             'filename' or 'folder', ingested_at = this scan's time.
   moved?    same size and a similar file name (stem similarity >= 0.6) as a row whose own path is NOT in the listing:
-            probably renamed or moved by a colleague. Reported, never merged, not inserted (--insert-held inserts it as new).
-  copy?     same, but the row's own file is still there: probably a second copy. Reported, not inserted (--insert-held).
-Rows whose path is under a listed folder but not in the listing are reported as missing (never changed). A listing that hit
+            probably renamed or moved by a colleague. --apply points that row at the new path (and its Drive id), and notes
+            the old path in failure_reason.
+  copy?     same, but the row's own file is still there: a second copy. --apply records it as a row of its own, status
+            'duplicate_file', failure_reason "copy of document <id>: ..." (the original; a copy of a copy names the first
+            original). tools/inventory.py keeps copies out of every paper's files, so a copy is never batched or imported.
+            Owner 16 Nov: "duplicate exams will never be batched and imported right?" Drive gives no checksum through the
+            connector, so "same file" is same size in bytes + a similar name, not a byte comparison: the page lists every
+            copy with both Drive links (Processes > Papers > Copies and missing files).
+Rows whose path is under a listed folder but not in the listing are reported as missing (never changed).
+--apply also writes HELD (state/work/scan/held.json, tracked: work/ is not) with this scan's copies, moved files and
+missing rows, for the page (tools/inventory.py) and for the record. A listing that hit
 the tool's 2,000-entry cap skips the missing check for that listing (list subfolders separately).
 New files of unknown course are listed under cover_check: their cover page must be read (needs the PDF) before import.
 
@@ -47,6 +55,8 @@ from classify_paths import classify_path
 P = paths.P
 DB = paths.DBS
 OUT = P + 'work/scan/'
+HELD = os.path.join(str(paths.STATE), 'work', 'scan', 'held.json')
+COPY_OF = re.compile(r'copy of document (\d+)')
 ROOT_WIN = r'G:\Shared drives\CMC Resources\Exams\External Exams Stage 6'
 CAP = 2000          # the device list_dir tool returns at most 2,000 entries
 SIM = 0.6           # file-name stem similarity for moved? / copy?
@@ -283,14 +293,28 @@ COLS = ['source_path', 'drive_file_id', 'size_bytes', 'task_type', 'course', 'cl
         'provenance_method', 'bundled_solutions', 'syllabus_version', 'status', 'failure_reason', 'ingested_at']
 
 
-def apply(db, rep, at, insert_held=False):
-    """Insert the new rows (and, with insert_held, the held ones) and log the scan. Returns the number inserted."""
+def original(db, i):
+    """The first original of document i: a copy of a copy names the row its own original copied."""
+    seen = set()
+    while i not in seen:
+        seen.add(i)
+        r = db.execute("SELECT status, failure_reason FROM documents WHERE id=?", (i,)).fetchone()
+        m = r and r[0] == 'duplicate_file' and COPY_OF.search(r[1] or '')
+        if not m: return i
+        i = int(m.group(1))
+    return i
+
+
+def apply(db, rep, at):
+    """Insert the new rows and the copies, point moved rows at their new path, and log the scan. Returns the number inserted."""
+    day = at[:10]
     rows = list(rep['new'])
-    if insert_held:
-        for h in rep['held']:
-            r = {**h, **classify_path(h['path'])}
-            r['failure_reason'] = ((r.get('failure_reason') or '') + f'; {h["kind"]} doc {h["doc_id"]} ({h["doc_path"]})').lstrip('; ')
-            rows.append(r)
+    for h in rep['held']:
+        if h['kind'] != 'copy?': continue
+        o = original(db, h['doc_id'])
+        d = dict(db.execute('SELECT course, year_level, school, year, task_type FROM documents WHERE id=?', (o,)).fetchone())
+        rows.append({**h, **classify_path(h['path']), **d, 'status': 'duplicate_file', 'copy_of': o,
+                     'failure_reason': f'copy of document {o}: same size in bytes and a similar name (scan {day}; not compared byte for byte)'})
     n = 0
     for r in rows:
         v = {**r, 'source_path': r['path'], 'drive_file_id': r.get('drive_id'), 'size_bytes': r['size'], 'ingested_at': at}
@@ -298,16 +322,35 @@ def apply(db, rep, at, insert_held=False):
         if db.execute('SELECT 1 FROM documents WHERE source_path=? COLLATE NOCASE', (v['source_path'],)).fetchone(): continue
         db.execute(f'INSERT INTO documents ({",".join(COLS)}) VALUES ({",".join("?" * len(COLS))})', [v.get(c) for c in COLS])
         n += 1
+    for h in rep['held']:                               # moved: the row follows its file (the old path is kept in the note)
+        if h['kind'] != 'moved?' or db.execute('SELECT 1 FROM documents WHERE source_path=? COLLATE NOCASE', (h['path'],)).fetchone(): continue
+        db.execute("UPDATE documents SET source_path=?, drive_file_id=COALESCE(?, drive_file_id), size_bytes=?, "
+                   "failure_reason=TRIM(COALESCE(failure_reason, '') || '; moved from ' || ? || ' (scan ' || ? || ')', '; ') WHERE id=?",
+                   (h['path'], h.get('drive_id'), h['size'], h['doc_path'], day, h['doc_id']))
     for x in rep.get('drive_ids_to_fill', []):          # never overwrites a recorded id
         db.execute('UPDATE documents SET drive_file_id=? WHERE id=? AND drive_file_id IS NULL', (x['drive_id'], x['doc_id']))
     return n
+
+
+def write_held(rep, db, path=HELD):
+    """state/work/scan/held.json: this scan's copies (with the original they copy), moved files and missing rows."""
+    cp = []
+    for h in rep['held']:
+        if h['kind'] != 'copy?': continue
+        r = db.execute('SELECT id FROM documents WHERE source_path=? COLLATE NOCASE', (h['path'],)).fetchone()
+        cp.append({'id': r and r[0], 'path': h['path'], 'of': original(db, h['doc_id']), 'of_path': h['doc_path'], 'size': h['size'], 'similarity': h['similarity']})
+    out = {'at': rep['at'], 'copies': cp,
+           'moved': [{'id': h['doc_id'], 'path': h['path'], 'from': h['doc_path']} for h in rep['held'] if h['kind'] == 'moved?'],
+           'missing': [m for m in rep['missing'] if not m.get('maybe_moved_to')]}
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    json.dump(out, open(path, 'w'), indent=1, ensure_ascii=False)
+    return out
 
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     ap.add_argument('listings', nargs='+', help='listing file(s), optionally file@Subfolder')
     ap.add_argument('--apply', action='store_true', help='insert new files into documents (default: dry run)')
-    ap.add_argument('--insert-held', action='store_true', help='also insert moved? / copy? files as new rows')
     ap.add_argument('--root', default=ROOT_WIN, help='absolute path of the shared folder as the listing writes it')
     ap.add_argument('--out', default=OUT)
     a = ap.parse_args(argv)
@@ -341,12 +384,13 @@ def main(argv=None):
         src = sqlite3.connect(DB); dst = sqlite3.connect(bak); src.backup(dst); dst.close(); src.close()
         rep['backup'] = bak
         db.execute(SCHEMA)
-        rep['inserted'] = apply(db, rep, at, a.insert_held)
+        rep['inserted'] = apply(db, rep, at)
         t = rep['totals']
         db.execute('INSERT INTO folder_scans(at, listings, files, pdfs, matched, new, inserted, moved, copies, missing, report) VALUES(?,?,?,?,?,?,?,?,?,?,?)',
                    (at, json.dumps([m['listing'] for m in rep['listings']]), t['files'], t['pdfs'], t['matched'], t['new'], rep['inserted'],
                     t['moved'], t['copies'], t['missing'], os.path.relpath(out, P)))
         db.commit()
+        write_held(rep, db, HELD if 'QG_DB' not in os.environ else os.path.join(bdir, 'held.json'))   # tests write beside their copy
     json.dump(rep, open(out, 'w'), indent=1, ensure_ascii=False)
     t = rep['totals']
     print(f'scan {"APPLIED" if a.apply else "dry run"}: {t["pdfs"]} PDFs listed ({t["not_pdf"]} other files) · {t["matched"]} already recorded · '

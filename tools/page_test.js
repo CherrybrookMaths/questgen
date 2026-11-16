@@ -1258,6 +1258,8 @@ async function papersLanes(browser, base, seed, fx) {
         sq: [...l.querySelectorAll('.pr-sq .pr-b')].map(b => b.className.replace('pr-b ', '') + ':' + b.dataset.prb.split(':')[1]), acts: [...l.querySelectorAll('.pr-lacts button')].map(b => b.textContent)})),
       chk: document.querySelector('#prLanes .pr-chk .pr-lname small')?.textContent, chkActs: [...document.querySelectorAll('#prLanes .pr-chk .pr-lacts > *')].map(b => b.textContent),
       lock: document.querySelector('#prLock > summary')?.textContent, lockRows: [...document.querySelectorAll('#prLock li')].map(li => [...li.children].map(c => c.textContent.trim()).join(' ')),
+      cps: document.querySelector('#prCopies > summary')?.textContent, cpRow: [...(document.querySelector('#prCopies li[data-cp="9701"]')?.children || [])].map(c => c.textContent.trim()).join(' '),
+      cpLinks: [...document.querySelectorAll('#prCopies li[data-cp="9701"] a')].map(a => a.href), cpLis: document.querySelectorAll('#prCopies li').length,
       legend: [...document.querySelectorAll('#prLanes .pr-legend span')].map(s => s.textContent), old: ['#ivGrid', '#ivGo', '#ivRun', '#ivPick', '#ivBy', '#ivStats'].filter(s => document.querySelector(s)),
       order: (() => { const at = s => document.querySelector(s); return ['#ivSub', '#prSum', '#prLanes', '#prQueue', '#procHist'].every((s, i, a) => !i || (at(a[i - 1]).compareDocumentPosition(at(s)) & 4)) })()}));
     errs();
@@ -1270,6 +1272,11 @@ async function papersLanes(browser, base, seed, fx) {
     assert(l.acts.join('|') === '+1 batch|+2 batches|Queue all 3', `lane buttons ${l.acts}`);
     assert(r.chk === '3 papers: year or course not read yet. Sorted into lanes once checked.' && r.chkActs.join('|') === 'Run the cover-page check|Resolve', `Needs a check lane: ${r.chk} ${r.chkActs}`);
     assert(r.lock === 'Locked · 3 courses, 8 papers' && r.lockRows.some(x => /^Year 11 Advanced 3 papers Held until Year 12 is finished \(your 13 Nov ruling\)$/.test(x)) && r.lockRows.some(x => /^Year 12 Extension 1 3 papers Needs course setup$/.test(x)), `locked: ${r.lock} ${JSON.stringify(r.lockRows)}`);
+    // owner 16 Nov: copies listed beside their original with both Drive links; never in a lane batch
+    assert(r.cps === 'Copies and missing files · 1 copy, 1 moved, 1 missing' && r.cpLis === 3, `copies summary “${r.cps}”, ${r.cpLis} rows`);
+    assert(/^Abbotsleigh Yr12 MA 2025 AT1\.pdf Copy ↗ same file as .*Abbotsleigh.* · .+ Original ↗$/.test(r.cpRow || ''), `copy row “${r.cpRow}”`);
+    assert(r.cpLinks.join() === 'https://drive.google.com/file/d/1copyfixture9701aa/view,https://drive.google.com/file/d/1origfixture9101aa/view', `copy links ${r.cpLinks}`);
+    assert(!fx.inventory.lanes.some(L => L.batches.flat().includes(9701)), 'a copy sits in a lane batch');
     assert(r.legend.join('|') === 'Imported, cleared review|Imported, waiting for review|In the queue|Ready, current syllabus|Ready, old syllabus', `legend ${r.legend}`);
     return `${l.name}: ${l.sub}; ${l.sq.length} squares; ${r.lock}`;
   });
