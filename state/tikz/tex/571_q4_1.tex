@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % crop pixels; origin (221.5,260); 1 unit = 40 px both ways
+  \begin{scope}[shift={(221.5,260)}, x=0.508cm, y=0.508cm]
+    \draw[->] (-5.54,0) -- (11.83,0);
+    \draw[->] (0,-4.36) -- (0,5.98);
+    \foreach \k in {-5,...,-1,1,2,...,10} \draw (\k,0) -- (\k,-0.37);
+    \foreach \k in {-4,...,-1,1,2,3,4} \draw (0,\k) -- (-0.16,\k);
+    % dashed guides
+    \draw[aux] (-4,3) -- (-4,0);
+    \draw[aux] (4,3) -- (4,0);
+    \draw[aux] (8,-3) -- (8,0);
+    \draw[aux] (0,-3) -- (10,-3);
+    % y=f(x): segment, semicircle centre (2,3) radius 2, segment (4,3)-(8,-3); 0.9pt (rule 9)
+    \draw[line width=0.9pt] (-4,3) -- (0,3) arc[start angle=180, end angle=0, radius=2] -- (8,-3);
+    \node at (11.6,-0.52) {$x$};
+    \node[anchor=east] at (-0.05,5.6) {$y$};
+    \node at (-0.45,-0.55) {$O$};
+    \node[anchor=north] at (-4.05,-0.28) {$-4$};
+    \node[anchor=north] at (3.98,-0.28) {$4$};
+    \node[anchor=north] at (5.98,-0.28) {$6$};
+    \node[anchor=south] at (8,0.0) {$8$};
+    \node[anchor=east] at (-0.18,3) {$3$};
+    \node[anchor=east] at (-0.18,-3) {$-3$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

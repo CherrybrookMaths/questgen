@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 159_qV3_1: blank answer axes, x ticks every 0.5 (labels -4..4, 1 unit = 139 px), as on the paper.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (21,693) -- (1363,693);
+  \node[anchor=west, inner sep=0pt] at (1371,693) {$x$};
+  \draw[<->] (692.5,1320) -- (692.5,66);
+  \node[anchor=south, inner sep=0pt] at (688,44) {$y$};
+  \foreach \k in {-4,-3,-2,-1,1,2,3,4} {
+    \draw ({692.5+139*\k},680.5) -- ({692.5+139*\k},705.5);
+    \node[anchor=north, inner sep=0pt] at ({692.5+139*\k},732) {$\k$};}
+  \foreach \k in {-3.5,-2.5,-1.5,-0.5,0.5,1.5,2.5,3.5}
+    \draw ({692.5+139*\k},686.5) -- ({692.5+139*\k},699.5);
+\end{tikzpicture}
+\end{document}

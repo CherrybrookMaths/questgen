@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % solution: given axes with y=2sin x, plus y=1/3 sin3x drawn by the teacher. origin (125,427.5); 1 rad = 106.6 px; 1 unit = 159 px
+  \draw[->] (70,427.5) -- (870,427.5);
+  \draw[->] (125,820) -- (125,32);
+  \foreach \k in {1,...,12} \draw ({125+55.8*\k},427.5) -- ({125+55.8*\k},419.5);
+  \foreach \v in {2,1,0.3333,-0.3333,-1,-2} \draw (125,{427.5-159*\v}) -- (137,{427.5-159*\v});
+  \draw[line width=0.9pt] plot[domain=0:6.2832, samples=90, smooth] ({125+106.6*\x}, {427.5-159*2*sin(\x r)});
+  \draw[line width=0.9pt] plot[domain=0:6.2832, samples=120, smooth] ({125+106.6*\x}, {427.5-159*sin(3*\x r)/3});
+  \node at (125,8) {$y$};
+  \node at (102,452) {$O$};
+  \node at (104,110) {$2$};
+  \node at (104,268) {$1$};
+  \node at (100,377) {$\dfrac{1}{3}$};
+  \node at (92,489) {$-\dfrac{1}{3}$};
+  \node at (96,587) {$-1$};
+  \node at (96,746) {$-2$};
+  \node at (447,448) {$\pi$};
+  \node at (812,448) {$2\pi$};
+  \node at (236.6,478) {$\dfrac{\pi}{3}$};
+  \node at (348.2,478) {$\dfrac{2\pi}{3}$};
+\end{tikzpicture}
+\end{document}

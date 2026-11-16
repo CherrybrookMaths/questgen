@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 637_q8_1: rectangle, quarter circle and triangle. Crop pixel units (y down), origin (428.5,378.5);
+% x: 107.5 px/unit, y: about 115 px/unit as printed; the quarter circle is round (radius 230 px) as on the paper.
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\small}]
+  \draw (26,378.5) -- (1060,378.5);
+  \draw[->] (1040,378.5) -- (1062,378.5) node[right, font=\small, inner sep=2pt] {$x$};
+  \draw[->] (428.5,561) -- (428.5,55) node[above, font=\small, inner sep=2pt] {$y$};
+  \draw (428.5,490) -- (444,490);
+  \draw[line width=0.9pt] (107.5,378.5) -- (107.5,148.5) -- (428.5,148.5) -- plot[smooth, domain=90:0, samples=60, variable=\a] ({428.5+230*cos(\a)},{378.5-230*sin(\a)})
+     -- (968,490) -- (968,378.5);
+  \node at (411,168) {$2$};
+  \node at (101,402) {$-3$};
+  \node at (405,404) {$O$};
+  \node at (651,404) {$2$};
+  \node at (987,402) {$5$};
+  \node at (393,489) {$-1$};
+\end{tikzpicture}
+\end{document}

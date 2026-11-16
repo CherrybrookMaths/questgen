@@ -1,0 +1,35 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 571_q21_s1: the question diagram (571_q21_1) with the solution's construction: verticals from R and Q to the x-axis,
+% lengths t, sin t, sqrt3/2 and 2pi/3 - t. The teacher's coloured over-tracing of the triangle edges is left out (rule 17);
+% colours drawn black (rule 6). Crop pixel units: origin (67,383), pi at x=583, amplitude 264 px.
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\fontsize{10.8}{13}\selectfont}]
+  \def\k{516/pi}
+  \pgfmathsetmacro\tR{pi/3}\pgfmathsetmacro\tQ{470/571*pi}
+  \coordinate (P) at (67,383);
+  \coordinate (R) at ({67+516/pi*\tR},{383-264*sin(\tR r)});
+  \coordinate (Q) at ({67+516/pi*\tQ},{383-264*sin(\tQ r)});
+  \coordinate (R0) at ({67+516/pi*\tR},383);
+  \coordinate (Q0) at ({67+516/pi*\tQ},383);
+  \fill[shade] (P) -- (R) -- (Q) -- cycle;
+  \draw[<->] (13,383) -- (666,383) node[right, font=\scriptsize, inner sep=1pt] {$x$};
+  \draw[<->] (67,455) -- (67,20) node[above, font=\scriptsize, inner sep=1pt] {$y$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=0:pi, variable=\t] plot ({67+516/pi*\t},{383-264*sin(\t r)});
+  \draw (P) -- (R) -- (Q) -- cycle;
+  \draw (R) -- (R0); \draw (Q) -- (Q0);
+  \fill (P) circle (7); \fill (583,383) circle (7);
+  \fill (R) circle (3); \fill (Q) circle (3);
+  \node at (49,361) {$P$};
+  \node at (412,92) {$y=\sin x$};
+  \node[anchor=east, inner sep=0pt] at (251,132) {$R\ (t,\sin t)$};
+  \node[anchor=west, inner sep=0pt] at (502,219) {$Q\!\left(\dfrac{2\pi}{3},\dfrac{\sqrt{3}}{2}\right)$};
+  % solution lengths
+  \node at (153,405) {$t$};
+  \node[rotate=90] at ($(R0)!0.66!(R)+(14,0)$) {\halo{$\sin t$}};
+  \node[anchor=east] at ($(Q0)!0.45!(Q)+(-5,0)$) {$\dfrac{\sqrt{3}}{2}$};
+  \draw ($(R0)+(0,22)$) -- ($(Q0)+(0,22)$);
+  \draw ($(R0)+(0,15)$) -- ($(R0)+(0,29)$); \draw ($(Q0)+(0,15)$) -- ($(Q0)+(0,29)$);
+  \node at ($(R0)!0.5!(Q0)+(0,55)$) {$\dfrac{2\pi}{3}-t$};
+\end{tikzpicture}
+\end{document}

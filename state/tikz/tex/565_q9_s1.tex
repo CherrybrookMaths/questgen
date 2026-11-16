@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % solution sketch, crop pixels; origin (337.5,387); 1 unit = 48.75 px across, 49 px up (true scale in the crop)
+  \draw[<->] (16,387) -- (661,387);
+  \draw[<->] (337.5,723) -- (337.5,52);
+  \node[anchor=west] at (673,387) {$x$};
+  \node[anchor=south] at (329,40) {$y$};
+  \begin{scope}[shift={(337.5,387)}, x=0.619125cm, y=0.6223cm]
+    % f(x)=x^2-x-2 and g(x)=x+1 drawn from the equations (rule 10); 0.9pt (rule 9)
+    \draw[line width=0.9pt, <->] plot[domain=-2.52:3.52, samples=90, smooth] (\x,{\x*\x-\x-2});
+    \draw[line width=0.9pt, <->] (-6.63,-5.63) -- (5.88,6.88);
+    \fill (-1,0) circle (2.6pt) (3,4) circle (2.6pt);
+    \node[anchor=north east, inner sep=1pt] at (-0.84,-0.12) {$-1$};
+    \node[anchor=north west, inner sep=1pt] at (2.06,-0.08) {$2$};
+    \node[anchor=south west, inner sep=1pt] at (0.12,0.62) {$1$};
+    \node[anchor=west] at (3.45,3.6) {$(3,4)$};
+    \node[anchor=north west, inner sep=1pt] at (0.28,-2.5) {$\left(\;\dfrac{1}{2}\;,\ \dfrac{-9}{4}\;\right)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

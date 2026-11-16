@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 159_qV2_1: y = sqrt(x) drawn from the equation at the crop's size (rise 6.12*sqrt(px) from the origin (446,524)).
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (20,524) -- (900,524);
+  \node[anchor=north west, inner sep=0pt] at (903,536) {$x$};
+  \draw[<->] (446,765) -- (446,82);
+  \node[anchor=east, inner sep=0pt] at (440,64) {$y$};
+  \draw[->, line width=0.9pt, domain=0:452, samples=90, smooth, variable=\t]
+     plot ({446+\t},{524-6.12*sqrt(\t)});
+\end{tikzpicture}
+\end{document}

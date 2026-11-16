@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 571_q21_1: y = sin x on [0, pi], triangle PQR shaded. Crop pixel units (1 unit = 1 px at 200 dpi, y down).
+% Origin (77,423), pi at x=648, amplitude 293 px. R at t = pi/3 and Q on the curve where the crop puts it (the paper's
+% sketch places Q at about 0.82 pi, not at 2pi/3; kept as printed, rule 1).
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\X(#1){(77+571/pi*#1)}
+  \pgfmathsetmacro\tR{pi/3}\pgfmathsetmacro\tQ{470/571*pi}
+  \coordinate (P) at (77,423);
+  \coordinate (R) at ({77+571/pi*\tR},{423-293*sin(\tR r)});
+  \coordinate (Q) at ({77+571/pi*\tQ},{423-293*sin(\tQ r)});
+  \fill[shade] (P) -- (R) -- (Q) -- cycle;
+  \draw[<->] (16,423) -- (742,423) node[right, font=\scriptsize, inner sep=1pt] {$x$};
+  \draw[<->] (77,504) -- (77,45) node[above, font=\scriptsize, inner sep=1pt] {$y$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=0:pi, variable=\t] plot ({77+571/pi*\t},{423-293*sin(\t r)});
+  \draw (P) -- (R) -- (Q) -- cycle;
+  \fill (P) circle (8); \fill (648,423) circle (8);
+  \fill (R) circle (3.2); \fill (Q) circle (3.2);
+  \node at (56,398) {$P$};
+  \node at (650,450) {$\pi$};
+  \node at (461,101) {$y=\sin x$};
+  \node[anchor=east, inner sep=0pt] at (279,146) {$R\ (t,\sin t)$};
+  \node[anchor=west, inner sep=0pt] at (559,256) {$Q\!\left(\dfrac{2\pi}{3},\dfrac{\sqrt{3}}{2}\right)$};
+\end{tikzpicture}
+\end{document}

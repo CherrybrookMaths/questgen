@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (68,335); 1 rad = 77.83 px; 1 unit = 116.4 px
+  \fill[shade] plot[domain=0:6.2832, samples=120, smooth] ({68+77.83*\x}, {335-116.4*2*sin(\x r)})
+     -- plot[domain=6.2832:0, samples=120, smooth] ({68+77.83*\x}, {335-116.4*0.5*sin(2*\x r)}) -- cycle;
+  \draw[->] (30,335) -- (613,335);
+  \draw[->] (68,619) -- (68,45);
+  \draw[line width=0.9pt] plot[domain=0:6.2832, samples=90, smooth] ({68+77.83*\x}, {335-116.4*2*sin(\x r)});
+  \draw[line width=0.9pt] plot[domain=0:6.2832, samples=90, smooth] ({68+77.83*\x}, {335-116.4*0.5*sin(2*\x r)});
+  \foreach \t in {190.3,312.5,434.8,557} \draw (\t,327) -- (\t,343);
+  \foreach \v in {102.2,567.8} \draw (68,\v) -- (77,\v);
+  \node at (628,336) {$x$};
+  \node at (68,22) {$y$};
+  \node at (45,353) {$O$};
+  \node at (43,103) {$2$};
+  \node at (36,569) {$-2$};
+  \node at (183,375) {$\dfrac{\pi}{2}$};
+  \node at (308,355) {$\pi$};
+  \node at (421,375) {$\dfrac{3\pi}{2}$};
+  \node at (571,355) {$2\pi$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 rad = 236.7 px, 1 unit = 151.5 px; origin (141.5,506.5)
+  \def\X(#1){141.5+236.7*(#1)}
+  \fill[shade hatch] (141.5,506.5) -- plot[domain=0:0.7854, samples=40, smooth] ({141.5+236.7*\x}, {506.5-151.5/(cos(\x r)^2)})
+     -- plot[domain=0.7854:1.5708, samples=40, smooth] ({141.5+236.7*\x}, {506.5-151.5*2*cos(\x r)/sin(\x r)}) -- cycle;
+  \draw[->] (9,506.5) -- (703,506.5);
+  \draw[->] (141.5,607) -- (141.5,17);
+  \draw[line width=0.9pt] plot[domain=-0.515:0.973, samples=90, smooth] ({141.5+236.7*\x}, {506.5-151.5/(cos(\x r)^2)});
+  \draw[line width=0.9pt] plot[domain=0.571:1.7, samples=90, smooth] ({141.5+236.7*\x}, {506.5-151.5*2*cos(\x r)/sin(\x r)});
+  \node[font=\normalsize] at (122,42) {$y$};
+  \node[font=\normalsize] at (688,535) {$x$};
+  \node[font=\normalsize] at (121,535) {$O$};
+  \node[font=\normalsize] at (122,382) {$1$};
+  \node[font=\normalsize] at (507,568) {$\dfrac{\pi}{2}$};
+  \node[font=\normalsize,align=center] at (632,262) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

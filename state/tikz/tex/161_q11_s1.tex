@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % solution sketch: given axes and y=4sin2x, with y=2sin x+1 on [0,pi] added; 1 unit = 59.25 px
+  \draw[->] (0,377) -- (1030,377);
+  \draw[->] (188.5,646) -- (188.5,34);
+  \node[font=\large] at (1018,405) {$x$};
+  \node[font=\large] at (170,46) {$y$};
+  \node[font=\large] at (168,398) {$O$};
+  \foreach \t in {530,870} \draw (\t,365) -- (\t,389);
+  \node[font=\large] at (522,446) {$\dfrac{\pi}{2}$};
+  \node[font=\large] at (872,412) {$\pi$};
+  \draw[aux] (188.5,140) -- (360,140);
+  \node[font=\large] at (152,140) {$4$};
+  \foreach \v in {1,2,3} {\draw (182.5,{377-59.25*\v}) -- (194.5,{377-59.25*\v}); \node[left,inner sep=6pt] at (182.5,{377-59.25*\v}) {$\v$};}
+  \draw[line width=0.9pt] plot[domain=135:905, samples=90, smooth] (\x, {377-237*sin((\x-188.5)/681.5*360)});
+  \draw[line width=0.9pt] plot[domain=188.5:870, samples=90, smooth] (\x, {377-59.25*(2*sin((\x-188.5)/681.5*180)+1)});
+  \fill (188.5,317.75) circle (2.6) (529.25,199.25) circle (2.6) (870,317.75) circle (2.6);
+  \node[font=\large] at (565,128) {$\left(\dfrac{\pi}{2},3\right)$};
+  \node[font=\large,right] at (895,312) {$(\pi,1)$};
+\end{tikzpicture}
+\end{document}

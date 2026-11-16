@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % solution sketch of y=sin(-2x)-1 on [0,pi]; crop pixels; origin (395.5,359.5); pi/4 = 84.75 px (107.9 px/unit), y 109.4 px/unit
+  \draw[<->] (13,359.5) -- (778,359.5);
+  \draw[<->] (395.5,675) -- (395.5,44);
+  \node[anchor=west] at (784,359.5) {$x$};
+  \node[anchor=south] at (391,34) {$y$};
+  \foreach \k in {-4,...,-1,1,2,3,4} \draw ({395.5+84.75*\k},349) -- ({395.5+84.75*\k},370);
+  \foreach \k in {-2,-1,1,2} \draw (382,{359.5-109.4*\k}) -- (409,{359.5-109.4*\k});
+  \node[anchor=north] at (56.5,397) {$-\pi$};
+  \node[anchor=north] at (141,391) {$-\dfrac{3\pi}{4}$};
+  \node[anchor=north] at (225.5,391) {$-\dfrac{\pi}{2}$};
+  \node[anchor=north] at (310.5,391) {$-\dfrac{\pi}{4}$};
+  \node[anchor=north] at (479.5,391) {$\dfrac{\pi}{4}$};
+  % pi/2 label nudged left of its tick so the curve (which crosses y=-1 at x=pi/2) does not run through it (rule 11)
+  \node[anchor=north] at (547,391) {$\dfrac{\pi}{2}$};
+  \node[anchor=north] at (649.5,391) {$\dfrac{3\pi}{4}$};
+  \node[anchor=north] at (733.5,397) {$\pi$};
+  \node[anchor=east] at (374,141.7) {$2$};
+  \node[anchor=east] at (374,250.1) {$1$};
+  \node[anchor=east] at (374,468.9) {$-1$};
+  \node[anchor=east] at (374,578.3) {$-2$};
+  \begin{scope}[shift={(395.5,359.5)}, x=1.37033cm, y=1.38938cm]
+    \draw[line width=0.9pt] plot[domain=0:pi, samples=90, smooth] (\x,{sin(-2*\x r)-1});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

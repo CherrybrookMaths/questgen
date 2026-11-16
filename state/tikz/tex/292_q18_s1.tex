@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\draw (8,88) -- (178,88);
+\draw (80,15) -- (80,145);
+\draw (80,88) -- (130.9,37.1);
+\draw (80,88) -- (29.1,37.1);
+\draw (80,88) -- (29.1,138.9);
+\draw (80,88) -- (130.9,138.9);
+\draw plot[smooth,domain=0:45,samples=12] ({80+26*cos(\x)},{88-26*sin(\x)});
+\draw plot[smooth,domain=135:180,samples=12] ({80+26*cos(\x)},{88-26*sin(\x)});
+\draw plot[smooth,domain=180:225,samples=12] ({80+26*cos(\x)},{88-26*sin(\x)});
+\draw plot[smooth,domain=315:360,samples=12] ({80+26*cos(\x)},{88-26*sin(\x)});
+\node[font=\scriptsize] at (149.5,62.7) {$\dfrac{\pi}{6}$};
+\end{tikzpicture}
+\end{document}

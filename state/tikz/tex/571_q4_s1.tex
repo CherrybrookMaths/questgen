@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % solution sketch (smaller copy of the question graph); crop pixels; origin (138,147.5); 1 unit = 26.9 px
+  % the crop cuts the axes at its right and top edges (no arrowheads or axis letters visible): drawn as cut
+  \begin{scope}[shift={(138,147.5)}, x=0.34163cm, y=0.34163cm]
+    \draw (-5.13,0) -- (10.37,0);
+    \draw (0,-4.0) -- (0,5.37);
+    \foreach \k in {-5,...,-1,1,2,...,10} \draw (\k,0) -- (\k,-0.36);
+    \foreach \k in {-4,...,-1,1,2,3,4} \draw (0,\k) -- (-0.27,\k);
+    \draw[aux] (-4,3) -- (-4,0);
+    \draw[aux] (4,3) -- (4,0);
+    \draw[aux] (8,-3) -- (8,0);
+    \draw[aux] (0,-3) -- (10,-3);
+    \draw[line width=0.9pt] (-4,3) -- (0,3) arc[start angle=180, end angle=0, radius=2] -- (8,-3);
+    % solution's working: the line y=3 under the semicircle splits off two 4 x 3 rectangles of area 12 each
+    \draw (0,3) -- (4,3);
+    \node[font=\footnotesize] at (-2,1.4) {$12$};
+    \node[font=\footnotesize] at (2,1.4) {$12$};
+    \node[font=\scriptsize] at (-0.36,-0.58) {$O$};
+    \node[font=\scriptsize, anchor=north] at (-4.05,-0.3) {$-4$};
+    \node[font=\scriptsize, anchor=north] at (4,-0.3) {$4$};
+    \node[font=\scriptsize, anchor=north] at (5.92,-0.3) {$6$};
+    \node[font=\scriptsize, anchor=south] at (8,0.05) {$8$};
+    \node[font=\scriptsize, anchor=east] at (-0.25,3) {$3$};
+    \node[font=\scriptsize, anchor=east] at (-0.25,-3) {$-3$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

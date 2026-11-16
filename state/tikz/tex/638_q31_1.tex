@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (328,233); 52 px per unit in x, 96 px per unit in y; f(x)=x/(x^2+1): turning points (1,1/2), (-1,-1/2), asymptote y=0
+  \def\ox{328}\def\oy{233}\def\ux{52}\def\uy{96}
+  \draw[->] (25,233) -- (645,233) node[below=1pt] {$x$};
+  \draw[aux] (25,235.5) -- (632,235.5);
+  \draw[->] (328,410) -- (328,20) node[left=1pt] {$y$};
+  \node[below right] at (328,235) {$0$};
+  \draw[line width=0.9pt, domain=-5.6:5.4, samples=90, smooth] plot ({\ox+\ux*\x},{\oy-\uy*\x/(\x*\x+1)});
+  \fill ({\ox+\ux},{\oy-\uy/2}) circle (3.5);
+  \fill ({\ox-\ux},{\oy+\uy/2}) circle (3.5);
+  \node[above=3pt] at ({\ox+\ux+5},{\oy-\uy/2}) {$\left(1,\ \dfrac{1}{2}\right)$};
+  \node[below=4pt] at ({\ox-\ux-18},{\oy+\uy/2}) {$\left(-1,-\dfrac{1}{2}\right)$};
+\end{tikzpicture}
+\end{document}

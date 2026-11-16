@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % normal curve, mean at px 268, sigma 85 px (ticks evenly at each z), peak 177 px above the axis
+  \def\m{268}\def\s{85}\def\h{177}
+  \draw (8,312) -- (575,312);
+  \foreach \z in {-2,-1,0,1,2,3}{
+    \draw[aux] ({\m+\s*\z},312) -- ({\m+\s*\z},{312-\h*exp(-\z*\z/2)});
+  }
+  \foreach \z in {-2,-1,1,2,3}{ \draw ({\m+\s*\z},306) -- ({\m+\s*\z},318); \node[below] at ({\m+\s*\z},318) {$\z$}; }
+  \draw[line width=0.9pt, domain=-3.07:3.47, samples=90, smooth] plot ({\m+\s*\x},{312-\h*exp(-\x*\x/2)});
+  % brackets: 95/2 % for -2<z<0, 99.7/2 % for 0<z<3
+  \draw ({\m-2*\s},97) -- ({\m+3*\s},97);
+  \foreach \z in {-2,0,3}{ \draw ({\m+\s*\z},87) -- ({\m+\s*\z},107); }
+  \node[above] at ({\m-\s},87) {$\dfrac{95}{2}\,\%$};
+  \node[above] at ({\m+1.5*\s},87) {$\dfrac{99.7}{2}\,\%$};
+\end{tikzpicture}
+\end{document}

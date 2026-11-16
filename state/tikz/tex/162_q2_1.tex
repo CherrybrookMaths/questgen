@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (49.5,25) -- (49.5,387.5) -- (488,387.5);
+  \node at (34,32) {$P$};
+  \node at (510,387) {$t$};
+  \draw[line width=0.9pt,->] plot[domain=0:346, samples=60, smooth] ({50+\x}, {152+0.1083*\x+0.000767*\x*\x});
+  \node[align=center] at (512,130) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

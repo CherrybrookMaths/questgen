@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % NOT TO SCALE: O at (127.5,447), 3 at (127.5,141). Each curve is a smooth even polynomial in u=(px-127.5)/200
+  % least-squares fitted to the crop's own curve (max deviation 3 px); A = their computed intersection (331.7,273.9),
+  % B = where y=3-2x^2 meets the axis (379.1,447).
+  \def\fa(#1){447-67.744*(#1)^2-83.378*(#1)^4-10.452*(#1)^6}
+  \def\fb(#1){141+52.432*(#1)^2+39.259*(#1)^4+31.426*(#1)^6}
+  \def\uA{1.02101}\def\uB{1.25813}
+  \fill[shade dots] plot[domain=0:\uA, samples=60, smooth] ({127.5+200*\x},{\fa(\x)})
+     -- plot[domain=\uA:\uB, samples=30, smooth] ({127.5+200*\x},{\fb(\x)}) -- cycle;
+  \draw (22,447) -- (695,447);
+  \node at (683,476) {$x$};
+  \draw (127.5,515) -- (127.5,35);
+  \node at (100,50) {$y$};
+  \node at (104,143) {$3$};
+  \node at (110,478) {$O$};
+  \node at (368,478) {$B$};
+  \node at (370,281) {$A$};
+  \draw[line width=0.9pt, domain=0:1.29, samples=90, smooth] plot ({127.5+200*\x},{\fa(\x)});
+  \draw[line width=0.9pt, domain=0:1.348, samples=90, smooth] plot ({127.5+200*\x},{\fb(\x)});
+  \node[right] at (398,72) {$y=x^2$};
+  \node[right] at (418,540) {$y=3-2x^2$};
+  \node[right] at (608,72) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

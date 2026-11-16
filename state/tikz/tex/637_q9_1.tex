@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 637_q9_1: y = f'(x), the line through (0,6) and (3,0). Crop pixel units (y down): origin (89,426), (0,6) at y=56,
+% (3,0) at x=274 (not to scale, as printed). The paper's blue line drawn black (rule 6).
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\small}]
+  \draw[<->] (15,426) -- (470,426) node[right, inner sep=2pt] {$x$};
+  \draw[<->] (89,497) -- (89,36) node[above, inner sep=1pt] {$y$};
+  \draw[<->, line width=0.9pt] ($(89,56)!-0.035!(274,426)$) -- ($(89,56)!1.19!(274,426)$);
+  \node at (72,58) {$6$};
+  \node at (254,442) {$3$};
+  \node at (264,251) {$y=f'(x)$};
+  \node at (622,251) {Not to scale};
+\end{tikzpicture}
+\end{document}

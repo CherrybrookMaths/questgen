@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (72,533), 67 px per unit on both axes; H(t)=4+2cos(pi t/6), 0<=t<=6
+  \def\u{67}
+  \draw[->] (0,533) -- (1040,533);
+  \draw (72,600) -- (72,60);
+  \foreach \k in {1,...,6}{ \draw (66,{533-\u*\k}) -- (78,{533-\u*\k}); \node[left] at (64,{533-\u*\k}) {$\k$}; }
+  \foreach \k in {3,6}{ \draw ({72+\u*\k},527) -- ({72+\u*\k},539); \node[below] at ({72+\u*\k},541) {$\k$}; }
+  \node[below left] at (70,535) {$0$};
+  \draw[aux] (72,{533-4*\u}) -- ({72+6*\u},{533-4*\u});
+  \draw[aux] ({72+3*\u},{533-4*\u}) -- ({72+3*\u},533);
+  \draw[aux] ({72+6*\u},{533-4*\u}) -- ({72+6*\u},533);
+  \draw[line width=0.9pt, domain=0:6, samples=90, smooth] plot ({72+\u*\x},{533-\u*(4+2*cos(30*\x))});
+  \node[right] at ({72+6*\u+6},{533-2*\u}) {$(6,2)$};
+  \node[anchor=south west] at (6,40) {$H(t)$ in metres};
+  \node[anchor=north west] at (912,540) {$t$ hours};
+\end{tikzpicture}
+\end{document}

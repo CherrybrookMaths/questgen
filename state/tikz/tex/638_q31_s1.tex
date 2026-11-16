@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (422,503); 42 px per unit in x (narrower than the sketch so the true slow approach to y=1 fits), 88 px per unit in y; y=-2f(x/4)+1 = 1-8x/(x^2+16): max (-4,2), min (4,0), y-int 1, asymptote y=1
+  \def\ox{422}\def\oy{503}\def\ux{42}\def\uy{88}
+  \draw[<->] (20,503) -- (835,503) node[right] {$x$};
+  \draw[->] (422,640) -- (422,45) node[above] {$y$};
+  \draw[aux] (20,{\oy-\uy}) -- (835,{\oy-\uy});
+  \node[above left] at (835,{\oy-\uy-4}) {$y=1$};
+  \foreach \k in {-4,4}{ \draw ({\ox+\ux*\k},497) -- ({\ox+\ux*\k},509); \node[below] at ({\ox+\ux*\k},511) {$\k$}; }
+  \draw (416,{\oy-2*\uy}) -- (428,{\oy-2*\uy}); \node[right] at (430,{\oy-2*\uy-12}) {$2$};
+  \node[above right] at (424,{\oy-\uy-2}) {$1$};
+  \node[below left] at (420,505) {$0$};
+  \draw[line width=0.9pt, <->, domain=-9:9, samples=90, smooth] plot ({\ox+\ux*\x},{\oy-\uy*(1-8*\x/(\x*\x+16))});
+  \fill ({\ox-4*\ux},{\oy-2*\uy}) circle (3.5) node[above=3pt] {$(-4,2)$};
+  \fill ({\ox+4*\ux},\oy) circle (3.5);
+\end{tikzpicture}
+\end{document}

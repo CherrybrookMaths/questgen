@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % sketch proportions kept (not to scale): legs 188 px and 189 px
+  \coordinate (A) at (20,207); \coordinate (C) at (208,207); \coordinate (B) at (208,18);
+  \draw (A) -- (C) -- (B) -- cycle;
+  \draw (C) ++(-16,0) -- ++(0,-16) -- ++(16,0);
+  \draw ($(A)+(48,0)$) arc[start angle=0, end angle={-atan2(189,188)}, radius=48];
+  \node[anchor=west] at (74,190) {\small$\tan^{-1}(2)$};
+  \node at (95,92) {$6$};
+  \node at (234,108) {$y$};
+  \node at (114,232) {$x$};
+\end{tikzpicture}
+\end{document}

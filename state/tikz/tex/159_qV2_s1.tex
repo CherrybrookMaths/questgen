@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 159_qV2_s1: both curves from their equations on one scale (1 unit = 46 px across, 50 px up; origin (467,532)):
+% y = sqrt(x) (given) and y = sqrt(3-x)+4 with end point (3,4) and y-intercept sqrt3+4 on the curve. Teacher's working text dropped.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (41,532) -- (922,532);
+  \node[anchor=north west, inner sep=0pt] at (926,544) {$x$};
+  \draw[<->] (467,770) -- (467,92);
+  \node[anchor=east, inner sep=0pt] at (461,74) {$y$};
+  \draw[->, line width=0.9pt, domain=0:9.8, samples=90, smooth]
+     plot ({467+46*\x},{532-50*sqrt(\x)});
+  \draw[->, line width=0.9pt, domain=3:-7.3, samples=90, smooth]
+     plot ({467+46*\x},{532-50*(sqrt(3-\x)+4)});
+  \fill ({467+46*3},{532-200}) circle (5.5);
+  \fill (467,{532-50*(sqrt(3)+4)}) circle (5.5);
+  \node[anchor=south west, inner sep=0pt] at (482,{532-50*(sqrt(3)+4)+4}) {$\sqrt{3}+4$};
+  \node[anchor=west, inner sep=0pt] at (628,{532-200+18}) {$(3,4)$};
+\end{tikzpicture}
+\end{document}

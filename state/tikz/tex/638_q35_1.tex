@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % NOT TO SCALE: O (430,452), circle radius 243 px, T at (430,385), R at (575,452), S on the circle at 37.2 deg (crop positions)
+  \coordinate (O) at (430,452); \coordinate (T) at (430,385); \coordinate (R) at (575,452);
+  \coordinate (S) at ({430+245*cos(37.2)},{452-245*sin(37.2)});
+  \draw (10,452) -- (848,452);
+  \draw (430,765) -- (430,48);
+  \draw (O) circle (245);
+  \draw (T) -- (S) (O) -- (S) (R) -- (S);
+  \node at (488,432) {$\alpha$};
+  \node at (402,105) {$y$};
+  \node at (826,488) {$x$};
+  \node at (412,178) {$6$};
+  \node at (408,722) {$-6$};
+  \node at (160,482) {$-6$};
+  \node at (694,482) {$6$};
+  \node at (408,482) {$O$};
+  \node at (598,488) {$R(4,0)$};
+  \node at (367,388) {$T(0,2)$};
+  \node at (702,292) {$S(x,y)$};
+  \node at (908,102) {\large NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

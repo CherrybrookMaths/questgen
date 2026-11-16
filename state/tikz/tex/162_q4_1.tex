@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % NOT TO SCALE sketch: curve fitted to the crop, height above axis = 65.5*exp(0.0082(x-160)) px; meets y=e^2 (y=127.5) at x=381.5
+  \fill[shade hatch reverse] (152,127.5) -- (152,{529.5-65.5*exp(-0.0656)}) -- plot[domain=152:381.5, samples=40, smooth] (\x, {529.5-65.5*exp(0.0082*(\x-160))}) -- cycle;
+  \draw[<->] (7,529.5) -- (532,529.5);
+  \draw[->] (152,569) -- (152,29);
+  \draw (152,127.5) -- (381.5,127.5);
+  \draw[aux] (381.5,127.5) -- (381.5,529.5);
+  \draw[line width=0.9pt] plot[domain=20:407, samples=90, smooth] (\x, {529.5-65.5*exp(0.0082*(\x-160))});
+  \node at (130,22) {$y$};
+  \node at (545,550) {$x$};
+  \node at (128,138) {$e^2$};
+  \node at (130,455) {$1$};
+  \node at (381.5,553) {$1$};
+  \node at (478,58) {$y=e^{2x}$};
+  \node[align=center] at (668,252) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

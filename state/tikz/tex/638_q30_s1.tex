@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (270,452); 104 px per unit in x, 58 px per unit in y (the sketch's tick spacing); y=3x^2-x^3
+  \def\ox{270}\def\oy{452}\def\ux{104}\def\uy{58}
+  \draw[->] (38,452) -- (1045,452) node[right] {$x$};
+  \draw[->] (270,770) -- (270,40) node[above] {$y$};
+  \foreach \k in {1,2,3,4}{ \draw (264,{\oy-\uy*\k}) -- (276,{\oy-\uy*\k}); }
+  \foreach \k in {2,4}{ \node[left] at (262,{\oy-\uy*\k}) {$\k$}; }
+  \foreach \k in {1,2}{ \draw ({\ox+\ux*\k},446) -- ({\ox+\ux*\k},458); \node[below] at ({\ox+\ux*\k},460) {$\k$}; }
+  \node[below right] at ({\ox+3*\ux},454) {$3$};
+  \node[below left] at (268,454) {$0$};
+  \draw[line width=0.9pt, <->, domain=-1.27:3.4, samples=90, smooth] plot ({\ox+\ux*\x},{\oy-\uy*(3*\x*\x-\x*\x*\x)});
+  \fill ({\ox+\ux},{\oy-2*\uy}) circle (3.5) node[above left=1pt] {$(1,2)$};
+  \fill ({\ox+2*\ux},{\oy-4*\uy}) circle (3.5) node[above=3pt] {$(2,4)$};
+  \fill (\ox,\oy) circle (3.5);
+\end{tikzpicture}
+\end{document}

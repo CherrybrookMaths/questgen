@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 140 cm at x=66, 13.31 px per cm
+  \def\h#1{(66+13.31*(#1-140))}
+  \draw (19,152) -- (785,152);
+  \foreach \v in {140,145,...,190} {\draw ({66+13.31*(\v-140)},143) -- ({66+13.31*(\v-140)},161); \node at ({66+13.31*(\v-140)},185) {$\v$};}
+  \node at (398.5,238) {Height (cm)};
+  \begin{scope}[line width=0.9pt]
+    \draw ({66+13.31*15},19) rectangle ({66+13.31*30},93);
+    \draw ({66+13.31*20},19) -- ({66+13.31*20},93);
+    \draw ({66+13.31*7},56) -- ({66+13.31*15},56) ({66+13.31*30},56) -- ({66+13.31*40},56);
+    \draw ({66+13.31*7},41) -- ({66+13.31*7},71) ({66+13.31*40},41) -- ({66+13.31*40},71);
+  \end{scope}
+\end{tikzpicture}
+\end{document}
