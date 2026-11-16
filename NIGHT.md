@@ -57,15 +57,6 @@ If questions.db changed: zip it into work/ (a file reference works only for a fi
 previous one "questions.db (superseded <date>, safe to delete).zip" (never trash). Commit anything left and
 `git -c push.negotiate=true push origin main`.
 
-## 5b. Back up new figure crops (owner 17 Nov: "Can you also do it without asking for permission?")
-The original crops in `figures/` are not in git and not published. After a batch (any `figures/*.png` not in the newest
-"Figure crops backup" folder's SHA256SUMS.txt in the Drive folder "HSC Advanced Question Bank"): tar the new crops, split into
-**3 MB parts** (`split -b 3M -d -a 2`; the Drive connector refuses a call carrying more than about 3.1 MB), write SHA256SUMS.txt,
-create a subfolder "Figure crops backup <date> (tar in N parts)" and upload each part (base64Content as a file reference
-`sha256:<hash>:<absolute path>` from inside the repo). Never trash or rename older backups. Result: "<n> new crops backed up
-in <k> parts" or "No new crops". If tonight's session has no figures/ (a fresh container), say "Crops not in this session:
-backup needs the session that made them" and carry on.
-
 ## 6. Results (always, even after a failure)
 Write `progress/night`:
 - `last: {at: <start time>, finished: <now>, items: [{title, status: "done"|"failed"|"skipped", result}]}`, one item per

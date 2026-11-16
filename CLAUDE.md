@@ -77,8 +77,9 @@ at every publish.
 **Figure crop originals** (`figures/`, 992 PNGs, 60 MB): not in git and not published. Backed up 14 Nov to Drive, in the
 folder above, subfolder "Figure crops backup 14 Nov (tar in 21 parts)", id `1iW16viNoAenpGwbxbYZSsUbVrgoGsMnB`: download
 `figures_20261114.tar.part00` … `part20` and `SHA256SUMS.txt`, check with `sha256sum -c SHA256SUMS.txt`, then
-`cat figures_20261114.tar.part* | tar -x` in the repo root (gives `figures/`). Each crop can also be recut from its PDF page with
-`figures.page` + `figures.bbox` in the database. The exam PDFs' page renders are rebuilt from the PDFs (pdftoppm).
+`cat figures_20261114.tar.part* | tar -x` in the repo root (gives `figures/`). Since 17 Nov crops are build output:
+`python3 tools/recrop.py <doc ids>` re-cuts them from the PDFs (page + bbox in the database; hand-edited ones are kept in
+state/figures_kept/), proven identical on Batch 6 (IMPORT_PLAYBOOK "Figure crops are build output"). The exam PDFs' page renders are rebuilt from the PDFs (pdftoppm).
 
 ## Fresh session: start here
 Run from the repo root (e.g. /home/user/questgen). Shell variables do not survive between Bash calls: either restore the DB to

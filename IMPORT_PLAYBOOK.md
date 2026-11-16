@@ -51,12 +51,16 @@ main dot point exact Opus 34, Sonnet 27, Haiku 27).
 Haiku is not used. Files over 10 MB cannot come through the Drive connector: use a smaller copy of the same paper (a combined
 "w Solutions" file) when there is one; otherwise import the questions and generate solutions (marked in the solution note).
 
-## Back up the batch's figure crops (17 Nov)
-The original crops (`figures/<doc>_q<n>_<k>.png`) exist only in the session that made them: not in git, not published (the page
-holds resized copies in data/img packs; each crop can be re-cut from its PDF with figures.page + figures.bbox). At the end of a
-batch, tar the batch's new crops into **3 MB parts** with SHA256SUMS.txt and upload them to the Drive folder as
-"Figure crops backup <date> (tar in N parts)". From a supervised session each part asks for one approval; the night run does it
-unattended (NIGHT.md step 5b). Batch 6's 180 crops (16 Nov) are not backed up yet (owner 17 Nov: "leave it as it is").
+## Figure crops are build output, not backed up (17 Nov)
+Owner 17 Nov: "What is realistic coding best practice in this case?" then "yeah build it and run the test". The crops
+(`figures/<id>.png`) are cut from the exam PDFs at each figure's recorded page and bbox, so they are regenerated, not archived:
+`python3 tools/recrop.py <doc ids>` re-cuts them (a solution figure from the file its parse output names). Before a batch is
+published, with its PDFs in src/: `python3 tools/recrop.py --check --fix-bbox <batch doc ids>` must exit 0. It re-cuts every crop,
+compares pixel by pixel, and where a parser padded its cut or cut from another page it finds where the crop really sits and
+corrects the database. A crop edited after cutting (masked, greyscale, another rendering) is kept as source in
+`state/figures_kept/` (git). Batch 6 test, 17 Nov: 173 of 175 identical after 28 bbox corrections (Manly and St George parsers
+padded their cuts by 2-4 pt), 2 kept (382_q23_s1 masked strip, 416_q13_1 greyscale from the draft page), 5 blank grids under
+new solution sketches (no recipe needed). The 992 older crops stay in the 14 Nov Drive tar until they are checked the same way.
 
 ## Mistakes we have made, and the rule each one taught
 
