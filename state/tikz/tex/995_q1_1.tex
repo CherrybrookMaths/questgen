@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, font=\small]
+  % 1 unit = 1 crop pixel; plot area x 158..770 (6 columns of 102 px), y = 618 - 2.78 n (n students; 200 at y=62),
+  % right axis: y = 618 - 5.56 p (p percent). Values as printed on the paper (rule 1).
+  \def\Y#1{{618-2.78*(#1)}}
+  % bars (grey as the paper)
+  \foreach \i/\n in {0/180,1/144,2/132,3/72,4/60,5/12}
+    \fill[black!18] ({158+102*\i+12},618) rectangle ({158+102*\i+90},\Y{\n});
+  % dotted minor grid every 4 students, solid grey every 20, column dividers
+  \foreach \n in {4,8,...,196} \draw[black!25, line width=0.4pt, dash pattern=on 0.6pt off 1.2pt] (158,\Y{\n}) -- (770,\Y{\n});
+  \foreach \n in {20,40,...,200} \draw[black!30] (158,\Y{\n}) -- (770,\Y{\n});
+  \foreach \i in {1,...,5} \draw[black!30] ({158+102*\i},618) -- ({158+102*\i},62);
+  % axes
+  \draw (158,62) -- (158,618) -- (770,618) -- (770,62);
+  \foreach \n in {0,20,...,200} {\draw (158,\Y{\n}) -- (150,\Y{\n});
+    \node[anchor=east, inner sep=0pt] at (145,\Y{\n}) {$\n$};}
+  \foreach \p in {0,10,...,100} {\draw (770,{618-5.56*\p}) -- (778,{618-5.56*\p});
+    \node[anchor=west, inner sep=0pt] at (785,{618-5.56*\p}) {$\p\%$};}
+  % cumulative percentage line
+  \draw plot coordinates {(209,{618-5.56*30}) (311,{618-5.56*54}) (413,{618-5.56*76}) (515,{618-5.56*88}) (617,{618-5.56*98}) (719,{618-5.56*100})};
+  \foreach \x/\p in {209/30,311/54,413/76,515/88,617/98,719/100} \fill (\x,{618-5.56*\p}) circle (1.6pt);
+  % category labels and titles
+  \foreach \i/\s in {0/Swimming,1/Cricket,3/Soccer,4/Tennis,5/Hockey} \node[anchor=north, inner sep=0pt, font=\footnotesize] at ({209+102*\i},632) {\s};
+  \node[anchor=north, inner sep=0pt, align=center, font=\footnotesize] at (413,632) {Touch\\Football};
+  \node[inner sep=0pt, font=\footnotesize\bfseries] at (464,718) {Favourite Summer Sport};
+  \node[rotate=90, inner sep=0pt, font=\footnotesize\bfseries] at (85,340) {Number of Students};
+  \node[rotate=90, inner sep=0pt, font=\footnotesize\bfseries] at (880,340) {Cumulative Percentage};
+\end{tikzpicture}
+\end{document}

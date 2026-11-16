@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{9}{11}\selectfont]
+  % crop pixel units: origin (70.5,299.5), 138 px per x unit, 88 px per y unit; the crop is to scale with k = sqrt 3
+  \def\ox{70.5}\def\oy{299.5}\def\ux{138}\def\uy{88}
+  % shaded regions between y = x^2 - 1 and the x-axis on [0,1] and [1,sqrt3] (equal areas 2/3; rule 27); crop's mid grey drawn as black!30 (rule 5)
+  \fill[black!30] plot[smooth, samples=60, domain=0:1.7320508, variable=\t] ({\ox+\t*\ux},{\oy-(\t*\t-1)*\uy}) -- ({\ox+1.7320508*\ux},\oy) -- (\ox,\oy) -- cycle;
+  \draw[->] (\ox,\oy) -- (644,\oy) node[right=1pt, font=\fontsize{14}{16}\selectfont] {$x$};
+  \draw[->] (\ox,393) -- (\ox,58) node[above=0pt, font=\fontsize{14}{16}\selectfont] {$y$};
+  \draw[line width=0.9pt] ({\ox+1.7320508*\ux},\oy) -- ({\ox+1.7320508*\ux},{\oy-2*\uy});
+  \draw[line width=0.9pt, ->, smooth, samples=90, domain=0:1.89, variable=\t] plot ({\ox+\t*\ux},{\oy-(\t*\t-1)*\uy});
+  \node[anchor=east, inner sep=1pt] at (\ox-2,\oy) {$O$};
+  \node at (196.5,336) {$1$};
+  \node at (334.5,335.5) {$k$};
+\end{tikzpicture}
+\end{document}

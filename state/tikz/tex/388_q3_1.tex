@@ -1,0 +1,9 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+% option set 388_q3: plain axes (no arrows, no labels, as on the paper), curve 0.9pt
+\draw (30,196) -- (501,196); \draw (286,10) -- (286,378);
+\draw[line width=0.9pt] plot[domain=-111:111, samples=90, smooth] ({286-257/12100*\x*\x},{196+\x});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (C) at (48,530); \coordinate (L) at (489,343); \coordinate (R) at (860,492);
+  \draw (C) -- (L) -- (R);
+  % north arrows (filled house heads, rule 4)
+  \draw[->] (C) -- (48,220);  \node at (48,197) {$N$};
+  \draw[->] (L) -- (489,55);  \node at (489,34) {$N$};
+  \draw[->] (R) -- (860,207); \node at (860,184) {$N$};
+  \node at (87,489) {$60^\circ$};
+  \node at (262,410) {$3$ km};
+  \node at (467,330) {$L$};
+  \node at (537,333) {$110^\circ$};
+  \node at (690,396) {$2$ km};
+  \node at (873,507) {$R$};
+  \node at (35,546) {$C$};
+  \draw (803,12) rectangle (972,112);
+  \node[align=center,font=\large] at (887.5,62) {NOT TO\\[-5pt]SCALE};
+\end{tikzpicture}
+\end{document}

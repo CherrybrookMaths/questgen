@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% f(x) = -1/2 (x+1)(x-1)^3(x-4)^2 : degree 6, f(0)=8, horizontal inflection at (1,0), touches at (4,0)
+\begin{tikzpicture}[x=1.7564cm,y=0.28321cm]
+  \draw[black!25,line width=0.4pt] (-1.51,-17.45) grid[xstep=1,ystep=2] (5.16,18.5);
+  \draw (-1.51,0) -- (5.16,0); \draw (0,-17.45) -- (0,18.5);
+  \tikzset{tl/.style={font=\fontsize{6.5}{7}\selectfont,inner sep=1.5pt}}
+  \foreach \i in {2,3,5}{\node[tl,below] at (\i,0) {$\i$};}
+  \node[tl,below left] at (1,-0.15) {$1$}; \node[tl,below] at (4,-1.1) {$4$};
+  \node[tl,below left] at (-1.08,0) {$-1$}; \node[tl,below left] at (0,0) {$0$};
+  \foreach \i in {-16,-14,...,-2,2,4,6,8,14,16,18}{\node[tl,left] at (0,\i) {$\i$};}
+  \foreach \i in {10,12}{\node[tl,left] at (-0.06,\i) {$\i$};}
+  \begin{scope}
+    \clip (-1.6,-17.45) rectangle (5.2,19);
+    \draw[line width=0.9pt] plot[domain=-1.13:4.42,samples=120,smooth] (\x,{-0.5*(\x+1)*(\x-1)^3*(\x-4)^2});
+  \end{scope}
+  \foreach \p in {(-1,0),(0,8),(1,0),(4,0)}{\fill \p circle[radius=2.2pt];}
+  \tikzset{pl/.style={font=\scriptsize}}
+  \node[pl,below right] at (-0.92,-0.3) {$(-1,0)$};
+  \node[pl,above right] at (0.05,8.7) {$(0,8)$};
+  \node[pl,below left] at (0.9,-1.7) {$(1,0)$};
+  \node[pl,above] at (3.9,0.6) {$(4,0)$};
+\end{tikzpicture}
+\end{document}

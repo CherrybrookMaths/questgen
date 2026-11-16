@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, font=\large]
+  % 1 unit = 1 crop pixel; origin (92.5,638.5); t: 43.35 px per hour (grid every 3), h: 32.47 px per metre (grid every 1)
+  \def\ox{92.5}\def\oy{638.5}\def\ux{43.35}\def\uy{32.47}
+  \foreach \t in {3,6,...,24} \draw[black!40] ({\ox+\ux*\t},\oy) -- ({\ox+\ux*\t},{\oy-16*\uy});
+  \foreach \h in {1,...,4,6,7,...,9,11,12,...,14,16} \draw[black!20] (\ox,{\oy-\uy*\h}) -- ({\ox+24*\ux},{\oy-\uy*\h});
+  \foreach \h in {5,10,15} \draw[black!40] (\ox,{\oy-\uy*\h}) -- ({\ox+24*\ux},{\oy-\uy*\h});
+  \draw[->] (\ox,\oy) -- ({\ox+24*\ux+60},\oy) node[right, inner sep=3pt] {$t$};
+  \draw[->] (\ox,\oy) -- (\ox,{\oy-16*\uy-52}) node[above, inner sep=3pt] {$h$};
+  \foreach \t in {3,6,...,24} \node[anchor=north, inner sep=0pt] at ({\ox+\ux*\t},{\oy+42}) {$\t$};
+  \foreach \h in {5,10,15} \node[anchor=east, inner sep=0pt] at ({\ox-35},{\oy-\uy*\h}) {$\h$};
+  \node[anchor=north, inner sep=0pt] at (\ox,{\oy+42}) {$0$};
+\end{tikzpicture}
+\end{document}

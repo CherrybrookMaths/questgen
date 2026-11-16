@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (643,457);
+  \coordinate (O) at (247,240);
+  \coordinate (A) at (247,38);
+  \coordinate (D) at (247,355);
+  \coordinate (B) at (73.5,355);
+  \coordinate (C) at (420.5,355);
+  % sphere outline (the paper's scan is 211 x 202 px; kept)
+  \draw (O) ellipse[x radius=211, y radius=202];
+  % cone base: front half solid, hidden back half dashed
+  \draw (C) arc[start angle=0, end angle=180, x radius=173.5, y radius=42];
+  \draw[aux] (B) arc[start angle=180, end angle=360, x radius=173.5, y radius=42];
+  \draw (B) -- (A) -- (C);
+  \draw[aux] (A) -- (D);
+  \draw[aux] (B) -- (C);
+  \draw (B) -- (O);
+  \draw (247,329) -- (273,329) -- (273,355);
+  \fill (O) circle (2pt);
+  \draw[<->] (502,36) -- (502,352);
+  \node[font=\small] at (247,19) {$A$};
+  \node[font=\small] at (265,237) {$O$};
+  \node[font=\small] at (181,268) {$R$};
+  \node[font=\small] at (59,360) {$B$};
+  \node[font=\small] at (434,357) {$C$};
+  \node[font=\small] at (248,372) {$D$};
+  \node[font=\small] at (183,340) {$r$};
+  \node[font=\small] at (306,340) {$r$};
+  \node[font=\small] at (536,212) {$h$};
+\end{tikzpicture}
+\end{document}

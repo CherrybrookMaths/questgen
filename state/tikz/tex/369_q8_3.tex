@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{10}{12}\selectfont]
+  %% option set 369_q8_1..4: one common frame (axes 143 px left, 160 right, 255 up, 43 down; plain axes, no arrows or labels, as the crops);
+  %% each curve is A e^{Bx} (asymptote the x-axis) least-squares fitted to its crop, then scaled into the common frame
+  \draw (-143,0) -- (160,0);
+  \draw (0,43) -- (0,-255);
+  \draw[line width=0.9pt, smooth, samples=90, domain=-143.0:70.5, variable=\t] plot (\t, {-137.574*exp(0.008844*\t)});  % solid (f prime)
+  \draw[aux, smooth, samples=90, domain=-143.0:125.6, variable=\t] plot (\t, {-137.466*exp(0.004901*\t)});  % dashed (f)
+  \node at (74.0,-283.5) {$f'(x)$};
+  \node at (149.1,-274.5) {$f(x)$};
+\end{tikzpicture}
+\end{document}

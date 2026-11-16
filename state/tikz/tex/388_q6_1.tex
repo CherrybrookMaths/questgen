@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+% height h -> X = 194 + 9.285 (h-100); cumulative frequency c -> Y = 801 - 1.919 c
+\def\X#1{{194+9.285*(#1-100)}}\def\Y#1{{801-1.919*(#1)}}
+% minor grid (dotted): every 2 cm, every 10 students; skip the major positions
+\foreach \h in {102,104,...,198} {\pgfmathtruncatemacro\r{mod(\h,10)}\ifnum\r=0\else
+  \draw[black!35, line width=0.4pt, dash pattern=on 0.6pt off 1.2pt] (\X{\h},\Y{0}) -- (\X{\h},\Y{400});\fi}
+\foreach \c in {10,20,...,390} {\pgfmathtruncatemacro\r{mod(\c,50)}\ifnum\r=0\else
+  \draw[black!35, line width=0.4pt, dash pattern=on 0.6pt off 1.2pt] (\X{100},\Y{\c}) -- (\X{200},\Y{\c});\fi}
+% major grid
+\foreach \h in {110,120,...,200} \draw[black!45] (\X{\h},\Y{0}) -- (\X{\h},\Y{400});
+\foreach \c in {50,100,...,400} \draw[black!45] (\X{100},\Y{\c}) -- (\X{200},\Y{\c});
+\draw (\X{100},\Y{400}) -- (\X{100},\Y{0}) -- (\X{200},\Y{0});
+\foreach \h in {100,110,...,200} {\draw (\X{\h},\Y{0}) -- (\X{\h},{801+8}); \node[anchor=north] at (\X{\h},813) {\h};}
+\foreach \c in {0,50,...,400} {\draw (\X{100},\Y{\c}) -- (186,\Y{\c}); \node[anchor=east] at (182,\Y{\c}) {\c};}
+% cumulative frequency polygon
+\draw[line width=0.9pt, line join=round] (\X{100},\Y{0}) -- (\X{120},\Y{50}) -- (\X{140},\Y{112}) -- (\X{160},\Y{220}) -- (\X{180},\Y{352}) -- (\X{200},\Y{400});
+\node at (657,888) {Height (cm)};
+\node[rotate=90] at (46,418) {Cumulative frequency};
+\end{tikzpicture}
+\end{document}

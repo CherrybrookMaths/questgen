@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop pixel; axes meet at (292,241).
+  % Curve: symmetric quartic fitted to the crop: minima (229,448),(652,448), maximum (440.5,102.5):
+  % x = 440.5 + 211.5 s, y = 448 - 345.5 (s^2-1)^2, cut where it reaches the crop top (y = 11)
+  \draw[->] (8,241) -- (897,241) node[right, inner sep=3pt] {$x$};
+  \draw[->] (292,566) -- (292,8) node[right, inner sep=3pt] {$y$};
+  \draw[line width=0.9pt, smooth, domain=-1.4576:1.4576, samples=90, variable=\s]
+    plot ({440.5+211.5*\s},{448-345.5*(\s*\s-1)*(\s*\s-1)});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,9 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+% option set 388_q3: plain axes (no arrows, no labels, as on the paper), curve 0.9pt
+\draw (24,207) -- (616,207); \draw (320,11) -- (320,384);
+\draw[line width=0.9pt] plot[domain=23:616, samples=90, smooth] (\x,{206.5-63.1*sin(deg(0.0158*(\x-320.6)))});
+\end{tikzpicture}
+\end{document}

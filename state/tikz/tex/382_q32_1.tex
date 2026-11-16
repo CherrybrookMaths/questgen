@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\normalsize]
+% origin (312,333); x: 112 px/unit, y: 63.7 px/unit; curve y = x e^{x} (m = 1 fits the crop: minimum at x = -1)
+\def\ox{312}\def\oy{333}\def\sx{112}\def\sy{63.7}
+\fill[shade] plot[domain=0:1, samples=40, smooth] ({\ox+\sx*\x},{\oy-\sy*\x*exp(\x)}) -- ({\ox+\sx},\oy) -- cycle;
+\draw[<->] (18,\oy) -- (610,\oy);
+\draw[<->] (\ox,622) -- (\ox,45);
+\draw[aux, <->] ({\ox+\sx},622) -- ({\ox+\sx},45);
+\draw[line width=0.9pt, <->] plot[domain=-2.62:1.25, samples=90, smooth] ({\ox+\sx*\x},{\oy-\sy*\x*exp(\x)});
+\fill ({\ox+\sx},\oy) circle (1.8pt);
+\node at (\ox,28) {$y$};
+\node at (624,\oy) {$x$};
+\node at (442,362) {$1$};
+\node at (530,92) {$y=xe^{mx}$};
+\end{tikzpicture}
+\end{document}

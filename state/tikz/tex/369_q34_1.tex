@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{7}{8.5}\selectfont]
+  % crop pixel units: wheel centre O (213,161), radius 137.5; hub radius 27.5; A = lowest point (213,298.5); ground y = 356.5
+  \coordinate (O) at (213,161); \coordinate (A) at (213,298.5);
+  % support: flat grey triangle (rule 5) from just below O to the ground
+  \draw[shade, line join=round] (213,167) -- (271,356.5) -- (161.5,356.5) -- cycle;
+  \draw (O) circle[radius=137.5*0.0127cm];
+  \draw (O) circle[radius=27.5*0.0127cm];
+  % ground and the level of A
+  \draw (38,356.5) -- (408,356.5);
+  \draw (38,298.5) -- (A);
+  % 10 m dimension: dashed with filled heads both ends (rules 3,4)
+  \draw[aux, <->] (82.5,298.5) -- (82.5,356.5);
+  \node[anchor=west, inner sep=1pt] at (86,327.5) {10\,m};
+  % anticlockwise arrow: arc about O, radius 168.5, from -54.2 to -20.8 degrees
+  \draw[->, smooth, samples=40, domain=-54.2:-20.8, variable=\t] plot ({213+168.5*cos(\t)},{161-168.5*sin(\t)});
+  \fill (O) circle (2.6); \fill (A) circle (2.6);
+  \node at (222,152.5) {$O$};
+  \node at (217.5,312) {$A$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\small]
+\def\A{(140,112) ellipse [x radius=82, y radius=76]}
+\def\B{(232,115) ellipse [x radius=68, y radius=70]}
+\fill[black!8] \B;
+\begin{scope}\clip \A; \fill[shade] \B; \end{scope}
+\draw (20,20) rectangle (328,215);
+\draw \A; \draw \B;
+\node at (122,66) {$A$};
+\node at (252,72) {$B$};
+\node at (193,116) {$0.36$};
+\node at (262,116) {$0.12$};
+\end{tikzpicture}
+\end{document}

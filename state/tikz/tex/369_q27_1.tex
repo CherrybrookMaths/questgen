@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % crop pixel units: square 12 m = 341 px (28.42 px/m), centre O (259,238.25); AE = FB = CG = HD = 1 m
+  \def\s{341}\def\m{28.4167}
+  \coordinate (A) at (88.5,67.75); \coordinate (B) at (429.5,67.75);
+  \coordinate (C) at (429.5,408.75); \coordinate (D) at (88.5,408.75);
+  \coordinate (O) at (259,238.25);
+  \coordinate (E) at (88.5,67.75+\m); \coordinate (H) at (88.5,408.75-\m);
+  \coordinate (F) at (429.5,67.75+\m); \coordinate (G) at (429.5,408.75-\m);
+  % square: solid top, bottom and the 1 m end pieces; dotted between the arc ends
+  \draw (E) -- (A) -- (B) -- (F);
+  \draw (H) -- (D) -- (C) -- (G);
+  \draw[aux] (E) -- (H); \draw[aux] (F) -- (G);
+  % arcs centred at O through E,H and F,G (radius sqrt(6^2+5^2) m)
+  \def\r{221.94}
+  \def\a{39.806}
+  \draw[smooth, samples=90, domain=180-\a:180+\a, variable=\t] plot ({259+\r*cos(\t)},{238.25+\r*sin(\t)});
+  \draw[smooth, samples=90, domain=-\a:\a, variable=\t] plot ({259+\r*cos(\t)},{238.25+\r*sin(\t)});
+  \fill (O) circle (3.2);
+  \node at (82.5,51) {$A$};   \node at (435.5,51) {$B$};
+  \node at (435.5,427.5) {$C$}; \node at (84.5,427) {$D$};
+  \node at (106,101) {$E$};   \node at (413.5,98.5) {$F$};
+  \node at (410.5,373.5) {$G$}; \node at (114.5,374.5) {$H$};
+\end{tikzpicture}
+\end{document}

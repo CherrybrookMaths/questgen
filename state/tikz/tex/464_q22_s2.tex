@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop pixel; axes meet at (337,302).
+  % y = f'(x) of the symmetric quartic: an odd cubic about its middle root. Roots 278.5, 489.5, 700.5 (the quartic's
+  % turning points, same 211 px spacing), height fitted to the sketch's extremes (about 130 px):
+  % x = 489.5 + 211 s, y = 302 - 338 s (s^2 - 1)
+  \draw[->] (26,302) -- (912,302) node[right, inner sep=3pt] {$x$};
+  \draw[->] (337,523) -- (337,15) node[right, inner sep=3pt] {$y$};
+  \draw[line width=0.9pt, <->, smooth, domain=-1.19:1.24, samples=90, variable=\s]
+    plot ({489.5+211*\s},{302-338*\s*(\s*\s-1)});
+\end{tikzpicture}
+\end{document}

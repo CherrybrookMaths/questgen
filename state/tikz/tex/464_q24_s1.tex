@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+% 464_q24_s1: probability tree drawn with the shared tree template (DIAGRAM_SPEC rule 21; tikz/tree_style.tex).
+% Level gaps: level 1 +-2.0 cm, level 2 +-1.1 cm (same layout for the question and the solution tree).
+\treewidth{1}{$A$}
+\treewidth{1}{$B$}
+\treewidth{2}{$R$}
+\treewidth{2}{$G$}
+\setlength\treeL{3.2cm}
+\treecolumns{2}
+\begin{tikzpicture}
+  \treeroot{r}{0cm}
+  \treenode{a}{1}{2.0cm}{$A$}
+  \treebranch{r}{a}{$\dfrac{2}{6}$}
+  \treenode{b}{1}{-2.0cm}{$B$}
+  \treebranch{r}{b}{$\dfrac{4}{6}$}
+  \treenode{ar}{2}{3.1cm}{$R$}
+  \treebranch{a}{ar}{$\dfrac{3}{7}$}
+  \treenode{ag}{2}{0.9cm}{$G$}
+  \treebranch{a}{ag}{$\dfrac{4}{7}$}
+  \treenode{br}{2}{-0.9cm}{$R$}
+  \treebranch{b}{br}{$\dfrac{5}{7}$}
+  \treenode{bg}{2}{-3.1cm}{$G$}
+  \treebranch{b}{bg}{$\dfrac{2}{7}$}
+\end{tikzpicture}
+\end{document}

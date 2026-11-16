@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % crop pixels (y down): centre O (239,228); inner radius 109.5 (4 cm), outer 219; sector 60 deg about straight down
+  \coordinate (O) at (239,228);
+  \coordinate (A) at (184.25,322.83); \coordinate (B) at (293.75,322.83);
+  \coordinate (P) at (129.5,417.66);  \coordinate (Q) at (348.5,417.66);
+  \fill[shade] (A) -- (P) arc[start angle=120, end angle=60, radius=219] -- (B) arc[start angle=60, end angle=120, radius=109.5] -- cycle;
+  \draw (O) circle[radius=219];
+  \draw (O) circle[radius=109.5];
+  \draw (P) -- (O) -- (Q);
+  \draw[->] (78,251) .. controls (86,268) and (150,256) .. (207,268);
+  \draw[->] (363,213) .. controls (330,232) and (282,284) .. (259,294) .. controls (243,300) and (236,284) .. (238,264);
+  \node at (225,211) {$O$};
+  \node at (145,337) {$A$};
+  \node at (300,296) {$B$};
+  \node at (111,434) {$P$};
+  \node at (371,433) {$Q$};
+  \node at (73,232) {$4\text{ cm}$};
+  \node at (368,356) {$4\text{ cm}$};
+  \node at (400,212) {$60^\circ$};
+\end{tikzpicture}
+\end{document}

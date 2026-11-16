@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (573,401);
+  \coordinate (B) at (44,172);
+  \coordinate (P) at (314,104.5);
+  \coordinate (H) at (505,261);
+  \draw (B) -- (P) -- (H);
+  \draw[->] (505,397) -- (505,20);
+  \fill (B) circle (2.4pt) (P) circle (2.4pt);
+  \node[font=\large] at (37,132) {$B$};
+  \node[font=\large] at (343,82) {$P$};
+  \node[font=\large] at (538,260) {$H$};
+  \node[font=\large] at (539,27) {$N$};
+  \node[font=\large, rotate=14] at (180,101) {5 km};
+  \node[font=\large, rotate=-40] at (425,155) {4 km};
+\end{tikzpicture}
+\end{document}

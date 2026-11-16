@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop pixel; axes meet at (299,240). Same quartic as 464_q22_1 fitted to this crop:
+  % minima (232,448),(654,448), maximum (443,101.5): x = 443 + 211 s, y = 448 - 346.5 (s^2-1)^2
+  \draw[->] (15,240) -- (900,240) node[right, inner sep=3pt] {$x$};
+  \draw[->] (299,560) -- (299,8) node[right, inner sep=3pt] {$y$};
+  \draw[line width=0.9pt, smooth, domain=-1.465:1.465, samples=90, variable=\s]
+    plot ({443+211*\s},{448-346.5*(\s*\s-1)*(\s*\s-1)});
+  % gradient signs from the solution: 0 at each turning point, - where decreasing, + where increasing
+  \node[inner sep=0pt] at (443,78) {$0$};
+  \node[inner sep=0pt] at (232,476) {$0$};
+  \node[inner sep=0pt] at (654,476) {$0$};
+  \node[inner sep=0pt] at (150,360) {$-$};
+  \node[inner sep=0pt] at (362,300) {$+$};
+  \node[inner sep=0pt] at (520,300) {$-$};
+  \node[inner sep=0pt] at (745,340) {$+$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % sketch (not to scale): y-axis x=508.5, x-axis y=619.5; parabola y = x^2 - x + 3 drawn as an exact parabola in crop
+  % pixels with its vertex (1/2, 11/4) at (622,522.5) and the y-intercept 3 where it crosses the y-axis
+  \draw[->] (6,619.5) -- (1366,619.5);
+  \draw[->] (508.5,1188) -- (508.5,85);
+  \draw[<->, line width=0.9pt, domain=-159:159, samples=90, smooth] plot ({622+\x},{522.5-1.23*(\x/10)*(\x/10)});
+  \node at (533,350) {$3$};
+  \node at (668,566) {$\left(\dfrac{1}{2},\,\dfrac{11}{4}\right)$};
+  \node[font=\Large] at (1005,292) {$y=x^2-x+3$};
+  \node at (480,655) {$O$};
+  \node at (1384,656) {$x$};
+  \node at (526,40) {$y$};
+\end{tikzpicture}
+\end{document}

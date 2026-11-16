@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% sketch of y = k^2 - 64 (k-intercepts -8 and 8), drawn as a true parabola at the sketch's size
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+  \draw (-137,0) -- (147,0);
+  \draw (0,113) -- (0,-122);
+  \draw[line width=0.9pt,<->] plot[domain=-114:114,samples=90,smooth] (\x,{65*(\x*\x/(73*73)-1)});
+  \node at (-78,-33) {$-8$};
+  \node at (92,-37) {$8$};
+\end{tikzpicture}
+\end{document}

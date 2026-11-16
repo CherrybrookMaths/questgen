@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (770,557);
+  % 56.4 px per unit both ways, origin (372,402.5)
+  \begin{scope}[shift={(372,402.5)}, x=0.71628cm, y=0.71628cm]
+    % region enclosed by y^2=2x+6 and y=x-1 (y from -2 to 4)
+    \path[shade dots] plot[smooth, samples=60, domain=-2:4] ({(\x*\x-6)/2}, \x) -- (-1,-2) -- cycle;
+    \draw[->] (-4.75,0) -- (7.0,0);
+    \draw[->] (0,-2.8) -- (0,6.6);
+    \draw (-1,-2.8) -- (-1,6.85);
+    \draw (5,-2.8) -- (5,6.7);
+    \foreach \k in {-4,...,-1,1,2,...,6} \draw (\k,0.07) -- (\k,-0.07);
+    \foreach \k in {-2,-1,1,2,...,6} \draw (0.07,\k) -- (-0.07,\k);
+    \foreach \k in {-4,-2,1,2,3,4,6} \node[font=\footnotesize, below, inner sep=4pt] at (\k,0) {\halo{$\k$}};
+    \node[font=\footnotesize, below left, inner sep=2pt] at (-3,-0.02) {\halo{$-3$}};
+    \node[font=\footnotesize, below left, inner sep=2pt] at (-1,-0.02) {\halo{$-1$}};
+    \node[font=\footnotesize, below right, inner sep=2pt] at (5,-0.02) {\halo{$5$}};
+    \node[font=\footnotesize, below left, inner sep=2pt] at (0,-0.02) {\halo{$0$}};
+    \foreach \k in {-2,1,2,3,4,5,6} \node[font=\footnotesize, left, inner sep=4pt] at (0,\k) {\halo{$\k$}};
+    \node[font=\footnotesize, anchor=east, inner sep=0pt] at (-0.1,-0.82) {\halo{$-1$}};
+    \node[font=\footnotesize] at (-0.83,6.13) {$a$};
+    \draw[line width=0.9pt, smooth, samples=90, domain=-2.449:4.49] plot ({(\x*\x-6)/2}, \x);
+    \draw[line width=0.9pt] (-1.5,-2.5) -- (7.05,6.05);
+    \fill (-1,-2) circle (0pt);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

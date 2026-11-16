@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.27cm, y=1.27cm]
+% option set 388_q5: plain axes as on the paper (no arrows, no labels); 1 unit = 100 crop px; curve: degree 3 fit
+\draw (-2.610,0) -- (3.220,0);
+\draw (0,-2.780) -- (0,2.570);
+\begin{scope}\clip (-4,-2.770) rectangle (4,2.570);
+\draw[line width=0.9pt] plot[domain=-2.010:2.210, samples=120, smooth] (\x,{(0.508266)*(\x)^3+(-0.268224)*(\x)^2+(-0.947247)*(\x)+(0.491313)});
+\end{scope}
+\end{tikzpicture}
+\end{document}

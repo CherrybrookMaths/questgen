@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % crop pixels: X = 135.5 + 23.6 x, Y = 311.5 - 5.97 y  (crop is to scale)
+  \draw[->] (16,311.5) -- (398,311.5);
+  \draw[->] (135.5,408) -- (135.5,17);
+  \draw[<->, line width=0.9pt, domain=-2.36:6.38, samples=90, smooth] plot ({135.5+23.6*\x},{311.5-5.97*(6*\x*\x-\x*\x*\x)});
+  \fill (277.1,311.5) circle (6.5);   % A (6,0)
+  \fill (229.9,120.5) circle (6.5);   % B (4,32)
+  \fill (182.7,216.0) circle (6.5);   % C (2,16)
+  \begin{scope}[font=\large]
+    \node at (232,96) {$B$};
+    \node at (160,191) {$C$};
+    \node at (300,288) {$A$};
+    \node at (397,339) {$x$};
+    \node at (161,31) {$y$};
+    \node at (301,44) {$y=6x^2-x^3$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

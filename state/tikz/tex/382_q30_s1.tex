@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\normalsize]
+% sketch: x = 1..4 at px 138 + 102(x-1); 1 unit up = 79 px; axes cross at (75,195) as on the crop
+\pgfmathdeclarefunction{X}{1}{\pgfmathparse{138+102*(#1-1)}}
+\pgfmathdeclarefunction{Y}{1}{\pgfmathparse{195-79*(3*ln(#1)-(#1-1)*ln(4))}}
+\draw[->] (5,195) -- (525,195);
+\draw[->] (75,262) -- (75,10);
+\draw[line width=0.9pt] plot[domain=0.85:4.35, samples=90, smooth] ({X(\x)},{Y(\x)});
+\draw[line join=round] ({X(1)},{Y(1)}) -- ({X(2)},{Y(2)}) -- ({X(3)},{Y(3)}) -- ({X(4)},{Y(4)});
+\draw[aux] ({X(2)},{Y(2)}) -- ({X(2)},195) ({X(3)},{Y(3)}) -- ({X(3)},195);
+\foreach \i in {1,2,3,4} \node at ({X(\i)},{215+(\i==1||\i==4?12:0)}) {$\i$};
+\node[anchor=west] at (440,110) {$\begin{aligned} y&=f(x)-g(x)\\ &=3\ln x-(x-1)\ln 4\end{aligned}$};
+\end{tikzpicture}
+\end{document}

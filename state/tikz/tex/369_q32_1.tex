@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % crop pixel units: temperature t at x = 125 + (t-10)*16.557, sales v at y = 351 - v*0.46357
+  % light grey grid every 5 degrees and $100 (blue background and blue dots of the original drawn in black/white, rule 6)
+  \foreach \t in {10,15,...,45} \draw[black!30] ({125+(\t-10)*16.557},26.5) -- ({125+(\t-10)*16.557},351);
+  \foreach \v in {0,100,...,700} \draw[black!30] (125,{351-\v*0.46357}) -- (704.5,{351-\v*0.46357});
+  \foreach \t in {10,15,...,45} \node[anchor=north, inner sep=0pt, font=\fontsize{8}{10}\selectfont] at ({125+(\t-10)*16.557},367) {$\t$};
+  \foreach \v in {0,100,...,700} \node[anchor=east, inner sep=0pt, font=\fontsize{8}{10}\selectfont] at (104,{351-\v*0.46357}) {\$$\v$};
+  \node[rotate=90, font=\fontsize{14}{16}\selectfont] at (36,206) {\textit{Sales}};
+  \node[font=\fontsize{14}{16}\selectfont] at (386,416) {\textit{Temperature} $^\circ$C};
+  % the 21 days, at the crop's dot positions
+  \fill (156.3,265.9) circle (6);
+  \fill (193.7,251.3) circle (6);
+  \fill (212.4,197.4) circle (6);
+  \fill (232.4,201.4) circle (6);
+  \fill (243.3,161.3) circle (6);
+  \fill (255.1,157.1) circle (6);
+  \fill (269.7,163.3) circle (6);
+  \fill (280.7,160.0) circle (6);
+  \fill (323.7,108.7) circle (6);
+  \fill (332.7,145.0) circle (6);
+  \fill (346.4,97.2) circle (6);
+  \fill (375.8,66.7) circle (6);
+  \fill (424.1,88.6) circle (6);
+  \fill (476.8,81.1) circle (6);
+  \fill (510.5,163.2) circle (6);
+  \fill (549.1,128.0) circle (6);
+  \fill (575.5,164.4) circle (6);
+  \fill (582.6,209.0) circle (6);
+  \fill (608.4,213.0) circle (6);
+  \fill (624.3,226.0) circle (6);
+  \fill (648.3,253.1) circle (6);
+\end{tikzpicture}
+\end{document}

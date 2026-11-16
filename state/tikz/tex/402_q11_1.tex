@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (368,393);
+  \coordinate (A) at (30,351);
+  \coordinate (B) at (335,351);
+  \coordinate (O) at (182.5,351);
+  \pgfmathsetmacro\R{341.0}
+  \pgfmathsetmacro\aD{atan2(-305,-152.5)}
+  \pgfmathsetmacro\aC{atan2(-305,152.5)}
+  \coordinate (D) at ($(O)+(\aD:\R)$);
+  \coordinate (C) at ($(O)+(\aC:\R)$);
+  \fill[shade] (A) -- (D) arc[start angle=\aD, end angle=\aC, radius=\R] -- (B) -- cycle;
+  \draw (C) -- (B) -- (A) -- (D) arc[start angle=\aD, end angle=\aC, radius=\R];
+  \draw (D) -- (O) -- (C);
+  \node[font=\small] at (19,33) {$D$};
+  \node[font=\small] at (346,33) {$C$};
+  \node[font=\small] at (28,368) {$A$};
+  \node[font=\small] at (183,368) {$O$};
+  \node[font=\small] at (340,368) {$B$};
+\end{tikzpicture}
+\end{document}

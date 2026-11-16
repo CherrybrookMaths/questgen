@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.26797cm,y=0.012014cm]
+  % grid every 5 s and 100 cm^3 (light grey), axes along the left and bottom (no arrowheads, as the paper)
+  \draw[black!25,line width=0.4pt] (0,0) grid[xstep=5,ystep=100] (45.4,815);
+  \draw[line width=0.9pt] (0,815) -- (0,0) -- (45.4,0);
+  \tikzset{tl/.style={font=\fontsize{6.5}{7}\selectfont,inner sep=1.5pt}}
+  \foreach \i in {5,10,...,45}{\node[tl,below] at (\i,0) {$\i$};}
+  \foreach \i in {100,200,...,800}{\node[tl,left] at (0,\i) {$\i$};}
+  \node[font=\normalsize,below] at (22.5,-14) {Time (s)};
+  \node[font=\normalsize,rotate=90] at (-3.6,400) {Volume (cm$^3$)};
+  % Balloon A
+  \draw[line width=0.9pt] (0,800) -- (40,0);
+  % Balloon B (solution line, gradient 40 cm^3/s from t=10), drawn with an arrow as the paper; meets A at (20,400)
+  \draw[line width=0.9pt,->] (10,0) -- (31.3,852);
+\end{tikzpicture}
+\end{document}

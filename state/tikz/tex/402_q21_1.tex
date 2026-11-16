@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (1242,329);
+  % 1 unit = 66.3 px both ways, origin (388.5,269); a = 1.205 (fitted to the paper's rectangle heights)
+  \begin{scope}[shift={(388.5,269)}, x=0.84201cm, y=0.84201cm]
+    \foreach \k in {0,1,2,3} {
+      \pgfmathsetmacro\h{1.205^\k}
+      \fill[shade] (\k,0) rectangle (\k+1,\h);
+      \draw (\k,0) rectangle (\k+1,\h);
+    }
+    \draw[->] (-0.73,0) -- (6.13,0);
+    \draw[->] (0,-0.84) -- (0,3.88);
+    \draw[line width=0.9pt, smooth, samples=90, domain=0:5.18] plot (\x, {1.205^\x});
+    \foreach \k in {1,2,3,4} \node[font=\normalsize, below, inner sep=5pt] at (\k,0) {$\k$};
+  \end{scope}
+  \node[font=\normalsize] at (778,294) {$x$};
+  \node[font=\normalsize] at (356,38) {$y$};
+  \node[font=\normalsize] at (799,87) {$y=a^x$};
+  \node[font=\normalsize, align=left, anchor=west] at (878,167) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\normalsize]
+% Crop is a sketch (not to scale): x = 1 at px 222, x = 4 at px 468; axes cross at (156,405).
+% y = 3 ln x is drawn as the log curve fitted to the crop: Y = 405 - 146.98 ln((X-163.76)/58.24) (max dev 2.6 px);
+% the line joins its two marked intersections (222,405) and (468, f(468)).
+\def\oy{405}
+\pgfmathdeclarefunction{F}{1}{\pgfmathparse{405-146.98*ln((#1-163.76)/58.24)}}
+\pgfmathsetmacro\Yf{F(468)}
+\fill[shade] plot[domain=222:468, samples=60, smooth] (\x,{F(\x)}) -- (222,405) -- cycle;
+\draw[<->] (28,\oy) -- (512,\oy);
+\draw[<->] (156,528) -- (156,72);
+\draw[aux] (468,\Yf) -- (468,\oy);
+\draw[line width=0.9pt, <->] plot[domain=189.5:505, samples=90, smooth] (\x,{F(\x)});
+\draw[line width=0.9pt, <->] ($(222,405)!-0.5!(468,\Yf)$) -- ($(222,405)!1.155!(468,\Yf)$);
+\node at (155,50) {$y$};
+\node at (520,405) {$x$};
+\node at (136,428) {$O$};
+\node at (230,433) {$1$};
+\node at (468,433) {$4$};
+\node at (270,225) {$y=3\ln x$};
+\node at (642,93) {$y=(x-1)\ln 4$};
+\end{tikzpicture}
+\end{document}

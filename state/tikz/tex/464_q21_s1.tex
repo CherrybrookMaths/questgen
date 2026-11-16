@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop pixel; origin (260,487); t: 39 px per hour, T: 3.97 px per degree (fitted to the sketch: 35 at y=348)
+  \def\ox{260}\def\oy{487}
+  \draw (15,\oy) -- (519,\oy);
+  \draw[->] (\ox,614) -- (\ox,89);
+  \node[inner sep=0pt] at (263,45) {$T$};
+  % T = 20 + 15 e^{(ln sqrt2) t} = 20 + 15*2^(t/2), t >= 0 (rule 10)
+  \draw[line width=0.9pt, ->, smooth, domain=0:5.4, samples=90, variable=\t]
+    plot ({\ox+39*\t},{\oy-3.97*(20+15*pow(2,\t/2))});
+  \node[pt] at (\ox,{\oy-3.97*35}) {};
+  \node[anchor=east, inner sep=0pt] at (\ox-12,{\oy-3.97*35}) {$35$};
+\end{tikzpicture}
+\end{document}

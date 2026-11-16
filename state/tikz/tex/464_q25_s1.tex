@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, font=\large]
+  % 1 unit = 1 crop pixel; origin (121,655); t: 43.5 px per hour, h: 32.5 px per metre; scan tilt (about 0.85 deg) followed
+  \begin{scope}[rotate around={0.85:(121,655)}]
+  \def\ox{121}\def\oy{655}\def\ux{43.5}\def\uy{32.5}
+  \foreach \t in {3,6,...,24} \draw[black!40] ({\ox+\ux*\t},\oy) -- ({\ox+\ux*\t},{\oy-16*\uy});
+  \foreach \h in {1,...,4,6,7,...,9,11,12,...,14,16} \draw[black!20] (\ox,{\oy-\uy*\h}) -- ({\ox+24*\ux},{\oy-\uy*\h});
+  \foreach \h in {5,10,15} \draw[black!40] (\ox,{\oy-\uy*\h}) -- ({\ox+24*\ux},{\oy-\uy*\h});
+  \draw[->] (\ox,\oy) -- ({\ox+24*\ux+60},\oy) node[right, inner sep=3pt] {$t$};
+  \draw[->] (\ox,\oy) -- (\ox,{\oy-16*\uy-52}) node[above, inner sep=3pt] {$h$};
+  \foreach \t in {3,6,...,24} \node[anchor=north, inner sep=0pt] at ({\ox+\ux*\t},{\oy+42}) {$\t$};
+  \foreach \h in {5,10,15} \node[anchor=east, inner sep=0pt] at ({\ox-35},{\oy-\uy*\h}) {$\h$};
+  % h = 8 + 5 sin(pi t/12), 0 <= t <= 24 (rule 10)
+  \draw[line width=0.9pt, smooth, domain=0:24, samples=90, variable=\t] plot ({\ox+\ux*\t},{\oy-\uy*(8+5*sin(15*\t))});
+  % boat depth h = 5.5 (parts (c), (d))
+  \draw[aux] (\ox,{\oy-5.5*\uy}) -- ({\ox+24*\ux},{\oy-5.5*\uy}) node[right, inner sep=4pt] {$h=5.5$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

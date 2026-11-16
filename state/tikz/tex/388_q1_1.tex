@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+\coordinate (A) at (35,309); \coordinate (B) at (234,32); \coordinate (C) at (697,309);
+\draw[line join=round] (A) -- (B) -- (C) -- cycle;
+\pic[draw, angle radius=0.0127cm*87] {angle=C--A--B};
+\node at (70,160) {8 cm};
+\node at (468,118) {12 cm};
+\node at (358,332) {15 cm};
+\node at (160,266) {$60^\circ$};
+\end{tikzpicture}
+\end{document}

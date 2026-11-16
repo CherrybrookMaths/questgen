@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{13}{15}\selectfont]
+  % crop pixel units; vertices measured from the crop (not to scale with XY = 8)
+  \coordinate (X) at (57,201.5); \coordinate (Z) at (371.5,77); \coordinate (Y) at (402.5,390);
+  \draw[line join=round] (X) -- (Z) -- (Y) -- cycle;
+  % angle theta at Y: true circular arc between the arms YX and YZ
+  \pic[draw, angle radius=0.93cm] {angle = Z--Y--X};
+  \node at (383,51) {$Z$};
+  \node at (32.5,201) {$X$};
+  \node at (415.5,412) {$Y$};
+  \node at (204.5,128) {$y$};
+  \node at (406.5,236) {$x$};
+  \node at (221,312.5) {$8$};
+  \node at (348.5,308.5) {$\theta$};
+\end{tikzpicture}
+\end{document}

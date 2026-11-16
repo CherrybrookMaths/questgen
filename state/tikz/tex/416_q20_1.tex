@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % crop pixels: X = 561 + 104.3 x, Y = 109 - 26.85 y (crop is cut on the left, top and bottom: grid fills it)
+  \clip (24,0) rectangle (896,623);
+  \begin{scope}[line width=0.4pt]
+    \foreach \i in {-27,...,16} \draw[black!10] ({561+20.86*\i},0) -- ({561+20.86*\i},623);
+    \foreach \j in {-10,...,48} \draw[black!10] (24,{109+10.74*\j}) -- (896,{109+10.74*\j});
+    \foreach \i in {-5,...,3} \draw[black!28] ({561+104.3*\i},0) -- ({561+104.3*\i},623);
+    \foreach \j in {-1,...,9} \draw[black!28] (24,{109+53.7*\j}) -- (896,{109+53.7*\j});
+  \end{scope}
+  \draw (24,109) -- (896,109);
+  \draw[->] (561,623) -- (561,1);
+  \draw[line width=0.9pt, domain=-5.14:3.14, samples=90, smooth] plot ({561+104.3*\x},{109+26.85*((\x+1)*(\x+1)+2)});
+  \fill (456.7,162.7) circle (5);
+  \fill (561,189.55) circle (5);
+  \begin{scope}[font=\small]
+    \foreach \v in {-5,-4,-3,-2,-1} \node at ({561+104.3*\v},129) {$\v$};
+    \node at (544,129) {$0$};
+    \foreach \v in {1,2,3} \node at ({561+104.3*\v+3},129) {$\v$};
+    \node[anchor=east] at (552,58) {$2$};
+    \foreach \v in {-2,-4,...,-18} \node[anchor=east] at (552,{111-26.85*\v}) {$\v$};
+    \node at (452,197) {$(-1,\,-2)$};
+    \node at (626,183) {$(0,\,-3)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}
