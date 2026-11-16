@@ -142,12 +142,8 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
 ## Handover for the next session (16 Nov; owner: "stop and move on")
 This session predates the pre-approval settings, so the steps that write to the live page were left for a session that does
 not stop to ask. Do these first, in order:
-1. **Job 5, approvals migration: finish it.** 18 of 22 batches are applied: 900 of 1,052 k_/p_ docs exist on the page. Export
-   `reviews` (ArtifactData `list`, limit 1000 + cursor, out_dir work/pagedb_export_<date>/), run
-   `python3 tools/migrate_reviews_to_keys.py <export> --out work/keys_migration_<date>` (its report must still say
-   1,615 approvals kept), then DROP every write whose doc_id already exists in the export (the tool does not skip them; a set
-   on an existing doc needs if_version) and apply the rest (about 152) as ArtifactData `batch` calls of at most 50, using
-   `file_path` per doc. Re-export and check: k_/p_ docs = 1,052.
+1. **Job 5, approvals migration**: DONE 16 Nov (after the restart): all 1,052 k_/p_ docs are on the page (old q<id>/paper_<doc>
+   docs kept as history and fallback).
 2. **Job 3, asset store: finish the uploads.** 14 of the 40 permanent packs are uploaded (state/work/assets/
    upload_results_1116_partial.json: path, id, url). Run `python3 tools/asset_upload_plan.py`, upload each pack NOT in that
    file (Artifact publish, url = the review page, asset: true, one JSON per call), write all 40 results to
@@ -185,6 +181,8 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
 - Details for jobs 2, 3, 5 and 6 above: the reviews migration has 22 ArtifactData batches (1,052 writes: k_<key> and
   p_<paper key> docs) in state/work/keys_migration/ (report.txt: 1,615 approvals kept); until applied, the page reads the old
   q<id> / paper_<doc> docs as a fallback. The old asset-store plan (IMPORT_PLAYBOOK "Asset store") is superseded by job 3.
+- **Model trial (16 Nov)**: owner: "skip the trial, I'm getting someone to do it externally". Do not run it here. The Drive
+  folder "Model trial 16 Nov" (brief + data pack, no answer key) and MODEL_TRIAL_BRIEF.md (scoring half) stay for whoever does it.
 - **API decision** (run imports through the API or in-session): decide after 1-2 weeks of measured nightly runs (tokens,
   minutes and failures per paper; inventory.py COST_PER_PAPER is a placeholder).
 - **Review grouped by batch**: a Next up note in the page (db `notes`).

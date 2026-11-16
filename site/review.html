@@ -507,6 +507,14 @@ table.pp th .ar{font-size:10px;margin-left:3px;color:var(--accent)}
 .tid{font-family:ui-monospace,monospace;font-size:11px;color:var(--muted)}
 .yb{font-size:10px;font-weight:700;border-radius:4px;padding:0 4px;background:var(--line)}
 .yb.y11{background:var(--y11-soft);color:var(--y11)}.yb.y12{background:var(--y12-soft);color:var(--y12)}
+/* job 6: the Tonight card (12_import.js tonightHTML) */
+.procs .pr-night .pr-nskip b{color:var(--muted);font-weight:500}
+.procs .pr-night .linkbtn{font-size:13px}
+.procs .pr-nlast{margin-top:8px}
+.procs .pr-nlast summary{cursor:pointer;font-size:13px;color:var(--muted)}
+.procs .pr-nlast ul{list-style:none;margin:6px 0 0;padding:0}
+.procs .pr-nlast li{display:grid;grid-template-columns:22px minmax(0,1fr);gap:4px;padding:6px 0;border-top:1px solid var(--line)}
+.procs .pr-nlast li p{margin:2px 0 0;color:var(--muted);font-size:13px}
 
 /* ---------- logo (owner 13 Nov) ---------- */
 .brand .logo{height:24px;width:auto;display:block;overflow:visible}
@@ -2043,7 +2051,7 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'b
   // review notes, full tags and difficulty) comes in det, read right after start (QG.det)
   courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json'}},
   get courseData(){return this.courses[this.course]},
-  byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0};
+  byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0,night:null};
 /* ---------- data on demand (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2") ----------
    The index (QG.bank) holds every question without its text: ids, paper, marks, parts with tags and difficulty, triage, figure
    keys (q.fk), the "hence integrate" flag (q.hx) and q.h, the topic file its text lives in (bank.files[q.h]). Lists, counts,
@@ -3272,6 +3280,20 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
    collapsed). */
 // owner 13 Nov: "Is there a way to see how far long the running process is, start and finish time as well? Would be helpful":
 // each row shows its step ("Stage 2 of 4", with a small bar), Started, and Est. finish while running/queued or Finished + how long it took once done (jobTimes, 13_shell.js).
+// job 6 (owner 16 Nov: "I need a place to see ... what's in that night's automated tasks"): what the night session will do, in
+// order: its fixed steps (progress/night, kept by NIGHT.md), the requests waiting in db runs (removable), what it skips and why,
+// and how last night went. The night session works from the same two sources, so the card is the night's to-do list.
+const NIGHT_KIND={cover_check:'Cover-page check',queue:'Import queue'};
+function tonightHTML(){const N=QG.night||{},run=(typeof PQ!=='undefined'&&PQ.run)||null;if(run&&run.watch)run.watch();
+  const req=run&&run.pending?run.pending():[],steps=N.steps||[],skip=N.skipped||[],last=N.last;
+  if(!steps.length&&!req.length&&!last)return'';
+  const st={done:'✓',failed:'✗',skipped:'–'};
+  return `<section class="psec pr-night" aria-labelledby="pNightH"><h3 id="pNightH">Tonight${N.time?` <span class="pcount">${esc(N.time)}</span>`:''}</h3>
+  <ol class="pqueue">${steps.map((x,i)=>`<li><span class="pnum" aria-hidden="true">${i+1}</span><div><b>${esc(x.title)}</b>${x.detail?`<p>${esc(x.detail)}</p>`:''}</div></li>`).join('')}
+  ${req.map(r=>`<li><span class="pnum" aria-hidden="true">+</span><div><b>${esc(NIGHT_KIND[r.kind]||r.kind)}${r.papers?.length?`: ${r.papers.length} paper${r.papers.length===1?'':'s'}`:''}</b><p>Requested ${esc(ago(r.at))}${isEditor()?` · <button type="button" class="linkbtn" data-night-drop="${esc(r.id)}">Remove</button>`:''}</p></div></li>`).join('')}
+  ${skip.map(x=>`<li class="pr-nskip"><span class="pnum" aria-hidden="true">–</span><div><b>${esc(x.title)}</b>${x.why?`<p>Skipped: ${esc(x.why)}</p>`:''}</div></li>`).join('')}</ol>
+  ${last&&last.items?.length?`<details class="pr-nlast"><summary>Last night${last.at?`, ${esc(ago(last.at))}`:''}</summary><ul>${last.items.map(x=>`<li><span class="pr-nst" aria-hidden="true">${st[x.status]||'·'}</span><div><b>${esc(x.title)}</b>${x.result?`<p>${esc(x.result)}</p>`:''}</div></li>`).join('')}</ul></details>`:''}</section>`}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-night-drop]');if(!b||typeof PQ==='undefined'||!PQ.run)return;b.disabled=true;PQ.run.drop(b.dataset.nightDrop)});
 function renderProcesses(){const box=$('#procBox'),pv=$('#processesView');if(!box||!pv)return;
   const tab=pv.dataset.tab==='papers'?'papers':'work';
   $('#procWork').hidden=tab!=='work';$('#procPapers').hidden=tab!=='papers';
@@ -3283,6 +3305,7 @@ function renderProcesses(){const box=$('#procBox'),pv=$('#processesView');if(!bo
   box.innerHTML=`<p class="sub">What Claude is working on now, and what you've asked for next.${QUEUE&&QUEUE.updated?` Queue updated ${esc(ago(QUEUE.updated))}.`:''}</p>
   <section class="psec" aria-labelledby="pRunH"><h3 id="pRunH">Running now${run.length?` <span class="pcount">${run.length}</span>`:''}</h3>
   ${run.length?`<div class="pcards">${run.map(j=>`<article class="pcard"><div class="pctop"><span class="pdot" aria-hidden="true"></span><b>${esc(j.name)}</b>${j.started?`<span class="pwhen">${esc(startedAgo(j.started))}</span>`:''}</div>${j.step?`<div class="pstep">${esc(j.step)}${stepBar(j.step)}</div>`:''}${jobTimes(j)}${j.detail?`<p>${esc(j.detail)}</p>`:''}${j.src==='queue'?`<span class="ptag">From the queue</span>`:''}${asked(j)}</article>`).join('')}</div>`:'<p class="pempty">Nothing running right now.</p>'}</section>
+  ${tonightHTML()}
   <section class="psec" aria-labelledby="pQueH"><h3 id="pQueH">Queued${que.length?` <span class="pcount">${que.length}</span>`:''}</h3>
   ${que.length?`<ol class="pqueue">${que.map((x,i)=>`<li><span class="pnum" aria-hidden="true">${i+1}</span><div><b>${esc(x.title)}</b>${x.step?`<div class="pstep">${esc(x.step)}</div>`:''}${jobTimes(x)}${x.detail?`<p>${esc(x.detail)}</p>`:''}${asked(x)}</div></li>`).join('')}</ol>`:`<p class="pempty">${QUEUE?'Nothing queued. New requests will show here.':'No queue yet. Requests you line up will show here.'}</p>`}</section>
   ${done.length?`<section class="psec"><details class="pdone"${openDone?' open':''}><summary>Recently done <span class="pcount">${done.length}</span></summary><ul>${done.slice(0,20).map(x=>`<li><span class="pok" aria-hidden="true">✓</span><div><b>${esc(x.title)}</b>${jobTimes({...x,status:'done'})}${x.detail?`<p>${esc(x.detail)}</p>`:''}</div></li>`).join('')}</ul></details></section>`:''}`;
@@ -3385,6 +3408,9 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
     if(user){try{QG.me=await user.id()}catch(e){}}
     if(dbns){try{dbns.doc('progress/jobs').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);JOBS=(v&&v.jobs)||[];renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
     // owner 14 Nov: "need a pill for current jobs and queued jobs". The queue: {items:[{id,title,detail,status,order,asked}],updated}
+    // job 6 (owner 16 Nov: "I need a place to see ... what's in that night's automated tasks"): progress/night, kept by the night
+    // session (NIGHT.md): {steps:[{id,title,detail}], skipped:[{title,why}], last:{at,items:[{title,status,result}]}, updated}
+    if(dbns){try{dbns.doc('progress/night').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QG.night=v||null;if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
     if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
     if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);if(v){PROG=v;if(view==='processes'&&QG.ready(view))renderImport()}},()=>{})}catch(e){}}
     if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=RKEY.index(nx);TOPICS=null;_clean=null;
@@ -5521,7 +5547,11 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
   const dl=t.closest('[data-prqdel]');if(dl){await remove(dl.dataset.prqdel);return}
   if(t.closest('#prQStart')){await busy(start);return}
   if(t.closest('#prQCancel')){await busy(cancel);return}});
-return {render,draw,state:R,pos,add,addNext,remove,move,start,cancel,cover,coverCheck,items};
+// job 6: the Tonight card on Processes › Work lists the requests waiting for the night session, and can withdraw one
+const pending=()=>R.runs.filter(r=>r.status==='requested').sort((a,b)=>String(a.at).localeCompare(String(b.at)));
+async function drop(id){const r=R.runs.find(x=>x.id===id);if(!isEditor()||!db||!r)return false;const {id:_,...rest}=r,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
+  try{await db.doc('runs/'+id).set(doc);Object.assign(r,doc);PQ.redraw();draw();if(view==='processes')renderProcesses();toast('Removed from tonight');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
+return {render,draw,state:R,pos,add,addNext,remove,move,start,cancel,cover,coverCheck,items,watch:subscribe,pending,drop};
 })();
 if(view==='processes'&&$('#processesView').dataset.tab==='papers')PQ.run.render();
 // owner 14 Nov (mockup A, its "Needs a check" view): the papers the scan couldn't place from their folder and file name

@@ -33,7 +33,8 @@ def pagewords(doc, a, b):
 def words(s):
     s = re.sub(r'\\[a-zA-Z]+', ' ', s or ''); return [w.lower() for w in re.findall(r'[A-Za-z]{4,}', s)]
 
-out = {}; stats = collections.Counter()
+out = {}; stats = collections.Counter(); nopdf = set()
+OLD = json.load(open(paths.S + 'work/triage.json')) if os.path.exists(paths.S + 'work/triage.json') else {}   # the last run (16 Nov: missing PDFs)
 for doc in DOCS:
     drow = db.execute('select * from documents where id=?', (doc,)).fetchone()
     for q in db.execute('select * from questions where document_id=? order by id', (doc,)).fetchall():
@@ -44,7 +45,15 @@ for doc in DOCS:
         opts = db.execute('select * from mcq_options where question_id=?', (qid,)).fetchall()
         # --- automatic checks
         if qid in render: why.append('Does not display correctly: ' + '; '.join(render[qid][:2])); look.append('Fix the display error shown in red')
-        if drow['parse_path'] == 'digital' and q['page_start'] is not None:
+        # 16 Nov: the Drive connector cannot download PDFs over 10 MB, so a cloud session may lack some papers in src/: their
+        # wording check keeps the result of the last run that had the PDF (state triage.json), so no question changes tier
+        # just because a file is missing here
+        if drow['parse_path'] == 'digital' and q['page_start'] is not None and not os.path.exists(P + f'src/{doc}.pdf'):
+            nopdf.add(doc)
+            for w in (OLD.get(str(qid)) or {}).get('why') or []:
+                if w.startswith('Wording differs from the PDF text'):
+                    why.append(w); look.append('Compare the wording with the source page')
+        elif drow['parse_path'] == 'digital' and q['page_start'] is not None:
             ws = words(' '.join([q['stem_latex'] or ''] + [p['latex'] for p in parts] + [o['latex'] for o in opts]))
             if len(ws) >= 6:
                 pw = pagewords(doc, q['page_start'], q['page_end'] if q['page_end'] is not None else q['page_start'])

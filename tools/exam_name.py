@@ -7,11 +7,11 @@ School names must match the official NSW school list (ACARA School Location file
 project/nsw_schools.csv (ACARA School Location 2025, NSW rows: 3,433 schools, all sectors), column "School Name".
 
 Year = the year the students graduate (sit the HSC), owner 11 Nov: "Task 1s should be the year they graduate. If they grad 2024, the term 4 task
-import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 from last year should be 2024 AT1". A Year 12 AT1 sat in Term 4 of Year 11 (cover "2023 - 2024", or "2020 (for 2021 HSC)") takes the later year.
 
 Usage: python3 exam_name.py            # rebuild labels and report any paper that breaks the rule
 """
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sqlite3, csv, os, re, sys, difflib
 DB = paths.DBS
 LIST = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'site', 'project', 'nsw_schools.csv')

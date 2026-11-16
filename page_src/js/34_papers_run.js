@@ -79,6 +79,10 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
   const dl=t.closest('[data-prqdel]');if(dl){await remove(dl.dataset.prqdel);return}
   if(t.closest('#prQStart')){await busy(start);return}
   if(t.closest('#prQCancel')){await busy(cancel);return}});
-return {render,draw,state:R,pos,add,addNext,remove,move,start,cancel,cover,coverCheck,items};
+// job 6: the Tonight card on Processes › Work lists the requests waiting for the night session, and can withdraw one
+const pending=()=>R.runs.filter(r=>r.status==='requested').sort((a,b)=>String(a.at).localeCompare(String(b.at)));
+async function drop(id){const r=R.runs.find(x=>x.id===id);if(!isEditor()||!db||!r)return false;const {id:_,...rest}=r,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
+  try{await db.doc('runs/'+id).set(doc);Object.assign(r,doc);PQ.redraw();draw();if(view==='processes')renderProcesses();toast('Removed from tonight');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
+return {render,draw,state:R,pos,add,addNext,remove,move,start,cancel,cover,coverCheck,items,watch:subscribe,pending,drop};
 })();
 if(view==='processes'&&$('#processesView').dataset.tab==='papers')PQ.run.render();

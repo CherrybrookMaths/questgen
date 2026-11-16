@@ -899,6 +899,30 @@ async function reviewFlow(browser, base, seed) {
 
 /* ---------------- Processes page and header pills (owner 14 Nov: "need a pill for current jobs and queued jobs ... Can make that page processes") ----------------
    The fixture seeds progress/jobs (one real job + the interim "Queued: 5 tasks" pseudo-job) and progress/queue (1 running, 3 queued, 1 done). */
+/* job 6 (owner 16 Nov: "I need a place to see ... what's in that night's automated tasks"): the Tonight card on Processes › Work */
+async function tonight(browser, base, seed) {
+  const s2 = {...seed, 'progress/night': {steps: [{id: 'restore', title: 'Restore the database from Drive'}, {id: 'scan', title: 'Rescan the exam folder', detail: 'Read only'}],
+    skipped: [{title: 'Import queue', why: 'imports are paused (owner 16 Nov)'}], last: {at: new Date(Date.now() - 36e5).toISOString(), items: [{title: 'Rescan the exam folder', status: 'done', result: '3 new files recorded'}]}},
+    'runs/rTEST1': {kind: 'cover_check', status: 'requested', papers: [1, 2, 3], at: new Date(Date.now() - 6e5).toISOString()}};
+  const p = await newPage(browser, base, s2, {width: 1280, theme: 'light'});
+  try {
+    await boot(p, base, '#processes/work');
+    await check('processes: the Tonight card lists the steps, a waiting request (removable), what is skipped and last night', p, async () => {
+      await p.waitForSelector('#procBox .pr-night', {timeout: 10000});
+      const r = await p.evaluate(() => { const c = document.querySelector('#procBox .pr-night'); return {txt: c.innerText, drop: !!c.querySelector('[data-night-drop="rTEST1"]'), n: c.querySelectorAll('.pqueue li').length} });
+      const e = takeErrs(p); assert(!e.length, e.slice(0, 3).join(' | '));
+      assert(r.n === 4 && /Restore the database/.test(r.txt) && /Cover-page check: 3 papers/.test(r.txt) && /Skipped: imports are paused/.test(r.txt) && /Last night/.test(r.txt), `card: ${r.n} rows; ${r.txt.slice(0, 200)}`);
+      assert(r.drop, 'no Remove button on the waiting request');
+      const n0 = await p.evaluate(() => window.__pt.log.length);
+      await p.click('[data-night-drop="rTEST1"]'); await settle(p, 3000, 2);
+      const w = (await p.evaluate(() => window.__pt.log.slice())).slice(n0).filter(x => x.op === 'set' && x.k === 'runs/rTEST1');
+      const after = await p.evaluate(() => !!document.querySelector('[data-night-drop="rTEST1"]'));
+      assert(w.length && w[w.length - 1].v.status === 'cancelled' && !after, `Remove: ${JSON.stringify(w.map(x => x.v.status))}, still listed ${after}`);
+      return '2 steps, 1 request (Remove → runs/rTEST1 cancelled, gone from the card), 1 skipped, last night shown';
+    });
+  } finally { await p.context().close() }
+}
+
 async function processes(browser, base, seed) {
   const qd = (seed['progress/queue'] || {}).items || [], jd = (seed['progress/jobs'] || {}).jobs || [];
   const wantRun = jd.filter(j => !/^\s*queued\b/i.test(j.name)).length + qd.filter(x => x.status === 'running').length;
@@ -2186,7 +2210,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
     const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
-    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));

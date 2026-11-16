@@ -50,7 +50,14 @@ def write_groups(kind, by_doc):
             assert k not in g, f'{kind}: key {k} appears in two papers'
             g[k] = v
     for g, m in out.items():
-        json.dump(m, open(d + g + '.json', 'w'))
+        # 16 Nov: a group whose content did not change keeps its bytes (key order differs between writers), so a rebuild
+        # never makes a new version for the publish or the asset store
+        f = d + g + '.json'
+        if os.path.exists(f):
+            try:
+                if json.load(open(f)) == m: continue
+            except Exception: pass
+        json.dump(m, open(f, 'w'))
     return {g: len(m) for g, m in out.items()}
 
 

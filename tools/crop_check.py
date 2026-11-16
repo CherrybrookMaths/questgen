@@ -2,9 +2,9 @@
 cartesian plane") and widen them.
 For each figure with a page bbox: render the page, and while ink touches a crop edge AND continues outside it, move
 that edge outward (2 pt steps) until the edge is clear, stopping at a line of question text (a word of 4+ letters
-import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 from the PDF text layer) or 90 pt. Re-crops figures/<id>.png at 200 dpi and updates figures.bbox.
 Usage: python3 crop_check.py <doc_id> [...] [--apply]   -> lists widened crops (ids) in work/crop_fixes.json"""
+import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import sys, json, sqlite3, os
 import pymupdf, numpy as np
 P = paths.P
