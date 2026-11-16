@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 638_q5_1: two dot plots on the same scale (16 ticks, 45.2 px apart from x=205; axes at y=190 and y=580.5 in crop
+% pixels, y down; dot rows 45 px apart). Dot counts per tick copied from the paper.
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\dx{45.2}
+  \foreach \ay in {190,580.5} {
+    \draw[->] (175,\ay) -- (1012,\ay);
+    \foreach \k in {0,...,15} \draw ({205+\k*\dx},{\ay-10}) -- ({205+\k*\dx},{\ay+10});
+  }
+  % Before: counts for ticks 0..12
+  \foreach \k/\n in {0/2,1/2,2/3,3/1,4/2,5/3,6/2,7/2,8/2,9/2,10/1,11/2,12/1}
+    \foreach \j in {1,...,\n} \fill ({205+\k*\dx},{190-42-(\j-1)*45}) circle (9);
+  % After: counts for ticks 6..15
+  \foreach \k/\n in {6/1,7/1,8/1,9/2,10/3,11/2,12/4,13/6,14/4,15/1}
+    \foreach \j in {1,...,\n} \fill ({205+\k*\dx},{580.5-41-(\j-1)*45}) circle (9);
+  \node[font=\large, anchor=west] at (38,66) {\textit{Before}};
+  \node[font=\large, anchor=west] at (38,320) {\textit{After}};
+\end{tikzpicture}
+\end{document}

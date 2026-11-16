@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 638_q6_1: y = f(x) with vertical asymptote x = 2, and y = g(x) with the asymptote on the y-axis. No equations given:
+% both curves traced from the crop (crop pixels, y down) and drawn as smooth splines.
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % f panel
+  \draw[->] (53,273.5) -- (577,273.5) node[below left, inner sep=3pt, yshift=-8pt] {$x$};
+  \draw[->] (310.5,495) -- (310.5,48) node[left, inner sep=3pt, xshift=-2pt, yshift=-12pt] {$f(x)$};
+  \draw[aux] (419,76) -- (419,488);
+  \draw[<->, line width=0.9pt] plot[smooth, tension=0.55] coordinates {(68,287) (100,287.5) (130,292.5) (160,301.5) (190,312.5) (220,320)
+     (250,323) (280,320.5) (310,312) (340,301.5) (358,296) (370,297.5) (387,312) (397,336) (402,360) (405,390) (406.5,430) (406.5,460)};
+  \node[anchor=north east, inner sep=3pt] at (308,276) {$O$};
+  \node[anchor=north west, inner sep=3pt] at (421,276) {$2$};
+  % g panel
+  \draw[->] (728,273.5) -- (1250,273.5) node[below left, inner sep=3pt, yshift=-8pt] {$x$};
+  \draw[->] (985,495) -- (985,48) node[left, inner sep=3pt, xshift=-2pt, yshift=-12pt] {$g(x)$};
+  \draw[<->, line width=0.9pt] plot[smooth, tension=0.55] coordinates {(1006,82) (1007,121) (1009,145) (1011.5,169) (1016.5,193)
+     (1023.5,217) (1030,229.5) (1041,241) (1052,244.5) (1060,244.5) (1075,239.5) (1090,232.5) (1105,227) (1120,224.5) (1135,226)
+     (1150,232.5) (1165,241.5) (1180,248) (1195,252) (1210,254.5) (1230,255)};
+  \node[anchor=north east, inner sep=3pt] at (983,276) {$O$};
+\end{tikzpicture}
+\end{document}
