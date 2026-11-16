@@ -8,7 +8,9 @@ import json, sqlite3, glob, sys, subprocess, re
 P = paths.P; B = sys.argv[1]
 db = sqlite3.connect(paths.DBS)
 tags = sorted(glob.glob(P + f'tag/out_{B}_*.json'))
-if tags: print(subprocess.run(['python3', P + 'tools/load_tags_batch.py'] + tags, capture_output=True, text=True).stdout.strip())
+if tags:   # tag-v2.2 output (a list per file, TAG_SPEC since 12 Nov) goes through merge_tags_v2.py; the old v1 shape {results} through load_tags_batch.py
+    v2 = isinstance(json.load(open(tags[0])), list)
+    print(subprocess.run(['python3', P + ('tools/merge_tags_v2.py' if v2 else 'tools/load_tags_batch.py')] + tags, capture_output=True, text=True).stdout.strip())
 n = 0
 for f in sorted(glob.glob(P + f'work/solfmt_{B}_*.json')):
     for r in json.load(open(f))['results']:
@@ -25,7 +27,7 @@ for f in sorted(glob.glob(P + f'work/{B}/gen_out_*.json')):
         if pid: db.execute("delete from solutions where source='generated' and part_id=?", (pid,))
         else: db.execute("delete from solutions where source='generated' and question_id=?", (qid,))
         db.execute('insert into solutions(part_id,question_id,source,latex,source_document_id,model,prompt_version,criteria_json,meta_json) values (?,?,?,?,?,?,?,?,?)',
-                   (pid, None if pid else qid, 'generated', s['latex'], doc, 'claude-opus-5-5', 'gen-v2', json.dumps(s['criteria'], ensure_ascii=False), json.dumps(s.get('meta') or {}, ensure_ascii=False))); g += 1
+                   (pid, None if pid else qid, 'generated', s['latex'], doc, s.get('model') or d.get('model') or 'claude-opus-5-5', 'gen-v2', json.dumps(s['criteria'], ensure_ascii=False), json.dumps(s.get('meta') or {}, ensure_ascii=False))); g += 1
     for q, k in (d.get('mcq_keys') or {}).items():
         if not db.execute('select 1 from mcq_options where question_id=? and is_correct=1', (int(q),)).fetchone():
             db.execute("update mcq_options set is_correct=(label=?), key_source='generated' where question_id=?", (k, int(q)))
@@ -36,8 +38,10 @@ db.commit(); print('formatted', n, 'generated', g, 'gen figures', len(figs))
 # syllabus flags for removed parts
 ids = set()
 for f in tags:
-    for r in json.load(open(f))['results']:
-        if r['status'] == 'removed': ids.add((r['part_id'], r.get('reason') or ''))
+    d = json.load(open(f))
+    for r in (d if isinstance(d, list) else d['results']):   # tag-v2.2: no dot points + a removed_reason; v1: status 'removed'
+        if (isinstance(d, list) and not r.get('dot_points') and r.get('removed_reason')) or r.get('status') == 'removed':
+            ids.add((r['part_id'], r.get('removed_reason') or r.get('reason') or ''))
 manual = []
 for pid, why in ids:
     q = db.execute('select q.id, q.standard_topic, q.old_syllabus, q.document_id, q.number from parts p join questions q on q.id=p.question_id where p.id=?', (pid,)).fetchone()

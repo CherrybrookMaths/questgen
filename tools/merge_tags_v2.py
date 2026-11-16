@@ -1,11 +1,12 @@
-"""Merge the tag-v2.2 re-tag (tagger A = sonnet, checker B = stronger model) into questions.db (owner 12 Nov).
+"""Usage: python3 merge_tags_v2.py [tag/out_<batch>_*.json]  (no files: the 12 Nov full re-tag in work/tag_full/)
+Merge the tag-v2.2 re-tag (tagger A = sonnet, checker B = stronger model) into questions.db (owner 12 Nov).
 Agreed or small differences -> B's answer. Real disagreements (topic differs, gate differs by 2+ skills, or removed vs not)
 -> B's answer provisionally + both answers in work/tag_full/disagreements.json for the owner's Tags review step.
 Writes, per part: scheme '2024' rows (is_primary 1 = primary, 0 = also assessed; coverage 'removed' when no dot point),
 scheme 'skill' rows (dot_point = skill name, coverage 'required' | 'can_use'), scheme 'note' (removed_reason),
 replacing the old '2024', 'free', 'note' rows. 2017 rows are kept."""
 import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
-import json, sqlite3, glob
+import json, sqlite3, glob, sys
 P = paths.P; W = P + 'work/tag_full/'
 db = sqlite3.connect(paths.DBS)
 DP = {x['id']: x for x in json.load(open(paths.S + 'work/skills/dotpoints.json'))}
@@ -17,9 +18,15 @@ def clos(sk):
             if r not in out: out.add(r); st.append(r)
     return out
 A, B = {}, {}
-for g in range(1, 13):
-    for x in json.load(open(W + f'A_{g}.json')): A[x['part_id']] = x
-    for x in json.load(open(W + f'B_{g}.json')): B[x['part_id']] = x
+FILES = [a for a in sys.argv[1:] if a.endswith('.json')]
+if FILES:   # an import batch (16 Nov): one tagger (opus, IMPORT_PLAYBOOK "Models per step"), files = lists of tag-v2.2 outputs
+    for f in FILES:
+        for x in json.load(open(f)): B[x['part_id']] = x
+    A = B
+else:       # the 12 Nov full re-tag: tagger A + checker B
+    for g in range(1, 13):
+        for x in json.load(open(W + f'A_{g}.json')): A[x['part_id']] = x
+        for x in json.load(open(W + f'B_{g}.json')): B[x['part_id']] = x
 prim = lambda x: next((d['id'] for d in x.get('dot_points') or [] if d.get('role') == 'primary'), None)
 rs = lambda x: set(x.get('required_skills') or [])
 dis = {}; n = 0
@@ -42,5 +49,5 @@ for pid, b in B.items():
     for s in b.get('can_use_skills') or []: ins(pid, 'skill', None, s, None, None, 'can_use', 0, None, src, None, 'tag-v2.2')
     n += 1
 db.commit()
-json.dump(dis, open(paths.S + W[len(P):] + 'disagreements.json', 'w'), ensure_ascii=False)
+if not FILES: json.dump(dis, open(paths.S + W[len(P):] + 'disagreements.json', 'w'), ensure_ascii=False)
 print('merged', n, 'parts;', len(dis), 'disagreements for the owner')
