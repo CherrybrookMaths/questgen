@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 638_q6_s1: the school's solution overlays -f(x), -f(-x) and -f(2-x) in three colours on one set of axes. Black and white
+% only (rule 6), so the three stages are drawn as three panels in a row, each from the f traced for 638_q6_1 and transformed
+% exactly: -f(x) reflects in the x-axis (asymptote x=2), -f(-x) then in the y-axis (x=-2), -f(2-x) shifts 2 right (x=0),
+% which is the g(x) of the question. Panel units = 638_q6_1 crop pixels relative to its origin, scaled 0.6. The handwritten
+% notes are left out: they are the solution text.
+\begin{tikzpicture}[x=0.0076cm, y=-0.0076cm]
+  % panel 1: y = -f(x)
+  \draw[->] (-270,0) -- (380,0) node[below left, inner sep=2pt, yshift=-4pt] {$x$};
+  \draw[->] (0,90) -- (0,-235) node[left, inner sep=3pt, yshift=-6pt] {$y$};
+  \draw[aux] (108.5,-205) -- (108.5,85);
+  \draw[<->, line width=0.9pt] plot[smooth, tension=0.55] coordinates {(-242.5,-13.5) (-210.5,-14.0) (-180.5,-19.0) (-150.5,-28.0) (-120.5,-39.0) (-90.5,-46.5) (-60.5,-49.5) (-30.5,-47.0) (-0.5,-38.5) (29.5,-28.0) (47.5,-22.5) (59.5,-24.0) (76.5,-38.5) (86.5,-62.5) (91.5,-86.5) (94.5,-116.5) (96.0,-156.5) (96.0,-186.5)};
+  \node[anchor=north east, inner sep=3pt] at (-2,2) {$O$};
+  \node[anchor=north west, inner sep=3pt] at (110.5,2) {$2$};
+  \node[anchor=south, font=\large] at (55,-265) {$y=-f(x)$};
+  % panel 2: y = -f(-x)
+  \draw[->] (430,0) -- (1080,0) node[below left, inner sep=2pt, yshift=-4pt] {$x$};
+  \draw[->] (700,90) -- (700,-235) node[left, inner sep=3pt, yshift=-6pt] {$y$};
+  \draw[aux] (591.5,-205) -- (591.5,85);
+  \draw[<->, line width=0.9pt] plot[smooth, tension=0.55] coordinates {(942.5,-13.5) (910.5,-14.0) (880.5,-19.0) (850.5,-28.0) (820.5,-39.0) (790.5,-46.5) (760.5,-49.5) (730.5,-47.0) (700.5,-38.5) (670.5,-28.0) (652.5,-22.5) (640.5,-24.0) (623.5,-38.5) (613.5,-62.5) (608.5,-86.5) (605.5,-116.5) (604.0,-156.5) (604.0,-186.5)};
+  \node[anchor=north east, inner sep=3pt] at (698,2) {$O$};
+  \node[anchor=north east, inner sep=3pt] at (589.5,2) {$-2$};
+  \node[anchor=south, font=\large] at (755,-265) {$y=-f(-x)$};
+  % panel 3: y = -f(2-x)
+  \draw[->] (1130,0) -- (1780,0) node[below left, inner sep=2pt, yshift=-4pt] {$x$};
+  \draw[->] (1400,90) -- (1400,-235) node[left, inner sep=3pt, yshift=-6pt] {$y$};
+  \draw[<->, line width=0.9pt] plot[smooth, tension=0.55] coordinates {(1751.0,-13.5) (1719.0,-14.0) (1689.0,-19.0) (1659.0,-28.0) (1629.0,-39.0) (1599.0,-46.5) (1569.0,-49.5) (1539.0,-47.0) (1509.0,-38.5) (1479.0,-28.0) (1461.0,-22.5) (1449.0,-24.0) (1432.0,-38.5) (1422.0,-62.5) (1417.0,-86.5) (1414.0,-116.5) (1412.5,-156.5) (1412.5,-186.5)};
+  \node[anchor=north east, inner sep=3pt] at (1398,2) {$O$};
+  \node[anchor=south, font=\large] at (1455,-265) {$y=-f(2-x)$};
+\end{tikzpicture}
+\end{document}
