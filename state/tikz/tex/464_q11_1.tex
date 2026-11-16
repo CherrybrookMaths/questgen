@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop pixel; NOT to true bearings: positions follow the crop (rule 1)
+  \coordinate (A) at (55,343); \coordinate (P) at (411,153); \coordinate (B) at (658,343);
+  \draw[->] (55,419) -- (55,40);
+  \draw[->] (411,419) -- (411,40);
+  \node[anchor=south, inner sep=1pt] at (60,40) {N};
+  \node[anchor=south, inner sep=1pt] at (412,40) {N};
+  \draw (A) -- (B);
+  \draw[->] (A) -- (P);
+  \draw[->] (P) -- (B);
+  \node[anchor=east, inner sep=0pt] at (40,333) {$A$};
+  \node[anchor=west, inner sep=0pt] at (673,333) {$B$};
+  \node[inner sep=0pt] at (95,295) {$72^\circ$};
+  \node[inner sep=0pt] at (471,141) {$160^\circ$};
+  \node[inner sep=0pt] at (229,217) {8 km};
+  \node[inner sep=0pt] at (571,217) {$x$ km};
+\end{tikzpicture}
+\end{document}

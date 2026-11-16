@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\normalsize]
+\coordinate (A) at (258,62); \coordinate (B) at (65,328); \coordinate (C) at (322,328);
+\coordinate (D) at (450,205); \coordinate (E) at (258,470); \coordinate (F) at (192,205);
+\coordinate (M) at ($(B)!0.5!(C)$); \coordinate (O) at ($(A)!0.5!(E)$);
+% hidden edges
+\draw[densely dotted, line width=0.6pt] (A) -- (F) (B) -- (F) -- (D) (F) -- (E);
+% visible edges
+\draw[line join=round] (B) -- (A) -- (D) -- (E) -- cycle (A) -- (C) -- (E) (B) -- (C) -- (D);
+% AM and ME
+\draw[aux] (A) -- (M) -- (E);
+% right angles at M
+\draw ($(M)!6.5pt!(C)$) -- ($(M)!6.5pt!(C)+(M)!6.5pt!(A)-(M)$) -- ($(M)!6.5pt!(A)$);
+\draw ($(M)!6.5pt!(B)$) -- ($(M)!6.5pt!(B)+(M)!6.5pt!(E)-(M)$) -- ($(M)!6.5pt!(E)$);
+% equal-edge ticks
+\foreach \p/\q in {A/B,A/C,A/D,C/D,D/E,B/E,C/E}
+  \draw ($(\p)!0.5!(\q)!3pt!90:(\q)$) -- ($(\p)!0.5!(\q)!3pt!-90:(\q)$);
+\draw ($(B)!0.36!(C)!3pt!90:(C)$) -- ($(B)!0.36!(C)!3pt!-90:(C)$);
+\fill (O) circle (1.5pt);
+\node at (275,244) {$O$};
+\node at (267,42) {$A$};
+\node at (42,330) {$B$};
+\node at (343,341) {$C$};
+\node at (471,206) {$D$};
+\node at (258,492) {$E$};
+\node at (177,307) {$M$};
+\node[rotate=0] at (412,128) {6 cm};
+\end{tikzpicture}
+\end{document}

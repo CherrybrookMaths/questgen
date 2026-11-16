@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+% origin (95,655); pi/2 = 213 px; 1 cm of length = 41.6 px
+\def\ox{95}\def\oy{655}\def\h{213}\def\k{41.6}
+\draw[->] (60,\oy) -- (1010,\oy);
+\draw[->] (\ox,690) -- (\ox,20);
+\draw[aux] (\ox,{\oy-7*\k}) -- ({\ox+4*\h+20},{\oy-7*\k});
+\draw[line width=0.9pt] plot[domain=0:2*pi, samples=120, smooth] ({\ox+\h*\x/(pi/2)},{\oy-\k*(7+4*cos(deg(2*\x)))});
+\foreach \i in {1,...,8} \draw ({\ox+\h*\i/2},{\oy-6}) -- ({\ox+\h*\i/2},{\oy+6});
+\foreach \v in {3,7,11} \draw (\ox-6,{\oy-\k*\v}) -- (\ox+6,{\oy-\k*\v});
+\node at ({\ox+\h},{\oy+50}) {$\dfrac{\pi}{2}$};
+\node at ({\ox+2*\h},{\oy+35}) {$\pi$};
+\node at ({\ox+3*\h},{\oy+50}) {$\dfrac{3\pi}{2}$};
+\node at ({\ox+4*\h},{\oy+35}) {$2\pi$};
+\foreach \v in {3,7,11} \node[anchor=east] at (\ox-10,{\oy-\k*\v}) {$\v$};
+\node[anchor=north east] at (\ox-4,\oy+2) {$0$};
+\node at (1018,690) {$t$};
+\node[anchor=east] at (\ox-8,25) {$l$};
+\end{tikzpicture}
+\end{document}

@@ -10,9 +10,12 @@
     \foreach \k in {-5,...,-1,1,2,...,5} {
       \draw (\k,0.08) -- (\k,-0.08);
       \draw (0.08,\k) -- (-0.08,\k);
-      \node[below, inner sep=4pt] at (\k,-0.08) {$\k$};
     }
-    \foreach \k in {-5,-4,-3,-1,1,2,3,4,5} \node[left, inner sep=3pt] at (-0.08,\k) {$\k$};
+    \foreach \k in {-5,-4,-3,-2,1,2,3,4,5} \node[below, inner sep=4pt] at (\k,-0.08) {$\k$};
+    \node[below, inner sep=4pt] at (-0.86,-0.08) {$-1$}; % moved right off the curve (rule 11)
+    \foreach \k in {-5,-4,-3,-1,1,4,5} \node[left, inner sep=3pt] at (-0.08,\k) {$\k$};
+    \node[anchor=east, inner sep=0pt] at (-0.42,2) {$2$}; % clear of the curve (rule 11)
+    \node[anchor=east, inner sep=0pt] at (-0.19,3) {$3$};
     \node[left, inner sep=3pt, anchor=south east] at (-0.08,-1.97) {$-2$};
     \node[right, inner sep=2pt] at (5.2,0) {$x$};
     \node[above, inner sep=2pt] at (0,5.38) {$y$};

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop pixel; t: x = 119.5 + 101.75 t ; D: y = 499.5 - 23.1 D ; frame (126.5,11)-(1126,494.5)
+  \foreach \t in {2,4,6,8} \draw[black!25, aux] ({119.5+101.75*\t},11) -- ({119.5+101.75*\t},494.5);
+  \foreach \d in {5,10,15,20} \draw[black!25, aux] (126.5,{499.5-23.1*\d}) -- (1126,{499.5-23.1*\d});
+  \draw (126.5,11) rectangle (1126,494.5);
+  \foreach \t in {2,4,6,8} {\draw ({119.5+101.75*\t},494.5) -- ({119.5+101.75*\t},503);
+    \node[anchor=north, inner sep=0pt, font=\small] at ({119.5+101.75*\t},530) {$\t$};}
+  \foreach \d in {5,10,15,20} {\draw (126.5,{499.5-23.1*\d}) -- (118,{499.5-23.1*\d});
+    \node[anchor=south, rotate=90, inner sep=0pt, font=\small] at (104,{499.5-23.1*\d}) {$\d$};}
+  \node[inner sep=0pt, font=\small] at (626,600) {Travel time ($t$ min)};
+  \node[rotate=90, inner sep=0pt, font=\small] at (22,252) {Distance travelled ($D$ km)};
+  \foreach \p in {(1086.3,29.3),(1072.2,77.5),(1088.3,81.9),(1013.9,88.2),(1031.1,122.3),(918,126.6),(1023.2,132.1),
+    (806.1,209.7),(678.5,228.3),(654.8,243.5),(699.8,251.5),(578.5,294.5),(583,299.5),(534.5,301),(412.1,338.1),
+    (370.1,366.3),(452.4,374),(166.7,437.3),(225.5,466.1),(163.6,476.4)}
+    \fill \p circle (1.8pt);
+\end{tikzpicture}
+\end{document}

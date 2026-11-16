@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop pixel; positions follow the crop (rule 1). Arcs: visual angle t -> tikz angle -t (y points down).
+  \coordinate (A) at (59,351); \coordinate (P) at (414,161); \coordinate (B) at (657,351);
+  \draw[->] (59,381) -- (59,45);
+  \draw[->] (414,381) -- (414,45);
+  \node[anchor=south, inner sep=1pt] at (64,45) {N};
+  \node[anchor=south, inner sep=1pt] at (416,45) {N};
+  \draw (A) -- (B);
+  \draw[->] (A) -- (P);
+  \draw[->] (P) -- (B);
+  \draw[aux] (P) -- (625,161);
+  % angle marks (rule 22): at A
+  \draw ($(A)+(110,0)$) arc[start angle=0, end angle=-27.6, radius=110];        % 18
+  \draw ($(A)+({28*cos(27.6)},{-28*sin(27.6)})$) arc[start angle=-27.6, end angle=-90, radius=28]; % 72 bearing
+  % at P
+  \draw ($(P)+({-40*cos(27.6)},{40*sin(27.6)})$) arc[start angle=-207.6, end angle=-270, radius=40]; % 72 alternate
+  \draw ($(P)+(0,40)$) arc[start angle=-270, end angle=-321.8, radius=40];       % 20
+  \draw ($(P)+({62*cos(38.2)},{62*sin(38.2)})$) arc[start angle=38.2, end angle=0, radius=62]; % 70
+  \draw ($(P)+(0,-30)$) arc[start angle=-90, end angle=38.2, radius=30];         % 160 bearing (from N clockwise)
+  % at B
+  \draw ($(B)+(-60,0)$) arc[start angle=-180, end angle=-141.8, radius=60];        % 70
+  \node[anchor=east, inner sep=0pt] at (42,340) {$A$};
+  \node[anchor=west, inner sep=0pt] at (673,342) {$B$};
+  \node[inner sep=0pt] at (97,301) {$72^\circ$};
+  \node[inner sep=0pt] at (474,128) {$160^\circ$};
+  \node[inner sep=0pt] at (232,223) {8 km};
+  \node[inner sep=0pt] at (572,225) {$x$ km};
+  \node[inner sep=0pt] at (190,327) {$18^\circ$};
+  \node[inner sep=0pt] at (378,232) {$72^\circ$};
+  \node[inner sep=0pt] at (446,228) {$20^\circ$};
+  \node[inner sep=0pt] at (515,186) {$70^\circ$};
+  \node[inner sep=0pt] at (572,331) {$70^\circ$};
+\end{tikzpicture}
+\end{document}

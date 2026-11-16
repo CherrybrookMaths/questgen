@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (754,468);
+  % data frame: 58.7 px per x unit, 55.1 px per y unit (as on the paper), origin at (64.7,317)
+  \begin{scope}[shift={(64.7,317)}, x=0.74549cm, y=0.69977cm]
+    \draw[black!15, line width=0.5pt] (-0.5,-2.5) grid[step=0.5] (10.5,4.5);
+    \draw[black!40, line width=0.5pt] (-0.5,-2.5) grid[step=2] (10.5,4.5);
+    \draw[->] (-0.8,0) -- (10.95,0);
+    \draw[->] (0,-2.58) -- (0,5.15);
+    \foreach \k in {2,4,6,8,10} \node[font=\scriptsize, below, inner sep=3pt] at (\k,0) {$\k$};
+    \node[font=\scriptsize, below left, inner sep=3pt] at (0,0) {$0$};
+    \foreach \k in {-2,2,4} \node[font=\scriptsize, left, inner sep=6pt] at (0,\k) {$\k$};
+    \node[font=\large, right, inner sep=4pt] at (10.95,-0.06) {$x$};
+    \node[font=\large, left, inner sep=4pt] at (0,5.4) {$y$};
+    % the graph: two segments, a semicircle and two quarter circles
+    \draw[line width=0.9pt] (0,0) -- (1,2) -- (2,2) arc[start angle=180, end angle=0, radius=2]
+      arc[start angle=90, end angle=0, radius=2]
+      arc[start angle=180, end angle=270, radius=2];
+  \end{scope}
+\end{tikzpicture}
+\end{document}

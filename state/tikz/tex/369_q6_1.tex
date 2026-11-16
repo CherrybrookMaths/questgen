@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{10}{12}\selectfont]
+  % crop pixel units: origin (406.5,566.5), 1 unit = 170 px on both axes (fitted to the crop)
+  \def\ox{406.5}\def\oy{566.5}\def\u{170}
+  \draw[<->] (57,\oy) -- (756,\oy) node[right=1pt] {$x$};
+  \draw[<->] (\ox,758) -- (\ox,35) node[above=0pt] {$y$};
+  % y = |x|
+  \draw[line width=0.9pt, <->] ({\ox-2.055*\u},{\oy-2.055*\u}) -- (\ox,\oy) -- ({\ox+2.055*\u},{\oy-2.055*\u});
+  % y = 2 - x^2
+  \draw[line width=0.9pt, <->, smooth, samples=90, domain=-1.77:1.77, variable=\t]
+    plot ({\ox+\t*\u}, {\oy-(2-\t*\t)*\u});
+\end{tikzpicture}
+\end{document}

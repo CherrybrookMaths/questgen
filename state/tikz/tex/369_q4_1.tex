@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % crop pixel units: value v hours at x = 52 + (v-120)*12.225 ; axis at y = 421.5
+  \def\X#1{52+(#1-120)*12.225}
+  \def\ay{421.5}
+  % axis: major ticks every 20 (labelled), minor every 5
+  \draw[->] (52,\ay) -- (1109,\ay);
+  \foreach \v in {120,140,...,200} {
+    \draw ({\X{\v}},\ay-4) -- ({\X{\v}},\ay+4);
+    \node[anchor=north, inner sep=0pt, font=\fontsize{8.5}{10}\selectfont] at ({\X{\v}},440) {\v};}
+  \foreach \v in {125,130,135,145,150,155,165,170,175,185,190,195,205}
+    \draw ({\X{\v}},\ay-2) -- ({\X{\v}},\ay+2);
+  \node[anchor=north, inner sep=0pt, font=\fontsize{8.5}{10}\selectfont] at (581,464) {Lifespan in hours};
+  % box plots (0.9pt, rule 9), flat light grey boxes as the crop (rule 5)
+  \begin{scope}[line width=0.9pt]
+    % OLD: 120, 130, 150, 155, 160
+    \draw[shade] ({\X{130}},39.5) rectangle ({\X{155}},199.5);
+    \draw ({\X{150}},39.5) -- ({\X{150}},199.5);
+    \draw ({\X{120}},119.5) -- ({\X{130}},119.5);
+    \draw ({\X{155}},119.5) -- ({\X{160}},119.5);
+    \draw ({\X{120}},79.5) -- ({\X{120}},159.5);
+    \draw ({\X{160}},79.5) -- ({\X{160}},159.5);
+    % NEW: 140, 155, 185, 200, 205
+    \draw[shade] ({\X{155}},240.5) rectangle ({\X{200}},401);
+    \draw ({\X{185}},240.5) -- ({\X{185}},401);
+    \draw ({\X{140}},320.5) -- ({\X{155}},320.5);
+    \draw ({\X{200}},320.5) -- ({\X{205}},320.5);
+    \draw ({\X{140}},280.5) -- ({\X{140}},360.5);
+    \draw ({\X{205}},280.5) -- ({\X{205}},360.5);
+  \end{scope}
+  \node[font=\fontsize{11}{13}\selectfont] at (310.5,121) {OLD};
+  \node[font=\fontsize{11}{13}\selectfont] at (705.5,323) {NEW};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+% origin (137,540); 1 m/s = 41 px; 1 s = 1040 px
+\def\ox{137}\def\oy{540}
+\draw[->] (60,\oy) -- (1150,\oy);
+\draw[->] (\ox,775) -- (\ox,25);
+\draw[aux] (\ox,{\oy-410}) -- (1130,{\oy-410});
+\draw[line width=0.9pt, ->] plot[domain=0:0.925, samples=90, smooth] ({\ox+1040*\x},{\oy-41*(10-14*exp(-3.5*\x))});
+\pgfmathsetmacro\tz{-2*ln(5/7)/7}
+\draw ({\ox+1040*\tz},{\oy-7}) -- ({\ox+1040*\tz},{\oy+7});
+\node[anchor=north] at ({\ox+1040*\tz+40},{\oy+12}) {$-\dfrac{2}{7}\ln\dfrac{5}{7}$};
+\node[anchor=east] at (125,{\oy-410}) {$10$};
+\draw (\ox-7,{\oy+164}) -- (\ox+7,{\oy+164});
+\node[anchor=east] at (125,{\oy+164}) {$-4$};
+\node[anchor=east] at (125,45) {$\dfrac{dx}{dt}$};
+\node at (1150,575) {$t$};
+\end{tikzpicture}
+\end{document}
