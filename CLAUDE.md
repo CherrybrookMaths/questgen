@@ -162,9 +162,9 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
    cannot come through the Drive connector: triage keeps their last wording result (6 papers).
 6. **Night run (job 6)**: built 16 Nov. Scheduled task "Questgen night run" (trig_01XTpjAYHRvxyRWAgqZdxnZb), every night 10:11 pm
    Sydney, fresh session, prompt "read NIGHT.md and run it". NIGHT.md is the runbook; the Tonight card on Processes › Work shows
-   its list (page db progress/night + runs requested). Imports are skipped while paused. **Open: the task has no Google Drive
-   connector** (the organisation does not let a session attach connectors to a task): the owner adds Google Drive to it in
-   the claude.ai routines settings; until then the run stops at "database backup not found".
+   its list (page db progress/night + runs requested). Imports are skipped while paused. The owner added the Google Drive
+   connector in claude.ai/code/routines (16 Nov; a session cannot attach connectors to a task in this organisation: edit the
+   task there, Advanced settings > Connectors).
 
 ## Open items (14 Nov)
 - Details for jobs 2, 3, 5 and 6 above: the reviews migration has 22 ArtifactData batches (1,052 writes: k_<key> and
