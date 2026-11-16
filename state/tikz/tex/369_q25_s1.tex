@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (357,253); x: 107.7 px/unit, y: 6.78 px/unit
+  % f(x) = (x+1)(x-3)^3 = x^4 - 8x^3 + 18x^2 - 27: the polynomial with f'(x) = 4x(x-3)^2 through (0,-27), (1,-16), (3,0)
+  \draw[<->] (20,253) -- (893,253);
+  \draw[<->] (357,472) -- (357,36);
+  \draw[line width=0.9pt, <->] plot[domain=-1.385:4.75, samples=120, smooth, variable=\t] ({357+107.7*\t},{253-6.78*(\t+1)*(\t-3)^3});
+  \fill ({357+107.7},{253+6.78*16}) circle (2.2pt);
+  \node[anchor=west] at (893,256) {$x$};
+  \node[anchor=south] at (357,36) {$y$};
+  \node at (680,292) {$3$};
+  \node[anchor=east] at (336,452) {$-27$};
+  \node[anchor=west] at (476,392) {$(1,\,-16)$};
+\end{tikzpicture}
+\end{document}

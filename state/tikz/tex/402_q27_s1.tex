@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (12,12) rectangle (551,420);
+  \draw (237,157) ellipse[x radius=112, y radius=103];
+  \draw (386,157) ellipse[x radius=112, y radius=103];
+  \draw (308,284) ellipse[x radius=112, y radius=103];
+  \node at (199,145) {French};
+  \node at (402,151) {Italian};
+  \node at (315,308) {Japanese};
+  \foreach \x/\y/\n in {240/96/9, 311/130/7, 408/98/8, 245/226/6, 309/207/4, 368/230/3, 309/350/5, 478/350/3}
+    \node[font=\Large] at (\x,\y) {$\n$};
+\end{tikzpicture}
+\end{document}

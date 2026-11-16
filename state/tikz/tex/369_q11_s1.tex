@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % graphing-app screen: origin (393,208); x: 24.27 px/unit, y: 11.52 px/unit; grid 1 unit, major every 5; y = 16/x
+  \def\X#1{393+24.27*(#1)}
+  \begin{scope}
+    \clip (6,20) rectangle (784,392);
+    \foreach \i in {-16,...,16} \draw[black!10, line width=0.4pt] ({393+24.27*\i},0) -- ({393+24.27*\i},401);
+    \foreach \j in {-16,...,17} \draw[black!10, line width=0.4pt] (0,{208-11.52*\j}) -- (801,{208-11.52*\j});
+    \foreach \i in {-3,...,3} \draw[black!30, line width=0.4pt] ({393+121.35*\i},0) -- ({393+121.35*\i},401);
+    \foreach \j in {-3,...,3} \draw[black!30, line width=0.4pt] (0,{208-57.6*\j}) -- (801,{208-57.6*\j});
+  \end{scope}
+  \draw (6,208) -- (784,208);
+  \draw (393,20) -- (393,392);
+  \draw[line width=0.9pt] plot[domain=0.97:16.3, samples=150, smooth, variable=\t] ({393+24.27*\t},{208-11.52*16/\t});
+  \draw[line width=0.9pt] plot[domain=-16.2:-0.97, samples=150, smooth, variable=\t] ({393+24.27*\t},{208-11.52*16/\t});
+  \fill ({393+24.27*1.6},{208-11.52*10}) circle (2.2pt);
+  \fill ({393-24.27*10},{208+11.52*1.6}) circle (2.2pt);
+  \node[anchor=west, font=\small] at (446,96) {$(1.6,\,10)$};
+  \node[anchor=north east, font=\small] at (146,230) {$(-10,\,-1.6)$};
+  \node[font=\small, anchor=west] at (787,208) {$x$};
+  \node[font=\small, anchor=south] at (393,20) {$y$};
+\end{tikzpicture}
+\end{document}

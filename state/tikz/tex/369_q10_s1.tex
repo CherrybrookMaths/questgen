@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % f increasing from (a,-k) to (b,k): half a sine wave between the two endpoint dots, crossing the axis midway
+  \draw (2,157) -- (275,157);
+  \draw[line width=0.9pt] plot[domain=10:262, samples=90, smooth] (\x,{157-81*sin((\x-136)/252*180)});
+  \fill (10,238) circle (2.4pt) (262,76) circle (2.4pt);
+\end{tikzpicture}
+\end{document}

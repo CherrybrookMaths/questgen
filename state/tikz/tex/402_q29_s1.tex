@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\usetikzlibrary{decorations.pathreplacing}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+ \begin{scope}[shift={(-29,11)}]
+  % question diagram 402_q29_1 (same scale), plus the solution's braces OA = R and OD = h - R
+  \coordinate (O) at (247,240);
+  \coordinate (A) at (247,38);
+  \coordinate (D) at (247,355);
+  \coordinate (B) at (73.5,355);
+  \coordinate (C) at (420.5,355);
+  \draw (O) ellipse[x radius=211, y radius=202];
+  \draw (C) arc[start angle=0, end angle=180, x radius=173.5, y radius=42];
+  \draw[aux] (B) arc[start angle=180, end angle=360, x radius=173.5, y radius=42];
+  \draw (B) -- (A) -- (C);
+  \draw[aux] (A) -- (D);
+  \draw[aux] (B) -- (C);
+  \draw (B) -- (O);
+  \draw (247,329) -- (273,329) -- (273,355);
+  \fill (O) circle (2pt);
+  \draw[<->] (502,36) -- (502,352);
+  \draw[decorate, decoration={brace, amplitude=4pt}] (252,44) -- (252,232);
+  \draw[decorate, decoration={brace, amplitude=4pt}] (252,250) -- (252,350);
+  \node[anchor=west] at (265,145) {$R$};
+  \node[anchor=west] at (265,284) {$h-R$};
+  \node[font=\small] at (247,19) {$A$};
+  \node[font=\small] at (232,226) {$O$};
+  \node[font=\small] at (181,268) {$R$};
+  \node[font=\small] at (59,360) {$B$};
+  \node[font=\small] at (434,357) {$C$};
+  \node[font=\small] at (248,372) {$D$};
+  \node[font=\small] at (183,340) {$r$};
+  \node[font=\small] at (306,340) {$r$};
+  \node[font=\small] at (536,212) {$h$};
+ \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -64,6 +64,10 @@ Each of these happened. `batch_check.py` catches the ones a script can catch.
 - **Stale triage after DB edits.** *Checked: triage older than its inputs.*
 - **Wrong workflow script launched** (12 Nov). It would have overwritten the main gate outputs. Rule: before starting a workflow, check which files it writes; pilot work writes to `work/*_pilot`.
 
+- **Formatter notes flooded Decide** (16 Nov, Batch 6). The solution formatters put "needs drawn solution", "rubric written by us" and "working completed" in `content_flags`, which triage reads as a possible source error, so Batch 6 showed 63 Decide items for 8 real ones. Rule: `content_flags` only for a possible error in the source; everything else in `format_note` (SOLUTION_SPEC output). *Check: count Decide per batch after triage; more than ~1 per paper means look at the reasons.*
+- **Solution figures recorded but never cut** (16 Nov, Batch 6). Two parsers listed solution figures by bbox without writing the PNG, so prep_batch left them out of every diagram group. Rule: after load, every `solution_figures` entry has its crop in `figures/` (crop any missing from its `source_pdf` page and bbox) before prep_batch.
+- **Parallel diagram groups corrupted overlay_scores.json** (16 Nov). overlay.py rewrites one shared file; seven groups at once left trailing data. Rule: groups score into their own work/ file, or run overlay.py after the groups finish.
+
 ### Tables (owner flags, 12 Nov)
 
 Table cells are typeset as maths. That causes:

@@ -1,0 +1,46 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % solution scan of the same printed graph (463_q11_1), placed by its dots C, A, B: scan rotated -0.44 deg and shifted
+  \begin{scope}[shift={(-6.6,-1.53)}, rotate around={-0.4416:(621.5,358)}]
+    % crop pixels: X = 621.5 + 118.3 x, Y = 358 - 27.85 y; f(x) = -(x+1)(x-3)^2 (C(-1,0), A(0,-9), B(3,0) touching)
+    \begin{scope}[line width=0.4pt]
+      \foreach \j in {-10,...,10} \draw[black!13] (30,{358-27.85*\j}) -- (1213,{358-27.85*\j});
+      \foreach \j in {-5,5} \draw[black!28] (30,{358-27.85*\j}) -- (1213,{358-27.85*\j});
+      \foreach \j in {-10,10} \draw[black!50] (30,{358-27.85*\j}) -- (1213,{358-27.85*\j});
+      \foreach \i in {-5,...,5} \draw[black!28] ({621.5+118.3*\i},79.5) -- ({621.5+118.3*\i},636.5);
+    \end{scope}
+    \draw[<->] (5,358) -- (1240,358);
+    \draw[<->] (621.5,662) -- (621.5,52);
+    \foreach \i in {-4,-2,2,4} \draw ({621.5+118.3*\i},349) -- ({621.5+118.3*\i},367);
+    \foreach \j in {-9,-8,-7,-6,-4,-3,-2,-1,1,2,3,4,6,7,8,9} \draw (617,{358-27.85*\j}) -- (626,{358-27.85*\j});
+    \foreach \j in {-10,-5,5,10} \draw (613,{358-27.85*\j}) -- (630,{358-27.85*\j});
+    \draw[<->, line width=0.9pt, domain=-1.53:4.425, samples=90, smooth] plot ({621.5+118.3*\x},{358+27.85*(\x+1)*(\x-3)*(\x-3)});
+    \fill (503.2,358) circle (11);
+    \fill (621.5,608.65) circle (11);
+    \fill (976.4,358) circle (11);
+    \node at (530,327) {$C$};
+    \node at (647,580) {$A$};
+    \node at (978,326) {$B$};
+    \foreach \i in {-4,-2} \node at ({621.5+118.3*\i-6},398) {$\i$};
+    \foreach \i in {2,4} \node at ({621.5+118.3*\i},398) {$\i$};
+    \node[anchor=east] at (603,80) {$10$};
+    \node[anchor=east] at (603,218.75) {$5$};
+    \node[anchor=east] at (603,497.25) {$-5$};
+    \node[anchor=east] at (603,636.5) {$-10$};
+    \node at (1260,359) {$x$};
+    \node at (621.5,28) {$y$};
+    % y = f(3x-3) = -9(3x-2)(x-2)^2: C(2/3,0), A(1,-9), B(2,0) (rule 16); ends at the sketch's heights
+    \draw[<->, line width=0.9pt, domain=0.5627:2.4927, samples=90, smooth] plot ({621.5+118.3*\x},{358+27.85*9*(3*\x-2)*(\x-2)*(\x-2)});
+    \fill (700.4,358) circle (5);
+    \fill (739.8,608.65) circle (5);
+    \fill (858.1,358) circle (5);
+    \node at (700.4,320) {$C$};
+    \node at (700.4,410) {$\dfrac{2}{3}$};
+    \node at (741,650) {$A$};
+    \node at (858.1,322) {$B$};
+    \node at (497,402) {$-1$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

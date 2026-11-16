@@ -17,6 +17,7 @@ for f in sorted(glob.glob(P + f'work/solfmt_{B}_*.json')):
         meta = dict(r.get('meta') or {})
         if r.get('marker_note'): meta['marker_note'] = r['marker_note']
         if r.get('content_flags') and 'corrected' not in meta: meta.setdefault('source_flag', r['content_flags'])
+        if r.get('format_note'): meta['format_note'] = r['format_note']   # layout / provenance note: not a Decide item (SOLUTION_SPEC)
         db.execute('update solutions set latex=?, criteria_json=?, meta_json=? where id=?', (r['latex'], json.dumps(r['criteria'], ensure_ascii=False), json.dumps(meta, ensure_ascii=False), r['id'])); n += 1
 g = 0; figs = []
 for f in sorted(glob.glob(P + f'work/{B}/gen_out_*.json')):

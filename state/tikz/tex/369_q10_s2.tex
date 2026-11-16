@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % graphing-calculator screen: origin (36,94), 1 unit = 59.7 px, grid 0.5 units (major every 2 units)
+  % blue y = cos x drawn black, red y = sin x drawn grey (rule 6)
+  \begin{scope}
+    \clip (0,0) rectangle (960,187);
+    \foreach \i in {-2,...,32} \draw[black!12, line width=0.4pt] ({36+29.85*\i},0) -- ({36+29.85*\i},187);
+    \foreach \j in {-3,...,3} \draw[black!12, line width=0.4pt] (0,{94+29.85*\j}) -- (960,{94+29.85*\j});
+    \foreach \i in {-1,...,8} \draw[black!30, line width=0.4pt] ({36+119.4*\i},0) -- ({36+119.4*\i},187);
+    \foreach \j in {-1,1} \draw[black!30, line width=0.4pt] (0,{94+119.4*\j}) -- (960,{94+119.4*\j});
+  \end{scope}
+  \draw (0,94) -- (960,94);
+  \draw (36,0) -- (36,187);
+  \draw[line width=0.9pt, black!50] plot[domain=0:960, samples=180, smooth] (\x,{94-59.7*sin(deg((\x-36)/59.7))});
+  \draw[line width=0.9pt] plot[domain=0:960, samples=180, smooth] (\x,{94-59.7*cos(deg((\x-36)/59.7))});
+  \draw[black!30, line width=0.4pt] (960,0) -- (960,187);
+\end{tikzpicture}
+\end{document}

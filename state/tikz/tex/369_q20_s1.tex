@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % graphing-app screen: origin (356.5,237.5), 1 unit = 103.4 px both ways, grid 0.2 units; y = x^2 (x+2)^3 (red, drawn black)
+  \begin{scope}
+    \clip (0,0) rectangle (645,449);
+    \foreach \i in {-18,...,14} \draw[black!10, line width=0.4pt] ({356.5+20.68*\i},0) -- ({356.5+20.68*\i},449);
+    \foreach \j in {-11,...,12} \draw[black!10, line width=0.4pt] (0,{237.5-20.68*\j}) -- (645,{237.5-20.68*\j});
+    \foreach \i in {-3,...,2} \draw[black!30, line width=0.4pt] ({356.5+103.4*\i},0) -- ({356.5+103.4*\i},449);
+    \foreach \j in {-2,...,2} \draw[black!30, line width=0.4pt] (0,{237.5-103.4*\j}) -- (645,{237.5-103.4*\j});
+  \end{scope}
+  \draw (0,237.5) -- (645,237.5);
+  \draw (356.5,0) -- (356.5,449);
+  \draw[line width=0.9pt] plot[domain=-2.661:0.407, samples=120, smooth, variable=\t] ({356.5+103.4*\t},{237.5-103.4*\t*\t*(\t+2)^3});
+  \foreach \i in {-3,-2,-1,1,2} \node[font=\scriptsize] at ({356.5+103.4*\i-4},252) {$\i$};
+  \node[font=\scriptsize] at (347,252) {$0$};
+  \foreach \j in {-2,-1,1,2} \node[font=\scriptsize, anchor=east] at (352,{237.5-103.4*\j}) {$\j$};
+\end{tikzpicture}
+\end{document}

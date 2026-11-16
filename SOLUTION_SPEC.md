@@ -133,4 +133,7 @@ paragraphs.
 
 ## Output per solution
 `{"id": <solution id>, "latex": "...", "criteria": [[marks, "text"], ...], "marker_note": "..." | null,
-  "changed": "short summary of formatting changes", "content_flags": "anything that looks mathematically wrong in the source" | null}`
+  "changed": "short summary of formatting changes", "content_flags": "anything that looks mathematically wrong in the source" | null,
+  "format_note": "everything else worth knowing: sketch still to draw, rubric written by us, working completed, values checked" | null}`
+**`content_flags` is only for a possible error in the source** (16 Nov, Batch 6: 65 of 71 flags were layout and provenance notes,
+and triage sends every content flag to Decide, the owner's own queue). Put everything else in `format_note`.

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % N(375, 3^2): x px = 378 + 43*(x-375); axis at y=336; peak height 264 px
+  \def\N#1{336-264*exp(-((#1)-375)^2/18)}
+  \draw (0,336) -- (753,336);
+  \foreach \v in {367,...,383} {
+    \draw ({378+43*(\v-375)},336) -- ({378+43*(\v-375)},341);
+    \node[font=\tiny] at ({378+43*(\v-375)},349) {$\v$};
+  }
+  \foreach \v in {368,369,372,375,378,381,382}
+    \draw ({378+43*(\v-375)},336) -- ({378+43*(\v-375)},{\N{\v}});
+  \draw[line width=0.9pt] plot[domain=366.2:383.75, samples=90, smooth, variable=\t] ({378+43*(\t-375)},{\N{\t}});
+\end{tikzpicture}
+\end{document}
