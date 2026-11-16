@@ -4,8 +4,8 @@
 % 159_qVI1_s1: as 159_qVI1_1 (curves from their equations, 1 unit = 68.6 px), plus the dashed guide from the intersection (5,3) to x = 5 on the axis.
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,rotate=0.5]
   \def\ox{228}\def\oy{526}\def\u{68.6}
-  \draw[<->] (23,\oy) -- (731,\oy);
-  \node[anchor=west, inner sep=0pt] at (737,\oy) {$x$};
+  \draw[<->] (23,\oy) -- (718,\oy);
+  \node[anchor=west, inner sep=0pt] at (724,\oy) {$x$};
   \draw[<->] (\ox,740) -- (\ox,45);
   \node[anchor=south, inner sep=0pt] at (\ox,26) {$y$};
   \foreach \k in {-2.5,-1.5,-0.5,0.5,1.5,2.5,3.5,4.5,5.5,6.5} \draw ({\ox+\u*\k},{\oy-5.5}) -- ({\ox+\u*\k},{\oy+5.5});
@@ -16,7 +16,7 @@
   \foreach \k in {-2,2,4,6} {\draw ({\ox-10.5},{\oy-\u*\k}) -- ({\ox+10.5},{\oy-\u*\k});
      \node[anchor=east, inner sep=0pt] at ({\ox-20},{\oy-\u*\k}) {$\k$};}
   \draw[aux] ({\ox+3*\u},42) -- ({\ox+3*\u},738);
-  \draw[<->, line width=0.9pt] (23,{\oy-3*\u}) -- (731,{\oy-3*\u});
+  \draw[<->, line width=0.9pt] (23,{\oy-3*\u}) -- (718,{\oy-3*\u});
   \draw[<->, line width=0.9pt, domain=-2.99:2.025, samples=90, smooth] plot ({\ox+\u*\x},{\oy-\u*(1+4/(\x-3))});
   \draw[<->, line width=0.9pt, domain=3.66:7.3, samples=90, smooth] plot ({\ox+\u*\x},{\oy-\u*(1+4/(\x-3))});
   \draw[aux] ({\ox+5*\u},{\oy-3*\u}) -- ({\ox+5*\u},\oy);
