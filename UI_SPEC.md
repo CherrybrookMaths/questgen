@@ -848,6 +848,7 @@ list", and the 13 Nov per-batch pause. Import history (collapsed, at the bottom)
   Your calls), which reads decisions through `RKEY` so the key docs `k_<key>` / `p_<paper key>` of Fix 2 count. Nothing is
   re-implemented (CODE_HEALTH rule 3): PQ.reviewState() calls it per file with questions and memoises on the reviews map. The
   reviews subscription (14_start.js) redraws the tab, so a decision in Review changes the square live.
+- **The HSC year, and Leave out (17 Nov).** Owner: "I don't get why I couldn't choose from the resolve page what to do as well. That was weird" (paper 5: he picked Year 12 and Advanced, the row said "Placed", but the paper had no year in its name or cover, so it stayed in Needs a check with nothing more to pick). Now a row whose paper has no year shows an **HSC year** field (the year the class graduates, saved as `y` in its paperfix doc; tools/inventory.py applies it); until it is filled the row says "Almost: type the year the class graduates (the HSC year), or leave it out." The set-aside button reads **Leave out** (his words: "yeah leave that paper out then"), and a left-out row says "Left out: it will not be imported."
 - **Needs a check rows: the cover + 3 pages, a viewer and Drive.** Owner: "Needs a check rows show the cover + 3 pages picked at
   random from the question pages (enlarge on click) and an 'Open the whole PDF in Drive' link (Drive file id from
   inventory_files.json). The cover-page check renders the 4 images and stores them in the asset store (needs Fix 1)."

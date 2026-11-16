@@ -1426,7 +1426,20 @@ async function papersLanes(browser, base, seed, fx) {
     const fx2 = await docs(page, 'paperfix'), res = await page.evaluate(() => ({h: [...document.querySelectorAll('#prCheck h3')].map(h => h.textContent), res: [...document.querySelectorAll('#prCheck .pr-res')].map(x => x.textContent)}));
     const a = fx2.find(x => x.k === 'paperfix/p9140'), b = fx2.find(x => x.k === 'paperfix/p9601');
     assert(a && a.yl === 12 && a.course === 'advanced' && !a.out && a.files.join() === '9140' && a.by === 'u_pagetest' && b && b.out === true, `paperfix docs ${JSON.stringify(fx2)}`);
-    assert(res.h.includes('0 for you to place') && res.res.some(x => /Placed: Year 12 Advanced · ready to import, old syllabus/.test(x)) && res.res.some(x => /Set aside: not in scope/.test(x)), `after placing: ${JSON.stringify(res)}`);
+    assert(res.h.includes('0 for you to place') && res.res.some(x => /Placed: Year 12 Advanced · ready to import, old syllabus/.test(x)) && res.res.some(x => /Left out: it will not be imported/.test(x)), `after placing: ${JSON.stringify(res)}`);
+    // owner 17 Nov: "I don't get why I couldn't choose from the resolve page what to do as well": a paper with no year (9601) placed
+    // as Year 12 Advanced says what is missing and takes the HSC year typed in; the button reads "Leave out"
+    await page.click('#prCheck [data-prplace="9601"] [data-prout]'); await settle(page, 600, 2);
+    await page.click('#prCheck [data-prplace="9601"] [data-pryl="12"]'); await settle(page, 600, 2);
+    await page.click('#prCheck [data-prplace="9601"] [data-prc="advanced"]'); await settle(page, 600, 2);
+    const yr = await page.evaluate(() => { const row = document.querySelector('#prCheck [data-prplace="9601"]');
+      return {inp: !!row.querySelector('input[data-pry]'), res: row.querySelector('.pr-res')?.textContent || '', out: row.querySelector('[data-prout]').textContent} });
+    assert(yr.inp && /Almost: type the year the class graduates/.test(yr.res) && yr.out === 'Leave out', `no-year paper: ${JSON.stringify(yr)}`);
+    await page.fill('#prCheck [data-prplace="9601"] input[data-pry]', '2024'); await page.press('#prCheck [data-prplace="9601"] input[data-pry]', 'Enter');
+    await page.evaluate(() => document.querySelector('#prCheck [data-prplace="9601"] input[data-pry]')?.dispatchEvent(new Event('change', {bubbles: true}))); await settle(page, 800, 2);
+    const fx3 = (await docs(page, 'paperfix')).find(x => x.k === 'paperfix/p9601'), yres = await page.evaluate(() => document.querySelector('#prCheck [data-prplace="9601"] .pr-res')?.textContent || '');
+    assert(fx3 && fx3.y === 2024 && fx3.yl === 12 && fx3.course === 'advanced' && !fx3.out && /Placed: Year 12 Advanced 2024 · ready to import/.test(yres), `year typed: ${JSON.stringify(fx3)} / ${yres}`);
+    await page.click('#prCheck [data-prplace="9601"] [data-prout]'); await settle(page, 800, 2);   // back to left out: the counts below expect it
     // owner 14 Nov: the cover + 3 question pages (9140 has a pack; 9601 placeholders) and "Open the whole PDF in Drive"
     const pg = await page.evaluate(() => { const row = id => document.querySelector(`#prCheck [data-prplace="${id}"]`);
       return {a: [...row(9140).querySelectorAll('.pr-pages button.pr-pg')].map(b => [b.dataset.prpg, b.querySelector('img')?.src.slice(0, 22), b.textContent]), ph: [...row(9601).querySelectorAll('.pr-pages .pr-pgph')].length, phBtn: row(9601).querySelectorAll('.pr-pages button').length,
@@ -1457,7 +1470,7 @@ async function papersLanes(browser, base, seed, fx) {
     assert(back, '← Import papers did not lead back to the lanes');
     // Accept: 9141 -> Extension 1 (held); 9140 -> ready; 9601 -> not in scope; the four numbers still add up
     assert(t.check.n === 0 && t.ready.n === L.ready + 1 && t.aside.n === L.aside + 2 && t.imported.n + t.ready.n + t.check.n + t.aside.n === L.n, `tiles after Accept and placing ${JSON.stringify(t)}`);
-    return 'Accept writes scans/rules; Advanced pre-picked, Year 12 and Not in scope write paperfix; 4 pages + placeholders, viewer ← → Esc, Drive link; the summary follows and still adds up';
+    return 'Accept writes scans/rules; Advanced pre-picked, Year 12 and Leave out write paperfix; a paper with no year takes the typed HSC year; 4 pages + placeholders, viewer ← → Esc, Drive link; the summary follows and still adds up';
   });
   await check('papers: Import history collapsed at the bottom', page, async () => {
     const a = await page.evaluate(() => { const h = document.querySelector('#procHist'); return {open: h.open, hidden: h.hidden, sum: h.querySelector('summary').textContent.trim(), inside: ['.tiles', '.bgrp'].every(s => h.querySelector('#importBox ' + s))} });

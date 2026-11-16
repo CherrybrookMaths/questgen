@@ -100,7 +100,10 @@ def read_overrides(db):
         yl, c, x = v.get('yl'), v.get('course'), bool(v.get('out'))
         if not (x or (yl in (11, 12) and c in COURSE_KEYS)): continue
         for i in [v.get('id')] + list(v.get('files') or []):
-            if isinstance(i, int): out[i] = {'yl': yl, 'course': c, 'out': x, 'paper': v.get('id')}
+            # owner 17 Nov: "I don't get why I couldn't choose from the resolve page what to do as well": a paper with no year in
+            # its name or cover takes the year he types in Needs a check ('y', the year the class graduates)
+            y = v.get('y') if isinstance(v.get('y'), int) and 1990 <= v.get('y') <= 2040 else None
+            if isinstance(i, int): out[i] = {'yl': yl, 'course': c, 'out': x, 'paper': v.get('id'), 'y': y}
     return out
 
 
@@ -133,7 +136,9 @@ def build(db, files=False, rules=None, overrides=None):
         if i in docs:
             d = docs[i]
             if o['out']: d['_out'] = True
-            else: d['course'], d['year_level'], d['_placed'] = o['course'], o['yl'], True
+            else:
+                d['course'], d['year_level'], d['_placed'] = o['course'], o['yl'], True
+                if o.get('y'): d['year'] = o['y']
     has_q = {r[0] for r in db.execute('SELECT DISTINCT document_id FROM questions')}
     # owner 16 Nov: "duplicate exams will never be batched and imported right?" A copy (status duplicate_file, "copy of document
     # <id>", tools/scan_folder.py) is in no paper's files: it is counted on its original's paper (cp) and listed in 'held'.

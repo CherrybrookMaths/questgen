@@ -69,7 +69,7 @@ function model(){const D=S.data;if(!D)return null;const k=accepted()+'|'+JSON.st
     for(const [gk,xs] of Object.entries(pr.papers||{})){const [c,yl]=gk.split('|');xs.forEach(p=>ps.push({...p,c,yl}))}}
   for(const p of ps){const f=S.fix[p.id];if(!f||p.st!=='needs_check')continue;
     if(f.out){p.st='not_in_scope';p.why='you set it aside';p.mine=1}
-    else if((f.yl===11||f.yl===12)&&f.course){p.c=f.course;p.yl=String(f.yl);p.st=placedStatus(p.c,p.yl,p.y);p.mine=1}}
+    else if((f.yl===11||f.yl===12)&&f.course){p.c=f.course;p.yl=String(f.yl);if(!p.y&&f.y)p.y=f.y;p.st=placedStatus(p.c,p.yl,p.y);p.mine=1}}
   const t={};(D.statuses?Object.keys(D.statuses):[]).forEach(s=>t[s]=0);ps.forEach(p=>{t[p.st]=(t[p.st]||0)+1});
   return M={D,k,ps,t,total:ps.length,byId:new Map(ps.map(p=>[p.id,p]))}}
 

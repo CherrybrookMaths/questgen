@@ -78,12 +78,17 @@ function placeRow(p){const f=PQ.state.fix[p.id]||{},pk=pre(p),yl=pk.yl,c=pk.cour
   const pill=(attr,v,on,lab)=>`<button type="button" class="pr-pill" ${attr}="${esc(v)}" data-prp="${p.id}" aria-pressed="${on}">${esc(lab)}</button>`;
   const cs=(PQ.state.data.courses||[]).filter(x=>x.key!=='unknown');
   const fy=f.yl?String(f.yl):'',fc=f.course||'';   // placed = what is saved, never the pre-pick
-  const done=out||(fy&&fc),res=done?(out?'Set aside: not in scope.':`Placed: ${PQ.laneName(fc,fy)} · ${(PQ.state.data.statuses||{})[PQ.placedStatus(fc,fy,p.y)]||''}.`):'';
+  // owner 17 Nov: "I don't get why I couldn't choose from the resolve page what to do as well. That was weird": a paper with no year
+  // in its name or cover got "Placed" with no way to give the year, so it stayed in Needs a check. It now asks for the year, says
+  // plainly when that is what is missing, and the set-aside button reads "Leave out" (his words: "yeah leave that paper out then").
+  const py=p.y||f.y||null,noY=!p.y||!!f.y,st=fy&&fc?PQ.placedStatus(fc,fy,py):'';
+  const done=out||(fy&&fc&&st!=='needs_check'),res=out?'Left out: it will not be imported.':done?`Placed: ${PQ.laneName(fc,fy)}${f.y?' '+f.y:''} · ${(PQ.state.data.statuses||{})[st]||''}.`:(fy&&fc?'Almost: type the year the class graduates (the HSC year), or leave it out.':'');
   return `<div class="pr-place${done?' done':''}" data-prplace="${p.id}">${pagesHTML(p)}
     <div class="pr-pbody"><code class="pr-path">${(p.p||[PQ.label(p)]).map(esc).join('<br>')}</code><span class="pr-guess">${esc(guess(p))}</span>${driveHTML(p)}
       <div class="pr-picks"><span>Year</span>${['11','12'].map(y=>pill('data-pryl',y,yl===y&&!out,y)).join('')}</div>
-      <div class="pr-picks"><span>Course</span>${cs.map(x=>pill('data-prc',x.key,c===x.key&&!out,x.short||x.name)).join('')}<button type="button" class="pr-pill pr-out" data-prout="${p.id}" aria-pressed="${out}">Not in scope</button></div>
-      ${res?`<p class="pr-res" role="status">✓ ${esc(res)}</p>`:''}</div></div>`}
+      <div class="pr-picks"><span>Course</span>${cs.map(x=>pill('data-prc',x.key,c===x.key&&!out,x.short||x.name)).join('')}<button type="button" class="pr-pill pr-out" data-prout="${p.id}" aria-pressed="${out}">Leave out</button></div>
+      ${noY&&!out?`<div class="pr-picks"><label for="pry${p.id}">HSC year</label><input id="pry${p.id}" class="pr-year" type="number" inputmode="numeric" min="1990" max="2040" placeholder="e.g. 2024" value="${f.y||''}" data-pry="${p.id}"></div>`:''}
+      ${res?`<p class="pr-res${done?'':' pr-warn'}" role="status">${done?'✓ ':''}${esc(res)}</p>`:''}</div></div>`}
 function draw(){const el=$('#prCheck');if(!el||el.hidden||!isOwnerV())return;const m=PQ.model();if(!m){el.innerHTML='<p class="pempty">Loading the paper list…</p>';return}
   const pr=m.D.proposed,ruleIds=new Set(pr&&!pr.accepted&&!PQ.accepted()?(pr.rules||[]).flatMap(r=>r.ids):[]);
   // the owner's own: every paper still needing a check that no proposed fix places, plus those he has answered (kept, so he can change them)
@@ -104,6 +109,11 @@ async function accept(){const pr=PQ.state.data&&PQ.state.data.proposed;if(!isOwn
 async function place(id,patch){const m=PQ.model(),p=m&&m.byId.get(+id);if(!isOwnerV()||!db||!p)return false;const cur=PQ.state.fix[p.id]||{},pk=pre(p);
   const doc={id:p.id,files:cur.files||p.f||[p.id],yl:pk.yl?+pk.yl:null,course:pk.course||null,out:false,...patch,by:me||null,at:new Date().toISOString()};
   try{await db.doc('paperfix/p'+p.id).set(doc);PQ.state.fix[p.id]=doc;PQ.redraw();return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
+// the HSC year for a paper whose name and cover give none (owner 17 Nov): saved when the field changes (Enter or leaving it)
+document.addEventListener('change',async e=>{const t=e.target;if(!t.matches||!t.matches('#prCheck [data-pry]')||!isOwnerV())return;
+  const v=+t.value;if(t.value===''){await place(t.dataset.pry,{y:null});return}
+  if(!Number.isInteger(v)||v<1990||v>2040){toast('Type a year between 1990 and 2040');return}
+  await place(t.dataset.pry,{y:v,out:false})});
 document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#prCheck')||!isOwnerV())return;
   if(t.closest('#prAccept')){C.busy=true;draw();try{await accept()}finally{C.busy=false;draw()}return}
   const see=t.closest('[data-prsee]');if(see){C.see=C.see===see.dataset.prsee?null:see.dataset.prsee;draw();return}
