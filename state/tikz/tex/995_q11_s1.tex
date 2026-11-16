@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop pixel; age a at x = 132 + 33.25 (a - 18); scale line y = 328
+  \def\X#1{{132+33.25*(#1-18)}}
+  \draw (\X{18},328) -- (\X{30},328);
+  \foreach \a in {18,...,30} \draw (\X{\a},295) -- (\X{\a},328);
+  \foreach \a in {18,20,...,30} \node[anchor=north, inner sep=0pt] at (\X{\a},374) {$\a$};
+  % dashed guides from each five-number-summary value down to the scale (solution)
+  \foreach \a/\y in {18/195,20/228,22/228,24/195,26/128,27/128,29/95} \draw[aux] (\X{\a},\y) -- (\X{\a},295);
+  \draw[aux] (\X{19},95) -- (\X{19},162) (\X{19},228) -- (\X{19},295);
+  \begin{scope}[line width=0.9pt]% box plots 0.9pt (rule 9)
+  % Men: 19, 22, 26, 27, 29
+  \draw (\X{22},62) rectangle (\X{27},128); \draw (\X{26},62) -- (\X{26},128);
+  \draw (\X{19},95) -- (\X{22},95) (\X{27},95) -- (\X{29},95);
+  % Women: 18, 19, 20, 22, 24
+  \draw (\X{19},162) rectangle (\X{22},228); \draw (\X{20},162) -- (\X{20},228);
+  \draw (\X{18},195) -- (\X{19},195) (\X{22},195) -- (\X{24},195);
+  \end{scope}
+  \node[inner sep=0pt] at (62,95) {Men};
+  \node[inner sep=0pt] at (67,195) {Women};
+  % values from the solution
+  \foreach \a in {22,26,27} \node[anchor=south, inner sep=0pt] at (\X{\a},54) {$\a$};
+  \foreach \a in {19,29} \node[anchor=south, inner sep=0pt] at (\X{\a},87) {$\a$};
+  \foreach \a in {20,22} \node[anchor=south, inner sep=0pt] at (\X{\a},154) {$\a$};
+  \foreach \a in {18,24} \node[anchor=south, inner sep=0pt] at (\X{\a},187) {$\a$};
+\end{tikzpicture}
+\end{document}

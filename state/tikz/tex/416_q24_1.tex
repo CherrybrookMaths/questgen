@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % crop pixels: X(m) = 89 + 29.65 (m-156), Y(d) = 651.5 - 49.15 (d-165)
+  \def\X#1{89+29.65*(#1-156)}\def\Y#1{651.5-49.15*(#1-165)}
+  \begin{scope}[black!35, line width=0.4pt]
+    \foreach \m in {158,160,...,174} \draw ({\X{\m}},61.5) -- ({\X{\m}},651.5);
+    \foreach \d in {166,...,177} \draw (89,{\Y{\d}}) -- (622.7,{\Y{\d}});
+  \end{scope}
+  \draw[->] (89,651.5) -- (670,651.5);
+  \draw[->] (89,651.5) -- (89,30);
+  % Amelia's line by eye, d = 0.7m + 56 (through (160,168) and (170,175))
+  \draw ({\X{156}},{\Y{165.2}}) -- ({\X{173.1}},{\Y{177.17}});
+  \foreach \m/\d in {170/175,163/170,160/168,172/176,164/170,158/166,164/171,166/170,167/173,165/174}
+    \fill ({\X{\m}},{\Y{\d}}) circle (6.5);
+  \begin{scope}[font=\scriptsize]
+    \foreach \m in {156,158,...,174} \node at ({\X{\m}},670) {$\m$};
+    \foreach \d in {165,...,177} \node at (62,{\Y{\d}}) {$\d$};
+  \end{scope}
+  \node at (62,29) {$d$};
+  \node at (661,668) {$m$};
+  \node[font=\footnotesize\bfseries] at (355.8,31) {Heights of mothers and daughters};
+  \node[font=\footnotesize] at (358,703) {Mother's height (cm)};
+  \node[font=\footnotesize, rotate=90] at (25,363) {Daughter's height (cm)};
+\end{tikzpicture}
+\end{document}

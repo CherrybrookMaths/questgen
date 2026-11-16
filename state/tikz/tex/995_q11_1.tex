@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop pixel; age a at x = 183 + 34.38 (a - 18); scale line y = 331.5
+  \def\X#1{{183+34.38*(#1-18)}}
+  \draw (\X{18},331.5) -- (\X{30},331.5);
+  \foreach \a in {18,...,30} \draw (\X{\a},297) -- (\X{\a},331.5);
+  \foreach \a in {18,20,...,30} {\draw (\X{\a},331.5) -- (\X{\a},365); \node[anchor=north, inner sep=0pt] at (\X{\a},378) {$\a$};}
+  \begin{scope}[line width=0.9pt]% box plots 0.9pt (rule 9)
+  % Men: 19, 22, 26, 27, 29
+  \draw (\X{22},56) rectangle (\X{27},124.5); \draw (\X{26},56) -- (\X{26},124.5);
+  \draw (\X{19},90) -- (\X{22},90) (\X{27},90) -- (\X{29},90);
+  % Women: 18, 19, 20, 22, 24
+  \draw (\X{19},159) rectangle (\X{22},228); \draw (\X{20},159) -- (\X{20},228);
+  \draw (\X{18},193.5) -- (\X{19},193.5) (\X{22},193.5) -- (\X{24},193.5);
+  \end{scope}
+  \node[inner sep=0pt] at (106,88) {Men};
+  \node[inner sep=0pt] at (118,193) {Women};
+\end{tikzpicture}
+\end{document}

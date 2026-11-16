@@ -3,8 +3,8 @@
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{11}{13}\selectfont]
   % option set 382_q4_1..4: one frame (x-axis 18..496 at y=254.5, y-axis 42..467), crop pixel units
-  \draw[<->] (18,254.5) -- (496,254.5) node[right=1pt] {$x$};
-  \draw[<->] (146.5,467) -- (146.5,42) node[above=0pt] {$y$};
+  \draw[<->] (18,254.5) -- (496,254.5) node[anchor=west, inner sep=0pt, xshift=3pt] {$x$};
+  \draw[<->] (146.5,467) -- (146.5,42) node[anchor=south, inner sep=0pt, yshift=2pt] {$y$};
   % y = C - A ln(x - x_a) px, least-squares fitted to the crop's curve; the dashed asymptote is drawn at the fitted x_a
   % so the curve really approaches it (crop's dashed line was at 212.5)
   \draw[aux] (211.9,42) -- (211.9,467);

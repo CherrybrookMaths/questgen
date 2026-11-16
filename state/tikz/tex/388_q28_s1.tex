@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% blast zone (x-10)^2+(y+5)^2=49, enemy at (2,-4); true scale (solution sketch cleaned up)
+\begin{tikzpicture}[x=0.37cm,y=0.37cm]
+  \draw[<->] (-4,0) -- (18.8,0);
+  \draw[<->] (0,-13) -- (0,4.2);
+  \draw (10,-5) circle[radius=7];
+  \foreach \i in {2,3,6,8,10}{\draw (\i,-0.25) -- (\i,0.25);}
+  \foreach \j in {-4,-5}{\draw (-0.25,\j) -- (0.25,\j);}
+  \draw[aux] (2,0) -- (2,-4) -- (0,-4);
+  \draw[aux] (3,0) -- (3,-5) -- (0,-5);
+  \tikzset{cross/.style={insert path={+(-3pt,-3pt) -- +(3pt,3pt) +(-3pt,3pt) -- +(3pt,-3pt)}}}
+  \foreach \p in {(2,-4),(3,-5),(10,-5),(10,2)}{\draw \p [cross];}
+  \node[above left,inner sep=1.5pt] at (2.1,0.2) {$2$};
+  \node[above right,inner sep=1.5pt] at (2.9,0.2) {$3$};
+  \node[above,inner sep=1pt,font=\small] at (10,0.25) {$10$};
+  \node[left] at (-0.3,-3.85) {$-4$};
+  \node[left] at (-0.3,-5.15) {$-5$};
+\end{tikzpicture}
+\end{document}
