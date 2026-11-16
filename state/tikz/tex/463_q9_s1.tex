@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % solution on the printed number plane; crop pixels X = 478 + 66.2 x, Y = 513 - 66.2 y, scan tilted ~0.63 deg
+  \begin{scope}[rotate around={-0.63:(478,513)}]
+    \draw[<->] (128,513) -- (832,513);
+    \draw[<->] (478,862) -- (478,150);
+    \foreach \i in {-5,-3,-1,1,3,5} \draw ({478+66.2*\i},507.5) -- ({478+66.2*\i},518.5);
+    \foreach \i in {-4,-2,2,4} \draw ({478+66.2*\i},502.5) -- ({478+66.2*\i},523.5);
+    \foreach \j in {-5,-3,-1,1,3,5} \draw (472.5,{513-66.2*\j}) -- (483.5,{513-66.2*\j});
+    \foreach \j in {-4,-2,2,4} \draw (467.5,{513-66.2*\j}) -- (488.5,{513-66.2*\j});
+    % asymptotes x = 3, y = 2
+    \draw[aux] (676.6,170) -- (676.6,862);
+    \draw[aux] (100,380.6) -- (428,380.6);  % gap around the printed tick label 2 (rule 11)
+    \draw[aux] (468,380.6) -- (1050,380.6);
+    % y = (2x+1)/(x-3)
+    \draw[<->, line width=0.9pt, domain=-4.9:1.946, samples=90, smooth] plot ({478+66.2*\x},{513-66.2*(2*\x+1)/(\x-3)});
+    \draw[<->, line width=0.9pt, domain=4.268:8.87, samples=90, smooth] plot ({478+66.2*\x},{513-66.2*(2*\x+1)/(\x-3)});
+    \fill (444.9,513) circle (5.5);
+    \fill (478,535.1) circle (5.5);
+    \fill (809,148.9) circle (5.5);
+    \begin{scope}[font=\Large]
+      \foreach \i in {-4,-2,2,4} \node at ({478+66.2*\i},561) {$\i$};
+      \foreach \j in {2,4,-2,-4} \node[anchor=east] at (464,{513-66.2*\j}) {$\j$};
+      \node at (850,512) {$x$};
+      \node at (478,120) {$y$};
+    \end{scope}
+    \node at (430,562) {$-\dfrac{1}{2}$};
+    \node at (548,560) {$-\dfrac{1}{3}$};
+    \node at (662,548) {$3$};
+    \node at (888,148) {$\left(5,\,\dfrac{11}{2}\right)$};
+    \node[font=\large] at (1040,98) {VA\quad $x=3$};
+    \node[font=\large, align=center] at (1160,350) {HA\\[-2pt] $y=2$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

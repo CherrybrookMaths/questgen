@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (155,243); 1 unit in x = 95 px, 1 unit in y = 177 px; f(x) = 3x(2-x)/4 on [0,2]
+  \def\X#1{155+95*(#1)}
+  \fill[shade hatch] plot[domain=0:1, samples=40, smooth] ({155+95*\x},{243-177*0.75*\x*(2-\x)}) -- (250,243) -- cycle;
+  \draw (26,243) -- (410,243);
+  \draw (155,330) -- (155,40);
+  \draw[line width=0.9pt] plot[domain=0:2, samples=90, smooth] ({155+95*\x},{243-177*0.75*\x*(2-\x)});
+  \draw[aux] (250,24) -- (250,366);
+  \fill (250,{243-177*0.75}) circle (2.2pt);
+  \draw (345,236) -- (345,250);
+  \node[font=\large] at (132,276) {$0$};
+  \node[font=\large] at (268,276) {$1$};
+  \node[font=\large] at (352,276) {$2$};
+\end{tikzpicture}
+\end{document}

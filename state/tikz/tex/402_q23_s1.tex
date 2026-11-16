@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (113,258); 1 unit: 40 px in x, 26 px in y; y = |2x-6|
+  \draw[->] (0,258) -- (432,258);
+  \draw[->] (113,405) -- (113,52);
+  \draw[line width=0.9pt] ({113+40*(-0.6)},{258-26*7.2}) -- (233,258) -- ({113+40*6.3},{258-26*6.6});
+  \draw (153,258) -- (153,{258-26*4});
+  \draw (353,258) -- (353,{258-26*6});
+  \fill (113,{258-26*6}) circle (2.2pt);
+  \foreach \t in {1,3,6} \draw ({113+40*\t},252) -- ({113+40*\t},264);
+  \node[font=\large] at (86,{258-26*6+4}) {$6$};
+  \node[font=\large] at (153,284) {$1$};
+  \node[font=\large] at (233,284) {$3$};
+  \node[font=\large] at (353,284) {$6$};
+\end{tikzpicture}
+\end{document}

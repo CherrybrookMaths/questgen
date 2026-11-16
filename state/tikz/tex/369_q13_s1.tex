@@ -1,0 +1,44 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % crop pixel units: origin (466.5,398), 56.15 px per x unit, 34.55 px per y unit (as the crop)
+  \def\ox{466.5}\def\oy{398}\def\ux{56.15}\def\uy{34.55}
+  \draw ({\ox-8.1*\ux},\oy) -- ({\ox+8.3*\ux},\oy) node[right=1pt] {$x$};
+  \draw (\ox,{\oy+10.15*\uy}) -- (\ox,{\oy-10.4*\uy}) node[above=0pt] {$y$};
+  % ticks: every unit, longer at even units
+  \foreach \i in {-8,...,8} {\ifnum\i=0\else
+    \pgfmathsetmacro\tl{(mod(abs(\i),2)==0)?4:2}
+    \draw ({\ox+\i*\ux},\oy-\tl) -- ({\ox+\i*\ux},\oy+\tl);\fi}
+  \foreach \i in {-10,...,10} {\ifnum\i=0\else
+    \pgfmathsetmacro\tl{(mod(abs(\i),2)==0)?4:2}
+    \draw (\ox-\tl,{\oy-\i*\uy}) -- (\ox+\tl,{\oy-\i*\uy});\fi}
+  % tick labels (even units); -8 written in full (its minus sign is cut off in the crop)
+  \foreach \i in {-8,-6,-4,-2,6,8}
+    \node[anchor=north, inner sep=0pt] at ({\ox+\i*\ux},\oy+13) {$\i$};
+  % 2 and 4 nudged outward along the axis so the dipping curve clears them (rule 11)
+  \node[anchor=north, inner sep=0pt] at ({\ox+2*\ux-7},\oy+13) {$2$};
+  \node[anchor=north, inner sep=0pt] at ({\ox+4*\ux+7},\oy+13) {$4$};
+  \foreach \i in {8,6,4,2,-2,-4,-6,-8,-10}
+    \node[anchor=east, inner sep=0pt] at (\ox-10,{\oy-\i*\uy}) {$\i$};
+  % 10 moved left along its own side so the curve does not run through it (rule 11)
+  \node[anchor=east, inner sep=0pt] at (440,{\oy-10*\uy}) {$10$};
+  % y = f(x) = (x-3)^2 - 1, dashed as the crop (house dashes, 0.9pt so it reads as the graph: rule 9), up to y = 10 at both ends
+  \draw[aux, line width=0.9pt, smooth, samples=90, domain=-0.3166:6.3166, variable=\t]
+    plot ({\ox+\t*\ux}, {\oy-((\t-3)*(\t-3)-1)*\uy});
+  \node[pt] at ({\ox+2*\ux},\oy) {};
+  \node[pt] at ({\ox+4*\ux},\oy) {};
+  % worked solution: y = g(x) = 1/2 (x+1)^2 - 1/2, solid 0.9pt (rule 9), up to y = 10 at x = -1 +- sqrt(21)
+  \draw[line width=0.9pt, smooth, samples=90, domain=-5.5826:3.5826, variable=\t]
+    plot ({\ox+\t*\ux}, {\oy-(0.5*(\t+1)*(\t+1)-0.5)*\uy});
+  \node[pt] at ({\ox-2*\ux},\oy) {};
+  \node[pt] at (\ox,\oy) {};
+  \node[pt] at ({\ox-1*\ux},{\oy+0.5*\uy}) {};
+  % intercept and vertex labels attached to their dots, clear of curves, axes and tick labels (rules 6a, 11, 16, 23)
+  \node[anchor=south west, inner sep=1pt] at ({\ox-1.85*\ux},{\oy-0.1*\uy}) {$(-2,0)$};
+  \node[anchor=north west, inner sep=1pt] at (\ox+4,\oy+5) {$(0,0)$};
+  \node[anchor=east, inner sep=1pt] at ({\ox-2.75*\ux},{\oy+2.1*\uy}) {$\Bigl(-1,-\dfrac{1}{2}\Bigr)$};
+  \draw ({\ox-2.7*\ux},{\oy+2.0*\uy}) -- ({\ox-1.07*\ux},{\oy+0.62*\uy});
+  \node[anchor=east, inner sep=1pt] at ({\ox-5.2*\ux},{\oy-7*\uy}) {$y=g(x)$};
+\end{tikzpicture}
+\end{document}

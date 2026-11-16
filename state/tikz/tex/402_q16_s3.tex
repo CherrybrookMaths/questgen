@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (B) at (56,222);
+  \coordinate (P) at (196,78);
+  \coordinate (H) at (508,246);
+  \pgfmathsetmacro\aPB{atan2(144,-140)}
+  \pgfmathsetmacro\aPH{atan2(168,312)}
+  \draw (B) -- (P) -- (H) -- cycle;
+  \draw (P) ++(\aPH:26) arc[start angle=\aPH, end angle=\aPB, radius=26];
+  \node[font=\large] at (228,136) {$110^\circ$};
+  \node[font=\large] at (196,48) {$P$};
+  \node[font=\large] at (32,226) {$B$};
+  \node[font=\large] at (532,254) {$H$};
+  \node[font=\large] at (84,106) {5 km};
+  \node[font=\large] at (338,110) {4 km};
+\end{tikzpicture}
+\end{document}
