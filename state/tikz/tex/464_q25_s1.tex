@@ -2,8 +2,9 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, font=\large]
-  % 1 unit = 1 crop pixel; origin (121,655); t: 43.5 px per hour, h: 32.5 px per metre; scan tilt (about 0.85 deg) followed
-  \begin{scope}[rotate around={0.85:(121,655)}]
+  % 1 unit = 1 crop pixel; origin (121,655); t: 43.5 px per hour, h: 32.5 px per metre; drawn level (scan tilt about 0.85 deg not followed, checker 17 Nov)
+  % owner 17 Nov (checker): "Make the whole graph not tilted to the left." -> scan tilt no longer followed (rotate scope removed)
+  \begin{scope}
   \def\ox{121}\def\oy{655}\def\ux{43.5}\def\uy{32.5}
   \foreach \t in {3,6,...,24} \draw[black!40] ({\ox+\ux*\t},\oy) -- ({\ox+\ux*\t},{\oy-16*\uy});
   \foreach \h in {1,...,4,6,7,...,9,11,12,...,14,16} \draw[black!20] (\ox,{\oy-\uy*\h}) -- ({\ox+24*\ux},{\oy-\uy*\h});

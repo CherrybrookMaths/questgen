@@ -667,6 +667,26 @@ async function areas(browser, base, seed) {
       const e = takeErrs(cp); assert(!e.length, e.slice(0, 3).join(' | '));
       return 'tabs Review only; #processes, #processes/papers, #import go to #review; no Processes in the menu';
     });
+    // owner 17 Nov: "if questions have been flagged but the spot check is done, the questions CANNOT be approved until all flagged
+    // questions are approved": a paper approval stops counting while any question in it is flagged or has a diagram change request
+    await check('review: a flagged question holds back the paper approval', cp, async () => {
+      const r = await cp.evaluate(() => {
+        const qs = B.questions.filter(q => !q.dup_of && q.tri?.tier === 'auto'), q = qs[0]; if (!q) return {skip: true};
+        const other = B.questions.find(x => x.doc === q.doc && x.id !== q.id && !x.dup_of);
+        const keep = {p: reviews['paper_' + q.doc], o: reviews['q' + other.id], a: reviews['q' + q.id]};
+        delete reviews['q' + q.id]; reviews['paper_' + q.doc] = {status: 'approved', at: '2026-11-17T00:00:00Z'};
+        const before = approvedAt(q) != null;
+        reviews['q' + other.id] = {status: 'flagged', note: 'x'};
+        return new Promise(res => setTimeout(() => { const flagged = approvedAt(q) != null, ready = paperReady(q.doc);
+          reviews['q' + other.id] = {status: 'approved'};
+          setTimeout(() => { const after = approvedAt(q) != null;
+            reviews['q' + other.id] = {fig: {k: 'changes'}};
+            setTimeout(() => { const fig = approvedAt(q) != null;
+              ['paper_' + q.doc, 'q' + other.id, 'q' + q.id].forEach((k, i) => { const v = [keep.p, keep.o, keep.a][i]; if (v === undefined) delete reviews[k]; else reviews[k] = v });
+              res({before, flagged, ready, after, fig}) }, 5) }, 5) }, 5)) });
+      assert(r.skip || (r.before && !r.flagged && !r.ready && r.after && !r.fig), `paper approval with flags: ${JSON.stringify(r)}`);
+      return 'approved paper: auto question approved; a flagged question or a diagram change request in the paper holds it back; approving the flag releases it';
+    });
     await cp.context().close();
   }
   for (const role of ['viewer', 'none']) {

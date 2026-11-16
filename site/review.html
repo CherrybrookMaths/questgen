@@ -2235,6 +2235,8 @@ function dtHTML(id,opts={}){
   const ws=Array.from({length:n},(_,j)=>j<lc?lw:uniform?vw:Math.min(Math.max(colLen(j),3),26)*0.6+1.8);
   const cols=`<colgroup>${ws.map(w=>`<col style="width:${w.toFixed(1)}em">`).join('')}</colgroup>`;
   const width=ws.reduce((a,b)=>a+b,0).toFixed(1);
+  // checker 17 Nov (2024 Oakhill AT2 Q16): "The first table in the question is running off the page to the right." A table wider than
+  // its column now shrinks to fit (fixed layout keeps the columns' proportions) instead of scrolling off the side.
   const tr=(r,ri,head)=>{let out='',skip=0;for(let c=0;c<n;c++){if(skip){skip--;continue} if(covered.has(ri+','+c)) continue;
       const k=span[ri+','+c]; if(k>1) skip=k-1; const rs=rspan[ri+','+c]; const at=(k>1?` colspan="${k}"`:'')+(rs>1?` rowspan="${rs}"`:'');
       const dg=diagSplit(r[c]); const v=dg?`<span class="dgtr">${cell(dg[1])}</span><span class="dgbl">${cell(dg[0])}</span>`:cell(r[c]);
@@ -2243,7 +2245,7 @@ function dtHTML(id,opts={}){
       else if(c<lc) out+=`<th scope="row" class="rl"${at}>${v}</th>`; else out+=`<td${at}>${v}</td>`;}
     return `<tr>${out}</tr>`};
   const head=rows.slice(0,hr).map((r,i)=>tr(r,i,true)).join(''), body=rows.slice(hr).map((r,i)=>tr(r,i+hr,false)).join('');
-  return `<div class="dtwrap"><table class="dt${opts.blank?' blankok':''}"${uniform?'':' data-percol="1"'} style="width:${width}em;max-width:none">${t.cap?`<caption>${capHTML(t.cap)}</caption>`:''}${cols}${head?`<thead>${head}</thead>`:''}<tbody>${body}</tbody></table></div>`;
+  return `<div class="dtwrap"><table class="dt${opts.blank?' blankok':''}"${uniform?'':' data-percol="1"'} style="width:min(${width}em,100%);max-width:none">${t.cap?`<caption>${capHTML(t.cap)}</caption>`:''}${cols}${head?`<thead>${head}</thead>`:''}<tbody>${body}</tbody></table></div>`;
 }
 function optTableHTML(q,show){
   const ot=q.opt_table, n=ot.headers.length, key=q.options.find(o=>o.is_correct)?.label, ksrc=q.options.find(o=>o.is_correct)?.key_source;
@@ -2678,7 +2680,15 @@ const RKEY={_g:null,
   // a saved exam's questions: by key when it has keys (the copy the Bank shows), else by id
   items(x){const ks=x.keys||[];return (x.items||[]).map((id,i)=>{const k=ks[i];if(!k)return id;const g=this.groups().q[k]||[];
     if(g.includes(id)&&!xq(id)?.dup_of)return id;return g.find(j=>!xq(j)?.dup_of)??g[0]??id})}};
-const paperOK=doc=>reviews['paper_'+doc]?.status==='approved';
+// owner 17 Nov: "if questions have been flagged but the spot check is done, the questions CANNOT be approved until all flagged
+// questions are approved". A paper's one-click approval (and the questions it approves) counts only while no question in the
+// paper is flagged (status 'flagged') or has a diagram with changes requested; it counts again once every flag is approved.
+// flagsIn(doc) is cached for one task (cleared on the next tick), so a render that asks per question stays linear.
+let _flagMemo=null;
+function flagsIn(doc){if(!_flagMemo){_flagMemo={};setTimeout(()=>{_flagMemo=null},0);
+    for(const q of (B?.questions||[])){if(q.dup_of)continue;const r=reviews['q'+q.id];if(r&&(r.status==='flagged'||Object.values(r.fig||{}).includes('changes')))(_flagMemo[q.doc]=_flagMemo[q.doc]||[]).push(q.id)}}
+  return (typeof RKEY!=='undefined'&&RKEY.docsOf?RKEY.docsOf(String(doc)):[doc]).flatMap(d=>_flagMemo[+d]||[])}
+const paperOK=doc=>reviews['paper_'+doc]?.status==='approved'&&!flagsIn(doc).length;
 const chkFigsAll=q=>q.tri?(q.tri.chk_figs||[]).filter(redrawable):qFigs(q);
 // owner 12 Nov ("yeah do that"): High-confidence diagrams (question graphs, blank axes: 48 of 50 approved) are spot-checked,
 // not checked one by one: a stable random 10% per paper (at least 1) stays in the queue. A flag on any High diagram of a
@@ -2698,7 +2708,7 @@ function needsDecision(q){if(reviews['q'+q.id]?.status==='flagged'||q.decide)ret
 // a call raised after the question was approved re-opens it until the owner answers it (decide() stamps call_at)
 const callOpen=q=>!!q.decide_at&&String(reviews['q'+q.id]?.call_at||'')<q.decide_at;
 // owner 12 Nov: "I need a list of recently approved in case" — newest approvals first; F re-flags, the note says why
-function approvedAt(q){const r=reviews['q'+q.id];if(r?.status==='approved')return r.at||'';const pr=reviews['paper_'+q.doc];if(pr?.status==='approved'&&q.tri?.tier==='auto'&&!r?.status)return pr.at||'';return null}
+function approvedAt(q){const r=reviews['q'+q.id];if(r?.status==='approved')return r.at||'';const pr=reviews['paper_'+q.doc];if(pr?.status==='approved'&&paperOK(q.doc)&&q.tri?.tier==='auto'&&!r?.status)return pr.at||'';return null}
 function inFilter(q,f){if(f==='recent')return !q.dup_of&&approvedAt(q)!=null;if(f==='tags')return homeNeed(q);if(f==='all')return !q.dup_of;if(f==='check'||f==='sample')return !q.dup_of&&q.tri?.tier===f;if(f==='decide')return !q.dup_of&&needsDecision(q);if(f==='diagrams')return !q.dup_of&&chkFigs(q).length>0;if(f==='scanqs')return !q.dup_of&&q.queues.includes('scan');if(f==='digitalqs')return !q.dup_of&&!q.queues.includes('scan');if(f==='changes')return qFigs(q).some(k=>figDec(q,k)==='changes');if(f==='redone')return Object.keys(reviews['q'+q.id]?.fig_done||{}).length>0;if(f==='generated')return !q.dup_of&&qGen(q).length>0;return !q.dup_of&&q.queues.includes(f)}   // owner: hidden duplicate copies never count in a queue ("they are misleading")
 function isTodo(q,f){if(q.dup_of)return false;if(f==='tags')return !reviews['q'+q.id]?.home&&!partsDone(q);   // a hidden copy follows the copy that was reviewed
   if(f==='decide')return reviews['q'+q.id]?.status!=='approved'||callOpen(q);if(f==='diagrams')return chkFigs(q).some(k=>!reviews['q'+q.id]?.fig?.[k]);if(f==='check'||f==='sample')return !reviews['q'+q.id]?.status;if(f==='redone')return Object.keys(reviews['q'+q.id]?.fig_done||{}).some(k=>!figDec(q,k));if(f==='changes')return qFigs(q).some(k=>figDec(q,k)==='changes');if(f==='generated')return qGen(q).some(s=>!solDec(q,s));return !reviews['q'+q.id]?.status}
@@ -2710,7 +2720,7 @@ function figRisk(k){const f=B.figs[k]||{};const c=f.status==='table'?'table':(f.
 function qRisk(q){return Math.max(0,...chkFigs(q).map(k=>figRisk(k)[1]))}
 // owner 12 Nov: "where do i go and batch approve the rest?" -> papers whose spot-check is clean, approvable from the Review header
 function paperReady(doc){doc=String(doc);const qs=B.questions.filter(q=>String(q.doc)===doc&&!q.dup_of),smp=qs.filter(q=>q.tri?.tier==='sample'),rest=qs.filter(q=>q.tri?.tier==='auto'&&!reviews['q'+q.id]?.status);
-  if(!rest.length||paperOK(+doc)||paperOK(doc))return null; if(!smp.length||smp.some(q=>reviews['q'+q.id]?.status!=='approved'))return null; return [doc,rest.length,smp.length]}
+  if(!rest.length||paperOK(+doc)||paperOK(doc))return null; if(!smp.length||smp.some(q=>reviews['q'+q.id]?.status!=='approved'))return null; if(flagsIn(doc).length)return null; return [doc,rest.length,smp.length]}
 function readyPapers(){return Object.keys(B.docs).map(paperReady).filter(Boolean)}
 function readyHTML(){const r=readyPapers(); if(!r.length) return ''; const n=r.reduce((a,x)=>a+x[1],0);
   return `<details class="banner ready"><summary><span><b>${r.length} paper${r.length>1?'s':''} ready:</b> every spot-checked question is approved, so the other ${n} questions can go in the bank.</span> <button class="act ok" id="approveReady">Approve all ${n}</button></summary>
@@ -2859,8 +2869,11 @@ function whyHTML(q){
   return `<div class="why ${cls}"><b>Why this is here</b><ul>${t.why.map(w=>`<li>${esc(w)}</li>`).join('')||'<li>Passed every check</li>'}</ul>${t.look.length?`<b>What to check</b><ol>${t.look.map(w=>`<li>${esc(w)}</li>`).join('')}</ol>`:''}</div>`}
 function sampleBanner(doc){doc=+doc;
   const qs=B.questions.filter(q=>q.doc===doc&&!q.dup_of), smp=qs.filter(q=>q.tri?.tier==='sample'), rest=qs.filter(q=>q.tri?.tier==='auto');
+  if(reviews['paper_'+doc]?.status==='approved'&&flagsIn(doc).length&&rest.length) return `<div class="why"><b>${flagsIn(doc).length} flagged</b>The other ${rest.length} questions in ${esc(docLabel(B.docs[doc]))} count as approved again once every flagged question is fixed and approved.</div>`;
   if(!smp.length||!rest.length||paperOK(doc)) return paperOK(doc)?`<div class="banner">✓ ${esc(docLabel(B.docs[doc]))}: spot-check clean, the other ${rest.length} questions are approved.</div>`:'';
   const ok=smp.filter(q=>reviews['q'+q.id]?.status==='approved').length, bad=smp.filter(q=>reviews['q'+q.id]?.status==='flagged').length;
+  const fl=flagsIn(doc).length;
+  if(!bad&&fl&&ok===smp.length) return `<div class="why"><b>Spot-check done, but ${fl} question${fl===1?' is':'s are'} flagged</b>The other ${rest.length} questions in ${esc(docLabel(B.docs[doc]))} can be approved once every flagged question is fixed and approved.</div>`;
   if(bad) return `<div class="why"><b>Spot-check</b>${bad} of ${smp.length} sampled questions in ${esc(docLabel(B.docs[doc]))} were flagged, so the rest of this paper stays unapproved. Claude will re-check the paper.</div>`;
   if(ok<smp.length) return `<div class="help">Spot-check for ${esc(docLabel(B.docs[doc]))}: ${ok} of ${smp.length} done. When all are fine you can approve the other ${rest.length} questions in one click.</div>`;
   return `<div class="banner"><span>All ${smp.length} spot-checked questions in <b>${esc(docLabel(B.docs[doc]))}</b> are fine.</span><button class="act ok" data-paperok="${doc}">Approve the other ${rest.length} questions in this paper</button></div>`}

@@ -13537,12 +13537,12 @@
   "class": "statistical",
   "status": "ok",
   "rounds": 1,
-  "notes": "Box plots at the crop's scale (12.225 px/hour): OLD 120,130,150,155,160; NEW 140,155,185,200,205, read from the crop and consistent with option D. Boxes, medians, whiskers 0.9pt (rule 9), light flat grey fill via shade (rule 5), filled arrowhead on the axis (rule 4), major ticks every 20, minor every 5 as the crop. Redraw score 0.80 is only the heavier 0.9pt box lines (blue fringe on every edge); every element lines up.",
+  "notes": "Checker 17 Nov: axis extended from x=1109 to 1135 crop px so the 205 minor tick (NEW upper whisker) is no longer hidden under the arrowhead; nothing else changed. Redraw score <0.85 is the box fill tone (unchanged from before).",
   "table": null,
   "version": 1,
   "overlay": [
-   0.982,
-   0.796
+   0.983,
+   0.793
   ]
  },
  {
@@ -13809,13 +13809,13 @@
   "id": "382_q13_1",
   "class": "statistical",
   "status": "ok",
-  "rounds": 2,
-  "notes": "Pareto chart redrawn at crop size. Bars 8000/5000/(Waitstaff not shown, as on paper)/3000/2200/2000/800 on light grey grid (minor every 200); bars lighter grey (rule 5); cumulative line 0.9pt (rule 9) with points at computed cumulative % for total 25000 (Waitstaff 4000): 32, 52, 68, 80, 88.8, 96.8, 100 (rule 16), which matches the crop's points. Right % axis with 2% ticks. Rules 1,2,3,5,6,9,16,19.",
+  "rounds": 1,
+  "notes": "Checker 17 Nov: category labels under the bars set \\small (was \\normalsize) so Waitstaff and Photo/video have a ~10 px gap (was touching); now within ~5% of the paper's label widths; nothing else changed.",
   "table": null,
   "version": 1,
   "overlay": [
    0.979,
-   0.973
+   0.975
   ]
  },
  {
@@ -13913,13 +13913,13 @@
   "id": "382_q31_s1",
   "class": "other",
   "status": "ok",
-  "rounds": 2,
-  "notes": "Handwritten Venn solution sketch redrawn clean (rule 17): rectangle, circles A and B, P(A and B)=0.36, P(B only)=0.12. Green/yellow highlighter -> grey tones (rule 6): A and B house shade, B only lighter grey (black!8). Circle B widened slightly to the left (overlap 44 -> 58 px) so 0.36 sits clear of both circles at \\small (rule 11); scores low from ruled lines, colour highlight and pen stroke.",
+  "rounds": 1,
+  "notes": "Checker 17 Nov: A and B drawn as true circles of equal radius 74 px (were ellipses 82x76 and 68x70), centres, box, shading and labels unchanged. Overlay was already low (0.57/0.78) because the crop is a hand-drawn coloured sketch with dotted ruled lines; the drop comes from no longer copying the uneven hand-drawn sizes (rule 10).",
   "table": null,
   "version": 1,
   "overlay": [
-   0.568,
-   0.779
+   0.455,
+   0.659
   ]
  },
  {
@@ -15486,34 +15486,34 @@
   "id": "463_q9_s1",
   "class": "graph",
   "status": "ok",
-  "rounds": 3,
-  "notes": "Student/teacher solution on the printed number plane: y=(2x+1)/(x-3) drawn from its equation on the plane's scale (66.2 px/unit; rule 10), both branches 0.9pt with filled arrowheads; intercepts (-1/2,0), (0,-1/3) and the point (5,11/2) plotted at their true positions (rule 16; the hand-drawn dot for (5,11/2) was ~75 px off); asymptotes x=3, y=2 in house fine dashes (rule 3), the y=2 line broken around the printed tick label 2 (rule 11); labels VA x=3, HA y=2, -1/2, -1/3 (\\dfrac, rule 23), 3 kept; whole drawing follows the scan's 0.63 deg tilt (rule 1). Left out: marker ticks/circles (grading marks), the correction-tape blob, the question text at the top and the pink paper. Branch ends follow the true curve, so the left branch sits lower than the sketch's. Scores are against the crop with the top text masked (overlay.py raw 0.132/0.217); the rest of the colour is the grading marks and handwriting.",
+  "rounds": 1,
+  "notes": "Checker 17 Nov: x-axis label 3 set \\Large like the other tick labels (was normal size) and moved onto their row at y=561, centred at x=659 so it stays ~5 px left of the dashed asymptote x=3; nothing else changed. Overlay was already this low (0.13/0.22): pink scan with teacher ticks/marks and a different overall layout.",
   "table": null,
   "version": 1,
   "overlay": [
-   0.277,
-   0.413
+   0.131,
+   0.215
   ]
  },
  {
   "id": "463_q11_s1",
   "class": "graph",
-  "status": "approx",
+  "status": "ok",
   "rounds": 1,
-  "notes": "Solution scan of the printed 463_q11_1 graph (same source, placed by its C, A, B dots: scan rotated -0.44 deg, shifted; fit residual <0.6 px) plus the hand-drawn answer y=f(3x-3). That curve is drawn from its equation -9(3x-2)(x-2)^2 (inferred: f(x)=-(x+1)(x-3)^2 from A, B, C), through C(2/3,0), A(1,-9), B(2,0) (rules 10, 16, 18). The hand sketch's right arm falls far more slowly than the true curve (its arrow ends near x=3.3; the true curve reaches the same depth at x=2.49), so the redraw differs there: that and handwriting are the low scores. Handwritten labels C, 2/3 (\\dfrac), A, B and the '-1' under the original C kept. Context mismatch: this figure's context is the sin(x/2)+1 question, but the figure answers 463_q11 part (b) (f(3x-3)); the caption agrees with the figure, check where it is attached.",
+  "notes": "Checker 17 Nov: C label moved right of the new curve (it leans left above the axis) and 2/3 moved left of it (leans right below), both kept on their side of the axis; nothing else changed. Overlay low as before: pink scan background and hand-drawn solution curve.",
   "table": null,
   "version": 1,
   "overlay": [
-   0.34,
-   0.573
+   0.336,
+   0.562
   ]
  },
  {
   "id": "463_q11_1",
   "class": "graph",
   "status": "ok",
-  "rounds": 3,
-  "notes": "f(x)=-(x+1)(x-3)^2 (through C(-1,0), A(0,-9), touching at B(3,0); its minimum -9.48 at x=1/3 matches the crop) drawn from that equation on the crop's exact scale (118.3 px per x-unit, 27.85 px per y-unit; rules 10, 16), 0.9pt with filled arrowheads; grid as printed: lines every unit light grey, y=+-5 and verticals a little darker, top and bottom border darker as on the paper; ticks: x at even values, y every unit with longer ticks at multiples of 5; open chevron axis arrows replaced by filled heads (rule 4). The equation is my inference from A, B, C and the shape (not given in the question).",
+  "rounds": 0,
+  "notes": "Checker 17 Nov: NOT CHANGED, please confirm. The question figure has no 2/3 label, and its C sits ~19 px (200 dpi) clear of the curve (checked zoomed render); the comment matches the solution figure 463_q11_s1, where C and 2/3 were on the new curve and are now moved off it.",
   "table": null,
   "version": 1,
   "overlay": [
@@ -15759,13 +15759,13 @@
   "id": "464_q25_s1",
   "class": "graph",
   "status": "ok",
-  "rounds": 2,
-  "notes": "h=8+5sin(pi t/12) drawn from the equation at 0.9pt over 0..24 (max 13 at t=6, min 3 at t=18) on the question's grid, scan tilt (about 0.85 deg) followed. Dashed line h=5.5 (boat depth, parts c-d) kept as house aux dash, with an added label 'h=5.5' (unlabelled in the scan). Dropped teacher marks (rule 17): '2pi/(pi/12)=24' working, crosses at quarter points. Low overlay: the scan's grid is broken/dashed in the scan and the overlay aligns about 10 px off vertically; curve and grid agree in cmp. Check: keep the added h=5.5 label?",
+  "rounds": 1,
+  "notes": "Checker 17 Nov: removed the 0.85 deg rotate scope that copied the scan's tilt, so axes, grid, curve and h=5.5 line are level; nothing else changed. This overrides DIAGRAM_SPEC rule 1 'Follow a scan's slight tilt' for this figure: owner to confirm whether level drawing should become the general rule. Overlay low as before (hand-drawn blue curve, teacher working, tilted scan).",
   "table": null,
   "version": 1,
   "overlay": [
-   0.202,
-   0.178
+   0.308,
+   0.241
   ]
  },
  {

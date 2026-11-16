@@ -949,7 +949,7 @@ document
     caption: Pareto chart of costs: Venue, Food, Waitstaff, Photo/video, Decor, Beverages, Other, with cumulative percentage line
     redraw_status: ok
     redraw_class: statistical
-    redraw_notes: Pareto chart redrawn at crop size. Bars 8000/5000/(Waitstaff not shown, as on paper)/3000/2200/2000/800 on light grey grid (minor every 200); bars lighter grey (rule 5); cumulative line 0.9pt (rule 9) with points at computed cumulative % for total 25000 (Waitstaff 4000): 32, 52, 68, 80, 88.8, 96.8, 100 (rule 16), which matches the crop's points. Right % axis with 2% ticks. Rules 1,2,3,5,6,9,16,19.
+    redraw_notes: Checker 17 Nov: category labels under the bars set \small (was \normalsize) so Waitstaff and Photo/video have a ~10 px gap (was touching); now within ~5% of the paper's label widths; nothing else changed.
   part a  id 2857
     ordinal: 1
     latex: Use the graph to estimate the percentage of the total cost spent on ‘Waitstaff’?
@@ -2973,12 +2973,12 @@ document
 
         Using the trapezoidal rule:
         $$\begin{aligned} A &\approx \dfrac{4-1}{2\times 3}\Big[0+0+2\big(3\ln 2-\ln 4+3\ln 3-2\ln 4\big)\Big] \\ &= \dfrac{1}{2}\Big(2\big(3\ln 2-3\ln 4+3\ln 3\big)\Big) \\ &= 1.216395\ldots \\ &\approx 1.22\text{ units}^2\text{ (3 s.f.)} \end{aligned}$$
-        Alternatively, use the trapezoidal rule to estimate the area under $y=\ln x$, then subtract the area of the triangle.
+        Alternatively, use the trapezoidal rule to estimate the area under $y=3\ln x$, then subtract the area of the triangle.
       marks_breakdown: Marks as ticked on the marked-up solution: 1 for the integral/table of values, 1 for the trapezoidal rule, 1 for the answer
       source_document_id: 382
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Applies the trapezoidal rule, or equivalent merit"], [1, "Sets up the area integral or the table of values, or equivalent merit"]]
-      meta_json: {"criteria_original": [[null, "Marks as ticked on the marked-up solution: 1 for the integral/table of values, 1 for the trapezoidal rule, 1 for the answer"]], "source_flag": "Source 'Method 2' says to estimate the area under $y=\\ln x$ and subtract the triangle. The curve in the question is $y=3\\ln x$, so that probably means $y=3\\ln x$ (with the triangle under the line $y=(x-1)\\ln 4$). Kept as written. Method 1 checks numerically: $3\\ln\\dfrac{3}{2}=1.2164$.", "top_criterion_original": "1 for the answer"}
+      meta_json: {"criteria_original": [[null, "Marks as ticked on the marked-up solution: 1 for the integral/table of values, 1 for the trapezoidal rule, 1 for the answer"]], "overwritten_from_source": "Checker 17 Nov: \"The Method 2 in the source was incorrect. Fix by changing y=lnx into y=3lnx.\"", "source_flag": "Source 'Method 2' says to estimate the area under $y=\\ln x$ and subtract the triangle. The curve in the question is $y=3\\ln x$, so that probably means $y=3\\ln x$ (with the triangle under the line $y=(x-1)\\ln 4$). Kept as written. Method 1 checks numerically: $3\\ln\\dfrac{3}{2}=1.2164$.", "top_criterion_original": "1 for the answer"}
       data_table Ts2642_1
         header_rows: 0
         label_col: 0
@@ -3110,7 +3110,7 @@ document
       caption: solution sketch: Venn diagram of A and B with P(A and B) = 0.36 and P(not A and B) = 0.12
       redraw_status: ok
       redraw_class: other
-      redraw_notes: Handwritten Venn solution sketch redrawn clean (rule 17): rectangle, circles A and B, P(A and B)=0.36, P(B only)=0.12. Green/yellow highlighter -> grey tones (rule 6): A and B house shade, B only lighter grey (black!8). Circle B widened slightly to the left (overlap 44 -> 58 px) so 0.36 sits clear of both circles at \small (rule 11); scores low from ruled lines, colour highlight and pen stroke.
+      redraw_notes: Checker 17 Nov: A and B drawn as true circles of equal radius 74 px (were ellipses 82x76 and 68x70), centres, box, shading and labels unchanged. Overlay was already low (0.57/0.78) because the crop is a hand-drawn coloured sketch with dotted ruled lines; the drop comes from no longer copying the uneven hand-drawn sizes (rule 10).
   part b  id 2897
     ordinal: 2
     latex: Is event $A$ independent from event $B$? Justify your answer with relevant calculations.
