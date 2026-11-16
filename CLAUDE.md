@@ -173,9 +173,11 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
    read their inputs there. Live: 146.9 MB in 284 files.
 5. **Reviews to key docs**: apply state/work/keys_migration (re-export reviews and regenerate first if they changed since
    14 Nov). Then re-run tools/triage.py (needs the PDFs in src/).
-6. **Nightly import scheduled task** (~10:30 pm Sydney): a fresh session with this repo attached; restore DB, run the queue
-   (tools/import_next.py; no review lock, stop-early rules only), push, back up the DB to Drive. Then run the first batch and
-   record real tokens/minutes per paper.
+6. **Night run (job 6)**: built 16 Nov. Scheduled task "Questgen night run" (trig_01XTpjAYHRvxyRWAgqZdxnZb), every night 10:11 pm
+   Sydney, fresh session, prompt "read NIGHT.md and run it". NIGHT.md is the runbook; the Tonight card on Processes › Work shows
+   its list (page db progress/night + runs requested). Imports are skipped while paused. **Open: the task has no Google Drive
+   connector** (the organisation does not let a session attach connectors to a task): the owner adds Google Drive to it in
+   the claude.ai routines settings; until then the run stops at "database backup not found".
 
 ## Open items (14 Nov)
 - Details for jobs 2, 3, 5 and 6 above: the reviews migration has 22 ArtifactData batches (1,052 writes: k_<key> and
