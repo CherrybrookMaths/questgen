@@ -26,8 +26,10 @@ import glob, hashlib, json, os, sys, time
 
 P = paths.P
 S = P + 'site/'
-KINDS = ('data/img/*.json', 'data/svg/*.json', 'data/cmp/*.json',   # the image packs the page fetches (05_figures.js pack/svgs/cmps)
-         'data/check/*.json')   # owner 14 Nov: Needs a check page pictures (tools/check_pages.py; 35_papers_check.js)
+# Job 3, 16 Nov (CLAUDE.md: "What is permanent: redrawn diagrams ... plus figure crops only where a diagram has no approved
+# redraw. Page scans and comparison overlays exist only while a paper is in review"): only the permanent packs go to the asset
+# store; per-paper scan packs (data/img), overlays (data/cmp) and Needs a check pictures stay published files while they exist.
+KINDS = ('data/svg/*.json', 'data/crop/*.json')
 MAN = S + 'data/assets.json'
 OUT = P + 'work/assets/upload_plan.json'
 MAX_FILE = 20 * 2**20   # assets.d.ts: 20 MiB for JSON (and every type but SVG 2 MiB and CSS/JS 16 MiB)
@@ -68,9 +70,11 @@ def main():
     for r in over: print(f'  OVER the 20 MiB per-file limit: {r["path"]} {r["bytes"] / 2**20:.1f} MB (split it: more groups in tools/packs.py)')
     big = max(rows, key=lambda r: r['bytes']) if rows else None
     if big: print(f'  largest: {big["path"]} {big["bytes"] / 2**20:.1f} MB of the 20 MiB limit')
-    print(f'  projection at {TARGET_PAPERS} papers: about {allb / papers * TARGET_PAPERS / 2**30:.2f} GB in about '
-          f'{int(len(candidates()) / papers * TARGET_PAPERS)} files at today\'s {papers} papers (svg/cmp groups grow per group: '
-          f'keep each under 20 MiB)')
+    # job 3: group files do not multiply with papers, they grow: project bytes per imported paper, and the largest group
+    nb = len(json.load(open(P + 'site/data/bank.json'))['docs']) if os.path.exists(P + 'site/data/bank.json') else 1
+    g = TARGET_PAPERS / max(nb, 1)
+    print(f'  projection at {TARGET_PAPERS} papers (today {nb}): about {allb * g / 2**20:.0f} MB in {len(candidates())} group files '
+          f'(asset store 1 GB); largest group about {(big["bytes"] if big else 0) * g / 2**20:.1f} MB of the 20 MiB per-file limit')
     print(f'plan written to {os.path.relpath(OUT, P)}; one Artifact call per file (asset: true, file_path = "local"), results '
           f'into work/assets/upload_results.json, then python3 tools/asset_manifest.py')
     sys.exit(1 if over else 0)

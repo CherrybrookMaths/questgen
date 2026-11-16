@@ -107,6 +107,9 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
    stored capabilities.
 
 ## Publish procedure
+0. Export `reviews` (ArtifactData `list`, out_dir work/pagedb_export_<date>/) and run `python3 tools/image_lifecycle.py <export>`:
+   papers cleared in Review lose their page scans; crops the page can still show go to data/crop/ (job 3). Then
+   `python3 tools/bank_split.py` (the index marks which papers still have scans, docs[doc].ip).
 1. `bash tools/prepublish.sh` exits 0.
 2. `python3 tools/publish_set.py --json > work/publish_set.json`: the `files` map (published path -> path relative to the repo
    root, null = remove). Pass it unchanged.
@@ -126,7 +129,8 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
     "mcp": {"servers": [{"server": "Google Drive", "tools": ["search_files"]}]}}
    ```
    Packs in the asset store (when data/assets.json lists any) need `"assets": {}` added.
-4. `python3 tools/batch_check.py --mark-published`: records the manifest (state/work/published_manifest.json), commits
+4. **Every publish, even a capabilities-only one, is followed by** `python3 tools/batch_check.py --mark-published` (16 Nov: an
+   unrecorded settings-only publish made the next record one version behind the live page): records the manifest (state/work/published_manifest.json), commits
    everything as "publish vNNN <date>", tags publish-vNNN locally, writes `<OUT>/questgen_repo.bundle`.
 5. `git push` the branch to GitHub. Tags cannot be pushed through the session's GitHub proxy, so the version lives in the
    commit message ("publish vNNN ...").
@@ -140,18 +144,15 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
 2. **Split the start-up index**: done 16 Nov (owner: "Yeah build it"). Slim gzip index + details file read after start;
    ~103 KB today, ~1.0 MB projected at 538 papers of the 2.35 MB budget (CODE_HEALTH "Job 2").
 3. **Images: re-render into the asset store, don't move them** (owner 14 Nov: "What if we dropped them and rerendered them in
-   the new location?"). The artifact is capped at 256 MB per version (about 170 MB now, ~3 MB per paper), so images must leave
-   the published files before imports get far.
-   - What is permanent: redrawn diagrams (render from state/tikz/tex, ~25 min), plus figure crops only where a diagram has no
-     approved redraw. Page scans and comparison overlays exist only while a paper is in review; drop them once it is cleared.
-   - Sources: exam PDFs (shared drive / owner's PC, by Drive id), figures.page + figures.bbox in the database, the figures/
-     backup on Drive (above), state/tikz.
-   - Before switching: compare every re-rendered redraw with the published approved version (tools/render_audit / pixel
-     compare); list anything beyond a pixel or two for the owner instead of assuming it matches. Check the hand-fixed crops
-     (state crop_fixes) against the backup.
-   - Measure the asset store quota first (assets.list() usage at runtime). Fewer, larger uploads: approvals should be a handful,
-     not 66. If the quota is too small, stop and ask the owner.
-   - Then remove the published packs (null in publish_set) and add `"assets": {}` to the capabilities.
+   the new location?"). Progress 16 Nov:
+   - Done: asset store on (v218; 1 GB, 5,000 files). TeX installed; all 979 redraws re-rendered from state/tikz
+     (tools/render_redraws.py) and byte-identical to the published approved versions (tools/redraw_compare.js): nothing to
+     list for the owner. tools/image_lifecycle.py (v219): 55 cleared papers' scan packs archived (archive/img_cleared/), 117
+     crops the page can still show kept in data/crop/g<doc%8>.json, overlays of cleared papers dropped, svg regrouped 8 -> 32
+     (asset store limit 20 MiB per file; batch_check warns at 15 MiB). Published files ~147 MB -> ~45 MB.
+   - Next: upload data/svg + data/crop (40 files; tools/asset_upload_plan.py, then tools/asset_manifest.py), publish with the
+     packs left out (publish_set drops in-store paths and nulls them once). Then the hand-fixed crops (state crop_fixes) vs the
+     figures/ backup on Drive.
 4. **Remove published files the page no longer uses**: done 16 Nov (v217). data/bank.json and project/ are no longer published
    (publish_set EXCLUDE / PROJECT_KEEP; project/open_decisions.json stays, Review reads it). The local site/project/ stays: tools
    read their inputs there. Live: 146.9 MB in 284 files.

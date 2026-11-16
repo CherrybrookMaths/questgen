@@ -142,6 +142,12 @@ except Exception as e:
 try:
     import packs as _packs
     for m in _packs.check(): B('packs: ' + m)
+    # job 3: the asset store takes at most 20 MiB per file; warn early so GROUPS in tools/packs.py is raised in time
+    # (tools/image_lifecycle.py regroups automatically when the number changes)
+    for _k in ('svg', 'crop'):
+        _big = [(f, os.path.getsize(P + f'site/data/{_k}/' + f)) for f in os.listdir(P + f'site/data/{_k}/') if f.endswith('.json')] if os.path.isdir(P + f'site/data/{_k}/') else []
+        _big = [x for x in _big if x[1] > 15 * 2**20]
+        if _big: W(f'packs: {_k} group(s) over 15 MiB of the asset store\'s 20 MiB per file: {_big[:3]}: raise GROUPS[{_k!r}] in tools/packs.py')
 except Exception as e:
     B(f'packs check could not run: {e}')
 # --- automated page test (hardening action 1, 14 Nov): tools/page_test.js must have passed on THIS build of the page ---
