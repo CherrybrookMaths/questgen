@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 637_q18_s1: solution sketch of f(x) = 3 + 4x^3 - x^4: horizontal inflection (0,3), inflection (2,19), maximum (3,30).
+% Drawn from the equation (rules 10,16,17) at the sketch's size: origin (580,665) in crop pixels (y down),
+% 133 px per x-unit, 18.7 px per y-unit (not to scale). Axes straightened; blue ink drawn black (rule 6).
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\ox{580}\def\oy{665}\def\ux{133}\def\uy{18.7}
+  \draw[->] (0,\oy) -- (1265,\oy) node[right, inner sep=3pt, font=\Large] {$x$};
+  \draw[->] (\ox,1250) -- (\ox,70) node[right, inner sep=4pt, font=\Large] {$y$};
+  \draw[<->, line width=0.9pt, smooth, samples=90, variable=\t, domain=-1.76:4.38]
+     plot ({\ox+\ux*\t},{\oy-\uy*(3+4*\t*\t*\t-\t*\t*\t*\t)});
+  \fill (\ox,{\oy-3*\uy}) circle (5);
+  \fill ({\ox+2*\ux},{\oy-19*\uy}) circle (5);
+  \fill ({\ox+3*\ux},{\oy-30*\uy}) circle (5);
+  \node[font=\Large, anchor=south west, inner sep=3pt] at ({\ox+2},{\oy-3*\uy-6}) {$3$};
+  \node[font=\Large, anchor=west, inner sep=6pt] at ({\ox+2*\ux+8},{\oy-19*\uy+4}) {$(2,19)$};
+  \node[font=\Large, anchor=south west, inner sep=4pt] at ({\ox+3*\ux+14},{\oy-30*\uy-4}) {$(3,30)$};
+\end{tikzpicture}
+\end{document}

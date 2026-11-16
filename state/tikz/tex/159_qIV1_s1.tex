@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 159_qIV1_s1: same Venn diagram as 159_qIV1_1 (crop pixel units, shifted to this scan's position), with the teacher's
+% hand-written answers typeset in the boxes (rule 17): (i) 0.4, (ii) 0.35 - m (solution text).
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (11.5,18.5) rectangle (1014.5,693.5);
+  \begin{scope}[shift={(-8.5,-3)}]
+  \draw (372,358.5) ellipse [x radius=250, y radius=240.5];
+  \draw (672,358.5) ellipse [x radius=250, y radius=240.5];
+  \node at (320,358) {Violin};
+  \node at (720,358) {Piano};
+  \draw (484,334) rectangle (588,392);
+  \node at (536,364) {$m$};
+  \draw (213,407) rectangle (426,516);
+  \node[anchor=north west, inner sep=0pt] at (234,425) {(ii)};
+  \node[anchor=west, inner sep=0pt] at (234,486) {\large $0.35-m$};
+  \draw (794,578) rectangle (1004,676);
+  \node[anchor=north west, inner sep=0pt] at (815,595) {(i)};
+  \node[anchor=west, inner sep=0pt] at (852,632) {\large $0.4$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

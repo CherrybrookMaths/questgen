@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % circle centre (355,353) radius 335; sector between radii at 57.1 deg and -52.2 deg (crop directions), flat grey
+  \fill[shade] (355,353) -- ++(-57.1:335) arc[start angle=-57.1,end angle=52.2,radius=335] -- cycle;
+  \draw (355,353) circle[radius=335];
+  \draw (355,353) -- ++(-57.1:335) (355,353) -- ++(52.2:335);
+  \draw ($(355,353)+(-57.1:62)$) arc[start angle=-57.1,end angle=52.2,radius=62];
+  \fill (355,353) circle[radius=2.2];
+  \node[font=\Large] at (386,357) {$\theta$};
+  \node[font=\large] at (425,183) {$r$};
+  \node[font=\large] at (432,502) {$r$};
+  \node[font=\normalsize,align=left] at (828,418) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

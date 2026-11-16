@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 571_q15_1: sketch (not to scale): parabola fitted to the crop's roots (O, 4) and vertex height; line y=2x fitted to the
+% crop's slope; A is their computed intersection (rule 16). Crop pixel units, origin (190.5,363.5).
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{15.5}{18}\selectfont}]
+  \def\k{0.00412}\def\m{0.4706}
+  \pgfmathsetmacro\xa{652-\m/\k}
+  \fill[black!12] plot[smooth, samples=60, domain=190.5:\xa] (\x,{363.5-\k*(\x-190.5)*(652-\x)}) -- cycle;
+  \path[shade dots, stipple color=black!45] plot[smooth, samples=60, domain=190.5:\xa] (\x,{363.5-\k*(\x-190.5)*(652-\x)}) -- cycle;
+  \draw[->] (13,363.5) -- (1001,363.5);
+  \draw[->] (190.5,527) -- (190.5,31);
+  \draw (88,{363.5+\m*102.5}) -- (665,{363.5-\m*(665-190.5)});
+  \draw plot[smooth, samples=90, domain=148:718] (\x,{363.5-\k*(\x-190.5)*(652-\x)});
+  \node at (987,395) {$x$};
+  \node at (163,45) {$y$};
+  \node at (220,394) {$O$};
+  \node at (641,394) {$4$};
+  \node at (579,211) {$A$};
+  \node[anchor=west] at (676,136) {$y=2x$};
+  \node[anchor=west] at (722,527) {$y=-4x^2+16x$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % Bearing diagram: P to S on bearing 072 (crop slope kept, NOT TO SCALE), L due north of F (25 km from P), S 4 km further; 316 bearing reflex arc ends on SL
+  \draw[->] (47.0,760.5) -- (47.0,208.0);
+  \draw[->] (603.0,557.6) -- (603.0,52.0);
+  \draw (47.0,760.5) -- (603.0,557.6);
+  \draw (413.0,627.0) -- (413.0,373.0) -- (603.0,557.6);
+  \draw (47.0,622.5) arc[start angle=-90,end angle=-20.05,radius=138.0];
+  \draw (603.0,473.6) arc[start angle=-90,end angle=224.17,radius=84.0];
+  \node[font=\large] at (55.0,180.0) {$N$};
+  \node[font=\large] at (603.0,27.0) {$N$};
+  \node[font=\large] at (406.0,355.0) {$L$};
+  \node[font=\large] at (632.0,543.0) {$S$};
+  \node[font=\large] at (28.0,781.0) {$P$};
+  \node[font=\large] at (93.0,685.0) {$72^\circ$};
+  \node[font=\large] at (613.0,592.0) {$316^\circ$};
+  \node[font=\large,rotate=20.0] at (268.0,712.0) {$25$ km};
+  \node[font=\large,rotate=20.0] at (500.0,630.0) {$4$ km};
+  \node[font=\large,align=left] at (828,284) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 159_qVI3_s1: y = 3^{3x} + 1 drawn from its equation on the scan's axes (origin (584,580)); one scale per axis:
+% 1 unit = 220 px across (the sketch's tick at x = 1), 17.25 px up (so (1,28) sits at the sketch's height).
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (48,580) -- (1169,580);
+  \node[anchor=base west, inner sep=0pt] at (1176,600) {$x$};
+  \draw[<->] (584,1016) -- (584,80);
+  \node[anchor=base west, inner sep=0pt] at (594,68) {$y$};
+  % asymptote y = 1
+  \draw[aux] (20,{580-17.25}) -- (1150,{580-17.25});
+  \node[anchor=south east, inner sep=0pt] at (1150,{580-17.25-8}) {$y=1$};
+  % tick x = 1
+  \draw (804,572) -- (804,588);
+  \node[anchor=north, inner sep=0pt] at (804,600) {$1$};
+  % curve
+  \draw[<->, line width=0.9pt, domain=-2.45:1.03, samples=90, smooth]
+     plot ({584+220*\x},{580-17.25*(3^(3*\x)+1)});
+  \fill (584,{580-2*17.25}) circle (5);
+  \fill (804,{580-28*17.25}) circle (5);
+  \node[anchor=south east, inner sep=0pt] at (576,{580-2*17.25-6}) {$2$};
+  \node[anchor=west, inner sep=0pt] at (830,{580-28*17.25}) {\large $(1,28)$};
+\end{tikzpicture}
+\end{document}

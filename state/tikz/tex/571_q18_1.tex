@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 571_q18_1: drawn to the crop's own scale (1 unit = 65.5 px across, 56.5 px up; origin (375,479) in crop pixels);
+% the crop is to scale with these units, so every curve is plotted from its equation and (2,3) is the true intersection.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{10.5}{12.5}\selectfont}]
+  \begin{scope}[shift={(375,479)}, x=0.83185cm, y=0.71755cm]
+    \fill[black!35] (0,0) -- (0,5) -- (1.6,5) -- plot[smooth, samples=30, domain=1.6:2] (\x,{3/(\x-1)}) -- cycle;
+    \draw[<->] (-5.45,0) -- (7.45,0);
+    \draw[<->] (0,-5.46) -- (0,7.44);
+    \draw[aux] (1,-5.46) -- (1,7.5);
+    \draw[<->, line width=0.9pt] (-5.45,5) -- (7.45,5);
+    \draw[<->, line width=0.9pt] (-3.72,-5.58) -- (5.0,7.5);
+    \draw[<->, line width=0.9pt] plot[smooth, samples=90, domain=1.4:7.45] (\x,{3/(\x-1)});
+    \draw[<->, line width=0.9pt] plot[smooth, samples=90, domain=-5.45:0.455] (\x,{3/(\x-1)});
+    \fill (2,3) circle (0.6mm);
+    \node[anchor=west] at (2.12,3) {$(2,3)$};
+    \node[anchor=west] at (7.55,0) {$x$};
+    \node[anchor=south] at (0,7.6) {$y$};
+    \node at (6.0,7.20) {$y=\dfrac{3}{2}\,x$};
+    \node at (6.03,5.4) {$y=5$};
+    \node at (5.85,1.37) {$y=\dfrac{3}{x-1}$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\usetikzlibrary{decorations.pathreplacing}
+\begin{document}
+% 637_q23_1: flower bed = rectangle (left 78.5, right 310.5, top 49, bottom 246 in crop pixels, y down) plus a semicircle
+% of radius 98.5 on its right side; dashed diameter, equal-length ticks on the two sides y, right angles, brace for r.
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw (310.5,49) -- (78.5,49) -- (78.5,246) -- (310.5,246) arc[start angle=90, end angle=-90, radius=98.5];
+  \draw[aux] (310.5,49) -- (310.5,246);
+  \draw (78.5,73) -- (102.5,73) -- (102.5,49);
+  \draw (78.5,222) -- (102.5,222) -- (102.5,246);
+  \foreach \y in {49,246} { \draw (197,{\y-9}) -- (197,{\y+9}); \draw (203,{\y-9}) -- (203,{\y+9}); }
+  \draw[decorate, decoration={brace, amplitude=7pt}] (296,246) -- (296,150);
+  \node[anchor=east, inner sep=1pt, font=\small] at (274,198) {$r$};
+  \node[anchor=north, inner sep=2pt, font=\small] at (198,258) {$y$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % h=5+2sin(pi t/4) on [0,16]; origin (138,741); 39.7 px per hour, 76 px per metre
+  \draw[aux] (138,{741-78.7*7}) -- (960,{741-78.7*7}) (138,{741-78.7*5}) -- (960,{741-78.7*5}) (138,{741-78.7*3}) -- (960,{741-78.7*3});
+  \draw[->] (138,741) -- (1012,741);
+  \draw[->] (138,762) -- (138,70);
+  \node[right] at (1016,741) {$t$};
+  \node at (122,48) {$h$};
+  \foreach \k in {2,4,...,20} \draw ({138+39.7*\k},741) -- ({138+39.7*\k},749);
+  \foreach \k in {2,4,...,16} \node[below,font=\large] at ({138+39.7*\k},753) {$\k$};
+  \foreach \k in {1,...,8} {\draw (130,{741-78.7*\k}) -- (138,{741-78.7*\k}); \node[left,font=\large] at (124,{741-78.7*\k}) {$\k$};}
+  \draw[line width=0.9pt] plot[smooth,domain=0:16,samples=90] ({138+39.7*\x},{741-78.7*(5+2*sin(45*\x))});
+  \foreach \k/\v in {0/5,2/7,4/5,6/3,8/5,10/7,12/5,14/3,16/5} \node[pt] at ({138+39.7*\k},{741-78.7*\v}) {};
+\end{tikzpicture}
+\end{document}

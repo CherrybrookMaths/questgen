@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % v=-2t^2+2t+4 for 0<=t<=3; origin (75,300); 152 px per second, 52 px per m/s; area 0..3 shaded (distance travelled)
+  \fill[shade] plot[smooth,domain=0:2,samples=60] ({75+152*\x},{300-52*(-2*\x*\x+2*\x+4)}) -- (379,300) -- (75,300) -- cycle;
+  \fill[shade] plot[smooth,domain=2:3,samples=40] ({75+152*\x},{300-52*(-2*\x*\x+2*\x+4)}) -- (531,300) -- cycle;
+  \draw[->] (30,300) -- (590,300);
+  \draw[->] (75,390) -- (75,15);
+  \node[right] at (592,300) {$t$};
+  \node[above left] at (72,14) {$v$};
+  \draw[line width=0.9pt] plot[smooth,domain=0:3,samples=90] ({75+152*\x},{300-52*(-2*\x*\x+2*\x+4)});
+  \draw (151,293) -- (151,307) (531,293) -- (531,307);
+  \node[pt] at (75,92) {};
+  \node[pt] at (379,300) {};
+  \node[left,font=\large] at (68,92) {$4$};
+  \node[below] at (151,308) {$\dfrac{1}{2}$};
+  \node[below left,font=\large] at (377,304) {$2$};
+  \node[below,font=\large] at (548,306) {$3$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 637_q21_1: y = x^2 and y = x^3 - 2x, meeting at A(-1,1), O(0,0), B(2,4) (computed, rule 16); the region between them
+% from x=-1 to x=2 hatched (rules 5,27). Crop pixel units (y down): origin (485,603), 116.5 px per x-unit, 114 px per y-unit.
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\ox{485}\def\oy{603}\def\ux{116.5}\def\uy{114}
+  \path[shade hatch] plot[smooth, samples=60, variable=\t, domain=-1:2] ({\ox+\ux*\t},{\oy-\uy*\t*\t})
+     -- plot[smooth, samples=60, variable=\t, domain=2:-1] ({\ox+\ux*\t},{\oy-\uy*(\t*\t*\t-2*\t)}) -- cycle;
+  \draw[<->] (12,\oy) -- (818,\oy) node[above left, inner sep=2pt] {$x$};
+  \draw[<->] (\ox,745) -- (\ox,12) node[below right, inner sep=2pt] {$y$};
+  \draw[aux] ({\ox-\ux},{\oy-\uy}) -- ({\ox-\ux},\oy);
+  \draw[aux] ({\ox+2*\ux},{\oy-4*\uy}) -- ({\ox+2*\ux},\oy);
+  \draw[line width=0.9pt, smooth, samples=90, variable=\t, domain=-2.28:2.27] plot ({\ox+\ux*\t},{\oy-\uy*\t*\t});
+  \draw[line width=0.9pt, smooth, samples=90, variable=\t, domain=-1.68:2.115] plot ({\ox+\ux*\t},{\oy-\uy*(\t*\t*\t-2*\t)});
+  \node[font=\large, anchor=east, inner sep=4pt] at ({\ox-\ux},{\oy-\uy-4}) {$A$};
+  \node[font=\large, anchor=west, inner sep=5pt] at ({\ox+2*\ux},{\oy-4*\uy}) {$B$};
+  \node[font=\large, anchor=north east, inner sep=4pt] at (\ox,\oy) {$O$};
+  \node[font=\large, anchor=north, inner sep=5pt] at ({\ox-\ux},\oy) {$-1$};
+  \node[font=\large, anchor=north, inner sep=5pt] at ({\ox+2*\ux},\oy) {$2$};
+  \node[font=\large] at (170,98) {$y=x^2$};
+  \node[font=\large] at (160,712) {$y=x^3-2x$};
+\end{tikzpicture}
+\end{document}

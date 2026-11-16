@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 637_q18_s2: small solution sketch of f''(x) = 12x(2-x), a downward parabola with roots 0 and 2 (rules 10,17).
+% Crop pixel units (y down): origin (168,130), root 2 at x=268; vertex height 48 px as sketched (not to scale).
+% The notebook's ruled lines are left out; blue ink drawn black.
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (12,130) -- (345,130) node[right, inner sep=3pt, font=\large] {$x$};
+  \draw[->] (168,218) -- (168,4) node[right, inner sep=4pt, font=\large] {$y$};
+  \draw[<->, line width=0.9pt, smooth, samples=90, variable=\t, domain=-0.62:2.62]
+     plot ({168+50*\t},{130-48*\t*(2-\t)});
+  \node[font=\large, anchor=north east, inner sep=3pt] at (268,136) {$2$};
+\end{tikzpicture}
+\end{document}
