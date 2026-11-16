@@ -8,11 +8,11 @@
   \foreach \t in {4,8,...,24} \draw[black!30] ({\ox+43.75*\t},{\oy}) -- ({\ox+43.75*\t},75.5);
   \foreach \h in {2,6,...,18} \draw[black!15] (\ox,{\oy-22.775*\h}) -- (1121.5,{\oy-22.775*\h});
   \foreach \h in {4,8,...,20} \draw[black!30] (\ox,{\oy-22.775*\h}) -- (1121.5,{\oy-22.775*\h});
-  \draw[->] (\ox,\oy) -- (1150,\oy) node[right, inner sep=2pt] {$t$};
+  \draw[->] (\ox,\oy) -- (1146,\oy) node[right, inner sep=2pt] {$t$};
   \draw[->] (\ox,\oy) -- (\ox,50) node[above, inner sep=2pt] {$h$};
   \foreach \t in {2,4,...,24} \draw ({\ox+43.75*\t},\oy) -- ({\ox+43.75*\t},{\oy+6});
   \foreach \h in {2,4,...,20} \draw (\ox,{\oy-22.775*\h}) -- ({\ox-6},{\oy-22.775*\h});
-  \foreach \t in {4,8,...,24} \node[below, inner sep=0pt] at ({\ox+43.75*\t},{\oy+22}) {\strut$\t$};
+  \foreach \t in {4,8,...,24} \node[anchor=north, inner sep=0pt] at ({\ox+43.75*\t},{\oy+23}) {$\t$};
   \foreach \h in {4,8,...,20} \node[left, inner sep=0pt] at ({\ox-14},{\oy-22.775*\h}) {$\h$};
 \end{tikzpicture}
 \end{document}

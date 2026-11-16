@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % crop pixels: x = 489 + 117.3 X, y = 378 - 117.8 Y
+  \begin{scope}[draw=black!30, aux]
+    \foreach \gx in {20,138,254,372,607,724,841} \draw (\gx,25) -- (\gx,732);
+    \foreach \gy in {25,142,260,496,614,732} \draw (20,\gy) -- (921,\gy);
+  \end{scope}
+  \draw[<->] (4,378) -- (950,378);
+  \draw[<->] (489,5) -- (489,744);
+  \draw[<->, line width=0.9pt] (9,614) -- (371.7,613.6) -- (606.3,142.4) -- (945,142.4);
+  \begin{scope}[font=\small]
+    \foreach \x/\l in {42/-4,159/-3,276/-2,391/-1} \node at (\x,403) {$\l$};
+    \foreach \x/\l in {510/0,629/1,747/2,864/3} \node at (\x,403) {$\l$};
+    \foreach \y/\l in {129/2,247/1,366/0} \node at (473,\y) {$\l$};
+    \foreach \y/\l in {483/-1,600/-2} \node at (467,\y) {$\l$};
+    \node at (462,724) {$-3$};
+  \end{scope}
+  \node at (963,404) {$x$};
+  \node at (519,34) {$y$};
+\end{tikzpicture}
+\end{document}

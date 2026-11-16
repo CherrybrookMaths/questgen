@@ -10,7 +10,10 @@
   \foreach \i in {-10,...,-1,1,2,...,10}{\draw (\i,-0.07) -- (\i,0.07);}
   \foreach \i in {-5,...,-1,1,2,...,6}{\draw (-0.07,\i) -- (0.07,\i);}
   \tikzset{tl/.style={font=\fontsize{5.5}{6}\selectfont,inner sep=1.2pt}}
-  \foreach \i in {-10,...,-1,1,2,3,4,7,8,9,10}{\node[tl,below] at (\i,-0.06) {$\i$};}
+  \foreach \i in {-10,-9,-7,-6,-5,-3,-2,-1,1,2,3,7,9,10}{\node[tl,below] at (\i,-0.06) {$\i$};}
+  % labels where the curve crosses the axis sit beside the curve, not on it
+  \node[tl,below left] at (-8.1,-0.06) {$-8$}; \node[tl,below right] at (-3.95,-0.06) {$-4$};
+  \node[tl,below left] at (3.95,-0.06) {$4$}; \node[tl,below right] at (8.1,-0.06) {$8$};
   \foreach \i in {5,6}{\node[tl,below] at (\i,-0.06) {\halo{$\i$}};}
   \node[tl,below left] at (0,-0.02) {$0$};
   \foreach \i in {-5,...,-1,1,2,...,6}{\node[tl,left] at (-0.06,\i) {$\i$};}

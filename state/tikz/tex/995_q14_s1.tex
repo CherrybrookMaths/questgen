@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% solution sketch 2024 King's AT1 Q14(a): h(t)=6cos(pi t/15)+22 over one period (crop pixels, y down; 9.3 px per hour, 55/6 px per metre)
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % level guides at 28 and 16
+  \draw[aux] (58,118) -- (575,118);
+  \draw[aux] (58,227) -- (575,227);
+  % axes (t-axis drawn at h=22)
+  \draw[->] (58,279) -- (58,8) node[right, inner sep=3pt, pos=0.97] {$h(t)$};
+  \draw[->] (58,172) -- (565,172);
+  \node[below, inner sep=4pt] at (515,174) {$t$};
+  % ticks every 7.5 h, 30 labelled
+  \foreach \t in {7.5,15,22.5,30} \draw ({58+9.3*\t},166) -- ({58+9.3*\t},178);
+  \node[below, inner sep=4pt] at ({58+9.3*30},178) {$30$};
+  % level labels
+  \node[left, inner sep=3pt] at (50,118) {$28$};
+  \node[left, inner sep=3pt] at (50,172) {$22$};
+  \node[left, inner sep=3pt] at (50,227) {$16$};
+  % curve
+  \draw[line width=0.9pt, domain=0:30, samples=90, smooth] plot ({58+9.3*\x},{172-55*cos(12*\x)});
+\end{tikzpicture}
+\end{document}

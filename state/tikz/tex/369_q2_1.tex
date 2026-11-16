@@ -9,12 +9,17 @@
   \foreach \i in {-5,...,5} {
     \ifnum\i=0\else
     \draw (\ox+\i*\u,\oy-6) -- (\ox+\i*\u,\oy+6);
-    \node[anchor=north, inner sep=1pt] at (\ox+\i*\u,\oy+19) {$\i$};
+    \ifnum\i=-1\else\node[anchor=north, inner sep=1pt] at (\ox+\i*\u,\oy+19) {$\i$};\fi
     \draw (\ox-6,\oy-\i*\u) -- (\ox+6,\oy-\i*\u);
-    \node[anchor=east, inner sep=1pt] at (\ox-12,\oy-\i*\u) {$\i$};
+    \ifnum\i=2\else\ifnum\i=-2\else\node[anchor=east, inner sep=1pt] at (\ox-12,\oy-\i*\u) {$\i$};\fi\fi
     \fi}
   % asymptote y = -2
-  \draw[aux] (36,\oy+2*\u) -- (794,\oy+2*\u);
+  \draw[aux] (36,\oy+2*\u) -- (378,\oy+2*\u);
+  \draw[aux] (406,\oy+2*\u) -- (794,\oy+2*\u);
+  % labels moved along their own side so they clear the curve / asymptote (rule 11)
+  \node[anchor=north west, inner sep=1pt] at (335,\oy+19) {$-1$};
+  \node[anchor=east, inner sep=1pt] at (380,\oy-2*\u) {$2$};
+  \node[anchor=east, inner sep=1pt] at (\ox-12,\oy+2*\u) {$-2$};
   % y = 2e^{x+1} - 2  (b = 1, c = -2), drawn from the equation
   \draw[line width=0.9pt, <->, smooth, samples=90, domain=-5.08:0.30, variable=\t]
     plot ({\ox+\t*\u}, {\oy-(2*exp(\t+1)-2)*\u});
