@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 637_q10_1: y = -4/(x-3) + 2 (asymptotes x=3, y=2, y-intercept 10/3), drawn from the equation at the crop's scale:
+% origin (237,266) px, 25.67 px per x-unit, 21.5 px per y-unit (y down).
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\X#1{(237+25.667*(#1))}
+  \draw[<->] (55,266) -- (500,266) node[right, inner sep=2pt] {$x$};
+  \draw[<->] (237,491) -- (237,41) node[above, inner sep=1pt] {$y$};
+  \draw[aux] (55,223) -- (496,223);
+  \draw[aux, <->] (314,491) -- (314,42);
+  \draw[<->, line width=0.9pt, smooth, samples=90, variable=\t, domain=-7.0:2.51]
+     plot ({237+25.667*\t},{266-21.5*(2-4/(\t-3))});
+  \draw[<->, line width=0.9pt, smooth, samples=90, variable=\t, domain=3.325:9.95]
+     plot ({237+25.667*\t},{266-21.5*(2-4/(\t-3))});
+  \node at (225,239) {$2$};
+  \node at (300,283) {$3$};
+  \node at (169,127) {$\dfrac{10}{3}$};
+  \draw[->] (200,157) -- (229,186);
+\end{tikzpicture}
+\end{document}
