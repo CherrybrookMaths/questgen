@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 638_q20_1: scatterplot of Balance against Age, 14 points read from the grid. Crop pixels (y down): origin (82,602),
+% 6.8 px per year, 47.15 px per balance unit. Green dots drawn black (rule 6).
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\X#1{(82+6.8*#1)}\def\Y#1{(602-47.15*#1)}
+  \foreach \a in {10,20,...,90} \draw[black!25, line width=0.4pt] ({82+6.8*\a},602) -- ({82+6.8*\a},36);
+  \foreach \b in {1,...,12} \draw[black!25, line width=0.4pt] (82,{602-47.15*\b}) -- (694,{602-47.15*\b});
+  \draw[->] (82,602) -- (716,602);
+  \draw[->] (82,602) -- (82,14);
+  \foreach \a in {10,20,...,90} { \draw ({82+6.8*\a},602) -- ({82+6.8*\a},610);
+     \node[anchor=north, inner sep=3pt] at ({82+6.8*\a},612) {$\a$}; }
+  \foreach \b in {1,...,12} \draw (74,{602-47.15*\b}) -- (82,{602-47.15*\b});
+  \foreach \b in {2,4,...,12} \node[anchor=east, inner sep=3pt] at (72,{602-47.15*\b}) {$\b$};
+  \foreach \a/\b in {10/10,20/9,20/8,30/8,40/9,40/7,50/7,50/6,50/5,60/5,70/4,80/3,80/2,90/2}
+     \fill ({82+6.8*\a},{602-47.15*\b}) circle (4.2);
+  \node[] at (398,664) {Age};
+  \node[rotate=90] at (18,310) {Balance};
+\end{tikzpicture}
+\end{document}
