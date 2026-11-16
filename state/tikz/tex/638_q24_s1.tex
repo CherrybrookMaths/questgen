@@ -1,7 +1,7 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-% 638_q24_s1: solution sketch of f(x) = x(4-x)/9 between its roots 0 and 4, maximum (2, 4/9) with dashed guides.
+% 638_q24_s1: solution sketch of f(x) = x(4-x)/9 on 1 <= x <= 4 (0 elsewhere), maximum (2, 4/9) with dashed guides.
 % From the equation (rules 10,16,17) at the sketch's size: origin (90,472), 96 px per x-unit, 4/9 at 264 px (crop pixels,
 % y down). Ruled notebook lines and the handwriting spilling in from neighbouring working are left out; blue drawn black.
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
@@ -9,7 +9,11 @@
   \draw[->] (90,490) -- (90,82) node[above, inner sep=3pt] {$f(x)$};
   \draw[aux] (90,208) -- (282,208);
   \draw[aux] (282,208) -- (282,472);
-  \draw[line width=0.9pt, smooth, samples=90, variable=\t, domain=0:4] plot ({90+96*\t},{472-66*\t*(4-\t)});
+  \draw[line width=0.9pt, smooth, samples=90, variable=\t, domain=1:4] plot ({90+96*\t},{472-66*\t*(4-\t)});
+  % 17 Nov (verify): f(x)=0 outside 1<=x<=4, so the curve starts at x=1 (f(1)=1/3), not at the origin as the teacher's sketch had it
+  \draw[aux] (186,472) -- (186,274);
+  \fill (186,274) circle (2.2pt);
+  \node[anchor=north, inner sep=5pt] at (186,472) {$1$};
   \node[anchor=east, inner sep=4pt] at (90,208) {$\dfrac{4}{9}$};
   \node[anchor=north, inner sep=5pt] at (282,472) {$2$};
   \node[anchor=north, inner sep=5pt] at (474,472) {$4$};
