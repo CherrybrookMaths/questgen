@@ -90,6 +90,7 @@ function serve() {
 /* ---------------- the fake runtime (runs in the page before its own scripts) ---------------- */
 function fakeClaude(arg) {
   // role (15 Nov, Teach | Curate): 'editor' (default: owner + canEdit), 'viewer' (neither), 'none' (no user capability: use('user') → null)
+  // 'checker' (17 Nov permissions: Editor share, not the owner): Curate with Review only, no Processes
   const seed = arg && arg.seed, role = (arg && arg.role) || 'editor', drive = arg && arg.drive;
   // deterministic Math.random, so a failing run can be repeated
   let a = 0x9e3779b9; Math.random = () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296 };
@@ -108,7 +109,7 @@ function fakeClaude(arg) {
       onSnapshot: (cb, err) => sub(ds, [k, cb], () => cb(docSnap(k)))
     })
   };
-  const user = {isOwner: async () => role === 'editor', canEdit: async () => role === 'editor', id: async () => 'u_pagetest', profiles: async ids => Object.fromEntries(ids.map(i => [i, {name: i === 'u_pagetest' ? 'Page test' : 'Colleague'}]))};
+  const user = {isOwner: async () => role === 'editor', canEdit: async () => role === 'editor' || role === 'checker', id: async () => 'u_pagetest', profiles: async ids => Object.fromEntries(ids.map(i => [i, {name: i === 'u_pagetest' ? 'Page test' : 'Colleague'}]))};
   const downloads = {save: async ({filename, data}) => {
     let bytes;
     if (typeof data === 'string') bytes = new TextEncoder().encode(data);
@@ -649,6 +650,25 @@ async function areas(browser, base, seed) {
   });
   await page.context().close();
 
+  // owner 17 Nov: "Checker (reviewer), Tutors" / "Hide Curate parts, Who can approve": the checker (Editor share) sees Review, never Processes
+  {
+    const cp = await newPage(browser, base, seed, {width: 1280, theme: 'light', role: 'checker'});
+    await boot(cp, base);
+    await check('areas (checker): Review only, no Processes', cp, async () => {
+      await cp.waitForFunction(() => EDITOR === true && QG.owner === false, null, {timeout: 15000});
+      await go(cp, '#review'); let r = await navState(cp);
+      assert(r.view === 'inbox' && r.tabs.join('/') === 'Review', `checker Curate shows ${r.tabs.join('/')} (view ${r.view})`);
+      for (const h of ['#processes', '#processes/papers', '#import']) {
+        await go(cp, '#bank'); await go(cp, h); r = await navState(cp);
+        assert(r.view === 'inbox' && r.hash === '#review', `checker on ${h} landed on ${r.hash} (view ${r.view})`);
+      }
+      const m = await cp.evaluate(() => { document.querySelector('#menuBtn').click(); const t = [...document.querySelectorAll('#mSheet a')].map(a => a.firstChild.textContent.trim()); document.querySelector('#menuBtn').click(); return t });
+      assert(!m.includes('Processes'), `phone menu offers ${m.join('/')}`);
+      const e = takeErrs(cp); assert(!e.length, e.slice(0, 3).join(' | '));
+      return 'tabs Review only; #processes, #processes/papers, #import go to #review; no Processes in the menu';
+    });
+    await cp.context().close();
+  }
   for (const role of ['viewer', 'none']) {
     const vp = await newPage(browser, base, seed, {width: 1280, theme: 'dark', role});
     await boot(vp, base);

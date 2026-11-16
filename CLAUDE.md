@@ -121,10 +121,14 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
    root, null = remove). Pass it unchanged.
 3. Artifact publish: `url` = the review page, `file_path` = `site/review.html`, `files` = the map. **Omit `capabilities`** to
    keep what the page has. If a change needs new capabilities, send the whole object; a non-empty one replaces everything. Live
-   since 14 Nov (v214):
+   since 14 Nov (v214); 17 Nov roles (UI_SPEC "Roles (17 Nov)"): reviews and difficulty writes raised to admin, notes admin,
+   progress written by admin only (read stays view: the page reads progress/import at start for everyone):
    ```json
    {"db": {"rules": [
-      {"path": "reviews",  "read": "view",  "write": "interact"},
+      {"path": "reviews",  "read": "view",  "write": "admin"},
+      {"path": "difficulty", "read": "view", "write": "admin"},
+      {"path": "notes",    "read": "admin", "write": "admin"},
+      {"path": "progress", "read": "view",  "write": "admin"},
       {"path": "scans",    "read": "admin", "write": "admin"},
       {"path": "runs",     "read": "admin", "write": "admin"},
       {"path": "importq",  "read": "admin", "write": "admin"},

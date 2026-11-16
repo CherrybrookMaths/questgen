@@ -11,7 +11,7 @@ const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 // owner 13 Nov (health pass, CODE_HEALTH rule 5): course is a dimension: the course's name and the files holding its questions (with their topics and
 // difficulty references) and its dot points come from QG.courses[QG.course]; read them with QG.courseData, never type
 // "Advanced". Only Advanced has data so far; a course is added here once it has a bank, dot points and difficulty references.
-const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'bank',course:'advanced',
+const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:null,view:'bank',course:'advanced',
   // owner 14 Nov: "Ok we should run Fix 1 and 2" (Fix 1: keep the published page small; fetch data only when needed): bank is
   // the course's small index (tools/bank_split.py); each question's text arrives with its topic file (QG.need below)
   // owner 16 Nov: "Yeah build it" (job 2): the index is slim and compressed; the rest of each question's index fields (triage,

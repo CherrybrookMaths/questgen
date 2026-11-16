@@ -84,7 +84,7 @@ function placeRow(p){const f=PQ.state.fix[p.id]||{},pk=pre(p),yl=pk.yl,c=pk.cour
       <div class="pr-picks"><span>Year</span>${['11','12'].map(y=>pill('data-pryl',y,yl===y&&!out,y)).join('')}</div>
       <div class="pr-picks"><span>Course</span>${cs.map(x=>pill('data-prc',x.key,c===x.key&&!out,x.short||x.name)).join('')}<button type="button" class="pr-pill pr-out" data-prout="${p.id}" aria-pressed="${out}">Not in scope</button></div>
       ${res?`<p class="pr-res" role="status">✓ ${esc(res)}</p>`:''}</div></div>`}
-function draw(){const el=$('#prCheck');if(!el||el.hidden||!isEditor())return;const m=PQ.model();if(!m){el.innerHTML='<p class="pempty">Loading the paper list…</p>';return}
+function draw(){const el=$('#prCheck');if(!el||el.hidden||!isOwnerV())return;const m=PQ.model();if(!m){el.innerHTML='<p class="pempty">Loading the paper list…</p>';return}
   const pr=m.D.proposed,ruleIds=new Set(pr&&!pr.accepted&&!PQ.accepted()?(pr.rules||[]).flatMap(r=>r.ids):[]);
   // the owner's own: every paper still needing a check that no proposed fix places, plus those he has answered (kept, so he can change them)
   const mine=[...m.ps.filter(p=>p.st==='needs_check'&&!ruleIds.has(p.id)),...m.ps.filter(p=>p.mine)].sort((a,b)=>String((a.p||[''])[0]).localeCompare(String((b.p||[''])[0])));
@@ -96,15 +96,15 @@ function draw(){const el=$('#prCheck');if(!el||el.hidden||!isEditor())return;con
       <button type="button" class="act" data-prcover${cc||!all?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button></div>
       ${mine.length?mine.map(placeRow).join(''):'<p class="pempty">Nothing left to place.</p>'}</div>`;
   manifest();watch()}
-function render(){if(!isEditor())return;draw()}
+function render(){if(!isOwnerV())return;draw()}
 // ---- writes (editors only)
-async function accept(){const pr=PQ.state.data&&PQ.state.data.proposed;if(!isEditor()||!db||!pr||pr.accepted||PQ.accepted())return false;
+async function accept(){const pr=PQ.state.data&&PQ.state.data.proposed;if(!isOwnerV()||!db||!pr||pr.accepted||PQ.accepted())return false;
   const doc={version:pr.version,accepted:true,by:me||null,at:new Date().toISOString()};
   try{await db.doc('scans/rules').set(doc);PQ.state.acc=doc;PQ.redraw();toast('Rules accepted');return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
-async function place(id,patch){const m=PQ.model(),p=m&&m.byId.get(+id);if(!isEditor()||!db||!p)return false;const cur=PQ.state.fix[p.id]||{},pk=pre(p);
+async function place(id,patch){const m=PQ.model(),p=m&&m.byId.get(+id);if(!isOwnerV()||!db||!p)return false;const cur=PQ.state.fix[p.id]||{},pk=pre(p);
   const doc={id:p.id,files:cur.files||p.f||[p.id],yl:pk.yl?+pk.yl:null,course:pk.course||null,out:false,...patch,by:me||null,at:new Date().toISOString()};
   try{await db.doc('paperfix/p'+p.id).set(doc);PQ.state.fix[p.id]=doc;PQ.redraw();return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
-document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#prCheck')||!isEditor())return;
+document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#prCheck')||!isOwnerV())return;
   if(t.closest('#prAccept')){C.busy=true;draw();try{await accept()}finally{C.busy=false;draw()}return}
   const see=t.closest('[data-prsee]');if(see){C.see=C.see===see.dataset.prsee?null:see.dataset.prsee;draw();return}
   const pg=t.closest('[data-prpg]');if(pg){const [id,i]=pg.dataset.prpg.split(':');openView(id,i,pg);return}

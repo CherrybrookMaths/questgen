@@ -2054,7 +2054,7 @@ const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 // owner 13 Nov (health pass, CODE_HEALTH rule 5): course is a dimension: the course's name and the files holding its questions (with their topics and
 // difficulty references) and its dot points come from QG.courses[QG.course]; read them with QG.courseData, never type
 // "Advanced". Only Advanced has data so far; a course is added here once it has a bank, dot points and difficulty references.
-const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,view:'bank',course:'advanced',
+const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:null,view:'bank',course:'advanced',
   // owner 14 Nov: "Ok we should run Fix 1 and 2" (Fix 1: keep the published page small; fetch data only when needed): bank is
   // the course's small index (tools/bank_split.py); each question's text arrives with its topic file (QG.need below)
   // owner 16 Nov: "Yeah build it" (job 2): the index is slim and compressed; the rest of each question's index fields (triage,
@@ -3118,6 +3118,11 @@ const AREAS={teach:['bank','exams','guide'],curate:['inbox','review','papers','p
 const REVIEW_VIEWS=['inbox','review','papers','levels','reports'];
 const areaOf=v=>AREAS.curate.includes(v)?'curate':'teach';
 const isEditor=()=>QG.editor===true;
+// owner 17 Nov: "I need you to work on some permissions now for who can see wha[t]" -> who: "Checker (reviewer), Tutors"; control:
+// "Hide Curate parts, Who can approve". Owner: everything. Checker = Editor share (canEdit): Curate with Review only (Inbox, papers,
+// lists, Difficulty, Reports): Processes, the to-do list and the job strip stay hidden. Tutor = Contributor or Viewer share: Teach only.
+// QG.owner: null until the user capability answers, then user.isOwner(). Approving is enforced by the db rules (reviews write admin).
+const isOwnerV=()=>QG.owner===true;
 const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#processes/papers/check':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
 const VHASH={inbox:'#review',review:'#review',levels:'#review/difficulty',reports:'#review/reports',papers:'#review/papers',processes:'#processes',guide:'#guide',exams:'#exams',bank:'#bank'};
 // old links: #import (owner 14 Nov) → Processes › Papers (owner 13 Nov, two tabs: the import dashboard is in Papers › Import history); #levels / #difficulty / #reports (tabs until 15 Nov) → their Review section; #papers (tab until 13 Nov) → Review's papers
@@ -3130,6 +3135,7 @@ function setHash(h){try{history.replaceState(null,'',h)}catch(e){location.replac
 function applyArea(){const a=areaOf(view),ed=isEditor();
   document.documentElement.dataset.area=a;document.documentElement.classList.toggle('editor',ed);
   $$('.views a[data-area]').forEach(x=>x.hidden=!ed?x.dataset.area!=='teach':x.dataset.area!==a);
+  const vp=$('#vProcesses');if(vp&&!isOwnerV())vp.hidden=true;
   const sw=$('#areaSw');if(sw){sw.hidden=!ed;$$('#areaSw button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.area===a)))}
   if(ed){save('qg_area',a);save('qg_last_'+a,parseHash(location.hash).v===view?location.hash:(VHASH[view]||''))}   // owner/editor: remember the last area (and view in it)
   moveAreaSlider()}
@@ -3144,6 +3150,7 @@ function route(){
   // owner 15 Nov: "curate should be hidden to peope except editors." A viewer who opens a Curate link lands on the Bank.
   // While the user capability has not answered yet (EDITOR null) the Bank shows and the link is kept, so an editor's link still works once it answers.
   if(areaOf(v)==='curate'&&!isEditor()){v='bank';if(EDITOR===false)setHash('#bank')}
+  if(v==='processes'&&!isOwnerV()){v=isEditor()?'inbox':'bank';if(QG.owner===false)setHash(isEditor()?'#review':'#bank')}   // owner 17 Nov: the checker sees Review, not Processes
   // a paper (or list) needs the bank to resolve; until it loads the Inbox stands in
   if(v==='review'&&(!B||(QG.ready(v)&&!openReview(P))))v='inbox';   // job 2: a paper's first step reads triage: opened once the details are in
   // Processes: the tab in the address, else the one used last (per browser), else Work; the address then names it
@@ -3173,7 +3180,7 @@ function route(){
   if(view==='inbox') renderInbox(); else if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes') renderProcesses(); else { $('#stF').value=rstatus; refreshReview(); }
 }
 // the user capability answered: show or hide Curate, and send a viewer on a Curate link to the Bank
-function setEditor(ed){QG.editor=!!ed;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role
+function setEditor(ed,own){QG.editor=!!ed;QG.owner=!!own;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role
   // owner/editor with no link in the address: open the area used last
   if(EDITOR&&!location.hash&&load('qg_area')==='curate'&&!window._navved){goArea('curate');return}
   route()}
@@ -3300,7 +3307,7 @@ function tonightHTML(){const N=QG.night||{},run=(typeof PQ!=='undefined'&&PQ.run
   const st={done:'✓',failed:'✗',skipped:'–'};
   return `<section class="psec pr-night" aria-labelledby="pNightH"><h3 id="pNightH">Tonight${N.time?` <span class="pcount">${esc(N.time)}</span>`:''}</h3>
   <ol class="pqueue">${steps.map((x,i)=>`<li><span class="pnum" aria-hidden="true">${i+1}</span><div><b>${esc(x.title)}</b>${x.detail?`<p>${esc(x.detail)}</p>`:''}</div></li>`).join('')}
-  ${req.map(r=>`<li><span class="pnum" aria-hidden="true">+</span><div><b>${esc(NIGHT_KIND[r.kind]||r.kind)}${r.papers?.length?`: ${r.papers.length} paper${r.papers.length===1?'':'s'}`:''}</b><p>Requested ${esc(ago(r.at))}${isEditor()?` · <button type="button" class="linkbtn" data-night-drop="${esc(r.id)}">Remove</button>`:''}</p></div></li>`).join('')}
+  ${req.map(r=>`<li><span class="pnum" aria-hidden="true">+</span><div><b>${esc(NIGHT_KIND[r.kind]||r.kind)}${r.papers?.length?`: ${r.papers.length} paper${r.papers.length===1?'':'s'}`:''}</b><p>Requested ${esc(ago(r.at))}${isOwnerV()?` · <button type="button" class="linkbtn" data-night-drop="${esc(r.id)}">Remove</button>`:''}</p></div></li>`).join('')}
   ${skip.map(x=>`<li class="pr-nskip"><span class="pnum" aria-hidden="true">–</span><div><b>${esc(x.title)}</b>${x.why?`<p>Skipped: ${esc(x.why)}</p>`:''}</div></li>`).join('')}</ol>
   ${last&&last.items?.length?`<details class="pr-nlast"><summary>Last night${last.at?`, ${esc(ago(last.at))}`:''}</summary><ul>${last.items.map(x=>`<li><span class="pr-nst" aria-hidden="true">${st[x.status]||'·'}</span><div><b>${esc(x.title)}</b>${x.result?`<p>${esc(x.result)}</p>`:''}</div></li>`).join('')}</ul></details>`:''}</section>`}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-night-drop]');if(!b||typeof PQ==='undefined'||!PQ.run)return;b.disabled=true;PQ.run.drop(b.dataset.nightDrop)});
@@ -3373,7 +3380,7 @@ function runningNow(){const jobs=JOBS.filter(j=>j&&j.name&&!(QUEUE&&/^\s*queued\
 // "Open Processes" link: a click on the pill goes there. Touch (no hover): the first tap shows it, a tap on it or a second tap on the pill opens Processes.
 function renderJobs(){const el=$('#jobs');if(!el)return;const run=runningNow(),que=queueItems('queued');
   // owner 15 Nov: the pills lead to Processes (Curate), so only editors see them
-  el.hidden=!isEditor()||(!run.length&&!que.length);if(el.hidden){el.innerHTML='';setHdr();return}
+  el.hidden=!isOwnerV()||(!run.length&&!que.length);if(el.hidden){el.innerHTML='';setHdr();return}
   const hit=run.filter(j=>j.affects&&view==='review'&&rfilter===j.affects);
   const row=(j,n)=>`<span class="job"><b>${n?`<span class="qn">${n}</span>`:''}${esc(j.name||j.title)}</b>${j.step?`<span class="jstep">${esc(j.step)}${stepBar(j.step)}</span>`:''}${j.detail?`<span class="muted">${esc(j.detail)}</span>`:''}${jobTimes(j)||(j.started?`<span class="muted when">${esc(startedAgo(j.started))}</span>`:'')}</span>`;
   const runPill=run.length?`<span class="jp run${hit.length?' hit':''}"><a class="jpill" href="#processes/work" aria-describedby="jpopR"><span class="dot" aria-hidden="true"></span>${hit.length?'Wait · ':''}${run.length} running</a>
@@ -3397,7 +3404,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
   route();
   // owner 15 Nov: "curate should be hidden to peope except editors." Curate shows only for the owner or an editor (user.isOwner() / canEdit());
   // no user capability, or no answer, counts as not an editor, so Curate stays hidden.
-  {const c=window.claude;if(!c?.use)setEditor(false);else c.use('user').then(async u=>{let ed=false;if(u){try{ed=!!(await u.isOwner())}catch(e){}if(!ed){try{ed=!!(await u.canEdit())}catch(e){}}}setEditor(ed)}).catch(()=>setEditor(false))}
+  {const c=window.claude;if(!c?.use)setEditor(false);else c.use('user').then(async u=>{let ed=false,own=false;if(u){try{own=ed=!!(await u.isOwner())}catch(e){}if(!ed){try{ed=!!(await u.canEdit())}catch(e){}}}setEditor(ed,own)}).catch(()=>setEditor(false))}
   try{
     // a load during a republish (or a network blip) can fail once: QG.get retries 3 times before giving up.
     // owner 14 Nov: "Ok we should run Fix 1 and 2" (Fix 1): the index and the dot points load first; question text comes per
@@ -3681,7 +3688,7 @@ document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('in
   const close=()=>{sh.hidden=true;btn.setAttribute('aria-expanded','false')};
   // owner 15 Nov: the menu is grouped by area, Teach then Curate; the Curate group is there only for the owner and editors
   const link=a=>{const n=a.querySelector('.n')?.textContent||'';return `<a href="${a.getAttribute('href')}" aria-current="${a.getAttribute('aria-current')==='page'?'page':'false'}">${esc(a.firstChild.textContent)}${n?`<span class="n">${esc(n)}</span>`:''}</a>`};
-  const group=(k,l)=>{const as=[...document.querySelectorAll(`.views a[data-area="${k}"]`)];return `<div class="mgrp" data-marea="${k}"><div class="mh">${l}</div>${as.map(link).join('')}</div>`};
+  const group=(k,l)=>{const as=[...document.querySelectorAll(`.views a[data-area="${k}"]`)].filter(a=>a.id!=='vProcesses'||isOwnerV());/* owner 17 Nov: Processes is the owner's */return `<div class="mgrp" data-marea="${k}"><div class="mh">${l}</div>${as.map(link).join('')}</div>`};
   const open=()=>{sh.innerHTML=group('teach','Teach')+(isEditor()?group('curate','Curate'):'')
       +`<hr><button type="button" data-mtheme>Theme <span class="mt">${esc(($('#themeBtn')?.textContent||'').replace(/^Theme:\s*/,''))}</span></button>`;
     sh.hidden=false;btn.setAttribute('aria-expanded','true')};
@@ -5036,15 +5043,15 @@ document.addEventListener('click',e=>{const b=e.target.closest('#xWord');if(!b||
 /* ---------- Next up notes (owner 13 Nov: "add a place somewhere for me to write down what to flesh out next") ----------
    A "Next up" card on Processes (Curate, so editors only). db collection "notes", one doc per note:
    {text, order, done, by, at}. Open notes in `order`; ticked ones move to a collapsed "Done" list. Reorder by dragging
-   (desktop) or the ↑ ↓ buttons; delete asks inline (no confirm()). Only editors write: every handler checks isEditor().
+   (desktop) or the ↑ ↓ buttons; delete asks inline (no confirm()). Only editors write: every handler checks isOwnerV().
    Claude reads this list (ArtifactData list on "notes") when asked what to build next. */
 const NOTES={list:[],sub:null,loaded:false,del:null};
 const notesOpen=()=>NOTES.list.filter(n=>!n.done).sort((a,b)=>(+a.order||0)-(+b.order||0)||String(a.at).localeCompare(String(b.at)));
 const notesDone=()=>NOTES.list.filter(n=>n.done).sort((a,b)=>String(b.doneAt||b.at).localeCompare(String(a.doneAt||a.at)));
-function notesSubscribe(){if(NOTES.sub||!db||!isEditor())return;
+function notesSubscribe(){if(NOTES.sub||!db||!isOwnerV())return;
   try{NOTES.sub=db.collection('notes').onSnapshot(s=>{const d=s.docs||s;NOTES.list=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).filter(n=>n&&typeof n.text==='string');NOTES.loaded=true;notesList()},()=>{})}catch(e){}}
 // the card is drawn once (so a half-typed note survives the Processes refresh); only the list inside it is redrawn
-function renderNotes(){const box=$('#notesBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
+function renderNotes(){const box=$('#notesBox');if(!box)return;box.hidden=!isOwnerV();if(box.hidden)return;
   if(!box.dataset.ready){box.dataset.ready='1';
     box.innerHTML=`<section class="psec nup" aria-labelledby="nupH"><h3 id="nupH">Next up <span class="pcount" id="nupN" hidden></span></h3>
       <form class="nupadd" id="nupForm" autocomplete="off"><label class="sr" for="nupIn">New note</label><input id="nupIn" type="text" maxlength="500" placeholder="What to flesh out next…"><button type="submit" class="act">Add</button></form>
@@ -5060,7 +5067,7 @@ function notesList(){const el=$('#nupList');if(!el)return;const op=notesOpen(),d
   const n=$('#nupN');if(n){n.hidden=!op.length;n.textContent=op.length}
   el.innerHTML=(op.length?`<ol class="nlist">${op.map((x,i)=>noteRow(x,i,op.length)).join('')}</ol>`:`<p class="pempty">${NOTES.loaded||!db?'Ideas for what to build next. Claude reads this list.':'Loading notes…'}</p>`)+
     (dn.length?`<details class="ndone"${wasOpen?' open':''}><summary>Done <span class="pcount">${dn.length}</span></summary><ul class="nlist">${dn.map(x=>`<li class="nrow isdone" data-note="${esc(x.id)}"><input type="checkbox" class="ntick" data-ntick="${esc(x.id)}" checked aria-label="Not done: ${esc(x.text)}"><span class="ntext">${esc(x.text)}</span><span class="nacts">${NOTES.del===x.id?`<span class="ndelq">Delete? <button type="button" class="nyes" data-ndelok="${esc(x.id)}">Delete</button><button type="button" class="nno" data-ndelno="1">Keep</button></span>`:`<button type="button" class="nbtn ndel" data-ndel="${esc(x.id)}" aria-label="Delete note">×</button>`}</span></li>`).join('')}</ul></details>`:'')}
-async function noteSet(n,patch){if(!isEditor()||!db)return false;const {id,...rest}=n;
+async function noteSet(n,patch){if(!isOwnerV()||!db)return false;const {id,...rest}=n;
   try{await db.doc('notes/'+id).set({...rest,...patch});return true}catch(e){toast('Could not save. Try again in a moment.');return false}}
 /* Shared by the Processes lists that the owner orders by hand: Next up (here) and Import order (32_papers_q.js).
    Code health 13 Nov, rule 3 "Reshape, don't bolt on": one copy of the order writer and of drag-to-reorder. */
@@ -5078,8 +5085,8 @@ function sortableList(rows,key,ids,reorder,redraw){let drag=null;const R=rows+'[
     if(!li||li.dataset[key]===from){redraw();return}const after=li.classList.contains('nover-a'),L=ids().filter(x=>x!==from);
     const k=L.indexOf(li.dataset[key]);if(k<0){redraw();return}L.splice(after?k+1:k,0,from);await reorder(L)});
   document.addEventListener('dragend',()=>{if(drag){drag=null;redraw()}})}
-async function notesReorder(ids){if(!isEditor())return;await writeOrder(NOTES.list,ids,noteSet,notesList)}
-document.addEventListener('submit',async e=>{if(e.target.id!=='nupForm')return;e.preventDefault();if(!isEditor()||!db)return;
+async function notesReorder(ids){if(!isOwnerV())return;await writeOrder(NOTES.list,ids,noteSet,notesList)}
+document.addEventListener('submit',async e=>{if(e.target.id!=='nupForm')return;e.preventDefault();if(!isOwnerV()||!db)return;
   const inp=$('#nupIn'),t=inp.value.trim();if(!t)return;const op=notesOpen();
   const id='n'+Date.now().toString(36)+Math.floor(Math.random()*1e6).toString(36);
   const doc={text:t.slice(0,500),order:(op.length?Math.max(...op.map(n=>+n.order||0)):0)+1,done:false,by:me||null,at:new Date().toISOString()};
@@ -5089,10 +5096,10 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
     [ids[i],ids[j]]=[ids[j],ids[i]];await notesReorder(ids);const b=document.querySelector(`#nupList [data-nid="${CSS.escape(mv.dataset.nid)}"][data-nmove="${mv.dataset.nmove}"]`);if(b&&!b.disabled)b.focus();return}
   const dl=t.closest('[data-ndel]');if(dl){NOTES.del=dl.dataset.ndel;notesList();const k=$('#nupList [data-ndelno]');if(k)k.focus();return}
   if(t.closest('[data-ndelno]')){const id=NOTES.del;NOTES.del=null;notesList();const b=id&&document.querySelector(`#nupList [data-ndel="${CSS.escape(id)}"]`);if(b)b.focus();return}
-  const ok=t.closest('[data-ndelok]');if(ok){if(!isEditor()||!db)return;const id=ok.dataset.ndelok;NOTES.del=null;
+  const ok=t.closest('[data-ndelok]');if(ok){if(!isOwnerV()||!db)return;const id=ok.dataset.ndelok;NOTES.del=null;
     try{await db.doc('notes/'+id).delete();NOTES.list=NOTES.list.filter(n=>n.id!==id);notesList();toast('Note deleted')}catch(_){toast('Could not delete. Try again in a moment.')}return}});
 document.addEventListener('change',async e=>{const c=e.target.closest&&e.target.closest('#notesBox [data-ntick]');if(!c)return;
-  const n=NOTES.list.find(x=>x.id===c.dataset.ntick);if(!n)return;if(!isEditor()){c.checked=!!n.done;return}
+  const n=NOTES.list.find(x=>x.id===c.dataset.ntick);if(!n)return;if(!isOwnerV()){c.checked=!!n.done;return}
   const done=c.checked,patch={done,doneAt:done?new Date().toISOString():null};
   if(!done)patch.order=(Math.max(0,...notesOpen().map(x=>+x.order||0)))+1;   // un-ticked: back to the end of the list
   Object.assign(n,patch);notesList();await noteSet(n,patch)});
@@ -5145,10 +5152,10 @@ const yrs=ps=>{const y=ps.map(p=>p.y).filter(Boolean);if(!y.length)return '';con
 const snap=(s)=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
 
 // ---- loading (editors only: a viewer never fetches the inventory or subscribes)
-function load(){if(S.data||S.loading||!isEditor())return;S.loading=true;
+function load(){if(S.data||S.loading||!isOwnerV())return;S.loading=true;
   fetch('data/inventory.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{S.data=d&&Array.isArray(d.groups)?d:null;S.failed=!S.data})
     .catch(()=>{S.failed=true}).finally(()=>{S.loading=false;if(view==='processes')render()})}
-function subscribe(){if(!db||!isEditor())return;
+function subscribe(){if(!db||!isOwnerV())return;
   const on=(k,f)=>{if(S.subs[k])return;try{S.subs[k]=f()}catch(e){}};
   on('fix',()=>db.collection('paperfix').onSnapshot(s=>{S.fix={};snap(s).forEach(x=>{if(Number.isFinite(+x.id))S.fix[+x.id]=x});redraw()},()=>{}));
   on('swaps',()=>db.collection('batches').onSnapshot(s=>{S.swaps={};snap(s).forEach(x=>{S.swaps[x.id]=Array.isArray(x.swaps)?x.swaps:[]});redraw();if(API.run)API.run.draw()},()=>{}));
@@ -5287,8 +5294,8 @@ function lanesHTML(){const el=$('#prLanes');if(!el)return;const m=model();if(!m)
     ${lockedHTML(m)}${copiesHTML(m)}
     <div class="pr-legend" aria-hidden="true">${Object.entries(SQW).map(([k,w])=>`<span><i class="pr-b ${k}"></i>${esc(w[0].toUpperCase()+w.slice(1))}</span>`).join('')}</div>`;   // owner 14 Nov: cleared vs waiting in the legend
   if(wasOpen&&$('#prLock'))$('#prLock').open=true;if(cpo&&$('#prCopies'))$('#prCopies').open=true;cpp.forEach(k=>{const d=$(`#prCopies [data-cpp="${k}"]`);if(d)d.open=true})}
-function redraw(){if(!isEditor()||!$('#prLanes'))return;M=null;sub();tiles();lanesHTML();if(API.check)API.check.draw()}
-function render(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
+function redraw(){if(!isOwnerV()||!$('#prLanes'))return;M=null;sub();tiles();lanesHTML();if(API.check)API.check.draw()}
+function render(){const box=$('#invBox');if(!box)return;box.hidden=!isOwnerV();if(box.hidden)return;
   if(!box.dataset.ready){box.dataset.ready='1';
     box.innerHTML=`<section class="psec pr-papers" aria-label="Papers"><div id="prMainWrap">
       <div class="ivsubrow"><p class="ivsub" id="ivSub"></p><span id="ivScanBtn"></span></div><div id="ivScan"></div>
@@ -5299,10 +5306,10 @@ function render(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();i
   load();subscribe();redraw();if(API.scan)API.scan.render();if(API.run)API.run.render();if(API.check)API.check.render()}
 
 // ---- writes (editors only)
-async function swap(key,id){const L=lanes().find(x=>x.key===key);if(!isEditor()||!db||!L)return false;
+async function swap(key,id){const L=lanes().find(x=>x.key===key);if(!isOwnerV()||!db||!L)return false;
   const doc={course:L.course,yl:L.yl,swaps:[...(S.swaps[key]||[]),{id:+id,by:me||null,at:new Date().toISOString()}]};
   try{await db.doc('batches/'+key).set(doc);S.swaps[key]=doc.swaps;redraw();if(API.run)API.run.draw();toast('Moved to the end of '+L.name);return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
-document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isEditor())return;
+document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isOwnerV())return;
   const sq=t.closest('[data-prb]');if(sq){const [key,n]=sq.dataset.prb.split(':');S.open=S.open&&S.open.key===key&&S.open.n===+n?null:{key,n:+n};lanesHTML();
     const p=$('#prLanes .pr-panel');if(p)p.scrollIntoView({block:'nearest'});return}
   if(t.closest('[data-prclose]')){const k=S.open;S.open=null;lanesHTML();const b=k&&$(`#prLanes [data-prb="${CSS.escape(k.key+':'+k.n)}"]`);if(b)b.focus();return}
@@ -5390,7 +5397,7 @@ function classify(p){const X=rx();if(!X)return null;const R=X.R,name=p.split('/'
   return {course,yl,task,year,school,status,why}}
 
 // ---- the saved scans (db collection scans), newest first
-function subscribe(){if(S.sub||!db||!isEditor())return;
+function subscribe(){if(S.sub||!db||!isOwnerV())return;
   try{S.sub=db.collection('scans').onSnapshot(s=>{const d=s.docs||s,all=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}));
     const parts={};all.filter(x=>x&&x.of&&Array.isArray(x.new)).forEach(x=>(parts[x.of]=parts[x.of]||[]).push(x));   // 16 Nov: a scan saved in parts
     S.scans=all.filter(x=>x&&x.at&&Array.isArray(x.new)).map(x=>x.parts>1?{...x,new:x.new.concat(...(parts[x.id]||[]).sort((a,b)=>a.part-b.part).map(p=>p.new))}:x).sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));paint();PQ.sub()},()=>{})}catch(e){}}
@@ -5422,7 +5429,7 @@ async function walk(root,signal){const skip=new Set((inv().scan_skip||[]).map(ke
     pump()});
   return [...files.values()]}
 
-async function start(){if(!isEditor()||!S.mcp||typeof S.mcp!=='object'||S.run||!db)return;const D=inv(),root=D&&D.root_drive_id;
+async function start(){if(!isOwnerV()||!S.mcp||typeof S.mcp!=='object'||S.run||!db)return;const D=inv(),root=D&&D.root_drive_id;
   if(!root||!/^[\w-]+$/.test(root)||!rx())return;
   const ac=new AbortController();S.run=ac;S.err='';S.fresh=null;S.prog={done:0,total:1,pdfs:0,wait:false};paint();
   try{if(!await loadFiles()||!known())throw {code:'no_record'};
@@ -5483,7 +5490,7 @@ function button(){const el=$('#ivScanBtn');if(!el)return;const D=inv();
   if(S.mcp===null||!D.root_drive_id||!filesUrl()||!D.rules){el.innerHTML='<span class="ivask" title="Rescanning needs the Google Drive connector, which this view does not have">Ask Claude to rescan</span>';return}
   if(!$('#ivScanGo'))el.innerHTML='<button type="button" class="act ivscanb" id="ivScanGo">Rescan drive</button>';
   $('#ivScanGo').disabled=!!S.run}
-function paint(){if(!isEditor())return;button();const el=$('#ivScan');if(!el)return;let h='';
+function paint(){if(!isOwnerV())return;button();const el=$('#ivScan');if(!el)return;let h='';
   if(S.prog){const P=S.prog;h+=`<div class="ivsprog" role="status"><span class="ivsptxt">Scanning Google Drive · <b>${P.done}</b> of <b>${P.total}</b> folders · ${plural(P.pdfs,'PDF')}${P.wait?' · <em>waiting for Google Drive…</em>':''}</span>
     <progress max="${P.total}" value="${P.done}" aria-label="Folders scanned"></progress><button type="button" class="act" id="ivScanStop">Cancel</button></div>`}
   if(S.err)h+=`<p class="ivserr" role="alert">${esc(S.err)}</p>`;
@@ -5497,7 +5504,7 @@ function paint(){if(!isEditor())return;button();const el=$('#ivScan');if(!el)ret
     h+=`<div class="ivslast"><p><b>Found in the last scan, not yet in the record: ${n}</b> <small>· scanned ${esc(clockT(s.at))}</small></p>
       <p class="ivsnote">Tonight's night run adds these to the record (Processes › Work › Tonight). Open a group to see its files.</p>${rows.length?listHTML(rows):''}</div>`}
   el.innerHTML=h}
-function render(){if(!isEditor()||!$('#ivScan'))return;subscribe();
+function render(){if(!isOwnerV()||!$('#ivScan'))return;subscribe();
   if(S.mcp===undefined){const c=window.claude;if(!c||!c.use)S.mcp=null;
     else{S.mcp='asking';c.use('mcp').then(m=>{S.mcp=m||null},()=>{S.mcp=null}).finally(paint)}}
   paint()}
@@ -5519,7 +5526,7 @@ return {render,last,start,stop,classify,state:S};
    "N batches are waiting for review" beside Start is information only (PQ.waiting(): imported batches whose papers have not
    all cleared Review, by Review's own per-paper track). Run the cover-page check writes {kind:'cover_check',
    status:'requested', papers:[the Needs a check papers], by, at} to "runs" too; Claude does the check.
-   No new page-wide name: PQ.run. Only editors read or write: every handler checks isEditor(). */
+   No new page-wide name: PQ.run. Only editors read or write: every handler checks isOwnerV(). */
 PQ.run=(()=>{
 const R={q:[],runs:[],subs:{},busy:false};
 // unusual problems that stop the queue early (chosen 14 Nov while the owner was away; tools/import_next.py STOP_EARLY): a paper
@@ -5529,7 +5536,7 @@ const STOP_EARLY={failed_papers:1,failed_pages:3,your_calls:13};
 const EST=[12,17];
 const ACTIVE=['requested','running'];
 const snap=s=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
-function subscribe(){if(!db||!isEditor())return;
+function subscribe(){if(!db||!isOwnerV())return;
   if(!R.subs.q)try{R.subs.q=db.collection('queue').onSnapshot(s=>{R.q=snap(s).filter(x=>x&&x.course&&Number.isFinite(+x.batch));PQ.redraw();draw()},()=>{})}catch(e){}
   if(!R.subs.r)try{R.subs.r=db.collection('runs').onSnapshot(s=>{R.runs=snap(s).filter(x=>x&&x.status);PQ.redraw();draw();
     if(view==='processes'&&$('#processesView').dataset.tab!=='papers')renderProcesses()},()=>{})}catch(e){}}   // job 6: the Tonight card lists waiting requests
@@ -5541,7 +5548,7 @@ const live=()=>items().filter(i=>!i.done);
 function pos(k,n){const i=live().findIndex(i=>key(i.x)===k&&+i.x.batch===+n);return i+1}
 const active=kind=>R.runs.filter(r=>r.kind===kind&&ACTIVE.includes(r.status)).sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null;
 function cost(n){const v=PQ.cost(),pp=v||EST;return {est:!v,pp,lo:n*pp[0],hi:n*pp[1]}}
-function draw(){const el=$('#prQueue');if(!el||!isEditor())return;if(!PQ.state.data){el.innerHTML='';return}
+function draw(){const el=$('#prQueue');if(!el||!isOwnerV())return;if(!PQ.state.data){el.innerHTML='';return}
   const L=items(),n=live(),np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np),run=active('queue');
   const row=(i,k)=>{const f=i.f,nm=f?f.lane.name:PQ.laneName(i.x.course,String(i.x.yl)),st=i.done?'Imported':k===0?(run&&run.status==='running'?'Running':'Next'):'Waiting';
     return `<li class="pr-qi${!i.done&&k===0?' next':''}${i.done?' done':''}" data-prq="${esc(i.x.id)}"><span class="pr-qn" aria-hidden="true">${i.done?'✓':k+1}</span>
@@ -5557,10 +5564,10 @@ function draw(){const el=$('#prQueue');if(!el||!isEditor())return;if(!PQ.state.d
       `<div class="pr-startrow"><button type="button" class="act primary pr-start" id="prQStart"${!n.length||R.busy?' disabled':''}>Start the queue</button><span class="pr-wait" role="status">${wtxt}</span></div>`}
     <p class="pr-est">${c.est?`Estimate US$${EST[0]}–${EST[1]} a paper`:`${esc(PQ.usd(c.pp))} a paper`}</p>
     <p class="pr-api">Until the import API is connected, this sends the queue to Claude.</p>`}
-function render(){if(!isEditor())return;subscribe();draw()}
+function render(){if(!isOwnerV())return;subscribe();draw()}
 // ---- writes (editors only)
 const now=()=>new Date().toISOString();
-async function add(list){if(!isEditor()||!db)return 0;const have=new Set(R.q.map(x=>x.id));let o=R.q.length?Math.max(...R.q.map(x=>+x.order||0)):0,n=0;
+async function add(list){if(!isOwnerV()||!db)return 0;const have=new Set(R.q.map(x=>x.id));let o=R.q.length?Math.max(...R.q.map(x=>+x.order||0)):0,n=0;
   for(const {key:k,n:b} of list){const f=PQ.batch(k,b);if(!f||!f.b.ready.length||f.b.done)continue;const id=`${k}_${b}`;if(have.has(id))continue;
     const doc={course:f.lane.course,yl:f.lane.yl,batch:+b,order:++o,by:me||null,at:now()};
     try{await db.doc('queue/'+id).set(doc);n++;have.add(id);if(!R.q.some(x=>x.id===id))R.q.push({id,...doc})}catch(_){toast('Could not save. Try again in a moment.');break}}
@@ -5569,28 +5576,28 @@ async function add(list){if(!isEditor()||!db)return 0;const have=new Set(R.q.map
 function addNext(k,count){const L=PQ.lanes().find(x=>x.key===k);if(!L)return Promise.resolve(0);
   return add(L.batches.filter(b=>b.ready.length&&!b.done&&!pos(k,b.n)).slice(0,count).map(b=>({key:k,n:b.n})))}
 async function setOrder(x,patch){const {id,...rest}=x;try{await db.doc('queue/'+id).set({...rest,...patch});return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
-async function move(id,d){if(!isEditor()||!db)return;const ids=live().map(i=>i.x.id),i=ids.indexOf(id),j=i+d;if(i<0||j<0||j>=ids.length)return;
+async function move(id,d){if(!isOwnerV()||!db)return;const ids=live().map(i=>i.x.id),i=ids.indexOf(id),j=i+d;if(i<0||j<0||j>=ids.length)return;
   [ids[i],ids[j]]=[ids[j],ids[i]];await writeOrder(R.q,ids.concat(items().filter(i=>i.done).map(i=>i.x.id)),setOrder,()=>{PQ.redraw();draw()})}
-async function remove(id){if(!isEditor()||!db)return false;try{await db.doc('queue/'+id).delete();R.q=R.q.filter(x=>x.id!==id);PQ.redraw();draw();toast('Removed from the queue');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
-async function start(){const n=live();if(!isEditor()||!db||!n.length||active('queue'))return null;const np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np);
+async function remove(id){if(!isOwnerV()||!db)return false;try{await db.doc('queue/'+id).delete();R.q=R.q.filter(x=>x.id!==id);PQ.redraw();draw();toast('Removed from the queue');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
+async function start(){const n=live();if(!isOwnerV()||!db||!n.length||active('queue'))return null;const np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np);
   const id='r'+Date.now(),doc={kind:'queue',status:'requested',stop_early:STOP_EARLY,queue:n.map(i=>({course:i.x.course,yl:i.x.yl,batch:+i.x.batch,papers:i.ready.map(p=>p.id)})),papers:np,est:[c.lo,c.hi],by:me||null,at:now()};
   try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});toast('Queue sent to Claude');return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
-async function cancel(){const a=active('queue');if(!isEditor()||!db||!a)return false;const {id,...rest}=a,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
+async function cancel(){const a=active('queue');if(!isOwnerV()||!db||!a)return false;const {id,...rest}=a,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
   try{await db.doc('runs/'+id).set(doc);Object.assign(a,doc);toast('Queue run cancelled');return true}catch(_){toast('Could not cancel. Try again in a moment.');return false}}
 // Run the cover-page check: a request for Claude (it reads each front page; what it can't settle waits in Needs a check)
 const cover=()=>active('cover_check');
-async function coverCheck(){const m=PQ.model();if(!isEditor()||!db||!m||cover())return null;const ids=m.ps.filter(p=>p.st==='needs_check').map(p=>p.id);if(!ids.length)return null;
+async function coverCheck(){const m=PQ.model();if(!isOwnerV()||!db||!m||cover())return null;const ids=m.ps.filter(p=>p.st==='needs_check').map(p=>p.id);if(!ids.length)return null;
   const id='r'+Date.now(),doc={kind:'cover_check',status:'requested',papers:ids,by:me||null,at:now()};
   try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});PQ.redraw();toast('Cover-page check requested');return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
 const busy=async f=>{R.busy=true;draw();try{return await f()}finally{R.busy=false;draw()}};
-document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isEditor())return;
+document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isOwnerV())return;
   const mv=t.closest('[data-prqmv]');if(mv){await move(mv.dataset.prqId,+mv.dataset.prqmv);const b=document.querySelector(`#prQueue [data-prq-id="${CSS.escape(mv.dataset.prqId)}"][data-prqmv="${mv.dataset.prqmv}"]`);if(b&&!b.disabled)b.focus();return}
   const dl=t.closest('[data-prqdel]');if(dl){await remove(dl.dataset.prqdel);return}
   if(t.closest('#prQStart')){await busy(start);return}
   if(t.closest('#prQCancel')){await busy(cancel);return}});
 // job 6: the Tonight card on Processes › Work lists the requests waiting for the night session, and can withdraw one
 const pending=()=>R.runs.filter(r=>r.status==='requested').sort((a,b)=>String(a.at).localeCompare(String(b.at)));
-async function drop(id){const r=R.runs.find(x=>x.id===id);if(!isEditor()||!db||!r)return false;const {id:_,...rest}=r,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
+async function drop(id){const r=R.runs.find(x=>x.id===id);if(!isOwnerV()||!db||!r)return false;const {id:_,...rest}=r,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
   try{await db.doc('runs/'+id).set(doc);Object.assign(r,doc);PQ.redraw();draw();if(view==='processes')renderProcesses();toast('Removed from tonight');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
 return {render,draw,state:R,pos,add,addNext,remove,move,start,cancel,cover,coverCheck,items,watch:subscribe,pending,drop};
 })();
@@ -5681,7 +5688,7 @@ function placeRow(p){const f=PQ.state.fix[p.id]||{},pk=pre(p),yl=pk.yl,c=pk.cour
       <div class="pr-picks"><span>Year</span>${['11','12'].map(y=>pill('data-pryl',y,yl===y&&!out,y)).join('')}</div>
       <div class="pr-picks"><span>Course</span>${cs.map(x=>pill('data-prc',x.key,c===x.key&&!out,x.short||x.name)).join('')}<button type="button" class="pr-pill pr-out" data-prout="${p.id}" aria-pressed="${out}">Not in scope</button></div>
       ${res?`<p class="pr-res" role="status">✓ ${esc(res)}</p>`:''}</div></div>`}
-function draw(){const el=$('#prCheck');if(!el||el.hidden||!isEditor())return;const m=PQ.model();if(!m){el.innerHTML='<p class="pempty">Loading the paper list…</p>';return}
+function draw(){const el=$('#prCheck');if(!el||el.hidden||!isOwnerV())return;const m=PQ.model();if(!m){el.innerHTML='<p class="pempty">Loading the paper list…</p>';return}
   const pr=m.D.proposed,ruleIds=new Set(pr&&!pr.accepted&&!PQ.accepted()?(pr.rules||[]).flatMap(r=>r.ids):[]);
   // the owner's own: every paper still needing a check that no proposed fix places, plus those he has answered (kept, so he can change them)
   const mine=[...m.ps.filter(p=>p.st==='needs_check'&&!ruleIds.has(p.id)),...m.ps.filter(p=>p.mine)].sort((a,b)=>String((a.p||[''])[0]).localeCompare(String((b.p||[''])[0])));
@@ -5693,15 +5700,15 @@ function draw(){const el=$('#prCheck');if(!el||el.hidden||!isEditor())return;con
       <button type="button" class="act" data-prcover${cc||!all?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button></div>
       ${mine.length?mine.map(placeRow).join(''):'<p class="pempty">Nothing left to place.</p>'}</div>`;
   manifest();watch()}
-function render(){if(!isEditor())return;draw()}
+function render(){if(!isOwnerV())return;draw()}
 // ---- writes (editors only)
-async function accept(){const pr=PQ.state.data&&PQ.state.data.proposed;if(!isEditor()||!db||!pr||pr.accepted||PQ.accepted())return false;
+async function accept(){const pr=PQ.state.data&&PQ.state.data.proposed;if(!isOwnerV()||!db||!pr||pr.accepted||PQ.accepted())return false;
   const doc={version:pr.version,accepted:true,by:me||null,at:new Date().toISOString()};
   try{await db.doc('scans/rules').set(doc);PQ.state.acc=doc;PQ.redraw();toast('Rules accepted');return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
-async function place(id,patch){const m=PQ.model(),p=m&&m.byId.get(+id);if(!isEditor()||!db||!p)return false;const cur=PQ.state.fix[p.id]||{},pk=pre(p);
+async function place(id,patch){const m=PQ.model(),p=m&&m.byId.get(+id);if(!isOwnerV()||!db||!p)return false;const cur=PQ.state.fix[p.id]||{},pk=pre(p);
   const doc={id:p.id,files:cur.files||p.f||[p.id],yl:pk.yl?+pk.yl:null,course:pk.course||null,out:false,...patch,by:me||null,at:new Date().toISOString()};
   try{await db.doc('paperfix/p'+p.id).set(doc);PQ.state.fix[p.id]=doc;PQ.redraw();return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
-document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#prCheck')||!isEditor())return;
+document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#prCheck')||!isOwnerV())return;
   if(t.closest('#prAccept')){C.busy=true;draw();try{await accept()}finally{C.busy=false;draw()}return}
   const see=t.closest('[data-prsee]');if(see){C.see=C.see===see.dataset.prsee?null:see.dataset.prsee;draw();return}
   const pg=t.closest('[data-prpg]');if(pg){const [id,i]=pg.dataset.prpg.split(':');openView(id,i,pg);return}

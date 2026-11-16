@@ -49,7 +49,7 @@ function runningNow(){const jobs=JOBS.filter(j=>j&&j.name&&!(QUEUE&&/^\s*queued\
 // "Open Processes" link: a click on the pill goes there. Touch (no hover): the first tap shows it, a tap on it or a second tap on the pill opens Processes.
 function renderJobs(){const el=$('#jobs');if(!el)return;const run=runningNow(),que=queueItems('queued');
   // owner 15 Nov: the pills lead to Processes (Curate), so only editors see them
-  el.hidden=!isEditor()||(!run.length&&!que.length);if(el.hidden){el.innerHTML='';setHdr();return}
+  el.hidden=!isOwnerV()||(!run.length&&!que.length);if(el.hidden){el.innerHTML='';setHdr();return}
   const hit=run.filter(j=>j.affects&&view==='review'&&rfilter===j.affects);
   const row=(j,n)=>`<span class="job"><b>${n?`<span class="qn">${n}</span>`:''}${esc(j.name||j.title)}</b>${j.step?`<span class="jstep">${esc(j.step)}${stepBar(j.step)}</span>`:''}${j.detail?`<span class="muted">${esc(j.detail)}</span>`:''}${jobTimes(j)||(j.started?`<span class="muted when">${esc(startedAgo(j.started))}</span>`:'')}</span>`;
   const runPill=run.length?`<span class="jp run${hit.length?' hit':''}"><a class="jpill" href="#processes/work" aria-describedby="jpopR"><span class="dot" aria-hidden="true"></span>${hit.length?'Wait · ':''}${run.length} running</a>

@@ -70,7 +70,7 @@ function classify(p){const X=rx();if(!X)return null;const R=X.R,name=p.split('/'
   return {course,yl,task,year,school,status,why}}
 
 // ---- the saved scans (db collection scans), newest first
-function subscribe(){if(S.sub||!db||!isEditor())return;
+function subscribe(){if(S.sub||!db||!isOwnerV())return;
   try{S.sub=db.collection('scans').onSnapshot(s=>{const d=s.docs||s,all=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}));
     const parts={};all.filter(x=>x&&x.of&&Array.isArray(x.new)).forEach(x=>(parts[x.of]=parts[x.of]||[]).push(x));   // 16 Nov: a scan saved in parts
     S.scans=all.filter(x=>x&&x.at&&Array.isArray(x.new)).map(x=>x.parts>1?{...x,new:x.new.concat(...(parts[x.id]||[]).sort((a,b)=>a.part-b.part).map(p=>p.new))}:x).sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));paint();PQ.sub()},()=>{})}catch(e){}}
@@ -102,7 +102,7 @@ async function walk(root,signal){const skip=new Set((inv().scan_skip||[]).map(ke
     pump()});
   return [...files.values()]}
 
-async function start(){if(!isEditor()||!S.mcp||typeof S.mcp!=='object'||S.run||!db)return;const D=inv(),root=D&&D.root_drive_id;
+async function start(){if(!isOwnerV()||!S.mcp||typeof S.mcp!=='object'||S.run||!db)return;const D=inv(),root=D&&D.root_drive_id;
   if(!root||!/^[\w-]+$/.test(root)||!rx())return;
   const ac=new AbortController();S.run=ac;S.err='';S.fresh=null;S.prog={done:0,total:1,pdfs:0,wait:false};paint();
   try{if(!await loadFiles()||!known())throw {code:'no_record'};
@@ -163,7 +163,7 @@ function button(){const el=$('#ivScanBtn');if(!el)return;const D=inv();
   if(S.mcp===null||!D.root_drive_id||!filesUrl()||!D.rules){el.innerHTML='<span class="ivask" title="Rescanning needs the Google Drive connector, which this view does not have">Ask Claude to rescan</span>';return}
   if(!$('#ivScanGo'))el.innerHTML='<button type="button" class="act ivscanb" id="ivScanGo">Rescan drive</button>';
   $('#ivScanGo').disabled=!!S.run}
-function paint(){if(!isEditor())return;button();const el=$('#ivScan');if(!el)return;let h='';
+function paint(){if(!isOwnerV())return;button();const el=$('#ivScan');if(!el)return;let h='';
   if(S.prog){const P=S.prog;h+=`<div class="ivsprog" role="status"><span class="ivsptxt">Scanning Google Drive · <b>${P.done}</b> of <b>${P.total}</b> folders · ${plural(P.pdfs,'PDF')}${P.wait?' · <em>waiting for Google Drive…</em>':''}</span>
     <progress max="${P.total}" value="${P.done}" aria-label="Folders scanned"></progress><button type="button" class="act" id="ivScanStop">Cancel</button></div>`}
   if(S.err)h+=`<p class="ivserr" role="alert">${esc(S.err)}</p>`;
@@ -177,7 +177,7 @@ function paint(){if(!isEditor())return;button();const el=$('#ivScan');if(!el)ret
     h+=`<div class="ivslast"><p><b>Found in the last scan, not yet in the record: ${n}</b> <small>· scanned ${esc(clockT(s.at))}</small></p>
       <p class="ivsnote">Tonight's night run adds these to the record (Processes › Work › Tonight). Open a group to see its files.</p>${rows.length?listHTML(rows):''}</div>`}
   el.innerHTML=h}
-function render(){if(!isEditor()||!$('#ivScan'))return;subscribe();
+function render(){if(!isOwnerV()||!$('#ivScan'))return;subscribe();
   if(S.mcp===undefined){const c=window.claude;if(!c||!c.use)S.mcp=null;
     else{S.mcp='asking';c.use('mcp').then(m=>{S.mcp=m||null},()=>{S.mcp=null}).finally(paint)}}
   paint()}

@@ -13,6 +13,11 @@ const AREAS={teach:['bank','exams','guide'],curate:['inbox','review','papers','p
 const REVIEW_VIEWS=['inbox','review','papers','levels','reports'];
 const areaOf=v=>AREAS.curate.includes(v)?'curate':'teach';
 const isEditor=()=>QG.editor===true;
+// owner 17 Nov: "I need you to work on some permissions now for who can see wha[t]" -> who: "Checker (reviewer), Tutors"; control:
+// "Hide Curate parts, Who can approve". Owner: everything. Checker = Editor share (canEdit): Curate with Review only (Inbox, papers,
+// lists, Difficulty, Reports): Processes, the to-do list and the job strip stay hidden. Tutor = Contributor or Viewer share: Teach only.
+// QG.owner: null until the user capability answers, then user.isOwner(). Approving is enforced by the db rules (reviews write admin).
+const isOwnerV=()=>QG.owner===true;
 const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#processes/papers/check':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
 const VHASH={inbox:'#review',review:'#review',levels:'#review/difficulty',reports:'#review/reports',papers:'#review/papers',processes:'#processes',guide:'#guide',exams:'#exams',bank:'#bank'};
 // old links: #import (owner 14 Nov) → Processes › Papers (owner 13 Nov, two tabs: the import dashboard is in Papers › Import history); #levels / #difficulty / #reports (tabs until 15 Nov) → their Review section; #papers (tab until 13 Nov) → Review's papers
@@ -25,6 +30,7 @@ function setHash(h){try{history.replaceState(null,'',h)}catch(e){location.replac
 function applyArea(){const a=areaOf(view),ed=isEditor();
   document.documentElement.dataset.area=a;document.documentElement.classList.toggle('editor',ed);
   $$('.views a[data-area]').forEach(x=>x.hidden=!ed?x.dataset.area!=='teach':x.dataset.area!==a);
+  const vp=$('#vProcesses');if(vp&&!isOwnerV())vp.hidden=true;
   const sw=$('#areaSw');if(sw){sw.hidden=!ed;$$('#areaSw button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.area===a)))}
   if(ed){save('qg_area',a);save('qg_last_'+a,parseHash(location.hash).v===view?location.hash:(VHASH[view]||''))}   // owner/editor: remember the last area (and view in it)
   moveAreaSlider()}
@@ -39,6 +45,7 @@ function route(){
   // owner 15 Nov: "curate should be hidden to peope except editors." A viewer who opens a Curate link lands on the Bank.
   // While the user capability has not answered yet (EDITOR null) the Bank shows and the link is kept, so an editor's link still works once it answers.
   if(areaOf(v)==='curate'&&!isEditor()){v='bank';if(EDITOR===false)setHash('#bank')}
+  if(v==='processes'&&!isOwnerV()){v=isEditor()?'inbox':'bank';if(QG.owner===false)setHash(isEditor()?'#review':'#bank')}   // owner 17 Nov: the checker sees Review, not Processes
   // a paper (or list) needs the bank to resolve; until it loads the Inbox stands in
   if(v==='review'&&(!B||(QG.ready(v)&&!openReview(P))))v='inbox';   // job 2: a paper's first step reads triage: opened once the details are in
   // Processes: the tab in the address, else the one used last (per browser), else Work; the address then names it
@@ -68,7 +75,7 @@ function route(){
   if(view==='inbox') renderInbox(); else if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes') renderProcesses(); else { $('#stF').value=rstatus; refreshReview(); }
 }
 // the user capability answered: show or hide Curate, and send a viewer on a Curate link to the Bank
-function setEditor(ed){QG.editor=!!ed;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role
+function setEditor(ed,own){QG.editor=!!ed;QG.owner=!!own;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role
   // owner/editor with no link in the address: open the area used last
   if(EDITOR&&!location.hash&&load('qg_area')==='curate'&&!window._navved){goArea('curate');return}
   route()}

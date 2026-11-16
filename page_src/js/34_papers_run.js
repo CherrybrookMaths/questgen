@@ -11,7 +11,7 @@
    "N batches are waiting for review" beside Start is information only (PQ.waiting(): imported batches whose papers have not
    all cleared Review, by Review's own per-paper track). Run the cover-page check writes {kind:'cover_check',
    status:'requested', papers:[the Needs a check papers], by, at} to "runs" too; Claude does the check.
-   No new page-wide name: PQ.run. Only editors read or write: every handler checks isEditor(). */
+   No new page-wide name: PQ.run. Only editors read or write: every handler checks isOwnerV(). */
 PQ.run=(()=>{
 const R={q:[],runs:[],subs:{},busy:false};
 // unusual problems that stop the queue early (chosen 14 Nov while the owner was away; tools/import_next.py STOP_EARLY): a paper
@@ -21,7 +21,7 @@ const STOP_EARLY={failed_papers:1,failed_pages:3,your_calls:13};
 const EST=[12,17];
 const ACTIVE=['requested','running'];
 const snap=s=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
-function subscribe(){if(!db||!isEditor())return;
+function subscribe(){if(!db||!isOwnerV())return;
   if(!R.subs.q)try{R.subs.q=db.collection('queue').onSnapshot(s=>{R.q=snap(s).filter(x=>x&&x.course&&Number.isFinite(+x.batch));PQ.redraw();draw()},()=>{})}catch(e){}
   if(!R.subs.r)try{R.subs.r=db.collection('runs').onSnapshot(s=>{R.runs=snap(s).filter(x=>x&&x.status);PQ.redraw();draw();
     if(view==='processes'&&$('#processesView').dataset.tab!=='papers')renderProcesses()},()=>{})}catch(e){}}   // job 6: the Tonight card lists waiting requests
@@ -33,7 +33,7 @@ const live=()=>items().filter(i=>!i.done);
 function pos(k,n){const i=live().findIndex(i=>key(i.x)===k&&+i.x.batch===+n);return i+1}
 const active=kind=>R.runs.filter(r=>r.kind===kind&&ACTIVE.includes(r.status)).sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null;
 function cost(n){const v=PQ.cost(),pp=v||EST;return {est:!v,pp,lo:n*pp[0],hi:n*pp[1]}}
-function draw(){const el=$('#prQueue');if(!el||!isEditor())return;if(!PQ.state.data){el.innerHTML='';return}
+function draw(){const el=$('#prQueue');if(!el||!isOwnerV())return;if(!PQ.state.data){el.innerHTML='';return}
   const L=items(),n=live(),np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np),run=active('queue');
   const row=(i,k)=>{const f=i.f,nm=f?f.lane.name:PQ.laneName(i.x.course,String(i.x.yl)),st=i.done?'Imported':k===0?(run&&run.status==='running'?'Running':'Next'):'Waiting';
     return `<li class="pr-qi${!i.done&&k===0?' next':''}${i.done?' done':''}" data-prq="${esc(i.x.id)}"><span class="pr-qn" aria-hidden="true">${i.done?'✓':k+1}</span>
@@ -49,10 +49,10 @@ function draw(){const el=$('#prQueue');if(!el||!isEditor())return;if(!PQ.state.d
       `<div class="pr-startrow"><button type="button" class="act primary pr-start" id="prQStart"${!n.length||R.busy?' disabled':''}>Start the queue</button><span class="pr-wait" role="status">${wtxt}</span></div>`}
     <p class="pr-est">${c.est?`Estimate US$${EST[0]}–${EST[1]} a paper`:`${esc(PQ.usd(c.pp))} a paper`}</p>
     <p class="pr-api">Until the import API is connected, this sends the queue to Claude.</p>`}
-function render(){if(!isEditor())return;subscribe();draw()}
+function render(){if(!isOwnerV())return;subscribe();draw()}
 // ---- writes (editors only)
 const now=()=>new Date().toISOString();
-async function add(list){if(!isEditor()||!db)return 0;const have=new Set(R.q.map(x=>x.id));let o=R.q.length?Math.max(...R.q.map(x=>+x.order||0)):0,n=0;
+async function add(list){if(!isOwnerV()||!db)return 0;const have=new Set(R.q.map(x=>x.id));let o=R.q.length?Math.max(...R.q.map(x=>+x.order||0)):0,n=0;
   for(const {key:k,n:b} of list){const f=PQ.batch(k,b);if(!f||!f.b.ready.length||f.b.done)continue;const id=`${k}_${b}`;if(have.has(id))continue;
     const doc={course:f.lane.course,yl:f.lane.yl,batch:+b,order:++o,by:me||null,at:now()};
     try{await db.doc('queue/'+id).set(doc);n++;have.add(id);if(!R.q.some(x=>x.id===id))R.q.push({id,...doc})}catch(_){toast('Could not save. Try again in a moment.');break}}
@@ -61,28 +61,28 @@ async function add(list){if(!isEditor()||!db)return 0;const have=new Set(R.q.map
 function addNext(k,count){const L=PQ.lanes().find(x=>x.key===k);if(!L)return Promise.resolve(0);
   return add(L.batches.filter(b=>b.ready.length&&!b.done&&!pos(k,b.n)).slice(0,count).map(b=>({key:k,n:b.n})))}
 async function setOrder(x,patch){const {id,...rest}=x;try{await db.doc('queue/'+id).set({...rest,...patch});return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
-async function move(id,d){if(!isEditor()||!db)return;const ids=live().map(i=>i.x.id),i=ids.indexOf(id),j=i+d;if(i<0||j<0||j>=ids.length)return;
+async function move(id,d){if(!isOwnerV()||!db)return;const ids=live().map(i=>i.x.id),i=ids.indexOf(id),j=i+d;if(i<0||j<0||j>=ids.length)return;
   [ids[i],ids[j]]=[ids[j],ids[i]];await writeOrder(R.q,ids.concat(items().filter(i=>i.done).map(i=>i.x.id)),setOrder,()=>{PQ.redraw();draw()})}
-async function remove(id){if(!isEditor()||!db)return false;try{await db.doc('queue/'+id).delete();R.q=R.q.filter(x=>x.id!==id);PQ.redraw();draw();toast('Removed from the queue');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
-async function start(){const n=live();if(!isEditor()||!db||!n.length||active('queue'))return null;const np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np);
+async function remove(id){if(!isOwnerV()||!db)return false;try{await db.doc('queue/'+id).delete();R.q=R.q.filter(x=>x.id!==id);PQ.redraw();draw();toast('Removed from the queue');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
+async function start(){const n=live();if(!isOwnerV()||!db||!n.length||active('queue'))return null;const np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np);
   const id='r'+Date.now(),doc={kind:'queue',status:'requested',stop_early:STOP_EARLY,queue:n.map(i=>({course:i.x.course,yl:i.x.yl,batch:+i.x.batch,papers:i.ready.map(p=>p.id)})),papers:np,est:[c.lo,c.hi],by:me||null,at:now()};
   try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});toast('Queue sent to Claude');return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
-async function cancel(){const a=active('queue');if(!isEditor()||!db||!a)return false;const {id,...rest}=a,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
+async function cancel(){const a=active('queue');if(!isOwnerV()||!db||!a)return false;const {id,...rest}=a,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
   try{await db.doc('runs/'+id).set(doc);Object.assign(a,doc);toast('Queue run cancelled');return true}catch(_){toast('Could not cancel. Try again in a moment.');return false}}
 // Run the cover-page check: a request for Claude (it reads each front page; what it can't settle waits in Needs a check)
 const cover=()=>active('cover_check');
-async function coverCheck(){const m=PQ.model();if(!isEditor()||!db||!m||cover())return null;const ids=m.ps.filter(p=>p.st==='needs_check').map(p=>p.id);if(!ids.length)return null;
+async function coverCheck(){const m=PQ.model();if(!isOwnerV()||!db||!m||cover())return null;const ids=m.ps.filter(p=>p.st==='needs_check').map(p=>p.id);if(!ids.length)return null;
   const id='r'+Date.now(),doc={kind:'cover_check',status:'requested',papers:ids,by:me||null,at:now()};
   try{await db.doc('runs/'+id).set(doc);if(!R.runs.some(r=>r.id===id))R.runs.push({id,...doc});PQ.redraw();toast('Cover-page check requested');return id}catch(_){toast('Could not save. Try again in a moment.');return null}}
 const busy=async f=>{R.busy=true;draw();try{return await f()}finally{R.busy=false;draw()}};
-document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isEditor())return;
+document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isOwnerV())return;
   const mv=t.closest('[data-prqmv]');if(mv){await move(mv.dataset.prqId,+mv.dataset.prqmv);const b=document.querySelector(`#prQueue [data-prq-id="${CSS.escape(mv.dataset.prqId)}"][data-prqmv="${mv.dataset.prqmv}"]`);if(b&&!b.disabled)b.focus();return}
   const dl=t.closest('[data-prqdel]');if(dl){await remove(dl.dataset.prqdel);return}
   if(t.closest('#prQStart')){await busy(start);return}
   if(t.closest('#prQCancel')){await busy(cancel);return}});
 // job 6: the Tonight card on Processes › Work lists the requests waiting for the night session, and can withdraw one
 const pending=()=>R.runs.filter(r=>r.status==='requested').sort((a,b)=>String(a.at).localeCompare(String(b.at)));
-async function drop(id){const r=R.runs.find(x=>x.id===id);if(!isEditor()||!db||!r)return false;const {id:_,...rest}=r,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
+async function drop(id){const r=R.runs.find(x=>x.id===id);if(!isOwnerV()||!db||!r)return false;const {id:_,...rest}=r,doc={...rest,status:'cancelled',cancelled_by:me||null,cancelled_at:now()};
   try{await db.doc('runs/'+id).set(doc);Object.assign(r,doc);PQ.redraw();draw();if(view==='processes')renderProcesses();toast('Removed from tonight');return true}catch(_){toast('Could not remove. Try again in a moment.');return false}}
 return {render,draw,state:R,pos,add,addNext,remove,move,start,cancel,cover,coverCheck,items,watch:subscribe,pending,drop};
 })();

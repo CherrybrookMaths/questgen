@@ -2,7 +2,7 @@
   route();
   // owner 15 Nov: "curate should be hidden to peope except editors." Curate shows only for the owner or an editor (user.isOwner() / canEdit());
   // no user capability, or no answer, counts as not an editor, so Curate stays hidden.
-  {const c=window.claude;if(!c?.use)setEditor(false);else c.use('user').then(async u=>{let ed=false;if(u){try{ed=!!(await u.isOwner())}catch(e){}if(!ed){try{ed=!!(await u.canEdit())}catch(e){}}}setEditor(ed)}).catch(()=>setEditor(false))}
+  {const c=window.claude;if(!c?.use)setEditor(false);else c.use('user').then(async u=>{let ed=false,own=false;if(u){try{own=ed=!!(await u.isOwner())}catch(e){}if(!ed){try{ed=!!(await u.canEdit())}catch(e){}}}setEditor(ed,own)}).catch(()=>setEditor(false))}
   try{
     // a load during a republish (or a network blip) can fail once: QG.get retries 3 times before giving up.
     // owner 14 Nov: "Ok we should run Fix 1 and 2" (Fix 1): the index and the dot points load first; question text comes per

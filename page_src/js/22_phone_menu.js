@@ -4,7 +4,7 @@
   const close=()=>{sh.hidden=true;btn.setAttribute('aria-expanded','false')};
   // owner 15 Nov: the menu is grouped by area, Teach then Curate; the Curate group is there only for the owner and editors
   const link=a=>{const n=a.querySelector('.n')?.textContent||'';return `<a href="${a.getAttribute('href')}" aria-current="${a.getAttribute('aria-current')==='page'?'page':'false'}">${esc(a.firstChild.textContent)}${n?`<span class="n">${esc(n)}</span>`:''}</a>`};
-  const group=(k,l)=>{const as=[...document.querySelectorAll(`.views a[data-area="${k}"]`)];return `<div class="mgrp" data-marea="${k}"><div class="mh">${l}</div>${as.map(link).join('')}</div>`};
+  const group=(k,l)=>{const as=[...document.querySelectorAll(`.views a[data-area="${k}"]`)].filter(a=>a.id!=='vProcesses'||isOwnerV());/* owner 17 Nov: Processes is the owner's */return `<div class="mgrp" data-marea="${k}"><div class="mh">${l}</div>${as.map(link).join('')}</div>`};
   const open=()=>{sh.innerHTML=group('teach','Teach')+(isEditor()?group('curate','Curate'):'')
       +`<hr><button type="button" data-mtheme>Theme <span class="mt">${esc(($('#themeBtn')?.textContent||'').replace(/^Theme:\s*/,''))}</span></button>`;
     sh.hidden=false;btn.setAttribute('aria-expanded','true')};

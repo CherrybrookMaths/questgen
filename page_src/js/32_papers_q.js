@@ -42,10 +42,10 @@ const yrs=ps=>{const y=ps.map(p=>p.y).filter(Boolean);if(!y.length)return '';con
 const snap=(s)=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
 
 // ---- loading (editors only: a viewer never fetches the inventory or subscribes)
-function load(){if(S.data||S.loading||!isEditor())return;S.loading=true;
+function load(){if(S.data||S.loading||!isOwnerV())return;S.loading=true;
   fetch('data/inventory.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{S.data=d&&Array.isArray(d.groups)?d:null;S.failed=!S.data})
     .catch(()=>{S.failed=true}).finally(()=>{S.loading=false;if(view==='processes')render()})}
-function subscribe(){if(!db||!isEditor())return;
+function subscribe(){if(!db||!isOwnerV())return;
   const on=(k,f)=>{if(S.subs[k])return;try{S.subs[k]=f()}catch(e){}};
   on('fix',()=>db.collection('paperfix').onSnapshot(s=>{S.fix={};snap(s).forEach(x=>{if(Number.isFinite(+x.id))S.fix[+x.id]=x});redraw()},()=>{}));
   on('swaps',()=>db.collection('batches').onSnapshot(s=>{S.swaps={};snap(s).forEach(x=>{S.swaps[x.id]=Array.isArray(x.swaps)?x.swaps:[]});redraw();if(API.run)API.run.draw()},()=>{}));
@@ -184,8 +184,8 @@ function lanesHTML(){const el=$('#prLanes');if(!el)return;const m=model();if(!m)
     ${lockedHTML(m)}${copiesHTML(m)}
     <div class="pr-legend" aria-hidden="true">${Object.entries(SQW).map(([k,w])=>`<span><i class="pr-b ${k}"></i>${esc(w[0].toUpperCase()+w.slice(1))}</span>`).join('')}</div>`;   // owner 14 Nov: cleared vs waiting in the legend
   if(wasOpen&&$('#prLock'))$('#prLock').open=true;if(cpo&&$('#prCopies'))$('#prCopies').open=true;cpp.forEach(k=>{const d=$(`#prCopies [data-cpp="${k}"]`);if(d)d.open=true})}
-function redraw(){if(!isEditor()||!$('#prLanes'))return;M=null;sub();tiles();lanesHTML();if(API.check)API.check.draw()}
-function render(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();if(box.hidden)return;
+function redraw(){if(!isOwnerV()||!$('#prLanes'))return;M=null;sub();tiles();lanesHTML();if(API.check)API.check.draw()}
+function render(){const box=$('#invBox');if(!box)return;box.hidden=!isOwnerV();if(box.hidden)return;
   if(!box.dataset.ready){box.dataset.ready='1';
     box.innerHTML=`<section class="psec pr-papers" aria-label="Papers"><div id="prMainWrap">
       <div class="ivsubrow"><p class="ivsub" id="ivSub"></p><span id="ivScanBtn"></span></div><div id="ivScan"></div>
@@ -196,10 +196,10 @@ function render(){const box=$('#invBox');if(!box)return;box.hidden=!isEditor();i
   load();subscribe();redraw();if(API.scan)API.scan.render();if(API.run)API.run.render();if(API.check)API.check.render()}
 
 // ---- writes (editors only)
-async function swap(key,id){const L=lanes().find(x=>x.key===key);if(!isEditor()||!db||!L)return false;
+async function swap(key,id){const L=lanes().find(x=>x.key===key);if(!isOwnerV()||!db||!L)return false;
   const doc={course:L.course,yl:L.yl,swaps:[...(S.swaps[key]||[]),{id:+id,by:me||null,at:new Date().toISOString()}]};
   try{await db.doc('batches/'+key).set(doc);S.swaps[key]=doc.swaps;redraw();if(API.run)API.run.draw();toast('Moved to the end of '+L.name);return true}catch(_){toast('Could not save. Try again in a moment.');return false}}
-document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isEditor())return;
+document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isOwnerV())return;
   const sq=t.closest('[data-prb]');if(sq){const [key,n]=sq.dataset.prb.split(':');S.open=S.open&&S.open.key===key&&S.open.n===+n?null:{key,n:+n};lanesHTML();
     const p=$('#prLanes .pr-panel');if(p)p.scrollIntoView({block:'nearest'});return}
   if(t.closest('[data-prclose]')){const k=S.open;S.open=null;lanesHTML();const b=k&&$(`#prLanes [data-prb="${CSS.escape(k.key+':'+k.n)}"]`);if(b)b.focus();return}
