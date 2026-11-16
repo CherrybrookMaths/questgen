@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5436cm,y=0.5436cm]
+  % shaded region: between the parabola y=(x-6)^2-4 and the x-axis, 4<=x<=6
+  \fill[shade] (4,0) -- plot[domain=4:6,samples=40,smooth] (\x,{(\x-6)^2-4}) -- (6,0) -- cycle;
+  % axes (the paper has no arrowheads)
+  \draw (-10.35,0) -- (10.32,0);
+  \draw (0,-5.24) -- (0,6.51);
+  \foreach \i in {-10,...,-1,1,2,...,10}{\draw (\i,-0.07) -- (\i,0.07);}
+  \foreach \i in {-5,...,-1,1,2,...,6}{\draw (-0.07,\i) -- (0.07,\i);}
+  \tikzset{tl/.style={font=\fontsize{5.5}{6}\selectfont,inner sep=1.2pt}}
+  \foreach \i in {-10,...,-1,1,2,3,4,7,8,9,10}{\node[tl,below] at (\i,-0.06) {$\i$};}
+  \foreach \i in {5,6}{\node[tl,below] at (\i,-0.06) {\halo{$\i$}};}
+  \node[tl,below left] at (0,-0.02) {$0$};
+  \foreach \i in {-5,...,-1,1,2,...,6}{\node[tl,left] at (-0.06,\i) {$\i$};}
+  % graph: two parabolas and a semicircle (even function)
+  \draw[line width=0.9pt] plot[domain=-9:-4,samples=60,smooth] (\x,{(\x+6)^2-4});
+  \draw[line width=0.9pt] (-4,0) arc[start angle=180,end angle=0,radius=4];
+  \draw[line width=0.9pt] plot[domain=4:9,samples=60,smooth] (\x,{(\x-6)^2-4});
+\end{tikzpicture}
+\end{document}

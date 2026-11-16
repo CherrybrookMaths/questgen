@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{10}{12}\selectfont]
+  % crop pixel units: origin (413.5,430.5), 1 unit = 74 px
+  \def\ox{413.5}\def\oy{430.5}\def\u{74}
+  \draw[<->] (33,\oy) -- (794,\oy) node[right=1pt] {$x$};
+  \draw[<->] (\ox,823) -- (\ox,38) node[above=1pt] {$y$};
+  \foreach \i in {-5,...,5} {
+    \ifnum\i=0\else
+    \draw (\ox+\i*\u,\oy-6) -- (\ox+\i*\u,\oy+6);
+    \node[anchor=north, inner sep=1pt] at (\ox+\i*\u,\oy+19) {$\i$};
+    \draw (\ox-6,\oy-\i*\u) -- (\ox+6,\oy-\i*\u);
+    \node[anchor=east, inner sep=1pt] at (\ox-12,\oy-\i*\u) {$\i$};
+    \fi}
+  % asymptote y = -2
+  \draw[aux] (36,\oy+2*\u) -- (794,\oy+2*\u);
+  % y = 2e^{x+1} - 2  (b = 1, c = -2), drawn from the equation
+  \draw[line width=0.9pt, <->, smooth, samples=90, domain=-5.08:0.30, variable=\t]
+    plot ({\ox+\t*\u}, {\oy-(2*exp(\t+1)-2)*\u});
+\end{tikzpicture}
+\end{document}
