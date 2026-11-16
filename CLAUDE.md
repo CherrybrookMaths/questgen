@@ -139,19 +139,6 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
 6. Drive sync after major changes: zip questions.db, upload to the Drive folder, rename the old copy "(superseded <date>, safe
    to delete)". Export `reviews` to project/reviews_backup.json (IMPORT_PLAYBOOK "Standing rules").
 
-## Handover for the next session (16 Nov; owner: "stop and move on")
-This session predates the pre-approval settings, so the steps that write to the live page were left for a session that does
-not stop to ask. Do these first, in order:
-1. **Job 5, approvals migration**: DONE 16 Nov (after the restart): all 1,052 k_/p_ docs are on the page (old q<id>/paper_<doc>
-   docs kept as history and fallback).
-2. **Job 3, asset store: finish the uploads.** 14 of the 40 permanent packs are uploaded (state/work/assets/
-   upload_results_1116_partial.json: path, id, url). Run `python3 tools/asset_upload_plan.py`, upload each pack NOT in that
-   file (Artifact publish, url = the review page, asset: true, one JSON per call), write all 40 results to
-   work/assets/upload_results.json (the 14 from the partial file plus the new ones; re-upload any of the 14 whose sha256 in
-   the plan no longer matches), run `python3 tools/asset_manifest.py`, then the publish procedure (publish_set leaves the
-   in-store packs out and nulls them once; keep capabilities, the asset store is already on since v218).
-3. Then continue with job 5's triage re-run and job 6.
-
 ## First jobs in this session (in order; owner agreed 14 Nov)
 Imports stay paused until 1-4 are done. Tick each off in the page's Next up list (db `notes`) as it lands.
 1. **Prove the move.** Restore the database, fetch the published packs, `bash tools/prepublish.sh` (0 blockers), publish once
@@ -165,14 +152,14 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
      list for the owner. tools/image_lifecycle.py (v219): 55 cleared papers' scan packs archived (archive/img_cleared/), 117
      crops the page can still show kept in data/crop/g<doc%8>.json, overlays of cleared papers dropped, svg regrouped 8 -> 32
      (asset store limit 20 MiB per file; batch_check warns at 15 MiB). Published files ~147 MB -> ~45 MB.
-   - Next: upload data/svg + data/crop (40 files; tools/asset_upload_plan.py, then tools/asset_manifest.py), publish with the
-     packs left out (publish_set drops in-store paths and nulls them once). Then the hand-fixed crops (state crop_fixes) vs the
-     figures/ backup on Drive.
+   - DONE 16 Nov (v220): the 40 permanent packs (data/svg g0..g31, data/crop g0..g7) are served from the asset store
+     (data/assets.json); the page holds 15.4 MB in 221 files. A changed pack is re-uploaded by the night run (NIGHT.md step 3).
+     Left: compare the hand-fixed crops (state crop_fixes) with the figures/ backup on Drive.
 4. **Remove published files the page no longer uses**: done 16 Nov (v217). data/bank.json and project/ are no longer published
    (publish_set EXCLUDE / PROJECT_KEEP; project/open_decisions.json stays, Review reads it). The local site/project/ stays: tools
    read their inputs there. Live: 146.9 MB in 284 files.
-5. **Reviews to key docs**: apply state/work/keys_migration (re-export reviews and regenerate first if they changed since
-   14 Nov). Then re-run tools/triage.py (needs the PDFs in src/).
+5. **Reviews to key docs**: DONE 16 Nov: all 1,052 k_/p_ docs on the page; triage re-run (no tier changes). PDFs over 10 MB
+   cannot come through the Drive connector: triage keeps their last wording result (6 papers).
 6. **Night run (job 6)**: built 16 Nov. Scheduled task "Questgen night run" (trig_01XTpjAYHRvxyRWAgqZdxnZb), every night 10:11 pm
    Sydney, fresh session, prompt "read NIGHT.md and run it". NIGHT.md is the runbook; the Tonight card on Processes › Work shows
    its list (page db progress/night + runs requested). Imports are skipped while paused. **Open: the task has no Google Drive
