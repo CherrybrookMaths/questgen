@@ -14,8 +14,11 @@ def fix_math(m):
     return re.sub(r'\x00(\d+)\x00', lambda t: keep[int(t.group(1))], m)
 DEC = re.compile(r'(?<!\\ln )(?<!\\log )(?<=\d)\s*\\cdot\s*(?=\d)(?!\d(?:\^|\{))')   # digit \cdot digit is a raised decimal point, not a product
 # ...except a single digit raised to a power (owner 12 Nov via checker: "\ln 5\cdot 5^x" became "\ln 5.5^x", "2\cdot 3^{n-1}" became "2.3^{n-1}")
-def restyle(s, bare=False):
-    if s: s = DEC.sub('.', s)
+def restyle(s, bare=False, decimals=True):
+    # owner 17 Nov (Batch 7: eight worked solutions read "-3.4-4" for -3 x 4 - 4): a worked solution is written by the solution
+    # step in house style, where a dot between digits is a product, so the raised-decimal rule applies to printed paper text only
+    # (questions, parts, options, tables). decimals=False for solutions and their criteria.
+    if s and decimals: s = DEC.sub('.', s)
     if not s or '.' not in s: return s
     if bare: return fix_math(s)
     s = s.replace('\\$', '\x01')                      # escaped dollar (money) is not a maths delimiter

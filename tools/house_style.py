@@ -18,22 +18,22 @@ def _cases(m):   # owner: "the piecewise pieces are a bit too close since the mi
     body = m.group(1)
     if '\\dfrac' not in body: return m.group(0)
     return '\\begin{cases}' + re.sub(r'\\\\(?!\s*\[)', r'\\\\[6pt]', body) + '\\end{cases}'
-def style(s, bare=False):
+def style(s, bare=False, decimals=True):
     if s and '\\begin{cases}' in s: s = CASES.sub(_cases, s)
     if s and '\\hat' in s: s = HAT.sub(r'\\angle \1\2\3', s)
     if s and '**' in s: s = MDBOLD.sub(r'\1', s)
     if s and '\\\\,' in s:   # checker 12 Nov (Sydney Boys 2025 Q3, Q6): "\\," (line break + comma) typed for the thin space "\," inside inline maths
         s = re.sub(r'(?<!\$)\$(?!\$)([^$]*)\$', lambda m: '$' + re.sub(r'(?<!\\)\\\\,', r'\\,', m.group(1)) + '$', s)
     s = fracstyle.restyle('$' + s + '$')[1:-1] if bare and s else fracstyle.restyle(s)
-    s = dotstyle.restyle(s, bare=bare)
+    s = dotstyle.restyle(s, bare=bare, decimals=decimals)
     return s if bare else liststyle.restyle(parastyle.restyle(s))
 db = sqlite3.connect(sys.argv[1] if len(sys.argv) > 1 else paths.DBS); n = 0
 for tbl, col in (('questions', 'stem_latex'), ('parts', 'latex'), ('mcq_options', 'latex'), ('solutions', 'latex')):
     for rid, s in db.execute(f'select id,{col} from {tbl}').fetchall():
-        t = style(s)
+        t = style(s, decimals=tbl != 'solutions')
         if t != s: db.execute(f'update {tbl} set {col}=? where id=?', (t, rid)); n += 1
 for sid, cj in db.execute('select id,criteria_json from solutions').fetchall():
-    c = json.loads(cj or '[]'); c2 = [[m, style(t)] for m, t in c]
+    c = json.loads(cj or '[]'); c2 = [[m, style(t, decimals=False)] for m, t in c]
     if c2 != c: db.execute('update solutions set criteria_json=? where id=?', (json.dumps(c2, ensure_ascii=False), sid)); n += 1
 for qid, ot in db.execute('select id,options_table_json from questions where options_table_json is not null').fetchall():
     o = json.loads(ot); o2 = {'headers': [style(h) for h in o['headers']], 'rows': {k: [style(x) for x in v] for k, v in o['rows'].items()}}
