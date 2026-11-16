@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (11,11) rectangle (1132,473);
+  % graph paper as on the paper: 70.65 px per x unit, 2.532 px per y unit, origin (94.5,433.5)
+  \begin{scope}[shift={(94.5,433.5)}, x=0.89726cm, y=0.032156cm]
+    \foreach \i in {1,...,72} \draw[black!25, line width=0.3pt, dash pattern=on 1pt off 1pt] ({0.2*\i},0) -- ({0.2*\i},155);
+    \foreach \j in {1,...,15} \draw[black!25, line width=0.3pt, dash pattern=on 1pt off 1pt] (0,{10*\j}) -- (14.4,{10*\j});
+    \foreach \i in {1,...,14} \draw[black!40, line width=0.5pt] (\i,0) -- (\i,155);
+    \foreach \j in {50,100,150} \draw[black!40, line width=0.5pt] (0,\j) -- (14.4,\j);
+    \draw[->] (0,0) -- (14.75,0);
+    \draw[->] (0,0) -- (0,158);
+    \foreach \i in {1,...,14} \node[font=\footnotesize, below, inner sep=5pt] at (\i,0) {$\i$};
+    \foreach \j in {50,100,150} \node[font=\footnotesize, left, inner sep=6pt] at (0,\j) {$\j$};
+    \node[font=\normalsize] at (14.33,12) {$x$};
+    \node[font=\normalsize] at (0.33,143) {$y$};
+    % income line y = 20x
+    \draw[line width=0.9pt] (0,0) -- (7.65,153);
+    \node[font=\normalsize] at (8.43,140) {$y=20x$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

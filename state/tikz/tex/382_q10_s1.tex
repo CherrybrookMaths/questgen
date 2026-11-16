@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % solution sketch redrawn clean (rule 17); crop pixel units, origin (207,218), vertex V (3,-4) at (312,313)
+  \draw (10,218) -- (486,218);
+  \draw (207,18) -- (207,390);
+  % concave-up and concave-down parabolas with the same vertex, mirror images (|k| = 0.025 px^-1)
+  \draw[line width=0.9pt, <->, smooth, samples=60, domain=-82:63, variable=\t] plot ({312+\t},{313-0.025*\t*\t});
+  \draw[line width=0.9pt, <->, smooth, samples=60, domain=-60:60, variable=\t] plot ({312+\t},{313+0.025*\t*\t});
+  \node[anchor=west, inner sep=0pt] at (343,301) {$(3,-4)$};
+\end{tikzpicture}
+\end{document}
