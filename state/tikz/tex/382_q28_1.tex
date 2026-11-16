@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+\def\r{286}\pgfmathsetmacro\py{286*sqrt(1-(267/286)^2)}
+\draw[line join=round] (50,{312-\r}) -- (50,312) -- ({50+\r},312) arc[start angle=0, end angle=-90, radius=\r];
+\draw[aux] (50,{312-\py}) -- (317,{312-\py}) -- (317,312);
+\draw (50,298) -- (64,298) -- (64,312);
+\node at (32,262) {$y$};
+\node at (187,338) {$x$};
+\end{tikzpicture}
+\end{document}

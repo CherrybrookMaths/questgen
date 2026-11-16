@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, font=\large]
+  % 1 unit = 1 crop pixel; age a at x = 90 + 17.9 (a - 10); axis at y = 299
+  \def\X#1{{90+17.9*(#1-10)}}
+  \draw[<->] (12,299) -- (719,299);
+  \foreach \a in {10,15,...,40} \draw (\X{\a},299) -- (\X{\a},263);
+  \foreach \a in {10,20,30,40} \node[inner sep=0pt] at (\X{\a},372) {$\a$};
+  \node[inner sep=0pt] at (357,445) {Age (years)};
+  % Male: 15, 18, 25, 29, 35 (box plots 0.9pt, rule 9)
+  \begin{scope}[line width=0.9pt]
+  \path[shade hatch] (\X{18},15) rectangle (\X{29},86);
+  \draw (\X{18},15) rectangle (\X{29},86);
+  \draw (\X{25},15) -- (\X{25},86);
+  \draw (\X{15},50) -- (\X{18},50) (\X{29},50) -- (\X{35},50);
+  \draw (\X{15},15) -- (\X{15},86) (\X{35},15) -- (\X{35},86);
+  % Female: 15, 20, 25, 35, 39
+  \path[shade dots, stipple color=black!60, stipple gap=4] (\X{20},157) rectangle (\X{35},228);
+  \draw (\X{20},157) rectangle (\X{35},228);
+  \draw (\X{25},157) -- (\X{25},228);
+  \draw (\X{15},193) -- (\X{20},193) (\X{35},193) -- (\X{39},193);
+  \draw (\X{15},157) -- (\X{15},228) (\X{39},157) -- (\X{39},228);
+  \end{scope}
+  % key
+  \node[inner sep=0pt] at (101,548) {Male};
+  \path[shade hatch] (203,517) rectangle (397,591); \draw (203,517) rectangle (397,591);
+  \node[inner sep=0pt] at (536,548) {Female};
+  \path[shade dots, stipple color=black!60, stipple gap=4] (637,516) rectangle (831,591); \draw (637,516) rectangle (831,591);
+\end{tikzpicture}
+\end{document}
