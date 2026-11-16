@@ -139,6 +139,23 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
 6. Drive sync after major changes: zip questions.db, upload to the Drive folder, rename the old copy "(superseded <date>, safe
    to delete)". Export `reviews` to project/reviews_backup.json (IMPORT_PLAYBOOK "Standing rules").
 
+## Handover for the next session (16 Nov; owner: "stop and move on")
+This session predates the pre-approval settings, so the steps that write to the live page were left for a session that does
+not stop to ask. Do these first, in order:
+1. **Job 5, approvals migration: finish it.** 18 of 22 batches are applied: 900 of 1,052 k_/p_ docs exist on the page. Export
+   `reviews` (ArtifactData `list`, limit 1000 + cursor, out_dir work/pagedb_export_<date>/), run
+   `python3 tools/migrate_reviews_to_keys.py <export> --out work/keys_migration_<date>` (its report must still say
+   1,615 approvals kept), then DROP every write whose doc_id already exists in the export (the tool does not skip them; a set
+   on an existing doc needs if_version) and apply the rest (about 152) as ArtifactData `batch` calls of at most 50, using
+   `file_path` per doc. Re-export and check: k_/p_ docs = 1,052.
+2. **Job 3, asset store: finish the uploads.** 14 of the 40 permanent packs are uploaded (state/work/assets/
+   upload_results_1116_partial.json: path, id, url). Run `python3 tools/asset_upload_plan.py`, upload each pack NOT in that
+   file (Artifact publish, url = the review page, asset: true, one JSON per call), write all 40 results to
+   work/assets/upload_results.json (the 14 from the partial file plus the new ones; re-upload any of the 14 whose sha256 in
+   the plan no longer matches), run `python3 tools/asset_manifest.py`, then the publish procedure (publish_set leaves the
+   in-store packs out and nulls them once; keep capabilities, the asset store is already on since v218).
+3. Then continue with job 5's triage re-run and job 6.
+
 ## First jobs in this session (in order; owner agreed 14 Nov)
 Imports stay paused until 1-4 are done. Tick each off in the page's Next up list (db `notes`) as it lands.
 1. **Prove the move.** Restore the database, fetch the published packs, `bash tools/prepublish.sh` (0 blockers), publish once
