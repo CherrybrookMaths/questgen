@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 161_q7_2: option of 161_q7 (y = 2 ln(x+3)?). Crop pixel units (y down). The curve is a logarithm Y = c0 + c1 ln(+(X - h)) fitted
+% to the printed curve (median residual about 1 px; rule 10), with c0=394.65, c1=-39.103, h=113.91; dashed asymptote where printed.
+% All four options share one frame (512 x 531 px bounding box) and style (rule 7).
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (-21,0) rectangle (491,531);
+  \draw[->] (26,272) -- (459,272);
+  \draw[->] (211,501) -- (211,19);
+  \node[anchor=north, inner sep=0pt, font=\footnotesize] at (446.5, 295) {$x$};
+  \node[anchor=north, inner sep=0pt, font=\footnotesize] at (188, 23) {$y$};
+  \draw[aux] (98,51) -- (98,501);
+  \draw[<->, line width=0.9pt] plot[smooth] coordinates {(114.0,500.0) (114.0,496.3) (114.0,492.5) (114.0,488.8) (114.0,485.0) (114.0,481.3) (114.0,477.6) (114.0,473.8) (114.1,470.1) (114.1,466.3) (114.1,462.6) (114.1,458.9) (114.1,455.1) (114.1,451.4) (114.2,447.6) (114.2,443.9) (114.2,440.2) (114.3,436.4) (114.3,432.7) (114.3,428.9) (114.4,425.2) (114.4,421.5) (114.5,417.7) (114.5,414.0) (114.6,410.2) (114.6,406.5) (114.7,402.8) (114.8,399.0) (114.9,395.3) (115.0,391.6) (115.1,387.8) (115.2,384.1) (115.3,380.3) (115.5,376.6) (115.7,372.9) (115.8,369.1) (116.0,365.4) (116.2,361.6) (116.5,357.9) (116.7,354.2) (117.0,350.4) (117.3,346.7) (117.7,342.9) (118.0,339.2) (118.5,335.5) (118.9,331.7) (119.4,328.0) (120.0,324.2) (120.6,320.5) (121.2,316.8) (122.0,313.0) (122.8,309.3) (123.7,305.5) (124.7,301.8) (125.7,298.1) (126.9,294.3) (128.2,290.6) (129.7,286.8) (131.2,283.1) (133.0,279.4) (134.9,275.6) (137.0,271.9) (139.3,268.1) (141.9,264.4) (144.7,260.7) (147.8,256.9) (151.2,253.2) (154.9,249.4) (159.0,245.7) (163.5,242.0) (168.5,238.2) (174.0,234.5) (180.0,230.7) (186.7,227.0) (194.0,223.3) (202.0,219.5) (210.9,215.8) (220.6,212.0) (231.3,208.3) (243.1,204.6) (256.0,200.8) (270.3,197.1) (286.0,193.4) (303.3,189.6) (322.3,185.9) (343.2,182.1) (366.2,178.4) (391.5,174.7) (419.3,170.9) (450.0,167.2)};
+  \node[anchor=north, inner sep=0pt, font=\footnotesize] at (80,283) {$-2$};
+  \node[anchor=north, inner sep=0pt, font=\footnotesize] at (146,283) {$-1$};
+  \node[anchor=north, inner sep=0pt, font=\footnotesize] at (200,283) {$O$};
+  \node[anchor=north, inner sep=0pt, font=\footnotesize] at (260.5,283) {$1$};
+  \node[anchor=north, inner sep=0pt, font=\footnotesize] at (326.5,283) {$2$};
+  \node[anchor=north, inner sep=0pt, font=\footnotesize] at (389.5,283) {$3$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 638_q8_s1: solution Venn diagram. Rectangle and two circles measured from the crop (crop pixels, y down); P(A and not B)
+% = 8/25 written in A only, P(A and B) = 6/25 pointed to by an arrow from the overlap. Highlighter colours left out (rule 6);
+% the overlap shaded light grey to keep the sketch's emphasis.
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \begin{scope}\clip (120,113) circle (56); \fill[black!18] (208,107) circle (52);\end{scope}
+  \draw (18,25) rectangle (298,185);
+  \draw (120,113) circle (56);
+  \draw (208,107) circle (52);
+  \node at (97,115) {$\dfrac{8}{25}$};
+  \draw[->] (165,122) -- (165,228);
+  \node[anchor=west, inner sep=4pt] at (172,226) {$\dfrac{6}{25}$};
+  \node[anchor=south east, inner sep=1pt] at (82,68) {$A$};
+  \node[anchor=south west, inner sep=1pt] at (246,64) {$B$};
+\end{tikzpicture}
+\end{document}
