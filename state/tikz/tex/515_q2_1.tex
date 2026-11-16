@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % grid: minor (light) then major lines; frame top 40, right 1023
+  \foreach \x in {343,615,887} \draw[black!12] (\x,40) -- (\x,568);
+  \foreach \y in {128,303,480} \draw[black!12] (207,\y) -- (1023,\y);
+  \foreach \x in {479,752,1023} \draw[black!30] (\x,40) -- (\x,568);
+  \foreach \y in {40,215,391} \draw[black!30] (207,\y) -- (1023,\y);
+  % axes
+  \draw[->] (207,568) -- (207,30);
+  \draw[->] (207,568) -- (1036,568);
+  \node[rotate=90] at (183,315) {height (cm)};
+  \node at (622,598) {weight (kg)};
+  % points
+  \foreach \p in {(804,110),(588,144),(804,145),(1022,180),(588,182),(480,251),(480,287),(534,286),(643,322),(535,356),(698,358),(316,394),(590,426)}
+    \fill \p circle (10.5);
+  \node at (445,251) {$\mathbf{A}$};
+  \node at (734,356) {$\mathbf{B}$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% even f(t)=a t^4+b t^2 and odd g(t)=c t^5+d t^3+e t, least-squares fitted to the crop's printed curves (unit = 94 px, origin (607,411))
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  declare function={F(\t)=0.011966*(\t)^4-0.309316*(\t)^2; G(\t)=-0.00063042*(\t)^5+0.0653952*(\t)^3-1.530087*(\t);
+    px(\t)=607+94*\t;}]
+  % shaded regions A, B, C (flat grey as on the paper)
+  \fill[shade] ({px(-4)},411) -- plot[domain=-4:-2,smooth,samples=40] ({px(\x)},{411-94*F(\x)}) -- (420,411) -- cycle;
+  \fill[shade] (420,411) -- plot[domain=-2:0,smooth,samples=40] ({px(\x)},{411-94*G(\x)}) -- cycle;
+  \fill[shade] plot[domain=2:4,smooth,samples=40] ({px(\x)},{411-94*F(\x)}) -- plot[domain=4:2,smooth,samples=40] ({px(\x)},{411-94*G(\x)}) -- cycle;
+  % region edges
+  \draw ({px(-4)},411) -- ({px(-4)},{411-94*F(-4)});
+  \draw ({px(-2)},{411-94*G(-2)}) -- ({px(-2)},{411-94*F(-2)});
+  \draw ({px(2)},{411-94*F(2)}) -- ({px(2)},{411-94*G(2)});
+  \draw ({px(4)},{411-94*F(4)}) -- ({px(4)},{411-94*G(4)});
+  % axes
+  \draw[->] (22,411) -- (1238,411);
+  \draw[->] (607,730) -- (607,38);
+  \foreach \t in {-4,-2,2,4} \draw ({px(\t)},405) -- ({px(\t)},415);
+  \node at (1215,440) {$x$};
+  \node at (573,45) {$y$};
+  \node at (588,432) {$O$};
+  \node at (226,438) {$-4$};
+  \node at (417,438) {$-2$};
+  \node at (796,438) {$2$};
+  \node at (984,438) {$4$};
+  % curves (0.9pt: they touch the axis)
+  \draw[line width=0.9pt] plot[domain=-5.93:5.93,smooth,samples=90] ({px(\x)},{411-94*F(\x)});
+  \draw[line width=0.9pt] plot[domain=-6.2:6.4,smooth,samples=90] ({px(\x)},{411-94*G(\x)});
+  \node at (315,510) {$A$};
+  \node at (492,343) {$B$};
+  \node at (885,635) {$C$};
+  \node[rotate=80] at (1174,175) {$y=f(x)$};
+  \node[rotate=63] at (1099,545) {$y=g(x)$};
+\end{tikzpicture}
+\end{document}
