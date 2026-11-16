@@ -14,7 +14,7 @@ This file covers **how** to run an import. **What** the owner wants is in the sp
 - DIAGRAM_SPEC and DIAGRAM_FEEDBACK_LOG: redraws.
 - VERIFY_SPEC: the independent checker.
 
-Page/UI decisions: UI_SPEC.md. **Page code: edit `page_src/`, then run `python3 tools/build_page.py`; never edit `site/review.html` directly** (it is generated). Run `python3 tools/export_src.py` before you publish. A new Claude session has no memory of earlier ones. Read this file, RESUME.md and the specs before touching a batch.
+Page/UI decisions: UI_SPEC.md. **Page code: edit `page_src/`, then run `python3 tools/build_page.py`; never edit `site/review.html` directly** (it is generated). A new Claude session has no memory of earlier ones. Read this file, RESUME.md and the specs before touching a batch.
 
 ## The pipeline, in order
 
@@ -169,7 +169,7 @@ bash tools/prepublish.sh
 
 It runs, and stops at the first failure:
 1. `python3 tools/build_page.py`: builds `site/review.html` from `page_src/` and checks `site/vendor/`. An unchanged build leaves the file and its date alone.
-2. `python3 tools/export_src.py`: copies `page_src/` to `site/project/page_src/`.
+2. (removed 16 Nov: `export_src.py` copied `page_src/` to `site/project/page_src/` for publishing; nothing publishes it since 14 Nov)
 3. `python3 tools/page_test_fixture.py`: refreshes `work/page_test/fixture.json`, the seed for the fake page database, from the `page_*` mirror tables in questions.db (run `sync_pagedb.py` first if the mirror is old).
 4. `node tools/page_test.js`: the test, about 1 minute.
 5. `python3 tools/batch_check.py`: it BLOCKS if the page test failed, was a `--quick` run, never ran, or tested a different `review.html`, `bank.json` or `dotpoints.json` (it compares the sha256 recorded in the result, and the result must be newer than `review.html`).

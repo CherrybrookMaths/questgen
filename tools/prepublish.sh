@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
+# (16 Nov: export_src.py removed: project/ copies of the page code stopped being published on 14 Nov (v217); GitHub holds page_src/)
 # Before EVERY publish of the review page (hardening action 1, 14 Nov). Stops at the first step that fails.
 #   1. tools/build_page.py        assemble site/review.html from page_src/ (and check site/vendor/)
-#   2. tools/export_src.py        copy page_src/ to site/project/page_src/ (published for resume)
-#   3. tools/page_test_fixture.py refresh the fake page database from the questions.db mirror (page_* tables)
-#   4. tools/page_test.js         the automated page test (offline, about 1 minute): every tab, bank, exams, exports, reports
-#   5. tools/batch_check.py       end-of-batch checks; blocks on a failed or stale page test
+#   2. tools/page_test_fixture.py refresh the fake page database from the questions.db mirror (page_* tables)
+#   3. tools/page_test.js         the automated page test (offline, about 1 minute): every tab, bank, exams, exports, reports
+#   4. tools/batch_check.py       end-of-batch checks; blocks on a failed or stale page test
 #   then tools/publish_set.py prints what to publish (files changed since the last publish, with counts against the limits)
 # Usage: bash tools/prepublish.sh            exit 0 = safe to publish
 #        bash tools/prepublish.sh --quick    faster test without exports (batch_check will still block: run the full one)
 set -euo pipefail
 cd "$(dirname "$0")/.."
-echo '== 1/5 build page';            python3 tools/build_page.py | sed -n '1,2p'
-echo '== 2/5 export page sources';   python3 tools/export_src.py | tail -1
-echo '== 3/5 page test fixture';     python3 tools/page_test_fixture.py
-echo '== 4/5 page test';             node tools/page_test.js "$@" | grep -v '^PASS  tab ' || { echo 'PAGE TEST FAILED: see work/page_test/last_result.json and work/page_test/shots/'; exit 1; }
-echo '== 5/5 batch check';           python3 tools/batch_check.py
+echo '== 1/4 build page';            python3 tools/build_page.py | sed -n '1,2p'
+echo '== 2/4 page test fixture';     python3 tools/page_test_fixture.py
+echo '== 3/4 page test';             node tools/page_test.js "$@" | grep -v '^PASS  tab ' || { echo 'PAGE TEST FAILED: see work/page_test/last_result.json and work/page_test/shots/'; exit 1; }
+echo '== 4/4 batch check';           python3 tools/batch_check.py
 echo '== publish set';               python3 tools/publish_set.py | sed -n '1,6p'; echo '   (full files map: python3 tools/publish_set.py --json)'

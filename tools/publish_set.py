@@ -11,8 +11,6 @@ and site/vendor/ only; this also covers site/project/ (the published resume copy
 Changed = sha256 differs from work/published_manifest.json (written by `batch_check.py --mark-published`). Files under
 project/ that the manifest does not list yet (manifests before 14 Nov did not record project/) count as changed when
 modified after the manifest's time. review.html is the page itself (file_path), so it is not in the `files` map.
-Paths in REMOVE are files that were published under project/ before the 14 Nov page_src/ split and now live in
-archive/pre_src_1114/: pass them as null to drop them from the artifact (only if the live artifact still has them).
 Limits per publish: 255 files, 64 MB. Per version: 511 files, 256 MB.
 
 Removals (stage 2, 15 Nov): a path the manifest records as published that no longer exists locally (archived, merged
@@ -33,12 +31,6 @@ import base64, glob, gzip, hashlib, json, os, sys, time
 P = paths.P
 S = P + 'site/'
 MAN = paths.S + 'work/published_manifest.json'
-REMOVE = [f'project/{n}' for n in (
-    'exam.js.txt exam_auto.css.txt exam_auto.js.txt exams.css.txt exams.js.txt guide2.css.txt guide2.js.txt levels.js.txt '
-    'mine.css.txt mine.js.txt pdf.js.txt reports.css.txt reports.js.txt schema.js.txt theme2.css.txt word.js.txt '
-    'patch_exam_auto.py.txt patch_exams.py.txt patch_reports.py.txt patch_theme2.py.txt').split()]
-
-
 # never publish these, even if a tool writes them again. data/focus/: stage 2, 15 Nov. data/bank_v1_before_split.json: health
 # pass 13 Nov (a pre-split snapshot nothing reads; archived in archive/data_unused_1113/, sent once as null to delete it)
 # data/bank_v1.json: 14 Nov, tracked in git at state/site/data/bank_v1.json (a build input the page never reads; the live
@@ -103,7 +95,6 @@ def main():
     live = [l.strip() for l in open(arg('--live'))] if arg('--live') else []
     nulls = removals(man, [l for l in live if l])
     files.update({r: None for r in nulls})
-    removes = [r for r in REMOVE if not os.path.exists(S + r) and r not in man['files']]
     n = len(files) + ('review.html' in out)
     size = sum(os.path.getsize(S + r) for r in out)
     if '--json' in sys.argv:
@@ -121,8 +112,7 @@ def main():
     print(f'  after this publish the artifact holds {len(cur)} files, {sum(os.path.getsize(S + r) for r in cur) / 2**20:.1f} MB (limit per version: 511 files, 256 MB)')
     print(f'  total        {n:4d} files {size:>12,} bytes   (limit per publish: 255 files, 64 MB)  '
           + ('OK' if n <= 255 and size <= 64 * 2**20 else 'OVER LIMIT: split into several publishes to the same url'))
-    print(f'  page: file_path site/review.html{" (changed)" if "review.html" in out else " (unchanged)"}; '
-          f'optional nulls for {len(removes)} archived project files: ' + ', '.join(removes[:3]) + (' ...' if len(removes) > 3 else ''))
+    print(f'  page: file_path site/review.html{" (changed)" if "review.html" in out else " (unchanged)"}')
     print('files map (paths relative to the repo root):')
     print(json.dumps(files, indent=0))
 
