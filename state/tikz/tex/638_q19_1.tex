@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% 638_q19_1: sector COD, angle COD = 2pi/3 (NOT TO SCALE), T the midpoint of OC, TD joined. Vertices and the arc traced
+% from the crop (crop pixels, y down); the printed arc is not centred on O, kept as printed (rule 1). T computed as the
+% midpoint of OC (rule 16).
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (O) at (355,388); \coordinate (C) at (54,107); \coordinate (D) at (716,277);
+  \coordinate (T) at ($(O)!0.5!(C)$);
+  \draw (C) -- (O) -- (D);
+  \draw (T) -- (D);
+  \draw plot[smooth] coordinates {(54,107) (64.9,99.12) (76.04,91.6) (87.41,84.44) (99,77.64) (111,71.12) (123,65.05) (135.2,59.34) (147.5,54.01) (160.2,48.96) (172.9,44.37) (185.9,40.08) (198.8,36.23) (211.9,32.75) (225.2,29.61) (238.5,26.88) (252,24.5) (265.3,22.54) (279,20.93) (292.4,19.73) (306.1,18.91) (319.6,18.48) (333.3,18.43) (346.8,18.78) (360.5,19.52) (374,20.64) (387.4,22.16) (400.9,24.09) (414.2,26.39) (427.4,29.09) (440.7,32.22) (453.6,35.71) (466.5,39.59) (479.4,43.92) (492,48.57) (504.4,53.6) (516.8,59.1) (528.9,64.89) (540.7,71.06) (552.5,77.7) (563.9,84.61) (575,91.89) (585.9,99.53) (596.7,107.7) (607,116) (616.8,124.6) (626.5,133.7) (635.9,143.1) (644.8,152.7) (653.4,162.7) (661.6,172.9) (669.4,183.6) (676.7,194.3) (683.7,205.6) (690.2,216.8) (696.3,228.5) (701.9,240.3) (707,252.3) (711.7,264.5) (716,277)};
+  \node[anchor=east, inner sep=4pt, font=\large] at (C) {$C$};
+  \node[anchor=east, inner sep=6pt, font=\large, yshift=-6pt] at (T) {$T$};
+  \node[anchor=west, inner sep=4pt, font=\large] at (D) {$D$};
+  \node[anchor=north, inner sep=6pt, font=\large] at (O) {$O$};
+  \node[font=\large] at (362,343) {$\dfrac{2\pi}{3}$};
+  \node[font=\large] at (525,372) {$8\text{ cm}$};
+  \node at (922,77) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}
