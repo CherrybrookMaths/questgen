@@ -718,7 +718,9 @@ async function reviewFlow(browser, base, seed) {
   await check('review: the Inbox summary', page, async () => {
     const r = await page.evaluate(() => {
       const W = [...allWork().values()].filter(w => w.n), card = k => document.querySelector(`#inboxBox [data-card="${k}"]`);
-      return {want: W.length, docs: W.map(w => w.doc).sort(), pc: Object.keys(B.docs).filter(d => B.docs[d].call && PCALL.list([d])[0].open).map(d => mainDoc(d)), rep: repOpen().length, lv: lvTodoN(), view, rbar: !document.querySelector('#rbar').hidden,
+      return {want: W.length, docs: W.map(w => w.doc).sort(), pc: Object.keys(B.docs).filter(d => B.docs[d].call && PCALL.list([d])[0].open).map(d => mainDoc(d)),
+        // a paper imported after the fixture was taken has no review decision at all, so it has work (16 Nov: Batch 6)
+        fresh: [...new Set(B.questions.map(q => String(q.doc)))].filter(d => !reviews['paper_' + d] && B.questions.filter(q => String(q.doc) === d).every(q => !reviews['q' + q.id] && !(q.key && reviews['k_' + q.key]))).map(d => mainDoc(d)).filter(d => [...allWork().values()].some(w => String(w.doc) === String(d))), rep: repOpen().length, lv: lvTodoN(), view, rbar: !document.querySelector('#rbar').hidden,
         pn: card('papers')?.querySelector('.ict')?.textContent, rows: [...document.querySelectorAll('#inboxBox .iprow')].map(a => ({href: a.getAttribute('href'), dots: a.querySelectorAll('.mtrack i').length, line: a.querySelector('.ipl').textContent})),
         all: card('papers')?.querySelector('a.imore')?.getAttribute('href'),
         repDone: card('reports')?.classList.contains('idone'), repTxt: card('reports')?.innerText, lvDone: card('difficulty')?.classList.contains('idone'), lvTxt: card('difficulty')?.innerText, lvHref: card('difficulty')?.querySelector('a')?.getAttribute('href'),
@@ -727,9 +729,10 @@ async function reviewFlow(browser, base, seed) {
     });
     errs(); assert(r.view === 'inbox' && !r.rbar, `#review opened view ${r.view} (bar shown ${r.rbar})`);
     // the fixture's workload is 1346, 323, 1601; every paper with an open call raised on it (open_decisions.json "paper_<doc>") has work too (owner 13 Nov)
-    const wantDocs = [...new Set(['1346', '1601', '323', ...r.pc])].sort();
+    const wantDocs = [...new Set(['1346', '1601', '323', ...r.pc, ...r.fresh.map(String)])].sort();
     assert(r.want === wantDocs.length && r.docs.join(',') === wantDocs.join(','), `papers with work: ${r.docs.join(',')} (want ${wantDocs.join(',')})`);
-    assert(r.pn === String(r.want) && r.rows.length === r.want, `Papers card says ${r.pn}, ${r.rows.length} rows, want ${r.want}`);
+    // the card lists at most 8 papers (08_review.js SHOW), then "Show all papers"
+    assert(r.pn === String(r.want) && r.rows.length === Math.min(8, r.want), `Papers card says ${r.pn}, ${r.rows.length} rows, want ${r.want} (${Math.min(8, r.want)} rows)`);
     assert(r.rows.every(x => x.dots === 5 && /^\d+ left · at (Your calls|Flagged|Topics|Diagrams|Spot-check)$/.test(x.line) && /^#review\/paper\/\d+$/.test(x.href)), `rows: ${JSON.stringify(r.rows)}`);
     assert(r.all === '#review/papers', `"Show all papers" goes to ${r.all}`);
     assert(r.rep === 0 && r.repDone && /Reports\s*nothing open/.test(r.repTxt), `Reports card with ${r.rep} open: done ${r.repDone} “${r.repTxt}”`);

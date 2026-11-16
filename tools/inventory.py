@@ -302,7 +302,9 @@ def held_list(docs, copy_of, paper_of):
     def f(i): d = docs[i]; return [i, d['source_path'], d.get('drive_file_id') or '']
     h = json.load(open(HELD)) if os.path.exists(HELD) else {}
     return {'at': h.get('at'),
-            'copies': [f(i) + f(o) + [paper_of.get(o)] for i, o in sorted(copy_of.items(), key=lambda x: docs[x[0]]['source_path'].lower())],
+            # the original's path only when its paper cannot be named (the page shows the paper's label): CODE_HEALTH rule 6, 16 Nov
+            'copies': [f(i) + [o, '' if paper_of.get(o) else docs[o]['source_path'], docs[o].get('drive_file_id') or '', paper_of.get(o)]
+                       for i, o in sorted(copy_of.items(), key=lambda x: docs[x[0]]['source_path'].lower())],
             'moved': [[m['id'], m['path'], m['from']] for m in h.get('moved', [])],
             'missing': [[m['doc_id'], m['path'], m['status']] for m in h.get('missing', [])]}
 
