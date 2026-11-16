@@ -24,7 +24,8 @@ owner's 12 Nov rollback of the cropped Check view; data/bank_v1_before_split.jso
 Asset store (Fix 1, 14 Nov): image packs listed in site/data/assets.json at their current sha256 are served from the artifact's
 asset store and left out of the publish set (tools/asset_upload_plan.py, tools/asset_manifest.py). The split bank
 (data/bank/<course>/index.json + one file per topic, tools/bank_split.py) is published like any data file; data/bank.json is
-still built and published until the main session drops it (then add it to EXCLUDE).
+still built locally but no longer published (job 4, 16 Nov), nor is project/ apart from open_decisions.json.
+  python3 tools/publish_set.py --json --live FILE   also null every path the live page holds outside the publish set
 """
 import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import base64, glob, gzip, hashlib, json, os, sys, time
@@ -42,7 +43,11 @@ REMOVE = [f'project/{n}' for n in (
 # pass 13 Nov (a pre-split snapshot nothing reads; archived in archive/data_unused_1113/, sent once as null to delete it)
 # data/bank_v1.json: 14 Nov, tracked in git at state/site/data/bank_v1.json (a build input the page never reads; the live
 # artifact does not hold it, so it was dropped from the manifest instead of being sent as null)
-EXCLUDE = ('data/focus/', 'data/bank_v1_before_split.json', 'data/bank_v1.json')
+# Job 4 (first jobs in CLAUDE.md, owner agreed 14 Nov: "Remove published files the page no longer uses"): data/bank.json (the
+# page reads the split bank since Fix 1; build tools read the local copy) and project/ (specs and tools are on GitHub; the
+# local site/project/ stays, tools read their inputs there). The page still reads project/open_decisions.json (08_review.js).
+EXCLUDE = ('data/focus/', 'data/bank_v1_before_split.json', 'data/bank_v1.json', 'data/bank.json')
+PROJECT_KEEP = ('project/open_decisions.json',)
 
 
 def sha(p):
@@ -65,13 +70,20 @@ def publishable():
     # (site/data/assets.json, tools/asset_manifest.py) is no longer published; removals() then sends null for it once
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import asset_manifest
     instore = asset_manifest.fresh_paths()
-    return sorted(r for r in (os.path.relpath(f, S) for f in fs) if not r.startswith(EXCLUDE) and r not in instore)
+    return sorted(r for r in (os.path.relpath(f, S) for f in fs) if not r.startswith(EXCLUDE) and r not in instore
+                  and (not r.startswith('project/') or r in PROJECT_KEEP))
 
 
-def removals(man):
-    """Paths the last publish sent that are gone from the publish set now: send them as null to delete them."""
+def arg(flag):
+    return sys.argv[sys.argv.index(flag) + 1] if flag in sys.argv and sys.argv.index(flag) + 1 < len(sys.argv) else None
+
+
+def removals(man, live=()):
+    """Paths the last publish sent that are gone from the publish set now: send them as null to delete them. With --live FILE
+    (one published path per line, from an Artifact `list` with scope "files"), also every path the live page holds that is
+    not in the publish set: the manifest and the live page had drifted apart (CLAUDE.md "Publish manifest vs live")."""
     cur = set(publishable())
-    return sorted(r for r in man['files'] if r not in cur and r != 'review.html')
+    return sorted({r for r in list(man['files']) + list(live) if r not in cur and r not in ('review.html', 'index.html')})
 
 
 def main():
@@ -88,7 +100,8 @@ def main():
         else: changed = True
         if changed: out.append(rel)
     files = {r: 'site/' + r for r in out if r != 'review.html'}
-    nulls = removals(man)
+    live = [l.strip() for l in open(arg('--live'))] if arg('--live') else []
+    nulls = removals(man, [l for l in live if l])
     files.update({r: None for r in nulls})
     removes = [r for r in REMOVE if not os.path.exists(S + r) and r not in man['files']]
     n = len(files) + ('review.html' in out)
