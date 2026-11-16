@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+% 159_qIII3_s1: solution apple tree drawn with the shared tree template (DIAGRAM_SPEC rule 21; tree_style.tex). The paper's four
+% answer boxes carry the solution values typeset (rule 17: the hand-written 2/4, 2/4, 2/3, 1/3 set as stacked fractions).
+\setlength\treeL{3cm}
+\newcommand\ansbox[2]{\framebox[1.2cm]{\rule[-0.5cm]{0pt}{1.3cm}$\dfrac{#1}{#2}$}}
+\treewidth{1}{Royal Gala}\treewidth{1}{Pink Lady}
+\treewidth{2}{Royal Gala}\treewidth{2}{Pink Lady}
+\treewidth{3}{Royal Gala}\treewidth{3}{Pink Lady}
+\treecolumns{3}
+\begin{tikzpicture}
+  \treeroot{r}{0cm}
+  \treenode{a}{1}{2.2cm}{Royal Gala}
+  \treebranch{r}{a}{$\dfrac{2}{5}$}
+  \treenode{b}{1}{-2.2cm}{Pink Lady}
+  \treebranch{r}{b}{$\dfrac{3}{5}$}
+  \treenode{c}{2}{-0.2cm}{Royal Gala}
+  \treebranch{b}{c}{\ansbox{2}{4}}
+  \treenode{d}{2}{-4.2cm}{Pink Lady}
+  \treebranch{b}{d}{\ansbox{2}{4}}
+  \treenode{e}{3}{-2.4cm}{Royal Gala}
+  \treebranch{d}{e}{\ansbox{2}{3}}
+  \treenode{f}{3}{-5.6cm}{Pink Lady}
+  \treebranch{d}{f}{\ansbox{1}{3}}
+\end{tikzpicture}
+\end{document}

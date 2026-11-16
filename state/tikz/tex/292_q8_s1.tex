@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % y=|x-3| on [0,5.7]; origin (65,122), 33 px per x unit, 27 px per y unit (sketch proportions)
+  \draw (15,122) -- (250,122);
+  \draw (65,18) -- (65,156);
+  \draw[line width=0.9pt] (65,{122-27*3}) -- ({65+33*3},122) -- ({65+33*5.7},{122-27*2.7});
+  \draw ({65+33*5},122) -- ({65+33*5},{122-27*2});
+  \node[left] at (60,{122-27*3}) {$3$};
+  \node at ({65+33*3},150) {$3$};
+  \node[right] at ({65+33*5+6},{122-27*2.6}) {$(5,2)$};
+\end{tikzpicture}
+\end{document}

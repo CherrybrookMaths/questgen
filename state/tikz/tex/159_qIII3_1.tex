@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+% 159_qIII3_1: apple tree drawn with the shared tree template (DIAGRAM_SPEC rule 21; tree_style.tex). The paper's four
+% answer boxes are kept as empty boxes in the probability positions (above an upward branch, below a downward one).
+\setlength\treeL{3cm}
+\newcommand\ansbox{\framebox[1.2cm]{\rule{0pt}{1.3cm}}}
+\treewidth{1}{Royal Gala}\treewidth{1}{Pink Lady}
+\treewidth{2}{Royal Gala}\treewidth{2}{Pink Lady}
+\treewidth{3}{Royal Gala}\treewidth{3}{Pink Lady}
+\treecolumns{3}
+\begin{tikzpicture}
+  \treeroot{r}{0cm}
+  \treenode{a}{1}{2.2cm}{Royal Gala}
+  \treebranch{r}{a}{$\dfrac{2}{5}$}
+  \treenode{b}{1}{-2.2cm}{Pink Lady}
+  \treebranch{r}{b}{$\dfrac{3}{5}$}
+  \treenode{c}{2}{-0.2cm}{Royal Gala}
+  \treebranch{b}{c}{\ansbox}
+  \treenode{d}{2}{-4.2cm}{Pink Lady}
+  \treebranch{b}{d}{\ansbox}
+  \treenode{e}{3}{-2.4cm}{Royal Gala}
+  \treebranch{d}{e}{\ansbox}
+  \treenode{f}{3}{-5.6cm}{Pink Lady}
+  \treebranch{d}{f}{\ansbox}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % y=2|x+1| sketch; origin (371,318), 66 px per x unit, 42 px per y unit (sketch proportions kept, rule 1)
+  \draw[<->] (66,318) -- (690,318);
+  \draw[<->] (371,30) -- (371,605);
+  \node at (690,300) [right] {$x$};
+  \node at (376,40) [right] {$y$};
+  \draw[<->,line width=0.9pt] ({371+66*(-4.3)},{318-42*6.7}) -- ({371+66*(-1)},318) -- ({371+66*2.15},{318-42*6.3});
+  \draw[aux] ({371+66*(-4)},318) -- ({371+66*(-4)},{318-42*6});
+  \draw ({371+66*(-4)},310) -- ({371+66*(-4)},326);
+  \node[pt] at ({371+66*(-1)},318) {};
+  \node[pt] at (371,{318-42*2}) {};
+  \node at ({371+66*(-4)},350) {$-4$};
+  \node at ({371+66*(-1)},350) {$-1$};
+  \node at (398,{318-42*2+12}) {$2$};
+\end{tikzpicture}
+\end{document}

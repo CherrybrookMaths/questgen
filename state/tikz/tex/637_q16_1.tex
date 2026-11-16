@@ -11,8 +11,9 @@
   \draw[<->] (582.5,785) -- (582.5,11) node[below right, inner sep=2pt] {$y$};
   \foreach \i in {-10,...,-1} \node[font=\small, anchor=north, inner sep=2pt] at ({582.5+\i*\ux-3},402) {$\i$};
   \foreach \i in {1,...,10} \node[font=\small, anchor=north, inner sep=2pt] at ({582.5+\i*\ux+3},402) {$\i$};
-  \node[font=\small, anchor=north east, inner sep=2pt] at (580,402) {$0$};
-  \foreach \j in {-12,-10,-8,-6,-4,-2,2,4,6,8,10,12} \node[font=\small, anchor=east, inner sep=2pt] at (579,{398-\j*\uy}) {$\j$};
+  \node[font=\small, anchor=south east, inner sep=2pt] at (580,396) {$0$};% above-left: the curve fills both lower quadrants at the origin (rule 11)
+  \foreach \j in {-12,-10,-8,-6,-4,2,4,6,8,10,12} \node[font=\small, anchor=east, inner sep=2pt] at (579,{398-\j*\uy}) {$\j$};
+  \node[font=\small, anchor=east, inner sep=0.5pt] at (580,{398+2*\uy+7}) {$-2$};% tighter and 7 px low so it clears the curve (rule 11)
   \draw[<->, line width=0.9pt, smooth, samples=90, variable=\t, domain=-1.655:3.855]
      plot ({582.5+\ux*\t},{398-\uy*(\t*\t*(\t-3))});
   \fill ({582.5-\ux},{398+4*\uy}) circle (5);
