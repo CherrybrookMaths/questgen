@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % crop pixels: X = 120 + 133.3 x, Y = 381 - 110 y (the crop's curve is in fact to scale)
+  \fill[shade] (386.6,381) -- plot[domain=2:6, samples=40, smooth] ({120+133.3*\x},{381-110/\x}) -- (919.8,381) -- cycle;
+  \draw (386.6,381) -- (386.6,326);
+  \draw (919.8,381) -- (919.8,362.7);
+  \draw[<->] (36,381) -- (1075,381);
+  \draw[<->] (120,450) -- (120,38);
+  \foreach \i in {1,...,6} \draw ({120+133.3*\i},371) -- ({120+133.3*\i},391);
+  \foreach \j in {1,2,3} \draw (110,{381-110*\j}) -- (130,{381-110*\j});
+  \draw[line width=0.9pt, domain=0.3205:7.15, samples=90, smooth, variable=\t] plot ({120+133.3*\t},{381-110/\t});
+  \begin{scope}[font=\large]
+    \foreach \i in {1,...,7} \node at ({120+133.3*\i},423) {$\i$};
+    \foreach \j in {1,2,3} \node at (88,{381-110*\j}) {$\j$};
+    \node at (1088,382) {$x$};
+    \node at (118,14) {$y$};
+    \node at (278,124) {$y=\dfrac{1}{x}$};
+    \node at (860,142) {Not to scale};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

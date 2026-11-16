@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % crop pixel units: axis y = 292; x = 25 at 112, x = 145 at 673 (4.675 px per unit, mean 85 at 392.5)
+  % bell curve: a true normal curve (symmetric, rule 10) with sd = 20 units = 93.5 px, so 25 and 145 are exactly mean -+ 3 sd as the
+  % question states (rule 18); base 278.8 and peak 19 as the crop
+  \def\N#1{278.8-259.8*exp(-0.5*(((#1)-392.5)/93.5)^2)}
+  \fill[black!30] (112,292) -- plot[smooth, samples=80, domain=112:673, variable=\t] (\t,{\N{\t}}) -- (673,292) -- cycle;
+  \draw[<->] (21,292) -- (760,292);
+  \draw (112,{\N{112}}) -- (112,312);
+  \draw (673,{\N{673}}) -- (673,312);
+  \draw[aux] (392.5,292) -- (392.5,{\N{392.5}});
+  \draw[line width=0.9pt, smooth, samples=90, domain=65:720, variable=\t] plot (\t,{\N{\t}});
+  \node at (109.5,335) {$25$};
+  \node at (671.5,335) {$145$};
+\end{tikzpicture}
+\end{document}

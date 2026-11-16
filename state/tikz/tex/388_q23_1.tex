@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% y = x^2 - 4x and y = 2x - 5, meeting at (1,-3) and (5,5); region between them shaded
+\begin{tikzpicture}[x=0.6255cm,y=0.6255cm]
+  \fill[shade] plot[domain=1:5,samples=50,smooth] (\x,{\x*\x-4*\x}) -- cycle;
+  \begin{scope}\clip (-2.33,-5.15) rectangle (6.23,6.2); \draw[black!25,line width=0.4pt] (-3,-6) grid[step=1] (7,7); \end{scope}
+  \draw (-2.33,0) -- (6.23,0); \draw (0,-5.15) -- (0,6.2);
+  \tikzset{tl/.style={font=\fontsize{6.5}{7}\selectfont,inner sep=1.5pt}}
+  \foreach \i in {-2,-1,2,3,6}{\node[tl,below] at (\i,0) {$\i$};}
+  \node[tl,below left] at (1,0) {$1$}; \node[tl,below left] at (4,0) {\halo{$4$}}; \node[tl,below left] at (5,0) {\halo{$5$}};
+  \node[tl,below left] at (0,0) {$0$};
+  \foreach \i in {-5,...,-1,1,2,...,6}{\node[tl,left] at (0,\i) {$\i$};}
+  \begin{scope}
+    \clip (-2.33,-5.15) rectangle (6.23,6.2);
+    \draw[line width=0.9pt] plot[domain=-1.3:5.3,samples=90,smooth] (\x,{\x*\x-4*\x});
+    \draw[line width=0.9pt] (0,-5) -- (5.6,6.2);
+  \end{scope}
+  \fill (1,-3) circle[radius=2.2pt]; \fill (5,5) circle[radius=2.2pt];
+  \node[font=\scriptsize,right] at (1.12,-2.97) {\halo{$(1,-3)$}};
+  \node[font=\scriptsize,right] at (5.12,4.55) {$(5,5)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% P(t) = 900 cos(pi t/6) + 1600, 0 <= t <= 12 (c = 12)
+\begin{tikzpicture}[x=0.58738cm,y=0.0022365cm]
+  \draw (-0.37,0) -- (12.67,0);
+  \draw (0,-380) -- (0,2750);
+  \draw (-0.37,2500) -- (0.4,2500); \draw (-0.37,700) -- (0.4,700);
+  \draw (12,-110) -- (12,110);
+  \draw[line width=0.9pt] plot[domain=0:12,samples=90,smooth] (\x,{900*cos(30*\x)+1600});
+  \node[left] at (-0.37,2500) {$2500$};
+  \node[left] at (-0.37,700) {$700$};
+  \node[below] at (0,-100) {$0$};
+  \node[below] at (12,-130) {$c$};
+  \node[right] at (12.75,0) {$t$};
+  \node[above] at (0.1,2780) {$P(t)$};
+\end{tikzpicture}
+\end{document}
