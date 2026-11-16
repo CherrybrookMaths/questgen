@@ -68,3 +68,7 @@ Output per part: {"part_id", "dot_points":[{"id","role"}], "required_skills":[..
 7. **Statistics on data sets**: frequency tables, relative and cumulative frequency, histograms and polygons -> Year 11 Data (Y11-199, Y11-200, Y11-201). Quartiles, box plots, standard deviation of a data set, outliers, correlation and regression -> removed (Mathematics Standard; standard_topic as appropriate).
 8. **Mode of a discrete distribution**: skill "Discrete probability distributions" (widened), dot point Y12-321.
 - **Reading a percentile off a cumulative frequency graph or table is Year 11 Data (owner 12 Nov, QID 316: "does this not belong in Y11 data?").** Median, quartile or decile read from a cumulative frequency graph/polygon or table -> Y11-200 with skill "Frequency tables and histograms" (the dot point names the median; any percentile is the same skill). Box plots, IQR, outliers, five-number summaries, standard deviation of a data set and regression stay removed (Standard).
+- **Single-sum compound interest is filed under Financial mathematics (owner 17 Nov).** Asked whether these should be Standard: no, the
+  content is Advanced (Y12-228 covers growth problems; annuities build on it). Owner: "I can file them under financial math please do that".
+  The dot point stays **Y12-228**; the question's main topic (home) is Financial mathematics > Annuities (the subheading of Y12-356; the
+  2024 syllabus has no compound-interest subheading). Applied by `tools/home_rules.py` (an owner pick in reviews/k_<key>.home) after tagging.
