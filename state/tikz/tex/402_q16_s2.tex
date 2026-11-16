@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % question layout (402_q16_1) re-measured to this crop; y downwards, user angle = bearing - 90
+  \coordinate (B) at (247,277);
+  \coordinate (P) at (556,201);
+  \coordinate (H) at (775,380);
+  \pgfmathsetmacro\aPB{atan2(76,-309)}
+  \pgfmathsetmacro\aPH{atan2(179,219)}
+  \pgfmathsetmacro\aBP{atan2(-76,309)}
+  \pgfmathsetmacro\aBH{atan2(103,528)}
+  \draw (B) -- (P) -- (H) -- cycle;
+  \draw[->] (775,458) -- (775,100);
+  \draw[->] (P) -- (556,112);
+  \draw (247,160) -- (247,354);
+  \fill (B) circle (2.4pt) (P) circle (2.4pt);
+  % at B: bearing of P is 70; angle HBP to find
+  \draw (B) ++(-90:28) arc[start angle=-90, end angle=\aBP, radius=28];
+  \draw (B) ++(\aBP:84) arc[start angle=\aBP, end angle=\aBH, radius=84];
+  \draw (B) ++(\aBP:89) arc[start angle=\aBP, end angle=\aBH, radius=89];
+  \node at (290,226) {$70^\circ$};
+  % at P: 110 (north to PB), 110 (angle HPB), 140 (north to PH)
+  \draw (P) ++(-90:22) arc[start angle=-90, end angle=\aPB-360, radius=22];
+  \draw (P) ++(\aPB:18) arc[start angle=\aPB, end angle=\aPH, radius=18];
+  \draw (P) ++(-90:28) arc[start angle=-90, end angle=\aPH, radius=28];
+  \node at (514,174) {$110^\circ$};
+  \node at (550,242) {$110^\circ$};
+  \node at (642,150) {$140^\circ$};
+  \node at (500,358) {$7.39$};
+  \node[font=\large] at (232,234) {$B$};
+  \node[font=\large] at (592,176) {$P$};
+  \node[font=\large] at (812,380) {$H$};
+  \node[font=\large] at (812,112) {$N$};
+  \node[font=\large, rotate=14] at (400,192) {5 km};
+  \node[font=\large, rotate=-39] at (684,252) {4 km};
+\end{tikzpicture}
+\end{document}

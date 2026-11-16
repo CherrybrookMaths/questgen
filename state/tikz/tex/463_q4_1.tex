@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % crop pixels: X = 49.25 + 134.25 x, Y = 284.5 - 55 y; curve y = ln(2x - 5) (option B), asymptote x = 2.5
+  \draw[aux] (384.9,39) -- (384.9,528);
+  \draw[->] (49.25,284.5) -- (757,284.5);
+  \draw[<->] (49.25,528) -- (49.25,35);
+  \foreach \i in {1,...,26} \draw ({49.25+26.85*\i},279.5) -- ({49.25+26.85*\i},289.5);
+  \foreach \j in {-8,...,-1,1,2,...,8} \draw (44.25,{284.5-27.5*\j}) -- (54.25,{284.5-27.5*\j});
+  \draw[<->, line width=0.9pt, domain=-4.43:1.7, samples=90, smooth, variable=\t] plot ({49.25+134.25*(exp(\t)+5)/2},{284.5-55*\t});
+  \begin{scope}[font=\small]
+    \foreach \i in {1,...,5} \node at ({49.25+134.25*\i},311) {$\i$};
+    \node at (28,174.5) {$2$};
+    \node at (28,64.5) {$4$};
+    \node at (22,394.5) {$-2$};
+    \node at (22,504.5) {$-4$};
+    \node at (763,285) {$x$};
+    \node at (49,20) {$y$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

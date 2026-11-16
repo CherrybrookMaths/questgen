@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % layout of the question diagram (402_q16_1), re-measured to this crop; y downwards, so a bearing b is user angle b-90
+  \coordinate (B) at (55,233);
+  \coordinate (P) at (355,158);
+  \coordinate (H) at (563,320);
+  \pgfmathsetmacro\aHP{atan2(-162,-208)+360}  % direction H->P (about 218 user)
+  \pgfmathsetmacro\aPH{atan2(162,208)}        % direction P->H
+  \pgfmathsetmacro\aPB{atan2(75,-300)}        % direction P->B
+  \draw (B) -- (P) -- (H);
+  \draw[->] (563,476) -- (563,68);
+  \draw[<->] (355,216) -- (355,94);
+  \fill (B) circle (2.4pt) (P) circle (2.4pt);
+  % angles at H: 40 between north and HP; bearing 320 clockwise from north to HP
+  \draw (H) ++(-90:44) arc[start angle=-90, end angle=\aHP-360, radius=44];
+  \draw (H) ++(-90:20) arc[start angle=-90, end angle=\aHP, radius=20];
+  \node at (538,252) {$40^\circ$};
+  \node at (604,392) {$320^\circ$};
+  % angles at P: 140 between north and PH (co-interior); 40 between south and PH (alternate); bearing 250 to B
+  \draw (P) ++(-90:17) arc[start angle=-90, end angle=\aPH, radius=17];
+  \draw (P) ++(\aPH:17) arc[start angle=\aPH, end angle=90, radius=17];
+  \draw (P) ++(-90:30) arc[start angle=-90, end angle=\aPB+360, radius=30];
+  \node at (436,146) {$140^\circ$};
+  \node at (390,232) {$40^\circ$};
+  \node at (288,226) {$250^\circ$};
+  \node[font=\large] at (44,190) {$B$};
+  \node[font=\large] at (384,112) {$P$};
+  \node[font=\large] at (602,330) {$H$};
+  \node[font=\large] at (602,72) {$N$};
+  \node[font=\large] at (355,74) {$N$};
+  \node[font=\large, rotate=14] at (206,152) {5 km};
+  \node[font=\large, rotate=-38] at (468,204) {4 km};
+\end{tikzpicture}
+\end{document}

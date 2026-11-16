@@ -1,0 +1,42 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[black!25, line width=0.5pt] (-4,1) rectangle (1226,708);
+  % plot area: x 118..1095 (6 categories of 162.83 px), y = 628 - 3.363*count (0..168)
+  \def\W{162.83}
+  \foreach \k in {1,...,10} \draw[black!25, line width=0.5pt] (118,{628-3.363*16.8*\k}) -- (1095,{628-3.363*16.8*\k});
+  % bars (blue on the paper): grey, with the paper's thin gaps between them
+  \foreach \i/\v in {0/57,1/45,2/28,3/20,4/12,5/6}
+    \fill[black!30] ({118+\W*\i+1.5},628) rectangle ({118+\W*(\i+1)-1.5},{628-3.363*\v});
+  \draw (118,63) -- (118,628) -- (1095,628) -- (1095,63);
+  \foreach \k in {0,...,10} {
+    \draw (111.5,{628-3.363*16.8*\k}) -- (118,{628-3.363*16.8*\k});
+    \draw (1095,{628-3.363*16.8*\k}) -- (1101.5,{628-3.363*16.8*\k});
+    \pgfmathsetmacro\lab{16.8*\k}
+    \node[font=\footnotesize, anchor=east] at (108,{628-3.363*16.8*\k}) {\pgfmathprintnumber[fixed, fixed zerofill, precision=1]{\lab}};
+    \pgfmathtruncatemacro\pc{10*\k}
+    \node[font=\footnotesize, anchor=west] at (1104,{628-3.363*16.8*\k}) {\pc.0\%};
+  }
+  \foreach \i in {1,...,5} \draw ({118+\W*\i},628) -- ({118+\W*\i},634.5);
+  % cumulative percentage line (orange on the paper): 0, 57, 102, 130, 150, 162, 168 of 168
+  \draw (118,628) -- ({118+\W},{628-3.363*57}) -- ({118+2*\W},{628-3.363*102}) -- ({118+3*\W},{628-3.363*130})
+        -- ({118+4*\W},{628-3.363*150}) -- ({118+5*\W},{628-3.363*162}) -- (1095,{628-3.363*168});
+  \foreach \i/\v in {0/0,1/57,2/102,3/130,4/150,5/162,6/168}
+    \fill ({118+\W*\i-3.5},{628-3.363*\v-3.5}) rectangle ++(7,7);
+  % solution marks: cumulative % at Child care (102/168) and Public transportation (130/168), difference about 17%
+  \draw[aux] (118,{628-3.363*130}) -- ({118+3*\W},{628-3.363*130});
+  \draw[aux] (118,{628-3.363*102}) -- ({118+2*\W},{628-3.363*102});
+  \draw[<->] (601,{628-3.363*130+2}) -- (601,{628-3.363*102});
+  \node[font=\large, anchor=west] at (640,236) {$\approx 17\%$};
+  % category labels
+  \foreach \i/\t in {0/Traffic,1/Child care,3/Weather,4/Overslept,5/Emergency}
+    \node[font=\footnotesize] at ({118+\W*\i+\W/2},657) {\t};
+  \node[font=\footnotesize] at ({118+2*\W+\W/2},657) {Public};
+  \node[font=\footnotesize] at ({118+2*\W+\W/2},681) {transportation};
+  % titles
+  \node[font=\normalsize\bfseries] at (614,25) {Pareto Chart of Late Arrivals by Reported Cause};
+  \node[font=\normalsize, rotate=90] at (14,375) {Number of employees};
+  \node[font=\normalsize, rotate=90] at (1210,389) {Cumulative percentage};
+\end{tikzpicture}
+\end{document}

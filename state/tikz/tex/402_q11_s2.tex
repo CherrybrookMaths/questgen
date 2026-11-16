@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (D) at (60,88);
+  \coordinate (C) at (356,88);
+  \coordinate (O) at (200,272);
+  \draw (D) -- (C) -- (O) -- cycle;
+  % equal-length ticks (double) on DO and OC
+  \foreach \P in {D,C}{
+    \foreach \t in {-2.2pt,2.2pt}{
+      \path ($($(O)!0.5!(\P)$)!\t!(O)$) coordinate (q);
+      \draw ($(q)!7pt!90:(O)$) -- ($(q)!-7pt!90:(O)$);
+    }
+  }
+  \node[font=\large] at (40,74) {$D$};
+  \node[font=\large] at (382,74) {$C$};
+  \node[font=\large] at (200,308) {$O$};
+  \node[font=\large] at (208,58) {$2$};
+  \node[font=\large] at (62,222) {$\sqrt{5}$};
+  \node[font=\large] at (338,196) {$\sqrt{5}$};
+  \node[font=\large] at (204,212) {$\theta$};
+\end{tikzpicture}
+\end{document}
