@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (25,380.5) -- (1097,380.5);
+  \draw[->] (222.5,662) -- (222.5,23);
+  \node[font=\large] at (1080,408) {$x$};
+  \node[font=\large] at (204,36) {$y$};
+  \node[font=\large] at (194,402) {$O$};
+  \foreach \t in {578,932} \draw (\t,368) -- (\t,393);
+  \node[font=\large] at (570,456) {$\dfrac{\pi}{2}$};
+  \node[font=\large] at (933,416) {$\pi$};
+  \draw[aux] (222.5,133.5) -- (400,133.5);
+  \node[font=\large] at (184,133.5) {$4$};
+  \draw[line width=0.9pt] plot[domain=170:968, samples=90, smooth] (\x, {380.5-247*sin((\x-222.5)/710*360)});
+\end{tikzpicture}
+\end{document}
