@@ -147,9 +147,9 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
    - Measure the asset store quota first (assets.list() usage at runtime). Fewer, larger uploads: approvals should be a handful,
      not 66. If the quota is too small, stop and ask the owner.
    - Then remove the published packs (null in publish_set) and add `"assets": {}` to the capabilities.
-4. **Remove published files the page no longer uses** (first publish from here, after 1): data/bank.json (build tools read the
-   local copy), the project/ copies now on GitHub (keep project/open_decisions.json, which Review reads, or move it to data/;
-   point the Guide's links at GitHub), stale project/*.txt tools. About 22 MB.
+4. **Remove published files the page no longer uses**: done 16 Nov (v217). data/bank.json and project/ are no longer published
+   (publish_set EXCLUDE / PROJECT_KEEP; project/open_decisions.json stays, Review reads it). The local site/project/ stays: tools
+   read their inputs there. Live: 146.9 MB in 284 files.
 5. **Reviews to key docs**: apply state/work/keys_migration (re-export reviews and regenerate first if they changed since
    14 Nov). Then re-run tools/triage.py (needs the PDFs in src/).
 6. **Nightly import scheduled task** (~10:30 pm Sydney): a fresh session with this repo attached; restore DB, run the queue
@@ -165,10 +165,8 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
 - **Review grouped by batch**: a Next up note in the page (db `notes`).
 - **Two open paper calls** (site/project/open_decisions.json): paper_644 (2025 Cherrybrook, cover "AP3", filed AT3) and
   paper_377 (2024 North Sydney Boys, cover "Assessment Task 3", a trial). Plus Q302: flagged without a note.
-- **Publish manifest vs live (review 14 Nov)**: state/work/published_manifest.json lists 429 files, the live page holds 427.
-  The manifest lists project/brand/*.svg (5 files) that the live page does not hold, so publish_set will not send them until
-  they change; the live page holds stale project copies (e.g. proc.py.txt, load.py.txt, schema.sql.txt) that publish_set
-  offers as optional nulls. Compare with Artifact `list` `scope: "files"` before trusting the manifest.
+- **Publish manifest vs live**: resolved 16 Nov (v217): the stale project/ copies are gone. publish_set `--live FILE` (one published
+  path per line, from Artifact `list` scope "files") also nulls anything the live page holds outside the publish set.
 - **What a fresh session still cannot do**: re-crop or add papers without the source PDFs (download them by Drive id to src/;
   add_to_bank.py, crop_check.py, prep_verify.py and triage.py open src/<doc>.pdf, and triage.py crashes without it); rebuild
   data/img packs exactly without the figures/ backup from Drive; run the
