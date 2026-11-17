@@ -83,6 +83,9 @@ reference corrections onto them. New parts are never references. Run it after ta
 Owner after Batch 8 (17 Nov): "not yet. no importing until i escelate this new prediction." and "the monthly limit is $300 right now.
 I can change it later. remind me when we resume imports." The key's limit is US$300 a month: about 6-12 batches of 9 at the measured
 US$25-45 a batch. Remind him of it before the first import after the hold.
+Resumed 18 Nov: owner "Run batch 9, keep track of cost", then "use the api yeah" (reminded of the US$300 limit first; about US$32 spent
+this month by then). Batch 9 left out 1053 (King's AT4, 12.5 MB PDF, over the Drive connector's 10 MB) and 177 + its solutions 176 (labelled
+"2022 Arden AT4" in the inventory but the same paper as 175, Arden 2022 Task 2: identical text page for page).
 
 ## Figure crops are build output, not backed up (17 Nov)
 Owner 17 Nov: "What is realistic coding best practice in this case?" then "yeah build it and run the test". The crops

@@ -33,10 +33,10 @@ In short: flaws first, [Certain]/[Likely]/[Guessing], no filler praise.
   tmrw", then "go"), supervised in a session, one batch at a time. **Model per step** (IMPORT_PLAYBOOK "Models per step", from the
   16 Nov trials): parse and solutions Sonnet, tagging Opus, diagrams and verify Opus, no Haiku. The night run still skips imports
   until the owner says otherwise.
-- **Imports on hold again (17 Nov, after Batch 8 through the API)**: owner: "not yet. no importing until i escelate this new prediction."
-  No import, supervised or night, until he signs off the new cost prediction (US$2.83 a paper measured, IMPORT_PLAYBOOK "Import
-  through the API"). API key `QG_ANTHROPIC_API_KEY`; owner: "the monthly limit is $300 right now. I can change it later. remind me
-  when we resume imports." When imports resume, first remind him of the US$300 limit (about 6-12 batches a month at US$25-45 a batch).
+- **Imports resumed 18 Nov, through the API** (owner: "Run batch 9, keep track of cost", then "use the api yeah"; this lifts the 17 Nov
+  hold "not yet. no importing until i escelate this new prediction."). Supervised in a session, one batch at a time, through
+  tools/api_import.py, cost logged per step and paper (IMPORT_PLAYBOOK "Import through the API"). API key `QG_ANTHROPIC_API_KEY`; owner:
+  "the monthly limit is $300 right now. I can change it later." (reminded 18 Nov before Batch 9). The night run still skips imports.
 - **src/ holds the exam PDFs**: never move, publish or delete them (untracked; absent in a fresh clone).
 - **Page code only in page_src/**, then `python3 tools/build_page.py`. Never edit site/review.html.
 - **CODE_HEALTH.md every round**: follow its rules, list exceptions in the report, reviewers check the diff against it.
