@@ -1,6 +1,32 @@
 [
- {"night": "2026-11-16", "started": "2026-11-16T22:13+11:00", "finished": "2026-11-16T22:33+11:00",
-  "minutes": {"setup_restore": 3, "cover_check": 14, "folder_rescan": 6, "images": 3, "prepublish_publish": 6, "backup_push": 3},
+ {
+  "night": "2026-11-16",
+  "started": "2026-11-16T22:13+11:00",
+  "finished": "2026-11-16T22:33+11:00",
+  "minutes": {
+   "setup_restore": 3,
+   "cover_check": 14,
+   "folder_rescan": 6,
+   "images": 3,
+   "prepublish_publish": 6,
+   "backup_push": 3
+  },
   "notes": "Wall-clock minutes are approximate (container clock; the session works faster than the stamps suggest). Cover check: 83 PDFs downloaded one call each (2 over 10 MB skipped), page 1 text read for all, 20 covers looked at as images. Folder rescan: 17 search_files calls (pageSize 1000; a 50-folder query hit 'Internal error', 15-30 folders per query worked). Page test needed the 40 asset-store packs fetched one Artifact read each (a multi-path read of asset ids fails). Found and fixed: the Drive DB backup lacked 260 home topics (restored from the v225 dbtext record).",
-  "effort": "high: about 190 tool calls, most of them Drive downloads/searches and asset reads; no imports"}
+  "effort": "high: about 190 tool calls, most of them Drive downloads/searches and asset reads; no imports"
+ },
+ {
+  "night": "2026-11-17",
+  "started": "2026-11-17T22:12+11:00",
+  "finished": "2026-11-17T22:18+11:00",
+  "minutes": {
+   "setup_restore": 2,
+   "requests": 0,
+   "folder_rescan": 2,
+   "images": 1,
+   "prepublish_publish": 0,
+   "backup_push": 1
+  },
+  "notes": "No requests in runs. Folder rescan in 5 search_files calls: one query \"'<root>' in ancestors\", orderBy modifiedTime desc, pageSize 1000 (4,945 items, no duplicates, all under the root), then every folder marked listed; 0 new PDFs, 1 known missing (Kings Ext 2 AT1 2024). Images: 0 papers cleared. image_lifecycle.py, run without the 40 asset-store packs locally, wrote EMPTY data/svg (32) and data/crop (8) groups; deleted them, nothing uploaded or published. Nothing changed, so no prepublish, publish or Drive backup. pip in this container installs into Python 3.13 while python3 is 3.11: use python3 -m pip (and pymupdf 1.28.2; 2.x is a different package layout).",
+  "effort": "low: about 35 tool calls; no imports"
+ }
 ]
