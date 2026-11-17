@@ -585,6 +585,10 @@ body.xpv-on{overflow:hidden}
   .sheet,.sheet *{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 @media (prefers-reduced-motion:reduce){.xpanel{transition:none}}
 
+
+/* owner 17 Nov: questions in an exam that were reported or sent back to review */
+.xlist .xwarn,#xPanel .xwarn{display:block;color:var(--warn);font-weight:600}
+.xwarnbox{margin:6px 0 8px;padding:8px 10px;border-radius:8px;background:var(--warn-soft);color:var(--warn);font-size:13px;font-weight:600}
 /* ---- Difficulty check (owner 14 Nov: "Make it both desktop and mobile friendly, I might want to approve on the go today") ---- */
 .levels{padding-block:14px 0;max-width:860px;margin-inline:auto}
 .lvtop{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-bottom:14px}
@@ -3479,11 +3483,11 @@ const xMarks=qs=>qs.reduce((t,q)=>t+(+q.marks||0),0);
 function xPanel(){
   const p=$('#xPanel'),{mc,wr}=xSections(),tot=xMarks(mc)+xMarks(wr);let n=0;const A=exA();
   // Exams page (owner 14 Nov): each row also shows the band estimate and has Swap / Lock (exam builder stage 2)
-  const row=q=>{n++;const e=exEst(q),lk=A.locked.includes(q.id);
-    return `<li data-xi="${q.id}"${lk?' class="locked"':''}><span class="xn">${n}</span><span class="xt">${esc(srcLine(q))}<small>${qid(q)} · ${q.marks??'?'} mark${q.marks===1?'':'s'}${e?` · Band ${e.d.toFixed(1)} · ${e.kind==='Problem solving'?'PS':e.kind}`:''}</small></span>
+  const row=q=>{n++;const e=exEst(q),lk=A.locked.includes(q.id),w=typeof qWatch==='function'?qWatch(q):null;
+    return `<li data-xi="${q.id}"${lk?' class="locked"':''}${w?' data-xwarn="1"':''}><span class="xn">${n}</span><span class="xt">${esc(srcLine(q))}<small>${qid(q)} · ${q.marks??'?'} mark${q.marks===1?'':'s'}${e?` · Band ${e.d.toFixed(1)} · ${e.kind==='Problem solving'?'PS':e.kind}`:''}</small>${w?`<small class="xwarn">⚠ ${esc(w.text)}: swap it (⇄) or remove it before printing</small>`:''}</span>
     <span class="xb"><button data-xsw title="Swap for a similar question" aria-label="Swap for a similar question"${lk?' disabled':''}>⇄</button><button data-xlk aria-pressed="${lk}" title="${lk?'Unlock':'Lock: Regenerate keeps it'}" aria-label="${lk?'Unlock':'Lock'}">${XA_LOCK}</button><button data-xmv="-1" title="Move up" aria-label="Move up">↑</button><button data-xmv="1" title="Move down" aria-label="Move down">↓</button><button data-xrm title="Remove" aria-label="Remove">×</button></span></li>`};
   p.innerHTML=`<div class="xhd"><h2>This exam</h2><button class="act ghost" id="xClose" aria-label="Close">✕</button></div>
-    <div class="xtot">${EX.items.length} question${EX.items.length===1?'':'s'} · ${tot} mark${tot===1?'':'s'}</div>
+    <div class="xtot">${EX.items.length} question${EX.items.length===1?'':'s'} · ${tot} mark${tot===1?'':'s'}</div>${(()=>{const k=typeof qWatch==='function'?EX.items.map(xq).filter(q=>qWatch(q)).length:0;return k?`<div class="xwarnbox" role="status">⚠ ${k} question${k===1?' in this exam has':'s in this exam have'} been reported or sent back to review since ${k===1?'it was':'they were'} added. Check ${k===1?'it':'them'} before printing.</div>`:''})()}
     <div class="xf"><label>Title<input data-xf="title" value="${esc(EX.title)}"></label><label>Subtitle<input data-xf="sub" value="${esc(EX.sub)}"></label>
       <label>School<input data-xf="school" value="${esc(EX.school)}"></label><div class="xf2"><label>Working time<input data-xf="time" value="${esc(EX.time)}"></label><label>Reading time<input data-xf="reading" value="${esc(EX.reading)}"></label></div></div>
     ${EX.items.length?`${mc.length?`<div class="xsec">Section I · multiple choice · ${xMarks(mc)} marks</div><ol class="xlist">${mc.map(row).join('')}</ol>`:''}${wr.length?`<div class="xsec">Section II · ${xMarks(wr)} marks</div><ol class="xlist">${wr.map(row).join('')}</ol>`:''}`
@@ -4427,7 +4431,7 @@ function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
         <div class="exm-main">${ren?`<div class="exm-ren"><input data-exm-rt value="${esc(x.sub||'')}" aria-label="Exam name" placeholder="Name"><button type="button" class="act ok" data-exm-rok>Save</button><button type="button" class="act ghost" data-exm-rx>Cancel</button></div>`
             :`<button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>`}
           <div class="exm-meta">${esc(x.title||'')}${x.school?' · '+esc(x.school):''}${open?' · <span class="exm-cur">open now</span>':''}</div>
-          <div class="exm-stats"><span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span>${Math.round((1-st.pr)*100)}% fluency · ${Math.round(st.pr*100)}% PS</span>${st.miss?`<span class="exm-warn">${st.miss} question${st.miss===1?'':'s'} no longer in the bank</span>`:''}</div>
+          <div class="exm-stats"><span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span>${Math.round((1-st.pr)*100)}% fluency · ${Math.round(st.pr*100)}% PS</span>${st.miss?`<span class="exm-warn">${st.miss} question${st.miss===1?'':'s'} no longer in the bank</span>`:''}${(()=>{const k=typeof qWatch==='function'?RKEY.items(x).map(xq).filter(q=>qWatch(q)).length:0;return k?`<span class="exm-warn" data-exm-flag="${k}">⚠ ${k} question${k===1?'':'s'} reported or sent back to review</span>`:''})()}</div>
           <div class="exm-who">Saved ${esc(exmWhen(x.at))}${who?' by '+esc(who):''}</div></div>
         <div class="exm-acts">${del?`<span class="exm-sure">Delete for everyone?</span><button type="button" class="act bad" data-exm-delok>Delete</button><button type="button" class="act ghost" data-exm-delx>Keep</button>`
           :`<button type="button" class="act ok" data-exm-open>Open</button><button type="button" class="act" data-exm-pv>Preview</button><button type="button" class="act ghost" data-exm-dup>Duplicate</button><button type="button" class="act ghost" data-exm-ren>Rename</button><button type="button" class="act ghost exm-del" data-exm-del aria-label="Delete">Delete</button>`}</div></li>`}).join('')}</ul>`
@@ -4652,10 +4656,17 @@ const REP_WHY={difficulty:'Wrong difficulty',dot_point:'Wrong dot point',other:'
 const REP_WM={UF:'Fluency',PR:'Problem solving'};
 function repSub(){if(REP.sub||!db)return !!REP.sub;
   try{REP.sub=db.collection('reports').onSnapshot(s=>{const d=s.docs||s;REP.list=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
-    repBadge();repNames();if(view==='reports')renderReports();repMarkPaper()},()=>{})}catch(e){REP.sub=null}return !!REP.sub}
+    repBadge();repNames();if(view==='reports')renderReports();repMarkPaper();
+    try{const xp=$('#xPanel');if(xp&&!xp.hidden&&typeof xPanel==='function')xPanel();if(view==='exams'&&typeof renderMine==='function'&&EXV?.view==='mine')renderMine()}catch(_){}   // owner 17 Nov: exam warnings follow new reports
+  },()=>{})}catch(e){REP.sub=null}return !!REP.sub}
 // db arrives asynchronously (claude.use('db')); subscribe as soon as it exists
 (()=>{let n=0;const t=setInterval(()=>{if(repSub()||++n>240)clearInterval(t)},500)})();
 const repOpen=()=>REP.list.filter(r=>(r.status||'open')==='open');
+// owner 17 Nov: "that needs a way for it to be shown in the exam if it has been reported by teachers or put back in review by [the
+// checker]": a question in an exam is marked when it has an open report or is flagged (incl. a diagram change request) since.
+function qWatch(q){if(!q)return null;const back=typeof qState==='function'&&qState(q)==='flagged';
+  const ids=new Set([q.id,q.dup_of].filter(Boolean)),n=repOpen().filter(r=>ids.has(r.question_id)||(q.key&&r.key===q.key)).length;
+  if(!back&&!n)return null;return {back,n,text:[back?'sent back to review':'',n?(n===1?'reported by a teacher':`reported ${n} times`):''].filter(Boolean).join(' · ')}}
 // owner 15 Nov: Reports is a step inside Review; its count is on the step (was the tab badge #repN)
 // owner 13 Nov: the count is on the Inbox's Reports card and in the Review tab / Curate switch totals
 function repBadge(){if(typeof renderSteps==='function')renderSteps()}

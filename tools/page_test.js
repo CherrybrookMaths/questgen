@@ -687,6 +687,22 @@ async function areas(browser, base, seed) {
       assert(!r.skip && r.before && !r.flagged && !r.ready && r.after && !r.fig, `paper approval with flags: ${JSON.stringify(r)}`);
       return 'approved paper: auto question approved; a flagged question or a diagram change request in the paper holds it back; approving the flag releases it';
     });
+    // owner 17 Nov: "that needs a way for it to be shown in the exam if it has been reported by teachers or put back in review"
+    await check('exams: a reported or flagged question is marked in the exam and in My exams', cp, async () => {
+      const r = await cp.evaluate(() => {
+        const q = B.questions.find(x => !x.dup_of && qState(x) === 'approved'); if (!q) return {skip: true};
+        const keepR = reviews['q' + q.id], keepL = REP.list, keepI = EX.items.slice(), keepS = XSAVED;
+        EX.items = [q.id]; xPanel(); const clean = !document.querySelector('#xPanel .xwarn') && !document.querySelector('#xPanel .xwarnbox');
+        REP.list = [{id: 'r1', question_id: q.id, key: q.key, status: 'open', reason: 'other'}]; xPanel();
+        const rep = document.querySelector('#xPanel .xwarn')?.textContent || '';
+        REP.list = []; reviews['q' + q.id] = {status: 'flagged', note: 'x'}; xPanel();
+        const back = document.querySelector('#xPanel .xwarn')?.textContent || '', box = document.querySelector('#xPanel .xwarnbox')?.textContent || '';
+        const mine = qWatch(q)?.back === true;
+        if (keepR === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keepR; REP.list = keepL; EX.items = keepI; xPanel();
+        return {clean, rep, back, box, mine} });
+      assert(!r.skip && r.clean && /reported by a teacher/.test(r.rep) && /sent back to review/.test(r.back) && /1 question in this exam has been reported or sent back/.test(r.box) && r.mine, `exam warnings: ${JSON.stringify(r)}`);
+      return 'clean exam: no warning; open report: "reported by a teacher"; flag: "sent back to review" and the notice at the top';
+    });
     await check('review: a diagram change request holds back the question and its paper', cp, async () => {
       const r = await cp.evaluate(() => {
         const q = B.questions.find(x => !x.dup_of && (B.figs ? Object.keys(B.figs).some(k => k.startsWith(x.doc + '_q')) : true)); if (!q) return {skip: true};

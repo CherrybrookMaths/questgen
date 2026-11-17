@@ -16,10 +16,17 @@ const REP_WHY={difficulty:'Wrong difficulty',dot_point:'Wrong dot point',other:'
 const REP_WM={UF:'Fluency',PR:'Problem solving'};
 function repSub(){if(REP.sub||!db)return !!REP.sub;
   try{REP.sub=db.collection('reports').onSnapshot(s=>{const d=s.docs||s;REP.list=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
-    repBadge();repNames();if(view==='reports')renderReports();repMarkPaper()},()=>{})}catch(e){REP.sub=null}return !!REP.sub}
+    repBadge();repNames();if(view==='reports')renderReports();repMarkPaper();
+    try{const xp=$('#xPanel');if(xp&&!xp.hidden&&typeof xPanel==='function')xPanel();if(view==='exams'&&typeof renderMine==='function'&&EXV?.view==='mine')renderMine()}catch(_){}   // owner 17 Nov: exam warnings follow new reports
+  },()=>{})}catch(e){REP.sub=null}return !!REP.sub}
 // db arrives asynchronously (claude.use('db')); subscribe as soon as it exists
 (()=>{let n=0;const t=setInterval(()=>{if(repSub()||++n>240)clearInterval(t)},500)})();
 const repOpen=()=>REP.list.filter(r=>(r.status||'open')==='open');
+// owner 17 Nov: "that needs a way for it to be shown in the exam if it has been reported by teachers or put back in review by [the
+// checker]": a question in an exam is marked when it has an open report or is flagged (incl. a diagram change request) since.
+function qWatch(q){if(!q)return null;const back=typeof qState==='function'&&qState(q)==='flagged';
+  const ids=new Set([q.id,q.dup_of].filter(Boolean)),n=repOpen().filter(r=>ids.has(r.question_id)||(q.key&&r.key===q.key)).length;
+  if(!back&&!n)return null;return {back,n,text:[back?'sent back to review':'',n?(n===1?'reported by a teacher':`reported ${n} times`):''].filter(Boolean).join(' · ')}}
 // owner 15 Nov: Reports is a step inside Review; its count is on the step (was the tab badge #repN)
 // owner 13 Nov: the count is on the Inbox's Reports card and in the Review tab / Curate switch totals
 function repBadge(){if(typeof renderSteps==='function')renderSteps()}
