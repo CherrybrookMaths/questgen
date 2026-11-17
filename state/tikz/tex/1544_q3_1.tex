@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\draw[->] (55,322) -- (398,322);
+\draw[->] (55,322) -- (55,50);
+\node[anchor=east, font=\small, inner sep=1pt] at (50,46) {$P$};
+\node[anchor=west, font=\small, inner sep=1pt] at (400,323) {$t$};
+\draw[->, line width=0.9pt] plot[smooth, domain=55:325, samples=40] (\x,{137+103*((\x-55)/270)^1.7});
+\end{tikzpicture}
+\end{document}

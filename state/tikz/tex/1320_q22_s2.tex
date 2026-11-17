@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.4064cm,y=0.32766cm,font=\fontsize{10}{12}\selectfont]
+  \draw[black!20, line width=0.3pt] (-10,-10) grid (11,10);
+  \draw[<->] (-10.5,0) -- (11.6,0) node[right]{$x$};
+  \draw[<->] (0,-11.1) -- (0,11.6) node[above]{$y$};
+  \foreach \i in {-10,...,11} {\draw[line width=0.4pt] (\i,-0.15) -- (\i,0.15);}
+  \foreach \i in {-10,...,10} {\draw[line width=0.4pt] (-0.12,\i) -- (0.12,\i);}
+  \node[below] at (-5,-0.2) {$-5$};
+  \node[below] at (5,-0.2) {$5$};
+  \node[below] at (10,-0.2) {$10$};
+  \node[left] at (-0.1,10) {$10$};
+  \node[left] at (-0.1,5) {$5$};
+  \node[anchor=north east, inner sep=1pt] at (-0.08,-5.05) {$-5$};
+  % original y = g(x) = x^3 - 3x^2 (grey)
+  \draw[black!55, <->] plot[domain=-1.55:3.78, samples=90, smooth] (\x,{\x*\x*\x-3*\x*\x});
+  \node[pt, black!55] at (-1,-4) {};
+  \node at (5.3,12.3) {$y=g(x)$};
+  \node at (-3.6,-2.7) {$P(-1,-4)$};
+  \draw[line width=0.4pt] (-2.4,-3.2) -- (-1.15,-3.95);
+  % y = 2g(-x/2) = -x^3/4 - 3x^2/2
+  \draw[line width=0.9pt, <->] plot[domain=-6.85:2.35, samples=90, smooth] (\x,{-\x*\x*\x/4-1.5*\x*\x});
+  \foreach \p in {(-6,0),(-4,-8),(0,0),(2,-8)} \node[pt] at \p {};
+\end{tikzpicture}
+\end{document}

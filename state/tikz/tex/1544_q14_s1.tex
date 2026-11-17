@@ -1,0 +1,43 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (V) at (452,113);
+  \coordinate (U) at (147,318);
+  \coordinate (W) at (652,475);
+  \pgfmathsetmacro\tU{atan2(-205,305)}  % direction U->V
+  \pgfmathsetmacro\tW{atan2(362,200)}   % direction V->W
+  \pgfmathsetmacro\tVU{atan2(205,-305)} % direction V->U
+  % north lines and south extension
+  \draw[aux,->] (U) -- (147,172);
+  \draw[aux,->] (V) -- (452,8);
+  \draw[aux,->] (W) -- (652,325);
+  \draw[aux] (V) -- (452,282);
+  % UW
+  \draw[aux] (U) -- (W);
+  % angle arcs
+  \draw[aux] ($(U)+(0,-118)$) arc[start angle=-90, end angle=\tU, radius=118];
+  \draw[aux] ($(V)+(0,-96)$) arc[start angle=-90, end angle=\tW, radius=96];
+  \draw[aux] ($(V)+(0,95)$) arc[start angle=90, end angle=\tVU, radius=95];
+  \draw[aux] ($(V)+({125*cos(\tW)},{125*sin(\tW)})$) arc[start angle=\tW, end angle=90, radius=125];
+  \draw[aux] ($(V)+({188*cos(\tW)},{188*sin(\tW)})$) arc[start angle=\tW, end angle=\tVU, radius=188];
+  % legs
+  \draw (U) -- (V) -- (W);
+  \foreach \p in {U,V,W} \fill (\p) circle (2.6);
+  \node[font=\Large] at (105,338) {$U$};
+  \node[font=\Large] at (430,104) {$V$};
+  \node[font=\Large] at (690,468) {$W$};
+  \node[font=\large] at (120,185) {$X$};
+  \node[font=\large] at (427,18) {$Y$};
+  \node[font=\large] at (680,357) {$Z$};
+  \node[font=\small] at (131,242) {N};
+  \node[font=\small] at (434,66) {N};
+  \node[font=\small] at (190,240) {$55^\circ$};
+  \node[font=\small] at (495,103) {$150^\circ$};
+  \node[font=\small] at (418,177) {$55^\circ$};
+  \node[font=\small] at (478,210) {$30^\circ$};
+  \node[font=\small] at (412,272) {$85^\circ$};
+  \node[font=\small, rotate=33.9] at (290,207) {70 km};
+  \node[font=\small, rotate=-61.1] at (564,292) {82 km};
+\end{tikzpicture}
+\end{document}

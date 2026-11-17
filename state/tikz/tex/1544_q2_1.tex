@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\def\X#1{{55+56.75*(#1-18)}}
+\begin{scope}[line width=0.9pt]
+% Raphael: 19, 20, 25, 29, 33
+\draw (\X{20},17) rectangle (\X{29},131);
+\draw (\X{25},17) -- (\X{25},131);
+\draw (\X{19},74) -- (\X{20},74);  \draw (\X{29},74) -- (\X{33},74);
+\draw (\X{19},52) -- (\X{19},96);  \draw (\X{33},52) -- (\X{33},96);
+% Novac: 20, 22, 26, 31, 33
+\draw (\X{22},160) rectangle (\X{31},273);
+\draw (\X{26},160) -- (\X{26},273);
+\draw (\X{20},216) -- (\X{22},216); \draw (\X{31},216) -- (\X{33},216);
+\draw (\X{20},194) -- (\X{20},238); \draw (\X{33},194) -- (\X{33},238);
+\end{scope}
+\draw[<->] (15,322) -- (1080,322);
+\foreach \v in {18,20,...,34} {
+  \draw (\X{\v},309) -- (\X{\v},335);
+  \node[font=\footnotesize, anchor=north] at (\X{\v},338) {$\v$};
+}
+\foreach \v in {19,21,...,35} \draw (\X{\v},315) -- (\X{\v},329);
+\node at (1080,74) {Raphael};
+\node at (1068,216) {Novac};
+\end{tikzpicture}
+\end{document}

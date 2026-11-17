@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{7}{8.5}\selectfont]
+\draw[<->] (4,340) -- (1112,340);
+\draw[<->] (557,662) -- (557,18);
+\node[anchor=west,inner sep=1pt] at (1112,340) {$x$};
+\node[anchor=south,inner sep=1pt] at (557,18) {$y$};
+\foreach \k in {-9,...,-1,1,2,...,9} \draw (557+60*\k,335) -- (557+60*\k,345);
+\foreach \k/\l in {-3/{-3\pi},-2/{-2\pi},-1/{-\pi},1/{\pi},2/{2\pi},3/{3\pi}}
+  \node[anchor=north,inner sep=1pt] at (557+180*\k,347) {$\l$};
+\foreach \v in {-2,-1,1,2} {\draw (552,340-127.5*\v) -- (562,340-127.5*\v);
+  \node[anchor=east,inner sep=1pt] at (550,340-127.5*\v) {$\v$};}
+\foreach \v in {-2.5,-1.5,-0.5,0.5,1.5} \draw (554,340-127.5*\v) -- (560,340-127.5*\v);
+\draw[line width=0.9pt,<->] plot[smooth,domain=-9.625:9.625,samples=271] ({557+57.2958*\x},{340+255*cos(3*\x r)});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9.5}{11}\selectfont]
+\fill[shade] plot[smooth,domain=pi/4:5*pi/4,samples=60] ({12+246.05*\x},{367-272*sin(\x r)})
+  -- plot[smooth,domain=5*pi/4:pi/4,samples=60] ({12+246.05*\x},{367-272*cos(\x r)}) -- cycle;
+\draw[->] (12,367) -- (1196,367);
+\node[anchor=west,inner sep=1pt] at (1196,367) {$x$};
+\draw[<->] (12,704) -- (12,26);
+\node[anchor=south,inner sep=1pt] at (12,26) {$y$};
+\draw[line width=0.9pt,->] plot[smooth,domain=0:4.75,samples=90] ({12+246.05*\x},{367-272*sin(\x r)});
+\draw[line width=0.9pt,->] plot[smooth,domain=0:4.75,samples=90] ({12+246.05*\x},{367-272*cos(\x r)});
+\coordinate (P) at ({12+246.05*pi/4},{367-272*0.70711});
+\coordinate (Q) at ({12+246.05*5*pi/4},{367+272*0.70711});
+\fill (P) circle[radius=3.5];
+\fill (Q) circle[radius=3.5];
+\draw ($(P)+(1,-8)$) -- (209,118);
+\node at (212,86) {$\left(\dfrac{\pi}{4},\dfrac{\sqrt2}{2}\right)$};
+\draw ($(Q)+(0,-8)$) -- (976,456);
+\node at (975,422) {$\left(\dfrac{5\pi}{4},\dfrac{-\sqrt2}{2}\right)$};
+\draw (582,163) -- (638,177);
+\node[anchor=west] at (640,178) {$y=\sin x$};
+\draw (573,544) -- (490,512);
+\node[anchor=east] at (488,500) {$y=\cos x$};
+\end{tikzpicture}
+\end{document}

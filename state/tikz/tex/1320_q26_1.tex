@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9}{11}\selectfont]
+  \def\curve{(148,268) .. controls (185,245) and (230,236) .. (288,256) .. controls (318,264) and (330,250) .. (350,225) .. controls (365,205) and (380,198) .. (400,207) .. controls (420,214) and (445,214) .. (470,228) .. controls (495,243) and (520,247) .. (570,247)}
+  \fill[shade] (148,458) -- \curve -- (570,458) -- cycle;
+  \draw \curve;
+  \draw (148,36) rectangle (570,458);
+  \foreach \p in {(148,36),(570,36),(570,458),(148,458)} \fill \p circle (2.2);
+  \node[anchor=south east, inner sep=1pt] at (143,30) {\fontsize{10}{12}\selectfont$A$};
+  \node[anchor=south west, inner sep=1pt] at (575,30) {\fontsize{10}{12}\selectfont$B$};
+  \node[anchor=north west, inner sep=1pt] at (575,466) {\fontsize{10}{12}\selectfont$C$};
+  \node[anchor=north east, inner sep=1pt] at (143,466) {\fontsize{10}{12}\selectfont$D$};
+  % equal-part ticks on AB
+  \foreach \x in {218.3,359,499.7} {\draw (\x-3,26) -- (\x-3,46); \draw (\x+3,26) -- (\x+3,46);}
+  \draw (136,222) -- (160,222);
+  \draw (558,222) -- (582,222);
+  \draw (359,448) -- (359,468);
+  % dotted depth arrows
+  \draw[aux,<->] (288,36) -- (288,256);
+  \node[anchor=west] at (293,155) {$4.7$ m};
+  \draw[aux,<->] (432,36) -- (432,214);
+  \node[anchor=west] at (437,148) {$3.8$ m};
+  % dimension lines
+  \draw (62,36) -- (62,480); \draw (54,36) -- (70,36); \draw (54,480) -- (70,480);
+  \node[anchor=east] at (52,262) {$9$ m};
+  \draw (128,268) -- (128,458); \draw (120,268) -- (136,268); \draw (120,458) -- (136,458);
+  \node[anchor=east] at (120,350) {$4$ m};
+  \draw (582,247) -- (582,452); \draw (574,247) -- (590,247); \draw (574,452) -- (590,452);
+  \node[anchor=west] at (590,358) {$4.2$ m};
+  \node at (359,497) {$9$ m};
+\end{tikzpicture}
+\end{document}

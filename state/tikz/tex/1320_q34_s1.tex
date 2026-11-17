@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5503cm,y=0.15621cm,font=\large]
+  \draw[->] (-1.85,0) -- (25.2,0) node[right]{$t$};
+  \draw[->] (0,-8.7) -- (0,43.3) node[above]{$T(t)$};
+  \draw[aux] (0,27.5) -- (25.5,27.5);
+  \foreach \v in {19,27.5,36} {\draw (-0.25,\v) -- (0.25,\v); \node[left] at (-0.25,\v) {$\v$};}
+  \foreach \v in {12,24} {\draw (\v,-1.2) -- (\v,1.2); \node[below] at (\v,-1.4) {$\v$};}
+  \draw[line width=0.9pt] plot[domain=0:24, samples=90, smooth] (\x,{27.5+8.5*sin(15*\x)});
+  \node[pt] at (6,36) {};
+  \node[pt] at (18,19) {};
+  \node[above=3pt] at (6,36) {$(6,36)$};
+  \node[below=3pt] at (18,19) {$(18,19)$};
+\end{tikzpicture}
+\end{document}

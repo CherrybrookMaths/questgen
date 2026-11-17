@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (V) at (453,137);
+  \coordinate (U) at (76,389);
+  \coordinate (W) at (703,586);
+  % north lines
+  \draw[aux,->] (U) -- (76,200);
+  \draw[aux,->] (V) -- (453,10);
+  % bearing arcs (centred on the vertex, from north arm to the leg)
+  \draw[aux] ($(U)+(0,-150)$) arc[start angle=-90, end angle={atan2(-252,377)}, radius=150];
+  \draw[aux] ($(V)+(0,-117)$) arc[start angle=-90, end angle={atan2(449,250)}, radius=117];
+  % legs
+  \draw (U) -- (V) -- (W);
+  \foreach \p in {U,V,W} \fill (\p) circle (2.6);
+  \node[font=\Large] at (27,414) {$U$};
+  \node[font=\Large] at (437,190) {$V$};
+  \node[font=\Large] at (757,572) {$W$};
+  \node at (55,297) {N};
+  \node at (431,77) {N};
+  \node at (128,292) {$55^\circ$};
+  \node at (512,123) {$150^\circ$};
+  \node[rotate=33.8] at (254,248) {70 km};
+  \node[rotate=-60.9] at (590,351) {82 km};
+\end{tikzpicture}
+\end{document}

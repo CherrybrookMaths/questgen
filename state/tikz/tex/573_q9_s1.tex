@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, xlabel={$t$}, ylabel={$R$}, width=8cm, height=7cm,
+  xmin=0, xmax=13, ymin=0, ymax=28, xtick={4}, ytick={20,25}, yticklabels={},
+  ]
+  \addplot[aux, domain=0:12.3] {20};
+  \addplot[line width=0.9pt, smooth, samples=90, domain=0:12] {20+5/(x+1)};
+  \node[pt] at (axis cs:0,25) {};
+  \node[pt] at (axis cs:4,21) {};
+  \draw[aux] (axis cs:4,0) -- (axis cs:4,21);
+  \node[anchor=east,font=\small] at (axis cs:-0.15,25) {$25$};
+  \node[anchor=east,font=\small] at (axis cs:-0.15,20) {$20$};
+  \node[anchor=south west,font=\small] at (axis cs:0.25,25.2) {$(0,25)$};
+  \node[anchor=south west,font=\small] at (axis cs:4.1,21.4) {$(4,21)$};
+  \node[anchor=north east,font=\small] at (axis cs:12.3,19.6) {$R=20$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

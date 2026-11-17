@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\ox{97}\def\oy{605}\def\xu{62.9}\def\yu{14.74}
+  % grid
+  \foreach \i in {1,...,9} \draw[black!35, line width=0.4pt] ({\ox+\xu*\i},\oy) -- ({\ox+\xu*\i},{\oy-35*\yu});
+  \foreach \j in {1,...,35} \draw[black!35, line width=0.4pt] (\ox,{\oy-\yu*\j}) -- ({\ox+9*\xu},{\oy-\yu*\j});
+  % axes
+  \draw[->] (\ox,\oy) -- (706,\oy);
+  \draw[->] (\ox,\oy) -- (\ox,48);
+  \foreach \i in {1,...,9} {
+    \draw ({\ox+\xu*\i},{\oy-9}) -- ({\ox+\xu*\i},{\oy+9});
+    \node[font=\footnotesize] at ({\ox+\xu*\i},650) {\i};
+  }
+  \foreach \j in {1,...,34} \draw ({\ox-7},{\oy-\yu*\j}) -- ({\ox+7},{\oy-\yu*\j});
+  \foreach \j in {2,4,...,34} \node[font=\footnotesize, anchor=east] at (85,{\oy-\yu*\j}) {\j};
+  % graph
+  \draw[line width=0.9pt] plot[domain=0:8, samples=90, smooth] ({\ox+\xu*\x},{\oy-\yu*(16*\x-2*\x*\x)});
+  \node at (97,22) {$A$};
+  \node at (719,607) {$x$};
+  \node[rotate=90, font=\footnotesize] at (27,343) {Area};
+  \node[font=\footnotesize] at (395,682) {Side length (x)};
+\end{tikzpicture}
+\end{document}

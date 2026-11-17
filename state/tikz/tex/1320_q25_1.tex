@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5207cm,y=0.4445cm,font=\fontsize{9}{11}\selectfont]
+  \fill[shade] plot[domain=-2:2, samples=60, smooth] (\x,{4-\x*\x}) -- plot[domain=2:-2, samples=60, smooth] (\x,{\x*\x*\x/4-\x}) -- cycle;
+  \draw[<->] (-5.68,0) -- (5.66,0) node[right]{$x$};
+  \draw[<->] (0,-6.6) -- (0,5.86) node[above]{$y$};
+  \draw[line width=0.9pt, <->] plot[domain=-3.22:3.22, samples=90, smooth] (\x,{4-\x*\x});
+  \draw[line width=0.9pt, <->] plot[domain=-3.40:3.29, samples=90, smooth] (\x,{\x*\x*\x/4-\x});
+  \node[pt] at (-2,0) {};
+  \node[pt] at (2,0) {};
+  \node[anchor=north west] at (-1.95,-0.15) {$-2$};
+  \node[anchor=north west] at (2.12,-0.12) {$2$};
+  \node[anchor=south east, inner sep=1pt] at (-0.08,4.1) {$4$};
+  \node[anchor=west] at (3.2,3.0) {$y=\dfrac{x^3}{4}-x$};
+  \node[anchor=west] at (3.2,-4.4) {$y=4-x^2$};
+\end{tikzpicture}
+\end{document}

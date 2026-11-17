@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\normalsize]
+\def\X#1{{222+97.8*(#1-8)}}
+\def\Y#1{{865-9.525*(#1-120)}}
+% grid
+\foreach \h in {122,124,...,198} \draw[black!22,line width=0.4pt] (222,\Y{\h}) -- (1200,\Y{\h});
+\foreach \h in {130,140,...,190} \draw[black!45,line width=0.4pt] (222,\Y{\h}) -- (1200,\Y{\h});
+\foreach \a in {9,...,17} \draw[black!45,line width=0.4pt] (\X{\a},103) -- (\X{\a},865);
+\draw[black!45,line width=0.4pt] (222,103) rectangle (1200,865);
+% axes with breaks
+\draw[->] (138,865) -- (138,60);
+\draw (138,865) -- (126,880) -- (152,905) -- (138,918) -- (138,948);
+\draw (124,948) -- (165,948) -- (180,935) -- (208,962) -- (222,948);
+\draw[->] (222,948) -- (1244,948);
+\node at (135,25) {$H$};
+\node[anchor=west] at (1250,948) {$A$};
+\foreach \h in {120,130,...,200} {\draw (126,\Y{\h}) -- (151,\Y{\h});
+  \node[anchor=east] at (113,\Y{\h}) {\h};}
+\foreach \h in {122,124,126,128,132,134,136,138,142,144,146,148,152,154,156,158,162,164,166,168,172,174,176,178,182,184,186,188,192,194,196,198}
+  \draw (131,\Y{\h}) -- (146,\Y{\h});
+\foreach \a in {8,...,18} {\draw (\X{\a},935) -- (\X{\a},961);
+  \node at (\X{\a},996) {\a};}
+\node at (730,1035) {Age (years)};
+\node[rotate=90] at (30,460) {Height (cm)};
+% data
+\foreach \a/\h in {8/135,8/132,9/145,9/142,9/136,10/155,10/150,10/148,10/140,10/136,11/160,11/150,11/140,12/153,12/150,14/167,15/174,15/170,15/158,16/183,16/172,16/170,17/189,17/182,17/179,17/168,18/190,18/185,18/178}
+  \fill (\X{\a},\Y{\h}) circle[radius=5.5];
+\end{tikzpicture}
+\end{document}

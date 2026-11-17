@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.3678cm,y=0.529cm,font=\large]
+  \draw[->] (0,0) -- (6.96,0) node[right]{$x$};
+  \draw[->] (0,-5.2) -- (0,4.6) node[right]{$y$};
+  \foreach \k in {1,2,3,4} {\draw (\k*pi/2,-0.18) -- (\k*pi/2,0.18);}
+  \draw (-0.08,3) -- (0.08,3); \draw (-0.08,-3) -- (0.08,-3);
+  \node[left] at (-0.08,3) {$3$};
+  \node[left] at (-0.08,-3) {$-3$};
+  \draw[line width=0.9pt] plot[domain=0:2*pi, samples=90, smooth] (\x,{3*cos(deg(2*(\x-pi/4)))});
+  \node[anchor=north east] at (pi/2-0.05,-0.15) {$\dfrac{\pi}{2}$};
+  \node[anchor=north west] at (pi+0.05,-0.15) {$\pi$};
+  \node[anchor=north east] at (3*pi/2-0.05,-0.15) {$\dfrac{3\pi}{2}$};
+  \node[anchor=north west] at (2*pi+0.05,-0.15) {$2\pi$};
+\end{tikzpicture}
+\end{document}

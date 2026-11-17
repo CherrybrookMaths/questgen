@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{10}{12}\selectfont]
+\def\X#1{{188+81.2*(#1-8)}}
+\def\Y#1{{719-7.8625*(#1-120)}}
+% grid
+\foreach \h in {122,124,...,198} \draw[black!20,line width=0.4pt] (188,\Y{\h}) -- (1000,\Y{\h});
+\foreach \h in {130,140,...,190} \draw[black!40,line width=0.4pt] (188,\Y{\h}) -- (1000,\Y{\h});
+\foreach \a in {9,...,17} \draw[black!40,line width=0.4pt] (\X{\a},90) -- (\X{\a},719);
+\draw[black!40,line width=0.4pt] (188,90) rectangle (1000,719);
+% axes with breaks
+\draw[->] (117,719) -- (117,54);
+\draw (117,719) -- (106,733) -- (129,752) -- (117,765) -- (117,790);
+\draw (104,790) -- (142,790) -- (155,776) -- (178,801) -- (188,790);
+\draw[->] (188,790) -- (1062,790);
+\node at (117,16) {$H$};
+\node[anchor=west] at (1064,790) {$A$};
+\foreach \h in {120,130,...,200} {\draw (106,\Y{\h}) -- (128,\Y{\h});
+  \node[anchor=east] at (96,\Y{\h}) {\h};}
+\foreach \h in {122,124,126,128,132,134,136,138,142,144,146,148,152,154,156,158,162,164,166,168,172,174,176,178,182,184,186,188,192,194,196,198}
+  \draw (111,\Y{\h}) -- (123,\Y{\h});
+\foreach \a in {8,...,18} {\draw (\X{\a},779) -- (\X{\a},801);
+  \node at (\X{\a},828) {\a};}
+\node at (602,864) {Age (years)};
+\node[rotate=90] at (26,375) {Height (cm)};
+% line of best fit
+\draw[aux] (\X{8},\Y{133.15}) -- (\X{18},\Y{184.85});
+% data
+\foreach \a/\h in {8/135,8/132,9/145,9/142,9/136,10/155,10/150,10/148,10/140,10/136,11/160,11/150,11/140,12/153,12/150,14/167,15/174,15/170,15/158,16/183,16/172,16/170,17/189,17/182,17/179,17/168,18/190,18/185,18/178}
+  \fill (\X{\a},\Y{\h}) circle[radius=4.6];
+\fill (\X{13},\Y{159}) circle[radius=9];
+\end{tikzpicture}
+\end{document}

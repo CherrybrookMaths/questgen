@@ -1,0 +1,43 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{7}{8.5}\selectfont]
+\def\X#1{{780+127.5*(#1)}}
+\def\Y#1{{522-81*(#1)}}
+\draw[->] (0,522) -- (1180,522);
+\node[anchor=west,inner sep=1pt] at (1180,522) {$x$};
+\draw[<->] (780,700) -- (780,20);
+\node[anchor=south,inner sep=1pt] at (780,20) {$y$};
+\foreach \k in {-6,-5.5,...,2.5} \draw (\X{\k},518) -- (\X{\k},526);
+\foreach \k in {-6,-4,-2,2} \node[anchor=north,inner sep=2pt] at (\X{\k},527) {$\k$};
+\foreach \v in {-2,...,-1,1,2,...,6} \draw (776,\Y{\v}) -- (784,\Y{\v});
+\foreach \v in {-2,2,4,6} \node[anchor=east,inner sep=2pt] at (775,\Y{\v}) {$\v$};
+\draw[line width=0.9pt,->] plot[smooth,domain=-6:1.29,samples=90] ({\X{\x}},{\Y{\x*\x*exp(\x)}});
+\coordinate (L) at (\X{-6},{\Y{36*exp(-6)}});
+\coordinate (I1) at (\X{-3.41421},{\Y{11.65685*exp(-3.41421)}});
+\coordinate (M) at (\X{-2},{\Y{4*exp(-2)}});
+\coordinate (I2) at (\X{-0.58579},{\Y{0.34315*exp(-0.58579)}});
+\coordinate (O) at (780,522);
+\foreach \p in {L,I1,M,I2,O} \fill (\p) circle[radius=4];
+\node[anchor=west] at (850,72) {$y=x^2e^x$};
+% max
+\node at (522,315) {Local Maximum};
+\node at (500,357) {$\left(-2,\dfrac{4}{e^2}\right)$};
+\draw (527,395) -- ($(M)+(0,-9)$);
+% inflection left
+\node[anchor=west] at (212,371) {Point of Inflection};
+\node[anchor=west] at (212,399) {where};
+\node[anchor=west] at (212,432) {$x=-2-\sqrt2$};
+\draw (320,451) -- ($(I1)+(-5,-7)$);
+% inflection right
+\draw ($(I2)+(-4,7)$) -- (690,536);
+\node[anchor=west] at (583,548) {Point of Inflection};
+\node[anchor=west] at (583,577) {where};
+\node[anchor=west] at (583,606) {$x=-2+\sqrt2$};
+% origin
+\draw ($(O)+(8,-4)$) -- (908,470);
+\node[anchor=west] at (910,411) {$y$ Intercept and};
+\node[anchor=west] at (910,439) {Local Minimum};
+\node[anchor=west] at (910,467) {$(0,0)$};
+\end{tikzpicture}
+\end{document}

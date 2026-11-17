@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % normal curve drawn from its equation at the crop's size (spread fitted to the crop's tails)
+  \def\f(#1){243-206*exp(-(((#1)-280)/106)^2/2)}
+  % shaded band
+  \fill[shade dots] (110,243) -- plot[domain=110:145, samples=20, smooth] (\x,{\f(\x)}) -- (145,243) -- cycle;
+  \draw (110,243) -- (110,{\f(110)});
+  \draw (145,243) -- (145,{\f(145)});
+  % dashed ordinates
+  \foreach \k in {-2,-1,0,1,2}{
+    \draw[aux] ({280+101*\k},243) -- ({280+101*\k},{\f(280+101*\k)});
+    \fill ({280+101*\k},243) circle (3.2);
+  }
+  \draw (25,243) -- (532,243);
+  \draw[line width=0.9pt] plot[domain=30:530, samples=90, smooth] (\x,{\f(\x)});
+  \node at (77,272) {$\mu-2\sigma$};
+  \node at (183,272) {$\mu-\sigma$};
+  \node at (280,272) {$\mu$};
+  \node at (381,272) {$\mu+\sigma$};
+  \node at (483,272) {$\mu+2\sigma$};
+  \node at (47,33) {D.};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.6cm,y=0.014cm]
+  % axes
+  \draw (0,0) -- (4,0);
+  \draw (0,0) -- (0,400);
+  \draw (4,0) -- (4,400);
+  \foreach \v in {0,50,...,400} {\draw (0,\v) -- (-0.07,\v) node[left,font=\small] {$\v$};}
+  \foreach \p in {0,10,...,100} {\draw (4,{4*\p}) -- (4.07,{4*\p}) node[right,font=\small] {$\p\%$};}
+  % bars
+  \foreach \c/\h/\n in {0/168/Dogs,1/120/Cats,2/88/Birds,3/24/Fish} {
+    \draw[shade] (\c,0) rectangle (\c+1,\h);
+    \node[below=2pt,font=\small] at (\c+0.5,0) {\n};
+  }
+  % cumulative line
+  \draw (0.5,168) -- (1.5,288) -- (2.5,376) -- (3.5,400);
+  \foreach \x/\y in {0.5/168,1.5/288,2.5/376,3.5/400} \node[pt] at (\x,\y) {};
+  \node[rotate=90,font=\small] at (-0.75,200) {Frequency};
+  \node[rotate=-90,font=\small] at (4.8,200) {Cumulative percentage};
+  \node[font=\small] at (2,-75) {Type of pet};
+\end{tikzpicture}
+\end{document}

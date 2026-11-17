@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin at (512,395) in the crop frame of 570_q17_1
+  \draw[<->] (20,395) -- (1005,395) node[right] {\large$x$};
+  \draw[<->] (512,725) -- (512,60) node[above] {\large$y$};
+  \draw[line width=0.9pt, <->, smooth, samples=90, domain=-190:154]
+    plot ({512+\x}, {395-0.0153*(\x+117)*(\x-81)});
+  \fill (395,395) circle (2.2);
+  \fill (593,395) circle (2.2);
+  \node[below left, font=\large, inner sep=3pt] at (395,395) {$a$};
+  \node[below right, font=\large, inner sep=3pt] at (593,395) {$b$};
+  \node[below left, font=\large, inner sep=3pt] at (512,395) {$O$};
+  \node[right, font=\large] at (690,110) {$y=f'(x)$};
+\end{tikzpicture}
+\end{document}

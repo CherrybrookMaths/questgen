@@ -2,7 +2,7 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
-\def\m{270}\def\s{102}\def\cs{90}\def\ax{242}\def\h{207}
+\def\m{270}\def\s{102}\def\cs{96}\def\ax{242}\def\h{207}
 \def\f(#1){\ax-\h*exp(-((#1-\m)/\cs)^2/2)}
 \fill[shade dots] (35,\ax) -- plot[smooth,domain=35:136,samples=30] (\x,{\f(\x)}) -- (136,\ax) -- cycle;
 \draw (35,\ax) -- (35,{\f(35)});
@@ -20,7 +20,7 @@
 \node at (\m,272) {$\mu$};
 \node at (\m+\s,272) {$\mu+\sigma$};
 \node at (\m+2*\s,272) {$\mu+2\sigma$};
-\node at (40,20) {A.};
+\node at (40,26) {A.};
 \end{scope}
 \end{tikzpicture}
 \end{document}

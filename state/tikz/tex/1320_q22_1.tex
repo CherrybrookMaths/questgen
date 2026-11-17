@@ -12,7 +12,7 @@
     \foreach \j in {-9,...,-1,1,2,...,10} \draw (-0.1,\j) -- (0.1,\j);
     \foreach \i in {-5,5,10} \node[below] at (\i,-0.25) {$\i$};
     \foreach \j in {5,10} \node[left] at (-0.1,\j) {$\j$};
-    \node[left] at (-0.1,-5.25) {$-5$};
+    \node[left,inner sep=1pt] at (-0.08,-5.55) {$-5$};
     \draw[line width=0.9pt,<->,smooth,samples=90,domain=-1.555:3.77]
       plot (\x,{\x*\x*\x-3*\x*\x});
     \fill (-1,-4) circle (2pt);
