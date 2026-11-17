@@ -510,6 +510,15 @@ last row cut off). Now: in the PDF copy a caption is a centred line above its ta
 fitted to their real column after the sheets are laid out (only ever smaller); maths in a table cell never breaks mid-formula;
 the page's own fonts are embedded in the PDF. Page test "exams: no scroll bar on any sheet" covers it.
 
+**Flag counts and the Spot-check "1" (18 Nov).** Owner: "Why does it say both 11 and 20?" The "Flags waiting for Claude" card
+counted bank questions (11: 9 with diagram change requests, 2 text flags); the "N flags waiting for Claude (M questions)" note
+walked the raw review docs, where each question sits under its k_ key and again under q<id>, so it counted every diagram request
+twice (20 in 18) and left out text flags. Now the note counts per bank question with the card's rule: flags = diagram requests +
+open text flags, questions = the card's number. Page test "the flags banner counts each waiting question once".
+Owner: "why does it say 1 on spot check but there's nothing there". The 1 is the "Approve the other N questions" click that is
+left once the sample is clean; the empty step now says "Spot-check is done: one click left, approve the rest of the paper below"
+instead of "Nothing left".
+
 ## Word export (14 Nov)
 He said "Word too pls". The preview has **Download Word** beside Download PDF, for both the exam and the marking guide.
 - **What is built.** A real .docx is built in the browser (docx 9.0.2) from the laid-out paper:

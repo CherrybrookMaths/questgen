@@ -738,6 +738,18 @@ async function areas(browser, base, seed) {
       assert(r.a && r.b && r.c && r.d, `back list: ${JSON.stringify(r)}`);
       return 'a fixed text flag and a redrawn diagram are in "Fixed and back for you"; once approved they leave it';
     });
+    // owner 18 Nov: "Why does it say both 11 and 20?": the banner and the Flags card count the same questions
+    await check('review: the flags banner counts each waiting question once, as the Flags card does', cp, async () => {
+      const r = await cp.evaluate(() => { const qs = B.questions.filter(x => !x.dup_of).slice(0, 2), keep = qs.map(q => reviews['q' + q.id]);
+        const a = {status: 'approved', fig: {t1: 'changes', t2: 'changes'}}, b = {status: 'flagged', note: 'x', fixed: null};
+        reviews['q' + qs[0].id] = a; reviews['k_zz_test_a'] = a; reviews['q' + qs[1].id] = b; reviews['k_zz_test_b'] = b;
+        const [n, nq] = pendingFlags(), card = B.questions.filter(waitQ).length;
+        delete reviews['k_zz_test_a']; delete reviews['k_zz_test_b'];
+        qs.forEach((q, i) => { if (keep[i] === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep[i] });
+        return {n, nq, card, n0: pendingFlags()} });
+      assert(r.nq === r.card && r.n - r.n0[0] === 3 && r.nq - r.n0[1] === 2, `banner ${r.n} flags in ${r.nq} questions, card ${r.card}, before ${r.n0}`);
+      return `banner ${r.nq} questions = card ${r.card}; a k_ alias is not counted twice`;
+    });
     await check('review: a diagram change request holds back the question and its paper', cp, async () => {
       const r = await cp.evaluate(() => {
         const q = B.questions.find(x => !x.dup_of && (B.figs ? Object.keys(B.figs).some(k => k.startsWith(x.doc + '_q')) : true)); if (!q) return {skip: true};

@@ -344,7 +344,10 @@ function diagLog(){
 // owner 12 Nov: "How often should I hand diagram flags to you? Should we show in the UI when to do that?"
 // A flag stays 'changes' until Claude redraws it and clears it, so the count of 'changes' = flags not yet handed over.
 const HANDOFF_AT=15;
-function pendingFlags(){let n=0;const qs=new Set();Object.entries(reviews).forEach(([k,r])=>{Object.values(r?.fig||{}).forEach(v=>{if(v==='changes'){n++;qs.add(k)}})});return [n,qs.size]}
+// owner 18 Nov: "Why does it say both 11 and 20?" -> count per bank question, as the Flags card does: the reviews index holds each
+//   question's decision under its k_ key and again under q<id>, so walking the raw docs counted every request twice
+//   and text flags were left out; now flags = diagram requests + open text flags, questions = the card's waitQ count
+function pendingFlags(){let n=0,nq=0;(B?.questions||[]).forEach(q=>{if(!waitQ(q))return;const r=reviews['q'+q.id];n+=Object.values(r?.fig||{}).filter(v=>v==='changes').length+(r.status==='flagged'&&!r.fixed?1:0);nq++});return [n,nq]}
 function handoffHTML(){const [n,nq]=pendingFlags();if(!n)return'';const due=n>=HANDOFF_AT;
   return `<div class="handoff${due?' due':''}"><b>${n} flag${n===1?'':'s'} waiting for Claude</b> <span class="muted">(${nq} question${nq===1?'':'s'})</span> · ${due?'Time to hand these over: tell Claude <i>"check my diagram flags"</i>.':`Hand over at ${HANDOFF_AT}, at the end of a session, or sooner if the same new kind of problem shows up twice.`}</div>`}
 function renderDiag(){
@@ -451,8 +454,9 @@ function renderReview(){
   $('#prog').style.width=(rlist.length?100*done/rlist.length:0)+'%';
   $('#pos').textContent=rlist.length?`${ridx+1} / ${rlist.length}`+(rfilter==='recent'&&approvedAt(rlist[ridx])?' · approved '+new Date(approvedAt(rlist[ridx])).toLocaleString([], {day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):''):'0 / 0';
   if(!rlist.length&&RMODE==='paper'){   // owner 13 Nov: one paper at a time; an empty step says so and points to the next one
+    // owner 18 Nov: "why does it say 1 on spot check but there's nothing there" -> the 1 is the approve-the-rest click; say so
     const w=paperWork(rdoc);
-    $('#rout').innerHTML=`<div class="empty rv-pempty">${w.n&&!(rfilter==='decide'&&w.left.decide)?`<b>Nothing left in “${esc(stepLabel(rfilter))}” for this paper.</b>`:''}
+    $('#rout').innerHTML=`<div class="empty rv-pempty">${w.n&&!(rfilter==='decide'&&w.left.decide)?(rfilter==='sample'&&w.left.sample?`<b>Spot-check is done: one click left, approve the rest of the paper below.</b>`:`<b>Nothing left in “${esc(stepLabel(rfilter))}” for this paper.</b>`):''}
       ${rfilter==='sample'?w.ids.map(sampleBanner).join(''):''}${rfilter==='decide'?PCALL.html(w.ids):''}${paperNextHTML()}</div>`;
     $('#src').innerHTML='';$('#srcTitle').textContent='Source page';$('#reviewView').classList.add('grid');bindNext();return}   // no question: no empty source pane
   if(!rlist.length){
