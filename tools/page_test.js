@@ -2426,6 +2426,35 @@ async function questionKeys(browser, base, seed) {
 
 /* ---- Reports: acting on a report (owner 17 Nov: "So how do we actually change the reported questions?", then "yes build it in the
    background. When a question is reported, it needs to be logged somewhere right? and disappear from the bank.") ---- */
+/* ---------------- Exam paper: no scroll bars on a sheet (owner 18 Nov, urgent) ----------------
+   Owner: "Q0979 exam name Mia's advanced exam. The PDF shows side scroll bars, its a persistent issue across many tables. fix it please,
+   its urgent". The PDF is a picture of each sheet (29_pdf.js), so any box on a sheet that can scroll sideways shows its scroll bar
+   in the PDF. An exam of every question that holds a data table (QID 979 among them), paper and guide: no element on a sheet may be
+   wider inside than its box while it scrolls (overflow auto/scroll). */
+async function paperTables(browser, base, seed) {
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await boot(page, base, '#exams');
+  const waitPv = async () => { await page.waitForFunction(() => { const i = document.querySelector('#xInfo'); return i && !/Laying out/.test(i.textContent) && document.querySelector('#xWord') && document.querySelectorAll('#xPages .sheet').length }, null, {timeout: 180000}); await settle(page, 5000, 2) };
+  const scrollers = () => page.evaluate(() => [...document.querySelectorAll('#xPages .sheet *')].filter(e => { const c = getComputedStyle(e); return /auto|scroll/.test(c.overflowX) && e.scrollWidth > e.clientWidth + 0 && e.clientWidth > 0 })
+    .map(e => (e.closest('section.xq')?.dataset.q || '?') + ':' + e.className + ' ' + e.scrollWidth + '>' + e.clientWidth)
+    // and no data table wider than its column on the sheet (it would run into the margin): they are fitted after layout
+    .concat([...document.querySelectorAll('#xPages .sheet .dtwrap>table.dt')].filter(t => t.offsetWidth > t.parentElement.clientWidth + 1)
+      .map(t => (t.closest('section.xq')?.dataset.q || '?') + ': table ' + t.offsetWidth + ' wider than its column ' + t.parentElement.clientWidth)));
+  await check('exams: no scroll bar on any sheet, paper and guide (every table question, QID 979)', page, async () => {
+    // the start index carries no question text: the table questions come from bank.json (tools' copy), shown ones only
+    const all = JSON.parse(fs.readFileSync(path.join(ROOT, 'site/data/bank.json'), 'utf8')).questions;
+    const want = all.filter(q => q.id === 979 || /\\extable\{/.test(JSON.stringify(q)) || q.opt_table).map(q => q.id);
+    const n = await page.evaluate(w => { const shown = new Set(B.questions.filter(q => !q.dup_of).map(q => q.id));
+      EX.items = [...new Set([979, ...w])].filter(id => shown.has(id)).slice(0, 80); xsave(); return EX.items.length }, want);
+    await page.evaluate(() => xPreview('exam')); await waitPv(); const ex = await scrollers();
+    await page.click('[data-xdoc="guide"]'); await waitPv(); const gd = await scrollers();
+    const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | '));
+    assert(!ex.length && !gd.length, `scroll bars on the sheets: paper ${ex.length} [${ex.slice(0, 6).join(' | ')}], guide ${gd.length} [${gd.slice(0, 6).join(' | ')}]`);
+    return `${n} questions with tables: no scroll bar on the paper or the guide`;
+  });
+  await page.context().close();
+}
+
 async function reportActions(browser, base, seed) {
   const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
   await boot(page, base, '#bank');
@@ -2755,7 +2784,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
     const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
-    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed), run(skillGates, browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed), run(skillGates, browser, base, seed), run(paperTables, browser, base, seed)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));

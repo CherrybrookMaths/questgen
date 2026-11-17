@@ -503,6 +503,13 @@ He said "make it so we can export pdfs from here. Find a way". The artifact can'
 - **Tested:** a 13-page paper took about 10 s and made 1.8 MB, with maths, diagrams and the cover intact.
 - **Fix found along the way.** The HTML download's clean-up had a line swallowed by a comment, so editable fields kept their edit attributes. Fixed.
 
+**Tables in the PDF (18 Nov).** Owner: "Q0979 exam name Mia's advanced exam. The PDF shows side scroll bars, its a persistent issue
+across many tables. fix it please, its urgent". Cause: the picture maker copies each box's on-screen height, and a table's height
+includes its caption, so every table with a caption was drawn that much taller and overflowed its scrolling box (scroll bars,
+last row cut off). Now: in the PDF copy a caption is a centred line above its table; nothing on an exam sheet scrolls; tables are
+fitted to their real column after the sheets are laid out (only ever smaller); maths in a table cell never breaks mid-formula;
+the page's own fonts are embedded in the PDF. Page test "exams: no scroll bar on any sheet" covers it.
+
 ## Word export (14 Nov)
 He said "Word too pls". The preview has **Download Word** beside Download PDF, for both the exam and the marking guide.
 - **What is built.** A real .docx is built in the browser (docx 9.0.2) from the laid-out paper:

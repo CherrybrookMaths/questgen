@@ -41,6 +41,8 @@ body.xpv-on{overflow:hidden}
 .xqh span{font-size:10pt;color:#333}.xqh.cont b{font-weight:600;color:#555}
 .sheet .fig,.xmeasure .fig{filter:none!important}   /* the paper is always white: never invert diagrams for dark mode */
 .sheet table,.xmeasure table{color:#111}
+/* owner 18 Nov: "The PDF shows side scroll bars ... fix it please, its urgent": paper never scrolls (the PDF is a picture of each sheet) */
+.sheet .tx,.sheet .dtwrap,.xmeasure .tx,.xmeasure .dtwrap{overflow:visible}
 .xq .tx{overflow-wrap:anywhere}.xq .figslot{display:block;text-align:center;margin:3mm 0}.xq img.fig{max-width:100%;max-height:70mm;width:auto!important;height:auto;object-fit:contain}
 .xpart{display:grid;grid-template-columns:9mm minmax(0,1fr) 8mm;gap:1mm;margin:2.5mm 0}.xpart.nolab{grid-template-columns:minmax(0,1fr) 8mm}
 .xpart.child{margin-left:9mm}.xpl{font-weight:600}.xpm{text-align:right;font:600 10pt var(--sans)}

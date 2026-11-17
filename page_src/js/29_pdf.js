@@ -9,9 +9,17 @@ let _pdfLibs=null;
 const pdfLoad=()=>_pdfLibs||(_pdfLibs=Promise.all(PDF_LIBS.map(src=>new Promise((ok,no)=>{const s=document.createElement('script');s.src=src;s.onload=ok;s.onerror=()=>no(new Error('Could not load '+src.split('/vendor/')[1]));document.head.appendChild(s)}))).catch(e=>{_pdfLibs=null;throw e}));
 // the same clean copy the HTML download uses: no on-screen controls, dot-point lines or Report links
 function pdfClone(){const live=$('#xPages');const c=live.cloneNode(true);
-  c.querySelectorAll('.lnctl,.figctl,.figpct,.figh,.exaddli,.scr-only,.g2k').forEach(e=>e.remove());
+  c.querySelectorAll('.lnctl,.figctl,.figpct,.figh,.exaddli,.scr-only,.g2k,mjx-assistive-mml').forEach(e=>e.remove());   // 18 Nov: the hidden screen-reader copy of each formula is drawn by the picture maker and pushed table rows taller
   c.querySelectorAll('[contenteditable]').forEach(e=>{e.removeAttribute('contenteditable');e.removeAttribute('title');if(e.classList.contains('ed-empty'))e.textContent=''});
   c.querySelectorAll('.sel').forEach(e=>e.classList.remove('sel'));
+  // owner 18 Nov ("The PDF shows side scroll bars, its a persistent issue across many tables ... its urgent"). The picture maker copies
+  // each box's on-screen height, and a table's height includes its caption; drawn again, the rows got that whole height and the table
+  // grew by the caption (QID 979: rows 64 -> 89 px), so it overflowed its box: scroll bars, a cut-off last row. In the copy a caption
+  // becomes a centred line above its table, styled as on screen, and the table's height is its rows only.
+  const lc=[...live.querySelectorAll('table.dt>caption')],cc=[...c.querySelectorAll('table.dt>caption')];
+  if(lc.length===cc.length)cc.forEach((cap,i)=>{const cs=getComputedStyle(lc[i]),d=document.createElement('div'),t=cap.parentElement,w=t.parentElement;
+    for(const k of ['font','color','textAlign','padding','lineHeight','letterSpacing'])d.style[k]=cs[k];d.innerHTML=cap.innerHTML;cap.remove();
+    if(w&&w.classList.contains('dtwrap')){w.style.flexDirection='column';w.style.alignItems='center';d.style.width=t.style.width||'auto';d.style.maxWidth='100%';w.insertBefore(d,t)}else t.before(d)});
   c.removeAttribute('id');c.style.cssText='position:fixed;left:-20000px;top:0;zoom:1;transform:none;display:block;padding:0;width:auto';
   return c}
 async function xPdf(doc){
@@ -26,11 +34,15 @@ async function xPdf(doc){
     const cache=document.getElementById('MJX-SVG-global-cache');
     const sheets=[...host.querySelectorAll('.sheet')];if(!sheets.length)throw new Error('No pages to export');
     const pdf=new jsPDF({unit:'mm',format:'a4',orientation:'portrait',compress:true});
+    // owner 18 Nov: "The PDF shows side scroll bars, its a persistent issue across many tables. fix it please, its urgent". The picture
+    // keeps each box's on-screen size but drew its text in a fallback font (skipFonts), which is wider: tight table cells wrapped,
+    // overflowed their box and showed scroll bars. The page's own fonts (self-hosted) are now embedded once and used for every sheet.
+    say('Loading the fonts…');let fontCss='';try{fontCss=await h2i.getFontEmbedCSS(host)}catch(e){}
     for(let i=0;i<sheets.length;i++){const sh=sheets[i];say(`Making the PDF: page ${i+1} of ${sheets.length}…`);
       sh.style.boxShadow='none';sh.style.margin='0';sh.style.height='297mm';sh.style.minHeight='0';sh.style.overflow='hidden';
       if(cache)sh.prepend(cache.cloneNode(true));
       const r=sh.getBoundingClientRect();
-      const cv=await h2i.toCanvas(sh,{pixelRatio:2.1,backgroundColor:'#ffffff',skipFonts:true,width:Math.round(r.width),height:Math.round(r.height)});
+      const cv=await h2i.toCanvas(sh,{pixelRatio:2.1,backgroundColor:'#ffffff',...(fontCss?{fontEmbedCSS:fontCss}:{skipFonts:true}),width:Math.round(r.width),height:Math.round(r.height)});
       if(i)pdf.addPage('a4','portrait');
       pdf.addImage(cv.toDataURL('image/jpeg',0.9),'JPEG',0,0,210,297,undefined,'FAST');
       await new Promise(res=>setTimeout(res,0))}   // let the page breathe between sheets

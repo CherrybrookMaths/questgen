@@ -130,8 +130,10 @@ function fitOptTables(root){(root||document).querySelectorAll('table.ot').forEac
   let tot=0; cols.forEach((c,i)=>{const w=Math.max(parseFloat(c.style.width)||0,need[i]);c.style.width=w.toFixed(2)+'em';tot+=w}); t.style.width=tot.toFixed(2)+'em';
 })}
 // owner: "the table seems too long, will it scale itself?" A data table wider than its column shrinks (down to 62%) instead of scrolling
-function scaleTables(root){(root||document).querySelectorAll('.dtwrap>table.dt:not(.ot)').forEach(t=>{t.style.fontSize='';
-  const avail=t.parentElement.clientWidth, w=t.offsetWidth; if(avail>0&&w>avail+1) t.style.fontSize=Math.max(0.62,(avail-2)/w).toFixed(3)+'em'})}
+// owner 18 Nov: "The PDF shows side scroll bars, its a persistent issue across many tables. fix it please, its urgent": on an exam sheet a
+// table is fitted again to its real column once the sheets are laid out (shrink: only ever smaller, so no page grows), see xPreview
+function scaleTables(root,shrink){(root||document).querySelectorAll('.dtwrap>table.dt:not(.ot)').forEach(t=>{const cur=shrink?(parseFloat(t.style.fontSize)||1):1;if(!shrink)t.style.fontSize='';
+  const avail=t.parentElement.clientWidth, w=t.offsetWidth; if(avail>0&&w>avail+(shrink?0.5:1)) t.style.fontSize=Math.max(shrink?0.5:0.62,cur*(avail-2)/w).toFixed(3)+'em'})}
 function fitTables(root){fitTables0(root);scaleTables(root)}
 function fitTables0(root){(root||document).querySelectorAll('table.dt:not(.ot)').forEach(t=>{   // MCQ answer tables size themselves (optTableHTML)
   const cols=[...t.querySelectorAll('colgroup col')]; if(!cols.length) return;
