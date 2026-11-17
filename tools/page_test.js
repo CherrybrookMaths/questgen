@@ -726,8 +726,11 @@ async function areas(browser, base, seed) {
         reviews['q' + q.id] = {status: 'flagged', note: 'x', fixed: {note: 'Claude: fixed'}}; const a = backQ(q) && inFilter(q, 'back');
         reviews['q' + q.id] = {fig: {}, fig_done: {k1: 'req -> fixed'}}; const b = backQ(q);
         reviews['q' + q.id] = {fig: {k1: 'approved'}, fig_done: {k1: 'req -> fixed'}}; const c = !backQ(q);
-        if (keep === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep; return {a, b, c} });
-      assert(r.a && r.b && r.c, `back list: ${JSON.stringify(r)}`);
+        // owner 17 Nov: the original flag shows beside the fix at the top; an old redraw takes its request from fig_notes
+        reviews['q' + q.id] = {status: 'flagged', note: 'the pi is wrong', fixed: {note: 'Claude 17 Nov: moved it'}, fig: {}, fig_notes: {k2: 'axis label covered'}, fig_done: {k2: '2026-11-12 redraw (fix8)'}};
+        const box = backBoxHTML(q, reviews['q' + q.id]); const d = /the pi is wrong/.test(box) && /moved it/.test(box) && /axis label covered/.test(box) && /redrawn 2026-11-12/.test(box);
+        if (keep === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep; return {a, b, c, d} });
+      assert(r.a && r.b && r.c && r.d, `back list: ${JSON.stringify(r)}`);
       return 'a fixed text flag and a redrawn diagram are in "Fixed and back for you"; once approved they leave it';
     });
     await check('review: a diagram change request holds back the question and its paper', cp, async () => {

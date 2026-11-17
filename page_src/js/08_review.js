@@ -217,9 +217,20 @@ function refreshReview(){ if(typeof renderJobs==='function')renderJobs();
 const figMode={};
 // owner 17 Nov: "we need to know what the original flag is so the reviewer can compare". fig_done is
 // "<checker's request> -> Claude <time>: <what changed>"; redraws from before 17 Nov hold only "<date> redraw (fixN)".
-function doneHTML(done){const i=done.indexOf(' -> ');
-  if(i<0)return `<div class="callout"><b>Your original request:</b> not recorded (redrawn ${esc(done)}, before requests were kept). Compare the original with the redraw now.</div>`;
-  return `<div class="callout"><div><b>Your original request:</b> ${esc(done.slice(0,i))}</div><div><b>What Claude changed:</b> ${esc(done.slice(i+4).replace(/^Claude [^:]*: /,''))}</div></div>`}
+// The request is also kept in fig_notes (older redraws, "2026-11-12 redraw (fix8)", have it only there).
+const splitDone=(done,ask)=>{const i=done.indexOf(' -> ');return i<0?{ask:ask||'',fix:'',when:done}:{ask:done.slice(0,i)||ask||'',fix:done.slice(i+4).replace(/^Claude [^:]*: /,'')}};
+function doneHTML(done,ask){const d=splitDone(done,ask);
+  return `<div class="callout"><div><b>Your original request:</b> ${d.ask?esc(d.ask):'none: Claude redrew this in a rule sweep, not from a flag of yours'}</div><div><b>What Claude changed:</b> ${d.fix?esc(d.fix):'redrawn '+esc(d.when)+(d.ask?' to meet your request':'')}</div></div>`}
+// owner 17 Nov: "where is the original flag on the back to you page?": one box at the top of every returned item lists each
+// original flag or request beside what Claude changed, before the question, so the checker reads it first.
+// owner 17 Nov: "why does fixewd and back tou have approved questions?": an approved question is listed when a diagram was
+// redrawn after the approval; the badge says "text approved · redrawn diagram needs your OK" instead of "approved".
+function backBoxHTML(q,r){if(!r||!backQ(q))return '';const rows=[];
+  if(r.status==='flagged'&&r.fixed)rows.push(['Question',r.note||'(no note written)',String(r.fixed.note||'').replace(/^Claude \d+ \w+: /,'')]);
+  for(const [k,done] of Object.entries(r.fig_done||{})){if((r.fig||{})[k])continue;const d=splitDone(done,r.fig_notes?.[k]);
+    rows.push([/_s\d+$/.test(k)?'Solution diagram':'Diagram',d.ask||'none: redrawn by Claude in a rule sweep',d.fix||'redrawn '+d.when])}
+  if(!rows.length)return '';
+  return `<div class="backbox"><h4>Back for you: your original flag and what Claude changed</h4><table><thead><tr><th></th><th>Your original flag</th><th>What Claude changed</th></tr></thead><tbody>${rows.map(([w,a,f])=>`<tr><th>${esc(w)}</th><td>${esc(a)}</td><td>${esc(f)}</td></tr>`).join('')}</tbody></table><div class="help">Compare with the source page and, for diagrams, the Before → now pictures below. Approve, or flag it again.</div></div>`}
 function figCompareHTML(q){
   const ks=qFigs(q); if(!ks.length) return '';
   const row=k=>{const f=B.figs[k],dec=figDec(q,k);
@@ -231,11 +242,11 @@ function figCompareHTML(q){
     const views={
       side:`<div class="cmp"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>${f.status==='table'?'As a table':'Redrawn (now)'}</figcaption>${right}</figure></div>`,
       overlay:`<figure class="ovfig"><figcaption><span style="color:#e12d2d">■ only in original</span> · <span style="color:#285ae6">■ only in redraw</span> · <span style="color:var(--ink)">■ both</span></figcaption><img class="fig" alt="Overlay of original and redraw" data-k="${k}" data-kind="ov"></figure>${ov}`,
-      before:`${done?doneHTML(done):''}<div class="cmp3"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>Before (the version you reviewed)</figcaption><img class="fig" alt="First redraw" data-k="${k}" data-kind="v1"></figure><figure><figcaption>Now</figcaption>${right}</figure></div>`};
+      before:`${done?doneHTML(done,reviews['q'+q.id]?.fig_notes?.[k]):''}<div class="cmp3"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>Before (the version you reviewed)</figcaption><img class="fig" alt="First redraw" data-k="${k}" data-kind="v1"></figure><figure><figcaption>Now</figcaption>${right}</figure></div>`};
     return `<div class="figrow">${tabs}${views[f.status==='table'?'side':mode]}
       <div class="row">${f.status==='approx'?'<span class="badge b-scan">estimated shape</span>':''}${f.check==='fixed'?'<span class="badge b-acc">fixed by checker</span>':''}${f.check==='concern'?'<span class="badge b-bad">checker concern</span>':''}
         ${dec?`<span class="badge ${dec==='approved'?'b-ok':dec==='changes'?'b-gen':'b-bad'}">${dec==='approved'?'redraw approved':dec==='changes'?'changes requested':'keeping original'}</span>`:''}</div>
-      ${!dec&&done&&mode!=='before'?doneHTML(done):''}
+      ${!dec&&done&&mode!=='before'?doneHTML(done,reviews['q'+q.id]?.fig_notes?.[k]):''}
       ${dec==='changes'&&reviews['q'+q.id]?.fig_notes?.[k]?`<div class="callout"><b>Your request:</b> ${esc(reviews['q'+q.id].fig_notes[k])}</div>`:''}
       ${f.notes?`<details class="help"><summary>What was changed</summary>${esc(f.notes).split(' | ').map(x=>`<div>${x}</div>`).join('')}</details>`:''}${f.check_notes&&f.check!=='pass'?`<div class="help"><b>Checker:</b> ${esc(f.check_notes)}</div>`:''}
       <div class="row"><button class="act ok" data-fig="${k}" data-v="approved">Use redraw</button><button class="act" data-figreq="${k}">Request changes</button><button class="act warn" data-fig="${k}" data-v="rejected">Keep original</button></div>
@@ -434,10 +445,10 @@ function renderReview(){
   $('#srcTitle').textContent=`${docLabel(d)} · page ${q.pages.map(p=>+p.split('_').pop().split('.')[0]+1).join(', ')}`;
   $('#src').innerHTML=q.pages.map(p=>`<img data-page="${p}" alt="Source page">`).join('');
   const rel=q.related.map(x=>{const o=B.questions.find(z=>z.id===x.q);return o&&!(docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number))?`${docLabel(B.docs[o.doc])} Q${esc(o.nlabel||o.number)} (${Math.round(x.sim*100)}% similar)`:''}).filter(Boolean).join('; ');
-  $('#rout').innerHTML=`${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not ${esc(QG.courseData.short)}:</b> ${esc(q.std)}</div>`:''}
+  $('#rout').innerHTML=`${backBoxHTML(q,r)}${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not ${esc(QG.courseData.short)}:</b> ${esc(q.std)}</div>`:''}
     <div class="row"><span class="badge ${d.parse_path==='scan'?'b-scan':'b-acc'}">${d.parse_path}</span>
       ${q.tri?'':`${q.queues.includes('review')?'<span class="badge b-bad">parse flagged</span>':''}`}
-      ${r?.status?`<span class="badge ${r.status==='approved'?'b-ok':'b-bad'}">${r.status}</span>`:''}
+      ${r?.status==='approved'&&openFix(r)?`<span class="badge b-gen" title="The question and solution were approved; a diagram was redrawn after that and needs your OK">text approved · redrawn diagram needs your OK</span>`:r?.status?`<span class="badge ${r.status==='approved'?'b-ok':'b-bad'}">${r.status}</span>`:''}
       <span class="muted" style="font-size:13px">${esc(docLabel(d))} · Section ${esc(q.section||'–')}${q.marks!=null?' · '+q.marks+(q.marks===1?' mark':' marks'):''}</span></div>
     <h3 style="margin:0;font-size:20px">${qid(q)} <span class="muted" style="font-size:15px;font-weight:400">${esc(srcLine(q))}</span></h3>
     ${rfilter==='sample'?sampleBanner(q.doc):''}${rfilter==='decide'&&RMODE==='paper'?PCALL.html(docIds(q.doc)):''}${whyHTML(q)}
