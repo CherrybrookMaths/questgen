@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (20,272) -- (508,272);
+  \draw[->] (265,565) -- (265,15);
+  % right branch
+  \draw[line width=0.9pt] plot[smooth, domain=1.85:5.375, samples=90, variable=\s] ({265+24+exp(\s)},{272-27.6-1156*exp(-\s)});
+  % left branch (point reflection of right branch through O)
+  \draw[line width=0.9pt] plot[smooth, domain=1.82:5.40, samples=90, variable=\s] ({265-24-exp(\s)},{272+27.6+1156*exp(-\s)});
+  % middle branch through O
+  \draw[line width=0.9pt] plot[smooth, domain=-23:23, samples=90, variable=\u] ({265+\u},{272+(1826/(729-\u*\u))*\u});
+  \node at (497,300) {$x$};
+  \node[anchor=east] at (259,22) {$y$};
+  \node at (38,20) {A.};
+\end{tikzpicture}
+\end{document}

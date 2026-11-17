@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\fill[shade] (147,131) .. controls (165,112) and (192,100) .. (210,100)
+  .. controls (228,100) and (255,111) .. (270,131) -- cycle;
+\fill[shade] (585,131) .. controls (605,93) and (621,61) .. (636,28) -- (636,131) -- cycle;
+\draw[->] (18,131) -- (705,131);
+\node[anchor=west, font=\fontsize{13}{15}\selectfont] at (709,131) {$x$};
+\draw[<->, line width=0.9pt] (57,350) .. controls (77,290) and (120,165) .. (147,131)
+  .. controls (165,112) and (192,100) .. (210,100)
+  .. controls (228,100) and (255,111) .. (270,131)
+  .. controls (300,170) and (370,322) .. (428,322)
+  .. controls (488,322) and (540,216) .. (585,131)
+  .. controls (605,93) and (621,61) .. (636,28);
+\begin{scope}[font=\fontsize{13}{15}\selectfont]
+\node at (101,154) {$-2$};
+\node at (268,156) {$1$};
+\node at (613,170) {$\dfrac{5}{2}$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

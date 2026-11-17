@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (33,362)--(33,12);
+\draw[->] (33,362)--(720,362);
+\foreach \px/\py in {88/91,144/158,201/131,257/186,313/173,369/145,427/214,483/295,540/267,596/307}
+  \draw (\px-6,\py-7)--(\px+6,\py+7) (\px-6,\py+7)--(\px+6,\py-7);
+\end{tikzpicture}
+\end{document}

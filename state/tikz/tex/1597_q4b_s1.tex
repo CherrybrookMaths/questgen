@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+\draw[<->] (15,538) -- (1262,538);
+\draw[<->] (618,940) -- (618,103);
+\draw[aux] (20,443) -- (1245,443);
+\draw[aux] (728,118) -- (728,990);
+\begin{scope}[line width=0.9pt]
+\draw plot[domain=-1.714:1.047,samples=90,smooth,variable=\t] ({618+110*(1-exp(-\t))},{538-95*(1-2*exp(\t))});
+\draw plot[domain=-0.805:1.498,samples=90,smooth,variable=\t] ({618+110*(1+exp(\t))},{538-95*(1+2*exp(-\t))});
+\end{scope}
+\node[anchor=south] at (360,437) {$y=1$};
+\node[rotate=90] at (756,800) {$x=1$};
+\node[anchor=north east] at (612,449) {$1$};
+\node[anchor=east] at (610,642) {$-1$};
+\node[anchor=north east] at (612,544) {$0$};
+\node[anchor=north east] at (503,544) {$-1$};
+\node[anchor=north west] at (733,544) {$1$};
+\node at (1232,562) {$x$};
+\node at (645,122) {$y$};
+\node at (985,130) {$y=\dfrac{x+1}{x-1}$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,228) -- (1035,228);
+  \draw[smooth,samples=90,domain=60:740] plot (\x,{213-201*exp(-0.5*((\x-401)/80)^2)});
+  \draw[smooth,samples=90,domain=312:990] plot (\x,{213-201*exp(-0.5*((\x-651)/80)^2)});
+  \draw[aux] (401,12) -- (401,228);
+  \draw[aux] (651,12) -- (651,228);
+  \begin{scope}[every node/.style={font=\small}]
+  \node at (401,261) {$12$};
+  \node at (651,261) {$22$};
+  \node at (524,308) {Number of Pushups};
+  \node at (277,38) {Group $X$};
+  \node at (773,38) {Group $Y$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

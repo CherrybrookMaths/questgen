@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(251,265)},x=1.4478cm,y=1.4478cm]
+\draw[->] (-2.04,0)--(2.27,0);
+\draw[->] (0,-2.22)--(0,2.19);
+\node at (2.15,-0.24) {$x$};
+\node at (-0.12,2.08) {$y$};
+\node at (-1.12,-0.24) {$-1$};
+\node at (1.05,-0.24) {$1$};
+\node at (-0.2,-1.2) {$-1$};
+\draw[curve] plot[smooth,samples=90,domain=-1.71:1.71] (\x,{\x*\x-1});
+\draw[curve] plot[smooth,samples=90,domain=-2.05:0.76] ({exp(\x)},\x);
+\node[anchor=west] at (1.77,2.0) {$y=g(x)$};
+\node[anchor=west] at (2.1,0.72) {$y=f(x)$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

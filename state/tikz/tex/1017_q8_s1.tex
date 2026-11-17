@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \v in {1,...,9} \draw[black!25,line width=0.4pt] (175,{752-80.222*\v})--(903,{752-80.222*\v});
+  \foreach \v [count=\k from 0] in {17.5,12,9.5,6,5}
+    \fill[black!30] ({199.8+145.6*\k},752) rectangle ({295.8+145.6*\k},{752-40.111*\v});
+  \draw (175,30)--(175,752)--(903,752)--(903,30);
+  \foreach \d in {0,...,9} \foreach \m in {2,4,6,8} \draw (903,{752-7.22*(10*\d+\m)})--(907,{752-7.22*(10*\d+\m)});
+  \foreach \d in {0,...,10} \draw (903,{752-72.2*\d})--(911,{752-72.2*\d});
+  \foreach \v/\t in {0/0,1/{2,000},2/{4,000},3/{6,000},4/{8,000},5/{10,000},6/{12,000},7/{14,000},8/{16,000},9/{18,000}}
+    \node[anchor=east,font=\footnotesize] at (168,{752-80.222*\v}) {\t};
+  \foreach \d [evaluate=\d as \p using int(10*\d)] in {0,...,10}
+    \node[anchor=west,font=\footnotesize] at (914,{752-72.2*\d}) {\p\%};
+  \foreach \n [count=\k from 0] in {Toyota,Ford,Holden,Kia,Haval}
+    \node[font=\footnotesize] at ({247.8+145.6*\k},785) {\n};
+  \draw[line width=0.9pt] (247.8,499.3)--(393.4,326)--(539,188.8)--(684.6,102.2)--(830.2,30);
+  \foreach \p in {(247.8,499.3),(393.4,326),(539,188.8),(684.6,102.2),(830.2,30)}
+    \node[fill,inner sep=0pt,minimum size=3.2pt] at \p {};
+  \node[rotate=90] at (55,390) {Frequency};
+  \node[rotate=-90] at (1015,405) {Cumulative Percentage};
+\end{tikzpicture}
+\end{document}

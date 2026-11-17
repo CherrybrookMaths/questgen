@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+\draw[<->] (410,328) -- (1275,328);
+\draw[<->] (826,655) -- (826,12);
+\draw[line width=0.9pt] plot[domain=-1.17:3.48,samples=90,smooth,variable=\t] ({826+87*\t},{328-20.25*(2*\t*\t*\t-6*\t*\t)});
+\foreach \p in {(826,328),(913,409),(1000,490),(1087,328)} \fill \p circle (4.5);
+\node[anchor=south east] at (812,320) {rel.\ max at $(0,0)$};
+\node[anchor=north west] at (1092,333) {$3$};
+\node[anchor=west] at (925,390) {$(1,-4)$};
+\node[anchor=west] at (832,452) {P.O.I.};
+\node[anchor=west] at (1030,512) {rel.\ min.\ at $(2,-8)$};
+\node at (1262,362) {$x$};
+\node at (848,30) {$y$};
+\end{tikzpicture}
+\end{document}

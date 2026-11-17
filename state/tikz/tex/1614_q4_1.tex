@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(87,278)},x=0.9703cm,y=0.9728cm]
+\draw[black!30,line width=0.4pt] (0,0) grid (8,3);
+\draw[->] (0,0)--(8.5,0);
+\draw[->] (0,0)--(0,3.36);
+\foreach \k in {1,...,8} \draw (\k,0)--(\k,-0.12);
+\foreach \k in {1,2,3} \draw (0,\k)--(-0.17,\k);
+\node at (8.61,-0.24) {$x$};
+\node at (-0.24,3.38) {$y$};
+\foreach \k in {1,...,8} \node at (\k,-0.58) {$\k$};
+\foreach \k in {1,2,3} \node at (-0.62,\k) {$\k$};
+\draw[line width=0.9pt] (0,0)--(2,2)--(6,2) arc[start angle=180,end angle=270,radius=2];
+\node[anchor=west] at (6.06,1.66) {$y=f(x)$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

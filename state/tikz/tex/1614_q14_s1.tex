@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \y in {78,153,228,303,453,528,603,678} \draw[black!30,line width=0.4pt] (180,\y)--(778,\y);
+\foreach \x in {330,480,630,778} \draw[black!30,line width=0.4pt] (\x,78)--(\x,678);
+\draw[->] (112,378)--(842,378);
+\draw[->] (180,720)--(180,28);
+\node at (160,34) {$y$};
+\node at (840,410) {$x$};
+\foreach \y/\l in {78/2,228/1,528/-1,678/-2} \node[anchor=east,font=\small] at (170,\y) {$\l$};
+\foreach \x/\l in {330/\dfrac{\pi}{8},480/\dfrac{\pi}{4},630/\dfrac{3\pi}{8},778/\dfrac{\pi}{2}} \node[anchor=north,font=\small] at (\x-4,386) {$\l$};
+\draw[line width=0.6pt,smooth,samples=90,domain=0:1] plot ({180+598*\x},{378-150*2*cos(360*\x)});
+\draw[line width=0.9pt,smooth,samples=90,domain=0:1] plot ({180+598*\x},{378-150*(sin(180*\x)+1)});
+\fill (180,228) circle (2.2pt) (479,78) circle (2.2pt) (778,228) circle (2.2pt);
+\end{tikzpicture}
+\end{document}

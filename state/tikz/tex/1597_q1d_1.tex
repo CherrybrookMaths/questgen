@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\fcurve{plot[smooth, tension=0.6] coordinates {(146,66)(176,135)(206,210)(259,297)(331,210)(379,175)(457,210)(535,175)(583,210)(655,297)(708,210)(738,135)(768,66)}}
+  % shaded regions A and B: between curve and x-axis on [0,2]
+  \begin{scope}
+    \clip (457,0) rectangle (708,330);
+    \path[shade dots, even odd rule] \fcurve -- (768,210) -- (146,210) -- cycle;
+  \end{scope}
+  \draw[->] (105,210) -- (808,210);
+  \draw[->] (457,322) -- (457,20);
+  \draw[line width=0.9pt, <->] \fcurve;
+  \begin{scope}[font=\small]
+  \node at (796,227) {$x$};
+  \node at (446,32) {$y$};
+  \node at (440,226) {$O$};
+  \node at (190,230) {$-2$};
+  \node at (316,230) {$-1$};
+  \node at (575,227) {$1$};
+  \node at (718,227) {$2$};
+  \node at (250,160) {$y=f(x)$};
+  \node at (535,196) {\halo{$A$}};
+  \node at (647,262) {\halo{$B$}};
+  \node[align=center] at (870,163) {NOT TO\\[-2pt]SCALE};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

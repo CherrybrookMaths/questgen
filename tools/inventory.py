@@ -27,8 +27,9 @@ For the page's "Rescan drive" (owner 13 Nov: "Where is the button to rescan the 
 page classifies a new Drive file exactly as the tools do). Every recorded file (folder, name, size, Drive id) goes to a separate
 site/data/inventory_files.json (files_url), which the page fetches only for Rescan drive: with the 13 Nov Drive rescan's 1,684
 more files it would have taken inventory.json past 600 KB on every Processes load (CODE_HEALTH rule 6).
-Cost: IMPORT_PLAYBOOK.md and RESUME.md record no per-paper import cost yet, so COST_PER_PAPER is None and the page shows the
-US$12-17 a paper estimate. Set it (a number, or [lo, hi] in US$) when one is recorded there.
+Cost: measured 17 Nov on Batch 8 through the Anthropic API (tools/api_import.py; IMPORT_PLAYBOOK "Import through the API"):
+US$0.88-5.19 a paper, mean US$2.83 (school tasks of 30-35 marks about US$1-3.6, 100-mark trials US$4.2-5.2). The page shows the
+range; a number, or [lo, hi] in US$.
 """
 import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import collections, datetime, json, os, re, sqlite3, sys
@@ -42,7 +43,7 @@ OUT = P + 'site/data/inventory.json'
 FILES_URL = 'data/inventory_files.json'     # beside OUT; the page fetches it only for Rescan drive
 PAPERS = paths.S + 'work/import/papers.json'
 HELD = paths.S + 'work/scan/held.json'      # tools/scan_folder.py --apply writes it
-COST_PER_PAPER = None
+COST_PER_PAPER = [0.9, 5.2]   # measured, Batch 8 via the API, 17 Nov (owner: "I want to do batch 8 via the api so we can get a cost estimate")
 # The shared folder in Google Drive (G:\\Shared drives\\CMC Resources\\Exams\\External Exams Stage 6; drive_ids.csv lists it as
 # the parent of the loose files at its root). The page's "Rescan drive" button (owner 13 Nov: "Where is the button to rescan
 # the drive?") walks it READ-ONLY with the viewer's Google Drive connector; the id lives here, never in the page.

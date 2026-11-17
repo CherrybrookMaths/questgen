@@ -51,6 +51,28 @@ main dot point exact Opus 34, Sonnet 27, Haiku 27).
 Haiku is not used. Files over 10 MB cannot come through the Drive connector: use a smaller copy of the same paper (a combined
 "w Solutions" file) when there is one; otherwise import the questions and generate solutions (marked in the solution note).
 
+## Import through the API (17 Nov, Batch 8)
+Owner 17 Nov: "I want to do batch 8 via the api so we can get a cost estimate"; "we'll need API for usage limits too right? Lets just
+set it up?"; on the key: "yes yes use qg anthropic key" (environment variable `QG_ANTHROPIC_API_KEY`; never printed or stored).
+`tools/api_import.py <step> <batch>` runs the model steps (parse, split, tag, solfmt, gen, diagrams, verify) through the Messages API with
+the same specs and the models above (Sonnet: parse, split, solutions; Opus: tagging, diagrams, verify), one run per paper (or chunk), so
+each paper's cost is exact. The local steps between them are unchanged (load.py, post_load.py, split_batch.py, relabel_split.py,
+prep_batch.py, apply_text.py, apply_diagrams.py, prep_verify.py, triage.py, add_to_bank.py, build_bank.py). Every call is logged with its
+tokens and US$ (state/work/api_import/<batch>/calls.jsonl); `api_import.py cost <batch>` prints the table and writes cost.json.
+Order used for Batch 8: parse → load.py → post_load.py → split_batch.py prep → split → split_batch.py apply → relabel_split.py →
+prep_batch.py → tag + solfmt + gen (parallel) → apply_text.py → diagrams → apply_diagrams.py → prep_verify.py → verify → fix the
+verifier's findings (source_corrections.py) → triage.py → add_to_bank.py → build_bank.py → render audit, recrop --check, prepublish.
+Batch 8 result: 8 papers, 150 questions, US$22.65 (parse 3.54, split 0.04, tag 3.80, solutions 1.20, diagrams 9.48, verify 4.61),
+about 35 minutes of model time with papers in parallel. Diagrams (Opus, with renders and overlays fed back) are 42% of the cost.
+Lessons (each fixed in the tool):
+- A writer closure picked up the last paper's part ids, so 7 of 8 tag files were written empty (recovered from the transcripts).
+- The API refuses images over 2,000 px a side in requests with many images: images are scaled to 1,900 px.
+- The split step proposed splitting "Find the first derivative of the following" lists; the bank keeps all 22 such lists together,
+  so the 2 splits were not applied and the rule is in the split prompt.
+- The formatter put "the source is consistent" notes in content_flags (12 Decide items for 8 papers, the 16 Nov Batch 6 lesson
+  again) and invented a sketch key "2023kings_q15_s1": the solfmt prompt now says both, and its check rejects unknown figure keys;
+  a sketch it asks for is queued for the diagrams step.
+
 ## Figure crops are build output, not backed up (17 Nov)
 Owner 17 Nov: "What is realistic coding best practice in this case?" then "yeah build it and run the test". The crops
 (`figures/<id>.png`) are cut from the exam PDFs at each figure's recorded page and bbox, so they are regenerated, not archived:
@@ -344,9 +366,8 @@ The PC route (when the Drive connector is not available):
    and writes `work/import/next.json`. Stage those papers into `work/import/papers.json` and run the pipeline above. This
    replaces picking rows by hand from `import_manifest.csv`. An active Go run request (db `runs`, 13 Nov) comes first: see "Go" below.
 
-Cost per paper: none is measured yet. The import order shows a cost only when one is recorded; the Go card (13 Nov) shows an
-estimate of US$12–17 a paper until then. When one is measured (agent token totals for a batch / papers in it), write it here and
-set `COST_PER_PAPER` in tools/inventory.py.
+Cost per paper: measured 17 Nov on Batch 8 through the API (see "Import through the API" below): US$0.88–5.19 a paper, mean
+US$2.83; `COST_PER_PAPER` in tools/inventory.py is [0.9, 5.2].
 
 
 - **Year 11 stays out of the import queue (owner 13 Nov).** Asked whether to let the 177 (now ~700 after the Drive rescan) Year 11 Advanced papers into the queue: "Year 11 papers leave alone for now, would like to finalise Y12 first." Keep inventory.py's queueable set to Year 12 Advanced until he says otherwise.

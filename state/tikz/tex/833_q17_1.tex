@@ -1,0 +1,45 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\newcommand\blank[1]{\rlap{\rule[-3pt]{0.8cm}{0.5pt}}\makebox[0.8cm][r]{#1\hspace{1pt}}}
+% branch + probability node (probability centred on the branch midpoint, above an up-branch, below a down-branch)
+\newcommand\pb[5]{\draw[tree branch] (#1-out)--(#2-in);
+  \node[font=\treeprobfont,inner sep=0pt,anchor=#4] at ($(#1-out)!0.5!(#2-in)+(0,#5)$) {#3};}
+\begin{document}
+\begin{tikzpicture}
+\setlength\treeL{2.0cm}
+\treewidth{1}{$W$}\treewidth{1}{$\overline{W}$}
+\treewidth{2}{$W$}\treewidth{2}{$\overline{W}$}
+\treewidth{3}{$W$}\treewidth{3}{$\overline{W}$}
+\treecolumns{3}
+\treeroot{r}{0cm}
+\treenode{a}{1}{2.6cm}{$W$}
+\treenode{b}{1}{-2.6cm}{$\overline{W}$}
+\treenode{aa}{2}{3.9cm}{$W$}
+\treenode{ab}{2}{1.3cm}{$\overline{W}$}
+\treenode{ba}{2}{-1.3cm}{$W$}
+\treenode{bb}{2}{-3.9cm}{$\overline{W}$}
+\treenode{aaa}{3}{4.65cm}{$W$}
+\treenode{aab}{3}{3.15cm}{$\overline{W}$}
+\treenode{aba}{3}{2.05cm}{$W$}
+\treenode{abb}{3}{0.55cm}{$\overline{W}$}
+\treenode{baa}{3}{-0.55cm}{$W$}
+\treenode{bab}{3}{-2.05cm}{$\overline{W}$}
+\treenode{bba}{3}{-3.15cm}{$W$}
+\treenode{bbb}{3}{-4.65cm}{$\overline{W}$}
+\pb{r}{a}{\blank{40\%}}{south}{0.62cm}
+\pb{r}{b}{\blank{\%}}{north}{-0.62cm}
+\pb{a}{aa}{\blank{\%}}{south}{0.36cm}
+\pb{a}{ab}{\blank{\%}}{north}{-0.36cm}
+\pb{b}{ba}{\blank{\%}}{south}{0.36cm}
+\pb{b}{bb}{\blank{60\%}}{north}{-0.36cm}
+\pb{aa}{aaa}{\blank{\%}}{south}{0.25cm}
+\pb{aa}{aab}{\blank{60\%}}{north}{-0.25cm}
+\pb{ab}{aba}{\blank{\%}}{south}{0.25cm}
+\pb{ab}{abb}{\blank{\%}}{north}{-0.25cm}
+\pb{ba}{baa}{\blank{\%}}{south}{0.25cm}
+\pb{ba}{bab}{\blank{\%}}{north}{-0.25cm}
+\pb{bb}{bba}{\blank{40\%}}{south}{0.25cm}
+\pb{bb}{bbb}{\blank{\%}}{north}{-0.25cm}
+\end{tikzpicture}
+\end{document}

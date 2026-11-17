@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % shaded region
+  \fill[shade] (330,463) -- plot[domain=0:4, samples=40, smooth] ({330+62.5*\x},{463-110*(4-2^(-\x/2))}) -- (580,463) -- cycle;
+  % grid (light grey): minor every 0.5, major every 2
+  \foreach \i in {-10,...,13}{\draw[black!12, line width=0.4pt] ({330+31.25*\i},0) -- ({330+31.25*\i},528);}
+  \foreach \j in {-1,...,8}{\draw[black!12, line width=0.4pt] (0,{463-55*\j}) -- (753,{463-55*\j});}
+  \foreach \i in {-4,-2,2,4,6}{\draw[black!35, line width=0.4pt] ({330+62.5*\i},0) -- ({330+62.5*\i},528);}
+  \foreach \j in {2,4}{\draw[black!35, line width=0.4pt] (0,{463-110*\j}) -- (753,{463-110*\j});}
+  % axes
+  \draw (0,463) -- (753,463);
+  \draw (330,0) -- (330,528);
+  % region boundary
+  \draw[line width=0.9pt] (580,{463-110*(4-2^(-2))}) -- (580,463) -- (330,463);
+  % curve
+  \draw[line width=0.9pt] plot[domain=-4.40:6.77, samples=90, smooth] ({330+62.5*\x},{463-110*(4-2^(-\x/2))});
+  % tick labels
+  \node[font=\footnotesize] at (66,481) {$-4$};
+  \foreach \i/\t in {-2/$-2$,2/$2$,4/$4$,6/$6$}{\node[font=\footnotesize] at ({330+62.5*\i},481) {\t};}
+  \node[font=\footnotesize] at (318,481) {$0$};
+  \node[font=\footnotesize] at (318,244) {$2$};
+  \node[font=\footnotesize] at (318,23) {$4$};
+\end{tikzpicture}
+\end{document}

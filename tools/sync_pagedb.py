@@ -40,7 +40,9 @@ def docs(d, coll):
     out = []
     for f in sorted(glob.glob(os.path.join(d, coll, '*.json'))):
         x = json.load(open(f)); data = x.get('data', x) if isinstance(x, dict) and 'data' in x and isinstance(x['data'], dict) else x
-        out.append((os.path.basename(f)[:-5], data))
+        # the ArtifactData export spells a '~' in a doc id as '@' in its file name (17 Nov: k_2020-BaulkhamHills-AT2-Q4~2);
+        # page ids here never contain '@' (qkeys suffix is '~')
+        out.append((os.path.basename(f)[:-5].replace('@', '~'), data))
     return out
 J = lambda v: json.dumps(v, ensure_ascii=False) if v is not None else None
 

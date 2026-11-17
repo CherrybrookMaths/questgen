@@ -826,9 +826,12 @@ async function reviewFlow(browser, base, seed) {
   await check('review: the Inbox summary', page, async () => {
     const r = await page.evaluate(() => {
       const W = [...allWork().values()].filter(w => w.n), card = k => document.querySelector(`#inboxBox [data-card="${k}"]`);
+      const ownKey = d => { const c = {}; B.questions.filter(q => String(q.doc) === d && q.key).forEach(q => { const p = q.key.replace(/-Q[^-]*$/, ''); c[p] = (c[p] || 0) + 1 }); return Object.keys(c).sort((a, b) => c[b] - c[a])[0] || '' };   // the paper's own key: most of its questions carry it
       return {want: W.length, docs: W.map(w => w.doc).sort(), pc: Object.keys(B.docs).filter(d => B.docs[d].call && PCALL.list([d])[0].open).map(d => mainDoc(d)),
-        // a paper imported after the fixture was taken has no review decision at all, so it has work (16 Nov: Batch 6)
-        fresh: [...new Set(B.questions.map(q => String(q.doc)))].filter(d => !reviews['paper_' + d] && B.questions.filter(q => String(q.doc) === d).every(q => !reviews['q' + q.id] && !(q.key && reviews['k_' + q.key]))).map(d => mainDoc(d)).filter(d => [...allWork().values()].some(w => String(w.doc) === String(d))), rep: repOpen().length, lv: lvTodoN(), view, rbar: !document.querySelector('#rbar').hidden,
+        // a paper imported after the fixture was taken has no review decision at all, so it has work (16 Nov: Batch 6). A decision that
+        // reaches one of its questions only through a copy in another paper (shared key, e.g. 2023 Knox AT1 Q2(b) = 2021 HSC Q14,
+        // 17 Nov Batch 8) is not the paper's own decision: only keys under the paper's own key count
+        fresh: [...new Set(B.questions.map(q => String(q.doc)))].filter(d => !reviews['paper_' + d] && B.questions.filter(q => String(q.doc) === d).every(q => { const x = reviews['q' + q.id]; return !(x && (x.question_id == null || +x.question_id === q.id)) && !(q.key && reviews['k_' + q.key] && q.key.startsWith(ownKey(d) + '-')) })).map(d => mainDoc(d)).filter(d => [...allWork().values()].some(w => String(w.doc) === String(d))), rep: repOpen().length, lv: lvTodoN(), view, rbar: !document.querySelector('#rbar').hidden,
         pn: card('papers')?.querySelector('.ict')?.textContent, rows: [...document.querySelectorAll('#inboxBox .iprow')].map(a => ({href: a.getAttribute('href'), dots: a.querySelectorAll('.mtrack i').length, line: a.querySelector('.ipl').textContent})),
         // 17 Nov: a diagram redrawn from a change request and not approved again keeps its paper open (openFix)
         redo: [...new Set(B.questions.filter(q => !q.dup_of && (() => { const x = reviews['q' + q.id]; return x && x.status !== 'flagged' && Object.keys(x.fig_done || {}).some(k => !(x.fig || {})[k]) })()).map(q => String(mainDoc(q.doc))))],
@@ -1057,6 +1060,8 @@ async function reviewFlow(browser, base, seed) {
     await check(`review: Inbox and paper flow at 390 px (${theme})`, pp, async () => {
       const fit = () => pp.evaluate(() => ({sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth}));
       let f = await fit(); assert(f.sw <= f.cw + 1, `Inbox: horizontal scroll ${f.sw} > ${f.cw}`);
+      // groups open until 8 rows show (08_review.js SHOW); since Batch 8 (17 Nov) 323's batch group can start folded: open it as a person would
+      await pp.evaluate(() => { const d = document.querySelector('#inboxBox .iprow[href="#review/paper/323"]')?.closest('details'); if (d) d.open = true });
       await pp.click('#inboxBox .iprow[href="#review/paper/323"]'); await settle(pp, 5000, 2);
       f = await fit();
       const r = await pp.evaluate(() => { const c = document.querySelector('#filters .tstep.cur .step').getBoundingClientRect(), t = document.querySelector('#filters').getBoundingClientRect(), h = document.querySelector('#stephelp');

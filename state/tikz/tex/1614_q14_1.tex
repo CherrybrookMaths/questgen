@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(143,373)},x=1.8961cm,y=1.8987cm]
+\foreach \k in {1,2,3,4} \draw[black!30,line width=0.4pt] (\k,-2)--(\k,2);
+\foreach \v in {-2,-1.5,...,2} \draw[black!30,line width=0.4pt] (0,\v)--(4,\v);
+\draw[->] (-0.455,0)--(4.40,0);
+\draw[->] (0,-2.39)--(0,2.37);
+\node at (4.40,-0.17) {$x$};
+\node at (-0.12,2.36) {$y$};
+\foreach \v in {2,1,-1,-2} \node[anchor=east] at (-0.03,\v) {$\v$};
+\node[anchor=north east,inner sep=1pt] at (0.99,-0.06) {$\dfrac{\pi}{8}$};
+\node[anchor=north] at (2,-0.06) {$\dfrac{\pi}{4}$};
+\node[anchor=north west,inner sep=1pt] at (3.01,-0.06) {$\dfrac{3\pi}{8}$};
+\node[anchor=north] at (4,-0.06) {$\dfrac{\pi}{2}$};
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:4] (\x,{2*cos(90*\x)});
+\end{scope}
+\end{tikzpicture}
+\end{document}

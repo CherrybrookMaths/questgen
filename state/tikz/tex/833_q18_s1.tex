@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (8,300)--(558,300);
+\draw[->] (278,557)--(278,7);
+\node[font=\large] at (546,335) {$x$};
+\node[font=\large] at (250,19) {$y$};
+\node[font=\large] at (253,329) {$O$};
+\begin{scope}[shift={(278,300)},x=3.048cm,y=1.143cm]
+\draw[line width=0.9pt,smooth,samples=90,domain=-1.05:0.645] plot ({\x},{8*\x*\x*\x+4*\x*\x-2*\x});
+\fill (-0.5,1) circle (2.2pt);
+\fill (1/6,-5/27) circle (2.2pt);
+\node[anchor=south] at (-0.5,1.1) {$\left(-\dfrac{1}{2},1\right)$};
+\end{scope}
+\node[anchor=north] at (332,330) {$\left(\dfrac{1}{6},-\dfrac{5}{27}\right)$};
+\node[anchor=west] at (462,102) {$y=f(2x)$};
+\end{tikzpicture}
+\end{document}

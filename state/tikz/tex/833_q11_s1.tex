@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(133,631)},x=0.0079883cm,y=0.0072517cm,font=\fontsize{8.5}{10}\selectfont]
+\foreach \i in {20,40,...,980}{\pgfmathtruncatemacro\m{mod(\i,100)}\ifnum\m>0
+  \draw[black!40,line width=0.4pt,dash pattern=on 0.5pt off 1pt] (\i,0)--(\i,1000);
+  \draw[black!40,line width=0.4pt,dash pattern=on 0.5pt off 1pt] (0,\i)--(1000,\i);\fi}
+\foreach \i in {100,200,...,1000}{\draw[black!60] (\i,0)--(\i,1000); \draw[black!60] (0,\i)--(1000,\i);}
+\draw[->] (0,0)--(1108,0) node[right,font=\fontsize{9.5}{11}\selectfont] {$x$};
+\draw[->] (0,0)--(0,1038) node[above,font=\fontsize{9.5}{11}\selectfont] {$y$};
+\foreach \i in {0,100,...,1000}{\node[anchor=north,yshift=-3pt] at (\i,0) {\i};
+  \node[anchor=east,xshift=-3pt] at (0,\i) {\i};}
+\node[rotate=90] at (-180,501) {Cost / Income (\$)};
+\node at (502,-139) {Number of bread rolls};
+\draw[line width=0.9pt] (0,0)--(980,784) node[right,font=\fontsize{9.5}{11}\selectfont] {$I$};
+\draw[line width=0.9pt] (0,300)--(1000,500) node[right,font=\fontsize{9.5}{11}\selectfont] {$C$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

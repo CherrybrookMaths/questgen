@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\def\ox{97}\def\oy{327}\def\sx{77}\def\sy{57.5}
+\fill[shade] (\ox,\oy) -- (\ox,\oy-2*\sy) -- (\ox+\sx,\oy) -- (\ox+3*\sx,\oy-4*\sy) -- (\ox+3*\sx,\oy) -- cycle;
+\draw[aux] (\ox,\oy-4*\sy) -- (\ox+3*\sx,\oy-4*\sy) -- (\ox+3*\sx,\oy);
+\draw[->] (18,\oy) -- (408,\oy);
+\draw[->] (\ox,355) -- (\ox,8);
+\draw[<->, line width=0.9pt] (\ox-0.64*\sx,\oy-3.28*\sy) -- (\ox+\sx,\oy) -- (\ox+3.72*\sx,\oy-5.44*\sy);
+\begin{scope}[font=\fontsize{13}{15}\selectfont]
+\node[anchor=west] at (407,336) {$x$};
+\node[anchor=south] at (86,14) {$y$};
+\node at (80,347) {$O$};
+\node at (80,\oy-2*\sy) {$2$};
+\node at (80,\oy-4*\sy) {$4$};
+\node at (\ox+\sx,349) {$1$};
+\node at (\ox+3*\sx,349) {$3$};
+\node at (124,295) {$A_1$};
+\node at (272,262) {$A_2$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

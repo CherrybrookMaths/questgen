@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.0236cm,y=1.0236cm]
+\foreach \k in {-5,...,5} {\draw[black!30,line width=0.4pt] (\k,-5)--(\k,5); \draw[black!30,line width=0.4pt] (-5,\k)--(5,\k);}
+\draw[->] (-5.42,0)--(6.15,0);
+\draw[->] (0,-5.56)--(0,5.82);
+\node at (-0.3,5.6) {$y$};
+\node at (5.95,-0.32) {$x$};
+\foreach \k in {1,...,5} {\node[font=\small] at (\k,-0.32) {$\k$}; \node[font=\small] at (-\k+0.04,-0.32) {$-\k$};}
+\foreach \k in {1,...,5} {\node[font=\small,anchor=east,inner sep=1pt] at (-0.06,\k) {$\k$}; \node[font=\small,anchor=east,inner sep=1pt] at (-0.06,-\k) {$-\k$};}
+\end{tikzpicture}
+\end{document}

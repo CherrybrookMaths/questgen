@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (T) at (268,20); \coordinate (C) at (268,248);
+  \coordinate (B) at (531,248); \coordinate (A) at (40,346);
+  \draw (A) -- (T) -- (B) -- (C) -- (T);
+  \draw (A) -- (C); \draw (A) -- (B);
+  % right angles
+  \draw (268,234) -- (284,234) -- (284,248);
+  \draw (268,234) -- (256,239) -- (256,253);
+  % angle arcs (tikz angle = - visual angle, y down)
+  \draw[->] ($(A)+({80*cos(-23.26)},{80*sin(-23.26)})$) arc[start angle=-23.26, end angle=-55.03, radius=80];
+  \draw[->] ($(A)+({115*cos(-23.26)},{115*sin(-23.26)})$) arc[start angle=-23.26, end angle=-11.31, radius=115];
+  \draw[->] ($(B)+(-66,0)$) arc[start angle=-180, end angle=-139.03, radius=66];
+  \node at (112,282) {$52^\circ$};
+  \node at (190,302) {$43^\circ$};
+  \node at (445,218) {$46^\circ$};
+  \node at (283,152) {$h$};
+  \node at (322,322) {$27$ m};
+  \node at (26,362) {$A$};
+  \node at (546,250) {$B$};
+  \node at (270,266) {$C$};
+\end{tikzpicture}
+\end{document}

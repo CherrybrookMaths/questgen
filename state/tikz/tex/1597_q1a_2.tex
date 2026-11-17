@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[<->] (18,213) -- (384,213);
+  \draw[<->] (207,398) -- (207,18);
+  \node[font=\small] at (367,225) {$x$};
+  \node[font=\small] at (197,47) {$y$};
+  \draw[line width=0.9pt] plot[smooth, domain=0:15.97, samples=40, variable=\t] ({273-\t*\t},{213-4.07*\t});
+  \node[font=\large] at (273,233) {$4$};
+\end{tikzpicture}
+\end{document}

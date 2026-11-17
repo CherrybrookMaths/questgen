@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.03cm,y=1.03cm]
+\foreach \k in {-5,...,5} {\draw[black!30,line width=0.4pt] (\k,-5)--(\k,5); \draw[black!30,line width=0.4pt] (-5,\k)--(5,\k);}
+\draw[->] (-5.38,0)--(6.15,0);
+\draw[->] (0,-5.6)--(0,5.6);
+\node at (-0.2,5.45) {$y$};
+\node at (5.6,-0.33) {$x$};
+\foreach \k in {2,...,5} \node[font=\small] at (\k,-0.33) {$\k$};
+\node[font=\small] at (0.88,-0.33) {$1$};
+\foreach \k in {1,...,5} \node[font=\small] at (-\k,-0.33) {$\llap{$-$}\k$};
+\foreach \k in {2,...,5} \node[font=\small,anchor=east] at (-0.1,\k) {$\k$};
+\node[font=\small,anchor=east] at (-0.1,0.74) {$1$};
+\foreach \k in {1,...,5} \node[font=\small,anchor=east] at (-0.1,-\k) {$-\k$};
+\draw[line width=0.9pt,<->,smooth,samples=90,domain=-1.09:2.32] plot (\x,{\x^4-2*\x^3+1});
+\fill (0,1) circle (2.4pt) (1,0) circle (2.4pt) (1.5,-0.6875) circle (2.4pt);
+\node[font=\small,align=center] at (1.05,3.45) {horizontal\\point of\\inflexion\\$(0,1)$};
+\draw[->] (0.65,2.45)--(0.12,1.15);
+\node[font=\small,align=center] at (-2.2,-1.95) {point of\\inflexion\\$(1,0)$};
+\draw[->] (-1.45,-1.35)--(0.86,-0.1);
+\node[font=\small] at (2.95,-1.95) {$\left(\dfrac{3}{2},-\dfrac{11}{16}\right)$};
+\draw[->] (1.8,-1.6)--(1.53,-0.85);
+\end{tikzpicture}
+\end{document}

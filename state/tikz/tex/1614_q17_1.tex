@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (168,360) -- (345,{360-126*1.71828}) -- plot[smooth,samples=40,domain=1:0] ({168+177*\x},{360-126*(exp(\x)-1)}) -- cycle;
+\draw[->] (90,360)--(468,360);
+\draw[->] (168,445)--(168,52);
+\draw[line width=0.9pt,<->,smooth,samples=90,domain=-0.5:1.17] plot ({168+177*\x},{360-126*(exp(\x)-1)});
+\draw[line width=0.9pt,<->] ({168-177*0.22},{360+126*1.71828*0.22})--({168+177*1.33},{360-126*1.71828*1.33});
+\fill (168,360) circle (2.4pt) (345,{360-126*1.71828}) circle (2.4pt);
+\node at (190,398) {$O$};
+\node[anchor=west] at (352,143) {$P(1,e-1)$};
+\node at (285,72) {$y=e^x-1$};
+\node[anchor=west] at (414,50) {$y=(e-1)x$};
+\end{tikzpicture}
+\end{document}

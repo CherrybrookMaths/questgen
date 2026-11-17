@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\node[anchor=base west,inner sep=0pt] at (25,30) {B.};
+\draw[->] (25,273) -- (512,273);
+\draw[->] (265,540) -- (265,15);
+\node at (497,300) {$x$};
+\node at (249,26) {$y$};
+\begin{scope}[line width=0.9pt]
+\draw plot[domain=-0.51:5.21,samples=90,smooth,variable=\t] ({265+10*sqrt(5.76+280/exp(\t))},{245-exp(\t)});
+\draw plot[domain=-0.51:5.21,samples=90,smooth,variable=\t] ({265-10*sqrt(5.76+280/exp(\t))},{245-exp(\t)});
+\draw plot[domain=-70:70,samples=90,smooth,variable=\t] ({265+25*sin(\t)},{273+28.4*tan(\t)^2});
+\end{scope}
+\end{tikzpicture}
+\end{document}

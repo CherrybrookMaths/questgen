@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % left panel: f(x)=x^2
+  \draw[->] (10,273) -- (492,273);
+  \draw[->] (248,522) -- (248,15);
+  \draw[line width=0.9pt] plot[smooth, domain=-70:70, samples=90] ({248+\x},{273-0.0439*\x*\x});
+  \node[font=\large] at (480,300) {$x$};
+  \node[font=\large, anchor=east] at (241,22) {$y$};
+  \node[font=\large] at (127,135) {$f(x)$};
+  % right panel: g(x)=1/(x-1)+1
+  \draw[->] (603,273) -- (1090,273);
+  \draw[->] (848,522) -- (848,15);
+  \draw[line width=0.9pt] plot[smooth, domain=-1.94:1.92, samples=90, variable=\v] ({848+27*(1+exp(-\v))},{273-28*(1+exp(\v))});
+  \draw[line width=0.9pt] plot[smooth, domain=-2.197:2.26, samples=90, variable=\v] ({848+27*(1-exp(-\v))},{273-28*(1-exp(\v))});
+  \node[font=\large] at (1078,300) {$x$};
+  \node[font=\large, anchor=east] at (841,22) {$y$};
+  \node[font=\large] at (985,135) {$g(x)$};
+\end{tikzpicture}
+\end{document}

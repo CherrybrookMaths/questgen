@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+\fill[black!18] (10,236) rectangle (540,250);
+\fill[black!18] (10,10) -- (160,10) .. controls (120,20) and (100,30) .. (70,40) .. controls (50,45) and (25,38) .. (10,32) -- cycle;
+\draw[aux] (45,38) -- (205,243);
+\draw[<->] (45,49) -- (45,232);
+\node[anchor=west] at (55,155) {$6$ km};
+\draw[<->] (52,243) -- (197,243);
+\node at (120,241) {\halo{$x$}};
+\draw[<->] (45,315) -- (525,315);
+\node at (255,340) {$10$ km};
+\foreach \p in {(45,38),(45,243),(205,243),(522,243)} \fill \p circle (5);
+\node at (85,55) {$B$};
+\node at (48,282) {$D$};
+\node at (210,282) {$C$};
+\node at (520,272) {$A$};
+\end{tikzpicture}
+\end{document}

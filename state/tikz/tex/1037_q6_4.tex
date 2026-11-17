@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (47,335) -- (47,42);
+  \draw[->] (20,305) -- (537,305);
+  \node at (38,30) {$T$};
+  \node at (553,305) {$y$};
+  \draw[line width=0.6pt] plot[smooth,domain=50:458,samples=60] (\x,{80+140*((\x-50)/408)^2.4});
+\end{tikzpicture}
+\end{document}

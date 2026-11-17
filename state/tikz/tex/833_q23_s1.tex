@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (5,345) -- (918,345);
+  \draw[->] (77,500) -- (77,10);
+  \draw[aux] (77,235.5) -- (820,235.5);
+  \draw[line width=0.9pt,smooth,samples=90,domain=0:24] plot ({77+30.96*\x},{335.5-125*(0.7*sin(30*(\x-1))+0.8)});
+  \foreach \t/\h in {0/0.45,4/1.5,10/0.1,16/1.5,22/0.1,24/0.45}
+    \node[pt] at ({77+30.96*\t},{335.5-125*\h}) {};
+  \draw[->] (386.6,372) -- (386.6,331);
+  \draw[->] (758.1,372) -- (758.1,331);
+  \begin{scope}[every node/.style={font=\small}]
+  \node at (201,118) {$(4,\,1.5)$};
+  \node at (572,118) {$(16,\,1.5)$};
+  \node at (387,384) {$(10,\,0.1)$};
+  \node at (758,384) {$(22,\,0.1)$};
+  \node at (752,216) {$y=0.8$};
+  \node at (42,280) {$\dfrac{9}{20}$};
+  \node[anchor=west] at (828,280) {$\left(24,\dfrac{9}{20}\right)$};
+  \end{scope}
+  \node[font=\large] at (42,378) {$O$};
+  \node[font=\large] at (925,372) {$x$};
+  \node[font=\large] at (45,28) {$y$};
+\end{tikzpicture}
+\end{document}

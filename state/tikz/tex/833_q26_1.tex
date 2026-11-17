@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % cube
+  \draw (20,270) rectangle (253,468);
+  \draw (253,270) -- (303,215) -- (303,412) -- (253,468);
+  \draw (274,215) -- (303,215);
+  \draw (20,270) -- (48.5,238.6);
+  % cylinder
+  \draw (161,46) ellipse [x radius=113, y radius=28];
+  \draw (48,46) -- (48,243);
+  \draw (274,46) -- (274,243);
+  \draw (48,243) arc[start angle=180, end angle=0, x radius=113, y radius=28];
+  \draw[aux,->] (161,46) -- (274,46);
+  \node at (213,33) {$r$};
+\end{tikzpicture}
+\end{document}

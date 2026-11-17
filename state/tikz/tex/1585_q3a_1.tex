@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+% level 1 labels (left-aligned column at x=277), level 2 column at x=467
+\foreach \y/\l in {73/P,260/C}{\node[tree outcome] at (277,\y) {\l};}
+\foreach \y/\l in {31/P,115/C,215/P,299/C}{\node[tree outcome] at (467,\y) {\l};}
+\draw[tree branch] (115,167) -- (271,73);
+\draw[tree branch] (115,167) -- (271,260);
+\draw[tree branch] (306,73) -- (462,31);
+\draw[tree branch] (306,73) -- (462,115);
+\draw[tree branch] (306,260) -- (462,215);
+\draw[tree branch] (306,260) -- (462,299);
+\node[font=\treeprobfont] at (192,72) {$\dfrac{3}{8}$};
+\node[font=\treeprobfont] at (192,262) {$\dfrac{5}{8}$};
+\end{tikzpicture}
+\end{document}

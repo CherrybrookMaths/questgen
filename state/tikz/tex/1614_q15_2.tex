@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (140,390)--(762,390);
+\draw[->] (107,198)--(107,42);
+\draw[->] (107,228)--(107,390);
+\node at (93,213) {2 metres};
+\draw[aux,smooth,samples=40,domain=155:262] plot (\x,{38+352*((\x-155)/107)^2});
+\draw[aux,smooth,samples=40,domain=262:437] plot (\x,{108+282*((\x-349.5)/87.5)^2});
+\draw[aux,smooth,samples=40,domain=437:578] plot (\x,{163+227*((\x-507.5)/70.5)^2});
+\draw[aux,smooth,samples=40,domain=578:692] plot (\x,{211+179*((\x-635)/57)^2});
+\draw[aux,smooth,samples=30,domain=692:729] plot (\x,{245+145*((\x-739)/47)^2});
+\draw (741,247) circle (11);
+\node[anchor=west] at (760,248) {ball};
+\node[anchor=west,align=left] at (850,98) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

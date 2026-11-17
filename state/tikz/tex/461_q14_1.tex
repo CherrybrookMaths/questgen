@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.806cm,y=0.451cm]
+\foreach \i in {-10,...,10}{\draw[black!12] (\i,-10) -- (\i,10); \draw[black!12] (-10,\i) -- (10,\i);}
+\foreach \i in {-10,-5,5,10}{\draw[black!30] (\i,-10) -- (\i,10); \draw[black!30] (-10,\i) -- (10,\i);}
+\foreach \i in {-10,...,-1,1,2,...,10}{\draw (\i,-0.12) -- (\i,0.12); \draw (-0.07,\i) -- (0.07,\i);}
+\draw[<->] (-10.4,0) -- (10.4,0);
+\draw[<->] (0,-10.55) -- (0,10.55);
+\node[anchor=west] at (10.45,0) {$x$};
+\node[anchor=south] at (0,10.6) {$y$};
+\foreach \i in {-10,-5,5,10}{\node[anchor=north,font=\scriptsize] at (\i,-0.3) {$\i$};}
+\node[anchor=east,font=\scriptsize] at (-0.15,10) {$10$};
+\node[anchor=east,font=\scriptsize] at (-0.4,5) {$5$};
+\node[anchor=east,font=\scriptsize] at (-0.15,-5) {$-5$};
+\node[anchor=east,font=\scriptsize] at (-0.15,-10) {$-10$};
+\draw[line width=0.9pt,<->] plot[domain=-4.31:4.31,samples=90,smooth,variable=\u] ({\u+1},{0.4*\u*\u*\u-4.9*\u});
+\foreach \p in {(-3,-6),(1,0),(5,6)}{\node[pt] at \p {};}
+\node[draw,font=\scriptsize,inner sep=4pt] (b1) at (-2.0,-7.4) {$(-3,-6)$};
+\draw (-3,-6) -- (b1.north west);
+\node[draw,font=\scriptsize,inner sep=4pt] (b2) at (2.2,-1.45) {$(1,0)$};
+\draw (1,0) -- (b2.north west);
+\node[draw,font=\scriptsize,inner sep=4pt] (b3) at (5.75,4.55) {$(5,6)$};
+\draw (5,6) -- (b3.north west);
+\end{tikzpicture}
+\end{document}

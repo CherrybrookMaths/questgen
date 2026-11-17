@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\draw (10,140) -- (782,140);
+\foreach \v in {140,145,...,190} {
+  \draw ({58+(\v-140)*13.36},132) -- ({58+(\v-140)*13.36},148);
+  \node[font=\fontsize{11.5}{14}\selectfont] at ({58+(\v-140)*13.36},178) {\v};
+}
+\node[font=\fontsize{11.5}{14}\selectfont] at (393,230) {Height (cm)};
+\begin{scope}[line width=0.9pt]
+\draw ({58+7*13.36},48) -- ({58+15*13.36},48);
+\draw ({58+30*13.36},48) -- ({58+40*13.36},48);
+\draw ({58+7*13.36},30) -- ({58+7*13.36},66);
+\draw ({58+40*13.36},30) -- ({58+40*13.36},66);
+\draw ({58+15*13.36},9) rectangle ({58+30*13.36},84);
+\draw ({58+20*13.36},9) -- ({58+20*13.36},84);
+\end{scope}
+\end{tikzpicture}
+\end{document}

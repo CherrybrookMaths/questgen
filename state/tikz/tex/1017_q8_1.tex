@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (124,47) rectangle (940,835);
+  \foreach \d [evaluate=\d as \p using int(10*\d)] in {0,...,10}
+    \node[anchor=west] at (946,{822-75.2*\d}) {\p\%};
+  \node[rotate=90] at (40,440) {Frequency};
+  \node[rotate=-90] at (1058,440) {Cumulative Percentage};
+\end{tikzpicture}
+\end{document}

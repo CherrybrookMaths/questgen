@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (345,438)--(1335,438) node[right,font=\Large]{$x$};
+  \draw[<->] (838,665)--(838,105) node[above,font=\Large]{$y$};
+  \draw[line width=0.9pt,<-] plot[smooth,samples=40,domain=-2.06:0] ({838+100*\x},{438-(60*\x*\x+7.41*\x*\x*\x*\x)});
+  \draw[line width=0.9pt,->] plot[smooth,samples=90,domain=0:4.55] ({838+100*\x},{438-47.956*(\x*\x*\x*\x/4-5.41*\x*\x*\x/3+6.9388*\x*\x/2)});
+  \foreach \p in {(838,438),(921.4,366.6),(1047,272),(1115.2,293.7),(1170,312.3)} \node[pt] at \p {};
+  \node[anchor=north east] at (831,450) {$(0,0)$};
+  \node[anchor=north west] at (952,390) {$(1.47,\,26.56)$};
+  \node[anchor=south] at (1030,258) {$(4,64)$};
+  \node[anchor=south west,font=\scriptsize] at (1088,264) {$(4.53,63.22)$};
+  \node[anchor=north] at (1220,336) {$(5,\,62.5)$};
+  \node[anchor=west,font=\Large] at (8,55) {P.O.I: $(1.47,\,26.56)$};
+  \node[anchor=west,font=\Large] at (100,150) {$(4.53,\,63.22)$};
+\end{tikzpicture}
+\end{document}

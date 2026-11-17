@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (10,270) -- (652,270);
+  \draw[->] (328,505) -- (328,30);
+  \draw[aux] (62,366) -- (588,366);
+  \draw[line width=0.9pt,smooth,samples=90,domain=-3.15:3.3] plot ({328+75*\x},{270-48*3*exp(\x)/(exp(\x)+2)});
+  \draw[line width=0.9pt,smooth,samples=90,domain=-3.15:1.792] plot ({328+75*\x},{270-48*(exp(\x)-2)});
+  \node[pt] at ({328+75*ln(4)},174) {};
+  \node[font=\large] at (411,158) {$A$};
+  \node[font=\large] at (302,300) {$O$};
+  \node[font=\large] at (662,285) {$x$};
+  \node[font=\large] at (316,16) {$y$};
+\end{tikzpicture}
+\end{document}

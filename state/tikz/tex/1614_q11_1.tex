@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% grid
+\foreach \k in {1,...,39} \draw[black!30,line width=0.4pt] (160,628-15*\k)--(757,628-15*\k);
+\draw[black!30,line width=0.4pt] (160,28)--(757,28);
+\foreach \k in {1,...,7} \draw[black!45,line width=0.4pt] (160+74.625*\k,28)--(160+74.625*\k,628);
+% bars
+\foreach \l/\v in {175/380,324/320,474/260,623/200}
+  \filldraw[fill=black!25,line width=0.9pt] (\l,628) rectangle (\l+120,628-1.5*\v);
+% axes
+\draw (160,28)--(160,628)--(757,628)--(757,28);
+\foreach \k in {0,...,10} {
+  \draw (152,628-60*\k)--(160,628-60*\k);
+  \draw (757,628-60*\k)--(765,628-60*\k);
+  \pgfmathtruncatemacro\lv{40*\k}\pgfmathtruncatemacro\rv{10*\k}
+  \node[anchor=east] at (146,628-60*\k) {\lv};
+  \node[anchor=west] at (768,628-60*\k) {\rv\%};
+}
+\node[rotate=90] at (30,328) {Average Monthly Rainfall (mm)};
+\node[rotate=90] at (872,328) {Cumulative Percentage};
+\foreach \x/\t in {234.6/Autumn,383.9/Summer,533.1/Winter,682.4/Spring}
+  \node at (\x,662) {\footnotesize\textbf{\t}};
+% cumulative line: 380,700,960,1160 of 1160
+\draw[line width=0.9pt] (234.6,{628-6*32.759}) coordinate(a)--(383.9,{628-6*60.345}) coordinate(b)--(533.1,{628-6*82.759}) coordinate(c)--(682.4,28) coordinate(d);
+\foreach \p in {a,b,c,d} \fill (\p) circle (1.3pt);
+\end{tikzpicture}
+\end{document}

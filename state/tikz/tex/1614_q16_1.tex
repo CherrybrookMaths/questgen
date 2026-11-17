@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (15,240)--(1002,240);
+\draw[->] (157,480)--(157,8);
+\node at (133,22) {$y$};
+\node at (997,265) {$x$};
+\node at (128,266) {$O$};
+\node at (518,266) {$\pi$};
+\node at (905,214) {$2\pi$};
+\node at (482,118) {$y=\sin x$};
+\draw[line width=0.9pt,smooth,samples=90,domain=0:6.2832] plot ({157+118.7*\x},{240-118*sin(\x r)});
+\draw (60,{240+0.21595*(60-157)})--(985,{240+0.21595*(985-157)});
+\fill (690.4,355.2) circle (2.2pt);
+\node at (636,404) {$P(h,\sin h)$};
+\end{tikzpicture}
+\end{document}

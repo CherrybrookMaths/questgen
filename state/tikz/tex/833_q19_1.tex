@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{13.2}{16}\selectfont]
+\begin{scope}[shift={(-1356,1110.75)},x=0.03683cm,y=0.13811cm]
+\foreach \i in {528,536,...,752}{\pgfmathtruncatemacro\m{mod(\i,40)}\ifnum\m>0
+  \draw[black!45,line width=0.4pt,dash pattern=on 0.6pt off 1pt] (\i,50)--(\i,100);\fi}
+\foreach \j in {52,54,...,98}{\pgfmathtruncatemacro\m{mod(\j,10)}\ifnum\m>0
+  \draw[black!45,line width=0.4pt,dash pattern=on 0.6pt off 1pt] (520,\j)--(760,\j);\fi}
+\foreach \i in {560,600,...,720}{\draw[black!65] (\i,50)--(\i,100);}
+\foreach \j in {60,70,80,90}{\draw[black!65] (520,\j)--(760,\j);}
+\draw (520,100)--(760,100)--(760,50);
+\foreach \i in {560,600,...,760}{\node[anchor=north,yshift=-9pt] at (\i,50) {\i};}
+\foreach \j in {60,70,...,100}{\node[anchor=east,inner sep=0pt,xshift=-6pt] at (520,\j) {\j};}
+\foreach \p in {(560,63),(580,62),(590,70),(600,70.7),(620,74),(625,75),(650,72),(660,76),(680,80),(690,84),(710,80),(720,92),(740,90),(740,81),(760,84)}{\fill \p circle (2.3pt);}
+\draw (535,62.95)--(760,86.6);
+\end{scope}
+\draw (152,22)--(152,510)--(160,515)--(144,523)--(160,531)--(144,539)--(152,544)--(152,587);
+\draw (135,567)--(162,567)--(167,577)--(175,559)--(183,577)--(191,559)--(199,577)--(205,567)--(848,567);
+\node[rotate=90] at (27,240) {Life expectancy (years)};
+\node at (505,683) {Weekly income (dollars)};
+\end{tikzpicture}
+\end{document}

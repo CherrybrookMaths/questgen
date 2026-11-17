@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\node[anchor=base west,inner sep=0pt] at (25,30) {C.};
+\draw[->] (8,290) -- (497,290);
+\draw[->] (250,580) -- (250,15);
+\node at (482,312) {$x$};
+\node at (236,28) {$y$};
+\begin{scope}[line width=0.9pt]
+\draw plot[domain=-2.29:1.324,samples=90,smooth,variable=\t] ({250+24*(1-exp(-\t))},{290-30*(1-exp(\t))^2});
+\draw plot[domain=-0.53:2.04,samples=90,smooth,variable=\t] ({250+24*(1+exp(\t))},{290-30*(1+exp(-\t))^2});
+\end{scope}
+\end{tikzpicture}
+\end{document}

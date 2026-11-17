@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, width=10cm, height=6.5cm, xmin=-0.6, xmax=7.6, ymin=-1.9, ymax=2.2,
+  xtick={1,2}, ytick=\empty,
+  x tick label style={font=\small, anchor=north}]
+  \addplot[domain=-0.32:6.8, samples=90, smooth, line width=0.9pt] {4*x*exp(-x)};
+  \draw[aux] (axis cs:1,0) -- (axis cs:1,1.4715);
+  \draw[aux] (axis cs:2,0) -- (axis cs:2,1.0827);
+  \node[pt] at (axis cs:1,1.4715) {};
+  \node[pt] at (axis cs:2,1.0827) {};
+  \node[pt] at (axis cs:0,0) {};
+  \node[font=\small, anchor=south, inner sep=4pt] at (axis cs:1,1.4715) {$(1,4e^{-1})$};
+  \node[font=\small, anchor=south west, inner sep=3pt] at (axis cs:2.05,1.0827) {$(2,8e^{-2})$};
+  \node[font=\small, anchor=north west, inner sep=2pt] at (axis cs:0.05,-0.02) {$O$};
+  \node[font=\small, anchor=west] at (axis cs:0.25,-1.2) {$y=4xe^{-x}$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % common frame for options A-D: origin at axes crossing (62,352)
+  \draw[->] (14,352) -- (452,352);
+  \draw[->] (62,397) -- (62,8);
+  \node[font=\large] at (432,383) {$x$};
+  \node[font=\large] at (37,22) {$y$};
+  \draw (199,352) -- (199,365);
+  \draw (337,352) -- (337,365);
+  \node[font=\large, anchor=base] at (199,402) {$a$};
+  \node[font=\large, anchor=base] at (337,402) {$b$};
+  % decreasing, concave up
+  \draw[line width=0.9pt, smooth, samples=60, domain=0:1, variable=\u]
+    plot ({199+138*\u}, {352-276+138*(1-exp(-2*\u))/(1-exp(-2))});
+  \node[pt] at (199,76) {};
+  \node[pt] at (337,214) {};
+\end{tikzpicture}
+\end{document}

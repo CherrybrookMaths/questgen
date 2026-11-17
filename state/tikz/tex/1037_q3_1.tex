@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % light grey grid
+  \foreach \X in {232,435,639,843} \draw[black!20, line width=0.4pt] (\X,0) -- (\X,453);
+  \foreach \Y in {33,98,163,293,358,423} \draw[black!20, line width=0.4pt] (0,\Y) -- (870,\Y);
+  % axes
+  \draw (0,228) -- (870,228);
+  \draw (28,0) -- (28,453);
+  % curve f(x)=3 sin(x/2), 204 px per pi, 65 px per unit
+  \draw[line width=0.9pt, smooth, samples=90, domain=0:870] plot (\x, {228-195*sin(deg((\x-28)/204*pi/2))});
+  % tick labels
+  \foreach \Y/\l in {33/3,98/2,163/1,293/-1,358/-2,423/-3} \node[font=\footnotesize, anchor=east, inner sep=0pt] at (21,\Y) {$\l$};
+  \node[font=\footnotesize, anchor=east, inner sep=0pt] at (21,241) {$0$};
+  \foreach \X/\l in {232/\pi,435/2\pi,639/3\pi,843/4\pi} \node[font=\footnotesize, inner sep=0pt] at (\X,243) {$\l$};
+  \node[font=\footnotesize, inner sep=0pt] at (7,258) {$f$};
+\end{tikzpicture}
+\end{document}

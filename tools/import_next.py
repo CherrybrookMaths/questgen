@@ -25,7 +25,7 @@ why, the run and the stop decision. Read-only on the database and the page.
 Import is PAUSED (owner 14 Nov: "no more importing for a while until we iron these out") until the owner resumes it.
 """
 import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
-import csv, glob, json, os, sqlite3, sys
+import collections, csv, glob, json, os, sqlite3, sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import inventory, batches as BT
@@ -64,8 +64,10 @@ def cleared(doc_ids, reviews, qs_of, key_of=None):
     for d in doc_ids:
         qs = qs_of.get(d) or []
         if not qs: continue
-        pk = {key_of[q].rsplit('-Q', 1)[0] for q in qs if key_of.get(q)}
-        if ok(f'paper_{d}') or any(ok(f'p_{k}') for k in pk): continue
+        # the paper's OWN key: the one most of its questions carry. A question that is a copy of another paper's question shares
+        # that paper's key (17 Nov, Batch 8: MathsBank 2023 has one 2023 Abbotsleigh AT4 key), and that paper's approval is not this one's
+        pk = collections.Counter(key_of[q].rsplit('-Q', 1)[0] for q in qs if key_of.get(q)).most_common(1)
+        if ok(f'paper_{d}') or (pk and ok(f'p_{pk[0][0]}')): continue
         if all(ok(f'q{q}') or (key_of.get(q) and ok(f'k_{key_of[q]}')) for q in qs): continue
         return False
     return True

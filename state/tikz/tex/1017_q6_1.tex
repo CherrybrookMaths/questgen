@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (198,40) ellipse [x radius=135, y radius=26];
+  \draw (333,212) arc[start angle=0,end angle=180,x radius=135,y radius=26];
+  \draw[aux] (63,212) arc[start angle=180,end angle=360,x radius=135,y radius=26];
+  \draw (63,40)--(63,212) (333,40)--(333,212);
+  \draw (198,40)--(333,40);
+  \node[pt] at (198,40) {};
+  \node[font=\large] at (243,25) {$r$};
+  \draw (12,40)--(38,40) (12,210)--(38,210);
+  \draw[->] (25,108)--(25,41);
+  \draw[->] (25,144)--(25,209);
+  \node[font=\large] at (20,126) {$h$};
+\end{tikzpicture}
+\end{document}

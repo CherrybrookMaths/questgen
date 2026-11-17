@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade dots] plot[smooth,samples=60,domain=52:474] (\x,{260-210*exp(-0.5*((\x-367)/80)^2)}) -- (474,266) -- (52,266) -- cycle;
+  \draw[<->] (5,266) -- (735,266);
+  \draw[smooth,samples=90,domain=52:680] plot (\x,{260-210*exp(-0.5*((\x-367)/80)^2)});
+  \draw[aux] (367,50) -- (367,266);
+  \draw[aux] (474,{260-210*exp(-0.5*((474-367)/80)^2)}) -- (474,266);
+  \begin{scope}[every node/.style={font=\small}]
+  \node at (367,300) {$12$};
+  \node at (474,300) {$n$};
+  \node at (367,345) {Number of Pushups};
+  \node at (265,62) {Group $X$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

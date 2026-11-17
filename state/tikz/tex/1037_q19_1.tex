@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (67,415) -- (67,25);
+  \draw[->] (28,250) -- (615,250);
+  \draw (60,168) -- (67,168);
+  \node at (67,10) {$y$};
+  \node at (633,248) {$x$};
+  \node at (42,84) {$4$};
+  \node at (42,168) {$2$};
+  \node at (40,340) {$-2$};
+  \node at (48,268) {$O$};
+  \node at (299,268) {$4$};
+  \node at (508,266) {$a$};
+  \draw[line width=0.9pt] (67,82) -- (428,340) -- plot[smooth,domain=0:90,samples=30] ({500-72*cos(\x)},{340-90*sin(\x)});
+\end{tikzpicture}
+\end{document}

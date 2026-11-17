@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (18,323) -- (497,323);
+  \draw[->] (47,353) -- (47,46);
+  \node at (42,35) {$T$};
+  \node at (509,321) {$y$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=0:381] plot ({47+\x}, {245-160*exp(-0.00762*\x)});
+\end{tikzpicture}
+\end{document}

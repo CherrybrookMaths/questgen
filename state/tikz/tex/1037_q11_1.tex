@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % grid (blue in crop -> light grey)
+  \foreach \v in {10,20,...,100} \draw[black!35,line width=0.5pt] (140,{508-4.73*\v}) -- (665,{508-4.73*\v});
+  % bars
+  \foreach \i/\h in {0/17,1/29,2/35,3/47,4/66,5/94,6/99,7/100}{
+    \path[shade dots,stipple color=black!55,stipple gap=3] ({195.5+57*\i},508) rectangle ({252.5+57*\i},{508-4.73*\h});
+    \draw ({195.5+57*\i},508) rectangle ({252.5+57*\i},{508-4.73*\h});
+  }
+  % ogive
+  \draw plot coordinates {(195.5,508) (252.5,{508-4.73*17}) (309.5,{508-4.73*29}) (366.5,{508-4.73*35}) (423.5,{508-4.73*47}) (480.5,{508-4.73*66}) (537.5,{508-4.73*94}) (594.5,{508-4.73*99}) (651.5,{508-4.73*100})};
+  % axes
+  \draw (140,12) -- (140,508) -- (665,508);
+  \foreach \v in {0,20,...,100} {\draw (128,{508-4.73*\v}) -- (140,{508-4.73*\v});
+    \node[anchor=east,font=\small] at (124,{508-4.73*\v}) {$\v$};}
+  \foreach \v in {10,30,...,90} \draw (132,{508-4.73*\v}) -- (140,{508-4.73*\v});
+  \foreach \i in {0,...,7} {\draw ({224+57*\i},508) -- ({224+57*\i},520);
+    \pgfmathtruncatemacro\n{15+\i}
+    \node[font=\small] at ({221+57*\i},563) {$\n$};}
+  \node[font=\small] at (395,620) {Number of downloads};
+  \node[font=\small,rotate=90] at (37,262) {Cumulative frequency};
+\end{tikzpicture}
+\end{document}

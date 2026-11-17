@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, width=8cm, height=8cm, xmin=-3.3, xmax=3.3, ymin=-1.2, ymax=14.2,
+  xtick={-2,2}, ytick=\empty,
+  x tick label style={font=\small, anchor=north}]
+  \addplot[domain=0:180, samples=90, smooth, variable=t, line width=0.9pt] ({2*cos(t)},{6+6*sin(t)});
+  \draw[aux] (axis cs:-2,0) -- (axis cs:-2,6);
+  \draw[aux] (axis cs:2,0) -- (axis cs:2,6);
+  \node[pt] at (axis cs:-2,6) {};
+  \node[pt] at (axis cs:2,6) {};
+  \node[pt] at (axis cs:0,12) {};
+  \node[font=\small, anchor=east, inner sep=3pt] at (axis cs:-2,6) {$(-2,6)$};
+  \node[font=\small, anchor=west, inner sep=3pt] at (axis cs:2,6) {$(2,6)$};
+  \node[font=\small, anchor=south west, inner sep=3pt] at (axis cs:0,12) {$(0,12)$};
+  \node[font=\small, anchor=west] at (axis cs:1.75,10.5) {$y=g(x)$};
+  \node[font=\small, anchor=north east, inner sep=2pt] at (axis cs:0,0) {$O$};
+\end{axis}
+\end{tikzpicture}
+\end{document}
