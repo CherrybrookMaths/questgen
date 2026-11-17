@@ -933,3 +933,10 @@ reviewer can compare". A returned item shows "Your original flag / request" and 
 open in Before -> now: original crop, the version the checker reviewed (data/cmp "v1:", rebuilt from git by
 tools/redraw_before.py) and now; redraws from before 17 Nov have no kept earlier version and say so. Papers with an item back
 in review keep (or get back) their page scans (tools/image_lifecycle.py).
+
+## Flags waiting for Claude (17 Nov)
+Owner 17 Nov: "Also in fixed and back to you, two of them had to get RE flagged, they should dissappear and be added to flags
+waiting for claude. Make the flags waiting a drop down too so we can see". A question with a flag Claude has not fixed (status
+flagged, no fixed) or a diagram change request (fig 'changes') is "waiting for Claude": it is never in "Fixed and back for you",
+it has its own list (Review dropdown and Inbox card "Flags waiting for Claude"), and its top box shows the checker's flag.
+Flagging again clears the old fix (fixed: null).

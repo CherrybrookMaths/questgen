@@ -728,7 +728,12 @@ async function areas(browser, base, seed) {
         reviews['q' + q.id] = {fig: {k1: 'approved'}, fig_done: {k1: 'req -> fixed'}}; const c = !backQ(q);
         // owner 17 Nov: the original flag shows beside the fix at the top; an old redraw takes its request from fig_notes
         reviews['q' + q.id] = {status: 'flagged', note: 'the pi is wrong', fixed: {note: 'Claude 17 Nov: moved it'}, fig: {}, fig_notes: {k2: 'axis label covered'}, fig_done: {k2: '2026-11-12 redraw (fix8)'}};
-        const box = backBoxHTML(q, reviews['q' + q.id]); const d = /the pi is wrong/.test(box) && /moved it/.test(box) && /axis label covered/.test(box) && /redrawn 2026-11-12/.test(box);
+        // owner 17 Nov: a re-flag (old fix still recorded, or a new change request) leaves "back" and joins "waiting"
+        const keepB = reviews['q' + q.id];
+        reviews['q' + q.id] = {status: 'flagged', note: 'again', fixed: null, fig: {}, fig_done: {k2: 'x -> y'}}; const w1 = waitQ(q) && !backQ(q) && inFilter(q, 'waiting');
+        reviews['q' + q.id] = {fig: {k2: 'changes'}, fig_done: {k2: 'x -> y'}, fig_notes: {k2: 'redo it'}}; const w2 = waitQ(q) && !backQ(q) && /redo it/.test(backBoxHTML(q, reviews['q' + q.id]));
+        reviews['q' + q.id] = keepB;
+        const box = backBoxHTML(q, reviews['q' + q.id]); const d = /the pi is wrong/.test(box) && /moved it/.test(box) && /axis label covered/.test(box) && /redrawn 2026-11-12/.test(box) && w1 && w2;
         if (keep === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep; return {a, b, c, d} });
       assert(r.a && r.b && r.c && r.d, `back list: ${JSON.stringify(r)}`);
       return 'a fixed text flag and a redrawn diagram are in "Fixed and back for you"; once approved they leave it';

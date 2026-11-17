@@ -484,3 +484,7 @@ ztable in there arleady we will keep. Makes sense?"
   page of any exam paper holding a marked question; never in the marking guide.
 - 17 Nov first run: 2 marked (Baulkham Hills 2024 AT4 Q19, Sydney Tech 2025 AT4 Q27; wording changed to "at the back of this
   exam"). Kept with their own table: Q798, Q865, Q1099, Q1954.
+- 17 Nov, checker flags under the same ruling: Sydney Girls 2024 AT4 Q30 ("remove the z-table") and Sydney Tech 2024 AT4 Q30
+  ("Remove this table") printed the whole z-table inside the question. Both tables retired (data_tables_retired; the Sydney
+  Tech figure row is in archive/removed_figures_1117.json), the wording now points to "the table at the back of this exam", and
+  both are marked in state/work/ztable.json. A whole table printed with the question goes the same way when the checker asks.
