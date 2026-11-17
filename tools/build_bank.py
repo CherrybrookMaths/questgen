@@ -24,6 +24,7 @@ for _f in ('work/gates/gates_applied.json', 'work/gates_pilot/gates_applied.json
 for q in old['questions']:
     r = db.execute('select * from questions where id=?', (q['id'],)).fetchone()
     q['stem'] = r['stem_latex']; q['number'] = r['number']
+    if r['marks_total'] is not None: q['marks'] = r['marks_total']   # 17 Nov: a mark change in the database reaches the page (was frozen at import: Penrith 2024 Q27, Ascham 2023 Q11)
     q['section'] = r['section'] if 'section' in r.keys() else q.get('section')
     q['opt_table'] = J(r['options_table_json'])
     q['layout'] = r['options_layout'] if 'options_layout' in r.keys() else None

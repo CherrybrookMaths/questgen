@@ -1,5 +1,5 @@
 /* ---------- Review ---------- */
-const FILTERS=[['recent','Recently approved (newest first)'],['decide','Needs your decision'],['scanqs','Scans: question + solution'],['digitalqs','Digital: quick skim'],['diagrams','Diagrams to approve'],['generated','Generated solutions'],['review','Parse flagged'],['no_match','No match'],['removed','Old syllabus'],['standard','Standard course'],['scan','Scans'],['duplicate','Near-duplicates'],['audited','Self-audited'],['changes','Diagram changes requested'],['redone','Redrawn from your notes'],['all','All questions']];
+const FILTERS=[['back','Fixed and back for you'],['recent','Recently approved (newest first)'],['decide','Needs your decision'],['scanqs','Scans: question + solution'],['digitalqs','Digital: quick skim'],['diagrams','Diagrams to approve'],['generated','Generated solutions'],['review','Parse flagged'],['no_match','No match'],['removed','Old syllabus'],['standard','Standard course'],['scan','Scans'],['duplicate','Near-duplicates'],['audited','Self-audited'],['changes','Diagram changes requested'],['redone','Redrawn from your notes'],['all','All questions']];
 const qFigs=q=>figKeys(q).all.filter(redrawable);
 const qGen=q=>q.solutions.filter(s=>s.source==='generated');
 // owner 12 Nov: "way too many pills, not sure what I'm meant to check and in what order". Steps, in order.
@@ -54,9 +54,13 @@ const RKEY={_g:null,
 // questions are approved". A paper's one-click approval (and the questions it approves) counts only while no question in the
 // paper is flagged (status 'flagged') or has a diagram with changes requested; it counts again once every flag is approved.
 // flagsIn(doc) is cached for one task (cleared on the next tick), so a render that asks per question stays linear.
+// owner 17 Nov: "are the 5 papers in auto approve really ready? what about the flagged checks". A question is still open while it
+// is flagged, has a diagram with changes requested, or has a diagram Claude redrew from a request (fig_done) that the checker has
+// not approved again: the redraw needs its second check before anything in the paper counts as approved.
+const openFix=r=>!!r&&(r.status==='flagged'||Object.values(r.fig||{}).includes('changes')||Object.keys(r.fig_done||{}).some(k=>!(r.fig||{})[k]));
 let _flagMemo=null;
 function flagsIn(doc){if(!_flagMemo){_flagMemo={};setTimeout(()=>{_flagMemo=null},0);
-    for(const q of (B?.questions||[])){if(q.dup_of)continue;const r=reviews['q'+q.id];if(r&&(r.status==='flagged'||Object.values(r.fig||{}).includes('changes')))(_flagMemo[q.doc]=_flagMemo[q.doc]||[]).push(q.id)}}
+    for(const q of (B?.questions||[])){if(q.dup_of)continue;const r=reviews['q'+q.id];if(openFix(r))(_flagMemo[q.doc]=_flagMemo[q.doc]||[]).push(q.id)}}
   return (typeof RKEY!=='undefined'&&RKEY.docsOf?RKEY.docsOf(String(doc)):[doc]).flatMap(d=>_flagMemo[+d]||[])}
 const paperOK=doc=>reviews['paper_'+doc]?.status==='approved'&&!flagsIn(doc).length;
 const chkFigsAll=q=>q.tri?(q.tri.chk_figs||[]).filter(redrawable):qFigs(q);
@@ -71,7 +75,7 @@ function escalated(doc){return B.questions.some(q=>q.doc===doc&&chkFigsAll(q).so
 const chkFigs=q=>chkFigsAll(q).filter(k=>figRisk(k)[0]!=='High'||spotSet().has(k)||reviews['q'+q.id]?.fig?.[k]||escalated(q.doc));
 // owner 17 Nov: "exams should never get throug[h] until all flags are fixed": a question with a diagram change request counts as
 // flagged (not approved: out of the tutors' Bank and the exam builder) until the redraw is approved
-function qState(q){const rv=reviews['q'+(q.dup_of||q.id)],r=rv?.status; if(rv&&Object.values(rv.fig||{}).includes('changes')) return 'flagged'; if(r) return r; const t=q.tri?.tier; if(t==='auto'&&paperOK(q.doc)) return 'approved'; return null}
+function qState(q){const rv=reviews['q'+(q.dup_of||q.id)],r=rv?.status; if(rv&&rv.status!=='flagged'&&openFix(rv)) return 'flagged'; if(r) return r; const t=q.tri?.tier; if(t==='auto'&&paperOK(q.doc)) return 'approved'; return null}
 // a call Claude raised (site/project/open_decisions.json -> q.decide) is always a decision, imported or not (owner 13 Nov:
 // "isn't that the point of your calls? or is your decision different": import notes are raised as calls, never as loose notes)
 function needsDecision(q){if(reviews['q'+q.id]?.status==='flagged'||q.decide)return true;
@@ -81,9 +85,13 @@ function needsDecision(q){if(reviews['q'+q.id]?.status==='flagged'||q.decide)ret
 const callOpen=q=>!!q.decide_at&&String(reviews['q'+q.id]?.call_at||'')<q.decide_at;
 // owner 12 Nov: "I need a list of recently approved in case" — newest approvals first; F re-flags, the note says why
 function approvedAt(q){const r=reviews['q'+q.id];if(r?.status==='approved')return r.at||'';const pr=reviews['paper_'+q.doc];if(pr?.status==='approved'&&paperOK(q.doc)&&q.tri?.tier==='auto'&&!r?.status)return pr.at||'';return null}
-function inFilter(q,f){if(f==='recent')return !q.dup_of&&approvedAt(q)!=null;if(f==='tags')return homeNeed(q);if(f==='all')return !q.dup_of;if(f==='check'||f==='sample')return !q.dup_of&&q.tri?.tier===f;if(f==='decide')return !q.dup_of&&needsDecision(q);if(f==='diagrams')return !q.dup_of&&chkFigs(q).length>0;if(f==='scanqs')return !q.dup_of&&q.queues.includes('scan');if(f==='digitalqs')return !q.dup_of&&!q.queues.includes('scan');if(f==='changes')return qFigs(q).some(k=>figDec(q,k)==='changes');if(f==='redone')return Object.keys(reviews['q'+q.id]?.fig_done||{}).length>0;if(f==='generated')return !q.dup_of&&qGen(q).length>0;return !q.dup_of&&q.queues.includes(f)}   // owner: hidden duplicate copies never count in a queue ("they are misleading")
+// owner 17 Nov: "is it easy for the checker to find questions coming back again?" A question is back when Claude fixed its flag
+// (status flagged + fixed note) or redrew a diagram from a change request that has no decision yet (fig_done, no fig value)
+function backQ(q){if(q.dup_of)return false;const r=reviews['q'+q.id];if(!r)return false;
+  return (r.status==='flagged'&&!!r.fixed)||Object.keys(r.fig_done||{}).some(k=>!(r.fig||{})[k])}
+function inFilter(q,f){if(f==='back')return backQ(q);if(f==='recent')return !q.dup_of&&approvedAt(q)!=null;if(f==='tags')return homeNeed(q);if(f==='all')return !q.dup_of;if(f==='check'||f==='sample')return !q.dup_of&&q.tri?.tier===f;if(f==='decide')return !q.dup_of&&needsDecision(q);if(f==='diagrams')return !q.dup_of&&chkFigs(q).length>0;if(f==='scanqs')return !q.dup_of&&q.queues.includes('scan');if(f==='digitalqs')return !q.dup_of&&!q.queues.includes('scan');if(f==='changes')return qFigs(q).some(k=>figDec(q,k)==='changes');if(f==='redone')return Object.keys(reviews['q'+q.id]?.fig_done||{}).length>0;if(f==='generated')return !q.dup_of&&qGen(q).length>0;return !q.dup_of&&q.queues.includes(f)}   // owner: hidden duplicate copies never count in a queue ("they are misleading")
 function isTodo(q,f){if(q.dup_of)return false;if(f==='tags')return !reviews['q'+q.id]?.home&&!partsDone(q);   // a hidden copy follows the copy that was reviewed
-  if(f==='decide')return reviews['q'+q.id]?.status!=='approved'||callOpen(q);if(f==='diagrams')return chkFigs(q).some(k=>!reviews['q'+q.id]?.fig?.[k]);if(f==='check'||f==='sample')return !reviews['q'+q.id]?.status;if(f==='redone')return Object.keys(reviews['q'+q.id]?.fig_done||{}).some(k=>!figDec(q,k));if(f==='changes')return qFigs(q).some(k=>figDec(q,k)==='changes');if(f==='generated')return qGen(q).some(s=>!solDec(q,s));return !reviews['q'+q.id]?.status}
+  if(f==='decide')return reviews['q'+q.id]?.status!=='approved'||callOpen(q);if(f==='diagrams')return chkFigs(q).some(k=>!reviews['q'+q.id]?.fig?.[k]);if(f==='check'||f==='sample')return !reviews['q'+q.id]?.status;if(f==='back')return backQ(q);if(f==='redone')return Object.keys(reviews['q'+q.id]?.fig_done||{}).some(k=>!figDec(q,k));if(f==='changes')return qFigs(q).some(k=>figDec(q,k)==='changes');if(f==='generated')return qGen(q).some(s=>!solDec(q,s));return !reviews['q'+q.id]?.status}
 function statusOK(q){const r=reviews['q'+(q.dup_of||q.id)];if(rstatus==='any')return true;if(rstatus==='todo')return isTodo(q,rfilter);return r?.status===rstatus}
 let pendingOpen=null;
 // owner 12 Nov: diagram confidence by type, from first-look flag rates (297 reviewed). Riskiest first in the Diagrams queue.
@@ -121,7 +129,7 @@ function workOf(main,ids,qs){const left={},total={};STEPS.forEach(([k])=>{left[k
   qs.forEach(q=>STEPS.forEach(([k])=>{if(inFilter(q,k)){total[k]++;if(isTodo(q,k))left[k]++}}));
   const pc=PCALL.list(ids);total.decide+=pc.length;left.decide+=pc.filter(c=>c.open).length;   // calls on the paper itself count in Your calls
   // owner 17 Nov: a paper is not cleared while any diagram in it waits on a requested change (it used to count as decided)
-  const fx=qs.filter(q=>!q.dup_of&&Object.values(reviews['q'+q.id]?.fig||{}).includes('changes')).length;left.diagrams+=fx;total.diagrams+=fx;
+  const fx=qs.filter(q=>{const r=reviews['q'+q.id];return !q.dup_of&&r&&r.status!=='flagged'&&openFix(r)}).length;left.diagrams+=fx;total.diagrams+=fx;
   const ready=ids.map(paperReady).filter(Boolean);left.sample+=ready.length;
   const n=STEPS.reduce((a,[k])=>a+left[k],0);
   return {doc:main,ids,left,total,ready,n,at:(STEPS.find(([k])=>left[k]>0)||[])[0]||null}}
@@ -152,6 +160,7 @@ function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
   box.innerHTML=`<div class="ihd"><h2>Review</h2><p class="sub">What is waiting for you. Papers are walked one at a time, top to bottom.</p></div>
     ${card('papers',W.length,'Papers to review','Open a paper and walk it top to bottom: your calls, flagged, topics, diagrams, then the spot-check that approves the rest.','#review/papers','all approved',
       readyHTML()+`<ul class="iplist">${rows}</ul><a class="imore" href="#review/papers">${W.length>SHOW?`${W.length-SHOW} more · `:''}Show all papers →</a>`)}
+    ${(()=>{const nb=B.questions.filter(backQ).length;return nb?card('back',nb,'Fixed and back for you','Questions you flagged or diagrams you asked to change: Claude has fixed them. Check each one and approve it, or flag it again.','#review/list/back',''):''})()}
     <div class="ipair">${card('reports',rep,'Reports','Questions reported from an exam paper: a wrong difficulty, a wrong dot point or something else. Resolve or dismiss each one.','#review/reports','nothing open')}
     ${card('difficulty',lv,'Difficulty','HSC reference ratings: agree or change the band and kind, one part at a time.','#review/difficulty','check plan finished')}</div>
     ${handoffHTML()}<div class="ifoot"><a href="#review/list/recent">Recently approved</a><span aria-hidden="true">·</span><label>Other lists ${otherListsHTML('')}</label></div>`}

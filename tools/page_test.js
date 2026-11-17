@@ -621,7 +621,7 @@ async function areas(browser, base, seed) {
     await go(page, '#review');
     const st = await page.evaluate(() => ({rbar: !document.querySelector('#rbar').hidden, steps: document.querySelectorAll('#filters .step').length, cards: [...document.querySelectorAll('#inboxBox .icard')].map(c => c.dataset.card)}));
     errs(); assert(!st.rbar && !st.steps, `the old step row is still there (${st.steps} steps, bar ${st.rbar})`);
-    assert(st.cards.join(',') === 'papers,reports,difficulty', `Inbox cards: ${st.cards.join(',')}`);
+    assert(st.cards.filter(c => c !== 'back').join(',') === 'papers,reports,difficulty', `Inbox cards: ${st.cards.join(',')}`);   // 'back' (17 Nov) shows only when something came back fixed
     for (const [k, h, v, box] of [['difficulty', '#review/difficulty', 'levels', '#levelsView'], ['reports', '#review/reports', 'reports', '#reportsView']]) {
       await page.click(`#inboxBox [data-card="${k}"] a.ihead`); await settle(page, 4000, 2);
       const r = await page.evaluate(box => ({hash: location.hash, view, shown: !document.querySelector(box).hidden, back: document.querySelector(box + ' > a.rback')?.getAttribute('href'), cur: document.querySelector('.views a[aria-current="page"]')?.firstChild.textContent.trim()}), box);
@@ -703,6 +703,15 @@ async function areas(browser, base, seed) {
       assert(!r.skip && r.clean && /reported by a teacher/.test(r.rep) && /sent back to review/.test(r.back) && /1 question in this exam has been reported or sent back/.test(r.box) && r.mine, `exam warnings: ${JSON.stringify(r)}`);
       return 'clean exam: no warning; open report: "reported by a teacher"; flag: "sent back to review" and the notice at the top';
     });
+    await check('review: fixed flags come back in one list on the Inbox', cp, async () => {
+      const r = await cp.evaluate(() => { const q = B.questions.find(x => !x.dup_of); const keep = reviews['q' + q.id];
+        reviews['q' + q.id] = {status: 'flagged', note: 'x', fixed: {note: 'Claude: fixed'}}; const a = backQ(q) && inFilter(q, 'back');
+        reviews['q' + q.id] = {fig: {}, fig_done: {k1: 'req -> fixed'}}; const b = backQ(q);
+        reviews['q' + q.id] = {fig: {k1: 'approved'}, fig_done: {k1: 'req -> fixed'}}; const c = !backQ(q);
+        if (keep === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep; return {a, b, c} });
+      assert(r.a && r.b && r.c, `back list: ${JSON.stringify(r)}`);
+      return 'a fixed text flag and a redrawn diagram are in "Fixed and back for you"; once approved they leave it';
+    });
     await check('review: a diagram change request holds back the question and its paper', cp, async () => {
       const r = await cp.evaluate(() => {
         const q = B.questions.find(x => !x.dup_of && (B.figs ? Object.keys(B.figs).some(k => k.startsWith(x.doc + '_q')) : true)); if (!q) return {skip: true};
@@ -711,9 +720,13 @@ async function areas(browser, base, seed) {
         const ok1 = qState(q) === 'approved';
         reviews['q' + q.id] = {status: 'approved', fig: {zz_test: 'changes'}};
         const held = qState(q) !== 'approved', work = paperWork(q.doc).left.diagrams > 0;
+        reviews['q' + q.id] = {status: 'approved', fig: {}, fig_done: {zz_test: 'req -> redrawn'}};   // redrawn, not yet approved again
+        const held2 = qState(q) !== 'approved';
+        reviews['q' + q.id] = {status: 'approved', fig: {zz_test: 'approved'}, fig_done: {zz_test: 'req -> redrawn'}};
+        const ok2 = qState(q) === 'approved';
         if (keep === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep;
-        return {ok1, held, work} });
-      assert(!r.skip && r.ok1 && r.held && r.work, `diagram change request: ${JSON.stringify(r)}`);
+        return {ok1, held, work, held2, ok2} });
+      assert(!r.skip && r.ok1 && r.held && r.work && r.held2 && r.ok2, `diagram change request: ${JSON.stringify(r)}`);
       return 'approved question with a diagram change request: not approved (out of the Bank) and its paper has diagram work left';
     });
     await cp.context().close();
@@ -791,6 +804,8 @@ async function reviewFlow(browser, base, seed) {
         // a paper imported after the fixture was taken has no review decision at all, so it has work (16 Nov: Batch 6)
         fresh: [...new Set(B.questions.map(q => String(q.doc)))].filter(d => !reviews['paper_' + d] && B.questions.filter(q => String(q.doc) === d).every(q => !reviews['q' + q.id] && !(q.key && reviews['k_' + q.key]))).map(d => mainDoc(d)).filter(d => [...allWork().values()].some(w => String(w.doc) === String(d))), rep: repOpen().length, lv: lvTodoN(), view, rbar: !document.querySelector('#rbar').hidden,
         pn: card('papers')?.querySelector('.ict')?.textContent, rows: [...document.querySelectorAll('#inboxBox .iprow')].map(a => ({href: a.getAttribute('href'), dots: a.querySelectorAll('.mtrack i').length, line: a.querySelector('.ipl').textContent})),
+        // 17 Nov: a diagram redrawn from a change request and not approved again keeps its paper open (openFix)
+        redo: [...new Set(B.questions.filter(q => !q.dup_of && (() => { const x = reviews['q' + q.id]; return x && x.status !== 'flagged' && Object.keys(x.fig_done || {}).some(k => !(x.fig || {})[k]) })()).map(q => String(mainDoc(q.doc))))],
         all: card('papers')?.querySelector('a.imore')?.getAttribute('href'),
         repDone: card('reports')?.classList.contains('idone'), repTxt: card('reports')?.innerText, lvDone: card('difficulty')?.classList.contains('idone'), lvTxt: card('difficulty')?.innerText, lvHref: card('difficulty')?.querySelector('a')?.getAttribute('href'),
         tab: document.querySelector('#todoN').textContent, sw: document.querySelector('#curN').textContent,
@@ -798,7 +813,7 @@ async function reviewFlow(browser, base, seed) {
     });
     errs(); assert(r.view === 'inbox' && !r.rbar, `#review opened view ${r.view} (bar shown ${r.rbar})`);
     // the fixture's workload is 1346, 323, 1601; every paper with an open call raised on it (open_decisions.json "paper_<doc>") has work too (owner 13 Nov)
-    const wantDocs = [...new Set(['1346', '1601', '323', ...r.pc, ...r.fresh.map(String)])].sort();
+    const wantDocs = [...new Set(['1346', '1601', '323', ...r.pc, ...r.fresh.map(String), ...r.redo])].sort();
     assert(r.want === wantDocs.length && r.docs.join(',') === wantDocs.join(','), `papers with work: ${r.docs.join(',')} (want ${wantDocs.join(',')})`);
     // the card lists at most 8 papers (08_review.js SHOW), then "Show all papers"
     assert(r.pn === String(r.want) && r.rows.length === Math.min(8, r.want), `Papers card says ${r.pn}, ${r.rows.length} rows, want ${r.want} (${Math.min(8, r.want)} rows)`);
@@ -947,9 +962,11 @@ async function reviewFlow(browser, base, seed) {
     const q = await page.evaluate(() => ({hash: location.hash, rfilter, id: rlist[ridx]?.id, call: [...document.querySelectorAll('#rout .callout')].map(c => c.textContent).join(' '), left: paperWork(rdoc).left.decide}));
     errs(); assert(q.hash === `#review/paper/${qc.doc}/calls` && q.rfilter === 'decide' && q.id === qc.id && /Needs your decision: Test call raised after approval/.test(q.call) && q.left === 1, `question call: ${JSON.stringify(q)}`);
     const n0 = await logN(); await page.keyboard.press('a'); await settle(page, 3000, 2);
-    const w = (await writes(n0, 'reviews/' + await page.evaluate(id => RKEY.qdoc(B.questions.find(q => q.id === id)), qc.id))).pop(), after = await page.evaluate(d => ({left: paperWork(d).left.decide, inbox: [...allWork().values()].filter(w => w.n).length}), qc.doc);
+    const w = (await writes(n0, 'reviews/' + await page.evaluate(id => RKEY.qdoc(B.questions.find(q => q.id === id)), qc.id))).pop(), after = await page.evaluate(d => ({left: paperWork(d).left.decide, inbox: [...allWork().values()].filter(w => w.n).length, docs: [...allWork().values()].filter(w => w.n).map(w => w.doc)}), qc.doc);
     errs(); assert(w && w.v.status === 'approved' && w.v.call_at >= (await page.evaluate(id => B.questions.find(q => q.id === id).decide_at, qc.id)) && after.left === 0, `answering the question call: ${JSON.stringify(w && w.v)}, left ${after.left}`);
-    assert(after.inbox === Object.keys(ib.W).length - live.length - 1, `Inbox papers after answering: ${after.inbox}, before ${Object.keys(ib.W).length}`);
+    // 17 Nov: a live paper whose call is answered leaves the Inbox only if nothing else is open in it (a redraw waiting for its second check keeps it)
+    const gone = Object.keys(ib.W).filter(d => !after.docs.map(String).includes(String(d)));
+    assert(gone.includes(String(qc.doc)) && gone.every(d => [...live, qc.doc].map(String).includes(d)) && after.inbox === Object.keys(ib.W).length - gone.length, `Inbox papers after answering: ${after.inbox}, before ${Object.keys(ib.W).length}; live ${live}; qc ${qc.doc}; gone ${Object.keys(ib.W).filter(d => !after.docs.map(String).includes(String(d)))}`);
     return `paper calls ${shown.join(', ') || 'none open'}; question call on ${qc.doc} Q${qc.id}; Inbox ${Object.keys(ib.W).length} → ${after.inbox}`;
   });
   await page.context().close();
@@ -1922,7 +1939,9 @@ async function queueChecks(browser, base, seed) {
     const drag = async (dx, dy) => { await page.evaluate(k => document.querySelector(`#xPages [data-figw="${k}"]`).scrollIntoView({block: 'center'}), k); await settle(page, 800, 2); const a = await figState(page, k); await page.mouse.move(a.box.x + a.box.w / 2, a.box.y + a.box.h / 2); const b = await figState(page, k);
       await page.mouse.move(b.hx, b.hy); await page.mouse.down(); await page.mouse.move(b.hx + dx, b.hy + dy, {steps: 6}); await page.mouse.up(); await settle(page, 4000, 2); return figState(page, k) };
     const big = await drag(900, 1400); const small = await drag(-1500, -2400);
-    assert(big.fs === 2, `dragging far out gives ${big.fs}, expected 2`); assert(small.fs === 0.3, `dragging far in gives ${small.fs}, expected 0.3`);
+    const colW = await page.evaluate(k => { const fw = document.querySelector(`#xPages [data-figw="${k}"]`); const col = fw?.closest('.xcol, .xbody, .xpage') || fw?.parentElement; return col ? col.getBoundingClientRect().width : 0 }, k);
+    // 17 Nov: a diagram already wide at 100% stops at the column width before 200% (the exam is random, so which diagram varies)
+    assert(big.fs === 2 || (big.fs > 1 && big.box.w >= colW * 0.9), `dragging far out gives ${big.fs} (width ${Math.round(big.box.w)} of column ${Math.round(colW)}), expected 2 or the full column`); assert(small.fs === 0.3, `dragging far in gives ${small.fs}, expected 0.3`);
     await page.evaluate(k => document.querySelector(`#xPages [data-figw="${k}"]`).scrollIntoView({block: 'center'}), k); await settle(page, 800, 2); const c = await figState(page, k); await page.mouse.move(c.box.x + c.box.w / 2, c.box.y + c.box.h / 2); const d = await figState(page, k);
     await page.mouse.dblclick(d.hx, d.hy); await laidOut(page);
     const r = await page.evaluate(k => ({has: k in EX.figscale, fs: EX.figscale[k]}), k), e = await figState(page, k);
