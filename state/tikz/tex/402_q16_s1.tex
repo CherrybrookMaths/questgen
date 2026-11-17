@@ -11,7 +11,7 @@
   \pgfmathsetmacro\aPB{atan2(75,-300)}        % direction P->B
   \draw (B) -- (P) -- (H);
   \draw[->] (563,476) -- (563,68);
-  \draw[<->] (355,216) -- (355,94);
+  \draw[<->] (355,236) -- (355,80);  % checker 17 Nov: N-S line lengthened so the wider 250 arc meets it below the arrowhead
   \fill (B) circle (2.4pt) (P) circle (2.4pt);
   % angles at H: 40 between north and HP; bearing 320 clockwise from north to HP
   \draw (H) ++(-90:44) arc[start angle=-90, end angle=\aHP-360, radius=44];
@@ -22,15 +22,17 @@
   % checker 17 Nov: "stagger their markers" -> 140 inner, 40 middle, 250 outer (three distinct radii)
   \draw (P) ++(-90:20) arc[start angle=-90, end angle=\aPH, radius=20];
   \draw (P) ++(\aPH:33) arc[start angle=\aPH, end angle=90, radius=33];
-  \draw (P) ++(-90:48) arc[start angle=-90, end angle=\aPB+360, radius=48];
-  \node at (436,146) {$140^\circ$};
-  \node at (390,232) {$40^\circ$};
-  \node at (288,226) {$250^\circ$};
+  % checker 17 Nov: "Make the 140 degree and 250 degree markers at different widths cos they look like one circle":
+  % 250 arc now r=60 (was 48, and its end angle +360 made it a full loop) sweeping north clockwise to PB only, with its arrow
+  \draw[->] (P) ++(-90:60) arc[start angle=-90, end angle=\aPB, radius=60];
+  \node at (452,140) {$140^\circ$};
+  \node at (402,238) {$40^\circ$};
+  \node at (276,236) {$250^\circ$};
   \node[font=\large] at (44,190) {$B$};
-  \node[font=\large] at (402,96) {$P$};  % nudged clear of the larger 250 arc
+  \node[font=\large] at (410,88) {$P$};  % nudged clear of the larger 250 arc
   \node[font=\large] at (602,330) {$H$};
   \node[font=\large] at (602,72) {$N$};
-  \node[font=\large] at (355,74) {$N$};
+  \node[font=\large] at (355,60) {$N$};
   \node[font=\large, rotate=14] at (206,152) {5 km};
   \node[font=\large, rotate=-38] at (468,204) {4 km};
 \end{tikzpicture}
