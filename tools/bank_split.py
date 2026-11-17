@@ -50,7 +50,7 @@ DETAILS = OUT + 'details.gz.json'
 Q_CONTENT = ('stem', 'options', 'opt_table', 'layout', 'figures')            # whole fields that move to the topic file
 P_INDEX = ('id', 'label', 'parent', 'marks', 't24', 'dif', 'skills', 'tagd')   # part fields every list needs; the rest is content
 # job 2 (owner 16 Nov: "Yeah build it"): of those, what the start index keeps; the rest goes to details.gz.json
-Q_START = ('id', 'doc', 'number', 'type', 'marks', 'key', 'dup_of', 'decide', 'old', 'std')
+Q_START = ('id', 'doc', 'number', 'type', 'marks', 'key', 'dup_of', 'decide', 'old', 'std', 'zt')   # zt: owner 17 Nov z-score table at the back (tools/ztable.py)
 # details: every other question field (section, review_note, pages, related, queues, decide_at, ...) + solutions, tri (full)
 P_START = ('id', 'label', 'parent', 'marks')                                  # + slim t24 / tagd / dif below
 P_DETAIL = ('t24', 'tagd', 'dif', 'skills')                                   # in full

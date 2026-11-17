@@ -215,6 +215,11 @@ function refreshReview(){ if(typeof renderJobs==='function')renderJobs();
   renderReview();
 }
 const figMode={};
+// owner 17 Nov: "we need to know what the original flag is so the reviewer can compare". fig_done is
+// "<checker's request> -> Claude <time>: <what changed>"; redraws from before 17 Nov hold only "<date> redraw (fixN)".
+function doneHTML(done){const i=done.indexOf(' -> ');
+  if(i<0)return `<div class="callout"><b>Your original request:</b> not recorded (redrawn ${esc(done)}, before requests were kept). Compare the original with the redraw now.</div>`;
+  return `<div class="callout"><div><b>Your original request:</b> ${esc(done.slice(0,i))}</div><div><b>What Claude changed:</b> ${esc(done.slice(i+4).replace(/^Claude [^:]*: /,''))}</div></div>`}
 function figCompareHTML(q){
   const ks=qFigs(q); if(!ks.length) return '';
   const row=k=>{const f=B.figs[k],dec=figDec(q,k);
@@ -226,11 +231,11 @@ function figCompareHTML(q){
     const views={
       side:`<div class="cmp"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>${f.status==='table'?'As a table':'Redrawn (now)'}</figcaption>${right}</figure></div>`,
       overlay:`<figure class="ovfig"><figcaption><span style="color:#e12d2d">■ only in original</span> · <span style="color:#285ae6">■ only in redraw</span> · <span style="color:var(--ink)">■ both</span></figcaption><img class="fig" alt="Overlay of original and redraw" data-k="${k}" data-kind="ov"></figure>${ov}`,
-      before:`${done?`<div class="callout"><b>Your note:</b> ${esc(done)}</div>`:''}<div class="cmp3"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>Before (the version you reviewed)</figcaption><img class="fig" alt="First redraw" data-k="${k}" data-kind="v1"></figure><figure><figcaption>Now</figcaption>${right}</figure></div>`};
+      before:`${done?doneHTML(done):''}<div class="cmp3"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>Before (the version you reviewed)</figcaption><img class="fig" alt="First redraw" data-k="${k}" data-kind="v1"></figure><figure><figcaption>Now</figcaption>${right}</figure></div>`};
     return `<div class="figrow">${tabs}${views[f.status==='table'?'side':mode]}
       <div class="row">${f.status==='approx'?'<span class="badge b-scan">estimated shape</span>':''}${f.check==='fixed'?'<span class="badge b-acc">fixed by checker</span>':''}${f.check==='concern'?'<span class="badge b-bad">checker concern</span>':''}
         ${dec?`<span class="badge ${dec==='approved'?'b-ok':dec==='changes'?'b-gen':'b-bad'}">${dec==='approved'?'redraw approved':dec==='changes'?'changes requested':'keeping original'}</span>`:''}</div>
-      ${!dec&&done&&mode!=='before'?`<div class="callout"><b>Redrawn from your note:</b> ${esc(done)}</div>`:''}
+      ${!dec&&done&&mode!=='before'?doneHTML(done):''}
       ${dec==='changes'&&reviews['q'+q.id]?.fig_notes?.[k]?`<div class="callout"><b>Your request:</b> ${esc(reviews['q'+q.id].fig_notes[k])}</div>`:''}
       ${f.notes?`<details class="help"><summary>What was changed</summary>${esc(f.notes).split(' | ').map(x=>`<div>${x}</div>`).join('')}</details>`:''}${f.check_notes&&f.check!=='pass'?`<div class="help"><b>Checker:</b> ${esc(f.check_notes)}</div>`:''}
       <div class="row"><button class="act ok" data-fig="${k}" data-v="approved">Use redraw</button><button class="act" data-figreq="${k}">Request changes</button><button class="act warn" data-fig="${k}" data-v="rejected">Keep original</button></div>
@@ -439,12 +444,14 @@ function renderReview(){
     ${q.decide?`<div class="callout"><b>Needs your decision:</b> ${tex(q.decide)}</div>`:''}${q.review_note&&!/^scan (path|transcription)[^|;]*$/i.test(q.review_note.trim())?`<details class="figdone" style="color:var(--muted)"><summary style="color:var(--warn)">Transcription notes</summary><div class="help">${esc(q.review_note)}</div></details>`:''}${rel?`<div class="help">Also appears as: ${esc(rel)}</div>`:''}
     ${figCompareHTML(q)}
     <div class="section"><h4>Question as it will appear</h4>${qBody(q,'review')}</div>
-    <div class="decision">${r?.note?`<div class="help"><b>Your note:</b> ${esc(r.note)}</div>`:''}${r?.status==='flagged'&&r?.fixed?.note?`<div class="banner"><span><b>Fixed:</b> ${esc(r.fixed.note.replace(/^Claude \d+ \w+: /,''))}</span></div>`:''}
+    <div class="decision">${r?.status==='flagged'&&r?.fixed?.note?`<div class="callout"><div><b>Your original flag:</b> ${esc(r.note||'(no note written)')}</div><div><b>What Claude changed:</b> ${esc(r.fixed.note.replace(/^Claude \d+ \w+: /,''))}</div><div class="help">Compare with the page scan above, then approve or flag again.</div></div>`:r?.note?`<div class="help"><b>Your note:</b> ${esc(r.note)}</div>`:''}
       <div class="row"><button class="act ok" id="approve"><kbd>A</kbd> Approve question + solution</button><span class="help">Approving also approves any model-written solution shown here that you haven't rejected.</span><button class="act warn" id="flag"><kbd>F</kbd> Flag</button>
+      <button class="act ghost" id="ztog" aria-pressed="${needsZ(q)}" title="Use when the question refers to a z-score table that is not printed with it: exams with this question get the table on the last page">${needsZ(q)?'✓ ':''}Z-score table at the back</button>
       <span class="help">${db?'Decisions save for everyone with access.':'Saving is off in this view; decisions are not kept.'}</span></div>
       <div class="flagbox" id="qflag" hidden><label class="help" for="note">What's wrong? <kbd>Enter</kbd> sends the flag, <kbd>Esc</kbd> cancels.</label><input id="note" type="text" placeholder="e.g. Part (b) is missing the integral bounds" value="${esc(r?.status==='flagged'?r.note||'':'')}"></div></div>`;
   hydrate($('#rout'),q,'review'); hydrate($('#src'),q,'review'); typeset($('#rout'));
   $('#approve').onclick=()=>decide('approved'); $('#flag').onclick=openQFlag;
+  $('#ztog').onclick=async()=>{await write(q,{zt:!needsZ(q)});renderReview()};
   // owner 12 Nov: flag like the diagrams step: F opens a one-line box, type the reason, Enter sends, Esc cancels
   $('#note').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();if(!$('#note').value.trim()){toast('Type a reason first');return}decide('flagged')}else if(e.key==='Escape'){$('#qflag').hidden=true;$('#note').blur()}};
   $$('#rout [data-fig]').forEach(b=>{if(b.tagName==='BUTTON')b.onclick=()=>setFig(q,b.dataset.fig,b.dataset.v)});

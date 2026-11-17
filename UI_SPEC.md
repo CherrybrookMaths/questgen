@@ -920,3 +920,16 @@ finishes, should't it just add it to the record? Instead of sitting in a massive
 - The page cannot write the record (questions.db); the night run records new files every night (NIGHT.md step 2), so the
   course groups start folded with their counts, and the note says the night run records them.
 
+
+## Z-score table at the back (17 Nov)
+Owner 17 Nov: "We need a way to append a z score table at the back of exams which ahve those questions tho" and "Questions
+which have a pportion of the ztable in there arleady we will keep." Exam paper (not the marking guide): when any question
+needs the table (bank q.zt from tools/ztable.py, or Review's "Z-score table at the back" toggle, reviews zt, which wins), the
+last page is the standard normal table, computed by the page. Details: IMPORT_PLAYBOOK "Z-score table at the back of an exam".
+
+## Fixed and back: the original flag beside the fix (17 Nov)
+Owner 17 Nov: "For the fixed and back to you, the page image is gone and also we need to know what the original flag is so the
+reviewer can compare". A returned item shows "Your original flag / request" and "What Claude changed" separately. Diagrams
+open in Before -> now: original crop, the version the checker reviewed (data/cmp "v1:", rebuilt from git by
+tools/redraw_before.py) and now; redraws from before 17 Nov have no kept earlier version and say so. Papers with an item back
+in review keep (or get back) their page scans (tools/image_lifecycle.py).

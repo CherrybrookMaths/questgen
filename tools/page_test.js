@@ -399,6 +399,24 @@ async function flows(browser, base, seed, seedR) {
     return `${r.n} sheets`;
   });
   if (!QUICK) await check('export: Word (marking guide)', page, wordCheck);
+  // owner 17 Nov: exams holding a question that refers to the z-score table at the back get the table on the last page
+  await check('preview: z-score table at the back only when a question needs it', page, async () => {
+    const id = await page.evaluate(() => { const id = EX.items[0]; reviews['q' + id] = { ...(reviews['q' + id] || {}), zt: true }; return id; });
+    await page.click('[data-xdoc="exam"]'); await waitPv();
+    const on = await page.evaluate(() => { const t = document.querySelector('#xPages .xztab'); const sh = t?.closest('.sheet');
+      return { has: !!t, last: sh === [...document.querySelectorAll('#xPages .sheet')].pop(), rows: t?.querySelectorAll('tbody tr').length,
+        v: t?.querySelector('tbody tr:nth-child(11) td')?.textContent, v2: t?.querySelector('tbody tr:nth-child(20) td:nth-child(8)')?.textContent }; });
+    const r = await sheetCheck(); errs();
+    assert(on.has && on.last, 'no z-score table on the last sheet'); assert(!r.over.length, 'z-score table sheet taller than A4');
+    assert(on.rows === 35 && on.v === '0.8413' && on.v2 === '0.9750', `table values wrong: rows ${on.rows}, z=1.00 ${on.v}, z=1.96 ${on.v2}`);
+    await page.evaluate(id => { reviews['q' + id].zt = false; }, id);
+    await page.click('[data-xdoc="guide"]'); await waitPv();
+    assert(!(await page.$('#xPages .xztab')), 'marking guide shows the z-score table');
+    await page.click('[data-xdoc="exam"]'); await waitPv();
+    assert(!(await page.$('#xPages .xztab')), 'z-score table shown with no question that needs it');
+    await page.evaluate(id => { delete reviews['q' + id].zt; }, id);
+    return 'appended once, values match P(Z<=z)';
+  });
 
   /* ---- Reports: report a question from the paper; it shows on the Reports tab ---- */
   let repQ = null;
@@ -2229,8 +2247,9 @@ async function dataSplit(browser, base, seed) {
   // job 3 (owner 14 Nov: "What if we dropped them and rerendered them in the new location?"): tools/image_lifecycle.py
   await check('images: a cleared paper reads crops from its crop group and says its scans are gone; a paper in review keeps both', null, async () => {
     const crop = {}; for (const f of fs.readdirSync(path.join(SITE, 'data/crop')).filter(f => /^g\d+\.json$/.test(f))) Object.assign(crop, JSON.parse(fs.readFileSync(path.join(SITE, 'data/crop', f), 'utf8')));
-    const ck = Object.keys(crop)[0].replace(/^figures\/|\.png$/g, ''), cdoc = ck.split('_')[0];
     const kept = fs.readdirSync(path.join(SITE, 'data/img')).filter(f => /^\d+\.json$/.test(f)).map(f => f.slice(0, -5));
+    // 17 Nov: a cleared paper with an item back in review gets its scans back (image_lifecycle), so pick a crop whose paper has none
+    const ck = Object.keys(crop).map(k => k.replace(/^figures\/|\.png$/g, '')).find(k => !kept.includes(k.split('_')[0])), cdoc = ck.split('_')[0];
     assert(kept.length, 'no paper in review has a per-paper pack: pick another fixture');
     const kpack = JSON.parse(fs.readFileSync(path.join(SITE, 'data/img', kept[0] + '.json'), 'utf8')), kpage = Object.keys(kpack).find(k => k.startsWith('pages/'));
     const p = await newPage(browser, base, seed, {width: 1280, theme: 'light'}); log(p);

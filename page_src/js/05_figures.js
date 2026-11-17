@@ -36,7 +36,7 @@ function hydrate(root,q,mode){
   });
   root.querySelectorAll('img[data-k]').forEach(im=>{
     const k=im.dataset.k, doc=k.split('_')[0];
-    if(im.dataset.kind==='ov'||im.dataset.kind==='v1'){cmps(doc).then(m=>{const v=m[im.dataset.kind+':'+k];if(v)im.src=v;else im.alt='Not available'});return}
+    if(im.dataset.kind==='ov'||im.dataset.kind==='v1'){cmps(doc).then(m=>{const v=m[im.dataset.kind+':'+k];if(v)im.src=v;else{im.alt='Not kept: redrawn before 17 Nov, compare the original with now';im.title=im.alt}});return}
     if(im.dataset.kind==='svg') svgs(doc).then(m=>{if(m[k]){if(m[k].startsWith('data:image/png'))im.onload=()=>{im.style.width=Math.round(im.naturalWidth*0.32)+'px'};im.src=m[k]}else im.alt='Redraw missing'});
     else pack(doc).then(m=>{const p='figures/'+k+'.png';if(m[p]){im.onload=()=>{im.style.width=Math.round(im.naturalWidth*0.48)+'px'};im.src=m[p]}else im.alt='Image missing: '+k});
   });

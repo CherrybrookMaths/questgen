@@ -589,6 +589,9 @@ body.xpv-on{overflow:hidden}
 /* owner 17 Nov: questions in an exam that were reported or sent back to review */
 .xlist .xwarn,#xPanel .xwarn{display:block;color:var(--warn);font-weight:600}
 .xwarnbox{margin:6px 0 8px;padding:8px 10px;border-radius:8px;background:var(--warn-soft);color:var(--warn);font-size:13px;font-weight:600}
+/* z-score table at the back of an exam (owner 17 Nov; 19_ztable.js): one A4 page */
+.xztab p{font-size:9.5pt;margin:0 0 3mm}.xzt{border-collapse:collapse;font:8.5pt/1.25 var(--serif,serif);font-variant-numeric:tabular-nums;width:100%}
+.xzt th,.xzt td{border:1px solid #999;padding:.5mm 1.2mm;text-align:center}.xzt thead th,.xzt tbody th{background:#eee;font-weight:700}
 /* ---- Difficulty check (owner 14 Nov: "Make it both desktop and mobile friendly, I might want to approve on the go today") ---- */
 .levels{padding-block:14px 0;max-width:860px;margin-inline:auto}
 .lvtop{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-bottom:14px}
@@ -2355,7 +2358,7 @@ function hydrate(root,q,mode){
   });
   root.querySelectorAll('img[data-k]').forEach(im=>{
     const k=im.dataset.k, doc=k.split('_')[0];
-    if(im.dataset.kind==='ov'||im.dataset.kind==='v1'){cmps(doc).then(m=>{const v=m[im.dataset.kind+':'+k];if(v)im.src=v;else im.alt='Not available'});return}
+    if(im.dataset.kind==='ov'||im.dataset.kind==='v1'){cmps(doc).then(m=>{const v=m[im.dataset.kind+':'+k];if(v)im.src=v;else{im.alt='Not kept: redrawn before 17 Nov, compare the original with now';im.title=im.alt}});return}
     if(im.dataset.kind==='svg') svgs(doc).then(m=>{if(m[k]){if(m[k].startsWith('data:image/png'))im.onload=()=>{im.style.width=Math.round(im.naturalWidth*0.32)+'px'};im.src=m[k]}else im.alt='Redraw missing'});
     else pack(doc).then(m=>{const p='figures/'+k+'.png';if(m[p]){im.onload=()=>{im.style.width=Math.round(im.naturalWidth*0.48)+'px'};im.src=m[p]}else im.alt='Image missing: '+k});
   });
@@ -2852,6 +2855,11 @@ function refreshReview(){ if(typeof renderJobs==='function')renderJobs();
   renderReview();
 }
 const figMode={};
+// owner 17 Nov: "we need to know what the original flag is so the reviewer can compare". fig_done is
+// "<checker's request> -> Claude <time>: <what changed>"; redraws from before 17 Nov hold only "<date> redraw (fixN)".
+function doneHTML(done){const i=done.indexOf(' -> ');
+  if(i<0)return `<div class="callout"><b>Your original request:</b> not recorded (redrawn ${esc(done)}, before requests were kept). Compare the original with the redraw now.</div>`;
+  return `<div class="callout"><div><b>Your original request:</b> ${esc(done.slice(0,i))}</div><div><b>What Claude changed:</b> ${esc(done.slice(i+4).replace(/^Claude [^:]*: /,''))}</div></div>`}
 function figCompareHTML(q){
   const ks=qFigs(q); if(!ks.length) return '';
   const row=k=>{const f=B.figs[k],dec=figDec(q,k);
@@ -2863,11 +2871,11 @@ function figCompareHTML(q){
     const views={
       side:`<div class="cmp"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>${f.status==='table'?'As a table':'Redrawn (now)'}</figcaption>${right}</figure></div>`,
       overlay:`<figure class="ovfig"><figcaption><span style="color:#e12d2d">■ only in original</span> · <span style="color:#285ae6">■ only in redraw</span> · <span style="color:var(--ink)">■ both</span></figcaption><img class="fig" alt="Overlay of original and redraw" data-k="${k}" data-kind="ov"></figure>${ov}`,
-      before:`${done?`<div class="callout"><b>Your note:</b> ${esc(done)}</div>`:''}<div class="cmp3"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>Before (the version you reviewed)</figcaption><img class="fig" alt="First redraw" data-k="${k}" data-kind="v1"></figure><figure><figcaption>Now</figcaption>${right}</figure></div>`};
+      before:`${done?doneHTML(done):''}<div class="cmp3"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>Before (the version you reviewed)</figcaption><img class="fig" alt="First redraw" data-k="${k}" data-kind="v1"></figure><figure><figcaption>Now</figcaption>${right}</figure></div>`};
     return `<div class="figrow">${tabs}${views[f.status==='table'?'side':mode]}
       <div class="row">${f.status==='approx'?'<span class="badge b-scan">estimated shape</span>':''}${f.check==='fixed'?'<span class="badge b-acc">fixed by checker</span>':''}${f.check==='concern'?'<span class="badge b-bad">checker concern</span>':''}
         ${dec?`<span class="badge ${dec==='approved'?'b-ok':dec==='changes'?'b-gen':'b-bad'}">${dec==='approved'?'redraw approved':dec==='changes'?'changes requested':'keeping original'}</span>`:''}</div>
-      ${!dec&&done&&mode!=='before'?`<div class="callout"><b>Redrawn from your note:</b> ${esc(done)}</div>`:''}
+      ${!dec&&done&&mode!=='before'?doneHTML(done):''}
       ${dec==='changes'&&reviews['q'+q.id]?.fig_notes?.[k]?`<div class="callout"><b>Your request:</b> ${esc(reviews['q'+q.id].fig_notes[k])}</div>`:''}
       ${f.notes?`<details class="help"><summary>What was changed</summary>${esc(f.notes).split(' | ').map(x=>`<div>${x}</div>`).join('')}</details>`:''}${f.check_notes&&f.check!=='pass'?`<div class="help"><b>Checker:</b> ${esc(f.check_notes)}</div>`:''}
       <div class="row"><button class="act ok" data-fig="${k}" data-v="approved">Use redraw</button><button class="act" data-figreq="${k}">Request changes</button><button class="act warn" data-fig="${k}" data-v="rejected">Keep original</button></div>
@@ -3076,12 +3084,14 @@ function renderReview(){
     ${q.decide?`<div class="callout"><b>Needs your decision:</b> ${tex(q.decide)}</div>`:''}${q.review_note&&!/^scan (path|transcription)[^|;]*$/i.test(q.review_note.trim())?`<details class="figdone" style="color:var(--muted)"><summary style="color:var(--warn)">Transcription notes</summary><div class="help">${esc(q.review_note)}</div></details>`:''}${rel?`<div class="help">Also appears as: ${esc(rel)}</div>`:''}
     ${figCompareHTML(q)}
     <div class="section"><h4>Question as it will appear</h4>${qBody(q,'review')}</div>
-    <div class="decision">${r?.note?`<div class="help"><b>Your note:</b> ${esc(r.note)}</div>`:''}${r?.status==='flagged'&&r?.fixed?.note?`<div class="banner"><span><b>Fixed:</b> ${esc(r.fixed.note.replace(/^Claude \d+ \w+: /,''))}</span></div>`:''}
+    <div class="decision">${r?.status==='flagged'&&r?.fixed?.note?`<div class="callout"><div><b>Your original flag:</b> ${esc(r.note||'(no note written)')}</div><div><b>What Claude changed:</b> ${esc(r.fixed.note.replace(/^Claude \d+ \w+: /,''))}</div><div class="help">Compare with the page scan above, then approve or flag again.</div></div>`:r?.note?`<div class="help"><b>Your note:</b> ${esc(r.note)}</div>`:''}
       <div class="row"><button class="act ok" id="approve"><kbd>A</kbd> Approve question + solution</button><span class="help">Approving also approves any model-written solution shown here that you haven't rejected.</span><button class="act warn" id="flag"><kbd>F</kbd> Flag</button>
+      <button class="act ghost" id="ztog" aria-pressed="${needsZ(q)}" title="Use when the question refers to a z-score table that is not printed with it: exams with this question get the table on the last page">${needsZ(q)?'✓ ':''}Z-score table at the back</button>
       <span class="help">${db?'Decisions save for everyone with access.':'Saving is off in this view; decisions are not kept.'}</span></div>
       <div class="flagbox" id="qflag" hidden><label class="help" for="note">What's wrong? <kbd>Enter</kbd> sends the flag, <kbd>Esc</kbd> cancels.</label><input id="note" type="text" placeholder="e.g. Part (b) is missing the integral bounds" value="${esc(r?.status==='flagged'?r.note||'':'')}"></div></div>`;
   hydrate($('#rout'),q,'review'); hydrate($('#src'),q,'review'); typeset($('#rout'));
   $('#approve').onclick=()=>decide('approved'); $('#flag').onclick=openQFlag;
+  $('#ztog').onclick=async()=>{await write(q,{zt:!needsZ(q)});renderReview()};
   // owner 12 Nov: flag like the diagrams step: F opens a one-line box, type the reason, Enter sends, Esc cancels
   $('#note').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();if(!$('#note').value.trim()){toast('Type a reason first');return}decide('flagged')}else if(e.key==='Escape'){$('#qflag').hidden=true;$('#note').blur()}};
   $$('#rout [data-fig]').forEach(b=>{if(b.tagName==='BUTTON')b.onclick=()=>setFig(q,b.dataset.fig,b.dataset.v)});
@@ -3472,6 +3482,25 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
 })();
 </script>
 <script>
+// Z-score table at the back of an exam (owner 17 Nov: "Some questions say refer to the z score table at the back of the exam.
+// For THOSE specifically, we arenot adding the z score table in ... We need a way to append a z score table at the back of
+// exams which ahve those questions tho." and "Questions which have a pportion of the ztable in there arleady we will keep.").
+// A question needs it when the bank marks it (q.zt, from state/work/ztable.json via build_bank.py) or Review sets reviews.zt;
+// an explicit zt:false in Review overrides the bank. The values are computed here (P(Z <= z), 4 dp), not copied from a paper.
+const needsZ=q=>{const v=reviews['q'+q.id]?.zt;return v===undefined?!!q?.zt:!!v};
+const zPhi=z=>{const n=2000,h=z/n,f=t=>Math.exp(-t*t/2);let s=f(0)+f(z);   // Simpson's rule on the normal density: error < 1e-12
+  for(let i=1;i<n;i++)s+=(i%2?4:2)*f(i*h);return 0.5+s*h/3/Math.sqrt(2*Math.PI)};
+let zTabCache='';
+function zTableHTML(){if(zTabCache)return zTabCache;
+  const cols=[...Array(10).keys()],rows=[...Array(35).keys()];
+  const head=`<tr><th><i>z</i></th>${cols.map(c=>`<th>0.0${c}</th>`).join('')}</tr>`;
+  const body=rows.map(r=>`<tr><th>${(r/10).toFixed(1)}</th>${cols.map(c=>`<td>${zPhi(r/10+c/100).toFixed(4)}</td>`).join('')}</tr>`).join('');
+  return zTabCache=`<div class="xztab"><div class="xsechd">Standard normal distribution table</div>
+    <p>The table gives <i>P</i>(<i>Z</i> ≤ <i>z</i>), the area under the standard normal curve to the left of <i>z</i>, for <i>Z</i> ~ <i>N</i>(0, 1).
+    For negative <i>z</i>, use <i>P</i>(<i>Z</i> ≤ −<i>z</i>) = 1 − <i>P</i>(<i>Z</i> ≤ <i>z</i>).</p>
+    <table class="xzt"><thead>${head}</thead><tbody>${body}</tbody></table></div>`}
+</script>
+<script>
 /* ===================== Exam builder (owner 13 Nov, stage 1) =====================
    Owner: "can we implement something like this [his HSC exam maker] on this artifact?" -> "yeah do that".
    Stage 1 = build by hand: "Add to exam" on every bank card, an exam panel, an A4 preview (cover, Section I/II,
@@ -3583,7 +3612,11 @@ function xBlocks(doc){const {mc,wr}=xSections();const bl=[];let n=0;
   else{const keys=mc.map((q,i)=>`<td>${i+1}</td><td><b>${q.options.find(o=>o.is_correct)?.label||'–'}</b></td>`);
     bl.push({html:`<div class="xgh"><div class="xeyebrow">${esc(EX.school)} · ${esc(EX.title)}</div><h1>${esc(EX.sub)} – marking guide</h1></div>${mc.length?`<div class="xsechd">Section I – answer key</div><table class="xkey"><tbody>${keys.map(k=>`<tr>${k}</tr>`).join('')}</tbody></table>`:''}`})}
   if(mc.length){bl.push({sec:true,html:`<div class="xsechd">Section I<span>${xMarks(mc)} marks · attempt Questions 1–${mc.length}</span></div>`});mc.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
+  // owner 17 Nov: questions that "refer to the z score table at the back of the exam" keep that wording, and the exam gets the
+  // table appended at the back (zTableHTML, 19_ztable.js). Questions that print their own portion of the table keep it.
+  const zAtEnd=doc==='exam'&&[...mc,...wr].some(needsZ);
   if(wr.length){bl.push({sec:true,newpage:doc==='exam',html:`<div class="xsechd">Section II<span>${xMarks(wr)} marks · attempt Questions ${mc.length+1}–${mc.length+wr.length}</span></div>`});wr.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
+  if(zAtEnd)bl.push({newpage:true,html:zTableHTML()});
   return bl}
 const xWait=root=>new Promise(res=>{const t0=performance.now();const tick=()=>{const imgs=[...root.querySelectorAll('img')];const done=imgs.every(i=>i.getAttribute('src')&&i.complete||i.alt==='Redraw missing'||/^Image missing/.test(i.alt));
   if(done||performance.now()-t0>8000)res();else setTimeout(tick,120)};tick()});

@@ -78,7 +78,19 @@ def main():
         packs_of_q = {int(p.split('/')[-1].split('_')[0]) for p in ((det.get(str(q['id'])) or {}).get('pages') or [])}
         packs_of_q |= {int(k.split('_')[0]) for k in ((q.get('fk') or {}).get('a') or [])}
         for d in packs_of_q: users.setdefault(d, set()).add(q['doc'])
-    ok_doc = {d: IN.cleared([d], reviews, qs_of, key_of) for d in {u for us in users.values() for u in us}}
+    # owner 17 Nov: "For the fixed and back to you, the page image is gone": a paper with anything open (a flag, a diagram change
+    # request, or a redraw waiting for its second check: the page's openFix) is in review again, so it keeps its page scans, and a
+    # pack archived earlier comes back from archive/img_cleared/
+    def _open(r):
+        r = r or {}; fig = r.get('fig') or {}
+        return r.get('status') == 'flagged' or 'changes' in fig.values() or any(not fig.get(k) for k in (r.get('fig_done') or {}))
+    open_doc = {d for d in {u for us in users.values() for u in us}
+                if any(_open(reviews.get('k_' + key_of[q]) if key_of.get(q) else None) or _open(reviews.get('q%d' % q)) for q in qs_of.get(d, []))}
+    for d in sorted(open_doc):
+        a = P + f'archive/img_cleared/{d}.json'
+        if d not in img and os.path.exists(a):
+            os.replace(a, S + f'img/{d}.json'); img[d] = S + f'img/{d}.json'; print('image_lifecycle: page scans back for paper', d, '(open flags or redraws)')
+    ok_doc = {d: IN.cleared([d], reviews, qs_of, key_of) and d not in open_doc for d in {u for us in users.values() for u in us}}
     cleared = {d for d in img if all(ok_doc[u] for u in users.get(d, ()))}
     crops = groups('crop')
     by_doc = {}

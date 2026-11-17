@@ -109,7 +109,11 @@ function xBlocks(doc){const {mc,wr}=xSections();const bl=[];let n=0;
   else{const keys=mc.map((q,i)=>`<td>${i+1}</td><td><b>${q.options.find(o=>o.is_correct)?.label||'–'}</b></td>`);
     bl.push({html:`<div class="xgh"><div class="xeyebrow">${esc(EX.school)} · ${esc(EX.title)}</div><h1>${esc(EX.sub)} – marking guide</h1></div>${mc.length?`<div class="xsechd">Section I – answer key</div><table class="xkey"><tbody>${keys.map(k=>`<tr>${k}</tr>`).join('')}</tbody></table>`:''}`})}
   if(mc.length){bl.push({sec:true,html:`<div class="xsechd">Section I<span>${xMarks(mc)} marks · attempt Questions 1–${mc.length}</span></div>`});mc.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
+  // owner 17 Nov: questions that "refer to the z score table at the back of the exam" keep that wording, and the exam gets the
+  // table appended at the back (zTableHTML, 19_ztable.js). Questions that print their own portion of the table keep it.
+  const zAtEnd=doc==='exam'&&[...mc,...wr].some(needsZ);
   if(wr.length){bl.push({sec:true,newpage:doc==='exam',html:`<div class="xsechd">Section II<span>${xMarks(wr)} marks · attempt Questions ${mc.length+1}–${mc.length+wr.length}</span></div>`});wr.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
+  if(zAtEnd)bl.push({newpage:true,html:zTableHTML()});
   return bl}
 const xWait=root=>new Promise(res=>{const t0=performance.now();const tick=()=>{const imgs=[...root.querySelectorAll('img')];const done=imgs.every(i=>i.getAttribute('src')&&i.complete||i.alt==='Redraw missing'||/^Image missing/.test(i.alt));
   if(done||performance.now()-t0>8000)res();else setTimeout(tick,120)};tick()});

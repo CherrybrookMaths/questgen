@@ -465,3 +465,22 @@ bottom, until it is empty. There is no waiting-for-review limit; the early stop 
 - **db rules at publish:** `queue`, `batches`, `paperfix`: read admin, write admin. (`runs`, `scans`, `importq` already are.)
   The 14 Nov follow-ups add no collection (the review state reads `reviews`, which every viewer already reads).
 
+
+## Z-score table at the back of an exam (17 Nov)
+Owner 17 Nov, verbatim: "Some questions say refer to the z score table at the back of the exam. For THOSE specifically, we
+arenot adding the z score table in (I've already told the reviewer this run). We need a way to append a z score table at the
+back of exams which ahve those questions tho. Ok? Also add a rule for future imports. Questions which have a pportion of the
+ztable in there arleady we will keep. Makes sense?"
+- **Rule for every import** (after load, before the bank build): run `python3 tools/ztable.py`. It marks a question when its
+  text points to a normal / z-score table printed elsewhere in the paper ("table on page 33", "table provided", "at the back",
+  "z-score table", "probability table") and the question prints no table of its own (no `\extable`, no figure classed as a
+  table). Do NOT transcribe or crop the paper's z-table into such a question. A question that prints its own portion of the
+  table keeps it and is not marked. Change a page reference in the wording ("the table on page 33") to "the table at the back
+  of this exam" (the page number is wrong in any exam built from the bank). `python3 tools/ztable.py --check` exits 1 while a
+  candidate is unmarked.
+- The marks live in state/work/ztable.json {question key: reason}; build_bank.py sets q.zt. Review has a "Z-score table at the
+  back" button (reviews zt, wins over the file) for anything the detector misses.
+- The exam builder appends one computed table (P(Z <= z), z = 0.00 to 3.49, 4 dp; page_src/js/19_ztable.js) on its own last
+  page of any exam paper holding a marked question; never in the marking guide.
+- 17 Nov first run: 2 marked (Baulkham Hills 2024 AT4 Q19, Sydney Tech 2025 AT4 Q27; wording changed to "at the back of this
+  exam"). Kept with their own table: Q798, Q865, Q1099, Q1954.
