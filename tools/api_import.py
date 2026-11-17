@@ -17,6 +17,8 @@ before; this tool only replaces the agents. Each paper is its own run (or a few 
   python3 tools/api_import.py gen      <batch>                  work/<b>/gen_in_*.json   -> work/<b>/gen_out_<doc>_<k>.json (+ tikz/group_<b>_gen_<doc>.json)
   python3 tools/api_import.py diagrams <batch>                  tikz/group_<b>_*.json    -> state/tikz/tex/<id>.tex, tikz/result_<b>_<doc>_<k>.json
   python3 tools/api_import.py verify   <batch>                  work/<b>/verify_in_*.json -> state/work/<b>/verify_out_<doc>_<k>.json
+  python3 tools/api_import.py difficulty <batch> [--docs ...]     unrated leaf parts in the Bank -> state/work/difficulty/<b>/<doc>_<k>.json
+  python3 tools/api_import.py difficulty-apply <batch>           those files -> part_difficulty (then tools/apply_difficulty_reviews.py)
   python3 tools/api_import.py cost     <batch>                  per step / per paper / per model table -> state/work/api_import/<b>/cost.json
 Options: --docs 1585,1597 (only these papers), --workers N (papers in parallel, default 4), --redo (run chunks that already
 have an output file again).
@@ -35,9 +37,12 @@ PRICE = {'claude-opus-5-5': (4.0, 20.0, 0.20), 'claude-sonnet-5-5': (2.0, 10.0, 
          'claude-opus-4-8': (5.0, 25.0, 0.50), 'claude-sonnet-5': (2.0, 10.0, 0.20)}
 # owner 16 Nov (IMPORT_PLAYBOOK "Models per step"): parse and solutions Sonnet, tagging Opus, diagrams and verify Opus, no Haiku
 MODEL = {'parse': 'claude-sonnet-5-5', 'split': 'claude-sonnet-5-5', 'solfmt': 'claude-sonnet-5-5', 'gen': 'claude-sonnet-5-5',
-         'tag': 'claude-opus-5-5', 'diagrams': 'claude-opus-5-5', 'verify': 'claude-opus-5-5'}
-EFFORT = {'parse': 'high', 'split': 'medium', 'solfmt': 'medium', 'gen': 'high', 'tag': 'high', 'diagrams': 'high', 'verify': 'high'}
-CHUNK = {'tag': 120, 'solfmt': 30, 'gen': 10, 'diagrams': 8, 'verify': 20, 'split': 60}
+         'tag': 'claude-opus-5-5', 'diagrams': 'claude-opus-5-5', 'verify': 'claude-opus-5-5',
+         # owner 18 Nov: "Yeah can u do that to the API tool please? Also we need to assign difficulty to the questions in the bank
+         # which aren't assigned." (to adding a difficulty step on Opus; bands need the same judgement as tagging)
+         'difficulty': 'claude-opus-5-5'}
+EFFORT = {'parse': 'high', 'split': 'medium', 'solfmt': 'medium', 'gen': 'high', 'tag': 'high', 'diagrams': 'high', 'verify': 'high', 'difficulty': 'high'}
+CHUNK = {'tag': 120, 'solfmt': 30, 'gen': 10, 'diagrams': 8, 'verify': 20, 'split': 60, 'difficulty': 40}
 MAX_TURNS = {'parse': 60, 'diagrams': 40, 'verify': 30, 'gen': 12}
 LOCK = threading.Lock()
 
@@ -722,6 +727,96 @@ def run_verify(api, batch, docs):
     return jobs
 
 
+
+# ---------------------------------------------------------------- difficulty (DIFFICULTY_SPEC, diff-v1)
+# Every leaf part gets a band 2-6 and UF/PR, compared with the HSC reference parts (part_difficulty.is_anchor = 1; the owner reviewed
+# them 14 Nov). The model sees each reference's ORIGINAL rating (band_ai / wm_ai), as the 13 Nov rating did, so the owner's
+# corrections then reach the new parts through tools/apply_difficulty_reviews.py (a part rated against a corrected reference moves
+# with it) and are never applied twice. New parts are never references: the reference set stays the one he reviewed.
+DIFF_OUT = S + 'work/difficulty/'
+
+
+def area_of(c, pid):
+    t = c.execute("select focus_area, year_level from tags where part_id=? and scheme='2024' and is_primary=1 and focus_area is not null", (pid,)).fetchone()
+    return f"Y{t[1]}_{t[0].replace(' ', '_').replace(',', '')}" if t else 'Unhomed'
+
+
+def unrated_leaves(c, docs):
+    """Leaf parts with no part_difficulty row, of questions the Bank shows (bank.json), optionally only these papers."""
+    bank = {q['id'] for q in json.load(open(P + 'site/data/bank.json'))['questions']}
+    rows = c.execute("""select p.id pid, p.label, p.marks, p.latex, p.parent_part_id, q.id qid, q.document_id doc, q.number, q.stem_latex, q.question_type
+        from parts p join questions q on q.id=p.question_id
+        where p.id not in (select parent_part_id from parts where parent_part_id is not null)
+          and p.id not in (select part_id from part_difficulty) order by q.document_id, q.id, p.ordinal, p.id""").fetchall()
+    return [r for r in rows if r['qid'] in bank and (not docs or r['doc'] in docs)]
+
+
+def run_difficulty(api, batch, docs):
+    c = db()
+    lab = {r['id']: r['display_label'] for r in c.execute('select id, display_label from documents')}
+    anchors = []
+    for r in c.execute("""select d.part_id, d.area, d.band_ai, d.wm_ai, p.marks, p.latex, q.stem_latex from part_difficulty d
+                          join parts p on p.id=d.part_id join questions q on q.id=d.question_id where d.is_anchor=1 order by d.area, d.part_id"""):
+        anchors.append({'part_id': r['part_id'], 'area': r['area'], 'marks': r['marks'], 'band': r['band_ai'], 'wm': r['wm_ai'],
+                        'text': ((r['stem_latex'] or '') + ' ' + r['latex'])[:350]})
+    ids = {a['part_id'] for a in anchors}
+    system = [text_block(spec('DIFFICULTY_SPEC.md') + API_NOTE + '\n## The HSC reference parts (anchors), with their ratings\n'
+                         + json.dumps(anchors, ensure_ascii=False), cache=True)]
+    items = unrated_leaves(c, docs)
+    jobs = []
+    os.makedirs(DIFF_OUT + batch, exist_ok=True)
+    for doc, its in by_doc(items, lambda r: r['doc']).items():
+        for k, ch in enumerate(chunks(its, CHUNK['difficulty']), 1):
+            f = DIFF_OUT + f'{batch}/{doc}_{k}.json'
+            if os.path.exists(f) and not args.redo: continue
+            want = {r['pid'] for r in ch}
+            data = []
+            for r in ch:
+                chain, par = [], r['parent_part_id']
+                while par:
+                    x = c.execute('select label, latex, parent_part_id from parts where id=?', (par,)).fetchone(); chain.insert(0, x['latex']); par = x['parent_part_id']
+                sol = ' '.join(x[0] for x in c.execute('select latex from solutions where part_id=? or (part_id is null and question_id=?)', (r['pid'], r['qid'])))
+                data.append({'part_id': r['pid'], 'paper': lab.get(r['doc']), 'question': r['number'], 'label': r['label'], 'marks': r['marks'],
+                             'type': r['question_type'], 'area': area_of(c, r['pid']), 'context': ' '.join(x for x in [r['stem_latex'] or ''] + chain if x)[:1500],
+                             'text': r['latex'][:1500], 'solution': sol[:1500]})
+
+            def check(out, want=want):
+                if not isinstance(out, list): return ['output must be a JSON list, one object per part_id']
+                e = [f'missing part_id {p}' for p in want - {x.get('part_id') for x in out}]
+                for x in out:
+                    if x.get('band') not in (2, 3, 4, 5, 6): e.append(f'part {x.get("part_id")}: band must be an integer 2-6')
+                    if x.get('wm') not in ('UF', 'PR'): e.append(f'part {x.get("part_id")}: wm must be UF or PR')
+                    if x.get('nearest_anchor') not in ids: e.append(f'part {x.get("part_id")}: nearest_anchor must be one of the reference part_ids')
+                    if x.get('confidence') not in ('high', 'medium', 'low'): e.append(f'part {x.get("part_id")}: confidence high, medium or low')
+                return e
+
+            def write(out, errs, f=f, want=want):
+                json.dump([x for x in out if isinstance(x, dict) and x.get('part_id') in want and x.get('band') in (2, 3, 4, 5, 6)
+                           and x.get('wm') in ('UF', 'PR') and x.get('nearest_anchor') in ids], open(f, 'w'), ensure_ascii=False, indent=1)
+            task = ('Rate every part below by the spec: band (2-6), wm (UF or PR), nearest_anchor (the part_id of the reference part it is '
+                    'closest to in difficulty, from the list in the system prompt), confidence, reason (at most 15 words). These are not '
+                    'HSC references themselves. Submit a JSON list, one object per part_id, with submit_difficulty.\n\n' + json.dumps(data, ensure_ascii=False))
+            jobs.append(Run(batch, 'difficulty', doc, k, system, [text_block(task)],
+                            [json_submit('submit_difficulty', 'Submit the list of part ratings', check, write)], 'submit_difficulty'))
+    return jobs
+
+
+def difficulty_apply(batch):
+    """Write state/work/difficulty/<batch>/*.json into part_difficulty (only parts that have no row yet). Then run
+    tools/apply_difficulty_reviews.py on an export of the page's `difficulty` collection, so the owner's reference corrections reach them."""
+    c = db(); n = 0
+    today = datetime.datetime.now().strftime('%Y-%m-%d')
+    for f in sorted(glob.glob(DIFF_OUT + f'{batch}/*.json')):
+        for x in json.load(open(f)):
+            q = c.execute('select question_id from parts where id=?', (x['part_id'],)).fetchone()
+            if not q or c.execute('select 1 from part_difficulty where part_id=?', (x['part_id'],)).fetchone(): continue
+            c.execute("""insert into part_difficulty(part_id, question_id, band, wm, is_anchor, nearest_anchor, confidence, reason, area, prompt_version,
+                         rated_at, band_ai, wm_ai, source) values (?,?,?,?,0,?,?,?,?,?,?,?,?,'model')""",
+                      (x['part_id'], q[0], x['band'], x['wm'], x['nearest_anchor'], x.get('confidence'), (x.get('reason') or '')[:200],
+                       area_of(c, x['part_id']), 'diff-v1-api', today, x['band'], x['wm']))
+            n += 1
+    c.commit(); print(f'difficulty-apply {batch}: {n} parts rated; next: tools/apply_difficulty_reviews.py <difficulty export>')
+
 # ---------------------------------------------------------------- cost report
 def cost(batch):
     rows = [json.loads(l) for l in open(S + f'work/api_import/{batch}/calls.jsonl')]
@@ -737,7 +832,7 @@ def cost(batch):
            'by_step': steps, 'by_paper': {str(k): {'label': lab.get(k), **v, 'by_step': {s: round(x, 2) for s, x in grid[k].items()}} for k, v in papers.items()},
            'by_model': models, 'prices_per_mtok': PRICE}
     json.dump(rep, open(S + f'work/api_import/{batch}/cost.json', 'w'), indent=1)
-    order = ['parse', 'split', 'tag', 'solfmt', 'gen', 'diagrams', 'verify']
+    order = ['parse', 'split', 'tag', 'solfmt', 'gen', 'diagrams', 'verify', 'difficulty']
     print(f'{"paper":44s}' + ''.join(f'{s:>9s}' for s in order) + f'{"total":>9s}')
     for k in papers:
         print(f'{lab.get(k, str(k))[:43]:44s}' + ''.join(f'{grid[k].get(s, 0):9.2f}' for s in order) + f'{papers[k]["usd"]:9.2f}')
@@ -755,12 +850,14 @@ def main():
     ap.add_argument('--docs', default=''); ap.add_argument('--workers', type=int, default=4); ap.add_argument('--redo', action='store_true')
     args = ap.parse_args()
     if args.step == 'cost': cost(args.batch); return
+    if args.step == 'difficulty-apply': difficulty_apply(args.batch); return
     docs = [int(x) for x in args.docs.split(',') if x] or args.ids
     api = client()
     split_files = None
     if args.step == 'parse': jobs = run_parse(api, args.batch, docs)
     elif args.step == 'split': jobs, split_files = run_split(api, args.batch, docs)
-    else: jobs = {'tag': run_tag, 'solfmt': run_solfmt, 'gen': run_gen, 'diagrams': run_diagrams, 'verify': run_verify}[args.step](api, args.batch, docs)
+    else: jobs = {'tag': run_tag, 'solfmt': run_solfmt, 'gen': run_gen, 'diagrams': run_diagrams, 'verify': run_verify,
+                 'difficulty': run_difficulty}[args.step](api, args.batch, docs)
     print(f'{args.step}: {len(jobs)} runs ({MODEL[args.step]}, effort {EFFORT[args.step]})', flush=True)
 
     def one(j):

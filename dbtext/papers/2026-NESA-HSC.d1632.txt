@@ -411,6 +411,19 @@ document
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
       meta_json: {"check": "Standard interpretation of r; eliminated A, B, C.", "confidence": 0.99}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 215
+      confidence: high
+      reason: Direct recall of positive correlation meaning; correlation is not causation.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q5  key 2026-NESA-HSC-Q5  id 532
   section: I
@@ -1264,6 +1277,19 @@ document
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds $Q_1$ or $Q_3$, or equivalent merit"]]
       meta_json: {"check": "Quartiles by the median-of-halves method (NESA convention); IQR does not depend on m since m is the 13th value.", "concern": "Uses the HSC median-of-halves quartile method (median excluded); some calculators give the same 16 and 27.5 here.", "confidence": 0.95}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 320
+      confidence: medium
+      reason: Standard quartiles of odd-sized dataset; must place unknown m correctly.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 3
+      wm_ai: UF
+      source: shifted
   part b  id 854
     ordinal: 2
     latex: What is the greatest value of $m$ such that this dataset has no outlier?
@@ -1302,6 +1328,19 @@ document
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "Finds $Q_3+1.5\\times\\text{IQR}=44.75$, or equivalent merit"]]
       meta_json: {"check": "Fence computed twice; checked that m=44 gives no outlier and m=45 does (quartiles unchanged).", "concern": "Answer 44 assumes m must be a whole number (count of cars); a marker may also accept 44.75 if m is not taken as an integer.", "confidence": 0.93}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 766
+      confidence: medium
+      reason: Outlier rule used in reverse plus whole-number reasoning for greatest m.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 4
+      wm_ai: PR
+      source: model
 
 ## Q13  key 2026-NESA-HSC-Q13  id 540
   section: II
@@ -1673,6 +1712,19 @@ document
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
       meta_json: {"check": "Measured the dot's centre in pixels against the 6.0 and 6.5 grid lines: 6.09.", "concern": "Read from graph; tolerance of about 6.1 likely.", "confidence": 0.95}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 215
+      confidence: high
+      reason: Single read of lowest point from scatterplot.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 860
     ordinal: 2
     latex: |
@@ -1710,6 +1762,19 @@ document
       prompt_version: gen-v2
       criteria_json: [[2, "Correct answer"], [1, "States that the public's score increases as the critics' score increases, or equivalent merit"]]
       meta_json: {"check": "Standard interpretation; line through (7.0, 6.55) and (10.0, 8.15) has gradient about 0.53, consistent with 0.54.", "confidence": 0.97}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 798
+      confidence: medium
+      reason: Interpret gradient in context with correct 'on average' wording.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 3
+      wm_ai: PR
+      source: model
   part c  id 861
     ordinal: 3
     latex: |
@@ -1747,6 +1812,19 @@ document
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
       meta_json: {"check": "Re-fitted a least-squares line to the 23 points read from the scatterplot with and without (7.2, 6): gradient 0.53 to 0.57, intercept 2.82 to 2.42.", "concern": "Open-ended 'identify ONE effect': increased gradient, decreased y-intercept (or weaker fit) should all be acceptable; solution names gradient increase as the main effect.", "confidence": 0.9}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 312
+      confidence: medium
+      reason: Locate new point relative to line, reason about effect on gradient.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 4
+      wm_ai: PR
+      source: model
 
 ## Q17  key 2026-NESA-HSC-Q17  id 544
   section: II
@@ -3772,6 +3850,19 @@ document
       prompt_version: gen-v2
       criteria_json: [[3, "Correct answer"], [2, "Finds the base area $2\\ell^2\\cos^2\\theta$ and the height $\\ell\\sin\\theta$, or equivalent merit"], [1, "Finds $MO=\\ell\\sin\\theta$ or $AO=\\ell\\cos\\theta$, or equivalent merit"]]
       meta_json: {"check": "Checked with l=1, theta=pi/4: half-diagonal 0.7071, side 1, height 0.7071, V=0.2357 = (2/3)(0.7071)(0.5).", "confidence": 0.98}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 830
+      confidence: medium
+      reason: 3D trig set-up; base area from half-diagonal; general show-that.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 4
+      wm_ai: PR
+      source: model
   part b  id 886
     ordinal: 2
     latex: Hence, find the value of $\theta$, in radians, for which the volume of the pyramid is a maximum. Give your answer correct to 2 decimal places.
@@ -3844,6 +3935,19 @@ document
       prompt_version: gen-v2
       criteria_json: [[4, "Correct answer"], [3, "Finds $\\theta\\approx0.62$ without justifying the maximum, or equivalent merit"], [2, "Finds a correct factorised $\\dfrac{dV}{d\\theta}$ and sets it equal to $0$, or equivalent merit"], [1, "Finds $\\dfrac{dV}{d\\theta}$ using the product rule, or equivalent merit"]]
       meta_json: {"check": "Grid search of sin t cos^2 t on (0, pi/2): max at 0.61548 = atan(1/sqrt2).", "confidence": 0.98}
+    difficulty
+      band: 5
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 881
+      confidence: medium
+      reason: Product-rule trig derivative, solve tan²θ=1/2, justify maximum; heavy algebra.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 5
+      wm_ai: UF
+      source: model
 
 ## Q31  key 2026-NESA-HSC-Q31  id 558
   section: II

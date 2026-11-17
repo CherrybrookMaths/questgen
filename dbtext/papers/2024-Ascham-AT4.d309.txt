@@ -298,6 +298,19 @@ document
       is_primary: 0
       tag_source: gap-fix
       prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 287
+      confidence: medium
+      reason: Table lookup, but must see equal future value means present value of annuity
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q4  key 2024-Ascham-AT4-Q4  id 1189
   section: I
@@ -2560,6 +2573,19 @@ document
       is_primary: 0
       tag_source: rule-fix
       prompt_version: tag-v2.3
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 324
+      confidence: medium
+      reason: Two steps: Pythagoras for base diagonal, then tan in right triangle
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q26  key 2024-Ascham-AT4-Q26  id 1211
   section: II
@@ -3239,6 +3265,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 229
+      confidence: high
+      reason: Convert rate to monthly, read factor, multiply by 100
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 2054
     ordinal: 2
     latex: At the beginning of January 2024, Hannah starts working at a new job and decides to increase her monthly investments to \$200. If Hannah continues this for the year, show that her account balance at the end of December 2024 is \$3776.76.
@@ -3273,6 +3312,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct expression $1233.56(1.005)^{12}+200\\times 12.3356$, or equivalent merit"]]
       meta_json: {"criteria_original": [[2, "Correct derivation"], [1, "Correct expression $1233.56(1.005)^{12}+200\\times 12.3356$, or equivalent merit"]], "top_criterion_original": "Correct derivation"}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 342
+      confidence: medium
+      reason: Must combine compounding of earlier balance with new annuity, unprompted
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 4
+      wm_ai: PR
+      source: model
   part c  id 2055
     ordinal: 3
     latex: |
@@ -3341,6 +3393,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Writes $A_n$ with the geometric series $400(1.005+\\cdots+1.005^n)$, or equivalent merit"], [1, "Correct expressions for $A_2$ and $A_3$ ($A_1$ not required), or equivalent merit"]]
       meta_json: {"criteria_original": [[3, "Correct derivation"], [2, "Writes $A_n$ with the geometric series $400(1.005+\\cdots+1.005^n)$, or equivalent merit"], [1, "Correct expressions for $A_2$ and $A_3$ ($A_1$ not required), or equivalent merit"]], "top_criterion_original": "Correct derivation"}
+    difficulty
+      band: 5
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 288
+      confidence: high
+      reason: General recurrence derivation with start-of-month withdrawals, geometric series summation
+      area: Y12_Financial_mathematics
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 5
+      wm_ai: PR
+      source: model
   part d  id 2056
     ordinal: 4
     latex: How many \$400 withdrawals can Hannah make from her travel fund?
@@ -3396,6 +3461,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Sets $A_n=0$ and simplifies to $-76623.24(1.005)^n+80400=0$, or equivalent merit"]]
       meta_json: {"criteria_original": [[2, "Correct answer, including rounding down"], [1, "Sets $A_n=0$ and simplifies to $-76623.24(1.005)^n+80400=0$, or equivalent merit"]], "marker_note": "The answer must be rounded down (9 withdrawals).", "top_criterion_original": "Correct answer, including rounding down"}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 817
+      confidence: medium
+      reason: Set A_n=0, solve with logarithms, round down to interpret
+      area: Y12_Financial_mathematics
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 4
+      wm_ai: UF
+      source: model
 
 ## Q32  key 2024-Ascham-AT4-Q32  id 1217
   section: II

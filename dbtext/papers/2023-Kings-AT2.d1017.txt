@@ -32,6 +32,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Probability and data|Data
+  home_source: computed
   option A
     latex: Median: changes; mean: changes
     is_correct: 0
@@ -89,6 +91,19 @@ document
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
       meta_json: {"confidence": 0.98, "generated_note": "Generated working for MCQ; key C.", "self_check": "Recomputed median and mean before and after by hand."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 746
+      confidence: high
+      reason: Direct median and mean recalculation after adding one score
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q2  key 2023-Kings-AT2-Q2  id 2578
   section: I
@@ -99,6 +114,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: graph
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
   option A
     latex: \exfigure{1017_q2_1}
     is_correct: 1
@@ -212,6 +229,19 @@ document
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
       meta_json: {"confidence": 0.97, "generated_note": "Generated working for MCQ; key A.", "self_check": "Checked each pictured graph against the signs of f' and f''."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 755
+      confidence: medium
+      reason: Match derivative signs to increasing concave-down graph; single interval
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q3  key 2023-Kings-AT2-Q3  id 2579
   section: I
@@ -222,6 +252,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Differential calculus|Using derivatives
+  home_source: computed
   option A
     latex: \dfrac{\sin x + x\cos x}{\sin^2 x}
     is_correct: 0
@@ -288,6 +320,19 @@ document
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
       meta_json: {"confidence": 0.98, "generated_note": "Generated working for MCQ; key D.", "self_check": "Quotient rule applied directly; matches option D."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 858
+      confidence: medium
+      reason: Standard quotient rule with trig function, MCQ
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q4  key 2023-Kings-AT2-Q4  id 2580
   section: II
@@ -298,6 +343,8 @@ document
   page_end: 4
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
   part a  id 4196
     ordinal: 1
     latex: Find the coordinates of the stationary points of $f(x)$ and determine their nature.
@@ -341,6 +388,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Correctly differentiates, solves $f'(x)=0$ and tests nature, or equivalent merit"], [1, "Correctly differentiates and solves $f'(x)=0$, or equivalent merit"]]
       meta_json: {"format_note": "Criteria rewritten top-down from source rows."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 242
+      confidence: high
+      reason: Routine stationary points of quartic, factorise cubic, second derivative test
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 3
+      wm_ai: UF
+      source: model
   part b  id 4197
     ordinal: 2
     latex: Find any points of inflection.
@@ -401,6 +461,19 @@ document
         label_col: 1
         rows_json: [["x", "0", "\\dfrac{9-\\sqrt{21}}{3}", "3", "\\dfrac{9+\\sqrt{21}}{3}", "6"], ["f''(x)", "40", "0", "-14", "0", "40"]]
         source_latex: $$\begin{array}{c|ccccc} x & 0 & \dfrac{9-\sqrt{21}}{3} & 3 & \dfrac{9+\sqrt{21}}{3} & 6 \\ \hline f''(x) & 40 & 0 & -14 & 0 & 40 \end{array}$$
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 326
+      confidence: medium
+      reason: Solve f''=0 by quadratic formula and test concavity change
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 3
+      wm_ai: UF
+      source: model
   part c  id 4198
     ordinal: 3
     latex: |
@@ -454,6 +527,19 @@ document
       redraw_status: approx
       redraw_class: graph
       redraw_notes: Solution sketch, not to scale. The curve is a smooth quartic fitted in pixel space so the minimum (0,0), the maximum (4,64) and the minimum (5,62.5) sit where the sketch puts them; they are true turning points of the drawn curve (rules 1, 10, 16). The two inflexion dots are at the true inflexions of the drawn curve, about 15px from the sketch's dots. The left branch (x<0) is a separate smooth even quartic, because the sketch's left side is much flatter than the right; the curvature jumps slightly at the origin. The curve is 0.9pt with filled arrowheads (rules 4, 9). The teacher's green marking notes ('correct shape' etc.) are removed (rule 17), and this explains most of the low overlay score; the rest is handwriting vs typeset labels. The P.O.I list at top left is kept because it is part of the answer. The (4.53,63.22) label is scriptsize, as small as on the paper, so it stays clear of the curve (rule 11).
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 243
+      confidence: medium
+      reason: Sketch quartic with close stationary and inflection points accurately
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 4
+      wm_ai: UF
+      source: model
   part d  id 4199
     ordinal: 4
     latex: For what values of $x$ is the function decreasing?
@@ -483,6 +569,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 755
+      confidence: medium
+      reason: Read decreasing intervals from found stationary points
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part e  id 4200
     ordinal: 5
     latex: For what values of $k$ will $\dfrac{x^4}{2} - 6x^3 + 20x^2 + k = 0$ have no solution?
@@ -528,6 +627,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 818
+      confidence: medium
+      reason: Interpret vertical shift against global minimum to get no solutions
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 4
+      wm_ai: PR
+      source: model
 
 ## Q5  key 2023-Kings-AT2-Q5  id 2581
   section: II
@@ -537,6 +649,8 @@ document
   page_end: 5
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
   solution 3592
     source: extracted
     latex: |
@@ -628,6 +742,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 183
+      confidence: high
+      reason: Find b, differentiate exponential base b, solve with logs
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 4
+      wm_ai: UF
+      source: model
 
 ## Q6  key 2023-Kings-AT2-Q6  id 2582
   section: II
@@ -643,6 +770,8 @@ document
   page_end: 6
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Optimisation
+  home_source: computed
   figure 1017_q6_1.png
     page: 6
     bbox: [234, 173, 361, 263]
@@ -685,6 +814,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct expression for $h$, or equivalent merit"]]
       meta_json: {"format_note": "Criteria rewritten top-down from source rows."}
+    difficulty
+      band: 2
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 285
+      confidence: medium
+      reason: Substitute h from volume formula into given area expression
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 2
+      wm_ai: PR
+      source: model
   part b  id 4203
     ordinal: 2
     latex: Show that $A$ has a minimum value and find the value of $r$ for which the minimum occurs.
@@ -731,6 +873,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Correct first derivative and shows minimum using the second derivative, or equivalent merit"], [1, "Correct first derivative, or equivalent merit"]]
       meta_json: {"format_note": "Criteria rewritten top-down from source rows."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 340
+      confidence: high
+      reason: Standard optimisation: differentiate, solve, second derivative test
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q7  key 2023-Kings-AT2-Q7  id 2583
   section: II
@@ -741,6 +896,8 @@ document
   page_end: 7
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
   part a  id 4204
     ordinal: 1
     latex: Write down the domain and $x$-intercept.
@@ -784,6 +941,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct domain or correct $x$-intercept, or equivalent merit"]]
       meta_json: {"format_note": "Criteria rewritten top-down; one line of reasoning added for the intercept."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 158
+      confidence: high
+      reason: Recall log domain and solve ln x = 0
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 4205
     ordinal: 2
     latex: Find the first and second derivatives of $f(x)$.
@@ -849,6 +1019,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct first derivative, or equivalent merit"]]
       meta_json: {"format_note": "Criteria rewritten top-down from source rows."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 783
+      confidence: high
+      reason: Routine product rule then simple second derivative
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part c  id 4206
     ordinal: 3
     latex: Hence, show there is one stationary point and determine its nature.
@@ -916,6 +1099,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Shows one stationary point, or equivalent merit"]]
       meta_json: {"format_note": "Criteria rewritten top-down from source rows."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 242
+      confidence: high
+      reason: Solve ln x = -1, use domain to fix nature
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q8  key 2023-Kings-AT2-Q8  id 2584
   section: II
@@ -930,6 +1126,8 @@ document
   needs_review: 0
   review_status: unreviewed
   old_syllabus: Pareto chart (statistics of a data set); in neither 2024 syllabus
+  home_topic: sub:11|Probability and data|Data
+  home_source: computed
   data_table 1017_q8_t1
     header_rows: 1
     label_col: 0
@@ -968,6 +1166,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 215
+      confidence: high
+      reason: Direct cumulative percentage calculation from table
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part ii  id 4208
     ordinal: 2
     latex: |
@@ -1014,3 +1225,16 @@ document
       redraw_status: ok
       redraw_class: statistical
       redraw_notes: Pareto chart: bars 17500, 12000, 9500, 6000, 5000 and cumulative line 35, 59, 78, 90, 100% from the solution, at the crop's axis positions. Blue bars are now grey black!30 (rules 5, 6), so the 0.093 original-coverage score is almost all the solid bar fill being compared with a lighter grey. Positions match (see overlay). Gridlines are light grey solid. The right axis has 10% major ticks and 2% minor ticks, drawn once each (rule 4a). The line is 0.9pt with square markers. Labels are in the house font. Round 1 failed to compile (dimension overflow) and was fixed.
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 215
+      confidence: medium
+      reason: Routine construction of Pareto chart from completed table
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-17
+      band_ai: 2
+      wm_ai: UF
+      source: model

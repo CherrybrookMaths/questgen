@@ -48,3 +48,9 @@ A question that has both kinds of part is "Mixed" at question level. That is com
   - Across all references, 20 of 21 band changes were upward. The model underrates harder Year 12 work, calculus above all.
   - 157 dependent parts were shifted.
   - Open: Integral calculus and Applications of calculus (one upward change each in the spot-check) are likely underrated too, so a wider check is needed.
+
+## Rating new parts through the API (18 Nov)
+Owner: "Yeah can u do that to the API tool please? Also we need to assign difficulty to the questions in the bank which aren't
+assigned." Every import now rates its leaf parts with `tools/api_import.py difficulty` (Opus), against the references' original
+ratings; the owner's reference corrections then reach them through `tools/apply_difficulty_reviews.py`. New parts never become
+references (35 unrated HSC parts were rated as ordinary parts), so the reference set stays the one he reviewed.

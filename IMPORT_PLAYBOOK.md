@@ -60,7 +60,7 @@ each paper's cost is exact. The local steps between them are unchanged (load.py,
 prep_batch.py, apply_text.py, apply_diagrams.py, prep_verify.py, triage.py, add_to_bank.py, build_bank.py). Every call is logged with its
 tokens and US$ (state/work/api_import/<batch>/calls.jsonl); `api_import.py cost <batch>` prints the table and writes cost.json.
 Order used for Batch 8: parse → load.py → post_load.py → split_batch.py prep → split → split_batch.py apply → relabel_split.py →
-prep_batch.py → tag + solfmt + gen (parallel) → apply_text.py → diagrams → apply_diagrams.py → prep_verify.py → verify → fix the
+prep_batch.py → tag + solfmt + gen (parallel) → apply_text.py → difficulty → difficulty-apply → apply_difficulty_reviews.py <difficulty export> → diagrams → apply_diagrams.py → prep_verify.py → verify → fix the
 verifier's findings (source_corrections.py) → triage.py → add_to_bank.py → build_bank.py → render audit, recrop --check, prepublish.
 Batch 8 result: 8 papers, 150 questions, US$22.65 (parse 3.54, split 0.04, tag 3.80, solutions 1.20, diagrams 9.48, verify 4.61),
 about 35 minutes of model time with papers in parallel. Diagrams (Opus, with renders and overlays fed back) are 42% of the cost.
@@ -72,6 +72,13 @@ Lessons (each fixed in the tool):
 - The formatter put "the source is consistent" notes in content_flags (12 Decide items for 8 papers, the 16 Nov Batch 6 lesson
   again) and invented a sketch key "2023kings_q15_s1": the solfmt prompt now says both, and its check rejects unknown figure keys;
   a sketch it asks for is queued for the diagrams step.
+
+Difficulty (18 Nov). Owner: "Yeah can u do that to the API tool please? Also we need to assign difficulty to the questions in the bank
+which aren't assigned." (to adding a difficulty step, on Opus). No import step rated difficulty after the 13 Nov pass: batches 6-8
+and 288 later-added parts (1,337 leaf parts) had none. `api_import.py difficulty <batch>` rates every unrated leaf part the Bank
+shows (DIFFICULTY_SPEC) against the HSC reference parts at their ORIGINAL ratings; `difficulty-apply` writes them to part_difficulty
+(prompt_version diff-v1-api, source model), then `tools/apply_difficulty_reviews.py <export of difficulty>` carries the owner's
+reference corrections onto them. New parts are never references. Run it after tagging (the area comes from the primary dot point).
 
 Owner after Batch 8 (17 Nov): "not yet. no importing until i escelate this new prediction." and "the monthly limit is $300 right now.
 I can change it later. remind me when we resume imports." The key's limit is US$300 a month: about 6-12 batches of 9 at the measured

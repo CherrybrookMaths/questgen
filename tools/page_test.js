@@ -849,7 +849,9 @@ async function reviewFlow(browser, base, seed) {
     assert(r.rows.every(x => x.dots === 5 && /^\d+ left · at (Your calls|Flagged|Topics|Diagrams|Spot-check)$/.test(x.line) && /^#review\/paper\/\d+$/.test(x.href)), `rows: ${JSON.stringify(r.rows)}`);
     assert(r.all === '#review/papers', `"Show all papers" goes to ${r.all}`);
     assert(r.rep === 0 && r.repDone && /Reports\s*nothing open/.test(r.repTxt), `Reports card with ${r.rep} open: done ${r.repDone} “${r.repTxt}”`);
-    assert(r.lv === 0 && r.lvDone && /check plan finished/.test(r.lvTxt) && r.lvHref === '#review/difficulty', `Difficulty card with ${r.lv} to check: done ${r.lvDone} “${r.lvTxt}” → ${r.lvHref}`);
+    // 18 Nov: the spot-check takes, per topic, the 3 references most other parts were rated against (owner 14 Nov), so rating the
+    // 1,337 unrated parts (owner 18 Nov) brought 10 new references into the plan: the card must match the count, done only at 0
+    assert((r.lv === 0 ? r.lvDone && /check plan finished/.test(r.lvTxt) : !r.lvDone && r.lvTxt.includes(String(r.lv))) && r.lvHref === '#review/difficulty', `Difficulty card with ${r.lv} to check: done ${r.lvDone} “${r.lvTxt}” → ${r.lvHref}`);
     const tot = String(r.want + r.rep); assert(r.tab === tot && r.sw === tot, `Review tab count ${r.tab}, Curate switch count ${r.sw}; want ${tot}`);
     assert(r.recent === '#review/list/recent' && r.lists > 5, `foot: Recently approved → ${r.recent}, ${r.lists} other lists`);
     await page.selectOption('#inboxBox .ifoot select[data-lists]', 'all'); await settle(page, 4000, 2);
