@@ -333,13 +333,13 @@ document
     source: generated
     latex: |
       Range is the maximum minus the minimum, read from the ends of the whiskers.
-      $$\begin{aligned} \text{Baulkham Hills: } & 1.7-1.0=0.7 \\ \text{Parramatta: } & 1.5-0.8=0.7 \end{aligned}$$
+      $$\begin{aligned} \text{Hillview: } & 1.7-1.0=0.7 \\ \text{Riverside: } & 1.5-0.8=0.7 \end{aligned}$$
       The ranges are equal. The lower quartiles ($1.2$ and $0.9$), medians ($1.4$ and $1.0$) and upper quartiles ($1.6$ and $1.3$) all differ.
     source_document_id: 416
     model: claude-sonnet-5-5
     prompt_version: gen-v2
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {"confidence": 0.88, "criteria_inferred": true, "self_check": "values read from plot ticks; whisker ends about 1.69 and 1.49, ranges both about 0.69-0.7", "source": "generated"}
+    meta_json: {"confidence": 0.88, "criteria_inferred": true, "edited_from_original": "Owner 17 Nov: \"all ok, just for these\" (the checker's rename requests on 2024 Sydney Tech Q5, Q27, Q29; not a standing rule). Suburbs Parramatta and Baulkham Hills are now Riverside and Hillview (text, solution and diagram).", "self_check": "values read from plot ticks; whisker ends about 1.69 and 1.49, ranges both about 0.69-0.7", "source": "generated"}
   figure 416_q5_1.png
     page: 3
     bbox: [90, 176, 389, 342]
@@ -348,11 +348,11 @@ document
     caption: parallel box plots of sale price for Baulkham Hills and Parramatta
     redraw_status: ok
     redraw_class: statistical
-    redraw_notes: Rules 1,2,3,9: box plots at 0.9pt, five-number summaries at the plotted positions (Baulkham Hills 1.0/1.2/1.4/1.6/1.69, Parramatta 0.8/0.9/1.0/1.3/1.49; equal ranges, consistent with answer C). The crop cuts the label off at 'Baulkham H': the redraw writes 'Baulkham Hills' in full and is ~115 px wider than the crop (rounds 2-3 only widened the frame). Redraw score: the full label text has no counterpart in the crop, plus heavy grey scan strokes.
+    redraw_notes: Rules 1,2,3,9: box plots at 0.9pt, five-number summaries at the plotted positions (Baulkham Hills 1.0/1.2/1.4/1.6/1.69, Parramatta 0.8/0.9/1.0/1.3/1.49; equal ranges, consistent with answer C). The crop cuts the label off at 'Baulkham H': the redraw writes 'Baulkham Hills' in full and is ~115 px wider than the crop (rounds 2-3 only widened the frame). Redraw score: the full label text has no counterpart in the crop, plus heavy grey scan strokes. | Owner 17 Nov ("all ok, just for these"): suburb labels Baulkham Hills/Parramatta renamed Hillview/Riverside.
   part -  id 3182
     ordinal: 1
     latex: |
-      The parallel box plots below compare sale prices for houses sold in Parramatta and Baulkham Hills in millions of dollars. 120 houses were sold in Baulkham Hills and 24 houses were sold in Parramatta.
+      The parallel box plots below compare sale prices for houses sold in Riverside and Hillview in millions of dollars. 120 houses were sold in Hillview and 24 houses were sold in Riverside.
 
       \exfigure{416_q5_1}
 
@@ -2639,7 +2639,7 @@ document
   section: II
   question_type: extended
   stem_latex: |
-    The queueing time, $X$ minutes, of a teacher waiting on the phone with Department of Education has a probability density function
+    The queueing time, $X$ minutes, of a teacher waiting on the phone with a government department has a probability density function
 
     $$f(x)=\begin{cases}\dfrac{3}{32}x(k-x), & 0\le x\le k\\[6pt] 0, & \text{otherwise}\end{cases}$$
 
@@ -2703,7 +2703,7 @@ document
       source_document_id: 416
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Sets up the integral equal to $1$ and integrates, or equivalent merit"]]
-      meta_json: {"criteria_generated": true}
+      meta_json: {"criteria_generated": true, "edited_from_original": "Owner 17 Nov: \"all ok, just for these\" (the checker's rename requests on 2024 Sydney Tech Q5, Q27, Q29; not a standing rule). \"Department of Education\" is now \"a government department\"."}
   part b  id 3220
     ordinal: 2
     latex: Find the cumulative distribution function $F(x)$.
@@ -3034,7 +3034,7 @@ document
     source_document_id: 416
     prompt_version: parse-v1
     criteria_json: [[3, "Correct answer"], [2, "Sets up $P(B\\mid T)=P(B)$ with correct expressions, or equivalent merit"], [1, "States the condition for independence, or equivalent merit"]]
-    meta_json: {"criteria_generated": true, "source_flag": "The question says '20 people played basketball only' but the events are baseball ($B$) and tennis ($T$); the working treats it as baseball only. Question not changed."}
+    meta_json: {"criteria_generated": true, "edited_from_original": "Owner 17 Nov: \"if the paper has a mistake, we should fix it.\" The paper printed \"basketball only\" in a question about the baseball and tennis teams (B = baseball); now \"baseball only\".", "source_flag": "The question says '20 people played basketball only' but the events are baseball ($B$) and tennis ($T$); the working treats it as baseball only. Question not changed."}
   part -  id 3226
     ordinal: 1
     latex: |
@@ -3042,7 +3042,7 @@ document
 
       \begin{itemize}
       \item 16 people played tennis only.
-      \item 20 people played basketball only.
+      \item 20 people played baseball only.
       \item 5 people played neither.
       \item $k$ people played both.
       \end{itemize}
