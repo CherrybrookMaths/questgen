@@ -656,6 +656,12 @@ def diagram_tools(items):
         for r in out['results']:
             if r.get('status') in ('ok', 'approx') and not os.path.exists(S + f'tikz/tex/{r.get("id")}.tex'): e.append(f'{r.get("id")}: status {r["status"]} but no compiled tex (draw it first)')
             if r.get('status') == 'table' and not (r.get('table') or {}).get('rows'): e.append(f'{r.get("id")}: status table needs table.rows')
+            # checker 18 Nov (2023 Knox AT1 Q4c): "Make the slash between the N and r longer touching both corners": a corner cell split by a
+            #   diagonal is \diag{row label}{column label} (PARSE_SPEC), never "N \backslash r", which prints a short slash between the letters
+            for row in ((r.get('table') or {}).get('rows') or [])[:3]:
+                for v in row:
+                    if '\\backslash' in str(v) and str(v).strip() != '\\backslash':
+                        e.append(f'{r.get("id")}: corner cell {v!r}: write a split corner cell as \\diag{{row label}}{{column label}}')
         return e
     tools = [({'name': 'view_crop', 'description': 'Show an original crop.', 'input_schema': {'type': 'object', 'properties': {'id': {'type': 'string'}}, 'required': ['id']}}, view),
              ({'name': 'draw', 'description': 'Write tikz/tex/<id>.tex (the whole file, from the spec\'s template) and compile it. Returns the redraw, '
@@ -667,7 +673,8 @@ def diagram_tools(items):
 DIAG_TASK = """Redraw every figure below in house style (the spec). Each has id, context (question or solution text, for understanding only),
 caption and kind (question | option | solution | new_sketch). A new_sketch has no original crop: draw it from its context (the worked
 solution's description) to the spec's rules for solution sketches. At most 2 drawing rounds per figure (owner 12 Nov). A figure that is
-really a table: status "table" with table {{caption, rows, header_rows, label_col, spans}} (no TikZ). A photo or anything that cannot be
+really a table: status "table" with table {{caption, rows, header_rows, label_col, spans}} (no TikZ); a corner cell split by a
+diagonal is \\diag{{row label}}{{column label}}, with a rowspan if it spans two header rows. A photo or anything that cannot be
 redrawn: status "keep_crop".
 Submit {{"results": [{{"id", "class" (graph | geometry | statistical | blank_axes | tree | table | photo | other), "status" (ok | approx |
 table | keep_crop), "rounds", "notes" (what you drew, what differs from the crop and why, rules used), "table": null | {{...}}}}]}} with

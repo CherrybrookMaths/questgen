@@ -3062,7 +3062,7 @@ document
       caption: solution sketch: hand-drawn sketch of y = x^4 - 2x^3 + 1 with turning and inflexion points
       redraw_status: ok
       redraw_class: graph
-      redraw_notes: Same blank grid as q15_1, with y = x^4 - 2x^3 + 1 plotted from the equation at 0.9pt with arrows, from y = 5 on the left to y = 5 on the right (rules 9, 10, 25). Dots are at the computed points (0,1), (1,0) and (3/2,-11/16) (rule 16). The handwritten notes are typeset with arrows: 'horizontal point of inflexion (0,1)' between the branches, 'point of inflexion (1,0)' lower left, and the stacked minimum coordinates lower right. I dropped the tick and 'correct from previous' (rule 17). To keep labels off the curve (rules 11, 24), I moved the x tick label 1 a little left and the y tick label 1 down, both on their own side. The student's branches were wonky and not to the true curve; I drew the true quartic. The low overlay score comes from the handwriting and from the overlay lining the grids up one cell (80 px) apart vertically.
+      redraw_notes: Checker 18 Nov: left arm now rises steeply to y=5 at x=-1.09. Cause: pgfmath read \x^4 as -(x^4) for negative x, so the left side was wrong; formula now (\x)^4-2(\x)^3+1. Previous: Same blank grid as q15_1, with y = x^4 - 2x^3 + 1 plotted from the equation at 0.9pt with arrows, from y = 5 on the left to y = 5 on the right (rules 9, 10, 25). Dots are at the computed points (0,1), (1,0) and (3/2,-11/16) (rule 16). The handwritten notes are typeset with arrows: 'horizontal point of inflexion (0,1)' between the branches, 'point of inflexion (1,0)' lower left, and the stacked min
     difficulty
       band: 3
       wm: UF
