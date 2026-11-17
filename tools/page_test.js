@@ -684,8 +684,21 @@ async function areas(browser, base, seed) {
             setTimeout(() => { const fig = approvedAt(q) != null;
               ['paper_' + q.doc, 'q' + other.id, 'q' + q.id].forEach((k, i) => { const v = [keep.p, keep.o, keep.a][i]; if (v === undefined) delete reviews[k]; else reviews[k] = v });
               res({before, flagged, ready, after, fig}) }, 5) }, 5) }, 5)) });
-      assert(r.skip || (r.before && !r.flagged && !r.ready && r.after && !r.fig), `paper approval with flags: ${JSON.stringify(r)}`);
+      assert(!r.skip && r.before && !r.flagged && !r.ready && r.after && !r.fig, `paper approval with flags: ${JSON.stringify(r)}`);
       return 'approved paper: auto question approved; a flagged question or a diagram change request in the paper holds it back; approving the flag releases it';
+    });
+    await check('review: a diagram change request holds back the question and its paper', cp, async () => {
+      const r = await cp.evaluate(() => {
+        const q = B.questions.find(x => !x.dup_of && (B.figs ? Object.keys(B.figs).some(k => k.startsWith(x.doc + '_q')) : true)); if (!q) return {skip: true};
+        const keep = reviews['q' + q.id];
+        reviews['q' + q.id] = {status: 'approved', fig: {zz_test: 'approved'}};
+        const ok1 = qState(q) === 'approved';
+        reviews['q' + q.id] = {status: 'approved', fig: {zz_test: 'changes'}};
+        const held = qState(q) !== 'approved', work = paperWork(q.doc).left.diagrams > 0;
+        if (keep === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep;
+        return {ok1, held, work} });
+      assert(!r.skip && r.ok1 && r.held && r.work, `diagram change request: ${JSON.stringify(r)}`);
+      return 'approved question with a diagram change request: not approved (out of the Bank) and its paper has diagram work left';
     });
     await cp.context().close();
   }

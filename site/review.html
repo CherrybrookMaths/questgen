@@ -2699,7 +2699,9 @@ function spotSet(){if(_spot)return _spot;const by={};B.questions.forEach(q=>{if(
   const keep=new Set();Object.values(by).forEach(ks=>{ks.sort((a,b)=>hstr(a)-hstr(b));ks.slice(0,Math.max(1,Math.ceil(ks.length/10))).forEach(k=>keep.add(k))});return _spot=keep}
 function escalated(doc){return B.questions.some(q=>q.doc===doc&&chkFigsAll(q).some(k=>figRisk(k)[0]==='High'&&reviews['q'+q.id]?.fig?.[k]==='changes'))}
 const chkFigs=q=>chkFigsAll(q).filter(k=>figRisk(k)[0]!=='High'||spotSet().has(k)||reviews['q'+q.id]?.fig?.[k]||escalated(q.doc));
-function qState(q){const r=reviews['q'+(q.dup_of||q.id)]?.status; if(r) return r; const t=q.tri?.tier; if(t==='auto'&&paperOK(q.doc)) return 'approved'; return null}
+// owner 17 Nov: "exams should never get throug[h] until all flags are fixed": a question with a diagram change request counts as
+// flagged (not approved: out of the tutors' Bank and the exam builder) until the redraw is approved
+function qState(q){const rv=reviews['q'+(q.dup_of||q.id)],r=rv?.status; if(rv&&Object.values(rv.fig||{}).includes('changes')) return 'flagged'; if(r) return r; const t=q.tri?.tier; if(t==='auto'&&paperOK(q.doc)) return 'approved'; return null}
 // a call Claude raised (site/project/open_decisions.json -> q.decide) is always a decision, imported or not (owner 13 Nov:
 // "isn't that the point of your calls? or is your decision different": import notes are raised as calls, never as loose notes)
 function needsDecision(q){if(reviews['q'+q.id]?.status==='flagged'||q.decide)return true;
@@ -2748,6 +2750,8 @@ const mainDoc=doc=>(docGroups().get(String(doc))||{main:String(doc)}).main;
 function workOf(main,ids,qs){const left={},total={};STEPS.forEach(([k])=>{left[k]=0;total[k]=0});
   qs.forEach(q=>STEPS.forEach(([k])=>{if(inFilter(q,k)){total[k]++;if(isTodo(q,k))left[k]++}}));
   const pc=PCALL.list(ids);total.decide+=pc.length;left.decide+=pc.filter(c=>c.open).length;   // calls on the paper itself count in Your calls
+  // owner 17 Nov: a paper is not cleared while any diagram in it waits on a requested change (it used to count as decided)
+  const fx=qs.filter(q=>!q.dup_of&&Object.values(reviews['q'+q.id]?.fig||{}).includes('changes')).length;left.diagrams+=fx;total.diagrams+=fx;
   const ready=ids.map(paperReady).filter(Boolean);left.sample+=ready.length;
   const n=STEPS.reduce((a,[k])=>a+left[k],0);
   return {doc:main,ids,left,total,ready,n,at:(STEPS.find(([k])=>left[k]>0)||[])[0]||null}}
