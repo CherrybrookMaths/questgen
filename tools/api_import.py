@@ -165,6 +165,14 @@ def submit_tool(name, desc, schema):
     return {'name': name, 'description': desc, 'input_schema': schema}
 
 
+def bare_math(s):
+    """True when text has maths commands outside $...$ / \\(...\\) (it would show as raw LaTeX on the page)."""
+    s = re.sub(r'\\\$', '', s or '')
+    s = re.sub(r'\$\$.*?\$\$|\$[^$]*\$|\\\(.*?\\\)|\\\[.*?\\\]', '', s, flags=re.S)
+    s = re.sub(r'\\(exfigure|extable|textbf|textit|emph|underline|textsuperscript|text|quad|qquad|newline|item|begin|end|\\)\b(\{[^}]*\})?', '', s)
+    return bool(re.search(r'\\[a-zA-Z]+|\^|_\{', s))
+
+
 def check_latex(obj):
     f = paths.scratch('api_import') / f'chk_{threading.get_ident()}.json'
     json.dump(obj, open(f, 'w'), ensure_ascii=False)
@@ -312,6 +320,10 @@ def parse_tools(doc):
             if not q.get('parts'): errs.append(f'Q{q.get("number")}: no parts')
             for p in q.get('parts') or []:
                 if not (p.get('latex') or '').strip(): errs.append(f'Q{q.get("number")}({p.get("label")}): empty latex')
+            # checker 17 Nov (Batch 8): "The fractions in the choices are not rendering. They say \dfrac{25}{28} instead of the
+            # actual rendered fraction": options written without $...$ passed the LaTeX check (it reads them as text).
+            for o in q.get('mcq_options') or []:
+                if bare_math(o.get('latex')): errs.append(f'Q{q.get("number")} option {o.get("label")}: maths outside $...$ (wrap it: ${o.get("latex")}$)')
         cl = check_latex(out)
         if cl.get('errors'): errs += [f'LaTeX: {s}' for s in cl.get('sample', [])] + ([f'... {cl["errors"]} LaTeX errors in all'] if cl['errors'] > 15 else [])
         tries['n'] += 1
