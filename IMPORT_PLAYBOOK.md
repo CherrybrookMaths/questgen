@@ -488,3 +488,8 @@ ztable in there arleady we will keep. Makes sense?"
   ("Remove this table") printed the whole z-table inside the question. Both tables retired (data_tables_retired; the Sydney
   Tech figure row is in archive/removed_figures_1117.json), the wording now points to "the table at the back of this exam", and
   both are marked in state/work/ztable.json. A whole table printed with the question goes the same way when the checker asks.
+- Owner 17 Nov 13:45: "QID 1099 2025 Sydney Girls High School AT4 Q28 still has the table in the question". So the rule is: a
+  question that prints the WHOLE z-table (30+ rows, e.g. "the table on page 25" printed as a full Phi(z) table) loses it like
+  Q1954/Q1991; a PORTION (a few rows: Q865 21 rows of selected z, Q798 2 rows) stays. tools/ztable.py lists any whole table
+  left ("WHOLE TABLE") and `--check` fails on it. Q1099: table Tf652 retired, figure 1373_q28_1 row archived, wording "(The
+  table at the back of this exam can be used for this question)", marked.

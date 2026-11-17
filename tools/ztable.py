@@ -39,12 +39,32 @@ def candidates():
     return out
 
 
+WHOLE_ROWS = 30   # a full standard normal table has 30-40 rows; the portions questions keep (Q865: 21, Q798: 2) are shorter
+
+
+def whole_tables():
+    """Questions that print a WHOLE z-table (owner 17 Nov: "QID 1099 ... still has the table in the question"): a table of 30+
+    rows, linked to the question (its own table, or the table of one of its figures), whose question is about the normal
+    distribution. These lose the table (data_tables_retired) and point to "the table at the back of this exam"."""
+    db = sqlite3.connect(paths.DB); out = {}
+    keys = dict(db.execute('select question_id, key from question_keys'))
+    rows = [(oid, tid, rj) for tid, oid, rj in db.execute("select id, owner_id, rows_json from data_tables where owner_table='questions'")]
+    rows += [(q, tid, rj) for tid, q, rj in db.execute("select t.id, f.question_id, t.rows_json from data_tables t join figures f on t.id = f.redraw_table_id")]
+    for qid, tid, rj in rows:
+        stem = db.execute('select stem_latex from questions where id=?', (qid,)).fetchone()
+        if stem and NORMAL.search(stem[0] or '') and len(json.loads(rj or '[]')) >= WHOLE_ROWS:
+            out[keys.get(qid, 'q%d' % qid)] = 'prints a whole z-table (%s, %d rows): remove it' % (tid, len(json.loads(rj)))
+    return out
+
+
 def main():
     found = candidates(); have = json.load(open(OUT)) if os.path.exists(OUT) else {}
     new = {k: v for k, v in found.items() if k not in have}
+    whole = whole_tables()
+    for k, v in whole.items(): print('  WHOLE TABLE:', k, v)
     if '--check' in sys.argv:
         for k, v in new.items(): print('  not marked:', k, v)
-        print(f'ztable: {len(have)} marked, {len(new)} new candidate(s)'); sys.exit(1 if new else 0)
+        print(f'ztable: {len(have)} marked, {len(new)} new candidate(s), {len(whole)} whole table(s) to remove'); sys.exit(1 if new or whole else 0)
     have.update(new); json.dump(have, open(OUT, 'w'), indent=1, sort_keys=True)
     for k, v in have.items(): print(' ', k, v)
     print(f'ztable: {len(have)} marked ({len(new)} new) -> {OUT[len(paths.P):]}')
