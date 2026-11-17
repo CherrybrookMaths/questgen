@@ -73,6 +73,10 @@ Lessons (each fixed in the tool):
   again) and invented a sketch key "2023kings_q15_s1": the solfmt prompt now says both, and its check rejects unknown figure keys;
   a sketch it asks for is queued for the diagrams step.
 
+Owner after Batch 8 (17 Nov): "not yet. no importing until i escelate this new prediction." and "the monthly limit is $300 right now.
+I can change it later. remind me when we resume imports." The key's limit is US$300 a month: about 6-12 batches of 9 at the measured
+US$25-45 a batch. Remind him of it before the first import after the hold.
+
 ## Figure crops are build output, not backed up (17 Nov)
 Owner 17 Nov: "What is realistic coding best practice in this case?" then "yeah build it and run the test". The crops
 (`figures/<id>.png`) are cut from the exam PDFs at each figure's recorded page and bbox, so they are regenerated, not archived:
