@@ -949,3 +949,8 @@ waiting for claude. Make the flags waiting a drop down too so we can see". A que
 flagged, no fixed) or a diagram change request (fig 'changes') is "waiting for Claude": it is never in "Fixed and back for you",
 it has its own list (Review dropdown and Inbox card "Flags waiting for Claude"), and its top box shows the checker's flag.
 Flagging again clears the old fix (fixed: null).
+
+## Word export disclaimer (17 Nov)
+Owner 17 Nov: "Add a disclaimer the word one is not tested on the user side." The exam preview's button reads "Download Word
+(beta)" and a line beside it says the Word export is not yet tested by users: check the file before you print or send it.
+Remove both once the owner's "check pdf and word output" Next up item is ticked.
