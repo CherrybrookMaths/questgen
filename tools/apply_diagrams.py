@@ -16,7 +16,11 @@ for f in sys.argv[1:]:
     d = json.load(open(f))
     for r in d.get('results') or d.get('figures') or []:
         k = r['id']
-        if k in recrop and 'fix' not in os.path.basename(f): continue   # re-cropped since: only the redraw made from the new crop counts
+        # re-cropped since: only the redraw made from the new crop counts. Batch 9 (18 Nov): post_load widens crops BEFORE the diagrams
+        # step, so a listed crop older than the result file was the one drawn from; 3 good Ascham redraws were silently dropped before this
+        cp = P + f'figures/{k}.png'
+        if k in recrop and 'fix' not in os.path.basename(f) and (not os.path.exists(cp) or os.path.getmtime(cp) > os.path.getmtime(f)):
+            print('skipped (crop re-cut after this redraw):', k); continue
         rec = dict(id=k, **{x: r.get(x) for x in ('class', 'status', 'rounds', 'notes', 'table')}, version=1, overlay=r.get('overlay'))
         if k in byid: allr[byid[k]] = rec
         else: byid[k] = len(allr); allr.append(rec)
