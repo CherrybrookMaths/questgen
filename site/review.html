@@ -1708,7 +1708,23 @@ html:not(.editor) .edonly{display:none!important}
 .iprow{display:grid;grid-template-columns:minmax(0,1fr) auto 10.5em;gap:14px;align-items:center;padding:8px;border-radius:var(--t2-r);color:inherit;text-decoration:none}
 .iprow:hover{background:var(--t2-hover)}
 .iprow:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-.ipn{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ipn{font-weight:500;display:flex;align-items:center;gap:8px;min-width:0}
+.ipn .rv-pnm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+/* owner 17 Nov: "papers waiting on a Your call marked as such" */
+.ipn .rv-call{flex:none;font-size:11.5px;font-weight:500;line-height:1.5;padding:0 7px;border-radius:999px;color:var(--warn);background:var(--warn-soft);white-space:nowrap}
+/* owner 17 Nov: "group 'Papers to review' by batch, oldest first ('Batch 4 · 7 of 9 cleared')" (08_review.js inboxGroups) */
+.rv-bgs{border-top:1px solid var(--line);padding:4px 0 2px}
+.rv-bg .iplist{border-top:0;padding-top:0}
+.rv-bgh{display:block;padding:8px 16px 4px;font-size:12.5px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums}
+summary.rv-bgh{cursor:pointer;border-radius:var(--t2-r);list-style:none}
+summary.rv-bgh::-webkit-details-marker{display:none}
+summary.rv-bgh::before{content:"▸";display:inline-block;width:1em;margin-right:4px;transition:transform .15s}
+details.rv-bg[open]>summary.rv-bgh::before{transform:rotate(90deg)}
+@media (prefers-reduced-motion:reduce){summary.rv-bgh::before{transition:none}}
+summary.rv-bgh:hover{color:var(--ink)}
+summary.rv-bgh:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.rv-bgdone .rv-bgh{font-weight:500;padding-block:5px}
+.rv-bgdone .rv-bgh::before{content:"✓";display:inline-block;width:1em;margin-right:4px;color:var(--ok)}
 .iprow .ipl{text-align:right}
 .imore{display:block;padding:8px 16px 12px;font-size:13px;border-top:1px solid var(--line)}
 .ifoot{margin-top:18px;font-size:13px;color:var(--muted);display:flex;gap:10px;align-items:center;flex-wrap:wrap}
@@ -1767,6 +1783,8 @@ a.plink:hover{text-decoration:underline}
   .icard .banner.ready{margin:0 12px 10px}
   .iprow{grid-template-columns:minmax(0,1fr) auto;row-gap:2px;padding:8px 6px}
   .iprow .ipl{grid-column:1/-1;text-align:left}
+  .rv-bgh{padding-inline:12px}
+  .ipn{flex-wrap:wrap;row-gap:3px}.ipn .rv-pnm{flex:1 1 100%}   /* phone: the your-call marker goes under the name, the name keeps the width */
   .imore{padding:8px 12px 12px}
 }
 /* a call on the whole paper, top of Your calls (owner 13 Nov) */
@@ -2804,14 +2822,30 @@ function updateCounts(){if(!QG.detOK)return;const n=todoCount();   // job 2: the
   $('#todoN').textContent=n||'';const c=$('#curN');if(c)c.textContent=n||''}
 // review 13 Nov: the steps are walked per paper now, so "Needs your decision" and "Diagrams to approve" across every paper stay reachable here (the old step row's paper picker did that)
 const otherListsHTML=sel=>`<select data-lists aria-label="Other lists"><option value="">${sel?'Other lists…':'Choose…'}</option>${FILTERS.map(([k,l])=>`<option value="${k}"${k===sel?' selected':''}>${esc(l)}</option>`).join('')}</select>`;
+// owner 17 Nov: "Review: group 'Papers to review' by batch, oldest first ('Batch 4 · 7 of 9 cleared'); papers waiting on a Your call
+// marked as such. Ordered, not locked." Groups from the import batches (PQ.batchOf, 32_papers_q.js); papers in no batch come first
+// as "Before batches". Within a group the order is workOrder. Cleared = no review work left (w.n 0, as Processes' "cleared review").
+// A group with nothing left is its header line only; nothing is locked: every group opens, every row opens its paper.
+function inboxGroups(all){const bo=typeof PQ==='object'&&PQ.batchOf();if(!bo)return null;const g=new Map();
+  [...all.values()].sort(workOrder).forEach(w=>{const b=docIds(w.doc).map(d=>bo.get(String(d))).find(Boolean),k=b?b.key+':'+b.n:'';
+    if(!g.has(k))g.set(k,{b,ws:[]});g.get(k).ws.push(w)});
+  const multi=new Set([...bo.values()].map(b=>b.key)).size>1;   // course is a dimension: name the lane once there is more than one
+  return [...g.values()].sort((x,y)=>!x.b?-1:!y.b?1:x.b.n-y.b.n||x.b.o-y.b.o)
+    .map(({b,ws})=>({n:b?b.n:'',name:b?(multi?b.name+' · ':'')+'Batch '+b.n:'Before batches',ws,clr:ws.filter(w=>!w.n).length}))}
 function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
-  const W=[...allWork().values()].filter(w=>w.n).sort(workOrder),rep=typeof repOpen==='function'?repOpen().length:0,lv=typeof lvTodoN==='function'?lvTodoN():0;
+  const all=allWork(),W=[...all.values()].filter(w=>w.n).sort(workOrder),rep=typeof repOpen==='function'?repOpen().length:0,lv=typeof lvTodoN==='function'?lvTodoN():0;
   const card=(k,n,title,what,href,doneText,body='')=>n?`<section class="icard" data-card="${k}"><a class="ihead" href="${href}"><span class="ict">${n}</span><span class="itx"><b>${title}</b><span class="iwhat">${what}</span></span><span class="igo" aria-hidden="true">→</span></a>${body}</section>`
     :`<section class="icard idone" data-card="${k}"><a class="ihead" href="${href}"><span class="itick" aria-hidden="true">✓</span><span class="itx"><b>${title}</b><span class="iwhat">${doneText}</span></span><span class="igo">${k==='papers'?'Show all papers':'Open'} →</span></a></section>`;
-  const SHOW=8,rows=W.slice(0,SHOW).map(w=>`<li><a class="iprow" href="#review/paper/${w.doc}"><span class="ipn">${esc(docLabel(B.docs[w.doc]))}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`).join('');
+  const SHOW=8,row=w=>`<li><a class="iprow" href="#review/paper/${w.doc}"><span class="ipn"><span class="rv-pnm">${esc(docLabel(B.docs[w.doc]))}</span>${w.left.decide?'<span class="rv-call">waiting on your call</span>':''}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`;
+  // groups open in order until SHOW rows are out; later groups show their header and open on a click ("N more" counts their rows)
+  const G=W.length?inboxGroups(all):null,was=new Map([...box.querySelectorAll('details.rv-bg')].map(d=>[d.dataset.batch,d.open]));let shown=0,more=Math.max(0,W.length-SHOW),list=`<ul class="iplist">${W.slice(0,SHOW).map(row).join('')}</ul>`;
+  if(G){more=0;list=`<div class="rv-bgs">${G.map(g=>{const todo=g.ws.filter(w=>w.n),head=`${esc(g.name)} · ${g.clr} of ${g.ws.length} cleared`;
+    if(!todo.length)return `<div class="rv-bg rv-bgdone" data-batch="${g.n}"><span class="rv-bgh">${head}</span></div>`;
+    const open=shown<SHOW;if(open)shown+=todo.length;else more+=todo.length;
+    return `<details class="rv-bg" data-batch="${g.n}"${(was.has(String(g.n))?was.get(String(g.n)):open)?' open':''}><summary class="rv-bgh">${head}</summary><ul class="iplist">${todo.map(row).join('')}</ul></details>`}).join('')}</div>`}
   box.innerHTML=`<div class="ihd"><h2>Review</h2><p class="sub">What is waiting for you. Papers are walked one at a time, top to bottom.</p></div>
     ${card('papers',W.length,'Papers to review','Open a paper and walk it top to bottom: your calls, flagged, topics, diagrams, then the spot-check that approves the rest.','#review/papers','all approved',
-      readyHTML()+`<ul class="iplist">${rows}</ul><a class="imore" href="#review/papers">${W.length>SHOW?`${W.length-SHOW} more · `:''}Show all papers →</a>`)}
+      readyHTML()+`${list}<a class="imore" href="#review/papers">${more?`${more} more · `:''}Show all papers →</a>`)}
     ${(()=>{const nb=B.questions.filter(backQ).length;return nb?card('back',nb,'Fixed and back for you','Questions you flagged or diagrams you asked to change: Claude has fixed them. Check each one and approve it, or flag it again.','#review/list/back',''):''})()}
     ${(()=>{const nw=B.questions.filter(waitQ).length;return nw?card('waiting',nw,'Flags waiting for Claude','Flags and diagram change requests Claude has not fixed yet. They come back in "Fixed and back for you" once fixed.','#review/list/waiting',''):''})()}
     <div class="ipair">${card('reports',rep,'Reports','Questions reported from an exam paper: a wrong difficulty, a wrong dot point or something else. Resolve or dismiss each one.','#review/reports','nothing open')}
@@ -5253,9 +5287,10 @@ const yrs=ps=>{const y=ps.map(p=>p.y).filter(Boolean);if(!y.length)return '';con
 const snap=(s)=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
 
 // ---- loading (editors only: a viewer never fetches the inventory or subscribes)
-function load(){if(S.data||S.loading||!isOwnerV())return;S.loading=true;
+// rv: Review's Inbox asks for the batches (batchOf), so an editor who is not the owner (the checker) fetches it too; a viewer never does
+function load(rv){if(S.data||S.loading||!(isOwnerV()||rv&&isEditor()))return;S.loading=true;
   fetch('data/inventory.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{S.data=d&&Array.isArray(d.groups)?d:null;S.failed=!S.data})
-    .catch(()=>{S.failed=true}).finally(()=>{S.loading=false;if(view==='processes')render()})}
+    .catch(()=>{S.failed=true}).finally(()=>{S.loading=false;if(view==='processes')render();else if(view==='inbox'&&S.data)renderInbox()})}
 function subscribe(){if(!db||!isOwnerV())return;
   const on=(k,f)=>{if(S.subs[k])return;try{S.subs[k]=f()}catch(e){}};
   on('fix',()=>db.collection('paperfix').onSnapshot(s=>{S.fix={};snap(s).forEach(x=>{if(Number.isFinite(+x.id))S.fix[+x.id]=x});redraw()},()=>{}));
@@ -5309,7 +5344,8 @@ function swapsApply(bs,sw,fixed){const B=bs.map(b=>b.slice()),sizes=B.map(b=>b.l
     const idx=[];for(let j=k;j<B.length;j++)if(!frozen(B[j]))idx.push(j);
     const flat=idx.flatMap(j=>B[j]).filter(x=>x!==i).concat(i);let o=0;for(const j of idx){B[j]=flat.slice(o,o+sizes[j]);o+=sizes[j]}}
   return B}
-function lanes(){const m=model();if(!m)return [];const imp=new Set(m.ps.filter(p=>p.st==='imported').map(p=>p.id));
+// every lane, also one with nothing left to import (batchOf needs its finished batches); lanes() keeps the ones the tab shows
+function allLanes(){const m=model();if(!m)return [];const imp=new Set(m.ps.filter(p=>p.st==='imported').map(p=>p.id));
   return (m.D.lanes||[]).map(L=>{const key=laneKey(L.course,L.yl),bs=swapsApply(L.batches||[],S.swaps[key],imp);
     const batches=bs.map((ids,k)=>{const ps=ids.map(i=>m.byId.get(i)).filter(Boolean),ready=ps.filter(p=>READY.includes(p.st)&&p.c===L.course&&p.yl===L.yl);
       const n=L.first+k,done=ps.length&&ps.every(p=>p.st==='imported');
@@ -5317,7 +5353,17 @@ function lanes(){const m=model();if(!m)return [];const imp=new Set(m.ps.filter(p
     const inLane=m.ps.filter(p=>p.c===L.course&&p.yl===L.yl),batched=new Set(bs.flat());
     return {...L,key,name:laneName(L.course,L.yl),batches,done:L.done||[],imported:inLane.filter(p=>p.st==='imported').length,
       ready:inLane.filter(p=>READY.includes(p.st)).length,unbatched:inLane.filter(p=>READY.includes(p.st)&&!batched.has(p.id)).length,
-      newN:inLane.filter(p=>p.new).length}}).filter(L=>L.ready||L.batches.some(b=>b.ready.length))}
+      newN:inLane.filter(p=>p.new).length}})}
+const lanes=()=>allLanes().filter(L=>L.ready||L.batches.some(b=>b.ready.length));
+// owner 17 Nov: "Review: group 'Papers to review' by batch, oldest first ('Batch 4 · 7 of 9 cleared'); papers waiting on a Your call
+// marked as such. Ordered, not locked." Review's Inbox reads this: doc id (string) -> {key, n, name, o (lane order)} for every
+// imported paper in a numbered batch (finished batches and lane batches); null until the inventory has loaded. A swap never moves
+// an imported paper (swapsApply skips a batch that holds one), so the checker, who has no swaps subscription, gets the same map.
+let BO=null;
+function batchOf(){if(!S.data){if(!S.failed)load(true);return null}const m=model();if(BO&&BO.m===m)return BO.map;const map=new Map();
+  allLanes().forEach((L,o)=>{const put=(n,ids)=>ids.forEach(i=>{const p=m.byId.get(i);if(p&&p.st==='imported')(p.f||[p.id]).forEach(d=>map.set(String(d),{key:L.key,n,name:L.name,o}))});
+    L.done.forEach(d=>put(d.n,d.ids||[]));L.batches.forEach(b=>put(b.n,b.ids))});
+  BO={m,map};return map}
 // one batch of a lane: {lane, b} (PQ.run reads it for the queue)
 function batch(key,n){const L=lanes().find(x=>x.key===key);const b=L&&L.batches.find(x=>x.n===+n);return b?{lane:L,b}:null}
 
@@ -5419,7 +5465,7 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
   const one=t.closest('[data-prqone]');if(one&&API.run){const [key,n]=one.dataset.prqone.split(':');await API.run.add([{key,n:+n}]);return}
   if(t.closest('[data-prcover]')&&API.run){await API.run.coverCheck();return}});
 // scan, run, check: the parts in 33-35 hang off this object (no new page-wide name); code here reaches them through API
-const API={render,redraw,state:S,model,lanes,batch,reviewState,imported,waiting,label,course,short,laneName,laneKey,years:YN,yrs,plural,nf,accepted,rules,placedStatus,swapsApply,sub,
+const API={render,redraw,state:S,model,lanes,batch,batchOf,reviewState,imported,waiting,label,course,short,laneName,laneKey,years:YN,yrs,plural,nf,accepted,rules,placedStatus,swapsApply,sub,
   cost:()=>{const c=S.data&&S.data.cost_per_paper,v=typeof c==='number'?[c,c]:Array.isArray(c)?c:c&&typeof c==='object'?[c.lo??c.min,c.hi??c.max]:null;return v&&v.length===2&&v.every(Number.isFinite)?v:null},
   usd:([lo,hi])=>{const f=x=>Math.round(x).toLocaleString('en-AU');return lo===hi?`US$${f(lo)}`:`US$${f(lo)}–${f(hi)}`},size:SIZE,
   groups:()=>(S.data&&S.data.groups)||[]};

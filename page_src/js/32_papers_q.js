@@ -42,9 +42,10 @@ const yrs=ps=>{const y=ps.map(p=>p.y).filter(Boolean);if(!y.length)return '';con
 const snap=(s)=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
 
 // ---- loading (editors only: a viewer never fetches the inventory or subscribes)
-function load(){if(S.data||S.loading||!isOwnerV())return;S.loading=true;
+// rv: Review's Inbox asks for the batches (batchOf), so an editor who is not the owner (the checker) fetches it too; a viewer never does
+function load(rv){if(S.data||S.loading||!(isOwnerV()||rv&&isEditor()))return;S.loading=true;
   fetch('data/inventory.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(d=>{S.data=d&&Array.isArray(d.groups)?d:null;S.failed=!S.data})
-    .catch(()=>{S.failed=true}).finally(()=>{S.loading=false;if(view==='processes')render()})}
+    .catch(()=>{S.failed=true}).finally(()=>{S.loading=false;if(view==='processes')render();else if(view==='inbox'&&S.data)renderInbox()})}
 function subscribe(){if(!db||!isOwnerV())return;
   const on=(k,f)=>{if(S.subs[k])return;try{S.subs[k]=f()}catch(e){}};
   on('fix',()=>db.collection('paperfix').onSnapshot(s=>{S.fix={};snap(s).forEach(x=>{if(Number.isFinite(+x.id))S.fix[+x.id]=x});redraw()},()=>{}));
@@ -98,7 +99,8 @@ function swapsApply(bs,sw,fixed){const B=bs.map(b=>b.slice()),sizes=B.map(b=>b.l
     const idx=[];for(let j=k;j<B.length;j++)if(!frozen(B[j]))idx.push(j);
     const flat=idx.flatMap(j=>B[j]).filter(x=>x!==i).concat(i);let o=0;for(const j of idx){B[j]=flat.slice(o,o+sizes[j]);o+=sizes[j]}}
   return B}
-function lanes(){const m=model();if(!m)return [];const imp=new Set(m.ps.filter(p=>p.st==='imported').map(p=>p.id));
+// every lane, also one with nothing left to import (batchOf needs its finished batches); lanes() keeps the ones the tab shows
+function allLanes(){const m=model();if(!m)return [];const imp=new Set(m.ps.filter(p=>p.st==='imported').map(p=>p.id));
   return (m.D.lanes||[]).map(L=>{const key=laneKey(L.course,L.yl),bs=swapsApply(L.batches||[],S.swaps[key],imp);
     const batches=bs.map((ids,k)=>{const ps=ids.map(i=>m.byId.get(i)).filter(Boolean),ready=ps.filter(p=>READY.includes(p.st)&&p.c===L.course&&p.yl===L.yl);
       const n=L.first+k,done=ps.length&&ps.every(p=>p.st==='imported');
@@ -106,7 +108,17 @@ function lanes(){const m=model();if(!m)return [];const imp=new Set(m.ps.filter(p
     const inLane=m.ps.filter(p=>p.c===L.course&&p.yl===L.yl),batched=new Set(bs.flat());
     return {...L,key,name:laneName(L.course,L.yl),batches,done:L.done||[],imported:inLane.filter(p=>p.st==='imported').length,
       ready:inLane.filter(p=>READY.includes(p.st)).length,unbatched:inLane.filter(p=>READY.includes(p.st)&&!batched.has(p.id)).length,
-      newN:inLane.filter(p=>p.new).length}}).filter(L=>L.ready||L.batches.some(b=>b.ready.length))}
+      newN:inLane.filter(p=>p.new).length}})}
+const lanes=()=>allLanes().filter(L=>L.ready||L.batches.some(b=>b.ready.length));
+// owner 17 Nov: "Review: group 'Papers to review' by batch, oldest first ('Batch 4 · 7 of 9 cleared'); papers waiting on a Your call
+// marked as such. Ordered, not locked." Review's Inbox reads this: doc id (string) -> {key, n, name, o (lane order)} for every
+// imported paper in a numbered batch (finished batches and lane batches); null until the inventory has loaded. A swap never moves
+// an imported paper (swapsApply skips a batch that holds one), so the checker, who has no swaps subscription, gets the same map.
+let BO=null;
+function batchOf(){if(!S.data){if(!S.failed)load(true);return null}const m=model();if(BO&&BO.m===m)return BO.map;const map=new Map();
+  allLanes().forEach((L,o)=>{const put=(n,ids)=>ids.forEach(i=>{const p=m.byId.get(i);if(p&&p.st==='imported')(p.f||[p.id]).forEach(d=>map.set(String(d),{key:L.key,n,name:L.name,o}))});
+    L.done.forEach(d=>put(d.n,d.ids||[]));L.batches.forEach(b=>put(b.n,b.ids))});
+  BO={m,map};return map}
 // one batch of a lane: {lane, b} (PQ.run reads it for the queue)
 function batch(key,n){const L=lanes().find(x=>x.key===key);const b=L&&L.batches.find(x=>x.n===+n);return b?{lane:L,b}:null}
 
@@ -208,7 +220,7 @@ document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.c
   const one=t.closest('[data-prqone]');if(one&&API.run){const [key,n]=one.dataset.prqone.split(':');await API.run.add([{key,n:+n}]);return}
   if(t.closest('[data-prcover]')&&API.run){await API.run.coverCheck();return}});
 // scan, run, check: the parts in 33-35 hang off this object (no new page-wide name); code here reaches them through API
-const API={render,redraw,state:S,model,lanes,batch,reviewState,imported,waiting,label,course,short,laneName,laneKey,years:YN,yrs,plural,nf,accepted,rules,placedStatus,swapsApply,sub,
+const API={render,redraw,state:S,model,lanes,batch,batchOf,reviewState,imported,waiting,label,course,short,laneName,laneKey,years:YN,yrs,plural,nf,accepted,rules,placedStatus,swapsApply,sub,
   cost:()=>{const c=S.data&&S.data.cost_per_paper,v=typeof c==='number'?[c,c]:Array.isArray(c)?c:c&&typeof c==='object'?[c.lo??c.min,c.hi??c.max]:null;return v&&v.length===2&&v.every(Number.isFinite)?v:null},
   usd:([lo,hi])=>{const f=x=>Math.round(x).toLocaleString('en-AU');return lo===hi?`US$${f(lo)}`:`US$${f(lo)}–${f(hi)}`},size:SIZE,
   groups:()=>(S.data&&S.data.groups)||[]};

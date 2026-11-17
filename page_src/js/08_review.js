@@ -160,14 +160,30 @@ function updateCounts(){if(!QG.detOK)return;const n=todoCount();   // job 2: the
   $('#todoN').textContent=n||'';const c=$('#curN');if(c)c.textContent=n||''}
 // review 13 Nov: the steps are walked per paper now, so "Needs your decision" and "Diagrams to approve" across every paper stay reachable here (the old step row's paper picker did that)
 const otherListsHTML=sel=>`<select data-lists aria-label="Other lists"><option value="">${sel?'Other lists…':'Choose…'}</option>${FILTERS.map(([k,l])=>`<option value="${k}"${k===sel?' selected':''}>${esc(l)}</option>`).join('')}</select>`;
+// owner 17 Nov: "Review: group 'Papers to review' by batch, oldest first ('Batch 4 · 7 of 9 cleared'); papers waiting on a Your call
+// marked as such. Ordered, not locked." Groups from the import batches (PQ.batchOf, 32_papers_q.js); papers in no batch come first
+// as "Before batches". Within a group the order is workOrder. Cleared = no review work left (w.n 0, as Processes' "cleared review").
+// A group with nothing left is its header line only; nothing is locked: every group opens, every row opens its paper.
+function inboxGroups(all){const bo=typeof PQ==='object'&&PQ.batchOf();if(!bo)return null;const g=new Map();
+  [...all.values()].sort(workOrder).forEach(w=>{const b=docIds(w.doc).map(d=>bo.get(String(d))).find(Boolean),k=b?b.key+':'+b.n:'';
+    if(!g.has(k))g.set(k,{b,ws:[]});g.get(k).ws.push(w)});
+  const multi=new Set([...bo.values()].map(b=>b.key)).size>1;   // course is a dimension: name the lane once there is more than one
+  return [...g.values()].sort((x,y)=>!x.b?-1:!y.b?1:x.b.n-y.b.n||x.b.o-y.b.o)
+    .map(({b,ws})=>({n:b?b.n:'',name:b?(multi?b.name+' · ':'')+'Batch '+b.n:'Before batches',ws,clr:ws.filter(w=>!w.n).length}))}
 function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
-  const W=[...allWork().values()].filter(w=>w.n).sort(workOrder),rep=typeof repOpen==='function'?repOpen().length:0,lv=typeof lvTodoN==='function'?lvTodoN():0;
+  const all=allWork(),W=[...all.values()].filter(w=>w.n).sort(workOrder),rep=typeof repOpen==='function'?repOpen().length:0,lv=typeof lvTodoN==='function'?lvTodoN():0;
   const card=(k,n,title,what,href,doneText,body='')=>n?`<section class="icard" data-card="${k}"><a class="ihead" href="${href}"><span class="ict">${n}</span><span class="itx"><b>${title}</b><span class="iwhat">${what}</span></span><span class="igo" aria-hidden="true">→</span></a>${body}</section>`
     :`<section class="icard idone" data-card="${k}"><a class="ihead" href="${href}"><span class="itick" aria-hidden="true">✓</span><span class="itx"><b>${title}</b><span class="iwhat">${doneText}</span></span><span class="igo">${k==='papers'?'Show all papers':'Open'} →</span></a></section>`;
-  const SHOW=8,rows=W.slice(0,SHOW).map(w=>`<li><a class="iprow" href="#review/paper/${w.doc}"><span class="ipn">${esc(docLabel(B.docs[w.doc]))}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`).join('');
+  const SHOW=8,row=w=>`<li><a class="iprow" href="#review/paper/${w.doc}"><span class="ipn"><span class="rv-pnm">${esc(docLabel(B.docs[w.doc]))}</span>${w.left.decide?'<span class="rv-call">waiting on your call</span>':''}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`;
+  // groups open in order until SHOW rows are out; later groups show their header and open on a click ("N more" counts their rows)
+  const G=W.length?inboxGroups(all):null,was=new Map([...box.querySelectorAll('details.rv-bg')].map(d=>[d.dataset.batch,d.open]));let shown=0,more=Math.max(0,W.length-SHOW),list=`<ul class="iplist">${W.slice(0,SHOW).map(row).join('')}</ul>`;
+  if(G){more=0;list=`<div class="rv-bgs">${G.map(g=>{const todo=g.ws.filter(w=>w.n),head=`${esc(g.name)} · ${g.clr} of ${g.ws.length} cleared`;
+    if(!todo.length)return `<div class="rv-bg rv-bgdone" data-batch="${g.n}"><span class="rv-bgh">${head}</span></div>`;
+    const open=shown<SHOW;if(open)shown+=todo.length;else more+=todo.length;
+    return `<details class="rv-bg" data-batch="${g.n}"${(was.has(String(g.n))?was.get(String(g.n)):open)?' open':''}><summary class="rv-bgh">${head}</summary><ul class="iplist">${todo.map(row).join('')}</ul></details>`}).join('')}</div>`}
   box.innerHTML=`<div class="ihd"><h2>Review</h2><p class="sub">What is waiting for you. Papers are walked one at a time, top to bottom.</p></div>
     ${card('papers',W.length,'Papers to review','Open a paper and walk it top to bottom: your calls, flagged, topics, diagrams, then the spot-check that approves the rest.','#review/papers','all approved',
-      readyHTML()+`<ul class="iplist">${rows}</ul><a class="imore" href="#review/papers">${W.length>SHOW?`${W.length-SHOW} more · `:''}Show all papers →</a>`)}
+      readyHTML()+`${list}<a class="imore" href="#review/papers">${more?`${more} more · `:''}Show all papers →</a>`)}
     ${(()=>{const nb=B.questions.filter(backQ).length;return nb?card('back',nb,'Fixed and back for you','Questions you flagged or diagrams you asked to change: Claude has fixed them. Check each one and approve it, or flag it again.','#review/list/back',''):''})()}
     ${(()=>{const nw=B.questions.filter(waitQ).length;return nw?card('waiting',nw,'Flags waiting for Claude','Flags and diagram change requests Claude has not fixed yet. They come back in "Fixed and back for you" once fixed.','#review/list/waiting',''):''})()}
     <div class="ipair">${card('reports',rep,'Reports','Questions reported from an exam paper: a wrong difficulty, a wrong dot point or something else. Resolve or dismiss each one.','#review/reports','nothing open')}

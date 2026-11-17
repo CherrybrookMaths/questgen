@@ -832,7 +832,7 @@ async function reviewFlow(browser, base, seed) {
         pn: card('papers')?.querySelector('.ict')?.textContent, rows: [...document.querySelectorAll('#inboxBox .iprow')].map(a => ({href: a.getAttribute('href'), dots: a.querySelectorAll('.mtrack i').length, line: a.querySelector('.ipl').textContent})),
         // 17 Nov: a diagram redrawn from a change request and not approved again keeps its paper open (openFix)
         redo: [...new Set(B.questions.filter(q => !q.dup_of && (() => { const x = reviews['q' + q.id]; return x && x.status !== 'flagged' && Object.keys(x.fig_done || {}).some(k => !(x.fig || {})[k]) })()).map(q => String(mainDoc(q.doc))))],
-        all: card('papers')?.querySelector('a.imore')?.getAttribute('href'),
+        all: card('papers')?.querySelector('a.imore')?.getAttribute('href'), grouped: !!card('papers')?.querySelector('.rv-bgs'), vis: [...document.querySelectorAll('#inboxBox .iprow')].filter(a => a.getClientRects().length).length,
         repDone: card('reports')?.classList.contains('idone'), repTxt: card('reports')?.innerText, lvDone: card('difficulty')?.classList.contains('idone'), lvTxt: card('difficulty')?.innerText, lvHref: card('difficulty')?.querySelector('a')?.getAttribute('href'),
         tab: document.querySelector('#todoN').textContent, sw: document.querySelector('#curN').textContent,
         recent: document.querySelector('#inboxBox .ifoot a')?.getAttribute('href'), lists: document.querySelectorAll('#inboxBox .ifoot select[data-lists] option').length};
@@ -841,8 +841,8 @@ async function reviewFlow(browser, base, seed) {
     // the fixture's workload is 1346, 323, 1601; every paper with an open call raised on it (open_decisions.json "paper_<doc>") has work too (owner 13 Nov)
     const wantDocs = [...new Set(['1346', '1601', '323', ...r.pc, ...r.fresh.map(String), ...r.redo])].sort();
     assert(r.want === wantDocs.length && r.docs.join(',') === wantDocs.join(','), `papers with work: ${r.docs.join(',')} (want ${wantDocs.join(',')})`);
-    // the card lists at most 8 papers (08_review.js SHOW), then "Show all papers"
-    assert(r.pn === String(r.want) && r.rows.length === Math.min(8, r.want), `Papers card says ${r.pn}, ${r.rows.length} rows, want ${r.want} (${Math.min(8, r.want)} rows)`);
+    // the card opens at least 8 papers (08_review.js SHOW; 17 Nov: whole batch groups, later groups as a header line), then "Show all papers"
+    assert(r.pn === String(r.want) && (r.grouped ? r.rows.length === r.want && r.vis >= Math.min(8, r.want) : r.rows.length === Math.min(8, r.want)), `Papers card says ${r.pn}, ${r.rows.length} rows (${r.vis} open, grouped ${r.grouped}), want ${r.want} (${Math.min(8, r.want)} rows)`);
     assert(r.rows.every(x => x.dots === 5 && /^\d+ left · at (Your calls|Flagged|Topics|Diagrams|Spot-check)$/.test(x.line) && /^#review\/paper\/\d+$/.test(x.href)), `rows: ${JSON.stringify(r.rows)}`);
     assert(r.all === '#review/papers', `"Show all papers" goes to ${r.all}`);
     assert(r.rep === 0 && r.repDone && /Reports\s*nothing open/.test(r.repTxt), `Reports card with ${r.rep} open: done ${r.repDone} “${r.repTxt}”`);
@@ -854,6 +854,59 @@ async function reviewFlow(browser, base, seed) {
     errs(); assert(l.hash === '#review/list/all' && l.view === 'review' && l.rfilter === 'all' && l.rstatus === 'any' && l.n > 1000 && !l.track, `Other lists → ${l.hash} ${l.rfilter}/${l.rstatus}, ${l.n} questions, track ${l.track}px`);
     return `${r.want} papers (${r.rows.map(x => x.line).join('; ')}); reports and difficulty ticked; tab and switch ${tot}; Other lists → All questions`;
   });
+
+  // owner 17 Nov: "Review: group 'Papers to review' by batch, oldest first ('Batch 4 · 7 of 9 cleared'); papers waiting on a Your
+  // call marked as such. Ordered, not locked." The batches are worked out here from the live data/inventory.json (finished batches
+  // and lane batches, imported papers only), apart from the page's PQ.batchOf; cleared = Review's own paperWork, n 0.
+  await check('review: Papers to review grouped by batch, oldest first, "N of M cleared", your-call marker', page, async () => {
+    await go('#review');
+    const inv = JSON.parse(fs.readFileSync(path.join(SITE, 'data/inventory.json'), 'utf8')), st = new Map();
+    for (const g of inv.groups) for (const p of g.papers) st.set(p.id, p);
+    const bOf = new Map();
+    for (const L of inv.lanes) {
+      const put = (n, ids) => ids.forEach(i => { const p = st.get(i); if (p && p.st === 'imported') (p.f || [p.id]).forEach(d => bOf.set(String(d), n)) });
+      (L.done || []).forEach(d => put(d.n, d.ids)); (L.batches || []).forEach((ids, k) => put(L.first + k, ids));
+    }
+    const r = await page.evaluate(() => ({
+      papers: [...allWork().values()].sort(workOrder).map(w => ({doc: String(w.doc), ids: docIds(w.doc).map(String), n: w.n, call: w.left.decide})),
+      groups: [...document.querySelectorAll('#inboxBox [data-card="papers"] .rv-bg')].map(g => ({batch: g.dataset.batch, head: g.querySelector('.rv-bgh').textContent, tag: g.tagName, open: g.open,
+        rows: [...g.querySelectorAll('.iprow')].map(a => ({doc: a.getAttribute('href').split('/').pop(), mark: a.querySelector('.rv-call')?.textContent || ''}))}))}));
+    errs();
+    const want = new Map();
+    for (const p of r.papers) { const b = p.ids.map(d => bOf.get(d)).find(x => x != null) ?? ''; if (!want.has(b)) want.set(b, []); want.get(b).push(p) }
+    const order = [...want.keys()].sort((a, b) => a === '' ? -1 : b === '' ? 1 : a - b);
+    const heads = order.map(b => { const ps = want.get(b); return `${b === '' ? 'Before batches' : 'Batch ' + b} · ${ps.filter(p => !p.n).length} of ${ps.length} cleared` });
+    assert(r.groups.length === order.length && r.groups.map(g => g.head).join(' | ') === heads.join(' | '), `headers ${JSON.stringify(r.groups.map(g => g.head))}, want ${JSON.stringify(heads)}`);
+    assert(r.groups.every((g, i) => g.batch === String(order[i])), `batch order ${r.groups.map(g => g.batch)} (want ${order})`);
+    for (const [i, g] of r.groups.entries()) {
+      const todo = want.get(order[i]).filter(p => p.n);
+      assert(g.rows.map(x => x.doc).join() === todo.map(p => p.doc).join(), `${g.head}: rows ${g.rows.map(x => x.doc)} (want ${todo.map(p => p.doc)}, in the list's order)`);
+      assert(todo.length ? g.tag === 'DETAILS' : g.tag === 'DIV', `${g.head}: a ${g.tag} (a group with nothing left is its header line only)`);
+      for (const x of g.rows) { const p = todo.find(p => p.doc === x.doc); assert(p.call ? x.mark === 'waiting on your call' : x.mark === '', `${x.doc}: ${p.call} open calls, marker “${x.mark}”`) }
+    }
+    const marked = r.groups.flatMap(g => g.rows).filter(x => x.mark);
+    assert(marked.some(x => x.doc === '1346'), `1346 has open Your calls in the fixture but no marker (marked: ${marked.map(x => x.doc)})`);
+    // ordered, not locked: a closed group opens and its rows open their paper
+    const closed = r.groups.find(g => g.tag === 'DETAILS' && !g.open);
+    if (closed) { await page.click(`#inboxBox details.rv-bg[data-batch="${closed.batch}"] > summary`); const o = await page.evaluate(b => document.querySelector(`#inboxBox details.rv-bg[data-batch="${b}"]`).open, closed.batch); assert(o, `${closed.head} did not open`) }
+    const busy = r.groups.find(g => g.rows.length && g.open && g.batch !== '');
+    if (busy) { await page.click(`#inboxBox .rv-bg[data-batch="${busy.batch}"] .iprow`); await settle(page, 4000, 2);
+      const h = await page.evaluate(() => location.hash); assert(h.startsWith('#review/paper/' + busy.rows[0].doc), `a ${busy.head} row opened ${h}`); await go('#review') }
+    return `${r.groups.map(g => g.head + (g.rows.length ? ` (${g.rows.length} open)` : '')).join('; ')}; marked ${marked.map(x => x.doc).join(', ')}`;
+  });
+  // the checker (an editor who is not the owner) gets the same groups: the Inbox fetches data/inventory.json for an editor
+  {
+    const ck = await newPage(browser, base, seed, {width: 1280, theme: 'light', role: 'checker'});
+    await boot(ck, base, '#review');
+    await check('review (checker): Papers to review grouped by batch', ck, async () => {
+      const r = await ck.evaluate(() => ({hash: location.hash, heads: [...document.querySelectorAll('#inboxBox .rv-bg .rv-bgh')].map(h => h.textContent)}));
+      const o = await page.evaluate(() => [...document.querySelectorAll('#inboxBox .rv-bg .rv-bgh')].map(h => h.textContent));
+      const e = takeErrs(ck); assert(!e.length, e.slice(0, 3).join(' | '));
+      assert(r.hash === '#review' && r.heads.length && r.heads.join(' | ') === o.join(' | '), `checker: ${JSON.stringify(r)}; owner: ${JSON.stringify(o)}`);
+      return r.heads.join('; ');
+    });
+    await ck.context().close();
+  }
 
   await check('review: papers list (#papers) with tracks opens a paper', page, async () => {
     await go('#papers');
