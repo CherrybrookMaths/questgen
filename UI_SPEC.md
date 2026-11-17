@@ -357,7 +357,7 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   - What is wrong: Wrong difficulty (optional band 2–6, and from 14 Nov an optional Fluency / Problem solving), Wrong dot point (optional dot-point picker, or free text), or Other (a note is required);
   - a note.
 - **Keys.** Esc closes only the form, not the preview. Ctrl/⌘+Enter sends.
-- **Storage.** Collection `reports`, one doc per report: `{question_id, part_id?, reason: difficulty|dot_point|other, suggested_band?, suggested_wm?, suggested_dot?, note, exam_id?, by, at, status:'open'}` (`suggested_wm` 'UF' | 'PR', 14 Nov). Resolving adds `reply, done_by, done_at`.
+- **Storage.** Collection `reports`, one doc per report: `{question_id, part_id?, reason: difficulty|dot_point|other, suggested_band?, suggested_wm?, suggested_dot?, note, exam_id?, by, at, status:'open'}` (`suggested_wm` 'UF' | 'PR', 14 Nov). Resolving adds `reply, done_by, done_at`. 17 Nov: status also `sent`; every action adds `action`, `done_by`, `done_at` and a `log` entry (see "Acting on a report").
 - **Screen only.** Both the line and the link carry `.scr-only`: they are removed from the download (with `.lnctl`, `.figctl` and the others) and hidden in print.
 
 ## Reports tab
@@ -372,9 +372,43 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
 - **Actions.** Resolve (an optional reply; Enter saves) and Dismiss. A handled report can be reopened.
 - **Code.** page_src/js/27_reports.js and page_src/css/16_reports.css; the tab wiring is in 09_router.js and page.html (was site/reports.*.txt + tools/patch_reports.py).
 
+### Acting on a report; a reported question leaves the bank (17 Nov)
+Owner 17 Nov: "So how do we actually change the reported questions?" then, on the proposal below, "yes build it in the background. When a
+question is reported, it needs to be logged somewhere right? and disappear from the bank."
+- **Actions on an open report** (besides Resolve and Dismiss):
+  - **Open in Review**: the question in Review's "All questions" list (#review/list/all), as the Bank card's Open in Review.
+  - **Apply suggestion** (a wrong dot point with a suggested dot point from the list; free text cannot be applied): files the
+    question under it with the same change as Review's tag picker (reviews `tag_edits`), then resolves the report with the reply
+    "Applied: <code> <short text>". Parts: the reported part; with no part, the only part, or the parts not already under the
+    suggestion when they share one main dot point; otherwise a small part picker asks which parts.
+  - **Send to Claude**: the report becomes the question's flag (reviews status flagged, note "Report (<reason>[, part (x)]): <note>
+    <suggestion>", fixed null), so it joins "Flags waiting for Claude"; a flag already waiting keeps its words and gets the report
+    added. The report gets status `sent` and stays under **Open** marked "Sent to Claude" (with "waiting for Claude" or "fixed, back
+    in Review for approval"). Once the question is approved again after it was sent, the report shows as **Resolved**, "Fixed and
+    approved" (worked out on the page; nothing is written). Difficulty and other reports go this way.
+  - Handled reports keep Reopen; every report has Open in Review while its question exists.
+- **Logged on the report** (collection `reports`): every action writes `action` (applied | sent | resolved | dismissed),
+  `done_by`, `done_at`, and adds `{action, by, at}` to `log` (Reopen adds `reopened` to the log only). Apply also writes
+  `applied: {dot, parts}`; Send writes `flag` (the flag's words) and `sent_at`. The action is recorded only after the review write
+  saved (a viewer who may not write reviews gets the usual "You can view but not save" and the report stays as it was).
+- **Out of the bank while a report is live** (open, or sent and not yet approved again): hidden from the Bank (topics, counts,
+  search, whatever the approved-only switch says) and from everything that puts questions into a new exam: the Exams pick list and
+  its topic counts, Add 5 at random / Add all shown, the generator and Regenerate, the availability table and topic counts, and Swap.
+  It is the same path as other hidden questions (`inBank`, and `exBase` / `xaSwap` for the generator), through `repHidden`.
+- **Safeguards (Claude's, agreed in the proposal):** a saved exam that already holds the question keeps it, with the existing
+  "reported by a teacher" warning (exam panel and My exams); Review and Reports still show it; Resolve or Dismiss brings it back
+  at once. A sent report keeps it out until the fix is approved (it is flagged, so it would be out of the approved bank anyway).
+- The Inbox's Reports count is still the open reports that need someone (sent ones wait on Claude, in "Flags waiting for Claude").
+- **The card's dot points are the ones that count** (17 Nov fix, raised in the same round): the Reports card, the report form's
+  "Filed under" and the paper's ⓘ showed each part's raw current tags, so a part whose tagger disagreement Review settled showed the
+  losing tagger's dot point (QID 559, 2026 NESA HSC Q32: tagres {"890": "B"}, the card said "(b) Y12-257", tagger A's, instead of
+  Y12-240). They now show `partMain` (07_bank.js): the dot points qHome counts (Review's home side A/B, else the per-part picks once
+  all are made, else the current tags), and a part's own tag change (Review's Change tag or Apply suggestion, `tag_edits`) wins over
+  the side settled before, so the home follows an applied suggestion. The Reports card also shows the question's **Home topic**.
+
 ## Not done / open
 - The certificate word for all-Year-11 exams is "Preliminary", the owner's word. NESA now says "Year 11". It is editable either way.
-- Nothing yet reads the `reports` collection on Claude's side to apply fixes. That would be the next step, like the `difficulty` collection.
+- ~~Nothing yet reads the `reports` collection on Claude's side to apply fixes.~~ 17 Nov: a report is applied on the page (Apply suggestion) or sent to Claude as a flag (Send to Claude), which Claude fixes like any checker flag. See "Acting on a report".
 
 ## Critic pass (14 Nov)
 Owner: "It should all feel clean and sophisticated", "not cartoonish".
@@ -954,3 +988,12 @@ Flagging again clears the old fix (fixed: null).
 Owner 17 Nov: "Add a disclaimer the word one is not tested on the user side." The exam preview's button reads "Download Word
 (beta)" and a line beside it says the Word export is not yet tested by users: check the file before you print or send it.
 Remove both once the owner's "check pdf and word output" Next up item is ticked.
+
+## One source of truth for tags (17 Nov)
+Owner 17 Nov (QID 559 landed in a differential calculus exam while its tags read integration): "so which ones are meant to be
+right? Screen or hiddeN?" then "yes clear the hidden choices and yes make sure it doesn't happen agai". A topic decision made in
+Review (reviews.home for the whole question, reviews.tagres per part, reviews.tag_edits) is the part's tags everywhere:
+effTags (03_tags.js) folds it in, so the chips in Review and the Bank, the year line, Reports and the exam builder's home all
+agree. Changing a decision means writing the new pick, never deleting it (deleting reopened three questions in Review, 17 Nov).
+The three 12 Nov picks that disagreed with the screen (2026 HSC Q32, 2025 HSC Q10, 2026 HSC Q29) now point at the screen's
+tags; the old values are kept in reviews tagres_cleared.

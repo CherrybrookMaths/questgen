@@ -2,8 +2,20 @@
 function effTags(q,p){
   const ed=reviews['q'+q.id]?.tag_edits?.[p.id];
   if(ed) return ed.cov==='removed'||ed.cov==='no_match'?[{cov:ed.cov,primary:1}]:[{id:ed.id,primary:1,cov:DM[ed.id]?.yl===12?'examinable':'moved_to_year_11',conf:1,edited:1}];
+  // owner 17 Nov: "yes clear the hidden choices and yes make sure it doesn't happen agai". A topic decision made in Review (a tagger
+  // side for the whole question, reviews.home, or per part, reviews.tagres) IS the part's tags everywhere: chips, Bank, year,
+  // Reports and the exam builder's home all read effTags, so the screen can never show one dot point while filing by another.
+  const r=reviews['q'+q.id],s=r?.home==='A'||r?.home==='B'?r.home:(r?.tagres&&partsDone(q))?r.tagres[p.id]:null;
+  const cv=id=>DM[id]?.yl===12?'examinable':'moved_to_year_11';
+  if((s==='A'||s==='B')&&p.tagd){const x=p.tagd[s];if(x.removed)return [{cov:'removed',primary:1,picked:s}];
+    return x.dp.map(([id,role])=>({id,primary:role==='primary'?1:0,cov:cv(id),conf:x.conf,picked:s}))}
+  if(s?.id)return [{id:s.id,primary:1,cov:cv(s.id),conf:1,picked:1},...(p.t24||[]).filter(t=>!t.primary&&t.id!==s.id)];
+  if(s?.cov)return [{cov:s.cov,primary:1,picked:1}];
   return p.t24||[];
 }
+// a Review tag change for some parts (t: {id} or {cov}), as the patch for write(): Review's picker (setTag) and a report's
+// Apply suggestion (27_reports.js) both go through it
+function tagEdit(q,ids,t){const ed={...(reviews['q'+q.id]?.tag_edits||{})};ids.forEach(i=>ed[i]=t.cov?{cov:t.cov}:{id:t.id});return {tag_edits:ed}}
 function chipHTML(t,p){
   const c17=p.c17?.code; const c17t=c17?`${esc(c17)} ${esc(B.codes17[c17]||'')}`:'';
   if(t.cov==='removed'||t.cov==='no_match'){

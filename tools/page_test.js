@@ -2417,6 +2417,143 @@ async function questionKeys(browser, base, seed) {
   await page.context().close();
 }
 
+/* ---- Reports: acting on a report (owner 17 Nov: "So how do we actually change the reported questions?", then "yes build it in the
+   background. When a question is reported, it needs to be logged somewhere right? and disappear from the bank.") ---- */
+async function reportActions(browser, base, seed) {
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await boot(page, base, '#bank');
+  const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  const dbGet = k => page.evaluate(k => window.__pt.store.has(k) ? JSON.parse(JSON.stringify(window.__pt.store.get(k))) : null, k);
+  const hash = async h => { await page.evaluate(h => { location.hash = h }, h); await settle(page, 4000, 2) };
+  const waitRep = (id, st) => page.waitForFunction(([id, st]) => window.__pt.store.get('reports/' + id)?.status === st, [id, st], {timeout: 8000});
+  // an approved question in the Bank and in the exam pools; a report on it, written to the database as the form does
+  const seedRep = (id, doc) => page.evaluate(async ([id, doc]) => { await db.doc('reports/' + id).set({by: 'u_other', at: new Date().toISOString(), status: 'open', ...doc}); await new Promise(r => setTimeout(r, 60)) }, [id, doc]);
+  const pick = n => page.evaluate(n => { const hs = xaHomes(); return B.questions.filter(q => !q.dup_of && qState(q) === 'approved' && hs.has(q.id) && exEst(q) && inBank(q))[n].id }, n);
+  const where = id => page.evaluate(id => { const q = xq(id), A = {...exA(), approved: true, avoid: false, src: new Proxy({}, {get: () => true})};
+    return {bank: inBank(q), list: B.questions.filter(inBank).some(x => x.id === id), pick: exFiltered().some(x => x.id === id), pool: exBase(A, xaHomes()).some(x => x.id === id)} }, id);
+
+  await check('reports: a reported question leaves the Bank and new exams; a saved exam keeps it with the warning; Dismiss brings it back', page, async () => {
+    const id = await pick(0), before = await where(id);
+    assert(before.bank && before.pick && before.pool, `QID ${id} not in the Bank and pools to start with: ${JSON.stringify(before)}`);
+    await page.evaluate(async id => { const q = xq(id); await db.doc('exams/pt_rep').set({title: 'T', sub: 'Reported test', items: [id], keys: [q.key], at: new Date().toISOString()}) }, id);
+    await seedRep('rt_open', {question_id: id, key: (await page.evaluate(id => xq(id).key, id)), reason: 'other', note: 'Page test: the answer is wrong'});
+    const during = await where(id);
+    await hash('#exams'); await page.click('[data-exv="mine"]'); await settle(page, 3000, 2);
+    const mine = await page.evaluate(() => document.querySelector('#exMine [data-exm="pt_rep"] .exm-warn')?.textContent || '');
+    const ex = await page.evaluate(id => { exmLoad(XSAVED.find(x => x.id === 'pt_rep')); xPanel(); return {held: EX.items.includes(id), warn: document.querySelector(`#xPanel li[data-xi="${id}"] .xwarn`)?.textContent || ''} }, id);
+    errs();
+    assert(!during.bank && !during.list && !during.pick && !during.pool, `reported QID ${id} still offered: ${JSON.stringify(during)}`);
+    assert(ex.held && /reported by a teacher/.test(ex.warn) && /reported/.test(mine), `saved exam: ${JSON.stringify(ex)}, My exams “${mine}”`);
+    await hash('#review/reports');
+    const row = await page.evaluate(() => document.querySelector('#reportsBox [data-repid="rt_open"]')?.innerText || '');
+    assert(/Open in Review/.test(row) && /Send to Claude/.test(row) && /Resolve/.test(row) && /Dismiss/.test(row) && !/Apply suggestion/.test(row), `open report actions: ${row.slice(-120)}`);
+    await page.click('#reportsBox [data-repid="rt_open"] [data-rdis]'); await waitRep('rt_open', 'dismissed'); await settle(page, 2000, 2);
+    const after = await where(id), doc = await dbGet('reports/rt_open');
+    errs();
+    assert(after.bank && after.pick && after.pool, `dismissed, QID ${id} still hidden: ${JSON.stringify(after)}`);
+    assert(doc.done_by === 'u_pagetest' && doc.done_at && doc.action === 'dismissed' && doc.log?.length === 1 && doc.log[0].action === 'dismissed', `dismiss not logged: ${JSON.stringify(doc).slice(0, 200)}`);
+    return `QID ${id}: out of the Bank, the pick list and the generator pool while open; saved exam keeps it (“${ex.warn.trim().slice(0, 40)}…”); back after Dismiss`;
+  });
+
+  await check('reports: Open in Review, then Apply suggestion changes the dot point and resolves', page, async () => {
+    const id = await page.evaluate(() => { const hs = xaHomes(); return B.questions.find(q => !q.dup_of && qState(q) === 'approved' && hs.has(q.id) && qLeaves(q).length === 1 && DM[partMain(q, qLeaves(q)[0])[0]]).id });
+    const dot = await page.evaluate(id => { const q = xq(id), cur = partMain(q, qLeaves(q)[0])[0]; return DOTS.find(d => d.id !== cur && d.yl === DM[cur].yl).id }, id);
+    await seedRep('rt_dot', {question_id: id, key: (await page.evaluate(id => xq(id).key, id)), reason: 'dot_point', suggested_dot: dot, note: 'Page test: wrong topic'});
+    await page.evaluate(() => renderReports()); await settle(page, 2000, 2);
+    await page.click('#reportsBox [data-repid="rt_dot"] [data-ropen]'); await settle(page, 5000, 2);
+    const rv = await page.evaluate(() => ({hash: location.hash, view, id: rlist[ridx]?.id}));
+    assert(rv.hash === '#review/list/all' && rv.view === 'review' && rv.id === id, `Open in Review: ${JSON.stringify(rv)}, expected QID ${id}`);
+    await hash('#review/reports');
+    await page.click('#reportsBox [data-repid="rt_dot"] [data-rapply]'); await waitRep('rt_dot', 'resolved'); await settle(page, 2000, 2);
+    const r = await page.evaluate(id => { const q = xq(id); return {dot: partMain(q, qLeaves(q)[0])[0], home: qHome(q) === subKey(partMain(q, qLeaves(q)[0])[0]) || !!reviews['q' + id]?.home?.id, bank: inBank(q), w: window.__pt.log.filter(x => x.k === 'reviews/' + RKEY.qdoc(q)).pop()?.v?.tag_edits} }, id);
+    const doc = await dbGet('reports/rt_dot');
+    errs();
+    assert(r.dot === dot && r.w && Object.values(r.w).some(e => e.id === dot), `dot point after Apply: ${r.dot} (wanted ${dot}), tag_edits ${JSON.stringify(r.w)}`);
+    assert(doc.reply === `Applied: ${dot} ` + (await page.evaluate(d => DM[d].short || DM[d].text, dot)) && doc.action === 'applied' && doc.done_by === 'u_pagetest' && doc.applied?.dot === dot, `report after Apply: ${JSON.stringify(doc).slice(0, 240)}`);
+    assert(r.bank, 'the question is still out of the Bank after Apply resolved its report');
+    assert(r.home, 'the home topic did not follow the applied dot point');
+    // parts filed under different dot points: the row asks which parts with a picker
+    const m = await page.evaluate(() => { const hs = xaHomes(); const q = B.questions.find(q => !q.dup_of && qState(q) === 'approved' && hs.has(q.id) && (s => s.length > 1 && new Set(s).size === s.length)(qLeaves(q).map(p => partMain(q, p)[0] || '')));
+      if (!q) return null; const used = new Set(qLeaves(q).map(p => partMain(q, p)[0])); return {id: q.id, key: q.key, dot: DOTS.find(d => !used.has(d.id)).id, parts: qLeaves(q).map(p => p.id)} });
+    if (!m) return `QID ${id} → ${dot} (no multi-part question with different dot points to test the picker)`;
+    await seedRep('rt_dot2', {question_id: m.id, key: m.key, reason: 'dot_point', suggested_dot: m.dot, note: 'Page test: which part'});
+    await page.evaluate(() => renderReports()); await settle(page, 2000, 2);
+    await page.click('#reportsBox [data-repid="rt_dot2"] [data-rapply]'); await settle(page, 1000, 2);
+    const n = await page.evaluate(() => document.querySelectorAll('#reportsBox [data-repid="rt_dot2"] .rep-pick [data-rpp]').length);
+    assert(n === m.parts.length, `part picker shows ${n} parts for ${m.parts.length}`);
+    await page.click(`#reportsBox [data-repid="rt_dot2"] [data-rpp="${m.parts[0]}"]`); await page.click('#reportsBox [data-repid="rt_dot2"] [data-rpok]');
+    await waitRep('rt_dot2', 'resolved'); await settle(page, 1500, 2);
+    const p2 = await page.evaluate(m => { const q = xq(m.id), lv = qLeaves(q); return lv.map(p => partMain(q, p)[0]) }, m);
+    errs();
+    assert(p2[0] === m.dot && p2.slice(1).every(x => x !== m.dot), `picker applied to ${JSON.stringify(p2)}, wanted only the first part → ${m.dot}`);
+    return `QID ${id} → ${dot}, report resolved (“${doc.reply.slice(0, 40)}”); QID ${m.id}: picker, first part only → ${m.dot}`;
+  });
+
+  // coordinator 17 Nov: the card showed tagger A's dot point for QID 559 (2026-NESA-HSC-Q32) although Review settled part (b) on
+  // tagger B (tagres {"890": "B"}): the card shows the dot points that count (partMain, as qHome files it) and the home topic
+  await check('reports: the card shows the dot points Review settled and the home topic (QID 559)', page, async () => {
+    const q = await page.evaluate(() => { const q = xq(559); if (!q) return null; const p = q.parts.find(x => String(x.id) === '890');
+      const pri = s => p?.tagd?.[s]?.dp.filter(d => d[1] === 'primary').map(d => d[0]) || [];
+      return {key: q.key, tagres: reviews.q559?.tagres, a: pri('A'), b: pri('B'), lab: p?.label, home: (() => { const d = document.createElement('div'); d.innerHTML = homeLabel(qHome(q)); return d.textContent })()} });
+    assert(q && q.tagres?.['890'] === 'B' && q.b.length && q.a.some(x => !q.b.includes(x)), `fixture QID 559: ${JSON.stringify(q)}`);
+    await seedRep('rt_559', {question_id: 559, key: q.key, reason: 'dot_point', note: 'Page test: which topic'});
+    await page.evaluate(() => renderReports()); await settle(page, 2000, 2);
+    const c = await page.evaluate(() => { const r = document.querySelector('#reportsBox [data-repid="rt_559"]'); return {dots: r?.querySelector('.rep-dots')?.textContent || '', home: r?.querySelector('.rep-home')?.textContent || ''} });
+    errs();
+    const wrong = q.a.filter(x => !q.b.includes(x));
+    assert(q.b.every(x => c.dots.includes(x)) && !wrong.some(x => c.dots.includes(x)), `card dot points “${c.dots}”: want ${q.b.join(',')} (tagger B), not ${wrong.join(',')}`);
+    assert(c.home === 'Home topic: ' + q.home && /derivatives/i.test(c.home), `home line “${c.home}”, want “${q.home}”`);
+    await page.evaluate(async () => { await db.doc('reports/rt_559').delete(); await new Promise(r => setTimeout(r, 60)) });
+    return `part (${q.lab}): ${q.b.join(',')} (tagger B, Review's pick), not ${wrong.join(',')}; ${c.home}`;
+  });
+
+  // owner 17 Nov: "yes clear the hidden choices and yes make sure it doesn't happen agai": the tags every screen shows (effTags)
+  // are the ones the exam builder files by, whatever Review picked; switching the pick keeps the question decided
+  await check('tags: what the screen shows is what the exam builder files by (one source of truth)', page, async () => {
+    const r = await page.evaluate(() => { const q = xq(559), p = q.parts.find(x => String(x.id) === '890'), keep = reviews.q559;
+      const shown = () => effTags(q, p).filter(t => t.primary).map(t => t.id), filed = () => partMain(q, p);
+      const sideB = p.tagd.B.dp.filter(d => d[1] === 'primary').map(d => d[0]), sideA = p.tagd.A.dp.filter(d => d[1] === 'primary').map(d => d[0]);
+      const out = {b: [shown(), filed(), sideB]};
+      reviews.q559 = {...keep, tagres: {...keep.tagres, 890: 'A'}}; out.a = [shown(), filed(), sideA, isTodo(q, 'tags')];
+      reviews.q559 = {...keep, tagres: {...keep.tagres, 890: {id: 'Y12-257'}}}; out.id = [shown(), filed(), isTodo(q, 'tags')];
+      reviews.q559 = keep; return out });
+    errs();
+    const same = (x, y) => JSON.stringify([...x].sort()) === JSON.stringify([...y].sort());
+    assert(same(r.b[0], r.b[1]) && same(r.b[0], r.b[2]), `pick B: shown ${r.b[0]} filed ${r.b[1]} side ${r.b[2]}`);
+    assert(same(r.a[0], r.a[1]) && same(r.a[0], r.a[2]) && r.a[3] === false, `pick A: shown ${r.a[0]} filed ${r.a[1]} side ${r.a[2]} open ${r.a[3]}`);
+    assert(same(r.id[0], ['Y12-257']) && same(r.id[1], ['Y12-257']) && r.id[2] === false, `pick by id: ${JSON.stringify(r.id)}`);
+    return `B: ${r.b[0]}; A: ${r.a[0]}; by id: ${r.id[0]}; the question stays decided`;
+  });
+
+  await check('reports: Send to Claude flags the question (waiting for Claude); approving the fix resolves the report', page, async () => {
+    const id = await pick(3);
+    await seedRep('rt_dif', {question_id: id, key: (await page.evaluate(id => xq(id).key, id)), reason: 'difficulty', suggested_band: 5, note: 'Page test: too easy'});
+    await page.evaluate(() => renderReports()); await settle(page, 2000, 2);
+    await page.click('#reportsBox [data-repid="rt_dif"] [data-rclaude]'); await waitRep('rt_dif', 'sent'); await settle(page, 2000, 2);
+    const s = await page.evaluate(id => { const q = xq(id), r = reviews['q' + id], row = document.querySelector('#reportsBox [data-repid="rt_dif"]');
+      return {wait: waitQ(q), note: r?.note, fixed: r?.fixed, bank: inBank(q), st: row?.dataset.st, txt: row?.innerText || '', inbox: B.questions.filter(waitQ).some(x => x.id === id)} }, id);
+    const doc = await dbGet('reports/rt_dif');
+    errs();
+    assert(s.wait && s.inbox && s.fixed === null && /^Report \(Wrong difficulty\): Page test: too easy Suggests band 5\.$/.test(s.note || ''), `flag after Send: ${JSON.stringify(s).slice(0, 240)}`);
+    assert(s.st === 'sent' && /Sent to Claude/.test(s.txt) && /waiting for Claude/.test(s.txt) && !s.bank, `sent report row: ${s.st}, bank ${s.bank}: ${s.txt.slice(0, 160)}`);
+    assert(doc.action === 'sent' && doc.done_by === 'u_pagetest' && doc.sent_at && doc.flag === s.note, `report after Send: ${JSON.stringify(doc).slice(0, 240)}`);
+    // Claude fixes it (fixed note: "Fixed and back"), then the checker approves it in Review
+    await page.evaluate(async id => { const q = xq(id); await write(q, {fixed: {note: 'Claude 17 Nov: rated band 5'}}); }, id); await settle(page, 1500, 2);
+    const back = await page.evaluate(() => document.querySelector('#reportsBox [data-repid="rt_dif"]')?.innerText || '');
+    await page.evaluate(async id => { await new Promise(r => setTimeout(r, 5)); await write(xq(id), {status: 'approved'}) }, id); await settle(page, 2000, 2);
+    const f = await page.evaluate(id => { const row = document.querySelector('#reportsBox [data-repid="rt_dif"]'); return {st: row?.dataset.st || '(not in Open)', bank: inBank(xq(id)), rs: REP.st(REP.list.find(r => r.id === 'rt_dif'))} }, id);
+    await page.click('#reportsBox [data-rf="resolved"]'); await settle(page, 1500, 2);
+    const res = await page.evaluate(() => document.querySelector('#reportsBox [data-repid="rt_dif"]')?.innerText || '');
+    await page.click('#reportsBox [data-rf="open"]');
+    errs();
+    assert(/back in Review for approval/.test(back), `after the fix the row says: ${back.slice(0, 200)}`);
+    assert(f.rs === 'resolved' && f.st === '(not in Open)' && f.bank, `after approval: ${JSON.stringify(f)}`);
+    assert(/Resolved/.test(res) && /Fixed and approved/.test(res), `Resolved list: ${res.slice(0, 200)}`);
+    return `QID ${id}: flagged “${s.note.slice(0, 50)}…”, waiting for Claude; fixed → back for approval; approved → Resolved, “Fixed and approved”, back in the Bank`;
+  });
+  await page.context().close();
+}
+
 /* ---------------- main ---------------- */
 if (require.main !== module) { /* required by a debugging script: hand over the helpers, run nothing */ module.exports = {serve, newPage, boot, settle, unzip, FIXTURE, OUT}; return }
 (async () => {
@@ -2439,7 +2576,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
     const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
-    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));

@@ -11,13 +11,30 @@
      suggested_wm: 'UF' (fluency) | 'PR' (problem solving), owner 14 Nov: "Should let you pick UF and PS in the wrong diff".
    - A Reports tab (#reports) lists them with the question rendered; Resolve (optional reply) and Dismiss; a count badge
      on the tab shows open reports. (15 Nov: now the Reports step inside Review, #review/reports, with its count on the step.) */
-const REP={list:[],sub:null,filter:(()=>{try{return localStorage.getItem('rep_filter')||'open'}catch(e){return 'open'}})(),dlg:null,res:null,names:{}};
+/* owner 17 Nov: "So how do we actually change the reported questions?" then, on the proposal, "yes build it in the background. When a
+   question is reported, it needs to be logged somewhere right? and disappear from the bank."
+   - An open report has Open in Review, Apply suggestion (a wrong dot point with a suggested one: the same tag change as Review's
+     picker), Send to Claude (the report becomes the question's flag: "Flags waiting for Claude"), Resolve and Dismiss.
+   - A sent report (status 'sent') stays under Open as "Sent to Claude" until its question is approved again after it was sent; then
+     it shows as Resolved, "Fixed and approved" (REP.st works this out; nothing is written).
+   - While a report is open or sent, its question is out of the Bank and every exam picker (REP.hides via repHidden, 07_bank.js).
+     Saved exams that hold it keep it with the "reported by a teacher" warning (qWatch); Review and Reports still show it.
+   - Every action is logged on the report: action, done_by, done_at, and one entry per action in log [{action, by, at}]. */
+const REP={list:[],sub:null,filter:(()=>{try{return localStorage.getItem('rep_filter')||'open'}catch(e){return 'open'}})(),dlg:null,res:null,pick:null,names:{},_lv:null,
+  main(r){const q=xq(r.question_id);return q&&q.dup_of?xq(q.dup_of)||q:q},   // the copy the Bank and Review show
+  st(r){const s=r.status||'open';if(s!=='sent')return s;const q=this.main(r);
+    return q&&qState(q)==='approved'&&String(reviews['q'+q.id]?.at||'')>=String(r.sent_at||'')?'resolved':'sent'},
+  // the live reports (open or sent), worked out once per task and again whenever the list changes
+  live(){if(!this._lv||this._lv.src!==this.list){const L=this.list.filter(r=>['open','sent'].includes(this.st(r)));
+      this._lv={src:this.list,L,ids:new Set(L.flatMap(r=>[r.question_id,this.main(r)?.id])),keys:new Set(L.map(r=>r.key).filter(Boolean))};setTimeout(()=>{this._lv=null},0)}
+    return this._lv},
+  hides(q){const v=this.live();return !!v.L.length&&(v.ids.has(q.id)||(q.dup_of!=null&&v.ids.has(q.dup_of))||(!!q.key&&v.keys.has(q.key)))}};
 const REP_WHY={difficulty:'Wrong difficulty',dot_point:'Wrong dot point',other:'Other'};
 const REP_WM={UF:'Fluency',PR:'Problem solving'};
 function repSub(){if(REP.sub||!db)return !!REP.sub;
   try{REP.sub=db.collection('reports').onSnapshot(s=>{const d=s.docs||s;REP.list=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
-    repBadge();repNames();if(view==='reports')renderReports();repMarkPaper();
-    try{const xp=$('#xPanel');if(xp&&!xp.hidden&&typeof xPanel==='function')xPanel();if(view==='exams'&&typeof renderMine==='function'&&EXV?.view==='mine')renderMine()}catch(_){}   // owner 17 Nov: exam warnings follow new reports
+    repBadge();repNames();if(view==='reports')renderReports();repMarkPaper();TOPICS=null;if(view==='bank'&&B)renderBank();   // owner 17 Nov: a reported question leaves the Bank at once
+    try{const xp=$('#xPanel');if(xp&&!xp.hidden&&typeof xPanel==='function')xPanel();if(typeof exRefresh==='function')exRefresh()}catch(_){}   // owner 17 Nov: exam warnings and pickers follow new reports
   },()=>{})}catch(e){REP.sub=null}return !!REP.sub}
 // db arrives asynchronously (claude.use('db')); subscribe as soon as it exists
 (()=>{let n=0;const t=setInterval(()=>{if(repSub()||++n>240)clearInterval(t)},500)})();
@@ -25,7 +42,7 @@ const repOpen=()=>REP.list.filter(r=>(r.status||'open')==='open');
 // owner 17 Nov: "that needs a way for it to be shown in the exam if it has been reported by teachers or put back in review by [the
 // checker]": a question in an exam is marked when it has an open report or is flagged (incl. a diagram change request) since.
 function qWatch(q){if(!q)return null;const back=typeof qState==='function'&&qState(q)==='flagged';
-  const ids=new Set([q.id,q.dup_of].filter(Boolean)),n=repOpen().filter(r=>ids.has(r.question_id)||(q.key&&r.key===q.key)).length;
+  const ids=new Set([q.id,q.dup_of].filter(Boolean)),n=REP.live().L.filter(r=>ids.has(r.question_id)||(q.key&&r.key===q.key)).length;
   if(!back&&!n)return null;return {back,n,text:[back?'sent back to review':'',n?(n===1?'reported by a teacher':`reported ${n} times`):''].filter(Boolean).join(' · ')}}
 // owner 15 Nov: Reports is a step inside Review; its count is on the step (was the tab badge #repN)
 // owner 13 Nov: the count is on the Inbox's Reports card and in the Review tab / Curate switch totals
@@ -36,7 +53,7 @@ const repWho=id=>!id?'':id===me?'you':(REP.names[id]||'a colleague');
 
 /* ---------- dot points of a question (main dot point of each leaf part, as the Bank files it) ---------- */
 function repDots(q){const lv=qLeaves(q),multi=lv.length>1,seen=new Map();
-  lv.forEach(p=>effTags(q,p).filter(t=>t.primary).forEach(t=>{const k=t.cov==='removed'?'removed':t.cov==='no_match'?'no_match':t.id;if(!k)return;
+  lv.forEach(p=>partMain(q,p).forEach(k=>{if(!k)return;   // owner 17 Nov: the dot points that count (QID 559 showed tagger A's, not Review's pick)
     if(!seen.has(k))seen.set(k,[]);if(p.label)seen.get(k).push(p.label)}));
   return [...seen.entries()].map(([k,labs])=>{const d=DM[k];const lab=multi&&labs.length&&labs.length<lv.length?labs.map(l=>'('+l+')').join('')+' ':'';
     const txt=k==='removed'?'Removed from the 2024 syllabus':k==='no_match'?'No 2024 dot point':d?(d.short||d.text||''):'';
@@ -56,7 +73,7 @@ function qiButton(q,n){const k=repOpen().filter(r=>r.question_id===q.id).length;
 // each leaf part: its label (when there are several), main dot point(s), band and kind, as the Bank files and rates it
 function qiParts(q){const e=typeof exEst==='function'?exEst(q):null,lv=qLeaves(q);
   return lv.map(p=>{const ep=e?.parts.find(x=>x.id===p.id),seen=new Set();
-    const dots=effTags(q,p).filter(t=>t.primary).map(t=>t.cov==='removed'?'removed':t.cov==='no_match'?'no_match':t.id).filter(k=>k&&!seen.has(k)&&seen.add(k)).map(k=>{const d=DM[k];
+    const dots=partMain(q,p).filter(k=>k&&!seen.has(k)&&seen.add(k)).map(k=>{const d=DM[k];
       return {code:d?k:'',txt:k==='removed'?'Removed from the 2024 syllabus':k==='no_match'?'No 2024 dot point':d?(d.short||d.text||''):''}});
     const wm=ep?(ep.ps?'PR':'UF'):p.dif?.wm||null;
     return {lab:lv.length>1?((typeof exPath==='function'&&exPath(q,p))||(p.label?'('+p.label+')':'')):'',dots,b:ep?ep.b:(p.dif?.b??null),kind:wm?(wm==='PR'?'Problem solving':'Fluency'):''}})}
@@ -151,6 +168,31 @@ addEventListener('keydown',e=>{if(!REP.dlg)return;if(e.key==='Escape'){e.prevent
     if(e.shiftKey&&i<=0){e.preventDefault();f[f.length-1].focus()}else if(!e.shiftKey&&i===f.length-1){e.preventDefault();f[0].focus()}}
   e.stopImmediatePropagation()},true);
 
+/* ---------- acting on a report (owner 17 Nov: "So how do we actually change the reported questions?") ---------- */
+Object.assign(REP,{
+  // the suggestion in words, for the flag Send to Claude writes
+  sugg(r){if(r.reason==='difficulty'){const s=[r.suggested_band?'band '+r.suggested_band:'',REP_WM[r.suggested_wm]||''].filter(Boolean).join(' · ');return s?`Suggests ${s}.`:''}
+    if(r.reason==='dot_point'&&r.suggested_dot){const d=DM[r.suggested_dot];return `Suggests ${d?r.suggested_dot+' '+(d.short||d.text):'“'+r.suggested_dot+'”'}.`}return ''},
+  // the parts Apply suggestion changes: the reported part; else the only part, or the parts not yet under the suggested dot point
+  // when they share one main dot point; else null (ambiguous: the row asks with a part picker)
+  parts(r,q){if(r.part_id!=null){const p=q.parts.find(x=>String(x.id)===String(r.part_id));if(p)return [p.id]}
+    const lv=qLeaves(q),sig=p=>partMain(q,p).slice().sort().join(',');if(lv.length<2)return lv.map(p=>p.id);
+    const off=lv.filter(p=>sig(p)!==r.suggested_dot),pool=off.length?off:lv;return new Set(pool.map(sig)).size===1?pool.map(p=>p.id):null},
+  // record an action on the report: its fields, what was done, who and when, and one entry in its log
+  async set(r,act,patch){const {id,...rest}=r,at=new Date().toISOString(),by=me||null;
+    try{await db.doc('reports/'+id).set({...rest,...patch,...(act==='reopened'?{}:{action:act,done_by:by,done_at:at}),log:[...(r.log||[]),{action:act,by,at}]});return true}
+    catch(e){toast('Could not save. Try again in a moment.');return false}},
+  // Apply suggestion: the same tag change as Review's picker (setTag, tag_edits), then the report is resolved
+  async apply(r,ids){const q=this.main(r),d=DM[r.suggested_dot];if(!q||!d||!ids.length)return false;
+    if(!await write(q,tagEdit(q,ids,{id:r.suggested_dot})))return false;
+    const ok=await this.set(r,'applied',{status:'resolved',reply:`Applied: ${r.suggested_dot} ${d.short||d.text}`,applied:{dot:r.suggested_dot,parts:ids}});if(ok)toast('Applied: '+r.suggested_dot);return ok},
+  // Send to Claude: the report becomes the question's flag (status flagged, no fix yet: "Flags waiting for Claude")
+  async send(r){const q=this.main(r);if(!q)return false;const cur=reviews['q'+q.id]||{},p=r.part_id!=null?q.parts.find(x=>String(x.id)===String(r.part_id)):null;
+    const flag=`Report (${REP_WHY[r.reason]||'Other'}${p?', part ('+(p.label||'?')+')':''}): ${r.note||'(no note)'}${(s=>s?' '+s:'')(this.sugg(r))}`;
+    const note=cur.status==='flagged'&&!cur.fixed&&cur.note&&!cur.note.includes(flag)?cur.note+' | '+flag:flag;   // a flag already waiting keeps its words
+    if(!await write(q,{status:'flagged',note,fixed:null}))return false;
+    const ok=await this.set(r,'sent',{status:'sent',flag,sent_at:new Date().toISOString()});if(ok)toast('Sent to Claude: it waits in Review › Flags waiting for Claude');return ok}});
+
 /* ---------- Reports tab ---------- */
 const repWhen=t=>{const d=new Date(t);if(isNaN(d))return '';const m=(Date.now()-d)/6e4;
   return m<1?'just now':m<60?`${Math.round(m)} min ago`:m<1440?`${Math.round(m/60)} h ago`:d.toLocaleDateString('en-AU',{day:'numeric',month:'short'})};
@@ -162,34 +204,59 @@ function repWhat(r,q){const p=r.part_id!=null&&q?q.parts.find(x=>String(x.id)===
     else bits.push('No band or kind suggested')}
   if(r.reason==='dot_point'){const d=DM[r.suggested_dot];bits.push(r.suggested_dot?`Suggests <b>${d?esc(r.suggested_dot)+'</b> '+esc(d.short||d.text):esc(r.suggested_dot)+'</b>'}`:'No dot point suggested')}
   return {part:p?`Part (${esc(p.label||'?')})`:'Whole question',bits}}
+// the parts of a report row that change with what was done to it (REP methods: no new page-wide names, CODE_HEALTH rule 1)
+Object.assign(REP,{
+  by:(by,at)=>`${by?' by '+esc(repWho(by)):''}${at?' · '+esc(repWhen(at)):''}`,
+// what happened to a handled report (owner 17 Nov: a sent report says where its question is: waiting for Claude or back for approval)
+  doneHTML(r,s,m){if(s==='open')return '';
+  if(s==='sent'){const where=m?(waitQ(m)?'waiting for Claude':backQ(m)?'fixed, back in Review for approval':''):'';
+    return `<div class="rep-done">Sent to Claude${REP.by(r.done_by,r.done_at)}${where?' · '+where:''}${r.flag?`: <span>${esc(r.flag)}</span>`:''}</div>`}
+  if(r.status==='sent')return `<div class="rep-done">Resolved: <span>Fixed and approved</span> (sent to Claude${REP.by(r.done_by,r.done_at)})</div>`;
+  return `<div class="rep-done">${s==='resolved'?'Resolved':'Dismissed'}${REP.by(r.done_by,r.done_at)}${r.reply?`: <span>${esc(r.reply)}</span>`:''}</div>`},
+// Apply suggestion when the parts are filed under different dot points: tick the parts that get the suggested one
+  pickHTML:(r,m)=>`<div class="rep-pick" role="group" aria-label="Parts that get ${esc(r.suggested_dot)}"><span>The parts are filed under different dot points. Which get <b>${esc(r.suggested_dot)}</b>?</span>
+  <div class="rep-pparts">${qLeaves(m).map(p=>`<label><input type="checkbox" data-rpp="${esc(String(p.id))}"> (${esc(p.label||'?')}) <small>${esc(partMain(m,p).map(k=>k==='removed'?'removed':k==='no_match'?'no dot point':k).join(', ')||'no dot point yet')}</small></label>`).join('')}</div>
+  <div class="rep-acts"><button type="button" class="act ok" data-rpok>Apply to the ticked parts</button><button type="button" class="act ghost" data-rpx>Cancel</button></div></div>`,
+  actsHTML(r,s,m){const ro=m?`<a class="act ghost" href="#review/list/all" data-ropen="${m.id}">Open in Review</a>`:'',
+    rd=`<button type="button" class="act ok" data-rres>Resolve</button><button type="button" class="act ghost" data-rdis>Dismiss</button>`;
+  if(s==='sent')return ro+rd;if(s!=='open')return `${ro}<button type="button" class="act ghost" data-rreopen>Reopen</button>`;
+  if(REP.res===r.id)return `<input type="text" data-rreply placeholder="Reply (optional), e.g. moved to band 5" aria-label="Reply"><button type="button" class="act ok" data-rresok>Resolve</button><button type="button" class="act ghost" data-rresx>Cancel</button>`;
+  const ap=m&&r.reason==='dot_point'&&DM[r.suggested_dot]?`<button type="button" class="act" data-rapply title="File the question under ${esc(r.suggested_dot)} and resolve the report">Apply suggestion</button>`:'';
+  return `${ro}${ap}${m?`<button type="button" class="act" data-rclaude title="Flag the question for Claude to fix. It stays out of the bank until the fix is approved.">Send to Claude</button>`:''}${rd}`}});
 function renderReports(){const box=$('#reportsBox');if(!box||!B)return;repSub();repBadge();
   if(!db){box.innerHTML=`<div class="rep-top"><div><div class="rep-eyebrow">Alpha</div><h2>Question reports</h2></div></div><div class="rep-empty">Reports live in the shared database. Open the page in claude.ai to see them.</div>`;return}
-  const F=REP.filter,cnt={open:0,resolved:0,dismissed:0,all:REP.list.length};REP.list.forEach(r=>{cnt[r.status||'open']=(cnt[r.status||'open']||0)+1});
-  const L=REP.list.filter(r=>F==='all'||(r.status||'open')===F);
-  box.innerHTML=`<div class="rep-top"><div><div class="rep-eyebrow">Alpha</div><h2>Question reports</h2><p class="rep-lead">Questions flagged from the exam paper for a wrong difficulty, a wrong dot point or something else. Resolve one once the bank is fixed, or dismiss it.</p></div>
+  // owner 17 Nov: a report sent to Claude stays under Open ("Sent to Claude") until its question is approved again
+  const F=REP.filter,S=new Map(REP.list.map(r=>[r.id,REP.st(r)])),cnt={open:0,resolved:0,dismissed:0,all:REP.list.length};S.forEach(s=>{const k=s==='sent'?'open':s;cnt[k]=(cnt[k]||0)+1});
+  const L=REP.list.filter(r=>{const s=S.get(r.id);return F==='all'||s===F||(F==='open'&&s==='sent')});
+  box.innerHTML=`<div class="rep-top"><div><div class="rep-eyebrow">Alpha</div><h2>Question reports</h2><p class="rep-lead">Questions flagged from the exam paper for a wrong difficulty, a wrong dot point or something else. While a report is open its question is out of the bank. Apply the suggestion, send it to Claude to fix, resolve it once the bank is fixed, or dismiss it.</p></div>
       <div class="rep-seg" role="group" aria-label="Show">${[['open','Open'],['resolved','Resolved'],['dismissed','Dismissed'],['all','All']].map(([k,l])=>`<button type="button" data-rf="${k}" aria-pressed="${F===k}">${l}<span>${cnt[k]||0}</span></button>`).join('')}</div></div>
-    ${L.length?`<ol class="rep-list">${L.map(r=>{const q=xq(r.question_id),w=repWhat(r,q),st=r.status||'open',res=REP.res===r.id;
-      return `<li class="rep-row" data-repid="${esc(r.id)}" data-st="${st}">
-        <div class="rep-hd"><span class="rep-why rep-${esc(r.reason)}">${esc(REP_WHY[r.reason]||'Report')}</span><span class="rep-qid">${q?qid(q):'QID '+esc(String(r.question_id))}</span><span class="rep-part">${w.part}</span>
+    ${L.length?`<ol class="rep-list">${L.map(r=>{const q=xq(r.question_id),m=REP.main(r),w=repWhat(r,q),s=S.get(r.id),live=s==='open'||s==='sent';
+      return `<li class="rep-row" data-repid="${esc(r.id)}" data-st="${s}">
+        <div class="rep-hd"><span class="rep-why rep-${esc(r.reason)}">${esc(REP_WHY[r.reason]||'Report')}</span><span class="rep-qid">${q?qid(q):'QID '+esc(String(r.question_id))}</span><span class="rep-part">${w.part}</span>${s==='sent'?'<span class="rep-sent">Sent to Claude</span>':''}
           <span class="rep-meta">${esc(repWhen(r.at))}${r.by?' · '+esc(repWho(r.by)):''}${r.exam_id?` · from ${esc((typeof XSAVED!=='undefined'&&XSAVED.find(x=>x.id===r.exam_id)?.sub)||'an exam')}`:''}</span></div>
         ${w.bits.length?`<div class="rep-what">${w.bits.join(' · ')}</div>`:''}
         ${r.note?`<blockquote class="rep-note">${esc(r.note)}</blockquote>`:''}
-        ${st!=='open'?`<div class="rep-done">${st==='resolved'?'Resolved':'Dismissed'}${r.done_by?' by '+esc(repWho(r.done_by)):''}${r.done_at?' · '+esc(repWhen(r.done_at)):''}${r.reply?`: <span>${esc(r.reply)}</span>`:''}</div>`:''}
-        ${q?`<details class="rep-qbox"${st==='open'?' open':''}><summary>${esc(srcLine(q))} · ${q.marks??'?'} mark${q.marks===1?'':'s'}</summary><div class="rep-dots">${repDotsHTML(q)}</div><div class="rep-q" data-q="${q.id}">${qBody(q,'bank')}</div></details>`:'<div class="rep-gone">This question is no longer in the bank.</div>'}
-        <div class="rep-acts">${st==='open'?(res?`<input type="text" data-rreply placeholder="Reply (optional), e.g. moved to band 5" aria-label="Reply"><button type="button" class="act ok" data-rresok>Resolve</button><button type="button" class="act ghost" data-rresx>Cancel</button>`
-            :`<button type="button" class="act ok" data-rres>Resolve</button><button type="button" class="act ghost" data-rdis>Dismiss</button>`):`<button type="button" class="act ghost" data-rreopen>Reopen</button>`}</div></li>`}).join('')}</ol>`
+        ${REP.doneHTML(r,s,m)}
+        ${q?`<details class="rep-qbox"${live?' open':''}><summary>${esc(srcLine(q))} · ${q.marks??'?'} mark${q.marks===1?'':'s'}</summary><div class="rep-dots">${repDotsHTML(q)}</div><div class="rep-home">Home topic: ${homeLabel(qHome(REP.main(r)||q))}</div><div class="rep-q" data-q="${q.id}">${qBody(q,'bank')}</div></details>`:'<div class="rep-gone">This question is no longer in the bank.</div>'}
+        ${REP.pick===r.id&&m&&s==='open'?REP.pickHTML(r,m):`<div class="rep-acts">${REP.actsHTML(r,s,m)}</div>`}</li>`}).join('')}</ol>`
       :`<div class="rep-empty">${F==='open'?'No open reports. Use <b>Report</b> under a question on the exam paper to add one.':'Nothing here.'}</div>`}`;
   $$('.rep-q',box).forEach(el=>{const q=xq(+el.dataset.q);if(q){hydrate(el,q,'bank');TSIO.observe(el)}});
   $$('.rep-dots',box).forEach(el=>TSIO.observe(el));
   if(REP.res){const i=box.querySelector('[data-rreply]');if(i)i.focus()}}
-async function repSet(r,patch){const {id,...rest}=r;try{await db.doc('reports/'+id).set({...rest,...patch})}catch(e){toast('Could not save. Try again in a moment.')}}
 document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest('#reportsBox'))return;
-  const f=t.closest('[data-rf]');if(f){REP.filter=f.dataset.rf;try{localStorage.setItem('rep_filter',REP.filter)}catch(_){}REP.res=null;renderReports();return}
+  const f=t.closest('[data-rf]');if(f){REP.filter=f.dataset.rf;try{localStorage.setItem('rep_filter',REP.filter)}catch(_){}REP.res=REP.pick=null;renderReports();return}
   const row=t.closest('[data-repid]');if(!row)return;const r=REP.list.find(x=>x.id===row.dataset.repid);if(!r)return;
-  if(t.closest('[data-rres]')){REP.res=r.id;renderReports();return}
+  const busy=p=>{$$('button',row).forEach(b=>b.disabled=true);p.then(ok=>{if(!ok)renderReports()})};   // one click per action; a failed save gives the buttons back
+  const ro=t.closest('[data-ropen]');if(ro){reviewOpen(+ro.dataset.ropen);return}   // the link itself opens #review/list/all
+  if(t.closest('[data-rapply]')){const ids=REP.parts(r,REP.main(r));if(ids)busy(REP.apply(r,ids));else{REP.pick=r.id;REP.res=null;renderReports()}return}
+  if(t.closest('[data-rpok]')){const on=new Set($$('[data-rpp]',row).filter(c=>c.checked).map(c=>c.dataset.rpp)),ids=qLeaves(REP.main(r)).filter(p=>on.has(String(p.id))).map(p=>p.id);
+    if(!ids.length){toast('Tick the parts that get the new dot point');return}REP.pick=null;busy(REP.apply(r,ids));return}
+  if(t.closest('[data-rpx]')){REP.pick=null;renderReports();return}
+  if(t.closest('[data-rclaude]')){busy(REP.send(r));return}
+  if(t.closest('[data-rres]')){REP.res=r.id;REP.pick=null;renderReports();return}
   if(t.closest('[data-rresx]')){REP.res=null;renderReports();return}
-  if(t.closest('[data-rresok]')){const v=row.querySelector('[data-rreply]')?.value.trim()||'';REP.res=null;repSet(r,{status:'resolved',reply:v,done_by:me||null,done_at:new Date().toISOString()});toast('Resolved');return}
-  if(t.closest('[data-rdis]')){repSet(r,{status:'dismissed',done_by:me||null,done_at:new Date().toISOString()});toast('Dismissed');return}
-  if(t.closest('[data-rreopen]')){repSet(r,{status:'open'});return}});
+  if(t.closest('[data-rresok]')){const v=row.querySelector('[data-rreply]')?.value.trim()||'';REP.res=null;REP.set(r,'resolved',{status:'resolved',reply:v});toast('Resolved');return}
+  if(t.closest('[data-rdis]')){REP.set(r,'dismissed',{status:'dismissed'});toast('Dismissed');return}
+  if(t.closest('[data-rreopen]')){REP.set(r,'reopened',{status:'open'});return}});
 document.addEventListener('keydown',e=>{const i=e.target.closest?.('[data-rreply]');if(!i)return;if(e.key==='Enter'){e.preventDefault();i.closest('[data-repid]').querySelector('[data-rresok]')?.click()}else if(e.key==='Escape'){REP.res=null;renderReports()}});
 if(typeof view!=='undefined'&&view==='reports'&&B)renderReports();

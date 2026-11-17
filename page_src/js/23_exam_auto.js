@@ -45,7 +45,7 @@ function xaRng(seed){let a=seed>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Ma
 /* ---------- swap and lock ---------- */
 function xaSwap(id){const A=xa(),q=xq(id);if(!q)return;const homes=xaHomes(),h=homes.get(id),d=qDiff(q),TS=new Set(A.topics);XA_SWAPPED.add(id);
   const avoid=A.avoid?xaSavedIds():null;
-  const cands=B.questions.filter(c=>homes.has(c.id)&&c.type===q.type&&!EX.items.includes(c.id)&&!XA_SWAPPED.has(c.id)&&qDiff(c)&&(!A.approved||qState(c)==='approved')&&!(avoid&&avoid.has(c.id)));
+  const cands=B.questions.filter(c=>homes.has(c.id)&&c.type===q.type&&!EX.items.includes(c.id)&&!XA_SWAPPED.has(c.id)&&qDiff(c)&&(!A.approved||qState(c)==='approved')&&!repHidden(c)&&!(avoid&&avoid.has(c.id)));   // owner 17 Nov: never swap in a reported question
   if(!cands.length){toast('No other question fits');return}
   const sc=c=>{const hc=homes.get(c.id),dc=qDiff(c);return (h&&hc.sub===h.sub?0:h&&hc.area===h.area?3:TS.has(hc.sub)?6:12)+2*Math.abs((+c.marks||0)-(+q.marks||0))+1.5*Math.abs(dc.raw-(d?d.raw:3))+Math.abs(dc.pr-(d?d.pr:0))+Math.random()*.3};
   let best=null,bs=1e9;cands.forEach(c=>{const v=sc(c);if(v<bs){bs=v;best=c}});

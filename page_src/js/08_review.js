@@ -504,16 +504,18 @@ async function write(q,patch){
   const key=RKEY.qdoc(q); const cur=reviews['q'+q.id]||{};   // owner 14 Nov (Fix 2): stored by key, shared by every copy
   const next={...cur,...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};if(q.key)next.key=q.key;
   RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;
-  if(!db){toast('Not saved: this view has no shared storage');return}
-  try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved')}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.')}
-}
+  if(!db){toast('Not saved: this view has no shared storage');return false}
+  try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved');return true}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.');return false}
+}   // true once saved: a report's action (27_reports.js) is recorded only after its review write landed
+// open one question in Review's "All questions" list (#review/list/all): the Bank card's and a report's "Open in Review" (owner 13 Nov)
+function reviewOpen(id){rfilter='all';rstatus='any';rdoc='';$('#docF').value='';pendingOpen=id}
 async function setFig(q,k,v){await write(q,{fig:{...(reviews['q'+q.id]?.fig||{}),[k]:v}});afterDecision(q)}
 async function setFigReq(q,k,t){const r=reviews['q'+q.id]||{};await write(q,{fig:{...(r.fig||{}),[k]:'changes'},fig_notes:{...(r.fig_notes||{}),[k]:t}});afterDecision(q)}
 async function figAll(q){const f={...(reviews['q'+q.id]?.fig||{})};qFigs(q).forEach(k=>f[k]='approved');await write(q,{fig:f});afterDecision(q)}
 async function setSol(q,id,v){await write(q,{sol:{...(reviews['q'+q.id]?.sol||{}),[id]:v}});afterDecision(q)}
 function afterDecision(q){ // stay on the item until everything in the current filter is decided, then move on
   if(rstatus==='todo'&&!isTodo(q,rfilter)&&['diagrams','generated'].includes(rfilter)){refreshReview();window.scrollTo({top:0})} else renderReview()}
-async function setTag(t){const q=rlist[ridx];const ed={...(reviews['q'+q.id]?.tag_edits||{})};ed[editing]=t.cov?{cov:t.cov}:{id:t.id};editing=null;await write(q,{tag_edits:ed});renderReview()}
+async function setTag(t){const q=rlist[ridx],p=editing;editing=null;await write(q,tagEdit(q,[p],t));renderReview()}
 function openQFlag(){const b=$('#qflag');if(!b)return;b.hidden=false;const n=$('#note');n.focus();n.select()}
 async function decide(status){const q=rlist[ridx];if(!q)return;const patch={status,note:$('#note')?.value.trim()||null};if(status==='flagged')patch.fixed=null;   // a re-flag drops the old fix: it waits for Claude again (owner 17 Nov)
  if(q.decide)patch.call_at=new Date().toISOString();

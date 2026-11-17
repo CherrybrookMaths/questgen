@@ -36,7 +36,7 @@ const fmtM=m=>Number.isInteger(m)?String(m):String(+m.toFixed(1));
 
 /* ---------- pool ---------- */
 function exBase(A,homes){const avoid=A.avoid?xaSavedIds():null;
-  return B.questions.filter(q=>homes.has(q.id)&&exEst(q)&&A.src[exSrc(q)]&&(!A.approved||qState(q)==='approved')&&!(avoid&&avoid.has(q.id)))}
+  return B.questions.filter(q=>homes.has(q.id)&&exEst(q)&&A.src[exSrc(q)]&&(!A.approved||qState(q)==='approved')&&!repHidden(q)&&!(avoid&&avoid.has(q.id)))}   // owner 17 Nov: a reported question is out of new exams ("disappear from the bank")
 function exPool(A,homes){const T=new Set(A.topics);return exBase(A,homes).filter(q=>T.has(homes.get(q.id).sub))}
 const subName=k=>k.split('|')[2]||k.slice(4).split('|')[1];
 function exAutoTitle(A){const tree=xaTree(),sel=new Set(A.topics),fas=[];

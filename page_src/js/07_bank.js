@@ -8,15 +8,22 @@ function partPri(q,p,side){if(side==='res'){const v=reviews['q'+q.id]?.tagres?.[
   return effTags(q,p).filter(t=>t.primary).map(t=>t.cov==='removed'||t.cov==='no_match'?t.cov:t.id)}
 // tie on marks -> the topic of the LATER part wins (spec: "on a tie, the final answer decides"; owner 12 Nov on QID 1221:
 // "both were wrong here, this should've been in integration")
-function homeOf(q,side){const w=new Map(),last=new Map();q.parts.filter(p=>leaf(q,p)).forEach((p,pi)=>{const ids=partPri(q,p,side),m=(p.marks||1)/(ids.length||1);ids.forEach(i=>{const k=subKey(i);if(k){w.set(k,(w.get(k)||0)+m);last.set(k,pi)}})});
+// side 'main': each part's dot points as the Bank files them (partMain); 'A' / 'B' / 'res' / 'cur' as partPri
+function homeOf(q,side){const pri=p=>side==='main'?partMain(q,p):partPri(q,p,side),w=new Map(),last=new Map();q.parts.filter(p=>leaf(q,p)).forEach((p,pi)=>{const ids=pri(p),m=(p.marks||1)/(ids.length||1);ids.forEach(i=>{const k=subKey(i);if(k){w.set(k,(w.get(k)||0)+m);last.set(k,pi)}})});
   // owner 12 Nov: "show the derivative, hence integrate" -> integration, whatever the marks. The test reads the part text, so it
   // runs once in tools/bank_split.py (q.hx); the index has no text (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2")
   const lv=q.parts.filter(p=>leaf(q,p)),lp=lv[lv.length-1];
-  if(q.hx){const k=subKey(partPri(q,lp,side)[0]);if(k)return k}
+  if(q.hx){const k=subKey(pri(lp)[0]);if(k)return k}
   if(w.size>1&&w.has('special:removed'))w.delete('special:removed');   // owner 12 Nov: a removed 3D part never decides the home when other parts are in the course
   let best=null,bv=-1,bp=-1;w.forEach((v,k)=>{const lp=last.get(k);if(v>bv+1e-9||(Math.abs(v-bv)<1e-9&&lp>bp)){bv=v;best=k;bp=lp}});return best}
 function homeNeed(q){return !q.dup_of&&q.parts.some(p=>p.tagd)&&homeOf(q,'A')!==homeOf(q,'B')}
-function qHome(q){const r=reviews['q'+q.id]?.home;if(r==='A'||r==='B')return homeOf(q,r);if(r?.id)return subKey(r.id);if(r?.cov)return subKey(r.cov);return partsDone(q)?homeOf(q,'res'):homeOf(q,'cur')}
+function qHome(q){const r=reviews['q'+q.id]?.home;if(r?.id)return subKey(r.id);if(r?.cov)return subKey(r.cov);return homeOf(q,'main')}
+// the side Review settled for the question: its home pick (A or B), else the per-part picks once they are all made, else the current tags
+const homeSide=q=>{const r=reviews['q'+q.id]?.home;return r==='A'||r==='B'?r:partsDone(q)?'res':'cur'};
+// a part's main dot points as the Bank files it (the ones qHome counts). owner 17 Nov (Reports: "So how do we actually change the
+// reported questions?"): a part's own tag change (Review's Change tag, or a report's Apply suggestion: reviews tag_edits) is the
+// newest call on that part, so it wins over the side settled before. The Reports card and the paper's ⓘ show these, not the raw tags.
+const partMain=(q,p)=>partPri(q,p,reviews['q'+q.id]?.tag_edits?.[p.id]?'cur':homeSide(q));
 // picks made per part before the switch to one home per question (5 parts, 12 Nov) still count
 function partsDone(q){const t=reviews['q'+q.id]?.tagres;return !!t&&q.parts.filter(tagNeed).every(p=>t[p.id])}
 function homeLabel(k){if(!k)return 'none';if(k==='special:removed')return 'Removed from syllabus';if(k==='special:no_match')return 'No dot point fits';const [yl,fa,sb]=k.slice(4).split('|');return `<span class="yb y${yl}">Y${yl}</span> ${esc(fa)}${sb?' › <b>'+esc(sb)+'</b>':''}`}
@@ -29,7 +36,11 @@ let BANKALL=(()=>{try{return localStorage.getItem('bankall')==='1'}catch(e){retu
 // owner 13 Nov: "is there a point in this showing if all questions are approvied?" The chip shows only when some questions are
 // unapproved AND the viewer is an editor (isEditor(), the Teach | Curate check). Non-editors never see unapproved questions, whatever BANKALL says.
 const bankAll=()=>BANKALL&&isEditor();
-const inBank=q=>!q.dup_of&&(bankAll()||qState(q)==='approved');
+// owner 17 Nov: "When a question is reported, it needs to be logged somewhere right? and disappear from the bank." A question with a
+// live report (open, or sent to Claude and not approved again: REP.hides, 27_reports.js) is out of the Bank whatever the switch says,
+// and out of every exam picker (24_exams exBase, 23_exam_auto xaSwap). REP is read guarded: its script block may not have run yet.
+const repHidden=q=>typeof REP==='object'&&REP.hides(q);
+const inBank=q=>!q.dup_of&&!repHidden(q)&&(bankAll()||qState(q)==='approved');
 // owner 13 Nov: "so can we sync the number on the bank and the processes pls": the Bank hero and Processes › Import history
 // both count from here, so the two can never disagree. A paper filed twice is hidden whole by build_bank.py.
 function bankStats(){const qs=B.questions.filter(inBank);return {questions:qs.length,papers:new Set(qs.map(q=>q.doc)).size}}
@@ -236,7 +247,7 @@ $('#list').addEventListener('click',e=>{
   const sb=e.target.closest('.sib'); if(sb){sel=sb.dataset.sel;save('sel',sel);renderBank();bankFade();return}
   if(e.target.id==='home'){bankGo('back',null,()=>{sel=null;save('sel','');renderBank()});return}
   const rv=e.target.closest('[data-reveal]'); if(rv){const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card');const q=B.questions.find(x=>x.id===id);c.outerHTML=cardHTML(q);const nc=$(`.card[data-q="${id}"]`);hydrate(nc,q,'bank');typeset(nc);return}
-  const op=e.target.closest('[data-open]'); if(op){rfilter='all';rstatus='any';rdoc='';$('#docF').value='';pendingOpen=+op.dataset.open}   // owner 13 Nov: opens in Review's "All questions" list (#review/list/all)
+  const op=e.target.closest('[data-open]'); if(op)reviewOpen(+op.dataset.open);   // owner 13 Nov: opens in Review's "All questions" list (#review/list/all)
 });
 let st; $('#q').addEventListener('input',e=>{clearTimeout(st);st=setTimeout(()=>{search=e.target.value.trim();renderBank()},250)});
 
