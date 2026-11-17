@@ -3,15 +3,16 @@
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\small]
 % owner 17 Nov (checker): "Make the circles in the redrawn diagram have the same diameter." -> both circles radius 74 (was ellipses 82x76 and 68x70), centres kept
-\def\A{(140,112) circle [radius=74]}
-\def\B{(232,115) circle [radius=74]}
+% checker 17 Nov: "Make it so that the 0.36 doesnt touch the circles which it is now" -> centres moved 7 each towards each other (overlap 56 -> 70 wide), 0.36 centred in it
+\def\A{(147,112) circle [radius=74]}
+\def\B{(225,115) circle [radius=74]}
 \fill[black!8] \B;
 \begin{scope}\clip \A; \fill[shade] \B; \end{scope}
 \draw (20,20) rectangle (328,215);
 \draw \A; \draw \B;
 \node at (122,66) {$A$};
 \node at (252,72) {$B$};
-\node at (193,116) {$0.36$};
+\node at (186,114) {$0.36$};
 \node at (262,116) {$0.12$};
 \end{tikzpicture}
 \end{document}

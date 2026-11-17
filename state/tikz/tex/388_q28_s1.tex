@@ -6,8 +6,9 @@
   \draw[<->] (-4,0) -- (18.8,0);
   \draw[<->] (0,-13) -- (0,4.2);
   \draw (10,-5) circle[radius=7];
-  \foreach \i in {2,3,4,6,8,10}{\draw (\i,-0.25) -- (\i,0.25);}
-  \foreach \j in {-2,-4,-5}{\draw (-0.25,\j) -- (0.25,\j);}
+  \foreach \i in {2,3,10}% checker 17 Nov: "Revert back and remove any unused ticks": unlabelled x ticks 4, 6, 8 and y tick -2 removed
+   {\draw (\i,-0.25) -- (\i,0.25);}
+  \foreach \j in {-4,-5}{\draw (-0.25,\j) -- (0.25,\j);}
   \draw[aux] (2,0) -- (2,-4) -- (0,-4);
   \draw[aux] (3,0) -- (3,-5) -- (0,-5);
   \tikzset{cross/.style={insert path={+(-3pt,-3pt) -- +(3pt,3pt) +(-3pt,3pt) -- +(3pt,-3pt)}}}
