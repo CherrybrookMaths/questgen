@@ -750,6 +750,22 @@ async function areas(browser, base, seed) {
       assert(r.nq === r.card && r.n - r.n0[0] === 3 && r.nq - r.n0[1] === 2, `banner ${r.n} flags in ${r.nq} questions, card ${r.card}, before ${r.n0}`);
       return `banner ${r.nq} questions = card ${r.card}; a k_ alias is not counted twice`;
     });
+    // owner 18 Nov: "Can u make it so when you click on the original and now, they enlarge"
+    await check('review: a click on a comparison picture opens it large; arrows step, Esc closes', cp, async () => {
+      await cp.evaluate(() => { const q = B.questions.find(x => !x.dup_of && B.docs[x.doc]?.ip && qFigs(x).some(k => B.figs[k] && B.figs[k].status !== 'table' && !/_s\d+$/.test(k)));
+        const host = document.createElement('div'); host.id = 'ptZoom'; host.style.width = '700px'; host.innerHTML = figCompareHTML(q); document.body.prepend(host); host.querySelectorAll('details').forEach(d => d.open = true); hydrate(host, q) });
+      await cp.waitForFunction(() => [...document.querySelectorAll('#ptZoom .cmp')].some(c => [...c.querySelectorAll('img.fig')].filter(i => i.src && i.complete && i.naturalWidth).length >= 2), null, {timeout: 20000}).catch(async e => { throw new Error(e.message + ' ' + await cp.evaluate(() => JSON.stringify([...document.querySelectorAll('#ptZoom img')].map(i => [i.dataset.k, i.dataset.kind, (i.src || '').slice(0, 30), i.alt])))) });
+      const small = await cp.evaluate(() => { const c = [...document.querySelectorAll('#ptZoom .cmp')].find(c => c.querySelectorAll('img.fig[src]').length >= 2); c.id = 'ptZoomC'; return c.querySelector('img.fig[src]').getBoundingClientRect().width });
+      await cp.click('#ptZoomC img.fig[src]'); await sleep(300);
+      const a = await cp.evaluate(() => { const d = document.getElementById('rvFigZoom'), i = d && d.querySelector('.rv-fzbody img');
+        return {open: !!d && d.open, w: i ? i.getBoundingClientRect().width : 0, t: d && d.querySelector('#rvFigZoomT').textContent, n: d && d.querySelector('.rv-fzn').textContent, role: document.querySelector('#ptZoomC img.fig[src]').getAttribute('role')} });
+      await cp.keyboard.press('ArrowRight'); await sleep(100);
+      const t2 = await cp.evaluate(() => document.querySelector('#rvFigZoomT').textContent);
+      await cp.keyboard.press('Escape'); await sleep(200);
+      const closed = await cp.evaluate(() => { const d = document.getElementById('rvFigZoom'); const c = !d.open; document.getElementById('ptZoom').remove(); return c });
+      assert(a.open && a.w > small * 1.4 && a.role === 'button' && a.n === '1 of 2' && t2 !== a.t && closed, `zoom: ${JSON.stringify({...a, small, t2, closed})}`);
+      return `"${a.t}" opens ${Math.round(a.w)} px wide (was ${Math.round(small)} px); → shows "${t2}"; Esc closes`;
+    });
     await check('review: a diagram change request holds back the question and its paper', cp, async () => {
       const r = await cp.evaluate(() => {
         const q = B.questions.find(x => !x.dup_of && (B.figs ? Object.keys(B.figs).some(k => k.startsWith(x.doc + '_q')) : true)); if (!q) return {skip: true};

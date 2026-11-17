@@ -36,7 +36,7 @@ function hydrate(root,q,mode){
   });
   root.querySelectorAll('img[data-k]').forEach(im=>{
     const k=im.dataset.k, doc=k.split('_')[0];
-    if(im.dataset.kind==='ov'||im.dataset.kind==='v1'){cmps(doc).then(m=>{const v=m[im.dataset.kind+':'+k];if(v)im.src=v;else{im.alt='Not kept: redrawn before 17 Nov, compare the original with now';im.title=im.alt}});return}
+    if(im.dataset.kind==='ov'||im.dataset.kind==='v1'){cmps(doc).then(m=>{const v=m[im.dataset.kind+':'+k];if(v)im.src=v;else{const n=document.createElement('p');n.className='rv-nov1';n.textContent='Not kept for this diagram: compare the original with now.';im.replaceWith(n)}});return}   // owner 18 Nov screenshot: a missing picture showed a broken-image icon
     if(im.dataset.kind==='svg') svgs(doc).then(m=>{if(m[k]){if(m[k].startsWith('data:image/png'))im.onload=()=>{im.style.width=Math.round(im.naturalWidth*0.32)+'px'};im.src=m[k]}else im.alt='Redraw missing'});
     else pack(doc).then(m=>{const p='figures/'+k+'.png';if(m[p]){im.onload=()=>{im.style.width=Math.round(im.naturalWidth*0.48)+'px'};im.src=m[p]}else im.alt='Image missing: '+k});
   });
@@ -45,3 +45,24 @@ function hydrate(root,q,mode){
     pack(d).then(m=>{if(m[p])im.src=m[p]})});
 }
 
+// owner 18 Nov: "Can u make it so when you click on the original and now, they enlarge". A click (or Enter) on a picture in a
+//   Review comparison (side by side, overlay, before -> now) opens it large in a modal dialog; ‹ › (or the arrow keys) step
+//   through the other pictures of the same comparison, Esc or a click outside closes it. One scope, no page-wide names (CODE_HEALTH 1).
+(()=>{const SEL='.figrow .cmp img.fig[src],.figrow .cmp3 img.fig[src],.figrow .ovfig img.fig[src]';let list=[],at=0,from=null;
+  const cap=im=>im.closest('figure')?.querySelector('figcaption')?.textContent.trim()||im.alt||'Picture';
+  function dlg(){let d=document.getElementById('rvFigZoom');if(d)return d;d=document.createElement('dialog');d.id='rvFigZoom';d.className='rv-figzoom';d.setAttribute('aria-labelledby','rvFigZoomT');
+    d.innerHTML=`<div class="rv-fzhead"><b id="rvFigZoomT"></b><span class="rv-fzn" aria-live="polite"></span><button type="button" class="rv-fzx" aria-label="Close">×</button></div>
+      <div class="rv-fzbody"><button type="button" class="rv-fzstep" data-fzs="-1" aria-label="Previous picture">‹</button><img alt=""><button type="button" class="rv-fzstep" data-fzs="1" aria-label="Next picture">›</button></div>`;
+    document.body.appendChild(d);
+    d.addEventListener('click',e=>{if(e.target===d||e.target.closest('.rv-fzx'))d.close();else{const b=e.target.closest('[data-fzs]');if(b)go(+b.dataset.fzs)}});
+    d.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'){e.preventDefault();go(-1)}else if(e.key==='ArrowRight'){e.preventDefault();go(1)}});
+    d.addEventListener('close',()=>{if(from&&from.isConnected)from.focus();from=null});return d}
+  function show(){const d=dlg(),im=list[at],big=d.querySelector('.rv-fzbody img');big.src=im.src;big.alt=im.alt||cap(im);
+    d.querySelector('#rvFigZoomT').textContent=cap(im);d.querySelector('.rv-fzn').textContent=list.length>1?`${at+1} of ${list.length}`:'';
+    d.querySelectorAll('.rv-fzstep').forEach(b=>b.hidden=list.length<2)}
+  function go(k){if(list.length<2)return;at=(at+k+list.length)%list.length;show()}
+  function open(im){const row=im.closest('.figrow');list=[...(row||document).querySelectorAll(SEL)];at=Math.max(0,list.indexOf(im));from=im;show();const d=dlg();if(!d.open)d.showModal();d.querySelector('.rv-fzx').focus()}
+  // the pictures load after the comparison is drawn, so they are marked as buttons when they arrive
+  document.addEventListener('load',e=>{const im=e.target;if(im.tagName==='IMG'&&im.matches(SEL)){im.tabIndex=0;im.setAttribute('role','button');im.title='Click to enlarge'}},true);
+  document.addEventListener('click',e=>{const im=e.target.closest?.(SEL);if(im){e.preventDefault();open(im)}});
+  document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches?.(SEL)){e.preventDefault();open(e.target)}})})();

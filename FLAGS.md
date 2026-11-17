@@ -10,7 +10,9 @@ Follow CLAUDE.md's standing rules exactly. Stamp times with `TZ=Australia/Sydney
    If `progress/jobs` shows a running job from another session, stop and say so.
 2. **Fix each open item**, as on 17 Nov (UI_SPEC "Flags hold back the paper"):
    - Diagram change request: one Opus agent edits the existing `state/tikz/tex/<id>.tex` to do exactly what the request says (DIAGRAM_SPEC),
-     renders, writes `tikz/result_<date>_flags<n>.json`; `python3 tools/apply_diagrams.py` on it (and `asset_upload_plan.py` / upload /
+     renders, writes `tikz/result_<date>_flags<n>.json`; `python3 tools/apply_diagrams.py` on it; once the edited sources are committed,
+     `python3 tools/redraw_before.py --auto <ids>` renders the version the checker reviewed for Review's "Before" picture (owner 18 Nov:
+     the middle box said "Not kept" for that morning's fixes because this step was missing) (and `asset_upload_plan.py` / upload /
      `asset_manifest.py` for changed svg packs, as in the publish procedure).
    - Text or solution flag: edit the database (copy questions.db into archive/ first). Mistakes in the paper are fixed (PARSE_SPEC
      "Mistakes in the paper are fixed"); record the change in the solution meta (`edited_from_original` / `overwritten_from_source`).

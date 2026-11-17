@@ -518,6 +518,11 @@ open text flags, questions = the card's number. Page test "the flags banner coun
 Owner: "why does it say 1 on spot check but there's nothing there". The 1 is the "Approve the other N questions" click that is
 left once the sample is clean; the empty step now says "Spot-check is done: one click left, approve the rest of the paper below"
 instead of "Nothing left".
+**Enlarge a comparison picture (18 Nov).** Owner: "Can u make it so when you click on the original and now, they enlarge". In
+Review's diagram comparisons (side by side, overlay, before -> now) a click or Enter on a picture opens it large in a dialog, with
+its caption; ‹ › or the arrow keys step through the other pictures of the same comparison; Esc or a click outside closes it.
+Page test "a click on a comparison picture opens it large". Same day: a "Before" picture that was never kept now shows a plain
+note instead of a broken-image icon, and the flag fixes render their "Before" picture (tools/redraw_before.py, FLAGS.md step 2).
 
 ## Word export (14 Nov)
 He said "Word too pls". The preview has **Download Word** beside Download PDF, for both the exam and the marking guide.
