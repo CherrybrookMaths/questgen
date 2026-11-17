@@ -95,4 +95,42 @@ for sid in list(B8_OVERWRITTEN) + list(B8_NOTE_ONLY):
         m['format_note'] = ((m.get('format_note') or '') + ' Source check: ' + (m.pop('source_flag', None) or '')).strip()
     m['b8_flag_settled'] = True
     db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# Batch 9 (18 Nov, API verifier, VERIFY_SPEC): mistakes copied from the schools' solutions; owner 12 Nov: "if you are certain the source
+# is wrong and your maths is right, just overwrite it". Mark mismatches between a paper and its guideline (2637(b), 2765(b), 2766(b) and
+# 570 Q23) are left for the checker: they are a call on the paper, not maths.
+C9 = [
+ (3716, [(r'&=12.004384\ldots', r'&=12.004834\ldots')], [], r'the intermediate value read $12.004384\ldots$; the bracket sum is $12.004834\ldots$ (the answer $12.0$ was right)'),
+ (3676, [(r'The monthly amount $M$ must satisfy $65.6316M=17\,176$.', r'The monthly amount $M$ must satisfy $65.6316M=17\,176.18$.'),
+         (r'M&=\dfrac{17\,176}{65.6316} \\ &\approx 261.70320394 \\ &\approx \$261.71', r'M&=\dfrac{17\,176.18}{65.6316} \\ &\approx 261.70595 \\ &\approx \$261.71')], [],
+  r'the working divided $17\,176$ (giving $261.7032\ldots$, which rounds to $\$261.70$); Julia\'s full amount $17\,176.18$ gives $261.706\ldots\approx\$261.71$'),
+ (3888, [(r'\sin x &= \dfrac{-1 \pm \sqrt{5}}{2} \end{aligned}$$' + '\nHence', r'\sin x &= \dfrac{-1 \pm \sqrt{5}}{2} \end{aligned}$$' + '\n' + r'$\dfrac{-1-\sqrt{5}}{2}<-1$ has no solution, so $\sin x=\dfrac{\sqrt{5}-1}{2}$.' + '\n\nHence'),
+         (r'points of inflexion at about $(0.7, 1.9)$ and $(2.5, 1.8)$.', r'points of inflexion at about $(0.7, 1.9)$ and $(2.5, 1.9)$ (both have $y=e^{\sin x}=e^{0.618\ldots}\approx1.86$).')], [],
+  r'the second point read $(2.5, 1.8)$; both points have $y=e^{0.618\ldots}\approx1.86$, and the root $\dfrac{-1-\sqrt5}{2}$ is now rejected'),
+ (3905, [(r'so they would be advertising to the smallest share of the profit.' + '\n\nOne of these two reasons is sufficient.',
+          r'so they would be advertising to the smallest share of the profit.' + '\n\nOr: fish and birds are the smallest percentages of customers, so the store may be trying to grow those parts of the business.' + '\n\nOne of these two reasons is sufficient.')], [],
+  r'the solution said "one of these two reasons" but gave only one; the guideline\'s second reason is added'),
+ (3648, [(r'So $x+\pi$ becomes $\dfrac{x+\pi}{3}$.', r'Then $x$ is replaced by $\dfrac{x}{3}$ in $\ln(x+\pi)$, so $x+\pi$ becomes $\dfrac{x}{3}+\pi$.'),
+         (r'$$y=\ln\left(\dfrac{x+\pi}{3}\right)$$' + '\nThis is option D.', r'$$y=\ln\left(\dfrac{x}{3}+\pi\right)$$' + '\n' + r'This is option A. (Option D, $\ln\left(\dfrac{x+\pi}{3}\right)$, is the result of dilating first and then translating.)')], [],
+  r'the key was D; translating left by $\pi$ then dilating horizontally by 3 gives $\ln\left(\dfrac{x}{3}+\pi\right)$, option A'),
+]
+for sid, lat, crit, note in C9:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+if db.execute("select is_correct from mcq_options where question_id=2610 and label='D'").fetchone()[0]:
+    db.execute("update mcq_options set is_correct=(label='A') where question_id=2610")
+# Batch 9: typos printed in 2022 Baulkham Hills AT2 (doc 570), fixed (PARSE_SPEC "Mistakes in the paper are fixed")
+for pid, o, n in [
+    (4466, 'For what values of $x$ the function', 'For what values of $x$ is the function'),
+    (4470, 'express you answer', 'expressing your answer'),
+    (4471, 'GiventThe shaded area', 'Given the shaded area'),
+    (4479, 'On the axes givenbelow,', 'On the axes given below,'),
+    (4490, 'thevpoint of inflexion', 'the point of inflexion'),
+    (4493, '$y = cox(2x)$ .', '$y = \\cos(2x)$.'),
+    (4497, 'Sketch thegiven axex, draw the graph of $y = e^{\\sin x}$ , showing all the information obtained .in parts a) to c).',
+           'On the given axes, draw the graph of $y = e^{\\sin x}$, showing all the information obtained in parts (a) to (c).')]:
+    db.execute('update parts set latex=replace(latex, ?, ?) where id=?', (o, n, pid))
+# 570 Q24: the third part is printed (f) after (a), (b); the solutions call it (c)
+db.execute("update parts set label='c' where id=4490 and label='f'")
 db.commit(); print('done')
