@@ -40,6 +40,11 @@ In short: flaws first, [Certain]/[Likely]/[Guessing], no filler praise.
 - **Read the clock before stamping a time**: `TZ=Australia/Sydney date -Iminutes`. Never type times from memory.
 - **Processes tab stays current**: when a job starts or ends, update the page db docs `progress/queue`
   ({items:[{id,title,detail,status:'queued'|'running'|'done',order,asked}],updated}) and `progress/jobs` with ArtifactData.
+- **Next up stays current** (owner 17 Nov: "can u keep track of the up next while we work so no dead tasks"): page db `notes`.
+  Add a note when work is promised or deferred, tick it (done, doneAt from the clock) the moment it lands, rewrite one whose
+  condition or wording went stale, and before the final reply of every request list `notes` and fix anything dead. A note
+  another session wrote is checked against the live state before it is acted on (17 Nov: two 13:12 notes from another
+  session were already done here).
 - Copy questions.db into archive/ (or next to it) before any tool writes to it for the first time in a session.
 - No machine paths in tools/: locations come from tools/paths.py (batch_check blocks a hard-coded one).
 - **Unattended sessions (16 Nov)**: .claude/settings.json pre-approves every tool this project uses (owner 16 Nov: "So can u stop
