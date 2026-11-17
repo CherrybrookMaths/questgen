@@ -997,3 +997,11 @@ effTags (03_tags.js) folds it in, so the chips in Review and the Bank, the year 
 agree. Changing a decision means writing the new pick, never deleting it (deleting reopened three questions in Review, 17 Nov).
 The three 12 Nov picks that disagreed with the screen (2026 HSC Q32, 2025 HSC Q10, 2026 HSC Q29) now point at the screen's
 tags; the old values are kept in reviews tagres_cleared.
+
+## Year of a question's home (17 Nov)
+Owner 17 Nov, on 2023 HSC Q32 (an areas question filed under Y11 Algebraic techniques because its two 3-mark parts tied and
+the later part won): "change the tie rule. Y12 questions can NEVER show in Y11 bank, likewise vice versa. If it has ANY y12
+parts, it goes straight to Y12." A question with any Year 12 tag (main or also, any part) is filed only under a Year 12 topic
+(marks, then "the final answer decides", among its Year 12 topics; if its only Year 12 tags are "also" tags, those decide); a
+question with none is filed under Year 11. A home picked by hand in Review that breaks this is ignored. Code: 07_bank.js homeOf
+/ qHome; test "bank: a question with any Year 12 tag files under Year 12 only".

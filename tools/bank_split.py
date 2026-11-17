@@ -133,8 +133,14 @@ def slim_part(p):
     t = [{'id': t.get('id'), 'primary': t['primary'], **({'cov': t['cov']} if t.get('cov') in ('removed', 'no_match') else {})}
          for t in (p.get('t24') or []) if t.get('primary')]
     if t: x['t24'] = t
+    # owner 17 Nov ("If it has ANY y12 parts, it goes straight to Y12"): a question whose only Year 12 tags are "also" tags is filed by
+    # them, so those few ids are kept here (the home must not change when the details file lands)
+    ya = [t['id'] for t in (p.get('t24') or []) if not t.get('primary') and (t.get('id') or '').startswith('Y12')]
+    if ya: x['y12a'] = ya
     if p.get('tagd'):
-        x['tagd'] = {sd: {'dp': [d for d in v.get('dp', []) if d[1] == 'primary'], **({'removed': v['removed']} if v.get('removed') else {})}
+        x['tagd'] = {sd: {'dp': [d for d in v.get('dp', []) if d[1] == 'primary'], **({'removed': v['removed']} if v.get('removed') else {}),
+                          **({'y12a': [d[0] for d in v.get('dp', []) if d[1] != 'primary' and d[0].startswith('Y12')]}
+                             if any(d[1] != 'primary' and d[0].startswith('Y12') for d in v.get('dp', [])) else {})}
                      for sd, v in p['tagd'].items()}
     if p.get('dif'): x['dif'] = {k: p['dif'][k] for k in ('b', 'wm') if k in p['dif']}
     return x
@@ -175,6 +181,11 @@ def split(bank, home, src=None):
         x = {kk: q[kk] for kk in Q_START if q.get(kk) not in (None, '', [])}
         if q.get('tri', {}).get('tier'): x['tri'] = {'tier': q['tri']['tier']}
         x['parts'] = [slim_part(p) for p in q['parts']]
+        # owner 17 Nov: "If it has ANY y12 parts, it goes straight to Y12." Year 12 by ANY tag (main or also, either tagger side);
+        # the slim index keeps main tags only, so the year is decided here once (07_bank.js homeOf reads q.y12)
+        ids = [t.get('id') or '' for p in q['parts'] for t in (p.get('t24') or [])] + \
+              [d[0] for p in q['parts'] for v in (p.get('tagd') or {}).values() for d in v.get('dp', [])]
+        if any(i.startswith('Y12') for i in ids): x['y12'] = 1
         # every other question field goes to the details, listed or not (review 16 Nov: a fixed list dropped decide_at, which
         # build_bank.py writes for a call raised after approval; a field added to build_bank later must not vanish either)
         dt = {kk: v for kk, v in q.items() if kk not in Q_START and kk not in Q_CONTENT and kk not in ('parts', 'solutions', 'tri', 'h')

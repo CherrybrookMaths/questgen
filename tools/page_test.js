@@ -2525,6 +2525,20 @@ async function reportActions(browser, base, seed) {
     return `B: ${r.b[0]}; A: ${r.a[0]}; by id: ${r.id[0]}; the question stays decided`;
   });
 
+  // owner 17 Nov: "Y12 questions can NEVER show in Y11 bank, likewise vice versa. If it has ANY y12 parts, it goes straight to Y12."
+  await check('bank: a question with any Year 12 tag files under Year 12 only, and the reverse (2023 HSC Q32)', page, async () => {
+    const r = await page.evaluate(() => { const bad = [];
+      B.questions.filter(q => !q.dup_of).forEach(q => { const h = qHome(q); if (!h || !h.startsWith('sub:')) return;
+        const y12 = qY12(q);
+        if ((h.slice(4).split('|')[0] === '12') !== y12) bad.push(q.key + ' → ' + h) });
+      const q = B.questions.find(x => x.key === '2023-NESA-HSC-Q32');
+      return {bad, n: B.questions.length, q32: q ? qHome(q) : 'missing'} });
+    errs();
+    assert(!r.bad.length, `${r.bad.length} question(s) filed in the wrong year: ${r.bad.slice(0, 5).join('; ')}`);
+    assert(/^sub:12\|/.test(r.q32), `2023 HSC Q32 filed under ${r.q32}, want a Year 12 topic`);
+    return `${r.n} questions checked; 2023 HSC Q32 → ${r.q32.split('|').pop()}`;
+  });
+
   await check('reports: Send to Claude flags the question (waiting for Claude); approving the fix resolves the report', page, async () => {
     const id = await pick(3);
     await seedRep('rt_dif', {question_id: id, key: (await page.evaluate(id => xq(id).key, id)), reason: 'difficulty', suggested_band: 5, note: 'Page test: too easy'});
