@@ -174,10 +174,9 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
    connector in claude.ai/code/routines (16 Nov; a session cannot attach connectors to a task in this organisation: edit the
    task there, Advanced settings > Connectors).
 
-7. **Checker flag sweep**: built 17 Nov (owner: "no he can check it live after flagging a bit"). Scheduled task "Questgen checker
-   flag sweep" (trig_016bpxVVk9jnFHYjakycA4JR), weekdays 8:07 am to 5:07 pm Sydney, hourly, into the owner's working session
-   (session_01L9PQeUhPGmzibLHSnW2brx); prompt "read FLAGS.md and run it". FLAGS.md is the runbook: fix the checker's open flags and
-   diagram change requests, publish, hand them back for approval; no flags = stop at once.
+7. **Checker flags**: owner 17 Nov: "No, just fix it and put it back in the review list, drop the sweep". The hourly sweep task was
+   deleted the same day. When the owner (or a comment sent to Claude) asks, fix the checker's open flags and diagram change requests
+   by FLAGS.md steps 1-5 and hand each back for approval.
 
 ## Open items (14 Nov)
 - Details for jobs 2, 3, 5 and 6 above: the reviews migration has 22 ArtifactData batches (1,052 writes: k_<key> and

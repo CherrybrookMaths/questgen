@@ -1,7 +1,8 @@
 # Checker flag sweep (hourly, owner 17 Nov)
 
 Owner, 17 Nov: "no he can check it live after flagging a bit" (the checker flags in Review and checks the fix on the live page
-a little later; he does not use GitHub). A scheduled task runs this in the owner's working session every hour on weekdays.
+a little later; he does not use GitHub). Run on request (owner 17 Nov: "just fix it and put it back in the review list, drop the
+sweep": no scheduled task).
 Follow CLAUDE.md's standing rules exactly. Stamp times with `TZ=Australia/Sydney date -Iminutes`.
 
 1. **Anything to do?** ArtifactData `query` on `reviews` (where `at >= <yesterday>`, limit 1000, `out_dir` work/pagedb_flags_<date>/).

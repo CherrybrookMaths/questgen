@@ -45,6 +45,9 @@ function dtHTML(id,opts={}){
   const width=ws.reduce((a,b)=>a+b,0).toFixed(1);
   // checker 17 Nov (2024 Oakhill AT2 Q16): "The first table in the question is running off the page to the right." A table wider than
   // its column now shrinks to fit (fixed layout keeps the columns' proportions) instead of scrolling off the side.
+  // checker 17 Nov (2024 Sydney Tech Q30, the 11-column z-table): "Make the text in each of the boxes bigger, not changing the size of each
+  // box": a table shrinks to at most 80% of its natural width; narrower than that it scrolls inside its own box (.dtwrap) instead of
+  // squeezing the numbers.
   const tr=(r,ri,head)=>{let out='',skip=0;for(let c=0;c<n;c++){if(skip){skip--;continue} if(covered.has(ri+','+c)) continue;
       const k=span[ri+','+c]; if(k>1) skip=k-1; const rs=rspan[ri+','+c]; const at=(k>1?` colspan="${k}"`:'')+(rs>1?` rowspan="${rs}"`:'');
       const dg=diagSplit(r[c]); const v=dg?`<span class="dgtr">${cell(dg[1])}</span><span class="dgbl">${cell(dg[0])}</span>`:cell(r[c]);
@@ -53,7 +56,7 @@ function dtHTML(id,opts={}){
       else if(c<lc) out+=`<th scope="row" class="rl"${at}>${v}</th>`; else out+=`<td${at}>${v}</td>`;}
     return `<tr>${out}</tr>`};
   const head=rows.slice(0,hr).map((r,i)=>tr(r,i,true)).join(''), body=rows.slice(hr).map((r,i)=>tr(r,i+hr,false)).join('');
-  return `<div class="dtwrap"><table class="dt${opts.blank?' blankok':''}"${uniform?'':' data-percol="1"'} style="width:min(${width}em,100%);max-width:none">${t.cap?`<caption>${capHTML(t.cap)}</caption>`:''}${cols}${head?`<thead>${head}</thead>`:''}<tbody>${body}</tbody></table></div>`;
+  return `<div class="dtwrap"><table class="dt${opts.blank?' blankok':''}"${uniform?'':' data-percol="1"'} style="width:min(${width}em,100%);min-width:${(width*0.8).toFixed(1)}em;max-width:none">${t.cap?`<caption>${capHTML(t.cap)}</caption>`:''}${cols}${head?`<thead>${head}</thead>`:''}<tbody>${body}</tbody></table></div>`;
 }
 function optTableHTML(q,show){
   const ot=q.opt_table, n=ot.headers.length, key=q.options.find(o=>o.is_correct)?.label, ksrc=q.options.find(o=>o.is_correct)?.key_source;
