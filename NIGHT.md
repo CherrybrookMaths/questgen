@@ -17,7 +17,10 @@ The Tonight card on Processes › Work shows exactly what this run does, from tw
 1. The repo: if /home/user/questgen is missing, attach CherrybrookMaths/questgen with the add_repo tool (push access) and
    clone it there. Read CLAUDE.md (it loads automatically) and follow "Fresh session: start here" steps 0–5 and 7. Step 5 (fetch the published image files with
    tools/fetch_published.py) is required, not optional: image files are not in git, and a publish from a session that lacks them
-   deletes them from the live page (17 Nov; batch_check now blocks that).
+   deletes them from the live page (17 Nov; batch_check now blocks that). It includes the 40 asset-store packs (data/svg g*,
+   data/crop g*): fetch_published.py lists their ids; read each with its own Artifact call (`path` = the id, out_dir
+   work/assets_dl), then `--place-assets work/assets_dl`; `--verify` must exit 0 (owner 18 Nov: "go and fix it.", after the 17 Nov
+   run wrote empty packs without them). Without them step 3 is skipped (image_lifecycle.py refuses, exit 2).
 2. `TZ=Australia/Sydney date -Iminutes` → write `progress/jobs` {jobs: [{name: "Night run", started: <now>}], updated} and
    `progress/night` `last: {at: <now>, items: [], running: true}` (ArtifactData; read the doc first, pass its version).
 
@@ -43,12 +46,16 @@ Copies and missing files. Result: "<n> new files recorded, <c> copies set aside,
 ## 3. Images (job 3)
 Export `reviews` (ArtifactData `list`, limit 1000 + cursor, out_dir work/pagedb_export_<date>/), then
 `python3 tools/image_lifecycle.py <export>` and `python3 tools/bank_split.py`: papers cleared in Review since last night lose
-their page scans. If any changed pack is in the asset store, re-upload it (tools/asset_upload_plan.py, then
-tools/asset_manifest.py). Result: "<n> papers cleared, <x> MB removed".
+their page scans. If image_lifecycle refuses (exit 2: asset-store packs missing or empty), mark the step failed with its message
+and skip steps 3 and 4. Do NOT upload anything here: changed asset-store packs go up in step 4, only after the page test has
+passed on them. Result: "<n> papers cleared, <x> MB removed".
 
 ## 4. Publish if anything changed
 If steps 1–3 changed anything the page shows: the CLAUDE.md "Publish procedure" (prepublish must exit 0 with 0 blockers;
-publish only the review page; then --mark-published). If prepublish fails, do NOT publish: result "Not published:
+publish only the review page; then --mark-published). Changed asset-store packs (18 Nov): run prepublish first; when the page
+test passed ("0 failed") and the only blockers are "asset store: ... re-upload it", upload them (tools/asset_upload_plan.py, which
+refuses an empty, missing or halved pack; one Artifact call per file; tools/asset_manifest.py), then prepublish again: 0 blockers
+before the publish. Never upload a pack the page test has not passed with. If prepublish fails, do NOT publish: result "Not published:
 <first failure>", and stop changing things.
 
 ## 5. Back up and push

@@ -53,9 +53,27 @@ def groups(kind):
     return out
 
 
+def packs_present():
+    """18 Nov (owner: "go and fix it."): every asset-store pack data/assets.json lists must be on disk and not empty before this
+    tool rewrites the groups. groups() reads only local files, so in a session that had not fetched them (the 17 Nov night run) it
+    wrote EMPTY svg and crop packs, which the night run would then have uploaded over the page's diagrams. Returns the problems."""
+    man = load(S + 'assets.json').get('assets', {})
+    bad = []
+    for k, v in man.items():
+        f = P + 'site/' + k
+        if not os.path.exists(f): bad.append(f'{k} missing')
+        elif not load(f) and (v.get('bytes') or 0) > 2: bad.append(f'{k} is empty here but {v.get("bytes")} bytes in the asset store')
+    return bad
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
     dry = '--dry' in sys.argv
+    bad = packs_present()
+    if bad:
+        print('image_lifecycle: REFUSED, nothing written: ' + '; '.join(bad[:6]) + (f' (+{len(bad) - 6} more)' if len(bad) > 6 else '')
+              + '. Fetch them first: python3 tools/fetch_published.py (asset ids), then --place-assets.')
+        sys.exit(2)
     db = sqlite3.connect(paths.DBS)
     reviews = dict(IN.read(args[0] if args else None, 'reviews', db, 'page_reviews'))
     key_of = IN.question_keys(db)

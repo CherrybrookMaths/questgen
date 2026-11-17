@@ -110,7 +110,9 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
    `url` = the review page, `paths` = the batch, `out_dir` = `<repo>/site` (asks once), or no out_dir and then
    `python3 tools/fetch_published.py --place <the folder the result names>`. Then `python3 tools/fetch_published.py --verify`
    (must say every published file is present; a note that the 8 svg packs differ in bytes is expected: same content, older
-   key order, resent at the next publish). Tested 14 Nov: 4 read calls, 66 files, 138 MB, a few seconds each.
+   key order, resent at the next publish). It also lists the 40 asset-store packs (data/svg g*, data/crop g*; 18 Nov, owner
+   "go and fix it."): read each id in its own Artifact call (`path` = the id; a `paths` list is refused), then
+   `--place-assets <dir>`. image_lifecycle.py and asset_upload_plan.py refuse to run without them. Tested 14 Nov: 4 read calls, 66 files, 138 MB, a few seconds each.
    Only for diagram work (tikz_render.sh, overlay.py): `python3 tools/fetch_published.py --figures-from-packs` rebuilds 988 of
    the 992 crops in figures/ from the packs: approximations (ink from alpha, at most 900 px wide), not the originals.
 6. `bash tools/prepublish.sh` (about 3 min): build, page test (162 checks), batch_check. It must exit 0 before any publish.

@@ -54,6 +54,19 @@ def main():
         f = S + rel; n = os.path.getsize(f); h = sha256(f)
         if '--all' not in sys.argv and (man.get(rel) or {}).get('sha256') == h: skip.append(rel); continue
         rows.append({'path': rel, 'local': 'site/' + rel, 'bytes': n, 'sha256': h, 'content_type': 'application/json', 'over_limit': n > MAX_FILE})
+    # 18 Nov (owner: "go and fix it."): never plan an upload that would blank or gut a live pack. A pack the asset store holds must be
+    # here, not empty, and at least half its uploaded size (a big drop means it was rebuilt without its sources: the 17 Nov night
+    # run wrote empty packs). A real shrink (many crops dropped at once) passes with --allow-shrink, after a look.
+    refuse = [f'{k} is in the asset store but missing here' for k in man if not os.path.exists(S + k)]
+    for r in rows:
+        old = (man.get(r['path']) or {}).get('bytes') or 0
+        if not json.load(open(S + r['path'])): refuse.append(f'{r["path"]} is empty')
+        elif old and r['bytes'] < old / 2 and '--allow-shrink' not in sys.argv: refuse.append(f'{r["path"]} shrank from {old} to {r["bytes"]} bytes')
+    if refuse:
+        if os.path.exists(OUT): os.remove(OUT)   # no stale plan left to upload from
+        print('asset upload plan REFUSED, no plan written: ' + '; '.join(refuse[:8])
+              + '. Fetch the packs (python3 tools/fetch_published.py) and rebuild; --allow-shrink only for a shrink you have checked.')
+        sys.exit(2)
     tot = sum(r['bytes'] for r in rows)
     papers = len(glob.glob(S + 'data/img/*.json')) or 1
     allb = sum(os.path.getsize(S + r) for r in candidates())
