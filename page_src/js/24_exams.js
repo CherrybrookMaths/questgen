@@ -37,7 +37,8 @@ const fmtM=m=>Number.isInteger(m)?String(m):String(+m.toFixed(1));
 /* ---------- pool ---------- */
 function exBase(A,homes){const avoid=A.avoid?xaSavedIds():null;
   return B.questions.filter(q=>homes.has(q.id)&&exEst(q)&&A.src[exSrc(q)]&&(!A.approved||qState(q)==='approved')&&!repHidden(q)&&!(avoid&&avoid.has(q.id)))}   // owner 17 Nov: a reported question is out of new exams ("disappear from the bank")
-function exPool(A,homes){const T=new Set(A.topics);return exBase(A,homes).filter(q=>T.has(homes.get(q.id).sub))}
+// owner 17 Nov: "lets do skill gates, that's important": the pool keeps only questions whose skills' topics are learnt (XG, 23_exam_auto.js)
+function exPool(A,homes,all){const T=new Set(A.topics),raw=exBase(A,homes).filter(q=>T.has(homes.get(q.id).sub));return all?raw:XG.split(raw,XG.learnt(XG.autoExtra(A)).L).keep}
 const subName=k=>k.split('|')[2]||k.slice(4).split('|')[1];
 function exAutoTitle(A){const tree=xaTree(),sel=new Set(A.topics),fas=[];
   [12,11].forEach(y=>tree[y].forEach((ks,fa)=>{const s=ks.filter(k=>sel.has(k));if(s.length)fas.push({fa,s,all:ks.length})}));
@@ -103,7 +104,7 @@ function exWarn(A,st,pool){const w=[],mN=pool.filter(q=>q.type==='mcq').length,w
 
 /* ---------- page shell ---------- */
 // owner 14 Nov ("Is there a place to manage created exams?"): a third view, My exams (25_mine.js), beside Exam setup and Pick by hand
-function renderExams(){const box=$('#examsView');if(!box||!B)return;exmSub();exA();
+function renderExams(){const box=$('#examsView');if(!box||!B)return;exmSub();exA();XG.load();
   if(!EXV.built){EXV.built=true;
     box.innerHTML=`<div class="exhead"><div class="xseg exseg" role="group" aria-label="Exams"><button type="button" data-exv="setup">Exam setup</button><button type="button" data-exv="pick">Pick by hand</button><button type="button" data-exv="mine">My exams</button></div>
       <span class="exsum" id="exSum"></span><span class="sp"></span>
@@ -154,24 +155,29 @@ function renderSetup(){const A=exA();
         ${sliderCtl('gDF','Fluency difficulty',2,6,0.1,A.dF,['Band 2','Band 6'],'','fl')}
         ${sliderCtl('gDP','Problem-solving difficulty',2,6,0.1,A.dP,['Band 2','Band 6'],'','ps')}
       </div>
+      <div class="group xl-g" id="exLearnt"></div>
       <div class="group"><h3>What these topics can supply</h3><div id="availBox"></div></div>
       <div class="exgo"><button type="button" class="exgen" id="gGo">Generate exam</button>
       <button type="button" class="linkbtn pickhand" data-exv="pick">or pick questions by hand</button><span class="exgohint" id="gGoHint" hidden>Choose at least one subtopic to generate.</span></div>
       <div id="gResult"></div>
     </aside></div>`;
   exTopics();exLabels();exAvail();exResult()}
-function exTopics(){const el=$('#exTopics');if(!el)return;const A=exA(),tree=xaTree(),homes=xaHomes(),base=exBase(A,homes),cnt={},sel=new Set(A.topics);
-  base.forEach(q=>{const k=homes.get(q.id).sub;cnt[k]=(cnt[k]||0)+1});const nq=exPool(A,homes).length;
+function exTopics(){const el=$('#exTopics');if(!el)return;const A=exA(),tree=xaTree(),homes=xaHomes(),base=exBase(A,homes),cnt={},has={},sel=new Set(A.topics),Ls=new Map();
+  // owner 17 Nov (skill gates): a subtopic counts the questions that would come in if it were ticked (its own topic counts as learnt)
+  const Lk=k=>{if(!Ls.has(k))Ls.set(k,XG.learnt([...A.topics,k]).L);return Ls.get(k)};
+  base.forEach(q=>{const k=homes.get(q.id).sub;has[k]=1;if(XG.ok(q,Lk(k)))cnt[k]=(cnt[k]||0)+1});const nq=exPool(A,homes).length;exLearnt();
   let h=`<div class="selbar"><span><b>${A.topics.length}</b> subtopic${A.topics.length===1?'':'s'} chosen · <b>${nq}</b> question${nq===1?'':'s'} match</span><span class="sp"></span><button type="button" class="linkbtn" data-sall="all">Select all</button><button type="button" class="linkbtn" data-snone="all">Clear all</button></div>`;
   [12,11].forEach(y=>{h+=`<section class="strand"><div class="strand-h"><h3>Year ${y}</h3><button type="button" class="linkbtn" data-sall="${y}">Select all</button><button type="button" class="linkbtn" data-snone="${y}">Clear</button></div><div class="extiles">`;
-    tree[y].forEach((ks,fa)=>{const key=y+'|'+fa,live=ks.filter(k=>cnt[k]),on=ks.filter(k=>sel.has(k)).length,state=on&&on>=live.length&&live.length?'on':on?'part':'';
+    tree[y].forEach((ks,fa)=>{const key=y+'|'+fa,live=ks.filter(k=>has[k]),on=ks.filter(k=>sel.has(k)).length,state=on&&on>=live.length&&live.length?'on':on?'part':'';
       const q=ks.reduce((t,k)=>t+(cnt[k]||0),0),open=EXV.open.has(key),chosen=ks.filter(k=>sel.has(k)).map(subName);
       h+=`<div class="extile ${state==='part'?'ex-part':state}${open?' open':''}"><div class="extile-h">
         <button type="button" class="tbox" data-tfa="${esc(key)}" role="checkbox" aria-checked="${state==='on'?'true':state==='part'?'mixed':'false'}" aria-label="Choose all of ${esc(fa)}"${live.length?'':' disabled'}>${state==='on'?'✓':''}</button>
         <button type="button" class="extile-t" data-texp="${esc(key)}" aria-expanded="${open}"><span class="tt"><b>${esc(fa)}</b><small>${q} question${q===1?'':'s'} · ${on?`${on} of ${ks.length} chosen`:`${ks.length} subtopic${ks.length===1?'':'s'}`}</small>${chosen.length&&!open&&state!=='on'?`<small class="expicked">${esc(chosen.join(', '))}</small>`:''}</span><span class="exchev" aria-hidden="true">▾</span></button></div>
-        <div class="pills" ${open?'':'hidden'}>${ks.map(k=>{const n=cnt[k]||0;return `<button type="button" class="pill" data-tsub="${esc(k)}" aria-pressed="${sel.has(k)}"${n?'':' disabled title="No questions yet"'}>${esc(subName(k))}<span class="n">${n}</span></button>`}).join('')}</div></div>`});
+        <div class="pills" ${open?'':'hidden'}>${ks.map(k=>{const n=cnt[k]||0;return `<button type="button" class="pill" data-tsub="${esc(k)}" aria-pressed="${sel.has(k)}"${has[k]?n?'':' title="Its questions need topics not yet learnt"':' disabled title="No questions yet"'}>${esc(subName(k))}<span class="n">${n}</span></button>`}).join('')}</div></div>`});
     h+='</div></section>'});
   el.innerHTML=h;const t=$('#gTitle');if(t)t.placeholder=exAutoTitle(A)}
+// the Already learnt block in Exam setup, with the switch and the left-out line for the ticked topics
+function exLearnt(){const el=$('#exLearnt');if(!el)return;const A=exA(),g=XG.learnt(XG.autoExtra(A));el.innerHTML=XG.html('setup',g,XG.split(exPool(A,xaHomes(),true),g.L))}
 function exLabels(){const A=exA(),fill=(id,v,min,max)=>{const el=$('#'+id);if(el)el.style.setProperty('--p',((v-min)/(max-min)*100)+'%')};
   const set=(id,t)=>{const el=$('#'+id+'V');if(el)el.textContent=t};
   set('gMarks',A.total+' marks');fill('gMarks',A.total,10,100);
@@ -209,7 +215,10 @@ function exSetTopics(list){const A=exA();A.topics=[...new Set(list)];xaSave();ex
 /* ---------- Pick by hand ---------- */
 function renderPick(){exSideNav();exFilters();exList();xPanel()}
 function exSideNav(){const el=$('#exSide');if(!el)return;const tree=xaTree(),homes=xaHomes(),cnt={},cntA={};let all=0;
-  B.questions.forEach(q=>{if(q.dup_of||!inBank(q))return;all++;const h=homes.get(q.id);if(!h)return;cnt[h.sub]=(cnt[h.sub]||0)+1;cntA[h.area]=(cntA[h.area]||0)+1});
+  // owner 17 Nov (skill gates): each topic counts what browsing it would show (its own subtopics count as learnt, XG.pickExtra)
+  const A=exA(),base=[...A.topics,...XG.homesOf()],L0=XG.learnt(base).L,Ls=new Map(),Lof=(k,ks)=>{if(!Ls.has(k))Ls.set(k,XG.learnt([...base,...ks]).L);return Ls.get(k)};
+  B.questions.forEach(q=>{if(q.dup_of||!inBank(q))return;const h=homes.get(q.id);if(XG.ok(q,L0))all++;if(!h)return;const [y,fa]=h.area.split('|');
+    if(XG.ok(q,Lof(h.sub,[h.sub])))cnt[h.sub]=(cnt[h.sub]||0)+1;if(XG.ok(q,Lof('fa:'+h.area,tree[y]?.get(fa)||[])))cntA[h.area]=(cntA[h.area]||0)+1});
   const T=EXV.pk.topic;
   el.innerHTML=`<div class="exsidehd"><b>Topics</b><button type="button" class="linkbtn exnarrow-s" data-exclose>Close</button></div><button type="button" class="tb" data-pt="all" aria-current="${T==='all'}"><span>All questions</span><span class="c">${all}</span></button>`+[12,11].map(y=>`<h3>Year ${y}</h3>`+[...tree[y]].map(([fa,ks])=>{const ak=y+'|'+fa,open=EXV.pkOpen.has(ak)||T==='fa:'+ak||(T.startsWith('sub:')&&ks.includes(T));
     return `<details class="exfa"${open?' open':''} data-pfa="${esc(ak)}"><summary><span>${esc(fa)}</span><span class="c">${cntA[ak]||0}</span></summary><div class="subs">
@@ -228,6 +237,7 @@ function exFilters(){const el=$('#exMain');if(!el||el.dataset.ready)return;el.da
       <select id="fsort" aria-label="Sort"><option value="new">Newest paper first</option><option value="old">Oldest paper first</option><option value="easy">Easiest first</option><option value="hard">Hardest first</option><option value="mup">Marks, low to high</option><option value="mdown">Marks, high to low</option></select>
       <label class="exck"><input type="checkbox" id="ffig"${F.fig?' checked':''}> Has a diagram</label>
       <label class="exck"><input type="checkbox" id="fhide"${F.hide?' checked':''}> Hide questions already in the exam</label></div>
+    <div class="xl-wrap" id="exLearntP"></div>
     <div class="exlisthead"><div><h2 id="exLt">All questions</h2><div class="sub" id="exLs"></div></div><div class="acts"><button class="act" id="exAddRand" type="button">Add 5 at random</button><button class="act" id="exAddAll" type="button">Add all shown</button></div></div>
     <div class="excards" id="exCards"></div><button class="act exmore" id="exMore" type="button" hidden>Show more</button>`;
   ['paper','type','marks','band','wm','sort'].forEach(k=>{const s=$('#f'+k);if(s)s.value=F[k]})}
@@ -240,6 +250,8 @@ function exFiltered(){const F=EXV.pk,homes=xaHomes();let qs=B.questions.filter(q
   if(F.marks!=='all')qs=qs.filter(q=>F.marks==='5'?(+q.marks>=5):+q.marks===+F.marks);
   if(F.band!=='all'||F.wm!=='all')qs=qs.filter(q=>qDifOK(q,{band:F.band,wm:F.wm}));
   if(F.fig)qs=qs.filter(q=>figKeys(q).all.length>0);if(F.hide)qs=qs.filter(q=>!EX.items.includes(q.id));
+  // owner 17 Nov: "lets do skill gates, that's important": questions needing a topic not yet learnt are left out (or marked, with the switch)
+  const g=XG.learnt(XG.pickExtra(exA())),sp=XG.split(qs,g.L);EXV.gate={g,sp};qs=sp.keep;
   const yr=q=>parseInt(docLabel(B.docs[q.doc]))||0,num=q=>parseInt(q.number)||0,d=q=>exEst(q)?.d??9;
   const cmp={new:(a,b)=>yr(b)-yr(a)||docLabel(B.docs[a.doc]).localeCompare(docLabel(B.docs[b.doc]))||num(a)-num(b),old:(a,b)=>yr(a)-yr(b)||docLabel(B.docs[a.doc]).localeCompare(docLabel(B.docs[b.doc]))||num(a)-num(b),
     easy:(a,b)=>d(a)-d(b),hard:(a,b)=>d(b)-d(a),mup:(a,b)=>(+a.marks||0)-(+b.marks||0),mdown:(a,b)=>(+b.marks||0)-(+a.marks||0)}[F.sort]||(()=>0);
@@ -249,7 +261,7 @@ function exList(reset=true){const box=$('#exCards');if(!box)return;const F=EXV.p
   // file; the cards shown load their topic files before they are drawn (exList._g drops an answer a newer call has replaced)
   const g=exList._g=(exList._g||0)+1,again=()=>{if(exList._g===g)exList(reset)};
   if(F.q&&!QG.hasAll()&&!QG.failed.size){box.innerHTML='<div class="exempty">Searching every topic…</div>';QG.needAll().then(again);return}
-  EXCUR=exFiltered();const t=F.topic;
+  EXCUR=exFiltered();const t=F.topic;{const lp=$('#exLearntP');if(lp)lp.innerHTML=XG.html('pick',EXV.gate.g,EXV.gate.sp)}
   $('#exLt').textContent=t==='all'?'All questions':t.startsWith('fa:')?t.split('|')[1]:subName(t);
   const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;
   $('#exLs').textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${bankAll()||!isEditor()?'':' · approved only'}`;
@@ -257,7 +269,7 @@ function exList(reset=true){const box=$('#exCards');if(!box)return;const F=EXV.p
   const have=new Set($$('#exCards > .card').map(c=>+c.dataset.q));
   if(reset){box.innerHTML='';have.clear()}
   const add=show.filter(q=>!have.has(q.id)),tmp=document.createElement('div');tmp.innerHTML=add.map(cardHTML).join('');
-  [...tmp.children].forEach(c=>{box.appendChild(c);const q=xq(+c.dataset.q);hydrate(c,q,'bank');TSIO.observe(c)});
+  [...tmp.children].forEach(c=>{box.appendChild(c);const q=xq(+c.dataset.q);hydrate(c,q,'bank');TSIO.observe(c);XG.note(c,q,EXV.gate.g.L)});
   if(!EXCUR.length)box.innerHTML='<div class="exempty">No questions match. Try another topic or clear a filter.</div>';
   $('#exMore').hidden=EXCUR.length<=F.limit;$('#exMore').textContent=`Show more (${EXCUR.length-F.limit} left)`}
 
@@ -492,7 +504,7 @@ document.addEventListener('click',e=>{
     xsave();EXC.clear();toast('Exam opened');return}
   if(e.target.closest('#examsView #xClose')){e.stopImmediatePropagation();document.body.classList.remove('exr-open','exs-open');return}
   const rv=e.target.closest('#examsView [data-reveal]');if(rv){e.stopImmediatePropagation();const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card'),q=xq(id);
-    const t=document.createElement('div');t.innerHTML=cardHTML(q);const nc=t.firstElementChild;c.replaceWith(nc);hydrate(nc,q,'bank');typeset(nc);return}
+    const t=document.createElement('div');t.innerHTML=cardHTML(q);const nc=t.firstElementChild;c.replaceWith(nc);hydrate(nc,q,'bank');XG.note(nc,q,EXV.gate?.g.L);typeset(nc);return}
 },true);
 document.addEventListener('click',e=>{const t=e.target;
   if(t.closest('#xPv')){
@@ -519,6 +531,9 @@ document.addEventListener('click',e=>{const t=e.target;
   if(t.id==='gGo'){const r=exGenerate();if(!r)return;if(!r.n){toast('No questions match. Choose more topics or papers.');return}EXC.clear();exResult();exLabels();exHead();xPreview('exam');return}
   const ex=t.closest('[data-texp]');if(ex){const k=ex.dataset.texp;EXV.open.has(k)?EXV.open.delete(k):EXV.open.add(k);exTopics();return}
   const tree=()=>xaTree(),A=exA();
+  // owner 17 Nov (skill gates): Already learnt ticks; the exam's own topics are disabled there (they always count)
+  const xg=t.closest('[data-xlk],[data-xly11]');if(xg&&!xg.disabled){const ctx=xg.closest('[data-xlctx]')?.dataset.xlctx,g=XG.learnt(ctx==='pick'?XG.pickExtra(A):XG.autoExtra(A));
+    if(xg.dataset.xlk)XG.toggle(xg.dataset.xlk,g);else XG.allY11(g);exRefresh();return}
   const sa=t.closest('[data-sall]');if(sa){const y=sa.dataset.sall,ks=(y==='all'?[12,11]:[+y]).flatMap(yy=>[...tree()[yy].values()].flat());const base=new Set(exBase(A,xaHomes()).map(q=>xaHomes().get(q.id).sub));exSetTopics([...A.topics,...ks.filter(k=>base.has(k))]);return}
   const sn=t.closest('[data-snone]');if(sn){const y=sn.dataset.snone;if(y==='all')exSetTopics([]);else{const ks=new Set([...tree()[+y].values()].flat());exSetTopics(A.topics.filter(k=>!ks.has(k)))}return}
   const fb=t.closest('[data-tfa]');if(fb&&!fb.disabled){const [y,...r]=fb.dataset.tfa.split('|'),ks=tree()[y].get(r.join('|'))||[],base=new Set(exBase(A,xaHomes()).map(q=>xaHomes().get(q.id).sub)),live=ks.filter(k=>base.has(k)),all=live.every(k=>A.topics.includes(k));
@@ -542,9 +557,10 @@ document.addEventListener('input',e=>{const t=e.target;if(!t.closest)return;
     if(t.id==='fq'){EXV.pk.q=t.value.trim();clearTimeout(t._h);t._h=setTimeout(()=>exList(),180);return}}});
 document.addEventListener('change',e=>{const t=e.target;if(!t.closest||!t.closest('#examsView'))return;const A=exA();
   if(t.id==='gApproved'){A.approved=t.checked;xaSave();exTopics();exAvail();return}
+  if(t.matches('[data-xlshow]')){XG.show=t.checked;exRefresh();return}
   const m={fpaper:'paper',ftype:'type',fmarks:'marks',fsort:'sort',fband:'band',fwm:'wm'};if(m[t.id]){EXV.pk[m[t.id]]=t.value;exList();return}
   if(t.id==='ffig'){EXV.pk.fig=t.checked;exList();return}if(t.id==='fhide'){EXV.pk.hide=t.checked;exList();return}});
-document.addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.pfa){d.open?EXV.pkOpen.add(d.dataset.pfa):EXV.pkOpen.delete(d.dataset.pfa)}},true);
+document.addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.pfa){d.open?EXV.pkOpen.add(d.dataset.pfa):EXV.pkOpen.delete(d.dataset.pfa)}if(d.dataset&&d.dataset.xlctx)XG.open[d.dataset.xlctx]=d.open},true);
 // editing the cover on the paper: click to type; Enter or clicking away saves (owner's exam maker)
 document.addEventListener('keydown',e=>{const el=e.target.closest&&e.target.closest('#xPv [data-edit]');if(!el)return;if(e.key==='Enter'||e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();el.blur()}},true);
 document.addEventListener('paste',e=>{const el=e.target.closest&&e.target.closest('#xPv [data-edit]');if(!el)return;e.preventDefault();const s=(e.clipboardData||window.clipboardData).getData('text').replace(/\s+/g,' ');document.execCommand('insertText',false,s)});

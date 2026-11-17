@@ -2430,7 +2430,9 @@ async function reportActions(browser, base, seed) {
   const seedRep = (id, doc) => page.evaluate(async ([id, doc]) => { await db.doc('reports/' + id).set({by: 'u_other', at: new Date().toISOString(), status: 'open', ...doc}); await new Promise(r => setTimeout(r, 60)) }, [id, doc]);
   const pick = n => page.evaluate(n => { const hs = xaHomes(); return B.questions.filter(q => !q.dup_of && qState(q) === 'approved' && hs.has(q.id) && exEst(q) && inBank(q))[n].id }, n);
   const where = id => page.evaluate(id => { const q = xq(id), A = {...exA(), approved: true, avoid: false, src: new Proxy({}, {get: () => true})};
-    return {bank: inBank(q), list: B.questions.filter(inBank).some(x => x.id === id), pick: exFiltered().some(x => x.id === id), pool: exBase(A, xaHomes()).some(x => x.id === id)} }, id);
+    // skill gates (17 Nov) shown through the switch: this check is about reports, and an empty exam has nothing learnt
+    const sw = XG.show; XG.show = true; let pick; try { pick = exFiltered().some(x => x.id === id) } finally { XG.show = sw }
+    return {bank: inBank(q), list: B.questions.filter(inBank).some(x => x.id === id), pick, pool: exBase(A, xaHomes()).some(x => x.id === id)} }, id);
 
   await check('reports: a reported question leaves the Bank and new exams; a saved exam keeps it with the warning; Dismiss brings it back', page, async () => {
     const id = await pick(0), before = await where(id);
@@ -2539,6 +2541,18 @@ async function reportActions(browser, base, seed) {
     return `${r.n} questions checked; 2023 HSC Q32 → ${r.q32.split('|').pop()}`;
   });
 
+  // owner 17 Nov (QID 1633): "Also found an out of course question in Y11". Standard-course questions never sit in an Advanced topic
+  await check('bank: Mathematics Standard questions are in their own group, never under an Advanced topic', page, async () => {
+    const r = await page.evaluate(() => { TOPICS = null; buildTopics(); const bad = [];
+      Object.entries(TOPICS.byKey).forEach(([k, v]) => { if (k.startsWith('sub:')) v.qs.forEach(q => { if (q.std) bad.push(q.key + ' in ' + k) }) });
+      const std = B.questions.filter(q => q.std && inBank(q)).length;
+      return {bad, std, grp: TOPICS.byKey['special:std'].qs.length} });
+    errs();
+    assert(!r.bad.length, `Standard questions in Advanced topics: ${r.bad.slice(0, 5).join('; ')}`);
+    assert(r.grp === r.std, `Mathematics Standard group holds ${r.grp}, want ${r.std}`);
+    return `${r.grp} Standard questions in their own group, none in Advanced topics`;
+  });
+
   await check('reports: Send to Claude flags the question (waiting for Claude); approving the fix resolves the report', page, async () => {
     const id = await pick(3);
     await seedRep('rt_dif', {question_id: id, key: (await page.evaluate(id => xq(id).key, id)), reason: 'difficulty', suggested_band: 5, note: 'Page test: too easy'});
@@ -2569,6 +2583,150 @@ async function reportActions(browser, base, seed) {
 }
 
 /* ---------------- main ---------------- */
+/* Skill gates in the exam builders (owner 17 Nov: "lets do skill gates, that's important"; 12 Nov: "if theyve done diff they can't do a
+   diff question which contains int until they do int"; 17 Nov: "we cann't assume that learnt is ticked ..."; "Learnt list, Y11
+   pre-ticked"; "Include it yep."). The example: 2020 HSC Q18 (QID 219) needs "Integration using a given derivative" (taught in
+   Integral calculus › Primitive functions): with Differential calculus and its own subtopic ticked it stays out of the exam until
+   Primitive functions is ticked or in Already learnt. Independent count: QG.skills (bank_split skill_gates) read directly. */
+async function skillGates(browser, base, seed) {
+  const Q = 219, PRIM = 'sub:12|Integral calculus|Primitive functions';
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await boot(page, base, '#exams');
+  const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  // the exam's topics: Differential calculus (Year 12) and Q18's own subtopic; nothing in Already learnt; switch off
+  const setup = () => page.evaluate(({Q}) => { EXV.view = 'setup'; exSaveView(); renderExams(); XG.on = []; XG.off = []; XG.show = false; XG.open.setup = true;
+    const h = xaHomes().get(Q).sub, dc = [...xaTree()[12]].filter(([fa]) => fa === 'Differential calculus').flatMap(([, ks]) => ks);
+    exA().approved = true; exSetTopics([...dc, h]); return h }, {Q});
+  const inPool = () => page.evaluate(Q => exPool(exA(), xaHomes()).some(q => q.id === Q), Q);
+
+  // 17 Nov review: with nothing to judge against (empty exam, "All questions", empty Already learnt) nothing is gated
+  await check('exams: no gate while nothing is ticked, browsed, added or learnt', page, async () => {
+    const r = await page.evaluate(() => { const keep = {items: EX.items.slice(), topics: exA().topics.slice(), t: EXV.pk.topic, on: XG.on, off: XG.off, show: XG.show};
+      try { EX.items.length = 0; exSetTopics([]); EXV.pk.topic = 'all'; XG.on = []; XG.off = []; XG.show = false;
+        const g = XG.learnt(XG.pickExtra(exA())), qs = B.questions.filter(q => !q.dup_of && inBank(q));
+        return {none: !!g.L.none, out: XG.split(qs, g.L).out.length, n: qs.length} }
+      finally { EX.items.push(...keep.items); exSetTopics(keep.topics); EXV.pk.topic = keep.t; XG.on = keep.on; XG.off = keep.off; XG.show = keep.show } });
+    errs();
+    assert(r.none && r.out === 0, `empty exam: ${r.out} of ${r.n} left out (none=${r.none})`);
+    return `${r.n} questions, none left out`;
+  });
+  await check('exams: skill gates leave a question needing an untaught topic out of the generator and the counts', page, async () => {
+    const h = await setup(); await settle(page, 2000, 2);
+    const r = await page.evaluate(({Q, h}) => {
+      const A = exA(), seen = new Set(); for (let i = 0; i < 6; i++) { exGenerate(); EX.items.forEach(x => seen.add(x)) }
+      // the subtopic tile's count (what ticking it brings in) leaves Q out; the Exams setup line names the left-out ones
+      const pill = document.querySelector(`#exTopics [data-tsub="${CSS.escape(h)}"] .n`)?.textContent, raw = exBase(A, xaHomes()).filter(q => xaHomes().get(q.id).sub === h).length;
+      return {gen: seen.has(Q), pill: +pill, raw, need: XG.need(xq(Q))} }, {Q, h});
+    errs();
+    assert(r.need.includes('sub:12|Integral calculus|Primitive functions'), `Q18 needs ${r.need.join(', ')}`);
+    assert(!(await inPool()), 'Q18 is in the generator pool');
+    assert(!r.gen, 'Q18 was generated into an exam');
+    assert(r.pill < r.raw, `its subtopic shows ${r.pill} of ${r.raw}: the gated question is still counted`);
+    return `QID ${Q} out of the pool and 6 generated exams; its subtopic counts ${r.pill} of ${r.raw}`;
+  });
+
+  await check('exams: the left-out line counts what the gates leave out, with the topics most missing', page, async () => {
+    const r = await page.evaluate(() => {
+      const A = exA(), T = new Set(A.topics), L = new Set([...A.topics, ...[...xaTree()[11].values()].flat()]);   // a Year 12 topic is in: all of Year 11 counts
+      const raw = exBase(A, xaHomes()).filter(q => T.has(xaHomes().get(q.id).sub));
+      const out = raw.filter(q => qSkills(q).some(s => (QG.skills[s] || []).some(k => !L.has(k))));
+      const el = document.querySelector('#exLearnt .xl-out');
+      return {want: out.length, got: el ? +el.dataset.xlout : 0, text: el?.textContent || '', pool: exPool(A, xaHomes()).length, raw: raw.length} });
+    errs();
+    assert(r.want > 0, 'nothing is left out (the example needs one)');
+    assert(r.got === r.want, `the line says ${r.got}, want ${r.want}`);
+    assert(r.pool === r.raw - r.want, `pool ${r.pool}, want ${r.raw} − ${r.want}`);
+    assert(/left out: (they need|it needs) topics not yet learnt \(mostly /.test(r.text), `line: ${r.text}`);
+    return r.text.trim();
+  });
+
+  await check('exams: Already learnt brings the question back, and is kept per teacher in the page database', page, async () => {
+    await page.click(`#exLearnt [data-xlk="${PRIM}"]`); await settle(page, 2000, 2);
+    assert(await inPool(), 'Q18 is still out with Primitive functions in Already learnt');
+    const line = await page.evaluate(() => +(document.querySelector('#exLearnt .xl-out')?.dataset.xlout || 0));
+    await sleep(1200);
+    const w = await page.evaluate(() => window.__pt.log.filter(x => x.k === 'data/users/u_pagetest/learnt').pop());
+    errs();
+    assert(w && w.v.on.includes('sub:12|Integral calculus|Primitive functions'), 'no write to data/users/u_pagetest/learnt');
+    // ticked in the exam instead: the same
+    await page.click(`#exLearnt [data-xlk="${PRIM}"]`); await sleep(100);
+    assert(!(await inPool()), 'unticking it did not leave Q18 out again');
+    await page.evaluate(p => exSetTopics([...exA().topics, p]), PRIM); await settle(page, 1500, 2);
+    assert(await inPool(), 'Q18 is out with Primitive functions ticked in the exam');
+    const dis = await page.evaluate(p => document.querySelector(`#exLearnt [data-xlk="${p}"]`)?.disabled, PRIM);
+    assert(dis, 'a topic in the exam is not shown as always learnt (disabled) in the list');
+    // a teacher's list comes back from the database on another device
+    const p2 = await newPage(browser, base, {...seed, 'data/users/u_pagetest/learnt': {on: [PRIM], off: []}}, {width: 1280, theme: 'light'});
+    await boot(p2, base, '#exams'); await settle(p2, 2000, 2);
+    const back = await p2.evaluate(p => XG.src === 'db' && XG.on.includes(p), PRIM);
+    await p2.context().close();
+    assert(back, 'the saved list did not load from data/users/<id>/learnt');
+    return `back in the pool; the line then says ${line || 0}; saved to data/users/u_pagetest/learnt and read back`;
+  });
+
+  await check('exams: Year 11 starts ticked in Already learnt once a Year 12 topic is in the exam', page, async () => {
+    const r = await page.evaluate(() => { XG.on = []; XG.off = []; const y11 = [...xaTree()[11].values()].flat(), y12 = [...xaTree()[12].values()].flat();
+      const st = () => { exLearnt(); const b = [...document.querySelectorAll('#exLearnt .xl-p')].filter(x => x.dataset.xlk.startsWith('sub:11|') && !x.disabled); return {n: b.length, on: b.filter(x => x.getAttribute('aria-pressed') === 'true').length} };
+      exSetTopics([y11[0]]); const a = st();
+      exSetTopics([y11[0], y12[0]]); const b = st();
+      document.querySelector(`#exLearnt .xl-p[data-xlk="${CSS.escape(y11[3])}"]`).click(); const c = st(), off = XG.off.slice();
+      document.querySelector('#exLearnt [data-xly11]').click(); const d = st();
+      return {a, b, c, d, off, k: y11[3]} });
+    errs();
+    assert(r.a.on === 0, `Year 11 only: ${r.a.on} Year 11 topics pre-ticked`);
+    assert(r.b.on === r.b.n, `with a Year 12 topic ${r.b.on} of ${r.b.n} Year 11 topics ticked`);
+    assert(r.c.on === r.c.n - 1 && r.off.includes(r.k), 'unticking one Year 11 topic did not stick');
+    assert(r.d.on === r.d.n, '"All Year 11" did not tick them all again');
+    return `Year 11 only: 0 of ${r.a.n} ticked; with a Year 12 topic: ${r.b.on} of ${r.b.n}; untick one: ${r.c.on}; All Year 11: ${r.d.on}`;
+  });
+
+  await check('exams: basic skills never gate', page, async () => {
+    const r = await page.evaluate(() => {
+      const basic = ['Expanding and factorising', 'Quadratic equations', 'Index laws'].filter(s => !QG.skills[s]);
+      XG.on = []; XG.off = []; XG.show = false;
+      const only = B.questions.filter(q => qSkills(q).length && qSkills(q).every(s => !QG.skills[s]));
+      return {basic, n: Object.keys(QG.skills).length, only: only.length, ok: only.filter(q => XG.ok(q, new Set())).length} });
+    errs();
+    assert(r.basic.length === 3, 'a basic skill gates');
+    assert(r.only > 0 && r.ok === r.only, `${r.ok} of ${r.only} basic-only questions pass with nothing learnt`);
+    return `${r.n} skills gate; ${r.only} questions needing only basic skills pass with nothing learnt`;
+  });
+
+  await check('exams: Pick by hand leaves gated questions out; the switch shows them with a “needs” note', page, async () => {
+    const h = await page.evaluate(Q => { XG.on = []; XG.off = []; XG.show = false; exSetTopics([]); EX.items = []; xsave();
+      const h = xaHomes().get(Q).sub; EXV.view = 'pick'; exSaveView(); EXV.pk = {...EXV.pk, topic: h, q: '', paper: 'all', type: 'all', marks: 'all', band: 'all', wm: 'all', fig: false, hide: false}; renderExams(); return h }, Q);
+    await settle(page, 4000, 2);
+    const a = await page.evaluate(Q => ({inList: EXCUR.some(q => q.id === Q), out: EXV.gate.sp.out.length, line: +(document.querySelector('#exLearntP .xl-out')?.dataset.xlout || 0)}), Q);
+    // Add all shown / Add 5 at random take only what the list shows: tried on Differential calculus, where some are left out
+    await page.evaluate(() => { EXV.pk.topic = 'fa:12|Differential calculus'; EXV.pk.limit = 1000; exSideNav(); exList(false) }); await settle(page, 6000, 2);
+    await page.click('#exAddAll'); await sleep(100); await page.click('#exAddRand'); await sleep(100);
+    const added = await page.evaluate(() => { const out = new Set(EXV.gate.sp.out.map(q => q.id)), shown = EXCUR.length;
+      return {n: EX.items.length, bad: EX.items.filter(i => out.has(i)).length, out: out.size, shown} });
+    await page.evaluate(h => { EX.items = []; xsave(); EXV.pk.topic = h; EXV.pk.limit = 20; exSideNav(); exList() }, h); await settle(page, 4000, 2);
+    await page.click('#exLearntP [data-xlshow]'); await settle(page, 4000, 2);
+    await page.evaluate(Q => { const i = EXCUR.findIndex(q => q.id === Q); if (i >= EXV.pk.limit) { EXV.pk.limit = i + 1; exList(false) } }, Q); await settle(page, 4000, 2);
+    const b = await page.evaluate(Q => ({inList: EXCUR.some(q => q.id === Q), note: document.querySelector(`#exCards .card[data-q="${Q}"] .xl-need`)?.textContent || '',
+      notes: document.querySelectorAll('#exCards .xl-need').length}), Q);
+    await page.evaluate(() => { XG.show = false; exRefresh() });
+    errs();
+    assert(!a.inList, 'Q18 is in the pick list with nothing learnt');
+    assert(a.out > 0 && a.line === a.out, `left-out line ${a.line}, want ${a.out}`);
+    assert(added.out > 0 && added.n > 0 && !added.bad, `Differential calculus: ${added.n} added of ${added.shown} shown, ${added.bad} of ${added.out} left-out ones added`);
+    assert(b.inList, 'the switch did not show Q18');
+    assert(/needs: .*Primitive functions/.test(b.note), `Q18's note: “${b.note}”`);
+    return `topic ${h.split('|')[2]}: ${a.out} left out; Differential calculus: Add all shown took ${added.n}, none of its ${added.out} left out; switch on: ${b.notes} cards marked, Q18 “${b.note}”`;
+  });
+
+  await check('bank: skill gates do not touch the Bank', page, async () => {
+    const r = await page.evaluate(Q => { XG.on = []; XG.off = []; XG.show = false; TOPICS = null; buildTopics(); const h = qHome(xq(Q));
+      return {inBank: inBank(xq(Q)), inTopic: (TOPICS.byKey[h]?.qs || []).some(q => q.id === Q)} }, Q);
+    errs();
+    assert(r.inBank && r.inTopic, `Q18 inBank ${r.inBank}, in its Bank topic ${r.inTopic}`);
+    return 'Q18 stays in the Bank under its topic with nothing learnt';
+  });
+  await page.context().close();
+}
+
 if (require.main !== module) { /* required by a debugging script: hand over the helpers, run nothing */ module.exports = {serve, newPage, boot, settle, unzip, FIXTURE, OUT}; return }
 (async () => {
   for (const d of [OUT, SHOTS, DL]) fs.mkdirSync(d, {recursive: true});
@@ -2590,7 +2748,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
     const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
-    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed), run(skillGates, browser, base, seed)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));

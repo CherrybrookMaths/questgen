@@ -27,6 +27,11 @@ start. At 538 papers the old index would have been ~18 MB (budget 2.35 MB; the p
       [{id, part_id, source, meta}], tri (full), parts: {part id: {t24, tagd, dif, skills} in full}}}}: what Review, Exams,
       Reports, Difficulty and the Guide read. The page merges it into the same question objects (01_core.js QG.det) and
       those views wait for it (09_router.js route); a question card waits for it too (QG.has).
+      Skill gates (owner 17 Nov: "lets do skill gates, that's important"): the details also carry sk = {skill: [topic keys]},
+      the taught topics a REQUIRED skill needs learnt before a question that uses it can go into an exam: the skill's own
+      topic plus every prerequisite's (transitive), basic skills left out (they never gate); a skill whose list is empty is
+      not listed. From state/work/skills/skill_topics.json (key, basic) and skill_prereqs.json (skill_gates below); the page
+      reads it as QG.skills (24_exams.js / 23_exam_auto.js XG).
   site/data/bank/<course>/<topic slug>.json   {v, topic, q: {id: {stem, options, opt_table, layout, figures, solutions (full),
       parts [{id, latex, c17, can_use, note, free, gates, ...}], fn: {figure key: {notes, check_notes}}}}}: what only a
       rendered question needs. The page merges it
@@ -127,6 +132,30 @@ def read_gz(path):
     return json.loads(gzip.decompress(base64.b64decode(json.load(open(path, encoding='ascii'))['gz'])).decode('utf-8'))
 
 
+SKILL_TOPICS = paths.S + 'work/skills/skill_topics.json'
+SKILL_PREREQS = paths.S + 'work/skills/skill_prereqs.json'
+
+
+def skill_gates():
+    """{skill: [topic keys]} for the exam builders' skill gates (TAG_SPEC "Gating by what has been learnt"; owner 12 Nov: "skills
+    need to be gated like that", 17 Nov: "lets do skill gates, that's important"). A skill gates on its taught topic (key, same
+    format as the page's topic keys: sub:<year>|<focus area>|<subheading>) and on its prerequisites' topics, transitively;
+    basic skills never gate (owner: foundational algebra a Year 12 student always has). Empty lists are dropped."""
+    if not os.path.exists(SKILL_TOPICS): print('WARN bank_split: no skill topic map: the exam builders do not gate'); return {}
+    top = json.load(open(SKILL_TOPICS, encoding='utf-8'))
+    req = {x['skill']: x.get('requires') or [] for x in json.load(open(SKILL_PREREQS, encoding='utf-8'))} if os.path.exists(SKILL_PREREQS) else {}
+    out = {}
+    for s in sorted(top):
+        seen, todo = set(), [s]
+        while todo:
+            x = todo.pop()
+            if x in seen: continue
+            seen.add(x); todo += req.get(x, [])
+        keys = sorted({top[x]['key'] for x in seen if x in top and not top[x].get('basic') and top[x].get('key')})
+        if keys: out[s] = keys
+    return out
+
+
 def slim_part(p):
     """A part as the Bank needs it: main tags only (topic homes), difficulty band and kind (Bank filters)."""
     x = {k: p[k] for k in P_START if p.get(k) is not None}
@@ -157,6 +186,7 @@ def src_hash(path=None):
     from (idx['src']), so a paper cleared in Review (its pack archived) makes the index stale too (job 3)."""
     h = hashlib.sha256(open(path or P + 'site/data/bank.json', 'rb').read())
     h.update(json.dumps(img_packs()).encode())
+    h.update(json.dumps(skill_gates(), sort_keys=True).encode())   # a changed skill map (skill gates, 17 Nov) is a new split too
     return h.hexdigest()[:16]
 
 
@@ -234,7 +264,7 @@ def split(bank, home, src=None):
     idx = {'v': 3, 'built': bank.get('built'), 'src': src, 'course': COURSE, 'docs': docs, 'tables': bank['tables'], 'figs': {k: {kk: v for kk, v in f.items() if not (k in moved and kk in F_CONTENT)} for k, f in figs.items()},
            'codes17': bank.get('codes17', {}), 'files': files, 'questions': idx_q}
     idx['raw'] = write_gz(INDEX, idx)
-    idx['raw_details'] = write_gz(DETAILS, {'v': 1, 'src': src, 'q': details})
+    idx['raw_details'] = write_gz(DETAILS, {'v': 1, 'src': src, 'q': details, 'sk': skill_gates()})
     return idx
 
 
@@ -247,6 +277,7 @@ def main():
     bank = json.load(open(src, encoding='utf-8'))
     idx = split(bank, homes(), src_hash(src))
     tot = sum(os.path.getsize(P + 'site/' + f['f']) for f in idx['files'])
+    print('skill gates: %d skills gate on taught topics' % len(skill_gates()))
     print('bank split: index %d KB gzip (%d KB unpacked, %d questions), details %d KB gzip (%d KB unpacked), %d topic files %d KB (largest %d KB), bank.json %d KB' % (
         os.path.getsize(INDEX) // 1024, idx['raw'] // 1024, len(idx['questions']), os.path.getsize(DETAILS) // 1024, idx['raw_details'] // 1024, len(idx['files']), tot // 1024,
         max(os.path.getsize(P + 'site/' + f['f']) for f in idx['files']) // 1024, os.path.getsize(src) // 1024))

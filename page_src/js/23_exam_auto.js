@@ -39,13 +39,77 @@ function xaTree(){if(_xat)return _xat;const t={12:new Map(),11:new Map()};
   DOTS.forEach(d=>{const m=t[d.yl];if(!m)return;if(!m.has(d.fa))m.set(d.fa,[]);const k='sub:'+d.yl+'|'+d.fa+'|'+(d.sub||'');const a=m.get(d.fa);if(!a.includes(k))a.push(k)});return _xat=t}
 const xaSavedIds=()=>{const s=new Set();try{(XSAVED||[]).forEach(x=>{if(x.id!==EX.id)(x.items||[]).forEach(i=>s.add(i))})}catch(e){}return s};
 
+/* ---------- skill gates (owner 17 Nov) ----------
+   owner 12 Nov: "skills need to be gated like that"; "if theyve done diff they can't do a diff question which contains int until they do int".
+   owner 17 Nov: "lets do skill gates, that's important"; "we cann't assume that learnt is ticked. for example a test might only have AP GP
+   finance but AP GP by itself was learnt earlier."; he chose "Learnt list, Y11 pre-ticked"; on the left-out line: "Include it yep."
+   A question goes into an exam (Exam setup's generator, Regenerate, Swap and counts; Pick by hand's list, counts, Add 5 at random and
+   Add all shown) only when every topic its REQUIRED skills need is learnt: QG.skills[skill] = the skill's taught topic plus its
+   prerequisites' topics (tools/bank_split.py skill_gates; basic skills never gate; "can use" skills never gate). Learnt = the exam's
+   own topics + the teacher's Already learnt list (on); when any Year 12 topic is in the exam every Year 11 topic counts as well,
+   unless the teacher unticked it (off). The list is kept per teacher in the page database (data/users/<id>/learnt, private to that
+   person), with this browser's copy (localStorage qg_learnt) as the fallback. The Bank is not gated; saved exams are not changed. */
+const XG={on:[],off:[],show:false,open:{setup:true,pick:false},src:null,dirty:false,nc:new Map(),_t:0,_w:null,_ld:0,
+  // the topic keys a question needs learnt (cached; cleared when the details land, QG.onDet)
+  need(q){let r=XG.nc.get(q.id);if(r)return r;const s=new Set();qSkills(q).forEach(k=>(QG.skills[k]||[]).forEach(t=>s.add(t)));r=[...s];XG.nc.set(q.id,r);return r},
+  y11:()=>[...xaTree()[11].values()].flat(),
+  // extra = the exam's own topics. owner 17 Nov ("Learnt list, Y11 pre-ticked"): a Year 12 topic in the exam ticks all of Year 11
+  learnt(extra){const ex=new Set((extra||[]).filter(Boolean)),L=new Set([...ex,...XG.on]),y12=[...ex].some(k=>k.startsWith('sub:12|'));
+    if(y12){const off=new Set(XG.off);XG.y11().forEach(k=>{if(!off.has(k))L.add(k)})}
+    // nothing to judge against yet (Pick by hand on "All questions", an empty exam and an empty Already learnt list): no gate, so a
+    // tutor's first view is the whole bank, not a near-empty list (17 Nov review of the gates build)
+    if(!ex.size&&!XG.on.length)L.none=true;return {L,ex,y12}},
+  miss:(q,L)=>L.none?[]:XG.need(q).filter(k=>!L.has(k)),
+  ok:(q,L)=>XG.show||!!L.none||XG.need(q).every(k=>L.has(k)),
+  // a list split into kept (learnt, or all while the switch is on) and left out, with the focus areas most often missing
+  split(qs,L){const out=[],keep=[],fa=new Map();
+    qs.forEach(q=>{const m=XG.miss(q,L);if(m.length){out.push(q);new Set(m.map(XG.fa)).forEach(f=>fa.set(f,(fa.get(f)||0)+1))}if(!m.length||XG.show)keep.push(q)});
+    return {keep,out,top:[...fa.entries()].sort((a,b)=>b[1]-a[1]).map(x=>x[0])}},
+  fa:k=>k.slice(4).split('|')[1]||k,
+  label:k=>XG.fa(k)+' › '+subName(k),
+  // the exam's own topics in each builder: Exam setup's ticks; Pick by hand also counts the questions already in the exam and the topic browsed
+  homesOf:()=>{const h=xaHomes();return EX.items.map(i=>h.get(i)?.sub)},
+  autoExtra:A=>A.topics,
+  pickExtra(A){const t=EXV.pk.topic,x=[...A.topics,...XG.homesOf()];
+    if(t.startsWith('sub:'))x.push(t);else if(t.startsWith('fa:')){const [y,...r]=t.slice(3).split('|');x.push(...(xaTree()[y]?.get(r.join('|'))||[]))}return x},
+  checked:(k,g)=>g.ex.has(k)||XG.on.includes(k)||(g.y12&&k.startsWith('sub:11|')&&!XG.off.includes(k)),
+  toggle(k,g){const was=XG.checked(k,g);XG.on=XG.on.filter(x=>x!==k);XG.off=XG.off.filter(x=>x!==k);
+    if(!was)XG.on.push(k);else if(k.startsWith('sub:11|'))XG.off.push(k);XG.save()},
+  allY11(g){const ks=XG.y11(),all=ks.every(k=>XG.checked(k,g)),S=new Set(ks);XG.on=XG.on.filter(k=>!S.has(k));XG.off=XG.off.filter(k=>!S.has(k));
+    if(all)XG.off.push(...ks);else XG.on.push(...ks);XG.save()},
+  /* ---- kept per teacher (data/users/<id>/learnt), else in this browser ---- */
+  path:()=>'data/users/'+QG.me+'/learnt',
+  set(v){const a=x=>Array.isArray(x)?x.filter(k=>typeof k==='string'&&k.startsWith('sub:')):[];XG.on=a(v&&v.on);XG.off=a(v&&v.off)},
+  load(){if(!XG.src){try{const v=JSON.parse(localStorage.getItem('qg_learnt')||'null');if(v)XG.set(v)}catch(e){}XG.src='local'}
+    if(XG.src==='db'||XG._ld||!QG.db||!QG.me)return;XG._ld=1;
+    Promise.resolve().then(()=>QG.db.doc(XG.path()).get()).then(d=>{const v=d&&d.exists&&(typeof d.data==='function'?d.data():d.data);
+      XG.src='db';if(v&&!XG.dirty){XG.set(v);try{exRefresh()}catch(e){}}},()=>{}).finally(()=>{XG._ld=0})},
+  // one write at a time, after a pause, only on a teacher's change
+  save(){XG.dirty=true;const v={on:XG.on.slice(),off:XG.off.slice()};try{localStorage.setItem('qg_learnt',JSON.stringify(v))}catch(e){}
+    clearTimeout(XG._t);XG._t=setTimeout(()=>{if(!QG.db||!QG.me)return;const w={...v,at:new Date().toISOString()};
+      XG._w=(XG._w||Promise.resolve()).then(()=>QG.db.doc(XG.path()).set(w)).catch(()=>{})},700)},
+  // a card shown by the switch says what it still needs (owner 17 Nov skill gates)
+  note(c,q,L){if(!XG.show||!c||!L)return;const m=XG.miss(q,L);if(!m.length)return;const hd=c.querySelector('.hd');
+    const h=`<div class="xl-need">needs: ${m.map(k=>esc(XG.label(k))).join(' · ')}</div>`;hd?hd.insertAdjacentHTML('afterend',h):c.insertAdjacentHTML('afterbegin',h)},
+  /* ---- the Already learnt block, the switch and the left-out line (both builders) ---- */
+  html(ctx,g,sp){const tree=xaTree(),c=k=>XG.checked(k,g),all=y=>[...tree[y].values()].flat(),n=y=>all(y).filter(c).length,y11=all(11).every(c);
+    const yr=y=>`<div class="xl-yr"><div class="xl-yh"><b>Year ${y}</b><small>${n(y)} of ${all(y).length}</small>${y===11?`<button type="button" class="linkbtn" data-xly11 aria-pressed="${y11}">${y11?'Untick all Year 11':'All Year 11'}</button>`:''}</div>
+      ${[...tree[y]].map(([fa,ks])=>`<div class="xl-fa"><span class="xl-fn">${esc(fa)}</span><span class="xl-ps">${ks.map(k=>{const inx=g.ex.has(k);
+        return `<button type="button" class="xl-p" data-xlk="${esc(k)}" aria-pressed="${c(k)}"${inx?' disabled title="In this exam: always counts as learnt"':''}>${esc(subName(k))}</button>`}).join('')}</span></div>`).join('')}</div>`;
+    const N=sp.out.length,s=N===1?'':'s',most=sp.top.length?` (mostly ${esc(sp.top[0])}${sp.top[1]?` and ${esc(sp.top[1])}`:''})`:'';
+    const line=!N?'':XG.show?`<p class="xl-out" data-xlout="${N}">${N} question${s} shown need${N===1?'s':''} topics not yet learnt${most}: marked “needs”.</p>`
+      :`<p class="xl-out" data-xlout="${N}"><b>${N}</b> question${s} left out: ${N===1?'it needs':'they need'} topics not yet learnt${most}.</p>`;
+    return `<details class="xl" data-xlctx="${ctx}"${XG.open[ctx]?' open':''}><summary><b>Already learnt</b><small>${n(12)+n(11)} topic${n(12)+n(11)===1?'':'s'} count as learnt</small></summary>
+      <p class="xl-hint">Topics your students have learnt. A question comes in only when every topic it needs is learnt; the exam's own topics always count${g.y12?', and with a Year 12 topic in the exam all of Year 11 starts ticked':''}.</p>${yr(12)}${yr(11)}</details>
+      <label class="xl-sw"><input type="checkbox" role="switch" data-xlshow${XG.show?' checked':''}> Show questions that need topics not yet learnt</label>${line}`}};
+
 /* ---------- seeded random (the Exams page generator) ---------- */
 function xaRng(seed){let a=seed>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296}}
 
 /* ---------- swap and lock ---------- */
 function xaSwap(id){const A=xa(),q=xq(id);if(!q)return;const homes=xaHomes(),h=homes.get(id),d=qDiff(q),TS=new Set(A.topics);XA_SWAPPED.add(id);
-  const avoid=A.avoid?xaSavedIds():null;
-  const cands=B.questions.filter(c=>homes.has(c.id)&&c.type===q.type&&!EX.items.includes(c.id)&&!XA_SWAPPED.has(c.id)&&qDiff(c)&&(!A.approved||qState(c)==='approved')&&!repHidden(c)&&!(avoid&&avoid.has(c.id)));   // owner 17 Nov: never swap in a reported question
+  const avoid=A.avoid?xaSavedIds():null,L=XG.learnt([...A.topics,...XG.homesOf()]).L;   // owner 17 Nov: "lets do skill gates": never swap in a question that needs a topic not yet learnt
+  const cands=B.questions.filter(c=>homes.has(c.id)&&c.type===q.type&&!EX.items.includes(c.id)&&!XA_SWAPPED.has(c.id)&&qDiff(c)&&(!A.approved||qState(c)==='approved')&&!repHidden(c)&&!(avoid&&avoid.has(c.id))&&XG.ok(c,L));   // owner 17 Nov: never swap in a reported question
   if(!cands.length){toast('No other question fits');return}
   const sc=c=>{const hc=homes.get(c.id),dc=qDiff(c);return (h&&hc.sub===h.sub?0:h&&hc.area===h.area?3:TS.has(hc.sub)?6:12)+2*Math.abs((+c.marks||0)-(+q.marks||0))+1.5*Math.abs(dc.raw-(d?d.raw:3))+Math.abs(dc.pr-(d?d.pr:0))+Math.random()*.3};
   let best=null,bs=1e9;cands.forEach(c=>{const v=sc(c);if(v<bs){bs=v;best=c}});

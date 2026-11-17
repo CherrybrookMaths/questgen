@@ -41,8 +41,12 @@ const homeSide=q=>{const r=reviews['q'+q.id]?.home;return r==='A'||r==='B'?r:par
 const partMain=(q,p)=>partPri(q,p,reviews['q'+q.id]?.tag_edits?.[p.id]?'cur':homeSide(q));
 // picks made per part before the switch to one home per question (5 parts, 12 Nov) still count
 function partsDone(q){const t=reviews['q'+q.id]?.tagres;return !!t&&q.parts.filter(tagNeed).every(p=>t[p.id])}
-function homeLabel(k){if(!k)return 'none';if(k==='special:removed')return 'Removed from syllabus';if(k==='special:no_match')return 'No dot point fits';const [yl,fa,sb]=k.slice(4).split('|');return `<span class="yb y${yl}">Y${yl}</span> ${esc(fa)}${sb?' › <b>'+esc(sb)+'</b>':''}`}
+function homeLabel(k){if(!k)return 'none';if(k==='special:removed')return 'Removed from syllabus';if(k==='special:no_match')return 'No dot point fits';if(k==='special:std')return 'Mathematics Standard';const [yl,fa,sb]=k.slice(4).split('|');return `<span class="yb y${yl}">Y${yl}</span> ${esc(fa)}${sb?' › <b>'+esc(sb)+'</b>':''}`}
 function qPlaces(q){ // owner 12 Nov: one topic home per question
+  // owner 17 Nov (QID 1633, a Standard bivariate data question filed under Y11 Constructing and using functions): "Also found an
+  // out of course question in Y11". A question marked Mathematics Standard (q.std) is never filed under an Advanced topic: it sits
+  // in the Bank's "Mathematics Standard" group, as the exam builders already leave it out (23_exam_auto.js xaHomes)
+  if(q.std)return new Set(['special:std']);
   const h=qHome(q); return new Set(h?[h]:[]);
 }
 // owner 12 Nov ("Questions aren't showing in the bank until approved right?" -> "yeah do that"): the Bank shows approved
@@ -65,7 +69,7 @@ function bankSwitch(){if(!isEditor())return'';const all=B.questions.filter(q=>!q
 function buildTopics(){
   const T={y12:new Map(),y11:new Map(),byKey:{}};
   DOTS.forEach(d=>{const m=d.yl===12?T.y12:T.y11;if(!m.has(d.fa))m.set(d.fa,new Map());const s=m.get(d.fa);const sk=d.sub||'';if(!s.has(sk))s.set(sk,{dps:[],qs:[]});s.get(sk).dps.push(d);T.byKey['sub:'+d.yl+'|'+d.fa+'|'+sk]=s.get(sk)});
-  T.byKey['special:removed']={qs:[]};T.byKey['special:no_match']={qs:[]};
+  T.byKey['special:removed']={qs:[]};T.byKey['special:no_match']={qs:[]};T.byKey['special:std']={qs:[]};
   B.questions.filter(inBank).forEach(q=>qPlaces(q).forEach(k=>T.byKey[k]?.qs.push(q)));
   TOPICS=T;
 }
@@ -76,7 +80,7 @@ function navHTML(){
     return `<div class="fa${open?' open':''}" data-area="${esc(yl+'|'+fa)}"><button aria-expanded="${!!open}" data-fa="${esc(yl+'|'+fa)}"><span class="t">${esc(fa)}</span><span class="c">${faCount(subs)}</span></button>
       <div class="fold"><ul>${[...subs].map(([sk,s])=>{const key='sub:'+yl+'|'+fa+'|'+sk;return `<li><button data-sel="${esc(key)}" aria-current="${sel===key}"><span>${esc(sk||fa)}</span>${s.qs.length?`<span class="c">${s.qs.length}</span>`:'<span class="none">No questions yet</span>'}</button></li>`}).join('')}</ul></div></div>`}).join('');
   const sp=(key,label)=>`<div class="fa special"><button data-sel="${key}" aria-current="${sel===key}"><span>${label}</span><span class="c">${TOPICS.byKey[key].qs.length}</span></button></div>`;
-  return '<div class="navtools"><button data-navall="open">Expand all</button><button data-navall="close">Collapse all</button></div>'+sec('Year 12',TOPICS.y12,12)+sec('Year 11',TOPICS.y11,11)+'<h3>Outside the 2024 syllabus</h3>'+sp('special:removed','Removed content')+(TOPICS.byKey['special:no_match'].qs.length?sp('special:no_match','No 2024 match'):'');
+  return '<div class="navtools"><button data-navall="open">Expand all</button><button data-navall="close">Collapse all</button></div>'+sec('Year 12',TOPICS.y12,12)+sec('Year 11',TOPICS.y11,11)+'<h3>Outside the 2024 syllabus</h3>'+sp('special:removed','Removed content')+(TOPICS.byKey['special:std'].qs.length?sp('special:std','Mathematics Standard'):'')+(TOPICS.byKey['special:no_match'].qs.length?sp('special:no_match','No 2024 match'):'');
 }
 function dupLine(q){const c=B.questions.filter(x=>x.dup_of===q.id);const v=q.related.filter(x=>x.rel!=='duplicate').map(x=>B.questions.find(z=>z.id===x.q)).filter(Boolean);
   const same=o=>docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number);   // owner 12 Nov: "the also prose is redundant ... they're literally the same exam twice": a copy of the same paper filed twice says nothing
@@ -118,6 +122,7 @@ function homeHTML(){
    <div class="yhead"><h2>Year 11</h2><span class="yb y11">Y11</span><span class="muted">assumed knowledge, may be examined</span></div>${cards(TOPICS.y11,11)}
    <div class="yhead"><h2>Outside the 2024 syllabus</h2></div><div class="facards">
      <article class="facard ys"><button class="fah" data-sel="special:removed"><b>Removed content</b><span class="n">${TOPICS.byKey['special:removed'].qs.length}<small>questions</small></span></button><div class="muted" style="font-size:13px">In past papers but not in the 2024 ${esc(QG.courseData.short)} course (3D trigonometry, regression, Standard-course statistics).</div></article>
+     ${TOPICS.byKey['special:std'].qs.length?`<article class="facard ys"><button class="fah" data-sel="special:std"><b>Mathematics Standard</b><span class="n">${TOPICS.byKey['special:std'].qs.length}<small>questions</small></span></button><div class="muted" style="font-size:13px">Standard-course content found in past papers (bivariate data, annuity tables). Kept for a Standard bank; never in ${esc(QG.courseData.short)} exams.</div></article>`:''}
      ${TOPICS.byKey['special:no_match'].qs.length?`<article class="facard ys"><button class="fah" data-sel="special:no_match"><b>No 2024 match</b><span class="n">${TOPICS.byKey['special:no_match'].qs.length}</span></button></article>`:''}</div>`;
 }
 function faHTML(yl,fa){const subs=(yl==='12'?TOPICS.y12:TOPICS.y11).get(fa);if(!subs)return homeHTML();const c=faCount(subs);
@@ -157,7 +162,7 @@ function renderBank(){
     const t=TOPICS.byKey[sel]; qs=t.qs.slice().sort((a,b)=>(B.docs[b.doc].label.localeCompare(B.docs[a.doc].label))||(parseInt(a.number)-parseInt(b.number)));
     let title,crumb='',sibs='';
     if(sel.startsWith('sub:')){const [yl,fa,sk]=sel.slice(4).split('|');title=sk||fa;crumb='';t.yl=yl;t.fa=fa;const subs=(yl==='12'?TOPICS.y12:TOPICS.y11).get(fa);if(subs.size>1)sibs=`<div class="sibs">${[...subs].map(([k2,s2])=>{const key='sub:'+yl+'|'+fa+'|'+k2;return `<button class="sib" data-sel="${esc(key)}" aria-current="${key===sel}">${esc(k2||fa)}<span class="c">${s2.qs.length}</span></button>`}).join('')}</div>`}
-    else title=sel==='special:removed'?'Removed content':'No 2024 match';
+    else title=sel==='special:removed'?'Removed content':sel==='special:std'?'Mathematics Standard':'No 2024 match';
     if(BSEL.key!==sel)BSEL={key:sel,skill:null,dp:null};
     const all=qs.length, base=qs.filter(bfOK);
     const skc={};base.forEach(q=>qSkills(q).forEach(k=>skc[k]=(skc[k]||0)+1));

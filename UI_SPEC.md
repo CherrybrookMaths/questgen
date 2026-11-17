@@ -1005,3 +1005,42 @@ parts, it goes straight to Y12." A question with any Year 12 tag (main or also, 
 (marks, then "the final answer decides", among its Year 12 topics; if its only Year 12 tags are "also" tags, those decide); a
 question with none is filed under Year 11. A home picked by hand in Review that breaks this is ignored. Code: 07_bank.js homeOf
 / qHome; test "bank: a question with any Year 12 tag files under Year 12 only".
+
+## Mathematics Standard questions leave the Advanced topics (17 Nov)
+Owner 17 Nov, on QID 1633 (2024 James Ruse AT4 Q26, Standard bivariate data, filed under Y11 Constructing and using
+functions): "Also found an out of course question in Y11". A question marked Mathematics Standard (q.std, from
+questions.standard_topic) is filed in the Bank's "Mathematics Standard" group under "Outside the 2024 syllabus", never under
+an Advanced topic, whatever its tags; the exam builders already leave it out. Kept for the future Standard bank.
+
+## Skill gates in the exam builders (17 Nov)
+Owner 17 Nov: "lets do skill gates, that's important"; earlier (12 Nov) "skills need to be gated like that" and "if theyve done diff
+they can't do a diff question which contains int until they do int". On who sets "learnt": "we cann't assume that learnt is ticked.
+for example a test might only have AP GP finance but AP GP by itself was learnt earlier."; his choice: "Learnt list, Y11 pre-ticked";
+on the line counting the questions left out: "Include it yep." Rule in TAG_SPEC "Gating by what has been learnt".
+- **Rule.** A question goes into an exam only when every topic its REQUIRED skills need (each skill's taught topic plus its
+  prerequisites' topics; basic skills never gate; can-use skills never gate) is learnt. Learnt = the exam's own topics + the
+  teacher's **Already learnt** list. When any Year 12 topic is in the exam, all of Year 11 counts as learnt (pre-ticked in the list;
+  the teacher can untick any of it).
+- **The exam's own topics.** Exam setup: the ticked subtopics. Pick by hand: the subtopics ticked in Exam setup, the homes of the
+  questions already in the exam, and the topic being browsed (a focus area counts all its subtopics); "All questions" adds none.
+- **Already learnt** (both builders; Exam setup: a group in the settings column, open; Pick by hand: a box above the list, folded).
+  A compact tick list, Year 12 then Year 11, subtopics grouped by focus area, with "All Year 11" / "Untick all Year 11". The exam's
+  own topics show ticked and greyed (they always count). Remembered per teacher across devices: page database
+  `data/users/<user id>/learnt` (private to that person; this browser's copy when the database is not available).
+- **Switch** "Show questions that need topics not yet learnt", off by default (not remembered). On, the builders work as before
+  the gates; in Pick by hand each such card says "needs: Integral calculus › Primitive functions" under its header.
+- **Line** "N questions left out: they need topics not yet learnt (mostly <focus area> and <focus area>)" whenever N > 0 (with the
+  switch on: "N questions shown need topics not yet learnt ...: marked "needs""). Exam setup counts the ticked subtopics' pool;
+  Pick by hand counts the list after its other filters.
+- **What is gated.** Exam setup: the pool (selection bar count, What these topics can supply, Generate, Regenerate, Swap); each
+  subtopic's count is what ticking it would bring in (a subtopic whose questions all need other topics shows 0 but stays clickable).
+  Pick by hand: the list, the topic counts, Add 5 at random, Add all shown. **Not gated:** the Bank; saved exams (opening one keeps
+  every question).
+- Code: `XG` in page_src/js/23_exam_auto.js (one new page-wide name); exPool / exTopics / exLearnt / exFiltered / exSideNav in
+  24_exams.js; QG.skills from the details file (tools/bank_split.py skill_gates); CSS at the end of css/12_exams.css (`xl-`).
+  Tests: the `exams: skill gates …`, `exams: Already learnt …`, `exams: Year 11 starts ticked …`, `exams: basic skills never gate`,
+  `exams: Pick by hand leaves gated questions out …`, `exams: the left-out line …` and `bank: skill gates do not touch the Bank`
+  checks in tools/page_test.js.
+- **No gate with nothing to judge against (17 Nov).** In Pick by hand, while the exam has no topics and no questions, the browse
+  is "All questions" and the Already learnt list is empty, nothing is gated: a tutor's first view is the whole bank. As soon as
+  a topic is ticked, browsed or added, or the learnt list has a topic, the gate applies.

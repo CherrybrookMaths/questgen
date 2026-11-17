@@ -18,7 +18,10 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:n
   // review notes, full tags and difficulty) comes in det, read right after start (QG.det)
   courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json'}},
   get courseData(){return this.courses[this.course]},
-  byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0,night:null};
+  byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0,night:null,
+  // owner 17 Nov: "lets do skill gates, that's important": {skill: [topic keys it needs learnt]} from the details file (tools/bank_split.py
+  // skill_gates: the skill's taught topic + its prerequisites' topics, basic skills left out); read by the exam builders (XG, 23_exam_auto.js)
+  skills:{}};
 /* ---------- data on demand (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2") ----------
    The index (QG.bank) holds every question without its text: ids, paper, marks, parts with tags and difficulty, triage, figure
    keys (q.fk), the "hence integrate" flag (q.hx) and q.h, the topic file its text lives in (bank.files[q.h]). Lists, counts,
@@ -55,13 +58,13 @@ Object.assign(QG,{
       Object.entries(d.q||{}).forEach(([id,c])=>{const q=QG.byId.get(+id);if(!q)return;const {parts,solutions,...rest}=c;Object.assign(q,rest);
         if(solutions&&!QG.got.has(q.id))q.solutions=solutions;
         if(parts){const pm=new Map(q.parts.map(p=>[String(p.id),p]));Object.entries(parts).forEach(([pid,v])=>{const p=pm.get(pid);if(p)Object.assign(p,v)})}});
-      QG.detOK=true;QG.detFail=false;QG.onDet()},
+      QG.skills=d.sk||{};QG.detOK=true;QG.detFail=false;QG.onDet()},
       e=>{QG.detP=null;QG.detFail=true;QG.waitNote()}))},
   // a view other than the Bank draws only once the details are in (09_router.js route calls QG.wait instead)
   ready(v){return !QG.bank||v==='bank'||QG.detOK},
   // caches built from the index are rebuilt with the full fields, then the open view is drawn again
   onDet(){TOPICS=null;
-    for(const f of [()=>{_clean=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null}])try{f()}catch(e){}
+    for(const f of [()=>{_clean=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear()])try{f()}catch(e){}
     QG.waitNote();route();QG.fill()},
   wait(){QG.waitNote();QG.det()},   // onDet draws the view when they land
   // one notice while a view waits for the details (or they failed to load)
