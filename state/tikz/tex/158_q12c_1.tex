@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (175,292) -- (175,60);
+  \draw (175,292) -- (444,135);
+  \draw (175,292) -- (765,292);
+  \draw (175,207) arc[start angle=-90,end angle=-30.3,radius=85];
+  \foreach \p in {(175,292),(444,135),(765,292)} \fill \p circle[radius=5];
+  \node at (175,42) {$N$};
+  \node at (466,120) {$R$};
+  \node at (150,293) {$P$};
+  \node at (786,297) {$Q$};
+  \node at (205,248) {$70^\circ$};
+  \node at (328,165) {16 km};
+  \node at (460,353) {35 km};
+  \node[align=center] at (708,109) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

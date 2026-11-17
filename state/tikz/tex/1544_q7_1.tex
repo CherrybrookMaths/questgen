@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\def\m{270}\def\s{102}\def\cs{90}\def\ax{242}\def\h{207}
+\def\f(#1){\ax-\h*exp(-((#1-\m)/\cs)^2/2)}
+\fill[shade dots] (35,\ax) -- plot[smooth,domain=35:136,samples=30] (\x,{\f(\x)}) -- (136,\ax) -- cycle;
+\draw (35,\ax) -- (35,{\f(35)});
+\draw (136,\ax) -- (136,{\f(136)});
+\draw (18,\ax) -- (540,\ax);
+\draw plot[smooth,domain=18:522,samples=90] (\x,{\f(\x)});
+\foreach \k in {-2,-1,0,1,2}{
+  \pgfmathsetmacro\xx{\m+\k*\s}
+  \draw[aux] (\xx,\ax) -- (\xx,{\f(\xx)});
+  \fill (\xx,\ax) circle (2.4);
+}
+\begin{scope}[every node/.style={font=\fontsize{11}{13}\selectfont}]
+\node at (\m-2*\s,272) {$\mu-2\sigma$};
+\node at (\m-\s,272) {$\mu-\sigma$};
+\node at (\m,272) {$\mu$};
+\node at (\m+\s,272) {$\mu+\sigma$};
+\node at (\m+2*\s,272) {$\mu+2\sigma$};
+\node at (40,20) {A.};
+\end{scope}
+\end{tikzpicture}
+\end{document}

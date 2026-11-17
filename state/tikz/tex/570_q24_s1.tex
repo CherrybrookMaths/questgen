@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % x: 157.5 px per unit, origin x=457.5 ; y: 185 px per unit, x-axis at y=425
+  \draw[->] (20,425)--(885,425) node[below,font=\large,inner sep=3pt]{$x$};
+  \draw[->] (457.5,555)--(457.5,2) node[left,font=\large,inner sep=3pt]{$y$};
+  \foreach \t in {-1,1} \draw ({457.5+157.5*\t},415)--({457.5+157.5*\t},435);
+  \node[below,font=\large] at (300,437) {$-1$};
+  \node[below,font=\large] at (615,437) {$1$};
+  \draw (447.5,{425-185*5/3})--(467.5,{425-185*5/3});
+  \draw (447.5,{425-185/3})--(467.5,{425-185/3});
+  \node[right,font=\large] at (470,{425-185*5/3}) {$\dfrac{5}{3}$};
+  \node[left,font=\large] at (445,{425-185/3}) {$\dfrac{1}{3}$};
+  \draw[<->,line width=0.9pt] plot[domain=-2.22:2,smooth,samples=90] ({457.5+157.5*\x},{425-185*(\x*\x*\x/3-\x+1)});
+  \fill (300,{425-185*5/3}) circle[radius=5];
+  \fill (457.5,240) circle[radius=5];
+  \fill (615,{425-185/3}) circle[radius=5];
+  \node[above,font=\large,inner sep=6pt] at (300,{425-185*5/3}) {$\left(-1,\dfrac{5}{3}\right)$};
+  \node[above right,font=\large,inner sep=4pt] at (462,236) {$(0,1)$};
+  \node[above,font=\large,inner sep=0pt] at (615,328) {$\left(1,\dfrac{1}{3}\right)$};
+\end{tikzpicture}
+\end{document}

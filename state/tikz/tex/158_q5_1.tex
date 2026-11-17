@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,602) -- (1040,602);
+  \draw[<->] (292,740) -- (292,58);
+  % y = 345 - k*(t^4/4 - 1.2 t^3), t=(x-390)/100 ; stationary inflection at x=390, min at x=750
+  \draw[line width=0.9pt,<-] plot[smooth,domain=-2.28:0,samples=45]
+     ({390+100*\x},{345-13.97*(\x*\x*\x*\x/4-1.2*\x*\x*\x)});
+  \draw[line width=0.9pt,->] plot[smooth,domain=0:5.5,samples=90]
+     ({390+100*\x},{345-9.93*(\x*\x*\x*\x/4-1.2*\x*\x*\x)});
+  \pgfmathsetmacro\ta{4.79}
+  \pgfmathsetmacro\ya{345-9.93*(\ta*\ta*\ta*\ta/4-1.2*\ta*\ta*\ta)}
+  \fill ({390+100*\ta},\ya) circle[radius=8];
+  \node at (826,\ya) {$A$};
+  \node at (292,25) {$y$};
+  \node at (1056,602) {$x$};
+  \node at (268,632) {$O$};
+  \node at (1012,80) {$y=f(x)$};
+  \node[align=left] at (1075,465) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

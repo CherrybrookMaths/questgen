@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,240) -- (385,240);
+  \draw[<->] (97,30) -- (97,445);
+  \node at (395,241) {$x$};
+  \node at (98,18) {$y$};
+  \draw[line width=0.9pt,<->,variable=\t,domain=438:136,samples=90,smooth] plot ({96.5+71.5*exp((240-\t)/72.6)},\t);
+  \fill (168,240) circle[radius=1.6pt];
+  \node[font=\small] at (171,262) {$1$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (302.5,210); pi/2 = 197.5 px; 1 = 119 px
+  \draw[->] (28,210)--(580,210) node[below,font=\large,inner sep=4pt]{$x$};
+  \draw[->] (302.5,432)--(302.5,8) node[left,font=\large,inner sep=4pt]{$y$};
+  \foreach \px in {105,203.75,368.33,401.25,500} \draw (\px,203)--(\px,217);
+  \draw (295.5,91)--(309.5,91);
+  \draw (295.5,329)--(309.5,329);
+  \node[left,inner sep=4pt] at (296,91) {$1$};
+  \node[left,inner sep=4pt] at (296,329) {$-1$};
+  \node[below,inner sep=4pt] at (105,215) {$-\dfrac{\pi}{2}$};
+  \node[below,inner sep=4pt] at (500,215) {$\dfrac{\pi}{2}$};
+  \node[below right,inner sep=3pt] at (205,212) {$-\dfrac{\pi}{4}$};
+  \node[below,inner sep=4pt] at (368.33,215) {$\dfrac{\pi}{6}$};
+  \node[above right,inner sep=3pt] at (402,208) {$\dfrac{\pi}{4}$};
+  \draw[line width=0.6pt] plot[domain=-1.5708:1.5708,smooth,samples=90] ({302.5+197.5*\x/1.5708},{210-119*sin(\x r)});
+  \draw[line width=0.9pt] plot[domain=-1.5708:1.5708,smooth,samples=90] ({302.5+197.5*\x/1.5708},{210-119*cos(2*\x r)});
+  \fill (105,329) circle[radius=4];
+  \fill (500,91) circle[radius=4];
+  \fill (500,329) circle[radius=4];
+  \fill (368.33,150.5) circle[radius=4];
+  \node[below,inner sep=6pt,font=\large] at (90,329) {$\left(-\dfrac{\pi}{2},-1\right)$};
+  \node[right,inner sep=6pt,font=\large] at (500,329) {$\left(\dfrac{\pi}{2},-1\right)$};
+\end{tikzpicture}
+\end{document}

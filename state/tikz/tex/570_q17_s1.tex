@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (20,335) -- (725,335);
+\draw[->] (456,648) -- (456,20);
+\node at (430,30) {$y$};
+\draw[line width=0.9pt,<->] plot[domain=224:594, samples=90, smooth, variable=\t] (\t, {335 + 83*(1-((\t-409)/91)^2)});
+\node at (312,388) {\Large $a$};
+\node at (518,380) {\Large $b$};
+\end{tikzpicture}
+\end{document}

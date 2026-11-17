@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (20,393) -- (1010,393);
+\draw[<->] (512,730) -- (512,60);
+\node[anchor=west] at (1012,397) {\large $x$};
+\node at (515,32) {\large $y$};
+\draw[line width=0.9pt,<->] plot[domain=283:720, samples=90, smooth, variable=\t] (\t, {393 - 82.1*((\t-343)/100)*((\t-455)/100)*((\t-680)/100)});
+\node at (803,106) {\large $y=f(x)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (86,383) -- (86,60);
+\draw[->] (86,383) -- (952,383);
+\node at (82,22) {$y$};
+\node at (970,383) {$x$};
+\foreach \i in {1,...,5} {
+  \pgfmathsetmacro\xx{86+163*\i}
+  \draw (\xx,368) -- (\xx,398);
+  \node at (\xx,438) {$\i$};
+}
+\foreach \v in {5,10,...,30} {
+  \pgfmathsetmacro\yy{383-9.37*\v}
+  \draw (72,\yy) -- (100,\yy);
+  \node[anchor=east] at (63,\yy) {$\v$};
+}
+\draw (86,{383-9.37*4.6}) -- (945,{383-9.37*29.3});
+\foreach \a/\b in {0/5,0.5/6,1/11,1.5/15,2/10,2.5/11,3/19,3.9/24,4/28,5/26}
+  \fill ({86+163*\a},{383-9.37*\b}) circle (0.045cm);
+\end{tikzpicture}
+\end{document}

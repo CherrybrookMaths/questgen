@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \path (0,0) rectangle (1150,612);
+  % 1 unit: x 20 px, y 23.2 px; origin (677,323)
+  \draw[->] (390,323) -- (985,323);
+  \draw[->] (677,537) -- (677,65);
+  \node[font=\LARGE,anchor=west] at (990,325) {$x$};
+  \node[font=\LARGE,anchor=south] at (677,60) {$y$};
+  \draw[line width=0.9pt,<->] ({677+20*(-4)},{323-23.2*9}) -- (777,323) -- ({677+20*14},{323-23.2*9});
+  \fill (677,{323-23.2*5}) circle (3.6);
+  \node[font=\LARGE,anchor=south west,inner sep=2pt] at (680,{323-23.2*5}) {$5$};
+  \node[font=\LARGE,anchor=north,inner sep=3pt] at (777,327) {$5$};
+\end{tikzpicture}
+\end{document}

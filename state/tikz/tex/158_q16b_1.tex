@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (329,330) circle (302);
+  \draw (114,118) -- (544,118);
+  \draw (114,542) -- (544,542);
+  \draw (329,118) -- (329,542);
+  \draw (329,330) -- (544,118);
+  \draw (329,152) -- (363,152) -- (363,118);
+  \foreach \x/\y in {221.5/118,436.5/118,221.5/542,436.5/542} {
+    \draw (\x-3,\y-7) -- (\x-3,\y+7); \draw (\x+3,\y-7) -- (\x+3,\y+7);}
+  \draw (322,224) -- (336,224);
+  \draw (322,436) -- (336,436);
+  \node at (92,110) {$A$};
+  \node at (336,100) {$F$};
+  \node at (443,88) {$x$};
+  \node at (571,113) {$B$};
+  \node at (296,234) {$y$};
+  \node at (462,240) {$\sqrt{5}$};
+  \node at (311,348) {$O$};
+  \node at (83,555) {$D$};
+  \node at (327,570) {$G$};
+  \node at (573,555) {$C$};
+  \node[align=center] at (821,320) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

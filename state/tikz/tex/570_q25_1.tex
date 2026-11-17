@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (373.5,268); pi/2 = 258.5 px; 1 = 165.5 px
+  \draw[<->] (20,268)--(775,268);
+  \draw[<->] (373.5,565)--(373.5,20);
+  \foreach \t in {-1,1} {
+    \draw ({373.5+258.5*\t},262)--({373.5+258.5*\t},274);
+    \draw (367.5,{268-165.5*\t})--(379.5,{268-165.5*\t});
+  }
+  \node[below,inner sep=5pt] at (115,272) {$-\dfrac{\pi}{2}$};
+  \node[below,inner sep=5pt] at (632,272) {$\dfrac{\pi}{2}$};
+  \node[left,inner sep=4pt] at (369,102.5) {$1$};
+  \node[left,inner sep=4pt] at (369,433.5) {$-1$};
+  \draw[line width=0.9pt] plot[domain=-1.5708:1.5708,smooth,samples=90] ({373.5+258.5*\x/1.5708},{268-165.5*sin(\x r)});
+  \node[font=\large] at (525,88) {$y=\sin x$};
+\end{tikzpicture}
+\end{document}

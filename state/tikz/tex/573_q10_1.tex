@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% grid
+\foreach \k in {1,...,8} \draw[black!30,line width=0.4pt] ({137+81.625*\k},62) -- ({137+81.625*\k},710);
+\foreach \v in {20,40,...,200} \draw[black!30,line width=0.4pt] (137,{710-3.24*\v}) -- (790,{710-3.24*\v});
+% bars
+\foreach \i/\h in {0/168,1/120,2/88,3/24}
+  \draw[fill=black!13] ({137+163.25*\i},710) rectangle ({137+163.25*(\i+1)},{710-3.24*\h});
+% axes
+\draw (137,710) -- (137,62);
+\draw (790,722) -- (790,62);
+\draw (137,710) -- (790,710);
+\foreach \v in {10,20,...,200} {
+  \pgfmathsetmacro\yy{710-3.24*\v}
+  \pgfmathtruncatemacro\m{mod(\v,20)}
+  \ifnum\m=0 \draw (123,\yy) -- (151,\yy); \draw (776,\yy) -- (804,\yy);
+  \else \draw (129,\yy) -- (145,\yy); \draw (782,\yy) -- (798,\yy); \fi
+}
+\foreach \v in {20,40,...,200} \node[anchor=east] at (113,{710-3.24*\v}) {$\v$};
+\foreach \p in {20,40,...,100} \node[anchor=west] at (812,{710-6.48*\p}) {$\p$};
+\node at (790,25) {\%};
+\foreach \i/\t in {0/Dogs,1/Cats,2/Birds,3/Fish} {
+  \draw ({218.6+163.25*\i},703) -- ({218.6+163.25*\i},718);
+  \node at ({218.6+163.25*\i},757) {\t};
+}
+\node at (463,795) {\textbf{Pet}};
+\node[rotate=90] at (23,385) {\textbf{Number of customers}};
+\node[rotate=90] at (898,415) {\textbf{Cumulative percentage}};
+\end{tikzpicture}
+\end{document}

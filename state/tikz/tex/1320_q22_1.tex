@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (10,10) rectangle (978,680);
+  \begin{scope}[shift={(453,350)},x=0.4153cm,y=0.3302cm]
+    \foreach \i in {-9,...,10} \draw[black!22,line width=0.4pt] (\i,-9.8) -- (\i,10.1);
+    \foreach \j in {-9,...,10} \draw[black!22,line width=0.4pt] (-9.7,\j) -- (10.75,\j);
+    \draw[<->] (-10.3,0) -- (11.7,0) node[right] {$x$};
+    \draw[<->] (0,-11.1) -- (0,11.2) node[above] {$y$};
+    \foreach \i in {-9,...,-1,1,2,...,10} \draw (\i,-0.12) -- (\i,0.12);
+    \foreach \j in {-9,...,-1,1,2,...,10} \draw (-0.1,\j) -- (0.1,\j);
+    \foreach \i in {-5,5,10} \node[below] at (\i,-0.25) {$\i$};
+    \foreach \j in {5,10} \node[left] at (-0.1,\j) {$\j$};
+    \node[left] at (-0.1,-5.25) {$-5$};
+    \draw[line width=0.9pt,<->,smooth,samples=90,domain=-1.555:3.77]
+      plot (\x,{\x*\x*\x-3*\x*\x});
+    \fill (-1,-4) circle (2pt);
+    \node[left] at (-1.15,-4) {$P(-1,-4)$};
+    \node at (5.05,12.0) {$y=g(x)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

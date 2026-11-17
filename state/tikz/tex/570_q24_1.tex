@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \k in {-4,-3,-2,-1,1,2,3,4} {
+    \draw[black!35,line width=0.4pt,dash pattern=on 1.5pt off 1.5pt] ({438+88.75*\k},70)--({438+88.75*\k},905);
+    \draw[black!35,line width=0.4pt,dash pattern=on 1.5pt off 1.5pt] (20,{486+88.75*\k})--(860,{486+88.75*\k});
+  }
+  \draw[->] (5,486)--(885,486) node[right,font=\large]{$x$};
+  \draw[->] (438,922)--(438,18) node[above,font=\large,inner sep=1pt]{$y$};
+\end{tikzpicture}
+\end{document}

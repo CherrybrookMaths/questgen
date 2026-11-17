@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (0,217) -- (676,217);
+  \draw (336,9) -- (336,222);
+  \foreach \t in {82,167,251,421,506,591} \draw (\t,212) -- (\t,222);
+  \draw[line width=0.9pt, smooth, samples=90, domain=5:665]
+    plot (\x,{217-202*exp(-0.5*((\x-336)/132)*((\x-336)/132))});
+\end{tikzpicture}
+\end{document}

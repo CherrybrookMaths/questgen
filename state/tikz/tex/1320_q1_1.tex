@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,221) -- (388,221);
+  \draw[<->] (195,30) -- (195,425);
+  \node at (398,221) {$x$};
+  \node at (187,20) {$y$};
+  \node[font=\small] at (111,241) {$-2$};
+  \node[font=\small] at (233,240) {$1$};
+  \node[font=\small] at (285,240) {$2$};
+  \draw[line width=0.9pt,<->,domain=102:304,samples=90,smooth] plot (\x,{221+0.39*((\x-125)/10)*((\x-224)/10)*((\x-267)/10)});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit: x 24 px, y 19 px; origin (166,246)
+  \draw[<->] (5,246) -- (398,246);
+  \draw[<->] (166,450) -- (166,42);
+  \node[anchor=west] at (400,248) {$x$};
+  \node[anchor=south] at (166,38) {$y$};
+  \draw[aux] (5,208) -- (400,208);
+  \draw[aux] (238,45) -- (238,450);
+  \draw[line width=0.9pt,<->] plot[domain=-6.7:2.524,samples=90,smooth] ({166+24*\x},{246-19*(2-4/(\x-3))});
+  \draw[line width=0.9pt,<->] plot[domain=3.321:9.67,samples=90,smooth] ({166+24*\x},{246-19*(2-4/(\x-3))});
+  \node[anchor=north east,inner sep=1pt] at (163,212) {$2$};
+  \node[anchor=north east,inner sep=1pt] at (235,250) {$3$};
+  \node at (113,95) {$\dfrac{10}{3}$};
+  \draw[->] (137,120) -- (160,176);
+\end{tikzpicture}
+\end{document}

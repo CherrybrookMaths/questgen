@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit x = 34 px, origin (120,270)
+  \draw[<->] (5,270) -- (390,270);
+  \draw[<->] (120,450) -- (120,42);
+  \node[anchor=west] at (392,272) {$x$};
+  \node[anchor=south] at (120,38) {$y$};
+  \foreach \t in {-3,-2.5,...,7.5} {\ifdim\t pt=0pt\else\draw ({120+34*\t},266) -- ({120+34*\t},274);\fi}
+  \foreach \t/\l in {-2/-2,2/2,4/4,6/6} \node[anchor=north,inner sep=2pt] at ({120+34*\t},277) {$\l$};
+  \draw[line width=0.9pt,<->] plot[domain=-1.33:7.5,samples=90,smooth] ({120+34*\x},{270+4.26*\x*(\x-4)*(\x-6)});
+  \node at (298,405) {$y=f(x)$};
+\end{tikzpicture}
+\end{document}

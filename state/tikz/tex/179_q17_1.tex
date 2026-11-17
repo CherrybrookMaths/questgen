@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % grid
+  \foreach \k in {0,...,14} \draw[black!20, line width=0.4pt] (30+108*\k,40) -- (30+108*\k,855);
+  \foreach \k in {-14,...,14} \draw[black!20, line width=0.4pt] (30,448-29*\k) -- (1640,448-29*\k);
+  % axes
+  \draw[<-] (8,448) -- (1640,448);
+  \draw[<->] (894,40) -- (894,857);
+  \foreach \k in {-13,...,-1,1,2,...,13} \draw (888,448-29*\k) -- (900,448-29*\k);
+  \foreach \k in {0,...,7,9,10,...,14} \draw (30+108*\k,442) -- (30+108*\k,454);
+  \node[anchor=south, inner sep=1pt] at (894,32) {$y$};
+  \node at (36,478) {$-4$};
+  \node at (462,478) {$-2$};
+  \foreach \v/\l in {10/10,5/5,-5/-5,-10/-10} \node[anchor=east, inner sep=2pt] at (880,448-29*\v) {$\l$};
+  % curve f(x) = -(x+3)(x+1)(x-1)
+  \draw[<->, line width=0.9pt, smooth, samples=90, domain=-3.955:1.962, variable=\x]
+     plot ({894+216*\x},{448+29*((\x+3)*(\x+1)*(\x-1))});
+  % callouts
+  \draw (232,343) -- (245,440);
+  \draw (398,566) -- (420,546);
+  \draw (902,356) -- (957,327);
+  \draw (1122,450) -- (1200,455);
+  \foreach \px/\py in {246/448, 428.6/537.3, 894/361, 1110/448} \fill (\px,\py) circle[radius=2.6pt];
+  \node[fill=black!8, align=left, anchor=north west, inner sep=5pt, font=\small] at (148,238) {$x$ Intercept\\[3pt]$(-3,\,0)$};
+  \node[fill=black!8, align=left, anchor=north west, inner sep=5pt, font=\small] at (192,568) {Local Minimum\\[2pt]$\left(\;-2.155\,,\,\dfrac{-16\sqrt{3}}{9}\right)$};
+  \node[fill=black!8, align=left, anchor=north west, inner sep=5pt, font=\small] at (957,210) {$y$ Intercept\\Local Maximum\\[3pt]$(0,\,3)$};
+  \node[fill=black!8, align=left, anchor=north west, inner sep=5pt, font=\small] at (1200,410) {$x$ Intercept\\[3pt]$(1,\,0)$};
+\end{tikzpicture}
+\end{document}

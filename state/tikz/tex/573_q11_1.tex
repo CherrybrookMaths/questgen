@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \k in {0,...,40} {
+  \pgfmathsetmacro\xx{157+20.75*\k}
+  \pgfmathtruncatemacro\m{mod(\k,4)}
+  \ifnum\m=0 \draw[black!45,line width=0.4pt] (\xx,10) -- (\xx,267);
+  \else \draw[black!25,line width=0.4pt] (\xx,10) -- (\xx,267); \fi
+  \draw (\xx,260) -- (\xx,274);
+}
+\foreach \k in {0,4,...,40} \node at ({157+20.75*\k},316) {$\k$};
+\draw[<->] (113,267) -- (1032,267);
+\node at (1052,267) {$x$};
+\begin{scope}[line width=0.9pt]
+\draw[fill=black!20] ({157+20.75*16},28) rectangle ({157+20.75*30},130);
+\draw ({157+20.75*23},28) -- ({157+20.75*23},130);
+\draw ({157+20.75*10},79) -- ({157+20.75*16},79);
+\draw ({157+20.75*30},79) -- ({157+20.75*36},79);
+\draw ({157+20.75*10},52) -- ({157+20.75*10},106);
+\draw ({157+20.75*36},52) -- ({157+20.75*36},106);
+\end{scope}
+\node at (68,79) {\textbf{Class} $\boldsymbol{A}$};
+\node at (68,200) {\textbf{Class} $\boldsymbol{B}$};
+\end{tikzpicture}
+\end{document}

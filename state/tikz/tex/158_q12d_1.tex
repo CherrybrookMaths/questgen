@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,532) -- (1065,532);
+  \draw[<->] (437,780) -- (437,78);
+  \node at (1082,532) {$x$};
+  \node at (434,45) {$y$};
+  \node at (457,563) {$0$};
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-1.85:2.645] ({437+189*\x},{532-41.5*(-\x*\x*\x+\x*\x+\x+3)});
+  \fill (374,415.2) circle (6);
+  \fill (437,407.5) circle (6);
+  \fill (626,366) circle (6);
+  \node at (366,450) {$A$};
+  \node at (622,327) {$B$};
+  \node[anchor=west] at (444,431) {$(0,3)$};
+  \node[align=center] at (912,274) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

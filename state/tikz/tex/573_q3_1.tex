@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (15,320) -- (828,320);
+\foreach \i/\n in {0/7,1/7,2/4,3/3,4/2,5/2,6/1} {
+  \pgfmathsetmacro\xx{75+115.5*\i}
+  \pgfmathtruncatemacro\lab{\i+4}
+  \draw (\xx,309) -- (\xx,333);
+  \node at (\xx,368) {$\lab$};
+  \foreach \k in {1,...,\n} \fill (\xx,{257-39.5*(\k-1)}) circle (0.076cm);
+}
+\end{tikzpicture}
+\end{document}

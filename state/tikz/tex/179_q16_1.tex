@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.03505cm,y=1.11379cm]
+  \draw[black!18, line width=0.3pt, xstep=0.2, ystep=0.2] (-7.33,-3.84) grid (6.96,6.53);
+  \draw[black!50, line width=0.45pt, step=1] (-7.33,-3.84) grid (6.96,6.53);
+  \draw (-7.33,0) -- (6.96,0);
+  \draw (0,-3.84) -- (0,6.53);
+  \foreach \i in {-7,-6,-5,-4,-3,-2,-1,1,2,3,4,5,6} \node[font=\small, inner sep=0pt] at (\i,-0.27) {\halo{$\i$}};
+  \node[font=\small, inner sep=0pt] at (0.17,-0.27) {\halo{$0$}};
+  \foreach \j in {-3,-2,-1,1,2,3,4,5,6} \node[font=\small, inner sep=0pt, anchor=east] at (-0.07,\j) {\halo{$\j$}};
+  \draw[line width=0.9pt, smooth, samples=91, domain=180:0, variable=\t] plot ({3*cos(\t)},{3*sin(\t)});
+\end{tikzpicture}
+\end{document}

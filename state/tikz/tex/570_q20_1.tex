@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {-4,-3,-2,-1,1,2,3,4} {
+  \draw[black!30, line width=0.4pt, dash pattern=on 1pt off 1pt] ({403+79.4*\i},70) -- ({403+79.4*\i},818);
+  \draw[black!30, line width=0.4pt, dash pattern=on 1pt off 1pt] (25,{444+79.4*\i}) -- (778,{444+79.4*\i});
+}
+\draw[->] (10,444) -- (797,444);
+\draw[->] (403,835) -- (403,55);
+\node[anchor=west] at (800,444) {$x$};
+\node at (403,32) {$y$};
+\end{tikzpicture}
+\end{document}

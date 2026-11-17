@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.8319cm,y=0.8192cm]
+  \draw[->] (-4.37,0) -- (7.0,0);
+  \draw[->] (0,-3.2) -- (0,4.67);
+  \node[anchor=south, inner sep=1pt] at (6.6,0.08) {$x$};
+  \node[anchor=west, inner sep=1pt] at (0.08,4.5) {$y$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=-2.71:2.71, variable=\t] plot (\t,{4-\t*\t});
+  \draw[line width=0.9pt] (-4.14,-2.14) -- (2.32,4.32);
+\end{tikzpicture}
+\end{document}

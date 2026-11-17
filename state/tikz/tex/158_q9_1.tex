@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+  % t -> 104+75t ; v -> 297-75v
+  \draw[->] (104,490) -- (104,47);
+  \draw[->] (88,297) -- (705,297);
+  \draw (96,147) -- (104,147);
+  \draw (96,447) -- (104,447);
+  \draw[line width=0.9pt] (104,147) -- (179,147);
+  \draw[line width=0.9pt] plot[smooth,domain=0:1,samples=30] ({179+75*\x},{297-150*(1-\x^2.2)})
+     -- plot[smooth,domain=1:0,samples=30] ({329-75*\x},{297+150*(1-\x^2.2)});
+  \draw[line width=0.9pt] (329,447) -- (479,447);
+  \draw[line width=0.9pt] plot[smooth,domain=0:1,samples=30] ({479+75*\x},{297+150*(1-\x^2.2)});
+  \foreach \p in {(104,147),(179,147),(254,297),(329,447),(479,447),(554,297)} \fill \p circle[radius=4];
+  \node at (65,48) {$\dfrac{dx}{dt}$};
+  \node at (702,325) {$t$};
+  \node at (78,322) {$O$};
+  \node at (245,320) {$2$};
+  \node at (564,320) {$6$};
+  \node at (86,147) {$2$};
+  \node at (78,447) {$-2$};
+  \node at (180,118) {$(1,\,2)$};
+  \node at (327,472) {$(3,\,-2)$};
+  \node at (478,472) {$(5,\,-2)$};
+\end{tikzpicture}
+\end{document}

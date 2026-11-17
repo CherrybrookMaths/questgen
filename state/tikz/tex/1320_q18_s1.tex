@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (12,210) -- (680,210);
+  \draw (347,8) -- (347,218);
+  \draw[line width=0.9pt, smooth, samples=90, domain=12:675]
+    plot (\x,{210-197*exp(-0.5*((\x-347)/133)*((\x-347)/133))});
+  \foreach \t/\lab in {91/1.8,177/3,262/4.2,432/6.6,515/7.8,603/9}
+    \draw (\t,218) -- (\t,{210-197*exp(-0.5*((\t-347)/133)*((\t-347)/133))});
+  \foreach \t/\lab in {92/1.8,180/3,264/4.2,347/5.4,432/6.6,514/7.8,601/9}
+    \node[font=\Large, anchor=base] at (\t,255) {$\lab$};
+\end{tikzpicture}
+\end{document}

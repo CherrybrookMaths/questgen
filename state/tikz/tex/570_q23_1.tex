@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+  \fill[shade] (0,0)--(140:177) arc[start angle=140,end angle=40,radius=177]--cycle;
+  \draw (0,0) circle[radius=177];
+  \draw (140:177)--(0,0)--(40:177);
+  \draw[->] (140:40) arc[start angle=140,end angle=40,radius=40];
+  \fill (0,0) circle[radius=3.2];
+  \node[font=\large] at (-83,33) {$r$};
+  \node[font=\large] at (76,33) {$r$};
+  \node[font=\large] at (0,18) {$\theta$};
+  \node[font=\large] at (0,-27) {$O$};
+\end{tikzpicture}
+\end{document}

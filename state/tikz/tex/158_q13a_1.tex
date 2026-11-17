@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {5,15,25,35,45} {
+    \draw[black!15,line width=0.4pt] ({118+10.6*\i},532) -- ({118+10.6*\i},43);
+    \draw[black!15,line width=0.4pt] (118,{532-9.775*\i}) -- (648,{532-9.775*\i});}
+  \foreach \i in {10,20,30,40,50} {
+    \draw[black!30,line width=0.4pt] ({118+10.6*\i},532) -- ({118+10.6*\i},43);
+    \draw[black!30,line width=0.4pt] (118,{532-9.775*\i}) -- (648,{532-9.775*\i});
+    \draw ({118+10.6*\i},532) -- ({118+10.6*\i},540);
+    \draw (118,{532-9.775*\i}) -- (110,{532-9.775*\i});
+    \node[anchor=north] at ({118+10.6*\i},546) {$\i$};
+    \node[anchor=east] at (106,{532-9.775*\i}) {$\i$};}
+  \foreach \i in {5,15,25,35,45} {
+    \draw ({118+10.6*\i},532) -- ({118+10.6*\i},537);
+    \draw (118,{532-9.775*\i}) -- (113,{532-9.775*\i});}
+  \draw[->] (110,532) -- (680,532);
+  \draw[->] (118,540) -- (118,15);
+  \foreach \a/\b in {5/10,5/5,10/15,15/20,20/20,25/30,35/35,40/35,45/40,50/45}
+    \fill ({118+10.6*\a},{532-9.775*\b}) circle (4.5);
+  \node at (397,603) {Test A};
+  \node[rotate=90] at (50,272) {Test B};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade hatch] plot[domain=0:198, samples=40, smooth, variable=\t] ({450+\t}, {447-62*exp(0.0077*\t)}) -- plot[domain=198:0, samples=40, smooth, variable=\t] ({450+\t}, {447-62*exp(-0.0077*\t)}) -- cycle;
+\draw (15,447) -- (880,447);
+\draw[->] (450,570) -- (450,15);
+\draw[aux] (648,150) -- (648,572);
+\draw[line width=0.9pt,->] plot[domain=-185:212, samples=90, smooth, variable=\t] ({450+\t}, {447-62*exp(0.0077*\t)});
+\draw[line width=0.9pt,->] plot[domain=225:-300, samples=90, smooth, variable=\t] ({450-\t}, {447-62*exp(0.0077*\t)});
+\node at (873,478) {$x$};
+\node at (434,24) {$y$};
+\node at (428,350) {\large $1$};
+\node at (622,490) {\large $5$};
+\node[anchor=west] at (656,553) {\large $x=5$};
+\node[anchor=west] at (240,68) {\Large $y=e^{-x}$};
+\node[anchor=west] at (712,108) {\Large $y=e^{x}$};
+\end{tikzpicture}
+\end{document}

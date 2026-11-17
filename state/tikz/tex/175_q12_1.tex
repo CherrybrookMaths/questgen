@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (F) at (131,318); \coordinate (R) at (234,290); \coordinate (L) at (78,247); \coordinate (B) at (181,219);
+  \coordinate (F') at (131,146); \coordinate (R') at (234,118); \coordinate (L') at (78,75); \coordinate (B') at (181,47);
+  \fill[black!10] (L) -- (F) -- (R) -- (R') -- (B') -- (L') -- cycle;
+  \fill[black!6] (L') -- (F') -- (R') -- (B') -- cycle;
+  \draw[aux] (B) -- (B'); \draw[aux] (B) -- (L); \draw[aux] (B) -- (R);
+  \draw (L') -- (F') -- (R') -- (B') -- cycle;
+  \draw (L') -- (L) -- (F) -- (R) -- (R');
+  \draw (F') -- (F);
+  \node[font=\footnotesize] at (66,290) {$x$};
+  \node[font=\footnotesize] at (191,323) {$x$};
+  \node[font=\footnotesize] at (256,205) {$h$};
+\end{tikzpicture}
+\end{document}
