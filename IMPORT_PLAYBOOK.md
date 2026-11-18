@@ -90,6 +90,12 @@ Batch 10 (18 Nov), verify lesson: the verifier was shown the school's crop of ea
 4 sketches as wrong that the diagram step had already redrawn correctly (and missed checking the redraw itself). api_import.py now sends
 tikz/png/<id>.png when a redraw exists; re-run on those 5 questions, all passed. The one real sketch error (2022 Baulkham Hills AT4 Q3,
 triangle sides swapped in our redraw) was fixed.
+Caching fix (18 Nov). Owner: "Lets try one more batch with NO batching but with the caching fixed and lets compare costs". Batches 9 and 10
+paid more for cache writes than for output (B9 US$15.63 writes / US$1.39 reads / US$12.47 output; B10 US$20.18 / US$1.95 / US$18.89):
+every run of a step started at once, so each wrote the same shared instructions and none read them, and single-turn steps marked the
+whole one-off request for caching. api_import.py now runs one paper first until its first reply is back (the rest then read the
+instructions at 0.1x) and marks the whole request only in multi-turn steps (parse, diagrams, verify). `cost` prints the split by kind.
+Batch 11 is the comparison run (no Message Batches).
 
 ## Figure crops are build output, not backed up (17 Nov)
 Owner 17 Nov: "What is realistic coding best practice in this case?" then "yeah build it and run the test". The crops

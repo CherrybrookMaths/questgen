@@ -43,6 +43,7 @@ MODEL = {'parse': 'claude-sonnet-5-5', 'split': 'claude-sonnet-5-5', 'solfmt': '
          'difficulty': 'claude-opus-5-5'}
 EFFORT = {'parse': 'high', 'split': 'medium', 'solfmt': 'medium', 'gen': 'high', 'tag': 'high', 'diagrams': 'high', 'verify': 'high', 'difficulty': 'high'}
 CHUNK = {'tag': 120, 'solfmt': 30, 'gen': 10, 'diagrams': 8, 'verify': 20, 'split': 60, 'difficulty': 40}
+MULTI_TURN = {'parse', 'diagrams', 'verify'}   # steps that loop over several turns (renders, checks); the rest submit in one reply
 MAX_TURNS = {'parse': 60, 'diagrams': 40, 'verify': 30, 'gen': 12}
 LOCK = threading.Lock()
 
@@ -91,6 +92,7 @@ class Run:
         self.batch, self.step, self.doc, self.chunk = batch, step, doc, chunk
         self.model, self.effort = MODEL[step], EFFORT[step]
         self.system, self.user, self.tools, self.submit = system, user, tools, submit
+        self.primed = threading.Event()   # set after the first reply: the shared instructions are cached from then on
         self.done, self.result, self.cost, self.turns = False, None, 0.0, 0
 
     def go(self, api):
@@ -103,7 +105,10 @@ class Run:
                 try:
                     with api.beta.messages.stream(model=self.model, max_tokens=64000, system=self.system, tools=defs, messages=msgs,
                                                   thinking={'type': 'adaptive'}, output_config={'effort': self.effort},
-                                                  cache_control={'type': 'ephemeral'},
+                                                  # owner 18 Nov: "Lets try one more batch with NO batching but with the caching fixed and lets compare
+                                                  #   costs". Batch 10 paid US$20.18 for cache writes and got US$1.95 of reads back. Single-turn steps
+                                                  #   no longer mark the whole request (it is never sent again); multi-turn steps keep it for their next turn
+                                                  **({'cache_control': {'type': 'ephemeral'}} if self.step in MULTI_TURN or turn > 0 else {}),
                                                   betas=['server-side-fallback-2026-07-01'], fallbacks='default') as s:
                         m = s.get_final_message()
                     break
@@ -112,6 +117,7 @@ class Run:
                     time.sleep(30 * (attempt + 1))
             u = {k: getattr(m.usage, k, 0) or 0 for k in ('input_tokens', 'output_tokens', 'cache_creation_input_tokens', 'cache_read_input_tokens')}
             c = usd(m.model, u); self.cost += c
+            self.primed.set()
             log_call(self.batch, {'t': now(), 'step': self.step, 'doc': self.doc, 'chunk': self.chunk, 'model': m.model, 'effort': self.effort,
                                   'turn': turn + 1, **u, 'usd': c, 'stop': m.stop_reason})
             msgs.append({'role': 'assistant', 'content': [dump(b) for b in m.content]})
@@ -861,6 +867,15 @@ def cost(batch):
         print(f'{lab.get(k, str(k))[:43]:44s}' + ''.join(f'{grid[k].get(s, 0):9.2f}' for s in order) + f'{papers[k]["usd"]:9.2f}')
     print(f'{"all papers":44s}' + ''.join(f'{steps.get(s, {}).get("usd", 0):9.2f}' for s in order) + f'{total:9.2f}')
     print(f'US$ per paper: {rep["usd_per_paper"]} over {len(papers)} papers, {len(rows)} calls')
+    # what the money went on (caching fix, 18 Nov): output, cache writes (1.25x input), cache reads (0.1x), plain input
+    kind = {'output': 0.0, 'cache writes': 0.0, 'cache reads': 0.0, 'input': 0.0}
+    for r in rows:
+        pin, pout, pcr = PRICE.get(r['model'], PRICE['claude-opus-5-5'])
+        kind['output'] += r['output_tokens'] * pout / 1e6; kind['cache writes'] += r['cache_creation_input_tokens'] * pin * 1.25 / 1e6
+        kind['cache reads'] += r['cache_read_input_tokens'] * pcr / 1e6; kind['input'] += r['input_tokens'] * pin / 1e6
+    rep['by_kind'] = {k: round(v, 2) for k, v in kind.items()}
+    json.dump(rep, open(S + f'work/api_import/{batch}/cost.json', 'w'), indent=1)
+    print('by kind: ' + ', '.join(f'{k} US${v:.2f}' for k, v in kind.items()))
     return rep
 
 
@@ -887,8 +902,16 @@ def main():
         t = time.time()
         try: j.go(api); print(f'  {j.step} {j.doc}/{j.chunk}: {"done" if j.done else "NOT DONE"} in {j.turns} turns, {time.time() - t:.0f}s, US${j.cost:.2f}', flush=True)
         except Exception as e: print(f'  {j.step} {j.doc}/{j.chunk}: FAILED {type(e).__name__}: {e}', flush=True); traceback.print_exc()
+        j.primed.set()   # a failed first run must not hold the others back
         return j
-    with ThreadPoolExecutor(max_workers=args.workers) as ex: done = list(ex.map(one, jobs))
+    # caching fix (18 Nov): all runs of a step used to start together, so each wrote the same shared instructions to the cache and none
+    # read them. The first run goes alone until its first reply is back; the rest then read the instructions from the cache (0.1x price)
+    with ThreadPoolExecutor(max_workers=args.workers) as ex:
+        futs = []
+        if jobs:
+            futs.append(ex.submit(one, jobs[0])); jobs[0].primed.wait(timeout=900)
+        futs += [ex.submit(one, j) for j in jobs[1:]]
+        done = [f.result() for f in futs]
     if split_files is not None: merge_split(args.batch, split_files)
     print(f'{args.step}: {sum(j.done for j in done)} of {len(done)} runs done, US${sum(j.cost for j in done):.2f}')
     if not all(j.done for j in done): sys.exit(1)
