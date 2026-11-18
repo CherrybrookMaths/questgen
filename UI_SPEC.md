@@ -410,6 +410,9 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   this way": the grading panel's dot points use their official LaTeX wording (dotpoints.json "tex"), and each maths-looking word of a
   reason is converted to LaTeX (exMathTeX) and typeset by MathJax. "why is ti always 628 questions?": the chooser's count was every
   question of the type that fits the settings; it now says "N with the same dot point · M in "<subtopic>" · K in this exam's topics".
+- **19 Nov (owner): "don't you think that questions which contain PS and UF should just be PS?" -> "yeah that's fine go for it"**: a question
+  with any problem-solving part is labelled Problem solving (badges, grading list, report form) and found by the Problem solving filter
+  in Bank and Pick by hand; "Mixed" is gone. Marks still count part by part (generator targets, grading totals, the Guide's split).
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

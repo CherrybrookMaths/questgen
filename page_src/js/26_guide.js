@@ -110,7 +110,7 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
     <div class="g2vs"><div class="uf"><b>Fluency</b><span>Recognise it, then a standard method gets there</span><ul><li>Differentiate or integrate</li><li>Apply a known formula</li><li>Read or sketch a familiar graph</li><li>Direct probability calculation</li></ul></div>
       <div class="pr"><b>Problem solving</b><span>Choose or build the method</span><ul><li>Model a situation</li><li>Show that · prove · explain why</li><li>Interpret in context</li><li>Combine ideas not spelt out</li></ul></div></div>
     <div class="g2split"><span class="uf" style="flex:${S.wm.UF||1}">Fluency ${g2pct(S.wm.UF,wt)}%</span><span class="pr" style="flex:${S.wm.PR||1}">Problem solving ${g2pct(S.wm.PR,wt)}%</span></div>
-    <p class="g2cap">Share of all marks in the bank. A question with both kinds of part is shown as Mixed.</p>
+    <p class="g2cap">Share of all marks in the bank, counted part by part. A question with any problem-solving part is labelled Problem solving.</p>
   </section>
 
   <section id="g2-ex" class="g2sec"><h3>4 · Examples from the bank</h3>${ex}</section>

@@ -148,7 +148,7 @@ function bfPills(){$$('#list .bfilters .grp[data-bfg]').forEach(g=>{const k=g.da
   if(!from||(from.x===to.x&&from.w===to.w)||matchMedia('(prefers-reduced-motion: reduce)').matches){p.style.transition='none';set(to);p.classList.add('on');return}
   p.style.transition='none';set(from);p.classList.add('on');void p.offsetWidth;p.style.transition='';set(to)})}
 function bfHTML(all,shown,narrow){const g=(k,lab,opts)=>`<span class="grp" data-bfg="${k}"><i class="bfpill" aria-hidden="true"></i><span>${lab}</span>${opts.map(([v,l])=>`<button data-bf="${k}:${v}" aria-pressed="${BF[k]===v}">${l}</button>`).join('')}</span>`;
-  return `<div class="bfilters">${g('type','Type',[['all','All'],['mcq','Multiple choice'],['written','Written']])}${g('src','Source',[['all','All'],['hsc','HSC'],['school','Trials & school']])}${g('fig','Diagram',[['all','Any'],['yes','With'],['no','Without']])}${g('band','Band',[['all','All'],['lo','2–3'],['mid','4'],['hi','5–6']])}${g('wm','Kind',[['all','All'],['uf','Fluency'],['pr','Problem solving'],['mix','Mixed']])}<span class="shown">${shown} of ${all}</span>${narrow?`<div class="narrow">${narrow}</div>`:''}</div>`}
+  return `<div class="bfilters">${g('type','Type',[['all','All'],['mcq','Multiple choice'],['written','Written']])}${g('src','Source',[['all','All'],['hsc','HSC'],['school','Trials & school']])}${g('fig','Diagram',[['all','Any'],['yes','With'],['no','Without']])}${g('band','Band',[['all','All'],['lo','2–3'],['mid','4'],['hi','5–6']])}${g('wm','Kind',[['all','All'],['uf','Fluency'],['pr','Problem solving']])}<span class="shown">${shown} of ${all}</span>${narrow?`<div class="narrow">${narrow}</div>`:''}</div>`}
 function renderBank(){
   if(!TOPICS) buildTopics();
   syncNav();

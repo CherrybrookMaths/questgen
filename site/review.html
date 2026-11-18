@@ -896,9 +896,8 @@ input[type=range].rng:disabled{opacity:.35;cursor:default}
 .gqh .exgn{font-weight:600;font-variant-numeric:tabular-nums}
 .exgk{justify-self:start;font-size:11px;font-weight:600;padding:1px 6px;border-radius:4px;white-space:nowrap}
 .exgk.Fluency{background:var(--exfl-soft);color:var(--exfl)}.exgk.Problem{background:var(--exps-soft);color:var(--exps)}
-.exgk.Mixed{background:linear-gradient(90deg,var(--exfl-soft) 50%,var(--exps-soft) 50%);color:var(--ink)}
 .exmeter{display:inline-flex;gap:2px}.exmeter i{width:9px;height:9px;border-radius:2px;background:var(--line2)}
-.exmeter.Fluency i.on{background:var(--exfl)}.exmeter.Problem i.on{background:var(--exps)}.exmeter.Mixed i.on{background:var(--ink)}
+.exmeter.Fluency i.on{background:var(--exfl)}.exmeter.Problem i.on{background:var(--exps)}
 .exgd{font-variant-numeric:tabular-nums;font-weight:600;text-align:right}
 .gmv{flex:none;display:flex;flex-direction:column;gap:1px;padding:4px 6px 4px 0}
 .gmv button{border:0;background:none;color:var(--muted);font-size:9px;line-height:1;width:26px;height:18px;border-radius:4px;cursor:pointer}
@@ -2713,7 +2712,7 @@ function bfPills(){$$('#list .bfilters .grp[data-bfg]').forEach(g=>{const k=g.da
   if(!from||(from.x===to.x&&from.w===to.w)||matchMedia('(prefers-reduced-motion: reduce)').matches){p.style.transition='none';set(to);p.classList.add('on');return}
   p.style.transition='none';set(from);p.classList.add('on');void p.offsetWidth;p.style.transition='';set(to)})}
 function bfHTML(all,shown,narrow){const g=(k,lab,opts)=>`<span class="grp" data-bfg="${k}"><i class="bfpill" aria-hidden="true"></i><span>${lab}</span>${opts.map(([v,l])=>`<button data-bf="${k}:${v}" aria-pressed="${BF[k]===v}">${l}</button>`).join('')}</span>`;
-  return `<div class="bfilters">${g('type','Type',[['all','All'],['mcq','Multiple choice'],['written','Written']])}${g('src','Source',[['all','All'],['hsc','HSC'],['school','Trials & school']])}${g('fig','Diagram',[['all','Any'],['yes','With'],['no','Without']])}${g('band','Band',[['all','All'],['lo','2–3'],['mid','4'],['hi','5–6']])}${g('wm','Kind',[['all','All'],['uf','Fluency'],['pr','Problem solving'],['mix','Mixed']])}<span class="shown">${shown} of ${all}</span>${narrow?`<div class="narrow">${narrow}</div>`:''}</div>`}
+  return `<div class="bfilters">${g('type','Type',[['all','All'],['mcq','Multiple choice'],['written','Written']])}${g('src','Source',[['all','All'],['hsc','HSC'],['school','Trials & school']])}${g('fig','Diagram',[['all','Any'],['yes','With'],['no','Without']])}${g('band','Band',[['all','All'],['lo','2–3'],['mid','4'],['hi','5–6']])}${g('wm','Kind',[['all','All'],['uf','Fluency'],['pr','Problem solving']])}<span class="shown">${shown} of ${all}</span>${narrow?`<div class="narrow">${narrow}</div>`:''}</div>`}
 function renderBank(){
   if(!TOPICS) buildTopics();
   syncNav();
@@ -4061,12 +4060,14 @@ function qDiff(q){if(_qd.has(q.id))return _qd.get(q.id);
     r={band:Math.round(sb/sw*2)/2,raw:sb/sw,pr:spr/sw,mix,w:sw}}
   _qd.set(q.id,r);return r}
 const fmtBand=b=>Number.isInteger(b)?String(b):`${Math.floor(b)}–${Math.ceil(b)}`;
-const wmName=pr=>pr<=0.001?'Fluency':pr>=0.999?'Problem solving':'Mixed';
+// owner 19 Nov ("don't you think that questions which contain PS and UF should just be PS?" -> "yeah that's fine go for it"): a question
+// with any problem-solving part is labelled and filtered as Problem solving ("Mixed" is gone); marks still count part by part
+const wmName=pr=>pr<=0.001?'Fluency':'Problem solving';
 // owner 12 Nov: no pills on bank cards; difficulty is plain text in the footer ("Band 3 · Fluency")
 function qDifLabel(q){const d=qDiff(q);return d?`Band ${fmtBand(d.band)} · ${wmName(d.pr)}`:''}
 function qDifOK(q,F){const band=F.band||'all',wm=F.wm||'all';if(band==='all'&&wm==='all')return true;const d=qDiff(q);if(!d)return false;
   if(band==='lo'&&d.band>3)return false;if(band==='mid'&&(d.band<3.5||d.band>4.5))return false;if(band==='hi'&&d.band<5)return false;
-  if(wm!=='all'&&{uf:'Fluency',pr:'Problem solving',mix:'Mixed'}[wm]!==wmName(d.pr))return false;return true}
+  if(wm!=='all'&&{uf:'Fluency',pr:'Problem solving',mix:'Problem solving'}[wm]!==wmName(d.pr))return false;return true}
 
 /* ---------- topics and pool ---------- */
 let _xah=null,_xahR=null;
@@ -4230,7 +4231,7 @@ function exEst(q){if(_ee.has(q.id))return _ee.get(q.id);
     let fl=0,ps=0,wF=0,wP=0;
     const parts=ls.map(p=>{const m=w(p)*k,b=Math.max(2,Math.min(6,+p.dif.b)),isP=p.dif.wm==='PR';if(isP){ps+=m;wP+=m*b}else{fl+=m;wF+=m*b}
       return {id:p.id,lab:exPath(q,p),m,b,ps:isP,r:p.dif.r||''}});
-    const m=fl+ps;r={m,fl,ps,dF:fl?wF/fl:null,dP:ps?wP/ps:null,d:(wF+wP)/(m||1),kind:ps<=1e-9?'Fluency':fl<=1e-9?'Problem solving':'Mixed',parts}}
+    const m=fl+ps;r={m,fl,ps,dF:fl?wF/fl:null,dP:ps?wP/ps:null,d:(wF+wP)/(m||1),kind:ps<=1e-9?'Fluency':'Problem solving',parts}}   // owner 19 Nov: any problem-solving part makes it a problem-solving question
   _ee.set(q.id,r);return r}
 // owner 19 Nov ("math should render properly in the grading tab", then "Are you sure the math renders properly? I'm still seeing incorrect
 // in dot points and why it was rated this way"): the rater's reasons are plain text ("S_20 = 4 S_10", "a/(1-r)", "sqrt2"). Each word that
@@ -4450,7 +4451,7 @@ function exFilters(){const el=$('#exMain');if(!el||el.dataset.ready)return;el.da
       <select id="ftype" aria-label="Question type"><option value="all">MCQ and written</option><option value="mcq">Multiple choice</option><option value="written">Written response</option></select>
       <select id="fmarks" aria-label="Marks"><option value="all">Any marks</option><option value="1">1 mark</option><option value="2">2 marks</option><option value="3">3 marks</option><option value="4">4 marks</option><option value="5">5+ marks</option></select>
       <select id="fband" aria-label="Band"><option value="all">Any band</option><option value="lo">Band 2–3</option><option value="mid">Band 4</option><option value="hi">Band 5–6</option></select>
-      <select id="fwm" aria-label="Kind"><option value="all">Fluency and problem solving</option><option value="uf">Fluency</option><option value="pr">Problem solving</option><option value="mix">Mixed</option></select>
+      <select id="fwm" aria-label="Kind"><option value="all">Fluency and problem solving</option><option value="uf">Fluency</option><option value="pr">Problem solving</option></select>
       <select id="fsort" aria-label="Sort"><option value="new">Newest paper first</option><option value="old">Oldest paper first</option><option value="easy">Easiest first</option><option value="hard">Hardest first</option><option value="mup">Marks, low to high</option><option value="mdown">Marks, high to low</option></select>
       <label class="exck"><input type="checkbox" id="ffig"${F.fig?' checked':''}> Has a diagram</label>
       <label class="exck"><input type="checkbox" id="fhide"${F.hide?' checked':''}> Hide questions already in the exam</label></div>
@@ -5083,7 +5084,7 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
     <div class="g2vs"><div class="uf"><b>Fluency</b><span>Recognise it, then a standard method gets there</span><ul><li>Differentiate or integrate</li><li>Apply a known formula</li><li>Read or sketch a familiar graph</li><li>Direct probability calculation</li></ul></div>
       <div class="pr"><b>Problem solving</b><span>Choose or build the method</span><ul><li>Model a situation</li><li>Show that · prove · explain why</li><li>Interpret in context</li><li>Combine ideas not spelt out</li></ul></div></div>
     <div class="g2split"><span class="uf" style="flex:${S.wm.UF||1}">Fluency ${g2pct(S.wm.UF,wt)}%</span><span class="pr" style="flex:${S.wm.PR||1}">Problem solving ${g2pct(S.wm.PR,wt)}%</span></div>
-    <p class="g2cap">Share of all marks in the bank. A question with both kinds of part is shown as Mixed.</p>
+    <p class="g2cap">Share of all marks in the bank, counted part by part. A question with any problem-solving part is labelled Problem solving.</p>
   </section>
 
   <section id="g2-ex" class="g2sec"><h3>4 · Examples from the bank</h3>${ex}</section>

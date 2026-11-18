@@ -22,12 +22,14 @@ function qDiff(q){if(_qd.has(q.id))return _qd.get(q.id);
     r={band:Math.round(sb/sw*2)/2,raw:sb/sw,pr:spr/sw,mix,w:sw}}
   _qd.set(q.id,r);return r}
 const fmtBand=b=>Number.isInteger(b)?String(b):`${Math.floor(b)}–${Math.ceil(b)}`;
-const wmName=pr=>pr<=0.001?'Fluency':pr>=0.999?'Problem solving':'Mixed';
+// owner 19 Nov ("don't you think that questions which contain PS and UF should just be PS?" -> "yeah that's fine go for it"): a question
+// with any problem-solving part is labelled and filtered as Problem solving ("Mixed" is gone); marks still count part by part
+const wmName=pr=>pr<=0.001?'Fluency':'Problem solving';
 // owner 12 Nov: no pills on bank cards; difficulty is plain text in the footer ("Band 3 · Fluency")
 function qDifLabel(q){const d=qDiff(q);return d?`Band ${fmtBand(d.band)} · ${wmName(d.pr)}`:''}
 function qDifOK(q,F){const band=F.band||'all',wm=F.wm||'all';if(band==='all'&&wm==='all')return true;const d=qDiff(q);if(!d)return false;
   if(band==='lo'&&d.band>3)return false;if(band==='mid'&&(d.band<3.5||d.band>4.5))return false;if(band==='hi'&&d.band<5)return false;
-  if(wm!=='all'&&{uf:'Fluency',pr:'Problem solving',mix:'Mixed'}[wm]!==wmName(d.pr))return false;return true}
+  if(wm!=='all'&&{uf:'Fluency',pr:'Problem solving',mix:'Problem solving'}[wm]!==wmName(d.pr))return false;return true}
 
 /* ---------- topics and pool ---------- */
 let _xah=null,_xahR=null;

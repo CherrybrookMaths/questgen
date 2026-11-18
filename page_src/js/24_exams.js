@@ -31,7 +31,7 @@ function exEst(q){if(_ee.has(q.id))return _ee.get(q.id);
     let fl=0,ps=0,wF=0,wP=0;
     const parts=ls.map(p=>{const m=w(p)*k,b=Math.max(2,Math.min(6,+p.dif.b)),isP=p.dif.wm==='PR';if(isP){ps+=m;wP+=m*b}else{fl+=m;wF+=m*b}
       return {id:p.id,lab:exPath(q,p),m,b,ps:isP,r:p.dif.r||''}});
-    const m=fl+ps;r={m,fl,ps,dF:fl?wF/fl:null,dP:ps?wP/ps:null,d:(wF+wP)/(m||1),kind:ps<=1e-9?'Fluency':fl<=1e-9?'Problem solving':'Mixed',parts}}
+    const m=fl+ps;r={m,fl,ps,dF:fl?wF/fl:null,dP:ps?wP/ps:null,d:(wF+wP)/(m||1),kind:ps<=1e-9?'Fluency':'Problem solving',parts}}   // owner 19 Nov: any problem-solving part makes it a problem-solving question
   _ee.set(q.id,r);return r}
 // owner 19 Nov ("math should render properly in the grading tab", then "Are you sure the math renders properly? I'm still seeing incorrect
 // in dot points and why it was rated this way"): the rater's reasons are plain text ("S_20 = 4 S_10", "a/(1-r)", "sqrt2"). Each word that
@@ -251,7 +251,7 @@ function exFilters(){const el=$('#exMain');if(!el||el.dataset.ready)return;el.da
       <select id="ftype" aria-label="Question type"><option value="all">MCQ and written</option><option value="mcq">Multiple choice</option><option value="written">Written response</option></select>
       <select id="fmarks" aria-label="Marks"><option value="all">Any marks</option><option value="1">1 mark</option><option value="2">2 marks</option><option value="3">3 marks</option><option value="4">4 marks</option><option value="5">5+ marks</option></select>
       <select id="fband" aria-label="Band"><option value="all">Any band</option><option value="lo">Band 2–3</option><option value="mid">Band 4</option><option value="hi">Band 5–6</option></select>
-      <select id="fwm" aria-label="Kind"><option value="all">Fluency and problem solving</option><option value="uf">Fluency</option><option value="pr">Problem solving</option><option value="mix">Mixed</option></select>
+      <select id="fwm" aria-label="Kind"><option value="all">Fluency and problem solving</option><option value="uf">Fluency</option><option value="pr">Problem solving</option></select>
       <select id="fsort" aria-label="Sort"><option value="new">Newest paper first</option><option value="old">Oldest paper first</option><option value="easy">Easiest first</option><option value="hard">Hardest first</option><option value="mup">Marks, low to high</option><option value="mdown">Marks, high to low</option></select>
       <label class="exck"><input type="checkbox" id="ffig"${F.fig?' checked':''}> Has a diagram</label>
       <label class="exck"><input type="checkbox" id="fhide"${F.hide?' checked':''}> Hide questions already in the exam</label></div>
