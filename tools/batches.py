@@ -129,6 +129,15 @@ def lanes(inv, write=True, reset=()):
         by[g['course'] + '|' + g['yl']] = g
     fin = finished()
     changed = False
+    # owner 18 Nov ("yes mark it as a copy", doc 177 = 2022 Arden AT2): a paper recorded as a copy later (inventory held.copies) leaves
+    # every stored batch, so it is never imported; batch_check blocks a copy in a batch (owner 16 Nov "duplicate exams will never be batched")
+    cps = {c[0] for c in (inv.get('held') or {}).get('copies') or []}
+    for key, L in st['lanes'].items():
+        out = sorted({i for b in L.get('batches', []) for i in b} & cps)
+        if out:
+            L['batches'] = [[i for i in b if i not in cps] for b in L['batches']]
+            L.setdefault('log', []).append({'at': now, 'removed': out, 'why': 'recorded as copies of another file (never imported)'})
+            changed = True
     for key, g in by.items():
         ready = [p for p in g['papers'] if p['st'] in READY]
         if key in reset: st['lanes'].pop(key, None)

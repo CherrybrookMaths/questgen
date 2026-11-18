@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (22,420) -- (975,420);
+  \draw[->] (147,505) -- (147,12);
+  \foreach \k in {-1,1,2,...,7} \draw ({147+99*\k},414) -- ({147+99*\k},426);
+  \foreach \k in {1,...,12} \draw (142,{423-31.35*\k}) -- (152,{423-31.35*\k});
+  \draw[line width=0.9pt] plot[smooth,domain=-1.127:5.498,samples=100] ({147+126.05*\x},{423-62.7*(1.5*sin(2*\x r)+4)});
+  \node[font=\small,anchor=east] at (138,77) {$5.5$};
+  \node[font=\small,anchor=east] at (138,172) {$4$};
+  \node[font=\small,anchor=east] at (138,266) {$2.5$};
+  \node[font=\small] at (125,440) {$O$};
+  \node[font=\small] at (345,462) {$\dfrac{\pi}{2}$};
+  \node[font=\small] at (543,440) {$\pi$};
+  \node[font=\small] at (965,440) {$x$};
+  \node[font=\small] at (127,20) {$y$};
+\end{tikzpicture}
+\end{document}

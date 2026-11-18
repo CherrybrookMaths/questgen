@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\X(#1){94.3+7.571*#1}
+  \def\Y(#1){557.5-52.25*#1}
+  \foreach \k in {10,20,...,80} \draw[black!25,line width=0.4pt] ({\X(\k)},557.5) -- ({\X(\k)},35);
+  \draw[black!25,line width=0.4pt] (725,557.5) -- (725,35);
+  \foreach \k in {1,...,10} \draw[black!25,line width=0.4pt] (94.3,{\Y(\k)}) -- (725,{\Y(\k)});
+  \draw[->] (94.3,557.5) -- (730,557.5);
+  \draw[->] (94.3,557.5) -- (94.3,10);
+  \foreach \k in {5,15,...,75} \draw ({\X(\k)},557.5) -- ({\X(\k)},562);
+  \foreach \k in {10,20,...,80} {\draw ({\X(\k)},557.5) -- ({\X(\k)},566); \node at ({\X(\k)},590) {\k};}
+  \foreach \k in {1,3,...,9} \draw (94.3,{\Y(\k)}) -- (90,{\Y(\k)});
+  \foreach \k in {2,4,...,10} {\draw (94.3,{\Y(\k)}) -- (86,{\Y(\k)}); \node[anchor=east] at (82,{\Y(\k)}) {\k};}
+  \foreach \p/\q in {5/9,12/8,23/9,32/6,40/7,48/6,64/6,72/5,64/4,55/3,72/2,80/1}
+    \fill ({\X(\p)},{\Y(\q)}) circle (5.5);
+  \node at (405,632) {Dosage (mg)};
+  \node[rotate=90] at (24,290) {Reported pain scale};
+\end{tikzpicture}
+\end{document}

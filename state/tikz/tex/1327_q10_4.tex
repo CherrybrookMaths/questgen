@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \path (25,35);
+  \foreach \i/\h in {0/228,1/262,2/146,3/40,4/150,5/263,6/227}
+    \draw ({148+36.6*\i},455) rectangle ({148+36.6*(\i+1)},{455-\h});
+  \draw[->] (112,455) -- (468,455);
+  \draw[->] (112,455) -- (112,8);
+\end{tikzpicture}
+\end{document}
