@@ -152,4 +152,28 @@ if _c and _c[0][0] == 2:
         [3, 'Correct answer'],
         [2, r'Obtains $M_n=A(1.003)^n-9\,000\left[1+1.003+\cdots+1.003^{n-1}\right]$, or equivalent merit'],
         [1, r'Writes $M_1=A(1.003)-9\,000$ and $M_2$ correctly, or equivalent merit']], ensure_ascii=False),))
+# Batch 10 (18 Nov, API verifier, VERIFY_SPEC): slips copied from the schools' solutions; owner 12 Nov "if you are certain the source is
+# wrong and your maths is right, just overwrite it". 2022 Baulkham Hills AT4 Q22 (QID 2803, tan^2 x integrated across its asymptote) is a
+# flawed question with no knowable intended limits: left for the owner, not guessed.
+C10 = [
+ (4330, [(r'&\approx 66.43\end{aligned}$$', r'&\approx 66.44\end{aligned}$$'), (r'\text{More years}&=66.43-20\\ &=40.43', r'\text{More years}&=66.44-20\\ &=46.44'),
+         (r'\text{about } 40.43 \text{ more years}', r'\text{about } 46.44 \text{ more years}')], [],
+  r'the subtraction read $66.43-20=40.43$; $t=\dfrac{20\ln10}{\ln2}\approx66.44$, so about $46.44$ more years (the school solution had the same slip)'),
+ (4291, [(r'&= 330\dfrac{11}{27} \text{ cm}^3 \end{aligned}', r'&= \dfrac{8192}{27} = 303\dfrac{11}{27} \text{ cm}^3 \end{aligned}'),
+         (r'\text{maximum volume } 330\dfrac{11}{27}\text{ cm}^3', r'\text{maximum volume } 303\dfrac{11}{27}\text{ cm}^3')], [],
+  r'the volume read $330\dfrac{11}{27}$ (digits swapped in the school answer); $V\left(\dfrac83\right)=\dfrac{8192}{27}=303\dfrac{11}{27}$ cm$^3$'),
+ (4149, [(r'$$2.03\times 365 \approx 740 \text{ days}$$', r'$$2.0279\ldots\times 365 \approx 740 \text{ days}$$')], [],
+  r'the conversion used the rounded $2.03$ ($2.03\times365=740.95$); the unrounded $t=2.0279\ldots$ gives $740$ days'),
+ (4203, [(r'The inequality reverses when dividing by $-0.1186$. Rounding to the nearest minute as asked:',
+          r'The inequality reverses when dividing by $-0.1186$. Rounding $24.37$ to the nearest minute gives $24$, but $N(24)\approx105>100$, so round up to the next whole minute:')], [],
+  r'the working said the answer came from rounding to the nearest minute; $24.37$ rounds to $24$, which is too early ($N(24)\approx105$), so it must be rounded up to $25$'),
+]
+for sid, lat, crit, note in C10:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# 2022 Gosford AT4 Q15(ii) sign table: f'(-1) = 8(-1)^3 - 5(-1)^4 = -13, not -12 (the sign, and so the conclusion, was right)
+_r = db.execute("select rows_json from data_tables where id='Ts4321_1'").fetchone()
+if _r and '"-12"' in _r[0]: db.execute("update data_tables set rows_json=? where id='Ts4321_1'", (_r[0].replace('"-12"', '"-13"'),))
 db.commit(); print('done')
