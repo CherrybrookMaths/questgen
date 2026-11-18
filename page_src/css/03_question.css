@@ -35,6 +35,10 @@ table.dt th,table.dt td{border:1px solid var(--line2);padding:5px 8px;text-align
 /* owner 18 Nov (Q0979 "P(X = x)" broke as "P(X" / "= x)", then ran into option A in the PDF): maths in a table cell never breaks
    mid-expression (MathJax 4 breaks long inline maths); words in a cell still wrap, and a wide table shrinks to fit (scaleTables) */
 table.dt mjx-container,table.dt mjx-container mjx-break{white-space:nowrap!important}
+/* checker report 18 Nov (owner: "lets do 2,3,4,6"): "Maths breaks across lines ... '¼ ln 2 − ⅛' breaks in the middle: '− ⅛.' starts the next
+   line". Inline maths moves to the next line whole; only an expression wider than its column may break (.mjx-wrap, set in typeset, 01_core.js) */
+mjx-container:not([display="true"]),mjx-container:not([display="true"]) mjx-break{white-space:nowrap!important}
+mjx-container.mjx-wrap,mjx-container.mjx-wrap mjx-break{white-space:normal!important}
 table.dt thead th{background:var(--bg);font-weight:600}
 table.dt th.rl{background:var(--bg);font-weight:600;text-align:center}   /* owner: label column (x, f(x)) centred like the values */
 table.dt .ln{display:block;line-height:1.3;padding:.18em 0}   /* multi-line header: each line its own row, no overlap */
