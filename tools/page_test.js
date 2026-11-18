@@ -456,8 +456,14 @@ async function flows(browser, base, seed, seedR) {
     assert(rows.length === before.length, `exam panel lists ${rows.length} rows for ${before.length} questions`);
     const wr = await page.evaluate(() => EX.items.filter(i => xq(i).type !== 'mcq'));
     const sw = wr[0], lk = wr[wr.length - 1];
-    await page.click(`#xPanel li[data-xi="${sw}"] [data-xsw]`); await settle(page, 3000, 2);
+    // owner 19 Nov: Swap opens a chooser with the closest questions (each shown in full); "Use this" swaps it in
+    await page.click(`#xPanel li[data-xi="${sw}"] [data-xsw]`); await page.waitForSelector('#swapDlg [data-swuse]', {timeout: 15000});
+    const ch = await page.evaluate(() => ({n: document.querySelectorAll('#swapDlg [data-swuse]').length, cards: document.querySelectorAll('#swapDlg .swaplist .card').length, more: !!document.querySelector('#swapDlg [data-swpick]'), first: +document.querySelector('#swapDlg [data-swuse]').dataset.swuse}));
+    assert(ch.n >= 1 && ch.n <= 6 && ch.cards === ch.n && ch.more, `swap chooser: ${JSON.stringify(ch)}`);
+    const pre = await page.evaluate(() => EX.items.slice()); assert(pre.includes(sw), 'opening the chooser already swapped the question');
+    await page.click('#swapDlg [data-swuse]'); await settle(page, 3000, 2);
     const afterSwap = await page.evaluate(() => EX.items.slice());
+    assert(afterSwap.includes(ch.first) && !(await page.evaluate(() => !document.querySelector('#swapDlg') || document.querySelector('#swapDlg').hidden ? false : true)), `"Use this" did not put QID ${ch.first} in or close the chooser`);
     assert(!afterSwap.includes(sw), `QID ${sw} is still in the exam after Swap`);
     assert(afterSwap.length === before.length, `Swap changed the number of questions (${before.length} → ${afterSwap.length})`);
     const lockId = afterSwap.includes(lk) ? lk : afterSwap.find(i => !before.includes(i));

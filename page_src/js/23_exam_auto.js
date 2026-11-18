@@ -107,13 +107,44 @@ const XG={on:[],off:[],show:false,open:{setup:true,pick:false},src:null,dirty:fa
 function xaRng(seed){let a=seed>>>0;return()=>{a=(a+0x6D2B79F5)>>>0;let t=a;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);return((t^(t>>>14))>>>0)/4294967296}}
 
 /* ---------- swap and lock ---------- */
-function xaSwap(id){const A=xa(),q=xq(id);if(!q)return;const homes=xaHomes(),h=homes.get(id),d=qDiff(q),TS=new Set(A.topics);XA_SWAPPED.add(id);
+// owner 19 Nov: "swap for a similar question is just INSTANTLY replacing it. shouldn't it give options? ... Or they can choose anotehr
+// and the hand pick questions can pop up with teh chosen exam topics?" Swap now opens a chooser (XA_SW): the closest candidates, each
+// shown in full, with "Use this", and "Browse more in Pick by hand" (opens it on the question's subtopic). Closest = same dot point,
+// then same subtopic / focus area / chosen topics, then marks, band and fluency/problem-solving mix (no embeddings: for an exam,
+// "similar" means the same skill at the same size and difficulty, which these fields say directly).
+function xaSwapCands(id){const A=xa(),q=xq(id);if(!q)return [];const homes=xaHomes(),h=homes.get(id),d=qDiff(q),TS=new Set(A.topics);
   const avoid=A.avoid?xaSavedIds():null,L=XG.learnt([...A.topics,...XG.homesOf()]).L;   // owner 17 Nov: "lets do skill gates": never swap in a question that needs a topic not yet learnt
+  const dots=c=>{try{return qiParts(c).flatMap(p=>p.dots.map(x=>x.code)).filter(Boolean)}catch(e){return []}},dq=new Set(dots(q));
   const cands=B.questions.filter(c=>homes.has(c.id)&&c.type===q.type&&!EX.items.includes(c.id)&&!XA_SWAPPED.has(c.id)&&qDiff(c)&&(!A.approved||qState(c)==='approved')&&!repHidden(c)&&!(avoid&&avoid.has(c.id))&&XG.ok(c,L));   // owner 17 Nov: never swap in a reported question
-  if(!cands.length){toast('No other question fits');return}
-  const sc=c=>{const hc=homes.get(c.id),dc=qDiff(c);return (h&&hc.sub===h.sub?0:h&&hc.area===h.area?3:TS.has(hc.sub)?6:12)+2*Math.abs((+c.marks||0)-(+q.marks||0))+1.5*Math.abs(dc.raw-(d?d.raw:3))+Math.abs(dc.pr-(d?d.pr:0))+Math.random()*.3};
-  let best=null,bs=1e9;cands.forEach(c=>{const v=sc(c);if(v<bs){bs=v;best=c}});
-  EX.items[EX.items.indexOf(id)]=best.id;xsave();toast(`Swapped for ${qid(best)}${best.marks!==q.marks?` (${best.marks} marks instead of ${q.marks})`:''}`)}
+  return cands.map(c=>{const hc=homes.get(c.id),dc=qDiff(c),same=dq.size&&dots(c).some(k=>dq.has(k));
+    return {c,same,s:(same?-4:0)+(h&&hc.sub===h.sub?0:h&&hc.area===h.area?3:TS.has(hc.sub)?6:12)+2*Math.abs((+c.marks||0)-(+q.marks||0))+1.5*Math.abs(dc.raw-(d?d.raw:3))+Math.abs(dc.pr-(d?d.pr:0))}})
+    .sort((a,b)=>a.s-b.s)}
+// to: the chosen question (from the chooser); without it the chooser opens
+function xaSwap(id,to){const q=xq(id);if(!q)return;if(to==null){XA_SW.open(id);return}const c=xq(to);if(!c)return;
+  XA_SWAPPED.add(id);EX.items[EX.items.indexOf(id)]=to;xsave();if(typeof EXV!=='undefined'&&EXV.sel===id)EXV.sel=to;
+  toast(`Swapped for ${qid(c)}${c.marks!==q.marks?` (${c.marks} marks instead of ${q.marks})`:''}`);if(document.body.classList.contains('xpv-on'))exRelayout()}
+const XA_SW={id:null,n:6,
+  async open(id,more){const q=xq(id);if(!q)return;const L=xaSwapCands(id);if(!L.length){toast('No other question fits these settings');return}
+    this.id=id;if(!more)this.n=6;let el=$('#swapDlg');if(!el){el=document.createElement('div');el.id='swapDlg';el.className='repscrim';document.body.appendChild(el)}
+    this.prev=document.activeElement;el.hidden=false;document.body.classList.add('rep-on');
+    if(!more)el.innerHTML='<div class="repdlg swapdlg"><p class="muted">Finding similar questions…</p></div>';
+    const show=L.slice(0,this.n);await QG.need(show.map(x=>x.c)).catch(()=>{});if(this.id!==id)return;
+    const sub=xaHomes().get(id)?.sub,subNm=sub?(sub.split('|')[2]||sub):'';
+    el.innerHTML=`<div class="repdlg swapdlg" role="dialog" aria-modal="true" aria-label="Swap ${esc(qid(q))}">
+      <div class="rephd"><div><div class="repeyebrow">Swap ${esc(qid(q))} · ${esc(srcLine(q))} · ${q.marks} mark${q.marks===1?'':'s'}</div><h3>Choose a replacement</h3>
+        <p class="swaphint">Closest first: the same dot point, then the same topic, similar marks and band. ${L.length} question${L.length===1?'':'s'} fit your exam settings.</p></div>
+        <button type="button" class="act ghost" data-swx aria-label="Close">✕</button></div>
+      <ol class="swaplist">${show.map(({c,same})=>{const d=qDiff(c);return `<li data-swq="${c.id}"><div class="swapmeta">${same?'<span class="swapsame">Same dot point</span>':''}<span>${c.marks} mark${c.marks===1?'':'s'}${d?' · Band '+d.raw.toFixed(1)+' · '+(d.pr>=.5?'Problem solving':'Fluency'):''}</span>${EXAS.usedTag(c)}<button type="button" class="act ok" data-swuse="${c.id}">Use this</button></div>${cardHTML(c)}</li>`}).join('')}</ol>
+      <div class="swapfoot">${L.length>this.n?`<button type="button" class="act" data-swmore>Show ${Math.min(6,L.length-this.n)} more</button>`:''}<button type="button" class="linkbtn" data-swpick="${esc(sub||'')}">Browse ${subNm?'“'+esc(subNm)+'”':'more'} in Pick by hand</button></div></div>`;
+    el.querySelectorAll('[data-swq]').forEach(li=>{const c=xq(+li.dataset.swq),card=li.querySelector('.card');if(card)hydrate(card,c,'bank')});typeset(el);
+    (el.querySelector('[data-swuse]')||el.querySelector('[data-swx]'))?.focus({preventScroll:true})},
+  close(){const el=$('#swapDlg');if(el){el.hidden=true;el.innerHTML=''}document.body.classList.remove('rep-on');this.id=null;try{this.prev?.focus()}catch(e){}}};
+document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest('#swapDlg'))return;e.stopImmediatePropagation();
+  if(t.id==='swapDlg'||t.closest('[data-swx]')){XA_SW.close();return}
+  const u=t.closest('[data-swuse]');if(u){const id=XA_SW.id;XA_SW.close();xaSwap(id,+u.dataset.swuse);return}
+  if(t.closest('[data-swmore]')){XA_SW.n+=6;XA_SW.open(XA_SW.id,true);return}
+  const pk=t.closest('[data-swpick]');if(pk){XA_SW.close();if(document.body.classList.contains('xpv-on'))exClosePv();EXV.view='pick';if(pk.dataset.swpick)EXV.pk.topic=pk.dataset.swpick;exSaveView();location.hash='#exams';renderExams();return}},true);
+addEventListener('keydown',e=>{if(e.key==='Escape'&&XA_SW.id!=null){e.preventDefault();e.stopImmediatePropagation();XA_SW.close()}},true);
 function xaLock(id){const A=xa(),i=A.locked.indexOf(id);if(i>=0)A.locked.splice(i,1);else A.locked.push(id);xaSave();xPanel()}
 
 /* ---------- swap / lock on the exam panel (xPanel in 20_exam.js) ---------- */

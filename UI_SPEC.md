@@ -400,6 +400,12 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   back page, add an intentional blank marked page where needed"**: an exam paper with an even page count gets "This page is intentionally
   left blank." after its last question page (the z-score table and reference sheet stay last). The Word file paginates itself, so this
   holds for the preview, PDF and HTML download only.
+- **19 Nov (owner): "math should render properly in the grading tab"**: the grading panel's "Why it was rated this way" lines (plain text
+  from the rater) show powers as superscripts, sqrt as √, Greek names and ≤ ≥ ≠ as symbols (exMathText). **"Also swap for a similar
+  question is just INSTANTLY replacing it. shouldn't it give options? ... Or they can choose anotehr and the hand pick questions can pop
+  up with teh chosen exam topics?"**: Swap (⇄ in the exam panel, "Swap for a similar question…" in the grading panel) opens a chooser
+  with the 6 closest questions in full (same dot point first, then same topic, marks, band, kind; "Used in" tags), "Use this", "Show 6
+  more", and "Browse <subtopic> in Pick by hand". No vector database: for an exam, similar means the same skill, size and difficulty.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

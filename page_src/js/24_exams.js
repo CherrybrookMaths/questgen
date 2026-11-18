@@ -33,6 +33,10 @@ function exEst(q){if(_ee.has(q.id))return _ee.get(q.id);
       return {id:p.id,lab:exPath(q,p),m,b,ps:isP,r:p.dif.r||''}});
     const m=fl+ps;r={m,fl,ps,dF:fl?wF/fl:null,dP:ps?wP/ps:null,d:(wF+wP)/(m||1),kind:ps<=1e-9?'Fluency':fl<=1e-9?'Problem solving':'Mixed',parts}}
   _ee.set(q.id,r);return r}
+// owner 19 Nov ("math should render properly in the grading tab"): the difficulty reasons are plain text written by the rater ("a^(-0.4t)",
+// "sqrt2", "theta=pi/4"): powers become superscripts, sqrt a root sign, Greek names and <= >= != their symbols
+const exMathText=s=>esc(s).replace(/&lt;=/g,'≤').replace(/&gt;=/g,'≥').replace(/!=/g,'≠').replace(/\b(theta|alpha|beta|lambda|sigma|mu|phi)\b/g,m=>({theta:'θ',alpha:'α',beta:'β',lambda:'λ',sigma:'σ',mu:'μ',phi:'φ'})[m]).replace(/\bpi\b/g,'π').replace(/\binf(inity)?\b/g,'∞')
+  .replace(/sqrt\s*\(([^()]*)\)/g,'√<span class="ovl">$1</span>').replace(/sqrt\s*([\w.]+)/g,'√$1').replace(/\^\(([^()]*)\)/g,'<sup>$1</sup>').replace(/\^(-?[\w.]+)/g,'<sup>$1</sup>');
 const fmtM=m=>Number.isInteger(m)?String(m):String(+m.toFixed(1));
 
 /* ---------- pool ---------- */
@@ -496,8 +500,8 @@ function exGrading(){const el=$('#exGSide');if(!el)return;const qs=EX.items.map(
     return `<div class="gdet"><div class="gsrc">${esc(srcLine(q))} · ${qid(q)} · ${q.marks} mark${q.marks===1?'':'s'}</div>${EXAS.usedTag(q)}
       <div class="glab">Band ${e.d.toFixed(1)} overall · ${fmtM(e.fl)} fluency, ${fmtM(e.ps)} problem-solving mark${e.ps===1?'':'s'}</div>${gdots(q)}
       <table class="gparts"><thead><tr><th>Part</th><th>Marks</th><th>Kind</th><th>Band</th></tr></thead><tbody>${e.parts.map(x=>`<tr><td>${esc(x.lab||'Whole')}</td><td>${fmtM(x.m)}</td><td>${x.ps?'Problem solving':'Fluency'}</td><td>${x.b}</td></tr>`).join('')}</tbody></table>
-      <div class="gwhy"><b>Why it was rated this way</b><ul>${e.parts.filter(x=>x.r).map(x=>`<li>${multi&&x.lab?`<span class="pp">${esc(x.lab)}</span> `:''}${esc(x.r)}</li>`).join('')||'<li>No reason recorded.</li>'}</ul></div>
-      <div class="gacts"><button type="button" class="act" data-gswap="${q.id}">Swap for a similar question</button>${(()=>{const k=repOpen().filter(r=>r.question_id===q.id).length;   // owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well"
+      <div class="gwhy"><b>Why it was rated this way</b><ul>${e.parts.filter(x=>x.r).map(x=>`<li>${multi&&x.lab?`<span class="pp">${esc(x.lab)}</span> `:''}${exMathText(x.r)}</li>`).join('')||'<li>No reason recorded.</li>'}</ul></div>
+      <div class="gacts"><button type="button" class="act" data-gswap="${q.id}">Swap for a similar question…</button>${(()=>{const k=repOpen().filter(r=>r.question_id===q.id).length;   // owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well"
         return `<button type="button" class="act" data-grep="${q.id}" title="${esc(qiLabel(k))}">${k?`Reported (${k})`:'Report'}</button>`})()}</div></div>`};
   el.innerHTML=`<div class="gtop"><h3>Question grading</h3><button type="button" class="linkbtn" id="exGClose">Hide</button></div><div class="gsub">Click a question on the paper, or in this list.</div>
     <div class="gsum"><div class="f"><b>${fmtM(F)} marks</b>Fluency${F?` · average band ${(wF/F).toFixed(1)}`:''}</div><div class="p"><b>${fmtM(P)} marks</b>Problem solving${P?` · average band ${(wP/P).toFixed(1)}`:''}</div></div>
@@ -553,7 +557,7 @@ document.addEventListener('click',e=>{const t=e.target;
     if(t.closest('#exPvRegen')){const b=t.closest('#exPvRegen');if(b.disabled)return;const r=exGenerate();if(r){EXC.clear();xPreview(EXV.doc);toast(`New exam · ${r.n} questions · ${r.marks} marks`)}return}
     if(t.closest('#xPvClose')){e.stopImmediatePropagation();exClosePv();return}
     const gr=t.closest('[data-grep]');if(gr){const id=+gr.dataset.grep;repForm(id,String(EX.items.indexOf(id)+1));return}
-    const gs=t.closest('[data-gswap]');if(gs){xaSwap(+gs.dataset.gswap);const nid=EX.items.find(i=>!document.querySelector(`#exGSide [data-gqli="${i}"]`));if(nid)EXV.sel=nid;exRelayout();return}
+    const gs=t.closest('[data-gswap]');if(gs){xaSwap(+gs.dataset.gswap);return}   // opens the chooser (XA_SW); the swap re-lays out and selects the new question
     const mv=t.closest('[data-gmv]');if(mv){if(!mv.disabled)exMove(+mv.dataset.id,+mv.dataset.gmv);return}
     const gq=t.closest('[data-gq]');if(gq){exSelect(+gq.dataset.gq,'list');return}
     const pq=t.closest('#xPages .xq');if(pq){exSelect(+pq.dataset.q,'paper');return}
