@@ -141,7 +141,11 @@ if __name__ == '__main__':
         for k, h in man.items():
             p = SITE / k
             if not p.exists(): bad.append(f'{k} missing')
-            elif k.startswith(('data/img/', 'data/svg/', 'data/cmp/', 'data/check/')) and sha(p) != h: diff.append(k)
+            elif k.startswith(('data/img/', 'data/svg/', 'data/cmp/', 'data/check/')) and sha(p) != h:
+                # 19 Nov: older than the manifest = another session published a newer copy (the night run's v266 dropped 109 overlays from
+                # data/cmp/g0.json; this checkout still held them and a publish was refused). Only a copy fetched after it is a byte-order note
+                if p.stat().st_mtime < MAN.stat().st_mtime: bad.append(f'{k} is an older copy than the live one: re-read it (Artifact read, `path` = {k}) and --place')
+                else: diff.append(k)
         am = asset_missing(); bad += [f'{k} (asset store) missing' for k, _ in am]
         st = asset_stale(); bad += [f'{k} (asset store) is an older copy: re-read id {i}, then --place-assets' for k, i in st]
         rm = removed_live()

@@ -2,18 +2,19 @@
    owner 14 Nov: "Making the exam should be on another page, and it should operate similar to the html file I gave you."
    He chose: a new tab in Questgen; all of Setup page, Preview + grading panel, Edit on the paper, Pick by hand view.
    Mirrors his HSC Advanced Exam Maker: Exam setup (topic tiles, sliders, availability table, Generate) | Pick by hand
-   (topics | question cards | exam panel), and a full-screen A4 preview with a grading panel, Fit pages, Regenerate, Swap,
+   (topics | question cards | exam panel), and a full-screen A4 preview with a grading panel, Regenerate, Swap,
    editable cover, answer lines and diagram sizes. The side drawer from stage 1/2 is replaced: the header "Exam · N" pill
    now opens this page. Difficulty: band 2-6 and fluency (UF) / problem solving (PR) per part, from DIFFICULTY_SPEC. */
 const EXV={view:(()=>{try{return localStorage.getItem('ex_view')||'setup'}catch(e){return 'setup'}})(),
   pk:{topic:'all',q:'',paper:'all',type:'all',marks:'all',sort:'new',band:'all',wm:'all',fig:false,hide:false,limit:20},
-  open:new Set(),pkOpen:new Set(),sel:null,doc:'exam',grade:true,fit:false,fitMsg:false,built:false,moved:null};
+  open:new Set(),pkOpen:new Set(),sel:null,doc:'exam',grade:true,built:false,moved:null};
 const exSaveView=()=>{try{localStorage.setItem('ex_view',EXV.view)}catch(e){}};
 
 /* ---------- settings (kept in EX.auto with the stage-2 fields) ---------- */
 function exA(){const A=xa();if(!A.src||typeof A.src!=='object')A.src={hsc:true,trial:true,school:true};
-  // owner 14 Nov: "remove Skip questions used in my other saved exams for now" - the option is gone and never applied
-  A.avoid=false;
+  // owner 19 Nov (questions used before): "avoid them but if used, should show WHERE in the past they were used" - skipping questions
+  // already in a saved exam is back, on unless unticked (supersedes 14 Nov "remove Skip questions used in my other saved exams for now")
+  if(!A.avoidSet)A.avoid=true;   // saved settings from before 19 Nov hold avoid:false (it was forced off): on until ticked off here
   if(A.dF==null)A.dF=3.2;if(A.dP==null)A.dP=4.2;if(A.title==null)A.title='';if(A.last===undefined)A.last=null;
   if(!EX.lines||typeof EX.lines!=='object')EX.lines={};if(!EX.figscale||typeof EX.figscale!=='object')EX.figscale={};return A}
 const exSrc=q=>{const t=B.docs[q.doc]?.task_type;return t==='hsc'?'hsc':t==='trial'?'trial':'school'};
@@ -91,7 +92,7 @@ function exGenerate(){const A=exA();if(!A.topics.length){toast('Choose at least 
   EX.items=[...mc,...wr].map(q=>q.id);EX.sub=A.title||exAutoTitle(A);
   const st=exStats(S,homes,null);A.ran=true;A.tpr=T.s;
   A.last={n:S.length,marks:st.marks,F:st.fl,P:st.ps,dF:st.dF,dP:st.dP,nM:st.mcq,topics:new Set(S.map(q=>homes.get(q.id)?.sub).filter(Boolean)).size,chosen:A.topics.length,warns:exWarn(A,st,pool)};
-  A.warns=A.last.warns;XA_SWAPPED.clear();EXV.fit=true;xsave();return A.last}
+  A.warns=A.last.warns;XA_SWAPPED.clear();xsave();return A.last}
 function exWarn(A,st,pool){const w=[],mN=pool.filter(q=>q.type==='mcq').length,wM=pool.filter(q=>q.type!=='mcq').reduce((t,q)=>t+(+q.marks||0),0);
   if(st.mcq<A.mcq)w.push(`Only ${mN} multiple-choice question${mN===1?'':'s'} match these topics, so Section I has ${st.mcq}.`);
   if(st.marks!==A.total)w.push(wM<A.total-A.mcq?`These topics only have ${wM} marks of written questions, so the exam has ${st.marks} marks instead of ${A.total}. Add topics or lower the total.`:`The closest found is ${st.marks} marks (target ${A.total}). Press Regenerate, or add a topic.`);
@@ -127,7 +128,11 @@ function exHead(){const n=EX.items.length,m=xMarks(EX.items.map(xq).filter(Boole
   // head: Saved / Unsaved marker + Save button (owner: don't lose a generated exam by clicking away); exmState is in 25_mine.js
   if(!s)return;let b=$('#exSaveSt');
   if(!b){s.insertAdjacentHTML('afterend','<span class="exm-st" id="exSaveSt"></span>');b=$('#exSaveSt')}
-  const st=exmState();b.dataset.st=st;b.innerHTML=st==='saved'?'✓ Saved':st==='new'||st==='changed'?`${st==='new'?'Not saved':'Unsaved changes'} <button type="button" class="linkbtn" data-exm-save>Save</button>`:''}
+  // owner 19 Nov: the open exam's name and state, on every Exams view ("can't tell which exam we're inside or if we're making a new one")
+  const st=exmState(),nm=esc(EXAS.name()),when=EXAS.at?EXAS.at.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}):'';b.dataset.st=st||'empty';
+  b.innerHTML=!n?`<b>New exam</b> · add questions to start`
+    :`<b>${EX.id?'Editing':'New exam'}:</b> ${nm} · ${st==='saved'?`<span class="exst-ok">✓ Saved${when?' '+when:''}</span>`:!db?'kept in this browser (saving needs claude.ai)':EXAS.busy?'Saving…':`<span class="exst-wait">Saving…</span> <button type="button" class="linkbtn" data-exm-save>Save now</button>`}
+      <span class="exst-acts"><button type="button" class="linkbtn" data-exm-copy${EX.id?'':' hidden'}>Save as a copy</button><button type="button" class="linkbtn" data-exm-fresh>New exam</button></span>`}
 function exRefresh(){if(view!=='exams')return;if(EXV.view==='mine'){renderMine();exHead();return}if(EXV.view==='setup'){exTopics();exAvail()}else{exSideNav();exList()}exHead()}
 
 /* ---------- Setup ---------- */
@@ -146,6 +151,7 @@ function renderSetup(){const A=exA();
         ${sliderCtl('gMcq','Multiple choice',0,10,1,Math.min(10,A.mcq),['None','10'],'Placed first as Section I, 1 mark each.')}
         <div class="ctl"><div class="lab"><span id="gSrcL">Papers to draw from</span></div><div class="srcseg" role="group" aria-labelledby="gSrcL">${EX_SRC.map(([k,l])=>`<button type="button" data-src="${k}" aria-pressed="${!!A.src[k]}">${l}</button>`).join('')}</div></div>
         <label class="exck"><input type="checkbox" id="gApproved"${A.approved?' checked':''}> Approved questions only</label>
+        <label class="exck"><input type="checkbox" id="gAvoid"${A.avoid?' checked':''}> Skip questions already in my saved exams</label>
       </div>
       <div class="group"><h3>Difficulty</h3>
         ${sliderCtl('gAll','Overall',2,6,0.1,exOverall(A),['Band 2','Band 6'],'Moves both difficulty sliders below together.')}
@@ -269,7 +275,8 @@ function exList(reset=true){const box=$('#exCards');if(!box)return;const F=EXV.p
   const have=new Set($$('#exCards > .card').map(c=>+c.dataset.q));
   if(reset){box.innerHTML='';have.clear()}
   const add=show.filter(q=>!have.has(q.id)),tmp=document.createElement('div');tmp.innerHTML=add.map(cardHTML).join('');
-  [...tmp.children].forEach(c=>{box.appendChild(c);const q=xq(+c.dataset.q);hydrate(c,q,'bank');TSIO.observe(c);XG.note(c,q,EXV.gate.g.L)});
+  [...tmp.children].forEach(c=>{box.appendChild(c);const q=xq(+c.dataset.q);hydrate(c,q,'bank');TSIO.observe(c);XG.note(c,q,EXV.gate.g.L);
+    const u=EXAS.usedTag(q);if(u)c.insertAdjacentHTML('afterbegin',`<div class="exusedrow">${u}</div>`)});   // owner 19 Nov: where it was used before
   if(!EXCUR.length)box.innerHTML='<div class="exempty">No questions match. Try another topic or clear a filter.</div>';
   $('#exMore').hidden=EXCUR.length<=F.limit;$('#exMore').textContent=`Show more (${EXCUR.length-F.limit} left)`}
 
@@ -344,19 +351,8 @@ function xCover(mc,wr){exA();const tot=xMarks(mc)+xMarks(wr),homes=xaHomes();if(
 /* ---------- preview: A4 sheets, grading panel, Fit pages ---------- */
 const EXC=new Map();   // typeset question bodies, so re-laying out after an edit only typesets what changed
 const exCKey=(q,doc)=>doc+'|'+q.id+'|'+JSON.stringify(Object.entries(EX.lines||{}).filter(([k])=>k.startsWith(q.id+':')))+'|'+JSON.stringify(figKeys(q).all.map(k=>EX.figscale?.[k]||1));
-function exFitOrder(els,bl,H){let used=0,moved=0;const out=[];
-  const runFit=run=>{const rem=[...run];while(rem.length){const x=rem[0];if(used+x.h<=H){out.push(x.id);rem.shift();used+=x.h;continue}
-    const free=H-used;if(free>.22*H){let best=-1;for(let k=1;k<=3&&k<rem.length;k++){const y=rem[k];if(y.h<=free&&(best<0||y.h>rem[best].h))best=k}
-      if(best>0){const y=rem.splice(best,1)[0];out.push(y.id);used+=y.h;moved++;continue}}
-    if(x.h<=H)used=x.h;else{let left=x.h-free;while(left>H)left-=H;used=left}out.push(x.id);rem.shift()}};
-  let run=[];els.forEach((el,i)=>{const b=bl[i],h=el.getBoundingClientRect().height+(parseFloat(getComputedStyle(el).marginBottom)||0);
-    if(b.q){run.push({id:b.q.id,h});return}if(run.length){runFit(run);run=[]}
-    if(b.cover||b.newpage)used=b.cover?H:h;else if(used+h>H)used=h;else used+=h});
-  if(run.length)runFit(run);return {ids:out,moved}}
-// hardening 14 Nov (page test): cut a piece of a question that is still taller than a page INSIDE a part. Find the deepest
-// container whose stacked children run past the page; its later children (and the later siblings of every container above
-// it) move to a "(continued)" piece. Shallow copies of the wrappers keep the layout: a part keeps its grid, with empty label
-// and marks columns, and a worked solution keeps its rule. Maths, images and tables are never cut.
+// owner 19 Nov: "I have no idea what fit pages does" -> asked, "Remove it": questions stay in the order set (Fit pages, which swapped
+// nearby questions to fill pages after Generate or on request, is gone)
 const exBlockish=el=>{if(/^(mjx-|svg$|img$|table$|figure$|canvas$)/i.test(el.tagName))return false;const d=getComputedStyle(el).display;return ['block','grid','flex','list-item','flow-root'].includes(d)};
 // fix 13 Nov (exam pools): a worked solution's text is often ONE inline span holding inline maths, display maths and line
 // breaks (span.pbr). It may be cut too, at a line boundary between its children, so it counts as a container that can be cut
@@ -411,7 +407,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!opts.keep||!$('#xPages')){
     ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button></div>
       <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span>
-      <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Grading</button><button class="act" id="exPvSetup">Back to setup</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table</button><button class="act" id="exPvFit" title="Swap nearby questions so pages are not left mostly empty">Fit pages</button>
+      <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Grading</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table</button>
       <button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvSwap">Swap questions</button>
       <button class="act ok" id="xDl" disabled>Download to print</button><button class="act ghost" id="xPvClose">Close</button></div>
       <div class="expvbody"><div class="xpages" id="xPages"></div><aside class="expvside" id="exGSide" aria-label="Question grading"></aside></div>`}
@@ -437,10 +433,6 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     for(let pt=8.5;tt&&pt>=6.5&&cv.getBoundingClientRect().height>H*0.98;pt-=0.5)tt.style.fontSize=pt+'pt';
     // still too tall (many topics): the whole cover is scaled down to fit its sheet
     const xc=cv&&cv.querySelector('.xcover'),hh=cv&&cv.getBoundingClientRect().height;if(xc&&hh>H*0.98)xc.style.zoom=String(Math.floor(H*0.97/hh*1000)/1000)}
-  // Fit pages (owner's exam maker): after Generate or on request, nearby questions (at most 3 places, same section) swap so a page isn't left mostly empty
-  if(EXV.fit&&doc==='exam'){EXV.fit=false;const {ids,moved}=exFitOrder([...meas.children],bl,H),cur=EX.items.slice();
-    if(ids.length===cur.length&&ids.join()!==cur.join()){EX.items=ids;xsave();meas.remove();if(EXV.fitMsg){toast(`Moved ${moved} question${moved===1?'':'s'} to fill the pages better`);EXV.fitMsg=false}return xPreview(doc,{keep:true})}
-    if(EXV.fitMsg){toast('The pages already fit well');EXV.fitMsg=false}}
   // a question taller than a page is cut between its parts; later pieces say "(continued)"
   let els=[...meas.children];const bl2=[];
   // 18 Nov: a question straight after a section heading shares the heading's sheet (a heading never ends a sheet alone), so its first
@@ -495,7 +487,7 @@ function exGrading(){const el=$('#exGSide');if(!el)return;const qs=EX.items.map(
   // paper's ⓘ card), "where they belong"
   const gdots=q=>`<div class="gdots"><b>Dot points</b>${qiDotsList(q,'gdotl')}</div>`;
   const det=q=>{const e=exEst(q);if(!e)return `<div class="gdet"><div class="gsrc">${esc(srcLine(q))} · ${qid(q)}</div><div class="glab">Not rated yet.</div>${gdots(q)}</div>`;const multi=e.parts.length>1;
-    return `<div class="gdet"><div class="gsrc">${esc(srcLine(q))} · ${qid(q)} · ${q.marks} mark${q.marks===1?'':'s'}</div>
+    return `<div class="gdet"><div class="gsrc">${esc(srcLine(q))} · ${qid(q)} · ${q.marks} mark${q.marks===1?'':'s'}</div>${EXAS.usedTag(q)}
       <div class="glab">Band ${e.d.toFixed(1)} overall · ${fmtM(e.fl)} fluency, ${fmtM(e.ps)} problem-solving mark${e.ps===1?'':'s'}</div>${gdots(q)}
       <table class="gparts"><thead><tr><th>Part</th><th>Marks</th><th>Kind</th><th>Band</th></tr></thead><tbody>${e.parts.map(x=>`<tr><td>${esc(x.lab||'Whole')}</td><td>${fmtM(x.m)}</td><td>${x.ps?'Problem solving':'Fluency'}</td><td>${x.b}</td></tr>`).join('')}</tbody></table>
       <div class="gwhy"><b>Why it was rated this way</b><ul>${e.parts.filter(x=>x.r).map(x=>`<li>${multi&&x.lab?`<span class="pp">${esc(x.lab)}</span> `:''}${esc(x.r)}</li>`).join('')||'<li>No reason recorded.</li>'}</ul></div>
@@ -548,11 +540,10 @@ document.addEventListener('click',e=>{const t=e.target;
       return}
     if(t.closest('#exGrade')){EXV.grade=!EXV.grade;$('#xPv').classList.toggle('grade-off',!EXV.grade);t.closest('#exGrade').setAttribute('aria-pressed',String(EXV.grade));exZoom();return}
     if(t.closest('#exGClose')){EXV.grade=false;$('#xPv').classList.add('grade-off');$('#exGrade')?.setAttribute('aria-pressed','false');exZoom();return}
-    if(t.closest('#exPvSetup')){exClosePv();EXV.view='setup';exSaveView();location.hash='#exams';renderExams();return}
     if(t.closest('#exPvSwap')){exClosePv();EXV.view='pick';exSaveView();location.hash='#exams';renderExams();return}
     // owner 18 Nov: "Give an option to toggle that table on and off" (saved with the exam: EX.bytopic, on unless set to false)
     if(t.closest('#exPvTopic')){EX.bytopic=EX.bytopic===false;xsave();t.closest('#exPvTopic').setAttribute('aria-pressed',String(EX.bytopic!==false));exRelayout();return}
-    if(t.closest('#exPvFit')){if(EXV.doc!=='exam'){toast('Switch to the exam paper to fit its pages');return}EXV.fit=true;EXV.fitMsg=true;exRelayout();return}
+    if(t.closest('#exPvRegen')&&!t.closest('#exPvRegen').dataset.ok){const b=t.closest('#exPvRegen');if(b.disabled)return;EXAS.guard(b,'Regenerate',()=>{b.dataset.ok=1;b.click();delete b.dataset.ok});return}
     if(t.closest('#exPvRegen')){const b=t.closest('#exPvRegen');if(b.disabled)return;const r=exGenerate();if(r){EXC.clear();xPreview(EXV.doc);toast(`New exam · ${r.n} questions · ${r.marks} marks`)}return}
     if(t.closest('#xPvClose')){e.stopImmediatePropagation();exClosePv();return}
     const gr=t.closest('[data-grep]');if(gr){const id=+gr.dataset.grep;repForm(id,String(EX.items.indexOf(id)+1));return}
@@ -564,6 +555,7 @@ document.addEventListener('click',e=>{const t=e.target;
   if(!t.closest('#examsView'))return;
   const v=t.closest('[data-exv]');if(v){EXV.view=v.dataset.exv;exSaveView();renderExams();window.scrollTo({top:0});return}
   const pv=t.closest('[data-expv]');if(pv){if(!EX.items.length){toast('Add questions first');return}xPreview(pv.dataset.expv);return}
+  if(t.id==='gGo'&&!t.dataset.ok){EXAS.guard(t,'Generating a new exam',()=>{t.dataset.ok=1;t.click();delete t.dataset.ok});return}
   if(t.id==='gGo'){const r=exGenerate();if(!r)return;if(!r.n){toast('No questions match. Choose more topics or papers.');return}EXC.clear();exResult();exLabels();exHead();xPreview('exam');return}
   const ex=t.closest('[data-texp]');if(ex){const k=ex.dataset.texp;EXV.open.has(k)?EXV.open.delete(k):EXV.open.add(k);exTopics();return}
   const tree=()=>xaTree(),A=exA();
@@ -593,6 +585,7 @@ document.addEventListener('input',e=>{const t=e.target;if(!t.closest)return;
     if(t.id==='fq'){EXV.pk.q=t.value.trim();clearTimeout(t._h);t._h=setTimeout(()=>exList(),180);return}}});
 document.addEventListener('change',e=>{const t=e.target;if(!t.closest||!t.closest('#examsView'))return;const A=exA();
   if(t.id==='gApproved'){A.approved=t.checked;xaSave();exTopics();exAvail();return}
+  if(t.id==='gAvoid'){A.avoid=t.checked;A.avoidSet=true;xaSave();exTopics();exAvail();return}
   if(t.matches('[data-xlshow]')){XG.show=t.checked;exRefresh();return}
   const m={fpaper:'paper',ftype:'type',fmarks:'marks',fsort:'sort',fband:'band',fwm:'wm'};if(m[t.id]){EXV.pk[m[t.id]]=t.value;exList();return}
   if(t.id==='ffig'){EXV.pk.fig=t.checked;exList();return}if(t.id==='fhide'){EXV.pk.hide=t.checked;exList();return}});

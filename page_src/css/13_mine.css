@@ -28,9 +28,16 @@
 .exm-sure{font-size:13px;font-weight:600;color:var(--bad)}
 .exm-ren{display:flex;flex-wrap:wrap;gap:6px}.exm-ren input{flex:1 1 200px;min-width:0;min-height:36px;padding:4px 10px;border:1px solid var(--accent);border-radius:8px;background:var(--bg);color:var(--ink);font:600 16px var(--display)}
 .exm-empty{border:1px dashed var(--line2);border-radius:8px;padding:32px 16px;text-align:center;color:var(--muted)}
-.exm-st{font-size:13px;color:var(--muted);white-space:nowrap}
-.exm-st[data-st="new"],.exm-st[data-st="changed"]{color:var(--warn);font-weight:600}
-.exm-st[data-st="saved"]{color:var(--ok)}
-.exm-st .linkbtn{margin-left:4px}
+/* owner 19 Nov: the open exam's name and state on every Exams view */
+.exm-st{font-size:13px;color:var(--ink);display:inline-flex;flex-wrap:wrap;align-items:baseline;gap:2px 6px;min-width:0}
+.exm-st b{font-weight:600}.exm-st .exst-ok{color:var(--ok);font-weight:600}.exm-st .exst-wait{color:var(--warn);font-weight:600}
+.exm-st .exst-acts{display:inline-flex;gap:10px;margin-left:6px}.exm-st .linkbtn{font-size:13px}
+/* where a question was used before (owner 19 Nov: "should show WHERE in the past they were used") */
+.exused{display:inline-block;font-size:12px;line-height:1.35;color:var(--warn);background:color-mix(in srgb,var(--warn) 9%,transparent);border:1px solid color-mix(in srgb,var(--warn) 30%,transparent);border-radius:999px;padding:1px 8px;margin:3px 0}
+.exusedrow{padding:6px 12px 0}
+/* asking before the questions of a saved exam are replaced */
+.exask{margin:8px 0;padding:10px 12px;border:1px solid var(--warn);border-radius:10px;background:var(--panel);font-size:13px}
+.exask p{margin:0 0 8px}.exask div{display:flex;flex-wrap:wrap;gap:8px}
+.xmpmh{font-size:12px;color:var(--muted);align-self:end;padding-bottom:6px}
 @media (max-width:640px){.exm-top h2{font-size:24px}.exm-row{padding:12px}.exm-acts{width:100%;display:grid;grid-template-columns:repeat(6,1fr)}.exm-acts>*{grid-column:span 2;justify-content:center}.exm-acts [data-exm-open],.exm-acts [data-exm-pv]{grid-column:span 3}.exm-acts .exm-sure{grid-column:1/-1}.exm-acts [data-exm-delok],.exm-acts [data-exm-delx]{grid-column:span 3}}
 

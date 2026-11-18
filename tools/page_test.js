@@ -136,6 +136,8 @@ function fakeClaude(arg) {
 /* ---------------- checks ---------------- */
 const checks = [];
 let outside = [];
+// owner 19 Nov: Generate / Regenerate on a saved exam asks first ("Make a new exam instead" / "Replace them"); the existing checks replace
+async function genClick(p, sel) { await p.click(sel); const a = await p.waitForSelector('#exAsk [data-ask="replace"]', {timeout: 1500}).catch(() => null); if (a) await a.click() }
 async function check(name, page, fn) {
   const t = Date.now(); let ok = true, detail = '', shot = null;
   try { detail = (await fn()) || '' } catch (e) { ok = false; detail = String(e && e.message || e).split('\n')[0].slice(0, 600) }
@@ -336,7 +338,7 @@ async function flows(browser, base, seed, seedR) {
     await page.click('[data-sall="all"]'); await settle(page, 2000, 2);
     await page.evaluate(() => { for (const [id, v] of [['gMarks', 60], ['gMcq', 6]]) { const el = document.getElementById(id); el.value = v; el.dispatchEvent(new Event('input', {bubbles: true})) } });
     const lab = await page.evaluate(() => [document.querySelector('#gMarksV')?.textContent, document.querySelector('#gMcqV')?.textContent]);
-    await page.click('#gGo'); await waitPv();
+    await genClick(page, '#gGo'); await waitPv();
     gen = await page.evaluate(() => { const qs = EX.items.map(xq).filter(Boolean); return {n: qs.length, marks: qs.reduce((t, q) => t + (+q.marks || 0), 0), mcq: qs.filter(q => q.type === 'mcq').length, last: exA().last, info: document.querySelector('#xInfo').textContent} });
     errs();
     assert(gen.marks === 60, `total marks ${gen.marks}, expected 60 (sliders said ${lab.join(', ')}; warnings: ${(gen.last?.warns || []).join(' ')})`);
@@ -464,7 +466,7 @@ async function flows(browser, base, seed, seedR) {
     assert(locked.inA && locked.pressed === 'true', `Lock did not stick: ${JSON.stringify(locked)}`);
     assert(locked.swapOff, 'Swap is still enabled on the locked row');
     await page.click('#exPvBtn'); await waitPv();
-    await page.click('#exPvRegen'); await page.waitForFunction(() => /New exam/.test(document.querySelector('#toast')?.textContent || ''), null, {timeout: 30000}); await waitPv();
+    await genClick(page, '#exPvRegen'); await page.waitForFunction(() => /New exam/.test(document.querySelector('#toast')?.textContent || ''), null, {timeout: 30000}); await waitPv();
     const after = await page.evaluate(() => EX.items.slice());
     const same = after.filter(i => afterSwap.includes(i)).length;
     errs(); assert(after.includes(lockId), `locked QID ${lockId} is gone after Regenerate`);
@@ -506,6 +508,44 @@ async function flows(browser, base, seed, seedR) {
     const doc = await dbGet('exams/' + saved), row = await page.evaluate(id => !!document.querySelector(`#exMine [data-exm="${id}"]`), saved);
     errs(); assert(!doc, 'still in the database'); assert(!row, 'still listed');
     return 'deleted';
+  });
+  // owner 19 Nov: the exam saves itself, Generate on a saved exam asks first, questions in other saved exams are skipped and say where
+  // they were used, and the working time follows marks x 1.8 minutes
+  await check('exams: the open exam saves itself, and Generate on it asks before replacing its questions', page, async () => {
+    await page.click('[data-exv="setup"]'); await settle(page, 1500, 2);
+    const del = await page.evaluate(() => ({id: EX.id || null, n: EX.items.length}));
+    assert(!del.id && !del.n, `deleting the open exam left ${JSON.stringify(del)} (it would come back as a new exam)`);
+    const skip = await page.evaluate(() => document.querySelector('#gAvoid')?.checked);
+    assert(skip === true, '"Skip questions already in my saved exams" is not ticked on a new exam');
+    await page.click('[data-sall="all"]'); await settle(page, 1500, 2);   // a new exam starts with no topics chosen
+    await genClick(page, '#gGo'); await settle(page, 2500, 2);
+    await page.waitForFunction(() => EX.id && window.__pt.store.has('exams/' + EX.id), null, {timeout: 8000});
+    await settle(page, 1500, 2);
+    const a = await page.evaluate(() => ({id: EX.id, n: EX.items.length, bar: (exHead(), document.querySelector('#exSaveSt')?.innerText || '')}));
+    assert(a.n > 0 && /Saved/.test(a.bar), `after Generate: ${JSON.stringify(a)}`);
+    await page.click('#xPvClose'); await settle(page, 1500, 2);   // Generate opens the preview
+    await page.click('#gGo'); await page.waitForSelector('#exAsk', {timeout: 3000});
+    const ask = await page.evaluate(() => document.querySelector('#exAsk').innerText);
+    await page.click('#exAsk [data-ask="x"]');
+    const kept = await page.evaluate(() => ({id: EX.id, n: EX.items.length}));
+    assert(/replaces the \d+ questions/.test(ask) && kept.id === a.id && kept.n === a.n, `Cancel changed the exam: ${JSON.stringify(kept)} (${ask})`);
+    await page.click('#gGo'); await page.click('#exAsk [data-ask="new"]'); await settle(page, 2500, 2);
+    if (await page.$('#xPvClose')) { await page.click('#xPvClose'); await settle(page, 1000, 2) }
+    await page.waitForFunction(id => EX.id && EX.id !== id && window.__pt.store.has('exams/' + EX.id), a.id, {timeout: 8000});
+    const b = await page.evaluate(() => ({id: EX.id, items: EX.items}));
+    const old = await dbGet('exams/' + a.id);
+    errs(); assert(old && old.items.length === a.n, 'the first exam changed when a new one was made');
+    // the first exam's questions are skipped by default, and a question used there says where
+    const overlap = b.items.filter(i => old.items.includes(i)).length;
+    assert(overlap === 0, `${overlap} question(s) of the saved exam were used again (skip is on by default)`);
+    const tag = await page.evaluate(id => { const q = xq(id); return q ? EXAS.usedTag(q) : '' }, old.items[0]);
+    assert(/Used in/.test(tag), 'no "Used in" tag for a question of the saved exam: ' + tag);
+    const t = await page.evaluate(() => ({time: EX.time, m: xMarks(EX.items.map(xq).filter(Boolean))}));
+    const want = Math.max(5, Math.round(t.m * 1.8 / 5) * 5), wantTxt = await page.evaluate(w => EXSEC.dur(w), want);
+    assert(t.time === wantTxt, `working time ${t.time} for ${t.m} marks, expected ${wantTxt} (1.8 minutes a mark)`);
+    for (const id of [a.id, b.id]) await page.evaluate(id => db.doc('exams/' + id).delete(), id);
+    await page.evaluate(() => EXAS.fresh(true));
+    return `autosaved ${a.id}; Cancel kept it; "Make a new exam instead" made ${b.id} with no repeats; ${t.m} marks → ${t.time}`;
   });
 
   /* ---- Reports tab ---- */
@@ -1961,7 +2001,7 @@ async function availOverlap(browser, base, seed) {
 async function genPaper(page) {
   await page.click('[data-exv="setup"]'); await settle(page, 3000, 2);
   await page.click('[data-sall="all"]'); await settle(page, 2000, 2);
-  await page.click('#gGo');
+  await genClick(page, '#gGo');
   await page.waitForFunction(() => { const i = document.querySelector('#xInfo'); return i && !/Laying out/.test(i.textContent) && document.querySelector('#xWord') && document.querySelectorAll('#xPages .sheet').length }, null, {timeout: 90000});
   await settle(page, 5000, 2);
 }
@@ -2001,7 +2041,7 @@ async function examPools(browser, base, pools) {
         await page.evaluate(() => { if (document.body.classList.contains('xpv-on')) exClosePv() }); await settle(page, 1500, 2);
         await page.click('[data-exv="setup"]'); await settle(page, 2000, 2); await page.click('[data-sall="all"]'); await settle(page, 1500, 2);
         await page.evaluate(m => { for (const [id, v] of [['gMarks', m], ['gMcq', Math.round(m / 10)]]) { const el = document.getElementById(id); el.value = v; el.dispatchEvent(new Event('input', {bubbles: true})) } }, marks);
-        await page.click('#gGo'); await waitPv();
+        await genClick(page, '#gGo'); await waitPv();
         const tot = await page.evaluate(() => xMarks(EX.items.map(xq).filter(Boolean)));
         const ex = await sheets();
         await page.click('[data-xdoc="guide"]'); await waitPv();
@@ -2072,7 +2112,7 @@ async function examPools(browser, base, pools) {
           const v = w.querySelector('.exfigbox').getBoundingClientRect().height - room(w); if (v > bv) { bv = v; best = w.dataset.figw } });
         if (best) document.querySelector(`#xPages [data-figw="${best}"]`).scrollIntoView({block: 'center'}); return best }, roomOf);
       let k = await pick();
-      for (let i = 0; !k && i < 6; i++) { await page.getByRole('button', {name: 'Regenerate', exact: true}).click(); await settle(page, 1500, 2); k = await pick() }
+      for (let i = 0; !k && i < 6; i++) { await genClick(page, '#exPvRegen'); await settle(page, 1500, 2); k = await pick() }
       assert(k, 'no loaded diagram on the paper'); await settle(page, 1000, 2);
       const sheetOf = k => page.evaluate(k => [...document.querySelectorAll('#xPages .sheet')].indexOf(document.querySelector(`#xPages [data-figw="${k}"]`).closest('.sheet')) + 1, k);
       const grab = async () => { const a = await figState(page, k); await page.mouse.move(a.box.x + a.box.w / 2, a.box.y + Math.min(a.box.h / 2, 30)); return figState(page, k) };

@@ -5,8 +5,12 @@
    .html prints or saves as PDF from the browser). Saved exams live in the page database, collection `exams`. */
 const XKEY='qg_exam';
 let EX=(()=>{try{const v=JSON.parse(localStorage.getItem(XKEY));if(v&&Array.isArray(v.items))return v}catch(e){}return null})()||
-  {title:QG.courseData.name,sub:'Practice examination',school:'CMC Education',time:'2 hours',reading:'10 minutes',items:[]};
-const xsave=()=>{try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}xCount()};
+  {title:QG.courseData.name,sub:'Practice examination',school:'CMC Education',time:'',timeAuto:true,mpm:1.8,reading:'10 minutes',items:[]};
+// an exam opened before 19 Nov keeps the working time it has (only new exams follow the marks until a time is typed)
+if(EX.timeAuto===undefined)EX.timeAuto=!EX.id&&!EX.items.length;
+// owner 19 Nov ("Save by itself"): every change is kept in this browser and, for an exam in the shared database, saved there a moment
+// later (EXAS.schedule, 25_mine.js, which loads later: hence the typeof test). The working time follows the marks (EXAS.time)
+const xsave=()=>{if(typeof EXAS!=='undefined')EXAS.time();try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}xCount();if(typeof EXAS!=='undefined')EXAS.schedule()};
 const xq=id=>B.questions.find(q=>q.id===id);
 const xIn=id=>EX.items.includes(id);
 function xCount(){const n=EX.items.length,b=$('#xN');if(b)b.textContent=n;$$('[data-addx]').forEach(el=>{const on=xIn(+el.dataset.addx);el.setAttribute('aria-pressed',String(on));el.textContent=on?'✓ In exam':'+ Add to exam'});if($('#xPanel')&&!$('#xPanel').hidden)xPanel()
@@ -22,34 +26,32 @@ function xPanel(){
   const p=$('#xPanel'),{mc,wr}=xSections(),tot=xMarks(mc)+xMarks(wr);let n=0;const A=exA();
   // Exams page (owner 14 Nov): each row also shows the band estimate and has Swap / Lock (exam builder stage 2)
   const row=q=>{n++;const e=exEst(q),lk=A.locked.includes(q.id),w=typeof qWatch==='function'?qWatch(q):null;
-    return `<li data-xi="${q.id}"${lk?' class="locked"':''}${w?' data-xwarn="1"':''}><span class="xn">${n}</span><span class="xt">${esc(srcLine(q))}<small>${qid(q)} · ${q.marks??'?'} mark${q.marks===1?'':'s'}${e?` · Band ${e.d.toFixed(1)} · ${e.kind==='Problem solving'?'PS':e.kind}`:''}</small>${w?`<small class="xwarn">⚠ ${esc(w.text)}: swap it (⇄) or remove it before printing</small>`:''}</span>
+    return `<li data-xi="${q.id}"${lk?' class="locked"':''}${w?' data-xwarn="1"':''}><span class="xn">${n}</span><span class="xt">${esc(srcLine(q))}<small>${qid(q)} · ${q.marks??'?'} mark${q.marks===1?'':'s'}${e?` · Band ${e.d.toFixed(1)} · ${e.kind==='Problem solving'?'PS':e.kind}`:''}</small>${w?`<small class="xwarn">⚠ ${esc(w.text)}: swap it (⇄) or remove it before printing</small>`:''}${typeof EXAS!=='undefined'?EXAS.usedTag(q):''}</span>
     <span class="xb"><button data-xsw title="Swap for a similar question" aria-label="Swap for a similar question"${lk?' disabled':''}>⇄</button><button data-xlk aria-pressed="${lk}" title="${lk?'Unlock':'Lock: Regenerate keeps it'}" aria-label="${lk?'Unlock':'Lock'}">${XA_LOCK}</button><button data-xmv="-1" title="Move up" aria-label="Move up">↑</button><button data-xmv="1" title="Move down" aria-label="Move down">↓</button><button data-xrm title="Remove" aria-label="Remove">×</button></span></li>`};
   p.innerHTML=`<div class="xhd"><h2>This exam</h2><button class="act ghost" id="xClose" aria-label="Close">✕</button></div>
     <div class="xtot">${EX.items.length} question${EX.items.length===1?'':'s'} · ${tot} mark${tot===1?'':'s'}</div>${(()=>{const k=typeof qWatch==='function'?EX.items.map(xq).filter(q=>qWatch(q)).length:0;return k?`<div class="xwarnbox" role="status">⚠ ${k} question${k===1?' in this exam has':'s in this exam have'} been reported or sent back to review since ${k===1?'it was':'they were'} added. Check ${k===1?'it':'them'} before printing.</div>`:''})()}
     <div class="xf"><label>Title<input data-xf="title" value="${esc(EX.title)}"></label><label>Subtitle<input data-xf="sub" value="${esc(EX.sub)}"></label>
-      <label>School<input data-xf="school" value="${esc(EX.school)}"></label><div class="xf2"><label>Working time<input data-xf="time" value="${esc(EX.time)}"></label><label>Reading time<input data-xf="reading" value="${esc(EX.reading)}"></label></div></div>
+      <label>School<input data-xf="school" value="${esc(EX.school)}"></label><div class="xf2"><label>Working time<input data-xf="time" value="${esc(EX.time)}" title="Follows the marks × minutes per mark until you type a time"></label><label>Reading time<input data-xf="reading" value="${esc(EX.reading)}"></label></div>
+      <div class="xf2"><label>Minutes per mark<input type="number" data-xmpm min="0.5" max="4" step="0.1" value="${+EX.mpm||1.8}"></label><div class="xmpmh">${EX.timeAuto===false?`Working time typed by hand. <button type="button" class="linkbtn" data-xtauto>Work it out from the marks</button>`:'Working time = marks × minutes per mark (HSC Advanced: 1.8).'}</div></div></div>
     ${EX.items.length?`${mc.length?`<div class="xsec">Section I · multiple choice · ${xMarks(mc)} marks</div><ol class="xlist">${mc.map(row).join('')}</ol>`:''}${wr.length?`<div class="xsec">Section II · ${xMarks(wr)} marks</div><ol class="xlist">${wr.map(row).join('')}</ol>`:''}`
       :'<div class="xempty">No questions yet. Press <b>+ Add to exam</b> on any question in the Bank.</div>'}
     <div class="xacts"><button class="act ok" id="xPrev" ${EX.items.length?'':'disabled'}>Preview paper</button><button class="act" id="xGuide" ${EX.items.length?'':'disabled'}>Marking guide</button></div>
-    <div class="xacts"><button class="act ghost" id="xSave" ${EX.items.length&&db?'':'disabled'} title="${db?'':'Saving needs the shared database (open the page in claude.ai)'}">Save exam</button><button class="act ghost" id="xNew">New exam</button></div>
-    <div class="xsaved" id="xSaved"></div>`;
-  xSavedList();
+    <div class="xacts"><button class="act ghost" data-exm-copy ${EX.id&&db?'':'disabled'} title="A new saved exam with the same questions; this one stays as it is">Save as a copy</button><button class="act ghost" data-exm-fresh>New exam</button></div>`;
+  // owner 19 Nov ("too many outs and ways to replace the questions accidentally"): the panel's own list of saved exams (it replaced the
+  // open exam in one click) is gone; exams are opened from My exams
   exHead();if(view==='exams'&&EXV.view==='pick'){const n=$('#exLs');if(n&&EXCUR.length){const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;n.textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${bankAll()||!isEditor()?'':' · approved only'}`}}
 }
 function xOpen(){const p=$('#xPanel');p.hidden=false;requestAnimationFrame(()=>document.body.classList.add('x-open'));xPanel()}
 function xClose(){document.body.classList.remove('x-open');setTimeout(()=>{if(!document.body.classList.contains('x-open'))$('#xPanel').hidden=true},250)}
 let XSAVED=[],_xsub=null;
-function xSavedList(){const el=$('#xSaved');if(!el)return;if(!db){el.innerHTML='';return}
-  if(!_xsub){try{_xsub=db.collection('exams').onSnapshot(s=>{const d=s.docs||s;XSAVED=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).sort((a,b)=>String(b.at).localeCompare(String(a.at)));xSavedList()},()=>{})}catch(e){}}
-  el.innerHTML=XSAVED.length?`<div class="xsec">Saved exams</div><ul class="xslist">${XSAVED.slice(0,30).map(x=>`<li><button data-xload="${esc(x.id)}">${esc(x.title||'Untitled')}<small>${esc(x.sub||'')} · ${(x.items||[]).length} questions · ${esc(String(x.at||'').slice(0,10))}</small></button></li>`).join('')}</ul>`:''}
 // owner 14 Nov (Fix 2, "Ok we should run Fix 1 and 2"): keys (question keys, parallel to items) let a saved exam find its
 // questions again after a re-parse or a change of which copy the Bank shows (RKEY.items).
 // saving: every field, including settings, lines, diagram sizes and locks (Exams page, owner 14 Nov); then My exams and the
 // page head's Saved / Unsaved marker refresh (they refresh even when there is no database)
-async function xSaveDb(){
-  if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;xsave();
+async function xSaveDb(quiet){
+  if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}
     const A=EX.auto||{},keep={topics:A.topics,total:A.total,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
-    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,reading:EX.reading,items:EX.items,keys:EX.items.map(i=>xq(i)?.key||null),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});toast('Exam saved')}
+    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,items:EX.items,keys:EX.items.map(i=>xq(i)?.key||null),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});if(!quiet)toast('Exam saved')}
     catch(e){toast('Could not save. Try again in a moment.')}}
   if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}}
 document.addEventListener('click',e=>{
@@ -64,12 +66,11 @@ document.addEventListener('click',e=>{
     const a1=EX.items.indexOf(id),a2=EX.items.indexOf(t);[EX.items[a1],EX.items[a2]]=[EX.items[a2],EX.items[a1]];xsave();return}
   if(e.target.closest('#xPrev')){xPreview('exam');return}
   if(e.target.closest('#xGuide')){xPreview('guide');return}
-  if(e.target.closest('#xSave')){xSaveDb();return}
-  if(e.target.closest('#xNew')){const b=e.target.closest('#xNew');if(!b.dataset.sure){b.dataset.sure=1;b.textContent='Start a new exam? Click again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent='New exam'}},3000);return}
-    EX={title:QG.courseData.name,sub:'Practice examination',school:EX.school,time:'2 hours',reading:'10 minutes',items:[]};xsave();return}
-  const ld=e.target.closest('[data-xload]');if(ld){const x=XSAVED.find(s=>s.id===ld.dataset.xload);if(x){EX={id:x.id,title:x.title,sub:x.sub,school:x.school,time:x.time,reading:x.reading,items:(x.items||[]).filter(i=>xq(i))};xsave();toast('Exam opened')}}
+  if(e.target.closest('[data-xtauto]')){EX.timeAuto=true;xsave();return}
 });
-document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(_){}}});
+document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;if(f.dataset.xf==='time')EX.timeAuto=false;try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(_){}if(typeof EXAS!=='undefined')EXAS.schedule()}});
+// owner 19 Nov: "HSC Adv averages 1.8 minutes per mark. Should be a place to change that too": the working time follows it
+document.addEventListener('change',e=>{const f=e.target.closest('[data-xmpm]');if(!f)return;const v=Math.max(.5,Math.min(4,+f.value||1.8));EX.mpm=Math.round(v*10)/10;EX.timeAuto=true;xsave()});
 
 /* ---------- paper ---------- */
 function xFigSlots(q,keys){return keys.map(k=>`<span class="figslot" data-fig="${k}"></span>`).join('')}

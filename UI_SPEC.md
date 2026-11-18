@@ -378,6 +378,23 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   dotted lines of a part and the prose of the next part").** Each section starts "**Section I**" (large, bold), then "15 marks",
   "Attempt Questions 1–15", "Allow about 25 minutes for this section" on their own lines and a rule under them (the marking guide leaves
   out the time). Answer lines are followed by 5 mm before the next part (1 mm margin + 4 mm padding, so page measuring counts it; Word: 14 pt).
+- **Exam maker, 19 Nov (owner, verbatim):** "It is very easy to override a current exam, too many outs and ways to replace the questions
+  accidentally" / "There is no way to see if a question has been used by a previous exam, might lead to duplicate exams" / "I have no idea
+  what fit pages does, back to setup seems like it serves the same function as close." / "HSC Adv averages 1.8 minutes per mark. Should be
+  a place to change that too or custom set time like the coer page already does which is good" / "Can't tell when the exam is actually
+  saved." / "General confusion navigating between setup, pick by hand and my exams, can't tell which exam we're inside or if we're making
+  a new one etc." Asked: saving "Save by itself"; Fit pages "Remove it"; used questions "avoid them but if used, should show WHERE in the
+  past they were used". Done:
+  - Every Exams view shows "Editing: <name> · ✓ Saved 8:36 am" (or "New exam", "Saving…") with Save as a copy and New exam. Any change
+    saves itself about a second later (EXAS, 25_mine.js); New exam and Save as a copy are the only ways to start another exam.
+  - Generate and Regenerate on a saved exam ask first: "Make a new exam instead" / "Replace them" / "Cancel". The exam panel's own list
+    of saved exams (one click replaced the open exam) is gone: exams open from My exams. Deleting the open exam leaves an empty new exam.
+  - "Skip questions already in my saved exams" is back in Setup and ticked by default (supersedes 14 Nov "remove Skip questions used in
+    my other saved exams for now"). A question that is in another saved exam says where: "Used in Mia Advanced Mock Exam (17 Nov) and 1
+    more" on Pick by hand cards, the exam panel and the grading panel.
+  - Working time = marks × minutes per mark (1.8 by default; "Minutes per mark" in the exam panel), to 5 minutes, until a time is typed
+    (then "Work it out from the marks" goes back). Exams saved before 19 Nov keep their time.
+  - The preview toolbar lost Fit pages (and the automatic reordering after Generate) and Back to setup; Close stays.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II
