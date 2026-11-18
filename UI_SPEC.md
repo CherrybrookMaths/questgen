@@ -413,6 +413,9 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
 - **19 Nov (owner): "don't you think that questions which contain PS and UF should just be PS?" -> "yeah that's fine go for it"**: a question
   with any problem-solving part is labelled Problem solving (badges, grading list, report form) and found by the Problem solving filter
   in Bank and Pick by hand; "Mixed" is gone. Marks still count part by part (generator targets, grading totals, the Guide's split).
+- **19 Nov (owner): "do u think its valid for band 3 fluiency to come after band 3 problem solving?"**: Generate / Regenerate order each
+  section by the band the meter shows (rounded), then fluency before problem solving, then fewer marks first (before: the exact band, so
+  a 3.4 fluency question followed a 2.6 problem-solving one although both showed band 3). Hand-made orders are kept.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

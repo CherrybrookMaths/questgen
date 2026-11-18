@@ -2087,6 +2087,10 @@ async function examPools(browser, base, pools) {
           return {cf: !!cv.querySelector('.sheetfoot'), f2: sh[1]?.querySelector('.sheetfoot span')?.textContent, n: sh.length, head: /marks by topic/i.test(cv.innerText),
             tbl: !!cv.querySelector('.extopictbl'), rule: getComputedStyle(cv.querySelector('.cv-head')).borderTopStyle} });
         assert(!ft.cf && ft.f2 === `Page 2 of ${ft.n}` && !ft.head && ft.tbl && ft.rule === 'none', `cover: ${JSON.stringify(ft)}`);
+        // owner 19 Nov: generated order = meter band, then fluency before problem solving, then marks
+        const ordBad = await page.evaluate(() => { const qs = EX.items.map(xq).filter(Boolean), k = q => [Math.round(exEst(q)?.d ?? 3), exEst(q)?.kind === 'Problem solving' ? 1 : 0, +q.marks || 0];
+          const bad = []; for (const t of ['mcq', 'w']) { const s = qs.filter(q => (q.type === 'mcq') === (t === 'mcq')); for (let i = 1; i < s.length; i++) { const a = k(s[i - 1]), b = k(s[i]); if (a[0] > b[0] || a[0] === b[0] && (a[1] > b[1] || a[1] === b[1] && a[2] > b[2])) bad.push(qid(s[i])) } } return bad });
+        assert(!ordBad.length, 'out of order after Generate: ' + ordBad.slice(0, 5).join(', '));
         // owner 19 Nov: always an odd number of pages, padded with a marked blank page after the last question page
         const odd = await page.evaluate(() => { const sh = [...document.querySelectorAll('#xPages .sheet')], lastQ = sh.map(s => !!s.querySelector('section.xq')).lastIndexOf(true);
           return {n: sh.length, blanks: sh.filter(s => s.querySelector('.xblank')).length, after: sh.slice(lastQ + 1).filter(s => s.querySelector('.xblank')).length} });
@@ -2222,19 +2226,29 @@ async function queueChecks(browser, base, seed) {
     // loaded diagram started its own sheet, and one that starts a sheet can only grow in place)
     const lines0 = await page.evaluate(() => { const keep = JSON.stringify(EX.lines || {}); [...document.querySelectorAll('#xPages [data-ln]')].forEach(b => { EX.lines[b.dataset.ln] = 0 }); xsave(); exRelayout(); return keep });
     await laidOut(page);
-    // diagrams with a loaded picture, nearest the foot of their sheet first
-    const ks = await page.evaluate(() => [...document.querySelectorAll('#xPages .exfigw')].filter(w => { const i = w.querySelector('img'); return i && i.complete && i.naturalWidth && !w.closest('.xo') && w.closest('.xblk')?.previousElementSibling })   // 18 Nov: only diagrams in a question with something above it on its sheet (one that starts a sheet can only grow in place) and not option pictures
-      .map(w => { const s = w.closest('.sheet').getBoundingClientRect(), b = w.getBoundingClientRect(); return [w.dataset.figw, (s.bottom - b.bottom) / s.height] }).sort((x, y) => x[1] - y[1]).map(x => x[0]));
+    // 19 Nov: with the generated order (band, then kind, then marks) every question with a loaded diagram can start its own sheet, and
+    // one that starts a sheet can only grow in place. So each try is a small exam of its own: the shortest written question without a
+    // diagram, then the question holding the diagram (they share a sheet; growing the diagram pushes it to the next)
+    const order0 = await page.evaluate(() => JSON.stringify(EX.items));
+    const tries = await page.evaluate(() => { const secs = [...document.querySelectorAll('#xPages section.xq.wr')];
+      const hasFig = sc => [...sc.querySelectorAll('.exfigw img')].some(i => i.complete && i.naturalWidth);
+      const short = secs.filter(sc => !hasFig(sc)).sort((a, b) => a.getBoundingClientRect().height - b.getBoundingClientRect().height)[0];
+      return {short: short ? +short.dataset.q : null, figs: [...new Set(secs.filter(hasFig).map(sc => +sc.dataset.q))].slice(0, 8)} });
     let res = null;
-    for (const k of ks.slice(0, 12)) {   // 18 Nov: 6 was too few once section headings grew
-      await page.evaluate(() => { EX.figscale = {}; xsave(); exRelayout() }); await laidOut(page);
-      const p0 = await at(k), s0 = await figState(page, k), g = await drag(k, 350, 520), p1 = await at(k);   // 18 Nov: a smaller pull, so the question moves whole instead of being cut across pages
+    for (const fq of tries.figs) {
+      if (!tries.short) break;
+      await page.evaluate(([a, b]) => { EX.items = [a, b]; EX.figscale = {}; xsave(); exRelayout() }, [tries.short, fq]); await laidOut(page); await settle(page, 2500, 2);
+      const k = await page.evaluate(q => { const w = [...document.querySelectorAll(`#xPages section.xq[data-q="${q}"] .exfigw`)].find(w => { const i = w.querySelector('img'); return i && i.complete && i.naturalWidth });
+        return w && w.closest('.xblk')?.previousElementSibling ? w.dataset.figw : null }, fq);
+      if (!k) continue;
+      const p0 = await at(k), s0 = await figState(page, k), g = await drag(k, 350, 520), p1 = await at(k);
       if (p1 === p0) continue;
       const sh = await drag(k, -120, -180);
       res = {k, p0, p1, fs0: s0.fs, grown: g.fs, shrunk: sh.fs}; break;
     }
-    await page.evaluate(l => { EX.figscale = {}; EX.lines = JSON.parse(l); xsave(); exRelayout() }, lines0); await laidOut(page); errs();
-    assert(res, `no diagram moved to the next sheet when grown (tried ${Math.min(12, ks.length)})`);
+    const ks = tries.figs;
+    await page.evaluate(([l, o]) => { EX.figscale = {}; EX.lines = JSON.parse(l); EX.items = JSON.parse(o); xsave(); exRelayout() }, [lines0, order0]); await laidOut(page); errs();
+    assert(res, `no diagram moved to the next sheet when grown (tried ${ks.length})`);
     assert(res.grown > res.fs0 && res.shrunk < res.grown, `grown ${res.fs0} → ${res.grown} (sheet ${res.p0 + 1} → ${res.p1 + 1}), then dragged in → ${res.shrunk}`);
     return `${res.k}: ${Math.round(res.fs0 * 100)}% → ${Math.round(res.grown * 100)}% moved it to sheet ${res.p1 + 1}; dragged in there → ${Math.round(res.shrunk * 100)}%`;
   });

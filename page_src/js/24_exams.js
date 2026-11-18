@@ -99,8 +99,11 @@ function exGenerate(){const A=exA();if(!A.topics.length){toast('Choose at least 
     if(!N)continue;const nc=cost(N);
     if(nc<cur||(temp>0&&R()<Math.exp((cur-nc)/temp))){S=N;cur=nc;used.clear();S.forEach(q=>used.add(q.id));if(cur<bestC){bestC=cur;best=S.slice()}}}
   S=best;
-  const bo=q=>exEst(q)?.d??3;   // HSC order: easier first within each section
-  const mc=S.filter(q=>q.type==='mcq').sort((a,b)=>bo(a)-bo(b)),wr=S.filter(q=>q.type!=='mcq').sort((a,b)=>bo(a)-bo(b)||a.marks-b.marks);
+  // HSC order: easier first within each section. Owner 19 Nov ("do u think its valid for band 3 fluiency to come after band 3 problem
+  // solving?"): by the band the meter shows (rounded), then fluency before problem solving, then fewer marks, then the exact band
+  const bo=q=>exEst(q)?.d??3,bk=q=>Math.round(bo(q)),ps=q=>exEst(q)?.kind==='Problem solving'?1:0;
+  const ord=(a,b)=>bk(a)-bk(b)||ps(a)-ps(b)||(+a.marks||0)-(+b.marks||0)||bo(a)-bo(b);
+  const mc=S.filter(q=>q.type==='mcq').sort(ord),wr=S.filter(q=>q.type!=='mcq').sort(ord);
   EX.items=[...mc,...wr].map(q=>q.id);EX.sub=A.title||exAutoTitle(A);
   const st=exStats(S,homes,null);A.ran=true;A.tpr=T.s;
   A.last={n:S.length,marks:st.marks,F:st.fl,P:st.ps,dF:st.dF,dP:st.dP,nM:st.mcq,topics:new Set(S.map(q=>homes.get(q.id)?.sub).filter(Boolean)).size,chosen:A.topics.length,warns:exWarn(A,st,pool)};
