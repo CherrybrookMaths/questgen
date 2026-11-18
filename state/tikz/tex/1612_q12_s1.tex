@@ -2,16 +2,16 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
-\draw[->] (15,272) -- (418,272);
-\draw[->] (150,545) -- (150,40);
+\draw[->] (15,272) -- (422,272);
+\draw[->] (150,508) -- (150,12);
 \foreach \t in {-2,2,4} \draw ({150+52.5*\t},266) -- ({150+52.5*\t},278);
 \foreach \t in {-4,-2,2,4} \draw (144,{272-52.5*\t}) -- (156,{272-52.5*\t});
-\foreach \t/\l in {-2/-2,2/2,4/4} \node[anchor=north] at ({150+52.5*\t},283) {$\l$};
-\node[anchor=north] at (133,281) {$0$};
-\foreach \t/\l in {-4/-4,-2/-2,2/2,4/4} \node[anchor=east] at (140,{272-52.5*\t}) {$\l$};
-\node at (410,298) {$x$};
-\node at (133,20) {$y$};
+\foreach \t/\l in {-2/-2,2/2,4/4} \node[anchor=north] at ({150+52.5*\t},279) {$\l$};
+\node at (133,293) {$0$};
+\foreach \t/\l in {-4/-4,-2/-2,2/2,4/4} \node[anchor=east] at (143,{272-52.5*\t}) {$\l$};
+\node at (410,296) {$x$};
+\node at (133,18) {$y$};
 \draw[line width=0.9pt] (47,219.5) -- (150,219.5);
-\draw[line width=0.9pt,->] plot[smooth, domain=0:2.2, samples=90] ({150+52.5*\x},{272-52.5*(1-\x*\x)});
+\draw[line width=0.9pt,->] plot[smooth, domain=0:2.24, samples=90] ({150+52.5*\x},{272-52.5*(1-\x*\x)});
 \end{tikzpicture}
 \end{document}

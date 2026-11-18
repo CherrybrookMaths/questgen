@@ -1,7 +1,7 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{11}{13}\selectfont}]
 % pole and backboard
 \filldraw[fill=black!18] (630,140) rectangle (655,466);
 \filldraw[fill=black!18] (603,122) rectangle (685,140);
@@ -16,25 +16,26 @@
 % ground
 \draw (45,466) -- (685,466);
 % ball
-\filldraw[fill=black!35] (60,225) circle (15);
-\draw (60,210) -- (60,240);
-\draw (49,214) .. controls (56,221) and (56,229) .. (49,236);
-\draw (71,214) .. controls (64,221) and (64,229) .. (71,236);
-% trajectory y=-23/630 x^2+0.5825x+2 (to the crop's scale)
-\draw[aux,->] plot[smooth, domain=0.45:13.6, samples=90] ({62+36*\x},{415-95*(-23/630*\x*\x+367/630*\x+2)});
+\filldraw[fill=black!35] (60,225) circle (13);
+\draw (60,212) -- (60,238);
+\draw (50,216) .. controls (56,222) and (56,228) .. (50,234);
+\draw (70,216) .. controls (64,222) and (64,228) .. (70,234);
+% trajectory y=-23/630 x^2+367/630 x+2, horizontal map fitted to the crop's (not to scale) positions
+\draw[aux,->] plot[smooth, domain=0.45:13.6, samples=90] ({62+34*\x+0.148*\x*\x},{415-95*(-23/630*\x*\x+367/630*\x+2)});
 % dimensions
-\draw[<->] (62,466) -- (62,241);
-\node[anchor=east] at (55,335) {2 m};
-\draw[<->] (62,400) -- (242,400);
-\node at (152,422) {5 m};
-\draw[->] (242,262) -- (242,466);
-\draw[->] (242,238) -- (242,35);
-\node at (242,250) {4 m};
+\draw[->] (62,347) -- (62,466);
+\draw[->] (62,323) -- (62,240);
+\node at (62,335) {2 m};
+\draw[<->] (62,400) -- (236,400);
+\node at (149,421) {5 m};
+\draw[->] (236,262) -- (236,466);
+\draw[->] (236,238) -- (236,35);
+\node at (236,250) {4 m};
 \draw[->] (567,310) -- (567,466);
 \draw[->] (567,286) -- (567,128);
 \node at (567,298) {3 m};
 \draw[<->] (62,487) -- (567,487);
-\node at (315,512) {14 m};
-\node[align=center] at (840,272) {NOT TO\\SCALE};
+\node at (312,509) {14 m};
+\node[align=center] at (832,268) {NOT TO\\SCALE};
 \end{tikzpicture}
 \end{document}

@@ -1,27 +1,27 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}[x=1.2611cm,y=0.508cm]
-  \draw[->] (-3.30,0) -- (4.30,0);
-  \draw[->] (0,-12.9) -- (0,6.25);
-  \draw[aux] (-pi,6.3) -- (-pi,-13.4);
-  \draw[aux] (pi,6.3) -- (pi,-13.4);
-  \foreach \k in {-3,...,-1,1,2,3} \draw ({\k*pi/4},-0.25) -- ({\k*pi/4},0.25);
+\begin{tikzpicture}[x=1.2637cm,y=0.6985cm]
+  \draw[->] (-3.3,0) -- (4.42,0);
+  \draw[->] (0,-6.27) -- (0,5.45);
+  \draw[aux] (-pi,6.0) -- (-pi,-6.9);
+  \draw[aux] (pi,6.0) -- (pi,-6.9);
+  \foreach \k in {-3,...,-1,1,2,3} \draw ({\k*pi/4},-0.18) -- ({\k*pi/4},0.18);
   \foreach \k in {-4,...,-1,1,2,3,4} \draw (-0.05,\k) -- (0.05,\k);
-  \draw[<->, line width=0.9pt, smooth, samples=90, domain=-2.896:2.827] plot (\x,{tan(\x*0.5 r)});
+  \draw[<->, line width=0.9pt, smooth, samples=90, domain=-2.778:2.799] plot (\x,{tan(\x*0.5 r)});
   \node[pt] at ({pi/2},1) {};
   \node[pt] at ({-pi/2},-1) {};
-  \node[anchor=north] at ({pi/4},-0.3) {$\dfrac{\pi}{4}$};
-  \node[anchor=north] at ({pi/2},-0.3) {$\dfrac{\pi}{2}$};
-  \node[anchor=north] at ({3*pi/4},-0.3) {$\dfrac{3\pi}{4}$};
-  \node[anchor=north] at ({-3*pi/4},-0.3) {$-\dfrac{3\pi}{4}$};
-  \node[anchor=north] at ({-pi/2},-1.55) {$-\dfrac{\pi}{2}$};
-  \node[anchor=north] at ({-pi/4},-0.9) {$-\dfrac{\pi}{4}$};
-  \node[anchor=north west] at ({-pi+0.06},-0.3) {$-\pi$};
-  \node[anchor=north west] at ({pi+0.06},-0.3) {$\pi$};
-  \node[anchor=north west] at (0.06,-0.2) {$0$};
+  \node[anchor=north] at ({pi/4},-0.25) {$\dfrac{\pi}{4}$};
+  \node[anchor=north] at ({pi/2},-0.25) {$\dfrac{\pi}{2}$};
+  \node[anchor=north] at ({3*pi/4},-0.25) {$\dfrac{3\pi}{4}$};
+  \node[anchor=north] at ({-3*pi/4},-0.25) {$-\dfrac{3\pi}{4}$};
+  \node[anchor=north] at ({-pi/2},-1.4) {$-\dfrac{\pi}{2}$};
+  \node[anchor=north] at ({-pi/4},-0.82) {$-\dfrac{\pi}{4}$};
+  \node[anchor=north west] at ({-pi+0.06},-0.25) {$-\pi$};
+  \node[anchor=north west] at ({pi+0.06},-0.25) {$\pi$};
+  \node[anchor=north west] at (0.06,-0.15) {$0$};
   \foreach \k in {-4,...,-1,1,2,3,4} \node[anchor=east] at (-0.08,\k) {$\k$};
-  \node[anchor=north] at (4.05,-0.3) {$x$};
-  \node[anchor=south east] at (-0.1,5.9) {$y$};
+  \node[anchor=north] at (4.0,-0.3) {$x$};
+  \node[anchor=south east] at (-0.08,5.1) {$y$};
 \end{tikzpicture}
 \end{document}

@@ -3,13 +3,16 @@
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
 % hoop and pole
-\fill[black!25] (462,165) rectangle (478,410);
+\fill[black!12] (462,165) rectangle (478,410);
 \draw (462,165) rectangle (478,410);
-\fill[black!25] (440,153) rectangle (502,165);
+\fill[black!12] (440,153) rectangle (502,165);
 \draw (440,153) rectangle (502,165);
-\draw (445,88) -- (445,160);
+\draw (443,88) rectangle (448,160);
 \draw (397,154) -- (440,154);
-\draw (399,156) -- (404,186) (434,156) -- (429,186) (410,157) -- (412,182) (423,157) -- (421,182);
+\draw (440,154) -- (446,164);
+\draw (399,156) .. controls (401,170) .. (404,186);
+\draw (431,156) .. controls (429,170) .. (426,186);
+\draw (410,157) -- (411,184) (420,157) -- (419,184);
 % axes
 \draw[->] (37,410) -- (548,410);
 \draw[->] (37,410) -- (37,18);
@@ -26,9 +29,9 @@
 \draw (45,215) .. controls (41,222) and (41,234) .. (45,241);
 % labels
 \node at (19,22) {$y$};
-\node[anchor=east] at (20,84) {4};
-\node[anchor=east] at (20,154) {3};
-\node[anchor=east] at (17,228) {2};
+\node[anchor=east] at (18,84) {4};
+\node[anchor=east] at (18,154) {3};
+\node[anchor=east] at (15,228) {2};
 \node at (22,428) {$O$};
 \node at (163,446) {5};
 \node at (413,446) {14};

@@ -2,17 +2,17 @@
 \input{../examstyle.tex}
 \input{../tree_style.tex}
 \newcommand\ansbox{{\setlength\fboxsep{0pt}\setlength\fboxrule{0.6pt}\fbox{\rule{0pt}{30pt}\hspace{40pt}}}}
-\newcommand\two[2]{\begin{tabular}{@{}c@{}}#1\\#2\end{tabular}}
-\newcommand\three[3]{\begin{tabular}{@{}c@{}}#1\\#2\\#3\end{tabular}}
+\newcommand\twol[2]{\begin{tabular}{@{}c@{}}#1\\#2\end{tabular}}
+\newcommand\threel[3]{\begin{tabular}{@{}c@{}}#1\\#2\\#3\end{tabular}}
 \begin{document}
+\treewidth{1}{\twol{prohibited}{items}}%
+\treewidth{1}{\threel{no}{prohibited}{items}}%
+\treewidth{2}{no alarm triggered}%
+\treecolumns{2}%
 \begin{tikzpicture}
-\treewidth{1}{\two{prohibited}{items}}
-\treewidth{1}{\three{no}{prohibited}{items}}
-\treewidth{2}{no alarm triggered}
-\treecolumns{2}
 \treeroot{r}{0pt}
-\treenode{a}{1}{72pt}{\two{prohibited}{items}}
-\treenode{b}{1}{-72pt}{\three{no}{prohibited}{items}}
+\treenode{a}{1}{72pt}{\twol{prohibited}{items}}
+\treenode{b}{1}{-72pt}{\threel{no}{prohibited}{items}}
 \treenode{aa}{2}{108pt}{alarm triggered}
 \treenode{ab}{2}{36pt}{no alarm triggered}
 \treenode{ba}{2}{-36pt}{alarm triggered}

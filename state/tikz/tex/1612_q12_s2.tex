@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, width=7cm, height=7cm, xmin=-3, xmax=2.6, ymin=-4, ymax=2.2,
+  xtick=\empty, ytick=\empty, unit vector ratio=1 1]
+  \addplot[line width=0.9pt] coordinates {(-2,1) (0,1)};
+  \addplot[line width=0.9pt, domain=0:2.15, samples=90, smooth, -{Latex[length=2mm,width=1.3mm]}] {1-x^2};
+  \node[pt] at (axis cs:-2,1) {};
+  \node[pt] at (axis cs:1,0) {};
+  \node[anchor=south] at (axis cs:-2,1.12) {$(-2,1)$};
+  \node[anchor=south west] at (axis cs:0.08,1.08) {$(0,1)$};
+  \node[anchor=south west] at (axis cs:1.08,0.08) {$(1,0)$};
+  \node[anchor=north east] at (axis cs:-0.05,-0.05) {$O$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,27 +1,27 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \input{../tree_style.tex}
-\newcommand\two[2]{\begin{tabular}{@{}c@{}}#1\\#2\end{tabular}}
-\newcommand\three[3]{\begin{tabular}{@{}c@{}}#1\\#2\\#3\end{tabular}}
-\newcommand\bf[2]{{\boldmath$\dfrac{#1}{#2}$}}
+\newcommand\twol[2]{\begin{tabular}{@{}c@{}}#1\\#2\end{tabular}}
+\newcommand\threel[3]{\begin{tabular}{@{}c@{}}#1\\#2\\#3\end{tabular}}
+\newcommand\bfr[2]{{\boldmath$\dfrac{#1}{#2}$}}
 \begin{document}
+\treewidth{1}{\twol{prohibited}{items}}%
+\treewidth{1}{\threel{no}{prohibited}{items}}%
+\treewidth{2}{no alarm triggered}%
+\treecolumns{2}%
 \begin{tikzpicture}
-\treewidth{1}{\two{prohibited}{items}}
-\treewidth{1}{\three{no}{prohibited}{items}}
-\treewidth{2}{no alarm triggered}
-\treecolumns{2}
 \treeroot{r}{0pt}
-\treenode{a}{1}{54pt}{\two{prohibited}{items}}
-\treenode{b}{1}{-54pt}{\three{no}{prohibited}{items}}
+\treenode{a}{1}{54pt}{\twol{prohibited}{items}}
+\treenode{b}{1}{-54pt}{\threel{no}{prohibited}{items}}
 \treenode{aa}{2}{81pt}{alarm triggered}
 \treenode{ab}{2}{27pt}{no alarm triggered}
 \treenode{ba}{2}{-27pt}{alarm triggered}
 \treenode{bb}{2}{-81pt}{no alarm triggered}
 \treebranch{r}{a}{$\dfrac{5}{100}$}
 \treebranch{r}{b}{$\dfrac{95}{100}$}
-\treebranch{a}{aa}{\bf{95}{100}}
-\treebranch{a}{ab}{\bf{5}{100}}
-\treebranch{b}{ba}{\bf{2}{100}}
-\treebranch{b}{bb}{\bf{98}{100}}
+\treebranch{a}{aa}{\bfr{95}{100}}
+\treebranch{a}{ab}{\bfr{5}{100}}
+\treebranch{b}{ba}{\bfr{2}{100}}
+\treebranch{b}{bb}{\bfr{98}{100}}
 \end{tikzpicture}
 \end{document}
