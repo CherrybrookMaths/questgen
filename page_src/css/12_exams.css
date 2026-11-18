@@ -242,8 +242,10 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 /* ---- cover (owner 14 Nov: "the cover page does not look super professional"; certificate and course on separate lines).
    NESA-like restraint: left-aligned, a rule structure, hairline stats row, two-column instructions. Paper colours are fixed
    (the sheet is always white). ---- */
-.xcover.excover{display:block;text-align:left;padding-top:2mm}
-.excover .cv-head{border-top:2.2pt solid #111;padding-top:4.5mm}
+.xcover.excover{display:flex;flex-direction:column;align-items:stretch;text-align:left;padding-top:2mm;min-height:242mm}
+/* owner 18 Nov: "bottom align the table (put it towards the bottom of the page) and remove marks by topic text" */
+.excover .extopictbl{margin-top:auto;padding-top:7mm}
+.excover .cv-head{padding-top:2mm}   /* owner 18 Nov: "remove the top black line" */
 .excover .xschool{font:600 9.5pt var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#333}
 .excover .cv-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10mm}   /* owner 18 Nov: logo left, Name / Tutor right */
 .excover .cv-logo{display:block;height:15mm;width:auto}
@@ -269,7 +271,6 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .excover .exaddli .linkbtn{font-size:11.5px;padding:2px 0;color:#1e5f5a}
 /* marks by topic: narrow Topic, wide Questions (small numbers, runs never break), tight number columns */
 .extopictbl{width:100%;margin-top:7mm;text-align:left}
-.extopictbl .toc-title{font:600 8pt var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#111;margin-bottom:2mm}
 .extopictbl table{width:100%;table-layout:fixed;border-collapse:collapse;font:9pt/1.3 var(--sans);font-variant-numeric:tabular-nums}
 .extopictbl col.c-t{width:30%}.extopictbl col.c-n{width:16mm}.extopictbl col.c-s{width:15mm}
 .extopictbl th,.extopictbl td{padding:1.3mm 1.6mm;border-bottom:.5pt solid #c9c9c9;text-align:center;vertical-align:top}

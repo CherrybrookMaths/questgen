@@ -426,8 +426,7 @@ async function flows(browser, base, seed, seedR) {
     // owner 14 Nov ("The dot point home looks stupid in a question" / "the i is fine"): the Report link moved from the question
     // into the card behind the ⓘ on the source line, so the report starts there
     repQ = await page.evaluate(() => +document.querySelector('#xPages [data-qinfo]').dataset.qinfo);
-    await page.click(`#xPages [data-qinfo="${repQ}"]`);
-    await page.click('#qiPop [data-qirep]');
+    await page.click(`#xPages [data-qinfo="${repQ}"]`);   // owner 18 Nov: Report beside the QID opens the form directly
     await page.waitForSelector('#repDlg .repdlg', {timeout: 5000});
     await page.click('#repDlg [data-rr="dif"]'); await page.click('#repDlg [data-rb="5"]');
     // owner 14 Nov: "Should let you pick UF and PS in the wrong diff": optional, one at a time; stored as suggested_wm
@@ -442,7 +441,7 @@ async function flows(browser, base, seed, seedR) {
     const link = await page.evaluate(q => { const b = document.querySelector(`#xPages [data-qinfo="${q}"]`); return b && {has: b.classList.contains('has'), label: b.getAttribute('aria-label')} }, repQ);
     errs(); assert(w.length === 1, `${w.length} report writes`); const v = w[0].v;
     assert(v.question_id === repQ && v.reason === 'difficulty' && v.suggested_band === 5 && v.suggested_wm === 'PR' && v.status === 'open', 'report doc: ' + JSON.stringify(v).slice(0, 200));
-    assert(link && link.has && /1 open report/.test(link.label), `the ⓘ is not marked as reported: ${JSON.stringify(link)}`);
+    assert(link && link.has && /1 open report/.test(link.label), `the Report link is not marked as reported: ${JSON.stringify(link)}`);
     return `${w[0].k} for QID ${repQ}`;
   });
 
@@ -2035,6 +2034,18 @@ async function examPools(browser, base, pools) {
         // owner 18 Nov: the paper's source line is the QID only (no school or year)
         const srcs = await page.evaluate(() => [...document.querySelectorAll('#xPages .exsrcl')].map(e => e.textContent.trim()).filter(t => !/^QID \w+$/.test(t)));
         assert(!srcs.length, `source lines on the paper that are not just the QID: ${srcs.slice(0, 3).join(' | ')}`);
+        // owner 18 Nov: no top rule and no footer on the cover, "Page n of N" on the others, no "Marks by topic" heading, the table toggles
+        const ft = await page.evaluate(() => { const sh = [...document.querySelectorAll('#xPages .sheet')], cv = sh[0];
+          return {cf: !!cv.querySelector('.sheetfoot'), f2: sh[1]?.querySelector('.sheetfoot span')?.textContent, n: sh.length, head: /marks by topic/i.test(cv.innerText),
+            tbl: !!cv.querySelector('.extopictbl'), rule: getComputedStyle(cv.querySelector('.cv-head')).borderTopStyle} });
+        assert(!ft.cf && ft.f2 === `Page 2 of ${ft.n}` && !ft.head && ft.tbl && ft.rule === 'none', `cover: ${JSON.stringify(ft)}`);
+        if (sd === POOL_RUNS[name][0][0]) {
+          await page.click('#exPvTopic'); await waitPv();
+          const off = await page.evaluate(() => ({tbl: !!document.querySelector('#xPages .sheet .extopictbl'), v: EX.bytopic}));
+          await page.click('#exPvTopic'); await waitPv();
+          const on = await page.evaluate(() => ({tbl: !!document.querySelector('#xPages .sheet .extopictbl'), v: EX.bytopic}));
+          assert(!off.tbl && off.v === false && on.tbl && on.v === true, `topic table toggle: off ${JSON.stringify(off)}, on ${JSON.stringify(on)}`);
+        }
         assert(cv.k === `Total marks: ${tot}` && cv.t.length === 2, `cover marks block: "${cv.k}", ${cv.t.length} section(s)`);
         assert(cv.t[0].startsWith(`Section I – `) && cv.t[0].includes(`(pages ${cv.p1}–${cv.p2 - 1})`) || cv.t[0].includes(`(page ${cv.p1})`), `Section I pages: "${cv.t[0]}" (heading on page ${cv.p1}, Section II from ${cv.p2})`);
         assert(cv.t[1].includes(`(pages ${cv.p2}–${cv.n})`) || cv.t[1].includes(`(page ${cv.p2})`), `Section II pages: "${cv.t[1]}" (from page ${cv.p2} of ${cv.n})`);
@@ -2185,48 +2196,26 @@ async function queueChecks(browser, base, seed) {
     return `${d.filename}: ${k} at 150%`;
   });
 
-  /* ---- #4: the ⓘ card ---- */
-  await check('paper: the dot-point line is gone, an ⓘ ends each source line', page, async () => {
-    const r = await page.evaluate(() => ({old: document.querySelectorAll('#xPages .exalpha, #xPages .exdot, #xPages [data-rep]').length,
-      src: document.querySelectorAll('#xPages .xq .xsrc').length, info: document.querySelectorAll('#xPages .xq .xsrc > .exsrcl + button.exinfo.scr-only[data-qinfo][aria-haspopup="dialog"]').length,
-      txt: [...document.querySelectorAll('#xPages .xq .xsrc')].some(x => /Y1[12]-\d{3}|Report/.test(x.innerText))}));
-    errs(); assert(!r.old, `${r.old} old dot-point line / Report link element(s) on the paper`); assert(!r.txt, 'a source line still shows a dot point or "Report"');
-    assert(r.src > 0 && r.info === r.src, `${r.info} ⓘ buttons for ${r.src} source lines`);
-    return `${r.info} source lines, each with an ⓘ`;
+  /* ---- #4: Report beside the QID (owner 18 Nov: "I think the i on each question is useless. Remove it. just put the report button as a
+     text which changes on hover next to the qid") ---- */
+  await check('paper: each source line ends with a Report link (no ⓘ, no dot-point line)', page, async () => {
+    const r = await page.evaluate(() => ({old: document.querySelectorAll('#xPages .exalpha, #xPages .exdot, #xPages [data-rep], #xPages .exinfo, #qiPop').length,
+      src: document.querySelectorAll('#xPages .xq .xsrc').length, rep: [...document.querySelectorAll('#xPages .xq .xsrc > .exsrcl + button.exrep.scr-only[data-qinfo]')].filter(b => /^Report(ed \(\d+\))?$/.test(b.textContent)).length,
+      txt: [...document.querySelectorAll('#xPages .xq .xsrc .exsrcl')].some(x => /Y1[12]-\d{3}/.test(x.innerText))}));
+    errs(); assert(!r.old, `${r.old} old ⓘ / dot-point line / card element(s) on the paper`); assert(!r.txt, 'a source line still shows a dot point');
+    assert(r.src > 0 && r.rep === r.src, `${r.rep} Report links for ${r.src} source lines`);
+    return `${r.rep} source lines, each ending with Report`;
   });
-  await check('paper: the ⓘ card (dot points, band, kind, Report)', page, async () => {
-    const q = await page.evaluate(() => { const b = [...document.querySelectorAll('#xPages [data-qinfo]')].find(b => qLeaves(xq(+b.dataset.qinfo)).length > 1) || document.querySelector('#xPages [data-qinfo]');
-      b.scrollIntoView({block: 'center'}); EXV.sel = null; return +b.dataset.qinfo });
-    await settle(page, 1000, 2);
-    const sel0 = await page.evaluate(() => EXV.sel);
+  await check('paper: Report opens the report form; Esc closes it and the preview stays open', page, async () => {
+    const q = await page.evaluate(() => { const b = document.querySelector('#xPages [data-qinfo]'); b.scrollIntoView({block: 'center'}); EXV.sel = null; return +b.dataset.qinfo });
+    await settle(page, 800, 2); const sel0 = await page.evaluate(() => EXV.sel);
     await page.click(`#xPages [data-qinfo="${q}"]`);
-    const c = await page.evaluate(q => { const p = document.querySelector('#qiPop'); if (!p) return null; const r = p.getBoundingClientRect();
-      return {txt: p.innerText, role: p.getAttribute('role'), exp: document.querySelector(`#xPages [data-qinfo="${q}"]`).getAttribute('aria-expanded'), in: r.left >= 0 && r.right <= innerWidth && r.top >= 0 && r.bottom <= innerHeight,
-        parts: p.querySelectorAll('.qiparts > li').length, leaves: qLeaves(xq(q)).length, sel: EXV.sel} }, q);
-    assert(c, 'the ⓘ did not open a card');
-    assert(c.role === 'dialog' && c.exp === 'true', `role ${c.role}, aria-expanded ${c.exp}`);
-    assert(/Y1[12]-\d{3}/.test(c.txt) && /Band \d|Not rated/.test(c.txt) && /Fluency|Problem solving/.test(c.txt) && /Report/.test(c.txt), 'the card lacks a dot point, band, kind or Report: ' + c.txt.slice(0, 160));
-    assert(c.parts === c.leaves, `${c.parts} part rows for ${c.leaves} parts`); assert(c.in, 'the card is not inside the window');
-    assert(c.sel === sel0, 'clicking the ⓘ also selected the question');
-    await page.mouse.click(5, 300);   // outside
-    assert(!(await page.$('#qiPop')), 'a click outside did not close the card');
-    // keyboard: Enter opens, Esc closes and returns focus, the preview stays open
-    await page.focus(`#xPages [data-qinfo="${q}"]`); await page.keyboard.press('Enter');
-    assert(await page.$('#qiPop'), 'Enter on the ⓘ did not open the card');
-    await page.keyboard.press('Tab');
-    const f1 = await page.evaluate(() => document.activeElement?.matches('#qiPop [data-qirep]'));
-    assert(f1, 'Tab does not reach Report in the card');
-    await page.keyboard.press('Escape');
-    const k2 = await page.evaluate(q => ({pop: !!document.querySelector('#qiPop'), focus: document.activeElement?.dataset?.qinfo, pv: document.body.classList.contains('xpv-on')}), q);
-    assert(!k2.pop && k2.focus === String(q) && k2.pv, `after Esc: ${JSON.stringify(k2)}`);
-    // Report from the card opens the form
-    await page.click(`#xPages [data-qinfo="${q}"]`); await page.click('#qiPop [data-qirep]');
-    const f = await page.evaluate(q => ({dlg: !!document.querySelector('#repDlg .repdlg') && !document.querySelector('#repDlg').hidden, pop: !!document.querySelector('#qiPop'), title: document.querySelector('#repT')?.textContent, q: REP.dlg?.q}), q);
-    assert(f.dlg && !f.pop && f.q === q, `Report from the card: ${JSON.stringify(f)}`);
+    const f = await page.evaluate(() => ({dlg: !!document.querySelector('#repDlg .repdlg') && !document.querySelector('#repDlg').hidden, sel: EXV.sel}));
+    assert(f.dlg, 'Report did not open the form'); assert(f.sel === sel0, 'clicking Report also selected the question');
     await page.keyboard.press('Escape');
     const g = await page.evaluate(() => ({dlg: !document.querySelector('#repDlg')?.hidden, pv: document.body.classList.contains('xpv-on')}));
     errs(); assert(!g.dlg && g.pv, `Esc on the form: ${JSON.stringify(g)}`);
-    return `QID ${q}: ${c.parts} part(s) · “${f.title}”`;
+    return `QID ${q}: form opened and closed`;
   });
   await check('exams: the grading panel lists the dot points', page, async () => {
     const q = await page.evaluate(() => +document.querySelector('#xPages [data-qinfo]').dataset.qinfo);
@@ -2244,7 +2233,7 @@ async function queueChecks(browser, base, seed) {
   /* touch phone: a finger drag on the handle, and the ⓘ card fits the screen */
   const tp = await newPage(browser, base, seed, {width: 390, theme: 'dark', touch: true});
   await boot(tp, base, '#exams');
-  await check('exams: diagram resize and ⓘ on a touch phone', tp, async () => {
+  await check('exams: diagram resize and Report on a touch phone', tp, async () => {
     await genPaper(tp);
     const k = await figOnScreen(tp); assert(k, 'no diagram'); await settle(tp, 1500, 2);
     const s0 = await figState(tp, k);
@@ -2260,11 +2249,11 @@ async function queueChecks(browser, base, seed) {
     const b = await tp.evaluate(() => { const b = document.querySelector('#xPages [data-qinfo]'); b.scrollIntoView({block: 'center'}); const r = b.getBoundingClientRect(); return {x: r.x + r.width / 2, y: r.y + r.height / 2, w: r.width} });
     await settle(tp, 800, 2); const b2 = await tp.evaluate(() => { const r = document.querySelector('#xPages [data-qinfo]').getBoundingClientRect(); return {x: r.x + r.width / 2, y: r.y + r.height / 2, w: r.width} });
     await tp.tap('#xPages [data-qinfo]');
-    const c = await tp.evaluate(() => { const p = document.querySelector('#qiPop'); if (!p) return null; const r = p.getBoundingClientRect(); return {l: r.left, r: r.right, t: r.top, b: r.bottom, W: innerWidth, H: innerHeight, sx: document.documentElement.scrollWidth} });
+    const c = await tp.evaluate(() => { const p = document.querySelector('#repDlg .repdlg'); if (!p) return null; const r = p.getBoundingClientRect(); return {l: r.left, r: r.right, t: r.top, b: r.bottom, W: innerWidth, H: innerHeight, sx: document.documentElement.scrollWidth} });
     const e = takeErrs(tp); assert(!e.length, e.join(' | '));
-    assert(c, 'tapping the ⓘ did not open the card');
-    assert(c.l >= 8 && c.r <= c.W - 8 && c.t >= 0 && c.b <= c.H, `card off screen: ${JSON.stringify(c)}`);
-    assert(b2.w >= 16 && hr >= 8, `ⓘ ${b2.w.toFixed(0)} px, handle ${hr.toFixed(0)} px wide on the phone paper`);
+    assert(c, 'tapping Report did not open the report form');
+    assert(c.l >= 0 && c.r <= c.W && c.t >= 0 && c.b <= c.H + 1, `report form off screen: ${JSON.stringify(c)}`);   // the form is a full-width sheet on a phone
+    assert(b2.w >= 16 && hr >= 8, `Report ${b2.w.toFixed(0)} px, handle ${hr.toFixed(0)} px wide on the phone paper`);
     // review 14 Nov: paper controls (− N lines +, the corner handle) scroll UNDER the sticky toolbar, not over it
     await tp.keyboard.press('Escape');
     const under = await tp.evaluate(async () => { const t = document.querySelector('.expv .xtool').getBoundingClientRect(), sc = document.querySelector('.xpv') || document.scrollingElement;
@@ -2275,7 +2264,7 @@ async function queueChecks(browser, base, seed) {
       return {n, bad} });
     assert(under.n > 0, 'could not scroll a paper control under the toolbar');
     assert(!under.bad.length, `${under.bad.length} paper control(s) drawn over the sticky toolbar: ${under.bad.slice(0, 3).join(', ')}`);
-    return `${k}: finger drag → ${Math.round(s1.fs * 100)}%; ⓘ ${b2.w.toFixed(0)} px, card ${Math.round(c.r - c.l)} px wide; ${under.n} controls stay under the toolbar`;
+    return `${k}: finger drag → ${Math.round(s1.fs * 100)}%; ⓘ ${b2.w.toFixed(0)} px, form ${Math.round(c.r - c.l)} px wide; ${under.n} controls stay under the toolbar`;
   });
   await tp.context().close();
 }

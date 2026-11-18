@@ -955,8 +955,10 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 /* ---- cover (owner 14 Nov: "the cover page does not look super professional"; certificate and course on separate lines).
    NESA-like restraint: left-aligned, a rule structure, hairline stats row, two-column instructions. Paper colours are fixed
    (the sheet is always white). ---- */
-.xcover.excover{display:block;text-align:left;padding-top:2mm}
-.excover .cv-head{border-top:2.2pt solid #111;padding-top:4.5mm}
+.xcover.excover{display:flex;flex-direction:column;align-items:stretch;text-align:left;padding-top:2mm;min-height:242mm}
+/* owner 18 Nov: "bottom align the table (put it towards the bottom of the page) and remove marks by topic text" */
+.excover .extopictbl{margin-top:auto;padding-top:7mm}
+.excover .cv-head{padding-top:2mm}   /* owner 18 Nov: "remove the top black line" */
 .excover .xschool{font:600 9.5pt var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#333}
 .excover .cv-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10mm}   /* owner 18 Nov: logo left, Name / Tutor right */
 .excover .cv-logo{display:block;height:15mm;width:auto}
@@ -982,7 +984,6 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .excover .exaddli .linkbtn{font-size:11.5px;padding:2px 0;color:#1e5f5a}
 /* marks by topic: narrow Topic, wide Questions (small numbers, runs never break), tight number columns */
 .extopictbl{width:100%;margin-top:7mm;text-align:left}
-.extopictbl .toc-title{font:600 8pt var(--sans);letter-spacing:.12em;text-transform:uppercase;color:#111;margin-bottom:2mm}
 .extopictbl table{width:100%;table-layout:fixed;border-collapse:collapse;font:9pt/1.3 var(--sans);font-variant-numeric:tabular-nums}
 .extopictbl col.c-t{width:30%}.extopictbl col.c-n{width:16mm}.extopictbl col.c-s{width:15mm}
 .extopictbl th,.extopictbl td{padding:1.3mm 1.6mm;border-bottom:.5pt solid #c9c9c9;text-align:center;vertical-align:top}
@@ -1246,28 +1247,12 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 /* on the paper (screen only: .scr-only is removed from the download and hidden in print) */
 .xsrc.exsrc{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:baseline;gap:1mm 1mm;text-align:left}
 .exsrcl{margin-left:auto;text-align:right;white-space:nowrap}
-/* the ⓘ at the end of the source line (owner 14 Nov: "The dot point home looks stupid in a question" / "the i is fine").
-   It sits on the always-white sheet, so it uses the paper's fixed tokens (--pp-*, 12_exams.css). */
-/* negative top/bottom margins: the 20px target adds no height to the 8pt source line, so pagination is as before */
-.exinfo{display:inline-grid;place-items:center;flex:none;width:20px;height:20px;margin:-6px -3px -6px 3px;padding:0;border:0;border-radius:50%;background:none;color:color-mix(in srgb,var(--pp-ink,#16181d) 42%,transparent);cursor:pointer;position:relative;align-self:center}
-.exinfo::before{content:"";position:absolute;inset:-8px}
-.xpages .exinfo{zoom:calc(1/var(--xz,1))}   /* a phone-sized paper (zoom .4-.5) would shrink it to ~9px */
-.exinfo:hover,.exinfo[aria-expanded="true"]{color:var(--pp-accent,#1e5f5a);background:color-mix(in srgb,var(--pp-accent,#1e5f5a) 9%,transparent)}
-.exinfo:focus-visible{outline:2px solid var(--pp-accent,#1e5f5a);outline-offset:1px}
-.exinfo.has::after{content:"";position:absolute;top:1px;right:1px;width:5px;height:5px;border-radius:50%;background:var(--pp-warn,#9a5b00);box-shadow:0 0 0 1.5px var(--pp-paper,#fff)}
-/* the card: page UI, so theme tokens */
-.qipop{position:fixed;z-index:95;box-sizing:border-box;width:min(340px,calc(100vw - 24px));max-height:min(420px,calc(100vh - 24px));overflow:auto;background:var(--panel);color:var(--ink);border:1px solid var(--line2);border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.18),0 1px 2px rgba(0,0,0,.08);padding:12px 14px;font:13px/1.45 var(--sans);text-align:left}
-.qipop:focus{outline:none}.qipop:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.qihd{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;font-variant-numeric:tabular-nums}.qihd b{font-weight:600;color:var(--ink)}
-.qiparts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
-.qiparts li{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}.qiparts.multi li{grid-template-columns:2.6em minmax(0,1fr)}
-.qiparts.multi li+li{padding-top:8px;border-top:1px solid var(--line)}
-.qilab{color:var(--muted);font-variant-numeric:tabular-nums}
-.qidot b{font-weight:600;font-variant-numeric:tabular-nums;margin-right:2px}.qinone{color:var(--muted)}
-.qimeta{color:var(--muted);font-size:12px;margin-top:2px}
-.qifoot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
-.qirepn{font-size:12px;color:var(--warn)}
-@media (prefers-reduced-motion:no-preference){.qipop{animation:qiIn .12s ease-out}@keyframes qiIn{from{opacity:0;transform:translateY(-2px)}to{opacity:1;transform:none}}}
+/* owner 18 Nov: Report as text beside the QID ("a text which changes on hover"), screen only */
+.exrep{flex:none;margin-left:2.5mm;padding:0;border:0;background:none;font:inherit;color:#888;cursor:pointer;text-decoration:none}
+.exrep:hover,.exrep:focus-visible{color:var(--pp-accent,#1e5f5a);text-decoration:underline;text-underline-offset:2px}
+.exrep:focus-visible{outline:2px solid var(--pp-accent,#1e5f5a);outline-offset:1px;border-radius:2px}
+.exrep.has{color:var(--pp-warn,#9a5b00)}
+.xpages .exrep{zoom:calc(1/var(--xz,1))}   /* a phone-sized paper (zoom .4-.5) would shrink the tap target to a few px */
 /* the grading panel's question detail: dot points (owner 14 Nov) */
 .gdots{margin:8px 0 10px;font-size:12px}.gdots>b{display:block;font-weight:600;margin-bottom:3px}
 .gdotl{list-style:none;margin:0;padding:0;display:grid;gap:3px}.gdotl li{display:flex;gap:6px;min-width:0}.gdotl .pp{flex:none;color:var(--muted)}
@@ -3796,7 +3781,7 @@ function xSavedList(){const el=$('#xSaved');if(!el)return;if(!db){el.innerHTML='
 async function xSaveDb(){
   if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;xsave();
     const A=EX.auto||{},keep={topics:A.topics,total:A.total,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
-    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',time:EX.time,reading:EX.reading,items:EX.items,keys:EX.items.map(i=>xq(i)?.key||null),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});toast('Exam saved')}
+    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,reading:EX.reading,items:EX.items,keys:EX.items.map(i=>xq(i)?.key||null),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});toast('Exam saved')}
     catch(e){toast('Could not save. Try again in a moment.')}}
   if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}}
 document.addEventListener('click',e=>{
@@ -3843,7 +3828,7 @@ function xQ(q,n,doc){exA();
     else opts=`<div class="xol">${q.options.map(o=>`<div class="xo${ok(o)}"><b>${o.label}.</b><span class="tx">${tex(o.latex)}</span></div>`).join('')}</div>`}
   const head=q.type==='mcq'?`<span class="xqn">${n}</span>`:`<div class="xqh"><b>Question ${n}</b><span>(${q.marks??'?'} mark${q.marks===1?'':'s'})</span></div>`;
   // owner 14 Nov: "The dot point home looks stupid in a question", then "Yeah that's fine, the i is fine". The grey dot-point
-  // line and Report link are gone from the question; a small ⓘ ends the source line and opens a card (qiOpen, 27_reports.js)
+  // line and Report link are gone from the question; a Report link ends the source line (owner 18 Nov; qiButton, 27_reports.js)
   // with the dot points per part, band, kind and Report. Screen only (.scr-only), like the old line.
   // owner 18 Nov: "In the PDF output, remove the school name, just the qid for each question": the paper (and so its PDF, Word and HTML
   // downloads) shows only the QID; the marking guide keeps the source, and ⓘ still shows it on screen
@@ -4485,7 +4470,7 @@ function xCover(mc,wr){exA();const tot=xMarks(mc)+xMarks(wr),homes=xaHomes();if(
       <div class="cv-k">General instructions</div><ul class="cv-v"><li>Reading time – ${ED('reading','span','','10 minutes')}</li><li>Working time – ${ED('time','span','','2 hours')}</li>${EX.instr.map((t,i)=>`<li>${ED('instr:'+i,'span','','Instruction',t)}</li>`).join('')}${wr.length?'<li>For questions in Section II, show relevant mathematical reasoning and/or calculations</li>':''}<li class="exaddli"><button type="button" class="linkbtn" data-addinstr>+ Add an instruction</button></li></ul>
       <div class="cv-k">Total marks: ${tot}</div><div class="cv-v cv-secs">${EXSEC.blocks(mc,wr,tot)}</div>
     </div>
-    ${rows?`<div class="extopictbl"><div class="toc-title">Marks by topic</div><table><colgroup><col class="c-t"><col class="c-q">${split?'<col class="c-n"><col class="c-n">':''}<col class="c-n"><col class="c-s"></colgroup><thead><tr><th scope="col">Topic</th><th scope="col" class="qs">Questions</th>${split?'<th scope="col">Section I</th><th scope="col">Section II</th>':''}<th scope="col">Total</th><th scope="col">Score</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><th scope="row">Total</th><td></td>${split?`<td>${xMarks(mc)}</td><td>${xMarks(wr)}</td>`:''}<td class="tt">${tot}</td><td class="xsc">/ ${tot}</td></tr></tfoot></table></div>`:''}</div>`}
+    ${rows&&EX.bytopic!==false?`<div class="extopictbl"><table aria-label="Marks by topic"><colgroup><col class="c-t"><col class="c-q">${split?'<col class="c-n"><col class="c-n">':''}<col class="c-n"><col class="c-s"></colgroup><thead><tr><th scope="col">Topic</th><th scope="col" class="qs">Questions</th>${split?'<th scope="col">Section I</th><th scope="col">Section II</th>':''}<th scope="col">Total</th><th scope="col">Score</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><th scope="row">Total</th><td></td>${split?`<td>${xMarks(mc)}</td><td>${xMarks(wr)}</td>`:''}<td class="tt">${tot}</td><td class="xsc">/ ${tot}</td></tr></tfoot></table></div>`:''}</div>`}
 
 /* ---------- preview: A4 sheets, grading panel, Fit pages ---------- */
 const EXC=new Map();   // typeset question bodies, so re-laying out after an edit only typesets what changed
@@ -4557,7 +4542,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!opts.keep||!$('#xPages')){
     ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button></div>
       <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span>
-      <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Grading</button><button class="act" id="exPvSetup">Back to setup</button><button class="act" id="exPvFit" title="Swap nearby questions so pages are not left mostly empty">Fit pages</button>
+      <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Grading</button><button class="act" id="exPvSetup">Back to setup</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table</button><button class="act" id="exPvFit" title="Swap nearby questions so pages are not left mostly empty">Fit pages</button>
       <button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvSwap">Swap questions</button>
       <button class="act ok" id="xDl" disabled>Download to print</button><button class="act ghost" id="xPvClose">Close</button></div>
       <div class="expvbody"><div class="xpages" id="xPages"></div><aside class="expvside" id="exGSide" aria-label="Question grading"></aside></div>`}
@@ -4609,7 +4594,8 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     cur.push(el);used+=h;if(b.cover)cur=null});
   const host=$('#xPages');host.innerHTML='';
   sheets.forEach((s,k)=>{const sh=document.createElement('div');sh.className='sheet';const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);
-    sh.insertAdjacentHTML('beforeend',`<div class="sheetfoot">${esc(EX.title)} · ${esc(EX.sub)}${doc==='guide'?' · marking guide':''}<span>${k+1} / ${sheets.length}</span></div>`);host.appendChild(sh)});
+    // owner 18 Nov: "remove the footer on the cover page", "instead of 1/28 write Page 1 of 28"
+    if(!(doc==='exam'&&k===0))sh.insertAdjacentHTML('beforeend',`<div class="sheetfoot">${esc(EX.title)} · ${esc(EX.sub)}${doc==='guide'?' · marking guide':''}<span>Page ${k+1} of ${sheets.length}</span></div>`);host.appendChild(sh)});
   meas.remove();EXSEC.pages(host);scaleTables(host,true);exZoom();
   const qs=EX.items.map(xq).filter(Boolean),tot=xMarks(qs);let F=0,P=0,w=0;qs.forEach(q=>{const e=exEst(q);if(e){F+=e.fl;P+=e.ps;w+=e.d*e.m}});
   $('#xInfo').textContent=`${sheets.length} page${sheets.length===1?'':'s'} · ${qs.length} questions · ${tot} marks${F+P?` · ${Math.round(P/(F+P)*100)}% problem solving · average band ${(w/(F+P)).toFixed(1)}`:''}`;
@@ -4675,7 +4661,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#xBtn')){e.preventDefault();e.stopImmediatePropagation();if(EX.items.length&&EXV.view==='setup'&&!exA().topics.length)EXV.view='pick';location.hash='#exams';if(view==='exams')renderExams();return}
   // load a saved exam with all its fields (stage 1 only restored the questions)
   const ld=e.target.closest('#xPanel [data-xload]');if(ld){e.stopImmediatePropagation();const x=XSAVED.find(s=>s.id===ld.dataset.xload);if(!x)return;
-    EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',time:x.time,reading:x.reading,items:(x.items||[]).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
+    EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',bytopic:x.bytopic!==false,time:x.time,reading:x.reading,items:(x.items||[]).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
     xsave();EXC.clear();toast('Exam opened');return}
   if(e.target.closest('#examsView #xClose')){e.stopImmediatePropagation();document.body.classList.remove('exr-open','exs-open');return}
   const rv=e.target.closest('#examsView [data-reveal]');if(rv){e.stopImmediatePropagation();const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card'),q=xq(id);
@@ -4692,6 +4678,8 @@ document.addEventListener('click',e=>{const t=e.target;
     if(t.closest('#exGClose')){EXV.grade=false;$('#xPv').classList.add('grade-off');$('#exGrade')?.setAttribute('aria-pressed','false');exZoom();return}
     if(t.closest('#exPvSetup')){exClosePv();EXV.view='setup';exSaveView();location.hash='#exams';renderExams();return}
     if(t.closest('#exPvSwap')){exClosePv();EXV.view='pick';exSaveView();location.hash='#exams';renderExams();return}
+    // owner 18 Nov: "Give an option to toggle that table on and off" (saved with the exam: EX.bytopic, on unless set to false)
+    if(t.closest('#exPvTopic')){EX.bytopic=EX.bytopic===false;xsave();t.closest('#exPvTopic').setAttribute('aria-pressed',String(EX.bytopic!==false));exRelayout();return}
     if(t.closest('#exPvFit')){if(EXV.doc!=='exam'){toast('Switch to the exam paper to fit its pages');return}EXV.fit=true;EXV.fitMsg=true;exRelayout();return}
     if(t.closest('#exPvRegen')){const b=t.closest('#exPvRegen');if(b.disabled)return;const r=exGenerate();if(r){EXC.clear();xPreview(EXV.doc);toast(`New exam · ${r.n} questions · ${r.marks} marks`)}return}
     if(t.closest('#xPvClose')){e.stopImmediatePropagation();exClosePv();return}
@@ -4808,7 +4796,7 @@ async function exmNames(){const ids=[...new Set(XSAVED.map(x=>x.by).filter(i=>i&
   try{const u=await window.claude?.use?.('user');if(!u?.profiles)return;const ps=await u.profiles(ids);ids.forEach(i=>EXM.names[i]=ps?.[i]?.name||'');if(view==='exams'&&EXV.view==='mine')renderMine()}catch(e){}}
 const exmWho=x=>!x.by?'':x.by===me?'you':(EXM.names[x.by]||'a colleague');
 // the fields that make up a saved exam; "unsaved" = the open exam differs from its saved copy
-const exmSig=x=>JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.time||'',x.reading||'',x.items||[],x.instr||null,x.lines||{},x.figscale||{}]);
+const exmSig=x=>JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.bytopic!==false,x.time||'',x.reading||'',x.items||[],x.instr||null,x.lines||{},x.figscale||{}]);
 function exmState(){if(!EX.items.length)return '';if(!EX.id)return 'new';const s=XSAVED.find(x=>x.id===EX.id);if(!s)return db?'new':'';return exmSig(s)===exmSig(EX)?'saved':'changed'}
 // owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": a saved exam finds its questions by key (RKEY.items), id as fallback
 function exmStats(x){const qs=RKEY.items(x).map(xq).filter(Boolean);let m=0,pr=0,w=0,mc=0;
@@ -4816,7 +4804,7 @@ function exmStats(x){const qs=RKEY.items(x).map(xq).filter(Boolean);let m=0,pr=0
 const exmWhen=t=>{const d=new Date(t);if(isNaN(d))return '';const days=Math.floor((Date.now()-d)/864e5);
   return days<1?d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}):days<7?d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}):d.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})};
 // owner 14 Nov: cert line saved with the exam; "remove Skip questions used in my other saved exams for now" (avoid forced off)
-function exmLoad(x){EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',time:x.time,reading:x.reading,items:RKEY.items(x).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
+function exmLoad(x){EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',bytopic:x.bytopic!==false,time:x.time,reading:x.reading,items:RKEY.items(x).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
   xsave();try{EXC.clear()}catch(e){}}
 function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
   if(!db){el.innerHTML='<div class="exm-empty">Saved exams live in the shared database. Open the page in claude.ai to see them.</div>';return}
@@ -5102,16 +5090,14 @@ function repDots(q){const lv=qLeaves(q),multi=lv.length>1,seen=new Map();
     return {k,lab,txt,code:d?k:''}})}
 const repDotsHTML=q=>{const ds=repDots(q);return ds.length?ds.map(d=>`<span class="exdot">${esc(d.lab)}${d.code?`<b>${esc(d.code)}</b> `:''}${esc(d.txt)}</span>`).join('<span class="exsep"> · </span>'):'<span class="exdot">No dot point yet</span>'};
 
-/* ---------- on the paper: an ⓘ on the source line, screen only ----------
-   owner 14 Nov: "The dot point home looks stupid in a question", then, of the proposed ⓘ: "Yeah that's fine, the i is fine".
-   The grey dot-point line and the Report link left the question. The ⓘ at the end of the source line ("2025 Sydney Girls … ·
-   QID 1084  ⓘ") opens a small card: the dot point(s) per part (code and short text), each part's band and Fluency / Problem
-   solving, and Report, which opens the report form. Esc or a click outside closes it; focus goes back to the ⓘ. The button
-   carries .scr-only, so the download, PDF and Word leave it out, as they left out the old line. */
-const QI_ICON='<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.25"/><circle cx="8" cy="4.9" r=".95" fill="currentColor"/><path d="M8 7.1v4.4" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"/></svg>';
-const qiLabel=k=>`Dot points, band and Report${k?` · ${k} open report${k===1?'':'s'}`:''}`;
+/* ---------- on the paper: Report beside the QID, screen only ----------
+   owner 18 Nov: "I think the i on each question is useless. Remove it. just put the report button as a text which changes on hover
+   next to the qid" (this replaces the 14 Nov ⓘ card). The source line ends "QID 1084  Report"; a click opens the report form
+   directly. A question with open reports reads "Reported (n)". .scr-only keeps it out of the download, PDF and Word. The dot
+   points, band and kind the card showed stay in the grading panel (qiDotsList). data-qinfo keeps its name (the question id). */
+const qiLabel=k=>`Report a problem with this question${k?` · ${k} open report${k===1?'':'s'}`:''}`;
 function qiButton(q,n){const k=repOpen().filter(r=>r.question_id===q.id).length;
-  return `<button type="button" class="exinfo scr-only${k?' has':''}" data-qinfo="${q.id}" data-n="${esc(String(n??''))}" aria-haspopup="dialog" aria-expanded="false" aria-label="${qiLabel(k)}" title="${qiLabel(k)}">${QI_ICON}</button>`}
+  return `<button type="button" class="exrep scr-only${k?' has':''}" data-qinfo="${q.id}" data-n="${esc(String(n??''))}" aria-haspopup="dialog" aria-label="${qiLabel(k)}" title="${qiLabel(k)}">${k?`Reported (${k})`:'Report'}</button>`}
 // each leaf part: its label (when there are several), main dot point(s), band and kind, as the Bank files and rates it
 function qiParts(q){const e=typeof exEst==='function'?exEst(q):null,lv=qLeaves(q);
   return lv.map(p=>{const ep=e?.parts.find(x=>x.id===p.id),seen=new Set();
@@ -5127,29 +5113,8 @@ const qiDotsList=(q,cls)=>{const ps=qiParts(q);if(!ps.some(p=>p.dots.length))ret
   // (as the old line did: "(a)(c) Y11-040 … · (b) Y11-042 …")
   const rows=[];ps.forEach(p=>{const key=p.dots.map(qiDotHTML).join('|'),same=key&&rows.find(r=>r.key===key);if(same){same.lab=(same.lab||'')+(p.lab||'')}else rows.push({...p,key})});
   return `<ul class="${cls}">${rows.map(p=>`<li>${p.lab?`<span class="pp">${esc(p.lab)}</span>`:''}<span class="${cls}-d">${p.dots.map(qiDotHTML).join('<br>')||'<i>No dot point yet</i>'}</span></li>`).join('')}</ul>`};
-let QI=null;
-function qiOpen(btn){qiClose(false);const q=xq(+btn.dataset.qinfo);if(!q)return;const n=btn.dataset.n,ps=qiParts(q),k=repOpen().filter(r=>r.question_id===q.id).length,multi=ps.length>1;
-  const el=document.createElement('div');el.id='qiPop';el.className='qipop';el.setAttribute('role','dialog');el.setAttribute('aria-label',`${n?'Question '+n+', ':''}${qid(q)}: dot points and band`);el.tabIndex=-1;
-  el.innerHTML=`<div class="qihd">${n?`<b>Question ${esc(n)}</b> · `:''}${qid(q)}</div>
-    <ul class="qiparts${multi?' multi':''}">${ps.map(p=>`<li>${multi?`<span class="qilab">${esc(p.lab||'–')}</span>`:''}<div class="qibody">${p.dots.length?p.dots.map(d=>`<div class="qidot">${qiDotHTML(d)}</div>`).join(''):'<div class="qidot qinone">No dot point yet</div>'}
-      <div class="qimeta">${p.b!=null?`Band ${esc(String(p.b))}`:'Not rated yet'}${p.kind?` · ${p.kind}`:''}</div></div></li>`).join('')}</ul>
-    <div class="qifoot"><span class="qirepn">${k?`${k} open report${k===1?'':'s'}`:''}</span><button type="button" class="act qirep" data-qirep="${q.id}" data-n="${esc(n||'')}">Report</button></div>`;
-  document.body.appendChild(el);QI={btn,el};btn.setAttribute('aria-expanded','true');qiPlace();el.focus({preventScroll:true})}
-function qiPlace(){if(!QI)return;const {btn,el}=QI;if(!document.contains(btn)){qiClose(false);return}
-  const r=btn.getBoundingClientRect(),W=innerWidth,H=innerHeight,m=12,w=el.offsetWidth,h=el.offsetHeight;
-  if(r.bottom<0||r.top>H){qiClose(false);return}
-  let x=Math.min(W-m-w,Math.max(m,r.right-w)),y=r.bottom+6;if(y+h>H-m&&r.top-6-h>=m)y=r.top-6-h;y=Math.max(m,Math.min(y,H-m-h));
-  el.style.left=Math.round(x)+'px';el.style.top=Math.round(y)+'px'}
-function qiClose(refocus){if(!QI)return;const {btn,el}=QI;QI=null;el.remove();btn.setAttribute('aria-expanded','false');if(refocus&&document.contains(btn))btn.focus({preventScroll:true})}
-addEventListener('scroll',e=>{if(QI&&!(e.target.closest&&e.target.closest('#qiPop')))qiPlace()},true);
-addEventListener('resize',()=>qiClose(false));
-// keyboard: Esc closes (window capture runs before the paper's own Esc, which would close the preview); Tab stays in the card
-// (its one control is Report), Shift+Tab or Tab past it returns to the ⓘ and closes
-addEventListener('keydown',e=>{if(!QI||REP.dlg)return;
-  if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();qiClose(true);return}
-  if(e.key==='Tab'&&QI.el.contains(document.activeElement)){const b=QI.el.querySelector('.qirep');if(document.activeElement!==b&&!e.shiftKey){e.preventDefault();b.focus()}else{e.preventDefault();qiClose(true)}}},true);
-// a report sent while the paper is open marks its ⓘ in place (no re-layout)
-function repMarkPaper(){$$('#xPages [data-qinfo]').forEach(b=>{const k=repOpen().filter(r=>r.question_id===+b.dataset.qinfo).length;b.classList.toggle('has',!!k);b.setAttribute('aria-label',qiLabel(k));b.title=qiLabel(k)})}
+// a report sent while the paper is open marks its Report link in place (no re-layout)
+function repMarkPaper(){$$('#xPages [data-qinfo]').forEach(b=>{const k=repOpen().filter(r=>r.question_id===+b.dataset.qinfo).length;b.classList.toggle('has',!!k);b.textContent=k?`Reported (${k})`:'Report';b.setAttribute('aria-label',qiLabel(k));b.title=qiLabel(k)})}
 
 /* ---------- the report form ---------- */
 function repDotOptions(sel){const by=new Map();DOTS.forEach(d=>{const g=`Year ${d.yl} · ${d.fa}`;if(!by.has(g))by.set(g,[]);by.get(g).push(d)});
@@ -5190,10 +5155,8 @@ async function repSend(){const D=REP.dlg,el=$('#repDlg');if(!D)return;const msg=
   catch(e){b.disabled=false;b.textContent='Send report';say('Could not send. Try again in a moment.')}}
 // capture: a Report click must not also select the question on the paper
 document.addEventListener('click',e=>{const t=e.target;
-  // the ⓘ on the paper (owner 14 Nov): toggles its card; the click must not also select the question on the paper
-  const qi=t.closest&&t.closest('#xPages [data-qinfo]');if(qi){e.preventDefault();e.stopImmediatePropagation();QI&&QI.btn===qi?qiClose(true):qiOpen(qi);return}
-  const qr=t.closest&&t.closest('#qiPop [data-qirep]');if(qr){e.preventDefault();e.stopImmediatePropagation();const id=+qr.dataset.qirep,n=qr.dataset.n;qiClose(true);repForm(id,n);return}
-  if(QI){if(t.closest&&t.closest('#qiPop')){e.stopImmediatePropagation();return}qiClose(false)}   // a click outside closes it
+  // Report beside the QID (owner 18 Nov): opens the report form; the click must not also select the question on the paper
+  const qi=t.closest&&t.closest('#xPages [data-qinfo]');if(qi){e.preventDefault();e.stopImmediatePropagation();repForm(+qi.dataset.qinfo,qi.dataset.n);return}
   if(!t.closest||!t.closest('#repDlg'))return;e.stopImmediatePropagation();
   if(t.id==='repDlg'||t.closest('[data-rclose]')){repClose();return}
   const rr=t.closest('[data-rr]');if(rr){const D=REP.dlg;D.reason=rr.dataset.rr;$$('#repDlg [data-rr]').forEach(x=>x.setAttribute('aria-checked',String(x===rr)));
@@ -5519,7 +5482,7 @@ async function xWord(doc){
       // owner 18 Nov: the logo (or the school's name) at the top left, Name: and Tutor: lines at the top right
       const lg=cv.querySelector('.cv-logo'),lr=lg&&lg.getBoundingClientRect();let head;
       try{head=lg&&lr.width>2?new ImageRun({type:'png',data:await wordPng(lg.src,lr.width,lr.height,3),transformation:{width:Math.round(lr.width),height:Math.round(lr.height)}}):null}catch(e){head=null}
-      out.push(new Paragraph({children:[head||new TextRun({text:(tx('.xschool')||'').toUpperCase(),font:UI,size:20,bold:true,characterSpacing:40})],spacing:{after:120},border:{top:{style:BorderStyle.SINGLE,size:12,color:'111111',space:8}}}));
+      out.push(new Paragraph({children:[head||new TextRun({text:(tx('.xschool')||'').toUpperCase(),font:UI,size:20,bold:true,characterSpacing:40})],spacing:{after:120}}));   // owner 18 Nov: no top rule
       for(const w of cv.querySelectorAll('.cv-who em'))out.push(new Paragraph({alignment:AlignmentType.RIGHT,children:[new TextRun({text:w.textContent+' ',font:UI,size:20}),new TextRun({text:'_'.repeat(30),font:UI,size:20})],spacing:{after:160}}));
       out.push(new Paragraph({children:[],spacing:{after:200}}));
       if(tx('.cv-cert'))out.push(new Paragraph({children:[new TextRun({text:tx('.cv-cert').toUpperCase(),font:UI,size:18,characterSpacing:30})],spacing:{after:60}}));
@@ -5527,7 +5490,7 @@ async function xWord(doc){
       if(tx('.cv-title'))out.push(new Paragraph({children:[new TextRun({text:tx('.cv-title'),font:FONT,size:28,color:'444444'})],spacing:{after:360}}));
       const g=cv.querySelector('.cv-grid');if(g){let lab='';for(const c of g.children){if(c.matches('.cv-k')){const sm=c.querySelector('small');lab=sm?[...c.childNodes].filter(n=>n!==sm).map(n=>n.textContent).join('').trim()+' – '+sm.textContent.trim():c.textContent.trim();out.push(new Paragraph({children:[new TextRun({text:lab,font:UI,size:20,bold:true})],spacing:{before:160,after:60},keepNext:true}))}else await blocks(c,{font:FONT},out)}}
       const tt=cv.querySelector('.extopictbl');if(tt){   // owner 18 Nov: marks by topic is always on the cover
-      out.push(new Paragraph({children:[new TextRun({text:'MARKS BY TOPIC',font:UI,size:18,bold:true})],spacing:{before:240,after:80}}));const t=tt.querySelector('table');if(t)out.push(await table(t,{font:UI,size:18}))}}
+      out.push(new Paragraph({children:[],spacing:{before:480}}));const t=tt.querySelector('table');if(t)out.push(await table(t,{font:UI,size:18}))}}   // owner 18 Nov: no "Marks by topic" heading
     // ---- walk the sheets ----
     const body=[];const sheets=[...host.querySelectorAll('.sheet')];let k=0;
     for(const sh of sheets){k++;say(`Making the Word file: page ${k} of ${sheets.length}…`);
@@ -5540,8 +5503,9 @@ async function xWord(doc){
       await new Promise(r=>setTimeout(r,0))}
     const title=`${EX.sub||EX.title||'Exam'}${doc==='guide'?' – marking guide':''}`;
     const wd=new D.Document({creator:'Questgen',title,styles:{default:{document:{run:{font:FONT,size:23}}}},
-      sections:[{properties:{page:{size:{width:11906,height:16838},margin:{top:1134,bottom:1134,left:1134,right:1134}}},
-        footers:{default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:`${EX.title||''} · ${EX.sub||''}${doc==='guide'?' · marking guide':''}    `,font:UI,size:16,color:'777777'}),new TextRun({children:[PageNumber.CURRENT],font:UI,size:16,color:'777777'})]})]})},
+      // owner 18 Nov: no footer on the cover (a blank first-page footer), and "Page 1 of 28"
+      sections:[{properties:{titlePage:doc==='exam',page:{size:{width:11906,height:16838},margin:{top:1134,bottom:1134,left:1134,right:1134}}},
+        footers:{first:new Footer({children:[new Paragraph({children:[]})]}),default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:`${EX.title||''} · ${EX.sub||''}${doc==='guide'?' · marking guide':''}    `,font:UI,size:16,color:'777777'}),new TextRun({children:['Page ',PageNumber.CURRENT,' of ',PageNumber.TOTAL_PAGES],font:UI,size:16,color:'777777'})]})]})},
         children:body}]});
     say('Packing…');const blob=await D.Packer.toBlob(wd);
     const name=(EX.sub||EX.title||'exam').replace(/[^\w\- ]+/g,'').trim()||'exam';

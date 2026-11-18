@@ -99,7 +99,7 @@ async function xWord(doc){
       // owner 18 Nov: the logo (or the school's name) at the top left, Name: and Tutor: lines at the top right
       const lg=cv.querySelector('.cv-logo'),lr=lg&&lg.getBoundingClientRect();let head;
       try{head=lg&&lr.width>2?new ImageRun({type:'png',data:await wordPng(lg.src,lr.width,lr.height,3),transformation:{width:Math.round(lr.width),height:Math.round(lr.height)}}):null}catch(e){head=null}
-      out.push(new Paragraph({children:[head||new TextRun({text:(tx('.xschool')||'').toUpperCase(),font:UI,size:20,bold:true,characterSpacing:40})],spacing:{after:120},border:{top:{style:BorderStyle.SINGLE,size:12,color:'111111',space:8}}}));
+      out.push(new Paragraph({children:[head||new TextRun({text:(tx('.xschool')||'').toUpperCase(),font:UI,size:20,bold:true,characterSpacing:40})],spacing:{after:120}}));   // owner 18 Nov: no top rule
       for(const w of cv.querySelectorAll('.cv-who em'))out.push(new Paragraph({alignment:AlignmentType.RIGHT,children:[new TextRun({text:w.textContent+' ',font:UI,size:20}),new TextRun({text:'_'.repeat(30),font:UI,size:20})],spacing:{after:160}}));
       out.push(new Paragraph({children:[],spacing:{after:200}}));
       if(tx('.cv-cert'))out.push(new Paragraph({children:[new TextRun({text:tx('.cv-cert').toUpperCase(),font:UI,size:18,characterSpacing:30})],spacing:{after:60}}));
@@ -107,7 +107,7 @@ async function xWord(doc){
       if(tx('.cv-title'))out.push(new Paragraph({children:[new TextRun({text:tx('.cv-title'),font:FONT,size:28,color:'444444'})],spacing:{after:360}}));
       const g=cv.querySelector('.cv-grid');if(g){let lab='';for(const c of g.children){if(c.matches('.cv-k')){const sm=c.querySelector('small');lab=sm?[...c.childNodes].filter(n=>n!==sm).map(n=>n.textContent).join('').trim()+' – '+sm.textContent.trim():c.textContent.trim();out.push(new Paragraph({children:[new TextRun({text:lab,font:UI,size:20,bold:true})],spacing:{before:160,after:60},keepNext:true}))}else await blocks(c,{font:FONT},out)}}
       const tt=cv.querySelector('.extopictbl');if(tt){   // owner 18 Nov: marks by topic is always on the cover
-      out.push(new Paragraph({children:[new TextRun({text:'MARKS BY TOPIC',font:UI,size:18,bold:true})],spacing:{before:240,after:80}}));const t=tt.querySelector('table');if(t)out.push(await table(t,{font:UI,size:18}))}}
+      out.push(new Paragraph({children:[],spacing:{before:480}}));const t=tt.querySelector('table');if(t)out.push(await table(t,{font:UI,size:18}))}}   // owner 18 Nov: no "Marks by topic" heading
     // ---- walk the sheets ----
     const body=[];const sheets=[...host.querySelectorAll('.sheet')];let k=0;
     for(const sh of sheets){k++;say(`Making the Word file: page ${k} of ${sheets.length}…`);
@@ -120,8 +120,9 @@ async function xWord(doc){
       await new Promise(r=>setTimeout(r,0))}
     const title=`${EX.sub||EX.title||'Exam'}${doc==='guide'?' – marking guide':''}`;
     const wd=new D.Document({creator:'Questgen',title,styles:{default:{document:{run:{font:FONT,size:23}}}},
-      sections:[{properties:{page:{size:{width:11906,height:16838},margin:{top:1134,bottom:1134,left:1134,right:1134}}},
-        footers:{default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:`${EX.title||''} · ${EX.sub||''}${doc==='guide'?' · marking guide':''}    `,font:UI,size:16,color:'777777'}),new TextRun({children:[PageNumber.CURRENT],font:UI,size:16,color:'777777'})]})]})},
+      // owner 18 Nov: no footer on the cover (a blank first-page footer), and "Page 1 of 28"
+      sections:[{properties:{titlePage:doc==='exam',page:{size:{width:11906,height:16838},margin:{top:1134,bottom:1134,left:1134,right:1134}}},
+        footers:{first:new Footer({children:[new Paragraph({children:[]})]}),default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:`${EX.title||''} · ${EX.sub||''}${doc==='guide'?' · marking guide':''}    `,font:UI,size:16,color:'777777'}),new TextRun({children:['Page ',PageNumber.CURRENT,' of ',PageNumber.TOTAL_PAGES],font:UI,size:16,color:'777777'})]})]})},
         children:body}]});
     say('Packing…');const blob=await D.Packer.toBlob(wd);
     const name=(EX.sub||EX.title||'exam').replace(/[^\w\- ]+/g,'').trim()||'exam';

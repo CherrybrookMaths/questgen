@@ -60,16 +60,14 @@ function repDots(q){const lv=qLeaves(q),multi=lv.length>1,seen=new Map();
     return {k,lab,txt,code:d?k:''}})}
 const repDotsHTML=q=>{const ds=repDots(q);return ds.length?ds.map(d=>`<span class="exdot">${esc(d.lab)}${d.code?`<b>${esc(d.code)}</b> `:''}${esc(d.txt)}</span>`).join('<span class="exsep"> · </span>'):'<span class="exdot">No dot point yet</span>'};
 
-/* ---------- on the paper: an ⓘ on the source line, screen only ----------
-   owner 14 Nov: "The dot point home looks stupid in a question", then, of the proposed ⓘ: "Yeah that's fine, the i is fine".
-   The grey dot-point line and the Report link left the question. The ⓘ at the end of the source line ("2025 Sydney Girls … ·
-   QID 1084  ⓘ") opens a small card: the dot point(s) per part (code and short text), each part's band and Fluency / Problem
-   solving, and Report, which opens the report form. Esc or a click outside closes it; focus goes back to the ⓘ. The button
-   carries .scr-only, so the download, PDF and Word leave it out, as they left out the old line. */
-const QI_ICON='<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true" focusable="false"><circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.25"/><circle cx="8" cy="4.9" r=".95" fill="currentColor"/><path d="M8 7.1v4.4" stroke="currentColor" stroke-width="1.45" stroke-linecap="round"/></svg>';
-const qiLabel=k=>`Dot points, band and Report${k?` · ${k} open report${k===1?'':'s'}`:''}`;
+/* ---------- on the paper: Report beside the QID, screen only ----------
+   owner 18 Nov: "I think the i on each question is useless. Remove it. just put the report button as a text which changes on hover
+   next to the qid" (this replaces the 14 Nov ⓘ card). The source line ends "QID 1084  Report"; a click opens the report form
+   directly. A question with open reports reads "Reported (n)". .scr-only keeps it out of the download, PDF and Word. The dot
+   points, band and kind the card showed stay in the grading panel (qiDotsList). data-qinfo keeps its name (the question id). */
+const qiLabel=k=>`Report a problem with this question${k?` · ${k} open report${k===1?'':'s'}`:''}`;
 function qiButton(q,n){const k=repOpen().filter(r=>r.question_id===q.id).length;
-  return `<button type="button" class="exinfo scr-only${k?' has':''}" data-qinfo="${q.id}" data-n="${esc(String(n??''))}" aria-haspopup="dialog" aria-expanded="false" aria-label="${qiLabel(k)}" title="${qiLabel(k)}">${QI_ICON}</button>`}
+  return `<button type="button" class="exrep scr-only${k?' has':''}" data-qinfo="${q.id}" data-n="${esc(String(n??''))}" aria-haspopup="dialog" aria-label="${qiLabel(k)}" title="${qiLabel(k)}">${k?`Reported (${k})`:'Report'}</button>`}
 // each leaf part: its label (when there are several), main dot point(s), band and kind, as the Bank files and rates it
 function qiParts(q){const e=typeof exEst==='function'?exEst(q):null,lv=qLeaves(q);
   return lv.map(p=>{const ep=e?.parts.find(x=>x.id===p.id),seen=new Set();
@@ -85,29 +83,8 @@ const qiDotsList=(q,cls)=>{const ps=qiParts(q);if(!ps.some(p=>p.dots.length))ret
   // (as the old line did: "(a)(c) Y11-040 … · (b) Y11-042 …")
   const rows=[];ps.forEach(p=>{const key=p.dots.map(qiDotHTML).join('|'),same=key&&rows.find(r=>r.key===key);if(same){same.lab=(same.lab||'')+(p.lab||'')}else rows.push({...p,key})});
   return `<ul class="${cls}">${rows.map(p=>`<li>${p.lab?`<span class="pp">${esc(p.lab)}</span>`:''}<span class="${cls}-d">${p.dots.map(qiDotHTML).join('<br>')||'<i>No dot point yet</i>'}</span></li>`).join('')}</ul>`};
-let QI=null;
-function qiOpen(btn){qiClose(false);const q=xq(+btn.dataset.qinfo);if(!q)return;const n=btn.dataset.n,ps=qiParts(q),k=repOpen().filter(r=>r.question_id===q.id).length,multi=ps.length>1;
-  const el=document.createElement('div');el.id='qiPop';el.className='qipop';el.setAttribute('role','dialog');el.setAttribute('aria-label',`${n?'Question '+n+', ':''}${qid(q)}: dot points and band`);el.tabIndex=-1;
-  el.innerHTML=`<div class="qihd">${n?`<b>Question ${esc(n)}</b> · `:''}${qid(q)}</div>
-    <ul class="qiparts${multi?' multi':''}">${ps.map(p=>`<li>${multi?`<span class="qilab">${esc(p.lab||'–')}</span>`:''}<div class="qibody">${p.dots.length?p.dots.map(d=>`<div class="qidot">${qiDotHTML(d)}</div>`).join(''):'<div class="qidot qinone">No dot point yet</div>'}
-      <div class="qimeta">${p.b!=null?`Band ${esc(String(p.b))}`:'Not rated yet'}${p.kind?` · ${p.kind}`:''}</div></div></li>`).join('')}</ul>
-    <div class="qifoot"><span class="qirepn">${k?`${k} open report${k===1?'':'s'}`:''}</span><button type="button" class="act qirep" data-qirep="${q.id}" data-n="${esc(n||'')}">Report</button></div>`;
-  document.body.appendChild(el);QI={btn,el};btn.setAttribute('aria-expanded','true');qiPlace();el.focus({preventScroll:true})}
-function qiPlace(){if(!QI)return;const {btn,el}=QI;if(!document.contains(btn)){qiClose(false);return}
-  const r=btn.getBoundingClientRect(),W=innerWidth,H=innerHeight,m=12,w=el.offsetWidth,h=el.offsetHeight;
-  if(r.bottom<0||r.top>H){qiClose(false);return}
-  let x=Math.min(W-m-w,Math.max(m,r.right-w)),y=r.bottom+6;if(y+h>H-m&&r.top-6-h>=m)y=r.top-6-h;y=Math.max(m,Math.min(y,H-m-h));
-  el.style.left=Math.round(x)+'px';el.style.top=Math.round(y)+'px'}
-function qiClose(refocus){if(!QI)return;const {btn,el}=QI;QI=null;el.remove();btn.setAttribute('aria-expanded','false');if(refocus&&document.contains(btn))btn.focus({preventScroll:true})}
-addEventListener('scroll',e=>{if(QI&&!(e.target.closest&&e.target.closest('#qiPop')))qiPlace()},true);
-addEventListener('resize',()=>qiClose(false));
-// keyboard: Esc closes (window capture runs before the paper's own Esc, which would close the preview); Tab stays in the card
-// (its one control is Report), Shift+Tab or Tab past it returns to the ⓘ and closes
-addEventListener('keydown',e=>{if(!QI||REP.dlg)return;
-  if(e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();qiClose(true);return}
-  if(e.key==='Tab'&&QI.el.contains(document.activeElement)){const b=QI.el.querySelector('.qirep');if(document.activeElement!==b&&!e.shiftKey){e.preventDefault();b.focus()}else{e.preventDefault();qiClose(true)}}},true);
-// a report sent while the paper is open marks its ⓘ in place (no re-layout)
-function repMarkPaper(){$$('#xPages [data-qinfo]').forEach(b=>{const k=repOpen().filter(r=>r.question_id===+b.dataset.qinfo).length;b.classList.toggle('has',!!k);b.setAttribute('aria-label',qiLabel(k));b.title=qiLabel(k)})}
+// a report sent while the paper is open marks its Report link in place (no re-layout)
+function repMarkPaper(){$$('#xPages [data-qinfo]').forEach(b=>{const k=repOpen().filter(r=>r.question_id===+b.dataset.qinfo).length;b.classList.toggle('has',!!k);b.textContent=k?`Reported (${k})`:'Report';b.setAttribute('aria-label',qiLabel(k));b.title=qiLabel(k)})}
 
 /* ---------- the report form ---------- */
 function repDotOptions(sel){const by=new Map();DOTS.forEach(d=>{const g=`Year ${d.yl} · ${d.fa}`;if(!by.has(g))by.set(g,[]);by.get(g).push(d)});
@@ -148,10 +125,8 @@ async function repSend(){const D=REP.dlg,el=$('#repDlg');if(!D)return;const msg=
   catch(e){b.disabled=false;b.textContent='Send report';say('Could not send. Try again in a moment.')}}
 // capture: a Report click must not also select the question on the paper
 document.addEventListener('click',e=>{const t=e.target;
-  // the ⓘ on the paper (owner 14 Nov): toggles its card; the click must not also select the question on the paper
-  const qi=t.closest&&t.closest('#xPages [data-qinfo]');if(qi){e.preventDefault();e.stopImmediatePropagation();QI&&QI.btn===qi?qiClose(true):qiOpen(qi);return}
-  const qr=t.closest&&t.closest('#qiPop [data-qirep]');if(qr){e.preventDefault();e.stopImmediatePropagation();const id=+qr.dataset.qirep,n=qr.dataset.n;qiClose(true);repForm(id,n);return}
-  if(QI){if(t.closest&&t.closest('#qiPop')){e.stopImmediatePropagation();return}qiClose(false)}   // a click outside closes it
+  // Report beside the QID (owner 18 Nov): opens the report form; the click must not also select the question on the paper
+  const qi=t.closest&&t.closest('#xPages [data-qinfo]');if(qi){e.preventDefault();e.stopImmediatePropagation();repForm(+qi.dataset.qinfo,qi.dataset.n);return}
   if(!t.closest||!t.closest('#repDlg'))return;e.stopImmediatePropagation();
   if(t.id==='repDlg'||t.closest('[data-rclose]')){repClose();return}
   const rr=t.closest('[data-rr]');if(rr){const D=REP.dlg;D.reason=rr.dataset.rr;$$('#repDlg [data-rr]').forEach(x=>x.setAttribute('aria-checked',String(x===rr)));

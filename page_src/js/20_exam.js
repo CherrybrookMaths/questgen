@@ -49,7 +49,7 @@ function xSavedList(){const el=$('#xSaved');if(!el)return;if(!db){el.innerHTML='
 async function xSaveDb(){
   if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;xsave();
     const A=EX.auto||{},keep={topics:A.topics,total:A.total,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
-    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',time:EX.time,reading:EX.reading,items:EX.items,keys:EX.items.map(i=>xq(i)?.key||null),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});toast('Exam saved')}
+    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,reading:EX.reading,items:EX.items,keys:EX.items.map(i=>xq(i)?.key||null),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});toast('Exam saved')}
     catch(e){toast('Could not save. Try again in a moment.')}}
   if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}}
 document.addEventListener('click',e=>{
@@ -96,7 +96,7 @@ function xQ(q,n,doc){exA();
     else opts=`<div class="xol">${q.options.map(o=>`<div class="xo${ok(o)}"><b>${o.label}.</b><span class="tx">${tex(o.latex)}</span></div>`).join('')}</div>`}
   const head=q.type==='mcq'?`<span class="xqn">${n}</span>`:`<div class="xqh"><b>Question ${n}</b><span>(${q.marks??'?'} mark${q.marks===1?'':'s'})</span></div>`;
   // owner 14 Nov: "The dot point home looks stupid in a question", then "Yeah that's fine, the i is fine". The grey dot-point
-  // line and Report link are gone from the question; a small ⓘ ends the source line and opens a card (qiOpen, 27_reports.js)
+  // line and Report link are gone from the question; a Report link ends the source line (owner 18 Nov; qiButton, 27_reports.js)
   // with the dot points per part, band, kind and Report. Screen only (.scr-only), like the old line.
   // owner 18 Nov: "In the PDF output, remove the school name, just the qid for each question": the paper (and so its PDF, Word and HTML
   // downloads) shows only the QID; the marking guide keeps the source, and ⓘ still shows it on screen

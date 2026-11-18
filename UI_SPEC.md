@@ -360,6 +360,14 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   - MCQ: the stem's first line sits on the number's line. Every part of the paper (cover, headings, option letters, marks, footer, Word)
     uses the question font.
   - z-score table: 4 questions pointing to it had never been marked (2 from Batch 10); batch_check now blocks such a question.
+- **Cover and paper, 18 Nov evening (owner, verbatim):** "remove the top black line, remove the footer on the cover page, bottom align the
+  table (put it towards the bottom of the page) and remove marks by topic text, that's pretty intuitive. Give an option to toggle that
+  table on and off. instead of 1/28 write Page 1 of 28. I think the i on each question is useless. Remove it. just put the report button
+  as a text which changes on hover next to the qid. much more intuitive right?" Done: no top rule; the cover has no footer (Word: a blank
+  first-page footer); the table sits at the foot of the cover with no heading; "Topic table" in the preview toolbar turns it on and off
+  (saved with the exam as `bytopic`); footers read "Page n of N"; the ⓘ card is gone (supersedes the 14 Nov "the i is fine"): the source
+  line ends "QID 0202  Report", grey, accent and underlined on hover, "Reported (n)" when reports are open, opening the report form.
+  Dot points, band and kind stay in the grading panel.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

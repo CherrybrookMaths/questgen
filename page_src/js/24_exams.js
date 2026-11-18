@@ -334,7 +334,7 @@ function xCover(mc,wr){exA();const tot=xMarks(mc)+xMarks(wr),homes=xaHomes();if(
       <div class="cv-k">General instructions</div><ul class="cv-v"><li>Reading time – ${ED('reading','span','','10 minutes')}</li><li>Working time – ${ED('time','span','','2 hours')}</li>${EX.instr.map((t,i)=>`<li>${ED('instr:'+i,'span','','Instruction',t)}</li>`).join('')}${wr.length?'<li>For questions in Section II, show relevant mathematical reasoning and/or calculations</li>':''}<li class="exaddli"><button type="button" class="linkbtn" data-addinstr>+ Add an instruction</button></li></ul>
       <div class="cv-k">Total marks: ${tot}</div><div class="cv-v cv-secs">${EXSEC.blocks(mc,wr,tot)}</div>
     </div>
-    ${rows?`<div class="extopictbl"><div class="toc-title">Marks by topic</div><table><colgroup><col class="c-t"><col class="c-q">${split?'<col class="c-n"><col class="c-n">':''}<col class="c-n"><col class="c-s"></colgroup><thead><tr><th scope="col">Topic</th><th scope="col" class="qs">Questions</th>${split?'<th scope="col">Section I</th><th scope="col">Section II</th>':''}<th scope="col">Total</th><th scope="col">Score</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><th scope="row">Total</th><td></td>${split?`<td>${xMarks(mc)}</td><td>${xMarks(wr)}</td>`:''}<td class="tt">${tot}</td><td class="xsc">/ ${tot}</td></tr></tfoot></table></div>`:''}</div>`}
+    ${rows&&EX.bytopic!==false?`<div class="extopictbl"><table aria-label="Marks by topic"><colgroup><col class="c-t"><col class="c-q">${split?'<col class="c-n"><col class="c-n">':''}<col class="c-n"><col class="c-s"></colgroup><thead><tr><th scope="col">Topic</th><th scope="col" class="qs">Questions</th>${split?'<th scope="col">Section I</th><th scope="col">Section II</th>':''}<th scope="col">Total</th><th scope="col">Score</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><th scope="row">Total</th><td></td>${split?`<td>${xMarks(mc)}</td><td>${xMarks(wr)}</td>`:''}<td class="tt">${tot}</td><td class="xsc">/ ${tot}</td></tr></tfoot></table></div>`:''}</div>`}
 
 /* ---------- preview: A4 sheets, grading panel, Fit pages ---------- */
 const EXC=new Map();   // typeset question bodies, so re-laying out after an edit only typesets what changed
@@ -406,7 +406,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!opts.keep||!$('#xPages')){
     ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button></div>
       <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span>
-      <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Grading</button><button class="act" id="exPvSetup">Back to setup</button><button class="act" id="exPvFit" title="Swap nearby questions so pages are not left mostly empty">Fit pages</button>
+      <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Grading</button><button class="act" id="exPvSetup">Back to setup</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table</button><button class="act" id="exPvFit" title="Swap nearby questions so pages are not left mostly empty">Fit pages</button>
       <button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvSwap">Swap questions</button>
       <button class="act ok" id="xDl" disabled>Download to print</button><button class="act ghost" id="xPvClose">Close</button></div>
       <div class="expvbody"><div class="xpages" id="xPages"></div><aside class="expvside" id="exGSide" aria-label="Question grading"></aside></div>`}
@@ -458,7 +458,8 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     cur.push(el);used+=h;if(b.cover)cur=null});
   const host=$('#xPages');host.innerHTML='';
   sheets.forEach((s,k)=>{const sh=document.createElement('div');sh.className='sheet';const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);
-    sh.insertAdjacentHTML('beforeend',`<div class="sheetfoot">${esc(EX.title)} · ${esc(EX.sub)}${doc==='guide'?' · marking guide':''}<span>${k+1} / ${sheets.length}</span></div>`);host.appendChild(sh)});
+    // owner 18 Nov: "remove the footer on the cover page", "instead of 1/28 write Page 1 of 28"
+    if(!(doc==='exam'&&k===0))sh.insertAdjacentHTML('beforeend',`<div class="sheetfoot">${esc(EX.title)} · ${esc(EX.sub)}${doc==='guide'?' · marking guide':''}<span>Page ${k+1} of ${sheets.length}</span></div>`);host.appendChild(sh)});
   meas.remove();EXSEC.pages(host);scaleTables(host,true);exZoom();
   const qs=EX.items.map(xq).filter(Boolean),tot=xMarks(qs);let F=0,P=0,w=0;qs.forEach(q=>{const e=exEst(q);if(e){F+=e.fl;P+=e.ps;w+=e.d*e.m}});
   $('#xInfo').textContent=`${sheets.length} page${sheets.length===1?'':'s'} · ${qs.length} questions · ${tot} marks${F+P?` · ${Math.round(P/(F+P)*100)}% problem solving · average band ${(w/(F+P)).toFixed(1)}`:''}`;
@@ -524,7 +525,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#xBtn')){e.preventDefault();e.stopImmediatePropagation();if(EX.items.length&&EXV.view==='setup'&&!exA().topics.length)EXV.view='pick';location.hash='#exams';if(view==='exams')renderExams();return}
   // load a saved exam with all its fields (stage 1 only restored the questions)
   const ld=e.target.closest('#xPanel [data-xload]');if(ld){e.stopImmediatePropagation();const x=XSAVED.find(s=>s.id===ld.dataset.xload);if(!x)return;
-    EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',time:x.time,reading:x.reading,items:(x.items||[]).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
+    EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',bytopic:x.bytopic!==false,time:x.time,reading:x.reading,items:(x.items||[]).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
     xsave();EXC.clear();toast('Exam opened');return}
   if(e.target.closest('#examsView #xClose')){e.stopImmediatePropagation();document.body.classList.remove('exr-open','exs-open');return}
   const rv=e.target.closest('#examsView [data-reveal]');if(rv){e.stopImmediatePropagation();const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card'),q=xq(id);
@@ -541,6 +542,8 @@ document.addEventListener('click',e=>{const t=e.target;
     if(t.closest('#exGClose')){EXV.grade=false;$('#xPv').classList.add('grade-off');$('#exGrade')?.setAttribute('aria-pressed','false');exZoom();return}
     if(t.closest('#exPvSetup')){exClosePv();EXV.view='setup';exSaveView();location.hash='#exams';renderExams();return}
     if(t.closest('#exPvSwap')){exClosePv();EXV.view='pick';exSaveView();location.hash='#exams';renderExams();return}
+    // owner 18 Nov: "Give an option to toggle that table on and off" (saved with the exam: EX.bytopic, on unless set to false)
+    if(t.closest('#exPvTopic')){EX.bytopic=EX.bytopic===false;xsave();t.closest('#exPvTopic').setAttribute('aria-pressed',String(EX.bytopic!==false));exRelayout();return}
     if(t.closest('#exPvFit')){if(EXV.doc!=='exam'){toast('Switch to the exam paper to fit its pages');return}EXV.fit=true;EXV.fitMsg=true;exRelayout();return}
     if(t.closest('#exPvRegen')){const b=t.closest('#exPvRegen');if(b.disabled)return;const r=exGenerate();if(r){EXC.clear();xPreview(EXV.doc);toast(`New exam · ${r.n} questions · ${r.marks} marks`)}return}
     if(t.closest('#xPvClose')){e.stopImmediatePropagation();exClosePv();return}

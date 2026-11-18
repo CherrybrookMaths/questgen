@@ -10,7 +10,7 @@ async function exmNames(){const ids=[...new Set(XSAVED.map(x=>x.by).filter(i=>i&
   try{const u=await window.claude?.use?.('user');if(!u?.profiles)return;const ps=await u.profiles(ids);ids.forEach(i=>EXM.names[i]=ps?.[i]?.name||'');if(view==='exams'&&EXV.view==='mine')renderMine()}catch(e){}}
 const exmWho=x=>!x.by?'':x.by===me?'you':(EXM.names[x.by]||'a colleague');
 // the fields that make up a saved exam; "unsaved" = the open exam differs from its saved copy
-const exmSig=x=>JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.time||'',x.reading||'',x.items||[],x.instr||null,x.lines||{},x.figscale||{}]);
+const exmSig=x=>JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.bytopic!==false,x.time||'',x.reading||'',x.items||[],x.instr||null,x.lines||{},x.figscale||{}]);
 function exmState(){if(!EX.items.length)return '';if(!EX.id)return 'new';const s=XSAVED.find(x=>x.id===EX.id);if(!s)return db?'new':'';return exmSig(s)===exmSig(EX)?'saved':'changed'}
 // owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": a saved exam finds its questions by key (RKEY.items), id as fallback
 function exmStats(x){const qs=RKEY.items(x).map(xq).filter(Boolean);let m=0,pr=0,w=0,mc=0;
@@ -18,7 +18,7 @@ function exmStats(x){const qs=RKEY.items(x).map(xq).filter(Boolean);let m=0,pr=0
 const exmWhen=t=>{const d=new Date(t);if(isNaN(d))return '';const days=Math.floor((Date.now()-d)/864e5);
   return days<1?d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}):days<7?d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}):d.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})};
 // owner 14 Nov: cert line saved with the exam; "remove Skip questions used in my other saved exams for now" (avoid forced off)
-function exmLoad(x){EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',time:x.time,reading:x.reading,items:RKEY.items(x).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
+function exmLoad(x){EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',bytopic:x.bytopic!==false,time:x.time,reading:x.reading,items:RKEY.items(x).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
   xsave();try{EXC.clear()}catch(e){}}
 function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
   if(!db){el.innerHTML='<div class="exm-empty">Saved exams live in the shared database. Open the page in claude.ai to see them.</div>';return}
