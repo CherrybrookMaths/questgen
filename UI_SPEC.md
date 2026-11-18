@@ -374,6 +374,10 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   (4 marks)" in bold capitals with the marks beside it and no rule under it; "(a)" in plain type; each part's marks "[1]" at the right;
   dotted answer lines (Word the same). Multiple-choice keep their bold number. The font stays the question font (Tinos/Times, 18 Nov
   ruling); the sample is set in Computer Modern (LaTeX).
+- **Section headings, 18 Nov (owner, NESA sample: "Header for section 1 and 2 above", then "Also put a little more space between the
+  dotted lines of a part and the prose of the next part").** Each section starts "**Section I**" (large, bold), then "15 marks",
+  "Attempt Questions 1–15", "Allow about 25 minutes for this section" on their own lines and a rule under them (the marking guide leaves
+  out the time). Answer lines are followed by 5 mm before the next part (1 mm margin + 4 mm padding, so page measuring counts it; Word: 14 pt).
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

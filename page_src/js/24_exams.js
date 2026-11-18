@@ -308,9 +308,14 @@ const EXSEC={   // one page-wide name (CODE_HEALTH rule 1)
   isCMC:()=>/^\s*cmc\s+education\s*$/i.test(EX.school||''),
   mins:t=>{const s=String(t||'').toLowerCase(),h=+(s.match(/([\d.]+)\s*h/)||[])[1]||0,m=+(s.match(/(\d+)\s*m/)||[])[1]||0;return Math.round(h*60+m)},
   dur:m=>{const h=Math.floor(m/60),r=m%60;return [h?`${h} hour${h===1?'':'s'}`:'',r?`${r} minute${r===1?'':'s'}`:''].filter(Boolean).join(' and ')||'0 minutes'},
-  blocks(mc,wr,tot){const W=this.mins(EX.time),secs=[];let m1=0;
+  // each section: number, roman, questions, marks and minutes (the working time shared by marks, to 5 minutes; Section II the rest)
+  secs(mc,wr){const tot=xMarks(mc)+xMarks(wr),W=this.mins(EX.time),secs=[];let m1=0;
     if(mc.length){m1=W&&wr.length?Math.max(5,Math.round(W*xMarks(mc)/tot/5)*5):W;secs.push({n:1,r:'I',q:`1–${mc.length}`,mk:xMarks(mc),min:m1})}
     if(wr.length)secs.push({n:2,r:'II',q:`${mc.length+1}–${mc.length+wr.length}`,mk:xMarks(wr),min:W-m1});
+    return secs},
+  // owner 18 Nov (NESA sample): the heading at the start of each section: "Section I", then its marks, the questions to attempt and the time
+  head(x,guide){return `<div class="xsechd" data-sec="${x.n}"><b>Section ${x.r}</b><p>${x.mk} mark${x.mk===1?'':'s'}</p><p>Attempt Questions ${x.q}</p>${!guide&&x.min>0?`<p>Allow about ${this.dur(x.min)} for this section</p>`:''}</div>`},
+  blocks(mc,wr,tot){const W=this.mins(EX.time),secs=this.secs(mc,wr);
     return secs.map(x=>`<div class="cv-sec"><p class="cv-sech"><b>Section ${x.r} – ${x.mk} mark${x.mk===1?'':'s'}</b> <span class="cv-pg" data-pgsec="${x.n}"></span></p><ul><li>Attempt Questions ${x.q}</li>${W&&x.min>0?`<li>Allow about ${this.dur(x.min)} for this section</li>`:''}</ul></div>`).join('')},
   // the pages each section runs over, as the page footers number them (the cover is page 1)
   pages(host){const sh=[...host.querySelectorAll('.sheet')],at=n=>sh.findIndex(s=>s.querySelector(`.xsechd[data-sec="${n}"]`));
@@ -438,17 +443,19 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     if(EXV.fitMsg){toast('The pages already fit well');EXV.fitMsg=false}}
   // a question taller than a page is cut between its parts; later pieces say "(continued)"
   let els=[...meas.children];const bl2=[];
-  els=els.flatMap((el,i)=>{const sec=el.querySelector('section.xq');
-    if(!sec||el.getBoundingClientRect().height<=H*0.98){bl2.push(bl[i]);return [el]}
+  // 18 Nov: a question straight after a section heading shares the heading's sheet (a heading never ends a sheet alone), so its first
+  // piece must fit under the heading (the NESA-style heading is about 30 mm tall)
+  els=els.flatMap((el,i)=>{const sec=el.querySelector('section.xq'),hp=i>0&&bl[i-1]?.sec?els[i-1].getBoundingClientRect().height+parseFloat(getComputedStyle(els[i-1]).marginBottom||0):0,lim=j=>j===0?H-hp:H;
+    if(!sec||el.getBoundingClientRect().height<=lim(0)*0.98){bl2.push(bl[i]);return [el]}
     const head=sec.firstElementChild,qb=sec.querySelector('.xqb'),src=sec.querySelector('.xsrc'),kids=[...qb.children],pieces=[];
     const open=first=>{const b=document.createElement('div');b.className='xblk';const s2=document.createElement('section');s2.className=sec.className;s2.dataset.q=sec.dataset.q;
       if(first)s2.appendChild(head);else s2.insertAdjacentHTML('beforeend',head.classList.contains('xqh')?`<div class="xqh cont"><b>${head.querySelector('b').textContent} (continued)</b><span></span></div>`:'');
       const q2=document.createElement('div');q2.className='xqb';s2.appendChild(q2);b.appendChild(s2);meas.insertBefore(b,el);pieces.push(b);return q2};
     let box=open(true);
-    kids.forEach(k=>{box.appendChild(k);const h=box.closest('.xblk').getBoundingClientRect().height;if(h>H*0.98&&box.children.length>1){box.removeChild(k);box=open(false);box.appendChild(k)}});
+    kids.forEach(k=>{box.appendChild(k);const h=box.closest('.xblk').getBoundingClientRect().height;if(h>lim(pieces.length-1)*0.98&&box.children.length>1){box.removeChild(k);box=open(false);box.appendChild(k)}});
     // hardening 14 Nov (page test): a single part (or one part's worked solution) taller than a page was left whole, so its
     // sheet grew past 297 mm and the PDF / print cut the bottom off. Such a piece is now also cut inside the part, between lines
-    for(let k=0;k<pieces.length;k++){let g=0;while(pieces[k].getBoundingClientRect().height>H*0.98&&g++<40){const nx=exCutTall(pieces[k],H,open);if(!nx)break;pieces.splice(pieces.indexOf(nx),1);pieces.splice(k+1,0,nx);k++}}
+    for(let k=0;k<pieces.length;k++){let g=0;while(pieces[k].getBoundingClientRect().height>lim(k)*0.98&&g++<40){const nx=exCutTall(pieces[k],lim(k),open);if(!nx)break;pieces.splice(pieces.indexOf(nx),1);pieces.splice(k+1,0,nx);k++}}
     if(src)pieces[pieces.length-1].querySelector('section').appendChild(src);el.remove();pieces.forEach(()=>bl2.push({q:bl[i].q}));return pieces});
   bl.length=0;bl.push(...bl2);
   const sheets=[];let cur=null,used=0;const start=()=>{cur=[];sheets.push(cur);used=0};

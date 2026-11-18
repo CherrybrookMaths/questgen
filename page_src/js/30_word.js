@@ -59,11 +59,13 @@ async function xWord(doc){
     async function blocks(el,ctx,out){
       if(el.nodeType!==1||el.matches(W_SKIP))return;
       const fmt={font:ctx.font||FONT,size:ctx.size};
-      if(el.matches('.xlines,.exln')){const n=el.querySelectorAll('i').length;if(n){out.push(P([],{after:0}));out.push(lines(n,ctx.indent||0))}out.push(P([],{after:120}));return}
+      if(el.matches('.xlines,.exln')){const n=el.querySelectorAll('i').length;if(n){out.push(P([],{after:0}));out.push(lines(n,ctx.indent||0))}out.push(P([],{after:280}));return}   // owner 18 Nov: more space before the next part
       if(el.matches('table')){out.push(await table(el,ctx));out.push(P([],{after:60}));return}
-      if(el.matches('.xsechd')){const t=el.firstChild?.textContent?.trim()||'';const sec2=/Section II/.test(el.textContent);const rs=[new TextRun({text:t,bold:true,font:UI,size:24})];
-        const sp=el.querySelector('span');if(sp)rs.push(new TextRun({text:'\t'+sp.textContent.trim(),font:UI,size:18,color:'555555'}));
-        out.push(new Paragraph({children:rs,tabStops:[{type:TabStopType.RIGHT,position:RIGHT}],pageBreakBefore:sec2&&doc==='exam',keepNext:true,spacing:{before:200,after:160},border:{top:{style:BorderStyle.SINGLE,size:8,color:'111111',space:4},bottom:{style:BorderStyle.SINGLE,size:8,color:'111111',space:4}}}));return}
+      if(el.matches('.xsechd')){const sec2=el.dataset.sec==='2';const t=el.querySelector('b')?.textContent.trim()||el.textContent.trim();   // owner 18 Nov: NESA-style section heading
+        out.push(new Paragraph({children:[new TextRun({text:t,bold:true,font:UI,size:30})],pageBreakBefore:sec2&&doc==='exam',keepNext:true,spacing:{before:200,after:120}}));
+        const ps=[...el.querySelectorAll('p')];ps.forEach((p,i)=>out.push(new Paragraph({children:[new TextRun({text:p.textContent.trim(),font:UI,size:24})],keepNext:true,spacing:{after:i===ps.length-1?200:60},
+          border:i===ps.length-1?{bottom:{style:BorderStyle.SINGLE,size:6,color:'666666',space:6}}:undefined})));
+        if(!ps.length)out.push(new Paragraph({children:[],spacing:{after:120},border:{bottom:{style:BorderStyle.SINGLE,size:6,color:'666666',space:2}}}));return}
       if(el.matches('.xqh')){const b=el.querySelector('b')?.textContent||'',s=el.querySelector('span')?.textContent||'';
         out.push(new Paragraph({children:[new TextRun({text:b,bold:true,font:UI,size:24}),new TextRun({text:'    '+s,font:UI,size:23})],keepNext:true,spacing:{before:240,after:120}}));return}   // owner 18 Nov: no rule, marks beside the heading
       if(el.matches('.xqn')){out.push(new Paragraph({children:[new TextRun({text:el.textContent.trim(),bold:true,font:UI,size:22})],keepNext:true,spacing:{before:240,after:60}}));return}

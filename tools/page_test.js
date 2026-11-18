@@ -2166,19 +2166,23 @@ async function queueChecks(browser, base, seed) {
     const drag = async (k, dx, dy) => { await page.evaluate(k => document.querySelector(`#xPages [data-figw="${k}"]`).scrollIntoView({block: 'center'}), k); await settle(page, 800, 2);
       const a = await figState(page, k); await page.mouse.move(a.box.x + a.box.w / 2, a.box.y + a.box.h / 2); const b = await figState(page, k);
       await page.mouse.move(b.hx, b.hy); await page.mouse.down(); await page.mouse.move(b.hx + dx, b.hy + dy, {steps: 6}); await page.mouse.up(); await laidOut(page); return figState(page, k) };
+    // 18 Nov: answer lines set to 0 so questions pack together (with the taller headings and line spacing, every question with a locally
+    // loaded diagram started its own sheet, and one that starts a sheet can only grow in place)
+    const lines0 = await page.evaluate(() => { const keep = JSON.stringify(EX.lines || {}); [...document.querySelectorAll('#xPages [data-ln]')].forEach(b => { EX.lines[b.dataset.ln] = 0 }); xsave(); exRelayout(); return keep });
+    await laidOut(page);
     // diagrams with a loaded picture, nearest the foot of their sheet first
-    const ks = await page.evaluate(() => [...document.querySelectorAll('#xPages .exfigw')].filter(w => { const i = w.querySelector('img'); return i && i.complete && i.naturalWidth })
+    const ks = await page.evaluate(() => [...document.querySelectorAll('#xPages .exfigw')].filter(w => { const i = w.querySelector('img'); return i && i.complete && i.naturalWidth && !w.closest('.xo') && w.closest('.xblk')?.previousElementSibling })   // 18 Nov: only diagrams in a question with something above it on its sheet (one that starts a sheet can only grow in place) and not option pictures
       .map(w => { const s = w.closest('.sheet').getBoundingClientRect(), b = w.getBoundingClientRect(); return [w.dataset.figw, (s.bottom - b.bottom) / s.height] }).sort((x, y) => x[1] - y[1]).map(x => x[0]));
     let res = null;
-    for (const k of ks.slice(0, 6)) {
+    for (const k of ks.slice(0, 12)) {   // 18 Nov: 6 was too few once section headings grew
       await page.evaluate(() => { EX.figscale = {}; xsave(); exRelayout() }); await laidOut(page);
-      const p0 = await at(k), s0 = await figState(page, k), g = await drag(k, 900, 1400), p1 = await at(k);
+      const p0 = await at(k), s0 = await figState(page, k), g = await drag(k, 350, 520), p1 = await at(k);   // 18 Nov: a smaller pull, so the question moves whole instead of being cut across pages
       if (p1 === p0) continue;
       const sh = await drag(k, -120, -180);
       res = {k, p0, p1, fs0: s0.fs, grown: g.fs, shrunk: sh.fs}; break;
     }
-    await page.evaluate(() => { EX.figscale = {}; xsave(); exRelayout() }); await laidOut(page); errs();
-    assert(res, `no diagram moved to the next sheet when grown (tried ${Math.min(6, ks.length)})`);
+    await page.evaluate(l => { EX.figscale = {}; EX.lines = JSON.parse(l); xsave(); exRelayout() }, lines0); await laidOut(page); errs();
+    assert(res, `no diagram moved to the next sheet when grown (tried ${Math.min(12, ks.length)})`);
     assert(res.grown > res.fs0 && res.shrunk < res.grown, `grown ${res.fs0} → ${res.grown} (sheet ${res.p0 + 1} → ${res.p1 + 1}), then dragged in → ${res.shrunk}`);
     return `${res.k}: ${Math.round(res.fs0 * 100)}% → ${Math.round(res.grown * 100)}% moved it to sheet ${res.p1 + 1}; dragged in there → ${Math.round(res.shrunk * 100)}%`;
   });

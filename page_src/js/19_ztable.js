@@ -11,7 +11,7 @@ function zTableHTML(){if(zTabCache)return zTabCache;
   const cols=[...Array(10).keys()],rows=[...Array(35).keys()];
   const head=`<tr><th><i>z</i></th>${cols.map(c=>`<th>0.0${c}</th>`).join('')}</tr>`;
   const body=rows.map(r=>`<tr><th>${(r/10).toFixed(1)}</th>${cols.map(c=>`<td>${zPhi(r/10+c/100).toFixed(4)}</td>`).join('')}</tr>`).join('');
-  return zTabCache=`<div class="xztab"><div class="xsechd">Standard normal distribution table</div>
+  return zTabCache=`<div class="xztab"><div class="xsechd"><b>Standard normal distribution table</b></div>
     <p>The table gives <i>P</i>(<i>Z</i> ≤ <i>z</i>), the area under the standard normal curve to the left of <i>z</i>, for <i>Z</i> ~ <i>N</i>(0, 1).
     For negative <i>z</i>, use <i>P</i>(<i>Z</i> ≤ −<i>z</i>) = 1 − <i>P</i>(<i>Z</i> ≤ <i>z</i>).</p>
     <table class="xzt"><thead>${head}</thead><tbody>${body}</tbody></table></div>`}

@@ -609,15 +609,17 @@ body.xpv-on{overflow:hidden}
 .xq .tx{overflow-wrap:anywhere}.xq .figslot{display:block;text-align:center;margin:3mm 0}.xq img.fig{max-width:100%;max-height:70mm;width:auto!important;height:auto;object-fit:contain}
 .xpart{display:grid;grid-template-columns:9mm minmax(0,1fr) 8mm;gap:1mm;margin:2.5mm 0}.xpart.nolab{grid-template-columns:minmax(0,1fr) 8mm}
 .xpart.child{margin-left:9mm}.xpl{font-weight:400}.xpm{text-align:right;font:400 11pt var(--sans);white-space:nowrap}   /* owner 18 Nov: "(a)" plain, "[1]" at the right */
-.xlines{margin:2mm 0 1mm}.xlines i{display:block;height:8.5mm;border-bottom:1.3pt dotted #444}   /* owner 18 Nov: dotted answer lines, as on the sample */
+.xlines{margin:2mm 0 1mm;padding-bottom:4mm}   /* owner 18 Nov: "a little more space between the dotted lines of a part and the prose of the next part" */
+.xlines i{display:block;height:8.5mm;border-bottom:1.3pt dotted #444}   /* owner 18 Nov: dotted answer lines, as on the sample */
 .xol{display:grid;gap:1.5mm;margin:2mm 0}.xog{display:grid;grid-template-columns:1fr 1fr;gap:3mm 6mm;margin:2mm 0}
 .xo{display:flex;gap:3mm;align-items:baseline}.xog .xo{flex-direction:column;align-items:flex-start}.xo b{font-family:var(--sans);font-weight:600}
 .xo.xok{background:#e1efec;outline:1px solid #1e5f5a;border-radius:2px}
 .xsrc{font:8pt var(--sans);color:#888;margin-top:1.5mm;text-align:right}
 .xsol .callout{background:#f3f3f3;color:#111;border-color:#bbb}
 .xsol{border-left:2px solid #111;padding:1mm 0 1mm 4mm;margin:2mm 0 3mm}.xsol .shd,.xsol .badge{display:none}.xsol .sol{margin:0}
-.xsechd{display:flex;justify-content:space-between;align-items:baseline;font:600 12pt var(--sans);border-top:1.5px solid #111;border-bottom:1.5px solid #111;padding:1.5mm 0;margin:0 0 4mm}
-.xsechd span{font-weight:400;font-size:10pt;color:#333}
+/* owner 18 Nov (NESA sample): "Section I" large and bold, then marks / questions / time on their own lines, a rule under it */
+.xsechd{font:400 12pt/1.35 var(--sans);border-bottom:.8pt solid #666;padding:0 0 2.5mm;margin:0 0 5mm}
+.xsechd b{display:block;font-size:15pt;font-weight:700;margin-bottom:2.5mm}.xsechd p{margin:0 0 1.8mm}.xsechd p:last-child{margin-bottom:0}
 .xcover{display:flex;flex-direction:column;align-items:center;text-align:center;padding-top:6mm}
 .xschool{font:600 17pt var(--sans);letter-spacing:.05em}.xeyebrow{margin-top:5mm;font:9pt var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#555}
 .xcover h1,.xgh h1{font:600 24pt/1.15 var(--serif);margin:2mm 0 0;text-wrap:balance}
@@ -3726,7 +3728,7 @@ function zTableHTML(){if(zTabCache)return zTabCache;
   const cols=[...Array(10).keys()],rows=[...Array(35).keys()];
   const head=`<tr><th><i>z</i></th>${cols.map(c=>`<th>0.0${c}</th>`).join('')}</tr>`;
   const body=rows.map(r=>`<tr><th>${(r/10).toFixed(1)}</th>${cols.map(c=>`<td>${zPhi(r/10+c/100).toFixed(4)}</td>`).join('')}</tr>`).join('');
-  return zTabCache=`<div class="xztab"><div class="xsechd">Standard normal distribution table</div>
+  return zTabCache=`<div class="xztab"><div class="xsechd"><b>Standard normal distribution table</b></div>
     <p>The table gives <i>P</i>(<i>Z</i> ≤ <i>z</i>), the area under the standard normal curve to the left of <i>z</i>, for <i>Z</i> ~ <i>N</i>(0, 1).
     For negative <i>z</i>, use <i>P</i>(<i>Z</i> ≤ −<i>z</i>) = 1 − <i>P</i>(<i>Z</i> ≤ <i>z</i>).</p>
     <table class="xzt"><thead>${head}</thead><tbody>${body}</tbody></table></div>`}
@@ -3845,12 +3847,13 @@ function xQ(q,n,doc){exA();
 function xBlocks(doc){const {mc,wr}=xSections();const bl=[];let n=0;
   if(doc==='exam')bl.push({cover:true,html:xCover(mc,wr)},{cover:true,html:'<div class="xblank">This page is intentionally left blank.</div>'});   // owner 18 Nov: the back of the first page is blank
   else{const keys=mc.map((q,i)=>`<td>${i+1}</td><td><b>${q.options.find(o=>o.is_correct)?.label||'–'}</b></td>`);
-    bl.push({html:`<div class="xgh"><div class="xeyebrow">${esc(EX.school)} · ${esc(EX.title)}</div><h1>${esc(EX.sub)} – marking guide</h1></div>${mc.length?`<div class="xsechd">Section I – answer key</div><table class="xkey"><tbody>${keys.map(k=>`<tr>${k}</tr>`).join('')}</tbody></table>`:''}`})}
-  if(mc.length){bl.push({sec:true,html:`<div class="xsechd" data-sec="1">Section I<span>${xMarks(mc)} marks · attempt Questions 1–${mc.length}</span></div>`});mc.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
+    bl.push({html:`<div class="xgh"><div class="xeyebrow">${esc(EX.school)} · ${esc(EX.title)}</div><h1>${esc(EX.sub)} – marking guide</h1></div>${mc.length?`<div class="xsechd"><b>Section I – answer key</b></div><table class="xkey"><tbody>${keys.map(k=>`<tr>${k}</tr>`).join('')}</tbody></table>`:''}`})}
+  const SH=EXSEC.secs(mc,wr);   // owner 18 Nov: section headings as on a NESA paper (EXSEC.head, 24_exams.js)
+  if(mc.length){bl.push({sec:true,html:EXSEC.head(SH[0],doc==='guide')});mc.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
   // owner 17 Nov: questions that "refer to the z score table at the back of the exam" keep that wording, and the exam gets the
   // table appended at the back (zTableHTML, 19_ztable.js). Questions that print their own portion of the table keep it.
   const zAtEnd=doc==='exam'&&[...mc,...wr].some(needsZ);
-  if(wr.length){bl.push({sec:true,newpage:doc==='exam',html:`<div class="xsechd" data-sec="2">Section II<span>${xMarks(wr)} marks · attempt Questions ${mc.length+1}–${mc.length+wr.length}</span></div>`});wr.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
+  if(wr.length){bl.push({sec:true,newpage:doc==='exam',html:EXSEC.head(SH[SH.length-1],doc==='guide')});wr.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
   if(zAtEnd)bl.push({newpage:true,html:zTableHTML()});
   // owner 18 Nov: "attach an advanced reference sheet at the end for students. This should be an extension 1 or 2 one or a standard one
   // when we do more courses later so plan for that": each course names its NESA reference sheet pages (QG.courses[..].ref)
@@ -4448,9 +4451,14 @@ const EXSEC={   // one page-wide name (CODE_HEALTH rule 1)
   isCMC:()=>/^\s*cmc\s+education\s*$/i.test(EX.school||''),
   mins:t=>{const s=String(t||'').toLowerCase(),h=+(s.match(/([\d.]+)\s*h/)||[])[1]||0,m=+(s.match(/(\d+)\s*m/)||[])[1]||0;return Math.round(h*60+m)},
   dur:m=>{const h=Math.floor(m/60),r=m%60;return [h?`${h} hour${h===1?'':'s'}`:'',r?`${r} minute${r===1?'':'s'}`:''].filter(Boolean).join(' and ')||'0 minutes'},
-  blocks(mc,wr,tot){const W=this.mins(EX.time),secs=[];let m1=0;
+  // each section: number, roman, questions, marks and minutes (the working time shared by marks, to 5 minutes; Section II the rest)
+  secs(mc,wr){const tot=xMarks(mc)+xMarks(wr),W=this.mins(EX.time),secs=[];let m1=0;
     if(mc.length){m1=W&&wr.length?Math.max(5,Math.round(W*xMarks(mc)/tot/5)*5):W;secs.push({n:1,r:'I',q:`1–${mc.length}`,mk:xMarks(mc),min:m1})}
     if(wr.length)secs.push({n:2,r:'II',q:`${mc.length+1}–${mc.length+wr.length}`,mk:xMarks(wr),min:W-m1});
+    return secs},
+  // owner 18 Nov (NESA sample): the heading at the start of each section: "Section I", then its marks, the questions to attempt and the time
+  head(x,guide){return `<div class="xsechd" data-sec="${x.n}"><b>Section ${x.r}</b><p>${x.mk} mark${x.mk===1?'':'s'}</p><p>Attempt Questions ${x.q}</p>${!guide&&x.min>0?`<p>Allow about ${this.dur(x.min)} for this section</p>`:''}</div>`},
+  blocks(mc,wr,tot){const W=this.mins(EX.time),secs=this.secs(mc,wr);
     return secs.map(x=>`<div class="cv-sec"><p class="cv-sech"><b>Section ${x.r} – ${x.mk} mark${x.mk===1?'':'s'}</b> <span class="cv-pg" data-pgsec="${x.n}"></span></p><ul><li>Attempt Questions ${x.q}</li>${W&&x.min>0?`<li>Allow about ${this.dur(x.min)} for this section</li>`:''}</ul></div>`).join('')},
   // the pages each section runs over, as the page footers number them (the cover is page 1)
   pages(host){const sh=[...host.querySelectorAll('.sheet')],at=n=>sh.findIndex(s=>s.querySelector(`.xsechd[data-sec="${n}"]`));
@@ -4578,17 +4586,19 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     if(EXV.fitMsg){toast('The pages already fit well');EXV.fitMsg=false}}
   // a question taller than a page is cut between its parts; later pieces say "(continued)"
   let els=[...meas.children];const bl2=[];
-  els=els.flatMap((el,i)=>{const sec=el.querySelector('section.xq');
-    if(!sec||el.getBoundingClientRect().height<=H*0.98){bl2.push(bl[i]);return [el]}
+  // 18 Nov: a question straight after a section heading shares the heading's sheet (a heading never ends a sheet alone), so its first
+  // piece must fit under the heading (the NESA-style heading is about 30 mm tall)
+  els=els.flatMap((el,i)=>{const sec=el.querySelector('section.xq'),hp=i>0&&bl[i-1]?.sec?els[i-1].getBoundingClientRect().height+parseFloat(getComputedStyle(els[i-1]).marginBottom||0):0,lim=j=>j===0?H-hp:H;
+    if(!sec||el.getBoundingClientRect().height<=lim(0)*0.98){bl2.push(bl[i]);return [el]}
     const head=sec.firstElementChild,qb=sec.querySelector('.xqb'),src=sec.querySelector('.xsrc'),kids=[...qb.children],pieces=[];
     const open=first=>{const b=document.createElement('div');b.className='xblk';const s2=document.createElement('section');s2.className=sec.className;s2.dataset.q=sec.dataset.q;
       if(first)s2.appendChild(head);else s2.insertAdjacentHTML('beforeend',head.classList.contains('xqh')?`<div class="xqh cont"><b>${head.querySelector('b').textContent} (continued)</b><span></span></div>`:'');
       const q2=document.createElement('div');q2.className='xqb';s2.appendChild(q2);b.appendChild(s2);meas.insertBefore(b,el);pieces.push(b);return q2};
     let box=open(true);
-    kids.forEach(k=>{box.appendChild(k);const h=box.closest('.xblk').getBoundingClientRect().height;if(h>H*0.98&&box.children.length>1){box.removeChild(k);box=open(false);box.appendChild(k)}});
+    kids.forEach(k=>{box.appendChild(k);const h=box.closest('.xblk').getBoundingClientRect().height;if(h>lim(pieces.length-1)*0.98&&box.children.length>1){box.removeChild(k);box=open(false);box.appendChild(k)}});
     // hardening 14 Nov (page test): a single part (or one part's worked solution) taller than a page was left whole, so its
     // sheet grew past 297 mm and the PDF / print cut the bottom off. Such a piece is now also cut inside the part, between lines
-    for(let k=0;k<pieces.length;k++){let g=0;while(pieces[k].getBoundingClientRect().height>H*0.98&&g++<40){const nx=exCutTall(pieces[k],H,open);if(!nx)break;pieces.splice(pieces.indexOf(nx),1);pieces.splice(k+1,0,nx);k++}}
+    for(let k=0;k<pieces.length;k++){let g=0;while(pieces[k].getBoundingClientRect().height>lim(k)*0.98&&g++<40){const nx=exCutTall(pieces[k],lim(k),open);if(!nx)break;pieces.splice(pieces.indexOf(nx),1);pieces.splice(k+1,0,nx);k++}}
     if(src)pieces[pieces.length-1].querySelector('section').appendChild(src);el.remove();pieces.forEach(()=>bl2.push({q:bl[i].q}));return pieces});
   bl.length=0;bl.push(...bl2);
   const sheets=[];let cur=null,used=0;const start=()=>{cur=[];sheets.push(cur);used=0};
@@ -5448,11 +5458,13 @@ async function xWord(doc){
     async function blocks(el,ctx,out){
       if(el.nodeType!==1||el.matches(W_SKIP))return;
       const fmt={font:ctx.font||FONT,size:ctx.size};
-      if(el.matches('.xlines,.exln')){const n=el.querySelectorAll('i').length;if(n){out.push(P([],{after:0}));out.push(lines(n,ctx.indent||0))}out.push(P([],{after:120}));return}
+      if(el.matches('.xlines,.exln')){const n=el.querySelectorAll('i').length;if(n){out.push(P([],{after:0}));out.push(lines(n,ctx.indent||0))}out.push(P([],{after:280}));return}   // owner 18 Nov: more space before the next part
       if(el.matches('table')){out.push(await table(el,ctx));out.push(P([],{after:60}));return}
-      if(el.matches('.xsechd')){const t=el.firstChild?.textContent?.trim()||'';const sec2=/Section II/.test(el.textContent);const rs=[new TextRun({text:t,bold:true,font:UI,size:24})];
-        const sp=el.querySelector('span');if(sp)rs.push(new TextRun({text:'\t'+sp.textContent.trim(),font:UI,size:18,color:'555555'}));
-        out.push(new Paragraph({children:rs,tabStops:[{type:TabStopType.RIGHT,position:RIGHT}],pageBreakBefore:sec2&&doc==='exam',keepNext:true,spacing:{before:200,after:160},border:{top:{style:BorderStyle.SINGLE,size:8,color:'111111',space:4},bottom:{style:BorderStyle.SINGLE,size:8,color:'111111',space:4}}}));return}
+      if(el.matches('.xsechd')){const sec2=el.dataset.sec==='2';const t=el.querySelector('b')?.textContent.trim()||el.textContent.trim();   // owner 18 Nov: NESA-style section heading
+        out.push(new Paragraph({children:[new TextRun({text:t,bold:true,font:UI,size:30})],pageBreakBefore:sec2&&doc==='exam',keepNext:true,spacing:{before:200,after:120}}));
+        const ps=[...el.querySelectorAll('p')];ps.forEach((p,i)=>out.push(new Paragraph({children:[new TextRun({text:p.textContent.trim(),font:UI,size:24})],keepNext:true,spacing:{after:i===ps.length-1?200:60},
+          border:i===ps.length-1?{bottom:{style:BorderStyle.SINGLE,size:6,color:'666666',space:6}}:undefined})));
+        if(!ps.length)out.push(new Paragraph({children:[],spacing:{after:120},border:{bottom:{style:BorderStyle.SINGLE,size:6,color:'666666',space:2}}}));return}
       if(el.matches('.xqh')){const b=el.querySelector('b')?.textContent||'',s=el.querySelector('span')?.textContent||'';
         out.push(new Paragraph({children:[new TextRun({text:b,bold:true,font:UI,size:24}),new TextRun({text:'    '+s,font:UI,size:23})],keepNext:true,spacing:{before:240,after:120}}));return}   // owner 18 Nov: no rule, marks beside the heading
       if(el.matches('.xqn')){out.push(new Paragraph({children:[new TextRun({text:el.textContent.trim(),bold:true,font:UI,size:22})],keepNext:true,spacing:{before:240,after:60}}));return}
