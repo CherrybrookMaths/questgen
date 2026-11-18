@@ -2101,6 +2101,30 @@ async function queueChecks(browser, base, seed) {
     await page.keyboard.press('Home'); await page.waitForTimeout(900); await settle(page, 3000, 2);
     return `far out ${big.fs * 100}%, far in ${small.fs * 100}%, double-click → 100%, keys → 110% → Home`;
   });
+  // checker report 18 Nov (owner: "lets do 2,3,4,6"): "Dragging a diagram onto the next page doesn't work. On an exam where a diagram has
+  //   been pushed to the next page, dragging it to shrink it does nothing." A diagram near the foot of a sheet is grown until the paper
+  //   moves it to the next sheet, then its corner is dragged in on the new sheet: the scale must change both times.
+  await check('exams: a diagram grown onto the next page can be shrunk there by dragging', page, async () => {
+    const at = k => page.evaluate(k => { const w = document.querySelector(`#xPages [data-figw="${k}"]`); return w ? [...document.querySelectorAll('#xPages .sheet')].indexOf(w.closest('.sheet')) : -1 }, k);
+    const drag = async (k, dx, dy) => { await page.evaluate(k => document.querySelector(`#xPages [data-figw="${k}"]`).scrollIntoView({block: 'center'}), k); await settle(page, 800, 2);
+      const a = await figState(page, k); await page.mouse.move(a.box.x + a.box.w / 2, a.box.y + a.box.h / 2); const b = await figState(page, k);
+      await page.mouse.move(b.hx, b.hy); await page.mouse.down(); await page.mouse.move(b.hx + dx, b.hy + dy, {steps: 6}); await page.mouse.up(); await laidOut(page); return figState(page, k) };
+    // diagrams with a loaded picture, nearest the foot of their sheet first
+    const ks = await page.evaluate(() => [...document.querySelectorAll('#xPages .exfigw')].filter(w => { const i = w.querySelector('img'); return i && i.complete && i.naturalWidth })
+      .map(w => { const s = w.closest('.sheet').getBoundingClientRect(), b = w.getBoundingClientRect(); return [w.dataset.figw, (s.bottom - b.bottom) / s.height] }).sort((x, y) => x[1] - y[1]).map(x => x[0]));
+    let res = null;
+    for (const k of ks.slice(0, 6)) {
+      await page.evaluate(() => { EX.figscale = {}; xsave(); exRelayout() }); await laidOut(page);
+      const p0 = await at(k), s0 = await figState(page, k), g = await drag(k, 900, 1400), p1 = await at(k);
+      if (p1 === p0) continue;
+      const sh = await drag(k, -120, -180);
+      res = {k, p0, p1, fs0: s0.fs, grown: g.fs, shrunk: sh.fs}; break;
+    }
+    await page.evaluate(() => { EX.figscale = {}; xsave(); exRelayout() }); await laidOut(page); errs();
+    assert(res, `no diagram moved to the next sheet when grown (tried ${Math.min(6, ks.length)})`);
+    assert(res.grown > res.fs0 && res.shrunk < res.grown, `grown ${res.fs0} → ${res.grown} (sheet ${res.p0 + 1} → ${res.p1 + 1}), then dragged in → ${res.shrunk}`);
+    return `${res.k}: ${Math.round(res.fs0 * 100)}% → ${Math.round(res.grown * 100)}% moved it to sheet ${res.p1 + 1}; dragged in there → ${Math.round(res.shrunk * 100)}%`;
+  });
   await check('export: a resized diagram keeps its size in the HTML download', page, async () => {
     assert(k, 'no diagram');
     await page.evaluate(k => { EX.figscale[k] = 1.5; xsave(); exRelayout() }, k); await settle(page, 5000, 2);
