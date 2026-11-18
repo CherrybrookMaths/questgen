@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+\draw[->] (15,212) -- (472,212);
+\draw[->] (237,408) -- (237,8);
+\node at (221,16) {$y$};
+\node at (466,235) {$x$};
+\node at (221,235) {$O$};
+\draw[<-] (28,242) -- (155,242);
+\draw plot[smooth,samples=60,domain=-82:82,variable=\t] ({237+\t},{212-30*sin(90*\t/82)});
+\draw[->] (319,182) -- (448,182);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+  % axes
+  \draw[->] (118,153) -- (900,153) node[anchor=west] {$x$};
+  \draw[->] (118,555) -- (118,10) node[anchor=west, xshift=3pt] {$y$};
+  % guide lines
+  \draw[aux] (118,198) -- (191,198);
+  \draw[aux] (118,456) -- (337,456);
+  \draw[aux] (410,153) -- (410,327);
+  \draw[aux] (702,153) -- (702,327);
+  % ticks
+  \draw (110,327) -- (126,327);
+  \draw (110,456) -- (126,456);
+  % labels
+  \node[anchor=east] at (106,198) {$-1$};
+  \node[anchor=east] at (106,327) {$-4$};
+  \node[anchor=east] at (106,456) {$-7$};
+  \node[anchor=south] at (410,147) {$\pi$};
+  \node[anchor=south] at (702,147) {$2\pi$};
+  % curve
+  \draw[line width=0.9pt, domain=0:2*pi, samples=90, smooth] plot ({118+92.95*\x},{155+43*(4-3*sin(2*\x r))});
+\end{tikzpicture}
+\end{document}

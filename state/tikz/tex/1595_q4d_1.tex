@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\normalsize]
+  \draw[->] (30,293) -- (760,293) node[anchor=west] {$x$};
+  \draw[->] (398,490) -- (398,72) node[anchor=south] {$y$};
+  % curve: roots -6,0,4; TPs (-4,5),(2,-2); scale 32 px per x unit, 17 px per y unit
+  \draw[<->, line width=0.9pt] (158,490) .. controls (170,430) and (188,351) .. (206,293)
+     .. controls (221,245) and (240,208) .. (270,208)
+     .. controls (315,208) and (358,263) .. (398,293)
+     .. controls (423,312) and (437,327) .. (462,327)
+     .. controls (487,327) and (515,310) .. (526,293)
+     .. controls (542,268) and (572,159) .. (597,97);
+  \node[anchor=south] at (270,198) {$(-4,5)$};
+  \node[anchor=north west] at (209,297) {$-6$};
+  \node[anchor=north west] at (530,297) {$4$};
+  \node[anchor=north] at (462,333) {$(2,-2)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\small}]
+\draw[->] (25,738) -- (808,738);
+\draw[->] (313,850) -- (313,65);
+\node at (818,768) {$x$};
+\node at (296,50) {$y$};
+\draw[<->, line width=0.9pt] plot[domain=-1.085:3.07, samples=90, smooth] ({313+148.5*\x},{738-147.75*(\x-2)*(\x-2)*(\x+1)});
+\node[pt] at (164.5,738) {};
+\node[pt] at (313,147) {};
+\node[pt] at (461.5,442.5) {};
+\node[pt] at (610,738) {};
+\node[anchor=east] at (302,128) {$4$};
+\node[anchor=west] at (322,128) {$(0,4)$};
+\node[anchor=west] at (474,448) {$(1,\,2)$};
+\node[anchor=north west] at (174,748) {$(-1,\,0)$};
+\node[anchor=north east] at (150,744) {$-1$};
+\node[anchor=north] at (612,752) {$(2,0)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{9}{11}\selectfont},
+  declare function={f(\t)=\t*(\t-2)*(\t-2)*(\t*\t+\t+1); g(\t)=f(-(\t));}]
+\draw[->] (15,447) -- (745,447);
+\draw[->] (387,550) -- (387,35);
+\node at (752,470) {$x$};
+\node at (375,32) {$y$};
+\draw (605,442) -- (605,452);
+\draw (383,395) -- (391,395);
+% f(x) grey solid
+\draw[black!55, line width=0.9pt] plot[domain=-0.45:2.555, samples=90, smooth] ({387+109*\x},{447-52*f(\x)});
+% f(-x) grey dashed
+\draw[black!55, aux, line width=0.9pt] plot[domain=-2.555:0.45, samples=90, smooth] ({387+109*\x},{447-52*g(\x)});
+% 2f(-x)+1 black
+\draw[line width=0.9pt] plot[domain=-2.395:0.35, samples=90, smooth] ({387+109*\x},{447-52*(2*g(\x)+1)});
+\node[pt] at (278,83) {};
+\node[pt] at (169,395) {};
+\node[pt] at (496,291) {};
+\node[anchor=south] at (278,77) {$(-1,\,7)$};
+\node[anchor=south] at (496,286) {$(1,\,3)$};
+\node[anchor=east] at (137,398) {$(-2,\,1)$};
+\node[anchor=east] at (381,406) {$1$};
+\node[anchor=north east] at (371,451) {$0$};
+\node[anchor=north] at (605,454) {$2$};
+\node at (190,112) {$2f(-x){+}1$};
+\node[anchor=east] at (118,345) {$f(-x)$};
+\node[anchor=west] at (695,145) {$f(x)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+  % axes (origin at (560,225); 31 px per unit both ways)
+  \draw[->] (18,225) -- (980,225) node[anchor=west] {$x$};
+  \draw[->] (560,715) -- (560,10) node[anchor=west, xshift=3pt] {$y$};
+  % ticks at x-intercepts
+  \foreach \X in {250,622,870} \draw (\X,217) -- (\X,233);
+  % curve: roots -10, 2, 10; TPs (-6,5), (6,-2)
+  \draw[<->, line width=0.9pt] (190,365) .. controls (205,335) and (235.5,245) .. (250,225)
+     .. controls (273,193) and (320,70) .. (374,70)
+     .. controls (450,70) and (588.5,188) .. (622,225)
+     .. controls (642,247) and (700,287) .. (746,287)
+     .. controls (792,287) and (852,249) .. (870,225)
+     .. controls (888,201) and (957,109) .. (975,85);
+  \fill (374,70) circle (4);
+  \fill (746,287) circle (4);
+  \node[anchor=south] at (374,60) {$(-6,5)$};
+  \node[anchor=north] at (746,298) {$(6,-2)$};
+  \node[anchor=north west] at (256,236) {$-10$};
+  \node[anchor=north east] at (614,236) {$2$};
+  \node[anchor=north west] at (878,236) {$10$};
+\end{tikzpicture}
+\end{document}

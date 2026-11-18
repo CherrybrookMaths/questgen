@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (20,410) -- (20,12);
+  \draw[->] (20,410) -- (358,410);
+  \begin{scope}[line width=0.9pt]
+    \foreach \a/\b in {55/91,91/127,127/163,163/199,199/234,234/270,270/305}
+      \draw (\a,410) rectangle (\b,232);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

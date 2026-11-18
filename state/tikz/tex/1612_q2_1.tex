@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade] (105,270) -- plot[smooth,samples=60,domain=105:655] (\x,{262-254*exp(-0.5*((\x-380)/80)^2)}) -- (655,270) -- cycle;
+  \draw[<->] (12,270) -- (745,270);
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=60:700] (\x,{262-254*exp(-0.5*((\x-380)/80)^2)});
+  \draw[aux] (380,8) -- (380,270);
+  \draw (105,258) -- (105,282);
+  \draw (655,258) -- (655,282);
+  \node at (101,314) {$25$};
+  \node at (652,314) {$145$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+\draw[aux] (40,197) -- (440,197);
+\draw[->] (440,197) -- (457,197);
+\draw[->] (255,405) -- (255,8);
+\node at (237,16) {$y$};
+\node at (469,220) {$x$};
+\node at (235,220) {$O$};
+\draw[<->] plot[smooth,samples=90,domain=-222:185,variable=\t] ({255+\t},{196.5-42*exp(-(\t/60)^2)});
+\node[anchor=west] at (328,158) {asymptote at $y=0$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{10.5}{12}\selectfont}]
+% box fills first, grid shows through as on the paper
+\fill[black!18] (295.75,110) rectangle (539.75,198);
+\fill[black!18] (360.75,218) rectangle (604.5,314);
+% grid
+\foreach \h in {145,...,204} \draw[black!20, line width=0.4pt] ({52+16.25*(\h-145)},102) -- ({52+16.25*(\h-145)},318);
+\foreach \k in {1,...,13} \draw[black!20, line width=0.4pt] (52,{318-16.25*\k}) -- (1018.9,{318-16.25*\k});
+% axis
+\draw[->] (22,318) -- (1045,318);
+\foreach \h in {145,150,...,205} {
+  \draw ({52+16.25*(\h-145)},318) -- ({52+16.25*(\h-145)},326);
+  \node at ({52+16.25*(\h-145)},347) {$\h$};
+}
+\foreach \h in {146,147,148,149,151,152,153,154,156,157,158,159,161,162,163,164,166,167,168,169,171,172,173,174,176,177,178,179,181,182,183,184,186,187,188,189,191,192,193,194,196,197,198,199,201,202,203,204}
+  \draw ({52+16.25*(\h-145)},318) -- ({52+16.25*(\h-145)},322.5);
+% Year 11
+\draw[line width=0.9pt] (100.75,155) -- (295.75,155);
+\draw[line width=0.9pt] (539.75,155) -- (865.5,155);
+\draw[line width=0.9pt] (100.75,140) -- (100.75,170);
+\draw[line width=0.9pt] (865.5,140) -- (865.5,170);
+\draw[line width=0.9pt] (295.75,110) rectangle (539.75,198);
+\draw[line width=0.9pt] (425.75,110) -- (425.75,198);
+% Year 12
+\draw[line width=0.9pt] (133.25,262) -- (360.75,262);
+\draw[line width=0.9pt] (604.5,262) -- (962,262);
+\draw[line width=0.9pt] (133.25,246) -- (133.25,280);
+\draw[line width=0.9pt] (962,246) -- (962,280);
+\draw[line width=0.9pt] (360.75,218) rectangle (604.5,314);
+\draw[line width=0.9pt] (539.75,218) -- (539.75,314);
+\node[anchor=west] at (1028,155) {Year 11};
+\node[anchor=west] at (1028,258) {Year 12};
+\node at (540,52) {Heights of Y11 and Y12 Students};
+\node at (540,380) {Height (cm)};
+\end{tikzpicture}
+\end{document}

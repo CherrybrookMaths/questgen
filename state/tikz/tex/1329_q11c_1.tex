@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{10.5}{12}\selectfont}]
+% cylinder body (visible side), light grey
+\fill[black!15] plot[domain=203.06:383.06, samples=60, smooth] ({144.5+74*cos(\x)+31.5*sin(\x)},{234.5-31.5*sin(\x)})
+  -- plot[domain=0:180, samples=60, smooth] ({144.5+74*cos(383.06-\x)+31.5*sin(383.06-\x)},{41.5-31.5*sin(383.06-\x)}) -- cycle;
+% hidden prism edges
+\draw[aux] (102,10) -- (102,203) -- (252,203);
+\draw[aux] (102,203) -- (39,266);
+% axis and radii
+\draw[aux] (144.5,41.5) -- (144.5,234.5);
+\draw[aux] (144.5,41.5) -- (218.5,41.5);
+\draw[aux] (144.5,234.5) -- (218.5,234.5);
+% bottom ellipse: back dashed, front solid
+\draw[aux] plot[domain=23.06:203.06, samples=60, smooth] ({144.5+74*cos(\x)+31.5*sin(\x)},{234.5-31.5*sin(\x)});
+\draw plot[domain=203.06:383.06, samples=60, smooth] ({144.5+74*cos(\x)+31.5*sin(\x)},{234.5-31.5*sin(\x)});
+% top ellipse
+\draw plot[domain=0:360, samples=90, smooth cycle] ({144.5+74*cos(\x)+31.5*sin(\x)},{41.5-31.5*sin(\x)});
+% cylinder sides
+\draw (64.1,53.8) -- (64.1,246.8);
+\draw (224.9,29.2) -- (224.9,222.2);
+% prism visible edges
+\draw (39,73) rectangle (187,266);
+\draw (39,73) -- (102,10) -- (252,10) -- (187,73);
+\draw (252,10) -- (252,203) -- (187,266);
+% centre marks
+\foreach \c in {41.5,234.5}{
+  \draw (144.5,\c-8) -- (144.5,\c+8);
+  \draw (137.5,\c-4) -- (151.5,\c+4);
+  \draw (137.5,\c+4) -- (151.5,\c-4);
+}
+\node at (177,22) {$r$\,cm};
+\node[anchor=west] at (262,138) {$h$\,cm};
+\draw[->] (262,122) .. controls (238,96) and (190,92) .. (151,120);
+\end{tikzpicture}
+\end{document}
