@@ -36,6 +36,10 @@ an exam preview). Six commits, "Health pass 1/6" to "6/6".
    another view had silently inherited a property from the old rule, it is now written out in that view's own rule.
    Prefixes from now on: `pr-` Processes, `rv-` Review, `ex-` Exams (or scope under the view: `.procs .x`).
 3. **Size budget** in batch_check: `tools/size_budget.json` (size on 13 Nov + 25%). Over budget blocks until the owner agrees.
+   Owner 18 Nov (the budget is ours, not a platform limit): "If i'ts not a HARD limit, you're allowed to exceed AS LONG as all the
+   code and comments we've built so far is necessary and efficient, not bloated." So a page over budget may be raised without asking
+   again, but only after a bloat pass: dead code removed, duplicates merged, nothing in the built page that the page does not run
+   (rulings and comments stay in page_src/, the build may strip them). The pass and the new figure go in "agreed".
 4. **Shared state**: `QG` in 01_core.js (bank, dots, dm, reviews, db, me, editor, view, course). B, DOTS, DM, reviews, db, me,
    EDITOR and view are window accessors onto QG, not declarations; every write goes through QG. New shared state = a QG field.
 5. **Course**: `QG.course` ('advanced') → `QG.courseData` (name, short, bank and dot-point files). The page no longer types

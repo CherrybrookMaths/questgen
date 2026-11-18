@@ -269,6 +269,8 @@ except Exception as e: W(f'check pages check failed: {e}')
 # size budget (CODE_HEALTH rule 6; health pass 13 Nov, owner: "keep the code proper and [lean]"). Since Fix 1 (owner 14 Nov:
 # "Ok we should run Fix 1 and 2"; plan: keep the published page small; fetch data only when needed) the budget is what the page
 # loads at start: review.html + the course index + data/assets.json, each and together ("start load"). Over budget BLOCKS until
+# owner 18 Nov: "If i'ts not a HARD limit, you're allowed to exceed AS LONG as all the code and comments we've built so far is
+# necessary and efficient, not bloated." (CODE_HEALTH rule 3: raise after a bloat pass, recorded in "agreed")
 # the owner agrees and the budget is raised in tools/size_budget.json with his words in "agreed". Everything fetched only when
 # needed (topic files, image packs, the old bank.json) and the whole published set are reported as info, never blocking.
 try:

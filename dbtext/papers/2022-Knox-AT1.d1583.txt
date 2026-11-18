@@ -1,0 +1,1258 @@
+# paper 2022-Knox-AT1 (document 1583)
+document
+  id: 1583
+  drive_file_id: 1LBDskR6vZzFHN_xsDXLF12adF2-o5scX
+  source_path: Knox/Y12/Mathematics Advanced/AT1/2022 Y12 MA AT1.pdf
+  size_bytes: 389972
+  task_type: internal_exam
+  course: advanced
+  classification_method: explicit_cover
+  year_level: 12
+  school: Knox
+  year: 2022
+  natural_key: internal_exam|2022|knox|advanced
+  provenance_method: coverpage
+  page_count: 5
+  has_text_layer: 1
+  parse_path: digital
+  bundled_solutions: 0
+  syllabus_version: 2017
+  status: parsed
+  ingested_at: 2026-11-10T22:53:15
+  display_label: 2022 Knox Grammar School AT1
+  school_formal: Knox Grammar School
+  task_code: AT1
+
+## Q1(a)  key 2022-Knox-AT1-Q1a  id 3237
+  section: II
+  question_type: mcq
+  marks_total: 1
+  page_start: 0
+  page_end: 0
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  option A
+    latex: $2\times10^7x^7$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $-2\times10^7x^7$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $2\times10^7x^8$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $-2\times10^7x^8$
+    is_correct: 1
+    key_source: extracted
+  solution 4636
+    source: extracted
+    latex: |
+      This is a geometric series with first term and common ratio
+      $$a=2x,\quad r=\dfrac{-20x^2}{2x}=-10x$$
+      The general term is
+      $$\begin{aligned} T_n&=2x\times(-10x)^{n-1} \\ &=2(-10)^{n-1}x^n \end{aligned}$$
+      The power of $10$ is one less than the power of $x$, so only options A and B (power $7$ of $x$ with $10^7$) or C and D (power $8$ of $x$ with $10^7$) can fit. Since $10^7$ needs $n-1=7$, we get $n=8$, and the power of $x$ is $8$.
+
+      When $n=8$, $(-1)^{n-1}=(-1)^7$ is negative, so the term is $-2\times10^7x^8$.
+
+      This is option D.
+    marks_breakdown: 1: correct answer
+    source_document_id: 1583
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"format_note": "Working tidied and made explicit that n = 8 (source said n even); mathematics unchanged."}
+  part -  id 5265
+    ordinal: 1
+    latex: Which expression is a term in the geometric series $2x-20x^2+200x^3-\ldots$ ?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-222
+      focus_area: Sequences and series
+      dot_point: Develop the formula an = arn―1 for the nth term of a GP, where a is the first term and n ≥1, and use it to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Terms of a geometric sequence
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+
+## Q1(b)  key 2022-Knox-AT1-Q1b  id 3238
+  section: II
+  question_type: short
+  stem_latex: Consider the arithmetic series $5+12+19+\ldots+292$.
+  marks_total: 3
+  page_start: 0
+  page_end: 0
+  needs_review: 0
+  review_status: unreviewed
+  part a  id 5266
+    ordinal: 1
+    latex: Show that there are 42 terms.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-216
+      focus_area: Sequences and series
+      dot_point: Develop the formula an = a + (n ― 1)d for the nth term of an AP, where a is the first term and n ≥1, and use it to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Terms of an arithmetic sequence
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4637
+      source: extracted
+      latex: |
+        This is an arithmetic series with
+        $$a=5,\quad d=7$$
+        Using $T_n=a+(n-1)d$ with $T_n=292$:
+        $$\begin{aligned} 292&=5+(n-1)\times7 \\ 287&=7n-7 \\ 294&=7n \\ n&=42 \end{aligned}$$
+        $\therefore$ there are 42 terms, as required.
+      marks_breakdown: 1: correct substitution of values in formula; 1: working to show $n=42$
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Correct substitution of values in formula, or equivalent merit"]]
+      meta_json: {"format_note": "Source rubric one-mark-per-step rewritten top-down."}
+  part b  id 5267
+    ordinal: 2
+    latex: Find the sum of the series.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-218
+      focus_area: Sequences and series
+      dot_point: Develop the formula Sn = n 2(a + an) for the nth partial sum of an AP, and use the formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Arithmetic series
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4638
+      source: extracted
+      latex: |
+        Using the sum formula for an arithmetic series, $S_n=\dfrac{n}{2}(a+l)$:
+        $$\begin{aligned} S_{42}&=\dfrac{42}{2}(5+292) \\ &=6237 \end{aligned}$$
+        $$\therefore\ S_{42}=6237$$
+      marks_breakdown: 1: correct answer
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+
+## Q1(c)  key 2022-Knox-AT1-Q1c  id 3239
+  section: II
+  question_type: short
+  marks_total: 1
+  page_start: 0
+  page_end: 0
+  needs_review: 0
+  review_status: unreviewed
+  solution 4639
+    source: extracted
+    latex: |
+      A sequence is geometric if consecutive terms have a common ratio.
+      $$\dfrac{T_2}{T_1}=\dfrac{\frac13}{\frac12}=\dfrac23$$
+      $$\dfrac{T_3}{T_2}=\dfrac{\frac29}{\frac13}=\dfrac23$$
+      Since $\dfrac{T_2}{T_1}=\dfrac{T_3}{T_2}$, the sequence is geometric.
+    marks_breakdown: 1: showing values of $\frac{T_2}{T_1}$ and $\frac{T_3}{T_2}$ are equal
+    source_document_id: 1583
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 5268
+    ordinal: 1
+    latex: Show that the sequence $\dfrac{1}{2},\ \dfrac{1}{3},\ \dfrac{2}{9},\ldots$ is geometric.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-221
+      focus_area: Sequences and series
+      dot_point: Define a sequence an to be a geometric sequence, or geometric progression (GP), if every ratio an an―1 of successive terms is the same where n ≥2, that is an = ran―1 for some non-zero real number r called the common ratio
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Testing for arithmetic and geometric sequences
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+
+## Q1(d)  key 2022-Knox-AT1-Q1d  id 3240
+  section: II
+  question_type: short
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  solution 4640
+    source: extracted
+    latex: |
+      The condition is that the person does not own a mobile phone, so we use the "no phone" column of the table.
+      $$P(\text{male}\mid\text{no phone})=\dfrac{28}{45}$$
+    marks_breakdown: 1: correct answer
+    source_document_id: 1583
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"format_note": "Table values not visible in the text, so the answer is kept as in the source and not recomputed."}
+  figure 1583_q1d_1.png
+    page: 1
+    bbox: [113, 89, 445, 240]
+    png_path: figures/1583_q1d_1.png
+    caption: Survey results table: male/female by owns/does not own a mobile phone
+  part -  id 5269
+    ordinal: 1
+    latex: |
+      A group of 150 people were surveyed. The results of the survey are shown in the table:
+
+      \exfigure{1583_q1d_1}
+
+      A person is selected at random from the surveyed group. What is the probability that the person selected is male given they do not own a mobile phone?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-190
+      focus_area: Probability and data
+      dot_point: Examine conditional probability by restricting the sample space and event spaces in a Venn diagram, using a two-way table, a tree diagram and other arrays
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-192
+      focus_area: Probability and data
+      dot_point: Use the formulas for P(A|B) to solve practical problems involving conditional probability
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Conditional probability
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Two-way tables
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+
+## Q1(e)  key 2022-Knox-AT1-Q1e  id 3241
+  section: II
+  question_type: short
+  stem_latex: |
+    Mark borrowed \$22 000 to buy a diamond ring for Seiko. He will repay the loan over 4 years in equal monthly instalments. Reducible interest will be charged at a rate of 9% p.a. compounded monthly.
+
+    \extable{1583_q1e_t1}
+
+    Using the present value interest factors table, determine:
+  marks_total: 2
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  standard_topic: Standard, Year 12: Investment, loans and annuities (present value tables) (MST-12-S2-03) (borderline)
+  data_table 1583_q1e_t1
+    caption: Table of present value interest factors
+    header_rows: 2
+    label_col: 1
+    rows_json: [["r", "0.0060", "0.0065", "0.0070", "0.0075", "0.0080", "0.0085"], ["n", "", "", "", "", "", ""], ["45", "39.33406", "38.90738", "38.48712", "38.07318", "37.66545", "37.26383"], ["46", "40.09350", "39.64965", "39.21263", "38.78231", "38.35859", "37.94133"], ["47", "40.84841", "40.38714", "39.93310", "39.48617", "39.04622", "38.61311"], ["48", "41.59882", "41.11986", "40.64856", "40.18478", "39.72839", "39.27924"], ["49", "42.34475", "41.84785", "41.35905", "40.87820", "40.40515", "39.93975"], ["50", "43.08623", "42.57113", "42.06459", "41.56645", "41.07653", "40.59470"]]
+    spans_json: []
+  part a  id 5270
+    ordinal: 1
+    latex: the amount Mark will repay each month.
+    marks: 1
+    needs_review: 0
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag note MA-M1.4
+      dot_point: Loan repayment from a present value interest factor table (table look-up removed from 2024 Advanced).
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4641
+      source: extracted
+      latex: |
+        The number of repayments is $4\times12=48$, and the monthly rate is
+        $$9\%\div12=0.75\%=0.0075$$
+        The present value of the loan equals the repayment times the table factor (48 periods, $0.75\%$):
+        $$22000=M\times40.18478$$
+        $$\begin{aligned} M&=\dfrac{22000}{40.18478} \\ &=547.4709\ldots \end{aligned}$$
+        $$\therefore\ \text{Mark will repay } \$547.47 \text{ per month.}$$
+      marks_breakdown: 1: correct answer (no rounding penalty)
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer (no rounding penalty)"]]
+      meta_json: {}
+  part b  id 5271
+    ordinal: 2
+    latex: the amount of interest Mark will pay on his loan.
+    marks: 1
+    needs_review: 0
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag note MA-M1.4
+      dot_point: Interest from a repayment found with a present value interest factor table (table look-up removed from 2024 Advanced).
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4642
+      source: extracted
+      latex: |
+        The total repaid is
+        $$\begin{aligned} \$547.47\times48&=\$26\,278.56 \end{aligned}$$
+        The interest is the total repaid less the amount borrowed:
+        $$\begin{aligned} \text{Interest}&=\$26\,278.56-\$22\,000 \\ &=\$4278.56 \end{aligned}$$
+        Note: using the unrounded repayment, $48\times\dfrac{22000}{40.18478}-22000=\$4278.61$.
+        $$\therefore\ \text{Interest}=\$4278.56$$
+      marks_breakdown: 1: calculating difference between total repaid and amount borrowed (correct use of rounded and unrounded values of $M$)
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer (correct use of rounded and unrounded values of $M$)"]]
+      meta_json: {}
+
+## Q2(a)  key 2022-Knox-AT1-Q2a  id 3242
+  section: II
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  option A
+    latex: $-4$
+    is_correct: 1
+    key_source: extracted
+  option B
+    latex: $-2$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $4$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $12$
+    is_correct: 0
+    key_source: extracted
+  solution 4643
+    source: extracted
+    latex: |
+      Substitute $n=3,4,5$:
+      $$\begin{aligned} \sum_{n=3}^{5}n(-1)^n&=3(-1)^3+4(-1)^4+5(-1)^5 \\ &=-3+4-5 \\ &=-4 \end{aligned}$$
+      This matches option A.
+    marks_breakdown: 1: correct answer
+    source_document_id: 1583
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 5272
+    ordinal: 1
+    latex: $\displaystyle\sum_{n=3}^{5} n(-1)^n =$
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-214
+      focus_area: Sequences and series
+      dot_point: Use summation notation to represent the sum of terms ai to aj of a sequence where j > i, ∑ j k=iak = ai + ai+1 + ai+2 + … + aj―1 + aj
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Sigma notation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+
+## Q2(b)  key 2022-Knox-AT1-Q2b  id 3243
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  solution 4644
+    source: extracted
+    latex: |
+      Using the recurrence relation $A_n=(A_{n-1}+1500)(1.03)$ with $A_0=0$:
+      $$\begin{aligned} A_1&=(0+1500)\times1.03=1545 \\ A_2&=(1545+1500)\times1.03=3136.35 \\ A_3&=(3136.35+1500)\times1.03=4775.4405 \end{aligned}$$
+      $$\therefore\ \text{the amount is } \$4775.44$$
+    marks_breakdown: 1: using recursive relationship to evaluate $A_3$; 1: correct answer
+    source_document_id: 1583
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Uses the recurrence relation to evaluate $A_3$, or equivalent merit"]]
+    meta_json: {"format_note": "Source rubric rewritten top-down."}
+  part -  id 5273
+    ordinal: 1
+    latex: |
+      On the day of his daughter's birth James deposits \$1500 in a trust fund that pays interest of 3% p.a. compounded annually. He continues to deposit \$1500 in the trust fund on his daughter's birthday each year.
+
+      The amount, $A_n$, in the account immediately prior to the deposit being made on his daughter's $n^{\text{th}}$ birthday can be determined using the recurrence relation:
+
+      $$A_n=\left(A_{n-1}+1500\right)\left(1.03\right)$$
+
+      Where $n=1,2,3,\ldots$ and $A_0=0$.
+
+      Use the recurrence relation to find the amount of money in the trust fund immediately before James makes the deposit on his daughter's third birthday.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-356
+      focus_area: Financial mathematics
+      dot_point: Identify an annuity as either an investment account with regular, equal contributions and interest compounding at the end of each period, or as a single sum investment from which regular equal withdrawals are made
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-357
+      focus_area: Financial mathematics
+      dot_point: Define and model the future value of an annuity as the sum of all the payments, together with the interest they have earned
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Annuities: contributions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Recurrence relations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+
+## Q2(c)  key 2022-Knox-AT1-Q2c  id 3244
+  section: II
+  question_type: extended
+  stem_latex: |
+    Andrew borrows \$640 000 which is to be repaid in equal monthly instalments. The interest rate is 4.8% p.a. reducible, calculated monthly. Interest is charged and calculated just before each repayment is made.
+
+    Let the amount that Andrew repays each month be $M$ and the amount owing after the $n^{\text{th}}$ repayment be $A_n$.
+  marks_total: 5
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  part a  id 5274
+    ordinal: 1
+    latex: Show that $A_2=640000\times1.004^2-M\times1.004-M$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-353
+      focus_area: Financial mathematics
+      dot_point: Recognise a reducing balance loan algebraically as a compound interest loan with periodic repayments
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-355
+      focus_area: Financial mathematics
+      dot_point: Solve problems that involve reducing balance loans by calculating the total amount paid, equal periodic repayments, the amount still owing and the time taken to repay the loan
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Recurrence relations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reducing balance loans
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4645
+      source: extracted
+      latex: |
+        The monthly rate is $4.8\%\div12=0.4\%=0.004$, so the balance is multiplied by $1.004$ before each repayment.
+        $$A_1=640000\times1.004-M$$
+        $$\begin{aligned} A_2&=A_1\times1.004-M \\ &=(640000\times1.004-M)\times1.004-M \\ &=640000\times1.004^2-M\times1.004-M \end{aligned}$$
+        as required.
+      marks_breakdown: 1: working shown
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Source criterion 'working shown' converted to Correct answer."}
+  part b  id 5275
+    ordinal: 2
+    latex: Show that $A_n=640000\times1.004^n-250M\left(1.004^n-1\right)$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-225
+      focus_area: Sequences and series
+      dot_point: Develop the formula Sn = a(1―rn) 1―r for the sum of the first n terms of a GP where r ≠1, and use this formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-353
+      focus_area: Financial mathematics
+      dot_point: Recognise a reducing balance loan algebraically as a compound interest loan with periodic repayments
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-355
+      focus_area: Financial mathematics
+      dot_point: Solve problems that involve reducing balance loans by calculating the total amount paid, equal periodic repayments, the amount still owing and the time taken to repay the loan
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Geometric series
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Recurrence relations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reducing balance loans
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4646
+      source: extracted
+      latex: |
+        Continuing the pattern from part (a):
+        $$\begin{aligned} A_3&=(640000\times1.004^2-M\times1.004-M)\times1.004-M \\ &=640000\times1.004^3-M(1+1.004+1.004^2) \end{aligned}$$
+        Hence
+        $$A_n=640000\times1.004^n-M\left(1+1.004+1.004^2+\ldots+1.004^{n-1}\right)$$
+        The bracket is a geometric series with $a=1$, $r=1.004$ and $n$ terms, so its sum is $\dfrac{1.004^n-1}{1.004-1}$.
+        $$\begin{aligned} A_n&=640000\times1.004^n-\dfrac{M\left(1.004^n-1\right)}{1.004-1} \\ &=640000\times1.004^n-\dfrac{M\left(1.004^n-1\right)}{0.004} \\ &=640000\times1.004^n-250M\left(1.004^n-1\right) \end{aligned}$$
+        as required.
+      marks_breakdown: 1: setting up series in terms of $M$ and $n$; 1: using sum formula and simplifying
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Sets up the series in terms of $M$ and $n$, or equivalent merit"]]
+      meta_json: {"format_note": "Source rubric rewritten top-down."}
+  part c  id 5276
+    ordinal: 3
+    latex: If Andrew makes monthly repayments of \$4000, how long will it take him to repay the loan?
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-355
+      focus_area: Financial mathematics
+      dot_point: Solve problems that involve reducing balance loans by calculating the total amount paid, equal periodic repayments, the amount still owing and the time taken to repay the loan
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Number of payments using logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reducing balance loans
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4647
+      source: extracted
+      latex: |
+        The loan is repaid when $A_n=0$, with $M=4000$:
+        $$\begin{aligned} 0&=640000\times1.004^n-250\times4000\left(1.004^n-1\right) \\ 0&=640000\times1.004^n-1000000\times1.004^n+1000000 \\ 360000\times1.004^n&=1000000 \\ 1.004^n&=\dfrac{25}{9} \end{aligned}$$
+        Taking logarithms:
+        $$\begin{aligned} n\ln(1.004)&=\ln\left(\dfrac{25}{9}\right) \\ n&=\dfrac{\ln\left(\frac{25}{9}\right)}{\ln(1.004)} \\ &=255.923\ldots \end{aligned}$$
+        Since $n$ must be a whole number of months, round up.
+        $$\therefore\ \text{it will take Andrew 256 months to repay the loan.}$$
+      marks_breakdown: 1: establishing $1.004^n=\frac{25}{9}$; 1: correct answer (no penalty for rounding)
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer (no penalty for rounding)"], [1, "Establishes $1.004^n=\\dfrac{25}{9}$, or equivalent merit"]]
+      meta_json: {"format_note": "Source rubric rewritten top-down."}
+
+## Q3(a)  key 2022-Knox-AT1-Q3a  id 3245
+  section: II
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  option A
+    latex: The colour of a ball randomly drawn from a bag of coloured balls.
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: The height of a player randomly selected from a basketball team.
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: The number of goals scored by a player randomly selected from a football team.
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: The brand of deodorant used by a randomly selected Knox student.
+    is_correct: 0
+    key_source: extracted
+  solution 4648
+    source: extracted
+    latex: |
+      A discrete random variable takes countable values.
+
+      The number of goals scored is a whole number (0, 1, 2, ...), so it is discrete. Colour and brand are categories, and height is continuous.
+
+      This is option C.
+    marks_breakdown: 1: correct answer
+    source_document_id: 1583
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"format_note": "Source had only the letter; short working written (generated)."}
+  part -  id 5277
+    ordinal: 1
+    latex: Which of the following is an example of a discrete random variable?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-198
+      focus_area: Probability and data
+      dot_point: Compare discrete random variables with continuous random variables, describe their differences, and give practical examples of each
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Discrete probability distributions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+
+## Q3(b)  key 2022-Knox-AT1-Q3b  id 3246
+  section: II
+  question_type: short
+  stem_latex: |
+    The Venn diagram below illustrates two events, $A$ and $B$.
+
+    \exfigure{1583_q3b_1}
+
+    Find:
+  marks_total: 2
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  figure 1583_q3b_1.png
+    page: 3
+    bbox: [171, 269, 433, 423]
+    png_path: figures/1583_q3b_1.png
+    caption: Venn diagram: A only 8, A and B 7, B only 11, outside 3
+  part a  id 5278
+    ordinal: 1
+    latex: $P\left(A\cap\overline{B}\right)$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-185
+      focus_area: Probability and data
+      dot_point: Interpret the notation A to be the event ‘A does not occur’, interpret A ∩B to be the event ‘A and B both occur’, and interpret A ∪B to be the event ‘A or B occurs’
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-186
+      focus_area: Probability and data
+      dot_point: Use Venn diagrams to represent the relationship between events within the same sample space, including mutually exclusive events, that is, events that as subsets of the sample space are disjoint
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Venn diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4649
+      source: extracted
+      latex: $$P\left(A\cap\overline{B}\right)=\dfrac{8}{29}$$
+      marks_breakdown: 1: correct answer
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Venn diagram values not visible in text, so the answer is kept as in the source."}
+  part b  id 5279
+    ordinal: 2
+    latex: $P\left(\overline{A}\right)$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-186
+      focus_area: Probability and data
+      dot_point: Use Venn diagrams to represent the relationship between events within the same sample space, including mutually exclusive events, that is, events that as subsets of the sample space are disjoint
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-187
+      focus_area: Probability and data
+      dot_point: Establish and use the rules P(A)= 1 ― P(A) and P(A ∪B)= P(A)+ P(B)― P(A ∩B)
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Complementary events
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Venn diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4650
+      source: extracted
+      latex: $$P\left(\overline{A}\right)=\dfrac{14}{29}$$
+      marks_breakdown: 1: correct answer
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Venn diagram values not visible in text, so the answer is kept as in the source."}
+
+## Q3(c)  key 2022-Knox-AT1-Q3c  id 3247
+  section: II
+  question_type: extended
+  stem_latex: |
+    A discrete random variable, $X$, can take the values 1, 2, 3 and 4.
+
+    \extable{1583_q3c_t1}
+  marks_total: 5
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  data_table 1583_q3c_t1
+    header_rows: 0
+    label_col: 1
+    rows_json: [["x", "1", "2", "3", "4"], ["P(X=x)", "\\dfrac{1}{9}", "\\dfrac{5}{9}", "\\dfrac{2}{9}", "\\dfrac{1}{9}"]]
+    spans_json: []
+  part a  id 5280
+    ordinal: 1
+    latex: Show that the expected value is $\dfrac{7}{3}$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-318
+      focus_area: Random variables
+      dot_point: Generate and use the formulas E(X)= μ = ΣxP(x) and Var(X)= σ2 = Σ(x ― μ)2P(x)= Σx2P(x)― μ2 for the random variable X, where Var(X) is the variance and σ is the standard deviation of the distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-321
+      focus_area: Random variables
+      dot_point: Solve problems involving probabilities, expectation and variance of discrete random variables
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Expected value
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4651
+      source: extracted
+      latex: |
+        Using $E(X)=\sum xP(X=x)$:
+        $$\begin{aligned} E(X)&=1\times\dfrac19+2\times\dfrac59+3\times\dfrac29+4\times\dfrac19 \\ &=\dfrac{21}{9} \\ &=\dfrac73 \end{aligned}$$
+      marks_breakdown: 2: correct working to show $\frac73$
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Correct expression for $\\sum xP(X=x)$, or equivalent merit"]]
+      meta_json: {"format_note": "Source gave 2 marks for correct working; a 1-mark partial row was added in top-down form."}
+  part b  id 5281
+    ordinal: 2
+    latex: Show that $\text{Var}(X)=\dfrac{2}{3}$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-318
+      focus_area: Random variables
+      dot_point: Generate and use the formulas E(X)= μ = ΣxP(x) and Var(X)= σ2 = Σ(x ― μ)2P(x)= Σx2P(x)― μ2 for the random variable X, where Var(X) is the variance and σ is the standard deviation of the distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-321
+      focus_area: Random variables
+      dot_point: Solve problems involving probabilities, expectation and variance of discrete random variables
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Variance and standard deviation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4652
+      source: extracted
+      latex: |
+        Using $\text{Var}(X)=E(X^2)-\left[E(X)\right]^2$:
+        $$\begin{aligned} \text{Var}(X)&=\left(1^2\times\dfrac19+2^2\times\dfrac59+3^2\times\dfrac29+4^2\times\dfrac19\right)-\left(\dfrac73\right)^2 \\ &=\dfrac69 \\ &=\dfrac23 \end{aligned}$$
+        Alternative method, using $\text{Var}(X)=\sum P(x)(x-\mu)^2$:
+        $$\begin{aligned} \text{Var}(X)&=\dfrac19\left(1-\dfrac73\right)^2+\dfrac59\left(2-\dfrac73\right)^2+\dfrac29\left(3-\dfrac73\right)^2+\dfrac19\left(4-\dfrac73\right)^2 \\ &=\dfrac{54}{81} \\ &=\dfrac23 \end{aligned}$$
+      marks_breakdown: Alternative method: 1: calculation of $(x-\mu)^2$; 1: showing sum of $P(x)(x-\mu)^2$
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Calculates $(x-\\mu)^2$ values or shows the sum of $P(x)(x-\\mu)^2$ (alternative method), or equivalent merit"]]
+      meta_json: {"format_note": "Source criteria had a null mark row for the alternative method; rewritten top-down (2 marks total)."}
+  part c  id 5282
+    ordinal: 3
+    latex: Find $\sigma$ correct to 2 decimal places.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-318
+      focus_area: Random variables
+      dot_point: Generate and use the formulas E(X)= μ = ΣxP(x) and Var(X)= σ2 = Σ(x ― μ)2P(x)= Σx2P(x)― μ2 for the random variable X, where Var(X) is the variance and σ is the standard deviation of the distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Variance and standard deviation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4653
+      source: extracted
+      latex: |
+        Since $\sigma=\sqrt{\text{Var}(X)}$:
+        $$\begin{aligned} \sigma&=\sqrt{\dfrac23} \\ &=0.816496\ldots \\ &\approx0.82 \text{ (2 dp)} \end{aligned}$$
+      marks_breakdown: 1: correct answer (no rounding penalty)
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer (no rounding penalty)"]]
+      meta_json: {}
+
+## Q4(a)  key 2022-Knox-AT1-Q4a  id 3248
+  section: II
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  option A
+    latex: $0$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $2$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $5$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $8$
+    is_correct: 0
+    key_source: extracted
+  solution 4654
+    source: extracted
+    latex: |
+      Since $A$ and $B$ are independent, $P(A)=P(A\mid B)$.
+
+      From the Venn diagram, $P(A)=\dfrac27$ and $P(A\mid B)=\dfrac{x+2}{x+12}$, so
+      $$\begin{aligned} \dfrac{x+2}{x+12}&=\dfrac27 \\ 7x+14&=2x+24 \\ 5x&=10 \\ x&=2 \end{aligned}$$
+      Alternatively, $P(A\cap B)=P(A)\times P(B)$ gives
+      $$\dfrac{2}{x+12}=\dfrac{x+2}{x+12}\times\dfrac{7}{x+12}$$
+      so $\dfrac27=\dfrac{x+2}{x+12}$, and again $x=2$.
+
+      This is option B.
+    marks_breakdown: 1: correct answer
+    source_document_id: 1583
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"format_note": "Source's $|A\\cap B|$ counting and the value $P(A)=\\dfrac27$ rely on the diagram, which is not visible here."}
+  figure 1583_q4a_1.png
+    page: 4
+    bbox: [176, 117, 428, 266]
+    png_path: figures/1583_q4a_1.png
+    caption: Venn diagram: A only x, A and B 2, B only 5, outside 5
+  part -  id 5283
+    ordinal: 1
+    latex: |
+      In the Venn diagram, $A$ and $B$ are independent events.
+
+      \exfigure{1583_q4a_1}
+
+      What is the value of $x$?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-186
+      focus_area: Probability and data
+      dot_point: Use Venn diagrams to represent the relationship between events within the same sample space, including mutually exclusive events, that is, events that as subsets of the sample space are disjoint
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-195
+      focus_area: Probability and data
+      dot_point: Use the formula P(A|B)= P(A∩B) P(B) , and the test P(A|B)= P(A) for independence to prove that if two events are independent, then P(A ∩B)= P(A)× P(B), and to prove conversely that if P(A ∩B)= P(A)× P(B), then A and B are independent
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Independent events
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Venn diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+
+## Q4(b)  key 2022-Knox-AT1-Q4b  id 3249
+  section: II
+  question_type: short
+  stem_latex: A machine produces items of which 5% are defective.
+  marks_total: 3
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  part a  id 5284
+    ordinal: 1
+    latex: If three items are chosen at random, what is the probability they are all defective?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-188
+      focus_area: Probability and data
+      dot_point: Use arrays and tree diagrams to determine the outcomes and probabilities for multistage events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-196
+      focus_area: Probability and data
+      dot_point: Solve practical problems involving independent events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Multistage events and tree diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4655
+      source: extracted
+      latex: |
+        Each toss of 2 coins gives
+        $$P(HH)=\dfrac14,\quad P(\text{not }HH)=\dfrac34$$
+        Jo wins on her first turn with probability
+        $$P(W)=\dfrac14$$
+        Jo wins on her second turn if both Jo and Liz fail first, then Jo succeeds:
+        $$P(LLW)=\dfrac34\times\dfrac34\times\dfrac14=\dfrac{9}{64}$$
+        Adding the two cases:
+        $$\begin{aligned} P(\text{Jo wins on first or second turn})&=\dfrac14+\dfrac{9}{64} \\ &=\dfrac{25}{64} \end{aligned}$$
+      marks_breakdown: 1: correct answer
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "$P(LLW)=\\dfrac{9}{64}$, or equivalent merit"]]
+      meta_json: {"format_note": "Source rubric rewritten top-down."}
+  part b  id 5285
+    ordinal: 2
+    latex: A random sample of $n$ items is taken from the machine. Find the largest possible value of $n$ in order that the probability that none of the items is defective is at least 0.6.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-154
+      focus_area: Exponential and logarithmic functions
+      dot_point: Explain that y = ax is equivalent to x = loga y for a > 0 and a ≠1, and use the equivalence to solve equations of the form ax = b, for a > 0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-188
+      focus_area: Probability and data
+      dot_point: Use arrays and tree diagrams to determine the outcomes and probabilities for multistage events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-196
+      focus_area: Probability and data
+      dot_point: Solve practical problems involving independent events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential equations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Multistage events and tree diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4656
+      source: extracted
+      latex: |
+        The probability an item is not defective is
+        $$1-\dfrac1{20}=\dfrac{19}{20}$$
+        We need the probability that none of $n$ items is defective to be at least $0.6$:
+        $$\begin{aligned} \left(\dfrac{19}{20}\right)^n&\ge0.6 \\ n\ln\left(\dfrac{19}{20}\right)&\ge\ln(0.6) \end{aligned}$$
+        Since $\ln\left(\dfrac{19}{20}\right)<0$, dividing reverses the inequality:
+        $$n\le\dfrac{\ln(0.6)}{\ln\left(\frac{19}{20}\right)}=9.9589\ldots$$
+        $$\therefore\ \text{the largest value of } n \text{ is } 9.$$
+      marks_breakdown: 1: establishing $n\le\frac{\ln 0.6}{\ln(19/20)}$ (or solving $n=\frac{\ln 0.6}{\ln(19/20)}$); 1: establishing largest value of $n$ is 9
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Establishes $n\\le\\dfrac{\\ln 0.6}{\\ln\\left(\\frac{19}{20}\\right)}$ (or solves $n=\\dfrac{\\ln 0.6}{\\ln\\left(\\frac{19}{20}\\right)}$), or equivalent merit"]]
+      meta_json: {"format_note": "Added a short note on why the inequality reverses."}
+
+## Q4(c)  key 2022-Knox-AT1-Q4c  id 3250
+  section: II
+  question_type: extended
+  stem_latex: Liz and Jo are playing a game. They take turns in tossing 2 fair coins. The first player to toss 2 heads is the winner. Jo has the first turn.
+  marks_total: 4
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  part a  id 5286
+    ordinal: 1
+    latex: What is the probability that Jo will win the game on her first or second turn?
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-188
+      focus_area: Probability and data
+      dot_point: Use arrays and tree diagrams to determine the outcomes and probabilities for multistage events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-196
+      focus_area: Probability and data
+      dot_point: Solve practical problems involving independent events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Multistage events and tree diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4657
+      source: extracted
+      latex: Each of the 3 coin pairs is independent, so with $P(HH)=\dfrac1{20}$ ... 
+      marks_breakdown: 1: $P(LLW)=\frac{9}{64}$; 1: correct answer
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "placeholder"}
+  part b  id 5287
+    ordinal: 2
+    latex: What is the probability that Jo will eventually win the game?
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-188
+      focus_area: Probability and data
+      dot_point: Use arrays and tree diagrams to determine the outcomes and probabilities for multistage events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-227
+      focus_area: Sequences and series
+      dot_point: Develop the formula S∞= a 1―r for the limiting sum of a geometric series with |r|< 1, and use this formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Limiting sums
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Multistage events and tree diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 4658
+      source: extracted
+      latex: |
+        Jo wins on turn 1, turn 2, turn 3, and so on, so
+        $$P(W)+P(LLW)+P(LLLLW)+\ldots=\dfrac14+\left(\dfrac34\right)^2\times\dfrac14+\left(\dfrac34\right)^4\times\dfrac14+\ldots$$
+        This is a geometric series with
+        $$a=\dfrac14,\quad r=\left(\dfrac34\right)^2=\dfrac{9}{16}$$
+        Since $|r|<1$, the sum to infinity exists:
+        $$\begin{aligned} S_\infty&=\dfrac{a}{1-r} \\ &=\dfrac{\frac14}{1-\left(\frac34\right)^2} \\ &=\dfrac47 \end{aligned}$$
+        $$\therefore\ \text{the probability Jo eventually wins is } \dfrac47$$
+      marks_breakdown: 1: recognition of geometric series; 1: correct answer
+      source_document_id: 1583
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Recognises the geometric series, or equivalent merit"]]
+      meta_json: {"format_note": "Source rubric rewritten top-down."}
