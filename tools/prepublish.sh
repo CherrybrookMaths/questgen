@@ -10,6 +10,16 @@
 #        bash tools/prepublish.sh --quick    faster test without exports (batch_check will still block: run the full one)
 set -euo pipefail
 cd "$(dirname "$0")/.."
+# owner 18 Nov ("yeah fix whatever needs fixing first"): mid-import, the bank may have been built WITH the held papers (QG_WITH_HELD=1, for
+# the import's own homes / difficulty steps). Such a bank must never go live, so it is rebuilt without them here first (batch_check
+# still blocks one that slips through)
+if python3 -c "
+import json, sys; sys.path.insert(0, 'tools'); import import_hold
+h = import_hold.held_docs()
+sys.exit(0 if h and any(int(q['doc']) in h for q in json.load(open('site/data/bank.json'))['questions']) else 1)"; then
+  echo '== 0/4 the bank holds papers still mid-import: rebuilding it without them'
+  python3 tools/build_bank.py | tail -1 && python3 tools/bank_split.py | tail -1
+fi
 echo '== 1/4 build page';            python3 tools/build_page.py | sed -n '1,2p'
 echo '== 2/4 page test fixture';     python3 tools/page_test_fixture.py
 echo '== 3/4 page test';             node tools/page_test.js "$@" | grep -v '^PASS  tab ' || { echo 'PAGE TEST FAILED: see work/page_test/last_result.json and work/page_test/shots/'; exit 1; }

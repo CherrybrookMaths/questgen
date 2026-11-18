@@ -108,6 +108,10 @@ papers are left out of the bank (build_bank.py), their page-scan packs are not p
 and Processes shows them as "Importing" (inventory imp; owner 18 Nov, screenshot of Batch 11 showing "7 of 7 cleared review"
 mid-import). Flag fixes and page changes publish at any time. When the batch has passed its checks: `import_hold.py release <batch>`,
 then its publish. First used for Batch 11 (v258 published the checker's flag fixes without it).
+The import's own later steps (homes.js, difficulty) read the bank, so they run on a build that includes the held papers:
+`QG_WITH_HELD=1 python3 tools/build_bank.py && python3 tools/bank_split.py`. Such a bank never goes live: tools/prepublish.sh rebuilds it
+without the held papers before testing (owner 18 Nov: "yeah fix whatever needs fixing first"), and batch_check blocks one that slips
+through. Publishing during an import works in the same session only: each session has its own questions.db.
 
 ## Big PDFs wait outside the batches (18 Nov)
 Owner 18 Nov: "for Batch 8,9, and future, if the pdf is too big, just move it somewhere else for later (big pdfs)". A ready paper
