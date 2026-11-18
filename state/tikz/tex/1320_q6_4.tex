@@ -6,9 +6,7 @@
   \draw[<->] (97,445) -- (97,45);
   \node[anchor=west] at (400,248) {$x$};
   \node[anchor=south] at (97,41) {$y$};
-  \draw[line width=0.9pt] plot[domain=5:299,samples=90,smooth] ({97+\x},{246+72*ln(\x/69)});
-  \fill (102,{246+72*ln(5/69)}) circle (3.2);
-  \fill (396,{246+72*ln(299/69)}) circle (3.2);
+  \draw[line width=0.9pt,<->] plot[domain=8:299,samples=90,smooth] ({97+\x},{246+72*ln(\x/69)});
   \fill (166,246) circle (3.6);
   \node[anchor=north east,inner sep=1pt] at (165,254) {$\sqrt{e}$};
 \end{tikzpicture}

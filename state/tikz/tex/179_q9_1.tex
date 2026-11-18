@@ -1,8 +1,9 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \newcommand\can[2]{%
-  \fill[white] (#1-81,#2) -- (#1-81,#2+126) arc[start angle=180,end angle=0,x radius=81,y radius=41] -- (#1+81,#2) arc[start angle=0,end angle=-180,x radius=81,y radius=41] -- cycle;
+  \shade[left color=black!18,middle color=white,right color=black!30] (#1-81,#2) -- (#1-81,#2+126) arc[start angle=180,end angle=0,x radius=81,y radius=41] -- (#1+81,#2) arc[start angle=0,end angle=-180,x radius=81,y radius=41] -- cycle;
   \draw (#1-81,#2) -- (#1-81,#2+126) arc[start angle=180,end angle=0,x radius=81,y radius=41] -- (#1+81,#2);
+  \fill[black!10] (#1,#2) ellipse[x radius=81,y radius=41];
   \draw (#1,#2) ellipse[x radius=81,y radius=41];
   \draw (#1,#2+2) ellipse[x radius=71,y radius=34];
   \draw (#1,#2+4) ellipse[x radius=62,y radius=28];

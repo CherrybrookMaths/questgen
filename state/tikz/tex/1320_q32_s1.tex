@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+% 1320_q32_s1: 2022 Ascham AT4 Q32(i) tree, drawn with the shared tree template (DIAGRAM_SPEC rule 21; tikz/tree_style.tex).
+% Checker 18 Nov: "add the tree diagram to part (i)". S = Sam plays; W, L, D = win, lose, draw.
+\treewidth{1}{$S$}
+\treewidth{1}{$\overline{S}$}
+\treewidth{2}{$W$}
+\treewidth{2}{$L$}
+\treewidth{2}{$D$}
+\treecolumns{2}
+\begin{tikzpicture}
+  \treeroot{r}{0cm}
+  \treenode{s}{1}{2.300cm}{$S$}
+  \treebranch{r}{s}{$0.8$}
+  \treenode{ns}{1}{-2.300cm}{$\overline{S}$}
+  \treebranch{r}{ns}{$0.2$}
+  \treenode{s1}{2}{3.700cm}{$W$}
+  \treebranch{s}{s1}{$0.73$}
+  \treenode{s2}{2}{2.300cm}{$L$}
+  \treebranch{s}{s2}{$0.07$}
+  \treenode{s3}{2}{0.900cm}{$D$}
+  \treebranch{s}{s3}{$0.2$}
+  \treenode{n1}{2}{-0.900cm}{$W$}
+  \treebranch{ns}{n1}{$0.55$}
+  \treenode{n2}{2}{-2.300cm}{$L$}
+  \treebranch{ns}{n2}{$0.2$}
+  \treenode{n3}{2}{-3.700cm}{$D$}
+  \treebranch{ns}{n3}{$0.25$}
+\end{tikzpicture}
+\end{document}

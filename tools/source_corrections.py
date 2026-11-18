@@ -133,4 +133,23 @@ for pid, o, n in [
     db.execute('update parts set latex=replace(latex, ?, ?) where id=?', (o, n, pid))
 # 570 Q24: the third part is printed (f) after (a), (b); the solutions call it (c)
 db.execute("update parts set label='c' where id=4490 and label='f'")
+# Checker flags, 18 Nov (Batch 9; FLAGS.md): owner 17 Nov "just fix it and put it back in the review list"
+# 2022 Ascham AT4 Q32(i) (QID 2735), "add the tree diagram to part (i)": the branch list becomes a drawn tree (1320_q32_s1)
+_l = db.execute('select latex from solutions where id=3837').fetchone()[0]
+_old = r"""Let $S$ be the event that Sam plays. The tree has these branches:
+$$\begin{aligned} S\ (80\%):&\quad W\ 73\%,\ L\ 7\%,\ D\ 20\% \\ \bar S\ (20\%):&\quad W\ 55\%,\ L\ 20\%,\ D\ 25\% \end{aligned}$$"""
+if '1320_q32_s1' not in _l and _old in _l:
+    db.execute('update solutions set latex=? where id=3837', (_l.replace(_old, "Let $S$ be the event that Sam plays, and $W$, $L$, $D$ a win, loss or draw.\n\n\\exfigure{1320_q32_s1}"),))
+# 2022 Baulkham Hills AT2 Q23 (QID 2763), "Make the total marks to 6": the parts are 1 + 2 + 3
+db.execute("update questions set marks_total=6 where id=2763 and marks_total=5")
+# 2022 Baulkham Hills AT2 Q25 (QID 2765), "Make part b a 2mark question and edit the total marks": (b) 1 -> 2, total 6 -> 7
+db.execute("update parts set marks=2 where id=4492 and marks=1")
+db.execute("update questions set marks_total=7 where id=2765 and marks_total=6")
+# 2023 Western Mathematics AT4 Q31(b) (QID 2637), "Add a third criterion to part b": the part is worth 3, the guideline marked out of 2
+_c = json.loads(db.execute('select criteria_json from solutions where id=3695').fetchone()[0] or '[]')
+if _c and _c[0][0] == 2:
+    db.execute('update solutions set criteria_json=? where id=3695', (json.dumps([
+        [3, 'Correct answer'],
+        [2, r'Obtains $M_n=A(1.003)^n-9\,000\left[1+1.003+\cdots+1.003^{n-1}\right]$, or equivalent merit'],
+        [1, r'Writes $M_1=A(1.003)-9\,000$ and $M_2$ correctly, or equivalent merit']], ensure_ascii=False),))
 db.commit(); print('done')
