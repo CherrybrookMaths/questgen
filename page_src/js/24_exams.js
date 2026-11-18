@@ -455,6 +455,11 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     const nextH=b.sec&&els[i+1]?els[i+1].getBoundingClientRect().height:0,onlyHead=cur&&cur.length===1&&bl[els.indexOf(cur[0])]?.sec;
     if(!cur||b.cover||b.newpage||(used+h+nextH>H&&cur.length&&!onlyHead))start();
     cur.push(el);used+=h;if(b.cover)cur=null});
+  // owner 19 Nov: "The exam should always have an odd number of pages so no nothing is printing on the back page, add an intentional
+  // blank marked page where needed": an even count gets a marked blank page after the last question page (before the z-score table
+  // and the reference sheet, which stay at the back)
+  if(doc==='exam'&&sheets.length%2===0){const at=sheets.map(s=>s.some(el=>el.querySelector('section.xq'))).lastIndexOf(true)+1,b=document.createElement('div');
+    b.className='xblk cover';b.innerHTML='<div class="xblank">This page is intentionally left blank.</div>';sheets.splice(at>0?at:sheets.length,0,[b])}
   const host=$('#xPages');host.innerHTML='';
   sheets.forEach((s,k)=>{const sh=document.createElement('div');sh.className='sheet';const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);
     // owner 18 Nov: "remove the footer on the cover page", "instead of 1/28 write Page 1 of 28"

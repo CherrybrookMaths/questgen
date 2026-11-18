@@ -980,7 +980,10 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .excover .cv-grid>:nth-child(-n+2){border-top:0;padding-top:0}
 .excover .cv-v li{padding-left:.5mm}
 .excover .exaddli{list-style:none;margin:.5mm 0 0 -4.5mm}
-.excover .cv-secs{padding-left:5mm}   /* owner 18 Nov: NESA-style marks block, Total marks | each section with its pages, questions and time */
+.excover .cv-secs{padding-left:0}   /* owner 18 Nov: NESA-style marks block, Total marks | each section with its pages, questions and time */
+/* owner 19 Nov ("Dot points don't line up"): the section headings start at the column edge and their bullets sit where the general
+   instructions' bullets sit (5 mm in) */
+.excover .cv-secs li{padding-left:.5mm}
 .excover .cv-sec+.cv-sec{margin-top:3mm}
 .excover .cv-sech{margin:0 0 .6mm}
 .excover .cv-sech b{font-weight:700;color:#111}
@@ -4606,6 +4609,11 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     const nextH=b.sec&&els[i+1]?els[i+1].getBoundingClientRect().height:0,onlyHead=cur&&cur.length===1&&bl[els.indexOf(cur[0])]?.sec;
     if(!cur||b.cover||b.newpage||(used+h+nextH>H&&cur.length&&!onlyHead))start();
     cur.push(el);used+=h;if(b.cover)cur=null});
+  // owner 19 Nov: "The exam should always have an odd number of pages so no nothing is printing on the back page, add an intentional
+  // blank marked page where needed": an even count gets a marked blank page after the last question page (before the z-score table
+  // and the reference sheet, which stay at the back)
+  if(doc==='exam'&&sheets.length%2===0){const at=sheets.map(s=>s.some(el=>el.querySelector('section.xq'))).lastIndexOf(true)+1,b=document.createElement('div');
+    b.className='xblk cover';b.innerHTML='<div class="xblank">This page is intentionally left blank.</div>';sheets.splice(at>0?at:sheets.length,0,[b])}
   const host=$('#xPages');host.innerHTML='';
   sheets.forEach((s,k)=>{const sh=document.createElement('div');sh.className='sheet';const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);
     // owner 18 Nov: "remove the footer on the cover page", "instead of 1/28 write Page 1 of 28"

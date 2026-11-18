@@ -2079,6 +2079,10 @@ async function examPools(browser, base, pools) {
           return {cf: !!cv.querySelector('.sheetfoot'), f2: sh[1]?.querySelector('.sheetfoot span')?.textContent, n: sh.length, head: /marks by topic/i.test(cv.innerText),
             tbl: !!cv.querySelector('.extopictbl'), rule: getComputedStyle(cv.querySelector('.cv-head')).borderTopStyle} });
         assert(!ft.cf && ft.f2 === `Page 2 of ${ft.n}` && !ft.head && ft.tbl && ft.rule === 'none', `cover: ${JSON.stringify(ft)}`);
+        // owner 19 Nov: always an odd number of pages, padded with a marked blank page after the last question page
+        const odd = await page.evaluate(() => { const sh = [...document.querySelectorAll('#xPages .sheet')], lastQ = sh.map(s => !!s.querySelector('section.xq')).lastIndexOf(true);
+          return {n: sh.length, blanks: sh.filter(s => s.querySelector('.xblank')).length, after: sh.slice(lastQ + 1).filter(s => s.querySelector('.xblank')).length} });
+        assert(odd.n % 2 === 1 && odd.blanks - odd.after === 1 && odd.after <= 1, `pages: ${JSON.stringify(odd)} (want an odd count; one blank after the cover, at most one after the questions)`);
         if (sd === POOL_RUNS[name][0][0]) {
           await page.click('#exPvTopic'); await waitPv();
           const off = await page.evaluate(() => ({tbl: !!document.querySelector('#xPages .sheet .extopictbl'), v: EX.bytopic}));

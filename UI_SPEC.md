@@ -395,6 +395,11 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   - Working time = marks × minutes per mark (1.8 by default; "Minutes per mark" in the exam panel), to 5 minutes, until a time is typed
     (then "Work it out from the marks" goes back). Exams saved before 19 Nov keep their time.
   - The preview toolbar lost Fit pages (and the automatic reordering after Generate) and Back to setup; Close stays.
+- **19 Nov (owner): "Dot points don't line up"**: the section headings in the cover's marks block start at the column edge and their bullets
+  line up with the general instructions' bullets. **"The exam should always have an odd number of pages so no nothing is printing on the
+  back page, add an intentional blank marked page where needed"**: an exam paper with an even page count gets "This page is intentionally
+  left blank." after its last question page (the z-score table and reference sheet stay last). The Word file paginates itself, so this
+  holds for the preview, PDF and HTML download only.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II
