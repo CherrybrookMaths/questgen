@@ -24,8 +24,6 @@ for _f in ('work/gates/gates_applied.json', 'work/gates_pilot/gates_applied.json
 # owner 17 Nov: "We need a way to append a z score table at the back of exams which ahve those questions tho" (tools/ztable.py)
 ZT = json.load(open(paths.S + 'work/ztable.json')) if os.path.exists(paths.S + 'work/ztable.json') else {}
 for q in old['questions']:
-    if q.get('key') in ZT: q['zt'] = 1
-    else: q.pop('zt', None)
     r = db.execute('select * from questions where id=?', (q['id'],)).fetchone()
     q['stem'] = r['stem_latex']; q['number'] = r['number']
     if r['marks_total'] is not None: q['marks'] = r['marks_total']   # 17 Nov: a mark change in the database reaches the page (was frozen at import: Penrith 2024 Q27, Ascham 2023 Q11)
@@ -175,6 +173,11 @@ for _id, _lab in db.execute('select id, display_label from documents where displ
 # Sets q['key'] ('2022-CSSA-AT4-Q10'; copies share one) and docs[doc]['key'] (paper key); new questions get a key stored in
 # questions.db table question_keys. The page addresses reviews, difficulty, exams and reports by these keys. Keep on its own.
 import qkeys as _qkeys; _qkeys.attach(db, old['questions'], old['docs'])
+# z-score table at the back (tools/ztable.py): matched by key, so only after the keys are attached. Checker 18 Nov: "No z-table at
+# the back": this ran before qkeys.attach (no key yet), so no question was ever marked and no exam got the table.
+for q in old['questions']:
+    if q.get('key') in ZT: q['zt'] = 1
+    else: q.pop('zt', None)
 # --- end Fix 2 ---------------------------------------------------------------------------------------------------------------
 out = dict(v=2, built=__import__('datetime').datetime.now().strftime('%Y%m%d%H%M%S'), docs=old['docs'], questions=old['questions'], tables=tables, figs=figs, codes17=codes17)
 json.dump(out, open(P + 'site/data/bank.json', 'w'), ensure_ascii=False)

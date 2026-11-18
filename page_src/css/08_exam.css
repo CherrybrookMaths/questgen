@@ -37,6 +37,9 @@ body.xpv-on{overflow:hidden}
 .xmeasure{position:absolute;left:-10000px;top:0;width:176mm;visibility:hidden}
 .xblk{margin-bottom:6mm}.xblk.cover{margin:0}
 .xq{break-inside:avoid}.xq.mc{display:grid;grid-template-columns:8mm minmax(0,1fr)}.xq.mc .xsrc{grid-column:2}
+/* checker 18 Nov (marking guide, "Not sure what this is": a worked solution one letter wide): the "(continued)" piece of a multiple-choice
+   question has no number, so its body fell into the 8 mm number column. The body always sits in the wide column */
+.xq.mc>.xqb{grid-column:2}
 .xqn{font-weight:700}.xqh{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.2px solid #111;padding-bottom:1.5mm;margin-bottom:2.5mm;font-family:var(--sans);font-size:11pt}
 .xqh span{font-size:10pt;color:#333}.xqh.cont b{font-weight:600;color:#555}
 .sheet .fig,.xmeasure .fig{filter:none!important}   /* the paper is always white: never invert diagrams for dark mode */

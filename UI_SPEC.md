@@ -523,6 +523,21 @@ Review's diagram comparisons (side by side, overlay, before -> now) a click or E
 its caption; ‹ › or the arrow keys step through the other pictures of the same comparison; Esc or a click outside closes it.
 Page test "a click on a comparison picture opens it large". Same day: a "Before" picture that was never kept now shows a plain
 note instead of a broken-image icon, and the flag fixes render their "Before" picture (tools/redraw_before.py, FLAGS.md step 2).
+**Checker feedback, 18 Nov (v253).** Owner on the checker's list: "for the undon button, can undo recently approed questions. Maybe a
+queue on the same page on the right side? or anywhere convenient really." and "The last dot point is for it to be more obvious on the
+page when questions have been done by you and have been returned. Maybe a different place to the flagged waiting for claude ones, I
+think they use the same real estate right now." then "implement those alongside 5,6,7".
+- Undo (36_undo.js): a "Recently approved" column on the right of Review (under the question below 1180 px) lists your last 10
+  approvals, questions and papers ("approve the rest"), each with Undo. An approval made in this browser session is put back exactly
+  (the record before it is kept); an older one is undone by clearing "approved", which returns it to its queue.
+- "Fixed and back for you" is the first thing on Review, highlighted, listing up to 6 returned items with what Claude changed.
+  "Flags waiting for Claude" moved below Reports and Difficulty, dashed and quieter ("Nothing to do here").
+- 5 (scroll bars, cut-off tables in the downloaded paper): the screenshots were taken before v249; tables, including tables drawn as
+  diagrams (2024 Abbotsleigh AT4 Q9's z-table), now print whole. The page test covers diagram tables too.
+- 6 (no z-table at the back): build_bank.py matched the z-table list by question key before the keys were attached, so no question
+  was marked and no exam got the table. Fixed; batch_check blocks if a listed question is not marked.
+- 7 (marking guide, a worked solution one letter wide): the "(continued)" piece of a multiple-choice question has no number, so its
+  body fell into the 8 mm number column. The body always takes the wide column now.
 
 ## Word export (14 Nov)
 He said "Word too pls". The preview has **Download Word** beside Download PDF, for both the exam and the marking guide.

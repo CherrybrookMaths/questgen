@@ -326,6 +326,15 @@ try:
                     if _abs.search(_l): _hits.append(f'{os.path.relpath(_fp, P)}:{_i}')
     if _hits: B(f'{len(_hits)} hard-coded machine path(s) in tools/ or page_src/ (use tools/paths.py, or derive the root from the file\'s location): {", ".join(_hits[:8])}{" ..." if len(_hits) > 8 else ""}')
 except Exception as e: B(f'machine-path check could not run: {e}')
+# z-score table at the back (checker 18 Nov: "No z-table at the back"): every key in state/work/ztable.json must reach the bank as q.zt
+try:
+    _zt = json.load(open(paths.S + 'work/ztable.json')) if os.path.exists(paths.S + 'work/ztable.json') else {}
+    _bq = json.load(open(P + 'site/data/bank.json'))['questions']
+    _have = {q.get('key') for q in _bq if q.get('zt')}
+    _miss = [k for k in _zt if k not in _have and any(q.get('key') == k for q in _bq)]
+    if _miss: B(f'{len(_miss)} question(s) marked for the z-score table at the back are not marked in bank.json (rebuild with tools/build_bank.py): {", ".join(_miss[:5])}')
+    else: I(f'z-score table: {len(_have)} question(s) get the table at the back of an exam')
+except Exception as e: W(f'z-score table check could not run: {e}')
 # version control (stage 1, 15 Nov): never a blocker; --mark-published commits and tags automatically (tools/snapshot.py)
 try:
     import subprocess

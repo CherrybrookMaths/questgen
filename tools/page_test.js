@@ -738,6 +738,37 @@ async function areas(browser, base, seed) {
       assert(r.a && r.b && r.c && r.d, `back list: ${JSON.stringify(r)}`);
       return 'a fixed text flag and a redrawn diagram are in "Fixed and back for you"; once approved they leave it';
     });
+    // owner 18 Nov: "can undo recently approed questions. Maybe a queue on the same page on the right side?"
+    await check('review: Recently approved lists your approvals beside the question; Undo puts the record back as it was', cp, async () => {
+      const r = await cp.evaluate(async () => { const q = B.questions.find(x => !x.dup_of && !reviews['q' + x.id]); const keep = reviews['q' + q.id];
+        const before = {status: 'flagged', note: 'test note', fixed: null, at: new Date(Date.now() - 3600e3).toISOString()};
+        reviews['q' + q.id] = before; RUNDO.note('q', q.id, before); await write(q, {status: 'approved', note: null});
+        renderReview(); const el = document.getElementById('rvUndo'), listed = !!el && !el.hidden && !!el.querySelector(`[data-rundo="q:${q.id}"]`);
+        const col = el ? getComputedStyle(document.getElementById('reviewView')).gridTemplateColumns.split(' ').length : 0;
+        await RUNDO.undo('q', String(q.id)); const after = reviews['q' + q.id];
+        const restored = after.status === 'flagged' && after.note === 'test note';
+        // an approval from an earlier session (nothing kept): Undo clears "approved"
+        reviews['q' + q.id] = {status: 'approved', at: new Date(Date.now() - 86400e3).toISOString(), by: me || null}; await RUNDO.undo('q', String(q.id));
+        const cleared = !reviews['q' + q.id].status;
+        if (keep === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep; renderReview();
+        return {listed, col, restored, cleared} });
+      assert(r.listed && r.restored && r.cleared, `undo: ${JSON.stringify(r)}`);
+      return `listed in the Recently approved column (${r.col} columns); Undo restored the flagged record; an older approval is cleared`;
+    });
+    // owner 18 Nov: "more obvious on the page when questions have been done by you and have been returned. Maybe a different place to the
+    //   flagged waiting for claude ones"
+    await check('review: Fixed and back for you is first on Review; Flags waiting for Claude sits below Reports and Difficulty', cp, async () => {
+      const r = await cp.evaluate(async () => { const qs = B.questions.filter(x => !x.dup_of).slice(5, 7), keep = qs.map(q => reviews['q' + q.id]);
+        reviews['q' + qs[0].id] = {status: 'flagged', note: 'x', fixed: {note: 'Claude 18 Nov 10:00: moved the label'}};
+        reviews['q' + qs[1].id] = {status: 'flagged', note: 'y', fixed: null};
+        location.hash = '#review'; await new Promise(res => setTimeout(res, 400)); renderInbox();
+        const cards = [...document.querySelectorAll('.icard')].map(c => c.dataset.card), what = document.querySelector('.icard.rv-back')?.textContent || '';
+        qs.forEach((q, i) => { if (keep[i] === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep[i] });
+        return {cards, moved: /moved the label/.test(what)} });
+      const iB = r.cards.indexOf('back'), iW = r.cards.indexOf('waiting'), iP = r.cards.indexOf('papers'), iD = r.cards.indexOf('difficulty');
+      assert(iB === 0 && iP > iB && iW > iD && r.moved, `card order ${r.cards.join(', ')}; what changed shown: ${r.moved}`);
+      return `order: ${r.cards.join(' · ')}; the returned item shows what Claude changed`;
+    });
     // owner 18 Nov: "Why does it say both 11 and 20?": the banner and the Flags card count the same questions
     await check('review: the flags banner counts each waiting question once, as the Flags card does', cp, async () => {
       const r = await cp.evaluate(() => { const qs = B.questions.filter(x => !x.dup_of).slice(0, 2), keep = qs.map(q => reviews['q' + q.id]);
@@ -2472,13 +2503,32 @@ async function paperTables(browser, base, seed) {
     // the start index carries no question text: the table questions come from bank.json (tools' copy), shown ones only
     const all = JSON.parse(fs.readFileSync(path.join(ROOT, 'site/data/bank.json'), 'utf8')).questions;
     const want = all.filter(q => q.id === 979 || /\\extable\{/.test(JSON.stringify(q)) || q.opt_table).map(q => q.id);
+    // checker 18 Nov (2024 Abbotsleigh AT4 Q9, QID 1178): a table drawn as a diagram (figure status "table") counts too, shown as approved
     const n = await page.evaluate(w => { const shown = new Set(B.questions.filter(q => !q.dup_of).map(q => q.id));
-      EX.items = [...new Set([979, ...w])].filter(id => shown.has(id)).slice(0, 80); xsave(); return EX.items.length }, want);
+      const ft = B.questions.filter(q => !q.dup_of && qFigs(q).some(k => B.figs[k]?.status === 'table'));
+      ft.forEach(q => { const f = {...(reviews['q' + q.id]?.fig || {})}; qFigs(q).forEach(k => { if (B.figs[k]?.status === 'table') f[k] = 'approved' }); reviews['q' + q.id] = {...(reviews['q' + q.id] || {}), fig: f} });
+      EX.items = [...new Set([979, 1178, ...w, ...ft.map(q => q.id)])].filter(id => shown.has(id)).slice(0, 100); xsave(); return EX.items.length }, want);
     await page.evaluate(() => xPreview('exam')); await waitPv(); const ex = await scrollers();
     await page.click('[data-xdoc="guide"]'); await waitPv(); const gd = await scrollers();
     const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | '));
     assert(!ex.length && !gd.length, `scroll bars on the sheets: paper ${ex.length} [${ex.slice(0, 6).join(' | ')}], guide ${gd.length} [${gd.slice(0, 6).join(' | ')}]`);
     return `${n} questions with tables: no scroll bar on the paper or the guide`;
+  });
+  // checker 18 Nov: "No z-table at the back": build_bank marked no question (it matched keys before they were attached)
+  await check('exams: questions marked for the z-score table come from the bank, and their exam ends with the table', page, async () => {
+    const r = await page.evaluate(() => { const z = B.questions.filter(q => !q.dup_of && q.zt); if (!z.length) return {n: 0};
+      const keep = EX.items; EX.items = [z[0].id]; const bl = xBlocks('exam'); EX.items = keep; return {n: z.length, last: bl[bl.length - 1].html.slice(0, 400)} });
+    assert(r.n > 0, 'no question in the bank is marked for the z-score table (state/work/ztable.json lists 5)');
+    assert(/z|normal/i.test(r.last) && /<table/.test(r.last), `the exam does not end with the table: ${r.last}`);
+    return `${r.n} marked questions; an exam with one ends with the z-score table`;
+  });
+  // checker 18 Nov: a multiple-choice question's worked solution that runs onto the next page was laid out one letter wide
+  await check('exams: the continued piece of a multiple-choice question keeps the full width', page, async () => {
+    const r = await page.evaluate(() => { const sh = document.querySelector('#xPages .sheet .sheetbody') || document.querySelector('#xPages .sheet');
+      const s = document.createElement('section'); s.className = 'xq mc'; s.innerHTML = '<div class="xqb"><div class="xsol">A probability density function must satisfy two conditions.</div></div>';
+      sh.appendChild(s); const w = s.querySelector('.xqb').getBoundingClientRect().width, W = s.getBoundingClientRect().width; s.remove(); return {w, W} });
+    assert(r.w > r.W * 0.8, `continued body ${Math.round(r.w)} px of ${Math.round(r.W)} px`);
+    return `continued body ${Math.round(r.w)} px of ${Math.round(r.W)} px`;
   });
   await page.context().close();
 }

@@ -85,3 +85,14 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
 .rv-figzoom .rv-fzstep{border:1px solid var(--line);background:none;border-radius:6px;font-size:24px;width:36px;height:56px;cursor:pointer;color:var(--ink)}
 .rv-figzoom .rv-fzstep[hidden]{display:none}
 .cmp3 .rv-nov1{margin:8px 2px;color:var(--muted);font-size:13px}
+/* owner 18 Nov: Undo for recent approvals, a column on the right of Review (36_undo.js); under the question on narrow screens */
+.desk.has-undo{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 230px}
+.desk.grid.has-undo{grid-template-columns:minmax(0,1fr) 230px}
+@media (max-width:1180px){.desk.has-undo,.desk.grid.has-undo{grid-template-columns:1fr}.desk.has-undo .srcpane{grid-column:1}}
+.rv-undo{align-self:start;position:sticky;top:12px}
+.rv-undo h2{margin-bottom:2px}
+.rv-undo .rv-undohelp{font-size:12.5px;margin:0 0 8px}
+.rv-undo .rv-undolist{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.rv-undo .rv-undolist li{border-top:1px solid var(--line);padding-top:8px;font-size:13px;display:grid;gap:2px}
+.rv-undo .rv-undosub{font-size:12px;overflow-wrap:anywhere}
+.rv-undo .rv-undolist button{justify-self:start;margin-top:2px}

@@ -181,13 +181,21 @@ function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
     if(!todo.length)return `<div class="rv-bg rv-bgdone" data-batch="${g.n}"><span class="rv-bgh">${head}</span></div>`;
     const open=shown<SHOW;if(open)shown+=todo.length;else more+=todo.length;
     return `<details class="rv-bg" data-batch="${g.n}"${(was.has(String(g.n))?was.get(String(g.n)):open)?' open':''}><summary class="rv-bgh">${head}</summary><ul class="iplist">${todo.map(row).join('')}</ul></details>`}).join('')}</div>`}
+  // owner 18 Nov: "it [should] be more obvious on the page when questions have been done by you and have been returned. Maybe a
+  //   different place to the flagged waiting for claude ones, I think they use the same real estate right now": returned work is the
+  //   first thing on Review, highlighted, with what came back; flags still waiting for Claude sit lower down, quieter
   box.innerHTML=`<div class="ihd"><h2>Review</h2><p class="sub">What is waiting for you. Papers are walked one at a time, top to bottom.</p></div>
+    ${(()=>{const bq=B.questions.filter(backQ);if(!bq.length)return '';
+      const what=q=>{const r=reviews['q'+q.id]||{};if(r.status==='flagged'&&r.fixed)return String(r.fixed.note||'').replace(/^Claude [^:]*(?::\d\d)?: /,'');
+        const k=Object.keys(r.fig_done||{}).find(k=>!(r.fig||{})[k]);return k?splitDone(r.fig_done[k],r.fig_notes?.[k]).fix:''};
+      const rows=bq.slice(0,6).map(q=>`<li><b>${qid(q)}</b> <span class="muted">${esc(srcLine(q))}</span><span class="rv-bkwhat">${esc(what(q))}</span></li>`).join('');
+      return card('back',bq.length,'Fixed and back for you','Claude fixed these after your flag or change request. Check each one and approve it, or flag it again.','#review/list/back','',
+        `<ul class="rv-bklist">${rows}</ul>${bq.length>6?`<a class="imore" href="#review/list/back">${bq.length-6} more · Check them all →</a>`:`<a class="imore" href="#review/list/back">Check them now →</a>`}`).replace('class="icard"','class="icard rv-back"')})()}
     ${card('papers',W.length,'Papers to review','Open a paper and walk it top to bottom: your calls, flagged, topics, diagrams, then the spot-check that approves the rest.','#review/papers','all approved',
       readyHTML()+`${list}<a class="imore" href="#review/papers">${more?`${more} more · `:''}Show all papers →</a>`)}
-    ${(()=>{const nb=B.questions.filter(backQ).length;return nb?card('back',nb,'Fixed and back for you','Questions you flagged or diagrams you asked to change: Claude has fixed them. Check each one and approve it, or flag it again.','#review/list/back',''):''})()}
-    ${(()=>{const nw=B.questions.filter(waitQ).length;return nw?card('waiting',nw,'Flags waiting for Claude','Flags and diagram change requests Claude has not fixed yet. They come back in "Fixed and back for you" once fixed.','#review/list/waiting',''):''})()}
     <div class="ipair">${card('reports',rep,'Reports','Questions reported from an exam paper: a wrong difficulty, a wrong dot point or something else. Resolve or dismiss each one.','#review/reports','nothing open')}
     ${card('difficulty',lv,'Difficulty','HSC reference ratings: agree or change the band and kind, one part at a time.','#review/difficulty','check plan finished')}</div>
+    ${(()=>{const nw=B.questions.filter(waitQ).length;return nw?card('waiting',nw,'Flags waiting for Claude','Your flags and change requests that Claude has not fixed yet. Nothing to do here: they move to "Fixed and back for you" at the top once fixed.','#review/list/waiting','').replace('class="icard"','class="icard rv-wait"'):''})()}
     ${handoffHTML()}<div class="ifoot"><a href="#review/list/recent">Recently approved</a><span aria-hidden="true">·</span><label>Other lists ${otherListsHTML('')}</label></div>`}
 // draw the Review chrome for the open view: the Inbox, or the paper's track (list mode: a plain header). Also keeps the counts.
 function renderSteps(){if(!B||!QG.detOK)return {base:[]};updateCounts();   // job 2: steps count triage, which comes with the details
@@ -243,7 +251,7 @@ const figMode={};
 // owner 17 Nov: "we need to know what the original flag is so the reviewer can compare". fig_done is
 // "<checker's request> -> Claude <time>: <what changed>"; redraws from before 17 Nov hold only "<date> redraw (fixN)".
 // The request is also kept in fig_notes (older redraws, "2026-11-12 redraw (fix8)", have it only there).
-const splitDone=(done,ask)=>{const i=done.indexOf(' -> ');return i<0?{ask:ask||'',fix:'',when:done}:{ask:done.slice(0,i)||ask||'',fix:done.slice(i+4).replace(/^Claude [^:]*: /,'')}};
+const splitDone=(done,ask)=>{const i=done.indexOf(' -> ');return i<0?{ask:ask||'',fix:'',when:done}:{ask:done.slice(0,i)||ask||'',fix:done.slice(i+4).replace(/^Claude [^:]*(?::\d\d)?: /,'')}};
 function doneHTML(done,ask){const d=splitDone(done,ask);
   return `<div class="callout"><div><b>Your original request:</b> ${d.ask?esc(d.ask):'none: Claude redrew this in a rule sweep, not from a flag of yours'}</div><div><b>What Claude changed:</b> ${d.fix?esc(d.fix):'redrawn '+esc(d.when)+(d.ask?' to meet your request':'')}</div></div>`}
 // owner 17 Nov: "where is the original flag on the back to you page?": one box at the top of every returned item lists each
@@ -251,7 +259,7 @@ function doneHTML(done,ask){const d=splitDone(done,ask);
 // owner 17 Nov: "why does fixewd and back tou have approved questions?": an approved question is listed when a diagram was
 // redrawn after the approval; the badge says "text approved · redrawn diagram needs your OK" instead of "approved".
 function backBoxHTML(q,r){if(waitR(r)&&!q.dup_of)return waitBoxHTML(r);if(!r||!backQ(q))return '';const rows=[];
-  if(r.status==='flagged'&&r.fixed)rows.push(['Question',r.note||'(no note written)',String(r.fixed.note||'').replace(/^Claude \d+ \w+: /,'')]);
+  if(r.status==='flagged'&&r.fixed)rows.push(['Question',r.note||'(no note written)',String(r.fixed.note||'').replace(/^Claude \d+ \w+(?: \d+:\d\d)?: /,'')]);
   for(const [k,done] of Object.entries(r.fig_done||{})){if((r.fig||{})[k])continue;const d=splitDone(done,r.fig_notes?.[k]);
     rows.push([/_s\d+$/.test(k)?'Solution diagram':'Diagram',d.ask||'none: redrawn by Claude in a rule sweep',d.fix||'redrawn '+d.when])}
   if(!rows.length)return '';
@@ -301,7 +309,7 @@ function sampleBanner(doc){doc=+doc;
   if(bad) return `<div class="why"><b>Spot-check</b>${bad} of ${smp.length} sampled questions in ${esc(docLabel(B.docs[doc]))} were flagged, so the rest of this paper stays unapproved. Claude will re-check the paper.</div>`;
   if(ok<smp.length) return `<div class="help">Spot-check for ${esc(docLabel(B.docs[doc]))}: ${ok} of ${smp.length} done. When all are fine you can approve the other ${rest.length} questions in one click.</div>`;
   return `<div class="banner"><span>All ${smp.length} spot-checked questions in <b>${esc(docLabel(B.docs[doc]))}</b> are fine.</span><button class="act ok" data-paperok="${doc}">Approve the other ${rest.length} questions in this paper</button></div>`}
-async function approvePaper(doc){doc=String(doc);const key=RKEY.pdoc(doc);const next={...(reviews['paper_'+doc]||{}),status:'approved',doc:+doc,by:me||null,at:new Date().toISOString()};if(B.docs[doc]?.key)next.key=B.docs[doc].key;
+async function approvePaper(doc){doc=String(doc);const key=RKEY.pdoc(doc);RUNDO.note('p',doc,reviews['paper_'+doc]);const next={...(reviews['paper_'+doc]||{}),status:'approved',doc:+doc,by:me||null,at:new Date().toISOString()};if(B.docs[doc]?.key)next.key=B.docs[doc].key;
   RKEY.docsOf(doc).forEach(d=>reviews['paper_'+d]=next);TOPICS=null;   // owner 14 Nov (Fix 2): one decision for every file of the paper
   if(!db){toast('Not saved: this view has no shared storage');return}
   if(view==='review')refreshReview();else renderSteps();   // move on at once (owner 12 Nov: "why doesn't approving auto next"); the save finishes in the background
@@ -445,7 +453,7 @@ function drawTP(){const el=$('#tpList');if(!el)return;const s=($('#tflagtxt')?.v
   $$('#tpList [data-tp]').forEach(b=>b.onclick=()=>tpPick(b.dataset.tp))}
 function tpPick(id){tagChoose({id,note:$('#tpNote')?.value.trim()||null})}
 function tagChoose(v){const q=rlist[ridx];if(!q)return;write(q,{home:v});TOPICS=null;const was=q.id;refreshReview();if(!_advanced&&rlist[ridx]?.id===was)go(1);window.scrollTo({top:0})}
-function renderReview(){
+function renderReview(){RUNDO.render();
   $('#reviewView').classList.toggle('grid',rfilter==='diagrams'||rfilter==='tags');
   $('#rout').previousElementSibling.textContent=rfilter==='diagrams'?'Diagrams to check':rfilter==='tags'?'Tags to settle':'Parsed question';
   if(rfilter==='diagrams'){renderDiag();return}
@@ -504,9 +512,9 @@ function renderReview(){
   $$('.edit-tag').forEach(b=>b.onclick=()=>{editing=+b.dataset.part;renderReview();setupPicker()});
   if(editing) setupPicker();
 }
-async function write(q,patch){
+async function write(q,patch,whole){   // whole: patch is the entire record (Undo puts back the record as it was, 36_undo.js)
   const key=RKEY.qdoc(q); const cur=reviews['q'+q.id]||{};   // owner 14 Nov (Fix 2): stored by key, shared by every copy
-  const next={...cur,...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};if(q.key)next.key=q.key;
+  const next={...(whole?{}:cur),...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};if(q.key)next.key=q.key;
   RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;
   if(!db){toast('Not saved: this view has no shared storage');return false}
   try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved');return true}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.');return false}
@@ -523,7 +531,7 @@ async function setTag(t){const q=rlist[ridx],p=editing;editing=null;await write(
 function openQFlag(){const b=$('#qflag');if(!b)return;b.hidden=false;const n=$('#note');n.focus();n.select()}
 async function decide(status){const q=rlist[ridx];if(!q)return;const patch={status,note:$('#note')?.value.trim()||null};if(status==='flagged')patch.fixed=null;   // a re-flag drops the old fix: it waits for Claude again (owner 17 Nov)
  if(q.decide)patch.call_at=new Date().toISOString();
-  if(status==='approved'){const sol={...(reviews['q'+q.id]?.sol||{})};let n=0;qGen(q).forEach(x=>{if(!sol[x.id]){sol[x.id]='approved';n++}});if(n)patch.sol=sol}
+  if(status==='approved'){RUNDO.note('q',q.id,reviews['q'+q.id]);const sol={...(reviews['q'+q.id]?.sol||{})};let n=0;qGen(q).forEach(x=>{if(!sol[x.id]){sol[x.id]='approved';n++}});if(n)patch.sol=sol}
   write(q,patch);   // owner 12 Nov: "why doesn't approving auto next" -> don't wait for the save; move on at once
   const was=q.id; if(rstatus==='todo'&&!['diagrams','generated'].includes(rfilter)){refreshReview()} else renderReview();
   if(!_advanced&&rlist[ridx]?.id===was) go(1); window.scrollTo({top:0})}
