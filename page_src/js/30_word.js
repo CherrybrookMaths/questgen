@@ -52,7 +52,7 @@ async function xWord(doc){
       if(node.tagName==='SUP')f.sup=true;if(node.tagName==='SUB')f.sub=true;
       for(const c of node.childNodes)await runs(c,f,out)}
     const P=(children,o={})=>new Paragraph({children,spacing:{after:o.after??80,before:o.before??0,line:o.line},...o});
-    const NB={style:BorderStyle.NONE,size:0,color:'FFFFFF'},LB={style:BorderStyle.SINGLE,size:4,color:'9AA0A6'};
+    const NB={style:BorderStyle.NONE,size:0,color:'FFFFFF'},LB={style:BorderStyle.DOTTED,size:8,color:'444444'};   // owner 18 Nov: dotted answer lines
     // answer lines as a borderless table with a rule under each row (consecutive bordered paragraphs merge into one box)
     const lines=(n,ind)=>new Table({rows:Array.from({length:n},()=>new TableRow({height:{value:510,rule:HeightRule.EXACT},children:[new TableCell({children:[new Paragraph('')],borders:{top:NB,left:NB,right:NB,bottom:LB}})]})),width:{size:100,type:WidthType.PERCENTAGE},indent:ind?{size:ind,type:WidthType.DXA}:undefined,borders:{top:NB,bottom:NB,left:NB,right:NB,insideHorizontal:LB,insideVertical:NB}});
     // ---- blocks ----
@@ -65,7 +65,7 @@ async function xWord(doc){
         const sp=el.querySelector('span');if(sp)rs.push(new TextRun({text:'\t'+sp.textContent.trim(),font:UI,size:18,color:'555555'}));
         out.push(new Paragraph({children:rs,tabStops:[{type:TabStopType.RIGHT,position:RIGHT}],pageBreakBefore:sec2&&doc==='exam',keepNext:true,spacing:{before:200,after:160},border:{top:{style:BorderStyle.SINGLE,size:8,color:'111111',space:4},bottom:{style:BorderStyle.SINGLE,size:8,color:'111111',space:4}}}));return}
       if(el.matches('.xqh')){const b=el.querySelector('b')?.textContent||'',s=el.querySelector('span')?.textContent||'';
-        out.push(new Paragraph({children:[new TextRun({text:b,bold:true,font:UI,size:22}),new TextRun({text:'\t'+s,font:UI,size:20})],tabStops:[{type:TabStopType.RIGHT,position:RIGHT}],keepNext:true,spacing:{before:240,after:120},border:{bottom:{style:BorderStyle.SINGLE,size:6,color:'111111',space:2}}}));return}
+        out.push(new Paragraph({children:[new TextRun({text:b,bold:true,font:UI,size:24}),new TextRun({text:'    '+s,font:UI,size:23})],keepNext:true,spacing:{before:240,after:120}}));return}   // owner 18 Nov: no rule, marks beside the heading
       if(el.matches('.xqn')){out.push(new Paragraph({children:[new TextRun({text:el.textContent.trim(),bold:true,font:UI,size:22})],keepNext:true,spacing:{before:240,after:60}}));return}
       if(el.matches('.xsrc')){const t=el.querySelector('.exsrcl')?.textContent||el.textContent;out.push(new Paragraph({children:[new TextRun({text:t.trim(),font:UI,size:14,color:'8A8F96'})],alignment:AlignmentType.RIGHT,spacing:{before:40,after:200}}));return}
       if(el.matches('.xpart')){const lab=el.querySelector(':scope>.xpl')?.textContent||'',mk=el.querySelector(':scope>.xpm')?.textContent||'',pb=el.querySelector(':scope>.xpb');const ind=(ctx.indent||0)+567;

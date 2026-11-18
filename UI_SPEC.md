@@ -370,6 +370,10 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   Dot points, band and kind stay in the grading panel.
   Owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well": the grading panel's question detail
   has Report (or "Reported (n)") beside "Swap for a similar question", opening the same form.
+- **Question layout, 18 Nov (owner, with a sample paper: "can u make the format of questions like this").** Written questions: "QUESTION 4
+  (4 marks)" in bold capitals with the marks beside it and no rule under it; "(a)" in plain type; each part's marks "[1]" at the right;
+  dotted answer lines (Word the same). Multiple-choice keep their bold number. The font stays the question font (Tinos/Times, 18 Nov
+  ruling); the sample is set in Computer Modern (LaTeX).
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

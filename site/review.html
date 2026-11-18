@@ -598,16 +598,18 @@ body.xpv-on{overflow:hidden}
 /* owner 18 Nov ("why does the question text not line up with the 1. ? this is for ALL MCQ"): the stem sits in a part block whose
    2.5 mm top margin pushed its first line below the number */
 .xq.mc>.xqb>.xpart:first-child{margin-top:0}
-.xqn{font-weight:700}.xqh{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.2px solid #111;padding-bottom:1.5mm;margin-bottom:2.5mm;font-family:var(--sans);font-size:11pt}
-.xqh span{font-size:10pt;color:#333}.xqh.cont b{font-weight:600;color:#555}
+.xqn{font-weight:700}
+/* owner 18 Nov (sample layout): "QUESTION 4  (4 marks)": bold capitals, the marks beside it in plain type, no rule */
+.xqh{display:flex;align-items:baseline;gap:4mm;margin-bottom:3mm;font-family:var(--sans);font-size:12pt}.xqh b{font-weight:700;letter-spacing:.02em}
+.xqh span{font-size:11.5pt;color:#111}.xqh.cont b{font-weight:600;color:#555}
 .sheet .fig,.xmeasure .fig{filter:none!important}   /* the paper is always white: never invert diagrams for dark mode */
 .sheet table,.xmeasure table{color:#111}
 /* owner 18 Nov: "The PDF shows side scroll bars ... fix it please, its urgent": paper never scrolls (the PDF is a picture of each sheet) */
 .sheet .tx,.sheet .dtwrap,.xmeasure .tx,.xmeasure .dtwrap{overflow:visible}
 .xq .tx{overflow-wrap:anywhere}.xq .figslot{display:block;text-align:center;margin:3mm 0}.xq img.fig{max-width:100%;max-height:70mm;width:auto!important;height:auto;object-fit:contain}
 .xpart{display:grid;grid-template-columns:9mm minmax(0,1fr) 8mm;gap:1mm;margin:2.5mm 0}.xpart.nolab{grid-template-columns:minmax(0,1fr) 8mm}
-.xpart.child{margin-left:9mm}.xpl{font-weight:600}.xpm{text-align:right;font:600 10pt var(--sans)}
-.xlines{margin:2mm 0 1mm}.xlines i{display:block;height:8.5mm;border-bottom:.6pt solid #9a9a9a}
+.xpart.child{margin-left:9mm}.xpl{font-weight:400}.xpm{text-align:right;font:400 11pt var(--sans);white-space:nowrap}   /* owner 18 Nov: "(a)" plain, "[1]" at the right */
+.xlines{margin:2mm 0 1mm}.xlines i{display:block;height:8.5mm;border-bottom:1.3pt dotted #444}   /* owner 18 Nov: dotted answer lines, as on the sample */
 .xol{display:grid;gap:1.5mm;margin:2mm 0}.xog{display:grid;grid-template-columns:1fr 1fr;gap:3mm 6mm;margin:2mm 0}
 .xo{display:flex;gap:3mm;align-items:baseline}.xog .xo{flex-direction:column;align-items:flex-start}.xo b{font-family:var(--sans);font-weight:600}
 .xo.xok{background:#e1efec;outline:1px solid #1e5f5a;border-radius:2px}
@@ -3818,7 +3820,7 @@ function xQ(q,n,doc){exA();
   const mcSols=q.type==='mcq'?q.parts.map(p=>sols(p.id)).join(''):'';
   const lone=q.parts.length===1&&!q.parts[0].label;
   const parts=q.parts.map(p=>{const lf=leaf(q,p);
-    const mk=p.marks!=null&&!lone?`<span class="xpm">${p.marks}</span>`:'';
+    const mk=p.marks!=null&&!lone?`<span class="xpm">[${p.marks}]</span>`:'';   // owner 18 Nov (sample layout): part marks as "[2]" at the right
     return `<div class="xpart ${p.parent?'child':''} ${p.label?'':'nolab'}">${p.label?`<span class="xpl">(${esc(p.label)})</span>`:''}<div class="xpb"><div class="tx">${tex(p.latex)}${xFigSlots(q,partFigs(p.id))}</div>
       ${lf&&q.type!=='mcq'&&!guide?exLines(q,p):''}${q.type==='mcq'?'':sols(p.id)}</div>${mk}</div>`}).join('');
   let opts='';const lay=q.layout||(q.opt_table?'table':'text');
@@ -3826,7 +3828,9 @@ function xQ(q,n,doc){exA();
     if(lay==='table'&&q.opt_table)opts=optTableHTML(q,guide);
     else if(lay==='graph')opts=`<div class="xog">${q.options.map(o=>`<div class="xo${ok(o)}"><b>${o.label}.</b>${o.fig?xFigSlots(q,[o.fig]):`<span class="tx">${tex(o.latex)}</span>`}</div>`).join('')}</div>`;
     else opts=`<div class="xol">${q.options.map(o=>`<div class="xo${ok(o)}"><b>${o.label}.</b><span class="tx">${tex(o.latex)}</span></div>`).join('')}</div>`}
-  const head=q.type==='mcq'?`<span class="xqn">${n}</span>`:`<div class="xqh"><b>Question ${n}</b><span>(${q.marks??'?'} mark${q.marks===1?'':'s'})</span></div>`;
+  const head=q.type==='mcq'?`<span class="xqn">${n}</span>`:`<div class="xqh"><b>QUESTION ${n}</b><span>(${q.marks??'?'} mark${q.marks===1?'':'s'})</span></div>`;
+  // owner 18 Nov, with a sample paper: "can u make the format of questions like this": "QUESTION 4  (4 marks)" in bold capitals with the
+  // marks beside it (no rule), "(a)" in plain type, "[1]" at the right of each part, dotted answer lines (08_exam.css, 30_word.js)
   // owner 14 Nov: "The dot point home looks stupid in a question", then "Yeah that's fine, the i is fine". The grey dot-point
   // line and Report link are gone from the question; a Report link ends the source line (owner 18 Nov; qiButton, 27_reports.js)
   // with the dot points per part, band, kind and Report. Screen only (.scr-only), like the old line.
@@ -5437,7 +5441,7 @@ async function xWord(doc){
       if(node.tagName==='SUP')f.sup=true;if(node.tagName==='SUB')f.sub=true;
       for(const c of node.childNodes)await runs(c,f,out)}
     const P=(children,o={})=>new Paragraph({children,spacing:{after:o.after??80,before:o.before??0,line:o.line},...o});
-    const NB={style:BorderStyle.NONE,size:0,color:'FFFFFF'},LB={style:BorderStyle.SINGLE,size:4,color:'9AA0A6'};
+    const NB={style:BorderStyle.NONE,size:0,color:'FFFFFF'},LB={style:BorderStyle.DOTTED,size:8,color:'444444'};   // owner 18 Nov: dotted answer lines
     // answer lines as a borderless table with a rule under each row (consecutive bordered paragraphs merge into one box)
     const lines=(n,ind)=>new Table({rows:Array.from({length:n},()=>new TableRow({height:{value:510,rule:HeightRule.EXACT},children:[new TableCell({children:[new Paragraph('')],borders:{top:NB,left:NB,right:NB,bottom:LB}})]})),width:{size:100,type:WidthType.PERCENTAGE},indent:ind?{size:ind,type:WidthType.DXA}:undefined,borders:{top:NB,bottom:NB,left:NB,right:NB,insideHorizontal:LB,insideVertical:NB}});
     // ---- blocks ----
@@ -5450,7 +5454,7 @@ async function xWord(doc){
         const sp=el.querySelector('span');if(sp)rs.push(new TextRun({text:'\t'+sp.textContent.trim(),font:UI,size:18,color:'555555'}));
         out.push(new Paragraph({children:rs,tabStops:[{type:TabStopType.RIGHT,position:RIGHT}],pageBreakBefore:sec2&&doc==='exam',keepNext:true,spacing:{before:200,after:160},border:{top:{style:BorderStyle.SINGLE,size:8,color:'111111',space:4},bottom:{style:BorderStyle.SINGLE,size:8,color:'111111',space:4}}}));return}
       if(el.matches('.xqh')){const b=el.querySelector('b')?.textContent||'',s=el.querySelector('span')?.textContent||'';
-        out.push(new Paragraph({children:[new TextRun({text:b,bold:true,font:UI,size:22}),new TextRun({text:'\t'+s,font:UI,size:20})],tabStops:[{type:TabStopType.RIGHT,position:RIGHT}],keepNext:true,spacing:{before:240,after:120},border:{bottom:{style:BorderStyle.SINGLE,size:6,color:'111111',space:2}}}));return}
+        out.push(new Paragraph({children:[new TextRun({text:b,bold:true,font:UI,size:24}),new TextRun({text:'    '+s,font:UI,size:23})],keepNext:true,spacing:{before:240,after:120}}));return}   // owner 18 Nov: no rule, marks beside the heading
       if(el.matches('.xqn')){out.push(new Paragraph({children:[new TextRun({text:el.textContent.trim(),bold:true,font:UI,size:22})],keepNext:true,spacing:{before:240,after:60}}));return}
       if(el.matches('.xsrc')){const t=el.querySelector('.exsrcl')?.textContent||el.textContent;out.push(new Paragraph({children:[new TextRun({text:t.trim(),font:UI,size:14,color:'8A8F96'})],alignment:AlignmentType.RIGHT,spacing:{before:40,after:200}}));return}
       if(el.matches('.xpart')){const lab=el.querySelector(':scope>.xpl')?.textContent||'',mk=el.querySelector(':scope>.xpm')?.textContent||'',pb=el.querySelector(':scope>.xpb');const ind=(ctx.indent||0)+567;

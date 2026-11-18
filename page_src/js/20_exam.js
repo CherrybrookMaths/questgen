@@ -86,7 +86,7 @@ function xQ(q,n,doc){exA();
   const mcSols=q.type==='mcq'?q.parts.map(p=>sols(p.id)).join(''):'';
   const lone=q.parts.length===1&&!q.parts[0].label;
   const parts=q.parts.map(p=>{const lf=leaf(q,p);
-    const mk=p.marks!=null&&!lone?`<span class="xpm">${p.marks}</span>`:'';
+    const mk=p.marks!=null&&!lone?`<span class="xpm">[${p.marks}]</span>`:'';   // owner 18 Nov (sample layout): part marks as "[2]" at the right
     return `<div class="xpart ${p.parent?'child':''} ${p.label?'':'nolab'}">${p.label?`<span class="xpl">(${esc(p.label)})</span>`:''}<div class="xpb"><div class="tx">${tex(p.latex)}${xFigSlots(q,partFigs(p.id))}</div>
       ${lf&&q.type!=='mcq'&&!guide?exLines(q,p):''}${q.type==='mcq'?'':sols(p.id)}</div>${mk}</div>`}).join('');
   let opts='';const lay=q.layout||(q.opt_table?'table':'text');
@@ -94,7 +94,9 @@ function xQ(q,n,doc){exA();
     if(lay==='table'&&q.opt_table)opts=optTableHTML(q,guide);
     else if(lay==='graph')opts=`<div class="xog">${q.options.map(o=>`<div class="xo${ok(o)}"><b>${o.label}.</b>${o.fig?xFigSlots(q,[o.fig]):`<span class="tx">${tex(o.latex)}</span>`}</div>`).join('')}</div>`;
     else opts=`<div class="xol">${q.options.map(o=>`<div class="xo${ok(o)}"><b>${o.label}.</b><span class="tx">${tex(o.latex)}</span></div>`).join('')}</div>`}
-  const head=q.type==='mcq'?`<span class="xqn">${n}</span>`:`<div class="xqh"><b>Question ${n}</b><span>(${q.marks??'?'} mark${q.marks===1?'':'s'})</span></div>`;
+  const head=q.type==='mcq'?`<span class="xqn">${n}</span>`:`<div class="xqh"><b>QUESTION ${n}</b><span>(${q.marks??'?'} mark${q.marks===1?'':'s'})</span></div>`;
+  // owner 18 Nov, with a sample paper: "can u make the format of questions like this": "QUESTION 4  (4 marks)" in bold capitals with the
+  // marks beside it (no rule), "(a)" in plain type, "[1]" at the right of each part, dotted answer lines (08_exam.css, 30_word.js)
   // owner 14 Nov: "The dot point home looks stupid in a question", then "Yeah that's fine, the i is fine". The grey dot-point
   // line and Report link are gone from the question; a Report link ends the source line (owner 18 Nov; qiButton, 27_reports.js)
   // with the dot points per part, band, kind and Report. Screen only (.scr-only), like the old line.
