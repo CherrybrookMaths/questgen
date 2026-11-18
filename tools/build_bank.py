@@ -185,6 +185,9 @@ old['questions'] = [q for q in old['questions'] if q.get('key') not in RETIRED]
 # papers mid-import (tools/import_hold.py; owner 18 Nov: "it shouldn't stall flagging and checking"): out of the bank until released
 import import_hold as _hold
 _HELD = _hold.held_docs()
+# QG_WITH_HELD=1: a build for the import's own later steps (homes, difficulty read the bank) that includes the held papers; it must
+# never be published (batch_check blocks a bank holding a held paper), so rebuild without it before any publish
+if os.environ.get('QG_WITH_HELD') == '1': _HELD = set(); print('build_bank: QG_WITH_HELD=1, held papers INCLUDED (not for publishing)')
 old['questions'] = [q for q in old['questions'] if int(q['doc']) not in _HELD]
 # --- end Fix 2 ---------------------------------------------------------------------------------------------------------------
 out = dict(v=2, built=__import__('datetime').datetime.now().strftime('%Y%m%d%H%M%S'), docs=old['docs'], questions=old['questions'], tables=tables, figs=figs, codes17=codes17)

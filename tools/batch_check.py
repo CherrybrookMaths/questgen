@@ -54,6 +54,10 @@ import import_hold as _hold   # owner 18 Nov: papers mid-import (tools/import_ho
 _HELD = _hold.held_docs()
 nofig = [(r['question_id'], os.path.basename(r['png_path'])[:-4]) for r in db.execute('select f.question_id, f.png_path, q.document_id from figures f join questions q on q.id=f.question_id where f.png_path is not null')
          if os.path.basename(r['png_path'])[:-4] not in allr and r['document_id'] not in _HELD]
+# a bank built with QG_WITH_HELD=1 (the import's own steps: homes, difficulty) must never be published
+try: _hb = sorted({int(q['doc']) for q in json.load(open(P + 'site/data/bank.json'))['questions']} & set(_HELD))
+except Exception as _e: _hb = []; W(f'held-paper check could not read site/data/bank.json: {_e}')
+if _hb: B(f'the bank holds {len(_hb)} paper(s) that are still held mid-import ({_hb}): it was built with QG_WITH_HELD=1; run python3 tools/build_bank.py again (or release the batch)')
 if _HELD: I(f'import hold: {len(_HELD)} paper(s) mid-import are left out of the bank and the publish: {sorted(_HELD)}')
 if nofig: B(f'{len(nofig)} figures have no redraw result, so their questions are hidden: ' + ', '.join(f'Q{q}:{k}' for q, k in nofig[:10]))
 # 2b. merged redraw without a compiled SVG -> "Redraw missing" on the page

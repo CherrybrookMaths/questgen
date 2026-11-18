@@ -182,4 +182,58 @@ for sid in (4083,):
     if m.get('source_flag'):
         m['format_note'] = ((m.get('format_note') or '') + ' Source check: ' + m.pop('source_flag')).strip()
         db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# Batch 11 (18 Nov, API verifier, VERIFY_SPEC): slips copied from the schools' solutions and parse mix-ups; owner 12 Nov "if you are certain
+# the source is wrong and your maths is right, just overwrite it". Left for the owner / checker, not guessed: 2022 Knox AT4 Q7 (QID 3284,
+# the paper's probability table sums to 1.2), the duplicated "D." inside 2022 Hornsby AT4 Q10's option crop (3070), and the extra
+# ticks on 2022 James Ruse AT4 Q3's redrawn options (3200).
+_ANS_4655 = db.execute('select latex from solutions where id=4655').fetchone()[0]
+def _swap_coin(l, c):   # 2022 Knox AT1 Q4: part 4(c)(i)'s coin-game working was stored under 4(b)(i); 4(c)(i) held a broken fragment
+    return _ANS_4655, [[2, 'Correct answer'], [1, r'$P(LLW)=\dfrac{9}{64}$, or equivalent merit']]
+def _defective(l, c):
+    return (r"Each item is defective with probability $0.05$, independently, so" + "\n" +
+            r"$$P(\text{all three defective})=0.05^3=\dfrac{1}{8000}=0.000125$$"), [[1, 'Correct answer']]
+def _crit5(l, c):       # 5-mark question, the guideline stopped at 3
+    return l, [[5, 'Correct answer'],
+               [4, 'Finds the stationary points, their nature, the point of inflexion and the global minimum, with a sketch that has one error, or equivalent merit'],
+               [3, 'Finds the stationary points and their nature, and the point of inflexion, or equivalent merit'],
+               [2, 'Finds the stationary points and their nature, or equivalent merit'],
+               [1, r'Finds $x=-2$ and $x=1$, or equivalent merit']]
+C11 = [
+ (4450 + 1, [(r'The $x$-intercept (other than $x=0$) is at $x = 4$.', r'The $x$-intercept (other than $x=0$) is at $x = 2$, since $f(x) = 2x^2(2-x)$.')], [],
+  r'the working said the other $x$-intercept is $x=4$; $f(x)=2x^2(2-x)$ gives $x=2$, as the sketch shows', None),
+ (4462, [(r'For $595$ mL, $z = -1$, so $P(595 < X < 600) = 0.34$.', r'For $595$ mL, $z = -1$. From the table, $P(z < 1) = 0.841$, so by symmetry $P(595 < X < 600) = P(0 < z < 1) = 0.841 - 0.5 = 0.341$.'),
+         (r'&= 0.34 + 0.155 \\ &= 0.495', r'&= 0.341 + 0.155 \\ &= 0.496'), (r'\text{about } 49.5\% \text{ of bottles}', r'\text{about } 49.6\% \text{ of bottles}')], [],
+  r'the working used $0.34$ from the empirical rule; the given table gives $0.841-0.5=0.341$, so $49.6\%$', None),
+ (4474, [(r'The bars of a Pareto chart show the percentage for each reason, and the cumulative line adds them.', r'The bars of a Pareto chart show the number of students for each reason (left axis); the cumulative line shows the running percentage (right axis).')], [],
+  r'the working said the bars show percentages; they show counts, and only the cumulative line is in percent', None),
+ (4494, [(r'&= \dfrac{1}{26}\left[(x-1)^3 - 1\right] \end{aligned}$$', r'&= \dfrac{1}{26}\left[(x-1)^3 - 1\right] \end{aligned}$$' + '\n' + r'$$F(x) = \begin{cases} 0 & x < 2 \\ \dfrac{1}{26}\left[(x-1)^3 - 1\right] & 2 \le x \le 4 \\ 1 & x > 4 \end{cases}$$')], [],
+  r'the cumulative distribution function was given only for $2\le x\le4$', None),
+ (4495, [(r'x &= 3.736851\ldots \end{aligned}$$', r'x &= 3.736851\ldots \\ &\approx 3.737 \end{aligned}$$' + '\n' + r'(The paper printed $3.748$, a misprint: $F(3.748)\approx0.760$, not $0.75$.)')], [],
+  r'the paper asks to show the upper quartile is about $3.748$; it is $3.737$ ($F(3.748)\approx0.760$), and the working stopped without saying so. The part now reads $3.737$', None),
+ (4508, [(r'A strong positive correlation ($r=0.9$) means that profit will increase as the money spent on advertising increases.', r'There is a strong positive linear association ($r=0.9$): profit tends to be higher when more is spent on advertising. Correlation alone does not show that the advertising causes the higher profit.')], [],
+  r'the answer said profit "will increase" with advertising, which claims certainty and causation', None),
+ (4566, [(r'\therefore\ \text{the required year is } 2026', r'\text{Year } n \text{ is the calendar year } 1999+n \text{ (year 1 is 2000), so } n=26 \text{ is } 2025.$$' + '\n' + r'$$\therefore\ \text{the required year is } 2025')], [],
+  r'the answer was 2026; $P_0$ is the start of 2000, so year $n$ is $1999+n$ and $n=26$ is 2025 (the school answer had the same slip)', None),
+ (4580, [(r'The same number of added scores lie above and below $25$ (three at most... see below), so the median stays the same.', r'Three of the added scores lie below $25$ ($16, 16, 21$) and three lie above it ($26, 30, 30$), so the median stays $25$.')], [],
+  r'the first line was garbled', None),
+ (4654, [(r'From the Venn diagram, $P(A)=\dfrac27$ and $P(A\mid B)=\dfrac{x+2}{x+12}$, so', r'From the Venn diagram, $P(A)=\dfrac{x+2}{x+12}$ and $P(A\mid B)=\dfrac27$, so')], [],
+  r'the two probabilities were swapped in the first line', None),
+ (4655, [], [], r'part (a) held the coin-game working of the next question; it is $0.05^3=\dfrac{1}{8000}$', _defective),
+ (4657, [], [], r'part (a) held a broken fragment; the coin-game working (answer $\dfrac{25}{64}$) had been stored under the previous question', _swap_coin),
+ (4659, [(r'The shaded region lies below the $x$-axis on $[b,0]$ (where $f(x)<0$) and above... the area is the integral of the upper curve minus the lower curve in each part, so',
+          r'On $[b,0]$ the shaded region lies above the $x$-axis ($f(x)>0$), and on $[0,a]$ it lies below it ($f(x)<0$), so the integral over $[0,a]$ is negative and is subtracted:')], [],
+  r'the first line had the regions the wrong way round and was cut off', None),
+ (4726, [(r't \approx 4.433,\ 5.851,\ 12.43,\ 15.57', r't \approx 4.433,\ 7.567,\ 12.43,\ 15.57')], [],
+  r'the second solution read $5.851$; $\dfrac{4}{\pi}(2\pi-0.3398)\approx7.567$', None),
+ (4745, [(r'&\approx 9.86 \end{aligned}$$', r'&= 9.8657\ldots \\ &\approx 9.87 \end{aligned}$$'), (r'the longest possible length is } 9.86 \text{ metres', r'the longest possible length is } 9.87 \text{ metres')], [],
+  r'the answer $9.86$ was truncated; $L=9.8657\ldots\approx9.87$ m', None),
+ (4402, [], [], r'the marking criteria stopped at 3 marks for a 5-mark question', _crit5),
+]
+for sid, lat, crit, note, extra in C11:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# 2022 Hurlstone AT4 Q13(c) (part 5118): the paper's "approximately 3.748" is a misprint for 3.737 (PARSE_SPEC "Mistakes in the paper are fixed")
+db.execute("update parts set latex=replace(latex, 'approximately 3.748', 'approximately 3.737') where id=5118 and latex like '%3.748%'")
 db.commit(); print('done')
