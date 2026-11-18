@@ -2088,6 +2088,9 @@ async function examPools(browser, base, pools) {
             tbl: !!cv.querySelector('.extopictbl'), rule: getComputedStyle(cv.querySelector('.cv-head')).borderTopStyle} });
         assert(!ft.cf && ft.f2 === `Page 2 of ${ft.n}` && !ft.head && ft.tbl && ft.rule === 'none', `cover: ${JSON.stringify(ft)}`);
         // owner 19 Nov: generated order = meter band, then fluency before problem solving, then marks
+        if (sd === POOL_RUNS[name][0][0]) {   // "Sort easiest first" on a shuffled exam gives the same order back
+          await page.evaluate(() => { EX.items = EX.items.slice().reverse(); xsave(); exRelayout() }); await waitPv();
+          await page.click('#exGSide [data-gsort]'); await waitPv() }
         const ordBad = await page.evaluate(() => { const qs = EX.items.map(xq).filter(Boolean), k = q => [Math.round(exEst(q)?.d ?? 3), exEst(q)?.kind === 'Problem solving' ? 1 : 0, +q.marks || 0];
           const bad = []; for (const t of ['mcq', 'w']) { const s = qs.filter(q => (q.type === 'mcq') === (t === 'mcq')); for (let i = 1; i < s.length; i++) { const a = k(s[i - 1]), b = k(s[i]); if (a[0] > b[0] || a[0] === b[0] && (a[1] > b[1] || a[1] === b[1] && a[2] > b[2])) bad.push(qid(s[i])) } } return bad });
         assert(!ordBad.length, 'out of order after Generate: ' + ordBad.slice(0, 5).join(', '));
