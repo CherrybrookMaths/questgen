@@ -138,8 +138,18 @@ def lanes(inv, write=True, reset=()):
             L['batches'] = [[i for i in b if i not in cps] for b in L['batches']]
             L.setdefault('log', []).append({'at': now, 'removed': out, 'why': 'recorded as copies of another file (never imported)'})
             changed = True
+    # owner 18 Nov: "for Batch 8,9, and future, if the pdf is too big, just move it somewhere else for later (big pdfs)": a ready paper
+    # over the Drive connector's 10 MB limit (inventory "big") leaves its stored batch and is never assigned one; once a smaller copy
+    # makes it fetchable, the next run puts it in a new batch at the end (Processes lists it under "Big PDFs, for later")
+    big = {p['id'] for g in inv['groups'] for p in g['papers'] if p.get('big')}
+    for key, L in st['lanes'].items():
+        out = sorted({i for b in L.get('batches', []) for i in b} & big)
+        if out:
+            L['batches'] = [[i for i in b if i not in big] for b in L['batches']]
+            L.setdefault('log', []).append({'at': now, 'removed': out, 'why': 'PDF over 10 MB (the Drive connector limit): moved to Big PDFs, for later'})
+            changed = True
     for key, g in by.items():
-        ready = [p for p in g['papers'] if p['st'] in READY]
+        ready = [p for p in g['papers'] if p['st'] in READY and not p.get('big')]
         if key in reset: st['lanes'].pop(key, None)
         L = st['lanes'].get(key)
         if not ready and not L: continue

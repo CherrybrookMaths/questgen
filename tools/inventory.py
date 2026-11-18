@@ -76,6 +76,8 @@ STATUS_TEXT = {
     'duplicate': 'a copy of another paper',
 }
 # 'New' = first seen after this scan (the first full Drive scan, 13 Nov 8:42 pm): papers a later scan adds (0 on 14 Nov)
+BIG = 10 * 1024 * 1024    # the Drive connector's download limit (16 Nov)
+import import_hold as _hold; HOLD = _hold.held_docs()   # papers mid-import
 BASELINE_SCAN = '2026-11-13T20:42:46+11:00'
 
 
@@ -257,6 +259,14 @@ def build(db, files=False, rules=None, overrides=None):
         # owner 14 Nov: Needs a check rows have an "Open the whole PDF in Drive" link (https://drive.google.com/file/d/<id>/view)
         if st == 'needs_check' and any(f.get('drive_file_id') for f in fs): e['g'] = [f.get('drive_file_id') or '' for f in fs][:4]
         if any(f.get('_placed') for f in fs): e['placed'] = 1
+        # owner 18 Nov: "if the pdf is too big, just move it somewhere else for later (big pdfs)": a ready paper whose question file
+        # (every one, if it has several) is over the Drive connector's 10 MB download limit cannot be fetched by an import session, so
+        # it is marked big (MB) and tools/batches.py keeps it out of the batches; Processes lists it under "Big PDFs, for later"
+        if st in ('ready_current', 'ready_old') and q and all((f.get('size_bytes') or 0) > BIG for f in q):
+            e['big'] = round(min(f['size_bytes'] for f in q) / 1048576, 1)
+        # owner 18 Nov: "imports ... shouldn't stall flagging and checking": a paper mid-import (tools/import_hold.py) is not in the
+        # published bank yet, so the page shows it as importing, not as cleared review
+        if any(f['id'] in HOLD for f in fs): e['imp'] = 1
         if course == 'advanced' and y and y < RULES['old_syllabus_before']: e['old'] = 1     # old syllabus: syllabus_version 'pre2017'
         g = out[(course if course in keys else 'unknown', yl)]
         g['papers'].append(e)

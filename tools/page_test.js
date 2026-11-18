@@ -588,6 +588,10 @@ async function phone(browser, base, seed) {
   await check('phone: inline maths on Bank cards splits only when wider than its column', page, async () => {
     await page.evaluate(() => { location.hash = '#bank' }); await settle(page, 4000, 2);
     await page.evaluate(() => document.querySelector('[data-sel^="sub:12|Integral calculus|Areas"]')?.click()); await settle(page, 6000, 2);
+    // the cards sit below the filters on a phone, and maths is typeset as cards scroll into view: bring them on screen first
+    // (18 Nov: failed 2 of 3 runs without this)
+    await page.evaluate(() => (document.querySelector('#bankList .card, .card') || document.body).scrollIntoView({block: 'start'}));
+    await page.waitForFunction(() => document.querySelector('#bankList mjx-container, .card mjx-container'), null, {timeout: 15000}).catch(() => {});
     const r = await page.evaluate(() => { const cs = [...document.querySelectorAll('#bankList mjx-container:not([display="true"]), .card mjx-container:not([display="true"])')];
       const bad = cs.filter(c => !c.classList.contains('mjx-wrap') && new Set([...c.getClientRects()].map(x => Math.round(x.top))).size > 1);
       const over = cs.filter(c => { const r = c.getBoundingClientRect(); return r.right > innerWidth + 1 });

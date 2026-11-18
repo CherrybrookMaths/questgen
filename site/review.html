@@ -3910,7 +3910,10 @@ function lvItems(){if(LVQ)return LVQ;const out=[];
   const lean={};B.questions.forEach(q=>q.parts.forEach(p=>{const n=p.dif?.na;if(n)lean[n]=(lean[n]||0)+1}));out.forEach(x=>x.lean=lean[x.p.id]||0);
   // owner 14 Nov: "Yeah let's do that" (spot-check): the 9 flagged parts, then the 3 parts per remaining topic that the most other parts were rated against
   const by={};out.forEach(x=>{if(x.flag){x.spot=1;return}if(LV_FIRST.includes(x.d.ar))return;(by[x.d.ar]=by[x.d.ar]||[]).push(x)});
-  Object.values(by).forEach(xs=>xs.slice().sort((a,b)=>b.lean-a.lean||a.p.id-b.p.id).slice(0,3).forEach(x=>x.spot=1));
+  // owner 18 Nov: "Also why are there 10 difficulty to do? I thought we finished it": each new batch adds parts rated against the
+  // references, so the 3 most-used ones per topic shifted to unchecked parts and the finished plan reopened (7 topics, 3 checked each).
+  // Parts already checked keep their place in the topic's 3; only a topic with fewer than 3 checked takes the most-used unchecked ones.
+  Object.values(by).forEach(xs=>xs.slice().sort((a,b)=>lvDone(b)-lvDone(a)||b.lean-a.lean||a.p.id-b.p.id).slice(0,3).forEach(x=>x.spot=1));
   return LVQ=out}
 const lvDone=x=>!!DIFD[x.p.id]?.status;
 const lvInArea=x=>LVAREA==='all'||(LVAREA==='spot'?!!x.spot:LVAREA==='thin'?LV_FIRST.includes(x.d.ar)&&!x.flag:LVAREA==='flags'?x.flag:x.d.ar===LVAREA&&!x.flag);
@@ -3923,7 +3926,7 @@ function lvTodoN(){if(!B)return 0;lvSub();const hot=lvHot();return lvItems().fil
 function lvList(){const all=lvItems();
   const r=all.filter(x=>lvInArea(x)&&(LVSHOW==='all'||!lvDone(x)));
   return LVAREA==='spot'?r.sort((a,b)=>(b.flag?1:0)-(a.flag?1:0)||String(a.d.ar).localeCompare(String(b.d.ar))||b.lean-a.lean):r}
-function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});DIFD=nx;if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
+function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});DIFD=nx;LVQ=null;if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
 function renderLevels(keep){
   lvSub();const box=$('#levelsBox');const all=lvItems(),list=lvList();
   const done=all.filter(lvDone).length, anchors=all.filter(x=>!x.flag), adone=anchors.filter(lvDone).length;
@@ -5658,8 +5661,11 @@ function model(){const D=S.data;if(!D)return null;const k=accepted()+'|'+JSON.st
 const RV={rv:null,b:null,m:new Map()};
 function reviewState(p){if(!B||!B.questions||!QG.detOK||typeof paperWork!=='function')return null;   // job 2: Review's work counts read triage, which comes with the details
   if(RV.rv!==reviews||RV.b!==B){RV.rv=reviews;RV.b=B;RV.m=new Map()}
+  // owner 18 Nov (screenshot: Batch 11 "7 of 7 cleared review" mid-import): a paper mid-import (inventory imp, tools/import_hold.py) is
+  // importing, and a paper with no questions in the bank is never cleared
+  if(p.imp)return 'importing';
   if(!RV.m.has(p.id)){const fs=(p.f||[p.id]).filter(d=>B.docs[d]&&B.questions.some(q=>q.doc===d));
-    RV.m.set(p.id,fs.every(d=>paperWork(d).n===0)?'cleared':'waiting')}
+    RV.m.set(p.id,fs.length&&fs.every(d=>paperWork(d).n===0)?'cleared':'waiting')}
   return RV.m.get(p.id)}
 // a batch of imported papers: cleared when every paper is (a paper not found stays waiting)
 const batchState=ps=>ps.length&&ps.every(p=>reviewState(p)==='cleared')?'clr':'wait';
@@ -5685,7 +5691,8 @@ function allLanes(){const m=model();if(!m)return [];const imp=new Set(m.ps.filte
       return {n,ids,ps,ready,done,frozen:ps.some(p=>p.st==='imported'),cur:ready.some(p=>p.st==='ready_current'),key}});
     const inLane=m.ps.filter(p=>p.c===L.course&&p.yl===L.yl),batched=new Set(bs.flat());
     return {...L,key,name:laneName(L.course,L.yl),batches,done:L.done||[],imported:inLane.filter(p=>p.st==='imported').length,
-      ready:inLane.filter(p=>READY.includes(p.st)).length,unbatched:inLane.filter(p=>READY.includes(p.st)&&!batched.has(p.id)).length,
+      // big PDFs (over 10 MB, owner 18 Nov) are ready but out of the batches: counted apart, so to go + big = the summary's ready
+      ready:inLane.filter(p=>READY.includes(p.st)&&!p.big).length,big:inLane.filter(p=>READY.includes(p.st)&&p.big).length,unbatched:inLane.filter(p=>READY.includes(p.st)&&!p.big&&!batched.has(p.id)).length,
       newN:inLane.filter(p=>p.new).length}})}
 const lanes=()=>allLanes().filter(L=>L.ready||L.batches.some(b=>b.ready.length));
 // owner 17 Nov: "Review: group 'Papers to review' by batch, oldest first ('Batch 4 · 7 of 9 cleared'); papers waiting on a Your call
@@ -5715,7 +5722,7 @@ function tiles(){const el=$('#prSum');if(!el)return;const m=model();if(!m){el.in
 const SQW={clr:'imported, cleared review',wait:'imported, waiting for review',queued:'in the queue',cur:'ready, current syllabus',old:'ready, old syllabus'};
 function sqState(b){if(b.done)return batchState(b.ps);if(API.run&&API.run.pos(b.key,b.n))return 'queued';return b.cur?'cur':'old'}
 // a paper's chip in the batch panel: its review state, with a link into Review when it is still waiting
-function rvChip(p){const s=reviewState(p);if(s==='cleared')return '<span class="pr-chip ok">Cleared review</span>';
+function rvChip(p){const s=reviewState(p);if(s==='importing')return '<span class="pr-chip" title="Being imported: not in the bank yet">Importing</span>';if(s==='cleared')return '<span class="pr-chip ok">Cleared review</span>';
   const d=(p.f||[p.id]).find(x=>B&&B.docs[x]);return s==='waiting'&&d!=null?`<a class="pr-chip pr-wt" href="#review/paper/${esc(mainDoc(d))}">Waiting for review</a>`:'<span class="pr-chip ok">Imported</span>'}
 function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.batches.filter(b=>b.ready.length),m=model();
   const free=todo.filter(b=>!(API.run&&API.run.pos(L.key,b.n))).length,im=imported().filter(x=>x.key===L.key),clr=im.filter(x=>x.st==='clr').length;
@@ -5724,7 +5731,7 @@ function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.
     L.batches.filter(b=>b.ready.length||b.done).map(b=>{const s=sqState(b),t=`Batch ${b.n}, ${SQW[s]}`;
       return `<button type="button" class="pr-b ${s}${open===b.n?' on':''}" data-prb="${esc(L.key)}:${b.n}" title="${esc(t)}" aria-label="${esc(t)}" aria-expanded="${open===b.n}"></button>`}).join('');
   return `<div class="pr-lane" data-lane="${esc(L.key)}"><div class="pr-lrow"><div class="pr-lname"><b>${esc(L.name)}</b>
-      <small>${plural(im.length,'batch','batches')} imported (${nf(clr)} cleared review, ${nf(im.length-clr)} waiting) · ${nf(L.ready)} papers to go · ${plural(todo.length,'batch','batches')}${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.newN?` · ${nf(L.newN)} new`:''}</small></div>
+      <small>${plural(im.length,'batch','batches')} imported (${nf(clr)} cleared review, ${im.length-clr?`<a href="#review" title="Review lists the papers still waiting">${nf(im.length-clr)} waiting</a>`:'0 waiting'}) · <span title="Ready papers in the batch squares below (one square per batch)">${nf(L.ready)} papers to go · ${plural(todo.length,'batch','batches')}</span>${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.big?` · <a href="#prBig" data-prbig title="Over 10 MB: out of the batches until a smaller copy exists">${plural(L.big,'big PDF')}, for later</a>`:''}${L.newN?` · <span title="Papers first found after the first full Drive scan (13 Nov), in every status">${nf(L.newN)} found after the first scan</span>`:''}</small></div>
     <div class="pr-lacts"><button type="button" class="act" data-pradd="1" data-lane="${esc(L.key)}"${free?'':' disabled'}>+1 batch</button><button type="button" class="act" data-pradd="2" data-lane="${esc(L.key)}"${free>1?'':' disabled'}>+2 batches</button><button type="button" class="act primary" data-pradd="all" data-lane="${esc(L.key)}"${free?'':' disabled'}>Queue all ${nf(free)}</button></div></div>
     <div class="pr-sq" role="group" aria-label="${esc(L.name)} batches">${sq}</div>${open!=null?panelHTML(L,open):''}</div>`}
 // the batch panel: its papers and Swap
@@ -5734,13 +5741,18 @@ function panelHTML(L,n){const d=L.done.find(x=>x.n===n),b=L.batches.find(x=>x.n=
     return `<div class="pr-panel" role="region" aria-label="Batch ${n}"><div class="pr-phead"><b>Batch ${n}</b><span>${plural(d.ids.length,'paper')} · imported (${esc(d.id)}) · ${rvs(ps)}</span><button type="button" class="pr-x" data-prclose aria-label="Close batch">×</button></div>
     <ul class="pr-plist">${ps.map(p=>`<li><span>${esc(label(p))}</span>${rvChip(p)}</li>`).join('')}</ul></div>`}
   if(!b)return '';const q=API.run?API.run.pos(L.key,n):0,ready=new Set(b.ready.map(p=>p.id));
-  const syl=b.ready.every(p=>p.st==='ready_old')?'old syllabus':b.ready.some(p=>p.st==='ready_old')?'current and old syllabus':'current syllabus';
-  const where=b.done?`imported · ${rvs(b.ps)}`:q?`in the queue, ${ord(q)}`:'not in the queue',gone=b.ps.filter(p=>!ready.has(p.id)&&p.st!=='imported');
+  const sp=b.done?b.ps:b.ready,isOld=p=>p.st==='ready_old'||p.old;   // an imported batch describes its papers (it has none ready)
+  const syl=sp.every(isOld)?'old syllabus':sp.some(isOld)?'current and old syllabus':'current syllabus';
+  const where=b.done?(b.ps.some(p=>p.imp)?'importing (not in the bank yet)':`imported · ${rvs(b.ps)}`):q?`in the queue, ${ord(q)}`:'not in the queue',gone=b.ps.filter(p=>!ready.has(p.id)&&p.st!=='imported');
   const last=L.batches.length?L.batches[L.batches.length-1].n:n;
-  return `<div class="pr-panel" role="region" aria-label="Batch ${n}"><div class="pr-phead"><b>Batch ${n}</b><span>${plural(b.ready.length,'paper')} · ${syl} · ${esc(yrs(b.ready))} · ${where}${gone.length?` · ${gone.length} no longer ready`:''}</span>
+  return `<div class="pr-panel" role="region" aria-label="Batch ${n}"><div class="pr-phead"><b>Batch ${n}</b><span>${plural(sp.length,'paper')} · ${syl} · ${esc(yrs(sp))} · ${where}${gone.length?` · ${gone.length} no longer ready`:''}</span>
       ${!q&&!b.done&&b.ready.length?`<button type="button" class="act" data-prqone="${esc(L.key)}:${n}">Add to the queue</button>`:''}<button type="button" class="pr-x" data-prclose aria-label="Close batch">×</button></div>
     <ul class="pr-plist">${b.ps.map(p=>{const r=ready.has(p.id);return `<li${r?'':' class="off"'}><span title="${esc(label(p))}">${esc(label(p))}</span>${p.st==='ready_old'?'<span class="pr-chip">old</span>':''}${p.st==='imported'?rvChip(p):''}${r&&!b.frozen?`<button type="button" class="act pr-swap" data-prswap="${p.id}" data-lane="${esc(L.key)}">Swap</button>`:''}${!r&&p.st!=='imported'?`<span class="pr-chip">${esc((m.D.statuses||{})[p.st]||p.st)}</span>`:''}</li>`}).join('')}</ul>
     <p class="pr-note">Swap moves the paper to the end of the course and pulls the next one in. A batch keeps its papers; new papers from a rescan start new batches after Batch ${last}.</p></div>`}
+// owner 18 Nov: "if the pdf is too big, just move it somewhere else for later (big pdfs)": ready papers whose PDF is over the Drive
+// connector's 10 MB limit (inventory big, MB) are kept out of the batches (tools/batches.py) and listed here until a smaller copy exists
+function bigHTML(m){const ps=m.ps.filter(p=>p.big&&(p.st==='ready_current'||p.st==='ready_old'));if(!ps.length)return '';
+  return `<details class="pr-lock" id="prBig"><summary>Big PDFs, for later · ${plural(ps.length,'paper')}</summary><p class="muted pr-note">Over the Drive connector's 10 MB limit, so an import cannot fetch them. They are out of the batches; a smaller copy of the same paper (or a split file) puts one back in a new batch.</p><ul>${ps.sort((a,b)=>b.big-a.big).map(p=>`<li><b>${esc(label(p))}</b><span>${p.big} MB</span></li>`).join('')}</ul></details>`}
 // the locked courses, folded into one row (owner 13 Nov: Year 11 held; the other courses need setup)
 function lockedHTML(m){const by=new Map();m.ps.filter(p=>p.st==='held_y11'||p.st==='held_course').forEach(p=>{const k=p.c+'|'+p.yl;if(!by.has(k))by.set(k,{c:p.c,yl:p.yl,n:0,st:p.st});by.get(k).n++});
   const rows=[...by.values()].sort((a,b)=>b.n-a.n),tot=rows.reduce((s,r)=>s+r.n,0);if(!rows.length)return '';
@@ -5771,7 +5783,7 @@ function lanesHTML(){const el=$('#prLanes');if(!el)return;const m=model();if(!m)
     ${L.length?L.map(laneHTML).join(''):`<p class="pempty">Nothing ready to import.</p>`}
     <div class="pr-lane pr-chk"><div class="pr-lrow"><div class="pr-lname"><b>Needs a check</b><small>${plural(m.t.needs_check||0,'paper')}: year or course not read yet. Sorted into lanes once checked.</small></div>
       <div class="pr-lacts"><button type="button" class="act" data-prcover${cc||!m.t.needs_check?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button><a class="act pr-link" href="#processes/papers/check">Resolve</a></div></div></div>
-    ${lockedHTML(m)}${copiesHTML(m)}
+    ${bigHTML(m)}${lockedHTML(m)}${copiesHTML(m)}
     <div class="pr-legend" aria-hidden="true">${Object.entries(SQW).map(([k,w])=>`<span><i class="pr-b ${k}"></i>${esc(w[0].toUpperCase()+w.slice(1))}</span>`).join('')}</div>`;   // owner 14 Nov: cleared vs waiting in the legend
   if(wasOpen&&$('#prLock'))$('#prLock').open=true;if(cpo&&$('#prCopies'))$('#prCopies').open=true;cpp.forEach(k=>{const d=$(`#prCopies [data-cpp="${k}"]`);if(d)d.open=true})}
 function redraw(){if(!isOwnerV()||!$('#prLanes'))return;M=null;sub();tiles();lanesHTML();if(API.check)API.check.draw()}
@@ -5792,6 +5804,7 @@ async function swap(key,id){const L=lanes().find(x=>x.key===key);if(!isOwnerV()|
 document.addEventListener('click',async e=>{const t=e.target;if(!t.closest||!t.closest('#invBox')||!isOwnerV())return;
   const sq=t.closest('[data-prb]');if(sq){const [key,n]=sq.dataset.prb.split(':');S.open=S.open&&S.open.key===key&&S.open.n===+n?null:{key,n:+n};lanesHTML();
     const p=$('#prLanes .pr-panel');if(p)p.scrollIntoView({block:'nearest'});return}
+  if(t.closest('[data-prbig]')){e.preventDefault();const d=$('#prBig');if(d){d.open=true;d.scrollIntoView({block:'start',behavior:'smooth'})}return}   // owner 18 Nov: a count links to what it counts
   if(t.closest('[data-prclose]')){const k=S.open;S.open=null;lanesHTML();const b=k&&$(`#prLanes [data-prb="${CSS.escape(k.key+':'+k.n)}"]`);if(b)b.focus();return}
   const sw=t.closest('[data-prswap]');if(sw){if(S.busy)return;S.busy=true;try{await swap(sw.dataset.lane,sw.dataset.prswap)}finally{S.busy=false}return}
   const ad=t.closest('[data-pradd]');if(ad&&API.run){await API.run.addNext(ad.dataset.lane,ad.dataset.pradd==='all'?Infinity:+ad.dataset.pradd);return}

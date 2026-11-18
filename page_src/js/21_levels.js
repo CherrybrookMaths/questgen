@@ -18,7 +18,10 @@ function lvItems(){if(LVQ)return LVQ;const out=[];
   const lean={};B.questions.forEach(q=>q.parts.forEach(p=>{const n=p.dif?.na;if(n)lean[n]=(lean[n]||0)+1}));out.forEach(x=>x.lean=lean[x.p.id]||0);
   // owner 14 Nov: "Yeah let's do that" (spot-check): the 9 flagged parts, then the 3 parts per remaining topic that the most other parts were rated against
   const by={};out.forEach(x=>{if(x.flag){x.spot=1;return}if(LV_FIRST.includes(x.d.ar))return;(by[x.d.ar]=by[x.d.ar]||[]).push(x)});
-  Object.values(by).forEach(xs=>xs.slice().sort((a,b)=>b.lean-a.lean||a.p.id-b.p.id).slice(0,3).forEach(x=>x.spot=1));
+  // owner 18 Nov: "Also why are there 10 difficulty to do? I thought we finished it": each new batch adds parts rated against the
+  // references, so the 3 most-used ones per topic shifted to unchecked parts and the finished plan reopened (7 topics, 3 checked each).
+  // Parts already checked keep their place in the topic's 3; only a topic with fewer than 3 checked takes the most-used unchecked ones.
+  Object.values(by).forEach(xs=>xs.slice().sort((a,b)=>lvDone(b)-lvDone(a)||b.lean-a.lean||a.p.id-b.p.id).slice(0,3).forEach(x=>x.spot=1));
   return LVQ=out}
 const lvDone=x=>!!DIFD[x.p.id]?.status;
 const lvInArea=x=>LVAREA==='all'||(LVAREA==='spot'?!!x.spot:LVAREA==='thin'?LV_FIRST.includes(x.d.ar)&&!x.flag:LVAREA==='flags'?x.flag:x.d.ar===LVAREA&&!x.flag);
@@ -31,7 +34,7 @@ function lvTodoN(){if(!B)return 0;lvSub();const hot=lvHot();return lvItems().fil
 function lvList(){const all=lvItems();
   const r=all.filter(x=>lvInArea(x)&&(LVSHOW==='all'||!lvDone(x)));
   return LVAREA==='spot'?r.sort((a,b)=>(b.flag?1:0)-(a.flag?1:0)||String(a.d.ar).localeCompare(String(b.d.ar))||b.lean-a.lean):r}
-function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});DIFD=nx;if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
+function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});DIFD=nx;LVQ=null;if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
 function renderLevels(keep){
   lvSub();const box=$('#levelsBox');const all=lvItems(),list=lvList();
   const done=all.filter(lvDone).length, anchors=all.filter(x=>!x.flag), adone=anchors.filter(lvDone).length;

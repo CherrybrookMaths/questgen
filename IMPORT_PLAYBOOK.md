@@ -100,6 +100,23 @@ Retired questions (18 Nov). The checker flagged 2022 Baulkham Hills AT4 Q22 (QID
 question"; owner "run flags please". A question is never deleted from the database: state/work/retired.json {key: {question_id, at, by, why}}
 takes it out of the bank (build_bank.py), so out of the Bank and new exams; deleting the entry brings it back.
 
+## Imports never hold up flag fixes: the import hold (18 Nov)
+Owner 18 Nov: "We have to find a way for imports to be independent of flag checking, it shouldn't stall flagging and checking".
+An import writes into the shared questions.db step by step, and every publish rebuilds the bank from the whole database. So at the
+start of an import, hold its papers: `python3 tools/import_hold.py hold <batch> <doc ids>` (state/work/import/hold.json). Held
+papers are left out of the bank (build_bank.py), their page-scan packs are not published (publish_set.py), batch_check skips them,
+and Processes shows them as "Importing" (inventory imp; owner 18 Nov, screenshot of Batch 11 showing "7 of 7 cleared review"
+mid-import). Flag fixes and page changes publish at any time. When the batch has passed its checks: `import_hold.py release <batch>`,
+then its publish. First used for Batch 11 (v258 published the checker's flag fixes without it).
+
+## Big PDFs wait outside the batches (18 Nov)
+Owner 18 Nov: "for Batch 8,9, and future, if the pdf is too big, just move it somewhere else for later (big pdfs)". A ready paper
+whose question file is over the Drive connector's 10 MB download limit (inventory "big", in MB) is taken out of its stored batch and
+never assigned one (tools/batches.py, logged in state/work/batches.json); Processes › Papers lists it under "Big PDFs, for later".
+Nothing moves in the school drive: the list is ours. 17 papers on 18 Nov, including 2023 Independent AT4 (Batch 8) and King's 2023
+AT4 (Batch 9). A smaller copy of the same paper (recorded as the paper's file), or a workaround like CSSA 2023's marked copy below,
+makes it fetchable and the next run puts it in a new batch at the end.
+
 ## Figure crops are build output, not backed up (17 Nov)
 Owner 17 Nov: "What is realistic coding best practice in this case?" then "yeah build it and run the test". The crops
 (`figures/<id>.png`) are cut from the exam PDFs at each figure's recorded page and bbox, so they are regenerated, not archived:

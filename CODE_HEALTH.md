@@ -35,6 +35,8 @@ an exam preview). Six commits, "Health pass 1/6" to "6/6".
    `.st` → `.pr-st`; Review `.pempty` → `.rv-pempty`; Exams tile `.part` → `.ex-part`, `.tb/.exln .empty` → `.ex-empty`. Where
    another view had silently inherited a property from the old rule, it is now written out in that view's own rule.
    Prefixes from now on: `pr-` Processes, `rv-` Review, `ex-` Exams (or scope under the view: `.procs .x`).
+2b. **Counts link to what they count** (owner 18 Nov, UI_SPEC): a number on the page links or clicks through to the list it counts,
+   or carries a title saying what it counts; reviewers check new counts against this.
 3. **Size budget** in batch_check: `tools/size_budget.json` (size on 13 Nov + 25%). Over budget blocks until the owner agrees.
    Owner 18 Nov (the budget is ours, not a platform limit): "If i'ts not a HARD limit, you're allowed to exceed AS LONG as all the
    code and comments we've built so far is necessary and efficient, not bloated." So a page over budget may be raised without asking

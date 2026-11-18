@@ -240,9 +240,13 @@ try:
     _ready = {i for i, (c, y, s) in _st.items() if s in ('ready_current', 'ready_old')}
     _inl = [i for L in _iv.get('lanes') or [] for b in L['batches'] for i in b if _st.get(i, ('', '', ''))[2] in ('ready_current', 'ready_old') and _st[i][:2] == (L['course'], L['yl'])]
     if len(_inl) != len(set(_inl)): B('a ready paper sits in two lane batches (tools/batches.py): rebuild work/batches.json')
+    # owner 18 Nov: big PDFs (inventory big, over 10 MB) are ready but kept out of the batches; Processes shows them apart
+    _big = {p['id'] for g in _iv['groups'] for p in g['papers'] if p.get('big')}
+    if set(_inl) & _big: B(f'{len(set(_inl) & _big)} big PDF(s) sit in a lane batch: run python3 tools/inventory.py (tools/batches.py moves them out)')
+    _ready -= _big
     if set(_inl) != _ready:
         B(f'lane counts differ from the summary: {len(set(_inl))} ready papers in lane batches, {len(_ready)} ready in the summary: run python3 tools/inventory.py (it assigns new ready papers to batches)')
-    else: I(f'lanes: {len(_ready)} ready papers in {sum(len(L["batches"]) for L in _iv.get("lanes") or [])} batches; statuses add up to {_iv["totals"]["papers"]} papers')
+    else: I(f'lanes: {len(_ready)} ready papers (+{len(_big)} big PDFs for later) in {sum(len(L["batches"]) for L in _iv.get("lanes") or [])} batches; statuses add up to {_iv["totals"]["papers"]} papers')
 except Exception as e: W(f'lanes check failed: {e}')
 # ======== end of the lanes block ========
 # owner 16 Nov: "duplicate exams will never be batched and imported right?" A recorded copy (duplicate_file, "copy of document <id>")
