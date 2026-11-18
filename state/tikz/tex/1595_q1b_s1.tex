@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (287,483); 48 px per x unit, 6.4 px per y unit (true scale)
+  \def\X#1{287+48*(#1)}
+  \draw[->] (0,483) -- (725,483);
+  \draw[->] (287,670) -- (287,25);
+  \draw[aux] (287,278) -- (479,278) -- (479,483);
+  \draw[aux] (287,380.6) -- (383,380.6) -- (383,483);
+  \draw[<->, line width=0.9pt] plot[smooth, domain=-2.42:6.55, samples=90] ({287+48*\x},{483-6.4*(6*\x*\x-\x*\x*\x)});
+  \fill (383,380.6) circle (5);
+  \node[font=\large, anchor=east] at (280,278) {$32$};
+  \node[font=\large, anchor=east] at (280,380.6) {$16$};
+  \node[font=\large, anchor=north] at (383,493) {$2$};
+  \node[font=\large, anchor=north] at (479,493) {$4$};
+  \node[font=\large, anchor=north east] at (571,490) {$6$};
+  \node[font=\large] at (742,500) {$x$};
+  \node[font=\large] at (312,35) {$y$};
+\end{tikzpicture}
+\end{document}

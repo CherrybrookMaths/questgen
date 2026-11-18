@@ -14,10 +14,12 @@
     \fill (\xx,203) circle (3.3);
   }
   \draw[line width=0.9pt] plot[smooth,domain=25:529,samples=90] (\x,{\f(\x)});
+  \begin{scope}[font=\fontsize{11}{13}\selectfont]
   \node at (73,232) {$\mu-2\sigma$};
   \node at (175,232) {$\mu-\sigma$};
   \node at (277,232) {$\mu$};
   \node at (379,232) {$\mu+\sigma$};
   \node at (481,232) {$\mu+2\sigma$};
+  \end{scope}
 \end{tikzpicture}
 \end{document}

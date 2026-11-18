@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (0,0) rectangle (337,297);
+  \draw (0,215) -- (337,215);
+  \draw (257,0) -- (257,297);
+  \foreach \t in {19,53,87,121,155,189,223,291,325} \draw (\t,212) -- (\t,218);
+  \foreach \t in {11,45,79,113,147,181,249,283} \draw (254,\t) -- (260,\t);
+  \draw[line width=0.9pt,smooth,samples=90,domain=26:284] plot (\x,{250-35*((\x-155)/48)^2});
+\end{tikzpicture}
+\end{document}

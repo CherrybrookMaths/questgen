@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[scale=0.26]
+\coordinate (A) at (0,0);
+\coordinate (C) at (29,0);
+\coordinate (B) at (9.21,16.61);
+\draw (A) -- (B) -- (C) -- cycle;
+\pic[draw, angle radius=1.0cm, "$61^\circ$", angle eccentricity=1.45] {angle = C--A--B};
+\pic[draw, angle radius=1.5cm, "$40^\circ$", angle eccentricity=1.35] {angle = B--C--A};
+\pic[draw, angle radius=0.9cm, "$79^\circ$", angle eccentricity=1.55] {angle = A--B--C};
+\node[anchor=north east] at (A) {$A$};
+\node[anchor=south] at ($(B)+(0,0.3)$) {$B$};
+\node[anchor=north west] at (C) {$C$};
+\node[anchor=south east] at ($(A)!0.5!(B)+(-0.3,0)$) {$21$};
+\node[anchor=north] at ($(A)!0.5!(C)+(0,-0.4)$) {$29$};
+\node[anchor=south west] at ($(B)!0.5!(C)+(0.3,0.2)$) {$x$};
+\node[anchor=north] at (14.5,-3.2) {$\angle B = 180^\circ - 61^\circ - 40^\circ = 79^\circ$};
+\end{tikzpicture}
+\end{document}

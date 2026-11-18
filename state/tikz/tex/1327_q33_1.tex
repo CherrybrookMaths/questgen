@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw plot[smooth,samples=60,domain=0:180] ({207+190*cos(\x)},{160-143*sin(\x)});
+\draw[aux] plot[smooth,samples=60,domain=0:180] ({207+190*cos(\x)},{160-45*sin(\x)});
+\draw plot[smooth,samples=60,domain=0:180] ({207+190*cos(\x)},{160+45*sin(\x)});
+\draw plot[smooth,samples=60,domain=0:180] ({207+190*cos(\x)},{337+45*sin(\x)});
+\draw (17,160) -- (17,337);
+\draw (397,160) -- (397,337);
+\draw[aux] (207,160) -- (397,160);
+\draw[aux] (207,337) -- (397,337);
+\draw[aux] (207,160) -- (207,337);
+\fill (207,160) circle (1.2pt);
+\fill (207,337) circle (1.2pt);
+\node[font=\large] at (275,140) {$r$};
+\node[font=\large] at (275,320) {$r$};
+\node[font=\large] at (192,272) {$h$};
+\end{tikzpicture}
+\end{document}

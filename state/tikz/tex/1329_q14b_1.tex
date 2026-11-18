@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{75}\def\oy{455}\def\ux{91.3}\def\uy{17.07}
+% ticks
+\foreach \v in {1,...,11} \draw ({\ox+\ux*\v},449)--({\ox+\ux*\v},461);
+\foreach \v in {0.5,1.5,...,10.5} \draw ({\ox+\ux*\v},452)--({\ox+\ux*\v},458);
+\foreach \v in {1,...,4,6,7,8,9,11,12,13,14,16,17,18,19,21,22,23,24} \draw (71,{\oy-\uy*\v})--(79,{\oy-\uy*\v});
+\foreach \v in {5,10,...,25} \draw (69,{\oy-\uy*\v})--(81,{\oy-\uy*\v});
+% axes
+\draw[->] (\ox,\oy)--(1097,\oy);
+\draw[->] (\ox,\oy)--(\ox,6);
+\draw[fill=white] (\ox,\oy) circle[radius=0.55mm];
+% tick labels
+\foreach \v in {2,4,...,10} \node[font=\small] at ({\ox+\ux*\v},481) {$\v$};
+\foreach \v in {5,10,...,25} \node[font=\small,anchor=east] at (64,{\oy-\uy*\v}) {$\v$};
+\node[font=\small] at (590,513) {Exercise hours per week};
+\node[font=\small,rotate=90] at (10,230) {TV hours per week};
+% data
+\foreach \a/\b in {1/24,2/16,3/18,3/11,4/12,7/9,8/5,10/1}
+  \fill ({\ox+\ux*\a},{\oy-\uy*\b}) circle[radius=0.6mm];
+\end{tikzpicture}
+\end{document}

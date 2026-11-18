@@ -109,12 +109,12 @@ const srcLine=q=>docLabel(B.docs[q.doc])+' Q'+q.number;
 // MathJax 4 loads its font data asynchronously, so typesetPromise only exists once startup.promise resolves: wait for it.
 // Also wait for the Tinos web font, so the table fitting below measures with the final text font, not the fallback.
 const typeset=el=>{const M=window.MathJax;const ready=Promise.all([M?.startup?.promise,document.fonts?.ready]).catch(()=>{});
-  return ready.then(()=>window.MathJax?.typesetPromise?.([el])).then(()=>{fitTables(el);fitOptTables(el);wideMaths(el)}).catch(()=>{})};
-// checker report 18 Nov ("Maths breaks across lines"): inline maths never wraps (03_question.css) unless it is wider than its column;
-// those few may break, at MathJax's own break points, instead of running past the edge
-function wideMaths(root){const cs=[...(root||document).querySelectorAll('mjx-container:not([display="true"])')];
-  const W=cs.map(c=>{let p=c.parentElement;while(p&&getComputedStyle(p).display.startsWith('inline'))p=p.parentElement;return p?p.clientWidth:0});
-  cs.forEach((c,i)=>c.classList.toggle('mjx-wrap',W[i]>0&&c.getBoundingClientRect().width>W[i]+1))}
+  return ready.then(()=>window.MathJax?.typesetPromise?.([el])).then(()=>{fitTables(el);fitOptTables(el);
+    // checker report 18 Nov ("Maths breaks across lines"): inline maths never wraps (03_question.css) unless it is wider than its
+    // column; those few may break, at MathJax's own break points, instead of running past the edge
+    const cs=[...el.querySelectorAll('mjx-container:not([display="true"])')];
+    const W=cs.map(c=>{let p=c.parentElement;while(p&&getComputedStyle(p).display.startsWith('inline'))p=p.parentElement;return p?p.clientWidth:0});
+    cs.forEach((c,i)=>c.classList.toggle('mjx-wrap',W[i]>0&&c.getBoundingClientRect().width>W[i]+1))}).catch(()=>{})};
 // owner: nothing may protrude from a table cell. After typesetting, widen the label column to its widest entry,
 // and all value columns (kept equal) to the widest value; the first guess from character counts is only a starting point.
 // owner: "make it so that the word is not split up". A cell is never narrower than its widest piece of maths OR its

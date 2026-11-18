@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\k{1.98e-5}
+  \fill[shade] plot[smooth, domain=-250:180, samples=90] ({440+\x},{250-\k*\x*(\x+250)*(\x-180)}) -- cycle;
+  \draw[<->] (80,250) -- (772,250);
+  \draw[<->] (440,410) -- (440,95);
+  \draw[line width=0.9pt] plot[smooth, domain=-303:245, samples=90] ({440+\x},{250-\k*\x*(\x+250)*(\x-180)});
+  \node[font=\large] at (437,68) {$y$};
+  \node[font=\large] at (790,278) {$x$};
+  \node[font=\large] at (155,276) {$b$};
+  \node[font=\large] at (427,276) {$0$};
+  \node[font=\large] at (633,278) {$a$};
+  \node[font=\large] at (668,72) {$y=f(x)$};
+\end{tikzpicture}
+\end{document}

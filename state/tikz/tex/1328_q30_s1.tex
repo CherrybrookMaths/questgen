@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (15,255) -- (685,255);
+\draw[aux] (330,255) -- (330,4);
+\draw[line width=0.9pt] plot[domain=-4.04:4.47,samples=90,smooth] ({330+78*\x},{255-251*exp(-0.5*\x*\x)});
+\draw ({330-1.6*78},255) -- ({330-1.6*78},{255-251*exp(-1.28)});
+\node at (95,195) {$5.5\%$};
+\draw[->] (115,210) -- (196,248);
+\node at ({330-1.6*78},290) {$x$};
+\node at (330,282) {$600$};
+\end{tikzpicture}
+\end{document}

@@ -584,6 +584,18 @@ async function flows(browser, base, seed, seedR) {
 async function phone(browser, base, seed) {
   const page = await newPage(browser, base, seed, {width: 390, theme: 'light'});
   await boot(page, base);
+  // checker report 18 Nov ("Maths breaks across lines"): at 390 px no inline maths on the Bank's cards splits unless it is wider than its column
+  await check('phone: inline maths on Bank cards splits only when wider than its column', page, async () => {
+    await page.evaluate(() => { location.hash = '#bank' }); await settle(page, 4000, 2);
+    await page.evaluate(() => document.querySelector('[data-sel^="sub:12|Integral calculus|Areas"]')?.click()); await settle(page, 6000, 2);
+    const r = await page.evaluate(() => { const cs = [...document.querySelectorAll('#bankList mjx-container:not([display="true"]), .card mjx-container:not([display="true"])')];
+      const bad = cs.filter(c => !c.classList.contains('mjx-wrap') && new Set([...c.getClientRects()].map(x => Math.round(x.top))).size > 1);
+      const over = cs.filter(c => { const r = c.getBoundingClientRect(); return r.right > innerWidth + 1 });
+      return {n: cs.length, bad: bad.length, over: over.length} });
+    assert(r.n > 0, 'no inline maths on the Bank cards at 390 px');
+    assert(!r.bad && !r.over, `${r.bad} of ${r.n} inline expressions split, ${r.over} run past the screen edge`);
+    return `${r.n} inline expressions at 390 px: none split, none past the edge`;
+  });
   await check('phone menu: opens and navigates', page, async () => {
     const vis = await page.evaluate(() => { const b = document.querySelector('#menuBtn'); return !!b && b.offsetWidth > 0 });
     assert(vis, 'the menu button is not visible at 390 px');
@@ -737,6 +749,21 @@ async function areas(browser, base, seed) {
         if (keep === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep; return {a, b, c, d} });
       assert(r.a && r.b && r.c && r.d, `back list: ${JSON.stringify(r)}`);
       return 'a fixed text flag and a redrawn diagram are in "Fixed and back for you"; once approved they leave it';
+    });
+    // checker report 18 Nov (owner: "lets do 2,3,4,6"): "Maths breaks across lines ... '¼ ln 2 − ⅛' breaks in the middle: '− ⅛.' starts
+    //   the next line". The expression (2023 HSC Q32(a)) is laid out at every column width from 300 to 720 px: it must never split; an
+    //   expression wider than its column still wraps instead of running past the edge
+    await check('maths: inline maths moves to the next line whole; only maths wider than its column wraps', cp, async () => {
+      const r = await cp.evaluate(async () => { const host = document.createElement('div'); host.className = 'tx'; document.body.prepend(host); const split = [];
+        const one = '$\\dfrac{1}{4}\\ln 2-\\dfrac{1}{8}$';
+        for (let w = 300; w <= 720; w += 6) { host.style.width = w + 'px'; host.innerHTML = tex('Show that the area bounded by the two curves and the y-axis, as shaded in the diagram, is ' + one + '.'); await typeset(host);
+          const c = host.querySelector('mjx-container'); if (new Set([...c.getClientRects()].map(x => Math.round(x.top))).size > 1) split.push(w) }
+        host.style.width = '300px'; host.innerHTML = tex('Show that $f(x)=3x^4-8x^3+6x^2-12x+5+\\dfrac{1}{x^2+1}-\\ln(x^2+4)+e^{2x}-7\\sin 3x$ for all real $x$.'); await typeset(host);
+        const c = host.querySelector('mjx-container'), long = {wrap: c.classList.contains('mjx-wrap'), over: host.scrollWidth > host.clientWidth + 1};
+        host.remove(); return {split, long} });
+      assert(!r.split.length, `¼ ln 2 − ⅛ split across lines at column widths ${r.split.join(', ')} px`);
+      assert(r.long.wrap && !r.long.over, `a long expression in a 300 px column: wraps ${r.long.wrap}, overflows ${r.long.over}`);
+      return '¼ ln 2 − ⅛ never splits from 300 to 720 px; a long expression wraps inside 300 px';
     });
     // owner 18 Nov: "can undo recently approed questions. Maybe a queue on the same page on the right side?"
     await check('review: Recently approved lists your approvals beside the question; Undo puts the record back as it was', cp, async () => {

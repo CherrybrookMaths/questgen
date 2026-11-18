@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (70,342) -- (480,342);
+  \draw[->] (70,342) -- (70,40);
+  \node[anchor=west,font=\footnotesize] at (482,342) {$x$};
+  \node[anchor=south,font=\footnotesize] at (70,38) {$y$};
+  \foreach \y/\l in {60/6,155/4,249/2} {\draw (64,\y) -- (70,\y); \node[anchor=east,font=\footnotesize] at (62,\y) {$\l$};}
+  \foreach \x in {165,258,348,442} \draw (\x,336) -- (\x,348);
+  \node[anchor=north,font=\footnotesize] at (165,350) {$\dfrac{\pi}{2}$};
+  \node[anchor=north,font=\footnotesize] at (258,350) {$\pi$};
+  \node[anchor=north,font=\footnotesize] at (348,350) {$\dfrac{3\pi}{2}$};
+  \node[anchor=north,font=\footnotesize] at (442,350) {$2\pi$};
+  \node[anchor=north east,font=\footnotesize] at (68,344) {$O$};
+  \draw[line width=0.9pt,->,smooth,samples=90,domain=0:6.633] plot ({70+59.2*\x},{342-47*(3-3*cos(2*\x r))});
+\end{tikzpicture}
+\end{document}

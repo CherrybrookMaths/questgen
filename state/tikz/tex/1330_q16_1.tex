@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (A) at (497,73); \coordinate (B) at (75,243); \coordinate (C) at (750,244); \coordinate (D) at (497,244);
+  \draw (B) -- (A) -- (C) -- cycle;
+  \draw[aux] (A) -- (D);
+  \draw (D) ++(0,-26) -- ++(28,0) -- ++(0,26);
+  % angle arc at A between AB and AC (true circular arc on the arms)
+  \pic[draw, angle radius=1.33cm] {angle = B--A--C};
+  \node[anchor=east, inner sep=0pt] at (491,127) {$120^\circ$};
+  \node[anchor=south, inner sep=2pt] at (A) {$A$};
+  \node[anchor=east, inner sep=4pt] at (B) {$B$};
+  \node[anchor=west, inner sep=4pt] at (C) [yshift=-4pt] {$C$};
+  \node[anchor=north, inner sep=3pt] at (D) {$D$};
+  \node at (305,125) {10cm};
+  \node at (645,128) {6 cm};
+  \node at (870,130) {Not to Scale};
+\end{tikzpicture}
+\end{document}

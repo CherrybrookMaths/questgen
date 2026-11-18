@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% grid, kept out of the bars
+\begin{scope}[even odd rule]
+\clip (120,29) rectangle (1022,713)
+  (135,63.2) rectangle (255,713) (285,227.4) rectangle (405,713) (435,381.3) rectangle (555,713)
+  (585,610.4) rectangle (705,713) (736,630.9) rectangle (856,713) (886,658.3) rectangle (1006,713);
+\foreach \k in {1,...,29} {\draw[black!30,line width=0.3pt,dash pattern=on 1.5pt off 1pt] ({120+\k*30.0667},29)--({120+\k*30.0667},713);}
+\foreach \k in {1,...,49} {\pgfmathtruncatemacro\m{mod(\k,5)}\ifnum\m=0\else\draw[black!30,line width=0.3pt] (120,{713-\k*13.68})--(1022,{713-\k*13.68});\fi}
+\foreach \k in {1,...,9} {\draw[black!65,line width=0.4pt] (120,{713-\k*68.4})--(1022,{713-\k*68.4});}
+\end{scope}
+\draw (120,29) rectangle (1022,713);
+% bars
+\foreach \a/\t in {135/63.2,285/227.4,435/381.3,585/610.4,736/630.9,886/658.3}
+  {\path[shade dots] (\a,\t) rectangle (\a+120,713); \draw (\a,713)--(\a,\t)--(\a+120,\t)--(\a+120,713);}
+% cumulative line
+\draw (195,452.5)--(345,258.0)--(495,124.9)--(645,83.8)--(796,51.0)--(946,29);
+\foreach \x/\y in {195/452.5,345/258.0,495/124.9,645/83.8,796/51.0,946/29} \fill (\x,\y) circle (4);
+% ticks and labels
+\foreach \k in {0,...,10} {
+  \pgfmathtruncatemacro\v{20*\k}\pgfmathtruncatemacro\p{10*\k}
+  \draw (113,{713-\k*68.4})--(120,{713-\k*68.4});
+  \draw (1022,{713-\k*68.4})--(1029,{713-\k*68.4});
+  \node[anchor=east,inner sep=0pt] at (109,{713-\k*68.4}) {\v};
+  \node[anchor=west,inner sep=0pt] at (1033,{713-\k*68.4}) {\p\%};
+}
+\node[rotate=90] at (32,371) {Number of late arrivals};
+\node[rotate=90] at (1128,371) {Cumulative\ \ percentage};
+\foreach \x/\l in {195/Slept in,345/Family,495/Appointment,645/Train or,796/Traffic,946/Car break}
+  \node[anchor=base,inner sep=0pt,font=\small] at (\x,751) {\l};
+\foreach \x/\l in {645/bus delay,796/problems,946/down}
+  \node[anchor=base,inner sep=0pt,font=\small] at (\x,779) {\l};
+\node at (570,836) {Reasons for arriving late};
+\end{tikzpicture}
+\end{document}

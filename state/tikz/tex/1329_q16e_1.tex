@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{615}\def\oy{366}\def\ux{153}\def\uy{182}
+\draw (1,1) rectangle (919,547);
+\begin{scope}
+\clip (1,1) rectangle (919,547);
+\foreach \v in {-3.5,-3,...,-0.5,0.5,1,1.5} \draw ({\ox+\ux*\v},362)--({\ox+\ux*\v},370);
+\foreach \v in {-0.5,0.5,1,1.5} \draw (611,{\oy-\uy*\v})--(619,{\oy-\uy*\v});
+\draw[->] (1,\oy)--(918,\oy);
+\draw[->] (\ox,547)--(\ox,3);
+\draw[line width=0.9pt] plot[domain=-3.8:1.12,samples=90,smooth] ({\ox+\ux*\x},{\oy-\uy*exp(2*\x)*(1-\x)});
+\end{scope}
+\foreach \v in {-3.5,-3,-2.5,-2,-1.5,-1,-0.5} \node[font=\scriptsize] at ({\ox+\ux*\v-5},379) {$\v$};
+\foreach \v in {0.5,1,1.5} \node[font=\scriptsize] at ({\ox+\ux*\v},379) {$\v$};
+\node[font=\scriptsize] at (621,379) {$0$};
+\foreach \v in {-0.5,0.5,1,1.5} \node[font=\scriptsize,anchor=east] at (609,{\oy-\uy*\v}) {$\v$};
+\node[font=\scriptsize] at (907,352) {$x$};
+\node[font=\scriptsize] at (624,14) {$y$};
+\end{tikzpicture}
+\end{document}

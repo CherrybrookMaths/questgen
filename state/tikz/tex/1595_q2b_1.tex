@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (245,268); 67.5 px per x unit, 32 px per y unit
+  \draw[->] (0,268) -- (595,268);
+  \draw[->] (245,455) -- (245,55);
+  \draw[<->, line width=0.9pt] plot[smooth, domain=-1.83:3.83, samples=90] ({245+67.5*\x},{268-32*(\x*\x-2*\x-1)});
+  \draw[<->, line width=0.9pt] plot[smooth, domain=-2.97:2.97, samples=90] ({245+67.5*\x},{268-32*(3-\x*\x)});
+  \node[font=\large] at (608,270) {$x$};
+  \node[font=\large] at (240,50) {$y$};
+  \node[font=\large, anchor=west] at (510,75) {$y=x^2-2x-1$};
+  \node[font=\large, anchor=west] at (452,455) {$y=3-x^2$};
+\end{tikzpicture}
+\end{document}

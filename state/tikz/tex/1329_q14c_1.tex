@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{({247+(#1-370)*11.825})}
+\def\Y#1{({600-(#1)*2.365})}
+% minor dotted grid
+\begin{scope}[black!45, line width=0.4pt, dash pattern=on 0.6pt off 1pt]
+\foreach \v in {366,368,372,374,376,378,382,384,386,388,392,394,396,398,402,404,406,408}
+  \draw ({247+(\v-370)*11.825},600)--({247+(\v-370)*11.825},56);
+\foreach \v in {10,20,30,40,60,70,80,90,110,120,130,140,160,170,180,190,210,220,230}
+  \draw (199,{600-\v*2.365})--(720,{600-\v*2.365});
+\end{scope}
+% major grid
+\foreach \v in {370,380,...,410} \draw ({247+(\v-370)*11.825},600)--({247+(\v-370)*11.825},56);
+\foreach \v in {50,100,150,200} \draw (187,{600-\v*2.365})--(720,{600-\v*2.365});
+% bars
+\foreach \a/\h in {370/30,380/80,390/150,400/200}
+  \filldraw[fill=black!25] ({247+(\a-370)*11.825},600) rectangle ({247+(\a+10-370)*11.825},{600-\h*2.365});
+% axes
+\draw[->] (199,600)--(199,38);
+\draw[->] (185,600)--(203,600)--(207,593)--(211,607)--(215,600)--(752,600);
+% labels
+\foreach \v in {370,380,...,410} \node[font=\footnotesize] at ({247+(\v-370)*11.825},632) {$\v$};
+\foreach \v in {50,100,150,200} \node[font=\footnotesize,anchor=east] at (183,{600-\v*2.365}) {$\v$};
+\node[font=\footnotesize] at (484,675) {House price (\$'000)};
+\node[font=\footnotesize,rotate=90] at (88,313) {Cumulative frequency};
+\end{tikzpicture}
+\end{document}

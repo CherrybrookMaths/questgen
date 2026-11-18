@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\treewidth{1}{Blue}\treewidth{1}{Red}%
+\treewidth{2}{Blue}\treewidth{2}{Red}%
+\treewidth{3}{Blue}\treewidth{3}{Red}%
+\treecolumns{3}%
+\begin{tikzpicture}
+  \treehead{1}{1.7cm}{$1^{\text{st}}$ \textit{ball}}
+  \treehead{2}{1.7cm}{$2^{\text{nd}}$ \textit{ball}}
+  \treehead{3}{1.7cm}{$3^{\text{rd}}$ \textit{ball}}
+  \treeroot{r}{0cm}
+  \treenode{b1}{1}{0.8cm}{Blue}
+  \treenode{r1}{1}{-0.8cm}{Red}
+  \treenode{b2}{2}{-0.1cm}{Blue}
+  \treenode{r2}{2}{-1.5cm}{Red}
+  \treenode{b3}{3}{-0.8cm}{Blue}
+  \treenode{r3}{3}{-2.2cm}{Red}
+  \treebranch{r}{b1}{$\dfrac{1}{5}$}
+  \treebranch{r}{r1}{$\dfrac{4}{5}$}
+  \treebranch{r1}{b2}{}
+  \treebranch{r1}{r2}{}
+  \treebranch{r2}{b3}{}
+  \treebranch{r2}{r3}{}
+\end{tikzpicture}
+\end{document}

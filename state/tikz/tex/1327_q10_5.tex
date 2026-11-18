@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (107,465) -- (107,8);
+  \draw[->] (105,463) -- (457,463);
+  \foreach \a/\b/\h in {147/184/421,184/220/421,220/256/351,256/292/240,292/328/89,328/364/54,364/400/351}
+    \draw (\a,463) rectangle (\b,\h);
+  \node at (37,22) {D.};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\f(#1){203-181*exp(-((#1-277)/102)^2/2)}
+  \def\a{140}\def\b{208}
+  \fill[shade dots, stipple color=black!55] (\a,203) -- plot[smooth,domain=\a:\b,samples=20] (\x,{\f(\x)}) -- (\b,203) -- cycle;
+  \draw (\a,203) -- (\a,{\f(\a)});
+  \draw (\b,203) -- (\b,{\f(\b)});
+  \draw (22,203) -- (532,203);
+  \foreach \k in {-2,-1,0,1,2}{
+    \pgfmathsetmacro\xx{277+102*\k}
+    \draw[aux] (\xx,203) -- (\xx,{\f(\xx)});
+    \fill (\xx,203) circle (3.3);
+  }
+  \draw[line width=0.9pt] plot[smooth,domain=25:529,samples=90] (\x,{\f(\x)});
+  \begin{scope}[font=\fontsize{11}{13}\selectfont]
+  \node at (73,232) {$\mu-2\sigma$};
+  \node at (175,232) {$\mu-\sigma$};
+  \node at (277,232) {$\mu$};
+  \node at (379,232) {$\mu+\sigma$};
+  \node at (481,232) {$\mu+2\sigma$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

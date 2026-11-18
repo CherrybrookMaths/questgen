@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.3cm,y=0.75cm]
+\draw[->] (-2,0) -- (3.5,0) node[right]{$x$};
+\draw[->] (0,-2.9) -- (0,4) node[above]{$y$};
+\draw (-1,-0.1) -- (-1,0.1);
+\draw (2,-0.1) -- (2,0.1);
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-1.55:3.05] (\x,{-0.5*((\x)+1)*((\x)-2)^2});
+\node[below left] at (-1,0) {$B$};
+\node[above] at (2,0.05) {$C$};
+\node[above right] at (0,0) {$O$};
+\node[anchor=west] at (3.1,-2.1) {$y=f'(x)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (25,315) -- (1285,315);
+  \draw (545,62) -- (545,1400);
+  \node at (572,40) {$y$};
+  \node at (1280,352) {$x$};
+  \begin{scope}[shift={(6.4,-2)},xscale=1.02]
+    % y = f(x)
+    \draw[line width=0.9pt] (386,407) .. controls (395,377) and (403,347) .. (412,317)
+      .. controls (425,273.7) and (450,167) .. (478,167)
+      .. controls (505,167) and (518,270) .. (528,317)
+      .. controls (550,420) and (600,604) .. (711,604)
+      .. controls (790,604) and (850,640) .. (880,720)
+      .. controls (920,830) and (990,1100) .. (1013,1342);
+    \draw[aux] (478,317) -- (478,167);
+    \draw[aux] (711,317) -- (711,604);
+    % y = f'(x)
+    \draw[line width=0.9pt,<->] (440,102) .. controls (455,190) and (465,260) .. (478,317)
+      .. controls (490,370) and (505,464) .. (528,464)
+      .. controls (580,464) and (660,317) .. (711,317)
+      .. controls (760,317) and (830,520) .. (876,652);
+    \foreach \p in {(412,317),(478,317),(711,317)} \node[pt, inner sep=1.6pt] at \p {};
+    \node at (388,334) {$A$};
+    \node at (461,340) {$B$};
+    \node at (550,335) {$0$};
+    \node at (778,333) {$C$};
+    \node[anchor=west] at (885,545) {$y=f'(x)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (160,517) -- (870,517) node[right]{$x$};
+\draw[->] (557,610) -- (557,78) node[right]{$y$};
+\foreach \t in {393,447,502} \draw (\t,511) -- (\t,523);
+\draw[line width=0.9pt,<->] (196,88) -- (420,517) -- (644,88);
+\fill (557,255) circle (1.8pt);
+\node[font=\large] at (582,268) {$5$};
+\node[font=\large,anchor=west] at (650,125) {$y=|2x+5|$};
+\node[font=\small] at (391,541) {$-3$};
+\node[font=\small] at (447,541) {$-2$};
+\node[font=\small] at (502,541) {$-1$};
+\node[font=\small] at (420,582) {$-\dfrac{5}{2}$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+  \coordinate (A) at (372,-68);
+  \coordinate (B) at (60,-520);
+  \coordinate (C) at (372,-520);
+  \coordinate (K) at ($(A)!0.6375!(B)$);
+  \coordinate (P) at (372,-418);
+  \coordinate (Q) at ($(B)+(199,0)$);
+  \draw (A) -- (B) -- (C) -- cycle;
+  \draw (330,-520) -- (330,-478) -- (372,-478);
+  \draw (K) arc[start angle=235.39, end angle=270, radius=350];
+  \draw (K) arc[start angle=55.39, end angle=0, radius=199];
+  \draw ($(A)+(235.39:42)$) arc[start angle=235.39, end angle=270, radius=42];
+  \node at (344,-158) {$\dfrac{\pi}{6}$};
+  \foreach \p in {A,B,C,K,P,Q} \node[pt] at (\p) {};
+  \node at (389,-48) {$A$};
+  \node at (40,-520) {$B$};
+  \node at (393,-518) {$C$};
+  \node at (153,-344) {$K$};
+  \node at (393,-410) {$P$};
+  \node at (259,-550) {$Q$};
+\end{tikzpicture}
+\end{document}

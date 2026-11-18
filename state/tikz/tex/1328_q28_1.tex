@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] plot[domain=0:2,samples=60,smooth] ({130+118*\x},{375-117*pow(2,-\x)})
+  -- plot[domain=2:0,samples=60,smooth] ({130+118*\x},{375-117*(0.5-pow(2,-\x))}) -- cycle;
+\draw[->] (0,375) -- (622,375) node[right] {$x$};
+\draw[->] (130,652) -- (130,25) node[above] {$y$};
+\draw[line width=0.9pt,<->] plot[domain=-0.95:3.95,samples=90,smooth] ({130+118*\x},{375-117*pow(2,-\x)});
+\draw[line width=0.9pt,<->] plot[domain=-0.97:3.95,samples=90,smooth] ({130+118*\x},{375-117*(0.5-pow(2,-\x))});
+\node[pt] at ({130+236},{375-117*0.25}) {};
+\node[anchor=east] at (123,270) {$1$};
+\node[anchor=east] at (126,516) {$-\dfrac{1}{2}$};
+\end{tikzpicture}
+\end{document}

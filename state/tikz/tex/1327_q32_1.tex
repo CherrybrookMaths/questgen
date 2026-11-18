@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] plot[smooth,samples=60,domain=0:1] ({280+322*\x},{550-150*(5*\x-4*\x*\x)}) -- cycle;
+\draw[<->] (10,550) -- (980,550) node[right]{$x$};
+\draw[<->] (280,735) -- (280,65) node[above]{$y$};
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-0.42:1.26] ({280+322*\x},{550-150*(6*\x*\x-5*\x)});
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-0.21:1.46] ({280+322*\x},{550-150*(5*\x-4*\x*\x)});
+\draw (280,550) -- (602,400);
+\fill (280,550) circle (3.3pt);
+\fill (602,400) circle (3.3pt);
+\node[font=\Large] at (243,556) {$\boldsymbol{A}$};
+\node[font=\Large] at (630,403) {$\boldsymbol{B}$};
+\node[anchor=west] at (680,150) {$y=6x^2-5x$};
+\node[anchor=west] at (775,705) {$y=5x-4x^2$};
+\node[font=\large\bfseries,align=center] at (980,58) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

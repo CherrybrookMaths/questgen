@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.0668cm,y=1.0668cm,font=\tiny]
+\draw[->] (-1.51,0)--(3.99,0);
+\draw[->] (0,-2.48)--(0,2.06);
+\node[font=\scriptsize] at (3.86,0.09) {$x$};
+\node[font=\scriptsize] at (0.1,1.94) {$y$};
+\foreach \v in {-1,1,2,3} {\draw (\v,0)--(\v,-0.04); \node[anchor=north] at (\v,-0.06) {$\v$};}
+\node[anchor=north] at (0.06,-0.06) {$0$};
+\node[anchor=south east,inner sep=1pt] at (-0.03,0.01) {$0$};
+\foreach \v in {-2,-1.5,-1,-0.5,0.5,1,1.5,2} {\draw (0,\v)--(-0.04,\v); \node[anchor=east,inner sep=2pt] at (-0.04,\v) {$\v$};}
+\draw[line width=0.9pt,smooth,samples=90,variable=\t,domain=-2.48:0.384] plot ({exp(\t+1)},\t);
+\node[font=\scriptsize] at (0.36,-2.4) {$a$};
+\end{tikzpicture}
+\end{document}

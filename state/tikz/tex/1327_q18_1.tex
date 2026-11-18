@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (10,317) -- (1265,317);
+  \draw (528,62) -- (528,1500);
+  \node at (548,40) {$y$};
+  \node at (1258,350) {$x$};
+  \draw[line width=0.9pt] (386,407) .. controls (395,377) and (403,347) .. (412,317)
+    .. controls (425,273.7) and (450,167) .. (478,167)
+    .. controls (505,167) and (518,270) .. (528,317)
+    .. controls (550,420) and (600,604) .. (711,604)
+    .. controls (790,604) and (850,640) .. (880,720)
+    .. controls (920,830) and (990,1100) .. (1013,1342);
+  \draw[aux] (478,317) -- (478,167);
+  \draw[aux] (711,317) -- (711,604);
+  \foreach \p in {(412,317),(478,317),(711,317)} \node[pt, inner sep=1.6pt] at \p {};
+  \node at (388,336) {$A$};
+  \node at (478,344) {$B$};
+  \node at (547,337) {$0$};
+  \node at (736,340) {$C$};
+\end{tikzpicture}
+\end{document}

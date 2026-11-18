@@ -538,6 +538,16 @@ think they use the same real estate right now." then "implement those alongside 
   was marked and no exam got the table. Fixed; batch_check blocks if a listed question is not marked.
 - 7 (marking guide, a worked solution one letter wide): the "(continued)" piece of a multiple-choice question has no number, so its
   body fell into the 8 mm number column. The body always takes the wide column now.
+**Diagram drag on the next page, maths line breaks (18 Nov).** Checker report (v245 review): "Dragging a diagram onto the next page doesn't
+work. On an exam where a diagram has been pushed to the next page, dragging it to shrink it does nothing." and "Maths breaks across
+lines. In 2024 Sydney Girls Q33(a), '¼ ln 2 − ⅛' breaks in the middle: '− ⅛.' starts the next line at the left margin." Owner: "lets
+do 2,3,4,6".
+- Drag: not reproducible in the current build (three diagrams grown onto the next sheet all shrank on the next drag; the 13 Nov and
+  17 Nov drag fixes). Page test "a diagram grown onto the next page can be shrunk there by dragging" keeps it that way.
+- Maths: the expression is 2023 HSC Q32(a) (QID 201), not Sydney Girls. MathJax 4 breaks inline maths at operators, and its own
+  stylesheet beat the page's rule. Inline maths now moves to the next line whole; an expression wider than its whole column is marked
+  .mjx-wrap after typesetting and may break at MathJax's break points, so nothing runs past the edge. Page tests "inline maths moves to
+  the next line whole" (300-720 px sweep) and "phone: inline maths on Bank cards splits only when wider than its column".
 
 ## Word export (14 Nov)
 He said "Word too pls". The preview has **Download Word** beside Download PDF, for both the exam and the marking guide.

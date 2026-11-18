@@ -1,0 +1,40 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % traverse line
+  \draw (475,34) -- (546,448);
+  % top fence
+  \draw (155,89) -- (625,8);
+  \foreach \t in {-314,-300,...,-12,12,26,...,140}
+    \draw ({475+\t*0.985-6*0.17},{34-\t*0.17-6*0.985}) -- ++({12*0.17},{12*0.985});
+  % middle offset
+  \draw (213,305) -- (627,233);
+  % bottom fence
+  \draw (420,470) -- (546,448);
+  \foreach \t in {-120,-108,...,-12}
+    \draw ({546+\t*0.985-6*0.17},{448-\t*0.17-6*0.985}) -- ++({12*0.17},{12*0.985});
+  % right angles
+  \draw ({475-16*0.985},{34+16*0.17}) -- ++({16*0.17},{16*0.985}) -- ++({16*0.985},{-16*0.17});
+  \draw ({513+16*0.985},{253-16*0.17}) -- ++({-16*0.17},{-16*0.985}) -- ++({-16*0.985},{16*0.17});
+  \draw ({546-16*0.985},{448+16*0.17}) -- ++({-16*0.17},{-16*0.985}) -- ++({16*0.985},{-16*0.17});
+  % road (two edges) and outer line
+  \draw plot[smooth] coordinates {(152,47) (156,150) (178,235) (213,305) (270,365) (350,418) (420,468) (452,518)};
+  \draw plot[smooth] coordinates {(110,57) (115,150) (140,250) (190,330) (260,400) (330,445) (375,502)};
+  \draw plot[smooth] coordinates {(77,60) (80,150) (100,250) (140,330) (200,400) (280,460) (330,502)};
+  % river
+  \foreach \s in {0,8,16,24}
+    \draw[xshift=\s*0.0127cm] plot[smooth] coordinates {(612,0) (650,30) (680,70) (688,105) (670,160) (627,233) (598,310) (572,390) (553,450) (548,520)};
+  % labels
+  \begin{scope}[font=\itshape]
+    \node at (316,92) {190};
+    \node at (558,52) {100};
+    \node at (532,145) {120};
+    \node at (582,222) {60};
+    \node at (367,305) {130};
+    \node at (562,318) {120};
+    \node at (452,439) {80};
+  \end{scope}
+  \node[align=center, font=\small] at (118,475) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

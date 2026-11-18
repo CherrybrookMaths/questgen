@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,21} {\pgfmathsetmacro\t{0.2*\i}\pgfmathparse{mod(\i,5)==0?1:0}
+  \ifnum\pgfmathresult=0 \draw[black!10,line width=0.4pt] ({48+104.5*\t},4) -- ({48+104.5*\t},543);\fi}
+\foreach \i in {22,...,48} {\pgfmathsetmacro\v{0.2*\i}\pgfmathparse{mod(\i,5)==0?1:0}
+  \ifnum\pgfmathresult=0 \draw[black!10,line width=0.4pt] (48,{481-103.8*(\v-5)}) -- (487,{481-103.8*(\v-5)});\fi}
+\foreach \t in {1,2,3,4} \draw[black!30,line width=0.4pt] ({48+104.5*\t},4) -- ({48+104.5*\t},543);
+\foreach \v in {5,6,7,8,9} \draw[black!30,line width=0.4pt] (48,{481-103.8*(\v-5)}) -- (487,{481-103.8*(\v-5)});
+\draw (48,0) -- (48,580);
+\draw[line width=0.9pt] plot[domain=0:4,samples=90,smooth] ({48+104.5*\x},{481-103.8*(2-2*cos(90*\x))});
+\foreach \v in {5,6,7,8,9} \node[anchor=east] at (38,{481-103.8*(\v-5)}) {$\v$};
+\foreach \t in {1,2,3,4} \node at ({48+104.5*\t},563) {$\t$};
+\end{tikzpicture}
+\end{document}

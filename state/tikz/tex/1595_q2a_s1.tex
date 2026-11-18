@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (228,255); 59 px per unit
+  \fill[shade hatch] (169,255) -- (169,78) -- (346,255) -- cycle;
+  \fill[shade hatch] (346,255) -- (464,137) -- (464,255) -- cycle;
+  \draw[->] (15,255) -- (545,255);
+  \draw[->] (228,340) -- (228,12);
+  \draw (169,255) -- (169,78);
+  \draw (464,255) -- (464,137);
+  \draw[aux] (169,78) -- (228,78);
+  \draw[aux] (290,137) -- (464,137);
+  \draw[<->, line width=0.9pt] (133.6,42.6) -- (346,255) -- (558.4,42.6);
+  \fill (228,137) circle (3.5);
+  \fill (346,255) circle (3.5);
+  \node[font=\large, anchor=west] at (236,75) {$3$};
+  \node[font=\large, anchor=south west] at (234,135) {$2$};
+  \node[font=\large, anchor=north] at (162,265) {$-1$};
+  \node[font=\large, anchor=north] at (346,265) {$2$};
+  \node[font=\large, anchor=north] at (464,265) {$4$};
+  \node[font=\large] at (545,280) {$x$};
+  \node[font=\large] at (250,18) {$y$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (C) at (287,263);
+  \draw (C) circle[radius=218];
+  \draw (C) circle[radius=98];
+  \foreach \k in {0,...,19} \draw ($(C)+({90+18*\k}:98 and -98)$) -- ($(C)+({90+18*\k}:218 and -218)$);
+  \foreach \n [count=\i from 0] in {1,20,5,12,9,4,13,8,14,16,2,15,6,11,19,7,18,3,17,10}
+    \node[font=\large\bfseries] at ($(C)+({81-18*\i}:178 and -178)$) {\n};
+  \fill (286,18) rectangle (299,54);
+  \fill[white] (292.5,28) circle[radius=3];
+\end{tikzpicture}
+\end{document}
