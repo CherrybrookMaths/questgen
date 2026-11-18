@@ -93,8 +93,10 @@ if __name__ == '__main__':
         src = sys.argv[sys.argv.index('--place-assets') + 1]; n = 0; bad = []
         for k, v in assets().items():
             a = os.path.join(src, v['url'].rsplit('/', 1)[-1] + '.json')
-            if (SITE / k).exists() or not os.path.exists(a): continue
             import hashlib
+            # 19 Nov: a local pack that differs from the live one (another session, e.g. the night run, re-uploaded it) is replaced too;
+            # before, any existing file was skipped, so a stale pack stayed and the next publish would have sent it back
+            if not os.path.exists(a) or ((SITE / k).exists() and hashlib.sha256((SITE / k).read_bytes()).hexdigest() == v.get('sha256')): continue
             if hashlib.sha256(open(a, 'rb').read()).hexdigest() != v.get('sha256'): bad.append(k); continue
             (SITE / k).parent.mkdir(parents=True, exist_ok=True); shutil.copy2(a, SITE / k); n += 1
         left = asset_missing()
