@@ -1,5 +1,8 @@
 /* ---------- topic index ---------- */
 let TOPICS=null;
+const CNT_NOTE={bank:'Counts every question with a part on the topic, so one question can count under several topics.',
+  pick:'Counts each question once, under its main topic, and only if the topics its skills need are learnt. So they can be lower than the Bank\'s.',
+  setup:'Counts each question once, under its main topic, using the settings on this page (papers, approval, saved exams, difficulty) and only if the topics its skills need are learnt.'};
 // owner 12 Nov ("a questions parts shouldn't be split if they're related" -> "Yeah lets do that"): ONE topic home per
 // question = the subheading carrying the most marks across its parts' main dot points. Other parts' topics become gates only.
 const subKey=id=>id==='removed'?'special:removed':id==='no_match'?'special:no_match':DM[id]?'sub:'+DM[id].yl+'|'+DM[id].fa+'|'+(DM[id].sub||''):null;
@@ -80,7 +83,10 @@ function navHTML(){
     return `<div class="fa${open?' open':''}" data-area="${esc(yl+'|'+fa)}"><button aria-expanded="${!!open}" data-fa="${esc(yl+'|'+fa)}"><span class="t">${esc(fa)}</span><span class="c">${faCount(subs)}</span></button>
       <div class="fold"><ul>${[...subs].map(([sk,s])=>{const key='sub:'+yl+'|'+fa+'|'+sk;return `<li><button data-sel="${esc(key)}" aria-current="${sel===key}"><span>${esc(sk||fa)}</span>${s.qs.length?`<span class="c">${s.qs.length}</span>`:'<span class="none">No questions yet</span>'}</button></li>`}).join('')}</ul></div></div>`}).join('');
   const sp=(key,label)=>`<div class="fa special"><button data-sel="${key}" aria-current="${sel===key}"><span>${label}</span><span class="c">${TOPICS.byKey[key].qs.length}</span></button></div>`;
-  return '<div class="navtools"><button data-navall="open">Expand all</button><button data-navall="close">Collapse all</button></div>'+sec('Year 12',TOPICS.y12,12)+sec('Year 11',TOPICS.y11,11)+'<h3>Outside the 2024 syllabus</h3>'+sp('special:removed','Removed content')+(TOPICS.byKey['special:std'].qs.length?sp('special:std','Mathematics Standard'):'')+(TOPICS.byKey['special:no_match'].qs.length?sp('special:no_match','No 2024 match'):'');
+  // checker report 18 Nov ("Topic counts differ between screens ... nothing on screen says so. It reads like a bug"); owner: "lets do 2,3,4,6".
+  //   The Bank counts a question under every topic one of its parts is on; the exam builders count it once, under its main topic, and
+  //   only if its skills are learnt. Each screen now says which count it shows (CNT_NOTE; exam builders in 24_exams.js)
+  return '<div class="navtools"><button data-navall="open">Expand all</button><button data-navall="close">Collapse all</button></div><p class="bk-cntnote">'+CNT_NOTE.bank+'</p>'+sec('Year 12',TOPICS.y12,12)+sec('Year 11',TOPICS.y11,11)+'<h3>Outside the 2024 syllabus</h3>'+sp('special:removed','Removed content')+(TOPICS.byKey['special:std'].qs.length?sp('special:std','Mathematics Standard'):'')+(TOPICS.byKey['special:no_match'].qs.length?sp('special:no_match','No 2024 match'):'');
 }
 function dupLine(q){const c=B.questions.filter(x=>x.dup_of===q.id);const v=q.related.filter(x=>x.rel!=='duplicate').map(x=>B.questions.find(z=>z.id===x.q)).filter(Boolean);
   const same=o=>docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number);   // owner 12 Nov: "the also prose is redundant ... they're literally the same exam twice": a copy of the same paper filed twice says nothing

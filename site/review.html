@@ -1054,6 +1054,8 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 #examsView .xl-out{margin:6px 0 0;padding:7px 10px;border-radius:7px;background:var(--warn-soft);color:var(--ink);font-size:12.5px;line-height:1.45}
 #examsView .xl-wrap{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:10px 12px;margin:0 0 12px}
 #examsView .xl-need{margin:4px 0 6px;padding:4px 8px;border-radius:6px;background:var(--warn-soft);color:var(--warn);font-size:12px;line-height:1.4}
+/* checker report 18 Nov: each screen says what its topic counts count (CNT_NOTE, 07_bank.js) */
+.bk-cntnote,.ex-cntnote{font-size:12px;color:var(--muted);margin:2px 0 8px;line-height:1.35}
 /* ---- My exams (owner 14 Nov: "Is there a place to manage created exams?") ---- */
 [data-exview="mine"] #exSetup,[data-exview="mine"] #exPick,.exams[data-exview="mine"] #exTopicsBtn,.exams[data-exview="mine"] #exExamBtn{display:none!important}
 .exmine{display:none}[data-exview="mine"] .exmine{display:block}
@@ -2531,6 +2533,9 @@ function qBody(q,mode){
 
 /* ---------- topic index ---------- */
 let TOPICS=null;
+const CNT_NOTE={bank:'Counts every question with a part on the topic, so one question can count under several topics.',
+  pick:'Counts each question once, under its main topic, and only if the topics its skills need are learnt. So they can be lower than the Bank\'s.',
+  setup:'Counts each question once, under its main topic, using the settings on this page (papers, approval, saved exams, difficulty) and only if the topics its skills need are learnt.'};
 // owner 12 Nov ("a questions parts shouldn't be split if they're related" -> "Yeah lets do that"): ONE topic home per
 // question = the subheading carrying the most marks across its parts' main dot points. Other parts' topics become gates only.
 const subKey=id=>id==='removed'?'special:removed':id==='no_match'?'special:no_match':DM[id]?'sub:'+DM[id].yl+'|'+DM[id].fa+'|'+(DM[id].sub||''):null;
@@ -2611,7 +2616,10 @@ function navHTML(){
     return `<div class="fa${open?' open':''}" data-area="${esc(yl+'|'+fa)}"><button aria-expanded="${!!open}" data-fa="${esc(yl+'|'+fa)}"><span class="t">${esc(fa)}</span><span class="c">${faCount(subs)}</span></button>
       <div class="fold"><ul>${[...subs].map(([sk,s])=>{const key='sub:'+yl+'|'+fa+'|'+sk;return `<li><button data-sel="${esc(key)}" aria-current="${sel===key}"><span>${esc(sk||fa)}</span>${s.qs.length?`<span class="c">${s.qs.length}</span>`:'<span class="none">No questions yet</span>'}</button></li>`}).join('')}</ul></div></div>`}).join('');
   const sp=(key,label)=>`<div class="fa special"><button data-sel="${key}" aria-current="${sel===key}"><span>${label}</span><span class="c">${TOPICS.byKey[key].qs.length}</span></button></div>`;
-  return '<div class="navtools"><button data-navall="open">Expand all</button><button data-navall="close">Collapse all</button></div>'+sec('Year 12',TOPICS.y12,12)+sec('Year 11',TOPICS.y11,11)+'<h3>Outside the 2024 syllabus</h3>'+sp('special:removed','Removed content')+(TOPICS.byKey['special:std'].qs.length?sp('special:std','Mathematics Standard'):'')+(TOPICS.byKey['special:no_match'].qs.length?sp('special:no_match','No 2024 match'):'');
+  // checker report 18 Nov ("Topic counts differ between screens ... nothing on screen says so. It reads like a bug"); owner: "lets do 2,3,4,6".
+  //   The Bank counts a question under every topic one of its parts is on; the exam builders count it once, under its main topic, and
+  //   only if its skills are learnt. Each screen now says which count it shows (CNT_NOTE; exam builders in 24_exams.js)
+  return '<div class="navtools"><button data-navall="open">Expand all</button><button data-navall="close">Collapse all</button></div><p class="bk-cntnote">'+CNT_NOTE.bank+'</p>'+sec('Year 12',TOPICS.y12,12)+sec('Year 11',TOPICS.y11,11)+'<h3>Outside the 2024 syllabus</h3>'+sp('special:removed','Removed content')+(TOPICS.byKey['special:std'].qs.length?sp('special:std','Mathematics Standard'):'')+(TOPICS.byKey['special:no_match'].qs.length?sp('special:no_match','No 2024 match'):'');
 }
 function dupLine(q){const c=B.questions.filter(x=>x.dup_of===q.id);const v=q.related.filter(x=>x.rel!=='duplicate').map(x=>B.questions.find(z=>z.id===x.q)).filter(Boolean);
   const same=o=>docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number);   // owner 12 Nov: "the also prose is redundant ... they're literally the same exam twice": a copy of the same paper filed twice says nothing
@@ -4279,15 +4287,15 @@ function renderSetup(){const A=exA();
 function exTopics(){const el=$('#exTopics');if(!el)return;const A=exA(),tree=xaTree(),homes=xaHomes(),base=exBase(A,homes),cnt={},has={},sel=new Set(A.topics),Ls=new Map();
   // owner 17 Nov (skill gates): a subtopic counts the questions that would come in if it were ticked (its own topic counts as learnt)
   const Lk=k=>{if(!Ls.has(k))Ls.set(k,XG.learnt([...A.topics,k]).L);return Ls.get(k)};
-  base.forEach(q=>{const k=homes.get(q.id).sub;has[k]=1;if(XG.ok(q,Lk(k)))cnt[k]=(cnt[k]||0)+1});const nq=exPool(A,homes).length;exLearnt();
-  let h=`<div class="selbar"><span><b>${A.topics.length}</b> subtopic${A.topics.length===1?'':'s'} chosen · <b>${nq}</b> question${nq===1?'':'s'} match</span><span class="sp"></span><button type="button" class="linkbtn" data-sall="all">Select all</button><button type="button" class="linkbtn" data-snone="all">Clear all</button></div>`;
+  const raw={};base.forEach(q=>{const k=homes.get(q.id).sub;has[k]=1;raw[k]=(raw[k]||0)+1;if(XG.ok(q,Lk(k)))cnt[k]=(cnt[k]||0)+1});const nq=exPool(A,homes).length;exLearnt();
+  let h=`<div class="selbar"><span><b>${A.topics.length}</b> subtopic${A.topics.length===1?'':'s'} chosen · <b>${nq}</b> question${nq===1?'':'s'} match</span><span class="sp"></span><button type="button" class="linkbtn" data-sall="all">Select all</button><button type="button" class="linkbtn" data-snone="all">Clear all</button></div><p class="ex-cntnote">${CNT_NOTE.setup}</p>`;
   [12,11].forEach(y=>{h+=`<section class="strand"><div class="strand-h"><h3>Year ${y}</h3><button type="button" class="linkbtn" data-sall="${y}">Select all</button><button type="button" class="linkbtn" data-snone="${y}">Clear</button></div><div class="extiles">`;
     tree[y].forEach((ks,fa)=>{const key=y+'|'+fa,live=ks.filter(k=>has[k]),on=ks.filter(k=>sel.has(k)).length,state=on&&on>=live.length&&live.length?'on':on?'part':'';
       const q=ks.reduce((t,k)=>t+(cnt[k]||0),0),open=EXV.open.has(key),chosen=ks.filter(k=>sel.has(k)).map(subName);
       h+=`<div class="extile ${state==='part'?'ex-part':state}${open?' open':''}"><div class="extile-h">
         <button type="button" class="tbox" data-tfa="${esc(key)}" role="checkbox" aria-checked="${state==='on'?'true':state==='part'?'mixed':'false'}" aria-label="Choose all of ${esc(fa)}"${live.length?'':' disabled'}>${state==='on'?'✓':''}</button>
         <button type="button" class="extile-t" data-texp="${esc(key)}" aria-expanded="${open}"><span class="tt"><b>${esc(fa)}</b><small>${q} question${q===1?'':'s'} · ${on?`${on} of ${ks.length} chosen`:`${ks.length} subtopic${ks.length===1?'':'s'}`}</small>${chosen.length&&!open&&state!=='on'?`<small class="expicked">${esc(chosen.join(', '))}</small>`:''}</span><span class="exchev" aria-hidden="true">▾</span></button></div>
-        <div class="pills" ${open?'':'hidden'}>${ks.map(k=>{const n=cnt[k]||0;return `<button type="button" class="pill" data-tsub="${esc(k)}" aria-pressed="${sel.has(k)}"${has[k]?n?'':' title="Its questions need topics not yet learnt"':' disabled title="No questions yet"'}>${esc(subName(k))}<span class="n">${n}</span></button>`}).join('')}</div></div>`});
+        <div class="pills" ${open?'':'hidden'}>${ks.map(k=>{const n=cnt[k]||0;return `<button type="button" class="pill" data-tsub="${esc(k)}" aria-pressed="${sel.has(k)}"${has[k]?n?(raw[k]>n?` title="${n} of ${raw[k]} can be used: ${raw[k]-n} need${raw[k]-n===1?'s':''} a topic not learnt yet"`:''):' title="Its questions need topics not yet learnt"':' disabled title="No questions yet"'}>${esc(subName(k))}<span class="n">${n}</span></button>`}).join('')}</div></div>`});
     h+='</div></section>'});
   el.innerHTML=h;const t=$('#gTitle');if(t)t.placeholder=exAutoTitle(A)}
 // the Already learnt block in Exam setup, with the switch and the left-out line for the ticked topics
@@ -4331,13 +4339,13 @@ function renderPick(){exSideNav();exFilters();exList();xPanel()}
 function exSideNav(){const el=$('#exSide');if(!el)return;const tree=xaTree(),homes=xaHomes(),cnt={},cntA={};let all=0;
   // owner 17 Nov (skill gates): each topic counts what browsing it would show (its own subtopics count as learnt, XG.pickExtra)
   const A=exA(),base=[...A.topics,...XG.homesOf()],L0=XG.learnt(base).L,Ls=new Map(),Lof=(k,ks)=>{if(!Ls.has(k))Ls.set(k,XG.learnt([...base,...ks]).L);return Ls.get(k)};
-  B.questions.forEach(q=>{if(q.dup_of||!inBank(q))return;const h=homes.get(q.id);if(XG.ok(q,L0))all++;if(!h)return;const [y,fa]=h.area.split('|');
+  const raw={};B.questions.forEach(q=>{if(q.dup_of||!inBank(q))return;const h=homes.get(q.id);if(XG.ok(q,L0))all++;if(!h)return;raw[h.sub]=(raw[h.sub]||0)+1;const [y,fa]=h.area.split('|');
     if(XG.ok(q,Lof(h.sub,[h.sub])))cnt[h.sub]=(cnt[h.sub]||0)+1;if(XG.ok(q,Lof('fa:'+h.area,tree[y]?.get(fa)||[])))cntA[h.area]=(cntA[h.area]||0)+1});
   const T=EXV.pk.topic;
-  el.innerHTML=`<div class="exsidehd"><b>Topics</b><button type="button" class="linkbtn exnarrow-s" data-exclose>Close</button></div><button type="button" class="tb" data-pt="all" aria-current="${T==='all'}"><span>All questions</span><span class="c">${all}</span></button>`+[12,11].map(y=>`<h3>Year ${y}</h3>`+[...tree[y]].map(([fa,ks])=>{const ak=y+'|'+fa,open=EXV.pkOpen.has(ak)||T==='fa:'+ak||(T.startsWith('sub:')&&ks.includes(T));
+  el.innerHTML=`<div class="exsidehd"><b>Topics</b><button type="button" class="linkbtn exnarrow-s" data-exclose>Close</button></div><p class="ex-cntnote">${CNT_NOTE.pick}</p><button type="button" class="tb" data-pt="all" aria-current="${T==='all'}"><span>All questions</span><span class="c">${all}</span></button>`+[12,11].map(y=>`<h3>Year ${y}</h3>`+[...tree[y]].map(([fa,ks])=>{const ak=y+'|'+fa,open=EXV.pkOpen.has(ak)||T==='fa:'+ak||(T.startsWith('sub:')&&ks.includes(T));
     return `<details class="exfa"${open?' open':''} data-pfa="${esc(ak)}"><summary><span>${esc(fa)}</span><span class="c">${cntA[ak]||0}</span></summary><div class="subs">
       ${ks.length>1?`<button type="button" class="tb" data-pt="fa:${esc(ak)}" aria-current="${T==='fa:'+ak}"><span>All of ${esc(fa)}</span><span class="c">${cntA[ak]||0}</span></button>`:''}
-      ${ks.map(k=>`<button type="button" class="tb${cnt[k]?'':' ex-empty'}" data-pt="${esc(k)}" aria-current="${T===k}"><span>${esc(subName(k))}</span>${cnt[k]?`<span class="c">${cnt[k]}</span>`:'<span class="none">none yet</span>'}</button>`).join('')}</div></details>`}).join('')).join('')}
+      ${ks.map(k=>`<button type="button" class="tb${cnt[k]?'':' ex-empty'}" data-pt="${esc(k)}" aria-current="${T===k}"${(raw[k]||0)>(cnt[k]||0)?` title="${cnt[k]||0} of ${raw[k]} with this main topic: ${raw[k]-(cnt[k]||0)} need${raw[k]-(cnt[k]||0)===1?'s':''} a topic not learnt yet"`:''}><span>${esc(subName(k))}</span>${cnt[k]?`<span class="c">${cnt[k]}</span>`:'<span class="none">none yet</span>'}</button>`).join('')}</div></details>`}).join('')).join('')}
 function exFilters(){const el=$('#exMain');if(!el||el.dataset.ready)return;el.dataset.ready=1;const F=EXV.pk;
   const groups={hsc:'NESA HSC',trial:'Trial papers',internal_exam:'School tasks'};let o='<option value="all">All papers</option>';
   Object.entries(groups).forEach(([k,lab])=>{const ds=Object.values(B.docs).filter(d=>d.task_type===k&&B.questions.some(q=>String(q.doc)===String(d.id))).sort((a,b)=>String(b.label).localeCompare(String(a.label)));if(!ds.length)return;
