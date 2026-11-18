@@ -584,7 +584,9 @@ body.xpv-on{overflow:hidden}
 .xseg{display:inline-flex;border:1px solid var(--line2);border-radius:999px;overflow:hidden}.xseg button{border:0;background:none;padding:6px 14px;font:500 13px var(--sans);cursor:pointer;color:var(--ink)}
 .xseg button[aria-pressed="true"]{background:var(--accent);color:var(--panel)}
 .xpages{display:flex;flex-direction:column;align-items:center;gap:24px;padding:24px 16px 60px;overflow-x:auto}
-.sheet,.xmeasure{--ink:#111;--muted:#555;--line:#bbb;--line2:#999;--panel:#fff;--bg:#fff;--accent:#1e5f5a;--accent-soft:#e1efec;color:#111;font-family:var(--serif);font-size:11.5pt;line-height:1.45}
+/* owner 18 Nov: "Can u use this font for all parts of the exam? its the same one as the questions": inside a sheet the UI font is the
+   question font (Tinos / Times), so the cover, headings, option letters, marks and footers match the questions */
+.sheet,.xmeasure{--sans:var(--serif);--ink:#111;--muted:#555;--line:#bbb;--line2:#999;--panel:#fff;--bg:#fff;--accent:#1e5f5a;--accent-soft:#e1efec;color:#111;font-family:var(--serif);font-size:11.5pt;line-height:1.45}
 .sheet{box-sizing:border-box;width:210mm;min-height:297mm;flex:none;background:#fff;box-shadow:0 2px 16px rgba(0,0,0,.18);padding:16mm 17mm 20mm;position:relative}
 .sheetfoot{position:absolute;left:17mm;right:17mm;bottom:8mm;display:flex;justify-content:space-between;font:9pt var(--sans);color:#666}
 .xmeasure{position:absolute;left:-10000px;top:0;width:176mm;visibility:hidden}
@@ -593,6 +595,9 @@ body.xpv-on{overflow:hidden}
 /* checker 18 Nov (marking guide, "Not sure what this is": a worked solution one letter wide): the "(continued)" piece of a multiple-choice
    question has no number, so its body fell into the 8 mm number column. The body always sits in the wide column */
 .xq.mc>.xqb{grid-column:2}
+/* owner 18 Nov ("why does the question text not line up with the 1. ? this is for ALL MCQ"): the stem sits in a part block whose
+   2.5 mm top margin pushed its first line below the number */
+.xq.mc>.xqb>.xpart:first-child{margin-top:0}
 .xqn{font-weight:700}.xqh{display:flex;justify-content:space-between;align-items:baseline;border-bottom:1.2px solid #111;padding-bottom:1.5mm;margin-bottom:2.5mm;font-family:var(--sans);font-size:11pt}
 .xqh span{font-size:10pt;color:#333}.xqh.cont b{font-weight:600;color:#555}
 .sheet .fig,.xmeasure .fig{filter:none!important}   /* the paper is always white: never invert diagrams for dark mode */
@@ -628,6 +633,10 @@ body.xpv-on{overflow:hidden}
 /* z-score table at the back of an exam (owner 17 Nov; 19_ztable.js): one A4 page */
 .xztab p{font-size:9.5pt;margin:0 0 3mm}.xzt{border-collapse:collapse;font:8.5pt/1.25 var(--serif,serif);font-variant-numeric:tabular-nums;width:100%}
 .xzt th,.xzt td{border:1px solid #999;padding:.5mm 1.2mm;text-align:center}.xzt thead th,.xzt tbody th{background:#eee;font-weight:700}
+/* owner 18 Nov: the back of the cover is intentionally blank, with a note in the centre of the page */
+.xblank{display:flex;align-items:center;justify-content:center;min-height:250mm;font-style:italic;color:#333}
+/* owner 18 Nov: the course's NESA reference sheet at the back, one page per sheet, fitted to the printable area */
+.xref{display:flex;justify-content:center}.xref img{display:block;max-width:100%;max-height:250mm;width:auto;height:auto}
 /* ---- Difficulty check (owner 14 Nov: "Make it both desktop and mobile friendly, I might want to approve on the go today") ---- */
 .levels{padding-block:14px 0;max-width:860px;margin-inline:auto}
 .lvtop{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-bottom:14px}
@@ -981,7 +990,7 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .extopictbl tbody th,.extopictbl tfoot th{text-align:left;font-weight:500;padding-left:0}
 .extopictbl thead th:first-child{text-align:left;padding-left:0}
 .extopictbl td.qs,.extopictbl th.qs{text-align:left}
-.extopictbl td.qs{font-size:8.2pt;line-height:1.45;color:#333;letter-spacing:-.01em}
+.extopictbl td.qs{font-size:.92em;line-height:1.45;color:#333;letter-spacing:-.01em}
 .extopictbl td.qs span{white-space:nowrap}
 .extopictbl td.tt{font-weight:600}.extopictbl td.xsc{border-left:.5pt solid #c9c9c9}
 .extopictbl tfoot th,.extopictbl tfoot td{font-weight:600;border-top:.9pt solid #111;border-bottom:.9pt solid #111}
@@ -2171,7 +2180,9 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:n
   // the course's small index (tools/bank_split.py); each question's text arrives with its topic file (QG.need below)
   // owner 16 Nov: "Yeah build it" (job 2): the index is slim and compressed; the rest of each question's index fields (triage,
   // review notes, full tags and difficulty) comes in det, read right after start (QG.det)
-  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json'}},
+  // ref: the course's NESA reference sheet, one image per page (owner 18 Nov; from "MA Reference Sheet 2024.pdf" in the CMC Resources
+  // drive; Extension 1 / 2 and Standard have their own: ME1, ME2, MST Reference Sheet 2024, ids in state/work/ref_sheets.json)
+  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json',ref:['data/ref/advanced-1.png','data/ref/advanced-2.png']}},
   get courseData(){return this.courses[this.course]},
   byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0,night:null,
   // owner 17 Nov: "lets do skill gates, that's important": {skill: [topic keys it needs learnt]} from the details file (tools/bank_split.py
@@ -3834,14 +3845,16 @@ function xQ(q,n,doc){exA();
   // owner 14 Nov: "The dot point home looks stupid in a question", then "Yeah that's fine, the i is fine". The grey dot-point
   // line and Report link are gone from the question; a small ⓘ ends the source line and opens a card (qiOpen, 27_reports.js)
   // with the dot points per part, band, kind and Report. Screen only (.scr-only), like the old line.
-  const src=`<div class="xsrc exsrc"><span class="exsrcl">${esc(srcLine(q))} · ${qid(q)}</span>${qiButton(q,n)}</div>`;
+  // owner 18 Nov: "In the PDF output, remove the school name, just the qid for each question": the paper (and so its PDF, Word and HTML
+  // downloads) shows only the QID; the marking guide keeps the source, and ⓘ still shows it on screen
+  const src=`<div class="xsrc exsrc"><span class="exsrcl">${guide?esc(srcLine(q))+' · ':''}${qid(q)}</span>${qiButton(q,n)}</div>`;
   const h=`<section class="xq ${q.type==='mcq'?'mc':'wr'}" data-q="${q.id}">${head}<div class="xqb">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${xFigSlots(q,loose)}${parts}${opts}${mcSols}${sols(null)}</div>${src}</section>`;
   // every diagram slot, including inline \exfigure ones that tex() writes, so this runs on the finished HTML
   return guide?h:h.replace(/<span class="figslot" data-fig="([\w.-]+)"><\/span>/g,(m,k)=>exFigWrap(k));
 }
 // xCover (the editable cover) is in 24_exams.js
 function xBlocks(doc){const {mc,wr}=xSections();const bl=[];let n=0;
-  if(doc==='exam')bl.push({cover:true,html:xCover(mc,wr)});
+  if(doc==='exam')bl.push({cover:true,html:xCover(mc,wr)},{cover:true,html:'<div class="xblank">This page is intentionally left blank.</div>'});   // owner 18 Nov: the back of the first page is blank
   else{const keys=mc.map((q,i)=>`<td>${i+1}</td><td><b>${q.options.find(o=>o.is_correct)?.label||'–'}</b></td>`);
     bl.push({html:`<div class="xgh"><div class="xeyebrow">${esc(EX.school)} · ${esc(EX.title)}</div><h1>${esc(EX.sub)} – marking guide</h1></div>${mc.length?`<div class="xsechd">Section I – answer key</div><table class="xkey"><tbody>${keys.map(k=>`<tr>${k}</tr>`).join('')}</tbody></table>`:''}`})}
   if(mc.length){bl.push({sec:true,html:`<div class="xsechd" data-sec="1">Section I<span>${xMarks(mc)} marks · attempt Questions 1–${mc.length}</span></div>`});mc.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
@@ -3850,6 +3863,9 @@ function xBlocks(doc){const {mc,wr}=xSections();const bl=[];let n=0;
   const zAtEnd=doc==='exam'&&[...mc,...wr].some(needsZ);
   if(wr.length){bl.push({sec:true,newpage:doc==='exam',html:`<div class="xsechd" data-sec="2">Section II<span>${xMarks(wr)} marks · attempt Questions ${mc.length+1}–${mc.length+wr.length}</span></div>`});wr.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
   if(zAtEnd)bl.push({newpage:true,html:zTableHTML()});
+  // owner 18 Nov: "attach an advanced reference sheet at the end for students. This should be an extension 1 or 2 one or a standard one
+  // when we do more courses later so plan for that": each course names its NESA reference sheet pages (QG.courses[..].ref)
+  if(doc==='exam')(QG.courseData.ref||[]).forEach((p,i)=>bl.push({newpage:true,html:`<div class="xref"><img src="${esc(QG.url(p))}" alt="Reference sheet, page ${i+1}"></div>`}));
   return bl}
 const xWait=root=>new Promise(res=>{const t0=performance.now();const tick=()=>{const imgs=[...root.querySelectorAll('img')];const done=imgs.every(i=>i.getAttribute('src')&&i.complete||i.alt==='Redraw missing'||/^Image missing/.test(i.alt));
   if(done||performance.now()-t0>8000)res();else setTimeout(tick,120)};tick()});
@@ -4449,8 +4465,9 @@ const EXSEC={   // one page-wide name (CODE_HEALTH rule 1)
     return secs.map(x=>`<div class="cv-sec"><p class="cv-sech"><b>Section ${x.r} – ${x.mk} mark${x.mk===1?'':'s'}</b> <span class="cv-pg" data-pgsec="${x.n}"></span></p><ul><li>Attempt Questions ${x.q}</li>${W&&x.min>0?`<li>Allow about ${this.dur(x.min)} for this section</li>`:''}</ul></div>`).join('')},
   // the pages each section runs over, as the page footers number them (the cover is page 1)
   pages(host){const sh=[...host.querySelectorAll('.sheet')],at=n=>sh.findIndex(s=>s.querySelector(`.xsechd[data-sec="${n}"]`));
+    const last=sh.map(s=>!!s.querySelector('section.xq')).lastIndexOf(true);   // the z-score table and reference sheet after it are not a section's pages
     const a1=at(1),a2=at(2),rng=(a,b)=>a<0||b<a?'':a===b?`(page ${a+1})`:`(pages ${a+1}–${b+1})`;
-    host.querySelectorAll('.cv-pg').forEach(el=>{el.textContent=el.dataset.pgsec==='1'?rng(a1,a2>=0?a2-1:sh.length-1):rng(a2,sh.length-1)})}};
+    host.querySelectorAll('.cv-pg').forEach(el=>{el.textContent=el.dataset.pgsec==='1'?rng(a1,a2>=0?a2-1:last):rng(a2,last)})}};
 // owner 18 Nov: "the 100 marks, section I and II and working time is redundent because its below. Also remove the student name, teacher
 // name, class and date. Just put in the top right in a sensible spot the Name: and Tutor:" (the stats row and the four name lines are gone;
 // UI_SPEC "Cover" records the change)
@@ -4560,8 +4577,12 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   const probe=document.createElement('div');probe.style.height='250mm';meas.appendChild(probe);const H=probe.getBoundingClientRect().height;probe.remove();
   // hardening 14 Nov (page test): with many topics the cover ran past 297 mm, and the PDF and print cut "Marks by topic" off.
   // When the cover is too tall, the table moves to a page of its own straight after it (the Word file still puts it on its cover)
-  {const ci=bl.findIndex(b=>b.cover),cv=ci>=0?meas.children[ci]:null,tt=cv&&cv.querySelector('.extopictbl');
-    if(tt&&cv.getBoundingClientRect().height>H*0.98){const nb=document.createElement('div');nb.className='xblk cover cvcont';nb.appendChild(tt);cv.after(nb);bl.splice(ci+1,0,{cover:true,html:''})}}
+  // owner 18 Nov: "it's very important marks by topic is on the cover page": a cover too tall for its sheet no longer sends the table to
+  // the next page; the table's type steps down (to 6.5 pt at the least) until the cover fits
+  {const ci=bl.findIndex(b=>b.cover),cv=ci>=0?meas.children[ci]:null,tt=cv&&cv.querySelector('.extopictbl table');
+    for(let pt=8.5;tt&&pt>=6.5&&cv.getBoundingClientRect().height>H*0.98;pt-=0.5)tt.style.fontSize=pt+'pt';
+    // still too tall (many topics): the whole cover is scaled down to fit its sheet
+    const xc=cv&&cv.querySelector('.xcover'),hh=cv&&cv.getBoundingClientRect().height;if(xc&&hh>H*0.98)xc.style.zoom=String(Math.floor(H*0.97/hh*1000)/1000)}
   // Fit pages (owner's exam maker): after Generate or on request, nearby questions (at most 3 places, same section) swap so a page isn't left mostly empty
   if(EXV.fit&&doc==='exam'){EXV.fit=false;const {ids,moved}=exFitOrder([...meas.children],bl,H),cur=EX.items.slice();
     if(ids.length===cur.length&&ids.join()!==cur.join()){EX.items=ids;xsave();meas.remove();if(EXV.fitMsg){toast(`Moved ${moved} question${moved===1?'':'s'} to fill the pages better`);EXV.fitMsg=false}return xPreview(doc,{keep:true})}
@@ -5430,7 +5451,7 @@ async function xWord(doc){
     host=pdfClone();document.body.appendChild(host);if(typeof exRejoin==='function')exRejoin(host);
     const cache=document.getElementById('MJX-SVG-global-cache');
     const RIGHT=9638;   // right tab stop (twips) for marks: A4 width minus 2 cm margins
-    const FONT='Times New Roman',UI='Arial';
+    const FONT='Times New Roman',UI=FONT;   // owner 18 Nov: one font (the questions') for every part of the exam
     // ---- maths ----
     const mathRun=async(mc)=>{maths++;const svg=mc.querySelector('svg');const tex=svg?.querySelector('g[data-mml-node="math"]')?.getAttribute('data-latex')||svg?.querySelector('[data-latex]')?.getAttribute('data-latex');const disp=mc.getAttribute('display')==='true';
       if(tex){try{const t2=tex.replace(/\\mathop\{\\Large\\intop\}\\nolimits/g,'\\int');const mml=await MathJax.tex2mmlPromise(t2,{display:disp});const om=fixNary(escT(mml2omml(mml)));const x=ImportedXmlComponent.fromXmlString(om);const el=x.root?.[0]||x;return el}catch(e){console.warn('Word maths fallback:',tex,e?.message)}}
@@ -5505,12 +5526,15 @@ async function xWord(doc){
       out.push(new Paragraph({children:[new TextRun({text:tx('.cv-course'),font:FONT,size:44,bold:true})],spacing:{after:80}}));
       if(tx('.cv-title'))out.push(new Paragraph({children:[new TextRun({text:tx('.cv-title'),font:FONT,size:28,color:'444444'})],spacing:{after:360}}));
       const g=cv.querySelector('.cv-grid');if(g){let lab='';for(const c of g.children){if(c.matches('.cv-k')){const sm=c.querySelector('small');lab=sm?[...c.childNodes].filter(n=>n!==sm).map(n=>n.textContent).join('').trim()+' – '+sm.textContent.trim():c.textContent.trim();out.push(new Paragraph({children:[new TextRun({text:lab,font:UI,size:20,bold:true})],spacing:{before:160,after:60},keepNext:true}))}else await blocks(c,{font:FONT},out)}}
-      const tt=cv.querySelector('.extopictbl')||host.querySelector('.cvcont .extopictbl');if(tt){   // a too-tall cover's table sits on the next page in the preview (24_exams.js); Word keeps it on the cover
+      const tt=cv.querySelector('.extopictbl');if(tt){   // owner 18 Nov: marks by topic is always on the cover
       out.push(new Paragraph({children:[new TextRun({text:'MARKS BY TOPIC',font:UI,size:18,bold:true})],spacing:{before:240,after:80}}));const t=tt.querySelector('table');if(t)out.push(await table(t,{font:UI,size:18}))}}
     // ---- walk the sheets ----
     const body=[];const sheets=[...host.querySelectorAll('.sheet')];let k=0;
     for(const sh of sheets){k++;say(`Making the Word file: page ${k} of ${sheets.length}…`);
-      for(const blk of sh.querySelectorAll(':scope>.sheetbody>*')){if(blk.matches('.cvcont'))continue;const cv=blk.querySelector('.xcover');
+      for(const blk of sh.querySelectorAll(':scope>.sheetbody>*')){const cv=blk.querySelector('.xcover');
+        // owner 18 Nov: the blank back of the cover and each reference-sheet page are pages of their own in Word too
+        if(blk.querySelector('.xblank')){body.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{before:5600},children:[new TextRun({text:blk.textContent.trim(),font:FONT,italics:true})]}),new Paragraph({children:[],pageBreakBefore:true}));continue}
+        if(blk.querySelector('.xref'))body.push(new Paragraph({children:[],pageBreakBefore:true}));
         if(cv){await cover(cv,body);body.push(new Paragraph({children:[],pageBreakBefore:true}));continue}
         await blocks(blk,{font:FONT},body)}
       await new Promise(r=>setTimeout(r,0))}

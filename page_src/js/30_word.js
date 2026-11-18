@@ -31,7 +31,7 @@ async function xWord(doc){
     host=pdfClone();document.body.appendChild(host);if(typeof exRejoin==='function')exRejoin(host);
     const cache=document.getElementById('MJX-SVG-global-cache');
     const RIGHT=9638;   // right tab stop (twips) for marks: A4 width minus 2 cm margins
-    const FONT='Times New Roman',UI='Arial';
+    const FONT='Times New Roman',UI=FONT;   // owner 18 Nov: one font (the questions') for every part of the exam
     // ---- maths ----
     const mathRun=async(mc)=>{maths++;const svg=mc.querySelector('svg');const tex=svg?.querySelector('g[data-mml-node="math"]')?.getAttribute('data-latex')||svg?.querySelector('[data-latex]')?.getAttribute('data-latex');const disp=mc.getAttribute('display')==='true';
       if(tex){try{const t2=tex.replace(/\\mathop\{\\Large\\intop\}\\nolimits/g,'\\int');const mml=await MathJax.tex2mmlPromise(t2,{display:disp});const om=fixNary(escT(mml2omml(mml)));const x=ImportedXmlComponent.fromXmlString(om);const el=x.root?.[0]||x;return el}catch(e){console.warn('Word maths fallback:',tex,e?.message)}}
@@ -106,12 +106,15 @@ async function xWord(doc){
       out.push(new Paragraph({children:[new TextRun({text:tx('.cv-course'),font:FONT,size:44,bold:true})],spacing:{after:80}}));
       if(tx('.cv-title'))out.push(new Paragraph({children:[new TextRun({text:tx('.cv-title'),font:FONT,size:28,color:'444444'})],spacing:{after:360}}));
       const g=cv.querySelector('.cv-grid');if(g){let lab='';for(const c of g.children){if(c.matches('.cv-k')){const sm=c.querySelector('small');lab=sm?[...c.childNodes].filter(n=>n!==sm).map(n=>n.textContent).join('').trim()+' – '+sm.textContent.trim():c.textContent.trim();out.push(new Paragraph({children:[new TextRun({text:lab,font:UI,size:20,bold:true})],spacing:{before:160,after:60},keepNext:true}))}else await blocks(c,{font:FONT},out)}}
-      const tt=cv.querySelector('.extopictbl')||host.querySelector('.cvcont .extopictbl');if(tt){   // a too-tall cover's table sits on the next page in the preview (24_exams.js); Word keeps it on the cover
+      const tt=cv.querySelector('.extopictbl');if(tt){   // owner 18 Nov: marks by topic is always on the cover
       out.push(new Paragraph({children:[new TextRun({text:'MARKS BY TOPIC',font:UI,size:18,bold:true})],spacing:{before:240,after:80}}));const t=tt.querySelector('table');if(t)out.push(await table(t,{font:UI,size:18}))}}
     // ---- walk the sheets ----
     const body=[];const sheets=[...host.querySelectorAll('.sheet')];let k=0;
     for(const sh of sheets){k++;say(`Making the Word file: page ${k} of ${sheets.length}…`);
-      for(const blk of sh.querySelectorAll(':scope>.sheetbody>*')){if(blk.matches('.cvcont'))continue;const cv=blk.querySelector('.xcover');
+      for(const blk of sh.querySelectorAll(':scope>.sheetbody>*')){const cv=blk.querySelector('.xcover');
+        // owner 18 Nov: the blank back of the cover and each reference-sheet page are pages of their own in Word too
+        if(blk.querySelector('.xblank')){body.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{before:5600},children:[new TextRun({text:blk.textContent.trim(),font:FONT,italics:true})]}),new Paragraph({children:[],pageBreakBefore:true}));continue}
+        if(blk.querySelector('.xref'))body.push(new Paragraph({children:[],pageBreakBefore:true}));
         if(cv){await cover(cv,body);body.push(new Paragraph({children:[],pageBreakBefore:true}));continue}
         await blocks(blk,{font:FONT},body)}
       await new Promise(r=>setTimeout(r,0))}

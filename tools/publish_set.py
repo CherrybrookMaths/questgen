@@ -57,6 +57,7 @@ def sha(p):
 def publishable():
     fs = [S + 'review.html'] + glob.glob(S + 'data/**/*.json', recursive=True)
     fs += [f for f in glob.glob(S + 'vendor/**/*', recursive=True) if os.path.isfile(f)]
+    fs += glob.glob(S + 'data/ref/*.png')   # owner 18 Nov: the courses' NESA reference sheets (QG.courses[..].ref)
     fs += [f for f in glob.glob(S + 'project/**/*', recursive=True) if os.path.isfile(f)]
     # Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): an image pack the asset store serves at its current sha256
     # (site/data/assets.json, tools/asset_manifest.py) is no longer published; removals() then sends null for it once

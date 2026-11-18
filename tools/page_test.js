@@ -404,7 +404,8 @@ async function flows(browser, base, seed, seedR) {
     const id = await page.evaluate(() => { const id = EX.items[0]; reviews['q' + id] = { ...(reviews['q' + id] || {}), zt: true }; return id; });
     await page.click('[data-xdoc="exam"]'); await waitPv();
     const on = await page.evaluate(() => { const t = document.querySelector('#xPages .xztab'); const sh = t?.closest('.sheet');
-      return { has: !!t, last: sh === [...document.querySelectorAll('#xPages .sheet')].pop(), rows: t?.querySelectorAll('tbody tr').length,
+      // owner 18 Nov: the course's reference sheet follows it, so the table is on the last sheet before the reference sheet
+      return { has: !!t, last: sh === [...document.querySelectorAll('#xPages .sheet')].filter(s => !s.querySelector('.xref')).pop(), rows: t?.querySelectorAll('tbody tr').length,
         v: t?.querySelector('tbody tr:nth-child(11) td')?.textContent, v2: t?.querySelector('tbody tr:nth-child(20) td:nth-child(8)')?.textContent }; });
     const r = await sheetCheck(); errs();
     assert(on.has && on.last, 'no z-score table on the last sheet'); assert(!r.over.length, 'z-score table sheet taller than A4');
@@ -2028,9 +2029,12 @@ async function examPools(browser, base, pools) {
         // questions to attempt and the time to allow; the pages agree with where each section's heading sits, the times add up
         const cv = await page.evaluate(() => { const sh = [...document.querySelectorAll('#xPages .sheet')], at = n => sh.findIndex(s => s.querySelector(`.xsechd[data-sec="${n}"]`)) + 1;
           const t = [...document.querySelectorAll('#xPages .cv-sec')].map(e => e.innerText.replace(/\s+/g, ' ').trim()), k = document.querySelector('#xPages .cv-secs')?.previousElementSibling?.textContent || '';
-          return {t, k, p1: at(1), p2: at(2), n: sh.length, W: EXSEC.mins(EX.time)} });
+          return {t, k, p1: at(1), p2: at(2), n: sh.map(s => !!s.querySelector('section.xq')).lastIndexOf(true) + 1, W: EXSEC.mins(EX.time)} });   // n: the last sheet with a question (the z table and reference sheet follow)
         if (sd === POOL_RUNS[name][0][0]) { await page.evaluate(() => document.querySelectorAll('#xPv .xtool').forEach(e => e.style.visibility = 'hidden')); await (await page.$('#xPages .sheet')).screenshot({path: SHOTS + '/exam_cover_marks.png'}); await page.evaluate(() => document.querySelectorAll('#xPv .xtool').forEach(e => e.style.visibility = '')) }
         const mins = cv.t.map(x => { const m = x.match(/Allow about (?:(\d+) hours?)?(?: and )?(?:(\d+) minutes?)?/); return m ? (+m[1] || 0) * 60 + (+m[2] || 0) : 0 });
+        // owner 18 Nov: the paper's source line is the QID only (no school or year)
+        const srcs = await page.evaluate(() => [...document.querySelectorAll('#xPages .exsrcl')].map(e => e.textContent.trim()).filter(t => !/^QID \w+$/.test(t)));
+        assert(!srcs.length, `source lines on the paper that are not just the QID: ${srcs.slice(0, 3).join(' | ')}`);
         assert(cv.k === `Total marks: ${tot}` && cv.t.length === 2, `cover marks block: "${cv.k}", ${cv.t.length} section(s)`);
         assert(cv.t[0].startsWith(`Section I – `) && cv.t[0].includes(`(pages ${cv.p1}–${cv.p2 - 1})`) || cv.t[0].includes(`(page ${cv.p1})`), `Section I pages: "${cv.t[0]}" (heading on page ${cv.p1}, Section II from ${cv.p2})`);
         assert(cv.t[1].includes(`(pages ${cv.p2}–${cv.n})`) || cv.t[1].includes(`(page ${cv.p2})`), `Section II pages: "${cv.t[1]}" (from page ${cv.p2} of ${cv.n})`);
@@ -2583,8 +2587,8 @@ async function paperTables(browser, base, seed) {
   // checker 18 Nov: "No z-table at the back": build_bank marked no question (it matched keys before they were attached)
   await check('exams: questions marked for the z-score table come from the bank, and their exam ends with the table', page, async () => {
     const r = await page.evaluate(() => { const z = B.questions.filter(q => !q.dup_of && q.zt); if (!z.length) return {n: 0};
-      const keep = EX.items; EX.items = [z[0].id]; const bl = xBlocks('exam'); EX.items = keep; return {n: z.length, last: bl[bl.length - 1].html.slice(0, 400)} });
-    assert(r.n > 0, 'no question in the bank is marked for the z-score table (state/work/ztable.json lists 5)');
+      const keep = EX.items; EX.items = [z[0].id]; const bl = xBlocks('exam').filter(b => !/class="xref"/.test(b.html)); EX.items = keep; return {n: z.length, last: bl[bl.length - 1].html.slice(0, 400)} });
+    assert(r.n > 0, 'no question in the bank is marked for the z-score table (state/work/ztable.json lists 9)');
     assert(/z|normal/i.test(r.last) && /<table/.test(r.last), `the exam does not end with the table: ${r.last}`);
     return `${r.n} marked questions; an exam with one ends with the z-score table`;
   });

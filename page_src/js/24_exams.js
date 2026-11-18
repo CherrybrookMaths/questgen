@@ -314,8 +314,9 @@ const EXSEC={   // one page-wide name (CODE_HEALTH rule 1)
     return secs.map(x=>`<div class="cv-sec"><p class="cv-sech"><b>Section ${x.r} – ${x.mk} mark${x.mk===1?'':'s'}</b> <span class="cv-pg" data-pgsec="${x.n}"></span></p><ul><li>Attempt Questions ${x.q}</li>${W&&x.min>0?`<li>Allow about ${this.dur(x.min)} for this section</li>`:''}</ul></div>`).join('')},
   // the pages each section runs over, as the page footers number them (the cover is page 1)
   pages(host){const sh=[...host.querySelectorAll('.sheet')],at=n=>sh.findIndex(s=>s.querySelector(`.xsechd[data-sec="${n}"]`));
+    const last=sh.map(s=>!!s.querySelector('section.xq')).lastIndexOf(true);   // the z-score table and reference sheet after it are not a section's pages
     const a1=at(1),a2=at(2),rng=(a,b)=>a<0||b<a?'':a===b?`(page ${a+1})`:`(pages ${a+1}–${b+1})`;
-    host.querySelectorAll('.cv-pg').forEach(el=>{el.textContent=el.dataset.pgsec==='1'?rng(a1,a2>=0?a2-1:sh.length-1):rng(a2,sh.length-1)})}};
+    host.querySelectorAll('.cv-pg').forEach(el=>{el.textContent=el.dataset.pgsec==='1'?rng(a1,a2>=0?a2-1:last):rng(a2,last)})}};
 // owner 18 Nov: "the 100 marks, section I and II and working time is redundent because its below. Also remove the student name, teacher
 // name, class and date. Just put in the top right in a sensible spot the Name: and Tutor:" (the stats row and the four name lines are gone;
 // UI_SPEC "Cover" records the change)
@@ -425,8 +426,12 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   const probe=document.createElement('div');probe.style.height='250mm';meas.appendChild(probe);const H=probe.getBoundingClientRect().height;probe.remove();
   // hardening 14 Nov (page test): with many topics the cover ran past 297 mm, and the PDF and print cut "Marks by topic" off.
   // When the cover is too tall, the table moves to a page of its own straight after it (the Word file still puts it on its cover)
-  {const ci=bl.findIndex(b=>b.cover),cv=ci>=0?meas.children[ci]:null,tt=cv&&cv.querySelector('.extopictbl');
-    if(tt&&cv.getBoundingClientRect().height>H*0.98){const nb=document.createElement('div');nb.className='xblk cover cvcont';nb.appendChild(tt);cv.after(nb);bl.splice(ci+1,0,{cover:true,html:''})}}
+  // owner 18 Nov: "it's very important marks by topic is on the cover page": a cover too tall for its sheet no longer sends the table to
+  // the next page; the table's type steps down (to 6.5 pt at the least) until the cover fits
+  {const ci=bl.findIndex(b=>b.cover),cv=ci>=0?meas.children[ci]:null,tt=cv&&cv.querySelector('.extopictbl table');
+    for(let pt=8.5;tt&&pt>=6.5&&cv.getBoundingClientRect().height>H*0.98;pt-=0.5)tt.style.fontSize=pt+'pt';
+    // still too tall (many topics): the whole cover is scaled down to fit its sheet
+    const xc=cv&&cv.querySelector('.xcover'),hh=cv&&cv.getBoundingClientRect().height;if(xc&&hh>H*0.98)xc.style.zoom=String(Math.floor(H*0.97/hh*1000)/1000)}
   // Fit pages (owner's exam maker): after Generate or on request, nearby questions (at most 3 places, same section) swap so a page isn't left mostly empty
   if(EXV.fit&&doc==='exam'){EXV.fit=false;const {ids,moved}=exFitOrder([...meas.children],bl,H),cur=EX.items.slice();
     if(ids.length===cur.length&&ids.join()!==cur.join()){EX.items=ids;xsave();meas.remove();if(EXV.fitMsg){toast(`Moved ${moved} question${moved===1?'':'s'} to fill the pages better`);EXV.fitMsg=false}return xPreview(doc,{keep:true})}

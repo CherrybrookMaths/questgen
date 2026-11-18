@@ -347,6 +347,19 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   education logo in our drive and add it in instead of saying CMC education": the stats row and the four name lines are gone; the top
   row is the CMC logo ("CMC Logo Black.svg", CMC Resources drive, read only; shown while School is "CMC Education", any other school
   shows its name) on the left and Name: / Tutor: lines on the right. The two bullets above are superseded.
+- **Exam maker, 18 Nov (owner, verbatim):** "attach an advanced reference sheet at the end for students. This should be an extension 1
+  or 2 one or a standard one when we do more courses later so plan for that." / "is the auto attach z score table working?" / "it's very
+  important marks by topic is on the cover page and the back of the first page is intentionally blank. add a note in the centre of the
+  page." / "In the PDF output, remove the school name, just the qid for each question." / "Also why does the question text not line up
+  with the 1. ? this is for ALL MCQ" / "Can u use this font for all parts of the exam? its the same one as the questions".
+  - Reference sheet: each course lists its NESA sheet pages (`QG.courses[course].ref`, images in data/ref/; Drive ids for MA, ME1, ME2
+    and MST in state/work/ref_sheets.json); they are the last pages of the paper, after the z-score table.
+  - Marks by topic never leaves the cover: its type steps down to 6.5 pt, then the cover scales to fit. Page 2 is blank with "This page
+    is intentionally left blank." in the centre; Section I starts on page 3.
+  - The paper's source line is the QID only (preview, PDF, Word, HTML); the marking guide keeps the source.
+  - MCQ: the stem's first line sits on the number's line. Every part of the paper (cover, headings, option letters, marks, footer, Word)
+    uses the question font.
+  - z-score table: 4 questions pointing to it had never been marked (2 from Batch 10); batch_check now blocks such a question.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

@@ -49,6 +49,17 @@ for f in glob.glob(P + 'tikz/result_*.json'):
 for f, ids in unmerged.items():
     B(f'{len(ids)} redraws in tikz/{f} never merged (apply_diagrams.py): {", ".join(ids[:8])}{" ..." if len(ids) > 8 else ""}')
 
+# 1z. owner 18 Nov ("is the auto attach z score table working?"): a question that points to a z-score / probability table it does not print
+# must be listed in state/work/ztable.json, or the exam maker never attaches the table (2 Batch 10 questions and 1 older one were missed)
+try:
+    _zt = json.load(open(paths.S + 'work/ztable.json'))
+    _zre = re.compile(r'(z\W{0,3}scores? table|probability table|table of z|standard normal table)[^.]{0,80}(back of|provided|on page|attached|end of)', re.I)
+    _zmiss = []
+    for _q in json.load(open(P + 'site/data/bank.json'))['questions']:
+        _t = json.dumps([_q.get('stem')] + [p.get('text') or p.get('latex') for p in _q.get('parts', [])])
+        if _zre.search(_t) and '\\extable' not in _t and _q.get('key') not in _zt: _zmiss.append(_q.get('key'))
+    if _zmiss: B(f'{len(_zmiss)} question(s) point to a z-score table at the back but are not in state/work/ztable.json, so the exam maker never attaches it: {", ".join(_zmiss[:8])}')
+except Exception as _e: W(f'z-table reference check failed: {_e}')
 # 2. Figures with no redraw at all -> question stays 'pending', invisible in every queue
 import import_hold as _hold   # owner 18 Nov: papers mid-import (tools/import_hold.py) are skipped; their import is not finished
 _HELD = _hold.held_docs()

@@ -16,7 +16,9 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:n
   // the course's small index (tools/bank_split.py); each question's text arrives with its topic file (QG.need below)
   // owner 16 Nov: "Yeah build it" (job 2): the index is slim and compressed; the rest of each question's index fields (triage,
   // review notes, full tags and difficulty) comes in det, read right after start (QG.det)
-  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json'}},
+  // ref: the course's NESA reference sheet, one image per page (owner 18 Nov; from "MA Reference Sheet 2024.pdf" in the CMC Resources
+  // drive; Extension 1 / 2 and Standard have their own: ME1, ME2, MST Reference Sheet 2024, ids in state/work/ref_sheets.json)
+  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json',ref:['data/ref/advanced-1.png','data/ref/advanced-2.png']}},
   get courseData(){return this.courses[this.course]},
   byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0,night:null,
   // owner 17 Nov: "lets do skill gates, that's important": {skill: [topic keys it needs learnt]} from the details file (tools/bank_split.py

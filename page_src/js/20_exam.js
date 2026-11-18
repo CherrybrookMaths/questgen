@@ -98,14 +98,16 @@ function xQ(q,n,doc){exA();
   // owner 14 Nov: "The dot point home looks stupid in a question", then "Yeah that's fine, the i is fine". The grey dot-point
   // line and Report link are gone from the question; a small ⓘ ends the source line and opens a card (qiOpen, 27_reports.js)
   // with the dot points per part, band, kind and Report. Screen only (.scr-only), like the old line.
-  const src=`<div class="xsrc exsrc"><span class="exsrcl">${esc(srcLine(q))} · ${qid(q)}</span>${qiButton(q,n)}</div>`;
+  // owner 18 Nov: "In the PDF output, remove the school name, just the qid for each question": the paper (and so its PDF, Word and HTML
+  // downloads) shows only the QID; the marking guide keeps the source, and ⓘ still shows it on screen
+  const src=`<div class="xsrc exsrc"><span class="exsrcl">${guide?esc(srcLine(q))+' · ':''}${qid(q)}</span>${qiButton(q,n)}</div>`;
   const h=`<section class="xq ${q.type==='mcq'?'mc':'wr'}" data-q="${q.id}">${head}<div class="xqb">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${xFigSlots(q,loose)}${parts}${opts}${mcSols}${sols(null)}</div>${src}</section>`;
   // every diagram slot, including inline \exfigure ones that tex() writes, so this runs on the finished HTML
   return guide?h:h.replace(/<span class="figslot" data-fig="([\w.-]+)"><\/span>/g,(m,k)=>exFigWrap(k));
 }
 // xCover (the editable cover) is in 24_exams.js
 function xBlocks(doc){const {mc,wr}=xSections();const bl=[];let n=0;
-  if(doc==='exam')bl.push({cover:true,html:xCover(mc,wr)});
+  if(doc==='exam')bl.push({cover:true,html:xCover(mc,wr)},{cover:true,html:'<div class="xblank">This page is intentionally left blank.</div>'});   // owner 18 Nov: the back of the first page is blank
   else{const keys=mc.map((q,i)=>`<td>${i+1}</td><td><b>${q.options.find(o=>o.is_correct)?.label||'–'}</b></td>`);
     bl.push({html:`<div class="xgh"><div class="xeyebrow">${esc(EX.school)} · ${esc(EX.title)}</div><h1>${esc(EX.sub)} – marking guide</h1></div>${mc.length?`<div class="xsechd">Section I – answer key</div><table class="xkey"><tbody>${keys.map(k=>`<tr>${k}</tr>`).join('')}</tbody></table>`:''}`})}
   if(mc.length){bl.push({sec:true,html:`<div class="xsechd" data-sec="1">Section I<span>${xMarks(mc)} marks · attempt Questions 1–${mc.length}</span></div>`});mc.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
@@ -114,6 +116,9 @@ function xBlocks(doc){const {mc,wr}=xSections();const bl=[];let n=0;
   const zAtEnd=doc==='exam'&&[...mc,...wr].some(needsZ);
   if(wr.length){bl.push({sec:true,newpage:doc==='exam',html:`<div class="xsechd" data-sec="2">Section II<span>${xMarks(wr)} marks · attempt Questions ${mc.length+1}–${mc.length+wr.length}</span></div>`});wr.forEach(q=>bl.push({html:xQ(q,++n,doc),q}))}
   if(zAtEnd)bl.push({newpage:true,html:zTableHTML()});
+  // owner 18 Nov: "attach an advanced reference sheet at the end for students. This should be an extension 1 or 2 one or a standard one
+  // when we do more courses later so plan for that": each course names its NESA reference sheet pages (QG.courses[..].ref)
+  if(doc==='exam')(QG.courseData.ref||[]).forEach((p,i)=>bl.push({newpage:true,html:`<div class="xref"><img src="${esc(QG.url(p))}" alt="Reference sheet, page ${i+1}"></div>`}));
   return bl}
 const xWait=root=>new Promise(res=>{const t0=performance.now();const tick=()=>{const imgs=[...root.querySelectorAll('img')];const done=imgs.every(i=>i.getAttribute('src')&&i.complete||i.alt==='Redraw missing'||/^Image missing/.test(i.alt));
   if(done||performance.now()-t0>8000)res();else setTimeout(tick,120)};tick()});
