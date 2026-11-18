@@ -96,6 +96,9 @@ every run of a step started at once, so each wrote the same shared instructions 
 whole one-off request for caching. api_import.py now runs one paper first until its first reply is back (the rest then read the
 instructions at 0.1x) and marks the whole request only in multi-turn steps (parse, diagrams, verify). `cost` prints the split by kind.
 Batch 11 is the comparison run (no Message Batches).
+Retired questions (18 Nov). The checker flagged 2022 Baulkham Hills AT4 Q22 (QID 2803, tan^2 x integrated across its asymptote) "delete this
+question"; owner "run flags please". A question is never deleted from the database: state/work/retired.json {key: {question_id, at, by, why}}
+takes it out of the bank (build_bank.py), so out of the Bank and new exams; deleting the entry brings it back.
 
 ## Figure crops are build output, not backed up (17 Nov)
 Owner 17 Nov: "What is realistic coding best practice in this case?" then "yeah build it and run the test". The crops

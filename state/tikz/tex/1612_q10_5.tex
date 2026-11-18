@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (248,420) -- (248,12);
+\draw[->] (30,220) -- (495,220);
+\draw[aux] (30,218.5) -- (470,218.5);
+\draw[<->, line width=0.9pt] plot[smooth, domain=211:440, samples=90] (\x, {220-27*exp(-0.0527*(\x-248))});
+\node at (234,22) {$y$};
+\node at (232,243) {$O$};
+\node at (480,244) {$x$};
+\node at (445,188) {asymptote at $y=0$};
+\end{tikzpicture}
+\end{document}

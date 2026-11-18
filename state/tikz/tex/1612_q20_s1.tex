@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% hoop and pole
+\fill[black!25] (462,165) rectangle (478,410);
+\draw (462,165) rectangle (478,410);
+\fill[black!25] (440,153) rectangle (502,165);
+\draw (440,153) rectangle (502,165);
+\draw (445,88) -- (445,160);
+\draw (397,154) -- (440,154);
+\draw (399,156) -- (404,186) (434,156) -- (429,186) (410,157) -- (412,182) (423,157) -- (421,182);
+% axes
+\draw[->] (37,410) -- (548,410);
+\draw[->] (37,410) -- (37,18);
+% guides
+\draw[aux] (37,84) -- (163,84) -- (163,410);
+\draw[aux] (37,154) -- (413,154) -- (413,410);
+% trajectory through (0,2),(5,4),(14,3)
+\draw[line width=0.9pt,smooth,samples=90,domain=0:376] plot ({37+\x},{228-1.61967*\x+0.0037842*\x*\x});
+% ball
+\fill[black!25] (37,228) circle (15);
+\draw (37,228) circle (15);
+\draw (22,228) -- (52,228) (37,213) -- (37,243);
+\draw (29,215) .. controls (33,222) and (33,234) .. (29,241);
+\draw (45,215) .. controls (41,222) and (41,234) .. (45,241);
+% labels
+\node at (19,22) {$y$};
+\node[anchor=east] at (20,84) {4};
+\node[anchor=east] at (20,154) {3};
+\node[anchor=east] at (17,228) {2};
+\node at (22,428) {$O$};
+\node at (163,446) {5};
+\node at (413,446) {14};
+\node at (543,432) {$x$};
+\node[align=center] at (634,229) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A0) at (18,348);
+  \coordinate (B0) at (407,348);
+  \coordinate (C0) at (212.5,11.1);
+  \draw[line join=round] (A0) -- (B0) -- (C0) -- cycle;
+  \foreach \i [count=\j from 1] in {0,...,4} {
+    \coordinate (A\j) at ($(B\i)!0.5!(C\i)$);
+    \coordinate (B\j) at ($(C\i)!0.5!(A\i)$);
+    \coordinate (C\j) at ($(A\i)!0.5!(B\i)$);
+    \draw[line join=round] (A\j) -- (B\j) -- (C\j) -- cycle;
+  }
+\end{tikzpicture}
+\end{document}

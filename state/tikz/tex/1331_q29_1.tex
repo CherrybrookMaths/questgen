@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \path[shade hatch reverse] plot[smooth, samples=45, domain=0:pi/2] ({55+78.62*\x},{204-66.5*(1-cos(\x r))})
+     -- plot[smooth, samples=45, domain=pi/2:pi] ({55+78.62*\x},{204-66.5*sin(\x r)}) -- cycle;
+  \draw[->] (30,204) -- (355,204);
+  \draw[->] (55,235) -- (55,40);
+  \draw (47,138) -- (63,138); \draw (47,71) -- (63,71);
+  \draw (178,198) -- (178,210); \draw (302,198) -- (302,210);
+  \draw[line width=0.9pt, smooth, samples=90, domain=0:pi] plot ({55+78.62*\x},{204-66.5*(1-cos(\x r))});
+  \draw[line width=0.9pt, smooth, samples=90, domain=0:pi] plot ({55+78.62*\x},{204-66.5*sin(\x r)});
+  \node[pt, inner sep=1pt] at (302,71) {};
+  \node[font=\scriptsize, anchor=east] at (42,71) {$2$};
+  \node[font=\scriptsize, anchor=east] at (42,138) {$1$};
+  \node[font=\scriptsize, anchor=north] at (178,213) {$\dfrac{\pi}{2}$};
+  \node[font=\scriptsize, anchor=north] at (302,213) {$\pi$};
+  \node[font=\scriptsize, anchor=south] at (55,32) {$y$};
+  \node[font=\scriptsize, anchor=west] at (362,204) {$x$};
+  \node[font=\scriptsize, anchor=west] at (309,71) {$y=1-\cos x$};
+  \node[font=\scriptsize, anchor=west] at (245,118) {$y=\sin x$};
+\end{tikzpicture}
+\end{document}

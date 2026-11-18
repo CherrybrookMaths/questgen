@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (318,233); 38 px per x unit, 59 px per y unit
+  \draw[->] (12,233) -- (612,233);
+  \draw[->] (318,455) -- (318,33);
+  \node[font=\large] at (616,256) {$x$};
+  \node[font=\large] at (300,16) {$y$};
+  \node[font=\large] at (296,256) {$O$};
+  \draw[aux] (15,174) -- (490,174);
+  \node[font=\large] at (530,172) {$y=1$};
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=-7.9:7.6,variable=\t]
+    plot ({318+38*\t},{233-59*(1-6*\t/(9+\t*\t))});
+  \node[pt] at (204,115) {};
+  \node[pt] at (318,174) {};
+  \node[pt] at (432,233) {};
+  \node[font=\large] at (204,73) {$(-3,\,2)$};
+  \node[font=\large] at (360,152) {$(0,\,1)$};
+  \node[font=\large] at (432,262) {$(3,\,0)$};
+\end{tikzpicture}
+\end{document}

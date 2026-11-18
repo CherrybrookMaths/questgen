@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (30,101) -- (470,101);
+  \draw[<->] (172,360) -- (172,18);
+  \foreach \t in {141,215,290} \draw (\t,97) -- (\t,105);
+  \draw[line width=0.9pt, smooth, samples=90, domain=-1.12:1.99]
+    plot ({172+100*\x},{101-431*(\x*\x*\x/3-0.435*\x*\x-0.3658*\x)});
+  \node[font=\scriptsize, anchor=south] at (141,69) {$A$};
+  \node[font=\scriptsize, anchor=north] at (290,318) {$B$};
+  \node[font=\scriptsize, anchor=north] at (141,107) {$-2$};
+  \node[font=\scriptsize, anchor=north] at (290,107) {$8$};
+  \node[font=\scriptsize, anchor=south west] at (175,16) {$y$};
+  \node[font=\scriptsize, anchor=south west] at (462,99) {$x$};
+\end{tikzpicture}
+\end{document}

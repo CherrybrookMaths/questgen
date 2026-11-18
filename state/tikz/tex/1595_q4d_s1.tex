@@ -2,24 +2,24 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
-  % axes (origin at (560,225); 31 px per unit both ways)
-  \draw[->] (18,225) -- (980,225) node[anchor=west] {$x$};
-  \draw[->] (560,715) -- (560,10) node[anchor=west, xshift=3pt] {$y$};
+  % axes (origin at (575,225); 31.5 px per x unit, 32 px per y unit)
+  \draw[->] (18,225) -- (997,225) node[anchor=west] {$x$};
+  \draw[->] (575,723) -- (575,5) node[anchor=west, xshift=3pt] {$y$};
   % ticks at x-intercepts
-  \foreach \X in {250,622,870} \draw (\X,217) -- (\X,233);
+  \foreach \X in {260,638,890} \draw (\X,217) -- (\X,233);
   % curve: roots -10, 2, 10; TPs (-6,5), (6,-2)
-  \draw[<->, line width=0.9pt] (190,365) .. controls (205,335) and (235.5,245) .. (250,225)
-     .. controls (273,193) and (320,70) .. (374,70)
-     .. controls (450,70) and (588.5,188) .. (622,225)
-     .. controls (642,247) and (700,287) .. (746,287)
-     .. controls (792,287) and (852,249) .. (870,225)
-     .. controls (888,201) and (957,109) .. (975,85);
-  \fill (374,70) circle (4);
-  \fill (746,287) circle (4);
-  \node[anchor=south] at (374,60) {$(-6,5)$};
-  \node[anchor=north] at (746,298) {$(6,-2)$};
-  \node[anchor=north west] at (256,236) {$-10$};
-  \node[anchor=north east] at (614,236) {$2$};
-  \node[anchor=north west] at (878,236) {$10$};
+  \draw[<->, line width=0.9pt] (214,368) .. controls (227,335) and (246,246) .. (260,225)
+     .. controls (282,192) and (330,65) .. (386,65)
+     .. controls (462,65) and (604.5,188) .. (638,225)
+     .. controls (658,247) and (716,289) .. (764,289)
+     .. controls (812,289) and (872,249) .. (890,225)
+     .. controls (908,201) and (982,112) .. (1000,88);
+  \node[pt] at (386,65) {};
+  \node[pt] at (764,289) {};
+  \node[anchor=south] at (386,55) {$(-6,5)$};
+  \node[anchor=north] at (764,300) {$(6,-2)$};
+  \node[anchor=north west] at (266,236) {$-10$};
+  \node[anchor=north east] at (630,236) {$2$};
+  \node[anchor=north west] at (898,236) {$10$};
 \end{tikzpicture}
 \end{document}

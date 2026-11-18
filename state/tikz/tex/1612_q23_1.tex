@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (R) at (243,46);
+\coordinate (X) at (243,282);
+\coordinate (P) at (447,483);
+\coordinate (Q) at (604,322);
+\draw[->] (485,520) -- (60,97);
+\draw[->] (408,522) -- (697,232);
+\draw (R) -- (X) (R) -- (P) (R) -- (Q) (X) -- (Q);
+% right angles
+\draw ($(X)+(0,-16)$) -- ++(15.9,1.8) -- ($(X)+(15.9,1.8)$);
+\draw ($(X)+(0,-9)$) -- ++(6.4,6.3) -- ($(X)+(6.4,6.3)$);
+% angle arcs
+\draw (P) ++(-115:72) arc[start angle=-115,end angle=-135.4,radius=72];
+\draw (Q) ++(-142.6:58) arc[start angle=-142.6,end angle=-173.7,radius=58];
+% dimension
+\draw[<->] (456,492) -- (613,331);
+\node[rotate=45.7] at (548,433) {100 m};
+\foreach \p in {R,X,P,Q} \fill (\p) circle (3.2);
+\node at (243,25) {$R$};
+\node at (237,306) {$X$};
+\node at (447,506) {$P$};
+\node at (607,298) {$Q$};
+\node at (228,165) {$h$};
+\node at (28,80) {\textbf{NW}};
+\node at (724,217) {\textbf{NE}};
+\node at (367,457) {$10^\circ$};
+\node at (528,310) {$5^\circ$};
+\node[align=center] at (858,270) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

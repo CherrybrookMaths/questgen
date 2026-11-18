@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (80,258) -- (705,258);
+\draw[->] (80,322) -- (80,40);
+\draw[aux] (80,142.5) -- (577,142.5);
+\foreach \t in {245.6,411.2,576.8} \draw[aux] (\t,142.5) -- (\t,258);
+\foreach \h/\yy in {8/73,5/142.5,2/211.8} {\draw (80,\yy) -- (86,\yy); \node[anchor=east] at (74,\yy) {\h};}
+\draw[line width=0.9pt,smooth,samples=90,domain=0:24] plot ({80+20.7*\x},{258-23.1*(5+3*sin(45*\x))});
+\fill (576.8,142.5) circle (3);
+\node at (64,278) {0};
+\node at (245.6,280) {8};
+\node at (411.2,280) {16};
+\node at (576.8,280) {24};
+\node at (703,276) {$t$};
+\node at (66,46) {$h$};
+\end{tikzpicture}
+\end{document}

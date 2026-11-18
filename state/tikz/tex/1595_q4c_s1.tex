@@ -3,18 +3,18 @@
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
   % axes
-  \draw[->] (48,515) -- (925,515) node[anchor=west] {$x$};
-  \draw[->] (505,785) -- (505,60) node[anchor=west, xshift=3pt] {$y$};
-  % asymptotes x=-2 and y=3
-  \draw[aux] (345,40) -- (345,775);
-  \draw[aux] (20,305) -- (975,305);
+  \draw[->] (40,515) -- (920,515) node[anchor=west] {$x$};
+  \draw[->] (505,790) -- (505,60) node[anchor=west, xshift=3pt] {$y$};
+  % asymptotes x=-2 and y=3  (x scale 81 px, y scale 65 px)
+  \draw[aux] (343,0) -- (343,770);
+  \draw[aux] (20,320) -- (970,320);
   % labels
-  \node[anchor=south west] at (350,511) {$-2$};
-  \node[anchor=north west] at (509,309) {$3$};
-  \node[anchor=south west] at (512,258) {$\dfrac{7}{2}$};
+  \node[anchor=south west] at (348,511) {$-2$};
+  \node[anchor=north west] at (509,324) {$3$};
+  \node[anchor=south west] at (512,278) {$\dfrac{7}{2}$};
   \node[anchor=north east] at (310,522) {$-\dfrac{7}{3}$};
-  % branches of y = 3 + 1/(x+2)   (x scale 80 px, y scale 70 px)
-  \draw[->, line width=0.9pt, domain=-1.40:1.77, samples=90, smooth] plot ({505+80*(-2-exp(-\x))},{515-70*(3-exp(\x))});
-  \draw[->, line width=0.9pt, domain=1.40:-1.68, samples=90, smooth] plot ({505+80*(-2+exp(-\x))},{515-70*(3+exp(\x))});
+  % branches of y = 3 + 1/(x+2), parametrised by t = 1/(x+2) = -+e^s
+  \draw[->, line width=0.9pt, domain=-1.41:1.83, samples=90, smooth] plot ({505+81*(-2-exp(-\x))},{515-65*(3-exp(\x))});
+  \draw[->, line width=0.9pt, domain=1.59:-1.65, samples=90, smooth] plot ({505+81*(-2+exp(-\x))},{515-65*(3+exp(\x))});
 \end{tikzpicture}
 \end{document}

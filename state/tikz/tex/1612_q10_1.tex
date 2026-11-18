@@ -4,23 +4,22 @@
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
 % left: f
 \draw[->] (15,225) -- (548,225);
-\draw[->] (277,480) -- (277,15);
+\draw[->] (277,432) -- (277,15);
 \node at (262,30) {$y$};
 \node at (531,247) {$x$};
 \node at (257,247) {$O$};
-\draw[<-] plot[smooth,samples=60,domain=-94:0,variable=\t] ({277+\t},{225-213*(\t/100)^3});
-\draw[->] plot[smooth,samples=60,domain=0:80,variable=\t] ({277+\t},{225-338*(\t/100)^3});
-\node[anchor=west] at (360,62) {$y=f(x)$};
+\draw[<->] plot[smooth,samples=90,domain=-88:88,variable=\t] ({277+\t},{225-257*(\t/100)^3});
+\node[anchor=west] at (362,62) {$y=f(x)$};
 % right: g
-\draw[->] (900,480) -- (900,15);
+\draw[->] (900,432) -- (900,15);
 \node at (885,30) {$y$};
 \draw[aux] (650,225) -- (1115,225);
 \draw[->] (1115,225) -- (1132,225);
 \draw[->] (650,225) -- (638,225);
 \node at (1124,245) {$x$};
 \node at (878,247) {$O$};
-\draw[->] plot[smooth,samples=90,domain=642:970,variable=\t] ({\t},{225-47*exp(0.01794*(\t-900))});
+\draw[->] plot[smooth,samples=90,domain=642:978,variable=\t] ({\t},{225-47*exp(0.01794*(\t-900))});
 \node[anchor=west] at (996,52) {$y=g\,(x)$};
-\node[anchor=west] at (962,197) {asymptote at $y=0$};
+\node[anchor=west] at (964,197) {asymptote at $y=0$};
 \end{tikzpicture}
 \end{document}
