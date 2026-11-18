@@ -59,9 +59,12 @@ before the publish. Never upload a pack the page test has not passed with. If pr
 <first failure>", and stop changing things.
 
 ## 5. Back up and push
-If questions.db changed: zip it into work/ (a file reference works only for a file inside the repo: 16 Nov, a zip in
-../outputs was refused), upload it with `base64Content` = `sha256:<hash>:<absolute path>` to the Drive folder "HSC Advanced Question Bank" as questions.db.zip, rename the
-previous one "questions.db (superseded <date>, safe to delete).zip" (never trash). Commit anything left and
+If questions.db changed: compress it into work/ with `xz -9e -k -c <DB> > work/questions.db.xz` (18 Nov: the zip, 3.15 MB, outgrew the
+Drive connector's ~3.1 MB upload limit; xz gives about 2 MB; a file reference works only for a file inside the repo: 16 Nov, a zip in
+../outputs was refused), upload it with `base64Content` = `sha256:<hash>:<absolute path>` and `contentMimeType` application/x-xz to the
+Drive folder "HSC Advanced Question Bank" as questions.db.xz, rename the previous backup (.xz, or the old questions.db.zip)
+"questions.db (superseded <date>, safe to delete).xz" / ".zip" (never trash). If even the .xz nears 3 MB, say so in the result: the
+backup then needs splitting into parts (like the figures backup). Commit anything left and
 `git -c push.negotiate=true push origin main`.
 
 ## 6. Results (always, even after a failure)

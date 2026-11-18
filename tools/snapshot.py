@@ -113,7 +113,7 @@ def rollback(tag):
     print(f'  2. git restore --source={tag} --staged --worktree -- :/')
     print(f'  3. git commit -m "rollback to {tag}"')
     print('  4. python3 tools/build_page.py && bash tools/prepublish.sh, then publish as usual')
-    print('Not rolled back: questions.db, work/, src/, page images (untracked). The database is restored from its Drive backup (questions.db.zip); dbtext/ at the tag holds its text of that time.')
+    print('Not rolled back: questions.db, work/, src/, page images (untracked). The database is restored from its Drive backup (questions.db.xz; questions.db.zip before 18 Nov); dbtext/ at the tag holds its text of that time.')
     if '--yes' not in sys.argv:
         print('\nDry run. Add --yes to do it.'); return
     stamp = sydney('%Y%m%d-%H%M%S')

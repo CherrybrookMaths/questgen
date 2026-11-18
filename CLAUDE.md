@@ -63,7 +63,7 @@ In short: flaws first, [Certain]/[Likely]/[Guessing], no filler praise.
 | What | Where |
 |---|---|
 | Code + state | This GitHub repo (private). `state/` = tracked state no tool can rebuild (see below). |
-| Database `questions.db` | Not in git. Backups: Google Drive folder "HSC Advanced Question Bank", id `1mD-XIPf4vrrtJSFybjsjXgl_ezPq2F8S`, file `questions.db.zip` (newest one without "superseded" in its name). Tools find it via `$QG_DB` (tools/paths.py). |
+| Database `questions.db` | Not in git. Backups: Google Drive folder "HSC Advanced Question Bank", id `1mD-XIPf4vrrtJSFybjsjXgl_ezPq2F8S`, file `questions.db.xz` since 18 Nov (`questions.db.zip` before: the zip outgrew the Drive connector's ~3.1 MB upload limit; owner: "I'm happy for the db run") (newest one without "superseded" in its name). Tools find it via `$QG_DB` (tools/paths.py). |
 | Live review page | https://claude.ai/artifact/MSd3GSrwsAqwzmBX8wSC8f : the page (index.html = site/review.html), its published files (data/bank/, data/img/, data/svg/, data/cmp/, project/ copies of specs and tools), and the page database (collections reviews, difficulty, exams, reports, notes, progress, queue, batches, runs, scans, importq, paperfix). |
 | Exam PDFs (source) | School shared drive "CMC Resources", id `1RtOEps_I-vXw0s3fi_VNMaZRHu6d3ldVei8`, folder "Exams › External Exams Stage 6", id `1yItEV6bFpGyrJDpDrAle0RgPKqsfjTOZ`. Read only. Drive file ids per paper: site/project/drive_ids.csv, state/work/import/papers.json, site/data/inventory_files.json. Local copies go to src/<doc id>.pdf (untracked). |
 | Owner's to-do list | Page db collection `notes` ("Next up" on Processes): ArtifactData `list` on `notes`. |
@@ -102,8 +102,8 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
 3. Playwright for the page test: `node -e "require('playwright')"`. If that fails: `npm i --no-save playwright@1.63.0 &&
    npx playwright install --with-deps chromium`. Other tools, only when needed: pdflatex (TeX Live with standalone, pgfplots,
    txfonts, pdfrender), pdftoppm/pdftocairo, tesseract.
-4. Database: download the newest `questions.db.zip` from the Drive folder above (Google Drive connector `download_file_content`;
-   read only), unzip it to `$QG_DB` (or `<repo>/../questions.db`), then `python3 tools/paths.py` must show DB without "(missing)".
+4. Database: download the newest `questions.db.xz` (else, before 18 Nov, `questions.db.zip`) from the Drive folder above (Google Drive connector `download_file_content`;
+   read only), decompress it (`xz -dc questions.db.xz > <dest>`, or `python3 -c "import lzma,shutil,sys;shutil.copyfileobj(lzma.open(sys.argv[1]),open(sys.argv[2],'wb'))" questions.db.xz <dest>`; a .zip: unzip) to `$QG_DB` (or `<repo>/../questions.db`), then `python3 tools/paths.py` must show DB without "(missing)".
 5. **Required before any publish** (17 Nov: image files are not in git; a publish from a session without them deletes them from
    the live page, and batch_check blocks it). Image packs from the published page: `python3 tools/fetch_published.py` prints the missing published files (data/img/*,
    data/svg/g0..g7, data/cmp/g0, about 140 MB) in batches. For each batch: Artifact tool `action: "read"`,
