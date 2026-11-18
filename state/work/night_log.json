@@ -28,5 +28,20 @@
   },
   "notes": "No requests in runs. Folder rescan in 5 search_files calls: one query \"'<root>' in ancestors\", orderBy modifiedTime desc, pageSize 1000 (4,945 items, no duplicates, all under the root), then every folder marked listed; 0 new PDFs, 1 known missing (Kings Ext 2 AT1 2024). Images: 0 papers cleared. image_lifecycle.py, run without the 40 asset-store packs locally, wrote EMPTY data/svg (32) and data/crop (8) groups; deleted them, nothing uploaded or published. Nothing changed, so no prepublish, publish or Drive backup. pip in this container installs into Python 3.13 while python3 is 3.11: use python3 -m pip (and pymupdf 1.28.2; 2.x is a different package layout).",
   "effort": "low: about 35 tool calls; no imports"
+ },
+ {
+  "night": "2026-11-18",
+  "started": "2026-11-18T22:13+11:00",
+  "finished": "2026-11-18T22:33+11:00",
+  "minutes": {
+   "setup_restore": 5,
+   "requests": 0,
+   "folder_rescan": 3,
+   "images": 2,
+   "prepublish_publish": 9,
+   "backup_push": 1
+  },
+  "notes": "No requests in runs. Restored the 15:46 xz backup (integrity ok; v261-v265 changed no database data). Fetched 35 published files + 40 asset packs. Folder rescan: 5 search_files calls ('<root>' in ancestors, pageSize 1000, modifiedTime desc), 4,945 items; 0 new, 0 moved, 0 copies, 1 known missing (Kings Ext 2 AT1 2024). Images: 8 papers cleared (scan packs 1320, 1544, 158, 175, 179, 461, 570, 573 archived, 10.8 MB; 109 overlays dropped, 1.1 MB; 78 crops dropped). First prepublish: 3 page-test failures (rescan Cancel timing cascading into the next rescan check, and bank maths typeset wait at 1280 light); rerun passed 201/0, so treated as flaky. Uploaded 5 changed crop packs (g0,g3,g5,g6,g7), prepublish 0 blockers, published v266, pushed. Database unchanged: no Drive backup. progress/jobs had a stale 'running' Batch 11 entry (Batch 11 finished at v260); left as is for the owner.",
+  "effort": "medium: about 75 tool calls; no imports"
  }
 ]
