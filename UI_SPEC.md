@@ -368,6 +368,8 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   (saved with the exam as `bytopic`); footers read "Page n of N"; the ⓘ card is gone (supersedes the 14 Nov "the i is fine"): the source
   line ends "QID 0202  Report", grey, accent and underlined on hover, "Reported (n)" when reports are open, opening the report form.
   Dot points, band and kind stay in the grading panel.
+  Owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well": the grading panel's question detail
+  has Report (or "Reported (n)") beside "Swap for a similar question", opening the same form.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

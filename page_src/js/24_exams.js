@@ -492,7 +492,8 @@ function exGrading(){const el=$('#exGSide');if(!el)return;const qs=EX.items.map(
       <div class="glab">Band ${e.d.toFixed(1)} overall · ${fmtM(e.fl)} fluency, ${fmtM(e.ps)} problem-solving mark${e.ps===1?'':'s'}</div>${gdots(q)}
       <table class="gparts"><thead><tr><th>Part</th><th>Marks</th><th>Kind</th><th>Band</th></tr></thead><tbody>${e.parts.map(x=>`<tr><td>${esc(x.lab||'Whole')}</td><td>${fmtM(x.m)}</td><td>${x.ps?'Problem solving':'Fluency'}</td><td>${x.b}</td></tr>`).join('')}</tbody></table>
       <div class="gwhy"><b>Why it was rated this way</b><ul>${e.parts.filter(x=>x.r).map(x=>`<li>${multi&&x.lab?`<span class="pp">${esc(x.lab)}</span> `:''}${esc(x.r)}</li>`).join('')||'<li>No reason recorded.</li>'}</ul></div>
-      <div class="gacts"><button type="button" class="act" data-gswap="${q.id}">Swap for a similar question</button></div></div>`};
+      <div class="gacts"><button type="button" class="act" data-gswap="${q.id}">Swap for a similar question</button>${(()=>{const k=repOpen().filter(r=>r.question_id===q.id).length;   // owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well"
+        return `<button type="button" class="act" data-grep="${q.id}" title="${esc(qiLabel(k))}">${k?`Reported (${k})`:'Report'}</button>`})()}</div></div>`};
   el.innerHTML=`<div class="gtop"><h3>Question grading</h3><button type="button" class="linkbtn" id="exGClose">Hide</button></div><div class="gsub">Click a question on the paper, or in this list.</div>
     <div class="gsum"><div class="f"><b>${fmtM(F)} marks</b>Fluency${F?` · average band ${(wF/F).toFixed(1)}`:''}</div><div class="p"><b>${fmtM(P)} marks</b>Problem solving${P?` · average band ${(wP/P).toFixed(1)}`:''}</div></div>
     <div class="gsub" style="margin:-4px 0 8px">Drag a row to change the order on the paper.</div>
@@ -547,6 +548,7 @@ document.addEventListener('click',e=>{const t=e.target;
     if(t.closest('#exPvFit')){if(EXV.doc!=='exam'){toast('Switch to the exam paper to fit its pages');return}EXV.fit=true;EXV.fitMsg=true;exRelayout();return}
     if(t.closest('#exPvRegen')){const b=t.closest('#exPvRegen');if(b.disabled)return;const r=exGenerate();if(r){EXC.clear();xPreview(EXV.doc);toast(`New exam · ${r.n} questions · ${r.marks} marks`)}return}
     if(t.closest('#xPvClose')){e.stopImmediatePropagation();exClosePv();return}
+    const gr=t.closest('[data-grep]');if(gr){const id=+gr.dataset.grep;repForm(id,String(EX.items.indexOf(id)+1));return}
     const gs=t.closest('[data-gswap]');if(gs){xaSwap(+gs.dataset.gswap);const nid=EX.items.find(i=>!document.querySelector(`#exGSide [data-gqli="${i}"]`));if(nid)EXV.sel=nid;exRelayout();return}
     const mv=t.closest('[data-gmv]');if(mv){if(!mv.disabled)exMove(+mv.dataset.id,+mv.dataset.gmv);return}
     const gq=t.closest('[data-gq]');if(gq){exSelect(+gq.dataset.gq,'list');return}

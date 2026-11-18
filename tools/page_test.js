@@ -2226,6 +2226,10 @@ async function queueChecks(browser, base, seed) {
     const dup = await page.evaluate(() => { let n = 0, m = 0; [...document.querySelectorAll('#xPages [data-qinfo]')].forEach(b => { const q = xq(+b.dataset.qinfo); if (!q) return;
       const u = document.createElement('div'); u.innerHTML = qiDotsList(q, 'gdotl'); const t = [...u.querySelectorAll('.gdotl-d')].map(d => d.textContent); n += t.length - new Set(t).size; if (/\)\(/.test(u.textContent)) m++ }); return {n, m} });
     assert(!dup.n, `${dup.n} repeated dot-point row(s) in the grading panel`);
+    // owner 18 Nov: Report in the grading panel too
+    await page.click('#exGSide .gq.sel [data-grep]');
+    const rf = await page.evaluate(() => !!document.querySelector('#repDlg .repdlg') && !document.querySelector('#repDlg').hidden);
+    assert(rf, 'Report in the grading panel did not open the report form'); await page.keyboard.press('Escape');
     return r.replace(/\s+/g, ' ').slice(0, 90) + ` · ${dup.m} question(s) share a row across parts`;
   });
   await page.context().close();
