@@ -110,7 +110,11 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
    `url` = the review page, `paths` = the batch, `out_dir` = `<repo>/site` (asks once), or no out_dir and then
    `python3 tools/fetch_published.py --place <the folder the result names>`. Then `python3 tools/fetch_published.py --verify`
    (must say every published file is present; a note that the 8 svg packs differ in bytes is expected: same content, older
-   key order, resent at the next publish). It also lists the 40 asset-store packs (data/svg g*, data/crop g*; 18 Nov, owner
+   key order, resent at the next publish). It also records the live version this checkout is synced to (work/synced_publish.txt):
+   batch_check BLOCKS while another session (e.g. the night run) has published since this checkout last published or synced
+   (owner 19 Nov, after the night run's v266 re-uploaded crop packs this session still held old copies of), and prepublish stops
+   while GitHub has commits this checkout lacks. To resync: `git merge origin/main`, then `--verify`; it names any asset pack held
+   here in an older copy (re-read its id, then `--place-assets`) and any page-scan pack the live page dropped (`--archive-removed`). It also lists the 40 asset-store packs (data/svg g*, data/crop g*; 18 Nov, owner
    "go and fix it."): read each id in its own Artifact call (`path` = the id; a `paths` list is refused), then
    `--place-assets <dir>`. image_lifecycle.py and asset_upload_plan.py refuse to run without them. Tested 14 Nov: 4 read calls, 66 files, 138 MB, a few seconds each.
    Only for diagram work (tikz_render.sh, overlay.py): `python3 tools/fetch_published.py --figures-from-packs` rebuilds 988 of

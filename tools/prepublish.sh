@@ -10,6 +10,11 @@
 #        bash tools/prepublish.sh --quick    faster test without exports (batch_check will still block: run the full one)
 set -euo pipefail
 cd "$(dirname "$0")/.."
+# owner 19 Nov ("fix the second problem you just raised"): another session (the night run) may have published and pushed since this
+# checkout last pulled; its publish commit (and the manifest in it) must be merged before this one can tell what is live
+if git fetch -q origin main 2>/dev/null && ! git merge-base --is-ancestor origin/main HEAD; then
+  echo 'STOP: GitHub has commits this checkout lacks (another session published?): git merge origin/main, then python3 tools/fetch_published.py --verify'; exit 1
+fi
 # owner 18 Nov ("yeah fix whatever needs fixing first"): mid-import, the bank may have been built WITH the held papers (QG_WITH_HELD=1, for
 # the import's own homes / difficulty steps). Such a bank must never go live, so it is rebuilt without them here first (batch_check
 # still blocks one that slips through)

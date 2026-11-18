@@ -27,6 +27,7 @@ if '--mark-published' in sys.argv:
     files = {r: sha(P + 'site/' + r) for r in _ps.publishable()}
     json.dump(dict(at=time.strftime('%Y-%m-%d %H:%M'), files=files), open(MAN, 'w'), indent=0)
     print('recorded', len(files), 'published files')
+    open(P + 'work/synced_publish.txt', 'w').write(json.load(open(MAN))['at'])   # this checkout is the live page now (fetch_published.SYNC)
     # version control (stage 1, 15 Nov; owner: "I don't want to have to do that"): commit everything, tag publish-vNNN,
     # refresh the Drive bundle. tools/snapshot.py only warns on a git problem; this guard keeps a crash from blocking too.
     try:
@@ -94,6 +95,13 @@ if untri: I(f'{len(untri)} questions have no triage entry (pilot questions preda
 if max(mt(paths.S + 'work/triage.json'), mt(DB), mt(paths.S + 'tikz/all_results.json')) > mt(P + 'site/data/bank.json') + 1:
     W('site/data/bank.json is older than the database / triage / redraws: run tools/build_bank.py')
 
+# 4z. owner 19 Nov ("fix the second problem you just raised"): the live page was last published by ANOTHER session (the manifest in git is
+# newer than this checkout's last publish or sync), so files here may be older copies of what it changed; publishing would undo its work
+if os.path.exists(MAN):
+    _at = json.load(open(MAN))['at']
+    _sy = open(P + 'work/synced_publish.txt').read().strip() if os.path.exists(P + 'work/synced_publish.txt') else ''
+    if _sy != _at: B(f'the live page was last published at {_at} from another session; this checkout last published or synced at {_sy or "never"}: '
+                     'run python3 tools/fetch_published.py --verify (and the Artifact reads it asks for; --archive-removed for packs the live page dropped)')
 # 5. Unpublished local changes (12 Nov: bank.json republished but svg packs not -> "Redraw missing")
 if os.path.exists(MAN):
     man = json.load(open(MAN))

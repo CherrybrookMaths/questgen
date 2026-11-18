@@ -24,6 +24,7 @@ add_to_bank.py on an existing paper would pack the approximation). The originals
 """
 import base64, hashlib, io, json, os, shutil, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
+from pathlib import Path
 
 ARTIFACT = 'https://claude.ai/artifact/MSd3GSrwsAqwzmBX8wSC8f'
 MAN = paths.state('work/published_manifest.json')
@@ -55,6 +56,35 @@ def assets():
 
 def asset_missing():
     return sorted((k, v['url'].rsplit('/', 1)[-1]) for k, v in assets().items() if not (SITE / k).exists())
+
+
+# owner 19 Nov ("fix the second problem you just raised"): another session (the night run) can publish while this checkout keeps the
+# OLDER copies of what it changed: re-uploaded asset-store packs, page-scan packs it archived. Published from here, they would undo its
+# work. SYNC records the manifest time this checkout last published or synced to; batch_check blocks while it lags the manifest in git.
+SYNC = paths.ROOT / 'work/synced_publish.txt'
+
+
+def asset_stale():
+    """Local asset-store packs that differ from the uploaded copy AND are older than data/assets.json: another session uploaded a newer
+    one (a pack edited here after that is newer, and asset_upload_plan.py sends it)."""
+    import hashlib
+    t = ASSETS.stat().st_mtime if ASSETS.exists() else 0
+    return sorted((k, v['url'].rsplit('/', 1)[-1]) for k, v in assets().items() if (SITE / k).exists()
+                  and (SITE / k).stat().st_mtime < t and hashlib.sha256((SITE / k).read_bytes()).hexdigest() != v.get('sha256'))
+
+
+def removed_live():
+    """Page-image packs held here that the live page no longer has (archived by another session's image_lifecycle run), older than
+    the manifest: the next publish would put them back."""
+    if not MAN.exists(): return []
+    man, t = manifest(), MAN.stat().st_mtime
+    return sorted(str(f.relative_to(SITE)) for d in ('data/img', 'data/check') for f in (SITE / d).glob('*.json')
+                  if str(f.relative_to(SITE)) not in man and f.stat().st_mtime < t)
+
+
+def mark_synced():
+    SYNC.parent.mkdir(parents=True, exist_ok=True)
+    SYNC.write_text(json.load(open(MAN))['at'] if MAN.exists() else '')
 
 
 def batches(ks, sizes=None):
@@ -113,9 +143,17 @@ if __name__ == '__main__':
             if not p.exists(): bad.append(f'{k} missing')
             elif k.startswith(('data/img/', 'data/svg/', 'data/cmp/', 'data/check/')) and sha(p) != h: diff.append(k)
         am = asset_missing(); bad += [f'{k} (asset store) missing' for k, _ in am]
+        st = asset_stale(); bad += [f'{k} (asset store) is an older copy: re-read id {i}, then --place-assets' for k, i in st]
+        rm = removed_live()
+        if rm and '--archive-removed' in sys.argv:   # move them where image_lifecycle.py keeps archived packs
+            (paths.ROOT / 'archive/img_cleared').mkdir(parents=True, exist_ok=True)
+            for r in rm: shutil.move(str(SITE / r), str(paths.ROOT / 'archive/img_cleared' / Path(r).name))
+            print(f'  archived {len(rm)} pack(s) the live page no longer has: ' + ', '.join(rm[:10])); rm = []
+        bad += [f'{r} is no longer on the live page (run again with --archive-removed)' for r in rm]
         print(f'fetch_published --verify: {len(man) - len(bad) + len(am)} of {len(man)} published files present, '
               f'{len(assets()) - len(am)} of {len(assets())} asset-store packs present' + ('' if not bad else f'; {len(bad)} missing: ' + '; '.join(bad[:10])))
         if diff: print(f'  note: {len(diff)} pack(s) differ in bytes from the manifest\'s sha256 (expected when the artifact holds an older byte order; batch_check will list them as changed and the next publish resends them): ' + ', '.join(diff[:10]))
+        if not bad: mark_synced(); print(f'  synced to the publish of {SYNC.read_text()} (work/synced_publish.txt)')
         sys.exit(1 if bad else 0)
     if '--figures-from-packs' in sys.argv:
         figures_from_packs(); sys.exit(0)
