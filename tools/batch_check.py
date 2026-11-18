@@ -40,17 +40,21 @@ allr = {r['id'] for r in json.load(open(paths.S + 'tikz/all_results.json'))}
 # 1. Redraws made but never merged (12 Nov: 17 Knox AT2 / Normanhurst redraws sat in result_b5_*.json; 9 questions vanished)
 recrop = {x['id'] for x in json.load(open(paths.S + 'work/crop_fixes.json'))} if os.path.exists(paths.S + 'work/crop_fixes.json') else set()
 unmerged = {}
+import import_hold as _hold0; _HELD0 = {str(d) for d in _hold0.held_docs()}   # papers mid-import: their redraws merge before the release
 for f in glob.glob(P + 'tikz/result_*.json'):
     try: d = json.load(open(f))
     except Exception: W(f'unreadable redraw result file {os.path.basename(f)}'); continue
     for r in (d.get('results') or d.get('figures') or []) if isinstance(d, dict) else d:
-        if r.get('id') and r['id'] not in allr: unmerged.setdefault(os.path.basename(f), []).append(r['id'])
+        if r.get('id') and r['id'] not in allr and not str(r['id']).split('_')[0] in _HELD0: unmerged.setdefault(os.path.basename(f), []).append(r['id'])
 for f, ids in unmerged.items():
     B(f'{len(ids)} redraws in tikz/{f} never merged (apply_diagrams.py): {", ".join(ids[:8])}{" ..." if len(ids) > 8 else ""}')
 
 # 2. Figures with no redraw at all -> question stays 'pending', invisible in every queue
-nofig = [(r['question_id'], os.path.basename(r['png_path'])[:-4]) for r in db.execute('select question_id, png_path from figures where png_path is not null')
-         if os.path.basename(r['png_path'])[:-4] not in allr]
+import import_hold as _hold   # owner 18 Nov: papers mid-import (tools/import_hold.py) are skipped; their import is not finished
+_HELD = _hold.held_docs()
+nofig = [(r['question_id'], os.path.basename(r['png_path'])[:-4]) for r in db.execute('select f.question_id, f.png_path, q.document_id from figures f join questions q on q.id=f.question_id where f.png_path is not null')
+         if os.path.basename(r['png_path'])[:-4] not in allr and r['document_id'] not in _HELD]
+if _HELD: I(f'import hold: {len(_HELD)} paper(s) mid-import are left out of the bank and the publish: {sorted(_HELD)}')
 if nofig: B(f'{len(nofig)} figures have no redraw result, so their questions are hidden: ' + ', '.join(f'Q{q}:{k}' for q, k in nofig[:10]))
 # 2b. merged redraw without a compiled SVG -> "Redraw missing" on the page
 _st = {r['id']: r.get('status') for r in json.load(open(paths.S + 'tikz/all_results.json'))}

@@ -62,7 +62,9 @@ def publishable():
     # (site/data/assets.json, tools/asset_manifest.py) is no longer published; removals() then sends null for it once
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__))); import asset_manifest
     instore = asset_manifest.fresh_paths()
-    return sorted(r for r in (os.path.relpath(f, S) for f in fs) if not r.startswith(EXCLUDE) and r not in instore
+    import import_hold   # owner 18 Nov: papers mid-import stay off the page (tools/import_hold.py): their scan packs wait for the release
+    held = tuple(f'data/img/{d}.json' for d in import_hold.held_docs())
+    return sorted(r for r in (os.path.relpath(f, S) for f in fs) if not r.startswith(EXCLUDE) and r not in held and r not in instore
                   and (not r.startswith('project/') or r in PROJECT_KEEP))
 
 

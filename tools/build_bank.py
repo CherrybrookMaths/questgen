@@ -182,6 +182,10 @@ for q in old['questions']:
 # a retirement can be undone by deleting its entry. Checker 18 Nov on 2022 Baulkham Hills AT4 Q22: "delete this question"
 RETIRED = json.load(open(paths.S + 'work/retired.json')) if os.path.exists(paths.S + 'work/retired.json') else {}
 old['questions'] = [q for q in old['questions'] if q.get('key') not in RETIRED]
+# papers mid-import (tools/import_hold.py; owner 18 Nov: "it shouldn't stall flagging and checking"): out of the bank until released
+import import_hold as _hold
+_HELD = _hold.held_docs()
+old['questions'] = [q for q in old['questions'] if int(q['doc']) not in _HELD]
 # --- end Fix 2 ---------------------------------------------------------------------------------------------------------------
 out = dict(v=2, built=__import__('datetime').datetime.now().strftime('%Y%m%d%H%M%S'), docs=old['docs'], questions=old['questions'], tables=tables, figs=figs, codes17=codes17)
 json.dump(out, open(P + 'site/data/bank.json', 'w'), ensure_ascii=False)
