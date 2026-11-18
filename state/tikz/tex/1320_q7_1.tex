@@ -9,8 +9,11 @@
   \node[anchor=south] at (166,38) {$y$};
   \draw[aux] (5,208) -- (400,208);
   \draw[aux] (238,45) -- (238,450);
-  \draw[line width=0.9pt,<->] plot[domain=-6.7:2.524,samples=90,smooth] ({166+24*\x},{246-19*(2-4/(\x-3))});
-  \draw[line width=0.9pt,<->] plot[domain=3.321:9.67,samples=90,smooth] ({166+24*\x},{246-19*(2-4/(\x-3))});
+  \draw[line width=0.9pt,<->] plot[domain=-6.7:2.524,samples=120] ({166+24*\x},{246-19*(2-4/(\x-3))});
+  \draw[line width=0.9pt,<-] plot[domain=3.321:9.35,samples=120] ({166+24*\x},{246-19*(2-4/(\x-3))});
+  % checker 18 Nov: "the most right arrow on the graph is set back and you can see the line sticking out of the arrow": the last stretch
+  % is a straight segment carrying the arrow, so the tip sits on the line's end
+  \draw[line width=0.9pt,->] ({166+24*9.35},{246-19*(2-4/(9.35-3))}) -- ({166+24*9.67},{246-19*(2-4/(9.67-3))});
   \node[anchor=north east,inner sep=1pt] at (163,212) {$2$};
   \node[anchor=north east,inner sep=1pt] at (235,250) {$3$};
   \node at (113,95) {$\dfrac{10}{3}$};
