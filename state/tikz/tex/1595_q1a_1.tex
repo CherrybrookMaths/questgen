@@ -2,11 +2,11 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
-  \def\k{1.98e-5}
-  \fill[shade] plot[smooth, domain=-250:180, samples=90] ({440+\x},{250-\k*\x*(\x+250)*(\x-180)}) -- cycle;
+  % u in hundreds of px from the origin (440,250); roots b=-2.5, 0, a=1.8
+  \fill[shade] plot[smooth, domain=-2.5:1.8, samples=90] ({440+100*\x},{250-19.8*\x*(\x+2.5)*(\x-1.8)}) -- cycle;
   \draw[<->] (80,250) -- (772,250);
   \draw[<->] (440,410) -- (440,95);
-  \draw[line width=0.9pt] plot[smooth, domain=-303:245, samples=90] ({440+\x},{250-\k*\x*(\x+250)*(\x-180)});
+  \draw[line width=0.9pt] plot[smooth, domain=-3.03:2.45, samples=90] ({440+100*\x},{250-19.8*\x*(\x+2.5)*(\x-1.8)});
   \node[font=\large] at (437,68) {$y$};
   \node[font=\large] at (790,278) {$x$};
   \node[font=\large] at (155,276) {$b$};
