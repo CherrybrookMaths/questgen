@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6858cm,y=0.6858cm]
+  \foreach \i in {-6,...,6} {\draw[black!30,line width=0.4pt] (\i,-6.97)--(\i,6.97); \draw[black!30,line width=0.4pt] (-6.97,\i)--(6.97,\i);}
+  \draw[black!45] (-6.97,-6.97) rectangle (6.97,6.97);
+  \draw[<->] (-6.95,0)--(6.95,0);
+  \draw[<->] (0,-6.95)--(0,6.95);
+  \node[anchor=south] at (6.7,0.05) {$x$};
+  \node[anchor=west] at (0.08,6.6) {$y$};
+  \foreach \i in {-6,...,-1,2,3,...,6} {\node[font=\footnotesize] at (\i,-0.37) {$\i$};}
+  \node[font=\footnotesize] at (1.15,-0.37) {$1$};
+  \foreach \i in {-6,...,-1,1,2,...,6} {\node[anchor=east,font=\footnotesize] at (-0.1,\i) {$\i$};}
+  \node[font=\footnotesize] at (-0.27,-0.37) {$0$};
+  \draw[aux] (-6.97,2)--(6.97,2);
+  \node[anchor=south] at (-4.5,2.12) {$y=2$};
+  \draw[line width=0.9pt,smooth,samples=90,domain=-6.85:2.17] plot (\x,{2-exp(\x)});
+  \fill (0,1) circle (2.2pt);
+  \fill ({ln(2)},0) circle (2.2pt);
+  \node[anchor=east] at (-0.5,0.5) {$(0,1)$};
+  \node[anchor=west] at (0.85,0.6) {$(\ln 2,0)$};
+  \node[anchor=west] at (2.5,-4.5) {$y=-e^{x}+2$};
+\end{tikzpicture}
+\end{document}

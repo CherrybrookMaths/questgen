@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (0,462) -- (1440,462);
+  \draw[->] (160,715) -- (160,40);
+  \node[anchor=east] at (148,45) {$x$};
+  \node[anchor=north] at (1440,490) {$t$};
+  \foreach \p/\l in {375/4\pi,590/8\pi,805/12\pi,1020/16\pi} {\draw (\p,455) -- (\p,469); \node[anchor=north] at (\p,478) {$\l$};}
+  \node[anchor=north east] at (152,470) {$0$};
+  \draw (153,192) -- (167,192);
+  \node[anchor=east] at (146,192) {$8$};
+  \draw[aux] (167,192) -- (375,192);
+  \draw[line width=0.9pt] plot[domain=0:4,smooth,samples=90] ({160+215*\x},{462-33.75*(4-4*cos(180*\x))});
+  \node[anchor=south] at (375,168) {$(4\pi,8)$};
+  \node[anchor=south] at (805,168) {$(12\pi,8)$};
+\end{tikzpicture}
+\end{document}

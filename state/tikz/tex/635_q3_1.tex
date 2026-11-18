@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(433,600)},x=0.79375cm,y=0.19964cm]
+\draw[->] (-6.55,0)--(5.07,0);
+\draw[->] (0,-4.77)--(0,36.8);
+\foreach \v in {10,20,30} \draw (0,\v)--(-0.1,\v);
+\foreach \x in {-6,-4,-2,2,4} {\draw (\x,0)--(\x,-0.5); \node[anchor=north,font=\Large] at (\x,-0.75) {$\x$};}
+\node[anchor=north east,font=\Large] at (-0.15,-0.75) {$0$};
+\node[font=\LARGE] at (4.62,1.6) {$x$};
+\node[font=\LARGE] at (0.37,33.8) {$y$};
+\node[font=\Large] at (-4.4,33.4) {$y=f'(x)$};
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=-6.14:2.12] (\x,{(\x+4)^2*(2-\x)});
+\end{scope}
+\end{tikzpicture}
+\end{document}

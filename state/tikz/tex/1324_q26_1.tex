@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade hatch] plot[domain=0.5:1,smooth,samples=40] ({467+193*\x},{495-195/\x}) -- plot[domain=1:0.5,smooth,samples=40] ({467+193*\x},{495-195*\x*\x}) -- cycle;
+  \draw[<->] (40,495) -- (900,495);
+  \draw[->] (467,625) -- (467,60);
+  \node at (920,508) {$x$};
+  \node[anchor=west] at (474,52) {$y$};
+  \draw (563.5,488) -- (563.5,502);
+  \draw (660,488) -- (660,502);
+  \node at (564,588) {$\dfrac{1}{2}$};
+  \node at (660,553) {$1$};
+  \draw (460,300) -- (474,300); \draw (460,105) -- (474,105);
+  \node[anchor=east] at (455,302) {$1$};
+  \node[anchor=east] at (455,100) {$2$};
+  \draw (563.5,446) -- (563.5,105);
+  \draw[line width=0.9pt] plot[domain=-1.17:1.47,smooth,samples=90] ({467+193*\x},{495-195*\x*\x});
+  \draw[line width=0.9pt] plot[domain=0.5:2.1,smooth,samples=90] ({467+193*\x},{495-195/\x});
+  \node at (790,185) {$y=x^2$};
+  \node[anchor=west] at (885,405) {$y=\dfrac{1}{x}$};
+\end{tikzpicture}
+\end{document}

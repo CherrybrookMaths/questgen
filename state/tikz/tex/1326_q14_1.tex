@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (163,247) -- (25,247) arc[start angle=180,end angle=90,x radius=138,y radius=133] -- cycle;
+\fill[shade] (823,247) -- (961,247) arc[start angle=0,end angle=90,x radius=138,y radius=133] -- cycle;
+\draw (25,247) -- (961,247);
+\draw (163,247) -- (163,380);
+\draw (823,247) -- (823,380);
+\fill (601,78) rectangle (605,382);
+\draw (385,247) -- (603,78) -- (722,247);
+\draw (642,247) arc[start angle=180,end angle=234.8,radius=80];
+\fill (385,247) circle (8);
+\fill (722,247) circle (8);
+% 8 m
+\draw (357,78) -- (377,78);
+\draw[aux,<-] (367,80) -- (367,143);
+\draw[aux,->] (367,182) -- (367,239);
+\node at (365,162) {8 m};
+% 22 m
+\draw[aux,<-] (165,380) -- (361,380);
+\draw[aux,->] (433,380) -- (599,380);
+\node at (397,380) {22 m};
+\node at (627,60) {$S$};
+\node at (159,223) {$A$};
+\node at (821,223) {$B$};
+\node at (375,280) {$P$};
+\node at (567,280) {$Q$};
+\node at (720,280) {$R$};
+\node at (631,375) {$T$};
+\node at (677,229) {$52^\circ$};
+\node[align=right,anchor=north east,inner sep=0pt] at (1070,50) {NOT\\TO\\SCALE};
+\end{tikzpicture}
+\end{document}

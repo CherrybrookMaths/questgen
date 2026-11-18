@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\ox{250}\def\oy{323}\def\ux{68.5}\def\uy{87}
+  \draw[<->] (22,\oy) -- (482,\oy);
+  \draw[<->] (\ox,35) -- (\ox,612);
+  \foreach \v/\l in {-3/{-3},-2/{-2},-1/{-1},1/1,2/2,3/3} {
+    \draw ({\ox+\ux*\v},{\oy-7}) -- ({\ox+\ux*\v},{\oy+7});
+    \node[font=\small] at ({\ox+\ux*\v-4},{\oy+30}) {$\l$};
+    \draw ({\ox-7},{\oy-\uy*\v}) -- ({\ox+7},{\oy-\uy*\v});
+    \node[font=\small, anchor=east] at ({\ox-9},{\oy-\uy*\v+3}) {$\l$};
+  }
+  \node[font=\small] at (496,327) {$x$};
+  \node[font=\small] at (\ox,22) {$y$};
+  \draw[->, line width=0.9pt] plot[smooth, samples=90, domain=-0.333:-1.4] ({\ox+\ux*\x},{\oy-\uy*(3*\x*\x+2*\x)});
+  \draw[->, line width=0.9pt] plot[smooth, samples=90, domain=-0.333:0.737] ({\ox+\ux*\x},{\oy-\uy*(3*\x*\x+2*\x)});
+\end{tikzpicture}
+\end{document}

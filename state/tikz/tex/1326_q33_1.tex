@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\draw (162,185) circle (116);
+\draw[smooth,samples=60,domain=-78.2:96.4] plot ({497+83*cos(\x)},{122-98*sin(\x)});
+\draw[aux,smooth,samples=60,domain=96.4:281.8] plot ({497+83*cos(\x)},{122-98*sin(\x)});
+\draw (146.7,70)--(487.7,24.6);
+\draw (189.7,297.6)--(514,217.9);
+% front face of beam
+\draw (104.5,84.3)--(219.5,84.3)--(219.5,285.7)--(104.5,285.7)--cycle;
+% back face and depth edges (hidden)
+\draw[aux] (455.9,36.9)--(538.1,36.9)--(538.1,207.1)--(455.9,207.1)--cycle;
+\draw[aux] (104.5,84.3)--(455.9,36.9) (219.5,84.3)--(538.1,36.9) (219.5,285.7)--(538.1,207.1) (104.5,285.7)--(455.9,207.1);
+\draw[aux,<->] (105.5,284.2)--(218.5,85.8);
+\node at (162,99) {$w$};
+\node at (206,187) {$d$};
+\node at (142,180) {$15$};
+\end{tikzpicture}
+\end{document}

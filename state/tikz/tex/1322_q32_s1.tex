@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\coordinate (A) at (110,68); \coordinate (E) at (203,68); \coordinate (C) at (265,68);
+\coordinate (B) at (110,328); \coordinate (F) at (110,173);
+\coordinate (D) at ($(B)!{155/260}!(C)$); % on BC, level with F
+\draw (A)--(C)--(B)--cycle;
+\draw (F)--(D); \draw (D)--(D|-E);
+\draw (110,90)--(132,90)--(132,68);
+\foreach \p in {A,C,B,F,D} \fill (\p) circle (4.5);
+\fill (D|-E) circle (4.5);
+\node at (110,52) {$A$}; \node at ($(D|-E)+(0,-16)$) {$E$}; \node at (265,52) {$C$};
+\node at (95,173) {$F$}; \node at (219,179) {$D$}; \node at (110,345) {$B$};
+\node at (192,118) {$h$}; \node at (155,158) {$r$};
+\node at (198,24) {9 cm}; \node at (42,187) {25 cm};
+\end{tikzpicture}
+\end{document}

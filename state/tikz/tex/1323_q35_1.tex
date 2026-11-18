@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (B) at (247,260);
+  \coordinate (C) at (483,260);
+  \coordinate (A) at (105,260);
+  \coordinate (D) at ($(B)+(142:236 and -236)$);
+  \draw (A) -- (C);
+  \draw (C) arc[start angle=0,end angle=142,x radius=236,y radius=-236];
+  \draw (A) -- (D);
+  \draw[aux] (D) -- (B);
+  % equal-length ticks
+  \path (A) -- (D) coordinate[pos=0.5] (m1);
+  \draw ($(m1)+(-12,-1)+(0,-3)$) -- ($(m1)+(12,-8)+(0,-3)$);
+  \draw ($(m1)+(-12,-1)+(0,4)$) -- ($(m1)+(12,-8)+(0,4)$);
+  \draw (172,250) -- (172,270);
+  \draw (178,250) -- (178,270);
+  % angle
+  \draw[->] ($(B)+(76,0)$) arc[start angle=0,end angle=142,x radius=76,y radius=-76];
+  \node[font=\small] at (265,222) {$\dfrac{5\pi}{6}$};
+  \node[font=\small] at (47,118) {$D$};
+  \node[font=\small] at (86,265) {$A$};
+  \node[font=\small] at (250,282) {$B$};
+  \node[font=\small] at (500,265) {$C$};
+  \node[font=\footnotesize,align=center] at (650,108) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

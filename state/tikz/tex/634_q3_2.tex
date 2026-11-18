@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (0,202) -- (515,202);
+  \draw[<->] (258,0) -- (258,515);
+  \foreach \u in {-4,-2,2,4} \draw ({258+60.5*\u},196) -- ({258+60.5*\u},208);
+  \foreach \v in {2,-2,-4} \draw (252,{202-67*\v}) -- (264,{202-67*\v});
+  \foreach \u/\t in {-4/-4,-2/-2,2/2,4/4} \node[font=\footnotesize] at ({258+60.5*\u},220) {$\t$};
+  \node[font=\footnotesize] at (245,220) {$0$};
+  \node[font=\footnotesize] at (243,68) {$2$};
+  \node[font=\footnotesize] at (240,337) {$-2$};
+  \node[font=\footnotesize] at (240,470) {$-4$};
+  \node at (215,36) {$y$};
+  \node at (487,245) {$x$};
+  \draw[line width=0.9pt] plot[domain=-4.26:0.895, samples=90, smooth]
+    ({258+60.5*\x},{202-67*(exp(2*\x)-3)});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (10,735) -- (1240,735);
+\draw[<->] (660,1390) -- (660,150);
+\draw[aux] (405,170) -- (405,1380);
+\draw[aux] (10,643) -- (1225,643);
+\node[font=\Large,anchor=south] at (420,160) {$x=-3$};
+\node[font=\Large,anchor=west] at (1232,643) {$y=1$};
+\node[font=\Large,anchor=west] at (1252,738) {$x$};
+\node[font=\Large,anchor=west] at (676,160) {$y$};
+\draw[<->,line width=0.9pt] plot[domain=-2.22:6.3,samples=90,smooth] ({660+85*\x},{735-92*(1-6/(\x+3))});
+\draw[<->,line width=0.9pt] plot[domain=-7.3:-4.2,samples=90,smooth] ({660+85*\x},{735-92*(1-6/(\x+3))});
+\draw (915,728) -- (915,742);
+\node[font=\Large,anchor=north west] at (920,748) {$3$};
+\draw (653,827) -- (667,827);
+\node[font=\Large,anchor=north west] at (672,838) {$-1$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % hatched regions between curve and x-axis, -3..1 and 1..6
+  \path[shade hatch] plot[smooth, domain=-3:1, samples=40] ({327+49*\x},{210-3.61*(\x+3)*(\x-1)*(\x-6)}) -- cycle;
+  \path[shade hatch] plot[smooth, domain=1:6, samples=50] ({327+49*\x},{210-3.61*(\x+3)*(\x-1)*(\x-6)}) -- cycle;
+  % axes
+  \draw[<->] (55,210) -- (697,210) node[right] {$x$};
+  \draw[<->] (327,365) -- (327,48) node[above] {$f(x)$};
+  \foreach \t in {-5,...,7} {\draw ({327+49*\t},204) -- ({327+49*\t},216);}
+  \foreach \t in {-5,-4,-2,-1} {\node at ({327+49*\t},240) {$\t$};}
+  \node at (192,240) {$-3$};
+  \node at (375,240) {$1$};
+  \foreach \t in {2,3,4,5} {\node at ({327+49*\t},240) {\halo{$\t$}};}
+  \node at (631,240) {$6$};
+  \node at (667,240) {$7$};
+  % curve
+  \draw[line width=0.9pt, <->] plot[smooth, domain=-3.8:6.72, samples=90] ({327+49*\x},{210-3.61*(\x+3)*(\x-1)*(\x-6)});
+\end{tikzpicture}
+\end{document}

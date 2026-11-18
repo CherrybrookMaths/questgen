@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\coordinate (A) at (82,322); \coordinate (B) at (350,137); \coordinate (C) at (269,613);
+% north/east lines
+\draw (2,322)--(160,322); \draw[->] (82,370)--(82,222); \node at (82,202) {\textbf{N}};
+\draw (275,137)--(430,137); \draw[->] (350,240)--(350,40); \node at (350,22) {\textbf{N}};
+% legs
+\draw[postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{>}}}] (A)--(B);
+\draw[postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{>}}}] (B)--(C);
+% bearing arcs
+\draw[->] ($(A)+(0,-72)$) arc[start angle=-90,end angle=-34.6,radius=72];
+\draw[->] ($(B)+(0,-72)$) arc[start angle=-90,end angle=99.65,radius=72];
+% angle ABC between BC and BA
+\draw ($(B)+({34*cos(99.65)},{34*sin(99.65)})$) arc[start angle=99.65,end angle=145.4,radius=34];
+\fill (A) circle (4); \fill (B) circle (4); \fill (C) circle (4);
+\node at (105,283) {$70^\circ$};
+\node at (383,165) {$194^\circ$};
+\node at (311,197) {$56^\circ$};
+\node at (183,208) {164 km};
+\node at (353,412) {241 km};
+\node at (66,339) {$A$}; \node at (334,121) {$B$}; \node at (252,613) {$C$};
+\end{tikzpicture}
+\end{document}

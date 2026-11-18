@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \v in {10,20,...,80} \draw[black!25,line width=0.4pt] ({94+6.114*\v},35) -- ({94+6.114*\v},461);
+  \foreach \v in {1,...,10} \draw[black!25,line width=0.4pt] (94,{461-42.6*\v}) -- (583,{461-42.6*\v});
+  \draw[->] (94,461) -- (603,461);
+  \draw[->] (94,461) -- (94,15);
+  \foreach \v in {10,20,...,80} {\draw ({94+6.114*\v},461) -- ({94+6.114*\v},467);
+    \node[font=\footnotesize] at ({94+6.114*\v},490) {$\v$};}
+  \foreach \v in {1,...,10} \draw (88,{461-42.6*\v}) -- (94,{461-42.6*\v});
+  \foreach \v in {2,4,...,10} \node[font=\footnotesize,anchor=east] at (82,{461-42.6*\v}) {$\v$};
+  \foreach \a/\b in {5/9,12/8,23/9,32/6,40/7,48/6,64/6,72/5,64/4,55/3,72/2,80/1}
+    \fill ({94+6.114*\a},{461-42.6*\b}) circle (4.5);
+  \node[font=\footnotesize] at (348,522) {Dosage (mg)};
+  \node[font=\footnotesize,rotate=90] at (35,235) {Reported pain scale};
+\end{tikzpicture}
+\end{document}

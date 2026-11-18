@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\L{13}\def\R{296}\def\T{118}\def\B{383}
+  \def\xa{85}\def\xb{224}\def\ya{191}\def\yb{310}
+  \draw (\L,\T) rectangle (\R,\B);
+  \draw (\xa,\T) -- (\xa,\ya) (\xb,\T) -- (\xb,\ya) (\xa,\yb) -- (\xa,\B) (\xb,\yb) -- (\xb,\B);
+  \draw (\L,\ya) -- (\xa,\ya) (\L,\yb) -- (\xa,\yb) (\xb,\ya) -- (\R,\ya) (\xb,\yb) -- (\R,\yb);
+  \draw[aux] (\xa,\ya) rectangle (\xb,\yb);
+  \foreach \d in {-2.5,2.5} {
+    \draw ({154.5+\d},{\T-5}) -- ({154.5+\d},{\T+5});
+    \draw ({154.5+\d},{\B-5}) -- ({154.5+\d},{\B+5});
+    \draw ({\L-5},{250.5+\d}) -- ({\L+5},{250.5+\d});
+    \draw ({\R-5},{250.5+\d}) -- ({\R+5},{250.5+\d});
+  }
+  \foreach \p in {(100,155),(206,155),(53,211),(263,205),(53,291),(263,291),(100,348),(206,348)}
+    \node at \p {$x$};
+  \draw[<-] (\L,31) -- (115,31); \draw[->] (195,31) -- (\R,31);
+  \node at (155,31) {16cm};
+  \draw[<->] (\xa,100) -- (\xb,100);
+  \node at (154,77) {$16-2x$};
+  \draw[<-] (400,123) -- (400,228); \draw[->] (400,264) -- (400,378);
+  \node at (400,246) {16cm};
+  \draw[<->] (318,195) -- (318,308);
+\end{tikzpicture}
+\end{document}

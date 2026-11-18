@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[fill=black!18] (65,686) -- (65,72) to[out=90,in=180] (78,62) -- (316,64) to[out=0,in=90] (333,86) -- (338,140) to[out=-90,in=0] (328,154)
+    to[out=165,in=-15] (240,130) to[out=165,in=0] (182,116) to[out=180,in=90] (154,142) to[out=-90,in=180] (172,170) -- (198,170)
+    to[out=-20,in=90] (207,186) to[out=-90,in=70] (199,204) to[out=-110,in=180] (216,228) -- (440,228) to[out=0,in=170] (463,233)
+    -- plot[smooth] coordinates {(463,233) (471,250) (466,272) (457,300) (447,322) (438,333)}
+    to[out=180,in=0] (280,340) to[out=180,in=90] (258,362)
+    -- plot[smooth] coordinates {(258,362) (262,385) (250,410) (238,430) (241,445) (262,450)}
+    -- (500,452) to[out=0,in=90] (528,466)
+    -- plot[smooth] coordinates {(528,466) (525,500) (520,540) (528,570) (512,600) (522,630) (510,655) (520,672) (545,684)}
+    -- (545,686) -- cycle;
+  \draw (545,686) -- (735,686);
+  \draw (80,171) -- (198,171);
+  \draw[<->] (110,176) -- (110,682);
+  \draw[<->] (226,232) -- (226,682);
+  \draw[<->] (392,455) -- (392,682);
+  \draw[->] (176,112) -- (176,166);
+  \foreach \r in {64,56,...,8} \fill[black,opacity=0.07,rounded corners=10] ({600-\r},{600-\r}) rectangle ({600+\r},{600+\r});
+  \node at (145,30) {Top of cliff};
+  \node at (176,97) {\bfseries cave ledge};
+  \node at (340,202) {upper cave};
+  \node at (415,393) {lower cave};
+  \node[anchor=west] at (115,290) {\bfseries 10 metres};
+  \node[anchor=west] at (231,490) {\bfseries 9 metres};
+  \node[anchor=west] at (397,565) {\bfseries 5 metres};
+  \node at (632,560) {\bfseries seawater};
+  \node at (628,665) {\bfseries seabed};
+\end{tikzpicture}
+\end{document}

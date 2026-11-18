@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (5,310) -- (790,310);
+\draw[->] (181,505) -- (181,32);
+\node at (815,300) {$x$};
+\node at (205,17) {$y$};
+\draw[line width=0.9pt,<->] (95,515) .. controls (190,400) and (290,310) .. (345,310)
+  .. controls (430,310) and (440,412) .. (529,412)
+  .. controls (620,412) and (680,350) .. (707,310)
+  .. controls (732,272) and (775,195) .. (793,141);
+\draw[dash pattern=on 1pt off 1.5pt] (529,310) -- (529,412);
+\node[anchor=south,inner sep=2pt] at (345,300) {$3$};
+\node[anchor=south,inner sep=2pt] at (529,302) {$6$};
+\node[anchor=south,inner sep=2pt] at (697,296) {$9$};
+\node[anchor=west] at (800,143) {$y=f'(x)$};
+\end{tikzpicture}
+\end{document}

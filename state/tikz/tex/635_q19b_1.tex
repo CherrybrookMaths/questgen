@@ -1,0 +1,35 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{12.7}{15}\selectfont]
+  \fill[shade] plot[smooth] coordinates {(152,157) (209,93) (266,63) (322,49) (379,63) (436,93) (493,157)}
+     -- plot[smooth] coordinates {(493,268) (436,330) (379,368) (322,382) (266,368) (209,330) (152,268)} -- cycle;
+  \draw plot[smooth] coordinates {(152,157) (209,93) (266,63) (322,49) (379,63) (436,93) (493,157)};
+  \draw plot[smooth] coordinates {(493,268) (436,330) (379,368) (322,382) (266,368) (209,330) (152,268)};
+  % roads
+  \foreach \x in {63,152,493,577} \draw (\x,30) -- (\x,418);
+  % dashed axis
+  \draw[aux] (152,213) -- (493,213);
+  % ordinates
+  \draw[<->] (209,213) -- (209,93);
+  \draw[<->] (266,213) -- (266,63);
+  \draw[<->] (322,213) -- (322,49);
+  \draw[<->] (379,213) -- (379,63);
+  \draw[<->] (436,213) -- (436,93);
+  \node[rotate=90] at (192,155) {\halo{40}};
+  \node[rotate=90] at (249,140) {\halo{60}};
+  \node[rotate=90] at (305,128) {\halo{80}};
+  \node[rotate=90] at (362,140) {\halo{60}};
+  \node[rotate=90] at (419,155) {\halo{40}};
+  \node[rotate=90] at (137,185) {30};
+  \node[rotate=90] at (478,183) {\halo{30}};
+  % width
+  \draw[<-] (152,405) -- (294,405);
+  \draw[->] (350,405) -- (493,405);
+  \node at (322,405) {420};
+  \node at (105,57) {Road};
+  \node at (535,55) {Road};
+  \node at (318,30) {Lake};
+  \node at (683,212) {Not to scale};
+\end{tikzpicture}
+\end{document}

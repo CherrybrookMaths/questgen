@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (545,13) -- (545,385);
+  % ---- left: original
+  \node[font=\Large] at (135,45) {Original};
+  \draw[->] (82,188) -- (392,188);
+  \draw[->] (242,313) -- (242,88);
+  \draw (158,216) circle (56);
+  \draw[aux] (158,216) -- (242,216);
+  \draw (158,183) -- (158,193);
+  \fill (158,216) circle (3);
+  \node[font=\large] at (159,170) {$-3$};
+  \node[font=\large,anchor=west] at (250,218) {$-1$};
+  \node[font=\large] at (264,92) {$y$};
+  \node[font=\large] at (410,190) {$x$};
+  % ---- right: reflected
+  \node[font=\Large,anchor=west] at (560,40) {Reflected in $y$-axis};
+  \draw[->] (652,188) -- (990,188);
+  \draw[->] (795,308) -- (795,62);
+  \draw (879,216) circle (56);
+  \draw[aux] (795,216) -- (879,216);
+  \draw (879,183) -- (879,193);
+  \fill (879,216) circle (3);
+  \node[font=\large] at (881,170) {$3$};
+  \node[font=\large,anchor=east] at (787,218) {$-1$};
+  \node[font=\large] at (775,70) {$y$};
+  \node[font=\large] at (1008,190) {$x$};
+\end{tikzpicture}
+\end{document}

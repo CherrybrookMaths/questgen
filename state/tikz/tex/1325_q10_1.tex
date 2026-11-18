@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (10,228) -- (505,228);
+  \draw[->] (208,372) -- (208,8);
+  \draw[line width=0.9pt,->,smooth,samples=60,domain=0:280,variable=\u] plot ({208+\u},{228-181.6*(1-exp(-0.0103*\u))});
+  \fill (280,132.9) circle (2.6);
+  \draw (280,228) -- (280,239);
+  \node[font=\large,anchor=north] at (280,241) {$1$};
+  \node[font=\large] at (194,243) {$O$};
+  \node[font=\large] at (497,244) {$x$};
+  \node[font=\large] at (194,14) {$y$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \fill[shade] plot[domain=0:1, samples=90, smooth, variable=\t] ({305+272*\t*\t},{476-403*\t*(1-\t*\t)}) -- cycle;
+  \draw[->] (80,476) -- (902,476);
+  \draw[->] (305,640) -- (305,40);
+  \draw (577,476) -- (577,490);
+  \draw[line width=0.9pt] plot[domain=0:1, samples=90, smooth, variable=\t] ({305+272*\t*\t},{476-403*\t*(1-\t*\t)});
+  \node[font=\large] at (292,32) {$y$};
+  \node[font=\large] at (885,506) {$x$};
+  \node[font=\large] at (281,503) {$O$};
+  \node[font=\large] at (577,518) {$1$};
+  \node[font=\large] at (632,332) {$y=\sqrt{x}\,(1-x)$};
+\end{tikzpicture}
+\end{document}

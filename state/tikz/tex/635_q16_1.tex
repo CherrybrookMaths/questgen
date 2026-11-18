@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\small]
+  \coordinate (H) at (112,250); \coordinate (S) at (350,130); \coordinate (P) at (733,392);
+  % north lines
+  \draw[aux,->] (H) -- (112,100);
+  \draw[aux,->] (S) -- (350,8);
+  \draw[aux,->] (P) -- (733,225);
+  % triangle
+  \draw (H) -- (S) -- (P) -- cycle;
+  % bearing arcs
+  \draw[->] (112,180) arc[start angle=-90, end angle=-26.8, radius=70];
+  \draw[->] (350,82) arc[start angle=-90, end angle=34.4, radius=48];
+  \draw[->] (733,344) arc[start angle=-90, end angle=192.9, radius=48];
+  % labels
+  \node at (162,168) {$63^\circ$};
+  \node at (422,97) {$124^\circ$};
+  \node[anchor=east] at (330,100) {Shop $(S)$};
+  \node[anchor=east] at (140,277) {House $(H)$};
+  \node[anchor=west] at (782,362) {Post office};
+  \node at (806,405) {$(P)$};
+  \node[rotate=26.8] at (256,207) {5.59 km};
+  \node[rotate=-12.9] at (428,304) {13.34 km};
+\end{tikzpicture}
+\end{document}

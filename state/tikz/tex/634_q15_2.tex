@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \v in {20,40,...,120} \draw[black!25] (168,{440-2.275*\v}) -- (960,{440-2.275*\v});
+\draw[black!50] (168,440)--(960,440);
+\foreach \v in {0,20,...,120} \node[anchor=east,font=\footnotesize] at (148,{440-2.275*\v}) {\v};
+\foreach \x/\h/\n in {266/105/Netflix, 464/90/Disney Plus, 663/50/Amazon Prime, 861/30/Stan} {
+  \filldraw[fill=black!35,draw=black] (\x-31,440) rectangle (\x+31,{440-2.275*\h});
+  \node[font=\footnotesize,anchor=base] at (\x,479) {\n};
+}
+\node[font=\small,anchor=base] at (564,519) {Streaming Service};
+\node[font=\small,rotate=90] at (82,303) {Number of Students};
+\node[font=\Large,align=center] at (564,77) {Proportion of Year 12 cohort's\\[2pt] favourite streaming service};
+\end{tikzpicture}
+\end{document}

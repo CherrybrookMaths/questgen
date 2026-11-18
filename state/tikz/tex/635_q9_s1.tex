@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(220,270)},x=1.2637cm,y=0.5652cm]
+\draw[->] (-0.754,0)--(8.69,0);
+\draw[->] (0,-4.72)--(0,5.73);
+\foreach \v in {4,-4} \draw (-0.08,\v)--(0.08,\v);
+\foreach \x in {0.5,1,1.5,2} \draw ({\x*pi},-0.18)--({\x*pi},0.18);
+\node[anchor=west,font=\Large] at (0.08,5.6) {$y$};
+\node[anchor=east,font=\Large] at (-0.12,4) {$4$};
+\node[anchor=east,font=\Large] at (-0.12,-4) {$-4$};
+\node[anchor=east,font=\Large] at (-0.12,2.1) {$2$};
+\node[anchor=north east,font=\Large] at (-0.1,-0.25) {$0$};
+\node[anchor=north east,font=\Large] at ({pi/2-0.04},-0.25) {$\dfrac{\pi}{2}$};
+\node[anchor=south west,font=\Large] at (2.05,0.1) {$2$};
+\node[anchor=north,font=\Large] at (pi,-0.35) {$\pi$};
+\node[anchor=north west,font=\Large] at ({1.5*pi+0.04},-0.25) {$\dfrac{3\pi}{2}$};
+\node[anchor=north,font=\Large] at ({2*pi},-0.35) {$2\pi$};
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:2*pi] (\x,{4*cos(deg(\x))});
+\draw[line width=0.9pt,<->] (-1.9,3.9)--(5.98,-3.98);
+\node[pt] at (0,2) {}; \node[pt] at ({2*pi},4) {};
+\node[pt] at (1.427,0.573) {}; \node[pt] at (4.145,-2.145) {};
+\node[anchor=west,font=\Large] at (6.45,3.05) {$y=4\cos x$};
+\node[anchor=west,font=\Large] at (6.15,-4.2) {$y=2-x$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

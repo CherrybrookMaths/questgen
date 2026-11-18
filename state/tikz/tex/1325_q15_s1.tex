@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (668,268); 64 px per x unit, 32.5 px per y unit
+  \draw[->] (430,268) -- (915,268);
+  \draw[->] (668,428) -- (668,78);
+  \foreach \k in {1,2,3} \draw ({668+64*\k},262) -- ({668+64*\k},274);
+  \foreach \k in {2,4} \draw (662,{268+32.5*\k}) -- (674,{268+32.5*\k});
+  \foreach \k in {1,2} \node[font=\footnotesize,anchor=north] at ({668+64*\k},277) {$\k$};
+  \node[font=\footnotesize,anchor=north west] at ({668+64*3+2},277) {$3$};
+  \node[font=\footnotesize,anchor=east] at (661,333) {$-2$};
+  \node[font=\footnotesize,anchor=east] at (661,398) {$-4$};
+  \draw[line width=0.9pt,->,smooth,samples=90,domain=-1.05:3.36,variable=\t] plot ({668+64*\t},{268-32.5*(\t*\t*\t-3*\t*\t)});
+  \fill (668,268) circle (4);
+  \fill (796,398) circle (4);
+  \node[font=\footnotesize,anchor=north] at (796,402) {$(2,-4)$};
+  \node at (930,268) {$x$};
+  \node at (668,62) {$y$};
+\end{tikzpicture}
+\end{document}

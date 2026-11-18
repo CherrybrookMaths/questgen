@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\foreach \v in {5,10,...,95}{\draw[black!25,line width=0.4pt] (120,{565-4.65*\v}) -- (1168,{565-4.65*\v});}
+\draw[black!45,line width=0.4pt] (120,100) -- (1168,100);
+\foreach \i in {0,...,9}{\draw[black!45,line width=0.4pt] ({173+105.65*\i},100) -- ({173+105.65*\i},565);}
+\foreach \i/\f in {0/79,1/60,2/20,3/15,4/10,5/8,6/5,7/1,8/1,9/1}{
+  \filldraw[fill=black!45] ({173+105.65*\i-42.5},565) rectangle ({173+105.65*\i+42.5},{565-4.65*\f});}
+\draw (120,100) -- (120,565) -- (1168,565);
+\draw (1168,100) -- (1168,578);
+\foreach \v in {0,5,...,100}{\draw (1168,{565-4.65*\v}) -- (1180,{565-4.65*\v});}
+\draw plot coordinates {(173,381.3) (278.65,241.8) (384.3,195.3) (489.95,160.45) (595.6,137.2) (701.25,118.6) (806.9,107) (912.55,104.65) (1018.2,102.3) (1123.85,100)};
+\foreach \v in {20,40,...,100}{
+  \node[anchor=east] at (98,{565-4.65*\v}) {$\v$};
+  \node[anchor=west] at (1192,{565-4.65*\v}) {$\v$};}
+\node at (644,22) {Reasons for lateness given by factory workers};
+\node[rotate=90] at (25,328) {Frequency};
+\node[rotate=90] at (1266,300) {Cumulative \%};
+\node at (648,640) {Reason};
+\foreach \i/\t in {0/{Queue at\\Security\\Gate},1/{Traffic\\Congestion},2/{Train\\late/missed},3/{Bus\\late/missed},4/{Car\\Problem},5/{Overslept},6/{Illness},7/{Family\\Problem},8/{Bus\\late/missed},9/{Other}}{
+  \node[anchor=north,align=center,font=\fontsize{8.5}{8.2}\selectfont,inner sep=1pt] at ({173+105.65*\i},569) {\t};}
+\end{tikzpicture}
+\end{document}

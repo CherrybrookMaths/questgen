@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.8928cm,y=0.8928cm]
+\draw[->] (-3.5,0) -- (8.8,0);
+\draw[->] (0,-3.2) -- (0,6.65);
+\node[anchor=west] at (8.2,0.2) {$x$};
+\node at (0.27,6.1) {$y$};
+\draw[aux] (4,-3.2) -- (4,6.6);
+\draw[aux] (-3.5,1) -- (8.75,1);
+\foreach \x in {-3,-2,-1,1,2,3,5,6,7,8}{\draw (\x,0) -- (\x,-0.08); \node[font=\small,anchor=north,inner sep=1pt] at (\x,-0.12) {$\x$};}
+\node[font=\small,anchor=north,inner sep=1pt] at (4.13,-0.12) {$4$};
+\foreach \y in {-3,-2,-1,1,2,3,4,5,6}{\draw (0,\y) -- (-0.08,\y); \node[font=\small,anchor=east,inner sep=1pt] at (-0.12,\y) {$\y$};}
+\node[font=\small,anchor=north east,inner sep=1.5pt] at (0,0) {$0$};
+\draw[line width=0.9pt,smooth,samples=90,domain=-3.5:3.524] plot (\x,{(\x-2)/(\x-4)});
+\draw[line width=0.9pt,smooth,samples=90,domain=4.364:8.7] plot (\x,{(\x-2)/(\x-4)});
+\end{tikzpicture}
+\end{document}

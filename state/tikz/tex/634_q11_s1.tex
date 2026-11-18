@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (22,572) -- (1210,572);
+\draw[<->] (442,1135) -- (442,45);
+\foreach \i in {-3,-2,-1,1,2,3,4,5,6}{\draw ({442+119.6*\i},566) -- ++(0,12);}
+\foreach \i in {-3,-2,-1,2,4,5,6}{\node[font=\footnotesize] at ({442+119.6*\i},590) {$\i$};}
+\node[font=\footnotesize] at (561,606) {$1$};
+\node[font=\footnotesize] at (813,590) {$3$};
+\node[font=\footnotesize] at (428,590) {$0$};
+\foreach \j in {-3,-2,-1,1,2,3}{\draw (436,{572-165*\j}) -- ++(12,0); \node[font=\footnotesize,anchor=east] at (434,{572-165*\j}) {$\j$};}
+\node[font=\Large] at (1222,590) {$x$};
+\node[font=\Large] at (407,45) {$y$};
+% given y=f(x) (grey) and answer y=-f(x+3) (black)
+\draw[line width=0.9pt,black!45] plot[domain=0:3.2,samples=90,smooth] ({442+119.6*\x},{572-165*((\x-1)^2*(\x-3))});
+\draw[line width=0.9pt] plot[domain=-3:0.2,samples=90,smooth] ({442+119.6*\x},{572+165*((\x+2)^2*(\x))});
+\end{tikzpicture}
+\end{document}

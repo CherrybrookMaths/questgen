@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (527,370) circle (272);
+\foreach \a in {80,116,206,314}{\draw (527,370) -- ++({272*cos(\a)},{-272*sin(\a)});}
+\node[font=\large] at (512,42) {Proportion of Year 12 cohort's favourite streaming service};
+\node[align=center] at (502,180) {Stan\\10\%};
+\node[align=center] at (373,327) {Amazon\\Prime\\25\%};
+\node[align=center] at (663,325) {Netflix\\35\%};
+\node[align=center] at (498,525) {Disney Plus\\30\%};
+\end{tikzpicture}
+\end{document}

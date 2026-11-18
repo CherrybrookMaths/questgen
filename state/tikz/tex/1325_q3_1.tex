@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (20,182) -- (315,182);
+  \draw[->] (155,285) -- (155,32);
+  \node[font=\footnotesize] at (155,20) {N};
+  \draw (155,182) -- ({155+140*sin(150)},{182-140*cos(150)}) coordinate (B);
+  \fill (155,182) circle (3.5);
+  \fill (B) circle (3.5);
+  \node[font=\footnotesize,anchor=east] at (146,166) {$A$};
+  \node[font=\footnotesize,anchor=west] at ($(B)+(4,3)$) {$B$};
+  \draw[->] plot[domain=0:146,samples=40,smooth] ({155+25*sin(\x)},{182-25*cos(\x)});
+  \node[font=\footnotesize,anchor=west] at (180,164) {$150^\circ$};
+  \node[align=center,font=\footnotesize] at (415,180) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

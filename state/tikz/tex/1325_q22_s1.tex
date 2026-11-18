@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (190,221) -- (640,221);
+  \draw[->] (262,300) -- (262,8);
+  \draw[aux] (250,103) -- (640,103);
+  \draw (255,103) -- (269,103);
+  \draw[line width=0.9pt,->] plot[smooth,samples=90,domain=0:1.03,variable=\t] ({262+335*\t},{221-14.75*(8-8*exp(-2*\t))});
+  \node[font=\large] at (240,20) {$\dot{x}$};
+  \node[font=\large] at (234,128) {$8$};
+  \node[font=\large] at (232,258) {$0$};
+  \node[font=\large] at (672,256) {$t$};
+  \node[font=\large,anchor=south] at (645,94) {asymptote};
+  \node[font=\large] at (580,158) {$\dot{x}=8-8e^{-2t}$};
+\end{tikzpicture}
+\end{document}

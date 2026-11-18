@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% cone: rim ellipse, slant sides tangent to it, apex
+\draw (217,150) ellipse [x radius=200, y radius=54];
+\draw (18.2,157)--(217,568)--(415.8,157);
+% inscribed cylinder (base circle touches the slant sides)
+\draw (217,155) ellipse [x radius=100, y radius=29];
+\draw (217,362) ellipse [x radius=100, y radius=29];
+\draw (117,155)--(117,362); \draw (317,155)--(317,362);
+% axis
+\draw[dotted] (217,62)--(217,568);
+% dimensions
+\draw[<->] (217,62)--(415,62); \node at (316,30) {9\,cm};
+\draw[->] (463,340)--(463,157); \draw[->] (463,385)--(463,567);
+\node at (463,362) {25\,cm};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[black!30] (5,5) rectangle (875,490);
+\foreach \t in {12,14,...,26} \draw[black!20] ({147+42.8*(\t-10)},108) -- ({147+42.8*(\t-10)},368);
+\foreach \p in {100,200,...,700} \draw[black!20] (147,{368-0.3714*\p}) -- (832,{368-0.3714*\p});
+\draw[black!40] (147,108) -- (147,368) -- (832,368);
+\foreach \t in {10,12,...,26} \node[font=\fontsize{9}{11}\selectfont] at ({147+42.8*(\t-10)},398) {\sffamily\t};
+\foreach \p in {0,100,...,700} \node[font=\fontsize{9}{11}\selectfont,anchor=east] at (130,{368-0.3714*\p}) {\sffamily\p};
+\node[font=\large\sffamily] at (490,52) {Kimberley's Ice-cream};
+\node[rotate=90,font=\fontsize{10}{12}\selectfont\sffamily] at (42,240) {\textit{Profit P}};
+\node[font=\fontsize{10}{12}\selectfont\sffamily] at (490,442) {Temperature in Celcius \textit{T}};
+\draw[aux] ({147+42.8*1.9},{368-0.3714*210.3}) -- ({147+42.8*15},{368-0.3714*585});
+\foreach \x/\y in {228/300,326/289,369/246,421/248,455/217,493/210,510/215,548/212,663/175,686/204,719/166,792/141}
+  \fill[black!55] (\x,\y) circle (7);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{10}{12}\selectfont}]
+  \def\u{73.5}
+  \path[shade dots] plot[smooth,samples=40,domain=0:1,variable=\t] ({197+\u*\t},{243-\u*(\t*\t-3*\t+2)})
+     -- (197+2*\u,243) arc[start angle=0,end angle=-90,radius=147] -- cycle;
+  \draw[->] (5,243) -- (472,243);
+  \draw[->] (197,470) -- (197,8);
+  \draw (197,243) circle (147);
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=-0.19:3.2,variable=\t] ({197+\u*\t},{243-\u*(\t*\t-3*\t+2)});
+  \node at (183,16) {$y$};
+  \node at (460,266) {$x$};
+  \node at (179,267) {$O$};
+  \node at (264,264) {$1$};
+  \node at (352,264) {$2$};
+  \node at (30,262) {$-2$};
+  \node at (184,112) {$2$};
+  \node at (182,410) {$-2$};
+  \node[anchor=west] at (416,150) {$y=x^2-3x+2$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % bucket
+  \fill[shade] (35,95) -- (68,250) .. controls (120,262) .. (180,250) -- (205,95) -- cycle;
+  \draw (35,95) -- (68,250) .. controls (120,262) .. (180,250) -- (205,95);
+  \draw (120,95) ellipse [x radius=85, y radius=20];
+  \fill[black!35] (120,99) ellipse [x radius=78, y radius=14];
+  \draw (100,125) .. controls (90,15) and (140,15) .. (140,95);
+  \draw (106,128) ellipse [x radius=8, y radius=8];
+  % line and P
+  \draw (248,201) -- (935,201);
+  \fill (248,203) circle (9);
+  \node[font=\large\bfseries] at (254,170) {$\boldsymbol{P}$};
+  \foreach \t in {388,537,682,828} \draw (\t,193) -- (\t,209);
+  % apples
+  \foreach \a in {380,532,682,830} {
+    \draw (\a,142) ellipse [x radius=33, y radius=32];
+    \draw (\a+2,112) -- (\a+8,96);
+  }
+  \node[font=\large\bfseries] at (328,255) {6 m};
+  \foreach \a in {463,608,760} \node[font=\large\bfseries] at (\a,255) {4 m};
+  \node[font=\bfseries] at (1110,140) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

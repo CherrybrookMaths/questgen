@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.8827cm,y=0.3334cm]
+\begin{scope}[shift={(-5,-12)}]
+\foreach \a in {5,5.25,...,19}{\draw[black!25,line width=0.4pt] (\a,11.6) -- (\a,36.2);}
+\foreach \b in {12,12.5,...,36}{\draw[black!25,line width=0.4pt] (5,\b) -- (19,\b);}
+\foreach \a in {5,...,19}{\draw[black!60,line width=0.6pt] (\a,11.6) -- (\a,36.2);}
+\foreach \b in {12,14,...,36}{\draw[black!60,line width=0.6pt] (5,\b) -- (19,\b);
+  \node[font=\scriptsize,anchor=east,inner sep=1pt] at (4.85,\b) {\b};
+  \node[font=\scriptsize,anchor=west,inner sep=1pt] at (19.85,\b) {\b};}
+\draw (5,11.6) rectangle (19,36.2);
+\draw (19,11.6) -- (19.7,11.6) -- (19.7,36.2) -- (19,36.2);
+\foreach \a in {5,...,18}{\foreach \m in {3,6,9}{\node[font=\tiny,inner sep=0pt] at ({\a+\m/12},11.12) {\m};}}
+\foreach \a in {5,...,19}{\node[font=\scriptsize,inner sep=0pt] at (\a,10.44) {\a};}
+\node[font=\scriptsize,anchor=east,inner sep=0pt] at (4.75,11.12) {Months};
+\node[font=\scriptsize,anchor=east,inner sep=0pt] at (4.75,10.44) {Years};
+\node[font=\small] at (11.8,9.5) {Age (completed months and years)};
+\node[font=\small,rotate=90] at (4.24,22.6) {BMI (kg/m$^2$)};
+\foreach \c in {
+ {(5,20.2)(6,20.8)(7,21.6)(8,22.8)(9,24.3)(10,26.1)(11,28.0)(12,30.0)(13,31.7)(14,33.0)(15,34.0)(16,34.7)(17,35.2)(18,35.4)(19,35.5)},
+ {(5,18.3)(6,18.5)(7,19.0)(8,19.7)(9,20.5)(10,21.4)(11,22.5)(12,23.6)(13,24.8)(14,26.0)(15,27.0)(16,27.9)(17,28.6)(18,29.2)(19,29.7)},
+ {(5,16.6)(6,16.8)(7,17.0)(8,17.4)(9,17.9)(10,18.5)(11,19.2)(12,19.9)(13,20.8)(14,21.8)(15,22.7)(16,23.5)(17,24.3)(18,24.9)(19,25.4)},
+ {(5,15.3)(6,15.3)(7,15.5)(8,15.7)(9,16.0)(10,16.4)(11,16.9)(12,17.5)(13,18.2)(14,19.0)(15,19.8)(16,20.5)(17,21.1)(18,21.7)(19,22.2)},
+ {(5,14.1)(6,14.1)(7,14.2)(8,14.4)(9,14.6)(10,14.9)(11,15.3)(12,15.8)(13,16.4)(14,17.0)(15,17.6)(16,18.2)(17,18.8)(18,19.2)(19,19.6)},
+ {(5,13.0)(6,13.0)(7,13.1)(8,13.3)(9,13.5)(10,13.7)(11,14.1)(12,14.5)(13,14.9)(14,15.5)(15,16.0)(16,16.5)(17,16.9)(18,17.3)(19,17.6)},
+ {(5,12.1)(6,12.1)(7,12.2)(8,12.4)(9,12.6)(10,12.8)(11,13.1)(12,13.4)(13,13.8)(14,14.3)(15,14.7)(16,15.1)(17,15.4)(18,15.7)(19,15.8)}}
+ {\draw[line width=0.9pt] plot[smooth] coordinates \c;}
+\foreach \z/\b in {3/35.5,2/29.75,1/25.5,0/22.2,-1/19.7,-2/17.6,-3/15.9}{\node[font=\small] at (19.36,\b) {$\z$};}
+\node[font=\Large\bfseries\sffamily,anchor=west,inner sep=0pt] at (5.1,39.7) {BMI-for-age\ \ BOYS};
+\draw (4,38.86) -- (16.3,38.86);
+\node[font=\small,anchor=west,inner sep=0pt] at (5.1,38.1) {5 to 19 years (z-scores)};
+\node[font=\small\bfseries\sffamily,anchor=east,align=right,inner sep=0pt] at (20.6,39.1) {World Health\\[-3pt]Organization};
+\node[font=\small,anchor=east,inner sep=0pt] at (20.15,7.96) {2007\ \ WHO Reference};
+\end{scope}
+\end{tikzpicture}
+\end{document}

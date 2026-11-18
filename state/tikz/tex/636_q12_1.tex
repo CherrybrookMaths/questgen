@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6858cm,y=0.6858cm]
+  \foreach \i in {-6,...,6} {\draw[black!30,line width=0.4pt] (\i,-6.97)--(\i,6.97); \draw[black!30,line width=0.4pt] (-6.97,\i)--(6.97,\i);}
+  \draw[black!45] (-6.97,-6.97) rectangle (6.97,6.97);
+  \draw[<->] (-6.95,0)--(6.95,0);
+  \draw[<->] (0,-6.95)--(0,6.95);
+  \node[anchor=south] at (6.7,0.05) {$x$};
+  \node[anchor=west] at (0.08,6.6) {$y$};
+  \foreach \i in {-6,...,-1,1,2,...,6} {\node[font=\footnotesize] at (\i,-0.37) {$\i$};
+    \node[anchor=east,font=\footnotesize] at (-0.1,\i) {$\i$};}
+  \node[font=\footnotesize] at (-0.27,-0.37) {$0$};
+\end{tikzpicture}
+\end{document}

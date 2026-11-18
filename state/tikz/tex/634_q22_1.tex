@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (110,562) -- (110,8);
+\draw[->] (110,562) -- (1042,562);
+\foreach \y/\l in {415/10000, 251.5/20000, 88/30000} { \draw (98,\y) -- (110,\y); \node[anchor=east,font=\normalsize] at (96,\y) {$\l$}; }
+\foreach \t in {0,1,2,3} \node[font=\normalsize,anchor=base] at ({110+236*\t},606) {$\t$};
+\node[font=\Large,anchor=base] at (1050,598) {$t$};
+\end{tikzpicture}
+\end{document}

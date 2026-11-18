@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (15,438) -- (1048,438);
+  \foreach \i in {0,...,8} \draw (17+128.625*\i,430) -- ++(0,16);
+  \draw (532,438) -- (532,18);
+  \draw[line width=0.9pt] plot[domain=-4:4,samples=90,smooth,variable=\t] ({532+128.625*\t},{438-420*exp(-\t*\t/2)});
+  \node at (532,467) {$\bar{x} = 8.1$};
+\end{tikzpicture}
+\end{document}

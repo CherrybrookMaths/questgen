@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (15,208) -- (369,208);
+  \draw[->] (97,288) -- (97,21);
+  \node[anchor=west,font=\footnotesize] at (357,224) {$x$};
+  \node[anchor=east,font=\footnotesize] at (91,24) {$p(x)$};
+  \draw[line width=0.9pt] plot[domain=17:342,samples=90,smooth] (\x,{208-0.00582*(\x-34)*(\x-246)});
+  \draw[aux] (342,36) -- (342,208);
+  \node[anchor=north,font=\footnotesize] at (20,213) {$-2$};
+  \node[anchor=north,font=\footnotesize] at (252,213) {$6$};
+  \node[anchor=north,font=\footnotesize] at (329,213) {$10$};
+\end{tikzpicture}
+\end{document}

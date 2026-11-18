@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\ox{158}\def\oy{325}\def\ux{89}\def\uy{73}
+  \draw[->] (115,\oy) -- (742,\oy);
+  \draw[->] (\ox,471) -- (\ox,10);
+  \draw ({\ox-6},471) -- ({\ox+6},471);
+  \foreach \v in {1,...,6} \draw ({\ox+\ux*\v},{\oy-6}) -- ({\ox+\ux*\v},{\oy+6});
+  \foreach \v in {2,4,6} \node[font=\small] at ({\ox+\ux*\v},{\oy+24}) {$\v$};
+  \foreach \v in {-1,1,2,3} \draw ({\ox-6},{\oy-\uy*\v}) -- ({\ox+6},{\oy-\uy*\v});
+  \node[font=\small] at (140,32) {$x$};
+  \node[font=\small] at (754,327) {$t$};
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=0.05:5.35] ({\ox+\ux*\x},{\oy+18.25*(\x-1)*(\x-4)^2});
+\end{tikzpicture}
+\end{document}

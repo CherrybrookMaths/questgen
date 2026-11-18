@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \pgfmathsetmacro\th{atan2(453,227)}
+  \coordinate (A) at (66,494); \coordinate (B) at (293,494); \coordinate (C) at (293,41);
+  \coordinate (D) at ({66+227*cos(\th)},{494-227*sin(\th)});
+  \fill[black!30] (B) -- (C) -- (D) arc[start angle=-\th, end angle=0, radius=227] -- cycle;
+  \draw (A) -- (B) -- (C) -- cycle;
+  \draw (B) arc[start angle=0, end angle=-\th, radius=227];
+  \foreach \p in {A,B,C,D} \fill (\p) circle (4.5);
+  \node[font=\small] at (38,494) {$A$};
+  \node[font=\small] at (318,494) {$B$};
+  \node[font=\small] at (310,22) {$C$};
+  \node[font=\small] at (146,272) {$D$};
+  \node[font=\small] at (186,528) {$8$ cm};
+  \node[font=\small] at (110,468) {$\dfrac{\pi}{3}$};
+\end{tikzpicture}
+\end{document}

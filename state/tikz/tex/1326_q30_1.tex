@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\draw[->] (113,371)--(113,38);
+\draw[->] (113,371)--(512,371);
+\draw (113,371)--(412,120);
+\draw[smooth,samples=70,domain=0:250] plot ({113+\x},{371-(0.001*\x*\x+0.34*(exp(0.026*\x)-1))});
+\node[pt] at (345,176) {};
+\draw (106,176)--(113,176);
+\node[anchor=east] at (104,176) {$50$};
+\draw (345,371)--(345,364);
+\node[anchor=north] at (345,377) {$5$};
+\node[anchor=north east] at (110,374) {$O$};
+\node[anchor=east] at (108,73) {$v$ (m/s)};
+\node[anchor=north] at (518,377) {$t$ (seconds)};
+\node[anchor=east] at (232,203) {Car};
+\draw[->] (233,203) .. controls (252,200) and (266,212) .. (280,230.7);
+\node[anchor=west] at (380,240) {Jet};
+\draw[->] (380,240) .. controls (358,240) and (343,233) .. (333,223);
+\node[align=left,anchor=west] at (595,193) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

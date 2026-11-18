@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (18,375) -- (490,375);
+  \draw[->] (165,522) -- (165,58);
+  \draw (18,84) -- (492,84);
+  \draw[line width=0.9pt] plot[domain=-3.5:1.9, samples=90, smooth] ({165+42*\x},{375-48.5*exp(\x)});
+  \draw[line width=0.9pt] plot[domain=-0.118:7.6, samples=90, smooth] ({165+42*\x},{375-48.5*(6-8*exp(-\x))});
+  \node[font=\small] at (163,42) {$y$};
+  \node[font=\small] at (500,377) {$x$};
+  \node[font=\small] at (38,100) {$y=6$};
+  \node[font=\small] at (152,100) {$6$};
+  \node[font=\small] at (154,328) {$1$};
+  \node[font=\small] at (150,392) {$0$};
+  \node[font=\small] at (148,472) {$-2$};
+  \node[font=\small] at (232,22) {$y=e^{x}$};
+  \node[font=\small] at (358,126) {$y=6-8e^{-x}$};
+\end{tikzpicture}
+\end{document}

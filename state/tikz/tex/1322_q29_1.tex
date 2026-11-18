@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% region between A and B: sin x above, sqrt3 cos x below
+\path[shade hatch] plot[smooth,samples=50,domain=pi/3:4*pi/3] ({118+90.72*\x},{338-91.7*sin(\x r)})
+  -- plot[smooth,samples=50,domain=4*pi/3:pi/3] ({118+90.72*\x},{338-91.7*sqrt(3)*cos(\x r)}) -- cycle;
+% axes
+\draw[->] (0,338)--(838,338); \node[font=\Large] at (818,318) {$x$};
+\draw[->] (118,565)--(118,0); \node[font=\Large] at (137,40) {$y$};
+\foreach \v in {-2,-1,1,2,3} {\draw (114,{338-91.7*\v})--(122,{338-91.7*\v}); \node[anchor=east,font=\normalsize] at (106,{338-91.7*\v}) {$\v$};}
+\draw ({118+90.72*pi},334)--({118+90.72*pi},342); \draw ({118+90.72*2*pi},334)--({118+90.72*2*pi},342);
+\node[anchor=north,font=\normalsize] at ({118+90.72*pi},346) {$\pi$};
+\node[anchor=north,font=\normalsize] at ({118+90.72*2*pi},346) {$2\pi$};
+\node[anchor=north east,font=\normalsize] at (106,346) {$0$};
+% curves
+\draw[line width=0.9pt,smooth,samples=90,domain=0:2*pi] plot ({118+90.72*\x},{338-91.7*sin(\x r)});
+\draw[line width=0.9pt,smooth,samples=90,domain=0:2*pi] plot ({118+90.72*\x},{338-91.7*sqrt(3)*cos(\x r)});
+% intersections (computed)
+\fill ({118+90.72*pi/3},{338-91.7*0.8660}) circle (5.5);
+\fill ({118+90.72*4*pi/3},{338+91.7*0.8660}) circle (5.5);
+\node[font=\Large] at (227,220) {$A$};
+\node[font=\Large] at (504,452) {$B$};
+\node[font=\Large] at (625,147) {$y=\sqrt{3}\cos x$};
+\node[font=\Large] at (680,440) {$y=\sin x$};
+\end{tikzpicture}
+\end{document}

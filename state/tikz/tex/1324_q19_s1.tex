@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\useasboundingbox (0,0) rectangle (1560,830);
+\draw[->] (80,593)--(1505,593);
+\draw[->] (670,795)--(670,60);
+\node[anchor=west] at (1509,593) {$x$};
+\node[anchor=west] at (679,70) {$y$};
+\draw[line width=0.9pt,<->,smooth,samples=90,domain=-1.3:4.12] plot ({670+105*\x},{593-14.4*(3+4*\x^3-\x^4)});
+\node[pt] at (670,549.8) {};
+\node[pt] at (880,319.4) {};
+\node[pt] at (985,161) {};
+\node[anchor=south east] at (661,542) {$(0,3)$};
+\node[anchor=south east] at (871,312) {$(2,19)$};
+\node[anchor=south west] at (975,152) {$(3,30)$};
+\end{tikzpicture}
+\end{document}

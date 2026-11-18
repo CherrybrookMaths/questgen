@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (0,572) -- (1190,572);
+\draw[<->] (422,1135) -- (422,45);
+\foreach \i in {-3,-2,-1,1,2,3,4,5,6}{\draw ({422+119.4*\i},566) -- ++(0,12);}
+\foreach \i in {-3,-2,-1,2,4,5,6}{\node[font=\footnotesize] at ({422+119.4*\i},590) {$\i$};}
+\node[font=\footnotesize] at (541,606) {$1$};
+\node[font=\footnotesize] at (793,590) {$3$};
+\node[font=\footnotesize] at (406,590) {$0$};
+\foreach \j in {-3,-2,-1,1,2,3}{\draw (416,{572-165*\j}) -- ++(12,0); \node[font=\footnotesize,anchor=east] at (414,{572-165*\j}) {$\j$};}
+\node[font=\Large] at (1205,590) {$x$};
+\node[font=\Large] at (387,45) {$y$};
+\draw[line width=0.9pt] plot[domain=0:3.2,samples=90,smooth] ({422+119.4*\x},{572-165*((\x-1)^2*(\x-3))});
+\end{tikzpicture}
+\end{document}

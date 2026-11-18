@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,292) -- (735,292);
+  \draw[<->] (210,553) -- (210,35);
+  \node at (750,292) {$t$};
+  \node at (210,15) {$x$};
+  \draw[line width=0.9pt] plot[domain=0:3.1416,samples=90,smooth,variable=\t] ({210+140.6*\t},{292-188*cos((\t-1.0472) r)});
+  \node[pt] at (210,198) {};
+  \node[pt] at (357.2,104) {};
+  \node[pt] at (578.1,292) {};
+  \node[pt] at (651.7,386) {};
+  \node[anchor=east,font=\small] at (202,212) {$(0,\,2)$};
+  \node[anchor=south,font=\small] at (357,96) {$\left(\dfrac{\pi}{3},\,4\right)$};
+  \node[anchor=south west,font=\small] at (583,286) {$\left(\dfrac{5\pi}{6},\,0\right)$};
+  \node[font=\small] at (670,418) {$(\pi,\,-2)$};
+\end{tikzpicture}
+\end{document}

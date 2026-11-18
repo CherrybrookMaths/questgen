@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% minor grid
+\foreach \v in {2,4,...,118} {\pgfmathtruncatemacro\m{mod(\v,20)}\ifnum\m=0\else
+  \draw[black!22,line width=0.4pt] ({217+5.8667*\v},152) -- ({217+5.8667*\v},1447);\fi}
+\foreach \c in {1,...,199} {\pgfmathtruncatemacro\m{mod(\c,40)}\ifnum\m=0\else
+  \draw[black!22,line width=0.4pt] (217,{1447-6.475*\c}) -- (921,{1447-6.475*\c});\fi}
+% major grid
+\foreach \v in {20,40,...,120} \draw[black!50,line width=0.4pt] ({217+5.8667*\v},152) -- ({217+5.8667*\v},1447);
+\foreach \c in {20,40,...,100} \draw[black!50,line width=0.4pt] (217,{1447-12.95*\c}) -- (921,{1447-12.95*\c});
+% axes
+\draw[->] (217,1468) -- (217,90);
+\draw[->] (195,1447) -- (975,1447);
+% y ticks
+\foreach \c in {1,...,100} {\pgfmathtruncatemacro\m{mod(\c,10)}\ifnum\m=0
+  \draw (197,{1447-12.95*\c}) -- (231,{1447-12.95*\c});
+  \node[anchor=east,font=\LARGE] at (192,{1447-12.95*\c}) {\c};
+  \else \draw (210,{1447-12.95*\c}) -- (224,{1447-12.95*\c});\fi}
+% x ticks
+\foreach \v in {5,10,...,120} {\pgfmathtruncatemacro\m{mod(\v,20)}\ifnum\m=0
+  \draw ({217+5.8667*\v},1433) -- ({217+5.8667*\v},1465);
+  \node[font=\LARGE] at ({217+5.8667*\v},1523) {\v};
+  \else \draw ({217+5.8667*\v},1439) -- ({217+5.8667*\v},1459);\fi}
+\node[font=\LARGE] at (569,40) {\underline{\textit{Number of clicks per minute}}};
+\node[font=\LARGE] at (567,1612) {\textit{No.\ of Clicks/minute}};
+\node[font=\LARGE,rotate=90] at (40,820) {\textit{Cumulative Frequency}};
+\end{tikzpicture}
+\end{document}

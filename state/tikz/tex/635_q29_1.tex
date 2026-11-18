@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{9}{11}\selectfont]
+  \fill[shade] plot[smooth, domain=-pi:pi/3, samples=60, variable=\t] ({385+81.2*\t},{232-114*cos(deg(\t/2))})
+     -- plot[smooth, domain=pi/3:-pi, samples=60, variable=\t] ({385+81.2*\t},{232-114*sin(deg(\t))}) -- cycle;
+  \draw[<->] (100,232) -- (690,232);
+  \draw[<->] (385,382) -- (385,100);
+  \draw[<->, line width=0.9pt] plot[smooth, domain=-pi-0.2:pi+0.2, samples=90, variable=\t] ({385+81.2*\t},{232-114*sin(deg(\t))});
+  \draw[<->, line width=0.9pt] plot[smooth, domain=-pi-0.2:pi+0.2, samples=90, variable=\t] ({385+81.2*\t},{232-114*cos(deg(\t/2))});
+  \draw ({385-81.2*pi/2},226) -- ({385-81.2*pi/2},238);
+  \draw ({385+81.2*pi/2},226) -- ({385+81.2*pi/2},238);
+  \node at ({385-81.2*pi/2},258) {$-\dfrac{\pi}{2}$};
+  \node at ({385+81.2*pi/2},258) {$\dfrac{\pi}{2}$};
+  \node at (622,254) {$\pi$};
+  \node[anchor=south west, inner sep=1pt] at (387,104) {$1$};
+  \coordinate (A) at ({385+81.2*pi/3},{232-114*sin(60)});
+  \coordinate (B) at ({385-81.2*pi},232);
+  \draw[dash pattern=on 1pt off 1.2pt] (A) -- ({385+81.2*pi/3},232);
+  \fill (A) circle[radius=4.5]; \fill (B) circle[radius=4.5];
+  \node at ({385+81.2*pi/3},248) {$A$};
+  \node at (144,213) {$B$};
+  \node at (374,92) {$y$};
+  \node at (702,238) {$x$};
+  \node at (180,72) {$y=\cos\!\left(\dfrac{x}{2}\right)$};
+  \draw[->] (205,95) -- ({385+81.2*(-1.884)},{232-114*cos(deg(-0.942))-3});
+  \node at (652,52) {$y=\sin x$};
+  \draw[->] (640,66) -- ({385+81.2*2.525+3},{232-114*sin(deg(2.525))-3});
+  \node[font=\fontsize{8.5}{10}\selectfont] at (775,160) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

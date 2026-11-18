@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{10}{12}\selectfont}]
+  \coordinate (O) at (197,213);
+  \draw (O) circle (188);
+  \foreach \a in {0,30,...,330} \draw ($(O)+(\a:188)$) -- ($(O)+(\a:175)$);
+  \draw[->] (O) -- (197,45);
+  \draw[->] (O) -- (277,325);
+  \draw (197,171) arc[start angle=-90,end angle=36,radius=42];
+  \fill (O) circle (3.5);
+  \node at (178,215) {$O$};
+  \node at (177,52) {$A$};
+  \node at (260,342) {$B$};
+  \node at (150,121) {10 cm};
+  \node at (208,282) {7 cm};
+  \node[anchor=north west,align=left] at (446,10) {Diagram NOT\\accurately drawn};
+\end{tikzpicture}
+\end{document}

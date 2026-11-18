@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade] plot[domain=0:1.5708,samples=60,smooth,variable=\t] ({222+166*\t},{403-166*(1-cos(2*\t r))})
+     -- plot[domain=1.5708:0,samples=60,smooth,variable=\t] ({222+166*\t},{403-166*sin(\t r)}) -- cycle;
+  \draw[->] (15,403) -- (840,403);
+  \draw[->] (222,540) -- (222,40);
+  \node at (857,403) {$x$};
+  \node at (215,20) {$y$};
+  \draw[aux] (309,320) -- (309,412);
+  \draw[aux] (483,72) -- (483,412);
+  \draw[<->,line width=0.9pt] plot[domain=-1.21:3.71,samples=90,smooth,variable=\t] ({222+166*\t},{403-166*(1-cos(2*\t r))});
+  \draw[<->,line width=0.9pt] plot[domain=-0.96:3.69,samples=90,smooth,variable=\t] ({222+166*\t},{403-166*sin(\t r)});
+  \node at (309,450) {$\dfrac{\pi}{6}$};
+  \node at (483,450) {$\dfrac{\pi}{2}$};
+  \node[anchor=west] at (524,70) {$g(x) = 1 - \cos(2x)$};
+  \node[anchor=west] at (862,483) {$f(x) = \sin x$};
+\end{tikzpicture}
+\end{document}

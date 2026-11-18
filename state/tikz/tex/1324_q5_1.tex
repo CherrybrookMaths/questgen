@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[<->] (42,215) -- (712,215);
+  \draw[<->] (378,45) -- (378,398);
+  \foreach \v/\l in {-2/{-2},-1/{-1},1/1,2/2} {
+    \draw ({378+151.5*\v},208) -- ({378+151.5*\v},222);
+    \node[font=\footnotesize] at ({378+151.5*\v},244) {$\l$};
+  }
+  \node[font=\footnotesize] at (726,218) {$x$};
+  \node[font=\footnotesize] at (378,30) {$y$};
+  \draw[<->, line width=0.9pt] plot[smooth, samples=90, domain=-1.49:0.81] ({378+151.5*\x},{215+155*\x*\x*(\x+1)});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (110,265)--(733,265);
+  \draw[aux] (110,315)--(733,315);
+  \foreach \x/\t in {155/205,219/152,285/25} \draw (\x,\t)--(\x,315);
+  \draw[<->] (77,205)--(77,265);
+  \node[anchor=east,font=\small] at (71,244) {$0.3\,\text{m}$};
+  \draw[<->] (757,265)--(757,315);
+  \node[anchor=west,font=\small] at (763,294) {$0.2\,\text{m}$};
+  \draw[->] (885,185)--(697,262);
+  \node[anchor=west,font=\small] at (887,183) {Ground level};
+\end{tikzpicture}
+\end{document}

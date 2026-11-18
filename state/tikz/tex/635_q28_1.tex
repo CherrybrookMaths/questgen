@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % grid
+  \foreach \i in {0.5,1.5,...,9.5} \draw[black!25, line width=0.4pt] ({112+65.3*\i},62) -- ({112+65.3*\i},508);
+  \foreach \v in {42,44,46,48,52,54,56,58,62,64,66,68,72,74,76,78,82,84,86,88,92,94,96,98} \draw[black!25, line width=0.4pt] (112,{508-7.43*(\v-40)}) -- (765,{508-7.43*(\v-40)});
+  \foreach \i in {1,...,9} \draw[black!50, line width=0.4pt] ({112+65.3*\i},62) -- ({112+65.3*\i},508);
+  \foreach \v in {50,60,...,90} \draw[black!50, line width=0.4pt] (112,{508-7.43*(\v-40)}) -- (765,{508-7.43*(\v-40)});
+  % frame
+  \draw (112,62) rectangle (765,508);
+  \foreach \i in {0,...,10} {\draw ({112+65.3*\i},508) -- ({112+65.3*\i},516); \node at ({112+65.3*\i},541) {$\i$};}
+  \foreach \i in {0.5,1.5,...,9.5} \draw ({112+65.3*\i},508) -- ({112+65.3*\i},513);
+  \foreach \v in {40,50,...,100} {\draw (104,{508-7.43*(\v-40)}) -- (112,{508-7.43*(\v-40)}); \node[anchor=east] at (100,{508-7.43*(\v-40)}) {$\v$};}
+  \foreach \v in {42,44,46,48,52,54,56,58,62,64,66,68,72,74,76,78,82,84,86,88,92,94,96,98} \draw (107,{508-7.43*(\v-40)}) -- (112,{508-7.43*(\v-40)});
+  % points
+  \foreach \n/\r in {0/90,1/88,1/85,2/84,3/86,3/80,4/75,4/70,5/60,6/72,7/64,10/55}
+    \fill ({112+65.3*\n},{508-7.43*(\r-40)}) circle[radius=8.5];
+  \node at (110,28) {$R$};
+  \node at (793,508) {$n$};
+  \node[rotate=90] at (25,285) {Quiz result (\%)};
+  \node at (435,578) {Time absent (days)};
+\end{tikzpicture}
+\end{document}

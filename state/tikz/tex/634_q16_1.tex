@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(262,0)},x=0.25019cm]
+\draw (-1.37,321) -- (41.1,321);
+\foreach \v in {0,4,...,40} { \draw (\v,304) -- (\v,338); \node[font=\large,anchor=base] at (\v,360) {\v}; }
+\begin{scope}[line width=0.9pt]
+\draw (6,17)--(6,95) (6,57)--(16,57) (28,57)--(34,57) (34,17)--(34,95);
+\draw (16,17) rectangle (28,95) (24,17)--(24,95);
+\draw (0,164)--(0,244) (0,204)--(12,204) (24,204)--(40,204) (40,164)--(40,244);
+\draw (12,164) rectangle (24,244) (16,164)--(16,244);
+\end{scope}
+\end{scope}
+\node[anchor=west,align=left,font=\normalsize] at (16,68) {Digitsville\\Diagonals};
+\node[anchor=west,align=left,font=\normalsize] at (16,204) {Quadtown\\Parabolas};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (322,367);
+  \coordinate (C) at (322,60);
+  \coordinate (A) at (87,565);
+  \coordinate (B) at (557,565);
+  \coordinate (P) at (322,565);
+  \draw (O) circle[radius=308];
+  \draw (A) -- (C) -- (B) -- cycle;
+  \draw[aux] (O) -- (P);
+  \draw (322,544) -- (343,544) -- (343,565);
+  \node[pt] at (O) {};
+  % equal sides
+  \draw (189,299) -- (225,315);
+  \draw (184,310) -- (220,326);
+  \draw (424,326) -- (460,310);
+  \draw (419,315) -- (455,299);
+  \node[font=\large] at (322,25) {$C$};
+  \node[font=\large] at (322,338) {$O$};
+  \node[font=\large] at (55,588) {$A$};
+  \node[font=\large] at (322,602) {$P$};
+  \node[font=\large] at (578,588) {$B$};
+  \node[font=\large] at (343,475) {$x$};
+  \node[font=\large] at (826,382) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

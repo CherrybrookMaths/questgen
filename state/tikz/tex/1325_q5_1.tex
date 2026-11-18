@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\ux{63.7}\def\uy{63.4}
+  \foreach \i in {-5,...,-1,1} \draw[black!30,line width=0.4pt] ({349+\ux*\i},20) -- ({349+\ux*\i},472);
+  \foreach \j in {-3,...,-1,1,2,3,4} \draw[black!30,line width=0.4pt] (27,{273-\uy*\j}) -- (422,{273-\uy*\j});
+  \draw (15,273) -- (425,273);
+  \draw (349,15) -- (349,483);
+  \draw[line width=0.9pt] plot[domain=-4.236:0.236,samples=90,smooth] ({349+\ux*\x},{273-\uy*((\x+2)^2-1)});
+  \foreach \i in {-5,-4,-3,-2,-1} \node[font=\scriptsize,anchor=north,inner sep=1.5pt] at ({349+\ux*\i-6},276) {$\i$};
+  \node[font=\scriptsize,anchor=north east,inner sep=1.5pt] at (345,276) {$0$};
+  \node[font=\scriptsize,anchor=north,inner sep=1.5pt] at ({349+\ux},276) {$1$};
+  \foreach \j in {-3,-2,-1,1,2,3,4} \node[font=\scriptsize,anchor=east,inner sep=1.5pt] at (346,{273-\uy*\j}) {$\j$};
+\end{tikzpicture}
+\end{document}

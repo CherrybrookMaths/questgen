@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\U{98.3}
+\foreach \i in {-2,2,4,6} \draw[black!30] ({248+\U*\i},5) -- ({248+\U*\i},652);
+\foreach \j in {-2,2,4} \draw[black!30] (5,{418-\U*\j}) -- (870,{418-\U*\j});
+\draw (5,418) -- (870,418);
+\draw (248,5) -- (248,652);
+\draw[line width=0.9pt] plot[domain=-2.47:5.69, samples=90, smooth] ({248+\U*\x},{418-\U*(4-2^(\x-3))});
+\foreach \i in {-2,2,4,6} \node[font=\small,anchor=north,inner sep=2pt] at ({248+\U*\i-3},421) {$\i$};
+\node[font=\small,anchor=north east,inner sep=2pt] at (245,421) {$0$};
+\foreach \j in {-2,2,4} \node[font=\small,anchor=east,inner sep=2pt] at (245,{418-\U*\j-2}) {$\j$};
+\end{tikzpicture}
+\end{document}

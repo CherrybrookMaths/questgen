@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (8,278) -- (705,278);
+\draw[<->] (352,48) -- (352,505);
+\node at (720,278) {$x$};
+\node at (354,26) {$y$};
+\draw[line width=0.9pt] (262,412) .. controls (272,330) and (305,198) .. (344,198)
+  .. controls (400,198) and (478,437) .. (534,437)
+  .. controls (590,437) and (628,210) .. (638,87);
+\foreach \p in {(262,412),(344,198),(534,437),(638,87)} \fill \p circle (9.5);
+\node at (257,445) {$A$};
+\node at (338,172) {$B$};
+\node at (536,465) {$C$};
+\node at (640,58) {$D$};
+\end{tikzpicture}
+\end{document}

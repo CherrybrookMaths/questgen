@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \y in {81,145,208,272,335,462,525,589,652,716}
+    \draw[black!35] (10,\y) -- (848,\y);
+  \draw[black!35] (10,398) -- (848,398);
+  \foreach \x in {137,509,695}
+    \draw[black!35] (\x,81) -- (\x,716);
+  \draw[<->] (10,398) -- (820,398);
+  \draw[<->] (322,750) -- (322,45);
+  \node[font=\large] at (838,400) {$x$};
+  \node[font=\large] at (322,22) {$y$};
+\end{tikzpicture}
+\end{document}

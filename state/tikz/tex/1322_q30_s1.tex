@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\tiny]
+\draw[->] (0,226)--(362,226); \node[font=\scriptsize] at (350,214) {$t$};
+\draw[->] (33,285)--(33,4); \node[font=\scriptsize] at (42,15) {$x$};
+\foreach \t/\l in {0.5/0.5,1/1,1.5/1.5,2/2,2.5/2.5,3/3} {\draw ({33+92.7*\t},226)--({33+92.7*\t},222); \node[anchor=north] at ({33+92.7*\t},230) {$\l$};}
+\foreach \v/\l in {-0.5/-0.5,0.5/0.5,1/1,1.5/1.5,2/2} {\draw (33,{226-93*\v})--(37,{226-93*\v}); \node[anchor=east] at (27,{226-93*\v}) {$\l$};}
+\node[anchor=north east] at (27,230) {$0$};
+\draw[line width=0.9pt,smooth,samples=90,domain=0:3.42] plot ({33+92.7*\x},{226-93*(2*\x-3*ln(\x+1))});
+\fill ({33+92.7*0.5},{226-93*(1-3*ln(1.5))}) circle (3.2);
+\fill ({33+92.7*3},{226-93*(6-3*ln(4))}) circle (3.2);
+\end{tikzpicture}
+\end{document}

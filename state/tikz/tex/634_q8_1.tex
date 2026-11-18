@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (30,216) -- (940,216);
+  \foreach \v in {3,...,14} {
+    \draw ({65+76.1*(\v-3)},216) -- ({65+76.1*(\v-3)},223);
+    \node at ({65+76.1*(\v-3)},252) {$\v$};}
+  \begin{scope}[line width=0.9pt]
+    \draw (179,14) rectangle (826,185);
+    \draw (674,14) -- (674,185);
+    \draw (65,101) -- (179,101);
+    \draw (826,101) -- (902,101);
+    \draw (65,73) -- (65,129);
+    \draw (902,73) -- (902,129);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

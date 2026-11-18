@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+  \coordinate (A) at (0,0);
+  \coordinate (B) at ($(A)+(-60:4.4)$);
+  \draw[aux,->] (A) -- ++(0,1.7) node[above] {$N$};
+  \draw[aux,->] (B) -- ++(0,1.9) node[above] {$N$};
+  \draw (A) -- (B);
+  \fill (A) circle (1.4pt) (B) circle (1.4pt);
+  \node[left=2pt] at (A) {$A$};
+  \node at ($(B)+(-150:0.85)$) {$B$};
+  \draw[->] ($(A)+(90:0.65)$) arc[start angle=90,end angle=-60,radius=0.65];
+  \node at ($(A)+(15:1.1)$) {$150^\circ$};
+  \draw ($(B)+(90:1.15)$) arc[start angle=90,end angle=120,radius=1.15];
+  \node at ($(B)+(105:1.55)$) {$30^\circ$};
+  \draw[->] ($(B)+(90:0.5)$) arc[start angle=90,end angle=-240,radius=0.5];
+  \node at ($(B)+(-30:0.98)$) {$330^\circ$};
+\end{tikzpicture}
+\end{document}

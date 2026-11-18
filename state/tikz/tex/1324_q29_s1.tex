@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (188,668) -- (1135,668);
+  \draw[->] (188,668) -- (188,88);
+  \node[anchor=south] at (188,84) {$R$};
+  \node[anchor=west] at (1145,666) {$t$};
+  \draw[aux] (188,447) -- (1130,447);
+  \draw[->,line width=0.9pt] plot[domain=0:3.33,smooth,samples=90] ({188+200*\x},{668-21.75*(10+10/(1+2*\x))});
+  \node[pt] at (188,233) {};
+  \node[anchor=east] at (176,233) {$20$};
+  \node[anchor=east] at (176,447) {$10$};
+\end{tikzpicture}
+\end{document}

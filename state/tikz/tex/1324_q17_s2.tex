@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.1cm,y=0.9cm]
+  \draw[->] (-2.8,0) -- (4.8,0) node[right] {$x$};
+  \draw[->] (0,-3.7) -- (0,2.9) node[above] {$y$};
+  \node[anchor=north east] at (-0.05,-0.05) {$O$};
+  \draw[line width=0.9pt] plot[domain=-2:1,smooth,samples=90] (\x,{1-\x*\x});
+  \draw[line width=0.9pt] (1,-1) -- (4,2);
+  \node[pt] at (-2,-3) {};
+  \node[pt] at (1,0) {};
+  \node[pt] at (4,2) {};
+  \node[open pt] at (1,-1) {};
+  \node[anchor=east] at (-2.12,-3) {$(-2,-3)$};
+  \node[anchor=south east] at (-1.08,0.08) {$(-1,0)$};
+  \node[anchor=south west] at (0.1,1.08) {$(0,1)$};
+  \node[anchor=south west] at (1.1,0.12) {$(1,0)$};
+  \node[anchor=north west] at (1.12,-1.12) {$(1,-1)$};
+  \node[anchor=north west] at (2.15,-0.12) {$(2,0)$};
+  \node[anchor=south east] at (3.9,2.08) {$(4,2)$};
+\end{tikzpicture}
+\end{document}

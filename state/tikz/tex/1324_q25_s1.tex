@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade hatch] plot[domain=0:1,smooth,samples=40] ({685+155*\x},{615-340*exp(2*\x)*(1-\x)}) -- cycle;
+  \draw[<->] (10,615) -- (1340,615);
+  \draw[->] (685,720) -- (685,40);
+  \node at (1365,650) {$x$};
+  \node[anchor=west] at (693,40) {$y$};
+  \foreach \k in {-3,-2,-1,1,2,3} \draw ({685+155*\k},607) -- ({685+155*\k},623);
+  \node[anchor=north] at (220,630) {$-3$};
+  \node[anchor=north east] at (680,622) {$0$};
+  \node[anchor=north] at (840,630) {$1$};
+  \draw (685,275) -- (840,615);
+  \draw[line width=0.9pt] plot[domain=-3:1,smooth,samples=90] ({685+155*\x},{615-340*exp(2*\x)*(1-\x)});
+  \node[pt] at (685,275) {};
+  \node[pt] at (762.5,152.9) {};
+  \node[anchor=east] at (676,258) {$(0,1)$};
+  \node[anchor=south west] at (770,140) {$\left(\dfrac{1}{2},\dfrac{e}{2}\right)$};
+\end{tikzpicture}
+\end{document}

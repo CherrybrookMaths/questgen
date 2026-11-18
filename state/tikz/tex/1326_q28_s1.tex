@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \X in {238,405,571,738} \draw[black!20] (\X,5)--(\X,530);
+\foreach \Y in {47,153,365,471} \draw[black!20] (5,\Y)--(785,\Y);
+\draw (5,259)--(785,259);
+\draw (73,5)--(73,530);
+\draw[line width=0.9pt,smooth,samples=121,domain=0:6.28319] plot ({73+105.87*\x},{259-212*sin(3*\x r)});
+\node[anchor=east] at (66,15) {$x$};
+\node[anchor=south] at (765,248) {$t$};
+\node[anchor=north east,font=\small] at (68,264) {$0$};
+\node[anchor=north west,font=\small] at (241,264) {$\dfrac{\pi}{2}$};
+\node[anchor=north west,font=\small] at (408,264) {$\pi$};
+\node[anchor=north west,font=\small] at (574,264) {$\dfrac{3\pi}{2}$};
+\node[anchor=north west,font=\small] at (741,264) {$2\pi$};
+\foreach \Y/\L in {47/2,153/1,365/-1,471/-2} \node[anchor=east,font=\small] at (66,\Y) {$\L$};
+\end{tikzpicture}
+\end{document}

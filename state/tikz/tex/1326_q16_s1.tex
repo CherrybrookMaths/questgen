@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\U{53.6}
+\foreach \i in {-4,-2,2,4,6,8} \draw[black!30] ({252+\U*\i},5) -- ({252+\U*\i},525);
+\foreach \j in {-2,2,4,6} \draw[black!30] (5,{347-\U*\j}) -- (700,{347-\U*\j});
+\draw (5,347) -- (700,347);
+\draw (252,5) -- (252,525);
+\draw[line width=0.9pt] ({252-1.35*\U},{347-6.35*\U}) -- ({252+7*\U},{347+2*\U});
+\fill ({252+7*\U},{347+2*\U}) circle (4.5);
+\node[anchor=north,font=\small] at ({252+7*\U},{347+2*\U+8}) {$(7,\,-2)$};
+\foreach \i in {-4,-2,2,4,6,8} \node[font=\scriptsize,anchor=north east,inner sep=1pt] at ({252+\U*\i},350) {$\i$};
+\node[font=\scriptsize,anchor=north east,inner sep=1pt] at (249,350) {$0$};
+\foreach \j in {-2,2,4,6} \node[font=\scriptsize,anchor=east,inner sep=1pt] at (249,{347-\U*\j}) {$\j$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \setlength\treeL{2.8cm}
+  \treewidth{1}{$7C$}\treewidth{1}{$7K$}
+  \treewidth{2}{girl}\treewidth{2}{boy}
+  \treecolumns{2}
+  \treeroot{r}{0cm}
+  \treenode{c}{1}{1.7cm}{$7C$}
+  \treenode{k}{1}{-1.7cm}{$7K$}
+  \treenode{cg}{2}{2.6cm}{girl}
+  \treenode{cb}{2}{0.8cm}{boy}
+  \treenode{kg}{2}{-0.8cm}{girl}
+  \treenode{kb}{2}{-2.6cm}{boy}
+  \treebranch{r}{c}{$\dfrac{1}{2}$}
+  \treebranch{r}{k}{$\dfrac{1}{2}$}
+  \treebranch{c}{cg}{$\dfrac{2}{5}$}
+  \treebranch{c}{cb}{$\dfrac{3}{5}$}
+  \treebranch{k}{kg}{$\dfrac{4}{7}$}
+  \treebranch{k}{kb}{$\dfrac{3}{7}$}
+\end{tikzpicture}
+\end{document}

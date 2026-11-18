@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % grid: 2 units per horizontal line, x = 1 per vertical line
+  \foreach \v in {-10,-8,-6,-4,-2,2,4,6,8,10}
+    \draw[black!30] (15,{392-31.8*\v}) -- (865,{392-31.8*\v});
+  \foreach \u in {-1,1,2}
+    \draw[black!30] ({340+188*\u},74) -- ({340+188*\u},710);
+  \draw[<->] (15,392) -- (862,392);
+  \draw[<->] (340,748) -- (340,35);
+  \node[font=\large] at (880,394) {$x$};
+  \node[font=\large] at (340,15) {$y$};
+  % tick labels
+  \foreach \v in {2,4,6,8}
+    \node[font=\small,anchor=west] at (350,{392-31.8*\v+7}) {$\v$};
+  \foreach \v in {-2,-4,-6,-8}
+    \node[font=\small,anchor=west] at (350,{392-31.8*\v}) {$\v$};
+  \node[font=\small] at (130,414) {$-1$};
+  \node[font=\small] at (528,372) {$1$};
+  \node[font=\small] at (725,372) {$2$};
+  % curve y = 7 + 4x^3 - 3x^4 on [-1,2]
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=-1:2,variable=\t]
+    ({340+188*\t},{392-31.8*(7+4*\t*\t*\t-3*\t*\t*\t*\t)});
+  \node[pt] at (340,{392-31.8*7}) {};
+  \node[pt] at (528,{392-31.8*8}) {};
+  \node[pt] at (152,392) {};
+  \node[pt] at (716,{392+31.8*9}) {};
+  \node[font=\small,anchor=south east] at (336,{392-31.8*7-12}) {$(0,7)$};
+  \node[font=\small,anchor=south] at (528,{392-31.8*8-8}) {$(1,8)$};
+\end{tikzpicture}
+\end{document}

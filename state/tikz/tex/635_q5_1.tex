@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(141,233)},x=1.2814cm,y=1.9685cm]
+\fill[shade] (0,0) -- plot[smooth,samples=30,domain=0:pi/3] (\x,{cos(deg(1.5*\x))}) -- cycle;
+\draw[->] (-1.348,0)--(4.747,0);
+\draw[->] (0,-1.258)--(0,1.387);
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:pi] (\x,{cos(deg(1.5*\x))});
+\node at (0.36,0.38) {$2\ \mathrm{u}^2$};
+\node[anchor=north east] at ({pi/3-0.03},-0.03) {$\dfrac{\pi}{3}$};
+\node[anchor=north west] at ({pi+0.03},-0.01) {$\pi$};
+\node at (4.52,-0.11) {$x$};
+\node[anchor=east] at (-0.05,1.24) {$y$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

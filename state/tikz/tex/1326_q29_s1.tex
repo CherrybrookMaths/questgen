@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \X in {230,359,490,620} \draw[black!20] (\X,5)--(\X,265);
+\draw[black!20] (5,28)--(715,28);
+\draw (5,160)--(715,160);
+\draw (97,5)--(97,265);
+\draw[line width=0.9pt,smooth,samples=60,domain=0:4] plot ({97+130.75*\x},{160-132*3/32*\x*(4-\x)});
+\node[pt] at (97,160) {};
+\node[pt] at (358.5,110.5) {};
+\node[pt] at (620,160) {};
+\node at (45,125) {$(0,0)$};
+\node at (358,74) {$(2,\,0.375)$};
+\node at (670,125) {$(4,0)$};
+\node[anchor=north east,font=\scriptsize] at (93,163) {$0$};
+\foreach \X/\L in {230/1,359/2,490/3,620/4} \node[anchor=north,font=\scriptsize] at (\X,166) {$\L$};
+\node[anchor=east,font=\scriptsize] at (93,28) {$1$};
+\end{tikzpicture}
+\end{document}

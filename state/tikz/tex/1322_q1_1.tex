@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% minor dotted grid every 4 students
+\foreach \v in {4,8,...,196}{\pgfmathtruncatemacro\m{mod(\v,20)}\ifnum\m=0\else
+  \draw[black!40,line width=0.4pt,dash pattern=on 0.8pt off 0.8pt] (147,{782-3.7*\v}) -- (963,{782-3.7*\v});\fi}
+\foreach \v in {20,40,...,200}{\draw[black!50,line width=0.5pt] (147,{782-3.7*\v}) -- (963,{782-3.7*\v});}
+\foreach \x in {282,417,552,687,822}{\draw[black!50,line width=0.5pt] (\x,782) -- (\x,32);}
+% bars
+\foreach \a/\b/\v in {163/265/180,298/400/144,433/537/132,568/671/72,703/806/60,838/941/12}{
+  \fill[black!18] (\a,782) rectangle (\b,{782-3.7*\v});}
+% axes and ticks
+\draw (147,790) -- (147,32); \draw (963,790) -- (963,32); \draw (140,782) -- (970,782);
+\foreach \v in {4,8,...,196}{\draw (143,{782-3.7*\v}) -- (147,{782-3.7*\v});}
+\foreach \v in {0,20,...,200}{\draw (139,{782-3.7*\v}) -- (147,{782-3.7*\v});
+  \draw (963,{782-3.7*\v}) -- (971,{782-3.7*\v});
+  \node[anchor=east,font=\small,inner sep=0pt] at (130,{782-3.7*\v}) {\v};
+  \pgfmathtruncatemacro\p{\v/2}\node[anchor=west,font=\small,inner sep=0pt] at (982,{782-3.7*\v}) {\p\%};}
+% cumulative line
+\draw (214,560) -- (349,382.4) -- (485,219.6) -- (619,130.8) -- (754,56.8) -- (889,42);
+\foreach \x/\y in {214/560,349/382.4,485/219.6,619/130.8,754/56.8,889/42}{\node[pt,inner sep=1.8pt] at (\x,\y) {};}
+% category labels
+\foreach \x/\t in {214/Swimming,349/Cricket,619/Soccer,754/Tennis,889/Hockey}{\node[font=\small,anchor=base] at (\x,822) {\t};}
+\node[font=\small,anchor=north,align=center,inner sep=0pt] at (485,804) {Touch\\[-1pt]Football};
+\node[font=\small\bfseries,rotate=90] at (40,410) {Number of Students};
+\node[font=\small\bfseries,rotate=90] at (1105,410) {Cumulative Percentage};
+\node[font=\small\bfseries] at (555,915) {Favourite Summer Sport};
+\end{tikzpicture}
+\end{document}

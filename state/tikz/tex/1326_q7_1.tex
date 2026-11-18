@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade dots] (150,382) -- plot[smooth,domain=0:147,samples=40] ({150+\x},{382-127/cos(deg(0.00675*\x))}) -- (297,382) -- cycle;
+  \draw[->] (68,382) -- (522,382);
+  \draw[->] (150,455) -- (150,42);
+  \draw (297,382) -- (297,{382-127/cos(deg(0.00675*147))});
+  \draw[line width=0.9pt] plot[smooth,domain=-47:175,samples=90] ({150+\x},{382-127/cos(deg(0.00675*\x))});
+  \node at (128,50) {$y$};
+  \node at (515,407) {$x$};
+  \node at (128,407) {$O$};
+  \node at (134,235) {$2$};
+  \node at (293,420) {$\dfrac{\pi}{3}$};
+  \node[anchor=west] at (322,103) {$y=2\sec x$};
+\end{tikzpicture}
+\end{document}

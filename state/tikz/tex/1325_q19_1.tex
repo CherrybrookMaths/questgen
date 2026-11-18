@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % data -> px: X = 120+32.6*(x-134), Y = 394-32.6*(y-142)
+  \foreach \v in {134,...,149} \draw[black!40,line width=0.4pt] ({120+32.6*(\v-134)},443) -- ({120+32.6*(\v-134)},52);
+  \foreach \v in {141,...,152} \draw[black!40,line width=0.4pt] (95,{394-32.6*(\v-142)}) -- (610,{394-32.6*(\v-142)});
+  % x-axis with break near the origin
+  \draw (87,459) -- (93,459) -- (97,453) -- (101,465) -- (105,459);
+  \draw[->] (105,459) -- (625,459);
+  % y-axis with break
+  \draw (87,459) -- (87,452) -- (81,448) -- (93,443) -- (87,439);
+  \draw[->] (87,439) -- (87,40);
+  \foreach \v in {134,136,...,148} {
+    \draw ({120+32.6*(\v-134)},459) -- ({120+32.6*(\v-134)},464);
+    \node[font=\footnotesize,anchor=north] at ({120+32.6*(\v-134)},465) {$\v$};}
+  \foreach \v in {142,144,...,152} {
+    \draw (82,{394-32.6*(\v-142)}) -- (87,{394-32.6*(\v-142)});
+    \node[font=\footnotesize,anchor=east] at (79,{394-32.6*(\v-142)}) {$\v$};}
+  \foreach \a/\b in {136/142,138/142,140/146,144/148,144/149,146/150,148/152}
+    \fill ({120+32.6*(\a-134)},{394-32.6*(\b-142)}) circle (3.5);
+  \node[font=\footnotesize] at (350,503) {Arm span (cm)};
+  \node[font=\footnotesize,rotate=90] at (34,260) {Height (cm)};
+\end{tikzpicture}
+\end{document}

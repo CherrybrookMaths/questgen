@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (8,468) -- (662,468);
+  \draw (297,20) -- (297,660);
+  \draw[line width=0.9pt] plot[smooth,domain=-2.72:2.73,samples=90] ({297+100*\x},{468-60.7*\x*\x});
+  \draw[line width=0.9pt] plot[smooth,domain=-1.94:2.43,samples=90] ({297+100*\x},{468-45.8*\x*(\x+1.32)*(\x-1.31)});
+  \node[font=\small] at (283,42) {$y$};
+  \node[font=\small] at (632,485) {$x$};
+  \node[font=\large] at (138,68) {$y=f(x)$};
+  \node[font=\large] at (200,630) {$y=g(x)$};
+\end{tikzpicture}
+\end{document}

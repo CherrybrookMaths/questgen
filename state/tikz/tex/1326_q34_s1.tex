@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \X in {351,630,910,1192} \draw[black!20] (\X,5)--(\X,495);
+\draw[black!20] (5,84)--(1285,84);
+\draw (5,366)--(1288,366);
+\draw (73,5)--(73,495);
+\draw[line width=0.9pt,smooth,samples=60,domain=0:3] plot ({73+279.7*\x},{366-282*(\x^3/3-\x^2+2*\x)/9});
+\draw[line width=0.9pt] ({73+279.7*3},{366-282*2/3})--({73+279.7*4},84);
+\node at (1228,46) {$(4,1)$};
+\node at (962,240) {$\left(3,\dfrac{2}{3}\right)$};
+\node[anchor=north east] at (68,370) {$0$};
+\foreach \X/\L in {351/1,630/2,910/3,1192/4} \node[anchor=north] at (\X,372) {$\L$};
+\node[anchor=east] at (68,84) {$1$};
+\node at (1258,430) {$x$};
+\end{tikzpicture}
+\end{document}

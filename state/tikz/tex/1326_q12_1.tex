@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\U{108.5}
+\fill[shade] plot[domain=0:3.14159, samples=60, smooth] ({130+\U*\x},{483-\U*(\x+sin(\x r))}) -- cycle;
+\draw (62,483) -- (600,483);
+\draw (130,60) -- (130,565);
+\draw[line width=0.9pt] (62,551) -- (555,58);
+\draw[line width=0.9pt] plot[domain=-0.36:4.3, samples=90, smooth] ({130+\U*\x},{483-\U*(\x+sin(\x r))});
+\node[pt] at (470.9,142.1) {};
+\node at (90,95) {$y$};
+\node at (640,492) {$x$};
+\node[anchor=west,font=\small] at (560,42) {$g(x)=x$};
+\node[anchor=west,font=\small] at (610,118) {$f(x)=x+\sin x$};
+\node[font=\small] at (497,162) {$A$};
+\end{tikzpicture}
+\end{document}

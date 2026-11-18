@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (5,25) -- (68,43) -- (683,43) -- (785,15);
+  \draw (68,43) -- (68,75) -- (220,163) -- (375,190) -- (520,236) .. controls (526,240) and (530,240) .. (536,236) -- (683,165) -- (683,43);
+  \draw[densely dotted] (220,43) -- (220,163);
+  \draw[densely dotted] (375,43) -- (375,190);
+  \draw[densely dotted] (528,43) -- (528,239);
+  \foreach \x in {146,298,452,606} \node[font=\footnotesize] at (\x,24) {$3$};
+  \node[font=\footnotesize,anchor=west] at (69,67) {$0.5$};
+  \node[font=\footnotesize,anchor=west] at (222,102) {$2.3$};
+  \node[font=\footnotesize,anchor=west] at (377,118) {$2.9$};
+  \node[font=\footnotesize,anchor=west] at (530,145) {$3.8$};
+  \node[font=\footnotesize,anchor=west] at (685,92) {$2.1$};
+\end{tikzpicture}
+\end{document}

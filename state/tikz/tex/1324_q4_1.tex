@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw (126.2,14.7) -- (85,332) -- (402.7,294.1);
+  \draw plot[smooth, samples=60, domain=6.8:82.6] ({85+320*cos(\x)},{332-320*sin(\x)});
+  \node[font=\Large] at (135,306) {$36^\circ$};
+  \node[font=\Large] at (240,358) {20 cm};
+\end{tikzpicture}
+\end{document}

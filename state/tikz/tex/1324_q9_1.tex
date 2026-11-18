@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{13.5}{16}\selectfont]
+% minor grid
+\foreach \m in {1,...,39}{\pgfmathtruncatemacro\r{mod(\m,5)}\ifnum\r=0\else
+  \draw[black!40,line width=0.4pt] ({272+19.35*\m},15)--({272+19.35*\m},448);\fi}
+\foreach \r in {1,...,24}{\pgfmathtruncatemacro\q{mod(\r,5)}\ifnum\q=0\else
+  \draw[black!40,line width=0.4pt] (272,{15+17.32*\r})--(1046,{15+17.32*\r});\fi}
+% major grid
+\foreach \m in {0,5,...,40}{\draw[black!60,line width=0.5pt] ({272+19.35*\m},15)--({272+19.35*\m},448);}
+\foreach \r in {0,5,10,15,20}{\draw[black!60,line width=0.5pt] (272,{15+17.32*\r})--(1046,{15+17.32*\r});}
+% axis
+\draw (272,448)--(1046,448);
+\foreach \m in {0,10,20,30,40}{\draw ({272+19.35*\m},448)--({272+19.35*\m},462);
+  \node at ({272+19.35*\m},484) {\m};}
+\foreach \m in {5,15,25,35}{\draw ({272+19.35*\m},448)--({272+19.35*\m},462);}
+\node at (659,533) {Marks};
+\begin{scope}[line width=0.9pt]
+% History
+\draw ({272+19.35*16.5},101.6) rectangle ({272+19.35*30},188.3);
+\draw ({272+19.35*25},101.6)--({272+19.35*25},188.3);
+\draw ({272+19.35*10},145)--({272+19.35*16.5},145);
+\draw ({272+19.35*30},145)--({272+19.35*38},145);
+\draw ({272+19.35*10},124)--({272+19.35*10},166);
+\draw ({272+19.35*38},124)--({272+19.35*38},166);
+% Geography
+\draw ({272+19.35*22},274.9) rectangle ({272+19.35*32},361.6);
+\draw ({272+19.35*30},274.9)--({272+19.35*30},361.6);
+\draw ({272+19.35*10},318)--({272+19.35*22},318);
+\draw ({272+19.35*32},318)--({272+19.35*38},318);
+\draw ({272+19.35*10},297)--({272+19.35*10},339);
+\draw ({272+19.35*38},297)--({272+19.35*38},339);
+\end{scope}
+\node[anchor=east] at (242,150) {History};
+\node[anchor=east] at (242,323) {Geography};
+\end{tikzpicture}
+\end{document}

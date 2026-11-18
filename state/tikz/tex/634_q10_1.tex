@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\Y#1{790-6.97*#1}
+% light grid
+\foreach \v in {10,20,...,100}{\draw[black!18,line width=0.4pt] (93,{\Y{\v}}) -- (1232,{\Y{\v}});}
+\foreach \x in {288,475,663,850,1038}{\draw[black!18,line width=0.4pt] (\x,93) -- (\x,790);}
+% bars
+\fill[black!45] (115,790) rectangle (275,{\Y{98}});
+\fill[black!28] (302,790) rectangle (462,{\Y{89}});
+\fill[black!36] (490,790) rectangle (650,{\Y{61}});
+\fill[black!33] (677,790) rectangle (837,{\Y{27}});
+\fill[black!20] (865,790) rectangle (1025,{\Y{20}});
+\fill[black!42] (1052,790) rectangle (1212,{\Y{5}});
+% axes
+\draw (100,93) -- (100,805);
+\draw (1225,93) -- (1225,790);
+\draw (93,790) -- (1232,790);
+\foreach \x in {288,475,663,850,1038,1225}{\draw (\x,790) -- (\x,805);}
+% tick labels
+\foreach \v in {0,10,...,100}{\node[font=\footnotesize,anchor=east] at (88,{\Y{\v}}) {\v};}
+\foreach \v/\t in {0/0,10/0.1,20/0.2,30/0.3,40/0.4,50/0.5,60/0.6,70/0.7,80/0.8,90/0.9,100/1.0}{\node[font=\footnotesize,anchor=west] at (1238,{\Y{\v}}) {\t};}
+\foreach \x/\t in {195/Dog,382/Cat,570/Fish,757/Bird,945/Reptile,1132/Other}{\node[font=\footnotesize] at (\x,820) {\t};}
+\node[font=\footnotesize,rotate=90] at (18,440) {Frequencies};
+\node[font=\footnotesize,rotate=-90] at (1302,440) {Cumulative Relative Frequencies};
+\node[font=\large\bfseries] at (662,45) {Year 12s Ideal Pet};
+% cumulative line
+\draw[line width=0.9pt] plot[smooth,tension=0.5] coordinates {(195,{\Y{32.67}}) (382,{\Y{62.33}}) (570,{\Y{82.67}}) (757,{\Y{91.67}}) (945,{\Y{98.33}}) (1132,{\Y{100}})};
+\foreach \x/\v in {195/32.67,382/62.33,570/82.67,757/91.67,945/98.33,1132/100}{\fill (\x,{\Y{\v}}) circle (7);}
+\end{tikzpicture}
+\end{document}

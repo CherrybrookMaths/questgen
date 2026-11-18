@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (0,62) -- (492,62);
+  \draw[<->] (89,0) -- (89,495);
+  \draw (478,56) -- (478,68);
+  \draw (83,293) -- (95,293);
+  \node[font=\footnotesize] at (75,78) {$0$};
+  \node[font=\footnotesize] at (478,78) {$5$};
+  \node[font=\footnotesize] at (68,293) {$-5$};
+  \node at (45,35) {$y$};
+  \node at (465,103) {$x$};
+  \draw[line width=0.9pt] plot[domain=-0.57:5.18, samples=90, smooth]
+    ({89+77.8*\x},{62+46.2*(exp(-3.5*\x)+2)});
+\end{tikzpicture}
+\end{document}
