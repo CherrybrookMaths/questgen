@@ -33,10 +33,18 @@ function exEst(q){if(_ee.has(q.id))return _ee.get(q.id);
       return {id:p.id,lab:exPath(q,p),m,b,ps:isP,r:p.dif.r||''}});
     const m=fl+ps;r={m,fl,ps,dF:fl?wF/fl:null,dP:ps?wP/ps:null,d:(wF+wP)/(m||1),kind:ps<=1e-9?'Fluency':fl<=1e-9?'Problem solving':'Mixed',parts}}
   _ee.set(q.id,r);return r}
-// owner 19 Nov ("math should render properly in the grading tab"): the difficulty reasons are plain text written by the rater ("a^(-0.4t)",
-// "sqrt2", "theta=pi/4"): powers become superscripts, sqrt a root sign, Greek names and <= >= != their symbols
-const exMathText=s=>esc(s).replace(/&lt;=/g,'≤').replace(/&gt;=/g,'≥').replace(/!=/g,'≠').replace(/\b(theta|alpha|beta|lambda|sigma|mu|phi)\b/g,m=>({theta:'θ',alpha:'α',beta:'β',lambda:'λ',sigma:'σ',mu:'μ',phi:'φ'})[m]).replace(/\bpi\b/g,'π').replace(/\binf(inity)?\b/g,'∞')
-  .replace(/sqrt\s*\(([^()]*)\)/g,'√<span class="ovl">$1</span>').replace(/sqrt\s*([\w.]+)/g,'√$1').replace(/\^\(([^()]*)\)/g,'<sup>$1</sup>').replace(/\^(-?[\w.]+)/g,'<sup>$1</sup>');
+// owner 19 Nov ("math should render properly in the grading tab", then "Are you sure the math renders properly? I'm still seeing incorrect
+// in dot points and why it was rated this way"): the rater's reasons are plain text ("S_20 = 4 S_10", "a/(1-r)", "sqrt2"). Each word that
+// looks like maths is turned into LaTeX (powers, subscripts, a/b as a fraction, sqrt, Greek, <= >= !=) and typeset by MathJax like the
+// questions; other words stay text. Dot points use their official LaTeX wording (dotpoints.json "tex"), see qiParts.
+const exMathTeX=s=>{const G={theta:'\\theta',alpha:'\\alpha',beta:'\\beta',lambda:'\\lambda',sigma:'\\sigma',mu:'\\mu',phi:'\\phi',pi:'\\pi',infinity:'\\infty',inf:'\\infty'};
+  const strip=x=>x.replace(/^\((.*)\)$/,'$1');
+  const conv=x=>x.replace(/<=/g,'\\le ').replace(/>=/g,'\\ge ').replace(/!=/g,'\\ne ').replace(/sqrt\s*\(([^()]*)\)/g,'\\sqrt{$1}').replace(/sqrt([\w.]+)/g,'\\sqrt{$1}')
+    .replace(/\^\(([^()]*)\)/g,'^{$1}').replace(/_\(([^()]*)\)/g,'_{$1}').replace(/\^(-?[\w.]+)/g,'^{$1}').replace(/_([\w.]+)/g,'_{$1}')
+    .replace(/(\([^()]*\)|[\w.]+(?:\^\{[^{}]*\})?)\/(\([^()]*\)|[\w.]+)/g,(m,a,b)=>`\\frac{${strip(a)}}{${strip(b)}}`)
+    .replace(/\b(theta|alpha|beta|lambda|sigma|mu|phi|pi|infinity|inf)\b/g,m=>G[m]+' ').replace(/\bcosec\b/g,'\\operatorname{cosec}').replace(/(^|[^\\a-z])(sin|cos|tan|sec|cot|ln|log)(?![a-z])/g,'$1\\$2 ');
+  const isM=w=>/[\^_=<>]|sqrt|\b(theta|alpha|beta|lambda|sigma|mu|phi|pi)\b|[\w)]\/[\w(]/.test(w)&&!/^[A-Za-z]{2,}\/[A-Za-z]{2,}$/.test(w);
+  return tex(String(s||'').replace(/\$/g,'\\$').split(/(\s+)/).map(w=>{if(!w.trim()||!isM(w))return w;const m=w.match(/^(.*?)([,;:]*)$/);return m[1]?'$'+conv(m[1])+'$'+m[2]:w}).join(''))};
 const fmtM=m=>Number.isInteger(m)?String(m):String(+m.toFixed(1));
 
 /* ---------- pool ---------- */
@@ -500,7 +508,7 @@ function exGrading(){const el=$('#exGSide');if(!el)return;const qs=EX.items.map(
     return `<div class="gdet"><div class="gsrc">${esc(srcLine(q))} · ${qid(q)} · ${q.marks} mark${q.marks===1?'':'s'}</div>${EXAS.usedTag(q)}
       <div class="glab">Band ${e.d.toFixed(1)} overall · ${fmtM(e.fl)} fluency, ${fmtM(e.ps)} problem-solving mark${e.ps===1?'':'s'}</div>${gdots(q)}
       <table class="gparts"><thead><tr><th>Part</th><th>Marks</th><th>Kind</th><th>Band</th></tr></thead><tbody>${e.parts.map(x=>`<tr><td>${esc(x.lab||'Whole')}</td><td>${fmtM(x.m)}</td><td>${x.ps?'Problem solving':'Fluency'}</td><td>${x.b}</td></tr>`).join('')}</tbody></table>
-      <div class="gwhy"><b>Why it was rated this way</b><ul>${e.parts.filter(x=>x.r).map(x=>`<li>${multi&&x.lab?`<span class="pp">${esc(x.lab)}</span> `:''}${exMathText(x.r)}</li>`).join('')||'<li>No reason recorded.</li>'}</ul></div>
+      <div class="gwhy"><b>Why it was rated this way</b><ul>${e.parts.filter(x=>x.r).map(x=>`<li>${multi&&x.lab?`<span class="pp">${esc(x.lab)}</span> `:''}${exMathTeX(x.r)}</li>`).join('')||'<li>No reason recorded.</li>'}</ul></div>
       <div class="gacts"><button type="button" class="act" data-gswap="${q.id}">Swap for a similar question…</button>${(()=>{const k=repOpen().filter(r=>r.question_id===q.id).length;   // owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well"
         return `<button type="button" class="act" data-grep="${q.id}" title="${esc(qiLabel(k))}">${k?`Reported (${k})`:'Report'}</button>`})()}</div></div>`};
   el.innerHTML=`<div class="gtop"><h3>Question grading</h3><button type="button" class="linkbtn" id="exGClose">Hide</button></div><div class="gsub">Click a question on the paper, or in this list.</div>
@@ -511,7 +519,8 @@ function exGrading(){const el=$('#exGSide');if(!el)return;const qs=EX.items.map(
       return `${head}<li class="gq${s?' sel':''}${EXV.moved===q.id?' moved':''}" data-gqli="${q.id}"><div class="gqrow" draggable="true" data-drag="${q.id}"><span class="grip" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
         <button type="button" class="gqh" data-gq="${q.id}" aria-expanded="${s}"><span class="exgn">Q${i+1}</span><span class="exgk ${kindCls(k)}">${k==='Problem solving'?'Problem':k}</span>${e?exMeter(e.d,k):'<span></span>'}<span class="exgd">${q.marks}</span></button>
         <span class="gmv"><button type="button" data-gmv="-1" data-id="${q.id}" aria-label="Move up"${first?' disabled':''}>▲</button><button type="button" data-gmv="1" data-id="${q.id}" aria-label="Move down"${last?' disabled':''}>▼</button></span></div>${s?det(q):''}</li>`}).join('')}</ol>
-    <div class="gnote">Bands run from 2 to 6, as in the HSC. Each part was rated against HSC reference parts checked by an editor (Curate › Review › Difficulty). To question a rating, use Report in a question\u2019s ⓘ card.</div>`;
+    <div class="gnote">Bands run from 2 to 6, as in the HSC. Each part was rated against HSC reference parts checked by an editor (Curate › Review › Difficulty). To question a rating, use Report in a question\u2019s ⓘ card.</div>`;typeset(el);   // owner 19 Nov: dot points and reasons carry maths
+
   $$('#xPages .xq').forEach(x=>x.classList.toggle('sel',+x.dataset.q===EXV.sel))}
 function exSelect(id,from){EXV.sel=EXV.sel===id&&from==='list'?null:id;exGrading();
   if(from==='paper'&&innerWidth<=1000&&!EXV.grade){EXV.grade=true;$('#xPv')?.classList.remove('grade-off');$('#exGrade')?.setAttribute('aria-pressed','true')}

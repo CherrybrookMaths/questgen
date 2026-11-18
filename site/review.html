@@ -4156,7 +4156,7 @@ function xaSwapCands(id){const A=xa(),q=xq(id);if(!q)return [];const homes=xaHom
   const dots=c=>{try{return qiParts(c).flatMap(p=>p.dots.map(x=>x.code)).filter(Boolean)}catch(e){return []}},dq=new Set(dots(q));
   const cands=B.questions.filter(c=>homes.has(c.id)&&c.type===q.type&&!EX.items.includes(c.id)&&!XA_SWAPPED.has(c.id)&&qDiff(c)&&(!A.approved||qState(c)==='approved')&&!repHidden(c)&&!(avoid&&avoid.has(c.id))&&XG.ok(c,L));   // owner 17 Nov: never swap in a reported question
   return cands.map(c=>{const hc=homes.get(c.id),dc=qDiff(c),same=dq.size&&dots(c).some(k=>dq.has(k));
-    return {c,same,s:(same?-4:0)+(h&&hc.sub===h.sub?0:h&&hc.area===h.area?3:TS.has(hc.sub)?6:12)+2*Math.abs((+c.marks||0)-(+q.marks||0))+1.5*Math.abs(dc.raw-(d?d.raw:3))+Math.abs(dc.pr-(d?d.pr:0))}})
+    return {c,same,sub:!!(h&&hc.sub===h.sub),inT:TS.has(hc.sub),s:(same?-4:0)+(h&&hc.sub===h.sub?0:h&&hc.area===h.area?3:TS.has(hc.sub)?6:12)+2*Math.abs((+c.marks||0)-(+q.marks||0))+1.5*Math.abs(dc.raw-(d?d.raw:3))+Math.abs(dc.pr-(d?d.pr:0))}})
     .sort((a,b)=>a.s-b.s)}
 // to: the chosen question (from the chooser); without it the chooser opens
 function xaSwap(id,to){const q=xq(id);if(!q)return;if(to==null){XA_SW.open(id);return}const c=xq(to);if(!c)return;
@@ -4171,7 +4171,9 @@ const XA_SW={id:null,n:6,
     const sub=xaHomes().get(id)?.sub,subNm=sub?(sub.split('|')[2]||sub):'';
     el.innerHTML=`<div class="repdlg swapdlg" role="dialog" aria-modal="true" aria-label="Swap ${esc(qid(q))}">
       <div class="rephd"><div><div class="repeyebrow">Swap ${esc(qid(q))} · ${esc(srcLine(q))} · ${q.marks} mark${q.marks===1?'':'s'}</div><h3>Choose a replacement</h3>
-        <p class="swaphint">Closest first: the same dot point, then the same topic, similar marks and band. ${L.length} question${L.length===1?'':'s'} fit your exam settings.</p></div>
+        <p class="swaphint">Closest first: the same dot point, then the same subtopic, similar marks and band. ${(()=>{   // owner 19 Nov: "why is ti always 628 questions?" (it counted every question of the type)
+          const nD=L.filter(x=>x.same).length,nS=L.filter(x=>x.sub).length,nT=L.filter(x=>x.inT).length;
+          return `${nD} with the same dot point · ${nS} in ${subNm?'“'+esc(subNm)+'”':'the same subtopic'} · ${nT} in this exam's topics`})()}</p></div>
         <button type="button" class="act ghost" data-swx aria-label="Close">✕</button></div>
       <ol class="swaplist">${show.map(({c,same})=>{const d=qDiff(c);return `<li data-swq="${c.id}"><div class="swapmeta">${same?'<span class="swapsame">Same dot point</span>':''}<span>${c.marks} mark${c.marks===1?'':'s'}${d?' · Band '+d.raw.toFixed(1)+' · '+(d.pr>=.5?'Problem solving':'Fluency'):''}</span>${EXAS.usedTag(c)}<button type="button" class="act ok" data-swuse="${c.id}">Use this</button></div>${cardHTML(c)}</li>`}).join('')}</ol>
       <div class="swapfoot">${L.length>this.n?`<button type="button" class="act" data-swmore>Show ${Math.min(6,L.length-this.n)} more</button>`:''}<button type="button" class="linkbtn" data-swpick="${esc(sub||'')}">Browse ${subNm?'“'+esc(subNm)+'”':'more'} in Pick by hand</button></div></div>`;
@@ -4230,10 +4232,18 @@ function exEst(q){if(_ee.has(q.id))return _ee.get(q.id);
       return {id:p.id,lab:exPath(q,p),m,b,ps:isP,r:p.dif.r||''}});
     const m=fl+ps;r={m,fl,ps,dF:fl?wF/fl:null,dP:ps?wP/ps:null,d:(wF+wP)/(m||1),kind:ps<=1e-9?'Fluency':fl<=1e-9?'Problem solving':'Mixed',parts}}
   _ee.set(q.id,r);return r}
-// owner 19 Nov ("math should render properly in the grading tab"): the difficulty reasons are plain text written by the rater ("a^(-0.4t)",
-// "sqrt2", "theta=pi/4"): powers become superscripts, sqrt a root sign, Greek names and <= >= != their symbols
-const exMathText=s=>esc(s).replace(/&lt;=/g,'≤').replace(/&gt;=/g,'≥').replace(/!=/g,'≠').replace(/\b(theta|alpha|beta|lambda|sigma|mu|phi)\b/g,m=>({theta:'θ',alpha:'α',beta:'β',lambda:'λ',sigma:'σ',mu:'μ',phi:'φ'})[m]).replace(/\bpi\b/g,'π').replace(/\binf(inity)?\b/g,'∞')
-  .replace(/sqrt\s*\(([^()]*)\)/g,'√<span class="ovl">$1</span>').replace(/sqrt\s*([\w.]+)/g,'√$1').replace(/\^\(([^()]*)\)/g,'<sup>$1</sup>').replace(/\^(-?[\w.]+)/g,'<sup>$1</sup>');
+// owner 19 Nov ("math should render properly in the grading tab", then "Are you sure the math renders properly? I'm still seeing incorrect
+// in dot points and why it was rated this way"): the rater's reasons are plain text ("S_20 = 4 S_10", "a/(1-r)", "sqrt2"). Each word that
+// looks like maths is turned into LaTeX (powers, subscripts, a/b as a fraction, sqrt, Greek, <= >= !=) and typeset by MathJax like the
+// questions; other words stay text. Dot points use their official LaTeX wording (dotpoints.json "tex"), see qiParts.
+const exMathTeX=s=>{const G={theta:'\\theta',alpha:'\\alpha',beta:'\\beta',lambda:'\\lambda',sigma:'\\sigma',mu:'\\mu',phi:'\\phi',pi:'\\pi',infinity:'\\infty',inf:'\\infty'};
+  const strip=x=>x.replace(/^\((.*)\)$/,'$1');
+  const conv=x=>x.replace(/<=/g,'\\le ').replace(/>=/g,'\\ge ').replace(/!=/g,'\\ne ').replace(/sqrt\s*\(([^()]*)\)/g,'\\sqrt{$1}').replace(/sqrt([\w.]+)/g,'\\sqrt{$1}')
+    .replace(/\^\(([^()]*)\)/g,'^{$1}').replace(/_\(([^()]*)\)/g,'_{$1}').replace(/\^(-?[\w.]+)/g,'^{$1}').replace(/_([\w.]+)/g,'_{$1}')
+    .replace(/(\([^()]*\)|[\w.]+(?:\^\{[^{}]*\})?)\/(\([^()]*\)|[\w.]+)/g,(m,a,b)=>`\\frac{${strip(a)}}{${strip(b)}}`)
+    .replace(/\b(theta|alpha|beta|lambda|sigma|mu|phi|pi|infinity|inf)\b/g,m=>G[m]+' ').replace(/\bcosec\b/g,'\\operatorname{cosec}').replace(/(^|[^\\a-z])(sin|cos|tan|sec|cot|ln|log)(?![a-z])/g,'$1\\$2 ');
+  const isM=w=>/[\^_=<>]|sqrt|\b(theta|alpha|beta|lambda|sigma|mu|phi|pi)\b|[\w)]\/[\w(]/.test(w)&&!/^[A-Za-z]{2,}\/[A-Za-z]{2,}$/.test(w);
+  return tex(String(s||'').replace(/\$/g,'\\$').split(/(\s+)/).map(w=>{if(!w.trim()||!isM(w))return w;const m=w.match(/^(.*?)([,;:]*)$/);return m[1]?'$'+conv(m[1])+'$'+m[2]:w}).join(''))};
 const fmtM=m=>Number.isInteger(m)?String(m):String(+m.toFixed(1));
 
 /* ---------- pool ---------- */
@@ -4697,7 +4707,7 @@ function exGrading(){const el=$('#exGSide');if(!el)return;const qs=EX.items.map(
     return `<div class="gdet"><div class="gsrc">${esc(srcLine(q))} · ${qid(q)} · ${q.marks} mark${q.marks===1?'':'s'}</div>${EXAS.usedTag(q)}
       <div class="glab">Band ${e.d.toFixed(1)} overall · ${fmtM(e.fl)} fluency, ${fmtM(e.ps)} problem-solving mark${e.ps===1?'':'s'}</div>${gdots(q)}
       <table class="gparts"><thead><tr><th>Part</th><th>Marks</th><th>Kind</th><th>Band</th></tr></thead><tbody>${e.parts.map(x=>`<tr><td>${esc(x.lab||'Whole')}</td><td>${fmtM(x.m)}</td><td>${x.ps?'Problem solving':'Fluency'}</td><td>${x.b}</td></tr>`).join('')}</tbody></table>
-      <div class="gwhy"><b>Why it was rated this way</b><ul>${e.parts.filter(x=>x.r).map(x=>`<li>${multi&&x.lab?`<span class="pp">${esc(x.lab)}</span> `:''}${exMathText(x.r)}</li>`).join('')||'<li>No reason recorded.</li>'}</ul></div>
+      <div class="gwhy"><b>Why it was rated this way</b><ul>${e.parts.filter(x=>x.r).map(x=>`<li>${multi&&x.lab?`<span class="pp">${esc(x.lab)}</span> `:''}${exMathTeX(x.r)}</li>`).join('')||'<li>No reason recorded.</li>'}</ul></div>
       <div class="gacts"><button type="button" class="act" data-gswap="${q.id}">Swap for a similar question…</button>${(()=>{const k=repOpen().filter(r=>r.question_id===q.id).length;   // owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well"
         return `<button type="button" class="act" data-grep="${q.id}" title="${esc(qiLabel(k))}">${k?`Reported (${k})`:'Report'}</button>`})()}</div></div>`};
   el.innerHTML=`<div class="gtop"><h3>Question grading</h3><button type="button" class="linkbtn" id="exGClose">Hide</button></div><div class="gsub">Click a question on the paper, or in this list.</div>
@@ -4708,7 +4718,8 @@ function exGrading(){const el=$('#exGSide');if(!el)return;const qs=EX.items.map(
       return `${head}<li class="gq${s?' sel':''}${EXV.moved===q.id?' moved':''}" data-gqli="${q.id}"><div class="gqrow" draggable="true" data-drag="${q.id}"><span class="grip" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
         <button type="button" class="gqh" data-gq="${q.id}" aria-expanded="${s}"><span class="exgn">Q${i+1}</span><span class="exgk ${kindCls(k)}">${k==='Problem solving'?'Problem':k}</span>${e?exMeter(e.d,k):'<span></span>'}<span class="exgd">${q.marks}</span></button>
         <span class="gmv"><button type="button" data-gmv="-1" data-id="${q.id}" aria-label="Move up"${first?' disabled':''}>▲</button><button type="button" data-gmv="1" data-id="${q.id}" aria-label="Move down"${last?' disabled':''}>▼</button></span></div>${s?det(q):''}</li>`}).join('')}</ol>
-    <div class="gnote">Bands run from 2 to 6, as in the HSC. Each part was rated against HSC reference parts checked by an editor (Curate › Review › Difficulty). To question a rating, use Report in a question\u2019s ⓘ card.</div>`;
+    <div class="gnote">Bands run from 2 to 6, as in the HSC. Each part was rated against HSC reference parts checked by an editor (Curate › Review › Difficulty). To question a rating, use Report in a question\u2019s ⓘ card.</div>`;typeset(el);   // owner 19 Nov: dot points and reasons carry maths
+
   $$('#xPages .xq').forEach(x=>x.classList.toggle('sel',+x.dataset.q===EXV.sel))}
 function exSelect(id,from){EXV.sel=EXV.sel===id&&from==='list'?null:id;exGrading();
   if(from==='paper'&&innerWidth<=1000&&!EXV.grade){EXV.grade=true;$('#xPv')?.classList.remove('grade-off');$('#exGrade')?.setAttribute('aria-pressed','true')}
@@ -5206,10 +5217,12 @@ function qiButton(q,n){const k=repOpen().filter(r=>r.question_id===q.id).length;
 function qiParts(q){const e=typeof exEst==='function'?exEst(q):null,lv=qLeaves(q);
   return lv.map(p=>{const ep=e?.parts.find(x=>x.id===p.id),seen=new Set();
     const dots=partMain(q,p).filter(k=>k&&!seen.has(k)&&seen.add(k)).map(k=>{const d=DM[k];
-      return {code:d?k:'',txt:k==='removed'?'Removed from the 2024 syllabus':k==='no_match'?'No 2024 dot point':d?(d.short||d.text||''):''}});
+      return {code:d?k:'',txt:k==='removed'?'Removed from the 2024 syllabus':k==='no_match'?'No 2024 dot point':d?(d.short||d.text||''):'',tx:d?.tex||''}});
     const wm=ep?(ep.ps?'PR':'UF'):p.dif?.wm||null;
     return {lab:lv.length>1?((typeof exPath==='function'&&exPath(q,p))||(p.label?'('+p.label+')':'')):'',dots,b:ep?ep.b:(p.dif?.b??null),kind:wm?(wm==='PR'?'Problem solving':'Fluency'):''}})}
-const qiDotHTML=d=>d.code||d.txt?`${d.code?`<b>${esc(d.code)}</b> `:''}${esc(d.txt)}`:'';
+// owner 19 Nov ("I'm still seeing incorrect in dot points"): the official wording with its maths (tex, typeset by MathJax) when the dot point
+// has it; the short plain wording (Sₙ = n/2[...]) only otherwise
+const qiDotHTML=d=>d.code||d.txt?`${d.code?`<b>${esc(d.code)}</b> `:''}${d.tx?tex(d.tx):esc(d.txt)}`:'';
 // the dot points as a list, for the card and the grading panel's question detail
 const qiDotsList=(q,cls)=>{const ps=qiParts(q);if(!ps.some(p=>p.dots.length))return `<p class="${cls}-none">No dot point yet.</p>`;
   // owner 14 Nov ("the dot points in the grading panel"): parts filed under the same dot point(s) share one row, "(a)(b) Y12-285 …",

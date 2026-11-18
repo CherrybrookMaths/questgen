@@ -460,6 +460,8 @@ async function flows(browser, base, seed, seedR) {
     await page.click(`#xPanel li[data-xi="${sw}"] [data-xsw]`); await page.waitForSelector('#swapDlg [data-swuse]', {timeout: 15000});
     const ch = await page.evaluate(() => ({n: document.querySelectorAll('#swapDlg [data-swuse]').length, cards: document.querySelectorAll('#swapDlg .swaplist .card').length, more: !!document.querySelector('#swapDlg [data-swpick]'), first: +document.querySelector('#swapDlg [data-swuse]').dataset.swuse}));
     assert(ch.n >= 1 && ch.n <= 6 && ch.cards === ch.n && ch.more, `swap chooser: ${JSON.stringify(ch)}`);
+    const hint = await page.evaluate(() => document.querySelector('#swapDlg .swaphint').textContent);
+    assert(/\d+ with the same dot point · \d+ in .+ · \d+ in this exam's topics/.test(hint), 'chooser counts: ' + hint);
     const pre = await page.evaluate(() => EX.items.slice()); assert(pre.includes(sw), 'opening the chooser already swapped the question');
     await page.click('#swapDlg [data-swuse]'); await settle(page, 3000, 2);
     const afterSwap = await page.evaluate(() => EX.items.slice());

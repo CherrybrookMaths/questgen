@@ -117,7 +117,7 @@ function xaSwapCands(id){const A=xa(),q=xq(id);if(!q)return [];const homes=xaHom
   const dots=c=>{try{return qiParts(c).flatMap(p=>p.dots.map(x=>x.code)).filter(Boolean)}catch(e){return []}},dq=new Set(dots(q));
   const cands=B.questions.filter(c=>homes.has(c.id)&&c.type===q.type&&!EX.items.includes(c.id)&&!XA_SWAPPED.has(c.id)&&qDiff(c)&&(!A.approved||qState(c)==='approved')&&!repHidden(c)&&!(avoid&&avoid.has(c.id))&&XG.ok(c,L));   // owner 17 Nov: never swap in a reported question
   return cands.map(c=>{const hc=homes.get(c.id),dc=qDiff(c),same=dq.size&&dots(c).some(k=>dq.has(k));
-    return {c,same,s:(same?-4:0)+(h&&hc.sub===h.sub?0:h&&hc.area===h.area?3:TS.has(hc.sub)?6:12)+2*Math.abs((+c.marks||0)-(+q.marks||0))+1.5*Math.abs(dc.raw-(d?d.raw:3))+Math.abs(dc.pr-(d?d.pr:0))}})
+    return {c,same,sub:!!(h&&hc.sub===h.sub),inT:TS.has(hc.sub),s:(same?-4:0)+(h&&hc.sub===h.sub?0:h&&hc.area===h.area?3:TS.has(hc.sub)?6:12)+2*Math.abs((+c.marks||0)-(+q.marks||0))+1.5*Math.abs(dc.raw-(d?d.raw:3))+Math.abs(dc.pr-(d?d.pr:0))}})
     .sort((a,b)=>a.s-b.s)}
 // to: the chosen question (from the chooser); without it the chooser opens
 function xaSwap(id,to){const q=xq(id);if(!q)return;if(to==null){XA_SW.open(id);return}const c=xq(to);if(!c)return;
@@ -132,7 +132,9 @@ const XA_SW={id:null,n:6,
     const sub=xaHomes().get(id)?.sub,subNm=sub?(sub.split('|')[2]||sub):'';
     el.innerHTML=`<div class="repdlg swapdlg" role="dialog" aria-modal="true" aria-label="Swap ${esc(qid(q))}">
       <div class="rephd"><div><div class="repeyebrow">Swap ${esc(qid(q))} · ${esc(srcLine(q))} · ${q.marks} mark${q.marks===1?'':'s'}</div><h3>Choose a replacement</h3>
-        <p class="swaphint">Closest first: the same dot point, then the same topic, similar marks and band. ${L.length} question${L.length===1?'':'s'} fit your exam settings.</p></div>
+        <p class="swaphint">Closest first: the same dot point, then the same subtopic, similar marks and band. ${(()=>{   // owner 19 Nov: "why is ti always 628 questions?" (it counted every question of the type)
+          const nD=L.filter(x=>x.same).length,nS=L.filter(x=>x.sub).length,nT=L.filter(x=>x.inT).length;
+          return `${nD} with the same dot point · ${nS} in ${subNm?'“'+esc(subNm)+'”':'the same subtopic'} · ${nT} in this exam's topics`})()}</p></div>
         <button type="button" class="act ghost" data-swx aria-label="Close">✕</button></div>
       <ol class="swaplist">${show.map(({c,same})=>{const d=qDiff(c);return `<li data-swq="${c.id}"><div class="swapmeta">${same?'<span class="swapsame">Same dot point</span>':''}<span>${c.marks} mark${c.marks===1?'':'s'}${d?' · Band '+d.raw.toFixed(1)+' · '+(d.pr>=.5?'Problem solving':'Fluency'):''}</span>${EXAS.usedTag(c)}<button type="button" class="act ok" data-swuse="${c.id}">Use this</button></div>${cardHTML(c)}</li>`}).join('')}</ol>
       <div class="swapfoot">${L.length>this.n?`<button type="button" class="act" data-swmore>Show ${Math.min(6,L.length-this.n)} more</button>`:''}<button type="button" class="linkbtn" data-swpick="${esc(sub||'')}">Browse ${subNm?'“'+esc(subNm)+'”':'more'} in Pick by hand</button></div></div>`;

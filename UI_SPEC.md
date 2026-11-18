@@ -406,6 +406,10 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   up with teh chosen exam topics?"**: Swap (⇄ in the exam panel, "Swap for a similar question…" in the grading panel) opens a chooser
   with the 6 closest questions in full (same dot point first, then same topic, marks, band, kind; "Used in" tags), "Use this", "Show 6
   more", and "Browse <subtopic> in Pick by hand". No vector database: for an exam, similar means the same skill, size and difficulty.
+  Owner 19 Nov, after the first fix: "Are you sure the math renders properly? I'm still seeing incorrect in dot points and why it was rated
+  this way": the grading panel's dot points use their official LaTeX wording (dotpoints.json "tex"), and each maths-looking word of a
+  reason is converted to LaTeX (exMathTeX) and typeset by MathJax. "why is ti always 628 questions?": the chooser's count was every
+  question of the type that fits the settings; it now says "N with the same dot point · M in "<subtopic>" · K in this exam's topics".
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

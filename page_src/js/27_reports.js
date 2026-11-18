@@ -72,10 +72,12 @@ function qiButton(q,n){const k=repOpen().filter(r=>r.question_id===q.id).length;
 function qiParts(q){const e=typeof exEst==='function'?exEst(q):null,lv=qLeaves(q);
   return lv.map(p=>{const ep=e?.parts.find(x=>x.id===p.id),seen=new Set();
     const dots=partMain(q,p).filter(k=>k&&!seen.has(k)&&seen.add(k)).map(k=>{const d=DM[k];
-      return {code:d?k:'',txt:k==='removed'?'Removed from the 2024 syllabus':k==='no_match'?'No 2024 dot point':d?(d.short||d.text||''):''}});
+      return {code:d?k:'',txt:k==='removed'?'Removed from the 2024 syllabus':k==='no_match'?'No 2024 dot point':d?(d.short||d.text||''):'',tx:d?.tex||''}});
     const wm=ep?(ep.ps?'PR':'UF'):p.dif?.wm||null;
     return {lab:lv.length>1?((typeof exPath==='function'&&exPath(q,p))||(p.label?'('+p.label+')':'')):'',dots,b:ep?ep.b:(p.dif?.b??null),kind:wm?(wm==='PR'?'Problem solving':'Fluency'):''}})}
-const qiDotHTML=d=>d.code||d.txt?`${d.code?`<b>${esc(d.code)}</b> `:''}${esc(d.txt)}`:'';
+// owner 19 Nov ("I'm still seeing incorrect in dot points"): the official wording with its maths (tex, typeset by MathJax) when the dot point
+// has it; the short plain wording (Sₙ = n/2[...]) only otherwise
+const qiDotHTML=d=>d.code||d.txt?`${d.code?`<b>${esc(d.code)}</b> `:''}${d.tx?tex(d.tx):esc(d.txt)}`:'';
 // the dot points as a list, for the card and the grading panel's question detail
 const qiDotsList=(q,cls)=>{const ps=qiParts(q);if(!ps.some(p=>p.dots.length))return `<p class="${cls}-none">No dot point yet.</p>`;
   // owner 14 Nov ("the dot points in the grading panel"): parts filed under the same dot point(s) share one row, "(a)(b) Y12-285 …",
