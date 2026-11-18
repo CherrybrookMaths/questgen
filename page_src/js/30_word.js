@@ -96,16 +96,15 @@ async function xWord(doc){
       return new Table({rows,width:{size:100,type:WidthType.PERCENTAGE}})}
     // ---- cover ----
     async function cover(cv,out){const tx=s=>cv.querySelector(s)?.textContent.trim()||'';
-      out.push(new Paragraph({children:[new TextRun({text:tx('.xschool').toUpperCase(),font:UI,size:20,bold:true,characterSpacing:40})],spacing:{after:360},border:{top:{style:BorderStyle.SINGLE,size:12,color:'111111',space:8}}}));
+      // owner 18 Nov: the logo (or the school's name) at the top left, Name: and Tutor: lines at the top right
+      const lg=cv.querySelector('.cv-logo'),lr=lg&&lg.getBoundingClientRect();let head;
+      try{head=lg&&lr.width>2?new ImageRun({type:'png',data:await wordPng(lg.src,lr.width,lr.height,3),transformation:{width:Math.round(lr.width),height:Math.round(lr.height)}}):null}catch(e){head=null}
+      out.push(new Paragraph({children:[head||new TextRun({text:(tx('.xschool')||'').toUpperCase(),font:UI,size:20,bold:true,characterSpacing:40})],spacing:{after:120},border:{top:{style:BorderStyle.SINGLE,size:12,color:'111111',space:8}}}));
+      for(const w of cv.querySelectorAll('.cv-who em'))out.push(new Paragraph({alignment:AlignmentType.RIGHT,children:[new TextRun({text:w.textContent+' ',font:UI,size:20}),new TextRun({text:'_'.repeat(30),font:UI,size:20})],spacing:{after:160}}));
+      out.push(new Paragraph({children:[],spacing:{after:200}}));
       if(tx('.cv-cert'))out.push(new Paragraph({children:[new TextRun({text:tx('.cv-cert').toUpperCase(),font:UI,size:18,characterSpacing:30})],spacing:{after:60}}));
       out.push(new Paragraph({children:[new TextRun({text:tx('.cv-course'),font:FONT,size:44,bold:true})],spacing:{after:80}}));
       if(tx('.cv-title'))out.push(new Paragraph({children:[new TextRun({text:tx('.cv-title'),font:FONT,size:28,color:'444444'})],spacing:{after:360}}));
-      const f=[...cv.querySelectorAll('.cv-fields>span')].map(s=>s.querySelector('em')?.textContent||s.textContent);
-      const fc=(l)=>new TableCell({children:[new Paragraph({children:[new TextRun({text:l.toUpperCase(),font:UI,size:16,color:'555555'})],spacing:{before:240,after:20}})],borders:{top:{style:BorderStyle.NONE,size:0,color:'FFFFFF'},left:{style:BorderStyle.NONE,size:0,color:'FFFFFF'},right:{style:BorderStyle.NONE,size:0,color:'FFFFFF'},bottom:{style:BorderStyle.SINGLE,size:6,color:'111111'}}});
-      const rowsF=[];for(let i=0;i<f.length;i+=2)rowsF.push(new TableRow({children:[fc(f[i]),new TableCell({children:[new Paragraph('')],borders:{top:{style:BorderStyle.NONE,size:0,color:'FFFFFF'},bottom:{style:BorderStyle.NONE,size:0,color:'FFFFFF'},left:{style:BorderStyle.NONE,size:0,color:'FFFFFF'},right:{style:BorderStyle.NONE,size:0,color:'FFFFFF'}},width:{size:6,type:WidthType.PERCENTAGE}}),fc(f[i+1]||'')]}));
-      if(rowsF.length)out.push(new Table({rows:rowsF,width:{size:100,type:WidthType.PERCENTAGE}}),new Paragraph({children:[],spacing:{after:240}}));
-      const st=[...cv.querySelectorAll('.cv-stats>div')].map(d=>new TableCell({children:[new Paragraph({children:[new TextRun({text:(d.querySelector('span')?.textContent||'').toUpperCase(),font:UI,size:14,color:'555555'})]}),new Paragraph({children:[new TextRun({text:d.querySelector('b')?.textContent||'',font:UI,size:28,bold:true})]}),...(d.querySelector('small')?[new Paragraph({children:[new TextRun({text:d.querySelector('small').textContent,font:UI,size:16,color:'555555'})]})]:[])],margins:{top:80,bottom:80,left:100,right:100}}));
-      if(st.length)out.push(new Table({rows:[new TableRow({children:st})],width:{size:100,type:WidthType.PERCENTAGE}}),new Paragraph({children:[],spacing:{after:240}}));
       const g=cv.querySelector('.cv-grid');if(g){let lab='';for(const c of g.children){if(c.matches('.cv-k')){const sm=c.querySelector('small');lab=sm?[...c.childNodes].filter(n=>n!==sm).map(n=>n.textContent).join('').trim()+' – '+sm.textContent.trim():c.textContent.trim();out.push(new Paragraph({children:[new TextRun({text:lab,font:UI,size:20,bold:true})],spacing:{before:160,after:60},keepNext:true}))}else await blocks(c,{font:FONT},out)}}
       const tt=cv.querySelector('.extopictbl')||host.querySelector('.cvcont .extopictbl');if(tt){   // a too-tall cover's table sits on the next page in the preview (24_exams.js); Word keeps it on the cover
       out.push(new Paragraph({children:[new TextRun({text:'MARKS BY TOPIC',font:UI,size:18,bold:true})],spacing:{before:240,after:80}}));const t=tt.querySelector('table');if(t)out.push(await table(t,{font:UI,size:18}))}}

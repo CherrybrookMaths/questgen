@@ -31,6 +31,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Differential calculus|Using derivatives
+  home_source: computed
   option A
     latex: $12e^{3x}$
     is_correct: 0
@@ -96,6 +98,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 783
+      confidence: high
+      reason: Single product rule with exponential; MCQ recognition
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q1(b)  key 2022-Knox-AT3-Q1b  id 3265
   question_type: short
@@ -104,6 +119,8 @@ document
   page_end: 0
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Primitive functions
+  home_source: computed
   solution 4678
     source: extracted
     latex: |
@@ -170,6 +187,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 270
+      confidence: high
+      reason: Integrate exponential term, then find constant from initial condition
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q1(c)  key 2022-Knox-AT3-Q1c  id 3266
   question_type: short
@@ -178,6 +208,8 @@ document
   page_end: 0
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Differential calculus|Using derivatives
+  home_source: computed
   solution 4679
     source: extracted
     latex: |
@@ -232,6 +264,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 271
+      confidence: high
+      reason: Chain rule gradient, perpendicular gradient, line equation with exact surds
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q2(a)  key 2022-Knox-AT3-Q2a  id 3267
   question_type: mcq
@@ -241,6 +286,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Differential calculus|Using derivatives
+  home_source: computed
   option A
     latex: $\dfrac{2(x-1)}{e^{x}}$
     is_correct: 1
@@ -312,6 +359,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 869
+      confidence: medium
+      reason: Routine quotient rule with simplification; MCQ
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q2(b)  key 2022-Knox-AT3-Q2b  id 3268
   question_type: short
@@ -320,6 +380,8 @@ document
   page_end: 0
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Integration with exponential functions
+  home_source: computed
   part a  id 5310
     ordinal: 1
     latex: Differentiate $y=e^{x^{2}}$.
@@ -367,6 +429,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 226
+      confidence: high
+      reason: One-step chain rule on exponential
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 5311
     ordinal: 2
     latex: Hence find $\displaystyle\int xe^{x^{2}}\,dx$.
@@ -414,6 +489,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 227
+      confidence: high
+      reason: Reverse previous derivative, adjust constant factor
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q2(c)  key 2022-Knox-AT3-Q2c  id 3269
   question_type: short
@@ -422,6 +510,8 @@ document
   page_end: 0
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
   part a  id 5312
     ordinal: 1
     latex: Sketch the curve $y=e^{x}-1$.
@@ -477,7 +567,24 @@ document
       page: 0
       bbox: [270, 515, 495, 680]
       png_path: figures/1606_q2c_s1.png
+      tikz_path: tikz/tex/1606_q2c_s1.tex
       caption: solution sketch: sketch of y=e^x-1 with asymptote y=-1
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Redrew y=e^x-1 on a light grey unit grid from x=-4 to 4 and y=-3 to 2, using the crop's scale and positions (1 unit = 73 px). The curve is plotted from its equation at 0.9pt, smooth with 90 samples, from x=-4 up to y of about 2.4, with an arrowhead (rules 9, 10, 3a). The y=-1 asymptote is drawn with the house aux dashes and a left arrowhead, as in the crop. Both axes have double-headed filled Latex arrows, as in the crop. Changes from the crop: (1) the red teacher scribble along the bottom and the hand-drawn chevrons are removed (rules 4, 17); (2) everything is black and grey (rule 6); (3) I added a 'y=-1' label below the asymptote because the solution says the asymptote is labelled (rule 18); (4) the 0 label is moved to the lower right of the origin and the -1 label to just below the dashed line, so neither touches the curve or the asymptote (rule 11). Tick labels are a little larger than the crop's tiny scan text so they can be read. The overlay is below 0.85 only because of the removed scribble, the hand-drawn arrowheads and axis letters, label font differences and the y-axis being about 1 px off.
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 306
+      confidence: high
+      reason: Vertical translation of familiar exponential graph
+      area: Y11_Graph_transformations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 5313
     ordinal: 2
     latex: Find the area between the $x$ axis and the curve $y=e^{x}-1$ between $x=-1$ and $1$.
@@ -569,6 +676,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Sets up the integrals with the antiderivative, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 759
+      confidence: medium
+      reason: Area split at x-axis crossing; standard exponential integration
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q3(a)  key 2022-Knox-AT3-Q3a  id 3270
   question_type: mcq
@@ -578,6 +698,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Differential calculus|Using derivatives
+  home_source: computed
   option A
     latex: $6\sin^{2}2x$
     is_correct: 0
@@ -642,6 +764,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 858
+      confidence: medium
+      reason: Nested chain rule on power of trig with inner coefficient
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q3(b)  key 2022-Knox-AT3-Q3b  id 3271
   question_type: short
@@ -650,6 +785,8 @@ document
   page_end: 1
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
   solution 4686
     source: extracted
     latex: |
@@ -718,6 +855,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 760
+      confidence: medium
+      reason: Integrate negative rate, use initial height, solve, convert units
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q3(c)  key 2022-Knox-AT3-Q3c  id 3272
   question_type: short
@@ -727,6 +877,8 @@ document
   page_end: 1
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
   part a  id 5316
     ordinal: 1
     latex: Find when the particle is stationary.
@@ -759,6 +911,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 877
+      confidence: high
+      reason: Set velocity zero and solve linear equation
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 5317
     ordinal: 2
     latex: Find the distance travelled during the first 6 seconds.
@@ -830,6 +995,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the displacement function, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 760
+      confidence: medium
+      reason: Integrate velocity; distance must account for direction change
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q4(a)  key 2022-Knox-AT3-Q4a  id 3273
   question_type: short
@@ -838,6 +1016,8 @@ document
   page_end: 1
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Differential calculus|Differentiation with logarithmic functions
+  home_source: computed
   solution 4689
     source: extracted
     latex: |
@@ -892,6 +1072,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 858
+      confidence: medium
+      reason: Log law simplification then chain rule
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q4(b)  key 2022-Knox-AT3-Q4b  id 3274
   question_type: short
@@ -900,6 +1093,8 @@ document
   page_end: 1
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Integration with logarithmic functions
+  home_source: computed
   solution 4690
     source: extracted
     latex: |
@@ -947,6 +1142,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 327
+      confidence: high
+      reason: Recognise f'/f with factor 2, evaluate and simplify logs
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q4(c)  key 2022-Knox-AT3-Q4c  id 3275
   question_type: short
@@ -955,6 +1163,8 @@ document
   page_end: 1
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
   solution 4691
     source: extracted
     latex: |
@@ -1038,6 +1248,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 813
+      confidence: high
+      reason: Chain rule stationary point, second derivative test via product rule
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q5(a)  key 2022-Knox-AT3-Q5a  id 3276
   question_type: short
@@ -1050,6 +1273,8 @@ document
   page_end: 1
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
   part a  id 5321
     ordinal: 1
     latex: Find the velocity when $t=\dfrac{\pi}{8}$ seconds.
@@ -1118,6 +1343,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the expression for $v$, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 270
+      confidence: high
+      reason: Integrate trig acceleration with initial condition, exact evaluation
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
   part b  id 5322
     ordinal: 2
     latex: Find displacement when $t=\dfrac{\pi}{8}$ seconds.
@@ -1201,6 +1439,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the expression for $x$, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 270
+      confidence: high
+      reason: Second integration with constant, exact trig evaluation
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q5(b)  key 2022-Knox-AT3-Q5b  id 3277
   question_type: short
@@ -1209,6 +1460,8 @@ document
   page_end: 1
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
   solution 4694
     source: extracted
     latex: |
@@ -1254,3 +1507,16 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 183
+      confidence: medium
+      reason: Two unknowns in exponential model solved simultaneously by division
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: UF
+      source: model

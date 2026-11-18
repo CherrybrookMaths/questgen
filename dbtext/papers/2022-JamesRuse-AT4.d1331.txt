@@ -32,6 +32,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Further graph transformations and modelling|Transformations of trigonometric functions
+  home_source: computed
   option A
     latex: $A = 3, B = 2$
     is_correct: 0
@@ -66,7 +68,11 @@ document
     page: 1
     bbox: [219, 191, 410, 346]
     png_path: figures/1331_q1_1.png
+    tikz_path: tikz/tex/1331_q1_1.tex
     caption: graph of y = A cos Bx + 3 with minimum 0 and maximum 6 over 0 to 2pi
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Plotted y = -3cos2x + 3 from the equation (rule 10), using the crop's pixel scale (π/2 = 93 px, 1 unit = 47 px). The curve is drawn 0.9pt and carries on a little past 2π with a filled arrowhead, as in the crop. Axes are 0.6pt with filled Latex arrowheads instead of the crop's open chevrons (rule 4). Tick labels are π/2, 3π/2 written as stacked fractions (rule 23), in maths italic. The crop's small circle at the origin is drawn as an O label below-left. Most of the remaining overlay colour comes from the serif tick-label glyphs and the redrawn arrowheads. Rules 1, 3, 3a, 4, 9, 10, 19, 23.
   part -  id 5208
     ordinal: 1
     latex: |
@@ -99,6 +105,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 220
+      confidence: high
+      reason: Read amplitude, midline and period from graph; sign of A from minimum start.
+      area: Y12_Further_graph_transformations_and_modelling
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q2  key 2022-JamesRuse-AT4-Q2  id 3199
   section: I
@@ -110,6 +129,8 @@ document
   review_status: unreviewed
   options_layout: text
   standard_topic: Standard course, Year 11, Data analysis, MST-11-08 (borderline): mean and median of a data set
+  home_topic: special:removed
+  home_source: computed
   option A
     latex: The mean increases
     is_correct: 0
@@ -129,7 +150,7 @@ document
   solution 4580
     source: extracted
     latex: |
-      The same number of added scores lie above and below $25$ (three at most... see below), so the median stays the same.
+      Three of the added scores lie below $25$ ($16, 16, 21$) and three lie above it ($26, 30, 30$), so the median stays $25$.
 
       Old total:
       $$13\times25=325$$
@@ -143,7 +164,7 @@ document
     source_document_id: 1331
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {"format_note": "Source claim that the median stays the same is kept as written."}
+    meta_json: {"corrected": "Corrected from source: the first line was garbled.", "format_note": "Source claim that the median stays the same is kept as written.", "overwritten_from_source": "Corrected from source: the first line was garbled.", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "The same number of added scores lie above and below $25$ (three at most... see below), so the median stays the same.\n\nOld total:\n$$13\\times25=325$$\nTotal of new scores:\n$$21+16+16+26+30+30=139$$\nNew total:\n$$325+139=464$$\nNew mean:\n$$\\begin{aligned} \\bar{x} &= \\dfrac{464}{19} \\\\ &\\approx 24.42 \\\\ &< 25 \\end{aligned}$$\nSo the mean decreases, which is option B."}}
   part -  id 5209
     ordinal: 1
     latex: |
@@ -164,6 +185,19 @@ document
       is_primary: 0
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 159
+      confidence: medium
+      reason: Recompute mean and reason median unchanged after adding balanced scores.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q3  key 2022-JamesRuse-AT4-Q3  id 3200
   section: I
@@ -174,6 +208,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: graph
+  home_topic: sub:11|Working with functions|Quadratic and cubic functions
+  home_source: computed
   option A
     latex: 
     is_correct: 0
@@ -210,22 +246,38 @@ document
     page: 2
     bbox: [122, 103, 243, 210]
     png_path: figures/1331_q3_1.png
+    tikz_path: tikz/tex/1331_q3_1.tex
     caption: option A: upward parabola, vertex left of y-axis below x-axis
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Option A: an upward parabola fitted to the crop (vertex (155,250) px, roots ±48 px). The axes have no arrows, as in the GeoGebra crop, with ticks every 34 px on both axes. The original's axes and ticks are a faint grey that overlay.py does not pick up, so all the blue left over is the axis and tick lines drawn in black (owner: scans' grey should be black). The curve matches exactly. Rules 1, 3, 6, 9, 10.
   figure 1331_q3_2.png
     page: 2
     bbox: [282, 103, 399, 207]
     png_path: figures/1331_q3_2.png
+    tikz_path: tikz/tex/1331_q3_2.tex
     caption: option B: upward parabola, vertex right of y-axis below x-axis
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Option B: an upward parabola, vertex (200,238) px, ticks every 37 px. The blue left over is only the faint grey axes and ticks, now drawn in black. Same frame and style as the other three options (rule 7). Rules 1, 3, 6, 7, 9, 10.
   figure 1331_q3_3.png
     page: 2
     bbox: [122, 239, 245, 348]
     png_path: figures/1331_q3_3.png
+    tikz_path: tikz/tex/1331_q3_3.tex
     caption: option C: downward parabola, vertex right of y-axis above x-axis
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Option C: a downward parabola, vertex (203,60) px, ticks every 38 px. The curve matches exactly; the blue left over is the faint grey axes and ticks, now drawn in black. Rules 1, 3, 6, 7, 9, 10.
   figure 1331_q3_4.png
     page: 2
     bbox: [282, 239, 401, 348]
     png_path: figures/1331_q3_4.png
+    tikz_path: tikz/tex/1331_q3_4.tex
     caption: option D: downward parabola, vertex left of y-axis above x-axis
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Option D: a downward parabola, vertex (135,118) px, ticks every 32 px. The curve matches exactly; the blue left over is the faint grey axes and ticks, now drawn in black. Rules 1, 3, 6, 7, 9, 10.
   part -  id 5210
     ordinal: 1
     latex: Which diagram below best shows the graph $y = 2 - (x+3)^2$?
@@ -269,6 +321,19 @@ document
       is_primary: 0
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 205
+      confidence: high
+      reason: Identify concave-down parabola with vertex from vertex form.
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q4  key 2022-JamesRuse-AT4-Q4  id 3201
   section: I
@@ -280,6 +345,8 @@ document
   review_status: unreviewed
   options_layout: text
   standard_topic: Standard course, Year 11, Data analysis, MST-11-08 (borderline): stem-and-leaf plot, median and mode
+  home_topic: sub:11|Probability and data|Data
+  home_source: computed
   option A
     latex: Median is 45 and Mode is 49
     is_correct: 1
@@ -310,7 +377,11 @@ document
     page: 2
     bbox: [190, 430, 450, 560]
     png_path: figures/1331_q4_1.png
+    tikz_path: tikz/tex/1331_q4_1.tex
     caption: back-to-back stem and leaf plot, Boys and Girls
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: Back-to-back stem-and-leaf plot drawn in TikZ to match the crop: Boys/Girls headings, two vertical rules either side of the stem column, every leaf in the same column and row position as the crop, and no grid. Leaves were checked against the crop. Rules 1, 2, 6b, 12 Nov stem-and-leaf ruling.
   part -  id 5211
     ordinal: 1
     latex: |
@@ -337,6 +408,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 215
+      confidence: high
+      reason: Read median and mode directly from stem and leaf plot.
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q5  key 2022-JamesRuse-AT4-Q5  id 3202
   section: I
@@ -347,6 +431,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Working with functions|Absolute value functions
+  home_source: computed
   option A
     latex: $|1-x|$
     is_correct: 0
@@ -416,6 +502,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 750
+      confidence: medium
+      reason: Recall sqrt(a^2)=|a| and recognise x-1 fails for x<1.
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q6  key 2022-JamesRuse-AT4-Q6  id 3203
   section: I
@@ -426,6 +525,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Probability and data|Data
+  home_source: computed
   option A
     latex: 24
     is_correct: 0
@@ -456,7 +557,11 @@ document
     page: 3
     bbox: [227, 369, 421, 552]
     png_path: figures/1331_q6_1.png
+    tikz_path: tikz/tex/1331_q6_1.tex
     caption: spinner wheel with numbers 1-20
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Spinner: outer and inner circles, 20 sectors of 18° with one radial line straight up, and the numbers 1-20 in the crop's clockwise order. The numbers are bold in the house serif font instead of the crop's sans-serif (rule 19). The black pointer tab with its hole is at the top. Small offsets remain in some numbers because of the font difference. Rules 1, 2, 6, 19.
   part -  id 5213
     ordinal: 1
     latex: |
@@ -499,6 +604,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 258
+      confidence: high
+      reason: Single probability times number of trials gives expected count.
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q7  key 2022-JamesRuse-AT4-Q7  id 3204
   section: I
@@ -509,6 +627,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Differential calculus|Differentiation with trigonometric functions
+  home_source: computed
   option A
     latex: $-1$
     is_correct: 0
@@ -573,6 +693,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 800
+      confidence: medium
+      reason: Must recognise limit as derivative of cos at 3pi/2, then evaluate.
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: UF
+      source: model
 
 ## Q8  key 2022-JamesRuse-AT4-Q8  id 3205
   section: I
@@ -583,6 +716,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
   option A
     latex: The temperature of the room is increasing at a rate of 2 degrees Celsius per minute, 5 minutes after the thermostat is adjusted.
     is_correct: 1
@@ -642,6 +777,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 863
+      confidence: high
+      reason: Interpret derivative value as rate of change in context.
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: PR
+      source: model
 
 ## Q9  key 2022-JamesRuse-AT4-Q9  id 3206
   section: I
@@ -652,6 +800,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Graph transformations|
+  home_source: computed
   option A
     latex: $\dfrac{y}{2} = \dfrac{3}{x-3}$
     is_correct: 0
@@ -739,6 +889,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 748
+      confidence: high
+      reason: Apply translation then vertical dilation; match rearranged form.
+      area: Y11_Graph_transformations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q10  key 2022-JamesRuse-AT4-Q10  id 3207
   section: I
@@ -749,6 +912,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
   option A
     latex: $f(-2), f'(8), f''(-2)$
     is_correct: 0
@@ -783,7 +948,11 @@ document
     page: 5
     bbox: [235, 103, 413, 236]
     png_path: figures/1331_q10_1.png
+    tikz_path: tikz/tex/1331_q10_1.tex
     caption: graph of y=f(x) with local max A at x=-2 and local min B at x=8
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Cubic y = f(x) drawn smooth from a cubic whose turning points sit at the crop's A (x=-2 tick) and B (x=8 tick) and which passes through the origin. Double-headed axes as in the crop; unlabelled tick between 0 and 8 kept. Labels A, B, -2, 8, x, y at \tiny to match the small printed size. The redraw score is lowered by the 0.9pt black curve against the thin grey scan line, and by the right branch, which runs a few px left of the crop's (pure cubic shape). Rules 1, 2, 3, 4, 9, 10, 13, 16.
   part -  id 5217
     ordinal: 1
     latex: |
@@ -842,6 +1011,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 162
+      confidence: high
+      reason: Signs of f, f', f'' at turning points from graph, then order.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q11  key 2022-JamesRuse-AT4-Q11  id 3208
   section: II
@@ -852,6 +1034,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Working with functions|Properties of functions, relations and graphs
+  home_source: computed
   solution 4589
     source: extracted
     latex: |
@@ -894,6 +1078,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 305
+      confidence: high
+      reason: Single linear inequality for square root domain.
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q12  key 2022-JamesRuse-AT4-Q12  id 3209
   section: II
@@ -904,6 +1101,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Working with functions|Algebraic techniques
+  home_source: computed
   solution 4590
     source: extracted
     latex: |
@@ -935,6 +1134,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 166
+      confidence: high
+      reason: Routine factorising by grouping in pairs.
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q13  key 2022-JamesRuse-AT4-Q13  id 3210
   section: II
@@ -946,6 +1158,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Working with functions|Properties of functions, relations and graphs
+  home_source: computed
   part a  id 5220
     ordinal: 1
     latex: Find $f(3)$.
@@ -985,6 +1199,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 166
+      confidence: high
+      reason: Direct substitution into a quadratic.
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 5221
     ordinal: 2
     latex: Express $f(g(x))$ in the form $ax^4 + bx^2 + c$, where $a, b$ and $c$ are non-zero integers.
@@ -1026,6 +1253,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct substitution, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 280
+      confidence: medium
+      reason: Substitute composite and expand squared binomial with sign care.
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q14  key 2022-JamesRuse-AT4-Q14  id 3211
   section: II
@@ -1037,6 +1277,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Graph transformations|
+  home_source: computed
   part a  id 5222
     ordinal: 1
     latex: By completing the square, find the radius and centre of the circle.
@@ -1079,6 +1321,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Completes the square correctly, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 338
+      confidence: high
+      reason: Complete the square twice to read centre and radius.
+      area: Y11_Graph_transformations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
   part b  id 5223
     ordinal: 2
     latex: |
@@ -1152,12 +1407,33 @@ document
       page: 9
       bbox: [116, 430, 525, 668]
       png_path: figures/1331_q14_1.png
+      tikz_path: tikz/tex/1331_q14_1.tex
       caption: blank coordinate grid for sketching
+      redraw_status: ok
+      redraw_class: blank_axes
+      redraw_notes: Blank grid: 25 x 15 light-grey grid lines at the crop's 46 px spacing, black 0.6pt axes in the same place, no arrows or labels (none in the crop). Rules 1, 3, grid stays light grey.
     figure 1331_q14_s1.png
       page: 42
       bbox: [120, 440, 560, 710]
       png_path: figures/1331_q14_s1.png
+      tikz_path: tikz/tex/1331_q14_s1.tex
       caption: solution sketch: sketch of reflected circle centre (-1,-2) radius 3
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Clean solution sketch: circle centre (-1,-2), radius 3, drawn true on an even 1:1 scale (45 px/unit, the crop's scale). Dots and labels at (-1,1), (-1,-5), (-4,-2), (2,-2) and the centre. Ticks -6..8 on x and -5..5 on y. Left out: the red marker's 'Scale evident' note, the hand-ruled graph-paper grid and the hand wobble (rules 10, 17). The x-tick labels -3 and -4 are nudged sideways so they clear the circle (rule 11). The overlay is low only because the crop's bounding box includes the dropped red note and grid (so everything shifts), plus hand-drawn stroke shapes. Rules 1, 9, 11, 16, 17.
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 306
+      confidence: medium
+      reason: Reflect centre in x-axis and sketch circle of known radius.
+      area: Y11_Graph_transformations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q15  key 2022-JamesRuse-AT4-Q15  id 3212
   section: II
@@ -1168,6 +1444,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Working with functions|Algebraic techniques
+  home_source: computed
   solution 4595
     source: extracted
     latex: |
@@ -1200,6 +1478,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 266
+      confidence: medium
+      reason: Unfamiliar surd form; must think to square and simplify sqrt56.
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: PR
+      source: model
 
 ## Q16  key 2022-JamesRuse-AT4-Q16  id 3213
   section: II
@@ -1211,6 +1502,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Sequences and series|Arithmetic sequences and series
+  home_source: computed
   part a  id 5225
     ordinal: 1
     latex: Find the $25^{\text{th}}$ term of the sequence.
@@ -1244,6 +1537,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Identifies $a$, $d$, $n$ and the formula, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 267
+      confidence: high
+      reason: Substitute into arithmetic term formula.
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 5226
     ordinal: 2
     latex: Find the sum to the $25^{\text{th}}$ term of the sequence.
@@ -1275,6 +1581,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 856
+      confidence: high
+      reason: Substitute into arithmetic sum formula using found last term.
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q17  key 2022-JamesRuse-AT4-Q17  id 3214
   section: II
@@ -1285,6 +1604,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Sequences and series|Geometric sequences and series
+  home_source: computed
   solution 4598
     source: extracted
     latex: |
@@ -1343,6 +1664,19 @@ document
       is_primary: 0
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 805
+      confidence: high
+      reason: Find ratio from first and fourth terms of geometric sequence.
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q18  key 2022-JamesRuse-AT4-Q18  id 3215
   section: II
@@ -1353,6 +1687,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Integral calculus|Primitive functions
+  home_source: computed
   part a  id 5228
     ordinal: 1
     latex: Show that the derivative of $\dfrac{x}{e^x}$ is $\dfrac{1-x}{e^x}$.
@@ -1407,6 +1743,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 869
+      confidence: high
+      reason: Routine quotient rule show-that with given answer.
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 5229
     ordinal: 2
     latex: Hence find $\displaystyle\int \dfrac{1-x+e^x}{2e^x}\,dx$.
@@ -1464,6 +1813,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Rewrites as $\\displaystyle\\dfrac{1}{2}\\int\\left(\\dfrac{1-x}{e^x}+1\\right)dx$, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 329
+      confidence: medium
+      reason: Split fraction and reverse the given derivative to integrate.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: UF
+      source: model
 
 ## Q19  key 2022-JamesRuse-AT4-Q19  id 3216
   section: II
@@ -1474,6 +1836,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Introduction to differentiation|The derivative
+  home_source: computed
   solution 4601
     source: extracted
     latex: |
@@ -1515,6 +1879,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 172
+      confidence: high
+      reason: Standard first principles limit for a simple quadratic.
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q20  key 2022-JamesRuse-AT4-Q20  id 3217
   section: II
@@ -1526,6 +1903,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
   part a  id 5231
     ordinal: 1
     latex: Find the expression for the particle's displacement as a function of time.
@@ -1590,6 +1969,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {"marker_note": "$x=t^2-4t$ alone is not sufficient without evaluating $c$."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 308
+      confidence: high
+      reason: Integrate linear velocity, constant zero from initial position.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 5232
     ordinal: 2
     latex: Find the total distance travelled for the first 5 seconds.
@@ -1657,6 +2049,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the change of direction at $t=2$ and $x=-4$, or equivalent merit"]]
       meta_json: {"marker_note": "0 marks for an answer of 5."}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 187
+      confidence: medium
+      reason: Must detect direction change and add distances, not displacement.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: UF
+      source: model
 
 ## Q21  key 2022-JamesRuse-AT4-Q21  id 3218
   section: II
@@ -1667,6 +2072,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
   solution 4604
     source: extracted
     latex: |
@@ -1718,6 +2125,19 @@ document
       is_primary: 0
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 192
+      confidence: medium
+      reason: Evaluate two definite integrals with variable bound, solve quadratic.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: UF
+      source: model
 
 ## Q22  key 2022-JamesRuse-AT4-Q22  id 3219
   section: III
@@ -1733,6 +2153,8 @@ document
   review_status: unreviewed
   options_layout: text
   standard_topic: Standard course, Year 12, Bivariate data analysis, MST-12-S1-06: Pearson correlation and least-squares regression line
+  home_topic: special:removed
+  home_source: computed
   data_table 1331_q22_t1
     header_rows: 0
     label_col: 1
@@ -1765,6 +2187,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 215
+      confidence: high
+      reason: Calculator output of correlation coefficient.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 5235
     ordinal: 2
     latex: Write down the equation of the least squares regression line in the form of $y = mx + b$ where $m$ and $b$ are real numbers correct to 2 decimal places.
@@ -1792,6 +2227,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 215
+      confidence: high
+      reason: Calculator output of least squares regression line.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part c  id 5236
     ordinal: 3
     latex: Using the results above, describe the correlation between altitude and temperature.
@@ -1817,6 +2265,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 215
+      confidence: high
+      reason: Direct reading of trend from table; state correlation type and strength.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q23  key 2022-JamesRuse-AT4-Q23  id 3220
   section: III
@@ -1827,6 +2288,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Random variables|Discrete random variables
+  home_source: computed
   solution 4608
     source: extracted
     latex: |
@@ -1884,6 +2347,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 336
+      confidence: high
+      reason: Probabilities sum to 1, factorise quadratic, reject negative root.
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q24  key 2022-JamesRuse-AT4-Q24  id 3221
   section: III
@@ -1894,6 +2370,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Probability and data|Probability
+  home_source: computed
   solution 4609
     source: extracted
     latex: |
@@ -1925,6 +2403,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 753
+      confidence: medium
+      reason: Must identify alternating cases YGY, GYG without replacement; multi-stage products.
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: PR
+      source: model
 
 ## Q25  key 2022-JamesRuse-AT4-Q25  id 3222
   section: III
@@ -1936,6 +2427,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Sequences and series|Arithmetic sequences and series
+  home_source: computed
   part a  id 5239
     ordinal: 1
     latex: How many days of training will she require to have swum a combined total of over 100km?
@@ -1996,6 +2489,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Substitutes into the $S_n$ formula, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 225
+      confidence: high
+      reason: Arithmetic sum leads to quadratic in n; interpret and round up.
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: UF
+      source: model
   part b  id 5240
     ordinal: 2
     latex: Georgina wants to have swum over 200 km in total over 20 days. If on the first day she still swims 1.5 km but increases her swim by a distance of $x$ km per day. Find the value of $x$ so that she can reach her goal.
@@ -2045,6 +2551,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {"marker_note": "The value of $x$ must be given in km."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 170
+      confidence: high
+      reason: Sum formula used in reverse to find common difference.
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q26  key 2022-JamesRuse-AT4-Q26  id 3223
   section: III
@@ -2055,6 +2574,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Sequences and series|Geometric sequences and series
+  home_source: computed
   solution 4612
     source: extracted
     latex: |
@@ -2096,6 +2617,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 170
+      confidence: high
+      reason: Standard recurring decimal as geometric series, limiting sum formula.
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q27  key 2022-JamesRuse-AT4-Q27  id 3224
   section: III
@@ -2106,6 +2640,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Differential calculus|Differentiation with exponential functions
+  home_source: computed
   solution 4613
     source: extracted
     latex: |
@@ -2157,6 +2693,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 348
+      confidence: medium
+      reason: Differentiate twice, substitute into differential equation, solve quadratic in k.
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: PR
+      source: model
 
 ## Q28  key 2022-JamesRuse-AT4-Q28  id 3225
   section: III
@@ -2168,6 +2717,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Differential calculus|Differentiation with exponential functions
+  home_source: computed
   part a  id 5243
     ordinal: 1
     latex: $\log_2 x$
@@ -2199,6 +2750,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 858
+      confidence: high
+      reason: Change of base then differentiate; standard log derivative.
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
   part b  id 5244
     ordinal: 2
     latex: $2^x$
@@ -2228,6 +2792,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 852
+      confidence: high
+      reason: Direct recall of derivative of a^x.
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q29  key 2022-JamesRuse-AT4-Q29  id 3226
   section: III
@@ -2238,6 +2815,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
   solution 4616
     source: extracted
     latex: |
@@ -2254,7 +2833,11 @@ document
     page: 20
     bbox: [231, 88, 390, 182]
     png_path: figures/1331_q29_1.png
+    tikz_path: tikz/tex/1331_q29_1.tex
     caption: graphs of y=1-cos x and y=sin x with shaded region under both curves
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: y = 1 - cos x and y = sin x on 0..pi, 0.9pt, at the crop's scale. The end dot at (pi,2) is kept. The shaded region (under 1 - cos x up to pi/2, then under sin x) uses house shade hatch reverse, matching the crop's back-slash hatching. The tick marks cross the axes as in the crop. pi/2 is written as \dfrac (rule 23), so it is a little taller than the crop's small fraction. The remaining colour in the overlay is hatch-line phase. Rules 1, 5, 5a, 9, 23, 27.
   part -  id 5245
     ordinal: 1
     latex: |
@@ -2319,6 +2902,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 184
+      confidence: medium
+      reason: Region must be split into two integrals with different boundary curves.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: PR
+      source: model
 
 ## Q30  key 2022-JamesRuse-AT4-Q30  id 3227
   section: III
@@ -2329,6 +2925,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
   solution 4617
     source: extracted
     latex: |
@@ -2396,6 +2994,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 331
+      confidence: high
+      reason: Trapezoidal rule from table with six subintervals; routine computation.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q31  key 2022-JamesRuse-AT4-Q31  id 3228
   section: III
@@ -2407,6 +3018,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
   part a  id 5247
     ordinal: 1
     latex: Find the coordinates of any stationary point, to 1 decimal place, and determine their nature.
@@ -2476,6 +3089,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds one stationary point and its nature, or equivalent merit"], [1, "Sets $\\dfrac{dy}{dx}=0$, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 234
+      confidence: high
+      reason: Expand cubic, quadratic formula for stationary points, second derivative test.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
   part b  id 5248
     ordinal: 2
     latex: Find the coordinates of any points of inflection.
@@ -2540,6 +3166,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds $x$ and checks the change of concavity, or equivalent merit"], [1, "Finds the $x$-value, or equivalent merit"]]
       meta_json: {"format_note": "Source table gave y''=1 at x=1; 6(1)-2=4, so corrected to 4 (sign unchanged, conclusion unchanged)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 326
+      confidence: high
+      reason: Solve y''=0, check concavity change, evaluate point.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
   part c  id 5249
     ordinal: 3
     latex: Sketch the curve showing all important features.
@@ -2573,7 +3212,24 @@ document
       page: 55
       bbox: [95, 65, 525, 390]
       png_path: figures/1331_q31_s1.png
+      tikz_path: tikz/tex/1331_q31_s1.tex
       caption: solution sketch: sketch of y=x(x-2)(x+1) with intercepts, turning points and point of inflection
+      redraw_status: approx
+      redraw_class: graph
+      redraw_notes: Solution sketch of y = x(x-2)(x+1), drawn from the true cubic (rules 10, 16). Dots at the intercepts -1, 0, 2, the max (-0.55,0.63), the min (1.22,-2.11) and the POI (1/3,-20/27), with labels as in the solution; the POI label uses \dfrac. Left out: the green marking notes and the colours (rules 6, 17). The axes are straightened (the crop's y-axis is tilted). Approx because the hand sketch is not to any scale: its tails are flatter and its max/min ratio differs, so the true curve cannot match it exactly. The scale is chosen to fit the roots, so the overlay is low by nature. No x/y axis labels, as in the crop.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 814
+      confidence: high
+      reason: Sketch cubic using intercepts and previously found features.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
   part d  id 5250
     ordinal: 4
     latex: For what values of $c$ will $x(x-2)(x+1) = c$ have exactly 1 solution? Give your answer correct to 1 decimal place.
@@ -2607,6 +3263,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 312
+      confidence: medium
+      reason: Interpret horizontal line intersections using turning point values graphically.
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: PR
+      source: model
 
 ## Q32  key 2022-JamesRuse-AT4-Q32  id 3229
   section: IV
@@ -2618,6 +3287,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Random variables|The normal distribution
+  home_source: computed
   part a  id 5251
     ordinal: 1
     latex: Silvester went to meet his friends today. It took him 18mins to walk to the station, and 52mins to get to the city from the station. Calculate the z-scores for the walk and the train trip respectively.
@@ -2650,6 +3321,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "One correct $z$-score, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 307
+      confidence: high
+      reason: Direct substitution into z-score formula twice.
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 5252
     ordinal: 2
     latex: Assume that the walking time from home to the station is normally distributed. Using the empirical rule, find the number of minutes Silvester should allow himself so that he will arrive at the station faster than the allowed time 97.5% of the time?
@@ -2698,6 +3382,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "States $z=2$, or equivalent merit"]]
       meta_json: {"marker_note": "A student who writes 'at most 19 min' gets 1 mark only."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 774
+      confidence: medium
+      reason: Empirical rule in reverse: 97.5% corresponds to mean plus two SD.
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q33  key 2022-JamesRuse-AT4-Q33  id 3230
   section: IV
@@ -2709,6 +3406,8 @@ document
   review_status: unreviewed
   options_layout: text
   standard_topic: Standard course, Year 11, Data analysis, MST-11-08 (borderline): quartiles and outliers
+  home_topic: special:removed
+  home_source: computed
   solution 4624
     source: extracted
     latex: |
@@ -2742,6 +3441,19 @@ document
       is_primary: 0
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 216
+      confidence: medium
+      reason: Find quartiles, IQR, fences, then identify outlier; several routine steps.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q34  key 2022-JamesRuse-AT4-Q34  id 3231
   section: IV
@@ -2760,6 +3472,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Random variables|Continuous random variables
+  home_source: computed
   part a  id 5254
     ordinal: 1
     latex: Show that the corresponding cumulative distribution function is given by $F(x) = 1 - e^{-\lambda x}$.
@@ -2823,6 +3537,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Writes the correct integral, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 296
+      confidence: high
+      reason: Integrate given exponential pdf to obtain CDF; standard technique.
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
   part b  id 5255
     ordinal: 2
     latex: |
@@ -2903,6 +3630,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Uses the cumulative distribution function, or equivalent merit"], [1, "Writes the conditional probability as a ratio, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 5
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 297
+      confidence: medium
+      reason: Abstract proof combining conditional probability with continuous distribution tail.
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 5
+      wm_ai: PR
+      source: model
 
 ## Q35  key 2022-JamesRuse-AT4-Q35  id 3232
   section: IV
@@ -2913,6 +3653,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Exponential and logarithmic functions|Logarithmic functions
+  home_source: computed
   solution 4627
     source: extracted
     latex: |
@@ -2974,6 +3716,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 282
+      confidence: medium
+      reason: Reciprocal log change of base, substitution to quadratic, two solutions.
+      area: Y11_Exponential_and_logarithmic_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: UF
+      source: model
 
 ## Q36  key 2022-JamesRuse-AT4-Q36  id 3233
   section: IV
@@ -2984,6 +3739,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Further graph transformations and modelling|Transformations of trigonometric functions
+  home_source: computed
   solution 4628
     source: extracted
     latex: \exfigure{1331_q36_s1}
@@ -2996,7 +3753,11 @@ document
     page: 60
     bbox: [150, 85, 460, 360]
     png_path: figures/1331_q36_s1.png
+    tikz_path: tikz/tex/1331_q36_s1.tex
     caption: solution sketch: sketch of y=tan(x/2) on -pi to pi with asymptotes
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: Solution sketch of y = tan(x/2) on (-pi, pi): true curve at 0.9pt with arrows, dashed asymptotes at x = ±pi, dots at (±pi/2, ±1). Ticks are evenly spaced at pi/4 steps and integers ±1..±4, with fraction labels as \dfrac. Left out: the question text cut into the top of the crop, and the scan wobble (rules 10, 17). The -pi/2 dot is at its true y = -1, where the sketch drew it near -1.4 (rule 16). The -pi/4 and -pi/2 labels sit below the curve, because the space just under the axis is the curve region (rules 11, 24). Please check -3pi/4: the curve passes close to that label, and it sits tight beside the -pi label. The overlay is low because of the hand-drawn strokes and the dropped header text.
   part -  id 5257
     ordinal: 1
     latex: Sketch the graph $y = \tan\left(\dfrac{x}{2}\right)$ for $-\pi \le x \le \pi$.
@@ -3024,6 +3785,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 882
+      confidence: high
+      reason: Sketch dilated tan graph with correct asymptotes on given domain.
+      area: Y12_Further_graph_transformations_and_modelling
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q37  key 2022-JamesRuse-AT4-Q37  id 3234
   section: IV
@@ -3035,6 +3809,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Sequences and series|Geometric sequences and series
+  home_source: computed
   part a  id 5258
     ordinal: 1
     latex: For what values of $\theta$ in the interval $-\dfrac{\pi}{2} \le \theta \le \dfrac{\pi}{2}$ does a limiting sum exist for the series?
@@ -3095,6 +3871,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Uses $|r|<1$ to obtain $-1<\\tan\\theta<1$, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 282
+      confidence: medium
+      reason: Identify ratio -tan^2θ, apply |r|<1, solve trig inequality.
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: UF
+      source: model
   part b  id 5259
     ordinal: 2
     latex: Find the expression for this limiting sum in its simplest form.
@@ -3158,6 +3947,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {"marker_note": "Accept $\\dfrac{1}{\\sec^2\\theta}$."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 805
+      confidence: high
+      reason: Limiting sum formula then Pythagorean identity to simplify.
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q38  key 2022-JamesRuse-AT4-Q38  id 3235
   section: IV
@@ -3169,6 +3971,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Applications of calculus|Optimisation
+  home_source: computed
   part a  id 5260
     ordinal: 1
     latex: Show that the cost (\$$C$) to pay for this job is given by $C = \dfrac{90000}{v} + 150v$.
@@ -3202,6 +4006,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct expression for cost with $T=\\dfrac{1200}{v}$, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 830
+      confidence: medium
+      reason: Build cost model from rates and time; interpret wordy context.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: PR
+      source: model
   part b  id 5261
     ordinal: 2
     latex: Assuming that $v$ can take any non-negative values, find the speed $v$, that minimizes the cost and determine this cost.
@@ -3249,6 +4066,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Finds $v=\\sqrt{600}$, or equivalent merit"], [1, "Sets $C'=0$, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 340
+      confidence: high
+      reason: Routine minimisation of given function with second derivative check.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q39  key 2022-JamesRuse-AT4-Q39  id 3236
   section: IV
@@ -3267,11 +4097,17 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Differential calculus|Using derivatives
+  home_source: computed
   figure 1331_q39_1.png
     page: 33
     bbox: [184, 96, 437, 263]
     png_path: figures/1331_q39_1.png
+    tikz_path: tikz/tex/1331_q39_1.tex
     caption: graph of y=ln(x^2) with points P, R, Q and shaded triangle region
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: y = ln(x^2) drawn true (2 ln x) through the crop's P(1,0) and Q(e,2) positions. R is plotted at its true point (e-1, ln(e-1)^2) (rule 16), so it sits further right than in the crop: the crop's curve is not a true ln curve between P and Q. Triangle PQR is outlined, with a dashed guide from Q down to e. Shading: the crop has very dense fine vertical lines, drawn here with the house shade hatch, which is sparser in the thin sliver; the owner may prefer flat grey 'shade'. The overlay difference is mainly the crop's more strongly bent curve and R's position. Rules 1, 5, 9, 10, 12, 16.
   part a  id 5262
     ordinal: 1
     latex: Show that $R$ has coordinates $(e-1, \ln[(e-1)^2])$ for $\triangle PQR$ to have maximum area.
@@ -3369,6 +4205,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds $f'(x)=\\dfrac{2}{x}$ and $m_{PQ}$, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 347
+      confidence: medium
+      reason: Equate tangent gradient to chord gradient; condition given in stem.
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: PR
+      source: model
   part b  id 5263
     ordinal: 2
     latex: Hence find the size of $\angle RPQ$ correct to the nearest degree.
@@ -3427,6 +4276,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Finds the gradients $m_{PQ}$ and $m_{RP}$, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 325
+      confidence: medium
+      reason: Combine angles of inclination from gradients to find angle between lines.
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: PR
+      source: model
   part c  id 5264
     ordinal: 3
     latex: Hence or otherwise, find the maximum area of $\triangle PQR$, correct to 2 decimal places.
@@ -3473,3 +4335,16 @@ document
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct area formula using the angle, or equivalent merit"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 168
+      confidence: medium
+      reason: Distance formula then half ab sin C; careful computation.
+      area: Y11_Trigonometry_and_measure_of_angles
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model

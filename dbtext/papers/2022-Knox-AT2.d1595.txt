@@ -31,6 +31,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
   option A
     latex: $\displaystyle\int_b^a f(x)\,dx$
     is_correct: 0
@@ -50,19 +52,23 @@ document
   solution 4659
     source: extracted
     latex: |
-      The shaded region lies below the $x$-axis on $[b,0]$ (where $f(x)<0$) and above... the area is the integral of the upper curve minus the lower curve in each part, so
+      On $[b,0]$ the shaded region lies above the $x$-axis ($f(x)>0$), and on $[0,a]$ it lies below it ($f(x)<0$), so the integral over $[0,a]$ is negative and is subtracted:
       $$A = \int_b^0 f(x)\,dx - \int_0^a f(x)\,dx$$
       Hence the correct option is D.
     marks_breakdown: 1: correct answer
     source_document_id: 1595
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {"format_note": "Source gave only the formula; reasoning sentence added without seeing the figure (1595_q1a_1), so the stated sign of f on each part should be checked against the diagram. Sketch id given but no drawing needed."}
+    meta_json: {"corrected": "Corrected from source: the first line had the regions the wrong way round and was cut off.", "format_note": "Source gave only the formula; reasoning sentence added without seeing the figure (1595_q1a_1), so the stated sign of f on each part should be checked against the diagram. Sketch id given but no drawing needed.", "overwritten_from_source": "Corrected from source: the first line had the regions the wrong way round and was cut off.", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "The shaded region lies below the $x$-axis on $[b,0]$ (where $f(x)<0$) and above... the area is the integral of the upper curve minus the lower curve in each part, so\n$$A = \\int_b^0 f(x)\\,dx - \\int_0^a f(x)\\,dx$$\nHence the correct option is D."}}
   figure 1595_q1a_1.png
     page: 0
     bbox: [128, 380, 467, 537]
     png_path: figures/1595_q1a_1.png
+    tikz_path: tikz/tex/1595_q1a_1.tex
     caption: graph of y=f(x) with roots b, 0, a and shaded regions
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Cubic fitted through the crop's roots b, 0, a; turning points match the crop. Region between the curve and the x-axis from b to a shaded flat grey. Both axes have arrows at both ends, as in the crop. Curve 0.9pt (rule 9). Round 1 failed to compile (dimension too large); I rescaled the variable to fix it. Rules 1, 3, 4, 5, 9, 11.
   part -  id 5288
     ordinal: 1
     latex: |
@@ -107,6 +113,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 212
+      confidence: medium
+      reason: Recognise signed area below axis must be subtracted; standard MCQ.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q1(b)  key 2022-Knox-AT2-Q1b  id 3252
   question_type: extended
@@ -116,6 +135,8 @@ document
   page_end: 1
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
   part a  id 5289
     ordinal: 1
     latex: Find the stationary points and determine their nature.
@@ -193,6 +214,19 @@ document
         label_col: 0
         rows_json: [["x", "-1", "0", "1", "4", "5"], ["\\dfrac{dy}{dx}", "-15", "0", "9", "0", "-15"]]
         source_latex: $$\begin{array}{c|c|c|c|c|c} x & -1 & 0 & 1 & 4 & 5 \\ \hline \dfrac{dy}{dx} & -15 & 0 & 9 & 0 & -15 \end{array}$$
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 813
+      confidence: high
+      reason: Routine stationary points of cubic with nature test.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
   part b  id 5290
     ordinal: 2
     latex: Find any points of inflexion.
@@ -264,6 +298,19 @@ document
         label_col: 0
         rows_json: [["x", "0", "2", "4"], ["\\dfrac{d^2y}{dx^2}", "12", "0", "-12"]]
         source_latex: $$\begin{array}{c|c|c|c} x & 0 & 2 & 4 \\ \hline \dfrac{d^2y}{dx^2} & 12 & 0 & -12 \end{array}$$
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 242
+      confidence: medium
+      reason: Linear second derivative, check concavity change; routine two steps.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
   part c  id 5291
     ordinal: 3
     latex: Sketch the curve, showing the stationary points, the point of inflexion and the $x$ and $y$ intercepts.
@@ -312,7 +359,24 @@ document
       page: 1
       bbox: [135, 490, 420, 735]
       png_path: figures/1595_q1b_s1.png
+      tikz_path: tikz/tex/1595_q1b_s1.tex
       caption: solution sketch: sketch of y=6x^2-x^3
+      redraw_status: approx
+      redraw_class: graph
+      redraw_notes: Clean redraw of the solution sketch of y=6x^2-x^3 on a true scale (48 px per x unit, 6.4 px per y unit). Ticks 2, 4, 6 and 32, 16 are evenly spaced. Max (4,32) and inflexion (2,16) sit at their computed positions, with dashed guides and a dot at the inflexion. I dropped the teacher's stray tick on the y-axis and the uneven tick spacing. The left branch is steeper and narrower than the hand sketch because the true curve is used (sketch was not to scale). That accounts for most of the red/blue. Rules 10, 16, 17, 4, 9, 12.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 326
+      confidence: high
+      reason: Sketch cubic using found features plus factorised intercepts.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q2(a)  key 2022-Knox-AT2-Q2a  id 3253
   question_type: mcq
@@ -322,6 +386,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Integral calculus|The definite integral
+  home_source: computed
   option A
     latex: $\dfrac{5}{2}$
     is_correct: 0
@@ -355,7 +421,11 @@ document
     page: 2
     bbox: [225, 135, 435, 268]
     png_path: figures/1595_q2a_s1.png
+    tikz_path: tikz/tex/1595_q2a_s1.tex
     caption: solution sketch: sketch of y=|x-2| from -1 to 4
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: y=|x-2| drawn on a true 59 px/unit scale with verticals at x=-1 and x=4. The two triangles under the graph are hatched with house shade hatch; the crop's hand hatch strokes are replaced. Dashed guides at heights 3 and 2, and dots at (0,2) and (2,0). I dropped the teacher's stray marks on the x-axis and the scan border line at the right edge, which shifts the overlay alignment. The rest of the low score is hand-stroke wobble and hatch placement. Rules 5, 10, 16, 17, 12.
   part -  id 5292
     ordinal: 1
     latex: What is the value of $\displaystyle\int_{-1}^{4} |x-2|\,dx$ ?
@@ -405,6 +475,19 @@ document
       is_primary: 0
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 311
+      confidence: medium
+      reason: Evaluate absolute value integral via triangle areas.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q2(b)  key 2022-Knox-AT2-Q2b  id 3254
   question_type: extended
@@ -417,11 +500,17 @@ document
   page_end: 1
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
   figure 1595_q2b_1.png
     page: 1
     bbox: [177, 511, 418, 693]
     png_path: figures/1595_q2b_1.png
+    tikz_path: tikz/tex/1595_q2b_1.tex
     caption: graphs of y=x^2-2x-1 and y=3-x^2
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Both parabolas on the crop's true scale (67.5 px per x unit, 32 px per y unit). The intersections at x=-1 and x=2 match the crop exactly. Curves 0.9pt with filled latex heads at all four ends; the crop's open axis chevrons become latex heads. Equation labels are in the same places. The low score comes from the crop's very heavy curve strokes and large arrowheads (scan stroke thickness), not from geometry. The labels are a little larger than the crop's small labels. Rules 3, 4, 9, 16.
   part a  id 5293
     ordinal: 1
     latex: Show that the functions intersect when $x = 2$ and $x = -1$.
@@ -471,6 +560,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {"format_note": "Source also accepts substitution of both values into both equations."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 864
+      confidence: high
+      reason: Equate and factorise a quadratic; one routine step.
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 5294
     ordinal: 2
     latex: Find the exact area bounded by the two curves.
@@ -534,6 +636,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Correct integration, or equivalent merit"], [1, "Correct set up of the integral, or equivalent merit"]]
       meta_json: {"format_note": "Source wrote '20/3 + 7/3'; the second bracket evaluates to $-\\dfrac{7}{3}$ so subtracting it gives the same total 9. Written that way here."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 759
+      confidence: high
+      reason: Standard area between two parabolas with given bounds.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q2(c)  key 2022-Knox-AT2-Q2c  id 3255
   question_type: short
@@ -542,6 +657,8 @@ document
   page_end: 2
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Primitive functions
+  home_source: computed
   solution 4666
     source: extracted
     latex: |
@@ -573,6 +690,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 796
+      confidence: high
+      reason: Direct reverse chain rule on linear inside power.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q2(d)  key 2022-Knox-AT2-Q2d  id 3256
   question_type: short
@@ -581,6 +711,8 @@ document
   page_end: 2
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
   solution 4667
     source: extracted
     latex: |
@@ -621,6 +753,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 219
+      confidence: medium
+      reason: Direct trapezoidal rule substitution with four strips.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
 
 ## Q3(a)  key 2022-Knox-AT2-Q3a  id 3257
   question_type: mcq
@@ -630,6 +775,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:11|Graph transformations|
+  home_source: computed
   option A
     latex: $(-2, 8)$
     is_correct: 1
@@ -723,6 +870,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 748
+      confidence: medium
+      reason: Track a point through reflection, dilation and translation.
+      area: Y11_Graph_transformations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q3(b)  key 2022-Knox-AT2-Q3b  id 3258
   question_type: extended
@@ -738,11 +898,17 @@ document
   needs_review: 1
   review_status: unreviewed
   review_note: Printed wording of part (ii) is garbled ('the surface area occurs minimum occurs'); transcribed as printed
+  home_topic: sub:12|Applications of calculus|Optimisation
+  home_source: computed
   figure 1595_q3b_1.png
     page: 2
     bbox: [188, 500, 408, 586]
     png_path: figures/1595_q3b_1.png
+    tikz_path: tikz/tex/1595_q3b_1.tex
     caption: cylinder with radius r and height h
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Cylinder with the back half of the base ellipse dashed (aux), a centre dot with radius r, and the h dimension arrow broken around its label with end bars. Labels at normal size. Rules 2, 3, 4, 11.
   part a  id 5298
     ordinal: 1
     latex: Given that $A = 2\pi r^2 + 2\pi r h$ and $V = \pi r^2 h$, show that $A = 2\pi r^2 + \dfrac{40}{r}$.
@@ -776,6 +942,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 285
+      confidence: high
+      reason: Substitute h from given volume formula; one step.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 2
+      wm_ai: UF
+      source: model
   part b  id 5299
     ordinal: 2
     latex: Find the value of $r$ for which the surface area occurs minimum occurs and justify that it is a minimum value.
@@ -836,6 +1015,19 @@ document
         label_col: 0
         rows_json: [["r", "1", "\\sqrt[3]{10/\\pi}", "2"], ["\\dfrac{dA}{dr}", "-27.4\\ldots", "0", "15.13\\ldots"]]
         source_latex: $$\begin{array}{c|c|c|c} r & 1 & \sqrt[3]{10/\pi} & 2 \\ \hline \dfrac{dA}{dr} & -27.4\ldots & 0 & 15.13\ldots \end{array}$$
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 340
+      confidence: medium
+      reason: Differentiate given area function, solve cubic, justify minimum.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q3(c)  key 2022-Knox-AT2-Q3c  id 3259
   question_type: short
@@ -844,6 +1036,8 @@ document
   page_end: 2
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Further graph transformations and modelling|Transformations of trigonometric functions
+  home_source: computed
   solution 4671
     source: extracted
     latex: |
@@ -867,7 +1061,11 @@ document
     page: 6
     bbox: [75, 285, 410, 495]
     png_path: figures/1595_q3c_s1.png
+    tikz_path: tikz/tex/1595_q3c_s1.tex
     caption: solution sketch: sketch of y=-4+3sin2x
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: I drew y=-4+3sin2x from its equation at 0.9pt over 0<=x<=2pi, with pi at about 292 px, so it matches the crop's peaks, troughs and 2pi end. Axes are drawn level (the scan tilts). There are dashed guides at -1 and -7 to the first maximum and minimum, and dashed verticals at pi and 2pi. Ticks at -4 and -7, labels -1, -4, -7, pi, 2pi, x and y in maths font. The score is low because of hand-wobble in the teacher's curve (troughs below -7), the thick scan strokes and the handwritten labels. I checked the layout by eye. Rules 1, 3, 4, 9, 10, 11, 17.
   part -  id 5300
     ordinal: 1
     latex: Sketch the curve $y = -4 + 3\sin 2x$ for $0 \le x \le 2\pi$.
@@ -895,6 +1093,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 762
+      confidence: medium
+      reason: Sketch sine with amplitude, period and vertical shift over two periods.
+      area: Y12_Further_graph_transformations_and_modelling
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q4(a)  key 2022-Knox-AT2-Q4a  id 3260
   question_type: mcq
@@ -904,6 +1115,8 @@ document
   needs_review: 0
   review_status: unreviewed
   options_layout: text
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
   option A
     latex: $0 < f''(1) < f'(1) < f(1)$
     is_correct: 0
@@ -941,7 +1154,11 @@ document
     page: 3
     bbox: [181, 97, 415, 241]
     png_path: figures/1595_q4a_1.png
+    tikz_path: tikz/tex/1595_q4a_1.tex
     caption: graph of y=f(x), increasing and concave down through marked point at x=1
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Increasing concave-down curve from O, drawn as y=A(1-e^{-0.75x}) and fitted to the crop's point at x=1 and its end point. It has an end arrow and a dot on the curve at x=1, with a tick and label 1. The crop's open arrow chevron is replaced by the house filled Latex head. Rules 1, 3a, 4, 9, 16.
   part -  id 5301
     ordinal: 1
     latex: |
@@ -994,6 +1211,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 312
+      confidence: high
+      reason: Compare f, f', f'' from graph; tangent intercept reasoning.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: PR
+      source: model
 
 ## Q4(b)  key 2022-Knox-AT2-Q4b  id 3261
   question_type: short
@@ -1002,6 +1232,8 @@ document
   page_end: 3
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Primitive functions
+  home_source: computed
   solution 4673
     source: extracted
     latex: |
@@ -1049,6 +1281,19 @@ document
       is_primary: 0
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 227
+      confidence: high
+      reason: Hence integral by adjusting constant of given derivative.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q4(c)  key 2022-Knox-AT2-Q4c  id 3262
   question_type: short
@@ -1057,6 +1302,8 @@ document
   page_end: 3
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:11|Graph transformations|
+  home_source: computed
   solution 4674
     source: extracted
     latex: |
@@ -1078,7 +1325,11 @@ document
     page: 7
     bbox: [60, 460, 415, 745]
     png_path: figures/1595_q4c_s1.png
+    tikz_path: tikz/tex/1595_q4c_s1.tex
     caption: solution sketch: sketch of y=3+1/(x+2)
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: Both branches of y=3+1/(x+2) are drawn from the equation (0.9pt, arrows where the crop has them). I used one x scale (81 px/unit) and one y scale (65 px/unit) chosen to split the error between the crop's asymptote and intercept positions. The teacher's sketch is not to scale: intercepts sit about 13 px from the crop and the asymptotes about 10-13 px. The crossings at 7/2 and -7/3 are the true crossings of the drawn curve. Fractions are stacked. Left out: the teacher's working in the top right and the stray '2'. Blue becomes black dashed. The score is low mainly from the dropped working text, the handwriting and the teacher's curve hugging the asymptotes less closely than the true function. Rules 1, 6, 9, 16, 17, 23.
   part -  id 5303
     ordinal: 1
     latex: Without using calculus, sketch the graph of $y = 3 + \dfrac{1}{x+2}$, showing the asymptotes and the $x$ and $y$ intercepts.
@@ -1122,6 +1373,19 @@ document
       is_primary: 1
       tag_source: agreed
       prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 178
+      confidence: high
+      reason: Standard hyperbola sketch with asymptotes and intercepts.
+      area: Y11_Graph_transformations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: UF
+      source: model
 
 ## Q4(d)  key 2022-Knox-AT2-Q4d  id 3263
   question_type: short
@@ -1134,11 +1398,17 @@ document
   page_end: 4
   needs_review: 0
   review_status: unreviewed
+  home_topic: sub:11|Graph transformations|
+  home_source: computed
   figure 1595_q4d_1.png
     page: 4
     bbox: [146, 136, 450, 331]
     png_path: figures/1595_q4d_1.png
+    tikz_path: tikz/tex/1595_q4d_1.tex
     caption: graph of y=f(x) with intercepts -6, 0, 4 and turning points (-4,5), (2,-2)
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: The curve is smooth Bezier pieces through (-6,0), (-4,5), (0,0), (2,-2), (4,0), flat at both turning points, on one uniform scale (32 px/unit in x, 17.5 px/unit in y). Each turning point therefore sits at its true coordinate: the crop draws the max about 15 px right of where uniform scaling puts it. There are arrows at both ends, filled house heads instead of the crop's open axis chevrons and bold heads. Labels are in maths font with a proper minus sign. The remaining colour is label glyph differences and the crop's heavy arrowheads. Rules 1, 4, 9, 16.
   part a  id 5304
     ordinal: 1
     latex: For what values of $k$ will $f(x) = k$ have 3 solutions?
@@ -1172,6 +1442,19 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 846
+      confidence: medium
+      reason: Interpret horizontal line intersections using turning point values.
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 3
+      wm_ai: PR
+      source: model
   part b  id 5305
     ordinal: 2
     latex: Sketch the graph of $y = f\left(\dfrac{x}{2} - 1\right)$ showing the $x$-intercepts and the coordinates of the turning points.
@@ -1250,4 +1533,21 @@ document
       page: 8
       bbox: [60, 435, 420, 700]
       png_path: figures/1595_q4d_s1.png
+      tikz_path: tikz/tex/1595_q4d_s1.tex
       caption: solution sketch: sketch of y=f(x/2-1)
+      redraw_status: approx
+      redraw_class: graph
+      redraw_notes: Smooth Bezier curve through (-10,0), (-6,5), (2,0), (6,-2), (10,0), flat at both turning points, with a dot and label at each. Ticks and labels at -10, 2 and 10. I moved the y-axis about 20 px right so the intercepts and turning points sit at true coordinates on one uniform scale: the teacher's sketch puts the axis at about x=-1. The y-axis is redrawn with its arrow at the top and a y label. The teacher's downward arrowhead at the bottom was dropped, but the long axis length is kept. The score is low from handwriting, the scan strokes and the moved axis. Rules 1, 4, 9, 16, 17.
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 751
+      confidence: medium
+      reason: Combined horizontal dilation and translation; order of transformations matters.
+      area: Y11_Graph_transformations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-18
+      band_ai: 4
+      wm_ai: UF
+      source: model

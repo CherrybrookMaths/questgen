@@ -2024,6 +2024,17 @@ async function examPools(browser, base, pools) {
         }
         await page.mouse.move(2, 2);
         errs();
+        // owner 18 Nov: the cover's marks block reads "Total marks: N", then per section "Section I – n marks (pages a–b)", the
+        // questions to attempt and the time to allow; the pages agree with where each section's heading sits, the times add up
+        const cv = await page.evaluate(() => { const sh = [...document.querySelectorAll('#xPages .sheet')], at = n => sh.findIndex(s => s.querySelector(`.xsechd[data-sec="${n}"]`)) + 1;
+          const t = [...document.querySelectorAll('#xPages .cv-sec')].map(e => e.innerText.replace(/\s+/g, ' ').trim()), k = document.querySelector('#xPages .cv-secs')?.previousElementSibling?.textContent || '';
+          return {t, k, p1: at(1), p2: at(2), n: sh.length, W: EXSEC.mins(EX.time)} });
+        if (sd === POOL_RUNS[name][0][0]) { await page.evaluate(() => document.querySelectorAll('#xPv .xtool').forEach(e => e.style.visibility = 'hidden')); await (await page.$('#xPages .sheet')).screenshot({path: SHOTS + '/exam_cover_marks.png'}); await page.evaluate(() => document.querySelectorAll('#xPv .xtool').forEach(e => e.style.visibility = '')) }
+        const mins = cv.t.map(x => { const m = x.match(/Allow about (?:(\d+) hours?)?(?: and )?(?:(\d+) minutes?)?/); return m ? (+m[1] || 0) * 60 + (+m[2] || 0) : 0 });
+        assert(cv.k === `Total marks: ${tot}` && cv.t.length === 2, `cover marks block: "${cv.k}", ${cv.t.length} section(s)`);
+        assert(cv.t[0].startsWith(`Section I – `) && cv.t[0].includes(`(pages ${cv.p1}–${cv.p2 - 1})`) || cv.t[0].includes(`(page ${cv.p1})`), `Section I pages: "${cv.t[0]}" (heading on page ${cv.p1}, Section II from ${cv.p2})`);
+        assert(cv.t[1].includes(`(pages ${cv.p2}–${cv.n})`) || cv.t[1].includes(`(page ${cv.p2})`), `Section II pages: "${cv.t[1]}" (from page ${cv.p2} of ${cv.n})`);
+        assert(mins[0] > 0 && mins[0] + mins[1] === cv.W, `section times ${mins.join(' + ')} minutes, working time ${cv.W}`);
         assert(tot >= marks - 2 && tot <= marks + 2, `${tot} marks, asked for ${marks}`);
         assert(!ex.over.length, `exam sheet(s) taller than 297 mm (${ex.H}px): ${ex.over.map(([i, h, q]) => `p${i}=${h}px (Q ${q})`).join(', ')}`);
         assert(!gd.over.length, `marking-guide sheet(s) taller than 297 mm (${gd.H}px): ${gd.over.map(([i, h, q]) => `p${i}=${h}px (Q ${q})`).join(', ')}`);

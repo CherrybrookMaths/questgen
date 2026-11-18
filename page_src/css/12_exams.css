@@ -245,26 +245,27 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .xcover.excover{display:block;text-align:left;padding-top:2mm}
 .excover .cv-head{border-top:2.2pt solid #111;padding-top:4.5mm}
 .excover .xschool{font:600 9.5pt var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#333}
+.excover .cv-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10mm}   /* owner 18 Nov: logo left, Name / Tutor right */
+.excover .cv-logo{display:block;height:15mm;width:auto}
+.excover .cv-who{display:flex;flex-direction:column;gap:5mm;width:72mm;flex:none;padding-top:1mm}
+.excover .cv-who span{display:flex;gap:2.5mm;align-items:flex-end}
+.excover .cv-who em{font:500 10pt var(--sans);font-style:normal;color:#111;white-space:nowrap;padding-bottom:.4mm}
+.excover .cv-who i{flex:1;border-bottom:.6pt solid #111;height:6mm}
 .excover .cv-cert{margin-top:9mm;font:600 10pt var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#111}
 .excover .cv-course{margin-top:1.2mm;font:600 25pt/1.1 var(--serif);color:#111;letter-spacing:-.005em}
 .excover h1.cv-title{margin:2.4mm 0 0;font:400 14pt/1.3 var(--serif);color:#333;text-wrap:balance}
-.excover .cv-fields{display:grid;grid-template-columns:1fr 1fr;gap:6.5mm 12mm;margin-top:10mm;padding-top:6mm;border-top:.6pt solid #111}
-.excover .cv-fields span{display:flex;gap:3mm;align-items:flex-end}
-.excover .cv-fields em{font:500 8pt var(--sans);letter-spacing:.1em;text-transform:uppercase;color:#555;font-style:normal;white-space:nowrap;padding-bottom:.6mm}
-.excover .cv-fields i{flex:1;border-bottom:.6pt solid #111;height:7mm}
-.excover .cv-stats{display:flex;margin-top:9mm;border-top:.6pt solid #111;border-bottom:.6pt solid #111}
-.excover .cv-stats div{flex:1;min-width:0;padding:2.6mm 3mm 2.4mm;border-left:.6pt solid #c9c9c9;display:flex;flex-direction:column;gap:.6mm}
-.excover .cv-stats div:first-child{border-left:0;padding-left:0}
-.excover .cv-stats b{font:600 15pt/1.1 var(--sans);color:#111;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
-.excover .cv-stats span{font:500 7.2pt var(--sans);letter-spacing:.1em;text-transform:uppercase;color:#555;white-space:nowrap}
-.excover .cv-stats small{font:400 8.5pt var(--sans);color:#555}
-.excover .cv-grid{display:grid;grid-template-columns:40mm minmax(0,1fr);column-gap:0;margin-top:7mm}
+.excover .cv-grid{display:grid;grid-template-columns:40mm minmax(0,1fr);column-gap:0;margin-top:10mm;padding-top:5mm;border-top:.6pt solid #111}
 .excover .cv-k{font:600 10pt var(--sans);color:#111;padding:2.6mm 0 0;border-top:.6pt solid #c9c9c9}
 .excover .cv-k small{display:block;font:400 9pt var(--sans);color:#555;margin-top:.5mm}
 .excover .cv-v{margin:0;padding:2.6mm 0 2.4mm 5mm;border-top:.6pt solid #c9c9c9;font-size:10.5pt;line-height:1.5}
 .excover .cv-grid>:nth-child(-n+2){border-top:0;padding-top:0}
 .excover .cv-v li{padding-left:.5mm}
 .excover .exaddli{list-style:none;margin:.5mm 0 0 -4.5mm}
+.excover .cv-secs{padding-left:5mm}   /* owner 18 Nov: NESA-style marks block, Total marks | each section with its pages, questions and time */
+.excover .cv-sec+.cv-sec{margin-top:3mm}
+.excover .cv-sech{margin:0 0 .6mm}
+.excover .cv-sech b{font-weight:700;color:#111}
+.excover .cv-secs ul{margin:0;padding-left:5mm}
 .excover .exaddli .linkbtn{font-size:11.5px;padding:2px 0;color:#1e5f5a}
 /* marks by topic: narrow Topic, wide Questions (small numbers, runs never break), tight number columns */
 .extopictbl{width:100%;margin-top:7mm;text-align:left}

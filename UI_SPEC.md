@@ -342,6 +342,15 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
 - **Below the title:**
   - a hairline rule, then Student name / Teacher / Class / Date as small-caps labels on hairlines;
   - a stats row between two rules, with hairline dividers: Total marks · Section I (marks, n questions) · Section II · Working time.
+- **18 Nov changes (owner).** "Also here, the 100 marks, section I and II and working time is redundent because its below. Also remove
+  the student name, teacher name, class and date. Just put in the top right in a sensible spot the Name: and Tutor: and also find the CMC
+  education logo in our drive and add it in instead of saying CMC education": the stats row and the four name lines are gone; the top
+  row is the CMC logo ("CMC Logo Black.svg", CMC Resources drive, read only; shown while School is "CMC Education", any other school
+  shows its name) on the left and Name: / Tutor: lines on the right. The two bullets above are superseded.
+- **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
+  like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
+  bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II
+  takes the rest). Pages are the page footers' numbers (the cover is page 1), filled in after layout.
 - **Instructions.** A two-column NESA-style block: General instructions | bullets, Section I (marks) | bullets, Section II (marks) | bullets, with hairlines between the rows.
 - **"+ Add an instruction".** It is now the last item of the General instructions list, after the Section II reasoning line. It is still removed from the download and hidden in print.
 - **Saving.** `cert` is saved with the exam (`exams/<id>`), restored on open, and part of the "unsaved changes" check.
