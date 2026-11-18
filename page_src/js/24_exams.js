@@ -469,8 +469,9 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   const dlb=$('#xDl');
   if(dlb&&!$('#xPdf')){dlb.insertAdjacentHTML('beforebegin',`<button class="act ok" id="xPdf" type="button" title="Save the paper as a PDF">Download PDF</button>`);dlb.textContent='Download HTML';dlb.classList.remove('ok');dlb.title='A web page you can print, or save as a PDF with selectable text'}
   const pb=$('#xPdf');
-  // owner 17 Nov: "Add a disclaimer the word one is not tested on the user side."
-  if(pb&&!$('#xWord'))pb.insertAdjacentHTML('afterend',`<button class="act" id="xWord" type="button" title="Save as a Word document with editable equations. Not yet tested by users: check the file before you print or send it.">Download Word (beta)</button><span class="help xworddis">Word export is not yet tested by users: check the file before you print or send it.</span>`)}
+  // owner 17 Nov: "Add a disclaimer the word one is not tested on the user side." Owner 19 Nov: "remove Word export is not yet tested by
+  // users: check the file before you print or send it." (the line beside the button is gone; the button keeps "(beta)" and its tooltip)
+  if(pb&&!$('#xWord'))pb.insertAdjacentHTML('afterend',`<button class="act" id="xWord" type="button" title="Save as a Word document with editable equations. Not yet tested by users: check the file before you print or send it.">Download Word (beta)</button>`)}
 function exZoom(){const h=$('#xPages');if(!h)return;const tb=$('#xPv .xtool');if(tb)$('#xPv').style.setProperty('--tool',tb.offsetHeight+'px');const side=EXV.grade&&innerWidth>1000?380:0,avail=innerWidth-side-24;const z=Math.min(1,avail/800);h.style.zoom=z<.999?String(Math.max(.4,z)):'';
   // owner 14 Nov (ⓘ, diagram handle): screen-only controls on a scaled paper divide by this, so they keep a usable size on a phone
   h.style.setProperty('--xz',z<.999?String(Math.max(.4,z)):'1')}

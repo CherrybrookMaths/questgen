@@ -1097,6 +1097,8 @@ Flagging again clears the old fix (fixed: null).
 ## Word export disclaimer (17 Nov)
 Owner 17 Nov: "Add a disclaimer the word one is not tested on the user side." The exam preview's button reads "Download Word
 (beta)" and a line beside it says the Word export is not yet tested by users: check the file before you print or send it.
+Owner 19 Nov: "remove Word export is not yet tested by users: check the file before you print or send it." The line beside the button is
+gone; the button keeps "(beta)" and the same words as its tooltip.
 Remove both once the owner's "check pdf and word output" Next up item is ticked.
 
 ## One source of truth for tags (17 Nov)
