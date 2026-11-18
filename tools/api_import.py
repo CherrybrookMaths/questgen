@@ -732,8 +732,12 @@ def run_verify(api, batch, docs):
                 'Use the python tool for the answer checks.\n\n' % (batch, doc, k) + json.dumps(ch, ensure_ascii=False))]
             content[0]['cache_control'] = {'type': 'ephemeral'}
             for it in ch:
+                # Batch 10 (18 Nov): the verifier was shown the school's crop of a solution sketch, so it reported 4 sketches as wrong that the
+                #   diagram step had already redrawn correctly. The bank shows the redraw: check that one when it exists
                 for fp in it.get('figures') or []:
-                    if os.path.exists(P + fp): content += [text_block(f'figure {os.path.basename(fp)[:-4]} (question {it["question_id"]}):'), image_block(P + fp)]
+                    k = os.path.basename(fp)[:-4]; rd = P + f'tikz/png/{k}.png'
+                    if os.path.exists(rd): content += [text_block(f'figure {k} (question {it["question_id"]}), as redrawn for the bank:'), image_block(rd)]
+                    elif os.path.exists(P + fp): content += [text_block(f'figure {k} (question {it["question_id"]}):'), image_block(P + fp)]
 
             def check(out, ids=ids):
                 if not isinstance(out, dict) or not isinstance(out.get('results'), list): return ['output must be {"group", "results": [...]}']

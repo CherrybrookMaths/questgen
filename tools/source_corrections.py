@@ -176,4 +176,10 @@ for sid, lat, crit, note in C10:
 # 2022 Gosford AT4 Q15(ii) sign table: f'(-1) = 8(-1)^3 - 5(-1)^4 = -13, not -12 (the sign, and so the conclusion, was right)
 _r = db.execute("select rows_json from data_tables where id='Ts4321_1'").fetchone()
 if _r and '"-12"' in _r[0]: db.execute("update data_tables set rows_json=? where id='Ts4321_1'", (_r[0].replace('"-12"', '"-13"'),))
+# Batch 10: a formatter flag that only says the source working is consistent is a note, not an owner call (as B8_NOTE_ONLY)
+for sid in (4083,):
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0] or '{}')
+    if m.get('source_flag'):
+        m['format_note'] = ((m.get('format_note') or '') + ' Source check: ' + m.pop('source_flag')).strip()
+        db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
 db.commit(); print('done')

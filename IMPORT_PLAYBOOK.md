@@ -86,6 +86,10 @@ US$25-45 a batch. Remind him of it before the first import after the hold.
 Resumed 18 Nov: owner "Run batch 9, keep track of cost", then "use the api yeah" (reminded of the US$300 limit first; about US$32 spent
 this month by then). Batch 9 left out 1053 (King's AT4, 12.5 MB PDF, over the Drive connector's 10 MB) and 177 + its solutions 176 (labelled
 "2022 Arden AT4" in the inventory but the same paper as 175, Arden 2022 Task 2: identical text page for page).
+Batch 10 (18 Nov), verify lesson: the verifier was shown the school's crop of each solution sketch, not the bank's redraw, so it reported
+4 sketches as wrong that the diagram step had already redrawn correctly (and missed checking the redraw itself). api_import.py now sends
+tikz/png/<id>.png when a redraw exists; re-run on those 5 questions, all passed. The one real sketch error (2022 Baulkham Hills AT4 Q3,
+triangle sides swapped in our redraw) was fixed.
 
 ## Figure crops are build output, not backed up (17 Nov)
 Owner 17 Nov: "What is realistic coding best practice in this case?" then "yeah build it and run the test". The crops
