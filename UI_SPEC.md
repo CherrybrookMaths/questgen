@@ -468,6 +468,8 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   title stays a button for the keyboard). Two lines: the name with an "Open now" pill, then course · school (left out when it is CMC
   Education, as it is on every exam) · saved when and by whom, with any warning (questions gone from the bank, reported). On the right:
   marks, questions (MC), % problem solving, "Make similar", and a ⋯ menu with Duplicate, Rename, Delete.
+  Owner 19 Nov: "Is there a wya to make the reported one not drop to a new row?": warnings are short pills on line 1 after the name
+  ("⚠ 1 reported", "⚠ 2 gone"; the full sentence on hover), and the three figures sit in fixed columns so they line up card to card.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II
