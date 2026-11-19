@@ -230,8 +230,7 @@ function exAvail(){const el=$('#availBox');if(!el)return;const A=exA(),pool=exPo
 function exResult(){const el=$('#gResult');if(!el)return;const r=exA().last;if(!r||!EX.items.length){el.innerHTML='';return}
   const tm=(r.F+r.P)||1,pct=Math.round(r.P/tm*100);
   el.innerHTML=`<div class="result">Last exam: <b>${r.n}</b> questions, <b>${r.marks}</b> marks${r.nM?` (${r.nM} multiple choice)`:''}. ${100-pct}% fluency${r.dF!=null?` at band ${r.dF.toFixed(1)}`:''}, ${pct}% problem solving${r.dP!=null?` at band ${r.dP.toFixed(1)}`:''}. Covers ${r.topics} of ${r.chosen} chosen subtopic${r.chosen===1?'':'s'}.
-    ${r.warns&&r.warns.length?`<ul class="xa-warn">${r.warns.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}
-    <div class="genrow"><button type="button" class="act" data-expv="exam">Open exam</button><button type="button" class="act" data-gadd>Add a question</button></div></div>`}
+    ${r.warns&&r.warns.length?`<ul class="xa-warn">${r.warns.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}</div>`}
 function exSetTopics(list){const A=exA();A.topics=[...new Set(list)];xaSave();exTopics();exAvail()}
 
 /* ---------- Pick by hand ---------- */
@@ -457,13 +456,13 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!opts.keep||!$('#xPages')){
     ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button></div>
       <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span>
-      <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Grading</button>
+      <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Questions</button>
       <span class="xmenu"><button class="act" data-xmenu aria-expanded="false">Exam</button><span class="xmenu-pop" hidden><button class="act" id="exPvSet" title="Change this exam's topics, marks or difficulty and regenerate it">Settings…</button><button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table on the cover</button></span></span>
       <button class="act" id="exPvSim" title="A new exam with the same settings and none of the questions in your saved exams: for a student who needs another one">Make a similar exam</button>
       <span class="xmenu"><button class="act ok" data-xmenu aria-expanded="false">Download</button><span class="xmenu-pop" hidden><button class="act" id="xDl" disabled>HTML</button></span></span><button class="act ghost" id="xPvClose">Close</button></div>
       <div class="expvbody"><div class="xpages" id="xPages"></div><aside class="expvside" id="exGSide" aria-label="Question grading"></aside></div>`}
   else{$$('[data-xdoc]',ov).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.xdoc===doc)));$('#xInfo').textContent='Laying out pages…'}
-  if(!opts.keep)EXV.grade=innerWidth>1000;   // phones: the grading panel is a slide-over, closed until asked for
+  if(!opts.keep){EXV.grade=innerWidth>1000;EXV.undo=null}   // phones: the grading panel is a slide-over, closed until asked for
   if(!document.body.classList.contains('xpv-on')){EXV.pageY=scrollY;window.scrollTo(0,0)}   // a scrolled page underneath misplaces the fixed panels on phones
   ov.hidden=false;document.body.classList.add('xpv-on');ov.classList.toggle('grade-off',!EXV.grade);$('#exGrade')?.setAttribute('aria-pressed',String(EXV.grade));
   await QG.need(EX.items.map(xq));   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): the paper's questions' topic files, before layout
@@ -531,7 +530,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
 function exZoom(){const h=$('#xPages');if(!h)return;const tb=$('#xPv .xtool');if(tb)$('#xPv').style.setProperty('--tool',tb.offsetHeight+'px');const side=EXV.grade&&innerWidth>1000?380:0,avail=innerWidth-side-24;const z=Math.min(1,avail/800);h.style.zoom=z<.999?String(Math.max(.4,z)):'';
   // owner 14 Nov (ⓘ, diagram handle): screen-only controls on a scaled paper divide by this, so they keep a usable size on a phone
   h.style.setProperty('--xz',z<.999?String(Math.max(.4,z)):'1')}
-addEventListener('resize',()=>{if(document.body.classList.contains('xpv-on'))exZoom()});
+addEventListener('resize',()=>{if(!document.body.classList.contains('xpv-on'))return;if(innerWidth>1000&&!EXV.grade){EXV.grade=true;$('#xPv').classList.remove('grade-off')}exZoom()});
 const exRelayout=()=>document.body.classList.contains('xpv-on')?xPreview(EXV.doc,{keep:true}):Promise.resolve();
 
 /* grading panel */
@@ -548,17 +547,19 @@ function exGrading(){const el=$('#exGSide');if(!el)return;const qs=EX.items.map(
       <div class="glab">Band ${e.d.toFixed(1)} overall · ${fmtM(e.fl)} fluency, ${fmtM(e.ps)} problem-solving mark${e.ps===1?'':'s'}</div>${gdots(q)}
       <table class="gparts"><thead><tr><th>Part</th><th>Marks</th><th>Kind</th><th>Band</th></tr></thead><tbody>${e.parts.map(x=>`<tr><td>${esc(x.lab||'Whole')}</td><td>${fmtM(x.m)}</td><td>${x.ps?'Problem solving':'Fluency'}</td><td>${x.b}</td></tr>`).join('')}</tbody></table>
       <div class="gwhy"><b>Why it was rated this way</b><ul>${e.parts.filter(x=>x.r).map(x=>`<li>${multi&&x.lab?`<span class="pp">${esc(x.lab)}</span> `:''}${exMathTeX(x.r)}</li>`).join('')||'<li>No reason recorded.</li>'}</ul></div>
-      <div class="gacts"><button type="button" class="act" data-gswap="${q.id}">Swap for a similar question…</button><button type="button" class="act" data-grepl="${q.id}" title="Pick any question from this exam's topics to take its place">Replace…</button><button type="button" class="act ghost" data-glock="${q.id}" aria-pressed="${exA().locked.includes(q.id)}" title="Regenerate keeps a locked question">${exA().locked.includes(q.id)?'Locked':'Lock'}</button>${(()=>{const k=repOpen().filter(r=>r.question_id===q.id).length;   // owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well"
+      <div class="gacts"><button type="button" class="act" data-gswap="${q.id}">Swap for a similar question…</button><button type="button" class="act" data-grepl="${q.id}" title="Pick any question from this exam's topics to take its place">Replace…</button><button type="button" class="act ghost" data-grm="${q.id}">Remove from exam</button><button type="button" class="act ghost" data-glock="${q.id}" aria-pressed="${exA().locked.includes(q.id)}" title="Regenerate keeps a locked question">${exA().locked.includes(q.id)?'Locked':'Lock'}</button>${(()=>{const k=repOpen().filter(r=>r.question_id===q.id).length;   // owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well"
         return `<button type="button" class="act" data-grep="${q.id}" title="${esc(qiLabel(k))}">${k?`Reported (${k})`:'Report'}</button>`})()}</div></div>`};
-  el.innerHTML=`<div class="gtop"><h3>Question grading</h3><button type="button" class="linkbtn" id="exGClose">Hide</button></div><div class="gsub">Click a question on the paper, or in this list.</div>
+  // owner 19 Nov: "I need a button to delete a question from an exam in the question grading. Also can we call it something else, its
+  // just a list of questions right? Should it even be togglable? It seems like it should always be there" (UI_SPEC "Questions panel")
+  el.innerHTML=`<div class="gtop"><h3>Questions</h3><button type="button" class="linkbtn" id="exGClose">Hide</button></div><div class="gsub">Click a question on the paper, or in this list.</div>
     <div class="gsum"><div class="f"><b>${fmtM(F)} marks</b>Fluency${F?` · average band ${(wF/F).toFixed(1)}`:''}</div><div class="p"><b>${fmtM(P)} marks</b>Problem solving${P?` · average band ${(wP/P).toFixed(1)}`:''}</div></div>
-    <div class="gsub" style="margin:-4px 0 8px">Drag a row to change the order on the paper. <button type="button" class="linkbtn" data-gadd>+ Add a question</button> · <button type="button" class="linkbtn" data-gsort title="Each section easiest first: band, then fluency before problem solving, then marks">Sort easiest first</button></div>
+    <div class="gsub" style="margin:-4px 0 8px">${EXV.undo?`<button type="button" class="linkbtn" data-gundo>Undo: put Q${EXV.undo.i+1} back</button> · `:''}Drag a row to change the order on the paper. <button type="button" class="linkbtn" data-gadd>+ Add a question</button> · <button type="button" class="linkbtn" data-gsort title="Each section easiest first: band, then fluency before problem solving, then marks">Sort easiest first</button></div>
     <ol class="glist">${qs.map((q,i)=>{const e=exEst(q),s=EXV.sel===q.id,first=i===0||sec(qs[i-1])!==sec(q),last=i===qs.length-1||sec(qs[i+1])!==sec(q);
       const head=split&&first?`<li class="gsec">Section ${sec(q)===1?'I · multiple choice':'II · written'}</li>`:'';const k=e?e.kind:'Fluency';
       return `${head}<li class="gq${s?' sel':''}${EXV.moved===q.id?' moved':''}" data-gqli="${q.id}"><div class="gqrow" draggable="true" data-drag="${q.id}"><span class="grip" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
         <button type="button" class="gqh" data-gq="${q.id}" aria-expanded="${s}"><span class="exgn">Q${i+1}</span><span class="exgk ${kindCls(k)}">${k==='Problem solving'?'Problem':k}</span>${e?exMeter(e.d,k):'<span></span>'}<span class="exgd">${q.marks}</span></button>
         <span class="gmv"><button type="button" data-gmv="-1" data-id="${q.id}" aria-label="Move up"${first?' disabled':''}>▲</button><button type="button" data-gmv="1" data-id="${q.id}" aria-label="Move down"${last?' disabled':''}>▼</button></span></div>${s?det(q):''}</li>`}).join('')}</ol>
-    <div class="gnote">Bands run from 2 to 6, as in the HSC. Each part was rated against HSC reference parts checked by an editor (Curate › Review › Difficulty). To question a rating, use Report in a question\u2019s ⓘ card.</div>`;typeset(el);   // owner 19 Nov: dot points and reasons carry maths
+    <div class="gnote">Bands run from 2 to 6, as in the HSC. Each part was rated against HSC reference parts checked by an editor (Curate › Review › Difficulty). To question a rating, use Report on the question.</div>`;typeset(el);   // owner 19 Nov: dot points and reasons carry maths
 
   $$('#xPages .xq').forEach(x=>x.classList.toggle('sel',+x.dataset.q===EXV.sel))}
 function exSelect(id,from){EXV.sel=EXV.sel===id&&from==='list'?null:id;exGrading();
@@ -610,6 +611,8 @@ document.addEventListener('click',e=>{const t=e.target;
     // owner 19 Nov ("it's still like this in TRIAL EXMINATION test sy"): an exam made before the new order can be re-sorted without regenerating
     if(t.closest('[data-gsort]')){const qs=EX.items.map(xq).filter(Boolean),mc=qs.filter(q=>q.type==='mcq').sort(EXSEC.ord),wr=qs.filter(q=>q.type!=='mcq').sort(EXSEC.ord),n=[...mc,...wr].map(q=>q.id);
       if(n.join()===EX.items.join()){toast('Already easiest first');return}EX.items=n;xsave();exRelayout();toast('Sorted easiest first in each section');return}
+    const rm=t.closest('[data-grm]');if(rm){const id=+rm.dataset.grm,i=EX.items.indexOf(id);if(i<0)return;EX.items.splice(i,1);const A=exA();A.locked=A.locked.filter(x=>x!==id);EXV.undo={id,i};EXV.sel=null;xsave();exRelayout();toast(`Removed Q${i+1} from the exam`);return}
+    if(t.closest('[data-gundo]')&&EXV.undo){const u=EXV.undo;EXV.undo=null;if(!EX.items.includes(u.id))EX.items.splice(Math.min(u.i,EX.items.length),0,u.id);EXV.sel=u.id;xsave();exRelayout();return}
     const gl=t.closest('[data-glock]');if(gl){xaLock(+gl.dataset.glock);exGrading();return}
     const gr2=t.closest('[data-grepl]');if(gr2){EXPK.open('replace',+gr2.dataset.grepl);return}
     const gs=t.closest('[data-gswap]');if(gs){xaSwap(+gs.dataset.gswap);return}   // opens the chooser (XA_SW); the swap re-lays out and selects the new question
@@ -618,7 +621,6 @@ document.addEventListener('click',e=>{const t=e.target;
     const pq=t.closest('#xPages .xq');if(pq){exSelect(+pq.dataset.q,'paper');return}
     return}
   if(!t.closest('#examsView'))return;
-  const pv=t.closest('[data-expv]');if(pv){if(!EX.items.length){toast('Add questions first');return}xPreview(pv.dataset.expv);return}
   if(t.id==='gGo'&&!t.dataset.ok){EXAS.guard(t,'Generating a new exam',()=>{t.dataset.ok=1;t.click();delete t.dataset.ok});return}
   if(t.id==='gGo'){const r=exGenerate();if(!r)return;if(!r.n){toast('No questions match. Choose more topics or papers.');return}EXC.clear();EXV.view='mine';EXV.setupFor=null;exSaveView();renderExams();xPreview('exam');return}
   if(t.closest('[data-exback]')){const back=EXV.setupFor!=null;EXV.view='mine';EXV.setupFor=null;exSaveView();renderExams();if(back&&EX.items.length)xPreview('exam');return}
@@ -714,13 +716,11 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.class
 // any change to the exam (add, remove, reorder, swap, load) refreshes the page around it: see xCount (20_exam.js)
 if(view==='exams'&&B)renderExams();
 
-// owner 19 Nov: "this is a really heavy top bar" -> "lets go 5 controls": Grading, Exam (Settings, Regenerate, Topic table),
-// Make a similar exam, Download (PDF, Word, HTML), Close. A menu closes on a pick, except Regenerate (its question opens in the menu)
-// and the Topic table tick
+// owner 19 Nov: "this is a really heavy top bar" -> "lets go 5 controls" (UI_SPEC "Paper bar"). A pick closes its menu, except
+// Regenerate (its question opens in the menu) and the Topic table tick
 document.addEventListener('click',e=>{const t=e.target;if(!t.closest)return;const m=t.closest('[data-xmenu]'),pop=m?.nextElementSibling;
   $$('.xmenu-pop').forEach(p=>{if(p!==pop&&!(p.contains(t)&&t.closest('#exPvRegen,#exPvTopic,#exAsk'))){p.hidden=true;p.previousElementSibling.setAttribute('aria-expanded','false')}});
   if(pop){pop.hidden=!pop.hidden;m.setAttribute('aria-expanded',String(!pop.hidden))}},true);
 document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest('#examsView'))return;
   const u=t.closest('[data-pkuse]');if(u){e.preventDefault();e.stopImmediatePropagation();EXPK.use(+u.dataset.pkuse);return}
-  if(t.closest('[data-pkback]')){e.preventDefault();e.stopImmediatePropagation();EXPK.back();return}
-  if(t.closest('#exSetup [data-gadd]')){e.preventDefault();e.stopImmediatePropagation();EXPK.open('add')}},true);
+  if(t.closest('[data-pkback]')){e.preventDefault();e.stopImmediatePropagation();EXPK.back()}},true);

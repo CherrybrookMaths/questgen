@@ -138,6 +138,7 @@ const checks = [];
 let outside = [];
 // owner 19 Nov: Generate / Regenerate on a saved exam asks first ("Make a new exam instead" / "Replace them"); the existing checks replace
 // owner 19 Nov ("lets go 5 controls"): Settings, Regenerate, Topic table and the downloads sit in the paper bar's Exam / Download menus
+async function waitPv2(p) { await p.waitForTimeout(300); await p.waitForFunction(() => { const i = document.querySelector('#xInfo'); return i && !/Laying out/.test(i.textContent) }, null, {timeout: 30000}) }
 async function pvClick(p, sel) { await p.evaluate(s => { const pop = document.querySelector(s)?.closest('.xmenu-pop'); if (pop && pop.hidden) pop.previousElementSibling.click() }, sel); await p.click(sel) }
 async function genClick(p, sel) { await pvClick(p, sel); const a = await p.waitForSelector('#exAsk [data-ask="replace"]', {timeout: 1500}).catch(() => null); if (a) await a.click() }
 async function check(name, page, fn) {
@@ -2344,6 +2345,20 @@ async function queueChecks(browser, base, seed) {
     const rf = await page.evaluate(() => !!document.querySelector('#repDlg .repdlg') && !document.querySelector('#repDlg').hidden);
     assert(rf, 'Report in the grading panel did not open the report form'); await page.keyboard.press('Escape');
     return r.replace(/\s+/g, ' ').slice(0, 90) + ` · ${dup.m} question(s) share a row across parts`;
+  });
+  // owner 19 Nov: "I need a button to delete a question from an exam ... Should it even be togglable? It seems like it should always be there"
+  await check('exams: the Questions panel is always there on a wide screen; Remove from exam, then Undo puts it back in place', page, async () => {
+    const ui = await page.evaluate(() => ({h: document.querySelector('#exGSide h3')?.textContent, btn: getComputedStyle(document.querySelector('#exGrade')).display, side: getComputedStyle(document.querySelector('#exGSide')).display}));
+    assert(ui.h === 'Questions' && ui.btn === 'none' && ui.side !== 'none', 'panel: ' + JSON.stringify(ui));
+    const before = await page.evaluate(() => EX.items.slice()), id = before[1];
+    await page.evaluate(id => exSelect(id, 'list'), id); await settle(page, 1500, 2);
+    await page.click('#exGSide .gq.sel [data-grm]'); await waitPv2(page);
+    const mid = await page.evaluate(() => EX.items.slice());
+    assert(mid.length === before.length - 1 && !mid.includes(id), `Remove: ${before.length} -> ${mid.length}`);
+    await page.click('#exGSide [data-gundo]'); await waitPv2(page);
+    const after = await page.evaluate(() => EX.items.slice());
+    errs(); assert(JSON.stringify(after) === JSON.stringify(before), 'Undo did not put it back in the same place');
+    return `QID ${id} removed (${mid.length} questions), Undo restored Q2`;
   });
   await page.context().close();
 

@@ -14,8 +14,10 @@ This applies to every round, big or quick. Every builder prompt includes it, and
    copy. Duplicated logic is a review finding.
 4. **Delete what's dead.** Code or data a change makes unused is removed in the same round (archived locally if it's data).
 5. **Course is a dimension.** Never hard-code "Advanced"; topics/dot points/references come from the course's data.
-6. **Watch size.** The pre-publish check reports page size and bank size against a budget; growth past it is a blocker
-   until the owner agrees.
+6. **Watch size.** The pre-publish check reports page size and bank size against a budget. Since 19 Nov the budget is a guide, not
+   a blocker (owner: "We can go past the limit if its not hard, that was just a giuode before, if features are optimal and not bloat, we
+   can go past the limit"): going past it is a warning; the round's report says what grew and why it is needed, and reviewers check the
+   growth is not bloat (dead code, duplicate features). Hard platform limits (16 MB per file, files per publish) stay blockers.
 
 ## Every round
 - Builder: follow the rules; list any exceptions in the report.

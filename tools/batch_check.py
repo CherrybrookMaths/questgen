@@ -310,7 +310,9 @@ try:
     for k in _sb:
         if 'parts' not in _sb[k] and k not in _sz: B(f'size budget: site/{k} is missing (python3 tools/bank_split.py / tools/asset_manifest.py --init)')
     _over = [k for k in _sb if _sz.get(k, 0) > _sb[k]['bytes']]
-    for k in _over: B(f'size budget: {k} is {_mb(_sz[k])}, over its {_mb(_sb[k]["bytes"])} budget (CODE_HEALTH rule 6): shrink it, or ask the owner and raise the budget in tools/size_budget.json')
+    # owner 19 Nov: "We can go past the limit if its not hard, that was just a giuode before, if features are optimal and not bloat, we can
+    # go past the limit": over budget is a warning; the round's report says why the growth is needed (hard platform limits stay blockers)
+    for k in _over: W(f'size budget: {k} is {_mb(_sz[k])}, over its {_mb(_sb[k]["bytes"])} guide (CODE_HEALTH rule 6): fine if the new code is needed and lean; say so in the report')
     I('size budget (start load): ' + ', '.join(f'{k} {_mb(_sz.get(k, 0))} of {_mb(_sb[k]["bytes"])} ({100 * _sz.get(k, 0) / _sb[k]["bytes"]:.0f}%)' for k in _sb))
     # job 2 (owner 16 Nov: "Yeah build it"): the target is 538 papers (tools/asset_upload_plan.py TARGET_PAPERS). Straight-line
     # projection from today's papers; the details file is not in the start load but must stay under the platform's 16 MB per file.

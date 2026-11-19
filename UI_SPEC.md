@@ -425,7 +425,7 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   the exam and land you in teh page preview. from there, in the grading list you should be able to add a new question to the exam which
   pull up a reduced list question picker. for 2. Use B". Done:
   - The Pick by hand tab is a greyed "Worksheets (later)" tab; Generate lands on the paper; an exam opened from My exams opens on its paper.
-  - The picker (EXPK) opens only from the paper: "+ Add a question" (grading list, preview toolbar, Setup's result card) or "Replace…"
+  - The picker (EXPK) opens only from the paper: "+ Add a question" (the Questions panel; since 19 Nov no longer in the paper bar or Setup's result card) or "Replace…"
     on a question (grading detail; also "Pick any question from this exam's topics instead" in the Swap chooser). It lists only the
     exam's topics (all topics while the exam has none), hides questions already in it, and gives each card one action: "Add to the exam"
     or "Replace Q14 with this". Replacing returns to the paper with the new question in the old one's place; adding stays until "Back to
@@ -455,6 +455,13 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   Regenerate, Topic table on the cover as a tick); **Make a similar exam** (kept visible: the tutor-facing one); **Download ▾** (PDF, Word
   (beta), HTML); Close. "Add a question" left the bar: it is at the top of the grading list. A menu closes on a pick or a click outside,
   except Regenerate (its "replaces the questions" question opens inside the menu) and the Topic table tick.
+- **Questions panel, 19 Nov (owner, verbatim):** "I need a button to delete a question from an exam in the question grading. Also can we
+  call it something else, its just a list of questions right? Should it even be togglable? It seems like it should always be there". Done:
+  the panel is titled "Questions" (it still carries the fluency / problem-solving marks, bands and dot points). On a wide screen (over
+  1000 px) it is always beside the paper: no toggle button and no Hide. On a phone the paper needs the full width, so there it stays a
+  slide-over opened by the "Questions" button. Each question's detail has "Remove from exam"; the panel then offers "Undo: put Qn back"
+  (same place) until the paper is regenerated or reopened. Setup's result card lost its "Open exam" / "Add a question" buttons
+  (Generate lands on the paper; Settings has "Back to the paper").
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II
