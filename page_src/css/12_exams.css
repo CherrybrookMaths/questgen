@@ -362,9 +362,12 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .bk-cntnote,.ex-cntnote{font-size:12px;color:var(--muted);margin:2px 0 8px;line-height:1.35}
 
 /* owner 19 Nov: the picker opened from the preview (EXPK): a banner, one action per card, only the exam's topics */
-.expkban{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin:0 0 14px;padding:12px 14px;border:1px solid var(--accent);border-radius:10px;background:var(--accent-soft);font-size:14px}
+.expkban{margin:0 0 14px;padding:12px 14px;border:1px solid var(--accent);border-radius:10px;background:var(--accent-soft);font-size:14px}
+.expkbhd{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.expkold{margin-top:10px}.expkold>summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:13px}
+.expkoldq{margin-top:8px}.expkoldq .card{margin:0}.expkoldq .card .cfoot{display:none}
 .expkban span{color:var(--muted);font-size:13px}
-.expkact{padding:8px 12px 0;display:flex;justify-content:flex-end}
+.card .hd .expkact{margin-left:10px;flex:none;padding:4px 12px;font-size:13px}
 .exams[data-mode] .card [data-addx],.exams[data-mode="replace"] #exAddRand,.exams[data-mode="replace"] #exAddAll{display:none}
 .exams[data-mode="replace"] .exright{display:none}.exams[data-mode="replace"] .expick{grid-template-columns:250px minmax(0,1fr)}
 .exseg .exsoon{opacity:.55;cursor:not-allowed}.exseg .exsoon small{font-size:11px;margin-left:4px}

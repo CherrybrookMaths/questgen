@@ -127,6 +127,8 @@ async function repSend(){const D=REP.dlg,el=$('#repDlg');if(!D)return;const msg=
   catch(e){b.disabled=false;b.textContent='Send report';say('Could not send. Try again in a moment.')}}
 // capture: a Report click must not also select the question on the paper
 document.addEventListener('click',e=>{const t=e.target;
+  // owner 19 Nov: "should be able to report a question you see here / from the bank": Report on every question card (Bank, picker, chooser)
+  const cr=t.closest&&t.closest('[data-crep]');if(cr){e.preventDefault();e.stopImmediatePropagation();repForm(+cr.dataset.crep,'');return}
   // Report beside the QID (owner 18 Nov): opens the report form; the click must not also select the question on the paper
   const qi=t.closest&&t.closest('#xPages [data-qinfo]');if(qi){e.preventDefault();e.stopImmediatePropagation();repForm(+qi.dataset.qinfo,qi.dataset.n);return}
   if(!t.closest||!t.closest('#repDlg'))return;e.stopImmediatePropagation();

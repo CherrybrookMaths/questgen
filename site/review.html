@@ -1079,9 +1079,12 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .bk-cntnote,.ex-cntnote{font-size:12px;color:var(--muted);margin:2px 0 8px;line-height:1.35}
 
 /* owner 19 Nov: the picker opened from the preview (EXPK): a banner, one action per card, only the exam's topics */
-.expkban{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin:0 0 14px;padding:12px 14px;border:1px solid var(--accent);border-radius:10px;background:var(--accent-soft);font-size:14px}
+.expkban{margin:0 0 14px;padding:12px 14px;border:1px solid var(--accent);border-radius:10px;background:var(--accent-soft);font-size:14px}
+.expkbhd{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between}
+.expkold{margin-top:10px}.expkold>summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:13px}
+.expkoldq{margin-top:8px}.expkoldq .card{margin:0}.expkoldq .card .cfoot{display:none}
 .expkban span{color:var(--muted);font-size:13px}
-.expkact{padding:8px 12px 0;display:flex;justify-content:flex-end}
+.card .hd .expkact{margin-left:10px;flex:none;padding:4px 12px;font-size:13px}
 .exams[data-mode] .card [data-addx],.exams[data-mode="replace"] #exAddRand,.exams[data-mode="replace"] #exAddAll{display:none}
 .exams[data-mode="replace"] .exright{display:none}.exams[data-mode="replace"] .expick{grid-template-columns:250px minmax(0,1fr)}
 .exseg .exsoon{opacity:.55;cursor:not-allowed}.exseg .exsoon small{font-size:11px;margin-left:4px}
@@ -2673,7 +2676,7 @@ function cardHTML(q){
   return `<article class="card" data-q="${q.id}"><div class="hd"><span class="qn">${qid(q)}</span><span class="src">${esc(srcLine(q))}</span>
     ${q.type==='mcq'?'<span class="badge">Multiple choice</span>':''}${r?.status==='flagged'?'<span class="badge b-bad">flagged</span>':''}${q.old?'<span class="badge b-old">Old syllabus</span>':''}${q.std?'<span class="badge b-std">Standard course</span>':''}
     <span class="mk">${q.marks!=null?q.marks+(q.marks===1?' mark':' marks'):''}</span></div>${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not ${esc(QG.courseData.short)}:</b> ${esc(q.std)}</div>`:''}${dupLine(q)}${qBody(q,'bank')}
-    <div class="cfoot">${q.type==='mcq'?`<button class="act ghost" data-reveal="${q.id}">${revealed.has(q.id)?'Hide answer':'Show answer'}</button>`:''}<span class="meta">${(sk=>sk.length?'Needs: '+sk.map(esc).join(' · '):'')(qSkills(q))}${qYear(q)?`${qSkills(q).length?' · ':''}Year ${qYear(q)}`:''}${(l=>l?((qSkills(q).length||qYear(q))?' · ':'')+l:'')(typeof qDifLabel==='function'?qDifLabel(q):'')}</span><button class="act addx" data-addx="${q.id}" aria-pressed="${xIn(q.id)}">${xIn(q.id)?'✓ In exam':'+ Add to exam'}</button><a class="act ghost edonly" href="#review/list/all" data-open="${q.id}">Open in Review</a></div></article>`;
+    <div class="cfoot">${q.type==='mcq'?`<button class="act ghost" data-reveal="${q.id}">${revealed.has(q.id)?'Hide answer':'Show answer'}</button>`:''}<span class="meta">${(sk=>sk.length?'Needs: '+sk.map(esc).join(' · '):'')(qSkills(q))}${qYear(q)?`${qSkills(q).length?' · ':''}Year ${qYear(q)}`:''}${(l=>l?((qSkills(q).length||qYear(q))?' · ':'')+l:'')(typeof qDifLabel==='function'?qDifLabel(q):'')}</span><button class="act addx" data-addx="${q.id}" aria-pressed="${xIn(q.id)}">${xIn(q.id)?'✓ In exam':'+ Add to exam'}</button><a class="act ghost edonly" href="#review/list/all" data-open="${q.id}">Open in Review</a><button type="button" class="act ghost" data-crep="${q.id}" title="Report a problem with this question">Report</button></div></article>`;
 }
 // owner 12 Nov ("make the bank more usable and clean ... looks really dead" -> warm editorial; topic -> subheadings -> questions)
 function subRows(subs,yl,fa,max){const rows=[...subs];const top=max||Math.max(1,...rows.map(([k,x])=>x.qs.length));
@@ -4460,8 +4463,12 @@ const EXPK={
   banner(){const el=$('#exMain');if(!el)return;let b=$('#exPkBan');const m=EXV.mode;if(!m){b?.remove();return}
     if(!b){el.insertAdjacentHTML('afterbegin','<div class="expkban" id="exPkBan" role="status"></div>');b=$('#exPkBan')}
     const q=m.id!=null?xq(m.id):null,n=q?EX.items.indexOf(q.id)+1:0;
-    b.innerHTML=m.kind==='replace'&&q?`<div><b>Replacing Q${n}</b> · ${esc(srcLine(q))} · ${q.marks} mark${q.marks===1?'':'s'}<br><span>Pick any question from this exam's topics. It takes Q${n}'s place.</span></div><button type="button" class="act" data-pkback>Back to the paper</button>`
-      :`<div><b>Adding to “${esc(EXAS.name())}”</b> · ${EX.items.length} questions now<br><span>Questions from this exam's topics. Add as many as you like, then go back to the paper.</span></div><button type="button" class="act ok" data-pkback>Back to the paper</button>`},
+    // owner 19 Nov: "in the replacing page, its good to show the question you're replacing, even if its a click to expand"
+    b.innerHTML=m.kind==='replace'&&q?`<div class="expkbhd"><div><b>Replacing Q${n}</b> · ${esc(srcLine(q))} · ${q.marks} mark${q.marks===1?'':'s'}<br><span>Pick any question from this exam's topics. It takes Q${n}'s place.</span></div><button type="button" class="act" data-pkback>Back to the paper</button></div>
+      <details class="expkold"><summary>Show Q${n}</summary><div class="expkoldq"></div></details>`
+      :`<div class="expkbhd"><div><b>Adding to “${esc(EXAS.name())}”</b> · ${EX.items.length} questions now<br><span>Questions from this exam's topics. Add as many as you like, then go back to the paper.</span></div><button type="button" class="act ok" data-pkback>Back to the paper</button></div>`;
+    const old=b.querySelector('.expkold');if(old&&q)old.addEventListener('toggle',()=>{const box=old.querySelector('.expkoldq');if(!old.open||box.firstChild)return;
+      QG.need([q]).then(()=>{box.innerHTML=cardHTML(q);const c=box.firstElementChild;hydrate(c,q,'bank');typeset(box)})},{once:false})},
   use(id){const m=EXV.mode;if(!m)return;if(m.kind==='replace'){const old=m.id;EXV.mode=null;xaSwap(old,id);EXV.sel=id;this.back();return}
     if(!EX.items.includes(id)){EX.items.push(id);xsave();toast(`Added ${qid(xq(id))}`);this.banner();exList(false);exSideNav()}}};
 function exSideNav(){const el=$('#exSide');if(!el)return;const tree=xaTree(),homes=xaHomes(),cnt={},cntA={};let all=0;
@@ -4522,7 +4529,8 @@ function exList(reset=true){const box=$('#exCards');if(!box)return;const F=EXV.p
   const add=show.filter(q=>!have.has(q.id)),tmp=document.createElement('div');tmp.innerHTML=add.map(cardHTML).join('');
   [...tmp.children].forEach(c=>{box.appendChild(c);const q=xq(+c.dataset.q);hydrate(c,q,'bank');TSIO.observe(c);XG.note(c,q,EXV.gate.g.L);
     const u=EXAS.usedTag(q);if(u)c.insertAdjacentHTML('afterbegin',`<div class="exusedrow">${u}</div>`);   // owner 19 Nov: where it was used before
-    if(EXV.mode)c.insertAdjacentHTML('afterbegin',`<div class="expkact"><button type="button" class="act ok" data-pkuse="${q.id}">${esc(EXPK.label())}${EXV.mode.kind==='replace'?' with this':''}</button></div>`)});
+    // owner 19 Nov ("the top bar looks jank with the replace Q1 with this"): the action sits in the card's header row, after its marks
+    if(EXV.mode)c.querySelector('.hd')?.insertAdjacentHTML('beforeend',`<button type="button" class="act ok expkact" data-pkuse="${q.id}">${esc(EXPK.label())}${EXV.mode.kind==='replace'?' with this':''}</button>`)});
   if(!EXCUR.length)box.innerHTML='<div class="exempty">No questions match. Try another topic or clear a filter.</div>';
   $('#exMore').hidden=EXCUR.length<=F.limit;$('#exMore').textContent=`Show more (${EXCUR.length-F.limit} left)`}
 
@@ -5322,6 +5330,8 @@ async function repSend(){const D=REP.dlg,el=$('#repDlg');if(!D)return;const msg=
   catch(e){b.disabled=false;b.textContent='Send report';say('Could not send. Try again in a moment.')}}
 // capture: a Report click must not also select the question on the paper
 document.addEventListener('click',e=>{const t=e.target;
+  // owner 19 Nov: "should be able to report a question you see here / from the bank": Report on every question card (Bank, picker, chooser)
+  const cr=t.closest&&t.closest('[data-crep]');if(cr){e.preventDefault();e.stopImmediatePropagation();repForm(+cr.dataset.crep,'');return}
   // Report beside the QID (owner 18 Nov): opens the report form; the click must not also select the question on the paper
   const qi=t.closest&&t.closest('#xPages [data-qinfo]');if(qi){e.preventDefault();e.stopImmediatePropagation();repForm(+qi.dataset.qinfo,qi.dataset.n);return}
   if(!t.closest||!t.closest('#repDlg'))return;e.stopImmediatePropagation();

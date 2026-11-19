@@ -493,6 +493,10 @@ async function flows(browser, base, seed, seedR) {
         pv: document.body.classList.contains('xpv-on')} });
     assert(/Replacing Q\d+/.test(r.ban) && r.n > 0 && !r.off && !r.inEx && !r.side && !r.pv, `replace picker: ${JSON.stringify(r)}`);
     assert(/^Replace Q\d+ with this$/.test(r.btn), 'card action: ' + r.btn);
+    // owner 19 Nov: the replaced question can be shown, the action sits in the card header, and every card has Report
+    await page.click('#exPkBan .expkold summary'); await settle(page, 2500, 2);
+    const ex = await page.evaluate(() => ({old: !!document.querySelector('#exPkBan .expkoldq .card'), inHd: !!document.querySelector('#exCards .card > .hd [data-pkuse]'), rep: !!document.querySelector('#exCards .card [data-crep]')}));
+    assert(ex.old && ex.inHd && ex.rep, `replace page: ${JSON.stringify(ex)}`);
     const pick = await page.evaluate(() => +document.querySelector('#exCards [data-pkuse]').dataset.pkuse);
     await page.click(`#exCards [data-pkuse="${pick}"]`); await waitPv();
     const a = await page.evaluate(() => ({items: EX.items.slice(), pv: document.body.classList.contains('xpv-on')}));

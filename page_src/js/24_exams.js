@@ -252,8 +252,12 @@ const EXPK={
   banner(){const el=$('#exMain');if(!el)return;let b=$('#exPkBan');const m=EXV.mode;if(!m){b?.remove();return}
     if(!b){el.insertAdjacentHTML('afterbegin','<div class="expkban" id="exPkBan" role="status"></div>');b=$('#exPkBan')}
     const q=m.id!=null?xq(m.id):null,n=q?EX.items.indexOf(q.id)+1:0;
-    b.innerHTML=m.kind==='replace'&&q?`<div><b>Replacing Q${n}</b> · ${esc(srcLine(q))} · ${q.marks} mark${q.marks===1?'':'s'}<br><span>Pick any question from this exam's topics. It takes Q${n}'s place.</span></div><button type="button" class="act" data-pkback>Back to the paper</button>`
-      :`<div><b>Adding to “${esc(EXAS.name())}”</b> · ${EX.items.length} questions now<br><span>Questions from this exam's topics. Add as many as you like, then go back to the paper.</span></div><button type="button" class="act ok" data-pkback>Back to the paper</button>`},
+    // owner 19 Nov: "in the replacing page, its good to show the question you're replacing, even if its a click to expand"
+    b.innerHTML=m.kind==='replace'&&q?`<div class="expkbhd"><div><b>Replacing Q${n}</b> · ${esc(srcLine(q))} · ${q.marks} mark${q.marks===1?'':'s'}<br><span>Pick any question from this exam's topics. It takes Q${n}'s place.</span></div><button type="button" class="act" data-pkback>Back to the paper</button></div>
+      <details class="expkold"><summary>Show Q${n}</summary><div class="expkoldq"></div></details>`
+      :`<div class="expkbhd"><div><b>Adding to “${esc(EXAS.name())}”</b> · ${EX.items.length} questions now<br><span>Questions from this exam's topics. Add as many as you like, then go back to the paper.</span></div><button type="button" class="act ok" data-pkback>Back to the paper</button></div>`;
+    const old=b.querySelector('.expkold');if(old&&q)old.addEventListener('toggle',()=>{const box=old.querySelector('.expkoldq');if(!old.open||box.firstChild)return;
+      QG.need([q]).then(()=>{box.innerHTML=cardHTML(q);const c=box.firstElementChild;hydrate(c,q,'bank');typeset(box)})},{once:false})},
   use(id){const m=EXV.mode;if(!m)return;if(m.kind==='replace'){const old=m.id;EXV.mode=null;xaSwap(old,id);EXV.sel=id;this.back();return}
     if(!EX.items.includes(id)){EX.items.push(id);xsave();toast(`Added ${qid(xq(id))}`);this.banner();exList(false);exSideNav()}}};
 function exSideNav(){const el=$('#exSide');if(!el)return;const tree=xaTree(),homes=xaHomes(),cnt={},cntA={};let all=0;
@@ -314,7 +318,8 @@ function exList(reset=true){const box=$('#exCards');if(!box)return;const F=EXV.p
   const add=show.filter(q=>!have.has(q.id)),tmp=document.createElement('div');tmp.innerHTML=add.map(cardHTML).join('');
   [...tmp.children].forEach(c=>{box.appendChild(c);const q=xq(+c.dataset.q);hydrate(c,q,'bank');TSIO.observe(c);XG.note(c,q,EXV.gate.g.L);
     const u=EXAS.usedTag(q);if(u)c.insertAdjacentHTML('afterbegin',`<div class="exusedrow">${u}</div>`);   // owner 19 Nov: where it was used before
-    if(EXV.mode)c.insertAdjacentHTML('afterbegin',`<div class="expkact"><button type="button" class="act ok" data-pkuse="${q.id}">${esc(EXPK.label())}${EXV.mode.kind==='replace'?' with this':''}</button></div>`)});
+    // owner 19 Nov ("the top bar looks jank with the replace Q1 with this"): the action sits in the card's header row, after its marks
+    if(EXV.mode)c.querySelector('.hd')?.insertAdjacentHTML('beforeend',`<button type="button" class="act ok expkact" data-pkuse="${q.id}">${esc(EXPK.label())}${EXV.mode.kind==='replace'?' with this':''}</button>`)});
   if(!EXCUR.length)box.innerHTML='<div class="exempty">No questions match. Try another topic or clear a filter.</div>';
   $('#exMore').hidden=EXCUR.length<=F.limit;$('#exMore').textContent=`Show more (${EXCUR.length-F.limit} left)`}
 

@@ -430,6 +430,10 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
     exam's topics (all topics while the exam has none), hides questions already in it, and gives each card one action: "Add to the exam"
     or "Replace Q14 with this". Replacing returns to the paper with the new question in the old one's place; adding stays until "Back to
     the paper". Lock moved into the grading detail beside Swap and Replace.
+  Owner 19 Nov: "in the replacing page, its good to show to show the question you're replacing, even if its a click to expand. Also the top
+  bar looks jank with the replace Q1 with this. Also should be able to report a question you see here / from the bank": the banner has
+  "Show Q1" (the question in full, on click); "Replace Q1 with this" sits in each card's header row; every question card (Bank, picker)
+  has Report, opening the report form.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II
