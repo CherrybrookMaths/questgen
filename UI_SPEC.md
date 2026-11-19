@@ -476,6 +476,16 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   says "Sent to Claude <time>" and when it is picked up (hourly 9 am-4 pm on those days, else the 10:11 pm night run), then "Claude is
   fixing them", then "Last run <time>: <result>" for a day. It replaces the old "tell Claude 'check my diagram flags'" hint. Runbook:
   FLAGS.md "Scheduled check".
+- **Apply a difficulty report, 19 Nov (owner, verbatim):** "how to apply suggestion?" -> "yeah apply suggestion or tweak it yourself in
+  the page. It shouldn't need to be sent to claude every time", then "there should be an option for an editor to CHANGE the difficulty.
+  No one should be able to do it in the exam builder" (confirmed "yep thats right" for: editors change it in Reports; the exam builder
+  only reads it). A difficulty report has "Apply suggestion": one row per part (the reported part, or every part for a whole-question
+  report) with band 2-6 and Fluency / Problem solving, prefilled with the suggestion and editable; "Apply and resolve" saves each part as
+  difficulty/<part_id> (as a Difficulty check, from_report) and resolves the report with what was applied. Reports sit in Curate
+  (editors only) and difficulty writes need admin. The exam maker's estimates and generator use a saved change at once (lvDif); the
+  night run folds them into the database (NIGHT.md 3b, tools/apply_difficulty_reviews.py).
+- **Multiple-choice option diagrams resize (19 Nov):** an option's corner drag never grew the diagram (its size limit was measured from
+  a wrapper only as wide as the diagram); it is measured from the option's cell now. Found when the page test's exam opened on one.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

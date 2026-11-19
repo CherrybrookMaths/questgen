@@ -1368,6 +1368,7 @@ body.rep-on{overflow:hidden}
 .swapfoot{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
 .gwhy .ovl{text-decoration:overline}
 .gdotl-d b{font-weight:600}.gdotl-none{margin:0;color:var(--muted)}
+.rep-dift{border-collapse:collapse;margin:6px 0}.rep-dift td{padding:4px 10px 4px 0;vertical-align:middle}.rep-dift small{display:block;color:var(--muted)}.rep-dift select{min-height:32px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink);font:14px var(--sans);padding:2px 6px}
 /* ==== theme2: site-wide refinement pass (owner 14 Nov: "Questgen is buns, make it more sophisticated" ... "It should all feel clean and sophisticated")
    Inserted as the LAST css in the first style block, so it overrides earlier rules. Scope: tokens, header, buttons/inputs,
    Bank, Review, Papers, Difficulty, Guide, phone menu. It does NOT style the Exams page internals (exams.* / mine.* /
@@ -3980,7 +3981,11 @@ function lvTodoN(){if(!B)return 0;lvSub();const hot=lvHot();return lvItems().fil
 function lvList(){const all=lvItems();
   const r=all.filter(x=>lvInArea(x)&&(LVSHOW==='all'||!lvDone(x)));
   return LVAREA==='spot'?r.sort((a,b)=>(b.flag?1:0)-(a.flag?1:0)||String(a.d.ar).localeCompare(String(b.d.ar))||b.lean-a.lean):r}
-function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});DIFD=nx;LVQ=null;if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
+// owner 19 Nov ("how to apply suggestion?" -> "yeah apply suggestion or tweak it yourself in the page. It shouldn't need to be sent to
+// claude every time"): a part's saved rating (difficulty/<part_id>, status changed) counts at once in the exam maker; the import and
+// night run fold it into the database (tools/apply_difficulty_reviews.py: owner_band / owner_wm)
+const lvDif=p=>{const o=DIFD[p.id];return o&&o.status==='changed'&&o.band?{...(p.dif||{}),b:o.band,wm:o.wm}:p.dif};
+function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});const ch=JSON.stringify(nx)!==JSON.stringify(DIFD);DIFD=nx;LVQ=null;if(ch){_ee.clear();_qd.clear()}if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
 function renderLevels(keep){
   lvSub();const box=$('#levelsBox');const all=lvItems(),list=lvList();
   const done=all.filter(lvDone).length, anchors=all.filter(x=>!x.flag), adone=anchors.filter(lvDone).length;
@@ -4076,10 +4081,10 @@ const XA_SWAPPED=new Set();
 
 /* ---------- difficulty of a question ---------- */
 const _qd=new Map();
-function qDiff(q){if(_qd.has(q.id))return _qd.get(q.id);
-  const ls=qLeaves(q).filter(p=>p.dif&&p.dif.b);let r=null;
+function qDiff(q){if(_qd.has(q.id))return _qd.get(q.id);lvSub();
+  const ls=qLeaves(q).filter(p=>lvDif(p)?.b);let r=null;
   if(ls.length){const w=p=>+p.marks||(ls.length===1?(+q.marks||1):1);let sw=0,sb=0,spr=0;const mix=[0,0,0,0,0,0,0];
-    ls.forEach(p=>{const m=w(p),b=Math.max(2,Math.min(6,+p.dif.b));sw+=m;sb+=m*b;if(p.dif.wm==='PR')spr+=m;mix[b]+=m});
+    ls.forEach(p=>{const d=lvDif(p),m=w(p),b=Math.max(2,Math.min(6,+d.b));sw+=m;sb+=m*b;if(d.wm==='PR')spr+=m;mix[b]+=m});
     r={band:Math.round(sb/sw*2)/2,raw:sb/sw,pr:spr/sw,mix,w:sw}}
   _qd.set(q.id,r);return r}
 const fmtBand=b=>Number.isInteger(b)?String(b):`${Math.floor(b)}–${Math.ceil(b)}`;
@@ -4248,12 +4253,12 @@ const dLab=b=>'Band '+(+b).toFixed(1);
 /* ---------- per-question estimate from the part ratings ---------- */
 const _ee=new Map();
 function exPath(q,p){const by=new Map(q.parts.map(y=>[y.id,y]));const c=[];let x=p;while(x){if(x.label)c.unshift('('+x.label+')');x=x.parent?by.get(x.parent):null}return c.join('')}
-function exEst(q){if(_ee.has(q.id))return _ee.get(q.id);
-  const ls=qLeaves(q).filter(p=>p.dif&&p.dif.b);let r=null;
+function exEst(q){if(_ee.has(q.id))return _ee.get(q.id);lvSub();
+  const ls=qLeaves(q).filter(p=>lvDif(p)?.b);let r=null;
   if(ls.length){const w=p=>+p.marks||(ls.length===1?(+q.marks||1):1);const sw=ls.reduce((t,p)=>t+w(p),0)||1,k=(+q.marks||sw)/sw;
     let fl=0,ps=0,wF=0,wP=0;
-    const parts=ls.map(p=>{const m=w(p)*k,b=Math.max(2,Math.min(6,+p.dif.b)),isP=p.dif.wm==='PR';if(isP){ps+=m;wP+=m*b}else{fl+=m;wF+=m*b}
-      return {id:p.id,lab:exPath(q,p),m,b,ps:isP,r:p.dif.r||''}});
+    const parts=ls.map(p=>{const d=lvDif(p),m=w(p)*k,b=Math.max(2,Math.min(6,+d.b)),isP=d.wm==='PR';if(isP){ps+=m;wP+=m*b}else{fl+=m;wF+=m*b}
+      return {id:p.id,lab:exPath(q,p),m,b,ps:isP,r:d.r||''}});
     const m=fl+ps;r={m,fl,ps,dF:fl?wF/fl:null,dP:ps?wP/ps:null,d:(wF+wP)/(m||1),kind:ps<=1e-9?'Fluency':'Problem solving',parts}}   // owner 19 Nov: any problem-solving part makes it a problem-solving question
   _ee.set(q.id,r);return r}
 // owner 19 Nov ("math should render properly in the grading tab", then "Are you sure the math renders properly? I'm still seeing incorrect
@@ -4906,7 +4911,7 @@ const exFigReset=k=>{if(!(k in EX.figscale))return;delete EX.figscale[k];xsave()
 // on the paper, and dragging in from there did nothing visible either. The size at 100% is measured (not divided out of a drawn
 // size that may be capped) and the largest scale is the one that fills the column (at most 200%).
 const exFigBase=w=>{const b=w.querySelector('.exfigbox'),old=w.style.getPropertyValue('--fs');w.style.setProperty('--fs','1');const r=b.getBoundingClientRect();w.style.setProperty('--fs',old);
-  const col=w.getBoundingClientRect().width;return {w0:r.width||100,h0:r.height||100,smax:r.width>0&&col>0?Math.max(1,Math.min(2,Math.floor(col/r.width*100)/100)):2}};
+  const col=Math.max(w.getBoundingClientRect().width,w.parentElement?.getBoundingClientRect().width||0);return {w0:r.width||100,h0:r.height||100,smax:r.width>0&&col>0?Math.max(1,Math.min(2,Math.floor(col/r.width*100)/100)):2}};
 document.addEventListener('pointerdown',e=>{const h=e.target.closest&&e.target.closest('#xPv [data-figh]');if(!h||e.button>0)return;e.preventDefault();e.stopPropagation();
   const w=h.closest('.exfigw'),B=exFigBase(w),s0=Math.min(B.smax,EX.figscale[h.dataset.figh]||1);
   EXFR={k:h.dataset.figh,w,h,x:e.clientX,y:e.clientY,s0,s:s0,w0:B.w0,h0:B.h0,smax:B.smax,raf:0,moved:false};
@@ -5406,6 +5411,24 @@ Object.assign(REP,{
   async apply(r,ids){const q=this.main(r),d=DM[r.suggested_dot];if(!q||!d||!ids.length)return false;
     if(!await write(q,tagEdit(q,ids,{id:r.suggested_dot})))return false;
     const ok=await this.set(r,'applied',{status:'resolved',reply:`Applied: ${r.suggested_dot} ${d.short||d.text}`,applied:{dot:r.suggested_dot,parts:ids}});if(ok)toast('Applied: '+r.suggested_dot);return ok},
+  // Apply a difficulty report (owner 19 Nov: "yeah apply suggestion or tweak it yourself in the page. It shouldn't need to be sent to
+  // claude every time"): each part's band and kind, prefilled with the suggestion, saved as difficulty/<part_id> (as a Difficulty check)
+  difParts(r,q){const lv=qLeaves(q);if(r.part_id!=null){const p=lv.find(x=>String(x.id)===String(r.part_id));if(p)return [p]}return lv},
+  difHTML(r,m){const ps=this.difParts(r,m),B5=[2,3,4,5,6];
+    return `<div class="rep-pick rep-dif"><span>Set each part's band and kind. Saved at once for every exam; the report is resolved.</span>
+    <table class="rep-dift"><tbody>${ps.map(p=>{const d=lvDif(p)||{},b=r.suggested_band||d.b||4,w=r.suggested_wm||d.wm||'UF';
+      return `<tr data-rdp="${esc(String(p.id))}"><td>${p.label?'('+esc(p.label)+')':'Whole'} <small>${p.marks??''} mark${+p.marks===1?'':'s'} · now band ${d.b??'?'} ${d.wm==='PR'?'problem solving':'fluency'}</small></td>
+        <td><select data-rdb aria-label="Band">${B5.map(x=>`<option${x===+b?' selected':''}>${x}</option>`).join('')}</select></td>
+        <td><select data-rdw aria-label="Kind"><option value="UF"${w==='UF'?' selected':''}>Fluency</option><option value="PR"${w==='PR'?' selected':''}>Problem solving</option></select></td></tr>`}).join('')}</tbody></table>
+    <div class="rep-acts"><button type="button" class="act ok" data-rdok>Apply and resolve</button><button type="button" class="act ghost" data-rpx>Cancel</button></div></div>`},
+  async difApply(r,row){const q=this.main(r);if(!q||!db)return false;const at=new Date().toISOString(),out=[];
+    const pick=$$('[data-rdp]',row).map(tr=>[tr.dataset.rdp,+tr.querySelector('[data-rdb]').value,tr.querySelector('[data-rdw]').value]);   // read before any await redraws the row
+    for(const [pid,band,wm] of pick){const p=q.parts.find(x=>String(x.id)===pid);if(!p)continue;const o=p.dif||{};
+      const v={band,wm,orig_band:o.b??null,orig_wm:o.wm??null,status:band===o.b&&wm===o.wm?'agreed':'changed',part_id:p.id,question_id:q.id,key:q.key||null,part:p.label||null,area:o.ar||null,anchor:!!o.a,from_report:r.id,by:me||null,at};
+      try{await db.doc('difficulty/'+p.id).set(v);DIFD[p.id]=v}catch(e){toast('Could not save. Try again in a moment.');return false}
+      out.push(`${p.label?'('+p.label+') ':''}band ${band} ${wm==='PR'?'problem solving':'fluency'}`)}
+    _ee.clear();_qd.clear();
+    const ok=await this.set(r,'applied',{status:'resolved',reply:'Applied: '+out.join(' · '),applied:{dif:out}});if(ok)toast('Applied: '+out.join(' · '));return ok},
   // Send to Claude: the report becomes the question's flag (status flagged, no fix yet: "Flags waiting for Claude")
   async send(r){const q=this.main(r);if(!q)return false;const cur=reviews['q'+q.id]||{},p=r.part_id!=null?q.parts.find(x=>String(x.id)===String(r.part_id)):null;
     const flag=`Report (${REP_WHY[r.reason]||'Other'}${p?', part ('+(p.label||'?')+')':''}): ${r.note||'(no note)'}${(s=>s?' '+s:'')(this.sugg(r))}`;
@@ -5441,7 +5464,7 @@ Object.assign(REP,{
     rd=`<button type="button" class="act ok" data-rres>Resolve</button><button type="button" class="act ghost" data-rdis>Dismiss</button>`;
   if(s==='sent')return ro+rd;if(s!=='open')return `${ro}<button type="button" class="act ghost" data-rreopen>Reopen</button>`;
   if(REP.res===r.id)return `<input type="text" data-rreply placeholder="Reply (optional), e.g. moved to band 5" aria-label="Reply"><button type="button" class="act ok" data-rresok>Resolve</button><button type="button" class="act ghost" data-rresx>Cancel</button>`;
-  const ap=m&&r.reason==='dot_point'&&DM[r.suggested_dot]?`<button type="button" class="act" data-rapply title="File the question under ${esc(r.suggested_dot)} and resolve the report">Apply suggestion</button>`:'';
+  const ap=m&&r.reason==='difficulty'?`<button type="button" class="act" data-rdif title="Set the band and kind of the reported part (or each part), starting from the suggestion">Apply suggestion</button>`:m&&r.reason==='dot_point'&&DM[r.suggested_dot]?`<button type="button" class="act" data-rapply title="File the question under ${esc(r.suggested_dot)} and resolve the report">Apply suggestion</button>`:'';
   return `${ro}${ap}${m?`<button type="button" class="act" data-rclaude title="Flag the question for Claude to fix. It stays out of the bank until the fix is approved.">Send to Claude</button>`:''}${rd}`}});
 function renderReports(){const box=$('#reportsBox');if(!box||!B)return;repSub();repBadge();
   if(!db){box.innerHTML=`<div class="rep-top"><div><div class="rep-eyebrow">Alpha</div><h2>Question reports</h2></div></div><div class="rep-empty">Reports live in the shared database. Open the page in claude.ai to see them.</div>`;return}
@@ -5458,7 +5481,7 @@ function renderReports(){const box=$('#reportsBox');if(!box||!B)return;repSub();
         ${r.note?`<blockquote class="rep-note">${esc(r.note)}</blockquote>`:''}
         ${REP.doneHTML(r,s,m)}
         ${q?`<details class="rep-qbox"${live?' open':''}><summary>${esc(srcLine(q))} · ${q.marks??'?'} mark${q.marks===1?'':'s'}</summary><div class="rep-dots">${repDotsHTML(q)}</div><div class="rep-home">Home topic: ${homeLabel(qHome(REP.main(r)||q))}</div><div class="rep-q" data-q="${q.id}">${qBody(q,'bank')}</div></details>`:'<div class="rep-gone">This question is no longer in the bank.</div>'}
-        ${REP.pick===r.id&&m&&s==='open'?REP.pickHTML(r,m):`<div class="rep-acts">${REP.actsHTML(r,s,m)}</div>`}</li>`}).join('')}</ol>`
+        ${REP.pick===r.id&&m&&s==='open'?(r.reason==='difficulty'?REP.difHTML(r,m):REP.pickHTML(r,m)):`<div class="rep-acts">${REP.actsHTML(r,s,m)}</div>`}</li>`}).join('')}</ol>`
       :`<div class="rep-empty">${F==='open'?'No open reports. Use <b>Report</b> under a question on the exam paper to add one.':'Nothing here.'}</div>`}`;
   $$('.rep-q',box).forEach(el=>{const q=xq(+el.dataset.q);if(q){hydrate(el,q,'bank');TSIO.observe(el)}});
   $$('.rep-dots',box).forEach(el=>TSIO.observe(el));
@@ -5472,6 +5495,8 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest
   if(t.closest('[data-rpok]')){const on=new Set($$('[data-rpp]',row).filter(c=>c.checked).map(c=>c.dataset.rpp)),ids=qLeaves(REP.main(r)).filter(p=>on.has(String(p.id))).map(p=>p.id);
     if(!ids.length){toast('Tick the parts that get the new dot point');return}REP.pick=null;busy(REP.apply(r,ids));return}
   if(t.closest('[data-rpx]')){REP.pick=null;renderReports();return}
+  if(t.closest('[data-rdif]')){REP.pick=r.id;REP.res=null;renderReports();return}
+  if(t.closest('[data-rdok]')){REP.pick=null;busy(REP.difApply(r,row));return}
   if(t.closest('[data-rclaude]')){busy(REP.send(r));return}
   if(t.closest('[data-rres]')){REP.res=r.id;REP.pick=null;renderReports();return}
   if(t.closest('[data-rresx]')){REP.res=null;renderReports();return}

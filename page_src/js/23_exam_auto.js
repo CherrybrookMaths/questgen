@@ -15,10 +15,10 @@ const XA_SWAPPED=new Set();
 
 /* ---------- difficulty of a question ---------- */
 const _qd=new Map();
-function qDiff(q){if(_qd.has(q.id))return _qd.get(q.id);
-  const ls=qLeaves(q).filter(p=>p.dif&&p.dif.b);let r=null;
+function qDiff(q){if(_qd.has(q.id))return _qd.get(q.id);lvSub();
+  const ls=qLeaves(q).filter(p=>lvDif(p)?.b);let r=null;
   if(ls.length){const w=p=>+p.marks||(ls.length===1?(+q.marks||1):1);let sw=0,sb=0,spr=0;const mix=[0,0,0,0,0,0,0];
-    ls.forEach(p=>{const m=w(p),b=Math.max(2,Math.min(6,+p.dif.b));sw+=m;sb+=m*b;if(p.dif.wm==='PR')spr+=m;mix[b]+=m});
+    ls.forEach(p=>{const d=lvDif(p),m=w(p),b=Math.max(2,Math.min(6,+d.b));sw+=m;sb+=m*b;if(d.wm==='PR')spr+=m;mix[b]+=m});
     r={band:Math.round(sb/sw*2)/2,raw:sb/sw,pr:spr/sw,mix,w:sw}}
   _qd.set(q.id,r);return r}
 const fmtBand=b=>Number.isInteger(b)?String(b):`${Math.floor(b)}–${Math.ceil(b)}`;

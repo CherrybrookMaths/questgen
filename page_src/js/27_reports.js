@@ -165,6 +165,24 @@ Object.assign(REP,{
   async apply(r,ids){const q=this.main(r),d=DM[r.suggested_dot];if(!q||!d||!ids.length)return false;
     if(!await write(q,tagEdit(q,ids,{id:r.suggested_dot})))return false;
     const ok=await this.set(r,'applied',{status:'resolved',reply:`Applied: ${r.suggested_dot} ${d.short||d.text}`,applied:{dot:r.suggested_dot,parts:ids}});if(ok)toast('Applied: '+r.suggested_dot);return ok},
+  // Apply a difficulty report (owner 19 Nov: "yeah apply suggestion or tweak it yourself in the page. It shouldn't need to be sent to
+  // claude every time"): each part's band and kind, prefilled with the suggestion, saved as difficulty/<part_id> (as a Difficulty check)
+  difParts(r,q){const lv=qLeaves(q);if(r.part_id!=null){const p=lv.find(x=>String(x.id)===String(r.part_id));if(p)return [p]}return lv},
+  difHTML(r,m){const ps=this.difParts(r,m),B5=[2,3,4,5,6];
+    return `<div class="rep-pick rep-dif"><span>Set each part's band and kind. Saved at once for every exam; the report is resolved.</span>
+    <table class="rep-dift"><tbody>${ps.map(p=>{const d=lvDif(p)||{},b=r.suggested_band||d.b||4,w=r.suggested_wm||d.wm||'UF';
+      return `<tr data-rdp="${esc(String(p.id))}"><td>${p.label?'('+esc(p.label)+')':'Whole'} <small>${p.marks??''} mark${+p.marks===1?'':'s'} · now band ${d.b??'?'} ${d.wm==='PR'?'problem solving':'fluency'}</small></td>
+        <td><select data-rdb aria-label="Band">${B5.map(x=>`<option${x===+b?' selected':''}>${x}</option>`).join('')}</select></td>
+        <td><select data-rdw aria-label="Kind"><option value="UF"${w==='UF'?' selected':''}>Fluency</option><option value="PR"${w==='PR'?' selected':''}>Problem solving</option></select></td></tr>`}).join('')}</tbody></table>
+    <div class="rep-acts"><button type="button" class="act ok" data-rdok>Apply and resolve</button><button type="button" class="act ghost" data-rpx>Cancel</button></div></div>`},
+  async difApply(r,row){const q=this.main(r);if(!q||!db)return false;const at=new Date().toISOString(),out=[];
+    const pick=$$('[data-rdp]',row).map(tr=>[tr.dataset.rdp,+tr.querySelector('[data-rdb]').value,tr.querySelector('[data-rdw]').value]);   // read before any await redraws the row
+    for(const [pid,band,wm] of pick){const p=q.parts.find(x=>String(x.id)===pid);if(!p)continue;const o=p.dif||{};
+      const v={band,wm,orig_band:o.b??null,orig_wm:o.wm??null,status:band===o.b&&wm===o.wm?'agreed':'changed',part_id:p.id,question_id:q.id,key:q.key||null,part:p.label||null,area:o.ar||null,anchor:!!o.a,from_report:r.id,by:me||null,at};
+      try{await db.doc('difficulty/'+p.id).set(v);DIFD[p.id]=v}catch(e){toast('Could not save. Try again in a moment.');return false}
+      out.push(`${p.label?'('+p.label+') ':''}band ${band} ${wm==='PR'?'problem solving':'fluency'}`)}
+    _ee.clear();_qd.clear();
+    const ok=await this.set(r,'applied',{status:'resolved',reply:'Applied: '+out.join(' · '),applied:{dif:out}});if(ok)toast('Applied: '+out.join(' · '));return ok},
   // Send to Claude: the report becomes the question's flag (status flagged, no fix yet: "Flags waiting for Claude")
   async send(r){const q=this.main(r);if(!q)return false;const cur=reviews['q'+q.id]||{},p=r.part_id!=null?q.parts.find(x=>String(x.id)===String(r.part_id)):null;
     const flag=`Report (${REP_WHY[r.reason]||'Other'}${p?', part ('+(p.label||'?')+')':''}): ${r.note||'(no note)'}${(s=>s?' '+s:'')(this.sugg(r))}`;
@@ -200,7 +218,7 @@ Object.assign(REP,{
     rd=`<button type="button" class="act ok" data-rres>Resolve</button><button type="button" class="act ghost" data-rdis>Dismiss</button>`;
   if(s==='sent')return ro+rd;if(s!=='open')return `${ro}<button type="button" class="act ghost" data-rreopen>Reopen</button>`;
   if(REP.res===r.id)return `<input type="text" data-rreply placeholder="Reply (optional), e.g. moved to band 5" aria-label="Reply"><button type="button" class="act ok" data-rresok>Resolve</button><button type="button" class="act ghost" data-rresx>Cancel</button>`;
-  const ap=m&&r.reason==='dot_point'&&DM[r.suggested_dot]?`<button type="button" class="act" data-rapply title="File the question under ${esc(r.suggested_dot)} and resolve the report">Apply suggestion</button>`:'';
+  const ap=m&&r.reason==='difficulty'?`<button type="button" class="act" data-rdif title="Set the band and kind of the reported part (or each part), starting from the suggestion">Apply suggestion</button>`:m&&r.reason==='dot_point'&&DM[r.suggested_dot]?`<button type="button" class="act" data-rapply title="File the question under ${esc(r.suggested_dot)} and resolve the report">Apply suggestion</button>`:'';
   return `${ro}${ap}${m?`<button type="button" class="act" data-rclaude title="Flag the question for Claude to fix. It stays out of the bank until the fix is approved.">Send to Claude</button>`:''}${rd}`}});
 function renderReports(){const box=$('#reportsBox');if(!box||!B)return;repSub();repBadge();
   if(!db){box.innerHTML=`<div class="rep-top"><div><div class="rep-eyebrow">Alpha</div><h2>Question reports</h2></div></div><div class="rep-empty">Reports live in the shared database. Open the page in claude.ai to see them.</div>`;return}
@@ -217,7 +235,7 @@ function renderReports(){const box=$('#reportsBox');if(!box||!B)return;repSub();
         ${r.note?`<blockquote class="rep-note">${esc(r.note)}</blockquote>`:''}
         ${REP.doneHTML(r,s,m)}
         ${q?`<details class="rep-qbox"${live?' open':''}><summary>${esc(srcLine(q))} · ${q.marks??'?'} mark${q.marks===1?'':'s'}</summary><div class="rep-dots">${repDotsHTML(q)}</div><div class="rep-home">Home topic: ${homeLabel(qHome(REP.main(r)||q))}</div><div class="rep-q" data-q="${q.id}">${qBody(q,'bank')}</div></details>`:'<div class="rep-gone">This question is no longer in the bank.</div>'}
-        ${REP.pick===r.id&&m&&s==='open'?REP.pickHTML(r,m):`<div class="rep-acts">${REP.actsHTML(r,s,m)}</div>`}</li>`}).join('')}</ol>`
+        ${REP.pick===r.id&&m&&s==='open'?(r.reason==='difficulty'?REP.difHTML(r,m):REP.pickHTML(r,m)):`<div class="rep-acts">${REP.actsHTML(r,s,m)}</div>`}</li>`}).join('')}</ol>`
       :`<div class="rep-empty">${F==='open'?'No open reports. Use <b>Report</b> under a question on the exam paper to add one.':'Nothing here.'}</div>`}`;
   $$('.rep-q',box).forEach(el=>{const q=xq(+el.dataset.q);if(q){hydrate(el,q,'bank');TSIO.observe(el)}});
   $$('.rep-dots',box).forEach(el=>TSIO.observe(el));
@@ -231,6 +249,8 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest
   if(t.closest('[data-rpok]')){const on=new Set($$('[data-rpp]',row).filter(c=>c.checked).map(c=>c.dataset.rpp)),ids=qLeaves(REP.main(r)).filter(p=>on.has(String(p.id))).map(p=>p.id);
     if(!ids.length){toast('Tick the parts that get the new dot point');return}REP.pick=null;busy(REP.apply(r,ids));return}
   if(t.closest('[data-rpx]')){REP.pick=null;renderReports();return}
+  if(t.closest('[data-rdif]')){REP.pick=r.id;REP.res=null;renderReports();return}
+  if(t.closest('[data-rdok]')){REP.pick=null;busy(REP.difApply(r,row));return}
   if(t.closest('[data-rclaude]')){busy(REP.send(r));return}
   if(t.closest('[data-rres]')){REP.res=r.id;REP.pick=null;renderReports();return}
   if(t.closest('[data-rresx]')){REP.res=null;renderReports();return}

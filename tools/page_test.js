@@ -2780,6 +2780,26 @@ async function reportActions(browser, base, seed) {
     return `QID ${id}: out of the Bank, the pick list and the generator pool while open; saved exam keeps it (“${ex.warn.trim().slice(0, 40)}…”); back after Dismiss`;
   });
 
+  // owner 19 Nov: "yeah apply suggestion or tweak it yourself in the page. It shouldn't need to be sent to claude every time"
+  await check('reports: Apply suggestion on a wrong difficulty sets each part (tweakable), counts at once in the exam maker, and resolves', page, async () => {
+    const q = await page.evaluate(() => { const hs = xaHomes(); const q = B.questions.find(q => !q.dup_of && qState(q) === 'approved' && hs.has(q.id) && qLeaves(q).length === 2 && qLeaves(q).every(p => p.dif?.b && p.dif.b < 5)); return q && {id: q.id, key: q.key, parts: qLeaves(q).map(p => p.id), d0: exEst(q).d} });
+    assert(q, 'no two-part question below band 5 in the fixture');
+    await seedRep('rt_dif', {question_id: q.id, key: q.key, reason: 'difficulty', suggested_band: 5, suggested_wm: 'PR', note: 'Page test: too hard'});
+    await page.evaluate(() => renderReports()); await settle(page, 1500, 2);
+    await page.click('#reportsBox [data-repid="rt_dif"] [data-rdif]'); await settle(page, 800, 2);
+    const pre = await page.evaluate(() => [...document.querySelectorAll('#reportsBox [data-repid="rt_dif"] [data-rdp]')].map(tr => [tr.querySelector('[data-rdb]').value, tr.querySelector('[data-rdw]').value]));
+    assert(pre.length === 2 && pre.every(([b, w]) => b === '5' && w === 'PR'), 'not prefilled with the suggestion: ' + JSON.stringify(pre));
+    await page.selectOption('#reportsBox [data-repid="rt_dif"] [data-rdp]:last-child [data-rdb]', '4');   // tweak the second part
+    await page.click('#reportsBox [data-repid="rt_dif"] [data-rdok]'); await waitRep('rt_dif', 'resolved'); await settle(page, 1500, 2);
+    const r = await page.evaluate(q => ({a: window.__pt.store.get('difficulty/' + q.parts[0]), b: window.__pt.store.get('difficulty/' + q.parts[1]), d: exEst(xq(q.id)).d, kind: exEst(xq(q.id)).kind}), q);
+    const doc = await dbGet('reports/rt_dif');
+    errs();
+    assert(r.a?.band === 5 && r.a.wm === 'PR' && r.a.status === 'changed' && r.b?.band === 4 && r.b.wm === 'PR' && r.b.from_report === 'rt_dif', 'difficulty docs: ' + JSON.stringify([r.a, r.b]).slice(0, 300));
+    assert(r.d > q.d0 && r.kind === 'Problem solving', `exam maker estimate ${q.d0.toFixed(2)} -> ${r.d.toFixed(2)} (${r.kind})`);
+    assert(doc.status === 'resolved' && /Applied: .*band 5 problem solving.*band 4 problem solving/.test(doc.reply), 'report: ' + JSON.stringify(doc).slice(0, 200));
+    for (const pid of q.parts) await page.evaluate(pid => { window.__pt.store.delete('difficulty/' + pid); delete DIFD[pid]; _ee.clear(); _qd.clear() }, pid);
+    return `QID ${q.id}: band ${q.d0.toFixed(1)} -> ${r.d.toFixed(1)}; ${doc.reply}`;
+  });
   await check('reports: Open in Review, then Apply suggestion changes the dot point and resolves', page, async () => {
     const id = await page.evaluate(() => { const hs = xaHomes(); return B.questions.find(q => !q.dup_of && qState(q) === 'approved' && hs.has(q.id) && qLeaves(q).length === 1 && DM[partMain(q, qLeaves(q)[0])[0]]).id });
     const dot = await page.evaluate(id => { const q = xq(id), cur = partMain(q, qLeaves(q)[0])[0]; return DOTS.find(d => d.id !== cur && d.yl === DM[cur].yl).id }, id);

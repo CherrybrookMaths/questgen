@@ -25,12 +25,12 @@ const dLab=b=>'Band '+(+b).toFixed(1);
 /* ---------- per-question estimate from the part ratings ---------- */
 const _ee=new Map();
 function exPath(q,p){const by=new Map(q.parts.map(y=>[y.id,y]));const c=[];let x=p;while(x){if(x.label)c.unshift('('+x.label+')');x=x.parent?by.get(x.parent):null}return c.join('')}
-function exEst(q){if(_ee.has(q.id))return _ee.get(q.id);
-  const ls=qLeaves(q).filter(p=>p.dif&&p.dif.b);let r=null;
+function exEst(q){if(_ee.has(q.id))return _ee.get(q.id);lvSub();
+  const ls=qLeaves(q).filter(p=>lvDif(p)?.b);let r=null;
   if(ls.length){const w=p=>+p.marks||(ls.length===1?(+q.marks||1):1);const sw=ls.reduce((t,p)=>t+w(p),0)||1,k=(+q.marks||sw)/sw;
     let fl=0,ps=0,wF=0,wP=0;
-    const parts=ls.map(p=>{const m=w(p)*k,b=Math.max(2,Math.min(6,+p.dif.b)),isP=p.dif.wm==='PR';if(isP){ps+=m;wP+=m*b}else{fl+=m;wF+=m*b}
-      return {id:p.id,lab:exPath(q,p),m,b,ps:isP,r:p.dif.r||''}});
+    const parts=ls.map(p=>{const d=lvDif(p),m=w(p)*k,b=Math.max(2,Math.min(6,+d.b)),isP=d.wm==='PR';if(isP){ps+=m;wP+=m*b}else{fl+=m;wF+=m*b}
+      return {id:p.id,lab:exPath(q,p),m,b,ps:isP,r:d.r||''}});
     const m=fl+ps;r={m,fl,ps,dF:fl?wF/fl:null,dP:ps?wP/ps:null,d:(wF+wP)/(m||1),kind:ps<=1e-9?'Fluency':'Problem solving',parts}}   // owner 19 Nov: any problem-solving part makes it a problem-solving question
   _ee.set(q.id,r);return r}
 // owner 19 Nov ("math should render properly in the grading tab", then "Are you sure the math renders properly? I'm still seeing incorrect
@@ -683,7 +683,7 @@ const exFigReset=k=>{if(!(k in EX.figscale))return;delete EX.figscale[k];xsave()
 // on the paper, and dragging in from there did nothing visible either. The size at 100% is measured (not divided out of a drawn
 // size that may be capped) and the largest scale is the one that fills the column (at most 200%).
 const exFigBase=w=>{const b=w.querySelector('.exfigbox'),old=w.style.getPropertyValue('--fs');w.style.setProperty('--fs','1');const r=b.getBoundingClientRect();w.style.setProperty('--fs',old);
-  const col=w.getBoundingClientRect().width;return {w0:r.width||100,h0:r.height||100,smax:r.width>0&&col>0?Math.max(1,Math.min(2,Math.floor(col/r.width*100)/100)):2}};
+  const col=Math.max(w.getBoundingClientRect().width,w.parentElement?.getBoundingClientRect().width||0);return {w0:r.width||100,h0:r.height||100,smax:r.width>0&&col>0?Math.max(1,Math.min(2,Math.floor(col/r.width*100)/100)):2}};
 document.addEventListener('pointerdown',e=>{const h=e.target.closest&&e.target.closest('#xPv [data-figh]');if(!h||e.button>0)return;e.preventDefault();e.stopPropagation();
   const w=h.closest('.exfigw'),B=exFigBase(w),s0=Math.min(B.smax,EX.figscale[h.dataset.figh]||1);
   EXFR={k:h.dataset.figh,w,h,x:e.clientX,y:e.clientY,s0,s:s0,w0:B.w0,h0:B.h0,smax:B.smax,raf:0,moved:false};

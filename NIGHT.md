@@ -52,6 +52,13 @@ their page scans. If image_lifecycle refuses (exit 2: asset-store packs missing 
 and skip steps 3 and 4. Do NOT upload anything here: changed asset-store packs go up in step 4, only after the page test has
 passed on them. Result: "<n> papers cleared, <x> MB removed".
 
+## 3b. Your difficulty ratings into the database (owner 19 Nov)
+Owner 19 Nov: "yeah apply suggestion or tweak it yourself in the page. It shouldn't need to be sent to claude every time". Ratings
+set in the page (Reports › Apply suggestion, Review › Difficulty) are `difficulty/<part_id>` docs; the page uses them at once. Here
+they reach the database: export `difficulty` (ArtifactData `list`, limit 1000 + cursor, out_dir work/pagedb_difficulty_<date>/),
+copy questions.db to archive/, `python3 tools/apply_difficulty_reviews.py work/pagedb_difficulty_<date>/difficulty`, then
+`python3 tools/build_bank.py` and `python3 tools/bank_split.py`. Result: "<n> of your ratings in the database".
+
 ## 4. Publish if anything changed
 If steps 1–3 changed anything the page shows: the CLAUDE.md "Publish procedure" (prepublish must exit 0 with 0 blockers;
 publish only the review page; then --mark-published). Changed asset-store packs (18 Nov): run prepublish first; when the page

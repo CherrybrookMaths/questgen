@@ -34,7 +34,11 @@ function lvTodoN(){if(!B)return 0;lvSub();const hot=lvHot();return lvItems().fil
 function lvList(){const all=lvItems();
   const r=all.filter(x=>lvInArea(x)&&(LVSHOW==='all'||!lvDone(x)));
   return LVAREA==='spot'?r.sort((a,b)=>(b.flag?1:0)-(a.flag?1:0)||String(a.d.ar).localeCompare(String(b.d.ar))||b.lean-a.lean):r}
-function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});DIFD=nx;LVQ=null;if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
+// owner 19 Nov ("how to apply suggestion?" -> "yeah apply suggestion or tweak it yourself in the page. It shouldn't need to be sent to
+// claude every time"): a part's saved rating (difficulty/<part_id>, status changed) counts at once in the exam maker; the import and
+// night run fold it into the database (tools/apply_difficulty_reviews.py: owner_band / owner_wm)
+const lvDif=p=>{const o=DIFD[p.id];return o&&o.status==='changed'&&o.band?{...(p.dif||{}),b:o.band,wm:o.wm}:p.dif};
+function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});const ch=JSON.stringify(nx)!==JSON.stringify(DIFD);DIFD=nx;LVQ=null;if(ch){_ee.clear();_qd.clear()}if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
 function renderLevels(keep){
   lvSub();const box=$('#levelsBox');const all=lvItems(),list=lvList();
   const done=all.filter(lvDone).length, anchors=all.filter(x=>!x.flag), adone=anchors.filter(lvDone).length;
