@@ -84,3 +84,7 @@ body.xpv-on{overflow:hidden}
 .xblank{display:flex;align-items:center;justify-content:center;min-height:250mm;font-style:italic;color:#333}
 /* owner 18 Nov: the course's NESA reference sheet at the back, one page per sheet, fitted to the printable area */
 .xref{display:flex;justify-content:center}.xref img{display:block;max-width:100%;max-height:250mm;width:auto;height:auto}
+.xmenu{position:relative;display:inline-flex}.xmenu>[data-xmenu]::after{content:" ▾";font-size:11px}
+.xmenu-pop{position:absolute;right:0;top:calc(100% + 6px);z-index:6;min-width:210px;display:grid;gap:2px;padding:6px;background:var(--panel);border:1px solid var(--line);border-radius:10px;box-shadow:0 8px 24px rgb(0 0 0/.14)}
+.xmenu-pop[hidden]{display:none}.xmenu-pop button.act{border-color:transparent;background:none;text-align:left;width:100%}.xmenu-pop button.act:hover:not(:disabled){background:var(--accent-soft)}
+.xmenu-pop #exPvTopic::before{content:"✓ ";visibility:hidden}.xmenu-pop #exPvTopic[aria-pressed="true"]::before{visibility:visible}.xmenu-pop .exask{min-width:280px;white-space:normal}

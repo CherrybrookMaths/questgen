@@ -451,6 +451,10 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   - **Make a similar exam** (paper toolbar, and "Make similar" on each My exams row): a new saved exam with the same settings (topics, marks,
     multiple choice, difficulty, papers; topics from its questions when it has none), none of the questions in any saved exam (the
     original included), named "<name> (version 2)" (3, 4 ... when taken), opened on its paper. The original is untouched.
+- **Paper bar, 19 Nov (owner):** "this is a really heavy top bar" (ten buttons), then "lets go 5 controls": Grading; **Exam ▾** (Settings…,
+  Regenerate, Topic table on the cover as a tick); **Make a similar exam** (kept visible: the tutor-facing one); **Download ▾** (PDF, Word
+  (beta), HTML); Close. "Add a question" left the bar: it is at the top of the grading list. A menu closes on a pick or a click outside,
+  except Regenerate (its "replaces the questions" question opens inside the menu) and the Topic table tick.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

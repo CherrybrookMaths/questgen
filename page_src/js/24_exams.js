@@ -457,9 +457,10 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!opts.keep||!$('#xPages')){
     ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button></div>
       <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span>
-      <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Grading</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table</button>
-      <button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvAdd" title="Add a question from this exam's topics">Add a question</button><button class="act" id="exPvSet" title="Change this exam's topics, marks or difficulty and regenerate it">Settings</button><button class="act" id="exPvSim" title="A new exam with the same settings and none of the questions in your saved exams: for a student who needs another one">Make a similar exam</button>
-      <button class="act ok" id="xDl" disabled>Download to print</button><button class="act ghost" id="xPvClose">Close</button></div>
+      <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Grading</button>
+      <span class="xmenu"><button class="act" data-xmenu aria-expanded="false">Exam</button><span class="xmenu-pop" hidden><button class="act" id="exPvSet" title="Change this exam's topics, marks or difficulty and regenerate it">Settings…</button><button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table on the cover</button></span></span>
+      <button class="act" id="exPvSim" title="A new exam with the same settings and none of the questions in your saved exams: for a student who needs another one">Make a similar exam</button>
+      <span class="xmenu"><button class="act ok" data-xmenu aria-expanded="false">Download</button><span class="xmenu-pop" hidden><button class="act" id="xDl" disabled>HTML</button></span></span><button class="act ghost" id="xPvClose">Close</button></div>
       <div class="expvbody"><div class="xpages" id="xPages"></div><aside class="expvside" id="exGSide" aria-label="Question grading"></aside></div>`}
   else{$$('[data-xdoc]',ov).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.xdoc===doc)));$('#xInfo').textContent='Laying out pages…'}
   if(!opts.keep)EXV.grade=innerWidth>1000;   // phones: the grading panel is a slide-over, closed until asked for
@@ -519,14 +520,14 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   $('#xInfo').textContent=`${sheets.length} page${sheets.length===1?'':'s'} · ${qs.length} questions · ${tot} marks${F+P?` · ${Math.round(P/(F+P)*100)}% problem solving · average band ${(w/(F+P)).toFixed(1)}`:''}`;
   $('#xDl').disabled=false;$('#xDl').dataset.doc=doc;
   exGrading();if(opts.keep)ov.scrollTop=keepScroll;else ov.scrollTop=0;
-  // owner 14 Nov ("make it so we can export pdfs from here"): Download PDF (29_pdf.js) and Download Word (30_word.js) sit beside
-  // "Download HTML" once the pages are laid out
+  // owner 14 Nov ("make it so we can export pdfs from here"): PDF (29_pdf.js) and Word (30_word.js) join HTML in the Download menu
+  // once the pages are laid out
   const dlb=$('#xDl');
-  if(dlb&&!$('#xPdf')){dlb.insertAdjacentHTML('beforebegin',`<button class="act ok" id="xPdf" type="button" title="Save the paper as a PDF">Download PDF</button>`);dlb.textContent='Download HTML';dlb.classList.remove('ok');dlb.title='A web page you can print, or save as a PDF with selectable text'}
+  if(dlb&&!$('#xPdf')){dlb.insertAdjacentHTML('beforebegin',`<button class="act" id="xPdf" type="button" title="Save the paper as a PDF">PDF</button>`);dlb.title='A web page you can print, or save as a PDF with selectable text'}
   const pb=$('#xPdf');
   // owner 17 Nov: "Add a disclaimer the word one is not tested on the user side." Owner 19 Nov: "remove Word export is not yet tested by
   // users: check the file before you print or send it." (the line beside the button is gone; the button keeps "(beta)" and its tooltip)
-  if(pb&&!$('#xWord'))pb.insertAdjacentHTML('afterend',`<button class="act" id="xWord" type="button" title="Save as a Word document with editable equations. Not yet tested by users: check the file before you print or send it.">Download Word (beta)</button>`)}
+  if(pb&&!$('#xWord'))pb.insertAdjacentHTML('afterend',`<button class="act" id="xWord" type="button" title="Save as a Word document with editable equations. Not yet tested by users: check the file before you print or send it.">Word (beta)</button>`)}
 function exZoom(){const h=$('#xPages');if(!h)return;const tb=$('#xPv .xtool');if(tb)$('#xPv').style.setProperty('--tool',tb.offsetHeight+'px');const side=EXV.grade&&innerWidth>1000?380:0,avail=innerWidth-side-24;const z=Math.min(1,avail/800);h.style.zoom=z<.999?String(Math.max(.4,z)):'';
   // owner 14 Nov (ⓘ, diagram handle): screen-only controls on a scaled paper divide by this, so they keep a usable size on a phone
   h.style.setProperty('--xz',z<.999?String(Math.max(.4,z)):'1')}
@@ -597,7 +598,6 @@ document.addEventListener('click',e=>{const t=e.target;
       return}
     if(t.closest('#exGrade')){EXV.grade=!EXV.grade;$('#xPv').classList.toggle('grade-off',!EXV.grade);t.closest('#exGrade').setAttribute('aria-pressed',String(EXV.grade));exZoom();return}
     if(t.closest('#exGClose')){EXV.grade=false;$('#xPv').classList.add('grade-off');$('#exGrade')?.setAttribute('aria-pressed','false');exZoom();return}
-    if(t.closest('#exPvAdd')){EXPK.open('add');return}
     if(t.closest('#exPvSet')){exClosePv();EXV.view='setup';EXV.setupFor=EX.id||'open';exSaveView();renderExams();window.scrollTo({top:0});return}
     if(t.closest('#exPvSim')){EXAS.similar();return}
     // owner 18 Nov: "Give an option to toggle that table on and off" (saved with the exam: EX.bytopic, on unless set to false)
@@ -714,6 +714,12 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.class
 // any change to the exam (add, remove, reorder, swap, load) refreshes the page around it: see xCount (20_exam.js)
 if(view==='exams'&&B)renderExams();
 
+// owner 19 Nov: "this is a really heavy top bar" -> "lets go 5 controls": Grading, Exam (Settings, Regenerate, Topic table),
+// Make a similar exam, Download (PDF, Word, HTML), Close. A menu closes on a pick, except Regenerate (its question opens in the menu)
+// and the Topic table tick
+document.addEventListener('click',e=>{const t=e.target;if(!t.closest)return;const m=t.closest('[data-xmenu]'),pop=m?.nextElementSibling;
+  $$('.xmenu-pop').forEach(p=>{if(p!==pop&&!(p.contains(t)&&t.closest('#exPvRegen,#exPvTopic,#exAsk'))){p.hidden=true;p.previousElementSibling.setAttribute('aria-expanded','false')}});
+  if(pop){pop.hidden=!pop.hidden;m.setAttribute('aria-expanded',String(!pop.hidden))}},true);
 document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest('#examsView'))return;
   const u=t.closest('[data-pkuse]');if(u){e.preventDefault();e.stopImmediatePropagation();EXPK.use(+u.dataset.pkuse);return}
   if(t.closest('[data-pkback]')){e.preventDefault();e.stopImmediatePropagation();EXPK.back();return}

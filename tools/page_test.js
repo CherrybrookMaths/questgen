@@ -137,7 +137,9 @@ function fakeClaude(arg) {
 const checks = [];
 let outside = [];
 // owner 19 Nov: Generate / Regenerate on a saved exam asks first ("Make a new exam instead" / "Replace them"); the existing checks replace
-async function genClick(p, sel) { await p.click(sel); const a = await p.waitForSelector('#exAsk [data-ask="replace"]', {timeout: 1500}).catch(() => null); if (a) await a.click() }
+// owner 19 Nov ("lets go 5 controls"): Settings, Regenerate, Topic table and the downloads sit in the paper bar's Exam / Download menus
+async function pvClick(p, sel) { await p.evaluate(s => { const pop = document.querySelector(s)?.closest('.xmenu-pop'); if (pop && pop.hidden) pop.previousElementSibling.click() }, sel); await p.click(sel) }
+async function genClick(p, sel) { await pvClick(p, sel); const a = await p.waitForSelector('#exAsk [data-ask="replace"]', {timeout: 1500}).catch(() => null); if (a) await a.click() }
 async function check(name, page, fn) {
   const t = Date.now(); let ok = true, detail = '', shot = null;
   try { detail = (await fn()) || '' } catch (e) { ok = false; detail = String(e && e.message || e).split('\n')[0].slice(0, 600) }
@@ -354,7 +356,7 @@ async function flows(browser, base, seed, seedR) {
   });
   if (!QUICK) {
     await check('export: PDF', page, async () => {
-      const n0 = await nDl(); await page.click('#xPdf'); const d = await waitDl(n0, 120000);
+      const n0 = await nDl(); await pvClick(page, '#xPdf'); const d = await waitDl(n0, 120000);
       const buf = fs.readFileSync(path.join(DL, d.filename.replace(/[^\w.\- ]+/g, '_')));
       const head = buf.slice(0, 5).toString('latin1'), pages = (buf.toString('latin1').match(/\/Type\s*\/Page(?![s\w])/g) || []).length;
       errs(); assert(head === '%PDF-', `file starts “${head}”`); assert(/%%EOF\s*$/.test(buf.slice(-32).toString('latin1')), 'no %%EOF at the end');
@@ -364,7 +366,7 @@ async function flows(browser, base, seed, seedR) {
   }
   const wordCheck = async () => {
     page._warn = [];
-    const n0 = await nDl(); await page.click('#xWord'); const d = await waitDl(n0, 120000);
+    const n0 = await nDl(); await pvClick(page, '#xWord'); const d = await waitDl(n0, 120000);
     const z = unzip(fs.readFileSync(path.join(DL, d.filename.replace(/[^\w.\- ]+/g, '_'))));
     assert(z['word/document.xml'], 'no word/document.xml in the .docx');
     const x = z['word/document.xml'].toString('utf8'), om = (x.match(/<m:oMath[\s>]/g) || []).length;
@@ -376,7 +378,7 @@ async function flows(browser, base, seed, seedR) {
   };
   if (!QUICK) await check('export: Word (exam paper)', page, wordCheck);
   await check('export: HTML download is clean', page, async () => {
-    const n0 = await nDl(); await page.click('#xDl'); const d = await waitDl(n0, 30000);
+    const n0 = await nDl(); await pvClick(page, '#xDl'); const d = await waitDl(n0, 30000);
     const h = fs.readFileSync(path.join(DL, d.filename.replace(/[^\w.\- ]+/g, '_')), 'utf8');
     const body = h.slice(h.indexOf('<body>'));
     errs(); assert(/^<!doctype html>/i.test(h), 'not an HTML document');
@@ -443,7 +445,7 @@ async function flows(browser, base, seed, seedR) {
 
   /* ---- Swap, Lock, Regenerate ---- */
   await check('exams: swap, lock, then regenerate keeps the locked question', page, async () => {
-    await page.click('#exPvAdd'); await settle(page, 5000, 2);   // owner 19 Nov: "Add a question" opens the picker on the exam's topics
+    await page.click('#exGSide [data-gadd]'); await settle(page, 5000, 2);   // owner 19 Nov: "Add a question" opens the picker on the exam's topics
     const before = await page.evaluate(() => EX.items.slice());
     const rows = await page.evaluate(() => [...document.querySelectorAll('#xPanel li[data-xi]')].map(li => +li.dataset.xi));
     assert(rows.length === before.length, `exam panel lists ${rows.length} rows for ${before.length} questions`);
@@ -495,7 +497,7 @@ async function flows(browser, base, seed, seedR) {
     await page.click(`#exCards [data-pkuse="${pick}"]`); await waitPv();
     const a = await page.evaluate(() => ({items: EX.items.slice(), pv: document.body.classList.contains('xpv-on')}));
     assert(a.pv && a.items[tgt.i] === pick && a.items.length === tgt.n && !a.items.includes(tgt.id), `after replacing: ${JSON.stringify({pv: a.pv, at: a.items[tgt.i], pick, n: a.items.length})}`);
-    await page.click('#exPvAdd'); await page.waitForSelector('#exPkBan', {timeout: 10000}); await settle(page, 4000, 2);
+    await page.click('#exGSide [data-gadd]'); await page.waitForSelector('#exPkBan', {timeout: 10000}); await settle(page, 4000, 2);
     const ban2 = await page.evaluate(() => document.querySelector('#exPkBan').innerText);
     await page.click('#exCards [data-pkuse]'); await settle(page, 1500, 2);
     const n2 = await page.evaluate(() => EX.items.length);
@@ -554,7 +556,7 @@ async function flows(browser, base, seed, seedR) {
     await settle(page, 1500, 2);
     const a = await page.evaluate(() => ({id: EX.id, n: EX.items.length, st: exmState(), pv: document.body.classList.contains('xpv-on')}));
     assert(a.n > 0 && a.st === 'saved' && a.pv, `after Generate (saved, on the paper): ${JSON.stringify(a)}`);
-    await page.click('#exPvSet'); await settle(page, 1500, 2);   // 19 Nov: inside an exam, Settings reopens the setup form for it
+    await pvClick(page, '#exPvSet'); await settle(page, 1500, 2);   // 19 Nov: inside an exam, Settings reopens the setup form for it
     const head = await page.evaluate(() => ({t: document.querySelector('#exTtl')?.innerText || '', go: document.querySelector('#gGo')?.textContent}));
     assert(/Settings for/.test(head.t) && /Regenerate with these settings/.test(head.go), 'settings view: ' + JSON.stringify(head));
     await page.click('#gGo'); await page.waitForSelector('#exAsk', {timeout: 3000});
@@ -2137,9 +2139,9 @@ async function examPools(browser, base, pools) {
           return {n: sh.length, blanks: sh.filter(s => s.querySelector('.xblank')).length, after: sh.slice(lastQ + 1).filter(s => s.querySelector('.xblank')).length} });
         assert(odd.n % 2 === 1 && odd.blanks - odd.after === 1 && odd.after <= 1, `pages: ${JSON.stringify(odd)} (want an odd count; one blank after the cover, at most one after the questions)`);
         if (sd === POOL_RUNS[name][0][0]) {
-          await page.click('#exPvTopic'); await waitPv();
+          await pvClick(page, '#exPvTopic'); await waitPv();
           const off = await page.evaluate(() => ({tbl: !!document.querySelector('#xPages .sheet .extopictbl'), v: EX.bytopic}));
-          await page.click('#exPvTopic'); await waitPv();
+          await pvClick(page, '#exPvTopic'); await waitPv();
           const on = await page.evaluate(() => ({tbl: !!document.querySelector('#xPages .sheet .extopictbl'), v: EX.bytopic}));
           assert(!off.tbl && off.v === false && on.tbl && on.v === true, `topic table toggle: off ${JSON.stringify(off)}, on ${JSON.stringify(on)}`);
         }
@@ -2296,7 +2298,7 @@ async function queueChecks(browser, base, seed) {
   await check('export: a resized diagram keeps its size in the HTML download', page, async () => {
     assert(k, 'no diagram');
     await page.evaluate(k => { EX.figscale[k] = 1.5; xsave(); exRelayout() }, k); await settle(page, 5000, 2);
-    const n0 = await page.evaluate(() => window.__pt.downloads.length); await page.click('#xDl');
+    const n0 = await page.evaluate(() => window.__pt.downloads.length); await pvClick(page, '#xDl');
     await page.waitForFunction(n => window.__pt.downloads.length > n, n0, {timeout: 30000});
     const d = await page.evaluate(() => window.__pt.downloads[window.__pt.downloads.length - 1]);
     const h = fs.readFileSync(path.join(DL, d.filename.replace(/[^\w.\- ]+/g, '_')), 'utf8'), body = h.slice(h.indexOf('<body>'));

@@ -4,9 +4,9 @@
  "set": "2026-11-14 (Fix 1): start-load sizes then + 25%; data/assets.json sized for about 800 entries (one per image pack at the 538-paper target); data/inventory.json kept from 13 Nov",
  "budgets": {
   "review.html": {
-   "bytes": 745031,
+   "bytes": 747079,
    "at_set": 605003,
-   "note": "unchanged from 13 Nov"
+   "note": "unchanged from 13 Nov until 19 Nov; +2 KB on 19 Nov (agreed list)"
   },
   "data/bank/advanced/index.gz.json": {
    "bytes": 2351716,
@@ -54,6 +54,11 @@
    "date": "2026-11-16",
    "owner": "Yeah build it",
    "what": "job 2: split the start-up index into a slim index (what the Bank needs) and a details file the page reads right after start, both gzip; the start-load budget counts the index at its compressed size (what the browser downloads). Budget numbers unchanged. Context: at 538 papers the old index would have been ~18 MB, over the 2.35 MB budget and the platform's 16 MB per-file limit."
+  },
+  {
+   "date": "2026-11-19",
+   "owner": "If i'ts not a HARD limit, you're allowed to exceed AS LONG as all the code and comments we've built so far is necessary and efficient, not bloated.",
+   "what": "review.html budget 745,031 -> 747,079 bytes for the 5-control paper bar (owner 19 Nov: \"lets go 5 controls\"). Before raising, about 1 KB of dead code was removed (the Bank's old Add to exam handlers and styles, unused classes .exst-acts .xslist .pickhand .gdotl-d .gdotl-none, xIn); a sweep found no other unused CSS or functions."
   }
  ]
 }
