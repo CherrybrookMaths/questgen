@@ -5,6 +5,21 @@ a little later; he does not use GitHub). Run on request (owner 17 Nov: "just fix
 sweep": no scheduled task).
 Follow CLAUDE.md's standing rules exactly. Stamp times with `TZ=Australia/Sydney date -Iminutes`.
 
+## Scheduled check (owner 19 Nov)
+Owner 19 Nov: "I need a way for the reviewer to run flags, he couldn't do it all of his last shift" -> "Button + checks in shift",
+"monday, tuesday, wednesday, friday 9-5 all those days". The checker presses "Fix my flags now" on Review, which writes
+`runs/flags_<ms>` {kind: 'flags', status: 'requested', by, at}. The scheduled task "Questgen flag check" (trig_01J5E9pn3VHBVu8zf2wFg5Jh, fresh session,
+hourly 9:00-16:00 Sydney, Mon Tue Wed Fri; 30 minutes is under the platform's 1-hour minimum) runs this section; the night run (NIGHT.md step 1) clears any request still waiting.
+1. **Cheap check first, before any setup.** ArtifactData `query` on `runs` (where `kind == 'flags'`), on the review page. No doc with
+   `status: 'requested'`: stop here (no repo, no database, no reply beyond "No flag request."). A doc with `status: 'running'`
+   whose `started` is under 2 hours old: another session has it; stop.
+2. Set every requested flags run to `status: 'running'`, `started: <now>` (pinned with `if_version`). Then the repo and setup:
+   NIGHT.md step 0.1 (attach and clone the repo if missing; CLAUDE.md "Fresh session: start here" 0-5 and 7, image packs included).
+   Write `progress/jobs` {jobs: [{name: "Flag fixes", started}]}.
+3. Steps 1-5 below. If step 1 finds nothing open: no publish.
+4. Each run doc: `status: 'done'`, `done_at: <now>`, `result: "<n> fixed, <m> wait for Steve"` (or "Nothing open", or
+   "Not published: <first failure>" with `status: 'failed'`). Clear `progress/jobs`. Never leave a run `running`.
+
 1. **Anything to do?** ArtifactData `query` on `reviews` (where `at >= <yesterday>`, limit 1000, `out_dir` work/pagedb_flags_<date>/).
    Open items = a doc with `status: 'flagged'` and no `fixed`, or a `fig` value `'changes'`. None: stop here (no publish, no note).
    If `progress/jobs` shows a running job from another session, stop and say so.

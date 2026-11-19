@@ -351,13 +351,27 @@ function diagLog(){
     ${logOpen?`<h4>Recent decisions</h4>${rows.length?`<ul>${rows.slice(0,25).map(r=>`<li class="${r.flag?'fl':'ok'}"><button class="lk" data-logq="${r.q.id}">${qid(r.q)}</button> <span class="muted">${esc(srcLine(r.q))}</span><div>${r.flag?'⚑ '+(r.nf<r.n?`${r.nf} of ${r.n}: `:'')+esc(r.flag):'✓ approved'+(r.n>1?` (${r.n})`:'')} <span class="muted">· ${esc(ago(r.at))}</span> <button class="lk" data-undo="${r.q.id}">undo</button></div></li>`).join('')}</ul>`:'<p class="muted">Nothing yet.</p>'}`:''}</aside>`}
 // owner 12 Nov: "How often should I hand diagram flags to you? Should we show in the UI when to do that?"
 // A flag stays 'changes' until Claude redraws it and clears it, so the count of 'changes' = flags not yet handed over.
-const HANDOFF_AT=15;
+
 // owner 18 Nov: "Why does it say both 11 and 20?" -> count per bank question, as the Flags card does: the reviews index holds each
 //   question's decision under its k_ key and again under q<id>, so walking the raw docs counted every request twice
 //   and text flags were left out; now flags = diagram requests + open text flags, questions = the card's waitQ count
 function pendingFlags(){let n=0,nq=0;(B?.questions||[]).forEach(q=>{if(!waitQ(q))return;const r=reviews['q'+q.id];n+=Object.values(r?.fig||{}).filter(v=>v==='changes').length+(r.status==='flagged'&&!r.fixed?1:0);nq++});return [n,nq]}
-function handoffHTML(){const [n,nq]=pendingFlags();if(!n)return'';const due=n>=HANDOFF_AT;
-  return `<div class="handoff${due?' due':''}"><b>${n} flag${n===1?'':'s'} waiting for Claude</b> <span class="muted">(${nq} question${nq===1?'':'s'})</span> · ${due?'Time to hand these over: tell Claude <i>"check my diagram flags"</i>.':`Hand over at ${HANDOFF_AT}, at the end of a session, or sooner if the same new kind of problem shows up twice.`}</div>`}
+// owner 19 Nov: "I need a way for the reviewer to run flags, he couldn't do it all of his last shift" -> "Button + checks in shift",
+// "monday, tuesday, wednesday, friday 9-5 all those days": the button writes runs/<id> {kind:'flags', status:'requested'}; a scheduled
+// session checks hourly in those hours (the platform's minimum) (FLAGS.md "Scheduled check"), the night run clears what is left
+const FLR={runs:[],sub:0,
+  watch(){if(this.sub||!db)return;this.sub=1;try{db.collection('runs').onSnapshot(s=>{this.runs=(s.docs||s||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).filter(r=>r.kind==='flags');if(view==='review')renderReview()},()=>{this.sub=0})}catch(e){this.sub=0}},
+  last(){return this.runs.slice().sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null},
+  async ask(){if(!db){toast('Needs the shared database (open the page in claude.ai)');return}const id='flags_'+Date.now(),doc={kind:'flags',status:'requested',by:QG.me||null,at:new Date().toISOString()};
+    try{await db.doc('runs/'+id).set(doc);this.runs.push({id,...doc});toast('Sent to Claude');renderReview()}catch(e){toast('Could not send. Try again in a moment.')}}};
+const FLR_WHEN='Claude checks every hour, 9 am to 4 pm on Monday, Tuesday, Wednesday and Friday; otherwise at the 10:11 pm night run.';
+function handoffHTML(){const [n,nq]=pendingFlags();FLR.watch();const r=FLR.last(),act=r&&(r.status==='requested'||r.status==='running');
+  const t=x=>x?new Date(x).toLocaleString('en-AU',{weekday:'short',hour:'numeric',minute:'2-digit'}):'';
+  const st=act?(r.status==='running'?`<b>Claude is fixing them</b> (started ${t(r.started||r.at)}). They come back under "Fixed and back for you".`:`<b>Sent to Claude</b> ${t(r.at)}. ${FLR_WHEN}`)
+    :r&&r.status==='done'&&Date.now()-Date.parse(r.done_at||r.at)<864e5?`Last run ${t(r.done_at)}: ${esc(r.result||'done')}.`:'';
+  if(!n&&!act)return st?`<div class="handoff">${st}</div>`:'';
+  return `<div class="handoff${act?'':' due'}"><b>${n} flag${n===1?'':'s'} waiting for Claude</b> <span class="muted">(${nq} question${nq===1?'':'s'})</span>${act?` · ${st}`:` <button type="button" class="act ok" data-flr>Fix my flags now</button><span class="muted"> ${FLR_WHEN}</span>${st?` ${st}`:''}`}</div>`}
+document.addEventListener('click',e=>{if(e.target.closest?.('[data-flr]')){const b=e.target.closest('[data-flr]');b.disabled=true;FLR.ask()}});
 function renderDiag(){
   const q=rlist[ridx];
   const done=rlist.filter(x=>!isTodo(x,'diagrams')).length;

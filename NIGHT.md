@@ -35,6 +35,8 @@ The Tonight card on Processes › Work shows exactly what this run does, from tw
   write all answers to `state/work/cover_check_<date>.json` ({paper id: {course, year_level, how, or reason}}). Run
   `python3 tools/inventory.py` so settled papers move into their lanes. Set the run `status: "done"` with
   `result: "<n> sorted into lanes, <m> need you"`.
+- `kind: "flags"` (the checker's "Fix my flags now", owner 19 Nov): FLAGS.md "Scheduled check" steps 2-4 (this session is already
+  set up). Its publish is this run's step 4 publish when both change things: publish once.
 - Any other kind: leave it, result "Not handled at night yet".
 
 ## 2. Rescan the exam folder (read-only)

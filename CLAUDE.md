@@ -192,6 +192,10 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
 7. **Checker flags**: owner 17 Nov: "No, just fix it and put it back in the review list, drop the sweep". The hourly sweep task was
    deleted the same day. When the owner (or a comment sent to Claude) asks, fix the checker's open flags and diagram change requests
    by FLAGS.md steps 1-5 and hand each back for approval.
+   Since 19 Nov (owner: "I need a way for the reviewer to run flags" -> "Button + checks in shift", "monday, tuesday, wednesday,
+   friday 9-5 all those days"): the checker's "Fix my flags now" on Review writes runs/flags_*; scheduled task "Questgen flag check"
+   (trig_01J5E9pn3VHBVu8zf2wFg5Jh, fresh session, hourly 9 am-4 pm Sydney Mon Tue Wed Fri) runs FLAGS.md "Scheduled check"; the night
+   run clears requests still waiting. It needs the Google Drive connector added in claude.ai/code/routines (as the night task).
 
 ## Open items (14 Nov)
 - Details for jobs 2, 3, 5 and 6 above: the reviews migration has 22 ArtifactData batches (1,052 writes: k_<key> and

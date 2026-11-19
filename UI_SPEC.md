@@ -470,6 +470,12 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   marks, questions (MC), % problem solving, "Make similar", and a ⋯ menu with Duplicate, Rename, Delete.
   Owner 19 Nov: "Is there a wya to make the reported one not drop to a new row?": warnings are short pills on line 1 after the name
   ("⚠ 1 reported", "⚠ 2 gone"; the full sentence on hover), and the three figures sit in fixed columns so they line up card to card.
+- **Fix my flags now, 19 Nov (owner, verbatim):** "I need a way for the reviewer to run flags, he couldn't do it all of his last shift",
+  then chose "Button + checks in shift" and "monday, tuesday, wednesday, friday 9-5 all those days". The flags line on Review (below the
+  cards) has "Fix my flags now" while flags wait; it writes runs/flags_<ms> {kind:'flags', status:'requested', by, at} and the line then
+  says "Sent to Claude <time>" and when it is picked up (hourly 9 am-4 pm on those days, else the 10:11 pm night run), then "Claude is
+  fixing them", then "Last run <time>: <result>" for a day. It replaces the old "tell Claude 'check my diagram flags'" hint. Runbook:
+  FLAGS.md "Scheduled check".
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

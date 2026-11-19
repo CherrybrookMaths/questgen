@@ -894,6 +894,18 @@ async function areas(browser, base, seed) {
       assert(iB === 0 && iP > iB && iW > iD && r.moved, `card order ${r.cards.join(', ')}; what changed shown: ${r.moved}`);
       return `order: ${r.cards.join(' · ')}; the returned item shows what Claude changed`;
     });
+    // owner 19 Nov: "I need a way for the reviewer to run flags" -> a button that sends them to Claude (runs/flags_*, status requested)
+    await check('review: Fix my flags now sends the waiting flags to Claude and says when it will run', cp, async () => {
+      const r = await cp.evaluate(async () => { const q = B.questions.filter(x => !x.dup_of)[8], keep = reviews['q' + q.id];
+        reviews['q' + q.id] = {status: 'flagged', note: 'z', fixed: null}; location.hash = '#review'; await new Promise(res => setTimeout(res, 400)); renderReview();
+        const b = document.querySelector('.handoff [data-flr]'); if (!b) return {btn: false}; b.click(); await new Promise(res => setTimeout(res, 600));
+        const ids = [...window.__pt.store.keys()].filter(k => /^runs\/flags_/.test(k)), doc = ids.length ? window.__pt.store.get(ids[ids.length - 1]) : null, txt = document.querySelector('.handoff')?.textContent || '';
+        if (keep === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep;
+        ids.forEach(k => window.__pt.store.delete(k)); FLR.runs = []; renderReview();
+        return {btn: true, kind: doc?.kind, status: doc?.status, txt} });
+      assert(r.btn && r.kind === 'flags' && r.status === 'requested' && /Sent to Claude/.test(r.txt) && /every hour/.test(r.txt), JSON.stringify(r));
+      return 'runs/flags_* requested; the line says when Claude picks it up';
+    });
     // owner 18 Nov: "Why does it say both 11 and 20?": the banner and the Flags card count the same questions
     await check('review: the flags banner counts each waiting question once, as the Flags card does', cp, async () => {
       const r = await cp.evaluate(() => { const qs = B.questions.filter(x => !x.dup_of).slice(0, 2), keep = qs.map(q => reviews['q' + q.id]);
