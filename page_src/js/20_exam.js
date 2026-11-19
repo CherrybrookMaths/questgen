@@ -23,7 +23,7 @@ const xMarks=qs=>qs.reduce((t,q)=>t+(+q.marks||0),0);
 /* ---------- panel ---------- */
 function xPanel(){
   const p=$('#xPanel'),{mc,wr}=xSections(),tot=xMarks(mc)+xMarks(wr);let n=0;const A=exA();
-  // Exams page (owner 14 Nov): each row also shows the band estimate and has Swap / Lock (exam builder stage 2)
+  // Exams page (owner 14 Nov): each row also shows the band estimate and has Swap / Lock (owner 19 Nov: "keep lock")
   const row=q=>{n++;const e=exEst(q),lk=A.locked.includes(q.id),w=typeof qWatch==='function'?qWatch(q):null;
     return `<li data-xi="${q.id}"${lk?' class="locked"':''}${w?' data-xwarn="1"':''}><span class="xn">${n}</span><span class="xt">${esc(srcLine(q))}<small>${qid(q)} · ${q.marks??'?'} mark${q.marks===1?'':'s'}${e?` · Band ${e.d.toFixed(1)} · ${e.kind==='Problem solving'?'PS':e.kind}`:''}</small>${w?`<small class="xwarn">⚠ ${esc(w.text)}: swap it (⇄) or remove it before printing</small>`:''}${typeof EXAS!=='undefined'?EXAS.usedTag(q):''}</span>
     <span class="xb"><button data-xsw title="Swap for a similar question" aria-label="Swap for a similar question"${lk?' disabled':''}>⇄</button><button data-xlk aria-pressed="${lk}" title="${lk?'Unlock':'Lock: Regenerate keeps it'}" aria-label="${lk?'Unlock':'Lock'}">${XA_LOCK}</button><button data-xmv="-1" title="Move up" aria-label="Move up">↑</button><button data-xmv="1" title="Move down" aria-label="Move down">↓</button><button data-xrm title="Remove" aria-label="Remove">×</button></span></li>`};

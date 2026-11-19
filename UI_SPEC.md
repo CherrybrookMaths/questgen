@@ -429,7 +429,7 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
     on a question (grading detail; also "Pick any question from this exam's topics instead" in the Swap chooser). It lists only the
     exam's topics (all topics while the exam has none), hides questions already in it, and gives each card one action: "Add to the exam"
     or "Replace Q14 with this". Replacing returns to the paper with the new question in the old one's place; adding stays until "Back to
-    the paper". Lock moved into the grading detail beside Swap and Replace.
+    the paper". Lock moved into the grading detail beside Swap and Replace. Asked whether to keep Lock, owner 19 Nov: "keep lock".
   Owner 19 Nov: "in the replacing page, its good to show to show the question you're replacing, even if its a click to expand. Also the top
   bar looks jank with the replace Q1 with this. Also should be able to report a question you see here / from the bank": the banner has
   "Show Q1" (the question in full, on click); "Replace Q1 with this" sits in each card's header row; every question card (Bank, picker)
