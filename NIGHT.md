@@ -58,6 +58,9 @@ set in the page (Reports › Apply suggestion, Review › Difficulty) are `diffi
 they reach the database: export `difficulty` (ArtifactData `list`, limit 1000 + cursor, out_dir work/pagedb_difficulty_<date>/),
 copy questions.db to archive/, `python3 tools/apply_difficulty_reviews.py work/pagedb_difficulty_<date>/difficulty`, then
 `python3 tools/build_bank.py` and `python3 tools/bank_split.py`. Result: "<n> of your ratings in the database".
+Night of 19 Nov: in a fresh clone (no tikz/svg) build_bank.py rewrites the 32 data/svg packs as empty `{}`; the page test then
+fails on every diagram. Straight after build_bank, run `python3 tools/fetch_published.py --place-assets work/assets_dl` (restores
+the live packs; check their sha256 against data/assets.json), then `bank_split.py`. Never upload a 2-byte svg pack.
 
 ## 4. Publish if anything changed
 If steps 1–3 changed anything the page shows: the CLAUDE.md "Publish procedure" (prepublish must exit 0 with 0 blockers;
