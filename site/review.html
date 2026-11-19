@@ -1077,6 +1077,14 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 #examsView .xl-need{margin:4px 0 6px;padding:4px 8px;border-radius:6px;background:var(--warn-soft);color:var(--warn);font-size:12px;line-height:1.4}
 /* checker report 18 Nov: each screen says what its topic counts count (CNT_NOTE, 07_bank.js) */
 .bk-cntnote,.ex-cntnote{font-size:12px;color:var(--muted);margin:2px 0 8px;line-height:1.35}
+
+/* owner 19 Nov: the picker opened from the preview (EXPK): a banner, one action per card, only the exam's topics */
+.expkban{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin:0 0 14px;padding:12px 14px;border:1px solid var(--accent);border-radius:10px;background:var(--accent-soft);font-size:14px}
+.expkban span{color:var(--muted);font-size:13px}
+.expkact{padding:8px 12px 0;display:flex;justify-content:flex-end}
+.exams[data-mode] .card [data-addx],.exams[data-mode="replace"] #exAddRand,.exams[data-mode="replace"] #exAddAll{display:none}
+.exams[data-mode="replace"] .exright{display:none}.exams[data-mode="replace"] .expick{grid-template-columns:250px minmax(0,1fr)}
+.exseg .exsoon{opacity:.55;cursor:not-allowed}.exseg .exsoon small{font-size:11px;margin-left:4px}
 /* ---- My exams (owner 14 Nov: "Is there a place to manage created exams?") ---- */
 [data-exview="mine"] #exSetup,[data-exview="mine"] #exPick,.exams[data-exview="mine"] #exTopicsBtn,.exams[data-exview="mine"] #exExamBtn{display:none!important}
 .exmine{display:none}[data-exview="mine"] .exmine{display:block}
@@ -4177,7 +4185,7 @@ const XA_SW={id:null,n:6,
           return `${nD} with the same dot point · ${nS} in ${subNm?'“'+esc(subNm)+'”':'the same subtopic'} · ${nT} in this exam's topics`})()}</p></div>
         <button type="button" class="act ghost" data-swx aria-label="Close">✕</button></div>
       <ol class="swaplist">${show.map(({c,same})=>{const d=qDiff(c);return `<li data-swq="${c.id}"><div class="swapmeta">${same?'<span class="swapsame">Same dot point</span>':''}<span>${c.marks} mark${c.marks===1?'':'s'}${d?' · Band '+d.raw.toFixed(1)+' · '+(d.pr>=.5?'Problem solving':'Fluency'):''}</span>${EXAS.usedTag(c)}<button type="button" class="act ok" data-swuse="${c.id}">Use this</button></div>${cardHTML(c)}</li>`}).join('')}</ol>
-      <div class="swapfoot">${L.length>this.n?`<button type="button" class="act" data-swmore>Show ${Math.min(6,L.length-this.n)} more</button>`:''}<button type="button" class="linkbtn" data-swpick="${esc(sub||'')}">Browse ${subNm?'“'+esc(subNm)+'”':'more'} in Pick by hand</button></div></div>`;
+      <div class="swapfoot">${L.length>this.n?`<button type="button" class="act" data-swmore>Show ${Math.min(6,L.length-this.n)} more</button>`:''}<button type="button" class="linkbtn" data-swpick="${esc(sub||'')}">Pick any question from this exam's topics instead</button></div></div>`;
     el.querySelectorAll('[data-swq]').forEach(li=>{const c=xq(+li.dataset.swq),card=li.querySelector('.card');if(card)hydrate(card,c,'bank')});typeset(el);
     (el.querySelector('[data-swuse]')||el.querySelector('[data-swx]'))?.focus({preventScroll:true})},
   close(){const el=$('#swapDlg');if(el){el.hidden=true;el.innerHTML=''}document.body.classList.remove('rep-on');this.id=null;try{this.prev?.focus()}catch(e){}}};
@@ -4185,7 +4193,7 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest
   if(t.id==='swapDlg'||t.closest('[data-swx]')){XA_SW.close();return}
   const u=t.closest('[data-swuse]');if(u){const id=XA_SW.id;XA_SW.close();xaSwap(id,+u.dataset.swuse);return}
   if(t.closest('[data-swmore]')){XA_SW.n+=6;XA_SW.open(XA_SW.id,true);return}
-  const pk=t.closest('[data-swpick]');if(pk){XA_SW.close();if(document.body.classList.contains('xpv-on'))exClosePv();EXV.view='pick';if(pk.dataset.swpick)EXV.pk.topic=pk.dataset.swpick;exSaveView();location.hash='#exams';renderExams();return}},true);
+  const pk=t.closest('[data-swpick]');if(pk){const id=XA_SW.id;XA_SW.close();EXPK.open('replace',id);return}},true);   // owner 19 Nov: Replace mode (B)
 addEventListener('keydown',e=>{if(e.key==='Escape'&&XA_SW.id!=null){e.preventDefault();e.stopImmediatePropagation();XA_SW.close()}},true);
 function xaLock(id){const A=xa(),i=A.locked.indexOf(id);if(i>=0)A.locked.splice(i,1);else A.locked.push(id);xaSave();xPanel()}
 
@@ -4317,8 +4325,9 @@ function exWarn(A,st,pool){const w=[],mN=pool.filter(q=>q.type==='mcq').length,w
 /* ---------- page shell ---------- */
 // owner 14 Nov ("Is there a place to manage created exams?"): a third view, My exams (25_mine.js), beside Exam setup and Pick by hand
 function renderExams(){const box=$('#examsView');if(!box||!B)return;exmSub();exA();XG.load();
+  if(EXV.view==='pick'&&!EXV.mode){EXV.view='setup';exSaveView()}   // owner 19 Nov: the picker opens only to add to or replace in an exam (EXPK)
   if(!EXV.built){EXV.built=true;
-    box.innerHTML=`<div class="exhead"><div class="xseg exseg" role="group" aria-label="Exams"><button type="button" data-exv="setup">Exam setup</button><button type="button" data-exv="pick">Pick by hand</button><button type="button" data-exv="mine">My exams</button></div>
+    box.innerHTML=`<div class="exhead"><div class="xseg exseg" role="group" aria-label="Exams"><button type="button" data-exv="setup">Exam setup</button><button type="button" class="exsoon" disabled title="Worksheets: build by hand from the bank. Coming later">Worksheets <small>later</small></button><button type="button" data-exv="mine">My exams</button></div>
       <span class="exsum" id="exSum"></span><span class="sp"></span>
       <button type="button" class="act exnarrow-s" id="exTopicsBtn" aria-controls="exSide">Topics</button>
       <button type="button" class="act exnarrow" id="exExamBtn" aria-controls="exRight">Exam · <span id="exExamN">0</span></button>
@@ -4332,6 +4341,7 @@ function renderExams(){const box=$('#examsView');if(!box||!B)return;exmSub();exA
   box.dataset.exview=EXV.view;exHead();
   // My exams keeps the setup view drawn underneath (hidden by CSS), as it always has
   if(EXV.view==='pick')renderPick();else renderSetup();
+  box.dataset.mode=EXV.view==='pick'&&EXV.mode?EXV.mode.kind:'';
   if(EXV.view==='mine'){renderMine();exHead()}}
 function exHead(){const n=EX.items.length,m=xMarks(EX.items.map(xq).filter(Boolean));
   const s=$('#exSum');if(s)s.textContent=n?`This exam: ${n} question${n===1?'':'s'} · ${m} mark${m===1?'':'s'}`:'No questions in the exam yet';
@@ -4375,7 +4385,7 @@ function renderSetup(){const A=exA();
       <div class="group xl-g" id="exLearnt"></div>
       <div class="group"><h3>What these topics can supply</h3><div id="availBox"></div></div>
       <div class="exgo"><button type="button" class="exgen" id="gGo">Generate exam</button>
-      <button type="button" class="linkbtn pickhand" data-exv="pick">or pick questions by hand</button><span class="exgohint" id="gGoHint" hidden>Choose at least one subtopic to generate.</span></div>
+<span class="exgohint" id="gGoHint" hidden>Choose at least one subtopic to generate.</span></div>
       <div id="gResult"></div>
     </aside></div>`;
   exTopics();exLabels();exAvail();exResult()}
@@ -4426,21 +4436,44 @@ function exResult(){const el=$('#gResult');if(!el)return;const r=exA().last;if(!
   const tm=(r.F+r.P)||1,pct=Math.round(r.P/tm*100);
   el.innerHTML=`<div class="result">Last exam: <b>${r.n}</b> questions, <b>${r.marks}</b> marks${r.nM?` (${r.nM} multiple choice)`:''}. ${100-pct}% fluency${r.dF!=null?` at band ${r.dF.toFixed(1)}`:''}, ${pct}% problem solving${r.dP!=null?` at band ${r.dP.toFixed(1)}`:''}. Covers ${r.topics} of ${r.chosen} chosen subtopic${r.chosen===1?'':'s'}.
     ${r.warns&&r.warns.length?`<ul class="xa-warn">${r.warns.map(w=>`<li>${esc(w)}</li>`).join('')}</ul>`:''}
-    <div class="genrow"><button type="button" class="act" data-expv="exam">Open exam</button><button type="button" class="act" data-exv="pick">Swap questions</button></div></div>`}
+    <div class="genrow"><button type="button" class="act" data-expv="exam">Open exam</button><button type="button" class="act" data-gadd>Add a question</button></div></div>`}
 function exSetTopics(list){const A=exA();A.topics=[...new Set(list)];xaSave();exTopics();exAvail()}
 
 /* ---------- Pick by hand ---------- */
-function renderPick(){exSideNav();exFilters();exList();xPanel()}
+function renderPick(){exSideNav();exFilters();EXPK.banner();exList();xPanel()}
+/* ---------- the picker, opened from the exam preview (owner 19 Nov) ----------
+   Owner: "the pick by hand page feels initially redundant since the questions are auto chosen ... it feels more like a worksheet feature",
+   "you might want to replace a question with another which isn't similar but is from the same topics as the exam", then: "worksheet yes
+   but gray it, lets build it later, the picker should be the primary interface for that, for the exam builder, it shouldn't be. It
+   should just generate the exam and land you in teh page preview. from there, in the grading list you should be able to add a new
+   question to the exam which pull up a reduced list question picker." and, for replacing, "Use B" (Replace mode in the picker).
+   The picker opens only from the preview: "Add a question" (kind add) or "Replace…" on a question (kind replace). It lists only the
+   exam's topics, hides questions already in it, and puts one action on each card; Back returns to the paper. One page-wide name. */
+const EXPK={
+  topics(){const A=exA(),t=A.topics.length?A.topics:EX.items.map(i=>xaHomes().get(i)?.sub).filter(Boolean);return new Set(t)},
+  open(kind,id){if(document.body.classList.contains('xpv-on'))exClosePv();EXV.mode={kind,id:id??null,doc:EXV.doc||'exam'};
+    EXV.pk.topic='all';EXV.pk.hide=true;const q=id!=null?xq(id):null;EXV.pk.type=q?(q.type==='mcq'?'mcq':'written'):'all';
+    EXV.view='pick';exSaveView();location.hash='#exams';const m=$('#exMain');if(m)delete m.dataset.ready;renderExams();window.scrollTo({top:0})},
+  back(){const d=EXV.mode?.doc||'exam';EXV.mode=null;EXV.view='setup';exSaveView();renderExams();if(EX.items.length)xPreview(d)},
+  label(){const m=EXV.mode;if(!m)return '';const q=m.id!=null?xq(m.id):null,n=q?EX.items.indexOf(q.id)+1:0;
+    return m.kind==='replace'&&q?`Replace Q${n}`:'Add to the exam'},
+  banner(){const el=$('#exMain');if(!el)return;let b=$('#exPkBan');const m=EXV.mode;if(!m){b?.remove();return}
+    if(!b){el.insertAdjacentHTML('afterbegin','<div class="expkban" id="exPkBan" role="status"></div>');b=$('#exPkBan')}
+    const q=m.id!=null?xq(m.id):null,n=q?EX.items.indexOf(q.id)+1:0;
+    b.innerHTML=m.kind==='replace'&&q?`<div><b>Replacing Q${n}</b> · ${esc(srcLine(q))} · ${q.marks} mark${q.marks===1?'':'s'}<br><span>Pick any question from this exam's topics. It takes Q${n}'s place.</span></div><button type="button" class="act" data-pkback>Back to the paper</button>`
+      :`<div><b>Adding to “${esc(EXAS.name())}”</b> · ${EX.items.length} questions now<br><span>Questions from this exam's topics. Add as many as you like, then go back to the paper.</span></div><button type="button" class="act ok" data-pkback>Back to the paper</button>`},
+  use(id){const m=EXV.mode;if(!m)return;if(m.kind==='replace'){const old=m.id;EXV.mode=null;xaSwap(old,id);EXV.sel=id;this.back();return}
+    if(!EX.items.includes(id)){EX.items.push(id);xsave();toast(`Added ${qid(xq(id))}`);this.banner();exList(false);exSideNav()}}};
 function exSideNav(){const el=$('#exSide');if(!el)return;const tree=xaTree(),homes=xaHomes(),cnt={},cntA={};let all=0;
   // owner 17 Nov (skill gates): each topic counts what browsing it would show (its own subtopics count as learnt, XG.pickExtra)
   const A=exA(),base=[...A.topics,...XG.homesOf()],L0=XG.learnt(base).L,Ls=new Map(),Lof=(k,ks)=>{if(!Ls.has(k))Ls.set(k,XG.learnt([...base,...ks]).L);return Ls.get(k)};
   const raw={};B.questions.forEach(q=>{if(q.dup_of||!inBank(q))return;const h=homes.get(q.id);if(XG.ok(q,L0))all++;if(!h)return;raw[h.sub]=(raw[h.sub]||0)+1;const [y,fa]=h.area.split('|');
     if(XG.ok(q,Lof(h.sub,[h.sub])))cnt[h.sub]=(cnt[h.sub]||0)+1;if(XG.ok(q,Lof('fa:'+h.area,tree[y]?.get(fa)||[])))cntA[h.area]=(cntA[h.area]||0)+1});
   const T=EXV.pk.topic;
-  el.innerHTML=`<div class="exsidehd"><b>Topics</b><button type="button" class="linkbtn exnarrow-s" data-exclose>Close</button></div><p class="ex-cntnote">${CNT_NOTE.pick}</p><button type="button" class="tb" data-pt="all" aria-current="${T==='all'}"><span>All questions</span><span class="c">${all}</span></button>`+[12,11].map(y=>`<h3>Year ${y}</h3>`+[...tree[y]].map(([fa,ks])=>{const ak=y+'|'+fa,open=EXV.pkOpen.has(ak)||T==='fa:'+ak||(T.startsWith('sub:')&&ks.includes(T));
+  el.innerHTML=`<div class="exsidehd"><b>Topics</b><button type="button" class="linkbtn exnarrow-s" data-exclose>Close</button></div><p class="ex-cntnote">${CNT_NOTE.pick}</p><button type="button" class="tb" data-pt="all" aria-current="${T==='all'}"><span>All questions</span><span class="c">${all}</span></button>`+[12,11].map(y=>{const M=EXV.mode&&EXPK.topics().size?EXPK.topics():null,fas=[...tree[y]].map(([fa,ks])=>[fa,M?ks.filter(k=>M.has(k)):ks]).filter(([,ks])=>ks.length);return fas.length?`<h3>Year ${y}</h3>`+fas.map(([fa,ks])=>{const ak=y+'|'+fa,open=EXV.pkOpen.has(ak)||T==='fa:'+ak||(T.startsWith('sub:')&&ks.includes(T));
     return `<details class="exfa"${open?' open':''} data-pfa="${esc(ak)}"><summary><span>${esc(fa)}</span><span class="c">${cntA[ak]||0}</span></summary><div class="subs">
       ${ks.length>1?`<button type="button" class="tb" data-pt="fa:${esc(ak)}" aria-current="${T==='fa:'+ak}"><span>All of ${esc(fa)}</span><span class="c">${cntA[ak]||0}</span></button>`:''}
-      ${ks.map(k=>`<button type="button" class="tb${cnt[k]?'':' ex-empty'}" data-pt="${esc(k)}" aria-current="${T===k}"${(raw[k]||0)>(cnt[k]||0)?` title="${cnt[k]||0} of ${raw[k]} with this main topic: ${raw[k]-(cnt[k]||0)} need${raw[k]-(cnt[k]||0)===1?'s':''} a topic not learnt yet"`:''}><span>${esc(subName(k))}</span>${cnt[k]?`<span class="c">${cnt[k]}</span>`:'<span class="none">none yet</span>'}</button>`).join('')}</div></details>`}).join('')).join('')}
+      ${ks.map(k=>`<button type="button" class="tb${cnt[k]?'':' ex-empty'}" data-pt="${esc(k)}" aria-current="${T===k}"${(raw[k]||0)>(cnt[k]||0)?` title="${cnt[k]||0} of ${raw[k]} with this main topic: ${raw[k]-(cnt[k]||0)} need${raw[k]-(cnt[k]||0)===1?'s':''} a topic not learnt yet"`:''}><span>${esc(subName(k))}</span>${cnt[k]?`<span class="c">${cnt[k]}</span>`:'<span class="none">none yet</span>'}</button>`).join('')}</div></details>`}).join(''):''}).join('')}
 function exFilters(){const el=$('#exMain');if(!el||el.dataset.ready)return;el.dataset.ready=1;const F=EXV.pk;
   const groups={hsc:'NESA HSC',trial:'Trial papers',internal_exam:'School tasks'};let o='<option value="all">All papers</option>';
   Object.entries(groups).forEach(([k,lab])=>{const ds=Object.values(B.docs).filter(d=>d.task_type===k&&B.questions.some(q=>String(q.doc)===String(d.id))).sort((a,b)=>String(b.label).localeCompare(String(a.label)));if(!ds.length)return;
@@ -4460,6 +4493,7 @@ function exFilters(){const el=$('#exMain');if(!el||el.dataset.ready)return;el.da
   ['paper','type','marks','band','wm','sort'].forEach(k=>{const s=$('#f'+k);if(s)s.value=F[k]})}
 let EXCUR=[];
 function exFiltered(){const F=EXV.pk,homes=xaHomes();let qs=B.questions.filter(q=>!q.dup_of&&inBank(q));
+  if(EXV.mode){const T=EXPK.topics();if(T.size)qs=qs.filter(q=>T.has(homes.get(q.id)?.sub))}   // an exam with no topics yet: every topic
   if(F.topic!=='all')qs=qs.filter(q=>{const h=homes.get(q.id);return h&&(F.topic.startsWith('fa:')?h.area===F.topic.slice(3):h.sub===F.topic)});
   if(F.q){const s=F.q.toLowerCase();qs=qs.filter(q=>[qid(q),qid(q).replace(' ',''),String(q.id),srcLine(q),q.stem,...q.parts.map(p=>p.latex),...q.parts.flatMap(p=>p.skills||[])].join(' ').toLowerCase().includes(s))}
   if(F.paper!=='all')qs=qs.filter(q=>F.paper.startsWith('t:')?B.docs[q.doc]?.task_type===F.paper.slice(2):String(q.doc)===F.paper);
@@ -4487,7 +4521,8 @@ function exList(reset=true){const box=$('#exCards');if(!box)return;const F=EXV.p
   if(reset){box.innerHTML='';have.clear()}
   const add=show.filter(q=>!have.has(q.id)),tmp=document.createElement('div');tmp.innerHTML=add.map(cardHTML).join('');
   [...tmp.children].forEach(c=>{box.appendChild(c);const q=xq(+c.dataset.q);hydrate(c,q,'bank');TSIO.observe(c);XG.note(c,q,EXV.gate.g.L);
-    const u=EXAS.usedTag(q);if(u)c.insertAdjacentHTML('afterbegin',`<div class="exusedrow">${u}</div>`)});   // owner 19 Nov: where it was used before
+    const u=EXAS.usedTag(q);if(u)c.insertAdjacentHTML('afterbegin',`<div class="exusedrow">${u}</div>`);   // owner 19 Nov: where it was used before
+    if(EXV.mode)c.insertAdjacentHTML('afterbegin',`<div class="expkact"><button type="button" class="act ok" data-pkuse="${q.id}">${esc(EXPK.label())}${EXV.mode.kind==='replace'?' with this':''}</button></div>`)});
   if(!EXCUR.length)box.innerHTML='<div class="exempty">No questions match. Try another topic or clear a filter.</div>';
   $('#exMore').hidden=EXCUR.length<=F.limit;$('#exMore').textContent=`Show more (${EXCUR.length-F.limit} left)`}
 
@@ -4623,7 +4658,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button></div>
       <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span>
       <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Grading</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table</button>
-      <button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvSwap">Swap questions</button>
+      <button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvAdd" title="Add a question from this exam's topics">Add a question</button>
       <button class="act ok" id="xDl" disabled>Download to print</button><button class="act ghost" id="xPvClose">Close</button></div>
       <div class="expvbody"><div class="xpages" id="xPages"></div><aside class="expvside" id="exGSide" aria-label="Question grading"></aside></div>`}
   else{$$('[data-xdoc]',ov).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.xdoc===doc)));$('#xInfo').textContent='Laying out pages…'}
@@ -4712,11 +4747,11 @@ function exGrading(){const el=$('#exGSide');if(!el)return;const qs=EX.items.map(
       <div class="glab">Band ${e.d.toFixed(1)} overall · ${fmtM(e.fl)} fluency, ${fmtM(e.ps)} problem-solving mark${e.ps===1?'':'s'}</div>${gdots(q)}
       <table class="gparts"><thead><tr><th>Part</th><th>Marks</th><th>Kind</th><th>Band</th></tr></thead><tbody>${e.parts.map(x=>`<tr><td>${esc(x.lab||'Whole')}</td><td>${fmtM(x.m)}</td><td>${x.ps?'Problem solving':'Fluency'}</td><td>${x.b}</td></tr>`).join('')}</tbody></table>
       <div class="gwhy"><b>Why it was rated this way</b><ul>${e.parts.filter(x=>x.r).map(x=>`<li>${multi&&x.lab?`<span class="pp">${esc(x.lab)}</span> `:''}${exMathTeX(x.r)}</li>`).join('')||'<li>No reason recorded.</li>'}</ul></div>
-      <div class="gacts"><button type="button" class="act" data-gswap="${q.id}">Swap for a similar question…</button>${(()=>{const k=repOpen().filter(r=>r.question_id===q.id).length;   // owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well"
+      <div class="gacts"><button type="button" class="act" data-gswap="${q.id}">Swap for a similar question…</button><button type="button" class="act" data-grepl="${q.id}" title="Pick any question from this exam's topics to take its place">Replace…</button><button type="button" class="act ghost" data-glock="${q.id}" aria-pressed="${exA().locked.includes(q.id)}" title="Regenerate keeps a locked question">${exA().locked.includes(q.id)?'Locked':'Lock'}</button>${(()=>{const k=repOpen().filter(r=>r.question_id===q.id).length;   // owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well"
         return `<button type="button" class="act" data-grep="${q.id}" title="${esc(qiLabel(k))}">${k?`Reported (${k})`:'Report'}</button>`})()}</div></div>`};
   el.innerHTML=`<div class="gtop"><h3>Question grading</h3><button type="button" class="linkbtn" id="exGClose">Hide</button></div><div class="gsub">Click a question on the paper, or in this list.</div>
     <div class="gsum"><div class="f"><b>${fmtM(F)} marks</b>Fluency${F?` · average band ${(wF/F).toFixed(1)}`:''}</div><div class="p"><b>${fmtM(P)} marks</b>Problem solving${P?` · average band ${(wP/P).toFixed(1)}`:''}</div></div>
-    <div class="gsub" style="margin:-4px 0 8px">Drag a row to change the order on the paper. <button type="button" class="linkbtn" data-gsort title="Each section easiest first: band, then fluency before problem solving, then marks">Sort easiest first</button></div>
+    <div class="gsub" style="margin:-4px 0 8px">Drag a row to change the order on the paper. <button type="button" class="linkbtn" data-gadd>+ Add a question</button> · <button type="button" class="linkbtn" data-gsort title="Each section easiest first: band, then fluency before problem solving, then marks">Sort easiest first</button></div>
     <ol class="glist">${qs.map((q,i)=>{const e=exEst(q),s=EXV.sel===q.id,first=i===0||sec(qs[i-1])!==sec(q),last=i===qs.length-1||sec(qs[i+1])!==sec(q);
       const head=split&&first?`<li class="gsec">Section ${sec(q)===1?'I · multiple choice':'II · written'}</li>`:'';const k=e?e.kind:'Fluency';
       return `${head}<li class="gq${s?' sel':''}${EXV.moved===q.id?' moved':''}" data-gqli="${q.id}"><div class="gqrow" draggable="true" data-drag="${q.id}"><span class="grip" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
@@ -4744,7 +4779,7 @@ function exClosePv(){xClosePv();if(EXV.pageY)window.scrollTo(0,EXV.pageY);EXV.pa
 /* ---------- events ---------- */
 // owner 14 Nov: the header "Exam · N" pill opens the Exams page (the drawer is gone)
 document.addEventListener('click',e=>{
-  if(e.target.closest('#xBtn')){e.preventDefault();e.stopImmediatePropagation();if(EX.items.length&&EXV.view==='setup'&&!exA().topics.length)EXV.view='pick';location.hash='#exams';if(view==='exams')renderExams();return}
+  if(e.target.closest('#xBtn')){e.preventDefault();e.stopImmediatePropagation();location.hash='#exams';if(view==='exams')renderExams();return}
   // load a saved exam with all its fields (stage 1 only restored the questions)
   const ld=e.target.closest('#xPanel [data-xload]');if(ld){e.stopImmediatePropagation();const x=XSAVED.find(s=>s.id===ld.dataset.xload);if(!x)return;
     EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',bytopic:x.bytopic!==false,time:x.time,reading:x.reading,items:(x.items||[]).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
@@ -4762,16 +4797,19 @@ document.addEventListener('click',e=>{const t=e.target;
       return}
     if(t.closest('#exGrade')){EXV.grade=!EXV.grade;$('#xPv').classList.toggle('grade-off',!EXV.grade);t.closest('#exGrade').setAttribute('aria-pressed',String(EXV.grade));exZoom();return}
     if(t.closest('#exGClose')){EXV.grade=false;$('#xPv').classList.add('grade-off');$('#exGrade')?.setAttribute('aria-pressed','false');exZoom();return}
-    if(t.closest('#exPvSwap')){exClosePv();EXV.view='pick';exSaveView();location.hash='#exams';renderExams();return}
+    if(t.closest('#exPvAdd')){EXPK.open('add');return}
     // owner 18 Nov: "Give an option to toggle that table on and off" (saved with the exam: EX.bytopic, on unless set to false)
     if(t.closest('#exPvTopic')){EX.bytopic=EX.bytopic===false;xsave();t.closest('#exPvTopic').setAttribute('aria-pressed',String(EX.bytopic!==false));exRelayout();return}
     if(t.closest('#exPvRegen')&&!t.closest('#exPvRegen').dataset.ok){const b=t.closest('#exPvRegen');if(b.disabled)return;EXAS.guard(b,'Regenerate',()=>{b.dataset.ok=1;b.click();delete b.dataset.ok});return}
     if(t.closest('#exPvRegen')){const b=t.closest('#exPvRegen');if(b.disabled)return;const r=exGenerate();if(r){EXC.clear();xPreview(EXV.doc);toast(`New exam · ${r.n} questions · ${r.marks} marks`)}return}
     if(t.closest('#xPvClose')){e.stopImmediatePropagation();exClosePv();return}
     const gr=t.closest('[data-grep]');if(gr){const id=+gr.dataset.grep;repForm(id,String(EX.items.indexOf(id)+1));return}
+    if(t.closest('[data-gadd]')){EXPK.open('add');return}
     // owner 19 Nov ("it's still like this in TRIAL EXMINATION test sy"): an exam made before the new order can be re-sorted without regenerating
     if(t.closest('[data-gsort]')){const qs=EX.items.map(xq).filter(Boolean),mc=qs.filter(q=>q.type==='mcq').sort(EXSEC.ord),wr=qs.filter(q=>q.type!=='mcq').sort(EXSEC.ord),n=[...mc,...wr].map(q=>q.id);
       if(n.join()===EX.items.join()){toast('Already easiest first');return}EX.items=n;xsave();exRelayout();toast('Sorted easiest first in each section');return}
+    const gl=t.closest('[data-glock]');if(gl){xaLock(+gl.dataset.glock);exGrading();return}
+    const gr2=t.closest('[data-grepl]');if(gr2){EXPK.open('replace',+gr2.dataset.grepl);return}
     const gs=t.closest('[data-gswap]');if(gs){xaSwap(+gs.dataset.gswap);return}   // opens the chooser (XA_SW); the swap re-lays out and selects the new question
     const mv=t.closest('[data-gmv]');if(mv){if(!mv.disabled)exMove(+mv.dataset.id,+mv.dataset.gmv);return}
     const gq=t.closest('[data-gq]');if(gq){exSelect(+gq.dataset.gq,'list');return}
@@ -4873,6 +4911,11 @@ document.addEventListener('dragend',()=>{EXDRAG=null;$$('#exGSide .gq').forEach(
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('xpv-on')){e.stopImmediatePropagation();exClosePv()}else if(e.key==='Escape')document.body.classList.remove('exs-open','exr-open')},true);
 // any change to the exam (add, remove, reorder, swap, load) refreshes the page around it: see xCount (20_exam.js)
 if(view==='exams'&&B)renderExams();
+
+document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest('#examsView'))return;
+  const u=t.closest('[data-pkuse]');if(u){e.preventDefault();e.stopImmediatePropagation();EXPK.use(+u.dataset.pkuse);return}
+  if(t.closest('[data-pkback]')){e.preventDefault();e.stopImmediatePropagation();EXPK.back();return}
+  if(t.closest('#exSetup [data-gadd]')){e.preventDefault();e.stopImmediatePropagation();EXPK.open('add')}},true);
 </script>
 <script>
 /* ===================== My exams (owner 14 Nov) =====================
@@ -4925,7 +4968,7 @@ document.addEventListener('click',async e=>{const t=e.target;
   if(!t.closest('#exMine'))return;
   const row=t.closest('[data-exm]');if(!row)return;const x=XSAVED.find(s=>s.id===row.dataset.exm);if(!x)return;
   const guard=b=>{const st=exmState();if(x.id!==EX.id&&(st==='new'||st==='changed')&&!b.dataset.sure){const o=b.textContent;b.dataset.sure=1;b.textContent='Replace unsaved exam? Press again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent=o}},3500);return false}return true};
-  if(t.closest('[data-exm-open]')){const b=t.closest('[data-exm-open]');if(!guard(b))return;exmLoad(x);EXV.view=(x.auto&&x.auto.topics&&x.auto.topics.length&&x.auto.ran)?'setup':'pick';exSaveView();renderExams();toast(`Opened “${x.sub||'Untitled'}”`);return}
+  if(t.closest('[data-exm-open]')){const b=t.closest('[data-exm-open]');if(!guard(b))return;exmLoad(x);EXV.view='setup';EXV.mode=null;exSaveView();renderExams();if(EX.items.length)xPreview('exam');toast(`Opened “${x.sub||'Untitled'}”`);return}   // owner 19 Nov: an exam opens on its paper
   if(t.closest('[data-exm-pv]')){const b=t.closest('[data-exm-pv]');if(!guard(b))return;exmLoad(x);renderMine();exHead();xPreview('exam');return}
   if(t.closest('[data-exm-dup]')){const id='e'+Date.now(),{id:_o,...rest}=x;
     try{await db.doc('exams/'+id).set({...rest,sub:(x.sub||'Untitled')+' (copy)',by:me||null,at:new Date().toISOString()});toast('Duplicated')}catch(_){toast('Could not duplicate. Try again in a moment.')}return}

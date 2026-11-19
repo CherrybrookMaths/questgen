@@ -48,7 +48,7 @@ document.addEventListener('click',async e=>{const t=e.target;
   if(!t.closest('#exMine'))return;
   const row=t.closest('[data-exm]');if(!row)return;const x=XSAVED.find(s=>s.id===row.dataset.exm);if(!x)return;
   const guard=b=>{const st=exmState();if(x.id!==EX.id&&(st==='new'||st==='changed')&&!b.dataset.sure){const o=b.textContent;b.dataset.sure=1;b.textContent='Replace unsaved exam? Press again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent=o}},3500);return false}return true};
-  if(t.closest('[data-exm-open]')){const b=t.closest('[data-exm-open]');if(!guard(b))return;exmLoad(x);EXV.view=(x.auto&&x.auto.topics&&x.auto.topics.length&&x.auto.ran)?'setup':'pick';exSaveView();renderExams();toast(`Opened “${x.sub||'Untitled'}”`);return}
+  if(t.closest('[data-exm-open]')){const b=t.closest('[data-exm-open]');if(!guard(b))return;exmLoad(x);EXV.view='setup';EXV.mode=null;exSaveView();renderExams();if(EX.items.length)xPreview('exam');toast(`Opened “${x.sub||'Untitled'}”`);return}   // owner 19 Nov: an exam opens on its paper
   if(t.closest('[data-exm-pv]')){const b=t.closest('[data-exm-pv]');if(!guard(b))return;exmLoad(x);renderMine();exHead();xPreview('exam');return}
   if(t.closest('[data-exm-dup]')){const id='e'+Date.now(),{id:_o,...rest}=x;
     try{await db.doc('exams/'+id).set({...rest,sub:(x.sub||'Untitled')+' (copy)',by:me||null,at:new Date().toISOString()});toast('Duplicated')}catch(_){toast('Could not duplicate. Try again in a moment.')}return}

@@ -360,3 +360,11 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 #examsView .xl-need{margin:4px 0 6px;padding:4px 8px;border-radius:6px;background:var(--warn-soft);color:var(--warn);font-size:12px;line-height:1.4}
 /* checker report 18 Nov: each screen says what its topic counts count (CNT_NOTE, 07_bank.js) */
 .bk-cntnote,.ex-cntnote{font-size:12px;color:var(--muted);margin:2px 0 8px;line-height:1.35}
+
+/* owner 19 Nov: the picker opened from the preview (EXPK): a banner, one action per card, only the exam's topics */
+.expkban{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;justify-content:space-between;margin:0 0 14px;padding:12px 14px;border:1px solid var(--accent);border-radius:10px;background:var(--accent-soft);font-size:14px}
+.expkban span{color:var(--muted);font-size:13px}
+.expkact{padding:8px 12px 0;display:flex;justify-content:flex-end}
+.exams[data-mode] .card [data-addx],.exams[data-mode="replace"] #exAddRand,.exams[data-mode="replace"] #exAddAll{display:none}
+.exams[data-mode="replace"] .exright{display:none}.exams[data-mode="replace"] .expick{grid-template-columns:250px minmax(0,1fr)}
+.exseg .exsoon{opacity:.55;cursor:not-allowed}.exseg .exsoon small{font-size:11px;margin-left:4px}

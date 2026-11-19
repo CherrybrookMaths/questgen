@@ -187,7 +187,7 @@ const VIEWS = [
   ['bank', '#bank', '#bankView', true, async p => {   // a subtopic with questions, so cards (and maths) are on screen
     await p.evaluate(() => { const b = [...document.querySelectorAll('#list .subrow[data-sel]:not(.none)')][0]; b && b.click() }); }],
   ['exams-setup', '#exams', '#examsView', false, async p => p.evaluate(() => document.querySelector('[data-exv="setup"]').click())],
-  ['exams-pick', '#exams', '#examsView', true, async p => p.evaluate(() => document.querySelector('[data-exv="pick"]').click())],
+  ['exams-pick', '#exams', '#examsView', true, async p => p.evaluate(() => EXPK.open('add'))],   // owner 19 Nov: the picker opens from the preview
   ['exams-mine', '#exams', '#examsView', false, async p => p.evaluate(() => document.querySelector('[data-exv="mine"]').click())],
   // owner 13 Nov: Review is an Inbox, a papers list, one paper at a time and the lists (Recently approved, Other lists)
   ['inbox', '#review', '#inboxView', false],
@@ -449,8 +449,7 @@ async function flows(browser, base, seed, seedR) {
 
   /* ---- Swap, Lock, Regenerate ---- */
   await check('exams: swap, lock, then regenerate keeps the locked question', page, async () => {
-    await page.click('#xPvClose'); await settle(page, 2000, 2);
-    await page.click('[data-exv="pick"]'); await settle(page, 5000, 2);
+    await page.click('#exPvAdd'); await settle(page, 5000, 2);   // owner 19 Nov: "Add a question" opens the picker on the exam's topics
     const before = await page.evaluate(() => EX.items.slice());
     const rows = await page.evaluate(() => [...document.querySelectorAll('#xPanel li[data-xi]')].map(li => +li.dataset.xi));
     assert(rows.length === before.length, `exam panel lists ${rows.length} rows for ${before.length} questions`);
@@ -480,6 +479,33 @@ async function flows(browser, base, seed, seedR) {
     errs(); assert(after.includes(lockId), `locked QID ${lockId} is gone after Regenerate`);
     assert(same < after.length, 'Regenerate returned the very same exam');
     return `swapped QID ${sw}, locked QID ${lockId}; Regenerate kept it (${same - 1} other questions repeated of ${after.length})`;
+  });
+  // owner 19 Nov: the exam builder generates and lands on the paper; the picker opens only from it, to replace a question (any question of
+  // the exam's topics takes its place) or to add questions; Worksheets (the hand-built route) is greyed until it is built
+  await check('exams: Replace… and Add a question open the picker on the exam topics; Worksheets is greyed', page, async () => {
+    if (!(await page.evaluate(() => document.body.classList.contains('xpv-on')))) { await page.evaluate(() => xPreview('exam')); await waitPv() }
+    const tgt = await page.evaluate(() => { const i = EX.items.findIndex(x => xq(x)?.type !== 'mcq'); const id = EX.items[i]; exSelect(id, 'list'); return {i, id, n: EX.items.length} });
+    await settle(page, 1500, 2);
+    await page.click(`#exGSide .gq.sel [data-grepl="${tgt.id}"]`); await page.waitForSelector('#exPkBan', {timeout: 10000}); await settle(page, 4000, 2);
+    const r = await page.evaluate(() => { const T = EXPK.topics(), cards = [...document.querySelectorAll('#exCards > .card')].map(c => +c.dataset.q);
+      return {ban: document.querySelector('#exPkBan').innerText, n: cards.length, off: cards.filter(id => !T.has(xaHomes().get(id)?.sub)).length, inEx: cards.filter(id => EX.items.includes(id)).length,
+        btn: document.querySelector('#exCards [data-pkuse]')?.textContent || '', side: [...document.querySelectorAll('#exSide [data-pt]')].filter(b => b.dataset.pt.startsWith('sub:') && !T.has(b.dataset.pt)).length,
+        pv: document.body.classList.contains('xpv-on')} });
+    assert(/Replacing Q\d+/.test(r.ban) && r.n > 0 && !r.off && !r.inEx && !r.side && !r.pv, `replace picker: ${JSON.stringify(r)}`);
+    assert(/^Replace Q\d+ with this$/.test(r.btn), 'card action: ' + r.btn);
+    const pick = await page.evaluate(() => +document.querySelector('#exCards [data-pkuse]').dataset.pkuse);
+    await page.click(`#exCards [data-pkuse="${pick}"]`); await waitPv();
+    const a = await page.evaluate(() => ({items: EX.items.slice(), pv: document.body.classList.contains('xpv-on')}));
+    assert(a.pv && a.items[tgt.i] === pick && a.items.length === tgt.n && !a.items.includes(tgt.id), `after replacing: ${JSON.stringify({pv: a.pv, at: a.items[tgt.i], pick, n: a.items.length})}`);
+    await page.click('#exPvAdd'); await page.waitForSelector('#exPkBan', {timeout: 10000}); await settle(page, 4000, 2);
+    const ban2 = await page.evaluate(() => document.querySelector('#exPkBan').innerText);
+    await page.click('#exCards [data-pkuse]'); await settle(page, 1500, 2);
+    const n2 = await page.evaluate(() => EX.items.length);
+    await page.click('#exPkBan [data-pkback]'); await waitPv();
+    const grey = await page.evaluate(() => { const b = document.querySelector('#examsView .exseg .exsoon'); return !!b && b.disabled && /Worksheets/.test(b.textContent) && !document.querySelector('#examsView [data-exv="pick"]') });
+    errs(); assert(/Adding to/.test(ban2) && n2 === tgt.n + 1, `add picker: ${ban2.slice(0, 60)} · ${tgt.n} → ${n2}`);
+    assert(grey, 'the Pick by hand tab is not replaced by a greyed Worksheets tab');
+    return `Q${tgt.i + 1} replaced by QID ${pick} in place; one question added (${tgt.n} → ${n2}); back on the paper`;
   });
 
   /* ---- Save, My exams, rename, delete ---- */
@@ -2944,7 +2970,7 @@ async function skillGates(browser, base, seed) {
 
   await check('exams: Pick by hand leaves gated questions out; the switch shows them with a “needs” note', page, async () => {
     const h = await page.evaluate(Q => { XG.on = []; XG.off = []; XG.show = false; exSetTopics([]); EX.items = []; xsave();
-      const h = xaHomes().get(Q).sub; EXV.view = 'pick'; exSaveView(); EXV.pk = {...EXV.pk, topic: h, q: '', paper: 'all', type: 'all', marks: 'all', band: 'all', wm: 'all', fig: false, hide: false}; renderExams(); return h }, Q);
+      const h = xaHomes().get(Q).sub; EXV.view = 'pick'; EXV.mode = {kind: 'add', id: null, doc: 'exam'}; exSaveView(); EXV.pk = {...EXV.pk, topic: h, q: '', paper: 'all', type: 'all', marks: 'all', band: 'all', wm: 'all', fig: false, hide: false}; renderExams(); return h }, Q);
     await settle(page, 4000, 2);
     const a = await page.evaluate(Q => ({inList: EXCUR.some(q => q.id === Q), out: EXV.gate.sp.out.length, line: +(document.querySelector('#exLearntP .xl-out')?.dataset.xlout || 0)}), Q);
     // Add all shown / Add 5 at random take only what the list shows: tried on Differential calculus, where some are left out

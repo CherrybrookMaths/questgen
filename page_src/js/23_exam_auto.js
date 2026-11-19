@@ -139,7 +139,7 @@ const XA_SW={id:null,n:6,
           return `${nD} with the same dot point · ${nS} in ${subNm?'“'+esc(subNm)+'”':'the same subtopic'} · ${nT} in this exam's topics`})()}</p></div>
         <button type="button" class="act ghost" data-swx aria-label="Close">✕</button></div>
       <ol class="swaplist">${show.map(({c,same})=>{const d=qDiff(c);return `<li data-swq="${c.id}"><div class="swapmeta">${same?'<span class="swapsame">Same dot point</span>':''}<span>${c.marks} mark${c.marks===1?'':'s'}${d?' · Band '+d.raw.toFixed(1)+' · '+(d.pr>=.5?'Problem solving':'Fluency'):''}</span>${EXAS.usedTag(c)}<button type="button" class="act ok" data-swuse="${c.id}">Use this</button></div>${cardHTML(c)}</li>`}).join('')}</ol>
-      <div class="swapfoot">${L.length>this.n?`<button type="button" class="act" data-swmore>Show ${Math.min(6,L.length-this.n)} more</button>`:''}<button type="button" class="linkbtn" data-swpick="${esc(sub||'')}">Browse ${subNm?'“'+esc(subNm)+'”':'more'} in Pick by hand</button></div></div>`;
+      <div class="swapfoot">${L.length>this.n?`<button type="button" class="act" data-swmore>Show ${Math.min(6,L.length-this.n)} more</button>`:''}<button type="button" class="linkbtn" data-swpick="${esc(sub||'')}">Pick any question from this exam's topics instead</button></div></div>`;
     el.querySelectorAll('[data-swq]').forEach(li=>{const c=xq(+li.dataset.swq),card=li.querySelector('.card');if(card)hydrate(card,c,'bank')});typeset(el);
     (el.querySelector('[data-swuse]')||el.querySelector('[data-swx]'))?.focus({preventScroll:true})},
   close(){const el=$('#swapDlg');if(el){el.hidden=true;el.innerHTML=''}document.body.classList.remove('rep-on');this.id=null;try{this.prev?.focus()}catch(e){}}};
@@ -147,7 +147,7 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest
   if(t.id==='swapDlg'||t.closest('[data-swx]')){XA_SW.close();return}
   const u=t.closest('[data-swuse]');if(u){const id=XA_SW.id;XA_SW.close();xaSwap(id,+u.dataset.swuse);return}
   if(t.closest('[data-swmore]')){XA_SW.n+=6;XA_SW.open(XA_SW.id,true);return}
-  const pk=t.closest('[data-swpick]');if(pk){XA_SW.close();if(document.body.classList.contains('xpv-on'))exClosePv();EXV.view='pick';if(pk.dataset.swpick)EXV.pk.topic=pk.dataset.swpick;exSaveView();location.hash='#exams';renderExams();return}},true);
+  const pk=t.closest('[data-swpick]');if(pk){const id=XA_SW.id;XA_SW.close();EXPK.open('replace',id);return}},true);   // owner 19 Nov: Replace mode (B)
 addEventListener('keydown',e=>{if(e.key==='Escape'&&XA_SW.id!=null){e.preventDefault();e.stopImmediatePropagation();XA_SW.close()}},true);
 function xaLock(id){const A=xa(),i=A.locked.indexOf(id);if(i>=0)A.locked.splice(i,1);else A.locked.push(id);xaSave();xPanel()}
 

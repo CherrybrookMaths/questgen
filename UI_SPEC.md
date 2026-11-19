@@ -418,6 +418,18 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   a 3.4 fluency question followed a 2.6 problem-solving one although both showed band 3). Hand-made orders are kept.
   Owner 19 Nov: "it's still like this in TRIAL EXMINATION test sy" (an exam made before): the grading panel has "Sort easiest first",
   which puts the exam's own questions in that order without regenerating.
+- **Picker, 19 Nov (owner, verbatim):** "the pick by hand page feels initially redundant since the questions are auto chosen and you can't
+  really see the question list, only its source there. it feels more like a worksheet feature" / "you might want to replace a question with
+  another which isn't similar but is from the same topics as the exam. Need that somewhere too." Then: "for 1. worksheet yes but gray it,
+  lets build it later, the picker should be the primary interface for that, for the exam builder, it shouldn't be. It should just generate
+  the exam and land you in teh page preview. from there, in the grading list you should be able to add a new question to the exam which
+  pull up a reduced list question picker. for 2. Use B". Done:
+  - The Pick by hand tab is a greyed "Worksheets (later)" tab; Generate lands on the paper; an exam opened from My exams opens on its paper.
+  - The picker (EXPK) opens only from the paper: "+ Add a question" (grading list, preview toolbar, Setup's result card) or "Replace…"
+    on a question (grading detail; also "Pick any question from this exam's topics instead" in the Swap chooser). It lists only the
+    exam's topics (all topics while the exam has none), hides questions already in it, and gives each card one action: "Add to the exam"
+    or "Replace Q14 with this". Replacing returns to the paper with the new question in the old one's place; adding stays until "Back to
+    the paper". Lock moved into the grading detail beside Swap and Replace.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II
