@@ -186,9 +186,9 @@ const takeErrs = page => page._errs.splice(0);
 const VIEWS = [
   ['bank', '#bank', '#bankView', true, async p => {   // a subtopic with questions, so cards (and maths) are on screen
     await p.evaluate(() => { const b = [...document.querySelectorAll('#list .subrow[data-sel]:not(.none)')][0]; b && b.click() }); }],
-  ['exams-setup', '#exams', '#examsView', false, async p => p.evaluate(() => document.querySelector('[data-exv="setup"]').click())],
+  ['exams-setup', '#exams', '#examsView', false, async p => p.evaluate(() => EXAS.fresh())],   // owner 19 Nov: no tabs; New exam opens Setup
   ['exams-pick', '#exams', '#examsView', true, async p => p.evaluate(() => EXPK.open('add'))],   // owner 19 Nov: the picker opens from the preview
-  ['exams-mine', '#exams', '#examsView', false, async p => p.evaluate(() => document.querySelector('[data-exv="mine"]').click())],
+  ['exams-mine', '#exams', '#examsView', false, async p => p.evaluate(() => EXAS.go('mine'))],
   // owner 13 Nov: Review is an Inbox, a papers list, one paper at a time and the lists (Recently approved, Other lists)
   ['inbox', '#review', '#inboxView', false],
   ['review-paper', '#review/paper/323', '#reviewView', true],   // the fixture's workload: 2024 Caringbah AT4 has Flagged, Topics, Diagrams and Spot-check left
@@ -322,19 +322,13 @@ async function flows(browser, base, seed, seedR) {
     const r = await page.evaluate(() => ({h: document.querySelector('#list .listhead .crumb')?.textContent, cards: document.querySelectorAll('#list .card').length}));
     errs(); assert(r.cards > 0, 'search for "annuity" found no cards'); return r.h;
   });
-  await check('bank: add a question to the exam', page, async () => {
-    const id = await page.evaluate(() => { const b = document.querySelector('#list [data-addx][aria-pressed="false"]'); if (!b) return null; b.click(); return +b.dataset.addx });
-    assert(id, 'no "+ Add to exam" button on the cards');
-    const r = await page.evaluate(id => ({inEx: EX.items.includes(id), btn: document.querySelector(`#list [data-addx="${id}"]`)?.textContent, stored: (JSON.parse(localStorage.getItem('qg_exam') || '{}').items || []).includes(id)}), id);
-    errs(); assert(r.inEx, 'question not in EX.items'); assert(/In exam/.test(r.btn), `button says “${r.btn}”`); assert(r.stored, 'exam not kept in localStorage');
-    await page.fill('#q', ''); return `QID ${id} added`;
-  });
+  // owner 19 Nov: Bank cards no longer add to an exam ("+ Add to exam" removed); the greyed-Worksheets check asserts it is gone
 
   /* ---- Exams: generate a 60-mark paper with 6 multiple choice ---- */
   let gen = null;
   ok = await check('exams: generate a 60-mark paper', page, async () => {
     await page.evaluate(() => { location.hash = '#exams' }); await settle(page, 4000, 2);
-    await page.click('[data-exv="setup"]'); await settle(page, 3000, 2);
+    await page.evaluate(() => EXAS.fresh()); await settle(page, 3000, 2);
     await page.click('[data-sall="all"]'); await settle(page, 2000, 2);
     await page.evaluate(() => { for (const [id, v] of [['gMarks', 60], ['gMcq', 6]]) { const el = document.getElementById(id); el.value = v; el.dispatchEvent(new Event('input', {bubbles: true})) } });
     const lab = await page.evaluate(() => [document.querySelector('#gMarksV')?.textContent, document.querySelector('#gMcqV')?.textContent]);
@@ -472,7 +466,7 @@ async function flows(browser, base, seed, seedR) {
     const locked = await page.evaluate(id => ({inA: exA().locked.includes(id), pressed: document.querySelector(`#xPanel li[data-xi="${id}"] [data-xlk]`)?.getAttribute('aria-pressed'), swapOff: document.querySelector(`#xPanel li[data-xi="${id}"] [data-xsw]`)?.disabled}), lockId);
     assert(locked.inA && locked.pressed === 'true', `Lock did not stick: ${JSON.stringify(locked)}`);
     assert(locked.swapOff, 'Swap is still enabled on the locked row');
-    await page.click('#exPvBtn'); await waitPv();
+    await page.click('[data-pkback]'); await waitPv();   // 19 Nov: the picker's "Back to the paper" (no separate Preview paper button)
     await genClick(page, '#exPvRegen'); await page.waitForFunction(() => /New exam/.test(document.querySelector('#toast')?.textContent || ''), null, {timeout: 30000}); await waitPv();
     const after = await page.evaluate(() => EX.items.slice());
     const same = after.filter(i => afterSwap.includes(i)).length;
@@ -506,9 +500,9 @@ async function flows(browser, base, seed, seedR) {
     await page.click('#exCards [data-pkuse]'); await settle(page, 1500, 2);
     const n2 = await page.evaluate(() => EX.items.length);
     await page.click('#exPkBan [data-pkback]'); await waitPv();
-    const grey = await page.evaluate(() => { const b = document.querySelector('#examsView .exseg .exsoon'); return !!b && b.disabled && /Worksheets/.test(b.textContent) && !document.querySelector('#examsView [data-exv="pick"]') });
+    const grey = await page.evaluate(() => { const b = document.querySelector('.views .vsoon'); return !!b && /Worksheets/.test(b.textContent) && !document.querySelector('#examsView [data-exv]') && !document.querySelector('#bankView [data-addx]') });
     errs(); assert(/Adding to/.test(ban2) && n2 === tgt.n + 1, `add picker: ${ban2.slice(0, 60)} · ${tgt.n} → ${n2}`);
-    assert(grey, 'the Pick by hand tab is not replaced by a greyed Worksheets tab');
+    assert(grey, 'Worksheets is not a greyed item in the top bar, the Exams tabs are still there, or Bank cards still have "+ Add to exam"');
     return `Q${tgt.i + 1} replaced by QID ${pick} in place; one question added (${tgt.n} → ${n2}); back on the paper`;
   });
 
@@ -517,11 +511,10 @@ async function flows(browser, base, seed, seedR) {
   await check('exams: save, then My exams lists it', page, async () => {
     await page.click('#xPvClose'); await settle(page, 2000, 2);
     await page.evaluate(() => { EX.sub = 'Page test exam'; xsave() });
-    await page.click('#exSaveSt [data-exm-save]');
-    await page.waitForFunction(() => EX.id && window.__pt.store.has('exams/' + EX.id), null, {timeout: 5000});
+    await page.waitForFunction(() => EX.id && window.__pt.store.has('exams/' + EX.id) && exmState() === 'saved', null, {timeout: 8000});   // 19 Nov: it saves itself
     saved = await page.evaluate(() => EX.id);
     const doc = await dbGet('exams/' + saved);
-    await page.click('[data-exv="mine"]'); await settle(page, 3000, 2);
+    await page.evaluate(() => EXAS.go('mine')); await settle(page, 3000, 2);
     const row = await page.evaluate(id => document.querySelector(`#exMine [data-exm="${id}"]`)?.innerText || null, saved);
     const st = await page.evaluate(() => document.querySelector('#exSaveSt')?.dataset.st);
     errs(); assert(doc && doc.items && doc.items.length && doc.sub === 'Page test exam', 'saved doc: ' + JSON.stringify(doc).slice(0, 200));
@@ -550,7 +543,7 @@ async function flows(browser, base, seed, seedR) {
   // owner 19 Nov: the exam saves itself, Generate on a saved exam asks first, questions in other saved exams are skipped and say where
   // they were used, and the working time follows marks x 1.8 minutes
   await check('exams: the open exam saves itself, and Generate on it asks before replacing its questions', page, async () => {
-    await page.click('[data-exv="setup"]'); await settle(page, 1500, 2);
+    await page.evaluate(() => EXAS.fresh()); await settle(page, 1500, 2);
     const del = await page.evaluate(() => ({id: EX.id || null, n: EX.items.length}));
     assert(!del.id && !del.n, `deleting the open exam left ${JSON.stringify(del)} (it would come back as a new exam)`);
     const skip = await page.evaluate(() => document.querySelector('#gAvoid')?.checked);
@@ -559,9 +552,11 @@ async function flows(browser, base, seed, seedR) {
     await genClick(page, '#gGo'); await settle(page, 2500, 2);
     await page.waitForFunction(() => EX.id && window.__pt.store.has('exams/' + EX.id), null, {timeout: 8000});
     await settle(page, 1500, 2);
-    const a = await page.evaluate(() => ({id: EX.id, n: EX.items.length, bar: (exHead(), document.querySelector('#exSaveSt')?.innerText || '')}));
-    assert(a.n > 0 && /Saved/.test(a.bar), `after Generate: ${JSON.stringify(a)}`);
-    await page.click('#xPvClose'); await settle(page, 1500, 2);   // Generate opens the preview
+    const a = await page.evaluate(() => ({id: EX.id, n: EX.items.length, st: exmState(), pv: document.body.classList.contains('xpv-on')}));
+    assert(a.n > 0 && a.st === 'saved' && a.pv, `after Generate (saved, on the paper): ${JSON.stringify(a)}`);
+    await page.click('#exPvSet'); await settle(page, 1500, 2);   // 19 Nov: inside an exam, Settings reopens the setup form for it
+    const head = await page.evaluate(() => ({t: document.querySelector('#exTtl')?.innerText || '', go: document.querySelector('#gGo')?.textContent}));
+    assert(/Settings for/.test(head.t) && /Regenerate with these settings/.test(head.go), 'settings view: ' + JSON.stringify(head));
     await page.click('#gGo'); await page.waitForSelector('#exAsk', {timeout: 3000});
     const ask = await page.evaluate(() => document.querySelector('#exAsk').innerText);
     await page.click('#exAsk [data-ask="x"]');
@@ -581,7 +576,19 @@ async function flows(browser, base, seed, seedR) {
     const t = await page.evaluate(() => ({time: EX.time, m: xMarks(EX.items.map(xq).filter(Boolean))}));
     const want = Math.max(5, Math.round(t.m * 1.8 / 5) * 5), wantTxt = await page.evaluate(w => EXSEC.dur(w), want);
     assert(t.time === wantTxt, `working time ${t.time} for ${t.m} marks, expected ${wantTxt} (1.8 minutes a mark)`);
-    for (const id of [a.id, b.id]) await page.evaluate(id => db.doc('exams/' + id).delete(), id);
+    // owner 19 Nov: "tutors should be able to make similar exams if studnts need another one": a new exam, same settings, "(version k)", no repeats
+    const bname = await page.evaluate(() => EXAS.name());
+    await page.evaluate(() => EXAS.similar());
+    await page.waitForFunction(ids => EX.id && !ids.includes(EX.id) && window.__pt.store.has('exams/' + EX.id), [a.id, b.id], {timeout: 15000});
+    const c = await page.evaluate(() => ({id: EX.id, items: EX.items.slice(), name: EXAS.name(), pv: document.body.classList.contains('xpv-on')}));
+    const bsaved = await dbGet('exams/' + b.id);
+    const rep = c.items.filter(i => old.items.includes(i) || b.items.includes(i)).length;
+    assert(c.items.length > 0 && /\(version \d+\)$/.test(c.name) && c.name.startsWith(bname.replace(/\s*\(version \d+\)$/, '')) && c.pv, `Make similar: ${JSON.stringify({...c, items: c.items.length})}`);
+    assert(rep === 0, `Make similar reused ${rep} question(s) of the saved exams`);
+    assert(bsaved && bsaved.items.length === b.items.length, 'Make similar changed the exam it copied');
+    await page.click('#xPvClose'); await settle(page, 1000, 2);
+    assert(await page.evaluate(() => EXV.view === 'mine' && !!document.querySelector('#examsView .exm-top')), 'Close did not go back to My exams');
+    for (const id of [a.id, b.id, c.id]) await page.evaluate(id => db.doc('exams/' + id).delete(), id);
     await page.evaluate(() => EXAS.fresh(true));
     return `autosaved ${a.id}; Cancel kept it; "Make a new exam instead" made ${b.id} with no repeats; ${t.m} marks → ${t.time}`;
   });
@@ -2011,7 +2018,7 @@ async function availOverlap(browser, base, seed) {
     const page = await newPage(browser, base, seed, {width, theme: 'light'});
     await boot(page, base, '#exams');
     await check(`exams: availability labels clear of the cells @${width}`, page, async () => {
-      await page.click('[data-exv="setup"]'); await settle(page, 3000, 2);
+      await page.evaluate(() => EXAS.fresh()); await settle(page, 3000, 2);
       await page.click('[data-sall="all"]'); await settle(page, 3000, 2);
       const r = await page.evaluate(() => [...document.querySelectorAll('#availBox .avail tbody tr')].map(tr => {
         const th = tr.querySelector('th.k'), td = tr.querySelector('td'), rg = document.createRange(); rg.selectNodeContents(th.querySelector('span') || th);
@@ -2037,7 +2044,7 @@ async function availOverlap(browser, base, seed) {
       ends every source line and opens a card (dot points, band, kind, Report); outside click and Esc close it, keys work, and
       Report opens the form; the grading panel's question detail lists the dot points. */
 async function genPaper(page) {
-  await page.click('[data-exv="setup"]'); await settle(page, 3000, 2);
+  await page.evaluate(() => EXAS.fresh()); await settle(page, 3000, 2);
   await page.click('[data-sall="all"]'); await settle(page, 2000, 2);
   await genClick(page, '#gGo');
   await page.waitForFunction(() => { const i = document.querySelector('#xInfo'); return i && !/Laying out/.test(i.textContent) && document.querySelector('#xWord') && document.querySelectorAll('#xPages .sheet').length }, null, {timeout: 90000});
@@ -2077,7 +2084,8 @@ async function examPools(browser, base, pools) {
       await check(`exams (${name} pool, ${approved} questions, seed ${sd}): ${marks}-mark paper and guide fit A4, handles grabbable`, page, async () => {
         await page.evaluate(s => { let a = 0x9e3779b9 + s * 7919; Math.random = () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296 } }, sd);
         await page.evaluate(() => { if (document.body.classList.contains('xpv-on')) exClosePv() }); await settle(page, 1500, 2);
-        await page.click('[data-exv="setup"]'); await settle(page, 2000, 2); await page.click('[data-sall="all"]'); await settle(page, 1500, 2);
+        // the same exam each run, through its Settings (a new exam each run would skip the earlier runs' questions)
+        await page.evaluate(() => { if (EX.id) { EXV.view = 'setup'; EXV.setupFor = EX.id; exSaveView(); renderExams() } else EXAS.fresh() }); await settle(page, 2000, 2); await page.click('[data-sall="all"]'); await settle(page, 1500, 2);
         await page.evaluate(m => { for (const [id, v] of [['gMarks', m], ['gMcq', Math.round(m / 10)]]) { const el = document.getElementById(id); el.value = v; el.dispatchEvent(new Event('input', {bubbles: true})) } }, marks);
         await genClick(page, '#gGo'); await waitPv();
         const tot = await page.evaluate(() => xMarks(EX.items.map(xq).filter(Boolean)));
@@ -2522,9 +2530,9 @@ async function dataSplit(browser, base, seed) {
     for (const h of tour) { await dp.evaluate(h => { location.hash = h }, h); await dp.waitForTimeout(700) }
     const shown = await dp.evaluate(() => view);
     await dp.waitForFunction(() => { const n = document.getElementById('detWait'); return n && !n.hidden && /Loading question details/.test(n.textContent) }, null, {timeout: 8000});
-    const mid = await dp.evaluate(() => !!document.querySelector('#examsView [data-exv]'));
+    const mid = await dp.evaluate(() => !!document.querySelector('#examsView .exm-top, #examsView .exm-empty'));
     dhold = false; dheld.splice(0).forEach(r => r.continue());
-    await dp.waitForFunction(() => QG.detOK && document.querySelector('#examsView [data-exv]'), null, {timeout: 15000}); await settle(dp, 4000, 2);
+    await dp.waitForFunction(() => QG.detOK && document.querySelector('#examsView .exm-top, #examsView .exm-empty'), null, {timeout: 15000}); await settle(dp, 4000, 2);
     const after = await dp.evaluate(() => { const n = document.getElementById('detWait'); return {stats: bankStats(), homes: B.questions.map(q => qHome(q)).join('|'), note: !n || n.hidden,
       full: B.questions.some(q => q.tri?.why) && B.questions.some(q => q.parts.some(p => p.dif?.r)), sols: B.questions.some(q => q.solutions.length)} });
     errs(dp);
@@ -2720,7 +2728,7 @@ async function reportActions(browser, base, seed) {
     await page.evaluate(async id => { const q = xq(id); await db.doc('exams/pt_rep').set({title: 'T', sub: 'Reported test', items: [id], keys: [q.key], at: new Date().toISOString()}) }, id);
     await seedRep('rt_open', {question_id: id, key: (await page.evaluate(id => xq(id).key, id)), reason: 'other', note: 'Page test: the answer is wrong'});
     const during = await where(id);
-    await hash('#exams'); await page.click('[data-exv="mine"]'); await settle(page, 3000, 2);
+    await hash('#exams'); await page.evaluate(() => EXAS.go('mine')); await settle(page, 3000, 2);
     const mine = await page.evaluate(() => document.querySelector('#exMine [data-exm="pt_rep"] .exm-warn')?.textContent || '');
     const ex = await page.evaluate(id => { exmLoad(XSAVED.find(x => x.id === 'pt_rep')); xPanel(); return {held: EX.items.includes(id), warn: document.querySelector(`#xPanel li[data-xi="${id}"] .xwarn`)?.textContent || ''} }, id);
     errs();

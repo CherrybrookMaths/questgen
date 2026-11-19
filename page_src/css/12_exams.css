@@ -5,11 +5,6 @@
 .exams *,.exams *::before,.exams *::after,.expv .expvside,.expv .expvside *{box-sizing:border-box}
 .exhead{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;margin-bottom:14px}
 .exhead .sp{flex:1}.exsum{color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
-.exseg{border-radius:7px;border-color:var(--line2)}
-.exseg button{padding:6px 15px;font:500 13.5px var(--sans);color:var(--muted);border-left:1px solid var(--line2)}
-.exseg button:first-child{border-left:0}
-.exseg button:hover{color:var(--ink)}
-.exseg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);font-weight:600}   /* owner 14 Nov: "clean and sophisticated" */
 .exnarrow,.exnarrow-s{display:none!important}
 .exams[data-exview="setup"] #exPick,.exams[data-exview="setup"] #exTopicsBtn,.exams[data-exview="setup"] #exExamBtn{display:none!important}
 .exams[data-exview="pick"] #exSetup{display:none}
@@ -120,7 +115,6 @@ input[type=range].rng:disabled{opacity:.35;cursor:default}
 .exgen:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .exgen:disabled{opacity:.4;cursor:not-allowed}
 .exgohint{font-size:12px;color:var(--muted);flex-basis:100%}
-.pickhand{margin:0;padding:0}
 .result{border:1px solid var(--line);border-left:2px solid var(--accent);border-radius:0 6px 6px 0;padding:10px 12px;font-size:12.5px;margin-top:14px;line-height:1.55;color:var(--ink)}.result b{font-variant-numeric:tabular-nums}
 .result .xa-warn{margin:6px 0 0}
 .genrow{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
@@ -317,7 +311,7 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
   .exmain{padding:12px 0 60px}
 }
 @media (max-width:640px){
-  .exhead{gap:8px}.exsum{order:9;flex-basis:100%}.exseg button{padding:6px 12px;font-size:13px}
+  .exhead{gap:8px}.exsum{order:9;flex-basis:100%}
   .pagehead h2{font-size:23px}.extiles{grid-template-columns:minmax(0,1fr)}
   .exfilters select{flex:1 1 45%}
   .expv .xtool{gap:6px;padding-block:8px}.expv .xtool button.act{padding:5px 9px;font-size:12px}.expv .xinfo{flex-basis:100%;order:9;font-size:12px}
@@ -368,6 +362,8 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .expkoldq{margin-top:8px}.expkoldq .card{margin:0}.expkoldq .card .cfoot{display:none}
 .expkban span{color:var(--muted);font-size:13px}
 .card .hd .expkact{margin-left:10px;flex:none;padding:4px 12px;font-size:13px}
-.exams[data-mode] .card [data-addx],.exams[data-mode="replace"] #exAddRand,.exams[data-mode="replace"] #exAddAll{display:none}
+.exams[data-mode="replace"] #exAddRand,.exams[data-mode="replace"] #exAddAll{display:none}
 .exams[data-mode="replace"] .exright{display:none}.exams[data-mode="replace"] .expick{grid-template-columns:250px minmax(0,1fr)}
-.exseg .exsoon{opacity:.55;cursor:not-allowed}.exseg .exsoon small{font-size:11px;margin-left:4px}
+
+/* owner 19 Nov: no tabs on the Exams page; the head names where you are (New exam / Settings for ...) */
+.exttl{display:flex;align-items:baseline;gap:12px;font-size:15px}.exttl b{font:600 18px var(--display)}.exttl:empty{display:none}

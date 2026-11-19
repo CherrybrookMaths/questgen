@@ -5,7 +5,7 @@
    (topics | question cards | exam panel), and a full-screen A4 preview with a grading panel, Regenerate, Swap,
    editable cover, answer lines and diagram sizes. The side drawer from stage 1/2 is replaced: the header "Exam · N" pill
    now opens this page. Difficulty: band 2-6 and fluency (UF) / problem solving (PR) per part, from DIFFICULTY_SPEC. */
-const EXV={view:(()=>{try{return localStorage.getItem('ex_view')||'setup'}catch(e){return 'setup'}})(),
+const EXV={view:(()=>{try{return localStorage.getItem('ex_view')||'mine'}catch(e){return 'mine'}})(),setupFor:null,
   pk:{topic:'all',q:'',paper:'all',type:'all',marks:'all',sort:'new',band:'all',wm:'all',fig:false,hide:false,limit:20},
   open:new Set(),pkOpen:new Set(),sel:null,doc:'exam',grade:true,built:false,moved:null};
 const exSaveView=()=>{try{localStorage.setItem('ex_view',EXV.view)}catch(e){}};
@@ -117,35 +117,38 @@ function exWarn(A,st,pool){const w=[],mN=pool.filter(q=>q.type==='mcq').length,w
 /* ---------- page shell ---------- */
 // owner 14 Nov ("Is there a place to manage created exams?"): a third view, My exams (25_mine.js), beside Exam setup and Pick by hand
 function renderExams(){const box=$('#examsView');if(!box||!B)return;exmSub();exA();XG.load();
-  if(EXV.view==='pick'&&!EXV.mode){EXV.view='setup';exSaveView()}   // owner 19 Nov: the picker opens only to add to or replace in an exam (EXPK)
+  if(EXV.view==='pick'&&!EXV.mode||EXV.view==='setup'&&EXV.setupFor==null&&EX.items.length||!['mine','setup','pick'].includes(EXV.view)){EXV.view='mine';exSaveView()}   // owner 19 Nov: the picker opens only from the paper (EXPK); Setup only for a new exam or an exam's Settings
   if(!EXV.built){EXV.built=true;
-    box.innerHTML=`<div class="exhead"><div class="xseg exseg" role="group" aria-label="Exams"><button type="button" data-exv="setup">Exam setup</button><button type="button" class="exsoon" disabled title="Worksheets: build by hand from the bank. Coming later">Worksheets <small>later</small></button><button type="button" data-exv="mine">My exams</button></div>
+    // owner 19 Nov: "should we really be able to go back to exam setup once the exam has been set up? ... you canot really tell if you're
+    // in an exam or not already" -> "yes, remove redunant features. However, tutors should be able to make similar exams": no tabs. The
+    // page opens on My exams; New exam leads to Setup; Generate lands on the paper; inside an exam, Settings and Make a similar exam are on
+    // the paper; Close goes back to My exams
+    box.innerHTML=`<div class="exhead"><div class="exttl" id="exTtl"></div>
       <span class="exsum" id="exSum"></span><span class="sp"></span>
       <button type="button" class="act exnarrow-s" id="exTopicsBtn" aria-controls="exSide">Topics</button>
       <button type="button" class="act exnarrow" id="exExamBtn" aria-controls="exRight">Exam · <span id="exExamN">0</span></button>
-      <button type="button" class="act ok" data-expv="exam" id="exPvBtn">Preview paper</button></div>
+</div>
       <div id="exSetup"></div>
       <div class="expick" id="exPick"><nav class="exside" id="exSide" aria-label="Topics"></nav><main class="exmain" id="exMain"></main><aside class="exright" id="exRight" aria-label="Exam being built"></aside></div><div class="exmine" id="exMine"></div>
       <div class="exscrim" id="exScrim"></div>`;
     const p=$('#xPanel');if(p){$('#exRight').appendChild(p);p.hidden=false;p.classList.add('inpage')}}
   const hh=document.querySelector('header')?.getBoundingClientRect().height||64;box.style.setProperty('--hdr',Math.round(hh)+'px');
-  $$('[data-exv]',box).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.exv===EXV.view)));
   box.dataset.exview=EXV.view;exHead();
-  // My exams keeps the setup view drawn underneath (hidden by CSS), as it always has
-  if(EXV.view==='pick')renderPick();else renderSetup();
+  if(EXV.view==='pick')renderPick();else if(EXV.view==='setup')renderSetup();
   box.dataset.mode=EXV.view==='pick'&&EXV.mode?EXV.mode.kind:'';
   if(EXV.view==='mine'){renderMine();exHead()}}
 function exHead(){const n=EX.items.length,m=xMarks(EX.items.map(xq).filter(Boolean));
-  const s=$('#exSum');if(s)s.textContent=n?`This exam: ${n} question${n===1?'':'s'} · ${m} mark${m===1?'':'s'}`:'No questions in the exam yet';
-  const en=$('#exExamN');if(en)en.textContent=n;const pb=$('#exPvBtn');if(pb)pb.disabled=!n;
+  const tt=$('#exTtl');if(tt)tt.innerHTML=EXV.view==='setup'?(EXV.setupFor!=null?`<b>Settings for “${esc(EXAS.name())}”</b><button type="button" class="linkbtn" data-exback>Back to the paper</button>`:`<b>New exam</b><button type="button" class="linkbtn" data-exback>Cancel</button>`):'';
+  const inside=EXV.view==='pick'||EXV.view==='setup'&&EXV.setupFor!=null;
+  const s=$('#exSum');if(s)s.textContent=inside&&n?`${n} question${n===1?'':'s'} · ${m} mark${m===1?'':'s'}`:'';
+  const en=$('#exExamN');if(en)en.textContent=n;
   // head: Saved / Unsaved marker + Save button (owner: don't lose a generated exam by clicking away); exmState is in 25_mine.js
   if(!s)return;let b=$('#exSaveSt');
   if(!b){s.insertAdjacentHTML('afterend','<span class="exm-st" id="exSaveSt"></span>');b=$('#exSaveSt')}
   // owner 19 Nov: the open exam's name and state, on every Exams view ("can't tell which exam we're inside or if we're making a new one")
   const st=exmState(),nm=esc(EXAS.name()),when=EXAS.at?EXAS.at.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}):'';b.dataset.st=st||'empty';
-  b.innerHTML=!n?`<b>New exam</b> · add questions to start`
-    :`<b>${EX.id?'Editing':'New exam'}:</b> ${nm} · ${st==='saved'?`<span class="exst-ok">✓ Saved${when?' '+when:''}</span>`:!db?'kept in this browser (saving needs claude.ai)':EXAS.busy?'Saving…':`<span class="exst-wait">Saving…</span> <button type="button" class="linkbtn" data-exm-save>Save now</button>`}
-      <span class="exst-acts"><button type="button" class="linkbtn" data-exm-copy${EX.id?'':' hidden'}>Save as a copy</button><button type="button" class="linkbtn" data-exm-fresh>New exam</button></span>`}
+  b.hidden=!inside||!n;b.innerHTML=!inside||!n?''
+    :`<b>Editing:</b> ${nm} · ${st==='saved'?`<span class="exst-ok">✓ Saved${when?' '+when:''}</span>`:!db?'kept in this browser (saving needs claude.ai)':EXAS.busy?'Saving…':`<span class="exst-wait">Saving…</span> <button type="button" class="linkbtn" data-exm-save>Save now</button>`}`}
 function exRefresh(){if(view!=='exams')return;if(EXV.view==='mine'){renderMine();exHead();return}if(EXV.view==='setup'){exTopics();exAvail()}else{exSideNav();exList()}exHead()}
 
 /* ---------- Setup ---------- */
@@ -206,7 +209,7 @@ function exLabels(){const A=exA(),fill=(id,v,min,max)=>{const el=$('#'+id);if(el
   const sb=$('#splitBar');if(sb)sb.innerHTML=`<div class="splitbar">${A.pr<100?`<i class="f" style="flex:${100-A.pr}"></i>`:''}${A.pr>0?`<i class="p" style="flex:${A.pr}"></i>`:''}</div><div class="splitleg"><span><i class="f"></i>Fluency <b>${100-A.pr}%</b></span><span><i class="p"></i>Problem solving <b>${A.pr}%</b></span></div>`;
   set('gDF',dLab(A.dF));fill('gDF',A.dF,2,6);set('gDP',dLab(A.dP));fill('gDP',A.dP,2,6);
   const f=$('#gDF'),p=$('#gDP');if(f)f.disabled=A.pr===100;if(p)p.disabled=A.pr===0;
-  const go=$('#gGo');if(go){go.disabled=!A.topics.length;go.textContent=EX.items.length&&A.ran?'Generate a new exam':'Generate exam'}const gh=$('#gGoHint');if(gh)gh.hidden=!!A.topics.length}
+  const go=$('#gGo');if(go){go.disabled=!A.topics.length;go.textContent=EXV.setupFor!=null?'Regenerate with these settings':'Generate exam'}const gh=$('#gGoHint');if(gh)gh.hidden=!!A.topics.length}
 function exAvail(){const el=$('#availBox');if(!el)return;const A=exA(),pool=exPool(A,xaHomes()),cell={F:[0,0,0,0,0,0,0],P:[0,0,0,0,0,0,0]};let tf=0,tp=0;
   pool.forEach(q=>exEst(q).parts.forEach(x=>{const b=Math.round(x.b);cell[x.ps?'P':'F'][b]+=x.m;x.ps?tp+=x.m:tf+=x.m}));
   const mx=Math.max(1,...cell.F,...cell.P),nm=pool.filter(q=>q.type==='mcq').length;
@@ -246,7 +249,7 @@ const EXPK={
   open(kind,id){if(document.body.classList.contains('xpv-on'))exClosePv();EXV.mode={kind,id:id??null,doc:EXV.doc||'exam'};
     EXV.pk.topic='all';EXV.pk.hide=true;const q=id!=null?xq(id):null;EXV.pk.type=q?(q.type==='mcq'?'mcq':'written'):'all';
     EXV.view='pick';exSaveView();location.hash='#exams';const m=$('#exMain');if(m)delete m.dataset.ready;renderExams();window.scrollTo({top:0})},
-  back(){const d=EXV.mode?.doc||'exam';EXV.mode=null;EXV.view='setup';exSaveView();renderExams();if(EX.items.length)xPreview(d)},
+  back(){const d=EXV.mode?.doc||'exam';EXV.mode=null;EXV.view='mine';exSaveView();renderExams();if(EX.items.length)xPreview(d)},
   label(){const m=EXV.mode;if(!m)return '';const q=m.id!=null?xq(m.id):null,n=q?EX.items.indexOf(q.id)+1:0;
     return m.kind==='replace'&&q?`Replace Q${n}`:'Add to the exam'},
   banner(){const el=$('#exMain');if(!el)return;let b=$('#exPkBan');const m=EXV.mode;if(!m){b?.remove();return}
@@ -455,7 +458,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button></div>
       <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span>
       <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Grading</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table</button>
-      <button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvAdd" title="Add a question from this exam's topics">Add a question</button>
+      <button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvAdd" title="Add a question from this exam's topics">Add a question</button><button class="act" id="exPvSet" title="Change this exam's topics, marks or difficulty and regenerate it">Settings</button><button class="act" id="exPvSim" title="A new exam with the same settings and none of the questions in your saved exams: for a student who needs another one">Make a similar exam</button>
       <button class="act ok" id="xDl" disabled>Download to print</button><button class="act ghost" id="xPvClose">Close</button></div>
       <div class="expvbody"><div class="xpages" id="xPages"></div><aside class="expvside" id="exGSide" aria-label="Question grading"></aside></div>`}
   else{$$('[data-xdoc]',ov).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.xdoc===doc)));$('#xInfo').textContent='Laying out pages…'}
@@ -595,11 +598,13 @@ document.addEventListener('click',e=>{const t=e.target;
     if(t.closest('#exGrade')){EXV.grade=!EXV.grade;$('#xPv').classList.toggle('grade-off',!EXV.grade);t.closest('#exGrade').setAttribute('aria-pressed',String(EXV.grade));exZoom();return}
     if(t.closest('#exGClose')){EXV.grade=false;$('#xPv').classList.add('grade-off');$('#exGrade')?.setAttribute('aria-pressed','false');exZoom();return}
     if(t.closest('#exPvAdd')){EXPK.open('add');return}
+    if(t.closest('#exPvSet')){exClosePv();EXV.view='setup';EXV.setupFor=EX.id||'open';exSaveView();renderExams();window.scrollTo({top:0});return}
+    if(t.closest('#exPvSim')){EXAS.similar();return}
     // owner 18 Nov: "Give an option to toggle that table on and off" (saved with the exam: EX.bytopic, on unless set to false)
     if(t.closest('#exPvTopic')){EX.bytopic=EX.bytopic===false;xsave();t.closest('#exPvTopic').setAttribute('aria-pressed',String(EX.bytopic!==false));exRelayout();return}
     if(t.closest('#exPvRegen')&&!t.closest('#exPvRegen').dataset.ok){const b=t.closest('#exPvRegen');if(b.disabled)return;EXAS.guard(b,'Regenerate',()=>{b.dataset.ok=1;b.click();delete b.dataset.ok});return}
     if(t.closest('#exPvRegen')){const b=t.closest('#exPvRegen');if(b.disabled)return;const r=exGenerate();if(r){EXC.clear();xPreview(EXV.doc);toast(`New exam · ${r.n} questions · ${r.marks} marks`)}return}
-    if(t.closest('#xPvClose')){e.stopImmediatePropagation();exClosePv();return}
+    if(t.closest('#xPvClose')){e.stopImmediatePropagation();exClosePv();EXV.view='mine';EXV.setupFor=null;exSaveView();if(view==='exams')renderExams();return}
     const gr=t.closest('[data-grep]');if(gr){const id=+gr.dataset.grep;repForm(id,String(EX.items.indexOf(id)+1));return}
     if(t.closest('[data-gadd]')){EXPK.open('add');return}
     // owner 19 Nov ("it's still like this in TRIAL EXMINATION test sy"): an exam made before the new order can be re-sorted without regenerating
@@ -613,10 +618,10 @@ document.addEventListener('click',e=>{const t=e.target;
     const pq=t.closest('#xPages .xq');if(pq){exSelect(+pq.dataset.q,'paper');return}
     return}
   if(!t.closest('#examsView'))return;
-  const v=t.closest('[data-exv]');if(v){EXV.view=v.dataset.exv;exSaveView();renderExams();window.scrollTo({top:0});return}
   const pv=t.closest('[data-expv]');if(pv){if(!EX.items.length){toast('Add questions first');return}xPreview(pv.dataset.expv);return}
   if(t.id==='gGo'&&!t.dataset.ok){EXAS.guard(t,'Generating a new exam',()=>{t.dataset.ok=1;t.click();delete t.dataset.ok});return}
-  if(t.id==='gGo'){const r=exGenerate();if(!r)return;if(!r.n){toast('No questions match. Choose more topics or papers.');return}EXC.clear();exResult();exLabels();exHead();xPreview('exam');return}
+  if(t.id==='gGo'){const r=exGenerate();if(!r)return;if(!r.n){toast('No questions match. Choose more topics or papers.');return}EXC.clear();EXV.view='mine';EXV.setupFor=null;exSaveView();renderExams();xPreview('exam');return}
+  if(t.closest('[data-exback]')){const back=EXV.setupFor!=null;EXV.view='mine';EXV.setupFor=null;exSaveView();renderExams();if(back&&EX.items.length)xPreview('exam');return}
   const ex=t.closest('[data-texp]');if(ex){const k=ex.dataset.texp;EXV.open.has(k)?EXV.open.delete(k):EXV.open.add(k);exTopics();return}
   const tree=()=>xaTree(),A=exA();
   // owner 17 Nov (skill gates): Already learnt ticks; the exam's own topics are disabled there (they always count)
@@ -705,7 +710,7 @@ document.addEventListener('dragover',e=>{if(EXDRAG==null)return;const li=e.targe
   const r=li.getBoundingClientRect();li.classList.add(e.clientY>r.top+Math.min(r.height,44)/2?'drop-after':'drop-before')});
 document.addEventListener('drop',e=>{if(EXDRAG==null)return;const li=e.target.closest&&e.target.closest('#exGSide .gq');if(li){e.preventDefault();exDrop(EXDRAG,+li.dataset.gqli,li.classList.contains('drop-after'))}});
 document.addEventListener('dragend',()=>{EXDRAG=null;$$('#exGSide .gq').forEach(x=>x.classList.remove('dragging','drop-before','drop-after'))});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('xpv-on')){e.stopImmediatePropagation();exClosePv()}else if(e.key==='Escape')document.body.classList.remove('exs-open','exr-open')},true);
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('xpv-on')){e.stopImmediatePropagation();exClosePv();EXV.view='mine';EXV.setupFor=null;exSaveView();if(view==='exams')renderExams()}else if(e.key==='Escape')document.body.classList.remove('exs-open','exr-open')},true);
 // any change to the exam (add, remove, reorder, swap, load) refreshes the page around it: see xCount (20_exam.js)
 if(view==='exams'&&B)renderExams();
 

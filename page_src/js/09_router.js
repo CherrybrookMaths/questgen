@@ -29,7 +29,7 @@ function parseHash(h){if(HASHV[h]){const m=/^#processes\/(\w+)(?:\/(\w+))?$/.exe
 function setHash(h){try{history.replaceState(null,'',h)}catch(e){location.replace(h)}}
 function applyArea(){const a=areaOf(view),ed=isEditor();
   document.documentElement.dataset.area=a;document.documentElement.classList.toggle('editor',ed);
-  $$('.views a[data-area]').forEach(x=>x.hidden=!ed?x.dataset.area!=='teach':x.dataset.area!==a);
+  $$('.views [data-area]').forEach(x=>x.hidden=!ed?x.dataset.area!=='teach':x.dataset.area!==a);
   const vp=$('#vProcesses');if(vp&&!isOwnerV())vp.hidden=true;
   const sw=$('#areaSw');if(sw){sw.hidden=!ed;$$('#areaSw button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.area===a)))}
   if(ed){save('qg_area',a);save('qg_last_'+a,parseHash(location.hash).v===view?location.hash:(VHASH[view]||''))}   // owner/editor: remember the last area (and view in it)

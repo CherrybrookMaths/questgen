@@ -12,8 +12,7 @@ if(EX.timeAuto===undefined)EX.timeAuto=!EX.id&&!EX.items.length;
 // later (EXAS.schedule, 25_mine.js, which loads later: hence the typeof test). The working time follows the marks (EXAS.time)
 const xsave=()=>{if(typeof EXAS!=='undefined')EXAS.time();try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}xCount();if(typeof EXAS!=='undefined')EXAS.schedule()};
 const xq=id=>B.questions.find(q=>q.id===id);
-const xIn=id=>EX.items.includes(id);
-function xCount(){const n=EX.items.length,b=$('#xN');if(b)b.textContent=n;$$('[data-addx]').forEach(el=>{const on=xIn(+el.dataset.addx);el.setAttribute('aria-pressed',String(on));el.textContent=on?'✓ In exam':'+ Add to exam'});if($('#xPanel')&&!$('#xPanel').hidden)xPanel()
+function xCount(){const n=EX.items.length,b=$('#xN');if(b)b.textContent=n;if($('#xPanel')&&!$('#xPanel').hidden)xPanel()
   // any change to the exam (add, remove, reorder, swap, load) refreshes the Exams page around it (owner 14 Nov, Exams page + My exams).
   // EXV is declared by 24_exams.js, which loads later: the typeof test keeps the first call below (at load) safe.
   if(view==='exams'&&typeof EXV!=='undefined'&&EXV.built){exHead();if(EXV.view==='setup'){exResult();exLabels()}}}
@@ -36,7 +35,7 @@ function xPanel(){
     ${EX.items.length?`${mc.length?`<div class="xsec">Section I · multiple choice · ${xMarks(mc)} marks</div><ol class="xlist">${mc.map(row).join('')}</ol>`:''}${wr.length?`<div class="xsec">Section II · ${xMarks(wr)} marks</div><ol class="xlist">${wr.map(row).join('')}</ol>`:''}`
       :'<div class="xempty">No questions yet. Press <b>+ Add to exam</b> on any question in the Bank.</div>'}
     <div class="xacts"><button class="act ok" id="xPrev" ${EX.items.length?'':'disabled'}>Preview paper</button><button class="act" id="xGuide" ${EX.items.length?'':'disabled'}>Marking guide</button></div>
-    <div class="xacts"><button class="act ghost" data-exm-copy ${EX.id&&db?'':'disabled'} title="A new saved exam with the same questions; this one stays as it is">Save as a copy</button><button class="act ghost" data-exm-fresh>New exam</button></div>`;
+`;
   // owner 19 Nov ("too many outs and ways to replace the questions accidentally"): the panel's own list of saved exams (it replaced the
   // open exam in one click) is gone; exams are opened from My exams
   exHead();if(view==='exams'&&EXV.view==='pick'){const n=$('#exLs');if(n&&EXCUR.length){const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;n.textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${bankAll()||!isEditor()?'':' · approved only'}`}}
@@ -55,7 +54,6 @@ async function xSaveDb(quiet){
     catch(e){toast('Could not save. Try again in a moment.')}}
   if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}}
 document.addEventListener('click',e=>{
-  const a=e.target.closest('[data-addx]');if(a){e.preventDefault();xToggle(+a.dataset.addx);return}
   if(e.target.closest('#xBtn')){$('#xPanel').hidden||!document.body.classList.contains('x-open')?xOpen():xClose();return}
   if(!e.target.closest('#xPanel'))return;
   if(e.target.closest('#xClose')){xClose();return}

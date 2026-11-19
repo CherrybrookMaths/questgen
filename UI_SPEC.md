@@ -434,6 +434,23 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   bar looks jank with the replace Q1 with this. Also should be able to report a question you see here / from the bank": the banner has
   "Show Q1" (the question in full, on click); "Replace Q1 with this" sits in each card's header row; every question card (Bank, picker)
   has Report, opening the report form.
+- **Exams structure, 19 Nov (owner, verbatim):** "isn't it a bit awkward to have a worksheet builder integrated into the exam one? maybe we
+  should split it? thoughts? because the only time they're using the pick list is really for workehet or replacement question. Also when you
+  press add a question, isn't preview paper and return to paper the same?" To the three proposals (Worksheets its own top-bar item; no
+  "+ Add to exam" on Bank cards; worksheet use counts as "used before"): "1. yes 2. yes 3. hm they should see that its been used for now
+  yes." Then: "Also should we really be able to go back to exam setup once the exam has been set up? It feels counter intuitive and you
+  canot really tell if you're in an exam or not already. do u know what i mean", and "yes, remove redunant features. However, tutors should
+  be able to make similar exams if studnts need another one. Find a way to work that in intuitively." Done:
+  - Worksheets is a greyed top-bar item ("Worksheets later"), not a tab inside Exams. Bank cards have no "+ Add to exam" (Report stays).
+    Worksheet use counting as "used before" waits for the Worksheets build (Next up note).
+  - Exams has no tabs. It opens on My exams; "New exam" opens Setup (titled "New exam", with Cancel); Generate lands on the paper; Close
+    (or Escape) returns to My exams. There is no way back to a blank Setup from inside an exam.
+  - On the paper, "Settings" reopens the setup form for this exam (titled "Settings for “name”", with "Back to the paper"); its button says
+    "Regenerate with these settings" and asks before replacing the questions. The separate "Preview paper" button is gone (the picker's
+    "Back to the paper" is the one way back). "Save as a copy" and the identity bar's "New exam" are gone (Duplicate in My exams covers a copy).
+  - **Make a similar exam** (paper toolbar, and "Make similar" on each My exams row): a new saved exam with the same settings (topics, marks,
+    multiple choice, difficulty, papers; topics from its questions when it has none), none of the questions in any saved exam (the
+    original included), named "<name> (version 2)" (3, 4 ... when taken), opened on its paper. The original is untouched.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

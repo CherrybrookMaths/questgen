@@ -38,7 +38,7 @@ function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
           <div class="exm-stats"><span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span>${Math.round((1-st.pr)*100)}% fluency · ${Math.round(st.pr*100)}% PS</span>${st.miss?`<span class="exm-warn">${st.miss} question${st.miss===1?'':'s'} no longer in the bank</span>`:''}${(()=>{const k=typeof qWatch==='function'?RKEY.items(x).map(xq).filter(q=>qWatch(q)).length:0;return k?`<span class="exm-warn" data-exm-flag="${k}">⚠ ${k} question${k===1?'':'s'} reported or sent back to review</span>`:''})()}</div>
           <div class="exm-who">Saved ${esc(exmWhen(x.at))}${who?' by '+esc(who):''}</div></div>
         <div class="exm-acts">${del?`<span class="exm-sure">Delete for everyone?</span><button type="button" class="act bad" data-exm-delok>Delete</button><button type="button" class="act ghost" data-exm-delx>Keep</button>`
-          :`<button type="button" class="act ok" data-exm-open>Open</button><button type="button" class="act" data-exm-pv>Preview</button><button type="button" class="act ghost" data-exm-dup>Duplicate</button><button type="button" class="act ghost" data-exm-ren>Rename</button><button type="button" class="act ghost exm-del" data-exm-del aria-label="Delete">Delete</button>`}</div></li>`}).join('')}</ul>`
+          :`<button type="button" class="act ok" data-exm-open>Open</button><button type="button" class="act" data-exm-pv>Preview</button><button type="button" class="act ghost" data-exm-sim title="A new exam with the same settings and none of the questions in your saved exams">Make similar</button><button type="button" class="act ghost" data-exm-dup title="A copy with the same questions">Duplicate</button><button type="button" class="act ghost" data-exm-ren>Rename</button><button type="button" class="act ghost exm-del" data-exm-del aria-label="Delete">Delete</button>`}</div></li>`}).join('')}</ul>`
       :`<div class="exm-empty">${XSAVED.length?'No saved exam matches that search.':'No saved exams yet. Build one in Exam setup or Pick by hand, then press <b>Save exam</b>.'}</div>`}`;
   if(EXM.ren){const i=el.querySelector('[data-exm-rt]');if(i){i.focus();i.select()}}}
 // the Saved / Unsaved marker (exHead), the My exams segment and container (renderExams), exRefresh and the refresh after
@@ -48,8 +48,9 @@ document.addEventListener('click',async e=>{const t=e.target;
   if(!t.closest('#exMine'))return;
   const row=t.closest('[data-exm]');if(!row)return;const x=XSAVED.find(s=>s.id===row.dataset.exm);if(!x)return;
   const guard=b=>{const st=exmState();if(x.id!==EX.id&&(st==='new'||st==='changed')&&!b.dataset.sure){const o=b.textContent;b.dataset.sure=1;b.textContent='Replace unsaved exam? Press again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent=o}},3500);return false}return true};
-  if(t.closest('[data-exm-open]')){const b=t.closest('[data-exm-open]');if(!guard(b))return;exmLoad(x);EXV.view='setup';EXV.mode=null;exSaveView();renderExams();if(EX.items.length)xPreview('exam');toast(`Opened “${x.sub||'Untitled'}”`);return}   // owner 19 Nov: an exam opens on its paper
+  if(t.closest('[data-exm-open]')){const b=t.closest('[data-exm-open]');if(!guard(b))return;exmLoad(x);EXV.view='mine';EXV.mode=null;EXV.setupFor=null;exSaveView();renderExams();if(EX.items.length)xPreview('exam');toast(`Opened “${x.sub||'Untitled'}”`);return}   // owner 19 Nov: an exam opens on its paper
   if(t.closest('[data-exm-pv]')){const b=t.closest('[data-exm-pv]');if(!guard(b))return;exmLoad(x);renderMine();exHead();xPreview('exam');return}
+  if(t.closest('[data-exm-sim]')){exmLoad(x);EXAS.similar();return}
   if(t.closest('[data-exm-dup]')){const id='e'+Date.now(),{id:_o,...rest}=x;
     try{await db.doc('exams/'+id).set({...rest,sub:(x.sub||'Untitled')+' (copy)',by:me||null,at:new Date().toISOString()});toast('Duplicated')}catch(_){toast('Could not duplicate. Try again in a moment.')}return}
   if(t.closest('[data-exm-ren]')){EXM.ren=x.id;EXM.del=null;renderMine();return}
@@ -80,9 +81,19 @@ const EXAS={t:null,busy:false,at:null,ask:null,
   // the working time: marks x minutes per mark (1.8 for HSC Advanced: 180 minutes for 100 marks), to 5 minutes, unless typed by hand
   time(){if(EX.timeAuto===false)return;const m=xMarks(EX.items.map(xq).filter(Boolean)),w=Math.max(5,Math.round(m*(+EX.mpm||1.8)/5)*5);EX.time=m?EXSEC.dur(w):''},
   fresh(stay){clearTimeout(this.t);EX={title:QG.courseData.name,sub:'Practice examination',school:EX.school||'CMC Education',time:'',timeAuto:true,mpm:+EX.mpm||1.8,reading:'10 minutes',items:[],lines:{},figscale:{}};
-    try{EXC.clear()}catch(_){}xsave();if(stay)return;if(typeof EXV!=='undefined'){EXV.view='setup';exSaveView();if(view==='exams')renderExams()}toast('New exam started')},
-  async copy(){if(!db||!EX.id)return;clearTimeout(this.t);if(exmState()==='changed')await xSaveDb(true);
-    const from=this.name();delete EX.id;EX.sub=from+' (copy)';await xSaveDb(true);xsave();toast(`Saved as “${EX.sub}”; you are now in the copy`)},
+    try{EXC.clear()}catch(_){}xsave();if(stay)return;if(typeof EXV!=='undefined'){EXV.view='setup';EXV.setupFor=null;EXV.mode=null;exSaveView();location.hash='#exams';if(view==='exams')renderExams();window.scrollTo({top:0})}},
+  // owner 19 Nov: "tutors should be able to make similar exams if studnts need another one": the same settings (topics, marks, multiple
+  // choice, difficulty, papers), none of the questions in any saved exam (this one included), named "<name> (version 2)", on its paper
+  async similar(){if(!EX.items.length)return;clearTimeout(this.t);if(db&&exmState()!=='saved')await xSaveDb(true);
+    const A=JSON.parse(JSON.stringify(exA())),homes=xaHomes();if(!A.topics.length)A.topics=[...new Set(EX.items.map(i=>homes.get(i)?.sub).filter(Boolean))];
+    if(!A.total||!A.ran)A.total=xMarks(EX.items.map(xq).filter(Boolean)),A.mcq=EX.items.filter(i=>xq(i)?.type==='mcq').length;
+    A.locked=[];A.avoid=true;A.last=null;const base=(this.name()).replace(/\s*\(version \d+\)$/,''),names=new Set((XSAVED||[]).map(x=>x.sub));let k=2;while(names.has(`${base} (version ${k})`))k++;
+    const keep={title:EX.title,school:EX.school,cert:EX.cert,bytopic:EX.bytopic,mpm:EX.mpm,reading:EX.reading,instr:EX.instr};
+    EX={...keep,sub:`${base} (version ${k})`,time:'',timeAuto:true,items:[],lines:{},figscale:{},auto:A};A.title=EX.sub;
+    const r=exGenerate();if(!r||!r.n){toast('Not enough unused questions in these topics for another version');return}
+    EX.sub=`${base} (version ${k})`;try{EXC.clear()}catch(_){}xsave();EXV.view='mine';EXV.setupFor=null;exSaveView();if(view==='exams')renderExams();
+    xPreview('exam');toast(`Made “${EX.sub}”: ${r.n} questions, none from your saved exams`)},
+  go(v){EXV.view=v;EXV.setupFor=null;EXV.mode=null;exSaveView();location.hash='#exams';if(view==='exams')renderExams()},
   // questions of the OTHER saved exams, by key (RKEY.items): id -> [{id, name, at}]
   used(){const u=this._u;if(u&&u.s===XSAVED&&u.e===EX.id)return u.m;const m=new Map();
     (XSAVED||[]).forEach(x=>{if(x.id===EX.id)return;RKEY.items(x).forEach(i=>{if(!m.has(i))m.set(i,[]);m.get(i).push({id:x.id,name:x.sub||x.title||'Untitled',at:x.at})})});
@@ -98,4 +109,4 @@ const EXAS={t:null,busy:false,at:null,ask:null,
       if(a==='replace')go();else if(a==='new'){const keep=EX.auto,school=EX.school,mpm=EX.mpm;clearTimeout(this.t);EX={title:QG.courseData.name,sub:'Practice examination',school,time:'',timeAuto:true,mpm,reading:'10 minutes',items:[],lines:{},figscale:{},auto:keep};try{EXC.clear()}catch(_){}xsave();go()}})}};
 document.addEventListener('click',e=>{const t=e.target;
   if(t.closest('[data-exm-fresh]')){e.preventDefault();EXAS.fresh();return}
-  if(t.closest('[data-exm-copy]')){e.preventDefault();EXAS.copy();return}});
+});
