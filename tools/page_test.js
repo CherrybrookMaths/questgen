@@ -527,17 +527,23 @@ async function flows(browser, base, seed, seedR) {
   });
   await check('exams: rename in My exams', page, async () => {
     assert(saved, 'nothing saved');
-    await page.click(`#exMine [data-exm="${saved}"] [data-exm-ren]`);
+    await pvClick(page, `#exMine [data-exm="${saved}"] [data-exm-ren]`);   // 19 Nov: Duplicate, Rename, Delete sit in the card's ⋯ menu
     await page.fill(`#exMine [data-exm="${saved}"] [data-exm-rt]`, 'Page test renamed');
     await page.click(`#exMine [data-exm="${saved}"] [data-exm-rok]`); await settle(page, 2000, 2);
     const doc = await dbGet('exams/' + saved), row = await page.evaluate(id => document.querySelector(`#exMine [data-exm="${id}"]`)?.innerText || '', saved);
     errs(); assert(doc && doc.sub === 'Page test renamed', 'database still has ' + (doc && doc.sub));
     assert(/Page test renamed/.test(row), 'the row does not show the new name');
-    return 'renamed';
+    // owner 19 Nov: "Can we just make the block clickable to enter the exam": a click on the card (not on its buttons) opens it on its paper
+    await page.evaluate(() => { EX = {...EX, id: null, sub: 'other', items: []}; });
+    const box = await page.$(`#exMine [data-exm="${saved}"] .exm-stats`); await box.click(); await page.waitForFunction(id => EX.id === id && document.body.classList.contains('xpv-on'), saved, {timeout: 10000});
+    await page.click('#xPvClose'); await settle(page, 1500, 2);
+    const h = await page.evaluate(id => document.querySelector(`#exMine [data-exm="${id}"]`).getBoundingClientRect().height, saved);
+    assert(h < 90, `a My exams card is ${Math.round(h)} px tall (two lines expected)`);
+    return 'renamed; a click on the card opened it; card ' + Math.round(h) + ' px tall';
   });
   await check('exams: delete in My exams', page, async () => {
     assert(saved, 'nothing saved');
-    await page.click(`#exMine [data-exm="${saved}"] [data-exm-del]`);
+    await pvClick(page, `#exMine [data-exm="${saved}"] [data-exm-del]`);
     await page.click(`#exMine [data-exm="${saved}"] [data-exm-delok]`); await settle(page, 2000, 2);
     const doc = await dbGet('exams/' + saved), row = await page.evaluate(id => !!document.querySelector(`#exMine [data-exm="${id}"]`), saved);
     errs(); assert(!doc, 'still in the database'); assert(!row, 'still listed');

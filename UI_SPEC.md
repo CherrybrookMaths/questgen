@@ -462,6 +462,12 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   slide-over opened by the "Questions" button. Each question's detail has "Remove from exam"; the panel then offers "Undo: put Qn back"
   (same place) until the paper is regenerated or reopened. Setup's result card lost its "Open exam" / "Add a question" buttons
   (Generate lands on the paper; Settings has "Back to the paper").
+- **My exams cards, 19 Nov (owner, verbatim):** "does open and preview go to the same thing? Can we just make the block clickable to enter
+  the exam. Also the blocks are so tall vertically is there a way to rearrange the content to be more effient and more design oriented".
+  Open and Preview did the same thing; both are gone. A click anywhere on the card (not on its buttons) opens the exam on its paper (the
+  title stays a button for the keyboard). Two lines: the name with an "Open now" pill, then course · school (left out when it is CMC
+  Education, as it is on every exam) · saved when and by whom, with any warning (questions gone from the bank, reported). On the right:
+  marks, questions (MC), % problem solving, "Make similar", and a ⋯ menu with Duplicate, Rename, Delete.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
   like this in terms of layout. implement this as well": left "Total marks: N"; right, per section "Section I – n marks (pages a–b)" in
   bold, then "Attempt Questions …" and "Allow about <time> for this section" (the working time shared by marks, to 5 minutes; Section II

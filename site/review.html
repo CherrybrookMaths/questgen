@@ -1101,17 +1101,18 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .exm-unsaved{display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;border:1px solid color-mix(in srgb,var(--warn) 45%,transparent);background:var(--warn-soft);border-radius:8px;padding:10px 14px;margin-bottom:14px;font-size:14px}
 .exm-unsaved .act{margin-left:auto}
 .exm-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
-.exm-row{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px 16px}   /* owner 14 Nov: "clean and sophisticated" */
+.exm-row{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px 10px 16px}
+.exm-row.go{cursor:pointer;transition:border-color .12s,background .12s}.exm-row.go:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent-soft) 35%,var(--panel))}   /* owner 14 Nov: "clean and sophisticated" */
 .exm-row.open{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
-.exm-main{flex:1 1 320px;min-width:0;display:grid;gap:3px}
-.exm-t{all:unset;cursor:pointer;font:600 18px/1.25 var(--display);color:var(--ink);overflow-wrap:anywhere}
+.exm-main{flex:1 1 300px;min-width:0;display:grid;gap:2px}.exm-l1{display:flex;align-items:baseline;gap:10px;min-width:0}
+.exm-t{all:unset;cursor:pointer;font:600 17px/1.25 var(--display);color:var(--ink);overflow-wrap:anywhere}
 .exm-t:hover{color:var(--accent)}.exm-t:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
-.exm-meta,.exm-who{font-size:13px;color:var(--muted)}
-.exm-cur{color:var(--accent);font-weight:600}
-.exm-stats{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}.exm-stats b{color:var(--ink)}
+.exm-meta{font-size:13px;color:var(--muted)}
+.exm-cur{flex:none;font:600 11px var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border-radius:99px;padding:2px 8px}
+.exm-stats{display:flex;gap:16px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}.exm-stats b{color:var(--ink)}
 .exm-warn{color:var(--warn)}
 .exm-acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.exm-acts .act{min-height:36px}
+.exm-acts .act{min-height:34px}.exm-more{font-size:18px;line-height:1;padding-inline:10px}.exm-more::after{content:none!important}.exm-acts .xmenu-pop{min-width:150px}
 .exm-del:hover{color:var(--bad);border-color:var(--bad)}
 .act.bad{background:var(--bad);border-color:var(--bad);color:#fff}
 .exm-sure{font-size:13px;font-weight:600;color:var(--bad)}
@@ -1128,7 +1129,7 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .exask{margin:8px 0;padding:10px 12px;border:1px solid var(--warn);border-radius:10px;background:var(--panel);font-size:13px}
 .exask p{margin:0 0 8px}.exask div{display:flex;flex-wrap:wrap;gap:8px}
 .xmpmh{font-size:12px;color:var(--muted);align-self:end;padding-bottom:6px}
-@media (max-width:640px){.exm-top h2{font-size:24px}.exm-row{padding:12px}.exm-acts{width:100%;display:grid;grid-template-columns:repeat(6,1fr)}.exm-acts>*{grid-column:span 2;justify-content:center}.exm-acts [data-exm-open],.exm-acts [data-exm-pv]{grid-column:span 3}.exm-acts .exm-sure{grid-column:1/-1}.exm-acts [data-exm-delok],.exm-acts [data-exm-delx]{grid-column:span 3}}
+@media (max-width:640px){.exm-top h2{font-size:24px}.exm-row{padding:12px}.exm-stats{gap:12px}.exm-acts{margin-left:auto}}
 
 /* import batches as a stage grid (owner 14 Nov) */
 .bscroll{overflow-x:auto}
@@ -4966,14 +4967,16 @@ function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
       <button type="button" class="act" data-exm-fresh>New exam</button></div></div>
     ${cur==='new'||cur==='changed'?`<div class="exm-unsaved"><b>${cur==='new'?'The exam you are working on has not been saved.':'The open exam has changes that are not saved.'}</b> ${esc(EX.sub||EX.title)} · ${EX.items.length} questions<button type="button" class="act ok" data-exm-save>Save it</button></div>`:''}
     ${L.length?`<ul class="exm-list">${L.map(x=>{const st=exmStats(x),open=x.id===EX.id,ren=EXM.ren===x.id,del=EXM.del===x.id,who=exmWho(x);
-      return `<li class="exm-row${open?' open':''}" data-exm="${esc(x.id)}">
+      // owner 19 Nov: "does open and preview go to the same thing? Can we just make the block clickable to enter the exam. Also the blocks
+      // are so tall vertically ... more efficient and more design oriented": the card opens the exam; two lines; Make similar stays out, the rest in ⋯
+      const sch=x.school&&!/^\s*cmc\s+education\s*$/i.test(x.school)?' · '+esc(x.school):'';
+      return `<li class="exm-row${open?' open':''}${ren||del?'':' go'}" data-exm="${esc(x.id)}">
         <div class="exm-main">${ren?`<div class="exm-ren"><input data-exm-rt value="${esc(x.sub||'')}" aria-label="Exam name" placeholder="Name"><button type="button" class="act ok" data-exm-rok>Save</button><button type="button" class="act ghost" data-exm-rx>Cancel</button></div>`
-            :`<button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>`}
-          <div class="exm-meta">${esc(x.title||'')}${x.school?' · '+esc(x.school):''}${open?' · <span class="exm-cur">open now</span>':''}</div>
-          <div class="exm-stats"><span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span>${Math.round((1-st.pr)*100)}% fluency · ${Math.round(st.pr*100)}% PS</span>${st.miss?`<span class="exm-warn">${st.miss} question${st.miss===1?'':'s'} no longer in the bank</span>`:''}${(()=>{const k=typeof qWatch==='function'?RKEY.items(x).map(xq).filter(q=>qWatch(q)).length:0;return k?`<span class="exm-warn" data-exm-flag="${k}">⚠ ${k} question${k===1?'':'s'} reported or sent back to review</span>`:''})()}</div>
-          <div class="exm-who">Saved ${esc(exmWhen(x.at))}${who?' by '+esc(who):''}</div></div>
+            :`<div class="exm-l1"><button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>${open?'<span class="exm-cur">Open now</span>':''}</div>`}
+          <div class="exm-meta">${esc(x.title||'')}${sch} · Saved ${esc(exmWhen(x.at))}${who?' by '+esc(who):''}${st.miss?` · <span class="exm-warn">${st.miss} question${st.miss===1?'':'s'} no longer in the bank</span>`:''}${(()=>{const k=typeof qWatch==='function'?RKEY.items(x).map(xq).filter(q=>qWatch(q)).length:0;return k?` · <span class="exm-warn" data-exm-flag="${k}">⚠ ${k} question${k===1?'':'s'} reported or sent back to review</span>`:''})()}</div></div>
+        <div class="exm-stats"><span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span><b>${Math.round(st.pr*100)}%</b> PS</span></div>
         <div class="exm-acts">${del?`<span class="exm-sure">Delete for everyone?</span><button type="button" class="act bad" data-exm-delok>Delete</button><button type="button" class="act ghost" data-exm-delx>Keep</button>`
-          :`<button type="button" class="act ok" data-exm-open>Open</button><button type="button" class="act" data-exm-pv>Preview</button><button type="button" class="act ghost" data-exm-sim title="A new exam with the same settings and none of the questions in your saved exams">Make similar</button><button type="button" class="act ghost" data-exm-dup title="A copy with the same questions">Duplicate</button><button type="button" class="act ghost" data-exm-ren>Rename</button><button type="button" class="act ghost exm-del" data-exm-del aria-label="Delete">Delete</button>`}</div></li>`}).join('')}</ul>`
+          :`<button type="button" class="act ghost" data-exm-sim title="A new exam with the same settings and none of the questions in your saved exams">Make similar</button><span class="xmenu"><button type="button" class="act ghost exm-more" data-xmenu aria-expanded="false" aria-label="More">⋯</button><span class="xmenu-pop" hidden><button type="button" class="act" data-exm-dup title="A copy with the same questions">Duplicate</button><button type="button" class="act" data-exm-ren>Rename</button><button type="button" class="act exm-del" data-exm-del>Delete</button></span></span>`}</div></li>`}).join('')}</ul>`
       :`<div class="exm-empty">${XSAVED.length?'No saved exam matches that search.':'No saved exams yet. Build one in Exam setup or Pick by hand, then press <b>Save exam</b>.'}</div>`}`;
   if(EXM.ren){const i=el.querySelector('[data-exm-rt]');if(i){i.focus();i.select()}}}
 // the Saved / Unsaved marker (exHead), the My exams segment and container (renderExams), exRefresh and the refresh after
@@ -4983,8 +4986,8 @@ document.addEventListener('click',async e=>{const t=e.target;
   if(!t.closest('#exMine'))return;
   const row=t.closest('[data-exm]');if(!row)return;const x=XSAVED.find(s=>s.id===row.dataset.exm);if(!x)return;
   const guard=b=>{const st=exmState();if(x.id!==EX.id&&(st==='new'||st==='changed')&&!b.dataset.sure){const o=b.textContent;b.dataset.sure=1;b.textContent='Replace unsaved exam? Press again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent=o}},3500);return false}return true};
-  if(t.closest('[data-exm-open]')){const b=t.closest('[data-exm-open]');if(!guard(b))return;exmLoad(x);EXV.view='mine';EXV.mode=null;EXV.setupFor=null;exSaveView();renderExams();if(EX.items.length)xPreview('exam');toast(`Opened “${x.sub||'Untitled'}”`);return}   // owner 19 Nov: an exam opens on its paper
-  if(t.closest('[data-exm-pv]')){const b=t.closest('[data-exm-pv]');if(!guard(b))return;exmLoad(x);renderMine();exHead();xPreview('exam');return}
+  const ob=t.closest('[data-exm-open]')||(row.classList.contains('go')&&!t.closest('button,input,.xmenu')?row.querySelector('[data-exm-open]'):null);
+  if(ob){const b=ob;if(!guard(b))return;exmLoad(x);EXV.view='mine';EXV.mode=null;EXV.setupFor=null;exSaveView();renderExams();if(EX.items.length)xPreview('exam');toast(`Opened “${x.sub||'Untitled'}”`);return}   // owner 19 Nov: an exam opens on its paper
   if(t.closest('[data-exm-sim]')){exmLoad(x);EXAS.similar();return}
   if(t.closest('[data-exm-dup]')){const id='e'+Date.now(),{id:_o,...rest}=x;
     try{await db.doc('exams/'+id).set({...rest,sub:(x.sub||'Untitled')+' (copy)',by:me||null,at:new Date().toISOString()});toast('Duplicated')}catch(_){toast('Could not duplicate. Try again in a moment.')}return}
