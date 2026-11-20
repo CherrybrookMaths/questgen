@@ -425,7 +425,7 @@ document
     caption: solution sketch: sketch of y=|x-2| from -1 to 4
     redraw_status: approx
     redraw_class: graph
-    redraw_notes: y=|x-2| drawn on a true 59 px/unit scale with verticals at x=-1 and x=4. The two triangles under the graph are hatched with house shade hatch; the crop's hand hatch strokes are replaced. Dashed guides at heights 3 and 2, and dots at (0,2) and (2,0). I dropped the teacher's stray marks on the x-axis and the scan border line at the right edge, which shifts the overlay alignment. The rest of the low score is hand-stroke wobble and hatch placement. Rules 5, 10, 16, 17, 12.
+    redraw_notes: y=|x-2| drawn on a true 59 px/unit scale with verticals at x=-1 and x=4. The two triangles under the graph are hatched with house shade hatch; the crop's hand hatch strokes are replaced. Dashed guides at heights 3 and 2, and dots at (0,2) and (2,0). I dropped the teacher's stray marks on the x-axis and the scan border line at the right edge, which shifts the overlay alignment. The rest of the low score is hand-stroke wobble and hatch placement. Rules 5, 10, 16, 17, 12. | 20 Nov checker: "Make the dotted line go to touch the y-axis": The dashed guide at height 2 now starts at the y-axis (the dot at (0,2)) instead of stopping short at x = 1.05, so it touches the y-axis.
   part -  id 5292
     ordinal: 1
     latex: What is the value of $\displaystyle\int_{-1}^{4} |x-2|\,dx$ ?
@@ -908,7 +908,7 @@ document
     caption: cylinder with radius r and height h
     redraw_status: ok
     redraw_class: geometry
-    redraw_notes: Cylinder with the back half of the base ellipse dashed (aux), a centre dot with radius r, and the h dimension arrow broken around its label with end bars. Labels at normal size. Rules 2, 3, 4, 11.
+    redraw_notes: Cylinder with the back half of the base ellipse dashed (aux), a centre dot with radius r, and the h dimension arrow broken around its label with end bars. Labels at normal size. Rules 2, 3, 4, 11. | 20 Nov checker: "The r label is touching the cylinder lines. Fix": The r label is moved slightly left and down to the middle of the gap between the back rim and the radius line, and set one size smaller (small), so it now clears both lines by a visible 2-3 px gap at 200 dpi.
   part a  id 5298
     ordinal: 1
     latex: Given that $A = 2\pi r^2 + 2\pi r h$ and $V = \pi r^2 h$, show that $A = 2\pi r^2 + \dfrac{40}{r}$.
@@ -1537,7 +1537,7 @@ document
       caption: solution sketch: sketch of y=f(x/2-1)
       redraw_status: approx
       redraw_class: graph
-      redraw_notes: Smooth Bezier curve through (-10,0), (-6,5), (2,0), (6,-2), (10,0), flat at both turning points, with a dot and label at each. Ticks and labels at -10, 2 and 10. I moved the y-axis about 20 px right so the intercepts and turning points sit at true coordinates on one uniform scale: the teacher's sketch puts the axis at about x=-1. The y-axis is redrawn with its arrow at the top and a y label. The teacher's downward arrowhead at the bottom was dropped, but the long axis length is kept. The score is low from handwriting, the scan strokes and the moved axis. Rules 1, 4, 9, 16, 17.
+      redraw_notes: Smooth Bezier curve through (-10,0), (-6,5), (2,0), (6,-2), (10,0), flat at both turning points, with a dot and label at each. Ticks and labels at -10, 2 and 10. I moved the y-axis about 20 px right so the intercepts and turning points sit at true coordinates on one uniform scale: the teacher's sketch puts the axis at about x=-1. The y-axis is redrawn with its arrow at the top and a y label. The teacher's downward arrowhead at the bottom was dropped, but the long axis length is kept. The score is low from handwriting, the scan strokes and the moved axis. Rules 1, 4, 9, 16, 17. | 20 Nov checker: "Make the curve smoother and make it the actual graph": The hand-placed Bezier curve is replaced by a TikZ plot (100 samples, smooth) of a degree-7 polynomial through the true x-intercepts -10, 2, 10 and the turning points (-6,5) and (6,-2) with zero slope there and no other turning points, so the curve is the true transformed graph at the same scale, with axes, ticks, labels, dots and end arrows unchanged.
     difficulty
       band: 4
       wm: UF
