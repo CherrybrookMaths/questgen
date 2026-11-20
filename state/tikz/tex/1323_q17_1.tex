@@ -2,15 +2,15 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
-  % bucket (18 Nov checker: "Make the bucket and apples better. Fix the handle on the bucket"): tapered body, rim, lugs, wire handle
+  % bucket (18 Nov checker: "Make the bucket and apples better. Fix the handle on the bucket"): tapered body, rim, handle
   \fill[shade] (35,95) -- (66,248) .. controls (95,262) and (145,262) .. (174,248) -- (205,95) -- cycle;
   \draw (35,95) -- (66,248) .. controls (95,262) and (145,262) .. (174,248) -- (205,95);
   \fill[black!35] (120,99) ellipse [x radius=78, y radius=14];
   \draw (120,95) ellipse [x radius=85, y radius=20];
   \draw (120,103) ellipse [x radius=79, y radius=15];
-  \fill[white] (42,116) circle (6); \draw (42,116) circle (6);
-  \fill[white] (198,116) circle (6); \draw (198,116) circle (6);
-  \draw[line width=1.1pt] (42,116) .. controls (40,8) and (200,8) .. (198,116);
+  % handle reverted to the pre-18-Nov design (20 Nov checker: "Revert back to the other handle design")
+  \draw (100,125) .. controls (90,15) and (140,15) .. (140,95);
+  \draw (106,128) ellipse [x radius=8, y radius=8];
   % line and P
   \draw (248,201) -- (935,201);
   \fill (248,203) circle (9);
