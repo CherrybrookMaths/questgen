@@ -59,5 +59,21 @@
   },
   "notes": "No requests in runs. Restored the 18 Nov 15:46 xz backup (integrity ok); its bank matched v283 except difficulty, so v266-v283 changed no question data. Fetched 27 published files + 40 asset packs. Folder rescan: 5 search_files calls, 4,945 items; 0 new, 0 moved, 0 copies, 1 known missing. Images: 0 papers cleared. Step 3b (first night): 99 owner ratings applied (426 part_difficulty rows; 352 bank parts changed). PITFALL: build_bank.py in a fresh clone (no tikz/svg) rewrote the 32 data/svg packs as empty '{}' -> page test 11 diagram failures; restored them with fetch_published --place-assets work/assets_dl (sha256 = assets.json), rerun 205/0, 0 blockers. Also: python3 (3.11) imported Debian's broken PIL; fixed with python3 -m pip install --ignore-installed pillow. Published v284 (2 bank files). New Drive backup questions.db.xz (2.01 MB); old one renamed superseded.",
   "effort": "medium: about 80 tool calls; no imports"
+ },
+ {
+  "night": "2026-11-20",
+  "started": "2026-11-20T22:14+11:00",
+  "finished": "2026-11-20T22:34+11:00",
+  "minutes": {
+   "setup_restore": 4,
+   "requests": 0,
+   "folder_rescan": 4,
+   "images": 3,
+   "difficulty": 2,
+   "prepublish_publish": 10,
+   "backup_push": 1
+  },
+  "notes": "No requests in runs. Restored the 20 Nov 14:46 xz backup. Fetched 27 published files + 40 asset packs. python3 is 3.11 while pip targets 3.13: use python3 -m pip (pymupdf etc.), and --ignore-installed pillow again. Folder rescan: 7 search_files calls (ancestors, pageSize 1000), 6,796 items (4,945 last night): a colleague uploaded a large set today (mostly Ext 1 folders, Abbotsleigh restructured into 'Yr 12 Adv' etc.). Applied: 1,786 rows (1,772 new: 1,303 discovered, 469 excluded; 1,722 of unknown course), 20 moved, 14 copies, 51 recorded-but-missing (7 imported Abbotsleigh papers 158,159,161,162,163,165,166 among them; 5 re-matched as copies). 7 new Advanced Y12 papers queued into batch 133. Images: 14 papers cleared (scan packs 1322,1324-1330,1583,1606,1612,634-636 archived, ~21 MB), 121 overlays dropped, 147 crops dropped, 58 kept. PITFALL: step 3b's fetch_published --place-assets also restores data/crop packs and undoes step 3's crop changes; once the cleared scan packs are archived a re-run of image_lifecycle cannot rebuild the 58 kept crops. Fixed by copying the archived scan packs back, --place-assets, image_lifecycle again. Better order: run step 3b before step 3, or restore only data/svg. Difficulty: 99 ratings, 0 changes (already in the DB). Uploaded 8 crop packs (sha256 = local), asset_manifest. Prepublish runs 2 and 3 each failed one or two different 'no typeset maths in #bankView' bank checks (screenshot shows maths typeset: timing flake), so per the stop rule NOT published. New Drive backup questions.db.xz (2.10 MB).",
+  "effort": "medium-high: about 95 tool calls; no imports"
  }
 ]
