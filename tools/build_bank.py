@@ -80,6 +80,10 @@ figtab = {os.path.basename(r['png_path'])[:-4]: r['redraw_table_id'] for r in db
 noorig = {os.path.basename(r['png_path'])[:-4] for r in db.execute("select png_path from figures where page=0 and bbox='[]'")}
 ovs = json.load(open(paths.S + 'tikz/overlay_scores.json')) if os.path.exists(paths.S + 'tikz/overlay_scores.json') else {}
 figs, packs = {}, collections.defaultdict(dict)
+_svg_have, _svg_kept = {}, 0   # the diagram packs as they are now (see below: a redraw with no local SVG keeps this copy)
+for _g in glob.glob(P + 'site/data/svg/g*.json'):
+    try: _svg_have.update(json.load(open(_g)))
+    except ValueError: pass
 for k, r in res.items():
     c = chk.get(k, {})
     tid = figtab.get(k)
@@ -91,7 +95,11 @@ for k, r in res.items():
                    ov=[ovs[k]['orig_covered'], ovs[k]['redraw_covered']] if k in ovs and 'orig_covered' in ovs[k] else None, v=r.get('version', 1),
                    **({'no': 1} if k in noorig else {}))
     svg = P + 'tikz/svg/%s.svg' % k
-    if r['status'] in ('ok', 'approx') and os.path.exists(svg):
+    if r['status'] in ('ok', 'approx') and not os.path.exists(svg) and k in _svg_have:
+        # night runs 19-20 Nov: in a fresh clone tikz/svg/ is empty (build output, not in git), and this loop wrote all 32 diagram
+        # packs as {}; a redraw with no local SVG now keeps the copy the pack already holds (the live one after fetch_published)
+        packs[k.split('_')[0]][k] = _svg_have[k]; _svg_kept += 1
+    elif r['status'] in ('ok', 'approx') and os.path.exists(svg):
         if os.path.getsize(svg) > 3_000_000:   # (stipple is now real dots, so SVGs stay small)   # pattern fills explode into thousands of SVG paths: ship a 300 dpi PNG instead
             pdf = P + 'tikz/build/%s.pdf' % k; hi = P + 'tikz/hi/%s' % k
             os.makedirs(P + 'tikz/hi', exist_ok=True)
@@ -104,6 +112,7 @@ figs = {k: v for k, v in figs.items() if k in dbkeys or v['status'] != 'keep_cro
 # owner 15 Nov (via workflow brief): "Lets do ... 4" -> fewer published files: the redraw packs are written as 8 group
 # files data/svg/g<doc % 8>.json, not one per paper (tools/packs.py; the page picks the group in 05_figures.js PACK_G)
 import sys; sys.path.insert(0, P + 'tools'); import packs as _packs
+if _svg_kept: print(f'svg: {_svg_kept} redraw(s) without a local SVG kept from the existing packs (tikz/svg is build output)')
 _packs.write_groups('svg', packs)
 for _f in _packs.leftovers('svg'):   # a per-paper file from an older build would be published for nothing: archive it
     os.makedirs(_packs.ARCH + 'svg', exist_ok=True); os.replace(P + 'site/data/svg/' + _f, _packs.ARCH + 'svg/' + _f)

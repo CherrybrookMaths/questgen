@@ -191,6 +191,15 @@ try:
         _big = [(f, os.path.getsize(P + f'site/data/{_k}/' + f)) for f in os.listdir(P + f'site/data/{_k}/') if f.endswith('.json')] if os.path.isdir(P + f'site/data/{_k}/') else []
         _big = [x for x in _big if x[1] > 15 * 2**20]
         if _big: W(f'packs: {_k} group(s) over 15 MiB of the asset store\'s 20 MiB per file: {_big[:3]}: raise GROUPS[{_k!r}] in tools/packs.py')
+    # night runs 19-20 Nov: a build in a fresh clone wrote the diagram packs as {} (fixed in build_bank.py 21 Nov); never publish or
+    # upload a pack that lost redraws: every redraw the bank lists (status ok/approx) must have its picture in its group
+    _bk = json.load(open(P + 'site/data/bank.json'))
+    _want = {k for k, f in (_bk.get('figs') or {}).items() if f.get('status') in ('ok', 'approx')}
+    _have = set()
+    for _f in glob.glob(P + 'site/data/svg/g*.json'):
+        _have |= set(json.load(open(_f)))
+    _lost = sorted(_want - _have)
+    if _lost: B(f'packs: {len(_lost)} redrawn diagram(s) missing from the data/svg packs (e.g. {_lost[:3]}): rebuild with the live packs in place (tools/fetch_published.py --place-assets), never upload these')
 except Exception as e:
     B(f'packs check could not run: {e}')
 # --- automated page test (hardening action 1, 14 Nov): tools/page_test.js must have passed on THIS build of the page ---

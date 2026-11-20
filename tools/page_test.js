@@ -753,7 +753,7 @@ async function areas(browser, base, seed) {
     await go(page, '#review');
     const st = await page.evaluate(() => ({rbar: !document.querySelector('#rbar').hidden, steps: document.querySelectorAll('#filters .step').length, cards: [...document.querySelectorAll('#inboxBox .icard')].map(c => c.dataset.card)}));
     errs(); assert(!st.rbar && !st.steps, `the old step row is still there (${st.steps} steps, bar ${st.rbar})`);
-    assert(st.cards.filter(c => c !== 'back').join(',') === 'papers,reports,difficulty', `Inbox cards: ${st.cards.join(',')}`);   // 'back' (17 Nov) shows only when something came back fixed
+    assert(st.cards.filter(c => c !== 'back' && c !== 'waiting').join(',') === 'papers,reports,difficulty', `Inbox cards: ${st.cards.join(',')}`);   // 'back' (17 Nov) and 'waiting' (18 Nov) show only when something came back fixed / waits for Claude
     for (const [k, h, v, box] of [['difficulty', '#review/difficulty', 'levels', '#levelsView'], ['reports', '#review/reports', 'reports', '#reportsView']]) {
       await page.click(`#inboxBox [data-card="${k}"] a.ihead`); await settle(page, 4000, 2);
       const r = await page.evaluate(box => ({hash: location.hash, view, shown: !document.querySelector(box).hidden, back: document.querySelector(box + ' > a.rback')?.getAttribute('href'), cur: document.querySelector('.views a[aria-current="page"]')?.firstChild.textContent.trim()}), box);
@@ -1035,6 +1035,8 @@ async function reviewFlow(browser, base, seed) {
         pn: card('papers')?.querySelector('.ict')?.textContent, rows: [...document.querySelectorAll('#inboxBox .iprow')].map(a => ({href: a.getAttribute('href'), dots: a.querySelectorAll('.mtrack i').length, line: a.querySelector('.ipl').textContent})),
         // 17 Nov: a diagram redrawn from a change request and not approved again keeps its paper open (openFix)
         redo: [...new Set(B.questions.filter(q => !q.dup_of && (() => { const x = reviews['q' + q.id]; return x && x.status !== 'flagged' && Object.keys(x.fig_done || {}).some(k => !(x.fig || {})[k]) })()).map(q => String(mainDoc(q.doc))))],
+        // 21 Nov (fixture refreshed to the live decisions): a paper with a flag or diagram change request still waiting for Claude has work too
+        wait: [...new Set(B.questions.filter(q => !q.dup_of && (x => !!x && ((x.status === 'flagged' && !x.fixed) || Object.values(x.fig || {}).includes('changes')))(reviews['q' + q.id])).map(q => String(mainDoc(q.doc))))],
         all: card('papers')?.querySelector('a.imore')?.getAttribute('href'), grouped: !!card('papers')?.querySelector('.rv-bgs'), vis: [...document.querySelectorAll('#inboxBox .iprow')].filter(a => a.getClientRects().length).length,
         repDone: card('reports')?.classList.contains('idone'), repTxt: card('reports')?.innerText, lvDone: card('difficulty')?.classList.contains('idone'), lvTxt: card('difficulty')?.innerText, lvHref: card('difficulty')?.querySelector('a')?.getAttribute('href'),
         tab: document.querySelector('#todoN').textContent, sw: document.querySelector('#curN').textContent,
@@ -1042,7 +1044,7 @@ async function reviewFlow(browser, base, seed) {
     });
     errs(); assert(r.view === 'inbox' && !r.rbar, `#review opened view ${r.view} (bar shown ${r.rbar})`);
     // the fixture's workload is 1346, 323, 1601; every paper with an open call raised on it (open_decisions.json "paper_<doc>") has work too (owner 13 Nov)
-    const wantDocs = [...new Set(['1346', '1601', '323', ...r.pc, ...r.fresh.map(String), ...r.redo])].sort();
+    const wantDocs = [...new Set(['1346', '1601', '323', ...r.pc, ...r.fresh.map(String), ...r.redo, ...r.wait])].sort();
     assert(r.want === wantDocs.length && r.docs.join(',') === wantDocs.join(','), `papers with work: ${r.docs.join(',')} (want ${wantDocs.join(',')})`);
     // the card opens at least 8 papers (08_review.js SHOW; 17 Nov: whole batch groups, later groups as a header line), then "Show all papers"
     assert(r.pn === String(r.want) && (r.grouped ? r.rows.length === r.want && r.vis >= Math.min(8, r.want) : r.rows.length === Math.min(8, r.want)), `Papers card says ${r.pn}, ${r.rows.length} rows (${r.vis} open, grouped ${r.grouped}), want ${r.want} (${Math.min(8, r.want)} rows)`);
@@ -2844,14 +2846,16 @@ async function reportActions(browser, base, seed) {
     const q = await page.evaluate(() => { const q = xq(559); if (!q) return null; const p = q.parts.find(x => String(x.id) === '890');
       const pri = s => p?.tagd?.[s]?.dp.filter(d => d[1] === 'primary').map(d => d[0]) || [];
       return {key: q.key, tagres: reviews.q559?.tagres, a: pri('A'), b: pri('B'), lab: p?.label, home: (() => { const d = document.createElement('div'); d.innerHTML = homeLabel(qHome(q)); return d.textContent })()} });
-    assert(q && q.tagres?.['890'] === 'B' && q.b.length && q.a.some(x => !q.b.includes(x)), `fixture QID 559: ${JSON.stringify(q)}`);
+    // 21 Nov: the fixture follows the live decisions; Review's pick for part 890 was B on 13 Nov and is A now: test whichever was picked
+    const pick = q?.tagres?.['890'], use = pick === 'A' ? q.a : q?.b, other = pick === 'A' ? q?.b : q?.a;
+    assert(q && (pick === 'A' || pick === 'B') && use.length && other.some(x => !use.includes(x)), `fixture QID 559: ${JSON.stringify(q)}`);
     await seedRep('rt_559', {question_id: 559, key: q.key, reason: 'dot_point', note: 'Page test: which topic'});
     await page.evaluate(() => renderReports()); await settle(page, 2000, 2);
     const c = await page.evaluate(() => { const r = document.querySelector('#reportsBox [data-repid="rt_559"]'); return {dots: r?.querySelector('.rep-dots')?.textContent || '', home: r?.querySelector('.rep-home')?.textContent || ''} });
     errs();
-    const wrong = q.a.filter(x => !q.b.includes(x));
-    assert(q.b.every(x => c.dots.includes(x)) && !wrong.some(x => c.dots.includes(x)), `card dot points “${c.dots}”: want ${q.b.join(',')} (tagger B), not ${wrong.join(',')}`);
-    assert(c.home === 'Home topic: ' + q.home && /derivatives/i.test(c.home), `home line “${c.home}”, want “${q.home}”`);
+    const wrong = other.filter(x => !use.includes(x));
+    assert(use.every(x => c.dots.includes(x)) && !wrong.some(x => c.dots.includes(x)), `card dot points “${c.dots}”: want ${use.join(',')} (tagger ${pick}), not ${wrong.join(',')}`);
+    assert(c.home === 'Home topic: ' + q.home && q.home.length > 5, `home line “${c.home}”, want “${q.home}”`);
     await page.evaluate(async () => { await db.doc('reports/rt_559').delete(); await new Promise(r => setTimeout(r, 60)) });
     return `part (${q.lab}): ${q.b.join(',')} (tagger B, Review's pick), not ${wrong.join(',')}; ${c.home}`;
   });
@@ -2862,6 +2866,7 @@ async function reportActions(browser, base, seed) {
     const r = await page.evaluate(() => { const q = xq(559), p = q.parts.find(x => String(x.id) === '890'), keep = reviews.q559;
       const shown = () => effTags(q, p).filter(t => t.primary).map(t => t.id), filed = () => partMain(q, p);
       const sideB = p.tagd.B.dp.filter(d => d[1] === 'primary').map(d => d[0]), sideA = p.tagd.A.dp.filter(d => d[1] === 'primary').map(d => d[0]);
+      reviews.q559 = {...keep, tagres: {...keep.tagres, 890: 'B'}};   // 21 Nov: set B explicitly (the live pick is A since the fixture refresh)
       const out = {b: [shown(), filed(), sideB]};
       reviews.q559 = {...keep, tagres: {...keep.tagres, 890: 'A'}}; out.a = [shown(), filed(), sideA, isTodo(q, 'tags')];
       reviews.q559 = {...keep, tagres: {...keep.tagres, 890: {id: 'Y12-257'}}}; out.id = [shown(), filed(), isTodo(q, 'tags')];
