@@ -219,6 +219,9 @@ async function sweep(browser, base, seed, width, theme) {
       // return while it shows. Wait for the loads to finish first (a load that never finishes fails the checks below).
       await page.waitForFunction(() => !document.querySelector('[data-qpend]') && !/Loading questions…/.test(document.body.innerText), null, {timeout: 20000}).catch(() => {});
       await settle(page, 4000, 2);
+      // night runs 18 and 20 Nov: 'no typeset maths in #bankView' failed although the screenshot showed the maths: MathJax can start
+      // after settle's quiet window. Wait for it (a view that never typesets still fails below)
+      if (mjx) await page.waitForFunction(b => (document.querySelector(b)?.getElementsByTagName('mjx-container').length || 0) > 0, box, {timeout: 15000}).catch(() => {});
       await page.evaluate(() => window.scrollTo(0, 0));
       const r = await page.evaluate(([box]) => {
         const el = document.querySelector(box), de = document.documentElement;
@@ -263,6 +266,7 @@ async function flows(browser, base, seed, seedR) {
   await check('bank: open a subtopic', page, async () => {
     await page.click('#list .subrow[data-sel]:not(.none)');
     await page.waitForSelector('#list .cards .card', {timeout: 10000}); await settle(page, 5000, 2);
+    await page.waitForFunction(() => document.querySelectorAll('#list mjx-container').length > 0, null, {timeout: 15000}).catch(() => {});   // same timing fix as the views
     const r = await page.evaluate(() => ({cards: document.querySelectorAll('#list .card').length, mjx: document.querySelectorAll('#list mjx-container').length, h: document.querySelector('#list .listhead h2')?.textContent}));
     errs(); assert(r.cards > 0, 'no question cards'); assert(r.mjx > 0, 'cards have no typeset maths');
     return `“${r.h}”: ${r.cards} cards, ${r.mjx} maths`;
@@ -1755,14 +1759,14 @@ async function papersLanes(browser, base, seed, fx) {
       rows: [...document.querySelectorAll('#prCheck .pr-place')].map(x => +x.dataset.prplace), acc: document.querySelector('#prAccept')?.textContent, cover: [...document.querySelectorAll('#prCheck .pr-place')].every(x => x.querySelectorAll('.pr-pages .pr-pg').length === 4)}));
     assert(r.hash === '#processes/papers/check' && r.main && r.chk && r.hist, `the check view: ${JSON.stringify(r)}`);
     assert(r.h.join('|') === 'Needs a check|1 paper placed by better rules|2 for you to place' && r.acc === 'Accept all 1', `headings ${r.h} / ${r.acc}`);
-    assert(r.rules[0] === '"EXT1" written without a space, or a "Y12 Ext1" folder 1 paper' && r.rules.length === 4, `rules ${r.rules}`);
+    assert(r.rules[0] === '"Ext 1" or "EXT1" (with or without a space), or a "Yr 12 Ext 1" folder 1 paper' && r.rules.length === 5, `rules ${r.rules}`);   // v3 (21 Nov)
     assert(r.rows.join() === '9140,9601' && r.cover, `rows to place ${r.rows}`);
     await page.click('#prCheck [data-prsee="ext1"]'); await settle(page, 500, 2);
     const see = await page.evaluate(() => [...document.querySelectorAll('#prCheck .pr-see li')].map(li => li.textContent));
     assert(see.length === 1 && /2024 Oakhill College AT2/.test(see[0]), `See all: ${see}`);
     await page.click('#prAccept'); await settle(page, 1200, 2);
     const acc = await docs(page, 'scans');
-    assert(acc.length === 1 && acc[0].k === 'scans/rules' && acc[0].accepted === true && acc[0].version === 2 && acc[0].by === 'u_pagetest', `scans/rules ${JSON.stringify(acc)}`);
+    assert(acc.length === 1 && acc[0].k === 'scans/rules' && acc[0].accepted === true && acc[0].version === 3 && acc[0].by === 'u_pagetest', `scans/rules ${JSON.stringify(acc)}`);
     // owner 14 Nov (mockup): the rules' course guess is pre-picked, not saved: Ascham 2019 shows Advanced pressed and no paperfix yet
     const pre = await page.evaluate(() => ({c: [...document.querySelectorAll('#prCheck [data-prplace="9140"] [data-prc]')].filter(b => b.getAttribute('aria-pressed') === 'true').map(b => b.dataset.prc),
       y: [...document.querySelectorAll('#prCheck [data-prplace="9140"] [data-pryl]')].filter(b => b.getAttribute('aria-pressed') === 'true').length, n: [...window.__pt.store.keys()].filter(k => k.startsWith('paperfix/')).length,

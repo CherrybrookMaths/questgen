@@ -134,7 +134,7 @@ def build(db, files=False, rules=None, overrides=None):
         for d in docs.values():
             a, b = classify_path(d['source_path'], RULES), classify_path(d['source_path'], rules)
             if (a['course'], a['year_level']) != (b['course'], b['year_level']) and (d['course'], d['year_level']) == (a['course'], a['year_level']):
-                d['course'], d['year_level'], d['_rule'] = b['course'], b['year_level'], ('yl11' if b['year_level'] != a['year_level'] else b['course'])
+                d['course'], d['year_level'], d['_rule'] = b['course'], b['year_level'], (('yl%s' % b['year_level']) if b['year_level'] != a['year_level'] and b['course'] == a['course'] else b['course'])
     for i, o in overrides.items():   # the owner placed it (or set it aside): that wins over every rule
         if i in docs:
             d = docs[i]
@@ -380,7 +380,7 @@ def proposed(db, inv, overrides=None):
         b = Bf.get(i)
         if not b or b[1]['st'] == 'needs_check': continue
         c, yl = b[0].split('|')
-        key = 'yl11' if yl == '11' and k.split('|')[1] != '11' else c
+        key = ('yl' + yl) if yl in ('11', '12') and k.split('|')[1] != yl and c == k.split('|')[0] else c   # 21 Nov: yl12 too (v3)
         if key in rows:
             r = rows[key]; r['n'] += 1; r['ids'].append(i)
             if not r['example']: r['example'] = docs.get(i, '')

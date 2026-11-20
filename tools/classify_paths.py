@@ -81,10 +81,12 @@ RULES = {
 # decide keeps its result unless one of these names it (checked: tools/classify_paths.py --proposed).
 # Patterns must stay valid in both Python `re` and JavaScript RegExp (the page applies them too, for its preview).
 RULES_PROPOSED = {
-    'version': 2,
+    'version': 3,   # 21 Nov: v3 adds "Ext 1" with a space and a folder named just "12" (folder upload of 20 Nov: "Yr 12 Ext 1", "Baulkham
+                    # Hills/12/Ext1"); owner 21 Nov: "fix the questions and do the suggested work yeah" (the suggestion: teach the folder
+                    # scan the new folder names) = Accept of v3
     'course': {
         # "12EXT1_T2_HY_2024.pdf", "Y12 Ext1/" ("ext1" written without a space; the stage-0 rule wants "extension 1" or "x1")
-        'ext1': r'(?<![a-z])ext1(?![0-9])',
+        'ext1': r'(?<![a-z])ext ?1(?![0-9])',
         # an "Ext 2" / "Ext2" folder
         'ext2': r'(?:^|/)[^/]*(?<![a-z])ext ?2(?![0-9])[^/]*/',
         # a "Std" / "Standard" folder ("Y12 Std/")
@@ -93,11 +95,14 @@ RULES_PROPOSED = {
     'year_level': {
         # a folder named just "11" ("Baulkham Hills/11/Adv/...")
         '11': r'(?:^|/)11(?:/|$)',
+        # a folder named just "12" ("Baulkham Hills/12/Ext1/...")
+        '12': r'(?:^|/)12(?:/|$)',
     },
     # what the Needs a check view says about each fix (rule, result), in this order
     'show': [
-        {'key': 'ext1', 'rule': '"EXT1" written without a space, or a "Y12 Ext1" folder', 'result': 'Extension 1'},
+        {'key': 'ext1', 'rule': '"Ext 1" or "EXT1" (with or without a space), or a "Yr 12 Ext 1" folder', 'result': 'Extension 1'},
         {'key': 'yl11', 'rule': 'A folder named just "11" under the school', 'result': 'Year 11 (held)'},
+        {'key': 'yl12', 'rule': 'A folder named just "12" under the school', 'result': 'Year 12'},
         {'key': 'standard', 'rule': '"Std" or "Standard" as a folder', 'result': 'Standard'},
         {'key': 'ext2', 'rule': '"Ext 2" or "Ext2" as a folder', 'result': 'Extension 2'},
     ],
@@ -316,11 +321,11 @@ def selftest(db_path=None):
           + (f'; {len(changed)} only get a field the old rules left empty ({", ".join(sorted({k for d in changed.values() for k in d}))})' if changed else '')
           + f'; status changed for {len(status)}')
     for p in status[:10]: print('  status differs:', p)
-    paths = [r[0] for r in db.execute('SELECT source_path FROM documents')]
-    tb = [p for p in paths if classify_name_only(p) != task_type_from('', p.split('/')[-1])]
-    print(f'RULES["task"] in page order: {len(paths) - len(tb)} of {len(paths)} paths agree with task_type_from')
+    allpaths = [r[0] for r in db.execute('SELECT source_path FROM documents')]   # 21 Nov: was `paths`, which shadowed the module and broke line 1
+    tb = [p for p in allpaths if classify_name_only(p) != task_type_from('', p.split('/')[-1])]
+    print(f'RULES["task"] in page order: {len(allpaths) - len(tb)} of {len(allpaths)} paths agree with task_type_from')
     for p in tb[:10]: print('  differs:', p)
-    pb = proposed_check(paths)
+    pb = proposed_check(allpaths)
     return not bad and not status and not tb and not pb
 
 

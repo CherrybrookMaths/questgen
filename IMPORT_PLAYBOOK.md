@@ -531,6 +531,14 @@ bottom, until it is empty. There is no waiting-for-review limit; the early stop 
   `tools/inventory.py`. `python3 tools/classify_paths.py --selftest` checks the fixes only fill what the stage-0 rules left
   empty (one known exception: "Baulkham Hills/11/Ext1/P1 Adv 2020 Yearly Exams solutions.pdf", Advanced → Extension 1, held
   either way).
+  **21 Nov: v3 accepted and applied.** The owner pressed Accept for v2 on 16 Nov, but nothing copied scans/rules into
+  work/rules_accepted.json, so the fixes never applied. On 20 Nov a colleague added about 1,800 PDFs in "Yr 12 Ext 1" / "Yr 11 Ext 1"
+  folders (Ext 1 with a space, which v2 missed) and "Baulkham Hills/12/..." folders. v3 = v2 + "Ext 1" with a space + a folder named
+  "12". Owner 21 Nov: "fix the questions and do the suggested work yeah" (the suggestion was to teach the folder scan the new folder
+  names) = Accept of v3, recorded in scans/rules and state/work/rules_accepted.json. Result: 2,119 files placed (1,878 Extension 1,
+  133 Standard, 36 Extension 2, 69 year levels); Needs a check 6 papers. Then 26 Extension 1 files of one paper with the same size
+  were recorded as copies (the same-size rule), and two Abbotsleigh re-files (2023 AT1, 2024 AT1, same size in bytes as imported
+  docs 159 and 163) as copies of them. Whenever a session reads scans/rules, it writes state/work/rules_accepted.json too.
 - **db rules at publish:** `queue`, `batches`, `paperfix`: read admin, write admin. (`runs`, `scans`, `importq` already are.)
   The 14 Nov follow-ups add no collection (the review state reads `reviews`, which every viewer already reads).
 

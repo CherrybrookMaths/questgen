@@ -213,7 +213,7 @@ def sample_drive():
     names = {x['id']: x['title'] for xs in folders.values() for x in xs}
     expect = {}
     for i, d in path.items():
-        c = classify_path(d + names[i])
+        c = classify_path(d + names[i], RULES)   # the fixture is the not-yet-accepted state: its inventory carries RULES
         expect[i] = {'path': d + names[i], 'course': c['course'], 'yl': c['year_level'], 'year': c['year'], 'status': c['status']}
     return {'folders': folders, 'per': 2, 'folder_count': 6, 'expect': expect, 'like': {'n3': 'Loose Adv notes.pdf'}}
 
@@ -225,7 +225,7 @@ def classify_cases():
     db = sqlite3.connect('file:' + DB + '?mode=ro', uri=True)
     out = []
     for (p,) in db.execute('SELECT source_path FROM documents ORDER BY id'):
-        c = classify_path(p)
+        c = classify_path(p, RULES)   # 21 Nov: the live rules are v3 once accepted; the fixture page holds RULES (see sample_drive)
         out.append([p, c['course'], c['year_level'], c['task_type'], c['year'], c['school'], c['status'], c['failure_reason']])
     return out
 
