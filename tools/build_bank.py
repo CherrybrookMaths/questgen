@@ -76,6 +76,8 @@ chk = {}
 for f in glob.glob(P + 'tikz/check_*.json'):
     for r in json.load(open(f))['results']: chk[r['id']] = r
 figtab = {os.path.basename(r['png_path'])[:-4]: r['redraw_table_id'] for r in db.execute('select png_path, redraw_table_id from figures')}
+# checker 20 Nov ("original image missing" on sketches Claude drew for a solution): these rows have no page or box; the page says so
+noorig = {os.path.basename(r['png_path'])[:-4] for r in db.execute("select png_path from figures where page=0 and bbox='[]'")}
 ovs = json.load(open(paths.S + 'tikz/overlay_scores.json')) if os.path.exists(paths.S + 'tikz/overlay_scores.json') else {}
 figs, packs = {}, collections.defaultdict(dict)
 for k, r in res.items():
@@ -86,7 +88,8 @@ for k, r in res.items():
         tables[tid] = dict(cap=None, hr=tb.get('header_rows', 0), lc=tb.get('label_col', 0), rows=tb['rows'], spans=[])
     figs[k] = dict(status=r['status'], cls=r.get('class'), notes=r.get('notes'),
                    check=c.get('verdict'), check_notes=c.get('notes'), table=tid,
-                   ov=[ovs[k]['orig_covered'], ovs[k]['redraw_covered']] if k in ovs and 'orig_covered' in ovs[k] else None, v=r.get('version', 1))
+                   ov=[ovs[k]['orig_covered'], ovs[k]['redraw_covered']] if k in ovs and 'orig_covered' in ovs[k] else None, v=r.get('version', 1),
+                   **({'no': 1} if k in noorig else {}))
     svg = P + 'tikz/svg/%s.svg' % k
     if r['status'] in ('ok', 'approx') and os.path.exists(svg):
         if os.path.getsize(svg) > 3_000_000:   # (stipple is now real dots, so SVGs stay small)   # pattern fills explode into thousands of SVG paths: ship a 300 dpi PNG instead

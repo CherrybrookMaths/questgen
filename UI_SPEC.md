@@ -484,6 +484,11 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   difficulty/<part_id> (as a Difficulty check, from_report) and resolves the report with what was applied. Reports sit in Curate
   (editors only) and difficulty writes need admin. The exam maker's estimates and generator use a saved change at once (lvDif); the
   night run folds them into the database (NIGHT.md 3b, tools/apply_difficulty_reviews.py).
+- **No original for a sketch Claude drew (20 Nov).** The checker flagged "original image missing" (2022 Girraween AT4 Q3, twice, after
+  the 18 Nov hand-back explained it) and "original image is missing. Find and put it there" (2022 Hornsby AT4 Q18 s2; the paper's
+  solutions have one graph, shown with s1). 31 solution sketches have no source picture (figures row page 0, no box). build_bank marks
+  them (fig.no) and Review's Original box says: "No original: the paper has no diagram here. Claude drew this sketch for the worked
+  solution, so check it against the solution's working." instead of an empty picture.
 - **Multiple-choice option diagrams resize (19 Nov):** an option's corner drag never grew the diagram (its size limit was measured from
   a wrapper only as wide as the diagram); it is measured from the option's cell now. Found when the page test's exam opened on one.
 - **Marks block (18 Nov).** Owner, with a NESA cover screenshot: "in terms of the cover page format, the marks part should like something
