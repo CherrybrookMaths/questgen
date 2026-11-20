@@ -128,3 +128,10 @@ Keep helpers under `/home/claude/pilot/work/diag_<GROUP>/`. Never write to anoth
 - Q535: the four integrals are a 2x2 layout on the paper, not a table. They are now a display array.
 
 - **Hand-drawn 3D solids** (owner 12 Nov: "meant to be a prism ... don't be too wonky"). Redraw the solid the sketch means, not the sketch itself. Use oblique view with parallel depth edges and vertical uprights. Keep the sketch's labels and shading.
+
+## 21 Nov: axis labels that would sit on the curve
+Owner 21 Nov, on 2022 James Ruse AT4 Q36 (checker, twice: "Try to keep all the xaxis labels on hte same line"; on the true curve the
+point (-π/2, -1) and the curve pass where two labels would go): "you decide for the diagram to be usable". Rule from now on: put all
+tick labels on one common line (below, or above the axis) when that line is clear of the curve and marked points; otherwise keep the
+usual side and move only the labels that would touch the curve or a point to the mirror position above the axis, centred on the tick.
+A label never touches the curve, a point or a line.
