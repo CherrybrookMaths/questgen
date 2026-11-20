@@ -7,13 +7,11 @@
   \draw[->] (575,723) -- (575,5) node[anchor=west, xshift=3pt] {$y$};
   % ticks at x-intercepts
   \foreach \X in {260,638,890} \draw (\X,217) -- (\X,233);
-  % curve: roots -10, 2, 10; TPs (-6,5), (6,-2)
-  \draw[<->, line width=0.9pt] (214,368) .. controls (227,335) and (246,246) .. (260,225)
-     .. controls (282,192) and (330,65) .. (386,65)
-     .. controls (462,65) and (604.5,188) .. (638,225)
-     .. controls (658,247) and (716,289) .. (764,289)
-     .. controls (812,289) and (872,249) .. (890,225)
-     .. controls (908,201) and (982,112) .. (1000,88);
+  % curve: the true graph of y=f(x/2-1): roots -10, 2, 10; TPs (-6,5), (6,-2) with zero slope there;
+  % degree-7 polynomial in u=x/10 through these (plus y(12)=2), no other turning points
+  \draw[<->, line width=0.9pt] plot[domain=-10.91:13.64, samples=100, smooth, variable=\x]
+     ({575+31.5*\x}, {225-32*((((((((3.5307*(\x/10) - 6.07497)*(\x/10) - 4.49041)*(\x/10) + 6.78684)*(\x/10)
+       + 9.96221)*(\x/10) - 2.52458)*(\x/10) - 9.0025)*(\x/10) + 1.81271)});
   \node[pt] at (386,65) {};
   \node[pt] at (764,289) {};
   \node[anchor=south] at (386,55) {$(-6,5)$};
