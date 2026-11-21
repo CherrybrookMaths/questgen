@@ -47,7 +47,7 @@ def read(src, coll, db, table):
         out = []
         for f in sorted(glob.glob(os.path.join(src, coll, '*.json'))):
             x = json.load(open(f)); v = x['data'] if isinstance(x, dict) and isinstance(x.get('data'), dict) else x
-            out.append((os.path.basename(f)[:-5], v))
+            out.append((os.path.basename(f)[:-5].replace('@', '~'), v))   # 21 Nov: the export spells '~' as '@' (as tools/sync_pagedb.py docs())
         return out
     if not db.execute('SELECT 1 FROM sqlite_master WHERE name=?', (table,)).fetchone(): return []
     return [(k, json.loads(d)) for k, d in db.execute(f'SELECT doc_key, data_json FROM {table}')]

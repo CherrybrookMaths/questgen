@@ -36,11 +36,7 @@ MAX_FILE = 20 * 2**20   # assets.d.ts: 20 MiB for JSON (and every type but SVG 2
 TARGET_PAPERS = 538     # the import target in the plan
 
 
-def sha256(f):
-    h = hashlib.sha256()
-    with open(f, 'rb') as fh:
-        for b in iter(lambda: fh.read(1 << 20), b''): h.update(b)
-    return h.hexdigest()
+from asset_manifest import sha256   # one copy (health pass 21 Nov)
 
 
 def candidates():

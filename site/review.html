@@ -5,53 +5,43 @@
 <link rel="stylesheet" href="vendor/fonts/fonts.css">
 <style>
 :root{
-  /* owner 12 Nov: warm editorial look — paper ground, serif headings, one accent per year */
-  --bg:#f6f2ea; --panel:#fffdf8; --ink:#1f2430; --muted:#6b675f; --line:#e7e0d3; --line2:#d6ccbb;
-  --accent:#1e5f5a; --accent-soft:#e1efec; --ok:#2f7a43; --ok-soft:#e3f1e5; --warn:#9a5b00; --warn-soft:#fbefd9;
-  --bad:#b3261e; --bad-soft:#fbe4e2; --gen:#6a3fa0; --gen-soft:#efe7f8; --page:#ffffff; --hi:#f6ecd2;
-  --y12:#1e5f5a; --y12-soft:#e1efec; --y11:#b0641c; --y11-soft:#f8e9d8;
+  /* owner 12 Nov: warm editorial look — paper ground, serif headings, one accent per year. The colours themselves are set in
+     17_theme2.css (health pass 21 Nov: the original palette here was fully overridden there and is removed); --page and the fonts stay here */
+  --page:#ffffff;
   --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   --display:"Fraunces",Georgia,"Times New Roman",serif;
   --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
   --serif:"Tinos","Times New Roman",Times,serif;   /* exam content: HSC papers are set in Times Roman/Italic */
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#17161a; --panel:#211f24; --ink:#ece7de; --muted:#a39d92; --line:#332f36; --line2:#45404a;
-  --accent:#7cc4bb; --accent-soft:#1d3532; --ok:#7ccf94; --ok-soft:#1a3324; --warn:#f0b65a; --warn-soft:#3a2c13;
-  --bad:#f28b82; --bad-soft:#3d1d1b; --gen:#c3a3ef; --gen-soft:#2c2140; --page:#eef0f2; --hi:#3a3418;
-  --y12:#7cc4bb; --y12-soft:#1d3532; --y11:#e9a865; --y11-soft:#3a2a18; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#17161a; --panel:#211f24; --ink:#ece7de; --muted:#a39d92; --line:#332f36; --line2:#45404a;
-  --accent:#7cc4bb; --accent-soft:#1d3532; --ok:#7ccf94; --ok-soft:#1a3324; --warn:#f0b65a; --warn-soft:#3a2c13;
-  --bad:#f28b82; --bad-soft:#3d1d1b; --gen:#c3a3ef; --gen-soft:#2c2140; --page:#eef0f2; --hi:#3a3418;
-  --y12:#7cc4bb; --y12-soft:#1d3532; --y11:#e9a865; --y11-soft:#3a2a18; color-scheme:dark}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--page:#eef0f2;color-scheme:dark}}
+:root[data-theme="dark"]{--page:#eef0f2;color-scheme:dark}
 [hidden]{display:none!important}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
-body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--panel)}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10}
 .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1500px;margin:0 auto}
-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--panel);border-bottom:1px solid var(--line)}
-.top{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;padding-block:10px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:6}
+.top{display:flex;flex-wrap:wrap;align-items:center}
 .brand{font:600 19px var(--display);margin:0;letter-spacing:-.01em}
-.brand small{font:500 13px var(--sans);color:var(--muted);margin-left:6px}
-.views{display:flex;gap:4px;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:3px;position:relative}
-.views a{font:600 14px var(--sans);color:var(--muted);text-decoration:none;padding:5px 14px;border-radius:6px;position:relative;z-index:1;transition:color .2s}
-.views a[aria-current="page"]{color:var(--ink)}
+
+.views{display:flex;position:relative}
+.views a{text-decoration:none;position:relative;z-index:1}
+
 /* owner 12 Nov: "clicking between tabs the pill should slide to another one" */
-.views .slider{position:absolute;top:3px;bottom:3px;left:0;width:0;border-radius:6px;background:var(--panel);box-shadow:0 1px 2px rgba(0,0,0,.08);transition:transform .28s cubic-bezier(.3,.7,.2,1),width .28s cubic-bezier(.3,.7,.2,1);z-index:0}
+.views .slider{position:absolute;left:0;width:0;transition:transform .28s cubic-bezier(.3,.7,.2,1),width .28s cubic-bezier(.3,.7,.2,1);z-index:0}
 @media (prefers-reduced-motion:reduce){.views .slider{transition:none}}
-.views .n{font:500 12px var(--mono);margin-left:6px;color:var(--warn)}
-.search{margin-left:auto;flex:1 1 160px;max-width:340px}
+
+.search{margin-left:auto;flex:1 1 160px}
 .search input{width:100%}
-select,input,textarea{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line2);border-radius:6px;padding:6px 9px}
+select,input,textarea{font:inherit;color:var(--ink);background:var(--panel);border:1px solid var(--line2);padding:6px 9px}
 button{font:inherit;color:inherit}
 button.act{font:600 13px var(--sans);border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:6px;padding:6px 12px;cursor:pointer}
-button.act:hover{border-color:var(--accent)}
+
 button.ok{background:var(--ok-soft);border-color:var(--ok);color:var(--ok)}
 button.warn{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
 button.ghost,a.ghost{border-color:transparent;background:none;color:var(--accent);padding:4px 6px;text-decoration:none}
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-kbd{font:500 11px var(--mono);border:1px solid var(--line2);border-bottom-width:2px;border-radius:4px;padding:0 4px;color:var(--muted);background:var(--panel)}
-.badge{font:600 11px var(--sans);letter-spacing:.04em;text-transform:uppercase;border-radius:4px;padding:2px 7px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap}
+
+
+.badge{text-transform:uppercase;border:1px solid var(--line2);color:var(--muted);white-space:nowrap}
 .b-scan{color:var(--warn);border-color:var(--warn);background:var(--warn-soft)}
 .b-acc{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
 .b-bad{color:var(--bad);border-color:var(--bad);background:var(--bad-soft)}
@@ -59,7 +49,7 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line2);border-bottom-width:
 .b-gen{color:var(--gen);border-color:var(--gen);background:var(--gen-soft)}
 .muted{color:var(--muted)}
 .empty{padding:36px 16px;text-align:center;color:var(--muted)}
-.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:max(16px,env(safe-area-inset-right,0px));background:var(--ink);color:var(--panel);padding:8px 14px;border-radius:6px;font-size:13px;opacity:0;transition:opacity .2s;z-index:20;pointer-events:none}
+.toast{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));right:max(16px,env(safe-area-inset-right,0px));background:var(--ink);color:var(--panel);font-size:13px;opacity:0;transition:opacity .2s;z-index:20;pointer-events:none}
 .toast.on{opacity:1}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
 /* job 2 (owner 16 Nov: "Yeah build it"): a view other than the Bank waits for the question details (01_core.js QG.waitNote) */
@@ -71,36 +61,36 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line2);border-bottom-width:
 /* owner 19 Nov: Worksheets in the top navigation, greyed until it is built */
 .views .vsoon{opacity:.5;cursor:not-allowed;padding:6px 11px;font:500 13.5px var(--sans);color:var(--muted);align-self:center}.views .vsoon small{font-size:11px;margin-left:3px}
 /* ---------- Bank (owner 12 Nov: warm editorial redesign) ---------- */
-.bank{display:grid;grid-template-columns:260px minmax(0,1fr);gap:28px;padding-block:22px}
+.bank{display:grid;grid-template-columns:260px minmax(0,1fr)}
 .bank.homemode{grid-template-columns:minmax(0,1fr)}
 .bank.homemode .nav{display:none}
 @media (max-width:900px){.bank{grid-template-columns:1fr}}
-.nav{min-width:0;position:sticky;top:var(--navtop,86px);align-self:start;max-height:calc(100vh - var(--navtop,86px) - 22px);overflow:auto;overscroll-behavior:contain;padding-right:4px;scrollbar-width:none}
+.nav{min-width:0;top:var(--navtop,86px);align-self:start;max-height:calc(100vh - var(--navtop,86px) - 22px);overflow:auto;overscroll-behavior:contain;padding-right:4px;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}   /* owner 12 Nov: no visible scrollbar on the side list (it still scrolls) */
 @media (max-width:900px){.nav{display:none}}
 #list{min-width:0}
 .navtools{display:flex;gap:2px;justify-content:flex-end;margin:0 0 6px;position:relative;z-index:1}
-.navtools button{background:none;border:0;border-radius:6px;padding:3px 8px;font:500 12px var(--sans);color:var(--muted);cursor:pointer;transition:background-color .15s,color .15s}
-.navtools button:hover{background:var(--panel);color:var(--ink)}
+.navtools button{background:none;border:0;color:var(--muted);cursor:pointer;transition:background-color .15s,color .15s}
+.navtools button:hover{color:var(--ink)}
 .navtools+h3{margin-top:2px}
 .dps li.zero{opacity:.55}
 .dps li{overflow-wrap:anywhere}
-.nav h3{font:600 11px var(--sans);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:18px 0 6px}
-.nav h3:first-child{margin-top:0}
+.nav h3{font:600 11px var(--sans);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+
 .fa{margin-bottom:2px}
-.fa>button{display:flex;width:100%;justify-content:space-between;gap:8px;align-items:center;text-align:left;background:none;border:0;border-radius:8px;padding:7px 10px;cursor:pointer;font-weight:500;font-size:14px;color:var(--ink)}
+.fa>button{display:flex;width:100%;justify-content:space-between;gap:8px;align-items:center;text-align:left;background:none;border:0;cursor:pointer;color:var(--ink)}
 .fa>button:hover{background:var(--panel)}
 .fa>button .c,.fa li .c{font:500 12px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
 .nav{position:sticky}
 #nav{position:sticky}
-.navpill{position:absolute;left:0;top:0;border-radius:6px;background:var(--accent-soft);pointer-events:none;z-index:0;opacity:0;will-change:transform;transition:transform .3s cubic-bezier(.2,.7,.2,1),height .3s cubic-bezier(.2,.7,.2,1),width .3s cubic-bezier(.2,.7,.2,1),opacity .2s}
+.navpill{position:absolute;left:0;top:0;pointer-events:none;z-index:0;opacity:0;will-change:transform;transition:transform .3s cubic-bezier(.2,.7,.2,1),height .3s cubic-bezier(.2,.7,.2,1),width .3s cubic-bezier(.2,.7,.2,1),opacity .2s}
 .nav.nofx .fold,.nav.nofx .fold>ul{transition:none!important}
 .fa,.nav h3{position:relative;z-index:1}
 .fa>button{transition:background-color .15s}
 .fa.parked>button,.fa.parked>button:hover{background:transparent}   /* owner 13 Nov: hovering a closed area that holds the current subtopic doubled the highlight */
 .fa>button .t{flex:1}
 
-.fold{display:grid;grid-template-rows:0fr;transition:grid-template-rows .3s cubic-bezier(.2,.7,.2,1),opacity .25s;opacity:0}
+.fold{display:grid;grid-template-rows:0fr;opacity:0}
 .fa.open>.fold{grid-template-rows:1fr;opacity:1}
 .fold>ul{overflow:hidden;min-height:0;margin-bottom:0!important;visibility:hidden;transition:visibility 0s .3s}
 .fa.open>.fold>ul{visibility:visible;transition-delay:0s}   /* closed folds are not tabbable */
@@ -108,92 +98,91 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line2);border-bottom-width:
 .fa li button{transition:background-color .15s,color .2s}
 .fa li button[aria-current="true"]{background:transparent!important}
 @media (prefers-reduced-motion:reduce){.fold,.navpill,.fa li button,.fa>button{transition:none}}
-.fa ul{list-style:none;margin:0 0 6px 10px;padding:0 0 0 8px;border-left:1px solid var(--line)}
-.fa li button{display:flex;width:100%;justify-content:space-between;gap:8px;text-align:left;background:none;border:0;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:13.5px;color:var(--ink)}
+.fa ul{list-style:none;padding:0 0 0 8px;border-left:1px solid var(--line)}
+.fa li button{display:flex;width:100%;justify-content:space-between;gap:8px;text-align:left;background:none;border:0;cursor:pointer}
 .fa li button:hover{background:var(--panel)}
-.fa li button[aria-current="true"]{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.fa li button[aria-current="true"]{background:var(--accent-soft)}
 .fa li .none{font:italic 12px var(--sans);color:var(--muted)}
 .special>button{font-weight:500}
-.hero{display:flex;flex-direction:column;gap:6px;margin:6px 0 22px}
+.hero{display:flex;flex-direction:column}
 .hero h1{font:600 34px/1.15 var(--display);letter-spacing:-.015em;margin:0;text-wrap:balance}
-.hero p{margin:0;color:var(--muted);max-width:62ch}
-.hero .stats{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.hero .stat{background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:13px;color:var(--muted)}
+.hero p{margin:0;color:var(--muted)}
+.hero .stats{display:flex;flex-wrap:wrap}
+.hero .stat{color:var(--muted)}
 .hero .stat b{color:var(--ink);font-variant-numeric:tabular-nums}
-.bankall{background:none;border:1px dashed var(--line2);border-radius:999px;padding:4px 12px;font:500 13px var(--sans);color:var(--muted);cursor:pointer}
-.bankall[aria-pressed="true"]{border-style:solid;border-color:var(--warn);color:var(--warn)}
+.bankall{background:none;color:var(--muted);cursor:pointer}
+.bankall[aria-pressed="true"]{border-style:solid;color:var(--warn)}
 .bankall u{color:var(--accent);text-decoration:none}
-.yhead{display:flex;align-items:baseline;gap:10px;margin:26px 0 12px}
-.yhead h2{font:600 22px var(--display);margin:0}
+.yhead{display:flex;align-items:baseline}
+.yhead h2{margin:0}
 .yhead .yb{font-size:11px}
-.yhead span.muted{font-size:13px}
+
 /* owner 12 Nov: "this layout looks terrible and unefficient" -> masonry columns (no holes under short cards), compact header, one bar scale per year */
 /* bank index (owner 12 Nov 2nd pass) */
 
-.facards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));grid-auto-rows:2px;grid-auto-flow:row dense;column-gap:14px;align-items:start}
+.facards{display:grid;grid-auto-rows:2px;grid-auto-flow:row dense;align-items:start}
 .facards>.facard{margin-bottom:14px}
-.facard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px 12px;display:flex;flex-direction:column;gap:10px;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s,border-color .15s}
-.facard::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--yc)}
+.facard{background:var(--panel);border:1px solid var(--line);display:flex;flex-direction:column;position:relative;overflow:hidden;transition:transform .15s,box-shadow .15s,border-color .15s}
+.facard::before{content:"";position:absolute;inset:0 auto 0 0;background:var(--yc)}
 .facard.y12{--yc:var(--y12);--ys:var(--y12-soft)} .facard.y11{--yc:var(--y11);--ys:var(--y11-soft)} .facard.ys{--yc:var(--muted);--ys:var(--bg)}
-.facard:hover{border-color:var(--line2)}   /* owner 13 Nov: the card itself is not a link any more, so no lift; the subheadings are the links */
+   /* owner 13 Nov: the card itself is not a link any more, so no lift; the subheadings are the links */
 @media (prefers-reduced-motion:reduce){.facard{transition:none}.facard:hover{transform:none}}
 .facard .fah{display:flex;justify-content:space-between;align-items:baseline;gap:10px;background:none;border:0;padding:0;text-align:left;cursor:pointer;color:inherit}
 .facard .fah.static{cursor:default}
 .facard .fah.subrow{display:flex;margin:0;padding:0;grid-template-columns:none;font-size:inherit}
 .facard .fah b{font:600 18px/1.25 var(--display);text-wrap:balance}
-.facard .fah .n{font:600 22px var(--display);color:var(--yc);font-variant-numeric:tabular-nums}
-.facard .fah .n small{display:block;font:500 11px var(--sans);color:var(--muted);text-align:right}
-.subrows{display:flex;flex-direction:column;gap:1px}
-.subrow{display:grid;grid-template-columns:minmax(0,1fr) 52px 28px;gap:10px;align-items:center;background:none;border:0;border-radius:6px;padding:4px 6px;margin:0 -6px;text-align:left;cursor:pointer;color:var(--ink);font-size:13px}
-.subrow:hover{background:var(--ys)}
+.facard .fah .n{font-variant-numeric:tabular-nums}
+.facard .fah .n small{display:block;color:var(--muted);text-align:right}
+.subrows{display:flex;flex-direction:column}
+.subrow{display:grid;align-items:center;background:none;border:0;text-align:left;cursor:pointer;color:var(--ink)}
+
 .subrow .nm{line-height:1.3}
-.subrow .bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:6px}   /* margin was inherited from Processes' bare .bar until the 13 Nov health pass */
-.subrow .bar i{display:block;height:100%;background:var(--yc);border-radius:3px}
+.subrow .bar{overflow:hidden;margin-top:6px}   /* margin was inherited from Processes' bare .bar until the 13 Nov health pass */
+.subrow .bar i{display:block;height:100%;background:var(--yc)}
 .subrow .c{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
 .subrow.none .nm,.subrow.none .c{color:var(--muted);font-style:italic}
-.crumbs{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:13px;color:var(--muted);margin-bottom:6px}
+.crumbs{display:flex;flex-wrap:wrap;align-items:center;color:var(--muted);margin-bottom:6px}
 .crumbs button{background:none;border:0;padding:0;color:var(--accent);cursor:pointer;font:inherit}
-.listhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:baseline;margin-bottom:14px}
+.listhead{display:flex;flex-wrap:wrap;align-items:baseline}
 .listhead h2{font:600 28px/1.2 var(--display);letter-spacing:-.01em;margin:0;text-wrap:balance}
 .crumb{font-size:13px;color:var(--muted)}
 .subgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
-.subcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:8px;text-align:left;cursor:pointer;color:inherit;font:inherit;border-top:3px solid var(--yc)}
+.subcard{background:var(--panel);border:1px solid var(--line);padding:14px 16px;display:flex;flex-direction:column;gap:8px;text-align:left;cursor:pointer;color:inherit;font:inherit;border-top:3px solid var(--yc)}
 .subcard.y12{--yc:var(--y12)} .subcard.y11{--yc:var(--y11)}
-.subcard:hover{box-shadow:0 6px 18px -10px rgba(40,30,10,.25)}
+
 .subcard b{font:600 17px/1.3 var(--display)}
 .subcard .meta{font-size:13px;color:var(--muted)}
 .subcard.none{opacity:.65;cursor:default}
 .sibs{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}
 @media (min-width:901px){.sibs{display:none}}
-.sib{font:500 13px var(--sans);border:1px solid var(--line2);background:var(--panel);border-radius:999px;padding:4px 11px;cursor:pointer;color:var(--ink)}
-.sib[aria-current="true"]{background:var(--ink);border-color:var(--ink);color:var(--panel)}
+.sib{font:500 13px var(--sans);border:1px solid var(--line2);background:var(--panel);cursor:pointer;color:var(--ink)}
+
 .sib .c{font-size:12px;opacity:.7;margin-left:5px;font-variant-numeric:tabular-nums}
-.bfilters{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:10px 12px;background:var(--panel);border:1px solid var(--line);border-radius:12px;margin-bottom:14px;font-size:13px}
+.bfilters{display:flex;flex-wrap:wrap;align-items:center;background:var(--panel);border:1px solid var(--line)}
 .bfilters .grp{display:flex;align-items:center;gap:4px;position:relative}
 .bfilters .grp>span{color:var(--muted);margin-right:4px}
-.bfilters button{border:1px solid transparent;background:none;border-radius:999px;padding:3px 10px;cursor:pointer;color:var(--ink);font:500 13px var(--sans)}
-.bfilters button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+.bfilters button{border:1px solid transparent;background:none;cursor:pointer;color:var(--ink)}
+
 .bfilters .shown{margin-left:auto;color:var(--muted)}
 .bfilters .narrow{flex-basis:100%;display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--line);padding-top:8px}
 .bfilters .fl{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
 .bfilters .fl>span{color:var(--muted);margin-right:6px;min-width:70px}
 .bfilters .fl button{border:1px solid var(--line);font-weight:500}
-.bfilters .fl .more{border-style:dashed;color:var(--muted)}
 .bfilters .fl .c{color:var(--muted);font-size:12px;margin-left:2px}
-.cfoot{display:flex;flex-wrap:wrap;align-items:center;gap:6px 12px;margin-top:10px;padding-top:8px;border-top:1px solid var(--line);font-size:13px}
+.cfoot{display:flex;flex-wrap:wrap;align-items:center;border-top:1px solid var(--line)}
 .cfoot .meta{color:var(--muted);flex:1 1 200px;min-width:0}
-.cfoot a.act,.cfoot button.act{font-size:13px}
-.dps{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-bottom:14px;font-size:13.5px}
+
+.dps{background:var(--panel);border:1px solid var(--line)}
 .dps summary{cursor:pointer;color:var(--muted)}
 .dps ol{margin:8px 0 0;padding-left:20px}
 .dps li{margin:3px 0}
 .dps code{font:12px var(--mono);color:var(--muted);margin-right:6px}
-.cards{display:flex;flex-direction:column;gap:16px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 20px 12px;min-width:0;box-shadow:0 1px 0 rgba(40,30,10,.03)}
-.card .hd{display:flex;flex-wrap:wrap;gap:6px 10px;align-items:center;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--line)}
-.card .qn{font:600 16px var(--display)}
-.card .src{font-size:13px;color:var(--muted)}
-.card .mk{margin-left:auto;font:600 12px var(--sans);color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 9px}
+.cards{display:flex;flex-direction:column}
+.card{background:var(--panel);border:1px solid var(--line);min-width:0}
+.card .hd{display:flex;flex-wrap:wrap;align-items:center;border-bottom:1px solid var(--line)}
+
+.card .src{color:var(--muted)}
+.card .mk{margin-left:auto}
 .card .mk:empty{display:none}
 
 /* sliding highlight per filter group (owner 13 Nov: "the pills at the top, make them animated"); see bfPills in 07_bank.js */
@@ -208,8 +197,8 @@ kbd{font:500 11px var(--mono);border:1px solid var(--line2);border-bottom-width:
 .part{display:grid;grid-template-columns:2.2em minmax(0,1fr) auto;gap:2px 10px;padding-top:8px;border-top:1px solid var(--line)}
 .part.child{margin-left:2.2em}
 .part.first{border-top:0;padding-top:0}
-.plabel{font:600 14px var(--mono);color:var(--muted)}
-.pmarks{font:500 12.5px var(--mono);color:var(--muted);white-space:nowrap}
+.plabel{color:var(--muted)}
+.pmarks{color:var(--muted);white-space:nowrap}
 .under{grid-column:2/4;display:flex;flex-direction:column;gap:6px;min-width:0}
 /* unlabelled text (single-part questions) uses the full width: no empty label column */
 .part.nolabel{grid-template-columns:minmax(0,1fr) auto}
@@ -268,32 +257,32 @@ table.ot thead th.lab{background:none}
 .tagfold{margin-top:6px}.tagfold>summary{font-size:12px;color:var(--muted,#888);cursor:pointer}
 .tags{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .chipw{position:relative;display:inline-flex}
-.chip{border:1px solid var(--line);background:var(--accent-soft);border-radius:999px;padding:2px 10px;font-size:12.5px;cursor:help;color:var(--ink);text-align:left}
+.chip{border:1px solid var(--line);background:var(--accent-soft);padding:2px 10px;cursor:help;color:var(--ink);text-align:left}
 .chip .y{font:500 11px var(--mono);color:var(--muted);margin-right:5px}
 .chip.y11{background:var(--bg);border-style:dashed}
 .chip.removed{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
 .chip.no_match{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
 .chip.sec{opacity:.75}
-.pop{display:none;position:absolute;left:0;top:calc(100% + 6px);z-index:8;width:max-content;max-width:min(340px,80vw);background:var(--panel);border:1px solid var(--line2);border-radius:8px;box-shadow:0 6px 24px rgba(0,0,0,.16);padding:10px 12px;font-size:13px;line-height:1.45}
+.pop{display:none;position:absolute;left:0;top:calc(100% + 6px);z-index:8;width:max-content;max-width:min(340px,80vw);background:var(--panel);border:1px solid var(--line2);padding:10px 12px;font-size:13px;line-height:1.45}
 .chipw:hover .pop,.chipw.open .pop,.chip:focus-visible+.pop{display:block}
 .pop .k{font:11px var(--mono);color:var(--muted);display:block;margin-bottom:4px}
 .pop .t{display:block;margin-bottom:6px}
 .pop .o{display:block;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:6px;margin-top:4px}
 /* solutions + rubric */
 details.solbox{border-top:1px solid var(--line);padding-top:8px}
-details.solbox>summary{cursor:pointer;color:var(--accent);font-weight:600;font-size:13.5px}
-.sol{border-left:3px solid var(--accent);padding:8px 12px;background:var(--bg);border-radius:0 6px 6px 0;margin-top:8px;display:flex;flex-direction:column;gap:8px}
+details.solbox>summary{cursor:pointer;font-weight:600;font-size:13.5px}
+.sol{border-left:3px solid var(--accent);background:var(--bg);margin-top:8px;display:flex;flex-direction:column;gap:8px}
 .sol.generated{border-left-color:var(--gen)}
 .pbr{display:block;height:.45em}
 .tx mjx-container[display="true"]{margin:.35em 0!important}
 .sol .shd{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 /* papers view: every exam ingested */
-.papers{padding-block:18px}
+
 .papers h2{font-size:20px;margin:0 0 4px}
 .papers .sub{color:var(--muted);margin:0 0 14px;font-size:13.5px}
 .pwrap{overflow-x:auto}
-table.pp{border-collapse:collapse;width:100%;font-size:14px;background:var(--panel)}
-table.pp th,table.pp td{border-bottom:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:middle;white-space:nowrap}
+table.pp{border-collapse:collapse;width:100%;background:var(--panel)}
+table.pp th,table.pp td{border-bottom:1px solid var(--line);text-align:left;vertical-align:middle;white-space:nowrap}
 table.pp th{background:var(--bg);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:600}
 table.pp td.num,table.pp th.num{text-align:right;font-variant-numeric:tabular-nums}
 table.pp td.pname{white-space:normal;min-width:12em;font-weight:500}
@@ -312,23 +301,21 @@ table.rub th,table.rub td{border:1px solid var(--line);padding:5px 9px;text-alig
 table.rub th{background:var(--bg);font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 table.rub td.ans{font-size:15px}
 table.rub td.m{width:4.2em;text-align:center;font:600 13px var(--mono)}
-.callout{font-size:13px;border-radius:6px;padding:7px 10px;background:var(--warn-soft);color:var(--ink);border-left:3px solid var(--warn)}
+.callout{font-size:13px;padding:7px 10px;background:var(--warn-soft);color:var(--ink);border-left:3px solid var(--warn)}
 .callout b{color:var(--warn)}
 .pending{font-size:13px;color:var(--muted);font-style:italic}
 
 /* ---------- Review ---------- */
-.rbar{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding-block:10px;border-top:1px solid var(--line)}
-.filters{display:flex;flex-wrap:wrap;gap:6px}
-.steps{display:flex;gap:6px;flex-wrap:wrap}
-.step{display:flex;align-items:center;gap:8px;font:600 14px var(--sans);border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:8px;padding:6px 12px;cursor:pointer}
-.step .num{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--bg);font:700 12px var(--sans);color:var(--muted)}
-.step .n{font:600 12px var(--sans);font-variant-numeric:tabular-nums;color:var(--muted);background:var(--bg);border-radius:999px;padding:1px 8px}
-.step[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--panel)}.step[aria-pressed="true"] .num{color:var(--accent);background:var(--panel)}
-.step[aria-pressed="true"] .n{color:var(--panel);background:color-mix(in srgb,var(--panel) 22%,transparent)}
+.rbar{flex-wrap:wrap}
+.step{display:flex;align-items:center;border:1px solid var(--line2);background:var(--panel);color:var(--ink);cursor:pointer}
+.step .num{display:inline-grid;place-items:center;border-radius:50%;color:var(--muted)}
+.step .n{font-variant-numeric:tabular-nums;color:var(--muted);background:var(--bg)}
 
-.stephelp{flex-basis:100%;color:var(--muted);font-size:13px;margin:0}
-.why{border:1px solid var(--line);border-left:4px solid var(--warn);background:var(--warn-soft);border-radius:8px;padding:8px 12px;font-size:14px}
-.why.sample{border-left-color:var(--accent);background:var(--accent-soft)}.why.decide{border-left-color:#b3261e}
+
+
+.stephelp{flex-basis:100%;color:var(--muted);margin:0}
+.why{border:1px solid var(--line);border-left:4px solid var(--warn);background:var(--warn-soft);padding:8px 12px}
+.why.sample{border-left-color:var(--accent);background:var(--accent-soft)}
 .why b{display:block;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin-top:4px}
 .why ul,.why ol{margin:2px 0 4px;padding-left:20px}.why li{margin:2px 0}
 .desk.grid{grid-template-columns:1fr}.desk.grid .srcpane{display:none}
@@ -343,21 +330,20 @@ table.rub td.m{width:4.2em;text-align:center;font:600 13px var(--mono)}
 @media (max-width:800px){.dwrap{flex-direction:column}.dlog{position:static;border-left:0;padding-left:0;flex:auto;width:100%}.dq .cmp{grid-template-columns:1fr}}
 
 .banner{border:1px solid var(--ok);background:var(--ok-soft);border-radius:8px;padding:10px 12px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13px}
 
 .rnav{display:flex;gap:8px;align-items:center;margin-left:auto}
 .pos{font:13px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
-.progress{height:3px;background:var(--line)}.progress i{display:block;height:100%;background:var(--ok);width:0}
-.desk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;padding-block:16px}
+.progress i{display:block;height:100%;background:var(--ok);width:0}
+.desk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
 @media (max-width:900px){.desk{grid-template-columns:1fr}}
-.pane{min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:8px}
-.pane>h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0;padding:10px 14px;border-bottom:1px solid var(--line);font-weight:600}
+.pane{min-width:0;background:var(--panel);border:1px solid var(--line)}
+.pane>h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0;border-bottom:1px solid var(--line);font-weight:600}
 .srcpane{position:sticky;top:calc(env(safe-area-inset-top,0px) + 120px);max-height:calc(100vh - 140px);overflow:auto}
 @media (max-width:900px){.srcpane{position:static;max-height:none}}
 .srcpane img{display:block;width:100%;background:var(--page);border-bottom:1px solid var(--line)}
-.rout{padding:14px 16px 20px;display:flex;flex-direction:column;gap:14px}
-.notes{font-size:13px;background:var(--warn-soft);border-radius:6px;padding:6px 10px}
-.section{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:10px}
+.rout{display:flex;flex-direction:column}
+.notes{font-size:13px;background:var(--warn-soft);padding:6px 10px}
+.section{border:1px solid var(--line);display:flex;flex-direction:column}
 .section>h4{margin:0;font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
 .cmp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:start}
 @media (max-width:520px){.cmp{grid-template-columns:1fr}}
@@ -368,9 +354,9 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
 .cmp3 figure,.ovfig{margin:0;min-width:0;border:1px solid var(--line);border-radius:6px;padding:6px;background:none}
 .cmp3 figure img.fig,.ovfig img.fig{width:100%!important;height:auto}
 .cmp3 figcaption,.ovfig figcaption{font:600 11px var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px}
-.seg{display:inline-flex;gap:2px;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:2px;align-self:flex-start}
-.segb{font:500 12.5px var(--sans);border:0;background:none;border-radius:5px;padding:4px 10px;cursor:pointer;color:var(--muted)}
-.segb[aria-pressed="true"]{background:var(--panel);color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.seg{display:inline-flex;gap:2px;border:1px solid var(--line);align-self:flex-start}
+.segb{border:0;background:none;padding:4px 10px;cursor:pointer;color:var(--muted)}
+.segb[aria-pressed="true"]{background:var(--panel);color:var(--ink)}
 .cmp figcaption{font:600 11px var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:4px}
 .cmp figure .dtwrap{color:inherit}
 .figrow{display:flex;flex-direction:column;gap:6px;padding-bottom:10px;border-bottom:1px dashed var(--line)}
@@ -417,13 +403,13 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
 /* import progress view */
 .imp h2{margin:18px 0 2px}.imp .sub{color:var(--muted);margin:0 0 14px}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:16px}
-.tile{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px}
-.tile b{display:block;font:700 22px var(--sans);font-variant-numeric:tabular-nums}.tile span{color:var(--muted);font-size:13px}
+.tile{background:var(--panel);border:1px solid var(--line)}
+.tile b{display:block;font-variant-numeric:tabular-nums}.tile span{color:var(--muted);font-size:13px}
 .pr-bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden;margin-top:6px}.pr-bar i{display:block;height:100%;background:var(--accent)}
-.imp table{border-collapse:collapse;width:100%;background:var(--panel);border:1px solid var(--line);border-radius:8px;font-size:13px}
+.imp table{border-collapse:collapse;width:100%;background:var(--panel);border:1px solid var(--line);font-size:13px}
 .imp th,.imp td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
 .imp th{font-weight:600;color:var(--muted);white-space:nowrap}
-.pr-st{display:inline-block;font:600 11px var(--sans);border-radius:4px;padding:1px 6px;white-space:nowrap;border:1px solid var(--line2);color:var(--muted)}
+.pr-st{display:inline-block;font:600 11px var(--sans);padding:1px 6px;white-space:nowrap;border:1px solid var(--line2);color:var(--muted)}
 .pr-st.done{background:var(--ok-soft);color:var(--ok);border-color:transparent}.pr-st.running{background:var(--accent-soft);color:var(--accent);border-color:transparent}
 .pr-st.failed{background:var(--warn-soft);color:var(--warn);border-color:transparent}
 .imp ul{margin:6px 0 0;padding-left:18px}.imp ul:not(.log){list-style:none;padding-left:0}.imp li{margin:3px 0}.imp .log{font-size:13px;color:var(--muted)}
@@ -438,14 +424,14 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
    Each is a link to Processes; its list shows on hover / focus, or on the first tap on a touch screen (.open). */
 .jobs{position:relative;display:inline-flex;gap:6px;align-items:center}
 .jobs .jp{position:relative;display:inline-flex}
-.jobs .jpill{display:inline-flex;align-items:center;gap:7px;font:500 13px var(--sans);border-radius:999px;padding:3px 11px;white-space:nowrap;text-decoration:none;cursor:pointer;font-variant-numeric:tabular-nums;transition:background-color .15s,border-color .15s}
+.jobs .jpill{display:inline-flex;align-items:center;gap:7px;font:500 13px var(--sans);border-radius:999px;white-space:nowrap;text-decoration:none;cursor:pointer;font-variant-numeric:tabular-nums;transition:background-color .15s,border-color .15s}
 .jobs .run .jpill{background:var(--accent-soft);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 28%,transparent)}
 .jobs .que .jpill{background:transparent;color:var(--muted);border:1px solid var(--line2)}
 .jobs .run .jpill:hover{border-color:var(--accent)}.jobs .que .jpill:hover{color:var(--ink);border-color:var(--muted)}
 .jobs .jpill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .jobs .run.hit .jpill{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
 .jobs .dot{width:7px;height:7px;flex:none;border-radius:50%;background:currentColor;animation:jpulse 1.8s infinite}
-.jobs .jpop{position:fixed;top:0;left:0;z-index:30;box-sizing:border-box;width:min(380px,calc(100vw - 32px));background:var(--panel);color:var(--ink);border:1px solid var(--line2);border-radius:12px;padding:10px 12px;box-shadow:0 12px 30px -12px rgba(30,20,0,.35);font-size:13px;line-height:1.4;display:none;flex-direction:column;gap:9px}
+.jobs .jpop{position:fixed;top:0;left:0;z-index:30;box-sizing:border-box;width:min(380px,calc(100vw - 32px));background:var(--panel);color:var(--ink);border:1px solid var(--line2);padding:10px 12px;font-size:13px;line-height:1.4;display:none;flex-direction:column;gap:9px}
 .jobs .jpop::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}   /* bridges the gap so the pointer can reach the link */
 .jobs .jp:hover .jpop,.jobs .jp:focus-within .jpop,.jobs .jp.open .jpop{display:flex}
 .jobs .jpop .job{display:flex;flex-direction:column;gap:1px}
@@ -503,25 +489,23 @@ details.more{font-size:13px;color:var(--muted)}details.more select{font-size:13p
 @media (prefers-reduced-motion:reduce){.enter{animation:none}.jobs .dot,.procs .pdot{animation:none}.jobs .jpill,.procs .pdone>summary::after,.procs .phist>summary::after{transition:none}}
 .themebtn{font-size:13px;white-space:nowrap}
 .pfil{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 12px}
-.pfil input,.pfil select{font:inherit;font-size:13.5px;padding:6px 10px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink)}
+.pfil input,.pfil select{font:inherit;padding:6px 10px;border:1px solid var(--line2);background:var(--panel);color:var(--ink)}
 .pfil input{flex:1 1 220px;min-width:0}
 .pfil .clr{font-size:13px}
 table.pp th.sortable{cursor:pointer;user-select:none}
 table.pp th.sortable:hover{color:var(--accent)}
 table.pp th .ar{font-size:10px;margin-left:3px;color:var(--accent)}
 .pbar{display:inline-block;width:54px;height:6px;border-radius:3px;background:var(--line);vertical-align:middle;margin-left:6px;overflow:hidden}.pbar i{display:block;height:100%;background:var(--ok)}
-.bgrp{border:1px solid var(--line);border-radius:8px;background:var(--panel);margin-bottom:8px}
-.bgrp>summary{cursor:pointer;padding:9px 12px;font-weight:600}
+.bgrp{border:1px solid var(--line);background:var(--panel)}
+.bgrp>summary{cursor:pointer}
 .brow{border-top:1px solid var(--line)}
 .brow>summary{cursor:pointer;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;padding:7px 12px;font-size:13.5px;list-style:none}
 .brow>summary::-webkit-details-marker{display:none}
-.brow>summary:hover{background:var(--bg)}
-.dots{display:inline-flex;gap:3px}.dots .d{width:9px;height:9px;border-radius:50%;background:var(--line2);display:inline-block}
-.dots .d.done{background:var(--ok)}.dots .d.running{background:var(--accent)}.dots .d.failed{background:var(--warn)}.dots .d.na{background:transparent;border:1px solid var(--line2)}
+
 .bbody{padding:4px 12px 10px 24px;display:flex;flex-direction:column;gap:8px;font-size:13px}
 .bstages{display:flex;flex-wrap:wrap;gap:6px 14px}
 .bpapers{margin:0;padding-left:18px;columns:2 260px;font-size:13px}
-.handoff{font-size:13.5px;padding:8px 12px;border-radius:8px;background:var(--bg);border:1px solid var(--line);margin-bottom:10px}
+.handoff{font-size:13.5px;padding:8px 12px;background:var(--bg);border:1px solid var(--line);margin-bottom:10px}
 .handoff.due{background:var(--warn-soft);border-color:var(--warn)}
 
 @media (max-width:520px){.views{max-width:100%;overflow-x:auto;scrollbar-width:none}}
@@ -531,7 +515,7 @@ table.pp th .ar{font-size:10px;margin-left:3px;color:var(--accent)}
 .grules{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px;line-height:1.5}
 
 .tchoice{border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin:6px 0;display:flex;flex-direction:column;gap:6px;font-family:var(--sans)}
-.tchoice.active{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}.tchead{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+.tchoice.active{border-color:var(--accent)}.tchead{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
 .topt{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.topt.chosen .tdp{border-color:var(--ok)}
 .tpick{display:flex;flex-direction:column;gap:8px}.tplist{max-height:360px;overflow:auto;border:1px solid var(--line);border-radius:8px;padding:6px}
 .tplist details summary{cursor:pointer;font-weight:600;padding:4px 2px}.tpsub{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:6px 4px 2px}
@@ -539,7 +523,7 @@ table.pp th .ar{font-size:10px;margin-left:3px;color:var(--accent)}
 .seg .on{background:var(--accent);color:var(--bg)}
 .tdp{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:6px;padding:2px 6px;font-size:13px}
 .tid{font-family:ui-monospace,monospace;font-size:11px;color:var(--muted)}
-.yb{font-size:10px;font-weight:700;border-radius:4px;padding:0 4px;background:var(--line)}
+.yb{font-size:10px;font-weight:700;background:var(--line)}
 .yb.y11{background:var(--y11-soft);color:var(--y11)}.yb.y12{background:var(--y12-soft);color:var(--y12)}
 /* job 6: the Tonight card (12_import.js tonightHTML) */
 .procs .pr-night .pr-nskip b{color:var(--muted);font-weight:500}
@@ -551,16 +535,16 @@ table.pp th .ar{font-size:10px;margin-left:3px;color:var(--accent)}
 .procs .pr-nlast li p{margin:2px 0 0;color:var(--muted);font-size:13px}
 
 /* ---------- logo (owner 13 Nov) ---------- */
-.brand .logo{height:24px;width:auto;display:block;overflow:visible}
+.brand .logo{width:auto;display:block;overflow:visible}
 .brand .logo .lq{fill:var(--accent)} .brand .logo .lw{fill:var(--ink)}
-.brand{display:flex;align-items:center;gap:8px}
+.brand{display:flex;align-items:center}
 /* ---------- exam builder (owner 13 Nov, stage 1) ---------- */
 
 .xpanel,.xpanel *{box-sizing:border-box}
 .xf input{width:100%;min-width:0}
-.xpanel{position:fixed;top:0;right:0;bottom:0;width:min(380px,94vw);z-index:40;background:var(--panel);border-left:1px solid var(--line);box-shadow:-10px 0 34px rgba(0,0,0,.18);
+.xpanel{position:fixed;top:0;right:0;bottom:0;z-index:40;background:var(--panel);border-left:1px solid var(--line);box-shadow:-10px 0 34px rgba(0,0,0,.18);
   transform:translateX(105%);transition:transform .25s cubic-bezier(.2,.7,.2,1);overflow:auto;padding:calc(16px + env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) 24px 18px}
-body.x-open .xpanel{transform:none}
+
 .xhd{display:flex;justify-content:space-between;align-items:center}.xhd h2{font:600 22px var(--display);margin:0}
 .xtot{color:var(--muted);font-size:13px;margin:2px 0 12px;font-variant-numeric:tabular-nums}
 .xf{display:grid;gap:8px;margin-bottom:12px}.xf label{display:grid;gap:3px;font-size:12px;color:var(--muted);font-weight:500}
@@ -645,40 +629,40 @@ body.xpv-on{overflow:hidden}
 .xmenu-pop[hidden]{display:none}.xmenu-pop button.act{border-color:transparent;background:none;text-align:left;width:100%}.xmenu-pop button.act:hover:not(:disabled){background:var(--accent-soft)}
 .xmenu-pop #exPvTopic::before{content:"✓ ";visibility:hidden}.xmenu-pop #exPvTopic[aria-pressed="true"]::before{visibility:visible}.xmenu-pop .exask{min-width:280px;white-space:normal}
 /* ---- Difficulty check (owner 14 Nov: "Make it both desktop and mobile friendly, I might want to approve on the go today") ---- */
-.levels{padding-block:14px 0;max-width:860px;margin-inline:auto}
-.lvtop{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-bottom:14px}
+.levels{max-width:860px;margin-inline:auto}
+.lvtop{display:grid;grid-template-columns:minmax(0,1fr)}
 .lvtitle{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px}.lvtitle h2{margin:0;font:600 22px var(--display)}
 .lvprog{color:var(--muted);font-size:13px}.lvprog b{color:var(--ink);font-variant-numeric:tabular-nums}
-.lvbar{height:4px;border-radius:2px;background:var(--line);overflow:hidden}.lvbar i{display:block;height:100%;background:var(--accent);transition:width .3s}
+.lvbar{border-radius:2px;background:var(--line);overflow:hidden}.lvbar i{display:block;height:100%;background:var(--accent);transition:width .3s}
 .lvctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.lvctl select{flex:1 1 220px;min-width:0;min-height:40px;font:500 14px var(--sans);padding:6px 10px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink)}
-.lvseg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
-.lvseg button{min-height:40px;padding:0 14px;border:0;background:transparent;color:var(--muted);font:600 13px var(--sans);cursor:pointer}
-.lvseg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.lvcard{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px 10px;min-width:0}
+.lvctl select{flex:1 1 220px;min-width:0;min-height:40px;padding:6px 10px;border:1px solid var(--line);background:var(--panel);color:var(--ink)}
+.lvseg{display:inline-flex;border:1px solid var(--line);overflow:hidden}
+.lvseg button{padding:0 14px;border:0;background:transparent;cursor:pointer}
+
+.lvcard{background:var(--panel);border:1px solid var(--line);min-width:0}
 .lvmeta{display:flex;flex-wrap:wrap;gap:4px 10px;align-items:center;font-size:12px;color:var(--muted)}
-.lvtag{font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--accent)}.lvtag.flag{color:var(--warn)}
+.lvtag{text-transform:uppercase;color:var(--accent)}.lvtag.flag{color:var(--warn)}
 .lvpos{margin-left:auto;font-variant-numeric:tabular-nums}
-.lvcard h3{margin:6px 0 8px;font:600 16px var(--display)}.lvcard h3 small{font:500 12px var(--sans);color:var(--muted);margin-left:4px}
+.lvcard h3{margin:6px 0 8px}.lvcard h3 small{font:500 12px var(--sans);color:var(--muted);margin-left:4px}
 .lvq{min-width:0;overflow-x:auto}
 .lvq .part.lvdim{opacity:.42}
-.lvq .part.lvhit{background:color-mix(in srgb,var(--accent) 9%,transparent);box-shadow:inset 3px 0 0 var(--accent);border-radius:6px;padding-block:4px}
+.lvq .part.lvhit{background:color-mix(in srgb,var(--accent) 9%,transparent);border-radius:6px;padding-block:4px}
 .lvact{position:sticky;bottom:0;z-index:5;margin-top:12px;grid-template-columns:minmax(0,1fr);background:var(--bg);border-top:1px solid var(--line);
-  padding:10px max(0px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(0px,env(safe-area-inset-left,0px));display:grid;gap:10px;box-shadow:0 -8px 16px -12px rgba(0,0,0,.25)}
+  padding:10px max(0px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(0px,env(safe-area-inset-left,0px));display:grid;gap:10px}
 .lvwhy{font-size:13px;line-height:1.45;display:flex;flex-wrap:wrap;gap:2px 8px}.lvwhy .lvr{flex-basis:100%;color:var(--muted)}
 .lvlean{flex-basis:100%;font-size:12px;color:var(--muted);font-style:italic}.lvlow{color:var(--warn)}
 .lvpick{display:flex;flex-wrap:wrap;gap:8px}
 .lvbands{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;flex:1 1 300px;min-width:0}
 .lvbands button,.lvwm button{min-height:48px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);cursor:pointer;font:600 13px var(--sans);display:grid;place-items:center;gap:0;padding:4px 2px;transition:background .15s,border-color .15s}
-.lvbands button b{font:700 18px var(--sans);line-height:1}.lvbands button span{font-size:10px;font-weight:500;color:var(--muted)}
-.lvbands button[aria-pressed="true"],.lvwm button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
-.lvbands button[aria-pressed="true"] span{color:rgba(255,255,255,.85)}
+.lvbands button b{line-height:1}.lvbands button span{font-size:10px;font-weight:500;color:var(--muted)}
+
+
 .lvwm{display:grid;grid-template-columns:1fr 1fr;gap:6px;flex:1 1 220px;min-width:0}
 .lvgo{display:grid;grid-template-columns:48px 1fr 48px;gap:8px}
 .lvnav{min-height:48px;border:1px solid var(--line);border-radius:9px;background:var(--panel);color:var(--ink);font-size:22px;cursor:pointer}.lvnav:disabled{opacity:.35;cursor:default}
-.lvok{min-height:48px;border:0;border-radius:9px;background:var(--ok);color:#fff;font:700 16px var(--sans);cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
+.lvok{min-height:48px;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
 .lvok.chg{background:var(--warn)}.lvok kbd{font:500 11px var(--sans);opacity:.7;border:1px solid rgba(255,255,255,.5);border-radius:4px;padding:0 5px}
-.lvempty{padding:40px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}.lvempty b{color:var(--ink)}
+.lvempty{padding:40px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line)}.lvempty b{color:var(--ink)}
 @media (hover:none){.lvok kbd{display:none}}
 @media (max-width:520px){.lvcard{padding:12px 12px 8px;border-radius:10px}.lvbands button span{display:none}.lvbands button{min-height:44px}}
 
@@ -686,12 +670,12 @@ body.xpv-on{overflow:hidden}
    At phone width the tab row and theme button fold into one menu button that names the open tab; the Review bar becomes
    one scrolling row of steps plus one row of paper picker and prev/next. The step explanation is hidden on phones. */
 .menubtn{display:none}
-.msheet{position:absolute;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));top:calc(100% - 4px);z-index:20;background:var(--panel);border:1px solid var(--line2);border-radius:12px;box-shadow:0 12px 32px -8px rgba(0,0,0,.3);padding:6px;display:grid;gap:2px}
-.msheet a,.msheet button{display:flex;align-items:center;justify-content:space-between;min-height:46px;padding:0 14px;border-radius:8px;font:600 16px var(--sans);color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
+.msheet{position:absolute;left:max(12px,env(safe-area-inset-left,0px));right:max(12px,env(safe-area-inset-right,0px));top:calc(100% - 4px);z-index:20;background:var(--panel);border:1px solid var(--line2);display:grid;gap:2px}
+.msheet a,.msheet button{display:flex;align-items:center;justify-content:space-between;padding:0 14px;color:var(--ink);text-decoration:none;background:none;border:0;cursor:pointer;text-align:left}
 .msheet a[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
-.msheet .n{font:600 12px var(--sans);color:var(--warn);background:var(--warn-soft);border-radius:999px;padding:1px 8px}
+.msheet .n{color:var(--warn);background:var(--warn-soft)}
 .msheet hr{border:0;border-top:1px solid var(--line);margin:4px 8px}
-.msheet .mt{color:var(--muted);font-weight:500;font-size:15px}
+.msheet .mt{color:var(--muted);font-weight:500}
 @media (max-width:640px){
   header{position:sticky}
   .top{flex-wrap:wrap;gap:8px;padding-block:8px}
@@ -702,9 +686,6 @@ body.xpv-on{overflow:hidden}
   .jobs{order:3}
   .search{flex:1 1 100%;max-width:none;margin-left:0;order:9}
   .rbar{gap:6px 8px;padding-block:6px 8px}
-  .rbar .steps{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;width:100%;margin-inline:-2px;padding:2px;-webkit-overflow-scrolling:touch}
-  .rbar .steps::-webkit-scrollbar{display:none}
-  .rbar .steps>*{flex:0 0 auto;white-space:nowrap}
   .rbar .step{padding:5px 10px;font-size:13px;gap:6px}.rbar .step .num{display:none}
   .rbar .stephelp{display:none}
   .rbar #docF{flex:1 1 0;min-width:0;font-size:14px;min-height:36px}
@@ -1366,7 +1347,6 @@ body.rep-on{overflow:hidden}
 .swapsame{color:var(--ok);font-weight:600}
 .swaplist .card{border:0;box-shadow:none;padding:0;margin:0;background:none}.swaplist .card .cfoot{display:none}
 .swapfoot{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
-.gwhy .ovl{text-decoration:overline}
 .gdotl-d b{font-weight:600}.gdotl-none{margin:0;color:var(--muted)}
 .rep-dift{border-collapse:collapse;margin:6px 0}.rep-dift td{padding:4px 10px 4px 0;vertical-align:middle}.rep-dift small{display:block;color:var(--muted)}.rep-dift select{min-height:32px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink);font:14px var(--sans);padding:2px 6px}
 /* ==== theme2: site-wide refinement pass (owner 14 Nov: "Questgen is buns, make it more sophisticated" ... "It should all feel clean and sophisticated")
@@ -1416,7 +1396,7 @@ body{margin:0;font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased
 .listhead h2{font-size:26px;line-height:1.18}
 .lvtitle h2,.papers h2,.imp h2{font-size:24px;line-height:1.2}
 /* section and card titles move to Inter (they were Fraunces) */
-.yhead h2{font:600 15px/1.3 var(--sans);letter-spacing:-.005em}
+
 .facard .fah b,.subcard b{font:600 14.5px/1.35 var(--sans);letter-spacing:-.006em}
 .card .qn{font:600 13.5px var(--sans);letter-spacing:0;font-variant-numeric:tabular-nums}
 .lvcard h3{font:600 15px var(--sans);letter-spacing:-.005em}
@@ -1447,7 +1427,7 @@ body::before{background:var(--panel)}
 .themebtn:hover{color:var(--ink)!important;background:var(--t2-hover)!important}
 /* Exam button: a plain secondary button with a quiet count, not a pill */
 
-.rbar{border-top:1px solid var(--line);padding-block:8px;gap:8px 10px}
+.rbar{border-top:1px solid var(--line)}
 .progress{height:2px}
 
 /* ---- one button and input system: primary / secondary / ghost, 32px desktop ---- */
@@ -1656,7 +1636,6 @@ table.pp tbody tr:hover td{background:var(--t2-hover)}
 /* sidebar: counts sit on the first line of a wrapped name, the same for areas and subheadings (they were centred on one, top on the other) */
 .fa>button,.fa li button{align-items:baseline}
 /* review bar: "Other lists" sat above the line of step buttons */
-.steps{align-items:center}
 /* review progress: the empty grey track stacked on the header's hairline read as a thick double rule ("No bar under the header", 12 Nov);
    only the filled part shows now */
 .progress{background:transparent}
@@ -2207,6 +2186,8 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:n
   courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json',ref:['data/ref/advanced-1.png','data/ref/advanced-2.png']}},
   get courseData(){return this.courses[this.course]},
   byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0,night:null,
+  // health pass 21 Nov: a page-database document's fields, and a snapshot's documents as {id, ...fields} (was written out in 15 places)
+  val:d=>d&&(typeof d.data==='function'?d.data():d.data), docs:s=>((s&&s.docs)||s||[]).map(x=>({id:x.id,...QG.val(x)})),
   // owner 17 Nov: "lets do skill gates, that's important": {skill: [topic keys it needs learnt]} from the details file (tools/bank_split.py
   // skill_gates: the skill's taught topic + its prerequisites' topics, basic skills left out); read by the exam builders (XG, 23_exam_auto.js)
   skills:{}};
@@ -2236,7 +2217,7 @@ Object.assign(QG,{
   hasAll(){return QG.detOK&&QG.got.size>=(QG.bank?.questions.length||0)},
   // fields that moved to the details file start as empty lists, so a list read before they arrive cannot throw
   setBank(b){b.questions.forEach(q=>{for(const k of ['solutions','related','queues','pages'])if(!q[k])q[k]=[]});
-    QG.bank=b;QG.byId=new Map(b.questions.map(q=>[q.id,q]));QG.got=new Set();QG.fileP={};QG.failed=new Set();QG.detOK=false;QG.detP=null;QG.detFail=false},
+    QG.bank=b;QG.byId=new Map(b.questions.map(q=>[q.id,q]));try{_esc={};_dupm=null}catch(e){}QG.got=new Set();QG.fileP={};QG.failed=new Set();QG.detOK=false;QG.detP=null;QG.detFail=false},
   // the details file (job 2): merged into the same question and part objects. A question whose topic file came first keeps
   // that file's full solutions (with their text) instead of the index list.
   det(){if(QG.detOK||!QG.bank)return Promise.resolve();const b=QG.bank;
@@ -2252,7 +2233,7 @@ Object.assign(QG,{
   ready(v){return !QG.bank||v==='bank'||QG.detOK},
   // caches built from the index are rebuilt with the full fields, then the open view is drawn again
   onDet(){TOPICS=null;
-    for(const f of [()=>{_clean=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear()])try{f()}catch(e){}
+    for(const f of [()=>{_clean=null;_esc={};_dupm=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear()])try{f()}catch(e){}
     QG.waitNote();route();QG.fill()},
   wait(){QG.waitNote();QG.det()},   // onDet draws the view when they land
   // one notice while a view waits for the details (or they failed to load)
@@ -2366,6 +2347,7 @@ function tex(s){
   return '<span>'+h.replace(/\n\n+/g,'<span class="pbr"></span>').replace(/\n/g,' ')+'</span>';
 }
 const plain=c=>String(c||'').replace(/\\(text|textit|textbf|mathrm)\{([^}]*)\}/g,'$2').replace(/\\[a-z]+/gi,'x').replace(/[{}$\\]/g,'');
+const lineLen=c=>Math.max(0,...String(c||'').split('\\\\').map(x=>plain(x).length));   // longest line of a cell (health pass 21 Nov: was written twice)
 function cell(c){c=String(c??'').trim(); if(!c) return ''; const L=c.split('\\\\'); if(L.length<2) return esc('$'+c+'$'); return L.map(x=>'<span class="ln">'+esc('$'+x.trim()+'$')+'</span>').join('')}   // owner: a header wraps where the paper wraps it (\\\\ in the cell)
 // \diag{row label}{column label}: a corner cell split by a diagonal, as printed (row label bottom-left, column label top-right)
 function diagSplit(c){c=String(c||'').trim(); if(!c.startsWith('\\diag{')) return null; const g=[]; let i=5;
@@ -2379,7 +2361,6 @@ function dtHTML(id,opts={}){
   const span={}, rspan={}, covered=new Set(); (t.spans||[]).forEach(([r,c,k,rs])=>{span[r+','+c]=k||1; if(rs>1){rspan[r+','+c]=rs; for(let i=1;i<rs;i++)for(let j=0;j<(k||1);j++)covered.add((r+i)+','+(c+j))}});
   // owner: columns are only forced equal for number tables (x / P(X=x), periods / rates); tables of words size each column to
   // its longest line, with headers wrapping where the paper wraps them ("Height and Gender can be narrowed")
-  const lineLen=c=>Math.max(0,...String(c||'').split('\\\\').map(x=>plain(x).length));
   const hdr=rows[Math.max(0,hr-1)]||[], uniform=!hr||hdr.slice(lc).every(c=>lineLen(c)<=8);
   const colLen=j=>Math.max(...rows.map((r,i)=>covered.has(i+','+j)||(span[i+','+j]>1)?0:lineLen(r[j])));
   const lw=lc?Math.min(Math.max(colLen(0),4),24)*0.62+1.4:0;
@@ -2405,7 +2386,6 @@ function dtHTML(id,opts={}){
 function optTableHTML(q,show){
   const ot=q.opt_table, n=ot.headers.length, key=q.options.find(o=>o.is_correct)?.label, ksrc=q.options.find(o=>o.is_correct)?.key_source;
   // owner: headers wrap only where the paper wraps (\\), so each column is as wide as its longest header line or cell
-  const lineLen=h=>Math.max(...String(h).split('\\\\').map(x=>plain(x).length));
   const cw=ot.headers.map((h,i)=>Math.min(18,Math.max(7,0.55*Math.max(lineLen(h),...Object.values(ot.rows).map(r=>plain(r[i]||'').length))+2)));
   return `<div class="dtwrap"><table class="dt ot" style="width:${(3.2+(show?5.5:0)+cw.reduce((a,b)=>a+b,0)).toFixed(1)}em;max-width:100%">
    <colgroup><col style="width:3.2em">${cw.map(w=>`<col style="width:${w.toFixed(1)}em">`).join('')}${show?'<col style="width:5.5em">':''}</colgroup>
@@ -2457,7 +2437,7 @@ function solHTML(q,s,mode){
   const badges=[gen?`<span class="badge b-gen">Model-generated${dec==='approved'?' · approved':''}</span>`:'<span class="badge b-acc">Marking guidelines</span>'];
   if(gen&&m.confidence!=null) badges.push(`<span class="badge ${m.confidence<0.6?'b-bad':''}">confidence ${Math.round(m.confidence*100)}%</span>`);
   if(gen&&m.check) badges.push(`<span class="badge ${/fail|mismatch|disagree|wrong|error/i.test(m.check)?'b-bad':'b-ok'}">self-check ${esc(m.check==='passed'?'passed':m.check)}</span>`);
-  if(m.reused_from){const o=B.questions.find(x=>x.id===m.reused_from);badges.push(`<span class="badge">copied from ${o?esc(docLabel(B.docs[o.doc]))+' Q'+esc(o.number):'duplicate'}</span>`)}
+  if(m.reused_from){const o=QG.byId.get(m.reused_from);badges.push(`<span class="badge">copied from ${o?esc(docLabel(B.docs[o.doc]))+' Q'+esc(o.number):'duplicate'}</span>`)}
   if(mode==='review'&&gen&&dec==='rejected') badges.push('<span class="badge b-bad">rejected</span>');
   const crit=(s.criteria||[]).filter(c=>c[1]);
   const single=crit.length===1&&/^(provides )?(the )?correct answer\.?$|^\(?[A-D]\)?$/i.test(crit[0][1].trim());
@@ -2491,20 +2471,19 @@ const figDec=(q,k)=>reviews['q'+q.id]?.fig?.[k]??(q.tri?.ok_figs?.includes(k)?'a
 // Diagram filter never need the question text. all keeps that order; inline and opt are the \exfigure and option keys.
 function figKeys(q){const f=q.fk||{};return {inline:new Set(f.i||[]),all:f.a||[],opt:new Set(f.o||[])}}
 const redrawable=k=>{const f=B.figs[k];return f&&(f.status==='ok'||f.status==='approx'||f.status==='table')};
-const PACKS={}, SVGS={};
+// health pass 21 Nov: one cached fetch for every image pack (page scans, crops, redraws, overlays): the paths never collide
+const PACKS={},packGet=f=>PACKS[f]||(PACKS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})));
 // Fix 1: each pack is fetched from its asset-store address when data/assets.json lists one, else from the published file (QG.url)
 // Job 3 (owner 14 Nov: "What if we dropped them and rerendered them in the new location?"): a paper in review keeps its own
 // pack (page scans + crops, docs[doc].ip); once cleared, its scans are gone and the crops the page can still show are in the
 // crop group data/crop/g<doc % 8>.json (tools/image_lifecycle.py). The key is the same in both: 'figures/<key>.png'.
-const pack=doc=>{const f=B?.docs?.[doc]?.ip?'data/img/'+doc+'.json':packFile('crop',doc);
-  return PACKS[f]||(PACKS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
+const pack=doc=>packGet(B?.docs?.[doc]?.ip?'data/img/'+doc+'.json':packFile('crop',doc));
 // owner 15 Nov (via workflow brief): "Lets do ... 4" -> fewer published files. Redraw (svg) and overlay/first-redraw (cmp)
 // packs are group files data/<kind>/g<paper id % n>.json, not one per paper; still fetched lazily, once per group.
 // PACK_G must match GROUPS in tools/packs.py (batch_check checks it). Page images (data/img) stay one file per paper while in review.
 const PACK_G={svg:32,cmp:1,crop:8};
 const packFile=(kind,doc)=>'data/'+kind+'/g'+(parseInt(doc,10)%PACK_G[kind])+'.json';
-const CMPS={}; const cmps=doc=>{const f=packFile('cmp',doc);return CMPS[f]||(CMPS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
-const svgs=doc=>{const f=packFile('svg',doc);return SVGS[f]||(SVGS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
+const cmps=doc=>packGet(packFile('cmp',doc)), svgs=doc=>packGet(packFile('svg',doc));
 function hydrate(root,q,mode){
   root.querySelectorAll('.figslot[data-fig]').forEach(el=>{
     // owner: "I cannot see the x-axis". Solution diagrams Claude drew (<paper>_q<n>_s<k>) have no original, and their
@@ -2630,7 +2609,7 @@ function qPlaces(q){ // owner 12 Nov: one topic home per question
 }
 // owner 12 Nov ("Questions aren't showing in the bank until approved right?" -> "yeah do that"): the Bank shows approved
 // questions only; the owner can switch unapproved ones back on (remembered per browser)
-let BANKALL=(()=>{try{return localStorage.getItem('bankall')==='1'}catch(e){return false}})();
+let BANKALL=load('bankall')==='1';
 // owner 13 Nov: "is there a point in this showing if all questions are approvied?" The chip shows only when some questions are
 // unapproved AND the viewer is an editor (isEditor(), the Teach | Curate check). Non-editors never see unapproved questions, whatever BANKALL says.
 const bankAll=()=>BANKALL&&isEditor();
@@ -2664,7 +2643,9 @@ function navHTML(){
   //   only if its skills are learnt. Each screen now says which count it shows (CNT_NOTE; exam builders in 24_exams.js)
   return '<div class="navtools"><button data-navall="open">Expand all</button><button data-navall="close">Collapse all</button></div><p class="bk-cntnote">'+CNT_NOTE.bank+'</p>'+sec('Year 12',TOPICS.y12,12)+sec('Year 11',TOPICS.y11,11)+'<h3>Outside the 2024 syllabus</h3>'+sp('special:removed','Removed content')+(TOPICS.byKey['special:std'].qs.length?sp('special:std','Mathematics Standard'):'')+(TOPICS.byKey['special:no_match'].qs.length?sp('special:no_match','No 2024 match'):'');
 }
-function dupLine(q){const c=B.questions.filter(x=>x.dup_of===q.id);const v=q.related.filter(x=>x.rel!=='duplicate').map(x=>B.questions.find(z=>z.id===x.q)).filter(Boolean);
+// health pass 21 Nov: one map of each question's duplicates per bank (dupLine ran a whole-bank filter for every card); QG.onDet clears it
+let _dupm=null;const dupsOf=id=>{if(!_dupm){_dupm=new Map();B.questions.forEach(x=>{if(x.dup_of)(_dupm.get(x.dup_of)||_dupm.set(x.dup_of,[]).get(x.dup_of)).push(x)})}return _dupm.get(id)||[]};
+function dupLine(q){const c=dupsOf(q.id);const v=q.related.filter(x=>x.rel!=='duplicate').map(x=>QG.byId.get(x.q)).filter(Boolean);
   const same=o=>docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number);   // owner 12 Nov: "the also prose is redundant ... they're literally the same exam twice": a copy of the same paper filed twice says nothing
   const t=[...c.filter(o=>!same(o)).map(o=>`also in ${esc(docLabel(B.docs[o.doc]))} as Q${esc(o.nlabel||o.number)}`),...v.map(o=>`similar to ${esc(docLabel(B.docs[o.doc]))} Q${esc(o.nlabel||o.number)}`)];
   return t.length?`<div class="help" style="margin:-4px 0 8px">${t.join(' · ')}</div>`:''}
@@ -2713,7 +2694,7 @@ function faHTML(yl,fa){const subs=(yl==='12'?TOPICS.y12:TOPICS.y11).get(fa);if(!
     <div class="subgrid">${[...subs].map(([sk,x])=>`<button class="subcard y${yl}${x.qs.length?'':' none'}" data-sel="${esc('sub:'+yl+'|'+fa+'|'+sk)}"><b>${esc(sk||fa)}</b><span class="meta">${x.qs.length?x.qs.length+' question'+(x.qs.length===1?'':'s'):'No questions yet'} · ${x.dps.length} dot point${x.dps.length===1?'':'s'}</span></button>`).join('')}</div>`}
 let BF={type:'all',src:'all',fig:'all',band:'all',wm:'all'};try{BF=Object.assign(BF,JSON.parse(localStorage.getItem('bf')||'{}'))}catch(e){}
 const bfOK=q=>(BF.type==='all'||(BF.type==='mcq')===(q.type==='mcq'))&&(BF.src==='all'||(BF.src==='hsc')===(B.docs[q.doc]?.task_type==='hsc'))&&(BF.fig==='all'||(figKeys(q).all.length>0)===(BF.fig==='yes'))&&(typeof qDifOK!=='function'||qDifOK(q,BF));   // owner 14 Nov: difficulty filters (exam builder stage 2)
-let BSEL={key:null,skill:null,dp:null};
+let BSEL={key:null,dp:null};
 // owner 13 Nov: "in the bank, the pills at the top, make them animated": each filter group (Type, Source, Diagram, Band, Kind)
 // has one highlight that slides to the chosen option. The list is redrawn on every click, so the last position of each group's
 // highlight is kept in BFPOS and the new highlight starts there, then slides. Reduced motion: it just appears.
@@ -2742,18 +2723,15 @@ function renderBank(){
     head=`<div class="listhead"><h2>Search: “${esc(search)}”</h2><span class="crumb">${qs.length===60?'first 60 matches':qs.length+(qs.length===1?' match':' matches')}</span></div>`;
   } else if(sel&&TOPICS.byKey[sel]){
     const t=TOPICS.byKey[sel]; qs=t.qs.slice().sort((a,b)=>(B.docs[b.doc].label.localeCompare(B.docs[a.doc].label))||(parseInt(a.number)-parseInt(b.number)));
-    let title,crumb='',sibs='';
-    if(sel.startsWith('sub:')){const [yl,fa,sk]=sel.slice(4).split('|');title=sk||fa;crumb='';t.yl=yl;t.fa=fa;const subs=(yl==='12'?TOPICS.y12:TOPICS.y11).get(fa);if(subs.size>1)sibs=`<div class="sibs">${[...subs].map(([k2,s2])=>{const key='sub:'+yl+'|'+fa+'|'+k2;return `<button class="sib" data-sel="${esc(key)}" aria-current="${key===sel}">${esc(k2||fa)}<span class="c">${s2.qs.length}</span></button>`}).join('')}</div>`}
+    let title,sibs='';
+    if(sel.startsWith('sub:')){const [yl,fa,sk]=sel.slice(4).split('|');title=sk||fa;t.yl=yl;t.fa=fa;const subs=(yl==='12'?TOPICS.y12:TOPICS.y11).get(fa);if(subs.size>1)sibs=`<div class="sibs">${[...subs].map(([k2,s2])=>{const key='sub:'+yl+'|'+fa+'|'+k2;return `<button class="sib" data-sel="${esc(key)}" aria-current="${key===sel}">${esc(k2||fa)}<span class="c">${s2.qs.length}</span></button>`}).join('')}</div>`}
     else title=sel==='special:removed'?'Removed content':sel==='special:std'?'Mathematics Standard':'No 2024 match';
-    if(BSEL.key!==sel)BSEL={key:sel,skill:null,dp:null};
+    if(BSEL.key!==sel)BSEL={key:sel,dp:null};
     const all=qs.length, base=qs.filter(bfOK);
-    const skc={};base.forEach(q=>qSkills(q).forEach(k=>skc[k]=(skc[k]||0)+1));
     const dpc={};base.forEach(q=>qPri(q).forEach(k=>{if((t.dps||[]).some(d=>d.id===k))dpc[k]=(dpc[k]||0)+1}));
-    qs=base.filter(q=>(!BSEL.skill||qSkills(q).includes(BSEL.skill))&&(!BSEL.dp||qPri(q).includes(BSEL.dp)));
-    const sks=Object.entries(skc).sort((a,b)=>b[1]-a[1]);
-    var narrow=(Object.keys(dpc).length>1?`<div class="fl"><span>Dot point</span>${Object.entries(dpc).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,n])=>`<button data-bsel="dp:${k}" aria-pressed="${BSEL.dp===k}" title="${esc(DM[k]?.text||'')}">${esc(DM[k]?.short||k)} <span class="c">${n}</span></button>`).join('')}</div>`:'')+
-      '';   // owner 12 Nov: skill bubbles removed ("i dont feel like the skill bubbles work"): a question needs several skills, so they don't split a topic; skills are searchable instead
-    head=`<div class="crumbs"><button data-home="1">All topics</button>${t.fa?`<span>›</span><span>${esc(t.fa)}</span>`:''}</div><div class="listhead"><h2>${esc(title)}</h2><span class="crumb">${all} question${all===1?'':'s'}</span>${bankSwitch()}</div>${sibs}${all?bfHTML(all,qs.length,typeof narrow==='string'?narrow:''):''}
+    qs=base.filter(q=>!BSEL.dp||qPri(q).includes(BSEL.dp));
+    const narrow=Object.keys(dpc).length>1?`<div class="fl"><span>Dot point</span>${Object.entries(dpc).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,n])=>`<button data-bsel="dp:${k}" aria-pressed="${BSEL.dp===k}" title="${esc(DM[k]?.text||'')}">${esc(DM[k]?.short||k)} <span class="c">${n}</span></button>`).join('')}</div>`:'';   // owner 12 Nov: skill bubbles removed ("i dont feel like the skill bubbles work"): a question needs several skills, so they don't split a topic; skills are searchable instead
+    head=`<div class="crumbs"><button data-home="1">All topics</button>${t.fa?`<span>›</span><span>${esc(t.fa)}</span>`:''}</div><div class="listhead"><h2>${esc(title)}</h2><span class="crumb">${all} question${all===1?'':'s'}</span>${bankSwitch()}</div>${sibs}${all?bfHTML(all,qs.length,narrow):''}
       ${t.dps?`<details class="dps"><summary>The ${t.dps.length} syllabus dot point${t.dps.length===1?'':'s'} in this subheading <span class="muted">· number of questions that use each one (a question can use several)</span></summary><ol>${t.dps.map(d=>{const n=t.qs.filter(q=>q.parts.some(p=>effTags(q,p).some(x=>x.id===d.id))).length;return `<li${n?'':' class="zero"'}><code>${d.id}</code>${tex(d.tex||d.text)} <span class="muted">(${n})</span></li>`}).join('')}</ol></details>`:''}`;
     if(!qs.length) head+='<div class="empty">No questions yet. This content is new or rarely examined in the papers loaded so far.</div>';
   }
@@ -2771,7 +2749,7 @@ function renderBank(){
   // transition already animates #list, and a second animation inside it would double the slide; #list.enter CSS removed)
   const box=L.querySelector('.cards');let i=0;
   const batch=n=>{if(L._gen!==gen)return;const part=qs.slice(i,i+n);i+=part.length;const tmp=document.createElement('div');tmp.innerHTML=part.map(cardHTML).join('');
-    const els=[...tmp.children];els.forEach(c=>{box.appendChild(c);const q=B.questions.find(x=>x.id===+c.dataset.q);hydrate(c,q,'bank')});
+    const els=[...tmp.children];els.forEach(c=>{box.appendChild(c);const q=QG.byId.get(+c.dataset.q);hydrate(c,q,'bank')});
     els.forEach(c=>TSIO.observe(c));if(i<qs.length)setTimeout(()=>batch(12),16)};
   batch(8);bfPills();
 }
@@ -2839,16 +2817,15 @@ $('#nav').addEventListener('click',e=>{
   const b=e.target.closest('button[data-sel]'); if(b){sel=b.dataset.sel;search='';$('#q').value='';save('sel',sel);syncNav();requestAnimationFrame(()=>setTimeout(()=>{renderBank();window.scrollTo({top:0});bankFade()},0))}   // nav moves first, list follows a frame later
 });
 $('#list').addEventListener('click',e=>{
-  const ba=e.target.closest('[data-bankall]'); if(ba&&isEditor()){BANKALL=!BANKALL;try{localStorage.setItem('bankall',BANKALL?'1':'0')}catch(_){}TOPICS=null;renderBank();return}
+  const ba=e.target.closest('[data-bankall]'); if(ba&&isEditor()){BANKALL=!BANKALL;save('bankall',BANKALL?'1':'0');TOPICS=null;renderBank();return}
   const bs=e.target.closest('[data-bsel]'); if(bs){const i=bs.dataset.bsel.indexOf(':'),k=bs.dataset.bsel.slice(0,i),v=bs.dataset.bsel.slice(i+1);BSEL[k]=BSEL[k]===v?null:v;renderBank();return}
-  const bf=e.target.closest('[data-bf]'); if(bf){const [k,v]=bf.dataset.bf.split(':');BF[k]=v;try{localStorage.setItem('bf',JSON.stringify(BF))}catch(_){}renderBank();return}
+  const bf=e.target.closest('[data-bf]'); if(bf){const [k,v]=bf.dataset.bf.split(':');BF[k]=v;save('bf',JSON.stringify(BF));renderBank();return}
   const hm=e.target.closest('[data-home]'); if(hm){bankGo('back',null,()=>{sel=null;save('sel','');renderBank();window.scrollTo({top:0})});return}
   const t=e.target.closest('[data-fa],.subrow[data-sel],.subcard[data-sel],.fah[data-sel]');
   if(t){if(t.classList.contains('none'))return; const prevSel=sel; sel=t.dataset.sel||('fa:'+t.dataset.fa);
     const go=sel;sel=prevSel;bankGo('fwd',t.matches('.fah')?null:t,()=>{sel=go;save('sel',sel);renderBank();window.scrollTo({top:0})});return}
   const sb=e.target.closest('.sib'); if(sb){sel=sb.dataset.sel;save('sel',sel);renderBank();bankFade();return}
-  if(e.target.id==='home'){bankGo('back',null,()=>{sel=null;save('sel','');renderBank()});return}
-  const rv=e.target.closest('[data-reveal]'); if(rv){const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card');const q=B.questions.find(x=>x.id===id);c.outerHTML=cardHTML(q);const nc=$(`.card[data-q="${id}"]`);hydrate(nc,q,'bank');typeset(nc);return}
+  const rv=e.target.closest('[data-reveal]'); if(rv){const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card');const q=QG.byId.get(id);c.outerHTML=cardHTML(q);const nc=$(`.card[data-q="${id}"]`);hydrate(nc,q,'bank');typeset(nc);return}
   const op=e.target.closest('[data-open]'); if(op)reviewOpen(+op.dataset.open);   // owner 13 Nov: opens in Review's "All questions" list (#review/list/all)
 });
 let st; $('#q').addEventListener('input',e=>{clearTimeout(st);st=setTimeout(()=>{search=e.target.value.trim();renderBank()},250)});
@@ -2926,7 +2903,8 @@ let _spot=null;
 function hstr(x){let h=2166136261;for(const c of x){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 function spotSet(){if(_spot)return _spot;const by={};B.questions.forEach(q=>{if(q.dup_of)return;chkFigsAll(q).forEach(k=>{if(figRisk(k)[0]==='High')(by[q.doc]=by[q.doc]||[]).push(k)})});
   const keep=new Set();Object.values(by).forEach(ks=>{ks.sort((a,b)=>hstr(a)-hstr(b));ks.slice(0,Math.max(1,Math.ceil(ks.length/10))).forEach(k=>keep.add(k))});return _spot=keep}
-function escalated(doc){return B.questions.some(q=>q.doc===doc&&chkFigsAll(q).some(k=>figRisk(k)[0]==='High'&&reviews['q'+q.id]?.fig?.[k]==='changes'))}
+// health pass 21 Nov: cached per paper (it scanned the whole bank for every High diagram in chkFigs); cleared with _clean
+let _esc={};function escalated(doc){return doc in _esc?_esc[doc]:_esc[doc]=B.questions.some(q=>q.doc===doc&&chkFigsAll(q).some(k=>figRisk(k)[0]==='High'&&reviews['q'+q.id]?.fig?.[k]==='changes'))}
 const chkFigs=q=>chkFigsAll(q).filter(k=>figRisk(k)[0]!=='High'||spotSet().has(k)||reviews['q'+q.id]?.fig?.[k]||escalated(q.doc));
 // owner 17 Nov: "exams should never get throug[h] until all flags are fixed": a question with a diagram change request counts as
 // flagged (not approved: out of the tutors' Bank and the exam builder) until the redraw is approved
@@ -3041,7 +3019,7 @@ function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
   //   first thing on Review, highlighted, with what came back; flags still waiting for Claude sit lower down, quieter
   box.innerHTML=`<div class="ihd"><h2>Review</h2><p class="sub">What is waiting for you. Papers are walked one at a time, top to bottom.</p></div>
     ${(()=>{const bq=B.questions.filter(backQ);if(!bq.length)return '';
-      const what=q=>{const r=reviews['q'+q.id]||{};if(r.status==='flagged'&&r.fixed)return String(r.fixed.note||'').replace(/^Claude [^:]*(?::\d\d)?: /,'');
+      const what=q=>{const r=reviews['q'+q.id]||{};if(r.status==='flagged'&&r.fixed)return fixTxt(r.fixed.note);
         const k=Object.keys(r.fig_done||{}).find(k=>!(r.fig||{})[k]);return k?splitDone(r.fig_done[k],r.fig_notes?.[k]).fix:''};
       const rows=bq.slice(0,6).map(q=>`<li><b>${qid(q)}</b> <span class="muted">${esc(srcLine(q))}</span><span class="rv-bkwhat">${esc(what(q))}</span></li>`).join('');
       return card('back',bq.length,'Fixed and back for you','Claude fixed these after your flag or change request. Check each one and approve it, or flag it again.','#review/list/back','',
@@ -3106,7 +3084,9 @@ const figMode={};
 // owner 17 Nov: "we need to know what the original flag is so the reviewer can compare". fig_done is
 // "<checker's request> -> Claude <time>: <what changed>"; redraws from before 17 Nov hold only "<date> redraw (fixN)".
 // The request is also kept in fig_notes (older redraws, "2026-11-12 redraw (fix8)", have it only there).
-const splitDone=(done,ask)=>{const i=done.indexOf(' -> ');return i<0?{ask:ask||'',fix:'',when:done}:{ask:done.slice(0,i)||ask||'',fix:done.slice(i+4).replace(/^Claude [^:]*(?::\d\d)?: /,'')}};
+// health pass 21 Nov: one way to drop the "Claude <date> <time> (<who>):" prefix of a fix note (three patterns before; one kept the prefix when the note had a time)
+const fixTxt=t=>String(t||'').replace(/^Claude \d+ \w+(?: \d+:\d\d)?(?: \([^)]*\))?: /,'');
+const splitDone=(done,ask)=>{const i=done.indexOf(' -> ');return i<0?{ask:ask||'',fix:'',when:done}:{ask:done.slice(0,i)||ask||'',fix:fixTxt(done.slice(i+4))}};
 function doneHTML(done,ask){const d=splitDone(done,ask);
   return `<div class="callout"><div><b>Your original request:</b> ${d.ask?esc(d.ask):'none: Claude redrew this in a rule sweep, not from a flag of yours'}</div><div><b>What Claude changed:</b> ${d.fix?esc(d.fix):'redrawn '+esc(d.when)+(d.ask?' to meet your request':'')}</div></div>`}
 // owner 17 Nov: "where is the original flag on the back to you page?": one box at the top of every returned item lists each
@@ -3114,7 +3094,7 @@ function doneHTML(done,ask){const d=splitDone(done,ask);
 // owner 17 Nov: "why does fixewd and back tou have approved questions?": an approved question is listed when a diagram was
 // redrawn after the approval; the badge says "text approved · redrawn diagram needs your OK" instead of "approved".
 function backBoxHTML(q,r){if(waitR(r)&&!q.dup_of)return waitBoxHTML(r);if(!r||!backQ(q))return '';const rows=[];
-  if(r.status==='flagged'&&r.fixed)rows.push(['Question',r.note||'(no note written)',String(r.fixed.note||'').replace(/^Claude \d+ \w+(?: \d+:\d\d)?: /,'')]);
+  if(r.status==='flagged'&&r.fixed)rows.push(['Question',r.note||'(no note written)',fixTxt(r.fixed.note)]);
   for(const [k,done] of Object.entries(r.fig_done||{})){if((r.fig||{})[k])continue;const d=splitDone(done,r.fig_notes?.[k]);
     rows.push([/_s\d+$/.test(k)?'Solution diagram':'Diagram',d.ask||'none: redrawn by Claude in a rule sweep',d.fix||'redrawn '+d.when])}
   if(!rows.length)return '';
@@ -3198,11 +3178,11 @@ document.addEventListener('keydown',e=>{const i=e.target.closest&&e.target.close
   else if(e.key==='Escape'){i.closest('[data-pcbox]').hidden=true}},true);
 // owner 12 Nov: "one question per page ... K should be to go next. Bind a keystroke to approve, bind a keystroke to flag ...
 // pull up a textbox ... hit enter to send the flag through. Keep a log on the side ... That can collapse as well."
-let logOpen=(()=>{try{return localStorage.getItem('dlog')!=='0'}catch(e){return true}})();
+let logOpen=load('dlog')!=='0';
 function diagLog(){
   const rows=[];
-  Object.entries(reviews).forEach(([k,r])=>{if(!k.startsWith('q')||!r?.fig||!r.at)return;const q=B.questions.find(x=>'q'+x.id===k);if(!q)return;
-    const ks=Object.keys(r.fig).filter(f=>chkFigs(q).includes(f)||qFigs(q).includes(f));if(!ks.length)return;
+  Object.entries(reviews).forEach(([k,r])=>{if(!/^q\d+$/.test(k)||!r?.fig||!r.at)return;const q=QG.byId.get(+k.slice(1));if(!q)return;
+    const own=new Set([...chkFigs(q),...qFigs(q)]),ks=Object.keys(r.fig).filter(f=>own.has(f));   // health pass 21 Nov: Map lookup, figures listed once per recordif(!ks.length)return;
     const fl=ks.filter(f=>r.fig[f]!=='approved');rows.push({q,at:r.at,flag:fl.length?(r.fig_notes?.[fl[0]]||'flagged'):null,nf:fl.length,n:ks.length})});
   rows.sort((x,y)=>y.at.localeCompare(x.at));
   return `<aside class="dlog${logOpen?'':' shut'}"><button class="act ghost" id="logT" aria-expanded="${logOpen}">${logOpen?'Hide log ›':'‹ Log'}</button>
@@ -3218,7 +3198,7 @@ function pendingFlags(){let n=0,nq=0;(B?.questions||[]).forEach(q=>{if(!waitQ(q)
 // "monday, tuesday, wednesday, friday 9-5 all those days": the button writes runs/<id> {kind:'flags', status:'requested'}; a scheduled
 // session checks hourly in those hours (the platform's minimum) (FLAGS.md "Scheduled check"), the night run clears what is left
 const FLR={runs:[],sub:0,
-  watch(){if(this.sub||!db)return;this.sub=1;try{db.collection('runs').onSnapshot(s=>{this.runs=(s.docs||s||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).filter(r=>r.kind==='flags');if(view==='review')renderReview()},()=>{this.sub=0})}catch(e){this.sub=0}},
+  watch(){if(this.sub||!db)return;this.sub=1;try{db.collection('runs').onSnapshot(s=>{this.runs=QG.docs(s).filter(r=>r.kind==='flags');if(view==='review')renderReview()},()=>{this.sub=0})}catch(e){this.sub=0}},
   last(){return this.runs.slice().sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null},
   async ask(){if(!db){toast('Needs the shared database (open the page in claude.ai)');return}const id='flags_'+Date.now(),doc={kind:'flags',status:'requested',by:QG.me||null,at:new Date().toISOString()};
     try{await db.doc('runs/'+id).set(doc);this.runs.push({id,...doc});toast('Sent to Claude');renderReview()}catch(e){toast('Could not send. Try again in a moment.')}}};
@@ -3261,9 +3241,9 @@ async function diagDecide(v,note,only){const q=rlist[ridx];if(!q)return;const r=
   write(q,note?{fig,fig_notes:notes}:{fig}); const was=q.id; refreshReview();   // move on at once; the save finishes in the background
   if(!_advanced&&rlist[ridx]?.id===was) go(1); window.scrollTo({top:0});}   // the decided question leaves the to-do list; the next one takes its place
 function bindLog(){
-  $('#logT')&&($('#logT').onclick=()=>{logOpen=!logOpen;try{localStorage.setItem('dlog',logOpen?'1':'0')}catch(e){}renderDiag()});
+  $('#logT')&&($('#logT').onclick=()=>{logOpen=!logOpen;save('dlog',logOpen?'1':'0');renderDiag()});
   $$('#rout [data-logq]').forEach(b=>b.onclick=()=>{rstatus='any';pendingOpen=+b.dataset.logq;refreshReview()});
-  $$('#rout [data-undo]').forEach(b=>b.onclick=async()=>{const q=B.questions.find(x=>x.id===+b.dataset.undo);const r=reviews['q'+q.id]||{};const fig={...(r.fig||{})};
+  $$('#rout [data-undo]').forEach(b=>b.onclick=async()=>{const q=QG.byId.get(+b.dataset.undo);const r=reviews['q'+q.id]||{};const fig={...(r.fig||{})};
     chkFigs(q).forEach(k=>delete fig[k]);await write(q,{fig});toast('Undone: '+qid(q)+' is back in the list');refreshReview()});
 }
 function nextStepHTML(){if(RMODE==='paper'&&rdoc)return paperNextHTML();
@@ -3353,7 +3333,7 @@ function renderReview(){RUNDO.render();
   const q=rlist[ridx], d=B.docs[q.doc], r=reviews['q'+q.id];
   $('#srcTitle').textContent=`${docLabel(d)} · page ${q.pages.map(p=>+p.split('_').pop().split('.')[0]+1).join(', ')}`;
   $('#src').innerHTML=q.pages.map(p=>`<img data-page="${p}" alt="Source page">`).join('');
-  const rel=q.related.map(x=>{const o=B.questions.find(z=>z.id===x.q);return o&&!(docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number))?`${docLabel(B.docs[o.doc])} Q${esc(o.nlabel||o.number)} (${Math.round(x.sim*100)}% similar)`:''}).filter(Boolean).join('; ');
+  const rel=q.related.map(x=>{const o=QG.byId.get(x.q);return o&&!(docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number))?`${docLabel(B.docs[o.doc])} Q${esc(o.nlabel||o.number)} (${Math.round(x.sim*100)}% similar)`:''}).filter(Boolean).join('; ');
   $('#rout').innerHTML=`${backBoxHTML(q,r)}${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not ${esc(QG.courseData.short)}:</b> ${esc(q.std)}</div>`:''}
     <div class="row"><span class="badge ${d.parse_path==='scan'?'b-scan':'b-acc'}">${d.parse_path}</span>
       ${q.tri?'':`${q.queues.includes('review')?'<span class="badge b-bad">parse flagged</span>':''}`}
@@ -3364,7 +3344,7 @@ function renderReview(){RUNDO.render();
     ${q.decide?`<div class="callout"><b>Needs your decision:</b> ${tex(q.decide)}</div>`:''}${q.review_note&&!/^scan (path|transcription)[^|;]*$/i.test(q.review_note.trim())?`<details class="figdone" style="color:var(--muted)"><summary style="color:var(--warn)">Transcription notes</summary><div class="help">${esc(q.review_note)}</div></details>`:''}${rel?`<div class="help">Also appears as: ${esc(rel)}</div>`:''}
     ${figCompareHTML(q)}
     <div class="section"><h4>Question as it will appear</h4>${qBody(q,'review')}</div>
-    <div class="decision">${r?.status==='flagged'&&r?.fixed?.note?`<div class="callout"><div><b>Your original flag:</b> ${esc(r.note||'(no note written)')}</div><div><b>What Claude changed:</b> ${esc(r.fixed.note.replace(/^Claude \d+ \w+: /,''))}</div><div class="help">Compare with the page scan above, then approve or flag again.</div></div>`:r?.note?`<div class="help"><b>Your note:</b> ${esc(r.note)}</div>`:''}
+    <div class="decision">${r?.status==='flagged'&&r?.fixed?.note?`<div class="callout"><div><b>Your original flag:</b> ${esc(r.note||'(no note written)')}</div><div><b>What Claude changed:</b> ${esc(fixTxt(r.fixed.note))}</div><div class="help">Compare with the page scan above, then approve or flag again.</div></div>`:r?.note?`<div class="help"><b>Your note:</b> ${esc(r.note)}</div>`:''}
       <div class="row"><button class="act ok" id="approve"><kbd>A</kbd> Approve question + solution</button><span class="help">Approving also approves any model-written solution shown here that you haven't rejected.</span><button class="act warn" id="flag"><kbd>F</kbd> Flag</button>
       <button class="act ghost" id="ztog" aria-pressed="${needsZ(q)}" title="Use when the question refers to a z-score table that is not printed with it: exams with this question get the table on the last page">${needsZ(q)?'✓ ':''}Z-score table at the back</button>
       <span class="help">${db?'Decisions save for everyone with access.':'Saving is off in this view; decisions are not kept.'}</span></div>
@@ -3387,7 +3367,7 @@ function renderReview(){RUNDO.render();
 async function write(q,patch,whole){   // whole: patch is the entire record (Undo puts back the record as it was, 36_undo.js)
   const key=RKEY.qdoc(q); const cur=reviews['q'+q.id]||{};   // owner 14 Nov (Fix 2): stored by key, shared by every copy
   const next={...(whole?{}:cur),...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};if(q.key)next.key=q.key;
-  RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;
+  RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;_esc={};
   if(!db){toast('Not saved: this view has no shared storage');return false}
   try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved');return true}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.');return false}
 }   // true once saved: a report's action (27_reports.js) is recorded only after its review write landed
@@ -3608,7 +3588,7 @@ function renderImport(){
   const tile=(v,l,a,b)=>`<div class="tile"><b>${v??'–'}</b><span>${l}</span>${b?`<div class="pr-bar"><i style="width:${pct(a,b)}%"></i></div>`:''}</div>`;
   const run=(P.running||[]),log=(P.log||[]).slice().reverse(),all=box.dataset.logall==='1';
   box.innerHTML=`<p class="sub">Year 12 ${esc(QG.courseData.short)} papers, newest first · updated ${esc(ago(P.updated))}${P.eta?` · ${esc(P.eta)}`:''}</p>
-  <div class="tiles">${(bs=>tile(B.questions?.length?bs.papers:null,'papers in the Bank')+tile(B.questions?.length?bs.questions.toLocaleString():null,'questions in the Bank'))(B.questions?bankStats():{})}
+  <div class="tiles">${(bs=>tile(B?.questions?.length?bs.papers:null,'papers in the Bank')+tile(B?.questions?.length?bs.questions.toLocaleString():null,'questions in the Bank'))(B?.questions?bankStats():{})}
   ${tile(`${t.figures_redrawn||0} / ${t.figures_total||0}`,'diagrams redrawn',t.figures_redrawn,t.figures_total)}${tile(t.solutions_written,'solutions written by Claude')}</div>
   ${run.length?`<h3>Import stages running</h3><ul>${run.map(r=>`<li><span class="pulse" aria-hidden="true"></span><b>${esc(r.stage)}</b> · ${esc(r.batch||'')} ${r.detail?'· '+esc(r.detail):''} <span class="muted">· started ${esc(ago(r.started))}</span></li>`).join('')}</ul>`:''}
   <h3>Batches</h3>${batchesHTML(P.batches||[])}
@@ -3752,14 +3732,14 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
   try{
     const [dbns,user]=await Promise.all([c.use('db'),c.use('user')]);
     if(user){try{QG.me=await user.id()}catch(e){}}
-    if(dbns){try{dbns.doc('progress/jobs').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);JOBS=(v&&v.jobs)||[];renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
+    if(dbns){try{dbns.doc('progress/jobs').onSnapshot(d=>{const v=QG.val(d);JOBS=(v&&v.jobs)||[];renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
     // owner 14 Nov: "need a pill for current jobs and queued jobs". The queue: {items:[{id,title,detail,status,order,asked}],updated}
     // job 6 (owner 16 Nov: "I need a place to see ... what's in that night's automated tasks"): progress/night, kept by the night
     // session (NIGHT.md): {steps:[{id,title,detail}], skipped:[{title,why}], last:{at,items:[{title,status,result}]}, updated}
-    if(dbns){try{dbns.doc('progress/night').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QG.night=v||null;if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
-    if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
-    if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);if(v){PROG=v;if(view==='processes'&&QG.ready(view))renderImport()}},()=>{})}catch(e){}}
-    if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=RKEY.index(nx);TOPICS=null;_clean=null;
+    if(dbns){try{dbns.doc('progress/night').onSnapshot(d=>{const v=QG.val(d);QG.night=v||null;if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
+    if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=QG.val(d);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
+    if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=QG.val(d);if(v){PROG=v;if(view==='processes'&&QG.ready(view))renderImport()}},()=>{})}catch(e){}}
+    if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=RKEY.index(nx);TOPICS=null;_clean=null;_esc={};
       updateCounts(); if(!QG.ready(view))return; if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='reports'&&typeof renderReports==='function') renderReports(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh(); else if(view==='processes'){renderImport();let pq=null;try{pq=PQ}catch(e){}if(pq){pq.redraw();pq.run.draw()}}},()=>{})}   // Import history counts approved questions too (bankStats); owner 14 Nov: the lanes' cleared / waiting squares and the queue's waiting count follow Review live (PQ is read guarded: an early snapshot can arrive before 32_papers_q.js has run)
   }catch(e){}
 })();
@@ -3796,9 +3776,9 @@ let EX=(()=>{try{const v=JSON.parse(localStorage.getItem(XKEY));if(v&&Array.isAr
 if(EX.timeAuto===undefined)EX.timeAuto=!EX.id&&!EX.items.length;
 // owner 19 Nov ("Save by itself"): every change is kept in this browser and, for an exam in the shared database, saved there a moment
 // later (EXAS.schedule, 25_mine.js, which loads later: hence the typeof test). The working time follows the marks (EXAS.time)
-const xsave=()=>{if(typeof EXAS!=='undefined')EXAS.time();try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}xCount();if(typeof EXAS!=='undefined')EXAS.schedule()};
-const xq=id=>B.questions.find(q=>q.id===id);
-function xCount(){const n=EX.items.length,b=$('#xN');if(b)b.textContent=n;if($('#xPanel')&&!$('#xPanel').hidden)xPanel()
+const xsave=()=>{if(typeof EXAS!=='undefined')EXAS.time();save(XKEY,JSON.stringify(EX));xCount();if(typeof EXAS!=='undefined')EXAS.schedule()};
+const xq=id=>QG.byId.get(id);   // health pass 21 Nov: the id index (was a scan of every question, ~27 callers, many in loops)
+function xCount(){if($('#xPanel')&&!$('#xPanel').hidden)xPanel()
   // any change to the exam (add, remove, reorder, swap, load) refreshes the Exams page around it (owner 14 Nov, Exams page + My exams).
   // EXV is declared by 24_exams.js, which loads later: the typeof test keeps the first call below (at load) safe.
   if(view==='exams'&&typeof EXV!=='undefined'&&EXV.built){exHead();if(EXV.view==='setup'){exResult();exLabels()}}}
@@ -3826,23 +3806,19 @@ function xPanel(){
   // open exam in one click) is gone; exams are opened from My exams
   exHead();if(view==='exams'&&EXV.view==='pick'){const n=$('#exLs');if(n&&EXCUR.length){const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;n.textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${bankAll()||!isEditor()?'':' · approved only'}`}}
 }
-function xOpen(){const p=$('#xPanel');p.hidden=false;requestAnimationFrame(()=>document.body.classList.add('x-open'));xPanel()}
-function xClose(){document.body.classList.remove('x-open');setTimeout(()=>{if(!document.body.classList.contains('x-open'))$('#xPanel').hidden=true},250)}
 let XSAVED=[],_xsub=null;
 // owner 14 Nov (Fix 2, "Ok we should run Fix 1 and 2"): keys (question keys, parallel to items) let a saved exam find its
 // questions again after a re-parse or a change of which copy the Bank shows (RKEY.items).
 // saving: every field, including settings, lines, diagram sizes and locks (Exams page, owner 14 Nov); then My exams and the
 // page head's Saved / Unsaved marker refresh (they refresh even when there is no database)
 async function xSaveDb(quiet){
-  if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}
+  if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;save(XKEY,JSON.stringify(EX));
     const A=EX.auto||{},keep={topics:A.topics,total:A.total,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
     try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,items:EX.items,keys:EX.items.map(i=>xq(i)?.key||null),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});if(!quiet)toast('Exam saved')}
     catch(e){toast('Could not save. Try again in a moment.')}}
   if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}}
 document.addEventListener('click',e=>{
-  if(e.target.closest('#xBtn')){$('#xPanel').hidden||!document.body.classList.contains('x-open')?xOpen():xClose();return}
   if(!e.target.closest('#xPanel'))return;
-  if(e.target.closest('#xClose')){xClose();return}
   const li=e.target.closest('li[data-xi]');
   if(li&&e.target.closest('[data-xrm]')){xToggle(+li.dataset.xi);return}
   if(li&&e.target.closest('[data-xmv]')){const id=+li.dataset.xi,d=+e.target.closest('[data-xmv]').dataset.xmv,q=xq(id);
@@ -3852,7 +3828,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#xGuide')){xPreview('guide');return}
   if(e.target.closest('[data-xtauto]')){EX.timeAuto=true;xsave();return}
 });
-document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;if(f.dataset.xf==='time')EX.timeAuto=false;try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(_){}if(typeof EXAS!=='undefined')EXAS.schedule()}});
+document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;if(f.dataset.xf==='time')EX.timeAuto=false;save(XKEY,JSON.stringify(EX));if(typeof EXAS!=='undefined')EXAS.schedule()}});
 // owner 19 Nov: "HSC Adv averages 1.8 minutes per mark. Should be a place to change that too": the working time follows it
 document.addEventListener('change',e=>{const f=e.target.closest('[data-xmpm]');if(!f)return;const v=Math.max(.5,Math.min(4,+f.value||1.8));EX.mpm=Math.round(v*10)/10;EX.timeAuto=true;xsave()});
 
@@ -3943,7 +3919,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#xPvClose')){xClosePv();return}
   const s=e.target.closest('[data-xdoc]');if(s){xPreview(s.dataset.xdoc);return}
   const d=e.target.closest('#xDl');if(d&&!d.disabled){xDownload(d.dataset.doc);return}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.body.classList.contains('xpv-on'))xClosePv();else if(document.body.classList.contains('x-open'))xClose()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('xpv-on'))xClosePv()});
 
 xCount();
 </script>
@@ -3957,7 +3933,7 @@ const LV_FLAGS=[2066,1137,2209,2547,2625,2303,2817,1311,1587];   // parts the ov
 const LV_FIRST=['Y11_Exponential_and_logarithmic_functions','Y11_Trigonometric_identities_and_equations','Y12_Sequences_and_series'];   // thin reference sets first
 const LV_WM={UF:'Understanding & fluency',PR:'Problem solving & reasoning'};
 const LV_BAND={2:'one routine step',3:'two steps / standard technique',4:'several steps, ideas combined',5:'non-routine set-up or general proof',6:'needs real insight'};
-let DIFD={},LVQ=null,LVI=0,LVAREA=(()=>{try{return localStorage.getItem('lv_area')||'thin'}catch(e){return 'thin'}})(),LVSHOW=(()=>{try{return localStorage.getItem('lv_show')||'todo'}catch(e){return 'todo'}})(),_lvsub=null;
+let DIFD={},LVQ=null,LVI=0,LVAREA=(load('lv_area')||'thin'),LVSHOW=(load('lv_show')||'todo'),_lvsub=null;
 const lvName=a=>String(a||'').replace(/^Y1[12]_/,'').replace(/_/g,' ');
 const lvYear=a=>/^Y11/.test(a)?'Y11':'Y12';
 function lvItems(){if(LVQ)return LVQ;const out=[];
@@ -3988,7 +3964,7 @@ function lvList(){const all=lvItems();
 // claude every time"): a part's saved rating (difficulty/<part_id>, status changed) counts at once in the exam maker; the import and
 // night run fold it into the database (tools/apply_difficulty_reviews.py: owner_band / owner_wm)
 const lvDif=p=>{const o=DIFD[p.id];return o&&o.status==='changed'&&o.band?{...(p.dif||{}),b:o.band,wm:o.wm}:p.dif};
-function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});const ch=JSON.stringify(nx)!==JSON.stringify(DIFD);DIFD=nx;LVQ=null;if(ch){_ee.clear();_qd.clear()}if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
+function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=QG.val(x);if(v)nx[x.id]=v});const ch=JSON.stringify(nx)!==JSON.stringify(DIFD);DIFD=nx;LVQ=null;if(ch){_ee.clear();_qd.clear()}if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
 function renderLevels(keep){
   lvSub();const box=$('#levelsBox');const all=lvItems(),list=lvList();
   const done=all.filter(lvDone).length, anchors=all.filter(x=>!x.flag), adone=anchors.filter(lvDone).length;
@@ -4036,9 +4012,9 @@ async function lvSave(){const box=$('#levelsBox'),list=lvList(),x=list[LVI];if(!
   window.scrollTo({top:0,behavior:RM.matches?'auto':'smooth'});
   if(!db){toast('Not saved: open the page in claude.ai to save');return}
   try{await db.doc('difficulty/'+x.p.id).set(v)}catch(e){toast('Could not save. Try again in a moment.')}}
-document.addEventListener('change',e=>{if(e.target.id==='lvArea'){LVAREA=e.target.value;try{localStorage.setItem('lv_area',LVAREA)}catch(_){}LVI=0;renderLevels();renderSteps()}});
+document.addEventListener('change',e=>{if(e.target.id==='lvArea'){LVAREA=e.target.value;save('lv_area',LVAREA);LVI=0;renderLevels();renderSteps()}});
 document.addEventListener('click',e=>{if(view!=='levels')return;
-  const s=e.target.closest('[data-lvshow]');if(s){LVSHOW=s.dataset.lvshow;try{localStorage.setItem('lv_show',LVSHOW)}catch(_){}LVI=0;renderLevels();return}
+  const s=e.target.closest('[data-lvshow]');if(s){LVSHOW=s.dataset.lvshow;save('lv_show',LVSHOW);LVI=0;renderLevels();return}
   const b=e.target.closest('[data-lvb]');if(b){lvSet('band',+b.dataset.lvb);return}
   const w=e.target.closest('[data-lvw]');if(w){lvSet('wm',w.dataset.lvw);return}
   const n=e.target.closest('[data-lvnav]');if(n&&!n.disabled){LVI+=+n.dataset.lvnav;renderLevels(true);window.scrollTo({top:0});return}
@@ -4079,7 +4055,7 @@ document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('in
    its parts' bands, rounded to 0.5; a question's problem-solving share = marks on PR parts / its marks. */
 const XA_DEF=()=>({open:true,topen:true,topics:[],total:100,mcq:10,mcqSet:false,diff:'hsc',pr:30,approved:true,avoid:false,seed:0,locked:[],warns:[],tmix:null,tpr:null,ran:false});
 function xa(){if(!EX.auto||typeof EX.auto!=='object')EX.auto=XA_DEF();const d=XA_DEF();for(const k in d)if(EX.auto[k]===undefined)EX.auto[k]=d[k];return EX.auto}
-const xaSave=()=>{try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}};
+const xaSave=()=>{save(XKEY,JSON.stringify(EX));};
 const XA_SWAPPED=new Set();
 
 /* ---------- difficulty of a question ---------- */
@@ -4153,10 +4129,10 @@ const XG={on:[],off:[],show:false,open:{setup:true,pick:false},src:null,dirty:fa
   set(v){const a=x=>Array.isArray(x)?x.filter(k=>typeof k==='string'&&k.startsWith('sub:')):[];XG.on=a(v&&v.on);XG.off=a(v&&v.off)},
   load(){if(!XG.src){try{const v=JSON.parse(localStorage.getItem('qg_learnt')||'null');if(v)XG.set(v)}catch(e){}XG.src='local'}
     if(XG.src==='db'||XG._ld||!QG.db||!QG.me)return;XG._ld=1;
-    Promise.resolve().then(()=>QG.db.doc(XG.path()).get()).then(d=>{const v=d&&d.exists&&(typeof d.data==='function'?d.data():d.data);
+    Promise.resolve().then(()=>QG.db.doc(XG.path()).get()).then(d=>{const v=d&&d.exists&&QG.val(d);
       XG.src='db';if(v&&!XG.dirty){XG.set(v);try{exRefresh()}catch(e){}}},()=>{}).finally(()=>{XG._ld=0})},
   // one write at a time, after a pause, only on a teacher's change
-  save(){XG.dirty=true;const v={on:XG.on.slice(),off:XG.off.slice()};try{localStorage.setItem('qg_learnt',JSON.stringify(v))}catch(e){}
+  save(){XG.dirty=true;const v={on:XG.on.slice(),off:XG.off.slice()};save('qg_learnt',JSON.stringify(v));
     clearTimeout(XG._t);XG._t=setTimeout(()=>{if(!QG.db||!QG.me)return;const w={...v,at:new Date().toISOString()};
       XG._w=(XG._w||Promise.resolve()).then(()=>QG.db.doc(XG.path()).set(w)).catch(()=>{})},700)},
   // a card shown by the switch says what it still needs (owner 17 Nov skill gates)
@@ -4236,10 +4212,10 @@ document.addEventListener('click',e=>{if(!e.target.closest('#xPanel'))return;
    (topics | question cards | exam panel), and a full-screen A4 preview with a grading panel, Regenerate, Swap,
    editable cover, answer lines and diagram sizes. The side drawer from stage 1/2 is replaced: the header "Exam · N" pill
    now opens this page. Difficulty: band 2-6 and fluency (UF) / problem solving (PR) per part, from DIFFICULTY_SPEC. */
-const EXV={view:(()=>{try{return localStorage.getItem('ex_view')||'mine'}catch(e){return 'mine'}})(),setupFor:null,
+const EXV={view:(load('ex_view')||'mine'),setupFor:null,
   pk:{topic:'all',q:'',paper:'all',type:'all',marks:'all',sort:'new',band:'all',wm:'all',fig:false,hide:false,limit:20},
   open:new Set(),pkOpen:new Set(),sel:null,doc:'exam',grade:true,built:false,moved:null};
-const exSaveView=()=>{try{localStorage.setItem('ex_view',EXV.view)}catch(e){}};
+const exSaveView=()=>{save('ex_view',EXV.view);};
 
 /* ---------- settings (kept in EX.auto with the stage-2 fields) ---------- */
 function exA(){const A=xa();if(!A.src||typeof A.src!=='object')A.src={hsc:true,trial:true,school:true};
@@ -4810,13 +4786,8 @@ function exClosePv(){xClosePv();if(EXV.pageY)window.scrollTo(0,EXV.pageY);EXV.pa
 /* download (xDownload) and saving (xSaveDb) are in 20_exam.js */
 
 /* ---------- events ---------- */
-// owner 14 Nov: the header "Exam · N" pill opens the Exams page (the drawer is gone)
+// the in-page exam panel's controls (the 14 Nov header "Exam · N" pill and the drawer are gone; their handlers removed 21 Nov)
 document.addEventListener('click',e=>{
-  if(e.target.closest('#xBtn')){e.preventDefault();e.stopImmediatePropagation();location.hash='#exams';if(view==='exams')renderExams();return}
-  // load a saved exam with all its fields (stage 1 only restored the questions)
-  const ld=e.target.closest('#xPanel [data-xload]');if(ld){e.stopImmediatePropagation();const x=XSAVED.find(s=>s.id===ld.dataset.xload);if(!x)return;
-    EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',bytopic:x.bytopic!==false,time:x.time,reading:x.reading,items:(x.items||[]).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
-    xsave();EXC.clear();toast('Exam opened');return}
   if(e.target.closest('#examsView #xClose')){e.stopImmediatePropagation();document.body.classList.remove('exr-open','exs-open');return}
   const rv=e.target.closest('#examsView [data-reveal]');if(rv){e.stopImmediatePropagation();const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card'),q=xq(id);
     const t=document.createElement('div');t.innerHTML=cardHTML(q);const nc=t.firstElementChild;c.replaceWith(nc);hydrate(nc,q,'bank');XG.note(nc,q,EXV.gate?.g.L);typeset(nc);return}
@@ -4961,9 +4932,9 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest
    Owner: "Is there a place to manage created exams?" -> "Yeah do that". A third view on the Exams page beside Exam setup and
    Pick by hand: every saved exam (page database, collection `exams`) with Open, Preview, Duplicate, Rename and Delete (two-step
    confirm), search and sort. The page head also shows "Unsaved changes" / "Saved" for the exam being worked on, with a Save button. */
-const EXM={q:'',sort:(()=>{try{return localStorage.getItem('exm_sort')||'new'}catch(e){return 'new'}})(),ren:null,del:null,names:{}};
+const EXM={q:'',sort:(load('exm_sort')||'new'),ren:null,del:null,names:{}};
 function exmSub(){if(!db||typeof _xsub==='undefined'||_xsub)return;
-  try{_xsub=db.collection('exams').onSnapshot(s=>{const d=s.docs||s;XSAVED=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+  try{_xsub=db.collection('exams').onSnapshot(s=>{XSAVED=QG.docs(s).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
     exmNames();if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}},()=>{})}catch(e){}}
 async function exmNames(){const ids=[...new Set(XSAVED.map(x=>x.by).filter(i=>i&&!(i in EXM.names)))];if(!ids.length)return;
   try{const u=await window.claude?.use?.('user');if(!u?.profiles)return;const ps=await u.profiles(ids);ids.forEach(i=>EXM.names[i]=ps?.[i]?.name||'');if(view==='exams'&&EXV.view==='mine')renderMine()}catch(e){}}
@@ -5027,7 +4998,7 @@ async function exmRename(x,v){v=String(v||'').trim();if(!v){toast('Give the exam
   const {id:_o,...rest}=x;try{await db.doc('exams/'+x.id).set({...rest,sub:v});if(EX.id===x.id){EX.sub=v;xsave()}toast('Renamed')}catch(_){toast('Could not rename. Try again in a moment.')}renderMine()}
 document.addEventListener('keydown',e=>{const i=e.target.closest?.('[data-exm-rt]');if(!i)return;if(e.key==='Enter'){e.preventDefault();const x=XSAVED.find(s=>s.id===i.closest('[data-exm]').dataset.exm);if(x)exmRename(x,i.value)}else if(e.key==='Escape'){EXM.ren=null;renderMine()}});
 document.addEventListener('input',e=>{if(e.target.id==='exmQ'){EXM.q=e.target.value;const p=e.target.selectionStart;renderMine();const i=$('#exmQ');if(i){i.focus();try{i.setSelectionRange(p,p)}catch(_){}}}});
-document.addEventListener('change',e=>{if(e.target.id==='exmSort'){EXM.sort=e.target.value;try{localStorage.setItem('exm_sort',EXM.sort)}catch(_){}renderMine()}});
+document.addEventListener('change',e=>{if(e.target.id==='exmSort'){EXM.sort=e.target.value;save('exm_sort',EXM.sort);renderMine()}});
 
 /* ---------- the open exam saves itself (owner 19 Nov) ----------
    Owner: "It is very easy to override a current exam, too many outs and ways to replace the questions accidentally", "Can't tell when
@@ -5105,13 +5076,13 @@ function g2Checked(){let chk=0,chg=0;try{Object.values(DIFD||{}).forEach(d=>{if(
 const g2ChkHTML=(chk,chg,ref)=>{const ed=typeof isEditor==='function'&&isEditor();return `<b>${chk}<small> / ${ref}</small></b><span>References checked by ${ed?'you':'an editor'}</span><em>${chk?`${chg} changed${ed?' · in Review › Difficulty':''}`:'Not loaded yet, or none checked'}</em>`};
 // owner 14 Nov: "what is the _ references checked by you": the count comes from the page database after the Guide is drawn, so refresh the tile when it arrives
 function g2ChkRefresh(){const el=$('#g2chk');if(!el)return;const {chk,chg}=g2Checked();let ref=0;B.questions.forEach(q=>{if(!q.dup_of&&!q.old&&!q.std)q.parts.forEach(p=>{if(p.dif&&p.dif.a)ref++})});el.innerHTML=g2ChkHTML(chk,chg,ref)}
-const G2_PAGE=()=>{try{return localStorage.getItem('g2page')==='dev'?'dev':'cat'}catch(e){return 'cat'}};
-document.addEventListener('click',e=>{const b=e.target.closest('[data-gpg]');if(!b)return;try{localStorage.setItem('g2page',b.dataset.gpg)}catch(_){}renderGuide();window.scrollTo({top:0})});
+const G2_PAGE=()=>load('g2page')==='dev'?'dev':'cat';
+document.addEventListener('click',e=>{const b=e.target.closest('[data-gpg]');if(!b)return;save('g2page',b.dataset.gpg);renderGuide();window.scrollTo({top:0})});
 function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}catch(e){}
   const S=g2Stats(),Y=yl=>Object.entries(S.areas).filter(([k])=>k.startsWith(yl+'|')).map(([k,v])=>[esc(k.split('|')[1]),v]).sort((a,b)=>b[1]-a[1]);
   const amax=Math.max(...Object.values(S.areas),1),bt=S.band.reduce((a,b)=>a+b,0),bmax=Math.max(...S.band,1),wt=(S.wm.UF||0)+(S.wm.PR||0);
   const {chk,chg}=g2Checked();
-  const ex=GUIDE_EX.map(([id,t,why],i)=>{const q=B.questions.find(x=>x.id===id);if(!q)return '';const lv=q.parts.filter(p=>leaf(q,p));
+  const ex=GUIDE_EX.map(([id,t,why],i)=>{const q=QG.byId.get(id);if(!q)return '';const lv=q.parts.filter(p=>leaf(q,p));
     // owner 14 Nov: "show the question first. then explain how it was tagged."
     return `<details class="g2ex"${i===0?' open':''}><summary><b>${esc(t)}</b><span class="muted">${qid(q)} · ${esc(srcLine(q))}</span></summary>
       <div class="g2qbox"><div class="g2k">The question</div><div class="qtext" data-gq="${q.id}"></div></div>
@@ -5242,7 +5213,7 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
       <div><b>Own cloud account</b><span>e.g. AWS, Azure, Google Cloud</span><ul><li>Full control, data-location choice</li><li>Needs a developer to run it</li><li>Better at large scale</li></ul></div></div>
     <p class="g2cap">Either way: the question data, specs and tools carry over unchanged. The page itself is rewritten, not moved.</p>
   </section></div></div>`;
-  $$('#guideBox details.g2ex').forEach(d=>{const fill=()=>{const el=d.querySelector('[data-gq]');if(d.open&&el&&!el.dataset.done){const q=B.questions.find(x=>x.id===+el.dataset.gq);el.innerHTML=qBody(q,'bank');el.dataset.done=1;hydrate(el,q,'bank');el.querySelectorAll('details.solbox').forEach(x=>x.open=false);typeset(el)}};d.addEventListener('toggle',fill);fill()});
+  $$('#guideBox details.g2ex').forEach(d=>{const fill=()=>{const el=d.querySelector('[data-gq]');if(d.open&&el&&!el.dataset.done){const q=QG.byId.get(+el.dataset.gq);el.innerHTML=qBody(q,'bank');el.dataset.done=1;hydrate(el,q,'bank');el.querySelectorAll('details.solbox').forEach(x=>x.open=false);typeset(el)}};d.addEventListener('toggle',fill);fill()});
   typeset(box)}
 document.addEventListener('click',e=>{const a=e.target.closest('.g2nav a');if(!a)return;e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:RM.matches?'auto':'smooth',block:'start'})});
 </script>
@@ -5269,7 +5240,7 @@ document.addEventListener('click',e=>{const a=e.target.closest('.g2nav a');if(!a
    - While a report is open or sent, its question is out of the Bank and every exam picker (REP.hides via repHidden, 07_bank.js).
      Saved exams that hold it keep it with the "reported by a teacher" warning (qWatch); Review and Reports still show it.
    - Every action is logged on the report: action, done_by, done_at, and one entry per action in log [{action, by, at}]. */
-const REP={list:[],sub:null,filter:(()=>{try{return localStorage.getItem('rep_filter')||'open'}catch(e){return 'open'}})(),dlg:null,res:null,pick:null,names:{},_lv:null,
+const REP={list:[],sub:null,filter:(load('rep_filter')||'open'),dlg:null,res:null,pick:null,names:{},_lv:null,
   main(r){const q=xq(r.question_id);return q&&q.dup_of?xq(q.dup_of)||q:q},   // the copy the Bank and Review show
   st(r){const s=r.status||'open';if(s!=='sent')return s;const q=this.main(r);
     return q&&qState(q)==='approved'&&String(reviews['q'+q.id]?.at||'')>=String(r.sent_at||'')?'resolved':'sent'},
@@ -5281,7 +5252,7 @@ const REP={list:[],sub:null,filter:(()=>{try{return localStorage.getItem('rep_fi
 const REP_WHY={difficulty:'Wrong difficulty',dot_point:'Wrong dot point',other:'Other'};
 const REP_WM={UF:'Fluency',PR:'Problem solving'};
 function repSub(){if(REP.sub||!db)return !!REP.sub;
-  try{REP.sub=db.collection('reports').onSnapshot(s=>{const d=s.docs||s;REP.list=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+  try{REP.sub=db.collection('reports').onSnapshot(s=>{REP.list=QG.docs(s).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
     repBadge();repNames();if(view==='reports')renderReports();repMarkPaper();TOPICS=null;if(view==='bank'&&B)renderBank();   // owner 17 Nov: a reported question leaves the Bank at once
     try{const xp=$('#xPanel');if(xp&&!xp.hidden&&typeof xPanel==='function')xPanel();if(typeof exRefresh==='function')exRefresh()}catch(_){}   // owner 17 Nov: exam warnings and pickers follow new reports
   },()=>{})}catch(e){REP.sub=null}return !!REP.sub}
@@ -5490,7 +5461,7 @@ function renderReports(){const box=$('#reportsBox');if(!box||!B)return;repSub();
   $$('.rep-dots',box).forEach(el=>TSIO.observe(el));
   if(REP.res){const i=box.querySelector('[data-rreply]');if(i)i.focus()}}
 document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest('#reportsBox'))return;
-  const f=t.closest('[data-rf]');if(f){REP.filter=f.dataset.rf;try{localStorage.setItem('rep_filter',REP.filter)}catch(_){}REP.res=REP.pick=null;renderReports();return}
+  const f=t.closest('[data-rf]');if(f){REP.filter=f.dataset.rf;save('rep_filter',REP.filter);REP.res=REP.pick=null;renderReports();return}
   const row=t.closest('[data-repid]');if(!row)return;const r=REP.list.find(x=>x.id===row.dataset.repid);if(!r)return;
   const busy=p=>{$$('button',row).forEach(b=>b.disabled=true);p.then(ok=>{if(!ok)renderReports()})};   // one click per action; a failed save gives the buttons back
   const ro=t.closest('[data-ropen]');if(ro){reviewOpen(+ro.dataset.ropen);return}   // the link itself opens #review/list/all
@@ -5772,7 +5743,7 @@ const NOTES={list:[],sub:null,loaded:false,del:null};
 const notesOpen=()=>NOTES.list.filter(n=>!n.done).sort((a,b)=>(+a.order||0)-(+b.order||0)||String(a.at).localeCompare(String(b.at)));
 const notesDone=()=>NOTES.list.filter(n=>n.done).sort((a,b)=>String(b.doneAt||b.at).localeCompare(String(a.doneAt||a.at)));
 function notesSubscribe(){if(NOTES.sub||!db||!isOwnerV())return;
-  try{NOTES.sub=db.collection('notes').onSnapshot(s=>{const d=s.docs||s;NOTES.list=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).filter(n=>n&&typeof n.text==='string');NOTES.loaded=true;notesList()},()=>{})}catch(e){}}
+  try{NOTES.sub=db.collection('notes').onSnapshot(s=>{NOTES.list=QG.docs(s).filter(n=>n&&typeof n.text==='string');NOTES.loaded=true;notesList()},()=>{})}catch(e){}}
 // the card is drawn once (so a half-typed note survives the Processes refresh); only the list inside it is redrawn
 function renderNotes(){const box=$('#notesBox');if(!box)return;box.hidden=!isOwnerV();if(box.hidden)return;
   if(!box.dataset.ready){box.dataset.ready='1';
@@ -5872,7 +5843,7 @@ const short=k=>course(k).short||course(k).name||k;
 const laneName=(c,yl)=>c==='unknown'?(yl==='?'?'Course and year not known':`${YN[yl]}, course not known`):yl==='?'?`${short(c)}, year not known`:`${YN[yl]} ${short(c)}`;
 const laneKey=(c,yl)=>c+'_'+(yl==='?'?'x':yl);
 const yrs=ps=>{const y=ps.map(p=>p.y).filter(Boolean);if(!y.length)return '';const a=Math.min(...y),b=Math.max(...y);return a===b?String(a):`${a}–${String(b).slice(-2)}`};
-const snap=(s)=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
+const snap=QG.docs;
 
 // ---- loading (editors only: a viewer never fetches the inventory or subscribes)
 // rv: Review's Inbox asks for the batches (batchOf), so an editor who is not the owner (the checker) fetches it too; a viewer never does
@@ -5883,7 +5854,7 @@ function subscribe(){if(!db||!isOwnerV())return;
   const on=(k,f)=>{if(S.subs[k])return;try{S.subs[k]=f()}catch(e){}};
   on('fix',()=>db.collection('paperfix').onSnapshot(s=>{S.fix={};snap(s).forEach(x=>{if(Number.isFinite(+x.id))S.fix[+x.id]=x});redraw()},()=>{}));
   on('swaps',()=>db.collection('batches').onSnapshot(s=>{S.swaps={};snap(s).forEach(x=>{S.swaps[x.id]=Array.isArray(x.swaps)?x.swaps:[]});redraw();if(API.run)API.run.draw()},()=>{}));
-  on('acc',()=>db.doc('scans/rules').onSnapshot(d=>{S.acc=d&&d.exists?(typeof d.data==='function'?d.data():d.data):null;redraw()},()=>{}))}
+  on('acc',()=>db.doc('scans/rules').onSnapshot(d=>{S.acc=d&&d.exists?QG.val(d):null;redraw()},()=>{}))}
 
 // ---- the proposed rule fixes: accepted in the page db (scans/rules) or already in the inventory
 function accepted(){const pr=S.data&&S.data.proposed;if(!pr)return false;if(pr.accepted)return true;const a=S.acc;return !!(a&&a.accepted&&a.version===pr.version)}
@@ -6143,7 +6114,7 @@ function classify(p){const X=rx();if(!X)return null;const R=X.R,name=p.split('/'
 
 // ---- the saved scans (db collection scans), newest first
 function subscribe(){if(S.sub||!db||!isOwnerV())return;
-  try{S.sub=db.collection('scans').onSnapshot(s=>{const d=s.docs||s,all=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}));
+  try{S.sub=db.collection('scans').onSnapshot(s=>{const all=QG.docs(s);
     const parts={};all.filter(x=>x&&x.of&&Array.isArray(x.new)).forEach(x=>(parts[x.of]=parts[x.of]||[]).push(x));   // 16 Nov: a scan saved in parts
     S.scans=all.filter(x=>x&&x.at&&Array.isArray(x.new)).map(x=>x.parts>1?{...x,new:x.new.concat(...(parts[x.id]||[]).sort((a,b)=>a.part-b.part).map(p=>p.new))}:x).sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));paint();PQ.sub()},()=>{})}catch(e){}}
 // the latest scan for the sub line: {at, n} (n = its new files still not in the record; same-size look-alikes not counted)
@@ -6280,7 +6251,7 @@ const STOP_EARLY={failed_papers:1,failed_pages:3,your_calls:13};
 // until a cost per paper is measured, US$12–17 a paper, labelled an estimate (owner 13 Nov)
 const EST=[12,17];
 const ACTIVE=['requested','running'];
-const snap=s=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
+const snap=QG.docs;
 function subscribe(){if(!db||!isOwnerV())return;
   if(!R.subs.q)try{R.subs.q=db.collection('queue').onSnapshot(s=>{R.q=snap(s).filter(x=>x&&x.course&&Number.isFinite(+x.batch));PQ.redraw();draw()},()=>{})}catch(e){}
   if(!R.subs.r)try{R.subs.r=db.collection('runs').onSnapshot(s=>{R.runs=snap(s).filter(x=>x&&x.status);PQ.redraw();draw();
@@ -6502,7 +6473,7 @@ const RUNDO={N:10,prev:{},
   async undo(kind,id){this.load();const p=this.prev[kind+id],r=kind==='q'?reviews['q'+id]:reviews['paper_'+id];
     // the kept record only if nothing has been decided on this item since it was noted
     const exact=p&&r&&Math.abs(Date.parse(r.at)-p.t)<5000;   // r.at is the approval this note was made for, not a later decision
-    if(kind==='q'){const q=B.questions.find(x=>x.id===+id);if(!q)return;
+    if(kind==='q'){const q=QG.byId.get(+id);if(!q)return;
       const ok=exact?await write(q,p.was?{...p.was}:{},true):await write(q,{status:null});
       if(ok===false)return;toast(`Undone: ${qid(q)} is back in its list`)}
     else{const key=RKEY.pdoc(id),next=exact?{...(p.was||{}),doc:+id}:{...(r||{}),status:null,doc:+id};next.by=me||null;next.at=new Date().toISOString();if(B.docs[id]?.key)next.key=B.docs[id].key;
