@@ -20,8 +20,8 @@ for d in IDS:
             r = db.execute('select id from parts where question_id=? and label=?', (q[0], str(sf['part']).split('.')[-1])).fetchone(); pid = r[0] if r else None
         db.execute('insert into figures(question_id,part_id,page,bbox,png_path,caption) values (?,?,?,?,?,?)',
                    (q[0], pid, sf.get('page'), json.dumps(sf.get('bbox')), png, 'solution sketch' + (': ' + sf['caption'] if sf.get('caption') else ''))); n += 1
-# marking criteria for this batch's solutions only (ui_v2_data.parse_criteria; never re-run ui_v2_data.py itself)
-src = open(P + 'tools/ui_v2_data.py').read(); exec(src[src.index('def parse_criteria'):src.index('n = 0')])
+# marking criteria for this batch's solutions only (tools/criteria.py)
+from criteria import parse_criteria   # health pass 21 Nov: was exec of a slice of tools/ui_v2_data.py's source
 IN = '(%s)' % ','.join(map(str, IDS)); c = 0
 for sid, mb, mj in db.execute(f"select s.id,s.marks_breakdown,s.meta_json from solutions s left join parts p on p.id=s.part_id where coalesce(s.question_id,p.question_id) in (select id from questions where document_id in {IN}) and s.criteria_json is null").fetchall():
     crit, meta = parse_criteria(mb); meta = {**meta, **json.loads(mj or '{}')}

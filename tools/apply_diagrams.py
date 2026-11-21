@@ -3,7 +3,7 @@ Usage: python3 apply_diagrams.py tikz/result_b1_*.json [work/b1/gen2026_out_*.js
 - appends/replaces entries in tikz/all_results.json and site/project/diagram_results.json
 - regenerates site/project/tikz_sources.json whole from state/tikz (tools/tikz_sources.py; it used to patch bodies only and went stale)
 - updates the figures row (adds one for a solution figure that has none); tables -> data_tables 'Tf<figure id>'
-Same field rules as ui_v2_data.py section 3, but only for the given ids (never re-parses other data)."""
+Same field rules as the 11 Nov one-off ui_v2_data.py section 3 (archive/tools_unused_1121/), but only for the given ids (never re-parses other data)."""
 import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, sys, os, sqlite3, re
 P = paths.P

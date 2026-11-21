@@ -293,14 +293,14 @@ def build(db, files=False, rules=None, overrides=None):
     }
 
 
-def same_size_copies(db):
+def same_size_copies(db, inv=None):
     """[(copy id, original id)]: two files of ONE paper with the same size in bytes are the same file (owner 16 Nov: "duplicate exams
     will never be batched and imported right?"; Manly 2024 was filed twice under names too different for the scan's name match).
     The original is the file with questions loaded, else the lower id. tools/scan_folder.py --apply records them as copies."""
     sz = {r[0]: r[1] for r in db.execute('SELECT id, size_bytes FROM documents')}
     hq = {r[0] for r in db.execute('SELECT DISTINCT document_id FROM questions')}
     out = []
-    for g in build(db, files=True)['groups']:
+    for g in (inv or build(db, files=True))['groups']:   # inv: a build(files=True) the caller already has (batch_check, 21 Nov)
         for p in g['papers']:
             by = collections.defaultdict(list)
             for f in p['f']:

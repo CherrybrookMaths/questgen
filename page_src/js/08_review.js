@@ -187,7 +187,7 @@ function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
   //   first thing on Review, highlighted, with what came back; flags still waiting for Claude sit lower down, quieter
   box.innerHTML=`<div class="ihd"><h2>Review</h2><p class="sub">What is waiting for you. Papers are walked one at a time, top to bottom.</p></div>
     ${(()=>{const bq=B.questions.filter(backQ);if(!bq.length)return '';
-      const what=q=>{const r=reviews['q'+q.id]||{};if(r.status==='flagged'&&r.fixed)return String(r.fixed.note||'').replace(/^Claude [^:]*(?::\d\d)?: /,'');
+      const what=q=>{const r=reviews['q'+q.id]||{};if(r.status==='flagged'&&r.fixed)return fixTxt(r.fixed.note);
         const k=Object.keys(r.fig_done||{}).find(k=>!(r.fig||{})[k]);return k?splitDone(r.fig_done[k],r.fig_notes?.[k]).fix:''};
       const rows=bq.slice(0,6).map(q=>`<li><b>${qid(q)}</b> <span class="muted">${esc(srcLine(q))}</span><span class="rv-bkwhat">${esc(what(q))}</span></li>`).join('');
       return card('back',bq.length,'Fixed and back for you','Claude fixed these after your flag or change request. Check each one and approve it, or flag it again.','#review/list/back','',
@@ -252,7 +252,9 @@ const figMode={};
 // owner 17 Nov: "we need to know what the original flag is so the reviewer can compare". fig_done is
 // "<checker's request> -> Claude <time>: <what changed>"; redraws from before 17 Nov hold only "<date> redraw (fixN)".
 // The request is also kept in fig_notes (older redraws, "2026-11-12 redraw (fix8)", have it only there).
-const splitDone=(done,ask)=>{const i=done.indexOf(' -> ');return i<0?{ask:ask||'',fix:'',when:done}:{ask:done.slice(0,i)||ask||'',fix:done.slice(i+4).replace(/^Claude [^:]*(?::\d\d)?: /,'')}};
+// health pass 21 Nov: one way to drop the "Claude <date> <time> (<who>):" prefix of a fix note (three patterns before; one kept the prefix when the note had a time)
+const fixTxt=t=>String(t||'').replace(/^Claude \d+ \w+(?: \d+:\d\d)?(?: \([^)]*\))?: /,'');
+const splitDone=(done,ask)=>{const i=done.indexOf(' -> ');return i<0?{ask:ask||'',fix:'',when:done}:{ask:done.slice(0,i)||ask||'',fix:fixTxt(done.slice(i+4))}};
 function doneHTML(done,ask){const d=splitDone(done,ask);
   return `<div class="callout"><div><b>Your original request:</b> ${d.ask?esc(d.ask):'none: Claude redrew this in a rule sweep, not from a flag of yours'}</div><div><b>What Claude changed:</b> ${d.fix?esc(d.fix):'redrawn '+esc(d.when)+(d.ask?' to meet your request':'')}</div></div>`}
 // owner 17 Nov: "where is the original flag on the back to you page?": one box at the top of every returned item lists each
@@ -260,7 +262,7 @@ function doneHTML(done,ask){const d=splitDone(done,ask);
 // owner 17 Nov: "why does fixewd and back tou have approved questions?": an approved question is listed when a diagram was
 // redrawn after the approval; the badge says "text approved · redrawn diagram needs your OK" instead of "approved".
 function backBoxHTML(q,r){if(waitR(r)&&!q.dup_of)return waitBoxHTML(r);if(!r||!backQ(q))return '';const rows=[];
-  if(r.status==='flagged'&&r.fixed)rows.push(['Question',r.note||'(no note written)',String(r.fixed.note||'').replace(/^Claude \d+ \w+(?: \d+:\d\d)?: /,'')]);
+  if(r.status==='flagged'&&r.fixed)rows.push(['Question',r.note||'(no note written)',fixTxt(r.fixed.note)]);
   for(const [k,done] of Object.entries(r.fig_done||{})){if((r.fig||{})[k])continue;const d=splitDone(done,r.fig_notes?.[k]);
     rows.push([/_s\d+$/.test(k)?'Solution diagram':'Diagram',d.ask||'none: redrawn by Claude in a rule sweep',d.fix||'redrawn '+d.when])}
   if(!rows.length)return '';
@@ -510,7 +512,7 @@ function renderReview(){RUNDO.render();
     ${q.decide?`<div class="callout"><b>Needs your decision:</b> ${tex(q.decide)}</div>`:''}${q.review_note&&!/^scan (path|transcription)[^|;]*$/i.test(q.review_note.trim())?`<details class="figdone" style="color:var(--muted)"><summary style="color:var(--warn)">Transcription notes</summary><div class="help">${esc(q.review_note)}</div></details>`:''}${rel?`<div class="help">Also appears as: ${esc(rel)}</div>`:''}
     ${figCompareHTML(q)}
     <div class="section"><h4>Question as it will appear</h4>${qBody(q,'review')}</div>
-    <div class="decision">${r?.status==='flagged'&&r?.fixed?.note?`<div class="callout"><div><b>Your original flag:</b> ${esc(r.note||'(no note written)')}</div><div><b>What Claude changed:</b> ${esc(r.fixed.note.replace(/^Claude \d+ \w+: /,''))}</div><div class="help">Compare with the page scan above, then approve or flag again.</div></div>`:r?.note?`<div class="help"><b>Your note:</b> ${esc(r.note)}</div>`:''}
+    <div class="decision">${r?.status==='flagged'&&r?.fixed?.note?`<div class="callout"><div><b>Your original flag:</b> ${esc(r.note||'(no note written)')}</div><div><b>What Claude changed:</b> ${esc(fixTxt(r.fixed.note))}</div><div class="help">Compare with the page scan above, then approve or flag again.</div></div>`:r?.note?`<div class="help"><b>Your note:</b> ${esc(r.note)}</div>`:''}
       <div class="row"><button class="act ok" id="approve"><kbd>A</kbd> Approve question + solution</button><span class="help">Approving also approves any model-written solution shown here that you haven't rejected.</span><button class="act warn" id="flag"><kbd>F</kbd> Flag</button>
       <button class="act ghost" id="ztog" aria-pressed="${needsZ(q)}" title="Use when the question refers to a z-score table that is not printed with it: exams with this question get the table on the last page">${needsZ(q)?'✓ ':''}Z-score table at the back</button>
       <span class="help">${db?'Decisions save for everyone with access.':'Saving is off in this view; decisions are not kept.'}</span></div>

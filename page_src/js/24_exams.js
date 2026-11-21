@@ -579,13 +579,8 @@ function exClosePv(){xClosePv();if(EXV.pageY)window.scrollTo(0,EXV.pageY);EXV.pa
 /* download (xDownload) and saving (xSaveDb) are in 20_exam.js */
 
 /* ---------- events ---------- */
-// owner 14 Nov: the header "Exam · N" pill opens the Exams page (the drawer is gone)
+// the in-page exam panel's controls (the 14 Nov header "Exam · N" pill and the drawer are gone; their handlers removed 21 Nov)
 document.addEventListener('click',e=>{
-  if(e.target.closest('#xBtn')){e.preventDefault();e.stopImmediatePropagation();location.hash='#exams';if(view==='exams')renderExams();return}
-  // load a saved exam with all its fields (stage 1 only restored the questions)
-  const ld=e.target.closest('#xPanel [data-xload]');if(ld){e.stopImmediatePropagation();const x=XSAVED.find(s=>s.id===ld.dataset.xload);if(!x)return;
-    EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',bytopic:x.bytopic!==false,time:x.time,reading:x.reading,items:(x.items||[]).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{},{avoid:false})};
-    xsave();EXC.clear();toast('Exam opened');return}
   if(e.target.closest('#examsView #xClose')){e.stopImmediatePropagation();document.body.classList.remove('exr-open','exs-open');return}
   const rv=e.target.closest('#examsView [data-reveal]');if(rv){e.stopImmediatePropagation();const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card'),q=xq(id);
     const t=document.createElement('div');t.innerHTML=cardHTML(q);const nc=t.firstElementChild;c.replaceWith(nc);hydrate(nc,q,'bank');XG.note(nc,q,EXV.gate?.g.L);typeset(nc);return}

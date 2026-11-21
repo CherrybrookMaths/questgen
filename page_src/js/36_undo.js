@@ -24,7 +24,7 @@ const RUNDO={N:10,prev:{},
   async undo(kind,id){this.load();const p=this.prev[kind+id],r=kind==='q'?reviews['q'+id]:reviews['paper_'+id];
     // the kept record only if nothing has been decided on this item since it was noted
     const exact=p&&r&&Math.abs(Date.parse(r.at)-p.t)<5000;   // r.at is the approval this note was made for, not a later decision
-    if(kind==='q'){const q=B.questions.find(x=>x.id===+id);if(!q)return;
+    if(kind==='q'){const q=QG.byId.get(+id);if(!q)return;
       const ok=exact?await write(q,p.was?{...p.was}:{},true):await write(q,{status:null});
       if(ok===false)return;toast(`Undone: ${qid(q)} is back in its list`)}
     else{const key=RKEY.pdoc(id),next=exact?{...(p.was||{}),doc:+id}:{...(r||{}),status:null,doc:+id};next.by=me||null;next.at=new Date().toISOString();if(B.docs[id]?.key)next.key=B.docs[id].key;

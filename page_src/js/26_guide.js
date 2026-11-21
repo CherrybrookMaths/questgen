@@ -34,7 +34,7 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
   const S=g2Stats(),Y=yl=>Object.entries(S.areas).filter(([k])=>k.startsWith(yl+'|')).map(([k,v])=>[esc(k.split('|')[1]),v]).sort((a,b)=>b[1]-a[1]);
   const amax=Math.max(...Object.values(S.areas),1),bt=S.band.reduce((a,b)=>a+b,0),bmax=Math.max(...S.band,1),wt=(S.wm.UF||0)+(S.wm.PR||0);
   const {chk,chg}=g2Checked();
-  const ex=GUIDE_EX.map(([id,t,why],i)=>{const q=B.questions.find(x=>x.id===id);if(!q)return '';const lv=q.parts.filter(p=>leaf(q,p));
+  const ex=GUIDE_EX.map(([id,t,why],i)=>{const q=QG.byId.get(id);if(!q)return '';const lv=q.parts.filter(p=>leaf(q,p));
     // owner 14 Nov: "show the question first. then explain how it was tagged."
     return `<details class="g2ex"${i===0?' open':''}><summary><b>${esc(t)}</b><span class="muted">${qid(q)} · ${esc(srcLine(q))}</span></summary>
       <div class="g2qbox"><div class="g2k">The question</div><div class="qtext" data-gq="${q.id}"></div></div>
@@ -165,6 +165,6 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
       <div><b>Own cloud account</b><span>e.g. AWS, Azure, Google Cloud</span><ul><li>Full control, data-location choice</li><li>Needs a developer to run it</li><li>Better at large scale</li></ul></div></div>
     <p class="g2cap">Either way: the question data, specs and tools carry over unchanged. The page itself is rewritten, not moved.</p>
   </section></div></div>`;
-  $$('#guideBox details.g2ex').forEach(d=>{const fill=()=>{const el=d.querySelector('[data-gq]');if(d.open&&el&&!el.dataset.done){const q=B.questions.find(x=>x.id===+el.dataset.gq);el.innerHTML=qBody(q,'bank');el.dataset.done=1;hydrate(el,q,'bank');el.querySelectorAll('details.solbox').forEach(x=>x.open=false);typeset(el)}};d.addEventListener('toggle',fill);fill()});
+  $$('#guideBox details.g2ex').forEach(d=>{const fill=()=>{const el=d.querySelector('[data-gq]');if(d.open&&el&&!el.dataset.done){const q=QG.byId.get(+el.dataset.gq);el.innerHTML=qBody(q,'bank');el.dataset.done=1;hydrate(el,q,'bank');el.querySelectorAll('details.solbox').forEach(x=>x.open=false);typeset(el)}};d.addEventListener('toggle',fill);fill()});
   typeset(box)}
 document.addEventListener('click',e=>{const a=e.target.closest('.g2nav a');if(!a)return;e.preventDefault();const t=document.querySelector(a.getAttribute('href'));if(t)t.scrollIntoView({behavior:RM.matches?'auto':'smooth',block:'start'})});

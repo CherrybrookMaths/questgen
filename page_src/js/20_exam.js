@@ -11,8 +11,8 @@ if(EX.timeAuto===undefined)EX.timeAuto=!EX.id&&!EX.items.length;
 // owner 19 Nov ("Save by itself"): every change is kept in this browser and, for an exam in the shared database, saved there a moment
 // later (EXAS.schedule, 25_mine.js, which loads later: hence the typeof test). The working time follows the marks (EXAS.time)
 const xsave=()=>{if(typeof EXAS!=='undefined')EXAS.time();try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}xCount();if(typeof EXAS!=='undefined')EXAS.schedule()};
-const xq=id=>B.questions.find(q=>q.id===id);
-function xCount(){const n=EX.items.length,b=$('#xN');if(b)b.textContent=n;if($('#xPanel')&&!$('#xPanel').hidden)xPanel()
+const xq=id=>QG.byId.get(id);   // health pass 21 Nov: the id index (was a scan of every question, ~27 callers, many in loops)
+function xCount(){if($('#xPanel')&&!$('#xPanel').hidden)xPanel()
   // any change to the exam (add, remove, reorder, swap, load) refreshes the Exams page around it (owner 14 Nov, Exams page + My exams).
   // EXV is declared by 24_exams.js, which loads later: the typeof test keeps the first call below (at load) safe.
   if(view==='exams'&&typeof EXV!=='undefined'&&EXV.built){exHead();if(EXV.view==='setup'){exResult();exLabels()}}}
@@ -40,8 +40,6 @@ function xPanel(){
   // open exam in one click) is gone; exams are opened from My exams
   exHead();if(view==='exams'&&EXV.view==='pick'){const n=$('#exLs');if(n&&EXCUR.length){const inEx=EXCUR.filter(q=>EX.items.includes(q.id)).length;n.textContent=`${EXCUR.length} question${EXCUR.length===1?'':'s'}${inEx?` · ${inEx} in the exam`:''}${bankAll()||!isEditor()?'':' · approved only'}`}}
 }
-function xOpen(){const p=$('#xPanel');p.hidden=false;requestAnimationFrame(()=>document.body.classList.add('x-open'));xPanel()}
-function xClose(){document.body.classList.remove('x-open');setTimeout(()=>{if(!document.body.classList.contains('x-open'))$('#xPanel').hidden=true},250)}
 let XSAVED=[],_xsub=null;
 // owner 14 Nov (Fix 2, "Ok we should run Fix 1 and 2"): keys (question keys, parallel to items) let a saved exam find its
 // questions again after a re-parse or a change of which copy the Bank shows (RKEY.items).
@@ -54,9 +52,7 @@ async function xSaveDb(quiet){
     catch(e){toast('Could not save. Try again in a moment.')}}
   if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}}
 document.addEventListener('click',e=>{
-  if(e.target.closest('#xBtn')){$('#xPanel').hidden||!document.body.classList.contains('x-open')?xOpen():xClose();return}
   if(!e.target.closest('#xPanel'))return;
-  if(e.target.closest('#xClose')){xClose();return}
   const li=e.target.closest('li[data-xi]');
   if(li&&e.target.closest('[data-xrm]')){xToggle(+li.dataset.xi);return}
   if(li&&e.target.closest('[data-xmv]')){const id=+li.dataset.xi,d=+e.target.closest('[data-xmv]').dataset.xmv,q=xq(id);
@@ -157,6 +153,6 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#xPvClose')){xClosePv();return}
   const s=e.target.closest('[data-xdoc]');if(s){xPreview(s.dataset.xdoc);return}
   const d=e.target.closest('#xDl');if(d&&!d.disabled){xDownload(d.dataset.doc);return}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(document.body.classList.contains('xpv-on'))xClosePv();else if(document.body.classList.contains('x-open'))xClose()}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('xpv-on'))xClosePv()});
 
 xCount();

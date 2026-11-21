@@ -1,6 +1,6 @@
 """Load tag outputs for an import batch without touching earlier papers' tags (import batches, 11 Nov 2026).
 Usage: python3 load_tags_batch.py tag/out_b1_*.json
-Replaces tags only for the part_ids in the given files. Same rules as load_tags.py, except area between two curves
+Replaces tags only for the part_ids in the given files. Same rules as the 11 Nov load_tags.py (archive/tools_1121/), except area between two curves
 is examinable (decision: tagged Y12-279), so no two-curve override."""
 import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json, sqlite3, sys, collections

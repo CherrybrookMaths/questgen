@@ -75,7 +75,7 @@ Reply in ≤8 lines: question count, parts count, figures count, needs_review co
 Every paragraph break or forced line break in the paper is kept as a blank line (`\n\n`) in the text. A single newline renders as a space, so never use one between paragraphs. After loading, `tools/para_detect.py` compares the text with the page images and lists breaks that were lost; `tools/para_sync_dups.py` makes duplicate copies of a paper agree, and `tools/house_style.py` turns any stray single newline into a paragraph break.
 
 ## Unrelated parts are separate questions (owner, 11 Nov)
-Older school papers group unrelated items under one number (Question 13 (a) sketch a derivative, (b) pool volume). Store each unrelated part as its own question numbered `13(a)`, `13(b)`. Keep parts together when they share a stem or data, or one says "hence" / "use part (a)". Tool: `tools/split_questions.py`.
+Older school papers group unrelated items under one number (Question 13 (a) sketch a derivative, (b) pool volume). Store each unrelated part as its own question numbered `13(a)`, `13(b)`. Keep parts together when they share a stem or data, or one says "hence" / "use part (a)". Tool: `tools/split_batch.py` (import step; the 11 Nov `split_questions.py` is archived in archive/tools_1121/).
 
 ## Every question has working (owner, 11 Nov)
 After loading a paper and its marking guidelines, run `tools/coverage_check.py`. Any MCQ or leaf part it lists gets a worked solution written to SOLUTION_SPEC (source `generated`, shown once approved). An answer key alone does not count.

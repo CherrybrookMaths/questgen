@@ -5,6 +5,7 @@ import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abs
 import sqlite3, json, csv, glob, os, base64, collections, subprocess
 P = paths.P
 db = sqlite3.connect(paths.DBS); db.row_factory = sqlite3.Row
+HAS_PD = bool(db.execute("select 1 from sqlite_master where name='part_difficulty'").fetchone())   # checked once (was once per part)
 old = json.load(open(P + 'site/data/bank.json'))
 if 'v' in old and old['v'] == 2 and os.path.exists(paths.S + 'site/data/bank_v1.json'):
     old = json.load(open(paths.S + 'site/data/bank_v1.json'))
@@ -42,7 +43,7 @@ for q in old['questions']:
         p['latex'] = pr['latex']; p['marks'] = pr['marks']; p['label'] = pr['label']   # owner 12 Nov: split questions relabelled (tools/relabel_split.py)
         if 'src_label' in pr.keys() and pr['src_label']: p['src_label'] = pr['src_label']
         # difficulty + working mathematically (diff-v1, owner 13 Nov): band 2-6, wm UF/PR, anchor flag, nearest anchor, confidence, reason
-        dr = db.execute('select * from part_difficulty where part_id=?', (p['id'],)).fetchone() if db.execute("select 1 from sqlite_master where name='part_difficulty'").fetchone() else None
+        dr = db.execute('select * from part_difficulty where part_id=?', (p['id'],)).fetchone() if HAS_PD else None
         if dr: p['dif'] = dict(b=dr['band'], wm=dr['wm'], a=dr['is_anchor'], na=dr['nearest_anchor'], c=(dr['confidence'] or '')[:1], r=dr['reason'], ar=dr['area'])
         else: p.pop('dif', None)
         if dr and 'band_ai' in dr.keys() and dr['band_ai'] is not None and (dr['band_ai']!=dr['band'] or dr['wm_ai']!=dr['wm']): p['dif'].update(m=dr['band_ai'], mw=dr['wm_ai'], s=dr['source'])   # owner 14 Nov: model's original rating kept for the Difficulty tab

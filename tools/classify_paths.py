@@ -9,8 +9,8 @@ Two rule sets, both copied verbatim from the scripts that first used them, so a 
      filtered by name before any cover read (course_from(path), year_level_from(path)) and its name-based fallbacks
      (task_type_from('', name), year_from('', name, path), school_from('', name, path)). Status follows classify.py's
      cover branch, with "(name)" reasons.
-  2. Paper naming (tools/import_manifest.py, 11 Nov): SCHOOL, SETTER_OK, SETTER_ASK, ALIASES, school_of, year_of, task_of,
-     kind_of. import_manifest.py now imports them from here (its output is unchanged: checked 13 Nov).
+  2. Paper naming (tools/import_manifest.py, 11 Nov; archived to archive/tools_1121/ on 21 Nov): SCHOOL, SETTER_OK, SETTER_ASK, ALIASES, school_of, year_of, task_of,
+     kind_of (moved here 13 Nov; import_manifest.py itself is archived).
 classify.py itself is kept as the historical record (it points at a scratchpad that no longer exists); do not edit it.
 
 Self-test against the database: python3 tools/classify_paths.py --selftest
@@ -173,10 +173,11 @@ def year_from(cover, name, path):
 
 SCHOOLS = RULES['schools']
 PROVIDERS = RULES['providers']
+_SCHOOL_RX = [(s, re.compile(r'\b' + re.escape(s) + r'\b', re.I)) for s in SCHOOLS + PROVIDERS]   # health pass 21 Nov: compiled once (was 1.6 M re.search builds per inventory)
 def school_from(cover, name, path):
     for src, meth in ((cover[:600], 'coverpage'), (name, 'filename'), (path, 'folder')):
-        for s in SCHOOLS + PROVIDERS:
-            if re.search(r'\b' + re.escape(s) + r'\b', src, re.I): return s, meth
+        for s, rx in _SCHOOL_RX:
+            if rx.search(src): return s, meth
     return None, None
 
 BUNDLED = RULES['bundled']
@@ -256,11 +257,12 @@ SETTER_ASK = set()
 ALIASES = dict(SCHOOL, **{'Sydney Technical': 'Sydney Technical High School', 'Sydney Technology': 'Sydney Technical High School',
     'Manly Selective': 'Northern Beaches Secondary College Manly Campus', 'Hornsby Girls': 'Hornsby Girls High School',
     'St George Girls': 'St George Girls High School', 'The Kings School': "The King's School", 'Fort Street': 'Fort Street High School'})
+_ALIAS_RX = [(k, re.compile(r'\b' + re.escape(k))) for k in sorted(ALIASES, key=len, reverse=True) if len(k) > 4]   # compiled once, longest first
 def school_of(r):
     s, p = r['school'], r['source_path']
     f = os.path.basename(p)
-    for k in sorted(ALIASES, key=len, reverse=True):          # the file name is more reliable than the folder or old metadata
-        if len(k) > 4 and re.search(r'\b' + re.escape(k), f): return ALIASES[k]
+    for k, rx in _ALIAS_RX:                                    # the file name is more reliable than the folder or old metadata
+        if rx.search(f): return ALIASES[k]
     if p.startswith('HSC 20') and not s and re.search(r'hsc-math|hsc-maths', p, re.I): return 'NESA'
     if s == 'Catholic': return 'CSSA'                               # "2021 12MATAd Catholic Trial": the Catholic Schools NSW (CSSA) trial; confirm on the cover at import
     if s in SETTER_OK or s in SETTER_ASK: return s

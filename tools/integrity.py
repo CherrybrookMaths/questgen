@@ -19,6 +19,13 @@ DB = paths.DBS
 OWNERS = ['questions', 'parts', 'solutions', 'mcq_options', 'figures']
 CHILDREN = ['tags', 'solutions', 'figures', 'part_difficulty']
 
+# health pass 21 Nov: the child tables had no indexes, so build_bank.py and export_db_text.py (every publish) scanned whole tables
+# once per question and part (measured: 16.4 s -> 0.2 s for export_db_text's queries)
+INDEXES = ['parts(question_id)', 'tags(part_id)', 'tags(question_id)', 'solutions(question_id)', 'solutions(part_id)',
+           'figures(question_id)', 'figures(part_id)', 'mcq_options(question_id)', 'questions(document_id)']
+def indexes():
+    return [f"CREATE INDEX IF NOT EXISTS qg_ix_{t.replace('(', '_').rstrip(')')} ON {t}" for t in INDEXES]
+
 def triggers():
     t = []
     for c in CHILDREN:
@@ -76,6 +83,9 @@ def check(db):
     have = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='trigger' AND name LIKE 'qg_%'")}
     need = {re.search(r'EXISTS (\w+)', t).group(1) for t in triggers()}
     if need - have: out.append(('warn', f'{len(need - have)} integrity triggers missing: run tools/integrity.py'))
+    hix = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='index' AND name LIKE 'qg_ix_%'")}
+    nix = {re.search(r'INDEX IF NOT EXISTS (\w+)', t).group(1) for t in indexes()}
+    if nix - hix: out.append(('warn', f'{len(nix - hix)} database indexes missing (slow builds): run tools/integrity.py'))
     return out
 
 def fix(db):
@@ -100,7 +110,7 @@ if __name__ == '__main__':
     db = sqlite3.connect(DB)
     if '--check' not in sys.argv:
         fix(db)
-        for t in triggers(): db.execute(t)
+        for t in triggers() + indexes(): db.execute(t)
         db.commit()
     res = check(db)
     for lv, m in res: print(f'{lv.upper():8s}{m}')
