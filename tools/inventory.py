@@ -43,7 +43,13 @@ OUT = P + 'site/data/inventory.json'
 FILES_URL = 'data/inventory_files.json'     # beside OUT; the page fetches it only for Rescan drive
 PAPERS = paths.S + 'work/import/papers.json'
 HELD = paths.S + 'work/scan/held.json'      # tools/scan_folder.py --apply writes it
-COST_PER_PAPER = [0.9, 5.2]   # measured, Batch 8 via the API, 17 Nov (owner: "I want to do batch 8 via the api so we can get a cost estimate")
+def cost_per_paper():
+    """[lo, hi] US$ per paper from the measured batches (tools/costs.py -> site/data/costs.json), not a typed-in number (owner 21 Nov:
+    "make sure there's no hanging numbers anywhere which can go stale"). Batch 8 (owner 17 Nov: "I want to do batch 8 via the api so we
+    can get a cost estimate") was the first measured; every batch since adds to it. None until a batch has run through the API."""
+    import costs
+    pp = costs.build().get('per_paper')
+    return [pp['lo'], pp['hi']] if pp else None
 # The shared folder in Google Drive (G:\\Shared drives\\CMC Resources\\Exams\\External Exams Stage 6; drive_ids.csv lists it as
 # the parent of the loose files at its root). The page's "Rescan drive" button (owner 13 Nov: "Where is the button to rescan
 # the drive?") walks it READ-ONLY with the viewer's Google Drive connector; the id lives here, never in the page.
@@ -284,7 +290,7 @@ def build(db, files=False, rules=None, overrides=None):
         'last_scan': last, 'baseline_scan': BASELINE_SCAN, 'docs': len(docs), 'docs_with_questions': len(has_q & set(docs)), 'totals': dict(total),
         'statuses': STATUS_TEXT,
         'courses': [{'key': c, 'name': n, 'short': sh, 'ready': r, **({} if r else {'note': UNKNOWN if c == 'unknown' else SETUP})} for c, n, sh, r in COURSES],
-        'cost_per_paper': COST_PER_PAPER,
+        'cost_per_paper': cost_per_paper(),
         'groups': [g for g in out.values() if g['counts']['papers']],
         'root_drive_id': ROOT_DRIVE_ID, 'scan_skip': SCAN_SKIP,
         'files_url': FILES_URL, 'files': known_files(docs.values()),     # main() writes 'files' to FILES_URL, not into OUT

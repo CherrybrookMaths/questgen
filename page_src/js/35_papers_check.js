@@ -97,7 +97,7 @@ function draw(){const el=$('#prCheck');if(!el||el.hidden||!isOwnerV())return;con
   el.innerHTML=`<div class="pr-chead"><a href="#processes/papers" class="pr-back">← Import papers</a><h3>Needs a check</h3><span>${PQ.plural(all,'paper')} the scan couldn't place from their folder and file name</span></div>
     ${rulesCard(m)}
     <div class="pr-card pr-cc" data-prcard="place"><div class="pr-cchead"><div><h3>${PQ.nf(left)} for you to place</h3>
-      <span>The cover-page check reads each front page first; what it can't settle waits here with its cover and 3 pages picked at random from the questions. Click a page to enlarge it. Your answer is kept, so a rescan never asks again.</span></div>
+      <span>The cover-page check reads each front page first; what it can't settle waits here with its cover and ${PAGES-1} pages picked at random from the questions. Click a page to enlarge it. Your answer is kept, so a rescan never asks again.</span></div>
       <button type="button" class="act" data-prcover${cc||!all?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button></div>
       ${mine.length?mine.map(placeRow).join(''):'<p class="pempty">Nothing left to place.</p>'}</div>`;
   manifest();watch()}

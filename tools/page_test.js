@@ -907,7 +907,7 @@ async function areas(browser, base, seed) {
         if (keep === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep;
         ids.forEach(k => window.__pt.store.delete(k)); FLR.runs = []; renderReview();
         return {btn: true, kind: doc?.kind, status: doc?.status, txt} });
-      assert(r.btn && r.kind === 'flags' && r.status === 'requested' && /Sent to Claude/.test(r.txt) && /every hour/.test(r.txt), JSON.stringify(r));
+      assert(r.btn && r.kind === 'flags' && r.status === 'requested' && /Sent to Claude/.test(r.txt) && /Claude checks .+; otherwise at the night run/.test(r.txt), JSON.stringify(r));
       return 'runs/flags_* requested; the line says when Claude picks it up';
     });
     // owner 18 Nov: "Why does it say both 11 and 20?": the banner and the Flags card count the same questions
@@ -1648,7 +1648,7 @@ async function papersLanes(browser, base, seed, fx) {
     assert(l.sq.join(' ') === 'clr:4 wait:5 cur:6 cur:7 cur:8', `squares ${l.sq.join(' ')}`);
     assert(l.acts.join('|') === '+1 batch|+2 batches|Queue all 3', `lane buttons ${l.acts}`);
     assert(r.chk === '3 papers: year or course not read yet. Sorted into lanes once checked.' && r.chkActs.join('|') === 'Run the cover-page check|Resolve', `Needs a check lane: ${r.chk} ${r.chkActs}`);
-    assert(r.lock === 'Locked · 3 courses, 8 papers' && r.lockRows.some(x => /^Year 11 Advanced 3 papers Held until Year 12 is finished \(your 13 Nov ruling\)$/.test(x)) && r.lockRows.some(x => /^Year 12 Extension 1 3 papers Needs course setup$/.test(x)), `locked: ${r.lock} ${JSON.stringify(r.lockRows)}`);
+    assert(r.lock === 'Locked · 3 courses, 8 papers' && r.lockRows.some(x => /^Year 11 Advanced 3 papers Held until Year 12 is finished$/.test(x)) && r.lockRows.some(x => /^Year 12 Extension 1 3 papers Needs course setup$/.test(x)), `locked: ${r.lock} ${JSON.stringify(r.lockRows)}`);
     // owner 16 Nov: copies listed beside their original with both Drive links; never in a lane batch
     // owner 16 Nov (screenshot): "can't tell anything from it": the verdict on the row, three folded parts, one line per file
     assert(r.cps === 'Copies and missing files · nothing needs you' && r.cpLis === 3 && r.cpParts === 'cp:1|mv:1|ms:1', `copies summary “${r.cps}”, ${r.cpLis} rows, parts ${r.cpParts}`);
@@ -1715,9 +1715,10 @@ async function papersLanes(browser, base, seed, fx) {
     const r = await page.evaluate(() => ({st: [...document.querySelectorAll('#prQueue .pr-qs')].map(s => s.textContent), foot: document.querySelector('#prQueue .pr-qfoot').textContent.replace(/\s+/g, ' '), lim: document.querySelector('#prQueue .pr-limit'), txt: document.querySelector('#prQueue').textContent, est: document.querySelector('#prQueue .pr-est').textContent, api: document.querySelector('#prQueue .pr-api').textContent, head: document.querySelector('#prQueue .pr-qhead span').textContent, all: document.querySelector('[data-pradd="all"]').disabled,
       wait: (() => { const w = document.querySelector('#prQueue .pr-startrow .pr-wait'), s = document.querySelector('#prQueue .pr-startrow #prQStart'); return w && {t: w.textContent, tag: w.tagName, ctl: !!w.querySelector('button,a,input'), start: s && !s.disabled, beside: Math.abs(w.getBoundingClientRect().top + w.getBoundingClientRect().height / 2 - (s.getBoundingClientRect().top + s.getBoundingClientRect().height / 2)) < 12} })()}));
     assert(r.st.join() === 'Next,Waiting,Waiting', `states ${r.st}`);
-    assert(r.foot === '3 batches · 23 papersEst. US$276–391' || r.foot === '3 batches · 23 papers Est. US$276–391', `footer “${r.foot}”`);
+    // 21 Nov (owner: "no hanging numbers"): the cost comes from the measured batches (fixture: US$3–4 a paper), not a typed-in estimate
+    assert(r.foot === '3 batches · 23 papersCost US$69–92' || r.foot === '3 batches · 23 papers Cost US$69–92', `footer “${r.foot}”`);
     // owner 14 Nov: "Maybe remove the lock for now since I'm in charge of import"
-    assert(!r.lim && !/Stops when \d|before the lock|limit/i.test(r.txt) && r.head === 'Runs top to bottom until the queue is empty. Stops early only if a batch comes back with unusual problems.' && r.est === 'Estimate US$12–17 a paper' && r.api === 'Until the import API is connected, this sends the queue to Claude.', `queue texts: ${r.head} / ${r.est} / ${r.api} / lock text ${!!r.lim}`);
+    assert(!r.lim && !/Stops when \d|before the lock|limit/i.test(r.txt) && r.head === 'Runs top to bottom until the queue is empty. Stops early only if a batch comes back with unusual problems.' && r.est === 'US$3–4 a paper, from the batches imported so far (Costs)' && r.api === 'This sends the queue to Claude, which imports it batch by batch through the Anthropic API.', `queue texts: ${r.head} / ${r.est} / ${r.api} / lock text ${!!r.lim}`);
     assert(r.wait && r.wait.t === '1 batch is waiting for review' && r.wait.tag === 'SPAN' && !r.wait.ctl && r.wait.start && r.wait.beside, `waiting count beside Start (information only): ${JSON.stringify(r.wait)}`);
     assert(r.all, 'Queue all should be disabled with every batch queued');
     await page.click('#prQueue [data-prq-id="advanced_12_6"][data-prqmv="1"]'); await settle(page, 1000, 2);
@@ -1830,6 +1831,21 @@ async function papersLanes(browser, base, seed, fx) {
     const a = await page.evaluate(() => { const h = document.querySelector('#procHist'); return {open: h.open, hidden: h.hidden, sum: h.querySelector('summary').textContent.trim(), inside: ['.tiles', '.bgrp'].every(s => h.querySelector('#importBox ' + s))} });
     errs(); assert(a.sum === 'Import history' && a.open === false && !a.hidden && a.inside, `Import history: ${JSON.stringify(a)}`);
     return 'collapsed; tiles and finished batches inside';
+  });
+  // owner 21 Nov: "I want to see somewhere the costs logged properly, per paper, per batch total"
+  await check('papers: Costs lists every batch with its total, and a batch opens to its papers', page, async () => {
+    const want = JSON.parse(fs.readFileSync(path.join(SITE, 'data/costs.json'), 'utf8'));
+    await page.evaluate(() => { const d = document.querySelector('#procCost'); d.open = true });
+    await page.waitForSelector('#costBox .pr-ct tbody tr.pr-cb', {timeout: 8000});
+    const r = await page.evaluate(() => ({rows: [...document.querySelectorAll('#costBox .pr-ct tbody tr.pr-cb')].map(t => t.innerText), foot: document.querySelector('#costBox .pr-ct tfoot')?.innerText || '', note: document.querySelector('#costBox .pr-cnote')?.innerText || ''}));
+    const usd = x => 'US$' + x.toLocaleString('en-AU', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    assert(r.rows.length === want.batches.length && want.batches.every((b, i) => r.rows[i].includes('Batch ' + b.n) && r.rows[i].includes(usd(b.usd))), 'batch rows: ' + JSON.stringify(r.rows));
+    assert(r.foot.includes(usd(want.batch_usd)) && /monthly limit/.test(r.note), `total/limit: ${r.foot} | ${r.note}`);
+    const b0 = want.batches[0];
+    await page.click(`#costBox [data-costb="${b0.n}"]`); await settle(page, 500, 2);
+    const papers = await page.evaluate(() => [...document.querySelectorAll('#costBox .pr-cp tbody tr')].map(t => t.innerText));
+    assert(papers.length === b0.papers.length && papers[0].includes(b0.papers[0].label), 'papers: ' + JSON.stringify(papers.slice(0, 2)));
+    return `${r.rows.length} batches, total ${usd(want.batch_usd)}; Batch ${b0.n} opens to ${papers.length} papers`;
   });
   await page.context().close();
   // phone: lanes wrap, the batch panel and the queue stack, nothing runs off 390 px

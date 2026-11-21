@@ -25,6 +25,7 @@ sys.exit(0 if h and any(int(q['doc']) in h for q in json.load(open('site/data/ba
   echo '== 0/4 the bank holds papers still mid-import: rebuilding it without them'
   python3 tools/build_bank.py | tail -1 && python3 tools/bank_split.py | tail -1
 fi
+echo '== 0 costs';                   python3 tools/costs.py   # owner 21 Nov: costs per paper and batch, always from the call logs
 echo '== 1/4 build page';            python3 tools/build_page.py | sed -n '1,2p'
 echo '== 2/4 page test fixture';     python3 tools/page_test_fixture.py
 echo '== 3/4 page test';             node tools/page_test.js "$@" | grep -v '^PASS  tab ' || { echo 'PAGE TEST FAILED: see work/page_test/last_result.json and work/page_test/shots/'; exit 1; }

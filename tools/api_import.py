@@ -876,6 +876,7 @@ def cost(batch):
     rep['by_kind'] = {k: round(v, 2) for k, v in kind.items()}
     json.dump(rep, open(S + f'work/api_import/{batch}/cost.json', 'w'), indent=1)
     print('by kind: ' + ', '.join(f'{k} US${v:.2f}' for k, v in kind.items()))
+    import subprocess; subprocess.run([sys.executable, P + 'tools/costs.py'])   # 21 Nov: Processes › Papers › Costs follows every batch
     return rep
 
 

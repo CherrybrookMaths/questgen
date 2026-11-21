@@ -150,7 +150,7 @@ function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.
     L.batches.filter(b=>b.ready.length||b.done).map(b=>{const s=sqState(b),t=`Batch ${b.n}, ${SQW[s]}`;
       return `<button type="button" class="pr-b ${s}${open===b.n?' on':''}" data-prb="${esc(L.key)}:${b.n}" title="${esc(t)}" aria-label="${esc(t)}" aria-expanded="${open===b.n}"></button>`}).join('');
   return `<div class="pr-lane" data-lane="${esc(L.key)}"><div class="pr-lrow"><div class="pr-lname"><b>${esc(L.name)}</b>
-      <small>${plural(im.length,'batch','batches')} imported (${nf(clr)} cleared review, ${im.length-clr?`<a href="#review" title="Review lists the papers still waiting">${nf(im.length-clr)} waiting</a>`:'0 waiting'}) · <span title="Ready papers in the batch squares below (one square per batch)">${nf(L.ready)} papers to go · ${plural(todo.length,'batch','batches')}</span>${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.big?` · <a href="#prBig" data-prbig title="Over 10 MB: out of the batches until a smaller copy exists">${plural(L.big,'big PDF')}, for later</a>`:''}${L.newN?` · <span title="Papers first found after the first full Drive scan (13 Nov), in every status">${nf(L.newN)} found after the first scan</span>`:''}</small></div>
+      <small>${plural(im.length,'batch','batches')} imported (${nf(clr)} cleared review, ${im.length-clr?`<a href="#review" title="Review lists the papers still waiting">${nf(im.length-clr)} waiting</a>`:'0 waiting'}) · <span title="Ready papers in the batch squares below (one square per batch)">${nf(L.ready)} papers to go · ${plural(todo.length,'batch','batches')}</span>${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.big?` · <a href="#prBig" data-prbig title="Over 10 MB: out of the batches until a smaller copy exists">${plural(L.big,'big PDF')}, for later</a>`:''}${L.newN?` · <span title="Papers first found after the first full Drive scan${S.data?.baseline_scan?` (${esc(new Date(S.data.baseline_scan).toLocaleDateString('en-AU',{day:'numeric',month:'short'}))})`:''}, in every status">${nf(L.newN)} found after the first scan</span>`:''}</small></div>
     <div class="pr-lacts"><button type="button" class="act" data-pradd="1" data-lane="${esc(L.key)}"${free?'':' disabled'}>+1 batch</button><button type="button" class="act" data-pradd="2" data-lane="${esc(L.key)}"${free>1?'':' disabled'}>+2 batches</button><button type="button" class="act primary" data-pradd="all" data-lane="${esc(L.key)}"${free?'':' disabled'}>Queue all ${nf(free)}</button></div></div>
     <div class="pr-sq" role="group" aria-label="${esc(L.name)} batches">${sq}</div>${open!=null?panelHTML(L,open):''}</div>`}
 // the batch panel: its papers and Swap
@@ -176,7 +176,7 @@ function bigHTML(m){const ps=m.ps.filter(p=>p.big&&(p.st==='ready_current'||p.st
 function lockedHTML(m){const by=new Map();m.ps.filter(p=>p.st==='held_y11'||p.st==='held_course').forEach(p=>{const k=p.c+'|'+p.yl;if(!by.has(k))by.set(k,{c:p.c,yl:p.yl,n:0,st:p.st});by.get(k).n++});
   const rows=[...by.values()].sort((a,b)=>b.n-a.n),tot=rows.reduce((s,r)=>s+r.n,0);if(!rows.length)return '';
   const nc=new Set(rows.map(r=>r.st==='held_y11'?'y11':r.c)).size;   // courses as the mockup counts them: Year 11 (held) + each course that needs setup
-  const why=r=>r.st==='held_y11'?'Held until Year 12 is finished (your 13 Nov ruling)':'Needs course setup';
+  const why=r=>r.st==='held_y11'?'Held until Year 12 is finished':'Needs course setup';
   return `<details class="pr-lock" id="prLock"><summary>Locked · ${plural(nc,'course')}, ${plural(tot,'paper')}</summary><ul>${rows.map(r=>`<li><b>${esc(laneName(r.c,r.yl))}</b><span>${plural(r.n,'paper')}</span><span class="pr-why" title="${esc(r.st==='held_y11'?m.D.statuses.held_y11:course(r.c).note||'')}">${esc(why(r))}</span></li>`).join('')}</ul></details>`}
 // owner 16 Nov: "Where does point 13 exist?", "I want it now", "duplicate exams will never be batched and imported right?" Copies (same size
 // in bytes and a similar name as a recorded file; tools/scan_folder.py) are kept out of every paper's files (tools/inventory.py
@@ -198,7 +198,7 @@ function copiesHTML(m){const H=m.D.held||{},cp=H.copies||[],mv=H.moved||[],ms=H.
     <p class="pr-note">"Same file" = same size in bytes and a similar name (Drive gives no checksum). If one looks wrong, open both and tell Claude.</p></details>`}
 function lanesHTML(){const el=$('#prLanes');if(!el)return;const m=model();if(!m){el.innerHTML='';return}
   const L=lanes(),lock=$('#prLock'),wasOpen=!!(lock&&lock.open),cpo=!!($('#prCopies')||{}).open,cpp=[...document.querySelectorAll('#prCopies .pr-cpp[open]')].map(d=>d.dataset.cpp),cc=API.run&&API.run.cover();
-  el.innerHTML=`<div class="pr-lhead"><h4>Courses</h4><span>Each square is a batch of 9 papers. Current syllabus first, newest year first. Click a square to see its papers.</span></div>
+  el.innerHTML=`<div class="pr-lhead"><h4>Courses</h4><span>Each square is a batch of ${SIZE} papers. Current syllabus first, newest year first. Click a square to see its papers.</span></div>
     ${L.length?L.map(laneHTML).join(''):`<p class="pempty">Nothing ready to import.</p>`}
     <div class="pr-lane pr-chk"><div class="pr-lrow"><div class="pr-lname"><b>Needs a check</b><small>${plural(m.t.needs_check||0,'paper')}: year or course not read yet. Sorted into lanes once checked.</small></div>
       <div class="pr-lacts"><button type="button" class="act" data-prcover${cc||!m.t.needs_check?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button><a class="act pr-link" href="#processes/papers/check">Resolve</a></div></div></div>
@@ -213,7 +213,7 @@ function render(){const box=$('#invBox');if(!box)return;box.hidden=!isOwnerV();i
       <div class="pr-sum" id="prSum"></div>
       <div class="pr-main"><section class="pr-card pr-lanes" id="prLanes" aria-label="Courses"></section><aside class="pr-card pr-queue" id="prQueue" aria-label="Queue"></aside></div></div>
       <section class="pr-check" id="prCheck" hidden></section></section>`}
-  const chk=$('#processesView').dataset.sub==='check';$('#prMainWrap').hidden=chk;$('#prCheck').hidden=!chk;const h=$('#procHist');if(h)h.hidden=chk;
+  const chk=$('#processesView').dataset.sub==='check';$('#prMainWrap').hidden=chk;$('#prCheck').hidden=!chk;const h=$('#procHist');if(h)h.hidden=chk;const hc=$('#procCost');if(hc)hc.hidden=chk;
   load();subscribe();redraw();if(API.scan)API.scan.render();if(API.run)API.run.render();if(API.check)API.check.render()}
 
 // ---- writes (editors only)

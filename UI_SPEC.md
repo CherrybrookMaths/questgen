@@ -1252,3 +1252,19 @@ on the line counting the questions left out: "Include it yep." Rule in TAG_SPEC 
 - **No gate with nothing to judge against (17 Nov).** In Pick by hand, while the exam has no topics and no questions, the browse
   is "All questions" and the Already learnt list is empty, nothing is gated: a tutor's first view is the whole bank. As soon as
   a topic is ticked, browsed or added, or the learnt list has a topic, the gate applies.
+
+## Costs and no hanging numbers (21 Nov)
+- **Costs, owner 21 Nov (verbatim):** "I want to see somewhere the costs logged properly, per paper, per batch total. where should that go?",
+  then "Yeah build it". Processes › Papers › **Costs** (collapsed, under Import history): one row per API batch (date, papers, questions,
+  total, per paper, per question), a batch opens to its papers (cost, questions, per question) and its split by step; all batches' total,
+  this month against the monthly limit, other API spend (e.g. the difficulty rating) listed apart, and batches 1-7 named as not metered
+  (they ran inside sessions). Source: site/data/costs.json from tools/costs.py, built from every logged API call (state/work/api_import/
+  */calls.jsonl) at every publish and after every batch. The queue's cost now uses the measured range (inventory cost_per_paper from
+  costs.json); the 13 Nov typed-in "US$12-17 a paper" estimate is gone (with no measured batch the page says so).
+- **No hanging numbers, owner 21 Nov (verbatim):** "make sure there's no hanging numbers anywhere which can go stale either. bad practice"
+  (and 18 Nov: "Avoid in this entire app writing hard numbers like this, good practice is to link it somewhere right?"). Numbers about
+  the data are computed, not typed: the Guide's database card and data-model diagram read row counts taken at each bank build
+  (bank counts, tools/build_bank.py) with the build date; the diagram-confidence tooltips count "n of m reviewed were flagged" live from
+  Review (the levels stay as set on 12 Nov); the flag-check hours and night-run time come from page db progress/night (flagcheck, time);
+  batch size, pages per cover check and the baseline-scan date come from their settings or the inventory; file sizes and the script count
+  were dropped. Settings stay named in one place (e.g. MONTHLY_LIMIT_USD in tools/costs.py, owner 18 Nov).

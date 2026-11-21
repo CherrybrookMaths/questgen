@@ -9,7 +9,8 @@ Follow CLAUDE.md's standing rules exactly. Stamp times with `TZ=Australia/Sydney
 Owner 19 Nov: "I need a way for the reviewer to run flags, he couldn't do it all of his last shift" -> "Button + checks in shift",
 "monday, tuesday, wednesday, friday 9-5 all those days". The checker presses "Fix my flags now" on Review, which writes
 `runs/flags_<ms>` {kind: 'flags', status: 'requested', by, at}. The scheduled task "Questgen flag check" (trig_01J5E9pn3VHBVu8zf2wFg5Jh, fresh session,
-hourly 9:00-16:00 Sydney, Mon Tue Wed Fri; 30 minutes is under the platform's 1-hour minimum) runs this section; the night run (NIGHT.md step 1) clears any request still waiting.
+hourly 9:00-16:00 Sydney, Mon Tue Wed Fri; 30 minutes is under the platform's 1-hour minimum; when the schedule changes, update page db progress/night
+flagcheck, which Review's "Fix my flags now" line shows) runs this section; the night run (NIGHT.md step 1) clears any request still waiting.
 1. **Cheap check first, before any setup.** ArtifactData `query` on `runs` (where `kind == 'flags'`), on the review page. No doc with
    `status: 'requested'`: stop here (no repo, no database, no reply beyond "No flag request."). A doc with `status: 'running'`
    whose `started` is under 2 hours old: another session has it; stop.

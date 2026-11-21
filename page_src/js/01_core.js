@@ -68,7 +68,7 @@ Object.assign(QG,{
   ready(v){return !QG.bank||v==='bank'||QG.detOK},
   // caches built from the index are rebuilt with the full fields, then the open view is drawn again
   onDet(){TOPICS=null;
-    for(const f of [()=>{_clean=null;_esc={};_dupm=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear()])try{f()}catch(e){}
+    for(const f of [()=>{_clean=null;_esc={};_rk=null;_dupm=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear()])try{f()}catch(e){}
     QG.waitNote();route();QG.fill()},
   wait(){QG.waitNote();QG.det()},   // onDet draws the view when they land
   // one notice while a view waits for the details (or they failed to load)

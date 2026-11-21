@@ -261,7 +261,7 @@ def split(bank, home, src=None):
             print('archived unused topic file', f)
     ip = set(img_packs())
     docs = {k: ({**d, 'ip': 1} if int(k) in ip else d) for k, d in bank['docs'].items()}
-    idx = {'v': 3, 'built': bank.get('built'), 'src': src, 'course': COURSE, 'docs': docs, 'tables': bank['tables'], 'figs': {k: {kk: v for kk, v in f.items() if not (k in moved and kk in F_CONTENT)} for k, f in figs.items()},
+    idx = {'v': 3, 'built': bank.get('built'), 'counts': bank.get('counts'), 'src': src, 'course': COURSE, 'docs': docs, 'tables': bank['tables'], 'figs': {k: {kk: v for kk, v in f.items() if not (k in moved and kk in F_CONTENT)} for k, f in figs.items()},
            'codes17': bank.get('codes17', {}), 'files': files, 'questions': idx_q}
     idx['raw'] = write_gz(INDEX, idx)
     idx['raw_details'] = write_gz(DETAILS, {'v': 1, 'src': src, 'q': details, 'sk': skill_gates()})

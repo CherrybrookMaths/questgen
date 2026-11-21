@@ -12,7 +12,11 @@ const GUIDE_EX=[
  [979,'Needs vs can use','Expected value and the probability distribution are needed for the marks (gates). Calculus for the maximum is one valid method among others (the vertex of a parabola also works), so it is "can use": it lists the question under that skill for practice but never hides it.'],
  [191,'Removed from the syllabus','3D trigonometry is no longer in Mathematics Advanced (now Year 11 Extension 1), so the question is marked old syllabus and kept out of Advanced topic lists.'],
  [228,'Standard course content','Bivariate data analysis is in Mathematics Standard, not Advanced. The question keeps its Standard topic so it can be used when the bank grows to Standard.']];
-const G2_DB={tables:[['questions',1618],['parts',2626],['tags',12625],['solutions',2581],['mcq_options',1988],['figures',960],['data_tables',217],['documents',1632],['part_difficulty',2292]],asof:'14 Nov 2026'};
+// owner 21 Nov ("make sure there's no hanging numbers anywhere which can go stale"): row counts and size come from the bank build
+// (tools/build_bank.py counts), with the build date; they were typed in on 14 Nov
+const G2_DB=()=>{const c=QG.bank?.counts||{},b=String(QG.bank?.built||''),d=b.length>=8?new Date(+b.slice(0,4),+b.slice(4,6)-1,+b.slice(6,8)):null;
+  return {tables:['questions','parts','tags','solutions','mcq_options','figures','data_tables','documents','part_difficulty'].filter(t=>c[t]!=null).map(t=>[t,c[t]]),
+    mb:c._db_mb,asof:d?d.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'}):''}};
 function g2Stats(){const qs=B.questions.filter(q=>!q.dup_of&&!q.old&&!q.std);const areas={},subs=new Set();let filed=0;
   qs.forEach(q=>{const h=qHome(q);if(!h||!h.startsWith('sub:'))return;filed++;const [yl,fa,sb]=h.slice(4).split('|');subs.add(h);const k=yl+'|'+fa;areas[k]=(areas[k]||0)+1});
   const parts=[];qs.forEach(q=>q.parts.forEach(p=>{if(p.dif)parts.push({p,q})}));
@@ -118,14 +122,14 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
   </div><div class="g2pg2">
   <section id="g2-now" class="g2sec"><h3>1 · The system today</h3>
     <div class="g2flow">${[['Source PDFs','Google Drive'],['Parse','AI, per paper'],['Load','SQLite'],['Tag','2 taggers + check'],['Solutions','format · write'],['Diagrams','TikZ redraw'],['Check','independent'],['Build','bank.json'],['Questgen','this page']].map(([a,b],i)=>`${i?'<span class="g2arr" aria-hidden="true">→</span>':''}<div class="g2st${i===8?' hl':''}"><b>${a}</b><span>${b}</span></div>`).join('')}</div>
-    <p class="g2cap">Steps 2–8 run in Claude sessions with Python tools (${'58'} scripts). Every step has a written spec.</p>
+    <p class="g2cap">Steps 2–8 run in Claude sessions with the Python tools in <code>tools/</code>. Every step has a written spec.</p>
     <div class="g2stores">
-      <div class="g2card"><div class="g2k">Master data</div><b>questions.db</b><span>SQLite · 7 MB · ${G2_DB.asof}</span><table class="g2mini">${G2_DB.tables.map(([t,n])=>`<tr><td>${t}</td><td>${n.toLocaleString()}</td></tr>`).join('')}</table></div>
-      <div class="g2card"><div class="g2k">Published with the page</div><b>Page files</b><span>Static, rebuilt from the database</span><table class="g2mini"><tr><td>Question index</td><td>0.1 MB at start</td></tr><tr><td>Question text</td><td>per topic</td></tr><tr><td>Page images</td><td>102 MB</td></tr><tr><td>Diagrams (SVG)</td><td>36 MB</td></tr><tr><td>Specs + tools</td><td>GitHub</td></tr></table></div>
+      <div class="g2card"><div class="g2k">Master data</div><b>questions.db</b><span>${(g=>`SQLite${g.mb?` · ${g.mb} MB`:''}${g.asof?` · at the build of ${esc(g.asof)}`:''}`)(G2_DB())}</span><table class="g2mini">${G2_DB().tables.map(([t,n])=>`<tr><td>${t}</td><td>${n.toLocaleString()}</td></tr>`).join('')}</table></div>
+      <div class="g2card"><div class="g2k">Published with the page</div><b>Page files</b><span>Static, rebuilt from the database</span><table class="g2mini"><tr><td>Question index</td><td>small, at start</td></tr><tr><td>Question text</td><td>per topic</td></tr><tr><td>Page images</td><td>per paper, while in review</td></tr><tr><td>Diagrams (SVG)</td><td>asset store</td></tr><tr><td>Specs + tools</td><td>GitHub</td></tr></table></div>
       <div class="g2card"><div class="g2k">Written from the page</div><b>Page database</b><span>Shared, in claude.ai</span><table class="g2mini"><tr><td colspan="2" style="color:var(--accent)">Mirrored into questions.db (page_*)</td></tr><tr><td>reviews</td><td>approvals, flags</td></tr><tr><td>difficulty</td><td>your checks</td></tr><tr><td>exams</td><td>saved exams</td></tr><tr><td>reports</td><td>question reports</td></tr><tr><td>progress</td><td>jobs, queue, import</td></tr></table></div>
       <div class="g2card"><div class="g2k">Backup</div><b>Google Drive</b><span>Database, files, review export</span><table class="g2mini"><tr><td>When</td><td>after major changes</td></tr><tr><td>How</td><td>by Claude, on request</td></tr></table></div></div>
     <h4>Limits today</h4>
-    <div class="g2lim">${[['Access','claude.ai accounts only, shared by invitation'],['Updates','Content changes need a Claude session, then a republish'],['Printing','Download, then print from the browser'],['Data','Page decisions are copied into the database at each rebuild (sync_pagedb.py), not live'],['Scale','One page, ~150 MB of files (256 MB cap); a small index loads at start, question text per topic']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>
+    <div class="g2lim">${[['Access','claude.ai accounts only, shared by invitation'],['Updates','Content changes need a Claude session, then a republish'],['Printing','Download, then print from the browser'],['Data','Page decisions are copied into the database at each rebuild (sync_pagedb.py), not live'],['Scale','One page, under the 256 MB platform cap; a small index loads at start, question text per topic']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>
   </section>
 
   <section id="g2-data" class="g2sec"><h3>2 · Data model</h3>

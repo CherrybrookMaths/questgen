@@ -17,8 +17,6 @@ const R={q:[],runs:[],subs:{},busy:false};
 // unusual problems that stop the queue early (chosen 14 Nov while the owner was away; tools/import_next.py STOP_EARLY): a paper
 // that loaded no questions, 3 or more pages the parser could not read, or more than 12 Your calls in one batch
 const STOP_EARLY={failed_papers:1,failed_pages:3,your_calls:13};
-// until a cost per paper is measured, US$12–17 a paper, labelled an estimate (owner 13 Nov)
-const EST=[12,17];
 const ACTIVE=['requested','running'];
 const snap=QG.docs;
 function subscribe(){if(!db||!isOwnerV())return;
@@ -32,7 +30,9 @@ function items(){return ordered().map(x=>{const f=PQ.batch(key(x),x.batch);retur
 const live=()=>items().filter(i=>!i.done);
 function pos(k,n){const i=live().findIndex(i=>key(i.x)===k&&+i.x.batch===+n);return i+1}
 const active=kind=>R.runs.filter(r=>r.kind===kind&&ACTIVE.includes(r.status)).sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null;
-function cost(n){const v=PQ.cost(),pp=v||EST;return {est:!v,pp,lo:n*pp[0],hi:n*pp[1]}}
+// the cost per paper is measured (tools/costs.py, every API batch; owner 21 Nov: "make sure there's no hanging numbers anywhere which
+// can go stale"); the 13 Nov typed-in estimate is gone: with no measured batch the page says so instead of guessing
+function cost(n){const pp=PQ.cost();return pp?{pp,lo:n*pp[0],hi:n*pp[1]}:null}
 function draw(){const el=$('#prQueue');if(!el||!isOwnerV())return;if(!PQ.state.data){el.innerHTML='';return}
   const L=items(),n=live(),np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np),run=active('queue');
   const row=(i,k)=>{const f=i.f,nm=f?f.lane.name:PQ.laneName(i.x.course,String(i.x.yl)),st=i.done?'Imported':k===0?(run&&run.status==='running'?'Running':'Next'):'Waiting';
@@ -44,11 +44,11 @@ function draw(){const el=$('#prQueue');if(!el||!isOwnerV())return;if(!PQ.state.d
   const wt=PQ.waiting(),wtxt=wt===1?'1 batch is waiting for review':`${wt?PQ.nf(wt):'No'} batches are waiting for review`;
   el.innerHTML=`<div class="pr-qhead"><h4>Queue</h4><span>Runs top to bottom until the queue is empty. Stops early only if a batch comes back with unusual problems.</span></div>
     ${L.length?`<ol class="pr-qlist">${L.map(i=>row(i,i.done?-1:k++)).join('')}</ol>`:`<p class="pempty">Nothing queued. Add batches from a course: +1 batch, or click a square.</p>`}
-    <div class="pr-qfoot"><span>${PQ.plural(n.length,'batch','batches')} · ${PQ.plural(np,'paper')}</span><span>${c.est?'Est. ':'Cost '}${np?PQ.usd([c.lo,c.hi]):'US$0'}</span></div>
-    ${run?`<div class="pr-run" role="status"><b>${run.status==='running'?'Claude is running the queue':'Sent to Claude'}</b><small>requested ${esc(clockT(run.at))}${run.status==='requested'?' · Claude starts it when importing resumes; later the import API will start it directly.':''}</small><button type="button" class="act" id="prQCancel"${R.busy?' disabled':''}>Cancel</button></div>`:
+    <div class="pr-qfoot"><span>${PQ.plural(n.length,'batch','batches')} · ${PQ.plural(np,'paper')}</span><span>${c?`Cost ${np?PQ.usd([c.lo,c.hi]):'US$0'}`:'Cost not measured yet'}</span></div>
+    ${run?`<div class="pr-run" role="status"><b>${run.status==='running'?'Claude is running the queue':'Sent to Claude'}</b><small>requested ${esc(clockT(run.at))}${run.status==='requested'?' · Claude runs it in a session with you, one batch at a time (imports are not run at night).':''}</small><button type="button" class="act" id="prQCancel"${R.busy?' disabled':''}>Cancel</button></div>`:
       `<div class="pr-startrow"><button type="button" class="act primary pr-start" id="prQStart"${!n.length||R.busy?' disabled':''}>Start the queue</button><span class="pr-wait" role="status">${wtxt}</span></div>`}
-    <p class="pr-est">${c.est?`Estimate US$${EST[0]}–${EST[1]} a paper`:`${esc(PQ.usd(c.pp))} a paper`}</p>
-    <p class="pr-api">Until the import API is connected, this sends the queue to Claude.</p>`}
+    <p class="pr-est">${c?`${esc(PQ.usd(c.pp))} a paper, from the batches imported so far (<a href="#processes/papers" data-costopen>Costs</a>)`:'No batch has run through the API yet, so there is no measured cost.'}</p>
+    <p class="pr-api">This sends the queue to Claude, which imports it batch by batch through the Anthropic API.</p>`}
 function render(){if(!isOwnerV())return;subscribe();draw()}
 // ---- writes (editors only)
 const now=()=>new Date().toISOString();

@@ -13,7 +13,7 @@ const STEPS=[['decide','Your calls','Calls only you can make: a correction to a 
   ['check','Flagged','The automatic checks or the independent maths checker could not clear these (and every table). Compare with the source page: each one says why and what to look at.'],
   ['tags','Topics','The tagger and the checker would file these under different topics. Pick the right home from the question: 1 tagger, 2 checker, F another dot point. Gates are automatic.'],
   ['diagrams','Diagrams','Each redrawn diagram beside its original. A approves, F flags (type the reason, Enter sends), K next, J back.'],
-  ['sample','Spot-check','A random 10% of the questions that passed every check. When they are all fine, approve the rest of the paper in one click.']];
+  ['sample','Spot-check','A random sample of the questions that passed every check. When they are all fine, approve the rest of the paper in one click.']];
 const SLUG={decide:'calls',check:'flagged',tags:'topics',diagrams:'diagrams',sample:'spot-check'};   // #review/paper/<doc>/<slug>
 const UNSLUG=Object.fromEntries(Object.entries(SLUG).map(([k,v])=>[v,k]));
 const stepLabel=k=>(STEPS.find(x=>x[0]===k)||FILTERS.find(x=>x[0]===k)||[,k])[1];
@@ -103,9 +103,18 @@ function isTodo(q,f){if(q.dup_of)return false;if(f==='tags')return !reviews['q'+
   if(f==='decide')return reviews['q'+q.id]?.status!=='approved'||callOpen(q);if(f==='diagrams')return chkFigs(q).some(k=>!reviews['q'+q.id]?.fig?.[k]);if(f==='check'||f==='sample')return !reviews['q'+q.id]?.status;if(f==='back')return backQ(q);if(f==='waiting')return waitQ(q);if(f==='redone')return Object.keys(reviews['q'+q.id]?.fig_done||{}).some(k=>!figDec(q,k));if(f==='changes')return qFigs(q).some(k=>figDec(q,k)==='changes');if(f==='generated')return qGen(q).some(s=>!solDec(q,s));return !reviews['q'+q.id]?.status}
 function statusOK(q){const r=reviews['q'+(q.dup_of||q.id)];if(rstatus==='any')return true;if(rstatus==='todo')return isTodo(q,rfilter);return r?.status===rstatus}
 let pendingOpen=null;
-// owner 12 Nov: diagram confidence by type, from first-look flag rates (297 reviewed). Riskiest first in the Diagrams queue.
-const RISK={table:['Low',3,'tables: 80% flagged'],table_drawn:['Low',3,'tables: 80% flagged'],'geometry·s':['Low',3,'geometry solution sketches: 64% flagged'],'other·s':['Low',3,'other solution sketches: 44% flagged'],'tree·s':['Low',3,'tree diagrams: few reviewed'],tree:['Low',3,'tree diagrams: few reviewed'],'graph·s':['Medium',2,'graph solution sketches: 18% flagged'],'statistical·s':['Medium',2,'statistical solution sketches'],statistical:['Medium',2,'statistical: 14% flagged'],geometry:['Medium',2,'geometry: 13% flagged'],graph:['High',1,'question graphs: spot-check (48 of 50 approved)'],blank_axes:['High',1,'blank axes: spot-check'],other:['Medium',2,'other diagrams'],photo:['Medium',2,'photos']};
-function figRisk(k){const f=B.figs[k]||{};const c=f.status==='table'?'table':(f.cls||'other');return RISK[c+(/_s\d+$/.test(k)?'·s':'')]||RISK[c]||['Medium',2,'']}
+// owner 12 Nov: diagram confidence by type, from first-look flag rates (297 reviewed then). Riskiest first in the Diagrams queue.
+// The levels stay as set; the "n of m flagged" shown with them is counted live from Review's decisions (owner 21 Nov: "make sure
+// there's no hanging numbers anywhere which can go stale"; the 12 Nov percentages were typed in)
+const RISK={table:['Low',3,'tables'],table_drawn:['Low',3,'tables'],'geometry·s':['Low',3,'geometry solution sketches'],'other·s':['Low',3,'other solution sketches'],'tree·s':['Low',3,'tree diagrams'],tree:['Low',3,'tree diagrams'],'graph·s':['Medium',2,'graph solution sketches'],'statistical·s':['Medium',2,'statistical solution sketches'],statistical:['Medium',2,'statistical'],geometry:['Medium',2,'geometry'],graph:['High',1,'question graphs (spot-checked)'],blank_axes:['High',1,'blank axes (spot-checked)'],other:['Medium',2,'other diagrams'],photo:['Medium',2,'photos']};
+const riskKey=k=>{const f=B.figs[k]||{};const c=f.status==='table'?'table':(f.cls||'other');const s=c+(/_s\d+$/.test(k)?'·s':'');return RISK[s]?s:RISK[c]?c:null};
+function figRisk(k){const r=RISK[riskKey(k)];return r||['Medium',2,'']}
+// flagged = a change was asked for (now or before a fix); decided = approved or flagged. Cached with _esc (cleared with _clean)
+let _rk=null;function riskTxt(k){const key=riskKey(k),r=RISK[key];if(!r)return '';
+  if(!_rk){_rk={};const seen=new Map();   // each diagram once (Review holds copies of a decision under several keys)
+    Object.values(reviews).forEach(v=>{if(!v?.fig&&!v?.fig_done)return;new Set([...Object.keys(v.fig||{}),...Object.keys(v.fig_done||{})]).forEach(f=>seen.set(f,seen.get(f)||v.fig?.[f]==='changes'||!!v.fig_done?.[f]))});
+    seen.forEach((fl,f)=>{const g=riskKey(f);if(!g)return;const t=_rk[g]=_rk[g]||[0,0];t[1]++;if(fl)t[0]++})}
+  const [fl,n]=_rk[key]||[0,0];return `${r[2]}: ${n?`${fl} of ${n} reviewed were flagged`:'none reviewed yet'}`}
 function qRisk(q){return Math.max(0,...chkFigs(q).map(k=>figRisk(k)[1]))}
 // owner 12 Nov: "where do i go and batch approve the rest?" -> papers whose spot-check is clean, approvable from the Review header
 function paperReady(doc){doc=String(doc);const qs=B.questions.filter(q=>String(q.doc)===doc&&!q.dup_of),smp=qs.filter(q=>q.tri?.tier==='sample'),rest=qs.filter(q=>q.tri?.tier==='auto'&&!reviews['q'+q.id]?.status);
@@ -370,13 +379,15 @@ const FLR={runs:[],sub:0,
   last(){return this.runs.slice().sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null},
   async ask(){if(!db){toast('Needs the shared database (open the page in claude.ai)');return}const id='flags_'+Date.now(),doc={kind:'flags',status:'requested',by:QG.me||null,at:new Date().toISOString()};
     try{await db.doc('runs/'+id).set(doc);this.runs.push({id,...doc});toast('Sent to Claude');renderReview()}catch(e){toast('Could not send. Try again in a moment.')}}};
-const FLR_WHEN='Claude checks every hour, 9 am to 4 pm on Monday, Tuesday, Wednesday and Friday; otherwise at the 10:11 pm night run.';
+// when Claude picks a request up: read from the page database (progress/night: flagcheck, written when the scheduled check changes,
+// and time, the night run's), not typed in (owner 21 Nov: "make sure there's no hanging numbers anywhere which can go stale")
+const FLR_WHEN=()=>`Claude checks ${esc(QG.night?.flagcheck||'during the checker\'s shift')}; otherwise at the night run${QG.night?.time?` (${esc(QG.night.time)})`:''}.`;
 function handoffHTML(){const [n,nq]=pendingFlags();FLR.watch();const r=FLR.last(),act=r&&(r.status==='requested'||r.status==='running');
   const t=x=>x?new Date(x).toLocaleString('en-AU',{weekday:'short',hour:'numeric',minute:'2-digit'}):'';
-  const st=act?(r.status==='running'?`<b>Claude is fixing them</b> (started ${t(r.started||r.at)}). They come back under "Fixed and back for you".`:`<b>Sent to Claude</b> ${t(r.at)}. ${FLR_WHEN}`)
+  const st=act?(r.status==='running'?`<b>Claude is fixing them</b> (started ${t(r.started||r.at)}). They come back under "Fixed and back for you".`:`<b>Sent to Claude</b> ${t(r.at)}. ${FLR_WHEN()}`)
     :r&&r.status==='done'&&Date.now()-Date.parse(r.done_at||r.at)<864e5?`Last run ${t(r.done_at)}: ${esc(r.result||'done')}.`:'';
   if(!n&&!act)return st?`<div class="handoff">${st}</div>`:'';
-  return `<div class="handoff${act?'':' due'}"><b>${n} flag${n===1?'':'s'} waiting for Claude</b> <span class="muted">(${nq} question${nq===1?'':'s'})</span>${act?` · ${st}`:` <button type="button" class="act ok" data-flr>Fix my flags now</button><span class="muted"> ${FLR_WHEN}</span>${st?` ${st}`:''}`}</div>`}
+  return `<div class="handoff${act?'':' due'}"><b>${n} flag${n===1?'':'s'} waiting for Claude</b> <span class="muted">(${nq} question${nq===1?'':'s'})</span>${act?` · ${st}`:` <button type="button" class="act ok" data-flr>Fix my flags now</button><span class="muted"> ${FLR_WHEN()}</span>${st?` ${st}`:''}`}</div>`}
 document.addEventListener('click',e=>{if(e.target.closest?.('[data-flr]')){const b=e.target.closest('[data-flr]');b.disabled=true;FLR.ask()}});
 function renderDiag(){
   const q=rlist[ridx];
@@ -386,7 +397,7 @@ function renderDiag(){
   const ks=chkFigs(q), r=reviews['q'+q.id]||{};
   $('#rout').innerHTML=handoffHTML()+`<div class="dwrap"><div class="dmain">
     <div class="row"><b style="font-size:18px">${qid(q)}</b><span class="muted">${esc(srcLine(q))} · ${ks.length} diagram${ks.length>1?'s':''}</span></div>
-    ${ks.map((k,i)=>{const f=B.figs[k],dec=r.fig?.[k];return `<div class="dq${dec?' decided':''}"><div class="dnum">${ks.length>1?`<kbd>${i+1}</kbd> Diagram ${i+1} of ${ks.length} · `:''}${/_s\d+$/.test(k)?'solution':'question'} · <span class="conf c${figRisk(k)[1]}" title="${esc(figRisk(k)[2])}">${figRisk(k)[0]} confidence</span> <span class="muted">${esc(figRisk(k)[2])}</span></div><div class="cmp"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>${f.status==='table'?'As a table':'Redrawn'}</figcaption>${f.status==='table'?dtHTML(f.table,{blank:true}):`<img class="fig" alt="Redrawn" data-k="${k}" data-kind="svg">`}</figure></div>
+    ${ks.map((k,i)=>{const f=B.figs[k],dec=r.fig?.[k];return `<div class="dq${dec?' decided':''}"><div class="dnum">${ks.length>1?`<kbd>${i+1}</kbd> Diagram ${i+1} of ${ks.length} · `:''}${/_s\d+$/.test(k)?'solution':'question'} · <span class="conf c${figRisk(k)[1]}" title="${esc(riskTxt(k))}">${figRisk(k)[0]} confidence</span> <span class="muted">${esc(figRisk(k)[2])}</span></div><div class="cmp"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>${f.status==='table'?'As a table':'Redrawn'}</figcaption>${f.status==='table'?dtHTML(f.table,{blank:true}):`<img class="fig" alt="Redrawn" data-k="${k}" data-kind="svg">`}</figure></div>
       ${dec?`<span class="badge ${dec==='approved'?'b-ok':'b-bad'}">${dec==='approved'?'approved':'flagged: '+esc(r.fig_notes?.[k]||'')}</span>`:''}${f.notes?`<details class="help"><summary>What the redraw changed</summary>${esc(f.notes).split(' | ').slice(-2).map(x=>`<div>${x}</div>`).join('')}</details>`:''}</div>`}).join('')}
     <details class="help"><summary>Question text</summary><div class="qtext">${qBody(q,'review')}</div></details>
     <div class="row keys"><button class="act ok" id="dA"><kbd>A</kbd> Approve</button><button class="act warn" id="dF"><kbd>F</kbd> Flag</button><span class="help"><kbd>J</kbd> previous · <kbd>K</kbd> next</span></div>
@@ -535,7 +546,7 @@ function renderReview(){RUNDO.render();
 async function write(q,patch,whole){   // whole: patch is the entire record (Undo puts back the record as it was, 36_undo.js)
   const key=RKEY.qdoc(q); const cur=reviews['q'+q.id]||{};   // owner 14 Nov (Fix 2): stored by key, shared by every copy
   const next={...(whole?{}:cur),...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};if(q.key)next.key=q.key;
-  RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;_esc={};
+  RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;_esc={};_rk=null;
   if(!db){toast('Not saved: this view has no shared storage');return false}
   try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved');return true}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.');return false}
 }   // true once saved: a report's action (27_reports.js) is recorded only after its review write landed

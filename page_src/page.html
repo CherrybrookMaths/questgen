@@ -56,7 +56,8 @@
     <div class="prhead"><h2>Processes</h2><div class="areasw" id="procSw" role="group" aria-label="Processes view"><button type="button" data-ptab="work" aria-pressed="true">Work</button><button type="button" data-ptab="papers" aria-pressed="false">Papers</button><span class="aslider" aria-hidden="true"></span></div></div>
     <div class="prpane" id="procWork"><section id="procBox" aria-live="polite"></section><section id="notesBox" hidden></section></div>   <!-- owner 14 Nov: running jobs and the queue; owner 13 Nov: "add a place somewhere for me to write down what to flesh out next" = #notesBox (Next up) -->
     <div class="prpane" id="procPapers" hidden><section id="invBox" hidden></section>   <!-- owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next?" = #invBox -->
-      <details class="phist" id="procHist"><summary>Import history</summary><section id="importBox" aria-live="polite"><div class="empty">Loading import progress…</div></section></details></div>
+      <details class="phist" id="procHist"><summary>Import history</summary><section id="importBox" aria-live="polite"><div class="empty">Loading import progress…</div></section></details>
+      <details class="phist" id="procCost"><summary>Costs</summary><section id="costBox" aria-live="polite"><div class="empty">Loading costs…</div></section></details></div>   <!-- owner 21 Nov: "I want to see somewhere the costs logged properly, per paper, per batch total" = #procCost (data/costs.json, tools/costs.py) -->
   </div>
   <div class="desk" id="reviewView" hidden>
     <section class="pane srcpane" aria-label="Source page"><h2 id="srcTitle">Source page</h2><div id="src"></div></section>

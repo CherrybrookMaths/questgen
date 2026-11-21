@@ -126,7 +126,8 @@ def sample_papers():
                        {'key': 'ext2', 'name': 'Mathematics Extension 2', 'short': 'Extension 2', 'ready': False, 'note': setup},
                        {'key': 'standard', 'name': 'Mathematics Standard', 'short': 'Standard', 'ready': False, 'note': setup},
                        {'key': 'unknown', 'name': 'Course not known yet', 'short': 'Course not known', 'ready': False, 'note': 'course not known from the file name: a cover-page check sorts these'}],
-           'cost_per_paper': None, 'groups': groups, 'lanes': [lane], 'proposed': proposed, **sample_drive_known(),
+           # 21 Nov: cost_per_paper is measured (tools/costs.py); the page has no typed-in estimate any more
+           'cost_per_paper': [3, 4], 'groups': groups, 'lanes': [lane], 'proposed': proposed, **sample_drive_known(),
            # owner 16 Nov ("duplicate exams will never be batched and imported right?"): tools/inventory.py held_list
            'held': {'at': '2026-11-16T15:55:39+11:00',
                     'copies': [[9701, 'Abbotsleigh/Yr 12 Adv/Abbotsleigh Yr12 MA 2025 AT1.pdf', '1copyfixture9701aa', 9101, 'Trial Exams/Abbotsleigh 2025 AT1.pdf', '1origfixture9101aa', 9101]],

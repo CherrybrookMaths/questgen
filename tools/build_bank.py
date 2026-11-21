@@ -203,7 +203,12 @@ _HELD = _hold.held_docs()
 if os.environ.get('QG_WITH_HELD') == '1': _HELD = set(); print('build_bank: QG_WITH_HELD=1, held papers INCLUDED (not for publishing)')
 old['questions'] = [q for q in old['questions'] if int(q['doc']) not in _HELD]
 # --- end Fix 2 ---------------------------------------------------------------------------------------------------------------
-out = dict(v=2, built=__import__('datetime').datetime.now().strftime('%Y%m%d%H%M%S'), docs=old['docs'], questions=old['questions'], tables=tables, figs=figs, codes17=codes17)
+# owner 21 Nov ("make sure there's no hanging numbers anywhere which can go stale"): the Guide's database card and data-model diagram
+# read these counts (taken at each build) instead of numbers typed into the page
+_counts = {t: db.execute(f'SELECT count(*) FROM {t}').fetchone()[0] for (t,) in db.execute(
+    "SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name")}
+_counts['_db_mb'] = round(os.path.getsize(paths.DBS) / 2**20, 1)
+out = dict(v=2, built=__import__('datetime').datetime.now().strftime('%Y%m%d%H%M%S'), docs=old['docs'], questions=old['questions'], tables=tables, figs=figs, codes17=codes17, counts=_counts)
 json.dump(out, open(P + 'site/data/bank.json', 'w'), ensure_ascii=False)
 print('questions', len(out['questions']), 'tables', len(tables), 'figs', len(figs), 'svg packs', {k: len(v) for k, v in packs.items()},
       'bank KB', os.path.getsize(P + 'site/data/bank.json') // 1024)

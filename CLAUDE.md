@@ -204,7 +204,7 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
 - **Model trial (16 Nov)**: owner: "skip the trial, I'm getting someone to do it externally". Do not run it here. The Drive
   folder "Model trial 16 Nov" (brief + data pack, no answer key) and MODEL_TRIAL_BRIEF.md (scoring half) stay for whoever does it.
 - **API decision** (run imports through the API or in-session): decide after 1-2 weeks of measured nightly runs (tokens,
-  minutes and failures per paper; inventory.py COST_PER_PAPER is a placeholder).
+  minutes and failures per paper; measured costs per paper and batch: tools/costs.py -> Processes › Papers › Costs, 21 Nov).
 - **Review grouped by batch**: a Next up note in the page (db `notes`).
 - **Paper calls 644 and 377 and Q302**: resolved: all three approved in Review (checked 16 Nov); nothing is waiting there.
 - **Publish manifest vs live**: resolved 16 Nov (v217): the stale project/ copies are gone. publish_set `--live FILE` (one published

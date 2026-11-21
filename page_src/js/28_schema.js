@@ -1,26 +1,27 @@
 /* ===================== Guide: data model diagram (owner 14 Nov) =====================
    Owner: "Show a visual of our db schema and how everything connects". An SVG entity diagram on the Guide's developer page:
    the 11 SQLite tables (solid lines = foreign keys), plus the stores outside the database that link to it by id (dashed):
-   the page database collections, the syllabus file and the published bank.json. Counts as of the last rebuild. */
+   the page database collections, the syllabus file and the published bank.json. Counts are read from the bank (taken at each
+   build, tools/build_bank.py counts; owner 21 Nov: "make sure there's no hanging numbers anywhere which can go stale"). */
 const SCH={W:1220,H:830,w:250,rh:19,hh:30,
  t:[
   // id, title, x, y, rows [name, note, key], count, kind
-  ['documents','documents',20,20,[['id','','pk'],['school · year · task_code',''],['task_type · course',''],['drive_file_id','source PDF'],['status · page_count','']],1632,'db'],
-  ['runs','runs',20,250,[['id','','pk'],['document_id','','fk'],['stage · model',''],['tokens · est_cost_usd','']],78,'db'],
-  ['data_tables','data_tables',20,430,[['id','e.g. T535_1','pk'],['owner_table · owner_id','any row'],['rows_json · spans_json','']],217,'db'],
-  ['questions','questions',330,20,[['id','QID','pk'],['document_id','','fk'],['number · section',''],['question_type','mcq / written'],['stem_latex · marks_total',''],['home_topic','filed under'],['old_syllabus · standard_topic','']],1618,'db'],
-  ['mcq_options','mcq_options',330,250,[['id','','pk'],['question_id','','fk'],['label · latex',''],['is_correct','']],1988,'db'],
-  ['related','related_questions',330,410,[['question_id','','pk'],['related_id','','pk'],['relation · similarity','duplicate / reuse']],80,'db'],
-  ['figures','figures',330,550,[['id','','pk'],['question_id','','fk'],['part_id','→ parts, if one part','fk'],['png_path · tikz_path','crop / redraw'],['redraw_status','']],960,'db'],
-  ['parts','parts',640,20,[['id','','pk'],['question_id','','fk'],['parent_part_id','(i) under (a)','fk'],['label · src_label',''],['latex · marks','']],2626,'db'],
-  ['solutions','solutions',640,210,[['id','','pk'],['part_id','','fk'],['question_id','→ questions','fk'],['source_document_id','→ documents','fk'],['source','school / Claude'],['latex · criteria_json','']],2581,'db'],
-  ['diff','part_difficulty',640,420,[['part_id','','pk'],['band · wm','2–6 · UF/PR'],['nearest_anchor','HSC reference','fk'],['band_ai · owner_band','model vs you'],['source','owner / shifted / model']],2292,'db'],
-  ['tags','tags',950,20,[['id','','pk'],['part_id','','fk'],['question_id','→ questions','fk'],['dot_point','Y12-279','fk'],['is_primary · coverage','main / gate'],['scheme','2024 / 2017']],12625,'db'],
-  ['dots','dotpoints.json',950,240,[['id','Y11-001 … Y12-359','pk'],['focus area · subheading',''],['text · short','']],359,'file'],
+  ['documents','documents',20,20,[['id','','pk'],['school · year · task_code',''],['task_type · course',''],['drive_file_id','source PDF'],['status · page_count','']],'documents','db'],
+  ['runs','runs',20,250,[['id','','pk'],['document_id','','fk'],['stage · model',''],['tokens · est_cost_usd','']],'runs','db'],
+  ['data_tables','data_tables',20,430,[['id','e.g. T535_1','pk'],['owner_table · owner_id','any row'],['rows_json · spans_json','']],'data_tables','db'],
+  ['questions','questions',330,20,[['id','QID','pk'],['document_id','','fk'],['number · section',''],['question_type','mcq / written'],['stem_latex · marks_total',''],['home_topic','filed under'],['old_syllabus · standard_topic','']],'questions','db'],
+  ['mcq_options','mcq_options',330,250,[['id','','pk'],['question_id','','fk'],['label · latex',''],['is_correct','']],'mcq_options','db'],
+  ['related','related_questions',330,410,[['question_id','','pk'],['related_id','','pk'],['relation · similarity','duplicate / reuse']],'related_questions','db'],
+  ['figures','figures',330,550,[['id','','pk'],['question_id','','fk'],['part_id','→ parts, if one part','fk'],['png_path · tikz_path','crop / redraw'],['redraw_status','']],'figures','db'],
+  ['parts','parts',640,20,[['id','','pk'],['question_id','','fk'],['parent_part_id','(i) under (a)','fk'],['label · src_label',''],['latex · marks','']],'parts','db'],
+  ['solutions','solutions',640,210,[['id','','pk'],['part_id','','fk'],['question_id','→ questions','fk'],['source_document_id','→ documents','fk'],['source','school / Claude'],['latex · criteria_json','']],'solutions','db'],
+  ['diff','part_difficulty',640,420,[['part_id','','pk'],['band · wm','2–6 · UF/PR'],['nearest_anchor','HSC reference','fk'],['band_ai · owner_band','model vs you'],['source','owner / shifted / model']],'part_difficulty','db'],
+  ['tags','tags',950,20,[['id','','pk'],['part_id','','fk'],['question_id','→ questions','fk'],['dot_point','Y12-279','fk'],['is_primary · coverage','main / gate'],['scheme','2024 / 2017']],'tags','db'],
+  ['dots','dotpoints.json',950,240,[['id','Y11-001 … Y12-359','pk'],['focus area · subheading',''],['text · short','']],'#dots','file'],
   // owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": review decisions are stored by question key (reviews/k_<key>)
   ['pagedb','Page database',950,380,[['reviews/k_<key>','→ question keys'],['difficulty/<part_id>','your checks'],['exams/<id>','→ questions (list)'],['reports/<id>','→ questions · parts'],['progress/*','jobs · queue · import']],null,'page'],
-  ['mirror','page_* mirror tables',20,580,[['page_reviews','1,066 · → questions'],['page_difficulty','99 · → parts'],['page_exams · …_items','→ questions'],['page_reports','→ questions · parts'],['page_sync','when each was copied']],null,'db'],
-  ['bank','bank.json',950,600,[['questions[]','built from all tables'],['parts[].dif','difficulty'],['docs · tables','']],1618,'file']],
+  ['mirror','page_* mirror tables',20,580,[['page_reviews','→ questions'],['page_difficulty','→ parts'],['page_exams · …_items','→ questions'],['page_reports','→ questions · parts'],['page_sync','when each was copied']],null,'db'],
+  ['bank','bank.json',950,600,[['questions[]','built from all tables'],['parts[].dif','difficulty'],['docs · tables','']],'#bank','file']],
  e:[ // from table, from row index, to table, to row index, style, label
   ['runs',1,'documents',0,'fk'],['questions',1,'documents',0,'fk'],['mcq','',0],
   ['mcq_options',1,'questions',0,'fk'],['related',0,'questions',0,'fk'],['related',1,'questions',0,'fk'],
@@ -29,7 +30,8 @@ const SCH={W:1220,H:830,w:250,rh:19,hh:30,
   ['diff',0,'parts',0,'fk'],['diff',2,'diff',0,'self'],['tags',1,'parts',0,'fk'],['tags',3,'dots',0,'link'],
   ['data_tables',1,'questions',0,'poly'],['pagedb',1,'diff',0,'link'],['pagedb',0,'mirror',0,'sync']].filter(x=>x.length>=5)};
 function schemaSVG(){const {w,rh,hh}=SCH,B={};
-  SCH.t.forEach(([id,title,x,y,rows,n,kind])=>{B[id]={id,title,x,y,rows,n,kind,h:hh+rows.length*rh+8}});
+  const cnt=k=>typeof k!=='string'?k:k==='#dots'?DOTS.length:k==='#bank'?QG.bank?.questions?.length??null:(QG.bank?.counts||{})[k]??null;
+  SCH.t.forEach(([id,title,x,y,rows,n,kind])=>{B[id]={id,title,x,y,rows,n:cnt(n),kind,h:hh+rows.length*rh+8}});
   const ry=(b,i)=>b.y+hh+i*rh+rh/2+2;
   let edges='';
   SCH.e.forEach(([f,fi,t,ti,st])=>{const a=B[f],b=B[t];if(!a||!b)return;const y1=ry(a,fi),y2=b.y+hh/2;let d;

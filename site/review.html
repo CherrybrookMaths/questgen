@@ -2059,6 +2059,13 @@ a.plink:hover{text-decoration:underline}
 /* owner 17 Nov: Needs a check asks for the HSC year when the name and cover give none */
 .procs .pr-res.pr-warn{color:var(--warn,#b45309)}
 .procs .pr-year{width:7.5em;min-height:36px;padding:4px 8px;font:inherit;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink)}
+/* Processes › Papers › Costs (21 Nov) */
+#costBox .pr-ct{width:100%;border-collapse:collapse;font-size:13.5px;font-variant-numeric:tabular-nums;margin:8px 0}
+#costBox .pr-ct th,#costBox .pr-ct td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left}
+#costBox .pr-ct th{font:600 12px var(--sans);color:var(--muted)}#costBox .pr-ct .n{text-align:right}
+#costBox .pr-ct tfoot th{color:var(--ink);border-bottom:0}#costBox .pr-cd>td{background:var(--bg);padding:8px 12px}
+#costBox .pr-cp{margin:4px 0 0;font-size:13px}#costBox .pr-cnote,#costBox .pr-cst{color:var(--muted);font-size:13px;margin:6px 0}
+#costBox .pr-ch{margin:14px 0 4px;font:600 13px var(--sans)}#costBox .pr-co{margin:0;padding-left:18px;font-size:13px}
 /* Bank topic transitions (owner 13 Nov: "animation going between all topics and a subtopic"); see bankGo in 07_bank.js */
 #list{view-transition-name:bk-list}
 ::view-transition-old(bk-list),::view-transition-new(bk-list){animation-duration:.3s;animation-timing-function:cubic-bezier(.2,.7,.2,1);animation-fill-mode:both}
@@ -2131,7 +2138,8 @@ html[data-bkdir=fade]::view-transition-new(bk-list){animation:bk-fade-in .18s ea
     <div class="prhead"><h2>Processes</h2><div class="areasw" id="procSw" role="group" aria-label="Processes view"><button type="button" data-ptab="work" aria-pressed="true">Work</button><button type="button" data-ptab="papers" aria-pressed="false">Papers</button><span class="aslider" aria-hidden="true"></span></div></div>
     <div class="prpane" id="procWork"><section id="procBox" aria-live="polite"></section><section id="notesBox" hidden></section></div>   <!-- owner 14 Nov: running jobs and the queue; owner 13 Nov: "add a place somewhere for me to write down what to flesh out next" = #notesBox (Next up) -->
     <div class="prpane" id="procPapers" hidden><section id="invBox" hidden></section>   <!-- owner 13 Nov: "Can the import queue be dynamic, me choosing which set of papers to import next?" = #invBox -->
-      <details class="phist" id="procHist"><summary>Import history</summary><section id="importBox" aria-live="polite"><div class="empty">Loading import progress…</div></section></details></div>
+      <details class="phist" id="procHist"><summary>Import history</summary><section id="importBox" aria-live="polite"><div class="empty">Loading import progress…</div></section></details>
+      <details class="phist" id="procCost"><summary>Costs</summary><section id="costBox" aria-live="polite"><div class="empty">Loading costs…</div></section></details></div>   <!-- owner 21 Nov: "I want to see somewhere the costs logged properly, per paper, per batch total" = #procCost (data/costs.json, tools/costs.py) -->
   </div>
   <div class="desk" id="reviewView" hidden>
     <section class="pane srcpane" aria-label="Source page"><h2 id="srcTitle">Source page</h2><div id="src"></div></section>
@@ -2233,7 +2241,7 @@ Object.assign(QG,{
   ready(v){return !QG.bank||v==='bank'||QG.detOK},
   // caches built from the index are rebuilt with the full fields, then the open view is drawn again
   onDet(){TOPICS=null;
-    for(const f of [()=>{_clean=null;_esc={};_dupm=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear()])try{f()}catch(e){}
+    for(const f of [()=>{_clean=null;_esc={};_rk=null;_dupm=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear()])try{f()}catch(e){}
     QG.waitNote();route();QG.fill()},
   wait(){QG.waitNote();QG.det()},   // onDet draws the view when they land
   // one notice while a view waits for the details (or they failed to load)
@@ -2845,7 +2853,7 @@ const STEPS=[['decide','Your calls','Calls only you can make: a correction to a 
   ['check','Flagged','The automatic checks or the independent maths checker could not clear these (and every table). Compare with the source page: each one says why and what to look at.'],
   ['tags','Topics','The tagger and the checker would file these under different topics. Pick the right home from the question: 1 tagger, 2 checker, F another dot point. Gates are automatic.'],
   ['diagrams','Diagrams','Each redrawn diagram beside its original. A approves, F flags (type the reason, Enter sends), K next, J back.'],
-  ['sample','Spot-check','A random 10% of the questions that passed every check. When they are all fine, approve the rest of the paper in one click.']];
+  ['sample','Spot-check','A random sample of the questions that passed every check. When they are all fine, approve the rest of the paper in one click.']];
 const SLUG={decide:'calls',check:'flagged',tags:'topics',diagrams:'diagrams',sample:'spot-check'};   // #review/paper/<doc>/<slug>
 const UNSLUG=Object.fromEntries(Object.entries(SLUG).map(([k,v])=>[v,k]));
 const stepLabel=k=>(STEPS.find(x=>x[0]===k)||FILTERS.find(x=>x[0]===k)||[,k])[1];
@@ -2935,9 +2943,18 @@ function isTodo(q,f){if(q.dup_of)return false;if(f==='tags')return !reviews['q'+
   if(f==='decide')return reviews['q'+q.id]?.status!=='approved'||callOpen(q);if(f==='diagrams')return chkFigs(q).some(k=>!reviews['q'+q.id]?.fig?.[k]);if(f==='check'||f==='sample')return !reviews['q'+q.id]?.status;if(f==='back')return backQ(q);if(f==='waiting')return waitQ(q);if(f==='redone')return Object.keys(reviews['q'+q.id]?.fig_done||{}).some(k=>!figDec(q,k));if(f==='changes')return qFigs(q).some(k=>figDec(q,k)==='changes');if(f==='generated')return qGen(q).some(s=>!solDec(q,s));return !reviews['q'+q.id]?.status}
 function statusOK(q){const r=reviews['q'+(q.dup_of||q.id)];if(rstatus==='any')return true;if(rstatus==='todo')return isTodo(q,rfilter);return r?.status===rstatus}
 let pendingOpen=null;
-// owner 12 Nov: diagram confidence by type, from first-look flag rates (297 reviewed). Riskiest first in the Diagrams queue.
-const RISK={table:['Low',3,'tables: 80% flagged'],table_drawn:['Low',3,'tables: 80% flagged'],'geometry·s':['Low',3,'geometry solution sketches: 64% flagged'],'other·s':['Low',3,'other solution sketches: 44% flagged'],'tree·s':['Low',3,'tree diagrams: few reviewed'],tree:['Low',3,'tree diagrams: few reviewed'],'graph·s':['Medium',2,'graph solution sketches: 18% flagged'],'statistical·s':['Medium',2,'statistical solution sketches'],statistical:['Medium',2,'statistical: 14% flagged'],geometry:['Medium',2,'geometry: 13% flagged'],graph:['High',1,'question graphs: spot-check (48 of 50 approved)'],blank_axes:['High',1,'blank axes: spot-check'],other:['Medium',2,'other diagrams'],photo:['Medium',2,'photos']};
-function figRisk(k){const f=B.figs[k]||{};const c=f.status==='table'?'table':(f.cls||'other');return RISK[c+(/_s\d+$/.test(k)?'·s':'')]||RISK[c]||['Medium',2,'']}
+// owner 12 Nov: diagram confidence by type, from first-look flag rates (297 reviewed then). Riskiest first in the Diagrams queue.
+// The levels stay as set; the "n of m flagged" shown with them is counted live from Review's decisions (owner 21 Nov: "make sure
+// there's no hanging numbers anywhere which can go stale"; the 12 Nov percentages were typed in)
+const RISK={table:['Low',3,'tables'],table_drawn:['Low',3,'tables'],'geometry·s':['Low',3,'geometry solution sketches'],'other·s':['Low',3,'other solution sketches'],'tree·s':['Low',3,'tree diagrams'],tree:['Low',3,'tree diagrams'],'graph·s':['Medium',2,'graph solution sketches'],'statistical·s':['Medium',2,'statistical solution sketches'],statistical:['Medium',2,'statistical'],geometry:['Medium',2,'geometry'],graph:['High',1,'question graphs (spot-checked)'],blank_axes:['High',1,'blank axes (spot-checked)'],other:['Medium',2,'other diagrams'],photo:['Medium',2,'photos']};
+const riskKey=k=>{const f=B.figs[k]||{};const c=f.status==='table'?'table':(f.cls||'other');const s=c+(/_s\d+$/.test(k)?'·s':'');return RISK[s]?s:RISK[c]?c:null};
+function figRisk(k){const r=RISK[riskKey(k)];return r||['Medium',2,'']}
+// flagged = a change was asked for (now or before a fix); decided = approved or flagged. Cached with _esc (cleared with _clean)
+let _rk=null;function riskTxt(k){const key=riskKey(k),r=RISK[key];if(!r)return '';
+  if(!_rk){_rk={};const seen=new Map();   // each diagram once (Review holds copies of a decision under several keys)
+    Object.values(reviews).forEach(v=>{if(!v?.fig&&!v?.fig_done)return;new Set([...Object.keys(v.fig||{}),...Object.keys(v.fig_done||{})]).forEach(f=>seen.set(f,seen.get(f)||v.fig?.[f]==='changes'||!!v.fig_done?.[f]))});
+    seen.forEach((fl,f)=>{const g=riskKey(f);if(!g)return;const t=_rk[g]=_rk[g]||[0,0];t[1]++;if(fl)t[0]++})}
+  const [fl,n]=_rk[key]||[0,0];return `${r[2]}: ${n?`${fl} of ${n} reviewed were flagged`:'none reviewed yet'}`}
 function qRisk(q){return Math.max(0,...chkFigs(q).map(k=>figRisk(k)[1]))}
 // owner 12 Nov: "where do i go and batch approve the rest?" -> papers whose spot-check is clean, approvable from the Review header
 function paperReady(doc){doc=String(doc);const qs=B.questions.filter(q=>String(q.doc)===doc&&!q.dup_of),smp=qs.filter(q=>q.tri?.tier==='sample'),rest=qs.filter(q=>q.tri?.tier==='auto'&&!reviews['q'+q.id]?.status);
@@ -3202,13 +3219,15 @@ const FLR={runs:[],sub:0,
   last(){return this.runs.slice().sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null},
   async ask(){if(!db){toast('Needs the shared database (open the page in claude.ai)');return}const id='flags_'+Date.now(),doc={kind:'flags',status:'requested',by:QG.me||null,at:new Date().toISOString()};
     try{await db.doc('runs/'+id).set(doc);this.runs.push({id,...doc});toast('Sent to Claude');renderReview()}catch(e){toast('Could not send. Try again in a moment.')}}};
-const FLR_WHEN='Claude checks every hour, 9 am to 4 pm on Monday, Tuesday, Wednesday and Friday; otherwise at the 10:11 pm night run.';
+// when Claude picks a request up: read from the page database (progress/night: flagcheck, written when the scheduled check changes,
+// and time, the night run's), not typed in (owner 21 Nov: "make sure there's no hanging numbers anywhere which can go stale")
+const FLR_WHEN=()=>`Claude checks ${esc(QG.night?.flagcheck||'during the checker\'s shift')}; otherwise at the night run${QG.night?.time?` (${esc(QG.night.time)})`:''}.`;
 function handoffHTML(){const [n,nq]=pendingFlags();FLR.watch();const r=FLR.last(),act=r&&(r.status==='requested'||r.status==='running');
   const t=x=>x?new Date(x).toLocaleString('en-AU',{weekday:'short',hour:'numeric',minute:'2-digit'}):'';
-  const st=act?(r.status==='running'?`<b>Claude is fixing them</b> (started ${t(r.started||r.at)}). They come back under "Fixed and back for you".`:`<b>Sent to Claude</b> ${t(r.at)}. ${FLR_WHEN}`)
+  const st=act?(r.status==='running'?`<b>Claude is fixing them</b> (started ${t(r.started||r.at)}). They come back under "Fixed and back for you".`:`<b>Sent to Claude</b> ${t(r.at)}. ${FLR_WHEN()}`)
     :r&&r.status==='done'&&Date.now()-Date.parse(r.done_at||r.at)<864e5?`Last run ${t(r.done_at)}: ${esc(r.result||'done')}.`:'';
   if(!n&&!act)return st?`<div class="handoff">${st}</div>`:'';
-  return `<div class="handoff${act?'':' due'}"><b>${n} flag${n===1?'':'s'} waiting for Claude</b> <span class="muted">(${nq} question${nq===1?'':'s'})</span>${act?` · ${st}`:` <button type="button" class="act ok" data-flr>Fix my flags now</button><span class="muted"> ${FLR_WHEN}</span>${st?` ${st}`:''}`}</div>`}
+  return `<div class="handoff${act?'':' due'}"><b>${n} flag${n===1?'':'s'} waiting for Claude</b> <span class="muted">(${nq} question${nq===1?'':'s'})</span>${act?` · ${st}`:` <button type="button" class="act ok" data-flr>Fix my flags now</button><span class="muted"> ${FLR_WHEN()}</span>${st?` ${st}`:''}`}</div>`}
 document.addEventListener('click',e=>{if(e.target.closest?.('[data-flr]')){const b=e.target.closest('[data-flr]');b.disabled=true;FLR.ask()}});
 function renderDiag(){
   const q=rlist[ridx];
@@ -3218,7 +3237,7 @@ function renderDiag(){
   const ks=chkFigs(q), r=reviews['q'+q.id]||{};
   $('#rout').innerHTML=handoffHTML()+`<div class="dwrap"><div class="dmain">
     <div class="row"><b style="font-size:18px">${qid(q)}</b><span class="muted">${esc(srcLine(q))} · ${ks.length} diagram${ks.length>1?'s':''}</span></div>
-    ${ks.map((k,i)=>{const f=B.figs[k],dec=r.fig?.[k];return `<div class="dq${dec?' decided':''}"><div class="dnum">${ks.length>1?`<kbd>${i+1}</kbd> Diagram ${i+1} of ${ks.length} · `:''}${/_s\d+$/.test(k)?'solution':'question'} · <span class="conf c${figRisk(k)[1]}" title="${esc(figRisk(k)[2])}">${figRisk(k)[0]} confidence</span> <span class="muted">${esc(figRisk(k)[2])}</span></div><div class="cmp"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>${f.status==='table'?'As a table':'Redrawn'}</figcaption>${f.status==='table'?dtHTML(f.table,{blank:true}):`<img class="fig" alt="Redrawn" data-k="${k}" data-kind="svg">`}</figure></div>
+    ${ks.map((k,i)=>{const f=B.figs[k],dec=r.fig?.[k];return `<div class="dq${dec?' decided':''}"><div class="dnum">${ks.length>1?`<kbd>${i+1}</kbd> Diagram ${i+1} of ${ks.length} · `:''}${/_s\d+$/.test(k)?'solution':'question'} · <span class="conf c${figRisk(k)[1]}" title="${esc(riskTxt(k))}">${figRisk(k)[0]} confidence</span> <span class="muted">${esc(figRisk(k)[2])}</span></div><div class="cmp"><figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure><figure><figcaption>${f.status==='table'?'As a table':'Redrawn'}</figcaption>${f.status==='table'?dtHTML(f.table,{blank:true}):`<img class="fig" alt="Redrawn" data-k="${k}" data-kind="svg">`}</figure></div>
       ${dec?`<span class="badge ${dec==='approved'?'b-ok':'b-bad'}">${dec==='approved'?'approved':'flagged: '+esc(r.fig_notes?.[k]||'')}</span>`:''}${f.notes?`<details class="help"><summary>What the redraw changed</summary>${esc(f.notes).split(' | ').slice(-2).map(x=>`<div>${x}</div>`).join('')}</details>`:''}</div>`}).join('')}
     <details class="help"><summary>Question text</summary><div class="qtext">${qBody(q,'review')}</div></details>
     <div class="row keys"><button class="act ok" id="dA"><kbd>A</kbd> Approve</button><button class="act warn" id="dF"><kbd>F</kbd> Flag</button><span class="help"><kbd>J</kbd> previous · <kbd>K</kbd> next</span></div>
@@ -3367,7 +3386,7 @@ function renderReview(){RUNDO.render();
 async function write(q,patch,whole){   // whole: patch is the entire record (Undo puts back the record as it was, 36_undo.js)
   const key=RKEY.qdoc(q); const cur=reviews['q'+q.id]||{};   // owner 14 Nov (Fix 2): stored by key, shared by every copy
   const next={...(whole?{}:cur),...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};if(q.key)next.key=q.key;
-  RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;_esc={};
+  RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;_esc={};_rk=null;
   if(!db){toast('Not saved: this view has no shared storage');return false}
   try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved');return true}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.');return false}
 }   // true once saved: a report's action (27_reports.js) is recorded only after its review write landed
@@ -3638,6 +3657,30 @@ function renderProcesses(){const box=$('#procBox'),pv=$('#processesView');if(!bo
   if(typeof renderNotes==='function')renderNotes()}   // 31_notes.js loads in a later script block; the user answer can arrive before it
 fetch('data/progress.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(p=>{if(p&&!PROG){PROG=p;if(view==='processes')renderImport()}}).catch(()=>{});
 setInterval(()=>{if(view==='processes')renderProcesses()},60000);   // keeps the "12 min ago" times fresh
+/* Costs (owner 21 Nov: "I want to see somewhere the costs logged properly, per paper, per batch total", "Yeah build it"):
+   Processes › Papers › Costs. Everything comes from data/costs.json (tools/costs.py, built from every logged API call); nothing
+   here is typed in. Loaded when the section opens. */
+const COST={d:null,open:new Set(),
+  load(){if(COST.d)return Promise.resolve(COST.d);return fetch(QG.url('data/costs.json',Date.now())).then(r=>r.ok?r.json():null).then(d=>COST.d=d).catch(()=>null)},
+  usd:x=>'US$'+(+x).toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2}),
+  steps:s=>Object.entries(s||{}).map(([k,v])=>`${esc(k)} ${COST.usd(v)}`).join(' · '),
+  render(){const el=$('#costBox');if(!el)return;const d=COST.d;if(!d){el.innerHTML='<div class="empty">No cost log yet.</div>';return}
+    const mon=Object.entries(d.months||{}),cur=mon.length?mon[mon.length-1]:null,pp=d.per_paper;
+    const row=b=>{const op=COST.open.has(b.n);return `<tr class="pr-cb"><td><button type="button" class="linkbtn" data-costb="${b.n}" aria-expanded="${op}">Batch ${b.n}</button></td><td>${esc(b.date)}</td>
+      <td class="n">${b.papers.length}</td><td class="n">${b.questions.toLocaleString('en-AU')}</td><td class="n"><b>${COST.usd(b.usd)}</b></td><td class="n">${COST.usd(b.per_paper)}</td><td class="n">${b.per_question!=null?COST.usd(b.per_question):'–'}</td></tr>
+      ${op?`<tr class="pr-cd"><td colspan="7"><p class="pr-cst">By step: ${COST.steps(b.steps)}${b.shared_usd?` · not tied to one paper ${COST.usd(b.shared_usd)}`:''}</p>
+        <table class="pr-ct pr-cp"><thead><tr><th>Paper</th><th class="n">Questions</th><th class="n">Cost</th><th class="n">Per question</th></tr></thead><tbody>
+        ${b.papers.map(p=>`<tr><td>${esc(p.label)}</td><td class="n">${p.questions}</td><td class="n">${COST.usd(p.usd)}</td><td class="n">${p.questions?COST.usd(p.usd/p.questions):'–'}</td></tr>`).join('')}</tbody></table></td></tr>`:''}`};
+    const unmetered=d.first_api_batch>1?`<p class="pr-cnote">Batches 1–${d.first_api_batch-1} ran inside Claude sessions before the API, so they have no per-call cost (not metered).</p>`:'';
+    el.innerHTML=`<p class="pr-cnote">Every API call is logged with its paper and step. ${pp?`Average ${COST.usd(pp.mean)} a paper (batches range ${COST.usd(pp.lo)}–${COST.usd(pp.hi)}).`:''}
+      ${cur?` This month ${COST.usd(cur[1])} of the ${COST.usd(d.limit_usd)} monthly limit.`:''} Updated ${esc(String(d.made||'').replace('T',' '))}.</p>
+      <table class="pr-ct"><thead><tr><th>Batch</th><th>Date</th><th class="n">Papers</th><th class="n">Questions</th><th class="n">Total</th><th class="n">Per paper</th><th class="n">Per question</th></tr></thead>
+      <tbody>${d.batches.map(row).join('')}</tbody><tfoot><tr><th colspan="4">All batches</th><th class="n">${COST.usd(d.batch_usd)}</th><th colspan="2"></th></tr></tfoot></table>
+      ${(d.other||[]).length?`<h4 class="pr-ch">Other API spend</h4><ul class="pr-co">${d.other.map(o=>`<li>${esc(o.name)}: ${esc((o.steps||[]).join(', '))} · ${o.papers} papers · ${esc(o.from)}${o.to!==o.from?'–'+esc(o.to):''} · <b>${COST.usd(o.usd)}</b></li>`).join('')}</ul>`:''}
+      <p class="pr-cnote">All API spend: ${COST.usd(d.total_usd)}${mon.length>1?' ('+mon.map(([m,v])=>`${esc(m)} ${COST.usd(v)}`).join(', ')+')':''}.</p>${unmetered}`}};
+document.addEventListener('toggle',e=>{if(e.target.id==='procCost'&&e.target.open)COST.load().then(()=>COST.render())},true);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-costb]');if(b){const n=+b.dataset.costb;COST.open.has(n)?COST.open.delete(n):COST.open.add(n);COST.render();return}
+  if(e.target.closest('[data-costopen]')){e.preventDefault();const d=$('#procCost');if(d){d.open=true;d.scrollIntoView({block:'start'})}}});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-paperok]');if(b)approvePaper(b.dataset.paperok)});
 window.addEventListener('hashchange',route);
 // owner 12 Nov: "show somewhere on the artifact things which are running so I know". Source: db doc progress/jobs, written by Claude
@@ -3739,7 +3782,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
     if(dbns){try{dbns.doc('progress/night').onSnapshot(d=>{const v=QG.val(d);QG.night=v||null;if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
     if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=QG.val(d);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
     if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=QG.val(d);if(v){PROG=v;if(view==='processes'&&QG.ready(view))renderImport()}},()=>{})}catch(e){}}
-    if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=RKEY.index(nx);TOPICS=null;_clean=null;_esc={};
+    if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=RKEY.index(nx);TOPICS=null;_clean=null;_esc={};_rk=null;
       updateCounts(); if(!QG.ready(view))return; if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='reports'&&typeof renderReports==='function') renderReports(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh(); else if(view==='processes'){renderImport();let pq=null;try{pq=PQ}catch(e){}if(pq){pq.redraw();pq.run.draw()}}},()=>{})}   // Import history counts approved questions too (bankStats); owner 14 Nov: the lanes' cleared / waiting squares and the queue's waiting count follow Review live (PQ is read guarded: an early snapshot can arrive before 32_papers_q.js has run)
   }catch(e){}
 })();
@@ -5060,7 +5103,11 @@ const GUIDE_EX=[
  [979,'Needs vs can use','Expected value and the probability distribution are needed for the marks (gates). Calculus for the maximum is one valid method among others (the vertex of a parabola also works), so it is "can use": it lists the question under that skill for practice but never hides it.'],
  [191,'Removed from the syllabus','3D trigonometry is no longer in Mathematics Advanced (now Year 11 Extension 1), so the question is marked old syllabus and kept out of Advanced topic lists.'],
  [228,'Standard course content','Bivariate data analysis is in Mathematics Standard, not Advanced. The question keeps its Standard topic so it can be used when the bank grows to Standard.']];
-const G2_DB={tables:[['questions',1618],['parts',2626],['tags',12625],['solutions',2581],['mcq_options',1988],['figures',960],['data_tables',217],['documents',1632],['part_difficulty',2292]],asof:'14 Nov 2026'};
+// owner 21 Nov ("make sure there's no hanging numbers anywhere which can go stale"): row counts and size come from the bank build
+// (tools/build_bank.py counts), with the build date; they were typed in on 14 Nov
+const G2_DB=()=>{const c=QG.bank?.counts||{},b=String(QG.bank?.built||''),d=b.length>=8?new Date(+b.slice(0,4),+b.slice(4,6)-1,+b.slice(6,8)):null;
+  return {tables:['questions','parts','tags','solutions','mcq_options','figures','data_tables','documents','part_difficulty'].filter(t=>c[t]!=null).map(t=>[t,c[t]]),
+    mb:c._db_mb,asof:d?d.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'}):''}};
 function g2Stats(){const qs=B.questions.filter(q=>!q.dup_of&&!q.old&&!q.std);const areas={},subs=new Set();let filed=0;
   qs.forEach(q=>{const h=qHome(q);if(!h||!h.startsWith('sub:'))return;filed++;const [yl,fa,sb]=h.slice(4).split('|');subs.add(h);const k=yl+'|'+fa;areas[k]=(areas[k]||0)+1});
   const parts=[];qs.forEach(q=>q.parts.forEach(p=>{if(p.dif)parts.push({p,q})}));
@@ -5166,14 +5213,14 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
   </div><div class="g2pg2">
   <section id="g2-now" class="g2sec"><h3>1 · The system today</h3>
     <div class="g2flow">${[['Source PDFs','Google Drive'],['Parse','AI, per paper'],['Load','SQLite'],['Tag','2 taggers + check'],['Solutions','format · write'],['Diagrams','TikZ redraw'],['Check','independent'],['Build','bank.json'],['Questgen','this page']].map(([a,b],i)=>`${i?'<span class="g2arr" aria-hidden="true">→</span>':''}<div class="g2st${i===8?' hl':''}"><b>${a}</b><span>${b}</span></div>`).join('')}</div>
-    <p class="g2cap">Steps 2–8 run in Claude sessions with Python tools (${'58'} scripts). Every step has a written spec.</p>
+    <p class="g2cap">Steps 2–8 run in Claude sessions with the Python tools in <code>tools/</code>. Every step has a written spec.</p>
     <div class="g2stores">
-      <div class="g2card"><div class="g2k">Master data</div><b>questions.db</b><span>SQLite · 7 MB · ${G2_DB.asof}</span><table class="g2mini">${G2_DB.tables.map(([t,n])=>`<tr><td>${t}</td><td>${n.toLocaleString()}</td></tr>`).join('')}</table></div>
-      <div class="g2card"><div class="g2k">Published with the page</div><b>Page files</b><span>Static, rebuilt from the database</span><table class="g2mini"><tr><td>Question index</td><td>0.1 MB at start</td></tr><tr><td>Question text</td><td>per topic</td></tr><tr><td>Page images</td><td>102 MB</td></tr><tr><td>Diagrams (SVG)</td><td>36 MB</td></tr><tr><td>Specs + tools</td><td>GitHub</td></tr></table></div>
+      <div class="g2card"><div class="g2k">Master data</div><b>questions.db</b><span>${(g=>`SQLite${g.mb?` · ${g.mb} MB`:''}${g.asof?` · at the build of ${esc(g.asof)}`:''}`)(G2_DB())}</span><table class="g2mini">${G2_DB().tables.map(([t,n])=>`<tr><td>${t}</td><td>${n.toLocaleString()}</td></tr>`).join('')}</table></div>
+      <div class="g2card"><div class="g2k">Published with the page</div><b>Page files</b><span>Static, rebuilt from the database</span><table class="g2mini"><tr><td>Question index</td><td>small, at start</td></tr><tr><td>Question text</td><td>per topic</td></tr><tr><td>Page images</td><td>per paper, while in review</td></tr><tr><td>Diagrams (SVG)</td><td>asset store</td></tr><tr><td>Specs + tools</td><td>GitHub</td></tr></table></div>
       <div class="g2card"><div class="g2k">Written from the page</div><b>Page database</b><span>Shared, in claude.ai</span><table class="g2mini"><tr><td colspan="2" style="color:var(--accent)">Mirrored into questions.db (page_*)</td></tr><tr><td>reviews</td><td>approvals, flags</td></tr><tr><td>difficulty</td><td>your checks</td></tr><tr><td>exams</td><td>saved exams</td></tr><tr><td>reports</td><td>question reports</td></tr><tr><td>progress</td><td>jobs, queue, import</td></tr></table></div>
       <div class="g2card"><div class="g2k">Backup</div><b>Google Drive</b><span>Database, files, review export</span><table class="g2mini"><tr><td>When</td><td>after major changes</td></tr><tr><td>How</td><td>by Claude, on request</td></tr></table></div></div>
     <h4>Limits today</h4>
-    <div class="g2lim">${[['Access','claude.ai accounts only, shared by invitation'],['Updates','Content changes need a Claude session, then a republish'],['Printing','Download, then print from the browser'],['Data','Page decisions are copied into the database at each rebuild (sync_pagedb.py), not live'],['Scale','One page, ~150 MB of files (256 MB cap); a small index loads at start, question text per topic']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>
+    <div class="g2lim">${[['Access','claude.ai accounts only, shared by invitation'],['Updates','Content changes need a Claude session, then a republish'],['Printing','Download, then print from the browser'],['Data','Page decisions are copied into the database at each rebuild (sync_pagedb.py), not live'],['Scale','One page, under the 256 MB platform cap; a small index loads at start, question text per topic']].map(([a,b])=>`<div><b>${a}</b><span>${b}</span></div>`).join('')}</div>
   </section>
 
   <section id="g2-data" class="g2sec"><h3>2 · Data model</h3>
@@ -5484,26 +5531,27 @@ if(typeof view!=='undefined'&&view==='reports'&&B)renderReports();
 /* ===================== Guide: data model diagram (owner 14 Nov) =====================
    Owner: "Show a visual of our db schema and how everything connects". An SVG entity diagram on the Guide's developer page:
    the 11 SQLite tables (solid lines = foreign keys), plus the stores outside the database that link to it by id (dashed):
-   the page database collections, the syllabus file and the published bank.json. Counts as of the last rebuild. */
+   the page database collections, the syllabus file and the published bank.json. Counts are read from the bank (taken at each
+   build, tools/build_bank.py counts; owner 21 Nov: "make sure there's no hanging numbers anywhere which can go stale"). */
 const SCH={W:1220,H:830,w:250,rh:19,hh:30,
  t:[
   // id, title, x, y, rows [name, note, key], count, kind
-  ['documents','documents',20,20,[['id','','pk'],['school · year · task_code',''],['task_type · course',''],['drive_file_id','source PDF'],['status · page_count','']],1632,'db'],
-  ['runs','runs',20,250,[['id','','pk'],['document_id','','fk'],['stage · model',''],['tokens · est_cost_usd','']],78,'db'],
-  ['data_tables','data_tables',20,430,[['id','e.g. T535_1','pk'],['owner_table · owner_id','any row'],['rows_json · spans_json','']],217,'db'],
-  ['questions','questions',330,20,[['id','QID','pk'],['document_id','','fk'],['number · section',''],['question_type','mcq / written'],['stem_latex · marks_total',''],['home_topic','filed under'],['old_syllabus · standard_topic','']],1618,'db'],
-  ['mcq_options','mcq_options',330,250,[['id','','pk'],['question_id','','fk'],['label · latex',''],['is_correct','']],1988,'db'],
-  ['related','related_questions',330,410,[['question_id','','pk'],['related_id','','pk'],['relation · similarity','duplicate / reuse']],80,'db'],
-  ['figures','figures',330,550,[['id','','pk'],['question_id','','fk'],['part_id','→ parts, if one part','fk'],['png_path · tikz_path','crop / redraw'],['redraw_status','']],960,'db'],
-  ['parts','parts',640,20,[['id','','pk'],['question_id','','fk'],['parent_part_id','(i) under (a)','fk'],['label · src_label',''],['latex · marks','']],2626,'db'],
-  ['solutions','solutions',640,210,[['id','','pk'],['part_id','','fk'],['question_id','→ questions','fk'],['source_document_id','→ documents','fk'],['source','school / Claude'],['latex · criteria_json','']],2581,'db'],
-  ['diff','part_difficulty',640,420,[['part_id','','pk'],['band · wm','2–6 · UF/PR'],['nearest_anchor','HSC reference','fk'],['band_ai · owner_band','model vs you'],['source','owner / shifted / model']],2292,'db'],
-  ['tags','tags',950,20,[['id','','pk'],['part_id','','fk'],['question_id','→ questions','fk'],['dot_point','Y12-279','fk'],['is_primary · coverage','main / gate'],['scheme','2024 / 2017']],12625,'db'],
-  ['dots','dotpoints.json',950,240,[['id','Y11-001 … Y12-359','pk'],['focus area · subheading',''],['text · short','']],359,'file'],
+  ['documents','documents',20,20,[['id','','pk'],['school · year · task_code',''],['task_type · course',''],['drive_file_id','source PDF'],['status · page_count','']],'documents','db'],
+  ['runs','runs',20,250,[['id','','pk'],['document_id','','fk'],['stage · model',''],['tokens · est_cost_usd','']],'runs','db'],
+  ['data_tables','data_tables',20,430,[['id','e.g. T535_1','pk'],['owner_table · owner_id','any row'],['rows_json · spans_json','']],'data_tables','db'],
+  ['questions','questions',330,20,[['id','QID','pk'],['document_id','','fk'],['number · section',''],['question_type','mcq / written'],['stem_latex · marks_total',''],['home_topic','filed under'],['old_syllabus · standard_topic','']],'questions','db'],
+  ['mcq_options','mcq_options',330,250,[['id','','pk'],['question_id','','fk'],['label · latex',''],['is_correct','']],'mcq_options','db'],
+  ['related','related_questions',330,410,[['question_id','','pk'],['related_id','','pk'],['relation · similarity','duplicate / reuse']],'related_questions','db'],
+  ['figures','figures',330,550,[['id','','pk'],['question_id','','fk'],['part_id','→ parts, if one part','fk'],['png_path · tikz_path','crop / redraw'],['redraw_status','']],'figures','db'],
+  ['parts','parts',640,20,[['id','','pk'],['question_id','','fk'],['parent_part_id','(i) under (a)','fk'],['label · src_label',''],['latex · marks','']],'parts','db'],
+  ['solutions','solutions',640,210,[['id','','pk'],['part_id','','fk'],['question_id','→ questions','fk'],['source_document_id','→ documents','fk'],['source','school / Claude'],['latex · criteria_json','']],'solutions','db'],
+  ['diff','part_difficulty',640,420,[['part_id','','pk'],['band · wm','2–6 · UF/PR'],['nearest_anchor','HSC reference','fk'],['band_ai · owner_band','model vs you'],['source','owner / shifted / model']],'part_difficulty','db'],
+  ['tags','tags',950,20,[['id','','pk'],['part_id','','fk'],['question_id','→ questions','fk'],['dot_point','Y12-279','fk'],['is_primary · coverage','main / gate'],['scheme','2024 / 2017']],'tags','db'],
+  ['dots','dotpoints.json',950,240,[['id','Y11-001 … Y12-359','pk'],['focus area · subheading',''],['text · short','']],'#dots','file'],
   // owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": review decisions are stored by question key (reviews/k_<key>)
   ['pagedb','Page database',950,380,[['reviews/k_<key>','→ question keys'],['difficulty/<part_id>','your checks'],['exams/<id>','→ questions (list)'],['reports/<id>','→ questions · parts'],['progress/*','jobs · queue · import']],null,'page'],
-  ['mirror','page_* mirror tables',20,580,[['page_reviews','1,066 · → questions'],['page_difficulty','99 · → parts'],['page_exams · …_items','→ questions'],['page_reports','→ questions · parts'],['page_sync','when each was copied']],null,'db'],
-  ['bank','bank.json',950,600,[['questions[]','built from all tables'],['parts[].dif','difficulty'],['docs · tables','']],1618,'file']],
+  ['mirror','page_* mirror tables',20,580,[['page_reviews','→ questions'],['page_difficulty','→ parts'],['page_exams · …_items','→ questions'],['page_reports','→ questions · parts'],['page_sync','when each was copied']],null,'db'],
+  ['bank','bank.json',950,600,[['questions[]','built from all tables'],['parts[].dif','difficulty'],['docs · tables','']],'#bank','file']],
  e:[ // from table, from row index, to table, to row index, style, label
   ['runs',1,'documents',0,'fk'],['questions',1,'documents',0,'fk'],['mcq','',0],
   ['mcq_options',1,'questions',0,'fk'],['related',0,'questions',0,'fk'],['related',1,'questions',0,'fk'],
@@ -5512,7 +5560,8 @@ const SCH={W:1220,H:830,w:250,rh:19,hh:30,
   ['diff',0,'parts',0,'fk'],['diff',2,'diff',0,'self'],['tags',1,'parts',0,'fk'],['tags',3,'dots',0,'link'],
   ['data_tables',1,'questions',0,'poly'],['pagedb',1,'diff',0,'link'],['pagedb',0,'mirror',0,'sync']].filter(x=>x.length>=5)};
 function schemaSVG(){const {w,rh,hh}=SCH,B={};
-  SCH.t.forEach(([id,title,x,y,rows,n,kind])=>{B[id]={id,title,x,y,rows,n,kind,h:hh+rows.length*rh+8}});
+  const cnt=k=>typeof k!=='string'?k:k==='#dots'?DOTS.length:k==='#bank'?QG.bank?.questions?.length??null:(QG.bank?.counts||{})[k]??null;
+  SCH.t.forEach(([id,title,x,y,rows,n,kind])=>{B[id]={id,title,x,y,rows,n:cnt(n),kind,h:hh+rows.length*rh+8}});
   const ry=(b,i)=>b.y+hh+i*rh+rh/2+2;
   let edges='';
   SCH.e.forEach(([f,fi,t,ti,st])=>{const a=B[f],b=B[t];if(!a||!b)return;const y1=ry(a,fi),y2=b.y+hh/2;let d;
@@ -5954,7 +6003,7 @@ function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.
     L.batches.filter(b=>b.ready.length||b.done).map(b=>{const s=sqState(b),t=`Batch ${b.n}, ${SQW[s]}`;
       return `<button type="button" class="pr-b ${s}${open===b.n?' on':''}" data-prb="${esc(L.key)}:${b.n}" title="${esc(t)}" aria-label="${esc(t)}" aria-expanded="${open===b.n}"></button>`}).join('');
   return `<div class="pr-lane" data-lane="${esc(L.key)}"><div class="pr-lrow"><div class="pr-lname"><b>${esc(L.name)}</b>
-      <small>${plural(im.length,'batch','batches')} imported (${nf(clr)} cleared review, ${im.length-clr?`<a href="#review" title="Review lists the papers still waiting">${nf(im.length-clr)} waiting</a>`:'0 waiting'}) · <span title="Ready papers in the batch squares below (one square per batch)">${nf(L.ready)} papers to go · ${plural(todo.length,'batch','batches')}</span>${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.big?` · <a href="#prBig" data-prbig title="Over 10 MB: out of the batches until a smaller copy exists">${plural(L.big,'big PDF')}, for later</a>`:''}${L.newN?` · <span title="Papers first found after the first full Drive scan (13 Nov), in every status">${nf(L.newN)} found after the first scan</span>`:''}</small></div>
+      <small>${plural(im.length,'batch','batches')} imported (${nf(clr)} cleared review, ${im.length-clr?`<a href="#review" title="Review lists the papers still waiting">${nf(im.length-clr)} waiting</a>`:'0 waiting'}) · <span title="Ready papers in the batch squares below (one square per batch)">${nf(L.ready)} papers to go · ${plural(todo.length,'batch','batches')}</span>${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.big?` · <a href="#prBig" data-prbig title="Over 10 MB: out of the batches until a smaller copy exists">${plural(L.big,'big PDF')}, for later</a>`:''}${L.newN?` · <span title="Papers first found after the first full Drive scan${S.data?.baseline_scan?` (${esc(new Date(S.data.baseline_scan).toLocaleDateString('en-AU',{day:'numeric',month:'short'}))})`:''}, in every status">${nf(L.newN)} found after the first scan</span>`:''}</small></div>
     <div class="pr-lacts"><button type="button" class="act" data-pradd="1" data-lane="${esc(L.key)}"${free?'':' disabled'}>+1 batch</button><button type="button" class="act" data-pradd="2" data-lane="${esc(L.key)}"${free>1?'':' disabled'}>+2 batches</button><button type="button" class="act primary" data-pradd="all" data-lane="${esc(L.key)}"${free?'':' disabled'}>Queue all ${nf(free)}</button></div></div>
     <div class="pr-sq" role="group" aria-label="${esc(L.name)} batches">${sq}</div>${open!=null?panelHTML(L,open):''}</div>`}
 // the batch panel: its papers and Swap
@@ -5980,7 +6029,7 @@ function bigHTML(m){const ps=m.ps.filter(p=>p.big&&(p.st==='ready_current'||p.st
 function lockedHTML(m){const by=new Map();m.ps.filter(p=>p.st==='held_y11'||p.st==='held_course').forEach(p=>{const k=p.c+'|'+p.yl;if(!by.has(k))by.set(k,{c:p.c,yl:p.yl,n:0,st:p.st});by.get(k).n++});
   const rows=[...by.values()].sort((a,b)=>b.n-a.n),tot=rows.reduce((s,r)=>s+r.n,0);if(!rows.length)return '';
   const nc=new Set(rows.map(r=>r.st==='held_y11'?'y11':r.c)).size;   // courses as the mockup counts them: Year 11 (held) + each course that needs setup
-  const why=r=>r.st==='held_y11'?'Held until Year 12 is finished (your 13 Nov ruling)':'Needs course setup';
+  const why=r=>r.st==='held_y11'?'Held until Year 12 is finished':'Needs course setup';
   return `<details class="pr-lock" id="prLock"><summary>Locked · ${plural(nc,'course')}, ${plural(tot,'paper')}</summary><ul>${rows.map(r=>`<li><b>${esc(laneName(r.c,r.yl))}</b><span>${plural(r.n,'paper')}</span><span class="pr-why" title="${esc(r.st==='held_y11'?m.D.statuses.held_y11:course(r.c).note||'')}">${esc(why(r))}</span></li>`).join('')}</ul></details>`}
 // owner 16 Nov: "Where does point 13 exist?", "I want it now", "duplicate exams will never be batched and imported right?" Copies (same size
 // in bytes and a similar name as a recorded file; tools/scan_folder.py) are kept out of every paper's files (tools/inventory.py
@@ -6002,7 +6051,7 @@ function copiesHTML(m){const H=m.D.held||{},cp=H.copies||[],mv=H.moved||[],ms=H.
     <p class="pr-note">"Same file" = same size in bytes and a similar name (Drive gives no checksum). If one looks wrong, open both and tell Claude.</p></details>`}
 function lanesHTML(){const el=$('#prLanes');if(!el)return;const m=model();if(!m){el.innerHTML='';return}
   const L=lanes(),lock=$('#prLock'),wasOpen=!!(lock&&lock.open),cpo=!!($('#prCopies')||{}).open,cpp=[...document.querySelectorAll('#prCopies .pr-cpp[open]')].map(d=>d.dataset.cpp),cc=API.run&&API.run.cover();
-  el.innerHTML=`<div class="pr-lhead"><h4>Courses</h4><span>Each square is a batch of 9 papers. Current syllabus first, newest year first. Click a square to see its papers.</span></div>
+  el.innerHTML=`<div class="pr-lhead"><h4>Courses</h4><span>Each square is a batch of ${SIZE} papers. Current syllabus first, newest year first. Click a square to see its papers.</span></div>
     ${L.length?L.map(laneHTML).join(''):`<p class="pempty">Nothing ready to import.</p>`}
     <div class="pr-lane pr-chk"><div class="pr-lrow"><div class="pr-lname"><b>Needs a check</b><small>${plural(m.t.needs_check||0,'paper')}: year or course not read yet. Sorted into lanes once checked.</small></div>
       <div class="pr-lacts"><button type="button" class="act" data-prcover${cc||!m.t.needs_check?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button><a class="act pr-link" href="#processes/papers/check">Resolve</a></div></div></div>
@@ -6017,7 +6066,7 @@ function render(){const box=$('#invBox');if(!box)return;box.hidden=!isOwnerV();i
       <div class="pr-sum" id="prSum"></div>
       <div class="pr-main"><section class="pr-card pr-lanes" id="prLanes" aria-label="Courses"></section><aside class="pr-card pr-queue" id="prQueue" aria-label="Queue"></aside></div></div>
       <section class="pr-check" id="prCheck" hidden></section></section>`}
-  const chk=$('#processesView').dataset.sub==='check';$('#prMainWrap').hidden=chk;$('#prCheck').hidden=!chk;const h=$('#procHist');if(h)h.hidden=chk;
+  const chk=$('#processesView').dataset.sub==='check';$('#prMainWrap').hidden=chk;$('#prCheck').hidden=!chk;const h=$('#procHist');if(h)h.hidden=chk;const hc=$('#procCost');if(hc)hc.hidden=chk;
   load();subscribe();redraw();if(API.scan)API.scan.render();if(API.run)API.run.render();if(API.check)API.check.render()}
 
 // ---- writes (editors only)
@@ -6248,8 +6297,6 @@ const R={q:[],runs:[],subs:{},busy:false};
 // unusual problems that stop the queue early (chosen 14 Nov while the owner was away; tools/import_next.py STOP_EARLY): a paper
 // that loaded no questions, 3 or more pages the parser could not read, or more than 12 Your calls in one batch
 const STOP_EARLY={failed_papers:1,failed_pages:3,your_calls:13};
-// until a cost per paper is measured, US$12–17 a paper, labelled an estimate (owner 13 Nov)
-const EST=[12,17];
 const ACTIVE=['requested','running'];
 const snap=QG.docs;
 function subscribe(){if(!db||!isOwnerV())return;
@@ -6263,7 +6310,9 @@ function items(){return ordered().map(x=>{const f=PQ.batch(key(x),x.batch);retur
 const live=()=>items().filter(i=>!i.done);
 function pos(k,n){const i=live().findIndex(i=>key(i.x)===k&&+i.x.batch===+n);return i+1}
 const active=kind=>R.runs.filter(r=>r.kind===kind&&ACTIVE.includes(r.status)).sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null;
-function cost(n){const v=PQ.cost(),pp=v||EST;return {est:!v,pp,lo:n*pp[0],hi:n*pp[1]}}
+// the cost per paper is measured (tools/costs.py, every API batch; owner 21 Nov: "make sure there's no hanging numbers anywhere which
+// can go stale"); the 13 Nov typed-in estimate is gone: with no measured batch the page says so instead of guessing
+function cost(n){const pp=PQ.cost();return pp?{pp,lo:n*pp[0],hi:n*pp[1]}:null}
 function draw(){const el=$('#prQueue');if(!el||!isOwnerV())return;if(!PQ.state.data){el.innerHTML='';return}
   const L=items(),n=live(),np=n.reduce((s,i)=>s+i.ready.length,0),c=cost(np),run=active('queue');
   const row=(i,k)=>{const f=i.f,nm=f?f.lane.name:PQ.laneName(i.x.course,String(i.x.yl)),st=i.done?'Imported':k===0?(run&&run.status==='running'?'Running':'Next'):'Waiting';
@@ -6275,11 +6324,11 @@ function draw(){const el=$('#prQueue');if(!el||!isOwnerV())return;if(!PQ.state.d
   const wt=PQ.waiting(),wtxt=wt===1?'1 batch is waiting for review':`${wt?PQ.nf(wt):'No'} batches are waiting for review`;
   el.innerHTML=`<div class="pr-qhead"><h4>Queue</h4><span>Runs top to bottom until the queue is empty. Stops early only if a batch comes back with unusual problems.</span></div>
     ${L.length?`<ol class="pr-qlist">${L.map(i=>row(i,i.done?-1:k++)).join('')}</ol>`:`<p class="pempty">Nothing queued. Add batches from a course: +1 batch, or click a square.</p>`}
-    <div class="pr-qfoot"><span>${PQ.plural(n.length,'batch','batches')} · ${PQ.plural(np,'paper')}</span><span>${c.est?'Est. ':'Cost '}${np?PQ.usd([c.lo,c.hi]):'US$0'}</span></div>
-    ${run?`<div class="pr-run" role="status"><b>${run.status==='running'?'Claude is running the queue':'Sent to Claude'}</b><small>requested ${esc(clockT(run.at))}${run.status==='requested'?' · Claude starts it when importing resumes; later the import API will start it directly.':''}</small><button type="button" class="act" id="prQCancel"${R.busy?' disabled':''}>Cancel</button></div>`:
+    <div class="pr-qfoot"><span>${PQ.plural(n.length,'batch','batches')} · ${PQ.plural(np,'paper')}</span><span>${c?`Cost ${np?PQ.usd([c.lo,c.hi]):'US$0'}`:'Cost not measured yet'}</span></div>
+    ${run?`<div class="pr-run" role="status"><b>${run.status==='running'?'Claude is running the queue':'Sent to Claude'}</b><small>requested ${esc(clockT(run.at))}${run.status==='requested'?' · Claude runs it in a session with you, one batch at a time (imports are not run at night).':''}</small><button type="button" class="act" id="prQCancel"${R.busy?' disabled':''}>Cancel</button></div>`:
       `<div class="pr-startrow"><button type="button" class="act primary pr-start" id="prQStart"${!n.length||R.busy?' disabled':''}>Start the queue</button><span class="pr-wait" role="status">${wtxt}</span></div>`}
-    <p class="pr-est">${c.est?`Estimate US$${EST[0]}–${EST[1]} a paper`:`${esc(PQ.usd(c.pp))} a paper`}</p>
-    <p class="pr-api">Until the import API is connected, this sends the queue to Claude.</p>`}
+    <p class="pr-est">${c?`${esc(PQ.usd(c.pp))} a paper, from the batches imported so far (<a href="#processes/papers" data-costopen>Costs</a>)`:'No batch has run through the API yet, so there is no measured cost.'}</p>
+    <p class="pr-api">This sends the queue to Claude, which imports it batch by batch through the Anthropic API.</p>`}
 function render(){if(!isOwnerV())return;subscribe();draw()}
 // ---- writes (editors only)
 const now=()=>new Date().toISOString();
@@ -6417,7 +6466,7 @@ function draw(){const el=$('#prCheck');if(!el||el.hidden||!isOwnerV())return;con
   el.innerHTML=`<div class="pr-chead"><a href="#processes/papers" class="pr-back">← Import papers</a><h3>Needs a check</h3><span>${PQ.plural(all,'paper')} the scan couldn't place from their folder and file name</span></div>
     ${rulesCard(m)}
     <div class="pr-card pr-cc" data-prcard="place"><div class="pr-cchead"><div><h3>${PQ.nf(left)} for you to place</h3>
-      <span>The cover-page check reads each front page first; what it can't settle waits here with its cover and 3 pages picked at random from the questions. Click a page to enlarge it. Your answer is kept, so a rescan never asks again.</span></div>
+      <span>The cover-page check reads each front page first; what it can't settle waits here with its cover and ${PAGES-1} pages picked at random from the questions. Click a page to enlarge it. Your answer is kept, so a rescan never asks again.</span></div>
       <button type="button" class="act" data-prcover${cc||!all?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button></div>
       ${mine.length?mine.map(placeRow).join(''):'<p class="pempty">Nothing left to place.</p>'}</div>`;
   manifest();watch()}

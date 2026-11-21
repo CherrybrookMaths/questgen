@@ -85,3 +85,27 @@ function renderProcesses(){const box=$('#procBox'),pv=$('#processesView');if(!bo
   if(typeof renderNotes==='function')renderNotes()}   // 31_notes.js loads in a later script block; the user answer can arrive before it
 fetch('data/progress.json?v='+Date.now()).then(r=>r.ok?r.json():null).then(p=>{if(p&&!PROG){PROG=p;if(view==='processes')renderImport()}}).catch(()=>{});
 setInterval(()=>{if(view==='processes')renderProcesses()},60000);   // keeps the "12 min ago" times fresh
+/* Costs (owner 21 Nov: "I want to see somewhere the costs logged properly, per paper, per batch total", "Yeah build it"):
+   Processes › Papers › Costs. Everything comes from data/costs.json (tools/costs.py, built from every logged API call); nothing
+   here is typed in. Loaded when the section opens. */
+const COST={d:null,open:new Set(),
+  load(){if(COST.d)return Promise.resolve(COST.d);return fetch(QG.url('data/costs.json',Date.now())).then(r=>r.ok?r.json():null).then(d=>COST.d=d).catch(()=>null)},
+  usd:x=>'US$'+(+x).toLocaleString('en-AU',{minimumFractionDigits:2,maximumFractionDigits:2}),
+  steps:s=>Object.entries(s||{}).map(([k,v])=>`${esc(k)} ${COST.usd(v)}`).join(' · '),
+  render(){const el=$('#costBox');if(!el)return;const d=COST.d;if(!d){el.innerHTML='<div class="empty">No cost log yet.</div>';return}
+    const mon=Object.entries(d.months||{}),cur=mon.length?mon[mon.length-1]:null,pp=d.per_paper;
+    const row=b=>{const op=COST.open.has(b.n);return `<tr class="pr-cb"><td><button type="button" class="linkbtn" data-costb="${b.n}" aria-expanded="${op}">Batch ${b.n}</button></td><td>${esc(b.date)}</td>
+      <td class="n">${b.papers.length}</td><td class="n">${b.questions.toLocaleString('en-AU')}</td><td class="n"><b>${COST.usd(b.usd)}</b></td><td class="n">${COST.usd(b.per_paper)}</td><td class="n">${b.per_question!=null?COST.usd(b.per_question):'–'}</td></tr>
+      ${op?`<tr class="pr-cd"><td colspan="7"><p class="pr-cst">By step: ${COST.steps(b.steps)}${b.shared_usd?` · not tied to one paper ${COST.usd(b.shared_usd)}`:''}</p>
+        <table class="pr-ct pr-cp"><thead><tr><th>Paper</th><th class="n">Questions</th><th class="n">Cost</th><th class="n">Per question</th></tr></thead><tbody>
+        ${b.papers.map(p=>`<tr><td>${esc(p.label)}</td><td class="n">${p.questions}</td><td class="n">${COST.usd(p.usd)}</td><td class="n">${p.questions?COST.usd(p.usd/p.questions):'–'}</td></tr>`).join('')}</tbody></table></td></tr>`:''}`};
+    const unmetered=d.first_api_batch>1?`<p class="pr-cnote">Batches 1–${d.first_api_batch-1} ran inside Claude sessions before the API, so they have no per-call cost (not metered).</p>`:'';
+    el.innerHTML=`<p class="pr-cnote">Every API call is logged with its paper and step. ${pp?`Average ${COST.usd(pp.mean)} a paper (batches range ${COST.usd(pp.lo)}–${COST.usd(pp.hi)}).`:''}
+      ${cur?` This month ${COST.usd(cur[1])} of the ${COST.usd(d.limit_usd)} monthly limit.`:''} Updated ${esc(String(d.made||'').replace('T',' '))}.</p>
+      <table class="pr-ct"><thead><tr><th>Batch</th><th>Date</th><th class="n">Papers</th><th class="n">Questions</th><th class="n">Total</th><th class="n">Per paper</th><th class="n">Per question</th></tr></thead>
+      <tbody>${d.batches.map(row).join('')}</tbody><tfoot><tr><th colspan="4">All batches</th><th class="n">${COST.usd(d.batch_usd)}</th><th colspan="2"></th></tr></tfoot></table>
+      ${(d.other||[]).length?`<h4 class="pr-ch">Other API spend</h4><ul class="pr-co">${d.other.map(o=>`<li>${esc(o.name)}: ${esc((o.steps||[]).join(', '))} · ${o.papers} papers · ${esc(o.from)}${o.to!==o.from?'–'+esc(o.to):''} · <b>${COST.usd(o.usd)}</b></li>`).join('')}</ul>`:''}
+      <p class="pr-cnote">All API spend: ${COST.usd(d.total_usd)}${mon.length>1?' ('+mon.map(([m,v])=>`${esc(m)} ${COST.usd(v)}`).join(', ')+')':''}.</p>${unmetered}`}};
+document.addEventListener('toggle',e=>{if(e.target.id==='procCost'&&e.target.open)COST.load().then(()=>COST.render())},true);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-costb]');if(b){const n=+b.dataset.costb;COST.open.has(n)?COST.open.delete(n):COST.open.add(n);COST.render();return}
+  if(e.target.closest('[data-costopen]')){e.preventDefault();const d=$('#procCost');if(d){d.open=true;d.scrollIntoView({block:'start'})}}});
