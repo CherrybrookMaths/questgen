@@ -6,7 +6,7 @@ function solHTML(q,s,mode){
   const badges=[gen?`<span class="badge b-gen">Model-generated${dec==='approved'?' · approved':''}</span>`:'<span class="badge b-acc">Marking guidelines</span>'];
   if(gen&&m.confidence!=null) badges.push(`<span class="badge ${m.confidence<0.6?'b-bad':''}">confidence ${Math.round(m.confidence*100)}%</span>`);
   if(gen&&m.check) badges.push(`<span class="badge ${/fail|mismatch|disagree|wrong|error/i.test(m.check)?'b-bad':'b-ok'}">self-check ${esc(m.check==='passed'?'passed':m.check)}</span>`);
-  if(m.reused_from){const o=B.questions.find(x=>x.id===m.reused_from);badges.push(`<span class="badge">copied from ${o?esc(docLabel(B.docs[o.doc]))+' Q'+esc(o.number):'duplicate'}</span>`)}
+  if(m.reused_from){const o=QG.byId.get(m.reused_from);badges.push(`<span class="badge">copied from ${o?esc(docLabel(B.docs[o.doc]))+' Q'+esc(o.number):'duplicate'}</span>`)}
   if(mode==='review'&&gen&&dec==='rejected') badges.push('<span class="badge b-bad">rejected</span>');
   const crit=(s.criteria||[]).filter(c=>c[1]);
   const single=crit.length===1&&/^(provides )?(the )?correct answer\.?$|^\(?[A-D]\)?$/i.test(crit[0][1].trim());

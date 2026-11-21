@@ -22,6 +22,7 @@ function tex(s){
   return '<span>'+h.replace(/\n\n+/g,'<span class="pbr"></span>').replace(/\n/g,' ')+'</span>';
 }
 const plain=c=>String(c||'').replace(/\\(text|textit|textbf|mathrm)\{([^}]*)\}/g,'$2').replace(/\\[a-z]+/gi,'x').replace(/[{}$\\]/g,'');
+const lineLen=c=>Math.max(0,...String(c||'').split('\\\\').map(x=>plain(x).length));   // longest line of a cell (health pass 21 Nov: was written twice)
 function cell(c){c=String(c??'').trim(); if(!c) return ''; const L=c.split('\\\\'); if(L.length<2) return esc('$'+c+'$'); return L.map(x=>'<span class="ln">'+esc('$'+x.trim()+'$')+'</span>').join('')}   // owner: a header wraps where the paper wraps it (\\\\ in the cell)
 // \diag{row label}{column label}: a corner cell split by a diagonal, as printed (row label bottom-left, column label top-right)
 function diagSplit(c){c=String(c||'').trim(); if(!c.startsWith('\\diag{')) return null; const g=[]; let i=5;
@@ -35,7 +36,6 @@ function dtHTML(id,opts={}){
   const span={}, rspan={}, covered=new Set(); (t.spans||[]).forEach(([r,c,k,rs])=>{span[r+','+c]=k||1; if(rs>1){rspan[r+','+c]=rs; for(let i=1;i<rs;i++)for(let j=0;j<(k||1);j++)covered.add((r+i)+','+(c+j))}});
   // owner: columns are only forced equal for number tables (x / P(X=x), periods / rates); tables of words size each column to
   // its longest line, with headers wrapping where the paper wraps them ("Height and Gender can be narrowed")
-  const lineLen=c=>Math.max(0,...String(c||'').split('\\\\').map(x=>plain(x).length));
   const hdr=rows[Math.max(0,hr-1)]||[], uniform=!hr||hdr.slice(lc).every(c=>lineLen(c)<=8);
   const colLen=j=>Math.max(...rows.map((r,i)=>covered.has(i+','+j)||(span[i+','+j]>1)?0:lineLen(r[j])));
   const lw=lc?Math.min(Math.max(colLen(0),4),24)*0.62+1.4:0;
@@ -61,7 +61,6 @@ function dtHTML(id,opts={}){
 function optTableHTML(q,show){
   const ot=q.opt_table, n=ot.headers.length, key=q.options.find(o=>o.is_correct)?.label, ksrc=q.options.find(o=>o.is_correct)?.key_source;
   // owner: headers wrap only where the paper wraps (\\), so each column is as wide as its longest header line or cell
-  const lineLen=h=>Math.max(...String(h).split('\\\\').map(x=>plain(x).length));
   const cw=ot.headers.map((h,i)=>Math.min(18,Math.max(7,0.55*Math.max(lineLen(h),...Object.values(ot.rows).map(r=>plain(r[i]||'').length))+2)));
   return `<div class="dtwrap"><table class="dt ot" style="width:${(3.2+(show?5.5:0)+cw.reduce((a,b)=>a+b,0)).toFixed(1)}em;max-width:100%">
    <colgroup><col style="width:3.2em">${cw.map(w=>`<col style="width:${w.toFixed(1)}em">`).join('')}${show?'<col style="width:5.5em">':''}</colgroup>

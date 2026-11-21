@@ -12,20 +12,19 @@ const figDec=(q,k)=>reviews['q'+q.id]?.fig?.[k]??(q.tri?.ok_figs?.includes(k)?'a
 // Diagram filter never need the question text. all keeps that order; inline and opt are the \exfigure and option keys.
 function figKeys(q){const f=q.fk||{};return {inline:new Set(f.i||[]),all:f.a||[],opt:new Set(f.o||[])}}
 const redrawable=k=>{const f=B.figs[k];return f&&(f.status==='ok'||f.status==='approx'||f.status==='table')};
-const PACKS={}, SVGS={};
+// health pass 21 Nov: one cached fetch for every image pack (page scans, crops, redraws, overlays): the paths never collide
+const PACKS={},packGet=f=>PACKS[f]||(PACKS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})));
 // Fix 1: each pack is fetched from its asset-store address when data/assets.json lists one, else from the published file (QG.url)
 // Job 3 (owner 14 Nov: "What if we dropped them and rerendered them in the new location?"): a paper in review keeps its own
 // pack (page scans + crops, docs[doc].ip); once cleared, its scans are gone and the crops the page can still show are in the
 // crop group data/crop/g<doc % 8>.json (tools/image_lifecycle.py). The key is the same in both: 'figures/<key>.png'.
-const pack=doc=>{const f=B?.docs?.[doc]?.ip?'data/img/'+doc+'.json':packFile('crop',doc);
-  return PACKS[f]||(PACKS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
+const pack=doc=>packGet(B?.docs?.[doc]?.ip?'data/img/'+doc+'.json':packFile('crop',doc));
 // owner 15 Nov (via workflow brief): "Lets do ... 4" -> fewer published files. Redraw (svg) and overlay/first-redraw (cmp)
 // packs are group files data/<kind>/g<paper id % n>.json, not one per paper; still fetched lazily, once per group.
 // PACK_G must match GROUPS in tools/packs.py (batch_check checks it). Page images (data/img) stay one file per paper while in review.
 const PACK_G={svg:32,cmp:1,crop:8};
 const packFile=(kind,doc)=>'data/'+kind+'/g'+(parseInt(doc,10)%PACK_G[kind])+'.json';
-const CMPS={}; const cmps=doc=>{const f=packFile('cmp',doc);return CMPS[f]||(CMPS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
-const svgs=doc=>{const f=packFile('svg',doc);return SVGS[f]||(SVGS[f]=fetch(QG.url(f,B?.built)).then(r=>r.json()).catch(()=>({})))};
+const cmps=doc=>packGet(packFile('cmp',doc)), svgs=doc=>packGet(packFile('svg',doc));
 function hydrate(root,q,mode){
   root.querySelectorAll('.figslot[data-fig]').forEach(el=>{
     // owner: "I cannot see the x-axis". Solution diagrams Claude drew (<paper>_q<n>_s<k>) have no original, and their

@@ -88,7 +88,9 @@ function navHTML(){
   //   only if its skills are learnt. Each screen now says which count it shows (CNT_NOTE; exam builders in 24_exams.js)
   return '<div class="navtools"><button data-navall="open">Expand all</button><button data-navall="close">Collapse all</button></div><p class="bk-cntnote">'+CNT_NOTE.bank+'</p>'+sec('Year 12',TOPICS.y12,12)+sec('Year 11',TOPICS.y11,11)+'<h3>Outside the 2024 syllabus</h3>'+sp('special:removed','Removed content')+(TOPICS.byKey['special:std'].qs.length?sp('special:std','Mathematics Standard'):'')+(TOPICS.byKey['special:no_match'].qs.length?sp('special:no_match','No 2024 match'):'');
 }
-function dupLine(q){const c=B.questions.filter(x=>x.dup_of===q.id);const v=q.related.filter(x=>x.rel!=='duplicate').map(x=>B.questions.find(z=>z.id===x.q)).filter(Boolean);
+// health pass 21 Nov: one map of each question's duplicates per bank (dupLine ran a whole-bank filter for every card); QG.onDet clears it
+let _dupm=null;const dupsOf=id=>{if(!_dupm){_dupm=new Map();B.questions.forEach(x=>{if(x.dup_of)(_dupm.get(x.dup_of)||_dupm.set(x.dup_of,[]).get(x.dup_of)).push(x)})}return _dupm.get(id)||[]};
+function dupLine(q){const c=dupsOf(q.id);const v=q.related.filter(x=>x.rel!=='duplicate').map(x=>QG.byId.get(x.q)).filter(Boolean);
   const same=o=>docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number);   // owner 12 Nov: "the also prose is redundant ... they're literally the same exam twice": a copy of the same paper filed twice says nothing
   const t=[...c.filter(o=>!same(o)).map(o=>`also in ${esc(docLabel(B.docs[o.doc]))} as Q${esc(o.nlabel||o.number)}`),...v.map(o=>`similar to ${esc(docLabel(B.docs[o.doc]))} Q${esc(o.nlabel||o.number)}`)];
   return t.length?`<div class="help" style="margin:-4px 0 8px">${t.join(' · ')}</div>`:''}
@@ -137,7 +139,7 @@ function faHTML(yl,fa){const subs=(yl==='12'?TOPICS.y12:TOPICS.y11).get(fa);if(!
     <div class="subgrid">${[...subs].map(([sk,x])=>`<button class="subcard y${yl}${x.qs.length?'':' none'}" data-sel="${esc('sub:'+yl+'|'+fa+'|'+sk)}"><b>${esc(sk||fa)}</b><span class="meta">${x.qs.length?x.qs.length+' question'+(x.qs.length===1?'':'s'):'No questions yet'} · ${x.dps.length} dot point${x.dps.length===1?'':'s'}</span></button>`).join('')}</div>`}
 let BF={type:'all',src:'all',fig:'all',band:'all',wm:'all'};try{BF=Object.assign(BF,JSON.parse(localStorage.getItem('bf')||'{}'))}catch(e){}
 const bfOK=q=>(BF.type==='all'||(BF.type==='mcq')===(q.type==='mcq'))&&(BF.src==='all'||(BF.src==='hsc')===(B.docs[q.doc]?.task_type==='hsc'))&&(BF.fig==='all'||(figKeys(q).all.length>0)===(BF.fig==='yes'))&&(typeof qDifOK!=='function'||qDifOK(q,BF));   // owner 14 Nov: difficulty filters (exam builder stage 2)
-let BSEL={key:null,skill:null,dp:null};
+let BSEL={key:null,dp:null};
 // owner 13 Nov: "in the bank, the pills at the top, make them animated": each filter group (Type, Source, Diagram, Band, Kind)
 // has one highlight that slides to the chosen option. The list is redrawn on every click, so the last position of each group's
 // highlight is kept in BFPOS and the new highlight starts there, then slides. Reduced motion: it just appears.
@@ -166,18 +168,15 @@ function renderBank(){
     head=`<div class="listhead"><h2>Search: “${esc(search)}”</h2><span class="crumb">${qs.length===60?'first 60 matches':qs.length+(qs.length===1?' match':' matches')}</span></div>`;
   } else if(sel&&TOPICS.byKey[sel]){
     const t=TOPICS.byKey[sel]; qs=t.qs.slice().sort((a,b)=>(B.docs[b.doc].label.localeCompare(B.docs[a.doc].label))||(parseInt(a.number)-parseInt(b.number)));
-    let title,crumb='',sibs='';
-    if(sel.startsWith('sub:')){const [yl,fa,sk]=sel.slice(4).split('|');title=sk||fa;crumb='';t.yl=yl;t.fa=fa;const subs=(yl==='12'?TOPICS.y12:TOPICS.y11).get(fa);if(subs.size>1)sibs=`<div class="sibs">${[...subs].map(([k2,s2])=>{const key='sub:'+yl+'|'+fa+'|'+k2;return `<button class="sib" data-sel="${esc(key)}" aria-current="${key===sel}">${esc(k2||fa)}<span class="c">${s2.qs.length}</span></button>`}).join('')}</div>`}
+    let title,sibs='';
+    if(sel.startsWith('sub:')){const [yl,fa,sk]=sel.slice(4).split('|');title=sk||fa;t.yl=yl;t.fa=fa;const subs=(yl==='12'?TOPICS.y12:TOPICS.y11).get(fa);if(subs.size>1)sibs=`<div class="sibs">${[...subs].map(([k2,s2])=>{const key='sub:'+yl+'|'+fa+'|'+k2;return `<button class="sib" data-sel="${esc(key)}" aria-current="${key===sel}">${esc(k2||fa)}<span class="c">${s2.qs.length}</span></button>`}).join('')}</div>`}
     else title=sel==='special:removed'?'Removed content':sel==='special:std'?'Mathematics Standard':'No 2024 match';
-    if(BSEL.key!==sel)BSEL={key:sel,skill:null,dp:null};
+    if(BSEL.key!==sel)BSEL={key:sel,dp:null};
     const all=qs.length, base=qs.filter(bfOK);
-    const skc={};base.forEach(q=>qSkills(q).forEach(k=>skc[k]=(skc[k]||0)+1));
     const dpc={};base.forEach(q=>qPri(q).forEach(k=>{if((t.dps||[]).some(d=>d.id===k))dpc[k]=(dpc[k]||0)+1}));
-    qs=base.filter(q=>(!BSEL.skill||qSkills(q).includes(BSEL.skill))&&(!BSEL.dp||qPri(q).includes(BSEL.dp)));
-    const sks=Object.entries(skc).sort((a,b)=>b[1]-a[1]);
-    var narrow=(Object.keys(dpc).length>1?`<div class="fl"><span>Dot point</span>${Object.entries(dpc).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,n])=>`<button data-bsel="dp:${k}" aria-pressed="${BSEL.dp===k}" title="${esc(DM[k]?.text||'')}">${esc(DM[k]?.short||k)} <span class="c">${n}</span></button>`).join('')}</div>`:'')+
-      '';   // owner 12 Nov: skill bubbles removed ("i dont feel like the skill bubbles work"): a question needs several skills, so they don't split a topic; skills are searchable instead
-    head=`<div class="crumbs"><button data-home="1">All topics</button>${t.fa?`<span>›</span><span>${esc(t.fa)}</span>`:''}</div><div class="listhead"><h2>${esc(title)}</h2><span class="crumb">${all} question${all===1?'':'s'}</span>${bankSwitch()}</div>${sibs}${all?bfHTML(all,qs.length,typeof narrow==='string'?narrow:''):''}
+    qs=base.filter(q=>!BSEL.dp||qPri(q).includes(BSEL.dp));
+    const narrow=Object.keys(dpc).length>1?`<div class="fl"><span>Dot point</span>${Object.entries(dpc).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,n])=>`<button data-bsel="dp:${k}" aria-pressed="${BSEL.dp===k}" title="${esc(DM[k]?.text||'')}">${esc(DM[k]?.short||k)} <span class="c">${n}</span></button>`).join('')}</div>`:'';   // owner 12 Nov: skill bubbles removed ("i dont feel like the skill bubbles work"): a question needs several skills, so they don't split a topic; skills are searchable instead
+    head=`<div class="crumbs"><button data-home="1">All topics</button>${t.fa?`<span>›</span><span>${esc(t.fa)}</span>`:''}</div><div class="listhead"><h2>${esc(title)}</h2><span class="crumb">${all} question${all===1?'':'s'}</span>${bankSwitch()}</div>${sibs}${all?bfHTML(all,qs.length,narrow):''}
       ${t.dps?`<details class="dps"><summary>The ${t.dps.length} syllabus dot point${t.dps.length===1?'':'s'} in this subheading <span class="muted">· number of questions that use each one (a question can use several)</span></summary><ol>${t.dps.map(d=>{const n=t.qs.filter(q=>q.parts.some(p=>effTags(q,p).some(x=>x.id===d.id))).length;return `<li${n?'':' class="zero"'}><code>${d.id}</code>${tex(d.tex||d.text)} <span class="muted">(${n})</span></li>`}).join('')}</ol></details>`:''}`;
     if(!qs.length) head+='<div class="empty">No questions yet. This content is new or rarely examined in the papers loaded so far.</div>';
   }
@@ -195,7 +194,7 @@ function renderBank(){
   // transition already animates #list, and a second animation inside it would double the slide; #list.enter CSS removed)
   const box=L.querySelector('.cards');let i=0;
   const batch=n=>{if(L._gen!==gen)return;const part=qs.slice(i,i+n);i+=part.length;const tmp=document.createElement('div');tmp.innerHTML=part.map(cardHTML).join('');
-    const els=[...tmp.children];els.forEach(c=>{box.appendChild(c);const q=B.questions.find(x=>x.id===+c.dataset.q);hydrate(c,q,'bank')});
+    const els=[...tmp.children];els.forEach(c=>{box.appendChild(c);const q=QG.byId.get(+c.dataset.q);hydrate(c,q,'bank')});
     els.forEach(c=>TSIO.observe(c));if(i<qs.length)setTimeout(()=>batch(12),16)};
   batch(8);bfPills();
 }
@@ -271,8 +270,7 @@ $('#list').addEventListener('click',e=>{
   if(t){if(t.classList.contains('none'))return; const prevSel=sel; sel=t.dataset.sel||('fa:'+t.dataset.fa);
     const go=sel;sel=prevSel;bankGo('fwd',t.matches('.fah')?null:t,()=>{sel=go;save('sel',sel);renderBank();window.scrollTo({top:0})});return}
   const sb=e.target.closest('.sib'); if(sb){sel=sb.dataset.sel;save('sel',sel);renderBank();bankFade();return}
-  if(e.target.id==='home'){bankGo('back',null,()=>{sel=null;save('sel','');renderBank()});return}
-  const rv=e.target.closest('[data-reveal]'); if(rv){const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card');const q=B.questions.find(x=>x.id===id);c.outerHTML=cardHTML(q);const nc=$(`.card[data-q="${id}"]`);hydrate(nc,q,'bank');typeset(nc);return}
+  const rv=e.target.closest('[data-reveal]'); if(rv){const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card');const q=QG.byId.get(id);c.outerHTML=cardHTML(q);const nc=$(`.card[data-q="${id}"]`);hydrate(nc,q,'bank');typeset(nc);return}
   const op=e.target.closest('[data-open]'); if(op)reviewOpen(+op.dataset.open);   // owner 13 Nov: opens in Review's "All questions" list (#review/list/all)
 });
 let st; $('#q').addEventListener('input',e=>{clearTimeout(st);st=setTimeout(()=>{search=e.target.value.trim();renderBank()},250)});

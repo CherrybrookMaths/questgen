@@ -50,7 +50,7 @@ Object.assign(QG,{
   hasAll(){return QG.detOK&&QG.got.size>=(QG.bank?.questions.length||0)},
   // fields that moved to the details file start as empty lists, so a list read before they arrive cannot throw
   setBank(b){b.questions.forEach(q=>{for(const k of ['solutions','related','queues','pages'])if(!q[k])q[k]=[]});
-    QG.bank=b;QG.byId=new Map(b.questions.map(q=>[q.id,q]));QG.got=new Set();QG.fileP={};QG.failed=new Set();QG.detOK=false;QG.detP=null;QG.detFail=false},
+    QG.bank=b;QG.byId=new Map(b.questions.map(q=>[q.id,q]));try{_esc={};_dupm=null}catch(e){}QG.got=new Set();QG.fileP={};QG.failed=new Set();QG.detOK=false;QG.detP=null;QG.detFail=false},
   // the details file (job 2): merged into the same question and part objects. A question whose topic file came first keeps
   // that file's full solutions (with their text) instead of the index list.
   det(){if(QG.detOK||!QG.bank)return Promise.resolve();const b=QG.bank;
@@ -66,7 +66,7 @@ Object.assign(QG,{
   ready(v){return !QG.bank||v==='bank'||QG.detOK},
   // caches built from the index are rebuilt with the full fields, then the open view is drawn again
   onDet(){TOPICS=null;
-    for(const f of [()=>{_clean=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear()])try{f()}catch(e){}
+    for(const f of [()=>{_clean=null;_esc={};_dupm=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear()])try{f()}catch(e){}
     QG.waitNote();route();QG.fill()},
   wait(){QG.waitNote();QG.det()},   // onDet draws the view when they land
   // one notice while a view waits for the details (or they failed to load)

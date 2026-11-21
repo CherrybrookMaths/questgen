@@ -71,7 +71,8 @@ let _spot=null;
 function hstr(x){let h=2166136261;for(const c of x){h^=c.charCodeAt(0);h=Math.imul(h,16777619)}return h>>>0}
 function spotSet(){if(_spot)return _spot;const by={};B.questions.forEach(q=>{if(q.dup_of)return;chkFigsAll(q).forEach(k=>{if(figRisk(k)[0]==='High')(by[q.doc]=by[q.doc]||[]).push(k)})});
   const keep=new Set();Object.values(by).forEach(ks=>{ks.sort((a,b)=>hstr(a)-hstr(b));ks.slice(0,Math.max(1,Math.ceil(ks.length/10))).forEach(k=>keep.add(k))});return _spot=keep}
-function escalated(doc){return B.questions.some(q=>q.doc===doc&&chkFigsAll(q).some(k=>figRisk(k)[0]==='High'&&reviews['q'+q.id]?.fig?.[k]==='changes'))}
+// health pass 21 Nov: cached per paper (it scanned the whole bank for every High diagram in chkFigs); cleared with _clean
+let _esc={};function escalated(doc){return doc in _esc?_esc[doc]:_esc[doc]=B.questions.some(q=>q.doc===doc&&chkFigsAll(q).some(k=>figRisk(k)[0]==='High'&&reviews['q'+q.id]?.fig?.[k]==='changes'))}
 const chkFigs=q=>chkFigsAll(q).filter(k=>figRisk(k)[0]!=='High'||spotSet().has(k)||reviews['q'+q.id]?.fig?.[k]||escalated(q.doc));
 // owner 17 Nov: "exams should never get throug[h] until all flags are fixed": a question with a diagram change request counts as
 // flagged (not approved: out of the tutors' Bank and the exam builder) until the redraw is approved
@@ -346,8 +347,8 @@ document.addEventListener('keydown',e=>{const i=e.target.closest&&e.target.close
 let logOpen=(()=>{try{return localStorage.getItem('dlog')!=='0'}catch(e){return true}})();
 function diagLog(){
   const rows=[];
-  Object.entries(reviews).forEach(([k,r])=>{if(!k.startsWith('q')||!r?.fig||!r.at)return;const q=B.questions.find(x=>'q'+x.id===k);if(!q)return;
-    const ks=Object.keys(r.fig).filter(f=>chkFigs(q).includes(f)||qFigs(q).includes(f));if(!ks.length)return;
+  Object.entries(reviews).forEach(([k,r])=>{if(!/^q\d+$/.test(k)||!r?.fig||!r.at)return;const q=QG.byId.get(+k.slice(1));if(!q)return;
+    const own=new Set([...chkFigs(q),...qFigs(q)]),ks=Object.keys(r.fig).filter(f=>own.has(f));   // health pass 21 Nov: Map lookup, figures listed once per recordif(!ks.length)return;
     const fl=ks.filter(f=>r.fig[f]!=='approved');rows.push({q,at:r.at,flag:fl.length?(r.fig_notes?.[fl[0]]||'flagged'):null,nf:fl.length,n:ks.length})});
   rows.sort((x,y)=>y.at.localeCompare(x.at));
   return `<aside class="dlog${logOpen?'':' shut'}"><button class="act ghost" id="logT" aria-expanded="${logOpen}">${logOpen?'Hide log ›':'‹ Log'}</button>
@@ -408,7 +409,7 @@ async function diagDecide(v,note,only){const q=rlist[ridx];if(!q)return;const r=
 function bindLog(){
   $('#logT')&&($('#logT').onclick=()=>{logOpen=!logOpen;try{localStorage.setItem('dlog',logOpen?'1':'0')}catch(e){}renderDiag()});
   $$('#rout [data-logq]').forEach(b=>b.onclick=()=>{rstatus='any';pendingOpen=+b.dataset.logq;refreshReview()});
-  $$('#rout [data-undo]').forEach(b=>b.onclick=async()=>{const q=B.questions.find(x=>x.id===+b.dataset.undo);const r=reviews['q'+q.id]||{};const fig={...(r.fig||{})};
+  $$('#rout [data-undo]').forEach(b=>b.onclick=async()=>{const q=QG.byId.get(+b.dataset.undo);const r=reviews['q'+q.id]||{};const fig={...(r.fig||{})};
     chkFigs(q).forEach(k=>delete fig[k]);await write(q,{fig});toast('Undone: '+qid(q)+' is back in the list');refreshReview()});
 }
 function nextStepHTML(){if(RMODE==='paper'&&rdoc)return paperNextHTML();
@@ -498,7 +499,7 @@ function renderReview(){RUNDO.render();
   const q=rlist[ridx], d=B.docs[q.doc], r=reviews['q'+q.id];
   $('#srcTitle').textContent=`${docLabel(d)} · page ${q.pages.map(p=>+p.split('_').pop().split('.')[0]+1).join(', ')}`;
   $('#src').innerHTML=q.pages.map(p=>`<img data-page="${p}" alt="Source page">`).join('');
-  const rel=q.related.map(x=>{const o=B.questions.find(z=>z.id===x.q);return o&&!(docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number))?`${docLabel(B.docs[o.doc])} Q${esc(o.nlabel||o.number)} (${Math.round(x.sim*100)}% similar)`:''}).filter(Boolean).join('; ');
+  const rel=q.related.map(x=>{const o=QG.byId.get(x.q);return o&&!(docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number))?`${docLabel(B.docs[o.doc])} Q${esc(o.nlabel||o.number)} (${Math.round(x.sim*100)}% similar)`:''}).filter(Boolean).join('; ');
   $('#rout').innerHTML=`${backBoxHTML(q,r)}${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not ${esc(QG.courseData.short)}:</b> ${esc(q.std)}</div>`:''}
     <div class="row"><span class="badge ${d.parse_path==='scan'?'b-scan':'b-acc'}">${d.parse_path}</span>
       ${q.tri?'':`${q.queues.includes('review')?'<span class="badge b-bad">parse flagged</span>':''}`}
@@ -532,7 +533,7 @@ function renderReview(){RUNDO.render();
 async function write(q,patch,whole){   // whole: patch is the entire record (Undo puts back the record as it was, 36_undo.js)
   const key=RKEY.qdoc(q); const cur=reviews['q'+q.id]||{};   // owner 14 Nov (Fix 2): stored by key, shared by every copy
   const next={...(whole?{}:cur),...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};if(q.key)next.key=q.key;
-  RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;
+  RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;_esc={};
   if(!db){toast('Not saved: this view has no shared storage');return false}
   try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved');return true}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.');return false}
 }   // true once saved: a report's action (27_reports.js) is recorded only after its review write landed
