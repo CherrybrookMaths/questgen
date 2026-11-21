@@ -124,3 +124,24 @@ practice is (a real database and server is the long-term answer; deferred: "Let'
 - Debt: the details file still holds every question; past ~538 papers or with other courses, split it per topic too (and
   give Review/Exams counts from a summary) or move to a real database.
 
+
+## Health pass 21 Nov (owner: "check for code bloating, inefficienies, repeats in logic and functions and clean them all up")
+Four read-only reviewers (page JS in two halves, CSS, Python tools), then fixes in batches, each gated by the page test (205/205) and,
+for CSS, by pixel-identical screenshots (Bank, a topic, Guide, Exams; 1280 light and dark, 390). Published v289.
+- **Speed:** database indexes on the child tables (tools/integrity.py INDEXES; export_db_text 16 s -> 0.9 s, build_bank about 12 s ->
+  2.3 s); school/alias regexes compiled once (inventory 3 s -> 1.1 s); batch_check builds the inventory once (3.2 s total); page:
+  question lookups by the id index (xq and 8 other scans), cached `escalated` (it made chkFigs quadratic) and duplicates map.
+- **Dead code removed:** the old exam drawer and header pill handlers, the saved-exam loader nothing rendered, the Bank skill-filter
+  leftovers, an unreachable `#home` branch; CSS: the theme-1 palette (theme 2 redefines it), `.steps/.filters/.dots/.more/.ovl`,
+  and 279 declarations a later identical selector always replaces (CSS 190 -> 182 KB; page 748 -> 744 KB).
+- **One copy instead of many:** QG.val/QG.docs (page-db documents, 15 copies), load()/save() for browser storage (22), one image-pack
+  fetch, one fix-note prefix helper (one of three patterns kept "Claude <date> <time>:" visible), tools/criteria.py instead of exec
+  of ui_v2_data.py's source, asset_manifest.sha256.
+- **Bugs fixed on the way:** a crash on Processes when progress arrived before the bank (B null); export readers missed '~' doc ids
+  spelt '@' (import_next.read).
+- **Archived** (archive/tools_1121/, kept in git): 8 one-off tools nothing runs (merge_tags_pilot, load_tags, ui_v2_data,
+  split_questions, import_manifest, syllabus, migrate_reviews_to_keys, export_frontend + seed_static).
+- **Left for later (medium value or needs a visual check):** shared dbPut/saveRev save helpers (wording must stay identical), one modal
+  helper for the report form and swap chooser, the three exporters' shared setup, Processes lanes cache, exam-setup pool cache,
+  qDiff via exEst (rounding at band boundaries), unused data-attributes/classes, Python: batch_check parsing bank.json once,
+  paths.db() everywhere, paper_label/sydney-time/unpack helpers.
