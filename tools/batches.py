@@ -146,7 +146,7 @@ def lanes(inv, write=True, reset=()):
         out = sorted({i for b in L.get('batches', []) for i in b} & big)
         if out:
             L['batches'] = [[i for i in b if i not in big] for b in L['batches']]
-            L.setdefault('log', []).append({'at': now, 'removed': out, 'why': 'PDF over 10 MB (the Drive connector limit): moved to Big PDFs, for later'})
+            L.setdefault('log', []).append({'at': now, 'removed': out, 'why': f"PDF over {inv.get('big_mb', 10)} MB (the Drive connector limit): moved to Big PDFs, for later"})
             changed = True
     for key, g in by.items():
         ready = [p for p in g['papers'] if p['st'] in READY and not p.get('big')]

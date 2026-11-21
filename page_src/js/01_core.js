@@ -10,7 +10,7 @@ const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
    these fields (not declarations), so nothing that used them had to change. New code writes QG.x. */
 // owner 13 Nov (health pass, CODE_HEALTH rule 5): course is a dimension: the course's name and the files holding its questions (with their topics and
 // difficulty references) and its dot points come from QG.courses[QG.course]; read them with QG.courseData, never type
-// "Advanced". Only Advanced has data so far; a course is added here once it has a bank, dot points and difficulty references.
+// "Advanced" (or its years: the year levels its imported papers come from, owner 21 Nov: no hanging numbers). Only Advanced has data so far; a course is added here once it has a bank, dot points and difficulty references.
 const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:null,view:'bank',course:'advanced',
   // owner 14 Nov: "Ok we should run Fix 1 and 2" (Fix 1: keep the published page small; fetch data only when needed): bank is
   // the course's small index (tools/bank_split.py); each question's text arrives with its topic file (QG.need below)
@@ -18,7 +18,7 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:n
   // review notes, full tags and difficulty) comes in det, read right after start (QG.det)
   // ref: the course's NESA reference sheet, one image per page (owner 18 Nov; from "MA Reference Sheet 2024.pdf" in the CMC Resources
   // drive; Extension 1 / 2 and Standard have their own: ME1, ME2, MST Reference Sheet 2024, ids in state/work/ref_sheets.json)
-  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json',ref:['data/ref/advanced-1.png','data/ref/advanced-2.png']}},
+  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',years:'Year 12',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json',ref:['data/ref/advanced-1.png','data/ref/advanced-2.png']}},
   get courseData(){return this.courses[this.course]},
   byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0,night:null,
   // health pass 21 Nov: a page-database document's fields, and a snapshot's documents as {id, ...fields} (was written out in 15 places)

@@ -4,14 +4,18 @@
    migrate it to live servers." Figures are live from the bank where possible; the long tagging rules stay, folded away. */
 // worked tagging examples (owner 12 Nov: "add a tab to the artifact which explains how questions are tagged, provide some
 // different examples"); rules as settled in TAG_SPEC.md; the examples are live questions from the bank
+// owner 21 Nov ("make sure there's no hanging numbers anywhere which can go stale"): each example names a question and describes
+// its shape (parts, marks, flags), so each carries a check of that shape; an example whose question was retired, split or re-marked
+// is left out (with a console warning) instead of showing an explanation that no longer matches. [id, check, title, why]
+const gxPri=p=>(p.t24||[]).find(t=>t.primary)?.id;
 const GUIDE_EX=[
- [1082,'One part, one topic','A single-part question gets one main dot point. Limits have no dot point of their own in the 2024 syllabus, so a limit by factorising files under the derivative from first principles (Y11-122). Its only gate is the algebra it needs.'],
- [618,'Related parts stay together','Five parts on one book-restoration context. Four parts are continuous random variables, so that is the home. Part (b) finds a straight line: that becomes a gate (Equations of straight lines), not a second place the question is filed.'],
- [1221,'A tie in marks goes to the later part','(a) sketch the derivative and (b) find an area are 2 marks each. On a tie the later part decides, so the question is filed under integration.'],
- [1699,'Your override wins','By marks (3 of 4) this is differentiation, but the point of the question is the "hence" integral, so it was set to Primitive functions by hand.'],
- [979,'Needs vs can use','Expected value and the probability distribution are needed for the marks (gates). Calculus for the maximum is one valid method among others (the vertex of a parabola also works), so it is "can use": it lists the question under that skill for practice but never hides it.'],
- [191,'Removed from the syllabus','3D trigonometry is no longer in Mathematics Advanced (now Year 11 Extension 1), so the question is marked old syllabus and kept out of Advanced topic lists.'],
- [228,'Standard course content','Bivariate data analysis is in Mathematics Standard, not Advanced. The question keeps its Standard topic so it can be used when the bank grows to Standard.']];
+ [1082,q=>q.parts.length===1&&gxPri(q.parts[0])==='Y11-122','One part, one topic','A single-part question gets one main dot point. Limits have no dot point of their own in the 2024 syllabus, so a limit by factorising files under the derivative from first principles (Y11-122). Its only gate is the algebra it needs.'],
+ [618,q=>q.parts.length===5,'Related parts stay together','Five parts on one book-restoration context. Four parts are continuous random variables, so that is the home. Part (b) finds a straight line: that becomes a gate (Equations of straight lines), not a second place the question is filed.'],
+ [1221,q=>q.parts.length===2&&+q.parts[0].marks===2&&+q.parts[1].marks===2,'A tie in marks goes to the later part','(a) sketch the derivative and (b) find an area are 2 marks each. On a tie the later part decides, so the question is filed under integration.'],
+ [1699,q=>q.parts.length===2&&+q.parts[0].marks===3&&+q.parts[1].marks===1,'Your override wins','By marks (3 of 4) this is differentiation, but the point of the question is the "hence" integral, so it was set to Primitive functions by hand.'],
+ [979,q=>q.parts.length===1,'Needs vs can use','Expected value and the probability distribution are needed for the marks (gates). Calculus for the maximum is one valid method among others (the vertex of a parabola also works), so it is "can use": it lists the question under that skill for practice but never hides it.'],
+ [191,q=>!!q.old,'Removed from the syllabus','3D trigonometry is no longer in Mathematics Advanced (now Year 11 Extension 1), so the question is marked old syllabus and kept out of Advanced topic lists.'],
+ [228,q=>!!q.std,'Standard course content','Bivariate data analysis is in Mathematics Standard, not Advanced. The question keeps its Standard topic so it can be used when the bank grows to Standard.']];
 // owner 21 Nov ("make sure there's no hanging numbers anywhere which can go stale"): row counts and size come from the bank build
 // (tools/build_bank.py counts), with the build date; they were typed in on 14 Nov
 const G2_DB=()=>{const c=QG.bank?.counts||{},b=String(QG.bank?.built||''),d=b.length>=8?new Date(+b.slice(0,4),+b.slice(4,6)-1,+b.slice(6,8)):null;
@@ -38,7 +42,7 @@ function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}c
   const S=g2Stats(),Y=yl=>Object.entries(S.areas).filter(([k])=>k.startsWith(yl+'|')).map(([k,v])=>[esc(k.split('|')[1]),v]).sort((a,b)=>b[1]-a[1]);
   const amax=Math.max(...Object.values(S.areas),1),bt=S.band.reduce((a,b)=>a+b,0),bmax=Math.max(...S.band,1),wt=(S.wm.UF||0)+(S.wm.PR||0);
   const {chk,chg}=g2Checked();
-  const ex=GUIDE_EX.map(([id,t,why],i)=>{const q=QG.byId.get(id);if(!q)return '';const lv=q.parts.filter(p=>leaf(q,p));
+  const ex=GUIDE_EX.map(([id,ok,t,why],i)=>{const q=QG.byId.get(id);if(!q||q.dup_of||!ok(q)){if(B?.questions?.length)console.warn('guide example left out (question gone or changed):',id);return ''}const lv=q.parts.filter(p=>leaf(q,p));
     // owner 14 Nov: "show the question first. then explain how it was tagged."
     return `<details class="g2ex"${i===0?' open':''}><summary><b>${esc(t)}</b><span class="muted">${qid(q)} · ${esc(srcLine(q))}</span></summary>
       <div class="g2qbox"><div class="g2k">The question</div><div class="qtext" data-gq="${q.id}"></div></div>

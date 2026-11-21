@@ -23,6 +23,9 @@ GATES = {}
 for _f in ('work/gates/gates_applied.json', 'work/gates_pilot/gates_applied.json'):
     if os.path.exists(paths.S + _f): GATES.update(json.load(open(paths.S + _f)))
 # owner 17 Nov: "We need a way to append a z score table at the back of exams which ahve those questions tho" (tools/ztable.py)
+# owner 21 Nov ("make sure there's no hanging numbers anywhere which can go stale"): the parts the 14 Nov difficulty audit flagged
+# (project/difficulty_report.md) were a list typed into the page; they live here and reach the page as dif.f (Difficulty › Flagged by the audit)
+AUDIT_FLAGS = set(json.load(open(paths.S + 'work/difficulty/audit_flags.json'))['parts']) if os.path.exists(paths.S + 'work/difficulty/audit_flags.json') else set()
 ZT = json.load(open(paths.S + 'work/ztable.json')) if os.path.exists(paths.S + 'work/ztable.json') else {}
 for q in old['questions']:
     r = db.execute('select * from questions where id=?', (q['id'],)).fetchone()
@@ -46,6 +49,7 @@ for q in old['questions']:
         dr = db.execute('select * from part_difficulty where part_id=?', (p['id'],)).fetchone() if HAS_PD else None
         if dr: p['dif'] = dict(b=dr['band'], wm=dr['wm'], a=dr['is_anchor'], na=dr['nearest_anchor'], c=(dr['confidence'] or '')[:1], r=dr['reason'], ar=dr['area'])
         else: p.pop('dif', None)
+        if dr and p['id'] in AUDIT_FLAGS: p['dif']['f'] = 1
         if dr and 'band_ai' in dr.keys() and dr['band_ai'] is not None and (dr['band_ai']!=dr['band'] or dr['wm_ai']!=dr['wm']): p['dif'].update(m=dr['band_ai'], mw=dr['wm_ai'], s=dr['source'])   # owner 14 Nov: model's original rating kept for the Difficulty tab
         # tags live from the DB (tag-v2.2, owner 12 Nov). Slim: dot point text/focus area come from dotpoints.json on the page.
         tg = db.execute("select * from tags where part_id=? and scheme in ('2024','skill','note','2017')", (p['id'],)).fetchall()

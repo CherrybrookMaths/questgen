@@ -1268,3 +1268,8 @@ on the line counting the questions left out: "Include it yep." Rule in TAG_SPEC 
   Review (the levels stay as set on 12 Nov); the flag-check hours and night-run time come from page db progress/night (flagcheck, time);
   batch size, pages per cover check and the baseline-scan date come from their settings or the inventory; file sizes and the script count
   were dropped. Settings stay named in one place (e.g. MONTHLY_LIMIT_USD in tools/costs.py, owner 18 Nov).
+  Rest of the sweep, owner 21 Nov (verbatim): "can u clean the rest of the hanging numbers". The Big PDFs size limit comes from the
+  inventory (big_mb = tools/inventory.py BIG); the Difficulty check's audit-flagged parts come from the bank (dif.f, from
+  state/work/difficulty/audit_flags.json) and its thin topics are worked out (fewer than 5 HSC references, or a Year 12 topic with no
+  band-5 reference, by the model's own ratings: the same three topics as the 14 Nov list); each Guide worked example checks its
+  question still has the shape its text describes and is left out if not; the Import line's year level is the course's `years` setting.

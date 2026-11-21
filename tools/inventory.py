@@ -291,6 +291,7 @@ def build(db, files=False, rules=None, overrides=None):
         'statuses': STATUS_TEXT,
         'courses': [{'key': c, 'name': n, 'short': sh, 'ready': r, **({} if r else {'note': UNKNOWN if c == 'unknown' else SETUP})} for c, n, sh, r in COURSES],
         'cost_per_paper': cost_per_paper(),
+        'big_mb': BIG // 1048576,   # the page's "Big PDFs" text reads the limit from here (owner 21 Nov: no hanging numbers)
         'groups': [g for g in out.values() if g['counts']['papers']],
         'root_drive_id': ROOT_DRIVE_ID, 'scan_skip': SCAN_SKIP,
         'files_url': FILES_URL, 'files': known_files(docs.values()),     # main() writes 'files' to FILES_URL, not into OUT

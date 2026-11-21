@@ -3,16 +3,26 @@
    want to approve on the go today". One part at a time: the question with the rated part highlighted, our band (2-6) and
    working-mathematically label (UF / PR), and Agree or a change. Decisions go to the page database, collection `difficulty`
    (doc = part id). Changing a reference band later shifts every part that was compared with it (applied at build time). */
-const LV_FLAGS=[2066,1137,2209,2547,2625,2303,2817,1311,1587];   // parts the overnight audit flagged (difficulty_report.md)
-const LV_FIRST=['Y11_Exponential_and_logarithmic_functions','Y11_Trigonometric_identities_and_equations','Y12_Sequences_and_series'];   // thin reference sets first
+// owner 21 Nov ("make sure there's no hanging numbers anywhere which can go stale"): the audit's flagged parts and the thin topics
+// were typed-in lists (14 Nov). Flagged parts now come from the bank (p.dif.f: state/work/difficulty/audit_flags.json, via
+// tools/build_bank.py); thin topics are worked out from the HSC references below.
+// A topic is thin when it has fewer than LV_THIN_MIN references, or is a Year 12 topic with no band-5 reference (the model's own
+// ratings, so the owner's changes never move a topic in or out). This gives the 14 Nov list: Exponential & log (3), Trig identities (3),
+// Sequences (no band 5).
+const LV_THIN_MIN=5;
+let _lvfirst=null;
+function lvFirst(){if(_lvfirst)return _lvfirst;const n={},b5={};
+  B.questions.forEach(q=>{if(q.dup_of)return;q.parts.forEach(p=>{const d=p.dif;if(!d?.a||!d.ar)return;n[d.ar]=(n[d.ar]||0)+1;if((d.m??d.b)===5)b5[d.ar]=1})});
+  if(!Object.keys(n).length)return [];   // details not read yet: no references to count, nothing cached
+  return _lvfirst=Object.keys(n).filter(a=>n[a]<LV_THIN_MIN||(/^Y12/.test(a)&&!b5[a])).sort((a,b)=>n[a]-n[b]||a.localeCompare(b))}
 const LV_WM={UF:'Understanding & fluency',PR:'Problem solving & reasoning'};
 const LV_BAND={2:'one routine step',3:'two steps / standard technique',4:'several steps, ideas combined',5:'non-routine set-up or general proof',6:'needs real insight'};
 let DIFD={},LVQ=null,LVI=0,LVAREA=(load('lv_area')||'thin'),LVSHOW=(load('lv_show')||'todo'),_lvsub=null;
 const lvName=a=>String(a||'').replace(/^Y1[12]_/,'').replace(/_/g,' ');
 const lvYear=a=>/^Y11/.test(a)?'Y11':'Y12';
-function lvItems(){if(LVQ)return LVQ;const out=[];
+function lvItems(){if(LVQ)return LVQ;const out=[],LV_FIRST=lvFirst();
   B.questions.forEach(q=>{if(q.dup_of)return;q.parts.forEach(p=>{const d0=p.dif;if(!d0)return;const d=d0.m!=null?{...d0,b:d0.m,wm:d0.mw}:d0;   // compare with the model's original rating, not the owner-applied one
-  if(d.a||LV_FLAGS.includes(p.id))out.push({q,p,d,flag:!d.a})})});
+  if(d.a||d0.f)out.push({q,p,d,flag:!d.a})})});
   const rank=x=>x.flag?99:(LV_FIRST.indexOf(x.d.ar)>=0?LV_FIRST.indexOf(x.d.ar):10);
   out.sort((x,y)=>rank(x)-rank(y)||String(x.d.ar).localeCompare(String(y.d.ar))||x.q.id-y.q.id||x.p.id-y.p.id);
   const lean={};B.questions.forEach(q=>q.parts.forEach(p=>{const n=p.dif?.na;if(n)lean[n]=(lean[n]||0)+1}));out.forEach(x=>x.lean=lean[x.p.id]||0);
@@ -24,13 +34,13 @@ function lvItems(){if(LVQ)return LVQ;const out=[];
   Object.values(by).forEach(xs=>xs.slice().sort((a,b)=>lvDone(b)-lvDone(a)||b.lean-a.lean||a.p.id-b.p.id).slice(0,3).forEach(x=>x.spot=1));
   return LVQ=out}
 const lvDone=x=>!!DIFD[x.p.id]?.status;
-const lvInArea=x=>LVAREA==='all'||(LVAREA==='spot'?!!x.spot:LVAREA==='thin'?LV_FIRST.includes(x.d.ar)&&!x.flag:LVAREA==='flags'?x.flag:x.d.ar===LVAREA&&!x.flag);
+const lvInArea=x=>LVAREA==='all'||(LVAREA==='spot'?!!x.spot:LVAREA==='thin'?lvFirst().includes(x.d.ar)&&!x.flag:LVAREA==='flags'?x.flag:x.d.ar===LVAREA&&!x.flag);
 // owner 15 Nov: the Difficulty step in Review shows this count: parts still to check in the chosen list
 // owner 13 Nov: "Why are there still difficulty checks to go through": the count followed whichever dropdown list was open
 // (e.g. All = 217 optional references), so it never reached 0. It now counts only the plan: thin topics, the spot-check,
 // and any topic with two or more changes (checked in full). The optional references stay reachable from the dropdown.
 function lvHot(){const chg={};lvItems().forEach(y=>{if(DIFD[y.p.id]?.status==='changed'&&!y.flag)chg[y.d.ar]=(chg[y.d.ar]||0)+1});return Object.keys(chg).filter(a=>chg[a]>=2)}
-function lvTodoN(){if(!B)return 0;lvSub();const hot=lvHot();return lvItems().filter(x=>(x.spot||x.flag||(LV_FIRST.includes(x.d.ar)&&!x.flag)||hot.includes(x.d.ar))&&!lvDone(x)).length}
+function lvTodoN(){if(!B)return 0;lvSub();const hot=lvHot();return lvItems().filter(x=>(x.spot||x.flag||(lvFirst().includes(x.d.ar)&&!x.flag)||hot.includes(x.d.ar))&&!lvDone(x)).length}
 function lvList(){const all=lvItems();
   const r=all.filter(x=>lvInArea(x)&&(LVSHOW==='all'||!lvDone(x)));
   return LVAREA==='spot'?r.sort((a,b)=>(b.flag?1:0)-(a.flag?1:0)||String(a.d.ar).localeCompare(String(b.d.ar))||b.lean-a.lean):r}
@@ -43,12 +53,12 @@ function renderLevels(keep){
   lvSub();const box=$('#levelsBox');const all=lvItems(),list=lvList();
   const done=all.filter(lvDone).length, anchors=all.filter(x=>!x.flag), adone=anchors.filter(lvDone).length;
   if(!keep)LVI=Math.min(LVI,Math.max(0,list.length-1));else LVI=Math.min(LVI,Math.max(0,list.length-1));
-  const areas=[...new Set(anchors.map(x=>x.d.ar))].sort((a,b)=>(LV_FIRST.includes(a)?0:1)-(LV_FIRST.includes(b)?0:1)||a.localeCompare(b));
+  const areas=[...new Set(anchors.map(x=>x.d.ar))].sort((a,b)=>(lvFirst().includes(a)?0:1)-(lvFirst().includes(b)?0:1)||a.localeCompare(b));
   const cnt=f=>{const xs=all.filter(f);return `${xs.filter(lvDone).length}/${xs.length}`};
   const x=list[LVI];
   const head=`<div class="lvtop"><div class="lvtitle"><h2>Difficulty check</h2><span class="lvprog"><b>${adone}</b> of ${anchors.length} HSC references checked${done>adone?` · ${done-adone} flagged parts`:''}${lvTodoN()===0?' · <b>check plan finished</b>; anything left in this list is optional':''}</span></div>
     <div class="lvbar"><i style="width:${Math.round(100*adone/Math.max(1,anchors.length))}%"></i></div>
-    <div class="lvctl"><select id="lvArea" aria-label="Which parts"><option value="thin"${LVAREA==='thin'?' selected':''}>Start here: thin topics (${cnt(x=>LV_FIRST.includes(x.d.ar)&&!x.flag)})</option><option value="spot"${LVAREA==='spot'?' selected':''}>Spot-check: flagged + 3 per topic (${cnt(x=>x.spot)})</option>
+    <div class="lvctl"><select id="lvArea" aria-label="Which parts"><option value="thin"${LVAREA==='thin'?' selected':''}>Start here: thin topics (${cnt(x=>lvFirst().includes(x.d.ar)&&!x.flag)})</option><option value="spot"${LVAREA==='spot'?' selected':''}>Spot-check: flagged + 3 per topic (${cnt(x=>x.spot)})</option>
       ${areas.map(a=>`<option value="${esc(a)}"${LVAREA===a?' selected':''}>${lvYear(a)} ${esc(lvName(a))} (${cnt(x=>x.d.ar===a&&!x.flag)})</option>`).join('')}
       <option value="flags"${LVAREA==='flags'?' selected':''}>Flagged by the audit (${cnt(x=>x.flag)})</option><option value="all"${LVAREA==='all'?' selected':''}>Everything (${cnt(()=>true)})</option></select>
       <div class="lvseg" role="group" aria-label="Show"><button data-lvshow="todo" aria-pressed="${LVSHOW==='todo'}">To check</button><button data-lvshow="all" aria-pressed="${LVSHOW==='all'}">All</button></div></div></div>`;
