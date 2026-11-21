@@ -19,6 +19,13 @@ This applies to every round, big or quick. Every builder prompt includes it, and
    can go past the limit"): going past it is a warning; the round's report says what grew and why it is needed, and reviewers check the
    growth is not bloat (dead code, duplicate features). Hard platform limits (16 MB per file, files per publish) stay blockers.
 
+## Every night (owner 21 Nov: "This should really be done every night so it stays lean")
+The night run (NIGHT.md step 3c) runs `tools/lean_check.py --fix-css`: it removes only CSS declarations a later identical selector
+always replaces (provably invisible; the page test still gates the publish), and reports, without changing, CSS classes and page
+functions nothing uses and size growth since the last run. When page_src/ or tools/ changed that day, one read-only reviewer reads
+only that diff against these rules. Findings go to Next up ("Lean check <date>"); the fixes are made in a supervised session.
+batch_check shows the same findings as warnings before every publish. Unattended refactoring is deliberately not done at night.
+
 ## Every round
 - Builder: follow the rules; list any exceptions in the report.
 - Reviewer: check the diff against rules 1–6, not only "does it work".

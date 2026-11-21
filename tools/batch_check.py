@@ -202,6 +202,14 @@ try:
     if _lost: B(f'packs: {len(_lost)} redrawn diagram(s) missing from the data/svg packs (e.g. {_lost[:3]}): rebuild with the live packs in place (tools/fetch_published.py --place-assets), never upload these')
 except Exception as e:
     B(f'packs check could not run: {e}')
+# owner 21 Nov ("This should really be done every night so it stays lean"): tools/lean_check.py findings are warnings here
+try:
+    import lean_check as _lc
+    _srcs = {f: open(f).read() for f in _lc.CSS}; _r, _dead = _lc.css_overridden(_srcs)
+    _uc, _uj = _lc.unused_classes(_srcs), _lc.unused_js()
+    if _dead or _uc or _uj: W(f'lean: {sum(len(v[1]) for v in _dead.values())} overridden CSS declaration(s), {len(_uc)} unused CSS class(es) {_uc[:3]}, {len(_uj)} unused page function(s) {_uj[:3]}: python3 tools/lean_check.py')
+except Exception as e:
+    W(f'lean check could not run: {e}')
 # --- automated page test (hardening action 1, 14 Nov): tools/page_test.js must have passed on THIS build of the page ---
 # Run it with: bash tools/prepublish.sh (build, page test, this check) or node tools/page_test.js. Its result file records the
 # sha256 of the page and data it tested; a failed, partial (--quick), missing or stale result blocks the publish.

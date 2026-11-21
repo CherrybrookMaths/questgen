@@ -62,6 +62,15 @@ Fixed 21 Nov: build_bank.py keeps a redraw's existing picture when there is no l
 packs stay as fetched; do NOT run `fetch_published.py --place-assets` here (on 20 Nov it also restored the crop packs and undid
 step 3's crop changes). batch_check blocks a build whose svg packs lost any redraw the bank lists.
 
+## 3c. Keep the code lean (owner 21 Nov: "This should really be done every night so it stays lean")
+1. `python3 tools/lean_check.py --fix-css`, then `python3 tools/build_page.py`. It removes only CSS declarations a later identical
+   selector always replaces (provably no visible change); step 4's page test gates the publish as usual. Everything else it finds
+   (CSS classes or page functions nothing uses, size growth) is reported, never changed at night.
+2. If page_src/ or tools/ changed since the last night run (`git log --since=<last night> -- page_src tools`), one read-only
+   reviewer agent reads only that diff against CODE_HEALTH.md (dead code, duplicated logic, slow loops) and lists proven findings.
+3. Findings from 1 (report part) and 2 go to Next up as one note "Lean check <date>" (skip when there are none). Nothing found:
+   result "Lean: nothing to clean". The fixes themselves are done in a supervised session, not at night.
+
 ## 4. Publish if anything changed
 If steps 1–3 changed anything the page shows: the CLAUDE.md "Publish procedure" (prepublish must exit 0 with 0 blockers;
 publish only the review page; then --mark-published). Changed asset-store packs (18 Nov): run prepublish first; when the page
