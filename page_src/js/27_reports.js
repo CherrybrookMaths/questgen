@@ -20,7 +20,7 @@
    - While a report is open or sent, its question is out of the Bank and every exam picker (REP.hides via repHidden, 07_bank.js).
      Saved exams that hold it keep it with the "reported by a teacher" warning (qWatch); Review and Reports still show it.
    - Every action is logged on the report: action, done_by, done_at, and one entry per action in log [{action, by, at}]. */
-const REP={list:[],sub:null,filter:(()=>{try{return localStorage.getItem('rep_filter')||'open'}catch(e){return 'open'}})(),dlg:null,res:null,pick:null,names:{},_lv:null,
+const REP={list:[],sub:null,filter:(load('rep_filter')||'open'),dlg:null,res:null,pick:null,names:{},_lv:null,
   main(r){const q=xq(r.question_id);return q&&q.dup_of?xq(q.dup_of)||q:q},   // the copy the Bank and Review show
   st(r){const s=r.status||'open';if(s!=='sent')return s;const q=this.main(r);
     return q&&qState(q)==='approved'&&String(reviews['q'+q.id]?.at||'')>=String(r.sent_at||'')?'resolved':'sent'},
@@ -32,7 +32,7 @@ const REP={list:[],sub:null,filter:(()=>{try{return localStorage.getItem('rep_fi
 const REP_WHY={difficulty:'Wrong difficulty',dot_point:'Wrong dot point',other:'Other'};
 const REP_WM={UF:'Fluency',PR:'Problem solving'};
 function repSub(){if(REP.sub||!db)return !!REP.sub;
-  try{REP.sub=db.collection('reports').onSnapshot(s=>{const d=s.docs||s;REP.list=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+  try{REP.sub=db.collection('reports').onSnapshot(s=>{REP.list=QG.docs(s).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
     repBadge();repNames();if(view==='reports')renderReports();repMarkPaper();TOPICS=null;if(view==='bank'&&B)renderBank();   // owner 17 Nov: a reported question leaves the Bank at once
     try{const xp=$('#xPanel');if(xp&&!xp.hidden&&typeof xPanel==='function')xPanel();if(typeof exRefresh==='function')exRefresh()}catch(_){}   // owner 17 Nov: exam warnings and pickers follow new reports
   },()=>{})}catch(e){REP.sub=null}return !!REP.sub}
@@ -241,7 +241,7 @@ function renderReports(){const box=$('#reportsBox');if(!box||!B)return;repSub();
   $$('.rep-dots',box).forEach(el=>TSIO.observe(el));
   if(REP.res){const i=box.querySelector('[data-rreply]');if(i)i.focus()}}
 document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest('#reportsBox'))return;
-  const f=t.closest('[data-rf]');if(f){REP.filter=f.dataset.rf;try{localStorage.setItem('rep_filter',REP.filter)}catch(_){}REP.res=REP.pick=null;renderReports();return}
+  const f=t.closest('[data-rf]');if(f){REP.filter=f.dataset.rf;save('rep_filter',REP.filter);REP.res=REP.pick=null;renderReports();return}
   const row=t.closest('[data-repid]');if(!row)return;const r=REP.list.find(x=>x.id===row.dataset.repid);if(!r)return;
   const busy=p=>{$$('button',row).forEach(b=>b.disabled=true);p.then(ok=>{if(!ok)renderReports()})};   // one click per action; a failed save gives the buttons back
   const ro=t.closest('[data-ropen]');if(ro){reviewOpen(+ro.dataset.ropen);return}   // the link itself opens #review/list/all

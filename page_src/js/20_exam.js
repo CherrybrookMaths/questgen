@@ -10,7 +10,7 @@ let EX=(()=>{try{const v=JSON.parse(localStorage.getItem(XKEY));if(v&&Array.isAr
 if(EX.timeAuto===undefined)EX.timeAuto=!EX.id&&!EX.items.length;
 // owner 19 Nov ("Save by itself"): every change is kept in this browser and, for an exam in the shared database, saved there a moment
 // later (EXAS.schedule, 25_mine.js, which loads later: hence the typeof test). The working time follows the marks (EXAS.time)
-const xsave=()=>{if(typeof EXAS!=='undefined')EXAS.time();try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}xCount();if(typeof EXAS!=='undefined')EXAS.schedule()};
+const xsave=()=>{if(typeof EXAS!=='undefined')EXAS.time();save(XKEY,JSON.stringify(EX));xCount();if(typeof EXAS!=='undefined')EXAS.schedule()};
 const xq=id=>QG.byId.get(id);   // health pass 21 Nov: the id index (was a scan of every question, ~27 callers, many in loops)
 function xCount(){if($('#xPanel')&&!$('#xPanel').hidden)xPanel()
   // any change to the exam (add, remove, reorder, swap, load) refreshes the Exams page around it (owner 14 Nov, Exams page + My exams).
@@ -46,7 +46,7 @@ let XSAVED=[],_xsub=null;
 // saving: every field, including settings, lines, diagram sizes and locks (Exams page, owner 14 Nov); then My exams and the
 // page head's Saved / Unsaved marker refresh (they refresh even when there is no database)
 async function xSaveDb(quiet){
-  if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}
+  if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;save(XKEY,JSON.stringify(EX));
     const A=EX.auto||{},keep={topics:A.topics,total:A.total,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
     try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,items:EX.items,keys:EX.items.map(i=>xq(i)?.key||null),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});if(!quiet)toast('Exam saved')}
     catch(e){toast('Could not save. Try again in a moment.')}}
@@ -62,7 +62,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#xGuide')){xPreview('guide');return}
   if(e.target.closest('[data-xtauto]')){EX.timeAuto=true;xsave();return}
 });
-document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;if(f.dataset.xf==='time')EX.timeAuto=false;try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(_){}if(typeof EXAS!=='undefined')EXAS.schedule()}});
+document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;if(f.dataset.xf==='time')EX.timeAuto=false;save(XKEY,JSON.stringify(EX));if(typeof EXAS!=='undefined')EXAS.schedule()}});
 // owner 19 Nov: "HSC Adv averages 1.8 minutes per mark. Should be a place to change that too": the working time follows it
 document.addEventListener('change',e=>{const f=e.target.closest('[data-xmpm]');if(!f)return;const v=Math.max(.5,Math.min(4,+f.value||1.8));EX.mpm=Math.round(v*10)/10;EX.timeAuto=true;xsave()});
 

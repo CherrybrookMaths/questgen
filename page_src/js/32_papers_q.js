@@ -39,7 +39,7 @@ const short=k=>course(k).short||course(k).name||k;
 const laneName=(c,yl)=>c==='unknown'?(yl==='?'?'Course and year not known':`${YN[yl]}, course not known`):yl==='?'?`${short(c)}, year not known`:`${YN[yl]} ${short(c)}`;
 const laneKey=(c,yl)=>c+'_'+(yl==='?'?'x':yl);
 const yrs=ps=>{const y=ps.map(p=>p.y).filter(Boolean);if(!y.length)return '';const a=Math.min(...y),b=Math.max(...y);return a===b?String(a):`${a}–${String(b).slice(-2)}`};
-const snap=(s)=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
+const snap=QG.docs;
 
 // ---- loading (editors only: a viewer never fetches the inventory or subscribes)
 // rv: Review's Inbox asks for the batches (batchOf), so an editor who is not the owner (the checker) fetches it too; a viewer never does
@@ -50,7 +50,7 @@ function subscribe(){if(!db||!isOwnerV())return;
   const on=(k,f)=>{if(S.subs[k])return;try{S.subs[k]=f()}catch(e){}};
   on('fix',()=>db.collection('paperfix').onSnapshot(s=>{S.fix={};snap(s).forEach(x=>{if(Number.isFinite(+x.id))S.fix[+x.id]=x});redraw()},()=>{}));
   on('swaps',()=>db.collection('batches').onSnapshot(s=>{S.swaps={};snap(s).forEach(x=>{S.swaps[x.id]=Array.isArray(x.swaps)?x.swaps:[]});redraw();if(API.run)API.run.draw()},()=>{}));
-  on('acc',()=>db.doc('scans/rules').onSnapshot(d=>{S.acc=d&&d.exists?(typeof d.data==='function'?d.data():d.data):null;redraw()},()=>{}))}
+  on('acc',()=>db.doc('scans/rules').onSnapshot(d=>{S.acc=d&&d.exists?QG.val(d):null;redraw()},()=>{}))}
 
 // ---- the proposed rule fixes: accepted in the page db (scans/rules) or already in the inventory
 function accepted(){const pr=S.data&&S.data.proposed;if(!pr)return false;if(pr.accepted)return true;const a=S.acc;return !!(a&&a.accepted&&a.version===pr.version)}

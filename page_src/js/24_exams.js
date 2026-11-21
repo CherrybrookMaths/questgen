@@ -5,10 +5,10 @@
    (topics | question cards | exam panel), and a full-screen A4 preview with a grading panel, Regenerate, Swap,
    editable cover, answer lines and diagram sizes. The side drawer from stage 1/2 is replaced: the header "Exam · N" pill
    now opens this page. Difficulty: band 2-6 and fluency (UF) / problem solving (PR) per part, from DIFFICULTY_SPEC. */
-const EXV={view:(()=>{try{return localStorage.getItem('ex_view')||'mine'}catch(e){return 'mine'}})(),setupFor:null,
+const EXV={view:(load('ex_view')||'mine'),setupFor:null,
   pk:{topic:'all',q:'',paper:'all',type:'all',marks:'all',sort:'new',band:'all',wm:'all',fig:false,hide:false,limit:20},
   open:new Set(),pkOpen:new Set(),sel:null,doc:'exam',grade:true,built:false,moved:null};
-const exSaveView=()=>{try{localStorage.setItem('ex_view',EXV.view)}catch(e){}};
+const exSaveView=()=>{save('ex_view',EXV.view);};
 
 /* ---------- settings (kept in EX.auto with the stage-2 fields) ---------- */
 function exA(){const A=xa();if(!A.src||typeof A.src!=='object')A.src={hsc:true,trial:true,school:true};

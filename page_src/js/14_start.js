@@ -21,13 +21,13 @@
   try{
     const [dbns,user]=await Promise.all([c.use('db'),c.use('user')]);
     if(user){try{QG.me=await user.id()}catch(e){}}
-    if(dbns){try{dbns.doc('progress/jobs').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);JOBS=(v&&v.jobs)||[];renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
+    if(dbns){try{dbns.doc('progress/jobs').onSnapshot(d=>{const v=QG.val(d);JOBS=(v&&v.jobs)||[];renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
     // owner 14 Nov: "need a pill for current jobs and queued jobs". The queue: {items:[{id,title,detail,status,order,asked}],updated}
     // job 6 (owner 16 Nov: "I need a place to see ... what's in that night's automated tasks"): progress/night, kept by the night
     // session (NIGHT.md): {steps:[{id,title,detail}], skipped:[{title,why}], last:{at,items:[{title,status,result}]}, updated}
-    if(dbns){try{dbns.doc('progress/night').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QG.night=v||null;if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
-    if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
-    if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=d&&(typeof d.data==='function'?d.data():d.data);if(v){PROG=v;if(view==='processes'&&QG.ready(view))renderImport()}},()=>{})}catch(e){}}
+    if(dbns){try{dbns.doc('progress/night').onSnapshot(d=>{const v=QG.val(d);QG.night=v||null;if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
+    if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=QG.val(d);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
+    if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=QG.val(d);if(v){PROG=v;if(view==='processes'&&QG.ready(view))renderImport()}},()=>{})}catch(e){}}
     if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=RKEY.index(nx);TOPICS=null;_clean=null;_esc={};
       updateCounts(); if(!QG.ready(view))return; if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='reports'&&typeof renderReports==='function') renderReports(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh(); else if(view==='processes'){renderImport();let pq=null;try{pq=PQ}catch(e){}if(pq){pq.redraw();pq.run.draw()}}},()=>{})}   // Import history counts approved questions too (bankStats); owner 14 Nov: the lanes' cleared / waiting squares and the queue's waiting count follow Review live (PQ is read guarded: an early snapshot can arrive before 32_papers_q.js has run)
   }catch(e){}

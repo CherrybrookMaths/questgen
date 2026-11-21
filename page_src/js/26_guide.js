@@ -28,8 +28,8 @@ function g2Checked(){let chk=0,chg=0;try{Object.values(DIFD||{}).forEach(d=>{if(
 const g2ChkHTML=(chk,chg,ref)=>{const ed=typeof isEditor==='function'&&isEditor();return `<b>${chk}<small> / ${ref}</small></b><span>References checked by ${ed?'you':'an editor'}</span><em>${chk?`${chg} changed${ed?' · in Review › Difficulty':''}`:'Not loaded yet, or none checked'}</em>`};
 // owner 14 Nov: "what is the _ references checked by you": the count comes from the page database after the Guide is drawn, so refresh the tile when it arrives
 function g2ChkRefresh(){const el=$('#g2chk');if(!el)return;const {chk,chg}=g2Checked();let ref=0;B.questions.forEach(q=>{if(!q.dup_of&&!q.old&&!q.std)q.parts.forEach(p=>{if(p.dif&&p.dif.a)ref++})});el.innerHTML=g2ChkHTML(chk,chg,ref)}
-const G2_PAGE=()=>{try{return localStorage.getItem('g2page')==='dev'?'dev':'cat'}catch(e){return 'cat'}};
-document.addEventListener('click',e=>{const b=e.target.closest('[data-gpg]');if(!b)return;try{localStorage.setItem('g2page',b.dataset.gpg)}catch(_){}renderGuide();window.scrollTo({top:0})});
+const G2_PAGE=()=>load('g2page')==='dev'?'dev':'cat';
+document.addEventListener('click',e=>{const b=e.target.closest('[data-gpg]');if(!b)return;save('g2page',b.dataset.gpg);renderGuide();window.scrollTo({top:0})});
 function renderGuide(){const box=$('#guideBox');if(!box||!B)return;try{lvSub()}catch(e){}
   const S=g2Stats(),Y=yl=>Object.entries(S.areas).filter(([k])=>k.startsWith(yl+'|')).map(([k,v])=>[esc(k.split('|')[1]),v]).sort((a,b)=>b[1]-a[1]);
   const amax=Math.max(...Object.values(S.areas),1),bt=S.band.reduce((a,b)=>a+b,0),bmax=Math.max(...S.band,1),wt=(S.wm.UF||0)+(S.wm.PR||0);

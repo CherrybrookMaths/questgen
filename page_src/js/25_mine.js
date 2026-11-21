@@ -2,9 +2,9 @@
    Owner: "Is there a place to manage created exams?" -> "Yeah do that". A third view on the Exams page beside Exam setup and
    Pick by hand: every saved exam (page database, collection `exams`) with Open, Preview, Duplicate, Rename and Delete (two-step
    confirm), search and sort. The page head also shows "Unsaved changes" / "Saved" for the exam being worked on, with a Save button. */
-const EXM={q:'',sort:(()=>{try{return localStorage.getItem('exm_sort')||'new'}catch(e){return 'new'}})(),ren:null,del:null,names:{}};
+const EXM={q:'',sort:(load('exm_sort')||'new'),ren:null,del:null,names:{}};
 function exmSub(){if(!db||typeof _xsub==='undefined'||_xsub)return;
-  try{_xsub=db.collection('exams').onSnapshot(s=>{const d=s.docs||s;XSAVED=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+  try{_xsub=db.collection('exams').onSnapshot(s=>{XSAVED=QG.docs(s).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
     exmNames();if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}},()=>{})}catch(e){}}
 async function exmNames(){const ids=[...new Set(XSAVED.map(x=>x.by).filter(i=>i&&!(i in EXM.names)))];if(!ids.length)return;
   try{const u=await window.claude?.use?.('user');if(!u?.profiles)return;const ps=await u.profiles(ids);ids.forEach(i=>EXM.names[i]=ps?.[i]?.name||'');if(view==='exams'&&EXV.view==='mine')renderMine()}catch(e){}}
@@ -68,7 +68,7 @@ async function exmRename(x,v){v=String(v||'').trim();if(!v){toast('Give the exam
   const {id:_o,...rest}=x;try{await db.doc('exams/'+x.id).set({...rest,sub:v});if(EX.id===x.id){EX.sub=v;xsave()}toast('Renamed')}catch(_){toast('Could not rename. Try again in a moment.')}renderMine()}
 document.addEventListener('keydown',e=>{const i=e.target.closest?.('[data-exm-rt]');if(!i)return;if(e.key==='Enter'){e.preventDefault();const x=XSAVED.find(s=>s.id===i.closest('[data-exm]').dataset.exm);if(x)exmRename(x,i.value)}else if(e.key==='Escape'){EXM.ren=null;renderMine()}});
 document.addEventListener('input',e=>{if(e.target.id==='exmQ'){EXM.q=e.target.value;const p=e.target.selectionStart;renderMine();const i=$('#exmQ');if(i){i.focus();try{i.setSelectionRange(p,p)}catch(_){}}}});
-document.addEventListener('change',e=>{if(e.target.id==='exmSort'){EXM.sort=e.target.value;try{localStorage.setItem('exm_sort',EXM.sort)}catch(_){}renderMine()}});
+document.addEventListener('change',e=>{if(e.target.id==='exmSort'){EXM.sort=e.target.value;save('exm_sort',EXM.sort);renderMine()}});
 
 /* ---------- the open exam saves itself (owner 19 Nov) ----------
    Owner: "It is very easy to override a current exam, too many outs and ways to replace the questions accidentally", "Can't tell when

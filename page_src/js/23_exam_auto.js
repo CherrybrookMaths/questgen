@@ -10,7 +10,7 @@
    its parts' bands, rounded to 0.5; a question's problem-solving share = marks on PR parts / its marks. */
 const XA_DEF=()=>({open:true,topen:true,topics:[],total:100,mcq:10,mcqSet:false,diff:'hsc',pr:30,approved:true,avoid:false,seed:0,locked:[],warns:[],tmix:null,tpr:null,ran:false});
 function xa(){if(!EX.auto||typeof EX.auto!=='object')EX.auto=XA_DEF();const d=XA_DEF();for(const k in d)if(EX.auto[k]===undefined)EX.auto[k]=d[k];return EX.auto}
-const xaSave=()=>{try{localStorage.setItem(XKEY,JSON.stringify(EX))}catch(e){}};
+const xaSave=()=>{save(XKEY,JSON.stringify(EX));};
 const XA_SWAPPED=new Set();
 
 /* ---------- difficulty of a question ---------- */
@@ -84,10 +84,10 @@ const XG={on:[],off:[],show:false,open:{setup:true,pick:false},src:null,dirty:fa
   set(v){const a=x=>Array.isArray(x)?x.filter(k=>typeof k==='string'&&k.startsWith('sub:')):[];XG.on=a(v&&v.on);XG.off=a(v&&v.off)},
   load(){if(!XG.src){try{const v=JSON.parse(localStorage.getItem('qg_learnt')||'null');if(v)XG.set(v)}catch(e){}XG.src='local'}
     if(XG.src==='db'||XG._ld||!QG.db||!QG.me)return;XG._ld=1;
-    Promise.resolve().then(()=>QG.db.doc(XG.path()).get()).then(d=>{const v=d&&d.exists&&(typeof d.data==='function'?d.data():d.data);
+    Promise.resolve().then(()=>QG.db.doc(XG.path()).get()).then(d=>{const v=d&&d.exists&&QG.val(d);
       XG.src='db';if(v&&!XG.dirty){XG.set(v);try{exRefresh()}catch(e){}}},()=>{}).finally(()=>{XG._ld=0})},
   // one write at a time, after a pause, only on a teacher's change
-  save(){XG.dirty=true;const v={on:XG.on.slice(),off:XG.off.slice()};try{localStorage.setItem('qg_learnt',JSON.stringify(v))}catch(e){}
+  save(){XG.dirty=true;const v={on:XG.on.slice(),off:XG.off.slice()};save('qg_learnt',JSON.stringify(v));
     clearTimeout(XG._t);XG._t=setTimeout(()=>{if(!QG.db||!QG.me)return;const w={...v,at:new Date().toISOString()};
       XG._w=(XG._w||Promise.resolve()).then(()=>QG.db.doc(XG.path()).set(w)).catch(()=>{})},700)},
   // a card shown by the switch says what it still needs (owner 17 Nov skill gates)

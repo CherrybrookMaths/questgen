@@ -7,7 +7,7 @@ const LV_FLAGS=[2066,1137,2209,2547,2625,2303,2817,1311,1587];   // parts the ov
 const LV_FIRST=['Y11_Exponential_and_logarithmic_functions','Y11_Trigonometric_identities_and_equations','Y12_Sequences_and_series'];   // thin reference sets first
 const LV_WM={UF:'Understanding & fluency',PR:'Problem solving & reasoning'};
 const LV_BAND={2:'one routine step',3:'two steps / standard technique',4:'several steps, ideas combined',5:'non-routine set-up or general proof',6:'needs real insight'};
-let DIFD={},LVQ=null,LVI=0,LVAREA=(()=>{try{return localStorage.getItem('lv_area')||'thin'}catch(e){return 'thin'}})(),LVSHOW=(()=>{try{return localStorage.getItem('lv_show')||'todo'}catch(e){return 'todo'}})(),_lvsub=null;
+let DIFD={},LVQ=null,LVI=0,LVAREA=(load('lv_area')||'thin'),LVSHOW=(load('lv_show')||'todo'),_lvsub=null;
 const lvName=a=>String(a||'').replace(/^Y1[12]_/,'').replace(/_/g,' ');
 const lvYear=a=>/^Y11/.test(a)?'Y11':'Y12';
 function lvItems(){if(LVQ)return LVQ;const out=[];
@@ -38,7 +38,7 @@ function lvList(){const all=lvItems();
 // claude every time"): a part's saved rating (difficulty/<part_id>, status changed) counts at once in the exam maker; the import and
 // night run fold it into the database (tools/apply_difficulty_reviews.py: owner_band / owner_wm)
 const lvDif=p=>{const o=DIFD[p.id];return o&&o.status==='changed'&&o.band?{...(p.dif||{}),b:o.band,wm:o.wm}:p.dif};
-function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=typeof x.data==='function'?x.data():x.data;if(v)nx[x.id]=v});const ch=JSON.stringify(nx)!==JSON.stringify(DIFD);DIFD=nx;LVQ=null;if(ch){_ee.clear();_qd.clear()}if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
+function lvSub(){if(_lvsub||!db)return;try{_lvsub=db.collection('difficulty').onSnapshot(s=>{const d=s.docs||s,nx={};(d||[]).forEach(x=>{const v=QG.val(x);if(v)nx[x.id]=v});const ch=JSON.stringify(nx)!==JSON.stringify(DIFD);DIFD=nx;LVQ=null;if(ch){_ee.clear();_qd.clear()}if(['inbox','review','levels','reports'].includes(view))renderSteps();if(view==='levels')renderLevels(true);else if(view==='guide'&&typeof g2ChkRefresh==='function')g2ChkRefresh()},()=>{})}catch(e){}}
 function renderLevels(keep){
   lvSub();const box=$('#levelsBox');const all=lvItems(),list=lvList();
   const done=all.filter(lvDone).length, anchors=all.filter(x=>!x.flag), adone=anchors.filter(lvDone).length;
@@ -86,9 +86,9 @@ async function lvSave(){const box=$('#levelsBox'),list=lvList(),x=list[LVI];if(!
   window.scrollTo({top:0,behavior:RM.matches?'auto':'smooth'});
   if(!db){toast('Not saved: open the page in claude.ai to save');return}
   try{await db.doc('difficulty/'+x.p.id).set(v)}catch(e){toast('Could not save. Try again in a moment.')}}
-document.addEventListener('change',e=>{if(e.target.id==='lvArea'){LVAREA=e.target.value;try{localStorage.setItem('lv_area',LVAREA)}catch(_){}LVI=0;renderLevels();renderSteps()}});
+document.addEventListener('change',e=>{if(e.target.id==='lvArea'){LVAREA=e.target.value;save('lv_area',LVAREA);LVI=0;renderLevels();renderSteps()}});
 document.addEventListener('click',e=>{if(view!=='levels')return;
-  const s=e.target.closest('[data-lvshow]');if(s){LVSHOW=s.dataset.lvshow;try{localStorage.setItem('lv_show',LVSHOW)}catch(_){}LVI=0;renderLevels();return}
+  const s=e.target.closest('[data-lvshow]');if(s){LVSHOW=s.dataset.lvshow;save('lv_show',LVSHOW);LVI=0;renderLevels();return}
   const b=e.target.closest('[data-lvb]');if(b){lvSet('band',+b.dataset.lvb);return}
   const w=e.target.closest('[data-lvw]');if(w){lvSet('wm',w.dataset.lvw);return}
   const n=e.target.closest('[data-lvnav]');if(n&&!n.disabled){LVI+=+n.dataset.lvnav;renderLevels(true);window.scrollTo({top:0});return}

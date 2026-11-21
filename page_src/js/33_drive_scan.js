@@ -71,7 +71,7 @@ function classify(p){const X=rx();if(!X)return null;const R=X.R,name=p.split('/'
 
 // ---- the saved scans (db collection scans), newest first
 function subscribe(){if(S.sub||!db||!isOwnerV())return;
-  try{S.sub=db.collection('scans').onSnapshot(s=>{const d=s.docs||s,all=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}));
+  try{S.sub=db.collection('scans').onSnapshot(s=>{const all=QG.docs(s);
     const parts={};all.filter(x=>x&&x.of&&Array.isArray(x.new)).forEach(x=>(parts[x.of]=parts[x.of]||[]).push(x));   // 16 Nov: a scan saved in parts
     S.scans=all.filter(x=>x&&x.at&&Array.isArray(x.new)).map(x=>x.parts>1?{...x,new:x.new.concat(...(parts[x.id]||[]).sort((a,b)=>a.part-b.part).map(p=>p.new))}:x).sort((a,b)=>Date.parse(b.at)-Date.parse(a.at));paint();PQ.sub()},()=>{})}catch(e){}}
 // the latest scan for the sub line: {at, n} (n = its new files still not in the record; same-size look-alikes not counted)

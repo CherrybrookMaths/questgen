@@ -8,7 +8,7 @@ const NOTES={list:[],sub:null,loaded:false,del:null};
 const notesOpen=()=>NOTES.list.filter(n=>!n.done).sort((a,b)=>(+a.order||0)-(+b.order||0)||String(a.at).localeCompare(String(b.at)));
 const notesDone=()=>NOTES.list.filter(n=>n.done).sort((a,b)=>String(b.doneAt||b.at).localeCompare(String(a.doneAt||a.at)));
 function notesSubscribe(){if(NOTES.sub||!db||!isOwnerV())return;
-  try{NOTES.sub=db.collection('notes').onSnapshot(s=>{const d=s.docs||s;NOTES.list=(d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).filter(n=>n&&typeof n.text==='string');NOTES.loaded=true;notesList()},()=>{})}catch(e){}}
+  try{NOTES.sub=db.collection('notes').onSnapshot(s=>{NOTES.list=QG.docs(s).filter(n=>n&&typeof n.text==='string');NOTES.loaded=true;notesList()},()=>{})}catch(e){}}
 // the card is drawn once (so a half-typed note survives the Processes refresh); only the list inside it is redrawn
 function renderNotes(){const box=$('#notesBox');if(!box)return;box.hidden=!isOwnerV();if(box.hidden)return;
   if(!box.dataset.ready){box.dataset.ready='1';

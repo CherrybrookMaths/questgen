@@ -54,7 +54,7 @@ function qPlaces(q){ // owner 12 Nov: one topic home per question
 }
 // owner 12 Nov ("Questions aren't showing in the bank until approved right?" -> "yeah do that"): the Bank shows approved
 // questions only; the owner can switch unapproved ones back on (remembered per browser)
-let BANKALL=(()=>{try{return localStorage.getItem('bankall')==='1'}catch(e){return false}})();
+let BANKALL=load('bankall')==='1';
 // owner 13 Nov: "is there a point in this showing if all questions are approvied?" The chip shows only when some questions are
 // unapproved AND the viewer is an editor (isEditor(), the Teach | Curate check). Non-editors never see unapproved questions, whatever BANKALL says.
 const bankAll=()=>BANKALL&&isEditor();
@@ -262,9 +262,9 @@ $('#nav').addEventListener('click',e=>{
   const b=e.target.closest('button[data-sel]'); if(b){sel=b.dataset.sel;search='';$('#q').value='';save('sel',sel);syncNav();requestAnimationFrame(()=>setTimeout(()=>{renderBank();window.scrollTo({top:0});bankFade()},0))}   // nav moves first, list follows a frame later
 });
 $('#list').addEventListener('click',e=>{
-  const ba=e.target.closest('[data-bankall]'); if(ba&&isEditor()){BANKALL=!BANKALL;try{localStorage.setItem('bankall',BANKALL?'1':'0')}catch(_){}TOPICS=null;renderBank();return}
+  const ba=e.target.closest('[data-bankall]'); if(ba&&isEditor()){BANKALL=!BANKALL;save('bankall',BANKALL?'1':'0');TOPICS=null;renderBank();return}
   const bs=e.target.closest('[data-bsel]'); if(bs){const i=bs.dataset.bsel.indexOf(':'),k=bs.dataset.bsel.slice(0,i),v=bs.dataset.bsel.slice(i+1);BSEL[k]=BSEL[k]===v?null:v;renderBank();return}
-  const bf=e.target.closest('[data-bf]'); if(bf){const [k,v]=bf.dataset.bf.split(':');BF[k]=v;try{localStorage.setItem('bf',JSON.stringify(BF))}catch(_){}renderBank();return}
+  const bf=e.target.closest('[data-bf]'); if(bf){const [k,v]=bf.dataset.bf.split(':');BF[k]=v;save('bf',JSON.stringify(BF));renderBank();return}
   const hm=e.target.closest('[data-home]'); if(hm){bankGo('back',null,()=>{sel=null;save('sel','');renderBank();window.scrollTo({top:0})});return}
   const t=e.target.closest('[data-fa],.subrow[data-sel],.subcard[data-sel],.fah[data-sel]');
   if(t){if(t.classList.contains('none'))return; const prevSel=sel; sel=t.dataset.sel||('fa:'+t.dataset.fa);

@@ -346,7 +346,7 @@ document.addEventListener('keydown',e=>{const i=e.target.closest&&e.target.close
   else if(e.key==='Escape'){i.closest('[data-pcbox]').hidden=true}},true);
 // owner 12 Nov: "one question per page ... K should be to go next. Bind a keystroke to approve, bind a keystroke to flag ...
 // pull up a textbox ... hit enter to send the flag through. Keep a log on the side ... That can collapse as well."
-let logOpen=(()=>{try{return localStorage.getItem('dlog')!=='0'}catch(e){return true}})();
+let logOpen=load('dlog')!=='0';
 function diagLog(){
   const rows=[];
   Object.entries(reviews).forEach(([k,r])=>{if(!/^q\d+$/.test(k)||!r?.fig||!r.at)return;const q=QG.byId.get(+k.slice(1));if(!q)return;
@@ -366,7 +366,7 @@ function pendingFlags(){let n=0,nq=0;(B?.questions||[]).forEach(q=>{if(!waitQ(q)
 // "monday, tuesday, wednesday, friday 9-5 all those days": the button writes runs/<id> {kind:'flags', status:'requested'}; a scheduled
 // session checks hourly in those hours (the platform's minimum) (FLAGS.md "Scheduled check"), the night run clears what is left
 const FLR={runs:[],sub:0,
-  watch(){if(this.sub||!db)return;this.sub=1;try{db.collection('runs').onSnapshot(s=>{this.runs=(s.docs||s||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)})).filter(r=>r.kind==='flags');if(view==='review')renderReview()},()=>{this.sub=0})}catch(e){this.sub=0}},
+  watch(){if(this.sub||!db)return;this.sub=1;try{db.collection('runs').onSnapshot(s=>{this.runs=QG.docs(s).filter(r=>r.kind==='flags');if(view==='review')renderReview()},()=>{this.sub=0})}catch(e){this.sub=0}},
   last(){return this.runs.slice().sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null},
   async ask(){if(!db){toast('Needs the shared database (open the page in claude.ai)');return}const id='flags_'+Date.now(),doc={kind:'flags',status:'requested',by:QG.me||null,at:new Date().toISOString()};
     try{await db.doc('runs/'+id).set(doc);this.runs.push({id,...doc});toast('Sent to Claude');renderReview()}catch(e){toast('Could not send. Try again in a moment.')}}};
@@ -409,7 +409,7 @@ async function diagDecide(v,note,only){const q=rlist[ridx];if(!q)return;const r=
   write(q,note?{fig,fig_notes:notes}:{fig}); const was=q.id; refreshReview();   // move on at once; the save finishes in the background
   if(!_advanced&&rlist[ridx]?.id===was) go(1); window.scrollTo({top:0});}   // the decided question leaves the to-do list; the next one takes its place
 function bindLog(){
-  $('#logT')&&($('#logT').onclick=()=>{logOpen=!logOpen;try{localStorage.setItem('dlog',logOpen?'1':'0')}catch(e){}renderDiag()});
+  $('#logT')&&($('#logT').onclick=()=>{logOpen=!logOpen;save('dlog',logOpen?'1':'0');renderDiag()});
   $$('#rout [data-logq]').forEach(b=>b.onclick=()=>{rstatus='any';pendingOpen=+b.dataset.logq;refreshReview()});
   $$('#rout [data-undo]').forEach(b=>b.onclick=async()=>{const q=QG.byId.get(+b.dataset.undo);const r=reviews['q'+q.id]||{};const fig={...(r.fig||{})};
     chkFigs(q).forEach(k=>delete fig[k]);await write(q,{fig});toast('Undone: '+qid(q)+' is back in the list');refreshReview()});

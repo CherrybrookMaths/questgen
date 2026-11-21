@@ -20,7 +20,7 @@ const STOP_EARLY={failed_papers:1,failed_pages:3,your_calls:13};
 // until a cost per paper is measured, US$12–17 a paper, labelled an estimate (owner 13 Nov)
 const EST=[12,17];
 const ACTIVE=['requested','running'];
-const snap=s=>{const d=s.docs||s;return (d||[]).map(x=>({id:x.id,...(typeof x.data==='function'?x.data():x.data)}))};
+const snap=QG.docs;
 function subscribe(){if(!db||!isOwnerV())return;
   if(!R.subs.q)try{R.subs.q=db.collection('queue').onSnapshot(s=>{R.q=snap(s).filter(x=>x&&x.course&&Number.isFinite(+x.batch));PQ.redraw();draw()},()=>{})}catch(e){}
   if(!R.subs.r)try{R.subs.r=db.collection('runs').onSnapshot(s=>{R.runs=snap(s).filter(x=>x&&x.status);PQ.redraw();draw();

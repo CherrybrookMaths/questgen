@@ -21,6 +21,8 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:n
   courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json',ref:['data/ref/advanced-1.png','data/ref/advanced-2.png']}},
   get courseData(){return this.courses[this.course]},
   byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0,night:null,
+  // health pass 21 Nov: a page-database document's fields, and a snapshot's documents as {id, ...fields} (was written out in 15 places)
+  val:d=>d&&(typeof d.data==='function'?d.data():d.data), docs:s=>((s&&s.docs)||s||[]).map(x=>({id:x.id,...QG.val(x)})),
   // owner 17 Nov: "lets do skill gates, that's important": {skill: [topic keys it needs learnt]} from the details file (tools/bank_split.py
   // skill_gates: the skill's taught topic + its prerequisites' topics, basic skills left out); read by the exam builders (XG, 23_exam_auto.js)
   skills:{}};
