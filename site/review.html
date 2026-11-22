@@ -3199,7 +3199,10 @@ let logOpen=load('dlog')!=='0';
 function diagLog(){
   const rows=[];
   Object.entries(reviews).forEach(([k,r])=>{if(!/^q\d+$/.test(k)||!r?.fig||!r.at)return;const q=QG.byId.get(+k.slice(1));if(!q)return;
-    const own=new Set([...chkFigs(q),...qFigs(q)]),ks=Object.keys(r.fig).filter(f=>own.has(f));   // health pass 21 Nov: Map lookup, figures listed once per recordif(!ks.length)return;
+    const own=new Set([...chkFigs(q),...qFigs(q)]),ks=Object.keys(r.fig).filter(f=>own.has(f));
+    // health pass 21 Nov: Map lookup, figures listed once per record. Bug fix 23 Nov (owner: "yeah fix it"): the comment had swallowed
+    // the guard below, so a record none of whose figures belong to its question showed as an empty "approved" row
+    if(!ks.length)return;
     const fl=ks.filter(f=>r.fig[f]!=='approved');rows.push({q,at:r.at,flag:fl.length?(r.fig_notes?.[fl[0]]||'flagged'):null,nf:fl.length,n:ks.length})});
   rows.sort((x,y)=>y.at.localeCompare(x.at));
   return `<aside class="dlog${logOpen?'':' shut'}"><button class="act ghost" id="logT" aria-expanded="${logOpen}">${logOpen?'Hide log ›':'‹ Log'}</button>

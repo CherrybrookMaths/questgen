@@ -263,6 +263,17 @@ async function flows(browser, base, seed, seedR) {
   let ok;
 
   /* ---- Bank ---- */
+  // 23 Nov: the 21 Nov health pass commented out diagLog's guard, so a review record whose figures no longer belong to its question
+  // showed as an empty "approved" row in Review's diagram log (owner: "yeah fix it")
+  await check('review: diagram log skips records with none of the question\'s figures', page, async () => {
+    const r = await page.evaluate(() => {
+      const q = QG.bank.questions.find(x => !x.dup_of), k = 'q' + q.id, old = QG.reviews[k];
+      QG.reviews[k] = {fig: {'no_such_figure_x9': 'approved'}, at: '2099-01-01T00:00:00Z'};
+      try { return {id: q.id, row: diagLog().includes(`data-logq="${q.id}"`)}; } finally { if (old === undefined) delete QG.reviews[k]; else QG.reviews[k] = old; }
+    });
+    assert(!r.row, `question ${r.id}: an empty row was logged`);
+    return `question ${r.id}: no empty row`;
+  });
   await check('bank: open a subtopic', page, async () => {
     await page.click('#list .subrow[data-sel]:not(.none)');
     await page.waitForSelector('#list .cards .card', {timeout: 10000}); await settle(page, 5000, 2);
