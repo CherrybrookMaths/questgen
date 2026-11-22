@@ -31,8 +31,13 @@ Owner rulings, verbatim (record new ones here and next to the code, `// owner <d
    kilojoules, the International Date Line, timetables, Pareto charts, statistical (z-) tables, simulation. Questions on removed
    content are old syllabus (owner: "keep them out but don't drop yet"). Moved: Year 11 probability -> Year 12; networks, MSTs and
    shortest paths Year 12 -> Year 11; simple interest, straight-line depreciation and electricity costs Year 11 -> Year 12.
-   Borderline calls waiting for the owner: z-tables, similar figures (scale factor), timetables / Date Line, building a quadratic model.
-3. Skills and tagging rules for Standard (TAG_SPEC equivalent; Advanced has 159 skills with prerequisites).
+   Borderline calls, owner 23 Nov: "If they're out then flag them as such. 4 is fine.": questions needing z-tables, pure similar
+   figures (scale factor outside maps and plans), the International Date Line, timetables beyond plain elapsed time, and forming a
+   quadratic model from a description are old syllabus (flagged, kept out, not dropped); a given quadratic model is in.
+3. Skills and tagging rules. Owner 23 Nov on the first draft (83 skills): "we don't care about spreadsheet formulas. remove it.
+   Finer skills is important for money and also others." Draft v2: state/work/skills/standard/skills_draft.json, 149 skills (split
+   finer in money, measurement, data, networks, finance, trigonometry, probability); the 14 spreadsheet dot points carry no skill.
+   Waiting for the owner's approval of the names.
 4. The course in the page: QG.courses.standard (name, bank files, dot points, MST reference sheet), the header course switch, Review
    and exams per course.
 5. Import: a standard|12 lane in the inventory (Standard 2 Year 12 papers only), a cover check that tells Standard 1 from Standard 2

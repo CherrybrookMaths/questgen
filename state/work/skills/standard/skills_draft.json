@@ -1,12 +1,13 @@
 {
- "_note": "DRAFT 23 Nov, not approved: Standard skills (Year 11 common + Year 12 Standard 2), same shape as site/project/skills_spec.json plus requires/basic. Owner approves names before any tagging (Advanced list: owner 12 Nov).",
+ "_note": "DRAFT v2 23 Nov (owner: \"we don't care about spreadsheet formulas. remove it. Finer skills is important for money and also others.\"): Standard skills, Year 11 common + Year 12 Standard 2. Spreadsheet dot points carry no skill. Owner approves before tagging.",
  "skills": [
   {
    "skill": "Substitution into formulas",
    "year": "Year 11",
    "topic": "Formulas and equations",
-   "counts_when": "The marks need a value found by substituting into a given formula or expression.",
-   "not_when": "A named formula with its own skill (BAC, medication dosage, speed, simple/compound interest, z-score ...) takes that skill instead.",
+   "sub": null,
+   "counts_when": "A value found by substituting into a given formula or expression.",
+   "not_when": "A formula with its own skill (BAC, dosage, speed, interest, z-score ...) takes that skill instead.",
    "requires": [],
    "basic": true,
    "dot_points": [
@@ -19,8 +20,9 @@
    "skill": "Changing the subject of a formula",
    "year": "Year 11",
    "topic": "Formulas and equations",
-   "counts_when": "The marks need a formula rearranged (linear, or y = ax^2 + c) before or instead of substituting.",
-   "not_when": "",
+   "sub": null,
+   "counts_when": "A linear formula, or y = ax^2 + c, rearranged.",
+   "not_when": "Rearranging square roots or cubes is old syllabus.",
    "requires": [],
    "basic": false,
    "dot_points": [
@@ -31,8 +33,9 @@
    "skill": "Solving linear equations",
    "year": "Year 11",
    "topic": "Formulas and equations",
-   "counts_when": "The marks need a linear equation set up from words or solved.",
-   "not_when": "Two equations at once are Simultaneous linear equations.",
+   "sub": null,
+   "counts_when": "A linear equation set up from words or solved.",
+   "not_when": "",
    "requires": [],
    "basic": true,
    "dot_points": [
@@ -43,9 +46,25 @@
    "skill": "Speed, distance and time",
    "year": "Year 11",
    "topic": "Formulas and equations",
-   "counts_when": "speed = distance/time with unit changes, or stopping distance = reaction + braking distance.",
-   "not_when": "Reading a distance-time graph is Distance-time graphs.",
+   "sub": null,
+   "counts_when": "speed = distance / time, with unit changes.",
+   "not_when": "",
    "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-003"
+   ]
+  },
+  {
+   "skill": "Stopping distance",
+   "year": "Year 11",
+   "topic": "Formulas and equations",
+   "sub": null,
+   "counts_when": "stopping distance = reaction distance + braking distance, or a given braking formula.",
+   "not_when": "",
+   "requires": [
+    "Speed, distance and time"
+   ],
    "basic": false,
    "dot_points": [
     "S11-003"
@@ -55,7 +74,8 @@
    "skill": "Blood alcohol content",
    "year": "Year 11",
    "topic": "Formulas and equations",
-   "counts_when": "BAC formulas, or hours to reach zero BAC.",
+   "sub": null,
+   "counts_when": "The BAC formulas.",
    "not_when": "",
    "requires": [
     "Substitution into formulas"
@@ -63,15 +83,30 @@
    "basic": false,
    "dot_points": [
     "S11-004",
-    "S11-005",
     "S11-006"
+   ]
+  },
+  {
+   "skill": "Time to reach zero BAC",
+   "year": "Year 11",
+   "topic": "Formulas and equations",
+   "sub": null,
+   "counts_when": "Time = BAC / 0.015.",
+   "not_when": "",
+   "requires": [
+    "Blood alcohol content"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S11-005"
    ]
   },
   {
    "skill": "Medication dosages",
    "year": "Year 11",
    "topic": "Formulas and equations",
-   "counts_when": "Fried's, Young's or Clark's formula, or a dosage by age or weight.",
+   "sub": null,
+   "counts_when": "Fried's, Young's or Clark's formula, or a dose by weight.",
    "not_when": "",
    "requires": [
     "Substitution into formulas"
@@ -82,36 +117,11 @@
    ]
   },
   {
-   "skill": "Spreadsheet formulas",
-   "year": "Year 11",
-   "topic": "Formulas and equations",
-   "counts_when": "The question shows or asks for a spreadsheet formula or cell reference.",
-   "not_when": "Do not tag for a table that is not presented as a spreadsheet.",
-   "requires": [],
-   "basic": false,
-   "dot_points": [
-    "S11-011",
-    "S11-019",
-    "S11-030",
-    "S11-037",
-    "S11-046",
-    "S11-049",
-    "S11-093",
-    "S11-109",
-    "S2-12-006",
-    "S2-12-034",
-    "S2-12-043",
-    "S2-12-046",
-    "S2-12-057",
-    "S2-12-107",
-    "S2-12-119"
-   ]
-  },
-  {
    "skill": "Gradient and intercept",
    "year": "Year 11",
    "topic": "Linear relationships",
-   "counts_when": "The marks need the gradient or y-intercept from a graph or equation.",
+   "sub": "Linear modelling",
+   "counts_when": "Gradient or y-intercept from a graph or an equation.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -124,14 +134,27 @@
    "skill": "Equation of a straight line",
    "year": "Year 11",
    "topic": "Linear relationships",
-   "counts_when": "The marks need y = mx + c written or a line graphed.",
+   "sub": "Linear modelling",
+   "counts_when": "y = mx + c written from a gradient and intercept or from a graph.",
    "not_when": "",
    "requires": [
     "Gradient and intercept"
    ],
    "basic": false,
    "dot_points": [
-    "S11-013",
+    "S11-013"
+   ]
+  },
+  {
+   "skill": "Graphing straight lines",
+   "year": "Year 11",
+   "topic": "Linear relationships",
+   "sub": "Linear modelling",
+   "counts_when": "A straight line drawn on axes.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S11-015"
    ]
   },
@@ -139,24 +162,40 @@
    "skill": "Linear models",
    "year": "Year 11",
    "topic": "Linear relationships",
-   "counts_when": "A linear model of a practical situation is interpreted, used to predict, or its limits explained.",
-   "not_when": "A line of best fit from data is Lines of best fit.",
+   "sub": "Linear modelling",
+   "counts_when": "A linear model of a situation built or interpreted (meaning of gradient and intercept, limits).",
+   "not_when": "Lines of best fit from data have their own skills.",
    "requires": [
     "Gradient and intercept"
    ],
    "basic": false,
    "dot_points": [
     "S11-016",
-    "S11-017",
     "S11-018"
+   ]
+  },
+  {
+   "skill": "Interpolation and extrapolation from a linear model",
+   "year": "Year 11",
+   "topic": "Linear relationships",
+   "sub": "Linear modelling",
+   "counts_when": "A prediction from a linear model inside or outside the data.",
+   "not_when": "",
+   "requires": [
+    "Linear models"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S11-017"
    ]
   },
   {
    "skill": "Direct variation",
    "year": "Year 11",
    "topic": "Linear relationships",
-   "counts_when": "y = kx: find k, use it, or recognise/graph direct variation.",
-   "not_when": "Inverse variation is Reciprocal relationships.",
+   "sub": "Direct variation",
+   "counts_when": "y = kx: find k, use it, or recognise/graph it.",
+   "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
@@ -168,24 +207,76 @@
    ]
   },
   {
-   "skill": "Wages and salaries",
+   "skill": "Salaries",
    "year": "Year 11",
    "topic": "Earning money",
-   "counts_when": "Pay from a salary or hourly rate, including overtime and penalty rates, or converting weekly/fortnightly/monthly/yearly pay.",
+   "sub": "Ways of earning",
+   "counts_when": "Annual salary to a pay period, or salary comparisons.",
    "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
-    "S11-025",
-    "S11-026",
+    "S11-025"
+   ]
+  },
+  {
+   "skill": "Wages and overtime",
+   "year": "Year 11",
+   "topic": "Earning money",
+   "sub": "Ways of earning",
+   "counts_when": "Hourly wages, overtime, penalty rates for weekends and public holidays.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-026"
+   ]
+  },
+  {
+   "skill": "Converting pay periods",
+   "year": "Year 11",
+   "topic": "Earning money",
+   "sub": "Ways of earning",
+   "counts_when": "Weekly, fortnightly, monthly, yearly pay (52 weeks a year).",
+   "not_when": "Salaries or wages questions already need it; tag only when the conversion is the point.",
+   "requires": [],
+   "basic": true,
+   "dot_points": [
     "S11-028"
    ]
   },
   {
-   "skill": "Commission, piecework and other earnings",
+   "skill": "Commission",
    "year": "Year 11",
    "topic": "Earning money",
-   "counts_when": "Commission (incl. sliding scale), piecework, royalties, government allowances or pensions.",
+   "sub": "Ways of earning",
+   "counts_when": "Commission or sliding-scale commission.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-027"
+   ]
+  },
+  {
+   "skill": "Piecework and royalties",
+   "year": "Year 11",
+   "topic": "Earning money",
+   "sub": "Ways of earning",
+   "counts_when": "Pay per item or royalties.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-027"
+   ]
+  },
+  {
+   "skill": "Government allowances and pensions",
+   "year": "Year 11",
+   "topic": "Earning money",
+   "sub": "Ways of earning",
+   "counts_when": "Allowances or pensions.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -197,54 +288,119 @@
    "skill": "Leave loading",
    "year": "Year 11",
    "topic": "Earning money",
-   "counts_when": "Leave loading as a percentage of normal pay.",
+   "sub": "Ways of earning",
+   "counts_when": "Leave loading on normal pay.",
    "not_when": "",
-   "requires": [
-    "Wages and salaries"
-   ],
+   "requires": [],
    "basic": false,
    "dot_points": [
     "S11-029"
    ]
   },
   {
-   "skill": "Taxable income and tax payable",
+   "skill": "Taxable income and deductions",
    "year": "Year 11",
    "topic": "Earning money",
-   "counts_when": "Deductions to taxable income, tax from a tax table, or a refund/amount owing.",
+   "sub": "Taxation",
+   "counts_when": "Taxable income from gross income and allowable deductions.",
    "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
-    "S11-031",
-    "S11-032",
-    "S11-036"
+    "S11-031"
    ]
   },
   {
-   "skill": "PAYG and Medicare levy",
+   "skill": "Tax payable from tax tables",
    "year": "Year 11",
    "topic": "Earning money",
-   "counts_when": "PAYG withholding, the Medicare levy, or net pay after deductions.",
+   "sub": "Taxation",
+   "counts_when": "Tax from a tax table or rates.",
    "not_when": "",
    "requires": [
-    "Taxable income and tax payable"
+    "Taxable income and deductions"
    ],
    "basic": false,
    "dot_points": [
-    "S11-033",
-    "S11-034",
+    "S11-032"
+   ]
+  },
+  {
+   "skill": "PAYG withholding",
+   "year": "Year 11",
+   "topic": "Earning money",
+   "sub": "Taxation",
+   "counts_when": "Tax withheld each pay (PAYG).",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-033"
+   ]
+  },
+  {
+   "skill": "Medicare levy",
+   "year": "Year 11",
+   "topic": "Earning money",
+   "sub": "Taxation",
+   "counts_when": "The Medicare levy.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-034"
+   ]
+  },
+  {
+   "skill": "Net pay",
+   "year": "Year 11",
+   "topic": "Earning money",
+   "sub": "Taxation",
+   "counts_when": "Pay after tax, Medicare levy and other deductions.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S11-035"
+   ]
+  },
+  {
+   "skill": "Tax refunds and amounts owing",
+   "year": "Year 11",
+   "topic": "Earning money",
+   "sub": "Taxation",
+   "counts_when": "Refund or amount owing after a tax return.",
+   "not_when": "",
+   "requires": [
+    "Tax payable from tax tables"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S11-036"
    ]
   },
   {
    "skill": "Percentage increase and decrease",
    "year": "Year 11",
    "topic": "Managing money",
-   "counts_when": "Percentage increase/decrease of a price, or profit and loss as a percentage.",
-   "not_when": "GST is GST and VAT.",
+   "sub": "Purchasing goods",
+   "counts_when": "A price raised or reduced by a percentage, discounts, mark-ups.",
+   "not_when": "",
    "requires": [],
    "basic": true,
+   "dot_points": [
+    "S11-038"
+   ]
+  },
+  {
+   "skill": "Profit and loss",
+   "year": "Year 11",
+   "topic": "Managing money",
+   "sub": "Purchasing goods",
+   "counts_when": "Profit or loss in dollars or as a percentage.",
+   "not_when": "Break-even from cost and revenue lines is Break-even analysis.",
+   "requires": [],
+   "basic": false,
    "dot_points": [
     "S11-038"
    ]
@@ -253,11 +409,10 @@
    "skill": "GST and VAT",
    "year": "Year 11",
    "topic": "Managing money",
+   "sub": "Purchasing goods",
    "counts_when": "GST or VAT added, removed or found.",
    "not_when": "",
-   "requires": [
-    "Percentage increase and decrease"
-   ],
+   "requires": [],
    "basic": false,
    "dot_points": [
     "S11-039",
@@ -265,43 +420,94 @@
    ]
   },
   {
-   "skill": "Buying on terms and buy now, pay later",
+   "skill": "Buy now, pay later",
    "year": "Year 11",
    "topic": "Managing money",
-   "counts_when": "Deposit plus repayments, buy now pay later fees, or comparing payment methods.",
-   "not_when": "A reducing balance loan is Reducing balance loans.",
+   "sub": "Purchasing goods",
+   "counts_when": "Buy now pay later costs and fees.",
+   "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
     "S11-041",
-    "S11-042",
-    "S11-043",
     "S2-12-044"
    ]
   },
   {
-   "skill": "Costs of a vehicle",
+   "skill": "Buying on terms",
    "year": "Year 11",
    "topic": "Managing money",
-   "counts_when": "Purchase, registration, insurance, stamp duty, fuel or maintenance costs of a vehicle.",
+   "sub": "Purchasing goods",
+   "counts_when": "Deposit plus regular repayments, total cost, interest paid.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-042"
+   ]
+  },
+  {
+   "skill": "Comparing ways to pay",
+   "year": "Year 11",
+   "topic": "Managing money",
+   "sub": "Purchasing goods",
+   "counts_when": "Comparing cash, terms, BNPL, credit or loan and choosing one.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-043"
+   ]
+  },
+  {
+   "skill": "Costs of buying a vehicle",
+   "year": "Year 11",
+   "topic": "Managing money",
+   "sub": "Purchasing goods",
+   "counts_when": "Purchase price or loan, registration, insurance, stamp duty.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-044"
+   ]
+  },
+  {
+   "skill": "Running costs of a vehicle",
+   "year": "Year 11",
+   "topic": "Managing money",
+   "sub": "Budgeting",
+   "counts_when": "Fuel, servicing, tyres, ongoing costs.",
    "not_when": "Fuel consumption rates alone are Fuel consumption.",
    "requires": [],
    "basic": false,
    "dot_points": [
-    "S11-044",
     "S11-045"
    ]
   },
   {
-   "skill": "Household bills and budgets",
+   "skill": "Household bills",
    "year": "Year 11",
    "topic": "Managing money",
-   "counts_when": "Electricity, water or gas bills, or a personal/household budget.",
-   "not_when": "Kilowatt-hour energy calculations are Energy and power.",
+   "sub": "Budgeting",
+   "counts_when": "Electricity, water or gas bills.",
+   "not_when": "kWh energy use is Energy and power.",
    "requires": [],
    "basic": false,
    "dot_points": [
-    "S11-047",
+    "S11-047"
+   ]
+  },
+  {
+   "skill": "Budgets",
+   "year": "Year 11",
+   "topic": "Managing money",
+   "sub": "Budgeting",
+   "counts_when": "A personal or household budget, savings, an emergency fund.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S11-048",
     "S11-050"
    ]
@@ -310,7 +516,8 @@
    "skill": "Units of measurement",
    "year": "Year 11",
    "topic": "Applications of measurement",
-   "counts_when": "Converting metric units of length, area, volume, capacity or mass, or volume <-> capacity.",
+   "sub": "Practicalities of measurement",
+   "counts_when": "Converting metric units of length, area, volume, capacity or mass.",
    "not_when": "",
    "requires": [],
    "basic": true,
@@ -327,7 +534,8 @@
    "skill": "Scientific notation and prefixes",
    "year": "Year 11",
    "topic": "Applications of measurement",
-   "counts_when": "Scientific notation, standard prefixes (nano ... tera) or significant figures.",
+   "sub": "Practicalities of measurement",
+   "counts_when": "Scientific notation, standard prefixes, significant figures.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -336,15 +544,43 @@
    ]
   },
   {
-   "skill": "Perimeter and area",
+   "skill": "Perimeter",
    "year": "Year 11",
    "topic": "Applications of measurement",
-   "counts_when": "Perimeter or area of triangles, quadrilaterals, circles, sectors or composite shapes, incl. land by dissection.",
-   "not_when": "Trapezoidal rule estimates are Trapezoidal rule.",
+   "sub": "Perimeter, area and volume",
+   "counts_when": "Perimeter of plane shapes, including circles and composite shapes.",
+   "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
-    "S11-058",
+    "S11-058"
+   ]
+  },
+  {
+   "skill": "Area of plane shapes",
+   "year": "Year 11",
+   "topic": "Applications of measurement",
+   "sub": "Perimeter, area and volume",
+   "counts_when": "Area of triangles, quadrilaterals, circles, sectors or composite shapes.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-058"
+   ]
+  },
+  {
+   "skill": "Area of irregular blocks of land",
+   "year": "Year 11",
+   "topic": "Applications of measurement",
+   "sub": "Perimeter, area and volume",
+   "counts_when": "Land area by dissection into triangles, rectangles and trapeziums.",
+   "not_when": "",
+   "requires": [
+    "Area of plane shapes"
+   ],
+   "basic": false,
+   "dot_points": [
     "S11-060"
    ]
   },
@@ -352,8 +588,9 @@
    "skill": "Pythagoras' theorem",
    "year": "Year 11",
    "topic": "Applications of measurement",
-   "counts_when": "Pythagoras' theorem in a right-angled triangle.",
-   "not_when": "If trig ratios are also needed tag Right-angled trigonometry too.",
+   "sub": "Perimeter, area and volume",
+   "counts_when": "Pythagoras' theorem.",
+   "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
@@ -364,10 +601,11 @@
    "skill": "Surface area",
    "year": "Year 11",
    "topic": "Applications of measurement",
+   "sub": "Perimeter, area and volume",
    "counts_when": "Surface area of prisms, cylinders, spheres or composite solids.",
    "not_when": "",
    "requires": [
-    "Perimeter and area"
+    "Area of plane shapes"
    ],
    "basic": false,
    "dot_points": [
@@ -375,14 +613,28 @@
    ]
   },
   {
-   "skill": "Volume and capacity",
+   "skill": "Volume of prisms and cylinders",
    "year": "Year 11",
    "topic": "Applications of measurement",
-   "counts_when": "Volume or capacity of prisms, cylinders, spheres, cones, pyramids or composite solids.",
-   "not_when": "Rainfall volume from a catchment is Rainfall and catchment.",
+   "sub": "Perimeter, area and volume",
+   "counts_when": "Volume or capacity of prisms and cylinders.",
+   "not_when": "",
    "requires": [
-    "Perimeter and area"
+    "Area of plane shapes"
    ],
+   "basic": false,
+   "dot_points": [
+    "S11-062"
+   ]
+  },
+  {
+   "skill": "Volume of pyramids, cones and spheres",
+   "year": "Year 11",
+   "topic": "Applications of measurement",
+   "sub": "Perimeter, area and volume",
+   "counts_when": "Volume of pyramids, cones, spheres or composite solids with them.",
+   "not_when": "",
+   "requires": [],
    "basic": false,
    "dot_points": [
     "S11-062"
@@ -392,7 +644,8 @@
    "skill": "Trapezoidal rule",
    "year": "Year 11",
    "topic": "Applications of measurement",
-   "counts_when": "Area (or volume) estimated with the Trapezoidal rule.",
+   "sub": "Perimeter, area and volume",
+   "counts_when": "Area or volume estimated with the Trapezoidal rule.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -405,6 +658,7 @@
    "skill": "Latitude and longitude",
    "year": "Year 11",
    "topic": "Time and location",
+   "sub": "Positions on the Earth’s surface",
    "counts_when": "Locating places by latitude and longitude.",
    "not_when": "",
    "requires": [],
@@ -417,8 +671,9 @@
    "skill": "Time differences from longitude",
    "year": "Year 11",
    "topic": "Time and location",
-   "counts_when": "15 degrees = 1 hour to find a time difference.",
-   "not_when": "",
+   "sub": "Positions on the Earth’s surface",
+   "counts_when": "15 degrees = 1 hour.",
+   "not_when": "The International Date Line is old syllabus.",
    "requires": [
     "Latitude and longitude"
    ],
@@ -431,7 +686,8 @@
    "skill": "Elapsed time and time conversions",
    "year": "Year 11",
    "topic": "Time and location",
-   "counts_when": "Converting s/min/h, 12/24-hour time, or elapsed time.",
+   "sub": "Time and time differences",
+   "counts_when": "s/min/h, 12/24-hour time, elapsed time.",
    "not_when": "",
    "requires": [],
    "basic": true,
@@ -442,26 +698,38 @@
    ]
   },
   {
-   "skill": "Time zones and UTC",
+   "skill": "Time zones and daylight saving",
    "year": "Year 11",
    "topic": "Time and location",
-   "counts_when": "Australian time zones and daylight saving, or UTC offsets.",
+   "sub": "Time and time differences",
+   "counts_when": "Australian time zones and daylight saving.",
    "not_when": "",
-   "requires": [
-    "Elapsed time and time conversions"
-   ],
+   "requires": [],
    "basic": false,
    "dot_points": [
-    "S11-069",
+    "S11-069"
+   ]
+  },
+  {
+   "skill": "UTC",
+   "year": "Year 11",
+   "topic": "Time and location",
+   "sub": "Time and time differences",
+   "counts_when": "Times using UTC offsets.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S11-070",
     "S11-071"
    ]
   },
   {
-   "skill": "Network terminology and diagrams",
+   "skill": "Network terminology",
    "year": "Year 11",
    "topic": "Networks, paths and trees",
-   "counts_when": "Vertices, edges, degree, directed/weighted networks, or drawing a network from a table or map.",
+   "sub": "Network concepts",
+   "counts_when": "Vertex, edge, degree, directed, weighted, path, tree, spanning tree.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -469,6 +737,21 @@
     "S11-072",
     "S11-073",
     "S11-074",
+    "S11-077"
+   ]
+  },
+  {
+   "skill": "Drawing networks from tables and maps",
+   "year": "Year 11",
+   "topic": "Networks, paths and trees",
+   "sub": "Network concepts",
+   "counts_when": "A network drawn from a table or map, or read from a network diagram.",
+   "not_when": "",
+   "requires": [
+    "Network terminology"
+   ],
+   "basic": false,
+   "dot_points": [
     "S11-075",
     "S11-076"
    ]
@@ -477,14 +760,14 @@
    "skill": "Minimum spanning trees",
    "year": "Year 11",
    "topic": "Networks, paths and trees",
-   "counts_when": "A minimum spanning tree or minimal connector.",
+   "sub": "Shortest paths and spanning trees",
+   "counts_when": "A minimum spanning tree or minimal connector (any method, incl. Prim or Kruskal).",
    "not_when": "",
    "requires": [
-    "Network terminology and diagrams"
+    "Network terminology"
    ],
    "basic": false,
    "dot_points": [
-    "S11-077",
     "S11-078",
     "S11-079"
    ]
@@ -493,10 +776,11 @@
    "skill": "Shortest paths",
    "year": "Year 11",
    "topic": "Networks, paths and trees",
-   "counts_when": "A shortest path on a network.",
+   "sub": "Shortest paths and spanning trees",
+   "counts_when": "A shortest path, or why it is not the best path.",
    "not_when": "",
    "requires": [
-    "Network terminology and diagrams"
+    "Network terminology"
    ],
    "basic": false,
    "dot_points": [
@@ -508,7 +792,8 @@
    "skill": "Statistical investigations and surveys",
    "year": "Year 11",
    "topic": "Data analysis",
-   "counts_when": "Posing a statistical question, survey design, or privacy/bias/ethics.",
+   "sub": "Statistical investigation process",
+   "counts_when": "Posing a question, survey design, privacy, bias, ethics.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -522,12 +807,27 @@
    "skill": "Sampling methods",
    "year": "Year 11",
    "topic": "Data analysis",
-   "counts_when": "Systematic, self-selected, random or stratified sampling, or whether a sample is representative.",
+   "sub": "Population and sample",
+   "counts_when": "Systematic, self-selected, random or stratified sampling.",
    "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
-    "S11-085",
+    "S11-085"
+   ]
+  },
+  {
+   "skill": "Representative samples and data-collection faults",
+   "year": "Year 11",
+   "topic": "Data analysis",
+   "sub": "Population and sample",
+   "counts_when": "Is a sample representative; faults in data collection.",
+   "not_when": "",
+   "requires": [
+    "Sampling methods"
+   ],
+   "basic": false,
+   "dot_points": [
     "S11-086",
     "S11-087"
    ]
@@ -536,6 +836,7 @@
    "skill": "Classifying data",
    "year": "Year 11",
    "topic": "Data analysis",
+   "sub": "Data classification",
    "counts_when": "Numerical/categorical, discrete/continuous, nominal/ordinal.",
    "not_when": "",
    "requires": [],
@@ -548,19 +849,86 @@
    ]
   },
   {
-   "skill": "Displaying and interpreting data",
+   "skill": "Frequency tables and cumulative frequency",
    "year": "Year 11",
    "topic": "Data analysis",
-   "counts_when": "Frequency tables, cumulative frequency, histograms, dot plots, stem-and-leaf, sector/column/line graphs: drawing, reading, or judging a display.",
-   "not_when": "Box plots are Box plots and five-number summary; scatter plots are Scatter plots and correlation.",
+   "sub": "Display and interpret grouped and ungrouped data",
+   "counts_when": "Grouped or ungrouped frequency tables, cumulative frequency.",
+   "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
     "S11-092",
+    "S11-094"
+   ]
+  },
+  {
+   "skill": "Histograms and frequency polygons",
+   "year": "Year 11",
+   "topic": "Data analysis",
+   "sub": "Display and interpret grouped and ungrouped data",
+   "counts_when": "Histograms, frequency polygons, cumulative frequency graphs (ogives).",
+   "not_when": "Percentiles and deciles from an ogive are old syllabus.",
+   "requires": [
+    "Frequency tables and cumulative frequency"
+   ],
+   "basic": false,
+   "dot_points": [
     "S11-094",
+    "S11-098"
+   ]
+  },
+  {
+   "skill": "Column and sector graphs",
+   "year": "Year 11",
+   "topic": "Data analysis",
+   "sub": "Display and interpret grouped and ungrouped data",
+   "counts_when": "Column, bar, sector (pie) or divided bar graphs.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S11-095",
+    "S11-098"
+   ]
+  },
+  {
+   "skill": "Dot plots and stem-and-leaf plots",
+   "year": "Year 11",
+   "topic": "Data analysis",
+   "sub": "Display and interpret grouped and ungrouped data",
+   "counts_when": "Dot plots, stem-and-leaf and back-to-back stem-and-leaf plots.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-098"
+   ]
+  },
+  {
+   "skill": "Line graphs",
+   "year": "Year 11",
+   "topic": "Data analysis",
+   "sub": "Display and interpret grouped and ungrouped data",
+   "counts_when": "Line graphs.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-098"
+   ]
+  },
+  {
+   "skill": "Choosing and judging graphs",
+   "year": "Year 11",
+   "topic": "Data analysis",
+   "sub": "Display and interpret grouped and ungrouped data",
+   "counts_when": "Choosing a graph, infographics, limitations, misleading graphs.",
+   "not_when": "Pareto charts are old syllabus.",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S11-096",
-    "S11-098",
     "S11-099",
     "S11-100",
     "S11-101"
@@ -570,7 +938,8 @@
    "skill": "Shape of a distribution",
    "year": "Year 11",
    "topic": "Data analysis",
-   "counts_when": "Symmetric or skewed, uniform/unimodal/bimodal.",
+   "sub": "Display and interpret grouped and ungrouped data",
+   "counts_when": "Symmetric or skewed; uniform, unimodal, bimodal.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -580,25 +949,66 @@
    ]
   },
   {
-   "skill": "Mean, median and mode",
+   "skill": "Mean",
    "year": "Year 11",
    "topic": "Data analysis",
-   "counts_when": "Calculating or choosing a measure of centre, from data, a table or a graph.",
+   "sub": "Measures of centre and spread",
+   "counts_when": "Mean from data, a table or a graph.",
    "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
-    "S11-102",
+    "S11-102"
+   ]
+  },
+  {
+   "skill": "Median and mode",
+   "year": "Year 11",
+   "topic": "Data analysis",
+   "sub": "Measures of centre and spread",
+   "counts_when": "Median or mode from data, a table or a graph.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-102"
+   ]
+  },
+  {
+   "skill": "Choosing a measure of centre",
+   "year": "Year 11",
+   "topic": "Data analysis",
+   "sub": "Measures of centre and spread",
+   "counts_when": "Which measure of centre suits, and why.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S11-107",
     "S11-108"
    ]
   },
   {
-   "skill": "Range and standard deviation",
+   "skill": "Range",
    "year": "Year 11",
    "topic": "Data analysis",
-   "counts_when": "Range or population standard deviation, or comparing datasets by spread.",
+   "sub": "Measures of centre and spread",
+   "counts_when": "Range.",
    "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S11-104",
+    "S11-105"
+   ]
+  },
+  {
+   "skill": "Standard deviation",
+   "year": "Year 11",
+   "topic": "Data analysis",
+   "sub": "Measures of centre and spread",
+   "counts_when": "Population standard deviation (calculator).",
+   "not_when": "Sample standard deviation s is old syllabus.",
    "requires": [],
    "basic": false,
    "dot_points": [
@@ -608,17 +1018,34 @@
    ]
   },
   {
-   "skill": "Box plots and five-number summary",
+   "skill": "Quartiles and interquartile range",
    "year": "Year 11",
    "topic": "Data analysis",
-   "counts_when": "Quartiles, IQR, five-number summary, or drawing/reading (parallel) box plots.",
+   "sub": "Quartiles and interquartile range",
+   "counts_when": "Quartiles, IQR, five-number summary.",
    "not_when": "",
-   "requires": [],
+   "requires": [
+    "Median and mode"
+   ],
    "basic": false,
    "dot_points": [
     "S11-110",
     "S11-111",
-    "S11-112",
+    "S11-112"
+   ]
+  },
+  {
+   "skill": "Box plots",
+   "year": "Year 11",
+   "topic": "Data analysis",
+   "sub": "Five-number summary and box plots",
+   "counts_when": "Drawing or reading (parallel) box plots.",
+   "not_when": "",
+   "requires": [
+    "Quartiles and interquartile range"
+   ],
+   "basic": false,
+   "dot_points": [
     "S11-113",
     "S11-114",
     "S11-115",
@@ -629,9 +1056,12 @@
    "skill": "Outliers",
    "year": "Year 11",
    "topic": "Data analysis",
-   "counts_when": "Identifying outliers (incl. Q1 - 1.5 IQR, Q3 + 1.5 IQR) or their effect on statistics.",
+   "sub": "Clusters and outliers",
+   "counts_when": "Clusters, gaps, outliers by 1.5 x IQR, effect of outliers.",
    "not_when": "",
-   "requires": [],
+   "requires": [
+    "Quartiles and interquartile range"
+   ],
    "basic": false,
    "dot_points": [
     "S11-117",
@@ -643,11 +1073,10 @@
    "skill": "Simultaneous linear equations",
    "year": "Year 12 Standard 2",
    "topic": "Algebraic relationships",
+   "sub": "Simultaneous linear equations",
    "counts_when": "Two linear equations solved graphically or algebraically, or set up from a situation.",
-   "not_when": "The break-even point of cost and revenue is Break-even analysis.",
-   "requires": [
-    "Equation of a straight line"
-   ],
+   "not_when": "",
+   "requires": [],
    "basic": false,
    "dot_points": [
     "S2-12-001",
@@ -660,6 +1089,7 @@
    "skill": "Break-even analysis",
    "year": "Year 12 Standard 2",
    "topic": "Algebraic relationships",
+   "sub": "Simultaneous linear equations",
    "counts_when": "Cost and revenue lines, break-even point, profit or loss.",
    "not_when": "",
    "requires": [
@@ -667,41 +1097,68 @@
    ],
    "basic": false,
    "dot_points": [
-    "S2-12-005"
+    "S2-12-005",
+    "S2-12-006"
    ]
   },
   {
-   "skill": "Exponential models",
+   "skill": "Exponential graphs",
    "year": "Year 12 Standard 2",
    "topic": "Algebraic relationships",
-   "counts_when": "y = ka^x or ka^-x: graphing, finding k or a, using the model, or its limits.",
-   "not_when": "Compound interest by formula is Compound interest.",
+   "sub": "Exponential relationships",
+   "counts_when": "y = a^x or a^-x graphed, or its intercept interpreted.",
+   "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
     "S2-12-007",
     "S2-12-008",
+    "S2-12-010"
+   ]
+  },
+  {
+   "skill": "Exponential growth and decay models",
+   "year": "Year 12 Standard 2",
+   "topic": "Algebraic relationships",
+   "sub": "Exponential relationships",
+   "counts_when": "y = ka^x or ka^-x used for growth or decay, or its limits.",
+   "not_when": "Compound interest by formula is Compound interest.",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S2-12-009",
-    "S2-12-010",
     "S2-12-011"
+   ]
+  },
+  {
+   "skill": "Features of a parabola",
+   "year": "Year 12 Standard 2",
+   "topic": "Algebraic relationships",
+   "sub": "Quadratic relationships",
+   "counts_when": "Intercepts, axis of symmetry and vertex of a parabola.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S2-12-013",
+    "S2-12-015",
+    "S2-12-016",
+    "S2-12-018"
    ]
   },
   {
    "skill": "Quadratic models",
    "year": "Year 12 Standard 2",
    "topic": "Algebraic relationships",
-   "counts_when": "A parabola: intercepts, axis of symmetry, vertex, or a practical quadratic model.",
-   "not_when": "",
+   "sub": "Quadratic relationships",
+   "counts_when": "A given quadratic model (equation, table or graph) used to solve a practical problem.",
+   "not_when": "Forming a quadratic model from a description is old syllabus (owner 23 Nov).",
    "requires": [],
    "basic": false,
    "dot_points": [
     "S2-12-012",
-    "S2-12-013",
     "S2-12-014",
-    "S2-12-015",
-    "S2-12-016",
     "S2-12-017",
-    "S2-12-018",
     "S2-12-019"
    ]
   },
@@ -709,7 +1166,8 @@
    "skill": "Reciprocal relationships",
    "year": "Year 12 Standard 2",
    "topic": "Algebraic relationships",
-   "counts_when": "Inverse variation y = k/x: graph, find k, solve or limits.",
+   "sub": "Reciprocal relationships",
+   "counts_when": "Inverse variation y = k/x.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -726,13 +1184,28 @@
    "skill": "Simple interest",
    "year": "Year 12 Standard 2",
    "topic": "Investment and loans",
-   "counts_when": "I = Prn, or simple interest graphs.",
+   "sub": "Investment",
+   "counts_when": "I = Prn.",
    "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
     "S2-12-026",
-    "S2-12-027",
+    "S2-12-027"
+   ]
+  },
+  {
+   "skill": "Simple interest graphs",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Investment",
+   "counts_when": "Graphs of simple interest.",
+   "not_when": "",
+   "requires": [
+    "Simple interest"
+   ],
+   "basic": false,
+   "dot_points": [
     "S2-12-028"
    ]
   },
@@ -740,69 +1213,193 @@
    "skill": "Compound interest",
    "year": "Year 12 Standard 2",
    "topic": "Investment and loans",
-   "counts_when": "FV = PV(1 + r)^n for future or present value or rate, inflation, appreciation, or comparing with simple interest.",
-   "not_when": "Annuities (regular contributions) are Annuities.",
+   "sub": "Investment",
+   "counts_when": "FV = PV(1 + r)^n for future value, present value or rate.",
+   "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
     "S2-12-029",
-    "S2-12-030",
-    "S2-12-031",
-    "S2-12-032",
-    "S2-12-033"
+    "S2-12-030"
    ]
   },
   {
-   "skill": "Shares and dividends",
+   "skill": "Inflation and appreciation",
    "year": "Year 12 Standard 2",
    "topic": "Investment and loans",
-   "counts_when": "Share prices over time, dividends and dividend yield, brokerage, or comparing investment strategies.",
+   "sub": "Investment",
+   "counts_when": "Inflation or appreciation as compound growth.",
    "not_when": "",
-   "requires": [],
-   "basic": false,
-   "dot_points": [
-    "S2-12-035",
-    "S2-12-036",
-    "S2-12-037",
-    "S2-12-038",
-    "S2-12-039"
-   ]
-  },
-  {
-   "skill": "Depreciation",
-   "year": "Year 12 Standard 2",
-   "topic": "Investment and loans",
-   "counts_when": "Straight-line or declining balance depreciation.",
-   "not_when": "",
-   "requires": [],
-   "basic": false,
-   "dot_points": [
-    "S2-12-040",
-    "S2-12-041",
-    "S2-12-042"
-   ]
-  },
-  {
-   "skill": "Reducing balance loans",
-   "year": "Year 12 Standard 2",
-   "topic": "Investment and loans",
-   "counts_when": "A loan with repayments in a table or by spreadsheet/tables, effects of repayment changes, total paid.",
-   "not_when": "Credit cards are Credit cards.",
    "requires": [
     "Compound interest"
    ],
    "basic": false,
    "dot_points": [
-    "S2-12-045",
-    "S2-12-047",
+    "S2-12-030"
+   ]
+  },
+  {
+   "skill": "Compounding periods and rates",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Investment",
+   "counts_when": "Effect of rate, term or compounding period on future value.",
+   "not_when": "",
+   "requires": [
+    "Compound interest"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S2-12-031"
+   ]
+  },
+  {
+   "skill": "Comparing simple and compound interest",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Investment",
+   "counts_when": "Simple vs compound interest numerically or graphically.",
+   "not_when": "",
+   "requires": [
+    "Simple interest",
+    "Compound interest"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S2-12-032",
+    "S2-12-033"
+   ]
+  },
+  {
+   "skill": "Share prices",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Investment",
+   "counts_when": "Share price tables and graphs over time.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S2-12-035",
+    "S2-12-036"
+   ]
+  },
+  {
+   "skill": "Dividends and dividend yield",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Investment",
+   "counts_when": "Dividend paid or dividend yield.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S2-12-037"
+   ]
+  },
+  {
+   "skill": "Brokerage",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Investment",
+   "counts_when": "Brokerage and total cost of buying shares.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S2-12-038"
+   ]
+  },
+  {
+   "skill": "Comparing investments",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Investment",
+   "counts_when": "Savings, term deposits, shares, property compared.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S2-12-039"
+   ]
+  },
+  {
+   "skill": "Straight-line depreciation",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Depreciation",
+   "counts_when": "S = V0 - Dn.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S2-12-040",
+    "S2-12-042"
+   ]
+  },
+  {
+   "skill": "Declining balance depreciation",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Depreciation",
+   "counts_when": "S = V0(1 - r)^n.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S2-12-041",
+    "S2-12-042"
+   ]
+  },
+  {
+   "skill": "Reducing balance loan tables",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Loans",
+   "counts_when": "A reducing balance loan modelled period by period in a table.",
+   "not_when": "",
+   "requires": [
+    "Compound interest"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S2-12-045"
+   ]
+  },
+  {
+   "skill": "Loan repayments and total paid",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Loans",
+   "counts_when": "Repayments, total paid, interest paid, from tables or graphs.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S2-12-048"
    ]
   },
   {
-   "skill": "Credit cards",
+   "skill": "Changing loan repayments",
    "year": "Year 12 Standard 2",
    "topic": "Investment and loans",
-   "counts_when": "Credit card interest (compounding daily), fees, statements, minimum payments.",
+   "sub": "Loans",
+   "counts_when": "Effect of repayment frequency, extra repayments or a lump sum.",
+   "not_when": "",
+   "requires": [
+    "Loan repayments and total paid"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S2-12-047"
+   ]
+  },
+  {
+   "skill": "Credit card interest",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Credit cards",
+   "counts_when": "Interest on a credit card balance (compounding daily), interest-free periods.",
    "not_when": "",
    "requires": [
     "Compound interest"
@@ -810,18 +1407,43 @@
    "basic": false,
    "dot_points": [
     "S2-12-049",
-    "S2-12-050",
+    "S2-12-053"
+   ]
+  },
+  {
+   "skill": "Credit card statements and fees",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Credit cards",
+   "counts_when": "Fees, charges, statements, minimum payments.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S2-12-051",
-    "S2-12-052",
-    "S2-12-053",
+    "S2-12-052"
+   ]
+  },
+  {
+   "skill": "Comparing credit options",
+   "year": "Year 12 Standard 2",
+   "topic": "Investment and loans",
+   "sub": "Credit cards",
+   "counts_when": "Credit card rates vs other loans, choosing credit.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S2-12-050",
     "S2-12-054"
    ]
   },
   {
-   "skill": "Annuities",
+   "skill": "Annuities in a table",
    "year": "Year 12 Standard 2",
    "topic": "Annuities",
-   "counts_when": "Annuity tables (future or present value interest factors), contributions needed, or an annuity modelled in a table.",
+   "sub": null,
+   "counts_when": "An annuity modelled period by period.",
    "not_when": "",
    "requires": [
     "Compound interest"
@@ -829,9 +1451,58 @@
    "basic": false,
    "dot_points": [
     "S2-12-055",
-    "S2-12-056",
-    "S2-12-058",
-    "S2-12-059",
+    "S2-12-056"
+   ]
+  },
+  {
+   "skill": "Future value of an annuity",
+   "year": "Year 12 Standard 2",
+   "topic": "Annuities",
+   "sub": null,
+   "counts_when": "Future value from a table of interest factors.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S2-12-058"
+   ]
+  },
+  {
+   "skill": "Present value of an annuity",
+   "year": "Year 12 Standard 2",
+   "topic": "Annuities",
+   "sub": null,
+   "counts_when": "Present value from a table of interest factors.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S2-12-058"
+   ]
+  },
+  {
+   "skill": "Annuity contributions",
+   "year": "Year 12 Standard 2",
+   "topic": "Annuities",
+   "sub": null,
+   "counts_when": "The contribution needed for a future or present value.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
+    "S2-12-059"
+   ]
+  },
+  {
+   "skill": "Annuity decisions",
+   "year": "Year 12 Standard 2",
+   "topic": "Annuities",
+   "sub": null,
+   "counts_when": "Superannuation, savings or loan decisions using annuities.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S2-12-060",
     "S2-12-061"
    ]
@@ -840,7 +1511,8 @@
    "skill": "Right-angled trigonometry",
    "year": "Year 12 Standard 2",
    "topic": "Trigonometry",
-   "counts_when": "sin, cos, tan in a right-angled triangle for a side or angle (incl. degrees and minutes).",
+   "sub": null,
+   "counts_when": "sin, cos, tan for a side or angle, degrees and minutes.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -849,29 +1521,71 @@
    ]
   },
   {
-   "skill": "Sine rule",
+   "skill": "Angles of elevation and depression",
    "year": "Year 12 Standard 2",
    "topic": "Trigonometry",
-   "counts_when": "Sine rule for a side or an angle (incl. obtuse angle).",
+   "sub": null,
+   "counts_when": "Angles of elevation or depression.",
+   "not_when": "",
+   "requires": [
+    "Right-angled trigonometry"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S2-12-062",
+    "S2-12-071"
+   ]
+  },
+  {
+   "skill": "Sine rule (side)",
+   "year": "Year 12 Standard 2",
+   "topic": "Trigonometry",
+   "sub": null,
+   "counts_when": "Sine rule for a side.",
    "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
-    "S2-12-063",
+    "S2-12-063"
+   ]
+  },
+  {
+   "skill": "Sine rule (angle)",
+   "year": "Year 12 Standard 2",
+   "topic": "Trigonometry",
+   "sub": null,
+   "counts_when": "Sine rule for an angle, incl. obtuse.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S2-12-064",
     "S2-12-065"
    ]
   },
   {
-   "skill": "Cosine rule",
+   "skill": "Cosine rule (side)",
    "year": "Year 12 Standard 2",
    "topic": "Trigonometry",
-   "counts_when": "Cosine rule for a side or an angle.",
+   "sub": null,
+   "counts_when": "Cosine rule for a side.",
    "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
-    "S2-12-066",
+    "S2-12-066"
+   ]
+  },
+  {
+   "skill": "Cosine rule (angle)",
+   "year": "Year 12 Standard 2",
+   "topic": "Trigonometry",
+   "sub": null,
+   "counts_when": "Cosine rule for an angle.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S2-12-067"
    ]
   },
@@ -879,6 +1593,7 @@
    "skill": "Area of a triangle (1/2 ab sin C)",
    "year": "Year 12 Standard 2",
    "topic": "Trigonometry",
+   "sub": null,
    "counts_when": "A = 1/2 ab sin C.",
    "not_when": "",
    "requires": [],
@@ -888,10 +1603,11 @@
    ]
   },
   {
-   "skill": "Bearings",
+   "skill": "True and compass bearings",
    "year": "Year 12 Standard 2",
    "topic": "Trigonometry",
-   "counts_when": "True or compass bearings, converting between them, or bearings in a diagram.",
+   "sub": null,
+   "counts_when": "True or compass bearings, converting between them.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -903,10 +1619,11 @@
    "skill": "Compass radial surveys",
    "year": "Year 12 Standard 2",
    "topic": "Trigonometry",
+   "sub": null,
    "counts_when": "A compass radial survey.",
    "not_when": "",
    "requires": [
-    "Bearings"
+    "True and compass bearings"
    ],
    "basic": false,
    "dot_points": [
@@ -917,7 +1634,8 @@
    "skill": "Ratios",
    "year": "Year 12 Standard 2",
    "topic": "Ratios and rates",
-   "counts_when": "Simplifying ratios, dividing in a ratio, or ratio problems.",
+   "sub": "Ratios",
+   "counts_when": "Simplifying and using ratios.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -925,15 +1643,30 @@
     "S2-12-072",
     "S2-12-073",
     "S2-12-074",
-    "S2-12-075",
     "S2-12-076"
+   ]
+  },
+  {
+   "skill": "Dividing a quantity in a ratio",
+   "year": "Year 12 Standard 2",
+   "topic": "Ratios and rates",
+   "sub": "Ratios",
+   "counts_when": "A quantity shared in a given ratio.",
+   "not_when": "",
+   "requires": [
+    "Ratios"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S2-12-075"
    ]
   },
   {
    "skill": "Capture-recapture",
    "year": "Year 12 Standard 2",
    "topic": "Ratios and rates",
-   "counts_when": "Estimating a population by capture-recapture.",
+   "sub": "Ratios",
+   "counts_when": "Population estimate by capture-recapture.",
    "not_when": "",
    "requires": [
     "Ratios"
@@ -944,17 +1677,32 @@
    ]
   },
   {
-   "skill": "Scale drawings and plans",
+   "skill": "Map scales",
    "year": "Year 12 Standard 2",
    "topic": "Ratios and rates",
-   "counts_when": "Map scales, scale drawings, building plans, estimating materials from a plan.",
+   "sub": "Ratios",
+   "counts_when": "Map scales and real distances.",
+   "not_when": "Pure similar-triangle scale factors are old syllabus (owner 23 Nov: out).",
+   "requires": [
+    "Ratios"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S2-12-078"
+   ]
+  },
+  {
+   "skill": "Scale drawings and building plans",
+   "year": "Year 12 Standard 2",
+   "topic": "Ratios and rates",
+   "sub": "Ratios",
+   "counts_when": "Scale drawings, plans, elevations, estimating materials and costs.",
    "not_when": "",
    "requires": [
     "Ratios"
    ],
    "basic": false,
    "dot_points": [
-    "S2-12-078",
     "S2-12-079",
     "S2-12-080"
    ]
@@ -963,10 +1711,11 @@
    "skill": "Rainfall and catchment",
    "year": "Year 12 Standard 2",
    "topic": "Ratios and rates",
-   "counts_when": "V = Ah rainfall volume over an area.",
+   "sub": "Ratios",
+   "counts_when": "V = Ah rainfall volume.",
    "not_when": "",
    "requires": [
-    "Volume and capacity"
+    "Volume of prisms and cylinders"
    ],
    "basic": false,
    "dot_points": [
@@ -974,10 +1723,11 @@
    ]
   },
   {
-   "skill": "Rates and unit prices",
+   "skill": "Rates",
    "year": "Year 12 Standard 2",
    "topic": "Ratios and rates",
-   "counts_when": "Unit rates, converting rates, best buys.",
+   "sub": "Rates",
+   "counts_when": "Unit rates, converting rates, rate problems (incl. heart rates).",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -986,15 +1736,30 @@
     "S2-12-084",
     "S2-12-085",
     "S2-12-086",
-    "S2-12-087",
     "S2-12-088"
+   ]
+  },
+  {
+   "skill": "Unit pricing and best buys",
+   "year": "Year 12 Standard 2",
+   "topic": "Ratios and rates",
+   "sub": "Rates",
+   "counts_when": "Unit prices and best buys.",
+   "not_when": "",
+   "requires": [
+    "Rates"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S2-12-087"
    ]
   },
   {
    "skill": "Distance-time graphs",
    "year": "Year 12 Standard 2",
    "topic": "Ratios and rates",
-   "counts_when": "Reading a distance-time graph for speed, distance or time.",
+   "sub": "Rates",
+   "counts_when": "Speed, distance or time from a distance-time graph.",
    "not_when": "",
    "requires": [
     "Speed, distance and time"
@@ -1008,10 +1773,11 @@
    "skill": "Fuel consumption",
    "year": "Year 12 Standard 2",
    "topic": "Ratios and rates",
-   "counts_when": "Fuel consumption rates (L/100 km).",
+   "sub": "Rates",
+   "counts_when": "Fuel consumption (L/100 km).",
    "not_when": "",
    "requires": [
-    "Rates and unit prices"
+    "Rates"
    ],
    "basic": false,
    "dot_points": [
@@ -1022,10 +1788,11 @@
    "skill": "Energy and power",
    "year": "Year 12 Standard 2",
    "topic": "Ratios and rates",
-   "counts_when": "Watts and kilowatts, kilowatt hours, energy consumption and cost.",
-   "not_when": "",
+   "sub": "Rates",
+   "counts_when": "W and kW, kilowatt hours, energy cost.",
+   "not_when": "Calories and kilojoules are old syllabus.",
    "requires": [
-    "Rates and unit prices"
+    "Rates"
    ],
    "basic": false,
    "dot_points": [
@@ -1034,39 +1801,97 @@
    ]
   },
   {
-   "skill": "Network flow",
+   "skill": "Flow networks and cuts",
    "year": "Year 12 Standard 2",
    "topic": "Network flow",
-   "counts_when": "Flow capacity, source/sink, cuts, maximum-flow minimum-cut.",
+   "sub": null,
+   "counts_when": "Source, sink, capacity, cuts, flow capacity, saturated edges.",
    "not_when": "",
    "requires": [
-    "Network terminology and diagrams"
+    "Network terminology"
    ],
    "basic": false,
    "dot_points": [
     "S2-12-093",
     "S2-12-094",
-    "S2-12-095",
+    "S2-12-095"
+   ]
+  },
+  {
+   "skill": "Maximum-flow minimum-cut",
+   "year": "Year 12 Standard 2",
+   "topic": "Network flow",
+   "sub": null,
+   "counts_when": "Maximum flow by the minimum cut, changing edge capacities, meeting demand.",
+   "not_when": "",
+   "requires": [
+    "Flow networks and cuts"
+   ],
+   "basic": false,
+   "dot_points": [
     "S2-12-096",
     "S2-12-097",
     "S2-12-098"
    ]
   },
   {
-   "skill": "Critical path analysis",
+   "skill": "Activity networks from precedence tables",
    "year": "Year 12 Standard 2",
    "topic": "Critical path analysis",
-   "counts_when": "Precedence tables, EST/LST by forward and backward scanning, float, critical path, minimum completion time.",
-   "not_when": "A Gantt chart is Gantt charts.",
+   "sub": null,
+   "counts_when": "A project network from a precedence table, incl. dummy activities.",
+   "not_when": "",
    "requires": [
-    "Network terminology and diagrams"
+    "Network terminology"
    ],
    "basic": false,
    "dot_points": [
-    "S2-12-099",
+    "S2-12-099"
+   ]
+  },
+  {
+   "skill": "Earliest and latest starting times",
+   "year": "Year 12 Standard 2",
+   "topic": "Critical path analysis",
+   "sub": null,
+   "counts_when": "EST and LST by forward and backward scanning.",
+   "not_when": "",
+   "requires": [
+    "Activity networks from precedence tables"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S2-12-101"
+   ]
+  },
+  {
+   "skill": "Float time",
+   "year": "Year 12 Standard 2",
+   "topic": "Critical path analysis",
+   "sub": null,
+   "counts_when": "Float of an activity.",
+   "not_when": "",
+   "requires": [
+    "Earliest and latest starting times"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S2-12-102"
+   ]
+  },
+  {
+   "skill": "Critical path and minimum completion time",
+   "year": "Year 12 Standard 2",
+   "topic": "Critical path analysis",
+   "sub": null,
+   "counts_when": "The critical path, minimum completion time, effect of changing a duration.",
+   "not_when": "",
+   "requires": [
+    "Earliest and latest starting times"
+   ],
+   "basic": false,
+   "dot_points": [
     "S2-12-100",
-    "S2-12-101",
-    "S2-12-102",
     "S2-12-103",
     "S2-12-104",
     "S2-12-106"
@@ -1076,10 +1901,11 @@
    "skill": "Gantt charts",
    "year": "Year 12 Standard 2",
    "topic": "Critical path analysis",
-   "counts_when": "A Gantt chart drawn from a network.",
+   "sub": null,
+   "counts_when": "A Gantt chart from a network.",
    "not_when": "",
    "requires": [
-    "Critical path analysis"
+    "Critical path and minimum completion time"
    ],
    "basic": false,
    "dot_points": [
@@ -1090,7 +1916,8 @@
    "skill": "Bivariate data and causation",
    "year": "Year 12 Standard 2",
    "topic": "Bivariate data analysis",
-   "counts_when": "Independent/dependent variables, or correlation versus causation.",
+   "sub": "Bivariate datasets",
+   "counts_when": "Independent/dependent variables, correlation vs causation.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -1102,42 +1929,85 @@
    ]
   },
   {
-   "skill": "Scatter plots and correlation",
+   "skill": "Scatter plots",
    "year": "Year 12 Standard 2",
    "topic": "Bivariate data analysis",
-   "counts_when": "Drawing a scatter plot, describing form/strength/direction, or Pearson's r.",
+   "sub": "Scatter plots and lines of best fit",
+   "counts_when": "Drawing a scatter plot; form, strength and direction.",
    "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
     "S2-12-112",
     "S2-12-114",
-    "S2-12-115",
+    "S2-12-115"
+   ]
+  },
+  {
+   "skill": "Pearson's correlation coefficient",
+   "year": "Year 12 Standard 2",
+   "topic": "Bivariate data analysis",
+   "sub": "Scatter plots and lines of best fit",
+   "counts_when": "Pearson's r calculated or interpreted.",
+   "not_when": "",
+   "requires": [
+    "Scatter plots"
+   ],
+   "basic": false,
+   "dot_points": [
     "S2-12-117"
    ]
   },
   {
-   "skill": "Lines of best fit and regression",
+   "skill": "Line of best fit by eye",
    "year": "Year 12 Standard 2",
    "topic": "Bivariate data analysis",
-   "counts_when": "A line of best fit or least-squares regression line: equation, gradient/intercept meaning, predictions, interpolation/extrapolation.",
+   "sub": "Scatter plots and lines of best fit",
+   "counts_when": "A line of best fit drawn by eye; its gradient and intercept.",
    "not_when": "",
    "requires": [
-    "Scatter plots and correlation"
+    "Scatter plots"
    ],
    "basic": false,
    "dot_points": [
     "S2-12-113",
-    "S2-12-116",
-    "S2-12-118",
+    "S2-12-116"
+   ]
+  },
+  {
+   "skill": "Least-squares regression line",
+   "year": "Year 12 Standard 2",
+   "topic": "Bivariate data analysis",
+   "sub": "Scatter plots and lines of best fit",
+   "counts_when": "The least-squares regression line (calculator).",
+   "not_when": "",
+   "requires": [
+    "Scatter plots"
+   ],
+   "basic": false,
+   "dot_points": [
+    "S2-12-118"
+   ]
+  },
+  {
+   "skill": "Predictions from bivariate data",
+   "year": "Year 12 Standard 2",
+   "topic": "Bivariate data analysis",
+   "sub": "Scatter plots and lines of best fit",
+   "counts_when": "Predicting from a line of best fit; interpolation vs extrapolation.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S2-12-120"
    ]
   },
   {
-   "skill": "Basic probability",
+   "skill": "Sample spaces and equally likely outcomes",
    "year": "Year 12 Standard 2",
    "topic": "Relative frequency and probability",
-   "counts_when": "Sample space, equally likely outcomes, complement.",
+   "sub": null,
+   "counts_when": "Sample space, counting outcomes, P = favourable / total.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -1145,38 +2015,76 @@
     "S2-12-121",
     "S2-12-122",
     "S2-12-123",
-    "S2-12-124",
+    "S2-12-124"
+   ]
+  },
+  {
+   "skill": "Complementary events",
+   "year": "Year 12 Standard 2",
+   "topic": "Relative frequency and probability",
+   "sub": null,
+   "counts_when": "P(not A) = 1 - P(A).",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S2-12-125"
    ]
   },
   {
-   "skill": "Multistage events and tree diagrams",
+   "skill": "Arrays and tree diagrams",
    "year": "Year 12 Standard 2",
    "topic": "Relative frequency and probability",
-   "counts_when": "Arrays, tree diagrams, probability trees, P(A and B) = P(A)P(B).",
+   "sub": null,
+   "counts_when": "Arrays, tree diagrams or probability trees.",
    "not_when": "",
    "requires": [
-    "Basic probability"
+    "Sample spaces and equally likely outcomes"
    ],
    "basic": false,
    "dot_points": [
-    "S2-12-126",
+    "S2-12-126"
+   ]
+  },
+  {
+   "skill": "Multistage events",
+   "year": "Year 12 Standard 2",
+   "topic": "Relative frequency and probability",
+   "sub": null,
+   "counts_when": "P(A and B) = P(A) x P(B).",
+   "not_when": "",
+   "requires": [
+    "Sample spaces and equally likely outcomes"
+   ],
+   "basic": false,
+   "dot_points": [
     "S2-12-127"
    ]
   },
   {
-   "skill": "Relative frequency and expected frequency",
+   "skill": "Relative frequency",
    "year": "Year 12 Standard 2",
    "topic": "Relative frequency and probability",
-   "counts_when": "Relative frequency as an estimate, or expected frequency np.",
+   "sub": null,
+   "counts_when": "Relative frequency as an estimate of probability.",
    "not_when": "",
-   "requires": [
-    "Basic probability"
-   ],
+   "requires": [],
    "basic": false,
    "dot_points": [
     "S2-12-128",
-    "S2-12-129",
+    "S2-12-129"
+   ]
+  },
+  {
+   "skill": "Expected frequency",
+   "year": "Year 12 Standard 2",
+   "topic": "Relative frequency and probability",
+   "sub": null,
+   "counts_when": "Expected number np.",
+   "not_when": "",
+   "requires": [],
+   "basic": false,
+   "dot_points": [
     "S2-12-130"
    ]
   },
@@ -1184,11 +2092,10 @@
    "skill": "Venn diagrams and two-way tables",
    "year": "Year 12 Standard 2",
    "topic": "Relative frequency and probability",
+   "sub": null,
    "counts_when": "Venn diagrams or two-way tables (two attributes).",
    "not_when": "",
-   "requires": [
-    "Basic probability"
-   ],
+   "requires": [],
    "basic": false,
    "dot_points": [
     "S2-12-131"
@@ -1198,7 +2105,8 @@
    "skill": "Normal distribution properties",
    "year": "Year 12 Standard 2",
    "topic": "The normal distribution",
-   "counts_when": "Bell-shaped curve, mean = median = mode, z-scores have mean 0 and sd 1.",
+   "sub": "Normally distributed datasets",
+   "counts_when": "Bell curve, mean = median = mode, z-scores mean 0 sd 1.",
    "not_when": "",
    "requires": [],
    "basic": false,
@@ -1212,13 +2120,28 @@
    "skill": "z-scores",
    "year": "Year 12 Standard 2",
    "topic": "The normal distribution",
-   "counts_when": "Calculating or comparing z-scores.",
+   "sub": "Calculating z-scores",
+   "counts_when": "Calculating a z-score or a value from a z-score.",
    "not_when": "",
    "requires": [],
    "basic": false,
    "dot_points": [
     "S2-12-135",
-    "S2-12-137",
+    "S2-12-137"
+   ]
+  },
+  {
+   "skill": "Comparing with z-scores",
+   "year": "Year 12 Standard 2",
+   "topic": "The normal distribution",
+   "sub": "Calculating z-scores",
+   "counts_when": "Comparing results from different datasets with z-scores.",
+   "not_when": "",
+   "requires": [
+    "z-scores"
+   ],
+   "basic": false,
+   "dot_points": [
     "S2-12-138"
    ]
   },
@@ -1226,8 +2149,9 @@
    "skill": "Empirical rule (68-95-99.7)",
    "year": "Year 12 Standard 2",
    "topic": "The normal distribution",
-   "counts_when": "Probabilities or percentages from the 68-95-99.7 rule, shading under the curve.",
-   "not_when": "",
+   "sub": "Calculating z-scores",
+   "counts_when": "Probabilities or percentages from the 68-95-99.7 rule.",
+   "not_when": "Probabilities from z-tables are old syllabus (owner 23 Nov: out).",
    "requires": [
     "z-scores"
    ],
