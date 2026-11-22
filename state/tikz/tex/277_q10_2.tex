@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (233,385) -- (233,15);
+\draw[->] (18,200) -- (445,200);
+\node at (220,20) {$y$};
+\node at (434,220) {$x$};
+\node at (214,222) {$O$};
+\draw[<->] plot[smooth, domain=-88:88, samples=90] ({230+\x},{253-75*(\x/88)^2-138*(\x/88)^4});
+\end{tikzpicture}
+\end{document}

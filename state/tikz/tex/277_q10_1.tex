@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.append style={font=\fontsize{11}{13}\selectfont}]
+% left: f
+\draw[->] (287,430) -- (287,20);
+\draw[->] (25,225) -- (548,225);
+\node at (268,28) {$y$};
+\node at (540,250) {$x$};
+\node at (268,250) {$O$};
+\draw[<-] plot[smooth, domain=-92:0, samples=40] ({287+\x},{225-180*(\x/92)^3});
+\draw[->] plot[smooth, domain=0:87, samples=40] ({287+\x},{225-173*(\x/87)^3});
+\node[anchor=west] at (378,55) {$y=f(x)$};
+% right: g
+\draw[->] (907,430) -- (907,20);
+\draw[aux,->] (650,228) -- (1140,228);
+\node at (890,28) {$y$};
+\node at (1132,252) {$x$};
+\node at (888,252) {$O$};
+\draw[<->] plot[smooth, domain=652:993, samples=90] (\x,{228-51*exp(0.0142*(\x-907))});
+\node[anchor=west] at (1000,55) {$y=g(x)$};
+\node[anchor=west] at (965,200) {asymptote at $y=0$};
+\end{tikzpicture}
+\end{document}

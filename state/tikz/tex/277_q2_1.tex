@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\f#1{(256-253*exp(-0.5*(((#1)-390)/80)^2))}
+\fill[shade] (115,268) -- plot[smooth,domain=115:665,samples=90] (\x,{\f{\x}}) -- (665,268) -- cycle;
+\draw[<->] (25,268) -- (752,268);
+\draw[line width=0.9pt] plot[smooth,domain=68:712,samples=90] (\x,{\f{\x}});
+\draw (115,{\f{115}}) -- (115,290);
+\draw (665,{\f{665}}) -- (665,290);
+\draw[aux] (390,3) -- (390,268);
+\node at (113,307) {$25$};
+\node at (661,307) {$145$};
+\end{tikzpicture}
+\end{document}

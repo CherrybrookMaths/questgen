@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (30,470) -- (670,470);
+  \draw[fill=black!10] (612,143) rectangle (637,470);
+  \draw[fill=black!10] (590,127) rectangle (668,143);
+  \draw[fill=black!10] (589,38) rectangle (597,145);
+  \draw[fill=black!10] (524,124) rectangle (590,131);
+  \draw (532,131) .. controls (538,145) and (534,155) .. (536,166);
+  \draw (548,131) .. controls (552,145) and (550,155) .. (552,166);
+  \draw (566,131) .. controls (562,145) and (564,155) .. (562,166);
+  \draw (582,131) .. controls (576,145) and (578,155) .. (576,166);
+  \draw[fill=black!30] (43,228) circle (14);
+  \draw (29,228) -- (57,228) (43,214) -- (43,242);
+  \draw (35,216) .. controls (40,222) and (40,234) .. (35,240);
+  \draw (51,216) .. controls (46,222) and (46,234) .. (51,240);
+  \draw[aux,->] plot[smooth,tension=0.7] coordinates {(50,207) (95,120) (160,58) (240,22) (320,14) (400,24) (470,55) (543,113)};
+  \draw[->] (43,322) -- (43,244); \draw[->] (43,358) -- (43,470);
+  \node at (42,340) {2 m};
+  \draw[->] (212,237) -- (212,35); \draw[->] (212,273) -- (212,470);
+  \node at (212,255) {4 m};
+  \draw[->] (548,282) -- (548,132); \draw[->] (548,318) -- (548,470);
+  \node at (548,300) {3 m};
+  \draw[<->] (43,403) -- (212,403);
+  \node at (128,425) {5 m};
+  \draw[<->] (43,488) -- (548,488);
+  \node at (295,512) {14 m};
+\end{tikzpicture}
+\end{document}

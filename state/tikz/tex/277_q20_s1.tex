@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% hoop stand
+\filldraw[fill=black!18] (485,160) rectangle (502,405);
+\filldraw[fill=black!18] (467,150) rectangle (527,160);
+\filldraw[fill=black!18] (465,82) rectangle (470,160);
+\draw (420,148) rectangle (467,152);
+\draw (425,152) to[bend right=10] (428,185);
+\draw (460,152) to[bend left=10] (455,185);
+% axes
+\draw[->] (62,405)--(565,405);
+\draw[->] (62,405)--(62,12);
+\draw[aux] (62,80) -| (187,405);
+\draw[aux] (62,150) -| (437,405);
+% path
+\draw[line width=0.9pt, domain=0:375, smooth, samples=90] plot ({62+\x},{222-1.608*\x+0.003776*\x*\x});
+% ball
+\filldraw[fill=black!35] (62,222) circle (17);
+\draw (45,222)--(79,222) (62,205)--(62,239);
+\draw (52,208) to[bend right=35] (52,236);
+\draw (72,208) to[bend left=35] (72,236);
+\node at (33,80) {4};
+\node at (33,150) {3};
+\node at (30,225) {2};
+\node at (45,425) {$O$};
+\node at (187,437) {5};
+\node at (437,437) {14};
+\node at (568,427) {$x$};
+\node at (46,17) {$y$};
+\end{tikzpicture}
+\end{document}

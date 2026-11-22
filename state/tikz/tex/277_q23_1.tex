@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (P) at (457,530);
+\coordinate (Q) at (615,313);
+\coordinate (R) at (252,37);
+\coordinate (X) at (253,290);
+\draw[->] (492,571) -- (65,69);
+\draw[->] (425,573) -- (702,194);
+\draw (R)--(X)--(Q)--(R)--(P);
+\draw ($(X)+(0,-16)$) -- ++(16,1) -- ($(X)+(16,1)$);
+\draw pic[draw, angle radius=0.95cm] {angle=R--P--X};
+\draw pic[draw, angle radius=1.0cm] {angle=X--Q--R};
+\draw[<->] (468,538)--(626,321);
+\foreach \p in {P,Q,R,X} \fill (\p) circle (3.3);
+\node at (252,15) {$R$};
+\node at (245,312) {$X$};
+\node at (618,290) {$Q$};
+\node at (457,557) {$P$};
+\node at (237,160) {$h$};
+\node at (40,72) {\textbf{NW}};
+\node at (742,180) {\textbf{NE}};
+\node[align=center] at (885,275) {NOT TO\\SCALE};
+\node at (380,445) {$10^\circ$};
+\node at (520,280) {$5^\circ$};
+\node[rotate=54] at (550,440) {100 m};
+\end{tikzpicture}
+\end{document}

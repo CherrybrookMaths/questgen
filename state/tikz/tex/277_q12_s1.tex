@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6668cm,y=0.6668cm]
+  \draw[->] (-2.55,0) -- (4.95,0);
+  \draw[->] (0,-4.5) -- (0,4.75);
+  \foreach \t in {-2,2,4} \draw (\t,0) -- (\t,0.12);
+  \foreach \t in {-4,-2,2,4} \draw (0,\t) -- (0.12,\t);
+  \foreach \t in {-2,2,4} \node[below] at (\t,-0.08) {$\t$};
+  \node[below left] at (-0.12,-0.05) {$0$};
+  \foreach \t in {-4,-2,2,4} \node[left] at (-0.06,\t) {$\t$};
+  \node[left] at (-0.02,4.85) {$y$};
+  \node[below] at (4.9,-0.1) {$x$};
+  \draw[line width=0.9pt,->] (-2,1) -- (0,1) plot[smooth,domain=0:2.2,samples=90] (\x,{1-\x*\x});
+\end{tikzpicture}
+\end{document}

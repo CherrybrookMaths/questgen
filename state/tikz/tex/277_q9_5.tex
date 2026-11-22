@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (30,430) -- (30,10);
+\draw[->] (18,428) -- (358,428);
+\foreach \a/\b/\h in {63/98/389, 98/132/389, 132/167/325, 167/201/224, 201/236/86, 236/270/52, 270/305/325}
+  \draw (\a,428) rectangle (\b,\h);
+\end{tikzpicture}
+\end{document}

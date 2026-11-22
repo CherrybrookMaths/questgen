@@ -1,0 +1,147 @@
+<title>Standard Skill Sign-off</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column of topic groups; a sticky tally bar; each skill a row with its approve / change control on the right */
+:root{
+  --bg:#f6f7f4; --panel:#ffffff; --ink:#1d2420; --muted:#5d6862; --line:#dde2dc;
+  --accent:#1f6f5c; --accent-soft:#e3f0eb; --ok:#1f7a45; --ok-soft:#e2f3e8; --chg:#a5560f; --chg-soft:#fbecdc;
+  --display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif; --body:Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#141917; --panel:#1c2320; --ink:#e7ece8; --muted:#9aa69f; --line:#2e3833;
+  --accent:#5cc3a6; --accent-soft:#1f3a32; --ok:#6fd39a; --ok-soft:#1d3527; --chg:#f0a25a; --chg-soft:#3b2a1a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#141917; --panel:#1c2320; --ink:#e7ece8; --muted:#9aa69f; --line:#2e3833;
+  --accent:#5cc3a6; --accent-soft:#1f3a32; --ok:#6fd39a; --ok-soft:#1d3527; --chg:#f0a25a; --chg-soft:#3b2a1a; color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font:15px/1.5 var(--body);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:860px;margin:0 auto}
+header.top{padding-block:28px 8px}
+h1{font:700 clamp(1.5rem,4vw,2rem)/1.15 var(--display);margin:0;text-wrap:balance}
+.lede{color:var(--muted);margin:6px 0 0;max-width:62ch}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:12px;border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center}
+.tally{display:flex;gap:14px;font-variant-numeric:tabular-nums;font-size:14px}
+.tally b{font-weight:600}
+.meter{flex:1 1 160px;height:8px;border-radius:4px;background:var(--line);overflow:hidden;display:flex;min-width:120px}
+.meter i{display:block;height:100%}
+.meter .m-ok{background:var(--ok)} .meter .m-chg{background:var(--chg)}
+.seg{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.seg button{border:0;background:var(--panel);color:var(--ink);padding:6px 12px;font:500 13px var(--body);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--bg)}
+.status{font-size:13px;color:var(--muted);width:100%}
+.status.warn{color:var(--chg)}
+section.topic{margin-top:22px}
+.th{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;padding-bottom:6px;border-bottom:2px solid var(--ink)}
+.th h2{font:600 1.15rem/1.2 var(--display);margin:0}
+.th .yr{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.th .cnt{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;margin-left:auto}
+.th .all{border:1px solid var(--ok);color:var(--ok);background:transparent;border-radius:6px;padding:4px 10px;font:500 13px var(--body);cursor:pointer}
+.th .all:disabled{opacity:.45;cursor:default}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 14px;padding:12px 0;border-bottom:1px solid var(--line);align-items:start}
+.row.ok .nm::after{content:" ✓";color:var(--ok)}
+.row.chg{background:linear-gradient(90deg,var(--chg-soft),transparent 70%)}
+.nm{font-weight:600}
+.basic{font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border-radius:4px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+.when{color:var(--muted);font-size:14px;margin-top:2px}
+.not{color:var(--muted);font-size:13px;margin-top:2px}
+.not::before{content:"Not: ";font-weight:600}
+details.dp{margin-top:4px;font-size:13px;color:var(--muted)}
+details.dp summary{cursor:pointer;width:fit-content}
+details.dp li{margin:3px 0}
+details.dp code{font-size:12px;color:var(--ink)}
+.req{font-size:13px;color:var(--muted);margin-top:2px}
+.ctl{display:flex;gap:6px}
+.ctl button{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:6px;padding:6px 10px;font:500 13px var(--body);cursor:pointer;white-space:nowrap}
+.ctl .b-ok[aria-pressed="true"]{background:var(--ok);border-color:var(--ok);color:var(--bg)}
+.ctl .b-chg[aria-pressed="true"]{background:var(--chg);border-color:var(--chg);color:var(--bg)}
+.edit{grid-column:1/-1;display:grid;gap:6px;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px}
+.edit label{font-size:12px;color:var(--muted);display:grid;gap:3px}
+.edit input,.edit textarea{font:14px var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%;box-sizing:border-box}
+.edit .acts{display:flex;gap:8px;flex-wrap:wrap}
+.edit .acts button{border:1px solid var(--chg);background:var(--chg);color:var(--bg);border-radius:6px;padding:6px 12px;font:500 13px var(--body);cursor:pointer}
+.edit .acts .ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.said{grid-column:1/-1;font-size:13px;color:var(--chg)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.empty{color:var(--muted);padding:24px 0}
+@media (max-width:520px){.row{grid-template-columns:1fr}.ctl{justify-content:flex-start}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1>Standard skills: approve the names</h1>
+    <p class="lede">Year 11 and Year 12 Standard 2. Teachers will tick these when they build exams. Approve a skill, or mark it to change and say how. <span class="basic">assumed</span> skills never hold a question back.</p>
+  </header>
+  <div class="bar" id="bar">
+    <div class="tally"><span><b id="nOk">0</b> approved</span><span><b id="nChg">0</b> to change</span><span><b id="nLeft">0</b> left</span></div>
+    <div class="meter" aria-hidden="true"><i class="m-ok" id="mOk"></i><i class="m-chg" id="mChg"></i></div>
+    <div class="seg" role="group" aria-label="Show">
+      <button id="f-left" aria-pressed="true">To check</button><button id="f-chg" aria-pressed="false">To change</button><button id="f-all" aria-pressed="false">All</button>
+    </div>
+    <div class="status" id="status">Loading your saved decisions…</div>
+  </div>
+  <main id="list"><p class="empty">Loading the skill list…</p></main>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+let SK=[],DEC={},FILTER='left',OPEN=null,db=null,canWrite=false;
+const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const st=id=>DEC[id]?.status||null;
+function setStatus(t,warn){const e=$('#status');e.textContent=t;e.classList.toggle('warn',!!warn)}
+function tally(){const ok=SK.filter(s=>st(s.id)==='ok').length,ch=SK.filter(s=>st(s.id)==='change').length,n=SK.length;
+  $('#nOk').textContent=ok;$('#nChg').textContent=ch;$('#nLeft').textContent=n-ok-ch;
+  $('#mOk').style.width=(100*ok/Math.max(1,n))+'%';$('#mChg').style.width=(100*ch/Math.max(1,n))+'%'}
+function show(s){const x=st(s.id);return FILTER==='all'||(FILTER==='left'?!x:x==='change')||OPEN===s.id}
+function render(){tally();
+  const groups=[];SK.forEach(s=>{const k=s.year+'|'+s.topic;let g=groups.find(g=>g.k===k);if(!g)groups.push(g={k,year:s.year,topic:s.topic,items:[]});g.items.push(s)});
+  let html='';
+  for(const g of groups){const vis=g.items.filter(show);if(!vis.length)continue;
+    const left=g.items.filter(s=>!st(s.id)).length;
+    html+=`<section class="topic"><div class="th"><span class="yr">${esc(g.year)}</span><h2>${esc(g.topic)}</h2><span class="cnt">${g.items.length-left} of ${g.items.length} decided</span>${canWrite?`<button class="all" data-all="${esc(g.k)}" ${left?'':'disabled'}>Approve the rest (${left})</button>`:''}</div>`;
+    for(const s of vis){const x=st(s.id),d=DEC[s.id]||{};
+      html+=`<div class="row ${x==='ok'?'ok':x==='change'?'chg':''}" id="r-${s.id}"><div>
+        <div class="nm">${esc(s.name)}${s.basic?'<span class="basic">assumed</span>':''}</div>
+        <div class="when">${esc(s.when)}</div>${s.not?`<div class="not">${esc(s.not)}</div>`:''}
+        ${s.req.length?`<div class="req">Builds on: ${s.req.map(esc).join(', ')}</div>`:''}
+        <details class="dp"><summary>${s.dots.length} syllabus dot point${s.dots.length>1?'s':''}</summary><ul>${s.dots.map(([i,t])=>`<li><code>${esc(i)}</code> ${esc(t)}</li>`).join('')}</ul></details></div>
+        ${canWrite?`<div class="ctl"><button class="b-ok" data-ok="${s.id}" aria-pressed="${x==='ok'}">Approve</button><button class="b-chg" data-chg="${s.id}" aria-pressed="${x==='change'}">Change…</button></div>`:''}
+        ${x==='change'&&OPEN!==s.id&&(d.name||d.note)?`<div class="said">${d.name?`Rename to “${esc(d.name)}”. `:''}${esc(d.note||'')}</div>`:''}
+        ${OPEN===s.id?`<div class="edit"><label for="nm-${s.id}">New name (leave empty to keep it)<input id="nm-${s.id}" value="${esc(d.name||'')}" placeholder="${esc(s.name)}"></label>
+          <label for="nt-${s.id}">What should change (merge, split, drop, rule)<textarea id="nt-${s.id}" rows="2">${esc(d.note||'')}</textarea></label>
+          <div class="acts"><button data-save="${s.id}">Save change</button><button class="ghost" data-cancel="1">Cancel</button>${x?`<button class="ghost" data-clear="${s.id}">Clear decision</button>`:''}</div></div>`:''}
+      </div>`}
+    html+='</section>'}
+  $('#list').innerHTML=html||`<p class="empty">${FILTER==='left'?'Every skill has a decision. Switch to All to review them.':'Nothing marked to change.'}</p>`;
+  if(OPEN){const i=$('#nm-'+OPEN);if(i)i.focus()}}
+let busy=Promise.resolve();
+function write(id,data){busy=busy.then(async()=>{try{const r=db.collection('decisions').doc(id);data?await r.set({...data,at:new Date().toISOString()}):await r.delete()}catch(e){setStatus('Could not save: '+(e?.message||e?.code||'the page database refused the write')+'. Your last choice is not saved.',true)}});return busy}
+function decide(id,data){if(data)DEC[id]={...data};else delete DEC[id];render();return write(id,data)}
+document.addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+  if(t.id?.startsWith('f-')){FILTER=t.id.slice(2);document.querySelectorAll('.seg button').forEach(b=>b.setAttribute('aria-pressed',b===t));OPEN=null;render();return}
+  if(!canWrite)return;
+  if(t.dataset.ok){const id=t.dataset.ok;OPEN=null;decide(id,st(id)==='ok'?null:{status:'ok'});return}
+  if(t.dataset.chg){OPEN=OPEN===t.dataset.chg?null:t.dataset.chg;render();return}
+  if(t.dataset.cancel){OPEN=null;render();return}
+  if(t.dataset.clear){const id=t.dataset.clear;OPEN=null;decide(id,null);return}
+  if(t.dataset.save){const id=t.dataset.save,nm=$('#nm-'+id).value.trim(),nt=$('#nt-'+id).value.trim();
+    if(!nm&&!nt){setStatus('Write a new name or a note, or press Cancel.',true);return}
+    OPEN=null;decide(id,{status:'change',name:nm,note:nt});return}
+  if(t.dataset.all){const items=SK.filter(s=>s.year+'|'+s.topic===t.dataset.all&&!st(s.id));items.forEach(s=>DEC[s.id]={status:'ok'});render();items.forEach(s=>write(s.id,{status:'ok'}))}
+});
+(async()=>{
+  try{SK=await (await fetch('skills.json')).json()}catch(e){$('#list').innerHTML='<p class="empty">The skill list did not load. Reload the page.</p>';return}
+  render();
+  const claude=window.claude;db=claude?await claude.use('db'):null;
+  if(!db){setStatus('Read-only here: decisions can be made when you open this page signed in to claude.ai.',true);render();return}
+  const user=await claude.use('user');canWrite=user?(user.canEdit()||user.isOwner()):false;
+  if(!canWrite)setStatus('You can view this list; only the owner records decisions.');
+  const timer=setTimeout(()=>setStatus('Your saved decisions have not loaded yet. Check the connection; the page keeps trying.',true),10000);
+  db.collection('decisions').onSnapshot(snap=>{if(!snap.metadata?.fromCache)clearTimeout(timer);
+    const nx={};snap.docs.forEach(d=>{const v=d.data();if(v)nx[d.id]=v});DEC=nx;
+    if(canWrite)setStatus('Saved as you go. Claude reads these decisions back.');render()},
+    e=>{clearTimeout(timer);setStatus('Your saved decisions could not be read ('+(e?.code||'error')+').',true)});
+})();
+</script>

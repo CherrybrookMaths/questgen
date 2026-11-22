@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+  \draw (15,238) -- (122,130);
+  \draw (15,238) -- (122,345);
+  \draw (277,130) -- (382,68);
+  \draw (277,130) -- (382,190);
+  \draw (277,343) -- (382,278);
+  \draw (277,343) -- (382,403);
+  \node[align=center] at (200,131) {prohibited\\items};
+  \node[align=center] at (200,353) {no\\prohibited\\items};
+  \foreach \y/\t in {68/alarm triggered,190/no alarm triggered,278/alarm triggered,402/no alarm triggered}
+    \node[anchor=west] at (386,\y) {\t};
+  \node at (58,128) {$\dfrac{5}{100}$};
+  \node at (58,342) {$\dfrac{95}{100}$};
+  \node at (310,60) {$\dfrac{\mathbf{95}}{\mathbf{100}}$};
+  \node at (310,195) {$\dfrac{\mathbf{5}}{\mathbf{100}}$};
+  \node at (310,272) {$\dfrac{\mathbf{2}}{\mathbf{100}}$};
+  \node at (310,412) {$\dfrac{\mathbf{98}}{\mathbf{100}}$};
+\end{tikzpicture}
+\end{document}

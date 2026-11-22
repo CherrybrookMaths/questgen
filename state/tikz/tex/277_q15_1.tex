@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+  \draw[->] (143,485) -- (668,485);
+  \draw[->] (143,485) -- (143,18);
+  \draw[aux] (143,155) -- (540,155) -- (540,485);
+  \draw[line width=0.9pt] (242,400) -- (642,68);
+  \foreach \p in {(262,364),(280,297),(308,328),(333,364),(341,312),(356,206),(356,258),(359,282),(380,346),(390,252),(402,293),(419,236),(427,224),(450,189),(450,258),(450,277),(473,224),(479,172),(498,242),(507,203),(521,137),(540,132),(540,155),(545,84),(568,137),(568,171),(592,101),(615,136)}
+    \fill \p circle (4.3);
+  \node[anchor=east] at (137,20) {$y$};
+  \node at (660,510) {$x$};
+  \node at (130,500) {$0$};
+  \node at (540,517) {$180$};
+  \node[anchor=east] at (138,155) {$184$};
+  \node[rotate=90] at (40,290) {daughter's height (cm)};
+  \node at (405,570) {mother's height (cm)};
+\end{tikzpicture}
+\end{document}

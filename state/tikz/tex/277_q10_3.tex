@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (262,395) -- (262,5);
+\draw[aux,->] (35,196) -- (480,196);
+\node at (247,12) {$y$};
+\node at (472,220) {$x$};
+\node at (243,220) {$O$};
+\draw[<->] plot[smooth, domain=-224:190, samples=90] ({262+\x},{196-43*exp(-(\x/40)^2/2)});
+\node[anchor=west, font=\fontsize{11}{13}\selectfont] at (330,158) {asymptote at $y=0$};
+\end{tikzpicture}
+\end{document}

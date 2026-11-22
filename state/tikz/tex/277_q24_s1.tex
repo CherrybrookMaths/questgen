@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (10,288)--(705,288);
+\draw[->] (78,355)--(78,10);
+\draw[aux] (78,138)--(577.2,138);
+\foreach \t in {244.4,410.8,577.2} \draw[aux] (\t,138)--(\t,288);
+\foreach \y in {48,138,228} \draw (72,\y)--(78,\y);
+\draw[line width=0.9pt, smooth, samples=90, domain=0:24] plot ({78+20.8*\x},{288-30*(5+3*sin(45*\x))});
+\fill (577.2,138) circle (3.3);
+\node at (55,48) {8};
+\node at (55,138) {5};
+\node at (55,228) {2};
+\node at (62,306) {0};
+\node at (244.4,308) {8};
+\node at (410.8,308) {16};
+\node at (577.2,308) {24};
+\node at (702,308) {$t$};
+\node at (68,15) {$h$};
+\end{tikzpicture}
+\end{document}

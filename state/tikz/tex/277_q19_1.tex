@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade] (205,367) -- plot[smooth,domain=0:1,samples=90,variable=\t] ({205+207*\t},{367-312*sqrt(\t)*(1-\t)}) -- cycle;
+  \draw[->] (35,367) -- (665,367);
+  \draw[->] (205,495) -- (205,30);
+  \draw[line width=0.9pt] plot[smooth,domain=0:1,samples=90,variable=\t] ({205+207*\t},{367-312*sqrt(\t)*(1-\t)}) -- (205,367);
+  \node[anchor=east] at (198,28) {$y$};
+  \node at (650,390) {$x$};
+  \node at (186,386) {$O$};
+  \node at (412,396) {$1$};
+  \node at (463,256) {$y=\sqrt{x}\,(1-x)$};
+\end{tikzpicture}
+\end{document}

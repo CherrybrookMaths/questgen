@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[line width=0.9pt]
+\draw (110,243) rectangle (376,310);
+\draw (245,243) -- (245,310);
+\draw (28,276) -- (110,276) (376,276) -- (445,276);
+\draw (28,243) -- (28,310) (445,243) -- (445,310);
+\end{scope}
+\node[font=\small] at (251,370) {\textit{Box-plot}};
+\draw[->] (625,310) -- (972,310);
+\draw[->] (625,310) -- (625,6);
+\draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates {(625,310) (646,258) (676,220) (726,195) (786,169) (846,128) (876,88) (903,28)};
+\node[font=\small] at (608,322) {$O$};
+\node[font=\small] at (777,370) {\textit{Cumulative frequency diagram}};
+\end{tikzpicture}
+\end{document}

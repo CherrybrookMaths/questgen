@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+  \draw (18,350) -- (220,172);
+  \draw (18,350) -- (220,524);
+  \draw (383,172) -- (580,77);
+  \draw (383,172) -- (580,270);
+  \draw (383,524) -- (580,422);
+  \draw (383,524) -- (580,622);
+  \node[align=center] at (300,172) {prohibited\\items};
+  \node[align=center] at (300,522) {no\\prohibited\\items};
+  \foreach \y/\t in {77/alarm triggered,276/no alarm triggered,422/alarm triggered,626/no alarm triggered}
+    \node[anchor=west] at (588,\y) {\t};
+  \foreach \y in {18,233,368,583} \draw (370,\y) rectangle (488,\y+92);
+  \node at (90,205) {$\dfrac{5}{100}$};
+  \node at (90,490) {$\dfrac{95}{100}$};
+\end{tikzpicture}
+\end{document}
