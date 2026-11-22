@@ -25,7 +25,13 @@ Owner rulings, verbatim (record new ones here and next to the code, `// owner <d
 
 ## Setup list (the pilot waits for all of it)
 1. Dot points from the 2024 syllabus. DONE 23 Nov.
-2. 2017 vs 2024 comparison: which 2017 content left Standard 2 (questions on it are old syllabus) and which 2024 content is new.
+2. 2017 vs 2024 comparison. DONE 23 Nov: state/work/skills/standard/compare_2017_2024.json, every 2017 Year 11 and Standard 2
+   content point (sub-bullets separately): 164 kept, 29 moved, 12 changed, 13 removed; 38 new 2024 points. Removed terms checked by
+   search (absent from the 2024 text, present in 2017): measurement error and limits of accuracy, percentiles/deciles, calories and
+   kilojoules, the International Date Line, timetables, Pareto charts, statistical (z-) tables, simulation. Questions on removed
+   content are old syllabus (owner: "keep them out but don't drop yet"). Moved: Year 11 probability -> Year 12; networks, MSTs and
+   shortest paths Year 12 -> Year 11; simple interest, straight-line depreciation and electricity costs Year 11 -> Year 12.
+   Borderline calls waiting for the owner: z-tables, similar figures (scale factor), timetables / Date Line, building a quadratic model.
 3. Skills and tagging rules for Standard (TAG_SPEC equivalent; Advanced has 159 skills with prerequisites).
 4. The course in the page: QG.courses.standard (name, bank files, dot points, MST reference sheet), the header course switch, Review
    and exams per course.
