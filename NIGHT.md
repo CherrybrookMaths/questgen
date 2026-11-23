@@ -80,12 +80,11 @@ before the publish. Never upload a pack the page test has not passed with. If pr
 <first failure>", and stop changing things.
 
 ## 5. Back up and push
-If questions.db changed: compress it into work/ with `xz -9e -k -c <DB> > work/questions.db.xz` (18 Nov: the zip, 3.15 MB, outgrew the
-Drive connector's ~3.1 MB upload limit; xz gives about 2 MB; a file reference works only for a file inside the repo: 16 Nov, a zip in
-../outputs was refused), upload it with `base64Content` = `sha256:<hash>:<absolute path>` and `contentMimeType` application/x-xz to the
-Drive folder "HSC Advanced Question Bank" as questions.db.xz, rename the previous backup (.xz, or the old questions.db.zip)
-"questions.db (superseded <date>, safe to delete).xz" / ".zip" (never trash). If even the .xz nears 3 MB, say so in the result: the
-backup then needs splitting into parts (like the figures backup). Commit anything left and
+If questions.db changed: `TZ=Australia/Sydney python3 tools/db_backup.py split` (owner 23 Nov: "Lets split the db backup as well": the
+xz reached 2.93 MB against the Drive connector's ~3.1 MB upload limit), then upload each file it lists to the Drive folder "HSC Advanced
+Question Bank" with `base64Content` = the printed `sha256:<hash>:<absolute path>`, `contentMimeType` application/octet-stream (text/plain for
+the SHA256SUMS file), `disableConversionToGoogleType` true. Then rename the previous set (and any older questions.db.xz / .zip)
+"<name> (superseded <date>, safe to delete)" (never trash). Commit anything left and
 `git -c push.negotiate=true push origin main`.
 
 ## 6. Results (always, even after a failure)
