@@ -22,7 +22,7 @@ LaTeX must match the page exactly. Do not solve questions, do not invent content
 8. **Figures** (graphs, diagrams, tables drawn as images, tree diagrams): record page index (0-based), bbox in PDF points `[x0,y0,x1,y1]` (pymupdf coordinates, origin top-left), and whether it belongs to the question stem (`attach: "question"`) or a specific part (`attach: "<part label path>"`, e.g. "a" or "b.ii"). Crop each to PNG at 200 dpi: `page.get_pixmap(dpi=200, clip=pymupdf.Rect(bbox))`, save to `/home/claude/pilot/figures/<ID>_q<number>_<k>.png`. In the LaTeX put `\exfigure{<ID>_q<number>_<k>}` at the point the figure appears. Do NOT produce TikZ. Tables that are plain text may be written as LaTeX `\begin{array}` inside math instead of cropping — if unsure, crop.
    For digital PDFs, `page.get_images()` / `page.get_drawings()` help locate figure regions; still verify the crop by viewing the PNG.
 9. **LaTeX conventions**: running text is plain text; math is inline `$...$` or display `$$...$$`. KaTeX-compatible only (no `\begin{tikzpicture}`, no `\includegraphics`, no custom packages). Use `\dfrac` for displayed fractions, `\,dx` in integrals, `\text{}` for words inside math. Escape a literal dollar sign as `\$`.
-10. **Bundled solutions / marking guidelines**: extract them into `solutions` with `question` number and `part` label path (null = whole question), `latex` of the worked solution, and `marks_breakdown` (criteria text, e.g. "2: correct answer; 1: correct derivative"). Also fill MCQ keys. If this document IS a solutions/marking-guidelines file (task_type solutions), output only `solutions` + `mcq_key` and an empty `questions` list.
+10. **Bundled solutions / marking guidelines**: extract them into `solutions` with `question` number and `part` label path (null = whole question), `latex` of the worked solution, and `marks_breakdown` (criteria text, e.g. "2: correct answer; 1: correct derivative"). Also fill MCQ keys. An answer the guidelines draw by hand or in colour on a printed diagram (line of best fit, network, spanning tree, arcs, bearings, shading) is a solution figure: crop the annotated diagram with its ink and put `\exfigure{<id>}` in the solution; never describe the drawing in words instead (owner 23 Nov, "Yes, do that.", after the Standard pilot described 4 such drawings in words and Claude redrew them; see "Guideline drawings" below). If this document IS a solutions/marking-guidelines file (task_type solutions), output only `solutions` + `mcq_key` and an empty `questions` list.
 11. Set `needs_review: true` on a question or part when: you could not read something clearly, marks don't add up, a figure crop is doubtful, or the text layer and the image disagree. Say why in `review_reasons`.
 
 ## Self-checks before finishing (do them, report results)
@@ -108,3 +108,14 @@ A list printed with bullets is stored as `\begin{itemize}` / `\item …` / `\end
 - After loading, `tools/relabel_split.py` runs. A question whose only top-level part has a label loses that label, and its sub-parts become (a), (b), (c), with their own sub-parts becoming (i), (ii).
 - Cross-references follow: "part (ii)" becomes "part (b)".
 - The paper's label is kept in `parts.src_label`. The source line (Q9(b)) is unchanged.
+
+## Guideline drawings are cropped, never retold (owner 23 Nov)
+The Standard pilot (Standard batch 1) had 18 solution figures with no original, all drawn by Claude. 7 of them had one: the guidelines
+drew the answer on the printed diagram (722 Q12 network, Q13 spanning tree; 16 Q15 line of best fit, Q20 network; 15 Q36, Q41), but the
+parse described it in words or the formatter swapped the crop for a sketch of its own. Owner rulings, verbatim:
+- "I want the school drawing kept as the comparison so checker can check claude's drawing against it." The school's drawing is the
+  figure's original (figures.page/bbox); Claude's redraw stays as the redrawn version beside it.
+- "for HSC, we want to use the hsc's marking guideline solutions unless if there aren't any." (IMPORT_PLAYBOOK "Standard batches").
+- "Yes, do that." (crop the hand-drawn answers, redraw the two invented network layouts, crop the 7).
+So: a drawing in the guidelines is always a crop (rule 10). The solutions formatter keeps every `\exfigure` the source has and writes
+"Sketch still to draw" only when the source has no drawing (tools/api_import.py solfmt; its check rejects a dropped figure).

@@ -267,6 +267,8 @@ def t_crop(a):
             image_block(pix.tobytes('png'))], False
 
 
+# owner 23 Nov: "Yes, do that." (to cropping hand-drawn guideline answers instead of describing them: the Standard pilot wrote
+# "Sketch still to draw" for 5 drawings the guidelines had, 722 Q12/Q13 and 16 Q15/Q20)
 PARSE_TASK = """Parse the paper below into the parse-v1 JSON of the spec, and submit it with `submit_parse`.
 
 Paper: document id {doc}, label "{label}", task_type {task_type}, parse_path {parse_path}, year {year}, setter {school}, task {task}.
@@ -288,6 +290,8 @@ What the bank's current parse outputs also carry (follow them exactly; they are 
 - solutions: {{"question": "<n>", "part": null | "a" | "b.ii", "latex", "marks_breakdown": "2: ...; 1: ..." | null, "source": "extracted"}}.
 - solution figures (sketches or diagrams in the guidelines): "solution_figures": [{{"id": "<doc>_q<n>_s<k>", "source_pdf": "<file id>", "page",
   "bbox", "question": "<n>", "part": null | "b", "caption"}}], cropped with crop_figure from that file, and \\exfigure{{<id>}} in the solution's latex.
+  An answer the guidelines draw by hand or in colour on a printed diagram (line of best fit, network, spanning tree, arcs, bearings,
+  shading) is a solution figure too: crop the annotated diagram with its ink, and never describe the drawing in words instead.
 - Question numbers as printed. Follow the spec's "Unrelated parts are separate questions" rule yourself: a school paper that groups unrelated
   items under one number stores each as its own question "1(a)", "1(b)" (parts that share a stem or data, or say hence, stay together).
   A multiple-choice item stored that way is an MCQ question (question_type mcq, options in mcq_options, never inline in the text), with
@@ -529,10 +533,15 @@ def run_solfmt(api, batch, docs):
             ids = {x['id'] for x in ch}
             for x in ch: base, k0 = next_sketch_k(c, x['question_id']); x['sketch_id'] = f'{base}_s{k0}'
             qof = {x['id']: (x['question_id'], x['sketch_id']) for x in ch}
+            # owner 23 Nov: "I want the school drawing kept as the comparison so checker can check claude's drawing against it." (the
+            # Standard pilot's formatter swapped the guideline crops 15_q36_s1 and 15_q41_s1 for sketches of its own)
+            had = {x['id']: set(re.findall(r'\\exfigure\{([^}]+)\}', x.get('latex') or '')) for x in ch}
 
-            def check(out, ids=ids, qof=qof):
+            def check(out, ids=ids, qof=qof, had=had):
                 if not isinstance(out, dict) or not isinstance(out.get('results'), list): return ['output must be {"results": [...]}']
                 e = [f'missing solution id {i}' for i in ids - {r.get('id') for r in out['results']}]
+                e += [f'solution {r.get("id")}: keep the source\'s \\exfigure{{{k}}} (the guidelines\' own drawing); never replace it with a sketch'
+                      for r in out['results'] for k in sorted(had.get(r.get('id'), set()) - set(re.findall(r'\\exfigure\{([^}]+)\}', r.get('latex') or '')))]
                 for r in out['results']:   # 17 Nov (Batch 8): a formatter invented the key "2023kings_q15_s1"
                     e += [f'solution {r.get("id")}: \\exfigure{{{k}}} is not an existing figure or this solution\'s sketch_id {qof[r["id"]][1]}'
                           for k in re.findall(r'\\exfigure\{([^}]+)\}', r.get('latex') or '') if r.get('id') in qof
@@ -548,9 +557,12 @@ def run_solfmt(api, batch, docs):
                     'context, the solution latex, its criteria rows and meta. Return one result per solution id, in the spec\'s "Output per solution" '
                     'shape, as {"results": [...]} with submit_solutions. Keep "meta" keys you are given. content_flags is ONLY for a possible error that is '
                     'still in the solution you return; a slip in the source that you fixed, or a note that the source is consistent, goes in '
-                    'format_note (Batch 8: 8 such notes in content_flags reached the owner\'s Decide queue). A solution that needs a drawing it does not have '
+                    'format_note (Batch 8: 8 such notes in content_flags reached the owner\'s Decide queue). Keep every \\exfigure the source has '
+                    '(the guidelines\' own drawing). Only when the source really has no drawing, a solution that needs one '
                     '(SOLUTION_SPEC "Draw it") puts \\exfigure{<its sketch_id>} where the drawing goes and describes it in format_note, starting '
-                    '"Sketch still to draw:", with every feature and coordinate; another step draws it.\n\n' + json.dumps(ch, ensure_ascii=False))
+                    '"Sketch still to draw:", with every feature and coordinate; another step draws it. A source that describes a drawing in words '
+                    '("weighted network with edges ...", "line of best fit drawn ...") was drawn by the guidelines and missed by the parse: no '
+                    'sketch; put "Guideline drawing not cropped: <what>" in content_flags so the crop is fixed.\n\n' + json.dumps(ch, ensure_ascii=False))
             jobs.append(Run(batch, 'solfmt', doc, k, system, [text_block(task)], [json_submit('submit_solutions', 'Submit {"results": [...]}', check, write)], 'submit_solutions'))
     return jobs
 
