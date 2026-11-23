@@ -122,7 +122,8 @@ function fakeClaude(arg) {
   const mcp = drive ? {callTool: async (server, tool, input, opts) => {
     window.__pt.mcp.push({server, tool, input: clone(input)});
     const sig = opts && opts.signal;
-    await new Promise((res, rej) => { const t = setTimeout(res, window.__pt.driveDelay || 0); if (sig) sig.addEventListener('abort', () => { clearTimeout(t); rej({code: 'cancelled', message: 'aborted'}) }, {once: true}) });
+    await new Promise((res, rej) => { if (sig && sig.aborted) return rej({code: 'cancelled', message: 'aborted'});   // as fetch does
+      const t = setTimeout(res, window.__pt.driveDelay || 0); if (sig) sig.addEventListener('abort', () => { clearTimeout(t); rej({code: 'cancelled', message: 'aborted'}) }, {once: true}) });
     const e = window.__pt.driveErr; if (e && e.n > 0) { e.n--; throw {...e.err} }
     if (server !== 'Google Drive' || tool !== 'search_files') throw {code: 'not_in_manifest', message: 'not in the manifest'};
     const m = /parentId = '([^']+)'/.exec(input.query || ''), items = (m && drive.folders[m[1]]) || [];

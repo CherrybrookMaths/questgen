@@ -79,7 +79,7 @@ function last(){const s=S.scans[0];if(!s)return null;const K=known();if(!K)needF
 
 // ---- one search_files call; a retryable error (or rate_limited) waits and is tried ONCE more, never in a loop
 async function call(input,signal){
-  for(let k=0;;k++){
+  for(let k=0;;k++){if(signal.aborted)throw {code:'cancelled'};   // 24 Nov: a Cancel while the record was still loading
     try{const r=await S.mcp.callTool(SERVER,TOOL,input,{signal,cache:false});const p=r&&r.payload;
       if(!p||typeof p!=='object')throw {code:'bad_shape'};return p}
     catch(e){if(signal.aborted)throw {code:'cancelled'};
