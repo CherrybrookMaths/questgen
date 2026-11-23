@@ -234,7 +234,9 @@ are only names. Your final output goes in the submit tool's input (not a file, n
 
 
 # ---------------------------------------------------------------- parse
-FIG_ID = re.compile(r'^(\d+)_q([0-9A-Za-z().-]+)_(s?\d+)$')
+# owner 24 Nov (raw \exfigure{1305_q3(b)_s1} on Review: "the question on the left is different to the one on the right"): a split
+# question's number "3(b)" is written without brackets in a figure name (1305_q3b_s1), so the page and the packs can read it (tools/fig_ids.py)
+FIG_ID = re.compile(r'^(\d+)_q([0-9A-Za-z]+)_(s?\d+)$')
 
 
 def pdf_page(doc_id, page):
@@ -286,7 +288,7 @@ def t_layout(a):
 def t_crop(a):
     import pymupdf
     k = a['id']
-    if not FIG_ID.match(k): return f'bad figure id {k!r}: use <doc>_q<number>_<k> or <doc>_q<number>_s<k>', False
+    if not FIG_ID.match(k): return f'bad figure id {k!r}: use <doc>_q<number>_<k> or <doc>_q<number>_s<k>, the number without brackets or dots (3(b) -> 3b)', False
     d, pg = pdf_page(a['file'], a['page'])
     bbox = pymupdf.Rect(a['bbox']) & pg.rect
     if bbox.is_empty: return 'empty bbox', False
@@ -645,7 +647,8 @@ Output {{"solutions": [{{"question_id", "part_id" | null, "latex", "criteria": [
 A solution that needs a drawing puts \\exfigure{{<id>}} at its place and lists the drawing in "sketches"; another step draws it in
 house style from your description (exact coordinates and labels). Sketch ids for a question are <doc>_q<number>_s<k>, starting at
 the k given for that question. Check every answer independently (you may use the python tool) before you submit.
-Figure crops of the questions are attached where they exist.
+Figure crops of the questions are attached where they exist; every table a question names with \\extable{{<id>}} is in that item's
+"tables" (rows of cells, as printed).
 
 {items}"""
 
@@ -662,7 +665,7 @@ PY_TOOL = ({'name': 'python', 'description': 'Run a Python 3 snippet (sympy, num
 def next_sketch_k(c, qid):
     r = c.execute('select q.document_id, q.number from questions q where q.id=?', (qid,)).fetchone()
     ks = [int(m.group(1)) for (p,) in c.execute('select png_path from figures where question_id=?', (qid,)) for m in [re.search(r'_s(\d+)\.png$', p or '')] if m]
-    return f'{r[0]}_q{r[1]}', (max(ks) + 1 if ks else 1)
+    return f'{r[0]}_q{re.sub(r"[^A-Za-z0-9]", "", r[1])}', (max(ks) + 1 if ks else 1)   # owner 24 Nov: no brackets in figure names (fig_ids.py)
 
 
 def queue_sketches(batch, doc, sk):
@@ -673,6 +676,18 @@ def queue_sketches(batch, doc, sk):
     old = [x for x in old if x['id'] not in {k for k, _, _ in sk}]
     json.dump(old + [{'id': k, 'context': d, 'caption': 'solution sketch (drawn from the worked solution)', 'kind': 'new_sketch', 'doc': doc,
                       'question_id': q} for k, q, d in sk], open(g, 'w'), ensure_ascii=False, indent=1)
+
+
+def tables_in(c, it):
+    """The data tables a question names with \\extable{<id>} (stem, parts, options), as {id: {caption, header_rows, label_column, rows}}.
+    24 Nov: Standard batch 1 Q11 (solution 6570) was generated without its frequency table, which sat in a part's text as \\extable{15_q11_t1}
+    and was never sent, so the model wrote a "PLACEHOLDER: method only" solution with confidence 0 (owner sent the 0% badge as a bug)."""
+    txt = json.dumps([it.get('stem'), it.get('parts'), it.get('options')], ensure_ascii=False)
+    out = {}
+    for t in dict.fromkeys(re.findall(r'\\\\extable\{([^}]+)\}', txt)):
+        r = c.execute('select caption, header_rows, label_col, rows_json from data_tables where id=?', (t,)).fetchone()
+        out[t] = dict(caption=r[0], header_rows=r[1], label_column=bool(r[2]), rows=json.loads(r[3] or '[]')) if r else None
+    return out
 
 
 def run_gen(api, batch, docs):
@@ -688,6 +703,7 @@ def run_gen(api, batch, docs):
             for it in ch: base, s = next_sketch_k(c, it['question_id']); it['sketch_ids_start'] = f'{base}_s{s}'
             need = {(it['question_id'], p['part_id']) for it in ch for p in it['parts'] if p['leaf'] and not p['has_solution']}
             mcq = {it['question_id'] for it in ch if it['type'] == 'mcq'}
+            for it in ch: it['tables'] = tables_in(c, it)
             content = [text_block(GEN_TASK.format(items=json.dumps(ch, ensure_ascii=False)))]
             for it in ch:
                 for fp in it.get('figures') or []:
@@ -699,6 +715,7 @@ def run_gen(api, batch, docs):
                 e = [f'no solution for question {q} part {p}' for q, p in need if (q, p) not in got and (q, None) not in got]
                 e += [f'no solution for MCQ {q}' for q in mcq if not any(g[0] == q for g in got)]
                 sk = {s.get('id') for s in out.get('sketches') or []}
+                e += [f'sketch id {x!r}: use <doc>_q<number>_s<k>, the number without brackets or dots' for x in sk if not FIG_ID.match(str(x))]
                 e += [f'\\exfigure{{{x}}} has no entry in sketches' for x in re.findall(r'\\exfigure\{([^}]+)\}', json.dumps(out['solutions'])) if x not in sk and not os.path.exists(P + f'figures/{x}.png')]
                 return e + latex_errs(out['solutions'])
 

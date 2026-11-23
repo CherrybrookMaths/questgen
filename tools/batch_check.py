@@ -50,6 +50,12 @@ for f in glob.glob(P + 'tikz/result_*.json'):
 for f, ids in unmerged.items():
     B(f'{len(ids)} redraws in tikz/{f} never merged (apply_diagrams.py): {", ".join(ids[:8])}{" ..." if len(ids) > 8 else ""}')
 
+# 1y. owner 24 Nov (raw \exfigure{1305_q3(b)_s1} on Review: "the question on the left is different to the one on the right"): a figure or
+# table name with brackets or other characters the page's name pattern and the image packs do not read (tools/fig_ids.py --fix renames)
+import fig_ids as _fid
+_fb = sorted(set(_fid.bad_names(db)) | _fid.bank_bad(P + 'site/data/bank.json'))
+if _fb: B(f'{len(_fb)} figure/table names outside <doc>_q<number>_<k> (tools/fig_ids.py --fix): {", ".join(_fb[:8])}{" ..." if len(_fb) > 8 else ""}')
+
 # 1z. owner 18 Nov ("is the auto attach z score table working?"): a question that points to a z-score / probability table it does not print
 # must be listed in state/work/ztable.json, or the exam maker never attaches the table (2 Batch 10 questions and 1 older one were missed)
 try:

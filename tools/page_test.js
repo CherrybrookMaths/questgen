@@ -265,15 +265,25 @@ async function flows(browser, base, seed, seedR) {
 
   /* ---- Bank ---- */
   // 23 Nov: the 21 Nov health pass commented out diagLog's guard, so a review record whose figures no longer belong to its question
-  // showed as an empty "approved" row in Review's diagram log (owner: "yeah fix it")
-  await check('review: diagram log skips records with none of the question\'s figures', page, async () => {
+  // showed as an empty "approved" row in Review's diagram log (owner: "yeah fix it"). The log is the Recent decisions list since 24 Nov
+  await check('review: Recent decisions skips records with none of the question\'s figures', page, async () => {
     const r = await page.evaluate(() => {
       const q = QG.bank.questions.find(x => !x.dup_of), k = 'q' + q.id, old = QG.reviews[k];
-      QG.reviews[k] = {fig: {'no_such_figure_x9': 'approved'}, at: '2099-01-01T00:00:00Z'};
-      try { return {id: q.id, row: diagLog().includes(`data-logq="${q.id}"`)}; } finally { if (old === undefined) delete QG.reviews[k]; else QG.reviews[k] = old; }
+      QG.reviews[k] = {fig: {'no_such_figure_x9': 'approved'}, at: '2099-01-01T00:00:00Z', by: QG.me || null};
+      try { return {id: q.id, row: !!RUNDO.what(q, QG.reviews[k])}; } finally { if (old === undefined) delete QG.reviews[k]; else QG.reviews[k] = old; }
     });
-    assert(!r.row, `question ${r.id}: an empty row was logged`);
+    assert(!r.row, `question ${r.id}: an empty row was listed`);
     return `question ${r.id}: no empty row`;
+  });
+  // owner 24 Nov: "some of the text came out a bit weird": a checker note with dollar amounts was typeset as italic maths between two $.
+  // Plain notes keep every $ of an amount; maths written on purpose in the same note is still typeset
+  await check('text: dollar amounts in a plain note stay literal; maths in the note is still typeset', page, async () => {
+    const r = await page.evaluate(async () => { const host = document.createElement('div'); document.body.prepend(host);
+      host.innerHTML = noteTxt("the stored answer is $549.36 (assumes 5 full $2140 payments), but the last is $1621.28, so $10 181.28 and $30.64. Exact: $f'(1)=12e\\approx32.62$, not $32.61$.");
+      await typeset(host); const txt = host.textContent, mj = host.querySelectorAll('mjx-container').length; host.remove();
+      return {money: ['$549.36', '$2140', '$1621.28', '$10 181.28', '$30.64'].every(x => txt.includes(x)), assumes: txt.includes('(assumes 5 full'), mj} });
+    assert(r.money && r.assumes && r.mj === 2, JSON.stringify(r));
+    return 'five amounts shown with their $, the words between them plain, the two maths expressions typeset';
   });
   // 23 Nov (owner: "for some questions, the original and question are not lining up any more"): a split question's figure name carries
   // its part in brackets (1305_q1(c)_1); the text renderer must turn it into a figure slot, never print the raw \exfigure command
@@ -926,22 +936,48 @@ async function areas(browser, base, seed) {
       assert(r.long.wrap && !r.long.over, `a long expression in a 300 px column: wraps ${r.long.wrap}, overflows ${r.long.over}`);
       return '¼ ln 2 − ⅛ never splits from 300 to 720 px; a long expression wraps inside 300 px';
     });
-    // owner 18 Nov: "can undo recently approed questions. Maybe a queue on the same page on the right side?"
-    await check('review: Recently approved lists your approvals beside the question; Undo puts the record back as it was', cp, async () => {
-      const r = await cp.evaluate(async () => { const q = B.questions.find(x => !x.dup_of && !reviews['q' + x.id]); const keep = reviews['q' + q.id];
+    // owner 18 Nov: "can undo recently approed questions. Maybe a queue on the same page on the right side?"; owner 24 Nov: "merge the
+    //   recent descision and recently approved list as they are different": one column lists approvals, flags and diagram requests, newest
+    //   first, each with Undo; an undo is listed too; the diagram step has no second log
+    await check('review: one Recent decisions list (approved, flagged, diagram requests, undone) beside the question; Undo puts the record back', cp, async () => {
+      const r = await cp.evaluate(async () => { const qs = B.questions.filter(x => !x.dup_of && !reviews['q' + x.id]).slice(0, 3), keep = qs.map(q => reviews['q' + q.id]);
+        const [q, q2, q3] = qs;
         const before = {status: 'flagged', note: 'test note', fixed: null, at: new Date(Date.now() - 3600e3).toISOString()};
-        reviews['q' + q.id] = before; RUNDO.note('q', q.id, before); await write(q, {status: 'approved', note: null});
-        renderReview(); const el = document.getElementById('rvUndo'), listed = !!el && !el.hidden && !!el.querySelector(`[data-rundo="q:${q.id}"]`);
+        reviews['q' + q.id] = before; await write(q, {status: 'approved', note: null}); const tick = () => new Promise(f => setTimeout(f, 5)); await tick();
+        await write(q2, {status: 'flagged', note: 'label B wrong'});
+        await tick(); reviews['q' + q3.id] = {fig: {}, at: new Date().toISOString(), by: me || null}; const k3 = qFigs(q3)[0] || chkFigs(q3)[0];
+        if (k3) await write(q3, {fig: {[k3]: 'changes'}, fig_notes: {[k3]: 'move the label'}});
+        renderReview(); const el = document.getElementById('rvUndo');
+        const rows = el ? [...el.querySelectorAll('.rv-undolist li')] : [], row = id => rows.find(li => li.querySelector(`[data-rundo="q:${id}"]`));
+        const listed = !!el && !el.hidden && /Recent decisions/.test(el.textContent) && !!row(q.id) && /approved/.test(row(q.id).textContent)
+          && !!row(q2.id) && /flagged: label B wrong/.test(row(q2.id).textContent) && (!k3 || /changes requested: move the label/.test(row(q3.id)?.textContent || ''));
+        const order = rows.indexOf(row(q3.id)) <= rows.indexOf(row(q2.id)) && rows.indexOf(row(q2.id)) < rows.indexOf(row(q.id));
         const col = el ? getComputedStyle(document.getElementById('reviewView')).gridTemplateColumns.split(' ').length : 0;
         await RUNDO.undo('q', String(q.id)); const after = reviews['q' + q.id];
         const restored = after.status === 'flagged' && after.note === 'test note';
+        const undoneRow = [...document.querySelectorAll('#rvUndo .rv-undolist li.gone')].some(li => /undone/.test(li.textContent));
+        await RUNDO.undo('q', String(q2.id)); const unflag = !reviews['q' + q2.id].status || reviews['q' + q2.id].status === undefined;
         // an approval from an earlier session (nothing kept): Undo clears "approved"
         reviews['q' + q.id] = {status: 'approved', at: new Date(Date.now() - 86400e3).toISOString(), by: me || null}; await RUNDO.undo('q', String(q.id));
         const cleared = !reviews['q' + q.id].status;
-        if (keep === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep; renderReview();
-        return {listed, col, restored, cleared} });
-      assert(r.listed && r.restored && r.cleared, `undo: ${JSON.stringify(r)}`);
-      return `listed in the Recently approved column (${r.col} columns); Undo restored the flagged record; an older approval is cleared`;
+        const oneList = typeof diagLog === 'undefined' && !document.querySelector('.dlog, #logT');
+        qs.forEach((x, i) => { if (keep[i] === undefined) delete reviews['q' + x.id]; else reviews['q' + x.id] = keep[i] }); RUNDO.undone = []; RUNDO.save(); renderReview();
+        return {listed, order, col, restored, undoneRow, unflag, cleared, oneList} });
+      assert(Object.values(r).every(v => v === true || typeof v === 'number'), `recent decisions: ${JSON.stringify(r)}`);
+      return `one list (${r.col} columns): approval, flag and diagram request newest first; Undo restored the flagged record and is listed; an older approval is cleared; no second log in the diagram step`;
+    });
+    // owner 24 Nov: "the why this is here box get cut off": the full reason is on the page; a long one shows about two lines and "more"
+    await check('review: a long "Why this is here" reason is complete, clamped to about two lines with a more toggle', cp, async () => {
+      const r = await cp.evaluate(async () => { const q = B.questions.find(x => x.tri && !x.dup_of), keep = q.tri;
+        const long = 'Checker got a different answer — (d): the stored solution\'s main answer is $549.36 (assumes 5 full $2140 payments), but the loan finishes with a final payment of only $1621.28, so the remaining payments total $10 181.28 and the saving is 10 181.28 − 10 150.64 = $30.64. The END-OF-REASON';
+        q.tri = {...keep, why: [long], look: keep.look || []}; const host = document.createElement('div'); host.style.width = '420px'; document.body.prepend(host);
+        host.innerHTML = whyHTML(q); await typeset(host); const li = host.querySelector('li.rv-long'), cl = li?.querySelector('.rv-clamp');
+        const lh = cl ? parseFloat(getComputedStyle(cl).lineHeight) || 20 : 0, h1 = cl?.getBoundingClientRect().height || 0;
+        const full = /END-OF-REASON/.test(host.textContent) && host.textContent.includes('$549.36');
+        li?.querySelector('.rv-more')?.click(); const h2 = cl?.getBoundingClientRect().height || 0, btn = li?.querySelector('.rv-more')?.textContent;
+        host.remove(); q.tri = keep; return {full, clamp: h1 > 0 && h1 < lh * 2.6, opens: h2 > h1, btn} });
+      assert(r.full && r.clamp && r.opens && r.btn === 'less', JSON.stringify(r));
+      return 'the whole reason is there with its $ amounts; about two lines shown, "more" opens it, "less" closes it';
     });
     // owner 18 Nov: "more obvious on the page when questions have been done by you and have been returned. Maybe a different place to the
     //   flagged waiting for claude ones"

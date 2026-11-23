@@ -4,7 +4,10 @@ function solHTML(q,s,mode){
   const isMcq=q.type==='mcq', key=isMcq?(q.options.find(o=>o.is_correct)?.label||''):'';
   const m=s.meta||{}; const gen=s.source==='generated'; const dec=solDec(q,s);
   const badges=[gen?`<span class="badge b-gen">Model-generated${dec==='approved'?' · approved':''}</span>`:'<span class="badge b-acc">Marking guidelines</span>'];
-  if(gen&&m.confidence!=null) badges.push(`<span class="badge ${m.confidence<0.6?'b-bad':''}">confidence ${Math.round(m.confidence*100)}%</span>`);
+  // owner 24 Nov (the "CONFIDENCE 0%" badge on a corrected, correct solution): a solution corrected to the checker's own answer says so;
+  // the generation-time confidence described the old text (tools/stale_fixes.py confirm)
+  if(gen&&m.checker_confirms) badges.push('<span class="badge b-ok">answer confirmed by the checker</span>');
+  else if(gen&&m.confidence!=null) badges.push(`<span class="badge ${m.confidence<0.6?'b-bad':''}">confidence ${Math.round(m.confidence*100)}%</span>`);
   if(gen&&m.check) badges.push(`<span class="badge ${/fail|mismatch|disagree|wrong|error/i.test(m.check)?'b-bad':'b-ok'}">self-check ${esc(m.check==='passed'?'passed':m.check)}</span>`);
   if(m.reused_from){const o=QG.byId.get(m.reused_from);badges.push(`<span class="badge">copied from ${o?esc(docLabel(B.docs[o.doc]))+' Q'+esc(o.number):'duplicate'}</span>`)}
   if(mode==='review'&&gen&&dec==='rejected') badges.push('<span class="badge b-bad">rejected</span>');

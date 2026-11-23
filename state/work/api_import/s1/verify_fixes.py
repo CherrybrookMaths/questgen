@@ -91,3 +91,9 @@ if 'also accepted' not in l:
     meta = json.loads(m or '{}'); meta.setdefault('source_original', l); meta['correction_note'] = NOTE + 'the school accepted B and D; the solution argued only D'
     db.execute('update solutions set latex=?, meta_json=? where id=6579', (l + '\n' + r'(The school accepted both B and D: $r$ is about $-0.92$ for B and about $-1.00$ for D, so D is the closer match.)', json.dumps(meta, ensure_ascii=False)))
 db.commit(); print('fixed', len(F) + len(E) + 1, 'solutions')
+# 24 Nov (owner sent the "CONFIDENCE 0%" badge on 6570 as a bug): each rewrite above gives the checker's own answer, so the
+# generation-time confidence / self_check / generated_note (written for the old placeholder) must not stay on it: record the
+# checker's confirmation (tools/stale_fixes.py confirm, the rule for every later correction of a generated solution)
+import os as _o; sys.path.insert(0, _o.path.join(_o.path.dirname(_o.path.abspath(__file__)), '../../../../tools')); import stale_fixes
+for sid in (6570, 6573, 6628, 6685, 6579): stale_fixes.confirm(db, sid, stale_fixes.CONFIRM[sid])
+db.commit()

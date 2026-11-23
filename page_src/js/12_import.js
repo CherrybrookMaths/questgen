@@ -28,6 +28,12 @@ function batchesHTML(L){const done=L.filter(b=>batchState(b)[0]==='done');
   return done.length?`<p class="sub">Tap a batch to see its papers. – means the stage wasn't needed.</p><details class="bgrp" open><summary>Finished <span class="muted">· ${done.length} batch${done.length===1?'':'es'} · ${done.reduce((n,b)=>n+(b.papers||[]).length,0)} papers</span></summary><div class="bscroll">${stageHead()}${done.map(batchRow).join('')}</div></details>`:'<p class="pempty">No finished batches yet.</p>'}
 // owner 13 Nov ("The process page feels a bit bloated now" -> "Two tabs: Work | Papers"): this dashboard now sits inside
 // Processes › Papers › "Import history" (collapsed), so it has no heading of its own; the log shows the last 5 entries, "Show all" the rest.
+// owner 24 Nov: "make sure there aren't any more stale numbers or tags hanging": the diagram and Claude-solution tiles counted only the
+// first in-session batches (tools/progress.py, frozen since 13 Nov); like the papers and questions tiles they now count the Bank itself
+// (figure keys and their redraws from the index; generated solutions once the details are in), the stored totals only as a fallback
+function liveTotals(t){if(!B?.questions?.length)return {d:t.figures_redrawn||0,n:t.figures_total||0,g:t.solutions_written};
+  const qs=B.questions.filter(inBank),ks=new Set(qs.flatMap(q=>figKeys(q).all));
+  return {d:[...ks].filter(redrawable).length,n:ks.size,g:QG.detOK?qs.reduce((n,q)=>n+(q.solutions||[]).filter(s=>s.source==='generated').length,0):t.solutions_written}}
 function renderImport(){
   const P=PROG, box=$('#importBox'); if(!box) return;
   if(!P){box.innerHTML='<div class="empty">No import progress recorded yet.</div>';return}
@@ -36,7 +42,7 @@ function renderImport(){
   const run=(P.running||[]),log=(P.log||[]).slice().reverse(),all=box.dataset.logall==='1';
   box.innerHTML=`<p class="sub">${esc(QG.courseData.years)} ${esc(QG.courseData.short)} papers, newest first · updated ${esc(ago(P.updated))}${P.eta?` · ${esc(P.eta)}`:''}</p>
   <div class="tiles">${(bs=>tile(B?.questions?.length?bs.papers:null,'papers in the Bank')+tile(B?.questions?.length?bs.questions.toLocaleString():null,'questions in the Bank'))(B?.questions?bankStats():{})}
-  ${tile(`${t.figures_redrawn||0} / ${t.figures_total||0}`,'diagrams redrawn',t.figures_redrawn,t.figures_total)}${tile(t.solutions_written,'solutions written by Claude')}</div>
+  ${(f=>tile(`${f.d} / ${f.n}`,'diagrams redrawn',f.d,f.n)+tile(f.g,'solutions written by Claude'))(liveTotals(t))}</div>
   ${run.length?`<h3>Import stages running</h3><ul>${run.map(r=>`<li><span class="pulse" aria-hidden="true"></span><b>${esc(r.stage)}</b> · ${esc(r.batch||'')} ${r.detail?'· '+esc(r.detail):''} <span class="muted">· started ${esc(ago(r.started))}</span></li>`).join('')}</ul>`:''}
   <h3>Batches</h3>${batchesHTML(P.batches||[])}
   ${log.length?`<h3>Log</h3><ul class="log">${log.map((x,i)=>`<li${i>=5&&!all?' hidden':''}>${esc(x.t?new Date(x.t).toLocaleString('en-AU',{day:'numeric',month:'short',hour:'numeric',minute:'2-digit'}):'')} · ${esc(x.msg)}</li>`).join('')}</ul>${log.length>5&&!all?`<button type="button" class="act plogall" data-logall>Show all ${log.length}</button>`:''}`:''}`;

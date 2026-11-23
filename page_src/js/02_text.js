@@ -5,6 +5,13 @@ function capHTML(c){const parts=String(c||'').split(/(\$[^$]*\$)/);
   return parts.map((x,i)=>{if(i%2)return tex(x);let h=x;for(let k=0;k<4;k++)h=h.replace(/\\textbf\{([^{}]*)\}/g,'\u0001$1\u0002').replace(/\\textit\{([^{}]*)\}/g,'\u0003$1\u0004').replace(/\\(?:textsf|text|textrm|mathrm)\{([^{}]*)\}/g,'$1');
     h=h.replace(/\\\$/g,'$').replace(/\\\\/g,'\n');
     return esc(h).replace(/\u0001/g,'<b>').replace(/\u0002/g,'</b>').replace(/\u0003/g,'<i>').replace(/\u0004/g,'</i>').replace(/\n/g,'<br>')}).join('')}
+// owner 24 Nov: "some of the text came out a bit weird": a checker's note "$549.36 (assumes 5 full $2140 payments)" was typeset as
+// maths between the two $ signs. Plain notes (why / look reasons, checker notes, flags, calls) go through noteTxt: a $ that starts
+// an amount (a number followed by a space, punctuation or the end, not by more maths) is escaped as \$, which MathJax shows as $;
+// maths written on purpose ($6.6$, $12\,696$, $f'(1)=12e$) is untouched. Only for HTML that is typeset (MathJax turns \$ into $).
+// A second pass runs only when an odd number of $ is left (an amount followed by an operator: "$6700 = 28475/4.25").
+const noteTxt=s=>{const AMT=/(?<![\\$])\$(?=\d[\d,]*(?:\.\d+)?(?:[\s),;:!?'"]|\.(?!\d)|$)(?!\s*[=+*\/<>^_-]))/g,AMT2=/(?<![\\$])\$(?=\d[\d,]*(?:\.\d+)?(?:[\s),;:!?'"]|\.(?!\d)|$))/g;
+  let t=String(s??'').replace(AMT,'\\$');if(t.replace(/\\\$/g,'').split('$').length%2===0)t=t.replace(AMT2,'\\$');return esc(t)};
 function tex(s){
   let h=esc(s).replace(/\\text\{\\textdollar\}/g,'\\$').replace(/\\textdollar/g,'\\$');
   // owner 12 Nov (QID 889 "\underline{\textbf{and}} is not rendering properly", QID 933): text-mode formatting outside maths

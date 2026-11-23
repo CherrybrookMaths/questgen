@@ -267,7 +267,7 @@ const figMode={};
 const fixTxt=t=>String(t||'').replace(/^Claude \d+ \w+(?: \d+:\d\d)?(?: \([^)]*\))?: /,'');
 const splitDone=(done,ask)=>{const i=done.indexOf(' -> ');return i<0?{ask:ask||'',fix:'',when:done}:{ask:done.slice(0,i)||ask||'',fix:fixTxt(done.slice(i+4))}};
 function doneHTML(done,ask){const d=splitDone(done,ask);
-  return `<div class="callout"><div><b>Your original request:</b> ${d.ask?esc(d.ask):'none: Claude redrew this in a rule sweep, not from a flag of yours'}</div><div><b>What Claude changed:</b> ${d.fix?esc(d.fix):'redrawn '+esc(d.when)+(d.ask?' to meet your request':'')}</div></div>`}
+  return `<div class="callout"><div><b>Your original request:</b> ${d.ask?noteTxt(d.ask):'none: Claude redrew this in a rule sweep, not from a flag of yours'}</div><div><b>What Claude changed:</b> ${d.fix?noteTxt(d.fix):'redrawn '+esc(d.when)+(d.ask?' to meet your request':'')}</div></div>`}
 // owner 17 Nov: "where is the original flag on the back to you page?": one box at the top of every returned item lists each
 // original flag or request beside what Claude changed, before the question, so the checker reads it first.
 // owner 17 Nov: "why does fixewd and back tou have approved questions?": an approved question is listed when a diagram was
@@ -277,7 +277,7 @@ function backBoxHTML(q,r){if(waitR(r)&&!q.dup_of)return waitBoxHTML(r);if(!r||!b
   for(const [k,done] of Object.entries(r.fig_done||{})){if((r.fig||{})[k])continue;const d=splitDone(done,r.fig_notes?.[k]);
     rows.push([/_s\d+$/.test(k)?'Solution diagram':'Diagram',d.ask||'none: redrawn by Claude in a rule sweep',d.fix||'redrawn '+d.when])}
   if(!rows.length)return '';
-  return `<div class="backbox"><h4>Back for you: your original flag and what Claude changed</h4><table><thead><tr><th></th><th>Your original flag</th><th>What Claude changed</th></tr></thead><tbody>${rows.map(([w,a,f])=>`<tr><th>${esc(w)}</th><td>${esc(a)}</td><td>${esc(f)}</td></tr>`).join('')}</tbody></table><div class="help">Compare with the source page and, for diagrams, the Before → now pictures below. Approve, or flag it again.</div></div>`}
+  return `<div class="backbox"><h4>Back for you: your original flag and what Claude changed</h4><table><thead><tr><th></th><th>Your original flag</th><th>What Claude changed</th></tr></thead><tbody>${rows.map(([w,a,f])=>`<tr><th>${esc(w)}</th><td>${noteTxt(a)}</td><td>${noteTxt(f)}</td></tr>`).join('')}</tbody></table><div class="help">Compare with the source page and, for diagrams, the Before → now pictures below. Approve, or flag it again.</div></div>`}
 function figCompareHTML(q){
   const ks=qFigs(q); if(!ks.length) return '';
   const row=k=>{const f=B.figs[k],dec=figDec(q,k);
@@ -297,8 +297,8 @@ function figCompareHTML(q){
       <div class="row">${f.status==='approx'?'<span class="badge b-scan">estimated shape</span>':''}${f.check==='fixed'?'<span class="badge b-acc">fixed by checker</span>':''}${f.check==='concern'?'<span class="badge b-bad">checker concern</span>':''}
         ${dec?`<span class="badge ${dec==='approved'?'b-ok':dec==='changes'?'b-gen':'b-bad'}">${dec==='approved'?'redraw approved':dec==='changes'?'changes requested':'keeping original'}</span>`:''}</div>
       ${!dec&&done&&mode!=='before'?doneHTML(done,reviews['q'+q.id]?.fig_notes?.[k]):''}
-      ${dec==='changes'&&reviews['q'+q.id]?.fig_notes?.[k]?`<div class="callout"><b>Your request:</b> ${esc(reviews['q'+q.id].fig_notes[k])}</div>`:''}
-      ${f.notes?`<details class="help"><summary>What was changed</summary>${esc(f.notes).split(' | ').map(x=>`<div>${x}</div>`).join('')}</details>`:''}${f.check_notes&&f.check!=='pass'?`<div class="help"><b>Checker:</b> ${esc(f.check_notes)}</div>`:''}
+      ${dec==='changes'&&reviews['q'+q.id]?.fig_notes?.[k]?`<div class="callout"><b>Your request:</b> ${noteTxt(reviews['q'+q.id].fig_notes[k])}</div>`:''}
+      ${f.notes?`<details class="help"><summary>What was changed</summary>${esc(f.notes).split(' | ').map(x=>`<div>${x}</div>`).join('')}</details>`:''}${f.check_notes&&f.check!=='pass'?`<div class="help"><b>Checker:</b> ${noteTxt(f.check_notes)}</div>`:''}
       <div class="row"><button class="act ok" data-fig="${k}" data-v="approved">Use redraw</button><button class="act" data-figreq="${k}">Request changes</button><button class="act warn" data-fig="${k}" data-v="rejected">Keep original</button></div>
       <div class="req" data-reqbox="${k}" hidden><label class="help" for="rq-${k}">What should change in the redraw? Claude redraws it from this note in the next session.</label><textarea id="rq-${k}" placeholder="e.g. Make it match the original sketch proportions; label the angle at B as 30°">${esc(reviews['q'+q.id]?.fig_notes?.[k]||'')}</textarea><div class="row"><button class="act ok" data-reqsave="${k}">Save request</button><button class="act ghost" data-reqcancel="${k}">Cancel</button></div></div></div>`};
   const pend=ks.filter(k=>figDec(q,k)!=='approved'), ok=ks.filter(k=>figDec(q,k)==='approved');
@@ -308,14 +308,18 @@ function figCompareHTML(q){
     ${pend.length>1?`<div class="row"><button class="act ok" id="figAll">Use all redraws on this question <kbd>D</kbd></button></div>`:''}${okBlock}</div>`;
 }
 function tagEditHTML(q,p){
-  return `<div class="tags">${effTags(q,p).map(t=>chipHTML(t,p)).join('')}<button class="act ghost edit-tag" data-part="${p.id}">Change tag</button></div>${editing===p.id?pickerHTML():''}${p.note?`<div class="notes">${esc(p.note)}</div>`:''}`;
+  return `<div class="tags">${effTags(q,p).map(t=>chipHTML(t,p)).join('')}<button class="act ghost edit-tag" data-part="${p.id}">Change tag</button></div>${editing===p.id?pickerHTML():''}${p.note?`<div class="notes">${noteTxt(p.note)}</div>`:''}`;
 }
 function pickerHTML(){return `<div class="picker"><input id="pickQ" type="search" placeholder="Search dot points: e.g. chain rule, annuity, Y12-220" aria-label="Search dot points">
   <div class="row"><button class="act" id="setRemoved">Mark removed content</button><button class="act" id="setNoMatch">Mark no match</button><button class="act" id="cancelPick">Cancel</button></div><ul id="pickList"></ul></div>`}
 function whyHTML(q){
   const t=q.tri; if(!t) return '';
   const cls=t.tier==='decide'?'decide':t.tier==='sample'?'sample':'';
-  return `<div class="why ${cls}"><b>Why this is here</b><ul>${t.why.map(w=>`<li>${esc(w)}</li>`).join('')||'<li>Passed every check</li>'}</ul>${t.look.length?`<b>What to check</b><ol>${t.look.map(w=>`<li>${esc(w)}</li>`).join('')}</ol>`:''}</div>`}
+  // owner 24 Nov: "the why this is here box get cut off": reasons come in full (tools/triage.py no longer cuts them); a long one shows
+  //   about two lines and a "more" toggle. "some of the text came out a bit weird": plain notes keep a literal $ (noteTxt, 02_text.js)
+  const li=w=>w.length>180?`<li class="rv-long"><span class="rv-clamp">${noteTxt(w)}</span> <button type="button" class="lk rv-more" aria-expanded="false">more</button></li>`:`<li>${noteTxt(w)}</li>`;
+  return `<div class="why ${cls}"><b>Why this is here</b><ul>${t.why.map(li).join('')||'<li>Passed every check</li>'}</ul>${t.look.length?`<b>What to check</b><ol>${t.look.map(li).join('')}</ol>`:''}</div>`}
+document.addEventListener('click',e=>{const b=e.target.closest?.('.why .rv-more');if(!b)return;const li=b.closest('li'),o=li.classList.toggle('open');b.textContent=o?'less':'more';b.setAttribute('aria-expanded',o)});
 function sampleBanner(doc){doc=+doc;
   const qs=B.questions.filter(q=>q.doc===doc&&!q.dup_of), smp=qs.filter(q=>q.tri?.tier==='sample'), rest=qs.filter(q=>q.tri?.tier==='auto');
   if(reviews['paper_'+doc]?.status==='approved'&&flagsIn(doc).length&&rest.length) return `<div class="why"><b>${flagsIn(doc).length} flagged</b>The other ${rest.length} questions in ${esc(docLabel(B.docs[doc]))} count as approved again once every flagged question is fixed and approved.</div>`;
@@ -340,10 +344,10 @@ async function approvePaper(doc){if(await FRESH.block())return;doc=String(doc);c
 const PCALL={
   list(ids){return ids.map(d=>{const c=B.docs[d]?.call;if(!c)return null;const a=reviews['paper_'+d]?.call;
     return {doc:+d,text:c.text,a,open:!(a&&(!c.raised||String(a.at||'')>=c.raised))}}).filter(Boolean)},
-  html(ids){return PCALL.list(ids).map(c=>`<div class="why decide pcall" data-pcall="${c.doc}"><b>Call on this paper · ${esc(docLabel(B.docs[c.doc]))}</b><p>${esc(c.text)}</p>
+  html(ids){return PCALL.list(ids).map(c=>`<div class="why decide pcall" data-pcall="${c.doc}"><b>Call on this paper · ${esc(docLabel(B.docs[c.doc]))}</b><p>${noteTxt(c.text)}</p>
     ${c.open?`<div class="row"><button class="act ok" data-pcok="${c.doc}">Keep as is</button><button class="act warn" data-pcopen="${c.doc}">Change…</button></div>
       <div class="flagbox" data-pcbox="${c.doc}" hidden><label class="help" for="pcn-${c.doc}">What should it be? <kbd>Enter</kbd> sends, <kbd>Esc</kbd> cancels.</label><input id="pcn-${c.doc}" type="text" placeholder="e.g. Label it AT4"></div>`
-    :`<div class="help">✓ Your answer: ${c.a.status==='approved'?'keep as is':esc(c.a.note||'')} <span class="muted">· ${esc(ago(c.a.at))}</span> <button class="lk" data-pcopen="${c.doc}">change</button></div>
+    :`<div class="help">✓ Your answer: ${c.a.status==='approved'?'keep as is':noteTxt(c.a.note||'')} <span class="muted">· ${esc(ago(c.a.at))}</span> <button class="lk" data-pcopen="${c.doc}">change</button></div>
       <div class="flagbox" data-pcbox="${c.doc}" hidden><input id="pcn-${c.doc}" type="text" aria-label="Your answer" value="${esc(c.a.note||'')}"></div>`}</div>`).join('')},
   async answer(doc,status,note){if(status==='approved'&&await FRESH.block())return;const key=RKEY.pdoc(doc);const next={...(reviews['paper_'+doc]||{}),doc:+doc,call:{status,note:note||null,by:me||null,at:new Date().toISOString()}};
     if(B.docs[doc]?.key)next.key=B.docs[doc].key;RKEY.docsOf(doc).forEach(d=>reviews['paper_'+d]=next);if(view==='review')refreshReview();else renderSteps();
@@ -356,19 +360,9 @@ document.addEventListener('keydown',e=>{const i=e.target.closest&&e.target.close
   if(e.key==='Enter'){e.preventDefault();const v=i.value.trim();if(!v){toast('Type your answer first');return}PCALL.answer(d,'flagged',v)}
   else if(e.key==='Escape'){i.closest('[data-pcbox]').hidden=true}},true);
 // owner 12 Nov: "one question per page ... K should be to go next. Bind a keystroke to approve, bind a keystroke to flag ...
-// pull up a textbox ... hit enter to send the flag through. Keep a log on the side ... That can collapse as well."
-let logOpen=load('dlog')!=='0';
-function diagLog(){
-  const rows=[];
-  Object.entries(reviews).forEach(([k,r])=>{if(!/^q\d+$/.test(k)||!r?.fig||!r.at)return;const q=QG.byId.get(+k.slice(1));if(!q)return;
-    const own=new Set([...chkFigs(q),...qFigs(q)]),ks=Object.keys(r.fig).filter(f=>own.has(f));
-    // health pass 21 Nov: Map lookup, figures listed once per record. Bug fix 23 Nov (owner: "yeah fix it"): the comment had swallowed
-    // the guard below, so a record none of whose figures belong to its question showed as an empty "approved" row
-    if(!ks.length)return;
-    const fl=ks.filter(f=>r.fig[f]!=='approved');rows.push({q,at:r.at,flag:fl.length?(r.fig_notes?.[fl[0]]||'flagged'):null,nf:fl.length,n:ks.length})});
-  rows.sort((x,y)=>y.at.localeCompare(x.at));
-  return `<aside class="dlog${logOpen?'':' shut'}"><button class="act ghost" id="logT" aria-expanded="${logOpen}">${logOpen?'Hide log ›':'‹ Log'}</button>
-    ${logOpen?`<h4>Recent decisions</h4>${rows.length?`<ul>${rows.slice(0,25).map(r=>`<li class="${r.flag?'fl':'ok'}"><button class="lk" data-logq="${r.q.id}">${qid(r.q)}</button> <span class="muted">${esc(srcLine(r.q))}</span><div>${r.flag?'⚑ '+(r.nf<r.n?`${r.nf} of ${r.n}: `:'')+esc(r.flag):'✓ approved'+(r.n>1?` (${r.n})`:'')} <span class="muted">· ${esc(ago(r.at))}</span> <button class="lk" data-undo="${r.q.id}">undo</button></div></li>`).join('')}</ul>`:'<p class="muted">Nothing yet.</p>'}`:''}</aside>`}
+// pull up a textbox ... hit enter to send the flag through. Keep a log on the side ... That can collapse as well." The log is the
+// Recent decisions column (36_undo.js), merged with Recently approved on 24 Nov (owner: "merge the recent descision and recently
+// approved list as they are different"); it still collapses.
 // owner 12 Nov: "How often should I hand diagram flags to you? Should we show in the UI when to do that?"
 // A flag stays 'changes' until Claude redraws it and clears it, so the count of 'changes' = flags not yet handed over.
 
@@ -406,25 +400,24 @@ function renderDiag(){
   const q=rlist[ridx];
   const done=rlist.filter(x=>!isTodo(x,'diagrams')).length;
   $('#pos').textContent=rlist.length?`Question ${ridx+1} of ${rlist.length} · ${rlist.length-done} questions left`:'0 / 0'; $('#prog').style.width=(rlist.length?100*done/rlist.length:0)+'%';
-  if(!q){$('#rout').innerHTML=handoffHTML()+`<div class="dwrap"><div class="empty">No diagrams waiting. ${nextStepHTML()}</div>${diagLog()}</div>`;bindNext();bindLog();return}
+  if(!q){$('#rout').innerHTML=handoffHTML()+`<div class="dwrap"><div class="empty">No diagrams waiting. ${nextStepHTML()}</div></div>`;bindNext();return}
   // owner 23 Nov: "there are quite a lot of missing images in the standard exam checkers": the Diagrams step showed a broken
   // Original for sketches Claude drew for worked solutions (fig.no, no box in the paper); it now says so, as the flag view does
   const ks=chkFigs(q), r=reviews['q'+q.id]||{};
   $('#rout').innerHTML=handoffHTML()+`<div class="dwrap"><div class="dmain">
     <div class="row"><b style="font-size:18px">${qid(q)}</b><span class="muted">${esc(srcLine(q))} · ${ks.length} diagram${ks.length>1?'s':''}</span></div>
     ${ks.map((k,i)=>{const f=B.figs[k],dec=r.fig?.[k];return `<div class="dq${dec?' decided':''}"><div class="dnum">${ks.length>1?`<kbd>${i+1}</kbd> Diagram ${i+1} of ${ks.length} · `:''}${/_s\d+$/.test(k)?'solution':'question'} · <span class="conf c${figRisk(k)[1]}" title="${esc(riskTxt(k))}">${figRisk(k)[0]} confidence</span> <span class="muted">${esc(figRisk(k)[2])}</span></div><div class="cmp">${f.no?`<figure><figcaption>Original</figcaption><p class="rv-nov1">No original: the paper has no diagram here. Claude drew this sketch for the worked solution, so check it against the solution's working.</p></figure>`:`<figure><figcaption>Original</figcaption><img class="fig" alt="Original" data-k="${k}" data-kind="png"></figure>`}<figure><figcaption>${f.status==='table'?'As a table':'Redrawn'}</figcaption>${f.status==='table'?dtHTML(f.table,{blank:true}):`<img class="fig" alt="Redrawn" data-k="${k}" data-kind="svg">`}</figure></div>
-      ${dec?`<span class="badge ${dec==='approved'?'b-ok':'b-bad'}">${dec==='approved'?'approved':'flagged: '+esc(r.fig_notes?.[k]||'')}</span>`:''}${f.notes?`<details class="help"><summary>What the redraw changed</summary>${esc(f.notes).split(' | ').slice(-2).map(x=>`<div>${x}</div>`).join('')}</details>`:''}</div>`}).join('')}
+      ${dec?`<span class="badge ${dec==='approved'?'b-ok':'b-bad'}">${dec==='approved'?'approved':'flagged: '+noteTxt(r.fig_notes?.[k]||'')}</span>`:''}${f.notes?`<details class="help"><summary>What the redraw changed</summary>${esc(f.notes).split(' | ').slice(-2).map(x=>`<div>${x}</div>`).join('')}</details>`:''}</div>`}).join('')}
     <details class="help"><summary>Question text</summary><div class="qtext">${qBody(q,'review')}</div></details>
     <div class="row keys"><button class="act ok" id="dA"><kbd>A</kbd> Approve</button><button class="act warn" id="dF"><kbd>F</kbd> Flag</button><span class="help"><kbd>J</kbd> previous · <kbd>K</kbd> next</span></div>
     <div class="flagbox" id="flagbox" hidden>${ks.length>1?`<div class="row" id="flagpick">${ks.map((k,i)=>`<label class="pick"><input type="checkbox" data-fk="${k}"> ${i+1}</label>`).join('')}<span class="help">Which diagram? Press its number (press again to untick; several allowed), then type the reason. None picked = all.</span></div>`:''}<label class="help" for="flagtxt">What's wrong? <kbd>Enter</kbd> sends the flag, <kbd>Esc</kbd> cancels.</label><input id="flagtxt" type="text" placeholder="e.g. label B is on the wrong vertex"></div>
-  </div>${diagLog()}</div>`;
+  </div></div>`;
   hydrate($('#rout'),q,'review'); typeset($('#rout'));
   $('#dA').onclick=()=>diagDecide('approved'); $('#dF').onclick=openFlag;
   const ft=$('#flagtxt'); ft.onkeydown=e=>{if(/^[1-9]$/.test(e.key)&&!ft.value&&$('#flagpick')){e.preventDefault();pickDiag(+e.key);return}if(e.key==='Enter'){e.preventDefault();let t=ft.value.trim();const sel=new Set($$('#flagpick [data-fk]').filter(c=>c.checked).map(c=>c.dataset.fk));
     const m=ks.length>1&&t.match(/^([1-9](?:\s*[,&]\s*[1-9])*)\s*[:\-.)]?\s+(.*)$/);if(m){m[1].split(/[,&]/).forEach(d=>{const k=ks[+d.trim()-1];if(k)sel.add(k)});t=m[2].trim()}
     if(!t){toast('Type a reason first');return}diagDecide('changes',t,sel.size?[...sel]:null)}else if(e.key==='Escape'){$('#flagbox').hidden=true;ft.value=''}};
   $$('#flagpick [data-fk]').forEach(c=>c.onchange=markPicked);
-  bindLog();
 }
 function pickDiag(n){const c=$$('#flagpick [data-fk]')[n-1];if(!c)return;c.checked=!c.checked;markPicked()}
 function markPicked(){const sel=new Set($$('#flagpick [data-fk]').filter(c=>c.checked).map(c=>c.dataset.fk));$$('#rout .dq').forEach((d,i)=>d.classList.toggle('picked',sel.has(chkFigs(rlist[ridx])[i])))}
@@ -435,12 +428,6 @@ async function diagDecide(v,note,only){const q=rlist[ridx];if(!q)return;if(v==='
   const fig={...(r.fig||{})},notes={...(r.fig_notes||{})};ks.forEach(k=>{const hit=!only||only.includes(k);fig[k]=hit?v:(fig[k]||'approved');if(note&&hit)notes[k]=note});
   write(q,note?{fig,fig_notes:notes}:{fig}); const was=q.id; refreshReview();   // move on at once; the save finishes in the background
   if(!_advanced&&rlist[ridx]?.id===was) go(1); window.scrollTo({top:0});}   // the decided question leaves the to-do list; the next one takes its place
-function bindLog(){
-  $('#logT')&&($('#logT').onclick=()=>{logOpen=!logOpen;save('dlog',logOpen?'1':'0');renderDiag()});
-  $$('#rout [data-logq]').forEach(b=>b.onclick=()=>{rstatus='any';pendingOpen=+b.dataset.logq;refreshReview()});
-  $$('#rout [data-undo]').forEach(b=>b.onclick=async()=>{const q=QG.byId.get(+b.dataset.undo);const r=reviews['q'+q.id]||{};const fig={...(r.fig||{})};
-    chkFigs(q).forEach(k=>delete fig[k]);await write(q,{fig});toast('Undone: '+qid(q)+' is back in the list');refreshReview()});
-}
 function nextStepHTML(){if(RMODE==='paper'&&rdoc)return paperNextHTML();
   const base=B.questions.filter(q=>!rdoc||docIds(rdoc).includes(q.doc));const nx=STEPS.map(([k,l],i)=>[k,l,i,base.filter(q=>inFilter(q,k)&&isTodo(q,k)).length]).filter(x=>x[0]!==rfilter&&x[3]>0);
   return nx.length?`<div class="row" style="margin-top:10px">${nx.map(([k,l,i,n])=>`<button class="act" data-gof="${k}">${i+1}. ${l} · ${n}</button>`).join('')}</div>`:'<div style="margin-top:8px">Your queue is empty: everything imported so far is checked.</div>'}
@@ -463,7 +450,7 @@ function qTagSummary(q){const lv=q.parts.filter(p=>leaf(q,p));const gates=[...ne
   const r=reviews['q'+q.id]?.home,ch=r==='A'||r==='B'?r:null,hA=homeOf(q,'A'),hB=homeOf(q,'B');
   const parts=side=>lv.filter(p=>partPri(q,p,side).some(i=>subKey(i)===homeOf(q,side))).map(p=>p.label?'('+esc(p.label)+')':'').join(' ');
   const opt=(k,lab,h)=>`<div class="topt${ch===k?' chosen':''}"><kbd>${k==='A'?1:2}</kbd> <span class="muted">${lab}</span> <span class="tdp">${homeLabel(h)}</span> <span class="muted">${parts(k)}</span>${ch===k?' <span class="badge b-ok">chosen</span>':''}</div>`;
-  return `<div class="tchoice active"><div class="tchead">Home topic: where this question is filed${r&&!ch?` <span class="badge b-bad">your pick: ${homeLabel(qHome(q))}${r.note?' · '+esc(r.note):''}</span>`:''}</div>
+  return `<div class="tchoice active"><div class="tchead">Home topic: where this question is filed${r&&!ch?` <span class="badge b-bad">your pick: ${homeLabel(qHome(q))}${r.note?' · '+noteTxt(r.note):''}</span>`:''}</div>
     ${opt('A','Tagger',hA)}${opt('B','Checker',hB)}
     <div class="row keys"><button class="act" data-tc="A"><kbd>1</kbd> Tagger</button><button class="act ok" data-tc="B"><kbd>2</kbd> Checker</button><button class="act warn" id="tF"><kbd>F</kbd> Both wrong: pick another</button>${r?`<button class="act ghost" data-redo="1">Undo</button>`:''}</div>
     <div class="flagbox tpick" id="tflag" hidden><div class="row"><b>Pick a dot point in the right topic</b><span class="seg" role="group" aria-label="Year">${['all','11','12'].map(y=>`<button class="act ghost${tpYear===y?' on':''}" data-ty="${y}">${y==='all'?'Both':'Year '+y}</button>`).join('')}</span></div>
@@ -513,7 +500,7 @@ function renderReview(){RUNDO.render();
     const w=paperWork(rdoc);
     $('#rout').innerHTML=`<div class="empty rv-pempty">${w.n&&!(rfilter==='decide'&&w.left.decide)?(rfilter==='sample'&&w.left.sample?`<b>Spot-check is done: one click left, approve the rest of the paper below.</b>`:`<b>Nothing left in “${esc(stepLabel(rfilter))}” for this paper.</b>`):''}
       ${rfilter==='sample'?w.ids.map(sampleBanner).join(''):''}${rfilter==='decide'?PCALL.html(w.ids):''}${paperNextHTML()}</div>`;
-    $('#src').innerHTML='';$('#srcTitle').textContent='Source page';$('#reviewView').classList.add('grid');bindNext();return}   // no question: no empty source pane
+    $('#src').innerHTML='';$('#srcTitle').textContent='Source page';$('#reviewView').classList.add('grid');bindNext();typeset($('#rout'));return}   // no question: no empty source pane; a call's maths and \$ render (24 Nov)
   if(!rlist.length){
     const base=B.questions.filter(q=>!rdoc||docIds(rdoc).includes(q.doc));
     const next=FILTERS.filter(([k])=>k!==rfilter&&k!=='all').map(([k,l])=>[k,l,base.filter(q=>inFilter(q,k)&&isTodo(q,k)).length]).filter(x=>x[2]>0);
@@ -536,10 +523,10 @@ function renderReview(){RUNDO.render();
       <span class="muted" style="font-size:13px">${esc(docLabel(d))} · Section ${esc(q.section||'–')}${q.marks!=null?' · '+q.marks+(q.marks===1?' mark':' marks'):''}</span></div>
     <h3 style="margin:0;font-size:20px">${qid(q)} <span class="muted" style="font-size:15px;font-weight:400">${esc(srcLine(q))}</span></h3>
     ${rfilter==='sample'?sampleBanner(q.doc):''}${rfilter==='decide'&&RMODE==='paper'?PCALL.html(docIds(q.doc)):''}${whyHTML(q)}
-    ${q.decide?`<div class="callout"><b>Needs your decision:</b> ${tex(q.decide)}</div>`:''}${q.review_note&&!/^scan (path|transcription)[^|;]*$/i.test(q.review_note.trim())?`<details class="figdone" style="color:var(--muted)"><summary style="color:var(--warn)">Transcription notes</summary><div class="help">${esc(q.review_note)}</div></details>`:''}${rel?`<div class="help">Also appears as: ${esc(rel)}</div>`:''}
+    ${q.decide?`<div class="callout"><b>Needs your decision:</b> ${tex(q.decide)}</div>`:''}${q.review_note&&!/^scan (path|transcription)[^|;]*$/i.test(q.review_note.trim())?`<details class="figdone" style="color:var(--muted)"><summary style="color:var(--warn)">Transcription notes</summary><div class="help">${noteTxt(q.review_note)}</div></details>`:''}${rel?`<div class="help">Also appears as: ${esc(rel)}</div>`:''}
     ${figCompareHTML(q)}
     <div class="section"><h4>Question as it will appear</h4>${qBody(q,'review')}</div>
-    <div class="decision">${r?.status==='flagged'&&r?.fixed?.note?`<div class="callout"><div><b>Your original flag:</b> ${esc(r.note||'(no note written)')}</div><div><b>What Claude changed:</b> ${esc(fixTxt(r.fixed.note))}</div><div class="help">Compare with the page scan above, then approve or flag again.</div></div>`:r?.note?`<div class="help"><b>Your note:</b> ${esc(r.note)}</div>`:''}
+    <div class="decision">${r?.status==='flagged'&&r?.fixed?.note?`<div class="callout"><div><b>Your original flag:</b> ${noteTxt(r.note||'(no note written)')}</div><div><b>What Claude changed:</b> ${noteTxt(fixTxt(r.fixed.note))}</div><div class="help">Compare with the page scan above, then approve or flag again.</div></div>`:r?.note?`<div class="help"><b>Your note:</b> ${noteTxt(r.note)}</div>`:''}
       <div class="row"><button class="act ok" id="approve"><kbd>A</kbd> Approve question + solution</button><span class="help">Approving also approves any model-written solution shown here that you haven't rejected.</span><button class="act warn" id="flag"><kbd>F</kbd> Flag</button>
       <button class="act ghost" id="ztog" aria-pressed="${needsZ(q)}" title="Use when the question refers to a z-score table that is not printed with it: exams with this question get the table on the last page">${needsZ(q)?'✓ ':''}Z-score table at the back</button>
       <span class="help">${db?'Decisions save for everyone with access.':'Saving is off in this view; decisions are not kept.'}</span></div>
@@ -562,6 +549,7 @@ function renderReview(){RUNDO.render();
 async function write(q,patch,whole){   // whole: patch is the entire record (Undo puts back the record as it was, 36_undo.js)
   // owner 23 Nov: "stale page approvals": the last line of defence for any approval that reaches here from an out-of-date page
   if(!whole&&FRESH.stale&&(patch.status==='approved'||['fig','sol'].some(f=>Object.values(patch[f]||{}).includes('approved')))){FRESH.block();return false}
+  if(!whole)RUNDO.note('q',q.id,reviews['q'+q.id]);   // owner 24 Nov (one Recent decisions list): every decision can be undone exactly
   const key=RKEY.qdoc(q); const cur=reviews['q'+q.id]||{};   // owner 14 Nov (Fix 2): stored by key, shared by every copy
   const next={...(whole?{}:cur),...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};if(q.key)next.key=q.key;
   RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;_esc={};_rk=null;
@@ -581,7 +569,7 @@ function openQFlag(){const b=$('#qflag');if(!b)return;b.hidden=false;const n=$('
 // owner 23 Nov: "stale page approvals" (37_fresh.js): no approval from a page older than the live version
 async function decide(status){const q=rlist[ridx];if(!q)return;if(status==='approved'&&await FRESH.block())return;const patch={status,note:$('#note')?.value.trim()||null};if(status==='flagged')patch.fixed=null;   // a re-flag drops the old fix: it waits for Claude again (owner 17 Nov)
  if(q.decide)patch.call_at=new Date().toISOString();
-  if(status==='approved'){RUNDO.note('q',q.id,reviews['q'+q.id]);const sol={...(reviews['q'+q.id]?.sol||{})};let n=0;qGen(q).forEach(x=>{if(!sol[x.id]){sol[x.id]='approved';n++}});if(n)patch.sol=sol}
+  if(status==='approved'){const sol={...(reviews['q'+q.id]?.sol||{})};let n=0;qGen(q).forEach(x=>{if(!sol[x.id]){sol[x.id]='approved';n++}});if(n)patch.sol=sol}
   write(q,patch);   // owner 12 Nov: "why doesn't approving auto next" -> don't wait for the save; move on at once
   const was=q.id; if(rstatus==='todo'&&!['diagrams','generated'].includes(rfilter)){refreshReview()} else renderReview();
   if(!_advanced&&rlist[ridx]?.id===was) go(1); window.scrollTo({top:0})}
