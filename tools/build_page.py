@@ -95,11 +95,36 @@ def vendor_problems(html):
     return errs, len(refs)
 
 
+VERSIONED = ('data/bank/**/*.json', 'data/img/*.json', 'data/cmp/*.json', 'data/assets.json', 'project/open_decisions.json')
+
+
+def stamp(html):
+    """Replace the page's '__QG_BUILD__' with a 16-hex id of the page and every file under VERSIONED (site/)."""
+    assert html.count("'__QG_BUILD__'") == 1, "page_src/js/37_fresh.js must hold '__QG_BUILD__' exactly once"
+    h = hashlib.sha256(html.encode('utf8'))
+    site = OUT.parent
+    for f in sorted({p for g in VERSIONED for p in site.glob(g) if p.is_file()}):
+        h.update(str(f.relative_to(site)).encode() + b'\0' + f.read_bytes())
+    bid = h.hexdigest()[:16]
+    return html.replace("'__QG_BUILD__'", "'" + bid + "'"), bid
+
+
+def write_version(bid):
+    """site/data/version.json = {"build": id}; left alone when unchanged (so its date stays)."""
+    f = OUT.parent / 'data' / 'version.json'
+    data = json.dumps({'build': bid}).encode() + b'\n'
+    if not f.exists() or f.read_bytes() != data:
+        f.write_bytes(data)
+
+
 def main(argv):
     out = OUT
     if '--out' in argv:
         out = pathlib.Path(argv[argv.index('--out') + 1])
     html, sizes, nstyle, nscript = build()
+    # owner 23 Nov: "stale page approvals" (page_src/js/37_fresh.js): one id for this build, from the page and the files it shows;
+    # the page carries it and data/version.json repeats it, so an open page can tell when a newer version is live
+    html, build_id = stamp(html)
     data = html.encode('utf8')
     verrs, nrefs = vendor_problems(html)
     if verrs:
@@ -110,6 +135,8 @@ def main(argv):
         if cur == data:
             print(f'up to date: {out} ({len(data):,} bytes, sha256 {hashlib.sha256(data).hexdigest()[:12]})'); return 0
         print(f'OUT OF DATE: {out} differs from page_src/ (run python3 tools/build_page.py; never edit {out.name} by hand)'); return 1
+    if out == OUT and '--check' not in argv:
+        write_version(build_id)
     if out.exists() and out.read_bytes() == data:   # unchanged: leave the file (and its mtime) alone, so a passed page test stays valid
         print(f'unchanged: {out} ({len(data):,} bytes, sha256 {hashlib.sha256(data).hexdigest()[:12]})'); return 0
     out.write_bytes(data)

@@ -326,7 +326,7 @@ function sampleBanner(doc){doc=+doc;
   if(bad) return `<div class="why"><b>Spot-check</b>${bad} of ${smp.length} sampled questions in ${esc(docLabel(B.docs[doc]))} were flagged, so the rest of this paper stays unapproved. Claude will re-check the paper.</div>`;
   if(ok<smp.length) return `<div class="help">Spot-check for ${esc(docLabel(B.docs[doc]))}: ${ok} of ${smp.length} done. When all are fine you can approve the other ${rest.length} questions in one click.</div>`;
   return `<div class="banner"><span>All ${smp.length} spot-checked questions in <b>${esc(docLabel(B.docs[doc]))}</b> are fine.</span><button class="act ok" data-paperok="${doc}">Approve the other ${rest.length} questions in this paper</button></div>`}
-async function approvePaper(doc){doc=String(doc);const key=RKEY.pdoc(doc);RUNDO.note('p',doc,reviews['paper_'+doc]);const next={...(reviews['paper_'+doc]||{}),status:'approved',doc:+doc,by:me||null,at:new Date().toISOString()};if(B.docs[doc]?.key)next.key=B.docs[doc].key;
+async function approvePaper(doc){if(await FRESH.block())return;doc=String(doc);const key=RKEY.pdoc(doc);RUNDO.note('p',doc,reviews['paper_'+doc]);const next={...(reviews['paper_'+doc]||{}),status:'approved',doc:+doc,by:me||null,at:new Date().toISOString()};if(B.docs[doc]?.key)next.key=B.docs[doc].key;
   RKEY.docsOf(doc).forEach(d=>reviews['paper_'+d]=next);TOPICS=null;   // owner 14 Nov (Fix 2): one decision for every file of the paper
   if(!db){toast('Not saved: this view has no shared storage');return}
   if(view==='review')refreshReview();else renderSteps();   // move on at once (owner 12 Nov: "why doesn't approving auto next"); the save finishes in the background
@@ -345,7 +345,7 @@ const PCALL={
       <div class="flagbox" data-pcbox="${c.doc}" hidden><label class="help" for="pcn-${c.doc}">What should it be? <kbd>Enter</kbd> sends, <kbd>Esc</kbd> cancels.</label><input id="pcn-${c.doc}" type="text" placeholder="e.g. Label it AT4"></div>`
     :`<div class="help">✓ Your answer: ${c.a.status==='approved'?'keep as is':esc(c.a.note||'')} <span class="muted">· ${esc(ago(c.a.at))}</span> <button class="lk" data-pcopen="${c.doc}">change</button></div>
       <div class="flagbox" data-pcbox="${c.doc}" hidden><input id="pcn-${c.doc}" type="text" aria-label="Your answer" value="${esc(c.a.note||'')}"></div>`}</div>`).join('')},
-  async answer(doc,status,note){const key=RKEY.pdoc(doc);const next={...(reviews['paper_'+doc]||{}),doc:+doc,call:{status,note:note||null,by:me||null,at:new Date().toISOString()}};
+  async answer(doc,status,note){if(status==='approved'&&await FRESH.block())return;const key=RKEY.pdoc(doc);const next={...(reviews['paper_'+doc]||{}),doc:+doc,call:{status,note:note||null,by:me||null,at:new Date().toISOString()}};
     if(B.docs[doc]?.key)next.key=B.docs[doc].key;RKEY.docsOf(doc).forEach(d=>reviews['paper_'+d]=next);if(view==='review')refreshReview();else renderSteps();
     if(!db){toast('Not saved: this view has no shared storage');return}
     try{await db.doc('reviews/'+key).set(next);if(Date.now()>_holdToast)toast('Saved')}catch(e){toast(e?.code==='not_granted'||e?.code==='forbidden'?'You can view but not save decisions here':'Could not save. Try again in a moment.')}}};
@@ -379,21 +379,29 @@ function pendingFlags(){let n=0,nq=0;(B?.questions||[]).forEach(q=>{if(!waitQ(q)
 // owner 19 Nov: "I need a way for the reviewer to run flags, he couldn't do it all of his last shift" -> "Button + checks in shift",
 // "monday, tuesday, wednesday, friday 9-5 all those days": the button writes runs/<id> {kind:'flags', status:'requested'}; a scheduled
 // session checks hourly in those hours (the platform's minimum) (FLAGS.md "Scheduled check"), the night run clears what is left
-const FLR={runs:[],sub:0,
-  watch(){if(this.sub||!db)return;this.sub=1;try{db.collection('runs').onSnapshot(s=>{this.runs=QG.docs(s).filter(r=>r.kind==='flags');if(view==='review')renderReview()},()=>{this.sub=0})}catch(e){this.sub=0}},
+// owner 23 Nov: "get a way for claude to instantly run flags when checker needs them done": the button also sends the request to Claude
+//   as a comment (comments capability, sendToClaude, from the click itself), which wakes the standing flag-watcher session at once
+//   (FLAGS.md "Instant runs"); the runs doc stays the record and the fallback (hourly shift check, night run) when no session can take it
+const FLR={runs:[],sub:0,cm:null,cs:null,
+  watch(){if(this.sub||!db)return;this.sub=1;window.claude?.use?.('comments').then(c=>{this.cm=c;return c?.canSendToClaude?.()}).then(v=>{this.cs=v||null},()=>{});try{db.collection('runs').onSnapshot(s=>{this.runs=QG.docs(s).filter(r=>r.kind==='flags');if(view==='review')renderReview()},()=>{this.sub=0})}catch(e){this.sub=0}},
   last(){return this.runs.slice().sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null},
-  async ask(){if(!db){toast('Needs the shared database (open the page in claude.ai)');return}const id='flags_'+Date.now(),doc={kind:'flags',status:'requested',by:QG.me||null,at:new Date().toISOString()};
-    try{await db.doc('runs/'+id).set(doc);this.runs.push({id,...doc});toast('Sent to Claude');renderReview()}catch(e){toast('Could not send ('+(e?.code||e?.message||'unknown error')+'). Try again in a moment.');console.warn('Fix my flags now: write refused',e)}}};   // 23 Nov: the checker reports the button "not working" and no runs/flags_* doc was written since 20 Nov: the code makes the next failure diagnosable
+  async ask(btn){if(!db){toast('Needs the shared database (open the page in claude.ai)');return}const id='flags_'+Date.now(),doc={kind:'flags',status:'requested',by:QG.me||null,at:new Date().toISOString()};
+    const [n,nq]=pendingFlags();let now=false;
+    if(this.cm&&this.cs==='available')try{const anchor=await this.cm.anchorFor(btn);   // first, while the click is fresh
+      await this.cm.sendToClaude({anchor,text:`Fix my flags now: ${n} flag${n===1?'':'s'} in ${nq} question${nq===1?'':'s'} waiting (request runs/${id}). Please run FLAGS.md and hand them back.`});now=true}
+      catch(e){console.warn('Fix my flags now: not sent to Claude at once',e?.code||e);this.cs=null}
+    if(now)doc.instant=true;
+    try{await db.doc('runs/'+id).set(doc);this.runs.push({id,...doc});toast(now?'Sent to Claude: starting now':'Sent to Claude');renderReview()}catch(e){toast('Could not send ('+(e?.code||e?.message||'unknown error')+'). Try again in a moment.');console.warn('Fix my flags now: write refused',e)}}};   // 23 Nov: the checker reports the button "not working" and no runs/flags_* doc was written since 20 Nov: the code makes the next failure diagnosable
 // when Claude picks a request up: read from the page database (progress/night: flagcheck, written when the scheduled check changes,
 // and time, the night run's), not typed in (owner 21 Nov: "make sure there's no hanging numbers anywhere which can go stale")
 const FLR_WHEN=()=>`Claude checks ${esc(QG.night?.flagcheck||'during the checker\'s shift')}; otherwise at the night run${QG.night?.time?` (${esc(QG.night.time)})`:''}.`;
 function handoffHTML(){const [n,nq]=pendingFlags();FLR.watch();const r=FLR.last(),act=r&&(r.status==='requested'||r.status==='running');
   const t=x=>x?new Date(x).toLocaleString('en-AU',{weekday:'short',hour:'numeric',minute:'2-digit'}):'';
-  const st=act?(r.status==='running'?`<b>Claude is fixing them</b> (started ${t(r.started||r.at)}). They come back under "Fixed and back for you".`:`<b>Sent to Claude</b> ${t(r.at)}. ${FLR_WHEN()}`)
+  const st=act?(r.status==='running'?`<b>Claude is fixing them</b> (started ${t(r.started||r.at)}). They come back under "Fixed and back for you".`:`<b>Sent to Claude</b> ${t(r.at)}. ${r.instant?'Claude should start within a few minutes.':FLR_WHEN()}`)
     :r&&r.status==='done'&&Date.now()-Date.parse(r.done_at||r.at)<864e5?`Last run ${t(r.done_at)}: ${esc(r.result||'done')}.`:'';
   if(!n&&!act)return st?`<div class="handoff">${st}</div>`:'';
   return `<div class="handoff${act?'':' due'}"><b>${n} flag${n===1?'':'s'} waiting for Claude</b> <span class="muted">(${nq} question${nq===1?'':'s'})</span>${act?` · ${st}`:` <button type="button" class="act ok" data-flr>Fix my flags now</button><span class="muted"> ${FLR_WHEN()}</span>${st?` ${st}`:''}`}</div>`}
-document.addEventListener('click',e=>{if(e.target.closest?.('[data-flr]')){const b=e.target.closest('[data-flr]');b.disabled=true;FLR.ask()}});
+document.addEventListener('click',e=>{if(e.target.closest?.('[data-flr]')){const b=e.target.closest('[data-flr]');b.disabled=true;FLR.ask(b)}});
 function renderDiag(){
   const q=rlist[ridx];
   const done=rlist.filter(x=>!isTodo(x,'diagrams')).length;
@@ -421,7 +429,8 @@ function renderDiag(){
 function pickDiag(n){const c=$$('#flagpick [data-fk]')[n-1];if(!c)return;c.checked=!c.checked;markPicked()}
 function markPicked(){const sel=new Set($$('#flagpick [data-fk]').filter(c=>c.checked).map(c=>c.dataset.fk));$$('#rout .dq').forEach((d,i)=>d.classList.toggle('picked',sel.has(chkFigs(rlist[ridx])[i])))}
 function openFlag(){const b=$('#flagbox');if(!b)return;b.hidden=false;$('#flagtxt').focus()}
-async function diagDecide(v,note,only){const q=rlist[ridx];if(!q)return;const r=reviews['q'+q.id]||{};const ks=chkFigs(q);
+async function diagDecide(v,note,only){const q=rlist[ridx];if(!q)return;if(v==='approved'&&await FRESH.block())return;   // owner 23 Nov: "stale page approvals"
+  const r=reviews['q'+q.id]||{};const ks=chkFigs(q);
   // owner 12 Nov: flag one diagram, not all of them ("21 flagged" was really ~12). Flagging some approves the rest on the page.
   const fig={...(r.fig||{})},notes={...(r.fig_notes||{})};ks.forEach(k=>{const hit=!only||only.includes(k);fig[k]=hit?v:(fig[k]||'approved');if(note&&hit)notes[k]=note});
   write(q,note?{fig,fig_notes:notes}:{fig}); const was=q.id; refreshReview();   // move on at once; the save finishes in the background
@@ -551,6 +560,8 @@ function renderReview(){RUNDO.render();
   if(editing) setupPicker();
 }
 async function write(q,patch,whole){   // whole: patch is the entire record (Undo puts back the record as it was, 36_undo.js)
+  // owner 23 Nov: "stale page approvals": the last line of defence for any approval that reaches here from an out-of-date page
+  if(!whole&&FRESH.stale&&(patch.status==='approved'||['fig','sol'].some(f=>Object.values(patch[f]||{}).includes('approved')))){FRESH.block();return false}
   const key=RKEY.qdoc(q); const cur=reviews['q'+q.id]||{};   // owner 14 Nov (Fix 2): stored by key, shared by every copy
   const next={...(whole?{}:cur),...patch,question_id:q.id,by:me||null,at:new Date().toISOString()};if(q.key)next.key=q.key;
   RKEY.copies(q).forEach(i=>reviews['q'+i]=next); TOPICS=null; _clean=null;_esc={};_rk=null;
@@ -561,13 +572,14 @@ async function write(q,patch,whole){   // whole: patch is the entire record (Und
 function reviewOpen(id){rfilter='all';rstatus='any';rdoc='';$('#docF').value='';pendingOpen=id}
 async function setFig(q,k,v){await write(q,{fig:{...(reviews['q'+q.id]?.fig||{}),[k]:v}});afterDecision(q)}
 async function setFigReq(q,k,t){const r=reviews['q'+q.id]||{};await write(q,{fig:{...(r.fig||{}),[k]:'changes'},fig_notes:{...(r.fig_notes||{}),[k]:t}});afterDecision(q)}
-async function figAll(q){const f={...(reviews['q'+q.id]?.fig||{})};qFigs(q).forEach(k=>f[k]='approved');await write(q,{fig:f});afterDecision(q)}
+async function figAll(q){if(await FRESH.block())return;const f={...(reviews['q'+q.id]?.fig||{})};qFigs(q).forEach(k=>f[k]='approved');await write(q,{fig:f});afterDecision(q)}
 async function setSol(q,id,v){await write(q,{sol:{...(reviews['q'+q.id]?.sol||{}),[id]:v}});afterDecision(q)}
 function afterDecision(q){ // stay on the item until everything in the current filter is decided, then move on
   if(rstatus==='todo'&&!isTodo(q,rfilter)&&['diagrams','generated'].includes(rfilter)){refreshReview();window.scrollTo({top:0})} else renderReview()}
 async function setTag(t){const q=rlist[ridx],p=editing;editing=null;await write(q,tagEdit(q,[p],t));renderReview()}
 function openQFlag(){const b=$('#qflag');if(!b)return;b.hidden=false;const n=$('#note');n.focus();n.select()}
-async function decide(status){const q=rlist[ridx];if(!q)return;const patch={status,note:$('#note')?.value.trim()||null};if(status==='flagged')patch.fixed=null;   // a re-flag drops the old fix: it waits for Claude again (owner 17 Nov)
+// owner 23 Nov: "stale page approvals" (37_fresh.js): no approval from a page older than the live version
+async function decide(status){const q=rlist[ridx];if(!q)return;if(status==='approved'&&await FRESH.block())return;const patch={status,note:$('#note')?.value.trim()||null};if(status==='flagged')patch.fixed=null;   // a re-flag drops the old fix: it waits for Claude again (owner 17 Nov)
  if(q.decide)patch.call_at=new Date().toISOString();
   if(status==='approved'){RUNDO.note('q',q.id,reviews['q'+q.id]);const sol={...(reviews['q'+q.id]?.sol||{})};let n=0;qGen(q).forEach(x=>{if(!sol[x.id]){sol[x.id]='approved';n++}});if(n)patch.sol=sol}
   write(q,patch);   // owner 12 Nov: "why doesn't approving auto next" -> don't wait for the save; move on at once

@@ -21,6 +21,19 @@ flagcheck, which Review's "Fix my flags now" line shows) runs this section; the 
 4. Each run doc: `status: 'done'`, `done_at: <now>`, `result: "<n> fixed, <m> wait for Steve"` (or "Nothing open", or
    "Not published: <first failure>" with `status: 'failed'`). Clear `progress/jobs`. Never leave a run `running`.
 
+## Instant runs (23 Nov)
+Owner 23 Nov: "I need the checker approving fixed tonight. That is priority number 1" -> "get a way for claude to instantly run flags
+when checker needs them done". "Fix my flags now" (page_src/js/08_review.js FLR.ask) still writes `runs/flags_<ms>`, and, when the page's
+comments capability says a Claude session can take it (`canSendToClaude` = "available"), first posts a comment on the page and sends it
+to Claude: "Fix my flags now: N flags in M questions waiting (request runs/flags_<ms>). ..."; the runs doc then has `instant: true`.
+That wakes every Claude session watching the review page at once. The standing session "Questgen flag watcher" watches it for this
+(ArtifactComments watch; a watch survives restarts). On a comment that starts "Fix my flags now":
+1. Reply in that thread "On it." (ArtifactComments reply), then run "Scheduled check" above from step 1 (the claim in step 2 stops a
+   second session from doing the same run; a session that finds the run already `running` replies nothing and stops).
+2. When the run ends, reply with the result line (the version published and what came back for approval) and resolve the thread.
+Any other comment sent to Claude is not for the watcher: leave it for the owner's session (no reply). With no watching session,
+the button falls back to the hourly shift check and the night run, as before.
+
 ## Concurrent with imports (23 Nov)
 Owner 23 Nov (verbatim): "we cannot be pinned down by imports. We should be able to run flags concurrently with imports".
 - A flag fix never waits for an import. The import's papers stay off the published page while they are mid-import

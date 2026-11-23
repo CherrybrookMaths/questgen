@@ -154,10 +154,11 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
       {"path": "queue",    "read": "admin", "write": "admin"},
       {"path": "batches",  "read": "admin", "write": "admin"},
       {"path": "paperfix", "read": "admin", "write": "admin"}]},
-    "downloads": {}, "user": {},
+    "downloads": {}, "user": {}, "assets": {}, "comments": {},
     "mcp": {"servers": [{"server": "Google Drive", "tools": ["search_files"]}]}}
    ```
-   Packs in the asset store (when data/assets.json lists any) need `"assets": {}` added.
+   `"assets": {}` serves the packs in the asset store (data/assets.json). `"comments": {}` since v309 (owner 23 Nov: "get a way for claude
+   to instantly run flags when checker needs them done"): "Fix my flags now" sends the request to Claude (FLAGS.md "Instant runs").
 4. **Every publish, even a capabilities-only one, is followed by** `python3 tools/batch_check.py --mark-published` (16 Nov: an
    unrecorded settings-only publish made the next record one version behind the live page): records the manifest (state/work/published_manifest.json), commits
    everything as "publish vNNN <date>", tags publish-vNNN locally, writes `<OUT>/questgen_repo.bundle`.
