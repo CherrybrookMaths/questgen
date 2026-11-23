@@ -536,6 +536,7 @@ document
         Graphs B and D both trend downwards. In graph D the points lie almost exactly on a straight line, so $r$ is very close to $-1$. In graph B the points are less linear (the last two have the same $x$ value), so $r$ is weaker.
 
         Hence the correct option is D.
+
         (The school accepted both B and D: $r$ is about $-0.92$ for B and about $-1.00$ for D, so D is the closer match.)
       source_document_id: 16
       model: claude-sonnet-5-5
@@ -1616,15 +1617,6 @@ document
     redraw_status: ok
     redraw_class: statistical
     redraw_notes: Scatterplot on graph-paper grid, 14 points at their data values, axis break zigzag on the y-axis below 4, labels and titles sized to the crop. Original coverage 0.64 comes only from the scan's dense dark dotted minor grid; my grid is light grey dotted every 0.2 (grid allowed light grey). Every point, tick label and title overlays. Rules 1, 2, 3, 6.
-  figure 16_q15_s1.png
-    page: 0
-    bbox: []
-    png_path: figures/16_q15_s1.png
-    tikz_path: tikz/tex/16_q15_s1.tex
-    caption: solution diagram (drawn by Claude)
-    redraw_status: ok
-    redraw_class: statistical
-    redraw_notes: New sketch: the 16_q15_1 scatterplot (same frame and style) with a line of best fit by eye, y = 10.2 - 0.6x through (0,10.2) and (8,5.4), drawn across the full grid at 0.9pt (rule 9). Rules 7 (consistent with the question figure), 9.
   part a  id 7296
     ordinal: 1
     latex: Draw a line of best fit by eye to show the trend of data.
@@ -1654,6 +1646,15 @@ document
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
       meta_json: {"format_note": "Sketch still to draw: the scatterplot with a reasonable line of best fit by eye, passing through about $(0, 10.2)$ and $(8, 5.4)$ (phone use on horizontal axis, sleep on vertical axis)."}
+    figure 16_q15_s1.png
+      page: 26
+      bbox: [77, 119, 509, 485]
+      png_path: figures/16_q15_s1.png
+      tikz_path: tikz/tex/16_q15_s1.tex
+      caption: solution sketch: school's marking, line of best fit drawn on the scatterplot
+      redraw_status: ok
+      redraw_class: statistical
+      redraw_notes: New sketch: the 16_q15_1 scatterplot (same frame and style) with a line of best fit by eye, y = 10.2 - 0.6x through (0,10.2) and (8,5.4), drawn across the full grid at 0.9pt (rule 9). Rules 7 (consistent with the question figure), 9.
     difficulty
       band: 2
       wm: UF
@@ -2387,11 +2388,11 @@ document
     criteria_json: [[6, "Correct answer"], [5, "Correct durations and a network with one error, or equivalent merit"], [4, "Correct durations for A, G and I, or equivalent merit"], [3, "Two correct durations, or equivalent merit"], [2, "One correct duration, or equivalent merit"], [1, "Draws part of the network, or equivalent merit"]]
     meta_json: {"format_note": "Sketch still to draw: network diagram. B (5) then D (6) to node at 11; A (4) to a node at 4, then C (11) to node at 17, then F (8) to finish at 26; E (3) from B's end node (at 5) to 8, then H (7) to 21; dummy activity (0) from A's end node as needed; G (10) from node at 11 to node at 21; I (5) from 21 to finish at 26. Label arrows with letters and durations. Source rubric was one mark per item (durations, dummy, chart, labels); rewritten top-down. Working lines for A reinterpreted from the source's compact text; the source's network description is partly inconsistent (B to 5 then D to 11, but E to 8 and H to 21 and G to 21), please check when drawing."}
   figure 16_q20_s1.png
-    page: 0
-    bbox: []
+    page: 31
+    bbox: [60, 365, 580, 622]
     png_path: figures/16_q20_s1.png
     tikz_path: tikz/tex/16_q20_s1.tex
-    caption: solution diagram (drawn by Claude)
+    caption: solution sketch: school's marking, hand-drawn activity network
     redraw_status: approx
     redraw_class: other
     redraw_notes: New sketch, activity-on-arrow network. Each arrow is labelled with its letter and duration; nodes show earliest start times 0, 4, 5, 8, 11, 15, 21, 26. Critical path B(5), D(6), G(10), I(5) = 26 runs along the middle. E(3) goes from node 5 to node 8, then H(7) to node 21. A(4), C(11), F(8) run along the bottom. The source description is inconsistent (it says C ends at a node at 17), but 4 + 11 = 15, so I used 15. The dummy (dashed, 0) goes from A's end node to D's end node (node 11). With that choice A's float is 3, as the solution requires. Please check the dummy's position against the question's precedence table, which was not supplied.

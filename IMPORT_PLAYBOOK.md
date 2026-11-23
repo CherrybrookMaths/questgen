@@ -606,3 +606,9 @@ Owner 23 Nov: "we need to start working on the standard course", "Standard 2 fir
   with links_to_document_id, as the Advanced HSC guidelines (226, 267, 295) were; a drawing that reuses a Claude sketch id becomes that
   sketch's original (post_load.py), and recrop.py cuts it from the guidelines file. Then delete the paper's non-MCQ solutions (MCQ working
   stays: the guidelines give only the key), load.py <guidelines doc>, post_load.py, prep_batch/solfmt, prep_verify/verify, triage.
+  Done 23 Nov for 2021 (doc 38 from doc 42; run s1r, US$1.85: parse 0.31 Sonnet, solfmt 0.16 Sonnet, 3 network redraws 0.40 and verify
+  0.98 Opus). 2024 (doc 40 from doc 45, byte-identical to the owner's upload) was run the same way (US$1.35) and then set back to its
+  previous state on the main session's instruction (owner to confirm the guidelines file first): its outputs wait in work/s1r/doc40_ready/
+  (out 45.json, solfmt, verify, the Q41 time-line redraw), untracked. Diagram notes: the guidelines' own drawings replaced Claude's
+  invented layouts for 38_q23_s1 and 38_q36_s1 (redrawn on the crop: overlays 0.84 and 0.79); 38_q37_s1 and 38_q39_s1 had no guideline
+  drawing and were dropped with Claude's solutions (MG answer only).
