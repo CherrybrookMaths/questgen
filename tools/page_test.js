@@ -1851,13 +1851,14 @@ async function papersLanes(browser, base, seed, fx) {
     return 'collapsed; tiles and finished batches inside';
   });
   // owner 21 Nov: "I want to see somewhere the costs logged properly, per paper, per batch total"
+  // 23 Nov: a Standard batch (n 'S1') is labelled "Standard batch 1" (12_import.js), so the row check follows that label
   await check('papers: Costs lists every batch with its total, and a batch opens to its papers', page, async () => {
     const want = JSON.parse(fs.readFileSync(path.join(SITE, 'data/costs.json'), 'utf8'));
     await page.evaluate(() => { const d = document.querySelector('#procCost'); d.open = true });
     await page.waitForSelector('#costBox .pr-ct tbody tr.pr-cb', {timeout: 8000});
     const r = await page.evaluate(() => ({rows: [...document.querySelectorAll('#costBox .pr-ct tbody tr.pr-cb')].map(t => t.innerText), foot: document.querySelector('#costBox .pr-ct tfoot')?.innerText || '', note: document.querySelector('#costBox .pr-cnote')?.innerText || ''}));
     const usd = x => 'US$' + x.toLocaleString('en-AU', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-    assert(r.rows.length === want.batches.length && want.batches.every((b, i) => r.rows[i].includes('Batch ' + b.n) && r.rows[i].includes(usd(b.usd))), 'batch rows: ' + JSON.stringify(r.rows));
+    assert(r.rows.length === want.batches.length && want.batches.every((b, i) => r.rows[i].includes(b.course === 'standard' ? 'Standard batch ' + String(b.n).slice(1) : 'Batch ' + b.n) && r.rows[i].includes(usd(b.usd))), 'batch rows: ' + JSON.stringify(r.rows));
     assert(r.foot.includes(usd(want.batch_usd)) && /monthly limit/.test(r.note), `total/limit: ${r.foot} | ${r.note}`);
     const b0 = want.batches[0];
     await page.click(`#costBox [data-costb="${b0.n}"]`); await settle(page, 500, 2);
