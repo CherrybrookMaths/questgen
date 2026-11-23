@@ -570,3 +570,19 @@ ztable in there arleady we will keep. Makes sense?"
   Q1954/Q1991; a PORTION (a few rows: Q865 21 rows of selected z, Q798 2 rows) stays. tools/ztable.py lists any whole table
   left ("WHOLE TABLE") and `--check` fails on it. Q1099: table Tf652 retired, figure 1373_q28_1 row archived, wording "(The
   table at the back of this exam can be used for this question)", marked.
+
+## Standard batches (23 Nov; STANDARD_SPEC.md)
+Owner 23 Nov: "we need to start working on the standard course", "Standard 2 first", pilot "once setup is done".
+- **Lane and papers.** tools/inventory.py + batches.py: lane `standard|12` (Year 12; Standard 1 papers held; papers before 2019 are
+  General Mathematics = old syllabus, owner: "Yes import them later"). Its Batch 1 (the pilot) starts with the 5 NESA HSC Standard 2
+  papers 2020-2024. A batch is one course: api_import.py reads it from documents.course and stops on a mix.
+- **Run names.** Standard runs are `s<N>` (state/work/api_import/s1/ ...), never `b<N>`: costs.py shows them as "Standard batch N".
+- **Same pipeline as Advanced**, with these differences, all automatic once the papers' course is 'standard':
+  - tag: TAG_SPEC_STANDARD.md, Year 11 + Standard 2 dot points, the 136 approved skills (api_import.py tag_inputs);
+    merge_tags_v2.py / reconcile.py look dot points up in tools/course_dots.py (Standard coverage = examinable).
+  - difficulty: the course has no references yet, so the FIRST `difficulty` run rates only its NESA HSC papers, as references
+    (is_anchor = 1 after difficulty-apply); run `difficulty` AGAIN for the batch's other papers, against them. The owner reviews the
+    new references on the Difficulty tab (Standard course) before more Standard batches.
+  - homes: `node tools/homes.js <docs> --course=standard` (the Standard questions are only in the Standard bank).
+  - bank_split.py writes Standard questions to site/data/bank/standard/ (with Standard skill gates); Advanced keeps the rest.
+- **Old syllabus**: TAG_SPEC_STANDARD "Old syllabus" (owner: "keep them out but don't drop yet").
