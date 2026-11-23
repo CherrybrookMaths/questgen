@@ -122,7 +122,8 @@ function fakeClaude(arg) {
   const mcp = drive ? {callTool: async (server, tool, input, opts) => {
     window.__pt.mcp.push({server, tool, input: clone(input)});
     const sig = opts && opts.signal;
-    await new Promise((res, rej) => { const t = setTimeout(res, window.__pt.driveDelay || 0); if (sig) sig.addEventListener('abort', () => { clearTimeout(t); rej({code: 'cancelled', message: 'aborted'}) }, {once: true}) });
+    await new Promise((res, rej) => { if (sig && sig.aborted) return rej({code: 'cancelled', message: 'aborted'});   // as fetch does
+      const t = setTimeout(res, window.__pt.driveDelay || 0); if (sig) sig.addEventListener('abort', () => { clearTimeout(t); rej({code: 'cancelled', message: 'aborted'}) }, {once: true}) });
     const e = window.__pt.driveErr; if (e && e.n > 0) { e.n--; throw {...e.err} }
     if (server !== 'Google Drive' || tool !== 'search_files') throw {code: 'not_in_manifest', message: 'not in the manifest'};
     const m = /parentId = '([^']+)'/.exec(input.query || ''), items = (m && drive.folders[m[1]]) || [];
@@ -1234,8 +1235,13 @@ async function reviewFlow(browser, base, seed) {
   await check('review: a step at 0 moves on to the next step with work (keys)', page, async () => {
     await go('#review/paper/323/flagged');
     const n = (await track()).left.check, n0 = await logN();
+    // 24 Nov flake: decide() awaits FRESH.block(), which fetches data/version.json when the last check is over 15 s old; an A pressed
+    // during that fetch still sees the same question and approves it again, so one Flagged question was left. Wait for each A to land
+    // (the shown question or the step changes) before the next, as a person would see it move on
+    const at = () => page.evaluate(() => location.hash + '|' + (rlist[ridx]?.id ?? ''));
     let t;
-    for (let i = 0; i < n; i++) { await page.keyboard.press('a'); await sleep(150); t = await page.evaluate(() => document.querySelector('#toast').textContent); }
+    for (let i = 0; i < n; i++) { const a0 = await at(); await page.keyboard.press('a');
+      await page.waitForFunction(a0 => location.hash + '|' + (rlist[ridx]?.id ?? '') !== a0, a0, {timeout: 5000}); t = await page.evaluate(() => document.querySelector('#toast').textContent); }
     await settle(page, 3000, 2);
     const r = await track(); errs();
     const w = await writes(n0, 'reviews/k_');   // Fix 2: by key
@@ -1990,7 +1996,9 @@ async function driveScan(browser, base, seed, fx) {
     const pos = await page.evaluate(() => { const b = document.querySelector('#ivScanGo'), s = document.querySelector('#ivSub'); return {row: b.parentElement.parentElement === s.parentElement, txt: b.textContent, sub: s.textContent} });
     assert(pos.row && pos.txt === 'Rescan drive' && /last scan/.test(pos.sub), JSON.stringify(pos));
     assert(page._files === 0, `opening Processes › Papers fetched data/inventory_files.json ${page._files} time(s): it is for Rescan drive only`);
-    await page.evaluate(() => { window.__pt.driveDelay = 400 });
+    // 23 Nov flake: at 400 ms a call the 6-folder scan could finish before the Cancel click landed (and the page redrew the button
+    // after every folder). The fake call is abortable, so a long delay keeps the scan running until Cancel
+    await page.evaluate(() => { window.__pt.driveDelay = 60000 });
     await go(page);
     await page.waitForFunction(() => /Scanning Google Drive · \d+ of \d+ folders/.test(document.querySelector('#ivScan .ivsprog')?.textContent || ''), null, {timeout: 5000});
     const pr = await page.evaluate(() => ({t: document.querySelector('#ivScan .ivsptxt').textContent, dis: document.querySelector('#ivScanGo').disabled, bar: !!document.querySelector('#ivScan progress')}));
