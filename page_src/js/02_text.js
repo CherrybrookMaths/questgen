@@ -11,7 +11,9 @@ function tex(s){
   h=h.split(/(\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^$])*?(?<!\\)\$)/).map((seg,i)=>{if(i%2)return seg;let prev;
     do{prev=seg;seg=seg.replace(/\\textbf\{([^{}]*)\}/g,'<b>$1</b>').replace(/\\(?:textit|emph)\{([^{}]*)\}/g,'<i>$1</i>').replace(/\\underline\{([^{}]*)\}/g,'<u>$1</u>').replace(/\\text\{([^{}]*)\}/g,'$1')}while(seg!==prev);
     return seg.replace(/\\%/g,'%').replace(/\\&amp;/g,'&amp;')}).join('');
-  h=h.replace(/\\exfigure\{([\w.-]+)\}/g,(m,id)=>`</span><span class="figslot" data-fig="${id}"></span><span>`);
+  // 23 Nov (owner: "for some questions, the original and question are not lining up any more" + raw \exfigure text): figure names from split
+  // questions carry the part in brackets (1305_q1(c)_1), so the name pattern allows ( ) here, in 20_exam.js, bank_split.py and ztable.py
+  h=h.replace(/\\exfigure\{([\w.()-]+)\}/g,(m,id)=>`</span><span class="figslot" data-fig="${id}"></span><span>`);
   h=h.replace(/\\extable\{(\w+)\}/g,(m,id)=>`</span>${dtHTML(id)}<span>`);
   // owner: dot points render as dot points. Lists are stored as \begin{itemize} \item … \end{itemize}
   h=h.replace(/\s*\\begin\{enumerate\}\s*\\item\s*/g,'</span><ol class="qlist"><li><span>').replace(/\s*\\end\{enumerate\}\s*/g,'</span></li></ol><span>');   // numbered list as printed (Girraween 2025 Q19)
