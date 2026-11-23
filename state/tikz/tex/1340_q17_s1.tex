@@ -13,7 +13,9 @@
 \node at (1278,\oy) {\Large$x$};
 \node at (\ox,10) {\Large$y$};
 \foreach \i in {-5,-4,-3,-2,-1} \draw ({\ox+\i*\ux},{\oy-8}) -- ({\ox+\i*\ux},{\oy+8});
-\foreach \i in {-5,-3,-2,-1} \node[below=2pt] at ({\ox+\i*\ux},{\oy+8}) {\Large$\i$};
+\foreach \i in {-3,-2,-1} \node[below=2pt] at ({\ox+\i*\ux},{\oy+8}) {\Large$\i$};
+% flags 23 Nov (checker: "move the -5 xaxis label to the left slightly as it is touching the -4 marker")
+\node[below=2pt] at ({\ox-5*\ux-16},{\oy+8}) {\Large$-5$};
 \node[anchor=north east,inner sep=2pt] at ({\ox-4*\ux-5},{\oy+10}) {\Large$-4$};
 \foreach \j in {1,2,3} \draw ({\ox-8},{\oy-\j*\uy}) -- ({\ox+8},{\oy-\j*\uy});
 \node[right] at ({\ox+10},{\oy-1*\uy}) {\Large$1$};

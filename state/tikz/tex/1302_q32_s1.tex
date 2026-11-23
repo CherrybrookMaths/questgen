@@ -3,11 +3,12 @@
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\small]
   % X = 378 + 59.6 x ; Y = 282 - 51.5 y
+  % flags 23 Nov: x labels above the ticks (checker: "move the xaxis numbers higher up as they are touching the xaxis ticks"); -1 nudged left off y = mx (below the axis the curve crosses it)
   \draw[<->] (5,282) -- (748,282);
   \draw[<->] (378,602) -- (378,6);
   \foreach \k in {-6,...,-1,1,2,...,6} {
     \draw ({378+59.6*\k},276) -- ({378+59.6*\k},288);
-    \node[anchor=south] at ({378+59.6*\k},291) {$\k$};}
+    \ifnum\k=-1\relax\node[anchor=south] at ({378+59.6*\k-16},271) {$\k$};\else\node[anchor=south] at ({378+59.6*\k},271) {$\k$};\fi}
   \foreach \k in {-6,...,-2,1,2,...,5} {
     \draw (372,{282-51.5*\k}) -- (384,{282-51.5*\k});
     \node[anchor=east] at (369,{282-51.5*\k}) {$\k$};}

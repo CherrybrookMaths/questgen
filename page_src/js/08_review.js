@@ -381,7 +381,7 @@ const FLR={runs:[],sub:0,
   watch(){if(this.sub||!db)return;this.sub=1;try{db.collection('runs').onSnapshot(s=>{this.runs=QG.docs(s).filter(r=>r.kind==='flags');if(view==='review')renderReview()},()=>{this.sub=0})}catch(e){this.sub=0}},
   last(){return this.runs.slice().sort((a,b)=>String(b.at).localeCompare(String(a.at)))[0]||null},
   async ask(){if(!db){toast('Needs the shared database (open the page in claude.ai)');return}const id='flags_'+Date.now(),doc={kind:'flags',status:'requested',by:QG.me||null,at:new Date().toISOString()};
-    try{await db.doc('runs/'+id).set(doc);this.runs.push({id,...doc});toast('Sent to Claude');renderReview()}catch(e){toast('Could not send. Try again in a moment.')}}};
+    try{await db.doc('runs/'+id).set(doc);this.runs.push({id,...doc});toast('Sent to Claude');renderReview()}catch(e){toast('Could not send ('+(e?.code||e?.message||'unknown error')+'). Try again in a moment.');console.warn('Fix my flags now: write refused',e)}}};   // 23 Nov: the checker reports the button "not working" and no runs/flags_* doc was written since 20 Nov: the code makes the next failure diagnosable
 // when Claude picks a request up: read from the page database (progress/night: flagcheck, written when the scheduled check changes,
 // and time, the night run's), not typed in (owner 21 Nov: "make sure there's no hanging numbers anywhere which can go stale")
 const FLR_WHEN=()=>`Claude checks ${esc(QG.night?.flagcheck||'during the checker\'s shift')}; otherwise at the night run${QG.night?.time?` (${esc(QG.night.time)})`:''}.`;

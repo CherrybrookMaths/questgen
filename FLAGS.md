@@ -21,9 +21,26 @@ flagcheck, which Review's "Fix my flags now" line shows) runs this section; the 
 4. Each run doc: `status: 'done'`, `done_at: <now>`, `result: "<n> fixed, <m> wait for Steve"` (or "Nothing open", or
    "Not published: <first failure>" with `status: 'failed'`). Clear `progress/jobs`. Never leave a run `running`.
 
+## Concurrent with imports (23 Nov)
+Owner 23 Nov (verbatim): "we cannot be pinned down by imports. We should be able to run flags concurrently with imports".
+- A flag fix never waits for an import. The import's papers stay off the published page while they are mid-import
+  (tools/import_hold.py, state/work/import/hold.json; owner 18 Nov: imports "shouldn't stall flagging and checking"), so a flag fix can
+  build, test and publish while an import runs.
+- Work in a separate git worktree (`git worktree add ../qg-flags -b flags-<date> main`; copy, do not link, the untracked site/data packs:
+  the tools write them). Database writes go to the shared questions.db (copy it to archive/ first; on "database is locked" wait a few
+  seconds and retry; never delete or move the import's rows).
+- Before publishing: `fetch_published.py --verify` (batch_check blocks when another session published since this checkout synced);
+  prepublish exits 0. If the Artifact tool refuses because a newer version is live (the import published first), merge main into the
+  branch, rebuild, re-run prepublish and publish again.
+- After the publish: merge the branch into main without touching the running import's uncommitted files (commit through the branch and
+  push it to main after merging origin/main), check the commit's version is the live one, push main and the session branch.
+- Only another FLAG-FIX job stops a flag fix (step 1 below); a running import in `progress/jobs` does not. The page's "Fix my flags now"
+  toast shows the database's error code when the request cannot be written (23 Nov: the checker reported the button "not working").
+
 1. **Anything to do?** ArtifactData `query` on `reviews` (where `at >= <yesterday>`, limit 1000, `out_dir` work/pagedb_flags_<date>/).
    Open items = a doc with `status: 'flagged'` and no `fixed`, or a `fig` value `'changes'`. None: stop here (no publish, no note).
-   If `progress/jobs` shows a running job from another session, stop and say so.
+   If another FLAG-FIX job is running (a `runs/flags_*` doc with `status: 'running'` and `started` under 2 hours old), stop and say so;
+   an import job in `progress/jobs` never blocks a flag fix (see "Concurrent with imports").
 2. **Fix each open item**, as on 17 Nov (UI_SPEC "Flags hold back the paper"):
    - Diagram change request: one Opus agent edits the existing `state/tikz/tex/<id>.tex` to do exactly what the request says (DIAGRAM_SPEC),
      renders, writes `tikz/result_<date>_flags<n>.json`; `python3 tools/apply_diagrams.py` on it; once the edited sources are committed,

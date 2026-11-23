@@ -14,7 +14,8 @@
   \node[anchor=north west] at (2.05,-0.1) {$2$};
   \node[anchor=north east] at (0.95,-0.1) {$1$};
   \foreach \y in {-4,-3,-1,1,2,3,4} \node[anchor=east] at (-0.1,\y) {$\y$};
-  \node[anchor=north west] at (0.08,-2.06) {$-2$};
+  % flags 23 Nov (checker: "the -2 yaxis label is touching the dotted line"): centred between the y-axis and x = 1
+  \node[anchor=north] at (0.5,-2.1) {$-2$};
   \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=1.6:5.0] (\x,{3/(\x-1)});
   \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-5.02:0.405] (\x,{3/(\x-1)});
   \draw[line width=0.9pt,<->] (-4.75,2.75) -- (0,-2) -- (4.75,2.75);

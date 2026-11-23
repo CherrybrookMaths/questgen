@@ -4,17 +4,16 @@
 \begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
 \draw[<->] (-225,0) -- (230,0);
 \draw[<->] (0,-172) -- (0,175);
-\draw[aux] (54,0) -- (54,65);
-\draw[aux] (-54,0) -- (-54,-65);
-\draw[line width=0.9pt] (-205,95) .. controls (-185,65) and (-158,27) .. (-140,0)
-  .. controls (-115,-38) and (-80,-65) .. (-54,-65) .. controls (-34,-65) and (-18,-45) .. (0,0)
-  .. controls (18,45) and (34,65) .. (54,65) .. controls (80,65) and (115,38) .. (140,0)
-  .. controls (158,-27) and (185,-65) .. (205,-95);
+\draw[aux] (56,0) -- (56,65.0);
+\draw[aux] (-56,0) -- (-56,-65.0);
+% flags 23 Nov (checker: "Use the actual graph because it looks bumpy"): one smooth function instead of joined curves,
+% roots 0 and +-5, turning points exactly at x = +-2 (odd: y = (25x-x^3)/(x^2+8.92)); 1 unit = 28
+\draw[line width=0.9pt, smooth, samples=161, domain=-7.3:7.3, variable=\x] plot ({28*\x},{20*(25*\x-\x*\x*\x)/(\x*\x+8.92)});
 \node[font=\large] at (234,-24) {$x$};
 \node[font=\large] at (-20,165) {$y$};
 \node[anchor=north east,inner sep=1pt] at (-143,-6) {$-5$};
-\node[anchor=north east,inner sep=1pt] at (-59,-5) {$-2$};
-\node[anchor=north,inner sep=1pt] at (54,-6) {$2$};
+\node[anchor=north east,inner sep=1pt] at (-62,-5) {$-2$};
+\node[anchor=north,inner sep=1pt] at (56,-6) {$2$};
 \node[anchor=north east,inner sep=1pt] at (137,-6) {$5$};
 \end{tikzpicture}
 \end{document}

@@ -4,17 +4,19 @@
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\scriptsize}]
 \coordinate (A) at (58,185); \coordinate (B) at (255,45); \coordinate (C) at (543,225);
 \draw (A)--(B)--(C)--cycle;
-\pic[draw, angle radius=0.89cm] {angle=C--A--B};
-\pic[draw, angle radius=0.48cm] {angle=A--B--C};
-\pic[draw, angle radius=1.12cm] {angle=B--C--A};
+% flags 23 Nov (checker: "Put the angle markers into the centre position of their angle but at the same distance from the point where
+% the angle is"): every arc 0.8 cm; each Greek letter on its angle's bisector, 1.25 cm from the vertex
+\pic[draw, angle radius=0.8cm] {angle=C--A--B};
+\pic[draw, angle radius=0.8cm] {angle=A--B--C};
+\pic[draw, angle radius=0.8cm] {angle=B--C--A};
 \node at (20,168) {$A$};
 \node at (258,18) {$B$};
 \node at (565,248) {$C$};
 \node at (128,95) {$12$};
 \node at (408,98) {$20$};
 \node at (298,236) {$28$};
-\node at (144,180) {$\alpha$};
-\node at (255,122) {$\beta$};
-\node at (432,203) {$\gamma$};
+\node at (152.9,159.0) {$\alpha$};
+\node at (257.9,143.4) {$\beta$};
+\node at (449.6,194.0) {$\gamma$};
 \end{tikzpicture}
 \end{document}

@@ -9,15 +9,17 @@
 \draw[aux] (L)--(448,296.8);
 \node[pt] at (L) {};
 \draw[aux,->] ($(P)+(-90:123)$) arc[start angle=-90,end angle=-26.1,radius=123];
-\draw[->] ($(S)+(-90:72)$) arc[start angle=-90,end angle=216.3,radius=72];
+% flags 23 Nov (checker: "there are labels which are overlapped with lines. move the labels so that they dont touch the lines"):
+% the bearing arc at S is smaller (72 -> 48) and Ship, (S), 320 and 4 km sit clear of it and of the lines
+\draw[->] ($(S)+(-90:48)$) arc[start angle=-90,end angle=216.3,radius=48];
 \node at (95,428) {$65^\circ$};
 \node[rotate=26.1] at (271,411) {20 km};
-\node[rotate=26.1] at (497,294) {4 km};
+\node[rotate=26.1] at (488,302) {4 km};
 \node at (448,76) {Lighthouse};
 \node at (448,118) {$(L)$};
-\node at (606,190) {$320^\circ$};
-\node at (604,238) {Ship};
-\node at (598,292) {$(S)$};
+\node at (618,176) {$320^\circ$};
+\node at (656,232) {Ship};
+\node at (656,268) {$(S)$};
 \node at (42,516) {Port};
 \node at (42,564) {$(P)$};
 \end{tikzpicture}

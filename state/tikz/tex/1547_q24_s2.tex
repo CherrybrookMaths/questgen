@@ -6,8 +6,13 @@
 % x px = 307+46x, y px = 300-64y
 \draw[<->] (5,300) -- (610,300) node[right,font=\tk] {$x$};
 \draw[<->] (307,518) -- (307,22) node[above,font=\tk] {$y$};
-\foreach \k in {-6,-5,-4,-3,-2,-1,1,2,3,4,5,6} {\draw ({307+46*\k},294) -- ({307+46*\k},306);
-  \node[font=\tk,anchor=north] at ({307+46*\k+4},307) {$\k$};}
+% flags 23 Nov (checker: "Fix the labels as some are overlapped by lines"): -3, -1 and 1 above the axis (below it the curves cross the labels),
+% x = -3 and both curve names moved off their lines
+\foreach \k in {-6,-5,-4,-3,-2,-1,1,2,3,4,5,6} \draw ({307+46*\k},294) -- ({307+46*\k},306);
+\foreach \k in {-6,-5,-4,-2,2,3,4,5,6} \node[font=\tk,anchor=north] at ({307+46*\k+4},307) {$\k$};
+\node[font=\tk,anchor=south,inner sep=1pt] at (241,297) {$-1$};
+\node[font=\tk,anchor=south east] at (166,293) {$-3$};
+\node[font=\tk,anchor=south,inner sep=1pt] at (365,298) {$1$};
 \foreach \k in {-3,-2,-1,1,2,3,4} {\draw (301,{300-64*\k}) -- (313,{300-64*\k});
   \node[font=\tk,anchor=east] at (299,{300-64*\k}) {$\k$};}
 % asymptote x=-3
@@ -18,9 +23,9 @@
 \draw[line width=0.9pt,->] plot[smooth,samples=90,domain=-2.963:6.6] ({307+46*\x},{300-64*(1-ln(\x+3))});
 % reflection arrow (red in the original)
 \draw[<->,black!55] (568,226) -- (568,372);
-\node[font=\scriptsize] at (132,96) {$x=-3$};
-\node[font=\scriptsize] at (515,212) {$y=\ln(x+3)-1$};
-\node[font=\scriptsize] at (525,388) {$y=1-\ln(x+3)$};
+\node[font=\scriptsize] at (116,96) {$x=-3$};
+\node[font=\scriptsize] at (492,200) {$y=\ln(x+3)-1$};
+\node[font=\scriptsize] at (492,404) {$y=1-\ln(x+3)$};
 \node[font=\scriptsize,align=left,anchor=north west] at (660,252) {Reflect answer to $(a)$ in\\the $x$ axis};
 \end{tikzpicture}
 \end{document}

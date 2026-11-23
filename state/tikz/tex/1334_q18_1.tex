@@ -13,14 +13,16 @@
   % right-angle marks
   \draw (75,245)--(111.5,255.5)--(111.5,293.5);
   \draw (75,245)--(92.9,269.1)--(92.9,307.1);
+  % flags 23 Nov (checker: "Make the angle markers into arcs not arrows. the 60 degree angle is touching the triangle line. Move it
+  % slightly left"): plain arcs; the 60 at C left of DB
   % angle at C (60)
-  \draw[<->] ($(C)+(16.06:78)$) arc[start angle=16.06,end angle=53.4,radius=78];
-  \node at (176,352) {$60^\circ$};
+  \draw ($(C)+(16.06:78)$) arc[start angle=16.06,end angle=53.4,radius=78];
+  \node[font=\footnotesize] at (162,366) {$60^\circ$};
   % angle at A (30)
-  \draw[->] ($(A)+(196.06:112)$) arc[start angle=196.06,end angle=212.8,radius=112];
+  \draw ($(A)+(196.06:112)$) arc[start angle=196.06,end angle=212.8,radius=112];
   \node at (620,415) {$30^\circ$};
   % angle at B (60) with leader
-  \draw[<->] ($(B)+(233.4:100)$) arc[start angle=233.4,end angle=251.6,radius=100];
+  \draw ($(B)+(233.4:100)$) arc[start angle=233.4,end angle=251.6,radius=100];
   \draw[->] (46,425) .. controls (100,390) and (165,400) .. (200,440);
   \node at (24,433) {$60^\circ$};
   % labels

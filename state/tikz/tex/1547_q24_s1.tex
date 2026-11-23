@@ -6,8 +6,11 @@
 % axes: x px = 315+45x, y px = 287-61.5y
 \draw[<->] (28,287) -- (608,287) node[right,font=\tk] {$x$};
 \draw[<->] (315,492) -- (315,20) node[above,font=\tk] {$y$};
-\foreach \k in {-6,-5,-4,-3,-2,-1,1,2,3,4,5,6} {\draw ({315+45*\k},281) -- ({315+45*\k},293);
-  \node[font=\tk,anchor=north] at ({315+45*\k+4},294) {$\k$};}
+% flags 23 Nov (checker: "Fix the labels as some are overlapped by lines"): -3 above the axis, left of the asymptote (below it the curves and the -4, -2 labels leave no room), x = -3 and y = ln(x+3)
+% moved off their lines
+\foreach \k in {-6,-5,-4,-3,-2,-1,1,2,3,4,5,6} \draw ({315+45*\k},281) -- ({315+45*\k},293);
+\foreach \k in {-6,-5,-4,-2,-1,1,2,3,4,5,6} \node[font=\tk,anchor=north] at ({315+45*\k+4},294) {$\k$};
+\node[font=\tk,anchor=south east] at (177,280) {$-3$};
 \foreach \k in {-3,-2,-1,1,2,3,4} {\draw (309,{287-61.5*\k}) -- (321,{287-61.5*\k});
   \node[font=\tk,anchor=east] at (307,{287-61.5*\k}) {$\k$};}
 % asymptote x=-3
@@ -21,8 +24,8 @@
 % translation arrows (red in the original)
 \draw[->,black!55] (345,320) -- (208,320);
 \draw[->,black!55] (568,146) -- (568,218);
-\node[font=\scriptsize] at (150,121) {$x=-3$};
-\node[font=\scriptsize] at (418,185) {$y=\ln(x+3)$};
+\node[font=\scriptsize] at (140,121) {$x=-3$};
+\node[font=\scriptsize] at (405,158) {$y=\ln(x+3)$};
 \node[font=\scriptsize] at (545,270) {$y=\ln(x+3)-1$};
 \node[font=\scriptsize] at (376,381) {$y=\ln x$};
 \node[font=\scriptsize,align=left,anchor=north west] at (2,346) {Translate 3 units\\to the left};

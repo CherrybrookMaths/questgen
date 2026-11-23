@@ -145,6 +145,22 @@ db.execute("update questions set marks_total=6 where id=2763 and marks_total=5")
 # 2022 Baulkham Hills AT2 Q25 (QID 2765), "Make part b a 2mark question and edit the total marks": (b) 1 -> 2, total 6 -> 7
 db.execute("update parts set marks=2 where id=4492 and marks=1")
 db.execute("update questions set marks_total=7 where id=2765 and marks_total=6")
+# Checker flags, 23 Nov (owner: "run open flags too pls"; FLAGS.md)
+# 2022 Normanhurst Boys AT4 Q9 (QID 3350), "Change the solution: add the equation of the addition of the probabilities equal 1":
+# the sum of the table's probabilities written out and solved (the old working had no table values)
+_l = db.execute('select latex, meta_json from solutions where id=5166').fetchone()
+if _l and '0.54' not in _l[0]:
+    _m = json.loads(_l[1] or '{}'); _m.pop('generated_note', None); _m.pop('self_check', None)
+    _m['edited_from_original'] = 'Claude 23 Nov (checker flag): the sum of the probabilities written out with the table values'
+    db.execute('update solutions set latex=?, meta_json=? where id=5166', ("""The probabilities of a discrete probability distribution sum to $1$:
+$$0.12+\\dfrac{a}{2}+a+0.35+0.07+a=1$$
+$$0.54+\\dfrac{5a}{2}=1$$
+$$\\dfrac{5a}{2}=0.46$$
+$$a=0.184$$
+Hence the correct option is C.""", json.dumps(_m, ensure_ascii=False)))
+# 2022 Sydney Boys AT4 Q29 (QID 3622), "Change so that the total marks is 6 rather than 5": the paper's heading says 5 marks but its
+# parts are 3 + 3 (PARSE_SPEC "Mistakes in the paper are fixed")
+db.execute("update questions set marks_total=6 where id=3622 and marks_total=5")
 # 2023 Western Mathematics AT4 Q31(b) (QID 2637), "Add a third criterion to part b": the part is worth 3, the guideline marked out of 2
 _c = json.loads(db.execute('select criteria_json from solutions where id=3695').fetchone()[0] or '[]')
 if _c and _c[0][0] == 2:
