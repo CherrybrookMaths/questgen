@@ -199,6 +199,9 @@ Layout must match the paper:
 Not every grid is a table:
 
 - A stem-and-leaf plot renders as a plot when its caption starts "stem-and-leaf" ("the stem and leaf is not a table").
+  Checker 24 Nov: "Turn the table into a stem and leaf plot. Do this for all questions where the stem and leaf plot has been turned into a
+  table": two parsed tables lacked the caption (Oakhill 2021 AT1 Q7 Tq4725_1, 1307 Q15(a) 1307_q15a_t1, which also had a Stem/Leaf header
+  row); both now captioned, header dropped, leaves plain spaces. Parse: always caption a stem-and-leaf table "stem-and-leaf plot of ...".
 - Display maths laid out on a grid (e.g. four integrals) is an `array`, not a table.
 
 Captions show above tables. Keep only captions printed on the paper. 70 still need a sweep.

@@ -48,8 +48,11 @@ table.dt th.dg .dgl{position:absolute;inset:0;width:100%;height:100%;pointer-eve
 table.dt th.dg .dgl line{stroke:var(--muted);stroke-width:1.2;vector-effect:non-scaling-stroke}
 table.dt tbody td.shd{background:color-mix(in srgb,var(--muted) 30%,transparent)}   /* checker 23 Nov: shaded box (\shade cell) */
 table.dt th.dg .dgtr,table.dt th.dg .dgbl{line-height:1.12}   /* owner 12 Nov: "Period and rate box too tall and wide" */
-table.dt th.dg .dgtr{display:block;text-align:right}
-table.dt th.dg .dgbl{display:block;text-align:left}
+/* checker 24 Nov (2026 HSC Std Q27): "Fix the labels as they are touching the slanted line": the two labels sit in opposite
+   corners of a 2x2 grid with equal columns, so the corner-to-corner line passes through the empty gap between them */
+table.dt th.dg .dgw{display:grid;grid-template-columns:1fr 1fr;gap:.45em 1.1em}
+table.dt th.dg .dgtr{display:block;text-align:right;grid-column:2;grid-row:1}
+table.dt th.dg .dgbl{display:block;text-align:left;grid-column:1;grid-row:2}
 table.slp{border-collapse:collapse;margin:6px auto;font-family:var(--serif,serif);font-size:1.05em}
 table.slp th{font-weight:400;text-align:right;padding:3px 12px 3px 4px;border-right:1.5px solid currentColor}
 table.slp td{text-align:left;padding:3px 4px 3px 12px;white-space:pre;word-spacing:.35em}

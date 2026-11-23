@@ -241,8 +241,11 @@ table.dt th.dg .dgl{position:absolute;inset:0;width:100%;height:100%;pointer-eve
 table.dt th.dg .dgl line{stroke:var(--muted);stroke-width:1.2;vector-effect:non-scaling-stroke}
 table.dt tbody td.shd{background:color-mix(in srgb,var(--muted) 30%,transparent)}   /* checker 23 Nov: shaded box (\shade cell) */
 table.dt th.dg .dgtr,table.dt th.dg .dgbl{line-height:1.12}   /* owner 12 Nov: "Period and rate box too tall and wide" */
-table.dt th.dg .dgtr{display:block;text-align:right}
-table.dt th.dg .dgbl{display:block;text-align:left}
+/* checker 24 Nov (2026 HSC Std Q27): "Fix the labels as they are touching the slanted line": the two labels sit in opposite
+   corners of a 2x2 grid with equal columns, so the corner-to-corner line passes through the empty gap between them */
+table.dt th.dg .dgw{display:grid;grid-template-columns:1fr 1fr;gap:.45em 1.1em}
+table.dt th.dg .dgtr{display:block;text-align:right;grid-column:2;grid-row:1}
+table.dt th.dg .dgbl{display:block;text-align:left;grid-column:1;grid-row:2}
 table.slp{border-collapse:collapse;margin:6px auto;font-family:var(--serif,serif);font-size:1.05em}
 table.slp th{font-weight:400;text-align:right;padding:3px 12px 3px 4px;border-right:1.5px solid currentColor}
 table.slp td{text-align:left;padding:3px 4px 3px 12px;white-space:pre;word-spacing:.35em}
@@ -2436,7 +2439,7 @@ function dtHTML(id,opts={}){
       // checker 23 Nov (2023 HSC Std Q17): "shade out the boxes that are same city to the same city": a cell holding \shade is a grey, empty box, as printed
       if(String(r[c]??'').trim()==='\\shade'){ out+=`<td class="shd"${at}></td>`; continue }
       // checker 23 Nov (2024 HSC Std Q12): "There is a bump in the top left corner": the split is a drawn line (it was a gradient, which stepped at its ends)
-      const dg=diagSplit(r[c]); const v=dg?`<svg class="dgl" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="0" x2="100" y2="100"/></svg><span class="dgtr">${cell(dg[1])}</span><span class="dgbl">${cell(dg[0])}</span>`:cell(r[c]);
+      const dg=diagSplit(r[c]); const v=dg?`<svg class="dgl" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="0" x2="100" y2="100"/></svg><span class="dgw"><span class="dgtr">${cell(dg[1])}</span><span class="dgbl">${cell(dg[0])}</span></span>`:cell(r[c]);
       if(dg){ out+=`<th scope="col" class="dg"${at}>${v}</th>`; continue }   // owner: "table needs to look identical with that split down the cell"
       if(head) out+=`<th scope="col"${at}>${v}</th>`;
       else if(c<lc) out+=`<th scope="row" class="rl"${at}>${v}</th>`; else out+=`<td${at}>${v}</td>`;}
@@ -6678,7 +6681,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'24d0f8060861acfd',stale:false,t:null,at:0,
+const FRESH={build:'511527b1c36d5273',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}

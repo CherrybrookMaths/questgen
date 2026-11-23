@@ -133,6 +133,8 @@ See also the table rules in IMPORT_PLAYBOOK.
 - Headers wrap only where the paper wraps them.
 - Columns are equal width only in number tables.
 - Split corner cells look like the paper ("table needs to look identical with that split down the cell"). Keep the period/rate box small.
+  Checker 24 Nov (2026 HSC Std Q27): "Fix the labels as they are touching the slanted line": the two labels sit in opposite corners of a
+  2x2 grid with equal columns and a gap, so the corner-to-corner line runs between them (page_src/css/03_question.css `.dgw`).
 - A stem-and-leaf plot renders as a plot ("the stem and leaf is not a table").
 - Captions use LaTeX text mode ("I can see \textbf in the table heading").
 - Solution diagrams Claude drew have no original to compare against, so they are shown alone ("I cannot see the x-axis").
