@@ -317,8 +317,16 @@ def main():
     full = json.load(open(src, encoding='utf-8'))
     dc = doc_courses()
     # owner 23 Nov (Standard): a Standard paper's questions go to the Standard bank only; Advanced keeps the rest, as before
-    sub = lambda keep: {**full, 'questions': [q for q in full['questions'] if keep(dc.get(str(q['doc'])))],
-                        'docs': {k: d for k, d in full['docs'].items() if keep(dc.get(str(k)))}}
+    def own(keep):   # the papers and the text of one side
+        qs = [q for q in full['questions'] if keep(dc.get(str(q['doc'])))]
+        return qs, {str(q['doc']) for q in qs}, dump(qs)
+    def sub(keep):   # one course's questions and papers; figures and tables that clearly belong to the OTHER course are left out
+        qs, ds, txt = own(keep)   # (23 Nov: the pilot's ~100 KB of figure entries had leaked into the Advanced start-up index)
+        _, ods, otxt = own(lambda c: not keep(c))
+        theirs = lambda k: (k.split('_')[0] in ods or (k in otxt and k not in txt)) and k.split('_')[0] not in ds
+        return {**full, 'questions': qs, 'docs': {k: d for k, d in full['docs'].items() if keep(dc.get(str(k)))},
+                'figs': {k: v for k, v in full['figs'].items() if not theirs(k)},
+                'tables': {k: v for k, v in full['tables'].items() if not theirs(k)}}
     std = sub(lambda c: c == 'standard')
     if std['questions']:
         set_course('standard')
