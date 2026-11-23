@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6769cm, y=0.5969cm]
+  \def\lf{\fontsize{11}{13}\selectfont}
+  % axes
+  \draw[<->] (-4.71,0) -- (4.73,0);
+  \draw[<->] (0,-4.74) -- (0,5.26);
+  \node[font=\lf, anchor=west] at (4.8,0) {$x$};
+  \node[font=\lf, anchor=south] at (0,5.3) {$y$};
+  \foreach \v in {-4.5,-4,...,4.5} \draw (\v,-0.1) -- (\v,0.1);
+  \foreach \v in {-4.5,-4,...,4.5} \draw (-0.085,\v) -- (0.085,\v);
+  % tick labels (digit centred on tick)
+  \node[font=\lf, anchor=north east, inner sep=0pt] at (-3.88,-0.38) {$-4$};
+  \node[font=\lf, anchor=north east, inner sep=0pt] at (-1.88,-0.38) {$-2$};
+  \node[font=\lf, anchor=north, inner sep=0pt] at (2,-0.38) {$2$};
+  \node[font=\lf, anchor=north, inner sep=0pt] at (4,-0.38) {$4$};
+  \node[font=\lf, anchor=east, inner sep=0pt] at (-0.3,4) {$4$};
+  \node[font=\lf, anchor=south east, inner sep=0pt] at (-0.25,2.18) {$2$};
+  \node[font=\lf, anchor=east, inner sep=0pt] at (-0.3,-2) {$-2$};
+  \node[font=\lf, anchor=east, inner sep=0pt] at (-0.3,-4) {$-4$};
+  % asymptote
+  \draw[aux, <->] (-4.71,2) -- (4.73,2);
+  % curve
+  \draw[line width=0.9pt, <-] plot[smooth, domain=-3.4:0, samples=60] (\x,{\x*\x+2*\x});
+  \draw[line width=0.9pt, ->] plot[smooth, domain=0:2.175, samples=60] ({\x*\x},{2*(1-exp(-0.8*\x))});
+  \node[pt] at (-2,0) {};
+  \node[pt] at (-1,-1) {};
+  \node[pt] at (0,0) {};
+\end{tikzpicture}
+\end{document}

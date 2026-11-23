@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6033cm,y=0.2921cm]
+\draw (-7.26,7.17) rectangle (0.42,-7.48);
+\foreach \x in {-6,-4,-2} {
+  \draw[black!25,line width=0.4pt] (\x,6.87) -- (\x,0);
+  \draw[black!25,line width=0.4pt] (\x,-0.95) -- (\x,-6.74);
+  \node[font=\tiny] at (\x,-0.46) {$\x$};}
+\foreach \y in {-6,-4,-2,2,4,6} {
+  \draw[black!25,line width=0.4pt] (-6.84,\y) -- (-0.45,\y);
+  \node[font=\tiny,anchor=east] at (-0.04,\y) {$\y$};}
+\node[font=\tiny,anchor=east] at (-0.04,-0.46) {$0$};
+\draw (-6.84,0) -- (0,0);
+\draw (0,6.87) -- (0,-6.74);
+\draw[line width=0.9pt,smooth,samples=90,domain=-6.84:-0.42] plot (\x,{(\x+4)^2-6});
+\fill (-4,-6) circle (2pt);
+\fill ({-4-sqrt(6)},0) circle (2pt);
+\fill ({-4+sqrt(6)},0) circle (2pt);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (12,250)--(670,250);
+\draw[->] (165,428)--(165,6);
+\node at (662,272) {$x$};
+\node[anchor=east] at (160,8) {$y$};
+\draw[line width=0.9pt,smooth,samples=120,domain=0:3.77,variable=\t] plot ({165+119*\t},{250-208*exp(-\t/2)*sin(4*\t r)});
+\foreach \x/\y/\n/\s in {208.0/77.8/1/1,301.5/366.3/2/-1,395.0/171.5/3/1,488.4/303.0/4/-1,581.9/214.2/5/1} {
+  \fill (\x,\y) circle[radius=6];
+  \ifnum\s>0 \node[anchor=south] at (\x,{\y-10}) {$P_{\n}$};
+  \else \node[anchor=north] at (\x,{\y+10}) {$P_{\n}$};\fi
+}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.27cm,y=0.4699cm]
+\foreach \x in {-5,-4.5,...,5} \draw[black!22,line width=0.4pt] (\x,-10)--(\x,10);
+\foreach \y in {-10,...,10} \draw[black!22,line width=0.4pt] (-5,\y)--(5,\y);
+\foreach \x in {-5,-4,-2,2,4,5} \draw[black!45,line width=0.4pt] (\x,-10)--(\x,10);
+\foreach \y in {-10,-5,5,10} \draw[black!45,line width=0.4pt] (-5,\y)--(5,\y);
+\draw[<->] (-5.62,0) -- (5.63,0) node[right] {$x$};
+\draw[<->] (0,-11.2) -- (0,11.2) node[above] {$f'(x)$};
+\foreach \x in {-5,-4.5,...,-0.5,0.5,1,...,5} \draw (\x,-0.16)--(\x,0.16);
+\foreach \y in {-10,...,-1,1,2,...,10} \draw (-0.06,\y)--(0.06,\y);
+\foreach \x in {-4,-2,4} \node[anchor=north,inner sep=0pt] at (\x,-0.95) {$\x$};
+\node[anchor=north east,inner sep=0pt] at (1.97,-0.95) {$2$};
+\foreach \y in {-10,-5,5,10} \node[anchor=east,inner sep=0pt] at (-0.13,\y) {$\y$};
+\draw[line width=0.9pt,<->,smooth,samples=90,domain=-2.55:2.79] plot (\x,{-(\x+1)^2*(\x-2)});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+\coordinate (C) at (457,28);
+\coordinate (A) at ({457+432*cos(159.8)},{28+432*sin(159.8)});
+\coordinate (B) at ({457+432*cos(120.7)},{28+432*sin(120.7)});
+\draw (A)--(C)--(B);
+\draw plot[domain=120.7:159.8,samples=40,smooth] ({457+432*cos(\x)},{28+432*sin(\x)});
+\foreach \p in {A,B,C} \node[pt,inner sep=1.5pt] at (\p) {};
+\node[anchor=south east,inner sep=1pt] at ($(A)+(-10,-4)$) {$A$};
+\node[anchor=west,inner sep=1pt] at ($(C)+(12,-2)$) {$C$};
+\node[anchor=north,inner sep=1pt] at ($(B)+(6,6)$) {$B$};
+\end{tikzpicture}
+\end{document}

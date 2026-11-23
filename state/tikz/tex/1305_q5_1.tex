@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{10}{12}\selectfont}]
+  % outline of the lake
+  \draw (95,228) -- (95,95)
+     plot[smooth,tension=0.6] coordinates {(95,95) (135,64) (207,38) (322,12) (362,24) (400,46) (432,55) (482,72) (528,93)}
+     plot[smooth,tension=0.6] coordinates {(528,93) (541,92) (547,102) (546,145) (543,190) (537,228) (530,243)}
+     plot[smooth,tension=0.6] coordinates {(530,243) (482,265) (432,278) (322,297) (207,280) (150,256) (95,228)};
+  % widths
+  \draw[<->] (95,95) -- (95,228);
+  \draw[<->] (207,38) -- (207,280);
+  \draw[<->] (322,12) -- (322,297);
+  \draw[<->] (432,62) -- (432,278);
+  \draw[<->] (528,93) -- (528,243);
+  \node[anchor=west,inner sep=1pt] at (103,163) {45m};
+  \node[anchor=west,inner sep=1pt] at (212,158) {80m};
+  \node[anchor=west,inner sep=1pt] at (327,158) {90m};
+  \node[anchor=west,inner sep=1pt] at (438,158) {60m};
+  \node[anchor=west,inner sep=1pt] at (554,163) {55m};
+  % spacing
+  \foreach \a/\b in {97/207,207/322,322/435,435/540}{
+    \draw[<->] (\a,360) -- (\b,360);
+    \node at ({(\a+\b)/2},381) {25m};}
+\end{tikzpicture}
+\end{document}

@@ -810,17 +810,16 @@ document
       source: generated
       latex: |
         The probabilities of a discrete probability distribution sum to $1$:
-        $$\sum P(X=x)=1$$
-        So $a$ equals $1$ minus the sum of the other probabilities in the table.
-
-        Evaluating this gives
+        $$0.12+\dfrac{a}{2}+a+0.35+0.07+a=1$$
+        $$0.54+\dfrac{5a}{2}=1$$
+        $$\dfrac{5a}{2}=0.46$$
         $$a=0.184$$
         Hence the correct option is C.
       source_document_id: 1334
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.6, "generated_note": "Table 1334_q9_t1 was not available when writing; check the working against the table and insert the actual sum.", "self_check": "Table not visible to the writer; answer taken from the key."}
+      meta_json: {"confidence": 0.6, "edited_from_original": "Claude 23 Nov (checker flag): the sum of the probabilities written out with the table values"}
     difficulty
       band: 2
       wm: UF
@@ -1473,6 +1472,7 @@ document
   review_status: unreviewed
   home_topic: sub:11|Trigonometric identities and equations|
   home_source: computed
+  related 4160 (2024-NorthSydneyGirls-AT4-Q16) duplicate 0.882
   solution 4812
     source: extracted
     latex: $$\begin{aligned}\text{LHS}&=\dfrac{\sec\theta-\sec\theta\cos^4\theta}{1+\cos^2\theta}\\&=\dfrac{\frac{1}{\cos\theta}-\frac{\cos^4\theta}{\cos\theta}}{1+\cos^2\theta}\\&=\dfrac{1-\cos^4\theta}{\cos\theta\left(1+\cos^2\theta\right)}\\&=\dfrac{\left(1+\cos^2\theta\right)\left(1-\cos^2\theta\right)}{\cos\theta\left(1+\cos^2\theta\right)}\\&=\dfrac{1-\cos^2\theta}{\cos\theta}\\&=\dfrac{\sin^2\theta}{\cos\theta}\\&=\sin\theta\times\dfrac{\sin\theta}{\cos\theta}\\&=\sin\theta\tan\theta\\&=\text{RHS}\end{aligned}$$
@@ -1581,7 +1581,7 @@ document
     caption: pole CD of height h at C on one footpath edge; A, B on the other edge, AB = 7 m, width w, angles 60, 30, 60
     redraw_status: ok
     redraw_class: geometry
-    redraw_notes: Pole CD at 0.9pt (heavy in the crop). Footpath edges, triangles DCB/DCA/ACB, both oblique right-angle marks at C, and the 60 degree (C), 30 degree (A) and 60 degree (B, with curved leader) arcs are all true arcs at the vertices, all placed from the crop pixels. The 7 m and w dimension lines are broken around their labels so no label touches a line. Please check: the B arc arrowheads are close together (small angle). The 60 degree label at C sits on line DB, as it does in the crop. Rules 1, 3, 4, 11, 14, 22.
+    redraw_notes: Flags 23 Nov: angle markers are plain arcs (no arrow heads); the 60 at C moved left, between CB and DB
   part a  id 5442
     ordinal: 1
     latex: Show that the exact height of the flagpole is $h=\sqrt{21}$ metres.
@@ -3245,7 +3245,7 @@ document
     caption: brick wall rows 1, 2, 20, 21 shown
     redraw_status: ok
     redraw_class: other
-    redraw_notes: Brick wall: ground line, rows 1, 2, 20 and 21 of bricks (outline with horizontal grain lines) at the crop's positions, including the part bricks. Hidden middle rows are short house aux dashes inside the trapezoid that stop at the bricks. Labels are row 1/2/20/21 in roman. Overlay 0.91/0.71: the redraw's dashes are denser and darker than the scan's faint long dashes (rule 3 needs aux dashes); the scan's hand-textured brick grain is now even lines.
+    redraw_notes: Flags 23 Nov: row 21 gap has two dashed lines like every row; row 2 right block starts at row 1 inner edge (mirrors the left), dashes extended
   part a  id 5466
     ordinal: 1
     latex: How many bricks are in row 20?

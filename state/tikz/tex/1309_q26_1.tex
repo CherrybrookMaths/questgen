@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, font=\Large]
+\def\X#1{497+43.5*(#1)}
+\def\Y#1{528-42.35*(#1)}
+\foreach \i in {-10,...,10} {\draw[line width=0.4pt, black!20] ({\X{\i}},{\Y{-10}}) -- ({\X{\i}},{\Y{10}});
+  \draw[line width=0.4pt, black!20] ({\X{-10}},{\Y{\i}}) -- ({\X{10}},{\Y{\i}});}
+\foreach \i in {-10,-5,5,10} {\draw[line width=0.4pt, black!45] ({\X{\i}},{\Y{-10}}) -- ({\X{\i}},{\Y{10}});
+  \draw[line width=0.4pt, black!45] ({\X{-10}},{\Y{\i}}) -- ({\X{10}},{\Y{\i}});}
+\draw[<->] ({\X{-11}},{\Y{0}}) -- ({\X{11}},{\Y{0}}) node[right] {$x$};
+\draw[<->] ({\X{0}},{\Y{-11.1}}) -- ({\X{0}},{\Y{11}}) node[above] {$y$};
+\foreach \i in {-10,...,-1,1,2,...,10} {\draw ({\X{\i}},{\Y{0}-6}) -- ({\X{\i}},{\Y{0}+6});
+  \draw ({\X{0}-6},{\Y{\i}}) -- ({\X{0}+6},{\Y{\i}});}
+\foreach \i in {-10,-5,5,10} {\node[below] at ({\X{\i}},{\Y{0}+8}) {$\i$};}
+\foreach \j in {-10,-5,5,10} {\node[left] at ({\X{0}-4},{\Y{\j}}) {$\j$};}
+\draw[line width=0.9pt] ({\X{-10}},{\Y{6}}) -- ({\X{-4}},{\Y{0}})
+  arc[start angle=180, end angle=0, x radius={2*43.5}, y radius={-2*42.35}]
+  -- ({\X{10}},{\Y{-10}});
+\node at (232,335) {$y=f(x)$};
+\end{tikzpicture}
+\end{document}

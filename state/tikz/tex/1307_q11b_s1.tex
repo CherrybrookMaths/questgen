@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {-24,...,19}{\draw[gray!15,line width=0.3pt] ({236+9.74*\i},0) -- ({236+9.74*\i},425);}
+\foreach \j in {-19,...,24}{\draw[gray!15,line width=0.3pt] (0,{188+9.75*\j}) -- (425,{188+9.75*\j});}
+\foreach \i in {-4,...,3}{\draw[gray!40,line width=0.4pt] ({236+48.7*\i},0) -- ({236+48.7*\i},425);}
+\foreach \j in {-3,...,4}{\draw[gray!40,line width=0.4pt] (0,{188+48.75*\j}) -- (425,{188+48.75*\j});}
+\draw (0,188) -- (425,188);
+\draw (236,0) -- (236,425);
+\draw[line width=0.9pt,smooth,samples=90,domain=-4.08:0.355] plot ({236+48.7*\x},{188-48.75*((\x)*(\x)*(\x)+6*(\x)*(\x)+9*(\x))});
+\foreach \a/\b in {-3/0,0/0,-2/-2,-1/-4}{\fill ({236+48.7*\a},{188-48.75*\b}) circle (4.5);}
+\node[font=\footnotesize,anchor=south] at ({236-3*48.7},182) {$(-3,0)$};
+\node[font=\footnotesize,anchor=west] at ({236-2*48.7+8},{188+2*48.75}) {$(-2,-2)$};
+\node[font=\footnotesize,anchor=north] at ({236-48.7},{188+4*48.75+8}) {$(-1,-4)$};
+\node[font=\footnotesize,anchor=north east] at (233,192) {$0$};
+\node[font=\footnotesize] at (388,210) {$x$};
+\node[font=\footnotesize] at (224,14) {$y$};
+\end{tikzpicture}
+\end{document}

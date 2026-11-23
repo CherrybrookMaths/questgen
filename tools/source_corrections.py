@@ -344,4 +344,44 @@ for sid, lat, crit, note, extra in C14:
     apply(sid, lat, crit, note, extra)
     m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
     db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
-db.commit(); print('done C13, C14')
+# Batch 15 (23 Nov; owner: "run another two batches in the background", then "budget is now 600 monthly"): the verifier's findings on 2021
+# Fort Street, Hornsby Girls, Hurlstone, Killara, Knox AT1-AT4 and NEAP, each checked by hand. 2021 Knox AT4 Q8 (options B and D both
+# correct) is a Your call.
+def _sol6101(l, c):   # 2021 Killara AT4 Q8: the working only estimated with triangles (13 3/8) and never reached the key's 13 1/6
+    return (r"""The curve $y=x(x-3)$ is below the $x$-axis for $0<x<3$ and above it for $3<x<5$, so the two areas are found separately.
+$$\begin{aligned} A_1&=\left|\int_0^3\left(x^2-3x\right)dx\right| =\left|\left[\dfrac{x^3}{3}-\dfrac{3x^2}{2}\right]_0^3\right| =\left|9-\dfrac{27}{2}\right| =\dfrac{9}{2}\\ A_2&=\int_3^5\left(x^2-3x\right)dx =\left[\dfrac{x^3}{3}-\dfrac{3x^2}{2}\right]_3^5 =\left(\dfrac{125}{3}-\dfrac{75}{2}\right)-\left(-\dfrac{9}{2}\right) =\dfrac{26}{3}\end{aligned}$$
+$$\text{Total area}=\dfrac{9}{2}+\dfrac{26}{3}=\dfrac{79}{6}=13\dfrac16$$
+This is option D.""", c)
+def _sol6130(l, c):   # 2021 Killara AT4 Q23: 1200e^{-0.299x3} is 489.349, not 489.898; use the exact k
+    return (l.replace(r"""So $N=1200e^{-0.299t}$.""", r"""So $N=1200e^{-kt}$ with $k=\dfrac{\ln 6}{6}$ (keep $k$ exact: the rounded $0.299$ gives $489.3$).""")
+             .replace(r"""$$\begin{aligned} N &= 1200e^{-0.299\times 3} \\ &= 489.898 \text{ (3 d.p.)} \end{aligned}$$""",
+                      r"""$$\begin{aligned} N &= 1200e^{-\frac{\ln 6}{6}\times 3} = 1200e^{-\frac12\ln 6} = \dfrac{1200}{\sqrt6} \\ &= 489.898\ldots \approx 490 \text{ bacteria} \end{aligned}$$"""), c)
+C15 = [
+ (5957, [(r'In 2010 there were 625 children aged 12-18, and this represented half of the population.',
+          r'In 2010 the children aged 12-18 are those from the upper quartile to the maximum: a quarter of the 2500 children, which is 625.'),
+         (r'In 2000 there is the same number of children aged 12-18, and this represents half of the data.',
+          r'In 2000 the median is 12, so the 625 children aged 12-18 are half of the data.')], [],
+  r'the working said the 625 children aged 12-18 were half of the 2010 population; in 2010 they are a quarter (upper quartile to maximum), and half only in 2000. The answer 1250 is unchanged', None),
+ (5960, [(r'Reading the ogive at a cumulative frequency of $50\%$, the median mark is $75$.',
+          r'The ogive joins the upper class boundaries. Half of the 50 students is a cumulative frequency of 25, which lies on the segment from $(70,24)$ to $(80,44)$:' + '\n' + r'$$\text{median}\approx70+\dfrac{25-24}{44-24}\times10=70.5$$' + '\n' + r'$$\therefore\ \text{median}\approx70.5$$')], [],
+  r'the school answer was $75$, the centre of the median class; read from the ogive (as part (b) is) the median is about $70.5$', None),
+ (5962, [(r'The 6th and 7th deciles are the $60\%$ and $70\%$ points, so a mark in the 70s is possible.', r'The 6th and 7th deciles are at cumulative frequencies 30 and 35, which the ogive gives as about $73$ and $75.5$.'),
+         (r'Anything in the 70s is acceptable.', r'Any mark from about $73$ to $75.5$ is acceptable.')], [],
+  r'the guideline said "anything in the 70s"; the 6th and 7th deciles read from the ogive are about $73$ and $75.5$', None),
+ (5981, [(r'\approx 1.8757>0', r'\approx 1.8745>0')], [], r'$PQ^{\prime\prime}$ was given as $1.8757$; it is $1.8745\ldots$ (still positive, so the conclusion stands)', None),
+ (5990, [(r'\dfrac{1}{2}\pi\times 4^2-\dfrac{1}{2}(4+2)\times 1 \\ &=8\pi-3', r'\dfrac{1}{2}\pi\times 2^2-\dfrac{1}{2}(4+2)\times 1 \\ &=2\pi-3')], [],
+  r'the working used radius $4$ and reached $8\pi-3$, contradicting the key; the semicircle has radius $2$, giving $2\pi-3$ (option A)', None),
+ (6032, [(r'\text{Var}(X)&=E\left(X^2\right)-5.24^2', r'\text{Var}(X)&=E\left(X^2\right)-\left(\dfrac{6797}{1296}\right)^2'),
+         (r'+\dfrac{24156}{1296}-5.24^2\\&\approx 0.96\text{ (2 dp)}', r'+\dfrac{24156}{1296}-\left(\dfrac{6797}{1296}\right)^2\\&=\dfrac{36827}{1296}-\left(\dfrac{6797}{1296}\right)^2\\&\approx 0.91\text{ (2 dp)}')], [],
+  r'the school used $E(X)$ rounded to $5.24$ before squaring and got $0.96$; with the exact $E(X)=\dfrac{6797}{1296}$ the variance is $0.91$ (2 dp)', None),
+ (6101, [], [], r'the working only estimated the area with triangles ($13\dfrac38$) and never showed the key; integrated exactly it is $\dfrac{79}{6}=13\dfrac16$ (option D)', _sol6101),
+ (6130, [], [], r'the line $1200e^{-0.299\times3}=489.898$ is false ($489.349$ with the rounded $k$); with the exact $k=\dfrac{\ln6}{6}$, $N=\dfrac{1200}{\sqrt6}\approx490$', _sol6130),
+]
+for sid, lat, crit, note, extra in C15:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# 2021 Hornsby Girls AT4 Q27(c) sign table (Ts6035_1): dr/dk at k=2 is (4-8)/13^{3/2} = -0.085..., not -0.85...
+db.execute(r"""update data_tables set rows_json=replace(rows_json, '"-0.85\\ldots"', '"-0.085\\ldots"') where id='Ts6035_1'""")
+db.commit(); print('done C13, C14, C15')

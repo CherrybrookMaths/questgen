@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \a/\b/\t in {172/224/346, 224/276/294, 276/327/242, 327/379/190, 379/431/139, 431/482/87, 482/534/35}
+    \filldraw[fill=black!30] (\a,450) rectangle (\b,\t);
+  \draw[->] (120,450) -- (120,33);
+  \draw[->] (120,450) -- (583,450);
+  \node[font=\large, rotate=90] at (66,238) {Frequency};
+  \node[font=\large] at (377,500) {Score};
+\end{tikzpicture}
+\end{document}

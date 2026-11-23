@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,355) -- (625,355);
+  \draw[<->] (315,678) -- (315,35);
+  \node[font=\large] at (640,355) {$x$};
+  \node[font=\large] at (317,12) {$y$};
+  % f(x) = x^2 - 7x + 5 ln x + 8, 55 px per unit (x), 56 px per unit (y)
+  \draw[<->, line width=0.9pt, domain=-2.66:1.585, samples=90, smooth, variable=\t]
+    plot ({315+55*exp(\t)},{355-56*(exp(2*\t)-7*exp(\t)+5*\t+8)});
+  \fill (370,243) circle (4);
+  \fill ({315+55*2.5},{355-56*(6.25-17.5+5*ln(2.5)+8)}) circle (4);
+  \node[font=\large] at (373,211) {$A$};
+  \node[font=\large] at (447,312) {$B$};
+\end{tikzpicture}
+\end{document}

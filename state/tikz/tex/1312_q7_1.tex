@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (5,313)--(678,313);
+  \draw[->] (350,358)--(350,22);
+  \draw[aux] (15,276)--(665,276);
+  \draw[<->,line width=0.9pt,domain=-345:313,smooth,samples=121] plot ({350+\x},{276-144*(0.65*exp(-(\x/66)^2)+0.35/(1+(\x/253)^2))});
+  \node at (722,277) {$y=1$};
+  \node at (322,22) {$y$};
+  \node at (326,336) {$O$};
+  \node at (683,333) {$x$};
+\end{tikzpicture}
+\end{document}

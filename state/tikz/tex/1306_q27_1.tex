@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (18,357) -- (745,357);
+  \draw[->] (232,437) -- (232,28);
+  \node[font=\large] at (743,386) {$x$};
+  \node[font=\large] at (210,25) {$y$};
+  % x = y^2 : X = 232 + c t^2, Y = 357 - t  (P at t = 271)
+  \draw[line width=0.9pt, domain=0:331, samples=90, smooth, variable=\t] plot ({232+0.004398*\t*\t},{357-\t});
+  \draw (232,86) -- ({232+0.004398*271*271},86);
+  \draw (232,86) rectangle ++(16,14);
+  \node[font=\large] at (388,68) {$d$};
+  \node[font=\large] at (582,99) {$P$};
+  \fill (410,357) circle (3);
+  \node[font=\large] at (455,327) {$S(1,0)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % region between y=0 and y=4 inside the parabola (crop: cross-hatching)
+  \path[shade hatch] plot[smooth,domain=-2.449:-1.414,samples=30] ({350+39.2*\x},{204-24*(\x*\x-2)}) --
+        plot[smooth,domain=1.414:2.449,samples=30] ({350+39.2*\x},{204-24*(\x*\x-2)}) -- cycle;
+  \path[shade hatch reverse] plot[smooth,domain=-2.449:-1.414,samples=30] ({350+39.2*\x},{204-24*(\x*\x-2)}) --
+        plot[smooth,domain=1.414:2.449,samples=30] ({350+39.2*\x},{204-24*(\x*\x-2)}) -- cycle;
+  % axes
+  \draw[<->] (225,204) -- (520,204);
+  \draw[<->] (350,312) -- (350,62);
+  \node at (350,40) {$y$};
+  \node at (538,202) {$x$};
+  % y = 4
+  \draw[<->,line width=0.9pt] (175,108) -- (630,108);
+  \node[anchor=west] at (636,106) {$y=4$};
+  % parabola
+  \draw[<->,line width=0.9pt] plot[smooth,domain=-2.58:2.58,samples=90] ({350+39.2*\x},{204-24*(\x*\x-2)});
+  \node[anchor=west] at (466,164) {$y=x^2-2$};
+  \node[anchor=north east] at (293,209) {${-}\sqrt{2}$};
+  \node[anchor=north west] at (409,209) {$\sqrt{2}$};
+  \node[anchor=north west] at (354,254) {${-}2$};
+\end{tikzpicture}
+\end{document}

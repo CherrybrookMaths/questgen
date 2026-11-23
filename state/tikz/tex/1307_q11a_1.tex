@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (2,243) -- (707,243);
+\draw[<->] (56,50) -- (56,690);
+\node at (56,24) {$v(t)$};
+\node[anchor=west] at (709,243) {$t$};
+\draw[line width=0.9pt, name path=curve] (56,243) -- (133,243) plot[smooth, tension=0.6] coordinates {(133,243) (160,241.5) (185,236) (205,224) (225,201) (245,168) (265,138) (290,114) (310,105) (330,103) (355,107) (380,122) (405,150) (430,193) (453,243) (476,300) (498,365) (521,430) (544,483) (566,520) (591,553) (620,580) (648,602)};
+\path[name path=v2] (330,243) -- (330,60);
+\path[name path=v4] (580,243) -- (580,690);
+\draw[aux, name intersections={of=curve and v2}] (330,243) -- (intersection-1);
+\draw[aux, name intersections={of=curve and v4}] (580,243) -- (intersection-1);
+\fill (133,243) circle (5);
+\fill (453,243) circle (5);
+\node at (140,272) {$t_1$};
+\node at (330,270) {$t_2$};
+\node at (472,230) {$t_3$};
+\node at (580,228) {$t_4$};
+\end{tikzpicture}
+\end{document}

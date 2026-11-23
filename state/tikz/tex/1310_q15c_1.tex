@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (203,202);
+  \fill[shade] (O) circle (46);
+  \fill[shade, even odd rule] (O) circle (138) (O) circle (92);
+  \foreach \r in {46,92,138,184} \draw (O) circle (\r);
+  \fill (O) circle (3.5);
+  \node at (255,165) {$A$};
+  \node at (290,130) {\halo{$B$}};
+  \node at (325,100) {$C$};
+\end{tikzpicture}
+\end{document}

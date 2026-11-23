@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=3.2766cm,y=3.2512cm]
+  \fill[shade] (0,0) -- (0,1) -- plot[domain=0:2,samples=60,smooth] (\x,{2^(-\x)}) -- plot[domain=2:1,samples=40,smooth] (\x,{0.5-2^(-\x)}) -- cycle;
+  \draw[<->] (-0.63,0)--(3.14,0);
+  \draw[<->] (0,-1.63)--(0,1.61);
+  \node[anchor=west] at (3.15,0) {$x$};
+  \node[anchor=south] at (0,1.62) {$y$};
+  \draw[line width=0.9pt,<->] plot[domain=-0.62:3.15,samples=90,smooth] (\x,{2^(-\x)});
+  \draw[line width=0.9pt,<->] plot[domain=-0.62:3.15,samples=90,smooth] (\x,{0.5-2^(-\x)});
+  \node at (0.74,0.86) {$y=2^{-x}$};
+  \node at (0.68,-0.48) {$y=\dfrac{1}{2}-2^{-x}$};
+\end{tikzpicture}
+\end{document}

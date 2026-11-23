@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\CX#1{92+(#1)*49.857}
+\def\PY#1{317-(#1)*7.075}
+% minor grid
+\foreach \i in {1,...,69}{\pgfmathtruncatemacro\m{mod(\i,5)}\ifnum\m=0\else
+  \draw[black!20,line width=0.3pt] ({92+\i*9.971},34) -- ({92+\i*9.971},317);\fi}
+\foreach \j in {1,...,49}{\pgfmathtruncatemacro\m{mod(\j,5)}\ifnum\m=0\else
+  \draw[black!20,line width=0.3pt] (92,{317-\j*5.66}) -- (790,{317-\j*5.66});\fi}
+% major grid
+\foreach \c in {1,...,13}{\draw[black!45,line width=0.5pt] ({\CX{\c}},34) -- ({\CX{\c}},317);}
+\foreach \v in {4,8,...,40}{\draw[black!45,line width=0.5pt] (92,{\PY{\v}}) -- (790,{\PY{\v}});}
+% bars
+\foreach \c/\h in {1/28,3/20,5/16,7/16,9/12,11/8}{
+  \filldraw[fill=black!35,line width=0.6pt] ({\CX{\c}},317) rectangle ({\CX{\c+1}},{\PY{\h}});}
+% axes
+\draw (92,34) -- (92,317);
+\draw (790,34) -- (790,317);
+\draw (75,317) -- (790,317);
+\draw (760,311) -- (760,323);
+\foreach \v in {4,8,...,40}{\draw (78,{\PY{\v}}) -- (92,{\PY{\v}}); \draw (790,{\PY{\v}}) -- (803,{\PY{\v}});}
+\foreach \v in {4,8,...,32}{\node[anchor=east,font=\fontsize{7}{8}\selectfont] at (74,{\PY{\v}}) {$\v$};}
+\node[anchor=west,font=\fontsize{8}{9}\selectfont] at (806,{\PY{40}}) {$100\%$};
+\node[anchor=west,font=\fontsize{8}{9}\selectfont] at (806,{\PY{20}}) {$50\%$};
+\node[anchor=west,font=\fontsize{8}{9}\selectfont] at (806,{\PY{0}}) {$0\%$};
+\node[rotate=90,font=\fontsize{6.5}{8}\selectfont] at (18,160) {Percentage of Customers};
+\node[rotate=90,font=\fontsize{6.5}{8}\selectfont] at (900,160) {Cumulative Frequency};
+\foreach \c/\t in {1/Liked the Young Staff,3/Good Range of Brands,5/Liked the Styles,7/Liked the Shop,9/Competitive Prices,11/Helpful Staff}{
+  \node[rotate=90,anchor=east,font=\fontsize{6}{7}\selectfont] at ({\CX{\c+0.5}},324) {\t};}
+% Pareto line
+\draw ({\CX{1.5}},{317-0.28*283}) -- ({\CX{3.5}},{317-0.48*283}) -- ({\CX{5.5}},{317-0.64*283}) -- ({\CX{7.5}},{317-0.80*283}) -- ({\CX{9.5}},{317-0.92*283}) -- ({\CX{11.5}},{317-1.00*283});
+\foreach \c/\p in {1.5/0.28,3.5/0.48,5.5/0.64,7.5/0.80,9.5/0.92,11.5/1.00}{\fill ({\CX{\c}},{317-\p*283}) circle (2.5);}
+\end{tikzpicture}
+\end{document}

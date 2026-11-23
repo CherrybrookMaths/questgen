@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\fieldcurve{(145,212) .. controls (225,198) and (285,182) .. (307,157) .. controls (365,100) and (395,27) .. (467,27) .. controls (540,27) and (565,133) .. (629,135) .. controls (690,137) and (740,115) .. (790,80)}
+  \path[shade dots] (145,345) -- \fieldcurve -- (790,345) -- cycle;
+  \draw (145,345) -- (145,212);
+  \draw[line width=0.9pt] \fieldcurve;
+  \draw (790,80) -- (790,345) -- (145,345);
+  \foreach \x/\t in {307/157, 467/27, 629/135} \draw[aux] (\x,345) -- (\x,\t);
+  \foreach \x in {145,307,467,629} \draw (\x,345) rectangle ++(17,-17);
+  \draw (790,345) rectangle ++(-17,-17);
+  \foreach \x in {226,387,548,710} \draw (\x,337) -- (\x,353);
+  \foreach \x/\l in {180/6, 340/7, 510/12, 665/8, 835/10} \node[font=\large] at (\x,272) {\halo{$\l$\,m}};
+  \draw[aux,<-] (145,382) -- (415,382);
+  \draw[aux,->] (515,382) -- (790,382);
+  \node[font=\large] at (465,382) {12\,m};
+  \node[font=\large, align=center] at (1020,205) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

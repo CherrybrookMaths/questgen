@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\UX#1{91+(#1)*47}
+\def\VY#1{112-(#1)*47}
+\draw[->] (5,112) -- (440,112);
+\draw[->] (91,172) -- (91,5);
+\node[anchor=west,font=\fontsize{8}{9}\selectfont] at (436,123) {$x$};
+\node[anchor=west,font=\fontsize{8}{9}\selectfont] at (95,10) {$y$};
+\foreach \u in {-1,1,2,...,7}{\draw ({\UX{\u}},109.5) -- ({\UX{\u}},114.5);
+  \node[font=\fontsize{6}{7}\selectfont] at ({\UX{\u}},127) {$\u$};}
+\node[font=\fontsize{6}{7}\selectfont] at (80,127) {$0$};
+\foreach \v in {-1,1,2}{\draw (88.5,{\VY{\v}}) -- (93.5,{\VY{\v}});
+  \node[anchor=east,font=\fontsize{6}{7}\selectfont] at (85,{\VY{\v}}) {$\v$};}
+\draw[line width=0.9pt,domain=0:6,samples=90,smooth] plot ({\UX{\x}},{112-47*sin(\x*30)});
+\node[font=\fontsize{7}{8}\selectfont] at (368,50) {$y=\sin\left(\dfrac{\pi x}{6}\right)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (188,205); \coordinate (A) at (737,205);
+\coordinate (B) at (737,47); \coordinate (C) at (188,47);
+\coordinate (P) at ({188+549*cos(30)},{205+549*sin(30)});
+\coordinate (Q) at ({188-158*cos(30)},{205-158*sin(30)});
+\draw (O)--(A)--(B)--(C)--cycle;
+\draw (Q)--(P);
+\draw[smooth] plot[domain=210:270,samples=40] ({188+158*cos(\x)},{205+158*sin(\x)});
+\draw[smooth] plot[domain=0:30,samples=40] ({188+549*cos(\x)},{205+549*sin(\x)});
+\draw[aux] (A)--(P);
+\node at (183,30) {$C$};
+\node at (755,44) {$B$};
+\node at (36,130) {$Q$};
+\node at (175,225) {$O$};
+\node at (755,208) {$A$};
+\node at (678,490) {$P$};
+\node at (466,32) {$7$ cm};
+\node[anchor=west] at (742,119) {$2$ cm};
+\node at (338,243) {$\dfrac{\pi}{6}$};
+\end{tikzpicture}
+\end{document}

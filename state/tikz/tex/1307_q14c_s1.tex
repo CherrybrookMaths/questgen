@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade hatch] (222,177) -- (356.5,177) -- plot[smooth,samples=30,domain=0.6931:0] ({222+194*\x},{333-52*(exp(\x)+1)}) -- cycle;
+\draw (0,333) -- (705,333);
+\draw (222,350) -- (222,0);
+\foreach \v/\l in {-1/-1,-0.8/-0.8,-0.6/-0.6,-0.4/-0.4,-0.2/-0.2,0.2/0.2,0.4/0.4,0.6/0.6,0.8/0.8,1/1,1.2/1.2,1.4/1.4,1.6/1.6,1.8/1.8,2/2,2.2/2.2,2.4/2.4}{\draw ({222+194*\v},333) -- ({222+194*\v},337); \node[font=\fontsize{5}{6}\selectfont,anchor=north] at ({222+194*\v},338) {$\l$};}
+\node[font=\fontsize{5}{6}\selectfont,anchor=north west] at (224,336) {$0$};
+\foreach \v/\l in {0.5/0.5,1/1,1.5/1.5,2/2,2.5/2.5,3/3,3.5/3.5,4/4,4.5/4.5,5/5,5.5/5.5,6/6}{\draw (218,{333-52*\v}) -- (222,{333-52*\v}); \node[font=\fontsize{5}{6}\selectfont,anchor=east] at (216,{333-52*\v}) {$\l$};}
+\draw[aux] (0,281) -- (705,281);
+\draw[line width=0.9pt] (0,177) -- (705,177);
+\draw[line width=0.9pt,smooth,samples=90,domain=-1.144:1.686] plot ({222+194*\x},{333-52*(exp(\x)+1)});
+\fill (356.5,177) circle (3.5);
+\node[font=\scriptsize,anchor=north west] at (360,181) {$(\ln 2,\,3)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade] (503,172) -- plot[smooth, samples=30, domain=503:582] (\x,{172-157*exp(-((\x-345)/158)^2/2)}) -- (582,172) -- cycle;
+  \draw (12,172) -- (698,172);
+  \draw (345,172) -- (345,15);
+  \draw (503,172) -- (503,{172-157*exp(-((503-345)/158)^2/2)});
+  \draw (582,172) -- (582,{172-157*exp(-((582-345)/158)^2/2)});
+  \draw[line width=0.9pt, smooth, samples=90, domain=12:698] plot (\x,{172-157*exp(-((\x-345)/158)^2/2)});
+  \node[anchor=north] at (504,176) {Zoe};
+  \node[anchor=north] at (584,176) {Tyler};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,1568 @@
+# paper 2021-Knox-AT1 (document 1579)
+document
+  id: 1579
+  drive_file_id: 1piv6V4vfbvZjd78RhylglVgdt8ExQKya
+  source_path: Knox/Y12/Mathematics Advanced/AT1/2021 Y12 MA AT1 Prob, Seq n Series w Solutions.pdf
+  size_bytes: 2023306
+  task_type: internal_exam
+  course: advanced
+  classification_method: explicit_cover
+  year_level: 12
+  school: Knox
+  year: 2021
+  natural_key: internal_exam|2021|knox|advanced
+  provenance_method: coverpage
+  page_count: 11
+  has_text_layer: 1
+  parse_path: digital
+  bundled_solutions: 1
+  syllabus_version: 2017
+  status: parsed
+  ingested_at: 2026-11-10T22:53:15
+  display_label: 2021 Knox Grammar School AT1
+  school_formal: Knox Grammar School
+  task_code: AT1
+
+## Q1(a)  key 2021-Knox-AT1-Q1a  id 4210
+  question_type: mcq
+  marks_total: 1
+  page_start: 0
+  page_end: 0
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Probability and data|Probability
+  home_source: computed
+  option A
+    latex: $\dfrac{29}{1000}$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $\dfrac{7}{250}$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $\dfrac{7}{200}$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $\dfrac{1}{35}$
+    is_correct: 0
+    key_source: extracted
+  solution 6148
+    source: extracted
+    latex: |
+      Multiples of 35 up to 1000: $\left\lfloor \dfrac{1000}{35} \right\rfloor = 28$.
+      $$\begin{aligned} P &= \dfrac{28}{1000} \\ &= \dfrac{7}{250} \end{aligned}$$
+      This matches option B.
+    marks_breakdown: 1: correct answer
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"format_note": "Working added: count of multiples of 35 is 28 (35×28=980)."}
+  part -  id 6775
+    ordinal: 1
+    latex: |
+      An integer $x$, where $1 \le x \le 1000$, is chosen at random.
+
+      What is the probability that it is a multiple of 35?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-184
+      focus_area: Probability and data
+      dot_point: Define the probability of each outcome to be 1 |S| when all the outcomes are equally likely and the probability of the event A to be P(A)= |A| |S|
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Sample spaces and equally likely outcomes
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 258
+      confidence: high
+      reason: Count multiples of 35, then one direct probability
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q1(b)  key 2021-Knox-AT1-Q1b  id 4211
+  question_type: short
+  stem_latex: |
+    A competition is run where 400 raffle tickets are placed in a box.
+
+    There are two prizes to be won. The ticket for first prize is drawn from the box without replacement, and then the ticket for second prize is drawn from the box.
+
+    Rex has 20 tickets in the raffle. Find the probability that he wins:
+  marks_total: 2
+  page_start: 0
+  page_end: 0
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Probability and data|Probability
+  home_source: computed
+  part a  id 6776
+    ordinal: 1
+    latex: no prizes.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-188
+      focus_area: Probability and data
+      dot_point: Use arrays and tree diagrams to determine the outcomes and probabilities for multistage events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Multistage events and tree diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6149
+      source: extracted
+      latex: |
+        Rex has 20 of the 400 tickets, so 380 tickets are not his. Without replacement:
+        $$\begin{aligned} P(\text{no prizes}) &= \dfrac{380}{400} \times \dfrac{379}{399} \\ &= \dfrac{379}{420} \\ &\approx 90.2\% \text{ (to 1 d.p.)} \end{aligned}$$
+      marks_breakdown: 1: correct answer
+      source_document_id: 1579
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 161
+      confidence: high
+      reason: Two-stage product without replacement
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 6777
+    ordinal: 2
+    latex: at least one prize.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-187
+      focus_area: Probability and data
+      dot_point: Establish and use the rules P(A)= 1 ― P(A) and P(A ∪B)= P(A)+ P(B)― P(A ∩B)
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-188
+      focus_area: Probability and data
+      dot_point: Use arrays and tree diagrams to determine the outcomes and probabilities for multistage events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: 'At least one' probabilities
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Multistage events and tree diagrams
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6150
+      source: extracted
+      latex: |
+        Use the complement of part (a):
+        $$\begin{aligned} P(\text{at least one prize}) &= 1 - \dfrac{379}{420} \\ &= \dfrac{41}{420} \\ &\approx 9.8\% \text{ (to 1 d.p.)} \end{aligned}$$
+      marks_breakdown: 1: correct answer
+      source_document_id: 1579
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 765
+      confidence: high
+      reason: Direct complement of previous answer
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q1(c)  key 2021-Knox-AT1-Q1c  id 4212
+  question_type: short
+  marks_total: 2
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Probability and data|Probability
+  home_source: computed
+  solution 6151
+    source: extracted
+    latex: |
+      There are 25 even numbers among the 50 balls. Without replacement:
+      $$\begin{aligned} P &= \dfrac{25}{50} \times \dfrac{24}{49} \times \dfrac{23}{48} \times \dfrac{22}{47} \times \dfrac{21}{46} \\ &= \dfrac{33}{1316} \\ &\approx 2.5\% \text{ (to 1 d.p.)} \end{aligned}$$
+    marks_breakdown: 1: correct product of probabilities; 1: correct answer
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Writes the correct product of probabilities, or equivalent merit"]]
+    meta_json: {}
+  part -  id 6778
+    ordinal: 1
+    latex: |
+      A Lotto game is conducted where 5 balls are selected without replacement from 50 balls, which are numbered from 1 to 50.
+
+      A Lotto game is conducted and all five balls are drawn.
+
+      Find the probability that all of the balls drawn have even numbers.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-188
+      focus_area: Probability and data
+      dot_point: Use arrays and tree diagrams to determine the outcomes and probabilities for multistage events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Multistage events and tree diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 322
+      confidence: high
+      reason: Five-stage product without replacement, standard method
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q1(d)  key 2021-Knox-AT1-Q1d  id 4213
+  question_type: short
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Probability and data|Conditional probability
+  home_source: computed
+  solution 6152
+    source: extracted
+    latex: $$\begin{aligned} P(X \mid Y) &= \dfrac{P(X \cap Y)}{P(Y)} \\ &= \dfrac{0.3}{0.4} \\ &= \dfrac{3}{4} \text{ or } 75\% \end{aligned}$$
+    marks_breakdown: 1: correct answer
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 6779
+    ordinal: 1
+    latex: For two events $X$ and $Y$, find $P(X \mid Y)$ if $P(X \cap Y) = 0.3$ and $P(Y) = 0.4$
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-191
+      focus_area: Probability and data
+      dot_point: Establish that P(A|B)= |A∩B| |B| when all outcomes are equally likely by restricting the sample space and event space, and hence P(A|B)= P(A∩B) P(B) , provided |B|≠0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Conditional probability
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 867
+      confidence: high
+      reason: Substitute into conditional probability formula
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q1(e)  key 2021-Knox-AT1-Q1e  id 4214
+  question_type: short
+  marks_total: 2
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Probability and data|Probability
+  home_source: computed
+  solution 6153
+    source: extracted
+    latex: |
+      Using the complement and the addition formula:
+      $$\begin{aligned} P(\overline{A \cup B}) &= 1 - P(A \cup B) \\ &= 1 - \left[P(A) + P(B) - P(A \cap B)\right] \\ &= 1 - \left[\dfrac{2}{3} + \dfrac{1}{2} - \dfrac{1}{4}\right] \\ &= 1 - \dfrac{11}{12} \\ &= \dfrac{1}{12} \end{aligned}$$
+    marks_breakdown: 1: correct use of addition formula; 1: correct answer
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Uses the addition formula, or equivalent merit"]]
+    meta_json: {}
+  figure 1579_q1e_1.png
+    page: 1
+    bbox: [205, 290, 357, 406]
+    png_path: figures/1579_q1e_1.png
+    tikz_path: tikz/tex/1579_q1e_1.tex
+    caption: Venn diagram of overlapping events A and B
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Venn diagram: a rectangle with circle A and ellipse B overlapping, positions and sizes measured from the crop. Labels A and B in bold maths italic like the paper (rule 19), clear of the lines (rules 6a/11). All lines 0.6pt (rule 3), no shading, transparent background. Round 2 made the labels slightly smaller to match the printed size (rule 2).
+  part -  id 6780
+    ordinal: 1
+    latex: |
+      \exfigure{1579_q1e_1}
+
+      The Venn diagram above shows two events, $A$ and $B$.
+
+      Given that $P(A) = \dfrac{2}{3}$, $P(B) = \dfrac{1}{2}$ and $P(A \cap B) = \dfrac{1}{4}$, find $P(\overline{A \cup B})$
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-186
+      focus_area: Probability and data
+      dot_point: Use Venn diagrams to represent the relationship between events within the same sample space, including mutually exclusive events, that is, events that as subsets of the sample space are disjoint
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-187
+      focus_area: Probability and data
+      dot_point: Establish and use the rules P(A)= 1 ― P(A) and P(A ∪B)= P(A)+ P(B)― P(A ∩B)
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Addition rule and mutually exclusive events
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Complementary events
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Venn diagrams
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 320
+      confidence: high
+      reason: Addition rule then complement, two steps
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: shifted
+
+## Q1(f)  key 2021-Knox-AT1-Q1f  id 4215
+  question_type: short
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Probability and data|Probability
+  home_source: computed
+  solution 6154
+    source: extracted
+    latex: |
+      Each toss is a tail with probability $\dfrac{1}{2}$, and the tosses are independent.
+      $$P(n \text{ tails}) = \left(\dfrac{1}{2}\right)^n = \dfrac{1}{2^n}$$
+    marks_breakdown: 1: correct answer
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 6781
+    ordinal: 1
+    latex: |
+      A coin is tossed $n$ times, where $n > 1$.
+
+      Find the probability of obtaining $n$ tails.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-188
+      focus_area: Probability and data
+      dot_point: Use arrays and tree diagrams to determine the outcomes and probabilities for multistage events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Multistage events and tree diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 765
+      confidence: medium
+      reason: Independent events product, general n
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q2(a)  key 2021-Knox-AT1-Q2a  id 4216
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Random variables|Discrete random variables
+  home_source: computed
+  option A
+    latex: $0$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $0.5$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $1$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $2$
+    is_correct: 1
+    key_source: extracted
+  solution 6155
+    source: extracted
+    latex: |
+      The probabilities sum to 1:
+      $$\begin{aligned} 0.3k + 0.1k + 0.075k + 0.025k &= 1 \\ 0.5k &= 1 \\ k &= 2 \end{aligned}$$
+      This matches option D.
+    marks_breakdown: 1: correct answer
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 6782
+    ordinal: 1
+    latex: |
+      A discrete probability distribution is shown in the table below:
+
+      \extable{1579_q2a_t1}
+
+      What is the value of $k$?
+    marks: 1
+    needs_review: 0
+    data_table 1579_q2a_t1
+      header_rows: 0
+      label_col: 1
+      rows_json: [["x", "1", "3", "5", "7"], ["P(X=x)", "0.3k", "0.1k", "0.075k", "0.025k"]]
+      spans_json: []
+    tag 2024 Y12-315
+      focus_area: Random variables
+      dot_point: Define a discrete probability distribution to be the set of values x taken by a discrete random variable X, together with the probabilities P(x) that x is the outcome of the experiment
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-321
+      focus_area: Random variables
+      dot_point: Solve problems involving probabilities, expectation and variance of discrete random variables
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Discrete probability distributions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 792
+      confidence: high
+      reason: Probabilities sum to one, solve linear equation
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q2(b)  key 2021-Knox-AT1-Q2b  id 4217
+  question_type: short
+  stem_latex: |
+    An incomplete probability distribution table is shown below:
+
+    \extable{1579_q2b_t1}
+  marks_total: 3
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Random variables|Discrete random variables
+  home_source: computed
+  data_table 1579_q2b_t1
+    header_rows: 1
+    label_col: 0
+    rows_json: [["x", "p(x)", "xp(x)", "x^2p(x)"], ["1", "0.5", "", ""], ["2", "0.2", "", ""], ["3", "0.1", "", ""], ["4", "0.1", "", ""], ["5", "0.1", "", ""], ["", "", "", ""]]
+    spans_json: []
+  part a  id 6783
+    ordinal: 1
+    latex: |
+      What is the expected value $E(X)$ for the distribution?
+
+      Show your calculations.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-318
+      focus_area: Random variables
+      dot_point: Generate and use the formulas E(X)= μ = ΣxP(x) and Var(X)= σ2 = Σ(x ― μ)2P(x)= Σx2P(x)― μ2 for the random variable X, where Var(X) is the variance and σ is the standard deviation of the distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-321
+      focus_area: Random variables
+      dot_point: Solve problems involving probabilities, expectation and variance of discrete random variables
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Discrete probability distributions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Expected value
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6156
+      source: extracted
+      latex: |
+        Using $E(X) = \sum x\,p(x)$, the values of $x\,p(x)$ are $0.5,\ 0.4,\ 0.3,\ 0.4,\ 0.5$.
+        $$\begin{aligned} E(X) &= 0.5+0.4+0.3+0.4+0.5 \\ &= 2.1 \end{aligned}$$
+      marks_breakdown: 1: any working; 1: correct answer
+      source_document_id: 1579
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Shows working, or equivalent merit"]]
+      meta_json: {"marker_note": "This can all be done in STAT mode on the calculator."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 157
+      confidence: high
+      reason: Direct expected value calculation from table
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 6784
+    ordinal: 2
+    latex: Find the variance $\text{Var}(X)$ of this distribution.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-318
+      focus_area: Random variables
+      dot_point: Generate and use the formulas E(X)= μ = ΣxP(x) and Var(X)= σ2 = Σ(x ― μ)2P(x)= Σx2P(x)― μ2 for the random variable X, where Var(X) is the variance and σ is the standard deviation of the distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-321
+      focus_area: Random variables
+      dot_point: Solve problems involving probabilities, expectation and variance of discrete random variables
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Variance and standard deviation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6157
+      source: extracted
+      latex: |
+        The values of $x^2p(x)$ are $0.5,\ 0.8,\ 0.9,\ 1.6,\ 2.5$, so $E(X^2) = 6.3$.
+        $$\begin{aligned} \text{Var}(X) &= E(X^2) - \mu^2 \\ &= 6.3 - 2.1^2 \\ &= 1.89 \end{aligned}$$
+      marks_breakdown: 1: correct answer
+      source_document_id: 1579
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 269
+      confidence: high
+      reason: Compute E(X^2) then variance formula
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q2(c)  key 2021-Knox-AT1-Q2c  id 4218
+  question_type: short
+  stem_latex: For the random variable $X$, it is known that $E(X) = 10$ and $\text{Var}(X) = 2.25$
+  marks_total: 3
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Random variables|Discrete random variables
+  home_source: computed
+  part a  id 6785
+    ordinal: 1
+    latex: What is $\sigma$, the standard deviation, for this distribution?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-318
+      focus_area: Random variables
+      dot_point: Generate and use the formulas E(X)= μ = ΣxP(x) and Var(X)= σ2 = Σ(x ― μ)2P(x)= Σx2P(x)― μ2 for the random variable X, where Var(X) is the variance and σ is the standard deviation of the distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Variance and standard deviation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6158
+      source: extracted
+      latex: $$\begin{aligned} \sigma &= \sqrt{\text{Var}(X)} \\ &= \sqrt{2.25} \\ &= 1.5 \end{aligned}$$
+      marks_breakdown: 1: correct answer
+      source_document_id: 1579
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 157
+      confidence: high
+      reason: Square root of variance, single recall step
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 6786
+    ordinal: 2
+    latex: Find $E(2X)$ and $\text{Var}(2X)$ for a new distribution $2X$.
+    marks: 2
+    needs_review: 0
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.55
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag note MA-S2.1
+      dot_point: Linear transformations of a random variable (E(aX+b), Var(aX+b)) have no 2024 Advanced dot point
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6159
+      source: extracted
+      latex: |
+        $$\begin{aligned} E(2X) &= 2\times 10 \\ &= 20 \end{aligned}$$
+        $$\begin{aligned} \text{Var}(2X) &= 2^2 \times 2.25 \\ &= 9 \end{aligned}$$
+      marks_breakdown: 1: $E(2X)$; 1: $\text{Var}(2X)$
+      source_document_id: 1579
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds $E(2X)$ or $\\text{Var}(2X)$, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 269
+      confidence: medium
+      reason: Apply linear transformation rules for mean and variance
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q2(d)  key 2021-Knox-AT1-Q2d  id 4219
+  question_type: short
+  marks_total: 2
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Random variables|The normal distribution
+  home_source: computed
+  solution 6160
+    source: extracted
+    latex: |
+      Find Joseph's History mark in standard deviations above the mean:
+      $$z = \dfrac{67-60}{5} = 1.4$$
+      The equivalent Science mark is $1.4$ standard deviations above the Science mean:
+      $$\begin{aligned} x &= 65 + 1.4 \times 3.5 \\ &= 69.9 \end{aligned}$$
+    marks_breakdown: 1: z-score $1.4$; 1: correct Science mark
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Finds the $z$-score $1.4$, or equivalent merit"]]
+    meta_json: {}
+  part -  id 6787
+    ordinal: 1
+    latex: |
+      Joseph completes two class tests, one in History and one in Science.
+
+      Joseph's mark in his History test was 67. The test mean for the class was $\mu = 60$ and the standard deviation was $\sigma = 5$.
+
+      In the Science test, the test mean for the class was $\mu = 65$ and standard deviation was $\sigma = 3.5$.
+
+      What Science mark does Joseph need to achieve to be equivalent to his History mark?
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-347
+      focus_area: Random variables
+      dot_point: Define the z-score, or standardised score, by the formula z = x―μ σ , where μ is the mean and σ is the standard deviation, and x is an observed value of a random variable
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-349
+      focus_area: Random variables
+      dot_point: Use z-scores to compare scores from different sets of data and justify conclusions
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: z-scores
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 774
+      confidence: high
+      reason: z-score then reverse to equivalent raw mark
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q3(a)  key 2021-Knox-AT1-Q3a  id 4220
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Sequences and series|Geometric sequences and series
+  home_source: computed
+  option A
+    latex: $k-1$
+    is_correct: 1
+    key_source: extracted
+  option B
+    latex: $\dfrac{1}{1-k}$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $\dfrac{1-k}{k}$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $\dfrac{1-k}{k^2}$
+    is_correct: 0
+    key_source: extracted
+  solution 6161
+    source: extracted
+    latex: |
+      The first term is $a = k$ and the ratio is:
+      $$r = \dfrac{\;\frac{k}{1-k}\;}{k} = \dfrac{1}{1-k}$$
+      The limiting sum is:
+      $$\begin{aligned} S_\infty &= \dfrac{k}{1 - \frac{1}{1-k}} \\ &= \dfrac{k(1-k)}{1-k-1} \\ &= \dfrac{k(1-k)}{-k} \\ &= k-1 \end{aligned}$$
+      This matches option A.
+    marks_breakdown: 1: correct answer
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"format_note": "Source does not check |r|<1; the keyed answer is the formal expression."}
+  part -  id 6788
+    ordinal: 1
+    latex: |
+      Which one of the following is the expression for the limiting sum of the geometric series below?
+
+      $$k + \dfrac{k}{1-k} + \dfrac{k}{(1-k)^2} + \dfrac{k}{(1-k)^3} + \cdots \qquad (k \neq 0, 1)$$
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-227
+      focus_area: Sequences and series
+      dot_point: Develop the formula S∞= a 1―r for the limiting sum of a geometric series with |r|< 1, and use this formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Limiting sums
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 282
+      confidence: medium
+      reason: Algebraic ratio and simplification of limiting sum in k
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q3(b)  key 2021-Knox-AT1-Q3b  id 4221
+  question_type: short
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Sequences and series|Arithmetic sequences and series
+  home_source: computed
+  solution 6162
+    source: extracted
+    latex: |
+      The common difference is $d = \dfrac{7}{10}-\dfrac{1}{2} = \dfrac{1}{5}$.
+      $$\begin{aligned} T_n &= a + (n-1)d \\ T_{101} &= \dfrac{1}{2} + 100 \times \dfrac{1}{5} \\ &= 20.5 \end{aligned}$$
+    marks_breakdown: 1: correct answer
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 6789
+    ordinal: 1
+    latex: What is the $101^{\text{st}}$ term of the arithmetic sequence $\dfrac{1}{2}$, $\dfrac{7}{10}$, $\dfrac{9}{10}$, $\dots$ ?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-216
+      focus_area: Sequences and series
+      dot_point: Develop the formula an = a + (n ― 1)d for the nth term of an AP, where a is the first term and n ≥1, and use it to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Terms of an arithmetic sequence
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 267
+      confidence: high
+      reason: Direct AP nth term formula with fractions
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q3(c)  key 2021-Knox-AT1-Q3c  id 4222
+  question_type: extended
+  stem_latex: In an arithmetic series, the third term is 8 and the twentieth term is 127.
+  marks_total: 4
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Sequences and series|Arithmetic sequences and series
+  home_source: computed
+  part a  id 6790
+    ordinal: 1
+    latex: Find the common difference.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-216
+      focus_area: Sequences and series
+      dot_point: Develop the formula an = a + (n ― 1)d for the nth term of an AP, where a is the first term and n ≥1, and use it to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Terms of an arithmetic sequence
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6163
+      source: extracted
+      latex: |
+        Using $T_n = a+(n-1)d$:
+        $$\begin{aligned} a + 2d &= 8 \\ a + 19d &= 127 \end{aligned}$$
+        Subtracting:
+        $$\begin{aligned} 17d &= 119 \\ d &= 7 \end{aligned}$$
+        Then $a = 8 - 14 = -6$.
+      marks_breakdown: 1: simultaneous equations; 1: $d = 7$
+      source_document_id: 1579
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Writes the simultaneous equations, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 855
+      confidence: high
+      reason: Simultaneous equations from two AP terms
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 6791
+    ordinal: 2
+    latex: Find the sum of the first 20 terms.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-216
+      focus_area: Sequences and series
+      dot_point: Develop the formula an = a + (n ― 1)d for the nth term of an AP, where a is the first term and n ≥1, and use it to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-218
+      focus_area: Sequences and series
+      dot_point: Develop the formula Sn = n 2(a + an) for the nth partial sum of an AP, and use the formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Arithmetic series
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Terms of an arithmetic sequence
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6164
+      source: extracted
+      latex: |
+        Using $S_n = \dfrac{n}{2}(a + l)$ with $a=-6$ and $l = T_{20} = 127$:
+        $$\begin{aligned} S_{20} &= \dfrac{20}{2}\left[-6 + 127\right] \\ &= 10 \times 121 \\ &= 1210 \end{aligned}$$
+      marks_breakdown: 1: correct sum formula; 1: correct answer
+      source_document_id: 1579
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Uses the correct sum formula, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 856
+      confidence: high
+      reason: Substitute known values into AP sum formula
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q3(d)  key 2021-Knox-AT1-Q3d  id 4223
+  question_type: short
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Sequences and series|Sequences and series
+  home_source: computed
+  solution 6165
+    source: extracted
+    latex: $$\begin{aligned} \sum_{n=2}^{6}(n+1)^2 &= 3^2+4^2+5^2+6^2+7^2 \\ &= 9 + 16 + 25 + 36 + 49 \\ &= 135 \end{aligned}$$
+    marks_breakdown: 1: correct answer
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 6792
+    ordinal: 1
+    latex: Evaluate $\displaystyle\sum_{n=2}^{6} (n+1)^2$
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-214
+      focus_area: Sequences and series
+      dot_point: Use summation notation to represent the sum of terms ai to aj of a sequence where j > i, ∑ j k=iak = ai + ai+1 + ai+2 + … + aj―1 + aj
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Sigma notation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 267
+      confidence: high
+      reason: Expand sigma notation and add five terms
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q3(e)  key 2021-Knox-AT1-Q3e  id 4224
+  question_type: short
+  marks_total: 2
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Sequences and series|Geometric sequences and series
+  home_source: computed
+  solution 6166
+    source: extracted
+    latex: |
+      Check for a common ratio:
+      $$\dfrac{T_2}{T_1} = \dfrac{28000}{35000} = \dfrac{4}{5}, \qquad \dfrac{T_3}{T_2} = \dfrac{22400}{28000} = \dfrac{4}{5}$$
+      So this is a G.P. with $a = 35000$ and $r = \dfrac{4}{5}$.
+      $$\begin{aligned} T_{10} &= 35000 \times \left(\dfrac{4}{5}\right)^9 \\ &\approx 4697.62 \end{aligned}$$
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Identifies the G.P. and ratio $\\dfrac{4}{5}$, or equivalent merit"]]
+    meta_json: {"format_note": "Source criteria were empty; rubric written by us. Source value 4697.62048 shown as 4697.62."}
+  part -  id 6793
+    ordinal: 1
+    latex: Find the $10^{\text{th}}$ term of the sequence $35\,000, 28\,000, 22\,400, \dots$
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-222
+      focus_area: Sequences and series
+      dot_point: Develop the formula an = arn―1 for the nth term of a GP, where a is the first term and n ≥1, and use it to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Terms of a geometric sequence
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 267
+      confidence: high
+      reason: Identify common ratio, apply GP term formula
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q4(a)  key 2021-Knox-AT1-Q4a  id 4225
+  question_type: mcq
+  marks_total: 1
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Sequences and series|Geometric sequences and series
+  home_source: computed
+  option A
+    latex: $10$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $14$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $15$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $16$
+    is_correct: 0
+    key_source: extracted
+  solution 6167
+    source: extracted
+    latex: |
+      Set the value equal to twice the original:
+      $$\begin{aligned} W \times 1.05^n &= 2W \\ 1.05^n &= 2 \\ n &= \dfrac{\log 2}{\log 1.05} \\ &\approx 14.2 \end{aligned}$$
+      So after 15 whole years. This matches option C.
+    marks_breakdown: 1: correct answer
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 6794
+    ordinal: 1
+    latex: |
+      A collector's edition of a diving watch is purchased for $\$W$ and appreciates in value by 5% p.a.
+
+      After how many whole years is the watch worth twice its original value?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-228
+      focus_area: Sequences and series
+      dot_point: Apply the formulas for geometric sequences and series to model and solve growth and decay problems where a quantity is an exponential function of time
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential equations
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Geometric growth and decay
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 170
+      confidence: medium
+      reason: Solve exponential equation with logs, round up
+      area: Y12_Sequences_and_series
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q4(b)  key 2021-Knox-AT1-Q4b  id 4226
+  question_type: short
+  marks_total: 3
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Financial mathematics|Annuities
+  home_source: computed
+  solution 6168
+    source: extracted
+    latex: |
+      The monthly rate is $\dfrac{2.4\%}{12} = 0.2\%$, so each month multiplies by $r = 1.002$.
+
+      Each $\$100$ is invested at the start of a month, so the first earns interest for 120 months, the last for 1 month:
+      $$\begin{aligned} 1\text{st} &= 100 \times 1.002^{120} \\ 2\text{nd} &= 100 \times 1.002^{119} \\ 3\text{rd} &= 100 \times 1.002^{118} \\ &\ \vdots \\ 120\text{th} &= 100 \times 1.002 \end{aligned}$$
+      The total is:
+      $$100\left[1.002 + 1.002^2 + \cdots + 1.002^{120}\right]$$
+      This is a G.P. with $a = 1.002$, $r = 1.002$, $n = 120$.
+      $$\begin{aligned} \text{Total} &= 100 \times 1.002\left[\dfrac{1.002^{120} - 1}{1.002 - 1}\right] \\ &= \$13\,574.32 \text{ (nearest cent)} \end{aligned}$$
+    marks_breakdown: 1: terms of the investment (last term $100 \times 1.002$); 1: G.P. sum formula; 1: correct answer
+    source_document_id: 1579
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Uses the G.P. sum formula, or equivalent merit"], [1, "Writes the terms of the investment, or equivalent merit"]]
+    meta_json: {}
+  part -  id 6795
+    ordinal: 1
+    latex: Jimmy is investing in a superannuation fund to which he contributes $\$100$ at the beginning of each month for 10 years. The fund pays $2.4\%$ p.a. compounded monthly. If the fund matures at the end of the $10^{\text{th}}$ year, find the total value of the Jimmy's investment at maturity.
+    marks: 3
+    needs_review: 0
+    tag 2024 Y12-225
+      focus_area: Sequences and series
+      dot_point: Develop the formula Sn = a(1―rn) 1―r for the sum of the first n terms of a GP where r ≠1, and use this formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-357
+      focus_area: Financial mathematics
+      dot_point: Define and model the future value of an annuity as the sum of all the payments, together with the interest they have earned
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-359
+      focus_area: Financial mathematics
+      dot_point: Solve problems involving annuities in which payments are made at the end of each time period and the future value of an annuity is calculated at the end of one of these periods using the formula for the sum of the first n terms of a geometric sequence
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Annuities: contributions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Geometric series
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 195
+      confidence: medium
+      reason: Build annuity-due GP unaided and sum it
+      area: Y12_Financial_mathematics
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q4(c)  key 2021-Knox-AT1-Q4c  id 4227
+  question_type: extended
+  stem_latex: |
+    Jason borrows $\$400\,000$ at $7.2\%$ p.a. The interest is compounded monthly on the amount owing. The terms of the loan are that no repayments are made for one year and then equal monthly repayments of $\$M$ are made for another 9 years. Hence the terms of the loan are for 10 years in total.
+
+    Each repayment is deducted at the end of the month after the interest has been calculated for the month.
+
+    Let $A_n$ be the amount owing after $n$ months.
+  marks_total: 5
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Financial mathematics|Reducing balance loans
+  home_source: computed
+  part a  id 6796
+    ordinal: 1
+    latex: |
+      Show that the amount owing after 15 months from when the loan was taken out is:
+
+      $$A_{15} = 400000 \times 1.006^{15} - M\left(1 + 1.006 + 1.006^2\right)$$
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-353
+      focus_area: Financial mathematics
+      dot_point: Recognise a reducing balance loan algebraically as a compound interest loan with periodic repayments
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-355
+      focus_area: Financial mathematics
+      dot_point: Solve problems that involve reducing balance loans by calculating the total amount paid, equal periodic repayments, the amount still owing and the time taken to repay the loan
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Recurrence relations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reducing balance loans
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6169
+      source: extracted
+      latex: |
+        The monthly rate is $\dfrac{7.2\%}{12} = 0.6\%$, so each month multiplies by $1.006$.
+
+        No repayments are made for the first 12 months:
+        $$\begin{aligned} A_1 &= 400000 \times 1.006 \\ A_2 &= 400000 \times 1.006^2 \\ &\ \vdots \\ A_{12} &= 400000 \times 1.006^{12} \end{aligned}$$
+        The first repayment is at the end of month 13:
+        $$\begin{aligned} A_{13} &= 400000 \times 1.006^{13} - M \\ A_{14} &= 400000 \times 1.006^{14} - 1.006M - M \\ A_{15} &= 400000 \times 1.006^{15} - 1.006^2M - 1.006M - M \\ &= 400000 \times 1.006^{15} - M\left(1 + 1.006 + 1.006^2\right) \end{aligned}$$
+      marks_breakdown: 1: develop series; 1: develop subtraction
+      source_document_id: 1579
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Develops the series or the subtraction of repayments, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 342
+      confidence: medium
+      reason: Show recurrence with deferred repayment period
+      area: Y12_Financial_mathematics
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 4
+      wm_ai: PR
+      source: model
+  part b  id 6797
+    ordinal: 2
+    latex: Find the value of $M$ if the loan is fully repaid at the end of 10 years.
+    marks: 3
+    needs_review: 0
+    tag 2024 Y12-225
+      focus_area: Sequences and series
+      dot_point: Develop the formula Sn = a(1―rn) 1―r for the sum of the first n terms of a GP where r ≠1, and use this formula to solve problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-353
+      focus_area: Financial mathematics
+      dot_point: Recognise a reducing balance loan algebraically as a compound interest loan with periodic repayments
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-355
+      focus_area: Financial mathematics
+      dot_point: Solve problems that involve reducing balance loans by calculating the total amount paid, equal periodic repayments, the amount still owing and the time taken to repay the loan
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Geometric series
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reducing balance loans
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6170
+      source: extracted
+      latex: |
+        Following the pattern of part (a), after $n$ months:
+        $$A_n = 400000 \times 1.006^n - M\left(1 + 1.006 + 1.006^2 + \cdots + 1.006^{n-13}\right)$$
+        So for $n = 120$:
+        $$A_{120} = 400000 \times 1.006^{120} - M\left(1 + 1.006 + \cdots + 1.006^{107}\right)$$
+        The bracket is a G.P. with $a = 1$, $r = 1.006$, $n = 108$.
+
+        The loan is repaid, so $A_{120} = 0$:
+        $$0 = 400000 \times 1.006^{120} - M\left(\dfrac{1.006^{108} - 1}{0.006}\right)$$
+        $$\begin{aligned} M &= 400000 \times 1.006^{120} \times \dfrac{0.006}{1.006^{108} - 1} \\ &= \$5418.46 \end{aligned}$$
+      marks_breakdown: 1: expression for $A_n$ with G.P.; 1: $A_{120} = 0$ with G.P. sum; 1: correct value of $M$
+      source_document_id: 1579
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Sets $A_{120} = 0$ with the G.P. sum, or equivalent merit"], [1, "Writes $A_n$ as a G.P. expression, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 5
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 816
+      confidence: medium
+      reason: Generalise deferred-loan pattern to n=120, sum GP, solve M
+      area: Y12_Financial_mathematics
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 5
+      wm_ai: PR
+      source: model

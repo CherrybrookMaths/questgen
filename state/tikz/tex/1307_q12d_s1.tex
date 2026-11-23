@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] plot[smooth,samples=60,domain=0:2] ({373+230*\x},{622-58.9*(\x)*(\x)*(\x)}) -- plot[smooth,samples=60,domain=2:0] ({373+230*\x},{622-58.9*(7*(\x)*(\x)-10*(\x))}) -- cycle;
+\draw[->] (0,622) -- (972,622);
+\draw[->] (373,855) -- (373,3);
+\node[font=\small] at (955,605) {$x$};
+\node[font=\small] at (388,15) {$y$};
+\foreach \v/\l in {-1.5/-1.5,-1/-1,-0.5/-0.5,0.5/0.5,1/1,1.5/1.5,2/2}{\draw ({373+230*\v},622) -- ({373+230*\v},628); \node[font=\scriptsize,anchor=north] at ({373+230*\v},629) {$\l$};}
+\node[font=\scriptsize,anchor=north east] at (370,626) {$0$};
+\foreach \v in {-2,2,4,6,8,10}{\draw (367,{622-58.9*\v}) -- (373,{622-58.9*\v}); \node[font=\scriptsize,anchor=east] at (364,{622-58.9*\v}) {$\v$};}
+\draw[line width=0.9pt,smooth,samples=90,domain=-1.63:2.19] plot ({373+230*\x},{622-58.9*(\x)*(\x)*(\x)});
+\draw[line width=0.9pt,smooth,samples=90,domain=-0.70:2.13] plot ({373+230*\x},{622-58.9*(7*(\x)*(\x)-10*(\x))});
+\fill (373,622) circle (5.5);
+\fill (833,{622-58.9*8}) circle (5.5);
+\node[font=\small,anchor=south west] at (380,608) {$(0,0)$};
+\node[font=\small,anchor=east] at (818,142) {$(2,8)$};
+\end{tikzpicture}
+\end{document}

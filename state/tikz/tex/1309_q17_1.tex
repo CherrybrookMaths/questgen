@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% mountain (grey tones in place of the paper's blue)
+\fill[black!13] (105,372) -- (150,330) -- (195,283) -- (262,280) -- (300,262) -- (345,218) -- (420,195) -- (500,178) -- (590,57) -- (690,158) -- (720,146) -- (745,165) -- (820,196) -- (880,235) -- (1015,280) -- (1150,385) -- (600,382) -- cycle;
+\fill[black!4] (430,192) -- (500,178) -- (590,57) -- (690,158) -- (720,146) -- (745,165) -- (705,176) -- (680,190) -- (650,192) -- (620,185) -- (595,190) -- (575,194) -- (560,205) -- (530,205) -- (510,190) -- (480,188) -- cycle;
+\fill[black!28] (57,390) -- (130,368) .. controls (250,360) and (350,372) .. (450,376) -- (600,376) .. controls (700,372) and (780,352) .. (850,356) .. controls (950,362) and (1050,372) .. (1150,385) -- (845,488) -- (418,488) -- cycle;
+% construction
+\coordinate (A) at (57,390); \coordinate (B) at (590,390); \coordinate (C) at (590,57); \coordinate (D) at (418,488);
+\draw (A) -- (C) -- (B) -- cycle;
+\draw (A) -- (D) -- (B);
+\draw (D) -- (C);
+\draw (590,368) -- (568,368) -- (568,390);
+\draw plot[domain=0:15.2, samples=20, smooth] ({57+80*cos(\x)},{390+80*sin(\x)});
+\draw plot[domain=195.2:330.3, samples=40, smooth] ({418+28*cos(\x)},{488+28*sin(\x)});
+\node at (600,30) {$C$};
+\node at (612,370) {$B$};
+\node at (28,398) {$A$};
+\node at (414,522) {$D$};
+\node at (210,410) {$15^\circ$};
+\node at (394,436) {$135^\circ$};
+\node at (198,474) {3.5 km};
+\end{tikzpicture}
+\end{document}

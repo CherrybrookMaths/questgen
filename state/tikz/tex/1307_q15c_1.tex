@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\RX#1{185+(#1)*74.42}
+\def\VY#1{803-(#1)*2.716}
+\draw (2,2) rectangle (1127,968);
+\node at (605,32) {Player Ranking vs Hours Played};
+\foreach \r in {0,2,...,12}{\draw ({\RX{\r}},{\VY{0}}) -- ({\RX{\r}},{\VY{250}});}
+\foreach \v in {0,50,...,250}{\draw ({\RX{0}},{\VY{\v}}) -- ({\RX{12}},{\VY{\v}});}
+\foreach \v in {50,100,...,250}{\node[anchor=east,font=\large] at (168,{\VY{\v}}) {$\v$};}
+\foreach \r in {2,4,...,12}{\node[font=\large] at ({\RX{\r}},838) {$\r$};}
+\node[font=\large] at (150,838) {$0$};
+\node at (605,915) {Ranking in game};
+\node[rotate=90] at (45,452) {Player experience ( hours played)};
+\end{tikzpicture}
+\end{document}

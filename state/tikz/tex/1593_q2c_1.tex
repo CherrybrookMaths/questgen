@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % f'(x)
+  \draw[->] (55,255) -- (414,255);
+  \node at (437,257) {$x$};
+  \draw[->] (237,375) -- (237,76);
+  \node at (237,44) {$f'(x)$};
+  \draw[<->,line width=0.9pt,smooth,samples=90,domain=-1.58:1.58] plot ({237+100*\x},{343-100.66*\x*\x});
+  \fill (143.5,255) circle (4) (330.5,255) circle (4);
+  \node at (124,276) {$-2$};
+  \node at (316,232) {$2$};
+  \node at (219,282) {$0$};
+  % f''(x)
+  \draw[->] (537,255) -- (896,255);
+  \node at (913,257) {$x$};
+  \draw[->] (717,375) -- (717,76);
+  \node at (717,44) {$f''(x)$};
+  \draw[<->,line width=0.9pt] (600,372) -- (838,134);
+  \node at (740,287) {$0$};
+\end{tikzpicture}
+\end{document}

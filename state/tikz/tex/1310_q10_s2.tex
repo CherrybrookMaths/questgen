@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6134cm,y=0.3048cm]
+\draw (-6.73,6.96) rectangle (0.83,-7.0);
+\foreach \x in {-6,-4,-2} {
+  \draw[black!25,line width=0.4pt] (\x,6.75) -- (\x,0);
+  \draw[black!25,line width=0.4pt] (\x,-0.95) -- (\x,-6.5);
+  \node[font=\tiny] at (\x,-0.46) {$\x$};}
+\foreach \y in {-6,-4,-2,2,4,6}
+  \draw[black!25,line width=0.4pt] (-6.42,\y) -- (0,\y);
+\foreach \y in {-2,2,4,6}
+  \node[font=\tiny,anchor=east] at (-0.04,\y) {$\y$};
+% -4 and -6 would sit on the curve: mirror them to the right of the axis
+\foreach \y in {-4,-6}
+  \node[font=\tiny,anchor=west] at (0.04,\y) {$\y$};
+\node[font=\tiny,anchor=east] at (-0.04,-0.46) {$0$};
+\draw (-6.42,0) -- (0,0);
+\draw (0,6.75) -- (0,-6.5);
+\draw[line width=0.9pt,smooth,samples=90,domain={-2-sqrt(3.125)}:{-2+sqrt(3.125)}] plot (\x,{6-4*(\x+2)^2});
+\fill (-2,6) circle (2pt);
+\fill ({-2-sqrt(1.5)},0) circle (2pt);
+\fill ({-2+sqrt(1.5)},0) circle (2pt);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\Large]
+\draw[->] (40,375)--(660,375);
+\draw[->] (105,490)--(105,25);
+\foreach \t in {1,2,3,4} \draw ({105+95.3*\t},375)--({105+95.3*\t},390);
+\draw ({105+95.3*5},390)--({105+95.3*5},{375-5*2*(16.2+3.5*5)});
+\draw[line width=0.9pt] plot[domain=-0.55:5,samples=90,smooth] ({105+95.3*\x},{375-\x*(\x-3)*(16.2+3.5*\x)});
+\node[anchor=north,inner sep=1pt] at ({105+95.3*3},393) {$3$};
+\node[anchor=north,inner sep=1pt] at ({105+95.3*5},393) {$5$};
+\node at (318,160) {$y = x(x-3)$};
+\node at (237,402) {$A$};
+\node at (512,322) {$B$};
+\end{tikzpicture}
+\end{document}

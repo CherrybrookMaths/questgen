@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (32,270)--(395,270);
+  \draw[->] (102,368)--(102,35);
+  \draw[line width=0.9pt,domain=0:241.3,smooth,samples=90] plot ({102+\x},{275+80*cos(1.10429*\x)});
+  \node at (58,42) {$f(x)$};
+  \node at (76,294) {$O$};
+  \node at (388,293) {$x$};
+\end{tikzpicture}
+\end{document}

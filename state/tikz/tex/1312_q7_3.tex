@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[aux] (118,188)--(446,188);
+  \draw[->] (440,188)--(462,188);
+  \draw[->] (287,345)--(287,30);
+  \draw[<->,line width=0.9pt,domain=-147:147,smooth,samples=91] plot ({287+\x},{188+6.45*\x/(1+(\x/27.5)^2)^0.95});
+  \node[font=\fontsize{10.2}{12}\selectfont] at (124,210) {asymptote at $y=0$};
+  \node at (268,30) {$y$};
+  \node at (273,208) {$O$};
+  \node at (455,207) {$x$};
+\end{tikzpicture}
+\end{document}

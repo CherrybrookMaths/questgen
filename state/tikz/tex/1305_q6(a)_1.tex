@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (12,198) -- (972,198);
+  \draw[->] (493,340) -- (493,55);
+  \node[font=\large] at (490,24) {$y$};
+  \node[font=\large] at (995,197) {$x$};
+  \draw[aux] (425,101) -- (425,198);
+  \draw[aux] (561,198) -- (561,295);
+  \node[font=\large,anchor=north] at (425,205) {$-1$};
+  \node[font=\large,anchor=south] at (561,190) {$1$};
+  \draw[<->,line width=0.9pt] plot[smooth,domain=-7.03:7.0,samples=90] ({493+68*\x},{198+97*2*\x/(1+\x*\x)});
+  \node[font=\large] at (785,292) {$y=f'(x)$};
+\end{tikzpicture}
+\end{document}
