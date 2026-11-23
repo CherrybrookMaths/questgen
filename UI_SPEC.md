@@ -675,6 +675,11 @@ counted bank questions (11: 9 with diagram change requests, 2 text flags); the "
 walked the raw review docs, where each question sits under its k_ key and again under q<id>, so it counted every diagram request
 twice (20 in 18) and left out text flags. Now the note counts per bank question with the card's rule: flags = diagram requests +
 open text flags, questions = the card's number. Page test "the flags banner counts each waiting question once".
+**23 Nov.** Owner: "why don't these numbers match" (the card read "35 Flags waiting for Claude", counting QUESTIONS, above the banner
+"43 flags waiting for Claude (35 questions)"). The card now says what it counts: big number = questions, title "Questions with
+flags waiting for Claude", and its text starts with the banner's flag count ("43 flags (flags and diagram change requests) Claude has
+not fixed yet"). Both still come from the same rule (waitQ / pendingFlags), so the 18 Nov ruling holds; the same page test checks
+the card's words.
 Owner: "why does it say 1 on spot check but there's nothing there". The 1 is the "Approve the other N questions" click that is
 left once the sample is clean; the empty step now says "Spot-check is done: one click left, approve the rest of the paper below"
 instead of "Nothing left".

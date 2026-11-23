@@ -925,15 +925,19 @@ async function areas(browser, base, seed) {
     });
     // owner 18 Nov: "Why does it say both 11 and 20?": the banner and the Flags card count the same questions
     await check('review: the flags banner counts each waiting question once, as the Flags card does', cp, async () => {
-      const r = await cp.evaluate(() => { const qs = B.questions.filter(x => !x.dup_of).slice(0, 2), keep = qs.map(q => reviews['q' + q.id]);
+      const r = await cp.evaluate(async () => { const qs = B.questions.filter(x => !x.dup_of).slice(0, 2), keep = qs.map(q => reviews['q' + q.id]);
         const a = {status: 'approved', fig: {t1: 'changes', t2: 'changes'}}, b = {status: 'flagged', note: 'x', fixed: null};
         reviews['q' + qs[0].id] = a; reviews['k_zz_test_a'] = a; reviews['q' + qs[1].id] = b; reviews['k_zz_test_b'] = b;
         const [n, nq] = pendingFlags(), card = B.questions.filter(waitQ).length;
+        // owner 23 Nov: "why don't these numbers match": the card's words say it counts questions and give the banner's flag count
+        location.hash = '#review'; await new Promise(res => setTimeout(res, 400)); renderInbox();
+        const ct = (document.querySelector('.icard[data-card="waiting"]')?.textContent || '').replace(/\s+/g, ' ');
         delete reviews['k_zz_test_a']; delete reviews['k_zz_test_b'];
         qs.forEach((q, i) => { if (keep[i] === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep[i] });
-        return {n, nq, card, n0: pendingFlags()} });
+        return {n, nq, card, ct, n0: pendingFlags()} });
       assert(r.nq === r.card && r.n - r.n0[0] === 3 && r.nq - r.n0[1] === 2, `banner ${r.n} flags in ${r.nq} questions, card ${r.card}, before ${r.n0}`);
-      return `banner ${r.nq} questions = card ${r.card}; a k_ alias is not counted twice`;
+      assert(new RegExp(`^ ?${r.card} ?Questions with flags waiting for Claude ?${r.n} flags `).test(r.ct), `card text: ${r.ct.slice(0, 160)}`);
+      return `banner ${r.n} flags in ${r.nq} questions = card "${r.card} Questions with flags waiting for Claude · ${r.n} flags"; a k_ alias is not counted twice`;
     });
     // owner 18 Nov: "Can u make it so when you click on the original and now, they enlarge"
     await check('review: a click on a comparison picture opens it large; arrows step, Esc closes', cp, async () => {

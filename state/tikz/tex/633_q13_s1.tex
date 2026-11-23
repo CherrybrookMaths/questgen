@@ -1,6 +1,7 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
+% flags 23 Nov round 2 (checker: "move the y=x/2 label left a bit as it is touching hte line")
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
   \foreach \k in {-7,...,9} {\pgfmathsetmacro\X{303+\k*40.3}
     \draw[black!28, line width=0.4pt] (\X,0) -- (\X,707);}
@@ -16,7 +17,7 @@
   \draw[line width=0.9pt] ({303-5.4*40.3},{451+93.7*2.7}) -- ({303+9.5*40.3},{451-93.7*4.75});
   \foreach \r in {-1.8478,-0.7624,2.9116} {
     \node[pt] at ({303+\r*40.3},{451-93.7*\r/2}) {};}
-  \node[anchor=east] at (625,70) {$y=\dfrac{x}{2}$};
+  \node[anchor=east] at (585,66) {$y=\dfrac{x}{2}$};
   \node at (95,472) {$-5$};
   \node at (318,472) {$0$};
   \node at (503,472) {$5$};

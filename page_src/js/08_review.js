@@ -205,7 +205,9 @@ function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
       readyHTML()+`${list}<a class="imore" href="#review/papers">${more?`${more} more · `:''}Show all papers →</a>`)}
     <div class="ipair">${card('reports',rep,'Reports','Questions reported from an exam paper: a wrong difficulty, a wrong dot point or something else. Resolve or dismiss each one.','#review/reports','nothing open')}
     ${card('difficulty',lv,'Difficulty','HSC reference ratings: agree or change the band and kind, one part at a time.','#review/difficulty','check plan finished')}</div>
-    ${(()=>{const nw=B.questions.filter(waitQ).length;return nw?card('waiting',nw,'Flags waiting for Claude','Your flags and change requests that Claude has not fixed yet. Nothing to do here: they move to "Fixed and back for you" at the top once fixed.','#review/list/waiting','').replace('class="icard"','class="icard rv-wait"'):''})()}
+    ${(()=>{// owner 23 Nov: "why don't these numbers match" (the card "35 Flags waiting for Claude" counted QUESTIONS, the banner said
+      // "43 flags waiting for Claude (35 questions)"): the card now says it counts questions and gives the banner's flag count (pendingFlags)
+      const nw=B.questions.filter(waitQ).length,[nf]=pendingFlags();return nw?card('waiting',nw,`Question${nw===1?'':'s'} with flags waiting for Claude`,`${nf} flag${nf===1?'':'s'} (flags and diagram change requests) Claude has not fixed yet. Nothing to do here: they move to "Fixed and back for you" at the top once fixed.`,'#review/list/waiting','').replace('class="icard"','class="icard rv-wait"'):''})()}
     ${handoffHTML()}<div class="ifoot"><a href="#review/list/recent">Recently approved</a><span aria-hidden="true">·</span><label>Other lists ${otherListsHTML('')}</label></div>`}
 // draw the Review chrome for the open view: the Inbox, or the paper's track (list mode: a plain header). Also keeps the counts.
 function renderSteps(){if(!B||!QG.detOK)return {base:[]};updateCounts();   // job 2: steps count triage, which comes with the details

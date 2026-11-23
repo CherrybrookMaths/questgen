@@ -1,12 +1,13 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
+% flags 23 Nov round 2 (checker: "make the horizontal dotted line go all the way to the cetner of hte circle")
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
   \draw (34,342) -- (268,35) -- (502,342);
   \draw (502,342) arc[start angle=0, end angle=180, x radius=234, y radius=41];
   \draw[aux] (34,342) arc[start angle=180, end angle=360, x radius=234, y radius=41];
   \draw[aux] (268,35) -- (268,342);
-  \draw[aux] (315,342) -- (502,342);
+  \draw[aux] (268,342) -- (502,342);
   \draw (268,318) rectangle (297,345);
   \draw[->] (411,147) -- (320,26);
   \draw[->] (443,190) -- (528,303);
