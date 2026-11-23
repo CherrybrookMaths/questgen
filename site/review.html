@@ -680,6 +680,20 @@ body.xpv-on{overflow:hidden}
 @media (hover:none){.lvok kbd,.lvbands button kbd,.lvwm button kbd{display:none}}
 @media (max-width:520px){.lvcard{padding:12px 12px 8px;border-radius:10px}.lvbands button span{display:none}.lvbands button{min-height:44px}}
 
+/* owner 24 Nov: "for the difficulty page, can u put the solution next to the question, its important I see both quickly and properly to
+   judge difficulty". Wide screens: each part's open solution in a right-hand column level with its part (the column is half the
+   card, so (a), (b) and sub-parts line up); an MCQ's options sit left of its answer and working. Narrower: the solution opens under its part. */
+@media (min-width:1100px){
+  .levels{max-width:1440px}
+  .lvq{container-type:inline-size;overflow-x:visible}
+  .lvq .part{grid-template-columns:2.2em minmax(0,1fr) auto calc(50cqi - 12px)}
+  .lvq .part.nolabel{grid-template-columns:minmax(0,1fr) auto calc(50cqi - 12px)}
+  .lvq .part>.under{grid-column:-2;grid-row:1/span 2;padding-left:14px}
+  .lvq .qpair{display:grid;grid-template-columns:minmax(0,1fr) calc(50cqi - 12px);column-gap:10px;align-items:start}
+  .lvq .qpair>details.solbox,.lvq .qpair>.pending{padding-left:14px}
+  .lvq .under>details.solbox,.lvq .qpair>details.solbox{border-top:0;padding-top:0}
+  .lvq details.solbox>.sol:first-of-type{margin-top:4px}
+}
 /* ---- Phone header (owner 14 Nov: "on mobile, more than half the screen is just the top bar, make it more space efficient") ----
    At phone width the tab row and theme button fold into one menu button that names the open tab; the Review bar becomes
    one scrolling row of steps plus one row of paper picker and prev/next. The step explanation is hidden on phones. */
@@ -2279,12 +2293,13 @@ Object.assign(QG,{
   pending(q,mode){QG.need([q]).then(QG.fill);const bad=QG.failed.has(q.h)||QG.detFail;
     return `<div class="qbody qpend muted" data-qpend="${q.id}" data-qmode="${esc(mode)}">${bad?'This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>':'Loading question…'}</div>`},
   // fill in every placeholder whose question has arrived. Review binds its buttons when it draws, so it is redrawn whole.
-  fill(){if(QG._fillT)return;QG._fillT=setTimeout(()=>{QG._fillT=0;let rv=false;
+  fill(){if(QG._fillT)return;QG._fillT=setTimeout(()=>{QG._fillT=0;let rv=false,lv=false;
     document.querySelectorAll('[data-qpend]').forEach(el=>{const q=QG.byId.get(+el.dataset.qpend);if(!q)return;
       if(!QG.has(q)){if((QG.failed.has(q.h)||QG.detFail)&&!el.querySelector('[data-qretry]'))el.innerHTML='This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>';return}
       if(el.closest('#rout')){rv=true;return}
+      if(el.closest('#levelsBox')){lv=true;return}   // the Difficulty card marks its part and opens the solutions when it draws
       const mode=el.dataset.qmode,t=document.createElement('div');t.innerHTML=qBody(q,mode);const n=t.firstElementChild;el.replaceWith(n);hydrate(n,q,mode);typeset(n)});
-    if(rv&&typeof renderReview==='function')renderReview()},0)},
+    if(rv&&typeof renderReview==='function')renderReview();if(lv&&view==='levels')renderLevels(true)},0)},
   // Review › a paper: its questions are about to be shown one by one, so their files load as soon as the paper opens
   prefetch(){const m=/^#review\/paper\/(\d+)/.exec(location.hash);if(!m||!QG.bank)return;const ids=(typeof docIds==='function'?docIds(m[1]):[+m[1]]).map(String);
     QG.need(QG.bank.questions.filter(q=>ids.includes(String(q.doc)))).then(QG.fill)}
@@ -2579,16 +2594,19 @@ function hydrate(root,q,mode){
   document.addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches?.(SEL)){e.preventDefault();open(e.target)}})})();
 /* ---------- question body (shared by both views) ---------- */
 function leaf(q,p){return !q.parts.some(c=>c.parent===p.id)}
-function qBody(q,mode){
+// o.open (Difficulty, owner 24 Nov: "for the difficulty page, can u put the solution next to the question, its important I see both
+// quickly and properly to judge difficulty"): solutions open and the MCQ answer marked, as in Review; the options and their
+// solution share one .qpair box so the Difficulty card can set them side by side
+function qBody(q,mode,o){
   if(!QG.has(q))return QG.pending(q,mode);   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): text not here yet: a placeholder that fills itself in
-  const show=mode==='review'||revealed.has(q.id);
+  const show=mode==='review'||!!o?.open||revealed.has(q.id), open=mode==='review'||!!o?.open?' open':'';
   const fk=figKeys(q);
   const loose=fk.all.filter(k=>!fk.inline.has(k)&&!fk.opt.has(k)&&!q.figures.find(f=>f.src.endsWith('/'+k+'.png')&&f.part)).map(k=>`<span class="figslot" data-fig="${k}"></span>`).join('');
   const partFigs=pid=>q.figures.filter(f=>f.part===pid).map(f=>{const k=f.src.split('/').pop().replace('.png','');return fk.inline.has(k)?'':`<span class="figslot" data-fig="${k}"></span>`}).join('');
   let first=true;
   const parts=q.parts.map(p=>{
     const sol=solsFor(q,p.id,mode); const lf=leaf(q,p);
-    const solBlock=sol.count?`<details class="solbox"${mode==='review'?' open':''}><summary>Solution${sol.count>1?'s':''}</summary>${sol.html}</details>`:(sol.hidden?'<div class="pending">Worked solution waiting for approval</div>':'');
+    const solBlock=sol.count?`<details class="solbox"${open}><summary>Solution${sol.count>1?'s':''}</summary>${sol.html}</details>`:(sol.hidden?'<div class="pending">Worked solution waiting for approval</div>':'');
     const tags=lf&&mode!=='bank'?(mode==='tags'?tagsHTML(q,p):mode==='review'?`<details class="tagfold"${editing===p.id?' open':''}><summary>Syllabus tags (not part of your check)</summary>${tagEditHTML(q,p)}</details>`:tagsHTML(q,p)):'';
     const h=`<div class="part ${p.parent?'child':''} ${first&&!p.label?'first':''} ${p.label?'':'nolabel'}">${p.label?`<span class="plabel">(${esc(p.label)})</span>`:''}
       <div class="tx">${tex(p.latex)}${partFigs(p.id)}</div><span class="pmarks">${p.marks!=null&&!(q.parts.length===1&&p.marks===q.marks)?p.marks+(p.marks===1?' mark':' marks'):''}</span>
@@ -2602,8 +2620,8 @@ function qBody(q,mode){
   else if(lay==='graph') opts=`<div class="ogrid">${q.options.map(o=>`<div class="ocell ${o.is_correct&&show?'correct':''}"><div class="ohd"><b>${o.label}.</b>${ans(o)}</div>${o.fig?`<span class="figslot" data-fig="${o.fig}"></span>`:`<span class="tx">${tex(o.latex)}</span>`}</div>`).join('')}</div>`;
   else if(q.options.length) opts=`<div class="opts">${q.options.map(o=>`<div class="opt ${o.is_correct?'correct':''} ${show?'show':''}"><b>${o.label}.</b><span class="tx">${tex(o.latex)}</span>${show&&o.is_correct?`<span class="badge ${o.key_source==='generated'?'b-gen':'b-ok'}">${o.key_source==='generated'?'model key':'answer'}</span>`:''}</div>`).join('')}</div>`;
   const qs=solsFor(q,null,mode);
-  const qsol=qs.count?`<details class="solbox"${mode==='review'?' open':''}><summary>${q.type==='mcq'?'Answer and solution':'Solution'}</summary>${qs.html}</details>`:(qs.hidden?'<div class="pending">Worked solution waiting for approval</div>':'');
-  return `<div class="qbody">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${loose}${parts}${opts}${qsol}</div>`;
+  const qsol=qs.count?`<details class="solbox"${open}><summary>${q.type==='mcq'?'Answer and solution':'Solution'}</summary>${qs.html}</details>`:(qs.hidden?'<div class="pending">Worked solution waiting for approval</div>':'');
+  return `<div class="qbody">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${loose}${parts}${o?.open&&opts&&qsol?`<div class="qpair">${opts}${qsol}</div>`:opts+qsol}</div>`;
 }
 
 /* ---------- topic index ---------- */
@@ -4104,7 +4122,7 @@ function renderLevels(keep){
   box.innerHTML=head+`<article class="lvcard" data-part="${x.p.id}">
     <div class="lvmeta"><span class="lvtag ${x.flag?'flag':''}">${x.flag?'Flagged by the audit':'HSC reference'}</span><span>${lvYear(x.d.ar)} ${esc(lvName(x.d.ar))}</span><span class="lvpos">${LVI+1} / ${list.length}</span></div>
     <h3>${esc(srcLine(x.q))} ${esc(label)} <small>${qid(x.q)} · ${x.p.marks??x.q.marks??'?'} mark${(x.p.marks??x.q.marks)===1?'':'s'}</small></h3>
-    <div class="lvq">${qBody(x.q,'bank')}</div></article>
+    <div class="lvq">${qBody(x.q,'bank',{open:1})}</div></article>
     <div class="lvact" id="lvAct">
       <div class="lvwhy"><b>Our rating:</b> Band ${x.d.b} · ${LV_WM[x.d.wm]}${x.d.c==='l'?' · <span class="lvlow">low confidence</span>':''}<span class="lvr">${esc(x.d.r||'')}</span>${x.lean?`<span class="lvlean">${x.lean} other part${x.lean===1?'':'s'} were rated against this one</span>`:''}</div>
       <div class="lvpick"><div class="lvbands" role="group" aria-label="Band">${[2,3,4,5,6].map(b=>`<button data-lvb="${b}" aria-pressed="${band===b}" title="Band ${b}: ${LV_BAND[b]} (key ${'QWERT'[b-2]})"><b>${b}</b><kbd>${'QWERT'[b-2]}</kbd><span>${['','','routine','standard','multi-step','non-routine','insight'][b]}</span></button>`).join('')}</div>
@@ -4117,7 +4135,8 @@ function renderLevels(keep){
   const q=x.q,card=box.querySelector('.lvcard');hydrate(card,q,'bank');
   const parts=card.querySelectorAll('.qbody > .part');const k=q.parts.findIndex(p=>p.id===x.p.id);
   if(q.parts.length>1)parts.forEach((el,i)=>{el.classList.add(i===k?'lvhit':'lvdim')});
-  card.querySelectorAll('details.solbox').forEach(d=>d.open=false);
+  // owner 24 Nov: "for the difficulty page, can u put the solution next to the question, its important I see both quickly and properly to
+  // judge difficulty": every solution is open (qBody o.open); on a wide screen each part's solution sits beside it (09_levels.css)
   typeset(card);
 }
 function lvSet(k,v){const box=$('#levelsBox');if(!box._pick)return;box._pick[k]=v;
@@ -6659,7 +6678,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'63638a4065ae9e7c',stale:false,t:null,at:0,
+const FRESH={build:'7a6f949d830e4157',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}

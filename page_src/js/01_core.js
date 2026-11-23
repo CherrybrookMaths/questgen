@@ -90,12 +90,13 @@ Object.assign(QG,{
   pending(q,mode){QG.need([q]).then(QG.fill);const bad=QG.failed.has(q.h)||QG.detFail;
     return `<div class="qbody qpend muted" data-qpend="${q.id}" data-qmode="${esc(mode)}">${bad?'This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>':'Loading question…'}</div>`},
   // fill in every placeholder whose question has arrived. Review binds its buttons when it draws, so it is redrawn whole.
-  fill(){if(QG._fillT)return;QG._fillT=setTimeout(()=>{QG._fillT=0;let rv=false;
+  fill(){if(QG._fillT)return;QG._fillT=setTimeout(()=>{QG._fillT=0;let rv=false,lv=false;
     document.querySelectorAll('[data-qpend]').forEach(el=>{const q=QG.byId.get(+el.dataset.qpend);if(!q)return;
       if(!QG.has(q)){if((QG.failed.has(q.h)||QG.detFail)&&!el.querySelector('[data-qretry]'))el.innerHTML='This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>';return}
       if(el.closest('#rout')){rv=true;return}
+      if(el.closest('#levelsBox')){lv=true;return}   // the Difficulty card marks its part and opens the solutions when it draws
       const mode=el.dataset.qmode,t=document.createElement('div');t.innerHTML=qBody(q,mode);const n=t.firstElementChild;el.replaceWith(n);hydrate(n,q,mode);typeset(n)});
-    if(rv&&typeof renderReview==='function')renderReview()},0)},
+    if(rv&&typeof renderReview==='function')renderReview();if(lv&&view==='levels')renderLevels(true)},0)},
   // Review › a paper: its questions are about to be shown one by one, so their files load as soon as the paper opens
   prefetch(){const m=/^#review\/paper\/(\d+)/.exec(location.hash);if(!m||!QG.bank)return;const ids=(typeof docIds==='function'?docIds(m[1]):[+m[1]]).map(String);
     QG.need(QG.bank.questions.filter(q=>ids.includes(String(q.doc)))).then(QG.fill)}
