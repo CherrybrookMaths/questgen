@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (0,502) -- (1110,502);
+\draw[->] (120,556) -- (120,10);
+\node[font=\large] at (1108,524) {$x$};
+\node[font=\large] at (102,20) {$y$};
+\node[font=\large] at (97,526) {$O$};
+\begin{scope}[shift={(120,502)},x=0.95504cm,y=2.032cm]
+  \def\crv{(0,1.2) (1,1.43) (2,1.65) (3,1.84) (4,1.98) (4.8,2.04) (6,2.0) (7,1.86) (8,1.65) (9,1.47) (10,1.37) (10.6,1.35) (11,1.355) (12,1.4)}
+  \fill[shade dots] (0,0) -- plot[smooth,tension=0.6] coordinates {\crv} -- (12,0) -- cycle;
+  \draw plot[smooth,tension=0.6] coordinates {\crv};
+  \draw (12,0) -- (12,1.4);
+  \foreach \t in {1,...,12} {\draw (\t,0) -- (\t,0.035); \node[font=\large,anchor=north] at (\t,-0.04) {$\t$};}
+  \node[pt] at (0,1.2) {}; \node[pt] at (6,2) {}; \node[pt] at (12,1.4) {};
+  \node[font=\large,anchor=south east] at (0.02,1.23) {$(0,\,1.2)$};
+  \node[font=\large,anchor=south] at (6,2.04) {$(6,\,2)$};
+  \node[font=\large,anchor=south] at (12.05,1.43) {$(12,\,1.4)$};
+  % dimension arrows
+  \draw[->] (-0.3,0.73) -- (-0.3,1.2);
+  \draw[->] (-0.3,0.47) -- (-0.3,0);
+  \node[font=\large] at (-0.3,0.6) {$1.2$};
+  \draw[->] (6,1.12) -- (6,1.98);
+  \draw[->] (6,0.88) -- (6,0);
+  \node[font=\large] at (6,1.0) {\halo{$2$}};
+  \draw[->] (12.35,0.83) -- (12.35,1.38);
+  \draw[->] (12.35,0.57) -- (12.35,0);
+  \node[font=\large] at (12.2,0.7) {$1.4$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

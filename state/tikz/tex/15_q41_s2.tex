@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (B) at (40,42);
+  \coordinate (A) at (458,163);
+  \coordinate (C) at (40,575);
+  \draw (A) -- (B) -- (C) -- cycle;
+  \draw[->] (458,258) -- (458,78);
+  \node[font=\bfseries\small] at (458,60) {N};
+  \pgfmathsetmacro\aB{atan2(42-163,40-458)+360}   % A->B (user angle, y down)
+  \pgfmathsetmacro\aC{atan2(575-163,40-458)}      % A->C
+  \pgfmathsetmacro\bA{atan2(163-42,458-40)}       % B->A
+  \pgfmathsetmacro\cA{atan2(163-575,458-40)}      % C->A
+  % bearing 294 at A
+  \draw[->] ($(A)+(270:40)$) arc[start angle=270,end angle={360+\aB},radius=40];
+  % interior angles
+  \draw ($(A)+(\aC:72)$) arc[start angle=\aC,end angle=\aB,radius=72];
+  \draw ($(B)+(\bA:40)$) arc[start angle=\bA,end angle=90,radius=40];
+  \draw ($(C)+(-90:52)$) arc[start angle=-90,end angle=\cA,radius=52];
+  \node at ($(A)+({(\aB+\aC)/2}:100)$) {$84^\circ$};
+  \node at ($(B)+({(\bA+90)/2}:66)$) {$66^\circ$};
+  \node at ($(C)+({(\cA-90)/2}:80)$) {$30^\circ$};
+  \node[rotate=-16.1] at ($(A)!0.5!(B)+(-7,-24)$) {$18$ km};
+  \node at ($(B)+(-12,-16)$) {$B$};
+  \node at ($(C)+(-8,22)$) {$C$};
+  \node at (477,165) {$A$};
+  \node at (519,214) {$294^\circ$};
+  \node[align=center,font=\small] at (398,447) {NOT TO\\ SCALE};
+\end{tikzpicture}
+\end{document}

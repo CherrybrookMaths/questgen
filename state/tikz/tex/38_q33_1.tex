@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\sx{1.007}\def\sy{13.2}
+\foreach \i in {100,200,...,900} \draw[black!50,dash pattern=on 0.6pt off 1.2pt] ({103+\sx*\i},52)--({103+\sx*\i},580);
+\foreach \j in {5,10,...,35} \draw[black!50,dash pattern=on 0.6pt off 1.2pt] (103,{580-\sy*\j})--(1116,{580-\sy*\j});
+\draw (103,52) rectangle (1116,580);
+\foreach \i in {0,100,...,1000} \node at ({103+\sx*\i},607) {\i};
+\foreach \j in {0,5,...,40} \node[anchor=east] at (91,{580-\sy*\j}) {\j};
+\draw[aux] ({103+\sx*110},{580-\sy*(29.2-0.011*110)}) -- ({103+\sx*865},{580-\sy*(29.2-0.011*865)});
+\foreach \a/\b in {112/34.1,112/28.4,129/24.2,168/22,195/31.4,224/21,230/28,268/25,298/28,322/24.1,366/32,389/25,449/18,573/20,587/29,602/23,871/18}
+  \fill ({103+\sx*\a},{580-\sy*\b}) circle (5.5);
+\node at (609,20) {\small\textbf{Average maximum daily temperature}};
+\node at (609,658) {Height above sea level ($x$ metres)};
+\node[rotate=90] at (24,315) {Average maximum daily temperature ($y\,^\circ$C)};
+\end{tikzpicture}
+\end{document}

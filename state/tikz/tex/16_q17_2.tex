@@ -1,0 +1,39 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,v/.style={circle,fill,inner sep=0pt,minimum size=9.6pt}]
+\node[v] (En) at (110,225) {};
+\node[v] (A) at (300,225) {};
+\node[v] (B) at (478,95) {};
+\node[v] (C) at (478,340) {};
+\node[v] (D) at (618,230) {};
+\node[v] (E) at (740,100) {};
+\node[v] (F) at (748,338) {};
+\node[v] (G) at (915,232) {};
+\node[v] (Ex) at (1110,230) {};
+\begin{scope}[font=\footnotesize]
+\node at (40,225) {Entry};
+\node at (1168,232) {Exit};
+\node at (298,180) {$A$};
+\node at (478,64) {$B$};
+\node at (478,384) {$C$};
+\node at (592,200) {$D$};
+\node at (740,70) {$E$};
+\node at (748,380) {$F$};
+\node at (915,204) {$G$};
+\draw[->] (En) -- (A); \node at (200,210) {320};
+\draw[->] (A) -- (B); \node at (373,150) {140};
+\draw[->] (A) -- (C); \node at (365,300) {180};
+\draw[->] (C) -- (B); \node at (458,200) {40};
+\draw[->] (B) -- (E); \node at (592,84) {160};
+\draw[->] (E) -- (D); \node at (705,168) {80};
+\draw[->] (C) -- (D); \node at (538,265) {160};
+\draw[->] (D) -- (G); \node at (752,218) {110};
+\draw[->] (D) -- (F); \node at (700,279) {100};
+\draw[->] (F) -- (C); \node at (610,360) {30};
+\draw[->] (E) -- (G); \node at (818,123) {90};
+\draw[->] (F) -- (G); \node at (842,310) {140};
+\draw[->] (G) -- (Ex); \node at (1003,214) {320};
+\end{scope}
+\end{tikzpicture}
+\end{document}

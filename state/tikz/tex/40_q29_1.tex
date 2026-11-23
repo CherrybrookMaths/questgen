@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \t in {1,...,10} \draw[black!45] ({162+47.33*\t},96) -- ({162+47.33*\t},495);
+  \foreach \t in {1,...,10} \draw ({162+47.33*\t},495) -- ({162+47.33*\t},503);
+  \draw[->] (162,495) -- (726,495);
+  \draw[->] (162,503) -- (162,28);
+  \draw (152,96) -- (162,96);
+  \draw (152,495) -- (162,495);
+  \draw[line width=0.9pt] (162,96) -- (351.3,184);
+  \draw[line width=0.9pt, smooth, samples=60, domain=0:6] plot ({351.3+47.33*\x},{184+262*(1-0.52^\x)});
+  \node[anchor=east] at (148,96) {50\,000};
+  \node[anchor=east] at (148,495) {0};
+  \node at (162,528) {0};
+  \node at (351.3,528) {4};
+  \node at (635.3,528) {10};
+  \node at (395,578) {Number of years};
+  \node[rotate=90] at (40,300) {Value of asset (\$)};
+  \node[align=center] at (815,250) {NOT TO\\[-2pt]SCALE};
+\end{tikzpicture}
+\end{document}

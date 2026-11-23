@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  nd/.style={circle,fill=black!60,draw=black,line width=0.4pt,inner sep=0pt,minimum size=13}]
+\draw (8,2) rectangle (1237,830);
+\coordinate (B) at (276,58); \coordinate (E) at (933,158); \coordinate (C) at (644,277);
+\coordinate (A) at (150,339); \coordinate (F) at (977,482); \coordinate (D) at (406,583);
+\foreach \a/\b in {A/B,B/E,A/C,A/D,C/D,C/F,E/F,D/F} \draw (\a)--(\b);
+\foreach \p/\lx/\ly in {B/237/15, E/970/172, C/641/237, A/115/305, F/1013/503, D/414/635}
+  {\node[nd] at (\p) {}; \node[font=\large] at (\lx,\ly) {$\p$};}
+\foreach \w/\x/\y in {18/623/80, 25/180/177, 32/365/292, 15/998/325, 27/812/352, 21/557/448, 42/243/488, 31/678/574}
+  \node[font=\large] at (\x,\y) {\w};
+\end{tikzpicture}
+\end{document}

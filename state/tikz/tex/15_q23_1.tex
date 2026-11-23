@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.01306cm,
+  nd/.style={circle,fill=black!60,draw=black,line width=0.4pt,inner sep=0pt,minimum size=0.2cm}]
+\draw (4,3) rectangle (1236,815);
+\foreach \p/\x/\y/\lx/\ly in {B/273/61/237/17, E/934/163/972/178, C/643/281/641/240, A/147/341/112/306, F/977/487/1013/510, D/404/587/410/638}
+  {\node[nd] at (\x,\y) {}; \node[font=\large] at (\lx,\ly) {$\p$};}
+\end{tikzpicture}
+\end{document}

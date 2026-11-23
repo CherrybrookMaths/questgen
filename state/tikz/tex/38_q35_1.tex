@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (175,360)--(175,8);
+\draw[->] (0,267)--(702,267);
+\draw[line width=0.9pt] plot[domain=175:563,smooth,samples=60] (\x,{267-198*(1-((\x-335.5)/227.5)^2)});
+\draw[aux] plot[domain=62:175,smooth,samples=30] (\x,{267-198*(1-((\x-335.5)/227.5)^2)});
+\draw[aux] plot[domain=563:604,smooth,samples=15] (\x,{267-198*(1-((\x-335.5)/227.5)^2)});
+\fill (175,{267-198*(1-((175-335.5)/227.5)^2)}) circle (5);
+\node at (152,26) {$R$};
+\node at (690,312) {$x$};
+\node at (48,292) {$-10$};
+\node at (612,292) {$100$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (0,376) -- (592,376);
+  \draw[->] (49,400) -- (49,18);
+  \draw[line width=0.9pt, smooth, samples=90, domain=0:40] plot ({49+9.75*\x},{376-329*(\x/20)*((40-\x)/20)});
+  \node[font=\large] at (32,36) {$A$};
+  \node[font=\large] at (577,408) {$w$};
+  \node[font=\large] at (31,396) {$O$};
+  \node[font=\large] at (439,400) {$40$};
+\end{tikzpicture}
+\end{document}

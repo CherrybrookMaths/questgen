@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (0,175) -- (418,175);
+  \draw[->] (200,328) -- (200,32);
+  \draw[<->,line width=0.9pt,smooth,samples=90,domain=6:270,variable=\t] plot (\t,{175-38*exp(0.01724*(\t-200))});
+  \node at (408,194) {$x$};
+  \node at (186,40) {$y$};
+  \node at (184,192) {$O$};
+  \node at (187,123) {$1$};
+\end{tikzpicture}
+\end{document}

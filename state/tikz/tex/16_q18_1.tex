@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{131+(#1)*9.42}\def\Y#1{1029-(#1)*9.4}
+% grid every 2.5
+\foreach \i in {1,...,40}{\draw[black!40,line width=0.35pt] ({\X{2.5*\i}},1029) -- ({\X{2.5*\i}},{\Y{100}});}
+\foreach \i in {1,...,40}{\draw[black!40,line width=0.35pt] (131,{\Y{2.5*\i}}) -- ({\X{100}},{\Y{2.5*\i}});}
+% axes
+\draw[->] (131,1029) -- (1142,1029);
+\draw[->] (131,1029) -- (131,30);
+\foreach \t in {20,40,...,100}{\draw (118,{\Y{\t}}) -- (131,{\Y{\t}});}
+\foreach \t in {0,20,...,100}{\node[anchor=east,inner sep=0pt,font=\large] at (112,{\Y{\t}}) {\t};}
+\foreach \t in {20,40,...,100}{\node[anchor=north,inner sep=0pt,font=\large] at ({\X{\t}},1048) {\t};}
+\node[font=\large] at (131,10) {$c$};
+\node[font=\large,anchor=west] at (1150,1027) {$d$};
+\node[rotate=90,font=\large] at (35,550) {population's mortality rate due to cancer (\%)};
+\node[font=\large] at (606,1114) {people with a healthy diet (\%)};
+% line of best fit c = 84 - 0.4 d
+\draw[line width=0.9pt] ({\X{0}},{\Y{84}}) -- ({\X{100}},{\Y{44}});
+% data points (pixel positions from the crop)
+\foreach \x/\y in {228/232,291/276,332/323,367/369,426/369,477/309,507/416,554/424,602/369,647/463,740/416,787/512,835/463,840/556,851/526,888/503,982/612,986/507,1031/556,1066/601}{
+  \fill (\x,\y) circle[radius=6];}
+% labelled points on the line
+\fill ({\X{10}},{\Y{80}}) circle[radius=6];
+\fill ({\X{60}},{\Y{60}}) circle[radius=6];
+\node[font=\large] at (200,352) {$(10,80)$};
+\node[font=\large] at (697,553) {$(60,60)$};
+\end{tikzpicture}
+\end{document}

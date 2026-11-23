@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade dots, stipple color=black!45] (20,23) .. controls (105,160) and (170,260) .. (215,260) .. controls (260,260) and (310,150) .. (336,102)
+  -- plot[smooth,domain=336:651,samples=40] (\x,{142-40*((\x-493.5)/157.5)^2}) -- (651,418) -- (20,418) -- cycle;
+\foreach \i in {0,...,8} \draw[black!50] ({20+78.875*\i},23) -- ({20+78.875*\i},418);
+\foreach \j in {0,...,5} \draw[black!50] (20,{23+79*\j}) -- (651,{23+79*\j});
+\draw (20,23) .. controls (105,160) and (170,260) .. (215,260) .. controls (260,260) and (310,150) .. (336,102);
+\draw plot[smooth,domain=336:651,samples=40] (\x,{142-40*((\x-493.5)/157.5)^2});
+\node[pt] at (20,23) {}; \node[pt] at (336,102) {}; \node[pt] at (651,102) {};
+\end{tikzpicture}
+\end{document}

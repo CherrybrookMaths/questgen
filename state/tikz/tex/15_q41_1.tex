@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (B) at (40,30);
+  \coordinate (A) at (458,143);
+  \coordinate (C) at (40,557);
+  \draw (A) -- (B) -- (C) -- cycle;
+  \draw[->] (458,238) -- (458,55);
+  \node[font=\bfseries\small] at (458,38) {N};
+  % bearing 294 (clockwise from north to AB); y axis points down so clockwise = increasing angle
+  \draw[->] ($(A)+(270:40)$) arc[start angle=270,end angle={360+180+atan2(113,418)},radius=40];
+  \node at ($(B)+(-12,-16)$) {$B$};
+  \node at ($(C)+(-8,22)$) {$C$};
+  \node at (477,144) {$A$};
+  \node at (510,192) {$294^\circ$};
+  \node[align=center,font=\small] at (397,422) {NOT TO\\ SCALE};
+\end{tikzpicture}
+\end{document}

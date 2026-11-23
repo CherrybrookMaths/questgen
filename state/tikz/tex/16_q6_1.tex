@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,v/.style={circle,fill,inner sep=0pt,minimum size=0.36cm},lab/.style={font=\footnotesize}]
+\node[v] (n1) at (200,280) {};
+\node[v] (n2) at (400,112) {};
+\node[v] (n3) at (420,282) {};
+\node[v] (n4) at (402,425) {};
+\node[v] (n5) at (770,105) {};
+\node[v] (n6) at (637,278) {};
+\node[v] (n7) at (755,387) {};
+\node[v] (n8) at (922,258) {};
+\draw[->] (10,288)--(n1);
+\draw[->] (n1)--(n2); \draw[->] (n1)--(n3); \draw[->] (n1)--(n4);
+\draw[->] (n4)--(n3); \draw[->] (n2)--(n5); \draw[->] (n3)--(n6);
+\draw[->] (n4)--(n7); \draw[->] (n5)--(n6); \draw[->] (n6)--(n7);
+\draw[->] (n5)--(n8); \draw[->] (n7)--(n8); \draw[->] (n8)--(1150,250);
+\draw[aux] plot[smooth] coordinates {(617,38) (665,90) (693,165) (704,255) (697,335) (673,405) (638,450) (592,468)};
+\node[lab] at (590,13) {Cut};
+\node[lab] at (78,262) {$A$}; \node[lab] at (275,170) {$B$}; \node[lab] at (330,257) {$C$};
+\node[lab] at (268,370) {$D$}; \node[lab] at (511,83) {$E$}; \node[lab] at (535,252) {$F$};
+\node[lab] at (440,358) {$G$}; \node[lab] at (545,385) {$H$}; \node[lab] at (737,205) {$I$};
+\node[lab] at (730,318) {$J$}; \node[lab] at (865,168) {$K$}; \node[lab] at (842,365) {$L$};
+\node[lab] at (1020,225) {$M$};
+\end{tikzpicture}
+\end{document}

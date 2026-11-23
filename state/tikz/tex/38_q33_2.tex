@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \v in {15,20,25,30,35}{\draw[black!55,line width=0.4pt,dotted] ({113+(\v-10)*33.567},49)--({113+(\v-10)*33.567},577);}
+\foreach \v in {5,10,...,35}{\draw[black!55,line width=0.4pt,dotted] (113,{577-\v*13.2})--(1120,{577-\v*13.2});}
+\draw (113,49) rectangle (1120,577);
+\foreach \v in {10,15,...,40}{\node[anchor=north] at ({113+(\v-10)*33.567},585) {\v};}
+\foreach \v in {0,5,...,40}{\node[anchor=east] at (104,{577-\v*13.2}) {\v};}
+\foreach \p in {(262,127),(470,152),(559,160),(571,190),(661,206),(704,271),(752,205),(782,202),(817,243),(851,258),(856,243),(892,335),(927,258),(962,311),(987,283),(1010,296),(1035,337)}{\fill \p circle (5);}
+\draw[aux] ({113+4.6*33.567},{577-(45.6-0.683*14.6)*13.2})--({113+27.6*33.567},{577-(45.6-0.683*37.6)*13.2});
+\node at (616,17) {\bfseries Average maximum daily temperature};
+\node[rotate=90] at (37,313) {Average maximum daily temperature ($y\,^\circ$C)};
+\node at (616,657) {Latitude ($x$ degrees south)};
+\end{tikzpicture}
+\end{document}

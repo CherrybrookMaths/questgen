@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \x/\l in {12/O,120/B,228/T}{
+  \draw[black!55,line width=0.9pt] (\x+3,129)--(\x+83,129)--(\x+83,15);
+  \draw (\x,12) rectangle (\x+80,127);
+  \node[font=\fontsize{22}{24}\selectfont] at (\x+40,66) {\textrm{\l}};
+}
+\end{tikzpicture}
+\end{document}

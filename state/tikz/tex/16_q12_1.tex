@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  e/.style={ellipse,draw,inner sep=0pt,minimum width=1.17cm,minimum height=0.87cm},
+  lab/.style={font=\footnotesize}]
+\foreach \n/\p in {n1/{(249,342)},n2/{(377,182)},n3/{(627,37)},n4/{(622,167)},n5/{(867,178)},n6/{(342,560)},n7/{(587,575)},n8/{(839,565)},n9/{(989,392)}}{
+  \node[e] (\n) at \p {}; \draw (\n.north)--(\n.south);}
+\node[draw,font=\footnotesize,minimum width=0.88cm,minimum height=0.43cm,inner sep=2pt] (st) at (45,338) {Start};
+\node[draw,font=\footnotesize,minimum width=1.0cm,minimum height=0.43cm,inner sep=2pt] (fi) at (1207,392) {Finish};
+\node[ellipse,draw,inner sep=0pt,minimum width=1.4cm,minimum height=0.89cm,line width=0.9pt] (key) at (1182,460) {};
+\draw[line width=0.9pt] (key.north)--(key.south);
+\draw[->] (st)--(n1); \draw[->] (n1)--(n2); \draw[->] (n1)--(n6);
+\draw[->] (n2)--(n3); \draw[->] (n2)--(n4); \draw[->] (n2)--(n7);
+\draw[->] (n3)--(n5); \draw[->] (n4)--(n5); \draw[aux,->] (n4)--(n8);
+\draw[->] (n5)--(n9); \draw[->] (n6)--(n7); \draw[->] (n7)--(n8);
+\draw[->] (n8)--(n9); \draw[->] (n9)--(fi);
+\node[lab] at (132,327) {$A, 3$}; \node[lab] at (276,250) {$B, 4$}; \node[lab] at (245,440) {$C, 2$};
+\node[lab] at (482,107) {$D, 6$}; \node[lab] at (502,162) {$E, 8$}; \node[lab] at (514,410) {$F, 5$};
+\node[lab] at (794,95) {$H, 5$}; \node[lab] at (737,159) {$I, 2$}; \node[lab] at (754,370) {$0$};
+\node[lab] at (951,256) {$K, 3$}; \node[lab] at (455,559) {$G, 3$}; \node[lab] at (707,553) {$J, 1$};
+\node[lab] at (937,490) {$L, 7$}; \node[lab] at (1092,375) {$M, 5$};
+\end{tikzpicture}
+\end{document}

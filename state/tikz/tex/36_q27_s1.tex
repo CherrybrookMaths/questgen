@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (106,15) -- (106,407) -- (737,407) -- (737,93);
+\draw (421,93) -- (421,407);
+\draw[aux] (106,15) -- (421,93) -- (737,93);
+\draw (106,15) .. controls (192,152) and (254,249) .. (299,249) .. controls (344,249) and (396,142) .. (421,93);
+\draw plot[smooth,domain=421:737,samples=40] (\x,{131-38*((\x-579)/158)^2});
+\node[anchor=east, inner sep=0pt] at (96,248) {25 m};
+\node[anchor=west, inner sep=0pt] at (435,248) {20 m};
+\node[anchor=west, inner sep=0pt] at (750,248) {20 m};
+\node at (263,438) {20 m};
+\node at (580,438) {20 m};
+\end{tikzpicture}
+\end{document}

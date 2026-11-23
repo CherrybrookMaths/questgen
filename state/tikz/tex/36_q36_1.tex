@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \t in {13,...,28} {
+  \draw[black!50] ({32+63*(\t-13)},0) -- ({32+63*(\t-13)},172);
+  \draw ({32+63*(\t-13)},172) -- ({32+63*(\t-13)},182);
+  \node at ({32+63*(\t-13)},207) {\t};}
+\draw (0,172) -- (1005,172);
+\begin{scope}[line width=0.9pt]
+\draw (410,53) rectangle (788,117);
+\draw (599,53) -- (599,117);
+\draw (32,85) -- (410,85); \draw (788,85) -- (914,85);
+\draw (32,53) -- (32,117); \draw (914,53) -- (914,117);
+\end{scope}
+\node at (505,262) {Temperature (degrees Celsius)};
+\end{tikzpicture}
+\end{document}

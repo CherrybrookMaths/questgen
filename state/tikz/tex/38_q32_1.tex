@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (X) at (35,420); \coordinate (Z) at (719,420); \coordinate (O) at (377,420);
+\coordinate (Y) at ({377+342*cos(302)},{420+342*sin(302)});
+\fill[shade dots] (X) arc[start angle=180,end angle=302,radius=342] -- cycle;
+\fill[shade dots] (Y) arc[start angle=302,end angle=360,radius=342] -- cycle;
+\draw (X) arc[start angle=180,end angle=360,radius=342];
+\draw (X)--(Y)--(Z);
+\draw[aux] (X)--(Z);
+\fill (O) circle (4.5);
+\draw (538.96,140.67)--(549.6,159.9)--(568.87,149.24);
+\node at (15,420) {$X$};
+\node at (740,420) {$Z$};
+\node at (377,398) {$O$};
+\node at (571,112) {$Y$};
+\node at (142,404) {$30^\circ$};
+\node[align=center] at (763,176) {NOT TO\\SCALE};
+\draw (35,448)--(35,474); \draw (719,448)--(719,474);
+\draw[->] (328,461)--(35,461);
+\draw[->] (426,461)--(719,461);
+\node at (377,459) {16 cm};
+\end{tikzpicture}
+\end{document}

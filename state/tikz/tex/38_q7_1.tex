@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\s{1.3143}% px per download
+\foreach \h [count=\i] in {2,4,9,19,22,30,49,76,99,114,97,73,54,39,27,20,14,9,6,2}{
+  \fill[black!35,draw=white,line width=0.6pt] ({180+(\i-1)*32-16},224) rectangle ({180+(\i-1)*32+16},{224-\h*\s});
+  \node[font=\small,anchor=north] at ({180+(\i-1)*32},230) {\i};
+}
+\draw[->] (158,224)--(822,224);
+\draw[->] (158,224)--(158,6);
+\foreach \v in {0,20,...,140}{
+  \draw (152,{224-\v*\s})--(158,{224-\v*\s});
+  \node[font=\small,anchor=east] at (150,{224-\v*\s}) {\v};
+}
+\node[font=\small] at (466,270) {Day};
+\node[font=\small,rotate=90,align=center] at (45,131) {Number of downloads\\each day};
+\end{tikzpicture}
+\end{document}

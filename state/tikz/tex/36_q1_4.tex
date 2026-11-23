@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (5,162) -- (452,162);
+  \draw[->] (232,318) -- (232,30);
+  \draw[<->,line width=0.9pt,smooth,samples=90,domain=9:198,variable=\t] plot ({232+\t},{162-1806/(\t+8.8)});
+  \draw[<->,line width=0.9pt,smooth,samples=90,domain=6:197,variable=\t] plot ({232-\t},{162+1806/(\t+8.8)});
+  \node[pt] at (272,{162-1806/48.8}) {};
+  \node[anchor=west] at (279,{162-1806/48.8-4}) {$(1,\,1)$};
+  \node at (441,183) {$x$};
+  \node at (215,24) {$y$};
+  \node at (215,178) {$O$};
+\end{tikzpicture}
+\end{document}

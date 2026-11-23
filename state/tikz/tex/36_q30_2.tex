@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}]
+\coordinate (A) at (177,295); \coordinate (B) at (240,152); \coordinate (C) at (533,295);
+\coordinate (D) at (370,44); \coordinate (E) at (533,152); \coordinate (F) at (756,295);
+\draw[mid=0.56] (0,295) -- (A);
+\draw[mid=0.5] (A) -- (B);
+\draw[mid=0.5] (B) -- (D);
+\draw[mid=0.53] (D) -- (E);
+\draw[mid=0.5] (B) -- (E);
+\draw[mid=0.45] (C) -- (B);
+\draw[mid=0.5] (C) -- (E);
+\draw[mid=0.7] (E) -- (F);
+\draw[mid=0.5] (A) -- (C);
+\draw[mid=0.45] (C) -- (F);
+\draw[mid=0.39] (F) -- (868,295);
+\draw[aux] (248,87) .. controls (318,170) and (315,280) .. (275,342);
+\foreach \p in {A,B,C,D,E,F} \node[pt] at (\p) {};
+\node at (177,323) {$A$}; \node at (220,148) {$B$}; \node at (535,323) {$C$};
+\node at (370,20) {$D$}; \node at (556,141) {$E$}; \node at (757,323) {$F$};
+\node at (50,270) {350}; \node at (842,270) {350};
+\node at (166,223) {150}; \node at (283,75) {50}; \node at (478,73) {125};
+\node at (383,177) {75}; \node at (365,247) {50}; \node at (570,227) {100};
+\node at (676,193) {300}; \node at (346,327) {200}; \node at (637,327) {50};
+\end{tikzpicture}
+\end{document}

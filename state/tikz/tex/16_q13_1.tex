@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% minor grid (light, dotted)
+\foreach \v in {4,8,...,196}{\pgfmathtruncatemacro\r{mod(\v,20)}\ifnum\r=0\else
+  \draw[black!30,line width=0.3pt,dash pattern=on 0.8pt off 0.8pt] (172,{729-\v*3.415}) -- (1072,{729-\v*3.415});\fi}
+\foreach \x in {187,202,...,1057}{\draw[black!30,line width=0.3pt,dash pattern=on 0.8pt off 0.8pt] (\x,46) -- (\x,729);}
+% major grid
+\foreach \v in {20,40,...,180}{\draw[black!50,line width=0.4pt] (172,{729-\v*3.415}) -- (1072,{729-\v*3.415});}
+% bars
+\foreach \c/\h in {246/190,396/142,546/97,696/30,846/24,996/16}{
+  \filldraw[fill=black!18,draw=black] (\c-60,729) rectangle (\c+60,{729-\h*3.415});}
+\draw (172,46) rectangle (1072,729);
+% cumulative percentage line
+\draw[line width=0.9pt] (246,{729-38.08*6.83}) -- (396,{729-66.53*6.83}) -- (546,{729-85.97*6.83}) -- (696,{729-91.98*6.83}) -- (846,{729-96.79*6.83}) -- (996,{729-100*6.83});
+\foreach \c/\p in {246/38.08,396/66.53,546/85.97,696/91.98,846/96.79,996/100}{\fill (\c,{729-\p*6.83}) circle[radius=4.5];}
+% axis labels
+\foreach \v in {0,20,...,200}{\node[anchor=east,inner sep=0pt] at (160,{729-\v*3.415}) {\v};}
+\foreach \p in {0,10,...,100}{\node[anchor=west,inner sep=0pt] at (1080,{729-\p*6.83}) {\p\%};}
+\foreach \c/\t in {246/Slept in,396/Family,546/Appointment,696/{Train or\\bus delay},846/{Traffic\\problems},996/{Car break\\down}}{
+  \node[anchor=north,align=center,inner sep=0pt] at (\c,744) {\t};}
+\node at (620,852) {Reasons for arriving late};
+\node[rotate=90] at (85,388) {Number of late arrivals};
+\node[rotate=90] at (1172,388) {Cumulative\ \ percentage};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % 1 unit = 1 crop px; n -> 178+0.53n, P -> 816-0.4171P
+  \def\sx{0.53}\def\sy{0.4171}
+  \foreach \n in {400,800,1200} \draw[black!25,line width=0.4pt] ({178+\sx*\n},86) -- ({178+\sx*\n},816);
+  \draw[black!25,line width=0.4pt] (1000,86) -- (1000,816);
+  \foreach \p in {350,700,1050,1400,1750} \draw[black!25,line width=0.4pt] (178,{816-\sy*\p}) -- (1000,{816-\sy*\p});
+  \draw[->] (178,816) -- (1000,816);
+  \draw[->] (178,816) -- (178,66);
+  \foreach \p in {0,350,700,1050,1400,1750} \node[anchor=east] at (150,{816-\sy*\p+2}) {\p};
+  \foreach \n in {200,400,600,800,1000,1200,1400}
+     \node at ({178+\sx*\n-4},858) {\n};
+  % Publisher A: 1000 + 0.4n
+  \draw[line width=0.9pt] (178,{816-\sy*1000}) -- (1000,{816-\sy*(1000+0.4*822/\sx)});
+  % Publisher B: 1.4n, plotted points from the table
+  \draw[line width=0.9pt] (178,816) -- ({178+\sx*1200},{816-\sy*1680});
+  \foreach \n/\p in {0/0,500/700,1000/1400,1200/1680} \fill ({178+\sx*\n},{816-\sy*\p}) circle[radius=4.5];
+  \node[anchor=west,font=\fontsize{13}{15}\selectfont] at (1050,122) {Publisher A};
+  \node[font=\fontsize{13}{15}\selectfont] at (860,52) {Publisher B};
+  \node[rotate=90,font=\fontsize{13}{15}\selectfont] at (25,370) {Payment (\$)};
+\end{tikzpicture}
+\end{document}

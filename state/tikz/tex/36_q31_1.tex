@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (53,338) -- (53,50);
+\node at (53,27) {\textbf{N}};
+\coordinate (P) at (53,224); \coordinate (A) at (196,78); \coordinate (B) at (393,320);
+\draw (P) -- (A); \draw (P) -- (B);
+\foreach \p in {P,A,B} \node[pt] at (\p) {};
+\node at (30,226) {$P$}; \node at (211,84) {$A$}; \node at (409,325) {$B$};
+\node at (181,150) {7 km}; \node at (222,296) {9 km};
+\end{tikzpicture}
+\end{document}

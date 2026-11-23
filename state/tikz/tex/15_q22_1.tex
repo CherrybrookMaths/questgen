@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=100.1*0.0127cm,y=2.545*0.0127cm]
+\foreach \i in {1,...,53} {\pgfmathtruncatemacro\m{mod(\i,5)}\ifnum\m=0\else
+  \draw[black!22,line width=0.3pt,dash pattern=on 1pt off 1pt] (\i/5,0)--(\i/5,292);\fi}
+\foreach \j in {1,...,29} {\pgfmathtruncatemacro\m{mod(\j,5)}\ifnum\m=0\else
+  \draw[black!22,line width=0.3pt,dash pattern=on 1pt off 1pt] (0,\j*10)--(10.6,\j*10);\fi}
+\foreach \i in {1,...,10} \draw[black!45,line width=0.5pt] (\i,0)--(\i,292);
+\foreach \j in {50,100,...,250} \draw[black!45,line width=0.5pt] (0,\j)--(10.6,\j);
+\draw[->] (0,0)--(10.62,0);
+\draw[->] (0,0)--(0,293);
+\foreach \i in {1,...,10} \node[font=\scriptsize,anchor=north] at (\i,-4) {\i};
+\node[font=\scriptsize,anchor=north] at (-0.18,-4) {0};
+\foreach \j in {50,100,...,250} \node[font=\scriptsize,anchor=east] at (-0.1,\j) {\j};
+\node at (-0.51,263) {$C$};
+\node at (10.33,-28) {$n$};
+\end{tikzpicture}
+\end{document}
