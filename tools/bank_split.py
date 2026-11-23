@@ -88,7 +88,7 @@ F_CONTENT = ('notes', 'check_notes')   # figs[k] text fields: in the content fil
 _HENCE = re.compile(r'\bhence\b', re.I | re.A)
 _INT = re.compile(r'\\int')
 _DERIV = re.compile(r"\\dfrac\{d\}\{dx\}|\\frac\{d\}\{dx\}|differentiate|derivative|f'|\\prime", re.I | re.A)
-_EXFIG = re.compile(r'\\exfigure\{([A-Za-z0-9_.-]+)\}')
+_EXFIG = re.compile(r'\\exfigure\{([A-Za-z0-9_.()-]+)\}')
 
 
 def leaves(q):

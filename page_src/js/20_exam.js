@@ -100,7 +100,7 @@ function xQ(q,n,doc){exA();
   const src=`<div class="xsrc exsrc"><span class="exsrcl">${guide?esc(srcLine(q))+' · ':''}${qid(q)}</span>${qiButton(q,n)}</div>`;
   const h=`<section class="xq ${q.type==='mcq'?'mc':'wr'}" data-q="${q.id}">${head}<div class="xqb">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${xFigSlots(q,loose)}${parts}${opts}${mcSols}${sols(null)}</div>${src}</section>`;
   // every diagram slot, including inline \exfigure ones that tex() writes, so this runs on the finished HTML
-  return guide?h:h.replace(/<span class="figslot" data-fig="([\w.-]+)"><\/span>/g,(m,k)=>exFigWrap(k));
+  return guide?h:h.replace(/<span class="figslot" data-fig="([\w.()-]+)"><\/span>/g,(m,k)=>exFigWrap(k));
 }
 // xCover (the editable cover) is in 24_exams.js
 function xBlocks(doc){const {mc,wr}=xSections();const bl=[];let n=0;
