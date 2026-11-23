@@ -370,7 +370,12 @@ def run_parse(api, batch, docs):
         user = [pdf_block(f['id'], f'file {f["id"]}: {os.path.basename(f["source_path"])}') for f in files]
         user[-1]['cache_control'] = {'type': 'ephemeral'}
         user.append(text_block(PARSE_TASK.format(doc=doc, label=r['display_label'] or '', task_type=r['task_type'], parse_path=r['parse_path'], year=r['year'],
-                                                 school=r['school_formal'], task=r['task_code'], files=desc)))
+                                                 school=r['school_formal'], task=r['task_code'], files=desc)
+                              # owner 23 Nov (Standard pilot): PARSE_SPEC is written for Advanced; its old_syllabus / standard_topic rules
+                              # mean "not Advanced" and must not fire on a Standard paper (tagging decides old syllabus: TAG_SPEC_STANDARD)
+                              + ('' if r['course'] != 'standard' else '\n\nThis paper is Mathematics STANDARD 2, not Advanced: parse it exactly '
+                                 'the same way, but leave old_syllabus and standard_topic empty on every question (the Standard tagging step '
+                                 'decides what is outside the course). Do not stop for the course.')))
         jobs.append(Run(batch, 'parse', doc, 1, system, user, parse_tools(doc), 'submit_parse'))
     return jobs
 
