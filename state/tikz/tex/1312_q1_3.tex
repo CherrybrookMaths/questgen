@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (32,297)--(395,297);
+  \draw[->] (102,365)--(102,35);
+  \draw[line width=0.9pt,domain=168:300,smooth,samples=67] plot (\x,{100+197*((\x-234)/66)^2});
+  \node at (58,32) {$f(x)$};
+  \node at (76,322) {$O$};
+  \node at (388,320) {$x$};
+\end{tikzpicture}
+\end{document}

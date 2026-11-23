@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.9195cm,y=0.494cm]
+  % grid
+  \foreach \u in {-4,...,4,6} \draw[black!18, line width=0.4pt] (\u,-6.12) -- (\u,10.93);
+  \foreach \v in {-6,-4,-3,-2,-1,1,2,3,4,6,7,8,9} \draw[black!18, line width=0.4pt] (-4.77,\v) -- (6.49,\v);
+  \foreach \v in {-5,5,10} \draw[black!35, line width=0.4pt] (-4.77,\v) -- (6.49,\v);
+  \draw[black!35, line width=0.4pt] (5,-6.12) -- (5,10.93);
+  % axes
+  \draw (-4.77,0) -- (6.49,0);
+  \draw (0,-6.12) -- (0,10.93);
+  % tick labels
+  \begin{scope}[every node/.style={font=\small, inner sep=1.5pt}]
+    \node[anchor=east] at (-0.05,10) {10};
+    \node[anchor=east] at (-0.05,5) {5};
+    \node[anchor=east] at (-0.05,-5) {$-5$};
+    \node[anchor=north east] at (-0.05,-0.1) {0};
+    \node[anchor=north west] at (5.03,-0.1) {5};
+  \end{scope}
+  % curve
+  \draw[line width=0.9pt, smooth, samples=90, domain=-4:6] plot (\x,{(\x)^3/6-(\x)^2/4-3*(\x)+1});
+  \foreach \p in {(-4,-5/3),(-2,14/3),(3,-23/4),(6,10)} \node[pt, inner sep=1.5pt] at \p {};
+  \node[anchor=north, inner sep=1pt] at (-3.8,-1.9) {$\left(-4,-1\dfrac{2}{3}\right)$};
+  \node[anchor=south, inner sep=1pt] at (-2,4.95) {$\left(-2,4\dfrac{2}{3}\right)$};
+  \node[anchor=north, inner sep=1pt] at (3.15,-6.0) {$\left(3,-5\dfrac{3}{4}\right)$};
+  \node[anchor=south, inner sep=1pt] at (6,10.3) {$(6,10)$};
+\end{tikzpicture}
+\end{document}

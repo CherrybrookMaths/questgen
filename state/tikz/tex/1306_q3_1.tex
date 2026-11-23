@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5207cm,y=1.1303cm]
+\draw[<->] (-8.9,0) -- (8.95,0) node[right] {$x$};
+\draw[<->] (0,-2.16) -- (0,5.45) node[above] {$y$};
+\foreach \i in {-8,...,-1,1,2,...,8} \draw (\i,-0.067)--(\i,0.067);
+\foreach \j in {-1,1,2,3,4} \draw (-0.146,\j)--(0.146,\j);
+\foreach \i in {-8,-6,-4,2,4,6,8} \node[anchor=north,inner sep=0pt] at (\i,-0.38) {$\i$};
+\node[anchor=south,inner sep=0pt] at (-2,0.14) {$-2$};
+\foreach \j in {2,4} \node[anchor=east,inner sep=0pt] at (-0.55,\j) {$\j$};
+\draw[line width=0.9pt,<->] (-8.3,5.3) -- (-2,-1) -- (4.4,5.4);
+\end{tikzpicture}
+\end{document}

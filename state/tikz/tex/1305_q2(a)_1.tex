@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\lf{\fontsize{9}{11}\selectfont}
+  \def\tf{\fontsize{8.5}{10}\selectfont}
+  \def\X#1{170+6.757*(#1-30)}
+  \def\Y#1{435-7.96*#1}
+  % grid
+  \foreach \v in {10,20,...,50} \draw[black!35, line width=0.4pt, dash pattern=on 1pt off 1pt] (130,{\Y{\v}}) -- (673,{\Y{\v}});
+  % bars
+  \foreach \a/\c in {30/8,40/12,50/20,60/24,70/44,80/47,90/50}
+    \draw ({\X{\a}},435) rectangle ({\X{\a+10}},{\Y{\c}});
+  % axes
+  \draw (130,{\Y{50}}) -- (130,435) -- (673,435);
+  \foreach \v in {0,10,...,50} {
+    \draw (122,{\Y{\v}}) -- (130,{\Y{\v}});
+    \node[font=\lf, anchor=east] at (117,{\Y{\v}}) {$\v$};
+  }
+  \foreach \v in {5,15,...,45} \draw (126,{\Y{\v}}) -- (130,{\Y{\v}});
+  \foreach \m in {35,45,...,95} {
+    \draw ({\X{\m}},435) -- ({\X{\m}},442);
+    \node[font=\lf] at ({\X{\m}},461) {$\m$};
+  }
+  \node[font=\tf] at (405,497) {Examination mark};
+  \node[font=\tf, rotate=90] at (66,236) {Cumulative frequency};
+  % ogive
+  \draw[line width=0.9pt] ({\X{30}},{\Y{0}}) -- ({\X{40}},{\Y{8}}) -- ({\X{50}},{\Y{12}}) -- ({\X{60}},{\Y{20}})
+    -- ({\X{70}},{\Y{24}}) -- ({\X{80}},{\Y{44}}) -- ({\X{90}},{\Y{47}}) -- ({\X{100}},{\Y{50}});
+\end{tikzpicture}
+\end{document}

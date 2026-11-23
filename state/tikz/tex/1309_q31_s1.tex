@@ -1,0 +1,44 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \begin{scope}[black!40]
+  \draw[->] (18,333)--(900,333);
+  \draw[<->] (18,630)--(18,38);
+  \foreach \k in {1,...,24} {\pgfmathsetmacro\xx{18+34*\k}\draw (\xx,328)--(\xx,338);}
+  \foreach \k in {1,...,5} {\pgfmathsetmacro\xx{18+170*\k}\draw (\xx,325)--(\xx,341);}
+  \draw (18,333) circle (7);
+  \node at (190,362) {$1$};
+  \node at (360,362) {$2$};
+  \node at (530,362) {$3$};
+  \node at (714,362) {$4$};
+  \node at (868,362) {$5$};
+  \node at (18,15) {$v$};
+  \node[anchor=west] at (903,333) {$t$};
+  \begin{scope}[shift={(0.47,5.25)},xscale=0.8763,yscale=0.75]
+  \draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates {(20,437) (70,470) (128,483) (175,467) (215,437) (265,402) (320,391) (370,403) (409,437) (455,495) (500,565) (560,668) (615,742) (665,770) (710,746) (745,675) (772,570) (797,437)};
+  \end{scope}
+  \end{scope}
+  % displacement
+  \draw[line width=0.9pt] plot[smooth] coordinates {(18,333) (55,342) (113,368) (160,399) (189,409) (220,404) (250,392) (281,370) (320,342) (359,333) (400,339) (450,366) (500,412) (545,470) (583,523) (622,557) (660,577) (699,586)};
+  \draw[aux] (189,337)--(189,409);
+  \draw[aux] (281,300)--(281,370);
+  \draw[aux] (583,523)--(583,581);
+  \draw[aux] (699,337)--(699,586);
+  \small
+  \node at (105,262) {SP $+$ $t$-int};
+  \draw[->] (60,276)--(26,322);
+  \node at (172,298) {POI};
+  \draw[->] (160,310)--(119,361);
+  \node at (178,460) {Min TP};
+  \draw[->] (180,446)--(196,419);
+  \node at (440,272) {Max TP, $t$-int};
+  \draw[->] (385,286)--(364,324);
+  \node at (322,412) {POI};
+  \draw[->] (308,399)--(288,378);
+  \node at (636,486) {POI};
+  \draw[->] (622,500)--(591,519);
+  \node at (748,538) {SP};
+  \draw[->] (735,552)--(706,580);
+\end{tikzpicture}
+\end{document}

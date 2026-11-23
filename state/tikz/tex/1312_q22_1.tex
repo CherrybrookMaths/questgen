@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {0,...,26} \draw[black!35,line width=0.4pt] ({19.5+44.25*\i},72)--({19.5+44.25*\i},402);
+\foreach \j in {72,138,204,336,402} \draw[black!35,line width=0.4pt] (19.5,\j)--(1170,\j);
+\draw[->] (12,270)--(1200,270);
+\draw[->] (462,402)--(462,38);
+\node[anchor=west] at (1203,292) {$x$};
+\node[anchor=east] at (458,22) {$y$};
+\draw[line width=0.9pt,smooth,samples=90,domain=19.5:1170,variable=\t] plot (\t,{270-66*(2*cos(0.5*((\t-462)*1.016949+45))+1)});
+\foreach \k/\l in {-2/{-2\pi},-1/{-\pi},1/{\pi},2/{2\pi},3/{3\pi},4/{4\pi}} \node[anchor=north] at ({462+177*\k},277) {\halo{$\l$}};
+\node[anchor=north] at (446,277) {\halo{$0$}};
+\foreach \v/\l in {3/3,2/2,1/1,-1/{-1},-2/{-2}} \node[anchor=east] at (458,{270-66*\v}) {\halo{$\l$}};
+\end{tikzpicture}
+\end{document}

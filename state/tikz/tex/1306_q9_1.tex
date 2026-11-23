@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.5748cm,y=1.5748cm]
+\draw[->] (-3.6,0) -- (6.98,0);
+\draw[->] (0,-2.68) -- (0,3.43);
+\node[font=\large] at (6.93,-0.26) {$x$};
+\node[font=\large] at (-0.29,3.45) {$y$};
+\foreach \i in {-3,-2,-1,1,2,...,6} \draw (\i,-0.032)--(\i,0.032);
+\foreach \j in {-2,-1,1,2,3} \draw (-0.032,\j)--(0.032,\j);
+\foreach \i in {-3,-2,-1,1,2,3,4,5} \node[anchor=north,font=\small,inner sep=0pt] at (\i,-0.09) {$\i$};
+\node[anchor=south,font=\small,inner sep=0pt] at (6,0.09) {$6$};
+\node[anchor=north,font=\small,inner sep=0pt] at (0.12,-0.09) {$0$};
+\foreach \j in {-2,-1,1,2,3} \node[anchor=east,font=\small,inner sep=0pt] at (-0.08,\j) {$\j$};
+\draw[line width=0.9pt] (-2,0) arc[start angle=180,end angle=0,radius=2] -- (4,-1) -- (6,-1);
+\draw[aux] (6,-1) -- (6,0);
+\node[font=\large] at (4.59,-1.28) {$y=f(x)$};
+\end{tikzpicture}
+\end{document}

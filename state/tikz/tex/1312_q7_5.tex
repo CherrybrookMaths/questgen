@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+  \draw[->] (18,190) -- (382,190);
+  \draw[->] (200,360) -- (200,25);
+  \draw[line width=0.9pt,<->] plot[smooth,domain=-160:158,samples=90] ({200+\x},{190+63*ln(\x/70+sqrt((\x/70)^2+1))});
+  \node at (183,20) {$y$};
+  \node at (375,218) {$x$};
+  \node at (180,216) {$O$};
+\end{tikzpicture}
+\end{document}

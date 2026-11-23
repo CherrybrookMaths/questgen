@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % column boxes
+  \foreach \xa/\t in {151/1,403/2,661/3,959/4}{
+    \draw (\xa,13) rectangle ++(142,54);
+    \node at (\xa+71,41) {Die \t};
+  }
+  % level 1
+  \draw (25,282) -- (213,177);
+  \draw (25,282) -- (213,388);
+  \node[anchor=west, inner sep=0pt] at (222,186) {1,2};
+  \node[anchor=west, inner sep=0pt] at (207,371) {3,4,5,6};
+  % level 2
+  \foreach \ya/\yb/\yc in {177/123/229, 388/334/440}{
+    \draw (292,\ya) -- (480,\yb);
+    \draw (292,\ya) -- (480,\yc);
+  }
+  % level 3
+  \foreach \ya in {123,229,334,440}{
+    \draw (558,\ya) -- (746,\ya-26.5);
+    \draw (558,\ya) -- (746,\ya+26.5);
+  }
+  % level 4
+  \foreach \ya in {96.5,149.5,202.5,255.5,307.5,360.5,413.5,466.5}{
+    \draw (825,\ya) -- (1013,\ya-13);
+    \draw (825,\ya) -- (1013,\ya+13);
+  }
+\end{tikzpicture}
+\end{document}

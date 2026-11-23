@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\CX#1{165+(#1)*73.21}
+\def\PY#1{652-(#1)*15.06}
+% minor grid
+\foreach \i in {1,...,69}{\pgfmathtruncatemacro\m{mod(\i,5)}\ifnum\m=0\else
+  \draw[black!20,line width=0.3pt] ({165+\i*14.642},50) -- ({165+\i*14.642},652);\fi}
+\foreach \j in {1,...,49}{\pgfmathtruncatemacro\m{mod(\j,5)}\ifnum\m=0\else
+  \draw[black!20,line width=0.3pt] (165,{652-\j*12.048}) -- (1190,{652-\j*12.048});\fi}
+% major grid
+\foreach \c in {1,...,13}{\draw[black!45,line width=0.5pt] ({\CX{\c}},50) -- ({\CX{\c}},652);}
+\foreach \v in {4,8,...,40}{\draw[black!45,line width=0.5pt] (165,{\PY{\v}}) -- (1190,{\PY{\v}});}
+% bars
+\foreach \c/\h in {1/28,3/20,5/16,7/16,9/12,11/8}{
+  \filldraw[fill=black!35,line width=0.9pt] ({\CX{\c}},652) rectangle ({\CX{\c+1}},{\PY{\h}});}
+% axes
+\draw (165,50) -- (165,652);
+\draw (1190,50) -- (1190,652);
+\draw (140,652) -- (1190,652);
+\draw (1145,643) -- (1145,661);
+\foreach \v in {4,8,...,40}{\draw (143,{\PY{\v}}) -- (165,{\PY{\v}}); \draw (1190,{\PY{\v}}) -- (1210,{\PY{\v}});}
+\foreach \v in {4,8,...,32}{\node[anchor=east] at (138,{\PY{\v}}) {$\v$};}
+\node[anchor=west,font=\large] at (1214,{\PY{40}}) {$100\%$};
+\node[anchor=west,font=\large] at (1214,{\PY{20}}) {$50\%$};
+\node[anchor=west,font=\large] at (1214,{\PY{0}}) {$0\%$};
+\node[rotate=90,font=\fontsize{10.5}{12}\selectfont] at (68,310) {Percentage of Customers};
+\node[rotate=90,font=\fontsize{10.5}{12}\selectfont] at (1345,333) {Cumulative Frequency};
+\foreach \c/\t in {1/Liked the Young Staff,3/Good Range of Brands,5/Liked the Styles,7/Liked the Shop,9/Competitive Prices,11/Helpful Staff}{
+  \node[rotate=90,anchor=east,font=\fontsize{10.5}{12}\selectfont] at ({\CX{\c+0.5}},664) {\t};}
+\end{tikzpicture}
+\end{document}

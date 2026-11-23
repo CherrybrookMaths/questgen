@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {0,...,6}{\filldraw[fill=black!30] ({153+57.43*\i},473) rectangle ({153+57.43*(\i+1)},243);}
+\draw[->] (97,473) -- (97,15);
+\draw[->] (97,473) -- (612,473);
+\node[rotate=90,font=\fontsize{16}{19}\selectfont] at (40,245) {Frequency};
+\node[font=\fontsize{16}{19}\selectfont] at (385,530) {Score};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (20,124) -- (838,124);
+\foreach \v in {61,...,89}{
+  \pgfmathsetmacro\xx{36+(\v-61)*28.464}
+  \pgfmathtruncatemacro\od{mod(\v,2)}
+  \ifnum\od=1
+    \draw (\xx,124) -- (\xx,143);
+    \node[font=\fontsize{9.5}{11}\selectfont] at (\xx,175) {$\v$};
+  \else
+    \draw (\xx,124) -- (\xx,135);
+  \fi
+}
+\node[font=\fontsize{9.5}{11}\selectfont, anchor=east] at (850,212) {Average monthly relative humidity (\%)};
+\begin{scope}[line width=0.9pt]
+\draw (36,30) rectangle (662.2,92);
+\draw (406,30) -- (406,92);
+\draw (662.2,61) -- (775.8,61);
+\end{scope}
+\fill (36,61) circle (3);
+\fill (775.8,61) circle (3);
+\end{tikzpicture}
+\end{document}

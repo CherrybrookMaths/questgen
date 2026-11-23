@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.4356cm,y=0.3658cm]
+  \draw[black!20,line width=0.4pt,xstep=1,ystep=1] (-10,-10) grid (21,11);
+  \draw[black!45,line width=0.5pt] \foreach \k in {-8,-4,4,8,12,16,20} {(\k,-10)--(\k,11)} \foreach \k in {-10,-5,5,10} {(-10,\k)--(21,\k)};
+  \draw[->] (-10.5,0)--(21.3,0);
+  \draw[->] (0,-10.5)--(0,10.8);
+  \node[anchor=west,font=\small] at (21.3,0) {$x$};
+  \node[anchor=south,font=\small] at (0,10.8) {$y$};
+  % given curve (grey)
+  \draw[black!45,line width=0.9pt,<->] plot[domain=-10.47:20.52,samples=120,smooth] (\x,{4+5*cos(30*(\x-1))});
+  \node[pt,black!60] at (1,9) {};
+  \node[anchor=south,font=\small] at (1,9.3) {$P$};
+  % new curve
+  \draw[line width=0.9pt,<->] plot[domain=-10.47:20.45,samples=150,smooth] (\x,{-4*sin(45*(\x-1))});
+  \foreach \p in {(1,0),(3,-4),(5,0),(7,4),(9,0)} {\node[pt] at \p {};}
+  \node[anchor=south west,font=\small] at (1.2,1.15) {$(1,0)$};
+  \node[anchor=north,font=\small] at (3,-4.35) {$(3,-4)$};
+  \node[anchor=south east,font=\small] at (4.85,0.2) {$(5,0)$};
+  \node[anchor=south,font=\small] at (7,4.35) {$(7,4)$};
+  \node[anchor=south west,font=\small] at (9.15,0.2) {$(9,0)$};
+\end{tikzpicture}
+\end{document}

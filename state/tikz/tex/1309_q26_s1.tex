@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.4826cm,y=0.4674cm]
+  \draw[black!20,line width=0.4pt,xstep=1,ystep=1] (-11,-11) grid (10,10);
+  \draw[black!45,line width=0.5pt] (-10,-11)--(-10,10) (-5,-11)--(-5,10) (5,-11)--(5,10)
+     (-11,5)--(10,5) (-11,-5)--(10,-5) (-11,-10)--(10,-10);
+  \draw[<->] (-11.35,0)--(10.75,0);
+  \draw[<->] (0,-11.15)--(0,11.0);
+  \foreach \k in {-10,...,-1,1,2,...,10} {\draw (\k,0.2)--(\k,-0.2); \draw (0.2,\k)--(-0.2,\k);}
+  \node at (11.3,0) {$x$};
+  \node at (-0.15,11.75) {$y$};
+  \foreach \k in {-10,-5,5} {\node at (\k,-1.2) {$\k$};}
+  \foreach \k in {5,-5,-10} {\node[anchor=east] at (-0.45,\k) {$\k$};}
+  \draw[line width=0.9pt,line join=round] (-7.25,6)--(-4,0) arc[start angle=180,end angle=0,x radius=1,y radius=2] -- (3,-10);
+  \node[anchor=base west] at (-10.7,6.75) {$y=f\big(2(x+2)\big)$};
+\end{tikzpicture}
+\end{document}

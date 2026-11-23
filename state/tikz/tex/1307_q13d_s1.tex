@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (10,347) -- (832,347);
+\draw[<->] (35,435) -- (35,33);
+\node at (35,12) {$x$};
+\node[anchor=west] at (834,347) {$t$};
+\foreach \i in {1,2,3,4}{\draw ({35+194.25*\i},339) -- ({35+194.25*\i},355);}
+\draw (27,201) -- (43,201); \draw (27,55) -- (43,55);
+\draw (31,274) -- (39,274); \draw (31,128) -- (39,128);
+\node[anchor=east] at (24,201) {$1$};
+\node[anchor=east] at (24,55) {$2$};
+\node[anchor=north] at (230,362) {$\dfrac{\pi}{4}$};
+\node[anchor=north] at (424,362) {$\dfrac{\pi}{2}$};
+\node[anchor=north] at (618,362) {$\dfrac{3\pi}{4}$};
+\node[anchor=north] at (812,362) {$\pi$};
+\draw[line width=0.9pt,smooth,samples=90,domain=0:3.14159] plot ({35+777*\x/3.14159},{347-146*(1-cos(2*\x r))});
+\end{tikzpicture}
+\end{document}

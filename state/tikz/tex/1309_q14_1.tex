@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{18}{21}\selectfont]
+\foreach \v [count=\i from 0] in {90,45,40,20,5}
+  \draw[fill=black!30] ({193+168.2*\i-65},662) rectangle ({193+168.2*\i+65},{662-6.4*\v});
+\foreach \v in {5,10,...,90} \draw[gray!55,line width=0.4pt] (108,{662-6.4*\v})--(932,{662-6.4*\v});
+\foreach \i in {0,...,4} \draw[gray!55,line width=0.4pt] ({193+168.2*\i},662)--({193+168.2*\i},86);
+\foreach \v [count=\i from 0] in {90,45,40,20,5}{
+  \draw ({193+168.2*\i-65},662) rectangle ({193+168.2*\i+65},{662-6.4*\v});
+  \node[anchor=south,inner sep=2pt] at ({193+168.2*\i},{662-6.4*\v}) {$\v$};}
+\draw (108,86)--(108,662)--(932,662)--(932,86);
+\foreach \i in {0,...,4} \draw ({193+168.2*\i},662)--({193+168.2*\i},677);
+\foreach \v in {5,10,15,25,30,35,45,50,55,65,70,75,85,90} \draw (108,{662-6.4*\v})--(98,{662-6.4*\v});
+\foreach \v in {20,40,60,80}{ \draw (108,{662-6.4*\v})--(92,{662-6.4*\v});
+  \node[anchor=east,inner sep=2pt] at (88,{662-6.4*\v}) {$\v$};}
+\foreach \p in {5,10,15,25,30,35,45,50,55,65,70,75,85,90,95} \draw (925,{662-5.76*\p})--(940,{662-5.76*\p});
+\foreach \p in {20,40,60,80,100}{ \draw (920,{662-5.76*\p})--(946,{662-5.76*\p});
+  \node[anchor=west,inner sep=2pt] at (962,{662-5.76*\p}) {$\p$};}
+\node at (100,40) {$y$};
+\node at (965,42) {$\%$};
+\node at (968,682) {$x$};
+\end{tikzpicture}
+\end{document}

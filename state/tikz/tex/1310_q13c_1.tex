@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (B) at (216,230);
+  \coordinate (D) at (216,30);
+  \coordinate (A) at (640,230);
+  \coordinate (C) at (358,358);
+  % north lines and east line
+  \draw[aux,->] (12.1,417.5) -- (394.8,65.5);
+  \draw[aux,->] (A) -- (800,83);
+  \draw[aux,->] (B) -- (775,230);
+  \draw[aux] (B) -- (C) -- (A);
+  % pole and cables
+  \draw (B) -- (D) -- (A);
+  \draw (D) -- (C);
+  % right angle at B
+  \draw (216,217) -- (229,217) -- (229,230);
+  % theta at C
+  \draw ($(C)+(222.03:90)$) arc[start angle=222.03, end angle=246.59, radius=90];
+  \node at ($(C)+(234.3:62)$) {$\theta$};
+  % 210 degree bearing arc
+  \draw[aux,<->] ($(A)+(-42.58:86)$) arc[start angle=-42.58, end angle=155.6, radius=86];
+  \node[rotate=-20, inner sep=1pt] at (677,255) {$210^\circ$};
+  % labels
+  \node at (200,15) {$D$};
+  \node at (186,222) {$B$};
+  \node at (641,201) {$A$};
+  \node at (362,382) {$C$};
+  \node at (424,40) {$N$};
+  \node at (820,62) {$N$};
+  \node[anchor=west] at (780,230) {East};
+  \node at (402,212) {18 m};
+  \node at (551,212) {$30^\circ$};
+  \path (C) -- (A) node[pos=0.5, sloped, above, inner sep=2pt] {12 m};
+\end{tikzpicture}
+\end{document}

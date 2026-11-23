@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (162,162);
+  \draw (O) circle (132);
+  \draw (O) -- ++(270:132);
+  \draw (O) -- ++(150:132);
+  \draw (O) -- ++(30:132);
+  \draw[->] (O) -- (248,152);
+  \fill (O) circle (5);
+  \begin{scope}[every node/.style={font=\scriptsize, inner sep=1pt}]
+    \node at (105,110) {RED};
+    \node at (226,110) {YELLOW};
+    \node at (162,228) {GREEN};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,40 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\HX#1{178+(#1-15)*17.733}
+\def\FY#1{522-(#1)*15.733}
+% bars
+\foreach \a/\h in {16/3,20/5,24/7,28/13,32/18,36/28,40/30}{
+  \fill[black!25] ({\HX{\a}},522) rectangle ({\HX{\a+4}},{\FY{\h}});
+}
+% grid
+\foreach \h in {16,...,47}{\pgfmathtruncatemacro\m{mod(\h,5)}
+  \ifnum\m=0 \draw[black!45,line width=0.5pt] ({\HX{\h}},522) -- ({\HX{\h}},{\FY{30}});
+  \else \draw[black!22,line width=0.3pt] ({\HX{\h}},522) -- ({\HX{\h}},{\FY{30}}); \fi}
+\draw[black!45,line width=0.5pt] ({\HX{15}},522) -- ({\HX{15}},{\FY{30}});
+\foreach \f in {1,...,30}{\pgfmathtruncatemacro\m{mod(\f,5)}
+  \ifnum\m=0 \draw[black!45,line width=0.5pt] ({\HX{15}},{\FY{\f}}) -- ({\HX{47}},{\FY{\f}});
+  \else \draw[black!22,line width=0.3pt] ({\HX{15}},{\FY{\f}}) -- ({\HX{47}},{\FY{\f}}); \fi}
+% bar outlines
+\foreach \a/\h in {16/3,20/5,24/7,28/13,32/18,36/28,40/30}{
+  \draw ({\HX{\a}},522) rectangle ({\HX{\a+4}},{\FY{\h}});
+}
+% axes
+\draw[->] (112,530) -- (112,15);
+\draw (105,522) -- (144,522);
+\draw[->] (175,522) -- (777,522);
+\draw (140,532) -- (154,512);
+\draw (164,532) -- (178,512);
+\foreach \f in {1,...,30}{\pgfmathtruncatemacro\m{mod(\f,5)}
+  \ifnum\m=0 \draw (104,{\FY{\f}}) -- (120,{\FY{\f}});
+    \node[anchor=east] at (98,{\FY{\f}}) {$\f$};
+  \else \draw (108,{\FY{\f}}) -- (116,{\FY{\f}}); \fi}
+\foreach \h in {15,...,47}{\pgfmathtruncatemacro\m{mod(\h,5)}
+  \ifnum\m=0 \draw ({\HX{\h}},522) -- ({\HX{\h}},534);
+    \node at ({\HX{\h}},562) {$\h$};
+  \else \draw ({\HX{\h}},522) -- ({\HX{\h}},530); \fi}
+\node at (445,608) {Hours worked per week};
+\node[rotate=90] at (30,285) {Cumulative Frequency};
+\end{tikzpicture}
+\end{document}

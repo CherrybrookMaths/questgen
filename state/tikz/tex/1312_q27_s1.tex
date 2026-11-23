@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (88,305)--(555,305);
+\draw[->] (97,318)--(97,25);
+\draw (92,68)--(102,68) (92,273)--(102,273);
+\draw[line width=0.9pt,smooth,samples=60,domain=1:14,variable=\t] plot ({137+(\t-1)*23.54},{305-(1518/(\t+4.289)-50)});
+\draw[line width=0.9pt] (97,305)--(133,305);
+\draw[line width=0.9pt,->] (447,305)--(514,305);
+\node[pt] at (137,68) {};
+\node[pt] at (443,272) {};
+\node[pt] at (97,305) {};
+\node[open pt] at (137,305) {};
+\node[open pt] at (443,305) {};
+\node[anchor=east] at (85,68) {$\dfrac{2}{\ln 27}$};
+\node[anchor=east] at (85,268) {$\dfrac{2}{27\ln 27}$};
+\node at (83,330) {$0$};
+\node at (137,330) {$1$};
+\node at (443,330) {$14$};
+\node at (80,30) {$y$};
+\node at (560,325) {$x$};
+\end{tikzpicture}
+\end{document}

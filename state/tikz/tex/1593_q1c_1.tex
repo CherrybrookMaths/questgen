@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.67945cm,y=0.5207cm]
+  % grid
+  \draw[black!18,line width=0.4pt] (-5,-5) grid[step=0.5] (3,5);
+  \draw[black!30,line width=0.4pt] (-2,-5) -- (-2,5);
+  % axes
+  \draw[<->] (-5.5,0) -- (3.6,0) node[right,inner sep=2pt]{$x$};
+  \draw[<->] (0,-5.6) -- (0,5.6) node[above,inner sep=2pt]{$y$};
+  \foreach \t in {-5,-4.5,...,3} \draw[line width=0.4pt] (\t,-0.1) -- (\t,0.1);
+  \foreach \t in {-5,-4.5,...,5} \draw[line width=0.4pt] (-0.08,\t) -- (0.08,\t);
+  \foreach \t in {-4,-2,2} \node[below,inner sep=3pt] at (\t,-0.15) {$\t$};
+  \node[right,inner sep=2pt] at (0.08,4) {$4$};
+  \foreach \t in {2,-2,-4} \node[left,inner sep=2pt] at (-0.08,\t) {$\t$};
+  % graphs
+  \draw[<->,line width=0.9pt] (-5.5,3) -- (3.6,3);
+  \draw[<->,line width=0.9pt,smooth,samples=90,domain=-4.1:2.1] plot (\x,{3-2*\x-\x*\x});
+  \node[anchor=south] at (2.55,3.1) {$y=3$};
+  \node at (2.95,-6.4) {$y=3-2x-x^2$};
+\end{tikzpicture}
+\end{document}

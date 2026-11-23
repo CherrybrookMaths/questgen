@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\RX#1{163+(#1)*57.08}
+\def\VY#1{440-(#1)*1.472}
+\draw (19,4) rectangle (884,532);
+\node[font=\fontsize{9}{11}\selectfont] at (485,22) {Player Ranking vs Hours Played};
+\foreach \r in {0,2,...,12}{\draw ({\RX{\r}},{\VY{0}}) -- ({\RX{\r}},{\VY{250}});}
+\foreach \v in {0,50,...,250}{\draw ({\RX{0}},{\VY{\v}}) -- ({\RX{12}},{\VY{\v}});}
+\foreach \v in {50,100,...,250}{\node[anchor=east,font=\small] at (150,{\VY{\v}}) {$\v$};}
+\foreach \r in {2,4,...,12}{\node[font=\small] at ({\RX{\r}},461) {$\r$};}
+\node[font=\small] at (135,461) {$0$};
+\node[font=\fontsize{9}{11}\selectfont] at (485,503) {Ranking in game};
+\node[rotate=90,font=\fontsize{7.5}{9}\selectfont] at (51,247) {Player experience ( hours played)};
+\foreach \r/\v in {1/197,2/145,3/92,4/103,5/90,6/97,7/53,8/37,9/14,10/8}{
+  \draw ({\RX{\r}-5},{\VY{\v}-5}) -- ({\RX{\r}+5},{\VY{\v}+5});
+  \draw ({\RX{\r}-5},{\VY{\v}+5}) -- ({\RX{\r}+5},{\VY{\v}-5});
+}
+\end{tikzpicture}
+\end{document}

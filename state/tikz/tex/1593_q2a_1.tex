@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (203,325) -- (836,325);
+  \node at (826,348) {$x$};
+  \draw[->] (313,385) -- (313,12);
+  \node at (298,17) {$y$};
+  \node at (297,345) {$O$};
+  \draw[<->,line width=0.9pt] plot[smooth,tension=0.6] coordinates
+    {(265,375) (313,285) (383,185) (430,155) (485,185) (545,258) (597,288) (648,258) (705,180) (765,70)};
+  \foreach \p/\l/\dx in {(383,185)/A/-1,(485,185)/B/3,(545,258)/C/6,(648,258)/D/-1}
+    \fill \p circle (3.8) node[above,inner sep=0pt,yshift=4pt,xshift=\dx] {$\l$};
+\end{tikzpicture}
+\end{document}

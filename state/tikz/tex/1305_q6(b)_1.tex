@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5004cm,y=0.287cm]
+  \draw[black!18,line width=0.3pt,xstep=0.25,ystep=0.5] (-3,-1) grid (13.25,15);
+  \draw[black!32,line width=0.3pt,xstep=1,ystep=2] (-3,-1) grid (13.25,15);
+  \draw[<->] (-3.2,0) -- (13.4,0);
+  \draw[<->] (0,-1) -- (0,14.8);
+  \node at (-0.05,15.2) {$x$};
+  \node at (13.75,0) {$t$};
+  \foreach \t in {-2,-1,1,2,...,12} \draw (\t,-0.35) -- (\t,0.35);
+  \foreach \v in {1,...,13} \draw (-0.15,\v) -- (0.15,\v);
+  \foreach \t in {-2,2,4,...,12} \node[anchor=north,font=\small] at (\t,-0.4) {\halo{$\t$}};
+  \foreach \v in {2,4,...,12} \node[anchor=east,font=\small] at (-0.2,\v) {\halo{$\v$}};
+  \draw[fill=white] (0,0) circle (3pt);
+  \draw[->,line width=0.9pt] plot[smooth,domain=0:5.2,samples=60] (\x,{(\x-2)^2+4});
+  \draw[->,line width=0.9pt] plot[smooth,domain=0:13,samples=90] (\x,{4-ln(\x+1)});
+  \node at (5.3,15.0) {\halo{$P$}};
+  \node[anchor=west] at (5.6,14.4) {\halo{$x=(t-2)^2+4$}};
+  \node[anchor=west] at (5.55,3.45) {\halo{$x=4-\ln(t+1)$}};
+  \node at (12.9,2.3) {\halo{$Q$}};
+\end{tikzpicture}
+\end{document}

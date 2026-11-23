@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (343,155);
+\coordinate (B) at (343,312);
+\coordinate (A) at (217.2,61.0);
+\coordinate (C) at (29,312);
+\fill[shade] (C)--(A) arc[start angle=-143.2, end angle=-270, radius=157]--cycle;
+\draw (O) circle[radius=157];
+\draw (C)--(A) (C)--(B) (O)--(A) (O)--(B);
+\draw[aux] (C)--(O);
+\draw (226.8,68.2)--(219.6,77.8)--(210.0,70.6);
+\draw (343,299)--(330,299)--(330,312);
+\foreach \p in {A,B,C,O} \fill (\p) circle[radius=5.5];
+\node at (198,58) {$A$};
+\node[anchor=west] at (350,155) {$O$};
+\node[anchor=north] at (343,316) {$B$};
+\node[anchor=north] at (28,316) {$C$};
+\node at (308,150) {$\theta$};
+\node at (316,98) {5 cm};
+\node at (72,170) {12 cm};
+\node[anchor=north] at (182,316) {12 cm};
+\end{tikzpicture}
+\end{document}

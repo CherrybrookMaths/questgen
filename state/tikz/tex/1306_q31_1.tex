@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % regions (colour original: R red, B blue -> two greys)
+  \fill[black!15] (147,134) -- (497,134)
+     -- plot[domain=350:174, samples=60, smooth, variable=\t] ({147+\t},{518-0.003135*\t*\t})
+     -- (147,423) -- cycle;
+  \fill[black!38] (321,518)
+     -- plot[domain=174:350, samples=60, smooth, variable=\t] ({147+\t},{518-0.003135*\t*\t})
+     -- (497,518) -- cycle;
+  \draw (147,134) -- (497,134) -- (497,518);
+  \draw (147,423) -- (321,423) -- (321,518);
+  \draw[->] (10,518) -- (783,518);
+  \draw[->] (147,672) -- (147,32);
+  \node[font=\large] at (783,543) {$x$};
+  \node[font=\large] at (122,42) {$y$};
+  \draw[line width=0.9pt, domain=0:394, samples=90, smooth, variable=\t] plot ({147+\t},{518-0.003135*\t*\t});
+  \node[font=\large] at (625,24) {$y=x^n$};
+  \node[font=\large] at (321,545) {$a$};
+  \node[font=\large] at (497,547) {$b$};
+  \node[font=\LARGE] at (277,265) {$R$};
+  \node[font=\LARGE] at (420,407) {$B$};
+\end{tikzpicture}
+\end{document}

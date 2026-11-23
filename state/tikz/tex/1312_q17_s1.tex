@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (10,210) -- (370,210);
+  \draw[->] (190,380) -- (190,35);
+  \draw[line width=0.9pt,<->] plot[smooth,domain=-80:78,samples=90] ({148+\x},{210-136*(\x/78)^3});
+  \node[pt] at (148,210) {};
+  \node at (143,241) {$-1$};
+  \node at (175,40) {$y$};
+  \node at (365,232) {$x$};
+\end{tikzpicture}
+\end{document}

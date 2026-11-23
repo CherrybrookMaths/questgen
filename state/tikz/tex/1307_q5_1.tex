@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \fill[shade] (196,328) -- plot[smooth, domain=0:1.0472, samples=30] ({196+146.1*\x},{328-222*cos(deg(1.5*\x))}) -- cycle;
+  \draw[->] (0,328) -- (893,328);
+  \draw[->] (196,615) -- (196,0);
+  \draw[line width=0.9pt] plot[smooth, domain=0:3.14159, samples=90] ({196+146.1*\x},{328-222*cos(deg(1.5*\x))});
+  \node[font=\large] at (250,243) {$2\ \text{u}^2$};
+  \node[font=\large] at (333,382) {$\dfrac{\pi}{3}$};
+  \node[font=\large] at (676,350) {$\pi$};
+  \node[font=\large] at (858,355) {$x$};
+  \node[font=\large] at (180,45) {$y$};
+\end{tikzpicture}
+\end{document}

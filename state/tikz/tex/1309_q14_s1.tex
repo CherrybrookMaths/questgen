@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{13}\selectfont]
+\foreach \v [count=\i from 0] in {90,45,40,20,5}
+  \draw[fill=black!30,draw=black!60] ({139+158*\i-63},692) rectangle ({139+158*\i+63},{692-7.15*\v});
+\foreach \v in {5,10,15,25,30,35,45,50,55,65,70,75,85,90} \draw[gray!35,line width=0.4pt] (60,{692-7.15*\v})--(848,{692-7.15*\v});
+\foreach \v in {20,40,60,80} \draw[gray!65,line width=0.4pt] (60,{692-7.15*\v})--(848,{692-7.15*\v});
+\foreach \i in {0,...,4} \draw[gray!50,line width=0.4pt] ({139+158*\i},692)--({139+158*\i},48);
+\foreach \v [count=\i from 0] in {90,45,40,20,5}
+  \node[anchor=south,inner sep=1.5pt] at ({139+158*\i},{692-7.15*\v}) {$\v$};
+% axes
+\draw (60,48)--(60,692)--(848,692)--(848,48);
+\foreach \i in {0,...,4} \draw ({139+158*\i},692)--({139+158*\i},702);
+\foreach \v in {5,10,15,25,30,35,45,50,55,65,70,75,85,90} \draw (60,{692-7.15*\v})--(52,{692-7.15*\v});
+\foreach \v in {20,40,60,80}{ \draw (60,{692-7.15*\v})--(46,{692-7.15*\v});
+  \node[anchor=east,inner sep=2pt] at (44,{692-7.15*\v}) {$\v$};}
+\foreach \p in {5,10,15,25,30,35,45,50,55,65,70,75,85,90,95} \draw (848,{692-6.44*\p})--(856,{692-6.44*\p});
+\foreach \p in {20,40,60,80,100}{ \draw (848,{692-6.44*\p})--(862,{692-6.44*\p});
+  \node[anchor=west,inner sep=2pt] at (864,{692-6.44*\p}) {$\p$};}
+% cumulative percentage line
+\draw[line width=0.9pt] (139,{692-6.44*45})--(297,{692-6.44*67.5})--(455,{692-6.44*87.5})--(613,{692-6.44*97.5})--(771,{692-6.44*100});
+\foreach \x/\p in {139/45,297/67.5,455/87.5,613/97.5,771/100}
+  \draw[fill=black!45] (\x,{692-6.44*\p}) circle[radius=6];
+\node at (57,24) {$y$};
+\node at (852,24) {$\%$};
+\node at (860,692) {$x$};
+\end{tikzpicture}
+\end{document}

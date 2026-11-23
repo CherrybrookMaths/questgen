@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\u{28.444}
+  \def\lf{\fontsize{9}{11}\selectfont}
+  % axis
+  \draw (12,236) -- (697,236);
+  \foreach \v in {0,2,...,18} {
+    \draw ({99+\u*\v},228) -- ({99+\u*\v},244);
+    \node[font=\lf] at ({99+\u*\v},259) {$\v$};
+  }
+  \node[font=\lf] at (355,291) {Age (years)};
+  \node[font=\fontsize{8.4}{10}\selectfont\bfseries] at (355,28) {Distribution of the ages of children in Numbertown};
+  % 2010
+  \node[font=\lf] at (38,97) {2010};
+  \begin{scope}[line width=0.9pt]
+    \draw ({99},89) -- ({99},105);
+    \draw ({99},97) -- ({99+2*\u},97);
+    \draw ({99+2*\u},76) rectangle ({99+12*\u},118);
+    \draw ({99+6*\u},76) -- ({99+6*\u},118);
+    \draw ({99+12*\u},97) -- ({99+18*\u},97);
+    \draw ({99+18*\u},89) -- ({99+18*\u},105);
+  \end{scope}
+  % 2000
+  \node[font=\lf] at (38,167) {2000};
+  \begin{scope}[line width=0.9pt]
+    \draw ({99},159) -- ({99},175);
+    \draw ({99},167) -- ({99+8*\u},167);
+    \draw ({99+8*\u},146) rectangle ({99+16*\u},188);
+    \draw ({99+12*\u},146) -- ({99+12*\u},188);
+    \draw ({99+16*\u},167) -- ({99+18*\u},167);
+    \draw ({99+18*\u},159) -- ({99+18*\u},175);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

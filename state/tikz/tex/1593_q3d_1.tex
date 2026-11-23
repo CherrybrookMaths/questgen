@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.84455cm,y=0.38735cm]
+\clip (-5.2,-6.1) rectangle (4.25,6.0);
+\foreach \i in {-10,...,8} \draw[black!20,line width=0.4pt] (\i/2,-5.6) -- (\i/2,5.2);
+\foreach \j in {-11,...,10} \draw[black!20,line width=0.4pt] (-5.2,\j/2) -- (4.25,\j/2);
+\draw (-5.2,0) -- (4.25,0);
+\draw[<->] (0,-6.0) -- (0,5.9);
+\foreach \i in {-10,...,8} \draw (\i/2,0.18) -- (\i/2,-0.18);
+\foreach \j in {-11,...,10} \draw (0.07,\j/2) -- (-0.07,\j/2);
+\foreach \i in {-4,-2,2,4} \node[anchor=north,inner sep=1pt] at (\i,-0.5) {\halo{$\i$}};
+\foreach \j in {-4,-2,2,4} \node[anchor=east,inner sep=1pt] at (-0.15,\j) {\halo{$\j$}};
+\draw[line width=0.9pt] (-5.3,-5.3) -- (4.3,4.3);
+\draw[line width=0.9pt,<->] plot[domain=-2.5:2.54,samples=90,smooth,variable=\t] ({\t},{4*\t-\t^3});
+\end{tikzpicture}
+\end{document}

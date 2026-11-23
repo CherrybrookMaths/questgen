@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6223cm,y=1.3208cm]
+\foreach \x in {1,...,16} \draw[black!22,line width=0.4pt] (\x,0)--(\x,6);
+\foreach \y in {1,...,6} \draw[black!22,line width=0.4pt] (0,\y)--(16,\y);
+\foreach \x in {5,10,15} \draw[black!45,line width=0.4pt] (\x,0)--(\x,6);
+\foreach \y in {2,4,6} \draw[black!45,line width=0.4pt] (0,\y)--(16,\y);
+\draw[->] (0,0) -- (17,0) node[right] {$t$};
+\draw[->] (0,0) -- (0,6.38) node[above] {$h$};
+\foreach \x in {1,...,16} \draw (\x,-0.05)--(\x,0.05);
+\foreach \y in {1,...,6} \draw (-0.1,\y)--(0.1,\y);
+\foreach \x in {5,10,15} \node[anchor=north,inner sep=0pt] at (\x,-0.2) {$\x$};
+\foreach \y in {2,4,6} \node[anchor=east,inner sep=0pt] at (-0.3,\y) {$\y$};
+\draw[line width=0.9pt,smooth,samples=90,domain=0:16] plot (\x,{4-2*sin(45*\x)});
+\end{tikzpicture}
+\end{document}

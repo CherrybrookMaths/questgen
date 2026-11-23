@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (183,58) ellipse [x radius=148, y radius=41];
+\draw (35,58) -- (35,443);
+\draw (331,58) -- (331,443);
+\draw plot[domain=0:180, samples=60, smooth] ({183+148*cos(\x)},{443+41*sin(\x)});
+\draw (183,58) -- ({183+148*cos(43.7)},{58+41*sin(43.7)});
+\node at (262,52) {$r$\,cm};
+\node[anchor=west] at (346,251) {$h$ cm};
+\end{tikzpicture}
+\end{document}

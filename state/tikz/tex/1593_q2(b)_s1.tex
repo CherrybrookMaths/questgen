@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.4cm,y=0.12cm]
+\draw[->] (-1.6,0) -- (4.9,0) node[right] {$x$};
+\draw[->] (0,-18.5) -- (0,34) node[above] {$y$};
+\node[anchor=north east,inner sep=0pt] at (-0.06,-1.6) {$O$};
+\draw[line width=0.9pt,<->] plot[domain=-1.25:4.2,samples=90,smooth,variable=\t] ({\t},{4*\t^3-\t^4});
+\fill (0,0) circle (1.6pt);
+\fill (3,27) circle (1.6pt) node[above=3pt] {$(3,27)$};
+\fill (2,16) circle (1.6pt);
+\node[anchor=north west,inner sep=1pt,align=left,font=\small] at (2.07,15) {$(2,16)$\\point of inflection};
+\fill (4,0) circle (1.6pt);
+\node[anchor=south west,inner sep=2pt] at (4.03,0.5) {$(4,0)$};
+\draw[->] (0.55,-7) -- (0.07,-1.2);
+\node[anchor=west,font=\small] at (0.55,-7.5) {horizontal point of inflection};
+\end{tikzpicture}
+\end{document}

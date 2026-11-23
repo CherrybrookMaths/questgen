@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,508) -- (678,508);
+  \draw[<->] (193,688) -- (193,40);
+  \node[font=\large] at (691,508) {$x$};
+  \node[font=\large] at (186,14) {$y$};
+  % y = x^2 and y = m x with 263.6 px per unit, m = 0.971
+  \draw[<->, line width=0.9pt, domain=-0.713:1.343, samples=90, smooth, variable=\t] plot ({193+263.6*\t},{508-263.6*\t*\t});
+  \draw[<->, line width=0.9pt] ({193-188},{508+188*0.971}) -- ({193+485},{508-485*0.971});
+\end{tikzpicture}
+\end{document}

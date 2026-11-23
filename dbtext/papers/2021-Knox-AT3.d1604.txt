@@ -1,0 +1,1751 @@
+# paper 2021-Knox-AT3 (document 1604)
+document
+  id: 1604
+  drive_file_id: 1Xbg23g0_5zIO5XzvP2Dwmvf-mEr-V9oK
+  source_path: Knox/Y12/Mathematics Advanced/AT3/2021 Y12 MA AT3.pdf
+  size_bytes: 545690
+  task_type: internal_exam
+  course: advanced
+  classification_method: explicit_cover
+  year_level: 12
+  school: Knox
+  year: 2021
+  natural_key: internal_exam|2021|knox|advanced
+  provenance_method: coverpage
+  page_count: 4
+  has_text_layer: 1
+  parse_path: digital
+  bundled_solutions: 0
+  syllabus_version: 2017
+  status: parsed
+  ingested_at: 2026-11-10T22:53:15
+  display_label: 2021 Knox Grammar School AT3
+  school_formal: Knox Grammar School
+  task_code: AT3
+
+## Q1(a)  key 2021-Knox-AT3-Q1a  id 4243
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 0
+  page_end: 0
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Differential calculus|Differentiation with trigonometric functions
+  home_source: computed
+  option A
+    latex: $\sin x$
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: $\cot x$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $\operatorname{cosec} x$
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: $\tan x \sec x$
+    is_correct: 1
+    key_source: generated
+  solution 6301
+    source: generated
+    latex: |
+      Write $\sec x = (\cos x)^{-1}$ and use the chain rule.
+      $$\begin{aligned} \dfrac{d}{dx}(\cos x)^{-1} &= -(\cos x)^{-2}\cdot(-\sin x) \\ &= \dfrac{\sin x}{\cos^2 x} \\ &= \tan x \sec x \end{aligned}$$
+      Hence the derivative of $\sec x$ is $\tan x \sec x$, which is option D.
+    source_document_id: 1604
+    model: claude-sonnet-5-5
+    prompt_version: gen-v2
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"confidence": 0.99, "generated_note": "MCQ working written from the answer key.", "self_check": "Standard derivative, rederived by chain rule."}
+  part -  id 6817
+    ordinal: 1
+    latex: What is the derivative of $\sec x$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-238
+      focus_area: Differential calculus
+      dot_point: Use the rules of differentiation to find the derivatives of cosec x, sec x and cot x
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 852
+      confidence: high
+      reason: Standard derivative of sec x by chain rule, multiple choice
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q1(b)  key 2021-Knox-AT3-Q1b  id 4244
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 0
+  page_end: 0
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
+  figure 1604_q1b_1.png
+    page: 0
+    bbox: [197, 456, 419, 688]
+    png_path: figures/1604_q1b_1.png
+    tikz_path: tikz/tex/1604_q1b_1.tex
+    caption: graphs of y=2/x and y=-x+3 with grid
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Drew y=2/x and y=-x+3 from their equations on a light grey unit grid at the crop's scale (131 px per unit, origin and crop extent taken from the crop). Both graphs are 0.9pt because the line crosses the axis (rule 9). Axes are 0.6pt with filled latex arrowheads (rules 3 and 4). The intersections at (1,2) and (2,1) are exact because both curves come from the equations (rules 10 and 16). In the crop the tick labels sit on the grid lines. Here they sit just to the left of their grid line, on the same side of each axis as in the crop (rules 11 and 24). Round 2 moved the y-label 3 below its grid line so it no longer touches y=-x+3. All labels are in the house maths font (rule 19). The red/blue left in the overlay is only label positions and the scan's thicker strokes.
+  part -  id 6818
+    ordinal: 1
+    latex: |
+      The graph below shows the curves $y=\dfrac{2}{x}$ and $y=-x+3$.
+
+      \exfigure{1604_q1b_1}
+
+      Find the area between $y=\dfrac{2}{x}$ and $y=-x+3$ between $x=1$ and $x=4$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-261
+      focus_area: Integral calculus
+      dot_point: Use the formula ∫xndx = 1 n+1 xn+1 + C for real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-269
+      focus_area: Integral calculus
+      dot_point: Derive and use the formula ∫1 x dx = ln |x| + C where x ≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-279
+      focus_area: Integral calculus
+      dot_point: Use definite integrals to solve problems involving the areas of regions bounded by the graph of the continuous function y = f(x), the x-axis and the lines x = a and x = b, in cases where f(x)≥0 throughout a ≤x ≤b, f(x)≤0 throughout a ≤x ≤b or where f(x) changes sign in the interval a ≤x ≤b, with or without the graph provided
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Area between curves
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals giving logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6302
+      source: generated
+      latex: |
+        From the graph, the curves meet at $x=1$ and $x=2$. Check: $\dfrac{2}{x} = -x+3$ gives $x^2-3x+2=0$, so $x=1$ or $x=2$.
+
+        For $1\le x\le 2$ the line is above the curve. For $2\le x\le 4$ the curve is above the line. So the area is
+        $$A=\int_1^2\left(-x+3-\dfrac{2}{x}\right)dx+\int_2^4\left(\dfrac{2}{x}+x-3\right)dx$$
+        First integral:
+        $$\begin{aligned} \left[-\dfrac{x^2}{2}+3x-2\ln x\right]_1^2 &= (-2+6-2\ln 2)-\left(-\dfrac{1}{2}+3\right) \\ &= \dfrac{3}{2}-2\ln 2 \end{aligned}$$
+        Second integral:
+        $$\begin{aligned} \left[2\ln x+\dfrac{x^2}{2}-3x\right]_2^4 &= (2\ln 4+8-12)-(2\ln 2+2-6) \\ &= 4\ln 2-4-2\ln 2+4 \\ &= 2\ln 2 \end{aligned}$$
+        Adding,
+        $$A=\dfrac{3}{2}-2\ln 2+2\ln 2$$
+        $$\therefore\ A=\dfrac{3}{2}\text{ units}^2$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Sets up the area as two integrals with the correct limits and integrands, or equivalent merit"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Figure is the question's own; no extra sketch needed.", "self_check": "Checked numerically with the two integrals; total 1.5."}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 184
+      confidence: medium
+      reason: Area between curves needs splitting at crossing x=2, log integrals
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q1(c)  key 2021-Knox-AT3-Q1c  id 4245
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 0
+  page_end: 0
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Integration with exponential functions
+  home_source: computed
+  part a  id 6819
+    ordinal: 1
+    latex: Differentiate $e^{x^2}$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-232
+      focus_area: Differential calculus
+      dot_point: Use the chain rule to differentiate functions of the form ef(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.92
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.92
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6303
+      source: generated
+      latex: |
+        Use the chain rule with $u=x^2$, so $\dfrac{d}{dx}e^{u}=e^{u}\dfrac{du}{dx}$.
+        $$\therefore\ \dfrac{d}{dx}\left(e^{x^2}\right)=2x\,e^{x^2}$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.99, "generated_note": null, "self_check": "Standard chain rule."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 226
+      confidence: high
+      reason: One-step chain rule on exponential
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 6820
+    ordinal: 2
+    latex: Hence find $\displaystyle\int_{-1}^{0} x e^{x^2}\,dx$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-242
+      focus_area: Integral calculus
+      dot_point: Define a primitive of a function f(x) as a function F(x) whose derivative F'(x)= f(x) and recognise the process of finding the primitive as the reverse of differentiation
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.82
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-267
+      focus_area: Integral calculus
+      dot_point: Establish and use ∫eu du dx dx = eu + C, where u is a function of x, or ∫f'(x)ef(x)dx = ef(x) + C
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.82
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.82
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integration using a given derivative
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6304
+      source: generated
+      latex: |
+        From part (a), $\dfrac{d}{dx}\left(e^{x^2}\right)=2x\,e^{x^2}$, so $\displaystyle\int x e^{x^2}\,dx=\dfrac{1}{2}e^{x^2}+C$.
+        $$\begin{aligned} \int_{-1}^{0} x e^{x^2}\,dx &= \left[\dfrac{1}{2}e^{x^2}\right]_{-1}^{0} \\ &= \dfrac{1}{2}e^{0}-\dfrac{1}{2}e^{1} \\ &= \dfrac{1-e}{2} \end{aligned}$$
+        $$\therefore\ \int_{-1}^{0} x e^{x^2}\,dx=\dfrac{1-e}{2}$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Finds the primitive $\\dfrac{1}{2}e^{x^2}$, or equivalent merit"]]
+      meta_json: {"confidence": 0.99, "generated_note": null, "self_check": "Differentiating the primitive returns the integrand."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 227
+      confidence: high
+      reason: Hence integral using reverse chain rule, then evaluate definite limits
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q2(a)  key 2021-Knox-AT3-Q2a  id 4246
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Differential calculus|Differentiation with logarithmic functions
+  home_source: computed
+  option A
+    latex: $\cos x$
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: $\tan x$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $\cot x$
+    is_correct: 1
+    key_source: generated
+  option D
+    latex: $-\cot x$
+    is_correct: 0
+    key_source: generated
+  solution 6305
+    source: generated
+    latex: |
+      Use the chain rule, $\dfrac{d}{dx}\ln f(x)=\dfrac{f'(x)}{f(x)}$, with $f(x)=\sin x$.
+      $$\dfrac{d}{dx}\ln(\sin x)=\dfrac{\cos x}{\sin x}=\cot x$$
+      Hence the answer is option C.
+    source_document_id: 1604
+    model: claude-sonnet-5-5
+    prompt_version: gen-v2
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"confidence": 0.99, "generated_note": "MCQ working written from the answer key.", "self_check": "Standard derivative."}
+  part -  id 6821
+    ordinal: 1
+    latex: What is the derivative of $\ln(\sin x)$?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-098
+      focus_area: Trigonometric identities and equations
+      dot_point: Establish the identities tan θ = sin θ cos θ and cot θ = cos θ sin θ, identifying the angles to be excluded in each identity
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-235
+      focus_area: Differential calculus
+      dot_point: Use the chain rule to differentiate functions of the form ln f(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-236
+      focus_area: Differential calculus
+      dot_point: Determine the formulas d dx(sin x)= cos x and d dx(cos x)= ― sin x informally by using the graphs of y = sin x and y = cos x and verify with graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of logarithmic functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal trigonometric ratios
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 852
+      confidence: high
+      reason: Direct f'/f derivative of log, multiple choice
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q2(b)  key 2021-Knox-AT3-Q2b  id 4247
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Differential calculus|Using derivatives
+  home_source: computed
+  part -  id 6822
+    ordinal: 1
+    latex: Find the equation of the tangent to $y=x^2e^{-x}$ at $x=1$.
+    marks: 3
+    needs_review: 0
+    tag 2024 Y12-229
+      focus_area: Differential calculus
+      dot_point: Apply the rules of differentiation to find the derivative of f(x)= keax, where k and a are constants
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.92
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.92
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-241
+      focus_area: Differential calculus
+      dot_point: Solve problems involving equations of tangents and normals to curves involving any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.92
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Product rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Tangents and normals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6306
+      source: generated
+      latex: |
+        Using the product rule, $\dfrac{d}{dx}(uv)=u'v+uv'$, with
+        $$\begin{aligned} u&=x^2 & v&=e^{-x}\\ u'&=2x & v'&=-e^{-x}\end{aligned}$$
+        $$\begin{aligned} \dfrac{dy}{dx} &= 2x e^{-x}-x^2e^{-x} \\ &= e^{-x}(2x-x^2) \end{aligned}$$
+        At $x=1$:
+        $$y=e^{-1}=\dfrac{1}{e},\qquad \dfrac{dy}{dx}=e^{-1}(2-1)=\dfrac{1}{e}$$
+        The tangent through $\left(1,\dfrac{1}{e}\right)$ with gradient $\dfrac{1}{e}$ is
+        $$\begin{aligned} y-\dfrac{1}{e} &= \dfrac{1}{e}(x-1) \\ y &= \dfrac{x}{e} \end{aligned}$$
+        $$\therefore\ y=\dfrac{x}{e}$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[3, "Correct answer"], [2, "Finds the gradient and the point of tangency, or equivalent merit"], [1, "Differentiates correctly using the product rule, or equivalent merit"]]
+      meta_json: {"confidence": 0.98, "generated_note": null, "self_check": "Tangent passes through the origin; value at x=1 checked."}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 169
+      confidence: high
+      reason: Product rule then standard tangent equation
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: shifted
+
+## Q2(c)  key 2021-Knox-AT3-Q2c  id 4248
+  section: II
+  question_type: short
+  stem_latex: Find
+  marks_total: 2
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Integration with logarithmic functions
+  home_source: computed
+  part a  id 6823
+    ordinal: 1
+    latex: $\displaystyle\int 40-e^{-2x+4}\,dx$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-261
+      focus_area: Integral calculus
+      dot_point: Use the formula ∫xndx = 1 n+1 xn+1 + C for real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.88
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-265
+      focus_area: Integral calculus
+      dot_point: Establish and use the formula ∫eax+bdx = 1 a eax+b + C, where a and b are constants and a ≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.88
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6307
+      source: generated
+      latex: |
+        Since $\dfrac{d}{dx}e^{-2x+4}=-2e^{-2x+4}$, we have $\displaystyle\int e^{-2x+4}\,dx=-\dfrac{1}{2}e^{-2x+4}$.
+        $$\therefore\ \int 40-e^{-2x+4}\,dx=40x+\dfrac{1}{2}e^{-2x+4}+C$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.99, "generated_note": null, "self_check": "Differentiated the result to recover the integrand."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 308
+      confidence: high
+      reason: Routine integral of constant and linear-exponent exponential
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 6824
+    ordinal: 2
+    latex: $\displaystyle\int \dfrac{x^3-2x}{x^4-4x^2}\,dx$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-271
+      focus_area: Integral calculus
+      dot_point: Establish and use ∫u' u dx = ln|u| + C, where u is a function of x, or ∫f'(x) f(x) dx = ln |f(x)| + C, on a domain where f(x)≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.92
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals giving logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6308
+      source: generated
+      latex: |
+        The derivative of the denominator is $4x^3-8x=4(x^3-2x)$, which is $4$ times the numerator.
+        $$\begin{aligned} \int \dfrac{x^3-2x}{x^4-4x^2}\,dx &= \dfrac{1}{4}\int \dfrac{4x^3-8x}{x^4-4x^2}\,dx \\ &= \dfrac{1}{4}\ln\left|x^4-4x^2\right|+C \end{aligned}$$
+        $$\therefore\ \dfrac{1}{4}\ln\left|x^4-4x^2\right|+C$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": null, "self_check": "Differentiating the result returns the integrand."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 327
+      confidence: high
+      reason: Recognise f'/f form with constant factor adjustment
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q3(a)  key 2021-Knox-AT3-Q3a  id 4249
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Differential calculus|Differentiation with exponential functions
+  home_source: computed
+  option A
+    latex: $2^x \ln 2$
+    is_correct: 1
+    key_source: generated
+  option B
+    latex: $e^{2x}$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $e^x \ln 2$
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: $\ln 2$
+    is_correct: 0
+    key_source: generated
+  solution 6309
+    source: generated
+    latex: |
+      Write $2^x=e^{x\ln 2}$ and use the chain rule.
+      $$\dfrac{d}{dx}e^{x\ln 2}=\ln 2\cdot e^{x\ln 2}=2^x\ln 2$$
+      Hence the answer is option A.
+    source_document_id: 1604
+    model: claude-sonnet-5-5
+    prompt_version: gen-v2
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"confidence": 0.99, "generated_note": "MCQ working written from the answer key.", "self_check": "Standard derivative of a^x."}
+  part -  id 6825
+    ordinal: 1
+    latex: Differentiate $2^x$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-231
+      focus_area: Differential calculus
+      dot_point: Prove and use the formula d dx(ax)= ( ln a )ax, where a is a constant and a > 0
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.96
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 852
+      confidence: high
+      reason: Recall derivative of a^x, multiple choice
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q3(b)  key 2021-Knox-AT3-Q3b  id 4250
+  section: II
+  question_type: short
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Integration with trigonometric functions
+  home_source: computed
+  part -  id 6826
+    ordinal: 1
+    latex: Find $\displaystyle\int \tan^2 x\,dx$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-102
+      focus_area: Trigonometric identities and equations
+      dot_point: Prove the Pythagorean identity cos2 x + sin2 x = 1, and the identities 1 + tan2 x = sec2 x and 1 + cot2 x = cosec2 x
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.88
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-103
+      focus_area: Trigonometric identities and equations
+      dot_point: Apply trigonometric identities to solve problems, simplify expressions and prove further trigonometric identities using substitution and/or reduction to sin x and cos x
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.88
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-249
+      focus_area: Integral calculus
+      dot_point: Use algebraic manipulation to express given functions in forms suitable for determining primitive functions
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.88
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-261
+      focus_area: Integral calculus
+      dot_point: Use the formula ∫xndx = 1 n+1 xn+1 + C for real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.88
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-272
+      focus_area: Integral calculus
+      dot_point: Establish and use the formulas ∫sin x dx = ― cos x + C, ∫cos x dx = sin x + C and ∫sec2 x dx = tan x + C
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.88
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Pythagorean identities
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6310
+      source: generated
+      latex: |
+        Use the identity $\tan^2 x = \sec^2 x - 1$.
+        $$\begin{aligned} \int \tan^2 x\,dx &= \int (\sec^2 x - 1)\,dx \\ &= \tan x - x + C \end{aligned}$$
+        $$\therefore\ \int \tan^2 x\,dx = \tan x - x + C$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "Generated solution.", "self_check": "Differentiated tan x - x to get sec^2 x - 1 = tan^2 x."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 210
+      confidence: medium
+      reason: Needs identity tan^2 = sec^2 - 1 before integrating
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q3(c)  key 2021-Knox-AT3-Q3c  id 4251
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
+  part -  id 6827
+    ordinal: 1
+    latex: Find the $x$ value of the maximum turning point on the curve $f(x)=\cos x-\sin x$ between $[0,2\pi]$.
+    marks: 3
+    needs_review: 0
+    tag 2024 Y11-101
+      focus_area: Trigonometric identities and equations
+      dot_point: Solve equations involving trigonometric ratios of angles, specified in degrees or radians, on a restricted domain
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-236
+      focus_area: Differential calculus
+      dot_point: Determine the formulas d dx(sin x)= cos x and d dx(cos x)= ― sin x informally by using the graphs of y = sin x and y = cos x and verify with graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-291
+      focus_area: Applications of calculus
+      dot_point: Analyse the stationary points of a function by testing values for f'(x), then classify the stationary points as local minima or local maxima where gradients change around the point, or horizontal points of inflection where gradients have the same sign on both sides of the point
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Second derivative test
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Stationary points and their nature
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Trigonometric equations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6311
+      source: generated
+      latex: |
+        Turning points occur where $f'(x)=0$.
+        $$f'(x) = -\sin x - \cos x$$
+        $$\begin{aligned} -\sin x - \cos x &= 0 \\ \tan x &= -1 \end{aligned}$$
+        For $0 \le x \le 2\pi$, $\tan x = -1$ gives $x = \dfrac{3\pi}{4}$ or $x = \dfrac{7\pi}{4}$.
+
+        The second derivative decides the nature of each point.
+        $$f''(x) = -\cos x + \sin x$$
+        $$\begin{aligned} f''\left(\dfrac{3\pi}{4}\right) &= \dfrac{\sqrt{2}}{2} + \dfrac{\sqrt{2}}{2} = \sqrt{2} > 0 &&\text{minimum}\\ f''\left(\dfrac{7\pi}{4}\right) &= -\dfrac{\sqrt{2}}{2} - \dfrac{\sqrt{2}}{2} = -\sqrt{2} < 0 &&\text{maximum} \end{aligned}$$
+        $$\therefore\ x = \dfrac{7\pi}{4}$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[3, "Correct answer"], [2, "Solves $f'(x)=0$ for both values of $x$, or equivalent merit"], [1, "Finds $f'(x)=-\\sin x-\\cos x$, or equivalent merit"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated solution.", "self_check": "f(7pi/4)=sqrt2 is the maximum value; f(3pi/4)=-sqrt2 the minimum."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 242
+      confidence: medium
+      reason: Solve tan x = -1 in domain, classify with second derivative
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q3(d)  key 2021-Knox-AT3-Q3d  id 4252
+  section: II
+  question_type: short
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Differential calculus|Using derivatives
+  home_source: computed
+  part -  id 6828
+    ordinal: 1
+    latex: Differentiate $y=\dfrac{2x}{\cos x}$, leaving your answer in terms of $\sec x$ and $\tan x$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-096
+      focus_area: Trigonometric identities and equations
+      dot_point: Establish the reciprocal ratios sec A = 1 cos A, cosec A = 1 sin A, and cot A = 1 tan A, identifying the angles to be excluded in each identity
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-098
+      focus_area: Trigonometric identities and equations
+      dot_point: Establish the identities tan θ = sin θ cos θ and cot θ = cos θ sin θ, identifying the angles to be excluded in each identity
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-236
+      focus_area: Differential calculus
+      dot_point: Determine the formulas d dx(sin x)= cos x and d dx(cos x)= ― sin x informally by using the graphs of y = sin x and y = cos x and verify with graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Product rule
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Quotient rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal trigonometric ratios
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6312
+      source: generated
+      latex: |
+        Write $y = \dfrac{2x}{\cos x} = 2x\sec x$ and use the product rule, $\dfrac{d}{dx}(uv)=u'v+uv'$, with
+        $$\begin{aligned} u&=2x & v&=\sec x\\ u'&=2 & v'&=\sec x\tan x\end{aligned}$$
+        $$\begin{aligned} \dfrac{dy}{dx} &= 2\sec x + 2x\sec x\tan x \end{aligned}$$
+        $$\therefore\ \dfrac{dy}{dx} = 2\sec x + 2x\sec x\tan x$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated solution.", "self_check": "Quotient rule gives (2cos x + 2x sin x)/cos^2 x, which equals the same expression."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 858
+      confidence: medium
+      reason: Rewrite as 2x sec x, product rule with sec derivative
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q4(a)  key 2021-Knox-AT3-Q4a  id 4253
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
+  part -  id 6829
+    ordinal: 1
+    latex: |
+      The volume of water in a rock pool at time $t$ hours is $V$ litres. The rate of change of the volume is given by $\dfrac{dV}{dt}=40\sin(0.5t)$.
+
+      At time $t=0$, the volume of water in the pool is 100 litres.
+
+      Find the volume of water when $t=2$ to the nearest whole number.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-250
+      focus_area: Integral calculus
+      dot_point: Determine f(x), given f'(x) and an initial condition f(a) = b where a and b are constants
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.88
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-273
+      focus_area: Integral calculus
+      dot_point: Establish and use indefinite integrals of the form ∫f(ax + b)dx, where a and b are constants and a ≠0, and f(x)= sin x, f(x)= cos x and f(x)= sec2 x
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.88
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-304
+      focus_area: Applications of calculus
+      dot_point: Use integration to solve practical problems on the rate of change of a quantity Q, where dQ dt or d2Q dt2 is given as a function of time t, together with sufficient initial conditions
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.88
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Primitives with initial conditions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Rates of change using integration
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6313
+      source: generated
+      latex: |
+        Integrate the rate of change to find $V$.
+        $$\begin{aligned} V &= \int 40\sin(0.5t)\,dt \\ &= -80\cos(0.5t) + C \end{aligned}$$
+        When $t=0$, $V=100$:
+        $$\begin{aligned} 100 &= -80\cos 0 + C \\ C &= 180 \end{aligned}$$
+        So $V = 180 - 80\cos(0.5t)$. When $t = 2$ (angle in radians):
+        $$\begin{aligned} V &= 180 - 80\cos 1 \\ &\approx 136.78 \end{aligned}$$
+        $$\therefore\ V \approx 137 \text{ litres}$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Integrates to find $V=-80\\cos(0.5t)+C$, or equivalent merit"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated solution.", "self_check": "Numerically 180-80*0.5403=136.78."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 270
+      confidence: high
+      reason: Integrate rate, find constant from initial value, evaluate
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q4(b)  key 2021-Knox-AT3-Q4b  id 4254
+  section: II
+  question_type: short
+  stem_latex: The amount of paracetamol $P$, in the human body, decreases from an initial amount of $P_0=400$mg according to the equation $\dfrac{dP}{dt}=-0.12P$ where $P$ is measured in mg and $t$ is the time in hours.
+  marks_total: 3
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
+  part a  id 6830
+    ordinal: 1
+    latex: Show that $P=400e^{-0.12t}$ is a solution to the equation $\dfrac{dP}{dt}=-0.12P$
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-229
+      focus_area: Differential calculus
+      dot_point: Apply the rules of differentiation to find the derivative of f(x)= keax, where k and a are constants
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.93
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-307
+      focus_area: Applications of calculus
+      dot_point: Verify by substitution that the function Q = Aekt satisfies the relationship dQ dt = kQ with A being the initial value of Q
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.93
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential growth and decay
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6314
+      source: generated
+      latex: |
+        Differentiate $P = 400e^{-0.12t}$.
+        $$\begin{aligned} \dfrac{dP}{dt} &= 400\times(-0.12)e^{-0.12t} \\ &= -0.12\left(400e^{-0.12t}\right) \\ &= -0.12P \end{aligned}$$
+        Also, when $t=0$, $P = 400e^{0} = 400 = P_0$.
+        $$\therefore\ P = 400e^{-0.12t} \text{ is a solution of } \dfrac{dP}{dt}=-0.12P$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "Generated solution.", "self_check": "Direct differentiation."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 869
+      confidence: high
+      reason: Differentiate given exponential and substitute to verify
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: shifted
+  part b  id 6831
+    ordinal: 2
+    latex: Find the time taken to the nearest minute to have 250mg of paracetamol left in the body.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-310
+      focus_area: Applications of calculus
+      dot_point: Model and solve growth and decay problems in various contexts using dQ dt = kQ, Q = Aekt and the graph of Q = Aekt for t ≥0, and justify conclusions in the context of the problem
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential growth and decay
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6315
+      source: generated
+      latex: |
+        Put $P = 250$ in $P = 400e^{-0.12t}$.
+        $$\begin{aligned} 250 &= 400e^{-0.12t} \\ e^{-0.12t} &= 0.625 \\ -0.12t &= \ln 0.625 \\ t &= \dfrac{\ln 0.625}{-0.12} \\ &\approx 3.9167 \text{ hours} \end{aligned}$$
+        Convert to minutes:
+        $$3.9167\times 60 \approx 235.0$$
+        $$\therefore\ \text{the time is } 235 \text{ minutes}$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Obtains $t=\\dfrac{\\ln 0.625}{-0.12}$, or equivalent merit"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated solution.", "self_check": "400*exp(-0.12*3.9167)=250.0."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 334
+      confidence: high
+      reason: Solve exponential equation with logs, convert units
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q4(c)  key 2021-Knox-AT3-Q4c  id 4255
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Indefinite integrals
+  home_source: computed
+  part a  id 6832
+    ordinal: 1
+    latex: Find $\dfrac{d}{dx}\sin^3 x$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-236
+      focus_area: Differential calculus
+      dot_point: Determine the formulas d dx(sin x)= cos x and d dx(cos x)= ― sin x informally by using the graphs of y = sin x and y = cos x and verify with graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.88
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.88
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6316
+      source: generated
+      latex: |
+        Use the chain rule with $u=\sin x$, so $\sin^3 x = u^3$.
+        $$\begin{aligned} \dfrac{d}{dx}\sin^3 x &= 3\sin^2 x\cdot\cos x \end{aligned}$$
+        $$\therefore\ \dfrac{d}{dx}\sin^3 x = 3\sin^2 x\cos x$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "Generated solution.", "self_check": "Chain rule."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 226
+      confidence: high
+      reason: Single chain rule application on power of sine
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 6833
+    ordinal: 2
+    latex: Hence find $\displaystyle\int \cos x\sin^2 x\,dx$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-242
+      focus_area: Integral calculus
+      dot_point: Define a primitive of a function f(x) as a function F(x) whose derivative F'(x)= f(x) and recognise the process of finding the primitive as the reverse of differentiation
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.82
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-263
+      focus_area: Integral calculus
+      dot_point: Prove by differentiation, and apply ∫un du dx dx = 1 n+1 un+1 + C, where u is a function of x, or ∫f'(x)[f(x)]ndx = 1 n+1 [f(x)]n+1 + C, for real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.82
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integration using a given derivative
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reverse chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6317
+      source: generated
+      latex: |
+        From part (a), $\dfrac{d}{dx}\sin^3 x = 3\sin^2 x\cos x$, so integrating both sides:
+        $$\int 3\sin^2 x\cos x\,dx = \sin^3 x + C$$
+        Divide by 3:
+        $$\therefore\ \int \cos x\sin^2 x\,dx = \dfrac{1}{3}\sin^3 x + C$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "Generated solution.", "self_check": "Differentiating the answer returns cos x sin^2 x."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 227
+      confidence: high
+      reason: Hence integral, reverse previous result and divide by 3
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q5  key 2021-Knox-AT3-Q5  id 4256
+  section: II
+  question_type: extended
+  stem_latex: |
+    A particle moves in a straight line.
+
+    Its velocity $v$ ms$^{-1}$ at time $t$ seconds is given by $v=\dfrac{6}{t+1}-3$
+  marks_total: 7
+  page_start: 2
+  page_end: 2
+  needs_review: 1
+  review_status: unreviewed
+  review_note: Part (c) says 'exact distance' but also '(answer to 2 decimal places)' - contradictory as printed
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
+  figure 1604_q5_s1.png
+    page: 0
+    bbox: []
+    png_path: figures/1604_q5_s1.png
+    tikz_path: tikz/tex/1604_q5_s1.tex
+    caption: solution diagram (drawn by Claude)
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: New sketch drawn from the worked solution: v=6/(t+1)-3 for t>=0, plotted smooth with 90 samples at 0.9pt and stopped before the arrowhead (rules 3a, 9 and 13). The dashed asymptote v=-3 uses the house aux style and is labelled below its right end. Dots mark (0,3), (1,0) and (5,-2) at their exact positions, and each label sits clear of the curve and the axes (rules 11 and 16). I added the dot and label at (5,-2) because the solution says the curve passes through it; the solution only asks for the intercepts and the asymptote to be labelled. Axes are labelled t and v with filled arrowheads.
+  part a  id 6834
+    ordinal: 1
+    latex: Find the acceleration of the particle when the particle is stationary.
+    marks: 2
+    needs_review: 1
+    tag 2024 Y11-133
+      focus_area: Introduction to differentiation
+      dot_point: Apply the chain rule: if y is a differentiable function of u, and u is a differentiable function of x, then dy dx = dy du × du dx or if h(x)= f g(x) for differentiable functions f(x) and g(x) then h'(x)= f' g(x) g'(x)
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.87
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-311
+      focus_area: Applications of calculus
+      dot_point: Determine the velocity and acceleration of a particle moving in a straight line given its displacement from a point as a function of time, and use the notation d2x dt2 or x to represent acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.87
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.87
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Displacement, velocity and acceleration
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Particles at rest and changing direction
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6318
+      source: generated
+      latex: |
+        The particle is stationary when $v=0$.
+        $$\begin{aligned} \dfrac{6}{t+1} - 3 &= 0 \\ t + 1 &= 2 \\ t &= 1 \end{aligned}$$
+        Acceleration is the derivative of velocity, with $v = 6(t+1)^{-1} - 3$.
+        $$a = \dfrac{dv}{dt} = -\dfrac{6}{(t+1)^2}$$
+        When $t=1$:
+        $$a = -\dfrac{6}{4} = -\dfrac{3}{2}$$
+        $$\therefore\ \text{the acceleration is } -\dfrac{3}{2} \text{ ms}^{-2}$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Finds $t=1$ when stationary, or finds $a=-\\dfrac{6}{(t+1)^2}$, or equivalent merit"]]
+      meta_json: {"confidence": 0.98, "generated_note": "Generated solution.", "self_check": "Checked v(1)=0 and a formula."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 878
+      confidence: high
+      reason: Solve v=0 then differentiate velocity and substitute
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 6835
+    ordinal: 2
+    latex: Sketch a graph of $v$ against $t$ for $t\geq 0$, indicating intercepts and asymptote(s) where applicable.
+    marks: 2
+    needs_review: 1
+    tag 2024 Y11-038
+      focus_area: Working with functions
+      dot_point: Graph functions of the form f(x) = k x, where k is a constant and k ≠0, and identify their hyperbolic shape and their asymptotes
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.72
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-142
+      focus_area: Introduction to differentiation
+      dot_point: Use graphs of functions and their derivatives, without the use of algebraic techniques, to describe and interpret physical phenomena
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.72
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-167
+      focus_area: Graph transformations
+      dot_point: Apply reflections, translations and dilations to functions within the scope of the Mathematics Advanced course, excluding trigonometric functions, determine the function rule and the graph of the transformed function, the domain and range of the transformed graph, any intercepts, asymptotes and discontinuities where appropriate, and describe which transformations have been applied
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.72
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.72
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Motion graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Sketching transformed graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Transformations of hyperbolas
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6319
+      source: generated
+      latex: |
+        Intercepts and asymptote:
+        $$\begin{aligned} t=0:\ v &= 6 - 3 = 3 \\ v=0:\ t &= 1 \end{aligned}$$
+        As $t \to \infty$, $\dfrac{6}{t+1} \to 0$, so $v \to -3$: the horizontal asymptote is $v=-3$.
+
+        \exfigure{1604_q5_s1}
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Finds the intercepts or the asymptote, or equivalent merit"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Generated solution; sketch requested.", "self_check": "v(0)=3, v(1)=0, v(5)=-2, asymptote v=-3."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 178
+      confidence: high
+      reason: Sketch translated hyperbola with intercepts and asymptote
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 6836
+    ordinal: 3
+    latex: |
+      Find the exact distance travelled by the particle in the first 5 seconds.
+
+      (answer to 2 decimal places).
+    marks: 3
+    needs_review: 1
+    tag 2024 Y12-261
+      focus_area: Integral calculus
+      dot_point: Use the formula ∫xndx = 1 n+1 xn+1 + C for real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.87
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-270
+      focus_area: Integral calculus
+      dot_point: Establish and use the formula ∫ 1 ax+b dx = 1 a ln|ax + b| + C, where a and b are constants and a ≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.87
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.87
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.87
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Displacement, velocity and acceleration
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Distance travelled
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals giving logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 6320
+      source: generated
+      latex: |
+        From the graph, $v \ge 0$ for $0 \le t \le 1$ and $v < 0$ for $1 < t \le 5$. The particle turns round at $t=1$, so the two stages are found separately.
+
+        An antiderivative of $v$ is
+        $$x = 6\ln(t+1) - 3t$$
+        Distance in the first second:
+        $$\begin{aligned} \int_0^1 v\,dt &= \big[6\ln(t+1) - 3t\big]_0^1 \\ &= (6\ln 2 - 3) - 0 \\ &= 6\ln 2 - 3 \end{aligned}$$
+        Displacement from $t=1$ to $t=5$:
+        $$\begin{aligned} \int_1^5 v\,dt &= (6\ln 6 - 15) - (6\ln 2 - 3) \\ &= 6\ln 3 - 12 \end{aligned}$$
+        This is negative ($\approx -5.41$), so the distance in this stage is $12 - 6\ln 3$.
+        $$\begin{aligned} \text{Total distance} &= (6\ln 2 - 3) + (12 - 6\ln 3) \\ &= 9 + 6\ln 2 - 6\ln 3 \\ &= 9 - 6\ln\dfrac{3}{2} \end{aligned}$$
+        $$\therefore\ \text{distance} = 9 - 6\ln\dfrac{3}{2} \approx 6.57 \text{ m}$$
+      source_document_id: 1604
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[3, "Correct answer"], [2, "Integrates $v$ correctly and evaluates both stages, or equivalent merit"], [1, "Identifies the change of direction at $t=1$, or finds an antiderivative $6\\ln(t+1)-3t$, or equivalent merit"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Generated solution; question wording says both 'exact' and '2 decimal places', so both forms are given.", "self_check": "Numerically: 1.1589 + 5.4082 = 6.5672."}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 879
+      confidence: medium
+      reason: Distance not displacement: split at direction change, log integrals
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-23
+      band_ai: 4
+      wm_ai: PR
+      source: model

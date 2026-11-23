@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+  \draw[->] (118,183) -- (462,183);
+  \draw[->] (290,340) -- (290,25);
+  \draw[aux] (118,183) -- (450,183);
+  \draw[line width=0.9pt,<->] plot[smooth,tension=0.6] coordinates {(140,190) (185,188) (215,183) (240,140) (257,72) (268,49) (279,70) (290,183) (300,290) (310,318) (322,302) (345,232) (368,183) (395,174) (440,172)};
+  \node at (283,16) {$y$};
+  \node at (456,202) {$x$};
+  \node at (271,202) {$O$};
+  \node[anchor=west] at (10,216) {asymptote at $y = 0$};
+\end{tikzpicture}
+\end{document}

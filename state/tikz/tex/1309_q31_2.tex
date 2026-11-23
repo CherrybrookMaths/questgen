@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,black!40]
+  \draw[->] (20,437)--(1025,437);
+  \draw[<->] (20,830)--(20,45);
+  \foreach \k in {1,...,24} {\pgfmathsetmacro\xx{20+38.8*\k}\draw (\xx,431)--(\xx,443);}
+  \foreach \k in {1,...,5} {\pgfmathsetmacro\xx{20+194*\k}\draw (\xx,427)--(\xx,447);}
+  \draw (20,437) circle (8);
+  \node at (215,478) {$1$};
+  \node at (409,478) {$2$};
+  \node at (603,478) {$3$};
+  \node at (813,478) {$4$};
+  \node at (989,478) {$5$};
+  \node at (20,15) {$v$};
+  \node[anchor=west] at (1030,437) {$t$};
+  \draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates {(20,437) (70,470) (128,483) (175,467) (215,437) (265,402) (320,391) (370,403) (409,437) (455,495) (500,565) (560,668) (615,742) (665,770) (710,746) (745,675) (772,570) (797,437)};
+\end{tikzpicture}
+\end{document}
