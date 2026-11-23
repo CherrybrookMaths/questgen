@@ -1279,3 +1279,21 @@ on the line counting the questions left out: "Include it yep." Rule in TAG_SPEC 
   state/work/difficulty/audit_flags.json) and its thin topics are worked out (fewer than 5 HSC references, or a Year 12 topic with no
   band-5 reference, by the model's own ratings: the same three topics as the 14 Nov list); each Guide worked example checks its
   question still has the shape its text describes and is left out if not; the Import line's year level is the course's `years` setting.
+
+**Checker feedback, 24 Nov.** Owner, on screenshots of Review: "Here are some bugs and comments." then "Go for the others".
+- **Figure names** (owner: "the question on the left is different to the one on the right"; 2021 Fort Street AT4 Q3(b) printed
+  `\exfigure{1305_q3(b)_s1}`): a figure or table name is `<doc>_q<number>_<k>`, the number without brackets (1305_q3b_s1). The 16 names
+  with brackets were renamed everywhere (tools/fig_ids.py --fix, page-db review keys moved too); the import makes no new ones
+  (tools/api_import.py FIG_ID and sketch ids) and batch_check blocks any.
+- **"Why this is here" in full** (owner: "the why this is here box get cut off"): reasons are stored whole (tools/triage.py; re-run with
+  --keep-tiers so no tier moves); a long one shows about two lines and a "more" / "less" toggle.
+- **Dollar amounts in notes** (owner: "some of the text came out a bit weird"): plain notes (why / look reasons, checker notes, flags,
+  calls, Claude's fix notes) show every $ of an amount literally; maths written on purpose in a note is still typeset (noteTxt, 02_text.js).
+- **One Recent decisions list** (owner: "merge the recent descision and recently approved list as they are different"): the right-hand
+  column lists every recent decision (approved, flagged, diagram changes requested, original kept, paper approvals, undone), newest
+  first, with QID, paper and question, time, what was decided and Undo. Undo puts back the record exactly when the decision was made in
+  this browser, else clears the approval / flag / diagram decision. The diagram step's own log is gone; the list collapses (Hide / Show)
+  as the 12 Nov log did ("Keep a log on the side ... That can collapse as well").
+- **Confidence badge** (owner sent "CONFIDENCE 0%" on a correct, corrected MCQ solution as a bug): a Claude-written solution corrected to
+  the checker's own answer shows "answer confirmed by the checker"; its generation-time confidence moved to meta.before_checker
+  (tools/stale_fixes.py confirm). The generate step now receives every table a question names (\extable), the cause of 0% placeholders.
