@@ -173,7 +173,8 @@ He said: "Make it both desktop and mobile friendly, I might want to approve on t
   - one big button that reads **Agree**, or **Save change** once something differs;
   - previous and next.
   - Saving moves on at once, without waiting for the save, just like approving in Review.
-- **Keys.** 2–6 set the band, F and P set the label, Enter or A saves, J/K and the arrow keys move between parts.
+- **Keys.** Owner 23 Nov: "In difficulty, change the 2,3,4,5,6 to qwert and F PS to d and f": Q W E R T set bands 2–6, D sets Fluency and F
+  Problem solving (shown on the buttons); Enter or A saves, J/K and the arrow keys move between parts.
 - **Storage.** Decisions are stored in the page database, collection `difficulty`, one doc per part id: `{band, wm, status: agreed|changed, orig_band, orig_wm, by, at}`. "To check" hides the parts already decided; "All" lets him revisit them.
 - **Spot-check (14 Nov).** He finished the thin topics with 19 of 19 agreed. I advised spot-checking instead of all 288 remaining references, and he said "Yeah let's do that". The dropdown option **Spot-check** holds 42 parts:
   - the 9 parts the audit flagged, shown first;

@@ -10,7 +10,9 @@ function solHTML(q,s,mode){
   if(mode==='review'&&gen&&dec==='rejected') badges.push('<span class="badge b-bad">rejected</span>');
   const crit=(s.criteria||[]).filter(c=>c[1]);
   const single=crit.length===1&&/^(provides )?(the )?correct answer\.?$|^\(?[A-D]\)?$/i.test(crit[0][1].trim());
-  const ansCell=`<td class="m ans">${(show=>show?key:'')(mode==='review'||mode==='tags'||revealed.has(q.id))}</td>`;
+  // owner 23 Nov (screenshot of the Difficulty checker): "D is missing in answer table": the answer shows wherever the solution is
+  // open (the working names it anyway); the Bank card's Show answer still hides it on the question itself
+  const ansCell=`<td class="m ans">${esc(key)}</td>`;
   const mcqRows=[[crit.reduce((t,c)=>t+(+c[0]||0),0)||q.marks||1,'']];   // owner: MCQ criterion is always just "Correct answer"
   const rub=isMcq?`<table class="rub"><thead><tr><th scope="col">Marks</th><th scope="col">Answer</th><th scope="col">Criterion</th></tr></thead><tbody>${mcqRows.map((c,i)=>`<tr><td class="m">${c[0]??'–'}</td>${i===0?ansCell:'<td class="m"></td>'}<td>${c[1]?tex(c[1]):'Correct answer'}</td></tr>`).join('')}</tbody></table>`
    :crit.length?`<table class="rub"><thead><tr><th scope="col">Marks</th><th scope="col">Criterion</th></tr></thead><tbody>${crit.map(c=>`<tr><td class="m">${c[0]??'–'}</td><td>${tex(c[1])}</td></tr>`).join('')}</tbody></table>`:'';

@@ -696,6 +696,18 @@ async function flows(browser, base, seed, seedR) {
     assert(now !== was, `still on part ${was}`);
     return `part ${was} ${w[0].v.status}, now on part ${now}`;
   });
+  // owner 23 Nov: "In difficulty, change the 2,3,4,5,6 to qwert and F PS to d and f"
+  await check('difficulty: Q W E R T set the band, D and F the label; 2-6 no longer do', page, async () => {
+    const st = () => page.evaluate(() => ({b: document.querySelector('[data-lvb][aria-pressed="true"]')?.dataset.lvb, w: document.querySelector('[data-lvw][aria-pressed="true"]')?.dataset.lvw}));
+    await page.keyboard.press('t'); const a = await st(); await page.keyboard.press('q'); const b = await st();
+    await page.keyboard.press('f'); const c = await st(); await page.keyboard.press('d'); const d = await st();
+    await page.keyboard.press('4'); const e = await st();
+    const hints = await page.evaluate(() => [...document.querySelectorAll('.lvbands kbd, .lvwm kbd')].map(k => k.textContent).join(''));
+    errs();
+    assert(a.b === '6' && b.b === '2' && c.w === 'PR' && d.w === 'UF' && e.b === '2', `keys: t ${a.b}, q ${b.b}, f ${c.w}, d ${d.w}, 4 left band ${e.b}`);
+    assert(hints === 'QWERTDF', `key hints on the buttons: ${hints}`);
+    return 'T band 6, Q band 2, F Problem solving, D Fluency; 4 does nothing; hints QWERT D F';
+  });
   await page.context().close();
 }
 
@@ -3156,22 +3168,28 @@ async function skillGates(browser, base, seed) {
       const x = XSAVED.find(s => s.id === 'ePTgone'); exmLoad(x); const shown = EX.items.length; await xSaveDb(true);
       return {shown, gone: (EX.gone || []).length, saved: window.__pt.store.get('exams/ePTgone').items}; }, doc);
     assert(k.shown === 3 && k.gone === 1 && k.saved.length === 4 && k.saved.includes(99999991), `retired question: ${JSON.stringify(k)}`);
-    // 2. on Standard 2: the exam is listed with its course; opening it switches the page to Advanced; nothing is written
+    // owner 23 Nov (Difficulty checker screenshot): "D is missing in answer table": an open MCQ solution names its answer in every view
+    const ans = await page.evaluate(() => { const q = {id: -1, type: 'mcq', marks: 1, options: [{label: 'C', is_correct: false}, {label: 'D', is_correct: true}]};   // options arrive with a topic file
+      const t = document.createElement('div'); t.innerHTML = solHTML(q, {id: 1, source: 'generated', latex: 'x', criteria: [[1, 'Correct answer']], meta: {}}, 'bank');
+      return {key: q.options.find(o => o.is_correct).label, cell: t.querySelector('td.ans')?.textContent || ''}; });
+    assert(ans && ans.cell === ans.key, `MCQ answer cell in a Bank / Difficulty solution: ${JSON.stringify(ans)}`);
+    // 2. on Standard 2: the Advanced exam is not listed; opening it switches the page to Advanced; nothing is written
     await page.evaluate(() => { localStorage.setItem('course', 'standard'); location.hash = 'exams' }); await page.reload();
     await page.waitForFunction(() => typeof QG !== 'undefined' && QG.course === 'standard' && typeof B !== 'undefined' && B && B.questions, null, {timeout: 30000});
     const w = await page.evaluate(async d => { exmSub(); await QG.db.doc('exams/ePTadv').set(d); await new Promise(r => setTimeout(r, 300));
       const n0 = window.__pt.log.length, x = XSAVED.find(s => s.id === 'ePTadv');
       EX = {...EX, id: 'ePTadv', course: 'advanced', items: [], sub: 'stale'}; await xSaveDb(true);   // a stale Advanced exam must not save here
       const refused = window.__pt.log.length === n0 && window.__pt.store.get('exams/ePTadv').items.length === 3;
-      EXV.view = 'mine'; renderExams(); return {refused, tag: document.querySelector('[data-exm="ePTadv"] .exm-crs')?.textContent || ''}; }, doc);
+      EXV.view = 'mine'; renderExams(); return {refused, listed: !!document.querySelector('[data-exm="ePTadv"]'), lead: document.querySelector('#exMine .exm-lead')?.textContent || ''}; }, doc);
     assert(w.refused, 'an Advanced exam was saved with the page on Standard 2');
-    assert(w.tag === 'Advanced', `My exams course tag: "${w.tag}"`);
-    await Promise.all([page.waitForNavigation({timeout: 20000}), page.evaluate(() => document.querySelector('[data-exm="ePTadv"] [data-exm-open]').click())]);
+    // owner 23 Nov: "you shouldn't even be able to see advanced exams in std and vice versa"
+    assert(!w.listed && /Standard 2 exam/.test(w.lead), `My exams on Standard 2 lists the Advanced exam: ${w.listed}, "${w.lead}"`);
+    await Promise.all([page.waitForNavigation({timeout: 20000}), page.evaluate(() => exmLoad(XSAVED.find(s => s.id === 'ePTadv')))]);   // any other way in (a stale link) switches the course
     await page.waitForFunction(() => typeof QG !== 'undefined' && QG.course === 'advanced', null, {timeout: 30000});
     const after = await page.evaluate(() => ({course: localStorage.getItem('course'), open: localStorage.getItem('exm_open')}));
     errs();
     assert(after.course === 'advanced', `opening it switched the course to ${after.course}`);
-    return 'retired question kept (4 saved); on Standard 2 the Advanced exam is tagged, never saved, and opens by switching to Advanced';
+    return 'retired question kept (4 saved); on Standard 2 the Advanced exam is not listed, never saved, and a direct open switches to Advanced';
   });
   await page.context().close();
 }

@@ -664,7 +664,10 @@ body.xpv-on{overflow:hidden}
 .lvok{min-height:48px;border:0;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px}
 .lvok.chg{background:var(--warn)}.lvok kbd{font:500 11px var(--sans);opacity:.7;border:1px solid rgba(255,255,255,.5);border-radius:4px;padding:0 5px}
 .lvempty{padding:40px 16px;text-align:center;color:var(--muted);border:1px dashed var(--line)}.lvempty b{color:var(--ink)}
-@media (hover:none){.lvok kbd{display:none}}
+/* owner 23 Nov: the band and label keys (Q W E R T, D, F) shown on their buttons */
+.lvbands button kbd,.lvwm button kbd{font:500 10px var(--sans);color:var(--muted);border:1px solid var(--line2);border-radius:4px;padding:0 4px;line-height:1.4}
+.lvwm button kbd{margin-left:6px}
+@media (hover:none){.lvok kbd,.lvbands button kbd,.lvwm button kbd{display:none}}
 @media (max-width:520px){.lvcard{padding:12px 12px 8px;border-radius:10px}.lvbands button span{display:none}.lvbands button{min-height:44px}}
 
 /* ---- Phone header (owner 14 Nov: "on mobile, more than half the screen is just the top bar, make it more space efficient") ----
@@ -1090,7 +1093,6 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .exm-t{all:unset;cursor:pointer;font:600 17px/1.25 var(--display);color:var(--ink);overflow-wrap:anywhere}
 .exm-t:hover{color:var(--accent)}.exm-t:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
 .exm-meta{font-size:13px;color:var(--muted)}
-.exm-crs{flex:none;font:600 11px var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);border:1px solid var(--line2);border-radius:99px;padding:1px 8px}
 .exm-cur{flex:none;font:600 11px var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border-radius:99px;padding:2px 8px}
 .exm-stats{display:grid;grid-template-columns:5.5em 10.5em 4.5em;gap:16px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}.exm-stats b{color:var(--ink)}
 .exm-warn{color:var(--warn)}.exm-l1 .exm-warn{flex:none;font:600 12px var(--sans);background:var(--warn-soft);border-radius:99px;padding:2px 8px}
@@ -2465,7 +2467,9 @@ function solHTML(q,s,mode){
   if(mode==='review'&&gen&&dec==='rejected') badges.push('<span class="badge b-bad">rejected</span>');
   const crit=(s.criteria||[]).filter(c=>c[1]);
   const single=crit.length===1&&/^(provides )?(the )?correct answer\.?$|^\(?[A-D]\)?$/i.test(crit[0][1].trim());
-  const ansCell=`<td class="m ans">${(show=>show?key:'')(mode==='review'||mode==='tags'||revealed.has(q.id))}</td>`;
+  // owner 23 Nov (screenshot of the Difficulty checker): "D is missing in answer table": the answer shows wherever the solution is
+  // open (the working names it anyway); the Bank card's Show answer still hides it on the question itself
+  const ansCell=`<td class="m ans">${esc(key)}</td>`;
   const mcqRows=[[crit.reduce((t,c)=>t+(+c[0]||0),0)||q.marks||1,'']];   // owner: MCQ criterion is always just "Correct answer"
   const rub=isMcq?`<table class="rub"><thead><tr><th scope="col">Marks</th><th scope="col">Answer</th><th scope="col">Criterion</th></tr></thead><tbody>${mcqRows.map((c,i)=>`<tr><td class="m">${c[0]??'–'}</td>${i===0?ansCell:'<td class="m"></td>'}<td>${c[1]?tex(c[1]):'Correct answer'}</td></tr>`).join('')}</tbody></table>`
    :crit.length?`<table class="rub"><thead><tr><th scope="col">Marks</th><th scope="col">Criterion</th></tr></thead><tbody>${crit.map(c=>`<tr><td class="m">${c[0]??'–'}</td><td>${tex(c[1])}</td></tr>`).join('')}</tbody></table>`:'';
@@ -4072,8 +4076,8 @@ function renderLevels(keep){
     <div class="lvq">${qBody(x.q,'bank')}</div></article>
     <div class="lvact" id="lvAct">
       <div class="lvwhy"><b>Our rating:</b> Band ${x.d.b} · ${LV_WM[x.d.wm]}${x.d.c==='l'?' · <span class="lvlow">low confidence</span>':''}<span class="lvr">${esc(x.d.r||'')}</span>${x.lean?`<span class="lvlean">${x.lean} other part${x.lean===1?'':'s'} were rated against this one</span>`:''}</div>
-      <div class="lvpick"><div class="lvbands" role="group" aria-label="Band">${[2,3,4,5,6].map(b=>`<button data-lvb="${b}" aria-pressed="${band===b}" title="Band ${b}: ${LV_BAND[b]}"><b>${b}</b><span>${['','','routine','standard','multi-step','non-routine','insight'][b]}</span></button>`).join('')}</div>
-        <div class="lvwm" role="group" aria-label="Working mathematically">${['UF','PR'].map(w=>`<button data-lvw="${w}" aria-pressed="${wm===w}">${w==='UF'?'Fluency':'Problem solving'}</button>`).join('')}</div></div>
+      <div class="lvpick"><div class="lvbands" role="group" aria-label="Band">${[2,3,4,5,6].map(b=>`<button data-lvb="${b}" aria-pressed="${band===b}" title="Band ${b}: ${LV_BAND[b]} (key ${'QWERT'[b-2]})"><b>${b}</b><kbd>${'QWERT'[b-2]}</kbd><span>${['','','routine','standard','multi-step','non-routine','insight'][b]}</span></button>`).join('')}</div>
+        <div class="lvwm" role="group" aria-label="Working mathematically">${['UF','PR'].map(w=>`<button data-lvw="${w}" aria-pressed="${wm===w}">${w==='UF'?'Fluency':'Problem solving'}<kbd>${w==='UF'?'D':'F'}</kbd></button>`).join('')}</div></div>
       <div class="lvgo"><button class="lvnav" data-lvnav="-1" aria-label="Previous" ${LVI?'':'disabled'}>‹</button>
         <button class="lvok ${changed?'chg':''}" id="lvOk">${dec?.status?(changed?'Saved: changed ✓':'Agreed ✓'):(band!==x.d.b||wm!==x.d.wm?'Save change':'Agree')}<kbd>↵</kbd></button>
         <button class="lvnav" data-lvnav="1" aria-label="Next" ${LVI<list.length-1?'':'disabled'}>›</button></div>
@@ -4103,8 +4107,10 @@ document.addEventListener('click',e=>{if(view!=='levels')return;
   const w=e.target.closest('[data-lvw]');if(w){lvSet('wm',w.dataset.lvw);return}
   const n=e.target.closest('[data-lvnav]');if(n&&!n.disabled){LVI+=+n.dataset.lvnav;renderLevels(true);window.scrollTo({top:0});return}
   if(e.target.closest('#lvOk')){lvSave();return}});
-document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('input,textarea,select'))return;
-  if(/^[2-6]$/.test(e.key)){lvSet('band',+e.key);e.preventDefault()}else if(e.key==='f'){lvSet('wm','UF')}else if(e.key==='p'){lvSet('wm','PR')}
+// owner 23 Nov: "In difficulty, change the 2,3,4,5,6 to qwert and F PS to d and f": Q W E R T set bands 2-6, D Fluency, F Problem solving
+const LV_KEYS={q:2,w:3,e:4,r:5,t:6};
+document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('input,textarea,select')||e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();
+  if(k in LV_KEYS){lvSet('band',LV_KEYS[k]);e.preventDefault()}else if(k==='d'){lvSet('wm','UF');e.preventDefault()}else if(k==='f'){lvSet('wm','PR');e.preventDefault()}
   else if(e.key==='Enter'||e.key==='a'){e.preventDefault();lvSave()}else if(e.key==='k'||e.key==='ArrowRight'){const l=lvList();if(LVI<l.length-1){LVI++;renderLevels(true)}}else if(e.key==='j'||e.key==='ArrowLeft'){if(LVI){LVI--;renderLevels(true)}}});
 </script>
 <script>
@@ -5042,10 +5048,12 @@ function exmLoad(x){if(exCourse(x)!==QG.course){save('course',exCourse(x));save(
   xsave();try{EXC.clear()}catch(e){}}
 function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
   if(!db){el.innerHTML='<div class="exm-empty">Saved exams live in the shared database. Open the page in claude.ai to see them.</div>';return}
-  const s=EXM.q.trim().toLowerCase();let L=XSAVED.filter(x=>!s||[x.title,x.sub,x.school].join(' ').toLowerCase().includes(s));
+  // owner 23 Nov: "you shouldn't even be able to see advanced exams in std and vice versa": My exams lists this course's exams only
+  const MINE=XSAVED.filter(x=>exCourse(x)===QG.course);
+  const s=EXM.q.trim().toLowerCase();let L=MINE.filter(x=>!s||[x.title,x.sub,x.school].join(' ').toLowerCase().includes(s));
   if(EXM.sort==='old')L=L.slice().reverse();else if(EXM.sort==='title')L=L.slice().sort((a,b)=>String(a.sub||a.title).localeCompare(String(b.sub||b.title)));
   const cur=exmState();
-  el.innerHTML=`<div class="exm-top"><div><div class="exm-eyebrow">Saved exams</div><h2>My exams</h2><p class="exm-lead">${XSAVED.length} saved exam${XSAVED.length===1?'':'s'}. Everyone with access to Questgen sees the same list.</p></div>
+  el.innerHTML=`<div class="exm-top"><div><div class="exm-eyebrow">Saved exams</div><h2>My exams</h2><p class="exm-lead">${MINE.length} saved ${esc(QG.courseData.short)} exam${MINE.length===1?'':'s'}. Everyone with access to Questgen sees the same list.</p></div>
     <div class="exm-ctl"><input type="search" id="exmQ" placeholder="Search titles" value="${esc(EXM.q)}" aria-label="Search saved exams">
       <select id="exmSort" aria-label="Sort"><option value="new"${EXM.sort==='new'?' selected':''}>Newest first</option><option value="old"${EXM.sort==='old'?' selected':''}>Oldest first</option><option value="title"${EXM.sort==='title'?' selected':''}>Title A–Z</option></select>
       <button type="button" class="act" data-exm-fresh>New exam</button></div></div>
@@ -5058,12 +5066,12 @@ function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
       const sch=x.school&&!/^\s*cmc\s+education\s*$/i.test(x.school)?' · '+esc(x.school):'';
       return `<li class="exm-row${open?' open':''}${ren||del?'':' go'}" data-exm="${esc(x.id)}">
         <div class="exm-main">${ren?`<div class="exm-ren"><input data-exm-rt value="${esc(x.sub||'')}" aria-label="Exam name" placeholder="Name"><button type="button" class="act ok" data-exm-rok>Save</button><button type="button" class="act ghost" data-exm-rx>Cancel</button></div>`
-            :`<div class="exm-l1"><button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>${open?'<span class="exm-cur">Open now</span>':''}${exCourse(x)!==QG.course?`<span class="exm-crs" title="Opens with the course switched to ${esc(QG.courses[exCourse(x)]?.name||'')}">${esc(QG.courses[exCourse(x)]?.short||exCourse(x))}</span>`:wn}</div>`}
+            :`<div class="exm-l1"><button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>${open?'<span class="exm-cur">Open now</span>':''}${wn}</div>`}
           <div class="exm-meta">${esc(x.title||'')}${sch} · Saved ${esc(exmWhen(x.at))}${who?' by '+esc(who):''}</div></div>
-        <div class="exm-stats">${exCourse(x)!==QG.course?`<span><b>${(x.items||[]).length}</b> questions</span>`:`<span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span><b>${Math.round(st.pr*100)}%</b> PS</span>`}</div>
+        <div class="exm-stats"><span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span><b>${Math.round(st.pr*100)}%</b> PS</span></div>
         <div class="exm-acts">${del?`<span class="exm-sure">Delete for everyone?</span><button type="button" class="act bad" data-exm-delok>Delete</button><button type="button" class="act ghost" data-exm-delx>Keep</button>`
           :`<button type="button" class="act ghost" data-exm-sim title="A new exam with the same settings and none of the questions in your saved exams">Make similar</button><span class="xmenu"><button type="button" class="act ghost exm-more" data-xmenu aria-expanded="false" aria-label="More">⋯</button><span class="xmenu-pop" hidden><button type="button" class="act" data-exm-dup title="A copy with the same questions">Duplicate</button><button type="button" class="act" data-exm-ren>Rename</button><button type="button" class="act exm-del" data-exm-del>Delete</button></span></span>`}</div></li>`}).join('')}</ul>`
-      :`<div class="exm-empty">${XSAVED.length?'No saved exam matches that search.':'No saved exams yet. Build one in Exam setup or Pick by hand, then press <b>Save exam</b>.'}</div>`}`;
+      :`<div class="exm-empty">${MINE.length?'No saved exam matches that search.':'No saved exams yet. Build one in Exam setup or Pick by hand, then press <b>Save exam</b>.'}</div>`}`;
   if(EXM.ren){const i=el.querySelector('[data-exm-rt]');if(i){i.focus();i.select()}}}
 // the Saved / Unsaved marker (exHead), the My exams segment and container (renderExams), exRefresh and the refresh after
 // saving (xSaveDb) are folded into 24_exams.js and 20_exam.js
@@ -5120,7 +5128,7 @@ const EXAS={t:null,busy:false,at:null,ask:null,
   go(v){EXV.view=v;EXV.setupFor=null;EXV.mode=null;exSaveView();location.hash='#exams';if(view==='exams')renderExams()},
   // questions of the OTHER saved exams, by key (RKEY.items): id -> [{id, name, at}]
   used(){const u=this._u;if(u&&u.s===XSAVED&&u.e===EX.id)return u.m;const m=new Map();
-    (XSAVED||[]).forEach(x=>{if(x.id===EX.id)return;RKEY.items(x).forEach(i=>{if(!m.has(i))m.set(i,[]);m.get(i).push({id:x.id,name:x.sub||x.title||'Untitled',at:x.at})})});
+    (XSAVED||[]).forEach(x=>{if(x.id===EX.id||exCourse(x)!==QG.course)return;RKEY.items(x).forEach(i=>{if(!m.has(i))m.set(i,[]);m.get(i).push({id:x.id,name:x.sub||x.title||'Untitled',at:x.at})})});
     this._u={s:XSAVED,e:EX.id,m};return m},
   usedTag(q){const u=q&&this.used().get(q.id);if(!u||!u.length)return '';const d=t=>{const x=new Date(t);return isNaN(x)?'':' ('+x.toLocaleDateString('en-AU',{day:'numeric',month:'short'})+')'};
     return `<span class="exused" title="${esc('Used in: '+u.map(x=>x.name+d(x.at)).join('; '))}">Used in ${esc(u[0].name)}${d(u[0].at)}${u.length>1?` and ${u.length-1} more`:''}</span>`},

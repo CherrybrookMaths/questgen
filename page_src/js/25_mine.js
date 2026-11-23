@@ -28,10 +28,12 @@ function exmLoad(x){if(exCourse(x)!==QG.course){save('course',exCourse(x));save(
   xsave();try{EXC.clear()}catch(e){}}
 function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
   if(!db){el.innerHTML='<div class="exm-empty">Saved exams live in the shared database. Open the page in claude.ai to see them.</div>';return}
-  const s=EXM.q.trim().toLowerCase();let L=XSAVED.filter(x=>!s||[x.title,x.sub,x.school].join(' ').toLowerCase().includes(s));
+  // owner 23 Nov: "you shouldn't even be able to see advanced exams in std and vice versa": My exams lists this course's exams only
+  const MINE=XSAVED.filter(x=>exCourse(x)===QG.course);
+  const s=EXM.q.trim().toLowerCase();let L=MINE.filter(x=>!s||[x.title,x.sub,x.school].join(' ').toLowerCase().includes(s));
   if(EXM.sort==='old')L=L.slice().reverse();else if(EXM.sort==='title')L=L.slice().sort((a,b)=>String(a.sub||a.title).localeCompare(String(b.sub||b.title)));
   const cur=exmState();
-  el.innerHTML=`<div class="exm-top"><div><div class="exm-eyebrow">Saved exams</div><h2>My exams</h2><p class="exm-lead">${XSAVED.length} saved exam${XSAVED.length===1?'':'s'}. Everyone with access to Questgen sees the same list.</p></div>
+  el.innerHTML=`<div class="exm-top"><div><div class="exm-eyebrow">Saved exams</div><h2>My exams</h2><p class="exm-lead">${MINE.length} saved ${esc(QG.courseData.short)} exam${MINE.length===1?'':'s'}. Everyone with access to Questgen sees the same list.</p></div>
     <div class="exm-ctl"><input type="search" id="exmQ" placeholder="Search titles" value="${esc(EXM.q)}" aria-label="Search saved exams">
       <select id="exmSort" aria-label="Sort"><option value="new"${EXM.sort==='new'?' selected':''}>Newest first</option><option value="old"${EXM.sort==='old'?' selected':''}>Oldest first</option><option value="title"${EXM.sort==='title'?' selected':''}>Title A–Z</option></select>
       <button type="button" class="act" data-exm-fresh>New exam</button></div></div>
@@ -44,12 +46,12 @@ function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
       const sch=x.school&&!/^\s*cmc\s+education\s*$/i.test(x.school)?' · '+esc(x.school):'';
       return `<li class="exm-row${open?' open':''}${ren||del?'':' go'}" data-exm="${esc(x.id)}">
         <div class="exm-main">${ren?`<div class="exm-ren"><input data-exm-rt value="${esc(x.sub||'')}" aria-label="Exam name" placeholder="Name"><button type="button" class="act ok" data-exm-rok>Save</button><button type="button" class="act ghost" data-exm-rx>Cancel</button></div>`
-            :`<div class="exm-l1"><button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>${open?'<span class="exm-cur">Open now</span>':''}${exCourse(x)!==QG.course?`<span class="exm-crs" title="Opens with the course switched to ${esc(QG.courses[exCourse(x)]?.name||'')}">${esc(QG.courses[exCourse(x)]?.short||exCourse(x))}</span>`:wn}</div>`}
+            :`<div class="exm-l1"><button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>${open?'<span class="exm-cur">Open now</span>':''}${wn}</div>`}
           <div class="exm-meta">${esc(x.title||'')}${sch} · Saved ${esc(exmWhen(x.at))}${who?' by '+esc(who):''}</div></div>
-        <div class="exm-stats">${exCourse(x)!==QG.course?`<span><b>${(x.items||[]).length}</b> questions</span>`:`<span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span><b>${Math.round(st.pr*100)}%</b> PS</span>`}</div>
+        <div class="exm-stats"><span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span><b>${Math.round(st.pr*100)}%</b> PS</span></div>
         <div class="exm-acts">${del?`<span class="exm-sure">Delete for everyone?</span><button type="button" class="act bad" data-exm-delok>Delete</button><button type="button" class="act ghost" data-exm-delx>Keep</button>`
           :`<button type="button" class="act ghost" data-exm-sim title="A new exam with the same settings and none of the questions in your saved exams">Make similar</button><span class="xmenu"><button type="button" class="act ghost exm-more" data-xmenu aria-expanded="false" aria-label="More">⋯</button><span class="xmenu-pop" hidden><button type="button" class="act" data-exm-dup title="A copy with the same questions">Duplicate</button><button type="button" class="act" data-exm-ren>Rename</button><button type="button" class="act exm-del" data-exm-del>Delete</button></span></span>`}</div></li>`}).join('')}</ul>`
-      :`<div class="exm-empty">${XSAVED.length?'No saved exam matches that search.':'No saved exams yet. Build one in Exam setup or Pick by hand, then press <b>Save exam</b>.'}</div>`}`;
+      :`<div class="exm-empty">${MINE.length?'No saved exam matches that search.':'No saved exams yet. Build one in Exam setup or Pick by hand, then press <b>Save exam</b>.'}</div>`}`;
   if(EXM.ren){const i=el.querySelector('[data-exm-rt]');if(i){i.focus();i.select()}}}
 // the Saved / Unsaved marker (exHead), the My exams segment and container (renderExams), exRefresh and the refresh after
 // saving (xSaveDb) are folded into 24_exams.js and 20_exam.js
@@ -106,7 +108,7 @@ const EXAS={t:null,busy:false,at:null,ask:null,
   go(v){EXV.view=v;EXV.setupFor=null;EXV.mode=null;exSaveView();location.hash='#exams';if(view==='exams')renderExams()},
   // questions of the OTHER saved exams, by key (RKEY.items): id -> [{id, name, at}]
   used(){const u=this._u;if(u&&u.s===XSAVED&&u.e===EX.id)return u.m;const m=new Map();
-    (XSAVED||[]).forEach(x=>{if(x.id===EX.id)return;RKEY.items(x).forEach(i=>{if(!m.has(i))m.set(i,[]);m.get(i).push({id:x.id,name:x.sub||x.title||'Untitled',at:x.at})})});
+    (XSAVED||[]).forEach(x=>{if(x.id===EX.id||exCourse(x)!==QG.course)return;RKEY.items(x).forEach(i=>{if(!m.has(i))m.set(i,[]);m.get(i).push({id:x.id,name:x.sub||x.title||'Untitled',at:x.at})})});
     this._u={s:XSAVED,e:EX.id,m};return m},
   usedTag(q){const u=q&&this.used().get(q.id);if(!u||!u.length)return '';const d=t=>{const x=new Date(t);return isNaN(x)?'':' ('+x.toLocaleDateString('en-AU',{day:'numeric',month:'short'})+')'};
     return `<span class="exused" title="${esc('Used in: '+u.map(x=>x.name+d(x.at)).join('; '))}">Used in ${esc(u[0].name)}${d(u[0].at)}${u.length>1?` and ${u.length-1} more`:''}</span>`},
