@@ -9,15 +9,18 @@
 \draw (F) -- (D);
 \draw[dash pattern=on 4pt off 2pt] (B) -- (C);
 \draw[aux] (A) -- (C); \draw[aux] (B) -- (D);
-% 50 degree markings
-\draw (263,322) -- (275,283);
-\draw (263,322) -- (280,300);   % flags 23 Nov round 3: both strokes start at one point on AD (checker: "still make those two points intersection at a pointonhte line")
-\draw[->] (296,368) -- (268,330);   % round 3: points at the new vertex
-\draw (431,168) -- (465,210);
-\draw (431,210) -- (465,210);
-\draw[->] (497,197) -- (432,197);
-\node at (330,364) {$50^\circ$};
-\node at (522,197) {$50^\circ$};
+% 50 degree markings. flags 23 Nov round 4 (checker: "Fix the angle markers so the student knows what the angle is marking"): each 50 deg is
+% now drawn where it is: between the base (dashed, perpendicular to the edge) and the face's line of greatest slope (dashed, up to the
+% ridge or apex), with an arc at the edge. Front face ADFE: from P on AD to N on the base mid-line and Q on EF above N.
+% Side face DCF: from R, the midpoint of DC, to F's foot on the base mid-line and up to F.
+\coordinate (P) at (263,322); \coordinate (N) at (315.5,218); \coordinate (Q) at (315.5,18);
+\coordinate (R) at (462.5,218); \coordinate (S) at (366,218);
+\draw[aux] (P) -- (N); \draw[aux] (P) -- (Q); \draw[aux] (N) -- (Q);
+\draw[aux] (R) -- (S); \draw[aux] (R) -- (F);
+\draw (P) ++(-63.2:46) arc[start angle=-63.2,end angle=-80.2,radius=46];
+\draw (R) ++(180:40) arc[start angle=180,end angle=244.2,radius=40];
+\node at (318,292) {$50^\circ$};
+\node at (408,190) {$50^\circ$};
 \node at (481,262) {7\,m};
 \node at (194,352) {10\,m};
 \node at (15,340) {$A$};
