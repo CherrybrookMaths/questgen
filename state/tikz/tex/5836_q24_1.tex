@@ -3,12 +3,22 @@
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
 % dashed roof outline and hips
+\begin{scope}[even odd rule]
+% door swings knocked out of the dashed lines (checker: no slash through the doors)
+\clip (-50,-50) rectangle (1100,950)
+  (482,300) -- (553,300) arc[start angle=0,end angle=90,radius=71] -- cycle
+  (598,300) -- (679,300) arc[start angle=0,end angle=90,radius=81] -- cycle
+  (644,420) -- (715,420) arc[start angle=0,end angle=90,radius=71] -- cycle
+  (437,535) -- (364,535) arc[start angle=180,end angle=270,radius=73] -- cycle
+  (628,560) -- (628,633) arc[start angle=90,end angle=180,radius=73] -- cycle
+  (889,490) -- (810,490) arc[start angle=180,end angle=270,radius=79] -- cycle;
 \draw[aux] (62,245) -- (543,245) -- (543,63) -- (936,63) -- (936,797) -- (62,797) -- cycle;
 \draw[aux] (62,245) -- (340,520) -- (62,797);
 \draw[aux] (340,520) -- (640,520) -- (936,797);
 \draw[aux] (640,520) -- (740,440) -- (740,258);
 \draw[aux] (543,63) -- (740,258) -- (936,63);
 \draw[aux] (543,245) -- (740,440);
+\end{scope}
 % stairs top
 \draw (456,286) -- (456,104) -- (584,104);
 \foreach \y in {130,155,180} \draw (456,\y) -- (584,\y);

@@ -5,17 +5,17 @@
 \tikzset{cyl/.style={left color=black!45,right color=black!35,middle color=black!3}}
 % back row
 \foreach \k in {0,...,4}{
-  \pgfmathsetmacro\cx{146+110*\k}
-  \path[cyl] (\cx-55,53) -- (\cx-55,250) -- plot[domain=180:0,samples=40,smooth] ({\cx+55*cos(\x)},{250+25*sin(\x)}) -- (\cx+55,53) -- cycle;
-  \draw (\cx-55,53) -- (\cx-55,250) -- plot[domain=180:0,samples=40,smooth] ({\cx+55*cos(\x)},{250+25*sin(\x)}) -- (\cx+55,53);
-  \draw[top color=black!8,bottom color=black!28] (\cx,53) ellipse[x radius=55,y radius=25];
+  \pgfmathsetmacro\cx{153.5+111.6*\k}
+  \path[cyl] (\cx-55.8,53) -- (\cx-55.8,250) -- plot[domain=180:0,samples=40,smooth] ({\cx+55.8*cos(\x)},{250+25*sin(\x)}) -- (\cx+55.8,53) -- cycle;
+  \draw (\cx-55.8,53) -- (\cx-55.8,250) -- plot[domain=180:0,samples=40,smooth] ({\cx+55.8*cos(\x)},{250+25*sin(\x)}) -- (\cx+55.8,53);
+  \draw[top color=black!8,bottom color=black!28] (\cx,53) ellipse[x radius=55.8,y radius=25];
 }
 % front row
 \foreach \k in {0,...,4}{
-  \pgfmathsetmacro\cx{96+110*\k}
-  \path[cyl] (\cx-55,103) -- (\cx-55,301) -- plot[domain=180:0,samples=40,smooth] ({\cx+55*cos(\x)},{301+25*sin(\x)}) -- (\cx+55,103) -- cycle;
-  \draw (\cx-55,103) -- (\cx-55,301) -- plot[domain=180:0,samples=40,smooth] ({\cx+55*cos(\x)},{301+25*sin(\x)}) -- (\cx+55,103);
-  \draw[top color=black!8,bottom color=black!28] (\cx,103) ellipse[x radius=55,y radius=25];
+  \pgfmathsetmacro\cx{102.9+111.6*\k}
+  \path[cyl] (\cx-55.8,103) -- (\cx-55.8,301) -- plot[domain=180:0,samples=40,smooth] ({\cx+55.8*cos(\x)},{301+25*sin(\x)}) -- (\cx+55.8,103) -- cycle;
+  \draw (\cx-55.8,103) -- (\cx-55.8,301) -- plot[domain=180:0,samples=40,smooth] ({\cx+55.8*cos(\x)},{301+25*sin(\x)}) -- (\cx+55.8,103);
+  \draw[top color=black!8,bottom color=black!28] (\cx,103) ellipse[x radius=55.8,y radius=25];
 }
 % box
 \draw (14,130) rectangle (583,326);
