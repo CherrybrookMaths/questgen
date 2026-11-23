@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (388,38);
+  \coordinate (A) at (50,38);
+  \coordinate (B) at ($(O)+(17.25:338)$);
+  \draw (B) -- (O) -- (A) arc[start angle=180,end angle=17.25,radius=338];
+  % equal-length ticks
+  \draw (225,26) -- (225,50);
+  \draw ($(O)!0.55!(B)+(-3.6,-11.5)$) -- ($(O)!0.55!(B)+(3.6,11.5)$);
+  \node at (28,18) {$A$};
+  \node at (414,14) {$O$};
+  \node at ($(B)+(26,-10)$) {$B$};
+  \node at (386,76) {$175^\circ$};
+  \node[rotate=-17.25] at (603,52) {$8.1$ cm};
+  \node[align=center,font=\small] at (826,276) {NOT TO\\[6pt] SCALE};
+\end{tikzpicture}
+\end{document}

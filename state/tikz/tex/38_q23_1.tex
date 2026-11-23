@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (U) at (745,131); \coordinate (K) at (316,242); \coordinate (Q) at (103,387);
+\coordinate (M) at (508,507); \coordinate (W) at (662,507); \coordinate (P) at (815,452);
+\coordinate (C) at (1063,365); \coordinate (F) at (888,557);
+\draw (K) .. controls (350,60) and (610,25) .. (U);
+\draw (Q)--(K) (K)--(M) (Q)--(M) (U)--(M) (U)--(W) (U)--(P) (U)--(C) (M)--(W) (W)--(P) (P)--(C) (C)--(F);
+\draw (W) .. controls (675,575) and (770,590) .. (F);
+\foreach \p in {U,K,Q,M,W,P,C,F} \fill (\p) circle (6);
+\node at (493,58) {65}; \node at (193,296) {30}; \node at (433,355) {25}; \node at (289,470) {45};
+\node at (608,297) {20}; \node at (672,350) {40}; \node at (810,302) {30}; \node at (924,232) {45};
+\node at (595,484) {10}; \node at (736,453) {15}; \node at (912,396) {40}; \node at (990,484) {45};
+\node at (754,603) {20};
+\node[anchor=west] at (744,115) {Underwood};
+\node[anchor=west] at (322,244) {Kingsville};
+\node at (100,420) {Queentown};
+\node at (508,540) {Minertown};
+\node[anchor=west] at (677,521) {Walltown};
+\node[anchor=west] at (803,480) {Parktown};
+\node[anchor=west] at (1065,365) {Citadel};
+\node[anchor=west] at (872,590) {Fernville};
+\end{tikzpicture}
+\end{document}

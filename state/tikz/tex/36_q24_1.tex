@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.21971cm,y=1.09982cm]
+\draw[black!35,line width=0.3pt,dash pattern=on 0.6pt off 0.9pt] (0,0) grid[xstep=1,ystep=0.2] (55,11);
+\draw[black!70,line width=0.5pt] (0,0) grid[xstep=5,ystep=1] (55,11);
+\draw[->] (0,0)--(60.35,0);
+\draw[->] (0,0)--(0,12.59);
+\foreach \v in {0,1,...,11} {
+  \draw (-0.46,\v)--(0,\v);
+  \pgfmathtruncatemacro\lab{100*\v}
+  \node[left,inner sep=2pt] at (-0.46,\v) {\lab};}
+\foreach \t in {0,5,...,55} {
+  \draw (\t,0)--(\t,-0.09);
+  \node[below,inner sep=2pt] at (\t,-0.09) {\t};}
+\node at (-3.24,12.42) {$V$};
+\node at (-3.7,11.99) {(litres)};
+\node at (60.5,-0.31) {$t$};
+\node at (60.5,-0.69) {(minutes)};
+\end{tikzpicture}
+\end{document}

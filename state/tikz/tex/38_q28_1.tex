@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\sx{78.8}\def\sy{19.625}
+\foreach \j in {2,6,...,30} \draw[black!45,dash pattern=on 0.6pt off 1.2pt] (120,{648-\sy*\j})--(908,{648-\sy*\j});
+\foreach \i in {1,...,9} \draw[black!60] ({120+\sx*\i},20)--({120+\sx*\i},648);
+\foreach \j in {4,8,...,28} \draw[black!60] (120,{648-\sy*\j})--(908,{648-\sy*\j});
+\draw (120,20) rectangle (908,648);
+\foreach \i in {0,...,10} \node at ({120+\sx*\i},666) {\i};
+\foreach \j in {0,4,...,32} \node[anchor=east] at (111,{648-\sy*\j}) {\j};
+\draw[aux] (120,{648-\sy*2}) -- ({120+\sx*9.375},20);
+\foreach \a/\b in {2/8,3/11,5/19,6/22,9/30} \fill ({120+\sx*\a},{648-\sy*\b}) circle (5.5);
+\node at (514,714) {Number of hours of sunshine ($x$)};
+\node[rotate=90] at (38,334) {Number of bottles sold ($y$)};
+\end{tikzpicture}
+\end{document}

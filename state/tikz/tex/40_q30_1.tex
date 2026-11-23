@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\X#1{125+78.7*(#1)}
+  \def\Y#1{787-1.5756*(#1)}
+  % fine grid
+  \foreach \i in {1,...,99} {\pgfmathparse{mod(\i,10)==0?1:0}\ifnum\pgfmathresult=0 \draw[black!35, line width=0.4pt] ({125+7.87*\i},787) -- ({125+7.87*\i},78);\fi}
+  \foreach \j in {1,...,89} {\pgfmathparse{mod(\j,10)==0?1:0}\ifnum\pgfmathresult=0 \draw[black!35, line width=0.4pt] (125,{787-7.878*\j}) -- (912,{787-7.878*\j});\fi}
+  % major grid
+  \foreach \i in {1,...,10} \draw ({125+78.7*\i},787) -- ({125+78.7*\i},78);
+  \foreach \j in {1,...,9} \draw (125,{787-78.78*\j}) -- (912,{787-78.78*\j});
+  % axes
+  \draw[->] (125,787) -- (980,787);
+  \draw[->] (125,787) -- (125,14);
+  \foreach \i in {0,...,10} {\draw ({125+78.7*\i},787) -- ({125+78.7*\i},797); \node at ({125+78.7*\i},820) {\i};}
+  \foreach \j in {0,...,9} {\draw (115,{787-78.78*\j}) -- (125,{787-78.78*\j}); \pgfmathtruncatemacro\v{50*\j}\node[anchor=east] at (110,{787-78.78*\j}) {\v};}
+  \node at (112,14) {$y$};
+  \node at (968,808) {$x$};
+  \node at (520,872) {Age (years)};
+  \node[rotate=90] at (25,430) {Length (cm)};
+  % data
+  \foreach \a/\l in {0/88,1/140,2/200,3/265,4/285,4/270,5/290,6/325,7/350,7/335,8/360,8/345,9/395,10/400}
+    \draw[fill=white] ({125+78.7*\a-5.5},{787-1.5756*\l-5.5}) rectangle ++(11,11);
+  \foreach \a/\l in {0/75,1/125,2/150,3/200,3/185,4/240,4/230,5/245,6/260,6/245,7/270,7/255,8/265,8/250,9/290,9/270,10/285,10/275}
+    \fill ({125+78.7*\a},{787-1.5756*\l}) circle (4.5);
+  % key
+  \node[anchor=west] at (948,93) {KEY};
+  \draw[fill=white] (961.5,134.5) rectangle ++(11,11);
+  \node[anchor=west] at (990,140) {Female};
+  \fill (967,187) circle (4.5);
+  \node[anchor=west] at (990,187) {Male};
+\end{tikzpicture}
+\end{document}

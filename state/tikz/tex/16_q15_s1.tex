@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{139+(#1)*100.8}\def\Y#1{57+(11-(#1))*100.7}
+% minor grid every 0.2
+\foreach \i in {1,...,49}{\pgfmathtruncatemacro\r{mod(\i,5)}\ifnum\r=0\else
+  \draw[black!30,line width=0.3pt,dash pattern=on 0.8pt off 0.8pt] ({\X{\i/5}},57) -- ({\X{\i/5}},862);\fi}
+\foreach \i in {16,...,54}{\pgfmathtruncatemacro\r{mod(\i,5)}\ifnum\r=0\else
+  \draw[black!30,line width=0.3pt,dash pattern=on 0.8pt off 0.8pt] (139,{\Y{\i/5}}) -- (1147,{\Y{\i/5}});\fi}
+% major grid
+\foreach \u in {1,...,10}{\draw[black!60,line width=0.5pt] ({\X{\u}},57) -- ({\X{\u}},862);}
+\foreach \v in {4,...,10}{\draw[black!60,line width=0.5pt] (115,{\Y{\v}}) -- (1147,{\Y{\v}});}
+\draw (115,57) -- (1147,57);
+\draw (115,862) -- (1147,862);
+% y-axis with break
+\draw (139,57) -- (139,818) -- (147,823) -- (131,829) -- (147,835) -- (139,840) -- (139,862);
+% data
+\foreach \u/\v in {0/10,0.5/10,0.5/9.7,1/9.5,1.5/9.5,2.5/8.8,2.5/8.2,3/8.5,3/8.2,3.5/7.8,4.5/7.5,5/7.2,5.5/7,6/6.8}{
+  \fill ({\X{\u}},{\Y{\v}}) circle[radius=5.5];}
+% line of best fit by eye through (0,10.2) and (8,5.4): y = 10.2 - 0.6x
+\draw[line width=0.9pt] ({\X{0}},{\Y{10.2}}) -- ({\X{10}},{\Y{4.2}});
+% labels
+\foreach \v in {4,...,11}{\node[anchor=east,inner sep=0pt,font=\Large] at (110,{\Y{\v}}) {\v};}
+\foreach \u in {0,...,10}{\node[anchor=north,inner sep=0pt,font=\Large] at ({\X{\u}},892) {\u};}
+\node[font=\fontsize{15.5}{18}\selectfont] at (643,970) {Average hours of phone use per day};
+\node[rotate=90,font=\Large] at (38,440) {Average hours of sleep per day};
+\end{tikzpicture}
+\end{document}

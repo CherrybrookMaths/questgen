@@ -1,0 +1,9 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (18,212)--(745,212);
+\foreach \t in {48,160,271,382,493,604,716}{\draw (\t,201)--(\t,223);}
+\draw[line width=0.9pt] plot[domain=18:745,smooth,samples=90] (\x,{193-171*exp(-((\x-382)/150)^2/2)});
+\end{tikzpicture}
+\end{document}

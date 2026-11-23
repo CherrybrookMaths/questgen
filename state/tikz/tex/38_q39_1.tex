@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (343,410); \coordinate (D) at (122,35); \coordinate (A) at (773,335);
+\coordinate (B) at (578,810); \coordinate (C) at (92,690);
+\path[shade dots] (O)--(C)--(B)--cycle;
+\draw (D)--(A)--(B)--(C); \draw (O)--(A); \draw (O)--(B);
+\draw[line width=0.9pt] (O)--(D)--(C)--cycle;
+\draw[aux,->] (O)--(343,82);
+\node at (343,68) {\textbf{N}};
+\node at (113,20) {$D$}; \node at (62,48) {$(330^\circ)$};
+\node at (791,337) {$A$}; \node at (823,376) {$(080^\circ)$};
+\node at (583,833) {$B$}; \node at (585,870) {$(150^\circ)$};
+\node at (73,710) {$C$}; \node at (340,450) {$O$};
+\node at (220,280) {31 m}; \node at (530,355) {32 m};
+\node at (205,505) {28 m}; \node at (488,575) {35 m};
+\node at (318,620) {\halo{466 m$^2$}};
+\node[align=center] at (780,105) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

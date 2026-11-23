@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw (55,8) -- (55,232);
+  \draw (0,192) -- (450,192);
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=55:380] (\x,{192-112*exp(-((\x-215)/52)^2/2)});
+  \node[rotate=90, font=\LARGE] at (24,103) {Frequency};
+  \node[font=\LARGE] at (230,214) {Score};
+\end{tikzpicture}
+\end{document}

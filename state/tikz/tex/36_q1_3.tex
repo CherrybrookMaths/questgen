@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (5,190) -- (454,190);
+  \draw[->] (230,342) -- (230,32);
+  \draw[<->,line width=0.9pt,smooth,samples=90,domain=150:310,variable=\t] plot (\t,{152+0.0253*(\t-230)^2});
+  \node at (443,208) {$x$};
+  \node at (214,48) {$y$};
+  \node at (211,207) {$O$};
+  \node at (156,206) {$-1$};
+  \node at (291,206) {$1$};
+  \node at (216,136) {$1$};
+\end{tikzpicture}
+\end{document}

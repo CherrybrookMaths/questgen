@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\ax{47}\def\yz{289}\def\du{63}
+  \foreach \k in {1,...,4} \draw[black!40,line width=0.4pt] (\ax,\yz-\k*\du) -- (425,\yz-\k*\du);
+  \foreach \h [count=\i from 0] in {3,2,1,4,1,2,3}
+    \path[draw,shade dots] (70+\i*47.1,\yz) rectangle (70+\i*47.1+47.1,\yz-\h*\du);
+  \draw (\ax,8) -- (\ax,\yz) -- (440,\yz);
+  \foreach \k in {0,...,4} {\draw (\ax-7,\yz-\k*\du) -- (\ax,\yz-\k*\du);
+    \node[font=\large,anchor=east] at (\ax-8,\yz-\k*\du) {$\k$};}
+\end{tikzpicture}
+\end{document}

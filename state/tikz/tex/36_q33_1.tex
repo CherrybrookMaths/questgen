@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {0,...,9} \draw[black!50, dash pattern=on 1pt off 1.5pt, line width=0.4pt] ({194+78.75*\i},30) -- ({194+78.75*\i},640);
+\foreach \j in {0,...,7} \draw[black!50, dash pattern=on 1pt off 1.5pt, line width=0.4pt] (155,{600.6-78.75*\j}) -- (915,{600.6-78.75*\j});
+\foreach \i in {1,...,9} \draw[black!70] ({155+78.75*\i},10) -- ({155+78.75*\i},660);
+\foreach \j in {1,...,7} \draw[black!70] (155,{640-78.75*\j}) -- (940,{640-78.75*\j});
+\draw[->] (140,640) -- (942,640);
+\draw[->] (155,660) -- (155,8);
+\draw[line width=0.9pt] plot[smooth,domain=0:60,samples=90] ({155+7.875*\x},{640-78.75*2^(\x/20)});
+\foreach \v/\l in {0/0,2/20,4/40,6/60,8/80} \node at ({155+78.75*\v},686) {\l};
+\foreach \v/\l in {0/0,2/2000,4/4000,6/6000} \node[anchor=east] at (133,{640-78.75*\v}) {\l};
+\node at (535,727) {Time in minutes ($n$)};
+\node[rotate=90] at (28,325) {Number of bacteria ($y$)};
+\end{tikzpicture}
+\end{document}

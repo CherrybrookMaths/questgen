@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \n/\x/\y in {A/152/65,B/437/40,C/581/57,D/915/40,E/25/131,F/448/108,G/487/304,H/528/329,J/840/304,I/580/560}
+    \coordinate (\n) at (\x,\y);
+  \draw (E)--(A)--(B)--(C)--(D)--(J)--(I)--(H)--(G)--(F)--(B);
+  \draw (E)--(F)--(C)--(H)--(J);
+  \foreach \n in {A,B,C,D,E,F,G,H,I,J} \fill (\n) circle (2.2pt);
+  \begin{scope}[font=\large]
+  \node at (152,46) {$A$}; \node at (437,16) {$B$}; \node at (582,32) {$C$}; \node at (942,43) {$D$};
+  \node at (20,160) {$E$}; \node at (428,133) {$F$}; \node at (464,308) {$G$}; \node at (508,352) {$H$};
+  \node at (858,324) {$J$}; \node at (561,560) {$I$};
+  \node at (82,84) {2}; \node at (280,40) {4}; \node at (505,32) {2}; \node at (728,32) {5};
+  \node at (430,77) {1}; \node at (512,106) {2}; \node at (222,143) {6}; \node at (450,211) {3};
+  \node at (582,190) {4}; \node at (521,298) {1}; \node at (685,300) {4}; \node at (890,155) {4};
+  \node at (546,430) {3}; \node at (710,447) {5};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

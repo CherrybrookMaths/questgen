@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{9.5}{11}\selectfont}]
+\foreach \v [count=\i] in {80,150,210,255,290,315,335,350,360,375,380,392,415,440,478,525,580,655,740,828} {
+  \pgfmathsetmacro\xa{184+(\i-1)*31.7+0.8}
+  \pgfmathsetmacro\xb{184+\i*31.7-0.8}
+  \pgfmathsetmacro\yt{275-0.241*\v}
+  \fill[black!30] (\xa,275) rectangle (\xb,\yt);
+  \pgfmathsetmacro\xc{184+(\i-0.5)*31.7}
+  \node at (\xc,293) {\i};
+}
+\draw[->] (183,275) -- (850,275);
+\draw[->] (183,275) -- (183,38);
+\foreach \t in {1,...,8} \draw (175,{275-24.1*\t}) -- (183,{275-24.1*\t});
+\foreach \t in {0,200,400,600,800} \node[anchor=east] at (168,{275-0.241*\t}) {\t};
+\node[rotate=90,align=center] at (62,165) {Cumulative number\\of downloads};
+\node at (487,323) {Day};
+\end{tikzpicture}
+\end{document}

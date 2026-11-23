@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,35}{\pgfmathtruncatemacro\m{mod(\i,5)}
+  \ifnum\m=0 \draw ({84+\i*31.486},1331)--({84+\i*31.486},72);
+  \else \draw[black!50,line width=0.4pt,dotted] ({84+\i*31.486},1331)--({84+\i*31.486},72); \fi}
+\foreach \i in {1,...,40}{\pgfmathtruncatemacro\m{mod(\i,5)}
+  \ifnum\m=0 \draw (84,{1331-\i*31.486})--(1186,{1331-\i*31.486});
+  \else \draw[black!50,line width=0.4pt,dotted] (84,{1331-\i*31.486})--(1186,{1331-\i*31.486}); \fi}
+\draw[->] (84,1331)--(84,5);
+\draw[->] (84,1331)--(1240,1331);
+\foreach \v in {0,5,...,35}{\draw ({84+\v*6.2972*5},1331)--({84+\v*6.2972*5},1341); \node[anchor=north] at ({84+\v*31.486},1341) {\v};}
+\foreach \v in {0,5,...,40}{\draw (74,{1331-\v*31.486})--(84,{1331-\v*31.486}); \node[anchor=east] at (74,{1331-\v*31.486}) {\v};}
+\node at (1228,1354) {$x$};
+\node at (63,12) {$y$};
+\end{tikzpicture}
+\end{document}

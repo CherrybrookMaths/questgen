@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+  nd/.style={circle,fill=black!60,draw=black,line width=0.4pt,inner sep=0pt,minimum size=0.12cm}]
+\coordinate (B) at (443,58); \coordinate (So) at (145,286); \coordinate (C) at (446,284);
+\coordinate (Si) at (746,282); \coordinate (D) at (293,508); \coordinate (E) at (598,508);
+\draw[mid=0.55] (So)--(B); \draw[mid=0.52] (B)--(C); \draw[mid=0.53] (B)--(Si);
+\draw[mid=0.53] (So)--(C); \draw[mid=0.53] (C)--(Si); \draw[mid=0.56] (So)--(D);
+\draw[mid=0.55] (C)--(E); \draw[mid=0.6] (D)--(E); \draw[mid=0.61] (E)--(Si);
+\foreach \p in {B,So,C,Si,D,E} \node[nd] at (\p) {};
+\node[font=\large] at (443,20) {$B$};
+\node[font=\large,anchor=east] at (130,284) {Source};
+\node[font=\large,anchor=west] at (770,280) {Sink};
+\node[font=\large] at (418,318) {$C$};
+\node[font=\large] at (293,545) {$D$};
+\node[font=\large] at (601,548) {$E$};
+\foreach \w/\x/\y in {45/267/146, 40/487/178, 60/622/146, 100/297/320, 55/595/320, 50/176/400, 20/476/405, 80/712/408, 70/450/540}
+  \node[font=\large] at (\x,\y) {\w};
+\end{tikzpicture}
+\end{document}

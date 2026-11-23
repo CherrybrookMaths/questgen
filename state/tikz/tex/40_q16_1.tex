@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \n/\x/\y in {Y/297/32,W/346/179,T/48/212,H/624/230,C/294/348,J/63/414,M/611/433,G/420/508}
+    \coordinate (\n) at (\x,\y);
+  \draw (Y)--(T)--(J)--(G)--(M)--(H)--(Y)--(W)--(H);
+  \draw (W)--(C)--(J); \draw (C)--(M); \draw (C)--(G);
+  \foreach \n in {Y,W,T,H,C,J,M,G} \fill (\n) circle (2.2pt);
+  \begin{scope}[font=\large]
+  \node at (272,30) {$Y$}; \node at (362,155) {$W$}; \node at (24,212) {$T$}; \node at (650,237) {$H$};
+  \node at (285,383) {$C$}; \node at (38,418) {$J$}; \node at (640,445) {$M$}; \node at (420,540) {$G$};
+  \node at (160,118) {30}; \node at (292,124) {15}; \node at (470,110) {38}; \node at (478,224) {20};
+  \node at (343,272) {25}; \node at (28,318) {23}; \node at (650,337) {29}; \node at (177,362) {32};
+  \node at (450,368) {25}; \node at (390,435) {48}; \node at (223,487) {55}; \node at (520,492) {25};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

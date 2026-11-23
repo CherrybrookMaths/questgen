@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \y in {41,104,167,230} \draw[black!45] (45,\y)--(425,\y);
+  \foreach \a/\b/\h in {70/117/1,117/165/2,165/212/4,212/259/2,259/306/4,306/353/2,353/400/1}{
+    \path[shade dots] (\a,293) rectangle (\b,293-63*\h);
+    \draw (\a,293) rectangle (\b,293-63*\h);}
+  \draw (45,12)--(45,293)--(440,293);
+  \foreach \k/\y in {0/293,1/230,2/167,3/104,4/41} \node[font=\large] at (20,\y) {\k};
+\end{tikzpicture}
+\end{document}

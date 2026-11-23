@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=10.71*0.0127cm,y=-0.0127cm]
+\begin{scope}[xshift=0.55*10.71*0.0127cm]
+\foreach \v in {5,10,...,110} \draw[black!28,line width=0.4pt,dash pattern=on 1pt off 1pt] (\v,4)--(\v,374);
+\foreach \h in {4,41,78,115,152,189,226,263,300,337} \draw[black!28,line width=0.4pt,dash pattern=on 1pt off 1pt] (-0.1,\h)--(112.4,\h);
+\draw (-0.1,374)--(112.4,374);
+\foreach \v in {10,20,...,100} \node[anchor=north] at (\v,382) {\v};
+\begin{scope}[line width=0.9pt]
+\draw (30,78)rectangle(50,152); \draw (40,78)--(40,152);
+\draw (10,115)--(30,115) (50,115)--(70,115);
+\draw (10,78)--(10,152) (70,78)--(70,152);
+\draw (20,226)rectangle(50,300); \draw (30,226)--(30,300);
+\draw (5,263)--(20,263) (50,263)--(100,263);
+\draw (5,226)--(5,300) (100,226)--(100,300);
+\end{scope}
+\end{scope}
+\node[anchor=west] at (73.3,105) {Amy};
+\node[anchor=west] at (105.8,262) {Beth};
+\end{tikzpicture}
+\end{document}

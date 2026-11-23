@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[n/.style={circle,draw,line width=0.6pt,minimum size=0.8cm,inner sep=0pt},lab/.style={font=\normalsize,inner sep=2pt}]
+\node[n] (S) at (0,0) {$0$};
+\node[n] (n3) at (3.2,0) {$5$};
+\node[n] (n4) at (6.4,0) {$11$};
+\node[n] (n7) at (10,0) {$21$};
+\node[n] (T) at (13.2,0) {$26$};
+\node[n] (n5) at (6.4,2.4) {$8$};
+\node[n] (n2) at (3.2,-2.4) {$4$};
+\node[n] (n6) at (8.2,-2.4) {$15$};
+% critical path B, D, G, I
+\draw[->] (S) -- node[lab,above] {$B\ (5)$} (n3);
+\draw[->] (n3) -- node[lab,above] {$D\ (6)$} (n4);
+\draw[->] (n4) -- node[lab,above] {$G\ (10)$} (n7);
+\draw[->] (n7) -- node[lab,above] {$I\ (5)$} (T);
+% E then H
+\draw[->] (n3) -- node[lab,above left] {$E\ (3)$} (n5);
+\draw[->] (n5) -- node[lab,above right] {$H\ (7)$} (n7);
+% A, C, F
+\draw[->] (S) -- node[lab,below left] {$A\ (4)$} (n2);
+\draw[->] (n2) -- node[lab,below] {$C\ (11)$} (n6);
+\draw[->] (n6) -- node[lab,below right] {$F\ (8)$} (T);
+% dummy
+\draw[aux,->] (n2) -- node[lab,below right,pos=0.45] {$0$} (n4);
+\end{tikzpicture}
+\end{document}

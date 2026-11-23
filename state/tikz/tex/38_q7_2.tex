@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\s{0.2375}% px per download
+\def\w{33.26}
+\foreach \h [count=\i] in {80,155,225,285,345,400,445,492,530,570,597,630,662,682,707,732,750,765,778,788}{
+  \fill[black!35,draw=white,line width=0.6pt] ({200+(\i-1)*\w-\w/2},244) rectangle ({200+(\i-1)*\w+\w/2},{244-\h*\s});
+  \node[font=\small,anchor=north] at ({200+(\i-1)*\w},250) {\i};
+}
+\draw[->] (180,244)--(862,244);
+\draw[->] (180,244)--(180,8);
+\foreach \v in {100,300,500,700} \draw (174,{244-\v*\s})--(180,{244-\v*\s});
+\foreach \v in {0,200,...,800}{
+  \draw (172,{244-\v*\s})--(180,{244-\v*\s});
+  \node[font=\small,anchor=east] at (170,{244-\v*\s}) {\v};
+}
+\node[font=\small] at (487,294) {Day};
+\node[font=\small,rotate=90,align=center] at (62,140) {Cumulative number\\of downloads};
+\end{tikzpicture}
+\end{document}

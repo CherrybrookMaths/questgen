@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[yshift={-143*0.0127cm}]
+\coordinate (A) at (28,98); \coordinate (B) at (236,98); \coordinate (C) at (444,32);
+\coordinate (G) at (652,47); \coordinate (F) at (548,115); \coordinate (D) at (444,240);
+\coordinate (H) at (652,253); \coordinate (E) at (236,305); \coordinate (K) at (216,-94);
+\draw (A)--(B)--(C)--(G)--(H)--(D)--(E)--(B);
+\draw (C)--(D); \draw (C)--(F)--(H); \draw (G)--(F)--(D);
+\draw (A)--(K)--(C);
+\foreach \p in {A,B,C,D,E,F,G,H,K} \fill (\p) circle (2pt);
+\node at (28,73) {$A$}; \node at (236,73) {$B$}; \node at (444,10) {$C$};
+\node at (655,23) {$G$}; \node at (548,90) {$F$}; \node at (444,266) {$D$};
+\node at (655,279) {$H$}; \node at (236,331) {$E$}; \node at (216,-118) {$K$};
+\node at (115,-20) {$12$}; \node at (330,-55) {$10$};
+\node at (133,73) {$2$}; \node at (345,46) {$3$}; \node at (556,21) {$5$};
+\node at (485,95) {$2$}; \node at (605,103) {$2$}; \node at (670,153) {$1$};
+\node at (428,145) {$3$}; \node at (515,186) {$2$}; \node at (615,176) {$2$};
+\node at (556,272) {$4$}; \node at (220,205) {$3$}; \node at (345,290) {$2$};
+\end{scope}
+\end{tikzpicture}
+\end{document}
