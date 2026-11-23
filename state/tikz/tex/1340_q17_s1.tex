@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (1360,1250);
+\def\ox{838}\def\oy{728}\def\ux{82}\def\uy{78}
+% asymptotes
+\draw[aux] ({\ox-4*\ux},20) -- ({\ox-4*\ux},1115);
+\draw[aux] (140,{\oy-2*\uy}) -- (1270,{\oy-2*\uy});
+% axes
+\draw[<->] (120,\oy) -- (1255,\oy);
+\draw[<->] (\ox,1125) -- (\ox,30);
+\node at (1278,\oy) {\Large$x$};
+\node at (\ox,10) {\Large$y$};
+\foreach \i in {-5,-4,-3,-2,-1} \draw ({\ox+\i*\ux},{\oy-8}) -- ({\ox+\i*\ux},{\oy+8});
+\foreach \i in {-5,-3,-2,-1} \node[below=2pt] at ({\ox+\i*\ux},{\oy+8}) {\Large$\i$};
+\node[anchor=north east,inner sep=2pt] at ({\ox-4*\ux-5},{\oy+10}) {\Large$-4$};
+\foreach \j in {1,2,3} \draw ({\ox-8},{\oy-\j*\uy}) -- ({\ox+8},{\oy-\j*\uy});
+\node[right] at ({\ox+10},{\oy-1*\uy}) {\Large$1$};
+\node[right] at ({\ox+10},{\oy-3*\uy}) {\Large$3$};
+\node[anchor=south west] at ({\ox+6},{\oy-2*\uy-2}) {\Large$2$};
+% curve y = 2 - 1/(x+4)
+\draw[line width=0.9pt,<->] plot[domain=-7.85:-4.164,samples=90,smooth] ({\ox+\ux*\x},{\oy-\uy*(2-1/(\x+4))});
+\draw[line width=0.9pt,<->] plot[domain=-3.83:3.45,samples=90,smooth] ({\ox+\ux*\x},{\oy-\uy*(2-1/(\x+4))});
+% marked points
+\fill ({\ox-5*\ux},{\oy-3*\uy}) circle (6);
+\node[anchor=north west] at ({\ox-5*\ux+4},{\oy-3*\uy+6}) {\Large$(-5,3)$};
+\fill ({\ox-3.5*\ux},\oy) circle (6);
+\node (sv) at ({\ox-2.9*\ux},{\oy+150}) {\Large$-\dfrac{7}{2}$};
+\draw[->] (sv.north west) -- ({\ox-3.5*\ux+6},{\oy+10});
+\fill (\ox,{\oy-1.75*\uy}) circle (6);
+\node[anchor=north east] at ({\ox-8},{\oy-1.75*\uy+20}) {\Large$1.75$};
+\node at (175,{\oy-2*\uy+32}) {\Large$y=2$};
+\node at ({\ox-4*\ux},1150) {\Large$x=-4$};
+\end{tikzpicture}
+\end{document}

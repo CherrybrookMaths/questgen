@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5175cm,y=0.5175cm]
+  \foreach \k in {-8,...,8} \draw[black!12,line width=0.3pt] (\k/2,-4.4) -- (\k/2,4.4);
+  \foreach \k in {-8,...,8} \draw[black!12,line width=0.3pt] (-4.4,\k/2) -- (4.4,\k/2);
+  \foreach \k in {-4,-2,2,4} \draw[black!35,line width=0.4pt] (\k,-4.4) -- (\k,4.4);
+  \foreach \k in {-4,-2,2,4} \draw[black!35,line width=0.4pt] (-4.4,\k) -- (4.4,\k);
+  \draw (-4.4,0) -- (4.4,0);
+  \draw (0,-4.4) -- (0,4.4);
+  \draw[line width=0.9pt] (0,4) arc[start angle=90,end angle=-90,radius=4];
+  \begin{scope}[font=\tiny,inner sep=1.2pt]
+  \foreach \k in {-4,-2,2} \node[below] at (\k,0) {$\k$};
+  \node[below left] at (0,0) {$0$};
+  \foreach \k in {-4,-2,2,4} \node[left] at (0,\k) {$\k$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

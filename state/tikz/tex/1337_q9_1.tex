@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,213) -- (662,213) node[right,font=\footnotesize] {$x$};
+  \draw[<->] (333,385) -- (333,30) node[above,font=\footnotesize] {$y$};
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=148:475] (\x,{90+123*((\x-311.5)/103.5)^2});
+  \begin{scope}[font=\footnotesize]
+  \node at (225,232) {$-6$}; \node at (401,232) {$4$}; \node at (352,90) {$12$};
+  \node at (178,132) {$y=f(x)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

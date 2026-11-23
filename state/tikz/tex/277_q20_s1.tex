@@ -14,8 +14,8 @@
 \draw[->] (62,405)--(62,12);
 \draw[aux] (62,80) -| (187,405);
 \draw[aux] (62,150) -| (437,405);
-% path
-\draw[line width=0.9pt, domain=0:375, smooth, samples=90] plot ({62+\x},{222-1.608*\x+0.003776*\x*\x});
+% path through (0,2), (5,4), (14,3) at the crop's positions (v = hundreds of px)
+\draw[line width=0.9pt, domain=0:3.75, smooth, samples=90] plot ({62+100*\x},{222-184.27*\x+62.79*\x*\x-5.006*\x*\x*\x});
 % ball
 \filldraw[fill=black!35] (62,222) circle (17);
 \draw (45,222)--(79,222) (62,205)--(62,239);

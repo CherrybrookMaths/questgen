@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (328,342) -- plot[domain=2:6, samples=40, smooth] ({100+115*\x},{342-93/\x}) -- (788,342) -- cycle;
+\draw (328,342) -- (328,{342-93/2});
+\draw (788,342) -- (788,{342-93/6});
+\draw[<->] (30,342) -- (920,342);
+\node[anchor=west] at (922,342) {$x$};
+\draw[<->] (100,405) -- (100,40);
+\node[anchor=south] at (100,40) {$y$};
+\foreach \i in {1,...,7} {\draw ({100+115*\i},336) -- ({100+115*\i},348);
+  \node[anchor=north] at ({100+115*\i},354) {$\i$};}
+\foreach \j in {1,2,3} {\draw (94,{342-93*\j}) -- (106,{342-93*\j});
+  \node[anchor=east] at (88,{342-93*\j}) {$\j$};}
+\draw[line width=0.9pt] plot[domain=0.31:7.0, samples=90, smooth] ({100+115*\x},{342-93/\x});
+\node at (238,135) {$y=\dfrac{1}{x}$};
+\node at (735,138) {Not to scale};
+\end{tikzpicture}
+\end{document}

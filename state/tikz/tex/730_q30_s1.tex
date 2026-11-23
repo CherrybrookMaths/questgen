@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(174,328)},x=0.5779cm,y=0.5779cm]
+\begin{scope}
+\clip (-3.82,-2.81) rectangle (6.08,7.2);
+\draw[black!7,line width=0.4pt,step=0.5] (-4,-3) grid (7,8);
+\draw[black!18,line width=0.4pt,step=1] (-4,-3) grid (7,8);
+\end{scope}
+\draw (-3.82,0)--(6.08,0);
+\draw (0,-2.81)--(0,7.2);
+\draw[line width=0.9pt] (1,2) circle ({sqrt(20)});
+\draw[line width=0.9pt] (-1.405,-2.81)--(3.6,7.2);
+\node[pt] at (1,2) {};
+\node[pt] at (3,6) {};
+\node[anchor=south east,inner sep=1pt] at (3.05,6.25) {$P$};
+\node[font=\Large] at (2.15,1.38) {$(1,2)$};
+\foreach \v in {-2,2,4} \node[font=\tiny,anchor=north east,inner sep=1.5pt] at (\v,0) {$\v$};
+\node[font=\tiny,anchor=north east,inner sep=1.5pt] at (0,0) {$0$};
+\foreach \v in {-2,2,4,6} \node[font=\tiny,anchor=east,inner sep=2pt] at (0,\v) {$\v$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

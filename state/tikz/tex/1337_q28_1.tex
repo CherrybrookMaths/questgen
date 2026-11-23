@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade] (238,277) -- plot[smooth,samples=40,domain=0:1] ({238+179*\x},{277-116*cos(90*\x)}) -- cycle;
+  \draw[<->] (5,277) -- (855,277);
+  \draw[<->] (238,500) -- (238,50);
+  \node at (236,25) {$y$};
+  \node at (873,279) {$x$};
+  \draw[line width=0.9pt,->] plot[smooth,samples=90,domain=0:3.43] ({238+179*\x},{277-116*cos(90*\x)});
+  \fill (238,161) circle (11);
+  \node at (206,158) {$3$};
+  \node at (411,312) {$\pi$};
+\end{tikzpicture}
+\end{document}

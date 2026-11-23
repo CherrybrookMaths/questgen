@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\X#1{48+17.03*#1}
+  \node[font=\Large] at (596,47) {Number of online hours};
+  \draw[->] (48,384) -- (1228,384);
+  \foreach \v in {0,10,...,60} \draw ({\X{\v}},368) -- ({\X{\v}},402);
+  \foreach \v in {5,15,...,65} \draw ({\X{\v}},375) -- ({\X{\v}},394);
+  \foreach \v in {0,10,...,60} \node[font=\Large] at ({\X{\v}+2},464) {$\v$};
+  \begin{scope}[line width=0.9pt]
+    \filldraw[fill=black!22] ({\X{15}},195) rectangle ({\X{55}},366);
+    \draw ({\X{30}},195) -- ({\X{30}},366);
+    \draw ({\X{5}},280) -- ({\X{15}},280) ({\X{55}},280) -- ({\X{65}},280);
+    \draw ({\X{5}},236) -- ({\X{5}},326) ({\X{65}},236) -- ({\X{65}},326);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

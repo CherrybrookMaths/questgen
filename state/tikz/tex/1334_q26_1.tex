@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \path[shade hatch] plot[domain=0:1,samples=90,smooth,variable=\t] ({62+466*\t},{330-34.67*(9-3^(\t+1))}) -- cycle;
+  \draw[aux] (62,122) -- (528,330);
+  \draw[->] (15,330) -- (645,330);
+  \draw[->] (62,365) -- (62,50);
+  \draw (528,322) -- (528,338);
+  \draw (56,122) -- (68,122);
+  \draw[line width=0.9pt] plot[domain=0:1,samples=90,smooth,variable=\t] ({62+466*\t},{330-34.67*(9-3^(\t+1))});
+  \node[font=\large] at (40,122) {$A$};
+  \node[font=\large] at (528,358) {$B$};
+  \node[font=\large] at (255,145) {$f(x)$};
+  \node[font=\large] at (668,332) {$x$};
+  \node[font=\large] at (62,40) {$y$};
+\end{tikzpicture}
+\end{document}

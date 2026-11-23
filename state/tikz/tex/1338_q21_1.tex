@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (236,265); \coordinate (C) at (48,143);
+  \coordinate (A) at (494,145); \coordinate (B) at (300,445);
+  \fill[shade] (C) -- (O) -- (B) -- cycle;
+  \draw (C) -- (A) -- (B) -- cycle;
+  \draw (C) -- (O) -- (A); \draw (O) -- (B);
+  \draw[aux,->] (O) -- (236,52);
+  \node[above,inner sep=1pt] at (236,52) {$N$};
+  \node[anchor=east] at (46,138) {$C$};
+  \node[anchor=south west,inner sep=1pt] at (497,145) {$A$};
+  \node[font=\small] at (524,172) {$(065^\circ)$};
+  \node[anchor=west] at (248,276) {$O$};
+  \node[inner sep=1pt] at (303,463) {$B$};
+  \node[font=\small] at (303,490) {$(161^\circ)$};
+  \node[rotate=-33,font=\small] at (152,195) {$60$ km};
+  \node[rotate=24.6,font=\small] at (326,210) {$76$ km};
+  \node[rotate=-70.4,font=\small] at (281,350) {$51$ km};
+  \node[font=\small] at (128,343) {$899$ km$^2$};
+  \draw[->] (116,320) -- (192,283);
+  \node[draw,align=left,font=\fontsize{9}{11}\selectfont,inner sep=5pt] at (569,340) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

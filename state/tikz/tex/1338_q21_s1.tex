@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\coordinate (O) at (0,0);
+\coordinate (B) at (-71:4.59);
+\coordinate (C) at (145:5.4);
+\draw[->] (O) -- (0,3.4) node[above] {$N$};
+\draw (O) -- (B); \draw (O) -- (C); \draw (B) -- (C);
+\draw[aux] (O) -- (109:2.2);
+\fill (O) circle (1.6pt); \fill (B) circle (1.6pt); \fill (C) circle (1.6pt);
+\draw (0,0.65) arc[start angle=90, end angle=-71, radius=0.65];
+\node at (10:1.15) {$161^\circ$};
+\draw (-71:0.6) arc[start angle=-71, end angle=-215, radius=0.6];
+\node at (-152:1.02) {$144^\circ$};
+\draw (109:1.25) arc[start angle=109, end angle=145, radius=1.25];
+\node at (127:1.68) {$36^\circ$};
+\node at (-125:0.32) {$O$};
+\node[below] at (B) {$B$};
+\node[left] at (C) {$C$};
+\node[anchor=west] at ($(O)!0.5!(B)+(0.12,0)$) {$51$ km};
+\node at ($(O)!0.5!(C)+(0.25,0.4)$) {$60$ km};
+\end{tikzpicture}
+\end{document}

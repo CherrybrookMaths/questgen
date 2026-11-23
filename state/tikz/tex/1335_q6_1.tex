@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (78,385) -- (78,45);
+\draw[->] (30,283) -- (792,283);
+\node at (72,30) {$y$};
+\node at (813,283) {$x$};
+\node at (52,312) {$O$};
+\foreach \i/\xx in {1/163,2/252,3/337,4/422,5/508,6/597}{\draw (\xx,283)--(\xx,276); \node at (\xx,312) {\i};}
+\begin{scope}[line width=0.9pt]
+\draw plot[smooth, samples=90, domain=0:2, variable=\t] ({78+87*\t},{283-(76+226*\t-56*\t*\t-38*\t*\t*\t)});
+\draw (255,207) -- (337,131) -- (422,207);
+\draw plot[smooth, tension=0.6] coordinates {(426,128) (450,133) (472,150) (487,185) (498,240) (508,283) (522,305) (550,330) (597,360)};
+\end{scope}
+\node[pt] at (78,207) {};
+\node[open pt] at (252,283) {};
+\node[pt] at (255,207) {};
+\node[pt] at (422,207) {};
+\node[open pt] at (422,128) {};
+\node[pt] at (597,360) {};
+\end{tikzpicture}
+\end{document}

@@ -1,15 +1,15 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{11}{13}\selectfont}]
 \coordinate (K) at (107,168);
 \draw (14,330)--(14,12)--(480,12);
 \draw (487,168)--(K)--(107,335);
 \draw[line width=0.9pt] (14,210)--(298,82);
 \draw[aux] (298,82)--(450,13.6);
-\draw (K) ++(122,0) arc[start angle=0,end angle=24.2,radius=122];
-\node at (189,150) {$\theta$};
+\draw (K) ++(122,0) arc[start angle=0,end angle=-24.2,radius=122];
+\node at (204,150) {$\theta$};
 \draw[<->] (14,293)--(107,293);
-\node[anchor=north] at (60,300) {3 m};
+\node at (60,311) {3 m};
 \end{tikzpicture}
 \end{document}

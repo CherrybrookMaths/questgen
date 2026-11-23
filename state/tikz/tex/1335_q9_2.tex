@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\draw (0,170) -- (385,170);
+\draw (190,285) -- (190,30);
+\node at (403,170) {$x$};
+\node at (190,18) {$y$};
+\node at (176,188) {$O$};
+\draw[line width=0.9pt] plot[smooth, samples=90, domain=5:380, variable=\t] (\t,{170+5.33*(\t-190)/(1+((\t-190)/43)^2)^2});
+\end{tikzpicture}
+\end{document}

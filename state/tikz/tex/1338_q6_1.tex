@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0639cm,y=0.01283cm]
+  \foreach \k in {2,4,...,98} \draw[black!25,line width=0.3pt] (\k,0) -- (\k,400);
+  \foreach \j in {10,20,...,390} \draw[black!25,line width=0.3pt] (0,\j) -- (100,\j);
+  \foreach \k in {10,20,...,90} \draw[black!60,line width=0.5pt] (\k,0) -- (\k,400);
+  \foreach \j in {50,100,...,350} \draw[black!60,line width=0.5pt] (0,\j) -- (100,\j);
+  \draw (0,0) rectangle (100,400);
+  \foreach \k in {0,10,...,100} {
+    \draw (\k,0) -- (\k,-6);
+    \pgfmathtruncatemacro\h{\k+100}
+    \node[below=2pt,font=\scriptsize] at (\k,0) {\h};}
+  \foreach \j in {0,50,...,400} {
+    \draw (0,\j) -- (-1.3,\j);
+    \node[left=2pt,font=\scriptsize] at (0,\j) {\j};}
+  \draw[line width=0.9pt] (0,0) -- (20,50) -- (40,110) -- (60,220) -- (80,350) -- (100,400);
+  \node[font=\scriptsize] at (50,-62) {Height (cm)};
+  \node[font=\scriptsize,rotate=90] at (-16,200) {Cumulative frequency};
+\end{tikzpicture}
+\end{document}

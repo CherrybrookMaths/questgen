@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (20,350) -- (742,350);
+\node[anchor=north] at (745,362) {$t$};
+\draw[<->] (196,400) -- (196,48);
+\node[anchor=east] at (178,70) {$f(t)$};
+\draw (196,152) -- (214,152);
+\node[anchor=east] at (180,152) {$70\,000$};
+\draw (196,293) -- (214,293);
+\node[anchor=east] at (180,290) {$10\,000$};
+\draw (510,340) -- (510,358);
+\node[anchor=north] at (510,359) {$48$};
+\draw[line width=0.9pt] plot[domain=0:48, samples=90, smooth] ({196+6.5*\x},{222.5-70.5*sin(7.5*\x)});
+\end{tikzpicture}
+\end{document}

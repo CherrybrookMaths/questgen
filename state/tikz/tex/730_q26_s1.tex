@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (248,450)--(248,10);
+\draw (248,241)--(480,241);
+\draw[line width=0.9pt,<-] (5,241)--(248,241);
+\draw[line width=0.9pt,->] plot[domain=0:247,samples=90,smooth] ({248+\x},{241-91*exp(-0.045*\x)});
+\node[open pt] at (248,241) {};
+\node[pt, inner sep=1.6pt] at (248,150) {};
+\node[font=\Large] at (266,124) {$\lambda$};
+\node[font=\small] at (243,14) {$y$};
+\node[font=\small] at (503,242) {$x$};
+\end{tikzpicture}
+\end{document}

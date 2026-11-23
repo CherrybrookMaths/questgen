@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {-11,...,11} \draw[black!12,line width=0.4pt] ({282+23.95*\i},20) -- ({282+23.95*\i},564);
+\foreach \j in {-9,...,21} \draw[black!12,line width=0.4pt] (13,{398-18*\j}) -- (553,{398-18*\j});
+\foreach \i in {-2,-1,1,2} \draw[black!45,line width=0.4pt] ({282+119.75*\i},20) -- ({282+119.75*\i},564);
+\foreach \j in {-1,1,2,3,4} \draw[black!45,line width=0.4pt] (13,{398-90*\j}) -- (553,{398-90*\j});
+\draw (13,398) -- (553,398);
+\draw (282,20) -- (282,564);
+\draw[line width=0.9pt,smooth,samples=90,domain=-2.05:2.05,variable=\t] plot ({282+119.75*\t},{398-90*\t*\t});
+\draw[line width=0.9pt] ({282+119.75*(-1.844)},{398+90*1.844}) -- ({282+119.75*2.26},{398-90*2.26});
+\end{tikzpicture}
+\end{document}

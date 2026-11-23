@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{(17+29.93*(#1))}
+\foreach \i in {0,...,30} \draw[black!25,line width=0.4pt] ({17+29.93*\i},12)--({17+29.93*\i},311);
+\foreach \k in {0,...,19} \draw[black!25,line width=0.4pt] (17,{12+15.75*\k})--(915,{12+15.75*\k});
+\draw (17,325)--(915,325);
+\foreach \i in {0,...,30} {\pgfmathtruncatemacro\m{mod(\i,5)}
+  \ifnum\m=0 \draw ({17+29.93*\i},318)--({17+29.93*\i},332);
+    \node[font=\footnotesize,anchor=north,inner sep=0pt] at ({17+29.93*\i},345) {\i};
+  \else \draw ({17+29.93*\i},321)--({17+29.93*\i},329); \fi}
+\newcommand\bp[6]{%
+  \draw[line width=0.9pt] ({17+29.93*#2},#1-31) rectangle ({17+29.93*#4},#1+31);
+  \draw[line width=0.9pt] ({17+29.93*#3},#1-31)--({17+29.93*#3},#1+31);
+  \draw[line width=0.9pt] ({17+29.93*#5},#1)--({17+29.93*#2},#1);
+  \draw[line width=0.9pt] ({17+29.93*#4},#1)--({17+29.93*#6},#1);
+  \draw[line width=0.9pt] ({17+29.93*#5},#1-6)--({17+29.93*#5},#1+6);
+  \draw[line width=0.9pt] ({17+29.93*#6},#1-6)--({17+29.93*#6},#1+6);}
+\bp{106}{11}{13}{21}{8}{25.8}
+\bp{233}{17}{21}{23}{8.7}{24.6}
+\node[font=\fontsize{16}{18}\selectfont,anchor=base west,inner sep=0pt] at (55,135) {History};
+\node[font=\fontsize{16}{18}\selectfont,anchor=base west,inner sep=0pt] at (55,252) {Geography};
+\end{tikzpicture}
+\end{document}

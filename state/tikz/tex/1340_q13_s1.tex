@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.1cm,y=1.1cm]
+\coordinate (A) at (0,0);
+\coordinate (B) at (0,-3);
+\coordinate (Y) at ({4.5*sin(120)},{4.5*cos(120)});
+\draw (A) -- (B) -- (Y) -- cycle;
+\draw[->] (A) -- (0,1.4);
+\node[anchor=south] at (0,1.4) {$N$};
+\draw (0,-0.8) arc[start angle=-90, end angle=-30, radius=0.8];
+\node at (-60:1.17) {$60^\circ$};
+\draw (0,0.5) arc[start angle=90, end angle=-30, radius=0.5];
+\node[anchor=west] at (30:0.62) {$120^\circ$};
+\node[anchor=east] at (-0.08,0) {$A$};
+\node[anchor=north] at (0,-3.05) {$B$};
+\node[anchor=west] at ($(Y)+(0.05,0)$) {$Y$};
+\node[anchor=east] at (-0.1,-1.5) {$30$ km};
+\node[anchor=south west] at (2.0,-1.05) {$45$ km};
+\node[anchor=north] at (1.95,-2.9) {$\approx 40$ km};
+\end{tikzpicture}
+\end{document}

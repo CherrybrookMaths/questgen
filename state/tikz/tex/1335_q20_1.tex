@@ -1,0 +1,39 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.21276cm,y=0.6604cm]
+  \tikzset{grid line/.style={black!40,line width=0.4pt,dash pattern=on 0.8pt off 0.8pt}}
+  % grid: horizontal lines broken where the y tick labels sit, vertical lines broken under the x tick labels
+  \foreach \j in {-4,-3,-2,-1,1} {
+    \draw[grid line] (-pi,\j)--(-0.36,\j);
+    \draw[grid line] (0,\j)--(2*pi,\j);}
+  \draw[grid line] (-pi,2)--(2*pi,2);
+  \foreach \k in {-3,-1,1,3,5,7} \draw[grid line] ({\k*pi/4},2)--({\k*pi/4},-4);
+  \foreach \k in {-2,2,6} {
+    \draw[grid line] ({\k*pi/4},2)--({\k*pi/4},0);
+    \draw[grid line] ({\k*pi/4},-1.05)--({\k*pi/4},-4);}
+  \foreach \k in {-4,4,8} {
+    \draw[grid line] ({\k*pi/4},2)--({\k*pi/4},0);
+    \draw[grid line] ({\k*pi/4},-0.75)--({\k*pi/4},-4);}
+  % axes
+  \draw[->] (-pi,0)--(6.76,0);
+  \node[anchor=north west] at (6.72,-0.02) {$x$};
+  \draw (0,-4)--(0,0);
+  \draw[->] (0,0)--(0,3.1);
+  \node[anchor=east] at (-0.03,3.0) {$y$};
+  \foreach \j in {-4,-3,-2,-1,1,2} \draw (-0.05,\j)--(0,\j);
+  % tick labels
+  \foreach \j in {-4,-3,-2,-1} \node[anchor=east,font=\small] at (-0.05,\j) {$\j$};
+  \node[anchor=east,font=\small] at (-0.05,1) {$1$};
+  \node[anchor=south east,font=\small] at (-0.04,2.05) {$2$};
+  \node[anchor=north east,font=\small] at (-0.02,-0.05) {$0$};
+  \node[anchor=north,font=\small] at (-pi,-0.12) {$-\pi$};
+  \node[anchor=north,font=\small] at (-pi/2,-0.08) {$-\dfrac{\pi}{2}$};
+  \node[anchor=north,font=\small] at (pi/2,-0.08) {$\dfrac{\pi}{2}$};
+  \node[anchor=north,font=\small] at (pi,-0.12) {$\pi$};
+  \node[anchor=north,font=\small] at (3*pi/2,-0.08) {$\dfrac{3\pi}{2}$};
+  \node[anchor=north,font=\small] at (2*pi,-0.12) {$2\pi$};
+  % curve
+  \draw[line width=0.9pt] plot[smooth,samples=151,domain=-pi:2*pi] (\x,{3*cos(2*\x r)-1});
+\end{tikzpicture}
+\end{document}

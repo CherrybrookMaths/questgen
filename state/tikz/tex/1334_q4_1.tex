@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % hatched rectangles
+  \path[shade hatch reverse] (134,268) rectangle (226,177);
+  \path[shade hatch reverse] (226,268) rectangle (318,110.4);
+  \draw[aux] (134,268)--(134,177)--(226,177);
+  \draw[aux] (226,110.4)--(318,110.4);
+  \draw[aux] (318,268)--(318,86);
+  \draw (226,268)--(226,110.4);
+  % axes
+  \draw[->] (0,268)--(396,268) node[right]{$x$};
+  \draw[->] (42,316)--(42,38) node[above]{$y$};
+  \draw (34,86)--(50,86);
+  \node[left] at (32,86) {$1$};
+  \foreach \px/\l in {134/6,226/3,318/2}
+    \node[below,font=\scriptsize] at (\px,284) {$\dfrac{\pi}{\l}$};
+  % curve y = sin x
+  \draw[line width=0.9pt,->] plot[domain=42:388,samples=90,smooth] (\x,{268-182*sin(deg((\x-42)/92*pi/6))});
+\end{tikzpicture}
+\end{document}

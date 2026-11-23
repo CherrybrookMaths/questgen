@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] plot[domain=0:0.7854, samples=30, smooth] ({367+114*\x},{330-164*cos(\x r)})
+  -- plot[domain=0.7854:0, samples=30, smooth] ({367+114*\x},{330-82/cos(\x r)}) -- cycle;
+\draw[->] (55,330) -- (683,330);
+\node at (680,356) {$x$};
+\draw[->] (367,490) -- (367,22);
+\node[anchor=east] at (358,24) {$y$};
+\node at (352,354) {$O$};
+\draw[line width=0.9pt] plot[domain=-2.5:2.5, samples=90, smooth] ({367+114*\x},{330-164*cos(\x r)});
+\draw[line width=0.9pt] plot[domain=-1.28:1.28, samples=90, smooth] ({367+114*\x},{330-82/cos(\x r)});
+\node at (403,218) {$R$};
+\end{tikzpicture}
+\end{document}

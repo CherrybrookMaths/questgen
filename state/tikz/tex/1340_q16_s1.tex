@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (1306,1140);
+\def\ox{185}\def\oy{1020}\def\ux{72}\def\uy{3.5833}
+\tikzset{minor/.style={black!35,line width=0.3pt,dash pattern=on 1pt off 1pt},major/.style={black!60,line width=0.45pt}}
+\foreach \i in {1,...,75} \draw[minor] ({\ox+\i*\ux/5},\oy)--({\ox+\i*\ux/5},{\oy-280*\uy});
+\foreach \j in {1,...,70} \draw[minor] (\ox,{\oy-\j*4*\uy})--({\ox+15*\ux},{\oy-\j*4*\uy});
+\foreach \i in {1,...,15} \draw[major] ({\ox+\i*\ux},\oy)--({\ox+\i*\ux},{\oy-280*\uy});
+\foreach \j in {1,...,14} \draw[major] (\ox,{\oy-\j*20*\uy})--({\ox+15*\ux},{\oy-\j*20*\uy});
+\draw[->] (\ox,\oy)--({\ox+15*\ux+12},\oy);
+\draw[->] (\ox,\oy)--(\ox,{\oy-280*\uy-12});
+\begin{scope}[font=\small]
+\foreach \i in {1,...,14} \node at ({\ox+\i*\ux},1048) {\i};
+\foreach \v in {20,40,...,260} \node[left,inner sep=1pt] at (176,{\oy-\v*\uy}) {\v};
+\node at (170,1034) {0};
+\node at (725,1092) {Time (hours)};
+\node[rotate=90] at (95,550) {Distance from Liverpool (km)};
+\end{scope}
+% Chris: C = 250 - 20t ; Ann: A = 90 + 12t
+\draw[line width=0.9pt] (\ox,{\oy-250*\uy}) -- ({\ox+12.5*\ux},\oy);
+\draw[line width=0.9pt] (\ox,{\oy-90*\uy}) -- ({\ox+11*\ux},{\oy-222*\uy});
+\fill (\ox,{\oy-250*\uy}) circle (6);
+\fill (\ox,{\oy-90*\uy}) circle (6);
+\fill ({\ox+5*\ux},{\oy-150*\uy}) circle (6);
+\node[right] at ({\ox+12.5*\ux+8},{\oy-24}) {\halo{Chris}};
+\node[right] at ({\ox+11*\ux+8},{\oy-222*\uy}) {\halo{Ann}};
+\end{tikzpicture}
+\end{document}

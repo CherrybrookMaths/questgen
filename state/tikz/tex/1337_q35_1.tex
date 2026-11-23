@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\lt{1.0986123}
+  \fill[shade] plot[smooth,samples=40,domain=0:2] ({512+45.5*\x},{330-7.6*(exp(2*\x*\lt)-10*exp(\x*\lt)+9)}) -- cycle;
+  \draw[<->] (5,330) -- (1040,330);
+  \draw[<->] (512,598) -- (512,60);
+  \node at (512,30) {$y$};
+  \node at (1056,332) {$x$};
+  \draw[line width=0.9pt,<->] plot[smooth,samples at={-11,-9,-7,-5,-4,-3,-2.5,-2,-1.5,-1,-0.8,-0.6,-0.4,-0.2,0,0.2,0.4,0.6,0.8,0.9,1,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.1,2.2,2.25,2.276}] ({512+45.5*\x},{330-7.6*(exp(2*\x*\lt)-10*exp(\x*\lt)+9)});
+  \node at (305,206) {$3^{2x}-10(3^{x})+9$};
+\end{tikzpicture}
+\end{document}

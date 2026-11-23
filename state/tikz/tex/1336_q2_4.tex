@@ -1,0 +1,9 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (8,213)--(400,213) node[right,inner sep=2pt]{$x$};
+\draw[->] (206,435)--(206,30) node[above,inner sep=1pt]{$y$};
+\draw[line width=0.9pt,<->] plot[domain=26:296,samples=90,smooth] (\x,{48+(0.14283*(\x-161))^2});
+\end{tikzpicture}
+\end{document}

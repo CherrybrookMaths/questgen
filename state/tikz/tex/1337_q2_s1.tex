@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+  \coordinate (P) at (0,0);
+  \coordinate (Q) at (4.5,0);
+  \coordinate (R) at (2.652,5.687);
+  \draw (P) -- (Q) -- (R) -- cycle;
+  \draw (P) ++(0:0.6) arc[start angle=0,end angle=65,radius=0.6];
+  \draw (Q) ++(108:0.6) arc[start angle=108,end angle=180,radius=0.6];
+  \draw (R) ++(245:0.8) arc[start angle=245,end angle=288,radius=0.8];
+  \node at ($(P)+(32.5:1.0)$) {$65^\circ$};
+  \node at ($(Q)+(144:1.05)$) {$72^\circ$};
+  \node at ($(R)+(266.5:1.25)$) {$43^\circ$};
+  \node at ($(1.326,2.844)+(-0.906*0.35,0.423*0.35)$) {$y$};
+  \node at ($(3.576,2.844)+(0.951*0.35,0.309*0.35)$) {$x$};
+\end{tikzpicture}
+\end{document}

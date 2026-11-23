@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (15,250) -- (442,250);
+  \draw[<->] (228,455) -- (228,48);
+  \foreach \t/\l in {-2/{-2},-1/{-1},1/1,2/2} {
+    \draw ({228+91*\t},243) -- ({228+91*\t},257);
+    \node at ({228+91*\t},278) {$\l$};
+    \draw (221,{250-88*\t}) -- (235,{250-88*\t});
+    \node[anchor=east] at (212,{250-88*\t}) {$\l$};
+  }
+  \draw[line width=0.9pt,<->] plot[domain=0:1,samples=90,smooth,variable=\u]
+    ({228+91*0.135*exp(2.835*\u)},{250-81.84*(2.835*\u-0.3417)/(0.135*exp(2.835*\u))});
+  \node at (215,20) {$y$};
+  \node at (460,252) {$x$};
+  \node at (442,126) {$f(x)$};
+\end{tikzpicture}
+\end{document}

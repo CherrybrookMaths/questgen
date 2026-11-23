@@ -1,20 +1,21 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{11}{13}\selectfont}]
 \coordinate (K) at (141,217);
 \draw (20,497)--(20,17)--(432,17);
 \draw (432,217)--(K)--(141,497);
 \draw[line width=0.9pt] (20,378)--(289,17);
-\draw (K) ++(65,0) arc[start angle=0,end angle=53.4,radius=65];
+\draw (K) ++(65,0) arc[start angle=0,end angle=-53.4,radius=65];
 \node at (180,193) {$\theta$};
-\node at (126,186) {$L$};
+\draw[fill=white,draw=none] (0,0) circle[radius=0];
+\node at (128,184) {$L$};
 \draw[<->] (335,17)--(335,217);
-\node[anchor=east] at (322,117) {4 m};
+\node at (298,117) {4 m};
 \draw[<->] (20,433)--(141,433);
-\node[anchor=south] at (80,428) {3 m};
+\node at (80,411) {3 m};
 \draw[aux,->] (383,103)--(505,103);
-\node at (441,130) {classroom};
+\node at (443,129) {classroom};
 \draw[aux,->] (80,522)--(80,488);
 \node at (80,543) {entrance};
 \draw[aux] (80,562)--(80,590);

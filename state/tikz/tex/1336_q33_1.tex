@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \begin{scope}[shift={(390,487)}, x=2.1463cm, y=3.5433cm]
+    \draw[->] (-2.2,0) -- (2.27,0) node[right]{$x$};
+    \draw[->] (0,-0.58) -- (0,1.63) node[above]{$y$};
+    \draw[line width=0.9pt, <->, domain=-2.1:2.1, samples=90, smooth] plot (\x,{exp(-\x*\x)});
+    \draw (-0.933,0) -- (-0.933,0.4188) -- (0.933,0.4188) -- (0.933,0);
+    \node[anchor=south east] at (-0.95,0.44) {$R$};
+    \node[anchor=south west] at (0.95,0.44) {$Q$};
+    \node[anchor=north] at (-0.933,-0.05) {$S$};
+    \node[anchor=north] at (0.933,-0.05) {$P$};
+    \node[anchor=north east] at (-0.04,-0.05) {$O$};
+    \node[anchor=north] at (0.43,-0.02) {$m$};
+    \node[anchor=west] at (0.38,1.06) {$y=e^{-x^2}$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=143.7*0.0127cm,y=38.3*0.0127cm,every node/.style={font=\large}]
+  % origin at crop pixel (489,493)
+  \draw[<->] (-3.335,0) -- (4.32,0);
+  \draw[<->] (0,-4.2) -- (0,11.2);
+  \node at (4.45,0) {$x$};
+  \node at (0,11.65) {$y$};
+  \draw[line width=0.9pt,<-] (-3.33,-2.33) -- (-1,0) -- (-0.075,-0.925);
+  \draw[line width=0.9pt,smooth,samples=90,domain=0:3] plot (\x,{\x*\x+1});
+  \fill (0,1) circle[radius=3pt];
+  \fill (3,10) circle[radius=3pt];
+  \draw[fill=white] (0,-1) circle[radius=3pt];
+  \node at (3.62,11.0) {$(3,10)$};
+  \node at (0.18,2.5) {$1$};
+  \node at (-1.52,1.4) {$-1$};
+  \node at (0.36,-1.5) {$-1$};
+\end{tikzpicture}
+\end{document}

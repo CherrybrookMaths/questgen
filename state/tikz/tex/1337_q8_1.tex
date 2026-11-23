@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (40,478) -- (805,478) node[right,font=\small] {$x$};
+  \draw[->] (449,478) -- (449,62) node[above,font=\small] {$y$};
+  \begin{scope}[font=\small]
+  \foreach \v/\x in {-60/127,-40/233,-20/340,20/556,40/661,60/769} \node at (\x,516) {$\v$};
+  \node at (438,513) {$O$};
+  \foreach \v/\y in {80/140,60/228,40/311,20/393} \node at (413,\y) {$\v$};
+  \node at (300,250) {$N_1$};
+  \node at (662,127) {$N_2$};
+  \end{scope}
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=75:730] (\x,{478-240*exp(-((\x-390)/86)^2/2)});
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=362:770] (\x,{478-376*exp(-((\x-580)/54)^2/2)});
+\end{tikzpicture}
+\end{document}

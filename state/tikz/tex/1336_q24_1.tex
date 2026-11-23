@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (52,245);
+  \coordinate (A) at (470.5,40);
+  \coordinate (B) at (487,412);
+  \coordinate (C) at (228,312.6);
+  \fill[shade] (A) -- (C) -- (B) arc[start angle=21, end angle=-26.1, radius=466];
+  \draw (A) -- (O) -- (B) arc[start angle=21, end angle=-26.1, radius=466];
+  \draw (A) -- (C);
+  \draw ($(O)+(-26.1:68)$) arc[start angle=-26.1, end angle=21, radius=68];
+  \draw ($(C)+(-158:35)$) arc[start angle=-158, end angle=-48.7, radius=35];
+  \fill (O) circle (1.6pt);
+  \fill (C) circle (1.6pt);
+  \node at (142,242) {$23^\circ$};
+  \node at (213,262) {$130^\circ$};
+  \node at (30,245) {$O$};
+  \node at (478,20) {$A$};
+  \node at (490,437) {$B$};
+  \node at (212,334) {$C$};
+\end{tikzpicture}
+\end{document}

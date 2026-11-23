@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.1045cm,y=0.004382cm]
+\draw[->] (-3,0) -- (58,0) node[right] {$t$};
+\draw[->] (0,-70) -- (0,580) node[right] {$c(t)$};
+\foreach \i in {13,26,39,52} {\draw (\i,10) -- (\i,-10); \node[below,font=\footnotesize] at (\i,-14) {$\i$};}
+\foreach \j in {100,200,...,500} {\draw (0.6,\j) -- (-0.6,\j); \node[left,font=\footnotesize] at (-0.7,\j) {$\j$};}
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:52] (\x,{200*cos(deg(pi*\x/26))+300});
+\fill (0,500) circle (1.6pt); \fill (52,500) circle (1.6pt);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {0,...,20}{
+  \pgfmathsetmacro\xx{65+40.05*\i}\pgfmathsetmacro\yy{91+42.35*\i}
+  \draw[black!20,line width=0.5pt] (\xx,91)--(\xx,938);
+  \draw[black!20,line width=0.5pt] (65,\yy)--(866,\yy);}
+\foreach \i in {0,5,15,20}{
+  \pgfmathsetmacro\xx{65+40.05*\i}\pgfmathsetmacro\yy{91+42.35*\i}
+  \draw[black!40,line width=0.5pt] (\xx,91)--(\xx,938);
+  \draw[black!40,line width=0.5pt] (65,\yy)--(866,\yy);}
+\foreach \i in {0,...,9,11,12,...,20}{
+  \pgfmathsetmacro\xx{65+40.05*\i}\pgfmathsetmacro\yy{91+42.35*\i}
+  \draw (\xx,508)--(\xx,521);
+  \draw (459,\yy)--(472,\yy);}
+\draw[<->] (30,514.5)--(900,514.5);
+\draw[<->] (465.5,975)--(465.5,55);
+\node[anchor=west] at (905,514.5) {$x$};
+\node[anchor=south] at (465.5,52) {$y$};
+\end{tikzpicture}
+\end{document}

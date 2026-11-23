@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (371,357);
+\coordinate (A) at (371,46);
+\coordinate (B) at (117.4,537);
+\coordinate (C) at (624.6,537);
+\coordinate (D) at (371,537);
+\draw (O) circle (3.95cm);
+\draw (A)--(B)--(C)--cycle;
+\draw[aux] (A)--(D);
+\draw[aux] (O)--(C);
+\draw (D)++(-13,0) |- ++(13,-13);
+\draw ($(A)!0.5!(B)!10pt!90:(B)$)--($(A)!0.5!(B)!10pt!-90:(B)$);
+\draw ($(A)!0.5!(C)!10pt!90:(C)$)--($(A)!0.5!(C)!10pt!-90:(C)$);
+\pic[draw, <-, angle radius=0.86cm] {angle=D--O--C};
+\node[font=\footnotesize] at (371,15) {$A$};
+\node[font=\footnotesize] at (93,553) {$B$};
+\node[font=\footnotesize] at (650,557) {$C$};
+\node[font=\footnotesize] at (364,572) {$D$};
+\node[font=\footnotesize] at (350,358) {$O$};
+\node at (392,401) {$\theta$};
+\end{tikzpicture}
+\end{document}

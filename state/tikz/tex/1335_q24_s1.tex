@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \treewidth{1}{$W$}\treewidth{1}{$R$}
+  \treewidth{2}{$W$}\treewidth{2}{$R$}
+  \treecolumns{2}
+  \treeroot{o}{0cm}
+  \treenode{w}{1}{2.4cm}{$W$}
+  \treenode{r}{1}{-2.4cm}{$R$}
+  \treenode{ww}{2}{3.7cm}{$W$}
+  \treenode{wr}{2}{1.1cm}{$R$}
+  \treenode{rw}{2}{-1.1cm}{$W$}
+  \treenode{rr}{2}{-3.7cm}{$R$}
+  \treebranch{o}{w}{$\dfrac{x}{x+7}$}
+  \treebranch{o}{r}{$\dfrac{7}{x+7}$}
+  \treebranch{w}{ww}{$\dfrac{x-1}{x+6}$}
+  \treebranch{w}{wr}{$\dfrac{7}{x+6}$}
+  \treebranch{r}{rw}{$\dfrac{x}{x+6}$}
+  \treebranch{r}{rr}{$\dfrac{6}{x+6}$}
+\end{tikzpicture}
+\end{document}

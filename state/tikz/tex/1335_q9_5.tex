@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\draw[->] (0,133) -- (345,133);
+\draw[->] (170,230) -- (170,15);
+\node at (356,133) {$x$};
+\node at (170,7) {$y$};
+\node at (183,117) {$O$};
+\draw[line width=0.9pt] plot[smooth, samples=90, domain=5:345, variable=\t] (\t,{133+((\t-170)/sqrt(1+((\t-170)/55)^2)+0.09*(\t-170))});
+\end{tikzpicture}
+\end{document}

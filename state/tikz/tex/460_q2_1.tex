@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {-1,...,9} \draw[black!15,line width=0.4pt] ({98+67.5*\i},0) -- ({98+67.5*\i},547);
+\foreach \j in {-5,...,9} \draw[black!15,line width=0.4pt] (0,{354-37.625*\j}) -- (734,{354-37.625*\j});
+\foreach \i in {4,8} \draw[black!40,line width=0.4pt] ({98+67.5*\i},0) -- ({98+67.5*\i},547);
+\foreach \j in {-4,4,8} \draw[black!40,line width=0.4pt] (0,{354-37.625*\j}) -- (734,{354-37.625*\j});
+\draw (0,354) -- (734,354);
+\draw (98,0) -- (98,547);
+\draw[line width=0.9pt,smooth,samples=90,domain=0:pi,variable=\t] plot ({98+171.887*\t},{354-75.25*(3*cos(2*\t r)+1)});
+\begin{scope}[font=\footnotesize]
+\node[anchor=east] at (91,53) {\halo{$4$}};
+\node[anchor=east] at (91,203) {\halo{$2$}};
+\node[anchor=east] at (91,505) {\halo{$-2$}};
+\node[anchor=north east] at (91,360) {\halo{$0$}};
+\node[anchor=north] at (369,359) {\halo{$\dfrac{\pi}{2}$}};
+\node[anchor=north] at (638,360) {\halo{$\pi$}};
+\end{scope}
+\end{tikzpicture}
+\end{document}

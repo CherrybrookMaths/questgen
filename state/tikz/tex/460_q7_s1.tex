@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(640,500)},x=1.2446cm,y=0.8636cm]
+\foreach \i in {-31,...,30} \draw[black!12,line width=0.4pt] ({\i/5},-6.54) -- ({\i/5},6.62);
+\foreach \j in {-32,...,33} \draw[black!12,line width=0.4pt] (-6.22,{\j/5}) -- (6.12,{\j/5});
+\foreach \i in {-6,...,6} \draw[black!40,line width=0.4pt] (\i,-6.54) -- (\i,6.62);
+\foreach \j in {-6,...,6} \draw[black!40,line width=0.4pt] (-6.22,\j) -- (6.12,\j);
+\draw (-6.22,0) -- (6.12,0);
+\draw (0,-6.54) -- (0,6.62);
+% f
+\draw[line width=0.9pt,smooth,samples=90,domain=-0.573:4.573,variable=\t] plot (\t,{(\t-2)^2});
+% h and k (working curves)
+\draw[aux,<->,smooth,samples=90,domain=-0.17:2.17,variable=\t] plot (\t,{(2*\t-2)^2});
+\draw[aux,<->,smooth,samples=90,domain=-0.62:1.62,variable=\t] plot (\t,{(2*\t-1)^2});
+% g
+\draw[line width=0.9pt,<->,smooth,samples=90,domain=-0.65:1.65,variable=\t] plot (\t,{(2*\t-1)^2-2});
+\foreach \p in {(-0.5,4),(0,4),(1.5,4),(2,4),(0.5,0),(1,0),(-0.5,2),(1.5,2),(0.5,-2)} \node[pt] at \p {};
+\begin{scope}[font=\scriptsize]
+\foreach \i in {-6,...,-1,1,2,3,4,5,6} \node[anchor=north] at (\i,-0.12) {\halo{$\i$}};
+\foreach \j in {-6,...,-1,1,2,3,4,6} \node[anchor=east] at (-0.07,\j) {\halo{$\j$}};
+\node[anchor=west] at (0.07,5) {\halo{$5$}};
+\node[anchor=north east] at (-0.05,-0.12) {\halo{$0$}};
+\end{scope}
+\begin{scope}[font=\small]
+\node[anchor=west] at (4.6,6.0) {\halo{$f(x)$}};
+\node[anchor=west] at (2.3,5.3) {\halo{$h(x)$}};
+\node[anchor=east] at (-0.72,4.9) {\halo{$k(x)$}};
+\node[anchor=west] at (1.2,-1.1) {\halo{$g(x)$}};
+\node[anchor=east] at (-0.62,2) {\halo{$(-0.5,2)$}};
+\draw (1.56,2) -- (1.93,2);
+\node[anchor=west] at (1.95,2) {\halo{$(1.5,2)$}};
+\node[anchor=north] at (0.5,-2.12) {\halo{$(0.5,-2)$}};
+\end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{document}

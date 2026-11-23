@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.4191cm,y=0.20955cm,font=\scriptsize]
+  \draw[black!15,line width=0.3pt,xstep=0.5,ystep=1] (-10,-10) grid (10,10);
+  \draw[black!35,line width=0.3pt,step=5] (-10,-10) grid (10,10);
+  \draw[<->] (-11.3,0) -- (11.4,0);
+  \draw[<->] (0,-12) -- (0,12);
+  \draw[aux] (-2,-12) -- (-2,12);
+  \draw[aux] (-11.2,-1) -- (11.2,-1);
+  \draw[line width=0.9pt,<->] plot[domain=-1.139:2.557,samples=90,smooth,variable=\s] ({-2+exp(\s)},{4/exp(\s)-1});
+  \draw[line width=0.9pt,<->] plot[domain=-0.976:2.197,samples=90,smooth,variable=\s] ({-2-exp(\s)},{-4/exp(\s)-1});
+  \node[pt] at (0,1) {}; \node[pt] at (2,0) {};
+  \node at (-0.7,10) {$10$}; \node at (-0.55,5) {$5$};
+  \node at (-0.8,-5) {$-5$}; \node at (-0.9,-10) {$-10$};
+  \node at (5,-2.2) {$5$}; \node at (10,-2.2) {$10$};
+  \node at (-5,1.2) {$-5$}; \node at (-10,1.2) {$-10$};
+  \node at (0.2,13.2) {$y$}; \node at (11.8,0) {$x$};
+  \tikzset{box/.style={fill=black!10,align=left,inner sep=5pt}}
+  \node[box] at (-5.94,4.97) {Vertical asymptote\\ $x=-2$};
+  \draw (-4.3,2.79) -- (-2.48,0.67);
+  \node[box] at (1.6,7.15) {$y$ intercept\\ $(0,1)$};
+  \draw (0.85,4.79) -- (0.3,1.9);
+  \node[box] at (5.94,6.73) {$x$ intercept\\ $(2,0)$};
+  \draw (4.33,3.58) -- (2.36,0.67);
+  \node[box] at (3.42,-5.39) {Horizontal asymptote\\ $y=-1$};
+  \draw (0.39,-1.76) -- (1.45,-3.21);
+\end{tikzpicture}
+\end{document}

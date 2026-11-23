@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5143cm,y=0.508cm]
+  \foreach \k in {-5,...,15} \draw[black!10,line width=0.3pt] (\k/2,-6.35) -- (\k/2,4.4);
+  \foreach \j in {-12,...,8} \draw[black!10,line width=0.3pt] (-2.5,\j/2) -- (7.5,\j/2);
+  \foreach \k in {-2,...,7} \draw[black!35,line width=0.4pt] (\k,-6.35) -- (\k,4.4);
+  \foreach \j in {-6,...,4} \draw[black!35,line width=0.4pt] (-2.5,\j) -- (7.5,\j);
+  \draw (-2.5,0) -- (7.5,0);
+  \draw (0,-6.35) -- (0,4.4);
+  \draw[line width=0.9pt] (-0.65,-6.3) -- (4,3) -- (7.5,-4);
+  \begin{scope}[font=\tiny,inner sep=1.2pt]
+  \foreach \k in {-2,-1,1,2,...,7} \node[below] at (\k,0) {$\k$};
+  \node[below left] at (0,0) {$0$};
+  \foreach \j in {-4,...,-1,1,2,3,4} \node[left] at (0,\j) {$\j$};
+  \node[anchor=west] at (0.18,-5) {$-5$};
+  \node[anchor=west] at (0.04,-6) {$-6$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

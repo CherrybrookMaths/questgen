@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade] (177,{630-62.93*exp(2)}) -- (177,{630-62.93}) -- plot[domain=0:1,samples=60,smooth] ({177+266*\x},{630-62.93*exp(2*\x)}) -- cycle;
+\draw[<->] (20,632)--(615,632);
+\draw[->] (177,690)--(177,48);
+\draw (177,{630-62.93*exp(2)}) -- (443,{630-62.93*exp(2)});
+\draw[aux] (443,{630-62.93*exp(2)}) -- (443,632);
+\draw[line width=0.9pt] plot[domain=-0.59:1.109,samples=90,smooth] ({177+266*\x},{630-62.93*exp(2*\x)});
+\node at (628,634) {$x$};
+\node at (177,30) {$y$};
+\node[left] at (166,165) {$e^2$};
+\node at (152,555) {$1$};
+\node at (450,662) {$1$};
+\node[right] at (465,102) {$y=e^{2x}$};
+\end{tikzpicture}
+\end{document}

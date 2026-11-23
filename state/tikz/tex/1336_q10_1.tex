@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\F#1{607-50*(#1)-15.744*(#1)^2-3.076*(#1)^3}
+\def\G#1{323-34.038*(#1)+9.794*(#1)^2+6.377*(#1)^3}
+\fill[shade] plot[domain=0:3.3,samples=60,smooth] ({168+100*\x},{\G{\x}}) -- plot[domain=3.3:0,samples=60,smooth] ({168+100*\x},{\F{\x}}) -- cycle;
+\draw[black!45,line width=0.6pt] (498,{\G{3.3}})--(498,{\F{3.3}});
+\draw[->] (22,373)--(790,373) node[right,inner sep=2pt]{$x$};
+\draw[->] (168,795)--(168,40) node[above,inner sep=1pt]{$y$};
+\draw (498,373)--(498,386);
+\draw[aux,line width=0.9pt,->] plot[domain=0:3.62,samples=90,smooth] ({168+100*\x},{\F{\x}});
+\draw[line width=0.9pt,->] plot[domain=0:4.12,samples=90,smooth] ({168+100*\x},{\G{\x}});
+\fill (168,323) circle (8); \fill (168,607) circle (8);
+\node[font=\large] at (140,400) {$O$};
+\node[font=\large] at (397,412) {$a$};
+\node[font=\large] at (522,410) {$b$};
+\node[font=\large,anchor=west] at (540,130) {$y=f(x)$};
+\node[font=\large,anchor=west] at (570,690) {$y=g(x)$};
+\end{tikzpicture}
+\end{document}

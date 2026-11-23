@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,244) -- (768,244);
+  \draw[<->] (386,455) -- (386,45);
+  \node at (382,22) {$y$};
+  \node at (786,246) {$x$};
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-2.365:1.405] ({386+70*\x},{244-16.3*(\x*\x*\x+\x*\x+3*\x+3)});
+  \fill (362.67,210.2) circle (6);
+  \node[font=\small] at (312,152) {$\left(-\dfrac{1}{3},\dfrac{56}{27}\right)$};
+  \node at (426,197) {$3$};
+  \node at (330,295) {$-1$};
+\end{tikzpicture}
+\end{document}

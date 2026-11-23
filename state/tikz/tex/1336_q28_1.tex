@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \begin{scope}[shift={(62,378)}, x=0.6223cm, y=0.3239cm]
+    \draw[->] (0,0) -- (10.4,0) node[right]{$t$\ \ \textit{(s)}};
+    \draw[->] (0,-9.2) -- (0,12.9);
+    \node[anchor=south] at (0,13.2) {$v$ \textit{(m/s)}};
+    \foreach \k in {1,...,10} \draw (\k,0.25) -- (\k,-0.25);
+    \foreach \k in {-9,...,-1,1,2,...,12} \draw (0.1,\k) -- (-0.1,\k);
+    \foreach \k in {2,4,5,6,8,10} \node[anchor=north] at (\k,-0.3) {$\k$};
+    \foreach \k in {10,5,-5} \node[anchor=east] at (-0.15,\k) {$\k$};
+    \node[anchor=north east] at (-0.1,-0.3) {$0$};
+    \draw[line width=0.9pt] (0,10) -- (9.5,-9);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

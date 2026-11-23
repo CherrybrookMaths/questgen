@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (200,513);
+\coordinate (P) at ({200+282*cos(45.3)},{513-282*sin(45.3)});
+\draw[<->] (68,513) -- (692,513);
+\node at (718,513) {$x$};
+\draw[<->] (200,568) -- (200,90);
+\node at (200,60) {$y$};
+\draw plot[domain=0:90, samples=60, smooth] ({200+282*cos(\x)},{513-282*sin(\x)});
+\draw (O) -- (P);
+\draw (352,513) -- (P);
+\draw (200,276) -- (P);
+\node[anchor=east] at (192,276) {$N(0,4)$};
+\node[anchor=east] at (192,231) {$5$};
+\node at (458,291) {$P(x,y)$};
+\node[anchor=north east] at (194,520) {$0$};
+\node[anchor=north] at (357,520) {$M(2,0)$};
+\node[anchor=north] at (480,520) {$5$};
+\node at (244,494) {$\theta$};
+\node at (793,215) {\textbf{NOT TO SCALE}};
+\end{tikzpicture}
+\end{document}

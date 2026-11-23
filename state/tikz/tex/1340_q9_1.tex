@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (63,351);
+\draw (474,351) -- (O) -- ($(O)+(-56:411)$);
+\draw (474,351) arc[start angle=0,end angle=-56,radius=411];
+\fill (O) circle (5); \fill (474,351) circle (5); \fill ($(O)+(-56:411)$) circle (5);
+\node at (44,371) {$O$};
+\node at (104,336) {$\theta$};
+\node at (268,380) {$6\,\mathrm{cm}$};
+\node at (466,135) {$5\,\mathrm{cm}$};
+\end{tikzpicture}
+\end{document}

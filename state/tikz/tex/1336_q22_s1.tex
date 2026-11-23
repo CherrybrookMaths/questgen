@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \begin{scope}[shift={(455,311)}, x=0.7493cm, y=0.7518cm]
+    \begin{scope}
+      \clip (-7.71,-5.25) rectangle (8.81,5.25);
+      \foreach \k in {-7,...,8} \draw[black!15] (\k,-5.3) -- (\k,5.3);
+      \foreach \k in {-5,...,5} \draw[black!15] (-7.8,\k) -- (8.9,\k);
+      \draw (-7.8,0) -- (8.9,0);
+      \draw (0,-5.3) -- (0,5.3);
+      \draw[line width=0.9pt] (-6.25,-5.25) -- (4.25,5.25);
+      \draw[line width=0.9pt, domain=-2*pi:2*pi, samples=90, smooth] plot (\x,{3*sin(\x/2 r)});
+    \end{scope}
+    \foreach \p in {(-2*pi,0),(-pi,-3),(0,0),(pi,3),(2*pi,0),(-3.824,-2.824)} \node[pt] at \p {};
+    \node at (-5,-0.38) {$-5$};
+    \node at (5,-0.38) {$5$};
+    \node[anchor=north east] at (-0.06,-0.06) {$0$};
+    \node[anchor=west] at (0.08,4.95) {$5$};
+    \node[anchor=east] at (-0.1,-4.95) {$-5$};
+    \node[anchor=east] at (-0.15,3) {$3$};
+    \node[anchor=east] at (-0.15,-3) {$-3$};
+    \node[font=\large] at (-6.18,0.78) {$(-2\pi,0)$};
+    \node[font=\large] at (4.32,3.8) {$(\pi,3)$};
+    \node[font=\large] at (7.49,0.78) {$(2\pi,0)$};
+    \node[font=\large] at (1.1,-0.75) {$(0,0)$};
+    \node[font=\large] at (-1.64,-3.71) {$(-\pi,-3)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

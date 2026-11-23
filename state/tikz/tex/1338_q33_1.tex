@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.3335cm,y=0.73cm]
+\fill[shade] plot[smooth,samples=60,domain=-1.7320508:0] (\x,{\x*\x*\x-\x*\x-3*\x+2}) -- plot[smooth,samples=60,domain=0:-1.7320508] (\x,{-\x*\x+2}) -- cycle;
+\fill[shade] plot[smooth,samples=60,domain=0:1.7320508] (\x,{\x*\x*\x-\x*\x-3*\x+2}) -- plot[smooth,samples=60,domain=1.7320508:0] (\x,{-\x*\x+2}) -- cycle;
+\draw[->] (-2.19,0) -- (2.27,0) node[right,font=\small] {$x$};
+\draw[->] (0,-2.45) -- (0,3.6) node[above,font=\small] {$y$};
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=-1.87:2.155] (\x,{\x*\x*\x-\x*\x-3*\x+2});
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=-2.098:2.098] (\x,{-\x*\x+2});
+\node[font=\Large] at (-0.876,2.03) {\halo{$\boldsymbol{A}$}};
+\node[font=\Large] at (0.81,0.17) {\halo{$\boldsymbol{B}$}};
+\node[font=\fontsize{9.5}{11}\selectfont] at (2.92,2.26) {$g(x)=x^3-x^2-kx+2$};
+\node[font=\fontsize{9.5}{11}\selectfont] at (2.92,-1.70) {$f(x)=-x^2+2$};
+\end{tikzpicture}
+\end{document}

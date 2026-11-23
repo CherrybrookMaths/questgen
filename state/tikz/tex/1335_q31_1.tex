@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=2.6797cm,y=7.6708cm]
+  \fill[shade] plot[domain=0:2,samples=40] (\x,{0.541341-0.135335*\x}) -- plot[smooth,domain=2:0,samples=90] (\x,{\x*exp(-\x)}) -- cycle;
+  \draw[->] (-0.213,0)--(4.218,0);
+  \draw[->] (0,-0.03)--(0,0.74);
+  \node[anchor=east,font=\large] at (-0.03,0.725) {$y$};
+  \node[anchor=north,font=\large] at (4.17,-0.012) {$x$};
+  \node[anchor=north east,font=\large] at (-0.06,-0.004) {$O$};
+  \draw[line width=0.9pt] plot[smooth,domain=-0.02:3.5,samples=90] (\x,{\x*exp(-\x)});
+  \draw[line width=0.9pt] (-0.213,{0.541341+0.135335*0.213})--(3.5,{0.541341-0.135335*3.5});
+  \node[pt] at (2,0.270671) {};
+  \node[anchor=south west,font=\large] at (1.8,0.318) {$R\left(2,\,\dfrac{2}{\mathrm{e}^2}\right)$};
+  \node[font=\large] at (0.70,0.175) {$y=x\mathrm{e}^{-x}$};
+\end{tikzpicture}
+\end{document}

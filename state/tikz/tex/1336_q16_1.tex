@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \begin{scope}[shift={(798,497)}, x=1.9304cm, y=0.767cm]
+    \draw[<->] (-5.15,0) -- (2.2,0) node[right]{$x$};
+    \draw[<->] (0,-1.45) -- (0,7.45) node[above, inner sep=1pt]{$y$};
+    \foreach \k in {-5,...,-1,1,2} {\draw (\k,0.06) -- (\k,-0.06); \node[anchor=north] at (\k,-0.1) {$\k$};}
+    \foreach \k in {-1,1,2,...,7} {\draw (0.02,\k) -- (-0.02,\k); \node[anchor=east] at (-0.03,\k) {$\k$};}
+    \node[anchor=north east] at (-0.03,-0.08) {$0$};
+    \draw[line width=0.9pt, <->] (-3.325,7.3) -- (-1.5,0) -- (0.325,7.3);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

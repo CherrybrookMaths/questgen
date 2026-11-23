@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % north lines and cross lines
+  \draw[->] (250,520)--(250,265);
+  \draw (178,447)--(322,447);
+  \node at (250,238) {North};
+  \draw[->] (885,770)--(885,520);
+  \draw (787,667)--(988,667);
+  \node at (885,498) {North};
+  % triangle
+  \draw (250,447)--(640,58)--(885,667)--cycle;
+  \node[pt] at (250,447) {};
+  \node[pt] at (640,58) {};
+  \node[pt] at (885,667) {};
+  \node[anchor=west] at (650,55) {L};
+  \node[anchor=north east] at (246,452) {Y};
+  \node[anchor=north west] at (891,671) {B};
+  \node at (980,740) {$332^\circ$};
+  \node at (415,215) {1.5 km};
+  \node at (975,28) {Not to scale};
+  % bearing arcs at Y
+  \draw[->] (250,447) ++(90:1.0795cm) arc[start angle=90,end angle=45.05,radius=1.0795cm];
+  \draw[->] (250,447) ++(90:1.524cm) arc[start angle=90,end angle=-19.1,radius=1.524cm];
+  \node at (185,388) {$32^\circ$};
+  \draw[->] (205,405) to[out=-40,in=190] (271,413);
+  \node at (405,381) {$120^\circ$};
+  \draw[->] (425,395) to[out=-90,in=25] (373,428);
+  % bearing arc at B
+  \draw[->] (885,667) ++(90:1.0795cm) arc[start angle=90,end angle=-248.1,radius=1.0795cm];
+\end{tikzpicture}
+\end{document}

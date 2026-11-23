@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\footnotesize}]
+  \draw[<->] (5,168) -- (530,168);
+  \draw[<->] (258,32) -- (258,310);
+  \node at (540,168) {$x$};
+  \node at (258,18) {$y$};
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=118:365] plot (\x,{168-0.01558*(\x-163)*(320-\x)});
+  \node at (274,65) {$24$};
+  \node at (176,184) {$-6$};
+  \node at (311,184) {$4$};
+  \node at (140,103) {$y=g(x)$};
+\end{tikzpicture}
+\end{document}

@@ -1,16 +1,16 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{11}{13}\selectfont}]
 \coordinate (O) at (232,230);
-\fill[shade,even odd rule] (O) circle[radius=228] (O) circle[radius=116];
-\fill[shade] (O) circle[radius=46];
-\draw (O) circle[radius=228] (O) circle[radius=116] (O) circle[radius=46];
+\fill[fill=black!30,even odd rule] (O) circle[radius=216] (O) circle[radius=116];
+\fill[fill=black!30] (O) circle[radius=46];
+\draw (O) circle[radius=216] (O) circle[radius=116] (O) circle[radius=46];
 \draw (O)--(209,116);
 \draw (O)--(278,230);
-\draw (O)--(68,371);
-\node[anchor=west] at (240,158) {5 cm};
-\node[anchor=west] at (281,230) {2 cm};
+\draw (O)--(67,370);
+\node[anchor=west] at (224,158) {5 cm};
+\node[anchor=west] at (272,230) {2 cm};
 \node at (206,298) {20 cm};
 \node[align=center] at (615,232) {NOT TO\\SCALE};
 \end{tikzpicture}

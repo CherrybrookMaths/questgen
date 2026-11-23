@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (28,329) -- (932,329);
+  \draw[<->] (480,568) -- (480,92);
+  \node at (478,64) {$y$};
+  \node at (948,331) {$x$};
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-1.28:3.905] ({480+81*\x},{329+20.5*(\x*\x-1)*(\x-3)*(\x-3)});
+  \node at (352,292) {$-1$};
+  \node at (580,282) {$1$};
+  \node at (748,284) {$3$};
+  \node at (459,165) {$9$};
+  \node at (707,117) {$y=-(x-1)(x+1)(x-3)^2$};
+\end{tikzpicture}
+\end{document}

@@ -1,21 +1,21 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{11}{13}\selectfont}]
 \coordinate (K) at (105,153); \coordinate (P) at (14,273);
 \draw (14,365)--(14,2)--(318,2);
 \draw (318,153)--(K)--(105,365);
 \draw[line width=0.9pt] (P)--(216,2);
 \draw[aux] (P)--(105,273);
-\draw (P) ++(45,0) arc[start angle=0,end angle=53,radius=45];
-\node at (45,262) {$\theta$};
-\draw (K) ++(55,0) arc[start angle=0,end angle=53,radius=55];
-\node at (127,140) {$\theta$};
-\node at (50,186) {$L_1$};
-\node at (162,70) {$L_2$};
+\draw (P) ++(45,0) arc[start angle=0,end angle=-53,radius=45];
+\node at (46,262) {$\theta$};
+\draw (K) ++(55,0) arc[start angle=0,end angle=-53,radius=55];
+\node at (135,140) {$\theta$};
+\node at (49,181) {$L_1$};
+\node at (139,58) {$L_2$};
 \draw[<->] (300,2)--(300,153);
-\node[anchor=west] at (308,77) {4 m};
+\node at (322,79) {4 m};
 \draw[<->] (14,348)--(105,348);
-\node[anchor=north] at (60,350) {3 m};
+\node at (60,362) {3 m};
 \end{tikzpicture}
 \end{document}

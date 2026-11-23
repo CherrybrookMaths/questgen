@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(337,317)},x=1.0516cm,y=0.696cm]
+\fill[shade] plot[domain=-2.35619:0.785398,samples=60,smooth] (\x,{sin(2*\x r)-\x}) -- cycle;
+\draw[->] (-4.07,0)--(2.98,0);
+\draw[->] (0,-4.13)--(0,5.7);
+\draw[line width=0.9pt] plot[domain=-4.07:3.0,samples=90,smooth] (\x,{sin(2*\x r)-\x});
+\draw[line width=0.9pt] (-4.07,5.07)--(3.0,-2.0);
+\node[pt] at (-2.35619,3.35619) {};
+\node[pt] at (0.785398,0.214602) {};
+\node[font=\large] at (-2.16,3.66) {$A$};
+\node[font=\large] at (0.98,0.52) {$B$};
+\node[font=\large] at (2.77,0.24) {$x$};
+\node[font=\large] at (0.17,5.43) {$y$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

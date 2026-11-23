@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (45,160);
+  \draw ($(O)+(-10.3:505)$) -- (O) -- ($(O)+(41.2:505)$);
+  \draw ($(O)+(-10.3:505)$) arc[start angle=-10.3, end angle=41.2, radius=505];
+  \draw[->] ($(O)+(-10.3:100)$) arc[start angle=-10.3, end angle=41.2, radius=100];
+  \node[font=\Large] at (116,183) {$\theta$};
+  \node[font=\Large] at (288,48) {$4$ cm};
+\end{tikzpicture}
+\end{document}

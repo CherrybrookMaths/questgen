@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (64,421); \coordinate (B) at (516,421); \coordinate (C) at (386,33);
+  \draw (A) -- (B) -- (C) -- cycle;
+  \draw[->] ($(A)+(-50.3:90)$) arc[start angle=-50.3, end angle=-1, radius=90];
+  \draw[->] ($(C)+(71.5:76)$) arc[start angle=71.5, end angle=128.5, radius=76];
+  \node[font=\small] at (170,373) {$65^\circ$};
+  \node[font=\small] at (367,136) {$43^\circ$};
+  \node[font=\small] at (170,218) {$y$};
+  \node[font=\small] at (504,228) {$x$};
+  \node[font=\small] at (685,116) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

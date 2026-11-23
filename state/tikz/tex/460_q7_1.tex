@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(583,427)},x=1.18961cm,y=0.82334cm]
+\foreach \i in {-31,...,31} \draw[black!12,line width=0.4pt] ({\i/5},-5.2) -- ({\i/5},6.586);
+\foreach \j in {-32,...,32} \draw[black!12,line width=0.4pt] (-6.224,{\j/5}) -- (6.235,{\j/5});
+\foreach \i in {-6,...,6} \draw[black!40,line width=0.4pt] (\i,-6.6) -- (\i,6.586);
+\foreach \j in {-6,...,6} \draw[black!40,line width=0.4pt] (-6.224,\j) -- (6.235,\j);
+\draw (-6.224,0) -- (6.235,0);
+\draw (0,-6.6) -- (0,6.586);
+\draw[line width=0.9pt,smooth,samples=90,domain=-0.566:4.566,variable=\t] plot (\t,{(\t-2)^2});
+\begin{scope}[font=\scriptsize]
+\foreach \i in {-6,...,-1,1,2,3,4,5,6} \node[anchor=north] at (\i,-0.1) {\halo{$\i$}};
+\foreach \j in {-6,...,-1,1,2,3,4,6} \node[anchor=east] at (-0.07,\j) {\halo{$\j$}};
+\node[anchor=west] at (0.07,5) {\halo{$5$}};
+\node[anchor=north east] at (-0.05,-0.1) {\halo{$0$}};
+\end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{document}

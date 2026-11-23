@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (H) at (133,228); \coordinate (N) at (104,57); \coordinate (P) at (290,295);
+\draw ($(H)!1.25!(N)$) -- (H) -- ($(H)!1.70!(P)$);
+\draw[aux] (N) -- (P);
+\fill (N) circle (2.2pt); \fill (P) circle (2.2pt);
+\draw plot[smooth,samples=30,domain=-99.6:23.1] ({133+35*cos(\x)},{228+35*sin(\x)});
+\node at (188,212) {$120^\circ$};
+\node at (122,246) {$H$};
+\node[anchor=west] at (113,45) {$N$};
+\node[anchor=south west] at (296,280) {$P$};
+\node at (252,158) {$D$ km};
+\draw[->] (98,130) -- (84,62);
+\node[anchor=east] at (80,98) {7 km/h};
+\draw[->] (330,327) -- (242,290);
+\node at (272,333) {5 km/h};
+\draw ($(H)!1.53!(P)+(-6,-6)$) -- ++(12,12); \draw ($(H)!1.53!(P)+(-6,6)$) -- ++(12,-12);
+\node at (400,312) {20 km};
+\draw (428,123) rectangle (620,182);
+\node[align=left,anchor=north west] at (432,126) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

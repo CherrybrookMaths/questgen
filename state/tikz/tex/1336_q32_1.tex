@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \begin{scope}[shift={(97,163)}, x=0.6597cm, y=0.573cm]
+    \fill[shade] (0,0) -- (3,-9) -- (9,0) -- plot[domain=9:0, samples=60, smooth] (\x,{\x*sqrt(\x)-3*\x}) -- cycle;
+    \draw[->] (-1.5,0) -- (10.7,0) node[right]{$x$};
+    \draw[->] (0,-9.6) -- (0,2.3) node[above]{$y$};
+    \draw (0,0) -- (3,-9) -- (9,0);
+    \draw[line width=0.9pt, ->, domain=0:10.25, samples=90, smooth] plot (\x,{\x*sqrt(\x)-3*\x});
+    \node[anchor=north east] at (-0.05,-0.15) {$O$};
+    \node[anchor=north west] at (9.1,-0.25) {$A$};
+    \node[anchor=east] at (2.85,-9.1) {$B$};
+    \node[anchor=west] at (10.45,1.9) {$y=x^{\frac{3}{2}}-3x$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

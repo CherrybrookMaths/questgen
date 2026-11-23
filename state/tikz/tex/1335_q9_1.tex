@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\draw[->] (30,222) -- (495,222);
+\draw[->] (255,295) -- (255,30);
+\node at (507,222) {$x$};
+\node at (248,16) {$y$};
+\node at (265,239) {$O$};
+\draw[line width=0.9pt] plot[smooth, samples=90, domain=30:475, variable=\t] (\t,{222-90/(1+((\t-255)/52)^2)^0.8});
+\end{tikzpicture}
+\end{document}

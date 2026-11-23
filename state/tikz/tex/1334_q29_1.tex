@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \newcommand\brick[4]{%
+    \draw[rounded corners=1pt] (#1,#2) rectangle (#3,#4);
+    \foreach \f in {0.25,0.5,0.75}{\draw[line width=0.4pt] ({#1+2},{#2+\f*(#4-#2)}) -- ({#3-2},{#2+\f*(#4-#2)});}}
+  % dashed rows (the hidden rows), never through bricks
+  \foreach \y/\l/\r in {22/469/591, 32.5/460/605,
+      53.5/509/608,
+      74.5/539/594, 83/539/594,
+      95.5/405/685, 106/396/698, 116.5/387/711, 127/378/725, 137.5/369/738,
+      148/359/751, 158.5/350/764, 169/341/778, 179.5/331/791, 189/323/804,
+      200.5/294/828, 209/294/828,
+      223/293/842, 231/293/842}{
+    \draw[aux] (\l,\y) -- (\r,\y);}
+  % row 1
+  \brick{108}{217}{168}{237}\brick{168}{217}{228}{237}\brick{228}{217}{289}{237}
+  \brick{846}{217}{906}{237}\brick{906}{217}{966}{237}\brick{966}{217}{1025}{237}
+  % row 2
+  \brick{201}{193}{260}{213}\brick{260}{193}{290}{213}
+  \brick{832}{193}{874}{213}\brick{874}{193}{934}{213}
+  % row 20
+  \brick{416}{69}{475}{88}\brick{475}{69}{535}{88}
+  \brick{598}{69}{658}{88}\brick{658}{69}{718}{88}
+  % row 21
+  \brick{445}{43}{505}{62}
+  \brick{612}{43}{627}{62}\brick{627}{43}{687}{62}
+  % ground
+  \draw (20,239) -- (1045,239);
+  \node[anchor=east,font=\small] at (90,226) {row 1};
+  \node[anchor=east,font=\small] at (190,201) {row 2};
+  \node[anchor=east,font=\small] at (407,78) {row 20};
+  \node[anchor=east,font=\small] at (437,52) {row 21};
+\end{tikzpicture}
+\end{document}

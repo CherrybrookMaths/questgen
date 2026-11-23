@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % shaded crescent: inside small circle, outside large circle
+  \begin{scope}
+    \clip (518,292) circle[radius=2.3749cm];
+    \fill[shade, even odd rule] (300,80) rectangle (760,520) (331,292) circle[radius=3.3586cm];
+  \end{scope}
+  \draw (518,292) circle[radius=2.3749cm];
+  \draw (331,292) circle[radius=3.3586cm];
+  \draw (518,105)--(518,479);
+  \draw (331,292)--(705,292);
+  \draw (502,292)--(502,276)--(518,276);
+  \node[anchor=south] at (518,103) {$C$};
+  \node[anchor=north] at (518,482) {$D$};
+  \node[anchor=east] at (327,292) {$B$};
+  \node[anchor=west] at (709,292) {$E$};
+  \node[anchor=south west] at (519,290) {$A$};
+  \node[anchor=east] at (512,197) {$r$};
+\end{tikzpicture}
+\end{document}

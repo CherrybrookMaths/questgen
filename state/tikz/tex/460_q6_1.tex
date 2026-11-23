@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {0,...,7} \draw ({74+152.714*\i},54) -- ({74+152.714*\i},591);
+\foreach \j in {0,...,7} \draw (74,{54+76.714*\j}) -- (1143,{54+76.714*\j});
+\foreach \i in {1,...,6} \node at ({74+152.714*(\i+0.5)},78) {\i};
+\foreach \j in {1,...,6} \node at (150,{54+76.714*(\j+0.5)-10}) {\j};
+\node at (587,31) {D1};
+\node[rotate=90,font=\Large] at (33,297) {D2};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (8,8) rectangle (1113,727);
+  \node[font=\large\bfseries] at (578,55) {Comparison of Reaction Times};
+  \node[rotate=90, align=center] at (72,335) {Reaction Times - End of Day\\(milliseconds)};
+  \node at (622,678) {Reaction Times - Start of Day (milliseconds)};
+  \begin{scope}[shift={(181,594)}, x=0.93561cm, y=0.51219cm]
+    \foreach \k in {2,4,...,12} \draw[black!20] (\k,0) -- (\k,12);
+    \foreach \k in {0,2,...,12} \draw[black!20] (0,\k) -- (12,\k);
+    \foreach \k in {0,2,...,12} \node[anchor=north] at (\k,-0.45) {\k};
+    \foreach \k in {0,2,...,12} \node[anchor=east] at (-0.25,\k) {\k};
+    \foreach \p in {(5.7,6.8),(6.1,7.2),(6.8,7.6),(6.8,11.1),(8.1,10.9),(8.7,9.4),(8.8,8.7),(10,10.8)}
+      \fill \p circle (2.5pt);
+    \draw[line width=0.9pt] (5.63,7.43) -- (10,10.33);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (222,225);
+  \path[shade hatch reverse] (115,410.3) arc[start angle=120,end angle=60,radius=214] -- cycle;
+  \draw (O) circle[radius=214];
+  \draw (115,410.3)--(329,410.3);
+  \draw[aux] (115,410.3)--(O)--(329,410.3);
+  \draw ($(O)+(120:49)$) arc[start angle=120,end angle=60,radius=49];
+  \node[above] at (222,214) {$O$};
+  \node[font=\scriptsize] at (222,306) {$\dfrac{\pi}{6}$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (2,163) -- (522,163) node[right,font=\footnotesize] {$x$};
+  \draw[<->] (257,298) -- (257,22) node[above,font=\footnotesize] {$y$};
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=119:363] (\x,{68+95*((\x-241)/79)^2});
+  \begin{scope}[font=\footnotesize]
+  \node at (177,179) {$-12$}; \node at (312,180) {$8$}; \node at (277,64) {$12$};
+  \node at (132,99) {$y=g(x)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

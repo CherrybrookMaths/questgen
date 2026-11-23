@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (444,430);
+  \coordinate (A) at (444,58);
+  \coordinate (B) at (139,643);
+  \coordinate (C) at (749,643);
+  \coordinate (D) at (444,643);
+  \draw (O) circle (372);
+  \draw (B) -- (A) -- (C) -- cycle;
+  \draw[aux] (A) -- (D);
+  \draw[aux] (O) -- (C);
+  \draw (428,643) -- (428,627) -- (444,627);
+  \draw (273.8,341.3) -- (309.2,359.7);
+  \draw (578.8,359.7) -- (614.2,341.3);
+  \fill (O) circle (2.5);
+  \draw[->] (O) ++(34.9:79) arc[start angle=34.9,end angle=90,radius=79];
+  \node at (468,476) {$\theta$};
+  \node[font=\footnotesize] at (437,22) {$A$};
+  \node[font=\footnotesize] at (421,432) {$O$};
+  \node[font=\footnotesize] at (115,665) {$B$};
+  \node[font=\footnotesize] at (778,668) {$C$};
+\end{tikzpicture}
+\end{document}

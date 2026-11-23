@@ -2,28 +2,29 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
-\coordinate (P) at (457,530);
-\coordinate (Q) at (615,313);
+\coordinate (P) at (457,474);
+\coordinate (Q) at (614,313);
 \coordinate (R) at (252,37);
-\coordinate (X) at (253,290);
-\draw[->] (492,571) -- (65,69);
-\draw[->] (425,573) -- (702,194);
+\coordinate (X) at (252,272);
+\draw[->] (497,512) -- (69,89);
+\draw[->] (417,512) -- (709,222);
 \draw (R)--(X)--(Q)--(R)--(P);
 \draw ($(X)+(0,-16)$) -- ++(16,1) -- ($(X)+(16,1)$);
+\draw ($(X)+(0,-10)$) -- ++(8.5,8.4) -- ($(X)+(8.5,8.4)$);
 \draw pic[draw, angle radius=0.95cm] {angle=R--P--X};
-\draw pic[draw, angle radius=1.0cm] {angle=X--Q--R};
-\draw[<->] (468,538)--(626,321);
+\draw pic[draw, angle radius=1.0cm] {angle=R--Q--X};
+\draw[<->] (467,482)--(624,321);
 \foreach \p in {P,Q,R,X} \fill (\p) circle (3.3);
 \node at (252,15) {$R$};
-\node at (245,312) {$X$};
+\node at (245,294) {$X$};
 \node at (618,290) {$Q$};
-\node at (457,557) {$P$};
+\node at (457,502) {$P$};
 \node at (237,160) {$h$};
-\node at (40,72) {\textbf{NW}};
-\node at (742,180) {\textbf{NE}};
-\node[align=center] at (885,275) {NOT TO\\SCALE};
-\node at (380,445) {$10^\circ$};
-\node at (520,280) {$5^\circ$};
-\node[rotate=54] at (550,440) {100 m};
+\node at (42,72) {\textbf{NW}};
+\node at (739,207) {\textbf{NE}};
+\node[align=center] at (882,262) {NOT TO\\SCALE};
+\node at (382,362) {$10^\circ$};
+\node at (520,279) {$5^\circ$};
+\node[rotate=45] at (560,416) {100 m};
 \end{tikzpicture}
 \end{document}

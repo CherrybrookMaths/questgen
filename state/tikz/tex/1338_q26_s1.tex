@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.175cm,y=0.984cm]
+\draw[->] (-1.2,0) -- (4.4,0) node[right] {$x$};
+\draw[->] (0,-3.2) -- (0,4.25) node[right] {$y$};
+\foreach \i in {1,2,3,4} {\draw (\i,0.07) -- (\i,-0.07); \node[below] at (\i,-0.08) {$\i$};}
+\foreach \j in {-3,-2,-1,1,2,3,4} {\draw (0.06,\j) -- (-0.06,\j); \node[left] at (-0.08,\j) {$\j$};}
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-0.55:3.08] (\x,{\x*\x*\x-3*\x*\x+1});
+\foreach \a/\b in {0/1,1/-1,2/-3} \fill (\a,\b) circle (1.6pt);
+\node[anchor=south west,inner sep=2pt] at (0.04,1.04) {$(0,1)$};
+\node[anchor=west,inner sep=2pt] at (1.1,-0.92) {$(1,-1)$};
+\node[below,inner sep=3pt] at (2,-3.05) {$(2,-3)$};
+\end{tikzpicture}
+\end{document}

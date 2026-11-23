@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (8,8) rectangle (1112,727);
+\foreach \v in {2,4,...,12} {
+  \draw[black!18,line width=0.6pt] ({180+74.33*\v},110)--({180+74.33*\v},594);
+  \draw[black!18,line width=0.6pt] (180,{594-40.33*\v})--(1072,{594-40.33*\v});}
+\draw[black!30,line width=0.6pt] (180,594)--(1072,594);
+\foreach \v in {0,2,...,12} {
+  \node[anchor=north,inner sep=0pt,font=\small] at ({180+74.33*\v},625) {$\v$};
+  \node[anchor=east,inner sep=0pt,font=\small] at (154,{594-40.33*\v}) {$\v$};}
+\foreach \a/\b in {5.7/6.8,6.1/7.2,6.8/7.6,6.8/11.1,8.1/10.9,8.7/9.4,8.8/8.7,10/10.8}
+  \fill ({180+74.33*\a},{594-40.33*\b}) circle (7);
+\node[font=\large\bfseries] at (626,55) {Comparison of Reaction Times};
+\node[font=\small] at (622,678) {Reaction Times - Start of Day (milliseconds)};
+\node[rotate=90,align=center,font=\small] at (67,352) {Reaction Times - End of Day\\(milliseconds)};
+\end{tikzpicture}
+\end{document}

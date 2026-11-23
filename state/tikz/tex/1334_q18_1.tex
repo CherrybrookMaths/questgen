@@ -1,0 +1,43 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (D) at (75,38); \coordinate (C) at (75,283);
+  \coordinate (B) at (222,481); \coordinate (A) at (763,481);
+  % footpath edges
+  \draw (28,283)--(815,283);
+  \draw (28,481)--(815,481);
+  % triangles
+  \draw (D)--(B)--(C)--(A)--(D);
+  \draw[line width=0.9pt] (C)--(D);
+  % right-angle marks
+  \draw (75,245)--(111.5,255.5)--(111.5,293.5);
+  \draw (75,245)--(92.9,269.1)--(92.9,307.1);
+  % angle at C (60)
+  \draw[<->] ($(C)+(16.06:78)$) arc[start angle=16.06,end angle=53.4,radius=78];
+  \node at (176,352) {$60^\circ$};
+  % angle at A (30)
+  \draw[->] ($(A)+(196.06:112)$) arc[start angle=196.06,end angle=212.8,radius=112];
+  \node at (620,415) {$30^\circ$};
+  % angle at B (60) with leader
+  \draw[<->] ($(B)+(233.4:100)$) arc[start angle=233.4,end angle=251.6,radius=100];
+  \draw[->] (46,425) .. controls (100,390) and (165,400) .. (200,440);
+  \node at (24,433) {$60^\circ$};
+  % labels
+  \node at (75,14) {$D$};
+  \node at (52,307) {$C$};
+  \node at (222,508) {$B$};
+  \node at (763,508) {$A$};
+  \node at (47,163) {$h$};
+  % 7 m dimension
+  \draw (222,541)--(222,561); \draw (763,541)--(763,561);
+  \draw[->] (458,551)--(222,551);
+  \draw[->] (527,551)--(763,551);
+  \node at (492,551) {$7\,\mathrm{m}$};
+  % w dimension
+  \draw (828,283)--(848,283); \draw (828,481)--(848,481);
+  \draw[->] (838,366)--(838,283);
+  \draw[->] (838,398)--(838,481);
+  \node at (838,382) {$w$};
+\end{tikzpicture}
+\end{document}
