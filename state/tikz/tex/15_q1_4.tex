@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (5,242) -- (520,242);
+\draw[->] (248,660) -- (248,15);
+\draw[line width=0.9pt,<->] plot[smooth,domain=130:330,samples=90] (\x,{\x<248 ? 242-236*((\x-248)/100)^3 : 242-421*((\x-248)/100)^3});
+\node at (228,45) {$y$};
+\node at (282,278) {$O$};
+\node at (470,278) {$x$};
+\end{tikzpicture}
+\end{document}

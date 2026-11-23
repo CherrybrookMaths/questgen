@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (7,543) -- (545,543);
+\draw[->] (300,630) -- (300,40);
+\draw[line width=0.9pt,<->] plot[smooth,domain=7:452,samples=90] (\x,{503-47*exp(0.01505*(\x-300))});
+\node at (275,80) {$y$};
+\node at (337,573) {$O$};
+\node at (512,573) {$x$};
+\end{tikzpicture}
+\end{document}
