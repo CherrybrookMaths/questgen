@@ -2,12 +2,12 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
-  \draw (8,8) rectangle (1068,712);
+  % 23 Nov: drawn to match NESA's guideline drawing (the Original): tree uses FC, not BC; no frame; the weight is in the solution text
   \coordinate (A) at (202,107); \coordinate (B) at (488,82); \coordinate (C) at (630,98);
   \coordinate (D) at (965,82); \coordinate (E) at (75,174); \coordinate (F) at (498,153);
   \coordinate (G) at (538,348); \coordinate (H) at (605,373); \coordinate (I) at (630,575);
   \coordinate (J) at (891,348);
-  \draw (A)--(E); \draw (A)--(B); \draw (B)--(C); \draw (B)--(F); \draw (F)--(G);
+  \draw (A)--(E); \draw (A)--(B); \draw (F)--(C); \draw (B)--(F); \draw (F)--(G);
   \draw (G)--(H); \draw (H)--(I); \draw (H)--(J); \draw (J)--(D);
   \foreach \p in {A,B,C,D,E,F,G,H,I,J} \fill (\p) circle (7);
   \node at (200,84) {$A$}; \node at (488,59) {$B$}; \node at (632,75) {$C$};
@@ -15,9 +15,8 @@
   \node at (514,350) {$G$}; \node at (582,389) {$H$}; \node at (610,577) {$I$};
   \node at (908,355) {$J$};
   % weights
-  \node at (128,126) {2}; \node at (345,78) {4}; \node at (561,74) {2};
+  \node at (128,126) {2}; \node at (345,78) {4}; \node at (574,146) {2};
   \node at (510,116) {1}; \node at (533,250) {3}; \node at (566,340) {1};
   \node at (637,474) {3}; \node at (748,344) {4}; \node at (947,218) {4};
-  \node[anchor=west] at (22,664) {Weight $= 24$};
 \end{tikzpicture}
 \end{document}

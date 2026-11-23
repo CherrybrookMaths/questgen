@@ -608,7 +608,14 @@ Owner 23 Nov: "we need to start working on the standard course", "Standard 2 fir
   stays: the guidelines give only the key), load.py <guidelines doc>, post_load.py, prep_batch/solfmt, prep_verify/verify, triage.
   Done 23 Nov for 2021 (doc 38 from doc 42; run s1r, US$1.85: parse 0.31 Sonnet, solfmt 0.16 Sonnet, 3 network redraws 0.40 and verify
   0.98 Opus). 2024 (doc 40 from doc 45, byte-identical to the owner's upload) was run the same way (US$1.35) and then set back to its
-  previous state on the main session's instruction (owner to confirm the guidelines file first): its outputs wait in work/s1r/doc40_ready/
-  (out 45.json, solfmt, verify, the Q41 time-line redraw), untracked. Diagram notes: the guidelines' own drawings replaced Claude's
+  previous state on the main session's instruction (owner to confirm the guidelines file first). Applied 23 Nov 17:20-17:50 (owner: "go"),
+  v308, from those prepared outputs (work/s1r/doc40_ready/; no new model calls): solfmt ids were remapped to the reloaded solution ids
+  (old 6774-6811 -> 6852-6889, same order, checked per solution) and applied with `apply_text.py s1r_40` (the glob then skips 38's files);
+  triage was run and only doc 40's entries kept (a full re-triage still flips 16 unrelated questions); add_to_bank.py 40 refreshed the
+  skeleton and image pack. 40_q18_s1: Claude's tree used BC where the guidelines' tree uses FC; hand-edited to FC on the same layout
+  (overlay 0.886/0.895 against the guideline crop). Q39(c): NESA answers 8 h, the checker and Claude get 9 h: raised as a Your call
+  (open_decisions 4359), not changed. Approved questions whose solution was replaced (Q20, Q21, Q24, Q37) were handed back for a look. Diagram notes: the guidelines' own drawings replaced Claude's
   invented layouts for 38_q23_s1 and 38_q36_s1 (redrawn on the crop: overlays 0.84 and 0.79); 38_q37_s1 and 38_q39_s1 had no guideline
-  drawing and were dropped with Claude's solutions (MG answer only).
+  drawing and were dropped with Claude's solutions (MG answer only); for 2024 the same for 40_q36_s1 and 40_q40_s1 (working only in the
+  guidelines), and 40_q41_s1 is the guidelines' time line (new). A dropped sketch is also taken out of its old tikz/result_*.json, or
+  batch_check blocks it as an unmerged redraw.

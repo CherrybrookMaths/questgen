@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw (90,77) -- (482,77);
+  \foreach \x/\l in {90/0, 324/15, 482/25} {
+    \draw (\x,38) -- (\x,77);
+    \node[anchor=north, inner sep=0pt, font=\large] at (\x,90) {$\l$};
+  }
+\end{tikzpicture}
+\end{document}
