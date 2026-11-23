@@ -15,7 +15,8 @@ import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abs
 import collections, glob, json, os, re, sqlite3
 
 # owner 18 Nov: "the monthly limit is $300 right now. I can change it later." (the one number kept here: it is a setting, not data)
-MONTHLY_LIMIT_USD = 300
+# owner 23 Nov: "budget is now 600 monthly"
+MONTHLY_LIMIT_USD = 600
 OUT = paths.P + 'site/data/costs.json'
 FIRST_API_BATCH = 8     # Batch 8 was the first through the API (owner 17 Nov: "I want to do batch 8 via the api so we can get a cost estimate")
 
