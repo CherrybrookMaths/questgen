@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (25,420) -- (1212,420);
+\draw[<->] (762,60) -- (762,562);
+\foreach \v in {-2,-1,1} \draw ({762+280*\v},415) -- ({762+280*\v},425);
+\foreach \v in {-1,1,2,3} \draw (757,{420-110*\v}) -- (767,{420-110*\v});
+\node at (200,452) {$-2$};
+\node at (482,452) {$-1$};
+\node at (1042,440) {$1$};
+\node[anchor=east] at (744,88) {$3$};
+\node[anchor=east] at (744,200) {$2$};
+\node[anchor=east] at (746,290) {$1$};
+\node[anchor=east] at (744,532) {$-1$};
+\node[anchor=west] at (1216,420) {$x$};
+\node at (762,38) {$y$};
+\draw[line width=0.9pt,<->,smooth,samples=90,domain=-2.6:1.18] plot ({762+280*\x},{420-110*exp(\x)});
+\draw[line width=0.9pt,<->,smooth,samples=90,domain=-2.6:1.5708] plot ({762+280*\x},{420-110*cos(\x r)});
+\node[pt,inner sep=1.6pt] at (322,420) {};
+\draw (326,428) -- (345,462);
+\node at (380,502) {$\left(-\dfrac{\pi}{2},\,0\right)$};
+\node at (948,108) {$f(x)=e^{x}$};
+\node at (1098,305) {$g(x)=\cos(x)$};
+\end{tikzpicture}
+\end{document}

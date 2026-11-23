@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {10,20,...,80} \draw[black!25,line width=0.4pt] ({108+7.34*\i},28) -- ({108+7.34*\i},540);
+  \foreach \j in {1,...,10} \draw[black!25,line width=0.4pt] (108,{540-51.2*\j}) -- (695,{540-51.2*\j});
+  \draw[->] (100,540) -- (722,540);
+  \draw[->] (108,548) -- (108,12);
+  \foreach \j in {1,...,10} \draw (102,{540-51.2*\j}) -- (114,{540-51.2*\j});
+  \foreach \i in {10,20,...,80} \draw ({108+7.34*\i},534) -- ({108+7.34*\i},546);
+  \foreach \j in {2,4,...,10} \node[left,inner sep=2pt] at (98,{540-51.2*\j}) {$\j$};
+  \foreach \i in {10,20,...,80} \node[below,inner sep=2pt] at ({108+7.34*\i},552) {$\i$};
+  \node at (414,605) {Dosage (mg)};
+  \node[rotate=90] at (38,270) {Reported pain scale};
+  \foreach \a/\b in {5/9,12/8,23/9,32/6,40/7,48/6,55/3,64/6,64/4,72/5,72/2,80/1}
+    \fill ({108+7.34*\a},{540-51.2*\b}) circle[radius=2.1pt];
+\end{tikzpicture}
+\end{document}

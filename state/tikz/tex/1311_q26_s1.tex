@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.7cm,y=0.7cm]
+\draw[black!20, line width=0.4pt, step=0.7cm] (-6,-6) grid (6,6);
+\draw[->] (-6.5,0)--(6.6,0) node[right]{$x$};
+\draw[->] (0,-6.5)--(0,6.6) node[above]{$y$};
+\foreach \k in {-6,...,-1,5,6} \node[font=\small,anchor=north,inner sep=1pt] at (\k,-0.1) {$\k$};
+\foreach \k in {-6,...,-1,1,2,...,6} \node[font=\small,anchor=east,inner sep=1pt] at (-0.1,\k) {$\k$};
+\draw[line width=0.9pt] (2,0) circle (2);
+\draw[line width=0.9pt] (2,0)--(4,0);
+\foreach \p in {(0,0),(4,0),(2,2),(2,-2),(2,0)} \fill \p circle (2pt);
+\node[anchor=south,inner sep=1pt] at (2,0.14) {centre $(2, 0)$};
+\node[anchor=north,inner sep=1pt] at (3,-0.14) {$r = 2$};
+\node[anchor=south east,inner sep=1pt] at (-0.08,0.08) {$(0, 0)$};
+\node[anchor=south west,inner sep=1pt] at (4.08,0.08) {$(4, 0)$};
+\node[anchor=south,inner sep=1pt] at (2,2.12) {$(2, 2)$};
+\node[anchor=north,inner sep=1pt] at (2,-2.12) {$(2, -2)$};
+\end{tikzpicture}
+\end{document}

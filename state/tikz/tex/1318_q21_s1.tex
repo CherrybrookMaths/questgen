@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\Large]
+% origin (220,412); 1 unit x = 374 px, 1 unit y = 91 px
+\draw[->] (70,412) -- (1185,412) node[right] {$x$};
+\draw[->] (220,775) -- (220,75) node[above] {$y$};
+\foreach \k in {1,...,6} {\draw ({220+124.67*\k},402) -- ({220+124.67*\k},422);}
+\node[anchor=north] at (469,426) {$\dfrac{2}{3}$};
+\node[anchor=north] at (594,426) {$1$};
+\node[anchor=north] at (719,426) {$\dfrac{4}{3}$};
+\node[anchor=north east] at (958,420) {$2$};
+\foreach \k in {1,2,3} {\draw (210,{412-91*\k}) -- (230,{412-91*\k}); \node[anchor=east] at (204,{412-91*\k}) {$\k$};}
+\draw[line width=0.9pt,<->] plot[domain=-0.5:2.16,samples=90,smooth] ({220+374*\x},{412-91*(4*\x*\x-2*\x*\x*\x)});
+\node[pt] at (220,412) {};
+\node[pt] at ({220+374*2/3},{412-91*32/27}) {};
+\node[pt] at ({220+374*4/3},{412-91*64/27}) {};
+\node[pt] at (968,412) {};
+\node[anchor=south east,font=\large] at (455,296) {$\left(\dfrac{2}{3},\dfrac{32}{27}\right)$};
+\node[anchor=south,font=\large] at ({220+374*4/3},180) {$\left(\dfrac{4}{3},\dfrac{64}{27}\right)$};
+\node at (1070,60) {$y=4x^2-2x^3$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+% origin (667,560); 1 unit x = 40 px, 1 unit y = 55 px
+\path[shade hatch] plot[domain=-1:14,samples=90,smooth] ({667+40*\x},{560-55*sqrt(4*\x+8)}) -- (627,450) -- cycle;
+\draw (470,560) -- (1430,560);
+\draw (667,650) -- (667,215);
+\foreach \k in {-2,-1,14} {\draw ({667+40*\k},552) -- ({667+40*\k},568); \node[anchor=north] at ({667+40*\k},570) {$\k$};}
+\draw[line width=0.9pt,->] plot[domain=0:8.944,samples=90,smooth] ({667+40*(\x*\x/4-2)},{560-55*\x});
+\draw[line width=0.9pt] (567,483) -- (1407,21);
+\node[pt] at (587,560) {};
+\node[pt] at (627,450) {};
+\node[pt] at (1227,120) {};
+\node[anchor=south east] at (659,398) {$2\sqrt{2}$};
+\node[anchor=north west] at (673,433) {$2.4$};
+\node[anchor=south east] at (621,446) {$(-1,2)$};
+\node[anchor=south east] at (1221,114) {$(14,8)$};
+\node[anchor=south,rotate=28.8] at (1340,56) {$5y=2x+12$};
+\node[anchor=west] at (1395,70) {$y=2\sqrt{x+2}$};
+\end{tikzpicture}
+\end{document}

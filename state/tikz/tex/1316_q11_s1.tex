@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.1519cm,y=0.09703cm]
+  \foreach \i in {0.5,1.5,...,6.5}{\draw[black!25, line width=0.4pt] (\i,0) -- (\i,90);}
+  \foreach \j in {2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48,52,54,56,58,62,64,66,68,72,74,76,78,82,84,86,88}{\draw[black!25, line width=0.4pt] (0,\j) -- (7,\j);}
+  \foreach \i in {1,...,7}{\draw[black!55, line width=0.4pt] (\i,0) -- (\i,90);}
+  \foreach \j in {10,20,...,90}{\draw[black!55, line width=0.4pt] (0,\j) -- (7,\j);}
+  \draw[->] (0,0) -- (0,93);
+  \draw[->] (0,0) -- (7.55,0);
+  \node[anchor=west, font=\tiny] at (7.58,0) {$t$};
+  \foreach \j in {1,...,89}{\draw (-0.03,\j) -- (0.03,\j);}
+  \foreach \i in {0.5,1,...,7}{\draw (\i,0) -- (\i,-0.9);}
+  \foreach \i in {1,...,7}{\node[anchor=north, font=\tiny] at (\i,-1.8) {$\i$};}
+  \foreach \j in {10,20,...,90}{\node[anchor=east, font=\tiny] at (-0.08,\j) {$\j$};}
+  \node[rotate=90, font=\tiny] at (-0.52,48) {Height (metres)};
+  \node[font=\tiny] at (3.67,-10.1) {Time (seconds)};
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=0:6] (\x,{20*\x-5*\x*\x+60});
+  \draw[line width=0.9pt] (0,60) -- (7.3,23.5);
+  \node[font=\tiny] at (4.02,68.3) {\textit{Stone}};
+  \node[font=\tiny] at (2.76,49.4) {\textit{Glider}};
+\end{tikzpicture}
+\end{document}

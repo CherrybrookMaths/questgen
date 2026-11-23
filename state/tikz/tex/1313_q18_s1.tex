@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  declare function={F(\s)=\s*\s*\s*\s/4-2.8*\s*\s*\s/3+0.0186*\s*\s+3.1828*\s; fy(\s)=290-34.8*F(\s);
+    G(\s)=(\s+0.92)*(\s-1.86)*(\s-1.86); gy(\s)=290-15.7*G(\s);}]
+  \draw[->] (20,290)--(548,290);
+  \draw[->] (237,508)--(237,35);
+  \draw[aux,black!55] ({237-66.5*1.5458},290)--({237-66.5*1.5458},{gy(-1.5458)});
+  \draw[aux,black!55] ({237-66.5*0.92},290)--({237-66.5*0.92},{fy(-0.92)});
+  \draw[aux,black!55] ({237+66.5*1.86},{fy(1.86)})--({237+66.5*1.86},290);
+  \draw[<->] plot[smooth,samples=90,domain=-2.065:3.24,variable=\s] ({237+66.5*\s},{fy(\s)});
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-1.865:3.22,variable=\s] ({237+66.5*\s},{gy(\s)});
+  \fill (237,290) circle[radius=5];
+  \node at (570,292) {$x$};
+  \node at (237,12) {$y$};
+  \node at (497,72) {$f(x)$};
+  \node at (500,170) {$f'(x)$};
+  \node at (115,309) {$a$};
+  \node at (175,268) {$b$};
+  \node at (259,313) {$O$};
+  \node at (361,310) {$c$};
+\end{tikzpicture}
+\end{document}

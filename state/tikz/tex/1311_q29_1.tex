@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{518}\def\oy{300}\def\ux{122.6}\def\uy{126}
+\foreach \k in {-8,...,8} {
+  \pgfmathtruncatemacro\m{mod(abs(\k),4)}
+  \pgfmathsetmacro\X{\ox+\ux*0.5*\k}
+  \ifnum\m=0 \def\gc{black!30}\else\def\gc{black!15}\fi
+  \draw[\gc,line width=0.4pt] (\X,48) -- (\X,552);
+}
+\foreach \k in {-10,...,10} {
+  \pgfmathtruncatemacro\m{mod(abs(\k),5)}
+  \pgfmathsetmacro\Y{\oy-\uy*0.2*\k}
+  \ifnum\m=0 \def\gc{black!30}\else\def\gc{black!15}\fi
+  \draw[\gc,line width=0.4pt] (27.6,\Y) -- (1008.4,\Y);
+}
+\draw[<->] (3,\oy) -- (1037,\oy);
+\draw[<->] (\ox,578) -- (\ox,28);
+\foreach \k in {-8,...,-1,1,2,...,8} {
+  \pgfmathsetmacro\X{\ox+\ux*0.5*\k}
+  \draw (\X,\oy-6) -- (\X,\oy+6);
+}
+\foreach \k in {-10,...,-1,1,2,...,10} {
+  \pgfmathsetmacro\Y{\oy-\uy*0.2*\k}
+  \draw (\ox-6,\Y) -- (\ox+6,\Y);
+}
+\foreach \i in {-4,-2,2,4} \node[font=\scriptsize] at (\ox+\ux*\i,318) {$\i$};
+\foreach \i in {-2,-1,1,2} \node[font=\scriptsize,anchor=east] at (\ox-8,\oy-\uy*\i) {$\i$};
+\node[font=\scriptsize] at (1046,300) {$x$};
+\node[font=\scriptsize] at (518,13) {$y$};
+\end{tikzpicture}
+\end{document}

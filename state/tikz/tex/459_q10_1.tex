@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={X(\v)=77+(\v-50)*50.82;}]
+\draw[<->] (50,340)--(1207,340);
+\foreach \v in {50,...,72} {\draw ({X(\v)},333)--({X(\v)},347); \node[font=\scriptsize] at ({X(\v)},364) {$\v$};}
+\foreach \v in {50.5,51.5,...,71.5} \draw ({X(\v)},336)--({X(\v)},344);
+\begin{scope}[line width=0.9pt]
+\draw ({X(52)},62)--({X(52)},97); \draw ({X(52)},79)--({X(54.5)},79);
+\draw ({X(54.5)},28) rectangle ({X(66.5)},130); \draw ({X(64)},28)--({X(64)},130);
+\draw ({X(66.5)},79)--({X(70)},79); \draw ({X(70)},62)--({X(70)},97);
+\draw ({X(53.5)},217)--({X(53.5)},250); \draw ({X(53.5)},233)--({X(58)},233);
+\draw ({X(58)},182) rectangle ({X(64)},284); \draw ({X(60)},182)--({X(60)},284);
+\draw ({X(64)},233)--({X(69.5)},233); \draw ({X(69.5)},217)--({X(69.5)},250);
+\end{scope}
+\node[anchor=west,font=\scriptsize] at (38,82) {Group 1};
+\node[anchor=west,font=\scriptsize] at (39,239) {Group 2};
+\end{tikzpicture}
+\end{document}

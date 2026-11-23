@@ -72,6 +72,34 @@ def log_call(batch, rec):
     with LOCK, open(d + 'calls.jsonl', 'a') as f: f.write(json.dumps(rec) + '\n')
 
 
+# Spend guard (23 Nov). CLAUDE.md: "a batch stops itself before the month passes US$580" (owner: "budget is now 600 monthly",
+# tools/costs.py MONTHLY_LIMIT_USD), and an unattended run stops any one paper that passes US$12 (batches cost US$3-6 a paper).
+# Checked before every API turn, so a run stops within one turn of either line.
+PAPER_STOP_USD = 12.0
+_SPENT = {'at': 0.0, 'month': 0.0, 'paper': {}}
+
+
+def spend_guard(batch, doc):
+    import costs
+    with LOCK:
+        if time.time() - _SPENT['at'] > 20:
+            month, paper, ym = 0.0, {}, now()[:7]
+            run = re.sub(r'r$', '', batch)   # b<N>r (a re-verify) counts with batch N, as in costs.py
+            for f in glob.glob(S + 'work/api_import/*/calls.jsonl'):
+                same = re.sub(r'r$', '', f.split('/')[-2]) == run
+                for line in open(f):
+                    try: r = json.loads(line)
+                    except ValueError: continue
+                    if r.get('t', '')[:7] == ym: month += r.get('usd', 0)
+                    if same: paper[r.get('doc')] = paper.get(r.get('doc'), 0) + r.get('usd', 0)
+            _SPENT.update(at=time.time(), month=month, paper=paper)
+        month, mine = _SPENT['month'], _SPENT['paper'].get(doc, 0)
+    if month >= costs.MONTHLY_LIMIT_USD - 20:
+        raise RuntimeError(f'BUDGET STOP: the month is at US${month:.2f}, the stop line is US${costs.MONTHLY_LIMIT_USD - 20}')
+    if mine >= PAPER_STOP_USD:
+        raise RuntimeError(f'PAPER STOP: paper {doc} has cost US${mine:.2f} in {batch}, over US${PAPER_STOP_USD}')
+
+
 def strip_media(o):
     """A transcript without base64 payloads (PDFs, images)."""
     if isinstance(o, dict):
@@ -101,6 +129,7 @@ class Run:
         nudges = 0
         for turn in range(MAX_TURNS.get(self.step, 8)):
             self.turns = turn + 1
+            spend_guard(self.batch, self.doc)
             for attempt in range(5):
                 try:
                     with api.beta.messages.stream(model=self.model, max_tokens=64000, system=self.system, tools=defs, messages=msgs,

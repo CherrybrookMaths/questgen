@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {1,...,10} \draw[black!25,line width=0.4pt] ({122+57.7*\i},50) -- ({122+57.7*\i},582);
+  \foreach \j in {1,...,20} \draw[black!25,line width=0.4pt] (122,{582-26.6*\j}) -- (699,{582-26.6*\j});
+  \draw[->] (115,582) -- (724,582);
+  \draw[->] (122,590) -- (122,22);
+  \foreach \j in {1,...,10} \draw (115,{582-53.2*\j}) -- (129,{582-53.2*\j});
+  \foreach \j in {1,...,10} \draw (118,{582-53.2*\j+26.6}) -- (126,{582-53.2*\j+26.6});
+  \foreach \i in {1,...,10} \draw ({122+57.7*\i},582) -- ({122+57.7*\i},590);
+  \foreach \j in {1,...,10} \node[left,inner sep=2pt] at (110,{582-53.2*\j}) {$\j$};
+  \foreach \i in {1,...,10} \node[below,inner sep=2pt] at ({122+57.7*\i},597) {$\i$};
+  \node at (420,660) {Years};
+  \node[rotate=90] at (42,330) {Height (m)};
+  \foreach \a/\b in {1/0.7,2/1.4,3/2.4,4/3.5,6/6.6,7/7.92,8/8.65,9/9.5}
+    \fill ({122+57.7*\a},{582-53.2*\b}) circle[radius=1.7pt];
+\end{tikzpicture}
+\end{document}

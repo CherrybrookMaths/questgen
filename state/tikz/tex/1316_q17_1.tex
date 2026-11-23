@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \k in {0,...,4} \draw (191+46*\k,40) circle (23);
+\foreach \k in {0,...,5} \draw (168+46*\k,84) circle (23);
+\foreach \k in {0,...,6} \draw (145+46*\k,128) circle (23);
+\foreach \k in {0,1,2} {\draw (31+46*\k,293) circle (23); \draw (446+46*\k,293) circle (23);}
+\draw[aux,<->] (145,163)--(145,243);
+\draw[aux,<->] (425,163)--(425,243);
+\draw[aux,->] (265,293)--(170,293);
+\draw[aux,->] (315,293)--(405,293);
+\node at (280,293) {?}; \node at (280,212) {?};
+\node[anchor=west,font=\small] at (450,33) {Top Layer};
+\node[anchor=west,font=\small] at (568,290) {$n$th Layer};
+\end{tikzpicture}
+\end{document}

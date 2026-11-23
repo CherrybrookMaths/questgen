@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[<->] (30,635) -- (690,635);
+  \draw[->] (372,835) -- (372,45);
+  \node[font=\large] at (706,668) {$x$};
+  \node[font=\large] at (395,30) {$y$};
+  \draw[line width=0.9pt, <->] plot[smooth, domain=-5.3:2.7, samples=90] ({372+60*\x},{635-7.5*(\x*\x*\x+3*\x*\x-9*\x)});
+  \node[pt] (M) at ({372-180},{635-7.5*27}) {};
+  \node[pt] (I) at ({372-60},{635-7.5*11}) {};
+  \node[pt] (Z) at (372,635) {};
+  \node[pt] (N) at ({372+60},{635+7.5*5}) {};
+  \node[anchor=south, yshift=4pt] at (M) {$(-3,27)$};
+  \node[anchor=north east, xshift=-3pt, yshift=-3pt] at (I) {$(-1,11)$};
+  \node[anchor=south west, xshift=3pt, yshift=3pt] at (Z) {$(0,0)$};
+  \node[anchor=north, yshift=-5pt] at (N) {$(1,-5)$};
+\end{tikzpicture}
+\end{document}

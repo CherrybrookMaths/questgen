@@ -1,0 +1,52 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% ---- triangle PBC (left top)
+\draw (90,235) -- (370,235) -- (370,32) -- cycle;
+\draw (355,235) -- (355,220) -- (370,220);
+\node at (393,37) {\Large $B$};
+\node at (387,130) {\Large $h$};
+\node at (393,262) {\Large $C$};
+\node at (70,262) {\Large $P$};
+\node at (328,100) {\large $48^\circ$};
+\node at (168,213) {\large $42^\circ$};
+% ---- compass sketch (left bottom)
+\draw (210,448) -- (300,358) -- (390,448) -- cycle;
+\draw[->] (300,358) -- (378,280);
+\draw[->] (300,358) -- (232,290);
+\draw (289.4,368.6) -- (300,379.2) -- (310.6,368.6);
+\node at (222,304) {\large $W$};
+\node at (374,316) {\large $N$};
+\node at (300,333) {\large $C$};
+\node at (182,476) {\large $P$};
+\node at (384,474) {\large $Q$};
+% ---- printed diagram (middle)
+\coordinate (B) at (605,42); \coordinate (C) at (605,255);
+\coordinate (P) at (430,432); \coordinate (Q) at (812,432);
+\fill[fill=black!30] (P) -- +(-65.8:50) arc[start angle=-65.8,end angle=-45.3,radius=50] -- cycle;
+\fill[fill=black!30] (Q) -- +(-139.5:50) arc[start angle=-139.5,end angle=-117.95,radius=50] -- cycle;
+\draw (P) ++(-65.8:50) arc[start angle=-65.8,end angle=-45.3,radius=50];
+\draw (Q) ++(-139.5:50) arc[start angle=-139.5,end angle=-117.95,radius=50];
+\draw (P) -- (B) -- (Q) -- cycle;
+\draw[aux] (B) -- (C); \draw[aux] (P) -- (C); \draw[aux] (Q) -- (C);
+\draw (590.9,269.2) -- (590.9,249.2) -- (605,235) -- (620.2,248) -- (620.2,268);
+\node at (645,45) {\Large $B$};
+\node at (630,175) {\Large $h$};
+\node at (602,300) {\Large $C$};
+\node at (418,466) {\Large $P$};
+\node at (825,466) {\Large $Q$};
+\node at (595,465) {\scriptsize $80$ m};
+\node at (481,355) {\scriptsize $42$};
+\node at (752,350) {\scriptsize $38$};
+% ---- triangle QBC (right)
+\draw (852,50) -- (852,245) -- (1287,245) -- cycle;
+\draw (867,245) -- (867,230) -- (852,230);
+\node at (838,35) {\Large $B$};
+\node at (830,160) {\Large $h$};
+\node at (838,285) {\Large $C$};
+\node at (1302,272) {\Large $Q$};
+\node at (897,100) {\large $52^\circ$};
+\node at (1165,228) {\large $38^\circ$};
+\end{tikzpicture}
+\end{document}

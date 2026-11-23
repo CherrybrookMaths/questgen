@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (15,126) -- (838,126);
+\foreach \k in {0,...,12}{
+  \draw ({37+63.75*\k},126) -- ({37+63.75*\k},134);
+  \pgfmathtruncatemacro\v{30+\k}
+  \node[font=\scriptsize] at ({37+63.75*\k},150) {$\v$};}
+\begin{scope}[line width=0.9pt]
+\draw (99,62) -- (292,62);
+\draw (483.25,62) -- (802,62);
+\draw (292,29) rectangle (483.25,94);
+\draw (419.5,29) -- (419.5,94);
+\end{scope}
+\foreach \p in {99,292,419.5,483.25,802} \fill (\p,62) circle (5.5);
+\end{tikzpicture}
+\end{document}

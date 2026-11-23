@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade hatch reverse] plot[domain=0.6931:1.6931,samples=30,smooth] ({105+158*exp(\x)/2},{302-85*\x})
+     -- plot[domain=1:0,samples=30,smooth] ({105+158*exp(\x)},{302-85*\x}) -- cycle;
+  \draw[->] (28,302) -- (660,302);
+  \draw[->] (105,518) -- (105,46);
+  \draw (263,302) -- (263,243);
+  \draw (534.5,217) -- (534.5,158);
+  \draw[aux] (534.5,217) -- (534.5,302);
+  \draw[line width=0.9pt,<->] plot[domain=-2.33:1.865,samples=90,smooth] ({105+158*exp(\x)/2},{302-85*\x});
+  \draw[line width=0.9pt,<->] plot[domain=-2.33:1.172,samples=90,smooth] ({105+158*exp(\x)},{302-85*\x});
+  \node at (105,20) {$y$};
+  \node at (680,302) {$x$};
+  \node at (186,332) {$\frac{1}{2}$};
+  \node at (263,330) {$1$};
+  \node at (535,326) {$e$};
+  \node[anchor=west] at (612,128) {$y=\ln(2x)$};
+  \node[anchor=west] at (612,187) {$y=\ln x$};
+\end{tikzpicture}
+\end{document}

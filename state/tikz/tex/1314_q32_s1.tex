@@ -1,0 +1,62 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{brick/.style={line width=0.35pt}}
+\newcommand\wall[5]{% #1 x0, #2 x1, #3 ytop, #4 courses, #5 course height; depth vector (22,-20)
+  \begin{scope}
+    \clip (#1,#3) rectangle (#2,610);
+    \foreach \k in {1,...,#4} {
+      \pgfmathsetmacro\yy{#3+(\k-1)*#5}
+      \draw[brick] (#1,\yy) -- (#2,\yy);
+      \pgfmathsetmacro\off{mod(\k,2)*9}
+      \foreach \j in {0,...,4} \draw[brick] ({#1+\off+\j*18},\yy) -- ({#1+\off+\j*18},{\yy+#5});
+    }
+  \end{scope}
+  \fill[black!22] (#2,#3) -- ++(22,-20) -- (#2+22,590) -- (#2,610) -- cycle;
+  \begin{scope}
+    \clip (#2,#3) -- ++(22,-20) -- (#2+22,590) -- (#2,610) -- cycle;
+    \foreach \k in {1,...,#4} {
+      \pgfmathsetmacro\yy{#3+(\k-1)*#5}
+      \draw[brick] (#2,\yy) -- ++(22,-20);
+      \pgfmathsetmacro\off{mod(\k,2)*11}
+      \draw[brick] ({#2+5+\off},{\yy-(5+\off)*20/22}) -- ++(0,#5);
+    }
+  \end{scope}
+  \begin{scope}
+    \clip (#1,#3) -- ++(22,-20) -- (#2+22,#3-20) -- (#2,#3) -- cycle;
+    \draw[brick] (#1+11,#3-10) -- (#2+11,#3-10);
+    \foreach \j in {0,...,3} {
+      \draw[brick] ({#1+\j*22},#3) -- ++(11,-10);
+      \draw[brick] ({#1+22+\j*22},#3-10) -- ++(11,-10);
+    }
+  \end{scope}
+  \draw (#1,610) -- (#1,#3) -- (#2,#3) -- (#2,610);
+  \draw (#1,#3) -- ++(22,-20) -- (#2+22,#3-20) -- (#2,#3);
+  \draw (#2+22,#3-20) -- (#2+22,590) -- (#2,610);
+}
+\wall{397}{465}{374}{25}{9.44}
+\wall{655}{722}{35}{60}{9.6}
+\draw (0,610) -- (655,610);
+\draw (623,610) -- (623,578) -- (655,578);
+\path[shade dots] (82,610) -- (655,180) -- (611.8,122.4) -- (38.8,552.4) -- cycle;
+\draw (82,610) -- (655,180) -- (611.8,122.4) -- (38.8,552.4) -- cycle;
+\draw (210,610) arc[start angle=0,end angle=-36.87,radius=128];
+\node[font=\large] at (162,588) {$\alpha$};
+\draw[aux,<->] ($(38.8,552.4)+(-10.8,-14.4)$) -- ($(611.8,122.4)+(-10.8,-14.4)$);
+\node[font=\large] at (298,311) {$y$};
+\draw[line width=0.4pt] (397,610) -- (397,645);
+\draw[aux,<->] (80,626) -- (397,626);
+\draw[aux,<->] (397,626) -- (655,626);
+\node[font=\large] at (240,660) {$x$};
+\node[font=\large] at (526,660) {$a$};
+\node[font=\large,anchor=east] at (388,505) {$b$};
+% ---- solution annotations: m, n, horizontal a and alpha at the top of the lower wall
+\draw[aux] (397,374) -- (655,374);
+\draw (527,374) arc[start angle=0,end angle=-36.87,radius=130];
+\node[font=\large] at (478,341) {$\alpha$};
+\node[font=\large,anchor=north] at (562,380) {$a$};
+\node[font=\large] at (226,474) {\halo{$m$}};
+\node[font=\large] at (513,259) {\halo{$n$}};
+\end{tikzpicture}
+\end{document}

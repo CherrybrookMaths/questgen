@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (38,337); \coordinate (E) at (368,337);
+\coordinate (D) at (368,172); \coordinate (B) at (38,172);
+\coordinate (C) at (345,30);
+\draw (A) -- (E) -- (D) -- (B) -- cycle;
+\draw (B) -- (C) -- (D);
+\draw (38,311) -- (64,311) -- (64,337);
+\draw ($(D)+(180:35)$) arc[start angle=180, end angle=260.8, radius=35];
+\draw ($(C)+(80.8:36)$) arc[start angle=80.8, end angle=155.2, radius=36];
+\node[font=\scriptsize] at ($(D)+(220.4:57)$) {$81^\circ$};
+\node[font=\scriptsize] at ($(C)+(118:60)$) {$75^\circ$};
+\node[font=\footnotesize] at (18,168) {$B$};
+\node[font=\footnotesize] at (378,15) {$C$};
+\node[font=\footnotesize] at (400,158) {$D$};
+\node[font=\footnotesize] at (393,350) {$E$};
+\node[font=\footnotesize] at (17,355) {$A$};
+\node[font=\footnotesize] at (185,362) {$15\ m$};
+\node[font=\footnotesize] at (408,257) {$9\ m$};
+\node[font=\footnotesize\bfseries, align=center] at (553,135) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

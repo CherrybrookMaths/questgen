@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+  \draw[<->] (15,0) -- (1003,0);
+  \node[anchor=west] at (1008,0) {$x$};
+  \draw[<->] (510,-262) -- (510,262);
+  \node[anchor=south] at (510,266) {$y$};
+  \node at (495,-24) {$O$};
+  \draw[<->, line width=0.9pt] plot[smooth, samples=90, domain=-492:215, variable=\u] ({510+\u},{226-46*exp(0.01098*\u)});
+  \node at (675,151) {$y = f(x)$};
+\end{tikzpicture}
+\end{document}

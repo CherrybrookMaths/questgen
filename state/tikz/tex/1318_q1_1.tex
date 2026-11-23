@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (30,68) -- (340,68);
+\foreach \v in {3,...,9} { \pgfmathsetmacro\px{67+37.4*(\v-3)} \draw (\px,62)--(\px,74); \node at (\px,89){$\v$}; }
+\node at (350,85) {$x$};
+\begin{scope}[line width=0.9pt]
+\filldraw[fill=black!18] (104.4,17) rectangle (216.6,42);
+\draw (160.5,17)--(160.5,42);
+\draw (67,30)--(104.4,30) (216.6,30)--(291.4,30);
+\draw (67,20)--(67,40) (291.4,20)--(291.4,40);
+\end{scope}
+\end{tikzpicture}
+\end{document}

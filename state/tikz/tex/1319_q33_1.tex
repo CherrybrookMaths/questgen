@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.2827cm,y=1.2827cm]
+  \draw[black!15, line width=0.4pt, step=0.25] (-5,-2) grid (5,4.5);
+  \draw[black!35, line width=0.5pt, step=1] (-5,-2) grid (5,4.5);
+  \draw[<->] (-5.45,0) -- (5.4,0) node[right] {\large$x$};
+  \draw[<->] (0,-2.45) -- (0,4.95) node[above] {\large$y$};
+  \foreach \i in {-20,...,-1,1,2,...,20} \draw (\i/4,-0.07) -- (\i/4,0.07);
+  \foreach \v/\t in {-4/-4,-2/-2,2/2,4/4} \node at (\v,-0.56) {\halo{$\t$}};
+  \foreach \v in {1,2,3,4} \node at (-0.17,\v) {\halo{$\v$}};
+  \foreach \v in {-1,-2} \node at (-0.3,\v) {\halo{$\v$}};
+  \draw[line width=0.9pt, <->] plot[domain=-1.23:3.1, samples=90, smooth] (\x,{\x*\x*\x-3*\x*\x+4});
+  \node at (1.38,3.9) {\Large\halo{$f(x)$}};
+\end{tikzpicture}
+\end{document}

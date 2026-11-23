@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (41,208) -- (219,208);
+\draw[->] (45,212) -- (45,40);
+\foreach \px in {107,168} \draw (\px,203)--(\px,213);
+\foreach \py in {113,144,175} \draw (40,\py)--(50,\py);
+\node at (29,48) {$x$};
+\node at (230,210) {$t$};
+\node at (34,230) {$0$};
+\node at (168,230) {$2$};
+\draw[line width=0.9pt] plot[smooth,domain=0:1,samples=60] ({45+121*\x},{113+62*(1-\x)^2});
+\node[pt,inner sep=1.6pt] at (166,113) {};
+\end{tikzpicture}
+\end{document}

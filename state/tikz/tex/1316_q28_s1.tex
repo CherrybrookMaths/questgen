@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {-5,...,15} \draw[black!20,line width=0.3pt] ({210+33.2*\i},63)--({210+33.2*\i},375);
+\foreach \j in {-4,...,12} \draw[black!20,line width=0.3pt] (44,{297-19.5*\j})--(708,{297-19.5*\j});
+\fill[shade] (210,297) -- plot[domain=0:0.6931,smooth,samples=30] ({210+166*\x},{297-78*(exp(\x)-1)}) -- plot[domain=0.6931:0,smooth,samples=30] ({210+166*\x},{297-156*exp(-\x)}) -- cycle;
+\draw[<->] (5,297)--(760,297);
+\draw[<->] (210,405)--(210,25);
+\draw[<->,line width=0.9pt,smooth,samples=90,domain=-0.507:3.15] plot ({210+166*\x},{297-156*exp(-\x)});
+\draw[<->,line width=0.9pt,smooth,samples=90,domain=-1.217:1.45] plot ({210+166*\x},{297-78*(exp(\x)-1)});
+\draw (325.1,219)--(525,120);
+\node[pt] at (325.1,219) {};
+\draw (497,8) rectangle (778,120);
+\node[anchor=west,font=\fontsize{11}{13}\selectfont] at (508,45) {Point of Intersection};
+\node[anchor=west,font=\fontsize{11}{13}\selectfont] at (508,88) {$(\ln 2,1)$};
+\node at (185,63) {$3$}; \node at (185,141) {$2$}; \node at (185,219) {$1$}; \node at (180,375) {$-1$};
+\node at (377,338) {$1$}; \node at (543,338) {$2$}; \node at (708,338) {$3$}; \node at (44,278) {$-1$};
+\node[anchor=west] at (762,297) {$x$};
+\node[anchor=south] at (210,23) {$y$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (8,298) -- (712,298);
+  \draw[->] (68,430) -- (68,40);
+  \foreach \k in {1,...,9} \draw ({68+68.3*\k},292) -- ({68+68.3*\k},304);
+  \foreach \k in {2,4} \node[font=\footnotesize] at ({68+68.3*\k},274) {$\k$};
+  \foreach \k in {6,8} \node[font=\footnotesize] at ({68+68.3*\k},328) {$\k$};
+  \node[font=\Large] at (724,298) {$t$};
+  \node[font=\Large] at (70,15) {$a$};
+  \draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates {(68,330) (78,298) (90,250) (111,170) (136,100) (160,165) (180,298) (205,380) (238,408) (280,385) (338,330) (408,298) (460,289) (510,287) (600,291) (708,296)};
+\end{tikzpicture}
+\end{document}

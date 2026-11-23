@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.2056cm,y=0.2052cm,font=\Large]
+\draw[black!12,line width=0.3pt] (0,0) grid[step=0.5] (70,60);
+\draw[black!35,line width=0.45pt] (0,0) grid[step=5] (70,60);
+\draw[black!50] (0,0) rectangle (70,60);
+\draw[->] (0,0) -- (75.5,0) node[right] {$x$};
+\draw[->] (0,0) -- (0,62);
+\node at (-10,60) {$y$};
+\node[rotate=90] at (-10,30) {Temperature ($^\circ$C)};
+\foreach \k in {10,20,...,70} {\draw (\k,-0.6) -- (\k,0.6); \node[anchor=north] at (\k,-0.9) {$\k$};}
+\foreach \k in {10,20,...,50} {\draw (-0.6,\k) -- (0.6,\k); \node[anchor=east] at (-0.9,\k) {$\k$};}
+\draw[line width=0.9pt] (-3.4,52.62) -- (72.9,-6.13);
+\foreach \p in {(24,28),(29,28),(25,32),(29,29),(43,17),(21,34),(35,21),(35,23)} {\node[pt] at \p {};}
+\node at (51.3,47.3) {\halo{$y=-\dfrac{50}{65}\,x+50$}};
+\node at (55.5,38.2) {\halo{$\approx -0.77x+50$}};
+\end{tikzpicture}
+\end{document}

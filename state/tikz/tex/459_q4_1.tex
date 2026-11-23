@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (25,330) -- (812,330);
+  \draw[<->] (420,610) -- (420,50);
+  \node at (829,333) {$x$};
+  \node at (410,32) {$y$};
+  \draw (414,162) -- (426,162);
+  \draw (414,497) -- (426,497);
+  \node[left,inner sep=1pt] at (410,160) {$0.5$};
+  \node[left,inner sep=1pt] at (410,497) {$-0.5$};
+  \begin{scope}[shift={(420,330)},x=1.5038cm,y=4.267cm]
+    \draw[<->,line width=0.9pt,smooth,samples=90,domain=-3.36:3.36] plot (\x,{0.5*cos(deg(2*\x))});
+  \end{scope}
+  \node[font=\small] at (122,365) {$-\dfrac{3\pi}{4}$};
+  \node[font=\small] at (334,365) {$-\dfrac{\pi}{4}$};
+  \node[font=\small] at (503,365) {$\dfrac{\pi}{4}$};
+  \node[font=\small] at (712,365) {$\dfrac{3\pi}{4}$};
+  \node at (712,133) {$y=g(x)$};
+\end{tikzpicture}
+\end{document}

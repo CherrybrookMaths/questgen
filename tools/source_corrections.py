@@ -398,6 +398,54 @@ for sid, lat, crit, note, extra in C15:
     apply(sid, lat, crit, note, extra)
     m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
     db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# Batch 16 (23 Nov night; owner: "Can u please import 5 batches of advanced I won't be able to give any permissions until tomorrow morning"):
+# the verifier's 16 findings on 2021 Northern Beaches, North Sydney Boys, PEM, Sydney Girls, Sydney Tech and Oakhill AT1, checked by hand.
+# Your calls (site/project/open_decisions.json), not here: Oakhill AT1 Q4 and PEM Q10 (two correct options), North Sydney Boys Q13(b)
+# (the result cannot be shown as written), Sydney Girls Q13(a)(ii) (maximum displacement: t=0 and 8, or t=4) and Q13(d) (the integral
+# crosses the asymptote at pi/2), Sydney Tech Q18(a) ("either vaccine": both, 1/5, or at least one, 19/25).
+_NOTE16 = r'(Over the whole day the cycle repeats every 12 hours, so the channel is also deep enough from midnight to 6am and from 10pm to midnight; the answer above is the window inside the first cycle.)'
+C16 = [
+ (7000, [(r'&= \dfrac{2}{7} \end{aligned}$$', r'&= \dfrac{2}{7} \end{aligned}$$' + '\n\n' + r'$P(B)=0.55$, so $P(B\mid A)=\dfrac27\approx0.286\ne P(B)$ (equivalently $P(A\cap B)=0.1\ne P(A)P(B)=0.1925$).' + '\n' + r'$$\therefore\ A \text{ and } B \text{ are not independent}$$')], [],
+  r'the guideline found $P(B\mid A)$ but never answered whether $A$ and $B$ are independent; they are not', None),
+ (7310, [(r'$$\therefore\ \text{the ship can sail between 10am and 6pm.}$$', r'$$\therefore\ \text{the ship can sail between 10am and 6pm.}$$' + '\n\n' + _NOTE16)], [],
+  r'the working looked only at the first cycle; a note gives the other Tuesday windows (midnight to 6am, 10pm to midnight)', None),
+ (7061, [(r'$$\therefore\ \text{between 10am and 6pm}$$', r'$$\therefore\ \text{between 10am and 6pm}$$' + '\n\n' + r'(The next window opens at 10pm, $t=14$, as the cycle repeats.)')], [],
+  r'the guideline gave only the 10am to 6pm window; a note gives the 10pm window later the same day', None),
+ (7030, [(r'$$9+15+9+6=39\text{ m}$$' + '\n' + r'Cost:' + '\n' + r'$$\begin{aligned}39\times\$75&=\$2925\end{aligned}$$' + '\n' + r'$$\therefore\ \text{the cost is } \$2925$$',
+          r'$$9+15+9+6.316\ldots=39.316\ldots\text{ m}$$' + '\n' + r'Fencing is sold in whole metres, so John must buy $40$ m ($39$ m would leave the fence about $0.3$ m short).' + '\n' + r'Cost:' + '\n' + r'$$\begin{aligned}40\times\$75&=\$3000\end{aligned}$$' + '\n' + r'$$\therefore\ \text{the cost is } \$3000$$')], [],
+  r'the guideline used $CD$ rounded down to $6$ m and bought $39$ m ($\$2925$), which leaves the fence short; $39.32$ m needs $40$ m, $\$3000$', None),
+ (7064, [(r'So the payments last 60 quarters.' + '\n\n' + r'$$\therefore\ 60 \text{ quarters}=15 \text{ years}$$',
+          r'So there are $59$ full quarterly payments, and about $\$990$ is left for a smaller 60th payment.' + '\n\n' + r'$$\therefore\ 60 \text{ quarters}=15 \text{ years (the last payment is partial; } 59 \text{ full payments is about } 14.75 \text{ years)}$$')], [],
+  r'the working rounded $n=59.06$ up to 60 quarters without saying the 60th payment is only partial', None),
+ (7070, [(r'$$\therefore\ \text{the triangle } XYZ \text{ is isosceles when the area is a maximum}$$',
+          r'$$\begin{aligned}A^2&=-33(7)^2+462(7)-1089=528\\ A&=\sqrt{528}=4\sqrt{33}\approx22.98\text{ units}^2\end{aligned}$$' + '\n' + r'$$\therefore\ \text{the maximum area is } 4\sqrt{33}\text{ units}^2\text{, when triangle } XYZ \text{ is isosceles}$$')], [],
+  r'the guideline stopped at $x=7$ and never gave the maximum area, $4\sqrt{33}\approx22.98$', None),
+ (7134, [(r'&= \left|-\dfrac{25}{12}\right| \\', r'&= \left|0-\left(-\dfrac{25}{12}\right)\right| \\')], [],
+  r'the line $\left|0-\left(\dfrac14+\dfrac23-3\right)\right|$ was written $\left|-\dfrac{25}{12}\right|$; the value is unchanged', None),
+ (7271, [(r'&= 0.483\ldots \end{aligned}$$', r'&= 0.4343\ldots \end{aligned}$$'), (r'=63.994\ldots^\circ \approx 64^\circ', r'=64.257\ldots^\circ \approx 64^\circ')], [],
+  r'the cosine-rule line gave $0.483\ldots$ and $63.994^\circ$ (the school used 2200 in the denominator); it is $0.4343\ldots$, $64.26^\circ$. The bearing $244^\circ$T is unchanged', None),
+]
+for sid, lat, crit, note, extra in C16:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# Two parts the guideline left without working (2021 Northern Beaches AT4 Q23(b), Q34(b)): written here, marked generated.
+_GEN16 = [
+ (7505, r"""The claim is not supported. The data only show that fires with more firefighters had more damage: the two variables are strongly correlated ($r\approx0.998$), but correlation does not imply causation.
+The more likely explanation is the reverse, or a third factor: larger fires do more damage and also need more firefighters to be sent, so the size of the fire drives both variables.""",
+  [[1, "Rejects the claim, explaining that the size of the fire (or the reverse direction) accounts for the correlation"]]),
+ (7529, r"""Using $F(x)=\displaystyle\int_0^x\dfrac{\pi}{2}\cos\left(\dfrac{\pi t}{2}\right)dt=\sin\left(\dfrac{\pi x}{2}\right)$ for $0\le x\le1$:
+$$\begin{aligned} P\left(X<\tfrac12 \,\middle|\, X<\tfrac23\right) &= \dfrac{P\left(X<\frac12\right)}{P\left(X<\frac23\right)} \\ &= \dfrac{\sin\frac{\pi}{4}}{\sin\frac{\pi}{3}} \\ &= \dfrac{\frac{\sqrt2}{2}}{\frac{\sqrt3}{2}} \\ &= \dfrac{\sqrt6}{3}\ (\approx0.816) \end{aligned}$$""",
+  [[3, "Correct answer"], [2, "Finds $P\\left(X<\\frac12\\right)$ and $P\\left(X<\\frac23\\right)$, or equivalent merit"], [1, "Uses the conditional probability formula, or equivalent merit"]]),
+]
+for pid, lat, crit in _GEN16:
+    if db.execute('select 1 from solutions where part_id=?', (pid,)).fetchone(): continue
+    db.execute('insert into solutions (part_id, source, latex, model, prompt_version, criteria_json, meta_json) values (?,?,?,?,?,?,?)',
+               (pid, 'generated', lat, 'claude (session)', 'b16-fix', json.dumps(crit), json.dumps({'generated_note': 'The guideline has no working for this part; written while checking the verifier findings (23 Nov).'})))
 # 2021 Hornsby Girls AT4 Q27(c) sign table (Ts6035_1): dr/dk at k=2 is (4-8)/13^{3/2} = -0.085..., not -0.85...
 db.execute(r"""update data_tables set rows_json=replace(rows_json, '"-0.85\\ldots"', '"-0.085\\ldots"') where id='Ts6035_1'""")
-db.commit(); print('done C13, C14, C15')
+# Batch 16 tables: words outside \text{} render italic (batch_check)
+db.execute(r"""update data_tables set rows_json=replace(rows_json, '"Mt \\cdot Isa"', '"\\text{Mt Isa}"') where id='1318_q25_t1'""")
+db.execute(r"""update data_tables set rows_json=replace(rows_json, '["IQR",', '["\\text{IQR}",') where id='Ts7014_1'""")
+db.commit(); print('done C13, C14, C15, C16')

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\sx{41.05}\def\sy{61.92}
+\foreach \i in {91,93,...,109} \draw[black!25,line width=0.5pt] ({175+\sx*(\i-90)},79)--({175+\sx*(\i-90)},822);
+\foreach \j in {79,81,...,89} \draw[black!25,line width=0.5pt] (175,{822-\sy*(\j-78)})--(996,{822-\sy*(\j-78)});
+\foreach \i in {90,92,...,110} \draw[black!50,line width=0.5pt] ({175+\sx*(\i-90)},79)--({175+\sx*(\i-90)},822);
+\foreach \j in {78,80,...,90} \draw[black!50,line width=0.5pt] (175,{822-\sy*(\j-78)})--(996,{822-\sy*(\j-78)});
+\draw (100,885)--(146,885); \draw[->] (170,885)--(1027,885);
+\draw (136,897)--(152,873); \draw (158,897)--(174,873);
+\draw (112,885)--(112,850); \draw[->] (112,826)--(112,40);
+\draw (100,858)--(124,842); \draw (100,836)--(124,820);
+\foreach \i in {90,...,110} \draw ({175+\sx*(\i-90)},877)--({175+\sx*(\i-90)},893);
+\foreach \i in {90,92,...,110} \node at ({175+\sx*(\i-90)},925) {\i};
+\foreach \j in {79,...,90} \draw (104,{822-\sy*(\j-78)})--(120,{822-\sy*(\j-78)});
+\foreach \j in {78,80,...,90} \node[anchor=east] at (96,{822-\sy*(\j-78)}) {\j};
+\node at (598,962) {IQ Score};
+\node at (1042,885) {$I$};
+\node at (112,16) {$M$};
+\node[rotate=90] at (32,450) {Mark on Test};
+\foreach \a/\b in {91/79,92/78,94/80,96/82,98/83,99/82,102/84,104/86,107/88,109/90}
+  \fill ({175+\sx*(\a-90)},{822-\sy*(\b-78)}) circle (4.5);
+\end{tikzpicture}
+\end{document}

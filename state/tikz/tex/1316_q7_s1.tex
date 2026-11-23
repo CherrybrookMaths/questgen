@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.42418cm,y=0.19812cm]
+  \foreach \i in {-10,...,10}{\draw[black!25, line width=0.4pt] (\i,-10) -- (\i,10);}
+  \foreach \j in {-10,...,10}{\draw[black!25, line width=0.4pt] (-10,\j) -- (10,\j);}
+  \draw[<->] (-10.5,0) -- (10.55,0);
+  \draw[<->] (0,-11.2) -- (0,12.2);
+  \node[anchor=south] at (0,12.3) {$y$};
+  \node[anchor=west] at (10.6,0) {$x$};
+  \foreach \i in {-10,...,10}{\ifnum\i=0\else\draw (\i,-0.28) -- (\i,0.28);\fi}
+  \foreach \j in {-10,...,11}{\ifnum\j=0\else\draw (-0.12,\j) -- (0.12,\j);\fi}
+  \foreach \i in {-10,-5,5,10}{\node[anchor=north] at (\i,-0.6) {$\i$};}
+  \foreach \j in {-10,-5,5}{\node[anchor=east] at (-0.2,\j) {$\j$};}
+  \node[anchor=south east] at (-0.15,10.2) {$10$};
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=180:0, variable=\t] ({5*cos(\t)},{10*sin(\t)});
+\end{tikzpicture}
+\end{document}

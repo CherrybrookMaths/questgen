@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.1cm,y=0.014cm]
+\draw[->] (0,0)--(96,0) node[right]{$t$};
+\draw[->] (0,0)--(0,475) node[above]{$T$};
+\node[anchor=north east,inner sep=1pt] at (-0.8,-6) {$O$};
+\draw[aux] (0,25)--(86,25);
+\node[anchor=west,inner sep=1pt] at (87,25) {$T = 25$};
+\draw[line width=0.9pt,->,smooth,samples=90,domain=0:82] plot (\x,{400*exp(-0.05*\x)+25});
+\fill (0,425) circle (2pt);
+\fill (16.5,200.3) circle (2pt);
+\node[anchor=west,inner sep=1pt] at (1.8,425) {$(0, 425)$};
+\node[anchor=south west,inner sep=1pt] at (17.5,206) {$(16.5, 200)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  declare function={F(\s)=\s*\s*\s*\s/4-2.8*\s*\s*\s/3+0.0186*\s*\s+3.1828*\s; fy(\s)=497-60.8*F(\s);}]
+  \draw[->] (28,497)--(815,497);
+  \draw[->] (352,678)--(352,52);
+  \draw[aux,black!55] (260,497)--(260,{fy(-0.92)});
+  \draw[aux,black!55] (538,{fy(1.86)})--(538,497);
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-2.07:3.24,variable=\s] ({352+100*\s},{fy(\s)});
+  \fill (352,497) circle[radius=5];
+  \node at (838,497) {$x$};
+  \node at (352,24) {$y$};
+  \node at (725,108) {$f(x)$};
+  \node at (178,516) {$a$};
+  \node at (260,476) {$b$};
+  \node at (374,521) {$O$};
+  \node at (538,519) {$c$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\coordinate (A) at (92,274); \coordinate (C) at (92,110); \coordinate (B) at (195,184);
+\draw[->] (92,330) -- (92,67);
+\node at (95,22) {North};
+\draw[->] (68,299) -- (265,299) node[right] {East};
+\draw (C) -- (B) -- (A);
+\node[anchor=east] at (85,272) {$A$};
+\node[anchor=east] at (85,110) {$C$};
+\node[anchor=west] at (201,190) {$B$};
+\node at (46,162) {12\,km};
+\node at (182,244) {9\,km};
+\node at (114,228) {$50^\circ$};
+\end{tikzpicture}
+\end{document}

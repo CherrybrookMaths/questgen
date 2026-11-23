@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={X(\a)=286+41.6*\a; Y(\b)=600-41.5*\b;}]
+\foreach \a in {-4,...,14} \draw[black!20,line width=0.5pt] ({X(\a)},{Y(11)})--({X(\a)},{Y(-6)});
+\foreach \b in {-6,...,11} \draw[black!20,line width=0.5pt] ({X(-5)},{Y(\b)})--({X(15)},{Y(\b)});
+\foreach \a in {-5,5,10,15} \draw[black!45,line width=0.5pt] ({X(\a)},{Y(11)})--({X(\a)},{Y(-6)});
+\foreach \b in {-5,5,10} \draw[black!45,line width=0.5pt] ({X(-5)},{Y(\b)})--({X(15)},{Y(\b)});
+\draw[->] (35,600)--(950,600);
+\draw[->] (286,910)--(286,85);
+\foreach \a in {-4,...,-1,1,2,3,4,6,7,8,9,11,12,13,14} \draw ({X(\a)},590)--({X(\a)},610);
+\foreach \a in {-5,5,10,15} \draw ({X(\a)},580)--({X(\a)},620);
+\foreach \b in {-6,-4,-3,-2,-1,1,2,3,4,6,7,8,9,11} \draw (276,{Y(\b)})--(296,{Y(\b)});
+\foreach \b in {-5,5,10} \draw (266,{Y(\b)})--(306,{Y(\b)});
+\foreach \a in {-5,5,10,15} \node at ({X(\a)},666) {$\a$};
+\foreach \b in {-5,5,10} \node[anchor=east] at (250,{Y(\b)}) {$\b$};
+\node at (982,600) {\Large $x$};
+\node at (286,40) {\Large $y$};
+\draw[line width=0.9pt,smooth,samples=90,domain=0:4,variable=\u] plot ({X(\u*\u-1)},{Y(\u)});
+\draw[line width=0.9pt] ({X(0)},{Y(11)})--({X(15)},{Y(-4)});
+\foreach \a/\b in {-1/0,0/1,0/11,11/0,8/3,15/4,15/-4} \node[pt,inner sep=1.3pt] at ({X(\a)},{Y(\b)}) {};
+\end{tikzpicture}
+\end{document}

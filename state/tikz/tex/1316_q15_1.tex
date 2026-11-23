@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\footnotesize}]
+\coordinate (A) at (48,505); \coordinate (B) at (325,95); \coordinate (C) at (667,323); \coordinate (D) at (325,713);
+\draw (A)--(B)--(C)--(D)--cycle; \draw (A)--(C);
+\draw[aux] (B)--(325,292); \draw[aux] (325,350)--(D);
+\draw[aux,->] (B)--(325,5);
+\node[font=\normalsize] at (296,20) {N};
+\node at (340,78) {$B$}; \node at (685,325) {$C$}; \node at (28,505) {$A$}; \node at (338,728) {$D$};
+\node at (520,195) {90 m}; \node at (325,320) {135 m}; \node at (148,628) {75 m};
+\draw let \p1=($(C)-(A)$), \p2=($(D)-(A)$), \n1={-atan2(\y1,\x1)}, \n2={-atan2(\y2,\x2)} in
+  ($(A)+(\n1:105)$) arc[start angle=\n1, end angle=\n2, radius=105];
+\draw let \p1=($(A)-(C)$), \p2=($(D)-(C)$), \n1={-atan2(\y1,\x1)}, \n2={-atan2(\y2,\x2)} in
+  ($(C)+(\n1:146)$) arc[start angle=\n1, end angle=\n2, radius=146];
+\node at (133,520) {$53^\circ$}; \node at (592,370) {$32^\circ$};
+\end{tikzpicture}
+\end{document}

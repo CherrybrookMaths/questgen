@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (208,690) -- (208,50);
+  \draw[<->] (170,651) -- (1212,651);
+  \draw[aux] (170,620) -- (1195,620);
+  \draw[line width=0.9pt,->,smooth,samples=90,domain=0:206] plot ({208+4.87*\x},{651-1.28*(400*exp(-0.05*\x)+25)});
+  \foreach \v/\yy in {400/139,300/267,200/395,100/523} \node[font=\scriptsize] at (167,\yy) {$\v$};
+  \foreach \v/\xx in {50/451.5,100/695,150/938.5} \node[font=\scriptsize] at (\xx,686) {$\v$};
+  \node[font=\scriptsize] at (207,30) {$T$};
+  \node[font=\scriptsize] at (1226,655) {$t$};
+  \node[pt] at (208,107) {};
+  \node[pt] at (288.5,395) {};
+  \node at (98,105) {$(0,425)$};
+  \node at (452,395) {$(16.534,200)$};
+  \node at (108,610) {$T=25$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[black!30,line width=0.4pt] (25,8) rectangle (1100,775);
+  \foreach \v in {0,200,...,1200} {
+    \draw[black!25,line width=0.4pt] (143,{535-0.3658*\v}) -- (972,{535-0.3658*\v});
+    \node[left,font=\footnotesize,inner sep=2pt] at (128,{535-0.3658*\v}) {$\v$};}
+  \foreach \p in {0,10,...,100}
+    \node[right,font=\footnotesize,inner sep=2pt] at (985,{535-4.39*\p}) {$\p\%$};
+  \foreach \v [count=\i from 0] in {1100,500,100,100,75,50,50,25}
+    \fill[black!20] ({143+103.6*\i+1},535) rectangle ({143+103.6*(\i+1)-1},{535-0.3658*\v});
+  \draw[line width=0.9pt] (194.8,293.5) -- (298.4,183.8) -- (402,161.9) -- (505.6,139.9) -- (609.2,123.4) -- (712.8,112.5) -- (816.4,101.5) -- (920,96);
+  \foreach \t [count=\i from 0] in {Delivery delayed,Pizza not hot,Inadequate topping,Damaged pizza,Incorrectly billed,Not enough cheese,Wrong size delivered,Not baked properly}
+    \node[rotate=60,anchor=east,font=\footnotesize,inner sep=1pt] at ({143+103.6*(\i+0.5)+8},552) {\t};
+  \node[font=\large] at (563,47) {Pizza Delivery Complaints};
+  \node[rotate=90] at (28,385) {Frequency};
+  \node[rotate=90] at (1093,385) {Cumulative Percentage frequency};
+\end{tikzpicture}
+\end{document}

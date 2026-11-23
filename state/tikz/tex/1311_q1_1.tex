@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (0,265) -- plot[smooth,samples=50,domain=-4.243:-1] ({328+77.3*\x},{265-257*exp(-0.236*(\x)^2)}) -- (250.7,265) -- cycle;
+\draw (250.7,265) -- (250.7,{265-257*exp(-0.236)});
+\draw (0,265) -- (665,265);
+\foreach \k in {-4,...,4}{
+  \draw ({328+77.3*\k},265) -- ({328+77.3*\k},271);
+  \node[font=\scriptsize] at ({328+77.3*\k},282) {$\k$};}
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=-4.243:4.36] ({328+77.3*\x},{265-257*exp(-0.236*(\x)^2)});
+\node[font=\footnotesize] at (655,240) {$z$};
+\end{tikzpicture}
+\end{document}

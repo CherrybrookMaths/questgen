@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.6967cm,y=0.14313cm]
+  \foreach \i in {0.5,1.5,...,6.5}{\draw[black!25, line width=0.4pt] (\i,0) -- (\i,90);}
+  \foreach \j in {2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48,52,54,56,58,62,64,66,68,72,74,76,78,82,84,86,88}{\draw[black!25, line width=0.4pt] (0,\j) -- (7,\j);}
+  \foreach \i in {1,...,7}{\draw[black!55, line width=0.4pt] (\i,0) -- (\i,90);}
+  \foreach \j in {10,20,...,90}{\draw[black!55, line width=0.4pt] (0,\j) -- (7,\j);}
+  \draw[->] (0,0) -- (0,93.6);
+  \node[anchor=south] at (0,94) {$h$};
+  \draw[->] (0,0) -- (7.26,0);
+  \node[anchor=west] at (7.3,0) {$t$};
+  \foreach \j in {1,...,89}{\draw (-0.03,\j) -- (0.03,\j);}
+  \foreach \i in {0.5,1,...,7}{\draw (\i,0) -- (\i,-0.9);}
+  \foreach \i in {1,...,7}{\node[anchor=north, font=\footnotesize] at (\i,-1.4) {$\i$};}
+  \foreach \j in {10,20,...,90}{\node[anchor=east, font=\footnotesize] at (-0.08,\j) {$\j$};}
+  \node[rotate=90, font=\footnotesize] at (-0.524,47.9) {Height (metres)};
+  \node[font=\footnotesize] at (3.74,-5.8) {Time (seconds)};
+\end{tikzpicture}
+\end{document}

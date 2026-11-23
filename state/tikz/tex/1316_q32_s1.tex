@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (50,277)--(880,277);
+\draw[->] (433,590)--(433,35);
+\draw[aux] (297,10)--(297,605);
+\draw[aux] (569,10)--(569,605);
+\draw[<->,line width=0.9pt,smooth,samples=90,domain=0.235:2.81] plot ({569+100*\x},{277-260/((2+\x)*(2+\x)-4)});
+\draw[<->,line width=0.9pt,smooth,samples=90,domain=0.235:2.27] plot ({297-100*\x},{277-260/((2+\x)*(2+\x)-4)});
+\draw[<->,line width=0.9pt,smooth,samples=90,domain=-120:120] plot ({433+\x},{342+0.0162*\x*\x});
+\node[pt] at (433,342) {};
+\node[anchor=south west,inner sep=1pt] at (441,330) {$-2$};
+\node at (297,635) {$x=-2$};
+\node at (569,635) {$x=2$};
+\node at (790,75) {$y=\dfrac{8}{x^2-4}$};
+\node[anchor=west] at (882,277) {$x$};
+\node[anchor=south] at (433,33) {$y$};
+\end{tikzpicture}
+\end{document}

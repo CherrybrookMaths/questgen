@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{410}\def\oy{430}\def\sx{123}\def\sy{124}
+\draw[aux] (15,{\oy+\sy}) -- (805,{\oy+\sy});
+\draw[<->] (15,\oy) -- (808,\oy) node[right,inner sep=2pt,font=\small]{$x$};
+\draw[<->] (\ox,635) -- (\ox,38) node[above,inner sep=2pt,font=\small]{$y$};
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-3.2:1.41] ({\ox+\sx*\x},{\oy-\sy*(exp(\x)-1)});
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-0.447:3.21] ({\ox+\sx*\x},{\oy-\sy*2*exp(-\x)});
+\node[pt] (P) at ({\ox+\sx*ln(2)},{\oy-\sy}) {};
+\node[anchor=west,inner sep=0pt,font=\large] at (514,290) {$P$};
+\node[font=\small] at (652,105) {$y=e^{x}-1$};
+\node[font=\small] at (690,355) {$y=2e^{-x}$};
+\end{tikzpicture}
+\end{document}

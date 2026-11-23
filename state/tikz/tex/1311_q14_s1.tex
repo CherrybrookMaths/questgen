@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\coordinate (A) at (0,0); \coordinate (E) at (7.5,0); \coordinate (D) at (7.5,4.5);
+\coordinate (B) at (0,4.5); \coordinate (C) at (7.775,7.648);
+\draw (A)--(E)--(D)--(B)--cycle;
+\draw (B)--(C)--(D);
+\draw (0.3,0)--(0.3,0.3)--(0,0.3);
+\pic[draw, angle radius=1.8cm] {angle=D--B--C};
+\pic[draw, angle radius=0.5cm] {angle=C--D--B};
+\pic[draw, angle radius=0.7cm] {angle=B--C--D};
+\node at (2.36,4.97) {$24^\circ$};
+\node at ($(D)+(-0.6,0.66)$) {$81^\circ$};
+\node at (7.09,6.72) {$75^\circ$};
+\node[anchor=north east] at (A) {$A$};
+\node[anchor=north west] at (E) {$E$};
+\node[anchor=west] at (7.62,4.42) {$D$};
+\node[anchor=east] at (-0.08,4.5) {$B$};
+\node[anchor=south] at ($(C)+(0,0.06)$) {$C$};
+\node[anchor=north] at (3.75,-0.1) {15 m};
+\node[anchor=north] at (3.75,4.38) {15 m};
+\node[anchor=west] at (7.6,2.25) {9 m};
+\node[anchor=west] at (7.76,6.07) {$x$};
+\end{tikzpicture}
+\end{document}

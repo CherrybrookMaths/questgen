@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (L) at (172,67); \coordinate (O) at (172,480); \coordinate (P) at (290,480);
+  \draw[shade] (O) ellipse[x radius=118,y radius=71];
+  \draw (L) -- (O) -- (P) -- cycle;
+  \draw (O) ++(0,-13) -- ++(13,0) -- ++(0,13);
+  \draw (P) ++(180:46) arc[start angle=180,end angle=254.05,radius=46];
+  \node at (172,42) {LIGHT};
+  \node at (148,270) {$y$};
+  \node at (255,268) {$d$};
+  \node at (146,481) {$O$};
+  \node at (316,481) {$P$};
+  \node at (230,500) {$a$};
+  \node at (269,464) {$\alpha$};
+\end{tikzpicture}
+\end{document}

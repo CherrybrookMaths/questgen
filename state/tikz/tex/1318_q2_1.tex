@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[black!18] plot[smooth,domain=-2:2,samples=60] ({134+22.5*\x},{157-16.5*(\x*\x-4)}) -- cycle;
+\draw[<->] (22,157) -- (248,157);
+\draw[<->] (134,250) -- (134,2);
+\draw[<->,line width=0.9pt] plot[smooth,domain=-3.05:3.05,samples=90] ({134+22.5*\x},{157-16.5*(\x*\x-4)});
+\node at (258,157) {$x$};
+\node at (122,10) {$y$};
+\node at (226,60) {$y=x^2-4$};
+\node at (78,180) {$-2$};
+\node at (192,180) {$2$};
+\node at (108,230) {$-4$};
+\end{tikzpicture}
+\end{document}

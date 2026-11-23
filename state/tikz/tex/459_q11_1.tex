@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={X(\a)=279+41.15*\a; Y(\b)=563-41.3*\b;}]
+\foreach \a in {-4,...,14} \draw[black!20,line width=0.5pt] ({X(\a)},{Y(11)})--({X(\a)},{Y(-6)});
+\foreach \b in {-6,...,11} \draw[black!20,line width=0.5pt] ({X(-5)},{Y(\b)})--({X(15)},{Y(\b)});
+\foreach \a in {-5,5,10,15} \draw[black!45,line width=0.5pt] ({X(\a)},{Y(11)})--({X(\a)},{Y(-6)});
+\foreach \b in {-5,5,10} \draw[black!45,line width=0.5pt] ({X(-5)},{Y(\b)})--({X(15)},{Y(\b)});
+\draw[->] (30,563)--(940,563);
+\draw[->] (279,848)--(279,48);
+\foreach \a in {-4,...,-1,1,2,3,4,6,7,8,9,11,12,13,14} \draw ({X(\a)},553)--({X(\a)},573);
+\foreach \a in {-5,5,10,15} \draw ({X(\a)},543)--({X(\a)},583);
+\foreach \b in {-6,-4,-3,-2,-1,1,2,3,4,6,7,8,9,11} \draw (269,{Y(\b)})--(289,{Y(\b)});
+\foreach \b in {-5,5,10} \draw (259,{Y(\b)})--(299,{Y(\b)});
+\foreach \a in {-5,5,10,15} \node at ({X(\a)},630) {$\a$};
+\foreach \b in {-5,5,10} \node[anchor=east] at (240,{Y(\b)}) {$\b$};
+\node at (992,560) {\Large $x$};
+\node at (296,14) {\Large $y$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{72}\def\ut{38.7}
+\draw (\ox,441) -- (\ox,428);
+\draw[->] (\ox,414) -- (\ox,60);
+\draw (\ox-8,432) -- (\ox+8,424); \draw (\ox-8,418) -- (\ox+8,410);
+\draw[->] (\ox,441) -- (712,441);
+\foreach \t in {1,...,16} {
+  \pgfmathtruncatemacro\m{mod(\t,5)}
+  \ifnum\m=0 \draw (\ox+\ut*\t,435) -- (\ox+\ut*\t,447); \else \draw (\ox+\ut*\t,438) -- (\ox+\ut*\t,444); \fi
+}
+\foreach \k in {0,...,17} {
+  \pgfmathsetmacro\Y{393-19.5*\k}
+  \pgfmathtruncatemacro\m{mod(\k,4)}
+  \ifnum\m=0 \draw (\ox-6,\Y) -- (\ox+6,\Y); \else \draw (\ox-3,\Y) -- (\ox+3,\Y); \fi
+}
+\foreach \t in {5,10,15} \node[font=\scriptsize] at (\ox+\ut*\t,468) {$\t$};
+\foreach \h in {8,10,12,14,16} \node[font=\scriptsize,anchor=east] at (\ox-9,{393-39*(\h-8)}) {$\h$};
+\draw[line width=0.9pt,->] plot[smooth,domain=0:16.5,samples=90,variable=\t] ({\ox+\ut*\t},{393-39*(5-3*cos(30*\t))});
+\node at (105,23) {$h$ (metres)};
+\node[anchor=west] at (735,441) {$t$ (hours)};
+\end{tikzpicture}
+\end{document}

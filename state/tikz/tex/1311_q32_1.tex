@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (5,300) -- (582,300);
+\draw[<->] (293,570) -- (293,36);
+\foreach \k in {-7,...,-1,1,2,...,7} {
+  \draw (293+37.2*\k,296) -- (293+37.2*\k,304);
+  \draw (289,300+34.3*\k) -- (297,300+34.3*\k);
+}
+\draw[line width=0.9pt] (293,300) ellipse [x radius=186, y radius=171.5];
+\draw (161,179.2) rectangle (425,420.8);
+\fill (425,179.2) circle (6);
+\node[anchor=south west] at (418,162) {$(x, y)$};
+\node[anchor=west] at (586,300) {$x$};
+\node[anchor=south] at (293,30) {$y$};
+\node[font=\small,anchor=north east,inner sep=1pt] at (103,305) {$-5$};
+\node[font=\small,anchor=north west,inner sep=1pt] at (483,305) {$5$};
+\node[font=\small,anchor=south east,inner sep=1pt] at (288,124) {$5$};
+\node[font=\small,anchor=north east,inner sep=1pt] at (288,476) {$-5$};
+\end{tikzpicture}
+\end{document}

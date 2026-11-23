@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={X(\a)=52+88.2*\a; Y(\b)=650-32.3*\b;}]
+\foreach \b in {1,2,3,4,6,7,8,9,11,12,13,14,16} \draw[black!20,line width=0.5pt] (52,{Y(\b)})--({X(12)},{Y(\b)});
+\foreach \b in {5,10,15} \draw[black!45,line width=0.5pt] (52,{Y(\b)})--({X(12)},{Y(\b)});
+\foreach \a in {1,...,12} \draw[black!45,line width=0.5pt] ({X(\a)},{Y(0)})--({X(\a)},{Y(16)});
+\draw[->] (52,650)--(1165,650);
+\draw[->] (52,650)--(52,82);
+\foreach \b in {1,2,3,4,6,7,8,9,11,12,13,14,16} \draw (44,{Y(\b)})--(60,{Y(\b)});
+\foreach \b in {5,10,15} \draw (38,{Y(\b)})--(66,{Y(\b)});
+\foreach \a in {1,...,12} \draw ({X(\a)},635)--({X(\a)},665);
+\foreach \b in {1,...,15} \node[anchor=east,font=\scriptsize,inner sep=1pt] at (34,{Y(\b)}) {$\b$};
+\foreach \a/\l in {0/8\,am,1/9,2/10,3/11,4/12\,pm,5/1,6/2,7/3,8/4,9/5,10/6,11/7,12/8} \node[font=\small] at ({X(\a)},692) {\l};
+\draw[aux] (52,{Y(13)})--({X(12)},{Y(13)});
+\draw[line width=0.9pt,smooth,samples=90,domain=0:12,variable=\t] plot ({X(\t)},{Y(4*cos(30*\t)+11)});
+\foreach \a/\b in {0/15,3/11,6/7,9/11,12/15} \node[pt,inner sep=1.3pt] at ({X(\a)},{Y(\b)}) {};
+\node at (48,40) {\Large $d$};
+\node at (1208,648) {\Large $t$};
+\end{tikzpicture}
+\end{document}

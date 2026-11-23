@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (15,695)--(1465,695);
+\draw[->] (710,1120)--(710,180);
+\node[font=\Large] at (1490,695) {$x$};
+\node[font=\Large] at (710,150) {$y$};
+\draw[line width=0.9pt] plot[domain=-1.5:4.5,samples=90,smooth] ({710+125*\x},{695-39.3*(0.25*(\x)^4-(\x)^3)});
+\foreach \a in {-1.5,4.5} \draw ({710+125*\a},683)--({710+125*\a},707);
+\node[font=\Large,anchor=north] at (522,712) {$-1.5$};
+\node[font=\Large,anchor=north] at (1272,712) {$4.5$};
+\node[font=\Large,anchor=south east] at (1200,685) {$4$};
+\node[font=\Large,anchor=north east] at (700,705) {$O$};
+\fill (710,695) circle[radius=6];
+\fill (1085,960.3) circle[radius=6];
+\fill (522,512.6) circle[radius=6];
+\fill (1272,247.4) circle[radius=6];
+\node[font=\Large,anchor=north] at (1085,975) {$\left(3,-\dfrac{27}{4}\right)$};
+\node[font=\Large,anchor=east] at (505,505) {$(-1.5,\,4.64)$};
+\node[font=\Large,anchor=west] at (1290,247) {$(4.5,\,11.39)$};
+\end{tikzpicture}
+\end{document}

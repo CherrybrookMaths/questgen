@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (5,361) -- (527,361);
+  \draw[->] (265,480) -- (265,6);
+  \draw[line width=0.9pt] plot[domain=-2:1,samples=90,smooth] ({265+88*\x},{361-78.7*(\x*\x*\x*\x+2*\x*\x*\x+1)});
+  \foreach \t in {-2,-1.5,-1,0,1} \node[pt] at ({265+88*\t},{361-78.7*(\t*\t*\t*\t+2*\t*\t*\t+1)}) {};
+  \node at (548,361) {$x$};
+  \node at (286,383) {$O$};
+  \node at (400,47) {$(1,4)$};
+  \node at (90,255) {$(-2,1)$};
+  \node at (307,307) {$(0,1)$};
+  \node at (216,387) {$(-1,0)$};
+  \node at (133,447) {$\left(-\frac{3}{2},-\frac{11}{16}\right)$};
+\end{tikzpicture}
+\end{document}

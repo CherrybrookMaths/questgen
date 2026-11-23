@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={X(\a)=38+88*\a; Y(\b)=635-32.3*\b;}]
+\foreach \b in {1,2,3,4,6,7,8,9,11,12,13,14,16} \draw[black!20,line width=0.5pt] (38,{Y(\b)})--({X(12)},{Y(\b)});
+\foreach \b in {5,10,15} \draw[black!45,line width=0.5pt] (38,{Y(\b)})--({X(12)},{Y(\b)});
+\foreach \a in {1,...,12} \draw[black!45,line width=0.5pt] ({X(\a)},{Y(0)})--({X(\a)},{Y(16)});
+\draw[->] (38,635)--(1155,635);
+\draw[->] (38,635)--(38,68);
+\foreach \b in {1,2,3,4,6,7,8,9,11,12,13,14,16} \draw (28,{Y(\b)})--(48,{Y(\b)});
+\foreach \b in {5,10,15} \draw (20,{Y(\b)})--(56,{Y(\b)});
+\foreach \a in {1,...,12} \draw ({X(\a)},619)--({X(\a)},652);
+\node at (42,18) {\Large $d$};
+\node at (1190,655) {\Large $t$};
+\end{tikzpicture}
+\end{document}

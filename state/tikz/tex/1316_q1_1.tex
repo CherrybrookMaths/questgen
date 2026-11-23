@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+  \draw[rounded corners=0.42cm] (22,-25) rectangle (180,-258);
+  \draw[rounded corners=0.42cm] (302,-25) rectangle (462,-258);
+  \foreach \t/\x/\y in {2/98/57,3/98/135,4/103/215}{\node at (\x,-\y) {$\t$};}
+  \foreach \t/\y in {1/45,2/90,3/135,4/180,5/226}{\node at (385,-\y) {$\t$};}
+  \draw[->] (120,-57) -- (360,-45);
+  \draw[->] (120,-57) -- (360,-88);
+  \draw[->] (128,-135) -- (360,-135);
+  \draw[->] (125,-215) -- (360,-179);
+  \draw[->] (125,-215) -- (360,-224);
+\end{tikzpicture}
+\end{document}

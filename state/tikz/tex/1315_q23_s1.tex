@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (245,397) -- (768,397);
+\draw[->] (245,397) -- (245,48);
+\foreach \v/\l in {-2/{-2},2/2,4/4,6/6,8/8} {\draw ({245+55*\v},393) -- ({245+55*\v},401);
+  \node[font=\tiny] at ({245+55*\v},416) {$\l$};}
+\foreach \v in {0.2,0.4,0.6,0.8,1} {\draw (241,{397-330*\v}) -- (249,{397-330*\v});
+  \node[font=\tiny,anchor=east] at (234,{397-330*\v}) {$\v$};}
+\draw[line width=0.9pt,<-] (60,397) -- (300,397) -- (410,232) -- (630,67);
+\draw[line width=0.9pt,->] (630,67) -- (760,67);
+\foreach \p in {(300,397),(410,232),(630,67)} \node[pt,inner sep=1.6pt] at \p {};
+\node[font=\scriptsize] at (290,316) {$(1\,,0)$};
+\node[font=\scriptsize] at (452,272) {$\left(3\,,\dfrac{1}{2}\right)$};
+\node[font=\scriptsize] at (652,114) {$(7\,,1)$};
+\node[font=\small] at (245,22) {$F_X(x)$};
+\node[font=\scriptsize,anchor=west] at (772,397) {$x$};
+\end{tikzpicture}
+\end{document}

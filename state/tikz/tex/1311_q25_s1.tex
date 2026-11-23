@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.8cm,y=0.12cm]
+\draw[->] (-5.6,0)--(5.7,0) node[right]{$x$};
+\draw[->] (0,-18.5)--(0,16) node[above]{$f'(x)$};
+\foreach \k in {-5,...,-1,1,2,...,5} \draw (\k,0.6)--(\k,-0.6);
+\draw[line width=0.9pt,<->,smooth,samples=90,domain=-3.75:2.75] plot (\x,{\x*(\x+3)*(\x-2)});
+\node[font=\small,anchor=south east,inner sep=1pt] at (-3.08,0.7) {$-3$};
+\node[font=\small,anchor=north east,inner sep=1pt] at (-0.08,-0.7) {$0$};
+\node[font=\small,anchor=north west,inner sep=1pt] at (2.08,-0.7) {$2$};
+\end{tikzpicture}
+\end{document}

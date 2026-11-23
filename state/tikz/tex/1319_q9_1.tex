@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (10,420) -- (965,420);
+  \draw[->] (93,620) -- (93,55);
+  \foreach \k in {1,...,9} \draw ({93+93*\k},413) -- ({93+93*\k},427);
+  \foreach \k in {2,4,6} \node[font=\small] at ({93+93*\k},458) {$\k$};
+  \node[font=\small] at (837,392) {$8$};
+  \node[font=\LARGE] at (985,420) {$t$};
+  \node[font=\LARGE] at (97,22) {$v$};
+  \draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates {(93,497) (106,505) (125,490) (158,420) (190,282) (222,165) (256,125) (283,145) (325,250) (363,350) (401,420) (440,470) (480,500) (521,511) (590,505) (671,490) (750,470) (836,453) (966,432)};
+\end{tikzpicture}
+\end{document}

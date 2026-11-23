@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\Large]
+% origin (148,235); pi/2 = 170 px; 1 unit y = 130 px
+\path[shade hatch] (148,235) -- plot[domain=0:4.7124,samples=90,smooth] ({148+108.23*\x},{235-130*sin(\x r)}) -- (658,235) -- cycle;
+\draw (75,235) -- (915,235);
+\draw (148,385) -- (148,60);
+\draw (138,105) -- (158,105); \draw (138,365) -- (158,365);
+\node[anchor=east] at (130,105) {$1$};
+\node[anchor=east] at (130,365) {$-1$};
+\draw[aux] (318,235) -- (318,105);
+\draw[aux] (658,235) -- (658,365);
+\foreach \px in {318,488,658,828} {\draw (\px,227) -- (\px,243);}
+\draw[line width=0.9pt] plot[domain=0:6.2832,samples=90,smooth] ({148+108.23*\x},{235-130*sin(\x r)});
+\node[anchor=north east] at (140,241) {$0$};
+\node[anchor=north] at (318,247) {$\dfrac{\pi}{2}$};
+\node[anchor=north east] at (482,240) {$\pi$};
+\node[anchor=south] at (658,224) {$\dfrac{3\pi}{2}$};
+\node[anchor=north west] at (834,240) {$2\pi$};
+\end{tikzpicture}
+\end{document}

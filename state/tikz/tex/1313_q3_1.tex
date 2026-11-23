@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  declare function={fx(\u)=326-(1.917*(\u*\u*\u-27*\u)+45.5);}]
+  \draw[->] (40,326)--(590,326);
+  \draw[->] (306,510)--(306,38);
+  \draw[aux,black!55] (200,326)--(200,{fx(-3)});
+  \draw[aux,black!55] (413,326)--(413,{fx(3)});
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-6.5:6.68,variable=\u] ({306+35.5*\u},{fx(\u)});
+  \node at (200,353) {$-3$};
+  \node at (413,303) {$3$};
+  \node at (612,326) {$x$};
+  \node at (306,14) {$y$};
+\end{tikzpicture}
+\end{document}

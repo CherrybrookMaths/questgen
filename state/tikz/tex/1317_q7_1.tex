@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% shaded region between g and y=-3 for -1<=x<=0
+\fill[shade] plot[smooth,samples=40,domain=-1:0] ({345+143*\x},{265-40*(\x*\x*(\x-2))}) -- (345,385) -- cycle;
+% axes
+\draw[<->] (20,265) -- (990,265);
+\draw[<->] (345,458) -- (345,60);
+\foreach \i in {-9,...,-1,1,2,...,21} \draw (345+143*\i/5,259) -- (345+143*\i/5,271);
+\foreach \i in {-22,...,-1,1,2,...,21}{
+  \pgfmathtruncatemacro\m{mod(abs(\i),5)}
+  \ifnum\m=0 \draw (337,265-8*\i) -- (353,265-8*\i); \else \draw (341,265-8*\i) -- (349,265-8*\i); \fi}
+\draw (345,265) circle (10);
+% tick labels
+\node at (202,305) {$-1$};
+\node at (488,240) {$1$};
+\node at (631,305) {$2$};
+\node at (774,305) {$3$};
+\node at (917,305) {$4$};
+\foreach \k in {1,2,3,4} \node[anchor=east] at (333,265-40*\k) {$\k$};
+\node[anchor=east] at (333,305) {\halo{$-1$}};
+\node[anchor=east] at (333,345) {\halo{$-2$}};
+\node[anchor=east] at (333,402) {$-3$};
+\node[anchor=west] at (997,265) {\Large $x$};
+\node[anchor=south] at (345,52) {\Large $y$};
+% graphs
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-1.21:2.73] ({345+143*\x},{265-40*(\x*\x*(\x-2))});
+\draw[line width=0.9pt,<->] (25,385) -- (985,385);
+\node at (845,125) {\small $g(x)=x^2(x-2)$};
+\node at (1015,325) {\small $f(x)=-3$};
+\end{tikzpicture}
+\end{document}

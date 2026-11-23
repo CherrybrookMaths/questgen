@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (212,258);
+\draw (O) circle (190);
+\draw (O) -- ++(-56.8:262);
+\draw (O) -- ++(56.8:262);
+\path (O) ++(-56.8:190) coordinate (B);
+\path (O) ++(56.8:190) coordinate (A);
+\fill (O) circle (3);
+\fill (A) circle (3);
+\fill (B) circle (3);
+\draw ($(O)+(-56.8:52)$) arc (-56.8:56.8:52);
+\draw[->] ($(O)+(-16:243)$) arc (-16:-56.2:243);
+\draw[->] ($(O)+(16:243)$) arc (16:56.2:243);
+\node at (240,262) {$\theta$};
+\node[anchor=east] at (204,258) {$O$};
+\node at (318,77) {$B$};
+\node at (318,440) {$A$};
+\node at (260,163) {$r$};
+\node at (260,350) {$r$};
+\node[font=\small] at (466,258) {$30$ cm};
+\end{tikzpicture}
+\end{document}

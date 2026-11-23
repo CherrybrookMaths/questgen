@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (14,387) -- (1196,387);
+\draw[<->] (875,72) -- (875,702);
+\foreach \i in {-15,...,5} {\pgfmathsetmacro\xx{875+54*\i}
+  \ifnum\numexpr\i-(\i/5)*5\relax=0 \draw (\xx,374) -- (\xx,400); \else \draw (\xx,380) -- (\xx,394); \fi}
+\foreach \i in {-10,...,10} {\pgfmathsetmacro\yy{387-27*\i}
+  \ifnum\numexpr\i-(\i/5)*5\relax=0 \draw (862,\yy) -- (888,\yy); \else \draw (868,\yy) -- (882,\yy); \fi}
+\foreach \v in {-3,-2,-1,1} \node[font=\large] at ({875+270*\v},445) {$\v$};
+\foreach \v in {-2,-1,1,2} \node[font=\large,anchor=east] at (846,{387-135*\v}) {$\v$};
+\node[font=\large] at (1222,390) {$x$};
+\node[font=\large] at (875,38) {$y$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{478.5}\def\oy{534}\def\u{72.3}
+\foreach \k in {-12,...,12} {
+  \pgfmathtruncatemacro\m{mod(abs(\k),4)}
+  \pgfmathsetmacro\X{\ox+\u*0.5*\k}\pgfmathsetmacro\Y{\oy+\u*0.5*\k}
+  \ifnum\m=0 \def\gc{black!45}\else\def\gc{black!20}\fi
+  \draw[\gc,line width=0.4pt] (\X,100) -- (\X,968);
+  \draw[\gc,line width=0.4pt] (45,\Y) -- (912,\Y);
+}
+\draw[<->] (15,\oy) -- (942,\oy);
+\draw[<->] (\ox,1005) -- (\ox,62);
+\foreach \k in {-12,...,-1,1,2,...,12} {
+  \pgfmathsetmacro\X{\ox+\u*0.5*\k}\pgfmathsetmacro\Y{\oy-\u*0.5*\k}
+  \draw (\X,\oy-7) -- (\X,\oy+7);
+  \draw (\ox-7,\Y) -- (\ox+7,\Y);
+}
+\foreach \i in {-6,-4,-2,2,4,6} {
+  \node[font=\large] at (\ox+\u*\i,585) {$\i$};
+  \node[font=\large,anchor=east] at (\ox-10,\oy-\u*\i) {$\i$};
+}
+\node[font=\large] at (962,535) {$x$};
+\node[font=\large] at (482,25) {$y$};
+\end{tikzpicture}
+\end{document}

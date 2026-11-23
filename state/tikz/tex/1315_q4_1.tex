@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(435,271)},xscale=39.5,yscale=-19.65]
+  \draw[<->] (-10.9,0)--(11.05,0);
+  \draw[<->] (0,-11.65)--(0,11.5);
+  \foreach \i in {-10,...,-1,1,2,...,10} {
+    \draw (\i,-0.3)--(\i,0.3);
+    \draw (-0.15,\i)--(0.15,\i);
+  }
+  \draw[aux] (3,-11.7)--(3,11.8);
+  \draw[line width=0.9pt,->,variable=\t,domain=-8.7:2.06,samples=90,smooth] plot ({3+exp(\t)},{\t});
+\end{scope}
+\node at (40,312) {$-10$};
+\node at (237,312) {$-5$};
+\node at (630,312) {$5$};
+\node at (830,312) {$10$};
+\node[anchor=east] at (412,75) {$10$};
+\node[anchor=east] at (412,173) {$5$};
+\node[anchor=east] at (412,370) {$-5$};
+\node[anchor=east] at (412,468) {$-10$};
+\node at (435,16) {$y$};
+\node at (886,272) {$x$};
+\end{tikzpicture}
+\end{document}

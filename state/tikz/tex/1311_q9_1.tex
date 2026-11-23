@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (237,236) -- (237,142) -- (331,236) -- (425,142) -- (425,236) -- cycle;
+\draw[aux] (425,236) -- (425,142);
+\draw[<->] (25,236) -- (452,236);
+\draw[<->] (237,405) -- (237,66);
+\foreach \k in {-4,...,-1,1,2,3,4}{
+  \draw ({237+47*\k},230) -- ({237+47*\k},242);
+  \node[font=\scriptsize] at ({237+47*\k},270) {$\k$};}
+\foreach \k in {-3,...,-1,1,2,3}{
+  \draw (231,{236-47*\k}) -- (243,{236-47*\k});
+  \node[font=\scriptsize, anchor=east] at (228,{236-47*\k}) {$\k$};}
+\draw[line width=0.9pt,<->] (161.8,66.8) -- (331,236) -- (462.6,104.4);
+\node[font=\footnotesize, anchor=west] at (456,237) {$x$};
+\node[font=\footnotesize] at (237,42) {$y$};
+\node[font=\footnotesize] at (412,103) {$f(x)$};
+\end{tikzpicture}
+\end{document}

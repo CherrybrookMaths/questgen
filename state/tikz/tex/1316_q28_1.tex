@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (2,408)--(800,408);
+\draw[<->] (397,605)--(397,30);
+\draw[aux] (10,528)--(780,528);
+\draw[<->,line width=0.9pt,smooth,samples=90,domain=-0.449:3.09] plot ({397+124*\x},{408-240*exp(-\x)});
+\draw[<->,line width=0.9pt,smooth,samples=90,domain=-3.1:1.418] plot ({397+124*\x},{408-120*(exp(\x)-1)});
+\node[pt] at (482.9,288) {};
+\node[anchor=west,inner sep=0pt] at (498,280) {$P$};
+\node at (632,98) {$y=e^{x}-1$};
+\node at (668,340) {$y=2e^{-x}$};
+\node[anchor=west] at (802,408) {$x$};
+\node[anchor=south] at (397,28) {$y$};
+\end{tikzpicture}
+\end{document}

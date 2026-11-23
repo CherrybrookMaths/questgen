@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (M) at (82,43); \coordinate (O) at (82,272);
+  \coordinate (B) at (727,178); \coordinate (A) at (540,505);
+  \draw (M) -- (O) -- (A) -- (B) -- (O);
+  \draw (M) -- (B); \draw (M) -- (A);
+  \fill (M) circle (1.6pt); \fill (O) circle (1.6pt);
+  \draw ($(O)+(14.8,-2.2)$) -- ++(0,-15) -- ($(O)+(0,-15)$);
+  \pic[draw, angle radius=0.98cm] {angle = M--B--O};
+  \pic[draw, angle radius=0.9cm] {angle = M--A--O};
+  \node at (626,175) {$20^\circ$};
+  \node at (449,440) {$22^\circ$};
+  \node at (82,18) {M}; \node at (70,300) {O};
+  \node at (765,182) {B}; \node at (540,528) {A};
+  \node[font=\bfseries] at (535,62) {NOT TO SCALE};
+  % height dimension
+  \draw (18,48) -- (45,48); \draw (18,272) -- (45,272);
+  \draw[aux,->] (31,140) -- (31,49);
+  \draw[aux,->] (31,182) -- (31,271);
+  \node at (33,161) {$h\,$m};
+  \node[rotate=-27] at (288,408) {2000 m};
+  \node[rotate=60] at (676,350) {1000 m};
+  % north arrow
+  \draw[->] (712,478) -- (770,382);
+  \node[rotate=-31] at (790,372) {\large$N$};
+\end{tikzpicture}
+\end{document}

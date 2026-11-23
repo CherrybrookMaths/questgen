@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (236,12); \coordinate (B) at (47,338); \coordinate (C) at (424,338);
+  \path (A) ++(120:326) coordinate (X); \path (A) ++(60:326) coordinate (Y);
+  \fill[shade hatch reverse] (X) -- (B) -- (C) -- (Y) arc[start angle=60,end angle=120,radius=326] -- cycle;
+  \draw (A) -- (B) -- (C) -- cycle;
+  \draw (Y) arc[start angle=60,end angle=120,radius=326];
+  \node at (262,12) {$A$};
+  \node at (42,290) {$X$};
+  \node at (426,290) {$Y$};
+  \node at (27,358) {$B$};
+  \node at (446,358) {$C$};
+\end{tikzpicture}
+\end{document}

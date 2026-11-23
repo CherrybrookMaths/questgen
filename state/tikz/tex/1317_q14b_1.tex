@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (B) at (208,18); \coordinate (C) at (208,228);
+\coordinate (P) at (30,407); \coordinate (Q) at (415,407);
+\fill[fill=black!30] (P) -- +(-65.4:52) arc[start angle=-65.4,end angle=-45.2,radius=52] -- cycle;
+\fill[fill=black!30] (Q) -- +(-139.1:52) arc[start angle=-139.1,end angle=-118.0,radius=52] -- cycle;
+\draw (P) ++(-65.4:52) arc[start angle=-65.4,end angle=-45.2,radius=52];
+\draw (Q) ++(-139.1:52) arc[start angle=-139.1,end angle=-118.0,radius=52];
+\draw (P) -- (B) -- (Q) -- cycle;
+\draw[aux] (B) -- (C); \draw[aux] (P) -- (C); \draw[aux] (Q) -- (C);
+\draw (192.5,243.6) -- (192.5,221.6) -- (208,206) -- (224.6,220.4) -- (224.6,242.4);
+\node at (248,22) {\Large $B$};
+\node at (233,160) {\Large $h$};
+\node at (205,272) {\Large $C$};
+\node at (18,440) {\Large $P$};
+\node at (420,440) {\Large $Q$};
+\node at (206,438) {\scriptsize $80$ m};
+\node at (84,326) {\scriptsize $42$};
+\node at (351,323) {\scriptsize $38$};
+\end{tikzpicture}
+\end{document}

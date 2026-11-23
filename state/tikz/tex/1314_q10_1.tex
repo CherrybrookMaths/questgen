@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (15,318)--(1015,318);
+\draw[<->] (515,582)--(515,48);
+\node[font=\large] at (1037,318) {$x$};
+\node[font=\large] at (515,20) {$y$};
+\node[font=\large] at (497,342) {$O$};
+\draw[line width=0.9pt,<->] plot[domain=15:730,samples=90,smooth] (\x,{92+43*exp(0.01144*(\x-515))});
+\node[font=\large] at (685,158) {$y=f(x)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+% origin (407,460); 1 unit x = 113 px, 1 unit y = 70 px
+\draw[->] (55,460) -- (830,460) node[right] {$x$};
+\draw[->] (407,860) -- (407,100);
+\node[anchor=south east] at (400,100) {$y$};
+\node[anchor=west] at (428,52) {$x=0$};
+\draw[aux] (70,530) -- (860,530) node[right] {$y=-1$};
+\foreach \k/\l in {-2/-2,-1/-1,1/1,2/2} {\draw ({407+113*\k},452) -- ({407+113*\k},468);}
+\foreach \k in {-1,1,2} {\node[anchor=north] at ({407+113*\k},470) {$\k$};}
+\node[anchor=north] at (181,470) {$-2$};
+\foreach \k in {1,2,3,-2,-3} {\draw (399,{460-70*\k}) -- (415,{460-70*\k}); \node[anchor=east] at (397,{460-70*\k}) {$\k$};}
+\draw (399,530) -- (415,530);
+\node[anchor=north east] at (397,535) {$-1$};
+\draw[line width=0.9pt,<->] plot[domain=-3.1:-0.435,samples=90,smooth] ({407+113*\x},{460-70*(-2/\x-1)});
+\draw[line width=0.9pt,<->] plot[domain=0.465:3.15,samples=90,smooth] ({407+113*\x},{460-70*(-2/\x-1)});
+\node[pt] at (181,460) {};
+\node at (690,835) {$y=-\left(\dfrac{2}{x}+1\right)$};
+\end{tikzpicture}
+\end{document}

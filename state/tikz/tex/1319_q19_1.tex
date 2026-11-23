@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (O) at (97,340);
+  \coordinate (C) at (224,288);
+  \coordinate (A) at ($(C)+(-56.0:270)$);
+  \coordinate (B) at ($(C)+(11.1:270)$);
+  \path[shade hatch reverse] (A) arc[start angle=-56.0, end angle=11.1, radius=270] -- cycle;
+  \draw (B) -- (O) -- (A) -- (B);
+  \draw (A) arc[start angle=-56.0, end angle=11.1, radius=270];
+  \node at (376,44) {$A$};
+  \node at (84,362) {$O$};
+  \node at (490,363) {$B$};
+  \node at (204,180) {6 cm};
+  \node at (290,368) {6 cm};
+  \node at (177,318) {$30^\circ$};
+  \node[align=center, font=\small] at (652,183) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

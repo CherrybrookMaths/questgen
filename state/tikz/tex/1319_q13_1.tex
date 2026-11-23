@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (L) at (15,170); \coordinate (T) at (330,14); \coordinate (R) at (605,130);
+  \draw (L) -- (T) -- (R) -- cycle;
+  \draw ($(L)+(-26.35:92)$) arc[start angle=-26.35, end angle=-3.88, radius=92];
+  \draw ($(T)+(22.87:29)$) arc[start angle=22.87, end angle=153.65, radius=29];
+  \node[font=\large] at (330,78) {$130^\circ$};
+  \node[font=\large] at (164,130) {$23^\circ$};
+  \node[font=\large] at (513,66) {$x$};
+  \node[font=\large] at (305,182) {$8$};
+\end{tikzpicture}
+\end{document}

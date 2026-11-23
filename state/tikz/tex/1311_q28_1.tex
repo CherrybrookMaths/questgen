@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (343,311) -- plot[smooth,domain=0:4,samples=40] ({343+67.5*\x},{311-100.7*3/(\x+2)}) -- (613,311) -- cycle;
+\draw[->] (0,311) -- (702,311);
+\draw[->] (343,578) -- (343,5);
+\draw[aux] (208,0) -- (208,578);
+\draw[line width=0.9pt] plot[smooth,domain=-1.03:5.3,samples=90] ({343+67.5*\x},{311-100.7*3/(\x+2)});
+\draw[line width=0.9pt] plot[smooth,domain=-5.08:-3.13,samples=60] ({343+67.5*\x},{311-100.7*3/(\x+2)});
+\node[font=\large,anchor=west] at (348,22) {$y$};
+\node[font=\large] at (682,295) {$x$};
+\node[font=\large] at (396,118) {$\dfrac{3}{2}$};
+\node[font=\large] at (243,338) {$-2$};
+\node[font=\large] at (613,338) {$n$};
+\end{tikzpicture}
+\end{document}

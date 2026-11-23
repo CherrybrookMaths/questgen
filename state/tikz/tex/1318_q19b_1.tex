@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+% origin (106,161); 1 unit x = 66 px, 1 unit y = 46 px
+\fill[shade] (172,161) -- plot[domain=1:2,samples=40,smooth] ({106+66*\x},{161-46*(4*\x-exp(\x))}) -- (238,161) -- cycle;
+\draw (172,161) -- ({172},{161-46*(4-exp(1))});
+\draw (238,161) -- ({238},{161-46*(8-exp(2))});
+\draw[<->] (22,161) -- (322,161) node[right] {$x$};
+\draw[<->] (106,318) -- (106,10);
+\node[anchor=east] at (100,14) {$y$};
+\draw[line width=0.9pt,<->] plot[domain=-0.5:2.68,samples=90,smooth] ({106+66*\x},{161-46*(4*\x-exp(\x))});
+\node[anchor=north] at (172,166) {$1$};
+\node[anchor=north] at (238,166) {$2$};
+\node at (298,78) {$y=4x-e^{x}$};
+\end{tikzpicture}
+\end{document}

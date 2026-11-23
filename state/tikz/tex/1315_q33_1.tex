@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade] (226.5,397) -- plot[smooth,samples=40,domain=-1:0] ({378+151.5*\x},{271-42*(\x*\x*(\x-2))}) -- (378,397) -- cycle;
+  \draw[<->] (35,271) -- (1050,271);
+  \draw[<->] (378,470) -- (378,58);
+  \foreach \i in {-10,...,21} {
+    \ifnum\i=0\else
+      \pgfmathtruncatemacro\m{mod(abs(\i),5)}
+      \ifnum\m=0 \draw ({378+30.3*\i},263) -- ({378+30.3*\i},279);
+      \else \draw ({378+30.3*\i},267) -- ({378+30.3*\i},275); \fi
+    \fi}
+  \foreach \i in {-21,...,21} {
+    \ifnum\i=0\else
+      \pgfmathtruncatemacro\m{mod(abs(\i),5)}
+      \ifnum\m=0 \draw (370,{271-8.4*\i}) -- (386,{271-8.4*\i});
+      \else \draw (374,{271-8.4*\i}) -- (382,{271-8.4*\i}); \fi
+    \fi}
+  \draw (378,271) circle[radius=0.152cm];
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=-1.2:2.72] plot ({378+151.5*\x},{271-42*(\x*\x*(\x-2))});
+  \draw[line width=0.9pt,<->] (35,397) -- (1055,397);
+  \foreach \v in {1,2,3,4} \node[font=\large, anchor=east, inner sep=1pt] at (366,{271-42*\v}) {$\v$};
+  \foreach \v in {1,2} \node[font=\large, anchor=east, inner sep=1pt] at (366,{271+42*\v}) {\halo{$-\v$}};
+  \node[font=\large, anchor=north east, inner sep=1pt] at (366,402) {$-3$};
+  \node[font=\large] at (220,318) {$-1$};
+  \node[font=\large] at (529.5,244) {$1$};
+  \foreach \v in {2,3,4} \node[font=\large] at ({378+151.5*\v},318) {$\v$};
+  \node[font=\large] at (1075,272) {$x$};
+  \node[font=\large] at (380,20) {$y$};
+  \node[font=\small] at (905,127) {$g(x)=x^2(x-2)$};
+  \node[font=\small] at (1075,340) {$f(x)=-3$};
+\end{tikzpicture}
+\end{document}

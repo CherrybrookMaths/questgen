@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (1575,1180);
+\def\ox{520}\def\oy{922}\def\ux{94.5}\def\uy{100}
+\tikzset{minorg/.style={black!15,line width=0.5pt},majorg/.style={black!40,line width=0.5pt},tl/.style={font=\fontsize{8.5}{10}\selectfont,inner sep=1pt}}
+\foreach \i in {-9,-7,...,19} \draw[minorg] ({\ox+\i*\ux/2},{\oy-8*\uy}) -- ({\ox+\i*\ux/2},{\oy+2*\uy});
+\foreach \j in {-3,-1,...,15} \draw[minorg] ({\ox-5*\ux},{\oy-\j*\uy/2}) -- ({\ox+10*\ux},{\oy-\j*\uy/2});
+\foreach \i in {-5,...,-1,1,2,...,10} \draw[majorg] ({\ox+\i*\ux},{\oy-8*\uy}) -- ({\ox+\i*\ux},{\oy+2*\uy});
+\foreach \j in {-2,-1,1,2,...,8} \draw[majorg] ({\ox-5*\ux},{\oy-\j*\uy}) -- ({\ox+10*\ux},{\oy-\j*\uy});
+\draw[<->] (15,\oy) -- (1497,\oy) node[right,inner sep=2pt,font=\small]{$x$};
+\draw[<->] (\ox,1162) -- (\ox,86) node[above,inner sep=2pt,font=\small]{$y$};
+\foreach \i in {-10,...,-1,1,2,...,20} \draw ({\ox+\i*\ux/2},{\oy-6}) -- ({\ox+\i*\ux/2},{\oy+6});
+\foreach \j in {-4,...,-1,1,2,...,16} \draw ({\ox-6},{\oy-\j*\uy/2}) -- ({\ox+6},{\oy-\j*\uy/2});
+\foreach \i in {-5,...,-1,1,2,...,10} \node[tl,anchor=north] at ({\ox+\i*\ux},{\oy+28}) {$\i$};
+\foreach \j in {-2,-1,1,2,...,8} \node[tl,anchor=east] at ({\ox-20},{\oy-\j*\uy}) {$\j$};
+\node[tl,anchor=north east] at ({\ox-6},{\oy+28}) {$0$};
+\draw[line width=0.9pt,->] plot[smooth,samples=90,domain=0:1] ({\ox+\ux*10.3*\x*\x},{\oy-\uy*sqrt(10.3)*\x});
+\draw[line width=0.9pt,->] plot[smooth,samples=90,domain=0:1] ({\ox+\ux*(-4+13.4*\x*\x)},{\oy-\uy*(2*sqrt(13.4)*\x-1)});
+\foreach \a/\b in {0/0,1/1,4/2,9/3,-4/-1,-3/1,0/3,5/5} \node[pt] at ({\ox+\a*\ux},{\oy-\b*\uy}) {};
+\node[anchor=south,inner sep=0pt] at (1395,{\oy-3.55*\uy}) {\halo{$y=\sqrt{x}$}};
+\node[anchor=south,inner sep=0pt] at (1290,{\oy-6.75*\uy}) {\halo{$y=2\sqrt{x+4}-1$}};
+\end{tikzpicture}
+\end{document}

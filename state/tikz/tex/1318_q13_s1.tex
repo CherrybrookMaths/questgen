@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\xo{112}\def\yo{836}\def\bw{146.14}\def\u{73.1}
+\foreach \v/\lab/\nm [count=\i from 0] in {8/8000/Saturday,6/6000/Sunday,5/5000/Thursday,3/3000/Tuesday,1.5/1500/Friday,1/1000/Wednesday,0.5/500/Monday} {
+  \filldraw[fill=black!5] ({\xo+\bw*\i},\yo) rectangle ({\xo+\bw*(\i+1)},{\yo-\u*\v});
+  \node[font=\footnotesize, anchor=south, inner sep=1pt] at ({\xo+\bw*(\i+0.5)},{\yo-\u*\v-2}) {\lab};
+  \node[font=\footnotesize] at ({\xo+\bw*(\i+0.5)},866) {\nm};
+}
+\draw (\xo,\yo) -- (\xo,20);
+\draw (1135,\yo) -- (1135,33);
+\foreach \k in {1,...,10} {
+  \draw (100,{\yo-\u*\k}) -- (126,{\yo-\u*\k});
+  \node[font=\footnotesize, anchor=east] at (97,{\yo-\u*\k}) {\k};
+  \draw (1121,{\yo-\u*\k}) -- (1147,{\yo-\u*\k});
+}
+\foreach \k in {20,40,60,80,100} \node[font=\footnotesize, anchor=west] at (1148,{\yo-\u*\k/10}) {\k};
+\draw[line width=0.9pt] (\xo,\yo) \foreach \c [count=\i] in {32,56,76,88,94,98,100} { -- ({\xo+\bw*\i},{\yo-7.31*\c}) };
+\foreach \c [count=\i] in {32,56,76,88,94,98,100} \node[pt,inner sep=1.5pt] at ({\xo+\bw*\i},{\yo-7.31*\c}) {};
+\draw[line width=0.9pt] ({\xo+\bw*2},{\yo-7.31*56}) -- (1302,{\yo-7.31*56});
+\node[font=\large, anchor=west] at (1370,{\yo-7.31*56-8}) {$56\%$};
+\node[font=\footnotesize\bfseries, rotate=90] at (30,372) {Revenue (\$thousands)};
+\node[font=\footnotesize\bfseries, rotate=90] at (1226,372) {Cumulative percentage};
+\node[font=\footnotesize\bfseries] at (620,920) {Days of the week};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  declare function={px(\x)=70+63.2*\x; py(\x)=268-66*ln(\x);}]
+  \path[shade hatch reverse] ({px(1)},268) -- ({px(2)},{py(2)}) -- ({px(3)},{py(3)}) -- ({px(4)},{py(4)}) -- ({px(5)},{py(5)}) -- ({px(5)},268) -- cycle;
+  \foreach \k in {2,3,4,5} \draw ({px(\k)},268)--({px(\k)},{py(\k)});
+  \draw ({px(1)},268) -- ({px(2)},{py(2)}) -- ({px(3)},{py(3)}) -- ({px(4)},{py(4)}) -- ({px(5)},{py(5)});
+  \draw[->] (38,268)--(512,268);
+  \draw[->] (70,465)--(70,35);
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-2.98:1.789,variable=\t] ({70+63.2*exp(\t)},{268-66*\t});
+  \foreach \k in {1,...,5} \node at ({px(\k)},295) {$\k$};
+  \node at (48,290) {$O$};
+  \node at (535,268) {$x$};
+  \node at (70,12) {$y$};
+  \node[anchor=west] at (458,152) {$y=\ln x$};
+\end{tikzpicture}
+\end{document}

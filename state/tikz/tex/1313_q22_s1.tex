@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (177.5,40); \coordinate (B) at (35,286); \coordinate (C) at (320,286);
+  \coordinate (M) at (177.5,286);
+  \path (A) ++(120:246) coordinate (X); \path (A) ++(60:246) coordinate (Y);
+  \fill[shade hatch reverse] (X) -- (B) -- (C) -- (Y) arc[start angle=60,end angle=120,radius=246] -- cycle;
+  \draw (A) -- (B) -- (C) -- cycle;
+  \draw (Y) arc[start angle=60,end angle=120,radius=246];
+  \draw[aux] (A) -- (M);
+  \draw (M) ++(0,-12) -- ++(12,0) -- ++(0,12);
+  \node at (153,163) {$r$};
+  % dimension 6, parallel to AC
+  \coordinate (A6) at ($(A)+(47,-27)$); \coordinate (C6) at ($(C)+(47,-27)$);
+  \draw ($(A6)+(-8,4.6)$) -- ($(A6)+(8,-4.6)$);
+  \draw ($(C6)+(-8,4.6)$) -- ($(C6)+(8,-4.6)$);
+  \draw[->] ($(A6)!0.42!(C6)$) -- (A6);
+  \draw[->] ($(A6)!0.58!(C6)$) -- (C6);
+  \node at ($(A6)!0.5!(C6)$) {$6$};
+  % dimension 3
+  \draw (177.5,298) -- (177.5,316); \draw (320,298) -- (320,316);
+  \draw[->] (236,307) -- (177.5,307);
+  \draw[->] (262,307) -- (320,307);
+  \node at (249,307) {$3$};
+  \node at (205,42) {$A$};
+  \node at (28,248) {$X$};
+  \node at (324,248) {$Y$};
+  \node at (14,307) {$B$};
+  \node at (342,307) {$C$};
+\end{tikzpicture}
+\end{document}

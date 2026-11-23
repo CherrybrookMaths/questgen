@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (50,493) -- (785,493);
+  \foreach \t in {1,...,16} \draw ({58+43.8*\t},488) -- ({58+43.8*\t},498);
+  \foreach \v in {5,10,15} \node[font=\scriptsize] at ({58+43.8*\v},525) {$\v$};
+  \draw (58,493) -- (58,466);
+  \draw[->] (58,452) -- (58,55);
+  \draw (50,472) -- (66,460);
+  \draw (50,458) -- (66,446);
+  \foreach \i in {0,...,16} \draw (53,{438-22.2*\i}) -- (63,{438-22.2*\i});
+  \foreach \v in {8,10,12,14,16} \node[font=\scriptsize, anchor=east] at (40,{438-44.4*(\v-8)}) {$\v$};
+  \draw[line width=0.9pt,->,smooth,samples=90,domain=0:16.6] plot ({58+43.8*\x},{83+44.4*(16-(13-3*cos(deg(pi*\x/6))))});
+  \node[anchor=west] at (40,20) {$h$ (metres)};
+  \node[anchor=west] at (800,496) {$t$ (hours)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{410}\def\oy{430}\def\sx{123}\def\sy{124}
+\fill[shade] plot[smooth,samples=30,domain=0:0.693147] ({\ox+\sx*\x},{\oy-\sy*(exp(\x)-1)})
+  -- plot[smooth,samples=30,domain=0.693147:0] ({\ox+\sx*\x},{\oy-\sy*2*exp(-\x)}) -- cycle;
+\draw[aux] (15,{\oy+\sy}) -- (805,{\oy+\sy});
+\draw[aux] ({\ox+\sx*ln(2)},{\oy-\sy}) -- ({\ox+\sx*ln(2)},\oy);
+\draw[<->] (15,\oy) -- (808,\oy) node[right,inner sep=2pt,font=\small]{$x$};
+\draw[<->] (\ox,635) -- (\ox,38) node[above,inner sep=2pt,font=\small]{$y$};
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-3.2:1.41] ({\ox+\sx*\x},{\oy-\sy*(exp(\x)-1)});
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-0.447:3.21] ({\ox+\sx*\x},{\oy-\sy*2*exp(-\x)});
+\node[pt] (P) at ({\ox+\sx*ln(2)},{\oy-\sy}) {};
+\node[anchor=west,inner sep=0pt,font=\large] at (514,290) {$P(\ln 2,1)$};
+\node[anchor=north east,inner sep=0pt] at ({\ox-7},{\oy-2*\sy+4}) {$2$};
+\node[anchor=north west,inner sep=0pt] at ({\ox+6},{\oy+9}) {$0$};
+\node[anchor=north,inner sep=0pt] at ({\ox+\sx*ln(2)+8},{\oy+10}) {$\ln 2$};
+\node[font=\small] at (652,105) {$y=e^{x}-1$};
+\node[font=\small] at (690,355) {$y=2e^{-x}$};
+\end{tikzpicture}
+\end{document}

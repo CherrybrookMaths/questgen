@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.635cm,y=0.635cm]
+  \foreach \i in {-0.5,0.5,...,7.5} \draw[black!15,line width=0.4pt] (\i,-3) -- (\i,6);
+  \foreach \j in {-2.5,-1.5,...,5.5} \draw[black!15,line width=0.4pt] (-1,\j) -- (8,\j);
+  \foreach \i in {-1,0,...,8} \draw[black!35,line width=0.4pt] (\i,-3) -- (\i,6);
+  \foreach \j in {-3,-2,...,6} \draw[black!35,line width=0.4pt] (-1,\j) -- (8,\j);
+  \draw[<->] (-1.46,0) -- (8.4,0);
+  \draw[<->] (0,-3.84) -- (0,6.76);
+  \node[font=\Large] at (8.9,0) {$x$};
+  \node[font=\Large] at (0,7.45) {$y$};
+  \foreach \v in {2,4,6,8} \node[font=\fontsize{17}{19}\selectfont] at (\v,-1.12) {\halo{$\v$}};
+  \foreach \v in {2,4,6} \node[font=\fontsize{17}{19}\selectfont] at (-0.9,\v) {\halo{$\v$}};
+  \node[font=\fontsize{17}{19}\selectfont] at (-1.05,-2) {\halo{$-2$}};
+  \draw[line width=0.9pt] (3,1) circle (3);
+  \fill (3,1) circle (0.12);
+\end{tikzpicture}
+\end{document}

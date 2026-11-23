@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (8,333)--(778,333);
+\draw[<->] (100,615)--(100,45);
+\begin{scope}[shift={(100,333)},xscale=72.5,yscale=-20.6]
+  \draw[line width=0.9pt,->,domain=0:4,samples=90,smooth] plot (\x,{\x*\x+\x-6});
+\end{scope}
+\fill (100,456.6) circle (3.2pt);
+\node[font=\small] at (68,457) {$-6$};
+\node[font=\small] at (230,312) {$A$};
+\node[font=\small] at (390,358) {$4$};
+\node at (100,22) {$y$};
+\node at (795,333) {$x$};
+\node at (500,105) {$y=x^2+x-6$};
+\node[font=\small\bfseries] at (632,185) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

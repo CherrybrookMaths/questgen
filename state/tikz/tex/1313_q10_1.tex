@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (30,252)--(740,252);
+  \draw[->] (68,445)--(68,55);
+  \foreach \i in {1,...,8} {
+    \draw ({68+76.6*\i},244)--({68+76.6*\i},260);
+    \node at ({68+76.6*\i},290) {$\i$};
+  }
+  \node at (68,33) {$v$};
+  \draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates {(68,150) (84,124) (107,116) (130,124) (155,163) (183,252) (205,293) (245,334) (305,376) (375,408) (445,420) (510,406) (562,372) (612,310) (643,252) (681,165)};
+\end{tikzpicture}
+\end{document}

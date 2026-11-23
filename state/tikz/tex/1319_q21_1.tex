@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\curve{(68,195) (100,229) (137,263) (170,284) (200,289) (232,282) (263,263) (300,224) (350,181) (400,157) (450,152) (500,159) (550,184) (600,224) (640,263) (672,302) (705,318) (738,302) (765,263) (800,222) (832,190)}
+  \begin{scope}
+    \clip (137,263) rectangle (263,330);
+    \fill[black!30] plot[smooth, tension=0.6] coordinates {\curve} -- (832,263) -- (68,263) -- cycle;
+  \end{scope}
+  \begin{scope}
+    \clip (640,263) rectangle (765,340);
+    \fill[black!30] plot[smooth, tension=0.6] coordinates {\curve} -- (832,263) -- (68,263) -- cycle;
+  \end{scope}
+  \draw[->] (48,263) -- (850,263);
+  \draw[->] (263,328) -- (263,48);
+  \foreach \t in {137,389,515,640,765} \draw (\t,263) -- (\t,254);
+  \draw[line width=0.9pt] plot[smooth, tension=0.6] coordinates {\curve};
+  \node at (250,58) {$y$};
+  \node at (842,283) {$x$};
+  \node at (279,283) {$O$};
+  \node at (126,282) {$-1$};
+  \node at (628,288) {$3$};
+  \node at (776,288) {$4$};
+  \node at (206,305) {$R_1$};
+  \node at (706,342) {$R_2$};
+  \node at (612,170) {$y=f(x)$};
+  \node[align=center, font=\small] at (797,88) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}
