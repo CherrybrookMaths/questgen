@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (55,265) -- (1090,265);
+\draw[<->] (572,650) -- (572,45);
+\node[anchor=west] at (1095,265) {$x$};
+\node[anchor=south] at (572,38) {$y$};
+\foreach \i in {-3,-2,-1,1,2,3} \draw ({572+158*\i},258) -- ({572+158*\i},272);
+\foreach \j in {1,-1,-2} \draw (565,{265-160*\j}) -- (579,{265-160*\j});
+\foreach \i/\p in {-3/98,-2/256,2/888,3/1046} \node[anchor=north] at (\p,280) {$\i$};
+\node[anchor=north] at (432,280) {$-1$};
+\node[anchor=north] at (726,280) {$1$};
+\node[anchor=north east] at (566,272) {$O$};
+\node[anchor=south west] at (582,96) {$1$};
+\node[anchor=west] at (584,425) {$-1$};
+\node[anchor=west] at (584,585) {$-2$};
+\draw[line width=0.9pt,smooth,samples=97,domain=-3:3] plot ({572+158*\x},{265-160*cos(180*\x)});
+\draw[line width=0.9pt] (98,585) -- (572,105) -- (1046,585);
+\foreach \p in {(98,585),(1046,585),(98,425),(1046,425)} \node[pt] at \p {};
+\node[anchor=north] at (98,600) {$(-3,-2)$};
+\node[anchor=west] at (1060,585) {$(3,-2)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % axes
+  \draw[<->] (28,449) -- (815,449);
+  \draw[<->] (383,840) -- (383,68);
+  \node[font=\large, anchor=west] at (818,452) {$x$};
+  \node[font=\large, anchor=east] at (374,62) {$y$};
+  % curve y=-x^5+15x^3: x unit 75 px, y unit 2.16 px
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=-4.02:4.02] plot ({383+75*\x},{449-2.16*(-(\x)^5+15*(\x)^3)});
+  % inflections at +-3/sqrt2
+  \draw[aux] (542.1,449) -- (542.1,232.6);
+  \draw[aux] (223.9,449) -- (223.9,665.4);
+  \node[font=\large, anchor=north] at (542.1,456) {$\dfrac{3}{\sqrt2}$};
+  \node[font=\large, anchor=south] at (223.9,442) {$-\dfrac{3}{\sqrt2}$};
+  % points
+  \fill (383,449) circle (5);
+  \fill (608,99.1) circle (5);
+  \fill (158,798.9) circle (5);
+  \node[font=\large, anchor=south] at (608,90) {$(3,162)$};
+  \node[font=\large, anchor=north] at (175,810) {$(-3,-162)$};
+  \node[font=\large, anchor=west] at (415,685) {$y=-x^5+15x^3$};
+\end{tikzpicture}
+\end{document}

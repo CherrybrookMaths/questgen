@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (0,257) -- (462,257);
+  \draw[->] (117,335) -- (117,0);
+  % cubic with local min at x=120 (on the axis), max at x=219, root at x=268 (t = (x-120)/100)
+  \draw[line width=0.9pt, smooth, samples=90, domain=0.67:1.61] plot ({120+100*\x}, {257-264.4*(\x)^2*(1.48-\x)});
+  \draw[line width=0.9pt, smooth, samples=40, domain=-0.64:0.67] plot ({120+100*\x}, {257-264.4*(\x)^2*(1.48-\x)});
+  \fill (240,150.4) circle (4.5);
+  \node[font=\large, anchor=west] at (238,122) {$P(a,\,f(a))$};
+  \node[font=\large] at (130,30) {$y$};
+  \node[font=\large] at (440,241) {$x$};
+  \node[font=\large] at (101,279) {$O$};
+\end{tikzpicture}
+\end{document}

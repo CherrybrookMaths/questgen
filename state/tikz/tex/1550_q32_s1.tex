@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.66675cm,y=0.3937cm,every node/.style={font=\small}]
+  \foreach \i in {0,...,30} {\pgfmathsetmacro\xx{-5+0.5*\i}\draw[black!15,line width=0.4pt] (\xx,-2.5) -- (\xx,8);}
+  \foreach \i in {0,...,21} {\pgfmathsetmacro\yy{-2.5+0.5*\i}\draw[black!15,line width=0.4pt] (-5,\yy) -- (10,\yy);}
+  \foreach \i in {-4,-2,...,10} \draw[black!35,line width=0.4pt] (\i,-2.5) -- (\i,8);
+  \foreach \i in {-2,0,...,8} \draw[black!35,line width=0.4pt] (-5,\i) -- (10,\i);
+  \draw[<->] (-5.52,0) -- (10.48,0) node[right=1pt]{$x$};
+  \draw[<->] (0,-2.8) -- (0,8.48) node[above=1pt]{$y$};
+  \foreach \k in {-2,2,4,6,8,10} \node[anchor=north] at (\k,-0.45) {$\k$};
+  \node[anchor=south] at (-4,0.35) {$-4$};
+  \foreach \k in {-2,2,4,6,8} \node[anchor=east] at (-0.15,\k) {$\k$};
+  \draw[->,line width=0.9pt] plot[domain=0:3.7815,samples=90,smooth] ({\x*\x-4},{2*\x-1});
+  \draw[->,line width=0.9pt] plot[domain=0:3.2094,samples=90,smooth] ({\x*\x},{\x});
+  \fill (0,3) circle (2.4pt); \fill (0,0) circle (2.4pt); \fill (-4,-1) circle (2pt);
+  \node[anchor=east] at (-0.85,5.74) {$g(x)=2\sqrt{x+4}-1$};
+  \node[align=center] at (1.81,6.0) {$y$ Intercept\\$(0,3)$};
+  \draw (1.01,4.84) -- (0.19,3.26);
+  \node[anchor=east] at (-4.18,-1.1) {$(-4,-1)$};
+  \node at (7.52,1.06) {$f(x)=\sqrt{x}$};
+  \node[align=center] at (1.81,-2.75) {$y$ Intercept\\$(0,0)$};
+  \draw (0.25,-0.39) -- (0.95,-1.5);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % NOT TO SCALE sketch: smooth curve fitted to the crop's (0,-6), A and end point
+  \draw[<->] (101,615) -- (101,38);
+  \draw[->] (10,333) -- (778,333);
+  \node[anchor=south] at (101,8) {$y$};
+  \node[anchor=west] at (783,334) {$x$};
+  \node at (266,306) {$A$};
+  \node[font=\small] at (383,360) {$4$};
+  \node[font=\small, anchor=east] at (86,458) {$-6$};
+  \draw[line width=0.9pt, ->] (101,458) .. controls (175,456) and (252,404) .. (282,333)
+     .. controls (322,239) and (372,110) .. (396,44);
+  \node[pt, inner sep=2pt] at (101,458) {};
+  \node[font=\large, anchor=west] at (425,110) {$y=x^2+x-6$};
+  \node[font=\footnotesize\bfseries] at (633,185) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

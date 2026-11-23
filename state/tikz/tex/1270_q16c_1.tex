@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (30,352) -- (600,352);
+\draw[<->] (105,562) -- (105,7);
+\draw[aux] (291,2) -- (291,562);
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:2.23,variable=\u] ({105+93*\u},{352-2.15*\u*\u*exp(1.56*\u)});
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:2.26,variable=\u] ({105+93*\u},{352+2.15*2*\u*exp(1.56*\u)/1.56});
+\fill (291,352) circle (4);
+\node at (78,47) {$y$};
+\node at (558,378) {$x$};
+\node at (86,400) {$0$};
+\node[anchor=north west] at (295,356) {\footnotesize $2$};
+\node[anchor=west] at (300,295) {\footnotesize $x=2$};
+\node[anchor=west] at (322,36) {\footnotesize $y=f(x)$};
+\node[anchor=west] at (322,540) {\footnotesize $y=g(x)$};
+\end{tikzpicture}
+\end{document}

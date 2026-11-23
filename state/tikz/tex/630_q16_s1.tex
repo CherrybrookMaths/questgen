@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \path (0,0) rectangle (1550,815); % keep the crop's frame (removed working text leaves space)
+  % X = 218 + 37.6 t ; Y = 688 - 63 h
+  \draw[->] (200,688) -- (1335,688);
+  \draw[->] (218,700) -- (218,90);
+  \foreach \v in {1,...,9} \draw (210,{688-63*\v}) -- (226,{688-63*\v});
+  \draw (210,278.5) -- (226,278.5);
+  \foreach \v in {6,12,18,24} \draw ({218+37.6*\v},680) -- ({218+37.6*\v},696);
+  \draw[line width=0.9pt] plot[domain=0:24, samples=90, smooth] ({218+37.6*\x},{688-63*(6.5-2*cos(15*\x))});
+  \foreach \t/\h in {0/4.5,6/6.5,12/8.5,18/6.5,24/4.5} \node[pt] at ({218+37.6*\t},{688-63*\h}) {};
+  \foreach \v in {9,8,6.5,4} \node[anchor=east, font=\large] at (200,{688-63*\v}) {$\v$};
+  \foreach \v in {0,6,12,24} \node[anchor=north, font=\large] at ({218+37.6*\v},702) {$\v$};
+  \node[font=\large, align=center] at (55,415) {height\\(m)};
+  \node[font=\large] at (860,775) {time (in hours)};
+\end{tikzpicture}
+\end{document}

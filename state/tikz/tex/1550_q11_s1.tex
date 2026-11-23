@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (63,745); 90.8 px per second, 7.644 px per metre
+  \def\sx{90.8}\def\sy{7.644}
+  \foreach \j in {1,...,44} \draw[black!20,line width=0.4pt] (63,{745-2*\sy*\j}) -- ({63+7*\sx},{745-2*\sy*\j});
+  \foreach \i in {1,...,14} \draw[black!20,line width=0.4pt] ({63+0.5*\sx*\i},{745-90*\sy}) -- ({63+0.5*\sx*\i},745);
+  \foreach \j in {1,...,9} \draw[black!45,line width=0.4pt] (63,{745-10*\sy*\j}) -- ({63+7*\sx},{745-10*\sy*\j});
+  \foreach \i in {1,...,7} \draw[black!45,line width=0.4pt] ({63+\sx*\i},{745-90*\sy}) -- ({63+\sx*\i},745);
+  % axes
+  \draw[->] (63,745) -- (738,745);
+  \draw[->] (63,745) -- (63,34);
+  \foreach \j in {1,...,89} \draw (60,{745-\sy*\j}) -- (66,{745-\sy*\j});
+  \foreach \j in {1,...,9} \draw (56,{745-10*\sy*\j}) -- (63,{745-10*\sy*\j});
+  \foreach \i in {1,...,14} \draw ({63+0.5*\sx*\i},741) -- ({63+0.5*\sx*\i},749);
+  % graphs
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=0:6] ({63+\sx*\x},{745-\sy*(20*\x-5*\x*\x+60)});
+  \draw[line width=0.9pt] (63,{745-60*\sy}) -- ({63+7.3*\sx},{745-\sy*(60-5*7.3)});
+  % labels
+  \foreach \j in {1,...,9} \node[anchor=east,font=\scriptsize] at (52,{745-10*\sy*\j}) {$\j0$};
+  \foreach \i in {1,...,7} \node[font=\scriptsize] at ({63+\sx*\i},771) {$\i$};
+  \node[font=\scriptsize] at (63,18) {$h$};
+  \node[anchor=west,font=\scriptsize] at (742,747) {$t$};
+  \node[rotate=90,font=\tiny] at (14,420) {Height (metres)};
+  \node[font=\tiny] at (392,794) {Time (seconds)};
+  \node[font=\scriptsize] at (430,222) {\textit{Stone}};
+  \node[font=\scriptsize] at (312,366) {\textit{Glider}};
+\end{tikzpicture}
+\end{document}

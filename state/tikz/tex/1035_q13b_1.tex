@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \gx in {144,434,579,724,869,1014} \draw[black!15,line width=0.4pt] (\gx,5)--(\gx,678);
+\foreach \gy in {73,140,207,275,410,477,545,612} \draw[black!15,line width=0.4pt] (5,\gy)--(1150,\gy);
+\draw[<->] (5,342)--(1150,342);
+\draw[<->] (289,5)--(289,678);
+\foreach \i in {-9,...,-1,1,2,...,29} \draw (289+\i*29,339)--(289+\i*29,345);
+\foreach \gy in {73,140,207,275,410,477,545,612} \draw (286,\gy)--(292,\gy);
+\draw (289,342) circle[radius=7];
+\begin{scope}[font=\fontsize{6.5}{8}\selectfont]
+\node[anchor=north] at (144,350) {$-0.5\pi$};
+\node[anchor=north] at (434,350) {$0.5\pi$};
+\node[anchor=north] at (579,350) {$\pi$};
+\node[anchor=north] at (724,350) {$1.5\pi$};
+\node[anchor=north] at (869,350) {$2\pi$};
+\node[anchor=north] at (1014,350) {$2.5\pi$};
+\foreach \v/\gy in {4/73,3/140,2/207,1/275,-1/410,-2/477,-3/545,-4/612} \node[anchor=east] at (283,\gy) {$\v$};
+\node at (1143,326) {$x$};
+\node at (306,20) {$y$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

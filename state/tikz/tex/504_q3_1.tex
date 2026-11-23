@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\large}]
+  \draw[->] (50,242) -- (505,242);
+  \draw[->] (85,440) -- (85,15);
+  \foreach \k in {-3,-2,-1,1,2,3} \draw (80,{242-56*\k}) -- (90,{242-56*\k});
+  \foreach \xx in {278.5,472} \draw (\xx,237) -- (\xx,247);
+  \draw[line width=0.9pt] plot[smooth,domain=0:6.2832,samples=90,variable=\u] ({85+61.6*\u},{242+168*sin(deg(2*\u))});
+  \node[anchor=east] at (78,74) {$3$};
+  \node[anchor=east] at (78,410) {$-3$};
+  \node[anchor=north east] at (278,246) {$\pi$};
+  \node[anchor=north] at (466,246) {$2\pi$};
+  \node at (522,218) {$x$};
+  \node at (72,22) {$y$};
+  \node at (408,52) {$y\!=\!a\sin(bx)$};
+\end{tikzpicture}
+\end{document}

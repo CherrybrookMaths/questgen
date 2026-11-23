@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (488,286); 96 px per x-unit, 48 px per y-unit
+  \draw[<->] (42,286) -- (932,286);
+  \draw[<->] (488,526) -- (488,48);
+  \foreach \i in {-9,...,9} {\ifnum\i=0\else\draw ({488+48*\i},280) -- ({488+48*\i},292);\fi}
+  \foreach \j in {-9,...,9} {\ifnum\j=0\else\draw (482,{286-24*\j}) -- (494,{286-24*\j});\fi}
+  \foreach \i in {-4,-2,2,4} \node[anchor=north] at ({488+96*\i},302) {$\i$};
+  \foreach \j in {-4,-2,2,4} \node[anchor=east] at (474,{286-48*\j}) {$\j$};
+  \node[anchor=west] at (938,287) {$x$};
+  \node[anchor=south] at (496,2) {$f'(x)$};
+  \draw[line width=0.9pt, <->, smooth, samples=90, variable=\t, domain=-1.1:3.43]
+    plot ({488+96*\t}, {286-48*(\t*\t*\t-3*\t*\t)});
+\end{tikzpicture}
+\end{document}

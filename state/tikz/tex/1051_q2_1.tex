@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (12,445) -- (12,16);
+  \draw[->] (12,445) -- (788,445);
+  \node[font=\small, anchor=south] at (12,13) {$y$};
+  \node[font=\small, anchor=west] at (789,446) {$x$};
+  \foreach \p in {(28,321),(24,399),(75,346),(95,420),(129,394),(213,280),(251,331),(305,211),(351,299),(465,240),(498,116),(515,85),(549,189),(582,115),(612,42),(625,42),(637,64),(726,86),(734,108),(755,74)}
+    \fill[black!55, draw=black, line width=0.5pt] \p circle (4.2);
+\end{tikzpicture}
+\end{document}

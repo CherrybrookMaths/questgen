@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (152,423); 1 rad = 125.73 px; 1 unit = 139 px
+  \draw[->] (15,423) -- (1145,423);
+  \draw[->] (152,710) -- (152,75);
+  % asymptotes x = pi/2, 3pi/2
+  \draw[aux] (349.5,15) -- (349.5,750);
+  \draw[aux] (744.5,15) -- (744.5,750);
+  % reference y = cos x (grey dashed)
+  \draw[aux, black!45] plot[domain=0:2*pi, samples=90, smooth] ({152+125.73*\x},{423-139*cos(\x r)});
+  % y = sec x
+  \draw[line width=0.9pt] plot[domain=0:1.168, samples=60, smooth] ({152+125.73*\x},{423-139/cos(\x r)});
+  \draw[line width=0.9pt] plot[domain=2.016:4.267, samples=90, smooth] ({152+125.73*\x},{423-139/cos(\x r)});
+  \draw[line width=0.9pt] plot[domain=5.0647:6.28319, samples=60, smooth] ({152+125.73*\x},{423-139/cos(\x r)});
+  \node[pt] at (152,284) {};
+  \node[pt] at (547,562) {};
+  \node[pt] at (942,284) {};
+  % ticks
+  \draw (547,415) -- (547,431);
+  \draw (942,415) -- (942,431);
+  \draw (144,284) -- (160,284);
+  \draw (144,562) -- (160,562);
+  % labels
+  \node[anchor=north, font=\large] at (547,436) {$\pi$};
+  \node[anchor=north, font=\large] at (942,436) {$2\pi$};
+  \node[anchor=east, font=\large] at (136,284) {$1$};
+  \node[anchor=east, font=\large] at (136,562) {$-1$};
+  \node[font=\large] at (130,58) {$y$};
+  \node[anchor=west, font=\large] at (1155,423) {$x$};
+\end{tikzpicture}
+\end{document}

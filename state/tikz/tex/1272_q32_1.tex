@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (8,108) -- (525,108);
+\draw[->] (393,526) -- (393,25);
+\node[anchor=west] at (528,108) {$x$};
+\node at (390,8) {$y$};
+\node at (379,124) {$0$};
+\draw[line width=0.9pt,smooth,samples=90,domain=-145:145] plot ({285+\x},{288+102.9*(\x/100)*(\x/100)});
+\node[anchor=south] at (282,276) {$(-1,-3)$};
+\node[anchor=north east] at (389,413) {$-5$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {-5,...,5} \draw[black!20, line width=0.4pt] ({568+112*\i},2) -- ({568+112*\i},652);
+  \foreach \j in {-5,...,5} \draw[black!20, line width=0.4pt] (8,{327-65*\j}) -- (1128,{327-65*\j});
+  \draw[<->] (8,327) -- (1128,327);
+  \draw[<->] (568,652) -- (568,2);
+  \node[anchor=south,font=\small] at (1113,316) {$x$};
+  \node[anchor=west,font=\small] at (574,18) {$y$};
+  \foreach \i in {-5,-4,-3,-2,-1,1,2,3,4,5} {
+    \draw ({568+112*\i},322) -- ({568+112*\i},332);
+    \node[anchor=north,font=\scriptsize] at ({568+112*\i},335) {$\i$};}
+  \foreach \j in {-4,-3,-2,-1,1,2,3,4} {
+    \draw (563,{327-65*\j}) -- (573,{327-65*\j});
+    \node[anchor=east,font=\scriptsize] at (558,{327-65*\j}) {$\j$};}
+  \draw (568,327) circle (7);
+  \draw[line width=0.9pt, smooth, samples=90, domain=-3:3] plot ({568+112*\x},{327-65*(4-\x*\x)});
+\end{tikzpicture}
+\end{document}

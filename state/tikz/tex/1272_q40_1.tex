@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade dots] (318,398) -- plot[smooth,samples=30,domain=0:1.07] ({318+100*\x},{398-194*tanh(\x)}) -- (425,398) -- cycle;
+\draw[->] (15,398) -- (620,398);
+\draw[->] (318,665) -- (318,72);
+\draw (15,204) -- (620,204);
+\draw (15,592) -- (620,592);
+\draw (425,45) -- (425,665);
+\draw[line width=0.9pt,smooth,samples=90,domain=-3:3] plot ({318+100*\x},{398-194*tanh(\x)});
+\node[anchor=south,font=\large] at (318,62) {$y$};
+\node[anchor=west,font=\large] at (624,398) {$x$};
+\node[anchor=north west,font=\large] at (320,402) {$0$};
+\node[font=\large] at (100,177) {$y=1$};
+\node[font=\large] at (545,568) {$y=-1$};
+\node[font=\large] at (476,320) {$x=k$};
+\node[font=\large] at (613,137) {$y=\dfrac{e^x-e^{-x}}{e^x+e^{-x}}$};
+\end{tikzpicture}
+\end{document}

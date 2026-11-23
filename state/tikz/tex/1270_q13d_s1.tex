@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[black!25, line width=0.4pt]
+\foreach \i in {0,...,20} \draw ({48+28.7*\i},68) -- ({48+28.7*\i},500);
+\foreach \j in {0,...,18} \draw (48,{68+23*\j}) -- (622,{68+23*\j});
+\end{scope}
+\draw[<->] (2,298) -- (655,298);
+\draw[->] (335,500) -- (335,38);
+\node at (335,20) {$y$};
+\node[anchor=west] at (656,300) {$x$};
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-2.1:2.1,variable=\u] ({335+86*\u},{298-137*ln(1+\u*\u)});
+\draw[aux] (249,{298-137*ln(2)}) -- (249,298);
+\draw[aux] (421,{298-137*ln(2)}) -- (421,298);
+\fill (249,{298-137*ln(2)}) circle (4);
+\fill (421,{298-137*ln(2)}) circle (4);
+\fill (335,298) circle (4);
+\node[anchor=west] at (350,205) {$\ln 2$};
+\node[anchor=north] at (249,304) {$-1$};
+\node[anchor=north east] at (331,302) {$O$};
+\node[anchor=north] at (421,304) {$1$};
+\end{tikzpicture}
+\end{document}

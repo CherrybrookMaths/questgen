@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (60,397)--(762,397);
+  \node[anchor=west,font=\scriptsize] at (764,397) {$x$};
+  \draw[->] (245,397)--(245,46);
+  \node[font=\footnotesize] at (245,24) {$F_X(x)$};
+  \foreach \v/\yy in {1/68,0.8/134,0.6/200,0.4/266,0.2/332}
+    \node[anchor=east,font=\tiny] at (236,\yy) {$\v$};
+  \foreach \v/\xx in {-2/135,2/355,4/465,6/575,8/685}
+    \node[font=\tiny] at (\xx,416) {$\v$};
+  \draw[line width=0.9pt,<->] (62,397)--(300,397)--(410,232.5)--(630,68)--(760,68);
+  \node[pt] at (300,397) {}; \node[pt] at (410,232.5) {}; \node[pt] at (630,68) {};
+  \node[font=\footnotesize] at (290,315) {$(1,0)$};
+  \node[font=\footnotesize] at (452,272) {$\left(3,\dfrac{1}{2}\right)$};
+  \node[font=\footnotesize] at (652,113) {$(7,1)$};
+\end{tikzpicture}
+\end{document}

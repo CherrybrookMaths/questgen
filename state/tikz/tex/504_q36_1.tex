@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\Large]
+  \coordinate (O) at (52,720); \coordinate (S) at (232,683);
+  \coordinate (L) at (372,33); \coordinate (G) at (374,380);
+  \draw (O)--(L)--(S)--cycle;
+  \draw[aux] (O)--(G)--(S);
+  \draw[dash pattern=on 0.6pt off 1.6pt] (L)--(G);
+  \draw[->] (G)--(472,287);
+  \node at (517,265) {\textit{North}};
+  % right angle at G between GL (up) and GO
+  \path let \p1=($(O)-(G)$), \n1={veclen(\x1,\y1)} in
+    coordinate (u) at ($(G)!28/\n1*\n1!(O)$);
+  \draw ($(G)+(0,-28)$) -- ($(u)+(0,-28)$) -- (u);
+  \draw[->] ($(O)+(-46.5:245)$) arc (-46.5:-65:245);
+  \draw[->] ($(O)+(-46.5:135)$) arc (-46.5:-11.6:135);
+  \node at (164,555) {$60^\circ$};
+  \node at (124,682) {$30^\circ$};
+  \foreach \p in {O,S,L,G} \fill (\p) circle (8);
+  \node at (417,33) {$L$};
+  \node at (402,402) {$G$};
+  \node at (14,723) {$O$};
+  \node at (249,707) {$S$};
+  \node at (168,352) {$3\sqrt{3}$\,m};
+  \node at (162,728) {10 m};
+\end{tikzpicture}
+\end{document}

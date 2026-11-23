@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (395,244); 33.5 px per x-unit, 15.25 px per y-unit
+  \foreach \i in {-10,...,10} \draw[black!20,line width=0.4pt] ({395+33.5*\i},92) -- ({395+33.5*\i},398);
+  \foreach \j in {-10,...,10} \draw[black!20,line width=0.4pt] (60,{244-15.3*\j}) -- (730,{244-15.3*\j});
+  \foreach \i in {-10,-5,5,10} \draw[black!40,line width=0.4pt] ({395+33.5*\i},92) -- ({395+33.5*\i},398);
+  \foreach \j in {-10,-5,5,10} \draw[black!40,line width=0.4pt] (60,{244-15.3*\j}) -- (730,{244-15.3*\j});
+  \draw[<->] (26,244) -- (764,244);
+  \draw[<->] (395,432) -- (395,64);
+  \foreach \i in {-10,...,-1,1,2,...,10} \draw ({395+33.5*\i},239) -- ({395+33.5*\i},249);
+  \foreach \j in {-10,...,-1,1,2,...,10} \draw (390,{244-15.3*\j}) -- (400,{244-15.3*\j});
+  \draw (395,244) circle (10);
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=0:180] ({395+33.5*5*cos(\x)},{244-15.3*10*sin(\x)});
+  \node at (395,38) {$y$};
+  \node[anchor=west] at (768,248) {$x$};
+  \foreach \i/\l in {-10/$-10$,-5/$-5$,5/$5$,10/$10$} \node at ({395+33.5*\i},290) {\l};
+  \node[anchor=south east] at (390,88) {$10$};
+  \node[anchor=east] at (386,168) {$5$};
+  \node[anchor=east] at (386,322) {$-5$};
+  \node[anchor=east] at (386,398) {$-10$};
+\end{tikzpicture}
+\end{document}

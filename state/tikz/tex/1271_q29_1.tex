@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5842cm,y=0.5842cm]
+  \fill[black!30] plot[domain=1:4.5, samples=60, smooth] (\x,{4/(2*\x-1)}) -- cycle;
+  \draw (-1.12,0) -- (6.4,0);
+  \draw (0,-1.05) -- (0,6.46);
+  \draw[line width=0.9pt] (-1.12,6.12) -- (6.1,-1.1);
+  \draw[line width=0.9pt] plot[variable=\s, domain=-1.0788:1.8656, samples=90, smooth] ({0.5+2/exp(\s)},{exp(\s)});
+  \node[pt] at (1,4) {};
+  \node[pt] at (4.5,0.5) {};
+  \node[font=\small] at (1.27,4.45) {$A$};
+  \node[font=\small] at (4.76,0.92) {$B$};
+  \node[font=\small] at (6.1,0.22) {$x$};
+  \node[font=\small] at (0.25,6.07) {$y$};
+  \node[font=\small] at (-0.38,-0.5) {$O$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.3335cm,y=1.016cm]
+\draw[black!25,line width=0.3pt,step=0.5] (-2.5,-2.5) grid (2.5,2.5);
+\draw[<->] (-2.85,0) -- (2.85,0) node[right]{$x$};
+\draw[<->] (0,-2.95) -- (0,2.9) node[above,inner sep=1pt]{$y$};
+\draw (-0.5,-0.04) -- (-0.5,0.04);
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-0.65:1.65] (\x,{2*\x-2*\x*\x});
+\draw[line width=0.9pt,->] (-1.16,-2.16) -- (2.05,1.05);
+\foreach \p in {(-0.5,-1.5),(1,0),(0,-1)} \fill \p circle (2.5pt);
+\node[anchor=north east,inner sep=1pt] at (-0.47,-0.06) {$-\dfrac{1}{2}$};
+\node[anchor=north west,inner sep=1pt] at (0.05,-0.05) {$O$};
+\node[anchor=north west,inner sep=1pt] at (1.22,-0.04) {$1$};
+\node[anchor=north west,inner sep=1pt] at (0.08,-1.08) {$-1$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (17,271) -- (677,271);
+\draw[->] (203,300) -- (203,60);
+\node at (203,44) {$v$};
+\node[anchor=west] at (679,274) {$t$};
+\draw[aux,->] (203,196) -- (590,196);
+\draw[line width=0.9pt,->] plot[smooth,samples=90,domain=0:4,variable=\t] ({203+72*\t},{271-75*(1+exp(-\t))});
+\fill (203,121) circle (4);
+\draw (197,121) -- (209,121);
+\node[anchor=east] at (192,117) {$10$};
+\node[anchor=east] at (192,196) {$5$};
+\end{tikzpicture}
+\end{document}

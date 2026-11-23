@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.521cm,y=0.427cm,font=\footnotesize]
+\foreach \k in {-7,...,7} \draw[black!35,line width=0.4pt,dash pattern=on 0.8pt off 0.8pt] (\k,-7.1)--(\k,7.6);
+\foreach \k in {-7,...,7} \draw[black!35,line width=0.4pt,dash pattern=on 0.8pt off 0.8pt] (-7.45,\k)--(7.45,\k);
+\draw[->] (-7.45,0)--(7.6,0);
+\draw[->] (0,-7.15)--(0,7.85);
+\node[anchor=south] at (7.3,0.4) {$x$};
+\node[anchor=west] at (0.2,7.05) {$y$};
+\foreach \k in {-7,...,-1,1,2,...,7} {\draw (\k,-0.17)--(\k,0.17); \draw (-0.15,\k)--(0.15,\k);}
+\foreach \k in {-7,...,-3,-1,1,2,...,7} \node[anchor=north] at (\k,-0.22) {$\k$};
+\node[anchor=south west] at (-1.93,0.22) {$-2$};% curve crosses at x=-2 and occupies both centred spots; placed above, beside the tick
+\foreach \k in {-6,...,-1,1,2,3} \node[anchor=east] at (-0.17,\k) {$\k$};
+\node[anchor=east] at (-0.24,4) {$4$};
+\foreach \k in {5,6,7} \node[anchor=west] at (0.17,\k) {$\k$};% moved right: curve passes the usual spot
+% y = 2 + 2/(x+1)
+\draw[line width=0.9pt] plot[smooth,samples=90,domain={ln(2/8.1)}:{ln(6.45)},variable=\u] ({-1-exp(\u)},{2-2*exp(-\u)});
+\draw[line width=0.9pt] plot[smooth,samples=90,domain={ln(2/5.4)}:{ln(8.45)},variable=\u] ({-1+exp(\u)},{2+2*exp(-\u)});
+\end{tikzpicture}
+\end{document}

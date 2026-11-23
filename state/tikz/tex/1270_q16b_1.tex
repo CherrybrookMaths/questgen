@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (348,52);
+\coordinate (B) at (97,545);
+\coordinate (C) at (599,545);
+\coordinate (M) at (348,545);
+\coordinate (O) at (348,362);
+\fill[black!30] (A) -- ++(63:80) arc[start angle=63,end angle=117,radius=80] -- cycle;
+\fill[black!30] (O) -- ++(90:52) arc[start angle=90,end angle=143.9,radius=52] -- cycle;
+\draw (O) circle (310);
+\draw (B) -- (A) -- (C) -- cycle;
+\draw (O) -- (C);
+\draw[aux] (A) -- (M);
+\draw[aux] (B) -- (O);
+\draw (318,545) -- (318,515) -- (348,515);
+\draw ({222+0.891*10},{298+0.454*10}) -- ({222-0.891*10},{298-0.454*10});
+\draw ({474+0.891*10},{298-0.454*10}) -- ({474-0.891*10},{298+0.454*10});
+\foreach \x in {217,227,469,479} \draw (\x,535) -- (\x,555);
+\node[anchor=south] at (348,46) {$A$};
+\node[anchor=north east] at (93,548) {$B$};
+\node[anchor=north west] at (604,548) {$C$};
+\node[anchor=north] at (348,553) {$M$};
+\node at (372,350) {$O$};
+\node at (334,155) {$\theta$};
+\node at (306,436) {$\theta$};
+\node at (243,412) {$1$};
+\node at (455,418) {$1$};
+\end{tikzpicture}
+\end{document}

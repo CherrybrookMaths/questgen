@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.2776cm,y=0.47cm,font=\small,every node/.style={inner sep=1pt}]
+% asymptotes
+\foreach \a in {-pi/2,pi/2,pi} \draw[aux] ({\a},-4.65)--({\a},5.1);
+% axes
+\draw (-1.64,0)--(3.23,0);
+\draw[<->] (0,-4.5)--(0,4.5);
+\node[anchor=east] at (-0.04,4.85) {$y$};
+\foreach \a in {-pi/2,-pi/4,pi/4,pi/2,3*pi/4,pi} \draw ({\a},-0.15)--({\a},0.15);
+\foreach \k in {-4,...,-1,1,2,3,4} \draw (-0.06,\k)--(0.06,\k);
+% x tick labels (asymptote ones sit just left of their dashed line)
+\node[anchor=north] at ({-pi/4},-0.3) {$-\dfrac{\pi}{4}$};
+\node[anchor=north] at ({pi/4},-0.3) {$\dfrac{\pi}{4}$};
+\node[anchor=north] at ({3*pi/4},-0.3) {$\dfrac{3\pi}{4}$};
+\node[anchor=north east] at ({-pi/2-0.03},-0.3) {$-\dfrac{\pi}{2}$};
+\node[anchor=north east] at ({pi/2-0.03},-0.3) {$\dfrac{\pi}{2}$};
+\node[anchor=north east] at ({pi-0.03},-0.3) {$\pi$};
+% y tick labels (2, 3 and 4 moved right of the axis: the curve passes the usual spot)
+\foreach \k in {-4,...,-1,1} \node[anchor=east] at (-0.08,\k) {$\k$};
+\foreach \k in {2,3,4} \node[anchor=west] at (0.08,\k) {$\k$};
+% y = tan(2(x - pi/4)): branches with zeros at -pi/4, pi/4, 3pi/4
+\foreach \z in {-pi/4,pi/4,3*pi/4}
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=-4.35:4.35,variable=\t] ({\z+0.5*rad(atan(\t))},{\t});
+\end{tikzpicture}
+\end{document}

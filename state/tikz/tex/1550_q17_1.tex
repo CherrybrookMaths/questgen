@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \k in {0,...,4} \draw (216.4+46.8*\k,46) circle[radius=23.4];
+\foreach \k in {0,...,5} \draw (191.5+47*\k,95) circle[radius=23.5];
+\foreach \k in {0,...,6} \draw (168.6+47.1*\k,142) circle[radius=23.5];
+\foreach \k in {0,...,2} \draw (51+48*\k,307) circle[radius=24];
+\foreach \k in {0,...,2} \draw (476+48*\k,307) circle[radius=24];
+\draw[aux,<->] (170,188) -- (170,262);
+\draw[aux,<->] (452,188) -- (452,262);
+\node at (305,221) {?};
+\draw[aux,->] (287,307) -- (190,307);
+\node at (303,307) {?};
+\draw[aux,->] (337,307) -- (430,307);
+\node[anchor=west] at (490,44) {Top Layer};
+\node[anchor=west] at (612,303) {$n$th Layer};
+\end{tikzpicture}
+\end{document}

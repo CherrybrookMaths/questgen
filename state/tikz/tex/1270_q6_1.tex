@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[black!30] (240,238) -- plot[smooth,samples=40,domain=240:343] (\x,{238+60*((343-\x)/103)^3}) -- plot[smooth,samples=40,domain=343:478] (\x,{238-143*((\x-343)/135)^3}) -- (478,238) -- cycle;
+\draw[<->] (35,238) -- (668,238) node[right]{$x$};
+\draw[<->] (205,500) -- (205,38) node[above,inner sep=1pt]{$y$};
+\draw[line width=0.9pt,<->] plot[smooth,samples=45,domain=176:343] (\x,{238+60*((343-\x)/103)^3}) -- plot[smooth,samples=45,domain=343:493] (\x,{238-143*((\x-343)/135)^3});
+\fill (343,238) circle (3);
+\node[above,inner sep=2pt] at (240,236) {$1$};
+\node[below,inner sep=3pt] at (343,240) {$2$};
+\node[below,inner sep=3pt] at (478,240) {$4$};
+\node[anchor=west] at (505,45) {$y=k(x-2)^3$};
+\end{tikzpicture}
+\end{document}

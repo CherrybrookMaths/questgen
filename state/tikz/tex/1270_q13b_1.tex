@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (B) at (48,452); \coordinate (P) at (755,452);
+\coordinate (O) at (400,302); \coordinate (T) at (400,25);
+\pic[draw, fill=black!30, angle radius=1.46cm] {angle = O--B--T};
+\pic[draw, fill=black!30, angle radius=1.46cm] {angle = T--P--O};
+\draw (B) -- (P) -- (T) -- cycle;
+\draw (B) -- (O) -- (P);
+\draw (O) -- (T);
+\draw ($(O)+(0,-28)$) -- ($(O)+(-25.8,-17)$) -- ($(O)+(-25.8,11)$);
+\draw ($(O)+(0,-28)$) -- ($(O)+(25.8,-17)$) -- ($(O)+(25.8,11)$);
+\node[font=\large,anchor=south west,inner sep=2pt] at (T) {$T$};
+\node[font=\large,anchor=west] at (404,162) {$h$};
+\node[font=\large] at (400,325) {$O$};
+\node[font=\large] at (40,482) {$B$};
+\node[font=\large] at (765,482) {$P$};
+\node[font=\large] at (198,353) {$45^\circ$};
+\node[font=\large] at (612,353) {$30^\circ$};
+\node[font=\large] at (370,492) {100 m};
+\node[font=\fontsize{13}{15}\selectfont] at (664,82) {Diagram not to scale};
+\end{tikzpicture}
+\end{document}

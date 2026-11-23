@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % axes
+  \draw[<->] (28,420) -- (815,420);
+  \draw[<->] (405,805) -- (405,48);
+  \node[font=\large, anchor=west] at (818,420) {$x$};
+  \node[font=\large, anchor=east] at (398,62) {$y$};
+  % asymptotes
+  \draw[aux,<->] (299,785) -- (299,62);
+  \draw[aux,<->] (511,785) -- (511,62);
+  \draw[aux,<->] (20,302) -- (808,302);
+  \node[font=\large, anchor=east] at (256,72) {$x=-1$};
+  \node[font=\large, anchor=west] at (554,72) {$x=1$};
+  \node[font=\large, anchor=north] at (762,310) {$y=2$};
+  \node[font=\large, anchor=north east] at (296,424) {$-1$};
+  % curve y = 2x^2/(x^2-1), x unit 106 px, y unit 59 px
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=1.22:3.2] plot ({405+106*\x},{420-118*\x*\x/(\x*\x-1)});
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=-3.2:-1.22] plot ({405+106*\x},{420-118*\x*\x/(\x*\x-1)});
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=-0.824:0.824] plot ({405+106*\x},{420-118*\x*\x/(\x*\x-1)});
+  % points
+  \fill (405,420) circle (5);
+  \fill (193,262.7) circle (5);
+  \fill (617,262.7) circle (5);
+  \node[font=\large, anchor=south east] at (190,248) {$\left(-2,\dfrac{8}{3}\right)$};
+  \node[font=\large, anchor=south west] at (620,248) {$\left(2,\dfrac{8}{3}\right)$};
+  \node[font=\large, anchor=west] at (548,500) {$y=\dfrac{2x^2}{x^2-1}$};
+\end{tikzpicture}
+\end{document}

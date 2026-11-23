@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.9906cm,y=1.016cm]
+\draw[black!12,line width=0.3pt,step=0.1] (-6.3,-2) grid (6.2,2);
+\draw[black!25,line width=0.4pt,step=0.5] (-6.3,-2) grid (6.2,2);
+\draw[black!40,line width=0.5pt,step=1] (-6.3,-2) grid (6.2,2);
+\draw[->] (-6.35,0)--(6.32,0);
+\draw (0,-2.05)--(0,2.2);
+\draw[<->,line width=0.9pt] plot[domain=-2*pi:6.05, samples=90, smooth] (\x,{sin(\x r)});
+\begin{scope}[font=\small]
+\foreach \v in {-6,-5,-4,-2,-1,1,2,3,4,5} \node[anchor=north] at (\v,-0.12) {$\v$};
+\node[anchor=south] at (-3,0.07) {$-3$};
+\node[anchor=south] at (6,0.07) {$6$};
+\node[anchor=south east] at (-0.06,0.06) {$0$};
+\foreach \v in {-2,-1,1,2} \node[anchor=east] at (-0.15,\v) {$\v$};
+\node[anchor=west] at (6.36,0) {$x$};
+\node[anchor=south] at (0,2.2) {$y$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

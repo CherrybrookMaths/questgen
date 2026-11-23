@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (437,270); 39.4 px per x-unit, 19.7 px per y-unit
+  \draw[<->] (5,270) -- (870,270);
+  \draw[<->] (437,500) -- (437,40);
+  \foreach \i in {-10,...,10} {\ifnum\i=0\else\draw ({437+39.4*\i},264) -- ({437+39.4*\i},276);\fi}
+  \foreach \j in {-10,...,10} {\ifnum\j=0\else\draw (431,{270-19.7*\j}) -- (443,{270-19.7*\j});\fi}
+  \foreach \i in {-10,-5,5,10} \node[anchor=north] at ({437+39.4*\i},296) {$\i$};
+  \foreach \j in {-10,-5,5,10} \node[anchor=east] at (420,{270-19.7*\j}) {$\j$};
+  \node[anchor=west] at (876,271) {$x$};
+  \node[anchor=south] at (437,0) {$y$};
+  \draw[aux] (555,40) -- (555,500);
+  \draw[line width=0.9pt, ->, smooth, samples=90, variable=\t, domain=-8.7:2.07]
+    plot ({437+39.4*(3+exp(\t))}, {270-19.7*\t});
+\end{tikzpicture}
+\end{document}

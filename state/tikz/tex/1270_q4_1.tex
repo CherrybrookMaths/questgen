@@ -1,0 +1,9 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (38,368) -- (700,368) node[right,font=\large]{$x$};
+\draw[<->] (200,485) -- (200,57) node[above,font=\large,inner sep=1pt]{$y$};
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=158:597] (\x,{355-11390/(\x-107.4)});
+\end{tikzpicture}
+\end{document}

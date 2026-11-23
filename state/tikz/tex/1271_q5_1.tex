@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % scale: x unit = 107.8 px, 5 dollars = 107.6 px; origin (218,615)
+  \foreach \i in {1,...,37}{ \pgfmathtruncatemacro\m{mod(\i,5)} \ifnum\m=0\else
+     \draw[black!12, line width=0.4pt] ({218+21.56*\i},0) -- ({218+21.56*\i},615); \fi}
+  \foreach \j in {1,...,28}{ \pgfmathtruncatemacro\m{mod(\j,5)} \ifnum\m=0\else
+     \draw[black!12, line width=0.4pt] (218,{615-21.52*\j}) -- (1030,{615-21.52*\j}); \fi}
+  \foreach \i in {1,...,7} \draw[black!32, line width=0.4pt] ({218+107.8*\i},0) -- ({218+107.8*\i},615);
+  \foreach \j in {1,...,5} \draw[black!32, line width=0.4pt] (218,{615-107.6*\j}) -- (1030,{615-107.6*\j});
+  \draw[->] (218,615) -- (1040,615);
+  \draw[->] (218,615) -- (218,-8);
+  \draw[line width=0.9pt] (218,615) -- ({218+107.8*5.69},0);
+  \draw[line width=0.9pt] (218,{615-21.52*6}) -- ({218+107.8*7.5},{615-21.52*28.5});
+  \node[font=\small] at (204,638) {0};
+  \foreach \i in {1,...,7} \node[font=\small] at ({218+107.8*\i},638) {\i};
+  \foreach \j in {5,10,...,25} \node[font=\small, anchor=east] at (194,{615-21.52*\j}) {\j};
+  \node at (562,200) {Income};
+  \node[fill=none] at (672,260) {Cost};
+  \node at (100,345) {Dollars (\$)};
+  \node at (652,677) {Boxes};
+\end{tikzpicture}
+\end{document}

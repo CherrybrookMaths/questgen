@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\large}]
+  \def\fx#1{(107+115*(#1)+10*(#1)*((#1)-1)-4*(#1)*((#1)-1)*((#1)-2))}
+  \fill[black!30] (107,207) -- plot[smooth,domain=0:1,samples=30,variable=\u] ({\fx{\u}},{207-170*cos(90*\u)}) -- cycle;
+  \draw[->] (25,207) -- (605,207);
+  \draw[->] (107,380) -- (107,15);
+  \draw[line width=0.9pt] plot[smooth,domain=0:3,samples=90,variable=\u] ({\fx{\u}},{207-170*cos(90*\u)});
+  \node at (145,123) {$1\,\text{u}^2$};
+  \node at (285,45) {$y\!=\!a\cos(bx)$};
+  \node at (617,190) {$x$};
+  \node at (93,17) {$y$};
+  \node[anchor=north] at (220,210) {$\dfrac{\pi}{4}$};
+  \node[anchor=north] at (510,210) {$\dfrac{3\pi}{4}$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (47,412)--(648,412);
+  \node[anchor=west] at (670,412) {$t$\,(hours)};
+  \draw (47,412)--(47,394)--(40,389)--(54,381)--(47,376);
+  \draw[->] (47,376)--(47,52);
+  \node[anchor=west] at (60,18) {$h$\,(metres)};
+  \foreach \k in {0,...,16} { \pgfmathsetmacro\yy{366-18.5*\k} \draw (43,\yy)--(51,\yy); }
+  \foreach \k in {1,...,16} { \pgfmathsetmacro\xx{49+36.6*\k} \draw (\xx,408)--(\xx,416); }
+  \foreach \v/\yy in {16/70,14/144,12/218,10/292,8/366}
+    \node[anchor=east,font=\scriptsize] at (38,\yy) {$\v$};
+  \foreach \v in {5,10,15} \node[font=\scriptsize] at ({49+36.6*\v},433) {$\v$};
+  \draw[line width=0.9pt,->] plot[smooth,domain=0:16.5,samples=90,variable=\t]
+     ({49+36.6*\t},{292-37*(3-3*cos(30*\t))});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (27,470); 1 x-unit = 127.5 px, 1 y-unit = 14 px
+  \draw[<->] (27,625) -- (27,35);
+  \draw[->] (27,470) -- (1075,470);
+  \node[anchor=south, font=\large] at (27,35) {$y$};
+  \node[anchor=west, font=\large] at (1075,470) {$x$};
+  \draw[line width=0.9pt, ->, samples=90, smooth, domain=0:6.6, variable=\t]
+    plot ({27+127.5*\t}, {470-14*(\t*\t-\t-6)});
+  \draw (792,462) -- (792,478);
+  \node[font=\large] at (795,505) {$6$};
+  \node[font=\large] at (425,520) {$A$};
+\end{tikzpicture}
+\end{document}

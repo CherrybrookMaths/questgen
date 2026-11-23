@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (290,318), 48 px per unit
+  \fill[shade] (290,318) -- (290,126) arc (-90:0:192) -- cycle;
+  \draw[<->] (30,318) -- (556,318);
+  \draw[<->] (290,397) -- (290,48);
+  \draw (290,318) circle (8);
+  \draw[line width=0.9pt] (98,318) arc (180:360:192);
+  \node at (292,28) {$y$};
+  \node[anchor=west] at (562,320) {$x$};
+  \foreach \v in {1,...,5} \node[anchor=east] at (276,{318-48*\v}) {$\v$};
+  \node[anchor=east] at (276,368) {$-1$};
+  \foreach \v/\l in {-4/$-4$,-2/$-2$,2/$2$,4/$4$} \node at ({290+48*\v},356) {\l};
+\end{tikzpicture}
+\end{document}

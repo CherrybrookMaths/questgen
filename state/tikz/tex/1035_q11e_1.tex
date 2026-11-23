@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {-4,...,4} \draw[black!25, line width=0.4pt] ({570+130.75*\i},80) -- ({570+130.75*\i},945);
+  \foreach \j in {-3,...,10} \draw[black!25, line width=0.4pt] (47,{745-66.54*\j}) -- (1093,{745-66.54*\j});
+  \draw[<->] (18,745) -- (1125,745) node[right]{\large $x$};
+  \draw[<->] (570,970) -- (570,55) node[above,inner sep=1pt]{\large $y$};
+  \foreach \i in {-4,-3,-2,-1,1,2,3,4} {
+    \draw ({570+130.75*\i},737) -- ({570+130.75*\i},753);
+    \node[anchor=north] at ({570+130.75*\i},755) {$\i$};}
+  \foreach \j in {-3,-2,-1,1,2,...,10} {
+    \draw (562,{745-66.54*\j}) -- (578,{745-66.54*\j});
+    \node[anchor=east] at (560,{745-66.54*\j}) {$\j$};}
+  \draw (570,745) circle (8);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6795cm,y=0.6134cm]
+  \draw[->] (-1.01,0)--(7.25,0) node[right=2pt] {$x$};
+  \draw[->] (0,-0.83)--(0,6.0);
+  \node at (-0.13,6.52) {$y$};
+  \foreach \i in {1,...,6} {\draw (\i,-0.1)--(\i,0.1); \node at (\i,-0.52) {$\i$};}
+  \foreach \i in {1,...,5} {\draw (-0.1,\i)--(0.1,\i); \node[anchor=east] at (-0.12,\i) {$\i$};}
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=-0.12:7.05] plot (\x,{5/32*\x*(\x-6)^2});
+  \node[above=1pt] at (2,5) {$(2,5)$};
+  \node at (6.88,2.07) {$y\!=\!f(x)$};
+\end{tikzpicture}
+\end{document}

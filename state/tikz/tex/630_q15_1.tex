@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % X = 45 + (300/pi) x ; Y = 398 - 95.2 y
+  \foreach \i in {-2,...,33} \draw[black!10, line width=0.4pt] ({45+20*\i},0) -- ({45+20*\i},620);
+  \foreach \j in {-11,...,21} \draw[black!10, line width=0.4pt] (0,{398-19.04*\j}) -- (715,{398-19.04*\j});
+  \foreach \i in {1,...,6} \draw[black!28, line width=0.4pt] ({45+100*\i},0) -- ({45+100*\i},620);
+  \foreach \j in {-2,-1,1,2,3,4} \draw[black!28, line width=0.4pt] (0,{398-95.2*\j}) -- (715,{398-95.2*\j});
+  \draw[->] (0,398) -- (722,398);
+  \draw[->] (45,620) -- (45,-8);
+  \draw[line width=0.9pt] plot[domain=0:2*pi, samples=90, smooth] ({45+300/pi*\x},{398-95.2*(3*sin((\x+pi/6) r)+1)});
+  \foreach \v in {4,3,2,1,-1,-2} \node[anchor=east, font=\footnotesize] at (38,{398-95.2*\v}) {$\v$};
+  \node[anchor=north east, font=\footnotesize] at (38,404) {$0$};
+  \node[anchor=north, font=\footnotesize] at (145,404) {$\dfrac{\pi}{3}$};
+  \node[anchor=north, font=\footnotesize] at (245,404) {$\dfrac{2\pi}{3}$};
+  \node[anchor=south, font=\footnotesize] at (345,392) {$\pi$};
+  \node[anchor=north, font=\footnotesize] at (445,404) {$\dfrac{4\pi}{3}$};
+  \node[anchor=south, font=\footnotesize] at (545,392) {$\dfrac{5\pi}{3}$};
+  \node[anchor=north, font=\footnotesize] at (645,404) {$2\pi$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\X#1{(212+91*(#1))}\def\Y#1{(728-0.779*(#1))}
+  \foreach \k in {1,...,9} \draw[black!55,dotted] ({\X{\k}},{\Y{0}}) -- ({\X{\k}},{\Y{900}});
+  \foreach \v in {100,200,...,900} \draw[black!55,dotted] ({\X{0}},{\Y{\v}}) -- ({\X{9}},{\Y{\v}});
+  \draw ({\X{0}},{\Y{900}}) -- ({\X{0}},{\Y{0}}) -- ({\X{9}},{\Y{0}});
+  \foreach \v in {200,400,600,800} \node[anchor=east] at (204,{\Y{\v}}) {\v};
+  \node at (190,35) {\$};
+  \node at (186,752) {0};
+  \foreach \k in {2,4,6,8} \node at ({\X{\k}},752) {\k};
+  \node at (1025,768) {$x$};
+  \node at (620,786) {Number of items ($\,x\,$)};
+  \node[rotate=90] at (45,375) {Amount (\$)};
+\end{tikzpicture}
+\end{document}

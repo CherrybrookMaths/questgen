@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[<->] (10,222) -- (512,222);
+  \draw[<->] (262,408) -- (262,38);
+  \node[font=\footnotesize, anchor=west] at (516,222) {$x$};
+  \node[font=\footnotesize, anchor=south] at (262,32) {$y$};
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=-102:102] plot ({238+\x},{248+0.01538*\x*\x});
+  \node[font=\large] at (299,259) {$-1$};
+\end{tikzpicture}
+\end{document}

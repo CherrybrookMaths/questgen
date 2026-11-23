@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=0.0127cm]
+  % pixel coordinates with y negated
+  \coordinate (A) at (92,-133); \coordinate (B) at (348,-338); \coordinate (C) at (482,-55);
+  \draw (A) -- (B) -- (C) -- cycle;
+  % compass lines
+  \draw[->] (92,-190) -- (92,-55);
+  \draw (12,-133) -- (170,-133);
+  \node at (92,-38) {$N$};
+  \draw[->] (348,-385) -- (348,-200);
+  \draw (262,-338) -- (420,-338);
+  \node at (348,-183) {$N$};
+  % labels
+  \node at (68,-142) {$A$};
+  \node at (330,-360) {$B$};
+  \node at (500,-55) {$C$};
+  \node at (163,-268) {$6.4$ km};
+  \node at (482,-180) {$6.4$ km};
+  % angles at A
+  \draw (92,-98) arc[start angle=90, end angle=-38.69, radius=35];
+  \node at ($(A)+(42:72)$) {$140^\circ$};
+  \draw ($(A)+(-90:28)$) arc[start angle=-90, end angle=-38.69, radius=28];
+  \node at ($(A)+(-64:52)$) {$40^\circ$};
+  % angles at B
+  \draw ($(B)+(90:38)$) arc[start angle=90, end angle=141.34, radius=38];
+  \node at ($(B)+(118:60)$) {$40^\circ$};
+  \draw ($(B)+(64.66:50)$) arc[start angle=64.66, end angle=90, radius=50];
+  \node at ($(B)+(77.3:100)$) {$32^\circ$};
+\end{tikzpicture}
+\end{document}

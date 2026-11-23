@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\node[font=\large] at (392,75) {$y=-3\cos\left(\dfrac{x}{2}\right)$};
+\draw[<->] (45,463)--(1205,463);
+\draw[<->] (335,128)--(335,795);
+\foreach \i in {-10,...,-1,1,2,...,29} \draw (335+\i*29,460)--(335+\i*29,466);
+\foreach \gy in {194,262,329,396,530,598,665,732} \draw (332,\gy)--(338,\gy);
+\draw (335,463) circle[radius=7];
+\draw[line width=0.9pt] plot[domain=0:2*pi, samples=90, smooth] ({335+\x*290/pi},{463+201.9*cos(\x/2 r)});
+\fill (335,664.9) circle[radius=6];
+\fill (625,463) circle[radius=6];
+\fill (915,261.1) circle[radius=6];
+\begin{scope}[font=\fontsize{6.5}{8}\selectfont]
+\node[anchor=north] at (190,472) {$-0.5\pi$};
+\node[anchor=north] at (480,472) {$0.5\pi$};
+\node[anchor=north] at (628,474) {$\pi$};
+\node[anchor=north] at (770,472) {$1.5\pi$};
+\node[anchor=north] at (915,474) {$2\pi$};
+\node[anchor=north] at (1060,472) {$2.5\pi$};
+\foreach \v/\gy in {4/194,3/262,2/329,1/396,-1/530,-2/598,-3/665,-4/732} \node[anchor=east] at (326,\gy) {$\v$};
+\node at (1192,447) {$x$};
+\node at (354,143) {$y$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

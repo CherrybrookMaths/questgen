@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[black!25, line width=0.4pt]
+\foreach \i in {-7,...,20} \draw ({208+23.75*\i},71.75) -- ({208+23.75*\i},594.25);
+\foreach \j in {-11,...,11} \draw (41.75,{333+23.75*\j}) -- (683,{333+23.75*\j});
+\end{scope}
+\draw[<->] (8,333) -- (711,333);
+\draw[<->] (208,628) -- (208,30);
+\node at (208,12) {$y$};
+\node[anchor=west] at (713,336) {$x$};
+\draw[aux] (255.5,183) -- (255.5,603);
+% tangent y = m x, m = 0.5575, x-scale 95, y-scale 75
+\draw[->] ({208-95},{333+75*0.5575}) -- ({208+95*4.716},{333-75*0.5575*4.716});
+% curve y = ln(2x-1), parametrised by y
+\draw[line width=0.9pt,->] plot[smooth,samples=90,domain=-2.4:1.909,variable=\v] ({208+95*(exp(\v)+1)/2},{333-75*\v});
+\fill (303,333) circle (4);
+\fill ({208+95*2.2937},{333-75*1.2787}) circle (4.5);
+\node[anchor=north east] at (203,348) {$O$};
+\node[anchor=north west] at (309,338) {$1$};
+\node[anchor=south] at (398,220) {$P(x,y)$};
+\node[anchor=south] at (556,168) {$y=mx$};
+\node[anchor=west] at (588,194) {$y=\ln(2x-1)$};
+\end{tikzpicture}
+\end{document}

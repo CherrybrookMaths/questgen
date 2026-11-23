@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.47625cm,y=0.5588cm]
+\draw[black!25,line width=0.3pt] (-7,-5) grid (7,5);
+\draw[<->] (-7.6,0) -- (7.8,0) node[right]{$x$};
+\draw[<->] (0,-5.7) -- (0,5.7) node[above,inner sep=1pt]{$y$};
+\draw[aux] (4,-5.5) -- (4,5.5);
+\draw[aux] (-7.3,-1) -- (7.7,-1);
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=1.974:-1.459] ({4-exp(\x)},{-exp(-\x)-1});
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-1.825:1.253] ({4+exp(\x)},{exp(-\x)-1});
+\fill (5,0) circle (2.5pt);
+\fill (0,-1.25) circle (2.5pt);
+\node[anchor=south west,inner sep=1pt] at (5.1,0.1) {$5$};
+\node[anchor=north west,inner sep=1pt] at (4.12,-0.12) {$4$};
+\node[anchor=south east,inner sep=1pt] at (-0.12,-0.9) {$-1$};
+\node[anchor=north east,inner sep=1pt] at (-0.12,-1.5) {$-\dfrac{5}{4}$};
+\end{tikzpicture}
+\end{document}

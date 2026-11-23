@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (90,351) -- (1210,351);
+  \draw[<->] (648,676) -- (648,26);
+  \node[anchor=south,font=\small] at (1195,340) {$x$};
+  \node[anchor=west,font=\small] at (656,42) {$y$};
+  \foreach \i in {-4,-3,-2,-1,1,2,3,4} {
+    \draw ({648+111.5*\i},346) -- ({648+111.5*\i},356);
+    \node[anchor=north,font=\scriptsize] at ({648+111.5*\i},359) {$\i$};}
+  \foreach \j in {-4,-3,-2,-1,1,2,3,4} {
+    \draw (643,{351-65*\j}) -- (653,{351-65*\j});
+    \node[anchor=east,font=\scriptsize] at (638,{351-65*\j}) {$\j$};}
+  \draw (648,351) circle (7);
+  \draw[black!45, line width=0.6pt, smooth, samples=90, domain=-3:3] plot ({648+111.5*\x},{351-65*(4-\x*\x)});
+  \draw[<->, line width=0.9pt, smooth, samples=90, domain=-5:1] plot ({648+111.5*\x},{351-65*(4-(\x+2)*(\x+2))});
+  \draw[<->, line width=0.9pt, smooth, samples=90, domain=-3.464:3.464] plot ({648+111.5*\x},{351-65*(1-\x*\x/2)});
+  \node[anchor=north] at (90,688) {$y=f(x+2)$};
+  \node[anchor=north west] at (215,696) {$y=\dfrac{1}{2}f(x)-1$};
+\end{tikzpicture}
+\end{document}

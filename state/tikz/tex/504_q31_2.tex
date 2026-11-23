@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.17716cm,y=0.17716cm]
+  \foreach \i in {1,...,79} {\pgfmathtruncatemacro\m{mod(\i,5)} \ifnum\m=0 \else \draw[black!35,line width=0.3pt] (\i,0)--(\i,60); \fi}
+  \foreach \j in {1,...,59} {\pgfmathtruncatemacro\m{mod(\j,5)} \ifnum\m=0 \else \draw[black!35,line width=0.3pt] (0,\j)--(80,\j); \fi}
+  \foreach \i in {5,10,...,75} \draw[black!75,line width=0.6pt] (\i,0)--(\i,60);
+  \foreach \j in {5,10,...,55} \draw[black!75,line width=0.6pt] (0,\j)--(80,\j);
+  \draw[line width=0.6pt] (0,0) rectangle (80,60);
+\end{tikzpicture}
+\end{document}

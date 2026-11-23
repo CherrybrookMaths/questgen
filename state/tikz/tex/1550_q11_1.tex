@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (97,1190); 145 px per second, 12.222 px per metre
+  \foreach \j in {1,...,44} \draw[black!20,line width=0.4pt] (97,{1190-24.444*\j}) -- (1110,{1190-24.444*\j});
+  \foreach \i in {1,...,14} \draw[black!20,line width=0.4pt] ({97+72.5*\i},90) -- ({97+72.5*\i},1190);
+  \foreach \j in {1,...,9} \draw[black!45,line width=0.4pt] (97,{1190-122.22*\j}) -- (1110,{1190-122.22*\j});
+  \foreach \i in {1,...,7} \draw[black!45,line width=0.4pt] ({97+145*\i},90) -- ({97+145*\i},1190);
+  % axes
+  \draw[->] (97,1190) -- (1150,1190);
+  \draw[->] (97,1190) -- (97,52);
+  \foreach \j in {1,...,89} \draw (92,{1190-12.222*\j}) -- (102,{1190-12.222*\j});
+  \foreach \j in {1,...,9} \draw (85,{1190-122.22*\j}) -- (97,{1190-122.22*\j});
+  \foreach \i in {1,...,14} \draw ({97+72.5*\i},1183) -- ({97+72.5*\i},1197);
+  % labels
+  \foreach \j in {1,...,9} \node[anchor=east] at (80,{1190-122.22*\j}) {$\j0$};
+  \foreach \i in {1,...,7} \node at ({97+145*\i},1228) {$\i$};
+  \node at (97,22) {$h$};
+  \node[anchor=west] at (1158,1192) {$t$};
+  \node[rotate=90,font=\footnotesize] at (22,620) {Height (metres)};
+  \node[font=\footnotesize] at (623,1262) {Time (seconds)};
+\end{tikzpicture}
+\end{document}

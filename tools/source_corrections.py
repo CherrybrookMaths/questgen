@@ -448,4 +448,66 @@ db.execute(r"""update data_tables set rows_json=replace(rows_json, '"-0.85\\ldot
 # Batch 16 tables: words outside \text{} render italic (batch_check)
 db.execute(r"""update data_tables set rows_json=replace(rows_json, '"Mt \\cdot Isa"', '"\\text{Mt Isa}"') where id='1318_q25_t1'""")
 db.execute(r"""update data_tables set rows_json=replace(rows_json, '["IQR",', '["\\text{IQR}",') where id='Ts7014_1'""")
-db.commit(); print('done C13, C14, C15, C16')
+# Batch 17 (24 Nov, same night): the verifier's 14 findings on 2021 King's AT2-AT4, 2020 Blacktown Boys, Caringbah and CSSA, checked by
+# hand. 2021 King's AT4 is the PEM 2021 trial (its copies are hidden as duplicates of PEM's). Your calls: 2020 CSSA Q11 (struck through
+# on the paper) and 2021 King's AT3 Q16 (the stem's 1.29 m at midnight does not fit its own model).
+def _sol7408(l, c):   # 2021 King's AT3 Q16(d): the guideline stopped mid-sentence and gave no value
+    return (r"""High tide is a maximum of $h=A\sin[n(t+\varepsilon)]+C$, which happens when $n(t+\varepsilon)=\dfrac{\pi}{2}$.
+High tide is at 2:54 am, $t=2.9$, and $n=\dfrac{60\pi}{409}$:
+$$\begin{aligned} \dfrac{60\pi}{409}(2.9+\varepsilon)&=\dfrac{\pi}{2} \\ 2.9+\varepsilon&=\dfrac{409}{120} \\ \varepsilon&=\dfrac{409}{120}-2.9=\dfrac{61}{120}\approx0.508 \end{aligned}$$""", c)
+def _sol7409(l, c):   # 2021 King's AT3 Q16(e): used the guideline's wrong epsilon (-3.916)
+    return (r"""With $h=0.615\sin\left[\dfrac{60\pi}{409}(t+0.508)\right]+1.075$, set $h=1.25$:
+$$\begin{aligned} \sin\left[\dfrac{60\pi}{409}(t+0.508)\right]&=\dfrac{1.25-1.075}{0.615}\approx0.28455 \\ \dfrac{60\pi}{409}(t+0.508)&=\sin^{-1}(0.28455)\approx0.28860 \\ t+0.508&\approx0.6262 \\ t&\approx0.118\text{ h}\approx7\text{ min} \end{aligned}$$
+This is the first time after midnight, on the rising tide before the 2:54 am high.
+$$\therefore\ \text{the tide is first at }1.25\text{ m at about 12:07 am}$$
+(The model gives $h(0)\approx1.22$ m, not the $1.29$ m the question states at midnight; the guideline's $\varepsilon=-3.91\dot6$ and answer 4:33 am do not fit the high tide at 2:54 am.)""", c)
+def _sol5135(l, c):   # 2020 Caringbah AT4 Q37(a): only dV/dt was given, no loss
+    return (l + "\n" + r"""The third year runs from $t=2$ to $t=3$, so the loss is $V(2)-V(3)$:
+$$\begin{aligned} V(2)-V(3)&=25\,000e^{-1}-25\,000e^{-1.5} \\ &=25\,000\left(e^{-1}-e^{-1.5}\right) \\ &\approx\$3618.73 \end{aligned}$$
+$$\therefore\ \text{the car loses about }\$3618.73\text{ in the third year}$$""", c)
+def _sol5041(l, c):   # 2020 Blacktown Boys AT4 Q13(a): used b=-5 before finding it; a=-2, b=5 is the same graph
+    return (r"""The $y$-intercept is $5$:
+$$|0\cdot a+b|=5 \quad\Rightarrow\quad b=\pm5$$
+The $x$-intercept is $2.5$, so $2.5a+b=0$:
+$$\begin{aligned} b=-5:&\quad 2.5a=5,\ a=2 \\ b=5:&\quad 2.5a=-5,\ a=-2 \end{aligned}$$
+Both give the same graph, since $|-2x+5|=|2x-5|$ (check the point $(2,1)$: $|2\times2-5|=1$).
+$$\therefore\ a=2,\ b=-5\ \ (\text{or } a=-2,\ b=5)$$""", c)
+def _sol7749(l, c):   # 2021 King's AT3 Q5: the school's answer sheet keys A
+    return (l + "\n\n" + r"(The school's answer sheet gives A; the transformations in the order given lead to C.)", c)
+C17 = [
+ (7361, [(r'The gradient at $x = 1$ is a steeper negative number than $f(1)$ is, so', r'The gradient at $x = 1$ is a small negative number, closer to zero than $f(1)$ (about $-0.4$ against about $-1.1$), so')], [],
+  r'the line said the gradient is a steeper negative number than $f(1)$, which contradicts $f(1)<f^{\prime}(1)$', None),
+ (7749, [], [], r'the school keyed A, $f\left(\dfrac{x+2}{3}\right)-4$; translating left 2 and then dilating horizontally by 3 gives $f\left(\dfrac{x}{3}+2\right)-4$, option C', _sol7749),
+ (7396, [(r'x_1&=0.8 \\ x_2&=2.7 \\ x_3&=3.6', r'x_1&\approx0.9 \\ x_2&\approx2.8 \\ x_3&\approx5.8')], [],
+  r'the guideline gave $0.8$, $2.7$ and $3.6$; the solutions are $0.89$, $2.85$ and $5.81$ ($\sin 3.6<0$, so $3.6$ cannot be one)', None),
+ (7408, [], [], r'the guideline stopped mid-sentence with no value of $\varepsilon$; from the high tide at 2:54 am, $\varepsilon=\dfrac{61}{120}\approx0.508$', _sol7408),
+ (7409, [], [], r'the guideline used $\varepsilon=-3.91\dot6$, which does not put the high tide at 2:54 am; with $\varepsilon\approx0.508$ the tide is first at $1.25$ m at about 12:07 am, not 4:33 am', _sol7409),
+ (7429, [(r'$\angle CBD=24^\circ$ and $\angle CDB$ is $75^\circ$ as given in the diagram.', r'$\angle CBD=24^\circ$ and $\angle BCD=75^\circ$ as given in the diagram (so $\angle CDB=81^\circ$).')], [],
+  r'the working called the $75^\circ$ angle $\angle CDB$; it is $\angle BCD$', None),
+ (7430, [(r'\text{Total length} &= 9+15+9+6 \\ &= 39 \text{ m}', r'\text{Total length} &= 9+15+9+6.316\ldots \\ &= 39.316\ldots \text{ m}'),
+         (r'\text{Cost} &= 39\times\$75 \\ &= \$2925', r'\text{Cost} &= 40\times\$75 \\ &= \$3000'),
+         (r'\text{the fencing costs } \$2925', r'\text{the fencing costs } \$3000 \text{ (40 m: fencing is sold in whole metres, and 39 m would be short)}')], [],
+  r'the guideline used $CD$ rounded down to $6$ m and bought $39$ m ($\$2925$); $39.32$ m needs $40$ m, $\$3000$ (the marker also gave the marks to $\$3000$)', None),
+ (7443, [(r'So the funds last 60 quarters.', r'So there are $59$ full quarterly payments, and about $\$990$ is left for a smaller 60th payment: the funds last 60 quarters, the last one partial ($59$ full payments is about $14.75$ years).')], [],
+  r'the working rounded $n=59.06$ up to 60 quarters without saying the 60th payment is only partial', None),
+ (7575, [], [], r'the working used $b=-5$ before finding it, and missed that $a=-2$, $b=5$ gives the same graph', _sol5041),
+ (7595, [('\nOr, using a line through two points of the scatterplot:\n' + r'$$m=\dfrac{5.5-4}{2-1}=1.5$$' + '\n' + r'$$\begin{aligned} y-4&=1.5(x-1)\\ y&=1.5x+2.5\end{aligned}$$', '')], [],
+  r'the guideline also offered $y=1.5x+2.5$, a line through two points, which is not the least-squares line the question asks for', None),
+ (7596, [('\nOr, using the second line:\n' + r'$$\begin{aligned} y&=1.5\times2.2+2.5\\ &=5.8\text{ kg}\end{aligned}$$', '')], [],
+  r'the second prediction ($5.8$ kg) used the two-point line, not the least-squares line', None),
+ (7714, [], [], r'the guideline gave only $\dfrac{dV}{dt}$ and never found the loss in the third year, $V(2)-V(3)\approx\$3618.73$', _sol5135),
+ (7721, [(r'$$\therefore\ k=\ln\left(e\pm\sqrt{e^2-1}\right)$$', r'Since $k>0$, $e^k>1$, and $e-\sqrt{e^2-1}\approx0.19<1$ is rejected.' + '\n' + r'$$\therefore\ k=\ln\left(e+\sqrt{e^2-1}\right)\ (\approx1.657)$$')], [],
+  r'the answer kept both roots; $k>0$ needs $e^k>1$, so only $e+\sqrt{e^2-1}$ is valid', None),
+ (7637, [(r'&\approx 8771.14\text{ m}', r'&\approx 8771.41\text{ m}'), (r'8771.14^2-2\times 24000\times 8771.14', r'8771.41^2-2\times 24000\times 8771.41')], [],
+  r'$b$ was written $8771.14$ (digits swapped); it is $8771.41$. The answer $30\,390$ m is unchanged', None),
+ (7647, [(r"At $x=3$, $y''=12>0$, so a local minimum.", r"At $x=3$, $y''=12>0$, so a local minimum." + '\n\n' + r'$y(-1)=0$ and $y(3)=4^2\times(-2)=-32$.' + '\n' + r'$$\therefore\ \text{local maximum at } (-1,0),\ \text{local minimum at } (3,-32)$$')], [],
+  r'the guideline gave only $x=-1$ and $x=3$, not the stationary points $(-1,0)$ and $(3,-32)$', None),
+]
+for sid, lat, crit, note, extra in C17:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+if db.execute("select is_correct from mcq_options where question_id=4916 and label='A'").fetchone()[0]:   # 2021 King's AT3 Q5: key A -> C
+    db.execute("update mcq_options set is_correct=(label='C') where question_id=4916")
+db.commit(); print('done C13, C14, C15, C16, C17')

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw (83,181) -- (83,330) -- (490,330) -- (490,28);
+  \draw (289,138) -- (289,330);
+  \draw (83,181) .. controls (150,170) and (220,155) .. (289,138)
+     .. controls (380,116) and (482,88) .. (490,28);
+  \draw (83,305) -- (108,305) -- (108,330);
+  \draw (289,305) -- (314,305) -- (314,330);
+  \draw (465,330) -- (465,305) -- (490,305);
+  \node at (48,250) {$6$\,m};
+  \node at (248,240) {$7$\,m};
+  \node at (533,178) {$10$\,m};
+  \node (d1) at (186,365) {$6$\,m};
+  \node (d2) at (387,365) {$6$\,m};
+  \draw[->] (d1.west) ++(-6,0) -- (84,365);
+  \draw[->] (d1.east) ++(6,0) -- (288,365);
+  \draw[->] (d2.west) ++(-6,0) -- (291,365);
+  \draw[->] (d2.east) ++(6,0) -- (490,365);
+\end{tikzpicture}
+\end{document}

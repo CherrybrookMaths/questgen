@@ -335,6 +335,7 @@ document
     is_correct: 0
     key_source: extracted
   related 4739 (2021-Manly-AT4-Q4) duplicate 1.0
+  related 4943 (2021-Manly-AT4-Q4) duplicate 1.0
   solution 6988
     source: extracted
     latex: |
@@ -422,6 +423,7 @@ document
     is_correct: 1
     key_source: extracted
   related 4737 (2021-PEM-AT4-Q7) numbers_changed 0.667
+  related 4941 (2021-Kings-AT4-Q7) numbers_changed 0.667
   solution 6989
     source: extracted
     latex: |
@@ -917,6 +919,7 @@ document
     is_correct: 0
     key_source: extracted
   related 4738 (2021-PEM-AT4-Q8) numbers_changed 0.828
+  related 4942 (2024-BaulkhamHills-AT4-Q7) duplicate 1.0
   solution 6994
     source: extracted
     latex: |
@@ -2362,6 +2365,7 @@ document
       source: generated
       latex: |
         The claim is not supported. The data only show that fires with more firefighters had more damage: the two variables are strongly correlated ($r\approx0.998$), but correlation does not imply causation.
+
         The more likely explanation is the reverse, or a third factor: larger fires do more damage and also need more firefighters to be sent, so the size of the fire drives both variables.
       model: claude (session)
       prompt_version: b16-fix
@@ -3358,6 +3362,7 @@ document
   home_topic: sub:12|Further graph transformations and modelling|Modelling with functions
   home_source: computed
   related 4759 (2021-PEM-AT4-Q29) numbers_changed 0.73
+  related 4958 (2021-PEM-AT4-Q29) numbers_changed 0.73
   figure 1311_q30_1.png
     page: 18
     bbox: [100, 125, 420, 300]
@@ -3517,6 +3522,7 @@ document
   home_topic: sub:12|Further graph transformations and modelling|Modelling with functions
   home_source: computed
   related 4758 (2021-Manly-AT4-Q31) duplicate 0.891
+  related 4954 (2021-Kings-AT4-Q20) variant 0.604
   figure 1311_q31_s1.png
     page: 0
     bbox: []
@@ -4366,10 +4372,10 @@ document
       source: generated
       latex: |
         Using $F(x)=\displaystyle\int_0^x\dfrac{\pi}{2}\cos\left(\dfrac{\pi t}{2}\right)dt=\sin\left(\dfrac{\pi x}{2}\right)$ for $0\le x\le1$:
-        $$\begin{aligned} P\left(X<\tfrac12 \,\middle|\, X<\tfrac23\right) &= \dfrac{P\left(X<\frac12\right)}{P\left(X<\frac23\right)} \\ &= \dfrac{\sin\frac{\pi}{4}}{\sin\frac{\pi}{3}} \\ &= \dfrac{\frac{\sqrt2}{2}}{\frac{\sqrt3}{2}} \\ &= \dfrac{\sqrt6}{3}\ (\approx0.816) \end{aligned}$$
+        $$\begin{aligned} P\left(X<\dfrac12 \,\middle|\, X<\dfrac23\right) &= \dfrac{P\left(X<\frac12\right)}{P\left(X<\frac23\right)} \\ &= \dfrac{\sin\frac{\pi}{4}}{\sin\frac{\pi}{3}} \\ &= \dfrac{\frac{\sqrt2}{2}}{\frac{\sqrt3}{2}} \\ &= \dfrac{\sqrt6}{3}\ (\approx0.816) \end{aligned}$$
       model: claude (session)
       prompt_version: b16-fix
-      criteria_json: [[3, "Correct answer"], [2, "Finds $P\\left(X<\\frac12\\right)$ and $P\\left(X<\\frac23\\right)$, or equivalent merit"], [1, "Uses the conditional probability formula, or equivalent merit"]]
+      criteria_json: [[3, "Correct answer"], [2, "Finds $P\\left(X<\\dfrac12\\right)$ and $P\\left(X<\\dfrac23\\right)$, or equivalent merit"], [1, "Uses the conditional probability formula, or equivalent merit"]]
       meta_json: {"generated_note": "The guideline has no working for this part; written while checking the verifier findings (23 Nov)."}
     difficulty
       band: 4

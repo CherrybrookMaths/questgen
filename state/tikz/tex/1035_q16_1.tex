@@ -1,0 +1,40 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[black!7] (70,43) rectangle (380,488);
+\fill[black!7] (945,43) rectangle (1270,488);
+\fill[black!15] (380,43) rectangle (402,488);
+\fill[black!15] (923,43) rectangle (945,488);
+\fill[black!16] (70,488) -- plot[domain=70:210,samples=30,smooth] (\x,{367.5+67.5*cos(((\x+160)/370)*180)})
+ -- plot[domain=210:580,samples=40,smooth] (\x,{367.5-67.5*cos(((\x-210)/370)*180)})
+ -- plot[domain=580:870,samples=35,smooth] (\x,{381.5+53.5*cos(((\x-580)/290)*180)})
+ -- plot[domain=870:1150,samples=35,smooth] (\x,{369-41*cos(((\x-870)/280)*180)})
+ -- plot[domain=1150:1270,samples=20,smooth] (\x,{369+41*cos(((\x-1150)/300)*180)}) -- (1270,488) -- cycle;
+\begin{scope}
+\clip (70,43) rectangle (380,488) (945,43) rectangle (1270,488);
+\fill[black!28] (70,488) -- plot[domain=70:210,samples=30,smooth] (\x,{367.5+67.5*cos(((\x+160)/370)*180)})
+ -- plot[domain=210:580,samples=40,smooth] (\x,{367.5-67.5*cos(((\x-210)/370)*180)})
+ -- plot[domain=580:870,samples=35,smooth] (\x,{381.5+53.5*cos(((\x-580)/290)*180)})
+ -- plot[domain=870:1150,samples=35,smooth] (\x,{369-41*cos(((\x-870)/280)*180)})
+ -- plot[domain=1150:1270,samples=20,smooth] (\x,{369+41*cos(((\x-1150)/300)*180)}) -- (1270,488) -- cycle;
+\end{scope}
+\foreach \gy in {155,267,378} \draw[black!30,line width=0.4pt] (150,\gy)--(1270,\gy);
+\draw[black!35,line width=0.4pt] (70,43) rectangle (1270,488);
+\draw[line width=0.9pt] plot[domain=70:210,samples=30,smooth] (\x,{367.5+67.5*cos(((\x+160)/370)*180)})
+ -- plot[domain=210:580,samples=40,smooth] (\x,{367.5-67.5*cos(((\x-210)/370)*180)})
+ -- plot[domain=580:870,samples=35,smooth] (\x,{381.5+53.5*cos(((\x-580)/290)*180)})
+ -- plot[domain=870:1150,samples=35,smooth] (\x,{369-41*cos(((\x-870)/280)*180)})
+ -- plot[domain=1150:1270,samples=20,smooth] (\x,{369+41*cos(((\x-1150)/300)*180)});
+\draw[aux] (70,258)--(90,258);
+\draw[aux] (150,258)--(1035,258);
+\draw[aux] (1186,258)--(1270,258);
+\draw[line width=0.9pt] (582,113)--(582,488);
+\draw (582,107) circle[radius=6];
+\foreach \v/\gy in {3/155,2/267,1/378}
+  \node[draw=black!45,line width=0.4pt,rounded corners=0.18cm,minimum width=0.74cm,minimum height=0.37cm,inner sep=0pt,font=\fontsize{9}{11}\selectfont] at (120,\gy) {\v m};
+\node[fill=black!75,text=white,rounded corners=0.2cm,minimum width=1.92cm,minimum height=0.42cm,inner sep=0pt,font=\fontsize{7}{8}\selectfont\bfseries] at (1110,258) {Max Tide Height};
+\node[font=\fontsize{9}{11}\selectfont] at (168,18) {Tide Height};
+\node[font=\fontsize{9.5}{11}\selectfont] at (668,75) {\textbf{Mon} 13 May};
+\end{tikzpicture}
+\end{document}

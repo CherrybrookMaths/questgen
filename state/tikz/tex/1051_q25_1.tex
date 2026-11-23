@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (45,375)--(790,375);
+  \node[anchor=west,font=\scriptsize] at (792,375) {$x$};
+  \draw[->] (45,375)--(45,22);
+  \node[anchor=south,font=\scriptsize] at (45,20) {$y$};
+  \node[font=\scriptsize] at (25,45) {$1$};
+  \node[font=\scriptsize] at (20,210) {$0.5$};
+  \node[font=\scriptsize] at (763,397) {$6$};
+  \draw[line width=0.9pt,->] plot[smooth,domain=0:6.1,samples=90,variable=\t]
+     ({45+119.7*\t},{375-330*\t*\t*exp(-\t)});
+  \foreach \n/\xv/\dx/\dy in {A/0.5858/-16/-18, B/2/-12/-28, C/3.4142/8/-22} {
+    \pgfmathsetmacro\px{45+119.7*\xv} \pgfmathsetmacro\py{375-330*\xv*\xv*exp(-\xv)}
+    \fill (\px,\py) circle (2.6);
+    \node at (\px+\dx,\py+\dy) {$\n$};
+  }
+\end{tikzpicture}
+\end{document}

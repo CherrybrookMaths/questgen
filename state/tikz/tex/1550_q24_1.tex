@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (309,362); \coordinate (A) at (41,206); \coordinate (B) at (577,206);
+\draw (B)--(O)--(A)--(B);
+\draw (A) arc[start angle=210.2,end angle=329.8,radius=310.1];
+\draw ($(O)+(210.2:86)$) arc[start angle=210.2,end angle=329.8,radius=86];
+% equal-length ticks at the midpoints of OA and OB
+\draw ($(O)!0.5!(A)+(120.2:13)$) -- ($(O)!0.5!(A)+(300.2:13)$);
+\draw ($(O)!0.5!(B)+(59.8:13)$) -- ($(O)!0.5!(B)+(239.8:13)$);
+\node at (330,22) {126 m};
+\node at (304,183) {104 m};
+\node at (18,197) {\large$A$};
+\node at (601,197) {\large$B$};
+\node at (322,380) {\large$O$};
+\node at (136,274) {$r$};
+\node at (307,308) {$2\alpha$};
+\end{tikzpicture}
+\end{document}

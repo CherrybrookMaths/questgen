@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.20015cm,y=1.27cm]
+  \foreach \i in {0,...,30} {\pgfmathsetmacro\xx{-5+0.5*\i}\draw[black!18,line width=0.4pt] (\xx,-2) -- (\xx,8);}
+  \foreach \i in {0,...,20} {\pgfmathsetmacro\yy{-2+0.5*\i}\draw[black!18,line width=0.4pt] (-5,\yy) -- (10,\yy);}
+  \foreach \i in {-4,-2,...,10} \draw[black!38,line width=0.4pt] (\i,-2) -- (\i,8);
+  \foreach \i in {-2,...,8} \draw[black!38,line width=0.4pt] (-5,\i) -- (10,\i);
+  \draw[<->] (-5.34,0) -- (10.32,0) node[right=1pt,font=\footnotesize]{$x$};
+  \draw[<->] (0,-2.4) -- (0,8.35) node[above=1pt,font=\footnotesize]{$y$};
+  \foreach \i in {1,...,29} {\pgfmathsetmacro\xx{-5+0.5*\i}\ifnum\i=10\else\draw (\xx,-0.05) -- (\xx,0.05);\fi}
+  \foreach \i in {1,...,19} {\pgfmathsetmacro\yy{-2+0.5*\i}\ifnum\i=4\else\draw (-0.05,\yy) -- (0.05,\yy);\fi}
+  \foreach \k in {-5,...,-1,1,2,...,10} \node[font=\footnotesize,anchor=north] at (\k,-0.28) {$\k$};
+  \node[font=\footnotesize,anchor=north] at (-0.16,-0.28) {$0$};
+  \foreach \k in {-2,-1,1,2,...,8} \node[font=\footnotesize,anchor=east] at (-0.12,\k) {$\k$};
+\end{tikzpicture}
+\end{document}

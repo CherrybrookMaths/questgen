@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\fpath{(57,340) .. controls (100,318) and (170,268) .. (228,227) .. controls (290,183) and (330,163) .. (368,162) .. controls (430,160) and (470,200) .. (510,265) .. controls (545,320) and (570,380) .. (588,438)}
+  \def\gfun#1{438-238*(1-((#1-301)/213)^2)}
+  \fill[shade, even odd rule] (57,438) -- \fpath -- cycle
+     (88,438) -- plot[smooth, samples=60, domain=88:514] (\x,{\gfun{\x}}) -- cycle;
+  \draw[->] (57,438) -- (842,438);
+  \draw[->] (57,438) -- (57,85);
+  \draw (228,438) -- (228,{\gfun{228}});
+  \draw[line width=0.9pt, dash pattern=on 4pt off 2pt] \fpath;
+  \draw[line width=0.9pt, smooth, samples=90, domain=88:514] plot (\x,{\gfun{\x}});
+  \foreach \p in {88,228,514,588} \fill (\p,438) circle (8);
+  \node[font=\large] at (80,482) {$a$};
+  \node[font=\large] at (228,482) {$b$};
+  \node[font=\large] at (514,482) {$c$};
+  \node[font=\large] at (588,482) {$d$};
+  \node[font=\large] at (850,442) {$x$};
+  \node[font=\large] at (50,44) {$y$};
+  \node[font=\large] at (228,65) {$y=f\,(x)$};
+  \node[font=\large] at (320,378) {$y=g\,(x)$};
+  \draw[->] (176,88) -- (110,335);
+  \draw[->] (262,88) -- (350,190);
+  \draw[->] (255,362) -- (148,340);
+  \draw[->] (343,356) -- (430,330);
+\end{tikzpicture}
+\end{document}

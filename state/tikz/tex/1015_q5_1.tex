@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[<->] (10,222) -- (512,222);
+  \draw[<->] (262,405) -- (262,38);
+  \node[font=\footnotesize, anchor=west] at (516,222) {$x$};
+  \node[font=\footnotesize, anchor=south] at (262,32) {$y$};
+  \draw[line width=0.9pt,->,smooth,samples=90,domain=0:1.8137] plot ({262+76*\x*\x},{222+86*\x});
+  \fill (338,308) circle (5.5);
+  \node[font=\large] at (340,197) {$1$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % axes (straightened)
+  \draw[->] (212,590) -- (1250,590);
+  \draw[->] (212,590) -- (212,80);
+  % even ticks: 1 m = 75 px, 1 year = 84.7 px
+  \foreach \v in {1,...,6} \draw (204,{590-75*\v}) -- (220,{590-75*\v});
+  \foreach \v in {1,...,5} \draw ({212+84.7*\v},582) -- ({212+84.7*\v},598);
+  % asymptote L = 6
+  \draw[aux] (212,140) -- (1030,140);
+  % L = 6 - 4e^{-kt}, k = 0.327
+  \draw[line width=0.9pt] plot[domain=0:7.75, samples=90, smooth] ({212+84.7*\x},{590-75*(6-4*exp(-0.32694*\x))});
+  \node[pt] at (212,440) {};
+  \node[pt] at (466.1,252.5) {};
+  \node[anchor=north west, font=\large] at (482,256) {$(3,\,4.5)$};
+  % labels
+  \node[anchor=east, font=\large] at (198,440) {$2$};
+  \node[anchor=east, font=\large] at (198,140) {$6$};
+  \node[anchor=north, font=\large] at (205,600) {$0$};
+  \node[anchor=north, font=\large] at (466,600) {$3$};
+  \node[font=\large] at (155,62) {$L$};
+  \node[anchor=west, font=\large] at (1262,578) {$t$};
+  \node[font=\large, align=center] at (90,285) {$L$\\(metres)};
+  \node[font=\large] at (1055,618) {$t$ (in years)};
+\end{tikzpicture}
+\end{document}

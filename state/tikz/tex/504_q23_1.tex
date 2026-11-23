@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(270,513)},x=1.2535cm,y=1.2535cm]
+ \path[shade dots] (0,0)--plot[smooth,samples=40,domain=0:2] (\x,{sqrt(3^\x+1)})--(2,0)--cycle;
+ \draw[->] (-2.63,0)--(3.40,0);
+ \draw[->] (0,-0.27)--(0,4.78);
+ \draw (2,0)--(2,{sqrt(10)});
+ \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-2.51:2.87] (\x,{sqrt(3^\x+1)});
+ \foreach \j in {1,2,3,4} {\draw (-0.08,\j)--(0.15,\j); \node[anchor=east] at (-0.06,\j) {$\j$};}
+ \foreach \i in {1,2,3} {\draw (\i,-0.08)--(\i,0.08); \node[anchor=north] at (\i,-0.1) {$\i$};}
+ \node at (-0.27,-0.22) {$O$};
+ \node[anchor=south] at (3.40,0.03) {$x$};
+ \node[anchor=east] at (-0.06,4.75) {$y$};
+ \node[font=\Large] at (1.1,1.0) {\halo{$R$}};
+ \node[anchor=west] at (2.43,3.47) {$y=\sqrt{3^x+1}$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

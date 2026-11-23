@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % light grid (as on the original)
+  \foreach \y in {47,57,...,197} \draw[black!25,line width=0.4pt] (52,\y)--(418,\y);
+  \foreach \k in {-6,...,6} \draw[black!25,line width=0.4pt] ({235+30.5*\k},47)--({235+30.5*\k},208);
+  % shaded area right of z=1
+  \fill[fill=black!30] (296,208) -- plot[smooth,samples=60,domain=296:462] (\x,{208-161*exp(-0.5*((\x-235)/61)^2)}) -- (462,208) -- cycle;
+  \draw (296,208) -- (296,{208-161*exp(-0.5)});
+  % axes
+  \draw[<->] (12,208) -- (466,208);
+  \draw[->] (235,208) -- (235,12);
+  \draw (235,208) circle (10);
+  \foreach \k in {-6,...,-1,1,2,...,6} \draw ({235+30.5*\k},203) -- ({235+30.5*\k},213);
+  % curve
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=15:462] (\x,{208-161*exp(-0.5*((\x-235)/61)^2)});
+  % labels
+  \foreach \k/\l in {-3/$-3$,-2/$-2$,-1/$-1$,1/$1$,2/$2$,3/$3$} \node at ({235+61*\k},246) {\l};
+\end{tikzpicture}
+\end{document}

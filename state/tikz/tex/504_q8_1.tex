@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\ux{53}\def\uy{57}\def\ox{297}\def\oy{240}
+  \draw[<->] (42,240) -- (587,240);
+  \draw[<->] (297,398) -- (297,16);
+  \foreach \k in {-4,-3,-2,-1,1,2,3,4,5} {\draw ({\ox+\ux*\k},235) -- ({\ox+\ux*\k},245);
+     \node[font=\scriptsize,anchor=north] at ({\ox+\ux*\k},246) {$\k$};}
+  \foreach \k in {-2,-1,1,2,3} {\draw (292,{\oy-\uy*\k}) -- (302,{\oy-\uy*\k});
+     \node[font=\scriptsize,anchor=east] at (291,{\oy-\uy*\k}) {$\k$};}
+  \node[font=\scriptsize,anchor=north east] at (293,246) {$0$};
+  \node at (267,40) {$y$};
+  \node at (574,272) {$x$};
+  \draw[line width=0.9pt] plot[smooth,domain=-1.85:2.43,samples=90,variable=\s]
+    ({\ox+\ux*(2-\s*\s+\s*sqrt((\s*\s-2)*(\s*\s-2)-(\s*\s-2)+2))},{\oy-\uy*(\s*\s-2)});
+\end{tikzpicture}
+\end{document}

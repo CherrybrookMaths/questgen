@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.8026cm,y=0.8026cm]
+  \draw[black!10, line width=0.4pt, step=0.2] (-1.45,-1.09) grid (5.93,7.33);
+  \draw[black!30, line width=0.5pt, step=1] (-1.45,-1.09) grid (5.93,7.33);
+  \draw[->] (-1.45,0) -- (5.93,0);
+  \draw[->] (0,-1.09) -- (0,7.33);
+  \foreach \i in {-1,1,2,3,4,5} \node[below, font=\footnotesize] at (\i,-0.06) {$\i$};
+  \foreach \i in {-1,1,2,3,4,6,7} \node[left, font=\footnotesize] at (-0.06,\i) {$\i$};
+  \node[left, font=\footnotesize] at (-0.12,4.95) {$5$};
+  \node[below left, font=\footnotesize] at (-0.04,-0.06) {$0$};
+  \node at (5.55,0.27) {$x$};
+  \node at (0.22,6.85) {$y$};
+  \draw[line width=0.9pt] (-1.165,7.33) -- (2.5,0) -- (5.93,6.86);
+\end{tikzpicture}
+\end{document}
