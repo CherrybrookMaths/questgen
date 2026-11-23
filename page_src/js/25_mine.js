@@ -5,12 +5,13 @@
 const EXM={q:'',sort:(load('exm_sort')||'new'),ren:null,del:null,names:{}};
 function exmSub(){if(!db||typeof _xsub==='undefined'||_xsub)return;
   try{_xsub=db.collection('exams').onSnapshot(s=>{XSAVED=QG.docs(s).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
+    {const w=load('exm_open'),x=w&&XSAVED.find(s=>s.id===w);if(w)save('exm_open','');if(x&&exCourse(x)===QG.course){exmLoad(x);toast(`Opened “${x.sub||'Untitled'}” in ${QG.courseData.short}`)}}   // owner 23 Nov: see exmLoad
     exmNames();if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}},()=>{})}catch(e){}}
 async function exmNames(){const ids=[...new Set(XSAVED.map(x=>x.by).filter(i=>i&&!(i in EXM.names)))];if(!ids.length)return;
   try{const u=await window.claude?.use?.('user');if(!u?.profiles)return;const ps=await u.profiles(ids);ids.forEach(i=>EXM.names[i]=ps?.[i]?.name||'');if(view==='exams'&&EXV.view==='mine')renderMine()}catch(e){}}
 const exmWho=x=>!x.by?'':x.by===me?'you':(EXM.names[x.by]||'a colleague');
 // the fields that make up a saved exam; "unsaved" = the open exam differs from its saved copy
-const exmSig=x=>JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.bytopic!==false,x.time||'',x.reading||'',x.items||[],x.instr||null,x.lines||{},x.figscale||{}]);
+const exmSig=x=>JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.bytopic!==false,x.time||'',x.reading||'',(x.items||[]).concat((x.gone||[]).map(g=>g.id)),x.instr||null,x.lines||{},x.figscale||{}]);
 function exmState(){if(!EX.items.length)return '';if(!EX.id)return 'new';const s=XSAVED.find(x=>x.id===EX.id);if(!s)return db?'new':'';return exmSig(s)===exmSig(EX)?'saved':'changed'}
 // owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": a saved exam finds its questions by key (RKEY.items), id as fallback
 function exmStats(x){const qs=RKEY.items(x).map(xq).filter(Boolean);let m=0,pr=0,w=0,mc=0;
@@ -18,7 +19,12 @@ function exmStats(x){const qs=RKEY.items(x).map(xq).filter(Boolean);let m=0,pr=0
 const exmWhen=t=>{const d=new Date(t);if(isNaN(d))return '';const days=Math.floor((Date.now()-d)/864e5);
   return days<1?d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}):days<7?d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short'}):d.toLocaleDateString('en-AU',{day:'numeric',month:'short',year:'numeric'})};
 // owner 14 Nov: cert line saved with the exam; "remove Skip questions used in my other saved exams for now" (avoid forced off)
-function exmLoad(x){EX={id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',bytopic:x.bytopic!==false,time:x.time,timeAuto:x.timeAuto===true,mpm:+x.mpm||1.8,reading:x.reading,items:RKEY.items(x).filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{})};
+// owner 23 Nov: "All the advanced questions dissappeared and then when I went back to the advanced tab and opened the same exam, the
+// questions were now gone, destroying that eaxm": an exam of the other course switches the page to that course
+// and opens there (exm_open, after the reload); questions this course's bank cannot show stay in EX.gone and are saved back with it.
+function exmLoad(x){if(exCourse(x)!==QG.course){save('course',exCourse(x));save('exm_open',x.id);save('sel','');location.reload();return false}
+  const all=RKEY.items(x),ks=x.keys||[];
+  EX={course:QG.course,gone:all.map((i,k)=>xq(i)?null:{id:i,key:ks[k]||null}).filter(Boolean),id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',bytopic:x.bytopic!==false,time:x.time,timeAuto:x.timeAuto===true,mpm:+x.mpm||1.8,reading:x.reading,items:all.filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{})};
   xsave();try{EXC.clear()}catch(e){}}
 function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
   if(!db){el.innerHTML='<div class="exm-empty">Saved exams live in the shared database. Open the page in claude.ai to see them.</div>';return}
@@ -38,9 +44,9 @@ function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
       const sch=x.school&&!/^\s*cmc\s+education\s*$/i.test(x.school)?' · '+esc(x.school):'';
       return `<li class="exm-row${open?' open':''}${ren||del?'':' go'}" data-exm="${esc(x.id)}">
         <div class="exm-main">${ren?`<div class="exm-ren"><input data-exm-rt value="${esc(x.sub||'')}" aria-label="Exam name" placeholder="Name"><button type="button" class="act ok" data-exm-rok>Save</button><button type="button" class="act ghost" data-exm-rx>Cancel</button></div>`
-            :`<div class="exm-l1"><button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>${open?'<span class="exm-cur">Open now</span>':''}${wn}</div>`}
+            :`<div class="exm-l1"><button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>${open?'<span class="exm-cur">Open now</span>':''}${exCourse(x)!==QG.course?`<span class="exm-crs" title="Opens with the course switched to ${esc(QG.courses[exCourse(x)]?.name||'')}">${esc(QG.courses[exCourse(x)]?.short||exCourse(x))}</span>`:wn}</div>`}
           <div class="exm-meta">${esc(x.title||'')}${sch} · Saved ${esc(exmWhen(x.at))}${who?' by '+esc(who):''}</div></div>
-        <div class="exm-stats"><span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span><b>${Math.round(st.pr*100)}%</b> PS</span></div>
+        <div class="exm-stats">${exCourse(x)!==QG.course?`<span><b>${(x.items||[]).length}</b> questions</span>`:`<span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span><b>${Math.round(st.pr*100)}%</b> PS</span>`}</div>
         <div class="exm-acts">${del?`<span class="exm-sure">Delete for everyone?</span><button type="button" class="act bad" data-exm-delok>Delete</button><button type="button" class="act ghost" data-exm-delx>Keep</button>`
           :`<button type="button" class="act ghost" data-exm-sim title="A new exam with the same settings and none of the questions in your saved exams">Make similar</button><span class="xmenu"><button type="button" class="act ghost exm-more" data-xmenu aria-expanded="false" aria-label="More">⋯</button><span class="xmenu-pop" hidden><button type="button" class="act" data-exm-dup title="A copy with the same questions">Duplicate</button><button type="button" class="act" data-exm-ren>Rename</button><button type="button" class="act exm-del" data-exm-del>Delete</button></span></span>`}</div></li>`}).join('')}</ul>`
       :`<div class="exm-empty">${XSAVED.length?'No saved exam matches that search.':'No saved exams yet. Build one in Exam setup or Pick by hand, then press <b>Save exam</b>.'}</div>`}`;
@@ -53,8 +59,8 @@ document.addEventListener('click',async e=>{const t=e.target;
   const row=t.closest('[data-exm]');if(!row)return;const x=XSAVED.find(s=>s.id===row.dataset.exm);if(!x)return;
   const guard=b=>{const st=exmState();if(x.id!==EX.id&&(st==='new'||st==='changed')&&!b.dataset.sure){const o=b.textContent;b.dataset.sure=1;b.textContent='Replace unsaved exam? Press again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent=o}},3500);return false}return true};
   const ob=t.closest('[data-exm-open]')||(row.classList.contains('go')&&!t.closest('button,input,.xmenu')?row.querySelector('[data-exm-open]'):null);
-  if(ob){const b=ob;if(!guard(b))return;exmLoad(x);EXV.view='mine';EXV.mode=null;EXV.setupFor=null;exSaveView();renderExams();if(EX.items.length)xPreview('exam');toast(`Opened “${x.sub||'Untitled'}”`);return}   // owner 19 Nov: an exam opens on its paper
-  if(t.closest('[data-exm-sim]')){exmLoad(x);EXAS.similar();return}
+  if(ob){const b=ob;if(!guard(b))return;if(exmLoad(x)===false)return;EXV.view='mine';EXV.mode=null;EXV.setupFor=null;exSaveView();renderExams();if(EX.items.length)xPreview('exam');toast(`Opened “${x.sub||'Untitled'}”`);return}   // owner 19 Nov: an exam opens on its paper
+  if(t.closest('[data-exm-sim]')){if(exmLoad(x)===false)return;EXAS.similar();return}
   if(t.closest('[data-exm-dup]')){const id='e'+Date.now(),{id:_o,...rest}=x;
     try{await db.doc('exams/'+id).set({...rest,sub:(x.sub||'Untitled')+' (copy)',by:me||null,at:new Date().toISOString()});toast('Duplicated')}catch(_){toast('Could not duplicate. Try again in a moment.')}return}
   if(t.closest('[data-exm-ren]')){EXM.ren=x.id;EXM.del=null;renderMine();return}
@@ -84,7 +90,7 @@ const EXAS={t:null,busy:false,at:null,ask:null,
   name:()=>EX.sub||EX.title||'Untitled exam',
   // the working time: marks x minutes per mark (1.8 for HSC Advanced: 180 minutes for 100 marks), to 5 minutes, unless typed by hand
   time(){if(EX.timeAuto===false)return;const m=xMarks(EX.items.map(xq).filter(Boolean)),w=Math.max(5,Math.round(m*(+EX.mpm||1.8)/5)*5);EX.time=m?EXSEC.dur(w):''},
-  fresh(stay){clearTimeout(this.t);EX={title:QG.courseData.name,sub:'Practice examination',school:EX.school||'CMC Education',time:'',timeAuto:true,mpm:+EX.mpm||1.8,reading:'10 minutes',items:[],lines:{},figscale:{}};
+  fresh(stay){clearTimeout(this.t);EX={course:QG.course,title:QG.courseData.name,sub:'Practice examination',school:EX.school||'CMC Education',time:'',timeAuto:true,mpm:+EX.mpm||1.8,reading:'10 minutes',items:[],lines:{},figscale:{}};
     try{EXC.clear()}catch(_){}xsave();if(stay)return;if(typeof EXV!=='undefined'){EXV.view='setup';EXV.setupFor=null;EXV.mode=null;exSaveView();location.hash='#exams';if(view==='exams')renderExams();window.scrollTo({top:0})}},
   // owner 19 Nov: "tutors should be able to make similar exams if studnts need another one": the same settings (topics, marks, multiple
   // choice, difficulty, papers), none of the questions in any saved exam (this one included), named "<name> (version 2)", on its paper
@@ -93,7 +99,7 @@ const EXAS={t:null,busy:false,at:null,ask:null,
     if(!A.total||!A.ran)A.total=xMarks(EX.items.map(xq).filter(Boolean)),A.mcq=EX.items.filter(i=>xq(i)?.type==='mcq').length;
     A.locked=[];A.avoid=true;A.last=null;const base=(this.name()).replace(/\s*\(version \d+\)$/,''),names=new Set((XSAVED||[]).map(x=>x.sub));let k=2;while(names.has(`${base} (version ${k})`))k++;
     const keep={title:EX.title,school:EX.school,cert:EX.cert,bytopic:EX.bytopic,mpm:EX.mpm,reading:EX.reading,instr:EX.instr};
-    EX={...keep,sub:`${base} (version ${k})`,time:'',timeAuto:true,items:[],lines:{},figscale:{},auto:A};A.title=EX.sub;
+    EX={...keep,course:QG.course,sub:`${base} (version ${k})`,time:'',timeAuto:true,items:[],lines:{},figscale:{},auto:A};A.title=EX.sub;
     const r=exGenerate();if(!r||!r.n){toast('Not enough unused questions in these topics for another version');return}
     EX.sub=`${base} (version ${k})`;try{EXC.clear()}catch(_){}xsave();EXV.view='mine';EXV.setupFor=null;exSaveView();if(view==='exams')renderExams();
     xPreview('exam');toast(`Made “${EX.sub}”: ${r.n} questions, none from your saved exams`)},
