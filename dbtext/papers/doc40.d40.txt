@@ -439,7 +439,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.1, "correction_note": "Claude 23 Nov (Standard batch 1 verify): the generated working said Mathematics (B); the z-scores give English (A)", "generated_note": "NEEDS CHECK: the table data was not supplied. Recompute the four z-scores from the table, then fix the key and the working before use.", "self_check": "The table 40_q5_t1 was not available, so the z-scores could not be calculated. The keyed option is a placeholder guess.", "source_original": "Each subject's scores are normally distributed, so compare Pia's marks using $z$-scores, where\n$$z = \\dfrac{x - \\mu}{\\sigma}$$\nThe subject with the largest $z$-score is the one in which Pia performed best compared with the rest of Year 10.\n\nCalculating $z$ for each subject from the table, the largest value is for Mathematics.\n\nHence the answer is B."}
+      meta_json: {"before_checker": {"confidence": 0.1, "generated_note": "NEEDS CHECK: the table data was not supplied. Recompute the four z-scores from the table, then fix the key and the working before use.", "self_check": "The table 40_q5_t1 was not available, so the z-scores could not be calculated. The keyed option is a placeholder guess."}, "checker_confirms": "work/s1/verify_out_40_1.json: the checker's answer is A English (z=2.0)", "correction_note": "Claude 23 Nov (Standard batch 1 verify): the generated working said Mathematics (B); the z-scores give English (A)", "source_original": "Each subject's scores are normally distributed, so compare Pia's marks using $z$-scores, where\n$$z = \\dfrac{x - \\mu}{\\sigma}$$\nThe subject with the largest $z$-score is the one in which Pia performed best compared with the rest of Year 10.\n\nCalculating $z$ for each subject from the table, the largest value is for Mathematics.\n\nHence the answer is B."}
     difficulty
       band: 3
       wm: UF
@@ -1023,18 +1023,15 @@ document
   solution 6692
     source: generated
     latex: |
-      Only the over 30-year-olds are considered, so use the over-30 column of the two-way table.
-
-      The percentage is the number of over 30-year-olds who watch Anime divided by the column total of over 30-year-olds:
-      $$\dfrac{\text{over 30 who watch Anime}}{\text{total over 30}} \times 100\%$$
-      Dividing by the survey total of 370 instead would give the percentage of all people surveyed, which is not what is asked.
-
-      Evaluating this fraction from the table gives about $22\%$, which is option C.
+      Only the over 30-year-olds count, so use the "Over 30 years old" row of the table: $34$ of the $157$ watch Anime.
+      $$\begin{aligned} \dfrac{34}{157}\times 100\% &\approx 21.7\% \\ &\approx 22\% \end{aligned}$$
+      (Dividing by the survey total of $370$ would give a percentage of everyone surveyed, which is not what is asked.)
+      $$\therefore\ 22\% \quad\text{(C)}$$
     source_document_id: 40
     model: claude-sonnet-5-5
     prompt_version: gen-v2
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {"confidence": 0.3, "generated_note": "UNVERIFIED: the two-way table was not supplied, so the key C and the final value are not checked against the table. Reviewer must check against the table and insert the actual counts in the working.", "self_check": "The table 40_q12_t1 was not available to me, so the numerical value could not be recomputed."}
+    meta_json: {"before_checker": {"confidence": 0.3, "generated_note": "UNVERIFIED: the two-way table was not supplied, so the key C and the final value are not checked against the table. Reviewer must check against the table and insert the actual counts in the working.", "self_check": "The table 40_q12_t1 was not available to me, so the numerical value could not be recomputed."}, "checker_confirms": "work/s1/verify_out_40_1.json: the checker's answer is 34/157 ≈ 21.7% → 22% (C); working written out from the table (Claude 24 Nov)", "correction_note": "Claude 24 Nov: the working was written without the question's table and stopped at the formula; written out from the table (key unchanged)", "source_original": "Only the over 30-year-olds are considered, so use the over-30 column of the two-way table.\n\nThe percentage is the number of over 30-year-olds who watch Anime divided by the column total of over 30-year-olds:\n$$\\dfrac{\\text{over 30 who watch Anime}}{\\text{total over 30}} \\times 100\\%$$\nDividing by the survey total of 370 instead would give the percentage of all people surveyed, which is not what is asked.\n\nEvaluating this fraction from the table gives about $22\\%$, which is option C."}
   part -  id 6960
     ordinal: 1
     latex: |

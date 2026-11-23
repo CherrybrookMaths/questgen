@@ -297,14 +297,14 @@ document
     solution 6562
       source: generated
       latex: |
-        The relative frequency of cars needing one tyre replaced is the entry in the table for 1 tyre. The relative frequencies in the table add to 1, so this entry equals 1 minus the sum of the other entries.
-
-        $$\therefore\ \text{the relative frequency is } 0.2 \text{ (option B)}$$
+        The relative frequencies add to $1$, so the entry for one tyre is
+        $$\begin{aligned} x &= 1-(0.65+0.05+0.05+0.05) \\ &= 0.2 \end{aligned}$$
+        $$\therefore\ 0.2 \quad\text{(B)}$$
       source_document_id: 15
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.2, "generated_note": "Generated worked solution for MCQ. TABLE NOT SEEN: key and working need checking against the table before use.", "self_check": "The table (15_q3_t1) was not visible to the writer, so the keyed option B is an unverified guess and must be checked against the table."}
+      meta_json: {"before_checker": {"confidence": 0.2, "generated_note": "Generated worked solution for MCQ. TABLE NOT SEEN: key and working need checking against the table before use.", "self_check": "The table (15_q3_t1) was not visible to the writer, so the keyed option B is an unverified guess and must be checked against the table."}, "checker_confirms": "work/s1/verify_out_15_1.json: the checker's answer is B (1-0.65-0.15 = 0.2); working written out from the table (Claude 24 Nov)", "correction_note": "Claude 24 Nov: the working was written without the question's table and stopped at the formula; written out from the table (key unchanged)", "source_original": "The relative frequency of cars needing one tyre replaced is the entry in the table for 1 tyre. The relative frequencies in the table add to 1, so this entry equals 1 minus the sum of the other entries.\n\n$$\\therefore\\ \\text{the relative frequency is } 0.2 \\text{ (option B)}$$"}
     difficulty
       band: 2
       wm: UF
@@ -1039,7 +1039,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.0, "correction_note": "Claude 23 Nov (Standard batch 1 verify): no key and no final answer in the generated working; key set to B", "generated_note": "PLACEHOLDER: method only. The table data was missing, so the working and the key must be completed once the table is available. No key given.", "self_check": "NOT SOLVED: the frequency table 15_q11_t1 was not visible in the input, so no answer could be computed.", "source_original": "Use the calculator's statistics mode to find the mean $\\bar{x}$ and the standard deviation $\\sigma$ from the frequency table.\n\nThen count the students whose scores lie between $\\bar{x} - \\sigma$ and $\\bar{x} + \\sigma$ by adding their frequencies."}
+      meta_json: {"before_checker": {"confidence": 0.0, "generated_note": "PLACEHOLDER: method only. The table data was missing, so the working and the key must be completed once the table is available. No key given.", "self_check": "NOT SOLVED: the frequency table 15_q11_t1 was not visible in the input, so no answer could be computed."}, "checker_confirms": "work/s1/verify_out_15_1.json: the checker's answer is B (13)", "correction_note": "Claude 23 Nov (Standard batch 1 verify): no key and no final answer in the generated working; key set to B", "source_original": "Use the calculator's statistics mode to find the mean $\\bar{x}$ and the standard deviation $\\sigma$ from the frequency table.\n\nThen count the students whose scores lie between $\\bar{x} - \\sigma$ and $\\bar{x} + \\sigma$ by adding their frequencies."}
     difficulty
       band: 3
       wm: UF
@@ -1298,7 +1298,7 @@ document
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.0, "correction_note": "Claude 23 Nov (Standard batch 1 verify): no key and no final answer in the generated working; key set to C", "generated_note": "PLACEHOLDER: method only. The table data was missing, so the working and the key must be completed once the table is available. No key given.", "self_check": "NOT SOLVED: the cumulative frequency table 15_q14_t1 was not visible in the input, so no answer could be computed.", "source_original": "The 7th decile is the value $70\\%$ of the way through the data, so find $0.7 \\times n$, where $n$ is the total frequency (the last cumulative frequency).\n\nThe 7th decile lies in the first class whose cumulative frequency is at least $0.7n$."}
+      meta_json: {"before_checker": {"confidence": 0.0, "generated_note": "PLACEHOLDER: method only. The table data was missing, so the working and the key must be completed once the table is available. No key given.", "self_check": "NOT SOLVED: the cumulative frequency table 15_q14_t1 was not visible in the input, so no answer could be computed."}, "checker_confirms": "work/s1/verify_out_15_2.json: the checker's answer is C (161–170 cm)", "correction_note": "Claude 23 Nov (Standard batch 1 verify): no key and no final answer in the generated working; key set to C", "source_original": "The 7th decile is the value $70\\%$ of the way through the data, so find $0.7 \\times n$, where $n$ is the total frequency (the last cumulative frequency).\n\nThe 7th decile lies in the first class whose cumulative frequency is at least $0.7n$."}
     difficulty
       band: 3
       wm: UF
@@ -1490,7 +1490,7 @@ document
       source_document_id: 15
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"correction_note": "Claude 23 Nov (Standard batch 1 verify): the papers axes were mislabelled and the guideline accepted both answers; the final line now says so", "edited_from_original": "Printed with miles on the vertical axis and kilometres across (the marking guideline says they were meant to be swapped, and accepted 93.75 or 240). Checker 23 Nov: \"switch miles and km\": the graph now has kilometres up and miles across, so the answer is 93.75 miles only.", "format_note": "Source offers two answers because of the axes labelling; both kept.", "marker_note": "Miles and km were supposed to be swapped on the axes; consequential follow-through (CFPA) is allowed if working is shown.", "solution_before_checker": "If the axes are swapped (km on the vertical axis, as intended):\n$$\\begin{aligned} \\text{km} &= 1.6 \\times \\text{miles} \\\\ 150 &= 1.6 \\times \\text{miles} \\\\ \\text{miles} &= \\dfrac{150}{1.6} \\\\ &= 93.75 \\text{ miles} \\end{aligned}$$\nIf the axes are not swapped:\n$$\\begin{aligned} \\text{miles} &= 1.6 \\times \\text{km} \\\\ &= 1.6 \\times 150 \\\\ &= 240 \\end{aligned}$$\n$$\\therefore\\ 150 \\text{ km} = 93.75 \\text{ miles (axes as intended), or } 240 \\text{ (axes as printed); both were accepted}$$", "source_original": "If the axes are swapped (km on the vertical axis, as intended):\n$$\\begin{aligned} \\text{km} &= 1.6 \\times \\text{miles} \\\\ 150 &= 1.6 \\times \\text{miles} \\\\ \\text{miles} &= \\dfrac{150}{1.6} \\\\ &= 93.75 \\text{ miles} \\end{aligned}$$\nIf the axes are not swapped:\n$$\\begin{aligned} \\text{miles} &= 1.6 \\times \\text{km} \\\\ &= 1.6 \\times 150 \\\\ &= 240 \\end{aligned}$$\n$$\\therefore\\ 150 \\text{ km} = 93.75 \\text{ miles}$$"}
+      meta_json: {"checker_confirms": "work/s1/verify_out_15_2.json: the checker's answer is (a) 1.6; (b) 240 miles from the graph as drawn (93.75 only if the axes are swapped)", "correction_note": "Claude 23 Nov (Standard batch 1 verify): the papers axes were mislabelled and the guideline accepted both answers; the final line now says so", "edited_from_original": "Printed with miles on the vertical axis and kilometres across (the marking guideline says they were meant to be swapped, and accepted 93.75 or 240). Checker 23 Nov: \"switch miles and km\": the graph now has kilometres up and miles across, so the answer is 93.75 miles only.", "format_note": "Source offers two answers because of the axes labelling; both kept.", "marker_note": "Miles and km were supposed to be swapped on the axes; consequential follow-through (CFPA) is allowed if working is shown.", "solution_before_checker": "If the axes are swapped (km on the vertical axis, as intended):\n$$\\begin{aligned} \\text{km} &= 1.6 \\times \\text{miles} \\\\ 150 &= 1.6 \\times \\text{miles} \\\\ \\text{miles} &= \\dfrac{150}{1.6} \\\\ &= 93.75 \\text{ miles} \\end{aligned}$$\nIf the axes are not swapped:\n$$\\begin{aligned} \\text{miles} &= 1.6 \\times \\text{km} \\\\ &= 1.6 \\times 150 \\\\ &= 240 \\end{aligned}$$\n$$\\therefore\\ 150 \\text{ km} = 93.75 \\text{ miles (axes as intended), or } 240 \\text{ (axes as printed); both were accepted}$$", "source_original": "If the axes are swapped (km on the vertical axis, as intended):\n$$\\begin{aligned} \\text{km} &= 1.6 \\times \\text{miles} \\\\ 150 &= 1.6 \\times \\text{miles} \\\\ \\text{miles} &= \\dfrac{150}{1.6} \\\\ &= 93.75 \\text{ miles} \\end{aligned}$$\nIf the axes are not swapped:\n$$\\begin{aligned} \\text{miles} &= 1.6 \\times \\text{km} \\\\ &= 1.6 \\times 150 \\\\ &= 240 \\end{aligned}$$\n$$\\therefore\\ 150 \\text{ km} = 93.75 \\text{ miles}$$"}
     difficulty
       band: 3
       wm: UF
@@ -1953,7 +1953,7 @@ document
       source_document_id: 15
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct $y$-intercept or straight line with correct slope, or equivalent merit"]]
-      meta_json: {"format_note": "Sketch still to draw: line $C = 15n + 120$ on the question's axes, through $(0,120)$ and $(10,270)$, with these points labelled.", "marker_note": "An arrow at only one end of the line is allowed."}
+      meta_json: {"format_note": "Sketch drawn (15_q22_s1); it was to show: line $C = 15n + 120$ on the question's axes, through $(0,120)$ and $(10,270)$, with these points labelled.", "marker_note": "An arrow at only one end of the line is allowed."}
     figure 15_q22_1.png
       page: 14
       bbox: [78, 227, 505, 534]
@@ -3069,7 +3069,7 @@ document
       source_document_id: 15
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer, $\\$30.64$"], [1, "Finds the total of the remaining repayments ($\\$10\\,181.28$), or equivalent merit"]]
-      meta_json: {"correction_note": "Claude 23 Nov (Standard batch 1 verify): the schools answer $549.36 assumed five full $2140 repayments; the loan ends with $1621.28, so the saving is $30.64", "marker_note": "Alternative method: $-1$ for the error shown.", "source_original": "There are $5$ months of repayments remaining if he continues, each of $\\$2140$.\n$$2140 \\times 5 = \\$10\\,700$$\nIf he pays off early, he pays the amount owing plus the fee.\n$$10\\,100.64 + 50 = \\$10\\,150.64$$\nThe saving is\n$$10\\,700 - 10\\,150.64 = \\$549.36$$\nAlternatively, adding the next 5 months of interest:\n$$(27.78 + 21.97 + 16.14 + 10.30 + 4.45) - 50 = \\$30.64$$\n(1 mark deducted for this error). The two answers differ because the final repayment is not actually $\\$2140$, it is only $\\$1621.27$ (see spreadsheet)."}
+      meta_json: {"checker_confirms": "work/s1/verify_out_15_3.json: the checker's answer is (a) 96.25/35000 = 0.275%; (b) X = $90.63; (c) A = $26 791.21; (d) $30.64", "correction_note": "Claude 23 Nov (Standard batch 1 verify): the schools answer $549.36 assumed five full $2140 repayments; the loan ends with $1621.28, so the saving is $30.64", "marker_note": "Alternative method: $-1$ for the error shown.", "source_original": "There are $5$ months of repayments remaining if he continues, each of $\\$2140$.\n$$2140 \\times 5 = \\$10\\,700$$\nIf he pays off early, he pays the amount owing plus the fee.\n$$10\\,100.64 + 50 = \\$10\\,150.64$$\nThe saving is\n$$10\\,700 - 10\\,150.64 = \\$549.36$$\nAlternatively, adding the next 5 months of interest:\n$$(27.78 + 21.97 + 16.14 + 10.30 + 4.45) - 50 = \\$30.64$$\n(1 mark deducted for this error). The two answers differ because the final repayment is not actually $\\$2140$, it is only $\\$1621.27$ (see spreadsheet)."}
     difficulty
       band: 4
       wm: PR
@@ -3564,7 +3564,7 @@ document
       source_document_id: 15
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "All table values correct, or equivalent merit"], [1, "At least $2$ correct values"]]
-      meta_json: {"format_note": "Sketch still to draw: Publisher B royalty line on the question's graph axes (books sold on horizontal axis, royalties on vertical), straight line through the plotted points from the table, with payments 0, 700, 1400, 1680 at the table's sales values. The solution also contains an existing reference \\exfigure{15_q36_s1} in the source, replaced here with the sketch_id 15_q36_s2. Source rubric marks (2+1+1) did not sum to 3; rewritten top-down as 3/2/1.", "marker_note": "Graph mark is awarded for plotting the table values and drawing a straight line through them (CFPA)."}
+      meta_json: {"format_note": "Sketch drawn (15_q36_s2); it was to show: Publisher B royalty line on the question's graph axes (books sold on horizontal axis, royalties on vertical), straight line through the plotted points from the table, with payments 0, 700, 1400, 1680 at the table's sales values. The solution also contains an existing reference \\exfigure{15_q36_s1} in the source, replaced here with the sketch_id 15_q36_s2. Source rubric marks (2+1+1) did not sum to 3; rewritten top-down as 3/2/1.", "marker_note": "Graph mark is awarded for plotting the table values and drawing a straight line through them (CFPA)."}
     figure 15_q36_s1.png
       page: 69
       bbox: [81, 280, 580, 595]

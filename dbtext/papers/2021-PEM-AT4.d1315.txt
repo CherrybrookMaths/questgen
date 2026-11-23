@@ -595,18 +595,15 @@ document
     solution 7345
       source: generated
       latex: |
-        Marks in different subjects are compared using the $z$-score, which measures how many standard deviations a mark is from the mean of that subject:
-        $$z=\dfrac{x-\mu}{\sigma}$$
-        The subject with the highest $z$-score is the one in which she performed best relative to the class.
-
-        Chemistry has the highest $z$-score of the four subjects.
-
-        $$\therefore\ \text{she performed best in Chemistry}$$
+        Compare the marks with $z$-scores, $z=\dfrac{x-\mu}{\sigma}$:
+        $$\begin{aligned} \text{Economics: } z &= \dfrac{64-60}{3} \approx 1.33 \\ \text{Maths: } z &= \dfrac{71-60}{10} = 1.1 \\ \text{Art: } z &= \dfrac{82-60}{18} \approx 1.22 \\ \text{Chemistry: } z &= \dfrac{69-60}{5} = 1.8 \end{aligned}$$
+        Chemistry has the highest $z$-score.
+        $$\therefore\ \text{Chemistry} \quad\text{(D)}$$
       source_document_id: 1315
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.5, "generated_note": "MCQ working written for key D; table values not available, please check z-scores against the table.", "self_check": "The table was not visible in the input, so the z-scores could not be recomputed; the key D was used."}
+      meta_json: {"before_checker": {"confidence": 0.5, "generated_note": "MCQ working written for key D; table values not available, please check z-scores against the table.", "self_check": "The table was not visible in the input, so the z-scores could not be recomputed; the key D was used."}, "checker_confirms": "work/b16/verify_out_1315_1.json: the checker's answer is D (Chemistry, z=1.8); working written out from the table (Claude 24 Nov)", "correction_note": "Claude 24 Nov: the working was written without the question's table and stopped at the formula; written out from the table (key unchanged)", "source_original": "Marks in different subjects are compared using the $z$-score, which measures how many standard deviations a mark is from the mean of that subject:\n$$z=\\dfrac{x-\\mu}{\\sigma}$$\nThe subject with the highest $z$-score is the one in which she performed best relative to the class.\n\nChemistry has the highest $z$-score of the four subjects.\n\n$$\\therefore\\ \\text{she performed best in Chemistry}$$"}
     difficulty
       band: 2
       wm: UF

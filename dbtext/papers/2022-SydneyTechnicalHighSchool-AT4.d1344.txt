@@ -866,16 +866,15 @@ document
     solution 5629
       source: generated
       latex: |
-        The mean of the dataset is
-        $$\bar{x}=\dfrac{\sum xf}{\sum f}=5.6$$
-        Substituting the table entries (with $k$ in place of the unknown value) gives a linear equation in $k$. Multiply by $\sum f$ and solve for $k$.
-
-        The solution is $k=8$, and it gives a mean of $5.6$, so the answer is option D.
+        The mean is $\bar{x}=\dfrac{\sum xf}{\sum f}$. From the table:
+        $$\begin{aligned} \sum f &= 2+k+2+8 = 12+k \\ \sum xf &= 2(2)+4k+6(2)+8(8) = 80+4k \end{aligned}$$
+        $$\begin{aligned} \dfrac{80+4k}{12+k} &= 5.6 \\ 80+4k &= 67.2+5.6k \\ 12.8 &= 1.6k \\ k &= 8 \end{aligned}$$
+        $$\therefore\ k=8 \quad\text{(D)}$$
       source_document_id: 1344
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.4, "generated_note": "MCQ working written from the answer key; the table could not be seen.", "self_check": "The data table was not visible when writing, so the substitution could not be checked. The key D (k = 8) is taken from the source."}
+      meta_json: {"before_checker": {"confidence": 0.4, "generated_note": "MCQ working written from the answer key; the table could not be seen.", "self_check": "The data table was not visible when writing, so the substitution could not be checked. The key D (k = 8) is taken from the source."}, "checker_confirms": "work/b13/verify_out_1344_1.json: the checker's answer is D (k=8); working written out from the table (Claude 24 Nov)", "correction_note": "Claude 24 Nov: the working was written without the question's table and stopped at the formula; written out from the table (key unchanged)", "source_original": "The mean of the dataset is\n$$\\bar{x}=\\dfrac{\\sum xf}{\\sum f}=5.6$$\nSubstituting the table entries (with $k$ in place of the unknown value) gives a linear equation in $k$. Multiply by $\\sum f$ and solve for $k$.\n\nThe solution is $k=8$, and it gives a mean of $5.6$, so the answer is option D."}
     difficulty
       band: 3
       wm: UF

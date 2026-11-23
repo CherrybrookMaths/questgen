@@ -558,16 +558,15 @@ document
     solution 8259
       source: generated
       latex: |
-        The mean of a discrete random variable is found from the table using
-        $$E(X)=\sum x\,P(X=x)$$
-        Multiplying each value of $X$ by its probability and adding the products gives
-        $$E(X)=\dfrac{8}{5}$$
-        Therefore the answer is option B.
+        The probabilities add to $1$:
+        $$\begin{aligned} 2q+6q+3q+4q &= 1 \\ 15q &= 1 \\ q &= \dfrac{1}{15} \end{aligned}$$
+        $$\begin{aligned} E(X) &= 0(2q)+1(6q)+2(3q)+3(4q) \\ &= 24q \\ &= \dfrac{24}{15} = \dfrac{8}{5} \end{aligned}$$
+        $$\therefore\ E(X)=\dfrac{8}{5} \quad\text{(B)}$$
       source_document_id: 1281
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.5, "generated_note": "Table values not available to the writer, so the working is stated in terms of the formula only. Please check against the table and add the products x P(X=x).", "self_check": "The table was not visible when this was written; the result follows the keyed option B."}
+      meta_json: {"before_checker": {"confidence": 0.5, "generated_note": "Table values not available to the writer, so the working is stated in terms of the formula only. Please check against the table and add the products x P(X=x).", "self_check": "The table was not visible when this was written; the result follows the keyed option B."}, "checker_confirms": "work/b18/verify_out_1281_1.json: the checker's answer is q=1/15, E(X)=24/15=8/5, B; working written out from the table (Claude 24 Nov)", "correction_note": "Claude 24 Nov: the working was written without the question's table and stopped at the formula; written out from the table (key unchanged)", "source_original": "The mean of a discrete random variable is found from the table using\n$$E(X)=\\sum x\\,P(X=x)$$\nMultiplying each value of $X$ by its probability and adding the products gives\n$$E(X)=\\dfrac{8}{5}$$\nTherefore the answer is option B."}
     difficulty
       band: 2
       wm: UF

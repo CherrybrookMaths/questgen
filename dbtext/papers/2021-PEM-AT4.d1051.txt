@@ -596,20 +596,15 @@ document
     solution 7760
       source: generated
       latex: |
-        Results in different subjects are compared using standardised scores (z-scores), which measure how far each result is above the mean in standard deviations:
-
-        $$z=\dfrac{x-\mu}{\sigma}$$
-
-        The best performance is the subject with the highest z-score.
-
-        Calculating $z$ for each subject, the highest value is for Chemistry.
-
-        $$\therefore\ \text{She performed best in Chemistry.}$$
+        Compare the marks with $z$-scores, $z=\dfrac{x-\mu}{\sigma}$:
+        $$\begin{aligned} \text{Economics: } z &= \dfrac{64-60}{3} \approx 1.33 \\ \text{Maths: } z &= \dfrac{71-60}{10} = 1.1 \\ \text{Art: } z &= \dfrac{82-60}{18} \approx 1.22 \\ \text{Chemistry: } z &= \dfrac{69-60}{5} = 1.8 \end{aligned}$$
+        Chemistry has the highest $z$-score.
+        $$\therefore\ \text{Chemistry} \quad\text{(D)}$$
       source_document_id: 1051
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.5, "generated_note": "Table data not seen. Reviewer should check the working against the table and insert the z-score values.", "self_check": "The table 1051_q6_t1 was not visible to me; the working follows the keyed answer D and assumes the table gives marks with means and standard deviations."}
+      meta_json: {"before_checker": {"confidence": 0.5, "generated_note": "Table data not seen. Reviewer should check the working against the table and insert the z-score values.", "self_check": "The table 1051_q6_t1 was not visible to me; the working follows the keyed answer D and assumes the table gives marks with means and standard deviations."}, "checker_confirms": "work/b17/verify_out_1051_1.json: the checker's answer is D Chemistry (z=1.8 vs 1.33, 1.1, 1.22); working written out from the table (Claude 24 Nov)", "correction_note": "Claude 24 Nov: the working was written without the question's table and stopped at the formula; written out from the table (key unchanged)", "source_original": "Results in different subjects are compared using standardised scores (z-scores), which measure how far each result is above the mean in standard deviations:\n\n$$z=\\dfrac{x-\\mu}{\\sigma}$$\n\nThe best performance is the subject with the highest z-score.\n\nCalculating $z$ for each subject, the highest value is for Chemistry.\n\n$$\\therefore\\ \\text{She performed best in Chemistry.}$$"}
     difficulty
       band: 2
       wm: UF

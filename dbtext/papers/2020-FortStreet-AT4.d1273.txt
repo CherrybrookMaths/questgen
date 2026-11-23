@@ -1739,16 +1739,15 @@ document
     solution 8250
       source: generated
       latex: |
-        The expected value of a discrete random variable is
-        $$E(X)=\sum x\,P(X=x)$$
-        Multiplying each value of $X$ in the table by its probability and adding gives
-        $$E(X)=\dfrac{17}{8}$$
-        This is option D.
+        The probabilities add to $1$:
+        $$\begin{aligned} a+3a+5a+7a &= 1 \\ 16a &= 1 \\ a &= \dfrac{1}{16} \end{aligned}$$
+        $$\begin{aligned} E(X) &= 0(a)+1(3a)+2(5a)+3(7a) \\ &= 34a \\ &= \dfrac{34}{16} = \dfrac{17}{8} \end{aligned}$$
+        $$\therefore\ E(X)=\dfrac{17}{8} \quad\text{(D)}$$
       source_document_id: 1273
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.5, "generated_note": "Table 1273_q9_t1 was not available to the writer. Working shows the formula only; please check the sum against the table and expand the working.", "self_check": "The probability table was not visible in the supplied material, so the sum could not be recomputed; the result relies on the answer key."}
+      meta_json: {"before_checker": {"confidence": 0.5, "generated_note": "Table 1273_q9_t1 was not available to the writer. Working shows the formula only; please check the sum against the table and expand the working.", "self_check": "The probability table was not visible in the supplied material, so the sum could not be recomputed; the result relies on the answer key."}, "checker_confirms": "work/b18/verify_out_1273_1.json: the checker's answer is a=1/16, E(X)=34/16=17/8 (D); working written out from the table (Claude 24 Nov)", "correction_note": "Claude 24 Nov: the working was written without the question's table and stopped at the formula; written out from the table (key unchanged)", "source_original": "The expected value of a discrete random variable is\n$$E(X)=\\sum x\\,P(X=x)$$\nMultiplying each value of $X$ in the table by its probability and adding gives\n$$E(X)=\\dfrac{17}{8}$$\nThis is option D."}
     difficulty
       band: 3
       wm: UF

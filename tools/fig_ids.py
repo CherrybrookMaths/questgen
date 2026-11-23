@@ -116,16 +116,18 @@ def review_writes(export):
     for f in glob.glob(os.path.join(export, '**/*.json'), recursive=True):
         try: d = json.load(open(f))
         except Exception: continue
-        docs = d if isinstance(d, list) else d.get('documents') or d.get('docs') or d.get('items') or []
+        # an ArtifactData out_dir export: one file per document, named <doc id>.json ('~' spelt '@'), the fields at the top level
+        docs = d if isinstance(d, list) else [dict(d, id=os.path.basename(f)[:-5].replace('@', '~'))]
         for x in docs:
             data = x.get('data', x); did = x.get('id') or x.get('doc_id')
             if not did: continue
             upd = {}
             for fld in ('fig', 'fig_notes', 'fig_done'):
                 v = data.get(fld)
-                if isinstance(v, dict) and any(k in ren for k in v): upd[fld] = {ren.get(k, k): w for k, w in v.items()}
+                if isinstance(v, dict) and any(k in ren for k in v):   # an update merges maps: write the new key, delete the old one
+                    upd[fld] = {**{ren[k]: w for k, w in v.items() if k in ren}, **{k: {'__delete__': True} for k in v if k in ren}}
             if upd:
-                op = {'action': 'update', 'collection': 'reviews', 'doc_id': did, 'data': upd}
+                op = {'op': 'update', 'collection': 'reviews', 'doc_id': did, 'data': upd}
                 if x.get('version') is not None: op['if_version'] = x['version']
                 ops.append(op)
     out = paths.P + 'work/fig_rename_reviews.json'
