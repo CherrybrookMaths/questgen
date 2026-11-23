@@ -275,6 +275,18 @@ async function flows(browser, base, seed, seedR) {
     assert(!r.row, `question ${r.id}: an empty row was listed`);
     return `question ${r.id}: no empty row`;
   });
+  // owner 24 Nov: "CONFIDENCE 0%" on a correct, corrected MCQ solution (sent as a bug) and "make sure there aren't any more stale numbers or
+  // tags hanging": a solution corrected to the checker's answer says so; an approved one shows no model confidence
+  await check('solutions: no stale confidence badge on a checker-confirmed or approved solution', page, async () => {
+    const r = await page.evaluate(() => { const q0 = QG.bank.questions.find(x => !x.dup_of && !QG.reviews['q' + x.id]), q = {...q0, type: 'written', options: []}, k = 'q' + q.id;
+      const s = {id: 999001, source: 'generated', latex: 'x', criteria: [], meta: {confidence: 0, checker_confirmed: 1}};
+      const a = solHTML(q, {...s, meta: {confidence: 0, checker_confirms: 'work/s1/verify_out_15_1.json: B (13)'}}, 'review');
+      QG.reviews[k] = {sol: {999001: 'approved'}}; const b = solHTML(q, {...s, meta: {confidence: 0.3}}, 'review'); delete QG.reviews[k];
+      const c = solHTML(q, {...s, meta: {confidence: 0.3}}, 'review');
+      return {a: /confirmed by the checker/.test(a) && !/confidence 0%/.test(a), b: !/confidence 30%/.test(b), c: /confidence 30%/.test(c)} });
+    assert(r.a && r.b && r.c, JSON.stringify(r));
+    return 'confirmed: "answer confirmed by the checker", no 0%; approved: no confidence; unreviewed: confidence 30% still shown';
+  });
   // owner 24 Nov: "some of the text came out a bit weird": a checker note with dollar amounts was typeset as italic maths between two $.
   // Plain notes keep every $ of an amount; maths written on purpose in the same note is still typeset
   await check('text: dollar amounts in a plain note stay literal; maths in the note is still typeset', page, async () => {

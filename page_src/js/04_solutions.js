@@ -7,7 +7,9 @@ function solHTML(q,s,mode){
   // owner 24 Nov (the "CONFIDENCE 0%" badge on a corrected, correct solution): a solution corrected to the checker's own answer says so;
   // the generation-time confidence described the old text (tools/stale_fixes.py confirm)
   if(gen&&m.checker_confirms) badges.push('<span class="badge b-ok">answer confirmed by the checker</span>');
-  else if(gen&&m.confidence!=null) badges.push(`<span class="badge ${m.confidence<0.6?'b-bad':''}">confidence ${Math.round(m.confidence*100)}%</span>`);
+  // owner 24 Nov ("make sure there aren't any more stale numbers or tags hanging"): once a person approved the solution, the model's own
+  // confidence is history (QID 0310 and 0334 showed "confidence 50%" / "30%" in red beside "approved")
+  else if(gen&&m.confidence!=null&&dec!=='approved') badges.push(`<span class="badge ${m.confidence<0.6?'b-bad':''}">confidence ${Math.round(m.confidence*100)}%</span>`);
   if(gen&&m.check) badges.push(`<span class="badge ${/fail|mismatch|disagree|wrong|error/i.test(m.check)?'b-bad':'b-ok'}">self-check ${esc(m.check==='passed'?'passed':m.check)}</span>`);
   if(m.reused_from){const o=QG.byId.get(m.reused_from);badges.push(`<span class="badge">copied from ${o?esc(docLabel(B.docs[o.doc]))+' Q'+esc(o.number):'duplicate'}</span>`)}
   if(mode==='review'&&gen&&dec==='rejected') badges.push('<span class="badge b-bad">rejected</span>');
