@@ -164,8 +164,10 @@ function button(){const el=$('#ivScanBtn');if(!el)return;const D=inv();
   if(!$('#ivScanGo'))el.innerHTML='<button type="button" class="act ivscanb" id="ivScanGo">Rescan drive</button>';
   $('#ivScanGo').disabled=!!S.run}
 function paint(){if(!isOwnerV())return;button();const el=$('#ivScan');if(!el)return;let h='';
-  if(S.prog){const P=S.prog;h+=`<div class="ivsprog" role="status"><span class="ivsptxt">Scanning Google Drive · <b>${P.done}</b> of <b>${P.total}</b> folders · ${plural(P.pdfs,'PDF')}${P.wait?' · <em>waiting for Google Drive…</em>':''}</span>
-    <progress max="${P.total}" value="${P.done}" aria-label="Folders scanned"></progress><button type="button" class="act" id="ivScanStop">Cancel</button></div>`}
+  // 24 Nov: the progress line is updated in place, not redrawn: a Cancel pressed while a folder finished hit a removed button and was lost
+  const P=S.prog,ptxt=P&&`Scanning Google Drive · <b>${P.done}</b> of <b>${P.total}</b> folders · ${plural(P.pdfs,'PDF')}${P.wait?' · <em>waiting for Google Drive…</em>':''}`,old=P&&el.querySelector(':scope>.ivsprog');
+  if(P&&!old)h+=`<div class="ivsprog" role="status"><span class="ivsptxt">${ptxt}</span>
+    <progress max="${P.total}" value="${P.done}" aria-label="Folders scanned"></progress><button type="button" class="act" id="ivScanStop">Cancel</button></div>`
   if(S.err)h+=`<p class="ivserr" role="alert">${esc(S.err)}</p>`;
   const F=S.fresh;
   if(F){h+=`<p class="ivsres" role="status"><b>${plural(F.n,'new file')} since ${esc(F.since?clockT(F.since):'the first stock-take')}</b> <small>(${plural(F.pdfs,'PDF')} in ${plural(F.folders,'folder')})</small>${F.earlier?` · ${F.earlier} found in an earlier scan, still not in the record`:''}${F.like?` · ${plural(F.like,'file')} with the same size as a recorded file (probably moved or copied)`:''}</p>`;
@@ -176,7 +178,9 @@ function paint(){if(!isOwnerV())return;button();const el=$('#ivScan');if(!el)ret
   if(s&&K){const rows=s.new.filter(f=>!isKnown(K,f)),n=rows.filter(r=>!r.like).length;
     h+=`<div class="ivslast"><p><b>Found in the last scan, not yet in the record: ${n}</b> <small>· scanned ${esc(clockT(s.at))}</small></p>
       <p class="ivsnote">Tonight's night run adds these to the record (Processes › Work › Tonight). Open a group to see its files.</p>${rows.length?listHTML(rows):''}</div>`}
-  el.innerHTML=h}
+  if(!old){el.innerHTML=h;return}
+  old.querySelector('.ivsptxt').innerHTML=ptxt;const g=old.querySelector('progress');g.max=P.total;g.value=P.done;
+  while(old.nextSibling)old.nextSibling.remove();old.insertAdjacentHTML('afterend',h)}
 function render(){if(!isOwnerV()||!$('#ivScan'))return;subscribe();
   if(S.mcp===undefined){const c=window.claude;if(!c||!c.use)S.mcp=null;
     else{S.mcp='asking';c.use('mcp').then(m=>{S.mcp=m||null},()=>{S.mcp=null}).finally(paint)}}
