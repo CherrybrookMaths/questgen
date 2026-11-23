@@ -1094,20 +1094,25 @@ async function reviewFlow(browser, base, seed) {
     await go('#review');
     const inv = JSON.parse(fs.readFileSync(path.join(SITE, 'data/inventory.json'), 'utf8')), st = new Map();
     for (const g of inv.groups) for (const p of g.papers) st.set(p.id, p);
-    const bOf = new Map();
+    // 23 Nov (Standard batch 1): batches are per lane (course + year); a batch is lane + number, named by the lane once two lanes have
+    // imported batches; groups sort by number, then lane (the page's lane order)
+    const bOf = new Map(), lanesUsed = new Set();
     for (const L of inv.lanes) {
-      const put = (n, ids) => ids.forEach(i => { const p = st.get(i); if (p && p.st === 'imported') (p.f || [p.id]).forEach(d => bOf.set(String(d), n)) });
+      const lk = L.course + '_' + L.yl;
+      const put = (n, ids) => ids.forEach(i => { const p = st.get(i); if (p && p.st === 'imported') { lanesUsed.add(lk); (p.f || [p.id]).forEach(d => bOf.set(String(d), {lk, n})) } });
       (L.done || []).forEach(d => put(d.n, d.ids)); (L.batches || []).forEach((ids, k) => put(L.first + k, ids));
     }
-    const r = await page.evaluate(() => ({
+    const r = await page.evaluate(() => ({bo: Object.fromEntries([...(PQ.batchOf() || new Map()).entries()].map(([d, b]) => [d, {key: b.key, name: b.name, o: b.o}])),
       papers: [...allWork().values()].sort(workOrder).map(w => ({doc: String(w.doc), ids: docIds(w.doc).map(String), n: w.n, call: w.left.decide})),
       groups: [...document.querySelectorAll('#inboxBox [data-card="papers"] .rv-bg')].map(g => ({batch: g.dataset.batch, head: g.querySelector('.rv-bgh').textContent, tag: g.tagName, open: g.open,
         rows: [...g.querySelectorAll('.iprow')].map(a => ({doc: a.getAttribute('href').split('/').pop(), mark: a.querySelector('.rv-call')?.textContent || ''}))}))}));
     errs();
-    const want = new Map();
-    for (const p of r.papers) { const b = p.ids.map(d => bOf.get(d)).find(x => x != null) ?? ''; if (!want.has(b)) want.set(b, []); want.get(b).push(p) }
-    const order = [...want.keys()].sort((a, b) => a === '' ? -1 : b === '' ? 1 : a - b);
-    const heads = order.map(b => { const ps = want.get(b); return `${b === '' ? 'Before batches' : 'Batch ' + b} · ${ps.filter(p => !p.n).length} of ${ps.length} cleared` });
+    const want = new Map(), meta = new Map(), multi = lanesUsed.size > 1;
+    for (const p of r.papers) {
+      const d = p.ids.find(x => bOf.get(x)), b = d ? bOf.get(d) : null, lb = d ? r.bo[d] : null, k = b ? lb.key + ':' + b.n : '';
+      if (!want.has(k)) { want.set(k, []); meta.set(k, b ? {n: b.n, o: lb.o, name: lb.name} : null) } want.get(k).push(p) }
+    const order = [...want.keys()].sort((a, b) => a === '' ? -1 : b === '' ? 1 : meta.get(a).n - meta.get(b).n || meta.get(a).o - meta.get(b).o);
+    const heads = order.map(k => { const ps = want.get(k), m = meta.get(k); return `${k === '' ? 'Before batches' : (multi ? m.name + ' · ' : '') + 'Batch ' + m.n} · ${ps.filter(p => !p.n).length} of ${ps.length} cleared` });
     assert(r.groups.length === order.length && r.groups.map(g => g.head).join(' | ') === heads.join(' | '), `headers ${JSON.stringify(r.groups.map(g => g.head))}, want ${JSON.stringify(heads)}`);
     assert(r.groups.every((g, i) => g.batch === String(order[i])), `batch order ${r.groups.map(g => g.batch)} (want ${order})`);
     for (const [i, g] of r.groups.entries()) {
@@ -3119,22 +3124,26 @@ async function skillGates(browser, base, seed) {
     return 'Q18 stays in the Bank under its topic with nothing learnt';
   });
   // owner 23 Nov: "we need to start working on the standard course" (STANDARD_SPEC.md step 4): the header switch reloads the page in
-  // the other course; Standard 2 has its own topics and an empty bank until the pilot, and every view opens without an error
-  await check('course switch: Standard 2 opens its own topics with an empty bank, then back to Advanced', page, async () => {
+  // the other course; Standard 2 has its own topics and only Standard papers' questions (23 Nov: the pilot, Standard batch 1, filled
+  // it), and every view opens without an error
+  await check('course switch: Standard 2 opens its own topics and only Standard questions, then back to Advanced', page, async () => {
     await page.evaluate(() => { localStorage.setItem('course', 'standard'); location.hash = 'bank' }); await page.reload();
     await page.waitForSelector('#list .facard', {timeout: 20000});
-    const r = await page.evaluate(() => ({c: QG.course, sel: document.querySelector('#courseSel')?.value, n: B.questions.length,
+    const inv = JSON.parse(fs.readFileSync(path.join(SITE, 'data/inventory.json'), 'utf8'));
+    const stdDocs = new Set(inv.groups.filter(g => g.course === 'standard').flatMap(g => g.papers.flatMap(p => p.f || [p.id])).map(Number));
+    const r = await page.evaluate(() => ({c: QG.course, sel: document.querySelector('#courseSel')?.value, n: B.questions.length, docs: [...new Set(B.questions.map(q => q.doc))],
       fas: [...document.querySelectorAll('#list .facard .fah b')].map(b => b.textContent)}));
     for (const v of ['inbox', 'review', 'exam', 'papers', 'guide', 'levels', 'bank']) { await page.evaluate(v => location.hash = v, v); await page.waitForTimeout(400) }
     errs();
     assert(r.c === 'standard' && r.sel === 'standard', `course ${r.c}, switch shows ${r.sel}`);
-    assert(r.n === 0, `${r.n} questions in the Standard bank before the pilot`);
+    const notStd = r.docs.filter(d => !stdDocs.has(Number(d)));
+    assert(!notStd.length, `the Standard bank holds questions of papers that are not Standard: ${notStd.slice(0, 5)}`);
     assert(r.fas.includes('Network flow') && r.fas.includes('Annuities') && !r.fas.includes('Integral calculus'), `topics: ${r.fas.join(', ')}`);
     await page.evaluate(() => { localStorage.setItem('course', 'advanced'); location.hash = 'bank' }); await page.reload();
     await page.waitForSelector('#list .facard', {timeout: 20000});
     const a = await page.evaluate(() => ({c: QG.course, n: B.questions.length}));
     assert(a.c === 'advanced' && a.n > 0, `back to Advanced: course ${a.c}, ${a.n} questions`);
-    return `${r.fas.length} Standard topics, 0 questions; Advanced back with ${a.n}`;
+    return `${r.fas.length} Standard topics, ${r.n} questions from ${r.docs.length} Standard papers; Advanced back with ${a.n}`;
   });
   await page.context().close();
 }

@@ -3033,7 +3033,7 @@ function inboxGroups(all){const bo=typeof PQ==='object'&&PQ.batchOf();if(!bo)ret
     if(!g.has(k))g.set(k,{b,ws:[]});g.get(k).ws.push(w)});
   const multi=new Set([...bo.values()].map(b=>b.key)).size>1;   // course is a dimension: name the lane once there is more than one
   return [...g.values()].sort((x,y)=>!x.b?-1:!y.b?1:x.b.n-y.b.n||x.b.o-y.b.o)
-    .map(({b,ws})=>({n:b?b.n:'',name:b?(multi?b.name+' · ':'')+'Batch '+b.n:'Before batches',ws,clr:ws.filter(w=>!w.n).length}))}
+    .map(({b,ws})=>({n:b?b.n:'',k:b?b.key+':'+b.n:'',name:b?(multi?b.name+' · ':'')+'Batch '+b.n:'Before batches',ws,clr:ws.filter(w=>!w.n).length}))}   // k: lane + number (23 Nov: Standard batch 1 and Advanced batch 1 shared one open/closed state)
 function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
   const all=allWork(),W=[...all.values()].filter(w=>w.n).sort(workOrder),rep=typeof repOpen==='function'?repOpen().length:0,lv=typeof lvTodoN==='function'?lvTodoN():0;
   const card=(k,n,title,what,href,doneText,body='')=>n?`<section class="icard" data-card="${k}"><a class="ihead" href="${href}"><span class="ict">${n}</span><span class="itx"><b>${title}</b><span class="iwhat">${what}</span></span><span class="igo" aria-hidden="true">→</span></a>${body}</section>`
@@ -3042,9 +3042,9 @@ function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
   // groups open in order until SHOW rows are out; later groups show their header and open on a click ("N more" counts their rows)
   const G=W.length?inboxGroups(all):null,was=new Map([...box.querySelectorAll('details.rv-bg')].map(d=>[d.dataset.batch,d.open]));let shown=0,more=Math.max(0,W.length-SHOW),list=`<ul class="iplist">${W.slice(0,SHOW).map(row).join('')}</ul>`;
   if(G){more=0;list=`<div class="rv-bgs">${G.map(g=>{const todo=g.ws.filter(w=>w.n),head=`${esc(g.name)} · ${g.clr} of ${g.ws.length} cleared`;
-    if(!todo.length)return `<div class="rv-bg rv-bgdone" data-batch="${g.n}"><span class="rv-bgh">${head}</span></div>`;
+    if(!todo.length)return `<div class="rv-bg rv-bgdone" data-batch="${esc(g.k)}"><span class="rv-bgh">${head}</span></div>`;
     const open=shown<SHOW;if(open)shown+=todo.length;else more+=todo.length;
-    return `<details class="rv-bg" data-batch="${g.n}"${(was.has(String(g.n))?was.get(String(g.n)):open)?' open':''}><summary class="rv-bgh">${head}</summary><ul class="iplist">${todo.map(row).join('')}</ul></details>`}).join('')}</div>`}
+    return `<details class="rv-bg" data-batch="${esc(g.k)}"${(was.has(g.k)?was.get(g.k):open)?' open':''}><summary class="rv-bgh">${head}</summary><ul class="iplist">${todo.map(row).join('')}</ul></details>`}).join('')}</div>`}
   // owner 18 Nov: "it [should] be more obvious on the page when questions have been done by you and have been returned. Maybe a
   //   different place to the flagged waiting for claude ones, I think they use the same real estate right now": returned work is the
   //   first thing on Review, highlighted, with what came back; flags still waiting for Claude sit lower down, quieter
