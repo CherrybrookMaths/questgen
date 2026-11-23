@@ -69,7 +69,7 @@ function renderLevels(keep){
   box.innerHTML=head+`<article class="lvcard" data-part="${x.p.id}">
     <div class="lvmeta"><span class="lvtag ${x.flag?'flag':''}">${x.flag?'Flagged by the audit':'HSC reference'}</span><span>${lvYear(x.d.ar)} ${esc(lvName(x.d.ar))}</span><span class="lvpos">${LVI+1} / ${list.length}</span></div>
     <h3>${esc(srcLine(x.q))} ${esc(label)} <small>${qid(x.q)} · ${x.p.marks??x.q.marks??'?'} mark${(x.p.marks??x.q.marks)===1?'':'s'}</small></h3>
-    <div class="lvq">${qBody(x.q,'bank')}</div></article>
+    <div class="lvq">${qBody(x.q,'bank',{open:1})}</div></article>
     <div class="lvact" id="lvAct">
       <div class="lvwhy"><b>Our rating:</b> Band ${x.d.b} · ${LV_WM[x.d.wm]}${x.d.c==='l'?' · <span class="lvlow">low confidence</span>':''}<span class="lvr">${esc(x.d.r||'')}</span>${x.lean?`<span class="lvlean">${x.lean} other part${x.lean===1?'':'s'} were rated against this one</span>`:''}</div>
       <div class="lvpick"><div class="lvbands" role="group" aria-label="Band">${[2,3,4,5,6].map(b=>`<button data-lvb="${b}" aria-pressed="${band===b}" title="Band ${b}: ${LV_BAND[b]} (key ${'QWERT'[b-2]})"><b>${b}</b><kbd>${'QWERT'[b-2]}</kbd><span>${['','','routine','standard','multi-step','non-routine','insight'][b]}</span></button>`).join('')}</div>
@@ -82,7 +82,8 @@ function renderLevels(keep){
   const q=x.q,card=box.querySelector('.lvcard');hydrate(card,q,'bank');
   const parts=card.querySelectorAll('.qbody > .part');const k=q.parts.findIndex(p=>p.id===x.p.id);
   if(q.parts.length>1)parts.forEach((el,i)=>{el.classList.add(i===k?'lvhit':'lvdim')});
-  card.querySelectorAll('details.solbox').forEach(d=>d.open=false);
+  // owner 24 Nov: "for the difficulty page, can u put the solution next to the question, its important I see both quickly and properly to
+  // judge difficulty": every solution is open (qBody o.open); on a wide screen each part's solution sits beside it (09_levels.css)
   typeset(card);
 }
 function lvSet(k,v){const box=$('#levelsBox');if(!box._pick)return;box._pick[k]=v;

@@ -39,3 +39,17 @@
 @media (hover:none){.lvok kbd,.lvbands button kbd,.lvwm button kbd{display:none}}
 @media (max-width:520px){.lvcard{padding:12px 12px 8px;border-radius:10px}.lvbands button span{display:none}.lvbands button{min-height:44px}}
 
+/* owner 24 Nov: "for the difficulty page, can u put the solution next to the question, its important I see both quickly and properly to
+   judge difficulty". Wide screens: each part's open solution in a right-hand column level with its part (the column is half the
+   card, so (a), (b) and sub-parts line up); an MCQ's options sit left of its answer and working. Narrower: the solution opens under its part. */
+@media (min-width:1100px){
+  .levels{max-width:1440px}
+  .lvq{container-type:inline-size;overflow-x:visible}
+  .lvq .part{grid-template-columns:2.2em minmax(0,1fr) auto calc(50cqi - 12px)}
+  .lvq .part.nolabel{grid-template-columns:minmax(0,1fr) auto calc(50cqi - 12px)}
+  .lvq .part>.under{grid-column:-2;grid-row:1/span 2;padding-left:14px}
+  .lvq .qpair{display:grid;grid-template-columns:minmax(0,1fr) calc(50cqi - 12px);column-gap:10px;align-items:start}
+  .lvq .qpair>details.solbox,.lvq .qpair>.pending{padding-left:14px}
+  .lvq .under>details.solbox,.lvq .qpair>details.solbox{border-top:0;padding-top:0}
+  .lvq details.solbox>.sol:first-of-type{margin-top:4px}
+}

@@ -164,7 +164,7 @@ He showed his own HSC exam maker and asked "can we implement something like this
 He said: "Make it both desktop and mobile friendly, I might want to approve on the go today". This is the review screen for the HSC reference ratings (DIFFICULTY_SPEC.md).
 - **Where.** A **Difficulty** tab (`#levels`). On a phone the tab row scrolls, and the open tab is scrolled into view. (15 Nov: now the Difficulty step inside Review, `#review/difficulty`; see "Teach | Curate split".)
 - **Order.** Thin topics first (Exponential and logarithmic functions, Trig identities and equations, Sequences and series), then one topic at a time from a dropdown, then the 9 parts flagged by the audit.
-- **One part at a time.** The whole question shows, with the rated part highlighted and the other parts dimmed. Solutions start collapsed. Each card also shows:
+- **One part at a time.** The whole question shows, with the rated part highlighted and the other parts dimmed. Solutions start collapsed (until 24 Nov; now open beside each part, see below). Each card also shows:
   - our band, label and reason;
   - how many other parts were rated against this one.
 - **Action bar.** Sticky at the bottom and clear of the phone's home bar, with 44–48 px targets:
@@ -180,6 +180,15 @@ He said: "Make it both desktop and mobile friendly, I might want to approve on t
   - the 9 parts the audit flagged, shown first;
   - in each of the other 11 topics, the 3 references that the most other parts were rated against.
   - When it is finished, the page names any topic with two or more changes, to be checked in full. If there are none, the ratings stand.
+- **Solution beside the question (24 Nov).** Owner, verbatim (screenshot of 2022 NESA HSC Q17(a)/(b) with collapsed Solution toggles): "for the
+  difficulty page, can u put the solution next to the question, its important I see both quickly and properly to judge difficulty". Every
+  solution on the card is open, no click. At 1100 px and wider the page widens (to 1440 px) and each part's worked solution sits in a
+  right-hand column level with its part ((a) beside (a)'s solution, (b) beside (b)'s, sub-parts likewise; the column is half the card so they
+  line up); the shared stem and its diagrams stay above, full width. An MCQ shows its options on the left, the correct one marked, with the
+  answer table and working beside them. Narrower (tablet, phone) each solution opens directly under its part. Maths, tables and figures come
+  from the same solution renderer as Review and the Bank (qBody's `open` option). The rating bar, keys and the stale-page guard are unchanged.
+  Checked by page_test `difficulty: each part's solution is open beside its part when wide, under it when narrow` (screenshots
+  difficulty_side_1280, difficulty_under_390, difficulty_mcq_1280).
 - **Next (Claude).** Read the `difficulty` collection. A changed reference shifts the parts that point at it (nearest_anchor) by the same amount, then the bank is rebuilt.
 
 ## Phone layout (14 Nov)

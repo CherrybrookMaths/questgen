@@ -735,6 +735,34 @@ async function flows(browser, base, seed, seedR) {
     assert(hints === 'QWERTDF', `key hints on the buttons: ${hints}`);
     return 'T band 6, Q band 2, F Problem solving, D Fluency; 4 does nothing; hints QWERT D F';
   });
+  // owner 24 Nov: "for the difficulty page, can u put the solution next to the question, its important I see both quickly and properly to judge difficulty"
+  await check('difficulty: each part\'s solution is open beside its part when wide, under it when narrow', page, async () => {
+    const pick = () => page.evaluate(async () => {
+      LVAREA = 'all'; LVSHOW = 'all'; const l = lvList(); await QG.need(l.map(x => x.q));
+      const n = q => q.parts.filter(p => leaf(q, p) && solsFor(q, p.id, 'bank').count).length;
+      LVI = Math.max(0, l.findIndex(x => n(x.q) >= 2)); renderLevels(true); await MathJax.startup.promise; return l[LVI] && n(l[LVI].q) });
+    const lay = () => page.evaluate(() => [...document.querySelectorAll('#levelsBox .lvq .part')].filter(p => p.querySelector(':scope>.under details.solbox')).map(p => {
+      const t = p.querySelector(':scope>.tx').getBoundingClientRect(), s = p.querySelector(':scope>.under').getBoundingClientRect();
+      return {open: p.querySelector(':scope>.under details.solbox').open, beside: s.left >= t.right - 1 && Math.abs(s.top - t.top) < 12, under: s.top >= t.bottom - 1 && s.left < t.right}; }));
+    const parts = await pick(); assert(parts >= 2, `no multi-part reference with solutions to show (${parts})`);
+    await settle(page, 4000, 2); const w = await lay();
+    await page.screenshot({path: path.join(SHOTS, 'difficulty_side_1280.png'), fullPage: true});
+    const mcq = await page.evaluate(async () => { const l = lvList(), i = l.findIndex(x => x.q.type === 'mcq' && solsFor(x.q, null, 'bank').count); if (i < 0) return null;
+      LVI = i; renderLevels(true); await MathJax.startup.promise; const pr = document.querySelector('#levelsBox .qpair'); if (!pr) return {pair: false};
+      const [o, s] = [pr.firstElementChild.getBoundingClientRect(), pr.querySelector(':scope>details.solbox').getBoundingClientRect()];
+      return {pair: true, beside: s.left >= o.right - 1 && Math.abs(s.top - o.top) < 12, open: pr.querySelector(':scope>details.solbox').open, key: !!pr.querySelector('.opt.correct.show .badge, .ocell.correct, td.ans')}; });
+    if (mcq) await page.screenshot({path: path.join(SHOTS, 'difficulty_mcq_1280.png'), fullPage: true});
+    assert(!mcq || (mcq.pair && mcq.beside && mcq.open && mcq.key), `MCQ options beside the answer and working: ${JSON.stringify(mcq)}`);
+    await page.setViewportSize({width: 390, height: 844}); await pick(); await settle(page, 4000, 2); const n = await lay();
+    await page.screenshot({path: path.join(SHOTS, 'difficulty_under_390.png'), fullPage: true});
+    const ok = await page.evaluate(() => !!document.querySelector('#lvOk') && getComputedStyle(document.querySelector('#lvAct')).position === 'sticky' && document.documentElement.scrollWidth <= innerWidth + 1);
+    await page.setViewportSize({width: 1280, height: 900}); await page.evaluate(() => { LVAREA = load('lv_area') || 'thin'; LVSHOW = load('lv_show') || 'todo'; LVI = 0; renderLevels() });
+    errs();
+    assert(w.length >= 2 && w.every(x => x.open && x.beside), `1280: ${JSON.stringify(w)}`);
+    assert(n.length >= 2 && n.every(x => x.open && x.under), `390: ${JSON.stringify(n)}`);
+    assert(ok, 'the rating bar is missing or the page scrolls sideways at 390 px');
+    return `${w.length} parts: solutions open beside them at 1280, under them at 390; ${mcq ? 'an MCQ\'s answer and working beside its options; ' : ''}rating bar kept`;
+  });
   await page.context().close();
 }
 
