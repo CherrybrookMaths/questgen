@@ -2356,7 +2356,9 @@ function tex(s){
   h=h.split(/(\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^$])*?(?<!\\)\$)/).map((seg,i)=>{if(i%2)return seg;let prev;
     do{prev=seg;seg=seg.replace(/\\textbf\{([^{}]*)\}/g,'<b>$1</b>').replace(/\\(?:textit|emph)\{([^{}]*)\}/g,'<i>$1</i>').replace(/\\underline\{([^{}]*)\}/g,'<u>$1</u>').replace(/\\text\{([^{}]*)\}/g,'$1')}while(seg!==prev);
     return seg.replace(/\\%/g,'%').replace(/\\&amp;/g,'&amp;')}).join('');
-  h=h.replace(/\\exfigure\{([\w.-]+)\}/g,(m,id)=>`</span><span class="figslot" data-fig="${id}"></span><span>`);
+  // 23 Nov (owner: "for some questions, the original and question are not lining up any more" + raw \exfigure text): figure names from split
+  // questions carry the part in brackets (1305_q1(c)_1), so the name pattern allows ( ) here, in 20_exam.js, bank_split.py and ztable.py
+  h=h.replace(/\\exfigure\{([\w.()-]+)\}/g,(m,id)=>`</span><span class="figslot" data-fig="${id}"></span><span>`);
   h=h.replace(/\\extable\{(\w+)\}/g,(m,id)=>`</span>${dtHTML(id)}<span>`);
   // owner: dot points render as dot points. Lists are stored as \begin{itemize} \item … \end{itemize}
   h=h.replace(/\s*\\begin\{enumerate\}\s*\\item\s*/g,'</span><ol class="qlist"><li><span>').replace(/\s*\\end\{enumerate\}\s*/g,'</span></li></ol><span>');   // numbered list as printed (Girraween 2025 Q19)
@@ -3927,7 +3929,7 @@ function xQ(q,n,doc){exA();
   const src=`<div class="xsrc exsrc"><span class="exsrcl">${guide?esc(srcLine(q))+' · ':''}${qid(q)}</span>${qiButton(q,n)}</div>`;
   const h=`<section class="xq ${q.type==='mcq'?'mc':'wr'}" data-q="${q.id}">${head}<div class="xqb">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${xFigSlots(q,loose)}${parts}${opts}${mcSols}${sols(null)}</div>${src}</section>`;
   // every diagram slot, including inline \exfigure ones that tex() writes, so this runs on the finished HTML
-  return guide?h:h.replace(/<span class="figslot" data-fig="([\w.-]+)"><\/span>/g,(m,k)=>exFigWrap(k));
+  return guide?h:h.replace(/<span class="figslot" data-fig="([\w.()-]+)"><\/span>/g,(m,k)=>exFigWrap(k));
 }
 // xCover (the editable cover) is in 24_exams.js
 function xBlocks(doc){const {mc,wr}=xSections();const bl=[];let n=0;
