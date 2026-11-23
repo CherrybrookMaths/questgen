@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (15,386) -- (720,386);
+  \draw[<->] (362,712) -- (362,62);
+  \foreach \i in {-5,...,5}{\ifnum\i=0\else \draw ({362+62.6*\i},379) -- ({362+62.6*\i},393);\fi}
+  \foreach \i in {-10,...,10}{\ifnum\i=0\else \draw (355,{386-29.05*\i}) -- (369,{386-29.05*\i});\fi}
+  \node at (48,424) {$-5$};
+  \node at (674,424) {$5$};
+  \node[anchor=east] at (348,97) {$10$};
+  \node[anchor=east] at (348,241) {$5$};
+  \node[anchor=east] at (348,531) {$-5$};
+  \node[anchor=east] at (348,676) {$-10$};
+  \node at (360,36) {$y$};
+  \node[anchor=west] at (722,388) {$x$};
+  \draw[line width=0.9pt, <->] plot[smooth, samples=90, domain=-2.48:2.475]
+     ({362+62.6*\x},{386-29.05*(\x*(\x-2)^2*(\x+2)^2)});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=2.4cm,y=1.2cm]
+\draw[->] (-0.4,0) -- (2.6,0) node[right] {$x$};
+\draw[->] (0,-0.5) -- (0,3.7) node[above] {$y$};
+\node[below left] at (0,0) {$O$};
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:2.0944] ({\x},{2*cos(\x r)+1});
+\node[pt] at (0,3) {};
+\node[pt] at (2.0944,0) {};
+\node[anchor=east] at (-0.04,3) {$(0,3)$};
+\node[anchor=south west] at (2.12,0.05) {$\left(\dfrac{2\pi}{3},0\right)$};
+\node[anchor=south west] at (1.25,2.3) {$y=2\cos x+1$};
+\end{tikzpicture}
+\end{document}

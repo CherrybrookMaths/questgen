@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % shaded region: y=ln(2x-5), x-axis, x=6
+  \fill[shade] (365,320) -- plot[smooth, samples=60, domain=3:6] ({127+79.3*\x},{320-80.7*ln(2*\x-5)}) -- (603,320) -- cycle;
+  \draw[<->] (10,320) -- (720,320);
+  \draw[<->] (127,430) -- (127,30);
+  \node[anchor=west] at (726,322) {$x$};
+  \node[anchor=south] at (127,24) {$y$};
+  % x = 6
+  \draw[<->] (603,430) -- (603,45);
+  \draw[line width=0.9pt, <->, smooth, samples=90, domain=2.628:7.48]
+    plot ({127+79.3*\x},{320-80.7*ln(2*\x-5)});
+  \node at (626,120) {$B$};
+  \node at (376,354) {$A$};
+  \node at (624,350) {$6$};
+\end{tikzpicture}
+\end{document}

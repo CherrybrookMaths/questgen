@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % axes
+  \draw[->] (0,502) -- (1068,502);
+  \draw[<->] (511,905) -- (511,75);
+  \node[anchor=west, font=\Large] at (1072,500) {$x$};
+  \node[anchor=south, font=\Large] at (511,68) {$y$};
+  % x ticks (evenly spaced, 143.5 px per pi)
+  \foreach \t/\l in {-2/{-2\pi},-1/{-\pi},1/{\pi},2/{2\pi}} {
+    \draw (511+143.5*\t,492) -- (511+143.5*\t,512);
+    \node[anchor=north, font=\Large] at (511+143.5*\t,522) {$\l$};
+  }
+  % y ticks (84 px per unit)
+  \foreach \k in {2,3} {
+    \draw (501,502-84*\k) -- (521,502-84*\k);
+    \node[anchor=west, font=\Large] at (540,502-84*\k) {$\k$};
+  }
+  \draw (501,418) -- (521,418);
+  \node[anchor=north west, font=\Large] at (522,428) {$1$};
+  % curve y = 2 - cos(x/2)
+  \draw[line width=0.9pt, smooth, samples=91, domain=-2:2]
+    plot ({511+143.5*\x}, {502-84*(2-cos(deg(pi*\x/2)))});
+  \foreach \t in {-2,-1,1,2} {
+    \node[pt] at (511+143.5*\t, {502-84*(2-cos(deg(pi*\t/2)))}) {};
+  }
+  \node[pt] at (511,418) {};
+\end{tikzpicture}
+\end{document}

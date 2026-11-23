@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (25,452) -- (950,452);
+\draw[<->] (242,605) -- (242,62);
+\draw (242,365) -- (570,365) -- (570,452);
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-140:658] ({242+\x},{452-72.2-121.8*exp(-0.00643*\x)});
+\node at (238,30) {$y$};
+\node at (968,452) {$x$};
+\node at (210,368) {$C$};
+\node at (220,482) {$O$};
+\node at (566,482) {$A$};
+\node at (615,333) {$B(x,y)$};
+\node[anchor=west] at (908,377) {$y=e^{-x}$};
+\node[align=center] at (940,150) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

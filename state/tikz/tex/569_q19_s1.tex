@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[<->] (50,326) -- (790,326);
+  \draw[<->] (418,20) -- (418,630);
+  \node[anchor=west] at (796,332) {$x$};
+  \node at (432,12) {$y$};
+  % ticks: 78 px per pi/2
+  \foreach \k in {1,2,3,4} \draw ({418+78*\k},319) -- ({418+78*\k},333);
+  \node[anchor=north, font=\small] at (496,336) {$\dfrac{\pi}{2}$};
+  \node[anchor=north, font=\small] at (574,336) {$\pi$};
+  \node[anchor=north, font=\small] at (652,336) {$\dfrac{3\pi}{2}$};
+  \node[anchor=north, font=\small] at (730,336) {$2\pi$};
+  \draw (411,187) -- (425,187);
+  \node[anchor=east] at (404,187) {$4$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=0:6.2832]
+    plot ({418+312*\x/6.2832},{326-139*sin(deg(\x/2))});
+\end{tikzpicture}
+\end{document}

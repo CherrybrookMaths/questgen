@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (32,437) -- (925,437);
+  \draw[->] (479,800) -- (479,72);
+  \foreach \i in {-10,...,10}{\ifnum\i=0\else
+      \pgfmathtruncatemacro\m{mod(abs(\i),5)}
+      \pgfmathsetmacro\xx{479+39.85*\i}\pgfmathsetmacro\yy{437-32.4*\i}
+      \ifnum\m=0 \draw (\xx,427) -- (\xx,447); \draw (469,\yy) -- (489,\yy);
+      \else \draw (\xx,430) -- (\xx,444); \draw (472,\yy) -- (486,\yy); \fi\fi}
+  \foreach \v/\xx in {-10/80,-5/280,5/677,10/877} \node[font=\large] at (\xx,475) {$\v$};
+  \foreach \v/\yy in {10/113,5/275,-5/599,-10/761} \node[font=\large, anchor=east] at (462,\yy) {$\v$};
+  \node[font=\large] at (470,42) {$y$};
+  \node[font=\large, anchor=west] at (930,441) {$x$};
+  \draw[line width=0.9pt] (479,437) ellipse [x radius=159.4, y radius=97.2];
+\end{tikzpicture}
+\end{document}

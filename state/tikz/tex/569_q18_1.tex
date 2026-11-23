@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % shaded region between f (above) and g (below), -1<=x<=2
+  \fill[shade] plot[smooth, samples=60, domain=-1:2] ({268+73*\x},{372-39.25*(\x*\x*\x-3*\x*\x+4)})
+     -- plot[smooth, samples=60, domain=2:-1] ({268+73*\x},{372-39.25*(\x*\x-\x-2)}) -- cycle;
+  % axes
+  \draw[->] (18,372) -- (590,372);
+  \draw[->] (268,560) -- (268,40);
+  \node[anchor=west] at (594,375) {$x$};
+  \node[anchor=south] at (268,34) {$y$};
+  \node[anchor=south west] at (272,368) {$O$};
+  % f(x)=x^3-3x^2+4
+  \draw[line width=0.9pt, <->, smooth, samples=90, domain=-1.408:3.34]
+    plot ({268+73*\x},{372-39.25*(\x*\x*\x-3*\x*\x+4)});
+  % g(x)=x^2-x-2
+  \draw[line width=0.9pt, <->, smooth, samples=90, domain=-2.64:3.66]
+    plot ({268+73*\x},{372-39.25*(\x*\x-\x-2)});
+  \node[pt] at (487,215) {};
+  \node[anchor=west] at (494,226) {$(3,4)$};
+  \node at (162,86) {$y=g(x)$};
+  \node at (95,490) {$y=f(x)$};
+\end{tikzpicture}
+\end{document}

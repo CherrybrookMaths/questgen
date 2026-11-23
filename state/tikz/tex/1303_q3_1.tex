@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (18,268)--(603,268);
+\draw[->] (314,305)--(314,12);
+\draw[aux] (28,237)--(585,237);
+\draw[line width=0.9pt,<->,domain=-288:274,samples=90,smooth] plot ({314+\x},{237-124/(1+(\x/117)^2)});
+\node[font=\large] at (292,20) {$y$};
+\node[font=\large] at (296,286) {$O$};
+\node[font=\large] at (598,285) {$x$};
+\node[font=\large,anchor=west] at (596,238) {$y=1$};
+\end{tikzpicture}
+\end{document}

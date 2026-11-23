@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (368,438) -- (368,10);
+  \draw[aux] (140,227) -- (566,227);
+  \draw[->] (566,227) -- (592,227);
+  \draw[<->] plot[domain=168:580,samples=90,smooth] (\x,{227+244*((\x-368)/40)/(1+((\x-368)/40)^2)});
+  \node[font=\large] at (347,16) {$y$};
+  \node[font=\large] at (597,250) {$x$};
+  \node[font=\large] at (340,256) {$O$};
+  \node[anchor=east,font=\large] at (290,255) {asymptote at $y=0$};
+\end{tikzpicture}
+\end{document}

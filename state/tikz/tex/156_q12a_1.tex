@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(173,817)},xscale=14.76,yscale=12.98]
+\foreach \c/\f in {5/7.7,10/10.4,15/12,20/20,25/32,30/45.2,35/52,40/58,45/60}
+  \filldraw[shade] (\c-2.5,0) rectangle (\c+2.5,-\f);
+\end{scope}
+\draw[->] (165,817) -- (920,817);
+\draw[->] (173,825) -- (173,25);
+\foreach \f in {2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48,52,54,56,58}
+  \draw ({169},{817-12.98*\f}) -- ++(8,0);
+\foreach \f in {0,10,20,30,40,50,60}{
+  \draw ({165},{817-12.98*\f}) -- ++(16,0);
+  \node[anchor=east] at (140,{817-12.98*\f}) {\f};}
+\foreach \c in {5,10,...,45}{
+  \draw ({173+14.76*\c},811) -- ++(0,12);
+  \node at ({173+14.76*\c},858) {\c};}
+\node at (553,910) {Class Centre};
+\node[rotate=90] at (30,435) {Cumulative Frequency};
+\end{tikzpicture}
+\end{document}

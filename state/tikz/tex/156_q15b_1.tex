@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (120,2) -- (762,2); % keeps the crop's frame (top box omitted)
+\begin{scope}[shift={(120,934)},xscale=44.2,yscale=-44.5]
+\draw[line width=0.9pt,->] plot[domain=0:16.6,samples=90,smooth] (\x,{15-3*cos(deg(pi*\x/6))});
+\end{scope}
+% axes
+\draw[->] (120,544) -- (845,544);
+\draw (120,544) -- (120,532);
+\draw (113,537) -- (127,525);
+\draw (113,525) -- (127,513);
+\draw[->] (120,519) -- (120,111);
+\foreach \h in {10.5,11,11.5,12.5,13,13.5,14.5,15,15.5,16.5,17,17.5,18.5}
+  \draw (117,{934-44.5*\h}) -- ++(6,0);
+\foreach \h in {10,12,14,16,18}{
+  \draw (114,{934-44.5*\h}) -- ++(12,0);
+  \node[anchor=east] at (97,{934-44.5*\h}) {\h};}
+\foreach \t in {1,2,3,4,6,7,8,9,11,12,13,14,16}
+  \draw ({120+44.2*\t},541) -- ++(0,6);
+\foreach \t in {5,10,15}{
+  \draw ({120+44.2*\t},538) -- ++(0,12);
+  \node at ({120+44.2*\t},589) {\t};}
+\node[anchor=west] at (862,544) {$t$\,(hours)};
+\node[anchor=west] at (82,68) {$h$\,(metres)};
+\end{tikzpicture}
+\end{document}

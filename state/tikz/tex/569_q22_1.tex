@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % cone
+  \draw (168,45) -- (10.7,403.3);
+  \draw (168,45) -- (325.3,403.3);
+  \draw[smooth, samples=60, domain=0:180] plot ({168+159*cos(\x)},{411+53*sin(\x)});
+  \draw[aux, smooth, samples=60, domain=180:360] plot ({168+159*cos(\x)},{411+53*sin(\x)});
+  % cylinder
+  \draw[smooth, samples=50, domain=0:180] plot ({168+79*cos(\x)},{229+25*sin(\x)});
+  \draw[aux, smooth, samples=50, domain=180:360] plot ({168+79*cos(\x)},{229+25*sin(\x)});
+  \draw[aux, smooth, samples=60, domain=0:360] plot ({168+79*cos(\x)},{411+26*sin(\x)});
+  \draw[aux] (89,229) -- (89,411);
+  \draw[aux] (247,229) -- (247,411);
+  % axis, radii
+  \draw[aux] (168,45) -- (168,411);
+  \draw[aux] (168,229) -- (247,229);
+  \draw[aux] (168,411) -- (327,411);
+  \draw (168,399) -- (180,399) -- (180,411);
+  % labels
+  \node at (168,22) {$A$};
+  \node at (152,229) {$D$};
+  \node at (262,225) {$E$};
+  \node at (205,213) {$r$};
+  \node at (229,320) {$h$};
+  \node at (152,414) {$B$};
+  \node at (343,412) {$C$};
+\end{tikzpicture}
+\end{document}

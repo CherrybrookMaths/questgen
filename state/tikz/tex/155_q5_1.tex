@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (35,320) -- (555,320);
+\draw[<->] (293,580) -- (293,60);
+\node at (570,322) {$x$};
+\node at (293,32) {$y$};
+\draw[<->,line width=0.9pt] plot[domain=-2.96:0.6,samples=90,smooth] ({293+78*\x},{320+78*exp(\x)*(\x+1)});
+\node at (205,350) {$-1$};
+\node at (318,398) {$-1$};
+\node[align=center] at (640,192) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

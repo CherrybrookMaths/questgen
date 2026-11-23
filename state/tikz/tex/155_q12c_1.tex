@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade hatch] (307,175) -- (756.6,175) -- plot[smooth,samples=60,domain=2.597:1] ({233+74*\x^2.05},{362-72*\x}) -- cycle;
+\path[shade hatch reverse] (233,362) -- plot[smooth,samples=40,domain=0.001:1] ({233+74*\x^2.05},{362-72*\x}) -- (307,362) -- cycle;
+\draw[<->] (45,362) -- (845,362);
+\draw[<->] (307,88) -- (307,605);
+\draw (307,175) -- (756.6,175);
+\draw[line width=0.9pt,->] plot[smooth,samples=90,domain=0.001:2.7] ({233+74*\x^2.05},{362-72*\x});
+\node at (297,58) {$y$};
+\node at (860,362) {$x$};
+\node at (286,175) {$3$};
+\node at (326,312) {$1$};
+\node at (233,386) {$-1$};
+\node at (323,388) {$O$};
+\node[align=center] at (808,525) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

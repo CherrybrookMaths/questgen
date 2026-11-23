@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.327cm,y=0.381cm,every node/.style={font=\footnotesize}]
+  \draw[aux] (-2,-7.7) -- (-2,7.4);
+  \draw[aux] (2,-7.7) -- (2,7.4);
+  \draw[<->] (-9.5,0) -- (9.5,0) node[right] {$y=0$};
+  \draw[<->] (0,-7.8) -- (0,7.6) node[above] {$y$};
+  \draw[line width=0.9pt,<->] plot[smooth,domain=-8.7:-2.25,samples=90] (\x,{8/(\x*\x-4)});
+  \draw[line width=0.9pt,<->] plot[smooth,domain=2.25:8.7,samples=90] (\x,{8/(\x*\x-4)});
+  \draw[line width=0.9pt,<->] plot[smooth,domain=-1.71:1.71,samples=90] (\x,{8/(\x*\x-4)});
+  \fill (0,-2) circle (1.6pt);
+  \node[anchor=south west] at (0.3,-1.95) {$-2$};
+  \node[anchor=north] at (-2.3,-7.8) {$x=-2$};
+  \node[anchor=north] at (2.3,-7.8) {$x=2$};
+\end{tikzpicture}
+\end{document}

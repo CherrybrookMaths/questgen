@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (68,545) -- (68,38);
+  \draw[->] (68,270) -- (790,270);
+  \draw[line width=0.9pt] plot[domain=68:256,samples=50,smooth] (\x,{270+207*sin(0.95745*(\x-68))})
+    -- plot[domain=256:423,samples=50,smooth] (\x,{270-140*sin(1.07784*(\x-256))})
+    -- plot[domain=423:628,samples=50,smooth] (\x,{270+162*sin(0.87805*(\x-423))});
+  \node[font=\large] at (44,24) {$v$};
+  \node[font=\large] at (804,270) {$t$};
+  \node[font=\large] at (268,302) {6};
+  \node[font=\large] at (405,300) {10};
+  \node[font=\large] at (646,306) {18};
+\end{tikzpicture}
+\end{document}

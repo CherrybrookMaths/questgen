@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (28,369) -- (680,369);
+  \draw[->] (352,660) -- (352,75);
+  \foreach \i in {-10,...,10}{
+    \ifnum\i=0\else
+      \pgfmathsetmacro\xx{352+29*\i}
+      \pgfmathtruncatemacro\m{mod(abs(\i),5)}
+      \ifnum\m=0 \draw (\xx,355) -- (\xx,383); \else \draw (\xx,362) -- (\xx,376); \fi
+      \pgfmathsetmacro\yy{369-26*\i}
+      \ifnum\m=0 \draw (338,\yy) -- (366,\yy); \else \draw (345,\yy) -- (359,\yy); \fi
+    \fi}
+  \draw[line width=0.9pt, ->] plot[smooth, samples=90, domain=0:4.34] ({352+29*\x},{369-26*((2-\x)^3+2)});
+  \node[font=\LARGE] at (350,42) {$y$};
+  \node[font=\LARGE] at (703,370) {$x$};
+\end{tikzpicture}
+\end{document}

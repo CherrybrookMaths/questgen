@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\large}]
+  % fine grid
+  \foreach \k in {-5,...,22}{\pgfmathsetmacro\xx{185.5+31.5*\k}
+    \ifdim\xx pt>18pt \draw[black!22,line width=0.3pt] (\xx,20) -- (\xx,745);\fi}
+  \foreach \k in {-15,...,8}{\pgfmathsetmacro\yy{267+31.6*\k}
+    \ifdim\yy pt>19pt \ifdim\yy pt<746pt \draw[black!22,line width=0.3pt] (20,\yy) -- (900,\yy);\fi\fi}
+  % major grid
+  \foreach \xx in {28,343,500,657,815} \draw[black!55,line width=0.5pt] (\xx,20) -- (\xx,745);
+  \foreach \yy in {109,425,583,741} \draw[black!55,line width=0.5pt] (20,\yy) -- (900,\yy);
+  % axes
+  \draw[<->] (24,267) -- (892,267) node[right] {$x$};
+  \draw[<->] (185.5,742) -- (185.5,22);
+  \node[anchor=west] at (192,22) {$y$};
+  % graph y = -2|x-3|+2
+  \draw[line width=0.9pt] (28,741) -- (657,109) -- (885,338);
+  % tick labels
+  \node[anchor=north] at (28,272) {$-1$};
+  \node[anchor=north east] at (181,271) {$0$};
+  \foreach \xx/\t in {343/1,500/2,657/3,815/4} \node[anchor=north west] at (\xx-2,269) {$\t$};
+  \node[anchor=east] at (182,107) {$2$};
+  \node[anchor=west] at (189,425) {$-2$};
+  \node[anchor=west] at (189,583) {$-4$};
+\end{tikzpicture}
+\end{document}

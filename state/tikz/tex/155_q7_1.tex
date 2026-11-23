@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade hatch reverse] plot[domain=0:84,samples=40,smooth] ({213+\x},{397-58*cos(\x/84*90)}) -- (213,397) -- cycle;
+\draw[<->] (35,397) -- (605,397);
+\draw[<->] (213,530) -- (213,160);
+\node at (620,398) {$x$};
+\node at (184,160) {$y$};
+\node at (199,416) {$O$};
+\draw[line width=0.9pt] plot[domain=0:252,samples=90,smooth] ({213+\x},{397-58*cos(\x/84*90)});
+\node at (288,440) {$\dfrac{\pi}{4}$};
+\node at (484,440) {$\dfrac{3\pi}{4}$};
+\end{tikzpicture}
+\end{document}

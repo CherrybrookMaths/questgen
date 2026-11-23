@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (86,464) -- (996,464);
+  \draw[->] (552,528) -- (552,58);
+  \draw[aux] (90,418) -- (950,418);
+  \draw[<->] plot[domain=104:1000,samples=90,smooth] (\x,{418-195/sqrt(1+((\x-552)/47.5)^2)});
+  \node[font=\large] at (515,78) {$y$};
+  \node[font=\large] at (518,493) {$O$};
+  \node[font=\large] at (993,492) {$x$};
+  \node[font=\large] at (1036,418) {$y=1$};
+  \node[align=center] at (891,163) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

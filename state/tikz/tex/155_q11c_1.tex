@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (25,408) -- (510,408);
+\draw[<->] (272,488) -- (272,60);
+\node at (522,410) {$x$};
+\node at (268,35) {$y$};
+\node at (255,430) {$O$};
+\draw[<->,line width=0.9pt] plot[domain=-0.977:0.651,samples=90,smooth] ({272+221*\x},{408-53*2^(4*\x)});
+\node[align=center] at (690,205) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (75,83) -- (768,83);
+\draw (307,83) -- (307,268);
+\draw (540,83) -- (540,315);
+\draw plot[smooth,tension=0.6] coordinates {(75,83) (130,158) (200,222) (307,268)};
+\draw plot[smooth,tension=0.6] coordinates {(307,268) (365,270) (425,287) (485,307) (540,315)};
+\draw plot[smooth,tension=0.6] coordinates {(540,315) (640,250) (718,193) (752,140) (768,83)};
+\node at (45,70) {$A$};
+\node at (800,72) {$B$};
+\node at (195,45) {5 m};
+\node at (437,45) {5 m};
+\node at (670,45) {5 m};
+\node at (352,187) {1.4 m};
+\node at (590,187) {1.8 m};
+\node[align=center] at (910,258) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

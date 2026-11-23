@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{505+238.5*(#1)-11.5*(#1)*(#1)}
+\coordinate (D) at (255,{390-47*exp(-1.4)});
+\coordinate (C) at (732,{390-47*exp(1.4)});
+\fill[black!30] (D) -- (C) -- plot[smooth,samples=60,domain=1:-1] ({\X{\x}},{390-47*exp(1.4*\x)}) -- cycle;
+\draw[<->] (30,390) -- (940,390);
+\draw[->] (505,493) -- (505,50);
+\draw (D) -- (C);
+\draw (732,390) -- (C);
+\draw (255,383) -- (255,397);
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-1.6:1.32] ({\X{\x}},{390-47*exp(1.4*\x)});
+\draw[->] (198,345) -- (246,374);
+\node at (535,55) {$y$};
+\node at (957,390) {$x$};
+\node[anchor=west] at (805,98) {$y=e^x$};
+\node[anchor=west] at (744,212) {$C(1,e)$};
+\node at (178,290) {$D\left(-1,\dfrac{1}{e}\right)$};
+\node at (272,428) {$A(-1,0)$};
+\node at (530,428) {$O$};
+\node at (750,425) {$B(1,0)$};
+\node[align=center] at (1000,249) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

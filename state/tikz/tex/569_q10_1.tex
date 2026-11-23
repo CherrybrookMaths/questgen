@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=4.0513cm,y=1.2065cm]
+\begin{scope}
+\clip (-0.401,-2.97) rectangle (2.567,2.97);
+\draw[black!7,line width=0.3pt] (-0.4,-3) grid[xstep=0.05,ystep=0.125] (2.6,3);
+\draw[black!22,line width=0.4pt] (-0.4,-3) grid[xstep=0.2,ystep=0.5] (2.6,3);
+\draw (-0.401,0) -- (2.567,0);
+\draw (0,-2.97) -- (0,2.97);
+\draw[line width=0.9pt, domain=-0.3:2.3, samples=90, smooth] plot (\x,{4*\x*(\x-1)*(\x-2)});
+\end{scope}
+\foreach \v/\t in {-0.4/-0.4,-0.2/-0.2,0.2/0.2,0.4/0.4,0.6/0.6,0.8/0.8,1/1,1.2/1.2,1.4/1.4,1.6/1.6,1.8/1.8,2/2,2.2/2.2,2.4/2.4}
+  \node[font=\tiny,anchor=north,inner sep=1pt] at (\v,-0.05) {$\t$};
+\node[font=\tiny,anchor=north west,inner sep=1pt] at (0.008,-0.05) {$0$};
+\foreach \v in {-2.5,-2,-1.5,-1,0.5,1,1.5,2,2.5}
+  \node[font=\tiny,anchor=east,inner sep=1pt] at (-0.012,\v) {$\v$};
+\node[font=\tiny,anchor=west,inner sep=1pt] at (0.012,-0.5) {$-0.5$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(173,642)},xscale=2.8675,yscale=10.77]
+\foreach \t in {20,40,60,80,120,140,160,180,220,240,260,280,320,340,360,380}
+  \draw[black!22] (\t,0) -- (\t,-50);
+\foreach \n in {5,15,25,35,45}
+  \draw[black!22] (0,-\n) -- (400,-\n);
+\foreach \t in {100,200,300,400}
+  \draw[black!50] (\t,0) -- (\t,-50);
+\foreach \n in {10,20,30,40,50}
+  \draw[black!50] (0,-\n) -- (400,-\n);
+\end{scope}
+\draw[->] (155,642) -- (1398,642);
+\draw[->] (173,662) -- (173,68);
+\foreach \n in {5,15,25,35,45}
+  \draw (165,{642-10.77*\n}) -- ++(20,0);
+\foreach \n in {10,20,30,40,50}
+  \draw (165,{642-10.77*\n}) -- ++(26,0);
+\foreach \n in {0,10,20,30,40,50}
+  \node[anchor=east] at (132,{638-10.77*\n}) {\n};
+\foreach \t in {20,40,60,80,120,140,160,180,220,240,260,280,320,340,360,380}
+  \draw ({173+2.8675*\t},632) -- ++(0,20);
+\foreach \t in {100,200,300,400}
+  \draw ({173+2.8675*\t},622) -- ++(0,40);
+\foreach \t in {0,100,200,300,400}
+  \node at ({173+2.8675*\t},698) {\t};
+\node at (165,25) {$n$};
+\node at (740,770) {Time spent (minutes)};
+\node[rotate=90] at (35,338) {Number of tasks completed};
+\end{tikzpicture}
+\end{document}

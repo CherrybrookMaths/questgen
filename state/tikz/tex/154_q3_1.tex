@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[<->] (22,389) -- (878,389);
+  \draw[<->] (450,612) -- (450,168);
+  \node[font=\large] at (450,130) {$y$};
+  \node[font=\large] at (900,391) {$x$};
+  \draw[line width=0.9pt, <->] plot[smooth, samples=90, domain=-1.09:1.10]
+     ({450+100*\x},{389-322.8*(\x*\x*\x-0.5808*\x)});
+  \node[font=\large] at (378,302) {$(-3,4)$};
+  \node[font=\large] at (509,484) {$(3,5)$};
+  \node at (873,180) {NOT TO};
+  \node at (873,214) {SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\fcurve{plot[smooth,tension=0.6] coordinates {(30,255) (80,302) (135,352) (180,381) (225,390) (270,380) (315,352) (400,262) (480,207) (590,190) (700,215) (790,275) (862,352) (905,412) (953,435) (1000,412) (1043,352) (1090,300) (1140,255)}}
+\begin{scope}
+\clip (135,352) rectangle (315,500);
+\path[shade dots] \fcurve -- (1140,352) -- (30,352) -- cycle;
+\end{scope}
+\begin{scope}
+\clip (862,352) rectangle (1043,500);
+\path[shade dots] \fcurve -- (1140,352) -- (30,352) -- cycle;
+\end{scope}
+\draw[->] (5,352)--(1160,352);
+\draw[->] (315,452)--(315,40);
+\foreach \t in {135,498,680,862,1043} \draw (\t,346)--(\t,358);
+\draw[line width=0.9pt] \fcurve;
+\begin{scope}[font=\large]
+\node at (300,58) {$y$};
+\node at (1135,383) {$x$};
+\node at (332,382) {$O$};
+\node at (122,397) {$-1$};
+\node at (862,397) {$3$};
+\node at (1045,397) {$4$};
+\node at (225,440) {$R_1$};
+\node at (957,487) {$R_2$};
+\node at (820,215) {$y=f(x)$};
+\node[align=center] at (1085,95) {NOT TO\\SCALE};
+\end{scope}
+\end{tikzpicture}
+\end{document}

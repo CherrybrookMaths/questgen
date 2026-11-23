@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \k in {-3,...,11} {\pgfmathsetmacro\X{259+\k*67.75}
+    \ifodd\k \draw[black!28, line width=0.4pt] (\X,0) -- (\X,707); \else \draw[black!50, line width=0.4pt] (\X,0) -- (\X,707); \fi}
+  \foreach \j in {-9,...,8} {\pgfmathsetmacro\Y{347-40*\j}
+    \ifodd\j \draw[black!28, line width=0.4pt] (0,\Y) -- (1059,\Y); \else \draw[black!50, line width=0.4pt] (0,\Y) -- (1059,\Y); \fi}
+  \draw[<->] (0,347) -- (1059,347);
+  \draw[<->] (259,707) -- (259,0);
+  \node at (240,370) {$0$};
+  \node at (530,370) {$\pi$};
+  \node at (800,370) {$2\pi$};
+  \node at (241,27) {$4$};
+  \node at (241,187) {$2$};
+  \node at (236,507) {$-2$};
+  \node at (236,666) {$-4$};
+  \node at (1020,405) {\large$x$};
+  \node at (205,45) {\large$y$};
+\end{tikzpicture}
+\end{document}

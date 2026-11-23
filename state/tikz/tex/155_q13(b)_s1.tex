@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=2cm,y=2.5cm]
+\draw[->] (-0.3,0) -- (3.7,0) node[right] {$x$};
+\draw[->] (0,-0.25) -- (0,2.45) node[above] {$y$};
+\node[below left] at (0,0) {$O$};
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:pi] ({\x},{sin(\x r)});
+\draw[line width=0.9pt] (0,0) -- (pi,{2*pi/3});
+\node[pt] at ({pi/2},1) {};
+\node[pt] at (pi,0) {};
+\node[pt] at (pi,{2*pi/3}) {};
+\node at ({pi/2},0.62) {$\left(\dfrac{\pi}{2},1\right)$};
+\node[anchor=north] at (pi,-0.04) {$(\pi,0)$};
+\node[anchor=west] at (pi+0.05,{2*pi/3}) {$\left(\pi,\dfrac{2\pi}{3}\right)$};
+\node[anchor=south east] at (2.2,1.5) {$y=\dfrac{2}{3}x$};
+\node[anchor=south west] at (2.78,0.42) {$y=\sin x$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \k in {-7,...,9} {\pgfmathsetmacro\X{303+\k*40.3}
+    \draw[black!28, line width=0.4pt] (\X,0) -- (\X,707);}
+  \foreach \k in {-5,5} {\draw[black!50, line width=0.4pt] ({303+\k*40.3},0) -- ({303+\k*40.3},707);}
+  \foreach \j in {-5,...,9} {\pgfmathsetmacro\Y{451-46.85*\j}
+    \draw[black!28, line width=0.4pt] (0,\Y) -- (703,\Y);}
+  \foreach \j in {-4,4,8} {\draw[black!50, line width=0.4pt] (0,{451-46.85*\j}) -- (703,{451-46.85*\j});}
+  \draw[<->] (0,451) -- (703,451);
+  \draw[<->] (303,707) -- (303,0);
+  \draw[line width=0.9pt, smooth, domain=-7.52:9.95, samples=90, variable=\t]
+    plot ({303+\t*40.3},{451-93.7*(2*sin(\t r)+1)});
+  % line y = x/2
+  \draw[line width=0.9pt] ({303-5.4*40.3},{451+93.7*2.7}) -- ({303+9.5*40.3},{451-93.7*4.75});
+  \foreach \r in {-1.8478,-0.7624,2.9116} {
+    \node[pt] at ({303+\r*40.3},{451-93.7*\r/2}) {};}
+  \node[anchor=east] at (625,70) {$y=\dfrac{x}{2}$};
+  \node at (95,472) {$-5$};
+  \node at (318,472) {$0$};
+  \node at (503,472) {$5$};
+  \node at (684,472) {$10$};
+  \node at (286,77) {$4$};
+  \node at (286,263) {$2$};
+  \node at (281,638) {$-2$};
+  \node at (670,500) {\large$x$};
+  \node at (250,45) {\large$y$};
+\end{tikzpicture}
+\end{document}
