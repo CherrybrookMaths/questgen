@@ -72,8 +72,8 @@ function renderLevels(keep){
     <div class="lvq">${qBody(x.q,'bank')}</div></article>
     <div class="lvact" id="lvAct">
       <div class="lvwhy"><b>Our rating:</b> Band ${x.d.b} · ${LV_WM[x.d.wm]}${x.d.c==='l'?' · <span class="lvlow">low confidence</span>':''}<span class="lvr">${esc(x.d.r||'')}</span>${x.lean?`<span class="lvlean">${x.lean} other part${x.lean===1?'':'s'} were rated against this one</span>`:''}</div>
-      <div class="lvpick"><div class="lvbands" role="group" aria-label="Band">${[2,3,4,5,6].map(b=>`<button data-lvb="${b}" aria-pressed="${band===b}" title="Band ${b}: ${LV_BAND[b]}"><b>${b}</b><span>${['','','routine','standard','multi-step','non-routine','insight'][b]}</span></button>`).join('')}</div>
-        <div class="lvwm" role="group" aria-label="Working mathematically">${['UF','PR'].map(w=>`<button data-lvw="${w}" aria-pressed="${wm===w}">${w==='UF'?'Fluency':'Problem solving'}</button>`).join('')}</div></div>
+      <div class="lvpick"><div class="lvbands" role="group" aria-label="Band">${[2,3,4,5,6].map(b=>`<button data-lvb="${b}" aria-pressed="${band===b}" title="Band ${b}: ${LV_BAND[b]} (key ${'QWERT'[b-2]})"><b>${b}</b><kbd>${'QWERT'[b-2]}</kbd><span>${['','','routine','standard','multi-step','non-routine','insight'][b]}</span></button>`).join('')}</div>
+        <div class="lvwm" role="group" aria-label="Working mathematically">${['UF','PR'].map(w=>`<button data-lvw="${w}" aria-pressed="${wm===w}">${w==='UF'?'Fluency':'Problem solving'}<kbd>${w==='UF'?'D':'F'}</kbd></button>`).join('')}</div></div>
       <div class="lvgo"><button class="lvnav" data-lvnav="-1" aria-label="Previous" ${LVI?'':'disabled'}>‹</button>
         <button class="lvok ${changed?'chg':''}" id="lvOk">${dec?.status?(changed?'Saved: changed ✓':'Agreed ✓'):(band!==x.d.b||wm!==x.d.wm?'Save change':'Agree')}<kbd>↵</kbd></button>
         <button class="lvnav" data-lvnav="1" aria-label="Next" ${LVI<list.length-1?'':'disabled'}>›</button></div>
@@ -103,6 +103,8 @@ document.addEventListener('click',e=>{if(view!=='levels')return;
   const w=e.target.closest('[data-lvw]');if(w){lvSet('wm',w.dataset.lvw);return}
   const n=e.target.closest('[data-lvnav]');if(n&&!n.disabled){LVI+=+n.dataset.lvnav;renderLevels(true);window.scrollTo({top:0});return}
   if(e.target.closest('#lvOk')){lvSave();return}});
-document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('input,textarea,select'))return;
-  if(/^[2-6]$/.test(e.key)){lvSet('band',+e.key);e.preventDefault()}else if(e.key==='f'){lvSet('wm','UF')}else if(e.key==='p'){lvSet('wm','PR')}
+// owner 23 Nov: "In difficulty, change the 2,3,4,5,6 to qwert and F PS to d and f": Q W E R T set bands 2-6, D Fluency, F Problem solving
+const LV_KEYS={q:2,w:3,e:4,r:5,t:6};
+document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('input,textarea,select')||e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key.toLowerCase();
+  if(k in LV_KEYS){lvSet('band',LV_KEYS[k]);e.preventDefault()}else if(k==='d'){lvSet('wm','UF');e.preventDefault()}else if(k==='f'){lvSet('wm','PR');e.preventDefault()}
   else if(e.key==='Enter'||e.key==='a'){e.preventDefault();lvSave()}else if(e.key==='k'||e.key==='ArrowRight'){const l=lvList();if(LVI<l.length-1){LVI++;renderLevels(true)}}else if(e.key==='j'||e.key==='ArrowLeft'){if(LVI){LVI--;renderLevels(true)}}});
