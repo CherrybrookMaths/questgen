@@ -22,7 +22,7 @@ Run one batch at a time, about 9 papers per batch.
 
 | # | Step | Tool | Done when |
 |---|------|------|-----------|
-| 1 | Stage PDFs | `work/import/papers.json`, `src/<id>.pdf` | Every paper and its solutions PDF are on disk |
+| 1 | Stage PDFs, copy check | `work/import/papers.json`, `src/<id>.pdf`, then `copy_check.py check <batch> <ids> --apply` (24 Nov, "Copy check before any API spend" below; `run_batch.py` runs it first) | Every paper and its solutions PDF are on disk; copies of bank papers are recorded and out of the batch |
 | 2 | Parse | workflow `parse-batch` (PARSE_SPEC), one agent per paper | Each paper has a parse output |
 | 3 | Load | `load.py <ids>`, then `house_style.py`, `tables.py`, `dedup.py <ids>`, `relabel_split.py` (split questions lose the outer letter) | Questions are in the DB, with duplicate copies hidden |
 | 4 | Tag | TAG_SPEC agents, then `load_tags_batch.py` | Every answerable part is tagged and lead-in parts have no tags |
@@ -62,6 +62,35 @@ tokens and US$ (state/work/api_import/<batch>/calls.jsonl); `api_import.py cost 
 Order used for Batch 8: parse → load.py → post_load.py → split_batch.py prep → split → split_batch.py apply → relabel_split.py →
 prep_batch.py → tag + solfmt + gen (parallel) → apply_text.py → difficulty → difficulty-apply → apply_difficulty_reviews.py <difficulty export> → diagrams → apply_diagrams.py → prep_verify.py → verify → fix the
 verifier's findings (source_corrections.py) → triage.py → add_to_bank.py → build_bank.py → render audit, recrop --check, prepublish.
+Since 24 Nov the order starts with the **copy check** (below), and one driver runs it all up to `cost`:
+`TZ=Australia/Sydney python3 tools/run_batch.py <batch> <doc ids>` (copy check → import_hold → parse → ... → verify → cost). It makes
+work/<batch>/ first, logs each step to work/<batch>/logs/<step>.log (start/end in times.txt) and STOPS at the first step that exits
+non-zero, printing the end of its log and the resume command (`--from <step>`; `--to <step>` stops early; `--steps` lists them;
+`--difficulty-export <dir>` for apply_difficulty_reviews, else the page_difficulty mirror). Why: the 23 Nov night driver
+(work/imp_1123n/run_batch.sh, untracked) went on after its split step crashed (FileNotFoundError: work/b16 did not exist), and every later
+step of Batch 16 ran without the split. The session still keeps progress/queue and progress/jobs current (CLAUDE.md)
+and runs the steps after verify by hand.
+
+### Copy check before any API spend (24 Nov; owner 23 Nov: "yes I do want c as well.")
+Schools sit commercial trials under their own name, and the API import paid for papers already in the bank: 2022 NEAP AT4 (doc 277,
+Batch 12, US$6.44) is 2022 Knox AT4 (doc 1612, Batch 11); 2021 King's AT4 (doc 1051, Batch 17, US$3.07) is the 2021 PEM trial (doc 1315,
+Batch 16). `python3 tools/copy_check.py check <batch> <doc ids> [--apply]` (about 2 s a batch, no API) compares each new paper's PDF
+text (`pdftotext -raw` of every file of the paper in src/) with every bank paper's questions in the database, word 3-shingles as in
+dedup.py: a bank question is found when half its shingles are in the paper's text; `found` = share of the bank paper's questions found,
+`share` = share of all its question shingles found. COPY when found >= 0.6 and share >= 0.5 (papers earlier in the same batch: PDF to
+PDF, shingles shared / the smaller paper's >= 0.6). `--apply` records each copy as the repo already does (every file of the paper:
+documents.status duplicate_file, "copy of document <original>: ..."; questions.db backed up to archive/ first), drops it from the
+batch in state/work/import/batches.json, and run_batch.py then runs inventory.py, which takes it out of its lane batch ("recorded as copies
+of another file (never imported)") and lists it under Processes > Papers > Copies. Report: state/work/import/copy_check/<batch>.json;
+`api_import.py parse` refuses a paper with no check in that report, or one recorded as a copy.
+Thresholds, from the evidence (`python3 tools/copy_check.py evidence b11 b12 b13 b15 b16 b17 b18 b19 b20`: each paper against the bank as
+it was before its batch): flagged 277 (found 0.97 / share 0.85 vs 1612), 1051 (0.67 / 0.58 vs 1315) and **1550, 2021 Western Mathematics
+AT4 (0.76 / 0.79 vs 1316, 2021 Ryde AT4)**: a third copy, already imported in Batch 17 (dedup.py links 30 of its 34 questions to Ryde's at
+>= 0.65). Every other paper: found <= 0.41, share <= 0.33; against the whole bank the closest non-copies are 2020 Grafton / Hurlstone /
+Moorebank (found <= 0.53, share <= 0.42; 14-15 shared questions each, real overlap that dedup handles). Not checkable: scans with no text
+layer (no OCR here; "unchecked", imported as normal): 2022 King's AT4 (doc 1052, scan, Batch 13) is the same exam as 2022 Independent
+AT4 (doc 1330, Batch 11; dedup links 32 of 33 questions) and went through unflagged. A copy found after import (1051, 1550, 1052) is
+not recorded by the tool: whether to retire it is the owner's call.
 Batch 8 result: 8 papers, 150 questions, US$22.65 (parse 3.54, split 0.04, tag 3.80, solutions 1.20, diagrams 9.48, verify 4.61),
 about 35 minutes of model time with papers in parallel. Diagrams (Opus, with renders and overlays fed back) are 42% of the cost.
 Lessons (each fixed in the tool):

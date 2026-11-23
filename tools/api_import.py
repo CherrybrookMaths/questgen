@@ -390,8 +390,23 @@ def paper_files(c, doc):
     return [dict(c.execute('select * from documents where id=?', (f,)).fetchone()) for f in ids]
 
 
+def copy_checked(c, batch, docs):
+    """Owner 23 Nov: "yes I do want c as well." (the copy check before any API spend, tools/copy_check.py): parse refuses a paper
+    recorded as a copy, and a paper the batch's copy check has not cleared (run it first: tools/run_batch.py does)."""
+    f = S + f'work/import/copy_check/{batch}.json'
+    rep = {r['doc']: r for r in json.load(open(f))['papers']} if os.path.exists(f) else {}
+    bad = []
+    for doc in docs:
+        st = c.execute('select status, failure_reason from documents where id=?', (doc,)).fetchone()
+        if st and st['status'] == 'duplicate_file': bad.append(f'{doc}: recorded as a copy ({st["failure_reason"][:80]})')
+        elif doc not in rep: bad.append(f'{doc}: no copy check in {batch}: python3 tools/copy_check.py check {batch} <doc ids> --apply')
+        elif rep[doc]['verdict'] in ('copy', 'missing'): bad.append(f'{doc}: copy check says {rep[doc]["verdict"]}: {rep[doc].get("why", "")}')
+    if bad: sys.exit('parse refused (no API spend):\n  ' + '\n  '.join(bad))
+
+
 def run_parse(api, batch, docs):
     c = db()
+    copy_checked(c, batch, docs)
     jobs = []
     for doc in docs:
         r = c.execute('select * from documents where id=?', (doc,)).fetchone()
