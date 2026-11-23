@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(345,587)}, x=0.3518cm, y=0.3518cm]
+\draw[black!25, line width=0.4pt] (-12.3,-1.9) grid (12.3,20.8);
+\draw[->] (-12.3,0) -- (12.5,0);
+\draw[->] (0,-1.9) -- (0,19.8);
+\node[anchor=west] at (12.55,0) {$x$};
+\node[anchor=south] at (0,19.8) {$y$};
+\foreach \v in {5,10,15} \node[anchor=east, inner sep=1.5pt] at (-0.1,\v) {\halo{$\v$}};
+\foreach \v in {1,5} \node[anchor=north, inner sep=1.5pt] at (\v,-0.1) {\halo{$\v$}};
+\draw[line width=0.9pt, smooth, samples=90, domain=-3:1] plot (\x,{\x*\x-2*\x+2});
+\draw[line width=0.9pt] (1,2) -- (6,7);
+\node[pt] at (-3,17) {};
+\node[pt] at (1,1) {};
+\node[pt] at (6,7) {};
+\node[open pt] at (1,2) {};
+\node[anchor=south, inner sep=3pt] at (-3,17.2) {\halo{$(-3,17)$}};
+\node[anchor=west, inner sep=3pt] at (6.2,7) {\halo{$(6,7)$}};
+\end{scope}
+\end{tikzpicture}
+\end{document}

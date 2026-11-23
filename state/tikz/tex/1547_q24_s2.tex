@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\tk{\fontsize{6.5}{7}\selectfont}
+% x px = 307+46x, y px = 300-64y
+\draw[<->] (5,300) -- (610,300) node[right,font=\tk] {$x$};
+\draw[<->] (307,518) -- (307,22) node[above,font=\tk] {$y$};
+\foreach \k in {-6,-5,-4,-3,-2,-1,1,2,3,4,5,6} {\draw ({307+46*\k},294) -- ({307+46*\k},306);
+  \node[font=\tk,anchor=north] at ({307+46*\k+4},307) {$\k$};}
+\foreach \k in {-3,-2,-1,1,2,3,4} {\draw (301,{300-64*\k}) -- (313,{300-64*\k});
+  \node[font=\tk,anchor=east] at (299,{300-64*\k}) {$\k$};}
+% asymptote x=-3
+\draw[aux,<->] (169,518) -- (169,22);
+% y = ln(x+3)-1 dotted
+\draw[line width=0.9pt,dash pattern=on 0.9pt off 1.6pt,<->] plot[smooth,samples=90,domain=-2.905:6.6] ({307+46*\x},{300-64*(ln(\x+3)-1)});
+% y = 1-ln(x+3) solid
+\draw[line width=0.9pt,->] plot[smooth,samples=90,domain=-2.963:6.6] ({307+46*\x},{300-64*(1-ln(\x+3))});
+% reflection arrow (red in the original)
+\draw[<->,black!55] (568,226) -- (568,372);
+\node[font=\scriptsize] at (132,96) {$x=-3$};
+\node[font=\scriptsize] at (515,212) {$y=\ln(x+3)-1$};
+\node[font=\scriptsize] at (525,388) {$y=1-\ln(x+3)$};
+\node[font=\scriptsize,align=left,anchor=north west] at (660,252) {Reflect answer to $(a)$ in\\the $x$ axis};
+\end{tikzpicture}
+\end{document}

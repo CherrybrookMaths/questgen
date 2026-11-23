@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[aux] (10,70) -- (752,70);
+\path[shade hatch] (211,447) -- plot[smooth,domain=0:1.84,samples=60] ({211+172*\x},{447-377*(1-exp(-\x))}) -- (528,447) -- cycle;
+\draw[<->] (15,447) -- (762,447);
+\draw[<->] (211,590) -- (211,2);
+\draw[line width=0.9pt] plot[smooth,domain=0:1.84,samples=60] ({211+172*\x},{447-377*(1-exp(-\x))});
+\draw[line width=0.9pt] (528,447) -- (528,{447-377*(1-exp(-1.84))});
+\draw[aux,->] plot[smooth,domain=1.84:3.13,samples=40] ({211+172*\x},{447-377*(1-exp(-\x))});
+\draw[aux,->] plot[smooth,domain=0:-0.34,samples=20] ({211+172*\x},{447-377*(1-exp(-\x))});
+\node[font=\large] at (197,90) {$1$};
+\node[font=\large] at (530,487) {$t$};
+\node[font=\large,anchor=west] at (764,447) {$x$};
+\node[font=\large,anchor=east] at (207,8) {$y$};
+\node[rotate=28,anchor=south,inner sep=3pt] at ({211+172*1.22},{447-377*(1-exp(-1.22))}) {$f(x)=1-e^{-x}$};
+\end{tikzpicture}
+\end{document}

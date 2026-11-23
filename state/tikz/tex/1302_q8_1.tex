@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (8,356) -- (668,356);
+\node[anchor=west] at (670,358) {$x$};
+\draw[<->] (338,678) -- (338,38);
+\node at (330,18) {$y$};
+\draw[line width=0.9pt,smooth,samples=90,domain=-1.06:2.77,variable=\u]
+  plot ({338+100*\u},{356-84.86*\u*\u*(\u-2.28)});
+\node at (316,337) {$O$};
+\node[pt] at (275,454.0) {}; \node[anchor=east] at (269,454) {$A$};
+\node[pt] at (387,392.5) {}; \node[anchor=west] at (394,392) {$B$};
+\node[pt] at (455,484.9) {}; \node[anchor=east] at (448,494) {$C$};
+\node[pt] at (541,443.4) {}; \node[anchor=west] at (548,453) {$D$};
+\end{tikzpicture}
+\end{document}

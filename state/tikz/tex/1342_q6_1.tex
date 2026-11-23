@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (104,533) -- plot[domain=0:4,samples=60,smooth] ({104+110.5*\x},{533-49.1*(\x*\x-2*\x)}) -- (545,533) -- cycle;
+\draw[->] (30,533) -- (718,533);
+\draw[->] (104,622) -- (104,28);
+\foreach \v in {2,4,6,8,10} {\draw (99,{533-49.1*\v}) -- (104,{533-49.1*\v}); \node[anchor=east,font=\tiny,inner sep=1pt] at (98,{533-49.1*\v}) {$\v$};}
+\node[font=\tiny] at (95,547) {$0$};
+\node[font=\tiny] at (323,547) {$2$};
+\node[font=\tiny] at (545,547) {$4$};
+\node[font=\footnotesize] at (697,566) {$x$};
+\node[font=\footnotesize] at (68,46) {$y$};
+\draw (545,533) -- (545,{533-49.1*8});
+\draw[line width=0.9pt] plot[domain=-0.69:4.38,samples=90,smooth] ({104+110.5*\x},{533-49.1*(\x*\x-2*\x)});
+\end{tikzpicture}
+\end{document}

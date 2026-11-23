@@ -1,0 +1,45 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (640,545);
+% foul-line strips
+\draw (12,193) -- (277,468);
+\draw (19,186) -- (284,461);
+\draw (12,193) -- (19,186);
+\draw (632,193) -- (367,468);
+\draw (625,186) -- (360,461);
+\draw (632,193) -- (625,186);
+% outfield arc A to B
+\draw plot[smooth,samples=90,domain=-150.6:-29.4] ({322+356*cos(\x)},{368+356*sin(\x)});
+% infield arc D to C
+\draw plot[smooth,samples=70,domain=-144.1:-35.9] ({322+239.6*cos(\x)},{439.6+239.6*sin(\x)});
+% infield diamond
+\draw (292,455) -- (238,395)
+  -- plot[smooth,samples=30,domain=41:-59] ({207+41*cos(\x)},{368+41*sin(\x)})
+  -- (285,278)
+  -- plot[smooth,samples=30,domain=144.9:35.1] ({322+45*cos(\x)},{252+45*sin(\x)})
+  -- (416,333)
+  -- plot[smooth,samples=30,domain=239:139] ({437+41*cos(\x)},{368+41*sin(\x)})
+  -- (352,455);
+\draw (322,365) circle[radius=28];
+\foreach \bx/\by in {322/252,207/368,437/368} {
+  \draw (\bx,\by-12) -- (\bx+12,\by) -- (\bx,\by+12) -- (\bx-12,\by) -- cycle;
+}
+\draw (322,490) circle[radius=47];
+\draw (293,465) rectangle (306,500);
+\draw (338,465) rectangle (351,500);
+\draw (314,477) -- (330,477) -- (330,484) -- (322,491) -- (314,484) -- cycle;
+% dimension arrows
+\draw[<->] (8,213) -- (320,520);
+\draw[<->] (520,333) -- (328,520);
+\node at (318,120) {\LARGE$G$};
+\node at (12,178) {$A$};
+\node at (632,178) {$B$};
+\node at (113,337) {$D$};
+\node at (530,326) {$C$};
+\node at (322,463) {$X$};
+\node at (140,370) {$4r$};
+\node at (452,437) {$3r$};
+\end{tikzpicture}
+\end{document}

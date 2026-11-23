@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade] (86,245) -- plot[smooth,domain=0:2,samples=40] ({86+75.25*\x*\x},{245-75*\x}) -- (387,245) -- cycle;
+  \draw[->] (10,245) -- (548,245);
+  \draw[->] (86,322) -- (86,15);
+  \draw[<->] (387,327) -- (387,15);
+  \draw[line width=0.9pt,->] plot[smooth,domain=0:2.47,samples=60] ({86+75.25*\x*\x},{245-75*\x});
+  \node at (42,22) {$y$};
+  \node at (548,275) {$x$};
+  \node at (413,275) {$4$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.11125cm,y=0.20066cm]
+\path[shade hatch reverse] plot[smooth,domain=0:2,samples=40] (\x,{\x*\x*\x-4*\x*\x+12}) -- plot[smooth,domain=2:0,samples=40] (\x,{3*\x*\x-10*\x+12}) -- cycle;
+\path[shade hatch] plot[smooth,domain=2:5,samples=50] (\x,{3*\x*\x-10*\x+12}) -- plot[smooth,domain=5:2,samples=50] (\x,{\x*\x*\x-4*\x*\x+12}) -- cycle;
+\draw[<->] (-2.34,0) -- (6.4,0);
+\draw[<->] (0,-6.33) -- (0,42.7);
+\foreach \i in {-1,1,2,...,6} \draw (\i,-0.5) -- (\i,0.5);
+\foreach \j in {-4,-2,2,4,...,42} \draw (-0.06,\j) -- (0.06,\j);
+\foreach \j in {10,20,30,40} \draw (-0.1,\j) -- (0.1,\j);
+\foreach \i in {-1,1,2,...,6} \node[anchor=north] at (\i,-1.2) {$\i$};
+\foreach \j in {10,20,30,40} \node[anchor=east] at (-0.14,\j) {$\j$};
+\node[anchor=west] at (6.42,0) {$x$};
+\node at (-0.03,44.3) {$y$};
+\draw[line width=0.9pt,<->] plot[smooth,domain=-1.94:5.27,samples=90] (\x,{3*\x*\x-10*\x+12});
+\draw[aux,line width=0.9pt,<->] plot[smooth,domain=-1.79:5.15,samples=90] (\x,{\x*\x*\x-4*\x*\x+12});
+\node[pt,inner sep=1.5pt] at (0,12) {};
+\node[pt,inner sep=1.5pt] at (2,4) {};
+\node[pt,inner sep=1.5pt] at (5,37) {};
+\draw (0.05,12.4) -- (0.25,13.4);
+\node[anchor=west] at (0.22,14.68) {$(0,\,12)$};
+\draw (2.02,5.8) -- (2.03,8.3);
+\node[anchor=south] at (1.9,8.6) {$(2,\,4)$};
+\draw (5.08,36.7) -- (5.28,36.0);
+\node[anchor=west] at (5.25,35.3) {$(5,\,37)$};
+\node at (-3.03,30.5) {$y=3x^2-10x+12$};
+\draw[->] (-2.37,32.7) -- (-1.62,{3*1.62*1.62+10*1.62+12});
+\node at (-3.03,8.67) {$y=x^3-4x^2+12$};
+\draw[->] (-1.6,7.1) -- (-1.13,{-1.13*1.13*1.13-4*1.13*1.13+12});
+\end{tikzpicture}
+\end{document}

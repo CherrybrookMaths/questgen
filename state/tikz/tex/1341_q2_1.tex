@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (0,311) -- (452,311);
+\draw[->] (68,330) -- (68,35);
+\node[font=\large] at (40,15) {$x$};
+\node[font=\large] at (445,338) {$t$};
+\foreach \t in {0,2,4,6,8} \node[font=\large,anchor=north] at ({68+37.6*\t},316) {$\t$};
+\node[font=\large,anchor=east] at (64,85) {$48$};
+\node[font=\large,anchor=east] at (64,141) {$36$};
+\draw[aux] (68,{311-4.71*48}) -- ({68+37.6*4},{311-4.71*48}) -- ({68+37.6*4},311);
+\draw[aux] (68,{311-4.71*36}) -- ({68+37.6*6},{311-4.71*36}) -- ({68+37.6*6},311);
+\draw[aux] ({68+37.6*2},{311-4.71*36}) -- ({68+37.6*2},311);
+\draw[line width=0.9pt,domain=0:8,samples=90,smooth,variable=\t] plot ({68+37.6*\t},{311-4.71*3*\t*(8-\t)});
+\end{tikzpicture}
+\end{document}

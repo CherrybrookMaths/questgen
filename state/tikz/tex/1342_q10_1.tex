@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (15,332) -- (578,332);
+\draw[->] (120,470) -- (120,36);
+\draw[aux] (274,332) -- (274,252.7);
+\draw[aux] (355,332) -- (355,217.9);
+\draw[line width=0.9pt] plot[domain=-1.76:2.586,samples=90,smooth] ({168+29*exp(\x)},{332-61.2*\x});
+\fill (274,252.7) circle[radius=1.6pt];
+\node[font=\Large] at (100,45) {$y$};
+\node[font=\Large] at (573,355) {$x$};
+\node[font=\Large] at (88,362) {$O$};
+\node[font=\Large] at (272,360) {$a$};
+\node[font=\Large] at (352,360) {$e$};
+\node[font=\Large] at (590,143) {$y=\ln x$};
+\end{tikzpicture}
+\end{document}

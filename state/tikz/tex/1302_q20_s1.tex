@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\scriptsize]
+  % axes
+  \draw[<->] (5,85) -- (358,85);
+  \draw[<->] (174,272) -- (174,28);
+  \foreach \t in {57,96,135,213,251,290} \draw (\t,80) -- (\t,90);
+  \foreach \t in {133,182,230} \draw (169,\t) -- (179,\t);
+  \node[anchor=west] at (352,85) {$x$};
+  \node[anchor=south] at (174,26) {$y$};
+  % parabola, intercepts -35 and 100/3 (scale 3.88 px per unit)
+  \draw[line width=0.9pt, smooth, samples=90, domain=18:323] plot (\x, {85+168*(1-((\x-170.6)/132.5)^2)});
+  \node[pt] at (38.1,85) {};
+  \node[pt] at (303.1,85) {};
+  \node at (22,110) {$-35$};
+  \node at (321,126) {$\dfrac{100}{3}$};
+\end{tikzpicture}
+\end{document}

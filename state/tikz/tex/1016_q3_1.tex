@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % grid: 0.2 units horizontally (38.2 px), 25.6 px vertically
+  \draw[black!18,line width=0.4pt] (17,73) -- (17,569);
+  \foreach \i in {-3,...,8} {
+    \pgfmathtruncatemacro\m{mod(\i+400,2)}
+    \ifnum\m=0 \draw[black!40,line width=0.4pt] ({155+38.2*\i},73) -- ({155+38.2*\i},569);
+    \else \draw[black!18,line width=0.4pt] ({155+38.2*\i},73) -- ({155+38.2*\i},569); \fi }
+  \foreach \j in {-7,...,11} {
+    \pgfmathtruncatemacro\m{mod(\j+400,5)}
+    \ifnum\m=0 \draw[black!40,line width=0.4pt] (17,{263+25.6*\j}) -- (463,{263+25.6*\j});
+    \else \draw[black!18,line width=0.4pt] (17,{263+25.6*\j}) -- (463,{263+25.6*\j}); \fi }
+  % axes
+  \draw (17,263) -- (463,263);
+  \draw (155,73) -- (155,569);
+  % curve
+  \draw[line width=0.9pt, smooth, samples=90, domain=-0.2:1.414]
+    plot ({155+191*\x},{263-25.6*(15.38*exp(-1.5*\x)-13.35)});
+  \fill (346,263) circle (7);
+  \fill (346,{263-25.6*(15.38*exp(-1.5)-13.35)}) circle (7);
+  \node at (115,28) {$y$};
+  \node at (116,280) {$0$};
+  \node at (335,290) {$1$};
+\end{tikzpicture}
+\end{document}

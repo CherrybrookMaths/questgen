@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % front trapezium (level, isosceles), depth vector (555,-160)
+  \draw (42,212) -- (632,212) -- (517,400) -- (157,400) -- cycle;
+  \draw (42,212) -- (597,52) -- (1187,52) -- (632,212);
+  \draw (1187,52) -- (1072,240) -- (517,400);
+  % 45 degree marks
+  \draw (82,212) arc[start angle=0,end angle=58.5,radius=40];
+  \draw (592,212) arc[start angle=180,end angle=121.5,radius=40];
+  \node at (108,256) {$45^\circ$};
+  \node at (566,256) {$45^\circ$};
+  % equal-side ticks
+  \draw (85,306) -- (114,306);
+  \draw (560,306) -- (589,306);
+  % height
+  \draw[dash pattern=on 0.8pt off 1.6pt] (355,212) -- (355,400);
+  \draw (341,212) -- (341,226) -- (355,226);
+  \draw (341,400) -- (341,386) -- (355,386);
+  \node[anchor=west] at (363,308) {$h$};
+  % a
+  \draw[->] (265,440) -- (147,440);
+  \draw[->] (305,440) -- (500,440);
+  \node at (285,440) {$a$};
+  % 1 metre
+  \draw[->] (680,405) -- (528,450);
+  \draw[->] (853,354) -- (1070,290);
+  \node at (790,385) {\textbf{1 metre}};
+  \node[anchor=east,font=\small] at (1192,553) {(DIAGRAM NOT DRAWN TO SCALE)};
+\end{tikzpicture}
+\end{document}

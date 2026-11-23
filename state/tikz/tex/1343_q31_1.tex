@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\px{433.3}\def\mx{116.7}\def\py{127.2}\def\my{288.8}
+  \fill[shade] (\mx,\py) rectangle (\px,\my);
+  \draw (\mx,\py) rectangle (\px,\my);
+  \draw[->] (12,208) -- (527,208);
+  \draw[->] (275,395) -- (275,18);
+  \draw (275,208) ellipse [x radius=226, y radius=113];
+  \foreach \p in {(\px,\py),(\mx,\py),(\mx,\my),(\px,\my)} \fill \p circle (2.6);
+  \node at (258,24) {$y$};
+  \node at (540,228) {$x$};
+  \node at (102,108) {$S$};
+  \node at (478,108) {$P(x,\,y)$};
+  \node at (102,312) {$R$};
+  \node at (447,312) {$Q$};
+\end{tikzpicture}
+\end{document}

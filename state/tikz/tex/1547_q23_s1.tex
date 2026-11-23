@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\tk{\fontsize{7}{8}\selectfont}
+% axes
+\draw[<->] (5,127) -- (822,127) node[right,font=\scriptsize] {$x$};
+\draw[<->] (400,680) -- (400,42) node[above,font=\scriptsize] {$y$};
+\foreach \k in {-4,-3.5,...,4} {\ifdim\k pt=0pt\else\draw ({400+93*\k},121) -- ({400+93*\k},133);\fi}
+\foreach \k in {-4,-3,-2,-1,1,2,3,4} {\node[font=\tk,anchor=north] at ({400+93*\k-6},136) {$\k$};}
+\foreach \v in {20,10,-10,-20,...,-180} {\draw (394,{127-2.96*\v}) -- (406,{127-2.96*\v});
+  \node[font=\tk,anchor=east] at (391,{127-2.96*\v}) {$\v$};}
+% curve
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-1.855:2.6] ({400+93*\x},{127-2.96*(12*\x*\x*\x*\x*\x-15*\x*\x*\x*\x-40*\x*\x*\x)});
+% key points
+\coordinate (M) at ({400+93*(-1)},{127-2.96*13});
+\coordinate (I1) at ({400+93*(-0.693)},{127-2.96*7.935});
+\coordinate (O) at (400,127);
+\coordinate (I2) at ({400+93*1.443},{127+2.96*110.143});
+\coordinate (m) at ({400+93*2},{127+2.96*176});
+\foreach \p in {M,I1,O,I2,m} \node[pt,inner sep=0.9pt] at (\p) {};
+\node[font=\scriptsize] at (195,38) {Local Maximum};
+\node[font=\scriptsize] at (175,73) {$(\,-1\ ,\ 13\,)$};
+\draw[->] (240,80) -- ($(M)+(-5,-1)$);
+\node[font=\scriptsize] at (148,176) {Point of Inflection};
+\node[font=\scriptsize] at (150,212) {$(\,-0.693\ ,\ 7.935\,)$};
+\draw[->] (228,156) -- ($(I1)+(-5,3)$);
+\node[font=\scriptsize] at (495,14) {Horizontal Inflection};
+\node[font=\scriptsize] at (465,47) {$(\,0\ ,\ 0\,)$};
+\draw (462,74) -- ($(O)+(4,-3)$);
+\node[font=\scriptsize] at (778,419) {Point of Inflection};
+\node[font=\scriptsize] at (785,452) {$(\,1.443\ ,\ -110.143\,)$};
+\draw[->] (692,440) -- ($(I2)+(6,0)$);
+\node[font=\scriptsize] at (663,673) {Local Minimum};
+\node[font=\scriptsize] at (663,706) {$(\,2\ ,\ -176\,)$};
+\draw[->] (620,664) -- ($(m)+(5,3)$);
+\end{tikzpicture}
+\end{document}

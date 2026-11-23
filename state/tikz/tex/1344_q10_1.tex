@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (30,55) -- (30,517);
+\draw[->] (30,292) -- (862,292);
+\foreach \i in {1,2,3,4,6,7,8,9,11,12,13,14,16} \draw ({30+49*\i},286) -- ({30+49*\i},298);
+\foreach \i in {5,10,15} \draw ({30+49*\i},280) -- ({30+49*\i},304);
+\node at (275,328) {$5$};
+\node at (520,328) {$10$};
+\node at (765,260) {$15$};
+\draw[line width=0.9pt, smooth, samples=90, domain=0:16] plot ({30+49*\x},{292-0.627*(\x-2)*(\x-10)*(\x-16)});
+\node at (30,32) {$v$};
+\node[anchor=west] at (868,292) {$t$};
+\end{tikzpicture}
+\end{document}

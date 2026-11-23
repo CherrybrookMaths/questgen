@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\normalsize]
+  % X = 110 + 8.21 a ; Y = 558 - 5.23 i
+  \foreach \a in {5,15,...,85} \draw[black!15, line width=0.4pt] ({110+8.21*\a},558) -- ({110+8.21*\a},35);
+  \foreach \i in {5,15,...,95} \draw[black!15, line width=0.4pt] (110,{558-5.23*\i}) -- (849,{558-5.23*\i});
+  \foreach \a in {10,20,...,90} \draw[black!40, line width=0.4pt] ({110+8.21*\a},558) -- ({110+8.21*\a},35);
+  \foreach \i in {10,20,...,100} \draw[black!40, line width=0.4pt] (110,{558-5.23*\i}) -- (849,{558-5.23*\i});
+  \draw[->] (110,558) -- (874,558);
+  \draw[->] (110,558) -- (110,20);
+  \foreach \a in {10,20,...,90} {\draw ({110+8.21*\a},552) -- ({110+8.21*\a},564); \node[anchor=north] at ({110+8.21*\a},568) {$\a$};}
+  \foreach \a in {5,15,...,85} \draw ({110+8.21*\a},555) -- ({110+8.21*\a},561);
+  \foreach \i in {10,20,...,100} {\draw (104,{558-5.23*\i}) -- (116,{558-5.23*\i}); \node[anchor=east] at (98,{558-5.23*\i}) {$\i$};}
+  \foreach \i in {5,15,...,95} \draw (107,{558-5.23*\i}) -- (113,{558-5.23*\i});
+  \node at (490,632) {Age (years)};
+  \node[rotate=90] at (20,290) {Income (thousands of dollars)};
+  \foreach \a/\i in {15/5,20/25,25/25.5,30/30,30/50,30/60,35/50,40/95,40/60.5,40/55.5,40/45.5,45/65,45/10,50/60.5,50/40,60/60,75/45,85/30}
+    \fill ({110+8.21*\a},{558-5.23*\i}) circle (4.8);
+  \draw[line width=0.9pt] ({110+8.21*15},{558-5.23*25}) -- ({110+8.21*65},{558-5.23*65});
+\end{tikzpicture}
+\end{document}

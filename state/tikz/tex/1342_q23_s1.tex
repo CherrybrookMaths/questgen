@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.5cm,y=1.5cm]
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (-2.983,-0.634);
+  \coordinate (C) at (-5.304,0.706);
+  \draw (A) -- (B) -- (C) -- cycle;
+  % north lines
+  \draw[->] (A) -- ++(0,1.1) node[above] {$N$};
+  \draw[->] (B) -- ++(0,0.85);
+  \node at ($(B)+(-0.16,0.78)$) {$N$};
+  % bearing 258 at A
+  \draw (0,0.33) arc[start angle=90,end angle=-168,radius=0.33];
+  \node at ($(A)+(-45:0.62)$) {$258^\circ$};
+  % bearing 300 at B
+  \draw ($(B)+(0,0.25)$) arc[start angle=90,end angle=-210,radius=0.25];
+  \node at ($(B)+(-90:0.5)$) {$300^\circ$};
+  % angle ABC = 138
+  \draw ($(B)+(12:0.5)$) arc[start angle=12,end angle=150,radius=0.5];
+  \node at ($(B)+(40:0.82)$) {$138^\circ$};
+  % points
+  \node at ($(A)+(140:0.22)$) {$A$};
+  \node at ($(B)+(-150:0.45)$) {$B$};
+  \node[anchor=east] at ($(C)+(-0.06,0)$) {$C$};
+  % sides
+  \node[anchor=north west] at ($(A)!0.5!(B)+(0.05,-0.08)$) {3050 km};
+  \node[anchor=north east] at ($(B)!0.5!(C)+(-0.05,-0.1)$) {2680 km};
+  \node[anchor=south] at ($(A)!0.5!(C)+(0,0.06)$) {$b$};
+\end{tikzpicture}
+\end{document}

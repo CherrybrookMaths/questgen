@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (78,508)--(762,508) node[right,inner sep=3pt]{$t$};
+  \draw[<->] (78,645)--(78,38) node[above,inner sep=3pt]{$x$};
+  \draw[line width=0.9pt,->] plot[smooth,domain=0:7.3,samples=90,variable=\s] ({78+91.4*\s},{508-110.5*ln(\s*\s+6)});
+  \node[anchor=east] at (74,302) {$\ln(6)$};
+  \node at (452,102) {$x=\ln\!\left(t^2+6\right)$};
+\end{tikzpicture}
+\end{document}

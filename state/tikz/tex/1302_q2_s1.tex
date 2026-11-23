@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\scriptsize]
+\foreach \i in {20,...,36} \draw[black!18,line width=0.4pt] ({103+(\i-20)*23.06},19) -- ({103+(\i-20)*23.06},372);
+\foreach \j in {160,...,185} \draw[black!18,line width=0.4pt] (103,{372-(\j-160)*14.12}) -- (472,{372-(\j-160)*14.12});
+\foreach \i in {20,22,...,36} \draw[black!40,line width=0.4pt] ({103+(\i-20)*23.06},19) -- ({103+(\i-20)*23.06},372);
+\foreach \j in {160,165,...,185} \draw[black!40,line width=0.4pt] (103,{372-(\j-160)*14.12}) -- (472,{372-(\j-160)*14.12});
+\draw (76,405) -- (76,390) -- (81,386) -- (71,381) -- (76,377);
+\draw[->] (76,377) -- (76,4);
+\draw (70,398) -- (83,398) -- (87,393) -- (95,403) -- (99,398);
+\draw[->] (99,398) -- (490,398);
+\foreach \j in {160,...,185}{\pgfmathtruncatemacro\m{mod(\j,5)}
+  \ifnum\m=0 \draw (69,{372-(\j-160)*14.12}) -- (76,{372-(\j-160)*14.12});
+    \node[anchor=east] at (67,{372-(\j-160)*14.12}) {\j};
+  \else \draw (72,{372-(\j-160)*14.12}) -- (76,{372-(\j-160)*14.12}); \fi}
+\foreach \i in {20,...,36}{\pgfmathtruncatemacro\m{mod(\i,2)}
+  \ifnum\m=0 \draw ({103+(\i-20)*23.06},398) -- ({103+(\i-20)*23.06},405);
+    \node[anchor=north] at ({103+(\i-20)*23.06},408) {\i};
+  \else \draw ({103+(\i-20)*23.06},398) -- ({103+(\i-20)*23.06},402); \fi}
+\foreach \a/\b in {20/171,23/167,23/165,25/179,25.1/170,29/171,30/181,32/185,35/180}
+  \fill ({103+(\a-20)*23.06},{372-(\b-160)*14.12}) circle (2.9);
+\draw[aux] (103,301.4) -- (472,301.4) -- (472,19);
+\draw (457,301.4) -- (457,286.4) -- (472,286.4);
+\draw[line width=0.9pt] (103,301.4) -- (472,19);
+\node at (287,318) {16};
+\node[anchor=west] at (478,160) {20};
+\node at (287,457) {Foot length (cm)};
+\node[rotate=90] at (14,195) {Height (cm)};
+\end{tikzpicture}
+\end{document}

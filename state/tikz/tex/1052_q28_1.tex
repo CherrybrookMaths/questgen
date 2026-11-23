@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (126,617); 17.85 px per day, 17.93 px per mark
+  \def\X#1{126+17.85*(#1)}\def\Y#1{617-17.93*(#1)}
+  \foreach \i in {1,...,40} \draw[black!30, line width=0.3pt] ({\X{\i/2}},{\Y{0}}) -- ({\X{\i/2}},{\Y{30}});
+  \foreach \j in {1,...,30} \draw[black!30, line width=0.3pt] ({\X{0}},{\Y{\j}}) -- ({\X{20}},{\Y{\j}});
+  \draw[->] ({\X{0}},{\Y{0}}) -- (505,{\Y{0}}) node[right] {$x$};
+  \draw[->] ({\X{0}},{\Y{0}}) -- ({\X{0}},46) node[above] {$y$};
+  \foreach \v in {0,5,...,20} \node at ({\X{\v}},661) {$\v$};
+  \foreach \v in {5,10,...,30} \node[anchor=east] at (108,{\Y{\v}}) {$\v$};
+  \node[rotate=90] at (45,345) {\textit{Mark}};
+  \node at (302,710) {\textit{Days absent}};
+  \foreach \p/\q in {3/27,4/29,7/20,8/24,10/23,12/17,13/18,15/15,18/16}
+    \fill ({\X{\p}},{\Y{\q}}) circle (4.5);
+\end{tikzpicture}
+\end{document}

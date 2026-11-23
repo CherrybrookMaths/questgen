@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\normalsize]
+  % X = 501 + 79.2 x ; Y = 498 - 74.4 y
+  \draw[<->] (12,498) -- (988,498);
+  \draw[<->] (501,955) -- (501,40);
+  \foreach \k in {-6,...,-1,1,2,...,6} {
+    \draw ({501+79.2*\k},492) -- ({501+79.2*\k},504);
+    \node[anchor=north] at ({501+79.2*\k},514) {$\k$};
+    \draw (495,{498-74.4*\k}) -- (507,{498-74.4*\k});
+    \node[anchor=east] at (492,{498-74.4*\k}) {$\k$};}
+  \node[anchor=west] at (990,498) {$x$};
+  \node[anchor=south] at (497,34) {$y$};
+\end{tikzpicture}
+\end{document}

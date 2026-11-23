@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\foreach \i in {20,...,36} \draw[black!18,line width=0.4pt] ({155+(\i-20)*35.19},30) -- ({155+(\i-20)*35.19},568);
+\foreach \j in {160,...,185} \draw[black!18,line width=0.4pt] (155,{568-(\j-160)*21.52}) -- (718,{568-(\j-160)*21.52});
+\foreach \i in {20,22,...,36} \draw[black!40,line width=0.4pt] ({155+(\i-20)*35.19},30) -- ({155+(\i-20)*35.19},568);
+\foreach \j in {160,165,...,185} \draw[black!40,line width=0.4pt] (155,{568-(\j-160)*21.52}) -- (718,{568-(\j-160)*21.52});
+% axes with breaks
+\draw (110,618) -- (110,596) -- (117,590) -- (103,584) -- (110,578);
+\draw[->] (110,578) -- (110,6);
+\draw (100,608) -- (122,608) -- (128,600) -- (140,616) -- (146,608);
+\draw[->] (146,608) -- (746,608);
+% ticks
+\foreach \j in {160,...,185}{\pgfmathtruncatemacro\m{mod(\j,5)}
+  \ifnum\m=0 \draw (100,{568-(\j-160)*21.52}) -- (110,{568-(\j-160)*21.52});
+    \node[anchor=east] at (97,{568-(\j-160)*21.52}) {\j};
+  \else \draw (104,{568-(\j-160)*21.52}) -- (110,{568-(\j-160)*21.52}); \fi}
+\foreach \i in {20,...,36}{\pgfmathtruncatemacro\m{mod(\i,2)}
+  \ifnum\m=0 \draw ({155+(\i-20)*35.19},608) -- ({155+(\i-20)*35.19},618);
+    \node[anchor=north] at ({155+(\i-20)*35.19},621) {\i};
+  \else \draw ({155+(\i-20)*35.19},608) -- ({155+(\i-20)*35.19},614); \fi}
+% data
+\foreach \a/\b in {20/171,23/167,23/165,25/179,25.1/170,29/171,30/181,32/185,35/180}
+  \fill ({155+(\a-20)*35.19},{568-(\b-160)*21.52}) circle (4.2);
+\draw[line width=0.9pt] (155,460.4) -- (718,30);
+\node[font=\normalsize] at (448,688) {Foot length (cm)};
+\node[font=\normalsize,rotate=90] at (22,298) {Height (cm)};
+\end{tikzpicture}
+\end{document}

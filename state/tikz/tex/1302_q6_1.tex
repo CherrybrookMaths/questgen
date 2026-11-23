@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (65,650) -- plot[smooth,samples=60,domain=0:5,variable=\t] ({65+\t*89.6},{650-(\t*\t-\t-2)*29.8}) -- (513,650) -- cycle;
+\draw (65,650) -- (65,709.6);
+\draw (513,650) -- (513,113.6);
+\draw[<->] (5,650) -- (615,650);
+\node[anchor=west] at (618,650) {$x$};
+\draw[<->] (65,722) -- (65,35);
+\node[anchor=south] at (65,32) {$y$};
+\node[anchor=north] at (513,656) {$5$};
+\draw[line width=0.9pt,smooth,samples=90,domain=-0.64:5.27,variable=\t]
+  plot ({65+\t*89.6},{650-(\t*\t-\t-2)*29.8});
+\end{tikzpicture}
+\end{document}

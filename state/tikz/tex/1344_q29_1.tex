@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(467,323)},xscale=41.3,yscale=-75.3]
+\fill[shade dots] plot[smooth,samples=60,domain=0:3] ({\x*\x-9},\x) -- (-9,0) -- cycle;
+\draw[->] (-10.62,0) -- (2.6,0);
+\draw[->] (0,-1.39) -- (0,3.32) node[left,inner sep=3pt]{$y$};
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:3.34] ({\x*\x-9},\x);
+\draw[line width=0.9pt] (-10.65,{-10.65/3+3}) -- (0.95,{0.95/3+3});
+\node[anchor=north west,inner sep=2pt] at (-9,-0.03) {$A$};
+\node[anchor=north west,inner sep=2pt] at (0.08,2.88) {$B$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

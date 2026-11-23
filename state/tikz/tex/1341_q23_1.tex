@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\ox{108}\def\oy{268}\def\s{44.2}
+  \draw[->] (8,\oy) -- (562,\oy) node[right] {$x$};
+  \draw[->] (\ox,508) -- (\ox,38) node[above] {$y$};
+  \foreach \i in {-2,-1,1,2,...,10} \draw ({\ox+\s*\i},{\oy-5}) -- ({\ox+\s*\i},{\oy+5});
+  \foreach \j in {-5,-4,...,-1,1,2,...,4} \draw ({\ox-5},{\oy-\s*\j}) -- ({\ox+5},{\oy-\s*\j});
+  \foreach \i in {2,4,6,8,10} \node at ({\ox+\s*\i},297) {$\i$};
+  \node at ({\ox-2*\s},297) {$-2$};
+  \foreach \j in {2,4} \node at (86,{\oy-\s*\j}) {$\j$};
+  \foreach \j in {-2,-4} \node at (80,{\oy-\s*\j}) {$\j$};
+  \draw[line width=0.9pt, <-] plot[domain=4.53:0, samples=90, smooth, variable=\u] ({\ox+\s*(8-\u*\u/2)},{\oy+\s*\u});
+  \fill ({\ox+6*\s},{\oy+2*\s}) circle (3.5);
+  \node at (410,382) {$(6,-2)$};
+\end{tikzpicture}
+\end{document}

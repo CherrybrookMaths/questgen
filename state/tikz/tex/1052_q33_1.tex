@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (200,423); 56 px per unit
+  \def\X#1{200+56*(#1)}\def\Y#1{423-56*(#1)}
+  \draw[->] (28,423) -- (575,423) node[right] {$x$};
+  \draw[->] (200,600) -- (200,40) node[above] {$y$};
+  \draw[aux] (30,{\Y{6}}) -- (605,{\Y{6}});
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=-3.07:1.946] ({\X{\x}},{\Y{exp(\x)}});
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=-0.126:7.23] ({\X{\x}},{\Y{6-8*exp(-\x)}});
+  \node at (65,105) {$y=6$};
+  \node at (182,105) {$6$};
+  \node at (182,355) {$1$};
+  \node at (180,442) {$0$};
+  \node at (172,535) {$-2$};
+  \node at (262,42) {$y=e^{x}$};
+  \node at (432,128) {$y=6-8e^{-x}$};
+\end{tikzpicture}
+\end{document}

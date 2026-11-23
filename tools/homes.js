@@ -6,7 +6,7 @@ const {chromium} = require('playwright');
   // owner 23 Nov (Standard): --course=standard reads the homes in the Standard course (its questions are only in its own bank)
   const course = (process.argv.find(a => a.startsWith('--course=')) || '').slice(9);
   if (course) await p.addInitScript(c => { try { localStorage.setItem('course', c) } catch (e) {} }, course);
-  await p.goto('http://localhost:8766/review.html#bank');
+  await p.goto(`http://localhost:${process.env.QG_HOMES_PORT || 8766}/review.html#bank`);   // tools/homes.py passes a free port
   await p.waitForFunction('typeof B==="object"&&B&&B.questions&&typeof qHome==="function"&&typeof QG==="object"&&QG.detOK', null, {timeout: 120000});
   const out = await p.evaluate(ds => { const r = {}; B.questions.filter(q => ds.includes(q.doc)).forEach(q => { r[q.id] = qHome(q) || null }); return r }, [...docs]);
   console.log(JSON.stringify(out)); await b.close();

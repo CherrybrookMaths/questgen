@@ -273,3 +273,62 @@ db.execute("""update data_tables set rows_json=replace(rows_json, '"0.719"', '"1
 # 2022 NEAP AT4 Q26 (question 3336): the paper printed "as x -> -inf = y -> inf"; y = 2x/e^x -> -inf (PARSE_SPEC "Mistakes in the paper are fixed")
 db.execute(r"""update questions set stem_latex=replace(stem_latex, 'and as $x \to -\infty = y \to \infty$', 'and as $x \to -\infty$, $y \to -\infty$') where id=3336""")
 db.commit(); print('done C12')
+
+# Batch 13 (23 Nov; owner: "I NEED you to run 2 advanced batches in the background for our checker", then "for batch 13 can we
+# multithread it so its faster?"): the verifier's findings on 2022 Sydney Boys/Girls/Grammar/Tech, King's AT2/AT4, Western Mathematics
+# and 2021 ACE. 2022 Western Mathematics Q19 (the triangle named LPS) is left for the checker.
+def _sol3733(l, c):   # 2022 Sydney Tech AT4 Q29: the stored solution stopped after one line and had no criteria
+    return (r"""The curves meet where $\sqrt{x+9}=\dfrac{x}{3}+3=\dfrac{x+9}{3}$, so $x+9=\dfrac{(x+9)^2}{9}$, giving $x=-9$ or $x=0$: $A(-9,0)$ and $B(0,3)$.
+
+Between them the curve is above the line (at $x=-5$: $\sqrt{4}=2>\dfrac{4}{3}$).
+$$\begin{aligned} A &= \int_{-9}^{0}\left(\sqrt{x+9}-\dfrac{x}{3}-3\right)dx \\ &= \Big[\dfrac{2}{3}(x+9)^{\frac{3}{2}}\Big]_{-9}^{0}-\Big[\dfrac{x^2}{6}+3x\Big]_{-9}^{0} \\ &= \dfrac{2}{3}\times 27-\big(0-(13.5-27)\big) \\ &= 18-13.5 \\ &= 4.5 \text{ units}^2 \end{aligned}$$""",
+            [[4, 'Correct answer'], [3, 'Correct integral with correct limits, evaluated with one error, or equivalent merit'],
+             [2, 'Correct integral of the difference with correct limits, or equivalent merit'], [1, 'Finds the points of intersection, or equivalent merit']])
+C13 = [
+ (5409, [(r'The worked solution printed the final line as' + '\n' + r'$$g'"'"r'(x)=\dfrac{-e^{x}}{e^{-x}-1}$$', r'$$\therefore\ g'"'"r'(x)=\dfrac{-e^{-x}}{e^{-x}-1}=\dfrac{1}{e^{x}-1}$$')], [],
+  r'the last line repeated the guideline'"'"'s typo $g'"'"r'(x)=\dfrac{-e^{x}}{e^{-x}-1}$; the answer is $\dfrac{-e^{-x}}{e^{-x}-1}=\dfrac{1}{e^x-1}$', None),
+ (5494, [(r'The required year is 2026.', r'Year $n$ is the calendar year $1999+n$ ($P_0$ is the start of 2000), so $n=26$ is 2025.' + '\n\n' + r'The required year is 2025.')], [],
+  r'the answer was 2026; $P_0$ is the start of 2000, so year $n$ is $1999+n$ and $n=26$ is 2025 (as in 2022 Hurlstone AT4)', None),
+ (5575, [(r'so the distance is the difference in displacement.', r'so the distance is the size of the change in displacement.'),
+         (r'\text{Distance} &= \left(\dfrac{20\pi}{3}-8\sqrt{3}-16\right)-\left(\dfrac{4\pi}{3}+8\sqrt{3}-16\right) \\ &= \dfrac{16\pi}{3}-16\sqrt{3} \end{aligned}$$',
+          r'\text{Distance} &= \left|\left(\dfrac{20\pi}{3}-8\sqrt{3}-16\right)-\left(\dfrac{4\pi}{3}+8\sqrt{3}-16\right)\right| \\ &= \left|\dfrac{16\pi}{3}-16\sqrt{3}\right| \\ &= 16\sqrt{3}-\dfrac{16\pi}{3} \ (\approx 10.96) \end{aligned}$$')], [],
+  r'the distance was given as $\dfrac{16\pi}{3}-16\sqrt3\approx-10.96$, a negative number; it is $16\sqrt3-\dfrac{16\pi}{3}$', None),
+ (5588, [(r'the line segment from $(-4,0)$ to $(0,2)$', r'the line segment from $(-4,0)$ to $(0,-2)$')], [],
+  r'the line segment was said to end at $(0,2)$; the graph has it at $(0,-2)$', None),
+ (5592, [(r'The source reads $3.25$ at $5\%$ and 4 years but then uses $4.3746$ in the working.' + '\n\n', ''),
+         (r'&\approx 21\,030 \end{aligned}$$', r'\end{aligned}$$' + '\n' + r'To reach at least $\$92\,000$ the contribution is rounded up: $\$21\,031$.'),
+         (r'\$21\,030 \text{ is invested e', r'\$21\,031 \text{ is invested e')], [],
+  r'an editing note was left in the working, and $\$21\,030$ gives $\$91\,997.84$, short of "at least $\$92\,000$"; it is $\$21\,031$', None),
+ (5230, [(r'P(\text{Minor, survival}) &= 0.7 \\ P(\text{Major, combat}) &= 0.6 \\ P(\text{Major, survival}) &= 0.4',
+          r'P(\text{survival}\mid\text{minor}) &= 0.7 \\ P(\text{combat}\mid\text{major}) &= 0.6 \\ P(\text{survival}\mid\text{major}) &= 0.4')], [],
+  r'the branch values were written as joint probabilities; they are conditional ($P(\text{survival}\mid\text{minor})=0.7$, ...)', None),
+ (5270, [(r'z=\dfrac{300-308}{3}\approx-2.6$$', r'z=\dfrac{300-308}{3}\approx-2.67$$'),
+         (r'P(Z<-2.6)&=1-P(Z<2.6) \\ &=1-0.99534 \\ &\approx 0.004 \ (0.4\%)', r'P(Z<-2.67)&=1-P(Z<2.67) \\ &=1-0.99621 \\ &\approx 0.0038 \ (0.38\%)'),
+         (r'=0.004\times4000=16<20', r'=0.0038\times4000\approx15.2<20')], [],
+  r'$z$ was rounded to $-2.6$ and $1-0.99534$ to $0.004$; $z=-2.67$ gives $P\approx0.0038$ and about $15.2$ packets (still under 20)', None),
+ (5273, [(r'&=0.5099\ldots \\ &\approx0.51', r'&=0.50497\ldots \\ &\approx0.50')], [],
+  r'$\sqrt{0.255}$ was given as $0.5099\ldots$ (that is $\sqrt{0.26}$); it is $0.50497\ldots\approx0.50$', None),
+ (5356, [(r'&\approx \$3047.10 \end{aligned}$$', r'&\approx \$3047 \text{ (nearest dollar)} \end{aligned}$$')], [],
+  r'the answer was $\$3047.10$; the question asks for the nearest dollar', None),
+ (5357, [(r'\tan\dfrac{7\pi}{6}&=-\tan\dfrac{\pi}{6} \\ &=-\dfrac{1}{\sqrt{3}}', r'\tan\dfrac{7\pi}{6}&=\tan\dfrac{\pi}{6} \quad (\text{third quadrant: } \tan>0) \\ &=\dfrac{1}{\sqrt{3}}')], [],
+  r'the school solution gave $-\dfrac{1}{\sqrt3}$; $\dfrac{7\pi}{6}$ is in the third quadrant, where $\tan$ is positive, so it is $\dfrac{1}{\sqrt3}$', None),
+ (5396, [(r'A probability cannot be negative, so $k>0$.' + '\n' + r'$$\therefore\ k=\dfrac{1}{4}$$', r'Both values give non-negative probabilities ($2k^2$ and $6k^2$).' + '\n' + r'$$\therefore\ k=\pm\dfrac{1}{4}$$')], [],
+  r'$k=-\dfrac14$ was rejected as "a negative probability", but the probabilities are $2k^2$ and $6k^2$; $k=\pm\dfrac14$', None),
+ (5541, [(r'$$\therefore\ x\le-1.9 \text{ or } x\ge1.1$$' + '\n' + r'(also accept $x\le-2.0$ or $x\ge1.1$)', r'$$\therefore\ x\le-2.0 \text{ or } x\ge1.1$$' + '\n' + r'(the roots are $x\approx-1.952$ and $x\approx1.087$)')], [],
+  r'the answer was $x\le-1.9$; the left root is $-1.952$, which is $-2.0$ to the nearest tenth', None),
+ (5513, [(r'namely $0\le x\le e-2$ (as given by the source).', r'namely $0\le x\le e-2$.')], [],
+  r'the paper asked for $P(f(x)<e-2)$ and meant $P(X<e-2)$; the question now reads $P(X<e-2)$', None),
+ (5336, [(r'&= -\dfrac{\sqrt{2+\sqrt2}}{2}-\dfrac{(\sqrt2-1)\sqrt{2+\sqrt2}}{2} \\', r'&= -\dfrac{(\sqrt2-1)\sqrt{2+\sqrt2}}{2}-\dfrac{\sqrt{2+\sqrt2}}{2} \\')], [],
+  r'the paper swapped the values of $\sin\dfrac{\pi}{8}$ and $\cos\dfrac{\pi}{8}$; the question and this line now use the right ones', None),
+ (5388, [], [], r'the solution stopped after its first line (and said the line is above the curve); written in full: $4.5$ units$^2$', _sol3733),
+]
+for sid, lat, crit, note, extra in C13:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# 2022 Western Mathematics AT4 Q7 (part 6153): the paper asked for P(f(x) < e-2) and means P(X < e-2) (PARSE_SPEC "Mistakes in the paper are fixed")
+db.execute("update parts set latex=replace(latex, 'Find the probability that $f(x)<e-2$.', 'Find the probability that $X<e-2$.') where id=6153")
+# 2022 Sydney Grammar AT4 Q29 (part 5961): the paper swapped the exact values of sin(pi/8) and cos(pi/8)
+db.execute(r"""update parts set latex=replace(latex, '$\sin\dfrac{\pi}{8}=\dfrac{\sqrt{2+\sqrt{2}}}{2}$ and $\cos\dfrac{\pi}{8}=\dfrac{\left(\sqrt{2}-1\right)\sqrt{2+\sqrt{2}}}{2}$', '$\sin\dfrac{\pi}{8}=\dfrac{\left(\sqrt{2}-1\right)\sqrt{2+\sqrt{2}}}{2}$ and $\cos\dfrac{\pi}{8}=\dfrac{\sqrt{2+\sqrt{2}}}{2}$') where id=5961""")
+db.commit(); print('done C13')

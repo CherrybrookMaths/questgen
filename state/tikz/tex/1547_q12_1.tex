@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (42,277); \coordinate (B) at (300,277); \coordinate (C) at (712,277); \coordinate (T) at (712,14);
+  \draw (A)--(C)--(T)--cycle;
+  \draw (B)--(T);
+  \draw (692,277)--(692,257)--(712,257);
+  \draw (A) ++(0:145) arc[start angle=0,end angle=-21.43,radius=145];
+  \node[font=\small] at (148,259) {$60^\circ$};
+  \node[font=\small,rotate=21.43] at (196,202) {Cable 1};
+  \node[font=\small,rotate=21.43] at (317,155) {80 m};
+  \node[font=\small,rotate=32.55] at (372,213) {Cable 2};
+  \node[font=\small,anchor=west] at (735,175) {Building};
+  \node[font=\small] at (25,322) {$A$};
+  \node[font=\small] at (164,322) {20 m};
+  \node[font=\small] at (299,324) {$B$};
+\end{tikzpicture}
+\end{document}

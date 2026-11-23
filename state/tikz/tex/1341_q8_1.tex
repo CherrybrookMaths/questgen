@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (5,280) -- (482,280);
+\draw[->] (245,530) -- (245,30);
+\node[anchor=west] at (484,282) {$x$};
+\node[anchor=south] at (243,28) {$y$};
+\draw[line width=0.9pt,<->,domain=-2.32:2.23,samples=90,smooth,variable=\u] plot ({221+69*\u},{291.5+51.75*(\u^3-3*\u)});
+\fill (152,395) circle (4.5) (290,188) circle (4.5);
+\node[anchor=south] at (292,178) {$(1,2)$};
+\node[anchor=north] at (150,402) {$(-2,-3)$};
+\node at (545,152) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{9}{11}\selectfont]
+  \def\ox{180}\def\oy{280}\def\px{140}\def\uy{61}
+  \draw[<->] (8,\oy) -- (785,\oy);
+  \draw[<->] (\ox,492) -- (\ox,70);
+  \node[anchor=west] at (785,\oy) {$x$};
+  \node[anchor=south] at (\ox-4,62) {$y$};
+  \foreach \k in {-4,...,16} {\ifnum\k=0\else \draw ({\ox+\px*\k/4},{\oy-6}) -- ({\ox+\px*\k/4},{\oy+6});\fi}
+  \foreach \k in {-6,...,6} {\ifnum\k=0\else \draw ({\ox-6},{\oy-\uy*\k/2}) -- ({\ox+6},{\oy-\uy*\k/2});\fi}
+  \foreach \v/\l in {-1/$-\pi$,1/$\pi$,2/$2\pi$,3/$3\pi$,4/$4\pi$} \node[anchor=north] at ({\ox+\px*\v+4},{\oy+12}) {\l};
+  \foreach \v/\l in {3/$3$,2/$2$,1/$1$,-1/$-1$,-2/$-2$,-3/$-3$} \node[anchor=east] at ({\ox-9},{\oy-\uy*\v}) {\l};
+  % original f(x) dashed grey
+  \draw[<->, aux, black!50, domain=-1.23:4.23, samples=90, smooth, variable=\t] plot ({\ox+\px*\t},{\oy-\uy*sin(\t*180)});
+  % f(x+pi) solid
+  \draw[<->, line width=0.9pt, domain=-1.23:4.23, samples=90, smooth, variable=\t] plot ({\ox+\px*\t},{\oy+\uy*sin(\t*180)});
+  % translation arrows (emphasis weight so the one on the x-axis reads over the axis)
+  \draw[->, line width=0.9pt] ({\ox+2.5*\px-4},{\oy-\uy}) -- ({\ox+1.5*\px+2},{\oy-\uy});
+  \draw[->, line width=0.9pt] ({\ox+2*\px},{\oy}) -- ({\ox+\px+2},{\oy});
+  \node[anchor=north west, align=left, font=\fontsize{11.5}{14.5}\selectfont] at (290,-4) {$f(x+\pi)$ involves a translation of the entire\\function by $\pi$ units to the left};
+\end{tikzpicture}
+\end{document}

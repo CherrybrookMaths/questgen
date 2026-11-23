@@ -53,7 +53,7 @@ def read(src, coll, db, table):
     return [(k, json.loads(d)) for k, d in db.execute(f'SELECT doc_key, data_json FROM {table}')]
 
 
-def cleared(doc_ids, reviews, qs_of, key_of=None):
+def cleared(doc_ids, reviews, qs_of, key_of=None, pkey_of=None):
     """Every paper approved in Review (paper doc approved, or all its questions approved). doc_ids: every file of the batch's
     papers; only files that hold questions count (Review keys a paper by the file its questions came from).
     key_of: question id -> permanent key (questions.db question_keys, Fix 2 branch fix2-keys): once Review writes reviews/k_<key>
@@ -67,6 +67,9 @@ def cleared(doc_ids, reviews, qs_of, key_of=None):
         # the paper's OWN key: the one most of its questions carry. A question that is a copy of another paper's question shares
         # that paper's key (17 Nov, Batch 8: MathsBank 2023 has one 2023 Abbotsleigh AT4 key), and that paper's approval is not this one's
         pk = collections.Counter(key_of[q].rsplit('-Q', 1)[0] for q in qs if key_of.get(q)).most_common(1)
+        # 23 Nov (Batch 12): a paper made mostly of copies (2022 NEAP: 23 of 32 questions copied from 2022 Knox AT4) has the other
+        # paper's key as its most common one; pkey_of (the bank's docs[doc].key, from the paper's own questions: tools/qkeys.py) wins
+        if pkey_of and pkey_of.get(d): pk = [(pkey_of[d], 0)]
         if ok(f'paper_{d}') or (pk and ok(f'p_{pk[0][0]}')): continue
         if all(ok(f'q{q}') or (key_of.get(q) and ok(f'k_{key_of[q]}')) for q in qs): continue
         return False

@@ -108,7 +108,7 @@ def main():
         a = P + f'archive/img_cleared/{d}.json'
         if d not in img and os.path.exists(a):
             os.replace(a, S + f'img/{d}.json'); img[d] = S + f'img/{d}.json'; print('image_lifecycle: page scans back for paper', d, '(open flags or redraws)')
-    ok_doc = {d: IN.cleared([d], reviews, qs_of, key_of) and d not in open_doc for d in {u for us in users.values() for u in us}}
+    ok_doc = {d: IN.cleared([d], reviews, qs_of, key_of, pkey_of={int(k): v.get('key') for k, v in (idx.get('docs') or {}).items()}) and d not in open_doc for d in {u for us in users.values() for u in us}}
     cleared = {d for d in img if all(ok_doc[u] for u in users.get(d, ()))}
     crops = groups('crop')
     by_doc = {}

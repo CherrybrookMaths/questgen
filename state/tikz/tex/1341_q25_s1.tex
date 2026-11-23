@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.5cm,y=1.1cm]
+\draw[->] (-2.3,0) -- (2.6,0) node[right] {$x$};
+\draw[->] (0,-1.3) -- (0,4.8) node[above] {$y$};
+\draw[line width=0.9pt] plot[domain=-2.2:1.45,samples=90,smooth] (\x,{exp(\x)});
+\draw[line width=0.9pt] (-0.65,4.3) -- (2.0,-1.0);
+\fill (0,1) circle[radius=1.6pt];
+\fill (0,3) circle[radius=1.6pt];
+\fill (1.5,0) circle[radius=1.6pt];
+\fill (0.594,1.812) circle[radius=1.6pt];
+\node[anchor=south east,inner sep=2pt] at (-0.04,1.04) {$(0,1)$};
+\node[anchor=north east,inner sep=2pt] at (-0.05,2.95) {$(0,3)$};
+\node[anchor=north east,inner sep=2pt] at (1.47,-0.06) {$\left(\dfrac{3}{2},0\right)$};
+\node[anchor=north east,inner sep=2pt] at (-0.04,-0.04) {$O$};
+\node[anchor=west] at (1.5,4.2) {$y=e^x$};
+\node[anchor=west] at (2.03,-0.95) {$y=3-2x$};
+\end{tikzpicture}
+\end{document}

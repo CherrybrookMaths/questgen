@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (C1) at (131,150);
+\coordinate (P) at (125.8,248.9);
+\coordinate (Q) at (218.1,102.9);
+\coordinate (C2) at (214,203);
+\draw (C1) circle[radius=99.5];
+\draw (C2) circle[radius=100.5];
+\draw ($(P)!-0.4!(Q)$) -- ($(P)!1.55!(Q)$);
+\fill (P) circle[radius=3.2];
+\fill (Q) circle[radius=3.2];
+\node at (126,278) {$P$};
+\node at (247,90) {$Q$};
+\end{tikzpicture}
+\end{document}

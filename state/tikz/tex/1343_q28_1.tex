@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (10,215) -- (692,215);
+  \draw[->] (347,410) -- (347,18);
+  \draw[line width=0.9pt,<->] plot[smooth,domain=-3.61:3.03,samples=90] ({347+67*\x},{215-19.3*(\x*\x*\x+\x*\x-8*\x-3)});
+  \fill ({347+67*(-2)},{215-19.3*9}) circle (4);
+  \fill ({347+67*(4/3)},{215+19.3*9.5185}) circle (4);
+  \node at (212,17) {$A$};
+  \node at (436,430) {$B$};
+  \node at (322,277) {$-3$};
+  \node at (322,22) {$y$};
+  \node at (705,238) {$x$};
+  \node at (615,40) {$y=f(x)$};
+\end{tikzpicture}
+\end{document}

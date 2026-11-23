@@ -1,0 +1,35 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.5646cm,y=1.096cm]
+\draw[black!15,line width=0.3pt] (0,-3) grid[xstep=0.1,ystep=0.1] (6.3,3);
+\draw[black!35,line width=0.4pt] (0,-3) grid[step=1] (6.3,3);
+\draw[->] (0,0) -- (6.45,0);
+\draw[<->] (0,-3.26) -- (0,3.21);
+\foreach \i in {1,...,63} \draw (\i/10,-0.05) -- (\i/10,0.05);
+\foreach \j in {-30,...,30} \draw (-0.03,\j/10) -- (0.03,\j/10);
+\foreach \t in {pi/2,pi,3*pi/2,2*pi} \draw[line width=0.9pt] (\t,-0.12) -- (\t,0.12);
+\node[font=\footnotesize,anchor=west] at (6.47,0) {$x$};
+\node[font=\footnotesize] at (-0.03,3.45) {$y$};
+\foreach \i in {1,2,4,5,6} \node[font=\footnotesize,anchor=north] at (\i,-0.12) {$\i$};
+\node[font=\footnotesize,anchor=north east,inner sep=1pt] at (3.06,-0.12) {$3$};
+\node[font=\footnotesize,anchor=north west,inner sep=1pt] at (3.08,-0.08) {$\pi$};
+\node[font=\footnotesize,anchor=north west,inner sep=1pt] at (6.2,-0.08) {$2\pi$};
+\node[font=\footnotesize,anchor=north] at (pi/2,-0.13) {$\dfrac{\pi}{2}$};
+\node[font=\footnotesize,anchor=north] at (3*pi/2,-0.13) {$\dfrac{3\pi}{2}$};
+\foreach \j in {-3,-2,-1,1,2,3} \node[font=\footnotesize,anchor=east] at (-0.06,\j) {$\j$};
+\draw[aux,line width=0.9pt,black!50,->] plot[smooth,domain=0:6.47,samples=90] (\x,{cos(\x r)});
+\draw[line width=0.9pt,->] (0,0.25) -- (6.47,{(6.47+1)/4});
+\draw[line width=0.9pt,->] plot[smooth,domain=0:6.47,samples=100] (\x,{3*cos(2*\x r)});
+% intersections
+\foreach \p in {0.714,2.504,3.725,5.799} \node[pt,inner sep=1.5pt] at (\p,{(\p+1)/4}) {};
+\draw (1.02,1.85) -- (0.714,0.428);
+\draw (2.17,1.53) -- (2.504,0.876);
+\draw (3.92,2.14) -- (3.725,1.181);
+\draw (5.714,3.44) -- (5.799,1.7);
+\node[font=\tiny,align=center] at (1.112,2.711) {\halo{Point of Intersection}\\[2pt]\halo{$(\,0.714\,,\,0.428\,)$}};
+\node[font=\tiny,align=center] at (1.899,1.761) {\halo{Point of Intersection}\\[2pt]\halo{$(\,2.504\,,\,0.876\,)$}};
+\node[font=\tiny,align=center] at (4.416,2.746) {\halo{Point of Intersection}\\[2pt]\halo{$(\,3.725\,,\,1.181\,)$}};
+\node[font=\tiny,align=center] at (5.552,3.789) {Point of Intersection\\[2pt]$(\,5.799\,,\,1.7\,)$};
+\end{tikzpicture}
+\end{document}

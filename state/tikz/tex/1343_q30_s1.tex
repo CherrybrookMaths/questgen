@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (20,632) -- (1285,632);
+  \draw[<->] (507,1015) -- (507,15);
+  \draw[line width=0.9pt,<->] plot[smooth,domain=-0.335:2.97,samples=90] ({507+212*\x},{632-217*(\x*\x*\x-4*\x*\x+4*\x)});
+  \fill (507,632) circle (5);
+  \fill ({507+212*2/3},{632-217*32/27}) circle (5);
+  \fill ({507+212*2},632) circle (5);
+  \node[font=\Large] at (462,38) {$y$};
+  \node[font=\Large] at (1292,668) {$x$};
+  \node[font=\Large] at (535,664) {$O$};
+  \node[font=\Large] at (955,680) {$(2,0)$};
+  \node[font=\Large] at (662,305) {$\left(\dfrac{2}{3},\dfrac{32}{27}\right)$};
+\end{tikzpicture}
+\end{document}

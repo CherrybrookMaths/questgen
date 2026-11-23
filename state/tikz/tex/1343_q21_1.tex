@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\setlength\treeL{3.4cm}
+\begin{document}
+\begin{tikzpicture}
+  \treewidth{1}{$T$}\treewidth{1}{$\overline{T}$}
+  \treewidth{2}{$R$}\treewidth{2}{$\overline{R}$}
+  \treecolumns{2}
+  \treeroot{O}{0cm}
+  \treenode{T}{1}{1.8cm}{$T$}
+  \treenode{Tb}{1}{-1.8cm}{$\overline{T}$}
+  \treenode{TR}{2}{2.6cm}{$R$}
+  \treenode{TRb}{2}{1.0cm}{$\overline{R}$}
+  \treenode{TbR}{2}{-1.0cm}{$R$}
+  \treenode{TbRb}{2}{-2.6cm}{$\overline{R}$}
+  \treebranch{O}{T}{}
+  \treebranch{O}{Tb}{}
+  \treebranch{T}{TR}{}
+  \treebranch{T}{TRb}{}
+  \treebranch{Tb}{TbR}{}
+  \treebranch{Tb}{TbRb}{}
+  % probabilities centred on the branch midpoints: above a rising branch, below a falling one
+  \node[tree prob, anchor=south east] at ($(O-out)!0.5!(T-in)+(-1pt,3pt)$) {20\%};
+  \node[tree prob, anchor=south] at ($(T-out)!0.5!(TR-in)+(0pt,6pt)$) {90\%};
+  \node[tree prob, anchor=north] at ($(T-out)!0.5!(TRb-in)+(0pt,-6pt)$) {10\%};
+\end{tikzpicture}
+\end{document}
