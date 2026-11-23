@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+\coordinate (A) at (78,425); \coordinate (B) at (555,425); \coordinate (C) at (880,425);
+\coordinate (D) at (880,22); \coordinate (E) at (555,325); \coordinate (F) at (880,325);
+\path[shade hatch] (B)--(E)--(D)--(C)--cycle;
+\draw (A)--(C);
+\draw (B)--(E)--(D)--(C);
+\draw (E)--(F);
+\draw[aux] (A)--(D);
+\draw[aux] (B)--(D);
+\foreach \p in {A,B,C,D,E,F} \fill (\p) circle[radius=1.1pt];
+\draw plot[smooth,domain=0:26.68,samples=20] ({78+130*cos(\x)},{425-130*sin(\x)});
+\draw plot[smooth,domain=0:51.1,samples=20] ({555+90*cos(\x)},{425-90*sin(\x)});
+\draw plot[smooth,domain=0:43.0,samples=20] ({555+70*cos(\x)},{325-70*sin(\x)});
+\node at (174,405) {$28^\circ$};
+\node at (615,398) {\halo{$51^\circ$}};
+\node at (599,308) {\halo{$\alpha$}};
+\draw[<->] (78,474)--(555,474);
+\node at (306,454) {44 m};
+\draw[<->] (828,327)--(828,423);
+\node at (800,380) {\halo{4 m}};
+\node at (52,422) {$A$};
+\node at (528,405) {$B$};
+\node at (907,428) {$C$};
+\node at (905,50) {$D$};
+\node at (531,306) {$E$};
+\node at (905,330) {$F$};
+\end{tikzpicture}
+\end{document}

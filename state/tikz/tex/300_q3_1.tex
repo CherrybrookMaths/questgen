@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % grid
+  \foreach \i in {0,...,8} \draw[black!45,line width=0.5pt] ({206+\i*70.625},74) -- ({206+\i*70.625},467);
+  \foreach \v in {1,...,8} \draw[black!45,line width=0.5pt] (143,{467-\v*49.125}) -- (771,{467-\v*49.125});
+  % axes
+  \draw[->] (143,480) -- (143,18);
+  \draw (143,467) -- (154,467) -- (158,460) -- (163,474) -- (168,460) -- (172,474) -- (176,467);
+  \draw[->] (176,467) -- (828,467);
+  \foreach \i in {0,...,8} \draw ({206+\i*70.625},467) -- ({206+\i*70.625},479);
+  \foreach \v in {0,...,8} {
+    \draw (136,{467-\v*49.125}) -- (143,{467-\v*49.125});
+    \node[anchor=east,inner sep=0pt] at (131,{467-\v*49.125}) {\pgfmathtruncatemacro\lab{\v*10}\lab};
+  }
+  \foreach \t/\i in {8 am/0,9 am/2,10 am/4,11 am/6,12 pm/8}
+    \node[anchor=base] at ({206+\i*70.625},507) {\t};
+  \node[rotate=90] at (50,270) {Number of bees};
+  \node[anchor=base] at (488,557) {Time};
+  % data
+  \foreach \h/\v in {8/20, 8.5/28, 8.5/20, 9/31, 9.5/36, 9.5/24.2, 10/37, 10.5/37.9, 10.5/28.9, 11/45, 11/40.9, 11.5/48, 12/59.3, 12/42.6}
+    \fill ({206+(\h-8)*141.25},{467-\v*4.9125}) circle (4.3);
+\end{tikzpicture}
+\end{document}

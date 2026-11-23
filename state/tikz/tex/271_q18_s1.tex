@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % normal curve fitted to the sketch's width (sigma = 135 px, tails brought down to the base at the crop edges)
+  \def\f#1{183-181*(exp(-((#1-320)/135)^2/2)-0.0603)/0.9397}
+  \fill[shade dots, stipple color=black!55] (497,183) -- plot[smooth, domain=497:640, samples=30] (\x,{\f{\x}}) -- (640,183) -- cycle;
+  \draw[line width=0.9pt] plot[smooth, domain=0:640, samples=90] (\x,{\f{\x}});
+  \draw (320,2) -- (320,183);
+  \draw (497,{\f{497}}) -- (497,183);
+  \draw[<->] (320,150) -- (497,150);
+  \node[anchor=base] at (408.5,136) {2 sd};
+\end{tikzpicture}
+\end{document}

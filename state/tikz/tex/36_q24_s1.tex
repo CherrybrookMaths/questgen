@@ -3,17 +3,17 @@
 \begin{document}
 \begin{tikzpicture}[x=0.19996cm,y=1.00076cm]
 \draw[black!35,line width=0.3pt,dash pattern=on 0.6pt off 0.9pt] (0,0) grid[xstep=1,ystep=0.2] (55,11);
-\draw[black!70,line width=0.5pt] (0,0) grid[xstep=5,ystep=1] (55,11);
+\draw[black!75,line width=0.5pt] (0,0) grid[xstep=5,ystep=1] (55,11);
 \draw[->] (0,0)--(62.3,0);
 \draw[->] (0,0)--(0,12.64);
 \foreach \v in {0,1,...,11} {
   \draw (-0.5,\v)--(0,\v);
   \pgfmathtruncatemacro\lab{100*\v}
-  \node[left,inner sep=2pt] at (-0.5,\v) {\lab};}
+  \node[left,inner sep=2pt] at (-1.75,\v) {\lab};}
 \foreach \t in {0,5,...,55} {
   \draw (\t,0)--(\t,-0.1);
-  \node[below,inner sep=2pt] at (\t,-0.1) {\t};}
-\node at (-1.65,12.46) {$V$};
+  \node[below,inner sep=2pt] at (\t,-0.3) {\t};}
+\node at (-3.55,12.46) {$V$};
 \node at (-3.56,11.98) {(litres)};
 \node at (61.5,-0.33) {$t$};
 \node at (61.5,-0.69) {(minutes)};

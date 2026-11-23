@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(120,500)},x=0.99695cm,y=0.250825cm,shift={(-10,-10)}]
+\foreach \x in {11,13,...,19} \draw[black!45,line width=0.4pt,dash pattern=on 0.6pt off 1.2pt] (\x,10) -- (\x,34);
+\foreach \y in {12,16,...,32} \draw[black!45,line width=0.4pt,dash pattern=on 0.6pt off 1.2pt] (10,\y) -- (20,\y);
+\foreach \x in {12,14,...,20} \draw[black!70,line width=0.5pt] (\x,10) -- (\x,34);
+\foreach \y in {14,18,...,34} \draw[black!70,line width=0.5pt] (10,\y) -- (20,\y);
+\foreach \x/\y in {14/23,14/21,14/20,14/18,14/15,14/14,
+ 15/27,15/26,15/25,15/24,15/23,15/22,15/20,15/19,15/18,15/17,15/15,15/14,
+ 16/27,16/26,16/24,16/22,16/21,16/20,
+ 17/30,17/28,17/26,17/24,17/23,17/22,17/21,17/20,17/19}
+ \node[diamond,fill,inner sep=0pt,minimum width=2.0mm,minimum height=2.2mm] at (\x,\y) {};
+\draw[line width=0.9pt] (12.5,15.615) -- (18.5,26.715);
+\end{scope}
+\draw (120,27) -- (120,466) -- (113,470) -- (127,477) -- (113,484) -- (120,488) -- (120,500) -- (140,500) -- (145,493) -- (152,507) -- (159,493) -- (166,500) -- (905,500);
+\foreach \k in {1,...,10} \draw (120+78.5*\k,500) -- (120+78.5*\k,509);
+\foreach \k in {1,...,12} \draw (111,500-39.5*\k) -- (120,500-39.5*\k);
+\foreach \v in {12,14,...,20} \node at (120+78.5*\v-785,543) {\v};
+\foreach \v in {14,18,...,34} \node[anchor=east] at (104,500-19.75*\v+197.5) {\v};
+\node at (513,596) {Age of character ($x$ years)};
+\node[rotate=90] at (28,263) {Age of actor ($y$ years)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (Q) at (222,80);\coordinate (T) at (473,41);\coordinate (P) at (48,211);
+\coordinate (S) at (413,218);\coordinate (V) at (620,248);\coordinate (R) at (265,396);\coordinate (U) at (472,396);
+\draw (P)--(Q)--(T)--(V)--(U)--(R)--(P) (Q)--(S)--(U) (P)--(S)--(V);
+\foreach \p in {P,Q,R,S,T,U,V} \fill (\p) circle (3.5);
+\begin{scope}[every node/.style={font=\normalsize,inner sep=1pt}]
+\node at (205,58) {$Q$};\node at (452,24) {$T$};\node at (20,198) {$P$};
+\node at (420,195) {$S$};\node at (643,250) {$V$};\node at (262,436) {$R$};\node at (493,428) {$U$};
+\end{scope}
+\begin{scope}[every node/.style={font=\footnotesize,inner sep=1pt}]
+\node at (116,120) {12};\node at (340,40) {20};\node at (327,129) {15};\node at (566,128) {25};
+\node at (230,198) {22};\node at (521,215) {17};\node at (140,327) {18};\node at (456,300) {11};
+\node at (532,312) {15};\node at (366,377) {12};
+\end{scope}
+\end{tikzpicture}
+\end{document}

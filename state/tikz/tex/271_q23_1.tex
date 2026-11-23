@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % x: 0 -> 109, 1 unit = 78.8 px ; y: 3 -> 649, 1 unit = 78.875 px (11 -> 18)
+  \tikzset{minor/.style={line width=0.3pt, black!60, dash pattern=on 0.45pt off 1.1pt}}
+  \foreach \i in {1,...,99} {
+    \pgfmathtruncatemacro\r{mod(\i,10)}
+    \ifnum\r=0\else \draw[minor] ({109+7.88*\i},649) -- ({109+7.88*\i},18); \fi
+  }
+  \foreach \i in {1,...,79} {
+    \pgfmathtruncatemacro\r{mod(\i,10)}
+    \ifnum\r=0\else \draw[minor] (109,{649-7.8875*\i}) -- (897,{649-7.8875*\i}); \fi
+  }
+  % major grid
+  \foreach \i in {1,...,10} \draw ({109+78.8*\i},649) -- ({109+78.8*\i},18);
+  \foreach \i in {1,...,8} \draw (109,{649-78.875*\i}) -- (897,{649-78.875*\i});
+  % axes with break on y axis
+  \draw (109,649) -- (897,649);
+  \draw (109,649) -- (109,636) -- (103,631) -- (115,626) -- (103,621) -- (109,616) -- (109,18);
+  % ticks
+  \foreach \i in {0,...,10} \draw ({109+78.8*\i},649) -- ({109+78.8*\i},661);
+  \foreach \i in {1,...,8} \draw (97,{649-78.875*\i}) -- (109,{649-78.875*\i});
+  % tick labels
+  \foreach \i in {0,...,10} \node[anchor=north, inner sep=0pt] at ({109+78.8*\i},668) {\i};
+  \foreach \i in {4,...,11} \node[anchor=east, inner sep=0pt] at (90,{649-78.875*(\i-3)}) {\i};
+  % axis titles
+  \node at (503,738) {Average hours of phone use per day};
+  \node[rotate=90] at (24,333) {Average hours of sleep per day};
+  % data
+  \foreach \a/\b in {0/10, 0.5/10, 0.5/9.7, 1/9.5, 1.5/9.5, 2.5/8.8, 2.5/8.2, 3/8.5, 3/8.2, 3.5/7.8, 4.5/7.5, 5/7.2, 5.5/7, 6/6.8}
+    \fill ({109+78.8*\a},{649-78.875*(\b-3)}) circle (0.062cm);
+\end{tikzpicture}
+\end{document}

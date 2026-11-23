@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (45,86); \coordinate (B) at (548,86); \coordinate (C) at (548,312); \coordinate (D) at (45,312);
+\coordinate (P) at (190,86); \coordinate (Q) at (400,86); \coordinate (O) at (295,160);
+\draw (P)--(A)--(D)--(C)--(B)--(Q);
+\draw[domain=35.2:144.8,samples=90,smooth] plot ({295+128.3*cos(\x)},{160-128.3*sin(\x)});
+\draw[aux] (P)--(Q) (P)--(O)--(Q);
+\fill (O) circle (1.6pt);
+\node at (24,88) {$A$}; \node at (567,88) {$B$}; \node at (567,315) {$C$}; \node at (24,315) {$D$};
+\node at (180,64) {$P$}; \node at (412,66) {$Q$}; \node at (295,186) {$O$};
+\node at (300,130) {$110^\circ$};
+\node[rotate=34.4] at (362,140) {$2.1$ m};
+\node at (596,202) {$3.6$ m}; \node at (296,336) {$8.0$ m};
+\node[align=center] at (780,165) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

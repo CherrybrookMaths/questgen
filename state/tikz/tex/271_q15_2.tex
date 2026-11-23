@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\u{63.1}
+\foreach \k in {2,...,9} \draw[black!45] ({37+\u*(\k-2)},10)--({37+\u*(\k-2)},113);
+\filldraw[shade dots, stipple color=black!50, stipple gap=3, line width=0.9pt] ({37+\u*1.5},35) rectangle ({37+\u*5.5},85);
+\draw[line width=0.9pt] ({37+\u*4},35)--({37+\u*4},85);
+\draw[line width=0.9pt] (37,60)--({37+\u*1.5},60) ({37+\u*5.5},60)--({37+\u*7},60);
+\draw[line width=0.9pt] (37,35)--(37,85) ({37+\u*7},35)--({37+\u*7},85);
+\draw (12,113)--(502,113);
+\foreach \k in {2,...,9} \node at ({37+\u*(\k-2)},153) {\large $\k$};
+\node at (257,202) {\large Number of downloads};
+\end{tikzpicture}
+\end{document}

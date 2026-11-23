@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (110,237)--(110,84)--(567,84)--(567,190);
+\draw (339,84)--(339,323);
+\draw (110,237) .. controls (230,262) and (300,288) .. (339,323);
+\draw (339,323) .. controls (385,272) and (462,208) .. (567,190);
+\draw (110,107)--(133,107)--(133,84);
+\draw (339,107)--(362,107)--(362,84);
+\draw (567,107)--(544,107)--(544,84);
+\foreach \x in {225,452} {\draw (\x-3,75)--(\x-3,93); \draw (\x+3,75)--(\x+3,93);}
+\draw (110,50)--(110,74); \draw (567,50)--(567,74);
+\draw[aux] (125,62)--(552,62);
+\draw[->] (130,62)--(110,62); \draw[->] (547,62)--(567,62);
+\node at (340,40) {8.0 m};
+\node at (64,162) {1.9 m};
+\node at (382,177) {2.7 m};
+\node at (610,135) {1.7 m};
+\node[align=center] at (758,132) {NOT\\TO\\SCALE};
+\end{tikzpicture}
+\end{document}

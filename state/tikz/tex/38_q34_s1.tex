@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.25cm,y=0.22cm]
+\foreach \x in {5,10,...,35} \draw[black!25, line width=0.4pt] (\x,0) -- (\x,40);
+\foreach \y in {5,10,...,40} \draw[black!25, line width=0.4pt] (0,\y) -- (35,\y);
+\draw[->] (0,0) -- (38,0) node[right]{$x$};
+\draw[->] (0,0) -- (0,43.5) node[above]{$y$};
+\foreach \x in {5,10,...,35} \draw (\x,0) -- (\x,-0.7) node[below]{\small \x};
+\foreach \y in {5,10,...,40} \draw (0,\y) -- (-0.6,\y) node[left]{\small \y};
+\node[below left] at (0,0){\small 0};
+\draw[line width=0.9pt] (0,31) -- (31,0);
+\draw[line width=0.9pt] (0,38) -- (19,0);
+\fill (7,24) circle (2pt);
+\node[anchor=south west] at (7.6,24.6){$(7,\,24)$};
+\node[anchor=south west] at (27,5){$x+y=31$};
+\node[anchor=south west] at (2.6,34.4){$2x+y=38$};
+\end{tikzpicture}
+\end{document}

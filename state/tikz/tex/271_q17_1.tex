@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\newcommand\blank[1]{\underline{\makebox[0.5cm]{#1}}}
+\begin{document}
+\begin{tikzpicture}
+  \setlength\treeL{2.5cm}
+  \treewidth{1}{\blank{1}\hspace{0.6cm}}
+  \treewidth{2}{\blank{2}}
+  \treecolumns{2}
+  \node[tree head] at ({\treeX{1}+0.25cm},-0.85cm) {Amy's\\card};
+  \node[tree head] at ({\treeX{2}+0.25cm},-0.85cm) {Bob's\\card};
+  \treeroot{r}{-5.334cm}
+  \treenode{a1}{1}{-2.4765cm}{\blank{1}}
+  \treenode{a3}{1}{-5.334cm}{\blank{3}}
+  \treenode{a5}{1}{-8.1915cm}{\blank{5}}
+  \foreach \p in {a1,a3,a5} \treebranch{r}{\p}{};
+  % Bob's cards
+  \treenode{b11}{2}{-1.5621cm}{\blank{2}}
+  \treenode{b12}{2}{-2.4765cm}{\blank{4}}
+  \treenode{b13}{2}{-3.3909cm}{\blank{}}
+  \treenode{b31}{2}{-4.4196cm}{\blank{2}}
+  \treenode{b32}{2}{-5.334cm}{\blank{}}
+  \treenode{b33}{2}{-6.2484cm}{\blank{}}
+  \treenode{b51}{2}{-7.2771cm}{\blank{}}
+  \treenode{b52}{2}{-8.1915cm}{\blank{}}
+  \treenode{b53}{2}{-9.1059cm}{}
+  \foreach \p/\c in {a1/b11,a1/b12,a1/b13,a3/b31,a3/b32,a3/b33,a5/b51,a5/b52,a5/b53} \treebranch{\p}{\c}{};
+\end{tikzpicture}
+\end{document}

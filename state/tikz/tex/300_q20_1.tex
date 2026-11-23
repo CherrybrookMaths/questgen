@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=2cm,y=0.2007cm]
+\draw[black!35,line width=0.3pt] (0,0) grid[xstep=0.05,ystep=0.5] (4.2,27);
+\draw[black!70,line width=0.5pt] (0,0) grid[xstep=0.5,ystep=5] (4.2,27);
+\draw[->] (0,0)--(0,29) node[above] {$h$};
+\draw[->] (0,0)--(4.36,0) node[below right=-1pt,yshift=-2pt] {$t$};
+\foreach \t/\l in {0/0,0.5/0.5,1/1,1.5/1.5,2/2,2.5/2.5,3/3,3.5/3.5,4/4} \node at (\t,-2.1) {\l};
+\foreach \h in {0,5,...,25} \node[anchor=east] at (-0.03,\h) {\h};
+\node[rotate=90] at (-0.55,12.4) {Height above the ground (m)};
+\node at (1.97,-5.4) {Time (s)};
+\draw[line width=0.9pt,smooth,samples=90,domain=0:4] plot (\x,{-6*\x*\x+24*\x});
+\node at (3.3,22.3) {\halo{$h=-6t^2+24t$}};
+\end{tikzpicture}
+\end{document}

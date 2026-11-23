@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (313,290); \coordinate (A) at (460,112); \coordinate (D) at (120,210);
+  \coordinate (B) at (484,432); \coordinate (C) at (72,582);
+  \draw (A)--(D)--(C)--(B)--cycle;
+  \draw (A)--(C); \draw (D)--(O)--(B);
+  \draw[->] (O)--(313,48);
+  \node at (313,30) {\textbf{N}};
+  \node at (478,90) {$A$}; \node at (98,205) {$D$}; \node at (66,244) {$(285^\circ)$};
+  \node at (502,443) {$B$}; \node at (502,476) {$(110^\circ)$}; \node at (58,600) {$C$};
+  \node at (311,314) {$O$};
+  \node at (240,145) {67.5 m}; \node at (412,227) {42 m}; \node at (200,272) {38 m};
+  \node at (420,340) {40 m};
+  \node[align=center] at (640,230) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(109,649)},x=1.00076cm,y=1.00203cm,shift={(0,-3)}]
+\draw[black!25,line width=0.25pt] (0,3) grid[step=0.1] (10,11);
+\draw[black!60,line width=0.5pt] (0,3) grid[step=1] (10,11);
+\foreach \x/\y in {0/10,0.5/10,0.5/9.7,1/9.5,1.5/9.5,2.5/8.8,2.5/8.2,3/8.5,3/8.2,3.5/7.8,4.5/7.5,5/7.2,5.5/7,6/6.8}
+  \fill (\x,\y) circle[radius=0.057cm];
+\draw[line width=0.9pt] (0,10.2) -- (8,5.4);
+\draw[aux] (2,3) -- (2,9) -- (0,9);
+\node[pt] at (2,9) {};
+\end{scope}
+\draw (109,18) -- (109,613) -- (103,618) -- (115,624) -- (103,630) -- (109,635) -- (109,649) -- (897,649);
+\foreach \k in {0,...,10} \draw (109+78.8*\k,649) -- (109+78.8*\k,658);
+\foreach \k in {1,...,8} \draw (100,649-78.9*\k) -- (109,649-78.9*\k);
+\foreach \k in {0,...,10} \node at (109+78.8*\k,686) {\k};
+\foreach \k in {4,...,11} \node[anchor=east] at (93,649-78.9*\k+236.7) {\k};
+\node at (504,735) {Average hours of phone use per day};
+\node[rotate=90] at (28,330) {Average hours of sleep per day};
+\end{tikzpicture}
+\end{document}

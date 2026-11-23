@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+  \coordinate (B) at (27,-138); \coordinate (C) at (368,-138); \coordinate (A) at (195,-235);
+  \coordinate (E) at (448,-38); \coordinate (F) at (785,-38); \coordinate (D) at (620,-138);
+  \coordinate (P) at (intersection of E--D and C--F);
+  \path[shade dots] (A) -- (B) -- (C) -- cycle;
+  \path[shade dots] (E) -- (F) -- (P) -- cycle;
+  \draw (B) -- (C) -- (A) -- cycle;
+  \draw (B) -- (E) -- (F) -- (C);
+  \draw (A) -- (D) -- (F);
+  \draw (E) -- (P);
+  \draw ([shift={(29.3:63)}]A) arc[start angle=29.3, end angle=150, radius=63];
+  \draw ($(A)!0.55!(B)+(0.49*7,0.87*7)$) -- ($(A)!0.55!(B)-(0.49*7,0.87*7)$);
+  \draw ($(A)!0.55!(C)+(-0.49*7,0.87*7)$) -- ($(A)!0.55!(C)-(-0.49*7,0.87*7)$);
+  \node at (15,-128) {$B$};
+  \node at (368,-121) {$C$};
+  \node at (192,-257) {$A$};
+  \node at (448,-19) {$E$};
+  \node at (800,-19) {$F$};
+  \node at (625,-160) {$D$};
+  \node at (245,-58) {50 m};
+  \node at (78,-213) {25 m};
+  \node at (190,-200) {\halo{$150^\circ$}};
+  \node[align=center] at (930,-169) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

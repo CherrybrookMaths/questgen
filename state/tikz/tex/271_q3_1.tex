@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\newcommand\bx[4]{\draw ({#1-40},{#2-18}) rectangle (#1,{#2+18}) rectangle ({#1+40},{#2-18});
+  \node at ({#1-20},#2) {$#3$}; \node at ({#1+20},#2) {$#4$};}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}}
+\coordinate (S) at (110,257); \coordinate (P) at (340,93); \coordinate (Q) at (738,69);
+\coordinate (R) at (707,257); \coordinate (T) at (972,257); \coordinate (U) at (312,422); \coordinate (V) at (654,422);
+\draw[mid=0.62] (S)--(P); \draw[mid=0.55] (P)--(Q); \draw[mid=0.54] (Q)--(T);
+\draw[mid=0.53] (P)--(R); \draw[mid=0.5] (R)--(T); \draw[mid=0.6] (S)--(U);
+\draw[mid=0.4] (U)--(V); \draw[mid=0.65] (V)--(R); \draw[mid=0.4] (V)--(T);
+\foreach \p in {S,P,Q,R,T,U,V} \fill (\p) circle (5);
+\bx{57}{257}{0}{0} \bx{339}{57}{3}{3} \bx{737}{32}{16}{20} \bx{646}{270}{19}{19}
+\bx{1029}{257}{22}{22} \bx{312}{460}{2}{7} \bx{654}{460}{11}{16}
+\node at (198,163) {$A$, 3}; \node at (540,55) {$C$, 13}; \node at (882,148) {$I$, 2};
+\node at (455,186) {$D$, 16}; \node at (835,233) {$G$, 3}; \node at (158,340) {$B$, 2};
+\node at (645,325) {$F$, 2}; \node at (843,360) {$H$, 6}; \node at (482,445) {$E$, 9};
+\end{tikzpicture}
+\end{document}

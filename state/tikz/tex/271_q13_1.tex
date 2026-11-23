@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade dots, stipple color=black!55] (45,243) -- plot[domain=45:458,samples=90,smooth] (\x,{240-225*exp(-0.5*((\x-330)/82)^2)}) -- (458,243) -- cycle;
+\draw[<->] (10,243)--(640,243);
+\draw (458,243)--(458,{240-225*exp(-0.5*(128/82)^2)});
+\draw plot[domain=45:612,samples=90,smooth] (\x,{240-225*exp(-0.5*((\x-330)/82)^2)});
+\node[anchor=north] at (459,246) {$z$};
+\end{tikzpicture}
+\end{document}

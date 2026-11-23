@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{122}\def\oy{754}\def\yb{694}\def\yt{64}\def\xr{910}
+\foreach \i in {1,...,49}{\pgfmathtruncatemacro\m{mod(\i,5)}\ifnum\m=0\else
+  \draw[black!45,line width=0.3pt,dash pattern=on 0.6pt off 0.9pt] ({\ox+\i*15.76},\yt)--({\ox+\i*15.76},\oy);\fi}
+\foreach \j in {1,...,39}{\pgfmathtruncatemacro\m{mod(\j,5)}\ifnum\m=0\else
+  \draw[black!45,line width=0.3pt,dash pattern=on 0.6pt off 0.9pt] (\ox,{\yb-\j*15.75})--(\xr,{\yb-\j*15.75});\fi}
+\foreach \i in {1,...,10} \draw[black!65] ({\ox+\i*78.8},\yt)--({\ox+\i*78.8},\oy);
+\foreach \k in {0,...,8} \draw[black!65] (\ox,{\yb-\k*78.75})--(\xr,{\yb-\k*78.75});
+\draw[->] (\ox,704)--(\ox,12);
+\draw (\ox,\oy)--(\ox,742)--(127,738)--(117,732)--(127,726)--(117,720)--(\ox,716)--(\ox,704);
+\draw[->] (\ox,\oy)--(978,\oy);
+\foreach \k/\v in {0/160,1/170,2/180,3/190,4/200,5/210,6/220,7/230,8/240}{
+  \draw (114,{\yb-\k*78.75})--(\ox,{\yb-\k*78.75});
+  \node[anchor=east] at (112,{\yb-\k*78.75}) {$\v$};}
+\draw (114,\oy)--(\ox,\oy); \node[anchor=east] at (112,\oy) {$0$};
+\foreach \i in {0,2,4,6,8,10}{\draw ({\ox+\i*78.8},\oy)--({\ox+\i*78.8},761);
+  \node[anchor=north] at ({\ox+\i*78.8},763) {$\i$};}
+\node at (114,18) {$y$}; \node at (968,774) {$x$};
+\node[rotate=90] at (27,400) {Daily gas usage (MW)};
+\node at (500,826) {Average daily outside temperature ($^\circ$C)};
+\fill (\ox,{\yb-76*7.875}) circle (2.4pt);
+\fill ({\ox+5*78.8},{\yb-24*7.875}) circle (2.4pt);
+\end{tikzpicture}
+\end{document}

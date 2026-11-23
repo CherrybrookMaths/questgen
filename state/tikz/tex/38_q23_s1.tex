@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\coordinate (Q) at (0,2.2);
+\coordinate (K) at (2.6,3.4);
+\coordinate (M) at (4.6,2.0);
+\coordinate (U) at (3.4,0);
+\coordinate (W) at (7.0,2.6);
+\coordinate (P) at (9.2,3.8);
+\coordinate (C) at (11.4,2.4);
+\coordinate (F) at (8.2,0.4);
+\draw (Q) -- node[above left]{30} (K);
+\draw (K) -- node[above right]{25} (M);
+\draw (M) -- node[below]{10} (W);
+\draw (M) -- node[left]{20} (U);
+\draw (W) -- node[below right]{15} (P);
+\draw (W) -- node[right]{20} (F);
+\draw (P) -- node[above right]{40} (C);
+\foreach \p in {Q,K,M,U,W,P,C,F} \fill (\p) circle (2pt);
+\node[left=3pt] at (Q){Queentown};
+\node[above=3pt] at (K){Kingsville};
+\node[anchor=north west] at ($(M)+(0.15,-0.3)$){Minertown};
+\node[below=3pt] at (U){Underwood};
+\node[anchor=south east] at ($(W)+(0.2,0.2)$){Walltown};
+\node[above=3pt] at (P){Parktown};
+\node[right=3pt] at (C){Citadel};
+\node[below=3pt] at (F){Fernville};
+\node[anchor=west] at (9.6,0.4){Total $=160$};
+\end{tikzpicture}
+\end{document}

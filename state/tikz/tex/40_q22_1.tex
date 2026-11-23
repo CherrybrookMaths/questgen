@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(142,717)}, x=0.19996cm, y=0.0200025cm]
+  \foreach \i in {1,...,54}{\pgfmathtruncatemacro\m{mod(\i,5)}
+    \ifnum\m=0\else \draw[black!45,line width=0.4pt] (\i,0)--(\i,400);\fi}
+  \foreach \j in {1,...,39}{\pgfmathtruncatemacro\m{mod(\j,5)}
+    \ifnum\m=0\else \draw[black!45,line width=0.4pt] (0,\j*10)--(55,\j*10);\fi}
+  \foreach \i in {5,10,...,55} \draw (\i,0)--(\i,400);
+  \foreach \j in {50,100,...,400} \draw (0,\j)--(55,\j);
+  \draw[->] (0,0)--(58.6,0);
+  \draw[->] (0,0)--(0,436);
+  \foreach \i in {0,5,...,55} \node at (\i,-21) {\i};
+  \foreach \j in {0,50,...,400} \node[anchor=east] at (-0.6,\j) {\j};
+  \node at (58.4,-14.6) {$x$};
+  \node at (-0.9,441) {$y$};
+  \node[rotate=90] at (-6.8,201) {Population};
+  \node at (27.5,-52.7) {Number of years since 1985};
+  \draw[line width=0.9pt] plot[domain=0:55, samples=90, smooth] (\x,{280*0.97^\x});
+  \draw[line width=0.9pt] plot[domain=0:45.5, samples=90, smooth] (\x,{35*1.055^\x});
+\end{scope}
+\end{tikzpicture}
+\end{document}

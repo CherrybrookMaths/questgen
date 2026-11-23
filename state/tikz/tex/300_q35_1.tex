@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (62,270); \coordinate (C) at (127,20); \coordinate (B) at (655,113);
+\draw (A)--(C)--(B)--cycle;
+\draw[domain=14.8:75.4,samples=60,smooth] plot ({62+76*cos(\x)},{270-76*sin(\x)});
+\draw[domain=165.2:190,samples=60,smooth] plot ({655+123*cos(\x)},{113-123*sin(\x)});
+\node at (46,276) {$A$}; \node at (111,21) {$C$}; \node at (671,113) {$B$};
+\node at (55,120) {12 m};
+\node at (99,241) {$60^\circ$}; \node at (563,118) {$25^\circ$};
+\end{tikzpicture}
+\end{document}

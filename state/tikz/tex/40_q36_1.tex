@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \path[shade hatch reverse] (40,450)--(710,235)--(710,450)--cycle;
+  \draw (40,450)--(710,235);
+  \draw (40,450)--(710,450);
+  % flagpoles
+  \draw[line width=0.9pt] (410,331)--(410,80);
+  \draw[line width=0.9pt] (608,268)--(608,80);
+  \fill (410,82)--(440,95)--(410,108)--cycle;
+  \fill (608,82)--(638,95)--(608,108)--cycle;
+  \draw (40,450)--(410,80);
+  \draw[aux] (410,80)--(608,80);
+  \draw[aux] (410,267)--(608,267);
+  \draw (410,290)--(432,290)--(432,267);
+  \draw (586,80)--(586,102)--(608,102);
+  % angle arcs
+  \draw plot[smooth,domain=17.8:45,samples=20] ({40+110*cos(\x)},{450-110*sin(\x)});
+  \draw plot[smooth,domain=90:197.8,samples=40] ({410+72*cos(\x)},{331-72*sin(\x)});
+  % dimension
+  \draw (410,8)--(410,28); \draw (608,8)--(608,28);
+  \draw[->] (476,18)--(410,18); \draw[->] (542,18)--(608,18);
+  \node at (509,18) {20 m};
+  \node at (25,455) {$A$};
+  \node at (412,354) {\halo{$B$}};
+  \node at (608,291) {\halo{$C$}};
+  \node at (608,58) {$D$};
+  \node at (410,58) {$E$};
+  \node at (427,252) {$X$};
+  \node at (196,233) {53.8 m};
+  \node at (113,412) {$27^\circ$};
+  \node at (377,318) {$106^\circ$};
+  \node[align=center] at (818,163) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

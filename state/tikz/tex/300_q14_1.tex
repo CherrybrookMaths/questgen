@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{>}}}}]
+  \coordinate (A) at (35,233); \coordinate (n1) at (190,115); \coordinate (n2) at (387,76);
+  \coordinate (n3) at (585,115); \coordinate (B) at (722,240); \coordinate (n4) at (280,203);
+  \coordinate (n5) at (190,373); \coordinate (n6) at (522,357);
+  \foreach \a/\b in {A/n1,n1/n2,n2/n3,A/n4,A/n5,n4/n2,n4/n3,n4/n5,n4/n6,n5/n6,n6/n3,n3/B,n6/B}
+    \draw[mid] (\a) -- (\b);
+  \foreach \p in {A,n1,n2,n3,B,n4,n5,n6} \fill (\p) circle[radius=5];
+  \draw[aux] plot[smooth] coordinates {(470,40) (437,110) (412,190) (408,290) (398,370) (372,422)};
+  \node at (465,18) {30};
+  \node at (648,145) {15};
+  \node at (617,328) {20};
+  \node[anchor=east] at (28,233) {$A$};
+  \node[anchor=west] at (726,242) {$B$};
+\end{tikzpicture}
+\end{document}

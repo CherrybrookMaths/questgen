@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+\coordinate (X) at (493,-203); \coordinate (C) at (33,-350); \coordinate (Y) at (705,-350); \coordinate (P) at (493,-350);
+\draw[->] (P)--(493,-35);
+\draw[->] (297,-203)--(712,-203);
+\draw (C)--(Y) (C)--(X)--(Y);
+\draw (493,-328)--(515,-328)--(515,-350);
+\draw[->] (X) ++(90:96) arc[start angle=90,end angle=-34.7,radius=96];
+\foreach \p in {X,C,Y} \node[pt] at (\p) {};
+\node at (491,-18) {\textbf{N}};
+\node at (733,-205) {\textbf{E}};
+\node at (472,-183) {$X$};
+\node at (12,-352) {$C$};
+\node at (726,-352) {$Y$};
+\node at (493,-376) {$P$};
+\node at (537,-170) {$120^\circ$};
+\node at (469,-237) {$\theta$};
+\node at (521,-255) {$60^\circ$};
+\node at (205,-268) {40 km};
+\node at (643,-268) {15 km};
+\node[align=center] at (897,-145) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

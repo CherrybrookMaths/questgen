@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.8cm,y=1cm]
+\draw (-3.75,0) -- (3.75,0);
+\draw[line width=0.9pt] plot[smooth,domain=-3.6:3.6,samples=90] (\x,{3.2*exp(-\x*\x/2)});
+\foreach \k/\l in {-3/{\mu_F-3\sigma_F},-2/{\mu_F-2\sigma_F},-1/{\mu_F-\sigma_F},0/{\mu_F},1/{\mu_F+\sigma_F},2/{\mu_F+2\sigma_F},3/{\mu_F+3\sigma_F}}
+  \draw (\k,0) -- (\k,-0.15) node[below]{$\l$};
+\end{tikzpicture}
+\end{document}

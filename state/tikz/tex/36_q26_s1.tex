@@ -1,0 +1,39 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\coordinate (S) at (168,298); \coordinate (N1) at (350,298); \coordinate (N2) at (533,145);
+\coordinate (N3) at (533,298); \coordinate (N4) at (751,145); \coordinate (N5) at (751,360);
+\coordinate (F) at (1116,145);
+\draw[mid=0.46] (S)--(N2);
+\draw[mid=0.53] (S)--(N1);
+\draw[mid=0.5] (S) arc[start angle=180,end angle=0,radius=91];
+\draw[mid=0.5] (N1)--(N3);
+\draw[mid=0.53] (N3)--(N2);
+\draw[mid=0.5] (N2)--(N4);
+\draw[mid=0.53] (N4)--(F);
+\draw[mid=0.52] (N4)--(N5);
+\draw[mid=0.48] (N3)--(N5);
+\draw[mid=0.49] (N5)--(F);
+\foreach \p in {S,N1,N2,N3,N4,N5,F} \fill (\p) circle[radius=7];
+\node[anchor=east] at (158,298) {Start};
+\node[anchor=west] at (1126,145) {Finish};
+% \B{letter}{letter x}{box left}{box top}{first}{second}: two cells 44 x 45
+\def\B#1#2#3#4#5#6{\node at (#2,{#4+22.5}) {$#1$};
+  \draw (#3,#4) rectangle ({#3+88},{#4+45}); \draw ({#3+44},#4)--({#3+44},{#4+45});
+  \node at ({#3+22},{#4+22.5}) {#5}; \node at ({#3+66},{#4+22.5}) {#6};}
+\B{A}{26}{48}{215}{0}{12}
+\B{B}{26}{48}{338}{0}{2}
+\B{C}{26}{48}{405}{0}{0}
+\B{D}{313}{335}{430}{8}{8}
+\B{E}{481}{501}{350}{20}{20}
+\B{G}{479}{501}{415}{20}{35}
+\B{I}{746}{761}{395}{44}{44}
+\B{F}{523}{543}{68}{26}{26}
+\B{H}{738}{758}{0}{36}{36}
+\B{J}{738}{758}{68}{36}{39}
+\B{}{1110}{1133}{68}{46}{46}
+\draw[->,line width=0.5pt] (383,424) .. controls (385,385) and (360,370) .. (358,325);
+\end{tikzpicture}
+\end{document}

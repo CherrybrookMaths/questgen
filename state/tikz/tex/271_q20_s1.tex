@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\fontsize{12.5}{15}\selectfont}]
+  \coordinate (S) at (8,90); \coordinate (Y) at (346,45); \coordinate (M) at (901,100);
+  \coordinate (C) at (518,174); \coordinate (B) at (290,298);
+  \draw (S) -- (Y) -- (M) -- (B) -- (S);
+  \draw (Y) -- (C) -- (B);
+  \foreach \p in {S,Y,M,C,B} \fill (\p) circle (0.085cm);
+  \node at (8,62) {$S$};
+  \node at (350,16) {$Y$};
+  \node at (899,71) {$M$};
+  \node at (528,142) {$C$};
+  \node at (287,328) {$B$};
+  \node at (172,50) {280};
+  \node at (614,50) {530};
+  \node at (446,94) {60};
+  \node at (396,211) {150};
+  \node at (129,215) {275};
+  \node at (597,230) {790};
+\end{tikzpicture}
+\end{document}

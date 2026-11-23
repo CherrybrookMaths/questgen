@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (D) at (316,23); \coordinate (B) at (646,118); \coordinate (S) at (646,224);
+  \coordinate (P) at (32,264); \coordinate (A) at (330,303); \coordinate (H) at (425,390);
+  \draw (P) -- (D) -- (B) -- (S) -- (D);
+  \draw (P) -- (S) -- (H) -- (A) -- (P);
+  \foreach \p in {D,B,S,P,A,H} \fill (\p) circle[radius=5];
+  \node at (126,130) {2650};
+  \node at (500,48) {2850};
+  \node at (424,130) {3150};
+  \node at (680,174) {750};
+  \node at (349,226) {3270};
+  \node at (170,307) {2120};
+  \node at (408,330) {1170};
+  \node at (570,325) {1040};
+  \node[anchor=east] at (306,20) {$D$};
+  \node[anchor=west] at (660,122) {$B$};
+  \node[anchor=west] at (658,228) {$S$};
+  \node[anchor=east] at (22,262) {$P$};
+  \node[anchor=north] at (324,318) {$A$};
+  \node[anchor=north] at (422,402) {$H$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.0046cm,y=0.02003cm]
+\draw[black!35,line width=0.3pt] (0,0) grid[xstep=0.1,ystep=5] (10,400);
+\draw[black!70,line width=0.5pt] (0,0) grid[xstep=1,ystep=40] (10,400);
+\draw[->] (0,0)--(0,422);
+\draw[->] (0,0)--(10.42,0);
+\foreach \x in {1,...,10} \draw (\x,0)--(\x,-6);
+\foreach \y in {40,80,...,400} \draw (0,\y)--(-0.08,\y);
+\foreach \x/\l in {0/0,2/200,4/400,6/600,8/800,10/1000} \node at (\x,-18) {\l};
+\foreach \y in {0,40,...,400} \node[anchor=east] at (-0.1,\y) {\y};
+\node[rotate=90] at (-1.28,200) {Total charge (\$)};
+\node at (5.42,-50) {Electricity used in a month (kWh)};
+\draw[line width=0.9pt] (0,0)--(10,350);
+\draw[line width=0.9pt] (0,40)--(10,290);
+\node[pt] at (4,140) {}; \node[pt] at (10,290) {};
+\end{tikzpicture}
+\end{document}

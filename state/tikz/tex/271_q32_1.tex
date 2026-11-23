@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (136,316) .. controls (210,326) and (265,331) .. (293,330) .. controls (330,329) and (362,245) .. (405,207) .. controls (425,188) and (437,175) .. (450,173) arc[start angle=0,end angle=-180,radius=157] -- cycle;
+\path[shade dots,stipple color=black!45] (136,316) .. controls (210,326) and (265,331) .. (293,330) .. controls (330,329) and (362,245) .. (405,207) .. controls (425,188) and (437,175) .. (450,173) -- (450,566) -- (136,566) -- cycle;
+\draw (136,566) -- (136,173) arc[start angle=180,end angle=360,radius=157] -- (450,566) -- cycle;
+\draw (136,316) .. controls (210,326) and (265,331) .. (293,330) .. controls (330,329) and (362,245) .. (405,207) .. controls (425,188) and (437,175) .. (450,173);
+\draw[aux] (136,173) -- (293,173);
+\draw[aux,<->] (293,173) -- (450,173);
+\draw (293,164) -- (293,182);
+\node at (373,153) {100 m};
+\draw[aux,<->] (293,331) -- (293,566);
+\node[anchor=east] at (289,437) {\halo{150 m}};
+\draw[aux,<->] (103,316) -- (103,566);
+\draw (93,316) -- (113,316) (93,566) -- (113,566);
+\node[anchor=east] at (99,437) {160 m};
+\draw[aux,<->] (481,173) -- (481,566);
+\draw (471,173) -- (491,173) (471,566) -- (491,566);
+\node[anchor=west] at (484,368) {250 m};
+\draw[aux,<->] (136,598) -- (450,598);
+\draw (136,588) -- (136,608) (450,588) -- (450,608);
+\node at (293,619) {200 m};
+\draw (215,566) -- (215,578) (372,566) -- (372,578);
+\draw (136,544) -- (158,544) -- (158,566);
+\draw (293,544) -- (316,544) -- (316,566);
+\draw (450,544) -- (428,544) -- (428,566);
+\node at (293,95) {Lake};
+\node[align=center,font=\fontsize{12}{16}\selectfont] at (372,505) {\halo{Grassed}\\\halo{section}};
+\node[align=center,font=\fontsize{12}{14}\selectfont] at (694,255) {NOT\\TO\\SCALE};
+\end{tikzpicture}
+\end{document}

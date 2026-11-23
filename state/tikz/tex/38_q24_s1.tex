@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, xlabel={$t$}, ylabel={$P$}, width=9cm, height=8cm,
+  xmin=0, xmax=6.4, ymin=0, ymax=6400, xtick={5}, ytick={2000,4977},
+  yticklabels={2000,4977}, xticklabels={5}, tick label style={font=\normalsize}]
+\addplot[line width=0.9pt, smooth, samples=90, domain=0:5.6] {2000*1.2^x};
+\draw[aux] (axis cs:5,0) -- (axis cs:5,4977) -- (axis cs:0,4977);
+\node[pt] at (axis cs:0,2000) {};
+\node[pt] at (axis cs:5,4977) {};
+\node[anchor=north west] at (axis cs:0.12,1950) {$(0,\,2000)$};
+\node[anchor=north west] at (axis cs:5.08,4930) {$(5,\,4977)$};
+\node[anchor=north east] at (axis cs:0,0) {$O$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

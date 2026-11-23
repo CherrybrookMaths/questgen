@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% hemisphere
+\draw (32,226) arc[start angle=180,end angle=0,x radius=150.5,y radius=151];
+\draw (333,226) arc[start angle=0,end angle=180,x radius=150.5,y radius=47.5];
+\draw (32,226) arc[start angle=180,end angle=227.8,x radius=150.5,y radius=47.5];
+\draw[aux] (182.5,226) ++(227.8:150.5 and 47.5) arc[start angle=227.8,end angle=312.2,x radius=150.5,y radius=47.5];
+\draw (182.5,226) ++(312.2:150.5 and 47.5) arc[start angle=312.2,end angle=360,x radius=150.5,y radius=47.5];
+% cylinder
+\draw (183,77) ellipse[x radius=101,y radius=25];
+\draw (82,77) -- (82,226) (284,77) -- (284,226);
+\draw (284,226) arc[start angle=0,end angle=180,x radius=101,y radius=25];
+\draw[aux] (82,226) arc[start angle=180,end angle=360,x radius=101,y radius=25];
+% dimensions
+\draw (82,9) -- (82,33) (284,9) -- (284,33);
+\draw[aux,->] (150,21) -- (83,21);
+\draw[aux,->] (216,21) -- (283,21);
+\node at (183,21) {4 cm};
+\draw (352,76) -- (374,76) (352,227) -- (374,227);
+\draw[aux,->] (363,136) -- (363,77);
+\draw[aux,->] (363,168) -- (363,226);
+\node at (363,152) {3 cm};
+\draw (32,397) -- (32,421) (333,397) -- (333,421);
+\draw[aux,->] (150,409) -- (33,409);
+\draw[aux,->] (216,409) -- (332,409);
+\node at (183,409) {6 cm};
+\node[align=center,font=\fontsize{12}{14}\selectfont] at (533,151) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

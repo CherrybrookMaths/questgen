@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5969cm,y=0.012cm]
+\foreach \t in {1,2,3,4,6,7,8,9,11,12,13,14,16,17} \draw[dotted,line width=0.5pt,black!70] (\t,0)--(\t,400);
+\foreach \h in {50,150,250,350} \draw[dotted,line width=0.5pt,black!70] (0,\h)--(17,\h);
+\foreach \t in {5,10,15} \draw[black!55] (\t,0)--(\t,400);
+\foreach \h in {100,200,400} \draw[black!55] (0,\h)--(17,\h);
+\draw[black!55] (0,300)--(11.05,300) (15.4,300)--(17,300);
+\draw[->] (0,0)--(18.8,0);
+\draw[->] (0,0)--(0,452);
+\foreach \t in {1,...,17} \draw (\t,0)--(\t,-10);
+\foreach \h in {50,100,...,400} \draw (0,\h)--(-0.17,\h);
+\foreach \h in {0,50,...,400} \node[anchor=east] at (-0.4,\h) {$\h$};
+\foreach \t in {0,5,10,15} \node[anchor=north] at (\t,-18) {$\t$};
+\draw[line width=0.9pt] plot[domain=0:16,samples=90,smooth] (\x,{-5*\x*\x+80*\x});
+\node at (13.2,294) {$h=-5t^2+80t$};
+\node at (0,500) {$h$}; \node at (0,474) {(metres)};
+\node at (18.45,-18) {$t$}; \node at (18.45,-48) {(seconds)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (8,290) -- (344,290);
+\draw[->] (58,345) -- (58,38);
+\node at (334,310) {$x$};
+\node at (40,46) {$y$};
+\node at (40,242) {$8$};
+\draw[line width=0.9pt] plot[smooth,domain=15:188,samples=90] (\x,{290-31*exp(0.01574*(\x-58))});
+\end{tikzpicture}
+\end{document}

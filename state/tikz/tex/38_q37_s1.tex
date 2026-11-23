@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[font=\large]
+\coordinate (A) at (0,0);
+\coordinate (C) at (6.25,0);
+\coordinate (B) at ({2.8*cos(-28)},{2.8*sin(-28)});
+\coordinate (Bp) at ({8.237*cos(-28)},{8.237*sin(-28)});
+\draw (A) -- (C) -- (B) -- cycle;
+\draw[aux] (B) -- (Bp) -- (C);
+\draw[aux] let \p1=($(B)-(C)$), \n1={atan2(\y1,\x1)} in ($(C)+(\n1:4)$) arc[start angle=\n1, end angle=-75.18, radius=4];
+\node[left=3pt] at (A){$A$};
+\node[right=3pt] at (C){$C$};
+\node[below left=1pt] at (B){$B$};
+\node[below=3pt] at (Bp){$B'$};
+\node[above=3pt] at ($(A)!0.5!(C)$){25 cm};
+\node[anchor=north west] at (4.5,-0.72){16 cm};
+\node[anchor=west] at (7.05,-1.95){16 cm};
+% angle at A
+\draw ($(A)+(-28:1.0)$) arc[start angle=-28,end angle=0,radius=1.0];
+\node at ($(A)+(-14:1.5)$){$28^\circ$};
+% obtuse angle at B
+\draw ($(B)+(19.19:0.4)$) arc[start angle=19.19,end angle=152,radius=0.4];
+\node at ($(B)+(85.6:0.86)$){$132.8^\circ$};
+% acute angle at B'
+\draw ($(Bp)+(104.8:0.6)$) arc[start angle=104.8,end angle=152,radius=0.6];
+\node at ($(Bp)+(128.4:1.4)$){$47.2^\circ$};
+\end{tikzpicture}
+\end{document}

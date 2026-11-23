@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \v in {2,...,9} {
+    \draw[black!45] ({22+62.857*(\v-2)},10) -- ({22+62.857*(\v-2)},112);
+    \node[anchor=base] at ({22+62.857*(\v-2)},161) {$\v$};
+  }
+  \draw (0,112) -- (488,112);
+  \path[shade dots, stipple color=black!45] ({22+62.857*1.5},37) rectangle ({22+62.857*5.5},87);
+  \begin{scope}[line width=0.9pt]
+    \draw ({22+62.857*1.5},37) rectangle ({22+62.857*5.5},87);
+    \draw ({22+62.857*3.5},37) -- ({22+62.857*3.5},87);
+    \draw (22,62) -- ({22+62.857*1.5},62);
+    \draw ({22+62.857*5.5},62) -- (462,62);
+    \draw (22,40) -- (22,84);
+    \draw (462,40) -- (462,84);
+  \end{scope}
+  \node[anchor=base] at (240,207) {Number of downloads};
+\end{tikzpicture}
+\end{document}

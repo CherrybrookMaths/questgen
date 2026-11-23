@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade dots] (387,297) arc[start angle=26.2,end angle=153.8,radius=197] -- cycle;
+  \draw (210,210) circle[radius=197];
+  \draw (35,297) -- (387,297);
+  \draw (35,297) -- (210,210) -- (210,297);
+  \fill (210,210) circle[radius=5];
+  \draw (200,297) -- (200,287) -- (210,287);
+  \foreach \x in {120,297} {\draw (\x,289) -- (\x,305); \draw (\x+5,289) -- (\x+5,305);}
+  \node[rotate=26.4] at (114,238) {12.5 cm};
+  \node at (215,338) {\halo{20 cm}};
+  \draw (394,297) -- (420,297);
+  \draw (394,408) -- (420,408);
+  \draw[aux,<->] (407,297) -- (407,408);
+  \node at (446,352) {$d$ cm};
+  \node[align=center] at (581,214) {NOT\\TO\\SCALE};
+  \node at (212,440) {Cross-section of pipe};
+\end{tikzpicture}
+\end{document}

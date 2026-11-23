@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{8}{9.5}\selectfont,inner sep=1pt}]
+\coordinate (Ch) at (304,79);\coordinate (Al) at (71,130);\coordinate (Se) at (518,150);
+\coordinate (Di) at (285,201);\coordinate (Ka) at (423,257);\coordinate (Ye) at (190,307);
+\coordinate (Xi) at (637,326);\coordinate (Bi) at (405,378);
+\draw (Al)--(Ch)--(Se)--(Xi)--(Bi)--(Ye)--(Al) (Ch)--(Di)--(Ye) (Ch)--(Ka)--(Bi) (Di)--(Ka)--(Se);
+\draw (Ch) .. controls (440,0) and (680,60) .. (Xi);
+\foreach \p in {Ch,Al,Se,Di,Ka,Ye,Xi,Bi} \fill (\p) circle (4.5);
+\node at (304,51) {Chennai};\node at (57,103) {Almaty};\node at (530,126) {Seoul};
+\node at (254,191) {Dili};\node at (466,262) {Kabul};\node at (169,344) {Yerevan};
+\node at (674,346) {Xi'an};\node at (411,405) {Bishkek};
+\node at (176,87) {330};\node at (573,55) {680};\node at (427,99) {815};\node at (270,142) {615};
+\node at (382,153) {560};\node at (451,195) {735};\node at (100,228) {485};\node at (556,242) {620};
+\node at (338,246) {370};\node at (256,269) {535};\node at (439,320) {275};\node at (294,363) {450};
+\node at (543,370) {445};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % x: 0 -> 102, 1 unit = 79.1 px ; y: 3 -> 649, 1 unit = 78.875 px (11 -> 18)
+  \tikzset{minor/.style={line width=0.3pt, black!60, dash pattern=on 0.45pt off 1.1pt}}
+  \foreach \i in {1,...,99} {
+    \pgfmathtruncatemacro\r{mod(\i,10)}
+    \ifnum\r=0\else \draw[minor] ({102+7.91*\i},649) -- ({102+7.91*\i},18); \fi
+  }
+  \foreach \i in {1,...,79} {
+    \pgfmathtruncatemacro\r{mod(\i,10)}
+    \ifnum\r=0\else \draw[minor] (102,{649-7.8875*\i}) -- (893,{649-7.8875*\i}); \fi
+  }
+  \foreach \i in {1,...,10} \draw ({102+79.1*\i},649) -- ({102+79.1*\i},18);
+  \foreach \i in {1,...,8} \draw (102,{649-78.875*\i}) -- (893,{649-78.875*\i});
+  \draw (102,649) -- (893,649);
+  \draw (102,649) -- (102,636) -- (96,631) -- (108,626) -- (96,621) -- (102,616) -- (102,18);
+  \foreach \i in {0,...,10} \draw ({102+79.1*\i},649) -- ({102+79.1*\i},661);
+  \foreach \i in {1,...,8} \draw (90,{649-78.875*\i}) -- (102,{649-78.875*\i});
+  \foreach \i in {0,...,10} \node[anchor=north, inner sep=0pt] at ({102+79.1*\i},668) {\i};
+  \foreach \i in {4,...,11} \node[anchor=east, inner sep=0pt] at (83,{649-78.875*(\i-3)}) {\i};
+  \node at (498,738) {Hours of phone use per day};
+  \node[rotate=90] at (16,333) {Hours of sleep per day};
+  % data
+  \foreach \a/\b in {0/10, 0.5/10, 0.5/9.7, 1/9.5, 1.5/9.5, 2.5/8.8, 2.5/8.2, 3/8.5, 3/8.2, 3.5/7.8, 4.5/7.5, 5/7.2, 5.5/7, 6/6.8}
+    \fill ({102+79.1*\a},{649-78.875*(\b-3)}) circle (0.062cm);
+  % new points (crosses)
+  \foreach \a/\b in {0/10.5, 4/8} {
+    \draw ({102+79.1*\a-6},{649-78.875*(\b-3)-6}) -- ++(12,12);
+    \draw ({102+79.1*\a-6},{649-78.875*(\b-3)+6}) -- ++(12,-12);
+  }
+  % line of best fit: y = 10.15 - 0.582 x, x from 0 to 8.28
+  \draw[line width=0.9pt] (102,{649-78.875*(10.15-3)}) -- ({102+79.1*8.28},{649-78.875*(10.15-0.582*8.28-3)});
+\end{tikzpicture}
+\end{document}

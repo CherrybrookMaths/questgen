@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % T: 0 -> 123, 1 unit = 15.75 px ; M: 0 -> 650, 1 unit = 15.75 px
+  \tikzset{minor/.style={line width=0.3pt, black!60, dash pattern=on 0.45pt off 1.1pt}}
+  \foreach \i in {1,...,79} {
+    \pgfmathtruncatemacro\r{mod(\i,10)}
+    \ifnum\r=0\else
+      \draw[minor] ({123+7.875*\i},650) -- ({123+7.875*\i},20);
+      \draw[minor] (123,{650-7.875*\i}) -- (753,{650-7.875*\i});
+    \fi
+  }
+  \foreach \i in {1,...,8} {
+    \draw ({123+78.75*\i},650) -- ({123+78.75*\i},20);
+    \draw (123,{650-78.75*\i}) -- (753,{650-78.75*\i});
+  }
+  \draw (123,20) -- (123,650) -- (753,650);
+  \foreach \i in {0,...,8} {
+    \draw ({123+78.75*\i},650) -- ({123+78.75*\i},667);
+    \draw (106,{650-78.75*\i}) -- (123,{650-78.75*\i});
+  }
+  \foreach \v in {0,10,20,30,40} {
+    \node[anchor=north, inner sep=0pt] at ({123+15.75*\v},675) {\v};
+    \node[anchor=east, inner sep=0pt] at (101,{650-15.75*\v}) {\v};
+  }
+  \node at (438,746) {Temperature ($T^{\circ}$C)};
+  \node[rotate=90] at (26,335) {Time ($M$ minutes)};
+\end{tikzpicture}
+\end{document}

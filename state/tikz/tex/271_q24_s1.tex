@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\u{15.75}
+  % minor grid (light grey, dotted)
+  \foreach \i in {1,...,39}{
+    \pgfmathtruncatemacro\m{mod(\i,5)}
+    \ifnum\m=0\relax\else
+      \draw[black!40, line width=0.3pt, dash pattern=on 0.6pt off 0.9pt] ({113+\u*\i},17) -- ({113+\u*\i},647);
+      \draw[black!40, line width=0.3pt, dash pattern=on 0.6pt off 0.9pt] (113,{647-\u*\i}) -- (743,{647-\u*\i});
+    \fi}
+  % major grid
+  \foreach \i in {5,10,...,40}{
+    \draw[black!65] ({113+\u*\i},17) -- ({113+\u*\i},647);
+    \draw[black!65] (113,{647-\u*\i}) -- (743,{647-\u*\i});}
+  % axes
+  \draw (113,17) -- (113,647) -- (743,647);
+  \foreach \i in {0,10,20,30,40}{
+    \draw ({113+\u*\i},647) -- ({113+\u*\i},655);
+    \node[anchor=north, inner sep=0pt] at ({113+\u*\i},676) {$\i$};
+    \draw (113,{647-\u*\i}) -- (105,{647-\u*\i});
+    \node[anchor=east, inner sep=0pt] at (97,{647-\u*\i}) {$\i$};}
+  \node at (428,742) {Temperature ($T^\circ$C)};
+  \node[rotate=90] at (20,360) {Time ($M$ minutes)};
+  % curve M = 180/T
+  \draw[line width=0.9pt, smooth, samples=90, domain=5:33.1] plot ({113+\u*\x},{647-\u*180/\x});
+  \foreach \t/\m in {5/36,15/12,30/6}
+    \fill ({113+\u*\t},{647-\u*\m}) circle[radius=2.5pt];
+\end{tikzpicture}
+\end{document}

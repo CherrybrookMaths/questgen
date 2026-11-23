@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\fy#1{536-3.94167*(#1)}
+  % grid
+  \foreach \f in {20,40,...,120} \draw[black!45] (117,{\fy{\f}}) -- (953,{\fy{\f}});
+  % bars
+  \foreach \i/\f in {0/98,1/62,2/24,3/8,4/6,5/1}
+    \draw[fill=black!25] ({117+145.5*\i},536) rectangle ({221+145.5*\i},{\fy{\f}});
+  % axes
+  \draw (117,{\fy{120}}) -- (117,536) -- (953,536) -- (953,{\fy{120}});
+  \foreach \f in {0,20,...,120} {
+    \draw (108,{\fy{\f}}) -- (117,{\fy{\f}});
+    \node[anchor=east] at (104,{\fy{\f}}) {$\f$};
+  }
+  \foreach \p in {0,10,...,100} {
+    \draw (953,{536-4.73*\p}) -- (962,{536-4.73*\p});
+    \node[anchor=west] at (965,{536-4.73*\p}) {$\p\%$};
+  }
+  % cumulative percentage line (true values: 98, 160, 184, 192, 198, 199 out of 199)
+  \draw[line width=0.9pt] (169,{536-4.73*49.246}) -- (314.5,{536-4.73*80.402}) -- (460,{536-4.73*92.462})
+     -- (605.5,{536-4.73*96.482}) -- (751,{536-4.73*99.497}) -- (896.5,{536-4.73*100});
+  \foreach \x/\p in {169/49.246,314.5/80.402,460/92.462,605.5/96.482,751/99.497,896.5/100}
+    \fill (\x,{536-4.73*\p}) circle (3.2);
+  % category labels (two lines, 33 px apart as on the paper)
+  \foreach \i/\a/\b in {0/Stock/shortage,1/Delivery/fee,2/Delivery/time,3/Damaged/item,4/Returns/policy,5/Product/information} {
+    \node[anchor=base] at ({169+145.5*\i},568) {\a};
+    \node[anchor=base] at ({169+145.5*\i},601) {\b};
+  }
+  \node[anchor=base] at (535,666) {Type of complaint};
+  \node[rotate=90] at (27,300) {Frequency};
+  \node[rotate=90] at (1076,300) {Cumulative percentage};
+  \node[font=\small\bfseries\sffamily] at (535,32) {Customer complaints};
+\end{tikzpicture}
+\end{document}

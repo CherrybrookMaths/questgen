@@ -2,11 +2,11 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
-\path[shade dots] (325,208) -- plot[domain=325:405,smooth,samples=20] (\x,{194-149*exp(-((\x-325)/128)^2/2)}) -- (405,208) -- cycle;
+\path[shade dots, stipple color=black!55] (325,208) -- plot[domain=325:405,smooth,samples=20] (\x,{195-177*exp(-((\x-325)/130)^2/2)}) -- (405,208) -- cycle;
 \draw (20,208)--(630,208);
-\draw[line width=0.9pt] plot[domain=22:628,smooth,samples=90] (\x,{194-149*exp(-((\x-325)/128)^2/2)});
-\draw (325,208)--(325,{194-149});
-\draw (405,208)--(405,{194-149*exp(-((80)/128)^2/2)});
+\draw[line width=0.9pt] plot[domain=22:628,smooth,samples=90] (\x,{195-177*exp(-((\x-325)/130)^2/2)});
+\draw (325,208)--(325,18);
+\draw (405,208)--(405,{195-177*exp(-((80)/130)^2/2)});
 \node at (325,233) {$0$};
 \node at (405,233) {$z$};
 \end{tikzpicture}

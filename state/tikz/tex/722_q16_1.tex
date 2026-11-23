@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{9.5}{11}\selectfont}]
+\coordinate (A) at (183,87); \coordinate (B) at (667,188); \coordinate (C) at (537,433);
+\coordinate (D) at (183,457); \coordinate (O) at (340,258);
+\path[shade hatch reverse] (O)--(A)--(B)--cycle;
+\path[shade hatch reverse] (O)--(A)--(D)--cycle;
+\path[shade hatch reverse] (O)--(B)--(C)--cycle;
+\draw (A)--(B)--(C)--(D)--cycle;
+\foreach \p in {A,B,C,D} \draw[aux] (O)--(\p);
+\draw[->] (O)--(340,180);
+\node[font=\fontsize{6}{7}\selectfont] at (340,171) {\halo{N}};
+\foreach \p in {A,B,C,D,O} \fill (\p) circle[radius=1.1pt];
+\node[anchor=west] at (153,57) {$A$ $300^\circ$};
+\node[anchor=west] at (670,192) {$B$\enspace $078^\circ$};
+\node[anchor=west] at (530,443) {$C$ $155^\circ$};
+\node[anchor=west] at (151,470) {$D$ $240^\circ$};
+\node at (336,280) {$O$};
+\node at (115,253) {1.5 km};
+\node at (335,467) {2.2 km};
+\node at (640,328) {2.5 km};
+\node[rotate=-47] at (289,177) {\halo{1.4 km}};
+\node[rotate=52] at (262,335) {\halo{1.5 km}};
+\node[rotate=-42] at (418,355) {1.7 km};
+\node[rotate=12] at (508,240) {\halo{2.2 km}};
+\node at (246,232) {\halo{4.4 km$^2$}};
+\node at (403,190) {\halo{1.0 km$^2$}};
+\node at (515,298) {\halo{1.8 km$^2$}};
+\node[align=center] at (990,205) {NOT TO\\[2pt]SCALE};
+\end{tikzpicture}
+\end{document}

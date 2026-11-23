@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+  mid/.default=0.53]
+ \begin{scope}[shift={(0,38)}]
+  \coordinate (S) at (95,205); \coordinate (A) at (305,51); \coordinate (E) at (752,51);
+  \coordinate (D) at (490,173); \coordinate (K) at (1103,160); \coordinate (C) at (307,327);
+  \coordinate (B) at (858,306);
+  \draw[mid] (S) -- (A);  \draw[mid=0.6] (S) -- (D); \draw[mid] (S) -- (C);
+  \draw[mid] (A) -- (E);  \draw[mid] (D) -- (A);  \draw[mid=0.5] (D) -- (E);
+  \draw[mid=0.5] (E) -- (B); \draw[mid=0.6] (B) -- (D); \draw[mid=0.5] (D) -- (C);
+  \draw[mid] (C) -- (B); \draw[mid=0.58] (E) -- (K); \draw[mid] (B) -- (K);
+  \foreach \p in {S,A,E,D,K,C,B} \fill (\p) circle[radius=2pt];
+  \node at (305,30) {$A$}; \node at (752,28) {$E$}; \node at (494,150) {$D$};
+  \node at (305,352) {$C$}; \node at (858,331) {$B$};
+  \node at (1100,134) {Sink}; \node at (68,232) {Source};
+  \node at (168,123) {10}; \node at (322,160) {20}; \node at (197,295) {10};
+  \node at (528,28) {15}; \node at (434,103) {10}; \node at (638,128) {10};
+  \node at (830,177) {10}; \node at (628,200) {10}; \node at (442,240) {10};
+  \node at (583,350) {10}; \node at (945,82) {20}; \node at (1002,250) {20};
+ \end{scope}
+  \draw[aux] plot[smooth] coordinates {(167,8) (200,60) (222,120) (231,210) (254,274) (333,322) (364,362) (382,402)};
+\end{tikzpicture}
+\end{document}

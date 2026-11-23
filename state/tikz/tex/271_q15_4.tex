@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\u{63.7}
+  \def\o{41}
+  \foreach \v in {2,...,9} {
+    \draw[black!45] ({\o+\u*(\v-2)},3) -- ({\o+\u*(\v-2)},105);
+    \node[anchor=base] at ({\o+\u*(\v-2)},158) {$\v$};
+  }
+  \draw (14,105) -- (515,105);
+  \path[shade dots, stipple color=black!45] ({\o+\u*1},29) rectangle ({\o+\u*5},78);
+  \begin{scope}[line width=0.9pt]
+    \draw ({\o+\u*1},29) rectangle ({\o+\u*5},78);
+    \draw ({\o+\u*4},29) -- ({\o+\u*4},78);
+    \draw (\o,53.5) -- ({\o+\u*1},53.5);
+    \draw ({\o+\u*5},53.5) -- ({\o+\u*7},53.5);
+    \draw (\o,32) -- (\o,75);
+    \draw ({\o+\u*7},32) -- ({\o+\u*7},75);
+  \end{scope}
+  \node[anchor=base] at (262,200) {Number of downloads};
+\end{tikzpicture}
+\end{document}

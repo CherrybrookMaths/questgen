@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \k in {1,...,7} {
+  \draw[black!30,line width=0.4pt] ({8+71*\k},8)--({8+71*\k},576);
+  \draw[black!30,line width=0.4pt] (8,{8+71*\k})--(576,{8+71*\k});}
+\begin{scope}
+\clip plot[smooth] coordinates {(289,8) (287,40) (291,80) (289,120) (292,150) (298,200) (323,250) (353,288) (398,328) (423,378) (434,434) (430,470) (432,510) (429,550) (431,576)} -- (576,576) -- (576,8) -- cycle;
+\pgfmathsetseed{7}
+\foreach \i in {1,...,520} {
+  \pgfmathsetmacro\xx{282+rnd*294}\pgfmathsetmacro\yy{10+rnd*566}\pgfmathtruncatemacro\cc{30+rnd*45}
+  \draw[black!\cc,line width=0.45pt] (\xx,\yy) sin ++(4,-1) cos ++(4,1) sin ++(4,1) cos ++(4,-1);}
+\end{scope}
+\fill[black!18] (221,150) -- (292,150) -- plot[smooth] coordinates {(292,150) (298,200) (323,250) (353,288) (398,328) (423,378) (434,434)} -- (221,434) -- (221,292) -- plot[smooth,domain=0:180,samples=40] ({221-71*sin(\x)},{221+71*cos(\x)}) -- cycle;
+\draw plot[smooth,domain=0:180,samples=40] ({221-71*sin(\x)},{221+71*cos(\x)});
+\draw[aux] (221,292)--(221,150);
+\draw (221,150)--(292,150);
+\draw (221,292)--(221,434)--(434,434);
+\draw plot[smooth] coordinates {(289,8) (287,40) (291,80) (289,120) (292,150)};
+\draw plot[smooth] coordinates {(292,150) (298,200) (323,250) (353,288) (398,328) (423,378) (434,434)};
+\draw plot[smooth] coordinates {(434,434) (430,470) (432,510) (429,550) (431,576)};
+\node[font=\fontsize{17}{20}\selectfont] at (305,338) {Pool};
+\draw (8,8) rectangle (576,576);
+\end{tikzpicture}
+\end{document}

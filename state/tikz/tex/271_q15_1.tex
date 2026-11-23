@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \v in {10,20,...,100} \draw[black!45] (143,{543-4.92*\v})--(725,{543-4.92*\v});
+\foreach \k/\f in {0/17,1/29,2/35,3/47,4/66,5/94,6/99,7/100}
+  \filldraw[shade dots, stipple color=black!45, stipple gap=3] ({201+59*\k},543) rectangle ({260+59*\k},{543-4.92*\f});
+\draw (143,543)--(725,543);
+\draw (143,543)--(143,28);
+\foreach \v in {0,20,...,100} \node[anchor=east] at (137,{543-4.92*\v}) {$\v$};
+\foreach \v in {10,20,...,100} \draw (143,{543-4.92*\v})--(135,{543-4.92*\v});
+\foreach \k in {2,...,9} {\draw ({231+59*(\k-2)},543)--({231+59*(\k-2)},560); \node[anchor=north] at ({231+59*(\k-2)},563) {$\k$};}
+\draw[line width=0.9pt] (201,543)--(260,{543-4.92*17})--(319,{543-4.92*29})--(378,{543-4.92*35})--(437,{543-4.92*47})--(496,{543-4.92*66})--(555,{543-4.92*94})--(614,{543-4.92*99})--(673,{543-4.92*100});
+\node at (433,632) {Number of downloads};
+\node[rotate=90] at (37,290) {Cumulative frequency};
+\end{tikzpicture}
+\end{document}

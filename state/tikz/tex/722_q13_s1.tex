@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{8.5}{10}\selectfont}]
+\coordinate (Al) at (179,155); \coordinate (Ch) at (396,107); \coordinate (Di) at (378,219);
+\coordinate (Se) at (594,172); \coordinate (Ka) at (507,271); \coordinate (Ye) at (290,319);
+\coordinate (Xi) at (705,337); \coordinate (Bi) at (488,384);
+\draw (Al) -- node[above left=-1pt and -1pt]{330} (Ch);
+\draw (Al) -- node[below left=-1pt and 0pt]{485} (Ye);
+\draw (Ye) -- node[below left=-2pt and -4pt]{450} (Bi);
+\draw (Bi) -- node[right]{275} (Ka);
+\draw (Di) -- node[above right=-2pt and -2pt]{370} (Ka);
+\draw (Bi) -- node[above left=-2pt and -4pt]{445} (Xi);
+\draw (Se) -- node[above right=-1pt and 0pt]{620} (Xi);
+\foreach \p in {Al,Ch,Di,Se,Ka,Ye,Xi,Bi} \fill (\p) circle[radius=1.6pt];
+\node at (170,130) {Almaty};
+\node at (393,80) {Chennai};
+\node at (348,213) {Dili};
+\node at (604,151) {Seoul};
+\node at (545,277) {Kabul};
+\node at (270,353) {Yerevan};
+\node at (740,356) {Xi'an};
+\node at (488,410) {Bishkek};
+\end{tikzpicture}
+\end{document}

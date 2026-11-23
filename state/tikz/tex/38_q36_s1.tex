@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[nd/.style={circle,draw,inner sep=0pt,minimum size=4.5mm}]
+\node[nd] (S) at (0,0) {};
+\node[nd] (n1) at (2,1.6) {};
+\node[nd] (n2) at (4,1.6) {};
+\node[nd] (n3) at (6,1.6) {};
+\node[nd] (nB) at (4,-1.6) {};
+\node[nd] (nE) at (8,0) {};
+\node[nd] (nG) at (10,1.6) {};
+\node[nd] (nH) at (10,-1.6) {};
+\node[nd] (nJ) at (12,0) {};
+\node[nd] (Fin) at (14,0) {};
+\draw[->] (S) -- node[above left]{$A$, 5} (n1);
+\draw[->] (n1) -- node[above]{$C$, 7} (n2);
+\draw[->] (n2) -- node[above]{$D$, 2} (n3);
+\draw[->] (n3) -- node[below left]{$E$, 3} (nE);
+\draw[->] (S) -- node[below left]{$B$, 8} (nB);
+\draw[->] (nB) -- node[above left]{$F$, 6} (nE);
+\draw[->] (nE) -- node[above left]{$G$, 5} (nG);
+\draw[->] (nG) -- node[above right]{$J$, 8} (nJ);
+\draw[->] (nE) -- node[below left]{$H$, 6} (nH);
+\draw[->] (nH) -- node[below right]{$I$, 3} (nJ);
+\draw[->] (nJ) -- node[above]{$K$, 10} (Fin);
+\draw[aux,->] (nE) -- node[above]{$X$, 12} (nJ);
+\node[left] at (S.west){Start};
+\node[right] at (Fin.east){Finish};
+\end{tikzpicture}
+\end{document}

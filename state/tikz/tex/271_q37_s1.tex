@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (0,228) -- (622,228);
+\node at (612,253) {$z$};
+\draw[line width=0.9pt] plot[domain=33:588,samples=90,smooth] (\x,{223-221*exp(-0.5*((\x-310)/68)^2)});
+\draw (310,2) -- (310,293);
+\foreach \a in {232,388} {
+  \draw[aux] (\a,{223-221*exp(-0.5*((\a-310)/68)^2)}) -- (\a,228);
+  \draw (\a,228) -- (\a,293);}
+\foreach \a in {291,329} {
+  \draw[aux] (\a,{223-221*exp(-0.5*((\a-310)/68)^2)}) -- (\a,228);
+  \draw (\a,228) -- (\a,243);}
+\node at (274,262) {820};
+\node at (347,262) {860};
+\node at (232,312) {760};
+\node at (310,312) {840};
+\node at (388,312) {920};
+\end{tikzpicture}
+\end{document}

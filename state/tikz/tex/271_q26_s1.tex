@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+  \coordinate (B) at (32,-20); \coordinate (A) at (32,-320);
+  \coordinate (C) at (377,-320); \coordinate (D) at (587,-320);
+  \draw (B) -- (A) -- (D) -- cycle;
+  \draw (B) -- (C);
+  \draw (32,-297) -- (55,-297) -- (55,-320);
+  \draw ([shift={(139.0:80)}]C) arc[start angle=139.0, end angle=180, radius=80];
+  \draw ([shift={(151.6:80)}]D) arc[start angle=151.6, end angle=180, radius=80];
+  \foreach \p in {A,B,C,D} \fill (\p) circle[radius=1.6pt];
+  \node at (14,-20) {$B$};
+  \node at (12,-322) {$A$};
+  \node at (392,-340) {$C$};
+  \node at (606,-322) {$D$};
+  \node at (329,-130) {93 cm};
+  \node at (274,-296) {$41^\circ$};
+  \node at (495,-296) {$\theta$};
+  \draw (32,-336) -- (32,-360); \draw (377,-336) -- (377,-360);
+  \draw[aux,<-] (32,-348) -- (158,-348);
+  \draw[aux,->] (248,-348) -- (377,-348);
+  \node at (203,-350) {35 cm};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (O) at (254,258);
+  \foreach \n/\a in {A/90,B/18,C/-54,D/-126,E/162} \coordinate (\n) at ($(O)+({221*cos(\a)},{-221*sin(\a)})$);
+  \path[stipple color=black!55, shade dots, even odd rule] (O) circle (221) (A) -- (B) -- (C) -- (D) -- (E) -- cycle;
+  \draw (O) circle (221);
+  \draw (A) -- (B) -- (C) -- (D) -- (E) -- cycle;
+  \foreach \n in {A,B,C,D,E} \draw (O) -- (\n);
+  \draw plot[smooth, samples=30, domain=-126:-54] ({254+70*cos(\x)},{258-70*sin(\x)});
+  \node at (256,305) {$72^\circ$};
+  \node at (254,20) {$A$};
+  \node at (481,190) {$B$};
+  \node at (390,456) {$C$};
+  \node at (113,456) {$D$};
+  \node at (229,268) {$O$};
+  \node at (26,189) {$E$};
+\end{tikzpicture}
+\end{document}

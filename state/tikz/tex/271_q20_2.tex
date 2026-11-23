@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw (7,7) rectangle (1069,571);
+  \foreach \n/\x/\y/\ly in {S/88/146/103, Y/427/101/60, M/981/155/115, C/599/229/187, B/371/352/394} {
+    \fill (\x,\y) circle (0.09cm);
+    \node[font=\fontsize{13}{15}\selectfont] at (\x,\ly) {$\n$};
+  }
+  \node[font=\fontsize{12.6}{15}\selectfont, anchor=base west, inner sep=0pt] at (30,524) {Length of minimum spanning tree =};
+  \draw[line width=0.6pt, line cap=round, dash pattern=on 0pt off 2.4pt] (535,535) -- (1038,535);
+\end{tikzpicture}
+\end{document}

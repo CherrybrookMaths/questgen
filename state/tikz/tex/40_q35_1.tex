@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\s{69}
+  \def\zz{1.13}
+  \path[stipple color=black!60, shade dots] plot[smooth, samples=80, domain=-4.4:\zz] ({327+\s*\x},{283-222*exp(-\x*\x/2)}) -- ({327+\s*\zz},283) -- cycle;
+  \draw[<->] (14,283) -- (640,283);
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=-4.4:4.4] ({327+\s*\x},{283-222*exp(-\x*\x/2)});
+  \draw ({327+\s*\zz},283) -- ({327+\s*\zz},{283-222*exp(-\zz*\zz/2)});
+  \draw (327,283) -- (327,293);
+  \draw ({327+\s*\zz},283) -- ({327+\s*\zz},293);
+  \node at (327,314) {$0$};
+  \node at ({327+\s*\zz},313) {$z$};
+\end{tikzpicture}
+\end{document}

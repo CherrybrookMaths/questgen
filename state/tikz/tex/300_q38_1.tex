@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  declare function={h(\u)=200*exp(-(\u/100)*(\u/100)/0.75154)+28*exp(-(\u/100)*(\u/100)/5.12);}]
+\path[shade dots] (48,243) -- plot[domain=48:458,samples=90,smooth] (\x,{243-h(\x-326)}) -- (458,243) -- cycle;
+\draw[line width=0.9pt] plot[domain=48:604,samples=90,smooth] (\x,{243-h(\x-326)});
+\draw (458,243) -- (458,{243-h(458-326)});
+\draw[<->] (14,243)--(636,243);
+\node at (458,264) {$z$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(103,452)}, x=0.99695cm, y=0.200025cm]
+  \foreach \i in {1,...,49}{\pgfmathtruncatemacro\m{mod(\i,5)}
+    \ifnum\m=0\else \draw[black!45,line width=0.4pt] (\i/5,0)--(\i/5,24);\fi}
+  \foreach \j in {1,...,23}{\pgfmathtruncatemacro\m{mod(\j,4)}
+    \ifnum\m=0\else \draw[black!45,line width=0.4pt] (0,\j)--(10,\j);\fi}
+  \foreach \i in {1,...,10} \draw (\i,0)--(\i,24);
+  \foreach \j in {4,8,...,24} \draw (0,\j)--(10,\j);
+  \draw[->] (0,0)--(10.79,0);
+  \draw[->] (0,0)--(0,26.2);
+  \foreach \i in {0,...,10} \node at (\i,-2.1) {\i};
+  \foreach \j in {0,4,...,24} \node[anchor=east] at (-0.1,\j) {\j};
+  \node at (10.72,-1.2) {$x$};
+  \node at (-0.19,27.1) {$y$};
+  \node[rotate=90] at (-1.03,12) {Test mark};
+  \node at (4.99,-4.63) {Assignment mark};
+  \draw[line width=0.9pt] (0,6)--(10,20);
+  \foreach \p/\q in {3/11,5/14,6/12,7/15,9/20} \fill (\p,\q) circle (1.6pt);
+\end{scope}
+\end{tikzpicture}
+\end{document}

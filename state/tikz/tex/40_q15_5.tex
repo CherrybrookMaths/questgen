@@ -2,7 +2,9 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
-  \foreach \y in {41,104,167,230} \draw[black!45] (45,\y)--(425,\y);
+  % grid lines only where no bar covers them (bars are opaque on the paper)
+  \foreach \a/\b/\y in {45/70/230,400/425/230,45/117/167,353/425/167,45/165/104,212/259/104,306/425/104,45/165/41,212/259/41,306/425/41}
+    \draw[black!45] (\a,\y)--(\b,\y);
   \foreach \a/\b/\h in {70/117/1,117/165/2,165/212/4,212/259/2,259/306/4,306/353/2,353/400/1}{
     \path[shade dots] (\a,293) rectangle (\b,293-63*\h);
     \draw (\a,293) rectangle (\b,293-63*\h);}

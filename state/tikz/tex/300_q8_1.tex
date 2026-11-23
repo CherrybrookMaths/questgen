@@ -1,0 +1,35 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \begin{scope}[shift={(-2,4)}]
+  % cube (isometric)
+  \draw[line join=round] (105,10) -- (195,60) -- (195,170) -- (105,222) -- (18,170) -- (18,60) -- cycle;
+  \draw (18,60) -- (105,112) -- (195,60);
+  \draw (105,112) -- (105,222);
+  \begin{scope}[shift={(105,112)}, x={(-1.1049cm,0.6604cm)}, y={(1.143cm,0.6604cm)}]
+    \foreach \s/\t in {0.5/0.5,0.22/0.22,0.78/0.78,0.22/0.78,0.78/0.22}
+      \fill (\s,\t) ellipse [x radius=0.1, y radius=0.1];
+  \end{scope}
+  \begin{scope}[shift={(105,112)}, x={(-1.1049cm,0.6604cm)}, y={(0cm,-1.397cm)}]
+    \foreach \s/\t in {0.25/0.25,0.75/0.25,0.25/0.75,0.75/0.75}
+      \fill (\s,\t) ellipse [x radius=0.1, y radius=0.105];
+  \end{scope}
+  \begin{scope}[shift={(105,112)}, x={(1.143cm,0.6604cm)}, y={(0cm,-1.397cm)}]
+    \foreach \s/\t in {0.27/0.2,0.27/0.5,0.27/0.8,0.8/0.2,0.8/0.5,0.8/0.8}
+      \fill (\s,\t) ellipse [x radius=0.1, y radius=0.105];
+  \end{scope}
+  \end{scope}
+  % spinner
+  \draw (481,118) circle (103);
+  \draw (481,118) circle (96);
+  \draw (385,118) -- (577,118);
+  \draw (481,22) -- (481,214);
+  \node[font=\large\bfseries] at (435,80) {1};
+  \node[font=\large\bfseries] at (525,80) {2};
+  \node[font=\large\bfseries] at (435,160) {4};
+  \node[font=\large\bfseries] at (525,160) {3};
+  \draw[line width=0.9pt,-{Latex[length=3mm,width=2mm]}] (481,118) -- (454,64);
+  \fill (481,118) circle (5);
+\end{tikzpicture}
+\end{document}
