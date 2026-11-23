@@ -450,14 +450,35 @@ def merge_split(batch, files):
     print('work/%s/split_out.json: %d splits' % (batch, len(allsp)))
 
 
+def course_of(doc_ids):
+    """The course of a batch's papers (documents.course). A batch is one course (tools/batches.py lanes are per course); a mix stops
+    the run. Owner 23 Nov: "we need to start working on the standard course": Standard batches tag and rate with Standard's rules."""
+    cs = {r[0] for r in db().execute(f"select distinct course from documents where id in ({','.join('?' * len(doc_ids))})", list(doc_ids))} if doc_ids else set()
+    cs.discard('unknown')
+    if len(cs) > 1: sys.exit(f'this batch mixes courses {sorted(cs)}: run each course on its own')
+    return cs.pop() if cs else 'advanced'
+
+
+def tag_inputs(course):
+    """(spec, dot points, skills, prerequisites) for the tag step. Standard (STANDARD_SPEC.md): TAG_SPEC_STANDARD.md, Year 11 common +
+    Year 12 Standard 2 dot points only (owner: "Standard 2 first"), the 136 approved skills, whose `requires` are the prerequisites."""
+    if course == 'standard':
+        dps = [d for d in json.load(open(S + 'work/skills/standard/dotpoints.json')) if d['part'] in ('common', 'S2')]
+        sk = json.load(open(S + 'work/skills/standard/skills.json'))['skills']
+        return 'TAG_SPEC_STANDARD.md', dps, sk, [{'skill': x['skill'], 'requires': x['requires']} for x in sk]
+    return ('TAG_SPEC.md', json.load(open(S + 'work/skills/dotpoints.json')), json.load(open(P + 'site/project/skills_spec.json')),
+            json.load(open(S + 'work/skills/skill_prereqs.json')))
+
+
 def run_tag(api, batch, docs):
     items = []
     for f in sorted(glob.glob(P + f'tag/in_{batch}_*.json')): items += json.load(open(f))['parts']
-    dps = json.load(open(S + 'work/skills/dotpoints.json')); dp_ids = {d['id'] for d in dps}
-    skills = json.load(open(P + 'site/project/skills_spec.json')); names = {s['skill'] for s in (skills if isinstance(skills, list) else skills.get('skills', []))}
-    pre = json.load(open(S + 'work/skills/skill_prereqs.json'))
-    system = [text_block(spec('TAG_SPEC.md') + API_NOTE + '\n\n## work/skills/dotpoints.json\n' + json.dumps(dps, ensure_ascii=False)
-                         + '\n\n## work/skills/skills_spec.json\n' + json.dumps(skills, ensure_ascii=False)
+    tspec, dps, skills, pre = tag_inputs(course_of({x['doc'] for x in items if not docs or x['doc'] in docs}))
+    dp_ids = {d['id'] for d in dps}
+    names = {s['skill'] for s in (skills if isinstance(skills, list) else skills.get('skills', []))}
+    hd = ('state/work/skills/standard/dotpoints.json', 'state/work/skills/standard/skills.json') if tspec != 'TAG_SPEC.md' else ('work/skills/dotpoints.json', 'work/skills/skills_spec.json')
+    system = [text_block(spec(tspec) + API_NOTE + f'\n\n## {hd[0]}\n' + json.dumps(dps, ensure_ascii=False)
+                         + f'\n\n## {hd[1]}\n' + json.dumps(skills, ensure_ascii=False)
                          + '\n\n## work/skills/skill_prereqs.json\n' + json.dumps(pre, ensure_ascii=False), cache=True)]
     jobs = []
     for doc, its in by_doc(items, lambda x: x['doc']).items():
@@ -783,15 +804,26 @@ def unrated_leaves(c, docs):
 def run_difficulty(api, batch, docs):
     c = db()
     lab = {r['id']: r['display_label'] for r in c.execute('select id, display_label from documents')}
+    items = unrated_leaves(c, docs)
+    course = course_of({r['doc'] for r in items})
     anchors = []
     for r in c.execute("""select d.part_id, d.area, d.band_ai, d.wm_ai, p.marks, p.latex, q.stem_latex from part_difficulty d
-                          join parts p on p.id=d.part_id join questions q on q.id=d.question_id where d.is_anchor=1 order by d.area, d.part_id"""):
+                          join parts p on p.id=d.part_id join questions q on q.id=d.question_id join documents dd on dd.id=q.document_id
+                          where d.is_anchor=1 and dd.course=? order by d.area, d.part_id""", (course,)):
         anchors.append({'part_id': r['part_id'], 'area': r['area'], 'marks': r['marks'], 'band': r['band_ai'], 'wm': r['wm_ai'],
                         'text': ((r['stem_latex'] or '') + ' ' + r['latex'])[:350]})
     ids = {a['part_id'] for a in anchors}
-    system = [text_block(spec('DIFFICULTY_SPEC.md') + API_NOTE + '\n## The HSC reference parts (anchors), with their ratings\n'
-                         + json.dumps(anchors, ensure_ascii=False), cache=True)]
-    items = unrated_leaves(c, docs)
+    # owner 23 Nov (Standard pilot, STANDARD_SPEC.md step 6): a course with no references yet rates its NESA HSC papers FIRST, as the
+    # references (DIFFICULTY_SPEC: "use HSC as a baseline"); the owner reviews them on the Difficulty tab; the batch's other papers are
+    # rated in a second run, against them. 'ref' runs write {ref: true}, which difficulty-apply stores as is_anchor = 1.
+    ref = not anchors
+    if ref:
+        hsc = {r[0] for r in c.execute("select id from documents where task_type='hsc'")}
+        items = [r for r in items if r['doc'] in hsc]
+        if not items: sys.exit(f'{course}: no HSC references yet and no HSC paper in this batch: rate an HSC paper first')
+    system = [text_block(spec('DIFFICULTY_SPEC.md') + API_NOTE + ('' if course == 'advanced' else '\n## Course\n' + course + (': no references yet. The parts below ARE the HSC '
+                         'reference parts: rate each on its own merits (nearest_anchor null); every later part is compared with them.' if ref else ''))
+                         + '\n## The HSC reference parts (anchors), with their ratings\n' + json.dumps(anchors, ensure_ascii=False), cache=True)]
     jobs = []
     os.makedirs(DIFF_OUT + batch, exist_ok=True)
     for doc, its in by_doc(items, lambda r: r['doc']).items():
@@ -815,16 +847,18 @@ def run_difficulty(api, batch, docs):
                 for x in out:
                     if x.get('band') not in (2, 3, 4, 5, 6): e.append(f'part {x.get("part_id")}: band must be an integer 2-6')
                     if x.get('wm') not in ('UF', 'PR'): e.append(f'part {x.get("part_id")}: wm must be UF or PR')
-                    if x.get('nearest_anchor') not in ids: e.append(f'part {x.get("part_id")}: nearest_anchor must be one of the reference part_ids')
+                    if (x.get('nearest_anchor') is not None) if ref else (x.get('nearest_anchor') not in ids): e.append(f'part {x.get("part_id")}: nearest_anchor must be ' + ('null (these are the references)' if ref else 'one of the reference part_ids'))
                     if x.get('confidence') not in ('high', 'medium', 'low'): e.append(f'part {x.get("part_id")}: confidence high, medium or low')
                 return e
 
             def write(out, errs, f=f, want=want):
-                json.dump([x for x in out if isinstance(x, dict) and x.get('part_id') in want and x.get('band') in (2, 3, 4, 5, 6)
-                           and x.get('wm') in ('UF', 'PR') and x.get('nearest_anchor') in ids], open(f, 'w'), ensure_ascii=False, indent=1)
-            task = ('Rate every part below by the spec: band (2-6), wm (UF or PR), nearest_anchor (the part_id of the reference part it is '
-                    'closest to in difficulty, from the list in the system prompt), confidence, reason (at most 15 words). These are not '
-                    'HSC references themselves. Submit a JSON list, one object per part_id, with submit_difficulty.\n\n' + json.dumps(data, ensure_ascii=False))
+                json.dump([{**x, **({'ref': True, 'nearest_anchor': None} if ref else {})} for x in out if isinstance(x, dict) and x.get('part_id') in want and x.get('band') in (2, 3, 4, 5, 6)
+                           and x.get('wm') in ('UF', 'PR') and (ref or x.get('nearest_anchor') in ids)], open(f, 'w'), ensure_ascii=False, indent=1)
+            task = (('Rate every part below by the spec: band (2-6), wm (UF or PR), nearest_anchor null (these ARE the HSC reference parts of '
+                     'the course), confidence, reason (at most 15 words). ' if ref else
+                     'Rate every part below by the spec: band (2-6), wm (UF or PR), nearest_anchor (the part_id of the reference part it is '
+                     'closest to in difficulty, from the list in the system prompt), confidence, reason (at most 15 words). These are not '
+                     'HSC references themselves. ') + 'Submit a JSON list, one object per part_id, with submit_difficulty.\n\n' + json.dumps(data, ensure_ascii=False))
             jobs.append(Run(batch, 'difficulty', doc, k, system, [text_block(task)],
                             [json_submit('submit_difficulty', 'Submit the list of part ratings', check, write)], 'submit_difficulty'))
     return jobs
@@ -840,8 +874,8 @@ def difficulty_apply(batch):
             q = c.execute('select question_id from parts where id=?', (x['part_id'],)).fetchone()
             if not q or c.execute('select 1 from part_difficulty where part_id=?', (x['part_id'],)).fetchone(): continue
             c.execute("""insert into part_difficulty(part_id, question_id, band, wm, is_anchor, nearest_anchor, confidence, reason, area, prompt_version,
-                         rated_at, band_ai, wm_ai, source) values (?,?,?,?,0,?,?,?,?,?,?,?,?,'model')""",
-                      (x['part_id'], q[0], x['band'], x['wm'], x['nearest_anchor'], x.get('confidence'), (x.get('reason') or '')[:200],
+                         rated_at, band_ai, wm_ai, source) values (?,?,?,?,?,?,?,?,?,?,?,?,?,'model')""",
+                      (x['part_id'], q[0], x['band'], x['wm'], 1 if x.get('ref') else 0, x['nearest_anchor'], x.get('confidence'), (x.get('reason') or '')[:200],
                        area_of(c, x['part_id']), 'diff-v1-api', today, x['band'], x['wm']))
             n += 1
     c.commit(); print(f'difficulty-apply {batch}: {n} parts rated; next: tools/apply_difficulty_reviews.py <difficulty export>')
