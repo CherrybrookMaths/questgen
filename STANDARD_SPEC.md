@@ -84,7 +84,8 @@ Owner rulings, verbatim (record new ones here and next to the code, `// owner <d
    "Standard 2 first"); papers before 2019 are old syllabus (General Mathematics; Standard 1 and 2 first examined 2019). Year 12
    lane: 173 papers (107 current, 66 old) in 19 batches; 12 Standard 1 held; Year 11 held (owner: "yes finalise Y12 first").
    Batch 1 (the pilot) starts with the 5 NESA HSC Standard 2 papers 2020-2024, so they become the references. Advanced's list
-   unchanged (checked count for count). Open for the owner: import the 66 General Maths papers later (as Advanced's old 2 Unit)?
+   unchanged (checked count for count). Owner 23 Nov on the 66 General Maths papers: "Yes import them later." (after the current-syllabus papers; their
+   questions on content outside the 2024 course are old syllabus, as Advanced's old 2 Unit papers).
    Still to do: Import: a standard|12 lane in the inventory (Standard 2 Year 12 papers only), a cover check that tells Standard 1 from Standard 2
    (27 of 357 file names say which), and course-aware import prompts (parse, tag, difficulty).
 6. Pilot batch: the NESA HSC Standard 2 papers (2020-2024 are in the folder) first, so they become the difficulty references.
