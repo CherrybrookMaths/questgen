@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \pgfmathsetmacro\r{200}
+  \pgfmathsetmacro\a{asin(138/\r)}
+  % arc above the fence (y down: angles measured with y flipped)
+  \draw (268,218) ++({-90-(-\a)-180}:\r) arc[start angle={-90+\a-180+360-360}, end angle={-90-\a+360}, radius=\r];
+  \draw (15,356) -- (525,356);
+  \draw (268,218) -- ++(-38:\r);
+  \draw[aux] (268,218) -- (268,356);
+  \draw (243,356) -- (243,331) -- (268,331);
+  \fill (268,218) circle (2.6pt);
+  \node at (385,183) {20 m};
+  \node[anchor=east] at (264,288) {10 m};
+\end{tikzpicture}
+\end{document}

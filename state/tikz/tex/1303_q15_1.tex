@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (83,255) -- (83,410) -- (422,410);
+  \draw plot[smooth,tension=0.7] coordinates {(83,255) (115,160) (158,88) (200,45) (251,30) (300,55) (347,120) (390,245) (422,410)};
+  \draw (158,410) -- (158,88);
+  \draw (251,410) -- (251,30);
+  \draw (347,410) -- (347,120);
+  \node[font=\scriptsize] at (44,333) {$2$};
+  \node[font=\scriptsize] at (140,333) {$4.5$};
+  \node[font=\scriptsize] at (234,333) {$5.1$};
+  \node[font=\scriptsize] at (331,333) {$3.6$};
+  \foreach \x in {120,205,299,385} \node[font=\scriptsize] at (\x,434) {$5$};
+  \node[font=\footnotesize] at (470,70) {Not to scale};
+\end{tikzpicture}
+\end{document}
