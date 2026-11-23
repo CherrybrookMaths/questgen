@@ -28,8 +28,8 @@ def build():
     for f in sorted(glob.glob(paths.S + 'work/api_import/*/calls.jsonl')):
         name = os.path.basename(os.path.dirname(f))
         rows = [json.loads(l) for l in open(f) if l.strip()]
-        m = re.fullmatch(r'b(\d+)r?', name)
-        runs[('batch', int(m.group(1))) if m else ('other', name)] += rows
+        m = re.fullmatch(r'([bs])(\d+)r?', name)   # b<N>: Advanced batch N; s<N>: Standard batch N (owner 23 Nov: Standard pilot)
+        runs[('batch', (int(m.group(2)) if m.group(1) == 'b' else 'S' + m.group(2))) if m else ('other', name)] += rows
     batches, other, months = [], [], collections.Counter()
     for (kind, k), rows in sorted(runs.items(), key=lambda x: (x[0][0], str(x[0][1]).zfill(4))):
         for r in rows: months[r['t'][:7]] += r.get('usd', 0)
@@ -51,19 +51,20 @@ def build():
         steps = collections.Counter()
         for r in rows: steps[r.get('step') or '?'] += r.get('usd', 0)
         q = sum(p['questions'] for p in papers)
-        batches.append({'n': k, 'date': dates[0][:10], 'usd': round(usd, 2), 'calls': len(rows), 'papers': papers,
+        batches.append({'n': k, 'course': 'standard' if str(k).startswith('S') else 'advanced', 'date': dates[0][:10], 'usd': round(usd, 2), 'calls': len(rows), 'papers': papers,
                         'shared_usd': round(shared, 2), 'questions': q,
                         'per_paper': round(usd / max(len(papers), 1), 2), 'per_question': round(usd / q, 3) if q else None,
                         'steps': {st: round(v, 2) for st, v in sorted(steps.items(), key=lambda x: -x[1])},
                         'models': sorted({r.get('model') for r in rows if r.get('model')})})
-    pp = [b['per_paper'] for b in batches]
-    np_ = sum(len(b['papers']) for b in batches)
+    adv = [b for b in batches if b['course'] == 'advanced']   # the queue estimate is per course: Advanced's from Advanced batches
+    pp = [b['per_paper'] for b in adv]
+    np_ = sum(len(b['papers']) for b in adv)
     return {'made': __import__('time').strftime('%Y-%m-%dT%H:%M'), 'limit_usd': MONTHLY_LIMIT_USD, 'first_api_batch': FIRST_API_BATCH,
-            'batches': sorted(batches, key=lambda b: -b['n']), 'other': other,
+            'batches': sorted(batches, key=lambda b: (b['course'] != 'standard', -int(str(b['n']).lstrip('S')))), 'other': other,
             'months': {m: round(v, 2) for m, v in sorted(months.items())},
             'total_usd': round(sum(months.values()), 2), 'batch_usd': round(sum(b['usd'] for b in batches), 2),
             # what the queue's estimate uses: the range of the measured batch averages, and the overall mean per paper
-            'per_paper': {'lo': min(pp), 'hi': max(pp), 'mean': round(sum(b['usd'] for b in batches) / np_, 2)} if pp else None}
+            'per_paper': {'lo': min(pp), 'hi': max(pp), 'mean': round(sum(b['usd'] for b in adv) / np_, 2)} if pp else None}
 
 
 if __name__ == '__main__':

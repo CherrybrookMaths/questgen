@@ -94,7 +94,7 @@ const COST={d:null,open:new Set(),
   steps:s=>Object.entries(s||{}).map(([k,v])=>`${esc(k)} ${COST.usd(v)}`).join(' · '),
   render(){const el=$('#costBox');if(!el)return;const d=COST.d;if(!d){el.innerHTML='<div class="empty">No cost log yet.</div>';return}
     const mon=Object.entries(d.months||{}),cur=mon.length?mon[mon.length-1]:null,pp=d.per_paper;
-    const row=b=>{const op=COST.open.has(b.n);return `<tr class="pr-cb"><td><button type="button" class="linkbtn" data-costb="${b.n}" aria-expanded="${op}">Batch ${b.n}</button></td><td>${esc(b.date)}</td>
+    const row=b=>{const op=COST.open.has(b.n);return `<tr class="pr-cb"><td><button type="button" class="linkbtn" data-costb="${b.n}" aria-expanded="${op}">${b.course==='standard'?'Standard batch '+String(b.n).slice(1):'Batch '+b.n}</button></td><td>${esc(b.date)}</td>
       <td class="n">${b.papers.length}</td><td class="n">${b.questions.toLocaleString('en-AU')}</td><td class="n"><b>${COST.usd(b.usd)}</b></td><td class="n">${COST.usd(b.per_paper)}</td><td class="n">${b.per_question!=null?COST.usd(b.per_question):'–'}</td></tr>
       ${op?`<tr class="pr-cd"><td colspan="7"><p class="pr-cst">By step: ${COST.steps(b.steps)}${b.shared_usd?` · not tied to one paper ${COST.usd(b.shared_usd)}`:''}</p>
         <table class="pr-ct pr-cp"><thead><tr><th>Paper</th><th class="n">Questions</th><th class="n">Cost</th><th class="n">Per question</th></tr></thead><tbody>
@@ -107,5 +107,5 @@ const COST={d:null,open:new Set(),
       ${(d.other||[]).length?`<h4 class="pr-ch">Other API spend</h4><ul class="pr-co">${d.other.map(o=>`<li>${esc(o.name)}: ${esc((o.steps||[]).join(', '))} · ${o.papers} papers · ${esc(o.from)}${o.to!==o.from?'–'+esc(o.to):''} · <b>${COST.usd(o.usd)}</b></li>`).join('')}</ul>`:''}
       <p class="pr-cnote">All API spend: ${COST.usd(d.total_usd)}${mon.length>1?' ('+mon.map(([m,v])=>`${esc(m)} ${COST.usd(v)}`).join(', ')+')':''}.</p>${unmetered}`}};
 document.addEventListener('toggle',e=>{if(e.target.id==='procCost'&&e.target.open)COST.load().then(()=>COST.render())},true);
-document.addEventListener('click',e=>{const b=e.target.closest('[data-costb]');if(b){const n=+b.dataset.costb;COST.open.has(n)?COST.open.delete(n):COST.open.add(n);COST.render();return}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-costb]');if(b){const n=isNaN(+b.dataset.costb)?b.dataset.costb:+b.dataset.costb;COST.open.has(n)?COST.open.delete(n):COST.open.add(n);COST.render();return}
   if(e.target.closest('[data-costopen]')){e.preventDefault();const d=$('#procCost');if(d){d.open=true;d.scrollIntoView({block:'start'})}}});
