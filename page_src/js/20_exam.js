@@ -3,9 +3,15 @@
    Stage 1 = build by hand: "Add to exam" on every bank card, an exam panel, an A4 preview (cover, Section I/II,
    answer lines, paginated sheets), a marking guide, and Download (the artifact cannot print; the downloaded
    .html prints or saves as PDF from the browser). Saved exams live in the page database, collection `exams`. */
-const XKEY='qg_exam';
-let EX=(()=>{try{const v=JSON.parse(localStorage.getItem(XKEY));if(v&&Array.isArray(v.items))return v}catch(e){}return null})()||
+// owner 23 Nov: "All the advanced questions dissappeared and then when I went back to the advanced tab and opened the same exam, the
+// questions were now gone, destroying that eaxm": every exam belongs to one course (exam.course;
+// none recorded = 'advanced', every exam saved before 23 Nov). The open exam is kept per course in this browser, and an exam of
+// another course is never loaded, edited or saved against this course's bank (xSaveDb, exmLoad in 25_mine.js).
+const XKEY=QG.course==='advanced'?'qg_exam':'qg_exam_'+QG.course;
+const exCourse=x=>(x&&x.course)||'advanced';
+let EX=(()=>{try{const v=JSON.parse(localStorage.getItem(XKEY));if(v&&Array.isArray(v.items)&&(exCourse(v)===QG.course||(!v.course&&!v.id&&!v.items.length)))return v}catch(e){}return null})()||
   {title:QG.courseData.name,sub:'Practice examination',school:'CMC Education',time:'',timeAuto:true,mpm:1.8,reading:'10 minutes',items:[]};
+EX.course=QG.course;
 // an exam opened before 19 Nov keeps the working time it has (only new exams follow the marks until a time is typed)
 if(EX.timeAuto===undefined)EX.timeAuto=!EX.id&&!EX.items.length;
 // owner 19 Nov ("Save by itself"): every change is kept in this browser and, for an exam in the shared database, saved there a moment
@@ -46,9 +52,10 @@ let XSAVED=[],_xsub=null;
 // saving: every field, including settings, lines, diagram sizes and locks (Exams page, owner 14 Nov); then My exams and the
 // page head's Saved / Unsaved marker refresh (they refresh even when there is no database)
 async function xSaveDb(quiet){
+  if(exCourse(EX)!==QG.course){toast('This exam belongs to '+(QG.courses[exCourse(EX)]?.short||exCourse(EX))+'. Switch the course to save it.');return}   // owner 23 Nov: see XKEY
   if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;save(XKEY,JSON.stringify(EX));
     const A=EX.auto||{},keep={topics:A.topics,total:A.total,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
-    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,items:EX.items,keys:EX.items.map(i=>xq(i)?.key||null),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});if(!quiet)toast('Exam saved')}
+    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,course:QG.course,items:EX.items.concat((EX.gone||[]).map(g=>g.id)),keys:EX.items.map(i=>xq(i)?.key||null).concat((EX.gone||[]).map(g=>g.key||null)),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});if(!quiet)toast('Exam saved')}
     catch(e){toast('Could not save. Try again in a moment.')}}
   if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}}
 document.addEventListener('click',e=>{

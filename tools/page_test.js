@@ -3145,6 +3145,34 @@ async function skillGates(browser, base, seed) {
     assert(a.c === 'advanced' && a.n > 0, `back to Advanced: course ${a.c}, ${a.n} questions`);
     return `${r.fas.length} Standard topics, ${r.n} questions from ${r.docs.length} Standard papers; Advanced back with ${a.n}`;
   });
+  // owner 23 Nov: "All the advanced questions dissappeared and then when I went back to the advanced tab and opened the same exam, the
+  // questions were now gone, destroying that eaxm": an Advanced exam opened with the page on Standard 2 switches the page to Advanced and
+  // is never saved against the Standard bank; a question the bank cannot show stays in the saved exam
+  await check('exams keep their course: an Advanced exam never loses questions on Standard 2', page, async () => {
+    const ids = await page.evaluate(() => B.questions.filter(q => !q.dup_of).slice(0, 3).map(q => ({id: q.id, key: q.key})));
+    const doc = {title: 'Mathematics Advanced', sub: 'PT course exam', items: ids.map(x => x.id), keys: ids.map(x => x.key), at: new Date().toISOString()};   // no course: saved before 23 Nov
+    // 1. same course: a question the bank cannot show (retired) is kept and saved back
+    const k = await page.evaluate(async d => { exmSub(); await QG.db.doc('exams/ePTgone').set({...d, items: [...d.items, 99999991], keys: [...d.keys, 'PT-GONE-Q1']}); await new Promise(r => setTimeout(r, 300));
+      const x = XSAVED.find(s => s.id === 'ePTgone'); exmLoad(x); const shown = EX.items.length; await xSaveDb(true);
+      return {shown, gone: (EX.gone || []).length, saved: window.__pt.store.get('exams/ePTgone').items}; }, doc);
+    assert(k.shown === 3 && k.gone === 1 && k.saved.length === 4 && k.saved.includes(99999991), `retired question: ${JSON.stringify(k)}`);
+    // 2. on Standard 2: the exam is listed with its course; opening it switches the page to Advanced; nothing is written
+    await page.evaluate(() => { localStorage.setItem('course', 'standard'); location.hash = 'exams' }); await page.reload();
+    await page.waitForFunction(() => typeof QG !== 'undefined' && QG.course === 'standard' && typeof B !== 'undefined' && B && B.questions, null, {timeout: 30000});
+    const w = await page.evaluate(async d => { exmSub(); await QG.db.doc('exams/ePTadv').set(d); await new Promise(r => setTimeout(r, 300));
+      const n0 = window.__pt.log.length, x = XSAVED.find(s => s.id === 'ePTadv');
+      EX = {...EX, id: 'ePTadv', course: 'advanced', items: [], sub: 'stale'}; await xSaveDb(true);   // a stale Advanced exam must not save here
+      const refused = window.__pt.log.length === n0 && window.__pt.store.get('exams/ePTadv').items.length === 3;
+      EXV.view = 'mine'; renderExams(); return {refused, tag: document.querySelector('[data-exm="ePTadv"] .exm-crs')?.textContent || ''}; }, doc);
+    assert(w.refused, 'an Advanced exam was saved with the page on Standard 2');
+    assert(w.tag === 'Advanced', `My exams course tag: "${w.tag}"`);
+    await Promise.all([page.waitForNavigation({timeout: 20000}), page.evaluate(() => document.querySelector('[data-exm="ePTadv"] [data-exm-open]').click())]);
+    await page.waitForFunction(() => typeof QG !== 'undefined' && QG.course === 'advanced', null, {timeout: 30000});
+    const after = await page.evaluate(() => ({course: localStorage.getItem('course'), open: localStorage.getItem('exm_open')}));
+    errs();
+    assert(after.course === 'advanced', `opening it switched the course to ${after.course}`);
+    return 'retired question kept (4 saved); on Standard 2 the Advanced exam is tagged, never saved, and opens by switching to Advanced';
+  });
   await page.context().close();
 }
 
