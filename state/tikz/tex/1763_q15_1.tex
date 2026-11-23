@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.12827cm,y=0.55118cm]
+  \foreach \i in {10,20,...,100} \draw[black!20,line width=0.4pt] (\i,0) -- (\i,10);
+  \foreach \j in {1,...,10} \draw[black!20,line width=0.4pt] (0,\j) -- (100,\j);
+  \draw (0,0) -- (100,0);
+  \foreach \i in {0,10,...,100} \node[font=\small] at (\i,-0.75) {$\i$};
+  \foreach \j in {0,...,10} \node[font=\small,left] at (-1.2,\j) {$\j$};
+  \draw[line width=0.9pt] (15.15,0.16) -- (99.3,8.53);
+  \foreach \p/\q in {45/3,49/3,55/4,62/4,66/5,70/7,75/6,80/7,87/8,91/5,94/9}
+    \fill (\p,\q) circle[radius=0.1cm];
+  \node[font=\Large] at (50,11.34) {Books read};
+  \node[font=\large] at (48,-2.65) {Test results};
+  \node[font=\large,rotate=90] at (-17.8,4.77) {Number of books read};
+\end{tikzpicture}
+\end{document}

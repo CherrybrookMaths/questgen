@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.9449cm,y=0.2946cm]
+\foreach \i in {0,2,...,12} \draw[black!20] (\i,0)--(\i,18);
+\foreach \j in {2,4,...,18} \draw[black!20] (0,\j)--(12,\j);
+\draw (0,0)--(12,0);
+\foreach \j in {-2,0,2,...,18} \node[anchor=east,font=\footnotesize,inner sep=0pt] at (-0.22,\j) {$\j$};
+\foreach \i in {0,2,...,12} \node[font=\footnotesize] at (\i,-1.4) {$\i$};
+\draw[aux] (1,12.91)--(11,-0.18);
+\foreach \x/\y in {1/16,2/10,3/11,4/8,5/7,6/4,7/4,8/5,9/3,10/1,11/1} \fill (\x,\y) circle[radius=2.4pt];
+\node[anchor=west,font=\large,inner sep=0pt] at (0.376,-5.47) {Shooting order};
+\draw[->] (3.73,-5.47)--(5.27,-5.47);
+\node[rotate=90,anchor=west,font=\large,inner sep=0pt] at (-2.08,-3.15) {Average number of shots};
+\draw[->] (-2.08,14.2)--(-2.08,18);
+\end{tikzpicture}
+\end{document}

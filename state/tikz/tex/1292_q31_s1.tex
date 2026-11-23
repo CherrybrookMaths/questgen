@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {-10,...,10}{\draw[black!20,line width=0.4pt] ({489-5*86.5},{315-22.7*\i})--({489+5*86.5},{315-22.7*\i});}
+\foreach \i in {-10,...,10}{\draw[black!20,line width=0.4pt] ({489+43.25*\i},88)--({489+43.25*\i},542);}
+\draw[<->] (12,315)--(980,315);
+\draw[<->] (489,582)--(489,45);
+\foreach \i in {-10,...,10}{\draw ({489+43.25*\i},309)--({489+43.25*\i},321);}
+\foreach \i in {-10,...,10}{\draw (483,{315-22.7*\i})--(495,{315-22.7*\i});}
+\foreach \k in {-4,-2,2,4}{\node[anchor=north] at ({489+86.5*\k},338) {$\k$};}
+\foreach \k in {-10,-5,5,10}{\node[anchor=east] at (478,{315-22.7*\k}) {$\k$};}
+\draw[aux,<->] (402,48)--(402,582);
+\draw[line width=0.9pt,->] plot[domain=-10:1.86,samples=90,smooth,variable=\t] ({489+86.5*(exp(\t)-1)},{315-22.7*\t});
+\node[pt,inner sep=2pt] at (489,315) {};
+\draw (508,333)--(568,395);
+\node at (293,115) {Asymptote};
+\node[draw,fill=black!10,minimum width=124*0.0127cm,minimum height=68*0.0127cm] at (300,171) {$x=-1$};
+\node[draw,fill=black!10,align=left,minimum width=182*0.0127cm,minimum height=150*0.0127cm,text width=150*0.0127cm] at (639,470) {$y$ Intercept\\[2pt] $x$ Intercept\\[2pt] $(0,0)$};
+\node at (1000,315) {$x$};
+\node at (489,20) {$y$};
+\end{tikzpicture}
+\end{document}

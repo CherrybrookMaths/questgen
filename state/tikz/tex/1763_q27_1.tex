@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.46355cm,y=0.47625cm]
+\fill[shade] plot[smooth,domain=-2:4,samples=60] ({(\x*\x-6)/2},\x) -- cycle;
+\draw[<->] (-4.71,0)--(8.41,0);
+\draw[<->] (0,-4.85)--(0,6.88);
+\draw[line width=0.9pt,<->] plot[smooth,domain=-4.75:4.85,samples=90] ({(\x*\x-6)/2},\x);
+\draw[line width=0.9pt,<->] (-3.6,-4.6)--(7.6,6.6);
+\node[font=\small] at (0,7.45) {$y$};
+\node[font=\small] at (8.75,0) {$x$};
+\node[font=\small] at (-3.70,6.75) {Not to scale};
+\node[font=\small] at (5.6,6.67) {$y=x-1$};
+\node[font=\small] at (-3.56,2.29) {$y^2=2x+6$};
+\end{tikzpicture}
+\end{document}

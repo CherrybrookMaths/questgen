@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\def\ox{113}\def\oy{130}\def\sx{90.2}\def\sy{90}
+\draw[->] (5,\oy)--(697,\oy) node[right,inner sep=1pt]{$x$};
+\draw[->] (\ox,370)--(\ox,26) node[above,inner sep=1pt]{$y$};
+\foreach \k/\l in {1/{\dfrac{\pi}{2}},2/{\pi},3/{\dfrac{3\pi}{2}},4/{2\pi}} {
+  \draw ({\ox+\k*\sx*pi/2},{\oy-4})--({\ox+\k*\sx*pi/2},{\oy+4});
+  \node[anchor=north,inner sep=0pt] at ({\ox+\k*\sx*pi/2},{\oy+12}) {$\l$};}
+\foreach \k in {1,-1,-2} \draw ({\ox-4},{\oy-\k*\sy})--({\ox+4},{\oy-\k*\sy});
+\node[anchor=east,inner sep=0pt] at ({\ox-8},{\oy-\sy}) {$1$};
+\node[anchor=east,inner sep=0pt] at ({\ox-8},{\oy+2*\sy}) {$-2$};
+\node[anchor=east,inner sep=0pt] at ({\ox-20},{\oy+\sy}) {$-1$};
+\draw[line width=0.9pt,<->] plot[domain=-1.2:6.45,samples=90,smooth] ({\ox+\sx*\x},{\oy-\sy*(-1-sin(\x r))});
+\end{tikzpicture}
+\end{document}

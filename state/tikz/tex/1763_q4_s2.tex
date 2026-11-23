@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=2.921cm,y=2.921cm]
+  \foreach \i in {-13,...,3} {
+    \pgfmathtruncatemacro\m{mod(abs(\i),5)}
+    \ifnum\m=0 \draw[black!30,line width=0.4pt] (\i*0.1,-0.413) -- (\i*0.1,0.622);
+    \else \draw[black!12,line width=0.4pt] (\i*0.1,-0.413) -- (\i*0.1,0.622); \fi}
+  \foreach \j in {-4,...,6} {
+    \pgfmathtruncatemacro\m{mod(abs(\j),5)}
+    \ifnum\m=0 \draw[black!30,line width=0.4pt] (-1.348,\j*0.1) -- (0.391,\j*0.1);
+    \else \draw[black!12,line width=0.4pt] (-1.348,\j*0.1) -- (0.391,\j*0.1); \fi}
+  \draw (-1.348,0) -- (0.391,0);
+  \draw (0,-0.413) -- (0,0.622);
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=-1.26:0.391] (\x,{\x*\x*(\x+1)});
+  \node[font=\tiny,below right=1pt] at (-1,0) {$-1$};
+  \node[font=\tiny,below=1pt] at (-0.5,0) {$-0.5$};
+  \node[font=\tiny,below left=1pt] at (0,0) {$0$};
+  \node[font=\tiny,left=1pt] at (0,0.5) {$0.5$};
+\end{tikzpicture}
+\end{document}

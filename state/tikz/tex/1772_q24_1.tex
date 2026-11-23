@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.18288cm,y=0.18288cm]
+\draw[->] (-11.8,0)--(28.6,0);
+\draw[->] (0,-2.9)--(0,42.3);
+\foreach \i in {-10,-5,5,10,15,20,25} \draw (\i,-0.4)--(\i,0.4);
+\foreach \j in {5,10,...,40} \draw (-0.4,\j)--(0.4,\j);
+\foreach \i in {-10,-5,5,10,15,20,25} \node[anchor=north,inner sep=0pt] at (\i,-0.9) {$\i$};
+\node[anchor=north east,inner sep=0pt] at (-0.9,-0.9) {$0$};
+\foreach \j in {5,10,...,40} \node[anchor=east,inner sep=0pt] at (-0.9,\j) {$\j$};
+\node[anchor=south,font=\large] at (27.3,0.2) {$x$};
+\node[anchor=west,font=\large] at (0.4,40.8) {$y$};
+\draw[line width=0.9pt] plot[domain=-0.237:12.237,samples=90,smooth] (\x,{12*\x-\x*\x});
+\draw[line width=0.9pt] (-0.725,-2.9)--(10.55,42.2);
+\node[pt] at (8,32) {};
+\node[anchor=west,font=\large] at (8.5,32.3) {$P$};
+\end{tikzpicture}
+\end{document}

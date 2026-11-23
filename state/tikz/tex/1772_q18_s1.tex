@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.8636cm,y=0.87cm]
+\draw[->] (-9.24,0) -- (7.46,0);
+\draw[->] (0,-2.6) -- (0,7.77);
+\node[anchor=south,font=\large] at (7.05,0.12) {$x$};
+\node[anchor=west,font=\large] at (0.1,7.45) {$y$};
+\foreach \i in {-9,...,-1,1,2,...,7} \draw (\i,-0.07)--(\i,0.07);
+\foreach \i in {-2,-1,1,2,...,7} \draw (-0.07,\i)--(0.07,\i);
+\foreach \i in {-9,...,-2,1,2,...,7} \node[anchor=north,inner sep=0pt] at (\i,-0.2) {$\i$};
+\node[anchor=south east,inner sep=0pt] at (-1.08,0.18) {$-1$};
+\node[anchor=north east,inner sep=0pt] at (-0.2,-0.2) {$0$};
+\foreach \j in {-2,-1,1,2,3,5,6,7} \node[anchor=east,inner sep=0pt] at (-0.14,\j) {$\j$};
+\node[anchor=south east,inner sep=0pt] at (-0.12,4.08) {$4$};
+\draw[line width=0.9pt] plot[domain=-1.24:3.34,samples=90,smooth] (\x,{(\x+1)*(\x-2)^2});
+\foreach \p in {(-1,0),(0,4),(1,2),(2,0)} \node[pt] at \p {};
+\node[anchor=west,font=\large] at (1.08,2.05) {$(1,\,2)$};
+\end{tikzpicture}
+\end{document}

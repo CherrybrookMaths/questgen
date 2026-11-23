@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\by{765}\def\s{3.475}
+\foreach \v in {20,40,...,200} \draw[black!40] (178,{\by-\s*\v}) -- (823,{\by-\s*\v});
+\foreach \gx in {315,442,569,696} \draw[black!40] (\gx,\by) -- (\gx,64);
+\foreach \l/\h in {203/185,330/116,457/100,584/65,711/36} \fill[black!15] (\l,\by) rectangle (\l+98,{\by-\s*\h});
+\draw (178,\by) -- (823,\by);
+\draw (178,\by) -- (178,64);
+\draw (823,\by) -- (823,64);
+\foreach \v in {0,20,...,200} {\draw (167,{\by-\s*\v}) -- (178,{\by-\s*\v});
+  \node[anchor=east,font=\small,inner sep=2pt] at (165,{\by-\s*\v}) {\v};}
+\foreach \v in {4,8,12,16,24,28,32,36,44,48,52,56,64,68,72,76,84,88,92,96,104,108,112,116,124,128,132,136,144,148,152,156,164,168,172,176,184,188,192,196}
+  \draw (172,{\by-\s*\v}) -- (178,{\by-\s*\v});
+\foreach \p in {0,10,...,100} {\draw (823,{\by-6.95*\p}) -- (832,{\by-6.95*\p});
+  \node[anchor=west,font=\small,inner sep=2pt] at (836,{\by-6.95*\p}) {\p\%};}
+\draw (246,{\by-6.95*36.853}) -- (378,{\by-6.95*59.960}) -- (505,{\by-6.95*79.880}) -- (635,{\by-6.95*92.829}) -- (762,{\by-6.95*100});
+\foreach \cx/\p in {246/36.853,378/59.960,505/79.880,635/92.829,762/100} \node[pt] at (\cx,{\by-6.95*\p}) {};
+\foreach \cx/\t in {251/Bali,378/Fiji,633/America,760/Europe} \node[anchor=north,font=\small,inner sep=0pt] at (\cx,785) {\strut\t};
+\node[anchor=north,font=\small,align=center,inner sep=0pt] at (506,785) {\strut New\\Zealand};
+\node[rotate=90,font=\small] at (953,418) {\textbf{Cumulative Percentage}};
+\end{tikzpicture}
+\end{document}

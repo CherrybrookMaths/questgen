@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{327}\def\oy{260}\def\ux{47.8}\def\uy{48}
+\draw[->] (0,\oy) -- (518,\oy);
+\draw[->] (\ox,308) -- (\ox,2);
+\foreach \i in {-6,...,-1,1,2,3} {\draw (\ox+\ux*\i,\oy-3) -- (\ox+\ux*\i,\oy+3);
+  \node[anchor=north,font=\small,inner sep=2pt] at (\ox+\ux*\i,\oy+4) {$\i$};}
+\node[anchor=north east,font=\small,inner sep=2pt] at (\ox-4,\oy+4) {$0$};
+\foreach \j in {1,...,5} {\draw (\ox-3,\oy-\uy*\j) -- (\ox+3,\oy-\uy*\j);
+  \node[anchor=east,font=\small,inner sep=2pt] at (\ox-4,\oy-\uy*\j) {$\j$};}
+\draw[line width=0.9pt,smooth,samples=90,domain=-3.22:3.9] plot ({\ox+\ux*\x},{\oy-\uy*1.5*pow(1.5,-\x)});
+\node[font=\large] at (507,248) {$x$};
+\node[font=\large] at (343,18) {$y$};
+\end{tikzpicture}
+\end{document}

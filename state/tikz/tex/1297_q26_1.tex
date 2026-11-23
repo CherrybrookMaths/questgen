@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (32,468) -- (32,40);
+  \draw[->] (32,318) -- (482,318);
+  \node at (32,22) {$y$};
+  \node[anchor=west] at (482,320) {$x$};
+  \draw (462,84) -- (462,318);
+  \draw[line width=0.9pt] plot[smooth,domain=0:6.25,samples=90] ({32+71.67*\x},{318-14.6*(\x*\x-2*\x-8)});
+  \node at (462,340) {$6$};
+  \node at (300,302) {$A$};
+  \node at (560,180) {Not to scale};
+\end{tikzpicture}
+\end{document}

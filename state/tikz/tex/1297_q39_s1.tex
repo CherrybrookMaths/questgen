@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (8,0) rectangle (1095,640);
+\draw[->] (122,346) -- (955,346);
+\draw[->] (196,585) -- (196,30);
+\foreach \k/\l in {1/\dfrac{\pi}{4},2/\dfrac{\pi}{2},3/\dfrac{3\pi}{4},4/\pi} {
+  \draw ({196+158*\k},340) -- ({196+158*\k},352);
+  \node[anchor=north,font=\small] at ({196+158*\k},356) {$\l$};}
+\foreach \v in {1,2,3,-1} {
+  \draw (190,{346-63*\v}) -- (202,{346-63*\v});
+  \node[anchor=east] at (186,{346-63*\v}) {$\v$};}
+\draw[line width=0.9pt] plot[domain=0:pi,samples=90,smooth] ({196+201.17*\x},{346-63*(1-2*sin(2*\x r))});
+\node[pt] at (828,283) {};
+\node[anchor=east] at (190,22) {$v$};
+\node[anchor=west] at (960,346) {$t$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,46 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\newcommand\plane[3]{\begin{scope}[shift={#1},rotate=#2,scale=#3]
+  \fill (0,0) ellipse [x radius=38, y radius=7];
+  \fill (-4,4) -- (14,27) -- (20,27) -- (13,3) -- cycle;
+  \fill (-6,-4) -- (13,-25) -- (21,-25) -- (13,-3) -- cycle;
+  \fill (24,4) -- (35,21) -- (40,20) -- (38,2) -- cycle;
+\end{scope}}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm,every node/.style={font=\small}]
+\coordinate (E) at (125,-472); \coordinate (L) at (270,-298); \coordinate (H) at (810,-215);
+\plane{(815,-55)}{17}{0.85}
+\plane{(278,-130)}{22}{0.85}
+\draw[aux] (812,-75) -- (H);
+\draw[aux] (270,-155) -- (L);
+\draw[aux] (790,-62) -- (318,-130);
+\draw[->] (555,-95.9) -- (532,-99.2);
+\draw[aux] (E) -- (790,-65);
+\draw[aux] (E) -- (262,-150);
+\draw (E) -- (L) -- (H) -- cycle;
+\draw[gray] (15,-472) -- (270,-472);
+\draw[gray,->] (73,-572) -- (178,-372);
+\node[gray] at (188,-370) {$N$};
+\draw[gray] (770,-215) -- (860,-215);
+\draw[gray,->] (783,-262) -- (843,-160);
+\node[gray] at (855,-157) {$N$};
+% bearing 030 at E: from N to EH
+\draw ($(E)+(62.3:60)$) arc[start angle=62.3,end angle=20.6,radius=60];
+\draw (152,-420) -- (100,-420);
+\node[anchor=east] at (100,-420) {$030^\circ T$};
+% elevation 20
+\draw[->] ($(E)+(20.6:215)$) arc[start angle=20.6,end angle=31.7,radius=215];
+\node at (350,-361) {$20^\circ$};
+% bearing 225 at H
+\draw ($(H)+(59.5:22)$) arc[start angle=59.5,end angle=-171.3,radius=22];
+\node at (868,-197) {$225^\circ T$};
+\foreach \p in {E,L,H} \fill (\p) circle (4.5);
+\node[rotate=8.2] at (532,-78) {$1700$ m};
+\node[anchor=west] at (276,-218) {$900$ m};
+\node at (816,-18) {$A$};
+\node at (262,-102) {$B$};
+\node at (826,-242) {$H$};
+\node at (283,-316) {$L$};
+\node at (131,-491) {$E$};
+\end{tikzpicture}
+\end{document}

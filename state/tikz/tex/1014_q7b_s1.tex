@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.3429cm,y=0.07684cm]
+\foreach \i in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19,21,22,23,24} \draw[black!20] (\i,0)--(\i,100);
+\foreach \i in {5,10,15,20} \draw[black!45] (\i,0)--(\i,100);
+\foreach \j in {5,10,15,25,30,35,45,50,55,65,70,75,85,90,95} \draw[black!20] (0,\j)--(24,\j);
+\foreach \j in {20,40,60,80,100} \draw[black!45] (0,\j)--(24,\j);
+\draw[->] (0,0)--(24.9,0);
+\draw[->] (0,0)--(0,102.6);
+\foreach \i in {1,...,24} \draw (\i,-0.83)--(\i,0.83);
+\foreach \j in {5,10,...,95} \draw (-0.185,\j)--(0.185,\j);
+\foreach \i in {5,10,15,20} \node at (\i,-8.3) {$\i$};
+\foreach \j in {20,40,60,80,100} \node[anchor=east] at (-0.4,\j) {$\j$};
+\node at (-0.1,107.8) {$A$};
+\node at (25.7,0) {$N$};
+\foreach \p in {(3.1,85.1),(5.3,77.6),(8.3,78.3),(9.4,70.3),(10.3,73.1),(11.3,87.9),(12.3,75.3),(13.3,65.2),(13.8,45.3),(14.4,68),(15.4,62.2),(16.5,72.3),(17.4,63.3),(17.5,50.2),(18.9,55.1),(19.9,43.8),(20.5,29.9),(21.4,44.6),(22.4,35.5)}
+  \node[pt,inner sep=1.4pt] at \p {};
+\draw[->,line width=0.9pt] (0,100)--(22.8,43);
+\end{tikzpicture}
+\end{document}

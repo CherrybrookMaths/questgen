@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.20828cm,y=0.068212cm]
+  % grid
+  \foreach \t in {-5,5,15,25,35,45} \draw[black!15] (\t,-5)--(\t,75);
+  \foreach \t in {0,10,20,30,40} \draw[black!35] (\t,-5)--(\t,75);
+  \foreach \h in {-5,5,15,25,35,45,55,65,75} \draw[black!15] (-5,\h)--(45,\h);
+  \foreach \h in {0,10,20,30,40,50,60,70} \draw[black!35] (-5,\h)--(45,\h);
+  % axes
+  \draw[<->] (-6.95,0)--(46.8,0);
+  \draw[<->] (0,-6.7)--(0,76.7);
+  \foreach \t in {5,10,...,45} \draw (\t,-1.1)--(\t,1.1);
+  \foreach \h in {5,10,...,70} \draw (-0.37,\h)--(0.37,\h);
+  \foreach \t in {10,20,30,40} \node at (\t,-6.1) {\small\halo{$\t$}};
+  \foreach \h in {10,20,...,70} \node[anchor=east] at (-1.4,\h) {\small\halo{$\h$}};
+  \node at (0,81.9) {\small $h$};
+  \node at (47.6,0) {\small $t$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=0:40] plot (\x,{35-35*cos(18*\x)});
+  \node[pt] at (0,0) {};
+  \node[pt] at (40,0) {};
+\end{tikzpicture}
+\end{document}

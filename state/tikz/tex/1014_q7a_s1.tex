@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (25,461)--(942,461);
+\draw[<->] (483,840)--(483,78);
+\node[font=\Large] at (975,461) {$x$};
+\node[font=\Large] at (483,26) {$y$};
+\draw[aux,<->] (40,510)--(935,510);
+\node[font=\large,anchor=west] at (955,520) {$y=-1$};
+\draw[<->,line width=0.9pt,smooth,samples=90,domain=-5.7:1.1] plot ({483+49*\x},{461-49*(pow(2,\x+2)-1)});
+\draw (475,314)--(491,314);
+\node[font=\large,anchor=west] at (502,312) {$3$};
+\node[font=\large,anchor=west] at (548,135) {$y=2^{x+2}-1$};
+\end{tikzpicture}
+\end{document}

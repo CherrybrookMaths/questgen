@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6985cm,y=0.6985cm]
+\path (-9.18,8.75) rectangle (19.55,-7.71);
+\draw[->] (-3,0)--(17.55,0);
+\draw[->] (0,-3.85)--(0,6.65);
+\foreach \i in {-2,-1,1,2,...,17} \draw (\i,-0.08)--(\i,0.08);
+\foreach \j in {-3,-2,-1,1,2,...,6} \draw (-0.08,\j)--(0.08,\j);
+\foreach \i in {-2,-1,1,2,3,5,6,7,8,9,11,12,...,17} \node[anchor=north,inner sep=0pt,font=\small] at (\i,-0.17) {$\i$};
+\node[anchor=north,inner sep=0pt,font=\small] at (3.8,-0.17) {$4$};
+\node[anchor=north,inner sep=0pt,font=\small] at (10.45,-0.17) {$10$};
+\node[anchor=north east,inner sep=0pt,font=\small] at (-0.12,-0.17) {$0$};
+\foreach \j in {-3,-2,-1,1,2,3,5,6} \node[anchor=east,inner sep=0pt,font=\small] at (-0.15,\j) {$\j$};
+\node[anchor=east,inner sep=0pt,font=\small] at (-0.15,3.72) {$4$};
+\node[anchor=south,font=\large] at (17.15,0.08) {$x$};
+\node[anchor=west,font=\large] at (0.08,6.24) {$y$};
+\draw[line width=0.9pt] (-2.64,6.64)--(7,-3)--(16.64,6.64);
+\foreach \p in {(2,2),(4,0),(7,-3),(10,0),(12,2)} \node[pt] at \p {};
+\node[anchor=south west,inner sep=2pt] at (2.2,2.0) {$(2,\,2)$};
+\node[anchor=north west,inner sep=2pt] at (12.25,1.9) {$(12,\,2)$};
+\node[anchor=west] at (7.4,-3.15) {$(7,\,-3)$};
+\end{tikzpicture}
+\end{document}

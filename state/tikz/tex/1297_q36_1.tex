@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm,font=\small]
+\fill[shade dots] plot[domain=0:175.3,samples=60,smooth] (\x,{85*(\x/100)*((\x/100)^2-2.25)}) -- cycle;
+\draw[<->] (-305,0) -- (385,0);
+\draw[<->] (0,-228) -- (0,272);
+\draw[<->,line width=0.9pt] plot[domain=-180:192,samples=90,smooth] (\x,{85*(\x/100)*((\x/100)^2-2.25)});
+\draw[<->,line width=0.9pt] (-112,-78.4) -- (263,184.1);
+\draw[aux] (175.3,122.7) -- (175.3,0);
+\node[anchor=east] at (-6,262) {$y$};
+\node at (359,-16) {$x$};
+\node at (-12,-27) {$O$};
+\node[anchor=north] at (175.3,-5) {$K$};
+\node at (143,267) {$y=x^3-9x$};
+\node at (351,212) {$y=9x$};
+\end{tikzpicture}
+\end{document}

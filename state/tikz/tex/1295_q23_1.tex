@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (113,422) -- (685,422) node[right] {$D$};
+\draw[->] (113,422) -- (113,15) node[left] {$N$};
+\draw[aux] (113,328) -- (376,328) -- (376,422);
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=62:525] ({113+\x},{422-1000*(24.722/\x)});
+\node[left] at (113,328) {$6\,000$};
+\node[below] at (376,422) {$300$};
+\end{tikzpicture}
+\end{document}

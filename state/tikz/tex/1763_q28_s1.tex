@@ -1,0 +1,39 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% top: given f'
+\draw[<->] (290,580)--(290,48);
+\draw[<-] (12,312)--(42,312);
+\draw[aux] (42,312)--(548,312);
+\draw[->] (548,312)--(568,312);
+\begin{scope}[shift={(290,312)},xscale=0.8,yscale=0.77]
+\draw[line width=0.9pt,<-] (-157,-308) .. controls (-145,-168) and (-125,-68) .. (-107,0)
+  .. controls (-80,102) and (-45,154) .. (0,154)
+  .. controls (40,154) and (75,80) .. (125,50)
+  .. controls (165,26) and (225,9) .. (290,5);
+\node[pt] at (-107,0) {};
+\node[pt] at (0,154) {};
+\end{scope}
+\node at (187,338) {$A$};
+\node at (303,460) {$B$};
+\node[font=\small] at (312,30) {$\dfrac{dy}{dx}$};
+\node[font=\small] at (68,296) {$y=0$};
+\node[font=\small] at (486,350) {$y=f'(x)$};
+\node[font=\small] at (577,312) {$x$};
+% bottom: f
+\draw[<->] (290,1195)--(290,655);
+\draw[<-] (12,928)--(32,928);
+\draw[aux] (32,928)--(548,928);
+\draw[->] (548,928)--(568,928);
+\draw[line width=0.9pt] (80,1155) .. controls (100,900) and (140,731) .. (204,731)
+  .. controls (250,731) and (265,790) .. (290,815)
+  .. controls (320,845) and (390,910) .. (540,918);
+\node[pt] at (204,731) {};
+\node[pt] at (290,815) {};
+\node at (182,712) {$A$};
+\node at (312,800) {$B$};
+\node[font=\small] at (290,642) {$y$};
+\node[font=\small] at (577,926) {$x$};
+\end{tikzpicture}
+\end{document}

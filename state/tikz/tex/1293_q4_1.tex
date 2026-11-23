@@ -1,0 +1,35 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% minor grid every 2 cheques
+\foreach \v in {2,4,...,88}{\pgfmathtruncatemacro\m{mod(\v,10)}\ifnum\m=0\else
+  \draw[black!25] (118,{640-\v*6.189})--(775,{640-\v*6.189});\fi}
+\foreach \x in {184,316,447,578,710}{\draw[black!25] (\x,83)--(\x,640);}
+% major grid
+\foreach \v in {10,20,...,90}{\draw[black!45] (118,{640-\v*6.189})--(775,{640-\v*6.189});}
+\foreach \x in {250,381,512,644}{\draw[black!45] (\x,83)--(\x,640);}
+% bars
+\foreach \l/\h in {158/89,290/54,421/23,552/5,684/4}{
+  \draw[shade] (\l,640) rectangle ({\l+53},{640-\h*6.189});}
+% cumulative %
+\draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates {(184,356.7)(316,184.9)(447,111.6)(578,95.7)(710,83)};
+% axes
+\draw (118,83)--(118,640)--(775,640)--(775,83);
+\foreach \v in {0,10,...,90}{\draw (112,{640-\v*6.189})--(118,{640-\v*6.189});
+  \node[anchor=east,inner sep=0pt,font=\fontsize{7.2}{8}\selectfont] at (106,{640-\v*6.189}) {\v};}
+\foreach \p in {0,10,...,100}{\draw (775,{640-\p*5.57})--(781,{640-\p*5.57});
+  \node[anchor=west,inner sep=0pt,font=\fontsize{7.2}{8}\selectfont] at (787,{640-\p*5.57}) {\p};}
+\foreach \x in {118,250,381,512,644,775}{\draw (\x,640)--(\x,646);}
+% category labels
+\foreach \x/\t in {184/No Signature,316/Date Error,447/Amount Error,710/Other}{
+  \node[anchor=base,inner sep=0pt,font=\fontsize{7.2}{8}\selectfont] at (\x,673) {\t};}
+\node[anchor=base,inner sep=0pt,font=\fontsize{7.2}{8}\selectfont] at (578,673) {Company Name};
+\node[anchor=base,inner sep=0pt,font=\fontsize{7.2}{8}\selectfont] at (578,697) {Error};
+% titles
+\node[font=\fontsize{8.6}{10}\selectfont\bfseries] at (446.5,35) {Problems with cheques received in 6 month period};
+\node[font=\fontsize{7.6}{9}\selectfont\bfseries] at (446.5,713) {Problem};
+\node[font=\fontsize{7.6}{9}\selectfont\bfseries,rotate=90] at (58,225) {Number of Cheques};
+\node[font=\fontsize{7.6}{9}\selectfont\bfseries,rotate=90] at (843,200) {Cumulative \%};
+\end{tikzpicture}
+\end{document}

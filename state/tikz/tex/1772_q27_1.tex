@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (S) at (160,32); \coordinate (E) at (686,67);
+\coordinate (L) at (35,263); \coordinate (B) at (634,350);
+\draw (S)--(E)--(B)--(L)--(E); \draw (S)--(B);
+\draw (S) ++(3.8:32) arc[start angle=3.8,end angle=33.9,radius=32];
+\draw (L) ++(-16.75:38) arc[start angle=-16.75,end angle=8.26,radius=38];
+\draw (637.3,332.3)--(622.3,322.3)--(619.1,340.0);
+\draw (637.3,332.3)--(619.4,329.7)--(616.2,347.4);
+\node[anchor=west,inner sep=0pt] at ($(S)+(60,21)$) {$27^\circ$};
+\node[anchor=west,inner sep=0pt] at ($(L)+(75,-5.8)$) {$18^\circ$};
+\node[anchor=east,font=\large] at (154,30) {$S$};
+\node[anchor=west,font=\large] at (694,60) {$E$};
+\node[anchor=east,font=\large] at (29,263) {$L$};
+\node[anchor=north,font=\large] at (646,360) {$B$};
+\node[anchor=west,font=\large] at (683,210) {$1800$ m};
+\end{tikzpicture}
+\end{document}

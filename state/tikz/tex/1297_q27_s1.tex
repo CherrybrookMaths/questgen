@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \path (0,30) rectangle (960,865);
+  \draw[->] (200,356) -- (905,356);
+  \draw[->] (422,825) -- (422,55);
+  \node[anchor=west] at (905,356) {$x$};
+  \node[anchor=south] at (422,52) {$y$};
+  \foreach \t in {-1,1,2,3} {\draw ({422+79*\t},350) -- ({422+79*\t},362);
+    \node[anchor=north] at ({422+79*\t},364) {$\t$};}
+  \foreach \t in {11,6,-5,-21} {\draw (416,{356-21.3*\t}) -- (428,{356-21.3*\t});
+    \node[anchor=west] at (430,{356-21.3*\t}) {$\t$};}
+  \draw[line width=0.9pt,<->] plot[smooth,domain=-2.4:4.85,samples=90] ({422+79*\x},{356-21.3*((\x)^3-3*(\x)^2-9*(\x)+6)});
+  \node[pt] at (343,{356-21.3*11}) {};
+  \node[pt] at (422,{356-21.3*6}) {};
+  \node[pt] at (501,{356+21.3*5}) {};
+  \node[pt] at (659,{356+21.3*21}) {};
+  \node[anchor=south] at (343,{356-21.3*11-6}) {$(-1,11)$};
+  \node[anchor=west] at (510,{356+21.3*5}) {$(1,-5)$};
+  \node[anchor=north] at (659,{356+21.3*21+6}) {$(3,-21)$};
+\end{tikzpicture}
+\end{document}

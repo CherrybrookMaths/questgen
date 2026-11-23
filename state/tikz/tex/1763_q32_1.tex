@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+\coordinate (S) at (167,-45); \coordinate (F) at (953,-45); \coordinate (O) at (167,-240);
+\coordinate (X) at (363,-240); \coordinate (Y) at (758,-240); \coordinate (C) at (758,-45);
+\def\blob{plot[smooth cycle,tension=0.6] coordinates{(167,-45) (230,-52) (285,-85) (318,-130) (325,-180) (345,-205) (390,-215) (410,-222) (390,-230) (363,-240) (300,-242) (245,-232) (215,-200) (190,-162) (160,-140) (128,-128) (107,-100) (115,-70) (138,-52)}}
+\begin{scope}
+\clip \blob;
+\foreach \i in {0,...,11} \foreach \j in {0,...,11}
+  \node[black!55,inner sep=0pt,font=\small] at ({105+\i*30+mod(\j,2)*15},{-55-\j*17}) {$\approx$};
+\end{scope}
+\draw \blob;
+\draw[aux] (S) -- (F);
+\draw[aux] (S) -- (O);
+\draw[aux] (O) -- (X);
+\draw[aux] (C) -- (Y);
+\draw (S) -- (X) -- (Y);
+\draw (Y) arc[start angle=-90,end angle=0,radius=195];
+\draw (167,-220) -- (187,-220) -- (187,-240);
+\draw (758,-65) -- (778,-65) -- (778,-45);
+\foreach \p in {S,F,O,X,Y} \fill (\p) circle (4.5);
+\draw[<->] (87,-45) -- (87,-240);
+\node at (44,-147) {2 km};
+\draw[->] (243,-290) -- (167,-290);
+\draw[->] (283,-290) -- (363,-290);
+\node at (263,-290) {$a$};
+\draw[<->] (167,-320) -- (758,-320);
+\node at (450,-340) {4 km};
+\node at (900,-312) {Not to Scale};
+\node at (155,-22) {$S$};
+\node at (968,-22) {$F$};
+\node at (155,-268) {$O$};
+\node at (363,-268) {$X$};
+\node at (758,-268) {$Y$};
+\end{tikzpicture}
+\end{document}

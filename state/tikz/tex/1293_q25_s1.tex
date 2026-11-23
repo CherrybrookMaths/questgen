@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade hatch] plot[domain=-0.618:0.618,smooth,samples=30] ({462+68*\x},{462-88*(1-\x*\x)}) -- (462,462) -- cycle;
+\draw[->] (5,462)--(1095,462);
+\draw[->] (462,860)--(462,8);
+\draw[<->,line width=0.9pt] ({462-68*4.7},{462-88*4.7})--(462,462)--({462+68*4.6},{462-88*4.6});
+\draw[<->,line width=0.9pt] plot[domain=-1.9:1.9,smooth,samples=90] ({462+68*\x},{462-88*(1-\x*\x)});
+\node[font=\Large,anchor=north east] at (384,470) {$-1$};
+\node[font=\Large,anchor=north west] at (538,470) {$1$};
+\node[font=\Large,anchor=south east] at (456,366) {$1$};
+\node[font=\Large,anchor=west] at (822,68) {$y=|x|$};
+\node[font=\Large,anchor=west] at (650,612) {$y=1-x^2$};
+\end{tikzpicture}
+\end{document}

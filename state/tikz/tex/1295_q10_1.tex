@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (32,237) -- (688,237) node[right] {$t$};
+\draw[->] (32,465) -- (32,4);
+\node at (12,10) {$v$};
+\draw[line width=0.9pt,smooth,samples=90,domain=0:10,variable=\t] plot ({32+54*\t},{237-1.77*\t*(\t-3)*(\t-7)*(\t-10)});
+\foreach \t in {3,7,10} \draw ({32+54*\t},237) -- ({32+54*\t},247);
+\node[anchor=north,inner sep=0pt] at (194,263) {$3$};
+\node[anchor=north,inner sep=0pt] at (410,263) {$7$};
+\node[anchor=south,inner sep=0pt] at (573,229) {$10$};
+\end{tikzpicture}
+\end{document}

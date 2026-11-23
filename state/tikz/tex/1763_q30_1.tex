@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\newcommand\plane[3]{\begin{scope}[shift={#1},rotate=#2,scale=#3]
+  \fill (0,0) ellipse [x radius=38, y radius=7];
+  \fill (-4,4) -- (14,27) -- (20,27) -- (13,3) -- cycle;
+  \fill (-6,-4) -- (13,-25) -- (21,-25) -- (13,-3) -- cycle;
+  \fill (24,4) -- (35,21) -- (40,20) -- (38,2) -- cycle;
+\end{scope}}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+\coordinate (E) at (152,-585); \coordinate (L) at (330,-372); \coordinate (H) at (998,-270);
+\plane{(1000,-70)}{17}{1}
+\plane{(340,-168)}{22}{1}
+\draw[aux] (1000,-92) -- (H);
+\draw[aux] (330,-196) -- (L);
+\draw[aux] (972,-84) -- (385,-165);
+\draw[->] (680,-124) -- (655,-127.5);
+\draw[aux] (E) -- (972,-88);
+\draw[aux] (E) -- (322,-200);
+\draw (E) -- (L) -- (H) -- cycle;
+\draw[gray] (12,-585) -- (330,-585);
+\draw[gray,->] (95,-700) -- (212,-465);
+\node[gray] at (230,-458) {$N$};
+\draw[gray] (955,-270) -- (1060,-270);
+\draw[gray,->] (972,-323) -- (1030,-208);
+\node[gray] at (1050,-203) {$N$};
+\foreach \p in {E,L,H} \fill (\p) circle (4.5);
+\node at (1008,-26) {$A$};
+\node at (330,-130) {$B$};
+\node at (1000,-300) {$H$};
+\node at (350,-390) {$L$};
+\node at (160,-608) {$E$};
+\end{tikzpicture}
+\end{document}

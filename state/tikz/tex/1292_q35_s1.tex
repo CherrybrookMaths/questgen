@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade hatch] plot[domain=-1.5:3,samples=60,smooth] ({303+35*\x},{474-35*(9+3*\x-\x*\x)}) -- plot[domain=3:1,samples=40,smooth] ({303+35*\x},{474-35*\x*\x}) -- plot[domain=-1:-1.5,samples=10,smooth] ({303+35*\x},{474-35*\x*\x}) -- cycle;
+\path[shade hatch reverse] plot[domain=-1.5:3,samples=60,smooth] ({303+35*\x},{474-35*(9+3*\x-\x*\x)}) -- plot[domain=3:1,samples=40,smooth] ({303+35*\x},{474-35*\x*\x}) -- plot[domain=-1:-1.5,samples=10,smooth] ({303+35*\x},{474-35*\x*\x}) -- cycle;
+\draw[->] (88,474)--(525,474);
+\draw[->] (303,565)--(303,38);
+\draw[line width=0.9pt,<->] (85,439)--(525,439);
+\draw[line width=0.9pt,<->] plot[domain=-3.52:3.52,samples=90,smooth] ({303+35*\x},{474-35*\x*\x});
+\draw[line width=0.9pt,<->] plot[domain=-2.22:5.22,samples=90,smooth] ({303+35*\x},{474-35*(9+3*\x-\x*\x)});
+\node[font=\large] at (297,15) {$y$};
+\node[font=\large] at (538,474) {$x$};
+\node[font=\large] at (290,497) {$O$};
+\draw (462,150)--(408,159);
+\node at (500,130) {$(3,9)$};
+\draw (172,387)--(250.5,395.25);
+\node at (88,383) {$(-1.5,2.25)$};
+\draw (390,418)--(338,439);
+\node at (418,403) {$(1,1)$};
+\draw (165,512)--(268,439);
+\node at (130,527) {$(-1,1)$};
+\end{tikzpicture}
+\end{document}

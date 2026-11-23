@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{178}\def\oy{262}\def\ux{34.75}\def\uy{34.8}
+\draw[->] (0,\oy) -- (458,\oy);
+\draw[->] (\ox,316) -- (\ox,2);
+\foreach \i in {-5,...,-1,1,2,...,7} {\draw (\ox+\ux*\i,\oy-3) -- (\ox+\ux*\i,\oy+3);
+  \node[anchor=north,font=\small,inner sep=2pt] at (\ox+\ux*\i,\oy+4) {$\i$};}
+\foreach \j in {-1,1,2,...,6} {\draw (\ox-3,\oy-\uy*\j) -- (\ox+3,\oy-\uy*\j);
+  \node[anchor=east,font=\small,inner sep=2pt] at (\ox-4,\oy-\uy*\j) {$\j$};}
+% 7 mirrored to the right of the axis (curve passes through the left position); y moved above the arrowhead
+\draw (\ox-3,\oy-\uy*7) -- (\ox+3,\oy-\uy*7);
+\node[anchor=west,font=\small,inner sep=2pt] at (\ox+5,\oy-\uy*7) {$7$};
+\draw[line width=0.9pt,smooth,samples=90,domain=-0.55:7.9] plot ({\ox+\ux*\x},{\oy-\uy*6*pow(1.5,-\x)});
+\node[font=\large] at (442,249) {$x$};
+\node[font=\large,anchor=south west,inner sep=1pt] at (183,0) {$y$};
+\end{tikzpicture}
+\end{document}

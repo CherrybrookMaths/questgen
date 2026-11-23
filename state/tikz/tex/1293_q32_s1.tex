@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  declare function={X(\t)=241+90.6*\t; V(\t)=462-72*(2-10/(\t+2));}]
+\path[shade hatch] (241,462) -- plot[domain=0:3,samples=40,smooth] ({X(\x)},{V(\x)}) -- cycle;
+\path[shade hatch] plot[domain=3:5,samples=30,smooth] ({X(\x)},{V(\x)}) -- ({X(5)},462) -- cycle;
+\draw[->] (80,462) -- (925,462);
+\draw[->] (241,860) -- (241,25);
+\node[anchor=west,font=\large] at (928,462) {$t$};
+\node[anchor=west,font=\large] at (250,20) {$v$};
+\draw[aux] (35,318) -- (960,318);
+\draw ({X(5)},462) -- ({X(5)},{V(5)});
+\draw[line width=0.9pt,->] plot[domain=0:6.8,samples=90,smooth] ({X(\x)},{V(\x)});
+\fill (241,{V(0)}) circle (4.5);
+\node[font=\large] at (288,298) {$2$};
+\node[anchor=east,font=\large] at (233,{V(0)}) {$-3$};
+\node[font=\large] at (222,488) {$0$};
+\node[font=\large] at (522,488) {$3$};
+\node[anchor=north,font=\large,inner sep=2pt] at ({X(5)},468) {$5$};
+\node[font=\Large] at (1050,370) {$v=2-\dfrac{10}{t+2}$};
+\end{tikzpicture}
+\end{document}

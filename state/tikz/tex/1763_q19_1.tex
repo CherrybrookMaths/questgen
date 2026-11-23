@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\Y#1{637-14.37*#1}
+  \foreach \v in {1,...,40} {
+    \pgfmathtruncatemacro\m{mod(\v,5)}
+    \ifnum\m=0 \draw[black!40] (105,{\Y{\v}})--(740,{\Y{\v}}); \draw (95,{\Y{\v}})--(105,{\Y{\v}});
+    \else \draw[black!22] (105,{\Y{\v}})--(740,{\Y{\v}}); \draw (99,{\Y{\v}})--(105,{\Y{\v}}); \fi }
+  \draw (105,{\Y{0}})--(105,{\Y{40}});
+  \draw (105,{\Y{0}})--(740,{\Y{0}});
+  \foreach \v in {5,10,...,40} \node[anchor=east] at (92,{\Y{\v}}) {\small $\v$};
+  \node[rotate=90] at (22,350) {\small Hours};
+  \node at (422,20) {\footnotesize Hours Spent Playing Video Games};
+  \node at (297,657) {\footnotesize Group A};
+  \node at (514,657) {\footnotesize Group B};
+  \begin{scope}[line width=0.9pt]
+    % group A: 1, 4, 14, 16, 34
+    \draw (265,{\Y{4}}) rectangle (330,{\Y{16}});
+    \draw (265,{\Y{14}})--(330,{\Y{14}});
+    \draw (297.5,{\Y{16}})--(297.5,{\Y{34}}) (265,{\Y{34}})--(330,{\Y{34}});
+    \draw (297.5,{\Y{4}})--(297.5,{\Y{1}}) (265,{\Y{1}})--(330,{\Y{1}});
+    % group B: 3, 4, 19, 27, 36
+    \draw (478,{\Y{4}}) rectangle (550,{\Y{27}});
+    \draw (478,{\Y{19}})--(550,{\Y{19}});
+    \draw (514,{\Y{27}})--(514,{\Y{36}}) (478,{\Y{36}})--(550,{\Y{36}});
+    \draw (514,{\Y{4}})--(514,{\Y{3}}) (478,{\Y{3}})--(550,{\Y{3}});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

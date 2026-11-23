@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  declare function={X(\t)=633+99.5*\t; Y(\t)=503-76*\t; f(\t)=-3*cos(deg(2*\t+pi/3))+2;}]
+\draw[->] (110,503) -- (1235,503);
+\draw[->] (633,680) -- (633,60);
+\node[font=\large] at (1240,550) {$x$};
+\node[anchor=west,font=\large] at (643,70) {$y$};
+\foreach \k in {-1,-0.5,0.5,1} \draw ({X(\k*pi)},497) -- ({X(\k*pi)},509);
+\foreach \v in {5,3,-1} \draw (627,{Y(\v)}) -- (639,{Y(\v)});
+\node[anchor=north,font=\large,inner sep=1pt] at ({X(-pi)},511) {$-\pi$};
+\node[anchor=north,font=\large,inner sep=1pt] at ({X(-pi/2)},513) {$-\dfrac{\pi}{2}$};
+\node[anchor=north,font=\large,inner sep=1pt] at ({X(pi/2)},513) {$\dfrac{\pi}{2}$};
+\node[anchor=north,font=\large,inner sep=1pt] at ({X(pi)},511) {$\pi$};
+\node[anchor=east,font=\large] at (623,{Y(5)}) {$5$};
+\node[anchor=east,font=\large] at (623,{Y(3)}) {$3$};
+\node[anchor=west,font=\large] at (641,{Y(-1)}) {$-1$};
+\draw[<-] ({X(-3.6)},{Y(-0.8)}) -- ({X(2.8)},{Y(2.4)});
+\draw[line width=0.9pt] plot[domain=-pi:pi,samples=120,smooth] ({X(\x)},{Y(f(\x))});
+\foreach \p in {-pi,-2*pi/3,0,pi/3,pi} \fill ({X(\p)},{Y(f(\p))}) circle (4.5);
+\node[anchor=south,font=\large] at ({X(-2*pi/3)},{Y(5)-8}) {$\left(-\dfrac{2\pi}{3},5\right)$};
+\node[anchor=south,font=\large] at ({X(pi/3)+10},{Y(5)-8}) {$\left(\dfrac{\pi}{3},5\right)$};
+\end{tikzpicture}
+\end{document}

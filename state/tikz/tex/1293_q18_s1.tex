@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (5,300)--(830,300);
+\draw[->] (398,535)--(398,15);
+\draw[->,line width=0.9pt] plot[domain=1:-1.3,smooth,samples=90] ({398+110*\x},{300-74*(1-\x*\x)*(1+0.5*\x*\x)});
+\draw[->,line width=0.9pt] (508,300)--(665,95);
+\node[font=\large,anchor=north] at (508,318) {$1$};
+\end{tikzpicture}
+\end{document}

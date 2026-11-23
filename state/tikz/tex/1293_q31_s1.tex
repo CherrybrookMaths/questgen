@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  declare function={X(\t)=600+82.5*\t; Y(\t)=313-38.5*8/(\t*\t-4);}]
+\draw[->] (95,313) -- (1140,313);
+\draw[->] (600,700) -- (600,25);
+\node[anchor=west,font=\large] at (1142,313) {$x$};
+\node[anchor=south,font=\large] at (600,25) {$y$};
+\draw[aux] (435,8) -- (435,700);
+\draw[aux] (765,8) -- (765,700);
+\draw[line width=0.9pt,<->] plot[domain=-5.18:-2.236,samples=90,smooth] ({X(\x)},{Y(\x)});
+\draw[line width=0.9pt,<->] plot[domain=2.236:6.18,samples=90,smooth] ({X(\x)},{Y(\x)});
+\draw[line width=0.9pt,<->] plot[domain=-1.7745:1.7745,samples=90,smooth] ({X(\x)},{Y(\x)});
+\node[anchor=south west,font=\large,inner sep=1pt] at (607,381) {$-2$};
+\node[anchor=north,font=\large] at (435,705) {$x=-2$};
+\node[anchor=north,font=\large] at (765,705) {$x=2$};
+\node[font=\Large] at (1035,68) {$y=\dfrac{8}{x^2-4}$};
+\end{tikzpicture}
+\end{document}

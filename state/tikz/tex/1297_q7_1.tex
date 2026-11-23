@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (122,405) -- (122,45);
+  \draw[<->] (5,298) -- (405,298);
+  \node at (122,24) {$x$};
+  \node[anchor=west] at (406,300) {$t$};
+  \draw[line width=0.9pt,<->] plot[smooth,domain=-2.467:2.893,samples=90] ({237.5+37.5*\x},{284-46.5*(\x^3/3-\x)});
+  \node at (232,237) {$A$};
+\end{tikzpicture}
+\end{document}

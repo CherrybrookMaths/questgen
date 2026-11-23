@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.66675cm,y=0.2286cm]
+\path[shade hatch] plot[smooth,samples=40,domain=0:5] (\x,{10*sin(30*\x)}) -- cycle;
+\draw[->] (-5.3,0) -- (18.8,0) node[right,font=\Large] {$x$};
+\draw[->] (0,-15.9) -- (0,20.3) node[right,font=\Large] {$y$};
+\foreach \i in {3,6,9,12} \draw (\i,-0.4) -- (\i,0.4);
+\foreach \j in {10,-10} \draw (-0.15,\j) -- (0.15,\j);
+\draw (-5.5,-5.5) -- (12,12);
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:12] (\x,{10*sin(30*\x)});
+\node[pt,inner sep=1.4pt] at (5,5) {};
+\node[anchor=north west,font=\Large] at (5.6,4.6) {$(5,5)$};
+\node[anchor=north,font=\Large] at (3,-0.8) {$3$};
+\node[anchor=north east,font=\Large] at (5.92,-0.8) {$6$};
+\node[anchor=east,font=\Large] at (-0.3,10) {$10$};
+\node[anchor=east,font=\Large] at (-0.3,-10) {$-10$};
+\end{tikzpicture}
+\end{document}

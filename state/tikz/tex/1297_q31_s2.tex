@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.75cm,y=0.6cm]
+\draw[->] (-7,0) -- (7.1,0) node[anchor=west] {$x$};
+\draw[->] (0,-4.6) -- (0,4.7) node[anchor=south] {$y$};
+\foreach \k in {-4,...,-1,1,2,3,4} \draw ({\k*pi/2},0.12) -- ({\k*pi/2},-0.12);
+\draw (1,0.12) -- (1,-0.12);
+\foreach \v in {-3,1,3} \draw (-0.1,\v) -- (0.1,\v);
+\draw[line width=0.9pt] plot[domain=-2*pi:2*pi,samples=90,smooth] (\x,{3*cos(\x r)});
+\draw[<->,line width=0.9pt] (-3.3,4.3) -- (5.3,-4.3);
+\node[anchor=north] at ({-2*pi},-0.2) {$-2\pi$};
+\node[anchor=south west] at ({-3*pi/2+0.12},0.15) {$-\dfrac{3\pi}{2}$};
+\node[anchor=north] at ({-pi},-0.2) {$-\pi$};
+\node[anchor=north west] at ({-pi/2+0.05},-0.15) {$-\dfrac{\pi}{2}$};
+\node[anchor=south west] at ({pi/2+0.12},0.15) {$\dfrac{\pi}{2}$};
+\node[anchor=north] at ({pi},-0.2) {$\pi$};
+\node[anchor=north west] at ({3*pi/2+0.05},-0.15) {$\dfrac{3\pi}{2}$};
+\node[anchor=north] at ({2*pi},-0.2) {$2\pi$};
+\node[anchor=north east,inner sep=1.5pt] at (0.94,-0.1) {$1$};
+\node[anchor=south east,inner sep=1.5pt] at (-0.1,3.05) {$3$};
+\node[anchor=east] at (-0.12,-3) {$-3$};
+\node[anchor=north east,inner sep=1.5pt] at (-0.08,0.92) {$1$};
+\foreach \a in {-0.8895,1.8622,3.6383} \node[pt] at (\a,{1-\a}) {};
+\node[anchor=west] at (-3.1,4.3) {$y=1-x$};
+\node at (5.0,3.5) {$y=3\cos x$};
+\end{tikzpicture}
+\end{document}

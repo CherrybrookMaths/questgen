@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \path (10,40) rectangle (1090,535);
+  \draw[<->] (128,308) -- (968,308);
+  \draw[<->] (502,530) -- (502,65);
+  \node[anchor=west] at (968,308) {$x$};
+  \node[anchor=east] at (496,70) {$y$};
+  \foreach \t in {-6.2832,-3.1416,-1.5708,1,1.5708,3.1416,6.2832} \draw ({502+50.3*\t},302) -- ({502+50.3*\t},314);
+  \node[anchor=north] at (186,314) {$-2\pi$};
+  \node[anchor=north] at (344,314) {$-\pi$};
+  \node[anchor=north west] at (424,312) {$-\dfrac{\pi}{2}$};
+  \node[anchor=north east] at (550,312) {$1$};
+  \node[anchor=south west] at (582,303) {$\dfrac{\pi}{2}$};
+  \node[anchor=north] at (660,314) {$\pi$};
+  \node[anchor=north] at (818,314) {$2\pi$};
+  \foreach \t in {2,1,-1,-2,-3} \draw (496,{308-62.8*\t}) -- (508,{308-62.8*\t});
+  \node[anchor=west] at (509,182) {$2$};
+  \node[anchor=south west] at (506,241) {$1$};
+  \node[anchor=west] at (509,371) {$-1$};
+  \node[anchor=west] at (509,434) {$-2$};
+  \node[anchor=west] at (509,496) {$-3$};
+  \node[anchor=south west] at (508,112) {$3$};
+  \draw[line width=0.9pt] plot[smooth,domain=-6.2832:6.2832,samples=90] ({502+50.3*\x},{308-188.4*cos(\x r)});
+  \draw[line width=0.9pt,<->] ({502+50.3*(-2.1)},{308-62.8*3.1}) -- ({502+50.3*4.4},{308+62.8*3.4});
+  \node[pt] at (186,120) {};
+  \node[pt] at (818,120) {};
+  \node[pt] at (502,245) {};
+  \node[anchor=west] at (830,118) {$y=3\cos x$};
+  \node[anchor=west] at (735,512) {$y=1-x$};
+\end{tikzpicture}
+\end{document}

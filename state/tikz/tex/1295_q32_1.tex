@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.7018cm,y=1.7018cm]
+\fill[shade] plot[smooth,samples=90,domain=0:3.14159] (\x,{sin(\x r)}) -- plot[smooth,samples=90,domain=3.14159:0] (\x,{\x*sin(\x r)}) -- cycle;
+\draw[->] (-0.22,0) -- (3.53,0);
+\draw[->] (0,-0.27) -- (0,2.42);
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:3.14159] (\x,{sin(\x r)});
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:3.14159] (\x,{\x*sin(\x r)});
+\node at (0.14,2.27) {$y$};
+\node at (3.4,-0.17) {$x$};
+\end{tikzpicture}
+\end{document}

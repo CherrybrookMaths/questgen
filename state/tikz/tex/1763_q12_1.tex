@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \v in {2,4,...,54} \draw[black!15,line width=0.4pt] (75,{507-7.8*\v}) -- (1113,{507-7.8*\v});
+  \foreach \c in {161,334,507,680,853,1026} \draw[black!15,line width=0.4pt] (\c,507) -- (\c,68);
+  \foreach \v [count=\i] in {55,42,30,21,15,7}
+    \draw[fill=black!25,fill opacity=0.75] ({75+173*(\i-1)},507) rectangle ({75+173*\i},{507-7.8*\v});
+  \draw (75,507) -- (1113,507);
+  \draw (75,507) -- (75,68);
+  \draw (1113,507) -- (1113,68);
+  \foreach \v in {10,20,...,50} {\draw (75,{507-7.8*\v}) -- (67,{507-7.8*\v});
+    \node[left,font=\footnotesize] at (64,{507-7.8*\v}) {$\v$};}
+  \foreach \v in {2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48,52,54} \draw (75,{507-7.8*\v}) -- (71,{507-7.8*\v});
+  \foreach \p in {20,40,...,100} {\draw (1113,{507-4.39*\p}) -- (1121,{507-4.39*\p});
+    \node[right,font=\footnotesize] at (1124,{507-4.39*\p}) {$\p$};}
+  \foreach \p in {4,8,12,16,24,28,32,36,44,48,52,56,64,68,72,76,84,88,92,96} \draw (1113,{507-4.39*\p}) -- (1117,{507-4.39*\p});
+  \foreach \i in {0,...,6} \draw ({75+173*\i},507) -- ({75+173*\i},515);
+  \draw (161,365) -- (334,256.5) -- (507,179) -- (680,124.8) -- (853,86.1) -- (1026,68);
+  \foreach \c/\y in {161/365,334/256.5,507/179,680/124.8,853/86.1,1026/68}
+    \draw[fill=black!45] (\c,\y) circle[radius=0.07cm];
+  \foreach \c/\t in {161/Traffic,334/Childcare,507/Public Transport,680/Weather,853/Overslept,1026/Emergency}
+    \node[font=\footnotesize] at (\c,535) {\t};
+  \node[font=\footnotesize] at (594,20) {Pareto Chart of Late Arrivals by Reported Cases};
+  \node[font=\footnotesize] at (1113,48) {\%};
+  \node[font=\footnotesize,rotate=90] at (14,290) {Number of Employees};
+\end{tikzpicture}
+\end{document}

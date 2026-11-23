@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (365,750)--(365,62);
+\draw[<-] (15,398)--(46,398);
+\draw[aux] (46,398)--(690,398);
+\draw[->] (690,398)--(712,398);
+\begin{scope}[shift={(365,398)}]
+\draw[line width=0.9pt,<-] (-157,-308) .. controls (-145,-168) and (-125,-68) .. (-107,0)
+  .. controls (-80,102) and (-45,154) .. (0,154)
+  .. controls (40,154) and (75,80) .. (125,50)
+  .. controls (165,26) and (225,9) .. (290,5);
+\node[pt] at (-107,0) {};
+\node[pt] at (0,154) {};
+\end{scope}
+\node[font=\large] at (235,432) {$A$};
+\node[font=\large] at (383,585) {$B$};
+\node at (390,44) {$\dfrac{dy}{dx}$};
+\node at (90,380) {$y=0$};
+\node at (620,440) {$y=f'(x)$};
+\node at (730,398) {$x$};
+\end{tikzpicture}
+\end{document}

@@ -621,4 +621,59 @@ for qid, opts in [(5471, ['$0$', '$1$', '$2$', '$3$']), (5476, ['$3x^2$', r'$\df
         db.execute("update mcq_options set latex=? where question_id=? and label=? and trim(coalesce(latex,''))=''", (t, qid, lab))
 for lab, n in zip('ABCD', range(1, 5)):   # 2020 Knox AT2 Q3(a): the options are the four sketches (figures 1591_q3a_1..4)
     db.execute("update mcq_options set latex=? where question_id=5481 and label=? and trim(coalesce(latex,''))=''", (r'\exfigure{1591_q3a_%d}' % n, lab))
-db.commit(); print('done C13, C14, C15, C16, C17, C18, C19')
+# Batch 20 (24 Nov, morning): the verifier's 13 findings on 2020 Sydney Boys, Sydney Girls, Sydney Grammar, and the 2026 Baulkham Hills and
+# Blacktown Boys AT4, checked by hand. Your calls: 2020 Sydney Girls Q30 (f is not a density) and 2026 Baulkham Hills Q5 (two options fail).
+# The two 2026 papers had no school name or task in documents; set to Baulkham Hills High School AT4 and Blacktown Boys High School AT4.
+# Their 65 question keys had been assigned as 2026-<school>-TRIAL-Q..; never published or used by the page, so they were removed and
+# re-assigned by tools/qkeys.py --assign as 2026-<school>-AT4-Q.. (24 Nov, before the batch's first publish).
+db.execute("update documents set school_formal='Baulkham Hills High School', task_code='AT4' where id=1763 and school_formal is null")
+db.execute("update documents set school_formal='Blacktown Boys High School', task_code='AT4' where id=1772 and school_formal is null")
+def _crit8744(l, c): return (l, [[2, "Correct answer"], [1, "Finds $e^{4k}=\\dfrac32$, or equivalent merit"]])
+def _crit8745(l, c): return (l, [[3, "Correct answer"], [2, "Finds $t\\approx6.84$, or equivalent merit"], [1, "Sets up $600=300e^{kt}$, or equivalent merit"]])
+def _sol8993(l, c):   # 2026 Baulkham Hills AT4 Q26(e): wrong concavity and no conclusion
+    return (r"""$f''(x)=\dfrac{2(1-x^2)}{(x^2+1)^2}<0$ for $|x|>1$, so on $1<x<3$ the curve is concave down (it is concave up only for $-1<x<1$).
+The chords used by the Trapezoidal Rule therefore lie below the curve, so the approximation is less than the exact value ($T\approx3.1335<3.1419\ldots$).
+$$\therefore\ \text{the approximation is less than the exact value}$$""", c)
+def _crit8991(l, c): return (l, [[2, "Correct answer"], [1, "Shows the curve concave up for $-1<x<1$ and concave down for $|x|>1$, or equivalent merit"]])
+def _sol9020(l, c):   # 2026 Blacktown Boys AT4 Q16: the guideline worked at x=0; the question asks at x=1
+    return (r"""Using the quotient rule, $\dfrac{d}{dx}\left(\dfrac{u}{v}\right)=\dfrac{u'v-uv'}{v^2}$, with
+$$\begin{aligned} u&=5e^{2x} & v&=5-x^2\\ u'&=10e^{2x} & v'&=-2x\end{aligned}$$
+$$\begin{aligned} \dfrac{dy}{dx}&=\dfrac{(5-x^2)\times 10e^{2x}-5e^{2x}(-2x)}{(5-x^2)^2} \\ &=\dfrac{10e^{2x}(5-x^2+x)}{(5-x^2)^2} \end{aligned}$$
+At $x=1$: $y=\dfrac{5e^2}{4}$, so the point is $\left(1,\dfrac{5e^2}{4}\right)$.
+$$m_T=\dfrac{10e^2(5-1+1)}{16}=\dfrac{25e^2}{8},\qquad m_N=-\dfrac{8}{25e^2}$$
+The normal is
+$$y-\dfrac{5e^2}{4}=-\dfrac{8}{25e^2}(x-1)$$
+(The school's working found the normal at $x=0$, $x+2y-2=0$, not at the $x=1$ the question asks for.)""", c)
+C20 = [
+ (8744, [], [], r'the 2-mark part had a single 1-mark criterion (the guideline mislabelled the marks)', _crit8744),
+ (8745, [], [], r'the 3-mark part had a single 2-mark criterion (the guideline mislabelled the marks)', _crit8745),
+ (8759, [(r'\approx 40.106 \text{ (thousands)}$$' + '\n\n' + r'The source then rounds this to $40.12$ thousand.', r'\approx 40.107 \text{ thousand}$$' + '\n\n' + r'$$\therefore\ \text{about } 40.11 \text{ thousand (2 d.p.)}$$')], [],
+  r'the working gave $40.106$ and then $40.12$; $P\left(\dfrac56\right)=40.107\ldots\approx40.11$ thousand', None),
+ (8762, [(r'\approx\dfrac{48.78-40.12}{\frac{19}{6}}\\ &\approx2.73', r'\approx\dfrac{48.780-40.107}{\frac{19}{6}}\\ &\approx2.74')], [],
+  r'the average rate used the wrong $40.12$ and gave $2.73$; it is $2.74$ thousand per year', None),
+ (8797, [(r'\tan\theta &= 2 \\ \theta &\approx 63^\circ', r'\tan\theta &= 2 \\ \theta &\approx 63.43^\circ'),
+         (r'AB &= \dfrac{8}{\sin 63^\circ}+\dfrac{1}{\cos 63^\circ} \\ &\approx 11.18 \text{ m}', r'AB &= \dfrac{8}{\frac{2}{\sqrt5}}+\dfrac{1}{\frac{1}{\sqrt5}} = 4\sqrt5+\sqrt5=5\sqrt5 \\ &\approx 11.18 \text{ m}')], [],
+  r'the sign-test values were wrong ($-1.6$, $0$ at $63^\circ$, $0.93$); they are $-1.87$ at $60^\circ$, $0$ at $63.43^\circ$ and $0.96$ at $65^\circ$. The minimum $5\sqrt5\approx11.18$ m is unchanged', None),
+ (8819, [(r'Jocelyn needs to pay } \$877 \text{ more', r'Jocelyn needs to pay } \$887 \text{ more')], [], r'$5887-5000$ was given as $\$877$; it is $\$887$', None),
+ (8946, [(r'is $8.28567$.' + '\n' + r'$$\begin{aligned} FV&=2500\times 8.28567\\ &=\$20\,714.18\end{aligned}$$' + '\n' + r'This is closest to option C.',
+          r'is $8.2857$.' + '\n' + r'$$\begin{aligned} FV&=2500\times 8.2857\\ &=\$20\,714.25\end{aligned}$$' + '\n' + r'This is option C.')], [],
+  r'the table factor was quoted as $8.28567$ (giving $\$20\,714.18$); the table gives $8.2857$, so $\$20\,714.25$, exactly option C', None),
+ (8948, [(r'Using $\cot(270^\circ+x)=-\tan(x)\cdot(-1)$ is not needed; follow the source reduction:', r'Using $\cot(270^\circ+x)=-\cot(90^\circ-x)=-\tan x$ and $\cos(-x)=\cos x$:')], [],
+  r'the first line quoted a false identity and leftover notes', None),
+ (8991, [], [], r'the criterion said "concave down between $-1<x<1$"; the curve is concave up there and concave down for $|x|>1$', _crit8991),
+ (8993, [], [], r'the working said the curve is concave down only for $-1<x<1$ and never concluded; it is concave down on $1<x<3$, so the estimate $3.1335$ is less than the exact $3.1419$', _sol8993),
+ (9005, [(r'$$90-80=13\%$$', r'$$93\%-80\%=13\%$$')], [], r'the working read $90-80=13\%$; it is $93\%-80\%=13\%$', None),
+ (9020, [], [], r'the guideline found the normal at $x=0$; the question asks at $x=1$: $y-\dfrac{5e^2}{4}=-\dfrac{8}{25e^2}(x-1)$', _sol9020),
+ (9046, [(r'\sin S&=\dfrac{LB\sin 46^\circ}{LS} \\ &=0.9964 \\ S&\approx 85^\circ', r'\sin S&=\dfrac{LB\sin 46^\circ}{LS} \\ &=0.9964'),
+         (r'The bearing of Liam from Sophie is' + '\n' + r'$$118^\circ+85^\circ=203^\circ$$', r'$LB$ is the longest side and $LB^2\approx30.69\times10^6>LS^2+SB^2\approx28.46\times10^6$, so $S$ is obtuse (the ambiguous case): $S\approx180^\circ-85.5^\circ=94.5^\circ$.' + '\n' + r'The bearing of Liam from Sophie is' + '\n' + r'$$118^\circ+94.5^\circ\approx213^\circ$$'),
+         (r'the bearing of Liam from Sophie is } 203^\circ', r'the bearing of Liam from Sophie is } 213^\circ')], [],
+  r'the sine rule gave $S\approx85^\circ$, but $S$ is obtuse (ambiguous case): $S\approx94.5^\circ$, so the bearing is $213^\circ$, not $203^\circ$', None),
+]
+for sid, lat, crit, note, extra in C20:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+db.execute("""update data_tables set rows_json=? where id='Ts8797_1'""", (json.dumps([["\\theta", "60^\\circ", "63.43^\\circ", "65^\\circ"], ["\\dfrac{d\\,AB}{d\\theta}", "-1.87", "0", "0.96"]]),))
+db.execute("""update data_tables set rows_json=? where id='Ts9001_1'""", (json.dumps([["a", "0.5", "\\dfrac{2}{\\sqrt{15}}", "0.6"], ["\\dfrac{dT}{da}", "-0.0019", "0", "0.0093"], ["\\text{slope}", "\\backslash", "\\_", "/"]]),))
+db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20')

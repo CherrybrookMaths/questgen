@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+\def\f#1{520-143.1*(100/(#1-108))}
+\path[shade hatch] (192,520) -- plot[domain=192:491,samples=60,smooth] (\x,{\f{\x}}) -- (491,520) -- cycle;
+\draw (192,520)--(192,{\f{192}});
+\draw (491,520)--(491,{\f{491}});
+\draw[->] (10,520)--(550,520) node[right,inner sep=2pt]{$x$};
+\draw[->] (107,628)--(107,62) node[above,inner sep=2pt]{$y$};
+\node[anchor=north,inner sep=0pt] at (192,531) {$1$};
+\node[anchor=north,inner sep=0pt] at (488,531) {$d$};
+\node at (222,162) {$y=\dfrac{2}{x}$};
+\draw[line width=0.9pt,<->] plot[domain=140:552,samples=90,smooth] (\x,{\f{\x}});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (357,545)--(357,14);
+\draw[aux] (15,288)--(708,288);
+\draw[->] (704,288)--(730,288);
+\draw[aux] (268.5,196)--(268.5,288);
+\draw[aux] (445.5,288)--(445.5,380);
+\draw[line width=0.9pt,<->] plot[smooth,domain=-342:343,samples=90] ({357+\x},{288+92*(\x/88.5)*(3.6/((\x/88.5)^2+2.6))^1.8});
+\node at (262,312) {$-5$};
+\node at (458,311) {$5$};
+\node at (340,22) {$y$};
+\node at (737,300) {$x$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \j in {1,...,20} \draw[black!22,line width=0.4pt] (98,{492-23.5*\j}) -- (611,{492-23.5*\j});
+\foreach \i in {1,...,10} \draw[black!22,line width=0.4pt] ({98+51.3*\i},492) -- ({98+51.3*\i},22);
+\draw[->] (98,492) -- (98,4);
+\draw[->] (98,492) -- (634,492);
+\foreach \i in {1,...,10} {\draw ({98+51.3*\i},486) -- ({98+51.3*\i},498);
+  \node[anchor=north] at ({98+51.3*\i},505) {\i};}
+\foreach \j in {1,...,10} {\draw (92,{492-47*\j}) -- (104,{492-47*\j});
+  \node[anchor=east] at (90,{492-47*\j}) {\j};}
+\foreach \j in {0,...,9} \draw (95,{492-47*\j-23.5}) -- (101,{492-47*\j-23.5});
+\foreach \t/\h in {1/0.7,2/1.4,3/2.4,4/3.5,6/6.6,7/7.9,8/8.65,9/9.5}
+  \node[pt,inner sep=1.5pt] at ({98+51.3*\t},{492-47*\h}) {};
+\node[rotate=90] at (28,255) {Height (m)};
+\node at (365,560) {Years};
+\end{tikzpicture}
+\end{document}

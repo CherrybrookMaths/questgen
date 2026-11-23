@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+\coordinate (E) at (45,-238); \coordinate (L) at (162,-43); \coordinate (H) at (322,-43);
+\draw (E) -- (L) -- (H) -- cycle;
+\draw ($(E)+(35.14:62)$) arc[start angle=35.14,end angle=59.04,radius=62];
+\draw ($(H)+(180:28)$) arc[start angle=180,end angle=215.14,radius=28];
+\foreach \p in {E,L,H} \fill (\p) circle (4.5);
+\node at (140,-40) {$L$};
+\node at (345,-40) {$H$};
+\node at (22,-258) {$E$};
+\node at (242,-24) {$1700$m};
+\node at (276,-60) {$15^\circ$};
+\node at (114,-163) {$\beta$};
+\node[rotate=59.04] at (73,-130) {$939.99$m};
+\node[rotate=35.14] at (192,-160) {$2472.73$m};
+\end{tikzpicture}
+\end{document}

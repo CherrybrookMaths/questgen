@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+\coordinate (R) at (0,0);
+\fill[shade] (R) -- (225.3:308) arc[start angle=225.3,end angle=288.2,radius=308] -- cycle;
+\draw (R) -- (225.3:308) arc[start angle=225.3,end angle=288.2,radius=308] -- cycle;
+\draw (225.3:206) arc[start angle=225.3,end angle=288.2,radius=206];
+\foreach \a/\r in {0/0,225.3/308,288.2/308,225.3/206,288.2/206} \node[pt] at (\a:\r) {};
+\node[anchor=south west,inner sep=2pt] at (3,3) {$R$};
+\node at (-8,-42) {$\theta$};
+\node[anchor=south east,inner sep=2pt] at ($(225.3:206)+(-2,0)$) {$X$};
+\node[anchor=west,inner sep=3pt] at ($(288.2:206)+(3,4)$) {$Y$};
+\node[anchor=east,inner sep=3pt] at ($(225.3:308)+(-3,2)$) {$P$};
+\node[anchor=west,inner sep=3pt] at ($(288.2:308)+(4,4)$) {$Q$};
+\draw[aux,<->] (63,6) -- (172,-286);
+\node[anchor=west] at (114,-114) {$60\text{ cm}$};
+\end{tikzpicture}
+\end{document}

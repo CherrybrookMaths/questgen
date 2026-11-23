@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9}{11}\selectfont]
+\foreach \i in {1,...,9} \draw[black!45,dotted] (95,{524-\i*49.9}) -- (790,{524-\i*49.9});
+\foreach \k in {0,...,10} \draw[black!45,dotted] ({160+57.35*\k},25) -- ({160+57.35*\k},524);
+\foreach \h [count=\k from 0] in {170,130,85,60,25,10}
+  \draw[fill=black!20] ({120+114.7*\k},524) rectangle ({200+114.7*\k},{524-2.495*\h});
+\draw (95,25) rectangle (790,524);
+\foreach \v in {0,20,...,200} {\draw (95,{524-2.495*\v}) -- ++(6,0); \node[anchor=east,inner sep=0pt] at (88,{524-2.495*\v}) {\v};}
+\foreach \p in {0,10,...,100} {\draw (790,{524-4.99*\p}) -- ++(-6,0); \node[anchor=west,inner sep=0pt] at (798,{524-4.99*\p}) {\p\%};}
+\draw (160,347.3) -- (274.7,212.1) -- (389.4,123.8) -- (504.1,61.4) -- (618.8,35.4) -- (733.5,25);
+\foreach \x/\y in {160/347.3,274.7/212.1,389.4/123.8,504.1/61.4,618.8/35.4,733.5/25} \fill (\x,\y) circle (5.5);
+\foreach \t [count=\k from 0] in {Too Large,Ugly,Spotty,Too Small,Dirty,Wrong Shape}
+  \node[anchor=base] at ({160+114.7*\k},563) {\t};
+\node[rotate=90] at (22,300) {Number of Complaints};
+\node[rotate=90] at (875,280) {Cumulative Percentage};
+\end{tikzpicture}
+\end{document}

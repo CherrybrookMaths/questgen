@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.0439cm, y=0.5372cm, font=\footnotesize]
+  \draw[<->] (-1.25,0) -- (8.27,0);
+  \draw[<->] (0,-1.4) -- (0,6.3);
+  \node[anchor=west] at (8.27,0) {$x$};
+  \node[anchor=south] at (-0.03,6.3) {$y$};
+  \foreach \t in {-1,1,2,...,8} {\draw (\t,-0.15) -- (\t,0.15); \node[anchor=north] at (\t,-0.3) {$\t$};}
+  \foreach \t in {-1,1,2,...,6} {\draw (-0.075,\t) -- (0.075,\t); \node[anchor=east] at (-0.08,\t) {$\t$};}
+  \draw[line width=0.9pt, smooth, samples=90, domain=-1.17:8.15] plot (\x,{3+3*sin(45*\x)});
+\end{tikzpicture}
+\end{document}

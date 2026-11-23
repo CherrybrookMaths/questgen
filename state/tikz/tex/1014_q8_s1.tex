@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \k in {1,...,10} \draw[black!25] ({287+87.5*\k},835)--({287+87.5*\k},57);
+\foreach \k in {1,...,10} \draw[black!25] (287,{835-77.75*\k})--(1162,{835-77.75*\k});
+\draw[->] (287,835)--(1182,835);
+\draw (287,835)--(287,806)--(275,799)--(299,786)--(287,779);
+\draw[->] (287,779)--(287,35);
+\foreach \v in {25,...,29} {\draw (279,{835-155.5*(\v-24)})--(295,{835-155.5*(\v-24)});
+  \node[font=\large] at (243,{835-155.5*(\v-24)}) {$\v$};}
+\foreach \v/\p in {170/463,175/638,180/813,185/988,190/1163} \node[font=\large] at (\p,870) {$\v$};
+\node[font=\large] at (293,14) {$y$};
+\node[font=\large] at (1198,833) {$x$};
+\node[font=\large,align=center] at (75,395) {foot length\\(cm)};
+\node[font=\large] at (720,920) {height (cm)};
+\foreach \a/\b in {175.8/25,177/25,179/26,180.05/26,180.8/27,181.8/28,184.5/28,188.3/29}
+  \node[pt,inner sep=1.4pt] at ({287+35*(\a-165)},{835-155.5*(\b-24)}) {};
+\draw ({287+35*(180.05-165)},{835-155.5*2}) circle (12);
+\draw ({287+35*(180.8-165)},{835-155.5*3}) circle (12);
+\end{tikzpicture}
+\end{document}

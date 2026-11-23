@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\footnotesize]
+  \node[anchor=west] at (6,16) {(B)};
+  \draw[<->] (30,208) -- (378,208);
+  \draw[<->] (203,347) -- (203,58);
+  \node[anchor=west] at (378,210) {$x$};
+  \node[anchor=south] at (205,56) {$y$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=179:301] plot (\x,{146-0.0212*(\x-240)^2});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (14,187)--(370,187);
+\draw[<->] (190,342)--(190,30);
+\node at (381,187) {$x$};
+\node at (189,15) {$y$};
+\draw[<->,line width=0.9pt,smooth,samples=90,domain=-4.09:4.09] plot ({190+17*\x},{187-14.2*(\x*\x-6)});
+\draw[<->,line width=0.9pt] ({190-17*10.2},{187-14.2*10.2}) -- ({190+17*10.2},{187+14.2*10.2});
+\end{tikzpicture}
+\end{document}

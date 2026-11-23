@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.28321cm,y=0.058039cm]
+\draw[->] (-1.92,0)--(14.7,0) node[anchor=north,inner sep=0pt,yshift=-4pt,xshift=-3pt] {$t$};
+\draw[->] (0,-8.75)--(0,67.5) node[anchor=east,inner sep=0pt,xshift=-2pt,yshift=-2pt] {$P$};
+\foreach \t in {2,4,...,12}{\draw (\t,0)--(\t,4.8);
+  \node[anchor=north,inner sep=0pt,font=\fontsize{8.5}{10}\selectfont] at (\t,-2.2) {$\t$};}
+\foreach \p in {10,20,...,60}{\draw (-0.36,\p)--(0.95,\p);
+  \node[anchor=east,inner sep=0pt,font=\fontsize{8.5}{10}\selectfont] at (-0.5,\p) {$\p$};}
+\draw[->,line width=0.9pt] plot[domain=0:14.4,smooth,samples=90] (\x,{500*\x/(2*\x*\x+9)});
+\node[font=\small] at (9.85,55.5) {$P(t)=\dfrac{500t}{2t^2+9}$};
+\end{tikzpicture}
+\end{document}

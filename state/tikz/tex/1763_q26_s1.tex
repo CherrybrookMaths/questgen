@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (18,270)--(352,270);
+\draw[<->] (185,362)--(185,56);
+\draw[line width=0.9pt,<->] plot[smooth,domain=-168:168,samples=90] ({185+\x},{270-35*ln(1+(\x/35)^2)});
+\node[font=\large] at (185,26) {$y$};
+\node[font=\large] at (375,272) {$x$};
+\end{tikzpicture}
+\end{document}

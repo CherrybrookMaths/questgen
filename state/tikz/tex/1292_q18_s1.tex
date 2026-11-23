@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{(167+53.16*(#1))}
+\draw[->] (0,585)--(690,585);
+\draw[->] (167,665)--(167,5);
+\foreach \k/\l in {-2/{-\pi},-1/{-\dfrac{\pi}{2}},1/{\dfrac{\pi}{2}},2/{\pi},3/{\dfrac{3\pi}{2}},4/{2\pi},5/{\dfrac{5\pi}{2}},6/{3\pi}}{
+  \draw ({167+83.5*\k},579)--({167+83.5*\k},591);
+  \node[anchor=north,font=\small] at ({167+83.5*\k},593) {$\l$};}
+\node[anchor=north east,font=\small] at (163,593) {$0$};
+\foreach \k in {1,2,3}{\draw (161,{585-167*\k})--(173,{585-167*\k});
+  \node[anchor=east,font=\small] at (157,{585-167*\k}) {$\k$};}
+\draw[line width=0.9pt] plot[domain=0:2*pi,samples=90,smooth,variable=\t] ({167+53.16*\t},{585-167*exp(sin(\t r))});
+\draw[aux,line width=0.9pt] plot[domain=-pi:0,samples=50,smooth,variable=\t] ({167+53.16*\t},{585-167*exp(sin(\t r))});
+\draw[aux,line width=0.9pt] plot[domain=2*pi:3*pi,samples=50,smooth,variable=\t] ({167+53.16*\t},{585-167*exp(sin(\t r))});
+\node[pt] at (167,418) {};
+\node[pt] at ({167+83.5},{585-167*exp(1)}) {};
+\node[pt] at ({167+3*83.5},{585-167*exp(-1)}) {};
+\node[pt] at ({167+4*83.5},418) {};
+\node at (252,82) {$\left(\dfrac{\pi}{2},e\right)$};
+\node at (414,455) {$\left(\dfrac{3\pi}{2},\dfrac{1}{e}\right)$};
+\node[anchor=west] at (518,418) {$(2\pi,1)$};
+\end{tikzpicture}
+\end{document}

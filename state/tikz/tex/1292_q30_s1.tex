@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (68,1613) -- plot[domain=-3:2,samples=90,smooth] ({398+110*\x},{1613-23.3*(\x+2)^3}) -- (618,1613) -- cycle;
+\draw (618,1613)--(618,122);
+\draw[<->] (18,1613)--(668,1613);
+\draw[<->] (398,1700)--(398,55);
+\foreach \k in {-4,...,2}{\foreach \j in {0.2,0.4,0.6,0.8}{
+  \pgfmathparse{(\k+\j>-3.5)&&(\k+\j<2.5)?1:0}
+  \ifnum\pgfmathresult=1 \draw ({398+110*(\k+\j)},1608)--({398+110*(\k+\j)},1618);\fi}}
+\foreach \k in {-3,-2,-1,1,2}{\draw ({398+110*\k},1604)--({398+110*\k},1622);
+  \node[anchor=north] at ({398+110*\k},1630) {$\k$};}
+\foreach \k in {0,10,...,60}{\foreach \j in {2,4,6,8}{
+  \pgfmathparse{(\k+\j<67)?1:0}
+  \ifnum\pgfmathresult=1 \draw (393,{1613-23.3*(\k+\j)})--(403,{1613-23.3*(\k+\j)});\fi}}
+\foreach \v in {-2,-4}{\draw (393,{1613-23.3*\v})--(403,{1613-23.3*\v});}
+\foreach \k in {10,20,...,60}{\draw (389,{1613-23.3*\k})--(407,{1613-23.3*\k});
+  \node[anchor=east] at (374,{1613-23.3*\k}) {$\k$};}
+\draw[line width=0.9pt] plot[domain=-3:2,samples=90,smooth] ({398+110*\x},{1613-23.3*(\x+2)^3});
+\node[pt,inner sep=2.2pt] at (68,{1613+23.3}) {};
+\node[pt,inner sep=2.2pt] at (618,{1613-23.3*64}) {};
+\node at (692,1613) {$x$};
+\node at (398,22) {$y$};
+\end{tikzpicture}
+\end{document}

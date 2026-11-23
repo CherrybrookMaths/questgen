@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[<->] (12,229)--(522,229);
+  \draw[<->] (268,418)--(268,35);
+  \node[anchor=west,font=\footnotesize] at (526,229) {$x$};
+  \node[anchor=south,font=\footnotesize] at (268,31) {$y$};
+  \draw[line width=0.9pt,<->] plot[domain=89:283,samples=90,smooth] (\x,{229-0.318*((536-\x-315)/10)^2*((536-\x-412)/10)});
+\end{tikzpicture}
+\end{document}

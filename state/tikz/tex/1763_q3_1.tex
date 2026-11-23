@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={g(\t)=237-229*exp(-((\t-357)/83.5)^2/2);}]
+  \fill[fill=black!30] (113,243) -- plot[smooth,samples=70,domain=113:603] (\x,{g(\x)}) -- (603,243) -- cycle;
+  \draw (113,243) -- (113,{g(113)});
+  \draw (603,243) -- (603,{g(603)});
+  \draw[aux] (357,243) -- (357,{g(357)});
+  \draw[<->] (35,243) -- (690,243);
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=72:643] (\x,{g(\x)});
+  \node[font=\footnotesize] at (111,273) {$25$};
+  \node[font=\footnotesize] at (600,273) {$145$};
+\end{tikzpicture}
+\end{document}

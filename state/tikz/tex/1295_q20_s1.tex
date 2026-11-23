@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.724cm,y=0.724cm]
+\draw[->] (-8.5,0) -- (8.7,0) node[right] {$x$};
+\draw[->] (0,-6.6) -- (0,5.4) node[above] {$y$};
+\foreach \i in {-8,...,-1,1,2,...,8} \draw (\i,0.1) -- (\i,-0.1);
+\foreach \j in {-6,...,-1,1,2,...,5} \draw (-0.1,\j) -- (0.1,\j);
+\draw[line width=0.9pt,<->,smooth,samples=90,domain=-3.25:3.25] plot (\x,{\x*\x-6});
+\draw[line width=0.9pt] (-4.5,-4.5) -- (3.9,3.9);
+\foreach \p in {(3,3),(-2,-2),(2.449,0),(-2.449,0),(0,-6)} \fill \p circle (2pt);
+\node[anchor=north west,inner sep=1pt] at (3.12,2.85) {$(3,3)$};
+\node[anchor=east,inner sep=1pt] at (-2.25,-1.85) {$(-2,-2)$};
+\node[anchor=north east,inner sep=1pt] at (-2.5,-0.2) {$-\sqrt{6}$};
+\node[anchor=north west,inner sep=1pt] at (2.5,-0.2) {$\sqrt{6}$};
+\node[anchor=north west,inner sep=1pt] at (0.15,-6.1) {$-6$};
+\end{tikzpicture}
+\end{document}

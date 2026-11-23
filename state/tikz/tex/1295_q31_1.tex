@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade,even odd rule] (22,66) rectangle (278,321) (150,193.5) circle[radius=128];
+\draw (22,66) rectangle (278,321);
+\draw (150,193.5) circle[radius=128];
+\fill (150,193.5) circle[radius=8];
+\draw (150,193.5) -- ({150+128*cos(45)},{193.5+128*sin(45)});
+\node at (182,252) {$r$};
+\draw (344,18) rectangle (515,373);
+\node[right=2pt] at (515,217) {$2\pi r$};
+\node[below=3pt] at (430,373) {$h$};
+\end{tikzpicture}
+\end{document}

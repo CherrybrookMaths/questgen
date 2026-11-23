@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (10,300) -- (470,300);
+  \draw[<->] (192,410) -- (192,45);
+  \draw[line width=0.9pt,->] plot[smooth,samples=60,domain=0.05:1] ({192+166*\x},{300-258*\x*\x*(\x+2)/3});
+  \draw[fill=white,line width=0.9pt] (192,300) circle[radius=0.12cm];
+  \node[font=\large] at (490,297) {$x$};
+  \node[font=\large] at (186,14) {$y$};
+\end{tikzpicture}
+\end{document}
