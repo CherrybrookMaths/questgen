@@ -301,7 +301,7 @@ document
     is_correct: 0
     key_source: extracted
   option B
-    latex: Step 1: A vertical dilation of a factor of $\dfrac{1}{2}$. Step 2: A horizontal translation to the left by $\dfrac{\pi}{2}$. Step 3: A horizontal dilation by a factor of $\dfrac{1}{2}$.
+    latex: Step 1: A vertical dilation of a factor of $\dfrac{1}{2}$. Step 2: A horizontal translation to the left by $\dfrac{\pi}{4}$. Step 3: A horizontal dilation by a factor of $\dfrac{1}{2}$.
     is_correct: 0
     key_source: extracted
   option C
@@ -381,12 +381,14 @@ document
         $$\begin{aligned} y &= \dfrac{1}{2}\sin 2\left(x+\dfrac{\pi}{4}\right) \\ &= \dfrac{1}{2}\sin\left(2x+\dfrac{\pi}{2}\right) \\ &= \dfrac{1}{2}\cos 2x \end{aligned}$$
         This is $g(x)$, with a maximum of $0.5$ at $x=0$ and zeros at $\pm\dfrac{\pi}{4}$.
 
+        Option B gives $y=\dfrac{1}{2}\sin\left(x+\dfrac{\pi}{4}\right)$ after its first two steps, then the horizontal dilation by $\dfrac{1}{2}$ gives $y=\dfrac{1}{2}\sin\left(2x+\dfrac{\pi}{4}\right)$, which has no maximum at $x=0$, so B is not $g(x)$.
+
         Therefore the order is a vertical dilation by $\dfrac{1}{2}$, a horizontal dilation by $\dfrac{1}{2}$, then a translation left by $\dfrac{\pi}{4}$, which is option D.
       source_document_id: 459
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.8, "generated_note": "Generated working for key D. Possible source issue: option B also gives y=0.5cos2x (translation left pi/2 before the horizontal dilation by 1/2 becomes pi/4 after), so B and D both fit; keyed D kept. Also the question says transformations applied to f(x) although the graph is y=sin x.", "self_check": "Verified g(x)=0.5cos2x matches graph and that D produces it. Option B (translate left pi/2 then compress horizontally) also produces 0.5cos2x, so two options fit."}
+      meta_json: {"confidence": 0.8, "edited_from_original": "Claude 24 Nov (checker flag \"change part b so that d is the only correct answer\"): option B printed a translation to the left by pi/2, which also gives y = 0.5cos 2x; now to the left by pi/4, which does not. Working adds why B fails.", "generated_note": "Generated working for key D. Also the question says transformations applied to f(x) although the graph is y=sin x.", "self_check": "Verified g(x)=0.5cos2x matches graph and that D produces it. B (now translate left pi/4 before the horizontal dilation) gives 0.5sin(2x+pi/4), not g."}
     difficulty
       band: 4
       wm: UF
@@ -688,9 +690,10 @@ document
   home_topic: special:removed
   home_source: computed
   data_table Tq4725_1
+    caption: stem-and-leaf plot of text messages sent
     header_rows: 0
-    label_col: 0
-    rows_json: [["0", "8\\ 9"], ["1", "1\\ 1\\ 2\\ 2\\ 5\\ 6\\ 8\\ 8\\ 8"], ["2", "0\\ 1\\ 7\\ 8\\ 8"], ["3", "4\\ 5\\ 6"], ["4", ""], ["5", "1"]]
+    label_col: 1
+    rows_json: [["0", "8 9"], ["1", "1 1 2 2 5 6 8 8 8"], ["2", "0 1 7 8 8"], ["3", "4 5 6"], ["4", ""], ["5", "1"]]
     source_latex: $$\begin{array}{r|l} 0 & 8\ 9 \\ 1 & 1\ 1\ 2\ 2\ 5\ 6\ 8\ 8\ 8 \\ 2 & 0\ 1\ 7\ 8\ 8 \\ 3 & 4\ 5\ 6 \\ 4 & \\ 5 & 1 \end{array}$$
   part i  id 7540
     ordinal: 1

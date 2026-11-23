@@ -901,7 +901,7 @@ document
     is_correct: 1
     key_source: extracted
   option B
-    latex: $P(X>0.2)=1-P(X\le 0.2)$
+    latex: $P(X>0.2)=1-P(X<-0.2)$
     is_correct: 0
     key_source: extracted
   option C
@@ -968,12 +968,14 @@ document
 
         The area to the right of $x=0.2$ therefore equals the area to the left of $x=-0.2$:
         $$P(X>0.2)=P(X<-0.2)$$
+        Option B is false because $1-P(X<-0.2)=P(X\ge -0.2)$, which includes the large central area as well as the right tail, so it is greater than $P(X>0.2)$.
+
         Option C is false because $P(-0.2<X<0.2)$ includes the large central area near $x=0$. Option D is false because $P(0<X<0.2)$ is the area between $0$ and $0.2$, where $\cos 2x$ is close to its maximum, not the tail.
       source_document_id: 1315
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.85, "generated_note": "MCQ working written for key A.", "self_check": "Even function symmetry; B is also a true identity for any random variable."}
+      meta_json: {"confidence": 0.85, "edited_from_original": "Claude 24 Nov (checker flag \"Make it so option b is incorrect and a is the only correct answer\"): option B printed P(X>0.2) = 1 - P(X <= 0.2), true for any random variable; now P(X>0.2) = 1 - P(X<-0.2), which is false. Working adds why B fails.", "generated_note": "MCQ working written for key A.", "self_check": "Even function symmetry; B now 1-P(X<-0.2)=P(X>=-0.2), larger than P(X>0.2), so only A is true."}
     difficulty
       band: 3
       wm: PR

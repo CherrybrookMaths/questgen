@@ -1535,7 +1535,7 @@ document
   home_source: computed
   part -  id 7433
     ordinal: 1
-    latex: If $X$ is a random variable such that $P(X \ge 3) = m$ and $P(X \le 9) = n$. Show that $P(X < 3 | X > 9)$ is $\dfrac{m-1}{n-1}$
+    latex: If $X$ is a random variable such that $P(X \ge 3) = m$ and $P(X \ge 9) = n$. Show that $P(X < 3 | X < 9)$ is $\dfrac{m-1}{n-1}$
     marks: 1
     needs_review: 1
     src_label: b
@@ -1574,12 +1574,12 @@ document
     solution 6940
       source: extracted
       latex: |
-        Using the conditional probability formula, as written in the source:
-        $$\begin{aligned} P(X<3 | X<9) &= \dfrac{P(X<3 \cap X<9)}{P(X<9)} \\ &= \dfrac{P(X<3)}{P(X>9)} \\ &= \dfrac{1-m}{1-n} \\ &= \dfrac{-(m-1)}{-(n-1)} \\ &= \dfrac{m-1}{n-1} \end{aligned}$$
+        Using the conditional probability formula:
+        $$\begin{aligned} P(X<3 | X<9) &= \dfrac{P(X<3 \cap X<9)}{P(X<9)} \\ &= \dfrac{P(X<3)}{P(X<9)} \\ &= \dfrac{1-P(X\ge 3)}{1-P(X\ge 9)} \\ &= \dfrac{1-m}{1-n} \\ &= \dfrac{-(m-1)}{-(n-1)} \\ &= \dfrac{m-1}{n-1} \end{aligned}$$
       source_document_id: 1314
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"format_note": "Rubric written by us. Source kept as is.", "source_flag": "Source working writes $X<9$ in the conditional, then divides by $P(X>9)$, which is inconsistent with the question's $P(X<3|X>9)$ and with $P(X\\le 9)=n$."}
+      meta_json: {"edited_from_original": "Claude 24 Nov (checker flag \"The question is wrong. Fix so that it is right\"): the paper printed P(X \\le 9) = n and asked for P(X < 3 | X > 9), which is 0 (X < 3 and X > 9 cannot both happen). Now P(X \\ge 9) = n and P(X < 3 | X < 9), which is what the school's working computes; working rewritten to match.", "format_note": "Rubric written by us. Source kept as is.", "question_original": "If $X$ is a random variable such that $P(X \\ge 3) = m$ and $P(X \\le 9) = n$. Show that $P(X < 3 | X > 9)$ is $\\dfrac{m-1}{n-1}$", "source_original": "Using the conditional probability formula, as written in the source:\n$$\\begin{aligned} P(X<3 | X<9) &= \\dfrac{P(X<3 \\cap X<9)}{P(X<9)} \\\\ &= \\dfrac{P(X<3)}{P(X>9)} \\\\ &= \\dfrac{1-m}{1-n} \\\\ &= \\dfrac{-(m-1)}{-(n-1)} \\\\ &= \\dfrac{m-1}{n-1} \\end{aligned}$$"}
     difficulty
       band: 4
       wm: PR
