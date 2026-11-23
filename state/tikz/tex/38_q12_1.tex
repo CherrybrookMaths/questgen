@@ -2,31 +2,31 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
-\draw[->] (0,502) -- (1110,502);
-\draw[->] (120,556) -- (120,10);
-\node[font=\large] at (1108,524) {$x$};
-\node[font=\large] at (102,20) {$y$};
-\node[font=\large] at (97,526) {$O$};
-\begin{scope}[shift={(120,502)},x=0.95504cm,y=2.032cm]
-  \def\crv{(0,1.2) (1,1.43) (2,1.65) (3,1.84) (4,1.98) (4.8,2.04) (6,2.0) (7,1.86) (8,1.65) (9,1.47) (10,1.37) (10.6,1.35) (11,1.355) (12,1.4)}
-  \fill[shade dots] (0,0) -- plot[smooth,tension=0.6] coordinates {\crv} -- (12,0) -- cycle;
-  \draw plot[smooth,tension=0.6] coordinates {\crv};
+\draw[->] (0,502) -- (1130,502);
+\draw[->] (120,580) -- (120,10);
+\node at (1128,522) {$x$};
+\node at (102,20) {$y$};
+\node at (92,530) {$O$};
+\begin{scope}[shift={(120,502)},x=0.98425cm,y=2.032cm]
+  \def\crv{(0,1.2) (1,1.43) (2,1.65) (3,1.84) (4,1.98) (4.65,2.04) (5.3,2.035) (6,2.0) (7,1.85) (8,1.63) (9,1.46) (10,1.37) (10.5,1.35) (11,1.355) (12,1.4)}
+  \fill[shade dots] (0,0) -- plot[smooth,tension=0.55] coordinates {\crv} -- (12,0) -- cycle;
+  \draw plot[smooth,tension=0.55] coordinates {\crv};
   \draw (12,0) -- (12,1.4);
-  \foreach \t in {1,...,12} {\draw (\t,0) -- (\t,0.035); \node[font=\large,anchor=north] at (\t,-0.04) {$\t$};}
+  \foreach \t in {1,...,12} {\draw (\t,0) -- (\t,0.035); \node[anchor=north] at (\t,-0.04) {$\t$};}
   \node[pt] at (0,1.2) {}; \node[pt] at (6,2) {}; \node[pt] at (12,1.4) {};
-  \node[font=\large,anchor=south east] at (0.02,1.23) {$(0,\,1.2)$};
-  \node[font=\large,anchor=south] at (6,2.04) {$(6,\,2)$};
-  \node[font=\large,anchor=south] at (12.05,1.43) {$(12,\,1.4)$};
+  \node at (-0.68,1.35) {$(0,\,1.2)$};
+  \node at (6,2.18) {$(6,\,2)$};
+  \node at (12.05,1.57) {$(12,\,1.4)$};
   % dimension arrows
-  \draw[->] (-0.3,0.73) -- (-0.3,1.2);
-  \draw[->] (-0.3,0.47) -- (-0.3,0);
-  \node[font=\large] at (-0.3,0.6) {$1.2$};
-  \draw[->] (6,1.12) -- (6,1.98);
-  \draw[->] (6,0.88) -- (6,0);
-  \node[font=\large] at (6,1.0) {\halo{$2$}};
-  \draw[->] (12.35,0.83) -- (12.35,1.38);
-  \draw[->] (12.35,0.57) -- (12.35,0);
-  \node[font=\large] at (12.2,0.7) {$1.4$};
+  \draw[->] (-0.38,0.7) -- (-0.38,1.17);
+  \draw[->] (-0.38,0.46) -- (-0.38,0);
+  \node at (-0.38,0.58) {$1.2$};
+  \draw[->] (6,1.1) -- (6,1.97);
+  \draw[->] (6,0.86) -- (6,0);
+  \node at (6,0.98) {\halo{$2$}};
+  \draw[->] (12.36,0.82) -- (12.36,1.39);
+  \draw[->] (12.36,0.58) -- (12.36,0);
+  \node at (12.36,0.7) {$1.4$};
 \end{scope}
 \end{tikzpicture}
 \end{document}

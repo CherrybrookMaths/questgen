@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (8,8) rectangle (1068,713);
+  \foreach \n/\x/\y in {A/202/107,B/488/82,C/630/98,D/965/81,E/75/174,F/498/153,G/538/347,H/605/372,J/891/347,I/630/575}
+    \fill (\x,\y) circle (2.6pt);
+  \begin{scope}[font=\large]
+  \node at (200,85) {$A$}; \node at (487,60) {$B$}; \node at (632,75) {$C$}; \node at (990,82) {$D$};
+  \node at (68,200) {$E$}; \node at (480,177) {$F$}; \node at (514,350) {$G$}; \node at (583,388) {$H$};
+  \node at (908,355) {$J$}; \node at (612,577) {$I$};
+  \node[anchor=base west,inner sep=0pt] at (22,673) {Weight $=$};
+  \end{scope}
+  \draw[dotted, line width=0.8pt] (165,680)--(470,680);
+\end{tikzpicture}
+\end{document}
