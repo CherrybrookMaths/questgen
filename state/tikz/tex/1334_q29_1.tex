@@ -9,12 +9,11 @@
   % bricks arent sticking out"): row 21's gap has two dashed lines like every row; row 2's right block starts at row 1's inner
   % edge (846), mirroring the left side, and its dashes reach it
   % dashed rows (the hidden rows), never through bricks
-  \foreach \y/\l/\r in {22/469/591, 32.5/460/605,
-      48/509/608, 57/509/608,
-      74.5/539/594, 83/539/594,
-      95.5/405/685, 106/396/698, 116.5/387/711, 127/378/725, 137.5/369/738,
-      148/359/751, 158.5/350/764, 169/341/778, 179.5/331/791, 189/323/804,
-      200.5/294/842, 209/294/842,
+  % flags 23 Nov round 3 (checker: "Mkake it so that hte top blocks arent sticking out"): the hidden rows' right ends mirror the left
+  % ends about the wall's centre line (x = 566.5), so the row 20 and row 21 end bricks sit inside the dashed outline on both sides
+  \foreach \y/\l/\r in {22/469/664, 32.5/460/673, 48/509/608, 57/509/608, 74.5/539/594, 83/539/594,
+      95.5/405/728, 106/396/737, 116.5/387/746, 127/378/755, 137.5/369/764, 148/359/774,
+      158.5/350/783, 169/341/792, 179.5/331/802, 189/323/810, 200.5/294/842, 209/294/842,
       223/293/842, 231/293/842}{
     \draw[aux] (\l,\y) -- (\r,\y);}
   % row 1

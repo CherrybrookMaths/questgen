@@ -32,8 +32,10 @@
 \draw (314,477) -- (330,477) -- (330,484) -- (322,491) -- (314,484) -- cycle;
 % dimension arrows
 % flags 23 Nov (checker: "Make the lines longer as they are shown not to reach each of the arcs"): each arrow now ends where its arc ends (A, C)
-\draw[<->] (12,193) -- (302,522);      % from A, where the outer arc ends
-\draw[<->] (522,305) -- (340,522);     % to C, where the inner arc meets the foul line
+% flags 23 Nov round 3 (checker: "Keep the latex lines parallel to the field still"): both arrows exactly parallel to their foul line,
+% 12 px outside it, from A (and from C's foot on the line) to level with the plate
+\draw[<->] (3.4,201.3) -- (313.4,523);      % 4r: from A
+\draw[<->] (531.8,314.3) -- (330.6,523);    % 3r: from C
 \node at (318,120) {\LARGE$G$};
 \node at (12,178) {$A$};
 \node at (632,178) {$B$};

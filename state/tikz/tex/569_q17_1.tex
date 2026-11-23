@@ -1,16 +1,16 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-% flags 23 Nov round 2 (checker: "Use the actual graph rather than using points cos the new graph isnt very smooth"): one smooth function u(x) = (x+1)/3 (+ (x-8)^2/12 past 8) drives all three: f = -cos(90u), f' = sin(90u), f'' = cos(90u) u'; zeros of f' at -1, 5, 10, of f'' at 2, 8
-\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={uu(\t)=(\t+1)/3+(\t>8)*(\t-8)^2/12;}]
+% flags 23 Nov round 3 (checker: "NO I want it to still be a aX^3 + bx^2 + cx + d graph not a sine graph. Change hte other graphs according to this so hte question is correct"):
+% f'(x) = (x+1)(x-5)(x-10) = x^3 - 14x^2 + 35x + 50. A cubic with zeros -1, 5, 10 turns at x = (14 -+ sqrt 91)/3 (about 1.49 and 7.85),
+% not at 2 and 8 (no cubic does both), so the 2 and 8 ticks are dropped.
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={g(\t)=50+\t*(35+\t*(\t-14));}]
 \draw[<->] (15,439) -- (910,439) node[right,font=\scriptsize]{$x$};
 \draw[<->] (330,548) -- (330,10) node[above,font=\scriptsize]{$f'(x)$};
-\draw[line width=0.9pt, smooth, samples=161, domain=-2.4:11.4, variable=\t] plot ({330+42*\t},{439-82*sin(90*uu(\t))});
-\foreach \t in {-1,2,5,8,10} \draw ({330+42*\t},433) -- ({330+42*\t},445);
-\node[font=\scriptsize,anchor=north east,inner sep=1pt] at (286,446) {$-1$};
-\node[font=\scriptsize,anchor=north,inner sep=1pt] at (414,447) {$2$};
+\draw[line width=0.9pt, smooth, samples=161, domain=-1.9:11.8, variable=\t] plot ({330+42*\t},{439-1.1*g(\t)});
+\foreach \t in {-1,5,10} \draw ({330+42*\t},433) -- ({330+42*\t},445);
+\node[font=\scriptsize,anchor=south east,inner sep=1pt] at (285,433) {$-1$};
 \node[font=\scriptsize,anchor=south west,inner sep=1pt] at (542,433) {$5$};
-\node[font=\scriptsize,anchor=south,inner sep=1pt] at (666,431) {$8$};
 \node[font=\scriptsize,anchor=north west,inner sep=1pt] at (752,446) {$10$};
 \end{tikzpicture}
 \end{document}

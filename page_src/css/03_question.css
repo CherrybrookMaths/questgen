@@ -32,6 +32,7 @@ table.ot thead th.oth{font-style:italic;font-weight:500}
 table.dt{border-collapse:collapse;table-layout:fixed;background:var(--panel)}
 table.dt caption{caption-side:top;text-align:center;font-weight:600;font-size:13.5px;padding-bottom:4px}
 table.dt th,table.dt td{border:1px solid var(--line2);padding:5px 8px;text-align:center;vertical-align:middle;overflow-wrap:anywhere}
+table.dt td:empty::before,table.dt th:empty::before{content:"\00a0"}   /* checker 23 Nov (2021 Knox AT1 Q2b): "for the final row in the table the same size as the other boxes": an all-blank row keeps a line's height */
 /* owner 18 Nov (Q0979 "P(X = x)" broke as "P(X" / "= x)", then ran into option A in the PDF): maths in a table cell never breaks
    mid-expression (MathJax 4 breaks long inline maths); words in a cell still wrap, and a wide table shrinks to fit (scaleTables) */
 table.dt mjx-container,table.dt mjx-container mjx-break{white-space:nowrap!important}

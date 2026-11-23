@@ -1,23 +1,18 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm,declare function={uu(\t)=(\t+1)/3+(\t>8)*(\t-8)^2/12;}]
-  % axes (drawn level)
+% flags 23 Nov round 3 (checker: "NO I want it to still be a aX^3 + bx^2 + cx + d graph not a sine graph. Change hte other graphs according to this so hte question is correct"):
+% f''(x) = 3x^2 - 28x + 35, a parabola with zeros alpha, beta = (14 -+ sqrt 91)/3 (about 1.49 and 7.85), where f' turns
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm,declare function={h(\t)=35+\t*(3*\t-28);}]
   \draw[<->] (20,435) -- (870,435);
   \draw[<->] (343,25) -- (343,545);
   \node[anchor=west] at (875,447) {$x$};
   \node[anchor=west] at (380,58) {$f''(x)$};
-  % ticks (true scale: 47 px per unit, origin at y-axis)
-  \foreach \t in {-1,2,5,8,10} \draw ({343+47*\t},429) -- ({343+47*\t},441);
-  \node[anchor=north, font=\small] at (296,443) {$-1$};
-  \node[anchor=north east, font=\small] at (434,440) {$2$};
-  \node[anchor=north, font=\small] at (578,443) {$5$};
-  \node[anchor=north west, font=\small] at (723,440) {$8$};
-  \node[anchor=north, font=\small] at (813,443) {$10$};
-  % f''(x) = cos(90u) * 3u': zeros at 2 and 8, negative between
   \draw[line width=0.9pt, <->, smooth, samples=161, domain=-1.6:10.1, variable=\t]
-    plot ({343+47*\t},{435-75*cos(90*uu(\t))*(1+(\t>8)*(\t-8)/2)});
-  \node[pt] at (437,435) {};
-  \node[pt] at (719,435) {};
+    plot ({343+47*\t},{435-2*h(\t)});
+  \node[pt] at (412.9,435) {};
+  \node[pt] at (711.8,435) {};
+  \node[anchor=north east, font=\small] at (408,440) {$\alpha$};
+  \node[anchor=north west, font=\small] at (716,440) {$\beta$};
 \end{tikzpicture}
 \end{document}

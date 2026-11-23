@@ -12,7 +12,11 @@
   \node at (-0.15,11.75) {$y$};
   \foreach \k in {-10,-5,5} {\node at (\k,-1.2) {$\k$};}
   \foreach \k in {5,-5,-10} {\node[anchor=east] at (-0.45,\k) {$\k$};}
-  \draw[line width=0.9pt,line join=round] (-7.25,6)--(-4,0) arc[start angle=180,end angle=0,x radius=1,y radius=2] -- (3,-10);
-  \node[anchor=base west] at (-10.7,6.75) {$y=f\big(2(x+2)\big)$};
+  % checker 23 Nov: "The graph is incorrect. is it of y=f(x) or y=f(2(x+2))": the question sketches on the same axes as y=f(x),
+  % so y=f(x) is shown in grey and y=f(2(x+2)) in black; the black graph starts at (-7,6), the image of (-10,6)
+  \draw[line width=0.9pt,black!40,line join=round] (-10,6)--(-4,0) arc[start angle=180,end angle=0,x radius=2,y radius=2] -- (10,-10);
+  \node[anchor=west,text=black!55,fill=white,inner sep=1pt] at (5.2,-7.2) {$y=f(x)$};
+  \draw[line width=0.9pt,line join=round] (-7,6)--(-4,0) arc[start angle=180,end angle=0,x radius=1,y radius=2] -- (3,-10);
+  \node[anchor=base west,fill=white,inner sep=1pt] at (-10.7,6.75) {$y=f\big(2(x+2)\big)$};
 \end{tikzpicture}
 \end{document}

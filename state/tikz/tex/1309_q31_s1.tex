@@ -20,7 +20,8 @@
   \end{scope}
   \end{scope}
   % displacement
-  \draw[line width=0.9pt] plot[smooth] coordinates {(18,333) (55,342) (113,368) (160,399) (189,409) (220,404) (250,392) (281,370) (320,342) (359,333) (400,339) (450,366) (500,412) (545,470) (583,523) (622,557) (660,577) (699,586)};
+  % checker 23 Nov: "Make the graph smoother": fewer, evenly spread points through the same turning points and inflections
+  \draw[line width=0.9pt] plot[smooth,tension=0.75] coordinates {(18,333) (66,346) (113,369) (150,396) (189,409) (232,399) (281,370) (322,342) (359,333) (398,339) (450,369) (520,440) (583,523) (640,568) (699,586)};
   \draw[aux] (189,337)--(189,409);
   \draw[aux] (281,300)--(281,370);
   \draw[aux] (583,523)--(583,581);

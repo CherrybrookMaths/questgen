@@ -2,11 +2,12 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{13}\selectfont]
-\foreach \v [count=\i from 0] in {90,45,40,20,5}
-  \draw[fill=black!30,draw=black!60] ({139+158*\i-63},692) rectangle ({139+158*\i+63},{692-7.15*\v});
 \foreach \v in {5,10,15,25,30,35,45,50,55,65,70,75,85,90} \draw[gray!35,line width=0.4pt] (60,{692-7.15*\v})--(848,{692-7.15*\v});
 \foreach \v in {20,40,60,80} \draw[gray!65,line width=0.4pt] (60,{692-7.15*\v})--(848,{692-7.15*\v});
 \foreach \i in {0,...,4} \draw[gray!50,line width=0.4pt] ({139+158*\i},692)--({139+158*\i},48);
+% bars over the grid (checker 23 Nov: "put the axis grid lines behind the bars")
+\foreach \v [count=\i from 0] in {90,45,40,20,5}
+  \draw[fill=black!30,draw=black!60] ({139+158*\i-63},692) rectangle ({139+158*\i+63},{692-7.15*\v});
 \foreach \v [count=\i from 0] in {90,45,40,20,5}
   \node[anchor=south,inner sep=1.5pt] at ({139+158*\i},{692-7.15*\v}) {$\v$};
 % axes
