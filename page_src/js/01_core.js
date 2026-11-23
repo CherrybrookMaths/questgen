@@ -18,7 +18,10 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:n
   // review notes, full tags and difficulty) comes in det, read right after start (QG.det)
   // ref: the course's NESA reference sheet, one image per page (owner 18 Nov; from "MA Reference Sheet 2024.pdf" in the CMC Resources
   // drive; Extension 1 / 2 and Standard have their own: ME1, ME2, MST Reference Sheet 2024, ids in state/work/ref_sheets.json)
-  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',years:'Year 12',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json',ref:['data/ref/advanced-1.png','data/ref/advanced-2.png']}},
+  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',years:'Year 12',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json',ref:['data/ref/advanced-1.png','data/ref/advanced-2.png']},
+    // owner 23 Nov: "we need to start working on the standard course", "Standard 2 first": Year 11 + Year 12 Standard 2 dot points
+    // (tools/standard_course.py); its bank is empty until the pilot batch (owner: pilot "once setup is done"); STANDARD_SPEC.md
+    standard:{name:'Mathematics Standard 2',short:'Standard 2',years:'Year 12',bank:'data/bank/standard/index.gz.json',det:'data/bank/standard/details.gz.json',dots:'data/dotpoints-standard.json',ref:['data/ref/standard-1.png','data/ref/standard-2.png']}},
   get courseData(){return this.courses[this.course]},
   byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0,night:null,
   // health pass 21 Nov: a page-database document's fields, and a snapshot's documents as {id, ...fields} (was written out in 15 places)
@@ -107,6 +110,13 @@ let sel=null, search='', rlist=[], ridx=0, rfilter='diagrams', rstatus='todo', r
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('on'),1800)}
 function save(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 function load(k){try{return localStorage.getItem(k)}catch(e){return null}}
+// owner 23 Nov (Standard 2 setup): the course is chosen in the header (#courseSel) and remembered per viewer in this browser; a change
+// reloads the page, so every view, list and cache starts clean for the other course
+{const c=load('course');if(c&&QG.courses[c])QG.course=c}
+function courseSwitch(){const el=$('#courseSel');if(!el)return;
+  el.innerHTML=Object.entries(QG.courses).map(([k,c])=>`<option value="${k}"${k===QG.course?' selected':''}>${esc(c.short)}</option>`).join('');
+  el.hidden=Object.keys(QG.courses).length<2;
+  el.onchange=()=>{save('course',el.value);save('sel','');location.reload()}}
 const docLabel=d=>String(d?.label||'').replace('NESA NESA','NESA');
 const qid=q=>'QID '+String(q.id).padStart(4,'0');   // owner: every question has a QID; the source line is paper + question number
 const srcLine=q=>docLabel(B.docs[q.doc])+' Q'+q.number;

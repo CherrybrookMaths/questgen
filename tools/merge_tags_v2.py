@@ -9,7 +9,8 @@ import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abs
 import json, sqlite3, glob, sys
 P = paths.P; W = P + 'work/tag_full/'
 db = sqlite3.connect(paths.DBS)
-DP = {x['id']: x for x in json.load(open(paths.S + 'work/skills/dotpoints.json'))}
+import course_dots   # 23 Nov (Standard): one lookup for every course's dot points (Advanced Y11-/Y12-, Standard S11-/S2-12-)
+DP = course_dots.dotpoints()
 PRE = {x['skill']: x['requires'] for x in json.load(open(paths.S + 'work/skills/skill_prereqs.json'))}
 def clos(sk):
     out = set(sk); st = list(sk)
@@ -40,7 +41,7 @@ for pid, b in B.items():
     for d in b.get('dot_points') or []:
         x = DP.get(d['id'])
         if not x: continue
-        yl = int(d['id'][1:3]); ins(pid, '2024', x['focus_area'], x['text'], d['id'], yl, 'examinable' if yl == 12 else 'moved_to_year_11', 1 if d.get('role') == 'primary' else 0, b.get('confidence'), src, 'v2', 'tag-v2.2')
+        yl = x['year_level']; ins(pid, '2024', x['focus_area'], x['text'], d['id'], yl, course_dots.coverage(d['id']), 1 if d.get('role') == 'primary' else 0, b.get('confidence'), src, 'v2', 'tag-v2.2')
     if not b.get('dot_points') and not b.get('lead_in'):
         if b.get('removed_reason') or b.get('topic_2017'):
             ins(pid, '2024', None, None, None, None, 'removed', 1, b.get('confidence'), src, 'v2', 'tag-v2.2')

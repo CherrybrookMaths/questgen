@@ -3106,6 +3106,24 @@ async function skillGates(browser, base, seed) {
     assert(r.inBank && r.inTopic, `Q18 inBank ${r.inBank}, in its Bank topic ${r.inTopic}`);
     return 'Q18 stays in the Bank under its topic with nothing learnt';
   });
+  // owner 23 Nov: "we need to start working on the standard course" (STANDARD_SPEC.md step 4): the header switch reloads the page in
+  // the other course; Standard 2 has its own topics and an empty bank until the pilot, and every view opens without an error
+  await check('course switch: Standard 2 opens its own topics with an empty bank, then back to Advanced', page, async () => {
+    await page.evaluate(() => { localStorage.setItem('course', 'standard'); location.hash = 'bank' }); await page.reload();
+    await page.waitForSelector('#list .facard', {timeout: 20000});
+    const r = await page.evaluate(() => ({c: QG.course, sel: document.querySelector('#courseSel')?.value, n: B.questions.length,
+      fas: [...document.querySelectorAll('#list .facard .fah b')].map(b => b.textContent)}));
+    for (const v of ['inbox', 'review', 'exam', 'papers', 'guide', 'levels', 'bank']) { await page.evaluate(v => location.hash = v, v); await page.waitForTimeout(400) }
+    errs();
+    assert(r.c === 'standard' && r.sel === 'standard', `course ${r.c}, switch shows ${r.sel}`);
+    assert(r.n === 0, `${r.n} questions in the Standard bank before the pilot`);
+    assert(r.fas.includes('Network flow') && r.fas.includes('Annuities') && !r.fas.includes('Integral calculus'), `topics: ${r.fas.join(', ')}`);
+    await page.evaluate(() => { localStorage.setItem('course', 'advanced'); location.hash = 'bank' }); await page.reload();
+    await page.waitForSelector('#list .facard', {timeout: 20000});
+    const a = await page.evaluate(() => ({c: QG.course, n: B.questions.length}));
+    assert(a.c === 'advanced' && a.n > 0, `back to Advanced: course ${a.c}, ${a.n} questions`);
+    return `${r.fas.length} Standard topics, 0 questions; Advanced back with ${a.n}`;
+  });
   await page.context().close();
 }
 

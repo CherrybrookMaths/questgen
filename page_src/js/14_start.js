@@ -1,4 +1,5 @@
 (async function start(){
+  courseSwitch();
   route();
   // owner 15 Nov: "curate should be hidden to peope except editors." Curate shows only for the owner or an editor (user.isOwner() / canEdit());
   // no user capability, or no answer, counts as not an editor, so Curate stays hidden.
