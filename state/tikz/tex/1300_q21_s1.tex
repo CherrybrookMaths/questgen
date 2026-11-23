@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (55,890) -- (1505,890) node[right,font=\Large]{$x$};
+\draw[->] (680,1665) -- (680,70) node[above,font=\Large]{$y$};
+\foreach \X/\l in {472/-1,888/1,1096/2,1304/3} {\draw (\X,878)--(\X,902); \node[below,font=\Large] at (\X,906) {$\l$};}
+\foreach \Y in {492,655,1155,1590} {\draw (668,\Y)--(692,\Y);}
+\node[right,font=\Large] at (696,492) {$9$};
+\node[right,font=\Large] at (700,650) {$4$};
+\node[left,font=\Large] at (664,1155) {$-7$};
+\node[left,font=\Large] at (664,1590) {$-23$};
+\draw[line width=0.9pt,->] plot[smooth,tension=0.6] coordinates {(110,1212) (160,1050) (215,890) (275,745) (340,618) (415,525) (472,492) (529,512) (610,565) (680,655) (735,762) (790,890) (840,1015) (888,1155) (940,1285) (1010,1385) (1100,1465) (1190,1535) (1250,1584) (1304,1600) (1358,1584) (1420,1522) (1480,1410) (1540,1215)};
+\node[pt] at (472,492) {};
+\node[pt] at (680,655) {};
+\node[pt] at (888,1155) {};
+\node[pt] at (1304,1600) {};
+\node[above,font=\Large] at (445,478) {$(-1,9)$};
+\node[anchor=north east,font=\Large] at (872,1168) {$(1,-7)$};
+\node[below,font=\Large] at (1304,1614) {$(3,-23)$};
+\end{tikzpicture}
+\end{document}

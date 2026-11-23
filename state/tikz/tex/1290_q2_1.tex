@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\X#1{(145+8.2625*#1)}
+  \def\Y#1{(617-57.3*#1)}
+  % grid
+  \foreach \v in {10,20,...,80} \draw[black!25,line width=0.4pt] ({145+8.2625*\v},617) -- ({145+8.2625*\v},44);
+  \foreach \v in {1,...,10} \draw[black!25,line width=0.4pt] (145,{617-57.3*\v}) -- (806,{617-57.3*\v});
+  % axes
+  \draw[->] (145,617) -- (836,617);
+  \draw[->] (145,617) -- (145,16);
+  \foreach \v in {10,20,...,80} {
+    \draw ({145+8.2625*\v},617) -- ({145+8.2625*\v},625);
+    \node[anchor=north] at ({145+8.2625*\v},627) {\large \v};}
+  \foreach \v in {1,...,10} \draw (137,{617-57.3*\v}) -- (145,{617-57.3*\v});
+  \foreach \v in {2,4,...,10} \node[anchor=east] at (133,{617-57.3*\v}) {\large \v};
+  \node[rotate=90] at (63,316) {\large Reported pain scale};
+  \node at (488,697) {\large Dosage (mg)};
+  \foreach \a/\b in {5/9,12/8,23/9,32/6,40/7,48/6,55/3,64/6,64/4,72/5,72/2,80/1}
+    \fill ({145+8.2625*\a},{617-57.3*\b}) circle[radius=6.5];
+\end{tikzpicture}
+\end{document}

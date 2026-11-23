@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (18,233) -- (568,233);
+  \draw[<->] (291,425) -- (291,38);
+  \node at (291,12) {$y$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=-1.67:1.67, variable=\u]
+    plot ({291+96*(\u*\u*\u-1.1025*\u)},{233-100*\u});
+\end{tikzpicture}
+\end{document}

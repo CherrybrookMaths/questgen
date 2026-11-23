@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5664cm,y=0.1120cm]
+  \draw[black!22,line width=0.4pt] (0,0) grid[xstep=0.5,ystep=2] (10,60);
+  \draw[black!45,line width=0.4pt] (0,0) grid[xstep=2,ystep=10] (10,60);
+  \foreach \a/\h in {0/15,2/35,4/45,6/56,8/60}
+    \fill[black,fill opacity=0.38] (\a,0) rectangle (\a+2,\h);
+  \foreach \a/\h in {0/15,2/35,4/45,6/56,8/60}
+    \draw (\a,0) rectangle (\a+2,\h);
+  \draw[->] (0,0) -- (10.7,0);
+  \draw[->] (0,0) -- (0,63.4);
+  \foreach \i in {1,...,60} \draw (-0.08,\i) -- (0,\i);
+  \foreach \i in {0.5,1,...,10} \draw (\i,0) -- (\i,-1);
+  \foreach \i in {10,20,...,60} \node[anchor=east,font=\small,inner sep=1pt] at (-0.25,\i) {$\i$};
+  \foreach \i in {2,4,...,10} \node[font=\small] at (\i,-4.2) {$\i$};
+  \node[font=\small] at (5,-9.07) {Number of Drinks per Week};
+  \node[font=\small,rotate=90] at (-1.75,30) {Cumulative Frequency};
+\end{tikzpicture}
+\end{document}

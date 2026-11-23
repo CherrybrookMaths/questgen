@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\scriptsize}]
+\draw[<->] (5,244)--(950,244) node[right]{$x$};
+\draw[<->] (240,470)--(240,8) node[above]{$y$};
+\draw[line width=0.9pt,domain=0:6,samples=90,smooth] plot ({240+99.5*\x},{244-10.65*(-\x*\x*\x+9*\x*\x-24*\x+16)});
+\foreach \p in {(240,73.6),(339.5,244),(439,286.6),(638,244),(837,457)} \node[pt] at \p {};
+\node[anchor=east] at (222,74) {$y$ Intercept};
+\draw (225,75)--(235,75);
+\node at (162,100) {$(0,\,16)$};
+\node at (372,207) {$x$ Intercept};
+\node at (370,224) {$(1,\,0)$};
+\draw (439,294)--(441,306);
+\node at (442,322) {Local Minimum};
+\node at (410,348) {$(2,\,-4)$};
+\node at (672,204) {Local Maximum};
+\node at (632,226) {$(4,\,0)$};
+\node at (770,462) {$(6,\,-20)$};
+\end{tikzpicture}
+\end{document}

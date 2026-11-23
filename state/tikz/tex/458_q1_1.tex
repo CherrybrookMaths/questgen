@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\scriptsize]
+  \draw[<->] (10,132)--(285,132);
+  \draw[<->] (55,250)--(55,12);
+  \draw (105,126)--(105,138);
+  \draw (203,126)--(203,138);
+  \draw (49,172)--(61,172);
+  \draw[line width=0.9pt,smooth,samples=90,domain=12:270] plot (\x,{132-40*cos(deg((\x-55)*pi/148))});
+  \draw[line width=0.9pt] (30,192)--(220,40);
+  \node at (40,18) {$y$};
+  \node at (279,151) {$x$};
+  \node at (41,150) {$O$};
+  \node at (33,84) {$1$};
+  \node at (31,172) {$-1$};
+  \node at (105,157) {$1$};
+  \node at (203,159) {$\pi$};
+\end{tikzpicture}
+\end{document}

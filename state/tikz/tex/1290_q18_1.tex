@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[shade] plot[smooth] coordinates {(102,145) (150,90) (203,58) (258,47) (312,58) (365,90) (418,145)}
+  -- (418,253) -- plot[smooth] coordinates {(418,253) (365,308) (312,340) (258,351) (203,340) (150,308) (102,253)} -- cycle;
+\foreach \x in {20,102,418,497} \draw (\x,28) -- (\x,390);
+\draw[aux] (102,199) -- (418,199);
+\draw[<->] (150,199) -- (150,90);
+\draw[<->] (203,199) -- (203,58);
+\draw[<->] (258,199) -- (258,47);
+\draw[<->] (312,199) -- (312,58);
+\draw[<->] (365,199) -- (365,90);
+\node[rotate=90] at (134,150) {40};
+\node[rotate=90] at (187,128) {60};
+\node[rotate=90] at (242,123) {80};
+\node[rotate=90] at (296,128) {60};
+\node[rotate=90] at (349,150) {40};
+\node[rotate=90] at (87,175) {30};
+\node[rotate=90] at (403,172) {30};
+\draw[->] (238,377) -- (102,377);
+\draw[->] (286,377) -- (418,377);
+\node at (262,377) {420};
+\node at (258,28) {Lake};
+\node at (60,52) {Road};
+\node at (457,52) {Road};
+\node at (595,195) {Not to scale};
+\end{tikzpicture}
+\end{document}

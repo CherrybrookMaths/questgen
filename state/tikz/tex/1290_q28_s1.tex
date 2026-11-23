@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (215,330) -- (800,330);
+\draw[->] (487,508) -- (487,70);
+\draw[line width=0.9pt,<->] plot[domain=-7.1:5.3, samples=90, smooth] ({487+20.5*\x},{330-3.56*(\x*\x*\x/3+\x*\x-8*\x-1.37)});
+\draw (405,325) -- (405,335);
+\draw (528,325) -- (528,335);
+\node[anchor=north] at (405,338) {$-4$};
+\node[anchor=south] at (528,323) {$2$};
+\node[pt] at (405,240) {};
+\node[pt] at (528,368) {};
+\node[anchor=south] at (405,226) {max};
+\node[anchor=north west] at (530,378) {min};
+\node[anchor=east] at (480,82) {$y$};
+\node[anchor=west] at (804,330) {$x$};
+\end{tikzpicture}
+\end{document}

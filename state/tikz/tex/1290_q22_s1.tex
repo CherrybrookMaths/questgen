@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.3620cm,y=0.381cm]
+\fill[shade hatch reverse] plot[smooth,samples=40,domain=0:3] ({\x*\x-1},\x) -- (11,0) -- cycle;
+\draw[->] (-2.6,0) -- (15.3,0);
+\draw[->] (0,-3.67) -- (0,5.8);
+\node[anchor=west,font=\footnotesize] at (15.4,0) {$x$};
+\node[anchor=east,font=\footnotesize] at (-0.2,5.6) {$y$};
+\draw[line width=0.9pt,smooth,samples=60,domain=0:4.0] plot ({\x*\x-1},\x);
+\draw[line width=0.9pt] (5.3,5.7) -- (14.9,-3.9);
+\draw[aux] (8,3) -- (8,0);
+\fill (8,3) circle (1.8pt);
+\node[anchor=south,font=\footnotesize] at (8.6,3.45) {$(8,3)$};
+\node[anchor=west,font=\footnotesize] at (15.8,3.95) {$y=\sqrt{x+1}$};
+\node[anchor=west,font=\footnotesize] at (15.5,-3.55) {$y=11-x$};
+\node[anchor=north,font=\footnotesize] at (-1,-0.45) {$-1$};
+\node[anchor=north,font=\footnotesize] at (8,-0.55) {$8$};
+\node[anchor=north,font=\footnotesize] at (10.85,-0.5) {$11$};
+\end{tikzpicture}
+\end{document}

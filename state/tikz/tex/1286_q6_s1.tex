@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[scale=0.8]
+\coordinate (A) at (0,0);
+\coordinate (B1) at (3.57,0);
+\coordinate (B2) at (12.61,0);
+\coordinate (C) at (8.09,3.945);
+\draw[aux] (C) ++(-142:6) arc[start angle=-142,end angle=-38,radius=6];
+\draw (A)--(14,0);
+\draw (A)--(C) node[midway,above,sloped] {9 cm};
+\draw (B1)--(C) node[midway,below,sloped] {6 cm};
+\draw (C)--(B2) node[midway,above,sloped] {6 cm};
+\draw (1.5,0) arc[start angle=0,end angle=26,radius=1.5];
+\node at (11:2.3) {$26^\circ$};
+\draw (B1) ++(41.1:0.45) arc[start angle=41.1,end angle=180,radius=0.45];
+\node at (3.6,1.05) {$139^\circ$};
+\draw (B2) ++(138.9:1.2) arc[start angle=138.9,end angle=180,radius=1.2];
+\node at ($(B2)+(159:1.9)$) {$41^\circ$};
+\node[anchor=east] at (-0.1,0) {$A$};
+\node[anchor=north east] at (3.45,-0.1) {$B_1$};
+\node[anchor=north west] at (12.73,-0.1) {$B_2$};
+\node[anchor=south] at ($(C)+(0,0.1)$) {$C$};
+\node at (12.3,4.4) {(NOT TO SCALE)};
+\end{tikzpicture}
+\end{document}

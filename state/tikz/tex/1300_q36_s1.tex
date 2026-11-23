@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+\path (0,0) rectangle (1167,550);
+\draw[->] (0,302) -- (1080,302) node[right=1pt] {$x$};
+\draw[->] (450,550) -- (450,-90) node[right=2pt] {$y$};
+% ticks
+\draw (272,292) -- (272,312);
+\draw (628,292) -- (628,312);
+\draw (440,152) -- (460,152);
+\draw (440,452) -- (460,452);
+\draw (440,2) -- (460,2);
+% y = |x| - 1
+\draw[line width=0.9pt, <->] ({450-178*2.2},{302-150*1.2}) -- (450,452) -- ({450+178*2.4},{302-150*1.4});
+% y = 2x + 2
+\draw[line width=0.9pt, <->] ({450-178*1.7},{302+150*1.4}) -- ({450+178*0.1},{302-150*2.2});
+\node[pt] at (272,302) {};
+\node[pt] at (628,302) {};
+\node at (290,370) {$-1$};
+\node at (640,332) {$1$};
+\node at (478,152) {$1$};
+\node at (484,478) {$-1$};
+\node at (425,2) {$2$};
+\node[anchor=east] at (385,70) {$y=2x+2$};
+\node[anchor=west] at (840,175) {$y=|x|-1$};
+\end{tikzpicture}
+\end{document}

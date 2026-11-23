@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \setlength\treeL{1.7cm}
+  \treewidth{1}{$H$}\treewidth{1}{$T$}\treewidth{2}{$H$}\treewidth{2}{$T$}
+  \treecolumns{2}
+  \treeroot{r}{0pt}
+  \treenode{H}{1}{1.2cm}{$H$}
+  \treenode{T}{1}{-1.2cm}{$T$}
+  \treenode{HH}{2}{1.8cm}{$H$}
+  \treenode{HT}{2}{0.6cm}{$T$}
+  \treenode{TH}{2}{-0.6cm}{$H$}
+  \treenode{TT}{2}{-1.8cm}{$T$}
+  \treebranch{r}{H}{$1-p$}
+  \treebranch{r}{T}{$p$}
+  \treebranch{H}{HH}{$1-p$}
+  \treebranch{H}{HT}{$p$}
+  \treebranch{T}{TH}{$1-p$}
+  \treebranch{T}{TT}{$p$}
+  \treeresult{0.6cm}{$p(1-p)$}
+  \treeresult{-0.6cm}{$p(1-p)$}
+\end{tikzpicture}
+\end{document}

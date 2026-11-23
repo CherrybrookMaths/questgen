@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (35,287) -- (1020,287);
+\foreach \x/\s in {77/272, 349/192.33, 541.33/136, 677.33/96.17, 773.5/68, 841.5/48.08, 889.58/34, 923.58/24.04, 947.62/17, 964.62/12.02}
+  \draw (\x,287) -- (\x,{287-\s}) -- ({\x+\s},{287-\s}) -- ({\x+\s},287);
+\draw[<->] (42,15) -- (42,287);
+\node[font=\large] at (18,155) {$w$};
+\end{tikzpicture}
+\end{document}

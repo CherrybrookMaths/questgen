@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (P) at (287,85); \coordinate (Q) at (77,363); \coordinate (R) at (465,363);
+\draw (Q) -- (P) -- (R);
+\draw (18,363) -- (572,363);
+\draw plot[domain=0:52.9, samples=30, smooth] ({77+105*cos(\x)},{363-105*sin(\x)});
+\node[font=\large] at (145,333) {$\theta$};
+\node[font=\Large] at (287,57) {$P$};
+\node[font=\Large] at (82,390) {$Q$};
+\node[font=\Large] at (473,390) {$R$};
+\node[font=\large] at (112,243) {$40$ m};
+\node[font=\large] at (443,233) {$40$ m};
+\node[font=\large] at (267,392) {River};
+\node[font=\large] at (700,237) {Not to scale};
+\foreach \a/\b/\yy in {107/185/387, 305/395/387, 495/550/387, 18/575/420}
+  \draw[line width=0.9pt] plot[domain=\a:\b, samples={int((\b-\a)/3)}, smooth] (\x,{\yy+5*sin(((\x-\a)/22)*360)});
+\end{tikzpicture}
+\end{document}

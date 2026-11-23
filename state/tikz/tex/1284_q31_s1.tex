@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (355.9,578) -- plot[domain=-0.67:0.67,samples=30,smooth] ({441+127*\x},{578-363*exp(-\x*\x/2)}) -- (526.1,578) -- cycle;
+\draw[->] (0,578)--(890,578) node[right,font=\scriptsize]{$x$};
+\draw[->] (441,578)--(441,25) node[above,font=\scriptsize]{$f(x)$};
+\draw[aux] (100.6,578)--(100.6,77);
+\draw[aux] (781.4,578)--(781.4,77);
+\draw (100.6,77)--(781.4,77);
+\draw (355.9,71)--(355.9,83) (526.1,71)--(526.1,83);
+\draw[line width=0.9pt,domain=-3.45:3.45,samples=90,smooth] plot ({441+127*\x},{578-363*exp(-\x*\x/2)});
+\node[font=\fontsize{6.5}{8}\selectfont] at (228,130) {$1.5\times\mathrm{IQR}\approx 2.01$};
+\node[font=\fontsize{6.5}{8}\selectfont,anchor=west] at (448,130) {$\mathrm{IQR}\approx 1.34$};
+\node[font=\fontsize{6.5}{8}\selectfont] at (654,130) {$1.5\times\mathrm{IQR}\approx 2.01$};
+\node[font=\scriptsize] at (490,428) {\halo{$R_{0.67}$}};
+\foreach \v/\l in {100.6/-2.68,355.9/-0.67,526.1/0.67,781.4/2.68} \node[font=\scriptsize] at (\v,596) {$\l$};
+\end{tikzpicture}
+\end{document}

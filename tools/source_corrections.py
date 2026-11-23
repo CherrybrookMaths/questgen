@@ -591,4 +591,34 @@ for pid, lat, crit in _GEN18:
     if db.execute('select 1 from solutions where part_id=?', (pid,)).fetchone(): continue
     db.execute('insert into solutions (part_id, source, latex, model, prompt_version, criteria_json, meta_json) values (?,?,?,?,?,?,?)',
                (pid, 'generated', lat, 'claude (session)', 'b18-fix', json.dumps(crit), json.dumps({'generated_note': 'The guideline has no working for this part; written while checking the verifier findings (24 Nov).'})))
-db.commit(); print('done C13, C14, C15, C16, C17, C18')
+# Batch 19 (24 Nov, same night): the verifier's 7 findings on 2020 Knox AT2, Northern Beaches, Moorebank and Oakhill AT1, checked by hand.
+# 2020 Knox AT2: the parse left the multiple-choice option texts empty; filled from the paper (Q3(a)'s options are sketches).
+def _sol8553(l, c):   # 2020 Northern Beaches AT4 Q17: the working contradicted itself and carried parse debris
+    return (r"""By the empirical rule, about $68\%$ of times lie within one standard deviation of the mean, so $16\%$ lie above $65$ minutes and $16\%$ below $55$ minutes.
+To finish ahead of $84\%$ of competitors, Ozzie's time must be faster (lower) than $84\%$ of the times, so only $16\%$ are faster than him. That is one standard deviation below the mean:
+$$60-5=55\text{ minutes}$$
+$$\therefore\ \text{Ozzie's completion time is } 55 \text{ minutes}$$""", c)
+def _sol8615(l, c):   # 2020 Oakhill AT1 Q12(iv): the working broke off with "(wait)" and never answered
+    return (r"""Set $T = 26$:
+$$\begin{aligned} 25 + 2\cos\left(\dfrac{\pi}{8}t\right) &= 26 \\ \cos\left(\dfrac{\pi}{8}t\right) &= \dfrac{1}{2} \end{aligned}$$
+The first solution after midnight is in the first quadrant:
+$$\begin{aligned} \dfrac{\pi}{8}t &= \dfrac{\pi}{3} \\ t &= \dfrac{8}{3} = 2\text{ h }40\text{ min} \end{aligned}$$
+$$\therefore\ \text{the temperature is first } 26^\circ\text{C at 2:40 am}$$""", c)
+C19 = [
+ (8553, [], [], r'the working said finishing ahead of $84\%$ puts Ozzie one standard deviation above the mean and carried parse debris; he is one standard deviation below, $55$ minutes', _sol8553),
+ (8386, [(r'&=0.9162097319\ldots', r'&=0.9162907318\ldots')], [], r'$-\ln 0.4$ was written $0.9162097319$ (digits swapped, as in the guideline); it is $0.9162907318\ldots$', None),
+ (8615, [], [], r'the working broke off with "(wait)" and never gave the time; it is $t=\dfrac83$, 2:40 am', _sol8615),
+]
+for sid, lat, crit, note, extra in C19:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+for qid, opts in [(5471, ['$0$', '$1$', '$2$', '$3$']), (5476, ['$3x^2$', r'$\dfrac{x^4}{4}$', r'$\dfrac{t^4}{4}$', '$x^3$']),
+                  (5483, ['$y=f(x-3)$ and $y-2=f(x)$', '$y-3=f(x)$ and $y=f(x-2)$', '$y=f(x-3)$ and $y+2=f(x)$', '$y+3=f(x)$ and $y=f(x-2)$']),
+                  (5487, ['$y=x^2-6x+15$', '$y=3+6x-x^2$', '$y=6+6x-x^2$', '$y=x^2+6x+9$'])]:
+    for lab, t in zip('ABCD', opts):
+        db.execute("update mcq_options set latex=? where question_id=? and label=? and trim(coalesce(latex,''))=''", (t, qid, lab))
+for lab, n in zip('ABCD', range(1, 5)):   # 2020 Knox AT2 Q3(a): the options are the four sketches (figures 1591_q3a_1..4)
+    db.execute("update mcq_options set latex=? where question_id=5481 and label=? and trim(coalesce(latex,''))=''", (r'\exfigure{1591_q3a_%d}' % n, lab))
+db.commit(); print('done C13, C14, C15, C16, C17, C18, C19')

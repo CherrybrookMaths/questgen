@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (5,447) -- (792,447);
+  \draw[->] (115,582) -- (115,53);
+  \node[anchor=west] at (793,447) {$t$};
+  \node[anchor=south] at (115,51) {$y$};
+  \node at (95,472) {$O$};
+  \foreach \i in {1,...,12} \draw ({114+152*\i/3},436) -- ({114+152*\i/3},447);
+  \foreach \i in {1,2,3,4} {\draw ({114+152*\i},433) -- ({114+152*\i},459); \node[anchor=north] at ({114+152*\i},460) {$\i$};}
+  \foreach \v in {0.5,1,1.5,2} \draw (102,{447-147*\v}) -- (115,{447-147*\v});
+  \node[anchor=east] at (100,300) {$1$};
+  \node[anchor=east] at (100,153) {$2$};
+  \draw[line width=0.9pt] plot[domain=0:3.93, samples=90, smooth] ({114+152*\x},{447-157*0.5*(1+exp(0.5*\x)*sin(\x r))});
+\end{tikzpicture}
+\end{document}

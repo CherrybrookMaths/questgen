@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\scriptsize}]
+\fill[shade] plot[domain=0:1.0472,samples=40,smooth] ({65+391.6*\x},{410-38/(1-sin(\x r))}) -- plot[domain=1.0472:0,samples=30,smooth] ({65+391.6*\x},{410+38/(1+sin(\x r))}) -- cycle;
+\draw[<->] (5,410)--(820,410) node[right,font=\tiny]{$x$};
+\draw[<->] (65,540)--(65,15) node[above,font=\tiny]{$y$};
+\draw[<->] (475,540)--(475,15);
+\draw[<->,line width=0.9pt,domain=-0.153:1.125,samples=90,smooth] plot ({65+391.6*\x},{410-38/(1-sin(\x r))});
+\draw[<->,line width=0.9pt,domain=-0.153:1.915,samples=90,smooth] plot ({65+391.6*\x},{410+38/(1+sin(\x r))});
+\node at (104,197) {$x=0$};
+\draw (494,372)--(478,392);
+\node[anchor=west] at (497,350) {$x=\dfrac{\pi}{3}$};
+\draw (499,66)--(511,70);
+\node[anchor=west] at (511,93) {$f(x)=\dfrac{1}{1-\sin x}$};
+\draw (120,447)--(137,457);
+\node[anchor=west] at (140,468) {$g(x)=\dfrac{-1}{1+\sin x}$};
+\end{tikzpicture}
+\end{document}

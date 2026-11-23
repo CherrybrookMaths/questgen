@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (180,200); x: 66 px/unit; y: 26 px/unit; f(x)=x^2-4x on (-1,4]
+  \draw[->] (0,200) -- (556,200);
+  \draw[->] (180,385) -- (180,3);
+  \foreach \i in {-2,-1,1,2,3,4,5} {
+    \draw ({180+66*\i},197) -- ({180+66*\i},203);
+    \node[font=\scriptsize, anchor=north] at ({180+66*\i},207) {$\i$};
+  }
+  \foreach \j in {-6,-4,-2,2,4,6} {
+    \draw (177,{200-26*\j}) -- (183,{200-26*\j});
+    \node[font=\scriptsize, anchor=east] at (172,{200-26*\j}) {$\j$};
+  }
+  \node[font=\scriptsize, anchor=north east] at (174,205) {$0$};
+  \draw[line width=0.9pt] plot[domain=-1:4, samples=90, smooth] ({180+66*\x},{200-26*(\x*\x-4*\x)});
+  \node[open pt] at ({180-66},{200-26*5}) {};
+  \node[pt] at ({180+66*2},{200+26*4}) {};
+  \node[pt] at ({180+66*4},200) {};
+  \node[font=\footnotesize] at (80,46) {$(-1,5)$};
+  \node[font=\footnotesize] at (425,173) {$(4,0)$};
+  \node[font=\footnotesize] at (363,326) {$(2,-4)$};
+  \node[font=\large] at (207,18) {$y$};
+  \node[font=\large] at (537,187) {$x$};
+\end{tikzpicture}
+\end{document}

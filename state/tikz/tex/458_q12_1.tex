@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\U{43.25}\def\V{24.27}
+\foreach \i in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19,21,22,23,24}{\draw[black!15,line width=0.5pt] ({78+\U*\i},851)--({78+\U*\i},{851-30*\V});}
+\foreach \j in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19,21,22,23,24,26,27,28,29,30}{\draw[black!15,line width=0.5pt] (78,{851-\V*\j})--({78+24*\U},{851-\V*\j});}
+\foreach \i in {5,10,15,20}{\draw[black!35,line width=0.5pt] ({78+\U*\i},851)--({78+\U*\i},{851-30*\V});}
+\foreach \j in {5,10,15,20,25}{\draw[black!35,line width=0.5pt] (78,{851-\V*\j})--({78+24*\U},{851-\V*\j});}
+\draw[->] (78,851)--(1182,851);
+\draw[->] (78,851)--(78,76);
+\foreach \i in {1,...,24}{\draw ({78+\U*\i},845)--({78+\U*\i},857);}
+\foreach \j in {1,...,30}{\draw (72,{851-\V*\j})--(84,{851-\V*\j});}
+\node at (78,888) {$0$};
+\foreach \i in {5,10,15,20}{\node at ({78+\U*\i},892) {$\i$};}
+\foreach \j in {5,10,...,30}{\node[anchor=east] at (64,{851-\V*\j}) {$\j$};}
+\node at (78,25) {$T$};
+\node at (1210,851) {$t$};
+\end{tikzpicture}
+\end{document}

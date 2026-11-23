@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\path (0,0) rectangle (600,680);
+\draw (30,253) -- (500,253);
+\draw (348,65) -- (348,655);
+\node at (522,253) {\large$x$};
+\node at (348,38) {\large$y$};
+\draw (244.5,247) -- (244.5,259);
+\draw[line width=0.9pt] plot[smooth, domain=-3.05:1.2, samples=90] ({348+103.5*\x},{253-92.5*(\x+2)^2*(\x-1)});
+\node[circle,fill,inner sep=0.9pt] at (141,253) {};
+\node[circle,fill,inner sep=0.9pt] at (451.5,253) {};
+\node[circle,fill,inner sep=0.9pt] at (348,623) {};
+\node at (141,228) {$-2$};
+\node at (244.5,228) {$-1$};
+\node at (472,278) {$1$};
+\node at (375,640) {$-4$};
+\node at (535,103) {$y=f'(x)$};
+\end{tikzpicture}
+\end{document}

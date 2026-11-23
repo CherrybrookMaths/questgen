@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.9931cm,y=-0.0127cm]
+  % x unit = 78.2 crop px; origin at crop px 33
+  \foreach \i in {0.5,1,...,9.5} \draw[black!25,line width=0.4pt] (\i,28) -- (\i,188);
+  \foreach \i in {2,4,6,8} \draw[black!45,line width=0.4pt] (\i,28) -- (\i,188);
+  \draw[black!45,line width=0.4pt] (0,188) -- (0,28) -- (10,28) -- (10,188);
+  \draw[->] (0,188) -- (10.45,188);
+  \foreach \i in {0,0.5,...,10} \draw (\i,182) -- (\i,194);
+  \foreach \i in {0,2,...,10} \node[anchor=north,inner sep=1pt] at (\i,210) {$\i$};
+\end{tikzpicture}
+\end{document}

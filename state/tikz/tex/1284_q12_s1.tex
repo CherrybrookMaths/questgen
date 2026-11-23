@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{8}{9.6}\selectfont]
+\foreach \a/\b/\h in {113/196/24,196/279/40,279/362/48,362/445/50}
+  \draw[fill=black!35] (\a,477) rectangle (\b,{477-8.4*\h});
+\foreach \v in {2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48}
+  \draw (70,{477-8.4*\v}) -- (76,{477-8.4*\v});
+\foreach \v in {10,20,30,40,50}{
+  \draw (67,{477-8.4*\v}) -- (79,{477-8.4*\v});
+  \node[anchor=east] at (64,{477-8.4*\v}) {\v};}
+\draw[->] (73,477) -- (73,40);
+\draw[->] (73,477) -- (497,477);
+\foreach \x/\l in {155/5,238/15,321/25,404/35}{
+  \node[diamond,fill,inner sep=0.9pt] at (\x,477) {};
+  \node at (\x,496) {\l};}
+\node[font=\fontsize{8}{9.6}\selectfont\bfseries] at (70,22) {Number of tips};
+\node[anchor=west,font=\fontsize{8}{9.6}\selectfont\bfseries] at (500,477) {Amount of tip \$};
+% ogive
+\draw[line width=0.9pt] (113,477) -- (196,{477-8.4*24}) -- (279,{477-8.4*40}) -- (362,{477-8.4*48}) -- (445,{477-8.4*50});
+% median reading lines (n/2 = 25)
+\draw[aux] (73,{477-8.4*25}) -- ({196+83/16},{477-8.4*25}) -- ({196+83/16},477);
+\end{tikzpicture}
+\end{document}

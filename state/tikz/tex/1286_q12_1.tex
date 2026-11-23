@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (20,258) -- (413,258);
+  \draw[<->] (68,428) -- (68,35);
+  \node at (434,259) {$x$};
+  \node at (68,13) {$y$};
+  \draw (63,338) -- (73,338);
+  \node[anchor=east,inner sep=1pt] at (60,338) {$-\dfrac{7}{3}$};
+  \draw[line width=0.9pt,<->] plot[smooth,domain=50:402,samples=90] (\x,{53+(0.10687*(\x-226))^2});
+  \node[pt] at (226,53) {};
+  \node at (222,26) {$(5,6)$};
+\end{tikzpicture}
+\end{document}

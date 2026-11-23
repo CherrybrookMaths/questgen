@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (8,218) -- (455,218);
+  \draw[<->] (233,400) -- (233,38);
+  \node[anchor=west] at (457,220) {$x$};
+  \node[anchor=south] at (233,32) {$y$};
+  \draw[line width=0.9pt,smooth,samples=90,domain=-129.5:129.5] plot ({182.5+\x},{138+1.58*(\x/10)^2});
+\end{tikzpicture}
+\end{document}

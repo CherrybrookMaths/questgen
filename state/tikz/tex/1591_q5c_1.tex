@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\a{2.27}
+\draw[->] (15,79) -- (910,79) node[right,font=\small]{$x$};
+\draw[->] (466,378) -- (466,8) node[anchor=south east,inner sep=1pt,font=\small]{$y$};
+\draw (455,355) -- (477,355); \node[anchor=north east,font=\small] at (462,359) {$-6$};
+\draw[line width=0.9pt] plot[domain=-7.52:7.4,samples=90,smooth] ({466+60.6*\x},{79+46*30/(\x*\x+5)});
+\pgfmathsetmacro\ry{79+46*30/(\a*\a+5)}
+\draw (466-60.6*\a,79) -- (466-60.6*\a,\ry) -- (466+60.6*\a,\ry) -- (466+60.6*\a,79);
+\node[anchor=south,font=\small] at (466-60.6*\a,77) {$P$};
+\node[anchor=south,font=\small] at (466+60.6*\a,77) {$Q$};
+\node[anchor=south west,font=\small] at (468,77) {$O$};
+\node[anchor=north east,font=\small] at (466-60.6*\a-4,\ry+4) {$S$};
+\node[anchor=north west,font=\small] at (466+60.6*\a+4,\ry+4) {$R$};
+\node[pt] at (769,125) {};
+\node[anchor=north west,font=\small] at (760,133) {$(5,-1)$};
+\end{tikzpicture}
+\end{document}

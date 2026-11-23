@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\U{43.2}\def\V{24.23}
+\foreach \i in {5,10,15,20}{\draw[black!30,line width=0.5pt,dash pattern=on 3pt off 2pt] ({107+\U*\i},851)--({107+\U*\i},{851-30*\V});}
+\foreach \j in {5,10,15,20,30}{\draw[black!30,line width=0.5pt,dash pattern=on 3pt off 2pt] (107,{851-\V*\j})--({107+24.3*\U},{851-\V*\j});}
+\foreach \j in {23,25,27}{\draw[aux] (107,{851-\V*\j})--({107+24.3*\U},{851-\V*\j});}
+\draw[->] (107,851)--(1218,851);
+\draw[->] (107,851)--(107,76);
+\foreach \i in {1,...,24}{\draw ({107+\U*\i},845)--({107+\U*\i},857);}
+\foreach \j in {1,...,30}{\draw (101,{851-\V*\j})--(113,{851-\V*\j});}
+\draw[line width=0.9pt,domain=0:24,samples=90,smooth] plot ({107+\U*\x},{851-\V*(25+2*cos(22.5*\x))});
+\foreach \t in {0,4,8,12,16,20,24}{\fill ({107+\U*\t},{851-\V*(25+2*cos(22.5*\t))}) circle (4);}
+\node[font=\large] at (107,895) {$0$};
+\foreach \i in {5,10,15,20}{\node[font=\large] at ({107+\U*\i},893) {$\i$};}
+\foreach \j in {5,10,...,30}{\node[anchor=east,font=\large] at (90,{851-\V*\j}) {$\j$};}
+\node at (103,25) {$T$};
+\node at (1240,851) {$t$};
+\end{tikzpicture}
+\end{document}

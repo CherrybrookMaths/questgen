@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={X(\u)=415+95.8*\u; Y(\v)=287-25.6*\v; f(\u)=4-3/\u;}]
+  \begin{scope}
+    \clip (5,5) rectangle (800,380);
+    \foreach \i in {-9,...,8} \draw[black!25] ({X(\i/2)},5) -- ({X(\i/2)},380);
+    \foreach \j in {-4,...,11} \draw[black!25] (5,{Y(\j)}) -- (800,{Y(\j)});
+  \end{scope}
+  \draw[<->] (5,287) -- (800,287);
+  \draw[->] (415,380) -- (415,5);
+  \foreach \i in {-4,-2,2} \node[font=\tiny] at ({X(\i)},299) {$\i$};
+  \foreach \j in {-2,2,4,6,8,10} \node[font=\tiny,anchor=east] at (411,{Y(\j)}) {$\j$};
+  \node[font=\tiny,anchor=west] at (804,287) {$x$};
+  \node[font=\tiny,anchor=south] at (415,3) {$y$};
+  \draw[aux] (5,{Y(4)}) -- (800,{Y(4)});
+  \draw[<->,line width=0.9pt] plot[smooth,domain=-4.37:-0.46,samples=90] ({X(\x)},{Y(f(\x))});
+  \draw[<->,line width=0.9pt] plot[smooth,domain=0.405:3.95,samples=90] ({X(\x)},{Y(f(\x))});
+  \node[pt] at ({X(0.75)},287) {};
+  \node[font=\tiny] at (255,100) {$y=-\dfrac{3}{x}+4$};
+  \node[font=\scriptsize,anchor=west] at (620,88) {Horizontal Asymptote};
+  \node[font=\scriptsize,anchor=west] at (620,113) {$y=4$};
+  \draw[->] (592,103) -- (530,153);
+  \node[font=\scriptsize,anchor=west] at (115,228) {Vertical Asymptote};
+  \node[font=\scriptsize,anchor=west] at (115,253) {$x=0$};
+  \draw[->] (215,251) -- (358,251);
+  \node[font=\tiny] at (526,311) {$x$ Intercept};
+  \node[font=\tiny] at (523,335) {$\left(\dfrac{3}{4},0\right)$};
+  \draw (503,302) -- (491,291);
+\end{tikzpicture}
+\end{document}

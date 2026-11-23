@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (18,215) -- (682,215);
+  \draw[<->] (18,314) -- (18,40);
+  \node[anchor=west] at (683,215) {$t$};
+  \node[anchor=south] at (18,38) {$x$};
+  \foreach \i in {1,...,14} \draw ({18+46*\i},209) -- ({18+46*\i},221);
+  \foreach \i in {2,4,...,14} \node[anchor=north] at ({18+46*\i},226) {$\i$};
+  \draw[line width=0.9pt] plot[smooth, tension=0.55] coordinates {(18,65) (40,121) (65,166) (90,196) (110,215) (140,235) (170,247) (203,251) (240,245) (270,232) (295,215) (315,181) (340,131) (365,95) (390,72) (415,58) (437,52) (455,57) (470,68) (481,82) (493,106) (506,131) (521,155) (541,175) (570,190) (600,198) (630,203) (658,204)};
+\end{tikzpicture}
+\end{document}

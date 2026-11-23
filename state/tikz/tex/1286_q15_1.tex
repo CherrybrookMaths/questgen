@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \tikzset{dimA/.style={{Bar[width=2.4mm]Latex[length=2mm,width=1.3mm]}-},dimB/.style={-{Latex[length=2mm,width=1.3mm]Bar[width=2.4mm]}}}
+  \coordinate (O) at (28,198);
+  \begin{scope}[shift={(O)}]
+    \fill[shade hatch reverse] (-29.6:138) -- (-29.6:330) arc[start angle=-29.6,end angle=29.6,radius=330] -- (29.6:138) arc[start angle=29.6,end angle=-29.6,radius=138] -- cycle;
+    \draw (-29.6:138) -- (-29.6:330) arc[start angle=-29.6,end angle=29.6,radius=330] -- (29.6:138) arc[start angle=29.6,end angle=-29.6,radius=138];
+    \draw[aux] (0,0) -- (-29.6:138);
+    \draw[aux] (0,0) -- (29.6:138);
+    \draw (-29.6:22) arc[start angle=-29.6,end angle=29.6,radius=22];
+    \node at (38,2) {$\theta$};
+  \end{scope}
+  % r dimension (offset 28 px outward from upper edge)
+  \coordinate (S1) at (14.2,173.6);
+  \draw[dimA] (S1) -- ++(-29.6:146);
+  \draw[dimB] ($(S1)+(-29.6:184)$) -- ++(-29.6:146);
+  \node at ($(S1)+(-29.6:165)$) {$r$};
+  % 1/r dimension (offset 41 px outward from lower edge)
+  \coordinate (S2) at (7.7,233.7);
+  \draw[dimA] (S2) -- ++(29.6:40);
+  \draw[dimB] ($(S2)+(29.6:98)$) -- ++(29.6:40);
+  \node at ($(S2)+(29.6:69)$) {$\dfrac{1}{r}$};
+  \node at (580,188) {(NOT TO SCALE)};
+\end{tikzpicture}
+\end{document}

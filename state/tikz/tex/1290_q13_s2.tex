@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\u{55.6}
+\foreach \i in {0,...,10} \draw[black!30] ({48+\i*\u},70) -- ({48+\i*\u},185);
+\draw[black!30] (48,70) -- (604,70);
+\draw[->] (48,185) -- (632,185);
+\foreach \i in {0,...,20} \draw ({48+\i*\u/2},180) -- ({48+\i*\u/2},190);
+\foreach \i in {0,2,...,10} \node[font=\footnotesize,anchor=north] at ({48+\i*\u},202) {$\i$};
+\begin{scope}[line width=0.9pt]
+\draw (48,126) -- ({48+2*\u},126);
+\draw ({48+6*\u},126) -- ({48+10*\u},126);
+\draw (48,113) -- (48,139);
+\draw ({48+10*\u},113) -- ({48+10*\u},139);
+\draw ({48+2*\u},92) rectangle ({48+6*\u},158);
+\draw ({48+3.6*\u},92) -- ({48+3.6*\u},158);
+\end{scope}
+\end{tikzpicture}
+\end{document}

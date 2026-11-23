@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% dot plot
+\draw (62,128)--(815,128);
+\foreach \v in {26,28,...,54}{\draw ({74+26*(\v-26)},122)--({74+26*(\v-26)},134);
+  \node[font=\footnotesize] at ({74+26*(\v-26)},154) {$\v$};}
+\foreach \v in {27,29,...,53}{\draw ({74+26*(\v-26)},124)--({74+26*(\v-26)},128);}
+\foreach \v/\n in {27/1,29/3,30/3,31/4,34/2,35/1,36/3,39/1,40/2,43/1,44/1,52/1}
+  \foreach \k in {1,...,\n}{\fill ({74+26*(\v-26)},{119-14.3*(\k-1)}) circle (5);}
+\node[font=\footnotesize] at (415,188) {increase in travel time (minutes per day)};
+% box plot
+\draw[line width=0.9pt,shade] (180,280) rectangle (414,392);
+\draw[line width=0.9pt] (258,280)--(258,392);
+\draw[line width=0.9pt] (100,335)--(180,335) (414,335)--(750,335);
+\draw (62,450)--(815,450);
+\foreach \v in {26,28,...,54}{\draw ({74+26*(\v-26)},444)--({74+26*(\v-26)},456);
+  \node[font=\footnotesize] at ({74+26*(\v-26)},478) {$\v$};}
+\foreach \v in {27,29,...,53}{\draw ({74+26*(\v-26)},446)--({74+26*(\v-26)},450);}
+\node[font=\footnotesize] at (415,512) {increase in travel time (minutes per day)};
+\end{tikzpicture}
+\end{document}

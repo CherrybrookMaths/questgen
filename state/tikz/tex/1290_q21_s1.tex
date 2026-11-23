@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.8738cm,y=0.8661cm]
+\foreach \i in {-5,...,5} \draw[black!30] (\i,-4.55) -- (\i,4.47);
+\foreach \j in {-4,...,4} \draw[black!30] (-5.23,\j) -- (5.3,\j);
+\draw[->] (-5.23,0) -- (5.42,0);
+\draw[->] (0,-4.55) -- (0,4.65);
+\node[anchor=west] at (5.45,0) {$x$};
+\node[anchor=south] at (0,4.67) {$y$};
+\foreach \i in {-5,-4,-3,-2,2,4,5} \node[font=\scriptsize,anchor=north] at (\i,-0.07) {$\i$};
+\node[font=\scriptsize,anchor=north west] at (1.04,-0.07) {$1$};
+\node[font=\scriptsize,anchor=north west] at (3.04,-0.07) {$3$};
+\node[font=\scriptsize,anchor=north east] at (-1.05,-0.07) {$-1$};
+\node[font=\scriptsize,anchor=north east] at (-0.06,-0.07) {$0$};
+\foreach \j in {-4,-3,-1,1,2,3,4} \node[font=\scriptsize,anchor=east] at (-0.06,\j) {$\j$};
+\node[font=\scriptsize,anchor=north east] at (-0.06,-2.07) {$-2$};
+\draw[line width=0.9pt,smooth,samples=90,domain=-2:3] plot (\x,{0.2436*\x*(\x+2)*(\x-3)});
+\draw[line width=0.9pt,smooth,samples=90,domain=-1:4] plot (\x,{-2*0.2436*(\x-1)*(\x+1)*(\x-4)});
+\end{tikzpicture}
+\end{document}

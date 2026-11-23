@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (22,265) -- (1112,265) node[above left,inner sep=2pt,yshift=8pt] {$x$};
+  \draw[->] (148,435) -- (148,18);
+  \node at (166,46) {$y$};
+  \node[anchor=north east,inner sep=2pt] at (140,272) {$0$};
+  \draw[line width=0.9pt,->,smooth,tension=0.5] plot coordinates {
+    (148,155) (165,146) (182,145) (200,150) (225,167) (255,200) (295,265) (330,318)
+    (365,360) (400,388) (435,401) (460,403) (490,398) (530,380) (575,350) (620,315)
+    (655,285) (680,265) (710,248) (745,239) (775,237) (805,240) (835,251) (858,265)
+    (890,288) (925,310) (955,320) (975,322) (1000,314) (1020,295) (1040,265)
+    (1060,225) (1080,170) (1098,100) (1113,8)};
+  \node[anchor=north,inner sep=1pt] at (285,276) {$x_1$};
+  \node[anchor=north,inner sep=1pt] at (697,276) {$x_2$};
+  \node[anchor=north,inner sep=1pt] at (870,276) {$x_3$};
+  \node[anchor=north,inner sep=1pt] at (1058,276) {$x_4$};
+  \node[font=\large] at (1018,42) {$y=f(x)$};
+\end{tikzpicture}
+\end{document}

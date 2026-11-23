@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[fill=black!30] plot[smooth,samples=60,domain=0:2] ({204+54*\x*\x},{363-54.75*2*\x})
+     -- plot[smooth,samples=60,domain=4:0] ({204+54*\x},{363-54.75*\x/2*(\x-2)}) -- cycle;
+  \draw (18,363)--(580,363);
+  \draw (204,58)--(204,465);
+  \draw[line width=0.9pt,smooth,samples=90,domain=-2.5:4.5] plot ({204+54*\x},{363-54.75*\x/2*(\x-2)});
+  \draw[line width=0.9pt,smooth,samples=90,domain=0:2.62] plot ({204+54*\x*\x},{363-54.75*2*\x});
+  \fill (420,144) circle (6.5);
+  \node[anchor=north west,font=\small] at (425,145) {$A$};
+  \node[font=\small] at (432,58) {$f(x)=\dfrac{x}{2}\big(x-2\big)$};
+  \node[anchor=west,font=\small] at (588,75) {$g(x)=2\sqrt{x}$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (251,132); \coordinate (C) at (55,330); \coordinate (B) at (487,407);
+\draw (251,15)--(A);
+\draw (170,132)--(330,132);
+\draw[line join=miter] (A)--(B)--(C)--cycle;
+% bearing arcs: tikz angle = bearing - 90 (y downwards); arcs end on the arms
+\draw[->] (251,52) arc[start angle=-90, end angle=49.4, radius=80];
+\draw[->] (251,80) arc[start angle=-90, end angle=134.7, radius=52];
+\node at (365,93) {$130^\circ$};
+\node at (248,211) {$240^\circ$};
+\node at (226,102) {$A$};
+\node at (25,338) {$C$};
+\node at (514,414) {$B$};
+\node at (98,228) {$40$ km};
+\node at (430,270) {$80$ km};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.2357cm,y=1.2294cm]
+\foreach \i in {-5,...,5} \draw[black!30] (\i,-4.05) -- (\i,4.2);
+\foreach \j in {-4,...,4} \draw[black!30] (-5.15,\j) -- (5.17,\j);
+\draw[->] (-5.15,0) -- (5.35,0);
+\draw[->] (0,-4.05) -- (0,4.3);
+\node[anchor=south] at (0,4.32) {$y$};
+\foreach \i in {-5,-4,-3,-2,-1,1,2,4,5} \node[font=\small,anchor=north] at (\i,-0.07) {$\i$};
+\node[font=\small,anchor=north west] at (3.03,-0.07) {$3$};
+\node[font=\small,anchor=north east] at (-0.05,-0.07) {$0$};
+\foreach \j in {-4,-3,-2,-1,1,2,3,4} \node[font=\small,anchor=east] at (-0.05,\j) {$\j$};
+\draw[line width=0.9pt,smooth,samples=90,domain=-2:3] plot (\x,{0.2436*\x*(\x+2)*(\x-3)});
+\end{tikzpicture}
+\end{document}

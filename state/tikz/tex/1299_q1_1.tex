@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(90,538)},xscale=7.3,yscale=-50.5]
+  \foreach \x in {10,20,...,80} \draw[black!25,line width=0.4pt] (\x,0)--(\x,10);
+  \foreach \y in {1,...,10} \draw[black!25,line width=0.4pt] (0,\y)--(80,\y);
+  \draw[->] (0,0)--(83.3,0);
+  \draw[->] (0,0)--(0,10.45);
+  \foreach \x in {10,20,...,80} {\draw (\x,0)--(\x,-0.16); \node at (\x,-0.72) {\x};}
+  \foreach \y in {1,...,10} \draw (0,\y)--(-1.1,\y);
+  \foreach \y in {2,4,...,10} \node at (-3.5,\y) {\y};
+  \foreach \p in {(5,9),(12,8),(23,9),(32,6),(40,7),(48,6),(55,3),(64,6),(64,4),(72,5),(72,2),(80,1)}
+    \node[circle,fill,inner sep=0pt,minimum size=4pt] at \p {};
+  \node at (41.5,-1.4) {Dosage (mg)};
+  \node[rotate=90] at (-9.6,5.3) {Reported pain scale};
+\end{scope}
+\end{tikzpicture}
+\end{document}

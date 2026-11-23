@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (18,392)--(575,392);
+\draw[<->] (176,435)--(176,45);
+\node at (176,18) {$y$};
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-1.11:4.1] ({176+79*\x},{392-21.85*(-0.5*(\x)*(\x)*(\x)*(\x)+2*(\x)*(\x)*(\x)+1.5)});
+\node[pt,inner sep=1.5pt] at (176,359.2) {};
+\node[pt,inner sep=1.5pt] at (334,184.4) {};
+\node[pt,inner sep=1.5pt] at (413,64.25) {};
+\node[anchor=south] at (413,54) {$(3,15)$};
+\node[anchor=east] at (321,184) {$(2,9\tfrac{1}{2})$};
+\node[anchor=south east] at (168,346) {$(0,1\tfrac{1}{2})$};
+\node at (338,478) {$f(x)=-\dfrac{1}{2}x^4+2x^3+\dfrac{3}{2}$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\begin{scope}[shift={(212,202)},xscale=45.7,yscale=-37]
+  \draw[<->] (-4.46,0)--(4.55,0);
+  \draw[<->] (0,-4.43)--(0,4.51);
+  \node[anchor=west] at (4.6,0) {$x$};
+  \node[anchor=south] at (0,4.55) {$y$};
+  \foreach \x in {-4,...,-1,1,2,3,4} \draw (\x,-0.14)--(\x,0.14);
+  \foreach \y in {-4,...,-1,1,2,3,4} \draw (-0.11,\y)--(0.11,\y);
+  \foreach \x in {-4,-2,-1,1,2,3,4} \node at (\x,-0.85) {$\x$};
+  \node at (-3,0.7) {$-3$};
+  \foreach \y in {-4,...,-1,1,3,4} \node[anchor=east] at (-0.15,\y) {$\y$};
+  \node[anchor=west] at (0.18,2) {$2$};
+  \draw[line width=0.9pt,smooth,samples=90,domain=-3.53:1.53] plot (\x,{2-(\x+1)^2});
+\end{scope}
+\end{tikzpicture}
+\end{document}

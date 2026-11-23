@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+\path (0,0) rectangle (920,990);
+% axes (level)
+\draw (20,392) -- (915,392);
+\draw[->] (741,962) -- (741,25) node[right=1pt] {$y$};
+% ticks
+\foreach \x in {298.5,446,593.5} \draw (\x,382) -- (\x,402);
+\draw (731,105) -- (751,105);
+\draw (731,915) -- (751,915);
+% guides
+\draw[aux] (593.5,105) -- (593.5,392);
+\draw[aux] (593.5,105) -- (741,105);
+\draw[aux] (298.5,915) -- (298.5,392);
+\draw[aux] (298.5,915) -- (741,915);
+% curve
+\draw[line width=0.9pt] (100,140) .. controls (120,500) and (230,915) .. (298.5,915)
+  .. controls (360,915) and (420,560) .. (455,392) .. controls (490,230) and (540,105) .. (593.5,105)
+  .. controls (660,105) and (700,280) .. (728,392) .. controls (760,520) and (800,680) .. (830,825);
+\node[pt] at (593.5,105) {};
+\node[pt] at (298.5,915) {};
+% labels
+\node at (298.5,362) {$-6$};
+\node at (424,362) {$-4$};
+\node at (600,422) {$-2$};
+\node[anchor=west] at (757,98) {$14$};
+\node[anchor=east] at (727,895) {$-25$};
+\node at (560,72) {$(-2,14)$};
+\node at (310,952) {$(-6,-25)$};
+\end{tikzpicture}
+\end{document}

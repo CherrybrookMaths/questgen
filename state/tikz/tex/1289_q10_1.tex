@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (10,320) -- (810,320) node[right,inner sep=2pt] {$x$};
+\draw[<->] (408,600) -- (408,42) node[above,inner sep=2pt] {$y$};
+\draw (402,150) -- (414,150);
+\draw (402,490) -- (414,490);
+\draw[<->,line width=0.9pt] plot[smooth,samples=90,domain=-393:393] ({408+\x},{320-170*cos(2*\x/92*45)});
+\node[anchor=south east,inner sep=1pt] at (400,148) {$0.5$};
+\node[anchor=east,inner sep=2pt] at (401,490) {$-0.5$};
+\node[anchor=north east,inner sep=1pt,font=\small] at (130,325) {$-\dfrac{3\pi}{4}$};
+\node[anchor=north west,inner sep=1pt,font=\small] at (318,325) {$-\dfrac{\pi}{4}$};
+\node[anchor=north east,inner sep=1pt,font=\small] at (497,325) {$\dfrac{\pi}{4}$};
+\node[anchor=north west,inner sep=1pt,font=\small] at (688,325) {$\dfrac{3\pi}{4}$};
+\node at (702,123) {$y=g(x)$};
+\end{tikzpicture}
+\end{document}

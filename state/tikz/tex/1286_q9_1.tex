@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,291) -- (790,291);
+  \draw[<->] (342,360) -- (342,48);
+  \node at (342,20) {$y$};
+  \draw[line width=0.9pt, <->] plot[smooth, tension=0.6] coordinates {
+    (85,355) (107,293) (140,241) (192,215) (230,220) (275,233) (315,241) (350,239)
+    (395,220) (455,177) (520,115) (585,79) (627,100) (668,190) (697,291) (712,357)};
+  \node[pt, inner sep=1.6pt] at (230,220) {}; \node at (230,197) {$A$};
+  \node[pt, inner sep=1.6pt] at (315,241) {}; \node at (315,217) {$B$};
+  \node[pt, inner sep=1.6pt] at (455,177) {}; \node at (455,153) {$C$};
+  \node[pt, inner sep=1.6pt] at (585,79) {}; \node at (585,55) {$D$};
+\end{tikzpicture}
+\end{document}

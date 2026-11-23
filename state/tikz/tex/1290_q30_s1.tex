@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (118,513) -- (875,513);
+\draw[->] (118,600) -- (118,85);
+\foreach \k in {1,2,3} {\draw ({118+113*\k},508) -- ({118+113*\k},518);
+  \node[font=\small, anchor=north] at ({118+113*\k},522) {$\k$};}
+\foreach \k in {1,2,3,4,5} {\draw (113,{513-56*\k}) -- (123,{513-56*\k});
+  \node[font=\small, anchor=east] at (108,{513-56*\k}) {$\k$};}
+\draw[aux,->] (118,345) -- (935,345);
+\node[anchor=west] at (940,345) {$x=3$};
+\draw[line width=0.9pt,->] plot[domain=0:4.8, samples=90, smooth] ({118+113*\x},{513-56*(4*\x*exp(-\x)+3)});
+\node[pt] at (118,345) {};
+\node[pt] at (231,262.6) {};
+\node at (290,215) {$\left(1,\dfrac{4}{e}+3\right)$};
+\node at (850,272) {$x=4te^{-t}+3$};
+\node[font=\small, anchor=east] at (62,263) {$\dfrac{4}{e}+3$};
+\draw[->] (66,263) -- (90,263);
+\node[font=\large, anchor=west] at (880,513) {$t$};
+\node[font=\large, anchor=east] at (110,92) {$x$};
+\end{tikzpicture}
+\end{document}

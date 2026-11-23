@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+  \def\cx{222}\def\cy{246}\def\h{192.5}\def\k{0.6464}
+  \pgfmathsetmacro\g{0.5625*\h}
+  \begin{scope}[shift={(\cx,\cy)}]
+    % outer square
+    \draw (-\h,-\h) rectangle (\h,\h);
+    % ABCD
+    \coordinate (B) at ({-\h+\k*\h},-\h);
+    \coordinate (C) at (\h,{-\h+\k*\h});
+    \coordinate (D) at ({\h-\k*\h},\h);
+    \coordinate (A) at (-\h,{\h-\k*\h});
+    \draw (A) -- (B) -- (C) -- (D) -- cycle;
+    % EFGH
+    \coordinate (F) at (-\g,-\g); \coordinate (G) at (\g,-\g);
+    \coordinate (H) at (\g,\g);   \coordinate (E) at (-\g,\g);
+    \draw (E) -- (F) -- (G) -- (H) -- cycle;
+    % innermost square
+    \draw ({-\g+\k*\g},-\g) -- (\g,{-\g+\k*\g}) -- ({\g-\k*\g},\g) -- (-\g,{\g-\k*\g}) -- cycle;
+    \node[anchor=south, inner sep=2pt] at (B) {$B$};
+    \node[anchor=north west, inner sep=3pt] at (C) {$C$};
+    \node[anchor=north, inner sep=3pt] at (D) {$D$};
+    \node[anchor=north east, inner sep=3pt] at (A) {$A$};
+    \node[anchor=east, inner sep=3pt] at (F) {$F$};
+    \node[anchor=south west, inner sep=2pt] at (G) {$G$};
+    \node[anchor=north west, inner sep=3pt] at (H) {$H$};
+    \node[anchor=north, inner sep=5pt] at (E) {$E$};
+    % dimension
+    \draw[aux] (\h,-\h) -- ++(62,0);
+    \draw[aux] (\h,\h) -- ++(62,0);
+    \draw[aux] (\h+32,-\h) -- (\h+32,-14);
+    \draw[aux] (\h+32,14) -- (\h+32,\h);
+    \node at (\h+38,0) {\textit{1 unit}};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (25,393)--(580,393);
+\draw[<->] (95,437)--(95,42);
+\node at (603,393) {$x$};
+\node at (95,17) {$y$};
+\foreach \v/\l in {87.6/7,217.7/4,348.8/1} {\draw (90,\v)--(100,\v); \node[anchor=east] at (80,\v) {$\l$};}
+\draw[aux] (95,217.7)--(532.9,217.7);
+\foreach \t in {1.5708,3.1416,4.7124,6.2832} \draw[aux] ({95+69.7*\t},217.7)--({95+69.7*\t},393);
+\foreach \t in {0.7854,3.9270} \draw[aux] ({95+69.7*\t},348.8)--({95+69.7*\t},393);
+\foreach \t in {0.7854,1.5708,3.1416,3.9270,4.7124,6.2832} \draw ({95+69.7*\t},393)--({95+69.7*\t},399);
+\node[anchor=north,font=\scriptsize] at (149.7,399) {$\dfrac{\pi}{4}$};
+\node[anchor=north,font=\scriptsize] at (204.5,399) {$\dfrac{\pi}{2}$};
+\node[anchor=north] at (314,399) {$\pi$};
+\node[anchor=north,font=\scriptsize] at (368.7,399) {$\dfrac{5\pi}{4}$};
+\node[anchor=north,font=\scriptsize] at (423.5,399) {$\dfrac{3\pi}{2}$};
+\node[anchor=north] at (532.9,399) {$2\pi$};
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:6.2832] ({95+69.7*\x},{392.5-43.7*(4-3*sin(2*\x r))});
+\foreach \t/\v in {0/217.7,0.7854/348.8,1.5708/217.7,3.1416/217.7,3.9270/348.8,4.7124/217.7,6.2832/217.7} \node[pt,inner sep=1.5pt] at ({95+69.7*\t},\v) {};
+\node at (478,57) {$x(t)=-3\sin 2t+4$};
+\end{tikzpicture}
+\end{document}

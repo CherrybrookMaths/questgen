@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% origin (118,405); 20000 in x = 106 px; 10000 in y = 21.47 px
+\foreach \k in {1,...,16} \draw[black!12] (118,{405-21.47*\k}) -- (648,{405-21.47*\k});
+\foreach \k in {5,10,15} \draw[black!25] (118,{405-21.47*\k}) -- (648,{405-21.47*\k});
+\foreach \k in {1,...,5} \draw[black!25] ({118+106*\k},405) -- ({118+106*\k},61);
+\draw[->] (118,405) -- (668,405);
+\draw[->] (118,405) -- (118,38);
+\foreach \k in {1,...,32} \draw (115,{405-10.735*\k}) -- (121,{405-10.735*\k});
+\foreach \k in {5,10,15} \draw (112,{405-21.47*\k}) -- (124,{405-21.47*\k});
+\foreach \k in {1,...,5} \draw ({118+106*\k},400) -- ({118+106*\k},410);
+\foreach \k/\l in {1/20000,2/40000,3/60000,4/80000,5/100000} \node[font=\footnotesize] at ({118+106*\k},432) {$\l$};
+\foreach \k/\l in {5/50000,10/100000,15/150000} \node[font=\footnotesize,anchor=east] at (109,{405-21.47*\k}) {$\l$};
+\node[font=\footnotesize] at (677,406) {$x$};
+\node[font=\footnotesize] at (118,25) {$y$};
+\draw[line width=0.9pt] (118,405) -- (648,61.5);
+\fill (118,405) circle (4.5); \fill (648,61.5) circle (4.5);
+\node[font=\footnotesize] at (495,98) {$R=1.6x$};
+% cost line C = 60000 + 0.6x (blue in the crop)
+\draw[line width=0.9pt] (118,{405-21.47*6}) -- (648,{405-21.47*12});
+\fill (118,{405-21.47*6}) circle (4.5); \fill (648,{405-21.47*12}) circle (4.5);
+\node[font=\footnotesize,rotate=13.7] at (255,226) {$C=60\,000+0.6x$};
+\end{tikzpicture}
+\end{document}

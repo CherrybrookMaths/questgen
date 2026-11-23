@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade hatch reverse] plot[smooth,samples=40,domain=-1.3863:0] ({323+156.6*\x},{203.5-78*(2-exp(-\x))}) -- plot[smooth,samples=40,domain=0:-1.3863] ({323+156.6*\x},{203.5-78*(4*exp(\x)-3)}) -- cycle;
+\draw[<->] (10,203)--(482,203);
+\draw[<->] (323,440)--(323,47);
+\node at (504,203) {$x$};
+\node at (323,22) {$y$};
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-1.6:0.94] ({323+156.6*\x},{203.5-78*(2-exp(-\x))});
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-1.89:0.204] ({323+156.6*\x},{203.5-78*(4*exp(\x)-3)});
+\node[pt,inner sep=1.5pt] at (323,125.5) {};
+\node[pt,inner sep=1.5pt] at (105.9,359.5) {};
+\node at (346,146) {$P$};
+\node at (129,384) {$Q$};
+\node[anchor=west] at (358,30) {$g(x)=4e^x-3$};
+\node[anchor=west] at (398,115) {$f(x)=2-\dfrac{1}{e^x}$};
+\end{tikzpicture}
+\end{document}

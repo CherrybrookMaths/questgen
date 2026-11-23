@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \path[shade hatch] plot[smooth, samples=90, domain=-1:1, variable=\x] ({384+150*\x},{203-221*(\x*\x*\x-\x)}) -- cycle;
+  \draw[<->] (10,203) -- (798,203);
+  \draw[<->] (384,358) -- (384,48);
+  \node at (820,203) {$x$};
+  \node at (384,20) {$y$};
+  \foreach \t in {85,234,534,684} \draw (\t,195) -- (\t,211);
+  \node at (85,242) {$-2$};
+  \node at (247,242) {$-1$};
+  \node at (540,242) {$1$};
+  \node at (684,242) {$2$};
+  \draw[line width=0.9pt, <->, smooth, samples=90, domain=-1.24:1.245, variable=\x]
+    plot ({384+150*\x},{203-221*(\x*\x*\x-\x)});
+\end{tikzpicture}
+\end{document}

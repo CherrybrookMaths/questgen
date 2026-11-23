@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{158+151.2*(#1)}
+\draw[->] (150,224) -- (1150,224) node[right]{$x$};
+\draw[->] (158,435) -- (158,25) node[above]{$y$};
+\foreach \k in {1,...,12} \draw ({\X{\k*pi/6}},218) -- ({\X{\k*pi/6}},230);
+\foreach \v/\l in {1/1,0.5/0.5,-0.5/-0.5,-1/-1} { \draw (152,224-160*\v) -- (164,224-160*\v); \node[anchor=east,font=\small] at (148,224-160*\v) {$\l$}; }
+\node[anchor=north east,font=\small] at (154,226) {$0$};
+\foreach \k/\l in {1/\dfrac{\pi}{6},3/\dfrac{\pi}{2},4/\dfrac{2\pi}{3},6/\pi,9/\dfrac{3\pi}{2},10/\dfrac{5\pi}{3},12/2\pi}
+  \node[anchor=north,font=\small,inner sep=2pt] at ({\X{\k*pi/6}},231) {$\l$};
+\node[anchor=south,font=\small,inner sep=2pt] at ({\X{7*pi/6}},217) {$\dfrac{7\pi}{6}$};
+\draw[aux] ({\X{pi/6}},282) -- ({\X{pi/6}},384);
+\draw[aux] ({\X{7*pi/6}},224) -- ({\X{7*pi/6}},384);
+\draw[aux] ({\X{2*pi/3}},224) -- ({\X{2*pi/3}},64);
+\draw[aux] ({\X{5*pi/3}},224) -- ({\X{5*pi/3}},64);
+\draw[line width=0.9pt] plot[domain=0:2*pi,samples=90,smooth] ({\X{\x}},{224-160*cos(deg(2*\x+2*pi/3))});
+\node[pt] at ({\X{2*pi}},304) {};
+\node[anchor=west,font=\small] at (1118,300) {$(2\pi,-0.5)$};
+\end{tikzpicture}
+\end{document}

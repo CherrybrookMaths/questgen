@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (275,376) -- plot[domain=0:0.67,samples=20,smooth] ({275+80*\x},{376-273*exp(-\x*\x/2)}) -- (328.6,376) -- cycle;
+\draw[->] (0,376)--(548,376) node[right,font=\small]{$x$};
+\draw[->] (275,376)--(275,28) node[above,font=\small]{$f(x)$};
+\draw (328.6,376)--(328.6,157.9);
+\draw[line width=0.9pt,domain=-3.4:3.4,samples=90,smooth] plot ({275+80*\x},{376-273*exp(-\x*\x/2)});
+\node[font=\small] at (329,393) {$0.67$};
+\node[font=\scriptsize] at (302,243) {\halo{$R_{0.67}$}};
+\end{tikzpicture}
+\end{document}

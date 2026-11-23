@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+\path (0,0) rectangle (1500,780);
+\draw[->] (30,548) -- (1455,548) node[right=1pt] {$x$};
+\draw[->] (597,775) -- (597,15) node[right=2pt] {$y$};
+\draw (337,538) -- (337,558);
+\draw (727,538) -- (727,558);
+\draw[aux] (337,295) -- (337,548);
+\draw[line width=0.9pt, <->] (105,80) .. controls (150,240) and (260,295) .. (337,295)
+  .. controls (430,295) and (540,390) .. (597,460) .. controls (640,512) and (680,510) .. (727,510)
+  .. controls (790,510) and (850,330) .. (885,190);
+\node[pt] at (337,295) {};
+\node[pt] at (597,460) {};
+\node[pt] at (727,510) {};
+\node at (337,590) {$-2$};
+\node at (727,590) {$1$};
+\node at (625,438) {$2$};
+\end{tikzpicture}
+\end{document}

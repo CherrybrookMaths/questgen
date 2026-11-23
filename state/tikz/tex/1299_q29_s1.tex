@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\def\X#1{85+118.5*(#1)}\def\Y#1{338-238*(#1)}
+\foreach \v in {-0.2,-0.1,0.1,0.2,0.3,0.4,0.6,0.7,0.8,0.9,1.1,1.2} \draw[black!12,line width=0.4pt] (25,{\Y{\v}})--(385,{\Y{\v}});
+\foreach \v in {0.5,1} \draw[black!25,line width=0.4pt] (25,{\Y{\v}})--(385,{\Y{\v}});
+\foreach \t in {-0.5,0.5,1,1.5,2,2.5} \draw[black!25,line width=0.4pt] ({\X{\t}},{\Y{-0.2}})--({\X{\t}},{\Y{1.23}});
+\fill[shade] ({\X{0}},{\Y{0}})--({\X{0}},{\Y{1}})--({\X{1}},{\Y{0}})--({\X{1.5}},{\Y{0.5}})--({\X{1.5}},{\Y{0}})--cycle;
+\draw[<->] (5,338)--(385,338);
+\draw[<->] (85,410)--(85,35);
+\node at (77,14) {$y$};
+\foreach \v in {0.1,0.2,...,1.15} \draw (82,{\Y{\v}})--(88,{\Y{\v}});
+\foreach \t in {0.5,1,1.5,2} \draw ({\X{\t}},335)--({\X{\t}},341);
+\node at (203,359) {$1$};
+\node at (322,359) {$2$};
+\node[left] at (80,100) {$1$};
+\node[left] at (80,219) {$0.5$};
+\draw[line width=0.9pt,line join=round] ({\X{0}},{\Y{1}})--({\X{1}},{\Y{0}})--({\X{2}},{\Y{1}});
+\node at (310,78) {$y=|1-x|$};
+\end{tikzpicture}
+\end{document}

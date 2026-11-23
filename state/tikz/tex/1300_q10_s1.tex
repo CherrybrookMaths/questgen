@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (20,195) -- (735,195);
+  \draw[->] (108,365) -- (108,28);
+  \foreach \k in {1,...,4} \draw ({108+140*\k},190) -- ({108+140*\k},200);
+  \draw (103,80) -- (113,80);
+  \draw (103,310) -- (113,310);
+  \draw[line width=0.9pt] plot[smooth,domain=0:6.28319,samples=90] ({108+280*\x/pi},{195-115*cos(2*\x r)});
+  \draw[line width=0.9pt] (108,195) -- ({108+280*6.55/pi},{195-115*6.55/6});
+  \foreach \t in {0.7249,2.5785,3.6048} \fill ({108+280*\t/pi},{195-115*\t/6}) circle (5);
+  \node[font=\small] at (124,32) {$y$};
+  \node[font=\small] at (746,195) {$x$};
+  \node[font=\small,anchor=east] at (98,80) {$1$};
+  \node[font=\small,anchor=east] at (98,310) {$-1$};
+  \node[font=\small] at (388,217) {$\pi$};
+  \node[font=\small] at (668,217) {$2\pi$};
+  \node[font=\small,rotate=11.5,anchor=south] at (540,78) {$y=\dfrac{1}{6}x$};
+\end{tikzpicture}
+\end{document}

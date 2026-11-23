@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (25,355)--(518,355);
+  \draw (350,15)--(350,418);
+  \foreach \px in {87,218,482} \draw (\px,349)--(\px,361);
+  \draw (344,67)--(356,67);
+  \node[font=\footnotesize] at (87,374) {$-2$};
+  \node[font=\footnotesize] at (218,374) {$-1$};
+  \node[font=\footnotesize] at (340,374) {$0$};
+  \node[font=\footnotesize] at (482,374) {$1$};
+  \node[font=\footnotesize] at (339,67) {$1$};
+  \draw[line width=0.9pt,smooth,samples=90,domain=-2.47:0.075] plot ({350+131.5*\x},{355-288*exp(\x)*(1+\x)});
+\end{tikzpicture}
+\end{document}

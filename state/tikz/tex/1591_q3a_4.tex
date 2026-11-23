@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (40,358)--(432,358);
+  \draw[->] (88,405)--(88,12);
+  \node[font=\large] at (449,362) {$x$};
+  \node[font=\large] at (55,40) {$f(x)$};
+  \foreach \px/\t in {165/2,233/4,305/6,380/8} \node at (\px,384) {\textit{\t}};
+  \foreach \py/\t in {97/8,167/6,235/4,303/2} \node at (70,\py) {\textit{\t}};
+  \begin{scope}[shift={(169,292)}]
+    \draw (-59,-40)--(60,36);
+    \draw (-38,-54) .. controls (-33,-36) and (-15,-9.6) .. (0,0)
+          .. controls (15,9.6) and (25,10) .. (42,10) .. controls (55,10) and (62,9.5) .. (70,9);
+    \fill (0,0) circle (7.5);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

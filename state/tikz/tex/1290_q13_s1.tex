@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.409cm,y=0.0794cm]
+  \draw[black!22,line width=0.4pt] (0,0) grid[xstep=0.5,ystep=2] (10,60);
+  \draw[black!45,line width=0.4pt] (0,0) grid[xstep=2,ystep=10] (10,60);
+  \foreach \a/\h in {0/15,2/35,4/45,6/56,8/60}
+    \fill[black,fill opacity=0.38] (\a,0) rectangle (\a+2,\h);
+  \foreach \a/\h in {0/15,2/35,4/45,6/56,8/60}
+    \draw (\a,0) rectangle (\a+2,\h);
+  \draw[->] (0,0) -- (10.6,0);
+  \draw[->] (0,0) -- (0,63.5);
+  \foreach \i in {2,4,...,60} \draw (-0.1,\i) -- (0,\i);
+  \foreach \i in {0.5,1,...,10} \draw (\i,0) -- (\i,-1.2);
+  \foreach \i in {10,20,...,60} \node[anchor=east,font=\scriptsize,inner sep=1pt] at (-0.2,\i) {$\i$};
+  \foreach \i in {2,4,6,8,10} \node[font=\scriptsize] at (\i,-4.2) {$\i$};
+  \node[font=\scriptsize] at (5,-9.3) {Number of Drinks per Week};
+  \node[font=\scriptsize,rotate=90] at (-1.58,30) {Cumulative Frequency};
+  % ogive through the upper right corners
+  \draw[line width=0.9pt] (0,0) -- (2,15) -- (4,35) -- (6,45) -- (8,56) -- (10,60);
+  % top decile reading (solution: 7.5)
+  \draw[aux] (0,53.25) -- (7.5,53.25) -- (7.5,0);
+  \fill (7.5,53.25) circle (1.3pt);
+  \node[font=\scriptsize] at (7.15,-4.2) {$7.5$};
+\end{tikzpicture}
+\end{document}

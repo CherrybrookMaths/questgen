@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % 1 unit = 1 crop px; origin (40,436); pi/6 = 113.3 px; y: 1 = 150.5 px
+  \fill[fill=black!30] (40,{436-150.5*sqrt(3)}) rectangle (153.3,436);
+  \fill[fill=black!50] (153.3,{436-150.5}) rectangle (266.6,436);
+  \draw (40,{436-150.5*sqrt(3)}) -- (153.3,{436-150.5*sqrt(3)});
+  \draw[aux] (153.3,{436-150.5*sqrt(3)}) -- (153.3,{436-150.5});
+  \draw (153.3,{436-150.5}) -- (266.6,{436-150.5}) -- (266.6,436);
+  \draw[->] (40,436) -- (512,436);
+  \draw[->] (40,436) -- (40,40);
+  \draw[line width=0.9pt] plot[domain=0:pi/2, samples=90, smooth] ({40+113.3*\x/(pi/6)},{436-150.5*2*cos(\x r)});
+  \node[font=\large] at (40,20) {$y$};
+  \node[font=\large] at (530,436) {$x$};
+  \node[font=\large, anchor=east] at (30,135) {$2$};
+  \node[font=\large] at (153.3,485) {$\dfrac{\pi}{6}$};
+  \node[font=\large] at (266.6,485) {$\dfrac{\pi}{3}$};
+  \node[font=\large] at (380,485) {$\dfrac{\pi}{2}$};
+  \node[font=\large] at (493,485) {$\dfrac{2\pi}{3}$};
+\end{tikzpicture}
+\end{document}

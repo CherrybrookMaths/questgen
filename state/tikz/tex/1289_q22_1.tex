@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\th{1.24}
+\coordinate (O) at (193,232); \coordinate (A) at (193,46);
+\coordinate (T) at ({193+186*tan(\th r)},46);
+\coordinate (B) at ({193+186*sin(\th r)},{232-186*cos(\th r)});
+\fill[shade] (A) -- (T) -- (B) -- plot[smooth,domain=\th:0,samples=40] ({193+186*sin(\x r)},{232-186*cos(\x r)}) -- cycle;
+\draw (O) circle (186);
+\draw (A) -- (T) -- (O) -- (A);
+\draw (A) ++(0,24) -- ++(24,0) -- ++(0,-24);
+\draw plot[smooth,domain=0:\th,samples=20] ({193+35*sin(\x r)},{232-35*cos(\x r)});
+\node at (188,24) {$A$};
+\node at (755,48) {$T$};
+\node at (392,186) {$B$};
+\node at (213,258) {$O$};
+\node at (156,135) {$r$\,cm};
+\node at (243,183) {$\theta$\,rad};
+\end{tikzpicture}
+\end{document}

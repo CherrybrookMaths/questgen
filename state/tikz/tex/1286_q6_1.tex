@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (32,152); \coordinate (B) at (346,387); \coordinate (C) at (501,73);
+  \draw (A) -- (C) -- (B) -- cycle;
+  \draw (A) ++(-9.56:38) arc[start angle=-9.56, end angle=36.8, radius=38];
+  \draw (B) ++(-143.2:38) arc[start angle=-143.2, end angle=-63.7, radius=38];
+  \node at (106,172) {$26^\circ$};
+  \node at (10,173) {$A$};
+  \node at (345,413) {$B$};
+  \node at (529,73) {$C$};
+  % 9 cm
+  \draw[|<-] (22,110) -- (215.1,79.5);
+  \draw[->|] (303.9,65.5) -- (497,35);
+  \node[rotate=9] at (259.5,72.5) {$9\,\mathrm{cm}$};
+  % 6 cm
+  \draw[|<-] (550,98) -- (493.7,213.5);
+  \draw[->|] (454.3,294.5) -- (398,410);
+  \node[rotate=64] at (474,254) {$6\,\mathrm{cm}$};
+  \node at (698,230) {(NOT TO SCALE)};
+\end{tikzpicture}
+\end{document}

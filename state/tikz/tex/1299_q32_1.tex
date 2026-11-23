@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\lake{(90,240) -- (90,135) -- plot[smooth] coordinates {(90,135)(138,78)(188,55)(248,42)(297,48)(350,70)(407,140)} -- (407,240)
+  -- plot[smooth] coordinates {(407,240)(390,278)(350,312)(300,331)(248,337)(196,331)(146,312)(106,278)(90,240)}}
+\fill[shade] \lake -- cycle;
+\draw \lake;
+\draw[aux] (90,190)--(407,190);
+% roads
+\foreach \x in {8,90,407,487} \draw (\x,35)--(\x,380);
+\node at (45,47) {Road};
+\node at (447,47) {Road};
+\node at (248,15) {Lake};
+% widths
+\foreach \x/\yt/\l in {138/78/40,188/55/60,248/42/80,297/48/60,350/70/40}
+  { \draw[<->] (\x,190)--(\x,\yt); \node[rotate=90] at (\x-15,{(190+\yt)/2-15}) {$\l$}; }
+\node[rotate=90] at (74,175) {$30$};
+\node[rotate=90] at (391,180) {$30$};
+% 420
+\draw[<-] (90,362)--(220,362); \draw[->] (276,362)--(407,362);
+\node at (248,360) {$420$};
+\node at (585,190) {Not to scale};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% inner bank (paddock boundary)
+\draw[name path=inner] plot[smooth,tension=0.6] coordinates {(85,343) (110,240) (150,192) (215,162) (285,147) (325,110) (375,72) (425,64) (485,90) (545,138) (590,185) (640,228) (690,266) (730,295) (748,343)};
+% outer bank
+\draw plot[smooth,tension=0.6] coordinates {(27,334) (45,267) (85,202) (135,160) (235,120) (315,74) (405,22) (460,10) (497,42) (540,95) (585,135) (635,182) (705,225) (755,275) (810,342)};
+% base and offsets
+\draw[aux] (85,343) -- (748,343);
+\foreach \x in {168,337,512,668} \draw (\x,331) -- (\x,355);
+\foreach \x [count=\i] in {241,420,583}{
+  \path[name path=v\i] (\x,0) -- (\x,343);
+  \path[name intersections={of=inner and v\i, by=t\i}];
+  \draw[aux] (t\i) -- (\x,343);}
+\node[anchor=west,font=\small,inner sep=1pt] at (244,288) {40};
+\node[anchor=west,font=\small,inner sep=1pt] at (423,288) {60};
+\node[anchor=west,font=\small,inner sep=1pt] at (586,288) {30};
+% dimension
+\draw[<-] (88,385) -- (398,385);
+\draw[->] (458,385) -- (752,385);
+\node[font=\small] at (428,385) {80\,m};
+\end{tikzpicture}
+\end{document}

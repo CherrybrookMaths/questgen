@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (134,104) ellipse [x radius=118, y radius=40];
+\draw (16,104)--(16,340);
+\draw (252,104)--(252,340);
+\draw (16,340) arc[start angle=180,end angle=0,x radius=118,y radius=40];
+\draw[aux] (16,340) arc[start angle=180,end angle=360,x radius=118,y radius=40];
+\fill (134,104) circle (3.5);
+\draw[aux] (134,104)--(252,104);
+% r dimension
+\draw (134,16)--(134,38);
+\draw (252,16)--(252,38);
+\draw[->] (176,27)--(134,27);
+\draw[->] (206,27)--(252,27);
+\node at (191,27) {$r$};
+% h dimension
+\draw (282,104)--(300,104);
+\draw (282,340)--(300,340);
+\draw[->] (291,210)--(291,104);
+\draw[->] (291,242)--(291,340);
+\node at (291,226) {$h$};
+\node at (525,220) {(NOT TO SCALE)};
+\end{tikzpicture}
+\end{document}

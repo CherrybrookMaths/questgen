@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.1506cm,y=1.1506cm]
+  \foreach \x in {-4.5,-3.5,...,7.5} \draw[black!22,dotted] (\x,-4) -- (\x,6);
+  \foreach \y in {-3.5,-2.5,...,5.5} \draw[black!22,dotted] (-5,\y) -- (8,\y);
+  \foreach \x in {-5,...,8} \draw[black!50,dotted] (\x,-4) -- (\x,6);
+  \foreach \y in {-4,...,6} \draw[black!50,dotted] (-5,\y) -- (8,\y);
+  \draw[->] (-5.09,0) -- (8,0);
+  \draw[->] (0,-4.08) -- (0,6);
+  \foreach \x in {-5,...,-1,1,2,...,7} {\draw (\x,-0.1) -- (\x,0.1); \node[anchor=north,font=\small,inner sep=2pt] at (\x,-0.16) {$\x$};}
+  \foreach \y in {-4,...,-1,1,2,...,5} {\draw (-0.1,\y) -- (0.1,\y); \node[anchor=east,font=\small,inner sep=2pt] at (-0.13,\y) {$\y$};}
+  \node[anchor=west] at (8.08,0) {$x$};
+  \node[anchor=south,inner sep=2pt] at (0,6.02) {$y$};
+\end{tikzpicture}
+\end{document}

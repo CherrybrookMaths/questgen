@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (190,293) -- (825,293);
+\draw[->] (190,450) -- (190,88);
+\foreach \k in {4,8,...,24} \draw ({190+22.17*\k},288) -- ({190+22.17*\k},298);
+\draw (185,177.4) -- (195,177.4); \draw (185,408.6) -- (195,408.6);
+\draw[line width=0.9pt] plot[domain=0:24, samples=90, smooth] ({190+22.17*\x},{293-115.6*sin(22.5*\x)});
+\node[font=\large] at (172,96) {$h$};
+\node[font=\large, anchor=west] at (830,293) {$t$};
+\node[font=\large, anchor=east] at (182,177.4) {$4$};
+\node[font=\large, anchor=east] at (182,408.6) {$-4$};
+\node[font=\small, anchor=north east] at (186,297) {$0$};
+\node[font=\small, anchor=north] at (278.7,300) {$4$};
+\node[font=\small, anchor=north east] at (363,297) {$8$};
+\node[font=\small, anchor=north] at (456,300) {$12$};
+\node[font=\small, anchor=north west] at (551,297) {$16$};
+\node[font=\small, anchor=north] at (633.4,300) {$20$};
+\node[font=\small, anchor=north] at (722,300) {$24$};
+\node[font=\scriptsize, anchor=north west] at (194,318) {midnight};
+\node[font=\scriptsize, anchor=north] at (278.7,338) {4am};
+\node[font=\scriptsize, anchor=north east] at (370,338) {8am};
+\node[font=\scriptsize, anchor=north, align=center] at (456,326) {noon\\midday};
+\node[font=\scriptsize, anchor=north west] at (548,338) {4pm};
+\node[font=\scriptsize, anchor=north] at (633.4,338) {8pm};
+\node[font=\scriptsize, anchor=north] at (722,338) {midnight};
+\node[font=\scriptsize, align=center] at (100,312) {mean\\sea\\level};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,35 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\Y#1{587-5.24*#1}
+% grid
+\foreach \v in {2,4,...,100} \draw[black!25,line width=0.4pt] (113,{\Y{\v}}) -- (865,{\Y{\v}});
+\foreach \c in {0,...,5} \draw[black!35,line width=0.4pt] ({177+125.2*\c},63) -- ({177+125.2*\c},587);
+% bars
+\foreach \c/\h in {0/70,1/60,3/20,5/5}
+  \draw[fill=black!50] ({143+125.2*\c},587) rectangle ({211+125.2*\c},{\Y{\h}});
+% axes
+\draw (113,587) -- (113,63);
+\draw (865,597) -- (865,63);
+\draw (113,587) -- (865,587);
+\foreach \v in {10,20,...,100} {
+  \draw (105,{\Y{\v}}) -- (113,{\Y{\v}});
+  \node[anchor=east,font=\small,inner sep=2pt] at (103,{\Y{\v}}) {\v};
+  \draw (857,{\Y{\v}}) -- (865,{\Y{\v}});}
+\foreach \v in {5,15,...,95} \draw (860,{\Y{\v}}) -- (865,{\Y{\v}});
+\foreach \v in {2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48,52,54,56,58,62,64,66,68,72,74,76,78,82,84,86,88,92,94,96,98}
+  \draw (109,{\Y{\v}}) -- (113,{\Y{\v}});
+\foreach \v in {20,40,...,100} \node[anchor=west,font=\small,inner sep=2pt] at (869,{\Y{\v}}) {\v};
+\node[font=\small] at (865,35) {\%};
+\draw (113,587) circle[radius=8];
+\node[rotate=90,font=\small] at (28,325) {Number of customers};
+% categories
+\foreach \c/\t in {0/Overpriced,1/Not enough food,2/Small portions,3/Food is tasteless,4/Food not fresh,5/Unfriendly staff}
+  \node[rotate=63,anchor=east,font=\small,inner sep=1pt] at ({190+125.2*\c},612) {\t};
+% cumulative line
+\draw[line width=0.9pt] (177,{\Y{35}}) -- (302,{\Y{65}}) -- (428,{\Y{80}}) -- (553,{\Y{90}}) -- (678,{\Y{97.5}}) -- (803,{\Y{100}});
+\foreach \x/\v in {177/35,302/65,428/80,553/90,678/97.5,803/100}
+  \draw[fill=black!40,line width=0.5pt] (\x,{\Y{\v}}) circle[radius=4];
+\end{tikzpicture}
+\end{document}

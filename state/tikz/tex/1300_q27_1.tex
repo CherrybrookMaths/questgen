@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.8415cm,y=0.0127cm]
+\draw (-0.05,0) -- (7.4,0);
+\node[font=\large] at (7.58,0) {$t$};
+\draw (0,-202) -- (0,253);
+\node[font=\large] at (0.1,290) {$x$};
+\draw[line width=0.9pt] plot[smooth,domain=-0.05:5,samples=60] (\x,{-180*sin(45*(\x-3))}) -- plot[smooth,domain=5:7.2,samples=30] (\x,{-180+110.9*(\x-5)^2-52.8*(\x-5)^3+7.9*(\x-5)^4});
+\foreach \k in {1,...,7} \node[circle,fill,inner sep=0.9pt] at (\k,0) {};
+\foreach \k in {1,2,4,5,6} \node[below,inner sep=0pt] at (\k,-18) {$\k$};
+\node[below,inner sep=0pt] at (3,-18) {$3$};
+\node[above,inner sep=0pt] at (7,14) {$7$};
+\node[circle,fill,inner sep=0.9pt] at (1,180) {};
+\node[circle,fill,inner sep=0.9pt] at (5,-180) {};
+\node[circle,fill,inner sep=0.9pt] at (6,-114) {};
+\node[above,font=\large,inner sep=2pt] at (1,188) {$S_1$};
+\node[anchor=south west,font=\large,inner sep=1pt] at (3.03,6) {$I_1$};
+\node[below,font=\large,inner sep=2pt] at (5,-188) {$S_2$};
+\node[anchor=north west,font=\large,inner sep=1pt] at (6.05,-120) {$I_2$};
+\end{tikzpicture}
+\end{document}

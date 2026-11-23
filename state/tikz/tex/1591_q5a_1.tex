@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (12,318) -- (520,318) node[right,font=\small]{$x$};
+\draw[->] (118,358) -- (118,-12) node[anchor=south west,inner sep=1pt,font=\small]{$y$};
+\draw (110,56) -- (126,56); \node[anchor=east,font=\small] at (108,56) {$6$};
+\draw (327,310) -- (327,326); \node[anchor=north east,font=\small] at (325,322) {$3$};
+\draw[line width=0.9pt,<->] plot[domain=-0.59:3.5,samples=2] ({118+69.7*\x},{318-43.67*(6-2*\x)});
+\node[anchor=west,font=\small] at (225,158) {$y = f'(x)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (0,0) rectangle (1193,495);
+\draw (405,0) -- (405,495) (822,0) -- (822,495);
+\node[font=\large] at (203,55) {$\mathbf{I}$};
+\node[font=\large] at (613,55) {$\mathbf{II}$};
+\node[font=\large] at (1010,55) {$\mathbf{III}$};
+% I
+\draw[->] (25,208) -- (370,208) node[right,inner sep=2pt] {$x$};
+\draw[->] (200,380) -- (200,140) node[above,inner sep=2pt] {$y$};
+\draw[line width=0.9pt] (94,208) arc[start angle=180,end angle=0,radius=106];
+% II
+\node at (613,207) {$\{(-2,5),\ (4,5),\ (5,-2),\ (5,1)\}$};
+% III
+\draw (907,282) ellipse[x radius=67,y radius=171];
+\draw (1113,282) ellipse[x radius=66,y radius=171];
+\node[anchor=east] (a) at (930,202) {$-8$};
+\node[anchor=east] (b) at (930,268) {$-1$};
+\node[anchor=east] (c) at (930,328) {$0$};
+\node[anchor=east] (d) at (930,382) {$15$};
+\node[anchor=west] (s) at (1092,242) {$7$};
+\node[anchor=west] (n) at (1092,330) {$9$};
+\draw[->] (a.east) -- (1090,236);
+\draw[->] (b.east) -- (1090,322);
+\draw[->] (c.east) -- (1090,329);
+\draw[->] (d.east) -- (1090,247);
+\draw[->] (d.east) -- (1090,340);
+\end{tikzpicture}
+\end{document}

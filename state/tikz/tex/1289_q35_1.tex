@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \path[shade dense dots] (180,133) rectangle (360.2,538);
+  \draw (180,538) -- (180,133) -- (360.2,133) -- (360.2,538);
+  \draw (35,538) -- (570,538) -- (325,65);
+  \draw plot[smooth, tension=0.6] coordinates {(35,538) (38,455) (48,385) (65,315) (90,250) (125,190) (180,133) (230,95) (280,76) (325,65)};
+  \draw[aux] (570,538) -- (180,133);
+  \draw plot[domain=180:133.9, samples=30, smooth] ({570+85*cos(\x)},{538-85*sin(\x)});
+  \draw[->] plot[domain=180:117.4, samples=40, smooth] ({570+140*cos(\x)},{538-140*sin(\x)});
+  \node at ({570+50*cos(157)},{538-50*sin(157)}) {$\theta$};
+  \node at ({570+180*cos(155)},{538-180*sin(155)}) {$\dfrac{\pi}{6}$};
+  \node at (30,558) {$A$};
+  \node at (177,558) {$U$};
+  \node at (363,558) {$T$};
+  \node at (590,542) {$O$};
+  \node at (155,127) {$R$};
+  \node at (380,128) {$S$};
+  \node at (337,45) {$B$};
+\end{tikzpicture}
+\end{document}

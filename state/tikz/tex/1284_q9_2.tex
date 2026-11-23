@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (20,131); 2pi = 437 px; y: 1 = 56.5 px
+  \draw[->] (20,131) -- (465,131);
+  \draw[<->] (20,253) -- (20,6);
+  \foreach \k in {1,3,5,7,9,11} \draw ({20+437*\k/12},129.5) -- ({20+437*\k/12},132.5);
+  \foreach \k in {2,4,6,8,10,12} \draw ({20+437*\k/12},128) -- ({20+437*\k/12},134);
+  \foreach \j in {-2,-1,1,2} {
+    \draw (17,{131-56.5*\j}) -- (23,{131-56.5*\j});
+    \node[font=\tiny, anchor=east] at (14,{131-56.5*\j}) {$\j$};
+  }
+  \foreach \k/\l in {2/\dfrac{\pi}{3},4/\dfrac{2\pi}{3},8/\dfrac{4\pi}{3},10/\dfrac{5\pi}{3}}
+    \node[font=\tiny, anchor=north] at ({20+437*\k/12},135) {$\l$};
+  \node[font=\tiny, anchor=north] at ({20+437/2},135) {$\pi$};
+  \node[font=\tiny, anchor=north] at (457,135) {$2\pi$};
+  \node[font=\tiny] at (20,0) {$y$};
+  \node[font=\tiny, anchor=west] at (466,131) {$x$};
+  \draw[line width=0.9pt] plot[domain=0:2*pi, samples=90, smooth] ({20+437*\x/(2*pi)},{131-56.5*2*cos((2*\x+pi/3) r)});
+  \node[pt] at (20,{131-56.5}) {};
+  \node[pt] at (457,{131-56.5}) {};
+\end{tikzpicture}
+\end{document}

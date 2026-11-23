@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={px(\v)=178+(\v-650)*2.25; nc(\v)=325-235*exp(-0.5*((\v-750)/35)^2);}]
+  \fill[shade] ({px(620)},325) -- plot[smooth,domain=620:680,samples=30] ({px(\x)},{nc(\x)}) -- ({px(680)},325) -- cycle;
+  \draw (20,325) -- (20,88);
+  \draw (20,325) circle (10);
+  \draw (30,325) -- ({px(892)},325);
+  \draw (48,340) -- (72,310);
+  \draw (80,340) -- (104,310);
+  \foreach \v in {620,630,...,890}{
+    \pgfmathtruncatemacro\m{mod(\v,50)}
+    \ifnum\m=0 \draw ({px(\v)},312) -- ({px(\v)},339);
+    \else \draw ({px(\v)},318) -- ({px(\v)},333); \fi}
+  \draw[line width=0.9pt] plot[smooth,domain=620:892,samples=90] ({px(\x)},{nc(\x)});
+  \draw ({px(680)},325) -- ({px(680)},{nc(680)});
+  \foreach \v in {650,700,750,800,850} \node[font=\Large] at ({px(\v)},393) {$\v$};
+  \node[font=\LARGE] at (15,45) {$y$};
+  \node[font=\LARGE] at (742,325) {$x$};
+\end{tikzpicture}
+\end{document}

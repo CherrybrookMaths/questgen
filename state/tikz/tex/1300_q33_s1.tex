@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+\path (0,0) rectangle (1167,540);
+% shading 0..pi/3 under tan x
+\path[shade hatch] (372,318) -- plot[smooth, domain=0:1.0472, samples=40] ({372+\x/1.5708*293},{318-93*tan(\x r)}) -- (567,318) -- cycle;
+% axes
+\draw[->] (50,318) -- (1095,318) node[right=1pt] {$x$};
+\draw[<->] (372,495) -- (372,15) node[right=2pt] {$y$};
+% asymptote
+\draw[aux] (665,5) -- (665,500);
+% guides
+\draw[aux] (372,225) -- (518.5,225) -- (518.5,318);
+\draw[aux] (567,157) -- (567,318);
+% curve
+\draw[line width=0.9pt, ->] plot[smooth, domain=0:1.276, samples=90] ({372+\x/1.5708*293},{318-93*tan(\x r)});
+% labels
+\node at (342,222) {$1$};
+\node at (518.5,352) {$\dfrac{\pi}{4}$};
+\node at (580,352) {$\dfrac{\pi}{3}$};
+\node at (712,352) {$\dfrac{\pi}{2}$};
+\end{tikzpicture}
+\end{document}

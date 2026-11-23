@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\scriptsize]
+  \draw[<->] (10,133)--(285,133);
+  \draw[<->] (55,250)--(55,10);
+  \draw (105,126)--(105,140);
+  \draw (200,126)--(200,140);
+  \draw (48,95)--(62,95);
+  \draw (48,175)--(62,175);
+  \draw[line width=0.9pt,smooth,samples=90,domain=8:290] plot (\x,{133-38*sin(deg((\x-55)*pi/145))});
+  \draw[line width=0.9pt] (28,198)--(220,37);
+  \node at (42,18) {$y$};
+  \node at (278,152) {$x$};
+  \node at (68,151) {$O$};
+  \node at (32,95) {$1$};
+  \node at (29,177) {$-1$};
+  \node at (102,158) {$1$};
+  \node at (200,158) {$\pi$};
+\end{tikzpicture}
+\end{document}

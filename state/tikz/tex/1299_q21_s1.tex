@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={X(\u)=172+45.85*\u; Y(\v)=362-48.8*\v;}]
+  \foreach \i in {-3,...,15} \draw[black!30] ({X(\i)},69) -- ({X(\i)},655);
+  \foreach \j in {-6,...,6} \draw[black!30] (35,{Y(\j)}) -- (860,{Y(\j)});
+  \fill[shade] plot[smooth,domain=0:3,samples=40] ({X(\x*\x-1)},{Y(\x)}) -- ({X(11)},{Y(0)}) -- cycle;
+  \draw[<->] (5,362) -- (887,362);
+  \draw[<->] (172,682) -- (172,28);
+  \foreach \i in {-3,...,-1,1,2,...,15}{
+    \draw ({X(\i)},356) -- ({X(\i)},368);
+    \node[font=\scriptsize] at ({X(\i)-2},382) {$\i$};}
+  \foreach \j in {-6,...,-1,1,2,...,6}{
+    \draw (166,{Y(\j)}) -- (178,{Y(\j)});
+    \node[font=\scriptsize,anchor=east] at (166,{Y(\j)}) {$\j$};}
+  \draw (172,362) circle (6);
+  \node[font=\small] at (172,12) {$y$};
+  \node[font=\small] at (895,362) {$x$};
+  \draw[->,line width=0.9pt] plot[smooth,domain=0:4.05,samples=90] ({X(\x*\x-1)},{Y(\x)});
+  \draw[->,aux,line width=0.9pt] plot[smooth,domain=0:-4.02,samples=90] ({X(\x*\x-1)},{Y(\x)});
+  \draw[<->,line width=0.9pt] ({X(4.55)},{Y(6.45)}) -- ({X(15.4)},{Y(-4.4)});
+  \node[pt] at ({X(8)},{Y(3)}) {};
+  \node[pt] at ({X(15)},{Y(-4)}) {};
+  \node[font=\small] at (552,192) {$(8,3)$};
+  \node[font=\small] at (806,582) {$(15,-4)$};
+  \node[font=\small] at (338,108) {$y=11-x$};
+  \node[font=\small] at (238,242) {$y=\sqrt{x+1}$};
+\end{tikzpicture}
+\end{document}

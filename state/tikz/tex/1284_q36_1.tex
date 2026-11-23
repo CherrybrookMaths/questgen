@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{7}{8}\selectfont}]
+\fill[shade] (8,134) -- plot[domain=0:3,samples=60,smooth] ({8+158*\x},{134-3.5*(9*\x-\x*\x*\x)}) -- cycle;
+\fill[shade] (482,134) -- plot[domain=3:4.2,samples=30,smooth] ({8+158*\x},{134-3.5*(9*\x-\x*\x*\x)}) -- (671.6,134) -- cycle;
+\draw (372,134)--(372,104.2) (380,134)--(380,105.5);
+\draw[->] (8,134)--(805,134) node[right]{$x$};
+\draw[<->] (8,462)--(8,10) node[above]{$y$};
+\draw[<->] (671.6,462)--(671.6,20);
+\draw[aux,<->] (719,462)--(719,20);
+\draw[line width=0.9pt,domain=0:4.5,samples=90,smooth] plot ({8+158*\x},{134-3.5*(9*\x-\x*\x*\x)});
+\foreach \p in {(8,134),(482,134),(719,311.2)} \node[pt] at \p {};
+\node at (270,115) {\halo{$R$}};
+\node at (615,168) {\halo{$S$}};
+\node at (495,103) {$x$ Intercept};
+\node at (493,119) {$(3,\,0)$};
+\draw (487,126)--(484,130);
+\node[anchor=east] at (662,40) {$x=a$};
+\node[anchor=west] at (726,122) {$x=4.5$};
+\end{tikzpicture}
+\end{document}

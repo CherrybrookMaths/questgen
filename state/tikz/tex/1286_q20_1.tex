@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\setlength\treeL{1.5cm}
+\begin{document}
+\begin{tikzpicture}
+  \treewidth{1}{$C$}\treewidth{1}{$M$}\treewidth{2}{$R$}\treewidth{2}{$S$}
+  \treecolumns{2}
+  \treeroot{O}{0cm}
+  \treenode{C}{1}{1.28cm}{$C$}
+  \treenode{M}{1}{-1.28cm}{$M$}
+  \treenode{CR}{2}{1.9cm}{$R$}
+  \treenode{CS}{2}{0.66cm}{$S$}
+  \treenode{MR}{2}{-0.66cm}{$R$}
+  \treenode{MS}{2}{-1.9cm}{$S$}
+  \treebranch{O}{C}{$\dfrac{3}{5}$}
+  \treebranch{O}{M}{}
+  \treebranch{C}{CR}{$\dfrac{5}{7}$}
+  \treebranch{C}{CS}{}
+  \treebranch{M}{MR}{}
+  \treebranch{M}{MS}{}
+\end{tikzpicture}
+\end{document}

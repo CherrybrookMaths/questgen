@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {-3,...,15} \draw[black!30] ({218+\i*59.2},68) -- ({218+\i*59.2},826);
+  \foreach \j in {-6,...,6} \draw[black!30] (40,{447-\j*63.1}) -- (1106,{447-\j*63.1});
+  \draw[<->] (5,447) -- (1127,447);
+  \draw[<->] (218,857) -- (218,38);
+  \foreach \i in {-3,...,-1,1,2,...,15}{
+    \draw ({218+\i*59.2},439) -- ({218+\i*59.2},455);
+    \node[font=\small] at ({218+\i*59.2-4},477) {$\i$};}
+  \foreach \j in {-6,...,-1,1,2,...,6}{
+    \draw (210,{447-\j*63.1}) -- (226,{447-\j*63.1});
+    \node[font=\small,anchor=east] at (212,{447-\j*63.1}) {$\j$};}
+  \draw (218,447) circle (7);
+  \node at (213,16) {$y$};
+  \node at (1142,447) {$x$};
+\end{tikzpicture}
+\end{document}

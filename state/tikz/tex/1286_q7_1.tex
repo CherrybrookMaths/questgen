@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (195,193); \coordinate (P) at (108,343); \coordinate (Q) at (281,343);
+  \path[shade hatch reverse] (P) arc[start angle=120.1, end angle=59.9, radius=173.4] -- cycle;
+  \draw (O) circle[radius=173.4];
+  \draw (P) -- (O) -- (Q) -- cycle;
+  \draw (O) ++(60.2:25) arc[start angle=60.2, end angle=120.1, radius=25];
+  \node[font=\footnotesize] at (196,245) {$\dfrac{\pi}{4}$};
+  \node at (195,163) {$O$};
+  \node at (88,365) {$P$};
+  \node at (305,367) {$Q$};
+  \draw[|<-] (233,172) -- (254,209);
+  \draw[->|] (298,285) -- (319,322);
+  \node[rotate=-60.2] at (276,247) {$8\,\mathrm{cm}$};
+  \node at (570,193) {(NOT TO SCALE)};
+\end{tikzpicture}
+\end{document}

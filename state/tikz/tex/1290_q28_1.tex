@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (28,348) -- (748,348);
+\draw[->] (425,645) -- (425,45);
+\foreach \k in {-6,-5,-4,-3,-2,-1,1,2,3,4,5} \draw ({425+61.7*\k},344) -- ({425+61.7*\k},352);
+\foreach \k in {-4,-3,-2,-1,1,2,3,4} \draw (421,{348+63*\k}) -- (429,{348+63*\k});
+\draw[line width=0.9pt] plot[domain=-6.29:4.29, samples=90, smooth] ({425+30.85*\x},{348-15.44*(\x+4)*(\x-2)});
+\node[font=\large] at (428,25) {$y$};
+\node[font=\large, anchor=west] at (750,346) {$x$};
+\node[font=\large] at (275,374) {$-4$};
+\node[font=\large] at (502,374) {$2$};
+\node[font=\large] at (605,95) {$f'(x)$};
+\end{tikzpicture}
+\end{document}

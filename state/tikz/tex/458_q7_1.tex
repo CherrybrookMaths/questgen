@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\Y#1{703-3.27*#1}
+% grid, clipped away from the bars
+\begin{scope}[even odd rule]
+\clip (152,49) rectangle (1015,703) (163,703) rectangle (281,81.7) (306.6,703) rectangle (424.6,238.7) (450.2,703) rectangle (568.2,385.8) (593.8,703) rectangle (711.8,604.9) (737.4,703) rectangle (855.4,624.5) (881,703) rectangle (999,650.7);
+\foreach \m in {0,...,9}\foreach \k in {4,8,12,16}{\draw[black!35,line width=0.4pt,dash pattern=on 0.8pt off 0.8pt] (152,{\Y{20*\m+\k}})--(1015,{\Y{20*\m+\k}});}
+\foreach \m in {1,...,9}{\draw[black!45,line width=0.5pt] (152,{\Y{20*\m}})--(1015,{\Y{20*\m}});}
+\end{scope}
+\draw (152,49) rectangle (1015,703);
+% bars
+\foreach \k/\h in {0/190,1/142,2/97,3/30,4/24,5/16}{
+  \draw[shade dots] ({222+143.6*\k-59},703) rectangle ({222+143.6*\k+59},{\Y{\h}});}
+% cumulative percentage
+\draw (222,{703-6.54*38.08}) -- (365.6,{703-6.54*66.53}) -- (509.2,{703-6.54*85.97}) -- (652.8,{703-6.54*91.98}) -- (796.4,{703-6.54*96.79}) -- (940,{703-6.54*100});
+\foreach \x/\p in {222/38.08,365.6/66.53,509.2/85.97,652.8/91.98,796.4/96.79,940/100}{\fill (\x,{703-6.54*\p}) circle (4);}
+% axes labels
+\foreach \v in {0,20,...,200}{\draw (146,{\Y{\v}})--(152,{\Y{\v}}); \node[anchor=east,font=\small] at (142,{\Y{\v}}) {$\v$};}
+\foreach \p in {0,10,...,100}{\draw (1015,{703-6.54*\p})--(1021,{703-6.54*\p}); \node[anchor=west,font=\small] at (1020,{703-6.54*\p}) {$\p\%$};}
+\node[rotate=90,font=\small] at (68,375) {Number of late arrivals};
+\node[rotate=90,font=\small] at (1108,375) {Cumulative\ \ percentage};
+\foreach \k/\t in {0/Slept in,1/Family,2/Appointment,3/Train or\\bus delay,4/Traffic\\problems,5/Car break\\down}{
+  \node[anchor=north,align=center,font=\small,inner sep=0pt] at ({222+143.6*\k},720) {\t};}
+\node[font=\small] at (585,822) {Reasons for arriving late};
+\end{tikzpicture}
+\end{document}

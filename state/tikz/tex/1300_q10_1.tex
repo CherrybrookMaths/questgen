@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (55,250) -- (1040,250);
+  \draw (55,412) -- (55,62);
+  \foreach \k in {1,...,8} \draw ({55+121.875*\k},246) -- ({55+121.875*\k},254);
+  \draw (51,95) -- (59,95);
+  \draw (51,405) -- (59,405);
+  \draw[line width=0.9pt] plot[smooth,domain=0:6.28319,samples=120] ({55+487.5*\x/pi},{250-155*cos(2*\x r)});
+  \node[font=\large] at (73,45) {$y$};
+  \node[font=\large] at (1052,235) {$x$};
+  \node[font=\small,anchor=east] at (47,95) {$1$};
+  \node[font=\small,anchor=east] at (47,405) {$-1$};
+  \node[font=\small] at (542,273) {$\pi$};
+  \node[font=\small] at (1022,273) {$2\pi$};
+  \node[font=\small] at (897,122) {$y=\cos 2x$};
+\end{tikzpicture}
+\end{document}

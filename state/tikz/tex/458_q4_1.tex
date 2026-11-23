@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\normalsize]
+  % asymptotes x = -pi/2, pi/2 (135 px per pi/4, origin at 471)
+  \draw[aux] (201,36)--(201,542);
+  \draw[aux] (741,36)--(741,542);
+  % axes
+  \draw[->] (5,290)--(832,290);
+  \draw[->] (471,542)--(471,28);
+  % ticks
+  \draw (336,285)--(336,295);
+  \draw (606,285)--(606,295);
+  % y = tan(2(x - pi/4)); branch between L and L+270: x = L+135+1.5*atan(v), y = 290-24 v ; v = V sinh(3u)/sinh(3)
+  \draw[line width=0.9pt,smooth,samples=90,variable=\u,domain=0:1] plot ({-69+135+1.5*atan(10.4*sinh(3*\u)/10.0179)},{290-249.6*sinh(3*\u)/10.0179});
+  \draw[line width=0.9pt,smooth,samples=90,variable=\u,domain=-1:1] plot ({201+135+1.5*atan(10.4*sinh(3*\u)/10.0179)},{290-249.6*sinh(3*\u)/10.0179});
+  \draw[line width=0.9pt,smooth,samples=90,variable=\u,domain=-1:1] plot ({471+135+1.5*atan(10.4*sinh(3*\u)/10.0179)},{290-249.6*sinh(3*\u)/10.0179});
+  \node[open pt,inner sep=1.4pt] at (66,290) {};
+  % labels
+  \node at (466,14) {$y$};
+  \node at (846,290) {$x$};
+  \node at (454,312) {$O$};
+  \node at (44,333) {$-\dfrac{3\pi}{4}$};
+  \node at (174,333) {$-\dfrac{\pi}{2}$};
+  \node at (334,333) {$-\dfrac{\pi}{4}$};
+  \node at (606,333) {$\dfrac{\pi}{4}$};
+  \node at (760,333) {$\dfrac{\pi}{2}$};
+\end{tikzpicture}
+\end{document}

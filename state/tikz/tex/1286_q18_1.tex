@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (T) at (537,57); \coordinate (U) at (145,253); \coordinate (V) at (537,253);
+  \coordinate (B) at (145,450); \coordinate (C) at (537,450); \coordinate (D) at (46,646);
+  \fill[shade] (B) -- (D) -- (C) -- cycle;
+  \draw[aux] (38,253) -- (V);
+  \draw[aux] (38,450) -- (B);
+  \draw (B) -- (C) -- (D) -- cycle;
+  \draw (U) -- (T) -- (C);
+  \draw (U) -- (B);
+  \draw (D) -- (U); \draw (D) -- (T);
+  % right angles
+  \draw (537,236) -- (520,236) -- (520,253);
+  \draw (537,433) -- (520,433) -- (520,450);
+  \draw (537,433) -- (521.2,439.3) -- (521.2,456.3);
+  \draw (145,436) -- (138.7,448.5) -- (138.7,462.5);
+  % angles
+  \draw[->] ($(D)+(-63.2:125)$) arc[start angle=-63.2,end angle=-75.9,radius=125];
+  \draw[->] ($(D)+(-21.8:97)$) arc[start angle=-21.8,end angle=-50.2,radius=97];
+  \node at (100,500) {$66^\circ$};
+  \node at (162,578) {$57^\circ$};
+  % 880 m
+  \draw[<-] (45,253) -- (45,336);
+  \draw[->] (45,374) -- (45,450);
+  \node at (46,355) {$880\,\mathrm{m}$};
+  % 1044 m
+  \draw (605,57) -- (630,57); \draw (605,450) -- (630,450);
+  \draw[<-] (617,57) -- (617,196);
+  \draw[->] (617,312) -- (617,450);
+  \node[rotate=-90] at (617,254) {$1\,044\,\mathrm{m}$};
+  % labels
+  \node at (537,33) {$T$}; \node at (120,234) {$U$}; \node at (563,255) {$V$};
+  \node at (167,432) {$B$}; \node at (563,452) {$C$}; \node at (46,672) {$D$};
+  \node at (633,598) {(NOT TO SCALE)};
+\end{tikzpicture}
+\end{document}

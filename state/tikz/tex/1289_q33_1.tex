@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \path[fill=black!30] (306,146) -- (575,270) -- plot[domain=0:-2, samples=60, smooth] ({306+269*exp(\x)},{270-124*\x}) -- (306,518) -- cycle;
+  \draw[->] (38,270) -- (737,270);
+  \draw[->] (306,656) -- (306,60);
+  \node[anchor=west] at (738,270) {$x$};
+  \node[anchor=south] at (300,58) {$y$};
+  \foreach \v/\l in {1/1,-1/-1,-2/-2,-3/-3} {\draw (299,{270-124*\v}) -- (313,{270-124*\v}); \node[anchor=east] at (295,{270-124*\v}) {$\l$};}
+  \draw (575,260) -- (575,280);
+  \node[anchor=north] at (575,284) {$1$};
+  \draw[line width=0.9pt, <->] plot[domain=-0.69:1.61, samples=2] ({306+269*\x},{270-124*(1-\x)});
+  \draw[line width=0.9pt, <->] plot[domain=-3.18:0.476, samples=90, smooth] ({306+269*exp(\x)},{270-124*\x});
+  \node at (95,148) {$x+y-1=0$};
+  \node at (690,168) {$y=\ln x$};
+\end{tikzpicture}
+\end{document}

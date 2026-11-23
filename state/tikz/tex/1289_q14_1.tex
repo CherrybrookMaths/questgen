@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% origin (123,488); 20000 in x = 132.6 px; 10000 in y = 26.67 px
+\foreach \k in {1,...,16} \draw[black!12] (123,{488-26.67*\k}) -- (786,{488-26.67*\k});
+\foreach \k in {5,10,15} \draw[black!25] (123,{488-26.67*\k}) -- (786,{488-26.67*\k});
+\foreach \k in {1,...,5} \draw[black!25] ({123+132.6*\k},488) -- ({123+132.6*\k},61);
+\draw[->] (123,488) -- (808,488);
+\draw[->] (123,488) -- (123,42);
+\foreach \k in {1,...,32} \draw (119,{488-13.33*\k}) -- (127,{488-13.33*\k});
+\foreach \k in {5,10,15} \draw (115,{488-26.67*\k}) -- (131,{488-26.67*\k});
+\foreach \k in {1,...,5} \draw ({123+132.6*\k},482) -- ({123+132.6*\k},494);
+\foreach \k/\l in {1/20000,2/40000,3/60000,4/80000,5/100000} \node at ({123+132.6*\k},521) {$\l$};
+\foreach \k/\l in {5/50000,10/100000,15/150000} \node[anchor=east] at (113,{488-26.67*\k}) {$\l$};
+\node at (818,490) {$x$};
+\node at (121,20) {$y$};
+\draw[line width=0.9pt] (123,488) -- (786,61.3);
+\fill (123,488) circle (6); \fill (786,61.3) circle (6);
+\node at (598,105) {$R=1.6x$};
+\end{tikzpicture}
+\end{document}

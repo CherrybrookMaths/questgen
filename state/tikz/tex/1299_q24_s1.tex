@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{5.5}{7}\selectfont]
+% axes
+\draw[<->] (8,268)--(902,268) node[right] {$x$};
+\draw[<->] (456,510)--(456,24) node[above] {$y$};
+\foreach \t in {-7,...,-1,1,2,...,7} \draw (456+62.4*\t,265)--(456+62.4*\t,271);
+\foreach \v in {-24,-22,...,-2,2,4,...,24} \draw (453,268-9.95*\v)--(459,268-9.95*\v);
+\foreach \t in {-6,-4,-2,2,4,6} \node[below] at (456+62.4*\t,274) {$\t$};
+\foreach \v in {-20,-10,10,20} \node[left] at (450,268-9.95*\v) {$\v$};
+% curve
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-3.03:5.4] ({456+62.4*\x},{268-9.95*(\x*\x*\x-3*\x*\x-9*\x+4)});
+% points
+\node[pt,inner sep=0.9pt] (M) at (456-62.4,268-9.95*9) {};
+\node[pt,inner sep=0.9pt] (Y) at (456,268-9.95*4) {};
+\node[pt,inner sep=0.9pt] (I) at (456+62.4,268+9.95*7) {};
+\node[pt,inner sep=0.9pt] (N) at (456+62.4*3,268+9.95*23) {};
+\node at (350,112) {Local Maximum};
+\node at (330,135) {$(-1,9)$};
+\draw (372,150)--(M);
+\node at (535,188) {$y$ Intercept};
+\node at (527,212) {$(0,4)$};
+\draw (502,214)--(Y);
+\node at (602,312) {Point of Inflection};
+\node at (575,334) {$(1,-7)$};
+\draw (550,335)--(I);
+\node at (643,405) {Local Minimum};
+\node at (640,428) {$(3,-23)$};
+\draw (643,442)--(N);
+\node at (695,150) {$y=x^3-3x^2-9x+4$};
+\end{tikzpicture}
+\end{document}

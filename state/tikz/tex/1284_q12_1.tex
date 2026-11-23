@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{7}{8.4}\selectfont]
+\foreach \a/\b/\h in {115/197/24,197/280/40,280/363/48,363/446/50}
+  \draw[fill=black!35] (\a,475) rectangle (\b,{475-8.4*\h});
+\foreach \v in {2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48}
+  \draw (72,{475-8.4*\v}) -- (78,{475-8.4*\v});
+\foreach \v in {10,20,30,40,50}{
+  \draw (69,{475-8.4*\v}) -- (81,{475-8.4*\v});
+  \node[anchor=east] at (66,{475-8.4*\v}) {\v};}
+\draw[->] (75,475) -- (75,38);
+\draw[->] (75,475) -- (497,475);
+\foreach \x/\l in {156/5,238/15,321/25,404/35}{
+  \node[diamond,fill,inner sep=0.9pt] at (\x,475) {};
+  \node[font=\fontsize{8}{9.6}\selectfont] at (\x,494) {\l};}
+\node[font=\fontsize{7.2}{8.6}\selectfont\bfseries] at (70,20) {Number of tips};
+\node[anchor=west,font=\fontsize{7.2}{8.6}\selectfont\bfseries] at (500,475) {Amount of tip \$};
+\end{tikzpicture}
+\end{document}
