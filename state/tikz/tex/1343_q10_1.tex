@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (18,152) -- (732,152);
+  \draw[->] (107,355) -- (107,12);
+  \node[anchor=east] at (97,22) {$v$};
+  \node[anchor=north west] at (722,156) {$t$};
+  \foreach \x in {183,285,466,636} \draw (\x,144) -- (\x,160);
+  \node[anchor=north] at (183,162) {$1$};
+  \node[anchor=north east] at (281,158) {$2$};
+  \node[anchor=north] at (466,162) {$4$};
+  \node[anchor=north west] at (640,158) {$6$};
+  \draw[line width=0.9pt]
+    plot[smooth,samples=20,domain=107:183] (\x,{152-90*sin(90*(\x-107)/76)})
+    -- plot[smooth,samples=20,domain=183:285] (\x,{152-90*cos(90*(\x-183)/102)})
+    -- plot[smooth,samples=30,domain=285:466] (\x,{152+171*sin(90*(\x-285)/181)})
+    -- plot[smooth,samples=30,domain=466:636] (\x,{152+171*cos(90*(\x-466)/170)});
+\end{tikzpicture}
+\end{document}

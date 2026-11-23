@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (5,248) -- (515,248);
+\draw[->] (300,440) -- (300,25);
+\node[anchor=west] at (517,250) {$x$};
+\node[anchor=south] at (300,23) {$y$};
+\draw[line width=0.9pt,<->,domain=-2.2:2.24,samples=90,smooth,variable=\u] plot ({361+61*\u},{239-45.5*(\u^3-3*\u)});
+\fill (300,148) circle (4.5) (422,330) circle (4.5);
+\node[anchor=south east] at (297,146) {$3$};
+\node[anchor=north] at (424,339) {$(3,-2)$};
+\end{tikzpicture}
+\end{document}

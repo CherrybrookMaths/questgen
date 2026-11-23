@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (570,431);
+\draw[->] (0,372) -- (355,372) node[right]{\Large$x$};
+\draw[->] (128,385) -- (128,40) node[right]{\Large$y$};
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:180] ({128+103*cos(\x)},{312-190*sin(\x)});
+\node[pt] at (25,312) {};
+\node[pt] at (231,312) {};
+\draw (25,366) -- (25,378);
+\draw (231,366) -- (231,378);
+\draw (122,312) -- (134,312);
+\node at (25,400) {\Large$-1$};
+\node at (231,400) {\Large$1$};
+\node[anchor=west] at (138,316) {\Large$1$};
+\node at (146,104) {\Large$3$};
+\node[anchor=west] at (245,195) {\Large$y=f(2x)+1$};
+\end{tikzpicture}
+\end{document}

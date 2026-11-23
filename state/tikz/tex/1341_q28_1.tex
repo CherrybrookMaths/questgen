@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\ox{307}\def\oy{275}\def\sx{95.5}\def\sy{15.42}
+  \fill[shade] plot[domain=-2:4, samples=90, smooth] ({\ox+\sx*\x},{\oy-\sy*(-2*\x*\x+6*\x+11)}) -- ({\ox-2*\sx},{\oy+9*\sy}) -- cycle;
+  \draw[->] (5,\oy) -- (800,\oy) node[right] {$x$};
+  \draw[->] (\ox,443) -- (\ox,30) node[above, inner sep=1pt] {$y$};
+  \draw[line width=0.9pt, <->] plot[domain=-2.12:5.13, samples=90, smooth] ({\ox+\sx*\x},{\oy-\sy*(-2*\x*\x+6*\x+11)});
+  \draw[line width=0.9pt, <->] ({\ox-2.95*\sx},{\oy-\sy*(2*-2.95-5)}) -- ({\ox+5.18*\sx},{\oy-\sy*(2*5.18-5)});
+  \fill ({\ox-2*\sx},{\oy+9*\sy}) circle (3.5);
+  \fill ({\ox+4*\sx},{\oy-3*\sy}) circle (3.5);
+  \node at (103,400) {$A$};
+  \node at (697,210) {$B$};
+\end{tikzpicture}
+\end{document}

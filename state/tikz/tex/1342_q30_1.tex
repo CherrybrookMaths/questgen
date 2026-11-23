@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.778cm,y=1.486cm]
+  \fill[shade] (0,1) -- (0,5) -- (3,2) -- plot[smooth,samples=30,domain=2:1,variable=\t] ({-\t*\t+6*\t-5},\t) -- cycle;
+  \draw[->] (-1.86,0) -- (6.0,0);
+  \draw[->] (0,-1.1) -- (0,6.0);
+  \node at (-0.33,5.95) {$y$};
+  \node at (5.86,-0.45) {$x$};
+  \foreach \x in {-1,1,2,...,6} {\draw (\x,-0.05) -- (\x,0.05); \node[anchor=north,font=\footnotesize] at (\x,-0.06) {$\x$};}
+  \node[anchor=north east,font=\footnotesize] at (-0.02,-0.06) {$0$};
+  \foreach \y in {-1,1,2,...,6} {\draw (-0.05,\y) -- (0.05,\y); \node[anchor=east,font=\footnotesize] at (-0.06,\y) {$\y$};}
+  \draw[line width=0.9pt] (0,1) -- (0,5);
+  \draw[line width=0.9pt] plot[smooth,samples=90,domain=0.58:5.42,variable=\t] ({-\t*\t+6*\t-5},\t);
+  \draw[line width=0.9pt] (-1.26,6.26) -- (6,-1);
+  \foreach \p in {(0,1),(0,5),(3,2)} \node[pt,inner sep=1.5pt] at \p {};
+  \node[font=\small] at (0.15,5.17) {$B$};
+  \node[font=\small] at (-0.12,0.77) {$A$};
+  \node[font=\small] at (2.99,1.78) {$C$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (93,211) -- (708,211);
+\draw[->] (255,388) -- (255,14);
+\foreach \i in {-1,1,2,3} \draw ({255+117*\i},207) -- ({255+117*\i},215);
+\foreach \j in {-1,1} \draw (251,{211-117*\j}) -- (259,{211-117*\j});
+\draw[line width=0.9pt] plot[smooth, domain=-1.37:3.82, samples=90] ({255+117*\x},{211-117*sin(deg(2*pi*\x/3))});
+\node[font=\small] at (684,195) {$x$};
+\node[font=\small] at (267,29) {$y$};
+\node[font=\scriptsize] at (140,224) {$-1$};
+\node[font=\scriptsize] at (265,224) {$0$};
+\node[font=\scriptsize] at (372,224) {$1$};
+\node[font=\scriptsize] at (489,224) {$2$};
+\node[font=\scriptsize,anchor=north west,inner sep=1pt] at (607,214) {$3$};
+\node[font=\scriptsize] at (242,200) {$0$};
+\node[font=\scriptsize] at (243,93) {$1$};
+\node[font=\scriptsize] at (239,327) {$-1$};
+\end{tikzpicture}
+\end{document}

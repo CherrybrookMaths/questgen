@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{6.5}{8}\selectfont]
+  \def\ox{130}\def\oy{178}\def\px{99}\def\uy{45}
+  \draw[<->] (5,\oy) -- (550,\oy);
+  \draw[<->] (\ox,330) -- (\ox,30);
+  \node[anchor=west, font=\fontsize{7.5}{9}\selectfont] at (549,\oy) {$x$};
+  \node[anchor=south, font=\fontsize{7.5}{9}\selectfont] at (\ox-4,24) {$y$};
+  \foreach \k in {-4,...,16} {\ifnum\k=0\else \draw ({\ox+\px*\k/4},{\oy-5}) -- ({\ox+\px*\k/4},{\oy+5});\fi}
+  \foreach \k in {-6,...,6} {\ifnum\k=0\else \draw ({\ox-5},{\oy-\uy*\k/2}) -- ({\ox+5},{\oy-\uy*\k/2});\fi}
+  \foreach \v/\l in {-1/$-\pi$,1/$\pi$,2/$2\pi$,3/$3\pi$,4/$4\pi$} \node[anchor=north] at ({\ox+\px*\v+3},{\oy+9}) {\l};
+  \foreach \v/\l in {3/$3$,2/$2$,1/$1$,-1/$-1$,-2/$-2$,-3/$-3$} \node[anchor=east] at ({\ox-7},{\oy-\uy*\v}) {\l};
+  \draw[<->, line width=0.9pt, domain=-1.23:4.23, samples=90, smooth, variable=\t] plot ({\ox+\px*\t},{\oy-\uy*(2+sin(\t*180))});
+\end{tikzpicture}
+\end{document}

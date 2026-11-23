@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[rounded corners=0.45cm] (8,8) rectangle (172,250);
+\draw[rounded corners=0.45cm] (296,8) rectangle (458,250);
+\node at (90,50) {$2$}; \node at (90,130) {$3$}; \node at (93,213) {$4$};
+\foreach \n/\y in {1/37,2/82,3/130,4/173,5/220} \node at (378,\y) {$\n$};
+\draw[->] (113,47) -- (356,37);
+\draw[->] (113,47) -- (356,78);
+\draw[->] (116,129) -- (356,129);
+\draw[->] (116,211) -- (356,174);
+\draw[->] (116,211) -- (356,218);
+\end{tikzpicture}
+\end{document}

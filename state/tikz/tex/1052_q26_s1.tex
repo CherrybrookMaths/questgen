@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (85,368); 20.64 px per hour, 27.3 px per metre
+  \def\S{27.3}
+  \draw[->] (85,368) -- (628,368) node[right] {$t$};
+  \draw[->] (85,368) -- (85,48) node[above] {$D$};
+  \foreach \k in {1,...,8} \draw ({85+\k*3.125*20.64},361) -- ({85+\k*3.125*20.64},375);
+  \foreach \v in {1,...,10} \draw (79,{368-\v*\S}) -- (91,{368-\v*\S});
+  \foreach \v in {0,2,...,10} \node[anchor=east] at (70,{368-\v*\S}) {$\v$};
+  \draw[aux] (85,{368-8*\S}) -- ({85+24*20.64},{368-8*\S});
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=0:24] ({85+20.64*\x},{368-\S*(8+2*cos(deg(4*pi*\x/25)))});
+  \node at ({85+6.25*20.64},420) {6:15 am};
+  \node at ({85+12.5*20.64},420) {12:30 pm};
+  \node at ({85+18.75*20.64},420) {6:45 pm};
+  \node at ({85+25*20.64},408) {$25$};
+\end{tikzpicture}
+\end{document}

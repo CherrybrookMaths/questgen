@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+\draw[<->] (-225,0) -- (230,0);
+\draw[<->] (0,-172) -- (0,175);
+\draw[aux] (54,0) -- (54,-65);
+\draw[aux] (-54,0) -- (-54,-65);
+\draw[line width=0.9pt] (-205,95) .. controls (-185,65) and (-158,27) .. (-140,0)
+  .. controls (-115,-38) and (-80,-65) .. (-54,-65) .. controls (-32,-65) and (-20,0) .. (0,0)
+  .. controls (20,0) and (32,-65) .. (54,-65) .. controls (80,-65) and (115,-38) .. (140,0)
+  .. controls (158,27) and (185,65) .. (205,95);
+\node[font=\large] at (234,-24) {$x$};
+\node[font=\large] at (-20,165) {$y$};
+\node[anchor=north east,inner sep=1pt] at (-143,-6) {$-5$};
+\node[anchor=north east,inner sep=1pt] at (-59,-5) {$-2$};
+\node[anchor=north west,inner sep=1pt] at (59,-5) {$2$};
+\node[anchor=north west,inner sep=1pt] at (143,-6) {$5$};
+\end{tikzpicture}
+\end{document}

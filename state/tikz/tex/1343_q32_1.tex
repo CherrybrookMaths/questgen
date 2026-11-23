@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \v in {10,20,...,140} \draw[black!35,line width=0.4pt] (109.6,{545-3.35*\v}) -- (930,{545-3.35*\v});
+  \foreach \t in {0.5,1,...,4} \draw[black!35,line width=0.4pt] ({109.6+205.2*\t},545) -- ({109.6+205.2*\t},{545-3.35*140});
+  \draw[->] (109.6,545) -- (985,545);
+  \draw[->] (109.6,545) -- (109.6,22);
+  \foreach \v in {10,30,...,130} \draw (102,{545-3.35*\v}) -- (109.6,{545-3.35*\v});
+  \foreach \v in {20,40,...,140} {\draw (102,{545-3.35*\v}) -- (109.6,{545-3.35*\v});
+    \node[anchor=east] at (97,{545-3.35*\v}) {$\v$};}
+  \foreach \t in {0.5,1,1.5,2,2.5,3,3.5,4} \node at ({109.6+205.2*\t},567) {$\t$};
+  \draw[line width=0.9pt] plot[smooth,domain=0:4,samples=200] ({109.6+205.2*\x},{545-3.35*(35*cos(420*\x)+85)});
+  \node at (78,20) {$V$};
+  \node at (992,565) {$t$};
+\end{tikzpicture}
+\end{document}

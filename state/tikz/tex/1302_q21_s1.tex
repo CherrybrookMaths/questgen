@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\footnotesize]
+  % X = 273 + 85.2 x ; Y = 448 - 41.1 y
+  \draw[->] (6,448) -- (542,448);
+  \draw[->] (273,502) -- (273,28);
+  \foreach \k in {-3,-2,-1,1,2,3} \draw ({273+85.2*\k},442) -- ({273+85.2*\k},454);
+  \foreach \k in {1,...,10} \draw (267,{448-41.1*\k}) -- (279,{448-41.1*\k});
+  \foreach \k in {-2,-1,1,2,3} \node[anchor=north] at ({273+85.2*\k},458) {$\k$};
+  \node[anchor=north east] at (9,456) {$-3$};
+  \foreach \k in {2,6,8,10} \node[anchor=east] at (267,{448-41.1*\k}) {$\k$};
+  \node[anchor=west] at (283,{448-41.1*4}) {$4$};
+  \node[anchor=west] at (544,448) {$x$};
+  \node[anchor=south] at (273,26) {$y$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=-3.08:2.37] plot ({273+85.2*\x}, {448-41.1*(\x+3)*(\x-1)^2});
+  \node[pt] at (17.4,448) {};
+  \node[pt] at (358.2,448) {};
+  \node[pt] at (273,324.7) {};
+  \node[pt] (M) at (131,58.4) {};
+  \node[pt] (I) at (244.6,253.2) {};
+  \node[anchor=south west, font=\scriptsize] at (24,434) {$(-3,0)$};
+  \node[anchor=south, font=\scriptsize] at (358,433) {$(1,0)$};
+  \node[anchor=south, font=\scriptsize] at (131,50) {$\left(-\dfrac{5}{3},\dfrac{256}{27}\right)$};
+  \node[anchor=north east, font=\scriptsize] at (238,256) {$\left(-\dfrac{1}{3},\dfrac{128}{27}\right)$};
+  \node[anchor=west] at (452,270) {$y=(x+3)(x-1)^2$};
+\end{tikzpicture}
+\end{document}

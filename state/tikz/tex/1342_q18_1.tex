@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (157,283) -- (1105,283);
+\draw[->] (157,532) -- (157,40);
+\foreach \v in {4,3,2,1,0} \node[font=\large,anchor=east,inner sep=1pt] at (146,{283-50*\v}) {$\v$};
+\foreach \v in {1,...,5} \node[font=\large,anchor=east,inner sep=1pt] at (146,{283+50*\v}) {$-\v$};
+\foreach \t in {1,...,8} \node[font=\large] at ({157+111*\t},327) {$\t$};
+\draw[line width=0.9pt] (157,533) -- (379,283) -- (490,83) -- (1045,283);
+\fill (490,83) circle[radius=1.6pt];
+\node at (498,60) {$(3,4)$};
+\node[font=\large,anchor=west] at (1108,285) {$t$ (s)};
+\node[font=\large] at (100,18) {$V$ (m/s)};
+\end{tikzpicture}
+\end{document}

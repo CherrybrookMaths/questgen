@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade hatch] (296,500) -- plot[smooth,samples=40,domain=-1.535:1.535] ({448+99*\x},{500-450*exp(-\x*\x/2)}) -- (600,500) -- cycle;
+\draw[<->] (10,500) -- (885,500);
+\draw[->] (448,500) -- (448,8);
+\draw (296,500) -- (296,{500-450*exp(-1.535*1.535/2)});
+\draw (600,500) -- (600,{500-450*exp(-1.535*1.535/2)});
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=-4.35:4.35] ({448+99*\x},{500-450*exp(-\x*\x/2)});
+\node[font=\large] at (290,535) {$-z$};
+\node[font=\large] at (448,537) {$0$};
+\node[font=\large] at (598,535) {$z$};
+\end{tikzpicture}
+\end{document}

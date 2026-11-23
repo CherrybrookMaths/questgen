@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade dots, stipple color=black!35] plot[domain=-2:6, samples=90, smooth] ({290+46*\x},{600-29*(12+4*\x-\x*\x)}) -- cycle;
+\draw[->] (15,600) -- (792,600);
+\draw[->] (290,665) -- (290,40);
+\foreach \v in {-4,-2,2,4,6,8,10} \draw ({290+46*\v},592) -- ({290+46*\v},608);
+\foreach \v in {2,4,...,18} \draw (282,{600-29*\v}) -- (298,{600-29*\v});
+\draw[line width=0.9pt, smooth, samples=90, domain=-2.25:6.25] plot ({290+46*\x},{600-29*(12+4*\x-\x*\x)});
+\foreach \v in {-4,2,4,8,10} \node[anchor=north] at ({290+46*\v},612) {$\v$};
+\node[anchor=north west, inner sep=1pt] at (203,613) {$-2$};
+\node[anchor=north east, inner sep=1pt] at (560,613) {$6$};
+\foreach \v in {2,4,6,12,14,16,18} \node[anchor=east] at (278,{600-29*\v}) {$\v$};
+\foreach \v in {8,10} \node[anchor=west] at (301,{600-29*\v}) {\halo{$\v$}};
+\node[anchor=south] at (290,38) {$y$};
+\node[anchor=west] at (798,600) {$x$};
+\end{tikzpicture}
+\end{document}

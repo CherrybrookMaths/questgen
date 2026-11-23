@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(290,302)},xscale=23.5,yscale=-23.5]
+\draw[black!15,line width=0.3pt] (-10.75,-9.9) grid (10.85,10.0);
+\draw[black!35,line width=0.4pt] (-10.75,-9.9) grid[step=5] (10.85,10.0);
+\draw[black!35,line width=0.4pt] (-10.75,-9.9) rectangle (10.85,10.0);
+\draw[->] (-12.3,0) -- (11.6,0) node[right]{$x$};
+\draw[->] (0,-10.7) -- (0,11.1) node[above]{$y$};
+\draw (1,0.18)--(1,-0.18);
+\draw[line width=0.9pt,<->,smooth,samples=90,domain=-1.05:3.22] plot (\x,{6*\x*\x-2*\x*\x*\x});
+\node[pt] at (0,0) {};
+\node[pt] at (1,4) {};
+\node[pt] at (2,8) {};
+\node[below left] at (0,0) {$0$};
+\node[below] at (1,-0.15) {$1$};
+\node[right] at (1.2,3.9) {$(1,4)$};
+\node[above] at (2,8.2) {$(2,8)$};
+\node[right] at (3.4,-4.4) {$y=f(x)$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

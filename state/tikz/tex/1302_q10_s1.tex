@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\draw[<->] (5,267) -- (472,267);
+\node[anchor=west] at (474,268) {$x$};
+\draw[->] (240,267) -- (240,22);
+\node at (240,12) {$y$};
+\foreach \v in {-4,-3,-2,-1,1,2,3,4}{
+  \draw ({240+55.6*\v},263) -- ({240+55.6*\v},271);
+  \node[anchor=north] at ({240+55.6*\v},274) {$\v$};}
+\foreach \v in {1,2,3,4}{
+  \draw (236,{267-55.6*\v}) -- (244,{267-55.6*\v});
+  \node[anchor=east] at (226,{267-55.6*\v}) {$\v$};}
+\draw[line width=0.9pt,line cap=round,dash pattern=on 0pt off 2.2pt,smooth,samples=90,domain=-3.8:1.42,variable=\t]
+  plot ({240+55.6*\t},{267-55.6*exp(\t)});
+\draw[aux,smooth,samples=40,domain=-1.42:0,variable=\t] plot ({240+55.6*\t},{267-55.6*exp(-\t)});
+\draw[aux,smooth,samples=40,domain=0:1.42,variable=\t] plot ({240+55.6*\t},{267-55.6*exp(\t)});
+\draw[line width=0.9pt,smooth,samples=45,domain=-1.65:0,variable=\t] plot ({240+55.6*\t},{267-55.6*(exp(-\t)-1)});
+\draw[line width=0.9pt,smooth,samples=45,domain=0:1.65,variable=\t] plot ({240+55.6*\t},{267-55.6*(exp(\t)-1)});
+\node at (166,17) {$y=e^{|x|}$};
+\node at (100,238) {$y=e^{x}$};
+\node at (352,212) {$y=e^{|x|}-1$};
+\end{tikzpicture}
+\end{document}

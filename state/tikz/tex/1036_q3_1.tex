@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{83}\def\oy{215}\def\ux{49.7}\def\uy{49.2}
+\begin{scope}
+\clip (0,0) rectangle (635,575);
+\foreach \i in {-3,...,22} \draw[black!12,line width=0.4pt] ({\ox+\i*\ux/2},0) -- ({\ox+\i*\ux/2},575);
+\foreach \j in {-9,...,15} \draw[black!12,line width=0.4pt] (0,{\oy+\j*\uy/2}) -- (635,{\oy+\j*\uy/2});
+\foreach \i in {2,4,...,10} \draw[black!30,line width=0.5pt] ({\ox+\i*\ux},0) -- ({\ox+\i*\ux},575);
+\foreach \j in {-4,-2,2,4,6} \draw[black!30,line width=0.5pt] (0,{\oy+\j*\uy}) -- (635,{\oy+\j*\uy});
+\end{scope}
+\draw (0,\oy) -- (635,\oy);
+\draw (\ox,0) -- (\ox,575);
+\draw[line width=0.9pt] plot[smooth, domain=-7.3:2.5, samples=90] ({\ox+\ux*(exp(\x)-1)},{\oy-\uy*\x});
+\foreach \i in {2,4,6,8,10} \node[font=\footnotesize] at ({\ox+\i*\ux},237) {$\i$};
+\node[font=\footnotesize,anchor=north west,inner sep=1pt] at (88,220) {$0$};
+\foreach \j in {4,2,-2,-4,-6} \node[font=\footnotesize,anchor=east,inner sep=1pt] at (77,{\oy-\j*\uy}) {$\j$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \ox/\nm/\pts in {65/M/{(10,6),(20.5,30.5),(25,12),(30,38),(32,35.5),(35,50),(40,59),(49,53),(56,61.5),(57.5,68),(59,59.5),(70,80.5),(73,77.5),(73,74),(77.5,69.5),(78,65.5),(78.5,92.5),(89.5,90),(91,81),(97.5,92.5)},
+                          730/N/{(10,75),(20.5,60),(25,70),(30,55),(32,80),(35,90),(40,30),(49,24),(56,30),(57.5,68),(59.5,90),(70,25),(73,55),(73,40),(77.5,20),(78,80),(78.5,50),(89.5,15),(91,40),(97.5,30)}} {
+\begin{scope}[shift={(\ox,455)}]
+\begin{scope}[x=0.06223cm, y=0.047244cm]
+  \foreach \v in {5,15,...,95} { \draw[black!15, line width=0.4pt] (\v,0) -- (\v,100); \draw[black!15, line width=0.4pt] (0,\v) -- (100,\v); }
+  \foreach \v in {10,20,...,90} { \draw[black!35, line width=0.4pt] (\v,0) -- (\v,100); \draw[black!35, line width=0.4pt] (0,\v) -- (100,\v); }
+  \draw (0,0) rectangle (100,100);
+  \foreach \v in {0,10,...,100} { \node[font=\footnotesize, anchor=north] at (\v,-4.5) {\v}; \node[font=\footnotesize, anchor=east] at (-2.5,\v) {\v}; }
+  \node[font=\footnotesize] at (0,106) {$y$};
+  \node[font=\footnotesize] at (104.5,0) {$x$};
+  \node at (50,114.5) {Data Set $\nm$};
+  \foreach \p in \pts { \node[circle, draw, fill=black!55, inner sep=0pt, minimum size=0.115cm, line width=0.6pt] at \p {}; }
+\end{scope}
+\end{scope}
+}
+\end{tikzpicture}
+\end{document}

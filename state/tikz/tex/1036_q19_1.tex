@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (0,557) -- (768,557);
+\draw[<->] (78,607) -- (78,4);
+\foreach \i in {1,...,5} {
+  \draw ({78+131.25*\i},552) -- ({78+131.25*\i},562);
+  \node[font=\scriptsize] at ({78+131.25*\i},573) {\pgfmathparse{int(5*\i)}\pgfmathresult};
+  \draw (72,{557-110*\i}) -- (84,{557-110*\i});
+  \node[font=\scriptsize,anchor=east] at (72,{557-110*\i}) {\pgfmathparse{int(5*\i)}\pgfmathresult};
+}
+\node[font=\scriptsize] at (66,573) {0};
+\node at (40,25) {$y$};
+\end{tikzpicture}
+\end{document}

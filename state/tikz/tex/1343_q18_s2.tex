@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.65cm, y=0.65cm, xmin=-5.8, xmax=6.8, ymin=-5.6, ymax=5.8,
+   xtick={-2,2}, ytick={-2}, xticklabels={}, yticklabels={}]
+  \draw[aux] (1,-5.4) -- (1,5.4);
+  \addplot[line width=0.9pt, <->, samples at={-5,0,6}] {abs(x)-2};
+  \addplot[line width=0.9pt, <->, smooth, domain=-5:0.4, samples=90] {3/(x-1)};
+  \addplot[line width=0.9pt, <->, smooth, domain=1.6:6.3, samples=90] {3/(x-1)};
+  \node[anchor=north east, font=\small] at (-2.1,-0.1) {$-2$};
+  \node[anchor=north west, font=\small] at (2.1,-0.1) {$2$};
+  \node[anchor=north west, font=\small] at (0.15,-2.05) {$-2$};
+  \node[anchor=north east, font=\small] at (-0.1,-0.1) {$O$};
+  \node[anchor=north, font=\small] at (1,-5.45) {$x=1$};
+  \fill ({(3+sqrt(13))/2},{(sqrt(13)-1)/2}) circle (2.2pt);
+  \node[anchor=south, font=\small] at (-5,3.15) {$y=|x|-2$};
+  \node[anchor=west, font=\small] at (1.8,4.8) {$y=\dfrac{3}{x-1}$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

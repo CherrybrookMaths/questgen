@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+  % grid
+  \foreach \v in {1,...,25} \draw[black!40,line width=0.4pt] (97,{666-24.12*\v}) -- (1035,{666-24.12*\v});
+  % bars
+  \draw[fill=black!25] (136,666) rectangle (293,{666-24.12*22});
+  \draw[fill=black!25] (372,666) rectangle (529,{666-24.12*18});
+  \draw[fill=black!25] (607,666) rectangle (764,{666-24.12*8});
+  % frame
+  \draw (97,63) -- (97,666) -- (1035,666) -- (1035,63);
+  % left ticks
+  \foreach \v in {0,5,...,25} {\draw (89,{666-24.12*\v}) -- (97,{666-24.12*\v});
+    \node[anchor=east] at (84,{666-24.12*\v}) {\v};}
+  \foreach \v in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19,21,22,23,24} \draw (92,{666-24.12*\v}) -- (97,{666-24.12*\v});
+  % right ticks
+  \foreach \p in {0,10,...,100} {\draw (1035,{666-6.03*\p}) -- (1043,{666-6.03*\p});
+    \node[anchor=west] at (1046,{666-6.03*\p}) {\p\%};}
+  \foreach \p in {2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48,52,54,56,58,62,64,66,68,72,74,76,78,82,84,86,88,92,94,96,98}
+    \draw (1035,{666-6.03*\p}) -- (1040,{666-6.03*\p});
+  % cumulative line
+  \draw[line width=0.9pt] (215,{666-24.12*11}) -- (450,{666-24.12*20}) -- (686,{666-24.12*24}) -- (920,{666-24.12*25});
+  \foreach \x/\v in {215/11,450/20,686/24,920/25} \fill (\x,{666-24.12*\v}) circle (1.3pt);
+  % category labels
+  \foreach \x/\l in {215/Board Games,450/Chess,686/Ceramics,920/Bowling} \node at (\x,698) {\l};
+  \node[font=\small\bfseries] at (566,27) {Participation in Student Clubs};
+  \node[font=\small\bfseries,rotate=90] at (30,365) {Number of students};
+  \node[font=\small\bfseries] at (566,743) {Name of Club};
+\end{tikzpicture}
+\end{document}

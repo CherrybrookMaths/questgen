@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\tk{\fontsize{6.5}{7}\selectfont}
+% axes: x px = 315+45x, y px = 287-61.5y
+\draw[<->] (28,287) -- (608,287) node[right,font=\tk] {$x$};
+\draw[<->] (315,492) -- (315,20) node[above,font=\tk] {$y$};
+\foreach \k in {-6,-5,-4,-3,-2,-1,1,2,3,4,5,6} {\draw ({315+45*\k},281) -- ({315+45*\k},293);
+  \node[font=\tk,anchor=north] at ({315+45*\k+4},294) {$\k$};}
+\foreach \k in {-3,-2,-1,1,2,3,4} {\draw (309,{287-61.5*\k}) -- (321,{287-61.5*\k});
+  \node[font=\tk,anchor=east] at (307,{287-61.5*\k}) {$\k$};}
+% asymptote x=-3
+\draw[<->,dash pattern=on 3pt off 1.5pt on 0.6pt off 1.5pt] (180,492) -- (180,20);
+% y = ln(x+3) dashed
+\draw[line width=0.9pt,aux,<->] plot[smooth,samples=90,domain=-2.965:6.6] ({315+45*\x},{287-61.5*ln(\x+3)});
+% y = ln x dotted
+\draw[line width=0.9pt,dash pattern=on 0.9pt off 1.6pt,<->] plot[smooth,samples=90,domain=0.035:6.6] ({315+45*\x},{287-61.5*ln(\x)});
+% y = ln(x+3)-1 solid
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-2.905:6.6] ({315+45*\x},{287-61.5*(ln(\x+3)-1)});
+% translation arrows (red in the original)
+\draw[->,black!55] (345,320) -- (208,320);
+\draw[->,black!55] (568,146) -- (568,218);
+\node[font=\scriptsize] at (150,121) {$x=-3$};
+\node[font=\scriptsize] at (418,185) {$y=\ln(x+3)$};
+\node[font=\scriptsize] at (545,270) {$y=\ln(x+3)-1$};
+\node[font=\scriptsize] at (376,381) {$y=\ln x$};
+\node[font=\scriptsize,align=left,anchor=north west] at (2,346) {Translate 3 units\\to the left};
+\node[font=\scriptsize] at (745,220) {Translate 1 unit downward};
+\end{tikzpicture}
+\end{document}

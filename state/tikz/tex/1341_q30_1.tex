@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (20,322); \coordinate (D) at (413,322);
+\coordinate (B) at (125,114); \coordinate (C) at (512,115);
+\coordinate (E) at (218,18); \coordinate (F) at (366,18);
+\draw (A) -- (D) -- (C) -- (F) -- (E) -- (B) -- (A) -- (E);
+\draw (F) -- (D);
+\draw[dash pattern=on 4pt off 2pt] (B) -- (C);
+\draw[aux] (A) -- (C); \draw[aux] (B) -- (D);
+% 50 degree markings
+\draw (263,322) -- (275,283);
+\draw (277,305) -- (294,283);
+\draw[->] (296,368) -- (281,330);
+\draw (431,168) -- (465,210);
+\draw (431,210) -- (465,210);
+\draw[->] (497,197) -- (432,197);
+\node at (330,364) {$50^\circ$};
+\node at (522,197) {$50^\circ$};
+\node at (481,262) {7\,m};
+\node at (194,352) {10\,m};
+\node at (15,340) {$A$};
+\node at (430,340) {$D$};
+\node at (113,108) {$B$};
+\node at (526,115) {$C$};
+\node at (198,18) {$E$};
+\node at (382,18) {$F$};
+\end{tikzpicture}
+\end{document}

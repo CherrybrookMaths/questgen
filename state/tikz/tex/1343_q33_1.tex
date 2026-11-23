@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade] (160,473) -- (160,{473-88.7*4}) -- plot[smooth,domain=0:2,samples=40] ({160+90*\x},{473-88.7*(5-2^\x)})
+     -- plot[smooth,domain=1:0,samples=40] ({160+90*(3-\x*\x*\x)},{473-88.7*\x}) -- cycle;
+  \draw[->] (72,473) -- (525,473);
+  \draw[->] (160,560) -- (160,18);
+  \foreach \i in {1,2,3} {\draw ({160+90*\i},466) -- ({160+90*\i},480);}
+  \foreach \i in {1,2,3,4} {\draw (160,{473-88.7*\i}) -- (174,{473-88.7*\i});
+     \node[font=\large] at (137,{473-88.7*\i}) {$\i$};}
+  \node[font=\large] at (250,500) {$1$};
+  \node[font=\large] at (340,500) {$2$};
+  \node[font=\large] at (444,500) {$3$};
+  \draw[line width=0.9pt,<->] plot[smooth,domain=-1.56:2.62,samples=90] ({160+90*\x},{473-88.7*(5-2^\x)});
+  \draw[line width=0.9pt,<->] plot[smooth,domain=1.65:-1,samples=90] ({160+90*(3-\x*\x*\x)},{473-88.7*\x});
+  \fill (340,{473-88.7}) circle (4.5);
+  \node[font=\large] at (535,495) {$x$};
+  \node[font=\large] at (143,22) {$y$};
+\end{tikzpicture}
+\end{document}

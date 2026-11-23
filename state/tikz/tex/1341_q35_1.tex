@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (5,198) -- (507,198);
+\foreach \k in {-9,...,11} \draw (230+24*\k,192) -- (230+24*\k,204);
+\draw[line width=0.9pt] (254,198) arc[start angle=0,end angle=180,radius=24]
+  arc[start angle=180,end angle=360,radius=48]
+  arc[start angle=0,end angle=180,radius=96]
+  arc[start angle=180,end angle=360,radius=192];
+\draw[line width=0.9pt,->] (494,198) arc[start angle=0,end angle=29.8,radius=384];
+\end{tikzpicture}
+\end{document}

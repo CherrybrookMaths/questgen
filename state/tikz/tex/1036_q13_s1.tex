@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (918,515);
+\draw[->] (95,352) -- (775,352) node[right]{\Large$x$};
+\draw[->] (460,515) -- (460,35) node[right]{\Large$y$};
+\draw[aux] (75,87) -- (615,372);
+\draw[line width=0.9pt,<->] plot[smooth,tension=0.6] coordinates {(146,85) (158,135) (190,228) (230,305) (272,360) (318,383) (352,374) (378,352) (410,318) (440,296) (460,290) (482,288) (510,275) (535,245) (556,195) (570,145) (578,98)};
+\node[pt,inner sep=1.4pt] at (460,290) {};
+\node[pt,inner sep=1.2pt] at (318,383) {};
+\node[pt,inner sep=1.2pt] at (378,352) {};
+\node at (476,262) {\Large$1$};
+\node at (400,380) {\Large$-1$};
+\node at (285,448) {\large$\left(-\dfrac{3}{2},-\dfrac{11}{16}\right)$};
+\node[anchor=west] at (610,125) {\Large$y=f(x)$};
+\node[anchor=west] at (610,410) {\Large$y=-x+1$};
+\end{tikzpicture}
+\end{document}

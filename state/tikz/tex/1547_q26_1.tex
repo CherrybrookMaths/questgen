@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% x px = 443+132.5x, y px = 548-39.2y
+\foreach \i in {0,...,60} \draw[black!25,line width=0.3pt] ({45+13.25*\i},{548+39.2*10}) -- ({45+13.25*\i},{548-39.2*12});
+\foreach \j in {0,...,44} \draw[black!25,line width=0.3pt] (45,{940-19.6*\j}) -- (840,{940-19.6*\j});
+\draw[<->] (5,548) -- (875,548) node[right] {$x$};
+\draw[<->] (443,975) -- (443,40) node[above] {$y$};
+\foreach \i in {-30,...,30} {\ifnum\i=0\else\draw ({443+13.25*\i},541) -- ({443+13.25*\i},555);\fi}
+\foreach \k in {-3,-2,-1,1,2,3} \node[font=\small,anchor=north east] at ({443+132.5*\k+8},558) {$\k$};
+\foreach \k in {-10,...,-1,1,2,...,12} {\draw (435,{548-39.2*\k}) -- (451,{548-39.2*\k});
+  \node[font=\small,anchor=east] at (433,{548-39.2*\k}) {$\k$};}
+% graphs
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-3.07:3.07] ({443+132.5*\x},{548-39.2*(2*\x*\x-5.65685)});
+\draw[line width=0.9pt,<->] ({443+132.5*(-3.27)},{548-39.2*(3*(-3.27)+1.41421)}) -- ({443+132.5*3.3},{548-39.2*(3*3.3+1.41421)});
+\draw[line width=0.9pt,<->] ({443+132.5*(-3.2)},{548-39.2*(1.73205*3.2-1.41421)}) -- ({443+132.5*3.3},{548-39.2*(-1.73205*3.3-1.41421)});
+\node[rotate=-72.7] at (138,200) {$y=2x^2-4\sqrt{2}$};
+\node[rotate=41.6] at (632,275) {$y=3x+\sqrt{2}$};
+\node[rotate=-27.1] at (808,742) {$y=-\sqrt{3}\,x-\sqrt{2}$};
+\end{tikzpicture}
+\end{document}

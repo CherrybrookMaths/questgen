@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\small}]
+  \coordinate (A) at (33,298); \coordinate (B) at (309,298);
+  \coordinate (P) at (562,298); \coordinate (T) at (562,18);
+  \draw (A) -- (P) -- (T) -- cycle;
+  \draw (B) -- (T);
+  \draw (A) ++(100,0) arc[start angle=0, end angle={-atan(280/529)}, radius=100];
+  \draw (B) ++(93,0) arc[start angle=0, end angle={-atan(280/253)}, radius=93];
+  \node at (100,284) {$27^\circ$};
+  \node at (363,282) {$43^\circ$};
+  \node at (577,15) {$T$};
+  \node at (15,328) {$A$};
+  \node at (322,330) {$B$};
+  \node at (580,320) {$P$};
+  \node (m) at (160,327) {25 m};
+  \draw[->] (m.west) -- (45,327);
+  \draw[->] (m.east) -- (298,327);
+\end{tikzpicture}
+\end{document}

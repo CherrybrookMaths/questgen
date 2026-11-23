@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.1976cm,y=1.1976cm]
+  \draw[->] (-5.02,0) -- (5.06,0);
+  \draw[->] (0,-5.02) -- (0,5.09);
+  \draw[aux,->] (1,-5.02) -- (1,5.09);
+  \node[anchor=north] at (4.98,-0.12) {$x$};
+  \node[anchor=east] at (-0.1,5.02) {$y$};
+  \foreach \x in {-4,-3,-2,-1,1,2,3,4} \draw (\x,-0.08) -- (\x,0.08);
+  \foreach \y in {-4,-3,-2,-1,1,2,3,4} \draw (-0.08,\y) -- (0.08,\y);
+  \foreach \x in {-4,-3,-2,-1,2,3,4} \node[anchor=north] at (\x,-0.12) {$\x$};
+  \node[anchor=north east] at (0.95,-0.1) {$1$};
+  \foreach \y in {-4,-3,-1,1,2,3,4} \node[anchor=east] at (-0.1,\y) {$\y$};
+  \node[anchor=west] at (0.1,-2) {$-2$};
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=1.6:5.0] (\x,{3/(\x-1)});
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-5.02:0.405] (\x,{3/(\x-1)});
+\end{tikzpicture}
+\end{document}

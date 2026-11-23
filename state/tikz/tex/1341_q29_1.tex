@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw (179,189) circle (101);
+  \coordinate (P) at ($(179,189)+(205.8:101 and -101)$);
+  \coordinate (Q) at ($(179,189)+(88:101 and -101)$);
+  \draw ($(P)!-0.408!(Q)$) -- ($(Q)!-0.512!(P)$);
+  \fill (P) circle (3.5); \fill (Q) circle (3.5);
+  \node[font=\small] at (211,75) {$Q$};
+  \node[font=\small] at (86,264) {$P$};
+\end{tikzpicture}
+\end{document}

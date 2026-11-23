@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (15,435) -- (1145,435);
+\draw (148,700) -- (148,65);
+\draw (140,350) -- (156,350);
+\draw (140,520) -- (156,520);
+\draw (140,265) -- ({148+67.0*pi/3},265);
+\draw (140,605) -- ({148+67.0*pi},605) -- ({148+67.0*pi},435);
+\draw ({148+67.0*3*pi},435) -- ({148+67.0*3*pi},265);
+\draw[line width=0.9pt] plot[domain=0:4*pi,samples=120,smooth] ({148+67.0*\x},{435-85*2*sin(1.5*\x r)});
+\node[anchor=east,inner sep=1pt] at (134,265) {$2$};
+\node[anchor=east,inner sep=1pt] at (134,350) {$1$};
+\node[anchor=east,inner sep=1pt] at (134,520) {$-1$};
+\node[anchor=east,inner sep=1pt] at (134,605) {$-2$};
+\node at (116,468) {$O$};
+\node at (322,468) {$\pi$};
+\node at (545,468) {$2\pi$};
+\node at (768,468) {$3\pi$};
+\node at (1017,468) {$4\pi$};
+\node at (1128,480) {$x$};
+\node at (125,85) {$y$};
+\node at (1035,98) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

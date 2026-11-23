@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.1524cm,y=0.0708cm]
+  \foreach \i in {2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38} {\draw[black!22,line width=0.4pt] (\i,0)--(\i,40); \draw[black!22,line width=0.4pt] (0,\i)--(40,\i);}
+  \foreach \i in {10,20,30,40} {\draw[black!45,line width=0.4pt] (\i,0)--(\i,40); \draw[black!45,line width=0.4pt] (0,\i)--(40,\i);}
+  \draw[->] (0,0)--(43,0) node[right,inner sep=2pt,font=\scriptsize]{$N$};
+  \draw[->] (0,0)--(0,44) node[above,inner sep=2pt,font=\scriptsize]{$t$};
+  \foreach \i in {2,4,...,40} {\draw (\i,-0.7)--(\i,0.7); \draw (-0.33,\i)--(0.33,\i);}
+  \foreach \i in {10,20,30,40} {\node[font=\scriptsize] at (\i,-5.2) {$\i$}; \node[font=\scriptsize,anchor=east] at (-0.6,\i) {$\i$};}
+  \draw[line width=0.9pt,->] plot[smooth,domain=1:29.5,samples=90,variable=\n] ({\n},{13*ln(\n)});
+\end{tikzpicture}
+\end{document}

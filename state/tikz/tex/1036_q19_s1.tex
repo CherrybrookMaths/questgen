@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (709,530);
+\draw[->] (150,462) -- (690,462) node[above]{\Large$t$};
+\draw[->] (187,478) -- (187,28) node[left]{\Large$h$};
+\draw[aux] (187,272) -- (474,272) -- (474,462);
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:24] ({187+11.96*\x},{462-13.6*(14+8*sin(15*\x))});
+\foreach \v in {6,14,22} {
+  \draw (180,{462-13.6*\v}) -- (194,{462-13.6*\v});
+  \node[anchor=east] at (174,{462-13.6*\v}) {\Large$\v$};
+}
+\draw (474,456) -- (474,468);
+\node at (474,492) {\Large$24$};
+\end{tikzpicture}
+\end{document}

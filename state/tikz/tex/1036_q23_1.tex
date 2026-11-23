@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (1128,608);
+\fill[shade hatch] plot[smooth,samples=60,domain=0.5:1] ({302+667*\x},{474-243*((2*\x-1)^2)^2}) -- ({302+667*0.875},474) -- cycle;
+\draw[->] (187,474) -- (1105,474) node[right]{\large$x$};
+\draw[->] (302,536) -- (302,2) node[right]{\large$y$};
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=-0.0906:1.0906] ({302+667*\x},{474-243*((2*\x-1)^2)^2});
+\draw ({302+667*0.8431},536) -- ({302+667*1.1183},1);
+\node[pt] at (969,231) {};
+\node[anchor=west] at (985,262) {\large$B\left(1,1\right)$};
+\node at (835,456) {\halo{$\boldsymbol{R}$}};
+\node at (279,506) {\large$O$};
+\node at (635.5,505) {\large$A$};
+\node at (100,70) {\large$y=\left(2x-1\right)^4$};
+\end{tikzpicture}
+\end{document}

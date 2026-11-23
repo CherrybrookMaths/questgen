@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1cm,y=0.12cm]
+  % bars (students), left axis 0..50, right axis 0..100 %
+  \foreach \a/\b/\h in {0/1.6/22, 1.6/3.2/18, 3.2/4.8/8, 4.8/6.4/2}
+    \draw[fill=black!18] (\a,0) rectangle (\b,\h);
+  \draw (0,0) -- (6.4,0);
+  \draw (0,0) -- (0,50);
+  \draw (6.4,0) -- (6.4,50);
+  \foreach \v in {0,5,...,50} {\draw (-0.1,\v) -- (0,\v); \node[anchor=east,font=\small] at (-0.15,\v) {$\v$};}
+  \foreach \p in {0,10,...,100} {\draw (6.4,\p/2) -- (6.5,\p/2); \node[anchor=west,font=\small] at (6.55,\p/2) {$\p\%$};}
+  \draw[line width=0.9pt] (0.8,22) -- (2.4,40) -- (4.0,48) -- (5.6,50);
+  \foreach \x/\y in {0.8/22, 2.4/40, 4.0/48, 5.6/50} \fill (\x,\y) circle (1.8pt);
+  \node[font=\small] at (5.6,-2.8) {Bowling};
+  \node[rotate=90,font=\small] at (-1.0,25) {Number of students};
+  \node[rotate=-90,font=\small] at (7.75,25) {Cumulative percentage};
+\end{tikzpicture}
+\end{document}

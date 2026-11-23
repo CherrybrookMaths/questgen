@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (55,373) -- (295,373) node[right] {$x$};
+  \draw[->] (85,490) -- (85,22) node[above, inner sep=1pt] {$y$};
+  \coordinate (A) at (60,168); \coordinate (B) at (263,67);
+  \coordinate (C) at (288,245); \coordinate (D) at (136,449);
+  \draw (A) -- (B) -- (C) -- (D) -- cycle;
+  \draw (A) -- (C); \draw (B) -- (D);
+  \foreach \p in {A,B,C,D} \fill (\p) circle (3.5);
+  \node at (42,165) {$A$};
+  \node at (266,47) {$B$};
+  \node at (305,250) {$C$};
+  \node at (130,469) {$D$};
+  \node at (205,200) {$E$};
+\end{tikzpicture}
+\end{document}
