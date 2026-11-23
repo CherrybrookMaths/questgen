@@ -1,30 +1,28 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}[nd/.style={circle,draw,inner sep=0pt,minimum size=4.5mm}]
-\node[nd] (S) at (0,0) {};
-\node[nd] (n1) at (2,1.6) {};
-\node[nd] (n2) at (4,1.6) {};
-\node[nd] (n3) at (6,1.6) {};
-\node[nd] (nB) at (4,-1.6) {};
-\node[nd] (nE) at (8,0) {};
-\node[nd] (nG) at (10,1.6) {};
-\node[nd] (nH) at (10,-1.6) {};
-\node[nd] (nJ) at (12,0) {};
-\node[nd] (Fin) at (14,0) {};
-\draw[->] (S) -- node[above left]{$A$, 5} (n1);
-\draw[->] (n1) -- node[above]{$C$, 7} (n2);
-\draw[->] (n2) -- node[above]{$D$, 2} (n3);
-\draw[->] (n3) -- node[below left]{$E$, 3} (nE);
-\draw[->] (S) -- node[below left]{$B$, 8} (nB);
-\draw[->] (nB) -- node[above left]{$F$, 6} (nE);
-\draw[->] (nE) -- node[above left]{$G$, 5} (nG);
-\draw[->] (nG) -- node[above right]{$J$, 8} (nJ);
-\draw[->] (nE) -- node[below left]{$H$, 6} (nH);
-\draw[->] (nH) -- node[below right]{$I$, 3} (nJ);
-\draw[->] (nJ) -- node[above]{$K$, 10} (Fin);
-\draw[aux,->] (nE) -- node[above]{$X$, 12} (nJ);
-\node[left] at (S.west){Start};
-\node[right] at (Fin.east){Finish};
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, v/.style={circle,fill,inner sep=0pt,minimum size=4.6pt},
+  mid/.style={postaction={decorate},decoration={markings,mark=at position 0.56 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\newcommand\bx[3]{\draw (#1) ++(-36,-16) rectangle ++(72,32); \draw (#1) ++(0,-16) -- ++(0,32);
+  \node[inner sep=0pt] at ($(#1)+(-18,0)$) {#2}; \node[inner sep=0pt] at ($(#1)+(18,0)$) {#3};}
+\coordinate (S) at (231,227); \coordinate (n1) at (399,106); \coordinate (n2) at (597,106);
+\coordinate (n3) at (793,106); \coordinate (n4) at (920,227); \coordinate (n5) at (1042,91);
+\coordinate (n6) at (399,347); \coordinate (n7) at (981,464); \coordinate (n8) at (1139,347);
+\coordinate (Fi) at (1231,427);
+\draw[mid] (S)--(n1); \draw[mid] (S)--(n6); \draw[mid] (n1)--(n2); \draw[mid] (n2)--(n3);
+\draw[mid] (n3)--(n4); \draw[mid] (n6)--(n4); \draw[mid] (n4)--(n5); \draw[mid] (n4)--(n7);
+\draw[mid] (n5)--(n8); \draw[mid] (n7)--(n8); \draw[mid] (n8)--(Fi);
+\draw[aux,mid] (n4)--(n8);
+\foreach \p in {S,n1,n2,n3,n4,n5,n6,n7,n8,Fi} \node[v] at (\p) {};
+\node[anchor=east] at (217,227) {Start};
+\node at (1232,460) {Finish};
+\node at (281,140) {$A,5$}; \node at (281,309) {$B,8$}; \node at (498,72) {$C,7$};
+\node at (698,72) {$D,2$}; \node at (871,126) {$E,3$}; \node at (966,131) {$G,5$};
+\node at (644,329) {$F,6$}; \node at (904,334) {$H,6$}; \node at (1128,208) {$J,8$};
+\node at (1068,436) {$I,3$}; \node at (1220,364) {$K,10$}; \node at (1037,244) {$X,12$};
+\bx{398,53}{5}{5} \bx{600,27}{12}{12} \bx{810,47}{14}{14} \bx{939,78}{17}{17} \node at (887,79) {$G$};
+\bx{1077,33}{22}{22} \bx{79,178}{0}{0} \node at (27,178) {$A$}; \bx{79,268}{0}{3} \node at (27,268) {$B$};
+\bx{843,216}{17}{18} \node at (791,216) {$X$}; \bx{879,274}{17}{21} \node at (827,274) {$H$};
+\bx{1191,284}{30}{30} \bx{398,395}{8}{11} \bx{980,509}{23}{27} \bx{1232,502}{40}{40}
 \end{tikzpicture}
 \end{document}

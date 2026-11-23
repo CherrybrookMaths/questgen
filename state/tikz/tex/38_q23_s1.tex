@@ -1,31 +1,23 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}
-\coordinate (Q) at (0,2.2);
-\coordinate (K) at (2.6,3.4);
-\coordinate (M) at (4.6,2.0);
-\coordinate (U) at (3.4,0);
-\coordinate (W) at (7.0,2.6);
-\coordinate (P) at (9.2,3.8);
-\coordinate (C) at (11.4,2.4);
-\coordinate (F) at (8.2,0.4);
-\draw (Q) -- node[above left]{30} (K);
-\draw (K) -- node[above right]{25} (M);
-\draw (M) -- node[below]{10} (W);
-\draw (M) -- node[left]{20} (U);
-\draw (W) -- node[below right]{15} (P);
-\draw (W) -- node[right]{20} (F);
-\draw (P) -- node[above right]{40} (C);
-\foreach \p in {Q,K,M,U,W,P,C,F} \fill (\p) circle (2pt);
-\node[left=3pt] at (Q){Queentown};
-\node[above=3pt] at (K){Kingsville};
-\node[anchor=north west] at ($(M)+(0.15,-0.3)$){Minertown};
-\node[below=3pt] at (U){Underwood};
-\node[anchor=south east] at ($(W)+(0.2,0.2)$){Walltown};
-\node[above=3pt] at (P){Parktown};
-\node[right=3pt] at (C){Citadel};
-\node[below=3pt] at (F){Fernville};
-\node[anchor=west] at (9.6,0.4){Total $=160$};
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, v/.style={circle,fill,inner sep=0pt,minimum size=4.6pt}]
+\coordinate (Q) at (93,304); \coordinate (K) at (307,158); \coordinate (U) at (738,47);
+\coordinate (M) at (500,424); \coordinate (W) at (655,425); \coordinate (P) at (808,370);
+\coordinate (C) at (1057,283); \coordinate (F) at (880,476);
+\draw (Q)--(K)--(M)--(U); \draw (M)--(W)--(P)--(C);
+\draw (W) .. controls (672,495) and (775,510) .. (F);
+\foreach \p in {Q,K,U,M,W,P,C,F} \node[v] at (\p) {};
+\node[anchor=west] at (748,32) {Underwood};
+\node[anchor=west] at (320,160) {Kingsville};
+\node at (93,338) {Queentown};
+\node[anchor=west] at (1064,283) {Citadel};
+\node[anchor=west] at (803,396) {Parktown};
+\node at (502,456) {Minertown};
+\node[anchor=west] at (669,440) {Walltown};
+\node[anchor=west] at (867,508) {Fernville};
+\node at (185,213) {30}; \node at (423,272) {25}; \node at (600,213) {20};
+\node at (590,400) {10}; \node at (730,371) {15}; \node at (905,313) {40};
+\node at (745,519) {20};
 \end{tikzpicture}
 \end{document}

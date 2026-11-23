@@ -586,3 +586,23 @@ Owner 23 Nov: "we need to start working on the standard course", "Standard 2 fir
   - homes: `node tools/homes.js <docs> --course=standard` (the Standard questions are only in the Standard bank).
   - bank_split.py writes Standard questions to site/data/bank/standard/ (with Standard skill gates); Advanced keeps the rest.
 - **Old syllabus**: TAG_SPEC_STANDARD "Old syllabus" (owner: "keep them out but don't drop yet").
+- **Guideline drawings are cropped, never retold (23 Nov).** The pilot left 18 solution figures with no original, all drawn by Claude;
+  7 had one. The guidelines drew the answer by hand on the printed diagram (722 Q12 network, Q13 spanning tree; 16 Q15 line of best fit,
+  Q20 network), but the parse described them in words and the formatter then asked for "Sketch still to draw"; for 15 Q36 and Q41 the
+  parse had cropped the drawing and the formatter swapped the crop for a sketch id of its own. Owner rulings, verbatim:
+  "I want the school drawing kept as the comparison so checker can check claude's drawing against it." and, to cropping them,
+  redrawing the two invented network layouts and fixing the import, "Yes, do that." Fixed in tools/api_import.py: PARSE_TASK says a
+  hand-drawn or coloured answer on a printed diagram is a solution figure (crop it with the ink); solfmt keeps every `\exfigure` the
+  source has (its check rejects a dropped one) and writes "Sketch still to draw" only when the source has no drawing (a drawing the
+  source only describes goes to content_flags as "Guideline drawing not cropped"). The 6 found are cropped (figures.page/bbox; 0-based
+  page as recrop.py); Claude's redraw stays beside each as the redrawn version. 271_q23_s2 stays Claude's: the guidelines have one
+  drawing for Q23 ("Line added above", already 271_q23_s1).
+- **HSC papers use NESA's marking guidelines (23 Nov).** Owner: "for HSC, we want to use the hsc's marking guideline solutions unless if
+  there aren't any." The inventory had left 2021 (doc 38) and 2024 (doc 40) Standard 2 without guidelines, so every solution there was
+  Claude's: their guidelines sit in "HSC Paper Solutions/" (docs 42 and 45), which classify_paths did not read as NESA HSC. It does now,
+  so they pair by course and year; where a paper's own folder has the same file, that copy stays the original (inventory.same_size_copies).
+  A guidelines file for a paper already in the bank is parsed on its own: `api_import.py parse <batch> <guidelines doc>` (documents.task_type
+  'solutions') gets the paper's stored question numbers, part paths and sketch ids (api_import.linked_note) and writes state/out/<doc>.json
+  with links_to_document_id, as the Advanced HSC guidelines (226, 267, 295) were; a drawing that reuses a Claude sketch id becomes that
+  sketch's original (post_load.py), and recrop.py cuts it from the guidelines file. Then delete the paper's non-MCQ solutions (MCQ working
+  stays: the guidelines give only the key), load.py <guidelines doc>, post_load.py, prep_batch/solfmt, prep_verify/verify, triage.

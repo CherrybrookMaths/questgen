@@ -310,6 +310,7 @@ def same_size_copies(db, inv=None):
     will never be batched and imported right?"; Manly 2024 was filed twice under names too different for the scan's name match).
     The original is the file with questions loaded, else the lower id. tools/scan_folder.py --apply records them as copies."""
     sz = {r[0]: r[1] for r in db.execute('SELECT id, size_bytes FROM documents')}
+    paths_of = {r[0]: r[1] for r in db.execute('SELECT id, source_path FROM documents')}
     hq = {r[0] for r in db.execute('SELECT DISTINCT document_id FROM questions')}
     out = []
     for g in (inv or build(db, files=True))['groups']:   # inv: a build(files=True) the caller already has (batch_check, 21 Nov)
@@ -319,7 +320,9 @@ def same_size_copies(db, inv=None):
                 if sz.get(f): by[sz[f]].append(f)
             for fs in by.values():
                 if len(fs) > 1:
-                    keep = max(fs, key=lambda f: (f in hq, -f))
+                    # owner 23 Nov (classify_paths.school_of): a guideline in "HSC Paper Solutions/" now joins its paper, and where the paper's
+                    # own folder has the same file, that one stays the original (271's solution crops name 270 as their source)
+                    keep = max(fs, key=lambda f: (f in hq, not paths_of.get(f, '').startswith('HSC Paper Solutions/'), -f))
                     out += [(f, keep) for f in fs if f != keep and f not in hq]
     return out
 

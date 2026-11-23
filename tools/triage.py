@@ -25,8 +25,8 @@ DOCS += [i for ln, v in _L.items() if not ln.startswith('advanced|') for b in v.
 render = {x['id']: x['err'] for x in json.load(open(paths.S + 'work/verify/render.json'))['problems']} if os.path.exists(paths.S + 'work/verify/render.json') else {}
 render_done = os.path.exists(paths.S + 'work/verify/render.json')
 ver = {}
-for f in glob.glob(paths.S + 'work/*/verify_out_*.json'):
-    try:
+for f in sorted(glob.glob(paths.S + 'work/*/verify_out_*.json'), key=lambda f: (os.path.getmtime(f), f)):   # 23 Nov: a re-verified question (2021 and 2024 Standard 2 HSC,
+    try:                                                                                    # guideline solutions, run s1r) takes its newest verdict
         for r in json.load(open(f))['results']: ver[r['question_id']] = r
     except Exception: pass
 figres = {r['id']: r for r in json.load(open(paths.S + 'tikz/all_results.json'))}

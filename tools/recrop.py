@@ -5,7 +5,8 @@ Owner 17 Nov ("What is realistic coding best practice in this case?" -> "yeah bu
 exam PDFs (src/<doc>.pdf, downloaded from the school drive by Drive id) and each crop's page and bbox in the database
 (figures.page, figures.bbox, kept current by tools/crop_check.py); the recipe is this tool; the PNGs can be thrown away.
 A solution figure cut from a separate solutions file names that file in its parse output (state/out/<doc>.json
-solution_figures[].source_pdf); everything else comes from the paper's own PDF. Cut exactly as the parser and crop_check
+solution_figures[].source_pdf, or the output of a guidelines file parsed on its own, links_to_document_id = the paper);
+everything else comes from the paper's own PDF. Cut exactly as the parser and crop_check
 do: page.get_pixmap(dpi=200, clip=bbox).
 
   python3 tools/recrop.py --check DOC [DOC ...]   re-cut into SCRATCH and compare pixel by pixel with figures/ (nothing written)
@@ -30,9 +31,14 @@ DPI = 200
 
 def source_pdfs(doc):
     """{figure id: pdf doc id} for solution figures cut from another file (parse output), else {}."""
-    f = paths.S + f'out/{doc}.json'
-    if not os.path.exists(f): return {}
-    return {s['id']: int(s['source_pdf']) for s in json.load(open(f)).get('solution_figures', []) if s.get('source_pdf')}
+    import glob
+    out = {}
+    for f in [paths.S + f'out/{doc}.json'] + glob.glob(paths.S + 'out/*.json'):
+        if not os.path.exists(f): continue
+        j = json.load(open(f))
+        if f.endswith(f'/{doc}.json') or j.get('links_to_document_id') == doc:   # a guidelines file parsed on its own (23 Nov, 2021 Standard 2)
+            out.update({s['id']: int(s['source_pdf']) for s in j.get('solution_figures', []) if s.get('source_pdf')})
+    return out
 
 
 def cut(pdf_path, page, bbox, out):

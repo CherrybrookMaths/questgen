@@ -264,6 +264,10 @@ def school_of(r):
     for k, rx in _ALIAS_RX:                                    # the file name is more reliable than the folder or old metadata
         if rx.search(f): return ALIASES[k]
     if p.startswith('HSC 20') and not s and re.search(r'hsc-math|hsc-maths', p, re.I): return 'NESA'
+    # owner 23 Nov: "for HSC, we want to use the hsc's marking guideline solutions unless if there aren't any." NESA's guidelines
+    # also sit in "HSC Paper Solutions/" (2021 Standard 2: doc 42; 2024: doc 45 "2024 Hsc Paper Sols.pdf"): they are NESA's, so the
+    # inventory pairs each with its paper by course, year and task (it had left 2021 and 2024 Standard 2 with no guidelines)
+    if p.startswith('HSC Paper Solutions/') and not s and re.search(r'\bhsc\b', f, re.I): return 'NESA'
     if s == 'Catholic': return 'CSSA'                               # "2021 12MATAd Catholic Trial": the Catholic Schools NSW (CSSA) trial; confirm on the cover at import
     if s in SETTER_OK or s in SETTER_ASK: return s
     if s in SCHOOL: return SCHOOL[s]
@@ -279,6 +283,7 @@ def year_of(r):
 def task_of(r):
     p = r['source_path']; f = p.lower()
     if r['task_type'] == 'hsc' or re.search(r'hsc-math', f): return 'HSC'
+    if p.startswith('HSC Paper Solutions/') and re.search(r'\bhsc\b', os.path.basename(f)): return 'HSC'   # owner 23 Nov (school_of above)
     if re.search(r'trial|at4|task ?4|ap4|_task4', f): return 'AT4'
     m = re.search(r'(?:at|task|ap)[ _]?([1-4])(?![0-9])', f) or re.search(r'/at([1-4])/', f) or re.search(r'\bh([1-4]) adv', f) or re.search(r'\bt([1-4])\b', f)
     if m: return 'AT' + m.group(1)

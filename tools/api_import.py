@@ -380,8 +380,31 @@ def run_parse(api, batch, docs):
                               + ('' if r['course'] != 'standard' else '\n\nThis paper is Mathematics STANDARD 2, not Advanced: parse it exactly '
                                  'the same way, but leave old_syllabus and standard_topic empty on every question (the Standard tagging step '
                                  'decides what is outside the course). Do not stop for the course.')))
+        if r['task_type'] == 'solutions': user.append(text_block(linked_note(c, doc)))
         jobs.append(Run(batch, 'parse', doc, 1, system, user, parse_tools(doc), 'submit_parse'))
     return jobs
+
+
+def linked_note(c, doc):
+    """A guidelines file parsed on its own for a paper already in the bank (owner 23 Nov: "for HSC, we want to use the hsc's marking
+    guideline solutions unless if there aren't any."): solutions only, matched to the paper's questions and parts as stored, with the
+    paper's existing sketch ids reused so the guideline's drawing becomes that figure's original (load.py links it; post_load.py)."""
+    import inventory
+    inv = inventory.build(sqlite3.connect('file:' + paths.DBS + '?mode=ro', uri=True), files=True)
+    paper = next((p['id'] for g in inv['groups'] for p in g['papers'] if doc in p['f'] and p['id'] != doc), None)
+    if paper is None: sys.exit(f'{doc}: no paper in the inventory holds this guidelines file')
+    qs = []
+    for q in c.execute('select id, number, question_type from questions where document_id=? order by id', (paper,)).fetchall():
+        labs = {p['id']: p for p in c.execute('select id, label, parent_part_id from parts where question_id=?', (q['id'],))}
+        path = lambda p: '.'.join(x for x in ([labs[p['parent_part_id']]['label']] if p['parent_part_id'] in labs else []) + [p['label']] if x)
+        sk = [os.path.basename(f[0])[:-4] for f in c.execute("select png_path from figures where question_id=? and png_path like '%\\_s%' escape '\\'", (q['id'],))]
+        qs.append({'number': q['number'], 'type': q['question_type'], 'parts': [path(p) for p in labs.values() if p['label']] or None, 'sketch_ids': sk or None})
+    return (f'This file is the marking guidelines for paper {paper}, whose questions are already in the bank. Output "document_id": {doc}, '
+            f'"links_to_document_id": {paper}, "questions": [], "mcq_key", "solutions" and "solution_figures" only. Match every solution to '
+            f'the stored question number and part path below (null for a question with no parts). Multiple-choice questions get their key '
+            f'in mcq_key only (no solutions entry). A drawing in the guidelines is a solution figure (crop it from file {doc}, source_pdf "{doc}"); '
+            f'its id is <paper>_q<number>_s<k>: reuse the question\'s listed sketch id for the drawing that answers the same part, else the '
+            f'next free k. Stored questions:\n' + json.dumps(qs, ensure_ascii=False))
 
 
 # ---------------------------------------------------------------- chunked JSON steps (split, tag, solfmt, gen, verify)
