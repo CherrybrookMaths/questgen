@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (60,162); \coordinate (B) at (240,162); \coordinate (C) at (430,43);
+\coordinate (D) at (825,43); \coordinate (H) at (548,162); \coordinate (G) at (430,280);
+\coordinate (F) at (545,270); \coordinate (E) at (825,280);
+\draw (A)--(B) (B)--(C) (B)--(G) (C)--(G) (C)--(H) (G)--(H) (H)--(D) (H)--(E) (D)--(E) (G)--(F);
+\draw (C) .. controls (560,82) and (700,78) .. (D);
+\draw (F) .. controls (590,338) and (760,338) .. (E);
+\foreach \p in {A,B,C,D,E,F,G,H} \fill (\p) circle (4.5);
+\node[anchor=east] at (52,162) {$A$};
+\node at (235,190) {$B$};
+\node at (430,16) {$C$};
+\node at (826,16) {$D$};
+\node at (553,189) {$H$};
+\node at (427,307) {$G$};
+\node at (545,297) {$F$};
+\node at (840,302) {$E$};
+\node at (145,144) {$4$};
+\node at (328,85) {$5$};
+\node at (320,245) {$6$};
+\node at (412,156) {$4$};
+\node at (513,96) {$3$};
+\node at (487,198) {$2$};
+\node at (488,294) {$1$};
+\node at (625,56) {$7$};
+\node at (700,120) {$5$};
+\node at (700,210) {$5$};
+\node at (845,162) {$5$};
+\node at (682,354) {$7$};
+\end{tikzpicture}
+\end{document}

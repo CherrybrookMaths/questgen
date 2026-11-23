@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={gx(\g)=177+(\g-16)*45.76;}]
+\foreach \g in {16,...,37}{
+  \draw[dotted,black!60,line width=0.5pt] ({gx(\g)},10)--({gx(\g)},250);
+  \draw ({gx(\g)},250)--({gx(\g)},258);
+  \node[anchor=north,inner sep=2pt] at ({gx(\g)},266) {\g};}
+\draw[dotted,black!60,line width=0.5pt] ({gx(16)},10)--({gx(37)},10) ({gx(16)},130)--({gx(37)},130);
+\draw ({gx(16)},250)--({gx(37)+12},250);
+\node at ({gx(26.5)},332) {Number of goals};
+\draw (14,42) rectangle (155,95); \node at (84.5,68.5) {Team $A$};
+\draw (14,160) rectangle (155,215); \node at (84.5,187.5) {Team $B$};
+\begin{scope}[line width=0.9pt]
+\draw ({gx(24)},145) rectangle ({gx(31)},236);
+\draw ({gx(27)},145)--({gx(27)},236);
+\draw ({gx(21)},190)--({gx(24)},190) ({gx(31)},190)--({gx(35)},190);
+\draw ({gx(21)},172)--({gx(21)},208) ({gx(35)},172)--({gx(35)},208);
+\end{scope}
+\end{tikzpicture}
+\end{document}

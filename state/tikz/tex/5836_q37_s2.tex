@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (65,245);
+\coordinate (C) at (346,52);
+\coordinate (E) at (346,245);
+\draw[aux] (A) -- (E) -- (C);
+\draw (A) -- (C);
+\draw[->] (65,290) -- (65,167);
+\node at (65,150) {North};
+\draw plot[domain=90:145.5,samples=20,smooth] ({346+19*cos(\x)},{52+19*sin(\x)});
+\draw (323,245) -- (323,222) -- (346,222);
+\node[anchor=west] at (348,48) {$C$};
+\node[anchor=east] at (60,248) {$A$};
+\node[anchor=west] at (348,250) {$E$};
+\node[anchor=west] at (345,158) {8.7 km};
+\node at (205,269) {12.52};
+\end{tikzpicture}
+\end{document}

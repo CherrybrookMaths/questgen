@@ -676,4 +676,24 @@ for sid, lat, crit, note, extra in C20:
     db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
 db.execute("""update data_tables set rows_json=? where id='Ts8797_1'""", (json.dumps([["\\theta", "60^\\circ", "63.43^\\circ", "65^\\circ"], ["\\dfrac{d\\,AB}{d\\theta}", "-1.87", "0", "0.96"]]),))
 db.execute("""update data_tables set rows_json=? where id='Ts9001_1'""", (json.dumps([["a", "0.5", "\\dfrac{2}{\\sqrt{15}}", "0.6"], ["\\dfrac{dT}{da}", "-0.0019", "0", "0.0093"], ["\\text{slope}", "\\backslash", "\\_", "/"]]),))
-db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20')
+# Standard batch 2 (run s2, 24 Nov; owner: "go on one"): the verifier's 2 findings on the 2019, 2025 and 2026 NESA HSC Standard 2 papers,
+# checked by hand. 2019 Q22: NESA's working names no triangle; our formatted copy named them the wrong way round. 2025 Q35: NESA's
+# guideline rounds theta to 60 degrees before the second sine rule and gives 35.29 m; unrounded it is 35.03 m (the cosine rule agrees).
+# Owner 12 Nov: "if you are certain the source is wrong and your maths is right, just overwrite it".
+def _sol9145(l, c):   # 2025 NESA HSC Standard 2 Q35: no rounding before the second sine rule
+    return (l.replace(r'$$\theta = 59.81\ldots^\circ \approx 60^\circ$$', r'$$\theta = 59.813\ldots^\circ$$')
+             .replace(r'$$\angle PTA = 180^\circ - 60^\circ = 120^\circ$$', r'$$\angle PTA = 180^\circ - 59.813\ldots^\circ = 120.186\ldots^\circ$$')
+             .replace(r'&= 180^\circ - 120^\circ - 36^\circ \\ &= 24^\circ', r'&= 180^\circ - 120.186\ldots^\circ - 36^\circ \\ &= 23.813\ldots^\circ')
+             .replace(r'\dfrac{TA}{\sin 24^\circ}', r'\dfrac{TA}{\sin 23.813\ldots^\circ}')
+             .replace(r'\times \sin 24^\circ \\ &\approx 35.29 \text{ m}', r'\times \sin 23.813\ldots^\circ \\ &= 35.032\ldots \\ &\approx 35.03 \text{ m}'), c)
+C21 = [
+ (9083, [(r'In right-angled triangle $ABC$, by Pythagoras', r'In right-angled triangle $ADC$, by Pythagoras'), ('In triangle $ADC$,\n', 'In right-angled triangle $ABC$,\n')], [],
+  r'the working found $AC$ "in triangle $ABC$" and $\theta$ "in triangle $ADC$"; it is the other way round ($AC$ from triangle $ADC$, $\cos\theta=\dfrac{4.9}{6.5}$ in triangle $ABC$)', None),
+ (9145, [], [], r'the guideline rounded $\theta=59.81^\circ$ to $60^\circ$ before the second sine rule and gave $TA\approx35.29$ m; unrounded, $\angle TPA=23.81^\circ$ and $TA\approx35.03$ m (the cosine rule agrees)', _sol9145),
+]
+for sid, lat, crit, note, extra in C21:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21')

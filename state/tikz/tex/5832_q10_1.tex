@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\Y#1{735-3.54*#1}
+% grid, clipped away from bars (outer rectangle clockwise, bar holes anticlockwise: nonzero rule)
+\begin{scope}
+\clip (117,27)--(1052,27)--(1052,735)--(117,735)--cycle
+  \foreach \a/\b/\h in {135/257/190,288/412/142,444/568/97,599/723/30,755/880/24,911/1036/16}{
+   (\a,{\Y{\h}})--(\a,735)--(\b,735)--(\b,{\Y{\h}})--cycle};
+\foreach \v in {4,8,...,196}{\draw[black!45,line width=0.4pt,dash pattern=on 1pt off 1.5pt] (117,{\Y{\v}})--(1052,{\Y{\v}});}
+\foreach \k in {1,...,23}{\draw[black!45,line width=0.4pt,dash pattern=on 1pt off 1.5pt] ({117+\k*38.96},27)--({117+\k*38.96},735);}
+\foreach \v in {20,40,...,180}{\draw[black!70] (117,{\Y{\v}})--(1052,{\Y{\v}});}
+\end{scope}
+\foreach \a/\b/\h in {135/257/190,288/412/142,444/568/97,599/723/30,755/880/24,911/1036/16}{
+  \path[shade dots, stipple color=black!45] (\a,{\Y{\h}}) rectangle (\b,735);
+  \draw (\a,735)--(\a,{\Y{\h}})--(\b,{\Y{\h}})--(\b,735);}
+\draw (117,27) rectangle (1052,735);
+\draw (196,466)--(350,261)--(506,126)--(661,84)--(817,48)--(974,27);
+\foreach \p in {(196,466),(350,261),(506,126),(661,84),(817,48),(974,27)}{\fill \p circle (4.5);}
+\foreach \v in {0,20,...,200}{\node[anchor=east] at (108,{\Y{\v}}) {\v};}
+\foreach \p in {0,10,...,100}{\node[anchor=west] at (1058,{735-7.08*\p}) {\p\%};}
+\node[rotate=90] at (25,380) {Number of late arrivals};
+\node[rotate=90] at (1152,380) {Cumulative\ \ percentage};
+\foreach \x/\t in {196/Slept in,350/Family,506/Appointment,661/{Train or\\bus delay},817/{Traffic\\problems},974/{Car break\\down}}{
+  \node[anchor=north,align=center,inner sep=0pt,font={\fontsize{12}{11}\selectfont}] at (\x,752) {\t};}
+\node at (583,860) {Reasons for arriving late};
+\end{tikzpicture}
+\end{document}

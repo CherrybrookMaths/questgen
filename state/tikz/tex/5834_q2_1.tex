@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (56,328)--(56,45);
+\draw[->] (56,328)--(365,328);
+\node[font=\large] at (38,57) {$y$};\node[font=\large] at (357,350) {$x$};
+\draw[line width=0.9pt,->,smooth,samples=90,domain=0:1] plot ({56+274*\x},{328-(30+(243-30)*(exp(2*\x)-1)/(exp(2)-1))});
+\end{tikzpicture}
+\end{document}

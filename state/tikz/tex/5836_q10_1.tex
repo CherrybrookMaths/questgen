@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (14,8) rectangle (778,488);
+\draw (543,8)--(543,488);
+\foreach \y in {70,145,228,303} \draw (14,\y)--(778,\y);
+\draw (14,392)--(778,392) (14,397)--(778,397);
+\draw[fill=black!18] (549,76) rectangle (773,140);
+\draw[fill=black!18] (549,312) rectangle (773,386);
+\node[anchor=base west,inner sep=0] at (30,51) {\textit{Description}};
+\node[anchor=base,inner sep=0] at (660,51) {\textit{Total}};
+\node[anchor=base west,inner sep=0] at (30,119) {4 curtains};
+\node[anchor=base west,inner sep=0] at (30,198) {Installation fee};
+\node[anchor=base west,inner sep=0] at (30,278) {Labour};
+\node[anchor=base,inner sep=0] at (671,198) {\$460};
+\node[anchor=base,inner sep=0] at (671,278) {\$520};
+\node[anchor=base east,inner sep=0] at (527,341) {\textit{Total price}};
+\node[anchor=base east,inner sep=0] at (527,381) {[excluding GST]};
+\node[anchor=base east,inner sep=0] at (527,436) {\textit{Total price}};
+\node[anchor=base east,inner sep=0] at (527,476) {[including GST (10\%)]};
+\node[anchor=base,inner sep=0] at (663,455) {\$1750};
+\end{tikzpicture}
+\end{document}

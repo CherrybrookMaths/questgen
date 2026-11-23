@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% origin (84,421), 57.3 px per unit both ways
+\draw[->] (8,421)--(662,421);
+\draw[->] (84,590)--(84,14);
+\draw[line width=0.9pt] plot[smooth, domain=2.62:7.38, samples=90] ({84+57.3*\x},{421-57.3*(-1.5*\x*\x+15*\x-31.5)});
+\foreach \k in {3,5,7} \draw ({84+57.3*\k},421)--({84+57.3*\k},430);
+\node at (62,440) {$O$};
+\node at (262,456) {$3$};
+\node at (370,456) {$5$};
+\node at (494,456) {$A$};
+\node at (646,442) {$x$};
+\node at (71,22) {$y$};
+\node[align=center] at (702,85) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

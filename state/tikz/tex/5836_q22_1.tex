@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% grid
+\foreach \i in {0,...,15} \draw[black!45,line width=0.4pt] ({177+39.34*\i},78.5) -- ({177+39.34*\i},471);
+\foreach \j in {0,...,10} \draw[black!45,line width=0.4pt] (138,{78.5+39.25*\j}) -- (767,{78.5+39.25*\j});
+% axes with breaks
+\draw[->] (138,510) -- (138,15);
+\fill[white] (130,483) rectangle (146,497);
+\draw (138,481) -- (138,483) -- (132,486) -- (144,492) -- (138,495) -- (138,497);
+\draw[->] (138,510) -- (808,510);
+\fill[white] (147,502) rectangle (163,518);
+\draw (147,510) -- (149,510) -- (152,504) -- (158,516) -- (161,510) -- (163,510);
+\foreach \i in {0,...,15} \draw ({177+39.34*\i},510) -- ({177+39.34*\i},518);
+\foreach \v in {8.5,8.0,7.5,7.0,6.5,6.0} \node[anchor=east] at (124,{157+157*(8-\v)}) {$\v$};
+\node[anchor=east] at (124,510) {$0$};
+\node[anchor=north] at (138,520) {$0$};
+\node[anchor=north] at (182,520) {$7.0$};
+\foreach \v in {8.0,9.0,10.0} \node[anchor=north] at ({177+196.7*(\v-7)},520) {$\v$};
+\node at (125,28) {$y$};
+\node at (818,526) {$x$};
+\node[rotate=90] at (38,293) {Public's score};
+\node at (470,585) {Critics' score};
+% regression line
+\draw (177,{157+157*(8-6.55)}) -- (767,{157+157*(8-8.15)});
+\foreach \a/\b in {7.1/6.7,7.3/7.0,7.4/6.1,7.5/7.2,7.5/6.7,7.9/7.1,8.0/7.2,8.8/7.4,9.0/7.6,9.1/7.4,9.2/7.2,9.3/7.5,9.4/7.2,9.5/8.4,9.6/8.1,9.7/8.4,9.7/8.0,9.7/7.6,9.8/8.3,9.8/8.1,9.9/8.2,10.0/8.3,10.0/7.9}
+  \fill ({177+196.7*(\a-7)},{157+157*(8-\b)}) circle (5);
+\end{tikzpicture}
+\end{document}

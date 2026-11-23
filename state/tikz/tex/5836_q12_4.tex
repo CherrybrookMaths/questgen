@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (E) at (38,47); \coordinate (F) at (497,47); \coordinate (G) at (248,194); \coordinate (H) at (248,47);
+\draw (E)--(F)--(G)--cycle;
+\draw[aux] (H)--(G);
+\draw (248,61)--(262,61)--(262,47);
+\pic[draw, angle radius=0.0127cm*98] {angle=G--E--F};
+\pic[draw, angle radius=0.0127cm*80] {angle=H--G--E};
+\pic[draw, angle radius=0.0127cm*103] {angle=F--G--H};
+\node at (17,47) {$E$};
+\node at (504,50) {$F$};
+\node at (248,213) {$G$};
+\node at (262,28) {$81$};
+\node at (387,143) {$50$};
+\node at (106,68) {$35^\circ$};
+\node at (219,144) {$55^\circ$};
+\node at (289,137) {$68.3^\circ$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (30,345) -- (508,345);
+  \draw[->] (115,455) -- (115,15);
+  \draw[line width=0.9pt] plot[domain=0:8.05, smooth, samples=90] ({115+39.25*\x},{345-19.58*(\x*\x-8*\x+12)});
+  \draw (103,110) -- (115,110);
+  \draw (193.5,345) -- (193.5,355);
+  \draw (350.5,345) -- (350.5,355);
+  \node[anchor=east] at (100,110) {12};
+  \node at (97,366) {$O$};
+  \node at (193.5,380) {2};
+  \node at (350.5,380) {6};
+  \node at (99,40) {$h$};
+  \node at (497,366) {$t$};
+\end{tikzpicture}
+\end{document}

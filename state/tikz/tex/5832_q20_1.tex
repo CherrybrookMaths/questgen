@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(271,271)}, yscale=-1]
+  \def\Ro{259}\def\Ri{216}
+  \fill[black!15] (0,0) circle (\Ri);
+  \foreach \n [count=\j from 0] in {0,,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26} {
+    \pgfmathsetmacro\a{90-\j*360/37}
+    \pgfmathsetmacro\aa{\a+180/37}
+    \pgfmathsetmacro\ab{\a-180/37}
+    \pgfmathtruncatemacro\odd{mod(\j,2)}
+    \ifnum\j=0
+      \fill[black!8] (\aa:\Ri) arc[start angle=\aa,end angle=\ab,radius=\Ri] -- (\ab:\Ro) arc[start angle=\ab,end angle=\aa,radius=\Ro] -- cycle;
+      \path[shade dots] (\aa:\Ri) arc[start angle=\aa,end angle=\ab,radius=\Ri] -- (\ab:\Ro) arc[start angle=\ab,end angle=\aa,radius=\Ro] -- cycle;
+      \draw (\aa:\Ri) arc[start angle=\aa,end angle=\ab,radius=\Ri] -- (\ab:\Ro) arc[start angle=\ab,end angle=\aa,radius=\Ro] -- cycle;
+    \else
+      \ifnum\odd=1 \def\col{black!12}\else\def\col{black!45}\fi
+      \filldraw[fill=\col] (\aa:\Ri) arc[start angle=\aa,end angle=\ab,radius=\Ri] -- (\ab:\Ro) arc[start angle=\ab,end angle=\aa,radius=\Ro] -- cycle;
+      \node[rotate=\a-90, inner sep=0pt] at (\a:238) {\n};
+    \fi
+  }
+  \draw (0,0) circle (\Ro);
+  \filldraw[fill=white] (0,0) circle (22);
+  \fill (0,0) circle (5);
+\end{scope}
+\end{tikzpicture}
+\end{document}

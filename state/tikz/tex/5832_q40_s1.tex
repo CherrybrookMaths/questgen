@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}]
+\coordinate (A) at (253,152); \coordinate (B) at (440,37); \coordinate (C) at (492,203);
+\coordinate (D) at (480,337); \coordinate (E) at (683,152);
+\draw[mid=0.55] (70,152)--(A);
+\draw[mid=0.5] (E)--(830,152);
+\draw[mid=0.55] (A)--(B);
+\draw[mid=0.45] (B)--(E);
+\draw[mid=0.45] (C)--(B);
+\draw[mid=0.55] (A)--(C);
+\draw[mid=0.48] (C)--(E);
+\draw[mid=0.55] (A)--(D);
+\draw[mid=0.5] (D)--(C);
+\draw[mid=0.6] (D)--(E);
+\foreach \p in {A,B,C,D,E} \node[pt] at (\p) {};
+\node[anchor=east,inner sep=2pt] at (70,152) {Entry};
+\node[anchor=west,inner sep=2pt] at (830,152) {Exit};
+\node at (145,126) {240}; \node at (762,126) {240};
+\node at (330,70) {80}; \node at (546,60) {130}; \node at (490,108) {40};
+\node at (367,203) {90}; \node at (568,157) {65}; \node at (345,268) {70};
+\node at (456,272) {25}; \node at (612,253) {45};
+\node at (440,17) {$B$}; \node at (247,175) {$A$}; \node at (507,182) {$C$};
+\node at (480,358) {$D$}; \node at (688,180) {$E$};
+\draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates {(352,42) (380,100) (440,125) (515,145) (550,185) (575,250) (600,293) (632,310)};
+\node[anchor=west,inner sep=2pt] at (632,310) {230};
+\end{tikzpicture}
+\end{document}

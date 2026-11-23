@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (28,0)--(418,0);
+\foreach \i in {0,...,7} \draw ({86+39.3*\i},-6)--({86+39.3*\i},6);
+\foreach \t/\n in {0/1,1/2,2/3,3/3,6/5,7/1}
+  \foreach \k in {1,...,\n} \fill ({86+39.3*\t},{-21-16*(\k-1)}) circle[radius=5.5];
+\def\mn{0}\def\qa{1.5}\def\md{3}\def\qc{6}\def\mx{7}
+\begin{scope}[line width=0.9pt]
+\draw ({86+39.3*\mn},28)--({86+39.3*\mn},75);
+\draw ({86+39.3*\mx},28)--({86+39.3*\mx},75);
+\draw ({86+39.3*\mn},51.5)--({86+39.3*\qa},51.5);
+\draw ({86+39.3*\qc},51.5)--({86+39.3*\mx},51.5);
+\draw ({86+39.3*\qa},28) rectangle ({86+39.3*\qc},75);
+\draw ({86+39.3*\md},28)--({86+39.3*\md},75);
+\end{scope}
+\end{tikzpicture}
+\end{document}

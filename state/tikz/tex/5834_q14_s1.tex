@@ -1,0 +1,35 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[scale=1]
+\coordinate (R) at (0,0);
+\coordinate (M) at ({4*sin(17)},{4*cos(17)});
+\coordinate (P) at ({4*sin(107)},{4*cos(107)});
+% north line at R
+\draw[->] (0,-0.6)--(0,5.2) node[above] {$N$};
+% north/south dashed at M
+\draw[aux,->] (M)--++(0,1.8) node[above] {$N$};
+\draw[aux] (M)--++(0,-1.0);
+\draw (R)--(M)--(P)--cycle;
+% equal-length ticks
+\draw ($(R)!0.5!(M)+(-17:0.15)$)--($(R)!0.5!(M)+(163:0.15)$);
+\draw ($(R)!0.5!(P)+(73:0.15)$)--($(R)!0.5!(P)+(253:0.15)$);
+% right angle at R
+\draw ($(R)+(73:0.32)$)--($(R)+(73:0.32)+(-17:0.32)$)--($(R)+(-17:0.32)$);
+% 17 deg
+\draw ($(R)+(90:2.2)$) arc (90:73:2.2);
+\node at ($(R)+(81.5:2.8)$) {$17^\circ$};
+% 107 deg
+\draw ($(R)+(90:0.8)$) arc (90:-17:0.8);
+\node at ($(R)+(28:1.35)$) {$107^\circ$};
+% 45 deg at M
+\draw ($(M)+(253:1.2)$) arc (253:298:1.2);
+\node at ($(M)+(279:1.75)$) {$45^\circ$};
+% 152 deg at M
+\draw ($(M)+(90:0.6)$) arc (90:-62:0.6);
+\node at ($(M)+(12:1.2)$) {$152^\circ$};
+\node[left=2pt] at (M) {$M$};
+\node[right=2pt] at (P) {$P$};
+\node[below left=1pt] at (R) {$R$};
+\end{tikzpicture}
+\end{document}

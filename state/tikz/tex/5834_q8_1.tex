@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\Y#1{343-5.15*#1}
+\draw (125,{\Y{60}})--(125,343)--(667,343);
+\foreach \v in {0,10,...,60} {\draw (125,{\Y{\v}})--(115,{\Y{\v}}); \node[anchor=east] at (105,{\Y{\v}}) {$\v$};}
+\foreach \a/\b/\h in {165/282/25,282/399/50,399/516/10,516/632/15} \draw (\a,343)--(\a,{\Y{\h}})--(\b,{\Y{\h}})--(\b,343);
+\foreach \x/\t in {223/Red,340/White,457/Green,574/Yellow} {\draw (\x,343)--(\x,353); \node at (\x,381) {\textrm{\t}};}
+\node at (398,428) {\textrm{Colours}};
+\node[rotate=90] at (33,190) {\textrm{Frequency}};
+\end{tikzpicture}
+\end{document}

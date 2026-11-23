@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (252,268); \coordinate (A) at (415,22); \coordinate (B) at (480,390);
+\coordinate (C) at (90,537); \coordinate (D) at (135,168);
+\fill[shade dots, stipple color=black!45] (O)--(B)--(C)--cycle;
+\draw (A)--(B)--(C)--(D)--cycle;
+\draw (O)--(A) (O)--(B) (O)--(C) (O)--(D);
+\draw[aux,->] (O)--(252,44);
+\node at (252,28) {N};
+\foreach \p in {O,A,B,C,D} \node[pt] at (\p) {};
+\path (O)--(A) node[pos=0.45,sloped,above,inner sep=3pt] {18 km};
+\path (D)--(O) node[pos=0.6,sloped,above,inner sep=3pt] {12 km};
+\path (O)--(B) node[pos=0.48,sloped,above,inner sep=3pt] {16 km};
+\path (C)--(O) node[pos=0.5,sloped,above,inner sep=2pt] {25 km};
+\node at (440,32) {$A$}; \node at (475,63) {(029$^\circ$)};
+\node at (117,163) {$D$}; \node at (78,205) {(318$^\circ$)};
+\node at (496,402) {$B$}; \node at (530,433) {(125$^\circ$)};
+\node at (66,540) {$C$};
+\node at (252,294) {\halo{$O$}};
+\node at (300,388) {\halo{198 km$^2$}};
+\node[align=center] at (636,203) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

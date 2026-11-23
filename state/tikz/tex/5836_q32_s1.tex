@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\node at (222,18) {Student 1};
+\node at (475,18) {Student 2};
+\draw (15,316) -- (205,160);
+\draw (15,316) -- (205,476);
+\node at (233,158) {$T$};
+\node at (233,480) {$F$};
+\node at (104,186) {$\dfrac{3}{100}$};
+\node at (104,447) {$\dfrac{97}{100}$};
+\foreach \y in {158,480} {
+  \draw (262,\y) -- (452,{\y-55});
+  \draw (262,\y) -- (452,{\y+55});
+  \node at (340,{\y-70}) {$\dfrac{3}{100}$};
+  \node at (340,{\y+64}) {$\dfrac{97}{100}$};
+}
+\node at (475,103) {$T$}; \node at (475,218) {$F$};
+\node at (475,425) {$T$}; \node at (475,530) {$F$};
+\end{tikzpicture}
+\end{document}

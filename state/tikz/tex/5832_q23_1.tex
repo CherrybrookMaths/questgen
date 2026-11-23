@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(127.5,687)}, x=0.67945cm, y=0.67945cm]
+  % grid (light grey)
+  \foreach \u in {1,...,16} \draw[black!45, line width=0.4pt] (\u,-0.15)--(\u,12.26);
+  \foreach \v in {1,...,12} \draw[black!45, line width=0.4pt] (-0.12,\v)--(16.15,\v);
+  % axes with break marks
+  \draw[->] (0,0) -- (0.33,0) -- (0.39,-0.17) -- (0.45,0.1) -- (0.51,-0.17) -- (0.57,0) -- (16.6,0);
+  \draw[->] (0,0) -- (0,0.42) -- (0.17,0.48) -- (-0.1,0.55) -- (0.17,0.62) -- (0,0.68) -- (0,12.65);
+  % data
+  \foreach \p in {(3,2),(5,2),(7,6),(11,8),(11,9),(13,10),(15,12)} \fill \p circle[radius=0.11];
+  % tick labels
+  \foreach \u/\t in {1/134,3/136,5/138,7/140,9/142,11/144,13/146,15/148} \node at (\u,-0.58) {\t};
+  \foreach \v/\t in {2/142,4/144,6/146,8/148,10/150,12/152} \node at (-0.8,\v) {\t};
+  \node at (8.08,-1.36) {Arm span (cm)};
+  \node[rotate=90] at (-1.64,6.11) {Height (cm)};
+\end{scope}
+\end{tikzpicture}
+\end{document}

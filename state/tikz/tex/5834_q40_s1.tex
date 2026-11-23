@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\f(#1){250-228*exp(-((#1-335)/78)^2/2)}
+\fill[shade] (490,250) -- plot[domain=490:612,smooth,samples=30] (\x,{\f(\x)}) -- (612,250) -- cycle;
+\draw[<->] (22,250)--(640,250);
+\draw[line width=0.9pt] plot[domain=55:612,smooth,samples=90] (\x,{\f(\x)});
+\draw[aux] (335,22)--(335,250);
+\draw (490,265)--(490,{\f(490)});
+\node at (335,284) {76.2};
+\node at (490,286) {$x$};
+\node at (633,273) {$z$};
+\node at (560,180) {2.5\%};
+\draw[->] (553,196)--(514,238);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (243,246);
+\coordinate (A) at (655,113);
+\coordinate (B) at (655,246);
+\coordinate (X) at (457.1,176.9);
+\coordinate (Y) at (468,246);
+\path[shade dots] (X) -- (A) -- (B) -- (Y) -- plot[domain=0:-17.89,samples=20,smooth] ({243+225*cos(\x)},{246+225*sin(\x)}) -- cycle;
+\draw (O) circle[radius=225];
+\draw (O) -- (A) -- (B) -- cycle;
+\draw (633,246) -- (633,224) -- (655,224);
+% 12 cm
+\draw[aux,<-] (243,276) -- (372,276);
+\draw[aux,->] (458,276) -- (655,276);
+\draw (243,262) -- (243,290);
+\draw (655,262) -- (655,290);
+\node at (415,276) {12 cm};
+% 7 cm
+\draw[aux,<->] (444.8,138.8) -- (642.7,74.9);
+\draw ($(X)+(-0.3072*26,-0.9517*26)$) -- ($(X)+(-0.3072*52,-0.9517*52)$);
+\draw ($(A)+(-0.3072*26,-0.9517*26)$) -- ($(A)+(-0.3072*52,-0.9517*52)$);
+\node[rotate=17.9] at (534,90) {7 cm};
+\node[rotate=17.9] at (360,190) {$r$ cm};
+\node[anchor=east] at (245,248) {$O$};
+\node at (467,155) {$X$};
+\node at (483,231) {$Y$};
+\node[anchor=west] at (654,113) {$A$};
+\node[anchor=west] at (654,248) {$B$};
+\node[anchor=west] at (652,180) {5 cm};
+\node[align=center] at (742,375) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

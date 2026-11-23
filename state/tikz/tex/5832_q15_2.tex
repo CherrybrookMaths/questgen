@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\f#1{180-166*exp(-((#1-243)/95)^2/2)}
+  \fill[shade dots] plot[smooth, samples=40, domain=151.3:334.7] (\x,{\f{\x}}) -- (334.7,180) -- (151.3,180) -- cycle;
+  \draw (30,180) -- (465,180);
+  \foreach \v/\xx in {58/60,82/426} {
+    \draw[aux] (\xx,{\f{\xx}}) -- (\xx,189);}
+  \foreach \v/\xx in {58/60,64/151.3,70/243,76/334.7,82/426} {
+    \node[font=\small, anchor=north] at (\xx,193) {$\v$};}
+  \draw[aux] (243,{\f{243}}) -- (243,189);
+  \draw (151.3,{\f{151.3}}) -- (151.3,180);
+  \draw (334.7,{\f{334.7}}) -- (334.7,180);
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=18:468] (\x,{\f{\x}});
+\end{tikzpicture}
+\end{document}

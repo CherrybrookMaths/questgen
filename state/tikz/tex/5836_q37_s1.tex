@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (42,154);
+\coordinate (B) at (367,38);
+\coordinate (F) at (367,154);
+\draw[aux] (A) -- (F) -- (B);
+\draw (A) -- (B);
+\draw[->] (42,195) -- (42,20);
+\draw plot[domain=-90:-19.64,samples=30,smooth] ({42+68*cos(\x)},{154+68*sin(\x)});
+\draw plot[domain=-19.64:0,samples=10,smooth] ({42+82*cos(\x)},{154+82*sin(\x)});
+\draw (344,154) -- (344,131) -- (367,131);
+\node at (68,121) {$70^\circ$};
+\node at (153,137) {$20^\circ$};
+\node at (210,64) {8 km};
+\node[anchor=east] at (37,154) {$A$};
+\node[anchor=west] at (372,38) {$B$};
+\node[anchor=west] at (372,160) {$F$};
+\end{tikzpicture}
+\end{document}

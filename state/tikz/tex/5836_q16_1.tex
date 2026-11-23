@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% origin (152,588); 39.4 px per hour, 63 px per goal
+\def\X#1{152+39.4*#1}\def\Y#1{588-63*#1}
+\foreach \k in {1,...,8} \draw[black!45, line width=0.4pt] (152,{\Y{\k}})--(743,{\Y{\k}});
+\foreach \k in {5,10,15} \draw[black!45, line width=0.4pt] ({\X{\k}},588)--({\X{\k}},84);
+\draw[->] (152,588)--(808,588);
+\draw[->] (152,588)--(152,14);
+\foreach \k in {0,...,8} {\draw (152,{\Y{\k}})--(143,{\Y{\k}}); \node[anchor=east] at (140,{\Y{\k}}) {$\k$};}
+\foreach \k in {0,5,10,15} {\draw ({\X{\k}},588)--({\X{\k}},597); \node[anchor=north] at ({\X{\k}},598) {$\k$};}
+\node at (797,610) {$x$};
+\node at (131,24) {$y$};
+\node[rotate=90] at (58,336) {Number of goals scored};
+\node at (447,674) {Hours spent practising kicking a ball};
+\foreach \a/\b in {3/3.8,4/4.2,6/5,7/5.7,8/6.2,9/7,10/6.8,11/7.6,12/7.4,14/8}
+  \fill ({\X{\a}},{\Y{\b}}) circle (1.6pt);
+\end{tikzpicture}
+\end{document}

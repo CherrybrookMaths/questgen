@@ -1,0 +1,39 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (57,417);
+\coordinate (B) at (397,294);
+\coordinate (C) at (622,22);
+\coordinate (D) at (622,294);
+\coordinate (E) at (622,417);
+\coordinate (F) at (397,417);
+\draw[aux] (A) -- (E);
+\draw[aux] (B) -- (D);
+\draw[aux] (B) -- (F);
+\draw[aux] (C) -- (E);
+\draw (A) -- (B) -- (C);
+\draw[->] (57,455) -- (57,265);
+\node at (57,248) {North};
+\draw plot[domain=-90:-19.89,samples=30,smooth] ({57+71*cos(\x)},{417+71*sin(\x)});
+\node at (88,380) {$70^\circ$};
+\draw (372,417) -- (372,392) -- (397,392);
+\draw (597,417) -- (597,392) -- (622,392);
+\draw (597,294) -- (597,269) -- (622,269);
+\foreach \p in {A,B,C,D,E,F} \fill (\p) circle[radius=4.5];
+\node[anchor=west] at (626,22) {$C$};
+\node at (380,279) {$B$};
+\node[anchor=west] at (626,297) {$D$};
+\node[anchor=west] at (626,419) {$E$};
+\node at (397,442) {$F$};
+\node[anchor=east] at (55,419) {$A$};
+\node at (228,326) {8 km};
+\node at (510,276) {5 km};
+\node at (676,228) {8.7 km};
+\draw[->] (682,208) -- (682,22);
+\draw[->] (682,248) -- (682,417);
+\draw (668,22) -- (696,22);
+\draw (668,417) -- (696,417);
+\node[align=center] at (847,155) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

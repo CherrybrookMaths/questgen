@@ -1,0 +1,46 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}},
+  dot/.style={circle,fill,inner sep=1.9pt}]
+\coordinate (S) at (93,222);
+\coordinate (T) at (710,27);
+\coordinate (Fi) at (840,222);
+\coordinate (Hn) at (582,222);
+\coordinate (Cn) at (285,447);
+\coordinate (Jn) at (600,376);
+\coordinate (In) at (516,546);
+\coordinate (Fn) at (727,546);
+\coordinate (Kn) at (749,381);
+\draw[mid=0.55] (S)--(T);
+\draw[mid=0.48] (T)--(Fi);
+\draw[mid=0.44] (S)--(Hn);
+\draw[mid=0.55] (Hn)--(Fi);
+\draw[mid=0.50] (S)--(Cn);
+\draw[mid=0.48] (Cn)--(Jn);
+\draw[mid=0.54] (Cn)--(In);
+\draw[mid=0.52] (In)--(Jn);
+\draw[mid=0.52] (In)--(Fn);
+\draw[mid=0.52] (Jn)--(Hn);
+\draw[mid=0.48] (Jn)--(Fn);
+\draw[mid=0.52] (Fn)--(Kn);
+\draw[mid=0.55] (Kn)--(Fi);
+\foreach \p in {S,T,Fi,Hn,Cn,Jn,In,Fn,Kn} \node[dot] at (\p) {};
+\node at (45,222) {Start};
+\node at (900,222) {Finish};
+\node at (410,90) {$A, 8$};
+\node at (810,95) {$D, 4$};
+\node at (293,250) {$B, 9$};
+\node at (713,250) {$E, 4$};
+\node at (145,355) {$C, 4$};
+\node at (412,386) {$G, 6$};
+\node at (380,525) {$E, 3$};
+\node at (592,483) {$I, 2$};
+\node at (614,578) {$F, 5$};
+\node at (634,300) {$H, 3$};
+\node at (674,420) {$J, 1$};
+\node at (790,470) {$K, 11$};
+\node at (832,325) {$L, 1$};
+\end{tikzpicture}
+\end{document}

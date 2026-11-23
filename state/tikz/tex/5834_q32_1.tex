@@ -1,0 +1,40 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\pgfdeclareradialshading{exsphere}{\pgfqpoint{8bp}{8bp}}{color(0bp)=(black!4); color(10bp)=(black!22); color(25bp)=(black!48); color(50bp)=(black!55)}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (V) at (335,22);
+\coordinate (FL) at (47,470);
+\coordinate (FR) at (440,470);
+\coordinate (BR) at (625,343);
+\coordinate (BL) at (232,343);
+\coordinate (O) at (336,407);
+% hidden edges
+\draw[aux] (V)--(BL); \draw[aux] (FL)--(BL)--(BR); \draw[aux] (V)--(O);
+\draw (312,407)--(362,407);
+\draw (336,385)--(358,385)--(358,407);
+% equal-side ticks
+\draw (428,335)--(422,352);
+\draw (522,407)--(540,407);
+% spheres (back to front) with soft shadows
+\foreach \c in {(518,353),(265,388),(185,428),(412,428)} {
+  \fill[black!12] \c ++(18,40) ellipse (32 and 9);
+  \shade[shading=exsphere] \c circle (42);
+}
+\draw (243,462)--(237,478);
+% visible edges
+\draw (V)--(FL)--(FR)--(BR)--cycle; \draw (V)--(FR);
+\node[rotate=90] at (318,242) {$h$ cm};
+% 14 cm front
+\draw (47,490)--(47,525); \draw (440,490)--(440,525);
+\draw[aux,<-] (47,508)--(195,508);
+\draw[aux,->] (291,508)--(440,508);
+\node at (243,508) {14 cm};
+% 14 cm side
+\draw (468,472)--(502,472); \draw (650,343)--(686,343);
+\draw[aux,<-] (490,466)--(548,426);
+\draw[aux,->] (614,381)--(668,345);
+\node[rotate=34.5] at (583,415) {14 cm};
+\node[align=center] at (650,175) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

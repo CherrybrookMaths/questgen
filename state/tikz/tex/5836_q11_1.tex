@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (18,258)--(885,258);
+\draw[line width=0.9pt,smooth,samples=90,domain=100:802,variable=\x] plot (\x,{258-208*exp(-((\x-451)/86)^2/2)});
+\draw (259,205)--(259,258) (643,205)--(643,258);
+\draw[aux,<->] (259,221)--(643,221);
+\node[anchor=base,inner sep=0] at (451,213) {95\%};
+\node[anchor=base,inner sep=0] at (259,295) {59};
+\node[anchor=base,inner sep=0] at (643,295) {107};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% X = 90 + 15.76*(v-130)
+\draw[<->] (10,160)--(940,160);
+\foreach \v in {130,135,...,180} {\draw ({90+15.76*(\v-130)},150)--({90+15.76*(\v-130)},170); \node at ({90+15.76*(\v-130)},200) {\v};}
+\begin{scope}[line width=0.9pt]
+\draw ({90+15.76*5},47) rectangle ({90+15.76*30},110);
+\draw ({90+15.76*10},47)--({90+15.76*10},110);
+\draw (90,79)--({90+15.76*5},79);
+\draw ({90+15.76*30},79)--({90+15.76*50},79);
+\end{scope}
+\fill (90,79) circle (5); \fill ({90+15.76*50},79) circle (5);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{minor/.style={black!60,line width=0.4pt,dash pattern=on 0.6pt off 1pt}}
+\foreach \i in {1,...,19} { \pgfmathtruncatemacro\m{mod(\i,5)}
+  \ifnum\m>0 \draw[minor] ({118+39.45*\i},55)--({118+39.45*\i},647); \fi }
+\foreach \j in {1,...,15} \draw[minor] (118,{647-39.47*\j})--(907,{647-39.47*\j});
+\foreach \k in {5,10,15,20} \draw ({118+39.45*\k},55)--({118+39.45*\k},647);
+\foreach \i in {1,...,21} \draw ({118+39.45*\i},647)--({118+39.45*\i},655);
+\foreach \j in {1,...,15} \draw (118,{647-39.47*\j})--(110,{647-39.47*\j});
+\draw[->] (118,647)--(118,12);
+\draw[->] (118,647)--(978,647);
+\foreach \k in {0,5,10,15,20} \node at ({118+39.45*\k},670) {$\k$};
+\foreach \j in {2,4,...,14} \node[anchor=east] at (101,{647-39.47*\j}) {$\j$};
+\node[anchor=east] at (101,647) {$0$};
+\node at (97,20) {$p$};
+\node at (965,670) {$d$};
+\node at (512,727) {Australian dollars};
+\node[rotate=90] at (26,350) {British pounds};
+\draw[->] (118,647)--({118+39.45*21.7},{647-39.47*21.7*4/7});
+\fill ({118+39.45*7},{647-39.47*4}) circle (4.5);
+\node at (388,453) {$(7,\,4)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (T) at (122,16);\coordinate (L) at (58,221);\coordinate (M) at (297,235);
+\coordinate (P) at (14,352);\coordinate (Q) at (172,352);\coordinate (R) at (392,352);
+\draw (T)--(L)--(P)--(Q)--(R)--(M)--(T) (L)--(M) (L)--(Q)--(M);
+\foreach \p in {T,L,M,P,Q,R} \fill (\p) circle (2.2pt);
+\begin{scope}[font=\large]
+\node at (66,140) {$9$};\node at (228,118) {$10$};\node at (175,206) {$8$};
+\node at (25,268) {$7$};\node at (128,282) {$4$};\node at (224,284) {$5$};
+\node at (350,276) {$5$};\node at (90,370) {$6$};\node at (280,370) {$7$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

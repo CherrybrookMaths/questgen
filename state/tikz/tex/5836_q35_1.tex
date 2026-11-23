@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (363,228);
+\coordinate (A) at (597,96);
+\coordinate (B) at (623,300);
+\coordinate (C) at (133,436);
+\coordinate (D) at (133,120);
+\path[shade dots] (O) -- (A) -- (B) -- cycle;
+\draw (D) -- (A) -- (B) -- (C) -- cycle;
+\draw[->] (O) -- ($(O)!1.30!(A)$);
+\draw[->] (O) -- ($(O)!1.22!(B)$);
+\draw[->] (O) -- ($(O)!1.24!(C)$);
+\draw[->] (O) -- ($(O)!1.34!(D)$);
+\draw[aux,->] (O) -- (363,35);
+\node at (363,17) {$\mathbf{N}$};
+\draw plot[domain=-29.43:15.48,samples=30,smooth] ({363+100*cos(\x)},{228+100*sin(\x)});
+\node at (419,225) {$45^\circ$};
+\draw (480-9.8,162-17.4) -- (480+9.8,162+17.4);
+\draw (493+5.3,264-19.3) -- (493-5.3,264+19.3);
+\node[rotate=42.1] at (227,326) {25 km};
+\node at (585,76) {$A$};
+\node at (620,324) {$B$};
+\node at (142,457) {$C$};
+\node at (143,102) {$D$};
+\node at (366,254) {$O$};
+\node[anchor=west] at (656,48) {$056^\circ$};
+\node[anchor=west] at (685,318) {$101^\circ$};
+\node at (55,68) {$315^\circ$};
+\node at (73,512) {$253^\circ$};
+\node[align=center] at (842,175) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}
