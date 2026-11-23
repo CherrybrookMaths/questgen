@@ -89,3 +89,5 @@ Owner rulings, verbatim (record new ones here and next to the code, `// owner <d
    Still to do: Import: a standard|12 lane in the inventory (Standard 2 Year 12 papers only), a cover check that tells Standard 1 from Standard 2
    (27 of 357 file names say which), and course-aware import prompts (parse, tag, difficulty).
 6. Pilot batch: the NESA HSC Standard 2 papers (2020-2024 are in the folder) first, so they become the difficulty references.
+   Owner 23 Nov: "go for the pilot" (after "budget is now 600 monthly"). Runs as Standard batch 1 (run s1) once the Standard work is
+   merged and published, after the Advanced batches already running (14, 15), one import at a time.
