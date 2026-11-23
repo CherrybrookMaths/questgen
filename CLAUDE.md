@@ -36,7 +36,8 @@ In short: flaws first, [Certain]/[Likely]/[Guessing], no filler praise.
 - **Imports resumed 18 Nov, through the API** (owner: "Run batch 9, keep track of cost", then "use the api yeah"; this lifts the 17 Nov
   hold "not yet. no importing until i escelate this new prediction."). Supervised in a session, one batch at a time, through
   tools/api_import.py, cost logged per step and paper (IMPORT_PLAYBOOK "Import through the API"). API key `QG_ANTHROPIC_API_KEY`; owner:
-  "the monthly limit is $300 right now. I can change it later." (reminded 18 Nov before Batch 9). The night run still skips imports.
+  "the monthly limit is $300 right now. I can change it later." (reminded 18 Nov before Batch 9); raised 23 Nov:
+  "budget is now 600 monthly" (tools/costs.py MONTHLY_LIMIT_USD; a batch stops itself before the month passes US$580). The night run still skips imports.
 - **src/ holds the exam PDFs**: never move, publish or delete them (untracked; absent in a fresh clone).
 - **Page code only in page_src/**, then `python3 tools/build_page.py`. Never edit site/review.html.
 - **CODE_HEALTH.md every round**: follow its rules, list exceptions in the report, reviewers check the diff against it.
