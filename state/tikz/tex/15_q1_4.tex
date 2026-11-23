@@ -4,9 +4,9 @@
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
 \draw[->] (5,242) -- (520,242);
 \draw[->] (248,660) -- (248,15);
-\draw[line width=0.9pt,<->] plot[smooth,domain=130:330,samples=90] (\x,{\x<248 ? 242-0.000236*(\x-248)^3 : 242-0.000421*(\x-248)^3});
-\node[font=\large] at (228,45) {$y$};
-\node[font=\large] at (282,278) {$O$};
-\node[font=\large] at (470,278) {$x$};
+\draw[line width=0.9pt,<->] plot[smooth,domain=130:330,samples=90] (\x,{\x<248 ? 242-236*((\x-248)/100)^3 : 242-421*((\x-248)/100)^3});
+\node at (228,45) {$y$};
+\node at (282,278) {$O$};
+\node at (470,278) {$x$};
 \end{tikzpicture}
 \end{document}

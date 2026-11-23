@@ -2,19 +2,18 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
-\def\ux{59}\def\uy{59}
-\begin{scope}[shift={(256,372)},x=59*0.0127cm,y=-59*0.0127cm]
+\begin{scope}[shift={(256,372)},x=59*0.0127cm,y=59*0.0127cm]
 \draw[black!25,line width=0.4pt] (-4.3,-4.4) grid (4.3,6.2);
-\draw[->] (-4.3,0) -- (4.2,0);
-\draw[->] (0,-4.05) -- (0,6.15);
+\draw[->] (-4.3,0) -- (4.45,0);
+\draw[->] (0,-4.05) -- (0,6.2);
 \foreach \i in {-4,...,4}{\ifnum\i=0\else\draw (\i,0.07)--(\i,-0.07);\fi}
 \foreach \i in {-4,...,6}{\ifnum\i=0\else\draw (-0.07,\i)--(0.07,\i);\fi}
 \foreach \i in {-4,-3,-2,-1,1,3,4}{\node[font=\large,below] at (\i,-0.12) {$\i$};}
 \node[font=\large,below right] at (2,-0.12) {$2$};
 \foreach \i in {-4,-3,-2,-1,1,2,3,4,5,6}{\node[font=\large,left] at (-0.1,\i) {$\i$};}
 \draw[line width=0.9pt,<->] (-1,6) -- (4,-4);
-\node[font=\large] at (4.1,0.5) {$x$};
-\node[font=\large] at (0.45,5.9) {$y$};
+\node[font=\large] at (4.2,0.5) {$x$};
+\node[font=\large] at (0.4,5.95) {$y$};
 \end{scope}
 \end{tikzpicture}
 \end{document}

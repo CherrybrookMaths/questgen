@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (42,330)--(42,10);
+\draw[->] (42,330)--(342,330);
+\draw (34,64)--(42,64); \node[anchor=east] at (32,64) {50};
+\draw (311,330)--(311,338); \node[anchor=north] at (311,342) {50};
+\node at (32,342) {0};
+\foreach \p in {(101,98),(132,180),(161,131),(143,251),(198,86),(204,204),(226,131),(247,247),(273,198)}
+  \fill \p circle (3.6);
+\end{tikzpicture}
+\end{document}
