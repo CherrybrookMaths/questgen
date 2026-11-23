@@ -66,7 +66,9 @@ Owner rulings, verbatim (record new ones here and next to the code, `// owner <d
    - time-to-reach-zero-bac: "This can be folded into Blood alcohol content"
    - time-zones-and-daylight-saving: "fold into Practical Applications of Time"
    - utc: "fold into Practical Applications of Time"
-   Applied: state/work/skills/standard/skills.json, 135 skills (APPROVED). Names chosen by Claude where the note gave none: "Income tax"
+   Then, asked whether critical path "duration changed" questions get their own skill like flow: owner 23 Nov: "Yes for the croitical
+   path one." -> Changing activity durations (S2-12-106).
+   Applied: state/work/skills/standard/skills.json, 136 skills (APPROVED). Names chosen by Claude where the note gave none: "Income tax"
    (the one tax section), "Piecework" / "Royalties", "Median" / "Mode", "Surface area of prisms / cylinders / spheres", "Changing edge
    capacities" (flow increase/decrease). Dot points with no skill: the 14 spreadsheet ones, survey design (S11-082..084, "not relevant
    in tests") and S2-12-132 (media use of statistics). Tagging rules: TAG_SPEC_STANDARD.md (tag-std-v1, 23 Nov).
