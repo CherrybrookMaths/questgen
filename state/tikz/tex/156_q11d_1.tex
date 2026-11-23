@@ -5,24 +5,26 @@
   \def\Y(#1){702-16.457*#1}
   \def\P(#1){702-5.76*#1}
   \foreach \v in {5,10,...,35} \draw[black!25] (162,{\Y(\v)}) -- (1142,{\Y(\v)});
-  \foreach \l/\h [count=\i from 0] in {Traffic Jam/32,Woke Up Late/20,Family Problems/5,Sick/4,Public Transport Delayed/3,Bad Weather/1}
+  \foreach \h [count=\i from 0] in {32,20,5,4,3,1}
     \filldraw[fill=black!25,draw=black] ({162+163.33*\i},702) rectangle ({162+163.33*(\i+1)},{\Y(\h)});
   \draw (162,702) -- (1142,702);
   \draw (162,126) -- (162,702);
   \draw (1142,126) -- (1142,702);
-  \foreach \v in {0,5,...,35} {\draw (152,{\Y(\v)}) -- (162,{\Y(\v)}); \node[anchor=east] at (122,{\Y(\v)-8}) {\v};}
-  \foreach \p in {0,10,...,100} {\draw (1142,{\P(\p)}) -- (1150,{\P(\p)}); \node[anchor=west] at (1150,{\P(\p)}) {\p\%};}
+  \foreach \v in {0,5,...,35} {\draw (152,{\Y(\v)}) -- (162,{\Y(\v)}); \node[anchor=east] at (122,{\Y(\v)-6}) {\v};}
+  \foreach \p in {0,10,...,100} {\draw (1142,{\P(\p)}) -- (1150,{\P(\p)}); \node[anchor=west] at (1162,{\P(\p)+2}) {\p\%};}
   \foreach \p in {2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48,52,54,56,58,62,64,66,68,72,74,76,78,82,84,86,88,92,94,96,98}
     \draw[line width=0.4pt] (1142,{\P(\p)}) -- (1146,{\P(\p)});
   \draw[line width=0.9pt] (243.7,{\P(49.23)}) -- (407,{\P(80)}) -- (570.3,{\P(87.69)}) -- (733.7,{\P(93.85)}) -- (897,{\P(98.46)}) -- (1060.3,{\P(100)});
   \node at (652,75) {Causes for Late Arrivals};
   \node[rotate=90] at (32,415) {Frequency};
   \node[rotate=90] at (1297,395) {Cumulative Frequency Percentage};
-  \node[anchor=north,align=center] at (243.7,722) {Traffic\\Jam};
-  \node[anchor=north,align=center] at (414,722) {Woke\\Up\\Late};
-  \node[anchor=north,align=center] at (580,722) {Family\\Problems};
-  \node[anchor=north,align=center] at (737,722) {Sick};
-  \node[anchor=north,align=center] at (905,722) {Public\\Transport\\Delayed};
-  \node[anchor=north,align=center] at (1063,722) {Bad\\Weather};
+  \begin{scope}[every node/.style={anchor=north,align=center,font=\fontsize{12}{13.5}\selectfont}]
+  \node at (243.7,716) {Traffic\\Jam};
+  \node at (414,716) {Woke\\Up\\Late};
+  \node at (580,716) {Family\\Problems};
+  \node at (737,716) {Sick};
+  \node at (905,716) {Public\\Transport\\Delayed};
+  \node at (1063,716) {Bad\\Weather};
+  \end{scope}
 \end{tikzpicture}
 \end{document}

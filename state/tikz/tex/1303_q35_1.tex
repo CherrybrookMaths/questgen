@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {0,...,20}{
+    \draw[black!30] ({4+40.17*\i},3) -- ({4+40.17*\i},769);
+    \draw[black!30] (4,{3+38.3*\i}) -- (807,{3+38.3*\i});
+  }
+  \draw[<->] (2,386) -- (809,386);
+  \draw[<->] (405.7,1) -- (405.7,769);
+  \node[font=\Large] at (787,350) {$x$};
+  \node[font=\Large] at (432,30) {$y$};
+\end{tikzpicture}
+\end{document}

@@ -2,14 +2,16 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
-\draw[aux] (130,183)--(400,183);
+\draw[aux] (128,183)--(400,183);
 \draw[->] (400,183)--(414,183);
-\draw[->] (258,330)--(258,45);
-\draw[line width=0.9pt,<->] plot[smooth,tension=0.6] coordinates {(131,177) (170,166) (205,161) (222,168) (232,183) (238,215) (242,260) (244,296)};
-\draw[line width=0.9pt,<->] plot[smooth,tension=0.6] coordinates {(272,296) (274,260) (278,215) (284,183) (294,168) (311,161) (346,166) (393,177)};
-\node at (247,40) {$y$};
-\node at (240,199) {$O$};
-\node at (411,199) {$x$};
-\node[anchor=east] at (226,199) {asymptote at $y=0$};
+\draw[->] (260,330)--(260,40);
+\draw[line width=0.9pt,<->] plot[smooth,tension=0.6] coordinates {(126,174) (170,163) (216,160) (230,167) (237,183) (243,215) (248,255) (250,292)};
+\draw[line width=0.9pt,<->] plot[smooth,tension=0.6] coordinates {(270,292) (272,255) (277,215) (283,183) (290,167) (304,160) (350,163) (394,174)};
+\begin{scope}[font=\fontsize{10}{12}\selectfont]
+\node at (245,38) {$y$};
+\node at (243,201) {$O$};
+\node at (410,200) {$x$};
+\end{scope}
+\node[anchor=east,font=\fontsize{9.4}{11}\selectfont] at (207,201) {asymptote at $y=0$};
 \end{tikzpicture}
 \end{document}

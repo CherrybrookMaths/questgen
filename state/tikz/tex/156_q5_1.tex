@@ -4,15 +4,15 @@
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
   \draw[<->] (18,368) -- (860,368);
   \draw[<->] (424,635) -- (424,20);
-  \def\f(#1){368-16.328*((#1-152)/100)*((#1-510)/100)*((#1-790)/100)*(1+0.0965*(#1-424)/400)}
-  \draw[line width=0.9pt,<->] plot[domain=110:826,samples=90,smooth] (\x,{\f(\x)});
+  \def\f(#1){368-16.328*((#1-152)/100)*((#1-510)/100)*((#1-798)/100)*(1+0.0965*(#1-424)/400)}
+  \draw[line width=0.9pt,<->] plot[domain=110:834,samples=90,smooth] (\x,{\f(\x)});
   \pgfmathsetmacro\ya{\f(569)}
   \fill (569,\ya) circle[radius=9];
   \node[font=\large] at (546,492) {$A$};
   \node[font=\large] at (440,16) {$y$};
   \node[font=\large] at (880,380) {$x$};
   \node[font=\large] at (402,390) {$O$};
-  \node[font=\large] at (922,272) {$y=f\,(x)$};
-  \node[align=left,anchor=west,font=\large] at (838,536) {NOT TO\\SCALE};
+  \node at (922,272) {$y=f\,(x)$};
+  \node[align=left,anchor=west] at (838,538) {NOT TO\\SCALE};
 \end{tikzpicture}
 \end{document}

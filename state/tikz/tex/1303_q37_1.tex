@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (193,130) ellipse [x radius=178, y radius=38];
+  \draw (15,130) -- (15,368);
+  \draw (371,130) -- (371,368);
+  \draw (15,368) arc[start angle=180, end angle=360, x radius=178, y radius=-39];
+  \fill (193,130) circle (2pt);
+  \draw[->] (193,130) -- (370,130);
+  \draw[<->] (408,130) -- (408,368);
+  \node[font=\large] at (275,25) {Radius};
+  \node[font=\large] at (285,70) {$r$ metres};
+  \node[font=\large] at (490,228) {Height};
+  \node[font=\large] at (502,270) {$h$ metres};
+  \node[font=\large] at (193,258) {Volume};
+  \node[font=\large] at (193,300) {4 m$^3$};
+\end{tikzpicture}
+\end{document}

@@ -5,10 +5,12 @@
 \draw[->] (18,268)--(603,268);
 \draw[->] (314,305)--(314,12);
 \draw[aux] (28,237)--(585,237);
-\draw[line width=0.9pt,<->,domain=-288:274,samples=90,smooth] plot ({314+\x},{237-124/(1+(\x/117)^2)});
-\node[font=\large] at (292,20) {$y$};
-\node[font=\large] at (296,286) {$O$};
-\node[font=\large] at (598,285) {$x$};
-\node[font=\large,anchor=west] at (596,238) {$y=1$};
+\draw[line width=0.9pt,<->,domain=-288:274,samples=90,smooth] plot ({314+\x},{237-76*exp(-(\x/40)^2)-48/(1+(\x/221)^2)});
+\begin{scope}[font=\fontsize{10.5}{12}\selectfont]
+\node at (292,19) {$y$};
+\node at (296,286) {$O$};
+\node at (597,286) {$x$};
+\node[anchor=west] at (596,238) {$y=1$};
+\end{scope}
 \end{tikzpicture}
 \end{document}

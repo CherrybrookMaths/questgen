@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.0287cm,y=0.16256cm]
+  \foreach \i in {0,...,20}{
+    \draw[black!30] ({-5+0.5*\i},-30) -- ({-5+0.5*\i},30);
+    \draw[black!30] (-5,{-30+3*\i}) -- (5,{-30+3*\i});
+  }
+  \draw[<->] (-5,0) -- (5,0);
+  \draw[<->] (0,-30) -- (0,30);
+  \foreach \t in {1,2,3,4} \draw (\t,0.6) -- (\t,-0.6);
+  \draw (-0.07,27) -- (0.07,27);
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-1.74:4.37] (\x,{4*\x^3-\x^4});
+  \foreach \p in {(0,0),(2,16),(3,27),(4,0)} \fill \p circle (2.2pt);
+  \node[font=\large,anchor=east] at (-0.1,27) {$27$};
+  \node[font=\large] at (0.3,27.3) {$y$};
+  \node[font=\large] at (4.75,2.3) {$x$};
+  \node[font=\large] at (-0.18,1.7) {$0$};
+  \node[font=\large] at (4.25,1.7) {$4$};
+  \node[font=\large,anchor=south] at (3,27.8) {$(3,27)$};
+  \node[font=\large,anchor=east] at (1.85,16.6) {$(2,16)$};
+  \node[font=\large,anchor=west] at (4.6,-20) {$y=4x^3-x^4$};
+\end{tikzpicture}
+\end{document}

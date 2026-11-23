@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (22,510)--(1062,510);
+  \draw[<->] (540,150)--(540,866);
+  \node[font=\LARGE,anchor=west] at (1068,510) {$x$};
+  \node[font=\LARGE,anchor=south] at (540,140) {$y$};
+  \node[align=center] at (1002,58) {NOT TO\\SCALE};
+  \draw[<->,line width=0.9pt] plot[domain=-0.69:1.444,samples=90,smooth]
+    ({540+100*\x},{510-((((728*\x-980.37)*\x-13.395)*\x+135.58)*\x-31.36)});
+\end{tikzpicture}
+\end{document}

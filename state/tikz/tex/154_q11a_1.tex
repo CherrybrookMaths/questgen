@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[black!30] (157,48) ellipse [x radius=115, y radius=20];
+  \draw (157,48) ellipse [x radius=115, y radius=20];
+  \draw (42,48)--(42,238) (272,48)--(272,238);
+  \draw (42,238) arc[start angle=180,end angle=0,x radius=115,y radius=20];
+  \draw[aux] (42,238) arc[start angle=180,end angle=360,x radius=115,y radius=20];
+  \draw[->] (159,238)--(270,238);
+  \node at (225,272) {$x$\,cm};
+  \node[align=center] at (440,135) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

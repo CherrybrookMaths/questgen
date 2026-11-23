@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (0,795)--(1340,795);
+  \draw[->] (655,1510)--(655,140);
+  \node[font=\Large,anchor=west] at (1346,795) {$x$};
+  \node[font=\Large,anchor=south] at (655,132) {$y$};
+  \draw[aux] (283,170)--(283,1500);
+  \draw[aux] (1027,170)--(1027,1500);
+  \node[font=\Large,anchor=north east] at (277,805) {$-2$};
+  \node[font=\Large,anchor=north west] at (1035,805) {$2$};
+  \draw[<->,line width=0.9pt] plot[domain=-3.45:-2.3,samples=60,smooth] ({655+186*\x},{795-819/(\x*\x-4)});
+  \draw[<->,line width=0.9pt] plot[domain=2.3:3.45,samples=60,smooth] ({655+186*\x},{795-819/(\x*\x-4)});
+  \draw[<->,line width=0.9pt] plot[domain=-1.68:1.68,samples=90,smooth] ({655+186*\x},{795-819/(\x*\x-4)});
+  \node[pt] at (655,999.75) {};
+  \node[font=\Large,anchor=south west] at (667,985) {$\left(0,\,-\dfrac{9}{4}\right)$};
+\end{tikzpicture}
+\end{document}

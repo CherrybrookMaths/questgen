@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (25,562)--(1275,562);
+  \draw[->] (625,1030)--(625,95);
+  \node[font=\large,anchor=west] at (1290,562) {$x$};
+  \node[font=\large,anchor=south] at (625,85) {$y$};
+  \foreach \i in {-3,-2,-1,1,2,3} \draw ({625+124*\i},555)--({625+124*\i},569);
+  \draw (618,132)--(632,132);
+  \node[font=\large,anchor=west] at (636,140) {$54$};
+  \draw[line width=0.9pt] plot[domain=-3:3,samples=90,smooth]
+    ({625+124*\x},{562-87.2*ln((\x*\x*(\x*\x-3))/0.78+sqrt(((\x*\x*(\x*\x-3))/0.78)*((\x*\x*(\x*\x-3))/0.78)+1))});
+  \foreach \p in {(253,132),(997,132),(410.2,562),(839.8,562),(625,562),(473.1,717.3),(776.9,717.3)} \node[pt] at \p {};
+  \node[font=\large,anchor=south] at (253,118) {$(-3,\,54)$};
+  \node[font=\large,anchor=west] at (1009,125) {$(3,\,54)$};
+  \node[font=\large,anchor=south west] at (420,548) {$(-\sqrt{3},\,0)$};
+  \node[font=\large,anchor=south west] at (636,548) {$(0,\,0)$};
+  \node[font=\large,anchor=south west] at (864,548) {$(\sqrt{3},\,0)$};
+  \node[font=\large,anchor=north] at (473,735) {$\left(-\sqrt{\dfrac{3}{2}},\,-2\dfrac{1}{4}\right)$};
+  \node[font=\large,anchor=north] at (777,735) {$\left(\sqrt{\dfrac{3}{2}},\,-2\dfrac{1}{4}\right)$};
+\end{tikzpicture}
+\end{document}
