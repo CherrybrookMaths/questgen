@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % grid
+  \foreach \k in {1,...,6} \draw[black!25,line width=0.5pt] (137,{518-15.87*5*\k}) -- (610,{518-15.87*5*\k});
+  \foreach \x in {214,293,372,451,531} \draw[black!25,line width=0.5pt] (\x,42) -- (\x,518);
+  % bars
+  \foreach \a/\h in {175/25.1,255/8.9,333/7.55,412/5.25,491/2.55}
+    \draw[fill=black!40] (\a,518) rectangle ({\a+79},{518-15.87*\h});
+  % axes
+  \draw (137,42) -- (137,518);
+  \draw (610,42) -- (610,532);
+  \draw (122,518) -- (625,518);
+  \foreach \k in {0,...,6} {\draw (122,{518-15.87*5*\k}) -- (137,{518-15.87*5*\k});
+    \node[anchor=east] at (118,{518-15.87*5*\k}) {\pgfmathparse{int(5*\k)}\pgfmathresult};}
+  \foreach \k in {0,...,10} {\draw (610,{518-4.76*10*\k}) -- (625,{518-4.76*10*\k});
+    \node[anchor=west] at (628,{518-4.76*10*\k}) {\pgfmathparse{int(10*\k)}\pgfmathresult};}
+  \foreach \x/\m in {214/Apr,293/May,372/Mar,451/Feb,531/Jan} {
+    \draw (\x,518) -- (\x,530);
+    \node[anchor=north east,rotate=45,inner sep=1pt] at (\x+8,536) {\m};}
+  % cumulative line
+  \draw[line width=0.9pt] (214,280) -- (293,196) -- (372,118) -- (451,66) -- (531,42);
+  \foreach \x/\y in {214/280,293/196,372/118,451/66,531/42} \fill (\x,\y) circle (2.4pt);
+  \node[rotate=90] at (40,280) {Orders};
+  \node[rotate=-90] at (725,280) {Cumulative percentage};
+\end{tikzpicture}
+\end{document}

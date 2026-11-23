@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \path[shade dots] (318,395) -- plot[smooth,domain=318:470,samples=40] (\x,{395-23625/(\x-213)}) -- (470,395) -- cycle;
+  \draw[->] (40,395) -- (740,395);
+  \draw[->] (213,468) -- (213,38);
+  \draw plot[smooth,domain=280:738,samples=90] (\x,{395-23625/(\x-213)});
+  \draw (318,395) -- (318,170);
+  \draw (470,395) -- (470,{395-23625/257});
+  \node at (190,416) {$O$};
+  \node at (318,420) {$1$};
+  \node at (470,420) {$d$};
+  \node at (723,416) {$x$};
+  \node at (192,45) {$y$};
+\end{tikzpicture}
+\end{document}
