@@ -201,6 +201,10 @@ Imports stay paused until 1-4 are done. Tick each off in the page's Next up list
    friday 9-5 all those days"): the checker's "Fix my flags now" on Review writes runs/flags_*; scheduled task "Questgen flag check"
    (trig_01J5E9pn3VHBVu8zf2wFg5Jh, fresh session, hourly 9 am-4 pm Sydney Mon Tue Wed Fri) runs FLAGS.md "Scheduled check"; the night
    run clears requests still waiting. It needs the Google Drive connector added in claude.ai/code/routines (as the night task).
+   Every 15 minutes since 24 Nov (owner: "Lets make it a 15 minute thing, it sends flags every 15"): three copies at :19, :34, :49
+   (trig_01RNM5jiDb9XPHYLGumuLFRx, trig_01Kc57bbNUQ9MvEe1jaQeE1W, trig_01DBkja1MFEfUo3KJH4zZk8G) beside the original at :04 (one task may not
+   fire more than hourly). Each needs Drive added the same way. Instant runs do not work: no session can register a watch on the page
+   ("mint_failed", 24 Nov, sessions started by Claude and by Steve); only the session that registered on 23 Nov still hears comments.
 
 ## Open items (14 Nov)
 - Details for jobs 2, 3, 5 and 6 above: the reviews migration has 22 ArtifactData batches (1,052 writes: k_<key> and
