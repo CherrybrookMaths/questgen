@@ -155,6 +155,9 @@ def lanes(inv, write=True, reset=()):
         if not ready and not L: continue
         have = {i for b in (L or {}).get('batches', []) for i in b}
         new = sorted([p for p in ready if p['id'] not in have], key=order_key)
+        # owner 23 Nov (Standard): the pilot batch starts with the NESA HSC papers, so they become the course's difficulty references
+        # (STANDARD_SPEC.md step 6); a course that already has its references (Advanced) keeps the plain order
+        if key.startswith('standard|') and not L: new.sort(key=lambda p: (0 if p.get('s') == 'NESA' and p.get('t') == 'HSC' else 1, order_key(p)))
         if not new: continue
         why = 'new papers from a scan'
         if not L:

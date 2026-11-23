@@ -79,6 +79,12 @@ Owner rulings, verbatim (record new ones here and next to the code, `// owner <d
    and an empty Standard bank (tools/standard_course.py), the MST reference sheet rendered to data/ref/standard-1/2.png (pdftoppm -r 200
    -gray, as Advanced; not in git, published from the session). Page test "course switch" (every view opens on Standard, back to
    Advanced). Left: per-course Review and Processes lists, and dot point short labels written by hand (now the first clause).
-5. Import: a standard|12 lane in the inventory (Standard 2 Year 12 papers only), a cover check that tells Standard 1 from Standard 2
+5. Import. 23 Nov, the paper list (tools/inventory.py, batches.py): Standard is a target course ("Mathematics Standard 2"); files the
+   first stock-take excluded only as "non-target course" are candidates again; a file or folder naming Standard 1 is held (owner:
+   "Standard 2 first"); papers before 2019 are old syllabus (General Mathematics; Standard 1 and 2 first examined 2019). Year 12
+   lane: 173 papers (107 current, 66 old) in 19 batches; 12 Standard 1 held; Year 11 held (owner: "yes finalise Y12 first").
+   Batch 1 (the pilot) starts with the 5 NESA HSC Standard 2 papers 2020-2024, so they become the references. Advanced's list
+   unchanged (checked count for count). Open for the owner: import the 66 General Maths papers later (as Advanced's old 2 Unit)?
+   Still to do: Import: a standard|12 lane in the inventory (Standard 2 Year 12 papers only), a cover check that tells Standard 1 from Standard 2
    (27 of 357 file names say which), and course-aware import prompts (parse, tag, difficulty).
 6. Pilot batch: the NESA HSC Standard 2 papers (2020-2024 are in the folder) first, so they become the difficulty references.
