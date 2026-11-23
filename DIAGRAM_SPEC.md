@@ -49,6 +49,8 @@ Working in the crop's own pixel units is easiest: `x=0.0127cm, y=-0.0127cm` make
 3. **Thin lines everywhere (owner).** House weight is 0.6pt (examstyle). No local `line width` above 0.6pt except the 0.9pt emphasis in rule 9, no `thick`/`semithick`/`very thick`, even when the scan's strokes look heavier.
    Dashed lines use the house `aux` style (short fine dashes: on 2pt off 1.5pt); never long or heavy dashes.
 9. **Curves stand out from axes (owner: "the graph needs to be a bit thicker ... to show which is graph, which is axis"; "make the box plots a bit thicker").** Rule 3 stays for axes, grids and construction lines (0.6pt). A plotted graph that runs along or touches an axis, and every box plot (box, median, whiskers), is drawn at 0.9pt so it reads as the graph.
+   Exception (owner 24 Nov: "allow this one exception"): 2019 HSC Standard 2 Q31 (5832_q31_1), the bolded section of the curve is 1.6pt
+   (checker: "Make the bolded section bolder"). No other drawing goes above 0.9pt.
 3a. **Smooth curves (owner: "looks fuzzy").** Plot functions with `smooth` and about 90 samples, not hundreds of straight
    segments, and stop an asymptotic tail before it runs into the axis arrowhead. A curve traced from the crop is never drawn through every traced pixel point (owner: "bumpy"):
    run `python3 tools/desmooth.py tikz/tex/<id>.tex` to refit it as one smooth spline within 0.25% of the trace.

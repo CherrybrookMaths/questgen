@@ -71,3 +71,9 @@ Owner 23 Nov (verbatim): "we cannot be pinned down by imports. We should be able
    for each fixed text flag keep `status: 'flagged'` and add `fixed: {note: 'Claude <time>: <what changed>. Approve if right.', at}`.
    ArtifactData `batch`, each write pinned with `if_version` from the export (re-read and redo a write that hits a newer version: the checker may be working).
 5. Commit and push. Reply in 3 lines: what was fixed, what waits on the owner, the version published.
+
+## Flags that answer a Your call (24 Nov)
+The checker's flags of 24 Nov fixed four questions that were open Your calls (2021 North Sydney Boys AT4 Q13(b) reworded, 2021 Oakhill AT1
+Q4 and 2021 PEM AT4 Q10 option B changed so one option is correct, 2021 Sydney Girls AT4 Q13(d) retired). Owner 24 Nov: "keep his fixes";
+the four calls are closed (site/project/open_decisions.json). A later flag fix that answers an open Your call is reported to the owner,
+who closes the call.

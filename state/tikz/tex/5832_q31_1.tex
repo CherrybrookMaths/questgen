@@ -22,6 +22,7 @@
 \foreach \a in {5,10,15} \node[anchor=east] at (514,{588+19.7*\a}) {\halo{$-\a$}};
 % curve
 \draw[<-] plot[smooth,samples=90,domain=-4.82:0] ({517+92.7*\x},{588-19.7*(2*\x*\x+5*\x)});
-\draw[->,line width=0.9pt] plot[smooth,samples=60,domain=0:2.675] ({517+92.7*\x},{588-19.7*(2*\x*\x+5*\x)});
+% owner 24 Nov: "allow this one exception" (checker: "Make the bolded section bolder"): 1.6pt, above the 0.9pt house maximum
+\draw[->,line width=1.6pt] plot[smooth,samples=60,domain=0:2.675] ({517+92.7*\x},{588-19.7*(2*\x*\x+5*\x)});
 \end{tikzpicture}
 \end{document}
