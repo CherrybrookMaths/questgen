@@ -305,7 +305,7 @@ document
     caption: map of six regions
     redraw_status: approx
     redraw_class: other
-    redraw_notes: Map of six regions (Forest, Swamp, Mountains, Desert, Coast, Woods), each with a filled triangle marker. The internal borders match closely, and so do the adjacencies (the 7 shared borders the question counts). The wiggly outer coastline is only an approximation, drawn as smooth splines through traced points: the narrow inlets on the Woods/Forest coast are less deep than in the crop. That accounts for most of the low overlay score. Region names are slightly larger than in the print. Upright text is kept because these are place names, not maths.
+    redraw_notes: Map of six regions (Forest, Swamp, Mountains, Desert, Coast, Woods), each with a filled triangle marker. The internal borders match closely, and so do the adjacencies (the 7 shared borders the question counts). The wiggly outer coastline is only an approximation, drawn as smooth splines through traced points: the narrow inlets on the Woods/Forest coast are less deep than in the crop. That accounts for most of the low overlay score. Region names are slightly larger than in the print. Upright text is kept because these are place names, not maths. Checker 23 Nov fix: Coast and its marker moved right, off the border line.
   part -  id 6952
     ordinal: 1
     latex: |
@@ -488,7 +488,7 @@ document
     caption: right-angled triangle with hypotenuse... side x, angle 40 degrees, base 20
     redraw_status: ok
     redraw_class: geometry
-    redraw_notes: Right-angled triangle: the right-angle box at the apex, x on the hypotenuse, 40° at the left vertex, 20 under the base. The vertex geometry overlays exactly. Round 1 did not render properly (wrong syntax for the right-angle mark); round 2 fixed it. The labels came out a bit larger than in the print and x sits slightly high, which is why the redraw score is 0.83. No more rounds were allowed: worth a look, the fix is font=\normalsize with x at about (122,270).
+    redraw_notes: Right-angled triangle: the right-angle box at the apex, x on the hypotenuse, 40° at the left vertex, 20 under the base. The vertex geometry overlays exactly. Round 1 did not render properly (wrong syntax for the right-angle mark); round 2 fixed it. The labels came out a bit larger than in the print and x sits slightly high, which is why the redraw score is 0.83. No more rounds were allowed: worth a look, the fix is font=\normalsize with x at about (122,270). Checker 23 Nov fix: 40 degrees moved right, off the hypotenuse.
   part -  id 6954
     ordinal: 1
     latex: |
@@ -1429,7 +1429,7 @@ document
     caption: weighted network of towns
     redraw_status: ok
     redraw_class: other
-    redraw_notes: Weighted network: 8 towns at the measured positions, all 12 edges and weights kept as printed. Round 2 moved T right to its measured position and moved the 23, 15 and 29 labels. Labels are maths italic and sit clear of the edges. Rules 1, 3, 6a, 11, 19.
+    redraw_notes: Weighted network: 8 towns at the measured positions, all 12 edges and weights kept as printed. Round 2 moved T right to its measured position and moved the 23, 15 and 29 labels. Labels are maths italic and sit clear of the edges. Rules 1, 3, 6a, 11, 19. Checker 23 Nov fix: every weight moved clear of its edge.
   part a  id 6964
     ordinal: 1
     latex: What is the shortest path from $T$ to $H$?
@@ -1620,7 +1620,7 @@ document
     caption: weighted network A to J
     redraw_status: ok
     redraw_class: other
-    redraw_notes: Weighted network A to J: 10 vertices and 14 weighted edges at the measured positions. Round 2 corrected the positions of H and I, and of the H, I and D-J weight labels. Rules 1, 3, 6a, 11, 19.
+    redraw_notes: Weighted network A to J: 10 vertices and 14 weighted edges at the measured positions. Round 2 corrected the positions of H and I, and of the H, I and D-J weight labels. Rules 1, 3, 6a, 11, 19. Checker 23 Nov fix: every weight moved clear of its edge; A and H moved off their edges.
   figure 40_q18_s1.png
     page: 2
     bbox: [70, 170, 420, 375]
@@ -2183,7 +2183,7 @@ document
     data_table 40_q22_t1
       header_rows: 1
       label_col: 1
-      rows_json: [["", "\\text{Population } W", "\\text{Population } K"], ["\\text{Population in 1985}", "A = 34", "B ="], ["\\text{Percentage yearly change in the population}", "", ""], ["\\text{Predicted population when } x = 50", "", "61"]]
+      rows_json: [["", "\\text{Population } W", "\\text{Population } K"], ["\\text{Population in 1985}", "A = 34", "B = \\phantom{000}"], ["\\text{Percentage yearly change}\\\\\\text{in the population}", "", ""], ["\\text{Predicted population when } x = 50", "", "61"]]
       spans_json: []
     tag 2024 S2-12-007
       focus_area: Algebraic relationships
@@ -3839,7 +3839,7 @@ document
     caption: cake made of cylinder with cone top, one slice removed
     redraw_status: approx
     redraw_class: other
-    redraw_notes: Cake (cylinder with cone top, wedge cut out) and the removed slice, measured from the crop: grey sides (black!25), lighter cone (black!12) with thin grey generator lines, stippled cut faces (shade dots), hidden back rims, axis and rim chords dashed (aux), darker lower strip on the slice's curved face as in the crop. Approx: the ellipse arcs and the slice's curved edges are estimated (bend arcs), and the number and placement of the generator lines differ slightly. Rules 1,3,5,5a,6.
+    redraw_notes: Cake (cylinder with cone top, wedge cut out) and the removed slice, measured from the crop: grey sides (black!25), lighter cone (black!12) with thin grey generator lines, stippled cut faces (shade dots), hidden back rims, axis and rim chords dashed (aux), darker lower strip on the slice's curved face as in the crop. Approx: the ellipse arcs and the slice's curved edges are estimated (bend arcs), and the number and placement of the generator lines differ slightly. Rules 1,3,5,5a,6. Checker 23 Nov fix: the cone's sides now meet the rim where they touch it, so the back of the cone is shaded (it showed white above the dashed back rim).
   part -  id 6996
     ordinal: 1
     latex: |

@@ -437,8 +437,8 @@ document
     figure_key: 16_q5_1
   option B
     latex: \exfigure{16_q5_2}
-    is_correct: 1
-    key_source: extracted
+    is_correct: 0
+    key_source: corrected
     figure_key: 16_q5_2
   option C
     latex: \exfigure{16_q5_3}
@@ -448,7 +448,7 @@ document
   option D
     latex: \exfigure{16_q5_4}
     is_correct: 1
-    key_source: extracted
+    key_source: corrected
     figure_key: 16_q5_4
   figure 16_q5_1.png
     page: 3
@@ -536,13 +536,11 @@ document
         Graphs B and D both trend downwards. In graph D the points lie almost exactly on a straight line, so $r$ is very close to $-1$. In graph B the points are less linear (the last two have the same $x$ value), so $r$ is weaker.
 
         Hence the correct option is D.
-
-        (The school accepted both B and D: $r$ is about $-0.92$ for B and about $-1.00$ for D, so D is the closer match.)
       source_document_id: 16
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.6, "correction_note": "Claude 23 Nov (Standard batch 1 verify): the school accepted B and D; the solution argued only D", "generated_note": "Source key marks both B and D as correct. D is the better fit to r = -0.98 (B is about -0.92 by estimate), so D is keyed here. The question may need an owner decision (two options marked correct in the source).", "self_check": "Estimated r from pixel coordinates: graph B about -0.92, graph D about -1.00.", "source_original": "A correlation coefficient of $r=-0.98$ means a very strong negative linear relationship: the points trend downwards and lie almost exactly on a straight line.\n\nGraphs A and C trend upwards (positive correlation), so they are rejected.\n\nGraphs B and D both trend downwards. In graph D the points lie almost exactly on a straight line, so $r$ is very close to $-1$. In graph B the points are less linear (the last two have the same $x$ value), so $r$ is weaker.\n\nHence the correct option is D."}
+      meta_json: {"checker_ruling": "checker 23 Nov: \"Take D as the correct answer\" (the school's key accepted B and D; B is no longer keyed)", "confidence": 0.6, "correction_note": "Claude 23 Nov (Standard batch 1 verify): the school accepted B and D; the solution argued only D", "generated_note": "Source key marks both B and D as correct. D is the better fit to r = -0.98 (B is about -0.92 by estimate), so D is keyed here. The question may need an owner decision (two options marked correct in the source).", "self_check": "Estimated r from pixel coordinates: graph B about -0.92, graph D about -1.00.", "source_original": "A correlation coefficient of $r=-0.98$ means a very strong negative linear relationship: the points trend downwards and lie almost exactly on a straight line.\n\nGraphs A and C trend upwards (positive correlation), so they are rejected.\n\nGraphs B and D both trend downwards. In graph D the points lie almost exactly on a straight line, so $r$ is very close to $-1$. In graph B the points are less linear (the last two have the same $x$ value), so $r$ is weaker.\n\nHence the correct option is D."}
     difficulty
       band: 2
       wm: UF
@@ -1291,7 +1289,7 @@ document
     caption: project network with activities A to M and a dummy activity
     redraw_status: ok
     redraw_class: other
-    redraw_notes: Activity network: 9 split-ellipse nodes plus Start and Finish boxes, 14 directed edges A,3 … M,5 and a dashed dummy edge labelled 0. The bold key ellipse (bottom right) is drawn at 0.9pt to keep it distinct. Ellipse dividers are drawn straight vertical instead of the crop's slight tilt (rule 10). Edges run centre to centre and end on the ellipse boundary, so they sit a few pixels off the crop's hand-placed edges (main source of the red/blue pairs). Node and label positions are measured from the crop. Activity letters are in maths italic (rule 19). Arrows use house -latex heads (rule 4) and the dummy edge uses aux dashes (rule 3).
+    redraw_notes: Activity network: 9 split-ellipse nodes plus Start and Finish boxes, 14 directed edges A,3 … M,5 and a dashed dummy edge labelled 0. The bold key ellipse (bottom right) is drawn at 0.9pt to keep it distinct. Ellipse dividers are drawn straight vertical instead of the crop's slight tilt (rule 10). Edges run centre to centre and end on the ellipse boundary, so they sit a few pixels off the crop's hand-placed edges (main source of the red/blue pairs). Node and label positions are measured from the crop. Activity letters are in maths italic (rule 19). Arrows use house -latex heads (rule 4) and the dummy edge uses aux dashes (rule 3). Checker 23 Nov fix: G, 3 moved up off its arrow (F, 5, which also sat on its arrow, moved left).
   part a  id 7291
     ordinal: 1
     latex: What is the earliest start time of activity J?
