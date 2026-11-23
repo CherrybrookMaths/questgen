@@ -16,6 +16,12 @@ P = paths.P
 db = sqlite3.connect(paths.DBS); db.row_factory = sqlite3.Row
 S = json.load(open(paths.S + 'work/import/batches.json'))
 DOCS = [i for b in S['batches'] for i in b['ids']]
+# 23 Nov (owner: "why are there no spot checks in the std papers?"): Standard batches run through tools/api_import.py and are not
+# in work/import/batches.json, so 8 of the pilot's 9 papers were never triaged (no Spot-check step). Add every other lane's papers
+# that are in the database (work/batches.json, tools/batches.py).
+_L = json.load(open(paths.S + 'work/batches.json'))['lanes'] if os.path.exists(paths.S + 'work/batches.json') else {}
+_have = {r[0] for r in db.execute('select distinct document_id from questions')}
+DOCS += [i for ln, v in _L.items() if not ln.startswith('advanced|') for b in v.get('batches', []) for i in b if i in _have and i not in DOCS]
 render = {x['id']: x['err'] for x in json.load(open(paths.S + 'work/verify/render.json'))['problems']} if os.path.exists(paths.S + 'work/verify/render.json') else {}
 render_done = os.path.exists(paths.S + 'work/verify/render.json')
 ver = {}
