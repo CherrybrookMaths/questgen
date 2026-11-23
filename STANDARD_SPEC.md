@@ -34,10 +34,42 @@ Owner rulings, verbatim (record new ones here and next to the code, `// owner <d
    Borderline calls, owner 23 Nov: "If they're out then flag them as such. 4 is fine.": questions needing z-tables, pure similar
    figures (scale factor outside maps and plans), the International Date Line, timetables beyond plain elapsed time, and forming a
    quadratic model from a description are old syllabus (flagged, kept out, not dropped); a given quadratic model is in.
-3. Skills and tagging rules. Owner 23 Nov on the first draft (83 skills): "we don't care about spreadsheet formulas. remove it.
-   Finer skills is important for money and also others." Draft v2: state/work/skills/standard/skills_draft.json, 149 skills (split
-   finer in money, measurement, data, networks, finance, trigonometry, probability); the 14 spreadsheet dot points carry no skill.
-   Waiting for the owner's approval of the names.
+3. Skills. Owner 23 Nov on the first draft (83 skills): "we don't care about spreadsheet formulas. remove it. Finer skills is
+   important for money and also others." Draft v2 had 149. Owner signed them off on the Standard Skill Sign-off page (owner: "can u
+   make the list view a little easier to approve?"; page https://claude.ai/artifact/6Qu8emuAEiJp3brfp9f63W, its db `decisions`; source in
+   state/work/skills/standard/signoff/), 23 Nov: 121 approved, 28 changes, verbatim:
+   - annuities-in-a-table: "this should be split into future and prsent value, fold it into each"
+   - annuity-contributions: "fold this into FV or PV annuities"
+   - annuity-decisions: "fold this into FV or PV annuities"
+   - bivariate-data-and-causation: "fold this into scatter plots"
+   - brokerage: "fold this into share prices"
+   - changing-loan-repayments: "fold into loan repayments"
+   - compounding-periods-and-rates: "collapse this into compound interest"
+   - converting-pay-periods: "wrap this into wages"
+   - elapsed-time-and-time-conversions: rename "Practical Applications of Time"
+   - equation-of-a-straight-line: rename "Finding the equation of a straight line"
+   - flow-networks-and-cuts: "increase / decrease questions need a separate skill"
+   - gradient-and-intercept: rename "Determining the gradient and the y-intercept"
+   - interpolation-and-extrapolation-from-a-linear-model: "wrap ths into linear modelling"
+   - leave-loading: rename "Holiday Pay"; "this section should contain all holiday loading and pay questions"
+   - median-and-mode: "split into median and mode"
+   - medicare-levy: "wrap into one tax section"
+   - net-pay: "wrap into one tax section"
+   - payg-withholding: "wrap into one tax section"
+   - piecework-and-royalties: "split into royalities and piecework"
+   - statistical-investigations-and-surveys: "not relevant in tests"
+   - surface-area: "should be able to filter between shapes"
+   - tax-payable-from-tax-tables: "wrap into one tax section"
+   - tax-refunds-and-amounts-owing: "wrap into one tax section"
+   - taxable-income-and-deductions: "wrap into one tax section"
+   - time-differences-from-longitude: "fold into latitude and longitude"
+   - time-to-reach-zero-bac: "This can be folded into Blood alcohol content"
+   - time-zones-and-daylight-saving: "fold into Practical Applications of Time"
+   - utc: "fold into Practical Applications of Time"
+   Applied: state/work/skills/standard/skills.json, 135 skills (APPROVED). Names chosen by Claude where the note gave none: "Income tax"
+   (the one tax section), "Piecework" / "Royalties", "Median" / "Mode", "Surface area of prisms / cylinders / spheres", "Changing edge
+   capacities" (flow increase/decrease). Dot points with no skill: the 14 spreadsheet ones, survey design (S11-082..084, "not relevant
+   in tests") and S2-12-132 (media use of statistics). Still to write: the tagging rules (TAG_SPEC for Standard).
 4. The course in the page: QG.courses.standard (name, bank files, dot points, MST reference sheet), the header course switch, Review
    and exams per course.
 5. Import: a standard|12 lane in the inventory (Standard 2 Year 12 papers only), a cover check that tells Standard 1 from Standard 2
