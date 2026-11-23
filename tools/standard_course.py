@@ -8,12 +8,13 @@ Writes, from state/work/skills/standard/dotpoints.json (tools/standard_syllabus.
   site/data/bank/standard/index.gz.json     an EMPTY bank index in tools/bank_split.py's format (same fields, no questions), so every
   site/data/bank/standard/details.gz.json   view works for the course with zero questions; the pilot's import replaces both
 The course is listed in QG.courses (page_src/js/01_core.js) as 'standard'.
-`short` labels are made here from the dot point text (the first clause, at most 60 characters, '…' when cut); Advanced's were written by hand.
+`short` labels: tools/standard_short.py by hand (162, where the first clause ran past 60 characters), else the first clause.
   python3 tools/standard_course.py
 """
 import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import hashlib, json, os, re
 from bank_split import write_gz
+from standard_short import SHORT   # hand-written where the first clause is too long
 
 SRC = paths.S + 'work/skills/standard/dotpoints.json'
 DOTS = paths.P + 'site/data/dotpoints-standard.json'
@@ -28,7 +29,7 @@ def short(t):
 
 def main():
     src = [x for x in json.load(open(SRC)) if x['part'] in ('common', 'S2')]
-    dots = [{'id': x['id'], 'fa': x['fa'], 'yl': x['yl'], 'sub': x['sub'], 'text': x['text'], 'tex': x['tex'], 'short': short(x['text'])} for x in src]
+    dots = [{'id': x['id'], 'fa': x['fa'], 'yl': x['yl'], 'sub': x['sub'], 'text': x['text'], 'tex': x['tex'], 'short': SHORT.get(x['id']) or short(x['text'])} for x in src]
     json.dump(dots, open(DOTS, 'w'), ensure_ascii=False, indent=0)
     os.makedirs(BANK, exist_ok=True)
     sig = hashlib.sha256(json.dumps(dots, sort_keys=True).encode()).hexdigest()[:16]
