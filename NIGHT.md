@@ -13,6 +13,19 @@ The Tonight card on Processes › Work shows exactly what this run does, from tw
 - `runs` with `status: "requested"`: what the owner asked for from page buttons (cover-page check, import queue). He can
   remove one before the run (it becomes `cancelled`): never run a cancelled request.
 
+## While an import is running (owner 23 Nov)
+Owner 23 Nov: "please take actions to ensure that the batches are ready for checking by the morning" (an overnight import of Advanced
+batches through tools/api_import.py, run from the owner's session). Before anything else, read `progress/jobs`. If it lists a job
+whose name starts with "Import" and whose `started` is under 12 hours old, an import owns the database, the batch lists and the
+publishes tonight:
+- do NOT overwrite `progress/jobs`: add "Night run" to its list and remove only that entry at the end;
+- requests (step 1): leave every `runs` doc as it is (flag requests too: the import session publishes; the shift check or the next
+  night run takes them);
+- skip steps 2 (rescan: it writes the database and the lanes), 3, 3b and 3c, 4 (publish) and 5 (backup: the importing session backs
+  the database up when it finishes);
+- step 6: results as usual, each skipped step "Skipped: import running (<job name>)".
+Never stop or change the import.
+
 ## 0. Start
 1. The repo: if /home/user/questgen is missing, attach CherrybrookMaths/questgen with the add_repo tool (push access) and
    clone it there. Read CLAUDE.md (it loads automatically) and follow "Fresh session: start here" steps 0–5 and 7. Step 5 (fetch the published image files with
