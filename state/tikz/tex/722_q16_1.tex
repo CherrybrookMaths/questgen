@@ -4,9 +4,9 @@
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{9.5}{11}\selectfont}]
 \coordinate (A) at (183,87); \coordinate (B) at (667,188); \coordinate (C) at (537,433);
 \coordinate (D) at (183,457); \coordinate (O) at (340,258);
-\path[shade hatch reverse] (O)--(A)--(B)--cycle;
-\path[shade hatch reverse] (O)--(A)--(D)--cycle;
-\path[shade hatch reverse] (O)--(B)--(C)--cycle;
+\fill[black!15] (O)--(A)--(B)--cycle;   % checker 23 Nov: grey shading, no stripes
+\fill[black!15] (O)--(A)--(D)--cycle;
+\fill[black!15] (O)--(B)--(C)--cycle;
 \draw (A)--(B)--(C)--(D)--cycle;
 \foreach \p in {A,B,C,D} \draw[aux] (O)--(\p);
 \draw[->] (O)--(340,180);

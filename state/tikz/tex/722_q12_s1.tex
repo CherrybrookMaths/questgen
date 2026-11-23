@@ -1,24 +1,24 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}[scale=1,every node/.style={font=\small}]
-\coordinate (A) at (0,3); \coordinate (B) at (4,4); \coordinate (C) at (7.5,2.2);
-\coordinate (D) at (0.8,0); \coordinate (E) at (5.5,0); \coordinate (F) at (3.6,1.9);
-\draw (A) -- node[above left=0pt and 0pt, pos=0.5]{350} (B);
-\draw (A) -- node[left]{400} (D);
-\draw (A) -- node[below left=-1pt and 0pt]{380} (F);
-\draw (B) -- node[above right=-1pt and 0pt]{300} (C);
-\draw (B) -- node[right]{120} (F);
-\draw (C) -- node[below right=-2pt and 0pt]{200} (E);
-\draw (C) -- node[above]{220} (F);
-\draw (D) -- node[below]{110} (E);
-\draw (E) -- node[above right=-2pt and 0pt]{180} (F);
-\foreach \p in {A,B,C,D,E,F} \fill (\p) circle[radius=1.6pt];
-\node[left] at (A) {$A$};
-\node[above] at (B) {$B$};
-\node[right] at (C) {$C$};
-\node[below left] at (D) {$D$};
-\node[below right] at (E) {$E$};
-\node[above left=1pt and -2pt] at (F) {$F$};
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={inner sep=1pt}]
+% checker 23 Nov ("Find the original image"): drawn on the question's own vertices (722_q12_1), edges and weights as in the
+% school's marking (page 29 crop), instead of the earlier invented layout
+\foreach \n/\x/\y in {A/93/186,B/495/113,C/803/229,F/495/305,E/572/460,D/371/506} \coordinate (\n) at (\x,\y);
+\draw (A)--(B)--(C)--(E)--(D)--(A) (A)--(F)--(B) (C)--(F)--(E);
+\foreach \n in {A,B,C,D,E,F} \fill (\n) circle (4.5);
+\begin{scope}[every node/.style={font=\Large,inner sep=1pt}]
+\node at (70,153) {$A$};\node at (484,72) {$B$};\node at (848,208) {$C$};
+\node at (461,338) {$F$};\node at (600,500) {$E$};\node at (353,548) {$D$};
+\end{scope}
+\node at (289,120) {350};
+\node at (201,373) {400};
+\node at (303,215) {380};
+\node at (661,139) {300};
+\node at (534,209) {120};
+\node at (716,373) {200};
+\node at (656,297) {220};
+\node at (478,513) {110};
+\node at (571,364) {180};
 \end{tikzpicture}
 \end{document}

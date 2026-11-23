@@ -52,7 +52,10 @@ function dtHTML(id,opts={}){
   // squeezing the numbers.
   const tr=(r,ri,head)=>{let out='',skip=0;for(let c=0;c<n;c++){if(skip){skip--;continue} if(covered.has(ri+','+c)) continue;
       const k=span[ri+','+c]; if(k>1) skip=k-1; const rs=rspan[ri+','+c]; const at=(k>1?` colspan="${k}"`:'')+(rs>1?` rowspan="${rs}"`:'');
-      const dg=diagSplit(r[c]); const v=dg?`<span class="dgtr">${cell(dg[1])}</span><span class="dgbl">${cell(dg[0])}</span>`:cell(r[c]);
+      // checker 23 Nov (2023 HSC Std Q17): "shade out the boxes that are same city to the same city": a cell holding \shade is a grey, empty box, as printed
+      if(String(r[c]??'').trim()==='\\shade'){ out+=`<td class="shd"${at}></td>`; continue }
+      // checker 23 Nov (2024 HSC Std Q12): "There is a bump in the top left corner": the split is a drawn line (it was a gradient, which stepped at its ends)
+      const dg=diagSplit(r[c]); const v=dg?`<svg class="dgl" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="0" x2="100" y2="100"/></svg><span class="dgtr">${cell(dg[1])}</span><span class="dgbl">${cell(dg[0])}</span>`:cell(r[c]);
       if(dg){ out+=`<th scope="col" class="dg"${at}>${v}</th>`; continue }   // owner: "table needs to look identical with that split down the cell"
       if(head) out+=`<th scope="col"${at}>${v}</th>`;
       else if(c<lc) out+=`<th scope="row" class="rl"${at}>${v}</th>`; else out+=`<td${at}>${v}</td>`;}

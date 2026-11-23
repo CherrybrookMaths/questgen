@@ -43,7 +43,10 @@ mjx-container.mjx-wrap,mjx-container.mjx-wrap mjx-break{white-space:normal!impor
 table.dt thead th{background:var(--bg);font-weight:600}
 table.dt th.rl{background:var(--bg);font-weight:600;text-align:center}   /* owner: label column (x, f(x)) centred like the values */
 table.dt .ln{display:block;line-height:1.3;padding:.18em 0}   /* multi-line header: each line its own row, no overlap */
-table.dt th.dg{background:linear-gradient(to top right,transparent calc(50% - .7px),var(--muted) calc(50% - .6px),var(--muted) calc(50% + .6px),transparent calc(50% + .7px)),var(--bg);padding:2px 5px;font-size:.9em;font-weight:600}
+table.dt th.dg{position:relative;background:var(--bg);padding:2px 5px;font-size:.9em;font-weight:600}
+table.dt th.dg .dgl{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}   /* checker 23 Nov: one clean line corner to corner */
+table.dt th.dg .dgl line{stroke:var(--muted);stroke-width:1.2;vector-effect:non-scaling-stroke}
+table.dt tbody td.shd{background:color-mix(in srgb,var(--muted) 30%,transparent)}   /* checker 23 Nov: shaded box (\shade cell) */
 table.dt th.dg .dgtr,table.dt th.dg .dgbl{line-height:1.12}   /* owner 12 Nov: "Period and rate box too tall and wide" */
 table.dt th.dg .dgtr{display:block;text-align:right}
 table.dt th.dg .dgbl{display:block;text-align:left}

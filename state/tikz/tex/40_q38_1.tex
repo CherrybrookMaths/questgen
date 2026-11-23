@@ -5,20 +5,20 @@
   % cake: top rim centre (203,113), bottom centre (203,206), a=187, b=47, apex (203,20); cut corners at x=143, 263
   \fill[black!25] plot[smooth,domain=180:108.7,samples=30] ({203+187*cos(\x)},{113+47*sin(\x)}) -- plot[smooth,domain=108.7:180,samples=30] ({203+187*cos(\x)},{206+47*sin(\x)}) -- cycle;
   \fill[black!25] plot[smooth,domain=0:71.3,samples=30] ({203+187*cos(\x)},{113+47*sin(\x)}) -- plot[smooth,domain=71.3:0,samples=30] ({203+187*cos(\x)},{206+47*sin(\x)}) -- cycle;
-  \fill[black!12] (203,20) -- plot[smooth,domain=180:108.7,samples=30] ({203+187*cos(\x)},{113+47*sin(\x)}) -- cycle;
-  \fill[black!12] (203,20) -- plot[smooth,domain=0:71.3,samples=30] ({203+187*cos(\x)},{113+47*sin(\x)}) -- cycle;
+  \fill[black!12] (203,20) -- plot[smooth,domain=210.3:108.7,samples=40] ({203+187*cos(\x)},{113+47*sin(\x)}) -- cycle;
+  \fill[black!12] (203,20) -- plot[smooth,domain=-30.3:71.3,samples=40] ({203+187*cos(\x)},{113+47*sin(\x)}) -- cycle;
   \path[shade dots] (203,20) -- (143,157.5) -- (143,250.5) -- (203,206) -- (263,250.5) -- (263,157.5) -- cycle;
   \foreach \t in {170,155,140,125,55,40,25,10} \draw[black!55,line width=0.4pt] (203,20) -- ({203+187*cos(\t)},{113+47*sin(\t)});
-  \draw[aux] plot[smooth,domain=180:360,samples=60] ({203+187*cos(\x)},{113+47*sin(\x)});
+  \draw[aux] plot[smooth,domain=210.3:329.7,samples=60] ({203+187*cos(\x)},{113+47*sin(\x)});
   \draw[aux] plot[smooth,domain=180:360,samples=60] ({203+187*cos(\x)},{206+47*sin(\x)});
   \draw[aux] (203,20) -- (203,206);
   \draw[aux] (143,157.5) -- (203,113);
-  \draw plot[smooth,domain=180:108.7,samples=30] ({203+187*cos(\x)},{113+47*sin(\x)});
-  \draw plot[smooth,domain=0:71.3,samples=30] ({203+187*cos(\x)},{113+47*sin(\x)});
+  \draw plot[smooth,domain=210.3:108.7,samples=40] ({203+187*cos(\x)},{113+47*sin(\x)});
+  \draw plot[smooth,domain=-30.3:71.3,samples=40] ({203+187*cos(\x)},{113+47*sin(\x)});
   \draw plot[smooth,domain=180:108.7,samples=30] ({203+187*cos(\x)},{206+47*sin(\x)});
   \draw plot[smooth,domain=0:71.3,samples=30] ({203+187*cos(\x)},{206+47*sin(\x)});
   \draw (16,113)--(16,206); \draw (390,113)--(390,206);
-  \draw (16,113)--(203,20)--(390,113);
+  \draw (41.6,89.25)--(203,20)--(364.4,89.25);   % checker 23 Nov ("not shaded at the back"): the cone's sides are tangent to the rim, so its back is covered and shaded
   \draw (203,20)--(143,157.5)--(143,250.5)--(203,206)--(263,250.5)--(263,157.5)--cycle;
   % slice
   \fill[black!12] (203,235) -- (263,363) to[bend right=10] (360,343) -- cycle;
