@@ -1,0 +1,40 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{cyl/.style={left color=black!45,right color=black!35,middle color=black!3}}
+% back row
+\foreach \k in {0,...,4}{
+  \pgfmathsetmacro\cx{146+110*\k}
+  \path[cyl] (\cx-55,53) -- (\cx-55,250) -- plot[domain=180:0,samples=40,smooth] ({\cx+55*cos(\x)},{250+25*sin(\x)}) -- (\cx+55,53) -- cycle;
+  \draw (\cx-55,53) -- (\cx-55,250) -- plot[domain=180:0,samples=40,smooth] ({\cx+55*cos(\x)},{250+25*sin(\x)}) -- (\cx+55,53);
+  \draw[top color=black!8,bottom color=black!28] (\cx,53) ellipse[x radius=55,y radius=25];
+}
+% front row
+\foreach \k in {0,...,4}{
+  \pgfmathsetmacro\cx{96+110*\k}
+  \path[cyl] (\cx-55,103) -- (\cx-55,301) -- plot[domain=180:0,samples=40,smooth] ({\cx+55*cos(\x)},{301+25*sin(\x)}) -- (\cx+55,103) -- cycle;
+  \draw (\cx-55,103) -- (\cx-55,301) -- plot[domain=180:0,samples=40,smooth] ({\cx+55*cos(\x)},{301+25*sin(\x)}) -- (\cx+55,103);
+  \draw[top color=black!8,bottom color=black!28] (\cx,103) ellipse[x radius=55,y radius=25];
+}
+% box
+\draw (14,130) rectangle (583,326);
+\draw (14,130) -- (118,28) -- (686,28) -- (583,130);
+\draw (686,28) -- (686,224) -- (583,326);
+\draw[aux] (686,224) -- (642,224);
+\draw[aux] (14,326) -- (41,300);
+% dimensions
+\draw[aux] (715,28) -- (715,224);
+\draw (700,28) -- (733,28);
+\draw (700,224) -- (733,224);
+\node[anchor=west] at (700,130) {$h$ cm};
+\draw[aux] (610,326) -- (715,224);
+\node[anchor=west] at (645,275) {20 cm};
+\draw[aux] (14,355) -- (250,355);
+\draw[aux] (348,355) -- (583,355);
+\draw (14,342) -- (14,368);
+\draw (583,342) -- (583,368);
+\node at (299,355) {50 cm};
+\node[align=center] at (890,80) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

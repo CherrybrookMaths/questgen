@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (G) at (387,62); \coordinate (S) at (775,62); \coordinate (P) at (150,268);
+\coordinate (B) at (385,337); \coordinate (O) at (703,240); \coordinate (L) at (990,230); \coordinate (K) at (775,413);
+\draw (P)--(G)--(S)--(L)--(K)--(O)--(S); \draw (G)--(O)--(B)--(P);
+\foreach \p in {G,S,P,B,O,L,K} \fill (\p) circle (6);
+\node[anchor=base] at (387,45) {Giraffes};
+\node[anchor=base] at (775,45) {Snakes};
+\node[anchor=east] at (141,266) {Penguins};
+\node[anchor=north] at (385,342) {Bears};
+\node[anchor=west] at (712,237) {Otters};
+\node[anchor=west] at (998,228) {Lions};
+\node[anchor=north] at (775,418) {Koalas};
+\node at (583,42) {750 m};
+\node at (222,152) {600 m};
+\node at (497,165) {850 m};
+\node at (789,160) {550 m};
+\node at (927,132) {550 m};
+\node at (247,327) {550 m};
+\node at (562,317) {800 m};
+\node at (690,338) {400 m};
+\node at (932,342) {700 m};
+\end{tikzpicture}
+\end{document}

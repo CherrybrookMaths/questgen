@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\def\ox{102}\def\oy{450}\def\c{39.2}
+% grid
+\foreach \k in {1,...,11} \draw[black!45, line width=0.5pt] ({\ox+\k*\c},{\oy}) -- ({\ox+\k*\c},{\oy-10*\c});
+\foreach \j in {1,...,10} \draw[black!45, line width=0.5pt] (\ox,{\oy-\j*\c}) -- ({\ox+11*\c},{\oy-\j*\c});
+% axes
+\draw[->] (\ox,\oy) -- (\ox,36);
+\draw[->] (\ox,\oy) -- (564,\oy);
+% curve
+\draw[line width=0.9pt] plot[smooth, domain=0:10, samples=40] ({\ox+3*\c/10*\x},{\oy-\c*(8-1.32*(\x/10)^2)})
+  -- ({\ox+3*\c},{\oy-\c*5.68})
+  -- plot[smooth, domain=0:15, samples=60] ({\ox+3*\c/10*(\x+10)},{\oy-\c*(5.68-0.047*\x-0.0221*\x*\x)});
+% labels
+\node[anchor=east] at (\ox-4,{\oy-8*\c}) {8};
+\node[anchor=east] at (\ox-4,\oy) {0};
+\foreach \t in {10,20,30} \node[anchor=north] at ({\ox+3*\c/10*\t},\oy+8) {\t};
+\node at (338,516) {Years};
+\node[rotate=90] at (24,255) {Balance};
+\node[rotate=90] at (50,255) {($\times$ \$ hundred thousands)};
+\node[anchor=west] at (2,20) {A.};
+\end{tikzpicture}
+\end{document}

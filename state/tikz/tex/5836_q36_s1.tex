@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\f#1{251-235*exp(-((#1-443)/99)^2/2)}
+\draw[<->] (8,264) -- (872,264);
+\draw[line width=0.9pt] plot[domain=100:787,samples=90,smooth] (\x,{\f{\x}});
+\foreach \t/\l in {279/40,361/50,443/60,525/70}{
+  \draw[aux] (\t,264) -- (\t,{\f{\t}});
+  \node at (\t,297) {\l};
+}
+\node at (222,160) {13.5\%};
+\draw[->] (250,176) .. controls (285,190) and (310,205) .. (318,236);
+\node at (402,133) {34\%};
+\node at (484,110) {34\%};
+\end{tikzpicture}
+\end{document}

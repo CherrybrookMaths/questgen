@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\curve{(411,411) .. controls (470,411) and (530,380) .. (568,332) .. controls (610,280) and (650,236) .. (690,237) .. controls (708,238) and (720,246) .. (726,253)}
+\foreach \i in {1,...,9} \draw[black!35] ({18+\i*78.7},17)--({18+\i*78.7},647);
+\foreach \j in {1,...,7} \draw[black!35] (18,{17+\j*78.75})--(805,{17+\j*78.75});
+\fill[shade dots, stipple color=black!45] \curve -- (726,489) -- (411,489) -- cycle;
+\draw \curve -- (726,489) -- (411,489) -- cycle;
+\draw (18,17) rectangle (805,647);
+\node[pt] at (96,96) {}; \node[pt] at (489,96) {};
+\node at (96,130) {\halo{Cinema}};
+\node at (489,130) {\halo{Supermarket}};
+\node at (610,445) {\halo{Reservoir}};
+\end{tikzpicture}
+\end{document}

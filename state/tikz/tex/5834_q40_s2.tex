@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\fm(#1){333-225*exp(-((#1-312)/82)^2/2)}
+\def\ff(#1){333-311*exp(-((#1-250)/74)^2/2)}
+\fill[shade] (468,333) -- plot[domain=468:590,smooth,samples=30] (\x,{\fm(\x)}) -- (590,333) -- cycle;
+\fill (468,327) rectangle (515,333);
+\draw[<->] (5,333)--(618,333);
+\draw[line width=0.9pt] plot[domain=30:590,smooth,samples=90] (\x,{\fm(\x)});
+\draw[line width=0.9pt] plot[domain=30:500,smooth,samples=90] (\x,{\ff(\x)});
+\draw[aux] (250,22)--(250,333);
+\draw[aux] (312,108)--(312,333);
+\draw (468,348)--(468,{\fm(468)});
+\node at (206,373) {Females};
+\node at (342,373) {Males};
+\node at (468,374) {$x$};
+\node at (610,356) {$z$};
+\node at (530,262) {2.5\%};
+\draw[->] (522,278)--(494,318);
+\node[anchor=west] at (500,408) {$<$2.5\% $\approx$ 300 sheep};
+\draw[->] (537,388)--(494,340);
+\end{tikzpicture}
+\end{document}

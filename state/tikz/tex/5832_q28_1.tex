@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (10,10) rectangle (457,357);
+\draw (530,10) rectangle (975,357);
+% wine glass
+\fill[black!18] (22,118) .. controls (24,160) and (50,188) .. (78,195)
+  -- (92,195) .. controls (120,188) and (145,160) .. (146,118) -- cycle;
+\draw (32,20) .. controls (25,45) and (20,80) .. (22,118)
+  .. controls (24,160) and (50,188) .. (78,195)
+  .. controls (82,210) and (80,300) .. (78,330)
+  .. controls (72,334) and (45,336) .. (32,340);
+\draw (134,20) .. controls (142,45) and (147,80) .. (146,118)
+  .. controls (145,160) and (120,188) .. (92,195)
+  .. controls (88,210) and (89,300) .. (92,330)
+  .. controls (98,334) and (124,336) .. (136,340);
+\draw (83,20) ellipse (51 and 3);
+\draw (84,118) ellipse (62 and 3);
+\draw (84,342) ellipse (53 and 6);
+\node[anchor=west] at (152,192) {Wine};
+\node[anchor=west] at (152,232) {1.2 standard drinks};
+% spirits glass
+\fill[black!18] (561,182) -- (572,252) -- (643,252) -- (654,182) -- cycle;
+\draw (559,172) -- (572,252) -- (643,252) -- (656,172);
+\draw (607.5,172) ellipse (48.5 and 4);
+\draw (607.5,182) ellipse (46.5 and 3);
+\node[anchor=west] at (690,192) {Spirits};
+\node[anchor=west] at (690,232) {1 standard drink};
+\end{tikzpicture}
+\end{document}

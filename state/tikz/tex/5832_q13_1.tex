@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (85,10)--(85,918)--(855,918);
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:1,variable=\t] ({85+753*\t},{727-41.8*(exp(2.9*\t)-1)});
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:1,variable=\t] ({85+753*\t},{727-37.1*(exp(2.9*\t)-1)});
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:1,variable=\t] ({85+753*\t},{727-39.3*(exp(1.4*\t)-1)});
+\node at (65,720) {$P$};
+\node at (803,33) {$W$};
+\node at (845,145) {$X$};
+\node at (820,637) {$Y$};
+\node[rotate=90] at (42,465) {Future value (\$)};
+\node at (468,962) {Time (years)};
+\end{tikzpicture}
+\end{document}

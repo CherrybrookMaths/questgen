@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (P) at (50,218); \coordinate (T) at (447,45); \coordinate (A) at (688,218);
+\draw (P)--(T)--(A)--cycle;
+\draw (447,90)--(447,218);
+\draw (447,218)--(463,218)--(463,202)--(447,202);
+\draw[aux] (T)--(682,45);
+\draw (T)++(0:40) arc (0:35.7:40);
+\draw (A)++(180:52) arc (180:215.7:52);
+\node at (447,20) {$T$};
+\node at (28,218) {$P$};
+\node at (708,218) {$A$};
+\node at (441,72) {$\theta$};
+\node at (518,65) {$36^\circ$};
+\node at (604,203) {$36^\circ$};
+\node at (232,118) {51};
+\node at (370,250) {75};
+\draw[aux,->] (346,250)--(50,250);
+\draw[aux,->] (394,250)--(688,250);
+\draw (50,240)--(50,260); \draw (688,240)--(688,260);
+\end{tikzpicture}
+\end{document}

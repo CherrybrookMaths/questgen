@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\f#1{251-235*exp(-((#1-443)/99)^2/2)}
+\fill[shade] (100,264) -- plot[domain=100:176,samples=10,smooth] (\x,{\f{\x}}) -- (176,264) -- cycle;
+\draw[<->] (8,264) -- (872,264);
+\draw[line width=0.9pt] plot[domain=100:787,samples=90,smooth] (\x,{\f{\x}});
+\foreach \k in {-2,-1,0,1,2,3}{
+  \pgfmathsetmacro\t{443+89*\k}
+  \draw[aux] (\t,264) -- (\t,{\f{\t}});
+  \draw (\t,264) -- (\t,272);
+}
+\draw (176,{\f{176}}) -- (176,272);
+\foreach \k in {-3,-2,-1,0}{
+  \node at (443+89*\k,297) {$\k$};
+}
+\node at (184,188) {0.15\%};
+\draw[->] (148,200) .. controls (130,212) and (126,232) .. (128,252);
+\end{tikzpicture}
+\end{document}

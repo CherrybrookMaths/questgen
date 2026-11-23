@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% minor horizontal grid
+\foreach \a in {-15,...,25} {
+  \pgfmathtruncatemacro\m{mod(abs(\a),5)}
+  \ifnum\m>0 \draw[black!28,line width=0.4pt] (60,{588-19.7*\a})--(978,{588-19.7*\a}); \fi }
+% major horizontal grid
+\foreach \a in {-15,-10,-5,5,10,15,20,25} \draw[black,line width=0.5pt] (60,{588-19.7*\a})--(978,{588-19.7*\a});
+% vertical grid
+\foreach \k in {-4,-3,-2,-1,1,2,3,4} \draw[black,line width=0.5pt] ({517+92.7*\k},80)--({517+92.7*\k},900);
+% axes
+\draw[->] (60,588)--(1042,588);
+\draw[->] (517,900)--(517,12);
+\node at (1030,612) {$w$};
+\node at (494,22) {$A$};
+% tick labels
+\foreach \k in {-3,-2,-1} \node at ({517+92.7*\k-6},612) {\halo{$\k$}};
+\foreach \k in {1,2,3,4} \node at ({517+92.7*\k},612) {\halo{$\k$}};
+\foreach \a in {5,10,15,20,25} \node[anchor=east] at (514,{588-19.7*\a}) {\halo{$\a$}};
+\foreach \a in {5,10,15} \node[anchor=east] at (514,{588+19.7*\a}) {\halo{$-\a$}};
+% curve
+\draw[<-] plot[smooth,samples=90,domain=-4.82:0] ({517+92.7*\x},{588-19.7*(2*\x*\x+5*\x)});
+\draw[->,line width=0.9pt] plot[smooth,samples=60,domain=0:2.675] ({517+92.7*\x},{588-19.7*(2*\x*\x+5*\x)});
+\end{tikzpicture}
+\end{document}

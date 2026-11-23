@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,5} \draw[black!35] ({184+97.8*\i},532)--({184+97.8*\i},48);
+\foreach \j in {1,...,5} \draw[black!35] (184,{532-91.4*\j})--(673,{532-91.4*\j});
+\draw[->] (184,532)--(722,532);
+\draw[->] (184,532)--(184,5);
+\draw[line width=0.9pt] plot[domain=0:5,smooth,samples=90] ({184+97.8*\x},{532-91.4*5*0.8^\x});
+\foreach \i in {0,...,5} \node at ({184+97.8*\i},556) {\i};
+\node[anchor=east] at (162,532) {0};
+\foreach \j/\l in {1/11\,000,2/22\,000,3/33\,000,4/44\,000,5/55\,000} \node[anchor=east] at (162,{532-91.4*\j}) {\l};
+\node at (430,601) {Time (years)};
+\node[rotate=90] at (28,260) {Value (\$)};
+\end{tikzpicture}
+\end{document}

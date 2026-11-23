@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (212,210);\def\r{197}
+\fill[shade] (O)--({212+\r*cos(90)},{210-\r*sin(90)}) arc[start angle=-90,end angle=-36,radius=\r]--cycle;
+\path[shade dots] (O)--({212+\r*cos(216)},{210-\r*sin(216)}) arc[start angle=-216,end angle=-126,radius=\r]--cycle;
+\path[shade hatch] (O)--({212+\r*cos(126)},{210-\r*sin(126)}) arc[start angle=-126,end angle=-90,radius=\r]--cycle;
+\draw (O) circle (\r);
+\draw ({212+\r*cos(36)},{210-\r*sin(36)})--({212+\r*cos(216)},{210-\r*sin(216)});
+\draw (O)--({212+\r*cos(90)},{210-\r*sin(90)}) (O)--({212+\r*cos(126)},{210-\r*sin(126)});
+\def\s{25}
+\fill[white] (O)--++({\s*cos(126)},{-\s*sin(126)})--++({\s*cos(216)},{-\s*sin(216)})--++({-\s*cos(126)},{\s*sin(126)})--cycle;
+\draw (O)++({\s*cos(126)},{-\s*sin(126)})--++({\s*cos(216)},{-\s*sin(216)})--++({-\s*cos(126)},{\s*sin(126)});
+\node at (267,90) {\halo{\textrm{Yellow}}};
+\node at (160,60) {\halo{\textrm{Green}}};
+\node at (102,185) {\halo{\textrm{Red}}};
+\node at (262,295) {\textrm{White}};
+\end{tikzpicture}
+\end{document}

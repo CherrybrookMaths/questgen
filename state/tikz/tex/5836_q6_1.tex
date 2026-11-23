@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[left color=black!42, right color=black!24, middle color=black!8]
+    (15,58) -- (15,333) arc[start angle=180, end angle=0, x radius=123.5, y radius=40]
+    -- (262,58) arc[start angle=0, end angle=180, x radius=123.5, y radius=38] -- cycle;
+  \draw[fill=black!14] (138.5,58) ellipse [x radius=123.5, y radius=38];
+  \fill (138.5,58) circle (4.5);
+  \draw[aux] (138.5,58) -- (262,58);
+  \node at (198,43) {\halo{4 cm}};
+  \draw (295,58) -- (319,58); \draw (295,330) -- (319,330);
+  \draw[aux,<-] (307,58) -- (307,175); \draw[aux,->] (307,205) -- (307,330);
+  \node at (310,190) {10 cm};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (145,25) rectangle (365,155);
+\foreach \y in {25,155}{\draw (247,\y-11)--(247,\y+11); \draw (255,\y-11)--(255,\y+11);}
+\foreach \x in {145,365}{\draw (\x-13,90)--(\x+13,90);}
+\node at (78,104) {2 cm};
+\node at (255,204) {4 cm};
+\end{tikzpicture}
+\end{document}

@@ -917,13 +917,19 @@ def run_difficulty(api, batch, docs):
     # owner 23 Nov (Standard pilot, STANDARD_SPEC.md step 6): a course with no references yet rates its NESA HSC papers FIRST, as the
     # references (DIFFICULTY_SPEC: "use HSC as a baseline"); the owner reviews them on the Difficulty tab; the batch's other papers are
     # rated in a second run, against them. 'ref' runs write {ref: true}, which difficulty-apply stores as is_anchor = 1.
-    ref = not anchors
+    # 24 Nov (owner: "go on one", importing the 2019, 2025 and 2026 NESA HSC Standard 2 papers as references): in a course other than
+    # Advanced, NESA HSC papers added after the first references are rated the same way, as references (on their own merits, beside
+    # the existing ones); the batch's other papers wait for the next run. Advanced keeps its reviewed reference set (new parts never are).
+    hsc = {r[0] for r in c.execute("select id from documents where task_type='hsc'")}
+    ref = not anchors or (course != 'advanced' and any(r['doc'] in hsc for r in items))
     if ref:
-        hsc = {r[0] for r in c.execute("select id from documents where task_type='hsc'")}
         items = [r for r in items if r['doc'] in hsc]
         if not items: sys.exit(f'{course}: no HSC references yet and no HSC paper in this batch: rate an HSC paper first')
-    system = [text_block(spec('DIFFICULTY_SPEC.md') + API_NOTE + ('' if course == 'advanced' else '\n## Course\n' + course + (': no references yet. The parts below ARE the HSC '
-                         'reference parts: rate each on its own merits (nearest_anchor null); every later part is compared with them.' if ref else ''))
+    system = [text_block(spec('DIFFICULTY_SPEC.md') + API_NOTE + ('' if course == 'advanced' else '\n## Course\n' + course + (
+                         (': no references yet. The parts below ARE the HSC reference parts: rate each on its own merits (nearest_anchor null); '
+                          'every later part is compared with them.') if ref and not anchors else
+                         (': the parts below are NEW HSC reference parts: rate each on its own merits (nearest_anchor null), on the same scale '
+                          'as the existing references listed below.') if ref else ''))
                          + '\n## The HSC reference parts (anchors), with their ratings\n' + json.dumps(anchors, ensure_ascii=False), cache=True)]
     jobs = []
     os.makedirs(DIFF_OUT + batch, exist_ok=True)

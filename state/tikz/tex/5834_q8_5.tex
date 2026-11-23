@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+  \fill[shade] (0,0) -- (36:198) arc (36:90:198) -- cycle;
+  \fill[shade hatch] (0,0) -- (0:198) arc (0:36:198) -- cycle;
+  \fill[shade dots] (0,0) -- (225:198) arc (225:360:198) -- cycle;
+  \draw (0,0) circle (198);
+  \draw (0,198) -- (0,0) -- (36:198);
+  \draw (0,0) -- (0:198);
+  \draw (0,0) -- (225:198);
+  \node at (67,117) {Yellow};
+  \node at (127,28) {\halo{Green}};
+  \node at (-97,28) {White};
+  \node at (42,-95) {\halo{Red}};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{minor/.style={black!55,line width=0.4pt,dash pattern=on 0.6pt off 1pt}}
+\foreach \i in {1,...,49} { \pgfmathtruncatemacro\m{mod(\i,5)}
+  \ifnum\m>0 \draw[minor] ({118+15.74*\i},67)--({118+15.74*\i},697); \fi }
+\foreach \j in {1,...,39} { \pgfmathtruncatemacro\m{mod(\j,5)}
+  \ifnum\m>0 \draw[minor] (118,{697-15.75*\j})--(905,{697-15.75*\j}); \fi }
+\foreach \k in {1,...,10} \draw ({118+78.7*\k},67)--({118+78.7*\k},712);
+\draw (118,697)--(118,712);
+\foreach \j in {1,...,8} \draw (118,{697-78.75*\j})--(905,{697-78.75*\j});
+\draw[->] (118,697)--(118,30);
+\draw[->] (118,697)--(945,697);
+\foreach \k in {0,20,40,60,80,100} \node at ({118+7.87*\k},738) {$\k$};
+\foreach \j in {0,...,8} \node[anchor=east] at (104,{697-78.75*\j}) {$\j$};
+\node at (512,790) {Speed (km/h)};
+\node[rotate=90] at (30,382) {Time taken (hours)};
+\end{tikzpicture}
+\end{document}

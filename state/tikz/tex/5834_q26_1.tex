@@ -1,0 +1,41 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\front{(135,181) (190,189) (250,208) (262,211) (290,199) (320,198) (355,210) (403,239) (465,242) (530,250) (590,272) (640,305) (681,355)}
+\def\back{(940,192) (932,170) (910,150) (870,128) (815,115) (765,80) (700,81) (660,79) (620,68) (575,47) (542,36) (515,47) (460,30) (395,20)}
+% shaded curved top surface
+\fill[shade dots] plot[smooth,tension=0.55] coordinates {\front} -- plot[smooth,tension=0.55] coordinates {\back} -- cycle;
+\draw plot[smooth,tension=0.55] coordinates {\front};
+\draw plot[smooth,tension=0.55] coordinates {\back};
+\draw (135,181)--(395,20);
+\draw (135,181)--(135,355)--(681,355)--(940,192);
+\draw (403,239)--(403,355);
+\draw[aux] (395,20)--(395,192)--(940,192);
+\draw[aux] (135,355)--(395,192);
+% right angles
+\draw (135,332)--(158,332)--(158,355);
+\draw (403,332)--(426,332)--(426,355);
+\draw (395,170)--(417,170)--(417,192);
+% equal-interval ticks
+\draw (272,345)--(272,365);
+\draw (544,345)--(544,365);
+% labels
+\node at (77,276) {6.0 cm};
+\node at (350,296) {3.8 cm};
+% 10.2 cm
+\draw (135,367)--(135,393); \draw (681,367)--(681,393);
+\draw[aux,<-] (135,380)--(340,380);
+\draw[aux,->] (476,380)--(681,380);
+\node at (408,380) {10.2 cm};
+% 40.0 cm
+\draw (683,367)--(697,389); \draw (939,207)--(953,229);
+\draw[aux,<-] (690,378)--(767,330);
+\draw[aux,->] (869,266)--(946,218);
+\node[rotate=32.1] at (818,298) {40.0 cm};
+% curved surface pointer
+\node[anchor=west] at (750,45) {Curved surface};
+\draw[->] (752,47) .. controls (680,50) and (620,70) .. (595,103);
+\node[align=center] at (978,340) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

@@ -611,7 +611,9 @@ Owner 23 Nov: "we need to start working on the standard course", "Standard 2 fir
     merge_tags_v2.py / reconcile.py look dot points up in tools/course_dots.py (Standard coverage = examinable).
   - difficulty: the course has no references yet, so the FIRST `difficulty` run rates only its NESA HSC papers, as references
     (is_anchor = 1 after difficulty-apply); run `difficulty` AGAIN for the batch's other papers, against them. The owner reviews the
-    new references on the Difficulty tab (Standard course) before more Standard batches.
+    new references on the Difficulty tab (Standard course) before more Standard batches. A later batch with NESA HSC papers (24 Nov,
+    run s2: 2019, 2025, 2026; owner: "go on one") does the same: its HSC papers are rated first, as more references, on their own
+    merits beside the existing ones; then `difficulty` again for its other papers. Advanced is unchanged (new parts are never references).
   - homes: `node tools/homes.js <docs> --course=standard` (the Standard questions are only in the Standard bank).
   - bank_split.py writes Standard questions to site/data/bank/standard/ (with Standard skill gates); Advanced keeps the rest.
 - **Old syllabus**: TAG_SPEC_STANDARD "Old syllabus" (owner: "keep them out but don't drop yet").

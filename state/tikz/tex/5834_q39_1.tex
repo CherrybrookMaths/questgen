@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,2,3,4,6,7,8,9,11,12,13,14} \draw[black!40] ({125+31.3*\i},716)--({125+31.3*\i},86);
+\foreach \j in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19} \draw[black!40] (125,{716-31.5*\j})--(594.5,{716-31.5*\j});
+\foreach \i in {1,2,3} \draw ({125+156.5*\i},716)--({125+156.5*\i},86);
+\foreach \j in {5,10,15,20} \draw (125,{716-31.5*\j})--(594.5,{716-31.5*\j});
+\draw[->] (125,716)--(690,716);
+\draw[->] (125,716)--(125,10);
+\draw[line width=0.9pt,->] plot[domain=0:3,smooth,samples=90] ({125+156.5*\x},{716-31.5*15*0.6^(\x/2)});
+\fill (125,{716-31.5*15}) circle (4.5);
+\fill (438,{716-31.5*9}) circle (4.5);
+\node at (127,742) {0}; \node at (281.5,742) {1}; \node at (438,742) {2};
+\node[anchor=east] at (110,716) {0};
+\foreach \j in {5,10,15,20} \node[anchor=east] at (110,{716-31.5*\j}) {\j};
+\node at (665,742) {$x$};
+\node at (106,22) {$y$};
+\node[rotate=90] at (32,400) {Amount of medication remaining in a person (mg)};
+\node[align=center] at (358,806) {Number of hours after taking\\a dose of medication};
+\end{tikzpicture}
+\end{document}

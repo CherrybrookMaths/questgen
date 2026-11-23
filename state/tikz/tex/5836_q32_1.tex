@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% level 1
+\draw (20,292) -- (210,133);
+\draw (20,292) -- (210,452);
+\node at (283,133) {Walk};
+\node at (283,455) {Not walk};
+\node at (85,193) {$\dfrac{3}{10}$};
+\node at (85,405) {$\dfrac{7}{10}$};
+% level 2
+\foreach \y in {133,452} {
+  \draw (360,\y) -- (540,{\y-53});
+  \draw (360,\y) -- (540,{\y+53});
+  \node at (449,{\y-88}) {$\dfrac{9}{10}$};
+  \node at (449,{\y+79}) {$\dfrac{1}{10}$};
+  \node[anchor=west] at (552,{\y-53}) {Correct uniform};
+  \node[anchor=west] at (552,{\y+60}) {Not correct uniform};
+}
+\end{tikzpicture}
+\end{document}

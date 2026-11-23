@@ -1,0 +1,35 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}}
+\coordinate (G) at (387,50); \coordinate (S) at (775,50); \coordinate (P) at (150,258);
+\coordinate (B) at (385,325); \coordinate (O) at (703,229); \coordinate (L) at (990,218); \coordinate (K) at (775,400);
+\draw[mid=0.66] (G)--(S);
+\draw[mid=0.66] (P)--(G);
+\draw[mid=0.42] (P)--(B);
+\draw[mid=0.64] (B)--(O);
+\draw[mid=0.38] (G)--(O);
+\draw[mid=0.64] (O)--(S);
+\draw[mid=0.41] (S)--(L);
+\draw[mid=0.69] (O)--(K);
+\draw[mid=0.68] (K)--(L);
+\foreach \p in {G,S,P,B,O,L,K} \fill (\p) circle (6);
+\node[anchor=base] at (387,33) {Giraffes};
+\node[anchor=base] at (775,33) {Snakes};
+\node[anchor=east] at (141,256) {Penguins};
+\node[anchor=north] at (385,330) {Bears};
+\node[anchor=west] at (712,226) {Otters};
+\node[anchor=west] at (998,216) {Lions};
+\node[anchor=north] at (775,405) {Koalas};
+\node at (583,30) {$0.09$};
+\node at (232,135) {$0.11$};
+\node at (500,153) {$-0.09$};
+\node at (775,148) {$0.12$};
+\node at (920,120) {$-0.15$};
+\node at (255,318) {$0.02$};
+\node at (548,300) {$0.04$};
+\node at (701,325) {$0.05$};
+\node at (918,328) {$0.03$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\setlength\treeL{2.6cm}
+\treewidth{1}{Red}\treewidth{1}{Green}\treewidth{2}{Red}\treewidth{2}{Green}
+\treecolumns{2}
+\begin{tikzpicture}
+  \treeroot{r}{0cm}
+  \treenode{R}{1}{1.6cm}{Red}
+  \treenode{G}{1}{-1.6cm}{Green}
+  \treenode{RR}{2}{2.36cm}{Red}
+  \treenode{RG}{2}{0.84cm}{Green}
+  \treenode{GR}{2}{-0.84cm}{Red}
+  \treenode{GG}{2}{-2.36cm}{Green}
+  \treebranch{r}{R}{$\dfrac{9}{17}$}
+  \treebranch{r}{G}{$\dfrac{8}{17}$}
+  \treebranch{R}{RR}{$\dfrac{8}{16}$}
+  \treebranch{R}{RG}{$\dfrac{8}{16}$}
+  \treebranch{G}{GR}{$\dfrac{9}{16}$}
+  \treebranch{G}{GG}{$\dfrac{7}{16}$}
+  \treehead{1}{3.5cm}{1st apple}
+  \treehead{2}{3.5cm}{2nd apple}
+\end{tikzpicture}
+\end{document}

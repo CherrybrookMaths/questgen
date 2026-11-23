@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\bed{(204,218) (240,209) (300,207) (370,210) (430,204) (480.5,184) (550,145) (620,108) (690,85) (735,77) (757,79)}
+  \path[shade dots] (204,18) -- (757,18) -- (757,79) -- plot[smooth, tension=0.6] coordinates {(757,79) (735,77) (690,85) (620,108) (550,145) (480.5,184) (430,204) (370,210) (300,207) (240,209) (204,218)} -- cycle;
+  \draw (204,18) rectangle (757,323);
+  \draw plot[smooth, tension=0.6] coordinates \bed;
+  % equal-length marks
+  \foreach \m in {342,618} {\draw (\m-3,315) -- (\m-3,331); \draw (\m+3,315) -- (\m+3,331);}
+  % 3 m
+  \draw (164,218) -- (188,218); \draw (164,323) -- (188,323);
+  \draw[aux,<-] (176,218) -- (176,254); \draw[aux,->] (176,283) -- (176,323);
+  \node at (168,268) {3 m};
+  % 4 m
+  \draw (470,184) -- (491,184);
+  \draw[aux,<->] (480.5,184) -- (480.5,323);
+  \node[anchor=west] at (487,247) {4 m};
+  % 7 m
+  \draw (773,79) -- (797,79); \draw (773,323) -- (797,323);
+  \draw[aux,<-] (785,79) -- (785,184); \draw[aux,->] (785,213) -- (785,323);
+  \node at (787,198) {7 m};
+  % 16 m
+  \draw (204,376) -- (204,400); \draw (757,376) -- (757,400);
+  \draw[aux,<-] (204,388) -- (446,388); \draw[aux,->] (515,388) -- (757,388);
+  \node at (480.5,388) {16 m};
+  \node at (407,81) {\halo{Grass}};
+  \node at (72,268) {Fence};
+  \node at (880,198) {Fence};
+  \node at (482,345) {Fence};
+  \node[align=center] at (985,86) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}
