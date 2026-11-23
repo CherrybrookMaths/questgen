@@ -69,7 +69,7 @@ Owner rulings, verbatim (record new ones here and next to the code, `// owner <d
    Applied: state/work/skills/standard/skills.json, 135 skills (APPROVED). Names chosen by Claude where the note gave none: "Income tax"
    (the one tax section), "Piecework" / "Royalties", "Median" / "Mode", "Surface area of prisms / cylinders / spheres", "Changing edge
    capacities" (flow increase/decrease). Dot points with no skill: the 14 spreadsheet ones, survey design (S11-082..084, "not relevant
-   in tests") and S2-12-132 (media use of statistics). Still to write: the tagging rules (TAG_SPEC for Standard).
+   in tests") and S2-12-132 (media use of statistics). Tagging rules: TAG_SPEC_STANDARD.md (tag-std-v1, 23 Nov).
 4. The course in the page: QG.courses.standard (name, bank files, dot points, MST reference sheet), the header course switch, Review
    and exams per course.
 5. Import: a standard|12 lane in the inventory (Standard 2 Year 12 papers only), a cover check that tells Standard 1 from Standard 2
