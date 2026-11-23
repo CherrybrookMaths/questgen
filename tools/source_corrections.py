@@ -331,4 +331,17 @@ for sid, lat, crit, note, extra in C13:
 db.execute("update parts set latex=replace(latex, 'Find the probability that $f(x)<e-2$.', 'Find the probability that $X<e-2$.') where id=6153")
 # 2022 Sydney Grammar AT4 Q29 (part 5961): the paper swapped the exact values of sin(pi/8) and cos(pi/8)
 db.execute(r"""update parts set latex=replace(latex, '$\sin\dfrac{\pi}{8}=\dfrac{\sqrt{2+\sqrt{2}}}{2}$ and $\cos\dfrac{\pi}{8}=\dfrac{\left(\sqrt{2}-1\right)\sqrt{2+\sqrt{2}}}{2}$', '$\sin\dfrac{\pi}{8}=\dfrac{\left(\sqrt{2}-1\right)\sqrt{2+\sqrt{2}}}{2}$ and $\cos\dfrac{\pi}{8}=\dfrac{\sqrt{2+\sqrt{2}}}{2}$') where id=5961""")
-db.commit(); print('done C13')
+# Batch 14 (23 Nov; owner: "run another two batches in the background"): the verifier's findings on 2021 Abbotsleigh AT2/AT3/AT4,
+# Baulkham Hills AT1/AT2, Caringbah AT4, Cherrybrook AT1/AT3. 2021 Abbotsleigh AT2 Q9(c)(i) (school answer before the $5 fee) is a Your call.
+C14 = [
+ (5760, [(r'Between these times the cosine is above $\dfrac12$, so $h<13.5$ is not the case; checking the middle, at $t=6$, $h=18>13.5$, so the ship can sail for $2\le t\le10$.',
+          r'Between these times $\dfrac{\pi t}{6}$ lies between $\dfrac{\pi}{3}$ and $\dfrac{5\pi}{3}$, so the cosine is below $\dfrac12$ and $h>13.5$ (check: at $t=6$, $h=18$), so the ship can sail for $2\le t\le10$.'),
+         (r'$$\therefore\ \text{the ship can sail between 9 am and 5 pm}$$', r'$$\therefore\ \text{the ship can sail between 9 am and 5 pm}$$' + '\n\n' + r'(The next window opens at 9 pm, $t=14$, as the cycle repeats.)')], [],
+  r'the working said the cosine is above $\dfrac12$ between $t=2$ and $t=10$; it is below $\dfrac12$ there, so $h>13.5$. The answer is unchanged; a note gives the 9 pm window', None),
+]
+for sid, lat, crit, note, extra in C14:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+db.commit(); print('done C13, C14')

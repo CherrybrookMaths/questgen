@@ -2,16 +2,15 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
-  \pgfmathsetmacro\r{200}
-  \pgfmathsetmacro\a{asin(138/\r)}
-  % arc above the fence (y down: angles measured with y flipped)
-  \draw (268,218) ++({-90-(-\a)-180}:\r) arc[start angle={-90+\a-180+360-360}, end angle={-90-\a+360}, radius=\r];
+  \pgfmathsetmacro\r{206}
+  \pgfmathsetmacro\p{asin(140/206)}
+  \draw (272,216) ++({180-\p}:\r) arc[start angle={180-\p}, end angle={360+\p}, radius=\r];
   \draw (15,356) -- (525,356);
-  \draw (268,218) -- ++(-38:\r);
-  \draw[aux] (268,218) -- (268,356);
-  \draw (243,356) -- (243,331) -- (268,331);
-  \fill (268,218) circle (2.6pt);
-  \node at (385,183) {20 m};
-  \node[anchor=east] at (264,288) {10 m};
+  \draw (272,216) -- ++(-38:\r);
+  \draw[aux] (272,216) -- (272,356);
+  \draw (246,356) -- (246,331) -- (272,331);
+  \fill (272,216) circle (2.4pt);
+  \node[font=\small] at (382,181) {20 m};
+  \node[anchor=east,font=\small,inner sep=2pt] at (266,287) {10 m};
 \end{tikzpicture}
 \end{document}

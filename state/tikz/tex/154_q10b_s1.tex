@@ -7,13 +7,13 @@
   \node[font=\large,anchor=west] at (1290,562) {$x$};
   \node[font=\large,anchor=south] at (625,85) {$y$};
   \foreach \i in {-3,-2,-1,1,2,3} \draw ({625+124*\i},555)--({625+124*\i},569);
-  \draw (618,132)--(632,132);
+  \draw (618,130)--(632,130);
   \node[font=\large,anchor=west] at (636,140) {$54$};
   \draw[line width=0.9pt] plot[domain=-3:3,samples=90,smooth]
-    ({625+124*\x},{562-87.2*ln((\x*\x*(\x*\x-3))/0.78+sqrt(((\x*\x*(\x*\x-3))/0.78)*((\x*\x*(\x*\x-3))/0.78)+1))});
-  \foreach \p in {(253,132),(997,132),(410.2,562),(839.8,562),(625,562),(473.1,717.3),(776.9,717.3)} \node[pt] at \p {};
-  \node[font=\large,anchor=south] at (253,118) {$(-3,\,54)$};
-  \node[font=\large,anchor=west] at (1009,125) {$(3,\,54)$};
+    ({625+124*\x},{562-41.44*(\x*\x*(\x*\x-3))/((1+(\x*\x*(\x*\x-3))/4)^0.615)});
+  \foreach \p in {(253,130),(997,130),(410.2,562),(839.8,562),(625,562),(473.1,717),(776.9,717)} \node[pt] at \p {};
+  \node[font=\large,anchor=south] at (253,116) {$(-3,\,54)$};
+  \node[font=\large,anchor=west] at (1009,123) {$(3,\,54)$};
   \node[font=\large,anchor=south west] at (420,548) {$(-\sqrt{3},\,0)$};
   \node[font=\large,anchor=south west] at (636,548) {$(0,\,0)$};
   \node[font=\large,anchor=south west] at (864,548) {$(\sqrt{3},\,0)$};
