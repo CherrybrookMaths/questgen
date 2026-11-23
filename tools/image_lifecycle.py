@@ -79,8 +79,16 @@ def main():
     key_of = IN.question_keys(db)
     qs_of = {}
     for q, d in db.execute('select id, document_id from questions'): qs_of.setdefault(d, []).append(q)
+    # Next up image-lifecycle-std (23 Nov): "Check before the next publish step 0: tools/image_lifecycle.py with the 23 Nov reviews
+    # export would have archived 32 paper scan packs as cleared, including all 9 Standard pilot papers that still have Review work";
+    # owner 24 Nov: "go on one and three". Cause: only the Advanced bank (bank_split.INDEX/DETAILS) was read, so no question used a
+    # Standard paper's pack and an unused pack counted as cleared. Every course's bank is read now (CODE_HEALTH rule 5), as each
+    # course's Review reads its own bank.
+    banks = [(bank_split.read_gz(f), os.path.dirname(f) + '/details.gz.json') for f in sorted(glob.glob(S + 'bank/*/index.gz.json'))]
     # redraws approved for certain (the page's figDec also infers some from spot-checks: those keep their crop, to be safe)
-    det = bank_split.read_gz(bank_split.DETAILS)['q'] if os.path.exists(bank_split.DETAILS) else {}
+    det = {}
+    for _, f in banks:
+        if os.path.exists(f): det.update(bank_split.read_gz(f)['q'])
     rv = lambda q: (reviews.get('k_' + key_of[q]) if key_of.get(q) else None) or reviews.get('q%d' % q) or {}
     approved = set()
     for q in [q for qs in qs_of.values() for q in qs]:
@@ -89,10 +97,11 @@ def main():
 
     img = {int(os.path.basename(f)[:-5]): f for f in glob.glob(S + 'img/*.json')}
     # a pack is used by every question whose page scans or figures it holds (a solutions file's pages serve the questions of
-    # another file): it is cleared only when every paper using it is cleared; a pack no question uses is not shown anywhere
-    idx = bank_split.read_gz(bank_split.INDEX)
+    # another file): it is cleared only when every paper using it is cleared. A pack no bank question uses is judged by its own
+    # paper's reviews (24 Nov: it used to count as cleared unread, which is how the Standard packs were caught)
+    pkey_of = {int(k): v.get('key') for idx, _ in banks for k, v in (idx.get('docs') or {}).items()}
     users = {}
-    for q in idx['questions']:
+    for q in (q for idx, _ in banks for q in idx['questions']):
         packs_of_q = {int(p.split('/')[-1].split('_')[0]) for p in ((det.get(str(q['id'])) or {}).get('pages') or [])}
         packs_of_q |= {int(k.split('_')[0]) for k in ((q.get('fk') or {}).get('a') or [])}
         for d in packs_of_q: users.setdefault(d, set()).add(q['doc'])
@@ -102,14 +111,15 @@ def main():
     def _open(r):
         r = r or {}; fig = r.get('fig') or {}
         return r.get('status') == 'flagged' or 'changes' in fig.values() or any(not fig.get(k) for k in (r.get('fig_done') or {}))
-    open_doc = {d for d in {u for us in users.values() for u in us}
+    users_of = lambda d: users.get(d) or {d}
+    open_doc = {d for d in {u for us in users.values() for u in us} | set(img)
                 if any(_open(reviews.get('k_' + key_of[q]) if key_of.get(q) else None) or _open(reviews.get('q%d' % q)) for q in qs_of.get(d, []))}
     for d in sorted(open_doc):
         a = P + f'archive/img_cleared/{d}.json'
         if d not in img and os.path.exists(a):
             os.replace(a, S + f'img/{d}.json'); img[d] = S + f'img/{d}.json'; print('image_lifecycle: page scans back for paper', d, '(open flags or redraws)')
-    ok_doc = {d: IN.cleared([d], reviews, qs_of, key_of, pkey_of={int(k): v.get('key') for k, v in (idx.get('docs') or {}).items()}) and d not in open_doc for d in {u for us in users.values() for u in us}}
-    cleared = {d for d in img if all(ok_doc[u] for u in users.get(d, ()))}
+    ok_doc = {d: IN.cleared([d], reviews, qs_of, key_of, pkey_of=pkey_of) and d not in open_doc for d in {u for p in img for u in users_of(p)}}
+    cleared = {d for d in img if all(ok_doc[u] for u in users_of(d))}
     crops = groups('crop')
     by_doc = {}
     for k, v in crops.items(): by_doc.setdefault(KEY_DOC.match(k).group(1), {})[k] = v
@@ -136,7 +146,7 @@ def main():
     print(f'image_lifecycle: {len(img)} paper packs, {len(cleared)} cleared -> archive; crops kept {kept}, dropped {dropped} '
           f'(redraw approved); overlays added {len(cmp) - n_cmp}, dropped {len(cmp_drop)} of {len(cmp)}; svg groups {len(svg_files)} -> {packs.GROUPS["svg"]}'
           + (' (regroup)' if regroup else ''))
-    if dry: return
+    if dry: print('image_lifecycle: would archive', sorted(cleared)); return
     os.makedirs(ARCH + 'cmp', exist_ok=True)
     packs.write_groups('crop', by_doc)
     if cmp_drop or len(cmp) != n_cmp:
