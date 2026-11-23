@@ -237,3 +237,39 @@ for sid, lat, crit, note, extra in C11:
 # 2022 Hurlstone AT4 Q13(c) (part 5118): the paper's "approximately 3.748" is a misprint for 3.737 (PARSE_SPEC "Mistakes in the paper are fixed")
 db.execute("update parts set latex=replace(latex, 'approximately 3.748', 'approximately 3.737') where id=5118 and latex like '%3.748%'")
 db.commit(); print('done')
+
+# Batch 12 (23 Nov; owner: "I NEED you to run 2 advanced batches in the background for our checker"): the verifier's findings on 2022
+# NEAP/Normanhurst/North Sydney Boys and Girls/Manly/Oakhill/PEM/Penrith/St George Girls. Two owner calls (North Sydney Girls Q35(c),
+# Penrith Q30(b)) went to Your calls (site/project/open_decisions.json), not here.
+def _add_line(text):
+    return lambda l, c: (l + '\n\n' + text, c)
+C12 = [
+ (4870, [(r'$$\angle LBY=360^\circ-332^\circ+(300^\circ-300^\circ)=32^\circ$$', r'$$\angle LBY=332^\circ-300^\circ=32^\circ$$')], [],
+  r'the line for $\angle LBY$ read $360^\circ-332^\circ+(300^\circ-300^\circ)$, which is $28^\circ$; it is $332^\circ-300^\circ=32^\circ$', None),
+ (4914, [(r'&=21.806\text{ cm}^2', r'&=21.769\text{ cm}^2'), (r'&=37.672-21.806\\', r'&=37.672-21.769\\')], [],
+  r'the triangle was $21.806$ (from the unrounded $OA$) while the sector used $OA=13.7$; with $13.7$ throughout it is $21.769$, and $37.672-21.769=15.903$', None),
+ (5089, [(r'P_0&=4\\ P_1&=4+7=11\\ P_2&=11+7=18', r'P_1&=4\\ P_2&=4+7=11\\ P_3&=11+7=18')], [],
+  r'the terms were numbered $P_0,P_1,P_2$; $P_n$ is the total after the $n$th weekend, so $P_1=4$, $P_2=11$, $P_3=18$', None),
+ (5102, [(r'&\approx 371.5976 \end{aligned}$$' + '\n' + r'$$D\approx 19.28\text{ km (2 d.p.)}$$', r'&\approx 376.923 \end{aligned}$$' + '\n' + r'$$D\approx 19.41\text{ km (2 d.p.)}$$')], [],
+  r'the working gave $D^2\approx371.60$ and $D\approx19.28$; at $t=\dfrac{10}{13}$, $D^2=400-\dfrac{3600}{156}\approx376.92$ and $D\approx19.41$ (the answer, about $19$ km, is unchanged)', None),
+ (5134, [(r'$$f(-2)=0,\quad f(1)=3\times27\div 3\ \text{, that is } f(1)=1\times27=27$$', r'$$f(-2)=0,\quad f(1)=(2-1)(1+2)^3=27$$')], [],
+  r'the line for $f(1)$ was garbled', None),
+ (4782, [(r'&\approx 5137.5 \text{ m}^2 \end{aligned}$$', r'&= 5137.5 \\ &\approx 5138 \text{ m}^2 \end{aligned}$$')], [],
+  r'the answer was left as $5137.5$ m$^2$; the question asks for the nearest whole number, $5138$ m$^2$', None),
+ (4784, [(r'$\triangle XPQ$ is right-angled at $X$, since $PX \perp QX$ (the paths run NW and NE).', r'$\triangle XPQ$ is right-angled at $P$, since $PX \perp PQ$ (the paths run NW and NE), so $XQ$ is the hypotenuse.')], [],
+  r'the right angle was placed at $X$; $PX$ runs NW and $PQ$ NE, so it is at $P$ and $XQ$ is the hypotenuse', None),
+ (4804, [(r'&\approx 9.86 \end{aligned}$$', r'&= 9.8657\ldots \\ &\approx 9.87 \end{aligned}$$'), (r'whiteboard is } 9.86 \text{ metres', r'whiteboard is } 9.87 \text{ metres')], [],
+  r'the answer $9.86$ was truncated; $L=9.8657\ldots\approx9.87$ m', None),
+ (4968, [], [], r'the sketch did not state the $y$-intercept the question asks for; the intercepts and the inflexion are now listed under it',
+  _add_line(r'Intercepts: $x$-intercept $(-1,0)$, $y$-intercept $(0,3)$. Point of inflexion $\left(-\dfrac{1}{3},\dfrac{56}{27}\right)$.')),
+]
+for sid, lat, crit, note, extra in C12:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# 2022 Manly AT4 Q32(c) sign-test table (solution 4987): dA/dtheta at 50 degrees is 4cos100 + 4cos50 = 1.877, not 0.719
+db.execute("""update data_tables set rows_json=replace(rows_json, '"0.719"', '"1.877"') where id='Ts4987_1' and rows_json like '%"0.719"%'""")
+# 2022 NEAP AT4 Q26 (question 3336): the paper printed "as x -> -inf = y -> inf"; y = 2x/e^x -> -inf (PARSE_SPEC "Mistakes in the paper are fixed")
+db.execute(r"""update questions set stem_latex=replace(stem_latex, 'and as $x \to -\infty = y \to \infty$', 'and as $x \to -\infty$, $y \to -\infty$') where id=3336""")
+db.commit(); print('done C12')
