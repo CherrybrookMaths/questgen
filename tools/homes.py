@@ -21,7 +21,11 @@ def main(docs):
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     try:
         time.sleep(1)
-        r = subprocess.run(['node', paths.P + 'tools/homes.js', docs], capture_output=True, text=True, timeout=600,
+        # owner 23 Nov (Standard): a Standard paper's homes come from the Standard course (its questions are only in its own bank)
+        ids = [int(x) for x in docs.split(',') if x.strip()]
+        cs = {r_[0] for r_ in sqlite3.connect(paths.DB).execute(f"select distinct course from documents where id in ({','.join('?' * len(ids))})", ids)} if ids else set()
+        extra = ['--course=standard'] if cs == {'standard'} else []
+        r = subprocess.run(['node', paths.P + 'tools/homes.js', docs] + extra, capture_output=True, text=True, timeout=600,
                            env={**os.environ, 'QG_HOMES_PORT': str(port)})
         if r.returncode: sys.exit('homes.js failed: ' + r.stderr[-500:])
         h = json.loads(r.stdout)

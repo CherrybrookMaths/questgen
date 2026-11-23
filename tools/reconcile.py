@@ -3,7 +3,8 @@ Usage: ArtifactData list reviews with out_dir=<repo>/reviews_export, then: pytho
 import os as _os, sys as _sys; _sys.path.insert(0, _os.path.dirname(_os.path.abspath(__file__))); import paths  # repo locations (tools/paths.py)
 import json,glob,sqlite3,sys,datetime
 db=sqlite3.connect(paths.DBS)
-dps={d['id']:d for d in json.load(open(paths.P + 'site/project/syllabus_dotpoints.json'))}
+import course_dots   # 23 Nov (Standard): every course's dot points in one lookup (ids never clash)
+dps=course_dots.dotpoints()
 n=t=fa=sa=0
 if 'redraw_request' not in [c[1] for c in db.execute('pragma table_info(figures)')]: db.execute('alter table figures add column redraw_request text')
 figid={}
@@ -26,7 +27,7 @@ for f in _files:
         else:
             d=dps[e['id']]
             db.execute("insert into tags(part_id,scheme,focus_area,dot_point,code,year_level,coverage,is_primary,confidence,tag_source,mapping_version) values (?,?,?,?,?,?,?,?,?,?,?)",
-              (int(pid),'2024',d['focus_area'],d['text'],d['id'],d['year_level'],'examinable' if d['year_level']==12 else 'moved_to_year_11',1,1.0,'human','v1'))
+              (int(pid),'2024',d['focus_area'],d['text'],d['id'],d['year_level'],course_dots.coverage(d['id']),1,1.0,'human','v1'))
         t+=1
     # diagram redraw decisions (approved -> use TikZ redraw; rejected -> keep the crop)
     for k,v in (r.get('fig') or {}).items():

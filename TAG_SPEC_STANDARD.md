@@ -4,7 +4,7 @@ Tag NSW HSC Mathematics Standard question PARTS from Year 12 Standard 2 papers (
 TAG_SPEC.md (Advanced); where this file is silent, TAG_SPEC's clarifications apply. The "Owner rulings" at the end override anything
 above them. Background, syllabus comparison and every ruling: STANDARD_SPEC.md.
 Inputs: state/work/skills/standard/dotpoints.json (use ONLY part "common" (ids S11-nnn, Year 11) and "S2" (ids S2-12-nnn, Year 12);
-never the S1-12 ids), state/work/skills/standard/skills.json (135 approved skills: skill, year, topic, counts_when, not_when, requires,
+never the S1-12 ids), state/work/skills/standard/skills.json (136 approved skills: skill, year, topic, counts_when, not_when, requires,
 basic, dot_points), state/work/skills/standard/compare_2017_2024.json (what left the course).
 
 For each part give:
@@ -38,7 +38,8 @@ Output per part: {"part_id", "dot_points":[{"id","role"}], "required_skills":[..
 - **Annuities**: Future value of an annuity / Present value of an annuity by which value the question works with (owner 23 Nov: "this
   should be split into future and prsent value, fold it into each"); contributions and decisions go with the value they use.
 - **Flow networks**: a question that increases or reduces an edge's capacity takes Changing edge capacities (owner 23 Nov:
-  "increase / decrease questions need a separate skill").
+  "increase / decrease questions need a separate skill"). Critical path likewise: a question that increases or reduces an
+  activity's duration takes Changing activity durations (owner 23 Nov: "Yes for the croitical path one.").
 - **Survey design** (S11-082..084): owner 23 Nov: "not relevant in tests". No skill; tag the dot point only if a question is about it.
 - **Mixed triangle problems** (S2-12-071): tag it "also" beside the specific trigonometry skills the marks need.
 - **MCQ with picture options**: decide the method from the stem, the solution and the correct answer.

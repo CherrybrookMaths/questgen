@@ -66,12 +66,28 @@ Owner rulings, verbatim (record new ones here and next to the code, `// owner <d
    - time-to-reach-zero-bac: "This can be folded into Blood alcohol content"
    - time-zones-and-daylight-saving: "fold into Practical Applications of Time"
    - utc: "fold into Practical Applications of Time"
-   Applied: state/work/skills/standard/skills.json, 135 skills (APPROVED). Names chosen by Claude where the note gave none: "Income tax"
+   Then, asked whether critical path "duration changed" questions get their own skill like flow: owner 23 Nov: "Yes for the croitical
+   path one." -> Changing activity durations (S2-12-106).
+   Applied: state/work/skills/standard/skills.json, 136 skills (APPROVED). Names chosen by Claude where the note gave none: "Income tax"
    (the one tax section), "Piecework" / "Royalties", "Median" / "Mode", "Surface area of prisms / cylinders / spheres", "Changing edge
    capacities" (flow increase/decrease). Dot points with no skill: the 14 spreadsheet ones, survey design (S11-082..084, "not relevant
    in tests") and S2-12-132 (media use of statistics). Tagging rules: TAG_SPEC_STANDARD.md (tag-std-v1, 23 Nov).
 4. The course in the page: QG.courses.standard (name, bank files, dot points, MST reference sheet), the header course switch, Review
    and exams per course.
-5. Import: a standard|12 lane in the inventory (Standard 2 Year 12 papers only), a cover check that tells Standard 1 from Standard 2
+   23 Nov (branch std-page, merged after the Advanced batches publish): QG.courses.standard "Standard 2" (01_core.js), a header course
+   switch (#courseSel, remembered per viewer, reloads the page), site/data/dotpoints-standard.json (262 dot points: Year 11 + Standard 2)
+   and an empty Standard bank (tools/standard_course.py), the MST reference sheet rendered to data/ref/standard-1/2.png (pdftoppm -r 200
+   -gray, as Advanced; not in git, published from the session). Page test "course switch" (every view opens on Standard, back to
+   Advanced). Left: per-course Review and Processes lists, and dot point short labels written by hand (now the first clause).
+5. Import. 23 Nov, the paper list (tools/inventory.py, batches.py): Standard is a target course ("Mathematics Standard 2"); files the
+   first stock-take excluded only as "non-target course" are candidates again; a file or folder naming Standard 1 is held (owner:
+   "Standard 2 first"); papers before 2019 are old syllabus (General Mathematics; Standard 1 and 2 first examined 2019). Year 12
+   lane: 173 papers (107 current, 66 old) in 19 batches; 12 Standard 1 held; Year 11 held (owner: "yes finalise Y12 first").
+   Batch 1 (the pilot) starts with the 5 NESA HSC Standard 2 papers 2020-2024, so they become the references. Advanced's list
+   unchanged (checked count for count). Owner 23 Nov on the 66 General Maths papers: "Yes import them later." (after the current-syllabus papers; their
+   questions on content outside the 2024 course are old syllabus, as Advanced's old 2 Unit papers).
+   Still to do: Import: a standard|12 lane in the inventory (Standard 2 Year 12 papers only), a cover check that tells Standard 1 from Standard 2
    (27 of 357 file names say which), and course-aware import prompts (parse, tag, difficulty).
 6. Pilot batch: the NESA HSC Standard 2 papers (2020-2024 are in the folder) first, so they become the difficulty references.
+   Owner 23 Nov: "go for the pilot" (after "budget is now 600 monthly"). Runs as Standard batch 1 (run s1) once the Standard work is
+   merged and published, after the Advanced batches already running (14, 15), one import at a time.

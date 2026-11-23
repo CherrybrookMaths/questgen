@@ -59,7 +59,9 @@ SCAN_SKIP = ['Claude outputs']      # our own folder inside it (csv/png exports,
 # papers can be queued. Only Advanced so far (owner 13 Nov: "We can always [build the] framework for the courses standard
 # extension and extension two [later] right?"). The page takes names and readiness from here, never hard-codes a course.
 COURSES = [('advanced', 'Mathematics Advanced', 'Advanced', True), ('ext1', 'Mathematics Extension 1', 'Extension 1', False),
-           ('ext2', 'Mathematics Extension 2', 'Extension 2', False), ('standard', 'Mathematics Standard', 'Standard', False),
+           ('ext2', 'Mathematics Extension 2', 'Extension 2', False),
+           # owner 23 Nov: "we need to start working on the standard course", "Standard 2 first" (STANDARD_SPEC.md): Standard is set up
+           ('standard', 'Mathematics Standard 2', 'Standard 2', True),
            ('unknown', 'Course not known yet', 'Course not known', False)]
 SETUP = 'needs course setup (topics, dot points, difficulty references)'
 UNKNOWN = 'course not known from the file name: a cover-page check sorts these'
@@ -244,6 +246,8 @@ def build(db, files=False, rules=None, overrides=None):
         names = ' '.join(os.path.basename(f['source_path']) for f in fs)
         if course == 'advanced' and re.search(r'12ME|\bExt(ension)? ?1\b|\bMX1\b', names): course = 'ext1'   # the same rule as tools/import_manifest.py
         st, why = status_of(fs, course, yl, y, bool(q), has_q)
+        if course == 'standard' and st in ('ready_current', 'ready_old', 'needs_check') and STD1.search(' '.join(f['source_path'] for f in fs)):
+            st, why = 'held_course', STD1_WHY
         label = prim['display_label'] or p.get('label')
         if not label and split_off & set(p['ids']):     # split from a paper of the same name: its file name tells them apart
             label = os.path.splitext(os.path.basename(prim['source_path']))[0][:70]
@@ -274,6 +278,7 @@ def build(db, files=False, rules=None, overrides=None):
         # published bank yet, so the page shows it as importing, not as cleared review
         if any(f['id'] in HOLD for f in fs): e['imp'] = 1
         if course == 'advanced' and y and y < RULES['old_syllabus_before']: e['old'] = 1     # old syllabus: syllabus_version 'pre2017'
+        if course == 'standard' and y and y < OLD_BEFORE['standard']: e['old'] = 1     # General Mathematics (before Standard 1 and 2)
         g = out[(course if course in keys else 'unknown', yl)]
         g['papers'].append(e)
         for f in fs: paper_of[f['id']] = e['id']
@@ -332,6 +337,14 @@ def held_list(docs, copy_of, paper_of):
             'missing': [[m['doc_id'], m['path'], m['status']] for m in h.get('missing', [])]}
 
 
+# the first HSC of each course's current syllabus: papers before it are old syllabus (ready_old). Advanced: the old 2 Unit course, last
+# HSC 2019 (RULES); Standard: General Mathematics, last HSC 2018 (Standard 1 and 2 were first examined in 2019)
+OLD_BEFORE = {'standard': 2019}
+# owner 23 Nov: "Standard 2 first": a Standard paper whose file or folder names Standard 1 is held until Standard 1 is set up
+STD1 = re.compile(r'standard ?1\b|\bstd ?1\b|\bst1\b|\bS1\b(?! *[-:]? *\d)|\bMST-?12-?S1|\bstnd ?1\b', re.I)
+STD1_WHY = 'Standard 1: held until Standard 1 is set up (owner 23 Nov: "Standard 2 first")'
+
+
 def status_of(fs, course, yl, y, has_question_file, has_q):
     """ONE status and one reason per paper (owner 14 Nov: "there seems to be some inconsistencies in paper numbers"). The reason is
     '' when the status says it all (STATUS_TEXT); the page derives every number from these statuses."""
@@ -340,6 +353,11 @@ def status_of(fs, course, yl, y, has_question_file, has_q):
     if sts == {'duplicate_file'}: return 'duplicate', 'a copy of a recorded file'
     if all(f.get('_out') for f in fs): return 'not_in_scope', 'you set it aside (Needs a check)'
     placed = any(f.get('_placed') for f in fs)
+    # owner 23 Nov (Standard set up): a file excluded at the first stock-take only because its course was not a target then
+    # ("non-target course", "not Advanced") is a candidate again once its course is set up
+    if course in READY and course != 'advanced' and fs and all(f['status'] in ('excluded', 'duplicate_file') and (f['status'] == 'duplicate_file'
+            or re.search(r'non-target course|not Advanced', f['failure_reason'] or '')) for f in fs) and any(f['status'] == 'excluded' for f in fs):
+        placed = True
     if placed or sts & {'discovered', 'pending', 'parsed', 'tagged'}:
         if course in OFF_COURSES: return 'held_course', ''
         if yl == '11': return 'held_y11', ''
@@ -349,7 +367,7 @@ def status_of(fs, course, yl, y, has_question_file, has_q):
         if not y: return 'needs_check', 'year not known from the folder or file name'
         # owner 13 Nov: "We should take questions too, we'll just have to disretard out of scope things": old 2 Unit papers are
         # imported; at tagging, parts with no current dot point are dropped (IMPORT_PLAYBOOK "Old-syllabus papers")
-        if course in READY: return ('ready_old' if y < RULES['old_syllabus_before'] else 'ready_current'), ''
+        if course in READY: return ('ready_old' if y < OLD_BEFORE.get(course, RULES['old_syllabus_before']) else 'ready_current'), ''
         return 'held_course', ''
     if sts <= {'excluded', 'duplicate_file'}:
         if course in OFF_COURSES: return 'held_course', ''

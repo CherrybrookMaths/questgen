@@ -52,6 +52,26 @@ OUT = P + 'site/data/bank/' + COURSE + '/'
 INDEX = OUT + 'index.gz.json'
 DETAILS = OUT + 'details.gz.json'
 
+
+def set_course(c):
+    """Point the split at one course's folder (owner 23 Nov: "we need to start working on the standard course"): each course's
+    questions go to site/data/bank/<course>/ only (documents.course); Advanced keeps every question that is not Standard."""
+    global COURSE, OUT, INDEX, DETAILS
+    COURSE = c; OUT = P + 'site/data/bank/' + c + '/'; INDEX = OUT + 'index.gz.json'; DETAILS = OUT + 'details.gz.json'
+
+
+def doc_courses():
+    try:
+        db = sqlite3.connect('file:' + DB + '?mode=ro', uri=True)
+        return {str(r[0]): r[1] for r in db.execute('select id, course from documents')}
+    except Exception: return {}
+
+
+import course_dots   # every course's dot points (Standard ids S11- / S2-12- carry their year in the file, not in the id)
+def is_y12(i):
+    d = course_dots.dotpoints().get(i)
+    return d['year_level'] == 12 if d else (i or '').startswith('Y12')
+
 Q_CONTENT = ('stem', 'options', 'opt_table', 'layout', 'figures')            # whole fields that move to the topic file
 P_INDEX = ('id', 'label', 'parent', 'marks', 't24', 'dif', 'skills', 'tagd')   # part fields every list needs; the rest is content
 # job 2 (owner 16 Nov: "Yeah build it"): of those, what the start index keeps; the rest goes to details.gz.json
@@ -136,6 +156,26 @@ SKILL_TOPICS = paths.S + 'work/skills/skill_topics.json'
 SKILL_PREREQS = paths.S + 'work/skills/skill_prereqs.json'
 
 
+def skill_gates_standard():
+    """Standard's gates (STANDARD_SPEC.md "Skills", 136 approved skills): a skill's taught topic is its first dot point's subheading
+    (sub:<year>|<focus area>|<subheading>, the page's key), plus its `requires`, transitively; `basic` skills never gate."""
+    f = paths.S + 'work/skills/standard/skills.json'
+    if not os.path.exists(f): return {}
+    sk = {x['skill']: x for x in json.load(open(f, encoding='utf-8'))['skills']}
+    dp = course_dots.dotpoints()
+    key = lambda x: (lambda d: f"sub:{d['year_level']}|{d['focus_area']}|{d['sub'] or ''}")(dp[x['dot_points'][0]]) if x['dot_points'] and x['dot_points'][0] in dp else None
+    out = {}
+    for s_ in sorted(sk):
+        seen, todo = set(), [s_]
+        while todo:
+            x = todo.pop()
+            if x in seen: continue
+            seen.add(x); todo += (sk.get(x) or {}).get('requires', [])
+        keys = sorted({key(sk[x]) for x in seen if x in sk and not sk[x].get('basic') and key(sk[x])})
+        if keys: out[s_] = keys
+    return out
+
+
 def skill_gates():
     """{skill: [topic keys]} for the exam builders' skill gates (TAG_SPEC "Gating by what has been learnt"; owner 12 Nov: "skills
     need to be gated like that", 17 Nov: "lets do skill gates, that's important"). A skill gates on its taught topic (key, same
@@ -164,12 +204,12 @@ def slim_part(p):
     if t: x['t24'] = t
     # owner 17 Nov ("If it has ANY y12 parts, it goes straight to Y12"): a question whose only Year 12 tags are "also" tags is filed by
     # them, so those few ids are kept here (the home must not change when the details file lands)
-    ya = [t['id'] for t in (p.get('t24') or []) if not t.get('primary') and (t.get('id') or '').startswith('Y12')]
+    ya = [t['id'] for t in (p.get('t24') or []) if not t.get('primary') and is_y12(t.get('id'))]
     if ya: x['y12a'] = ya
     if p.get('tagd'):
         x['tagd'] = {sd: {'dp': [d for d in v.get('dp', []) if d[1] == 'primary'], **({'removed': v['removed']} if v.get('removed') else {}),
-                          **({'y12a': [d[0] for d in v.get('dp', []) if d[1] != 'primary' and d[0].startswith('Y12')]}
-                             if any(d[1] != 'primary' and d[0].startswith('Y12') for d in v.get('dp', [])) else {})}
+                          **({'y12a': [d[0] for d in v.get('dp', []) if d[1] != 'primary' and is_y12(d[0])]}
+                             if any(d[1] != 'primary' and is_y12(d[0]) for d in v.get('dp', [])) else {})}
                      for sd, v in p['tagd'].items()}
     if p.get('dif'): x['dif'] = {k: p['dif'][k] for k in ('b', 'wm') if k in p['dif']}
     return x
@@ -215,7 +255,7 @@ def split(bank, home, src=None):
         # the slim index keeps main tags only, so the year is decided here once (07_bank.js homeOf reads q.y12)
         ids = [t.get('id') or '' for p in q['parts'] for t in (p.get('t24') or [])] + \
               [d[0] for p in q['parts'] for v in (p.get('tagd') or {}).values() for d in v.get('dp', [])]
-        if any(i.startswith('Y12') for i in ids): x['y12'] = 1
+        if any(is_y12(i) for i in ids): x['y12'] = 1
         # every other question field goes to the details, listed or not (review 16 Nov: a fixed list dropped decide_at, which
         # build_bank.py writes for a call raised after approval; a field added to build_bank later must not vanish either)
         dt = {kk: v for kk, v in q.items() if kk not in Q_START and kk not in Q_CONTENT and kk not in ('parts', 'solutions', 'tri', 'h')
@@ -264,7 +304,7 @@ def split(bank, home, src=None):
     idx = {'v': 3, 'built': bank.get('built'), 'counts': bank.get('counts'), 'src': src, 'course': COURSE, 'docs': docs, 'tables': bank['tables'], 'figs': {k: {kk: v for kk, v in f.items() if not (k in moved and kk in F_CONTENT)} for k, f in figs.items()},
            'codes17': bank.get('codes17', {}), 'files': files, 'questions': idx_q}
     idx['raw'] = write_gz(INDEX, idx)
-    idx['raw_details'] = write_gz(DETAILS, {'v': 1, 'src': src, 'q': details, 'sk': skill_gates()})
+    idx['raw_details'] = write_gz(DETAILS, {'v': 1, 'src': src, 'q': details, 'sk': skill_gates_standard() if COURSE == 'standard' else skill_gates()})
     return idx
 
 
@@ -274,7 +314,18 @@ def main():
         bad = stale()
         print('bank split ' + ('STALE or missing: run python3 tools/bank_split.py' if bad else 'ok'))
         sys.exit(1 if bad else 0)
-    bank = json.load(open(src, encoding='utf-8'))
+    full = json.load(open(src, encoding='utf-8'))
+    dc = doc_courses()
+    # owner 23 Nov (Standard): a Standard paper's questions go to the Standard bank only; Advanced keeps the rest, as before
+    sub = lambda keep: {**full, 'questions': [q for q in full['questions'] if keep(dc.get(str(q['doc'])))],
+                        'docs': {k: d for k, d in full['docs'].items() if keep(dc.get(str(k)))}}
+    std = sub(lambda c: c == 'standard')
+    if std['questions']:
+        set_course('standard')
+        si = split(std, homes(), hashlib.sha256(dump(std).encode()).hexdigest()[:16])
+        print('bank split standard: %d questions, %d topic files' % (len(si['questions']), len(si['files'])))
+        set_course('advanced')
+    bank = sub(lambda c: c != 'standard') if std['questions'] else full
     idx = split(bank, homes(), src_hash(src))
     tot = sum(os.path.getsize(P + 'site/' + f['f']) for f in idx['files'])
     print('skill gates: %d skills gate on taught topics' % len(skill_gates()))

@@ -107,7 +107,12 @@ def clean(d):
      'S2-12-127': 'Determine the probabilities of outcomes for multistage events using $P(A\\text{ and }B)=P(A)\\times P(B)$',
      'S2-12-137': 'Calculate the $z$-score corresponding to a specific value in a dataset by applying the formula $z=\\dfrac{x-\\mu}{\\sigma}$, where $x$ is a specific value, $\\mu$ is the mean and $\\sigma$ is the standard deviation',
     }
-    plain = lambda t: re.sub(r'\s+', ' ', re.sub(r'\$([^$]*)\$', lambda m: re.sub(r'\\dfrac\{([^{}]*)\}\{([^{}]*)\}', r'(\1)/(\2)', m.group(1)).replace('\\text{', '{').replace('\\', '').replace('{', '').replace('}', '').replace('^', '^'), t)).strip()
+    def plain(t):   # the $...$ formulas as plain text: \text{} unwrapped FIRST (it nests inside \dfrac), then fractions as (a)/(b)
+        def one(m):
+            x = re.sub(r'\\text\{([^{}]*)\}', r'\1', m.group(1))
+            x = re.sub(r'\\dfrac\{([^{}]*)\}\{([^{}]*)\}', r'(\1)/(\2)', x)
+            return x.replace('\\', '').replace('{', '').replace('}', '')
+        return re.sub(r'\s+', ' ', re.sub(r'\$([^$]*)\$', one, t)).strip()
     for x in d:
         x['tex'] = T.get(x['id'], x['text']).replace('―', '−')
         x['text'] = plain(x['tex']) if x['id'] in T else x['text'].replace('―', '−')
