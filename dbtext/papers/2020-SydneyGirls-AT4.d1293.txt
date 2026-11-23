@@ -1,0 +1,4125 @@
+# paper 2020-SydneyGirls-AT4 (document 1293)
+document
+  id: 1293
+  drive_file_id: 1Czu_wt6gJetONjndCHmV4TGlmuOMWDgs
+  source_path: Trial Exams/Advanced/2020 Advanced Trials/2020 Sydney Girls High School - Adv - Trial - Questions.pdf
+  size_bytes: 790432
+  task_type: trial
+  course: advanced
+  classification_method: explicit_cover
+  year_level: 12
+  school: Sydney Girls
+  year: 2020
+  natural_key: trial|2020|sydney girls|advanced
+  provenance_method: coverpage
+  page_count: 32
+  has_text_layer: 1
+  parse_path: digital
+  bundled_solutions: 0
+  syllabus_version: 2017
+  status: parsed
+  ingested_at: 2026-11-10T22:53:15
+  display_label: 2020 Sydney Girls High School AT4
+  school_formal: Sydney Girls High School
+  task_code: AT4
+
+## Q1  key 2020-SydneyGirls-AT4-Q1  id 5754
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
+  option A
+    latex: $3.08$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $1.54$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $0.77$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $7.7$
+    is_correct: 0
+    key_source: extracted
+  part -  id 9221
+    ordinal: 1
+    latex: |
+      The following table list the values of a function $y=f(x)$ for 3 values of $x$.
+
+      \extable{1293_q1_t1}
+
+      By using the Trapezoidal rule and the table of values, the best estimation of $\displaystyle\int_{1.2}^{1.6} f(x)\,dx$ is:
+    marks: 1
+    needs_review: 0
+    data_table 1293_q1_t1
+      header_rows: 0
+      label_col: 1
+      rows_json: [["x", "1.2", "1.4", "1.6"], ["y", "3", "3.8", "4.8"]]
+      spans_json: []
+    tag 2024 Y12-285
+      focus_area: Integral calculus
+      dot_point: Use the Trapezoidal rule to approximate integrals
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Trapezoidal rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9066
+      source: generated
+      latex: |
+        The table gives three values of $x$, so there are two strips. The strip width is
+        $$h=\dfrac{1.6-1.2}{2}=0.2$$
+        so the $x$ values are $1.2,\ 1.4,\ 1.6$.
+
+        Using the trapezoidal rule with two strips:
+        $$\begin{aligned} \int_{1.2}^{1.6} f(x)\,dx &\approx \dfrac{h}{2}\big[f(1.2)+2f(1.4)+f(1.6)\big] \\ &= \dfrac{0.2}{2}\times 15.4 \\ &= 1.54 \end{aligned}$$
+        where $f(1.2)+2f(1.4)+f(1.6)=15.4$ comes from the table values.
+
+        Hence the best estimate is $1.54$, which is option B.
+      source_document_id: 1293
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.6, "generated_note": "The table values were not available to the writer, so the bracket sum 15.4 is back-calculated from the keyed option. Please check it against table 1293_q1_t1.", "self_check": "The table was not visible. The working assumes h=0.2 and that the keyed value 1.54 matches the table, so the bracket must equal 15.4. Options A, C and D are 2, 0.5 and 5 times 1.54."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 219
+      confidence: high
+      reason: Two-strip trapezoidal rule straight from a given table
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: shifted
+
+## Q2  key 2020-SydneyGirls-AT4-Q2  id 5755
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Working with functions|Quadratic and cubic functions
+  home_source: computed
+  option A
+    latex: $-1<h<4$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $h>4$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $h<-1$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $h>4$ or $h<-1$
+    is_correct: 1
+    key_source: extracted
+  part -  id 9222
+    ordinal: 1
+    latex: The solution to $h^2>3h+4$ is given by:
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-036
+      focus_area: Working with functions
+      dot_point: Solve quadratic inequalities
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Quadratic inequalities
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9067
+      source: generated
+      latex: |
+        Rearrange to compare with zero, then factorise.
+        $$\begin{aligned} h^2-3h-4 &> 0 \\ (h-4)(h+1) &> 0 \end{aligned}$$
+        The parabola $y=(h-4)(h+1)$ opens upwards with roots $h=-1$ and $h=4$, so it is positive outside the roots.
+        $$\therefore\ h>4 \text{ or } h<-1$$
+        This is option D.
+      source_document_id: 1293
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "", "self_check": "Test h=0: 0>4 false, so the middle interval is excluded. Test h=5: 25>19 true."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 280
+      confidence: medium
+      reason: Rearrange, factorise quadratic, choose region outside roots
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q3  key 2020-SydneyGirls-AT4-Q3  id 5756
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Integral calculus|Integration with trigonometric functions
+  home_source: computed
+  option A
+    latex: $-\cos\dfrac{x}{4}+c$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $4\cos\dfrac{x}{4}+c$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $-4\cos\dfrac{x}{4}+c$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $\dfrac{1}{4}\cos\dfrac{x}{4}+c$
+    is_correct: 0
+    key_source: extracted
+  part -  id 9223
+    ordinal: 1
+    latex: The correct expression for the integral $\displaystyle\int \sin\dfrac{x}{4}\,dx$ is :
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-273
+      focus_area: Integral calculus
+      dot_point: Establish and use indefinite integrals of the form ∫f(ax + b)dx, where a and b are constants and a ≠0, and f(x)= sin x, f(x)= cos x and f(x)= sec2 x
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9068
+      source: generated
+      latex: |
+        Use $\displaystyle\int \sin ax\,dx=-\dfrac{1}{a}\cos ax+c$ with $a=\dfrac{1}{4}$.
+        $$\begin{aligned} \int \sin\dfrac{x}{4}\,dx &= -\dfrac{1}{\frac{1}{4}}\cos\dfrac{x}{4}+c \\ &= -4\cos\dfrac{x}{4}+c \end{aligned}$$
+        Check by differentiating: $\dfrac{d}{dx}\left(-4\cos\dfrac{x}{4}\right)=-4\cdot\left(-\dfrac{1}{4}\sin\dfrac{x}{4}\right)=\sin\dfrac{x}{4}$.
+
+        This is option C.
+      source_document_id: 1293
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.99, "generated_note": "", "self_check": "Differentiated the answer to recover the integrand."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 887
+      confidence: high
+      reason: Standard integral of sin(ax) with fractional coefficient
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q4  key 2020-SydneyGirls-AT4-Q4  id 5757
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  old_syllabus: Pareto chart (statistics of a data set); in neither 2024 syllabus
+  home_topic: special:removed
+  home_source: computed
+  option A
+    latex: $23\%$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $5\%$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $95\%$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $13\%$
+    is_correct: 1
+    key_source: extracted
+  figure 1293_q4_1.png
+    page: 2
+    bbox: [120, 140, 428, 405]
+    png_path: figures/1293_q4_1.png
+    tikz_path: tikz/tex/1293_q4_1.tex
+    caption: Pareto chart of problems with cheques received in a 6 month period
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: Pareto chart redrawn at crop scale: bars 89,54,23,5,4 with grey shade fill (blue→grey, rule 6) and black outline; cumulative % line computed from the bar counts (50.9, 81.7, 94.9, 97.7, 100%) and drawn smooth at 0.9pt (magenta→black). Light grey grid: minor every 2 cheques and at category centres, darker at multiples of 10 and category boundaries. Left 0–90 and right 0–100 axes, tick marks, category labels ('Company Name / Error' on two lines), bold Times title and axis titles at the crop's size. Title and 'Problem' are centred over the plot area (rule 20), so they sit a little left/right of the crop. The low original-coverage score comes from the crop's solid blue bar fill, which is now light grey, and its darker scan grid lines. Rules 2,3,6,9,20.
+  part -  id 9224
+    ordinal: 1
+    latex: |
+      The accounts department of a company records problems with cheques received from customers over a six-month period. The results are shown in the Pareto chart below.
+
+      \exfigure{1293_q4_1}
+
+      Approximately what percentage of the problems are due to an Amount Error?
+    marks: 1
+    needs_review: 0
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag note MA-S2.1
+      dot_point: Pareto charts are not in the 2024 Advanced syllabus (Standard data content)
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9069
+      source: generated
+      latex: |
+        Read each bar height from the left axis (number of cheques):
+        $$89,\ 54,\ 23,\ 5,\ 4$$
+        The total number of problems is
+        $$89+54+23+5+4=175$$
+        The Amount Error bar has height $23$, so
+        $$\dfrac{23}{175}\times 100\% \approx 13\%$$
+        This is option D. Option A is the count 23, not the percentage.
+      source_document_id: 1293
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Bar heights read from the figure.", "self_check": "Cumulative curve rises from about 86% to about 97% over Amount Error, a gain of about 11 to 13%, consistent with 13%."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 215
+      confidence: medium
+      reason: Read bar heights, total them, compute one percentage
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q5  key 2020-SydneyGirls-AT4-Q5  id 5758
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Probability and data|Probability
+  home_source: computed
+  option A
+    latex: $\dfrac{36}{125}$
+    is_correct: 1
+    key_source: extracted
+  option B
+    latex: $\dfrac{12}{125}$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $\dfrac{7}{125}$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $\dfrac{9}{125}$
+    is_correct: 0
+    key_source: extracted
+  part -  id 9225
+    ordinal: 1
+    latex: The chance of a fisherman catching a fish of legal length is 3 in 5. If three fish are caught at random, what is the probability that exactly one is of legal length?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-188
+      focus_area: Probability and data
+      dot_point: Use arrays and tree diagrams to determine the outcomes and probabilities for multistage events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Multistage events and tree diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9070
+      source: generated
+      latex: |
+        Let $L$ be a fish of legal length, with $P(L)=\dfrac{3}{5}$ and $P(\overline{L})=\dfrac{2}{5}$.
+
+        Exactly one legal fish out of three can occur in $3$ orders ($L\overline{L}\,\overline{L}$, $\overline{L}L\overline{L}$, $\overline{L}\,\overline{L}L$), each with the same probability.
+        $$\begin{aligned} P &= 3\times\dfrac{3}{5}\times\left(\dfrac{2}{5}\right)^2 \\ &= \dfrac{36}{125} \end{aligned}$$
+        This is option A.
+      source_document_id: 1293
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "", "self_check": "Binomial: C(3,1)(0.6)(0.4)^2=0.288=36/125."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 868
+      confidence: medium
+      reason: Exactly one of three: count orderings, multiply probabilities
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q6  key 2020-SydneyGirls-AT4-Q6  id 5759
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Working with functions|Algebraic techniques
+  home_source: computed
+  option A
+    latex: $f(2x)-1$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $2+f(2x)$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $f(2x)-2$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $2-f(2x)$
+    is_correct: 0
+    key_source: extracted
+  part -  id 9226
+    ordinal: 1
+    latex: If $f(x)=b^{x}+b^{-x}$, then $\left(f(-x)\right)^2=$
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-001
+      focus_area: Working with functions
+      dot_point: Use index laws to simplify expressions and solve problems involving positive, negative, zero or fractional indices
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-002
+      focus_area: Working with functions
+      dot_point: Expand, factorise and simplify algebraic expressions
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-013
+      focus_area: Working with functions
+      dot_point: Substitute numeric and algebraic expressions into the formulas of functions
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Expanding and factorising
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Function notation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Index laws
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9071
+      source: generated
+      latex: |
+        Replacing $x$ by $-x$ gives $f(-x)=b^{-x}+b^{x}=f(x)$.
+
+        Square it:
+        $$\begin{aligned} \left(f(-x)\right)^2 &= \left(b^{x}+b^{-x}\right)^2 \\ &= b^{2x}+2b^{x}b^{-x}+b^{-2x} \\ &= b^{2x}+b^{-2x}+2 \\ &= f(2x)+2 \end{aligned}$$
+        This is option B.
+      source_document_id: 1293
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.99, "generated_note": "", "self_check": "Test b=2, x=1: f(1)=2.5, square 6.25; f(2)=4.25, plus 2 is 6.25."}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 818
+      confidence: medium
+      reason: Notice evenness, expand square, recognise result as f(2x)+2
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q7  key 2020-SydneyGirls-AT4-Q7  id 5760
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Probability and data|Conditional probability
+  home_source: computed
+  option A
+    latex: $0.616$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $0.72$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $0.384$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $0.28$
+    is_correct: 0
+    key_source: extracted
+  part -  id 9227
+    ordinal: 1
+    latex: Let $X$ and $Y$ be independent events where $P(X)=0.2$ and $P(Y)=0.52$. What is the value of $P(\overline{X}\cap\overline{Y})$?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-187
+      focus_area: Probability and data
+      dot_point: Establish and use the rules P(A)= 1 ― P(A) and P(A ∪B)= P(A)+ P(B)― P(A ∩B)
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-196
+      focus_area: Probability and data
+      dot_point: Solve practical problems involving independent events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Complementary events
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Independent events
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9072
+      source: generated
+      latex: |
+        The complements of independent events are also independent, so
+        $$\begin{aligned} P(\overline{X}\cap\overline{Y}) &= P(\overline{X})\,P(\overline{Y}) \\ &= (1-0.2)(1-0.52) \\ &= 0.8\times 0.48 \\ &= 0.384 \end{aligned}$$
+        This is option C.
+      source_document_id: 1293
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.99, "generated_note": "", "self_check": "Alternative: P(X or Y)=0.2+0.52-0.104=0.616, so 1-0.616=0.384."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 221
+      confidence: medium
+      reason: Complements of independent events, product of complements
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q8  key 2020-SydneyGirls-AT4-Q8  id 5761
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Differential calculus|Using derivatives
+  home_source: computed
+  option A
+    latex: $-12\cos^3 3x$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $-36\sin^2 3x\cdot\cos 3x$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $36\sin^3 3x\cdot\cos^2 3x$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $-12\sin^2 3x$
+    is_correct: 0
+    key_source: extracted
+  part -  id 9228
+    ordinal: 1
+    latex: If $y=-4\sin^3 3x$, then $\dfrac{dy}{dx}=$
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-239
+      focus_area: Differential calculus
+      dot_point: Use the chain rule to differentiate functions of the form sin f(x), cos f(x) and tan f(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9073
+      source: generated
+      latex: |
+        Write $y=-4(\sin 3x)^3$ and use the chain rule (power rule, then the derivative of $\sin 3x$).
+        $$\begin{aligned} \dfrac{dy}{dx} &= -4\cdot 3(\sin 3x)^2\cdot \dfrac{d}{dx}(\sin 3x) \\ &= -12\sin^2 3x\cdot 3\cos 3x \\ &= -36\sin^2 3x\cdot\cos 3x \end{aligned}$$
+        This is option B.
+      source_document_id: 1293
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.99, "generated_note": "", "self_check": "Chain rule checked step by step."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 858
+      confidence: high
+      reason: Double chain rule on power of trig function
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q9  key 2020-SydneyGirls-AT4-Q9  id 5762
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  standard_topic: Standard, Year 11: Data analysis (quartiles, outliers) (MST-11-08) (borderline)
+  home_topic: special:removed
+  home_source: computed
+  option A
+    latex: $24$
+    is_correct: 1
+    key_source: extracted
+  option B
+    latex: $22$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $26$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $20$
+    is_correct: 0
+    key_source: extracted
+  part -  id 9229
+    ordinal: 1
+    latex: A set of data has a lower quartile of 10 and an upper quartile of 16. What is the maximum range for this set of data if there are no outliers?
+    marks: 1
+    needs_review: 0
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag note MA-S2.1
+      dot_point: Quartiles, IQR and outliers of a data set are Mathematics Standard content, not 2024 Advanced
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9074
+      source: generated
+      latex: |
+        The interquartile range is
+        $$IQR=16-10=6$$
+        A value is an outlier if it is more than $1.5\times IQR=9$ beyond a quartile, so the outlier boundaries are
+        $$\begin{aligned} Q_1-9 &= 10-9=1 \\ Q_3+9 &= 16+9=25 \end{aligned}$$
+        With no outliers, every value lies between $1$ and $25$. The largest possible range is
+        $$25-1=24$$
+        This is option A.
+      source_document_id: 1293
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "", "self_check": "Standard 1.5 IQR outlier rule applied; max range uses the extreme allowed values."}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 213
+      confidence: medium
+      reason: Apply 1.5 IQR outlier fences to reason about maximum range
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q10  key 2020-SydneyGirls-AT4-Q10  id 5763
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Graph transformations|
+  home_source: computed
+  option A
+    latex: $y=-2(3x-2)^2(3+3x)$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $y=\dfrac{1}{2}(3x-2)^2(3+3x)$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $y=-\dfrac{1}{2}\left(\dfrac{x}{3}-2\right)^2\left(3+\dfrac{x}{3}\right)$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $y=\dfrac{1}{2}\left(\dfrac{x}{3}+2\right)^2\left(3-\dfrac{x}{3}\right)$
+    is_correct: 1
+    key_source: extracted
+  part -  id 9230
+    ordinal: 1
+    latex: The graph of $y=(x-2)^2(3+x)$ is dilated vertically by a factor of $\dfrac{1}{2}$ and horizontally by a factor of 3. It is then reflected across the $y$ axis. The new equation is given by:
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-162
+      focus_area: Graph transformations
+      dot_point: Establish using graphing applications that replacing x by ―x in the equation of a graph corresponds to the reflection of the graph in the y-axis, and that replacing y by ―y corresponds to a reflection in the x-axis
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-165
+      focus_area: Graph transformations
+      dot_point: Establish using graphing applications that replacing x by x k in the equation of a graph corresponds to a horizontal dilation of a graph by a factor of k, that replacing y by y l corresponds to a vertical dilation by a factor of l, and determine the effects on the graph when the magnitude of the dilation factor lies between 0 and 1
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-167
+      focus_area: Graph transformations
+      dot_point: Apply reflections, translations and dilations to functions within the scope of the Mathematics Advanced course, excluding trigonometric functions, determine the function rule and the graph of the transformed function, the domain and range of the transformed graph, any intercepts, asymptotes and discontinuities where appropriate, and describe which transformations have been applied
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Dilations of graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Equations of transformed functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reflections of graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9075
+      source: generated
+      latex: |
+        Apply the transformations in order, starting from $y=(x-2)^2(3+x)$.
+
+        Vertical dilation by $\dfrac{1}{2}$ multiplies $y$ by $\dfrac{1}{2}$:
+        $$y=\dfrac{1}{2}(x-2)^2(3+x)$$
+        Horizontal dilation by a factor of $3$ replaces $x$ by $\dfrac{x}{3}$:
+        $$y=\dfrac{1}{2}\left(\dfrac{x}{3}-2\right)^2\left(3+\dfrac{x}{3}\right)$$
+        Reflection in the $y$ axis replaces $x$ by $-x$:
+        $$\begin{aligned} y &= \dfrac{1}{2}\left(-\dfrac{x}{3}-2\right)^2\left(3-\dfrac{x}{3}\right) \\ &= \dfrac{1}{2}\left(\dfrac{x}{3}+2\right)^2\left(3-\dfrac{x}{3}\right) \end{aligned}$$
+        This is option D.
+      source_document_id: 1293
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "", "self_check": "Original x-intercepts 2 and -3 become 6 and -9 after dilation, then -6 and 9 after reflection; option D has roots x=-6 and x=9."}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 751
+      confidence: medium
+      reason: Three successive transformations; careful substitution of x/3 then -x
+      area: Y11_Graph_transformations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q11  key 2020-SydneyGirls-AT4-Q11  id 5764
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Working with functions|Absolute value functions
+  home_source: computed
+  solution 8753
+    source: extracted
+    latex: |
+      Using the definition of absolute value, $2x-7=4$ or $2x-7=-4$.
+
+      $$\begin{aligned} 2x&=11 & \text{or}\quad 2x&=3\\ x&=\dfrac{11}{2}=5\dfrac{1}{2} & \text{or}\quad x&=\dfrac{3}{2}\end{aligned}$$
+
+      $$\therefore\ x=5\dfrac{1}{2} \text{ or } x=\dfrac{3}{2}$$
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Writes one correct equation or finds one correct solution, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us (source had none)."}
+  part -  id 9231
+    ordinal: 1
+    latex: Solve $|2x-7|=4$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-071
+      focus_area: Working with functions
+      dot_point: Solve absolute value equations of the form |ax + b|= k algebraically and graphically
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Absolute value equations and inequalities
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 166
+      confidence: high
+      reason: Routine absolute value equation, two linear cases
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q12  key 2020-SydneyGirls-AT4-Q12  id 5765
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Trigonometry and measure of angles|Trigonometry with angles of any magnitude
+  home_source: computed
+  solution 8754
+    source: extracted
+    latex: |
+      Let $\theta$ be the angle between the 100 m shot and the line from the tee to the hole. The three sides of the triangle are known, so use the cosine rule.
+
+      $$\cos\theta=\dfrac{100^2+130^2-35^2}{2\times100\times130}$$
+
+      $$\theta\approx 9^\circ 4'$$
+
+      The hole is due east of the tee, so the bearing is measured from north.
+
+      $$\begin{aligned} a&=90^\circ-9^\circ4'\\ &\approx 81^\circ \text{ (nearest degree)}\end{aligned}$$
+
+      $$\therefore\ a\approx 81$$
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Finds $\\theta$, or equivalent merit"], [1, "Substitutes correctly into the cosine rule, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us (source had none)."}
+  figure 1293_q12_1.png
+    page: 6
+    bbox: [100, 412, 355, 500]
+    png_path: figures/1293_q12_1.png
+    tikz_path: tikz/tex/1293_q12_1.tex
+    caption: Golf shots: 100 m at bearing a from the tee, then 35 m to the hole; tee to hole 130 m
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Tee, apex and hole at the crop positions (not to scale, rule 1). 100 m and 35 m arrows with filled Latex heads, fine-dashed 130 m baseline (aux), N arrow, a° label, dots at tee and hole, flag with grey pennant (yellow→grey, rule 6). Labels in the house serif font, not the crop's sans. No angle arc added because the crop has none. Remaining colour in the overlay is from the scan's thicker strokes and font differences. Rules 1,3,4,6,11.
+  part -  id 9232
+    ordinal: 1
+    latex: |
+      On a golf course, the tee is a distance of 130 metres due west from the hole. On her first shot, Kelly hits the ball 100 metres but not at the correct angle. On her second shot she hits the ball 35 metres and gets it in the hole. On what bearing, $a^\circ$, did she hit her first shot ? Give your answer correct to the nearest degree.
+
+      \exfigure{1293_q12_1}
+
+      \begin{framed}Diagram not to scale.\end{framed}
+    marks: 3
+    needs_review: 0
+    tag 2024 Y11-073
+      focus_area: Trigonometry and measure of angles
+      dot_point: Apply trigonometry to solve problems involving right-angled triangles in two dimensions, true and compass bearings, and angles of elevation and depression
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-083
+      focus_area: Trigonometry and measure of angles
+      dot_point: Apply the sine rule, cosine rule and formula for the area of a triangle to solve problems where angles are measured in degrees, or degrees and minutes
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Bearings
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Cosine rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 324
+      confidence: medium
+      reason: Cosine rule for angle, then convert to bearing
+      area: Y11_Trigonometry_and_measure_of_angles
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q13  key 2020-SydneyGirls-AT4-Q13  id 5766
+  section: II
+  question_type: short
+  stem_latex: The weight $M$, in kg, of an object on the moon is directly proportional to the weight $E$ of the object on Earth. An astronaut who weighs 90 kg on Earth weighs 16.4 kg on the moon.
+  marks_total: 3
+  page_start: 7
+  page_end: 7
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Working with functions|Direct and inverse variation
+  home_source: computed
+  part a  id 9233
+    ordinal: 1
+    latex: Find an equation for converting the weight of an object on Earth to its weight on the moon.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-045
+      focus_area: Working with functions
+      dot_point: Develop models of the form y = kxn, where k is a non-zero constant, from descriptions of situations in which one quantity varies directly with another
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-047
+      focus_area: Working with functions
+      dot_point: Evaluate k in the equations y = kxn and y = k xn, given one pair of values for the variables, and use the resulting formula to find other values of the variables
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Direct and inverse variation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8755
+      source: extracted
+      latex: |
+        Since $M$ is directly proportional to $E$, $M=kE$.
+
+        Substitute $E=90$, $M=16.4$.
+
+        $$\begin{aligned} 16.4&=k\times90\\ k&=\dfrac{16.4}{90}=\dfrac{41}{225}\end{aligned}$$
+
+        $$\therefore\ M=\dfrac{41}{225}E$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Writes $M=kE$ or finds $k$, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 217
+      confidence: medium
+      reason: Direct variation: find constant from one data pair
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 9234
+    ordinal: 2
+    latex: An astronaut weighs 120 kg on Earth. How much will the astronaut weigh on the moon?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-047
+      focus_area: Working with functions
+      dot_point: Evaluate k in the equations y = kxn and y = k xn, given one pair of values for the variables, and use the resulting formula to find other values of the variables
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Direct and inverse variation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8756
+      source: extracted
+      latex: |
+        Substitute $E=120$ into $M=\dfrac{41}{225}E$.
+
+        $$\begin{aligned} M&=\dfrac{41}{225}\times120\\ &\approx 21.87 \text{ kg (2 d.p.)}\end{aligned}$$
+
+        $$\therefore\ \text{The astronaut will weigh } 21.87 \text{ kg on the moon.}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 315
+      confidence: high
+      reason: Substitute into equation from previous part
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q14  key 2020-SydneyGirls-AT4-Q14  id 5767
+  section: II
+  question_type: short
+  stem_latex: |
+    Consider the function shown below.
+
+    \exfigure{1293_q14_1}
+  marks_total: 2
+  page_start: 8
+  page_end: 8
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Working with functions|Properties of functions, relations and graphs
+  home_source: computed
+  solution 8757
+    source: extracted
+    latex: |
+      The graph has a break at $x=4$ and its greatest value is $5$.
+
+      $$\text{Domain: } (-\infty,4)\cup(4,\infty)$$
+
+      $$\text{Range: } (-\infty,5]$$
+    marks_breakdown: 1: correct domain; 1: correct range (full interval notation required)
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Correct domain or correct range (full interval notation required)"]]
+    meta_json: {"marker_note": "These were the only acceptable answers. Full interval notation was needed."}
+  figure 1293_q14_1.png
+    page: 8
+    bbox: [190, 118, 392, 292]
+    png_path: figures/1293_q14_1.png
+    tikz_path: tikz/tex/1293_q14_1.tex
+    caption: graph of a piecewise function F with open and closed endpoints
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Dotted light-grey grid −6..8 × −6..7 at crop scale. Left piece is the exact parabola y=5−(x+3)^2: vertex (−3,5), closed dot at (−2,4), arrow at (−6,−4). So it crosses at x=−3−√5≈−5.24, slightly left of the hand-plotted crossing (rules 10/16). Middle piece is a concave sqrt-shaped arc from the open circle (−2,2) to the corner (2,4). Then the line y=6−x with an open circle at (4,2) and an arrow at (8,−2). Graph 0.9pt, pink→black, F label kept. The y-tick label 3 was moved to the right of the y-axis because the curve crosses its left-side position (21 Nov rule). −5 is nudged slightly right so it clears the curve. Filled arrowheads replace the open chevrons. Rules 4,9,10,11,16,24.
+  part -  id 9235
+    ordinal: 1
+    latex: Write down the domain and range using interval notation.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-055
+      focus_area: Working with functions
+      dot_point: Determine and describe the domain and range of functions and relations, using interval notation, inequalities or worded descriptions
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Domain and range
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Interval notation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 208
+      confidence: medium
+      reason: Read domain and range from graph in interval notation
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q15  key 2020-SydneyGirls-AT4-Q15  id 5768
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 8
+  page_end: 8
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Further graph transformations and modelling|Transformations of trigonometric functions
+  home_source: computed
+  solution 8758
+    source: extracted
+    latex: |
+      Solve $\cos2\theta=\dfrac12$ for $0\le 2\theta\le 4\pi$.
+
+      $$2\theta=\dfrac{\pi}{3},\ \dfrac{5\pi}{3},\ \dfrac{7\pi}{3},\ \dfrac{11\pi}{3}$$
+
+      $$\theta=\dfrac{\pi}{6},\ \dfrac{5\pi}{6},\ \dfrac{7\pi}{6},\ \dfrac{11\pi}{6}$$
+
+      The only value in $\dfrac{3\pi}{2}\le\theta\le2\pi$ is $\theta=\dfrac{11\pi}{6}$, so
+
+      $$\sin\dfrac{11\pi}{6}=-\dfrac12$$
+
+      Alternatively, use the double angle identity $\cos2\theta=1-2\sin^2\theta$.
+
+      $$\begin{aligned} 1-2\sin^2\theta&=\dfrac12\\ 2\sin^2\theta&=\dfrac12\\ \sin^2\theta&=\dfrac14\\ \sin\theta&=\pm\dfrac12\end{aligned}$$
+
+      In the fourth quadrant, $\sin\theta<0$.
+
+      $$\therefore\ \sin\theta=-\dfrac12$$
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Finds $\\sin\\theta=\\pm\\dfrac12$ or $\\theta=\\dfrac{11\\pi}{6}$, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us (source had none)."}
+  part -  id 9236
+    ordinal: 1
+    latex: Given $\cos 2\theta=0.5$ and $\dfrac{3\pi}{2}\le\theta\le 2\pi$, what is the value of $\sin\theta$ ?
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-204
+      focus_area: Further graph transformations and modelling
+      dot_point: Solve equations and graphical problems involving transformations of the trigonometric functions f(x)= sin x, f(x)= cos x or f(x) = tan x, using graphing applications or otherwise, within a specified domain
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Trigonometric equations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 281
+      confidence: medium
+      reason: Double-angle equation with restricted domain, choose correct sign
+      area: Y12_Further_graph_transformations_and_modelling
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q16  key 2020-SydneyGirls-AT4-Q16  id 5769
+  section: II
+  question_type: extended
+  stem_latex: |
+    The population $P$, in thousands, of a small city is given by, $P(t)=\dfrac{500t}{2t^2+9}$, where $t$ is the time in years.
+
+    \exfigure{1293_q16_1}
+  marks_total: 6
+  page_start: 9
+  page_end: 10
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
+  figure 1293_q16_1.png
+    page: 9
+    bbox: [184, 148, 428, 301]
+    png_path: figures/1293_q16_1.png
+    tikz_path: tikz/tex/1293_q16_1.tex
+    caption: graph of P(t) = 500t/(2t^2+9)
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: P(t)=500t/(2t^2+9) plotted from its equation at the crop's scale (t 0–14.4, max ≈58.9 at t≈2.12), 0.9pt, smooth with 90 samples, arrow at the end. Ticks: t 2–12 above the axis, P 10–60 crossing the axis, labels as in the crop. The equation is a stacked \dfrac label (rule 23); magenta→black. A third quick compile only moved the P axis label off the '60' tick label, which it touched after round 2. Rules 3a,4,9,11,23.
+  part a  id 9237
+    ordinal: 1
+    latex: Find the population after 10 months.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-013
+      focus_area: Working with functions
+      dot_point: Substitute numeric and algebraic expressions into the formulas of functions
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Function notation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8759
+      source: extracted
+      latex: |
+        Convert 10 months to years: $t=\dfrac{10}{12}=\dfrac56$.
+
+        $$P\left(\dfrac56\right)=\dfrac{500\times\frac56}{2\left(\frac56\right)^2+9}\approx 40.107 \text{ thousand}$$
+
+        $$\therefore\ \text{about } 40.11 \text{ thousand (2 d.p.)}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"corrected": "Corrected from source: the working gave $40.106$ and then $40.12$; $P\\left(\\dfrac56\\right)=40.107\\ldots\\approx40.11$ thousand.", "format_note": "Rubric written by us (source had none).", "marker_note": "Be accurate with your approximations.", "overwritten_from_source": "Corrected from source: the working gave $40.106$ and then $40.12$; $P\\left(\\dfrac56\\right)=40.107\\ldots\\approx40.11$ thousand.", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "Convert 10 months to years: $t=\\dfrac{10}{12}=\\dfrac56$.\n\n$$P\\left(\\dfrac56\\right)=\\dfrac{500\\times\\frac56}{2\\left(\\frac56\\right)^2+9}\\approx 40.106 \\text{ (thousands)}$$\n\nThe source then rounds this to $40.12$ thousand."}}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 230
+      confidence: high
+      reason: Convert months to years, substitute into model
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 9238
+    ordinal: 2
+    latex: Find the rate of change of the population with respect to time.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-132
+      focus_area: Introduction to differentiation
+      dot_point: Apply the quotient rule: if y = u v, where u and v are both differentiable functions of x, then dy dx = v du dx―u dv dx v2 or if h(x)= f(x) g(x) then h'(x)= g(x)f'(x)―f(x)g'(x) [g(x)]2
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-303
+      focus_area: Applications of calculus
+      dot_point: Use differentiation to find and interpret the first and second derivatives, dQ dt and d2Q dt2 , in practical problems where a quantity Q is a function of time t
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Quotient rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Rates of change
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8760
+      source: extracted
+      latex: |
+        Using the quotient rule, $\dfrac{d}{dt}\left(\dfrac{u}{v}\right)=\dfrac{u'v-uv'}{v^2}$, with
+
+        $$\begin{aligned} u&=500t & v&=2t^2+9\\ u'&=500 & v'&=4t\end{aligned}$$
+
+        $$\begin{aligned} P'(t)&=\dfrac{(2t^2+9)\times500-500t\times4t}{(2t^2+9)^2}\\ &=\dfrac{1000t^2+4500-2000t^2}{(2t^2+9)^2}\\ &=\dfrac{4500-1000t^2}{(2t^2+9)^2}\end{aligned}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Applies the quotient rule with correct $u'$ and $v'$, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 328
+      confidence: high
+      reason: Quotient rule with simplification
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 9239
+    ordinal: 3
+    latex: Find the rate of change in the population at $t=12$ years.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-140
+      focus_area: Introduction to differentiation
+      dot_point: Interpret f'(c) as the instantaneous rate of change of the function f(x) at x = c
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-303
+      focus_area: Applications of calculus
+      dot_point: Use differentiation to find and interpret the first and second derivatives, dQ dt and d2Q dt2 , in practical problems where a quantity Q is a function of time t
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Rates of change
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8761
+      source: extracted
+      latex: |
+        Substitute $t=12$ into $P'(t)$.
+
+        $$\begin{aligned} P'(12)&=\dfrac{4500-1000(12)^2}{(2\times12^2+9)^2}\\ &\approx-1.58\end{aligned}$$
+
+        $$\therefore\ \text{the population is decreasing at about } 1.58 \text{ thousand per year}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Added a wording line for the meaning of the negative sign."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 231
+      confidence: high
+      reason: Substitute into derivative found previously
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part d  id 9240
+    ordinal: 4
+    latex: Find the average rate of change in the population from $t=10$ months to $t=4$ years.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-105
+      focus_area: Introduction to differentiation
+      dot_point: Define the average rate of change of y with respect to x for a function y = f(x) over the domain [a,b] as Δy Δx = change in y change in x, that is Δy Δx = f(b)―f(a) b―a , and recognise f(b)―f(a) b―a as the gradient of the secant through a,f(a) and b,f(b) on the graph of y = f(x)
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Average rate of change
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8762
+      source: extracted
+      latex: |
+        The average rate of change is the change in $P$ divided by the change in $t$, so use $P(t)$, not $P'(t)$.
+
+        $$\begin{aligned} \text{Average rate}&=\dfrac{P(4)-P\left(\frac56\right)}{4-\frac56}\\ &\approx\dfrac{48.780-40.107}{\frac{19}{6}}\\ &\approx2.74 \text{ thousand per year}\end{aligned}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Uses $\\dfrac{P(4)-P\\left(\\frac56\\right)}{4-\\frac56}$, or equivalent merit"]]
+      meta_json: {"corrected": "Corrected from source: the average rate used the wrong $40.12$ and gave $2.73$; it is $2.74$ thousand per year.", "format_note": "Rubric written by us (source had none).", "marker_note": "A lot of students had trouble with this question. $P(t)$ needed to be used rather than $P'(t)$. The denominator was the difference between the time periods.", "overwritten_from_source": "Corrected from source: the average rate used the wrong $40.12$ and gave $2.73$; it is $2.74$ thousand per year.", "source_original": {"criteria": [[2, "Correct answer"], [1, "Uses $\\dfrac{P(4)-P\\left(\\frac56\\right)}{4-\\frac56}$, or equivalent merit"]], "latex": "The average rate of change is the change in $P$ divided by the change in $t$, so use $P(t)$, not $P'(t)$.\n\n$$\\begin{aligned} \\text{Average rate}&=\\dfrac{P(4)-P\\left(\\frac56\\right)}{4-\\frac56}\\\\ &\\approx\\dfrac{48.78-40.12}{\\frac{19}{6}}\\\\ &\\approx2.73 \\text{ thousand per year}\\end{aligned}$$"}}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 186
+      confidence: medium
+      reason: Average rate needs function values, not derivative; unit conversion
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q17  key 2020-SydneyGirls-AT4-Q17  id 5770
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 11
+  page_end: 11
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Introduction to differentiation|Calculations with the derivative
+  home_source: computed
+  solution 8763
+    source: extracted
+    latex: |
+      Differentiate.
+
+      $$f'(x)=-3x^2+12x$$
+
+      The normal has slope $m_N=-\dfrac19$, so the tangent has slope $m_T=9$.
+
+      Set $f'(x)=9$.
+
+      $$\begin{aligned} -3x^2+12x&=9\\ 3x^2-12x+9&=0\\ x^2-4x+3&=0\\ (x-3)(x-1)&=0\end{aligned}$$
+
+      $$\therefore\ x=1 \text{ or } x=3$$
+    marks_breakdown: 1: recognising the tangent gradient is 9; 1: solving (marks were not awarded for differentiation)
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Recognises the tangent gradient is $9$, or equivalent merit"]]
+    meta_json: {"marker_note": "Marks were not awarded for differentiation."}
+  part -  id 9241
+    ordinal: 1
+    latex: Find the $x$-values for the points on the graph of $f(x)=-x^3+6x^2$ at which the normal has slope $\dfrac{-1}{9}$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-129
+      focus_area: Introduction to differentiation
+      dot_point: Find points on a curve where the tangent or normal has a given gradient
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Tangents and normals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 271
+      confidence: medium
+      reason: Convert normal slope to tangent slope, solve quadratic
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q18  key 2020-SydneyGirls-AT4-Q18  id 5771
+  section: II
+  question_type: short
+  marks_total: 1
+  page_start: 11
+  page_end: 11
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
+  solution 8764
+    source: extracted
+    latex: \exfigure{1293_q18_s1}
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"format_note": "Rubric written by us (source had none).", "marker_note": "A large number of students drew graphs that were not continuous. An infinite gradient at $x=1$ was accepted if the graph was continuous."}
+  figure 1293_q18_s1.png
+    page: 6
+    bbox: [122, 522, 516, 716]
+    png_path: figures/1293_q18_s1.png
+    tikz_path: tikz/tex/1293_q18_s1.tex
+    caption: solution sketch: hand-drawn graph continuous but not differentiable at x=1
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Solution sketch redrawn clean. Axes as in the crop. A smooth symmetric hump (rule 10, not the pen trace) peaks on the y-axis, comes down to a cusp at x=1 on the x-axis, and continues as a straight line up to the right with an arrow. The left end goes down with an arrow. Graph 0.9pt, label '1' below the cusp. The notebook's dotted ruled lines and the pen circle at the cusp were dropped (rule 17); that dropped ruling is almost all of the low original-coverage score. Rules 4,9,10,17.
+  part -  id 9242
+    ordinal: 1
+    latex: Draw a graph that is continuous, but not differentiable at $x=1$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-288
+      focus_area: Applications of calculus
+      dot_point: Define a function f(x)to be differentiable at x = a if lim h→0 f(a+h)―f(a) h exists, that is if there is a non- vertical tangent to the curve at the point P a,f(a) and recognise that if f(x) is differentiable at x = a then it is continuous at x = a
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-289
+      focus_area: Applications of calculus
+      dot_point: Identify any values of x where a function is continuous, but not differentiable, given either the equation of the function or its graph
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Differentiability
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 162
+      confidence: medium
+      reason: Recall a cusp/corner example such as |x-1|
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q19  key 2020-SydneyGirls-AT4-Q19  id 5772
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 12
+  page_end: 12
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  standard_topic: Standard, Year 12: Bivariate data analysis (regression line) (MST-12-S1-06)
+  home_topic: special:removed
+  home_source: computed
+  solution 8765
+    source: extracted
+    latex: |
+      Using the regression line $y=bx+a$ from the table values:
+
+      $$a\approx65.55 \text{ (2 d.p.)}$$
+
+      $$b\approx2.49 \text{ (2 d.p.)}$$
+
+      $$\therefore\ y=2.49x+65.55$$
+    marks_breakdown: 1 mark awarded if a and b were correct but incorrectly placed into the formula
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Correct $a$ and $b$ but incorrectly placed into the formula, or equivalent merit"]]
+    meta_json: {}
+  part -  id 9243
+    ordinal: 1
+    latex: |
+      The data in the following table relates study time and test scores.
+
+      \extable{1293_q19_t1}
+
+      Find a regression line for the data above, using accuracy to two decimal places.
+    marks: 2
+    needs_review: 0
+    data_table 1293_q19_t1
+      header_rows: 1
+      label_col: 0
+      rows_json: [["\\text{Study time in hours}", "\\text{Test grade in percent}"], ["7", "83"], ["8", "85"], ["9", "88"], ["10", "91"], ["11", "93"], ["12", "95"]]
+      spans_json: []
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag note MA-S2.2
+      dot_point: Least-squares regression on bivariate data is not in the 2024 Advanced syllabus (Standard content)
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 215
+      confidence: medium
+      reason: Calculator regression line from table, routine procedure
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q20  key 2020-SydneyGirls-AT4-Q20  id 5773
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 12
+  page_end: 12
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Integral calculus|Indefinite integrals
+  home_source: computed
+  solution 8766
+    source: extracted
+    latex: |
+      Differentiate $(x^3+1)^{11}$ using the chain rule.
+
+      $$\begin{aligned} \dfrac{d}{dx}(x^3+1)^{11}&=11(x^3+1)^{10}\times3x^2\\ &=33x^2(x^3+1)^{10}\end{aligned}$$
+
+      So divide by $33$ and multiply by $5$.
+
+      $$\therefore\ \int5x^2(x^3+1)^{10}\,dx=\dfrac{5}{33}(x^3+1)^{11}+c$$
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Obtains $(x^3+1)^{11}$ in the primitive, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us (source had none)."}
+  part -  id 9244
+    ordinal: 1
+    latex: Find $\displaystyle\int 5x^2(x^3+1)^{10}\,dx$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-263
+      focus_area: Integral calculus
+      dot_point: Prove by differentiation, and apply ∫un du dx dx = 1 n+1 un+1 + C, where u is a function of x, or ∫f'(x)[f(x)]ndx = 1 n+1 [f(x)]n+1 + C, for real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reverse chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 275
+      confidence: high
+      reason: Reverse chain rule with constant adjustment
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q21  key 2020-SydneyGirls-AT4-Q21  id 5774
+  section: II
+  question_type: extended
+  stem_latex: Differentiate the following:
+  marks_total: 4
+  page_start: 13
+  page_end: 13
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Differential calculus|Differentiation with logarithmic functions
+  home_source: computed
+  part a  id 9245
+    ordinal: 1
+    latex: $f(x)=e^{-2x}(1+x^2)$
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-229
+      focus_area: Differential calculus
+      dot_point: Apply the rules of differentiation to find the derivative of f(x)= keax, where k and a are constants
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Product rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8767
+      source: extracted
+      latex: |
+        Using the product rule, $\dfrac{d}{dx}(uv)=u'v+uv'$, with
+
+        $$\begin{aligned} u&=e^{-2x} & v&=1+x^2\\ u'&=-2e^{-2x} & v'&=2x\end{aligned}$$
+
+        $$\begin{aligned} f'(x)&=e^{-2x}\times2x+(1+x^2)\times(-2e^{-2x})\\ &=2e^{-2x}\left(x-(1+x^2)\right)\\ &=2e^{-2x}(x-1-x^2)\end{aligned}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Applies the product rule with correct $u'$ and $v'$, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 328
+      confidence: high
+      reason: Product rule with exponential chain rule, factorise
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 9246
+    ordinal: 2
+    latex: $f(x)=\ln\left(\dfrac{x^3+4}{6-x}\right)$
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-158
+      focus_area: Exponential and logarithmic functions
+      dot_point: Apply the logarithmic laws and results to simplify expressions, solve equations and prove results, using digital tools where necessary
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-235
+      focus_area: Differential calculus
+      dot_point: Use the chain rule to differentiate functions of the form ln f(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of logarithmic functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Logarithm laws in differentiation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8768
+      source: extracted
+      latex: |
+        Use the log law $\ln\dfrac{a}{b}=\ln a-\ln b$ first.
+
+        $$f(x)=\ln(x^3+4)-\ln(6-x)$$
+
+        $$\begin{aligned} f'(x)&=\dfrac{3x^2}{x^3+4}-\dfrac{-1}{6-x}\\ &=\dfrac{3x^2}{x^3+4}+\dfrac{1}{6-x}\end{aligned}$$
+
+        Differentiating the quotient directly gives the equivalent form
+
+        $$f'(x)=\dfrac{2(9x^2-x^3+2)}{(x^3+4)(6-x)}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Differentiates one log term correctly, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 858
+      confidence: medium
+      reason: Log laws then differentiate two log terms
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q22  key 2020-SydneyGirls-AT4-Q22  id 5775
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 14
+  page_end: 14
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Introduction to differentiation|Graphical applications of the derivative
+  home_source: computed
+  solution 8769
+    source: extracted
+    latex: |
+      Differentiate.
+
+      $$f'(x)=-3x^2-5$$
+
+      Since $x^2\ge0$, we have $-3x^2\le0$, so $f'(x)\le-5$.
+
+      Hence $f'(x)<0$ for all $x$ (the graph of $f'(x)$ is a downward parabola with maximum value $-5$, so it lies below the $x$-axis).
+
+      $$\therefore\ f(x) \text{ is always decreasing.}$$
+    marks_breakdown: 1: correct differentiation; 1: clearly explaining why f(x) is always decreasing
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Correct differentiation, or equivalent merit"]]
+    meta_json: {}
+  part -  id 9247
+    ordinal: 1
+    latex: Show that $f(x)=-x^3-5x+1$ is always decreasing.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-135
+      focus_area: Introduction to differentiation
+      dot_point: Interpret f(x) as increasing at x = c when f'(c)> 0 and decreasing at x = c when f'(c)< 0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Increasing and decreasing functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 172
+      confidence: medium
+      reason: Show derivative always negative; brief justification needed
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: PR
+      source: model
+
+## Q23  key 2020-SydneyGirls-AT4-Q23  id 5776
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 14
+  page_end: 14
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
+  solution 8770
+    source: extracted
+    latex: |
+      The curve $y=x^2-3x=x(x-3)$ is below the $x$-axis for $1\le x<3$ and above it for $3<x\le5$, so the two regions are found separately.
+
+      $$\text{Area}=\left|\displaystyle\int_1^3(x^2-3x)\,dx\right|+\displaystyle\int_3^5(x^2-3x)\,dx$$
+
+      $$\begin{aligned} \text{Area}&=\left|\left[\dfrac{x^3}{3}-\dfrac{3x^2}{2}\right]_1^3\right|+\left[\dfrac{x^3}{3}-\dfrac{3x^2}{2}\right]_3^5\\ &=\left|\left(9-\dfrac{27}{2}\right)-\left(\dfrac13-\dfrac32\right)\right|+\left(\dfrac{125}{3}-\dfrac{75}{2}-\left(9-\dfrac{27}{2}\right)\right)\\ &=\left|-\dfrac{10}{3}\right|+\dfrac{26}{3}\\ &=\dfrac{36}{3}\\ &=12 \text{ units}^2\end{aligned}$$
+    marks_breakdown: 1: separating the regions; 1: correct integration; 1: correct arithmetic
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Separates the regions and integrates correctly, or equivalent merit"], [1, "Separates the regions, or equivalent merit"]]
+    meta_json: {}
+  part -  id 9248
+    ordinal: 1
+    latex: Find the area between the curve $y=x^2-3x$ and the $x$-axis over the interval $1\le x\le 5$.
+    marks: 3
+    needs_review: 0
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-277
+      focus_area: Integral calculus
+      dot_point: Recognise, in the case where f(x)≤0 for all values of x in the interval a ≤x ≤b, the area bounded by the graph of the continuous function y = f(x), the x-axis and the lines x = a and x = b, as |∫b a f(x) dx| or ― ∫ b a f(x) dx
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-278
+      focus_area: Integral calculus
+      dot_point: Conclude, for a continuous function y = f(x) on the interval a ≤x ≤b, that ∫b a f(x) dx = (area of regions between curve and x-axis lying above the x-axis) ― (area of regions between curve and the x-axis lying below the x-axis)
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-279
+      focus_area: Integral calculus
+      dot_point: Use definite integrals to solve problems involving the areas of regions bounded by the graph of the continuous function y = f(x), the x-axis and the lines x = a and x = b, in cases where f(x)≥0 throughout a ≤x ≤b, f(x)≤0 throughout a ≤x ≤b or where f(x) changes sign in the interval a ≤x ≤b, with or without the graph provided
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Areas below the x-axis
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 184
+      confidence: medium
+      reason: Area must be split where curve crosses axis; careful evaluation
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q24  key 2020-SydneyGirls-AT4-Q24  id 5777
+  section: II
+  question_type: extended
+  stem_latex: |
+    The world population was approximately 6.04 billion at the beginning of 2000. It has been estimated that the population is growing exponentially at the rate of 0.016 per year.
+
+    The world population $P$ is modelled by the equation $P=P_0e^{kt}$, where $k$ and $P_0$ are constants and $t$ is the amount of time (in years) since the beginning of 2000.
+  marks_total: 4
+  page_start: 15
+  page_end: 15
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
+  part a  id 9249
+    ordinal: 1
+    latex: Estimate the world population at the end of 2030.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-310
+      focus_area: Applications of calculus
+      dot_point: Model and solve growth and decay problems in various contexts using dQ dt = kQ, Q = Aekt and the graph of Q = Aekt for t ≥0, and justify conclusions in the context of the problem
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential growth and decay
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8771
+      source: extracted
+      latex: |
+        The model is $P=6.04e^{0.016t}$.
+
+        The end of 2030 is 31 years after the beginning of 2000, so $t=31$.
+
+        $$\begin{aligned} P_{31}&=6.04e^{0.016\times31}\\ &\approx9.9185\\ &\approx9.919 \text{ billion (3 d.p.)}\end{aligned}$$
+      marks_breakdown: 1: recognising t = 31 (if not, but the formula was used correctly, 1 mark was awarded)
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Recognises $t=31$, or equivalent merit"]]
+      meta_json: {"marker_note": "If $t=31$ was not used but the formula was used correctly, 1 mark was awarded."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 230
+      confidence: medium
+      reason: Substitute into given exponential model; only care needed is t=31
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 9250
+    ordinal: 2
+    latex: After how many years will the population be double the population in 2000?
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-310
+      focus_area: Applications of calculus
+      dot_point: Model and solve growth and decay problems in various contexts using dQ dt = kQ, Q = Aekt and the graph of Q = Aekt for t ≥0, and justify conclusions in the context of the problem
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential growth and decay
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8772
+      source: extracted
+      latex: |
+        The population doubles when $P=2P_0$.
+
+        $$\begin{aligned} 2P_0&=P_0e^{0.016t}\\ 2&=e^{0.016t}\\ \ln2&=\ln e^{0.016t}\\ 0.016t&=\ln2\\ t&=\dfrac{\ln2}{0.016}\\ &\approx43.32 \text{ years}\end{aligned}$$
+      marks_breakdown: c.f.p.r.: full marks if own k from part (a) used correctly
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Obtains $2=e^{0.016t}$, or equivalent merit"]]
+      meta_json: {"marker_note": "If you devised your own $k$ in (a) but used it correctly in (b), two marks were awarded (correct from previous response)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 874
+      confidence: high
+      reason: Standard doubling time: solve exponential equation using logarithms
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q25  key 2020-SydneyGirls-AT4-Q25  id 5778
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 16
+  page_end: 16
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Working with functions|Quadratic and cubic functions
+  home_source: computed
+  solution 8773
+    source: extracted
+    latex: \exfigure{1293_q25_s1}
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Sketches both graphs with intercepts labelled, or equivalent merit"], [1, "Sketches one graph correctly, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us (source had none).", "marker_note": "Intercepts are required to be labelled."}
+  figure 1293_q25_s1.png
+    page: 11
+    bbox: [77, 245, 510, 555]
+    png_path: figures/1293_q25_s1.png
+    tikz_path: tikz/tex/1293_q25_s1.tex
+    caption: solution sketch: y=|x| and y=1-x^2 sketched with the common region shaded
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: y=|x| and y=1−x^2 drawn from their equations, each with arrows at both ends. The scales differ (x 68 px/unit, y 88 px/unit) to match the sketch's proportions. The region y≥|x|, y≤1−x^2 (−0.618≤x≤0.618) is shaded with house hatching like the crop (rules 5,27). Intercepts −1, 1 and y-intercept 1 are labelled clear of the curves; equation labels sit where the crop puts them. Dropped: the teacher's dashed guide box and the notebook ruled lines (rule 17). These, plus the hand-drawn parabola being wider than the true one lower down, account for the low scores. Approx: one consistent scale cannot match both the hand-drawn V slope and the parabola width. y-axis arrow added (rule 13). Rules 5,9,10,13,17,27.
+  part a  id 9251
+    ordinal: 1
+    latex: On the same axes sketch the graph of $y=|x|$ and $y=1-x^2$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-031
+      focus_area: Working with functions
+      dot_point: Choose and apply appropriate techniques to graph a parabola of the form y = ax2 + bx + c by identifying its x-intercepts if they exist, its y-intercept, its axis of symmetry using x = ― b 2a and its vertex
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-069
+      focus_area: Working with functions
+      dot_point: Graph the function y =|x|, describe its symmetry, and identify its domain and range
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Graphs of absolute value functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Graphs of quadratic functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 279
+      confidence: high
+      reason: Sketch two familiar basic graphs on same axes
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 9252
+    ordinal: 2
+    latex: Shade in the region where both $y\ge|x|$ and $y\le 1-x^2$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-031
+      focus_area: Working with functions
+      dot_point: Choose and apply appropriate techniques to graph a parabola of the form y = ax2 + bx + c by identifying its x-intercepts if they exist, its y-intercept, its axis of symmetry using x = ― b 2a and its vertex
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-034
+      focus_area: Working with functions
+      dot_point: Recognise that solving f(x)= k for some constant k corresponds to finding the x-coordinate(s) of the intersection of the graphs y = f(x) and y = k
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-069
+      focus_area: Working with functions
+      dot_point: Graph the function y =|x|, describe its symmetry, and identify its domain and range
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Graphical solution of equations and inequalities
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 279
+      confidence: high
+      reason: Shade region between two sketched curves; direct reading
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q26  key 2020-SydneyGirls-AT4-Q26  id 5779
+  section: II
+  question_type: extended
+  stem_latex: Consider the function $f(x)=2x^3-x^4$.
+  marks_total: 7
+  page_start: 17
+  page_end: 18
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
+  part a  id 9253
+    ordinal: 1
+    latex: Find the coordinates of any stationary points on the curve $y=f(x)$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-136
+      focus_area: Introduction to differentiation
+      dot_point: Describe the behaviour of a function at a point as stationary when the tangent at the point is parallel to the x-axis, and recognise that f(x) is stationary at x = c when f'(c)= 0
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-291
+      focus_area: Applications of calculus
+      dot_point: Analyse the stationary points of a function by testing values for f'(x), then classify the stationary points as local minima or local maxima where gradients change around the point, or horizontal points of inflection where gradients have the same sign on both sides of the point
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Stationary points and their nature
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8774
+      source: extracted
+      latex: |
+        Stationary points occur where $f'(x)=0$.
+
+        $$\begin{aligned} f'(x)&=6x^2-4x^3=0\\ 2x^2(3-2x)&=0\end{aligned}$$
+
+        So $x=0$ or $x=\dfrac32$, giving $y=0$ or $y=\dfrac{27}{16}$.
+
+        $$\therefore\ \text{stationary points are } (0,0) \text{ and } \left(\dfrac32,\dfrac{27}{16}\right)$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds $f'(x)$ and the $x$ values, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 242
+      confidence: high
+      reason: Differentiate polynomial, factorise, solve f'(x)=0, find coordinates
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 9254
+    ordinal: 2
+    latex: Determine their nature.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-291
+      focus_area: Applications of calculus
+      dot_point: Analyse the stationary points of a function by testing values for f'(x), then classify the stationary points as local minima or local maxima where gradients change around the point, or horizontal points of inflection where gradients have the same sign on both sides of the point
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Second derivative test
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Stationary points and their nature
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8775
+      source: extracted
+      latex: |
+        Test the sign of the slope $f'(x)=2x^2(3-2x)$ either side of each stationary point.
+
+        \extable{Ts8775_1}
+
+        The slope is increasing, stationary, increasing, stationary, decreasing.
+
+        At $x=0$ the slope is positive on both sides, so $(0,0)$ is a horizontal point of inflection.
+
+        At $x=\dfrac32$ the slope changes from positive to negative.
+
+        $$\therefore\ (0,0) \text{ is a horizontal point of inflection and } \left(\dfrac32,\dfrac{27}{16}\right) \text{ is a maximum turning point.}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Tests the slope around one stationary point correctly, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Table Ts8775_1 kept as in source."}
+      data_table Ts8775_1
+        header_rows: 0
+        label_col: 1
+        rows_json: [["x", "-1", "0", "1", "\\dfrac32", "2"], ["f'(x)", "10", "0", "2", "0", "-8"]]
+        source_latex: $$\begin{array}{c|ccccc} x & -1 & 0 & 1 & \dfrac32 & 2\\ \hline f'(x) & 10 & 0 & 2 & 0 & -8\end{array}$$
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 242
+      confidence: high
+      reason: Sign test of derivative; recognise horizontal point of inflection
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 9255
+    ordinal: 3
+    latex: Find any points of inflection on the curve $y=f(x)$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-290
+      focus_area: Applications of calculus
+      dot_point: Use repeated differentiation to find second derivatives of a function y = f(x), denoting them by f''(x) or d2y dx2 or y''
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-293
+      focus_area: Applications of calculus
+      dot_point: Define a point of inflection on a curve as a point where the concavity changes
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-294
+      focus_area: Applications of calculus
+      dot_point: Analyse the value of f''(x) either side of the roots of f''(x)= 0, and use the resulting concavities to identify which zeroes of f''(x) are points of inflection
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Concavity and points of inflection
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Second derivative
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8776
+      source: extracted
+      latex: |
+        Points of inflection occur where $f''(x)=0$ and the concavity changes.
+        $$\begin{aligned} f''(x) &= 12x-12x^2 = 0 \\ 12x(1-x) &= 0 \end{aligned}$$
+        So $x=0$ or $x=1$.
+
+        \extable{Ts8776_1}
+
+        The concavity changes at $x=1$, and $y=1$ when $x=1$.
+
+        $$\therefore\ (1,1) \text{ is a point of inflection (and } (0,0) \text{ is a horizontal point of inflection, from (b))}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+      data_table Ts8776_1
+        header_rows: 0
+        label_col: 1
+        rows_json: [["x", "\\dfrac12", "1", "2"], ["f''(x)", "3", "0", "-24"]]
+        source_latex: $$\begin{array}{c|ccc} x & \dfrac12 & 1 & 2\\ \hline f''(x) & 3 & 0 & -24\end{array}$$
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 242
+      confidence: medium
+      reason: Second derivative zero and concavity change check; routine
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part d  id 9256
+    ordinal: 4
+    latex: Sketch the function $y=f(x)$ for $x\in[-2,2]$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-296
+      focus_area: Applications of calculus
+      dot_point: Graph a function by determining local maxima and minima and points of inflection, horizontal and non-horizontal, considering any even or odd symmetry, the domain, any vertical asymptotes or other discontinuities, and where applicable, the behaviour of a function as x→± ∞
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Curve sketching using calculus
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8777
+      source: extracted
+      latex: \exfigure{1293_q26_s1}
+      marks_breakdown: shape; endpoints; key points labelled
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Sketch with correct shape or some key points labelled, or equivalent merit"]]
+      meta_json: {"format_note": "Source rubric 'shape; endpoints; key points labelled' rewritten top-down."}
+    figure 1293_q26_s1.png
+      page: 13
+      bbox: [65, 390, 516, 700]
+      png_path: figures/1293_q26_s1.png
+      tikz_path: tikz/tex/1293_q26_s1.tex
+      caption: solution sketch: sketch of y=2x^3-x^4 on [-2,2] with key points labelled
+      redraw_status: approx
+      redraw_class: graph
+      redraw_notes: Drew y=2x^3-x^4 on [-2,2] from the equation at 0.9pt, with dots and labels at the computed points (0,0), (1,1), (3/2,27/16), (2,0) and (-2,-32) (rule 16). The sketch is not to scale: -32 sits only about 6 units below the axis. To keep the crop's proportions (rule 1) the x scale is uneven (157 px/unit right of 0, 113 px/unit left) and negative y values are log-compressed, so all points still lie on the drawn curve. Notebook ruling, teacher ticks and the marking-criteria text are removed (rule 17). I added x and y axis labels. The low overlay score comes from the ruled dotted lines, the handwriting and the criteria text.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 326
+      confidence: medium
+      reason: Sketch quartic using features already found, endpoints on interval
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q27  key 2020-SydneyGirls-AT4-Q27  id 5780
+  section: II
+  question_type: extended
+  stem_latex: Use the standard normal distribution table on the opposite page, or otherwise, to answer the questions below.
+  marks_total: 4
+  page_start: 19
+  page_end: 19
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Random variables|The normal distribution
+  home_source: computed
+  part a  id 9257
+    ordinal: 1
+    latex: Find $P(-1.93\le z\le 0.79)$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-350
+      focus_area: Random variables
+      dot_point: Use z-scores to identify probabilities of events less or more extreme than a given outcome and solve problems using tables for the standard normal distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Standard normal tables
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8778
+      source: extracted
+      latex: $$\begin{aligned} P(-1.93\le z\le 0.79) &= P(z\le 0.79)-P(z\le -1.93) \\ &= P(z\le 0.79)-P(z\ge 1.93) \\ &= P(z\le 0.79)-\big(1-P(z\le 1.93)\big) \\ &= 0.78524-(1-0.97320) \\ &= 0.75844 \end{aligned}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Writes $P(z\\le 0.79)-P(z\\le -1.93)$, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 774
+      confidence: high
+      reason: Table lookup with symmetry for negative z; two-step probability
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 9258
+    ordinal: 2
+    latex: A large class takes an exam, and the students' scores are normally distributed. The mean score is $\mu=72$ and the standard deviation is $\sigma=4.5$. Students who score in the top 10% receive an A grade. What is the minimum score needed to get an A grade?
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-347
+      focus_area: Random variables
+      dot_point: Define the z-score, or standardised score, by the formula z = x―μ σ , where μ is the mean and σ is the standard deviation, and x is an observed value of a random variable
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-350
+      focus_area: Random variables
+      dot_point: Use z-scores to identify probabilities of events less or more extreme than a given outcome and solve problems using tables for the standard normal distribution
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-351
+      focus_area: Random variables
+      dot_point: Solve problems involving finding the mean or standard deviation of a normal random variable given the probability of an event less or more extreme than a given outcome
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Inverse normal problems
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Standard normal tables
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: z-scores
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8779
+      source: extracted
+      latex: |
+        An A grade is a score above 90% of scores. From the table, $P(z\le 1.28)\approx 0.9$.
+
+        So the minimum score for an A grade has a $z$-score of $1.28$. Using $z=\dfrac{x-\mu}{\sigma}$:
+        $$\begin{aligned} 1.28 &= \dfrac{x-72}{4.5} \\ x &= 72+4.5\times 1.28 \\ &= 77.76 \end{aligned}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds the $z$-score $1.28$, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 774
+      confidence: medium
+      reason: Inverse z lookup for top 10%, then rearrange z-score formula
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q28  key 2020-SydneyGirls-AT4-Q28  id 5781
+  section: II
+  question_type: extended
+  stem_latex: Consider the functions $f(x)=\sqrt[3]{3-2x}$ and $g(x)=1+3x^2$.
+  marks_total: 5
+  page_start: 21
+  page_end: 21
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Introduction to differentiation|Calculations with the derivative
+  home_source: computed
+  part a  id 9259
+    ordinal: 1
+    latex: Find $f\circ g(x)$
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-060
+      focus_area: Working with functions
+      dot_point: Determine the equations of composite functions
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Composite functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8780
+      source: extracted
+      latex: $$\begin{aligned} f\circ g(x) &= f(g(x)) \\ &= f(1+3x^2) \\ &= \sqrt[3]{3-2(1+3x^2)} \\ &= \sqrt[3]{1-6x^2} \end{aligned}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Writes $f(1+3x^2)$, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 166
+      confidence: medium
+      reason: Direct substitution into composite function and simplify
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 9260
+    ordinal: 2
+    latex: Evaluate $g(f'(1))$
+    marks: 3
+    needs_review: 0
+    tag 2024 Y11-059
+      focus_area: Working with functions
+      dot_point: Use the composite function f g(x) , where the output of g(x) becomes the input of f(x)
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-133
+      focus_area: Introduction to differentiation
+      dot_point: Apply the chain rule: if y is a differentiable function of u, and u is a differentiable function of x, then dy dx = dy du × du dx or if h(x)= f g(x) for differentiable functions f(x) and g(x) then h'(x)= f' g(x) g'(x)
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Composite functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8781
+      source: extracted
+      latex: |
+        Write $f(x)=(3-2x)^{\frac13}$ and differentiate using the chain rule.
+        $$\begin{aligned} f'(x) &= \dfrac13(3-2x)^{-\frac23}\times(-2) \\ &= -\dfrac23(3-2x)^{-\frac23} \end{aligned}$$
+        $$f'(1)=-\dfrac23(3-2)^{-\frac23}=-\dfrac23$$
+        Then
+        $$\begin{aligned} g\left(f'(1)\right) &= g\left(-\dfrac23\right) \\ &= 1+3\left(-\dfrac23\right)^2 \\ &= 1+\dfrac43 \\ &= \dfrac73 \end{aligned}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Finds $f'(1)$, or equivalent merit"], [1, "Differentiates $f(x)$ correctly, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 263
+      confidence: medium
+      reason: Chain rule with cube root, evaluate, then substitute into g
+      area: Y11_Introduction_to_differentiation
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q29  key 2020-SydneyGirls-AT4-Q29  id 5782
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 22
+  page_end: 22
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Exponential and logarithmic functions|Logarithmic functions
+  home_source: computed
+  solution 8782
+    source: extracted
+    latex: |
+      Method 1: use the definition of a logarithm.
+      $$\begin{aligned} a &= \log_{\frac1x}\dfrac1N \\ \left(\dfrac1x\right)^a &= \dfrac1N &&(\text{definition of log}) \\ \dfrac{1}{x^a} &= \dfrac1N \\ x^a &= N \\ a &= \log_x N &&(\text{definition of log}) \end{aligned}$$
+      Method 2: use the change of base rule.
+      $$\begin{aligned} a &= \log_{\frac1x}\dfrac1N \\ &= \dfrac{\log_x\frac1N}{\log_x\frac1x} &&(\text{change of base}) \\ &= \dfrac{\log_x(N^{-1})}{\log_x(x^{-1})} \\ &= \dfrac{-\log_x N}{-\log_x x} &&(\log_a(b^c)=c\log_a b) \\ &= \dfrac{\log_x N}{1} &&(\log_x x=1) \\ &= \log_x N \end{aligned}$$
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Applies the definition of a logarithm or the change of base rule, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us (source had none)."}
+  part -  id 9261
+    ordinal: 1
+    latex: If $a=\log_{\frac{1}{x}}\dfrac{1}{N}$ such that $x>0$ and $N>0$, show that $a=\log_x N$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-150
+      focus_area: Exponential and logarithmic functions
+      dot_point: Define the logarithm of a number y, where y > 0, to any positive base a as the index to which a is raised to give y
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-158
+      focus_area: Exponential and logarithmic functions
+      dot_point: Apply the logarithmic laws and results to simplify expressions, solve equations and prove results, using digital tools where necessary
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Change of base
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Index laws
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Logarithm laws
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 264
+      confidence: medium
+      reason: Short general log proof via definition or change of base
+      area: Y11_Exponential_and_logarithmic_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: PR
+      source: model
+
+## Q30  key 2020-SydneyGirls-AT4-Q30  id 5783
+  section: II
+  question_type: extended
+  stem_latex: |
+    The probability density function $f(x)=\dfrac{1}{3}(x^2+1)$ is defined over the interval $[0,1]$.
+
+    Find the value of :
+  marks_total: 5
+  page_start: 23
+  page_end: 23
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Random variables|Continuous random variables
+  home_source: computed
+  part a  id 9262
+    ordinal: 1
+    latex: $E(X)$.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-334
+      focus_area: Random variables
+      dot_point: Generate the expression for the expected value of a continuous random variable, E(X)= μ = ∫b a xf(x)dx, where the probability density function f(x) is defined on the interval [a,b]
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-336
+      focus_area: Random variables
+      dot_point: Evaluate the expected value and the variance of a continuous random variable, where the probability density function f(x) is defined on the interval [a,b], that involve integration of functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Expected value
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8783
+      source: extracted
+      latex: |
+        Using $E(X)=\displaystyle\int_0^1 x f(x)\,dx$:
+        $$\begin{aligned} E(X) &= \dfrac13\int_0^1 x(x^2+1)\,dx \\ &= \dfrac13\int_0^1 (x^3+x)\,dx \\ &= \dfrac13\left[\dfrac{x^4}{4}+\dfrac{x^2}{2}\right]_0^1 \\ &= \dfrac13\left[\dfrac14+\dfrac12\right] \\ &= \dfrac14 \end{aligned}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Sets up $\\displaystyle\\int_0^1 x f(x)\\,dx$ or finds a correct primitive, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 296
+      confidence: medium
+      reason: Standard expected value integral of polynomial pdf
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 9263
+    ordinal: 2
+    latex: the variance.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-335
+      focus_area: Random variables
+      dot_point: Generate the expression for the variance of a continuous random variable, Var(X)= E(X2)― μ2 = ∫b a x2f(x)dx ― μ2, where the probability density function f(x) is defined on the interval [a,b]
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-336
+      focus_area: Random variables
+      dot_point: Evaluate the expected value and the variance of a continuous random variable, where the probability density function f(x) is defined on the interval [a,b], that involve integration of functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Variance and standard deviation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8784
+      source: extracted
+      latex: |
+        Using $\text{Var}(X)=\displaystyle\int_0^1 x^2 f(x)\,dx-(E(X))^2$ with $E(X)=\dfrac14$:
+        $$\begin{aligned} \text{Var}(X) &= \dfrac13\int_0^1 (x^4+x^2)\,dx-\left(\dfrac14\right)^2 \\ &= \dfrac13\left[\dfrac{x^5}{5}+\dfrac{x^3}{3}\right]_0^1-\dfrac{1}{16} \\ &= \dfrac13\left[\dfrac15+\dfrac13\right]-\dfrac{1}{16} \\ &= \dfrac{83}{720} \end{aligned}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Sets up $\\displaystyle\\int_0^1 x^2 f(x)\\,dx-(E(X))^2$, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Part labels: output ids 8783/8784 correspond to parts (a)/(b) as given."}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 780
+      confidence: medium
+      reason: Variance formula needs second integral and subtracting squared mean
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 4
+      wm_ai: UF
+      source: model
+  part c  id 9264
+    ordinal: 3
+    latex: the standard deviation, correct to 2 decimal places.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-336
+      focus_area: Random variables
+      dot_point: Evaluate the expected value and the variance of a continuous random variable, where the probability density function f(x) is defined on the interval [a,b], that involve integration of functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Variance and standard deviation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8785
+      source: extracted
+      latex: $$\begin{aligned} \sigma &= \sqrt{\text{Var}(X)} \\ &= \sqrt{\dfrac{83}{720}} \\ &\approx 0.34 \text{ (2 d.p.)} \end{aligned}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 337
+      confidence: high
+      reason: Square root of previous variance; one step
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q31  key 2021-Ryde-AT4-Q32  id 5784
+  section: II
+  question_type: extended
+  stem_latex: Consider the function $y=\dfrac{8}{x^2-4}$.
+  marks_total: 5
+  page_start: 24
+  page_end: 24
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Applications of calculus|Turning points, inflections and graphing
+  home_source: computed
+  part a  id 9265
+    ordinal: 1
+    latex: Write down the domain.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-055
+      focus_area: Working with functions
+      dot_point: Determine and describe the domain and range of functions and relations, using interval notation, inequalities or worded descriptions
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Domain and range
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8786
+      source: extracted
+      latex: |
+        The denominator cannot be zero: $x^2-4\ne 0$.
+
+        $$\therefore\ \text{domain: all real } x,\ x\ne\pm 2$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 259
+      confidence: high
+      reason: Domain: exclude zeros of denominator; direct recall
+      area: Y11_Working_with_functions
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 9266
+    ordinal: 2
+    latex: Find the horizontal and vertical asymptotes.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-296
+      focus_area: Applications of calculus
+      dot_point: Graph a function by determining local maxima and minima and points of inflection, horizontal and non-horizontal, considering any even or odd symmetry, the domain, any vertical asymptotes or other discontinuities, and where applicable, the behaviour of a function as x→± ∞
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Asymptotes and limiting behaviour
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8787
+      source: extracted
+      latex: |
+        Vertical asymptotes occur where the denominator is zero: $x=\pm 2$.
+
+        For the horizontal asymptote, find the limit as $x$ becomes large:
+        $$\lim_{x\to\pm\infty}\dfrac{8}{x^2-4}=0$$
+        $$\therefore\ y=0 \text{ is the horizontal asymptote}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds the vertical or the horizontal asymptotes, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 259
+      confidence: medium
+      reason: Vertical asymptotes from denominator, simple limit for horizontal
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 9267
+    ordinal: 3
+    latex: Sketch the function, showing the main features.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-296
+      focus_area: Applications of calculus
+      dot_point: Graph a function by determining local maxima and minima and points of inflection, horizontal and non-horizontal, considering any even or odd symmetry, the domain, any vertical asymptotes or other discontinuities, and where applicable, the behaviour of a function as x→± ∞
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Curve sketching using calculus
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Odd and even functions
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8788
+      source: extracted
+      latex: \exfigure{1293_q31_s1}
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Sketch showing some main features (asymptotes or shape), or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    figure 1293_q31_s1.png
+      page: 18
+      bbox: [52, 477, 497, 742]
+      png_path: figures/1293_q31_s1.png
+      tikz_path: tikz/tex/1293_q31_s1.tex
+      caption: solution sketch: sketch of y=8/(x^2-4) with asymptotes
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Drew y=8/(x^2-4) from the equation with arrows on all six branch ends, dashed asymptotes x=±2 with labels, the -2 intercept label and the equation label. The asymptotes are symmetric about the y-axis (in the sketch they were slightly off-centre), and the middle branch is the true curve, which is flatter than the hand-drawn parabola (rule 10). Teacher ticks and notebook lines are removed (rule 17). I added x and y axis labels. The low overlay score comes from the notebook dotted lines, the handwriting and the different curve shape.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 178
+      confidence: medium
+      reason: Sketch rational function with asymptotes, intercept and symmetry
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q32  key 2020-SydneyGirls-AT4-Q32  id 5785
+  section: II
+  question_type: extended
+  stem_latex: The velocity of a particle travelling along the $x$ axis is given by $v=2-\dfrac{10}{t+2}\ \text{ms}^{-1}$, where $t$ is the time in seconds .
+  marks_total: 7
+  page_start: 25
+  page_end: 26
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
+  part a  id 9268
+    ordinal: 1
+    latex: When is the particle stationary?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Particles at rest and changing direction
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8789
+      source: extracted
+      latex: |
+        The particle is stationary when $v=0$.
+        $$\begin{aligned} 2-\dfrac{10}{t+2} &= 0 \\ \dfrac{10}{t+2} &= 2 \\ 10 &= 2t+4 \\ 2t &= 6 \\ t &= 3 \end{aligned}$$
+        $$\therefore\ \text{the particle is stationary at } t=3 \text{ seconds}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 877
+      confidence: high
+      reason: Set velocity to zero and solve linear equation
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 9269
+    ordinal: 2
+    latex: What happens to the velocity as $t\to\infty$ ?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-296
+      focus_area: Applications of calculus
+      dot_point: Graph a function by determining local maxima and minima and points of inflection, horizontal and non-horizontal, considering any even or odd symmetry, the domain, any vertical asymptotes or other discontinuities, and where applicable, the behaviour of a function as x→± ∞
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Asymptotes and limiting behaviour
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Displacement, velocity and acceleration
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8790
+      source: extracted
+      latex: |
+        As $t\to\infty$, $\dfrac{10}{t+2}\to 0$.
+
+        So $v\to 2-0=2$.
+
+        $$\therefore\ \text{the velocity approaches } 2 \text{ ms}^{-1}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 877
+      confidence: high
+      reason: Simple limiting behaviour of velocity as t grows
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 9270
+    ordinal: 3
+    latex: Find the acceleration when the particle is stationary.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-133
+      focus_area: Introduction to differentiation
+      dot_point: Apply the chain rule: if y is a differentiable function of u, and u is a differentiable function of x, then dy dx = dy du × du dx or if h(x)= f g(x) for differentiable functions f(x) and g(x) then h'(x)= f' g(x) g'(x)
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-311
+      focus_area: Applications of calculus
+      dot_point: Determine the velocity and acceleration of a particle moving in a straight line given its displacement from a point as a function of time, and use the notation d2x dt2 or x to represent acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Displacement, velocity and acceleration
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8791
+      source: extracted
+      latex: |
+        Acceleration is $a=\dfrac{dv}{dt}$, with $v=2-10(t+2)^{-1}$.
+        $$\begin{aligned} a &= -10\times(-1)(t+2)^{-2} \\ &= 10(t+2)^{-2} \end{aligned}$$
+        When $t=3$:
+        $$\begin{aligned} a &= 10(3+2)^{-2} \\ &= 0.4 \text{ ms}^{-2} \end{aligned}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds $a=10(t+2)^{-2}$, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 878
+      confidence: high
+      reason: Differentiate velocity using negative power, substitute t=3
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part d  id 9271
+    ordinal: 4
+    latex: Find the distance travelled in the first 5 seconds, in exact form.
+    marks: 3
+    needs_review: 0
+    tag 2024 Y12-270
+      focus_area: Integral calculus
+      dot_point: Establish and use the formula ∫ 1 ax+b dx = 1 a ln|ax + b| + C, where a and b are constants and a ≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Displacement, velocity and acceleration
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Distance travelled
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals giving logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8792
+      source: extracted
+      latex: |
+        \exfigure{1293_q32_s1}
+
+        The particle moves left from $t=0$ until $t=3$, then turns around and moves right from $t=3$ until $t=5$.
+
+        Displacement is the integral of velocity, so the distance travelled in the first 5 seconds is
+        $$\left|\int_0^3\left(2-\dfrac{10}{t+2}\right)dt\right|+\int_3^5\left(2-\dfrac{10}{t+2}\right)dt$$
+        $$\begin{aligned} &= \Big|\big[2t-10\ln(t+2)\big]_0^3\Big|+\big[2t-10\ln(t+2)\big]_3^5 \\ &= \big|6-10\ln 5-(0-10\ln 2)\big|+10-10\ln 7-(6-10\ln 5) \\ &= -6+10\ln 5-10\ln 2+4-10\ln 7+10\ln 5 \\ &= 20\ln 5-10\ln 2-10\ln 7-2 \\ &= 10\ln\left(\dfrac{25}{14}\right)-2 \end{aligned}$$
+        The last step uses the log laws.
+
+        $$\therefore\ \text{distance} = 10\ln\left(\dfrac{25}{14}\right)-2 \text{ m}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Writes the correct integrals for both stages and integrates, or equivalent merit"], [1, "Recognises the change of direction at $t=3$, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Unit 'm' added in final line."}
+    figure 1293_q32_s1.png
+      page: 20
+      bbox: [45, 90, 497, 362]
+      png_path: figures/1293_q32_s1.png
+      tikz_path: tikz/tex/1293_q32_s1.tex
+      caption: solution sketch: velocity-time graph with areas shaded for t from 0 to 5
+      redraw_status: approx
+      redraw_class: graph
+      redraw_notes: Drew the v-t graph v=2-10/(t+2) from the equation at 0.9pt, starting from the dot at (0,-3) with an arrow at the end. It has the dashed asymptote v=2, a vertical line at t=5 and diagonal hatching (shade hatch) for t from 0 to 3 under the axis and t from 3 to 5 above it (rules 5 and 27). The sketch's vertical scale is inconsistent (-3 and 2 are on different scales, and it draws v(5) about twice too high), so I used one scale of 72 px/unit. As a result the positive part sits lower than in the crop. The scan's tilted t-axis is drawn level (rule 1), and notebook lines are removed.
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 190
+      confidence: medium
+      reason: Split integral at direction change, log integration, simplify exactly
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q33  key 2020-SydneyGirls-AT4-Q33  id 5786
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 27
+  page_end: 27
+  needs_review: 1
+  review_status: unreviewed
+  review_note: Heading says (2 marks) but the margin mark is 3; MARKS_MISMATCH
+  options_layout: text
+  home_topic: sub:12|Integral calculus|The definite integral
+  home_source: computed
+  solution 8793
+    source: extracted
+    latex: |
+      Find the $x$-intercepts by solving $|x-2|=3$.
+
+      So $x-2=3$ giving $x=5$, or $x-2=-3$ giving $x=-1$.
+
+      The graph of $f(x)=3-|x-2|$ has vertex $(2,3)$, $y$-intercept $1$ and $x$-intercepts $-1$ and $5$.
+
+      The integral is the signed area: a trapezoid from $x=0$ to $x=2$, a triangle above the axis from $x=2$ to $x=5$, and a triangle below the axis from $x=5$ to $x=7$.
+      $$\begin{aligned} \int_0^7\left(3-|x-2|\right)dx &= \dfrac12\times 2(1+3)+\dfrac12\times 3\times 3-\dfrac12\times 2\times 2 \\ &= 4+\dfrac92-2 \\ &= 6\dfrac12 \end{aligned}$$
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Finds the intercepts and the areas, or equivalent merit"], [1, "Finds the $x$-intercepts or sketches the graph, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us (source had none). Source wrote the last term as 4/2, shown as 2.", "marker_note": "Many students didn't use this method so couldn't get the correct answer."}
+  part -  id 9272
+    ordinal: 1
+    latex: Evaluate $\displaystyle\int_0^7 f(x)\,dx$, where $f(x)=3-|x-2|$.
+    marks: 3
+    needs_review: 1
+    tag 2024 Y11-070
+      focus_area: Working with functions
+      dot_point: Graph y =|ax + b| with and without graphing applications, and identify its symmetry, domain and range
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-256
+      focus_area: Integral calculus
+      dot_point: Evaluate the definite integral ∫b af(x)dx by calculating areas using geometrical formulas, where the shape of f(x) allows such calculations, in cases where f(x)≥0 throughout a ≤x ≤b, f(x)≤0 throughout a ≤x ≤b or where f(x) changes sign in the interval a ≤x ≤b
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-278
+      focus_area: Integral calculus
+      dot_point: Conclude, for a continuous function y = f(x) on the interval a ≤x ≤b, that ∫b a f(x) dx = (area of regions between curve and x-axis lying above the x-axis) ― (area of regions between curve and the x-axis lying below the x-axis)
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Areas below the x-axis
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Graphs of absolute value functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Piecewise-defined functions
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 311
+      confidence: medium
+      reason: Sketch absolute value graph, compute signed areas geometrically
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q34  key 2020-SydneyGirls-AT4-Q34  id 5787
+  section: II
+  question_type: short
+  marks_total: 4
+  page_start: 28
+  page_end: 28
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Further graph transformations and modelling|Transformations of trigonometric functions
+  home_source: computed
+  part a  id 9273
+    ordinal: 1
+    latex: Sketch $f(x)=-3\cos\left(2x+\dfrac{\pi}{3}\right)+2$ for $-\pi\le x\le\pi$.
+    marks: 3
+    needs_review: 0
+    tag 2024 Y12-203
+      focus_area: Further graph transformations and modelling
+      dot_point: Apply the principles of transformations to graph transformations of the trigonometric functions f(x)= sin x, f(x)= cos x and f(x) = tan x, describe which transformations have been applied to y = f(x) and determine the domain, range, horizontal translation, vertical translation, dilation factor, period and amplitude when applicable
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Amplitude, period and phase
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Transformations of trigonometric graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8794
+      source: extracted
+      latex: |
+        \exfigure{1293_q34_s1}
+
+        Amplitude $a=3$ and period $=\dfrac{2\pi}{2}=\pi$.
+
+        The maximum points are $\left(-\dfrac{2\pi}{3},5\right)$ and $\left(\dfrac{\pi}{3},5\right)$.
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Sketch with correct amplitude and period, or equivalent merit"], [1, "Shows some correct feature of the graph, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none).", "marker_note": "Many students didn't shift the graph correctly so didn't have the correct maximum points."}
+    figure 1293_q34_s1.png
+      page: 22
+      bbox: [65, 245, 510, 490]
+      png_path: figures/1293_q34_s1.png
+      tikz_path: tikz/tex/1293_q34_s1.tex
+      caption: solution sketch: sketch of f(x) with line y=0.5x+1
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Drew f(x)=-3cos(2x+π/3)+2 on [-π,π] from the equation (rules 10 and 16). Maxima are at the true points (-2π/3,5) and (π/3,5), labelled, and the endpoints and y-intercept are dotted. The sketch put the first maximum near -0.8π, so the left half differs from the crop. The line y=0.5x+1 is drawn true (shallower than the hand-drawn line), with an arrow at its lower-left end, and still meets the curve 3 times. There are π/2 ticks and y ticks at 5, 3 and -1. I moved the -1 label to the right of the y-axis so it does not touch the curve (rule 11). Teacher dots and the stray '1' are removed (rule 17).
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 281
+      confidence: medium
+      reason: Several transformations incl. phase shift with dilation over interval
+      area: Y12_Further_graph_transformations_and_modelling
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 4
+      wm_ai: UF
+      source: model
+  part b  id 9274
+    ordinal: 2
+    latex: Hence, state the number of solutions to the equation $-3\cos\left(2x+\dfrac{\pi}{3}\right)+2=0.5x+1$ for $-\pi\le x\le\pi$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-024
+      focus_area: Working with functions
+      dot_point: Choose and apply appropriate techniques to graph a straight line given its equation
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-034
+      focus_area: Working with functions
+      dot_point: Recognise that solving f(x)= k for some constant k corresponds to finding the x-coordinate(s) of the intersection of the graphs y = f(x) and y = k
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-204
+      focus_area: Further graph transformations and modelling
+      dot_point: Solve equations and graphical problems involving transformations of the trigonometric functions f(x)= sin x, f(x)= cos x or f(x) = tan x, using graphing applications or otherwise, within a specified domain
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Equations of straight lines
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Graphical solution of equations and inequalities
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Transformations of trigonometric graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8795
+      source: extracted
+      latex: |
+        Draw the line $y=0.5x+1$ on the same axes as the curve from part (a). It meets the curve 3 times.
+
+        $$\therefore\ 3 \text{ solutions}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none).", "marker_note": "Students had to draw $y=0.5x+1$ to get the answer; many didn't."}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 812
+      confidence: medium
+      reason: Add line to sketch and count intersections graphically
+      area: Y12_Further_graph_transformations_and_modelling
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: PR
+      source: model
+
+## Q35  key 2020-SydneyGirls-AT4-Q35  id 5788
+  section: II
+  question_type: extended
+  stem_latex: |
+    A fence, 8 m high, is parallel to the wall of a building and 1 m from the building.
+
+    \exfigure{1293_q35_1}
+
+    \begin{framed}Diagram not to scale.\end{framed}
+  marks_total: 6
+  page_start: 29
+  page_end: 30
+  needs_review: 1
+  review_status: unreviewed
+  review_note: Heading says (6 marks) but part marks 2 + 3 = 5; MARKS_MISMATCH
+  options_layout: text
+  home_topic: sub:12|Applications of calculus|Optimisation
+  home_source: computed
+  figure 1293_q35_1.png
+    page: 29
+    bbox: [108, 130, 372, 280]
+    png_path: figures/1293_q35_1.png
+    tikz_path: tikz/tex/1293_q35_1.tex
+    caption: plank AB over an 8 m fence, 1 m from a wall, angle theta at A
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Redrew the plank, the 8 m fence, the 1 m gap and the wall to the crop's geometry, with the ground drawn level and the fence vertical (rule 1). The fence top lies exactly on AB (rule 12). Labels A, B, x, y, θ, 1 m, 8 m and wall are in place. The large bold θ at A is kept but placed clear of the plank (rule 11).
+  part a  id 9275
+    ordinal: 1
+    latex: Write an expression for the length of $AB$ in terms of $\theta$.
+    marks: 2
+    needs_review: 1
+    tag 2024 Y11-073
+      focus_area: Trigonometry and measure of angles
+      dot_point: Apply trigonometry to solve problems involving right-angled triangles in two dimensions, true and compass bearings, and angles of elevation and depression
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-300
+      focus_area: Applications of calculus
+      dot_point: Model optimisation problems in a variety of contexts by defining variables, noting domain restrictions if necessary, and establishing functions to represent the relationship between variables
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Right-angled trigonometry
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Setting up optimisation problems
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8796
+      source: extracted
+      latex: $$AB=\dfrac{8}{\sin\theta}+\dfrac{1}{\cos\theta}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds one of the two parts of $AB$, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Source gives no reasoning for the expression; left as is."}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 252
+      confidence: medium
+      reason: Model plank length using right-triangle trig from diagram
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: PR
+      source: model
+  part b  id 9276
+    ordinal: 2
+    latex: Find the shortest length of the plank $AB$ that can go over the fence, from the level ground, in order to rest against the wall.
+    marks: 3
+    needs_review: 1
+    tag 2024 Y12-238
+      focus_area: Differential calculus
+      dot_point: Use the rules of differentiation to find the derivatives of cosec x, sec x and cot x
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-301
+      focus_area: Applications of calculus
+      dot_point: Solve optimisation problems by using calculus to find local and global maxima and minima of differentiable functions, checking discontinuities of f'(x) and endpoints of the domain if applicable
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-302
+      focus_area: Applications of calculus
+      dot_point: Formulate conclusions to optimisation problems by evaluating solutions given the constraints of the domain
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Chain rule
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Quotient rule
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Solving optimisation problems
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 8797
+      source: extracted
+      latex: |
+        Write $AB=8(\sin\theta)^{-1}+(\cos\theta)^{-1}$ and differentiate.
+        $$\begin{aligned} \dfrac{dAB}{d\theta} &= -8(\sin\theta)^{-2}\cos\theta-(\cos\theta)^{-2}\cdot(-\sin\theta) \\ &= \dfrac{-8\cos\theta}{\sin^2\theta}+\dfrac{\sin\theta}{\cos^2\theta} \\ &= \dfrac{-8\cos^3\theta+\sin^3\theta}{\sin^2\theta\cos^2\theta} \end{aligned}$$
+        Stationary points occur where $\dfrac{dAB}{d\theta}=0$.
+        $$\begin{aligned} -8\cos^3\theta+\sin^3\theta &= 0 \\ \sin^3\theta &= 8\cos^3\theta \\ \tan^3\theta &= 8 \\ \tan\theta &= 2 \\ \theta &\approx 63.43^\circ \end{aligned}$$
+
+        \extable{Ts8797_1}
+
+        The gradient goes from negative to positive, so this is a minimum.
+        $$\begin{aligned} AB &= \dfrac{8}{\frac{2}{\sqrt5}}+\dfrac{1}{\frac{1}{\sqrt5}} = 4\sqrt5+\sqrt5=5\sqrt5 \\ &\approx 11.18 \text{ m} \end{aligned}$$
+        $$\therefore\ \text{the shortest plank is about } 11.18 \text{ m}$$
+      source_document_id: 1293
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Finds the value of $\\theta$ for the stationary point, or equivalent merit"], [1, "Differentiates $AB$ correctly, or equivalent merit"]]
+      meta_json: {"corrected": "Corrected from source: the sign-test values were wrong ($-1.6$, $0$ at $63^\\circ$, $0.93$); they are $-1.87$ at $60^\\circ$, $0$ at $63.43^\\circ$ and $0.96$ at $65^\\circ$. The minimum $5\\sqrt5\\approx11.18$ m is unchanged.", "format_note": "Rubric written by us (source had none).", "marker_note": "Many students couldn't do the differentiation correctly. Some students didn't test for the minimum; they must test. A mark was not deducted for this but 1 mark can be lost.", "overwritten_from_source": "Corrected from source: the sign-test values were wrong ($-1.6$, $0$ at $63^\\circ$, $0.93$); they are $-1.87$ at $60^\\circ$, $0$ at $63.43^\\circ$ and $0.96$ at $65^\\circ$. The minimum $5\\sqrt5\\approx11.18$ m is unchanged.", "source_original": {"criteria": [[3, "Correct answer"], [2, "Finds the value of $\\theta$ for the stationary point, or equivalent merit"], [1, "Differentiates $AB$ correctly, or equivalent merit"]], "latex": "Write $AB=8(\\sin\\theta)^{-1}+(\\cos\\theta)^{-1}$ and differentiate.\n$$\\begin{aligned} \\dfrac{dAB}{d\\theta} &= -8(\\sin\\theta)^{-2}\\cos\\theta-(\\cos\\theta)^{-2}\\cdot(-\\sin\\theta) \\\\ &= \\dfrac{-8\\cos\\theta}{\\sin^2\\theta}+\\dfrac{\\sin\\theta}{\\cos^2\\theta} \\\\ &= \\dfrac{-8\\cos^3\\theta+\\sin^3\\theta}{\\sin^2\\theta\\cos^2\\theta} \\end{aligned}$$\nStationary points occur where $\\dfrac{dAB}{d\\theta}=0$.\n$$\\begin{aligned} -8\\cos^3\\theta+\\sin^3\\theta &= 0 \\\\ \\sin^3\\theta &= 8\\cos^3\\theta \\\\ \\tan^3\\theta &= 8 \\\\ \\tan\\theta &= 2 \\\\ \\theta &\\approx 63^\\circ \\end{aligned}$$\n\n\\extable{Ts8797_1}\n\nThe gradient goes from negative to positive, so this is a minimum.\n$$\\begin{aligned} AB &= \\dfrac{8}{\\sin 63^\\circ}+\\dfrac{1}{\\cos 63^\\circ} \\\\ &\\approx 11.18 \\text{ m} \\end{aligned}$$\n$$\\therefore\\ \\text{the shortest plank is about } 11.18 \\text{ m}$$"}}
+      data_table Ts8797_1
+        header_rows: 0
+        label_col: 0
+        rows_json: [["\\theta", "60^\\circ", "63.43^\\circ", "65^\\circ"], ["\\dfrac{d\\,AB}{d\\theta}", "-1.87", "0", "0.96"]]
+        source_latex: $$\begin{array}{c|ccc}\theta & 60^\circ & 63^\circ & 65^\circ\\ \hline \dfrac{dAB}{d\theta} & -1.6 & 0 & 0.93\end{array}$$
+    difficulty
+      band: 5
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 790
+      confidence: medium
+      reason: Trig optimisation: reciprocal-trig derivative, combine fractions, tan cubed equation
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 5
+      wm_ai: PR
+      source: model
+
+## Q36  key 2020-SydneyGirls-AT4-Q36  id 5789
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 31
+  page_end: 31
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Probability and data|Conditional probability
+  home_source: computed
+  solution 8798
+    source: extracted
+    latex: |
+      \exfigure{1293_q36_s1}
+
+      Let $R$ be a rainy day and $L$ be arriving late. Using conditional probability, $P(R\mid L)=\dfrac{P(L\cap R)}{P(L)}$, with the branches from the tree diagram:
+      $$P(R\mid L)=\dfrac{\frac13\times\frac12\times\frac12+\frac13\times\frac12\times\frac{35}{100}}{\frac13\times\frac12\times\frac12+\frac13\times\frac12\times\frac{35}{100}+\frac23\times\frac14\times\frac{35}{100}+\frac23\times\frac34\times\frac18}$$
+      $$\therefore\ P(R\mid L)=\dfrac{34}{63}$$
+    source_document_id: 1293
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Writes $P(R\\mid L)=\\dfrac{P(L\\cap R)}{P(L)}$ or draws a correct tree diagram, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us (source had none). Values checked: $\\dfrac{34}{63}$ is consistent with the expression.", "marker_note": "Many students didn't use the conditional probability correctly."}
+  figure 1293_q36_s1.png
+    page: 25
+    bbox: [65, 315, 425, 565]
+    png_path: figures/1293_q36_s1.png
+    tikz_path: tikz/tex/1293_q36_s1.tex
+    caption: solution sketch: probability tree diagram
+    redraw_status: ok
+    redraw_class: tree
+    redraw_notes: Built the tree with the tree_style template (rule 21): R/R̄ (1/3, 2/3), then T/T̄ (1/2, 1/2 and 1/4, 3/4), then L/L̄ (1/2, 1/2; 0.35, 0.65; 0.35, 0.65; 1/8, 7/8). Fractions are \dfrac (rule 23) and every probability sits above an upward branch or below a downward one. Spacing is even so labels stay clear of each other. The overlay score is low because the hand-drawn tree has a different layout and notebook lines; the template takes priority over matching it.
+  part -  id 9277
+    ordinal: 1
+    latex: Neville lives in a town where one third of the days are rainy days. If it is a rainy day, the chance of heavy traffic is $\dfrac{1}{2}$. If it is not a rainy day, the chance of heavy traffic is $\dfrac{1}{4}$. If it is a rainy day and there is heavy traffic, there is a 50% chance that Neville will arrive late to work. On the other hand , the probability of being late is reduced to $\dfrac{1}{8}$ if it is not a rainy day and there is no heavy traffic. In other situations, the probability of Neville being late to work is 0.35. On a random day, Neville arrives late to work. What is the probability that it is a rainy day?
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-188
+      focus_area: Probability and data
+      dot_point: Use arrays and tree diagrams to determine the outcomes and probabilities for multistage events
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y11-192
+      focus_area: Probability and data
+      dot_point: Use the formulas for P(A|B) to solve practical problems involving conditional probability
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Conditional probability
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Multistage events and tree diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 819
+      confidence: medium
+      reason: Build three-stage tree from wordy data, then reverse conditional
+      area: Y11_Probability_and_data
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 4
+      wm_ai: PR
+      source: model
