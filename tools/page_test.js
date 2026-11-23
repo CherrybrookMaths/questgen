@@ -274,6 +274,13 @@ async function flows(browser, base, seed, seedR) {
     assert(!r.row, `question ${r.id}: an empty row was logged`);
     return `question ${r.id}: no empty row`;
   });
+  // 23 Nov (owner: "for some questions, the original and question are not lining up any more"): a split question's figure name carries
+  // its part in brackets (1305_q1(c)_1); the text renderer must turn it into a figure slot, never print the raw \exfigure command
+  await check('text: a figure name with brackets becomes a figure slot', page, async () => {
+    const r = await page.evaluate(() => { const h = tex('See \\exfigure{1305_q1(c)_1} here'); return {slot: /data-fig="1305_q1\(c\)_1"/.test(h), raw: /exfigure/.test(h)} });
+    assert(r.slot && !r.raw, JSON.stringify(r));
+    return 'data-fig="1305_q1(c)_1", no raw command';
+  });
   await check('bank: open a subtopic', page, async () => {
     await page.click('#list .subrow[data-sel]:not(.none)');
     await page.waitForSelector('#list .cards .card', {timeout: 10000}); await settle(page, 5000, 2);
@@ -1853,13 +1860,13 @@ async function papersLanes(browser, base, seed, fx) {
     await page.waitForSelector('#costBox .pr-ct tbody tr.pr-cb', {timeout: 8000});
     const r = await page.evaluate(() => ({rows: [...document.querySelectorAll('#costBox .pr-ct tbody tr.pr-cb')].map(t => t.innerText), foot: document.querySelector('#costBox .pr-ct tfoot')?.innerText || '', note: document.querySelector('#costBox .pr-cnote')?.innerText || ''}));
     const usd = x => 'US$' + x.toLocaleString('en-AU', {minimumFractionDigits: 2, maximumFractionDigits: 2});
-    assert(r.rows.length === want.batches.length && want.batches.every((b, i) => r.rows[i].includes('Batch ' + b.n) && r.rows[i].includes(usd(b.usd))), 'batch rows: ' + JSON.stringify(r.rows));
+    assert(r.rows.length === want.batches.length && want.batches.every((b, i) => r.rows[i].includes(b.course === 'standard' ? 'Standard batch ' + String(b.n).slice(1) : 'Batch ' + b.n) && r.rows[i].includes(usd(b.usd))), 'batch rows: ' + JSON.stringify(r.rows));
     assert(r.foot.includes(usd(want.batch_usd)) && /monthly limit/.test(r.note), `total/limit: ${r.foot} | ${r.note}`);
     const b0 = want.batches[0];
     await page.click(`#costBox [data-costb="${b0.n}"]`); await settle(page, 500, 2);
     const papers = await page.evaluate(() => [...document.querySelectorAll('#costBox .pr-cp tbody tr')].map(t => t.innerText));
     assert(papers.length === b0.papers.length && papers[0].includes(b0.papers[0].label), 'papers: ' + JSON.stringify(papers.slice(0, 2)));
-    return `${r.rows.length} batches, total ${usd(want.batch_usd)}; Batch ${b0.n} opens to ${papers.length} papers`;
+    return `${r.rows.length} batches (Standard ones named as such), total ${usd(want.batch_usd)}; ${b0.n} opens to ${papers.length} papers`;
   });
   await page.context().close();
   // phone: lanes wrap, the batch panel and the queue stack, nothing runs off 390 px

@@ -34,7 +34,7 @@ def candidates():
         text = (stem or '') + ' ' + ' '.join(t or '' for (t,) in db.execute('select latex from parts where question_id=?', (qid,)))
         if not (NORMAL.search(text) and (m := ELSEWHERE.search(text))): continue
         own = '\\extable' in text or any((figs.get(k) or {}).get('status') == 'table' or (figs.get(k) or {}).get('cls') == 'table'
-                                         for k in re.findall(r'\\exfigure\{([\w.-]+)\}', text))
+                                         for k in re.findall(r'\\exfigure\{([\w.()-]+)\}', text))
         if not own: out[key or 'q%d' % qid] = 'refers to "%s", prints no table' % m.group(0)
     return out
 
