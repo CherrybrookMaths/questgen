@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(148,377)}, x=0.3344cm, y=0.508cm]
+\draw[->] (-3.3,0)--(25.8,0);
+\draw[->] (0,-4.45)--(0,5.9);
+\node[font=\large] at (27,-0.55) {$t$};
+\node[font=\large] at (-1.2,5.5) {$h$};
+\foreach \v in {2,4,...,24}{\draw (\v,-0.12)--(\v,0.12);}
+\foreach \v in {4,6,12,18,20,24}{\node[font=\large, anchor=north, inner sep=4pt] at (\v,-0.12) {$\v$};}
+\foreach \v in {4,-4}{\draw (-0.2,\v)--(0.2,\v); \node[font=\large, anchor=east] at (-0.25,\v) {$\v$};}
+\draw[line width=0.9pt] plot[domain=0:24, samples=90, smooth] (\x,{4*sin(pi/8*\x r)});
+\node[font=\large, anchor=west] at (22.6,4.55) {$h=4\sin\left(\dfrac{\pi}{8}t\right)$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

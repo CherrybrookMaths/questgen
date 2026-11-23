@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw (0,225) -- (1005,225);
+  \foreach \v/\n in {0/3,1/2,2/4,3/2,4/2,5/1} {
+    \node at ({84+170.4*\v},247) {\v};
+    \foreach \k in {1,...,\n} \fill ({84+170.4*\v},{200-51*(\k-1)}) circle (5.5);
+  }
+\end{tikzpicture}
+\end{document}

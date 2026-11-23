@@ -1,0 +1,42 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{39+(#1-4)*31.96}
+\draw ({\X{4}},570) -- ({\X{40}},570);
+\foreach \v in {4,6,...,40} {\draw ({\X{\v}},560) -- ({\X{\v}},580);
+  \node[font=\small,anchor=north] at ({\X{\v}},584) {$\v$};}
+\node[font=\large] at ({\X{22}},638) {\textit{Marks}};
+\node[font=\large,anchor=west] at (30,45) {\textit{2019}};
+\node[font=\large,anchor=west] at (30,320) {\textit{2020}};
+% guide lines
+\foreach \v in {16,23} \draw[aux,black!55] ({\X{\v}},221) -- ({\X{\v}},570);
+\foreach \v in {10,19,30,34,38} \draw[aux,black!55] ({\X{\v}},498) -- ({\X{\v}},570);
+\begin{scope}[line width=0.9pt]
+% 2019
+\draw ({\X{10}},114) -- ({\X{10}},221);
+\draw ({\X{36}},114) -- ({\X{36}},221);
+\draw ({\X{10}},168) -- ({\X{16}},168);
+\draw ({\X{30}},168) -- ({\X{36}},168);
+\draw[fill=white] ({\X{16}},114) rectangle ({\X{30}},221);
+\draw ({\X{23}},114) -- ({\X{23}},221);
+% 2020
+\draw ({\X{10}},393) -- ({\X{10}},498);
+\draw ({\X{38}},393) -- ({\X{38}},498);
+\draw ({\X{10}},446) -- ({\X{19}},446);
+\draw ({\X{34}},446) -- ({\X{38}},446);
+\draw ({\X{19}},393) rectangle ({\X{34}},498);
+\draw ({\X{30}},393) -- ({\X{30}},498);
+\end{scope}
+% ordered data with quartiles
+\foreach \v [count=\i] in {10,16,18,20,22,27,30,32,33,34,34,35,38}
+  \node[font=\Large] (d\i) at ({157+(\i-1)*80},878) {$\v$};
+\draw (d7) circle [radius=30];
+\node[font=\Large] (q1) at (359,705) {$Q_1$};
+\draw[->] (359,728) -- (359,850);
+\node[font=\Large] (q2) at (640,760) {$Q_2$};
+\draw[->] (640,783) -- (640,842);
+\node[font=\Large] (q3) at (920,705) {$Q_3$};
+\draw[->] (920,728) -- (920,850);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (105,226)--(622,226);
+  \draw[<->] (133,378)--(133,72);
+  \foreach \t in {1,...,9} \draw ({133+50*\t},219)--({133+50*\t},233);
+  \foreach \t in {0.5,1.5,...,8.5} \draw ({133+50*\t},222)--({133+50*\t},230);
+  \draw (126,90)--(140,90); \draw (126,362)--(140,362);
+  \node[anchor=east,font=\scriptsize,inner sep=1pt] at (124,90) {$1$};
+  \node[anchor=east,font=\scriptsize,inner sep=1pt] at (124,362) {$-1$};
+  \foreach \t in {1,2,3,4,6,7,8,9} \node[anchor=north west,font=\scriptsize,inner sep=1pt] at ({133+50*\t+2},234) {$\t$};
+  \node[anchor=north east,font=\scriptsize,inner sep=1pt] at (381,234) {$5$};
+  \node[anchor=south,font=\small,inner sep=1pt] at (133,64) {$v$};
+  \node[anchor=west,font=\small] at (626,236) {$t$};
+  \node[font=\scriptsize] at (507,128) {Not to Scale};
+  \begin{scope}[shift={(133,226)},x=0.635cm,y=1.7272cm]
+    \draw[line width=0.9pt] plot[domain=0:8,smooth,samples=90] (\x,{sin(45*(\x-1))});
+    \foreach \t in {2,3,4,6,7,8} \draw (\t,0)--(\t,{sin(45*(\t-1))});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

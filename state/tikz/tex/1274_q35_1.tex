@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (135,325); x 32.3 px/unit, y 24 px/unit
+  \path[shade dots] (199.6,325) -- (361.1,85) -- plot[smooth, samples=40, domain=7:5] ({135+32.3*\x},{325-24*(\x*\x-7*\x+10)}) -- cycle;
+  \draw[->] (58,325) -- (392,325);
+  \draw[->] (135,378) -- (135,12);
+  \draw[aux] (135,85) -- (361.1,85);
+  \draw (199.6,325) -- (361.1,85);
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=-0.25:7.25] ({135+32.3*\x},{325-24*(\x*\x-7*\x+10)});
+  \node at (121,341) {$O$};
+  \node at (190,341) {$A$};
+  \node at (308,341) {$B$};
+  \node at (380,343) {$x$};
+  \node at (122,18) {$y$};
+  \node at (376,85) {$C$};
+\end{tikzpicture}
+\end{document}

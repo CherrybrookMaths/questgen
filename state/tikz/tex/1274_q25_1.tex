@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\dx{32.1}\def\dy{17.5}
+  \foreach \i in {1,2,3,5,6,7,9,10,11,13,14,15,17,18,19}{
+    \draw[black!22] ({3+\dx*\i},3) -- ({3+\dx*\i},353);
+    \draw[black!22] (3,{3+\dy*\i}) -- (645,{3+\dy*\i});
+  }
+  \foreach \i in {4,8,12,16}{
+    \draw[black!45] ({3+\dx*\i},3) -- ({3+\dx*\i},353);
+    \draw[black!45] (3,{3+\dy*\i}) -- (645,{3+\dy*\i});
+  }
+  \draw[black!60] (3,3) rectangle (645,353);
+\end{tikzpicture}
+\end{document}

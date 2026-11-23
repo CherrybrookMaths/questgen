@@ -1,0 +1,9 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,205) -- (425,205) node[right,inner sep=3pt] {$x$};
+  \draw[<->] (213,375) -- (213,35) node[above,inner sep=2pt] {$y$};
+  \draw[line width=0.9pt,smooth,samples=90,domain=95:245] plot (\x,{129-94*((\x-170)/75)^2});
+\end{tikzpicture}
+\end{document}

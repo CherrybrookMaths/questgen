@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\scriptsize]
+\draw[->] (42,337) -- (582,337);
+\node at (577,350) {$x$};
+\draw[->] (309,337) -- (309,62);
+\node[anchor=east] at (306,56) {$f(x)$};
+\foreach \v in {1,2,3,4} {\draw (304,{337-59*\v}) -- (309,{337-59*\v});
+  \node[anchor=east,inner sep=1.5pt] at (291,{337-59*\v}) {$0.\v$};}
+\foreach \t in {-3,-2,-1,1,2,3} {\draw ({309+70*\t},337) -- ({309+70*\t},342);
+  \node[anchor=north,inner sep=2pt] at ({309+70*\t},343) {$\t$};}
+\node[anchor=north,inner sep=2pt] at (309,343) {$0$};
+\draw[line width=0.9pt,smooth,samples=90,domain=-3.5:3.5,variable=\t] plot ({309+70*\t},{337-590*exp(-\t*\t/2)/sqrt(2*pi)});
+\end{tikzpicture}
+\end{document}

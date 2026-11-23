@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade hatch] (181,248) -- (181,228.1) arc[start angle=180,end angle=360,radius=99.5] -- (380,248) -- cycle;
+\draw[->] (150,248) -- (420,248) node[right] {$x$};
+\draw[->] (320.3,262) -- (320.3,105) node[above] {$y$};
+\draw[aux] (181,228.1) -- (380,228.1);
+\draw (181,248) -- (181,228.1);
+\draw (380,248) -- (380,228.1);
+\draw[line width=0.9pt] (181,228.1) arc[start angle=180,end angle=360,radius=99.5];
+\node[anchor=north] at (181,252) {$-7$};
+\node[anchor=north] at (380,252) {$3$};
+\node[anchor=east,inner sep=2pt] at (178,238) {$1$};
+\end{tikzpicture}
+\end{document}

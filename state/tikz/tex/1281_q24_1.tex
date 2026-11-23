@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\scriptsize]
+\def\g#1{284-226*exp(-((#1-281)/74.4)^2/2)}
+\fill[shade] (406,284) -- plot[smooth,samples=30,domain=406:485,variable=\t] ({\t},{\g{\t}}) -- (485,284) -- cycle;
+\draw[->] (25,284) -- (562,284);
+\node at (553,298) {$X$};
+\draw[->] (281,284) -- (281,25);
+\draw (406,284) -- (406,{\g{406}});
+\draw[line width=0.9pt,smooth,samples=90,domain=75:485,variable=\t] plot ({\t},{\g{\t}});
+\node at (281,298) {$4.5$};
+\node at (406,298) {$5.5$};
+\node at (497,210) {$0.0465$};
+\draw[->] (488,222) -- (449,272);
+\end{tikzpicture}
+\end{document}

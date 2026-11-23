@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % Figure 1
+  \coordinate (O) at (185,180);
+  \draw ($(O)+(38:152 and -152)$) -- (O) -- ($(O)+(-32:152 and -152)$);
+  \draw ($(O)+(38:152 and -152)$) arc[start angle=-38, end angle=-328, x radius=152, y radius=152];
+  \draw (O) ++(38:35 and -35) arc[start angle=-38, end angle=32, x radius=35, y radius=35];
+  \node at (222,112) {$l$};
+  \node[font=\small] at (268,180) {$\dfrac{2\pi}{3}$};
+  \draw[->] (395,175) -- (560,175);
+  \node[anchor=west] at (25,365) {Figure 1};
+  % Figure 2
+  \draw (739,60) ellipse [x radius=131, y radius=27];
+  \draw (608,60) -- (737,340) -- (870,60);
+  \draw[aux] (739,60) -- (737,340);
+  \draw[aux] (739,60) -- (870,60);
+  \draw (739,74) -- (753,74) -- (753,60);
+  \node[font=\small] at (768,45) {$r$};
+  \node[font=\small] at (720,180) {$h$};
+  \node[font=\small] at (830,207) {$l$};
+  \node[anchor=west] at (590,385) {Figure 2};
+\end{tikzpicture}
+\end{document}

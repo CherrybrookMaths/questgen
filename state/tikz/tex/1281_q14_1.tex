@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{stick/.style={line width=0.9pt, shorten <=1.6pt, shorten >=1.6pt}}
+% square: #1 = left x, #2 = top y ; sides 48 x 44
+\newcommand\msq[2]{\draw[stick] (#1,#2) -- ({#1+48},#2); \draw[stick] (#1,{#2+44}) -- ({#1+48},{#2+44});
+  \draw[stick] (#1,#2) -- (#1,{#2+44}); \draw[stick] ({#1+48},#2) -- ({#1+48},{#2+44});}
+\newcommand\mroof[2]{\draw[stick] (#1,#2) -- ({#1+24},{#2-25}); \draw[stick] ({#1+24},{#2-25}) -- ({#1+48},#2);}
+\newcommand\mvee[2]{\draw[stick] (#1,{#2+44}) -- ({#1+24},{#2+69}); \draw[stick] ({#1+24},{#2+69}) -- ({#1+48},{#2+44});}
+% #1
+\msq{90}{67}\mroof{90}{67}
+% #2
+\msq{202}{70}\mroof{202}{70}\msq{250}{70}\mvee{250}{70}
+% #3
+\msq{390}{66}\mroof{390}{66}\msq{438}{66}\mvee{438}{66}\msq{486}{66}\mroof{486}{66}
+\node at (118,253) {\#1};
+\node at (256,253) {\#2};
+\node at (466,253) {\#3};
+\end{tikzpicture}
+\end{document}

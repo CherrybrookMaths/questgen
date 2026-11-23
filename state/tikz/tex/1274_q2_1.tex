@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% 1 t-unit = 35.5 px, 1 v-unit = 3.55 px, origin (97,393)
+\fill[shade dots,stipple color=black!45] (97,393) -- plot[smooth,domain=0:6,samples=40] ({97+35.5*\x},{393-3.55*(80-60*((6-\x)/6)^1.7)})
+  -- plot[smooth,domain=6:8,samples=20] ({97+35.5*\x},{393-3.55*(80-5*(\x-6)^2)}) -- (381,393) -- cycle;
+\foreach \t in {1,...,12} \draw[black!40,line width=0.4pt,dash pattern=on 0.8pt off 1pt] ({97+35.5*\t},393) -- ({97+35.5*\t},75);
+\foreach \v in {10,20,...,90} \draw[black!40,line width=0.4pt,dash pattern=on 0.8pt off 1pt] (97,{393-3.55*\v}) -- (523,{393-3.55*\v});
+\draw[->] (15,393) -- (612,393) node[right,font=\fontsize{11}{13}\selectfont] {$t$};
+\draw[->] (97,492) -- (97,25) node[left,font=\fontsize{11}{13}\selectfont] {$v$};
+\foreach \t in {1,...,12} \draw ({97+35.5*\t},393) -- ({97+35.5*\t},399);
+\foreach \v in {10,20,...,90} \draw (97,{393-3.55*\v}) -- (91,{393-3.55*\v});
+\foreach \t in {2,4,6,8,12} \node[below,font=\fontsize{10}{12}\selectfont] at ({97+35.5*\t},400) {$\t$};
+\node[below left,font=\fontsize{10}{12}\selectfont,inner sep=1.5pt] at (450,399) {$10$};
+\foreach \v in {20,40,60,80} \node[left,font=\fontsize{10}{12}\selectfont] at (88,{393-3.55*\v}) {$\v$};
+\node[anchor=north east,font=\fontsize{10}{12}\selectfont,inner sep=2pt] at (93,397) {$O$};
+\draw[line width=0.9pt] plot[smooth,domain=0:6,samples=45] ({97+35.5*\x},{393-3.55*(80-60*((6-\x)/6)^1.7)})
+  -- plot[smooth,domain=6:10.55,samples=45] ({97+35.5*\x},{393-3.55*(80-5*(\x-6)^2)});
+\end{tikzpicture}
+\end{document}

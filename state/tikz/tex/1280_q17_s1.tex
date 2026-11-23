@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\ox{82}\def\oy{229}\def\sx{54.6}\def\sy{14.5}
+  \draw[<->] (8,\oy) -- (490,\oy) node[right] {$x$};
+  \draw[<->] (\ox,425) -- (\ox,35) node[above] {$y$};
+  \foreach \i in {-1,1,2,...,7} \draw ({\ox+\sx*\i},\oy-5) -- ({\ox+\sx*\i},\oy+5);
+  \foreach \i in {-1,1,2,3,4,5,6,7} \node[below] at ({\ox+\sx*\i-(\i==-1?6:0)},\oy+5) {$\i$};
+  \foreach \j in {-12,-10,...,-2,2,4,...,12} \draw (\ox-5,{\oy-\sy*\j}) -- (\ox+5,{\oy-\sy*\j});
+  \foreach \j in {-12,-8,-4,4,8,12} \node[left] at (\ox-3,{\oy-\sy*\j}) {$\j$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=-0.5:6.05] plot ({\ox+\sx*\x},{\oy-\sy*(\x*(\x-4)*(\x-5))});
+\end{tikzpicture}
+\end{document}

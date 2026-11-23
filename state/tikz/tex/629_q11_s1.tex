@@ -1,0 +1,39 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{283+(#1-50)*18.3}
+\def\Y#1{466-(#1)*1.2457}
+% bars
+\foreach \a/\f in {52.5/10,57.5/40,62.5/80,67.5/130,72.5/220,77.5/280,82.5/300}
+  \fill[black!22] ({\X{\a}},{\Y{0}}) rectangle ({\X{\a+5}},{\Y{\f}});
+% grid
+\foreach \v in {50,52.5,...,87.6} \draw[black!30,line width=0.4pt] ({\X{\v}},{\Y{0}}) -- ({\X{\v}},{\Y{350}});
+\foreach \f in {50,100,...,350} \draw[black!30,line width=0.4pt] ({\X{50}},{\Y{\f}}) -- ({\X{87.5}},{\Y{\f}});
+\foreach \a/\f in {52.5/10,57.5/40,62.5/80,67.5/130,72.5/220,77.5/280,82.5/300}
+  \draw[black!50,line width=0.6pt] ({\X{\a}},{\Y{0}}) |- ({\X{\a+5}},{\Y{\f}}) -- ({\X{\a+5}},{\Y{0}});
+% axes
+\draw ({\X{50}},{\Y{0}}) -- ({\X{87.5}},{\Y{0}});
+\draw ({\X{50}},{\Y{0}}) -- ({\X{50}},{\Y{350}});
+\foreach \f in {10,20,...,340} \draw[line width=0.4pt] ({\X{50}-4},{\Y{\f}}) -- ({\X{50}},{\Y{\f}});
+\foreach \f in {0,50,...,350} {\draw ({\X{50}-8},{\Y{\f}}) -- ({\X{50}},{\Y{\f}});
+  \node[anchor=east,font=\small] at ({\X{50}-12},{\Y{\f}}) {$\f$};}
+\foreach \v in {55,60,...,85} \node[font=\small] at ({\X{\v}},511) {$\v$};
+% ogive
+\draw[line width=0.9pt] ({\X{52.5}},{\Y{0}}) -- ({\X{57.5}},{\Y{10}}) -- ({\X{62.5}},{\Y{40}}) -- ({\X{67.5}},{\Y{80}})
+  -- ({\X{72.5}},{\Y{130}}) -- ({\X{77.5}},{\Y{220}}) -- ({\X{82.5}},{\Y{280}}) -- ({\X{87.5}},{\Y{300}});
+% reading lines
+\draw ({\X{50}},{\Y{220}}) -- ({\X{72.5}},{\Y{220}});
+\draw ({\X{50}},{\Y{130}}) -- ({\X{67.5}},{\Y{130}});
+\draw ({\X{50}},{\Y{150}}) -- ({\X{73.611}},{\Y{150}}) -- ({\X{73.611}},{\Y{0}});
+\draw[->] (110,{\Y{220}}) -- (268,{\Y{220}});
+\node[font=\large,anchor=east] at (104,{\Y{220}}) {$220$};
+\draw[->] (122,{\Y{130}}) -- (268,{\Y{130}});
+\node[font=\large,anchor=east] at (116,{\Y{130}}) {$130$};
+\draw[->] ({\X{73.611}},588) -- ({\X{73.611}},474);
+\node[font=\large,anchor=north] at ({\X{73.611}},590) {$\approx 73$};
+% axis titles drawn last with a knock-out so the arrows stop around the letters
+\node[font=\small] at (600,557) {\halo{Vehicle speed (in km/h)}};
+\node[font=\small,rotate=90] at (160,247) {\halo{Cumulative frequency}};
+\end{tikzpicture}
+\end{document}

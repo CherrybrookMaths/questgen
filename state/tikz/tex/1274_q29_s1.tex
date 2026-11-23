@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \path (0,10) rectangle (1025,790);
+  % origin (282,355); x: 47.5 px/unit, y: 42.5 px/unit (true scale, evenly spaced)
+  \draw[->] (75,355) -- (775,355);
+  \draw[->] (282,780) -- (282,40);
+  \draw[aux] (282,185) -- (377,185) -- (377,355);
+  \draw[aux] (282,610) -- (567,610);
+  \draw[aux] (567,355) -- (567,610);
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=0:4] ({282+47.5*\x},{355-170*sin(45*\x)}) -- (567,610);
+  \node[pt] at (567,610) {};
+  \node[anchor=east] at (272,185) {$4$};
+  \node[anchor=east] at (272,610) {$-6$};
+  \node at (264,372) {$0$};
+  \node at (377,375) {$2$};
+  \node at (567,335) {$6$};
+  \node at (795,360) {$x$};
+  \node at (255,55) {$y$};
+\end{tikzpicture}
+\end{document}

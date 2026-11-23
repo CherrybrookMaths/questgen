@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (46,227) -- (150,227);
+\draw (150,48) -- (150,380);
+\draw (340,48) -- (340,380);
+\draw (340,230) -- (450,230);
+\fill (46,227) circle (5.5);
+\fill (450,230) circle (5.5);
+\foreach \yc/\xa in {48/220,127/220,202/220,380/215}{
+  \draw (150,\yc) -- (\xa,\yc);
+  \draw (\xa,\yc-27) rectangle (\xa+64,\yc+27);
+  \draw (\xa+64,\yc) -- (340,\yc);
+  \node at (\xa+32,\yc) {\large$X$};}
+\draw[dash pattern=on 4pt off 1.5pt on 0.6pt off 1.5pt] (249,232) -- (249,350);
+\end{tikzpicture}
+\end{document}

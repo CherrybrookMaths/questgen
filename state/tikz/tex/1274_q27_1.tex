@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\ox{59}\def\oy{187}\def\ux{57}\def\uy{28.5}
+  % grid
+  \foreach \k in {-1,...,5}{\foreach \m in {0.25,0.5,0.75}{\draw[black!10] ({\ox+\ux*(\k+\m)},0) -- ({\ox+\ux*(\k+\m)},384);}}
+  \foreach \k in {-7,...,6}{\draw[black!10] (0,{\oy-\uy*(\k+0.5)}) -- (380,{\oy-\uy*(\k+0.5)});}
+  \foreach \k in {-1,1,2,3,4,5}{\draw[black!30] ({\ox+\ux*\k},0) -- ({\ox+\ux*\k},384);}
+  \foreach \k in {-6,-4,-2,2,4,6}{\draw[black!30] (0,{\oy-\uy*\k}) -- (380,{\oy-\uy*\k});}
+  \foreach \k in {-5,-3,-1,1,3,5}{\draw[black!10] (0,{\oy-\uy*\k}) -- (380,{\oy-\uy*\k});}
+  % axes
+  \draw (0,\oy) -- (380,\oy);
+  \draw (\ox,0) -- (\ox,384);
+  \node[font=\small] at (354,180) {$x$};
+  \node[font=\small] at (68,18) {$y$};
+  \foreach \k in {-1,1,2,3,4,5}{\node[anchor=north,font=\scriptsize] at ({\ox+\ux*\k},{\oy+6}) {$\k$};}
+  \node[anchor=north east,font=\scriptsize] at ({\ox-8},{\oy+6}) {$0$};
+  \foreach \k in {-6,-4,-2,2,4,6}{\node[anchor=east,font=\scriptsize] at ({\ox-7},{\oy-\uy*\k}) {$\k$};}
+  % graph y = -2|x-3| + 2
+  \draw[line width=0.9pt] ({\ox-1.03*\ux},{\oy+6.06*\uy}) -- ({\ox+3*\ux},{\oy-2*\uy}) -- ({\ox+5.62*\ux},{\oy+3.24*\uy});
+\end{tikzpicture}
+\end{document}

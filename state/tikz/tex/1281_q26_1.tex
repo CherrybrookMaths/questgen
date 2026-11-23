@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[aux] (120,22) -- (120,248);
+\draw[aux] (681,136) -- (681,248);
+\draw (120,248) -- (681,248);
+\draw (120,22) -- (456,248) -- (681,136);
+\foreach \p in {(120,22),(120,248),(456,248),(681,248),(681,136)} \node[pt,inner sep=0.9pt] at \p {};
+\node at (88,45) {$A$};
+\node at (88,272) {$P$};
+\node at (470,270) {$Q$};
+\node at (684,272) {$R$};
+\node at (697,158) {$B$};
+\node at (62,158) {$2$ km};
+\node at (735,205) {$1$ km};
+\node at (380,288) {$5$ km};
+\end{tikzpicture}
+\end{document}

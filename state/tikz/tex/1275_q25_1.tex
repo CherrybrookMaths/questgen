@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (15,352) -- (918,352);
+  \draw[->] (455,700) -- (455,5);
+  \node[anchor=west] at (460,14) {$y$};
+  \node[anchor=south] at (905,350) {$x$};
+  \foreach \v in {-6,...,-1,1,2,...,6}{
+    \draw (451,{352-55.3*\v}) -- (455,{352-55.3*\v});
+    \node[anchor=east,font=\scriptsize,inner sep=1.5pt] at (450,{352-55.3*\v}) {$\v$};}
+  \node[anchor=north east,font=\scriptsize,inner sep=1.5pt] at (452,355) {$0$};
+  \node[pt,inner sep=1.5pt] at ({455-5*55.3},{352-3*55.3}) {};
+  \node[pt,inner sep=1.5pt] at ({455+2*55.3},{352-2*55.3}) {};
+  \node[pt,inner sep=1.5pt] at ({455+1*55.3},{352+5*55.3}) {};
+  \node[font=\small] at (250,240) {$A=(-5,3)$};
+  \node[font=\small] at (632,208) {$B=(2,2)$};
+  \node[font=\small] at (588,590) {$C=(1,-5)$};
+\end{tikzpicture}
+\end{document}

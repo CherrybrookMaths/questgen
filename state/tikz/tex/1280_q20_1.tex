@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\ox{376}\def\oy{382}\def\sx{123}\def\sy{29.6}
+  \fill[fill=black!30] (\ox,\oy) -- plot[smooth, samples=90, domain=0:4] ({\ox+\sx*\x},{\oy-\sy*(\x*\x*\x-5*\x*\x+2*\x+8)}) -- cycle;
+  \draw[->] (105,\oy) -- (1040,\oy);
+  \node at (1068,398) {$x$};
+  \draw[->] (\ox,570) -- (\ox,68);
+  \node at (400,38) {$y$};
+  \foreach \i in {-2,-1,1,2,3,4,5} {\draw ({\ox+\sx*\i},\oy) -- ({\ox+\sx*\i},\oy+6);
+    \node[below, font=\scriptsize] at ({\ox+\sx*\i+(\i==2||\i==4?7:0)},\oy+6) {$\i$};}
+  \node[below right, font=\scriptsize] at (\ox,\oy+6) {$0$};
+  \foreach \j in {-5,5,10} {\draw (\ox-6,{\oy-\sy*\j}) -- (\ox,{\oy-\sy*\j});
+    \node[left, font=\scriptsize] at (\ox-6,{\oy-\sy*\j}) {$\j$};}
+  \node[above left, font=\scriptsize] at (\ox-4,\oy-2) {$0$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=-1.35:4.7] plot ({\ox+\sx*\x},{\oy-\sy*(\x*\x*\x-5*\x*\x+2*\x+8)});
+  \node[anchor=west, font=\small] at (950,215) {$y=x^3-5x^2+2x+8$};
+\end{tikzpicture}
+\end{document}

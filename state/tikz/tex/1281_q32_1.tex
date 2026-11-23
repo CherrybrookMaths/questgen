@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (S) at (293,37); \coordinate (O) at (293,309); \coordinate (T) at (293,449);
+\coordinate (A) at (133,487); \coordinate (B) at (241,401); \coordinate (C) at (442,413); \coordinate (D) at (352,502);
+\draw (293,300) circle[radius=263];
+\draw[aux] (293,451) ellipse[x radius=214, y radius=53];
+\draw[aux] (S) -- (B); \draw[aux] (A) -- (B) -- (C);
+\draw (A) -- (S) -- (D); \draw (S) -- (C);
+\draw (S) -- (O) -- (T); \draw (A) -- (O); \draw (A) -- (T);
+\draw (A) -- (D) -- (C);
+\foreach \p in {S,O,T,A,B,C,D} \node[pt,inner sep=0.9pt] at (\p) {};
+\node at (293,17) {$S$};
+\node at (311,316) {$O$};
+\node at (311,462) {$T$};
+\node at (121,462) {$A$};
+\node at (252,421) {$B$};
+\node at (449,433) {$C$};
+\node at (368,522) {$D$};
+\end{tikzpicture}
+\end{document}

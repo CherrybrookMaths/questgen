@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% axes
+\draw[<->] (36,322) -- (565,322);
+\draw[<->] (300,596) -- (300,48);
+\node[font=\large] at (578,325) {$x$};
+\node[font=\large] at (298,30) {$y$};
+% ticks
+\foreach \u in {-2,-1,1,2} \draw (300+100*\u,317) -- (300+100*\u,327);
+\foreach \v in {-2,-1,1,2} \draw (295,322-100*\v) -- (305,322-100*\v);
+\node[font=\large,anchor=east] at (292,118) {$2$};
+\node[font=\large,anchor=east] at (292,526) {$-2$};
+\node[font=\large] at (478,346) {$2$};
+% curves
+\draw[line width=0.9pt,smooth,samples=90,domain=-0.5:2.45,variable=\t] plot ({300+100*\t},{322-100*(\t-2)*(\t*\t+1)});
+\draw[line width=0.9pt,smooth,samples=90,domain=-0.5:2.45,variable=\t] plot ({300+100*\t},{322+100*(\t-2)*(\t*\t+1)});
+% points
+\foreach \p in {(333.33,507.19),(400,522),(333.33,136.81),(400,122),(300,122),(300,522),(500,322)} \fill \p circle (3.2);
+\node[font=\large] at (333,482) {$P_1$};
+\node[font=\large] at (408,550) {$P_2$};
+\node[font=\large] at (612,82) {$y=f(x)$};
+\node[font=\large] at (655,512) {$y=-f(x)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (22,80) -- (697,80) -- (697,305) -- plot[smooth,tension=0.6] coordinates {(697,305) (560,265) (472,249) (430,245) (380,246) (330,257) (290,283) (245,328) (200,370) (165,396) (118,406) (70,402) (22,388)} -- cycle;
+\draw (22,22)--(695,22);
+\draw[aux] (32,50)--(300,50);
+\draw[aux] (390,50)--(682,50);
+\node[font=\footnotesize] at (345,50) {ROAD};
+\draw (22,388)--(22,80)--(697,80)--(697,305);
+\draw plot[smooth,tension=0.6] coordinates {(697,305) (560,265) (472,249) (430,245) (380,246) (330,257) (290,283) (245,328) (200,370) (165,396) (118,406) (70,402) (22,388)};
+\draw plot[smooth,tension=0.6] coordinates {(22,436) (110,445) (180,435) (260,395) (330,375) (400,372) (500,378) (697,398)};
+\foreach \a in {137,368,590} \draw (\a,70)--(\a,98);
+\draw (245,80)--(245,328);
+\draw (472,80)--(472,249);
+\node at (113,117) {\halo{$x$}};
+\node at (101,327) {\halo{50.6 m}};
+\node at (327,220) {\halo{45.8 m}};
+\node at (538,205) {\halo{30.0 m}};
+\node at (758,201) {32.5 m};
+\node[font=\footnotesize] at (394,321) {RIVER};
+\end{tikzpicture}
+\end{document}

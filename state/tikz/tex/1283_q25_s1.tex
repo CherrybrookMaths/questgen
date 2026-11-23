@@ -1,0 +1,43 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+% grid
+\foreach \X in {-5,-4.5,...,5} \draw[black!22, line width=0.4pt] ({343+61.3*\X},56) -- ({343+61.3*\X},486);
+\foreach \Y in {-10,...,10} \draw[black!22, line width=0.4pt] (36.5,{271-21.5*\Y}) -- (649.5,{271-21.5*\Y});
+% axes
+\draw[<->] (5,271) -- (680,271);
+\draw[<->] (343,515) -- (343,30);
+\node[anchor=west] at (684,271) {$x$};
+\node[anchor=south] at (343,26) {$y$};
+\foreach \X in {-5,-4,-3,-2,-1,1,2,3,4,5} \draw ({343+61.3*\X},266) -- ({343+61.3*\X},276);
+\foreach \Y in {-10,...,-1,1,2,...,10} \draw (338,{271-21.5*\Y}) -- (348,{271-21.5*\Y});
+\foreach \X in {-5,-4,-3,-1,1,2,3,4,5} \node[anchor=north] at ({343+61.3*\X},285) {$\X$};
+\node[anchor=south] at ({343-2*61.3},260) {$-2$};
+\foreach \Y in {3,6,9} \node[anchor=east] at (334,{271-21.5*\Y}) {$\Y$};
+\node[anchor=west] at (351,{271+21.5*3}) {$-3$};
+% curve
+\draw[<->, line width=0.9pt, smooth, samples=90, domain=-4.57:0.77, variable=\X] plot ({343+61.3*\X},{271-21.5*(\X*\X*\X+6*\X*\X+9*\X)});
+% leaders
+\draw (148,228) -- (156,264);
+\draw (349,265) -- (432,212);
+\draw (288,360) -- (404,408);
+\draw (220.1,322) -- (220.1,390);
+% points
+\foreach \p in {(159.1,271),(220.1,314),(281.7,357),(343,271)} \draw[fill=black!40] \p circle[radius=6.5];
+% boxes
+\draw[shade] (8,108) rectangle (220,228);
+\node[anchor=base west] at (18,146) {Local Maximum};
+\node[anchor=base west] at (18,196) {$(-3\,,\ 0)$};
+\draw[shade] (432,74) rectangle (585,242);
+\node[anchor=base west] at (442,110) {$y$ Intercept};
+\node[anchor=base west] at (442,160) {$x$ Intercept};
+\node[anchor=base west] at (442,208) {$(0\,,\ 0)$};
+\draw[shade] (404,366) rectangle (608,486);
+\node[anchor=base west] at (416,402) {Local Minimum};
+\node[anchor=base west] at (416,452) {$(-1\,,\ -4)$};
+\draw[shade] (103,390) rectangle (331,511);
+\node[anchor=base west] at (114,428) {Point of Inflection};
+\node[anchor=base west] at (114,478) {$(-2\,,\ -2)$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \node[font=\small\bfseries] at (44,52) {A.};
+  \draw[->] (97,200) -- (330,200) node[right, font=\small, inner sep=2pt] {$x$};
+  \draw[->] (202,348) -- (202,48) node[above, font=\small, inner sep=2pt] {$y$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=-80:80] plot ({202+\x},{258-0.01255*\x*\x-0.0219*(\x/10)^4});
+\end{tikzpicture}
+\end{document}

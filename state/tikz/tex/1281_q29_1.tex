@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade, even odd rule] plot[smooth,samples=60,domain=0:1.3439,variable=\t] ({65+232*\t*\t},{513-231*\t}) -- ({65+232*1.806},{513-231*1.806}) -- (65,513) -- cycle;
+\draw[->] (25,513) -- (688,513);
+\draw[->] (65,560) -- (65,18);
+\draw[aux] (484,513) -- (484,18);
+\draw[line width=0.9pt] (65,513) -- ({65+232*2.004},{513-231*2.004});
+\draw[line width=0.9pt,smooth,samples=90,domain=0:1.4156,variable=\t] plot ({65+232*\t*\t},{513-231*\t});
+\node[pt] at (297,282) {};
+\node at (360,326) {$P(1,1)$};
+\node at (42,45) {$y$};
+\node at (40,540) {$O$};
+\node at (486,540) {$k$};
+\node at (665,540) {$x$};
+\end{tikzpicture}
+\end{document}

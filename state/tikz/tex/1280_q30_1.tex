@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (67,30) -- (90,30) -- (47,395) -- (24,395) -- cycle;
+\draw (207,30) -- (230,30) -- (274,395) -- (251,395) -- cycle;
+\def\xl#1{90-43*(#1-30)/365}
+\def\xr#1{207+44*(#1-30)/365}
+\foreach \y in {45,62,352,370}{\draw ({\xl{\y}},\y) -- ({\xr{\y}},\y);}
+\foreach \y in {95,113,147,164,197,214,248,265,298,317}{\draw[aux] ({\xl{\y}},\y) -- ({\xr{\y}},\y);}
+\draw[aux,->] (343,318) -- (343,90);
+\node at (342,50) {7\textsuperscript{th} rung};
+\node at (350,368) {1\textsuperscript{st} rung};
+\end{tikzpicture}
+\end{document}

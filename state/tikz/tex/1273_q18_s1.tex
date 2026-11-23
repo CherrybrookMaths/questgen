@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (40,337)--(790,337);
+  \draw[->] (62,485)--(62,40);
+  \node[anchor=west] at (794,337) {$x$};
+  \node[anchor=south east] at (58,36) {$T$};
+  \node[anchor=north east] at (56,343) {$0$};
+  \begin{scope}[shift={(62,337)},x=0.4407cm,y=0.17463cm]
+    \foreach \i in {1,...,12} \draw (\i,0) ++(0,-3pt) -- ++(0,6pt);
+    \foreach \i in {1,6,12} \node[anchor=north] at ([yshift=-5pt]\i,0) {$\i$};
+    \foreach \j in {5,10,15,20} {\draw (0,\j) ++(-3pt,0) -- ++(6pt,0);
+      \node[anchor=east] at ([xshift=-5pt]0,\j) {$\j$};}
+    \draw[line width=0.9pt] plot[domain=1:12,smooth,samples=90] (\x,{7*sin(deg(pi/6*\x+1.5))+13});
+    \coordinate (P1) at (1,19.2973);
+    \coordinate (P2) at (12,19.9800);
+    \coordinate (P3) at (6.1352,6);
+    \foreach \p in {P1,P2,P3} \fill (\p) circle (1.8pt);
+    \node[anchor=south west] at ([xshift=5pt,yshift=2pt]P1) {$(1,\,20)$};
+    \node[anchor=west] at ([xshift=6pt]P2) {$(12,\,20)$};
+    \node[anchor=north west] at ([xshift=6pt,yshift=-2pt]P3) {$(\approx 6.1,\,6)$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

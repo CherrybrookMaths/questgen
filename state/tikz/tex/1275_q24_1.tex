@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade hatch] plot[domain=pi/4:5*pi/4, samples=60, smooth] ({88+107.9*\x},{227-108*sin(\x r)})
+     -- plot[domain=5*pi/4:pi/4, samples=60, smooth] ({88+107.9*\x},{227-108*cos(\x r)}) -- cycle;
+  \draw[->] (88,395) -- (88,62);
+  \draw[->] (48,227) -- (850,227);
+  \node[anchor=south] at (88,40) {$y$};
+  \node[anchor=west] at (855,227) {$x$};
+  \draw (80,119)--(96,119) (80,335)--(96,335);
+  \node[anchor=east] at (74,119) {$1$};
+  \node[anchor=east] at (74,335) {$-1$};
+  \draw (427,219)--(427,235) (766,219)--(766,235);
+  \node[anchor=south,font=\small,inner sep=2pt] at (431,212) {\halo{$\pi$}};
+  \node[anchor=north,font=\small] at (766,238) {$2\pi$};
+  \draw[line width=0.9pt] plot[domain=0:2*pi, samples=90, smooth] ({88+107.9*\x},{227-108*sin(\x r)});
+  \draw[line width=0.9pt] plot[domain=0:2*pi, samples=90, smooth] ({88+107.9*\x},{227-108*cos(\x r)});
+  \node at (305,97) {$y=\sin x$};
+  \node at (650,110) {$y=\cos x$};
+  \node at (173,124) {$A$};
+  \node at (512,333) {$B$};
+\end{tikzpicture}
+\end{document}

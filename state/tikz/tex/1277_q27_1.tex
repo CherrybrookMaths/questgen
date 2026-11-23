@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(587,297)}, x=2.3686cm, y=0.6731cm]
+\draw[black!15, line width=0.3pt] (-3,-5) grid[xstep=0.2,ystep=0.5] (2.8,5);
+\draw[black!35, line width=0.4pt] (-3,-5) grid[xstep=1,ystep=2] (2.8,5);
+\draw[black!35, line width=0.4pt] (-3,-5) rectangle (2.8,5);
+\draw[<-] (-3.13,0)--(2.8,0);
+\draw[<->] (0,-5.15)--(0,5.3);
+\node[font=\tiny] at (0,5.6) {$y$};
+\foreach \i in {1,...,28}{\pgfmathsetmacro\xx{-3+0.2*\i}\draw[line width=0.4pt] (\xx,-0.06)--(\xx,0.06);}
+\foreach \v in {-3,-2,-1,1,2}{\node[font=\tiny, anchor=north east, inner sep=1.5pt] at (\v,-0.1) {$\v$};}
+\foreach \v in {-4,-2,2,4}{\node[font=\tiny, anchor=east, inner sep=2pt] at (0,\v) {$\v$};}
+\draw[line width=0.9pt, <->] plot[domain=-2.47:2.47, samples=90, smooth] (\x,{-(\x)^3+4*\x});
+\draw[line width=0.9pt, <-] (-3.12,-3.12)--(2.8,2.8);
+\end{scope}
+\end{tikzpicture}
+\end{document}

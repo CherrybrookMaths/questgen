@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \setlength\treeL{1.9cm}
+  \treewidth{1}{$W'$}\treewidth{2}{$W'$}\treewidth{3}{$W'$}\treewidth{4}{$W'$}
+  \treecolumns{4}
+  \treeroot{r}{0cm}
+  \treenode{a}{1}{0.7cm}{$W$}
+  \treenode{b}{1}{-0.7cm}{$W'$}
+  \treenode{c}{2}{0cm}{$W$}
+  \treenode{d}{2}{-1.4cm}{$W'$}
+  \treenode{e}{3}{-0.7cm}{$W$}
+  \treenode{f}{3}{-2.1cm}{$W'$}
+  \treenode{g}{4}{-1.4cm}{$W$}
+  \treenode{h}{4}{-2.8cm}{$W'$}
+  \treebranch{r}{a}{$\dfrac{1}{30}$}
+  \treebranch{r}{b}{$\dfrac{29}{30}$}
+  \treebranch{b}{c}{$\dfrac{1}{40}$}
+  \treebranch{b}{d}{$\dfrac{39}{40}$}
+  \treebranch{d}{e}{$\dfrac{1}{30}$}
+  \treebranch{d}{f}{$\dfrac{29}{30}$}
+  \treebranch{f}{g}{$\dfrac{1}{40}$}
+  \treebranch{f}{h}{$\dfrac{39}{40}$}
+  \treehead{1}{1.6cm}{Alice}
+  \treehead{2}{1.6cm}{Raoul}
+  \treehead{3}{1.6cm}{Alice}
+  \treehead{4}{1.6cm}{Raoul}
+  \node[tree outcome] at (-0.3cm,-1.75cm) {$W$ = win};
+  \node[tree outcome] at (-0.3cm,-2.3cm) {$W'$ = lose};
+\end{tikzpicture}
+\end{document}

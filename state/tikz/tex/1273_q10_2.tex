@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \node[font=\small\bfseries] at (94,50) {B.};
+  \draw[->] (152,186) -- (385,186) node[right, font=\small, inner sep=2pt] {$x$};
+  \draw[->] (270,335) -- (270,18) node[above, font=\small, inner sep=2pt] {$y$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=162:368] plot (\x,{186-0.1628*((\x-183)/10)*((\x-313)/10)^2});
+\end{tikzpicture}
+\end{document}

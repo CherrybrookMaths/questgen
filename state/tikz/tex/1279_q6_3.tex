@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \begin{scope}[shift={(247,327)}]
+  \draw[<->] (-215,0) -- (215,0);
+  \draw[<->] (0,98) -- (0,-262);
+  \node[anchor=west] at (215,0) {$x$};
+  \node[anchor=south] at (0,-264) {$f(x)$};
+  \node at (-22,20) {$O$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=0:130] plot (\x, {-39.5*exp(ln(265/39.5)*\x/130)});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

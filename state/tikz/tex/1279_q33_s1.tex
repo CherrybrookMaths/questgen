@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade hatch] (210,272) -- plot[smooth, domain=210:426, samples=40] (\x,{272-214*exp(-((\x-318)/97)^2/2)}) -- (426,272) -- cycle;
+\draw (50,272) -- (600,272);
+\draw[line width=0.9pt] plot[smooth, domain=63:573, samples=90] (\x,{272-214*exp(-((\x-318)/97)^2/2)});
+\foreach \px in {210,318,426}{\draw[aux] (\px,272) -- (\px,{272-214*exp(-((\px-318)/97)^2/2)});}
+\node[anchor=north] at (210,282) {$200$};
+\node[anchor=north] at (318,282) {$205$};
+\node[anchor=north] at (426,282) {$210$};
+\node[anchor=north west] at (480,282) {(g)};
+\node at (265,215) {\halo{$98\%$}};
+\node (l1) at (120,165) {$1\%$};
+\node (r1) at (520,165) {$1\%$};
+\draw[->] (l1.south) ++(8,0) -- (182,258);
+\draw[->] (r1.south) ++(-8,0) -- (456,258);
+\end{tikzpicture}
+\end{document}

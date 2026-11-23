@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\useasboundingbox (40,80) rectangle (910,640);
+\draw[->] (60,410)--(870,410);
+\draw[->] (465,610)--(465,110);
+\foreach \k in {-4,-3,-2,-1,1,2,3,4} \draw ({465+86.25*\k},405)--({465+86.25*\k},415);
+\draw (460,285)--(470,285);
+\draw (460,535)--(470,535);
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=-pi:pi] ({465+109.8*\x},{410-125*(sin(\x r)+cos(\x r))});
+\draw[aux] (551.25,233.2)--(551.25,410);
+\draw[aux] (206.25,586.8)--(206.25,410);
+\foreach \p in {(120,535),(810,535),(551.25,233.2),(206.25,586.8),(378.75,410),(723.75,410)} \node[pt] at \p {};
+\node[anchor=north] at (120,418) {$-\pi$};
+\node[anchor=south] at (206.25,402) {$-\dfrac{3\pi}{4}$};
+\node[anchor=north] at (292.5,418) {$-\dfrac{\pi}{2}$};
+\node[anchor=north west] at (384,416) {$-\dfrac{\pi}{4}$};
+\node[anchor=north] at (551.25,418) {$\dfrac{\pi}{4}$};
+\node[anchor=north] at (637.5,418) {$\dfrac{\pi}{2}$};
+\node[anchor=north east] at (718,416) {$\dfrac{3\pi}{4}$};
+\node[anchor=north] at (810,418) {$\pi$};
+\node[anchor=south east] at (459,282) {$1$};
+\node[anchor=west] at (472,535) {$-1$};
+\node[font=\large,anchor=west] at (876,412) {$x$};
+\node[font=\large,anchor=west] at (472,110) {$y$};
+\end{tikzpicture}
+\end{document}

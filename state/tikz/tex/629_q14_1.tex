@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{10+(#1-4)*31.17}
+\draw ({\X{4}},533) -- ({\X{40}},533);
+\foreach \v in {4,6,...,40} {\draw ({\X{\v}},523) -- ({\X{\v}},543);
+  \node[font=\small,anchor=north] at ({\X{\v}},548) {$\v$};}
+\node[font=\large] at ({\X{22}},603) {\textit{Marks}};
+\node[font=\large,anchor=west] at (2,25) {\textit{2019}};
+\node[font=\large,anchor=west] at (2,293) {\textit{2020}};
+\begin{scope}[line width=0.9pt]
+\draw ({\X{10}},92) -- ({\X{10}},196);
+\draw ({\X{36}},92) -- ({\X{36}},196);
+\draw ({\X{10}},144) -- ({\X{16}},144);
+\draw ({\X{30}},144) -- ({\X{36}},144);
+\draw ({\X{16}},92) rectangle ({\X{30}},196);
+\draw ({\X{23}},92) -- ({\X{23}},196);
+\end{scope}
+\end{tikzpicture}
+\end{document}

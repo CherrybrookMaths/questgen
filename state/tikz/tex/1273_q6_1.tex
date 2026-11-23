@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5956cm,y=0.5950cm]
+  \draw[black!30,line width=0.4pt] (-10,-10) grid (10,10);
+  \draw[->] (-10,0)--(10.6,0) node[anchor=north west,inner sep=2pt,font=\small] {$x$};
+  \draw[->] (0,-10)--(0,10.35) node[right,inner sep=2pt,font=\small] {$y$};
+  \foreach \i in {-10,...,10}{
+    \ifnum\i=0\relax\else
+      \node[anchor=north,font=\scriptsize,inner sep=0pt] at (\i,-0.15) {\halo{$\i$}};
+      \node[anchor=east,font=\scriptsize,inner sep=0pt] at (-0.08,\i) {\halo{$\i$}};
+    \fi}
+  \node[anchor=north east,font=\scriptsize,inner sep=0pt] at (-0.06,-0.15) {\halo{$0$}};
+\end{tikzpicture}
+\end{document}

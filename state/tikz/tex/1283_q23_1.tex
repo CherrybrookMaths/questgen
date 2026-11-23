@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] plot[domain=0:2*pi,samples=90,smooth,variable=\t] ({108+440*\t/pi},{368-288*sin(\t r)})
+  -- plot[domain=2*pi:0,samples=90,smooth,variable=\t] ({108+440*\t/pi},{368-72*sin(2*\t r)}) -- cycle;
+\draw[<->] (50,368) -- (1128,368);
+\draw[<->] (108,52) -- (108,688);
+\foreach \v in {-2,-1.5,...,2}{\draw (108,{368-144*\v}) -- (116,{368-144*\v});}
+\foreach \k in {1,2,3,4}{\draw ({108+220*\k},368) -- ({108+220*\k},360);}
+\draw[line width=0.9pt] plot[domain=0:2*pi,samples=90,smooth,variable=\t] ({108+440*\t/pi},{368-288*sin(\t r)});
+\draw[line width=0.9pt] plot[domain=0:2*pi,samples=90,smooth,variable=\t] ({108+440*\t/pi},{368-72*sin(2*\t r)});
+\node at (1150,368) {$x$};
+\node at (100,22) {$y$};
+\node[anchor=east] at (92,80) {$2$};
+\node[anchor=east] at (92,296) {$\dfrac{1}{2}$};
+\node[anchor=east] at (92,440) {$-\dfrac{1}{2}$};
+\node[anchor=east] at (92,656) {$-2$};
+\node[anchor=north] at (328,382) {$\dfrac{\pi}{2}$};
+\node[anchor=north] at (546,382) {$\pi$};
+\node[anchor=north] at (768,382) {\halo{$\dfrac{3\pi}{2}$}};
+\node[anchor=south] at (990,354) {$2\pi$};
+\end{tikzpicture}
+\end{document}

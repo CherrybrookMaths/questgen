@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (126,190) ellipse (85 and 150);
+\draw (489,206) ellipse (85 and 162);
+\foreach \n/\x/\ya/\yb in {1/95/63/103,2/95/113/153,3/95/163/203,4/96/214/256,5/96/265/307}{
+  \draw (\x,\ya) rectangle ({\x+50},\yb);
+  \node[font=\fontsize{9}{11}\selectfont] at ({\x+25},{(\ya+\yb)/2}) {$A_{\n}$};}
+\foreach \n/\x/\ya/\yb in {1/455/54/94,2/455/100/140,3/456/148/188,4/456/196/236,5/457/240/280,6/457/287/327}{
+  \draw (\x,\ya) rectangle ({\x+47},\yb);
+  \node[font=\fontsize{9}{11}\selectfont] at ({\x+23.5},{(\ya+\yb)/2}) {$B_{\n}$};}
+\draw[->] (145,79) -- (455,73);
+\draw[->] (145,133) -- (455,115);
+\draw[->] (145,180) -- (456,212);
+\draw[->] (146,235) -- (455,127);
+\draw[->] (146,287) -- (457,258);
+\end{tikzpicture}
+\end{document}

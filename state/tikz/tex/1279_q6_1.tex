@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \begin{scope}[shift={(237,320)}]
+  \draw[<->] (-215,0) -- (215,0);
+  \draw[<->] (0,98) -- (0,-262);
+  \node[anchor=west] at (215,0) {$x$};
+  \node[anchor=south] at (0,-264) {$f(x)$};
+  \node at (-22,20) {$O$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=-169:73] plot (\x, {-262*((\x+48)/121)^2});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

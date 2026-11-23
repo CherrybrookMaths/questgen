@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (178,466) -- (403.1,466) -- (403.1,342.0) -- cycle;
+\draw (178,466) -- (403.1,342.0) -- (403.1,466);
+\draw (388,466) -- (388,451) -- (403.1,451);
+\draw[->] (115,466) -- (775,466) node[right,font=\footnotesize]{$x$};
+\draw[->] (178,530) -- (178,48) node[above,font=\footnotesize]{$y$};
+\draw[line width=0.9pt] plot[smooth, domain=0:11.59, samples=90] ({178+49.8*\x},{466-153*2*exp(-\x/5)});
+\node[pt] at (178,160) {};
+\node[font=\footnotesize] at (310,230) {$y=f(x)$};
+\node[anchor=west, font=\footnotesize] at (404,330) {$P\big(x,f(x)\big)$};
+\node[font=\footnotesize] at (162,488) {$O$};
+\node[font=\footnotesize] at (403,490) {$Q$};
+\end{tikzpicture}
+\end{document}

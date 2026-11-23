@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\def\Y#1{440-1.2086*#1}
+% grid
+\foreach \gx in {187,231,275,320,364,409,454,498,543,587,632,676,721,765,808} \draw[black!25,line width=0.4pt] (\gx,17) -- (\gx,440);
+\foreach \v in {50,100,...,350} \draw[black!25,line width=0.4pt] (145,{\Y{\v}}) -- (808,{\Y{\v}});
+% bars
+\foreach \a/\b/\h in {187/275/10,275/364/40,364/454/80,454/543/130,543/632/220,632/721/280,721/808/300}
+  \draw[fill=black!30] (\a,440) rectangle (\b,{\Y{\h}});
+% axes
+\draw (145,440) -- (808,440);
+\draw (145,440) -- (145,17);
+\foreach \v in {0,50,...,350} {\draw (139,{\Y{\v}}) -- (145,{\Y{\v}}); \node[anchor=east] at (134,{\Y{\v}}) {\v};}
+\foreach \v in {10,20,...,340} {\pgfmathparse{mod(\v,50)==0}\ifnum\pgfmathresult=0 \draw (141,{\Y{\v}}) -- (145,{\Y{\v}});\fi}
+\foreach \x/\t in {231/55,320/60,409/65,498/70,587/75,676/80,765/85} \node at (\x,472) {\t};
+\node[rotate=90] at (25,230) {Cumulative frequency};
+\node at (490,526) {Vehicle speed (in km/h)};
+\end{tikzpicture}
+\end{document}

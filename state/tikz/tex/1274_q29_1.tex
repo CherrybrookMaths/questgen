@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\footnotesize}]
+  % 1 unit x = 50 px, 1 unit y = 47 px, origin (168,247)
+  \path[shade dots] (168,247) -- plot[smooth, samples=45, domain=0:2] ({168+50*\x},{247-141*cos(45*\x)}) -- cycle;
+  \path[shade dots] (268,247) -- plot[smooth, samples=45, domain=2:4] ({168+50*\x},{247-141*cos(45*\x)}) -- (368,247) -- cycle;
+  \draw[->] (40,247) -- (612,247);
+  \draw[->] (168,435) -- (168,30);
+  \draw[aux] (368,247) -- (368,388);
+  \draw[aux] (468,247) -- (468,388);
+  \draw (368,247) -- (368,239); \draw (468,247) -- (468,239);
+  \draw (168,388) -- (162,388);
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=0:4] ({168+50*\x},{247-141*cos(45*\x)}) -- (468,388);
+  \node[pt, inner sep=1pt] at (168,106) {};
+  \node[anchor=east] at (160,106) {$3$};
+  \node[anchor=east] at (158,388) {$-3$};
+  \node at (154,266) {$O$};
+  \node at (279,266) {$2$};
+  \node at (368,266) {$4$};
+  \node at (468,266) {$6$};
+  \node at (604,268) {$x$};
+  \node at (154,36) {$y$};
+  \node[anchor=west] at (240,140) {$y=f'(x)$};
+  \node at (208,192) {\halo{$A_1$}};
+  \node at (330,313) {\halo{$A_2$}};
+\end{tikzpicture}
+\end{document}

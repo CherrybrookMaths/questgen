@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (20,290) -- (640,290) node[right] {$x$};
+\draw[->] (460,395) -- (460,5) node[left] {$y$};
+\foreach \t in {-2,-1} \draw ({460+132*\t},286) -- ({460+132*\t},294);
+\node[anchor=south east,inner sep=1pt] at (193,285) {$-2$};
+\node[anchor=north,inner sep=1pt] at (330,297) {$-1$};
+\node[anchor=north east,inner sep=1pt] at (452,296) {$0$};
+\node at (428,135) {$1$};
+\draw[line width=0.9pt,smooth,samples=90,domain=-3.33:0.24,variable=\t] plot ({460+132*\t},{290-155*exp(\t)*(\t+1)});
+\draw[line width=0.9pt,<->,smooth,samples=90,domain=-2.16:0.66,variable=\t] plot ({460+132*\t},{290-155*(1-1.5*\t-\t*\t)});
+\node[pt] at (460,135) {};
+\node[pt] at (361,47.8) {};
+\end{tikzpicture}
+\end{document}

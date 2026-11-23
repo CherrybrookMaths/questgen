@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (545,228); x 34.7 px/unit; y 980 px/unit (sketch scale, axis drawn level)
+  \draw[->] (15,228) -- (1045,228);
+  \draw[->] (545,450) -- (545,30);
+  \draw[aux] (302,50) -- (302,430);
+  \draw[aux] (788,50) -- (788,430);
+  \draw[line width=0.9pt, <-] plot[smooth, samples=60, domain=-13.4:-7.4] ({545+34.7*\x},{228-980/(\x*\x-49)});
+  \draw[line width=0.9pt, ->] plot[smooth, samples=60, domain=7.4:12.6] ({545+34.7*\x},{228-980/(\x*\x-49)});
+  \draw[line width=0.9pt, <->] plot[smooth, samples=90, domain=-6.6:6.6] ({545+34.7*\x},{228-980/(\x*\x-49)});
+  \node[pt] at (545,248) {};
+  \node[anchor=north west] at (550,252) {$-\dfrac{1}{49}$};
+  \node at (276,246) {$-7$};
+  \node at (810,246) {$7$};
+  \node at (1060,230) {$x$};
+  \node at (545,15) {$y$};
+  \node[anchor=north west, align=left] at (985,245) {$y=0$ is\\ also an\\ asymptote};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (141,215) -- plot[smooth,domain=141:880,samples=60] (\x,{215-200*exp(-0.5*((\x-511)/185)^2)}) -- (880,215) -- cycle;
+\draw (25,215) -- (1015,215);
+\draw[line width=0.9pt] plot[smooth,domain=25:1015,samples=90] (\x,{215-200*exp(-0.5*((\x-511)/185)^2)});
+\draw (141,215) -- (141,{215-200*exp(-2)});
+\draw (880,215) -- (880,{215-200*exp(-0.5*((880-511)/185)^2)});
+\draw[aux] (511,215) -- (511,15);
+\node[font=\scriptsize] at (147,240) {$\mathbf{100}$};
+\node[font=\scriptsize] at (884,240) {$\mathbf{140}$};
+\node[font=\scriptsize,anchor=west] at (522,120) {$\boldsymbol{\sim 95\%}$};
+\end{tikzpicture}
+\end{document}

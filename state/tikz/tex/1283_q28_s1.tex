@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\draw[<->] (3,380) -- (690,380);
+\draw[<->] (32,675) -- (32,35);
+\node[anchor=west] at (692,380) {$t$};
+\node at (38,16) {$x(t)$};
+\draw[aux] (113,326) -- (113,380);
+\draw[aux] (308,202) -- (308,380);
+\draw[aux] (433,68) -- (433,380);
+\draw[aux] (553,288) -- (553,380);
+\draw[line width=0.9pt] (32,326) -- (113,326)
+  .. controls (175,326) and (200,322) .. (220,312)
+  .. controls (250,297) and (285,240) .. (308,202)
+  .. controls (341,147) and (390,68) .. (433,68)
+  .. controls (490,68) and (530,200) .. (553,288)
+  .. controls (575,372) and (605,470) .. (630,570);
+\node[anchor=north] at (115,390) {$t_1$};
+\node[anchor=north] at (308,390) {$t_2$};
+\node[anchor=north] at (433,390) {$t_3$};
+\node[anchor=north] at (553,390) {$t_4$};
+\end{tikzpicture}
+\end{document}

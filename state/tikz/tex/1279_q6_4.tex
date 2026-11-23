@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \begin{scope}[shift={(252,326)}]
+  \draw[<->] (-215,0) -- (215,0);
+  \draw[<->] (0,98) -- (0,-262);
+  \node[anchor=west] at (215,0) {$x$};
+  \node[anchor=south] at (0,-264) {$f(x)$};
+  \node at (-22,20) {$O$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=-191:93] plot (\x, {84-348*((\x+49)/142)^2});
+  \end{scope}
+\end{tikzpicture}
+\end{document}

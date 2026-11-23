@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% origin (500,468); 160 px per x-unit, 29.5 px per y-unit (true positions of all marked points)
+\draw[->] (330,468) -- (1060,468);
+\draw[->] (500,860) -- (500,0);
+\node[anchor=north,font=\large] at (1052,474) {$x$};
+\node[anchor=west,font=\large] at (508,8) {$y$};
+\draw[line width=0.9pt,<->] plot[smooth,domain=-0.72:2.88,samples=90] ({500+160*\x},{468-29.5*(3*\x*\x*\x*\x-16*\x*\x*\x+24*\x*\x-9)});
+% ticks
+\draw (660,460) -- (660,476); \node[anchor=north,font=\large] at (664,480) {$1$};
+\draw (820,460) -- (820,476); \node[anchor=north,font=\large] at (820,480) {$2$};
+\draw (492,261.5) -- (508,261.5); \node[anchor=east,font=\large] at (486,261.5) {$7$};
+% marked points
+\node[pt,inner sep=1.4pt] at (500,733.5) {};
+\node[pt,inner sep=1.4pt] at (606.7,541.2) {};
+\node[pt,inner sep=1.4pt] at (820,261.5) {};
+\node[anchor=north west,font=\large] at (515,745) {$(0,-9)$ Min TP};
+\node[anchor=north west,font=\large] at (626,552) {$\left(\dfrac{2}{3},-\dfrac{67}{27}\right)$ POI};
+\node[anchor=north west,font=\large] at (835,272) {$(2,7)$ Horizontal POI};
+\end{tikzpicture}
+\end{document}

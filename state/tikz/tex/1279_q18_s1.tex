@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (45,298)--(600,298);
+\draw[->] (240,365)--(240,35);
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:6] ({240+40*\x},{298-63-15.07*(-0.3*\x*\x+3*\x)});
+\draw[aux] (440,122)--(440,298);
+\draw[aux] (480,126.5)--(480,298);
+\node[pt] at (240,235) {};
+\node[pt] at (440,122) {};
+\node[pt] at (480,126.5) {};
+\node[font=\large,anchor=west] at (248,42) {$x$};
+\node[font=\large,anchor=west] at (606,300) {$t$};
+\node[font=\large,anchor=north east] at (235,304) {$0$};
+\node[font=\large,anchor=north] at (440,305) {$5$};
+\node[font=\large,anchor=north] at (480,305) {$6$};
+\node[font=\large,anchor=east] at (233,235) {$13$};
+\node[font=\large,anchor=south] at (440,112) {$20.5$};
+\node[font=\large,anchor=west] at (490,134) {$20.2$};
+\end{tikzpicture}
+\end{document}

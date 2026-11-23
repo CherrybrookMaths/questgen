@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[name path=crv] plot[smooth, tension=0.6] coordinates {(40,285) (58,210) (88,140) (130,80) (180,33) (235,9) (268,14) (305,45) (340,100) (362,152) (395,245) (425,350) (452,488)};
+  \draw (40,285) -- (40,488) -- (452,488);
+  \foreach \xx/\nm in {130/a,245/b,362/c}{
+    \path[name path=v\nm] (\xx,500) -- (\xx,0);
+    \draw[name intersections={of=crv and v\nm, by=P\nm}] (\xx,488) -- (P\nm);
+  }
+  \node[font=\footnotesize] at (14,385) {2};
+  \node[font=\footnotesize] at (101,383) {4.5};
+  \node[font=\footnotesize] at (222,381) {5.1};
+  \node[font=\footnotesize] at (340,381) {3.6};
+  \foreach \xx in {85,195,305,408} \node[font=\footnotesize] at (\xx,510) {5};
+  \node[font=\small] at (545,27) {Not to scale};
+\end{tikzpicture}
+\end{document}

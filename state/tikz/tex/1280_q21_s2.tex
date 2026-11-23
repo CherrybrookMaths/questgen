@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\ox{85}\def\oy{337}\def\sx{119}\def\sy{238}
+  \foreach \j in {-0.2,-0.1,0.1,0.2,...,1.2} \draw[black!20, line width=0.4pt] (25,{\oy-\sy*\j}) -- (412,{\oy-\sy*\j});
+  \foreach \i in {-0.5,0.5,1,1.5,2,2.5} \draw[black!20, line width=0.4pt] ({\ox+\sx*\i},45) -- ({\ox+\sx*\i},385);
+  \fill[shade] ({\ox+\sx},\oy) -- ({\ox+2*\sx},{\oy-\sy}) -- ({\ox+2*\sx},\oy) -- cycle;
+  \draw[<->] (5,\oy) -- (412,\oy);
+  \draw[<->] (\ox,402) -- (\ox,30) node[above] {$y$};
+  \foreach \i in {0.5,1,1.5,2} \draw ({\ox+\sx*\i},\oy-4) -- ({\ox+\sx*\i},\oy+4);
+  \foreach \i in {1,2} \node[below] at ({\ox+\sx*\i},\oy+5) {$\i$};
+  \foreach \j in {-0.2,-0.1,0.1,0.2,...,1.2} \draw (\ox-4,{\oy-\sy*\j}) -- (\ox+4,{\oy-\sy*\j});
+  \node[left] at (\ox-4,{\oy-\sy}) {$1$};
+  \node[left] at (\ox-4,{\oy-0.5*\sy}) {$0.5$};
+  \draw[line width=0.9pt] (\ox,{\oy-\sy}) -- ({\ox+\sx},\oy) -- ({\ox+2*\sx},{\oy-\sy});
+  \node at (298,78) {$y=\left|1-x\right|$};
+\end{tikzpicture}
+\end{document}

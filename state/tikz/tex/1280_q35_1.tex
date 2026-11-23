@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\F#1{(488-0.351667*(#1))}
+\def\P#1{(488-4.22*(#1))}
+\foreach \v in {200,400,...,1200}{\draw[black!15,line width=0.4pt] (160,{\F{\v}}) -- (975,{\F{\v}});}
+\foreach \v in {0,200,...,1200}{\node[left,font=\footnotesize] at (152,{\F{\v}}) {$\v$};}
+\node[rotate=90,font=\footnotesize] at (60,285) {Frequency};
+\foreach \c/\f in {214/1110,313.5/500,413/100,512.5/85,612/55,711.5/35,811/25,910.5/6}{
+  \draw[fill=black!15] (\c-33,488) rectangle (\c+33,{\F{\f}});}
+\draw[line width=0.9pt] (160,488) -- (975,488);
+\draw (975,66) -- (975,488);
+\foreach \p in {0,10,...,100}{\draw (975,{\P{\p}}) -- (982,{\P{\p}}); \node[right,font=\footnotesize] at (982,{\P{\p}}) {$\p\%$};}
+\node[rotate=90,font=\footnotesize] at (1090,275) {Cumulative percentage frequency};
+\draw[line width=0.9pt] (214,{\P{58.0}}) -- (313.5,{\P{84.1}}) -- (413,{\P{89.3}}) -- (512.5,{\P{93.7}}) -- (612,{\P{96.6}}) -- (711.5,{\P{98.4}}) -- (811,{\P{99.7}}) -- (910.5,{\P{100}});
+\node[font=\small\bfseries] at (567,40) {Pizza delivery complaints};
+\foreach \c/\t in {214/Delivery delayed,313.5/Pizza not hot,413/Inadequate topping,512.5/Damaged pizza,612/Incorrectly billed,711.5/Not enough cheese,811/Wrong size delivered,910.5/Not baked properly}{
+  \node[anchor=east,rotate=58,font=\footnotesize,inner sep=1pt] at (\c+4,498) {\t};}
+\end{tikzpicture}
+\end{document}

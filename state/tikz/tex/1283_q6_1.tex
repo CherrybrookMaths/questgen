@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\cw{108.83}
+\foreach \v in {4,8,...,196}{\pgfmathtruncatemacro\m{mod(\v,20)}\ifnum\m=0\else
+  \draw[black!25,dash pattern=on 1pt off 1pt,line width=0.4pt] (125,{627-2.985*\v}) -- (778,{627-2.985*\v});\fi}
+\foreach \v in {20,40,...,180}{\draw[black!40,line width=0.4pt] (125,{627-2.985*\v}) -- (778,{627-2.985*\v});}
+\foreach \k in {1,...,5}{\draw[black!40,line width=0.4pt] ({125+\cw*\k},30) -- ({125+\cw*\k},627);}
+\foreach \h [count=\i from 0] in {180,144,132,72,60,12}
+  \fill[black!18] ({125+\cw*\i+13},627) rectangle ({125+\cw*\i+95},{627-2.985*\h});
+\draw (125,30) -- (125,627) -- (778,627) -- (778,30) -- (125,30);
+\foreach \v in {0,20,...,200}{
+  \draw (118,{627-2.985*\v}) -- (125,{627-2.985*\v});
+  \draw (778,{627-2.985*\v}) -- (785,{627-2.985*\v});
+  \node[anchor=east,font=\footnotesize] at (114,{627-2.985*\v}) {\v};
+  \pgfmathtruncatemacro\p{\v/2}
+  \node[anchor=west,font=\footnotesize] at (792,{627-2.985*\v}) {\p\%};}
+\draw[line width=0.9pt] (179,{627-2.985*60}) -- (288,{627-2.985*108}) -- (397,{627-2.985*152}) -- (506,{627-2.985*176}) -- (615,{627-2.985*196}) -- (724,{627-2.985*200});
+\foreach \x/\v in {179/60,288/108,397/152,506/176,615/196,724/200}{\fill (\x,{627-2.985*\v}) circle (4.2);}
+\begin{scope}[font=\fontsize{8.5}{10}\selectfont]
+\node[anchor=north] at (179,646) {Accounting};
+\node[anchor=north,align=center] at (290,646) {Computer\\Science};
+\node[anchor=north] at (404,646) {Engineering};
+\node[anchor=north] at (506,646) {Law};
+\node[anchor=north] at (612,646) {Architecture};
+\node[anchor=north] at (728,646) {Medicine};
+\end{scope}
+\node[font=\footnotesize] at (425,732) {University Courses};
+\node[rotate=90,font=\footnotesize\bfseries] at (40,325) {Number of Students};
+\node[rotate=90,font=\footnotesize\bfseries] at (890,330) {Cumulative Percentage};
+\end{tikzpicture}
+\end{document}

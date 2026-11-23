@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \node[font=\bfseries,anchor=base west,inner sep=0pt] at (82,32) {D.};
+  \draw[->] (152,172)--(377,172) node[right,inner sep=2pt] {$x$};
+  \draw[->] (257,320)--(257,18) node[above,inner sep=1pt] {$y$};
+  \draw[line width=0.9pt,smooth,samples=90,domain=157:332] plot (\x,{113-205*((\x-253)/100)*((\x-253)/100)*((\x-253)/100)});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (30,461) -- (1008,461);
+\draw[<->] (108,868) -- (108,50);
+\node[anchor=west] at (1012,461) {$x$};
+\node at (102,24) {$y$};
+\foreach \yy/\l in {86/2,273/1,647/-1,833/-2} {\draw (108,\yy) -- (116,\yy); \node[anchor=east] at (92,\yy) {$\l$};}
+\foreach \xx in {490,876} \draw (\xx,461) -- (\xx,453);
+\node[anchor=north east] at (487,470) {$\pi$};
+\node[anchor=north west] at (880,470) {$2\pi$};
+\draw[line width=0.9pt, smooth, samples=90, domain=0:6.28319, variable=\t] plot ({108+122.23*\t},{461-374*sin(\t r)});
+\end{tikzpicture}
+\end{document}

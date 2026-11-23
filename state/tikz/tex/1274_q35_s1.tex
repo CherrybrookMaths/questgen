@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % origin (143,298); x 29.6 px/unit, y 22.3 px/unit
+  \path[shade dots] (202.2,298) -- (350.2,75) -- plot[smooth, samples=40, domain=7:5] ({143+29.6*\x},{298-22.3*(\x*\x-7*\x+10)}) -- cycle;
+  \draw[->] (65,298) -- (385,298);
+  \draw[->] (143,345) -- (143,30);
+  \draw[aux] (143,75) -- (350.2,75);
+  \draw[aux] (350.2,75) -- (350.2,298);
+  \draw (350.2,298) -- (341,298) -- (341,289) -- (350.2,289);
+  \draw (202.2,298) -- (350.2,75);
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=-0.2:7.3] ({143+29.6*\x},{298-22.3*(\x*\x-7*\x+10)});
+  \node[anchor=east] at (133,75) {$10$};
+  \node at (130,313) {$O$};
+  \node at (204,313) {$A$};
+  \node at (296,313) {$B$};
+  \node at (352,316) {$D$};
+  \node[anchor=west] at (388,298) {$x$};
+  \node at (128,38) {$y$};
+  \node at (367,80) {$C$};
+  \node[anchor=west] at (384,58) {$(7,10)$};
+  \node at (185,347) {$(2,0)$};
+  \node at (292,345) {$(5,0)$};
+  \node[anchor=west] at (366,345) {$(7,0)$};
+  \draw[->] (415,180) -- (350,186);
+  \node[anchor=west] at (422,184) {$y=x^2-7x+10$};
+  \node at (50,228) {$8\dfrac{2}{3}$};
+  \draw[->] (88,245) -- (162,255);
+\end{tikzpicture}
+\end{document}

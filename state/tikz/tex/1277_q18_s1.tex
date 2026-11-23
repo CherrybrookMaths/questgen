@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (36,270) -- (826,270);
+\draw (218,450) -- (218,32);
+\foreach \u in {1,...,5} \draw (218+100*\u,265) -- (218+100*\u,275);
+\foreach \u in {1,2,3} \node[font=\large,anchor=north] at (218+100*\u,283) {$\u$};
+\node[font=\large,anchor=north] at (612,290) {$4$};
+\node[font=\large,anchor=north] at (724,290) {$5$};
+\draw[line width=0.9pt,smooth,samples=90,domain=-0.32:5.8,variable=\t] plot ({218+100*\t},{270-19.04*\t*(\t-4)*(\t-5)});
+\foreach \u in {0,4,5} \fill (218+100*\u,270) circle (3.2);
+\end{tikzpicture}
+\end{document}

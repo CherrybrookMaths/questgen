@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[line join=round] (177,37) -- (125,287) -- (457,287) -- cycle;
+  \draw[smooth, samples=40, domain=41.76:101.75] plot ({177+50*cos(\x)},{37+50*sin(\x)});
+  \node at (213,134) {$50^\circ$};
+  \node at (88,160) {2.4 cm};
+  \node at (386,145) {2.5 cm};
+  \node at (296,322) {1.6 cm};
+\end{tikzpicture}
+\end{document}

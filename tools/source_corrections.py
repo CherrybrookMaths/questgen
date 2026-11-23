@@ -510,4 +510,85 @@ for sid, lat, crit, note, extra in C17:
     db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
 if db.execute("select is_correct from mcq_options where question_id=4916 and label='A'").fetchone()[0]:   # 2021 King's AT3 Q5: key A -> C
     db.execute("update mcq_options set is_correct=(label='C') where question_id=4916")
-db.commit(); print('done C13, C14, C15, C16, C17')
+# Batch 18 (24 Nov, same night): the verifier's 34 findings on 2020 Fort Street, Girraween, Gosford, Grafton, Hunters Hill, Hurlstone,
+# James Ruse, Killara and Cherrybrook AT3, checked by hand. Your calls: Gosford Q30 ($60 or $50), Grafton Q10 (monthly deposits, no option
+# fits), Hurlstone Q27 (f is not a density: it integrates to 3.75).
+# Fort Street AT4: the school's multiple-choice workings for Q1-10 were stored on the written-response questions Q1-10 (the parse merged
+# the two numberings); the multiple-choice questions already have their own worked solutions, so the misplaced copies are removed.
+def _sol8054(l, c):   # 2020 Hunters Hill AT4 Q14: asks for the SAMPLE standard deviation; the working gave the population one
+    return (r"""Total number of points $= 14$.
+
+\extable{Ts8054_1}
+
+Mean:
+$$\begin{aligned} \bar{x} &= \dfrac{0\times3+1\times2+2\times4+3\times2+4\times2+5\times1}{14} \\ &= \dfrac{29}{14}=2\dfrac{1}{14} \\ &\approx 2.1 \end{aligned}$$
+Sample standard deviation (calculator, $s_x$):
+$$\begin{aligned} s &= \sqrt{\dfrac{\sum x^2-n\bar{x}^2}{n-1}} = \sqrt{\dfrac{93-14\left(\frac{29}{14}\right)^2}{13}} \\ &\approx 1.59 \\ &\approx 1.6 \end{aligned}$$
+(The population standard deviation, $\sigma\approx1.5$, is not what the question asks for.)""", c)
+C18 = [
+ (7865, [(r'The graph has endpoints $(1,20)$ and $(12,20)$', r'The graph has endpoints $(1,19.3)$ and $(12,20)$ (from $T(1)=7\sin\left(\frac{\pi}{6}+1.5\right)+13\approx19.3$ and $T(12)\approx20.0$)')], [],
+  r'the left endpoint was given as $(1,20)$; $T(1)\approx19.3$', None),
+ (7918, [(r'The shaded region is triangle $ACD$ less the area under the curve from $0$ to $2$.',
+          r'The shaded region is triangle $ACD$ less the area under the curve from $5$ to $7$. The parabola is symmetric about $x=\dfrac72$, so that area equals the area from $0$ to $2$, found in part (c).')], [],
+  r'the working said the area subtracted is the area under the curve from 0 to 2; it is the area from 5 to 7, equal to it by symmetry about $x=\dfrac72$', None),
+ (7979, [(r'\dfrac{dV}{dr}=13.46>0', r'\dfrac{dV}{dr}\approx64.1>0')], [], r'$\dfrac{dV}{dr}$ at $r=\sqrt{\dfrac{240}{\pi}}$ was given as $13.46$; it is about $64.1$ (still positive)', None),
+ (8022, [(r'e^{0.3t} &\approx 24.9001 \\ 0.3t &= \ln 24.9001 \\ t &\approx 10.7162', r'4000e^{0.3t} &= 100\,000+399.435 \\ e^{0.3t} &\approx 25.0999 \\ 0.3t &= \ln 25.0999 \\ t &\approx 10.7429')], [],
+  r'$C$ is negative, so $e^{0.3t}=\dfrac{100\,000+399.435}{4000}\approx25.0999$, $t\approx10.743$; the working had $24.9001$ and $10.7162$. The answer, 11 months, is unchanged', None),
+ (8230, [(r'25.0998\ldots &= e^{0.3t}', r'25.0999\ldots &= e^{0.3t}'), (r'\ln(25.0998\ldots) &= 0.3t', r'\ln(25.0999\ldots) &= 0.3t'), (r't &= \dfrac{\ln(25.0998\ldots)}{0.3} \\ &= 10.7482\ldots', r't &= \dfrac{\ln(25.0999\ldots)}{0.3} \\ &= 10.7429\ldots')], [],
+  r'$\dfrac{\ln 25.0999}{0.3}$ was given as $10.7482$; it is $10.7429$. The answer, 11 months, is unchanged', None),
+ (8045, [(r'The guideline circles A.', r'This is the open interval $\left(-\dfrac32,\infty\right)$, option C. (The guideline circles A, which wrongly includes $x=-\dfrac32$.)')], [],
+  r'the guideline keyed A, $\left[-\dfrac32,\infty\right)$, but $\ln(2x+3)$ is undefined at $x=-\dfrac32$; the answer is C', None),
+ (8052, [(r'Equation of the normal through $(2, 0)$:' + '\n' + r'$$\begin{aligned} y - 0 &= -1(x - 2) \\ y &= -x + 2 \end{aligned}$$',
+          r'At $x=2$, $f(2)=\ln 1+2=2$, so the point on the curve is $(2,2)$ (the paper printed $(2,0)$).' + '\n' + r'Equation of the normal through $(2, 2)$:' + '\n' + r'$$\begin{aligned} y - 2 &= -1(x - 2) \\ y &= -x + 4 \end{aligned}$$')], [],
+  r'the paper gave the point as $(2,0)$, which is not on the curve; $f(2)=2$, so the normal is $y=-x+4$, not $y=-x+2$', None),
+ (8054, [], [], r'the question asks for the sample standard deviation, $s\approx1.6$; the working gave the population value $1.5$ (from the rounded mean), and wrote the mean as $2\dfrac{3}{14}$ instead of $2\dfrac{1}{14}$', _sol8054),
+ (8078, [(r'\dfrac{\sin\angle BCA}{14} = \dfrac{\sin 106^\circ}{18}', r'\dfrac{\sin\angle BCA}{14} = \dfrac{\sin 106^\circ}{18.27}'),
+         (r'The north line at $C$ makes an angle of $136^\circ - 90^\circ = 46^\circ$ with the line $CB$ direction.', r'The bearing of $B$ from $C$ is $136^\circ+180^\circ=316^\circ$, which is $46^\circ$ north of west.')], [],
+  r'the sine rule needs the unrounded $AC=18.27$ to give $47.437^\circ$ (with $18$ it gives $48.4^\circ$), and the $46^\circ$ is measured from the west line, not the north line. The bearing $269^\circ$ is unchanged', None),
+ (8083, [(r'$\therefore$ the life expectancy is about 74 years.', r'$\therefore$ the life expectancy is about 73 years (readings from the graph of 72 to 74 are accepted).')], [],
+  r'the working found $73.1$ but concluded "about 74 years"', None),
+ (8086, [(r'$$\dfrac{d^2A}{dx^2} = -\dfrac{1}{5}e^{-\frac{x}{5}} - \dfrac{1}{5}e^{-\frac{x}{5}} - \dfrac{x}{25}e^{-\frac{x}{5}}$$' + '\n' + r'At $x = 5$ every term is negative, so $\dfrac{d^2A}{dx^2} < 0$ and this is a maximum.',
+          r'$$\dfrac{d^2A}{dx^2} = -\dfrac{1}{5}e^{-\frac{x}{5}} - \dfrac{1}{5}e^{-\frac{x}{5}} + \dfrac{x}{25}e^{-\frac{x}{5}} = e^{-\frac{x}{5}}\left(\dfrac{x}{25}-\dfrac{2}{5}\right)$$' + '\n' + r'At $x = 5$, $\dfrac{d^2A}{dx^2} = e^{-1}\left(\dfrac15-\dfrac25\right) = -\dfrac{1}{5e} < 0$, so this is a maximum.')], [],
+  r'the second derivative had $-\dfrac{x}{25}e^{-\frac{x}{5}}$ instead of $+\dfrac{x}{25}e^{-\frac{x}{5}}$, so "every term is negative" was false; $A^{\prime\prime}(5)=-\dfrac{1}{5e}<0$ still gives a maximum', None),
+ (8089, [(r'&\approx 2449.49 \end{aligned}$$' + '\n' + r'$$\therefore\ P \approx 2450 \text{ white-ants}$$', r'&= 1000\times1.5^2 \\ &= 2250 \end{aligned}$$' + '\n' + r'$$\therefore\ P = 2250 \text{ white-ants}$$')], [],
+  r'$1000e^{2\ln1.5}=1000\times1.5^2=2250$; the guideline gave $2449.49$', None),
+ (8123, [(r'\cos\angle CBP&=\dfrac{BC}{PB}=\dfrac{7.4}{7.76}\\ \angle CBP&\approx 0.2967', r'\cos\angle CBP&=\dfrac{BC}{PB}=\dfrac{7.422}{7.76}\\ \angle CBP&\approx 0.296')], [],
+  r'the working used the rounded $BC=7.4$ but gave $0.2967$ ($\cos^{-1}\dfrac{7.4}{7.76}=0.306$); with $BC=7.422$ it is $0.296$. The answer $0.3$ is unchanged', None),
+ (8254, [(r'common ratio $r=\dfrac{-1}{2}\div 1\cdot$ so $r=-\dfrac{1}{2}$', r'common ratio $r=\dfrac{T_2}{T_1}=\dfrac{-1}{2}=-\dfrac{1}{2}$')], [], r'the ratio line was garbled', None),
+ (8177, [(r'-1.87^2 \\ &=5.267-3.497 \\ &=1.77', r'-\left(\dfrac{28}{15}\right)^2 \\ &=5.2667-3.4844 \\ &\approx1.78')], [],
+  r'the variance subtracted the rounded mean squared ($1.87^2$) and gave $1.77$; with $E(X)=\dfrac{28}{15}$ it is $1.78$', None),
+ (8241, [(r'x=6:\ \dfrac{dA}{dx} &= -41.5\ldots<0', r'x=6:\ \dfrac{dA}{dx} &= -4<0')], [], r'$\dfrac{dA}{dx}$ at $x=6$ was given as $-41.5$; it is $\dfrac{100-60-72}{8}=-4$', None),
+ (7787, [(r'a median of approximately $73$ km/h (about $72.5$ km/h).', r'a median of approximately $73.6$ km/h ($72.5+5\times\dfrac{20}{90}$; readings of $73$ to $74$ km/h are accepted).')], [],
+  r'the parenthesis "about 72.5 km/h" read the boundary where the cumulative frequency is 130, not 150', None),
+ (7794, [(r'This is not a valid estimate, as there are numerous outliers in the top right of the graph representing students who are high achievers in both subjects.',
+          r'A Maths score of 90 lies inside the range of the data, so this is interpolation, but the estimate is not very reliable: the correlation is only moderate ($r=-0.5$) and the points are widely scattered.')], [],
+  r'the reason given (outliers in the top right) does not make an estimate inside the data range invalid; the real limit is the moderate correlation and wide scatter', None),
+ (7795, [(r'Students tend to do more poorly in English when they excel in Mathematics, and vice versa.' + '\n\n' + r'This suggests that most students split their time and effort between these subjects, and investing more in one subject means investing less in the other.',
+          r'Students with higher Mathematics scores tend to have lower English scores: on average, English is $0.2$ marks lower for each extra Mathematics mark. The correlation is only moderate, and it does not show that one score causes the other.')], [],
+  r'the answer read the correlation as causal and never interpreted the gradient ($-0.2$ English marks per Mathematics mark)', None),
+]
+for sid, lat, crit, note, extra in C18:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+db.execute("update data_tables set rows_json=replace(rows_json, '\"-6\", \"0\", \"12\"]', '\"-6\", \"0\", \"6\"]') where id='Ts7880_1'")   # 2020 Girraween Q14: f''(2)=6
+db.execute(r"""update parts set latex=replace(latex, 'at the point $(2, 0)$', 'at the point $(2, 2)$') where id=8529""")   # 2020 Hunters Hill Q12: (2,0) is not on the curve
+if db.execute("select is_correct from mcq_options where question_id=5325 and label='A'").fetchone()[0]:   # 2020 Hunters Hill Q5: key A -> C
+    db.execute("update mcq_options set is_correct=(label='C') where question_id=5325")
+db.execute('delete from solutions where id between 7811 and 7820 and question_id between 5193 and 5202 and part_id is null')   # Fort Street MCQ workings on the wrong questions
+_GEN18 = [
+ (8548, r"""A horizontal point of inflection needs $y'=0$ as well as a change of concavity.
+$$\begin{aligned} y'\left(-\dfrac{\pi}{4}\right)&=\cos\left(-\dfrac{\pi}{4}\right)-\sin\left(-\dfrac{\pi}{4}\right)=\dfrac{1}{\sqrt2}+\dfrac{1}{\sqrt2}=\sqrt2\ne0 \\ y'\left(\dfrac{3\pi}{4}\right)&=-\dfrac{1}{\sqrt2}-\dfrac{1}{\sqrt2}=-\sqrt2\ne0 \end{aligned}$$
+The gradient is not zero at either point, so they are not horizontal points of inflection.""",
+  [[1, "Shows $y'\\ne0$ at both points of inflection"]]),
+ (8657, r"""Standardise both values with $\mu=100$, $\sigma=10$:
+$$z_1=\dfrac{90-100}{10}=-1,\qquad z_2=\dfrac{120-100}{10}=2$$
+$$\begin{aligned} P(90<X<120)&=P(-1<Z<2) \\ &=P(Z<2)-P(Z<-1) \\ &=0.9772-0.1587 \\ &=0.8185 \end{aligned}$$""",
+  [[1, "Correct answer"]]),
+]
+for pid, lat, crit in _GEN18:
+    if db.execute('select 1 from solutions where part_id=?', (pid,)).fetchone(): continue
+    db.execute('insert into solutions (part_id, source, latex, model, prompt_version, criteria_json, meta_json) values (?,?,?,?,?,?,?)',
+               (pid, 'generated', lat, 'claude (session)', 'b18-fix', json.dumps(crit), json.dumps({'generated_note': 'The guideline has no working for this part; written while checking the verifier findings (24 Nov).'})))
+db.commit(); print('done C13, C14, C15, C16, C17, C18')

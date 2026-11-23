@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+\coordinate (B) at (63,-177); \coordinate (A) at (598,-177); \coordinate (C) at (212,-416);
+\draw (B) -- (A) -- (C) -- cycle;
+\foreach \p in {A,B,C} \fill (\p) circle (4);
+\draw[->] (A) -- (598,-62);
+\node[font=\small] at (598,-42) {$N$};
+\node[font=\small] at (42,-173) {$B$};
+\node[font=\small] at (617,-167) {$A$};
+\node[font=\small] at (212,-442) {$C$};
+\node[font=\small] at (338,-153) {$30$ km};
+\node[font=\small] at (418,-328) {$22$ km};
+% angle BAC
+\draw ($(A)+(180:140)$) arc[start angle=180,end angle=211.9,radius=140];
+\node[font=\small] at ($(A)+(195:172)$) {$60^\circ$};
+% bearings
+\draw[->] ($(A)+(90:40)$) arc[start angle=90,end angle=-148.1,radius=40];
+\draw[->] ($(A)+(90:100)$) arc[start angle=90,end angle=-180,radius=100];
+\node[font=\small] at ($(A)+(-58:70)$) {$210^\circ$};
+\node[font=\small] at ($(A)+(30:140)$) {$270^\circ$};
+\end{tikzpicture}
+\end{document}

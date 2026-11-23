@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\ox{178}\def\oy{215}\def\ux{54.5}\def\uy{53.7}
+  % light dotted grid
+  \foreach \k in {-3,...,4}{\draw[black!30, dash pattern=on 1pt off 1.5pt] ({\ox+\ux*\k},0) -- ({\ox+\ux*\k},283);}
+  \foreach \k in {-1,1,2,3}{\draw[black!30, dash pattern=on 1pt off 1.5pt] (0,{\oy-\uy*\k}) -- (430,{\oy-\uy*\k});}
+  % axes
+  \draw (0,\oy) -- (430,\oy);
+  \draw (\ox,0) -- (\ox,283);
+  \foreach \k in {-3,-2,-1,1,2,3,4}{\node[anchor=north,font=\scriptsize] at ({\ox+\ux*\k+3},{\oy+5}) {$\k$};}
+  \node[anchor=north east,font=\scriptsize] at ({\ox-4},{\oy+5}) {$0$};
+  \foreach \k in {-1,1,2,3}{\node[anchor=east,font=\scriptsize] at ({\ox-5},{\oy-\uy*\k+5}) {$\k$};}
+  % graphs
+  \draw[line width=0.9pt] ({\ox-3*\ux},{\oy-4*\uy}) -- ({\ox+\ux},\oy) -- ({\ox+4.62*\ux},{\oy-3.62*\uy});
+  \draw[line width=0.9pt] ({\ox-2.55*\ux},{\oy+1.1*\uy}) -- (\ox,{\oy-4*\uy});
+  \node[pt] at ({\ox-\ux},{\oy-2*\uy}) {};
+  \node[anchor=east,font=\scriptsize] at ({\ox-\ux-9},{\oy-2*\uy}) {$(-1,2)$};
+\end{tikzpicture}
+\end{document}

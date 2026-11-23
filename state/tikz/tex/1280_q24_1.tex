@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\bank{plot[smooth,tension=0.5] coordinates {(45,113) (75,122) (103,133) (125,155) (145,185) (160,225) (180,275) (220,338) (275,395) (335,424) (395,435) (456,436) (495,435) (535,425) (573,397) (605,335) (645,245) (690,165) (708,128) (722,113)}}
+\fill[black!7] (42,25) rectangle (718,113);
+\fill[black!18] \bank -- cycle;
+\draw \bank;
+\draw (42,113) -- (722,113);
+\foreach \x/\yb in {103/133,220/338,338/425,456/436,573/397,690/165}{
+  \draw[aux] (\x,113) -- (\x,\yb);}
+\foreach \x in {103,220,338,456,573}{\draw (\x,129) -- (\x+17,129) -- (\x+17,113);}
+\draw (690,129) -- (673,129) -- (673,113);
+\node at (145,158) {\textbf{3 m}};
+\node at (264,266) {\textbf{22 m}};
+\node at (374,326) {\textbf{29 m}};
+\node at (498,334) {\textbf{30 m}};
+\node at (610,244) {\textbf{28 m}};
+\node at (655,160) {\textbf{5 m}};
+\draw[<->] (338,183) -- (456,183);
+\node at (397,218) {10 m};
+\draw[->] (66,136) to[out=200,in=100] (58,240);
+\node at (88,274) {(Ignore)};
+\draw[->] (712,132) to[out=-20,in=-110] (746,104);
+\node at (782,82) {(Ignore)};
+\end{tikzpicture}
+\end{document}

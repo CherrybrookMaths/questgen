@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw (0,151) -- (975,151);
+  \node[anchor=west, font=\large] at (1008,159) {Time (s)};
+  \begin{scope}[line width=0.9pt]
+    \draw (185,33) rectangle (528,121);
+    \draw (300,33) -- (300,121);
+    \draw (75,76) -- (185,76);
+    \draw (528,76) -- (893,76);
+  \end{scope}
+  \draw[aux] (75,76) -- (75,151);
+  \draw[aux] (893,76) -- (893,151);
+  \foreach \x in {185,300,528} \draw[aux] (\x,121) -- (\x,151);
+  \foreach \x/\t in {75/$a$,185/12.1,300/13.2,528/$b$,893/18.1}
+    \node[font=\large] at (\x,180) {\t};
+\end{tikzpicture}
+\end{document}

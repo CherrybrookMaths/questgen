@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(92,308)}, x=1.2653cm, y=0.7112cm]
+\draw[->] (-0.67,0)--(4.35,0);
+\draw[->] (0,-2.6)--(0,4.7);
+\node[font=\large, anchor=south east, inner sep=2pt] at (-0.03,4.6) {$x$};
+\node[font=\large, anchor=west] at (4.38,0) {$t$};
+\foreach \v in {4,2,-2}{\draw (-0.06,\v)--(0.06,\v); \node[font=\large, anchor=east] at (-0.06,\v) {$\v$};}
+\foreach \v/\l in {1.5708/{\dfrac{\pi}{2}}, 3.1416/{\pi}}{\draw (\v,-0.11)--(\v,0.11); \node[font=\large, anchor=north, inner sep=3pt] at (\v,-0.11) {$\l$};}
+\draw[line width=0.9pt] plot[domain=0:3.1416, samples=90, smooth] (\x,{1+3*cos(2*\x r)});
+\node[font=\large, anchor=west] at (3.28,4.25) {$x=1+3\cos 2t$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

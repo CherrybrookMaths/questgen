@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \begin{scope}[shift={(262,397)},x=1.397cm,y=0.6985cm]
+    \fill[shade] (0,4) -- plot[domain=0:1.3863,smooth,samples=40] (\x,{4*exp(-\x)})
+      -- plot[domain=1.3863:0,smooth,samples=40] (\x,{exp(\x)-3}) -- cycle;
+  \end{scope}
+  \draw[->] (190,397)--(628,397);
+  \draw[->] (262,582)--(262,35);
+  \begin{scope}[shift={(262,397)},x=1.397cm,y=0.6985cm]
+    \draw[line width=0.9pt,<->] plot[domain=-0.47:2.98,smooth,samples=90] (\x,{4*exp(-\x)});
+    \draw[line width=0.9pt,<->] plot[domain=-0.47:2.16,smooth,samples=90] (\x,{exp(\x)-3});
+    \fill (1.3863,1) circle (1.6pt);
+  \end{scope}
+  \node[font=\large] at (465,318) {$P$};
+  \node[font=\footnotesize] at (165,140) {$y=4e^{-x}$};
+  \node[font=\footnotesize] at (562,183) {$y=e^{x}-3$};
+  \node[font=\large] at (620,422) {$x$};
+  \node[font=\large] at (292,45) {$y$};
+\end{tikzpicture}
+\end{document}

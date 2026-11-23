@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[<->] (8,213) -- (442,213);
+  \draw[<->] (227,37) -- (227,390);
+  \node[font=\large] at (456,215) {$x$};
+  \node[font=\large] at (217,14) {$y$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=-78:78] plot ({178+\x},{135-0.01611*\x*\x});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{(102+58.4*(#1))}
+\def\Y#1{(575-53.8*(#1))}
+\foreach \i in {0.5,1.5,...,9.5}{
+  \draw[black!12,line width=0.4pt] ({\X{\i}},575) -- ({\X{\i}},{\Y{10}});
+  \draw[black!12,line width=0.4pt] (102,{\Y{\i}}) -- ({\X{10}},{\Y{\i}});}
+\foreach \i in {1,...,10}{
+  \draw[black!30,line width=0.4pt] ({\X{\i}},575) -- ({\X{\i}},{\Y{10}});
+  \draw[black!30,line width=0.4pt] (102,{\Y{\i}}) -- ({\X{10}},{\Y{\i}});}
+\draw[->] (102,575) -- (714,575);
+\draw[->] (102,575) -- (102,10);
+\foreach \i in {1,...,10}{
+  \draw ({\X{\i}},569) -- ({\X{\i}},581); \node[below] at ({\X{\i}},583) {\large$\i$};
+  \draw (96,{\Y{\i}}) -- (108,{\Y{\i}}); \node[left] at (92,{\Y{\i}}) {\large$\i$};}
+\foreach \i in {0.5,1.5,...,9.5}{
+  \draw ({\X{\i}},572) -- ({\X{\i}},578);
+  \draw (99,{\Y{\i}}) -- (105,{\Y{\i}});}
+\node at (405,653) {\large Years};
+\node[rotate=90] at (25,300) {\large Height (m)};
+\foreach \a/\b in {1/0.7,2/1.4,3/2.4,4/3.5,6/6.6,7/7.9,8/8.65,9/9.5}{\fill ({\X{\a}},{\Y{\b}}) circle (4.5);}
+\end{tikzpicture}
+\end{document}

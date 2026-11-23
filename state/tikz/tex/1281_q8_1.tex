@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (25,488) -- (1015,488);
+\draw[->] (452,550) -- (452,18);
+\draw[line width=0.9pt] plot[smooth,domain=25:1010,samples=120] (\x,{488-401*exp(-0.5*((\x-333)/68)^2)});
+\draw[line width=0.9pt] plot[smooth,domain=25:1010,samples=90] (\x,{488-215*exp(-0.5*((\x-568)/121)^2)});
+\node at (238,170) {$\boldsymbol{N_1}$};
+\node at (750,333) {$\boldsymbol{N_2}$};
+\node at (420,45) {$\boldsymbol{y}$};
+\node at (430,507) {$\boldsymbol{O}$};
+\node at (988,515) {$\boldsymbol{x}$};
+\end{tikzpicture}
+\end{document}

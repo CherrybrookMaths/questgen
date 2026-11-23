@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (22,263)--(485,263);
+\draw[->] (248,470)--(248,42);
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-3.3:2.915] ({248+45.5*\x},{263-10.45*(\x+3)*(\x+1)*(\x-2)^2});
+\foreach \a in {-3,-1,2} \node[pt] at ({248+45.5*\a},263) {};
+\node[font=\large] at (240,28) {$y$};
+\node[font=\large] at (493,264) {$x$};
+\node[font=\large] at (442,98) {$f(x)$};
+\node at (101,281) {$-3$};
+\node at (211,282) {$-1$};
+\node at (339,284) {$2$};
+\end{tikzpicture}
+\end{document}

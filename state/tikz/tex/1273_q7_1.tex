@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (125,457) -- (945,457) node[right] {$x$};
+  \draw[<->] (575,580) -- (575,40) node[above] {$y$};
+  \foreach \i in {-5,...,-1,1,2,3,4} \draw (575+80*\i,451) -- (575+80*\i,463);
+  \foreach \i in {-4,-2,2,4} \node[font=\small, anchor=north] at (575+80*\i,466) {$\i$};
+  \draw[<->, line width=0.9pt, smooth, samples=90, domain=-5.55:2.3] plot ({575+80*\x},{457-9.66*(\x+4)^2*(2-\x)});
+  \draw[->] (808,192) -- (703,335.8);
+  \node[font=\large] at (830,162) {$y=f'(x)$};
+\end{tikzpicture}
+\end{document}

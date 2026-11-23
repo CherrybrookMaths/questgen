@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (8,348) -- (832,348) node[right] {$t$};
+\draw[<->] (33,372) -- (33,34) node[above] {$x$};
+\foreach \yy/\lab in {58/2,203/1}{\draw (27,\yy) -- (39,\yy); \node[left] at (25,\yy) {$\lab$};}
+\foreach \yy in {130.5,275.5}{\draw (30,\yy) -- (36,\yy);}
+\foreach \xx/\lab in {227.25/\dfrac{\pi}{4},421.5/\dfrac{\pi}{2},615.75/\dfrac{3\pi}{4},810/\pi}{
+  \draw (\xx,342) -- (\xx,354); \node[below] at (\xx,356) {$\lab$};}
+\draw[line width=0.9pt, domain=0:pi, samples=90, smooth] plot ({33+777*\x/pi},{348-145*(1-cos(2*\x r))});
+\end{tikzpicture}
+\end{document}

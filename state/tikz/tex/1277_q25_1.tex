@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (B) at (41,45); \coordinate (A) at (612,45); \coordinate (C) at (200,300);
+\draw (B) -- (A) -- (C) -- cycle;
+\foreach \p in {A,B,C} \fill (\p) circle (4);
+\node[font=\small] at (18,40) {$B$};
+\node[font=\small] at (633,47) {$A$};
+\node[font=\small] at (200,327) {$C$};
+\node at (337,22) {$30$ km};
+\node at (420,210) {$22$ km};
+\end{tikzpicture}
+\end{document}

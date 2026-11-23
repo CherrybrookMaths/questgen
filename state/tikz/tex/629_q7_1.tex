@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\def\Y#1{740-3.375*#1}
+% minor dotted grid every 4
+\foreach \v in {4,8,...,196} {\pgfmathparse{mod(\v,20)==0}\ifnum\pgfmathresult=0
+  \draw[black!35,line width=0.3pt,dash pattern=on 1pt off 1pt] (163,{\Y{\v}}) -- (908,{\Y{\v}});\fi}
+% major grid
+\foreach \v in {20,40,...,200} \draw[black!45,line width=0.4pt] (163,{\Y{\v}}) -- (908,{\Y{\v}});
+\foreach \gx in {288,411,535,659,783} \draw[black!45,line width=0.4pt] (\gx,65) -- (\gx,740);
+% bars
+\foreach \a/\b/\h in {178/273/180,304/398/144,427/521/132,551/645/72,674/768/60,797/890/12}
+  \fill[shade] (\a,740) rectangle (\b,{\Y{\h}});
+% axes
+\draw (163,740) -- (908,740);
+\draw (163,740) -- (163,55);
+\draw (908,740) -- (908,55);
+\foreach \v in {0,20,...,200} {\draw (155,{\Y{\v}}) -- (163,{\Y{\v}}); \node[anchor=east,font=\footnotesize] at (152,{\Y{\v}}) {\v};}
+\foreach \v in {4,8,...,196} \draw (159,{\Y{\v}}) -- (163,{\Y{\v}});
+\foreach \v [evaluate=\v as \pc using int(\v/2)] in {0,20,...,200} {\draw (908,{\Y{\v}}) -- (916,{\Y{\v}}); \node[anchor=west,font=\footnotesize] at (918,{\Y{\v}}) {\pc\%};}
+% cumulative line
+\draw (226,{\Y{60}}) -- (350,{\Y{108}}) -- (474,{\Y{152}}) -- (598,{\Y{176}}) -- (721,{\Y{196}}) -- (845,{\Y{200}});
+\foreach \x/\v in {226/60,350/108,474/152,598/176,721/196,845/200} \fill (\x,{\Y{\v}}) circle (4.5);
+% labels
+\foreach \x/\t in {226/Swimming,350/Cricket,598/Soccer,721/Tennis,845/Hockey} \node[anchor=base,font=\footnotesize] at (\x,778) {\t};
+\node[anchor=base,font=\footnotesize] at (474,778) {Touch};
+\node[anchor=base,font=\footnotesize] at (474,810) {Football};
+\node[font=\footnotesize\bfseries,rotate=90] at (70,400) {Number of Students};
+\node[font=\footnotesize\bfseries,rotate=90] at (1040,400) {Cumulative Percentage};
+\node[font=\footnotesize\bfseries] at (535,862) {Favourite Summer Sport};
+\end{tikzpicture}
+\end{document}

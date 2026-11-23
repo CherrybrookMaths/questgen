@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\footnotesize}]
+\begin{scope}[shift={(108,659)}, x=0.31496cm, y=0.078867cm]
+\foreach \i in {1,...,29}{\pgfmathtruncatemacro\m{mod(\i,5)}\ifnum\m=0\else\draw[black!25, line width=0.4pt] (\i,0) -- (\i,90);\fi}
+\foreach \j in {2,4,...,88}{\pgfmathtruncatemacro\m{mod(\j,10)}\ifnum\m=0\else\draw[black!25, line width=0.4pt] (0,\j) -- (30,\j);\fi}
+\foreach \i in {5,10,...,30}{\draw[black!70] (\i,0) -- (\i,90);}
+\foreach \j in {10,20,...,90}{\draw[black!70] (0,\j) -- (30,\j);}
+\foreach \i in {1,...,30}{\draw (\i,0) -- (\i,-1.3);}
+\foreach \j in {2,4,...,90}{\draw (0,\j) -- (-0.32,\j);}
+\draw[->] (0,0) -- (31.4,0);
+\node at (31.6,-2.6) {$x$};
+\draw[->] (0,0) -- (0,97);
+\node[anchor=east] at (-0.1,96.5) {$y$};
+\foreach \i in {0,5,...,30}{\node[anchor=north] at (\i,-2.2) {$\i$};}
+\foreach \j in {0,10,...,90}{\node[anchor=east] at (-0.4,\j) {$\j$};}
+\foreach \p in {(5.9,56),(7,54),(7.6,73),(8.4,62),(11.1,57),(11.1,55),(13.8,73),(17.2,63),(18.8,81),(21.1,81),(22.1,79),(22.5,82),(23.3,82),(25,81),(27.6,81)}
+  {\node[diamond, draw, fill=black!45, inner sep=0pt, minimum size=0.21cm] at \p {};}
+\node at (15,99.6) {\textbf{Expenditure per primary school student and life expectancy}};
+\node[rotate=90] at (-3.2,45) {Life expectancy (years)};
+\node at (15,-10.8) {Expenditure per primary school student (\% of GDP)};
+\end{scope}
+\end{tikzpicture}
+\end{document}

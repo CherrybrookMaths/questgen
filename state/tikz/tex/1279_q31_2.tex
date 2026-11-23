@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (228,155) -- (578,395.75) -- plot[smooth, domain=6.931:0, samples=40] ({228+50.5*\x},{476-160.5*2*exp(-\x/5)}) -- cycle;
+\draw (228,155) -- (578,395.75);
+\draw[aux] (228,395.75) -- (578,395.75);
+\draw[->] (165,476) -- (815,476) node[right]{$x$};
+\draw[->] (228,548) -- (228,45) node[above]{$y$};
+\draw[line width=0.9pt] plot[smooth, domain=0:11.62, samples=90] ({228+50.5*\x},{476-160.5*2*exp(-\x/5)});
+\node[pt] at (228,155) {};
+\node[pt] at (578,395.75) {};
+\node[anchor=east] at (216,155) {$S$};
+\node at (592,373) {$T$};
+\node[font=\small] at (298,294) {$y=f(x)$};
+\node[anchor=east] at (218,395.75) {$\dfrac{1}{2}$};
+\node at (210,497) {$O$};
+\end{tikzpicture}
+\end{document}

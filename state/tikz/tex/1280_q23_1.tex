@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\small}]
+  \coordinate (P) at (189,67); \coordinate (C) at (189,230);
+  \coordinate (A) at (75,382); \coordinate (B) at (468,384);
+  \fill[shade] (A) -- (C) -- (B) -- cycle;
+  \draw (A) -- (C) -- (B) -- cycle;
+  \draw (P) -- (C);
+  \draw[aux] (P) -- (A);
+  \draw[aux] (P) -- (B);
+  \node at (189,48) {$P$};
+  \node at (172,224) {$C$};
+  \node at (56,394) {$A$};
+  \node at (486,394) {$B$};
+  \node at (62,215) {$4.56$ km};
+  \node at (376,195) {$7.76$ km};
+  \node at (225,410) {$10$ km};
+  \node at (206,270) {$120^\circ$};
+  \node at (116,359) {$40^\circ$};
+\end{tikzpicture}
+\end{document}

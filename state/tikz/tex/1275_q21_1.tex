@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[aux] (78,82)--(1085,82) (78,238)--(1085,238) (78,394)--(1085,394);
+  \draw[aux] (570,20)--(570,520) (1062,20)--(1062,520);
+  \draw[->] (78,520) -- (78,25);
+  \draw[->] (78,290) -- (1135,290);
+  \node[anchor=south] at (78,25) {$y$};
+  \node[anchor=west] at (1135,290) {$x$};
+  \foreach \v in {4,3,2,1,-1,-2,-3}{
+    \draw (72,{290-52*\v}) -- (78,{290-52*\v});
+    \node[anchor=east,font=\small] at (68,{290-52*\v}) {$\v$};}
+  \node[anchor=east,font=\small] at (68,290) {$O$};
+  \node[anchor=north west,font=\small,inner sep=2pt] at (571,292) {$\pi$};
+  \node[anchor=north east,font=\small,inner sep=2pt] at (1060,292) {$2\pi$};
+  \draw[line width=0.9pt] plot[domain=0:2*pi, samples=90, smooth] ({78+156.6*\x},{290-52*(3*sin(2*\x r)+1)});
+\end{tikzpicture}
+\end{document}

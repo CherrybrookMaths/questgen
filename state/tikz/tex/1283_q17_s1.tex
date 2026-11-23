@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\begin{tikzpicture}
+\setlength\treeL{2.2cm}
+\treewidth{1}{$W$}\treewidth{1}{$L$}
+\treewidth{2}{$W$}\treewidth{2}{$L$}
+\treecolumns{2}
+\treeroot{r}{0cm}
+\treenode{W}{1}{1.45cm}{$W$}
+\treenode{L}{1}{-1.45cm}{$L$}
+\treenode{WW}{2}{2.23cm}{$W$}
+\treenode{WL}{2}{0.67cm}{$L$}
+\treenode{LW}{2}{-0.67cm}{$W$}
+\treenode{LL}{2}{-2.23cm}{$L$}
+\treebranch{r}{W}{$\dfrac{5}{200}$}
+\treebranch{r}{L}{$\dfrac{195}{200}$}
+\treebranch{W}{WW}{$\dfrac{4}{199}$}
+\treebranch{W}{WL}{$\dfrac{195}{199}$}
+\treebranch{L}{LW}{$\dfrac{5}{199}$}
+\treebranch{L}{LL}{$\dfrac{194}{199}$}
+\treehead{1}{3.2cm}{First prize}
+\treehead{2}{3.2cm}{Second prize}
+\treeresult{2.23cm}{\makebox[1.4cm][l]{$WW$}$P(WW)=\dfrac{1}{1990}$}
+\treeresult{0.67cm}{\makebox[1.4cm][l]{$WL$}$P(WL)=\dfrac{39}{1592}$}
+\treeresult{-0.67cm}{\makebox[1.4cm][l]{$LW$}$P(LW)=\dfrac{39}{1592}$}
+\treeresult{-2.23cm}{\makebox[1.4cm][l]{$LL$}$P(LL)=\dfrac{3783}{3980}$}
+\end{tikzpicture}
+\end{document}

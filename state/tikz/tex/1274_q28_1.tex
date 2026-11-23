@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (X) at (72,48);
+  \coordinate (Y) at (72,348);
+  \coordinate (B) at (595,192);
+  \coordinate (A) at (540,432);
+  \draw (X) -- (Y) -- (A) -- (B) -- cycle;
+  \draw (X) -- (A);
+  \draw (Y) -- (B);
+  \def\ra#1#2#3{\draw let \p1=($(#1)!0.28cm!(#2)$), \p2=($(#1)!0.28cm!(#3)$), \p3=(#1) in (\p1) -- (\x1+\x2-\x3,\y1+\y2-\y3) -- (\p2);}
+  \ra{Y}{X}{B}
+  \ra{Y}{X}{A}
+  \ra{A}{Y}{B}
+  \node[font=\large] at (68,28) {$X$};
+  \node[font=\large] at (52,366) {$Y$};
+  \node[font=\large] at (614,180) {$B$};
+  \node[font=\large] at (560,452) {$A$};
+  \node[font=\large] at (48,198) {$h$};
+  \node at (518,196) {$12^\circ$};
+  \node at (438,394) {$16^\circ$};
+  \node at (608,306) {$1600$};
+\end{tikzpicture}
+\end{document}

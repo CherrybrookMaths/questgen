@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \h in {0.5,1.5,...,9.5}{\draw[black!10,line width=0.4pt] (112,{532-49.7*\h}) -- (652,{532-49.7*\h});}
+\foreach \h in {1,...,10}{\draw[black!25,line width=0.4pt] (112,{532-49.7*\h}) -- (652,{532-49.7*\h});}
+\foreach \t in {1,...,10}{\draw[black!25,line width=0.4pt] ({112+54*\t},532) -- ({112+54*\t},35);}
+\draw[->] (106,532) -- (680,532);
+\draw[->] (112,538) -- (112,10);
+\foreach \t in {1,...,10}{\draw ({112+54*\t},524) -- ({112+54*\t},540);
+  \node[anchor=north] at ({112+54*\t},545) {\t};}
+\foreach \h in {1,...,10}{\draw (104,{532-49.7*\h}) -- (120,{532-49.7*\h});
+  \node[anchor=east] at (100,{532-49.7*\h}) {\h};}
+\foreach \h in {0.5,1.5,...,9.5}{\draw (106,{532-49.7*\h}) -- (112,{532-49.7*\h});}
+\foreach \t/\h in {1/0.7,2/1.4,3/2.4,4/3.5,6/6.6,7/7.9,8/8.65,9/9.5}{\fill ({112+54*\t},{532-49.7*\h}) circle (4.5);}
+\node at (395,604) {Years};
+\node[rotate=90] at (40,270) {Height (m)};
+\end{tikzpicture}
+\end{document}

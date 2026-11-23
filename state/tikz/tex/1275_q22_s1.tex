@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \setlength\treeL{2.6cm}
+  \treewidth{1}{$C$}\treewidth{1}{$\overline{C}$}
+  \treewidth{2}{$D$}\treewidth{2}{$\overline{D}$}
+  \treecolumns{2}
+  \treeroot{R}{0cm}
+  \treenode{C}{1}{1.35cm}{$C$}
+  \treenode{Cb}{1}{-1.35cm}{$\overline{C}$}
+  \treenode{CD}{2}{2.05cm}{$D$}
+  \treenode{CDb}{2}{0.65cm}{$\overline{D}$}
+  \treenode{CbD}{2}{-0.65cm}{$D$}
+  \treenode{CbDb}{2}{-2.05cm}{$\overline{D}$}
+  \treebranch{R}{C}{$\dfrac{3}{7}$}
+  \treebranch{R}{Cb}{$\dfrac{4}{7}$}
+  \treebranch{C}{CD}{$\dfrac{1}{4}$}
+  \treebranch{C}{CDb}{$\dfrac{3}{4}$}
+  \treebranch{Cb}{CbD}{$\dfrac{2}{5}$}
+  \treebranch{Cb}{CbDb}{$\dfrac{3}{5}$}
+\end{tikzpicture}
+\end{document}

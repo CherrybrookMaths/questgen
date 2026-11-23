@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.6129cm,y=0.16091cm]
+  % axes
+  \draw[->] (-3.45,0)--(3.8,0) node[right,inner sep=2pt] {$x$};
+  \draw[->] (0,-33)--(0,33) node[above,inner sep=2pt] {$y$};
+  \foreach \i in {-3,...,3}{\ifnum\i=0\relax\else\draw (\i,0.4)--(\i,-0.4);\fi}
+  \foreach \j in {-30,-25,...,30}{\ifnum\j=0\relax\else\draw (-0.04,\j)--(0.04,\j);\fi}
+  % x tick labels
+  \node[below,inner sep=2pt] at (-3,-0.4) {$-3$};
+  \node[below,inner sep=2pt] at (-1,-0.4) {$-1$};
+  \node[below,inner sep=2pt] at (3,-0.4) {$3$};
+  \node[below,inner sep=2pt] at (2,-0.4) {$2$};
+  \node[anchor=north east,inner sep=2pt] at (-2.03,-0.4) {$-2$};
+  \node[above,inner sep=2pt] at (1,0.4) {$1$};
+  % y tick labels
+  \foreach \j in {5,10,...,30}{\node[right,inner sep=2pt,font=\small] at (0.04,\j) {$\j$};}
+  \foreach \j in {-5,-25,-30}{\node[right,inner sep=2pt,font=\small] at (0.04,\j) {$\j$};}
+  \node[left,inner sep=2pt,font=\small] at (-0.04,-10) {$-10$};
+  % curves
+  \draw[line width=0.9pt,smooth,samples=90,domain=-2.3:3.65] plot (\x,{(\x+2)*(\x-2)*(\x-2)*(\x-2)});
+  \draw[line width=0.9pt,smooth,samples=90,domain=-0.875:2.04] plot (\x,{(2*\x+1.5)*(2*\x-2.5)*(2*\x-2.5)*(2*\x-2.5)});
+  % points
+  \foreach \p in {(-2,0),(2,0),(-0.75,0),(1.25,0),(-1,-27),(-0.25,-27),(0,-16),(0.25,-16)}{\node[pt] at \p {};}
+  \node[anchor=north west,inner sep=2pt] at (-0.67,-0.5) {$-\dfrac{3}{4}$};
+  \node[above,inner sep=2pt] at (1.25,0.5) {$\dfrac{5}{4}$};
+  \node[anchor=east,inner sep=2pt] at (-1.22,-29.5) {$(-1,-27)$};
+  \node[anchor=north east,inner sep=2pt] at (-0.05,-28.5) {$\left(-\dfrac{1}{4},-27\right)$};
+  \node[anchor=west,inner sep=2pt] at (0.36,-16.8) {$\left(\dfrac{1}{4},-16\right)$};
+  \node[anchor=south east,inner sep=2pt] at (-0.04,-15.6) {$-16$};
+  % equations
+  \node[anchor=south,inner sep=2pt] at (3.65,26) {$y=f(x)$};
+  \node[anchor=south,inner sep=2pt] at (-1.02,20.5) {$y=f\left(2\left(x-\dfrac{1}{4}\right)\right)$};
+\end{tikzpicture}
+\end{document}
