@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  edge/.style={postaction={decorate},decoration={markings,mark=at position 0.53 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\coordinate (S) at (25,272); \coordinate (P) at (282,272); \coordinate (T) at (540,18);
+\coordinate (Q) at (540,532); \coordinate (R) at (880,532); \coordinate (E) at (1050,278);
+\draw[edge] (S)--(P); \draw[edge] (P)--(T); \draw[edge] (P)--(Q); \draw[edge] (T)--(E);
+\draw[edge] (T)--(R); \draw[edge] (Q)--(R); \draw[edge] (R)--(E);
+\foreach \p in {S,P,T,Q,R,E} \fill (\p) circle (2.2pt);
+\node[font=\large] at (165,322) {A, 2};
+\node[font=\large] at (335,135) {B, 4};
+\node[font=\large] at (332,410) {C, 2};
+\node[font=\large] at (740,168) {D, 3};
+\node[font=\large] at (748,283) {E, 1};
+\node[font=\large] at (710,605) {F, 7};
+\node[font=\large] at (1035,410) {G, 2};
+\end{tikzpicture}
+\end{document}

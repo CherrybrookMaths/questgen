@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (97,17); \coordinate (B) at (254,17); \coordinate (C) at (333,155);
+\coordinate (D) at (254,291); \coordinate (E) at (97,291); \coordinate (F) at (17,155);
+\foreach \p/\q in {A/B,A/C,A/D,A/E,A/F,B/C,B/D,B/E,B/F,C/D,C/E,C/F,D/E,D/F,E/F} \draw (\p)--(\q);
+\foreach \p in {A,B,C,D,E,F} \fill (\p) circle (1.4pt);
+\end{tikzpicture}
+\end{document}

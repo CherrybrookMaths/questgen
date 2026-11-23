@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{177.4+11.257*#1}\def\Y#1{605-3.39*#1}
+\foreach \k in {10,20,...,80} \draw[black!30,line width=0.4pt] ({\X{\k}},605) -- ({\X{\k}},10);
+\draw[black!30,line width=0.4pt] (1162,605) -- (1162,10);
+\foreach \m in {50,100,150} \draw[black!30,line width=0.4pt] (177,{\Y{\m}}) -- (1162,{\Y{\m}});
+\draw[->] (177,605) -- (1165,605);
+\draw[->] (177,605) -- (177,10);
+\foreach \k in {10,20,...,80} \node[font=\small] at ({\X{\k}},640) {$\k$};
+\foreach \m in {50,100,150} \node[font=\small,left] at (170,{\Y{\m}}) {$\m$};
+\draw[aux] (177,{\Y{80}}) -- ({\X{50}},{\Y{80}});
+\draw[line width=0.9pt] (177.4,605) -- ({\X{87.5}},{\Y{140}});
+\fill ({\X{50}},{\Y{80}}) circle (3.2pt);
+\node[font=\large] at (805,385) {$(50, 80)$};
+\node[font=\large] at (55,62) {miles};
+\node[font=\large] at (1105,690) {kilometres};
+\end{tikzpicture}
+\end{document}
