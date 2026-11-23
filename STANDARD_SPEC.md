@@ -72,6 +72,11 @@ Owner rulings, verbatim (record new ones here and next to the code, `// owner <d
    in tests") and S2-12-132 (media use of statistics). Tagging rules: TAG_SPEC_STANDARD.md (tag-std-v1, 23 Nov).
 4. The course in the page: QG.courses.standard (name, bank files, dot points, MST reference sheet), the header course switch, Review
    and exams per course.
+   23 Nov (branch std-page, merged after the Advanced batches publish): QG.courses.standard "Standard 2" (01_core.js), a header course
+   switch (#courseSel, remembered per viewer, reloads the page), site/data/dotpoints-standard.json (262 dot points: Year 11 + Standard 2)
+   and an empty Standard bank (tools/standard_course.py), the MST reference sheet rendered to data/ref/standard-1/2.png (pdftoppm -r 200
+   -gray, as Advanced; not in git, published from the session). Page test "course switch" (every view opens on Standard, back to
+   Advanced). Left: per-course Review and Processes lists, and dot point short labels written by hand (now the first clause).
 5. Import: a standard|12 lane in the inventory (Standard 2 Year 12 papers only), a cover check that tells Standard 1 from Standard 2
    (27 of 357 file names say which), and course-aware import prompts (parse, tag, difficulty).
 6. Pilot batch: the NESA HSC Standard 2 papers (2020-2024 are in the folder) first, so they become the difficulty references.
