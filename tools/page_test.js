@@ -424,12 +424,14 @@ async function flows(browser, base, seed, seedR) {
     const r = await sheetCheck(); errs();
     assert(on.has && on.last, 'no z-score table on the last sheet'); assert(!r.over.length, 'z-score table sheet taller than A4');
     assert(on.rows === 35 && on.v === '0.8413' && on.v2 === '0.9750', `table values wrong: rows ${on.rows}, z=1.00 ${on.v}, z=1.96 ${on.v2}`);
-    await page.evaluate(id => { reviews['q' + id].zt = false; }, id);
+    // 23 Nov (Batch 12): another question in the exam can need the table from the bank (q.zt), so switch it off on every item
+    const prevZ = await page.evaluate(() => Object.fromEntries(EX.items.map(i => [i, reviews['q' + i]?.zt])));
+    await page.evaluate(() => EX.items.forEach(i => { reviews['q' + i] = { ...(reviews['q' + i] || {}), zt: false }; }));
     await page.click('[data-xdoc="guide"]'); await waitPv();
     assert(!(await page.$('#xPages .xztab')), 'marking guide shows the z-score table');
     await page.click('[data-xdoc="exam"]'); await waitPv();
     assert(!(await page.$('#xPages .xztab')), 'z-score table shown with no question that needs it');
-    await page.evaluate(id => { delete reviews['q' + id].zt; }, id);
+    await page.evaluate(prev => Object.entries(prev).filter(([i]) => i !== '__first').forEach(([i, v]) => { if (v === undefined || String(i) === String(prev.__first)) delete reviews['q' + i].zt; else reviews['q' + i].zt = v; }), {...prevZ, __first: id});
     return 'appended once, values match P(Z<=z)';
   });
 
@@ -1037,12 +1039,13 @@ async function reviewFlow(browser, base, seed) {
   await check('review: the Inbox summary', page, async () => {
     const r = await page.evaluate(() => {
       const W = [...allWork().values()].filter(w => w.n), card = k => document.querySelector(`#inboxBox [data-card="${k}"]`);
-      const ownKey = d => { const c = {}; B.questions.filter(q => String(q.doc) === d && q.key).forEach(q => { const p = q.key.replace(/-Q[^-]*$/, ''); c[p] = (c[p] || 0) + 1 }); return Object.keys(c).sort((a, b) => c[b] - c[a])[0] || '' };   // the paper's own key: most of its questions carry it
+      // 23 Nov (Batch 12): copies carry the original's key (2022 NEAP is mostly 2022 Knox AT4), so only the paper's own questions count
+      const ownKey = d => { const c = {}; B.questions.filter(q => String(q.doc) === d && q.key && !q.dup_of).forEach(q => { const p = q.key.replace(/-Q[^-]*$/, ''); c[p] = (c[p] || 0) + 1 }); return Object.keys(c).sort((a, b) => c[b] - c[a])[0] || '' };   // the paper's own key: most of its questions carry it
       return {want: W.length, docs: W.map(w => w.doc).sort(), pc: Object.keys(B.docs).filter(d => B.docs[d].call && PCALL.list([d])[0].open).map(d => mainDoc(d)),
         // a paper imported after the fixture was taken has no review decision at all, so it has work (16 Nov: Batch 6). A decision that
         // reaches one of its questions only through a copy in another paper (shared key, e.g. 2023 Knox AT1 Q2(b) = 2021 HSC Q14,
         // 17 Nov Batch 8) is not the paper's own decision: only keys under the paper's own key count
-        fresh: [...new Set(B.questions.map(q => String(q.doc)))].filter(d => !reviews['paper_' + d] && B.questions.filter(q => String(q.doc) === d).every(q => { const x = reviews['q' + q.id]; return !(x && (x.question_id == null || +x.question_id === q.id)) && !(q.key && reviews['k_' + q.key] && q.key.startsWith(ownKey(d) + '-')) })).map(d => mainDoc(d)).filter(d => [...allWork().values()].some(w => String(w.doc) === String(d))), rep: repOpen().length, lv: lvTodoN(), view, rbar: !document.querySelector('#rbar').hidden,
+        fresh: [...new Set(B.questions.map(q => String(q.doc)))].filter(d => !reviews['paper_' + d] && B.questions.filter(q => String(q.doc) === d && !q.dup_of).every(q => { const x = reviews['q' + q.id]; return !(x && (x.question_id == null || +x.question_id === q.id)) && !(q.key && reviews['k_' + q.key] && q.key.startsWith(ownKey(d) + '-')) })).map(d => mainDoc(d)).filter(d => [...allWork().values()].some(w => String(w.doc) === String(d))), rep: repOpen().length, lv: lvTodoN(), view, rbar: !document.querySelector('#rbar').hidden,
         pn: card('papers')?.querySelector('.ict')?.textContent, rows: [...document.querySelectorAll('#inboxBox .iprow')].map(a => ({href: a.getAttribute('href'), dots: a.querySelectorAll('.mtrack i').length, line: a.querySelector('.ipl').textContent})),
         // 17 Nov: a diagram redrawn from a change request and not approved again keeps its paper open (openFix)
         redo: [...new Set(B.questions.filter(q => !q.dup_of && (() => { const x = reviews['q' + q.id]; return x && x.status !== 'flagged' && Object.keys(x.fig_done || {}).some(k => !(x.fig || {})[k]) })()).map(q => String(mainDoc(q.doc))))],

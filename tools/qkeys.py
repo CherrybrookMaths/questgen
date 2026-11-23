@@ -153,7 +153,12 @@ def attach(db, questions, docs):
     """build_bank hook: assign missing keys (the Bank's kept copy wins), then set q['key'] and docs[doc]['key']."""
     keys = assign(db, kept={q['id']: not q.get('dup_of') for q in questions})
     for q in questions: q['key'] = keys.get(q['id'])
-    for d, k in paper_keys(keys, {q['id']: q['doc'] for q in questions}).items():
+    # 23 Nov (Batch 12): count only the paper's own questions. Copies carry the original's key, and 2022 NEAP (23 of its 32 questions
+    # copies of 2022 Knox AT4) took Knox's paper key, so Knox's paper decision showed on NEAP. A paper made only of copies (one filed
+    # twice, e.g. CSSA 2022 doc 510) keeps the key from all its questions.
+    pk = paper_keys(keys, {q['id']: q['doc'] for q in questions})
+    pk.update(paper_keys(keys, {q['id']: q['doc'] for q in questions if not q.get('dup_of')}))
+    for d, k in pk.items():
         if str(d) in docs: docs[str(d)]['key'] = k
     miss = [q['id'] for q in questions if not q.get('key')]
     if miss: print('WARN qkeys: questions without a key', miss[:20])
