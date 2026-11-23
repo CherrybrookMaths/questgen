@@ -1,6 +1,7 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
+% flags 23 Nov round 2 (checker: "THere are some labels that overlap the graph. Fix so they dont"): (-2, -2), -sqrt6 and sqrt6 moved clear of the curve and the line
 \begin{tikzpicture}[x=0.597cm,y=0.222cm,every node/.style={font=\small}]
   \draw[<->] (-5.9,0) -- (5.6,0) node[right] {$x$};
   \draw[<->] (0,-11.0) -- (0,12.4) node[above] {$y$};
@@ -11,10 +12,10 @@
   \fill (-2,-2) circle (1.6pt);
   \fill (3,3) circle (1.6pt);
   \fill (0,-6) circle (1.6pt);
-  \node[anchor=north] at (-2.0,-2.6) {$(-2,\,-2)$};
+  \node[anchor=north east] at (-1.72,-4.3) {$(-2,\,-2)$};
   \node[anchor=north west] at (3.1,3.0) {$(3,\,3)$};
   \node[anchor=north west] at (0.0,-6.4) {$-6$};
-  \node[anchor=north east] at (-2.55,-0.5) {$-\sqrt{6}$};
-  \node[anchor=north east] at (2.75,-0.5) {$\sqrt{6}$};
+  \node[anchor=north east] at (-2.6,-0.3) {$-\sqrt{6}$};
+  \node[anchor=north west] at (2.55,-0.3) {$\sqrt{6}$};
 \end{tikzpicture}
 \end{document}

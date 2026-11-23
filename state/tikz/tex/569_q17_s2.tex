@@ -1,7 +1,7 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm,declare function={uu(\t)=(\t+1)/3+(\t>8)*(\t-8)^2/12;}]
   % axes (drawn level)
   \draw[<->] (20,435) -- (870,435);
   \draw[<->] (343,25) -- (343,545);
@@ -14,9 +14,9 @@
   \node[anchor=north, font=\small] at (578,443) {$5$};
   \node[anchor=north west, font=\small] at (723,440) {$8$};
   \node[anchor=north, font=\small] at (813,443) {$10$};
-  % f''(x): zeros at 2 and 8, minimum at 5
-  \draw[line width=0.9pt, <->, smooth, samples=90, domain=-1.1:9.9]
-    plot ({343+47*\x},{435+90*(1-((\x-5)/3)^2)/(1+0.25*((\x-5)/3)^2)});
+  % f''(x) = cos(90u) * 3u': zeros at 2 and 8, negative between
+  \draw[line width=0.9pt, <->, smooth, samples=161, domain=-1.6:10.1, variable=\t]
+    plot ({343+47*\t},{435-75*cos(90*uu(\t))*(1+(\t>8)*(\t-8)/2)});
   \node[pt] at (437,435) {};
   \node[pt] at (719,435) {};
 \end{tikzpicture}

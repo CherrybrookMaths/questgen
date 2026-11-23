@@ -135,6 +135,9 @@ FN = {'sin', 'cos', 'tan', 'log', 'exp', 'sec', 'cot', 'frac', 'dfrac', 'text', 
       'pi', 'theta', 'alpha', 'times', 'cdot', 'approx', 'infty', 'quad', 'qquad', 'diag', 'overline', 'mathbf', 'dots', 'ldots', 'leq', 'geq', 'neq'}
 ital, stray, caps = [], [], 0
 for t in db.execute('select id, rows_json, caption from data_tables'):
+    # 23 Nov (flags run concurrently with the Standard pilot import): a paper held mid-import (tools/import_hold.py) is not published,
+    # so its tables are its import's to finish, not a blocker for another session's publish (table ids start '<doc>_')
+    if str(t['id']).split('_')[0] in {str(d) for d in _HELD}: continue
     for row in json.loads(t['rows_json'] or '[]'):
         for c in row:
             s = re.sub(r'\\(text|textit|textbf|mathrm)\{[^}]*\}', '', str(c)); s2 = re.sub(r'\\[a-zA-Z]+', '', s)

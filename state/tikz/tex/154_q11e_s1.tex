@@ -1,13 +1,13 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
+% flags 23 Nov round 2 (checker: "remove the vertical dotted lines")
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
   \draw[<->] (35,447)--(1072,447);
   \draw[<->] (548,95)--(548,805);
   \node[font=\LARGE,anchor=west] at (1078,447) {$x$};
   \node[font=\LARGE,anchor=south] at (548,85) {$y$};
   \node[align=center] at (970,62) {NOT TO\\SCALE};
-  \foreach \u in {528,572,615.8,645} \draw[aux] (\u,215)--(\u,700);
   \draw[<->] plot[domain=-0.69:1.444,samples=90,smooth]
     ({548+100*\x},{447-((((728*\x-980.37)*\x-13.395)*\x+135.58)*\x-31.36)});
   \draw[<->,line width=0.9pt] plot[domain=-0.34:1.042,samples=90,smooth]

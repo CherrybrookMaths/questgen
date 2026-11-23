@@ -1,23 +1,17 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% flags 23 Nov round 2 (checker: "Use the actual graph rather than using points cos the new graph isnt very smooth"): one smooth function u(x) = (x+1)/3 (+ (x-8)^2/12 past 8) drives all three: f = -cos(90u), f' = sin(90u), f'' = cos(90u) u'; zeros of f' at -1, 5, 10, of f'' at 2, 8
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={uu(\t)=(\t+1)/3+(\t>8)*(\t-8)^2/12;}]
 \draw[<->] (30,462) -- (890,462) node[right]{$x$};
-\draw[<->] (337,558) -- (337,60);
+\draw[<->] (337,640) -- (337,60);
 \node at (430,58) {$f(x)$};
-\draw[<->,line width=0.9pt] (180,275) .. controls (190,330) and (217,425) .. (228,462)
-  .. controls (239,499) and (265,535) .. (295,535)
-  .. controls (340,535) and (400,505) .. (421,462)
-  .. controls (442,419) and (500,290) .. (547,290)
-  .. controls (595,290) and (650,400) .. (673,462)
-  .. controls (688,502) and (720,585) .. (757,585)
-  .. controls (795,585) and (830,510) .. (852,462)
-  .. controls (874,414) and (940,310) .. (955,270);
+\draw[<->,line width=0.9pt, smooth, samples=161, domain=-2.6:11.3, variable=\t] plot ({337+42*\t},{462-(40-115*cos(90*uu(\t)))});
 \foreach \p in {295,421,547,673,757} \draw (\p,456) -- (\p,468);
-\node[font=\small,anchor=north,inner sep=1pt] at (295,471) {$-1$};
-\node[font=\small,anchor=north,inner sep=1pt] at (437,471) {$2$};
+\node[font=\small,anchor=south,inner sep=2pt] at (295,456) {$-1$};
+\node[font=\small,anchor=north east,inner sep=1pt] at (418,471) {$2$};
 \node[font=\small,anchor=north,inner sep=1pt] at (547,471) {$5$};
-\node[font=\small,anchor=north,inner sep=1pt] at (657,471) {$8$};
-\node[font=\small,anchor=north,inner sep=1pt] at (757,471) {$10$};
+\node[font=\small,anchor=north west,inner sep=1pt] at (676,471) {$8$};
+\node[font=\small,anchor=south,inner sep=2pt] at (757,456) {$10$};
 \end{tikzpicture}
 \end{document}

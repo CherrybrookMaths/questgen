@@ -1,6 +1,7 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
+% flags 23 Nov round 2 (checker: "move the labels to the left a fix as they are too colse to the lines and move them up a bit")
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
   \draw (83,255) -- (83,410) -- (422,410);
   \draw[name path=crv] plot[smooth,tension=0.65] coordinates {(83,255) (112,155) (158,84) (200,40) (238,27) (285,40) (347,118) (393,255) (422,410)};
@@ -10,10 +11,10 @@
   \draw[name intersections={of=crv and v1}] (158,410) -- (intersection-1);
   \draw[name intersections={of=crv and v2}] (251,410) -- (intersection-1);
   \draw[name intersections={of=crv and v3}] (347,410) -- (intersection-1);
-  \node[font=\footnotesize] at (62,330) {$2$};
-  \node[font=\footnotesize] at (135,328) {$4.5$};
-  \node[font=\footnotesize] at (232,328) {$5.1$};
-  \node[font=\footnotesize] at (329,328) {$3.6$};
+  \node[font=\footnotesize] at (53,314) {$2$};
+  \node[font=\footnotesize] at (124,314) {$4.5$};
+  \node[font=\footnotesize] at (221,314) {$5.1$};
+  \node[font=\footnotesize] at (318,314) {$3.6$};
   \foreach \x in {120,207,299,385} \node[font=\footnotesize] at (\x,428) {$5$};
   \node[font=\small\bfseries] at (498,48) {Not to scale};
 \end{tikzpicture}
