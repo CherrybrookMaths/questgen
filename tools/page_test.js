@@ -682,6 +682,32 @@ async function flows(browser, base, seed, seedR) {
     assert(now !== was, `still on QID ${was}`);
     return `QID ${was} approved, now on QID ${now}`;
   });
+  // owner 23 Nov: "I need the checker approving fixed tonight" -> "stale page approvals" (37_fresh.js): once a newer version is live, the
+  // open page shows the reload bar and refuses approvals (question, diagrams, difficulty); a flag still saves
+  await check('review: a page older than the live version shows the reload bar and refuses approvals; flags still save', page, async () => {
+    const mine = await page.evaluate(() => FRESH.build);
+    assert(/^[0-9a-f]{16}$/.test(mine), `the page carries no build id: ${mine}`);
+    const same = await page.evaluate(async () => { FRESH.at = 0; return await FRESH.check() });
+    assert(same === false && !(await page.$('#freshBar')), 'the page calls itself stale against its own version.json');
+    await page.route(/data\/version\.json/, r => r.fulfill({contentType: 'application/json', body: JSON.stringify({build: 'ffffffffffffffff'})}));
+    await page.evaluate(() => { location.hash = '#review/paper/1346' }); await settle(page, 4000, 2);
+    const was = await page.evaluate(() => rlist[ridx].id), n0 = (await db()).log.length;
+    await page.evaluate(() => { FRESH.at = 0 });   // the last check is old: the guard asks again before approving
+    await page.click('#approve'); await settle(page, 2000, 2);
+    const r = await page.evaluate(() => ({bar: !!document.querySelector('#freshBar [data-fresh-reload]'), id: rlist[ridx] && rlist[ridx].id, stale: FRESH.stale}));
+    const dk = await page.evaluate(id => 'reviews/' + RKEY.qdoc(B.questions.find(q => q.id === id)), was);
+    const ap = (await db()).log.slice(n0).filter(x => x.k === dk && x.v && x.v.status === 'approved');
+    const lv = await page.evaluate(async () => { const n = window.__pt.log.length; await lvSave(); return window.__pt.log.length - n });
+    assert(r.stale && r.bar, `no reload bar on a stale page: ${JSON.stringify(r)}`);
+    assert(!ap.length && r.id === was, `approved from a stale page (${ap.length} writes, now on ${r.id})`);
+    assert(lv === 0, `difficulty saved from a stale page (${lv} writes)`);
+    const fl = await page.evaluate(async () => { const q = rlist[ridx], n = window.__pt.log.length; await write(q, {status: 'flagged', note: 'pt stale flag'}); return window.__pt.log.length - n });
+    assert(fl === 1, `a flag from a stale page did not save (${fl} writes)`);
+    await page.unroute(/data\/version\.json/);
+    await page.evaluate(id => { FRESH.stale = false; FRESH.at = 0; document.getElementById('freshBar')?.remove(); const q = B.questions.find(x => x.id === id); return write(q, {status: null, note: null}) }, was);
+    errs();
+    return `build ${mine}; stale: bar shown, Approve and difficulty refused, a flag saved`;
+  });
   await check('difficulty: Agree writes to the database and moves on', page, async () => {
     await page.evaluate(() => { location.hash = '#levels' }); await settle(page, 5000, 2);
     let has = await page.$('#lvOk');
@@ -941,6 +967,20 @@ async function areas(browser, base, seed) {
         return {btn: true, kind: doc?.kind, status: doc?.status, txt} });
       assert(r.btn && r.kind === 'flags' && r.status === 'requested' && /Sent to Claude/.test(r.txt) && /Claude checks .+; otherwise at the night run/.test(r.txt), JSON.stringify(r));
       return 'runs/flags_* requested; the line says when Claude picks it up';
+    });
+    // owner 23 Nov: "get a way for claude to instantly run flags when checker needs them done": with a Claude session able to take it, the
+    // click also sends the request as a comment to Claude (sendToClaude from the click, anchored on the button) and the runs doc says so
+    await check('review: Fix my flags now sends the request to Claude at once when a session can take it', cp, async () => {
+      const r = await cp.evaluate(async () => { const q = B.questions.filter(x => !x.dup_of)[8], keep = reviews['q' + q.id], cm = FLR.cm, cs = FLR.cs; let sent = null;
+        FLR.cm = {anchorFor: async el => ({path: 'pt', x: 1, y: 1, el: el.dataset.flr !== undefined}), sendToClaude: async t => { sent = t; return {threadId: 't1', commentId: 'c1'} }}; FLR.cs = 'available';
+        reviews['q' + q.id] = {status: 'flagged', note: 'z', fixed: null}; TOPICS = null; _clean = null; _esc = {}; _rk = null; location.hash = '#bank'; await new Promise(res => setTimeout(res, 300)); location.hash = '#review'; await new Promise(res => setTimeout(res, 400)); renderReview();
+        const b = document.querySelector('.handoff [data-flr]'); if (!b) return {btn: false}; b.click(); await new Promise(res => setTimeout(res, 600));
+        const ids = [...window.__pt.store.keys()].filter(k => /^runs\/flags_/.test(k)), id = ids[ids.length - 1], doc = id ? window.__pt.store.get(id) : null, txt = document.querySelector('.handoff')?.textContent || '';
+        if (keep === undefined) delete reviews['q' + q.id]; else reviews['q' + q.id] = keep;
+        ids.forEach(k => window.__pt.store.delete(k)); FLR.runs = []; FLR.cm = cm; FLR.cs = cs; renderReview();
+        return {btn: true, instant: doc?.instant, onBtn: sent?.anchor?.el, names: !!(sent && id && sent.text.includes(id)), txt} });
+      assert(r.btn && r.instant === true && r.onBtn && r.names && /within a few minutes/.test(r.txt), JSON.stringify(r));
+      return 'sent to Claude from the click (anchored on the button, naming the runs doc); runs doc instant; the line says within minutes';
     });
     // owner 18 Nov: "Why does it say both 11 and 20?": the banner and the Flags card count the same questions
     await check('review: the flags banner counts each waiting question once, as the Flags card does', cp, async () => {
