@@ -24,6 +24,9 @@ In short: flaws first, [Certain]/[Likely]/[Guessing], no filler praise.
 - **Never trash Drive files.** Upload the new copy, then rename the old one "(superseded <date>, safe to delete)".
 - **Never move, rename or reorganise anything in the school shared drive** (the exams folder below). Read only. Our record
   of it lives on our side (documents table, site/data/inventory.json).
+  One exception, owner 23 Nov: "You can addfiles to exam folder." Claude may ADD new files (and a year folder named like the
+  others, e.g. "HSC 2019") to the exams folder; never move, rename, overwrite or delete anything there. Check first that the file
+  is not already in the drive (by name and size).
 - **Keep the bank private** (school trial papers are copyright; the GitHub repo must stay private). Never send the owner's
   email address to an outside service.
 - **Record owner rulings verbatim**: quote him in the matching spec (UI_SPEC, IMPORT_PLAYBOOK, DIAGRAM_SPEC, TAG_SPEC ...) and
