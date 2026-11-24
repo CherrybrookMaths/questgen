@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position 0.53 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+  \coordinate (S) at (18,178); \coordinate (N1) at (335,18); \coordinate (N2) at (335,178);
+  \coordinate (N3) at (620,178); \coordinate (N4) at (945,170); \coordinate (N5) at (375,378);
+  \coordinate (N6) at (727,378);
+  \foreach \a/\b in {S/N1,N1/N3,S/N2,N2/N3,N3/N4,S/N5,N5/N3,N5/N6,N6/N4} \draw[mid] (\a) -- (\b);
+  \foreach \p in {S,N1,N2,N3,N4,N5,N6} \fill (\p) circle (7.5);
+  \node[font=\small] at (155,65) {$A$ (15)};
+  \node[font=\small] at (510,65) {$D$ (12)};
+  \node[font=\small] at (176,198) {$B$ (16)};
+  \node[font=\small] at (465,158) {$E$ (8)};
+  \node[font=\small] at (768,156) {$H$ (10)};
+  \node[font=\small] at (180,308) {$C$ (18)};
+  \node[font=\small] at (462,253) {$F$ (11)};
+  \node[font=\small] at (537,355) {$G$ (6)};
+  \node[font=\small] at (806,252) {$I$ (8)};
+\end{tikzpicture}
+\end{document}

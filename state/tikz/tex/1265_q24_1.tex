@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (P) at (38,118); \coordinate (Q) at (140,358); \coordinate (R) at (435,580);
+  \draw[aux,->] (140,555) -- (140,52);
+  \node[anchor=south] at (140,40) {North};
+  \draw (P) -- (Q) -- (R) -- cycle;
+  \node[anchor=south west, inner sep=1pt] at (14,120) {$P$\,(320$^\circ$)};
+  \node[anchor=east] at (130,368) {$Q$};
+  \node[anchor=north west, inner sep=1pt] at (420,588) {$R$(110$^\circ$)};
+  \node[anchor=east] at (100,256) {32 m};
+  \node at (247,486) {48 m};
+  \node[anchor=north west, align=left] at (318,200) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

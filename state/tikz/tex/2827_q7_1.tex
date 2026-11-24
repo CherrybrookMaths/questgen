@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.3556cm,y=0.17907cm,every node/.style={font=\fontsize{7.5}{9}\selectfont}]
+  % graph paper: minor 0.25 yr x 0.5k, major 2.5 yr x 5k
+  \draw[black!12, line width=0.3pt, step={(0.25,0.5)}] (0,0) grid (27.5,75);
+  \draw[black!30, line width=0.5pt, step={(2.5,5)}] (0,0) grid (27.5,75);
+  \draw (0,0) rectangle (27.5,75);
+  % John: A(t) = 71.728 - 1.728*1.0125^(12t)  (thousands)
+  \draw[line width=0.9pt] plot[smooth, domain=0:24.995, samples=90] (\x,{71.728-1.728*1.0125^(12*\x)});
+  % Maria: A(t) - 1.4*1.0125^(12(t-5)), t >= 5
+  \draw[line width=0.9pt] plot[smooth, domain=5:22.81, samples=90] (\x,{71.728-1.728*1.0125^(12*\x)-1.4*1.0125^(12*(\x-5))});
+  \foreach \t in {0,5,...,25} \node[anchor=north, inner sep=2pt] at (\t,-0.6) {\textsf{\t}};
+  \foreach \a in {10,20,...,70} \node[anchor=east, inner sep=2pt] at (-0.5,\a) {\textsf{\a}};
+  \node[font=\fontsize{7.5}{9}\selectfont\bfseries\sffamily, align=center, anchor=north] at (13.4,-2.9) {Time in years\\(from commencement of monthly payments)};
+  \node[font=\fontsize{7.5}{9}\selectfont\bfseries\sffamily, align=center, rotate=90, anchor=south] at (-2.2,39.6) {Amount owing\\(in thousands of dollars)};
+  \node at (18.5,51.9) {\halo{\textsf{John}}};
+  \node at (13.4,48.2) {\halo{\textsf{Maria}}};
+  \draw (14.4,48.2) -- (15.1,48.2);
+\end{tikzpicture}
+\end{document}

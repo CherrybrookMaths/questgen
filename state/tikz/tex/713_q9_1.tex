@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\coordinate (P) at (68,220); \coordinate (Q) at (605,72); \coordinate (R) at (671,312);
+\draw (P)--(Q)--(R)--cycle;
+\draw ($(Q)!11pt!(P)$) -- ($(Q)!11pt!(P)!11pt!90:(P)$) -- ($(Q)!11pt!(R)$);
+\draw ([shift={(-15.41:207)}]P) arc (-15.41:8.67:207);
+\node[font=\large] at (58,200) {$P$};
+\node[font=\large] at (622,52) {$Q$};
+\node[font=\large] at (690,320) {$R$};
+\node at (210,213) {$23^\circ$};
+\node at (405,318) {16\ cm};
+\node at (830,190) {Not to scale};
+\end{tikzpicture}
+\end{document}

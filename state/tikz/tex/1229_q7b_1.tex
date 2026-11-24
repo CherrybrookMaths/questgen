@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (Ba) at (220,55); \coordinate (Ci) at (465,70); \coordinate (Da) at (718,150);
+\coordinate (Ad) at (103,185); \coordinate (Fy) at (260,318); \coordinate (Ez) at (625,365);
+\draw (Ad)--(Ba)--(Ci)--(Da)--(Ez)--(Fy)--(Ad)--(Ez)--(Ci);
+\foreach \p in {Ba,Ci,Da,Ad,Fy,Ez} \fill (\p) circle (6.5);
+\node at (215,22) {\textbf{Baru}};
+\node at (490,32) {\textbf{Cirri}};
+\node[anchor=west] at (735,148) {\textbf{Dalmore}};
+\node at (45,215) {\textbf{Adun}};
+\node at (280,375) {\textbf{Fyves}};
+\node at (690,390) {\textbf{Ezuri}};
+\node at (345,33) {70};
+\node at (128,103) {60};
+\node at (610,83) {80};
+\node at (488,180) {120};
+\node at (355,222) {140};
+\node at (740,248) {90};
+\node at (145,282) {60};
+\node at (432,383) {100};
+\end{tikzpicture}
+\end{document}

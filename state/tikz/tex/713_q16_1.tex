@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{>}}}}]
+\foreach \n/\x/\y in {D/563/72,A/72/215,F/808/215,C/378/288,H/1053/288,E/563/430,G/870/430,B/195/502}{
+  \coordinate (\n) at (\x,\y);}
+\foreach \a/\b in {D/A,C/A,A/B,C/D,C/B,F/D,C/F,F/H,E/C,E/F,E/G,G/F,G/H}{
+  \draw[mid] (\a)--(\b);}
+\foreach \n in {A,B,C,D,E,F,G,H}{\fill (\n) circle (4.5);}
+\begin{scope}[font=\Large]
+\node at (602,46) {$D$};
+\node at (40,210) {$A$};
+\node at (800,172) {$F$};
+\node at (372,340) {$C$};
+\node at (1086,288) {$H$};
+\node at (525,460) {$E$};
+\node at (900,462) {$G$};
+\node at (154,506) {$B$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

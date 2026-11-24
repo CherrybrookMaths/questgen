@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \x in {23,195,363,531,699}{
+    \draw (\x,25) rectangle ++(150,213);
+  }
+  \fill plot[samples at={0,...,9}]
+    ({98+ifthenelse(mod(\x,2)==0,38,14.5)*cos(-90+36*\x)}, {126+ifthenelse(mod(\x,2)==0,38,14.5)*sin(-90+36*\x)}) -- cycle;
+  \fill (270,137) circle (31);
+  \fill (438,137) circle (31);
+\end{tikzpicture}
+\end{document}

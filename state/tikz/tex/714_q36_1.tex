@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% minor dotted horizontal lines every 10
+\foreach \m in {0,...,7}{\foreach \k in {1,2,3,4}{
+  \draw[black!45,line width=0.4pt,dash pattern=on 0.6pt off 0.6pt] (190,{773-1.64*(50*\m+10*\k)}) -- (1004,{773-1.64*(50*\m+10*\k)});}}
+% major grid
+\foreach \v in {50,100,...,400}{\draw[black!65] (190,{773-1.64*\v}) -- (1004,{773-1.64*\v});}
+\foreach \n in {1,...,7}{\draw[black!65] ({190+116.29*\n},773) -- ({190+116.29*\n},117);}
+% axes
+\draw[->] (190,773) -- (1050,773);
+\draw[->] (190,773) -- (190,42);
+\node at (190,20) {$C$};
+\node[font=\small] at (176,802) {$0$};
+\foreach \n in {1,...,7}{\node[font=\small] at ({190+116.29*\n},826) {$\n$};}
+\foreach \v in {50,100,...,400}{\node[font=\small,anchor=east] at (153,{773-1.64*\v}) {$\v$};}
+\end{tikzpicture}
+\end{document}

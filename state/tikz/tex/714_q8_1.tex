@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % Before
+  \begin{scope}[line width=0.9pt]
+    \draw (181,6) rectangle (349,85);
+    \draw (241,6)--(241,85);
+    \draw (92,48)--(181,48) (349,48)--(568,48);
+    \draw (92,20)--(92,86) (568,20)--(568,86);
+  % After
+    \draw (266,145) rectangle (494,238);
+    \draw (375,145)--(375,238);
+    \draw (120,195)--(266,195) (494,195)--(587,195);
+    \draw (120,160)--(120,228) (587,160)--(587,228);
+  \end{scope}
+  \node[font=\small] at (38,52) {Before};
+  \node[font=\small] at (50,195) {After};
+  % scale
+  \draw (63,285)--(640,285);
+  \foreach \i in {0,...,20} \draw ({63+28.85*\i},278)--({63+28.85*\i},293);
+  \foreach \v [count=\k from 0] in {60,70,80,90,100} \node[font=\small] at ({63+144.25*\k},312) {$\v$};
+\end{tikzpicture}
+\end{document}

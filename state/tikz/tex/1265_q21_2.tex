@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (133,197); \coordinate (B) at (133,440); \coordinate (C) at (515,440);
+  \coordinate (O) at (324,318.5);
+  \fill[shade] (A) -- (B) -- (C) -- cycle;
+  \draw (A) -- (B) -- (C) -- cycle;
+  % semicircle on AC: centre O, radius 226.4
+  \draw (C) arc[start angle={32.5}, end angle={-147.5}, radius=226.4];
+  \draw[aux] (O) -- ($(O)+({226.4*cos(-33.2)},{226.4*sin(-33.2)})$) coordinate (P);
+  \draw (133,418) -- (155,418) -- (155,440);
+  % angle mark from OA round to OP
+  \draw[->] ($(O)+({52*cos(-147.5)},{52*sin(-147.5)})$) arc[start angle={-147.5}, end angle={-40}, radius=52];
+  \node[font=\small] at (318,282) {$120^\circ$};
+  \node at (297,333) {$O$};
+  \draw[aux,<->] (112,203) -- (112,434);
+  \draw[aux,<->] (139,463) -- (509,463);
+  \node[anchor=east] at (106,320) {18 cm};
+  \node[anchor=north] at (322,474) {24 cm};
+  \node at (117,183) {$A$};
+  \node at (122,465) {$B$};
+  \node at (531,463) {$C$};
+  \node at (538,180) {$P$};
+  \node[anchor=north west, align=left] at (620,185) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

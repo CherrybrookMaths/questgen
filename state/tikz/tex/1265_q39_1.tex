@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\outline{(75,74) -- (321,74) arc[start angle=-90,end angle=90,radius=72] -- (75,218) arc[start angle=90,end angle=270,radius=72] -- cycle}
+  \begin{scope}
+    \clip \outline;
+    \fill[shade] (0,170) rectangle (400,222);
+  \end{scope}
+  \draw \outline;
+  \draw (79,146) ellipse[x radius=25,y radius=72];
+  \draw (316,146) ellipse[x radius=25,y radius=72];
+  \draw[aux,<->] (3,63)--(395,63);
+  \node at (205,42) {18 cm};
+  \draw[aux,<->] (407,76)--(407,216);
+  \node[anchor=west] at (414,143) {6 cm};
+  \node[anchor=west,align=left] at (555,138) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

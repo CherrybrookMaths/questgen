@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\def\of{\fontsize{11}{13}\selectfont}
+\def\pf{\fontsize{10}{12}\selectfont}
+\newlength\WR \settowidth\WR{\of Rain}
+\newlength\WN \settowidth\WN{\of No rain}
+\def\pad{3.5pt}
+\def\L{2.5cm}
+% level 1 column at X1, level 2 column at X2
+\coordinate (r) at (0,0);
+\path (\L+\pad,0) coordinate (X1);
+\path ($(X1)+(\WN,0)+(\pad,0)+(\L,0)+(\pad,0)$) coordinate (X2);
+\newcommand\outn[3]{\node[anchor=mid west, inner sep=0pt, font=\of] (#1) at (#2) {#3};}
+\outn{a}{$(X1)+(0,2.4)$}{Rain}
+\outn{b}{$(X1)+(0,-2.4)$}{No rain}
+\outn{aa}{$(X2)+(0,3.1)$}{Rain}
+\outn{ab}{$(X2)+(0,1.7)$}{No rain}
+\outn{ba}{$(X2)+(0,-1.7)$}{Rain}
+\outn{bb}{$(X2)+(0,-3.1)$}{No rain}
+\coordinate (a-in) at ($(a.west)-(\pad,0)$); \coordinate (a-out) at ($(a.east)+(\pad,0)$);
+\coordinate (b-in) at ($(b.west)-(\pad,0)$); \coordinate (b-out) at ($(b.east)+(\pad,0)$);
+\foreach \n in {aa,ab,ba,bb}{\coordinate (\n-in) at ($(\n.west)-(\pad,0)$);}
+\draw (r) -- (a-in); \draw (r) -- (b-in);
+\draw (a-out) -- (aa-in); \draw (a-out) -- (ab-in);
+\draw (b-out) -- (ba-in); \draw (b-out) -- (bb-in);
+% probabilities: centred on branch midpoint, lower corners 2.5pt clear of the branch
+\newcommand\prob[4]{\sbox0{\pf #3}\edef\pw{\the\wd0}%
+  \path let \p1=(#1), \p2=(#2), \n1={abs(\y2-\y1)/(\x2-\x1)} in
+    node[inner sep=0pt, anchor=#4, font=\pf] at ($(\p1)!0.5!(\p2)+(0pt,{(\ifx#4n-1\else1\fi)*(\n1*0.5*\pw+2.5pt)})$) {#3};}
+\prob{r}{a-in}{40\%}{south}
+\prob{a-out}{aa-in}{30\%}{south}
+\prob{b-out}{ba-in}{30\%}{south}
+\node[font=\of\bfseries, anchor=base] at ($(X1)+(0.5\WN,3.75)$) {Saturday};
+\node[font=\of\bfseries, anchor=base] at ($(X2)+(0.5\WN,3.75)$) {Sunday};
+\end{tikzpicture}
+\end{document}

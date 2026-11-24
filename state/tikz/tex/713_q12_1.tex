@@ -1,0 +1,35 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (P) at (521,355);
+\coordinate (A) at (735,215); \coordinate (B) at (755,708);
+\coordinate (C) at (212,490); \coordinate (D) at (392,188);
+\draw[->] (P)--(521,40);
+\draw[->] (P)--(843,141);
+\draw[->] (P)--(808,788);
+\draw[->] (P)--(112,533);
+\draw[->] (P)--(326,103);
+\draw (A)--(D)--(C)--(B)--cycle;
+% right angle at P between PA and PB
+\draw ($(P)!14pt!(A)$) -- ($($(P)!14pt!(A)$)+($(P)!14pt!(B)$)-(P)$) -- ($(P)!14pt!(B)$);
+\fill (P) circle (2.2pt);
+\node[font=\large] at (521,24) {$N$};
+\node[font=\footnotesize] at (312,84) {$322^\circ$};
+\node[font=\large] at (898,144) {$057^\circ$};
+\node[font=\footnotesize] at (88,556) {$247^\circ$};
+\node[font=\footnotesize] at (836,803) {$147^\circ$};
+\node[font=\footnotesize] at (368,207) {$D$};
+\node[font=\footnotesize] at (752,236) {$A$};
+\node[font=\footnotesize] at (213,510) {$C$};
+\node[font=\footnotesize] at (776,708) {$B$};
+\node[font=\footnotesize] at (539,337) {$P$};
+\node[font=\footnotesize] at (432,276) {3.5};
+\node[font=\footnotesize] at (605,275) {4.2};
+\node[font=\footnotesize] at (292,313) {5.8};
+\node[font=\footnotesize] at (398,433) {5.6};
+\node[font=\footnotesize] at (633,493) {7};
+\node[font=\footnotesize] at (446,610) {9.7};
+\node[font=\large] at (883,470) {Not to scale};
+\end{tikzpicture}
+\end{document}

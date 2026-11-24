@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(380,425)},x=0.8509cm,y=0.7176cm]
+\draw[black!25] (-5,-5) grid (5,5);
+\draw[<->] (-5.67,0) -- (5.67,0);
+\draw[<->] (0,-5.66) -- (0,5.66);
+\foreach \i in {-5,...,-1,1,2,...,5} {\draw (\i,-0.08) -- (\i,0.08); \draw (-0.07,\i) -- (0.07,\i);}
+\draw[<->,line width=0.9pt] (-4.85,{4+4.85/3}) -- (5.63,{4-5.63/3});
+\draw[<->,line width=0.9pt] (-0.553,5.66) -- (3.22,-5.66);
+\draw[<->,line width=0.9pt] (2.165,5.66) -- (-0.665,-5.66);
+\draw[<->,line width=0.9pt] (0.553,5.66) -- (-3.22,-5.66);
+\end{scope}
+\begin{scope}[font=\large]
+\node at (774,428) {$x$};
+\node at (378,80) {$y$};
+\foreach \v/\p in {-4/112,-2/246,2/514,4/648} \node at (\p,472) {$\v$};
+\node at (357,472) {$0$};
+\foreach \v/\p in {4/200,2/312,-2/538,-4/650} \node[anchor=east] at (372,\p) {$\v$};
+\node[draw,inner sep=5pt] at (219,95) {Line $a$};
+\node[draw,inner sep=5pt] at (141,571) {Line $d$};
+\node[draw,inner sep=5pt] at (631,543) {Line $b$};
+\node[draw,inner sep=5pt] at (450,688) {Line $c$};
+\end{scope}
+\draw (226,124) -- (233,157);
+\draw (206,545) -- (250,527);
+\draw (568,548) -- (522,552);
+\draw (387,678) -- (356,678);
+\end{tikzpicture}
+\end{document}

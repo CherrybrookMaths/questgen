@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (V1) at (27,88); \coordinate (V2) at (410,90); \coordinate (V3) at (665,25);
+\coordinate (V4) at (665,243); \coordinate (V5) at (250,280);
+\draw (V1)--(V2)--(V3)--(V4)--(V2); \draw (V1)--(V5)--(V4);
+\draw (V3) .. controls (790,45) and (880,95) .. (880,135) .. controls (880,180) and (770,225) .. (V4);
+\foreach \p in {V1,V2,V3,V4,V5} \fill (\p) circle (13);
+\node at (218,70) {8}; \node at (530,40) {7}; \node at (543,152) {3}; \node at (683,138) {$x$};
+\node at (838,62) {6}; \node at (110,213) {14}; \node at (455,292) {5};
+\end{tikzpicture}
+\end{document}

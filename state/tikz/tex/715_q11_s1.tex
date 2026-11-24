@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.4989cm,y=0.4978cm]
+\draw[black!40, line width=0.4pt] (0,0) grid (25,25);
+\draw[->] (0,0) -- (25.6,0);
+\draw[->] (0,0) -- (0,25.6);
+\foreach \i in {1,...,25} {
+  \draw (\i,0) -- (\i,-0.12);
+  \draw (0,\i) -- (-0.12,\i);
+  \node[font=\fontsize{6}{7}\selectfont, anchor=north] at (\i,-0.2) {\i};
+  \node[font=\fontsize{6}{7}\selectfont, anchor=east] at (-0.2,\i) {\i};
+}
+\node[font=\fontsize{6}{7}\selectfont, anchor=north east] at (-0.15,-0.1) {0};
+\node[rotate=90, font=\large] at (-2.24,12.3) {Amount (\$)};
+\draw[line width=0.9pt, ->] (0,0) -- (13.55,20.325);
+\draw[line width=0.9pt, ->] (0,6) -- (18.6,15.3);
+\foreach \p in {(0,0),(2,3),(4,6),(6,9),(0,6),(2,7),(4,8)} \node[pt] at \p {};
+\node[anchor=west, font=\large] at (14.0,21.0) {\halo{$S = 1.5n$}};
+\node[anchor=west, font=\large] at (19.2,15.7) {\halo{$C = 6 + 0.5n$}};
+\end{tikzpicture}
+\end{document}

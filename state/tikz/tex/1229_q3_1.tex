@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (L) at (15,272);
+\coordinate (T1) at (217,130); \coordinate (B1) at (217,385);
+\coordinate (T2) at (417,186); \coordinate (B2) at (417,328);
+\coordinate (T3) at (615,45); \coordinate (B3) at (615,383);
+% coastline
+\draw[line width=0.6pt] plot[smooth,tension=0.5] coordinates {(15,272) (22,245) (38,234) (60,240) (88,247) (108,242) (120,225) (130,195) (150,165) (185,143) (217,130) (260,125) (305,130) (325,150) (342,180) (365,193) (395,190) (417,186) (460,176) (500,155) (522,130) (538,105) (560,92) (590,72) (615,45) (640,20) (660,12) (680,18)};
+\draw[line width=0.6pt] plot[smooth,tension=0.5] coordinates {(15,272) (30,292) (60,297) (100,302) (130,320) (160,350) (178,372) (190,386) (230,388) (270,390) (300,380) (322,355) (340,332) (360,325) (390,326) (417,328) (460,325) (505,340) (528,355) (540,372) (552,383) (580,384) (615,383) (650,386) (680,400) (695,410)};
+% trapezoidal construction
+\draw[aux] (T1)--(L)--(B1)--(B2)--(B3); \draw[aux] (T1)--(T2)--(T3);
+\draw[aux] (T1)--(B1); \draw[aux] (T2)--(B2);
+\draw (T3)--(B3);
+\node[rotate=90] at (238,255) {240m};
+\node[rotate=90] at (438,262) {160m};
+\node[rotate=90] at (638,212) {300m};
+% dimension arrows
+\foreach \a/\b in {18/217,217/417,417/615}{
+  \draw[aux,<->] (\a,467)--(\b,467);
+  \node at ({(\a+\b)/2},452) {200 m};}
+\end{tikzpicture}
+\end{document}

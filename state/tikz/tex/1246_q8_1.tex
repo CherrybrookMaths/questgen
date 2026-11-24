@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (125,634) -- (778,634);
+\draw[->] (125,634) -- (125,42);
+\node at (792,634) {$t$};
+\node at (125,18) {$V$};
+\foreach \i/\x in {1/248,2/372,3/496,4/620,5/744}{
+  \draw (\x,624) -- (\x,644);
+  \node at (\x,676) {\i};}
+\foreach \v in {10,20,30,40,50}{
+  \pgfmathsetmacro\yy{634-11.02*\v}
+  \draw (115,\yy) -- (135,\yy);
+  \node[anchor=east] at (113,\yy) {\v};}
+\draw[line width=0.9pt] (125,83) -- (620,634);
+\node at (425,722) {Time (minutes)};
+\node[rotate=90] at (22,355) {Volume (Litres)};
+\end{tikzpicture}
+\end{document}

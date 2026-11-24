@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{8.6}{10}\selectfont}]
+  \draw[<->] (30,270) -- (325,270);
+  \draw[<->] (230,372) -- (230,52);
+  \node[anchor=west, inner sep=2pt] at (325,270) {$x$};
+  \node[anchor=south, inner sep=1pt] at (228,48) {$y$};
+  \draw (230,270) circle (5);
+  % x-int (103,270), y-int (230,109): slope 161/127
+  \draw[<->, line width=0.9pt] (33,{270+70*161/127}) -- (272,{109-42*161/127});
+  \node[anchor=west, inner sep=1pt] at (236,110) {$10$};
+  \node[anchor=south east, inner sep=1pt] at (101,266) {$-5$};
+\end{tikzpicture}
+\end{document}

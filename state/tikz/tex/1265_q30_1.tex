@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(100,555)},x=27*0.0127cm,y=6.78*0.0127cm]
+\foreach \t in {5,10,...,35} \draw[black!30,line width=0.4pt] (\t,0) -- (\t,80);
+\foreach \d in {10,20,...,80} \draw[black!30,line width=0.4pt] (0,\d) -- (35,\d);
+\draw (0,80) -- (0,0) -- (35,0);
+\foreach \t in {0,5,...,35} \node[font=\small,anchor=north] at (\t,-2.8) {$\t$};
+\foreach \d in {0,10,...,80} \node[font=\small,anchor=east] at (-1.2,\d) {$\d$};
+\end{scope}
+\node[font=\small,rotate=90] at (24,285) {Distance (metres)};
+\node[font=\small] at (575,650) {Time (seconds)};
+\end{tikzpicture}
+\end{document}

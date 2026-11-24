@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{183}\def\oy{582}\def\ux{56.3}\def\uy{51.7}
+\foreach \h in {0.5,1.5,...,9.5}{\draw[black!15,line width=0.4pt] (\ox,{\oy-\uy*\h})--({\ox+10*\ux},{\oy-\uy*\h});}
+\foreach \h in {1,...,10}{\draw[black!35,line width=0.4pt] (\ox,{\oy-\uy*\h})--({\ox+10*\ux},{\oy-\uy*\h});}
+\foreach \t in {1,...,10}{\draw[black!35,line width=0.4pt] ({\ox+\ux*\t},\oy)--({\ox+\ux*\t},{\oy-10*\uy});}
+\draw[->] (\ox,\oy)--(765,\oy);
+\draw[->] (\ox,\oy)--(\ox,40);
+\foreach \h in {0.5,1.5,...,9.5}{\draw (\ox,{\oy-\uy*\h})--(\ox-4,{\oy-\uy*\h});}
+\foreach \h in {1,...,10}{\draw (\ox,{\oy-\uy*\h})--(\ox-8,{\oy-\uy*\h}); \node[anchor=east] at (\ox-8,{\oy-\uy*\h}) {\h};}
+\foreach \t in {1,...,10}{\draw ({\ox+\ux*\t},\oy)--({\ox+\ux*\t},\oy+6); \node[anchor=north] at ({\ox+\ux*\t},\oy+6) {\t};}
+\foreach \t/\h in {1/0.7,2/1.4,3/2.4,4/3.5,6/6.6,7/7.9,8/8.65,9/9.5}{\fill ({\ox+\ux*\t},{\oy-\uy*\h}) circle (4);}
+\draw[line width=0.9pt] (\ox,\oy)--({\ox+10*\ux},{\oy-10*\uy});
+\draw (\ox,{\oy-5*\uy})--({\ox+5*\ux},{\oy-5*\uy})--({\ox+5*\ux},\oy);
+\node at (490,658) {Years ($t$)};
+\node[rotate=90] at (108,322) {Height ($H$)};
+\end{tikzpicture}
+\end{document}

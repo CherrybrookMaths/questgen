@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade, fill=black!10] (300,455) ellipse[x radius=130, y radius=70];
+  \fill[shade, fill=black!10] (300,232) ellipse[x radius=63.5, y radius=33];
+  \draw (300,455) ellipse[x radius=130, y radius=70];
+  \draw (300,232) ellipse[x radius=63.5, y radius=33];
+  \draw (236.5,232) -- (170,455);
+  \draw (363.5,232) -- (430,455);
+  \draw[aux] (236.5,232) -- (300,12) -- (363.5,232);
+  \draw (300,235) -- (363.5,235);
+  \draw[aux] (300,455) -- (430,455);
+  \draw[aux] (118,12) -- (300,12);
+  \draw[aux] (118,458) -- (170,458);
+  \draw[<->] (118,14) -- (118,456);
+  \node[anchor=east] at (108,236) {40 cm};
+  \draw[aux] (363.5,235) -- (472,235);
+  \draw[<->] (468,237) -- (468,448);
+  \node[anchor=west] at (474,340) {24 cm};
+  \node[anchor=north] at (362,462) {8 cm};
+  \draw[->] (425,178) -- (340,213);
+  \node[anchor=west] at (430,170) {$x$ cm};
+\end{tikzpicture}
+\end{document}

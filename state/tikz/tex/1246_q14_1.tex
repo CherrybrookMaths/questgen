@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (C) at (62,58); \coordinate (A) at (443,122);
+\coordinate (O) at (270,198); \coordinate (B) at (253,410);
+\draw[line join=round] (C) -- (A) -- (B) -- cycle;
+\draw (C) -- (O) -- (A); \draw (O) -- (B);
+\foreach \p in {A,B,C,O} \fill (\p) circle[radius=4];
+\node[font=\large] at (75,24) {$C$ $(310^\circ)$};
+\node[font=\large] at (463,112) {$A$};
+\node[font=\large] at (295,213) {$O$};
+\node[font=\large] at (262,437) {$B$ $(180^\circ)$};
+\node at (296,79) {35 m};
+\node at (200,115) {25 m};
+\node at (321,146) {15 m};
+\node[font=\footnotesize] at (103,353) {not to scale};
+\end{tikzpicture}
+\end{document}

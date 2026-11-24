@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(82,828)},x=42.5*0.0127cm,y=27.92*0.0127cm]
+\foreach \i in {1,...,25} \draw[black!45,line width=0.4pt] (\i,0) -- (\i,25);
+\foreach \j in {1,...,25} \draw[black!45,line width=0.4pt] (0,\j) -- (25,\j);
+\draw[->] (-0.1,0) -- (26.2,0);
+\draw[->] (-0.1,0) -- (-0.1,29.1);
+\node[anchor=west] at (26.3,0.3) {$x$};
+\node[anchor=south] at (-0.1,29.2) {$y$};
+\foreach \t in {0,5,...,25} \node[font=\small,anchor=north] at (\t,-0.8) {$\t$};
+\foreach \t in {0,5,...,25} \node[font=\small,anchor=east] at (-0.6,\t) {$\t$};
+\foreach \p in {(2,4),(2,5),(4,7),(5,6),(8,8),(10,10),(11,12),(14,13),(16,15)}
+  \draw[fill=black!40] \p circle[radius=0.085cm];
+\node[font=\small] at (12.5,27.1) {Bivariate Data $(x,y)$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

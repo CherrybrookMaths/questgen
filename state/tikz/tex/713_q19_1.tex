@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{110}\def\oy{600}\def\ux{65}\def\uy{22.18}
+\foreach \h in {2,4,...,24}{\draw[black!35,line width=0.4pt] (\ox,{\oy-\uy*\h})--(1085,{\oy-\uy*\h});}
+\foreach \t in {2,4,...,14}{\draw[black!35,line width=0.4pt] ({\ox+\ux*\t},\oy)--({\ox+\ux*\t},40);}
+\draw[->] (\ox,\oy)--(1100,\oy);
+\draw[->] (\ox,\oy)--(\ox,20);
+\foreach \h in {2,4,...,24}{\node[anchor=east,font=\scriptsize] at (\ox-4,{\oy-\uy*\h}) {\h};}
+\foreach \t in {2,4,...,14}{\node[anchor=north,font=\scriptsize] at ({\ox+\ux*\t},\oy+8) {\t};}
+\foreach \t/\h in {1/2,2/5,3/7,4/9,6/10,8/15,10/18,10/16,12/20,14/22}{\fill ({\ox+\ux*\t},{\oy-\uy*\h}) circle (5.5);}
+\draw[->,line width=0.9pt] (\ox,{\oy-2*\uy})--({\ox+15*\ux},{\oy-24.5*\uy});
+\node[font=\footnotesize] at (580,679) {Age of Vehicle (years)};
+\node[rotate=90,font=\footnotesize] at (35,378) {Number of Mechanical Problems};
+\end{tikzpicture}
+\end{document}

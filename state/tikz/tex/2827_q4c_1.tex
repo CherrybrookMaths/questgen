@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.9119cm,y=0.5359cm,every node/.style={font=\fontsize{11.5}{13}\selectfont}]
+  \draw[black!15, line width=0.5pt, step={(1,1)}] (-2,-5) grid (5,8);
+  \draw[<->] (-2.45,0) -- (5.45,0);
+  \draw[<->] (0,-5.8) -- (0,8.8);
+  \foreach \i in {-2,-1,1,2,3,4,5} \draw (\i,-0.1) -- (\i,0.1);
+  \foreach \j in {-5,...,-1,1,2,...,8} \draw (-0.055,\j) -- (0.055,\j);
+  \node[anchor=west, inner sep=2pt] at (5.45,0) {$x$};
+  \node[anchor=south, inner sep=2pt] at (0,8.8) {$y$};
+  \draw[<->, line width=0.9pt] (-0.92,-5.76) -- (3.94,8.82);
+  \node[anchor=east, inner sep=2pt] at (-0.08,5) {$5$};
+  \node[anchor=east, inner sep=2pt] at (-0.1,-0.92) {$0$};
+  \node[anchor=north, inner sep=2pt] at (5,-0.35) {$5$};
+  \node[anchor=west, inner sep=2pt] at (0.08,-5) {$-5$};
+  \node at (5.39,9.27) {$y = 3x - 3$};
+\end{tikzpicture}
+\end{document}

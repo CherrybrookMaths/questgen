@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\foreach \i in {2,4,...,18} \draw[black!35] ({80+29*\i},478) -- ({80+29*\i},95);
+\foreach \j in {20,40,...,160} \draw[black!35] (80,{478-2.395*\j}) -- (602,{478-2.395*\j});
+\draw[->] (80,478) -- (622,478);
+\draw[->] (80,478) -- (80,70);
+\foreach \i in {2,4,...,18} \node at ({80+29*\i},505) {\i};
+\foreach \j in {20,40,...,160} \node[anchor=east] at (68,{478-2.395*\j}) {\j};
+\node at (80,48) {$A$};
+\node at (632,480) {$x$};
+\draw[line width=0.9pt] plot[smooth,domain=0:12,samples=90] ({80+29*\x},{478-2.395*(24*\x-2*\x*\x)});
+\foreach \u in {0,2,...,12} \fill ({80+29*\u},{478-2.395*(24*\u-2*\u*\u)}) circle[radius=3.5];
+\end{tikzpicture}
+\end{document}

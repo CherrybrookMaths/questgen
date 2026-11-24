@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.45212cm,y=0.44831cm]
+  \foreach \t in {0.5,1,1.5,2.5,3,3.5,4.5,5,5.5,6.5,7,7.5,8.5,9,9.5} {
+    \draw[black!30,line width=0.4pt] (\t,0)--(\t,10);
+    \draw[black!30,line width=0.4pt] (0,\t)--(10,\t);}
+  \foreach \t in {2,4,6,8,10} {
+    \draw[black!55,line width=0.6pt] (\t,0)--(\t,10);
+    \draw[black!55,line width=0.6pt] (0,\t)--(10,\t);}
+  \draw[->] (0,0)--(11.04,0) node[right] {$x$};
+  \draw[->] (0,0)--(0,11) node[above] {$y$};
+  \foreach \t in {0.5,1,...,10} {\draw (\t,0)--(\t,-0.2); \draw (0,\t)--(-0.2,\t);}
+  \foreach \t in {2,4,6,8,10} {\node[below,font=\small] at (\t,-0.2) {$\t$}; \node[left,font=\small] at (-0.2,\t) {$\t$};}
+  \draw[line width=0.9pt] (1.5,0)--(9.1,10);
+  \foreach \p in {(0.25,8.5),(2.5,9),(2.1,6.4),(2.6,7.2),(3.3,4.9),(4.3,6),(4.8,4.4),(5.2,4.6),(6,7.6),(6.3,6.4),(6.7,3.5),(7.1,6.2),(7.8,5.7),(8.1,5.8),(8.7,5),(8.7,4),(8.2,3.1),(9.4,3.1),(9.7,1.4),(9.9,4.8)}
+    \filldraw[fill=black!45,draw=black,line width=0.5pt] \p circle (1.9pt);
+\end{tikzpicture}
+\end{document}

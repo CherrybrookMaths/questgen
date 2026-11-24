@@ -1,0 +1,50 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (L) at (78,92); \coordinate (B) at (487,453); \coordinate (S) at (800,453); \coordinate (G) at (78,453);
+% lighthouse
+\fill[shade] (28,453)--(128,453)--(112,175)--(42,175)--cycle;
+\draw (28,453)--(42,175) (128,453)--(112,175);
+\fill[shade] (52,105) arc[start angle=180,end angle=360,x radius=25,y radius=17]--cycle;
+\draw (52,105) arc[start angle=180,end angle=360,x radius=25,y radius=17];
+\draw (52,105) rectangle (102,152); \draw (52,120)--(102,120) (52,136)--(102,136);
+\draw (38,152) rectangle (116,175);
+\foreach \x in {52,65,91,104} \draw (\x,152)--(\x,175);
+\foreach \x/\y in {83/230, 70/290, 96/338, 58/386} \draw[fill=white] (\x-6,\y-6) rectangle (\x+6,\y+6);
+\draw[fill=black!55] (65,418) rectangle (90,453);
+% lines
+\draw[aux] (L)--(G);
+\draw[aux] (L)--(648,92);
+\draw (28,453)--(S);
+\draw (L)--(B); \draw (L)--(S);
+\draw (G)++(0,-28) -- ++(28,0) -- ++(0,28);
+% angles at L
+\draw ($(L)+(160,0)$) arc[start angle=0,end angle=26.6,radius=160];
+\node at (273,137) {$10^\circ$};
+\draw ($(L)+(129.6,64.9)$) arc[start angle=26.6,end angle=41.4,radius=145];
+\node at (230,195) {$9^\circ$};
+% angles at B
+\draw ($(B)+(-95,0)$) arc[start angle=180,end angle=221.4,radius=95];
+\node at (370,410) {$19^\circ$};
+\draw ($(B)+(70,0)$) arc[start angle=0,end angle=-138.6,radius=70];
+\node at (539,362) {$161^\circ$};
+% angle at S
+\draw ($(S)+(-135,0)$) arc[start angle=180,end angle=206.6,radius=135];
+\node at (703,433) {$10^\circ$};
+% 119 m
+\draw[|<-] (487,482)--(596,482);
+\draw[->|] (696,482)--(800,482);
+\node at (646,482) {119 m};
+% lengths
+\node at (252,306) {132.09};
+\node at (575,272) {247.66};
+% labels
+\node[font=\large] at (78,62) {$L$};
+\node[font=\large] at (672,92) {$X$};
+\node[font=\large] at (85,483) {$G$};
+\node[font=\large] at (468,482) {$B$};
+\node[font=\large] at (824,460) {$S$};
+\node[font=\large] at (780,220) {Not to scale};
+\end{tikzpicture}
+\end{document}

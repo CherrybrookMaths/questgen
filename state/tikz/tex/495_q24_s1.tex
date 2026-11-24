@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\node[font=\LARGE, circle, draw, minimum size=0.95cm, inner sep=0pt] (H) at (80,48) {$H$};
+\node[font=\LARGE, inner sep=4pt] (S) at (437,62) {$S$};
+\node[font=\LARGE, inner sep=4pt] (B) at (705,14) {$B$};
+\node[font=\LARGE, inner sep=4pt] (T) at (360,168) {$T$};
+\node[font=\LARGE, inner sep=4pt] (A) at (155,320) {$A$};
+\node[font=\LARGE, inner sep=4pt] (R) at (580,315) {$R$};
+\begin{scope}[shorten <=4pt, shorten >=4pt]
+\draw[line width=0.9pt] (H) -- (S);
+\draw[line width=0.9pt] (S) -- (B);
+\draw[line width=0.9pt] (B) -- (R);
+\draw (H) -- (T);
+\draw (S) -- (T);
+\draw (T) -- (A);
+\draw (T) -- (R);
+\draw (A) -- (R);
+\end{scope}
+\begin{scope}[every node/.style={font=\Large}]
+\node at (285,22) {$7$};
+\node at (580,6) {$6$};
+\node at (688,178) {$5$};
+\node at (232,88) {$2$};
+\node at (432,128) {$8$};
+\node at (283,250) {$5$};
+\node at (508,212) {$17$};
+\node at (370,350) {$15$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

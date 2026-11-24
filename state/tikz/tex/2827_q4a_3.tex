@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{8.6}{10}\selectfont}]
+  \draw[<->] (15,155) -- (310,155);
+  \draw[<->] (213,372) -- (213,55);
+  \node[anchor=west, inner sep=2pt] at (310,155) {$x$};
+  \node[anchor=south, inner sep=1pt] at (211,51) {$y$};
+  \draw (213,155) circle (5);
+  % x-int (85,155), y-int (213,318)
+  \draw[<->, line width=0.9pt] (17,{155-68*1.2734}) -- (255,{318+42*1.2734});
+  \node[anchor=north, inner sep=1pt] at (78,162) {$-5$};
+  \node[anchor=west, inner sep=1pt] at (226,316) {$-10$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.9093cm,y=0.5359cm,every node/.style={font=\fontsize{11.5}{13}\selectfont}]
+  \draw[black!15, line width=0.5pt, step={(1,1)}] (-2,-5) grid (5,8);
+  \draw[<->] (-2.43,0) -- (5.49,0);
+  \draw[<->] (0,-5.85) -- (0,9.0);
+  \foreach \i in {-2,-1,1,2,3,4,5} \draw (\i,-0.1) -- (\i,0.1);
+  \foreach \j in {-5,...,-1,1,2,...,8} \draw (-0.055,\j) -- (0.055,\j);
+  \node[anchor=west, inner sep=2pt] at (5.49,0) {$x$};
+  \node[anchor=south, inner sep=2pt] at (0,9.0) {$y$};
+  \draw[<->, line width=0.9pt] (-0.89,-5.67) -- (3.92,8.76);
+  \draw[<->, line width=0.9pt] (-1.2,8.8) -- (6.09,3.94);
+  \node[anchor=east, inner sep=2pt] at (-0.1,5) {$5$};
+  \node[anchor=east, inner sep=2pt] at (-0.12,-0.92) {$0$};
+  \node[anchor=north, inner sep=2pt] at (5,-0.38) {$5$};
+  \node[anchor=west, inner sep=2pt] at (0.08,-5.05) {$-5$};
+  \node at (5.38,9.27) {$y = 3x - 3$};
+\end{tikzpicture}
+\end{document}

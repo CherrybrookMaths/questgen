@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% lighthouse
+\fill[shade] (10,362)--(106,362)--(90,95)--(25,95)--cycle;
+\draw (10,362)--(25,95) (106,362)--(90,95);
+\fill[shade] (33,35) arc[start angle=180,end angle=360,x radius=24.5,y radius=24]--cycle;
+\draw (33,35) arc[start angle=180,end angle=360,x radius=24.5,y radius=24];
+\draw (33,35) rectangle (82,70); \draw (33,52)--(82,52);
+\draw (22,70) rectangle (95,95);
+\foreach \x in {34,46,70,82} \draw (\x,70)--(\x,95);
+\foreach \x/\y in {64/147, 52/206, 76/252, 40/298} \draw[fill=white] (\x-6,\y-6) rectangle (\x+6,\y+6);
+\draw[fill=black!55] (46,328) rectangle (70,362);
+% lines
+\draw[aux] (57,12)--(57,362);
+\draw[aux] (57,12)--(612,12);
+\draw (57,362)--(762,362);
+\draw (57,12)--(458,362);
+\draw (57,12)--(762,362);
+\node[font=\large] at (740,140) {Not to scale};
+\end{tikzpicture}
+\end{document}

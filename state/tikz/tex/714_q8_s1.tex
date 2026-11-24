@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\newcommand\U[1]{{82+14.775*(#1-60)}}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \begin{scope}[line width=0.9pt]
+    % Before
+    \draw (\U{68},20) rectangle (\U{80},101);
+    \draw (\U{72},20)--(\U{72},101);
+    \draw (\U{62},67)--(\U{68},67) (\U{80},67)--(\U{95},67);
+    \draw (\U{62},35)--(\U{62},102) (\U{95},35)--(\U{95},102);
+    % After
+    \draw (\U{74},163) rectangle (\U{90},258);
+    \draw (\U{82},163)--(\U{82},258);
+    \draw (\U{64},215)--(\U{74},215) (\U{90},215)--(\U{96.5},215);
+    \draw (\U{64},178)--(\U{64},247) (\U{96.5},178)--(\U{96.5},247);
+  \end{scope}
+  \node at (63,68) {Before};
+  \node at (67,215) {After};
+  % guide lines from quartiles and medians to the scale
+  \foreach \v in {68,72,80} \draw[aux] (\U{\v},101)--(\U{\v},307);
+  \foreach \v in {74,82,90} \draw[aux] (\U{\v},258)--(\U{\v},307);
+  % scale
+  \draw (82,307)--(673,307);
+  \foreach \i in {0,...,20} \draw ({82+29.55*\i},300)--({82+29.55*\i},315);
+  \foreach \v in {60,70,80,90,100} \node at (\U{\v},336) {$\v$};
+  % medians
+  \node[anchor=east] at (\U{71.6},283) {$72$};
+  \node[anchor=west] at (\U{82.4},283) {$82$};
+  % interquartile ranges
+  \draw[<->] (\U{68},362)--(\U{80},362);
+  \node[anchor=east] at (\U{67.4},362) {$12$};
+  \draw[<->] (\U{74},392)--(\U{90},392);
+  \node[anchor=east] at (\U{73.4},392) {$16$};
+\end{tikzpicture}
+\end{document}

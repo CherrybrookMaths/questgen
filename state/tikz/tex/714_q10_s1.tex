@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position 0.56 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+  \coordinate (S) at (82,252); \coordinate (A) at (290,93); \coordinate (B) at (500,93);
+  \coordinate (C) at (343,252); \coordinate (D) at (238,410); \coordinate (E) at (448,410);
+  \coordinate (T) at (712,252);
+  \draw[mid] (S)--(A); \draw[mid] (A)--(B); \draw[mid] (S)--(B); \draw[mid] (B)--(C);
+  \draw[mid] (B)--(T); \draw[mid] (S)--(D); \draw[mid] (D)--(C); \draw[mid] (C)--(T);
+  \draw[mid] (D)--(E); \draw[mid] (E)--(T);
+  \foreach \p in {S,A,B,C,D,E,T} \fill (\p) circle (2.3pt);
+  \node at (155,150) {$4$}; \node at (398,63) {$5$}; \node at (268,210) {$7$};
+  \node at (456,188) {$3$}; \node at (624,145) {$4$}; \node at (122,350) {$6$};
+  \node at (277,308) {$5$}; \node at (510,288) {$7$}; \node at (342,450) {$3$};
+  \node at (597,362) {$4$};
+  % minimum cut
+  \draw[aux,line width=0.9pt] plot[smooth] coordinates {(118,400) (152,330) (205,268) (300,215) (420,182) (530,145) (578,108) (612,62)};
+  \node[anchor=west] at (625,58) {minimum cut};
+  \node at (112,438) {$13$};
+\end{tikzpicture}
+\end{document}

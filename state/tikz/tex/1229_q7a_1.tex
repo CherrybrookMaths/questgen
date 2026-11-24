@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (55,173); \coordinate (B) at (290,55); \coordinate (F) at (487,95);
+\coordinate (E) at (368,173); \coordinate (C) at (212,252); \coordinate (G) at (487,252);
+\coordinate (D) at (370,330);
+\draw (A)--node[sloped,above,inner sep=3pt]{30 km}(B);
+\draw (B)--node[sloped,above,inner sep=3pt]{12 km}(F);
+\draw (E)--node[sloped,above,inner sep=3pt]{3 km}(F);
+\draw (C)--node[sloped,above,inner sep=3pt]{10 km}(B);
+\draw (A)--node[sloped,below,inner sep=3pt]{22 km}(C);
+\draw (C)--(G);
+\node at (360,270) {16 km};
+\draw (C)--node[sloped,below,inner sep=3pt]{10 km}(D);
+\draw (D)--node[sloped,below,inner sep=3pt]{4 km}(G);
+\draw (F)--(G);
+\node at (530,165) {5 km};
+\foreach \p in {A,B,C,D,E,F,G} \fill (\p) circle (8);
+\node at (25,175) {$A$};
+\node at (290,22) {$B$};
+\node at (500,63) {$F$};
+\node at (370,207) {$E$};
+\node at (197,287) {$C$};
+\node at (518,258) {$G$};
+\node at (372,365) {$D$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\coordinate (E) at (185,125); \coordinate (R) at (520,503); \coordinate (B) at (805,503);
+\draw[aux] (E) -- (805,125);
+\draw (E) -- (185,503) -- (B);
+\draw (E) -- (R);
+\draw[aux] (E) -- (B);
+\draw (185,470) -| (218,503);
+\draw[aux,<->] (172,125) -- (172,503);
+\draw[aux,<->] (181,149) -- (486,493);
+\draw[aux,<->] (525,522) -- (805,522);
+\draw ($(E)+(72,0)$) arc[start angle=0,end angle=48.5,radius=72];
+\draw ($(B)+(-65,0)$) arc[start angle=180,end angle=211.4,radius=65];
+\node at (282,150) {$42^\circ$};
+\node at (714,484) {$23^\circ$};
+\node at (130,313) {85 m};
+\node at (335,345) {$d$};
+\node at (657,550) {$k$};
+\fill (E) circle[radius=4];
+\fill (R) circle[radius=4];
+\draw (824,488) circle[radius=17];
+\node at (130,100) {eagle};
+\node at (565,472) {rabbit};
+\end{tikzpicture}
+\end{document}

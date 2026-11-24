@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+  \coordinate (A) at (90,-400); \coordinate (B) at (90,-133);
+  \coordinate (C) at (780,-45); \coordinate (D) at (517,-400);
+  \draw (A) -- (B) -- (C) -- (D) -- cycle;
+  \draw[aux] (B) -- (D);
+  \draw (90,-370) -- (120,-370) -- (120,-400);
+  % angle arcs
+  \draw (B) ++(-32.0:55) arc[start angle=-32.0,end angle=7.27,radius=55];
+  \draw (C) ++(187.27:55) arc[start angle=187.27,end angle=233.47,radius=55];
+  \draw (D) ++(53.47:38) arc[start angle=53.47,end angle=148.0,radius=38];
+  \node at ($(B)+(-12:110)$) {$\approx 40^\circ$};
+  \node at ($(C)+(210:112)$) {$\approx 46^\circ$};
+  \node at ($(D)+(103:78)$) {$\approx 94^\circ$};
+  \node[font=\LARGE,anchor=east,inner sep=1pt] at (82,-410) {$A$};
+  \node[font=\LARGE,anchor=east,inner sep=1pt] at (82,-133) {$B$};
+  \node[font=\LARGE,anchor=west,inner sep=1pt] at (790,-42) {$C$};
+  \node[font=\LARGE,anchor=north west,inner sep=1pt] at (522,-401) {$D$};
+  \node[anchor=east] at (86,-262) {6 km};
+  \node at (300,-380) {9.5 km};
+  \node at (432,-72) {15.61 km};
+  \node at (688,-243) {10 km};
+\end{tikzpicture}
+\end{document}

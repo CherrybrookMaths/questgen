@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(108,518)},x=0.117cm,y=0.0703cm]
+\foreach \i in {8,16,...,48} \draw[black!25] (\i,0) -- (\i,80);
+\foreach \j in {10,20,...,80} \draw[black!25] (0,\j) -- (48,\j);
+\draw[->] (0,0) -- (50.7,0);
+\draw[->] (0,0) -- (0,84.9);
+\foreach \i in {8,16,...,48} \node[anchor=north] at (\i,-2.5) {$\i$};
+\foreach \j in {20,40,60,80} \node[anchor=east,inner sep=0pt] at (-1.2,\j) {$\j$};
+\draw[line width=0.9pt] (0,80) -- (40,0);
+\node[anchor=west] at (51.5,0) {$t$ (months)};
+\node[anchor=west,inner sep=0pt] at (-7.0,89.6) {$v$ (\$1000)};
+\end{scope}
+\end{tikzpicture}
+\end{document}

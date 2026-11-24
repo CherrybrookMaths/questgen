@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (S) at (88,228); \coordinate (P1) at (210,62); \coordinate (P2) at (498,20);
+\coordinate (P3) at (582,102); \coordinate (P4) at (622,186); \coordinate (Fi) at (580,268);
+\coordinate (M) at (375,186); \coordinate (N) at (335,268); \coordinate (Q) at (210,350);
+\coordinate (R) at (415,350);
+\draw (S)--(P1)--(P2)--(P3)--(P4)--(Fi)--(R)--(Q)--(S)--(N)--(M)--(S);
+\draw (P2)--(M)--(P4); \draw (M)--(Fi); \draw (Q)--(N)--(R);
+\foreach \p in {S,P1,P2,P3,P4,Fi,M,N,Q,R} \fill (\p) circle (3.5);
+\node at (370,22) {3}; \node at (555,42) {2}; \node at (620,140) {2}; \node at (620,230) {3};
+\node at (130,140) {2}; \node at (228,190) {8}; \node at (418,95) {5}; \node at (500,172) {6};
+\node at (338,228) {3}; \node at (220,268) {4}; \node at (467,243) {4}; \node at (248,300) {1};
+\node at (387,295) {7}; \node at (140,312) {6}; \node at (308,368) {5}; \node at (497,333) {2};
+\node[anchor=east] at (74,228) {Start}; \node at (630,297) {Finish};
+\end{tikzpicture}
+\end{document}

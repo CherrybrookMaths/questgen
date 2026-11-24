@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (F) at (357,110); \coordinate (G) at (673,145); \coordinate (H) at (688,276);
+\coordinate (I) at (652,423); \coordinate (J) at (296,402); \coordinate (E) at (148,241);
+\draw (E)--(F)--(G)--(H)--(I)--(J)--(E) (F)--(I) (E)--(I);
+\draw[line width=0.9pt] (F)--(H);
+\foreach \p in {E,F,G,H,I,J} \fill (\p) circle[radius=5];
+\begin{scope}[font=\Large]
+\node at (355,70) {$F$}; \node at (710,145) {$G$}; \node at (745,268) {$H$};
+\node at (680,440) {$I$}; \node at (262,420) {$J$}; \node at (125,222) {$E$};
+\end{scope}
+\draw (353,68) ellipse[x radius=30, y radius=30];
+\draw (746,268) ellipse[x radius=44, y radius=30];
+\begin{scope}[font=\large]
+\node at (570,106) {16}; \node at (718,208) {19}; \node at (606,210) {18};
+\node at (445,245) {30}; \node at (408,310) {35}; \node at (707,340) {25};
+\node at (296,184) {12}; \node at (204,345) {12}; \node at (437,436) {24};
+\end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  v/.style={circle,draw,minimum size=0.82cm,inner sep=0pt},
+  m/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}]
+  \node[v,fill=black!18] (A) at (45,290) {$A$};
+  \node[v] (B) at (290,38) {$B$};
+  \node[v,fill=black!18] (C) at (540,282) {$C$};
+  \node[v] (E) at (300,283) {$E$};
+  \node[v] (D) at (300,540) {$D$};
+  \draw[m=0.73] (A)--(B);
+  \draw[m=0.62] (B)--(C);
+  \draw[m=0.67] (A)--(D);
+  \draw[m=0.45] (E)--(B);
+  \draw[m=0.62] (E)--(C);
+  \draw[m=0.62] (D)--(E);
+  \draw[m=0.62] (D)--(C);
+  \node at (135,152) {10};
+  \node at (448,152) {6};
+  \node at (135,420) {20};
+  \node at (322,170) {12};
+  \node at (405,258) {10};
+  \node at (320,402) {6};
+  \node at (457,418) {2};
+  % minimum cut
+  \draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates
+    {(440,58) (395,105) (300,130) (243,180) (226,250) (243,315) (295,358) (360,415) (400,480) (425,545)};
+  \node[anchor=west,font=\large] at (452,560) {minimum cut};
+\end{tikzpicture}
+\end{document}

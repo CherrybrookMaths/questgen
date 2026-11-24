@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\coordinate (A) at (93,323); \coordinate (B) at (420,52); \coordinate (C) at (693,323);
+\fill[black!30] (B) -- ([shift={(44.8:62)}]B) arc (44.8:140.4:62) -- cycle;
+\draw ([shift={(44.8:62)}]B) arc (44.8:140.4:62);
+\draw (A)--(B)--(C)--cycle;
+\fill (A) circle (1.3pt); \fill (C) circle (1.3pt);
+\node[font=\small] at (422,30) {$B$};
+\node[font=\small] at (74,330) {$A$};
+\node[font=\small] at (707,330) {$C$};
+\node[rotate=39.6] at (238,180) {$10\ cm$};
+\node[rotate=-44.8] at (572,173) {$9\ cm$};
+\node at (390,346) {$14\ cm$};
+\node[font=\small] at (812,210) {(NOT TO SCALE)};
+\end{tikzpicture}
+\end{document}

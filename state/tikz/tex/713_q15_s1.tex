@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, v/.style={circle,draw,line width=0.9pt,minimum size=0.8cm,inner sep=0pt,font=\Large}]
+\draw (5,25) rectangle (1145,895);
+\node[v] (A) at (270,183) {$A$};
+\node[v] (B) at (543,187) {$B$};
+\node[v] (C) at (895,333) {$C$};
+\node[v] (D) at (668,425) {$D$};
+\node[v] (E) at (310,640) {$E$};
+\node[v] (F) at (145,405) {$F$};
+\node[v] (G) at (492,472) {$G$};
+\draw (A)--(B) (B)--(G) (B)--(D) (D)--(C) (F)--(E) (E)--(G);
+\begin{scope}[every node/.style={font=\Large}]
+\node at (405,152) {25};
+\node at (555,325) {16};
+\node at (645,280) {13};
+\node at (792,400) {19};
+\node at (180,530) {19};
+\node at (445,580) {21};
+\end{scope}
+\node[anchor=base west] at (28,858) {Length of minimum spanning tree: \underline{$19+21+16+25+13+19=113$ km}};
+\end{tikzpicture}
+\end{document}

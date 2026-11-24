@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(32,2)}]
+\foreach \n/\x/\y in {A/268/68,B/635/98,C/838/252,D/658/378,E/292/402,F/92/225,G/478/240}{
+  \node[circle,draw,minimum size=0.62cm,inner sep=0pt,font=\large] (\n) at (\x,\y) {$\n$};}
+\draw[line width=0.9pt] (A)--(B) (B)--(G) (B)--(D) (C)--(D) (E)--(G) (E)--(F);
+\draw[aux] (F)--(A) (A)--(G) (F)--(G) (B)--(C) (E)--(D) (G)--(D);
+\begin{scope}[font=\small]
+\node at (465,58) {25};
+\node at (146,136) {32};
+\node at (420,150) {33};
+\node at (759,150) {21};
+\node at (580,192) {16};
+\node at (318,262) {42};
+\node at (674,252) {13};
+\node at (594,290) {30};
+\node at (427,324) {21};
+\node at (173,332) {19};
+\node at (772,334) {19};
+\node at (500,364) {52};
+\end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{document}

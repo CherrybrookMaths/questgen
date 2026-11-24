@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \m in {0,...,7}{\foreach \k in {1,2,3,4}{
+  \draw[black!45,line width=0.4pt,dash pattern=on 0.6pt off 0.6pt] (205,{788-1.6825*(50*\m+10*\k)}) -- (1040,{788-1.6825*(50*\m+10*\k)});}}
+\foreach \v in {50,100,...,400}{\draw[black!65] (205,{788-1.6825*\v}) -- (1040,{788-1.6825*\v});}
+\foreach \n in {1,...,7}{\draw[black!65] ({205+119.29*\n},788) -- ({205+119.29*\n},115);}
+\draw[->] (205,788) -- (1095,788);
+\draw[->] (205,788) -- (205,45);
+\node at (205,20) {$C$};
+\node at (1118,790) {$n$};
+\node[font=\small] at (190,815) {$0$};
+\foreach \n in {1,...,7}{\node[font=\small] at ({205+119.29*\n},841) {$\n$};}
+\foreach \v in {50,100,...,400}{\node[font=\small,anchor=east] at (165,{788-1.6825*\v}) {$\v$};}
+% C = 360/n
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=0.87:7.05] ({205+119.29*\x},{788-1.6825*360/\x});
+\foreach \n in {1,...,6}{\fill ({205+119.29*\n},{788-1.6825*360/\n}) circle[radius=6];}
+\end{tikzpicture}
+\end{document}

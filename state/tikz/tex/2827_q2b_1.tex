@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\cx{345}\def\cy{317}
+\draw (\cx,\cy) ellipse [x radius=222, y radius=222];
+% equator: front solid, back dashed
+\draw plot[domain=0:180,samples=90,smooth] ({\cx+222*cos(\x)},{\cy+108*sin(\x)});
+\draw[aux] plot[domain=180:360,samples=90,smooth] ({\cx+222*cos(\x)},{\cy+108*sin(\x)});
+% Greenwich meridian
+\draw plot[domain=90:270,samples=90,smooth] ({\cx+103*cos(\x)},{\cy+222*sin(\x)});
+% polar axis
+\draw[aux] (\cx,95) -- (\cx,539);
+% radii
+\draw (\cx,\cy) -- (541,215);
+\draw (\cx,\cy) -- (252.6,415.2);
+\draw (\cx,\cy) -- (567,\cy);
+\node[pt] at (541,215) {};
+\node[pt] at (252.6,415.2) {};
+% angle arcs (math angle of OA = 27.5 deg)
+\draw[->] plot[domain=90:29,samples=40,smooth] ({\cx+47*cos(\x)},{\cy-47*sin(\x)});
+\draw[->] plot[domain=0:26.5,samples=20,smooth] ({\cx+80*cos(\x)},{\cy-80*sin(\x)});
+\draw[->] plot[domain=-90:-1,samples=40,smooth] ({\cx+55*cos(\x)},{\cy-55*sin(\x)});
+\begin{scope}[font=\large]
+\node at (382,250) {$60^\circ$};
+\node at (462,301) {$30^\circ$};
+\node at (385,374) {$110^\circ$};
+\node at (327,311) {$O$};
+\node at (567,219) {$A$};
+\node at (236,440) {$B$};
+\node at (\cx,72) {$\mathrm{N}$};
+\node at (\cx,565) {$\mathrm{S}$};
+\node[anchor=west] at (596,467) {Equator};
+\node[align=center] at (882,317) {NOT TO\\SCALE};
+\end{scope}
+\draw[->] (594,459) -- (510,400);
+\end{tikzpicture}
+\end{document}

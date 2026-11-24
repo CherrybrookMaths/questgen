@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(70,735)},xscale=25.68,yscale=-25.32]
+\foreach \i in {1,...,24}{
+  \pgfmathtruncatemacro\m{mod(\i,5)}
+  \ifnum\m=0 \else
+  \draw[black!20,line width=0.4pt] (\i,0)--(\i,25);
+  \draw[black!20,line width=0.4pt] (0,\i)--(25,\i);
+  \fi}
+\foreach \i in {5,10,...,25}{
+  \draw[black!45,line width=0.5pt] (\i,0)--(\i,25);
+  \draw[black!45,line width=0.5pt] (0,\i)--(25,\i);}
+\foreach \i in {1,...,25}{
+  \draw (\i,-0.2)--(\i,0.2);
+  \draw (-0.25,\i)--(0,\i);}
+\draw[->] (0,0)--(26.6,0);
+\draw[->] (0,0)--(0,26.2);
+\foreach \i in {5,10,...,25}{
+  \node at (\i,-1.75) {\i};
+  \node[anchor=east] at (-0.5,\i) {\i};}
+\node at (-0.55,-1.75) {0};
+\node[anchor=west] at (26.75,0) {$d$\,km};
+\node at (-0.7,28.1) {\$\,$c$};
+\draw[->,line width=0.9pt] (0,5)--(26.3,18.15);
+\end{scope}
+\node at (875,405) {\textsf{\textbf{Figure A}}};
+\end{tikzpicture}
+\end{document}

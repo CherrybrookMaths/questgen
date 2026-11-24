@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{200+17.52*(#1-55)}
+\def\Y#1{607-6.3*(#1)}
+\foreach \L in {54,...,83} \draw[black!25,line width=0.3pt] ({\X{\L}},{\Y{0}})--({\X{\L}},{\Y{85}});
+\foreach \m in {5,10,...,85} \draw[black!25,line width=0.3pt] ({\X{54}},{\Y{\m}})--({\X{83}},{\Y{\m}});
+\foreach \L in {53,54,56,57,58,59,61,62,63,64,66,67,68,69,71,72,73,74,76,77,78,79,81,82,83} \draw ({\X{\L}},607)--({\X{\L}},603);
+\foreach \L in {55,60,...,80} {\draw ({\X{\L}},607)--({\X{\L}},599); \node[font=\small] at ({\X{\L}},633) {\L};}
+% line of best fit
+\draw[line width=0.9pt] ({\X{54.1}},{\Y{75.52}})--({\X{81.07}},{\Y{0}});
+% reading guides
+\draw[aux] (147,{\Y{45}})--({\X{65}},{\Y{45}})--({\X{65}},607);
+% axes
+\draw[->] (147,607)--(147,40);
+\draw[->] (147,607)--(718,607);
+\fill[white] (163,600) rectangle (175,614);
+\draw (161,614)--(169,600) (167,614)--(175,600);
+\foreach \m in {5,10,15,25,30,35,45,50,55,65,70,75,85} \draw (147,{\Y{\m}})--(142,{\Y{\m}});
+\foreach \m in {20,40,60,80} {\draw (139,{\Y{\m}})--(153,{\Y{\m}}); \node[font=\small,anchor=east] at (135,{\Y{\m}}) {\m};}
+\node[font=\small] at (148,16) {$M$};
+\node[font=\small] at (737,608) {$L$};
+\node[font=\footnotesize,rotate=90] at (70,375) {Infant Mortality (per 1000 births)};
+\node[font=\footnotesize] at (416,670) {Life Expectancy at Birth (years)};
+% data points
+\foreach \p in {(190,113),(200,92),(283,236),(299,238),(386,315),(431,356),(436,355),(435,476),(490,433),(493,526),(516,483),(529,497),(535,509),(546,538),(545,550),(566,521),(571,532),(579,540),(591,543),(571,465),(570,570),(598,522),(605,519),(611,545),(634,580),(638,580),(657,586),(655,593),(673,580),(683,584)}
+  \draw[fill=black!30] \p circle[radius=5];
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(103,1098)},xscale=131,yscale=-11.04]
+\foreach \i in {0.5,1.5,...,6.5} \draw[black!20,line width=0.4pt] (\i,0)--(\i,90);
+\foreach \i in {1,...,89}{
+  \pgfmathtruncatemacro\m{mod(\i,10)}
+  \ifnum\m=0 \else \draw[black!20,line width=0.3pt] (0,\i)--(7,\i); \fi}
+\foreach \i in {1,...,7} \draw[black!45,line width=0.5pt] (\i,0)--(\i,90);
+\foreach \i in {10,20,...,90} \draw[black!45,line width=0.5pt] (0,\i)--(7,\i);
+\foreach \i in {1,...,90} \draw (-0.05,\i)--(0,\i);
+\foreach \i in {0.5,1,...,7} \draw (\i,0)--(\i,-0.6);
+\draw[->] (0,0)--(7.15,0);
+\draw[->] (0,0)--(0,92.7);
+\foreach \i in {1,...,7} \node[font=\small] at (\i,-3.3) {\i};
+\foreach \i in {10,20,...,90} \node[anchor=east,font=\small] at (-0.08,\i) {\i};
+\node[anchor=west,font=\small] at (7.2,0) {$t$};
+\node[anchor=south,font=\small] at (0.05,93) {$h$};
+\node[font=\small] at (3.47,-6.0) {Time (seconds)};
+\node[rotate=90,font=\small] at (-0.48,45) {Height (metres)};
+\end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\fontsize{9.6}{11}\selectfont, inner sep=0pt}]
+% obscured patches (grey clouds)
+\begin{scope}[shift={(-23,-2)}]
+\fill[shade] (648,388) circle (62) (580,372) circle (42) (716,372) circle (40) (618,332) circle (35) (680,334) circle (35)
+  (600,430) circle (34) (692,430) circle (34) (560,405) circle (26) (735,405) circle (22) (648,440) circle (25);
+\end{scope}
+\begin{scope}[shift={(-22,-30)}]
+\fill[shade] (347,622) circle (42) (305,618) circle (28) (390,610) circle (28) (330,590) circle (25) (370,590) circle (25)
+  (318,646) circle (20) (376,646) circle (20);
+\end{scope}
+\draw (7,24) rectangle (747,654);
+\node[anchor=base west, font=\small\bfseries] at (19,49) {Credit Card Statement};
+\node[anchor=base west] at (19,116) {\textbf{Statement period}: 1 November to 30 November};
+\node[anchor=base west] at (19,178) {Opening Balance:};
+\node[anchor=base east] at (665,178) {\$0.00};
+\node[anchor=base west] at (19,241) {Purchases:};
+\node[anchor=base west] at (100,271) {12 November};
+\node[anchor=base west] at (339,271) {Computa-Mart};
+\node[anchor=base east] at (665,271) {\$325.00};
+\node[anchor=base west] at (100,303) {25 November};
+\node[anchor=base west] at (339,303) {JD Wi-Fi};
+\node[anchor=base east] at (665,303) {\$95.00};
+\node[anchor=base west] at (19,364) {Interest Charged:};
+\node[anchor=base west] at (19,427) {Closing Balance:};
+\draw[aux] (24,467) -- (718,467);
+\node[anchor=base west] at (19,521) {\makebox[9.12cm][s]{The minimum payment is \$20.00 or 5\% of the closing balance,}};
+\node[anchor=base west] at (19,553) {whichever is greater.};
+\node[anchor=base west] at (19,613) {\textbf{Minimum Payment}:};
+\end{tikzpicture}
+\end{document}

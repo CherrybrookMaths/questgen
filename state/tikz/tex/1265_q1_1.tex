@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\P#1{(303.83+10.369*(#1-55))}
+\pgfmathsetmacro\a{303.83+10.369*(30-55)}
+\pgfmathsetmacro\b{303.83+10.369*(50-55)}
+\pgfmathsetmacro\m{303.83+10.369*(65-55)}
+\pgfmathsetmacro\c{303.83+10.369*(76-55)}
+\pgfmathsetmacro\d{303.83+10.369*(80-55)}
+\begin{scope}[line width=0.9pt]
+\draw (\b,22) rectangle (\c,124);
+\draw (\m,22) -- (\m,124);
+\draw (\a,96) -- (\b,96); \draw (\c,96) -- (\d,96);
+\draw (\a,84) -- (\a,108); \draw (\d,84) -- (\d,108);
+\end{scope}
+\draw (\a,162) -- (735,162);
+\foreach \v in {30,40,...,80}{
+  \pgfmathsetmacro\xx{303.83+10.369*(\v-55)}
+  \draw (\xx,152) -- (\xx,172);
+  \node at (\xx,212) {\v};}
+\node at (715,212) {(age in years)};
+\end{tikzpicture}
+\end{document}

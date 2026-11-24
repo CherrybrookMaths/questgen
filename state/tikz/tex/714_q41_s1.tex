@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+\coordinate (A) at (182,-190); \coordinate (B) at (431,-190); \coordinate (C) at (672,-190); \coordinate (D) at (926,-190);
+\coordinate (G) at (312,-476); \coordinate (F) at (590,-476); \coordinate (E) at (871,-476);
+% edges not in the minimum spanning tree: dashed
+\draw[aux] (B) -- (C); \draw[aux] (C) -- (D); \draw[aux] (A) -- (G); \draw[aux] (C) -- (F); \draw[aux] (C) -- (E);
+% minimum spanning tree: 0.9pt
+\draw[line width=0.9pt] (A) -- (B) (B) -- (G) (C) -- (G) (G) -- (F) (F) -- (E) (D) -- (E);
+\foreach \p in {A,B,C,D,E,F,G}{\fill (\p) circle[radius=6];}
+\begin{scope}[font=\LARGE]
+\node at (128,-168) {$A$}; \node at (440,-152) {$B$}; \node at (686,-150) {$C$}; \node at (936,-148) {$D$};
+\node at (280,-520) {$G$}; \node at (590,-524) {$F$}; \node at (878,-526) {$E$};
+\end{scope}
+\begin{scope}[font=\Large]
+\node at (310,-162) {$30$}; \node at (552,-162) {$65$}; \node at (805,-162) {$45$};
+\node at (195,-340) {$45$}; \node at (336,-318) {$25$}; \node at (466,-310) {$20$};
+\node at (668,-345) {$40$}; \node at (810,-312) {$30$}; \node at (952,-330) {$40$};
+\node at (452,-505) {$10$}; \node at (716,-505) {$15$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

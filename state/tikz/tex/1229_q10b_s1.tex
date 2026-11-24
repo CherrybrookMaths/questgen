@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(103.7,1087.8)},xscale=132.3,yscale=-11.075]
+\foreach \i in {0.5,1.5,...,6.5} \draw[black!20,line width=0.4pt] (\i,0)--(\i,90);
+\foreach \i in {1,...,89}{
+  \pgfmathtruncatemacro\m{mod(\i,10)}
+  \ifnum\m=0 \else \draw[black!20,line width=0.3pt] (0,\i)--(7,\i); \fi}
+\foreach \i in {1,...,7} \draw[black!45,line width=0.5pt] (\i,0)--(\i,90);
+\foreach \i in {10,20,...,90} \draw[black!45,line width=0.5pt] (0,\i)--(7,\i);
+\foreach \i in {1,...,90} \draw (-0.05,\i)--(0,\i);
+\foreach \i in {0.5,1,...,7} \draw (\i,0)--(\i,0.6);
+\draw[->] (0,0)--(7.2,0);
+\draw[->] (0,0)--(0,92.5);
+\foreach \i in {1,...,7} \node[font=\small] at (\i,-3.1) {\i};
+\foreach \i in {10,20,...,90} \node[anchor=east,font=\small] at (-0.1,\i) {\i};
+\node[anchor=west,font=\small] at (7.25,0) {$t$};
+\node[anchor=south,font=\small] at (0.05,92.8) {$h$};
+\node[font=\small] at (3.62,-5.6) {Time (seconds)};
+\node[rotate=90,font=\small] at (-0.5,49) {Height (metres)};
+\draw[line width=0.9pt] plot[smooth,domain=0:6,samples=61] (\x,{20*\x-5*\x*\x+60});
+\draw[line width=0.9pt] (0,60)--(7,25);
+\foreach \t/\h in {0/60,1/75,2/80,3/75,4/60,5/35,6/0} \node[pt] at (\t,\h) {};
+\node[anchor=west,font=\Large] at (7.15,26.5) {\textit{Glider}};
+\end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {10,20,...,100} \draw[black!35] ({134+7.24*\i},716) -- ({134+7.24*\i},46);
+\foreach \j in {100,200,...,1000} \draw[black!35] (134,{716-0.67*\j}) -- (858,{716-0.67*\j});
+\draw[->] (134,716) -- (890,716);
+\draw[->] (134,716) -- (134,12);
+\foreach \i in {10,20,...,100} {\draw ({134+7.24*\i},716) -- ({134+7.24*\i},727); \node at ({134+7.24*\i},755) {\i};}
+\foreach \j in {100,200,...,1000} {\draw (124,{716-0.67*\j}) -- (134,{716-0.67*\j}); \node[anchor=east] at (120,{716-0.67*\j}) {\j};}
+\draw[line width=0.9pt] (134,716) -- (858,46);
+\draw[line width=0.9pt] (134,{716-0.67*420}) -- (858,{716-0.67*820});
+\node at (924,38) {Revenue};
+\node at (900,152) {Cost};
+\node at (512,790) {Number of Hand Sanitisers};
+\node[rotate=90] at (28,330) {Amount (\$)};
+\end{tikzpicture}
+\end{document}

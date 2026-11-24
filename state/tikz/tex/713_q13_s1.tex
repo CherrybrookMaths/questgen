@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (P) at (75,370); \coordinate (A) at (240,175); \coordinate (B) at (458,530);
+% compass at P
+\draw[->] (P)--(75,160);
+\node[font=\large] at (75,143) {N};
+\draw (P)--(A); \draw (P)--(B); \draw (A)--(B);
+% compass at A
+\draw[->] (A)--(240,65); \node[font=\large] at (240,48) {N};
+\draw[->] (A)--(160,175); \node[font=\large] at (143,175) {W};
+\draw[->] (A)--(430,175); \node[font=\large] at (449,175) {E};
+\draw[->] (A)--(240,250);
+\fill (A) circle (2.2pt); \fill (B) circle (2.2pt);
+\node[font=\large] at (217,152) {$A$};
+\node[font=\large] at (482,548) {$B$};
+\node[font=\large] at (45,375) {$P$};
+% angles at P
+\draw (75,300) arc[start angle=-90,end angle=-49.8,radius=70];
+\node at (109,276) {$40^\circ$};
+\draw ($(P)+(64.5,-76.4)$) arc[start angle=-49.8,end angle=22.7,radius=100];
+\node at (138,354) {$63^\circ$};
+% bearing of B from A
+\draw ($(A)+(0,-38)$) arc[start angle=-90,end angle=58.4,radius=38];
+\node at (318,122) {$139^\circ19'$};
+\draw ($(A)+(0,50)$) arc[start angle=90,end angle=58.4,radius=50];
+\draw (252,223)--(298,231);
+\node[anchor=west] at (298,232) {$40^\circ41'$};
+% lengths
+\node[font=\large] at (232,282) {6 km};
+\node[font=\large] at (210,470) {10 km};
+\node[font=\large,anchor=west] at (362,352) {9.03 km};
+\node[font=\large] at (780,287) {Not to scale};
+\end{tikzpicture}
+\end{document}

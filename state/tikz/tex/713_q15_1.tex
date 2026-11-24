@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, v/.style={circle,draw,line width=0.9pt,minimum size=0.54cm,inner sep=0pt,font=\Large}]
+\node[v] (A) at (236,42) {$A$};
+\node[v] (B) at (596,79) {$B$};
+\node[v] (F) at (69,197) {$F$};
+\node[v] (G) at (440,210) {$G$};
+\node[v] (C) at (794,225) {$C$};
+\node[v] (E) at (258,372) {$E$};
+\node[v] (D) at (617,350) {$D$};
+\draw (A)--(B) (A)--(F) (A)--(G) (F)--(G) (F)--(E) (E)--(G) (E)--(D) (G)--(B) (G)--(D) (B)--(D) (B)--(C) (C)--(D);
+\begin{scope}[every node/.style={font=\small}]
+\node at (425,44) {25};
+\node at (128,123) {32};
+\node at (372,134) {33};
+\node at (282,229) {42};
+\node at (146,301) {19};
+\node at (381,288) {21};
+\node at (457,342) {52};
+\node at (537,163) {16};
+\node at (545,272) {30};
+\node at (628,226) {13};
+\node at (710,130) {21};
+\node at (727,302) {19};
+\end{scope}
+\end{tikzpicture}
+\end{document}

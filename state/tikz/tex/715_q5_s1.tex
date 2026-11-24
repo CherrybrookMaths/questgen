@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.20625cm,y=0.36068cm]
+  \foreach \x in {-4,-2,...,62}{\draw[black!22,line width=0.4pt] (\x,-2.5) -- (\x,35);}
+  \foreach \y in {-2,0,...,34}{\draw[black!22,line width=0.4pt] (-4.1,\y) -- (61.1,\y);}
+  \foreach \x in {10,20,...,60}{\draw[black!55,line width=0.5pt] (\x,-2.5) -- (\x,35);}
+  \foreach \y in {10,20,30}{\draw[black!55,line width=0.5pt] (-4.1,\y) -- (61.1,\y);}
+  \draw[->] (-4.1,0) -- (61.8,0);
+  \draw[->] (0,-2.5) -- (0,35.1);
+  \foreach \x in {10,20,...,60}{\node[anchor=north east,inner sep=1pt,font=\footnotesize] at (\x-0.15,-0.3) {$\x$};}
+  \node[anchor=north east,inner sep=1pt,font=\footnotesize] at (-0.3,-0.3) {$0$};
+  \foreach \y in {10,20,30}{\node[anchor=south east,inner sep=1pt,font=\footnotesize] at (-0.25,\y+0.1) {$\y$};}
+  \draw[line width=0.9pt] (0,0) -- (35,35);
+  \draw[line width=0.9pt] (0,9) -- (50,34);
+  \node[anchor=east] at (25.4,33.1) {Income};
+  \node at (39.9,31.1) {Cost};
+  \node[rotate=90,font=\small] at (-3.3,33.6) {Costs};
+  \node[font=\small] at (55.1,-1.5) {Number of Dolls};
+  % solution annotations
+  \draw (26,-2.5) -- (26,33);
+  \draw[->] (26,26) -- (0.15,26);
+  \draw[->] (26,22) -- (0.15,22);
+  \node[pt] at (26,26) {};
+  \node[pt] at (26,22) {};
+  \node[anchor=east] at (-0.6,26) {$26$};
+  \node[anchor=east] at (-0.6,22.3) {$22$};
+\end{tikzpicture}
+\end{document}

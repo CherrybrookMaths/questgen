@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(205,40)}]
+\coordinate (F) at (230,400); \coordinate (I) at (545,345); \coordinate (K) at (862,233);
+\coordinate (J) at (818,575); \coordinate (H) at (462,160); \coordinate (G) at (438,610);
+\draw plot[domain=23.4:123.4,samples=60,smooth] ({450.6+400.3*cos(\x)},{734-400.3*sin(\x)});
+\draw (F)--(H)--(K) (I)--(K) (F)--(G)--(I) (G)--(J)--(K);
+\draw plot[smooth,tension=0.6] coordinates {(230,400) (212,340) (210,280) (222,215) (262,155) (345,102) (450,72) (568,62) (688,70) (785,105) (835,160) (862,233)};
+\foreach \n in {F,I,K,J,H,G}{\fill (\n) circle (6);}
+\begin{scope}[font=\Large]
+\node at (545,305) {$I$};
+\node at (892,210) {$K$};
+\node at (195,442) {$F$};
+\node at (390,165) {$H$};
+\node at (420,634) {$G$};
+\node at (848,602) {$J$};
+\end{scope}
+\begin{scope}[font=\LARGE]
+\node at (372,58) {28};
+\node at (650,165) {21};
+\node at (335,232) {13};
+\node at (700,255) {15};
+\node at (410,305) {11};
+\node at (888,385) {14};
+\node at (750,405) {19};
+\node at (455,465) {10};
+\node at (295,530) {20};
+\node at (650,640) {13};
+\end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{document}

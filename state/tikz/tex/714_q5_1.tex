@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.4097cm,y=0.16104cm]
+  % minor grid (dotted, light)
+  \foreach \yy in {1,2,3,5,6,7,9,10,11,13,14,15,17,18,19,21,22,23,25,26,27,29,30,31}
+    \draw[black!40,line width=0.4pt,dash pattern=on 0.6pt off 0.8pt] (0,\yy)--(4.5,\yy);
+  \foreach \xx in {0.5,1.5,2.5,3.5,4.5}
+    \draw[black!40,line width=0.4pt,dash pattern=on 0.6pt off 0.8pt] (\xx,0)--(\xx,32);
+  % major grid
+  \foreach \yy in {4,8,...,32} \draw[black!60,line width=0.6pt] (0,\yy)--(4.5,\yy);
+  \foreach \xx in {1,2,3,4} \draw[black!60,line width=0.6pt] (\xx,0)--(\xx,32);
+  % axes
+  \draw[->] (0,0)--(4.79,0) node[right,font=\small] {$x$};
+  \draw[->] (0,0)--(0,35.5) node[above,font=\small,inner sep=1pt] {$y$};
+  \foreach \xx in {1,2,3,4} \node[below,font=\scriptsize] at (\xx,0) {$\xx$};
+  \node[below left,font=\scriptsize,inner sep=2pt] at (0,0) {$0$};
+  \foreach \yy in {4,8,...,32} \node[left,font=\scriptsize] at (0,\yy) {$\yy$};
+  % curve y = 3(2)^x
+  \draw[line width=0.9pt,smooth,samples=90,domain=0:3.415] plot (\x,{3*2^\x});
+  \foreach \xx/\yy in {0/3,1/6,2/12,3/24} \fill (\xx,\yy) circle (2pt);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (125,17) rectangle (490,208);
+\draw (125,57) -- (160,57) -- (160,17);
+\draw (455,208) -- (455,172) -- (490,172);
+\node[anchor=west] at (488,114) {$15 - x$};
+\node at (307,232) {$x$};
+\draw[->] (40,775) -- (40,339) node[above] {$y$};
+\draw[->] (40,775) -- (585,775) node[right] {$x$};
+\draw[aux] (40,405) -- (224,405);
+\draw[line width=0.9pt, smooth, samples=90, domain=40:408] plot (\x,{405+370*((\x-224)/184)^2});
+\node[left] at (40,405) {$A$};
+\node[left] at (40,779) {$0$};
+\node[align=left, anchor=west] at (440,519) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

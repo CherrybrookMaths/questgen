@@ -1,0 +1,60 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% floor plan
+\begin{scope}[line width=0.9pt]
+\draw (15,25) -- (622,25) -- (622,362) -- (488,362) -- (488,463) -- (15,463) -- cycle;
+\draw (218,25) -- (218,88);
+\draw (218,137) -- (218,330);
+\draw (218,375) -- (218,463);
+\draw (15,192) -- (218,192);
+\draw (15,295) -- (52,295);
+\draw (93,295) -- (218,295);
+\draw (286,25) -- (286,60);
+\draw (286,105) -- (286,463);
+\draw (286,262) -- (320,262);
+\draw (453,262) -- (622,262);
+\draw (488,262) -- (488,290);
+\draw (488,335) -- (488,362);
+\end{scope}
+\begin{scope}[every node/.style={font=\scriptsize}]
+\node at (115,108) {Bedroom};
+\node at (453,148) {Kitchen/Dining};
+\node at (115,245) {Ensuite};
+\node at (552,311) {Bath};
+\node at (385,362) {Living};
+\node at (115,380) {Bedroom};
+\end{scope}
+\node[font=\fontsize{6.6}{8}\selectfont] at (571,513) {1800 mm};
+\draw (521,497) -- (622,497);
+\draw (521,482) -- (521,512);
+\draw (622,482) -- (622,512);
+% elevation
+\path[shade hatch reverse] (840,113) rectangle (1245,175);
+\draw (840,113) rectangle (1245,175);
+\draw (848,175) -- (848,297);
+\draw (1243,175) -- (1243,297);
+\begin{scope}[black!60]
+\draw (878,195) rectangle (955,249);
+\draw (1018,197) rectangle (1073,216);
+\draw (1138,195) rectangle (1213,250);
+\end{scope}
+\draw (822,297) rectangle (1245,327);
+\foreach \x in {908,970,1032,1093,1153,1213} \draw (\x,297) -- (\x,327);
+\draw[<->] (818,175) -- (818,297);
+\draw[<->] (818,297) -- (818,327);
+\draw[aux] (786,175) -- (848,175);
+\draw[aux] (786,297) -- (822,297);
+\begin{scope}[every node/.style={font=\fontsize{8.6}{10}\selectfont}]
+\node[anchor=east] at (783,175) {Ceiling Level};
+\node[anchor=east] at (783,296) {Floor Level};
+\node[anchor=east] at (828,133) {Roof Pitch 15\textdegree};
+\end{scope}
+\begin{scope}[every node/.style={font=\fontsize{6.6}{8}\selectfont}]
+\node[anchor=east] at (811,236) {2400 mm};
+\node[anchor=east] at (811,314) {600 mm};
+\end{scope}
+\draw[->] (800,142) -- (852,160);
+\end{tikzpicture}
+\end{document}

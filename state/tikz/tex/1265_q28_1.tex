@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% lake
+\path[shade dots,draw] plot[smooth cycle] coordinates {(280,242)(305,234)(342,230)(350,218)(385,213)(425,217)(468,213)(492,226)(550,242)(605,256)(645,266)(660,272)(642,278)(600,287)(560,297)(520,307)(490,322)(448,332)(408,335)(368,325)(330,309)(292,296)(278,284)(276,262)};
+\node at (445,258) {\halo{Lake}};
+% ground line T to H
+\draw[aux] (40,272) -- (886,272);
+% TP and PH
+\draw[postaction={decorate},decoration={markings,mark=at position 0.62 with {\arrow{>}}}] (40,272) -- (365,62);
+\draw[postaction={decorate},decoration={markings,mark=at position 0.42 with {\arrow{>}}}] (365,62) -- (888,272);
+% 120 arc
+\draw[->] (365,62) ++(147.1:60) arc[start angle=147.1,end angle=21.9,radius=60];
+\node at (381,97) {$120^\circ$};
+% flag and hole
+\fill (886,192) rectangle (891,272);
+\draw[fill=black!18] (891,196) .. controls (910,184) and (930,208) .. (956,194) -- (956,232) .. controls (930,246) and (910,222) .. (891,234) -- cycle;
+\draw (905,280) circle[radius=25];
+\node at (905,280) {$H$};
+% 60 m
+\draw[aux,<->] (697,286) -- (876,286);
+\node at (785,308) {60 m};
+\node at (675,293) {$L$};
+\node at (20,280) {$T$};
+\node at (372,40) {$P$};
+\node at (157,155) {90 m};
+\node at (668,148) {110 m};
+\node[align=left,anchor=north west,inner sep=0pt] at (783,13) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

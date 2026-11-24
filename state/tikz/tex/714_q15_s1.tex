@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\newcommand{\npanel}[9]{%
+  \fill[black!30] ({#1+#3*(#5)},#2) -- plot[domain=#5:#6,samples=60,smooth] ({#1+#3*\x},{#2-#4*exp(-0.5*\x*\x)}) -- ({#1+#3*(#6)},#2) -- cycle;
+  \draw[line width=0.9pt] plot[domain=-4.3:4.3,samples=90,smooth] ({#1+#3*\x},{#2-#4*exp(-0.5*\x*\x)});
+  \draw[<->] ({#1-4.45*#3},#2) -- ({#1+4.45*#3},#2);
+  \foreach \k in {-4,...,4} \node[font=\scriptsize] at ({#1+#3*\k},#8) {$\k$};
+  \node[font=\scriptsize] at (#1,#9) {Distribution $#7$};
+}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (28,30) rectangle (1210,803);
+  \draw (620,30) -- (620,803);
+  \draw (28,415) -- (1210,415);
+  \npanel{305}{327}{56}{242}{-1}{0}{P}{357}{47}
+  \npanel{898}{330}{56}{245}{-1}{1}{Q}{360}{47}
+  \npanel{310}{716}{56}{245}{-1}{2}{R}{747}{433}
+  \npanel{898}{718}{56}{247}{-1}{3}{S}{749}{433}
+  % annotations from the worked solution
+  \node at (470,205) {$\dfrac{68\%}{2}=34\%$};
+  \node at (1065,222) {$68\%$};
+  \draw[aux] (310,716) -- (310,471);
+  \node[rotate=90] at (279,635) {$34\%$};
+  \node[rotate=90] at (342,635) {$47.5\%$};
+  \node at (490,562) {$81.5\%$};
+  \draw[aux] (898,718) -- (898,471);
+  \node[rotate=90] at (867,630) {$34\%$};
+  \node[rotate=90] at (930,630) {$49.85\%$};
+  \node at (1045,512) {$\begin{array}{r}34\\ {}+49.85\\ \hline 83.85\%\end{array}$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\Large]
+  \coordinate (A) at (132,86); \coordinate (B) at (343,86); \coordinate (E) at (343,284);
+  \coordinate (D) at (542,284); \coordinate (F) at (690,172); \coordinate (C) at (555,78);
+  \coordinate (G) at (812,80); \coordinate (H) at (812,290);
+  \draw (A)--(B)--(E)--(D)--(F)--(G)--(H); \draw (C)--(F);
+  \foreach \v in {A,B,C,D,E,F,G,H} \node[pt,inner sep=1.6pt] at (\v) {};
+  \node at (118,50) {$A$}; \node at (365,55) {$B$}; \node at (578,45) {$C$};
+  \node at (690,128) {$F$}; \node at (838,72) {$G$}; \node at (340,325) {$E$};
+  \node at (548,322) {$D$}; \node at (842,300) {$H$};
+  \node at (238,55) {2}; \node at (312,200) {3}; \node at (455,322) {2};
+  \node at (655,238) {2}; \node at (603,150) {2}; \node at (768,160) {2};
+  \node at (838,190) {1};
+\end{tikzpicture}
+\end{document}

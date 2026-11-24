@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \begin{scope}[shift={(102,249)}]
+  \foreach \x in {62,124,186,248} \draw[black!25, line width=0.5pt, dash pattern=on 2pt off 1pt] (\x,0) -- (\x,-222);
+  \foreach \y in {-55.5,-111,-166.5,-222} \draw[black!25, line width=0.5pt, dash pattern=on 2pt off 1pt] (0,\y) -- (248,\y);
+  \draw[->] (0,0) -- (270,0);
+  \draw[->] (0,0) -- (0,-245);
+  \node[anchor=base west] at (-91,-225) {C.};
+  \foreach \p in {(36,-199),(35,-173),(53,-176),(77,-172),(79,-149),(73,-134),(95,-118),(114,-129),(140,-109),(117,-86),(146,-82),(159,-73),(191,-70),(186,-41),(217,-39)}
+    \draw \p circle (4);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

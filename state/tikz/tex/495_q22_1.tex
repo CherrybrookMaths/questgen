@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (T) at (45,35); \coordinate (B) at (207,280); \coordinate (R) at (413,280);
+\draw (T)--(B)--(R)--cycle;
+\draw[->] ($(T)+(33.7:68)$) arc[start angle=33.7,end angle=56.5,radius=68];
+\draw[->] ($(B)+(236.5:52)$) arc[start angle=236.5,end angle=360,radius=52];
+\draw (84,75)--(118,57);
+\node[anchor=west] at (113,52) {$23^\circ37'$};
+\node at (283,138) {54.1 cm};
+\node at (310,303) {25 cm};
+\node at (218,264) {$\theta$};
+\end{tikzpicture}
+\end{document}

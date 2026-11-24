@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+  \coordinate (K) at (193,59); \coordinate (A) at (42,209); \coordinate (B) at (208,209);
+  \coordinate (C) at (373,158); \coordinate (G) at (539,170); \coordinate (F) at (456,222);
+  \coordinate (D) at (373,322); \coordinate (H) at (539,334); \coordinate (E) at (208,375);
+  \draw (A)--(K)--(C); \draw (A)--(B)--(C)--(G)--(H)--(D)--(E)--(B);
+  \draw (C)--(D); \draw (C)--(F); \draw (G)--(F); \draw (D)--(F); \draw (H)--(F);
+  \foreach \v in {K,A,B,C,D,E,F,G,H} \node[pt,inner sep=1.4pt] at (\v) {};
+  \node at (193,41) {$K$}; \node at (42,191) {$A$}; \node at (212,191) {$B$};
+  \node at (373,140) {$C$}; \node at (541,152) {$G$}; \node at (457,203) {$F$};
+  \node at (374,341) {$D$}; \node at (541,354) {$H$}; \node at (208,394) {$E$};
+  \node at (111,115) {12}; \node at (283,92) {10}; \node at (127,197) {2};
+  \node at (295,170) {3}; \node at (461,153) {5}; \node at (406,211) {2};
+  \node at (503,213) {2}; \node at (361,244) {3}; \node at (428,284) {2};
+  \node at (510,271) {2}; \node at (552,258) {1}; \node at (196,298) {3};
+  \node at (295,370) {2}; \node at (461,350) {4};
+\end{tikzpicture}
+\end{document}

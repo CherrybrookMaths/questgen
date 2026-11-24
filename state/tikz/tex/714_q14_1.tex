@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{10.5}{12}\selectfont}]
+\coordinate (W) at (60,293); \coordinate (T) at (218,77); \coordinate (M) at (383,223);
+\coordinate (U) at (716,128); \coordinate (V) at (893,220); \coordinate (B) at (609,358);
+\draw[line width=0.5pt] plot[smooth,tension=0.6] coordinates {(60,293)(100,255)(138,208)(144,172)(134,135)(160,102)(218,77)};
+\draw[line width=0.5pt] plot[smooth,tension=0.6] coordinates {(218,77)(224,130)(236,160)(258,166)(266,182)(264,200)(292,211)(383,223)};
+\draw[line width=0.5pt] plot[smooth,tension=0.6] coordinates {(60,293)(112,318)(172,325)(232,293)(292,250)(320,264)(346,250)(383,223)};
+\draw[line width=0.5pt] plot[smooth,tension=0.6] coordinates {(383,223)(410,172)(462,145)(522,150)(570,148)(602,122)(632,112)(716,128)};
+\draw[line width=0.5pt] plot[smooth,tension=0.6] coordinates {(716,128)(790,140)(836,160)(893,220)};
+\draw[line width=0.5pt] plot[smooth,tension=0.6] coordinates {(383,223)(450,196)(530,183)(600,185)(680,217)(735,229)(893,220)};
+\draw[line width=0.5pt] plot[smooth,tension=0.6] coordinates {(383,223)(410,290)(440,326)(480,320)(504,310)(514,332)(518,368)(538,380)(609,358)};
+\draw[line width=0.5pt] plot[smooth,tension=0.6] coordinates {(609,358)(642,325)(684,312)(724,330)(775,380)(808,398)(852,355)(893,220)};
+\foreach \p in {W,T,M,U,V,B} \fill (\p) circle (2.2pt);
+\node at (120,168) {8}; \node at (288,167) {5}; \node at (212,283) {14};
+\node at (533,118) {6}; \node at (780,108) {4}; \node at (687,196) {12};
+\node at (528,290) {8}; \node at (775,322) {10};
+\node at (82,322) {Work};
+\node[align=left,anchor=west] at (897,228) {Movie\\theatre};
+\node at (872,33) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \path[shade dots] (162,60) rectangle (677,365);
+  \draw (162,365) -- (162,60) -- (677,60) -- (677,365) -- cycle;
+  \draw plot[smooth, tension=0.6] coordinates {(162,70) (215,66) (277,93) (317,118) (367,158) (417,192) (455,203) (500,198) (560,183) (620,177) (660,180) (677,195)};
+  \draw[aux] (417,192) -- (417,365);
+  \draw (292,355) -- (292,375);
+  \draw (548,355) -- (548,375);
+  \draw (162,333) -- (194,333) -- (194,365);
+  \draw (645,365) -- (645,333) -- (677,333);
+  \draw[aux,<->] (145,66) -- (145,359);
+  \draw[aux,<->] (695,200) -- (695,359);
+  \draw[aux,<->] (168,383) -- (671,383);
+  \node[anchor=east] at (141,215) {15 cm};
+  \node[anchor=west] at (421,280) {10 cm};
+  \node[anchor=west] at (699,280) {8 cm};
+  \node[anchor=north] at (420,393) {45 cm};
+  \node at (147,45) {$P$};
+  \node at (148,384) {$S$};
+  \node at (697,180) {$Q$};
+  \node at (690,381) {$R$};
+  \node[anchor=north west, align=left] at (785,125) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

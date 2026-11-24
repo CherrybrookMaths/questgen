@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (92,408); \coordinate (L) at (440,72);
+  \coordinate (T) at ($(A)!0.4885!(L)$);
+  \draw (40,408) -- (620,408);
+  \draw (A) -- (L);
+  \fill (L) circle (2.5);
+  \draw[<->] (40,410) -- (418,45);
+  \draw (T) -- (T |- 0,408);
+  \draw[aux] (L) -- (440,408);
+  \draw[aux,<->] ($(T)+(13,4)$) -- (275,407);
+  \draw[aux,<->] (268,432) -- (440,432);
+  \draw (242,408) -- (242,390) -- (262,390);
+  \draw (420,408) -- (420,390) -- (440,390);
+  \node at ($(T)+(-8,-15)$) {$T$};
+  \node at (457,64) {$L$};
+  \node at (88,440) {$A$};
+  \node at (249,440) {$B$};
+  \node at (458,435) {$C$};
+  \node at (292,328) {$h$};
+  \node at (357,455) {1 m};
+  \node at (148,394) {$60^\circ$};
+  \node at (260,192) {3 m};
+  \node[font=\fontsize{11.5}{13}\selectfont] at (708,185) {DIAGRAM NOT TO SCALE};
+  \node[anchor=west,font=\small] at (625,416) {Ground level};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw plot[domain=23.4:123.9,samples=60,smooth] ({267.5+386.2*cos(\x)},{563.5-386.2*sin(\x)});
+\draw (358,188)--(668,82);
+\foreach \x/\y in {52/243,358/188,668/82,622/410}{\fill (\x,\y) circle (7);}
+\begin{scope}[font=\Large]
+\node at (360,150) {$I$};
+\node at (697,60) {$K$};
+\node at (24,280) {$F$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

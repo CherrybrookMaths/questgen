@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  v/.style={circle,draw,minimum size=0.82cm,inner sep=0pt},
+  m/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}]
+  \node[v,fill=black!18] (A) at (40,303) {$A$};
+  \node[v] (B) at (290,43) {$B$};
+  \node[v,fill=black!18] (C) at (541,292) {$C$};
+  \node[v] (E) at (298,293) {$E$};
+  \node[v] (D) at (303,551) {$D$};
+  \draw[m=0.73] (A)--(B);
+  \draw[m=0.62] (B)--(C);
+  \draw[m=0.67] (A)--(D);
+  \draw[m=0.45] (E)--(B);
+  \draw[m=0.62] (E)--(C);
+  \draw[m=0.62] (D)--(E);
+  \draw[m=0.62] (D)--(C);
+  \node at (130,160) {10};
+  \node at (447,157) {6};
+  \node at (130,435) {20};
+  \node at (320,180) {12};
+  \node at (395,265) {10};
+  \node at (322,410) {6};
+  \node at (455,433) {2};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm,font=\small]
+\coordinate (H) at (112,-252);
+\coordinate (S) at ($(H)+(27:266)$);
+\coordinate (P) at ($(S)+(-34:464)$);
+\draw (H) -- (S) -- (P) -- cycle;
+\draw[aux,->] (H) -- ++(0,147);
+\draw[aux,->] (S) -- ++(0,121);
+\draw[aux,->] (P) -- ++(0,167);
+\draw[->] ($(H)+(90:67)$) arc[start angle=90,end angle=27,radius=67];
+\draw[->] ($(S)+(90:48)$) arc[start angle=90,end angle=-34,radius=48];
+\draw[->] ($(P)+(90:50)$) arc[start angle=90,end angle=-192.6,radius=50];
+\node[font=\normalsize] at (158,-170) {$63^\circ$};
+\node[font=\normalsize] at (416,-96) {$124^\circ$};
+\node at (270,-100) {Shop $(S)$};
+\node at (72,-278) {House $(H)$};
+\node[anchor=west] at (792,-368) {Post office};
+\node[anchor=west] at (792,-408) {$(P)$};
+\path (H) -- (S) node[pos=0.6,sloped,below=1pt] {5.59 km};
+\path (H) -- (P) node[pos=0.5,sloped,above=1pt] {13.34 km};
+\end{tikzpicture}
+\end{document}

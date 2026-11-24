@@ -887,4 +887,48 @@ for sid, lat, crit, note, extra in C26:
     apply(sid, lat, crit, note, extra)
     m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
     db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
-db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26')
+# Standard batch 8 (run s8, 25 Nov early morning): the verifier's 18 findings on 2022 King's AT2/AT3/AT4, Oakhill AT2/AT3, CTHS AT1/AT3/
+# AT4 and 2021 Knox AT1, checked by hand. Your call: Oakhill 2022 AT3 Q14(c) (simple or compound appreciation). Left for the checker:
+# the redraws 495_q24_s1 (Business Park-Hospital edge, 14 min, missing) and 715_q11_1 (blank grid lines off the integer ticks),
+# CTHS AT3 Q20(f) (the school accepts "Yes"), Oakhill AT2 Q18 wording.
+def _sol10714(l, c):   # 2022 Oakhill AT2 Q26(b): daily compounding
+    return (r"""Interest is charged from the purchase date to 30 November inclusive, compounding daily at $0.06\%$.
+
+12 November to 30 November is 19 days; 25 November to 30 November is 6 days.
+$$\begin{aligned} \text{Interest on } \$325 &= 325\left(1.0006^{19}-1\right) \\ &\approx \$3.73 \end{aligned}$$
+$$\begin{aligned} \text{Interest on } \$95 &= 95\left(1.0006^{6}-1\right) \\ &\approx \$0.34 \end{aligned}$$
+$$\begin{aligned} \text{Total interest} &= \$4.07 \\ \text{Closing balance} &= \$424.07 \end{aligned}$$
+$$\begin{aligned} 0.05 \times 424.07 &\approx \$21.20 \end{aligned}$$
+This is greater than $\$20$.
+$$\therefore\ \text{minimum payment} = \$21.20$$""", c)
+def _sol10715(l, c):   # 2022 Oakhill AT2 Q27(a): placeholder text from the parse
+    return (r"""Measure the plan against the scale bar (one bar length is $1800$ mm). The two shorter sides are each about $56 \div 13 \approx 4.3$ bar lengths and the two longer sides about $6$ bar lengths each.
+$$\begin{aligned} 4.3 + 4.3 + 6 + 6 &= 20.6 \text{ bar lengths} \end{aligned}$$
+$$\begin{aligned} 20.6 \times 1800 &= 37\,080 \text{ mm} \\ &\approx 37 \text{ m} \end{aligned}$$
+$$\therefore\ \text{perimeter} \approx 37 \text{ m}$$""", c)
+C27 = [
+ (10778, [(r'The shortest path is $ACGFE$.', r'The shortest path is $ACDGFE$.')], [], r'the path was written $ACGFE$ (as in the school key); the sum $22+10+4+5+3$ is for $ACDGFE$', None),
+ (10842, [(r'&\approx 105 \text{ m}', r'&= 105.8\ldots \\ &\approx 106 \text{ m}')], [], r'$k=\dfrac{127\sin19^\circ}{\sin23^\circ}=105.8$, so $106$ m, not $105$ m', None),
+ (10848, [(r'20797 + 0.37x - 33000 &= 24935', r'20797 + 0.37x - 33300 &= 24935')], [], r'$0.37\times90\,000$ was written $33\,000$; it is $33\,300$ (the answer is unchanged)', None),
+ (10965, [(r'r &\approx 1.4 \times 10^8 \text{ m}', r'r &= 1.414\ldots \times 10^8 \text{ m}'), (r'\text{Distance} &= 1.4 \times 10^8 - 6.4 \times 10^6 \\ &\approx 1.34 \times 10^8 \text{ m}', r'\text{Distance} &= 1.414\ldots \times 10^8 - 6.4 \times 10^6 \\ &= 1.350\ldots \times 10^8 \\ &\approx 1.4 \times 10^8 \text{ m}')], [], r'$r$ was rounded to $1.4\times10^8$ before subtracting, giving $1.34\times10^8$; it is $1.35\times10^8\approx1.4\times10^8$ m (1 d.p.)', None),
+ (10705, [(r'\text{range} &= 144 - 80 = 68', r'\text{range} &= 144 - 80 = 64')], [], r'$144-80$ was given as $68$; it is $64$', None),
+ (10706, [(r"$$\therefore\ \theta \approx 60^\circ 6'$$", r"$\theta$ is obtuse, so" + '\n' + r"$$\theta = 180^\circ - 60^\circ 6' = 119^\circ 54'$$" + '\n' + r"$$\therefore\ \theta \approx 119^\circ 54'$$")], [], r'the answer gave the acute angle $60^\circ6^\prime$; the question says $\theta$ is obtuse, so $119^\circ54^\prime$', None),
+ (10714, [], [], r'the working used simple interest ($\$4.06$); the interest compounds daily, $\$4.07$ (closing balance $\$424.07$; the minimum payment $\$21.20$ is unchanged)', _sol10714),
+ (10715, [], [], r'the working carried notes from the parse ("as in source", "The source writes this as mm"); rewritten in bar lengths', _sol10715),
+ (10722, [(r'With the extra payment, the loan is repaid after 13 months... as read from the graph: 53 normal repayments, 7 months early.', r'From the graph, with the extra payment the loan is repaid at month $53$: $53$ normal repayments, $7$ months early.')], [], r'the first line said the loan is repaid after 13 months; it is month 53', None),
+ (10899, [(r'Time cannot be negative, so the model only applies for $t \ge 0$.', r'Time cannot be negative, so the model only applies for $t \ge 0$; and the height cannot be negative, so it stops at $t = 2+\sqrt{10} \approx 5.16$ s, when $H = 0$ and the water reaches the ground.')], [], r'the answer explained only the left end; the section also ends where $H=0$', None),
+ (10903, [(r'\sin 46^\circ', r'\sin 45.859^\circ')], [], r'the area line used $46^\circ$ (which gives $84.6$); with $45.859^\circ$ it is $84.511$', None),
+ (10920, [(r'A &= \dfrac{267}{360} \times \pi \times 12^2 \\ &= 335.52 \text{ cm}^2', r'A &= \dfrac{1}{2} \times 12 \times 56 \\ &= 336.00 \text{ cm}^2')], [], r'$\theta$ was rounded to $267^\circ$ first, giving $335.52$; exactly, $A=\dfrac12 r\ell=336.00$ cm$^2$', None),
+]
+for sid, lat, crit, note, extra in C27:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# 2022 Oakhill AT2 Q28(b) (part 11196) had no solution
+if not db.execute('select 1 from solutions where part_id=11196').fetchone():
+    db.execute("insert into solutions(part_id, question_id, source, latex, model, prompt_version, criteria_json, meta_json) values (11196, 7029, 'generated', ?, 'claude-opus-5-5', 'by-hand-s8', ?, ?)",
+               (r"""Substitute each $F$ into $C = 10 + 1.2F$:
+$$\begin{array}{c|c|c|c|c|c} F & 0 & 20 & 40 & 60 & 80 \\ \hline C & 10 & 34 & 58 & 82 & 106 \end{array}$$""",
+                json.dumps([[1, "Correct table"]]), json.dumps({'generated_note': 'Written by hand on 25 Nov: the part had no solution after the import.'})))
+db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27')

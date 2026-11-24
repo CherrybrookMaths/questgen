@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % grid: unit = 65.5 px across, 63.5 px down; origin (343,323)
+  \foreach \i in {0,...,10} {
+    \draw[line width=0.4pt, black!55] ({15.5+65.5*\i},5) -- ({15.5+65.5*\i},640);
+    \draw[line width=0.4pt, black!55] (15.5,{5+63.5*\i}) -- (670.5,{5+63.5*\i});
+  }
+  \draw[->] (8,323) -- (705,323);
+  \draw (343,665) -- (343,0);
+  \node[anchor=west] at (707,321) {$x$};
+  % line y = -x/2 + 2 from x=-5 to x=5
+  \draw[line width=0.9pt] ({343-5*65.5},{323-4.5*63.5}) -- ({343+5*65.5},{323+0.5*63.5});
+  \node[pt] at (343,196) {};
+  \node[pt] at (605,323) {};
+  \node[anchor=south east, font=\small] at (336,172) {$2$};
+  \node[anchor=north east, font=\small] at (598,330) {$4$};
+  \node[anchor=west] at (690,372) {$y=-\dfrac{1}{2}x+2$};
+\end{tikzpicture}
+\end{document}

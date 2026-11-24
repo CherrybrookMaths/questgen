@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {0,...,10} {
+    \draw[line width=0.4pt, black!55] ({15+66*\i},87) -- ({15+66*\i},720);
+    \draw[line width=0.4pt, black!55] (15,{87+63.3*\i}) -- (675,{87+63.3*\i});
+  }
+  \draw[->] (5,403.5) -- (708,403.5);
+  \draw[->] (345,720) -- (345,45);
+  \node[anchor=west] at (710,400) {$x$};
+  \node[anchor=south] at (345,42) {$y$};
+\end{tikzpicture}
+\end{document}

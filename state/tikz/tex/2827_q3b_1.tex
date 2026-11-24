@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(288,633)},x=0.9906cm,y=0.03099cm]
+\foreach \i in {0.5,1,...,9.5} \draw[black!25] (\i,0) -- (\i,200);
+\foreach \j in {20,40,...,200} \draw[black!25] (0,\j) -- (10,\j);
+\draw (0,200) -- (0,0) -- (10,0) -- (10,200);
+\foreach \i in {0,...,10} {\draw (\i,0) -- (\i,-5); \node[anchor=north,font=\large] at (\i,-6) {$\i$};}
+\foreach \j in {20,60,...,180} \draw (0,\j) -- (-0.1,\j);
+\foreach \j in {0,40,...,200} {\draw (0,\j) -- (-0.1,\j); \node[anchor=east,font=\large] at (-0.13,\j) {$\j$};}
+\draw[line width=0.9pt] (0,0) -- (10,200);
+\draw[line width=0.9pt] (0,40) -- (10,140);
+\node[anchor=west,font=\large] at (10.05,197) {$I = 20x$};
+\node[anchor=west,font=\large] at (10.05,140) {$C = 40 + 10x$};
+\end{scope}
+\node[font=\large\bfseries] at (678,77) {Planned income and costs for Ashley's business};
+\node[align=center,font=\large] at (110,393) {Amount\\(\$)};
+\node[font=\large] at (678,742) {Number of frames ($x$)};
+\end{tikzpicture}
+\end{document}

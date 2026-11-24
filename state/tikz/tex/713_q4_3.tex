@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (5,15) rectangle (330,275);
+\draw (152,140) .. controls (130,100) and (85,58) .. (42,57);
+\draw (152,140) .. controls (195,155) and (245,200) .. (260,247);
+\draw (152,140) .. controls (145,180) and (115,220) .. (68,220);
+\draw (152,140) .. controls (205,122) and (268,95) .. (288,57);
+\foreach \p in {(42,57),(152,140),(68,220),(260,247),(288,57)} \fill \p circle[radius=4.5];
+\node at (22,40) {$M$};
+\node at (172,110) {$N$};
+\node at (306,34) {$O$};
+\node at (70,246) {$Q$};
+\node at (284,263) {$P$};
+\begin{scope}[font=\footnotesize]
+\node at (77,99) {27};
+\node at (235,75) {30};
+\node at (154,207) {12};
+\node at (250,180) {45};
+\end{scope}
+\end{tikzpicture}
+\end{document}

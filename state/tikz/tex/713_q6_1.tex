@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\coordinate (P) at (65,210); \coordinate (A) at (193,38); \coordinate (B) at (408,38);
+\coordinate (C) at (622,82); \coordinate (Q) at (750,167); \coordinate (D) at (280,168);
+\coordinate (E) at (537,253); \coordinate (F) at (365,295); \coordinate (G) at (622,381);
+\coordinate (H) at (150,381);
+\draw (P)--(A)--(B)--(C)--(Q)--(G)--(H)--cycle;
+\draw (A)--(D)--(B); \draw (P)--(D)--(C); \draw (D)--(E)--(C); \draw (D)--(F);
+\draw (E)--(Q); \draw (P)--(F)--(G); \draw (F)--(E)--(G);
+\foreach \v in {P,A,B,C,Q,D,E,F,G,H} \fill (\v) circle (2.2pt);
+\node[left] at ($(P)+(-4,0)$) {$P$};
+\node[right] at ($(Q)+(4,0)$) {$Q$};
+\foreach \x/\y/\t in {300/23/6, 517/45/4, 115/118/1, 255/100/8, 357/120/3, 692/107/5, 170/173/8, 457/147/6,
+  557/158/7, 303/243/2, 400/233/4, 650/233/2, 208/277/4, 457/298/9, 597/305/3, 703/290/6, 92/308/3, 487/360/1, 385/402/5}
+  {\node at (\x,\y) {$\t$};}
+\end{tikzpicture}
+\end{document}

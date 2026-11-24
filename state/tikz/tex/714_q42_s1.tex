@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm,font=\small]
+\coordinate (H) at (130,-275);
+\coordinate (S) at ($(H)+(27:276)$);
+\coordinate (P) at ($(S)+(-34:478)$);
+\draw (H) -- (S) -- (P) -- cycle;
+\draw[aux,->] (H) -- ++(0,147);
+\draw[aux,->] (S) -- ++(0,131);
+\draw[aux,->] (P) -- ++(0,173);
+\draw[->] ($(H)+(90:70)$) arc[start angle=90,end angle=27,radius=70];
+\draw[->] ($(S)+(90:54)$) arc[start angle=90,end angle=-34,radius=54];
+\draw[->] ($(P)+(90:48)$) arc[start angle=90,end angle=-192.6,radius=48];
+% solution angles at S
+\draw ($(S)+(90:30)$) arc[start angle=90,end angle=207,radius=30];
+\draw ($(S)+(207:24)$) arc[start angle=207,end angle=326,radius=24];
+\node[font=\normalsize] at (283,-152) {$117^\circ$};
+\node[font=\normalsize] at (380,-207) {$119^\circ$};
+\node[font=\normalsize] at (185,-191) {$63^\circ$};
+\node[font=\normalsize] at (451,-118) {$124^\circ$};
+\node at (285,-116) {Shop $(S)$};
+\node at (90,-302) {House $(H)$};
+\node[anchor=west] at (828,-397) {Post office};
+\node[anchor=west] at (828,-438) {$(P)$};
+\path (H) -- (S) node[pos=0.6,sloped,below=1pt] {5.59 km};
+\path (H) -- (P) node[pos=0.5,sloped,above=1pt] {13.34 km};
+\end{tikzpicture}
+\end{document}

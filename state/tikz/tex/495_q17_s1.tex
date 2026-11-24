@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (E) at (296,52); \coordinate (F) at (678,52); \coordinate (G) at (793,182);
+\coordinate (D) at (183,224); \coordinate (J) at (450,307); \coordinate (I) at (258,392); \coordinate (H) at (638,392);
+% minimum spanning tree highlighted with a light grey band
+\draw[black!22,line width=6pt,line cap=round,line join=round] (E)--(D)--(I) (D)--(J)--(F)--(G)--(H);
+\draw (D)--(E)--(F)--(G)--(H)--(I)--(D)--(F)--(J)--(D);
+\draw (F)--(H); \draw (I)--(J)--(H);
+\foreach \p in {D,E,F,G,H,I,J} \fill (\p) circle (2.2);
+\node at (288,33) {$E$}; \node at (697,42) {$F$}; \node at (815,186) {$G$};
+\node at (160,222) {$D$}; \node at (445,284) {$J$}; \node at (240,402) {$I$}; \node at (657,405) {$H$};
+\node at (487,36) {250}; \node at (215,123) {200}; \node at (427,121) {400}; \node at (754,98) {150};
+\node at (581,203) {150}; \node at (697,231) {350}; \node at (744,313) {100}; \node at (310,290) {200};
+\node at (190,322) {200}; \node at (406,356) {250}; \node at (502,362) {250}; \node at (448,410) {300};
+\end{tikzpicture}
+\end{document}

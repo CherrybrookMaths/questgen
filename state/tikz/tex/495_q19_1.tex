@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+% 1 unit = 20 px in x ; $100 = 69 px in y ; origin at (98,514)
+\foreach \i in {1,...,26} {\pgfmathsetmacro\xx{98+20*\i}
+  \pgfmathtruncatemacro\m{mod(\i,5)}
+  \ifnum\m=0 \draw[black!35,line width=0.5pt] (\xx,514)--(\xx,32); \else \draw[black!15,line width=0.4pt] (\xx,514)--(\xx,32);\fi}
+\foreach \j in {1,...,35} {\pgfmathsetmacro\yy{514-13.8*\j}
+  \pgfmathtruncatemacro\m{mod(\j,5)}
+  \ifnum\m=0 \draw[black!35,line width=0.5pt] (98,\yy)--(618,\yy); \else \draw[black!15,line width=0.4pt] (98,\yy)--(618,\yy);\fi}
+% axes
+\draw[->] (98,514)--(635,514) node[right] {$n$};
+\draw[->] (98,514)--(98,12);
+\foreach \i in {1,...,26} {\pgfmathsetmacro\xx{98+20*\i}\draw (\xx,509)--(\xx,519);}
+\foreach \j in {1,...,35} {\pgfmathsetmacro\yy{514-13.8*\j}\draw (93,\yy)--(103,\yy);}
+\foreach \i in {5,10,...,25} \node at (98+20*\i,546) {\i};
+\foreach \v in {100,200,...,700} \node[anchor=east] at (88,514-0.69*\v) {\v};
+\node at (360,577) {Number of units};
+\node[rotate=90] at (22,273) {Dollars (\$)};
+% lines
+\draw[line width=0.9pt] (98,445)--(618,85.2);
+\draw[line width=0.9pt] (98,376)--(618,136.8);
+\fill (398,238) circle (3.5);
+\node[anchor=west] at (630,80) {Income};
+\node[anchor=west] at (634,133) {Costs};
+\end{tikzpicture}
+\end{document}

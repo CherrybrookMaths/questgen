@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\fontsize{9}{11}\selectfont}]
+  % grid: L -> 171+17.05(L-55), M -> 590-6.1375 M
+  \foreach \m in {2,4,...,84} \draw[black!15, line width=0.4pt] (154,{590-6.1375*\m}) -- (648,{590-6.1375*\m});
+  \foreach \l in {54,...,83} \draw[black!45, line width=0.5pt] ({171+17.05*(\l-55)},71) -- ({171+17.05*(\l-55)},590);
+  % axes
+  \draw[->] (118,590) -- (683,590);
+  \draw[->] (118,590) -- (118,40);
+  \draw (118,590) circle (6);
+  \draw (124,598) -- (132,582); \draw (130,598) -- (138,582);
+  % ticks
+  \foreach \l in {55,...,82} \draw ({171+17.05*(\l-55)},590) -- ({171+17.05*(\l-55)},596);
+  \foreach \m in {4,8,...,84} \draw (112,{590-6.1375*\m}) -- (118,{590-6.1375*\m});
+  \foreach \m in {20,40,60,80} \draw (108,{590-6.1375*\m}) -- (118,{590-6.1375*\m});
+  \foreach \l in {55,60,...,80} \node[anchor=north] at ({171+17.05*(\l-55)},603) {$\l$};
+  \foreach \m in {20,40,60,80} \node[anchor=east] at (104,{590-6.1375*\m}) {$\m$};
+  \node at (124,16) {$M$};
+  \node[anchor=west] at (688,590) {$L$};
+  \node at (382,655) {Life Expectancy at Birth (years)};
+  \node[rotate=90] at (45,345) {Infant Mortality (per 1000 births)};
+  % line of best fit
+  \draw[line width=0.9pt] (152,124) -- (616,598);
+  % points
+  \foreach \p in {(161,109),(170,88),(251,228),(267,230),(351,305),(396,345),(400,344),(399,462),(454,420),(456,511),(478,468),(490,482),(495,494),(507,522),(507,533),(527,507),(531,451),(530,552),(532,515),(540,523),(550,526),(559,505),(565,505),(570,529),(592,565),(598,565),(613,575),(615,569),(631,563),(641,566)}
+    \draw[fill=black!30] \p circle (5.5);
+\end{tikzpicture}
+\end{document}

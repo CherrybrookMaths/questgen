@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[black!30] (8,37) rectangle (972,153);
+\foreach \y in {76,115} \draw[white] (8,\y) -- (972,\y);
+\foreach \x in {105,201,298,394,490,587,683,780,876} {\draw[white] (\x,37) -- (\x,76); \draw[white] (\x,115) -- (\x,153);}
+\foreach \x in {53,150,247,344,440,537,633,730,826,922} \draw[white] (\x,76) -- (\x,115);
+\draw (8,37) rectangle (972,153);
+\draw (150,153) -- (150,385) -- (828,385) -- (828,153);
+\node at (488,17) {wall};
+\node at (125,258) {$x$};
+\node at (850,258) {$x$};
+\end{tikzpicture}
+\end{document}

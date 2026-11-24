@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (122,204); \coordinate (B) at (122,449); \coordinate (C) at (499,449);
+  \fill[shade] (A) -- (B) -- (C) -- cycle;
+  \draw (A) -- (B) -- (C) -- cycle;
+  % semicircle on AC: centre (310.5,326.5), radius 224.8
+  \draw (C) arc[start angle={33.0}, end angle={-147.0}, radius=224.8];
+  \draw (122,427) -- (144,427) -- (144,449);
+  \draw[aux,<->] (99,212) -- (99,443);
+  \draw[aux,<->] (128,470) -- (493,470);
+  \node[anchor=east] at (93,329) {18 cm};
+  \node[anchor=north] at (316,482) {24 cm};
+  \node at (104,190) {$A$};
+  \node at (108,468) {$B$};
+  \node at (516,467) {$C$};
+  \node[anchor=north west, align=left] at (606,192) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

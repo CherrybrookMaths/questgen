@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\def\mtn{(420,202) .. controls (440,190) and (450,150) .. (462,125) .. controls (480,90) and (495,45) .. (508,12) -- (517,5) -- (525,15) .. controls (535,50) and (545,100) .. (560,125) .. controls (575,150) and (600,165) .. (610,180) -- (622,202)}
+\fill[shade] \mtn -- cycle;
+\draw \mtn;
+\draw[aux] (517,8)--(517,202);
+\draw (52,202)--(622,202);
+\draw (52,202)--(517,5) (288,202)--(517,5);
+\draw (517,5) ++(139.3:95) arc[start angle=139.3, end angle=157.04, radius=95];
+\node at (35,214) {$A$};
+\node at (286,220) {$B$};
+\node at (165,222) {2 km};
+\node at (160,184) {$4^\circ$};
+\node at (340,186) {$10^\circ$};
+\node at (409,72) {$6^\circ$};
+\node at (384,110) {$x$};
+\end{tikzpicture}
+\end{document}

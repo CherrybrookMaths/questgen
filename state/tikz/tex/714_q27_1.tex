@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.append style={font=\fontsize{9.5}{11}\selectfont}]
+\begin{scope}[shift={(187,432)},x=0.6731cm,y=0.67945cm]
+  \draw[black!12,line width=0.4pt,step=0.5] (-3,-3) grid (7,7);
+  \draw[black!30,line width=0.4pt,step=1] (-3,-3) grid (7,7);
+  \draw[<->] (-3.34,0) -- (7.42,0);
+  \draw[<->] (0,-3.36) -- (0,7.33);
+  \foreach \n in {-3,-2,-1,1,2,3,4,5,6,7} \node[below=3pt] at (\n,0) {$\n$};
+  \foreach \n in {-3,-2,-1,1,2,3,4,5,6,7} \node[left=3pt] at (0,\n) {$\n$};
+  \node[anchor=south] at (0,7.42) {$H$};
+  \node[anchor=west] at (7.48,0) {$t$};
+  \node[rotate=90] at (-1.72,2.06) {Height (metres)};
+  \node at (2.04,-1.03) {Time (seconds)};
+  \draw[line width=0.9pt,domain=0:5.1623,samples=90,smooth] plot (\x,{3+2*\x-0.5*\x*\x});
+  \draw[aux,<-,domain=-2.08:0,samples=30,smooth] plot (\x,{3+2*\x-0.5*\x*\x});
+  \draw[aux,->,domain=5.1623:6.08,samples=30,smooth] plot (\x,{3+2*\x-0.5*\x*\x});
+  \node[open pt] at (0,3) {};
+  \node[open pt] at (5.1623,0) {};
+\end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.1956cm, y=0.003137cm, xmin=0, xmax=31.6, ymin=0, ymax=2080,
+  xtick={5,10,...,30}, ytick={200,400,...,2000},
+  minor xtick={1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19,21,22,23,24,26,27,28,29},
+  minor ytick={100,300,...,1900},
+  /pgf/number format/1000 sep={},
+  tick align=center, major tick length=5pt, minor tick length=4pt,
+  tick label style={font=\footnotesize}, ylabel={}, xlabel={$x$},
+  xlabel style={anchor=west, font=\footnotesize}]
+  \foreach \i in {1,...,30} {\edef\t{\noexpand\draw[black!18, line width=0.3pt] (axis cs:\i,0)--(axis cs:\i,2000);}\t}
+  \foreach \j in {100,200,...,2000} {\edef\t{\noexpand\draw[black!18, line width=0.3pt] (axis cs:0,\j)--(axis cs:30,\j);}\t}
+  \addplot[domain=0:30, line width=0.9pt] {65*x};
+\end{axis}
+\node[rotate=90, font=\footnotesize] at (-1.08cm, 3.19cm) {Dollars (\$)};
+\end{tikzpicture}
+\end{document}
