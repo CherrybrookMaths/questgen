@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (P1) at (43,85); \coordinate (P2) at (212,25); \coordinate (P3) at (399,42);
+  \coordinate (P4) at (475,144); \coordinate (P5) at (325,204); \coordinate (P6) at (82,217);
+  \draw (P1) -- (P2) -- (P3) -- (P4) -- (P5) -- (P6) -- cycle;
+  \draw (P1) -- (P5) -- (P2); \draw (P3) -- (P5);
+  \foreach \p in {P1,P2,P3,P4,P5,P6} \fill (\p) circle (7.5);
+\end{tikzpicture}
+\end{document}

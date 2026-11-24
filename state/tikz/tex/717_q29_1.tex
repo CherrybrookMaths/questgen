@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  ma/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+  lab/.style={inner sep=2pt}]
+\coordinate (S) at (125,262); \coordinate (G) at (286,91); \coordinate (T) at (588,39);
+\coordinate (M) at (635,234); \coordinate (F) at (1006,346); \coordinate (H) at (355,402);
+\draw[ma=0.5] (S) -- node[lab, pos=0.3, sloped, above] {$G$, 7} (G);
+\draw[ma=0.5] (G) -- node[lab, pos=0.33, sloped, above] {$I$, 5} (T);
+\draw[ma=0.5] (S) .. controls (200,300) and (290,352) .. node[lab, pos=0.35, sloped, above] {$H$, 9} (H);
+\draw[ma=0.48] (H) -- node[lab, pos=0.33, sloped, above] {$K$, 8} (T);
+\draw[ma=0.53] (T) -- node[lab, pos=0.72, sloped, below] {$M$, 6} (M);
+\draw[ma=0.55] (T) -- node[lab, pos=0.37, sloped, above] {$L$, 10} (F);
+\draw[ma=0.53] (M) -- node[lab, pos=0.36, sloped, above] {$N$, 7} (F);
+\draw[ma=0.52] (H) -- node[lab, pos=0.34, sloped, above] {$P$, 11} (F);
+\draw[ma=0.5] (H) .. controls (500,500) and (850,500) .. node[lab, pos=0.6, below] {$R$, 13} (F);
+\node[left] at ([xshift=-2pt]S) {\textbf{Start}};
+\node[right] at ([xshift=2pt]F) {\textbf{Finish}};
+\end{tikzpicture}
+\end{document}

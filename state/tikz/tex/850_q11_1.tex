@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (30,470) -- (30,3);
+\draw[->] (30,470) -- (498,470);
+\node at (12,14) {$y$};
+\node at (504,490) {$x$};
+\node at (14,494) {$0$};
+\draw[line width=0.9pt, smooth, samples=90, domain=22:395, variable=\t] plot ({30+\t},{470-(199.42/((\t+22.84)/100)-29.7)});
+\node[pt] at (120,323) {};
+\node[anchor=west,font=\small] at (126,307) {$\left(1,\dfrac{3}{2}\right)$};
+\end{tikzpicture}
+\end{document}

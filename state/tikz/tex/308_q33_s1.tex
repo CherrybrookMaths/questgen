@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm,
+  mid/.style={postaction={decorate}, decoration={markings, mark=at position #1 with {\arrow{>}}}},
+  crit/.style={line width=0.9pt}]
+\newcommand\evbox[4]{\draw ({#1-53},{#2-26.5}) rectangle ({#1+53},{#2+26.5}); \draw (#1,{#2-26.5})--(#1,{#2+26.5});
+  \node[font=\large] at ({#1-26.5},#2) {#3}; \node[font=\large] at ({#1+26.5},#2) {#4};}
+\coordinate (S) at (117,-282); \coordinate (G) at (300,-122); \coordinate (T) at (645,-70);
+\coordinate (M) at (697,-253); \coordinate (E) at (1117,-358); \coordinate (H) at (380,-410);
+\draw[mid=0.55] (S)--(G);
+\draw[crit, mid=0.55] (S)--(H);
+\draw[mid=0.55] (G)--(T);
+\draw[crit, mid=0.55] (H)--(T);
+\draw[mid=0.55] (T)--(E);
+\draw[crit, mid=0.7] (T)--(M);
+\draw[crit, mid=0.55] (M)--(E);
+\draw[mid=0.55] (H)--(E);
+\draw[mid=0.5] (H) .. controls (560,-505) and (900,-500) .. (E);
+\evbox{63}{-282}{0}{0}
+\evbox{248}{-90}{7}{12}
+\evbox{635}{-38}{17}{17}
+\evbox{632}{-287}{23}{23}
+\evbox{1170}{-358}{30}{30}
+\evbox{338}{-453}{9}{9}
+\node[font=\large, rotate=41] at (155,-205) {G, 7};
+\node[font=\large, rotate=-26] at (250,-312) {H, 9};
+\node[font=\large, rotate=8.6] at (420,-80) {I, 5};
+\node[font=\large, rotate=53] at (425,-290) {K, 8};
+\node[font=\large, rotate=-74] at (645,-190) {M, 6};
+\node[font=\large, rotate=-31] at (805,-131) {L, 10};
+\node[font=\large, rotate=-14] at (845,-258) {N, 7};
+\node[font=\large, rotate=2.4] at (625,-365) {P, 11};
+\node[font=\large] at (790,-503) {R, 13};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.8223cm,y=0.8255cm]
+  \foreach \i in {1,...,9} \draw[black!25,line width=0.4pt] (\i,0)--(\i,9);
+  \foreach \j in {1,...,9} \draw[black!25,line width=0.4pt] (0,\j)--(9,\j);
+  \draw[->] (0,0)--(9.55,0);
+  \draw[->] (0,0)--(0,9.3);
+  \node at (9.72,0.02) {$A$};
+  \node at (0.0,9.75) {$N$};
+  \foreach \i in {1,...,9} {\draw (\i,0.08)--(\i,-0.08); \node[below,font=\small] at (\i,-0.12) {\i};}
+  \foreach \j in {1,...,9} {\draw (0.08,\j)--(-0.08,\j); \node[left,font=\small] at (-0.08,\j) {\j};}
+  \node[font=\small] at (4.65,-1.03) {Age};
+  \node[rotate=90,font=\small] at (-1.4,4.75) {Number of Interventions};
+  \foreach \p in {(1,8),(2,8),(2,7),(2,6),(3,6),(4,6),(4,5),(4,4),(5,5),(5,4),(5,3),(6,4),(6,3),(6,2),(7,2),(8,1)}
+    \fill \p circle (2.6pt);
+\end{tikzpicture}
+\end{document}

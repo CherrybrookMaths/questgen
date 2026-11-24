@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (30,30); \coordinate (B) at (193,278); \coordinate (C) at (400,278);
+\draw (A)--(B)--(C)--cycle;
+% angle at A: AC direction 33.8 deg, AB direction 56.7 deg (y down)
+\draw[->] ([shift={(33.8:72)}]A) arc (33.8:56.7:72);
+\draw (101,47)--(72,66);
+\node[anchor=west] at (103,45) {$23^\circ 37'$};
+% angle theta at B
+\draw[->] ([shift={(236.7:50)}]B) arc (236.7:360:50);
+\node at (212,263) {$\theta$};
+\node at (280,140) {54.1 cm};
+\node at (303,301) {25 cm};
+\end{tikzpicture}
+\end{document}

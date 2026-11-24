@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\def\ox{346}\def\oy{351}\def\u{64.8}
+\foreach \i in {-5,...,5} {
+  \draw[black!35] ({\ox+\i*\u},{\oy-5*\u})--({\ox+\i*\u},{\oy+5*\u});
+  \draw[black!35] ({\ox-5*\u},{\oy-\i*\u})--({\ox+5*\u},{\oy-\i*\u});
+}
+\draw[->] ({\ox-5*\u},\oy)--(706,\oy);
+\node[font=\small] at (698,368) {$x$};
+\draw[->] (\ox,715)--(\ox,-8);
+\node[font=\small] at (326,-6) {$y$};
+\foreach \i in {1,...,5} {
+  \node[below=4pt] at ({\ox+\i*\u},\oy) {$\i$};
+  \node[below=4pt] at ({\ox-\i*\u},\oy) {$-\i$};
+  \node[anchor=east] at (333,{\oy-\i*\u}) {$\i$};
+  \node[anchor=east] at (344,{\oy+\i*\u}) {$-\i$};
+}
+\draw[line width=0.9pt] ({\ox-3.8*\u},{\oy-(2/3*3.8+2)*\u})--({\ox+4.8*\u},{\oy-(-2/3*4.8+2)*\u});
+\fill ({\ox-3*\u},{\oy-4*\u}) circle (3.5);
+\fill ({\ox+3*\u},\oy) circle (3.5);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{158+0.834*#1}\def\Y#1{825-0.757*#1}
+\foreach \i in {20,40,...,980}{
+  \draw[black!40, line width=0.4pt, dash pattern=on 0.6pt off 1.2pt] ({\X{\i}},{\Y{0}})--({\X{\i}},{\Y{1000}});
+  \draw[black!40, line width=0.4pt, dash pattern=on 0.6pt off 1.2pt] ({\X{0}},{\Y{\i}})--({\X{1000}},{\Y{\i}});}
+\foreach \i in {100,200,...,1000}{
+  \draw[black!60] ({\X{\i}},{\Y{0}})--({\X{\i}},{\Y{1000}});
+  \draw[black!60] ({\X{0}},{\Y{\i}})--({\X{1000}},{\Y{\i}});}
+\draw[->] (158,825)--(1092,825); \draw[->] (158,825)--(158,12);
+\node at (1112,830) {$x$}; \node at (154,2) {$y$};
+\foreach \i in {0,100,...,1000}{
+  \node at ({\X{\i}},867) {\i};
+  \node[anchor=east] at (140,{\Y{\i}}) {\i};}
+\node at (550,928) {Number of bread rolls};
+\node[rotate=90] at (14,445) {Cost / Income (\$)};
+\end{tikzpicture}
+\end{document}

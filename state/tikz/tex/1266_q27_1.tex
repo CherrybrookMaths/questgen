@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\def\ox{414}\def\oy{442}\def\u{74.9}
+\foreach \i in {-5,...,5} {
+  \draw[black!35] ({\ox+\i*\u},{\oy-5*\u})--({\ox+\i*\u},{\oy+5*\u});
+  \draw[black!35] ({\ox-5*\u},{\oy-\i*\u})--({\ox+5*\u},{\oy-\i*\u});
+}
+\draw[->] ({\ox-5*\u},\oy)--(830,\oy);
+\node[font=\small] at (820,462) {$x$};
+\draw[->] (\ox,862)--(\ox,12);
+\node[font=\small] at (393,22) {$y$};
+\foreach \i in {1,...,5} {
+  \node[below=4pt] at ({\ox+\i*\u},\oy) {$\i$};
+  \node[below=4pt] at ({\ox-\i*\u},\oy) {$-\i$};
+  \node[anchor=east] at (394,{\oy-\i*\u}) {$\i$};
+  \node[anchor=east] at (408,{\oy+\i*\u}) {$-\i$};
+}
+\end{tikzpicture}
+\end{document}

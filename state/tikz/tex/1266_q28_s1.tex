@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (42,165); \coordinate (B) at (357,405); \coordinate (C) at (492,285);
+\draw (A)--(C)--(B)--cycle;
+\draw[aux,->] (A)--(42,52);
+\node at (42,30) {N};
+\draw (A) ++(-90:26) arc[start angle=-90,end angle=14.9,radius=26];
+\draw (A) ++(14.9:100) arc[start angle=14.9,end angle=37.3,radius=100];
+\node at (106,142) {$120^\circ$};
+\node at (196,232) {$20^\circ$};
+\node at (295,192) {$12$ km};
+\node at (185,340) {$10$ km};
+\node at (20,172) {$A$};
+\node at (516,288) {$C$};
+\node at (357,437) {$B$};
+\end{tikzpicture}
+\end{document}

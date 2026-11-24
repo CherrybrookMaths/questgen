@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (Du) at (150,332);\coordinate (P) at (322,88);\coordinate (T) at (705,30);
+\coordinate (M) at (441,233);\coordinate (R) at (722,194);\coordinate (Ch) at (997,260);
+\coordinate (Bo) at (624,388);
+\draw (Du)--(P)--(T)--(Ch)--(R)--(M)--(T) (P)--(M)--(Bo)--(Du) (Bo)--(Ch);
+\foreach \p in {Du,P,T,M,R,Ch,Bo} \fill (\p) circle (7);
+\begin{scope}[every node/.style={font=\large}]
+\node at (498,24) {5};
+\node at (524,124) {5};
+\node at (862,104) {7};
+\node at (204,185) {3};
+\node at (356,188) {2};
+\node at (604,250) {6};
+\node at (842,258) {1};
+\node at (492,330) {7};
+\node at (362,394) {12};
+\node at (818,352) {14};
+\node[anchor=east] at (136,332) {Dural};
+\node[anchor=west] at (1012,264) {Cherrybrook};
+\end{scope}
+\end{tikzpicture}
+\end{document}

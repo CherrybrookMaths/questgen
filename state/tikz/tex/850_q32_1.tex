@@ -1,0 +1,42 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\setlength\treeL{2.05cm}
+\begin{tikzpicture}[y=-0.0127cm]
+\def\Wb{$\overline{W}$}
+\def\Pv#1{\underline{\makebox[0.8cm][r]{#1}}}
+\newcommand\prU[3]{\path let \p1=(#1-out), \p2=(#2-in), \n1={abs(\y2-\y1)/(\x2-\x1)} in
+  node[font=\fontsize{11}{13}\selectfont, inner sep=0pt, anchor=south] at ($(\p1)!0.5!(\p2)+(0pt,{\n1*11.4pt+2.5pt})$) {\Pv{#3}};}
+\newcommand\prD[3]{\path let \p1=(#1-out), \p2=(#2-in), \n1={abs(\y2-\y1)/(\x2-\x1)} in
+  node[font=\fontsize{11}{13}\selectfont, inner sep=0pt, anchor=north] at ($(\p1)!0.5!(\p2)-(0pt,{\n1*11.4pt+2.5pt})$) {\Pv{#3}};}
+\treewidth{1}{$W$}\treewidth{1}{\Wb}
+\treewidth{2}{$W$}\treewidth{2}{\Wb}
+\treewidth{3}{$W$}\treewidth{3}{\Wb}
+\treecolumns{3}
+\treeroot{r}{440}
+\treenode{a}{1}{230}{$W$}
+\treenode{b}{1}{650}{\Wb}
+\treenode{aa}{2}{130}{$W$}
+\treenode{ab}{2}{330}{\Wb}
+\treenode{ba}{2}{550}{$W$}
+\treenode{bb}{2}{750}{\Wb}
+\treenode{aaa}{3}{66}{$W$}
+\treenode{aab}{3}{194}{\Wb}
+\treenode{aba}{3}{266}{$W$}
+\treenode{abb}{3}{394}{\Wb}
+\treenode{baa}{3}{486}{$W$}
+\treenode{bab}{3}{614}{\Wb}
+\treenode{bba}{3}{686}{$W$}
+\treenode{bbb}{3}{814}{\Wb}
+\foreach \pa/\ch in {r/a,a/aa,b/ba,aa/aaa,ab/aba,ba/baa,bb/bba}{\treebranch{\pa}{\ch}{}}
+\foreach \pa/\ch in {r/b,a/ab,b/bb,aa/aab,ab/abb,ba/bab,bb/bbb}{\treebranch{\pa}{\ch}{}}
+\prU{r}{a}{40\%}\prD{r}{b}{\%}
+\prU{a}{aa}{\%}\prD{a}{ab}{\%}
+\prU{b}{ba}{\%}\prD{b}{bb}{60\%}
+\prU{aa}{aaa}{\%}\prD{aa}{aab}{60\%}
+\prU{ab}{aba}{\%}\prD{ab}{abb}{\%}
+\prU{ba}{baa}{\%}\prD{ba}{bab}{\%}
+\prU{bb}{bba}{40\%}\prD{bb}{bbb}{\%}
+\end{tikzpicture}
+\end{document}

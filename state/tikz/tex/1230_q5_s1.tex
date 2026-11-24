@@ -1,0 +1,21 @@
+\documentclass[border=0pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \useasboundingbox (0,0) rectangle (1530,900);
+  \foreach \i in {1,...,15} \draw[black!30,line width=0.4pt] ({313+\i*46},122)--({313+\i*46},810);
+  \foreach \j in {1,...,15} \draw[black!30,line width=0.4pt] (313,{810-\j*45.87})--(1003,{810-\j*45.87});
+  \draw[->] (313,810)--(1062,810);
+  \draw[->] (313,810)--(313,68);
+  % tick labels
+  \foreach \k in {1,...,6} \node[anchor=north,inner sep=2pt] at ({313+92*\k},812) {$\k$};
+  \node[anchor=north east,inner sep=2pt] at (311,812) {$0$};
+  \foreach \k in {1,...,9} \node[anchor=east,inner sep=2pt] at (300,{810-45.87*\k}) {$\k$};
+  % parabola x = -t^2 + 4t + 5
+  \draw[line width=0.9pt,smooth,domain=0:5,samples=90] plot ({313+92*\x},{810-45.87*(-\x*\x+4*\x+5)});
+  \foreach \t/\v in {0/5,1/8,2/9,3/8,4/5,5/0} \node[pt] at ({313+92*\t},{810-45.87*\v}) {};
+  % axis labels
+  \node[anchor=south,inner sep=2pt] at (313,62) {$x$ (metres)};
+  \node[anchor=west,inner sep=3pt] at (1066,810) {$t$ (seconds)};
+\end{tikzpicture}
+\end{document}

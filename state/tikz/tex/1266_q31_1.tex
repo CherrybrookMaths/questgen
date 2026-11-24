@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (Pa) at (210,20); \coordinate (Cu) at (485,95); \coordinate (Fo) at (127,158);
+\coordinate (Eu) at (283,188); \coordinate (Ca) at (437,264); \coordinate (Go) at (352,300); \coordinate (Co) at (447,410);
+\draw plot[smooth] coordinates {(Pa)(190,50)(185,82)(165,135)(Fo)};
+\draw plot[smooth] coordinates {(Pa)(232,70)(248,120)(Eu)};
+\draw plot[smooth] coordinates {(Pa)(255,15)(290,30)(320,45)(350,45)(380,48)(440,45)(470,60)(Cu)};
+\draw plot[smooth] coordinates {(Fo)(205,175)(Eu)};
+\draw plot[smooth] coordinates {(Eu)(300,175)(350,162)(410,150)(440,125)(Cu)};
+\draw plot[smooth] coordinates {(Fo)(150,175)(205,185)(232,210)(275,222)(300,250)(320,280)(Go)};
+\draw plot[smooth] coordinates {(Eu)(300,220)(318,260)(Go)};
+\draw plot[smooth] coordinates {(Eu)(325,203)(355,230)(385,252)(Ca)};
+\draw plot[smooth] coordinates {(Go)(375,282)(400,270)(Ca)};
+\draw plot[smooth] coordinates {(Cu)(450,135)(445,170)(445,210)(Ca)};
+\draw plot[smooth] coordinates {(Ca)(445,310)(455,370)(Co)};
+\draw plot[smooth] coordinates {(Go)(375,330)(395,370)(420,392)(Co)};
+\foreach \p in {Pa,Cu,Fo,Eu,Ca,Go,Co} \filldraw[fill=white] (\p) circle (9);
+\begin{scope}[font=\fontsize{11}{13}\selectfont]
+\node at (155,13) {Parkes};
+\node at (540,97) {Cudal};
+\node at (65,160) {Forbes};
+\node at (322,148) {Eugowra};
+\node at (530,268) {Canowindra};
+\node at (263,312) {Gooloogong};
+\node at (508,418) {Cowra};
+\end{scope}
+\begin{scope}[font=\fontsize{10}{12}\selectfont]
+\node at (150,92) {30}; \node at (228,100) {40}; \node at (338,62) {50};
+\node at (208,157) {40}; \node at (403,175) {40}; \node at (237,238) {60};
+\node at (342,255) {30}; \node at (390,232) {30}; \node at (398,290) {20};
+\node at (472,192) {30}; \node at (477,331) {30}; \node at (370,375) {40};
+\end{scope}
+\end{tikzpicture}
+\end{document}

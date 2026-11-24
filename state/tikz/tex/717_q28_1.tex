@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(303,318)}, x=0.889cm, y=8.8265cm]
+  \foreach \u in {-4,-3.5,...,4} \draw[black!15, line width=0.3pt] (\u,0) -- (\u,0.44);
+  \foreach \v in {0.025,0.05,...,0.44} \draw[black!15, line width=0.3pt] (-4,\v) -- (4,\v);
+  \fill[shade hatch] (0,0) -- plot[smooth, domain=0:1.27, samples=30] (\x,{0.39894*exp(-\x*\x/2)}) -- (1.27,0) -- cycle;
+  \draw[<->] (-4.25,0) -- (4.38,0) node[right, font=\scriptsize] {$x$};
+  \draw[->] (0,0) -- (0,0.452) node[above, font=\scriptsize, inner sep=1pt] {$y$};
+  \draw[aux] (1.27,0) -- (1.27,{0.39894*exp(-1.27*1.27/2)});
+  \draw[aux, line width=0.9pt, smooth, domain=-4:0, samples=60] plot (\x,{0.39894*exp(-\x*\x/2)});
+  \draw[aux, line width=0.9pt, smooth, domain=1.27:4, samples=50] plot (\x,{0.39894*exp(-\x*\x/2)});
+  \draw[line width=0.9pt, smooth, domain=0:1.27, samples=30] plot (\x,{0.39894*exp(-\x*\x/2)});
+  \foreach \u in {-4,-2,2,4} \node[below, font=\scriptsize] at (\u,-0.01) {$\u$};
+  \node[below] at (0,-0.006) {$0$};
+  \node[below] at (1.27,-0.006) {$a$};
+  \foreach \v in {0.1,0.2,0.3} \node[left, font=\scriptsize] at (-0.03,\v) {$\v$};
+  \node[left, font=\scriptsize] at (-0.03,0.405) {$0.4$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

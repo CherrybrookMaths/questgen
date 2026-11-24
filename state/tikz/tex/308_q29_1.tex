@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% grid: x minor every 50, major every 100; y minor every 200, major every 1000
+\foreach \i in {1,3,...,19} \draw[black!13,line width=0.4pt] ({320+38.85*\i},92) -- ({320+38.85*\i},950);
+\foreach \j in {1,...,60} {\pgfmathtruncatemacro\m{mod(\j,5)}
+  \ifnum\m=0 \else \draw[black!13,line width=0.4pt] (320,{950-14.3*\j}) -- (1097,{950-14.3*\j}); \fi}
+\foreach \i in {2,4,...,20} \draw[black!35,line width=0.4pt] ({320+38.85*\i},92) -- ({320+38.85*\i},950);
+\foreach \j in {1,...,12} \draw[black!35,line width=0.4pt] (320,{950-71.5*\j}) -- (1097,{950-71.5*\j});
+% axes
+\draw[->] (320,950) -- (1125,950);
+\draw[->] (320,950) -- (320,68);
+% ticks
+\foreach \i in {1,3,...,19} \draw ({320+38.85*\i},946) -- ({320+38.85*\i},954);
+\foreach \i in {2,4,...,20} \draw ({320+38.85*\i},942) -- ({320+38.85*\i},958);
+\foreach \j in {1,...,60} {\pgfmathtruncatemacro\m{mod(\j,5)}
+  \ifnum\m=0 \draw (312,{950-14.3*\j}) -- (328,{950-14.3*\j}); \else \draw (316,{950-14.3*\j}) -- (324,{950-14.3*\j}); \fi}
+% tick labels
+\foreach \v/\t in {1/100,2/200,3/300,4/400,5/500,6/600,7/700,8/800,9/900,10/1\,000}
+  \node[anchor=north,inner sep=0pt] at ({320+77.7*\v},966) {$\t$};
+\foreach \v in {1,...,12} \node[anchor=east,inner sep=0pt] at (306,{950-71.5*\v}) {$\v\,000$};
+% axis labels
+\node[font=\large] at (320,42) {$R$};
+\node[font=\large,anchor=west,inner sep=0pt] at (1128,948) {$N$};
+\node at (718,1017) {Number of Units};
+\node[rotate=90] at (196,510) {Revenue (\$)};
+\node[rotate=90,font=\large] at (38,640) {Cost / Revenue (\$)};
+\end{tikzpicture}
+\end{document}

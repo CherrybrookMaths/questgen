@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\coordinate (S) at (100,203); \coordinate (T) at (412,60); \coordinate (U) at (754,60);
+\coordinate (Z) at (1010,175); \coordinate (M) at (667,231); \coordinate (L) at (355,402);
+\draw[mid] (S) -- (T);
+\draw[mid] (T) -- (U);
+\draw[mid] (U) -- (Z);
+\draw[mid] (M) -- (Z);
+\draw[mid] (L) -- (M);
+\draw[mid] (S) -- (L);
+\draw[mid,aux] (T) -- (M);
+\draw[mid] (S) to[out=5,in=90,looseness=1.1] (L);
+\foreach \p in {S,T,U,Z,M,L} \node[pt] at (\p) {};
+\draw (10,185) rectangle ++(76,36); \draw (48,185) -- ++(0,36);
+\node at (29,203) {$0$}; \node at (67,203) {$0$};
+\draw (1018,158) rectangle ++(76,36); \draw (1056,158) -- ++(0,36);
+\node at (1037,176) {$15$}; \node at (1075,176) {$15$};
+\draw (374,10) rectangle ++(76,36); \draw (412,10) -- ++(0,36);
+\draw (718,10) rectangle ++(76,36); \draw (756,10) -- ++(0,36);
+\draw (663,251) rectangle ++(76,36); \draw (701,251) -- ++(0,36);
+\draw (317,416) rectangle ++(76,36); \draw (355,416) -- ++(0,36);
+\node at (238,100) {$A$, ?};
+\node at (575,30) {$E$, 2};
+\node at (900,85) {$G$, 3};
+\node at (305,213) {$B$, 5};
+\node at (200,338) {$C$, 6};
+\node at (540,355) {$F$, 2};
+\node at (860,243) {$H$, 2};
+\end{tikzpicture}
+\end{document}

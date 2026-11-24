@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(97,610)},x=0.8026cm,y=0.18923cm]
+\foreach \j in {1,...,35} \draw[black!20, line width=0.3pt] (0,\j) -- (9,\j);
+\foreach \j in {2,4,...,34} \draw[black!35, line width=0.3pt] (0,\j) -- (9,\j);
+\foreach \i in {1,...,9} \draw[black!35, line width=0.3pt] (\i,0) -- (\i,35);
+\foreach \i in {1,...,9} \draw (\i,-0.55) -- (\i,0.55);
+\foreach \j in {1,...,35} \draw (-0.13,\j) -- (0.13,\j);
+\draw[->] (0,0) -- (9.6,0) node[right]{$x$};
+\draw[->] (0,0) -- (0,37.7) node[above]{$A$};
+\draw[line width=0.9pt] plot[domain=0:8,samples=90,smooth] (\x,{16*\x-2*\x*\x});
+\foreach \i in {1,...,9} \node[below,font=\footnotesize,inner sep=6pt] at (\i,0) {$\i$};
+\foreach \j in {2,4,...,34} \node[left,font=\footnotesize,inner sep=3pt] at (-0.13,\j) {$\j$};
+\node[font=\small] at (4.5,-4.9) {Side length ($x$)};
+\node[font=\small,rotate=90] at (-1.13,18.6) {Area};
+\end{scope}
+\end{tikzpicture}
+\end{document}

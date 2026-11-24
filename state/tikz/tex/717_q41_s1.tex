@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (T1) at (130,185); \coordinate (T2) at (387,145); \coordinate (T3) at (283,458);
+\draw[aux,->] (130,505) -- (130,88);
+\node[font=\small] at (133,68) {North};
+\draw (T1)--(T2)--(T3)--cycle;
+\node at (110,185) {$T_1$}; \node at (405,130) {$T_2$}; \node at (262,480) {$T_3$};
+\node[font=\small] at (282,131) {35 km}; \node[font=\small,anchor=west] at (342,302) {40 km};
+\node[font=\small,align=left,anchor=west] at (497,296) {DIAGRAM NOT\\TO SCALE};
+% bearing of T3 from T1
+\draw[->] (130,95) arc[start angle=-90,end angle=60.7,radius=90];
+\node[font=\small] at (222,80) {$150^\circ$};
+\draw (T1) ++(-8.8:40) arc[start angle=-8.8,end angle=60.7,radius=40];
+\node[font=\small] at (182,211) {$\theta$};
+\draw (T1) ++(60.7:130) arc[start angle=60.7,end angle=90,radius=130];
+\node[font=\small] at (169,336) {$30^\circ$};
+% north at T3
+\draw[aux,->] (283,565) -- (283,270);
+\node[font=\small] at (283,255) {$N$};
+\draw (T3) ++(-119.3:70) arc[start angle=-119.3,end angle=-90,radius=70];
+\node[font=\small] at (259,369) {$30^\circ$};
+\draw (T3) ++(-90:100) arc[start angle=-90,end angle=-71.6,radius=100];
+\node[font=\small] at (306,320) {$20^\circ$};
+\end{tikzpicture}
+\end{document}

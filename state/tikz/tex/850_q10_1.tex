@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.01671cm,every node/.style={font=\fontsize{12.5}{14}\selectfont}]
+  \def\bars{(0,0) rectangle (136,460) (166,0) rectangle (300,340) (331,0) rectangle (465,110) (495,0) rectangle (630,60) (661,0) rectangle (796,30)}
+  \begin{scope}[even odd rule]
+    \clip (-1,-1) rectangle (814,501) \bars;
+    \foreach \v in {10,20,30,40,60,70,80,90,110,120,130,140,160,170,180,190,210,220,230,240,260,270,280,290,310,320,330,340,360,370,380,390,410,420,430,440,460,470,480,490}
+      \draw[black!50,line width=0.4pt,dash pattern=on 0.6pt off 1.2pt] (0,\v)--(813,\v);
+    \foreach \x in {68,233,398,563,728}
+      \draw[black!50,line width=0.4pt,dash pattern=on 0.6pt off 1.2pt] (\x,0)--(\x,500);
+    \foreach \v in {50,100,...,450} \draw (0,\v)--(813,\v);
+  \end{scope}
+  \path[shade dots] \bars;
+  \draw \bars;
+  \draw (0,0) rectangle (813,500);
+  \foreach \v in {0,50,...,500} {
+    \node[left] at (-4,\v) {\v};
+    \pgfmathtruncatemacro\p{\v/5}
+    \node[right] at (817,\v) {\p\%};
+  }
+  \node at (68,-17.5) {Dog};
+  \node at (68,-44) {brush};
+  \node at (233,-17.5) {Dog toys};
+  \node at (398,-17.5) {Kitty};
+  \node at (398,-44) {Litter};
+  \node at (563,-17.5) {Scratching};
+  \node at (563,-44) {post};
+  \node at (728,-17.5) {Bird gym};
+  \node at (398,-72) {Pet product sold};
+  \node[rotate=90] at (-106,251) {Number of sales};
+  \node[rotate=90] at (905,251) {Cumulative percentage};
+\end{tikzpicture}
+\end{document}

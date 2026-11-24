@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (12,131);
+\draw ({12+376*cos(18.3)},{131+376*sin(18.3)}) -- (O) -- ({12+376*cos(-18.3)},{131+376*sin(-18.3)});
+\draw plot[domain=-18.3:18.3,samples=40,smooth] ({12+376*cos(\x)},{131+376*sin(\x)});
+\draw plot[domain=-18.3:18.3,samples=30,smooth] ({12+156*cos(\x)},{131+156*sin(\x)});
+\node at (125,133) {$40^\circ$};
+\node[rotate=18.3] at (192,40) {18 cm};
+\node at (428,133) {$l$ cm};
+\node[align=center] at (707,115) {NOT TO\\[3pt]SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{22}{26}\selectfont]
+\coordinate (BR) at (545,257); \coordinate (MB) at (583,342); \coordinate (B1) at (750,203);
+\coordinate (B2) at (930,175); \coordinate (LR) at (832,342); \coordinate (K) at (832,530);
+\coordinate (D) at (522,530); \coordinate (DR) at (657,530);
+\foreach \p/\q in {BR/MB,MB/LR,B1/LR,B2/LR,LR/K,K/DR,DR/D} \draw (\p) -- (\q);
+\foreach \p in {BR,MB,B1,B2,LR,K,D,DR} \fill (\p) circle[radius=8];
+\node at (493,222) {$BR$};
+\node at (718,128) {$B1$};
+\node at (938,100) {$B2$};
+\node at (905,308) {$LR$};
+\node at (520,400) {$MB$};
+\node at (880,530) {$K$};
+\node at (482,535) {$D$};
+\node at (660,592) {$DR$};
+\end{tikzpicture}
+\end{document}

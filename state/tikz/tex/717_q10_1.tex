@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (107,43) rectangle (510,222);
+\draw (107,43) arc[start angle=270,end angle=90,radius=89.5];
+\draw (510,43) arc[start angle=270,end angle=450,radius=89.5];
+\foreach \x/\s in {107/1,510/-1} {
+  \draw (\x+\s*26,43)--(\x+\s*26,69)--(\x,69);
+  \draw (\x+\s*26,222)--(\x+\s*26,196)--(\x,196);}
+\draw[aux,<-] (107,22)--(262,22); \draw[aux,->] (350,22)--(510,22);
+\node[font=\small] at (306,22) {$100$ m};
+\draw[aux,<-] (172,43)--(172,113); \draw[aux,->] (172,154)--(172,222);
+\node[font=\small] at (172,134) {$65$ m};
+\node[font=\small,align=center] at (695,135) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

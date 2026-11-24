@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{8.5}{10}\selectfont]
+\def\gx#1{{115+(#1-132)*32.2222}}
+\def\gy#1{{562-(#1-138)*33.5625}}
+% minor grid
+\foreach \a in {133,135,...,149} \draw[black!30,line width=0.4pt] (\gx{\a},25) -- (\gx{\a},562);
+\foreach \b in {139,141,...,153} \draw[black!30,line width=0.4pt] (115,\gy{\b}) -- (695,\gy{\b});
+% major grid
+\foreach \a in {132,134,...,150} \draw[black!65] (\gx{\a},25) -- (\gx{\a},562);
+\foreach \b in {138,140,...,154} \draw[black!65] (115,\gy{\b}) -- (695,\gy{\b});
+% axes with breaks
+\draw[->] (85,592) -- (94,592) -- (98,585) -- (104,599) -- (108,592) -- (714,592);
+\draw[->] (85,592) -- (85,586) -- (78,582) -- (92,575) -- (85,571) -- (85,8);
+\foreach \a in {132,...,150} \draw (\gx{\a},592) -- (\gx{\a},597);
+\foreach \b in {138,...,154} \draw (80,\gy{\b}) -- (85,\gy{\b});
+\foreach \a in {132,134,...,150} \node[anchor=north] at (\gx{\a},602) {\a};
+\foreach \b in {138,140,...,154} \node[anchor=east] at (76,\gy{\b}) {\b};
+\node at (355,648) {Arm Span (in cm)};
+\node[rotate=90] at (22,290) {Height (in cm)};
+\end{tikzpicture}
+\end{document}

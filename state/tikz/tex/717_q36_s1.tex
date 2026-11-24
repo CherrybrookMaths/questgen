@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(186,1057)}, x=1.09728cm, y=1.01067cm]
+  \foreach \u in {0.5,1,...,10} \draw[black!15, line width=0.3pt] (\u,0) -- (\u,12);
+  \foreach \v in {0.2,0.4,...,12.01} \draw[black!15, line width=0.3pt] (0,\v) -- (10,\v);
+  \foreach \u in {1,...,10} \draw[black!35, line width=0.4pt] (\u,0) -- (\u,12);
+  \foreach \v in {1,...,12} \draw[black!35, line width=0.4pt] (0,\v) -- (10,\v);
+  \draw[->] (0,0) -- (10.35,0) node[right, font=\Large, inner sep=1pt] {$N$};
+  \draw[->] (0,0) -- (0,12.3) node[above, font=\Large, inner sep=2pt] {$R$};
+  \foreach \u in {0.5,1.5,...,9.5} \draw ([yshift=-0.05cm]\u,0) -- ([yshift=0.05cm]\u,0);
+  \foreach \u in {1,...,10} \draw ([yshift=-0.09cm]\u,0) -- ([yshift=0.09cm]\u,0);
+  \foreach \u in {1,...,9} \node[below] at ([yshift=-0.12cm]\u,0) {\u00};
+  \node[below] at ([yshift=-0.12cm]10,0) {1\,000};
+  \foreach \v in {0.2,0.4,0.6,0.8} \foreach \k in {0,...,11} \draw ([xshift=-0.05cm]0,\k+\v) -- ([xshift=0.05cm]0,\k+\v);
+  \foreach \v in {1,...,12} \draw ([xshift=-0.09cm]0,\v) -- ([xshift=0.09cm]0,\v);
+  \foreach \v in {1,...,9} \node[left] at ([xshift=-0.1cm]0,\v) {\v\,000};
+  \foreach \v in {10,11,12} \node[left] at ([xshift=-0.1cm]0,\v) {\v\,000};
+  \draw[aux] (0,6) -- (5,6) -- (5,0);
+  \draw[line width=0.9pt] (0,0) -- (10,12);
+  \draw[line width=0.9pt] (0,2) -- (10,10);
+  \node[pt] at (5,6) {};
+  \node[right, font=\large] at (10.15,12) {$R=12N$};
+  \node[right, font=\large] at (10.15,10.15) {$C=8N+2000$};
+\end{scope}
+\node[rotate=90] at (48,565) {Revenue (\$)};
+\node at (628,1128) {Number of Units};
+\end{tikzpicture}
+\end{document}

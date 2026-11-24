@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(233,785)},x=1.1684cm,y=0.11684cm]
+  \foreach \i in {1,...,15} \draw[black!30,line width=0.4pt] ({0.5*\i},0) -- ({0.5*\i},75);
+  \foreach \i in {1,...,15} \draw[black!30,line width=0.4pt] (0,{5*\i}) -- (7.5,{5*\i});
+  \draw[->] (0,0) -- (0,80.4);
+  \draw[->] (0,0) -- (8.12,0);
+  \draw[->,line width=0.9pt] (0,0) -- (7.25,72.5);
+  \draw[->,line width=0.9pt] (0,20) -- (7.25,56.25);
+  \fill (4,40) circle (2.2pt);
+  \foreach \n in {0,...,7} \node[anchor=north] at (\n,-0.8) {$\n$};
+  \foreach \d in {10,20,...,70} \node[anchor=east] at (-0.2,\d) {$\d$};
+  \node[anchor=west] at (7.4,73) {Income};
+  \node[anchor=west] at (7.4,56) {Cost};
+\end{scope}
+\node[rotate=90] at (130,490) {Dollars (\$)};
+\node at (645,882) {$n$ (number of lemonades sold)};
+\end{tikzpicture}
+\end{document}

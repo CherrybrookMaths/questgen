@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\draw[mid] (14,158)--(77,25);
+\draw[mid] (77,25)--(333,150);
+\draw[mid] (333,150)--(419,268);
+\foreach \p in {(14,158),(77,25),(333,150),(419,268)} \fill \p circle (7);
+\end{tikzpicture}
+\end{document}

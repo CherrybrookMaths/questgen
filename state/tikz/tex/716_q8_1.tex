@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\footnotesize}]
+\def\X#1{130+0.402*#1}\def\Y#1{421-9.75*#1}
+\foreach \v in {250,500,750,1000,1250,1500} \draw[black!15,line width=0.5pt] ({\X{\v}},421) -- ({\X{\v}},31);
+\foreach \t in {5,10,...,40} \draw[black!15,line width=0.5pt] (130,{\Y{\t}}) -- (733,{\Y{\t}});
+\draw (130,31) -- (130,421) -- (733,421);
+\foreach \v/\l in {0/0,500/500,1000/{1{,}000},1500/{1{,}500}} \node at ({\X{\v}},445) {$\l$};
+\foreach \t in {0,10,20,30,40} \node[anchor=east] at (112,{\Y{\t}}) {$\t$};
+\foreach \a/\b in {100/5,300/8,500/10,700/20,900/20,1100/25,1300/35} \fill ({\X{\a}},{\Y{\b}}) circle (7);
+\node at (431,497) {\textit{Volume of Water (mL)}};
+\node[rotate=90] at (15,224) {\textit{Time water took to freeze (minutes)}};
+\end{tikzpicture}
+\end{document}

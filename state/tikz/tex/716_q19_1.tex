@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\Large]
+\coordinate (B) at (349,67); \coordinate (C) at (706,85); \coordinate (O) at (518,287);
+\coordinate (A) at (65,370); \coordinate (D) at (717,553);
+\draw (A) -- (B) -- (C) -- (D) -- cycle;
+\draw (O) -- (A); \draw (O) -- (B); \draw (O) -- (C); \draw (O) -- (D);
+\draw[->] (O) -- (518,140);
+\node at (548,160) {$N$};
+\foreach \p in {A,B,C,D,O} \fill (\p) circle (9);
+\node at (326,35) {$B$}; \node at (400,35) {$312^\circ$};
+\node at (734,62) {$C$}; \node at (806,62) {$038^\circ$};
+\node at (742,555) {$D$}; \node at (838,555) {$149^\circ$};
+\node at (33,375) {$A$};
+\node at (516,345) {$O$};
+\node[rotate=-52.5] at (410,190) {$19\ m$};
+\node[rotate=47] at (607,163) {$17\ m$};
+\node[rotate=-53] at (585,410) {$24\ m$};
+\node at (333,346) {$26\ m$};
+\node at (447,400) {$290\ m^2$};
+\node at (910,320) {\normalsize\sffamily\bfseries Not to scale};
+\end{tikzpicture}
+\end{document}

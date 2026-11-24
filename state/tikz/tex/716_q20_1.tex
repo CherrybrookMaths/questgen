@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\foreach \a in {10,20,...,60} \draw[black!25] ({155+11.583*\a},30) -- ({155+11.583*\a},480);
+\foreach \b in {1,...,8} \draw[black!25] (155,{480-56.25*\b}) -- (850,{480-56.25*\b});
+\draw (155,30) -- (155,480) -- (850,480);
+\draw[line width=0.9pt] (155,{480-56.25*5.03}) -- (850,{480-56.25*1.5});
+\foreach \a/\b in {5/1,13/6,15/6.5,18/4.5,20/4,49/1,53/2} \fill ({155+11.583*\a},{480-56.25*\b}) circle (7.5);
+\foreach \a in {0,20,40,60} \node at ({155+11.583*\a},510) {$\a$};
+\foreach \b in {0,2,4,6,8} \node at (124,{480-56.25*\b}) {$\b$};
+\node at (502,573) {\textit{Age (years)}};
+\node[rotate=90] at (30,270) {\textit{Average time spent on phone (hours)}};
+\end{tikzpicture}
+\end{document}

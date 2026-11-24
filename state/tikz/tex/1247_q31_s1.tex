@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {-4,-2,...,22} {\pgfmathsetmacro\xx{187+41.25*\i}
+  \pgfmathtruncatemacro\m{mod(\i+100,10)}
+  \ifnum\m=0 \draw[black!70, line width=0.5pt] (\xx,20) -- (\xx,1030); \else \draw[black!22, line width=0.5pt] (\xx,20) -- (\xx,1030); \fi}
+\foreach \j in {-1,...,11} {\pgfmathsetmacro\yy{934-4.12*20*\j}
+  \pgfmathtruncatemacro\m{mod(\j+100,5)}
+  \ifnum\m=0 \draw[black!70, line width=0.5pt] (20,\yy) -- (1100,\yy); \else \draw[black!22, line width=0.5pt] (20,\yy) -- (1100,\yy); \fi}
+\draw[->] (20,934) -- (1112,934);
+\draw[->] (187,1030) -- (187,14);
+\node[font=\LARGE] at (150,978) {$0$};
+\node[font=\LARGE] at (600,978) {\halo{$10$}};
+\node[font=\LARGE] at (1012,978) {\halo{$20$}};
+\node[font=\LARGE] at (1080,980) {$D$};
+\node[font=\LARGE] at (55,72) {$N$};
+\node[font=\LARGE, anchor=east] at (178,110) {\halo{$200$}};
+\node[font=\LARGE, anchor=east] at (178,522) {\halo{$100$}};
+\draw[line width=0.9pt] (187,{934-4.12*100}) -- ({187+41.25*20.5},{934-4.12*202.5});
+\draw[line width=0.9pt] (187,{934-4.12*130}) -- ({187+41.25*20.5},{934-4.12*201.75});
+\fill (187,{934-4.12*130}) circle (5);
+\fill ({187+41.25*20},{934-4.12*200}) circle (5);
+\node[anchor=east] at (180,{934-4.12*130}) {\halo{$130$}};
+\end{tikzpicture}
+\end{document}

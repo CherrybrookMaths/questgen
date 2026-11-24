@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\lf{\fontsize{17}{20}\selectfont}
+\coordinate (S) at (253,48); \coordinate (U) at (546,48); \coordinate (X) at (760,155);
+\coordinate (R) at (38,205); \coordinate (Z) at (228,235); \coordinate (V) at (493,235);
+\coordinate (Y) at (787,315); \coordinate (T) at (174,395); \coordinate (W) at (493,420);
+\draw (X)--(Y) (S)--(Z) (R)--(Z) (U)--(V) (Z)--(T) (V)--(W) (S)--(U) (V)--(Y);
+\foreach \p in {S,U,X,R,Z,V,Y,T,W} \fill (\p) circle (3);
+\node[font=\lf] at (239,25) {$S$};
+\node[font=\lf] at (575,23) {$U$};
+\node[font=\lf] at (793,130) {$X$};
+\node[font=\lf] at (14,196) {$R$};
+\node[font=\lf] at (257,213) {$Z$};
+\node[font=\lf] at (466,232) {$V$};
+\node[font=\lf] at (812,342) {$Y$};
+\node[font=\lf] at (175,425) {$T$};
+\node[font=\lf] at (512,456) {$W$};
+% lengths
+\node[font=\large] at (400,27) {12};
+\node[font=\large] at (220,140) {8};
+\node[font=\large] at (133,242) {9};
+\node[font=\large] at (166,318) {10};
+\node[font=\large] at (538,145) {9};
+\node[font=\large] at (515,330) {10};
+\node[font=\large] at (642,250) {15};
+\node[font=\large] at (793,232) {7};
+\node[font=\large, anchor=north] at (420,490) {Total length of roads $=80$ km};
+\end{tikzpicture}
+\end{document}

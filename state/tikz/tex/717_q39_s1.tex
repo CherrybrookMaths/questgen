@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{nd/.style={circle,draw,fill=black!18,minimum size=0.56cm,inner sep=0pt,font=\small},
+ mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}}
+\node[nd] (A) at (215,345) {$A$};
+\node[nd] (B) at (430,130) {$B$};
+\node[nd] (E) at (430,345) {$E$};
+\node[nd] (C) at (640,345) {$C$};
+\node[nd] (D) at (432,558) {$D$};
+\draw[mid=0.85] (A) -- (B);
+\draw[mid=0.68] (A) -- (D);
+\draw[mid=0.58] (E) -- (B);
+\draw[mid=0.57] (B) -- (C);
+\draw[mid=0.59] (E) -- (C);
+\draw[mid=0.61] (D) -- (E);
+\draw[mid=0.61] (D) -- (C);
+\node[font=\small] at (292,228) {10};
+\node[font=\small] at (290,462) {20};
+\node[font=\small] at (451,246) {12};
+\node[font=\small] at (562,228) {6};
+\node[font=\small] at (522,322) {10};
+\node[font=\small] at (451,445) {6};
+\node[font=\small] at (566,465) {2};
+\node[font=\Large,anchor=east] at (184,345) {Source};
+\node[font=\Large,anchor=west] at (678,338) {Sink};
+% minimum cut
+\draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates {(600,148) (592,205) (550,245) (480,272) (405,295) (352,332) (337,385) (360,445) (440,485) (540,520) (605,560) (640,600)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% grid: x every year (8..18), y every 2 cm (120..200), darker every 10 cm
+\foreach \j in {1,...,39} {\pgfmathtruncatemacro\m{mod(\j,5)}
+  \ifnum\m=0 \else \draw[black!15,line width=0.4pt] (221,{864-19.02*\j}) -- (1199,{864-19.02*\j}); \fi}
+\foreach \j in {0,...,8} \draw[black!40,line width=0.4pt] (221,{864-95.1*\j}) -- (1199,{864-95.1*\j});
+\foreach \i in {0,...,10} \draw[black!40,line width=0.4pt] ({221+97.8*\i},103) -- ({221+97.8*\i},864);
+% axes with breaks
+\draw[->] (138,948) -- (138,917) -- (152,905) -- (125,885) -- (138,873) -- (138,62);
+\draw[->] (138,948) -- (165,948) -- (180,933) -- (208,962) -- (221,948) -- (1245,948);
+% ticks
+\foreach \j in {0,...,40} {\pgfmathtruncatemacro\m{mod(\j,5)}
+  \ifnum\m=0 \draw (126,{864-19.02*\j}) -- (150,{864-19.02*\j}); \else \draw (131,{864-19.02*\j}) -- (145,{864-19.02*\j}); \fi}
+\foreach \i in {0,...,10} \draw ({221+97.8*\i},936) -- ({221+97.8*\i},960);
+% tick labels
+\foreach \i in {8,...,18} \node[anchor=north,inner sep=0pt] at ({221+97.8*(\i-8)},982) {$\i$};
+\foreach \v in {120,130,...,200} \node[anchor=east,inner sep=0pt] at (110,{864-9.51*(\v-120)}) {$\v$};
+% data
+\foreach \a/\h in {8/135,8/132,9/145,9/142,9/136,10/155,10/150,10/148,10/140,10/136,11/160,11/150,11/140,
+  12/153,12/150,14/167,15/174,15/170,15/158,16/183,16/172,16/170,17/189,17/182,17/179,17/168,18/190,18/185,18/178}
+  \fill ({221+97.8*(\a-8)},{864-9.51*(\h-120)}) circle[radius=0.068cm];
+% labels
+\node[font=\large] at (133,25) {$H$};
+\node[font=\large,anchor=west,inner sep=0pt] at (1255,946) {$A$};
+\node at (730,1035) {Age (years)};
+\node[rotate=90] at (28,460) {Height (cm)};
+\end{tikzpicture}
+\end{document}

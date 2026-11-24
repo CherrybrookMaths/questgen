@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (68,46); \coordinate (C) at (188,46); \coordinate (D) at (465,46);
+\coordinate (E) at (543,244); \coordinate (B) at (307,285);
+\draw (A)--(C)--(D)--(E)--(B)--(A); \draw (C)--(B)--(D);
+\draw plot[smooth,tension=0.7] coordinates {(68,46) (68,120) (92,200) (155,260) (230,279) (307,285)};
+\foreach \p in {A,B,C,D,E} \fill (\p) circle (3.2);
+\node[font=\small] at (48,40) {$A$};
+\node[font=\small] at (185,27) {$C$};
+\node[font=\small] at (472,27) {$D$};
+\node[font=\small] at (563,244) {$E$};
+\node[font=\small] at (307,306) {$B$};
+\end{tikzpicture}
+\end{document}

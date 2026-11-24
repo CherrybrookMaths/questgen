@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(326,685)},x=0.07899cm,y=0.07925cm]
+  \foreach \n in {10,20,30,40,60,70,80} \draw[black!30,line width=0.4pt] (\n,-2.4) -- (\n,105.8);
+  \foreach \p in {10,20,30,40,60,70,80,90} \draw[black!30,line width=0.4pt] (-6.6,\p) -- (86.3,\p);
+  \draw[black!65] (-6.6,50) -- (86.3,50);
+  \draw[black!65] (-6.6,100) -- (86.3,100);
+  \draw[black!65] (50,0) -- (50,105.8);
+  \draw (0,-5) -- (0,105.8);
+  \draw (-6.6,0) -- (86.3,0);
+  \draw[line width=0.9pt] (0,100) -- (50,0);
+  \draw[line width=0.9pt] (0,30) -- (50.5,105.8);
+  \draw[aux] (0,60) -- (20,60) -- (20,0);
+  \fill (20,60) circle (2.2pt);
+  \fill (40,90) circle (2.2pt);
+  \fill (40,20) circle (2.2pt);
+\end{scope}
+\node[font=\footnotesize,anchor=east] at (318,61) {100};
+\node[font=\footnotesize,anchor=east] at (318,373) {50};
+\node[font=\footnotesize] at (313,701) {0};
+\node[font=\footnotesize] at (637,701) {50};
+\node[font=\footnotesize] at (588,746) {$n$ (years)};
+\node[font=\footnotesize,rotate=90] at (252,345) {population};
+\node[font=\footnotesize,anchor=west] at (645,148) {$R = 30 + 1.5n$};
+\node[font=\footnotesize] at (725,635) {$F = 100 - 2n$};
+\node[font=\large,align=center] at (125,565) {initial\\rabbits};
+\draw[->] (205,540) -- (310,505);
+\node[font=\large,anchor=west] at (765,725) {foxes at zero};
+\draw[->] (760,728) -- (662,698);
+\end{tikzpicture}
+\end{document}

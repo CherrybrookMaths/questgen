@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,lab/.style={font=\fontsize{9}{10}\selectfont,inner sep=1pt}]
+\coordinate (L) at (258,42); \coordinate (G) at (72,128); \coordinate (S) at (473,128);
+\coordinate (K) at (258,215); \coordinate (A) at (153,333); \coordinate (E) at (397,333);
+\draw (G)--(L)--(S); \draw (L)--(K); \draw (G)--(K)--(S); \draw (G)--(A); \draw (K)--(A); \draw (K)--(E);
+\draw (A)--(E); \draw (S)--(E);
+\draw (G) .. controls (30,180) and (55,330) .. (A);
+\draw (A) .. controls (190,385) and (360,385) .. (E);
+\draw (S) .. controls (520,180) and (497,330) .. (E);
+\foreach \p in {L,G,S,K,A,E} \fill (\p) circle (2.6pt);
+\node[lab] at (137,68) {8}; \node[lab] at (376,60) {4}; \node[lab] at (240,122) {6};
+\node[lab] at (155,186) {5}; \node[lab] at (353,157) {9}; \node[lab] at (98,240) {8};
+\node[lab] at (45,268) {10}; \node[lab] at (219,282) {4}; \node[lab] at (340,265) {6};
+\node[lab] at (272,320) {7}; \node[lab] at (275,393) {11}; \node[lab] at (413,238) {8};
+\node[lab] at (513,252) {10};
+\node[lab] at (255,15) {$L$}; \node[lab] at (45,125) {$G$}; \node[lab] at (493,105) {$S$};
+\node[lab] at (272,184) {$K$}; \node[lab] at (138,358) {$A$}; \node[lab] at (414,358) {$E$};
+\end{tikzpicture}
+\end{document}

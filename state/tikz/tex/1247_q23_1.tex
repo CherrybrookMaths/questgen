@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,lab/.style={font=\fontsize{10}{11}\selectfont,inner sep=1pt}]
+\draw (92,212) -- (92,323) -- (538,323) -- (538,12);
+\draw (313,323) -- (313,78);
+\draw plot[smooth,tension=0.6] coordinates {(92,212) (102,168) (128,140) (175,117) (235,103) (275,96) (313,78) (370,56) (430,36) (490,25) (538,12)};
+\draw[aux,<->] (92,368) -- (538,368);
+\node[lab] at (62,264) {20$m$}; \node[lab] at (282,202) {90$m$}; \node[lab] at (504,168) {150$m$};
+\node[lab] at (315,395) {220$m$};
+\end{tikzpicture}
+\end{document}

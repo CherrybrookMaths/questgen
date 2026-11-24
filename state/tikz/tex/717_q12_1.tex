@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (103.5,42) ellipse (76.5 and 15);
+\draw (103.5,455) ellipse (76.5 and 16);
+\foreach \c in {98,248,397} {
+  \begin{scope}
+  \clip (103.5,\c) circle (75);
+  \fill[black!30] (103.5,\c) circle (75);
+  \fill[white] (42,\c-60) .. controls (48,\c+87) and (158,\c+87) .. (162,\c-60)
+     -- (149,\c-60) .. controls (146,\c+73) and (60,\c+73) .. (56,\c-60) -- cycle;
+  \end{scope}
+  \draw (103.5,\c) circle (75);}
+\draw (27,42)--(27,455); \draw (180,42)--(180,455);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (444,320); \coordinate (A) at (778,105); \coordinate (D) at (135,201);
+\coordinate (B) at (707,557); \coordinate (C) at (278,511);
+\draw (D)--(A)--(B)--(C)--cycle;
+\draw (O)--(A); \draw (O)--(B); \draw (O)--(C); \draw (O)--(D);
+\draw[aux,->] (O)--(444,30);
+\node at (458,16) {\textbf{N}};
+\foreach \p in {O,A,B,C,D} \fill (\p) circle (1.3pt);
+\node at (838,95) {$A$ (050$^\circ$)}; \node at (70,190) {$D$ (300$^\circ$)};
+\node at (765,580) {$B$ (140$^\circ$)}; \node at (258,537) {$C$}; \node at (439,351) {$O$};
+\node at (313,233) {200 m}; \node at (623,256) {305 m}; \node at (417,425) {245 m};
+\node at (613,410) {230 m}; \node at (497,577) {300 m};
+\end{tikzpicture}
+\end{document}

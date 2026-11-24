@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {-5,...,28} {\pgfmathsetmacro\xx{190+20.4*\i}
+  \pgfmathtruncatemacro\m{mod(\i+100,5)}
+  \ifnum\m=0 \draw[black!30, line width=0.5pt] (\xx,95) -- (\xx,690); \else \draw[black!12, line width=0.4pt] (\xx,95) -- (\xx,690); \fi}
+\foreach \j in {-3,...,25} {\pgfmathsetmacro\yy{616-20.4*\j}
+  \pgfmathtruncatemacro\m{mod(\j+100,5)}
+  \ifnum\m=0 \draw[black!30, line width=0.5pt] (88,\yy) -- (770,\yy); \else \draw[black!12, line width=0.4pt] (88,\yy) -- (770,\yy); \fi}
+\draw[->] (88,616) -- (778,616);
+\draw[->] (190,690) -- (190,92);
+\foreach \v in {50,100,...,250} {\pgfmathsetmacro\yy{616-2.04*\v}
+  \draw (184,\yy) -- (190,\yy);
+  \node[font=\footnotesize, anchor=east] at (182,\yy) {$\v$};}
+\foreach \u in {5,10,...,25} {\pgfmathsetmacro\xx{190+20.4*\u}
+  \node[font=\footnotesize] at (\xx,640) {$\u$};}
+\node[font=\footnotesize] at (174,640) {$0$};
+\node[font=\footnotesize] at (92,640) {$-5$};
+\node[anchor=west] at (38,32) {$A\ (m^2)$};
+\node[anchor=west] at (778,688) {$x\ (m)$};
+\draw (848,122) rectangle (1258,252);
+\draw (848,187) -- (1258,187);
+\foreach \c in {917,986,1054,1122,1190} \draw (\c,122) -- (\c,252);
+\node[anchor=west] at (858,150) {$\boldsymbol{x}$};
+\node[anchor=west] at (858,215) {$A$};
+\end{tikzpicture}
+\end{document}

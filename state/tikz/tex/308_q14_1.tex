@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (K) at (30,137); \coordinate (L) at (207,71); \coordinate (O) at (427,48);
+  \coordinate (N) at (290,158); \coordinate (M) at (162,246); \coordinate (P) at (408,290);
+  \draw (K) -- (L) -- (O) -- (P) -- (M) -- (K);
+  \draw (K) -- (N); \draw (L) -- (N) -- (P); \draw (M) -- (N) -- (O);
+  \node[font=\large] at (20,101) {$K$};
+  \node[font=\large] at (220,50) {$L$};
+  \node[font=\large] at (434,16) {$O$};
+  \node[font=\large] at (329,161) {$N$};
+  \node[font=\large] at (165,272) {$M$};
+  \node[font=\large] at (419,297) {$P$};
+\end{tikzpicture}
+\end{document}

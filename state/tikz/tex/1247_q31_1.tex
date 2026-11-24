@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% 1 unit = 1.835 px; origin (98,830)
+\foreach \i in {-1,...,9} {\pgfmathsetmacro\xx{98+1.835*50*\i}
+  \pgfmathtruncatemacro\m{mod(\i+100,4)}
+  \ifnum\m=0 \draw[black!50, line width=0.5pt] (\xx,0) -- (\xx,923); \else \draw[black!15, line width=0.5pt] (\xx,0) -- (\xx,923); \fi}
+\foreach \j in {-1,...,9} {\pgfmathsetmacro\yy{830-1.835*50*\j}
+  \pgfmathtruncatemacro\m{mod(\j+100,4)}
+  \ifnum\m=0 \draw[black!50, line width=0.5pt] (0,\yy) -- (936,\yy); \else \draw[black!15, line width=0.5pt] (0,\yy) -- (936,\yy); \fi}
+\draw (98,0) -- (98,923);
+\draw (0,830) -- (936,830);
+\node[font=\large] at (75,862) {$0$};
+\node[font=\large] at (468,862) {\halo{$200$}};
+\node[font=\large] at (833,862) {\halo{$400$}};
+\node[font=\large] at (54,97) {\halo{$400$}};
+\node[font=\large] at (54,462) {\halo{$200$}};
+\end{tikzpicture}
+\end{document}

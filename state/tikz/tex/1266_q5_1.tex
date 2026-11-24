@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\bx#1#2#3#4#5#6#7{\draw (#1,#3) rectangle (#2,#4); \draw (#5,#3)--(#5,#4);
+  \node[font=\small] at ({(#1+#5)/2},{(#3+#4)/2}) {#6};
+  \node[font=\small] at ({(#5+#2)/2},{(#3+#4)/2}) {#7};}
+\coordinate (S) at (155,265); \coordinate (C) at (334,76); \coordinate (D) at (352,263);
+\coordinate (F) at (573,132); \coordinate (G) at (555,265); \coordinate (E) at (733,168);
+\def\ed#1#2#3{\draw[postaction={decorate},decoration={markings,mark=at position #3 with {\arrow{>}}}] (#1)--(#2);}
+\ed{S}{C}{0.49} \ed{S}{D}{0.6} \ed{C}{F}{0.47} \ed{D}{F}{0.44} \ed{D}{G}{0.52} \ed{F}{E}{0.48} \ed{G}{E}{0.5}
+\foreach \p in {S,C,D,F,G,E} \node[circle,fill,inner sep=1.6pt] at (\p) {};
+\bx{358}{453}{22}{66}{406}{4}{4}
+\bx{614}{710}{72}{117}{661}{9}{9}
+\bx{81}{179}{185}{229}{129}{0}{0}
+\bx{840}{937}{146}{190}{887}{14}{14}
+\bx{173}{269}{298}{342}{221}{0}{3}
+\bx{375}{471}{298}{342}{422}{3}{6}
+\bx{375}{471}{357}{400}{422}{3}{7}
+\bx{589}{684}{280}{323}{636}{6}{10}
+\node at (330,51) {$C$}; \node at (594,94) {$F$}; \node at (53,208) {$A$}; \node at (786,170) {End};
+\node at (145,318) {$B$}; \node at (346,318) {$D$}; \node at (346,377) {$E$}; \node at (561,304) {$G$};
+\node at (98,270) {Start};
+\node at (278,175) {$A,4$}; \node at (261,241) {$B,3$}; \node at (411,124) {$C,5$}; \node at (409,199) {$D,3$};
+\node at (484,245) {$E,3$}; \node at (613,165) {$F,5$}; \node at (596,210) {$G,4$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {-5,...,28} {\pgfmathsetmacro\xx{123+19*\i}
+  \pgfmathtruncatemacro\m{mod(\i+100,5)}
+  \ifnum\m=0 \draw[black!30, line width=0.5pt] (\xx,45) -- (\xx,622); \else \draw[black!12, line width=0.4pt] (\xx,45) -- (\xx,622); \fi}
+\foreach \j in {-4,...,26} {\pgfmathsetmacro\yy{546-19*\j}
+  \pgfmathtruncatemacro\m{mod(\j+100,5)}
+  \ifnum\m=0 \draw[black!30, line width=0.5pt] (28,\yy) -- (658,\yy); \else \draw[black!12, line width=0.4pt] (28,\yy) -- (658,\yy); \fi}
+\draw[->] (28,546) -- (666,546);
+\draw[->] (123,622) -- (123,52);
+\foreach \v in {50,100,...,250} {\pgfmathsetmacro\yy{546-1.9*\v}
+  \draw (117,\yy) -- (123,\yy);
+  \node[font=\footnotesize, anchor=east] at (116,\yy) {$\v$};}
+\foreach \u in {5,10,...,25} {\pgfmathsetmacro\xx{123+19*\u}
+  \node[font=\footnotesize] at (\xx,564) {$\u$};}
+\node[font=\footnotesize] at (108,564) {$0$};
+\node[font=\footnotesize] at (33,564) {$-5$};
+\node[anchor=west] at (-5,4) {$A\ (m^2)$};
+\node[anchor=west] at (668,618) {$x\ (m)$};
+\draw[line width=0.9pt, smooth, samples=90, domain=0:20] plot ({123+19*\x},{546-1.9*(40*\x-2*\x*\x)});
+\foreach \u/\v in {0/0,5/150,10/200,15/150,20/0} \fill ({123+19*\u},{546-1.9*\v}) circle (4.5);
+\draw (742,88) rectangle (1127,212);
+\draw (742,150) -- (1127,150);
+\foreach \c in {805,870,935,1000,1063} \draw (\c,88) -- (\c,212);
+\node[anchor=west] at (752,114) {$\boldsymbol{x}$};
+\node[anchor=west] at (752,174) {$A$};
+\foreach \c/\a/\b in {773.5/0/0, 837.5/5/150, 902.5/10/200, 967.5/15/150, 1031.5/20/0} {
+  \node at ({\c+64},120) {$\a$};
+  \node at ({\c+64},181) {$\b$};}
+\end{tikzpicture}
+\end{document}

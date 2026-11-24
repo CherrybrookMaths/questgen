@@ -1,0 +1,89 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9.5}{11}\selectfont]
+\tikzset{wall/.style={fill=black!30,draw=black,line width=0.6pt}}
+\newcommand\wall[4]{\path[wall] (#1,#2) rectangle (#3,#4);}
+% ---- walls ----
+\wall{195}{12}{810}{20}       % top
+\wall{195}{12}{204}{398}      % bedroom 1 / bathroom left
+\wall{802}{12}{810}{195}      % bedroom 2 right
+\wall{578}{186}{810}{195}     % bedroom 2 bottom
+\wall{450}{20}{459}{100}      % closets
+\wall{450}{100}{517}{108}
+\wall{450}{108}{459}{120}
+\wall{450}{180}{459}{195}
+\wall{450}{186}{517}{195}
+\wall{509}{108}{517}{208}
+\wall{509}{77}{517}{100}
+\wall{764}{195}{772}{258}     % living room right (upper)
+\wall{820}{248}{830}{845}     % right outer wall
+\wall{764}{255}{830}{263}
+\wall{766}{300}{774}{470}     % stair wall
+\wall{204}{262}{521}{270}     % bathroom top
+\wall{513}{250}{521}{500}     % living room left wall
+\wall{513}{570}{521}{642}
+\wall{340}{270}{348}{292}     % bathroom partitions
+\wall{340}{355}{348}{390}
+\wall{408}{270}{416}{300}
+\wall{408}{350}{416}{390}
+\wall{46}{388}{350}{398}      % bathroom bottom / master top
+\wall{403}{388}{521}{398}
+\wall{46}{388}{56}{845}       % master + deck left
+\wall{46}{632}{572}{642}      % master bottom
+\wall{775}{632}{830}{642}
+\wall{236}{642}{244}{690}     % deck/dining partition
+\wall{236}{790}{244}{845}
+\draw (240,690) -- (240,790);
+\wall{513}{642}{521}{690}     % dining/kitchen
+\wall{513}{760}{521}{845}
+\wall{46}{837}{830}{845}      % bottom
+% ---- doors (leaf + swing arc); pixel coords, angle 90 = down ----
+\draw (517,250) -- (477,250) arc[start angle=180,end angle=270,radius=40];   % hall to bedroom 1
+\draw (578,190) -- (578,152) arc[start angle=270,end angle=180,radius=38];   % bedroom 2
+\draw (452,120) -- (424,120) arc[start angle=180,end angle=90,radius=28];    % closet (bedroom 1)
+\draw (452,180) -- (424,180) arc[start angle=180,end angle=270,radius=28];
+\draw (517,25) -- (543,25) arc[start angle=0,end angle=90,radius=26];        % closet (top)
+\draw (517,77) -- (543,77) arc[start angle=0,end angle=-90,radius=26];
+\draw (412,345) -- (450,345) arc[start angle=0,end angle=-90,radius=38];     % bathroom store
+\draw (517,500) -- (485,500) arc[start angle=180,end angle=90,radius=32];    % master bedroom
+\draw (517,570) -- (485,570) arc[start angle=180,end angle=270,radius=32];
+\draw (517,690) -- (485,690) arc[start angle=180,end angle=90,radius=33];    % dining room
+\draw (517,760) -- (485,760) arc[start angle=180,end angle=270,radius=33];
+\draw (772,263) -- (810,263) arc[start angle=0,end angle=90,radius=38];      % stair doors
+\draw (772,540) -- (810,540) arc[start angle=0,end angle=-90,radius=38];
+% ---- stairs ----
+\foreach \yy in {345,357,...,465} \draw (774,\yy) -- (820,\yy);
+\draw (805,300) -- (795,340) -- (810,345) -- (800,400) -- (815,420) -- (795,450);
+% ---- bathroom fixtures ----
+\draw (207,272) rectangle (245,312); \draw (207,272) -- (245,312) (245,272) -- (207,312);
+\draw (260,273) rectangle (336,313); \draw[rounded corners=8] (266,279) rectangle (330,307);
+\foreach \xx in {362,378,394} \draw (\xx,282) circle[radius=6];
+\draw[rounded corners=4] (217,372) rectangle (240,388); \draw (228,362) ellipse[x radius=9,y radius=11];
+\foreach \xx in {282,316} {\draw (\xx,380) circle[radius=9]; \fill (\xx,372) circle[radius=2.5];}
+% ---- kitchen ----
+\draw (655,678) rectangle (703,752); \draw (672,700) rectangle (692,722);
+\draw (521,785) -- (550,785) -- (578,808) -- (775,808) -- (800,785) -- (820,785);
+\draw (578,808) -- (578,837) (775,808) -- (775,837);
+\draw (800,642) -- (800,785);
+\draw (643,812) rectangle (690,834); \draw (695,812) rectangle (722,834);
+\draw (802,700) rectangle (820,725);
+\draw (802,750) rectangle (820,782);
+% ---- deck ----
+\draw (2,715) rectangle (46,762); \foreach \xx in {10,19,...,46} \draw (\xx,715) -- (\xx,762);
+\begin{scope}[shift={(122,775)}]
+\draw[fill=black!15] (22.5:58) -- (67.5:58) -- (112.5:58) -- (157.5:58) -- (202.5:58) -- (247.5:58) -- (292.5:58) -- (337.5:58) -- cycle;
+\foreach \k in {0,...,7} \draw[line width=0.4pt] (0,0) -- ({22.5+\k*45}:58);
+\fill (0,0) circle[radius=3];
+\end{scope}
+% ---- living room light ----
+\draw (628,352) -- (668,352) (648,332) -- (648,372);
+% ---- labels ----
+\foreach \x/\y/\dx/\dy/\t in {318/133/320/156/Bedroom 1, 663/102/672/120/Bedroom 2, 268/517/266/537/Master Bedroom,
+  147/686/150/705/Deck, 374/738/377/760/Dining Room}
+  { \node at (\x,\y) {\t}; \fill (\dx,\dy) circle[radius=4.5]; }
+\node at (296,338) {Bathroom}; \fill (357,337) circle[radius=4.5];
+\node[align=center] at (659,432) {Living\\Room}; \fill (658,470) circle[radius=4.5];
+\node at (676,782) {Kitchen}; \fill (673,762) circle[radius=4.5];
+\end{tikzpicture}
+\end{document}

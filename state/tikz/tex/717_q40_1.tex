@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (S) at (316,72); \coordinate (U) at (686,72); \coordinate (X) at (958,208);
+\coordinate (R) at (45,273); \coordinate (Z) at (283,310); \coordinate (V) at (620,310);
+\coordinate (Y) at (990,410); \coordinate (T) at (213,512); \coordinate (W) at (620,545);
+\draw (S)--(U) (U)--(X) (R)--(S) (S)--(Z) (U)--(V) (V)--(X) (R)--(Z) (Z)--(V) (X)--(Y) (V)--(Y) (R)--(T) (T)--(Z) (V)--(W) (W)--(Y) (T)--(W);
+\begin{scope}[every node/.style={font=\LARGE}]
+\node at (290,42) {$S$}; \node at (720,42) {$U$}; \node at (995,180) {$X$};
+\node at (20,262) {$R$}; \node at (320,278) {$Z$}; \node at (602,272) {$V$};
+\node at (1020,450) {$Y$}; \node at (213,553) {$T$}; \node at (630,600) {$W$};
+\end{scope}
+\begin{scope}[every node/.style={font=\large}]
+\node at (500,50) {12}; \node at (832,120) {16}; \node at (162,155) {15}; \node at (273,190) {8};
+\node at (627,186) {9}; \node at (777,240) {16}; \node at (165,268) {9}; \node at (450,288) {13};
+\node at (994,310) {7}; \node at (810,338) {15}; \node at (105,410) {12}; \node at (225,405) {10};
+\node at (645,428) {10}; \node at (800,458) {17}; \node at (420,506) {14};
+\end{scope}
+\end{tikzpicture}
+\end{document}

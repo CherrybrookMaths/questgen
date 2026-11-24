@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{8.5}{10}\selectfont]
+\def\gx#1{{160+(#1-132)*32.2222}}
+\def\gy#1{{574-(#1-138)*33.6875}}
+\foreach \a in {133,135,...,149} \draw[black!30,line width=0.4pt] (\gx{\a},35) -- (\gx{\a},574);
+\foreach \b in {139,141,...,153} \draw[black!30,line width=0.4pt] (160,\gy{\b}) -- (740,\gy{\b});
+\foreach \a in {132,134,...,150} \draw[black!65] (\gx{\a},35) -- (\gx{\a},574);
+\foreach \b in {138,140,...,154} \draw[black!65] (160,\gy{\b}) -- (740,\gy{\b});
+\draw[->] (130,605) -- (139,605) -- (143,598) -- (149,612) -- (153,605) -- (760,605);
+\draw[->] (130,605) -- (130,599) -- (123,595) -- (137,588) -- (130,584) -- (130,22);
+\foreach \a in {132,...,150} \draw (\gx{\a},605) -- (\gx{\a},610);
+\foreach \b in {138,...,154} \draw (125,\gy{\b}) -- (130,\gy{\b});
+\foreach \a in {132,134,...,150} \node[anchor=north] at (\gx{\a},615) {\a};
+\foreach \b in {138,140,...,154} \node[anchor=east] at (121,\gy{\b}) {\b};
+\node at (405,660) {Arm Span (in cm)};
+\node[rotate=90] at (65,310) {Height (in cm)};
+% data
+\foreach \a/\h in {136/142,138/142,140/146,144/149,144/148,146/150,148/152}
+  \fill (\gx{\a},\gy{\h}) circle[radius=6];
+% least squares line H = 23.733 + 0.866 A
+\draw[line width=0.9pt] (\gx{135},\gy{23.733+0.866*135}) -- (\gx{149},\gy{23.733+0.866*149});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,9} \draw[black!25,line width=0.4pt] ({27+49*\i},287)--({27+49*\i},40);
+\foreach \j in {1,...,5} \draw[black!25,line width=0.4pt] (28,{287-48.6*\j})--(490,{287-48.6*\j});
+\foreach \i in {1,...,9} \draw ({27+49*\i},287)--({27+49*\i},292);
+\foreach \j in {1,...,5} \draw (23,{287-48.6*\j})--(28,{287-48.6*\j});
+\draw[->] (28,287)--(495,287); \draw[->] (28,292)--(28,28);
+\node[anchor=west,font=\small] at (494,287) {$x$};
+\node[font=\small] at (22,14) {$f$};
+\foreach \i in {1,...,9} \node[font=\scriptsize] at ({27+49*\i},304) {$\i$};
+\foreach \j in {1,...,5} \node[font=\scriptsize] at (13,{287-48.6*\j}) {$\j$};
+\foreach \n [count=\i] in {1,4,5,4,2,4,5,4,1}
+  \foreach \j in {1,...,\n} \fill ({27+49*\i},{287-48.6*\j}) circle (5);
+\end{tikzpicture}
+\end{document}

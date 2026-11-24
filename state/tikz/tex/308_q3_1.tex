@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.4288cm,y=1.4288cm]
+  \foreach \i in {1,...,4} \draw[black!30,line width=0.4pt] (\i,0)--(\i,4.71);
+  \foreach \j in {1,...,4} \draw[black!30,line width=0.4pt] (0,\j)--(5.0,\j);
+  \path[shade hatch] (0,0)--(0,2) -- plot[smooth,tension=0.6] coordinates{(0,2)(0.5,2.38)(1,3)(1.25,3.5)(1.5,3.88)(1.9,4.04)(2.5,3.52)(3,3.0)(3.4,2.6)(3.65,2.42)(3.85,2.6)(4,3.0)}--(4,0)--cycle;
+  \draw[line width=0.9pt] (0,0)--(0,2) -- plot[smooth,tension=0.6] coordinates{(0,2)(0.5,2.38)(1,3)(1.25,3.5)(1.5,3.88)(1.9,4.04)(2.5,3.52)(3,3.0)(3.4,2.6)(3.65,2.42)(3.85,2.6)(4,3.0)}--(4,0);
+  \draw[->] (0,0)--(5.08,0);
+  \draw[->] (0,0)--(0,4.98);
+  \foreach \i in {1,...,4} {\draw (\i,0.05)--(\i,-0.05); \node[below,font=\small] at (\i,-0.13) {\i};}
+  \foreach \j in {1,...,4} {\draw (0.05,\j)--(-0.05,\j); \node[left,font=\small] at (-0.1,\j) {\j};}
+\end{tikzpicture}
+\end{document}

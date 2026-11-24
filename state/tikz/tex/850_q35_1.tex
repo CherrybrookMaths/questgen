@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\coordinate (En) at (88,266); \coordinate (A) at (342,37); \coordinate (D) at (801,87);
+\coordinate (Ex) at (903,266); \coordinate (B) at (494,291); \coordinate (C) at (282,427); \coordinate (E) at (674,470);
+\draw[mid] (En)--(A); \draw[mid] (A)--(D); \draw[mid] (A)--(B); \draw[mid] (B)--(D);
+\draw[mid] (D)--(Ex); \draw[mid] (En)--(B); \draw[mid] (B)--(Ex); \draw[mid] (En)--(C);
+\draw[mid] (C)--(E); \draw[mid] (E)--(B); \draw[mid] (E)--(Ex);
+\foreach \p in {En,A,D,Ex,B,C,E} \fill (\p) circle (1.3pt);
+\node at (195,127) {11}; \node at (575,33) {7}; \node at (442,147) {8}; \node at (633,162) {$x$};
+\node at (886,165) {12}; \node at (304,244) {10}; \node at (698,255) {8}; \node at (167,377) {12};
+\node at (467,482) {10}; \node at (600,357) {3}; \node at (804,397) {5};
+\node at (326,20) {$A$}; \node at (826,72) {$D$}; \node at (483,316) {$B$}; \node at (266,452) {$C$}; \node at (689,494) {$E$};
+\node[anchor=east] at (72,266) {Entry}; \node[anchor=west] at (918,268) {Exit};
+\end{tikzpicture}
+\end{document}

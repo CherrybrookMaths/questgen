@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.00795cm,y=0.007252cm,font=\fontsize{8.6}{10}\selectfont]
+% data units: x = number of rolls, y = dollars
+\foreach \m in {0,100,...,900}{\foreach \k in {20,40,60,80}{
+  \draw[black!60,line width=0.4pt,dotted] (\m+\k,0)--(\m+\k,1000);
+  \draw[black!60,line width=0.4pt,dotted] (0,\m+\k)--(1000,\m+\k);}}
+\foreach \m in {100,200,...,1000}{
+  \draw[black!65] (\m,0)--(\m,1000);
+  \draw[black!65] (0,\m)--(1000,\m);}
+\draw[->] (0,0)--(1115,0) node[anchor=west] {$x$};
+\draw[->] (0,0)--(0,1049) node[anchor=south,inner sep=1pt] {$y$};
+\foreach \n in {0,100,...,1000}{\node[anchor=north] at (\n,-30) {\n};}
+\foreach \v in {0,100,...,1000}{\node[anchor=east] at (-18,\v) {\v};}
+\node at (495,-150) {Number of bread rolls};
+\node[rotate=90] at (-176,501) {Cost / Income (\$)};
+\draw[line width=0.9pt] (0,0)--(985,788);
+\draw[line width=0.9pt] (0,300)--(1000,500);
+\node[anchor=west] at (1008,802) {$I$};
+\node[anchor=west] at (1012,503) {$C$};
+\end{tikzpicture}
+\end{document}

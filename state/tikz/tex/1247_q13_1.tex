@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% table
+\foreach \x in {88,212,336,460,584,708} \draw (\x,12)--(\x,143);
+\foreach \y in {12,76,143} \draw (88,\y)--(708,\y);
+\node[anchor=west] at (97,42) {$\boldsymbol{x}$};
+\node[anchor=west] at (97,104) {$\boldsymbol{B}$};
+% grid: origin (110,850), 28.62 px per unit
+\def\u{28.62}
+\foreach \i in {-2,2,4,6,8,12,14,16,18} \draw[black!20,line width=0.5pt] ({110+\u*\i},205)--({110+\u*\i},930);
+\foreach \j in {-2,2,4,6,8,12,14,16,18,22} \draw[black!20,line width=0.5pt] (35,{850-\u*\j})--(713,{850-\u*\j});
+\foreach \i in {10,20} {\draw[black!50,line width=0.5pt] ({110+\u*\i},205)--({110+\u*\i},857); \draw[black!50,line width=0.5pt] ({110+\u*\i},889)--({110+\u*\i},930);}
+\foreach \j in {10,20} {\draw[black!50,line width=0.5pt] (35,{850-\u*\j})--(66,{850-\u*\j}); \draw[black!50,line width=0.5pt] (104,{850-\u*\j})--(713,{850-\u*\j});}
+% axes
+\draw (35,850)--(713,850);
+\draw (110,205)--(110,930);
+\node[font=\small] at (90,873) {0};
+\node[font=\small] at ({110+\u*10},873) {10};
+\node[font=\small] at ({110+\u*20},873) {20};
+\node[font=\small] at (85,{850-\u*10}) {10};
+\node[font=\small] at (85,{850-\u*20}) {20};
+\node at (745,876) {$x$};
+\node at (68,200) {$B$};
+\end{tikzpicture}
+\end{document}

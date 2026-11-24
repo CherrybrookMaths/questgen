@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \node at (197,24) {Team A};
+  \node at (742,24) {Team B};
+  \draw (15,42) -- (918,42);
+  \draw (390,42) -- (390,236);
+  \draw (540,42) -- (540,236);
+  \foreach \y/\a/\b/\c/\d/\s/\e/\f/\g/\h in
+    {69/{}/8/6/5/0/2/6/{}/{}, 107/8/7/7/4/1/3/7/9/{}, 144/{}/7/2/0/2/2/4/5/8, 182/{}/{}/3/1/3/4/6/7/{}, 219/{}/{}/{}/0/4/{}/{}/{}/{}}
+  {
+    \node at (58,\y) {$\a$};
+    \node at (153,\y) {$\b$};
+    \node at (248,\y) {$\c$};
+    \node at (341,\y) {$\d$};
+    \node at (463,\y) {$\s$};
+    \node at (586,\y) {$\e$};
+    \node at (681,\y) {$\f$};
+    \node at (775,\y) {$\g$};
+    \node at (870,\y) {$\h$};
+  }
+\end{tikzpicture}
+\end{document}

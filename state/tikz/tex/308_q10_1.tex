@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.095cm, y=0.00143cm]
+  \foreach \t in {2,4,...,60} \draw[black!13, line width=0.4pt] (\t,0) -- (\t,5000);
+  \foreach \d in {200,400,...,5000} \draw[black!13, line width=0.4pt] (0,\d) -- (60,\d);
+  \foreach \t in {10,20,...,60} \draw[black!28, line width=0.4pt] (\t,0) -- (\t,5000);
+  \foreach \d in {1000,2000,...,5000} \draw[black!28, line width=0.4pt] (0,\d) -- (60,\d);
+  \foreach \t in {1,...,60} \draw (\t,-30) -- (\t,30);
+  \foreach \d in {100,200,...,5000} \draw (-0.35,\d) -- (0.35,\d);
+  \draw[->] (0,0) -- (62.5,0) node[right, font=\scriptsize] {$T$};
+  \draw[->] (0,0) -- (0,5180) node[above left=-1pt, font=\scriptsize] {$D$};
+  \foreach \t in {10,20,...,60} \node[below, font=\tiny] at (\t,-40) {$\t$};
+  \foreach \d/\l in {1000/1\,000,2000/2\,000,3000/3\,000,4000/4\,000,5000/5\,000} \node[left, font=\tiny] at (-0.5,\d) {$\l$};
+  \node[font=\tiny] at (30,-300) {Time (minutes)};
+  \node[rotate=90, font=\tiny] at (-7.5,2500) {Distance (metres)};
+  \draw[line width=0.9pt, ->] (10,0) -- (38.4,5112);
+  \node[rotate=69.74, font=\scriptsize] at (33.3,3490) {$D=180T-1\,800$};
+\end{tikzpicture}
+\end{document}

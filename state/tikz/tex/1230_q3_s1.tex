@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.158cm,y=1.158cm]
+  % minor grid (0.5)
+  \foreach \i in {-12,...,8} \draw[black!20,line width=0.4pt] (\i/2,-0.73)--(\i/2,8.7);
+  \foreach \j in {-1,...,17} \draw[black!20,line width=0.4pt] (-6.36,\j/2)--(4.24,\j/2);
+  % major grid (2)
+  \foreach \i in {-6,-4,-2,2,4} \draw[black!50,line width=0.4pt] (\i,-0.73)--(\i,8.7);
+  \foreach \j in {2,4,6,8} \draw[black!50,line width=0.4pt] (-6.36,\j)--(4.24,\j);
+  % axes
+  \draw (-6.36,0)--(4.24,0);
+  \draw (0,-0.73)--(0,8.7);
+  % tick labels
+  \foreach \i in {-6,-4,-2,2,4} \node[font=\footnotesize,anchor=north,inner sep=1.5pt] at (\i,-0.03) {$\i$};
+  \node[font=\footnotesize,anchor=north east,inner sep=1.5pt] at (-0.05,-0.03) {$0$};
+  \foreach \j in {2,4,6,8} \node[font=\footnotesize,anchor=east,inner sep=1.5pt] at (-0.04,\j) {$\j$};
+  % given line y = 2x + 6
+  \draw[line width=0.9pt] (-3.365,-0.73)--(1.35,8.7);
+  % drawn line y = -0.5x + 1
+  \draw[line width=0.9pt,<->] (-6,4)--(2,0);
+  \foreach \p in {(-4,3),(0,1)} \node[pt] at \p {};
+  \node[pt] at (-2,2) {};
+  \node[anchor=north east,inner sep=1pt] at (-2.35,1.9) {$(-2,2)$};
+  % line labels
+  \node[anchor=west,inner sep=1pt] at (1.25,7.6) {$y=2x+6$};
+  \node[anchor=north,inner sep=1pt] at (-4.6,2.55) {$y=-0.5x+1$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.21336cm,y=0.005334cm]
+  \foreach \i in {1,...,45} {\draw[black!20,line width=0.3pt] (\i,0) -- (\i,2000);}
+  \foreach \j in {1,...,50} {\draw[black!20,line width=0.3pt] (0,\j*40) -- (45,\j*40);}
+  \foreach \i in {5,10,...,45} {\draw[black!45,line width=0.5pt] (\i,0) -- (\i,2000);}
+  \foreach \j in {200,400,...,2000} {\draw[black!45,line width=0.5pt] (0,\j) -- (45,\j);}
+  \draw[->] (0,0) -- (45.6,0);
+  \draw[->] (0,0) -- (0,2030);
+  \foreach \i in {5,10,...,40} {\node[font=\small] at (\i,-55) {$\i$};}
+  \node[font=\small] at (-1.2,-55) {$0$};
+  \foreach \j in {200,400,...,1800} {\node[font=\small,anchor=east,inner sep=1pt] at (-0.7,\j) {$\j$};}
+  \node[font=\large] at (23.6,-122) {Number of Passengers ($n$)};
+  \node[font=\large,rotate=90] at (-5.8,900) {Dollars ($\$R/\$C$)};
+\end{tikzpicture}
+\end{document}

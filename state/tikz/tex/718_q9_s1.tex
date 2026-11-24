@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % minor grid
+  \foreach \n in {1,...,45}{
+    \pgfmathtruncatemacro\m{mod(\n,5)}
+    \ifnum\m=0\else \draw[black!15, line width=0.4pt] ({130+17.25*\n},{888.5-0.431875*2000}) -- ({130+17.25*\n},888.5);\fi}
+  \foreach \v in {40,80,...,2000}{
+    \pgfmathtruncatemacro\m{mod(\v,200)}
+    \ifnum\m=0\else \draw[black!15, line width=0.4pt] (130,{888.5-0.431875*\v}) -- ({130+17.25*45},{888.5-0.431875*\v});\fi}
+  % major grid
+  \foreach \n in {5,10,...,45}
+    \draw[black!45, line width=0.6pt] ({130+17.25*\n},{888.5-0.431875*2000}) -- ({130+17.25*\n},888.5);
+  \foreach \v in {200,400,...,2000}
+    \draw[black!45, line width=0.6pt] (130,{888.5-0.431875*\v}) -- ({130+17.25*45},{888.5-0.431875*\v});
+  % axes
+  \draw[->] (130,888.5) -- (912,888.5);
+  \draw[->] (130,888.5) -- (130,20);
+  % tick labels
+  \node[font=\small] at (110,909) {0};
+  \foreach \n in {5,10,...,40}
+    \node[font=\small] at ({130+17.25*\n},909) {\n};
+  \foreach \v in {200,400,...,1800}
+    \node[font=\small, anchor=east] at (120,{888.5-0.431875*\v}) {\v};
+  \node[font=\large] at (537,943) {Number of Passengers ($n$)};
+  \node[font=\large, rotate=90] at (32,450) {Dollars ($\$R/\$C$)};
+  % lines: R = 45n, C = 20n + 650
+  \draw[line width=0.9pt, ->] ({130},{888.5}) -- ({130+17.25*44.2},{888.5-0.431875*45*44.2});
+  \draw[line width=0.9pt, ->] ({130},{888.5-0.431875*650}) -- ({130+17.25*46.5},{888.5-0.431875*(20*46.5+650)});
+  \fill ({130+17.25*40},{888.5-0.431875*1800}) circle (5);
+  \fill ({130+17.25*40},{888.5-0.431875*1450}) circle (5);
+  \node[font=\Large, anchor=west] at (945,38) {Revenue, $\$R$};
+  \node[font=\Large, anchor=west] at (955,212) {Cost, $\$C$};
+\end{tikzpicture}
+\end{document}

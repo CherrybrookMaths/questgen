@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\setlength\treeL{1.9cm}
+\begin{tikzpicture}[y=-0.0127cm]
+\def\Wb{$\overline{W}$}
+\def\Pv#1{\underline{\makebox[0.8cm]{#1}}}
+% probability centred on the branch midpoint, lower (upper) corners 2.5pt clear of the branch; above for up, below for down
+\newcommand\prU[3]{\path let \p1=(#1-out), \p2=(#2-in), \n1={abs(\y2-\y1)/(\x2-\x1)} in
+  node[font=\fontsize{11}{13}\selectfont, inner sep=0pt, anchor=south] at ($(\p1)!0.5!(\p2)+(0pt,{\n1*11.4pt+2.5pt})$) {\Pv{#3}};}
+\newcommand\prD[3]{\path let \p1=(#1-out), \p2=(#2-in), \n1={abs(\y2-\y1)/(\x2-\x1)} in
+  node[font=\fontsize{11}{13}\selectfont, inner sep=0pt, anchor=north] at ($(\p1)!0.5!(\p2)-(0pt,{\n1*11.4pt+2.5pt})$) {\Pv{#3}};}
+\treewidth{1}{$W$}\treewidth{1}{\Wb}
+\treewidth{2}{$W$}\treewidth{2}{\Wb}
+\treewidth{3}{$W$}\treewidth{3}{\Wb}
+\treecolumns{3}
+\treeroot{r}{380}
+\treenode{a}{1}{195}{$W$}
+\treenode{b}{1}{565}{\Wb}
+\treenode{aa}{2}{108}{$W$}
+\treenode{ab}{2}{282}{\Wb}
+\treenode{ba}{2}{478}{$W$}
+\treenode{bb}{2}{652}{\Wb}
+\treenode{aaa}{3}{51}{$W$}
+\treenode{aab}{3}{165}{\Wb}
+\treenode{aba}{3}{225}{$W$}
+\treenode{abb}{3}{339}{\Wb}
+\treenode{baa}{3}{421}{$W$}
+\treenode{bab}{3}{535}{\Wb}
+\treenode{bba}{3}{595}{$W$}
+\treenode{bbb}{3}{709}{\Wb}
+\foreach \pa/\ch in {r/a,a/aa,b/ba,aa/aaa,ab/aba,ba/baa,bb/bba}{\treebranch{\pa}{\ch}{}\prU{\pa}{\ch}{40\%}}
+\foreach \pa/\ch in {r/b,a/ab,b/bb,aa/aab,ab/abb,ba/bab,bb/bbb}{\treebranch{\pa}{\ch}{}\prD{\pa}{\ch}{60\%}}
+\end{tikzpicture}
+\end{document}

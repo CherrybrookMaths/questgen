@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\draw[<->] (-5,272)--(936,272);
+\draw[line width=0.9pt] plot[domain=48:665,samples=90,smooth] (\x,{259-254*exp(-((\x-357)/77.6)^2/2)});
+\draw[line width=0.9pt] plot[domain=275:892,samples=90,smooth] (\x,{259-254*exp(-((\x-583)/77.6)^2/2)});
+\draw[aux] (357,5)--(357,272); \draw[aux] (583,5)--(583,272);
+\draw[aux] (470,{259-254*exp(-((113)/77.6)^2/2)})--(470,272);
+\node at (357,298) {12}; \node at (470,298) {17}; \node at (583,298) {22};
+\node at (247,22) {Group $X$}; \node at (690,22) {Group $Y$};
+\end{tikzpicture}
+\end{document}

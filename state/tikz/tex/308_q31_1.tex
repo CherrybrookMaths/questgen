@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% grid: minor every 2, major every 10 (both axes 0..100)
+\foreach \i in {1,...,50} {\pgfmathtruncatemacro\m{mod(\i,5)}
+  \ifnum\m=0 \else
+  \draw[black!15,line width=0.4pt] ({97+15.46*\i},45) -- ({97+15.46*\i},946);
+  \draw[black!15,line width=0.4pt] (97,{946-18.02*\i}) -- (870,{946-18.02*\i}); \fi}
+\foreach \i in {1,...,10} {
+  \draw[black!40,line width=0.4pt] ({97+77.3*\i},45) -- ({97+77.3*\i},946);
+  \draw[black!40,line width=0.4pt] (97,{946-90.1*\i}) -- (870,{946-90.1*\i});}
+% axes
+\draw (97,946) -- (870,946);
+\draw (97,946) -- (97,45);
+% ticks
+\foreach \i in {1,...,50} {\pgfmathtruncatemacro\m{mod(\i,5)}
+  \ifnum\m=0 \draw ({97+15.46*\i},946) -- ({97+15.46*\i},957); \draw (86,{946-18.02*\i}) -- (97,{946-18.02*\i});
+  \else \draw ({97+15.46*\i},946) -- ({97+15.46*\i},952); \draw (91,{946-18.02*\i}) -- (97,{946-18.02*\i}); \fi}
+% tick labels
+\foreach \v in {10,20,...,100} \node[anchor=north,inner sep=0pt] at ({97+7.73*\v},964) {$\v$};
+\foreach \v in {10,20,...,100} \node[anchor=east,inner sep=0pt] at (82,{946-9.01*\v}) {$\v$};
+% curve C = 240/R  (K = 240 from the point (6,40))
+\draw[line width=0.9pt,<->] plot[domain={ln(2.42)}:{ln(100)},samples=90,smooth,variable=\t]
+  ({97+7.73*exp(\t)},{946-9.01*240/exp(\t)});
+% labels
+\node[font=\large,anchor=south,inner sep=1pt] at (97,30) {$C$};
+\node[font=\large,anchor=north west,inner sep=1pt] at (874,936) {$R$};
+\node at (585,1010) {Resistance ($\Omega$)};
+\node[rotate=90] at (25,495) {Current (A)};
+\end{tikzpicture}
+\end{document}

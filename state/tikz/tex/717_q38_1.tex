@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\crv{(122,48) (157,41) (200,48) (242,68) (312,123) (345,155) (369,173) (402,180) (452,173) (502,160) (562,155) (602,158) (620,172)}
+\path[shade dots] (122,333) -- plot[smooth, tension=0.6] coordinates {\crv} -- (620,333) -- cycle;
+\draw plot[smooth, tension=0.6] coordinates {\crv};
+\draw (122,41) rectangle (620,333);
+\draw (122,303) -- (152,303) -- (152,333);
+\draw (590,333) -- (590,303) -- (620,303);
+\draw (247,325) -- (247,341); \draw (494,325) -- (494,341);
+\draw[aux] (369,173) -- (369,333);
+\draw[aux,<->] (102,41) -- (102,333);
+\draw[aux,<->] (636,173) -- (636,333);
+\draw[aux,<->] (122,356) -- (620,356);
+\node[font=\small, anchor=east] at (96,185) {15 cm};
+\node[font=\small, right] at (373,256) {10 cm};
+\node[font=\small, right] at (640,258) {8 cm};
+\node[font=\small] at (360,383) {45 cm};
+\node[font=\small] at (112,20) {$P$};
+\node[font=\small] at (639,153) {$Q$};
+\node[font=\small] at (108,352) {$S$};
+\node[font=\small] at (630,352) {$R$};
+\node[align=left, anchor=west] at (700,143) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

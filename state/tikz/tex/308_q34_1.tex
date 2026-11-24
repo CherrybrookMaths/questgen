@@ -1,0 +1,35 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (P) at (158,57);
+\coordinate (Q) at (530,113);
+\coordinate (R) at (487,573);
+\coordinate (S) at (103,457);
+\coordinate (A) at (357,343);
+\draw[aux] (P) -- (A) -- (R);
+\draw[aux] (Q) -- (A) -- (S);
+\draw (P) -- (Q) -- (R) -- (S) -- cycle;
+\draw[->] (A) -- (357,163);
+% angle arcs (angles in pixel coordinates, y down)
+\draw plot[domain=127:188.6,samples=40,smooth] ({530+108*cos(\x)},{113+108*sin(\x)});
+\draw plot[domain=196.8:240.5,samples=40,smooth] ({487+125*cos(\x)},{573+125*sin(\x)});
+\node at (475,140) {$72^\circ$};
+\node at (423,522) {$42^\circ$};
+% labels
+\node[font=\Large] at (174,30) {$P$};
+\node at (227,28) {$336^\circ$};
+\node[font=\Large] at (560,103) {$Q$};
+\node at (615,108) {$042^\circ$};
+\node[font=\Large] at (73,470) {$S$};
+\node[font=\Large] at (488,605) {$R$};
+\node[font=\large] at (387,328) {$A$};
+\node[rotate=-55] at (266,175) {260 m};
+\node[rotate=-60.5] at (433,432) {160 m};
+\node[rotate=-16.8] at (273,537) {185 m};
+\node at (50,293) {250 m};
+\node at (562,337) {190 m};
+\node[rotate=-90,font=\small] at (341,250) {North};
+\node[align=center] at (795,240) {NOT TO\\[4pt]SCALE};
+\end{tikzpicture}
+\end{document}

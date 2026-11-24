@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \n/\x in {1/45,2/303,3/528,4/787}{\coordinate (t\n) at (\x,38); \coordinate (b\n) at (\x,390);}
+\draw (t1)--(t4); \draw (b1)--(b4);
+\draw (t1)--(b1) (t2)--(b2) (t3)--(b3) (t4)--(b4);
+\draw (t1)--(b2) (t3)--(b2) (t3)--(b4);
+\foreach \n in {1,...,4}{\fill (t\n) circle (4.5); \fill (b\n) circle (4.5);}
+\begin{scope}[every node/.style={font=\large}]
+\node at (178,18) {12}; \node at (425,18) {9}; \node at (658,18) {11};
+\node at (22,215) {11}; \node at (207,215) {11}; \node at (323,215) {14};
+\node at (447,215) {10}; \node at (549,215) {12}; \node at (681,215) {8}; \node at (809,215) {10};
+\node at (175,410) {10}; \node at (425,410) {8}; \node at (655,410) {6};
+\end{scope}
+\end{tikzpicture}
+\end{document}

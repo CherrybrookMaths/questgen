@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.335cm,y=0.335cm,font=\fontsize{7.5}{9}\selectfont]
+  \draw[<->] (-1.5,0) -- (10.7,0);
+  \node[anchor=south, inner sep=1pt] at (10.75,0.1) {$x$};
+  \draw[<->] (0,-1.4) -- (0,10.6);
+  \node[anchor=south east, inner sep=1pt] at (-0.1,10.4) {$y$};
+  \foreach \i in {1,2,...,10} {
+    \draw (\i,-0.2) -- (\i,0.2);
+    \node[anchor=north, inner sep=1.5pt] at (\i,-0.25) {$\i$};
+    \draw (-0.2,\i) -- (0.2,\i);
+    \node[anchor=east, inner sep=1.5pt] at (-0.25,\i) {$\i$};
+  }
+  \draw (-1,-0.2) -- (-1,0.2); \draw (-0.2,-1) -- (0.2,-1);
+  \node[anchor=north, inner sep=1.5pt] at (-1.1,-0.2) {$-1$};
+  \node[anchor=east, inner sep=1.5pt] at (-0.25,-1.2) {$-1$};
+  \draw[line width=0.9pt, domain=-0.15:10, samples=90, smooth] plot (\x,{0.25*(\x-5)*(\x-7)});
+\end{tikzpicture}
+\end{document}

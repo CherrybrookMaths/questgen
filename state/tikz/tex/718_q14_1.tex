@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \setlength\treeL{2.2cm}
+  \treewidth{1}{$F$}\treewidth{1}{$W$}
+  \treewidth{2}{$F$}\treewidth{2}{$W$}
+  \treecolumns{2}
+  \treeroot{r}{0pt}
+  \treenode{F}{1}{49pt}{$F$}
+  \treenode{W}{1}{-49pt}{$W$}
+  \treenode{FF}{2}{74pt}{$F$}
+  \treenode{FW}{2}{24pt}{$W$}
+  \treenode{WF}{2}{-24pt}{$F$}
+  \treenode{WW}{2}{-74pt}{$W$}
+  \treebranch{r}{F}{$\dfrac{8}{18}$}
+  \treebranch{r}{W}{}
+  \treebranch{F}{FF}{}
+  \treebranch{F}{FW}{}
+  \treebranch{W}{WF}{}
+  \treebranch{W}{WW}{}
+  \treehead{1}{104pt}{First sock}
+  \treehead{2}{104pt}{Second sock}
+\end{tikzpicture}
+\end{document}

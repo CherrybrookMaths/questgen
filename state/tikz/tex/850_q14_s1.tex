@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\newcommand\scanbox[4]{\draw (#1,#2) rectangle ++(76,36); \draw (#1+38,#2) -- ++(0,36);
+  \node at (#1+19,#2+18) {$#3$}; \node at (#1+57,#2+18) {$#4$};}
+\coordinate (S) at (100,204); \coordinate (T) at (414,62); \coordinate (U) at (758,62);
+\coordinate (Z) at (1015,176); \coordinate (M) at (672,233); \coordinate (L) at (357,404);
+\draw[mid] (S) -- (T);
+\draw[mid] (T) -- (U);
+\draw[mid] (U) -- (Z);
+\draw[mid] (M) -- (Z);
+\draw[mid] (L) -- (M);
+\draw[mid] (S) -- (L);
+\draw[mid,aux] (T) -- (M);
+\draw[mid] (S) to[out=5,in=90,looseness=1.1] (L);
+\foreach \p in {S,T,U,Z,M,L} \node[pt] at (\p) {};
+\scanbox{10}{186}{0}{0}
+\scanbox{376}{10}{10}{10}
+\scanbox{720}{10}{12}{12}
+\scanbox{1023}{158}{15}{15}
+\scanbox{665}{252}{10}{13}
+\scanbox{318}{422}{6}{11}
+\node at (240,102) {$A$, ?};
+\node at (578,30) {$E$, 2};
+\node at (905,85) {$G$, 3};
+\node at (308,215) {$B$, 5};
+\node at (202,340) {$C$, 6};
+\node at (543,357) {$F$, 2};
+\node at (865,245) {$H$, 2};
+\end{tikzpicture}
+\end{document}

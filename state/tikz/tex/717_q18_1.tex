@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{13}\selectfont]
+  \draw[->] (64,325) -- (868,325);
+  \draw[->] (64,325) -- (64,35);
+  \foreach \k in {0,10,...,100} {
+    \draw (64+7.51*\k,325) -- (64+7.51*\k,332);
+    \node[anchor=north, inner sep=1pt] at (64+7.51*\k,336) {\k};
+  }
+  \node at (467,388) {Score};
+  \node[rotate=90] at (24,180) {Frequency};
+  \draw[line width=0.9pt, domain=2:43, samples=90, smooth] plot ({64+7.51*\x},{325-265*(exp(-(\x-22.5)^2/144.5)-0.055)/(1-0.055)});
+  \draw[line width=0.9pt, domain=19.5:96.5, samples=90, smooth] plot ({64+7.51*\x},{325-193*(exp(-(\x-58)^2/312.5)-0.0087)/(1-0.0087)});
+  \node at (229,37) {class $A$};
+  \node at (497,108) {class $B$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(69,612)},x=1.1824cm,y=0.14605cm]
+\foreach \i in {0.5,1,...,11} \draw[black!18, line width=0.3pt] (\i,0) -- (\i,46);
+\foreach \j in {2,4,...,46} \draw[black!18, line width=0.3pt] (0,\j) -- (11,\j);
+\foreach \i in {2,4,...,10} \draw[black!40, line width=0.3pt] (\i,0) -- (\i,46);
+\foreach \j in {10,20,30,40} \draw[black!40, line width=0.3pt] (0,\j) -- (11,\j);
+\foreach \i in {0.5,1,...,11} \draw (\i,0) -- (\i,-0.35);
+\foreach \i in {2,4,...,10} \draw (\i,0.35) -- (\i,-0.6);
+\draw[->] (0,0) -- (11.3,0) node[right]{$n$};
+\draw[->] (0,1.5) -- (0,47.3) node[above]{$m$};
+\draw (0,0) -- (0,0.5);
+\draw (-0.07,0.2) -- (0.07,0.9) (-0.07,0.9) -- (0.07,1.6);
+\draw[line width=0.9pt] (0,46.6) -- (11.15,{46.6-3.84*11.15});
+\foreach \n/\m in {1.5/95,2/90,2/88,2.5/90,2.5/85,2.5/80,3/85,3.5/85,4/84,4/80,4/78,5/80,5/70,6/80,6.5/74,6.5/70,7/72,7/68,8/70,8.8/70,8.5/65,8.5/60,9/55,9/53,9.5/60,10/65,10/60,10/55,10.5/55,11/55}
+  \filldraw[fill=black!35, draw=black, line width=0.5pt] (\n,\m-50) circle (0.055cm);
+\foreach \i in {2,4,...,10} \node[below,font=\scriptsize,inner sep=5pt] at (\i,0) {$\i$};
+\foreach \j in {60,70,80,90} \node[left,font=\scriptsize,inner sep=6pt] at (0,\j-50) {$\j$};
+\node[font=\small] at (5.55,-4.2) {Number of Days Absent};
+\node[font=\small,rotate=90] at (-0.52,23.8) {Average Semester Mark};
+\node[font=\small] at (5.5,51.6) {Absence/Mark Scatterplot};
+\end{scope}
+\end{tikzpicture}
+\end{document}

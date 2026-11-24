@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[font=\large]
+\coordinate (A) at (0,0);
+\coordinate (P) at ({4.4*cos(114)},{4.4*sin(114)});
+\coordinate (Q) at ({4.4*sin(42)/sin(72)*cos(48)},{4.4*sin(42)/sin(72)*sin(48)});
+\draw (A)--(P)--(Q)--cycle;
+\foreach \p in {A,P,Q} \fill (\p) circle (1.4pt);
+\pic[draw, angle radius=0.8cm, "$66^\circ$", angle eccentricity=1.45]{angle=Q--A--P};
+\pic[draw, angle radius=0.7cm, "$72^\circ$", angle eccentricity=1.6]{angle=P--Q--A};
+\node[below] at (A) {$A$};
+\node[above left] at (P) {$P$};
+\node[right=2pt] at (Q) {$Q$};
+\node[left=4pt] at ($(A)!0.5!(P)$) {260 m};
+\node[above right=1pt] at ($(P)!0.5!(Q)$) {$x$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\coordinate (A) at (36,228); \coordinate (B) at (693,33);
+\coordinate (S) at (647,268); \coordinate (M) at (364,422);
+\draw (A)--(B)--(S)--(M)--(A)--(S);
+\foreach \p in {A,B,S,M} \fill (\p) circle (5);
+\node at (14,228) {$A$};
+\node at (717,16) {$B$};
+\node at (675,277) {$S$};
+\node at (364,458) {$M$};
+\node at (363,83) {2020};
+\node at (722,160) {910};
+\node at (415,225) {1380};
+\node at (167,360) {730};
+\node at (548,368) {880};
+\end{tikzpicture}
+\end{document}

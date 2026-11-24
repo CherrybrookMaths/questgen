@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (X) at (168,54); \coordinate (W) at (101,195); \coordinate (Y) at (283,290); \coordinate (Z) at (441,186);
+\draw (X) -- (W) -- (Y) -- (Z) -- (X) -- (Y);
+\draw (55,195) circle (46);
+\foreach \p in {X,W,Y,Z} \fill (\p) circle (7);
+\node at (167,25) {$X$};
+\node at (117,243) {$W$};
+\node at (290,325) {$Y$};
+\node at (476,186) {$Z$};
+\end{tikzpicture}
+\end{document}

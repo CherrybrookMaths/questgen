@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (S) at (258,48);
+\coordinate (U) at (550,48);
+\coordinate (R) at (40,210);
+\coordinate (Z) at (230,237);
+\coordinate (V) at (498,237);
+\coordinate (X) at (765,155);
+\coordinate (Y) at (793,318);
+\coordinate (T) at (175,397);
+\coordinate (W) at (498,425);
+\draw (R)--(S)--(U)--(X)--(Y)--(W)--(T)--cycle;
+\draw (S)--(Z)--(T); \draw (R)--(Z)--(V)--(U); \draw (V)--(X); \draw (V)--(Y); \draw (V)--(W);
+\foreach \x/\y/\t in {140/117/15, 405/32/12, 667/88/16, 222/140/8, 505/138/9, 137/207/9, 362/218/13, 630/183/16,
+  797/237/7, 650/262/15, 85/318/12, 185/315/10, 338/393/14, 513/330/10, 640/353/17}
+  \node[font=\large] at (\x,\y) {$\t$};
+\foreach \x/\y/\t in {241/30/S, 578/28/U, 22/197/R, 262/210/Z, 488/207/V, 797/135/X, 818/345/Y, 175/425/T, 507/462/W}
+  \node[font=\Large] at (\x,\y) {$\t$};
+\end{tikzpicture}
+\end{document}

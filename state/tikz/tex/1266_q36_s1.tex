@@ -1,0 +1,40 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\setlength\treeL{2.8cm}
+\newcommand\pbox[1]{{\setlength\fboxsep{0pt}\setlength\fboxrule{0.6pt}\fbox{\parbox[c][0.84cm][c]{0.66cm}{\centering${}#1$}}}}
+\begin{document}
+\begin{tikzpicture}
+\treewidth{1}{Bag 1}\treewidth{1}{Bag 2}\treewidth{2}{$G$}\treewidth{2}{$R$}\treewidth{3}{$G$}\treewidth{3}{$R$}
+\treecolumns{3}
+\treeroot{r}{0pt}
+\treenode{b1}{1}{85pt}{Bag 1}
+\treenode{b2}{1}{-85pt}{Bag 2}
+\treenode{b1g}{2}{130pt}{$G$}
+\treenode{b1r}{2}{40pt}{$R$}
+\treenode{b2g}{2}{-40pt}{$G$}
+\treenode{b2r}{2}{-130pt}{$R$}
+\treenode{b1gg}{3}{152.5pt}{$G$}
+\treenode{b1gr}{3}{107.5pt}{$R$}
+\treenode{b1rg}{3}{62.5pt}{$G$}
+\treenode{b1rr}{3}{17.5pt}{$R$}
+\treenode{b2gg}{3}{-17.5pt}{$G$}
+\treenode{b2gr}{3}{-62.5pt}{$R$}
+\treenode{b2rg}{3}{-107.5pt}{$G$}
+\treenode{b2rr}{3}{-152.5pt}{$R$}
+\treebranch{r}{b1}{\pbox{\dfrac{1}{2}}}
+\treebranch{r}{b2}{\pbox{\dfrac{1}{2}}}
+\treebranch{b1}{b1g}{\pbox{\dfrac{3}{5}}}
+\treebranch{b1}{b1r}{\pbox{\dfrac{2}{5}}}
+\treebranch{b2}{b2g}{\pbox{\dfrac{4}{9}}}
+\treebranch{b2}{b2r}{\pbox{\dfrac{5}{9}}}
+\treebranch{b1g}{b1gg}{\pbox{\dfrac{2}{4}}}
+\treebranch{b1g}{b1gr}{\pbox{\dfrac{2}{4}}}
+\treebranch{b1r}{b1rg}{\pbox{\dfrac{3}{4}}}
+\treebranch{b1r}{b1rr}{\pbox{\dfrac{1}{4}}}
+\treebranch{b2g}{b2gg}{\pbox{\dfrac{3}{8}}}
+\treebranch{b2g}{b2gr}{\pbox{\dfrac{5}{8}}}
+\treebranch{b2r}{b2rg}{\pbox{\dfrac{4}{8}}}
+\treebranch{b2r}{b2rr}{\pbox{\dfrac{4}{8}}}
+\end{tikzpicture}
+\end{document}

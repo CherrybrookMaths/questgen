@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (T) at (388,15); \coordinate (FL) at (18,445); \coordinate (FR) at (512,445);
+\coordinate (BR) at (760,245); \coordinate (BL) at (265,245);
+\draw (FL)--(FR)--(BR)--(T)--cycle; \draw (T)--(FR);
+\draw[aux] (T)--(BL)--(FL); \draw[aux] (BL)--(BR);
+\draw[aux] (388,15)--(388,158); \draw[aux] (388,226)--(388,347);
+\draw (388,322)--(414,322)--(414,347);
+\node[font=\large] at (386,188) {8 cm};
+\node[font=\large] at (290,484) {14 cm};
+\end{tikzpicture}
+\end{document}

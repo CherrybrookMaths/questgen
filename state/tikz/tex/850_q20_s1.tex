@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \o in {0,698}{
+\begin{scope}[xshift=\o*0.0127cm]
+\foreach \n/\x in {1/12,2/208,3/379,4/575}{\coordinate (t\n) at (\x,30); \coordinate (b\n) at (\x,300);}
+\draw (b1)--(b4); \draw (t2)--(t3); \draw (t3)--(b4); \draw (t4)--(b4);
+\foreach \n in {1,...,4}{\fill (t\n) circle (4); \fill (b\n) circle (4);}
+\begin{scope}[every node/.style={font=\small}]
+\node at (300,17) {9}; \node at (495,170) {8}; \node at (597,170) {10};
+\node at (112,316) {10}; \node at (300,316) {8}; \node at (474,316) {6};
+\end{scope}
+\end{scope}}
+\draw (12,30)--(208,300); \node[font=\small] at (133,170) {11};
+\draw (710,30)--(710,300); \node[font=\small] at (690,170) {11};
+\end{tikzpicture}
+\end{document}

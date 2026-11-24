@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{nd/.style={circle,draw,fill=black!18,minimum size=0.66cm,inner sep=0pt},
+ mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}}
+\node[nd] (A) at (183,260) {$A$};
+\node[nd] (B) at (393,48) {$B$};
+\node[nd] (E) at (393,260) {$E$};
+\node[nd] (C) at (597,260) {$C$};
+\node[nd] (D) at (396,466) {$D$};
+\draw[mid=0.85] (A) -- (B);
+\draw[mid=0.68] (A) -- (D);
+\draw[mid=0.58] (E) -- (B);
+\draw[mid=0.57] (B) -- (C);
+\draw[mid=0.59] (E) -- (C);
+\draw[mid=0.61] (D) -- (E);
+\draw[mid=0.61] (D) -- (C);
+\node[font=\small] at (258,147) {10};
+\node[font=\small] at (258,373) {20};
+\node[font=\small] at (413,165) {12};
+\node[font=\small] at (522,145) {6};
+\node[font=\small] at (482,238) {10};
+\node[font=\small] at (413,352) {6};
+\node[font=\small] at (528,372) {2};
+\node[font=\Large,anchor=east] at (152,260) {Source};
+\node[font=\Large,anchor=west] at (636,253) {Sink};
+\end{tikzpicture}
+\end{document}

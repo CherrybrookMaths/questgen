@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,10} \draw[black!35] ({101+75*\i},70) -- ({101+75*\i},820);
+\foreach \j in {1,...,10} \draw[black!35] (101,{820-75*\j}) -- (850,{820-75*\j});
+\draw[->] (101,820) -- (900,820);
+\draw[->] (101,820) -- (101,12);
+\node[font=\fontsize{10}{12}\selectfont] at (884,847) {$N$};
+\node[font=\fontsize{10}{12}\selectfont] at (82,24) {$R$};
+\foreach \i in {1,...,9} \node[font=\fontsize{9}{11}\selectfont] at ({101+75*\i},858) {$\i$};
+\foreach \j in {1,...,10} {\pgfmathtruncatemacro\v{10*\j}\node[anchor=east,font=\fontsize{9}{11}\selectfont] at (90,{820-75*\j}) {$\v$};}
+\end{tikzpicture}
+\end{document}

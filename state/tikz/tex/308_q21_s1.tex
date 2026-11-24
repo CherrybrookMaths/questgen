@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+\def\lf{\fontsize{17}{20}\selectfont}
+\coordinate (U) at (75,-388); \coordinate (V) at (455,-137); \coordinate (W) at (703,-585);
+\coordinate (NU) at (75,-200); \coordinate (NV) at (455,-12);
+\draw[aux,->] (U)--(NU);
+\draw[aux,->] (V)--(NV);
+\node[font=\large] at (52,-295) {N};
+\node[font=\large] at (430,-75) {N};
+\draw (U)--(V)--(W);
+\draw[aux] (U)--(W);
+\foreach \p in {U,V,W} \fill (\p) circle (3);
+% bearings
+\pic[draw, aux, angle radius=1.78cm, "$55^\circ$" font=\large, angle eccentricity=0.6]{angle=V--U--NU};
+\pic[draw, aux, angle radius=1.46cm, "$150^\circ$" font=\large, angle eccentricity=0.62]{angle=W--V--NV};
+\pic[draw, angle radius=0.6cm, "$85^\circ$" font=\large, angle eccentricity=1.75]{angle=U--V--W};
+\pic[draw, angle radius=1.0cm, "$\theta$" font=\large, angle eccentricity=1.4]{angle=V--W--U};
+\node[font=\lf] at (22,-410) {$U$};
+\node[font=\lf] at (420,-112) {$V$};
+\node[font=\lf] at (755,-578) {$W$};
+\node[font=\large, rotate=33.4] at (253,-243) {70 km};
+\node[font=\large, rotate=-61] at (599,-350) {82 km};
+\node[font=\large] at (378,-517) {$d$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (D) at (561,42); \coordinate (B) at (163,288); \coordinate (C) at (459,340);
+\coordinate (A) at (64,487); \coordinate (E) at (609,437); \coordinate (F) at (806,338);
+\coordinate (G) at (858,439); \coordinate (H) at (954,239);
+\foreach \p/\q in {B/D,D/C,D/E,D/F,D/H,B/C,B/A,A/C,C/E,E/F,F/H,E/G,G/H}
+  \draw[aux] (\p) -- (\q);
+\foreach \p in {A,B,C,D,E,F,G,H} \fill (\p) circle[radius=7];
+\foreach \x/\y/\t in {340/142/60,478/196/15,557/265/35,742/208/25,800/128/40,345/293/20,88/375/25,280/442/40,520/414/5,704/368/10,868/268/35,933/360/40,757/465/15}
+  \node at (\x,\y) {\t};
+\foreach \x/\y/\t in {603/22/D,135/288/B,452/375/C,38/495/A,612/467/E,826/358/F,885/453/G,982/243/H}
+  \node at (\x,\y) {$\t$};
+\end{tikzpicture}
+\end{document}

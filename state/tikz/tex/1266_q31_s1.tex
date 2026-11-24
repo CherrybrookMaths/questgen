@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (F) at (52,210); \coordinate (P) at (190,45); \coordinate (E) at (318,165);
+\coordinate (G) at (448,287); \coordinate (Ca) at (622,213); \coordinate (Cu) at (622,30); \coordinate (Co) at (622,385);
+\draw[line width=0.9pt] (F)--(P)--(E)--(G)--(Ca); \draw[line width=0.9pt] (Cu)--(Co);
+\foreach \p in {F,P,E,G,Ca,Cu,Co} \fill (\p) circle (5.5);
+\node at (30,243) {$F$}; \node at (170,25) {$P$}; \node at (331,142) {$E$};
+\node at (430,322) {$G$}; \node at (662,215) {$\mathit{Ca}$}; \node at (662,32) {$\mathit{Cu}$}; \node at (662,412) {$\mathit{Co}$};
+\node at (97,110) {30}; \node at (243,130) {40}; \node at (362,252) {30};
+\node at (536,230) {20}; \node at (660,117) {30}; \node at (652,302) {30};
+\end{tikzpicture}
+\end{document}

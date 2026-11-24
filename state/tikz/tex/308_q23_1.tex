@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, v/.style={circle,draw,minimum size=0.56cm,inner sep=0pt}]
+\node[v] (A) at (35,315) {}; \node[v] (B) at (198,150) {}; \node[v] (C) at (382,28) {};
+\node[v] (D) at (695,127) {}; \node[v] (F) at (293,315) {}; \node[v] (G) at (600,315) {};
+\node[v] (H) at (860,315) {}; \node[v] (E) at (222,456) {}; \node[v] (I) at (553,460) {};
+\draw (A)--(B) (B)--(C) (C)--(D) (C)--(F) (A)--(F) (A)--(E) (F)--(E) (F)--(G) (G)--(D) (D)--(H) (G)--(H) (G)--(I) (E)--(I) (I)--(H);
+\foreach \t/\x/\y in {9/103/212, 6/276/80, 7/556/63, 10/366/185, 12/170/290, 8/113/410, 5/286/383, 13/456/290, 8/622/218, 12/797/196, 10/738/288, 7/546/382, 19/729/410, 8/398/486}
+  \node at (\x,\y) {$\t$};
+\foreach \t/\x/\y in {A/25/268, B/198/105, C/340/32, D/675/95, F/275/270, G/570/270, H/896/275, E/222/512, I/602/467}
+  \node[font=\large] at (\x,\y) {$\t$};
+\end{tikzpicture}
+\end{document}

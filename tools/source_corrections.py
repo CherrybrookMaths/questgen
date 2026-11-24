@@ -802,4 +802,42 @@ if not db.execute('select 1 from solutions where part_id=10059').fetchone():
 It must finish by the latest start time of $H$, which is $13-2=11$ hours, so its latest start time is $11-2=9$ hours.
 $$\therefore\ X \text{ runs from the node where } C \text{ and } D \text{ end to the node where } F \text{ ends (the start of } H\text{), parallel to } F$$""",
                 json.dumps([[1, "Correct edge drawn"]]), json.dumps({'generated_note': "Written by hand on 24 Nov: the school's key answered a version of the question with EST 6 and LST 8."})))
-db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23')
+# Standard batch 5 (run s5, 24 Nov late evening): the verifier's 14 findings on 2023 King's AT2/AT3/AT4, CTHS AT1/AT3, Western Maths
+# and MathsBank AT4, checked by hand. Your call: King's 2023 AT3 Q31 (the two conditions give m = -20, c = 200, off the printed grid).
+# Left as the schools have them: CTHS AT1 Q10 (stamp duty rounding: the table gives no "or part thereof") and Q12(d) (bar labels).
+def _sol9702(l, c):   # 2023 King's AT3 Q28(b): h comes from the area formula
+    return (r"""Set $A=8$ in $A=0.5h^2+3h$:
+$$\begin{aligned} 0.5h^2+3h &= 8 \\ h^2+6h-16 &= 0 \\ (h+8)(h-2) &= 0 \end{aligned}$$
+so $h=2$ (a height is positive). Then $A=\dfrac12bh$ gives $8=\dfrac12 b(2)$, so $b=8$.
+
+Each equal side $x$ is the hypotenuse of a right-angled triangle with sides $2$ and $4$ (half the base):
+$$x^2=2^2+4^2$$
+so $x=\sqrt{20}$.
+$$\begin{aligned} P &= \sqrt{20}+\sqrt{20}+8 \\ &= 16.9 \text{ cm} \end{aligned}$$""", c)
+def _sol9798(l, c):   # 2023 MathsBank AT4 Q35(b): B->Exit +5 leaves the cut around Entry, C, E at 29
+    return (r"""Two cuts are below $30$ (with $x=3$):
+$$\begin{aligned} A\to D,\ B\to D,\ B\to\text{Exit},\ E\to\text{Exit}: &\quad 7+3+8+5=23 \\ \text{Entry}\to A,\ \text{Entry}\to B,\ E\to B,\ E\to\text{Exit}: &\quad 11+10+3+5=29 \end{aligned}$$
+$E\to\text{Exit}$ is on both, so increase it by $5$: the cuts become $28$ and $34$.
+Then increase $A\to D$ by $2$ (or $B\to D$, or $B\to\text{Exit}$, by $2$): the first cut becomes $30$, and every other cut is at least $30$.
+$$\therefore\ E\to\text{Exit}\ +5 \text{ and } A\to D\ +2$$
+(Increasing $B\to\text{Exit}$ by $5$ instead, as the school's key does, leaves the second cut at $29$; $B\to\text{Exit}\ +5$ with $E\to\text{Exit}\ +2$ also works.)""", c)
+C24 = [
+ (9630, [(r'$$\therefore\ n = 5 \text{ years}$$', r'Solving $200(1.2)^t=500$ gives $t=\dfrac{\ln 2.5}{\ln 1.2}\approx5.03$.' + '\n' + r'$$\therefore\ \text{just over } 5 \text{ years (the population passes } 500 \text{ early in the 6th year)}$$')], [], r'the working showed $P(5)=497.7<500$ and then answered $5$ years; it passes $500$ at $t\approx5.03$, just over $5$ years', None),
+ (9682, [(r'A &= \dfrac{1}{2}\times 11\times 23\times\sin 95^\circ \\ &= 126 \text{ cm}^2', r'A &= \dfrac{1}{2}\times 11\times 22.54\ldots\times\sin 95^\circ \\ &= 123.5\ldots \\ &\approx 124 \text{ cm}^2')], [], r'the area used the rounded $x=23$ and gave $126$ cm$^2$; with $x=22.54\ldots$ it is $124$ cm$^2$', None),
+ (9684, [(r"so the bacteria reach 20 million on day 5 (the guideline marks it on the graph and labels it 'Day 4').", r"$2^x=20$ at $x\approx4.3$: the bacteria reach 20 million about $4.3$ days in, during day 5, after 4 full days (the guideline labels the point 'Day 4').")], [], r'the text said day 5 while the guideline drawing says Day 4; $x\approx4.3$ (during day 5, after 4 full days) is now stated', None),
+ (9694, [(r'$$8+4+9+4=25$$', r'$$LS + KA + GK + LK + KE = 4+4+5+6+6 = 25$$')], [], r'the working $8+4+9+4$ had only 4 edges for 6 towns; the tree is $LS, KA, GK, LK, KE$, total $25$', None),
+ (9702, [], [], r'the working said solving $0.5h^2+3h=8$ was not needed and took $h=2$ from $b=8$; $h=2$ comes from $h^2+6h-16=0$', _sol9702),
+ (9851, [(r'&= \$5809.47', r'&= \$5809.46')], [], r'$6167.78\div1.005^{12}=5809.4649$, so $\$5809.46$', None),
+ (9909, [('The table only has rates per month, so the rate per period is', 'The question says compounding annually, but the table (and the answer key) work per month, so this takes $0.30\\%$ per month:')], [], r'the working did not say it treats $3.6\%$ p.a. as $0.3\%$ per month, against the question\'s "compounding annually"', None),
+ (9651, [('\n\n' + r'Alternatively, $x = \dfrac{16}{\sin 39^\circ} \approx 25.4$ using the rounded angle.', '')], [], r'a second answer $25.4$ (from the rounded angle) was given beside $25.6$', None),
+ (9600, [(r'$$26 \text{ passengers}$$', r'At $26$ passengers the profit is $\$0$, so at least $27$ are needed.' + '\n' + r'$$27 \text{ passengers}$$')], [], r'the answer said $26$; at $26$ passengers revenue equals cost, so the minimum for a profit is $27$', None),
+ (9798, [], [], r'the key said $B\to$Exit must go up by $5$; that leaves the cut around Entry, $C$, $E$ at $29$; $E\to$Exit $+5$ with $A\to D$ $+2$ reaches $30$', _sol9798),
+]
+for sid, lat, crit, note, extra in C24:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# 2023 King's AT3 Q29(a): the paper printed A = 40x - 20x^2; the working (and the graph) give 40x - 2x^2
+db.execute("update parts set latex=replace(latex, 'A = 40x - 20x^2', 'A = 40x - 2x^2') where id=10189 and latex like '%A = 40x - 20x^2%'")
+db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24')

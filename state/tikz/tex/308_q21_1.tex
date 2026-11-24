@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (U) at (75,388); \coordinate (V) at (455,137); \coordinate (W) at (703,585);
+\draw (U) -- (V) -- (W);
+\draw[aux,->] (U) -- (75,198);
+\draw[aux,->] (V) -- (455,8);
+\draw[aux] ($(U)+(0,-146)$) arc[start angle=-90,end angle=-33.4,radius=146];
+\draw[aux] ($(V)+(0,-116)$) arc[start angle=-90,end angle=61,radius=116];
+\foreach \p in {U,V,W} \fill (\p) circle (3);
+\node at (55,295) {N};
+\node at (432,78) {N};
+\node at (128,288) {$55^\circ$};
+\node at (515,122) {$150^\circ$};
+\node[rotate=33.4] at (258,246) {70\,km};
+\node[rotate=-61] at (592,348) {82\,km};
+\node[font=\LARGE] at (25,410) {$U$};
+\node[font=\LARGE] at (437,187) {$V$};
+\node[font=\LARGE] at (752,578) {$W$};
+\end{tikzpicture}
+\end{document}

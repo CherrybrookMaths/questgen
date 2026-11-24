@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (60,265); \coordinate (B) at (333,265); \coordinate (D) at (518,265);
+\coordinate (E) at (697,40); \coordinate (C) at ($(A)!0.42857!(E)$);
+\draw (A)--(E)--(D)--cycle;
+\draw (C)--(B);
+\draw[aux,<-] ($(A)!0.0!(E)+(-6.7,-18.9)$) -- ($(A)!0.175!(E)+(-6.7,-18.9)$);
+\draw[aux,->] ($(A)!0.225!(E)+(-6.7,-18.9)$) -- ($(A)!0.405!(E)+(-6.7,-18.9)$);
+\node at ($(A)!0.2!(E)+(-6.7,-18.9)$) {$4$};
+\draw[aux,<-] ($(A)!0.455!(E)+(-6.7,-18.9)$) -- ($(A)!0.71!(E)+(-6.7,-18.9)$);
+\draw[aux,->] ($(A)!0.756!(E)+(-6.7,-18.9)$) -- ($(A)!0.985!(E)+(-6.7,-18.9)$);
+\node at ($(A)!0.733!(E)+(-6.7,-18.9)$) {$6$};
+\draw[aux,<-] (60,290)--(172,290); \draw[aux,->] (198,290)--(318,290); \node at (185,290) {$3$};
+\draw[aux,<-] (349,290)--(413,290); \draw[aux,->] (437,290)--(504,290); \node at (425,290) {$4$};
+\node at (37,265) {$A$}; \node at (333,290) {$B$}; \node[anchor=west,inner sep=1pt] at (507,290) {$D$};
+\node at (333,146) {$C$}; \node at (722,40) {$E$};
+\node[align=center] at (835,165) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

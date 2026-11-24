@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\draw[mid=0.55] (32,60)--(367,26);
+\draw[mid=0.55] (240,268)--(32,60);
+\draw[mid=0.55] (240,268)--(367,26);
+\draw[mid=0.5] (367,26) to[out=-20,in=90] (455,164) to[out=-90,in=0] (320,289) to[out=180,in=-25] (240,268);
+\foreach \p in {(32,60),(367,26),(240,268)} \fill \p circle (12);
+\end{tikzpicture}
+\end{document}

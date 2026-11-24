@@ -1,0 +1,39 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (350,278);
+\coordinate (A) at (50,113);
+\coordinate (B) at (732,185);
+\coordinate (C) at (397,525);
+\draw (O) -- (A);
+\draw (O) -- (B);
+\draw (O) -- (C);
+\draw (A) -- (B);
+\fill (O) circle (3.5);
+\draw[->] (A) -- (50,15);
+\draw[aux] (O) -- (350,198);
+% bearings from O: OA 298.8, OB 74.9 (arcs as true circles centred on O)
+\draw[smooth, samples=40, domain=298.8:360] plot ({350+40*sin(\x)},{278-40*cos(\x)});
+\draw[smooth, samples=40, domain=0:74.9] plot ({350+40*sin(\x)},{278-40*cos(\x)});
+\draw[smooth, samples=90, domain=298.8:434.9] plot ({350+95*sin(\x)},{278-95*cos(\x)});
+\node at (318,225) {$60^\circ$};
+\node at (389,228) {$78^\circ$};
+\node at (368,167) {$138^\circ$};
+% theta at A between AB (6.0 deg below horizontal) and AO (28.8 deg)
+\draw[smooth, samples=30, domain=6.0:28.8] plot ({50+55*cos(\x)},{113+55*sin(\x)});
+\node at (127,137) {$\theta$};
+\node at (395,124) {$x$};
+\node[anchor=base] at (30,104) {$A$};
+\node[anchor=base west] at (58,98) {$300^\circ$};
+\node[anchor=base] at (750,194) {$B$};
+\node[anchor=base west] at (768,194) {$078^\circ$};
+\node[anchor=base] at (410,563) {$C$};
+\node[anchor=base west] at (434,563) {$171^\circ$};
+\node[anchor=base] at (382,312) {$O$};
+\node[anchor=base] at (225,180) {$37\ m$};
+\node[anchor=base] at (580,270) {$43\ m$};
+\node[anchor=base] at (318,417) {$32\ m$};
+\node[align=center] at (710,447) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

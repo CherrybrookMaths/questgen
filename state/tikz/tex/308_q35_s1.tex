@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, declare function={X(\a)=221+97.8*(\a-8); Y(\h)=864-9.5125*(\h-120);}]
+% grid
+\foreach \h in {122,124,...,198} \draw[black!15, line width=0.4pt] ({X(8)},{Y(\h)})--({X(18)},{Y(\h)});
+\foreach \h in {130,140,...,190} \draw[black!35, line width=0.4pt] ({X(8)},{Y(\h)})--({X(18)},{Y(\h)});
+\foreach \a in {9,...,17} \draw[black!35, line width=0.4pt] ({X(\a)},{Y(120)})--({X(\a)},{Y(200)});
+\draw[black!35, line width=0.4pt] ({X(8)},{Y(120)}) rectangle ({X(18)},{Y(200)});
+% axes with breaks
+\draw[->] (138,864)--(138,60);
+\draw (138,864)--(138,874)--(124,890)--(152,906)--(138,920)--(138,948);
+\draw[->] (138,948)--(162,948)--(178,934)--(206,962)--(221,948)--(1242,948);
+\foreach \h in {122,124,...,198} \draw ({138-6},{Y(\h)})--({138+6},{Y(\h)});
+\foreach \h in {120,130,...,200} \draw ({138-11},{Y(\h)})--({138+11},{Y(\h)});
+\foreach \a in {8,...,18} \draw ({X(\a)},{948-11})--({X(\a)},{948+11});
+\draw (138,937)--(138,959);
+\foreach \h in {120,130,...,200} \node[font=\large, anchor=east] at (122,{Y(\h)}) {\h};
+\foreach \a in {8,...,18} \node[font=\large, anchor=north] at ({X(\a)},965) {\a};
+\node[font=\Large] at (133,26) {$H$};
+\node[font=\Large] at (1265,946) {$A$};
+\node[font=\large, rotate=90] at (30,{Y(160)}) {Height (cm)};
+\node[font=\large] at ({X(13)},1033) {Age (years)};
+% data
+\foreach \a/\h in {8/135,8/132,9/145,9/142,9/136,10/155,10/150,10/148,10/140,10/136,11/160,11/150,11/140,12/153,12/150,14/167,15/174,15/170,15/158,16/183,16/172,16/170,17/189,17/182,17/179,17/168,18/190,18/185,18/178}
+  \fill ({X(\a)},{Y(\h)}) circle (5.5);
+% line of best fit and estimate
+\draw[line width=0.9pt] ({X(8)},{Y(135)})--({X(18)},{Y(184)});
+\draw[aux] ({X(13)},948)--({X(13)},{Y(159.5)})--(138,{Y(159.5)});
+\fill ({X(13)},{Y(159.5)}) circle (6.5);
+\node[font=\large, anchor=south west, inner sep=1.5pt] at ({X(8.15)},{Y(160.6)}) {about 160 cm};
+\end{tikzpicture}
+\end{document}

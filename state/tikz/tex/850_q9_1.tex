@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (38,298);
+  \coordinate (O) at (352,298);
+  \coordinate (C) at (621,298);
+  \coordinate (B) at ({352+269*cos(72.2)},{298-269*sin(72.2)});
+  \draw (A)--(C);
+  \draw (A)--(B)--(O);
+  \draw (C) arc[start angle=0,end angle=-72.2,radius=269];
+  \path ($(O)!0.5!(B)$) coordinate (M1);
+  \draw ($(M1)+(-162.2:7)$)--($(M1)+(17.8:7)$);
+  \draw (486.5,290)--(486.5,306);
+  \node at (18,323) {$A$};
+  \node at (352,324) {$O$};
+  \node at (631,323) {$C$};
+  \node at (438,20) {$B$};
+  \node at (196,146) {$9.5$};
+  \node at (190,323) {$6$};
+  \node at (486,325) {$4.5$};
+  \node at (325,274) {$107^\circ$};
+\end{tikzpicture}
+\end{document}

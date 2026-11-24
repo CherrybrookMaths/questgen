@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {1,...,15} \draw[black!30,line width=0.4pt] ({45+\i*44},115)--({45+\i*44},771);
+  \foreach \j in {0,...,14} \draw[black!30,line width=0.4pt] (45,{115+\j*43.73})--(705,{115+\j*43.73});
+  \draw[->] (45,771)--(762,771);
+  \draw[->] (45,771)--(45,63);
+  \node[font=\large] at (42,35) {$x$};
+  \node[font=\large] at (815,773) {$t$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (K) at (80,240); \coordinate (G) at (252,655); \coordinate (R) at (622,408);
+\coordinate (Kn) at (80,66); \coordinate (Gn) at (252,476);
+\draw (K) -- (G) -- (R);
+\draw[->] (K) -- (Kn);
+\draw[->] (G) -- (Gn);
+\draw[->] (R) -- (622,231);
+\node at (82,47) {$N$}; \node at (252,458) {$N$}; \node at (622,214) {$N$};
+\pic[draw, angle radius=0.3cm] {angle = G--K--Kn};
+\pic[draw, angle radius=0.6cm] {angle = R--G--Gn};
+\node at (148,215) {$160^\circ$};
+\node at (305,548) {$50^\circ$};
+\node at (112,470) {$5\text{ km}$};
+\node at (485,575) {$4\text{ km}$};
+\node at (60,244) {$\boldsymbol{K}$};
+\node at (242,686) {$\boldsymbol{G}$};
+\node at (647,411) {$\boldsymbol{R}$};
+\end{tikzpicture}
+\end{document}

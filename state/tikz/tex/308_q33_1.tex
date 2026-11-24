@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\large},
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}]
+\newcommand\scanbox[3]{\draw ({#1-52},{#2-25}) rectangle ({#1+52},{#2+25}); \draw (#1,{#2-25}) -- (#1,{#2+25});
+  \node at ({#1-26},#2) {#3}; \node at ({#1+26},#2) {#3};}
+\coordinate (S) at (117,283);
+\coordinate (A) at (300,122);
+\coordinate (B) at (645,68);
+\coordinate (C) at (695,255);
+\coordinate (D) at (380,410);
+\coordinate (E) at (1120,360);
+\draw[mid=0.55] (S) -- node[pos=0.25,sloped,above] {G, 7} (A);
+\draw[mid=0.55] (S) -- node[pos=0.36,sloped,above] {H, 9} (D);
+\draw[mid=0.55] (A) -- node[pos=0.34,sloped,above] {I, 5} (B);
+\draw[mid=0.54] (D) -- node[pos=0.27,sloped,above] {K, 8} (B);
+\draw[mid=0.54] (B) -- node[pos=0.66,sloped,below] {M, 6} (C);
+\draw[mid=0.53] (B) -- node[pos=0.36,sloped,above] {L, 10} (E);
+\draw[mid=0.56] (C) -- node[pos=0.37,sloped,above] {N, 7} (E);
+\draw[mid=0.53] (D) -- node[pos=0.33,sloped,above] {P, 11} (E);
+\draw[mid=0.5] (D) .. controls (560,520) and (880,525) .. (E);
+\node at (813,502) {R, 13};
+\scanbox{63}{283}{0}
+\scanbox{248}{90}{}
+\scanbox{633}{38}{}
+\scanbox{632}{287}{}
+\scanbox{340}{453}{}
+\scanbox{1183}{360}{}
+\end{tikzpicture}
+\end{document}

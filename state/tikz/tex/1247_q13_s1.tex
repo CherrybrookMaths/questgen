@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% table (column for x=5 added by the solution, drawn as a normal column)
+\foreach \x in {90,206,322,437,553,668,750} \draw (\x,10)--(\x,132);
+\foreach \y in {10,70,132} \draw (90,\y)--(750,\y);
+\node[anchor=west] at (100,32) {$\boldsymbol{x}$};
+\node[anchor=west] at (100,94) {$\boldsymbol{B}$};
+\foreach \c/\a/\b in {264/1/2, 380/2/4, 495/3/8, 610/4/16, 709/5/32} {\node at (\c,40) {$\a$}; \node at (\c,101) {$\b$};}
+% grid: origin (113,790)
+\def\ux{26.6}\def\uy{26.6}
+\foreach \i in {-2,2,4,6,8,12,14,16,18} \draw[black!20,line width=0.5pt] ({113+\ux*\i},188)--({113+\ux*\i},860);
+\foreach \j in {-2,2,4,6,8,12,14,16,18,22} \draw[black!20,line width=0.5pt] (38,{790-\uy*\j})--(672,{790-\uy*\j});
+\foreach \i in {10,20} {\draw[black!50,line width=0.5pt] ({113+\ux*\i},188)--({113+\ux*\i},798); \draw[black!50,line width=0.5pt] ({113+\ux*\i},828)--({113+\ux*\i},860);}
+\foreach \j in {10,20} {\draw[black!50,line width=0.5pt] (38,{790-\uy*\j})--(71,{790-\uy*\j}); \draw[black!50,line width=0.5pt] (104,{790-\uy*\j})--(672,{790-\uy*\j});}
+\draw (38,790)--(672,790);
+\draw (113,188)--(113,860);
+\node[font=\small] at (95,813) {0};
+\node[font=\small] at ({113+\ux*10},813) {10};
+\node[font=\small] at ({113+\ux*20},813) {20};
+\node[font=\small] at (87,{790-\uy*10}) {10};
+\node[font=\small] at (87,{790-\uy*20}) {20};
+\node at (705,815) {$x$};
+\node at (73,186) {$B$};
+% graph B = 2^x
+\draw[line width=0.9pt,->] plot[smooth,domain=0:4.459,samples=60] ({113+\ux*\x},{790-\uy*2^\x});
+\foreach \a in {0,1,2,3,4} \fill ({113+\ux*\a},{790-\uy*2^\a}) circle (1.6pt);
+\coordinate (P) at ({113+\ux*4.3219},{790-\uy*20});
+\draw[line width=0.6pt] ($(P)+(-7,-7)$)--($(P)+(7,7)$) ($(P)+(-7,7)$)--($(P)+(7,-7)$);
+\node[anchor=west] at ($(P)+(22,20)$) {Day 4};
+\end{tikzpicture}
+\end{document}

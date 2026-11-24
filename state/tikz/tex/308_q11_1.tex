@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.7145cm, y=0.226cm]
+  \foreach \r in {1,...,50} \draw[black!25, line width=0.4pt] (0,\r) -- (6,\r);
+  \foreach \t in {1,...,6} \draw[black!35, line width=0.4pt] (\t,0) -- (\t,50);
+  \foreach \r in {1,...,50} \draw (-0.03,\r) -- (0.03,\r);
+  \foreach \t in {1,...,6} \draw (\t,-0.3) -- (\t,0.3);
+  \draw[->] (0,0) -- (6.3,0) node[right, font=\large] {$t$};
+  \draw[->] (0,0) -- (0,51.3) node[above, font=\large] {$R$};
+  \foreach \t in {1,...,6} \node[below] at (\t,-0.3) {$\t$};
+  \foreach \r in {2,4,...,50} \node[left] at (-0.03,\r) {$\r$};
+  \node at (3,-3.4) {Time (months)};
+  \node[rotate=90] at (-0.49,25) {Approval Rating (Percent)};
+  \draw[line width=0.9pt] plot[smooth, domain=0:6.15, samples=90] (\x,{48*pow(2,-\x)});
+\end{tikzpicture}
+\end{document}

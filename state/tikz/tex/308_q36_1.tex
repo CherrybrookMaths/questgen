@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% oblique prism on a sector: apex edge at x=128, back radius horizontal, front radius sloping, height 173
+\draw[aux] (128,206) -- (355,206);
+\draw (128,33) -- (128,206);
+\draw (128,33) -- (355,33);
+\draw (128,33) -- (330,63);
+\draw (355,33) .. controls (356,48) and (345,60) .. (330,63);
+\draw (330,63) -- (330,236);
+\draw (355,33) -- (355,206);
+\draw (128,206) -- (330,236);
+\draw (355,206) .. controls (356,221) and (345,233) .. (330,236);
+\node[anchor=east] at (124,100) {15 cm};
+\node[align=center] at (612,128) {NOT TO\\[5pt]SCALE};
+\end{tikzpicture}
+\end{document}

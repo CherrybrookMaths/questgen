@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6191cm,y=0.6128cm]
+  \foreach \i in {1,...,9} \draw[black!25,line width=0.4pt] (\i,0)--(\i,5);
+  \foreach \j in {1,...,5} \draw[black!25,line width=0.4pt] (0,\j)--(9.2,\j);
+  \draw[->] (0,0)--(9.6,0) node[right,inner sep=1pt,font=\small] {$x$};
+  \draw[->] (0,0)--(0,5.15);
+  \node[font=\small] at (0.1,5.55) {$f$};
+  \foreach \i in {1,...,9} {\draw (\i,0.08)--(\i,-0.08); \node[below,font=\scriptsize] at (\i,-0.15) {\i};}
+  \foreach \j in {1,...,5} {\draw (0.08,\j)--(-0.08,\j); \node[left,font=\scriptsize] at (-0.05,\j) {\j};}
+  \foreach \x/\n in {1/1,2/2,3/4,4/5,5/5,6/5,7/4,8/2,9/1}
+    \foreach \k in {1,...,\n} \fill (\x,\k) circle (2.1pt);
+\end{tikzpicture}
+\end{document}

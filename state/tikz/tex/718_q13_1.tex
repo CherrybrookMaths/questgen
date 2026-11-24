@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % t -> 118+24.914 t ; D -> 535-6.3875 D
+  \foreach \t in {5,10,...,30}
+    \draw[black!45] ({118+24.914*\t},24) -- ({118+24.914*\t},535);
+  \foreach \d in {10,20,...,70}
+    \draw[black!45] (118,{535-6.3875*\d}) -- (990,{535-6.3875*\d});
+  \draw (118,24) rectangle (990,535);
+  \foreach \t in {0,5,...,35}
+    \node[font=\small, anchor=north] at ({118+24.914*\t},556) {\t};
+  \foreach \d in {10,20,...,80}
+    \node[font=\small, anchor=east] at (108,{535-6.3875*\d}) {\d};
+  \node[font=\small] at (555,630) {Time (seconds), $t$};
+  \node[font=\small, rotate=90] at (22,290) {Distance (metres), $D$};
+  % Milan D=2t
+  \draw[line width=0.9pt] (118,535) -- ({118+24.914*35},{535-6.3875*70});
+  % Jaylon D=3(t-5)
+  \draw[aux, line width=0.9pt] ({118+24.914*5},535) -- ({118+24.914*(5+80/3)},{535-6.3875*80});
+  \node[font=\large] at (780,60) {Jaylon};
+  \node[font=\large] at (843,228) {Milan};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6052cm,y=0.6096cm]
+  % grid
+  \foreach \i in {-16,...,40} {\draw[black!18,line width=0.3pt] (\i/4,-4) -- (\i/4,10);}
+  \foreach \i in {-16,...,40} {\draw[black!18,line width=0.3pt] (-4,\i/4) -- (10,\i/4);}
+  \foreach \i in {-4,...,10} {\draw[black!40,line width=0.4pt] (\i,-4) -- (\i,10); \draw[black!40,line width=0.4pt] (-4,\i) -- (10,\i);}
+  % axes
+  \draw[<->] (-4.9,0) -- (10.9,0) node[right,font=\large]{$x$};
+  \draw[<->] (0,-4.9) -- (0,10.9) node[above,font=\large]{$y$};
+  \foreach \t in {-9,...,-1,1,2,...,21} {\draw (\t/2,-0.12) -- (\t/2,0.12); \draw (-0.12,\t/2) -- (0.12,\t/2);}
+  % tick labels
+  \foreach \t in {-4,-2,2,4,6,8,10} {\node[font=\large,inner sep=1pt] at (\t,-1.25) {$\t$};}
+  \node[font=\large,inner sep=1pt] at (-0.55,-1.25) {$0$};
+  \foreach \t in {8,6,4,2,-2} {\node[font=\large,inner sep=1pt,anchor=east] at (-0.2,\t) {$\t$};}
+  \node[font=\large,inner sep=1pt,anchor=east] at (-0.5,10) {$10$};
+  % -4 mirrored to the right of the axis: on the left it would sit on line f
+  \node[font=\large,inner sep=1pt,anchor=west] at (0.2,-4) {$-4$};
+  % lines: f is 2x-3y=10 (solid), g is x+y=10 (dashed); they meet at (8,2)
+  \draw[<->,line width=0.9pt] (-2.2,{(2*-2.2-10)/3}) -- (10.8,{(2*10.8-10)/3});
+  \draw[<->,line width=0.9pt,dash pattern=on 2pt off 1.5pt] (-0.88,10.88) -- (10.8,-0.8);
+  % boxed labels with leaders
+  \node[draw,minimum width=0.84cm,minimum height=0.79cm,font=\large] (g) at (7.68,5.33) {$g$};
+  \draw (7.4,4.68) -- (6.5,3.5);
+  \node[draw,minimum width=0.84cm,minimum height=0.79cm,font=\large] (f) at (4.2,1.67) {$f$};
+  \draw (4.5,1.02) -- (5.52,{(2*5.52-10)/3});
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,10} \draw[black!35] ({62+61.2*\i},58) -- ({62+61.2*\i},670);
+\foreach \j in {1,...,10} \draw[black!35] (62,{670-61.2*\j}) -- (674,{670-61.2*\j});
+\draw[->] (62,670) -- (713,670);
+\draw[->] (62,670) -- (62,8);
+\node[font=\fontsize{9}{11}\selectfont] at (700,694) {$N$};
+\node[font=\fontsize{9}{11}\selectfont] at (46,14) {$R$};
+\foreach \i in {1,...,9} \node[font=\fontsize{8}{10}\selectfont] at ({62+61.2*\i},703) {$\i$};
+\foreach \j in {1,...,10} {\pgfmathtruncatemacro\v{10*\j}\node[anchor=east,font=\fontsize{8}{10}\selectfont] at (52,{670-61.2*\j}) {$\v$};}
+\draw[aux] (62,{670-6.12*90.3}) -- (674,{670-6.12*39.3});
+\foreach \n/\r in {0/90,1/85,1/80,2/80,3/80,3/75,4/75,5/65,6/60,7/50}
+  \fill ({62+61.2*\n},{670-6.12*\r}) circle (3);
+\end{tikzpicture}
+\end{document}

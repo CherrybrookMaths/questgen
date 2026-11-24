@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(304,318)},x=0.8966cm,y=8.8265cm]
+\foreach \i in {-4,-3.5,...,4} \draw[black!15, line width=0.3pt] (\i,0) -- (\i,0.4);
+\foreach \j in {0.025,0.05,...,0.401} \draw[black!15, line width=0.3pt] (-4,\j) -- (4,\j);
+\foreach \j in {0.1,0.2,0.3,0.4} \draw[black!35, line width=0.3pt] (-4,\j) -- (4,\j);
+\foreach \i in {-4,-3,...,4} \draw[black!35, line width=0.3pt] (\i,0) -- (\i,0.4);
+\fill[shade hatch] (0,0) -- plot[domain=0:1.25,samples=30,smooth] (\x,{exp(-\x*\x/2)/sqrt(2*pi)}) -- (1.25,0) -- cycle;
+\draw[aux] plot[domain=-4:0,samples=90,smooth] (\x,{exp(-\x*\x/2)/sqrt(2*pi)});
+\draw[line width=0.9pt] plot[domain=0:1.25,samples=30,smooth] (\x,{exp(-\x*\x/2)/sqrt(2*pi)});
+\draw[aux] plot[domain=1.25:4,samples=90,smooth] (\x,{exp(-\x*\x/2)/sqrt(2*pi)});
+\draw[aux] (1.25,0) -- (1.25,{exp(-1.25*1.25/2)/sqrt(2*pi)});
+\draw[<->] (-4.24,0) -- (4.36,0) node[right,font=\small,inner sep=2pt]{$x$};
+\draw[->] (0,0) -- (0,0.446) node[above,font=\small,inner sep=1pt]{$y$};
+\foreach \v in {-4,-2,2,4} \node[below,font=\scriptsize,inner sep=4pt] at (\v,0) {$\v$};
+\node[below,font=\small,inner sep=4pt] at (0,0) {$0$};
+\node[below,font=\large,inner sep=3pt] at (1.25,0) {$a$};
+\foreach \v in {0.1,0.2,0.3,0.4} \node[left,font=\scriptsize,inner sep=3pt] at (0,\v) {$\v$};
+\end{scope}
+\end{tikzpicture}
+\end{document}
