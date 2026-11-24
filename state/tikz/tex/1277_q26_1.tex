@@ -1,6 +1,7 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
+% owner 24 Nov: "yes remove the halos, hand them back" (checker: "remove the white outline on the labels"); exception to DIAGRAM_SPEC 5b
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
 \def\lake{(91,240) -- plot[domain=91:408, samples=60, smooth] (\x,{219.7-179.7*sqrt(1-((\x-249.5)/179.7)^2)}) -- (408,240) -- plot[domain=408:91, samples=60, smooth] (\x,{160.8+177.2*sqrt(1-((\x-249.5)/177.2)^2)}) -- cycle}
 \fill[shade] \lake;
