@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (B) at (360,128); \coordinate (E) at (620,200); \coordinate (A) at (120,300);
+\coordinate (D) at (270,322); \coordinate (F) at (428,286); \coordinate (C) at (55,437);
+\coordinate (G) at (363,443); \coordinate (H) at (598,412);
+\draw (A)--(B) (B)--(E) (B)--(D) (A)--(D) (A)--(C) (C)--(D) (C)--(G) (D)--(G) (F)--(E) (F)--(G) (G)--(H) (H)--(E);
+\draw (B) .. controls (378,78) and (430,26) .. (497,26) .. controls (580,26) and (640,95) .. (620,200);
+\foreach \p in {A,B,C,D,E,F,G,H} \fill (\p) circle (6);
+\foreach \t/\x/\y in {B/330/108,E/650/198,A/97/285,D/298/314,F/442/262,C/55/467,G/380/470,H/626/425}
+  \node[font=\small] at (\x,\y) {$\t$};
+\foreach \t/\x/\y in {5.4/522/60,4.2/490/145,4.3/215/203,4.1/345/228,3.3/523/270,1.9/205/292,4.0/637/312,2.1/60/370,3.2/430/355,2.9/195/397,2.1/285/383,4.6/200/462,3.9/488/450}
+  \node at (\x,\y) {$\t$};
+\end{tikzpicture}
+\end{document}

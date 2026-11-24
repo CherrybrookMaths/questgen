@@ -1,0 +1,50 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+  \coordinate (S) at (63,162);
+  \coordinate (A) at (205,62);
+  \coordinate (E) at (500,62);
+  \coordinate (D) at (325,142);
+  \coordinate (T) at (733,133);
+  \coordinate (C) at (205,243);
+  \coordinate (B) at (570,232);
+  \draw[mid=0.6] (S) -- (A);
+  \draw[mid=0.65] (S) -- (D);
+  \draw[mid=0.55] (S) -- (C);
+  \draw[mid=0.5] (A) -- (E);
+  \draw[mid=0.6] (D) -- (A);
+  \draw[mid=0.55] (D) -- (E);
+  \draw[mid=0.5] (D) -- (C);
+  \draw[mid=0.5] (C) -- (B);
+  \draw[mid=0.6] (B) -- (D);
+  \draw[mid=0.5] (E) -- (B);
+  \draw[mid=0.55] (E) -- (T);
+  \draw[mid=0.55] (B) -- (T);
+  \foreach \p in {S,A,E,D,T,C,B} \fill (\p) circle (3.8);
+  % cut
+  \draw[aux] plot[smooth, tension=0.6] coordinates {(117,20) (142,68) (155,112) (152,165) (178,196) (224,212) (252,240) (262,278)};
+  % vertex labels
+  \node[font=\scriptsize] at (205,46) {$A$};
+  \node[font=\scriptsize] at (501,46) {$E$};
+  \node[font=\scriptsize] at (328,126) {$D$};
+  \node[font=\scriptsize] at (733,116) {Sink};
+  \node[font=\scriptsize] at (48,180) {Source};
+  \node[font=\scriptsize] at (204,262) {$C$};
+  \node[font=\scriptsize] at (570,249) {$B$};
+  % capacities
+  \node[font=\scriptsize] at (112,107) {10};
+  \node[font=\scriptsize] at (215,133) {20};
+  \node[font=\scriptsize] at (132,223) {10};
+  \node[font=\scriptsize] at (352,45) {15};
+  \node[font=\scriptsize] at (289,96) {10};
+  \node[font=\scriptsize] at (425,112) {10};
+  \node[font=\scriptsize] at (297,188) {10};
+  \node[font=\scriptsize] at (389,258) {10};
+  \node[font=\scriptsize] at (418,160) {10};
+  \node[font=\scriptsize] at (555,145) {10};
+  \node[font=\scriptsize] at (630,83) {20};
+  \node[font=\scriptsize] at (667,194) {20};
+\end{tikzpicture}
+\end{document}

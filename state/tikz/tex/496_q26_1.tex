@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(222,683)}, x=0.81915cm, y=0.0349758cm]
+  \draw[black!18, line width=0.4pt] (0,0) grid[xstep=0.5,ystep=10] (10,220);
+  \foreach \x in {2,4,...,10} \draw[black!45, line width=0.4pt] (\x,0)--(\x,220);
+  \foreach \y in {50,100,...,200} \draw[black!45, line width=0.4pt] (0,\y)--(10,\y);
+  \draw[->] (0,0)--(10.6,0);
+  \draw[->] (0,0)--(0,234);
+  \foreach \x in {0.5,1,...,10} \draw (\x,-2.6)--(\x,2.6);
+  \foreach \y in {10,20,...,220} \draw (-0.11,\y)--(0.11,\y);
+  \foreach \y in {50,100,...,200} \draw (-0.2,\y)--(0,\y);
+  \foreach \x in {2,4,...,10} \node[font=\small] at (\x,-15.3) {\x};
+  \foreach \y in {50,100,...,200} \node[font=\small, anchor=east] at (-0.24,\y) {\y};
+  \node[font=\LARGE] at (0,247) {$P$};
+  \node[font=\Large] at (10.95,0) {$h$};
+  \node at (-2.4,125) {Pay (\$)};
+  \node at (5.05,-36.5) {Number of hours};
+\end{scope}
+\end{tikzpicture}
+\end{document}

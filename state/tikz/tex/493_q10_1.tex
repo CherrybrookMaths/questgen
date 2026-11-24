@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (70,163); \coordinate (B) at (228,45); \coordinate (C) at (424,85);
+\coordinate (D) at (503,242); \coordinate (E) at (266,280); \coordinate (F) at (463,358);
+\draw (A)--(B)--(C)--(D)--(F)--(E)--(A) (B)--(E)--(D);
+\foreach \v in {A,B,C,D,E,F} \fill (\v) circle[radius=0.035cm];
+\node at (215,32) {$B$};
+\node at (432,68) {$C$};
+\node at (47,172) {$A$};
+\node at (523,242) {$D$};
+\node at (262,304) {$E$};
+\node at (482,372) {$F$};
+\node at (128,93) {$90$};
+\node at (347,46) {$110$};
+\node at (278,162) {$130$};
+\node at (497,155) {$140$};
+\node at (134,237) {$110$};
+\node at (387,241) {$110$};
+\node at (507,306) {$60$};
+\node at (365,342) {$70$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (T) at (166,19); \coordinate (L) at (33,119); \coordinate (C) at (166,119);
+\coordinate (R) at (298,119); \coordinate (P) at (33,252); \coordinate (Q) at (298,252);
+\draw (T)--(C) (L)--(C)--(R) (C)--(P) (C)--(Q);
+\draw (T) to[bend right=32] (L);
+\draw (T) to[bend left=22] (L);
+\draw (T) to[bend left=32] (R);
+\draw (T) to[bend right=22] (R);
+\draw (L) to[bend right=30] (P);
+\draw (L) to[bend left=26] (P);
+\draw (R) to[bend right=26] (Q);
+\draw (R) to[bend left=30] (Q);
+\draw (P) to[bend right=12] (Q);
+\draw (P) to[bend left=12] (Q);
+\foreach \v in {T,L,C,R,P,Q} \fill (\v) circle[radius=0.1cm];
+\end{tikzpicture}
+\end{document}

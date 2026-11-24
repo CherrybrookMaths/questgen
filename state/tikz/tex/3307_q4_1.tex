@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (B) at (318,130); \coordinate (A) at (87,470); \coordinate (C) at (628,610);
+\coordinate (D) at (221.06,504.69);
+\draw[line join=round] (A) -- (B) -- (C) -- cycle;
+\draw[aux] (B) -- (D);
+\draw (257.8,514.2) -- (267.3,477.4) -- (230.6,467.9);
+\tikzset{lab/.style={inner sep=0pt,font=\LARGE}}
+\node[lab] at (318,42) {$B$};
+\node[lab] at (40,485) {$A$};
+\node[lab] at (215,550) {$D$};
+\node[lab] at (673,615) {$C$};
+\end{tikzpicture}
+\end{document}

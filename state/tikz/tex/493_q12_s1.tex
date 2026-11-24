@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\coordinate (A) at (75,87); \coordinate (C) at (502,72); \coordinate (D) at (560,330);
+\coordinate (E) at (932,403); \coordinate (B) at (157,440);
+\draw[mid=0.55] (B) .. controls (110,320) and (80,200) .. (A);
+\draw[mid=0.6] (C) .. controls (360,130) and (240,250) .. (B);
+\draw[mid=0.6] (B) .. controls (310,350) and (470,215) .. (C);
+\draw[mid=0.55] (C) .. controls (540,150) and (570,260) .. (D);
+\draw[mid=0.5] (E) .. controls (820,280) and (680,160) .. (C);
+\draw[mid=0.7] (C) .. controls (760,60) and (975,180) .. (E);
+\draw[mid=0.55] (D) .. controls (650,330) and (800,360) .. (E);
+\draw[mid=0.45] (B) .. controls (300,492) and (750,482) .. (E);
+\draw[mid=0.6] (E) .. controls (930,500) and (1090,480) .. (1093,410);
+\draw (1093,410) .. controls (1098,335) and (960,335) .. (E);
+\foreach \p in {A,B,C,D,E} \fill (\p) circle[radius=0.8mm];
+\node[font=\large] at (40,80) {$\boldsymbol{A}$};
+\node[font=\large] at (525,35) {$\boldsymbol{C}$};
+\node[font=\large] at (553,377) {$\boldsymbol{D}$};
+\node[font=\large] at (970,397) {$\boldsymbol{E}$};
+\node[font=\large] at (122,460) {$\boldsymbol{B}$};
+\begin{scope}[every node/.style={font=\Large}]
+\node at (45,310) {$5$}; \node at (270,170) {$4$}; \node at (475,222) {$5$};
+\node at (596,215) {$8$}; \node at (795,203) {$6$}; \node at (945,215) {$4$};
+\node at (705,382) {$6$}; \node at (505,532) {$4$}; \node at (1095,468) {$3$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

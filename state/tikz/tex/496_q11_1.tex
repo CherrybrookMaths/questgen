@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\draw (40,30) -- (40,348);
+\foreach \s/\y in {1/72,2/128,3/187,4/243,5/300} \node[font=\large] at (17,\y) {$\s$};
+\foreach \y/\L in {72/{8,8},128/{4,5,6,6},187/{4,6,7,7,8},243/{0,0,0,8},300/{7,7}} {
+  \foreach \d [count=\k] in \L \node[font=\large] at ({62+40.5*(\k-1)},\y) {$\d$};
+}
+\end{tikzpicture}
+\end{document}

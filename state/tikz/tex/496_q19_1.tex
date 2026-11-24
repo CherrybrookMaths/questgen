@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\Y#1{506-1.2233*#1}
+\def\P#1{506-3.69*#1}
+\draw[black!25,line width=0.4pt] (10,10) rectangle (1070,735);
+\foreach \v in {50,100,...,300} \draw[black!25,line width=0.4pt] (247,{\Y{\v}})--(925,{\Y{\v}});
+\foreach \v [count=\i from 0] in {246,210,185,94,90,52,23}
+  \fill[black!30] ({247+\i*96.9+1},506) rectangle ({247+(\i+1)*96.9-1},{\Y{\v}});
+\draw[black!40,line width=0.4pt] (247,506)--(925,506);
+\draw[line width=0.9pt] ({247+0.5*96.9},{\P{27.3}}) -- ({247+1.5*96.9},{\P{50.7}}) -- ({247+2.5*96.9},{\P{71.2}}) -- ({247+3.5*96.9},{\P{81.7}}) -- ({247+4.5*96.9},{\P{91.7}}) -- ({247+5.5*96.9},{\P{97.4}}) -- ({247+6.5*96.9},{\P{100}});
+\foreach \v in {0,50,...,300} \node[anchor=east] at (230,{\Y{\v}}) {$\v$};
+\foreach \v in {0,20,...,100} \node[anchor=west] at (944,{\P{\v}}) {$\v\%$};
+\foreach \d [count=\i from 0] in {Saturday,Sunday,Friday,Thursday,Monday,Wednesday,Tuesday}
+  \node[anchor=north east,rotate=27,inner sep=1pt] at ({247+(\i+0.5)*96.9+8},532) {\d};
+\node[font=\LARGE] at (540,74) {Refreshments Sold};
+\node[font=\Large,rotate=90,align=center] at (95,322) {Number of items\\ sold};
+\node[font=\Large] at (587,690) {Day of the week};
+\end{tikzpicture}
+\end{document}

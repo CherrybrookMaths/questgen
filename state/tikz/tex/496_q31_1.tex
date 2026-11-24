@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \y in {189,247,304,361,418,475,532} \draw[black!25] (208,\y)--(1128,\y);
+\foreach \x in {392,576,760,944,1128} \draw[black!25] (\x,189)--(\x,589);
+\draw (208,589)--(1128,589);
+\foreach \y/\v in {189/40000,247/35000,304/30000,361/25000,418/20000,475/15000,532/10000,589/5000}
+  \node[anchor=east,font=\fontsize{12}{14}\selectfont] at (190,\y+5) {\v};
+\foreach \x/\v in {208/45000,392/65000,576/85000,760/105000,944/125000,1128/145000}
+  \node[font=\fontsize{12}{14}\selectfont] at (\x,630) {\v};
+\draw[aux] (286,291)--(1096,578);
+\foreach \x/\y in {286/242,318/258,328/314,357/337,392/306,437/349,523/349,519/368,541/402,583/440,615/444,652/423,710/478,742/470,793/505,849/534,923/506,966/554,1077/467,1096/572}
+  \fill (\x,\y) circle (6.5);
+\node[font=\fontsize{20}{24}\selectfont\bfseries] at (668,70) {Odometre Reading vs Sale Price at};
+\node[font=\fontsize{20}{24}\selectfont\bfseries] at (668,128) {Fred's Used Cars Depot};
+\node[font=\fontsize{15}{18}\selectfont\bfseries] at (668,688) {Odometer Reading in kilometres ($k$)};
+\node[font=\fontsize{15}{18}\selectfont\bfseries,rotate=90] at (54,390) {Sale Price in dollars ($P$)};
+\end{tikzpicture}
+\end{document}

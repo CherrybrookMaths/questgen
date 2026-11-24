@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (P) at (357,274);
+  \coordinate (A) at (143,68);
+  \coordinate (B) at (793,193);
+  \coordinate (C) at (258,543);
+  \draw (A)--(B)--(C)--cycle;
+  \draw (P)--(A) (P)--(B) (P)--(C);
+  \draw[->] (P)--(357,2);
+  \node[anchor=east] at (138,58) {$A\ 315^\circ$};
+  \node[anchor=west] at (800,193) {$B\ 082^\circ$};
+  \node[anchor=west] at (266,546) {$C\ 210^\circ$};
+  \node at (338,292) {$P$};
+  \node at (925,370) {Diagram not to scale};
+\end{tikzpicture}
+\end{document}

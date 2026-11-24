@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(230,727)}, x=0.8255cm, y=0.0352425cm]
+  \draw[->] (0,0)--(10.77,0);
+  \draw[->] (0,0)--(0,232);
+  \foreach \x in {0.5,1,...,10} \draw (\x,-2.5)--(\x,2.5);
+  \foreach \y in {10,20,...,220} \draw (-0.1,\y)--(0.1,\y);
+  \foreach \x in {2,4,...,10} \node[font=\small] at (\x,-17.3) {\x};
+  \foreach \y in {50,100,...,200} \node[font=\small, anchor=east] at (-0.18,\y) {\y};
+  \node[font=\Large] at (0,247) {$P$};
+  \node[font=\large] at (11.0,0) {$h$};
+  \node at (-2.4,123.6) {Pay (\$)};
+  \node at (5.15,-35.7) {Number of hours};
+  \draw[->, line width=0.9pt] (0,0)--(9.1,195.65);
+  \node[pt] at (0,0) {};
+  \node[pt] at (2,43) {};
+  \node[pt] at (4,86) {};
+  \node[font=\Large, anchor=north west] at (4.1,82) {$(4, 86)$};
+  \node[font=\Large, anchor=north west] at (2.1,39) {$(2, 43)$};
+  \node[font=\Large, anchor=north] at (-0.3,-8) {$(0, 0)$};
+  \node[font=\Large, anchor=west] at (9.4,198) {$P = 21.5h$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

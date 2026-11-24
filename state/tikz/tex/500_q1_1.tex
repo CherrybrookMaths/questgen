@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % scale: 30 -> 25 px, 80 -> 470 px (8.9 px per year)
+  \def\s{8.9}
+  % axis
+  \draw (25,122) -- (628,122);
+  \foreach \v in {30,40,...,80} {
+    \draw ({25+(\v-30)*\s},110) -- ({25+(\v-30)*\s},134);
+    \node[font=\small] at ({25+(\v-30)*\s},160) {\v};
+  }
+  \node[font=\small, anchor=west] at (526,160) {(age in years)};
+  % box plot: min 30, Q1 50, median 65, Q3 76, max 80
+  \begin{scope}[line width=0.9pt]
+    \draw ({25+20*\s},2) rectangle ({25+46*\s},87);
+    \draw ({25+35*\s},2) -- ({25+35*\s},87);
+    \draw (25,62) -- ({25+20*\s},62);
+    \draw ({25+46*\s},62) -- (470,62);
+    \draw (25,49) -- (25,75);
+    \draw (470,49) -- (470,75);
+  \end{scope}
+\end{tikzpicture}
+\end{document}

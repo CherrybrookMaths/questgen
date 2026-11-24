@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\setlength\treeL{4.2cm}
+\treewidth{1}{Fruit}\treewidth{1}{No Fruit}\treewidth{2}{Fruit}\treewidth{2}{No Fruit}
+\treecolumns{2}
+\begin{tikzpicture}
+\treeroot{r}{0cm}
+\treenode{f}{1}{2.7cm}{Fruit}
+\treenode{n}{1}{-2.7cm}{No Fruit}
+\treenode{ff}{2}{4.5cm}{Fruit}
+\treenode{fn}{2}{0.9cm}{No Fruit}
+\treenode{nf}{2}{-0.9cm}{Fruit}
+\treenode{nn}{2}{-4.5cm}{No Fruit}
+\tikzset{pr/.style={font=\treeprobfont, inner sep=0pt}}
+\draw[tree branch] (r-out)--(f-in) node[pr, midway, anchor=south, yshift=2.6mm] {0.2};
+\draw[tree branch] (r-out)--(n-in) node[pr, midway, anchor=north, yshift=-2.6mm] {0.8};
+\draw[tree branch] (f-out)--(ff-in) node[pr, midway, anchor=south, yshift=2.1mm] {0.2};
+\draw[tree branch] (f-out)--(fn-in) node[pr, midway, anchor=north, yshift=-2.1mm] {0.8};
+\draw[tree branch] (n-out)--(nf-in) node[pr, midway, anchor=south, yshift=2.1mm] {0.2};
+\draw[tree branch] (n-out)--(nn-in) node[pr, midway, anchor=north, yshift=-2.1mm] {0.8};
+\treeresult{4.5cm}{$FF$}
+\treeresult{0.9cm}{$FN$}
+\treeresult{-0.9cm}{$NF$}
+\treeresult{-4.5cm}{$NN$}
+\end{tikzpicture}
+\end{document}

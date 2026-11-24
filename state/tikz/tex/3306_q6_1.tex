@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.358cm,y=0.358cm,font=\small]
+  \foreach \i in {1,...,30} {\ifnum\numexpr\i-(\i/5)*5\relax=0 \else \draw[black!22,line width=0.4pt] (\i,0)--(\i,20);\fi}
+  \foreach \j in {1,...,20} {\ifnum\numexpr\j-(\j/5)*5\relax=0 \else \draw[black!22,line width=0.4pt] (0,\j)--(30,\j);\fi}
+  \foreach \i in {5,10,...,30} \draw[black!45,line width=0.4pt] (\i,0)--(\i,20);
+  \foreach \j in {5,10,15,20} \draw[black!45,line width=0.4pt] (0,\j)--(30,\j);
+  \draw[->] (0,0)--(31.4,0) node[right] {$P$};
+  \draw[->] (0,0)--(0,21.6) node[above] {$V$};
+  \foreach \i in {1,...,30} \draw (\i,-0.2)--(\i,0.2);
+  \foreach \j in {1,...,20} \draw (-0.2,\j)--(0.2,\j);
+  \foreach \i in {5,10,...,30} \node[below=8pt] at (\i,0) {$\i$};
+  \foreach \j in {5,10,15,20} \node[left=4pt] at (0,\j) {$\j$};
+  \draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=1.4:31] (\x,{30/\x});
+\end{tikzpicture}
+\end{document}

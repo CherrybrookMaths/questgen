@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+% grid
+\foreach \i in {1,...,20} \draw[black!20, line width=0.4pt] ({67.6+21.2*\i},406.6) -- ({67.6+21.2*\i},47);
+\foreach \j in {1,...,16} \draw[black!20, line width=0.4pt] (67.6,{406.6-22.3*\j}) -- (492,{406.6-22.3*\j});
+% axes
+\draw[->] (67.6,406.6) -- (514,406.6) node[right, inner sep=2pt, font=\footnotesize] {$n$};
+\draw[->] (67.6,406.6) -- (67.6,30) node[above, inner sep=2pt, font=\footnotesize] {$S$};
+% ticks
+\foreach \i in {1,...,20} \draw ({67.6+21.2*\i},403) -- ({67.6+21.2*\i},410);
+\foreach \j in {1,...,16} \draw (64,{406.6-22.3*\j}) -- (71,{406.6-22.3*\j});
+\foreach \i in {2,4,...,20} \node[anchor=north, inner sep=2pt, font=\footnotesize] at ({67.6+21.2*\i},418) {$\i$};
+\foreach \j in {10,20,...,80} \node[anchor=east, inner sep=2pt, font=\footnotesize] at (58,{406.6-4.46*\j}) {$\j$};
+% graph
+\draw[line width=0.9pt] (67.6,{406.6-4.46*75}) -- ({67.6+21.2*15},406.6);
+\node[font=\footnotesize] at (290,462) {Time (years)};
+\node[rotate=90, font=\footnotesize] at (16,228) {Salvage value (\$1000)};
+\end{tikzpicture}
+\end{document}

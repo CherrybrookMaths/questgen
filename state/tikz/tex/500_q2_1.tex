@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (A) at (172,18);
+  \coordinate (C) at (77,226);
+  \coordinate (B) at (480,226);
+  \draw (A) -- (B) -- (C) -- cycle;
+  % angle at B: arc radius 65 between BC and BA
+  \pgfmathsetmacro\th{atan2(208,308)}
+  \draw plot[domain=0:\th, samples=30, smooth] ({480-65*cos(\x)},{226-65*sin(\x)});
+  \node[font=\footnotesize] at (172,2) {$A$};
+  \node[font=\footnotesize] at (61,227) {$C$};
+  \node[font=\footnotesize] at (496,227) {$B$};
+  \node[font=\footnotesize] at (338,94) {8 cm};
+  \node[font=\footnotesize] at (262,250) {12 cm};
+  \node[font=\footnotesize] at (391,203) {$32^\circ$};
+  \node[font=\footnotesize, align=center] at (576,123) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

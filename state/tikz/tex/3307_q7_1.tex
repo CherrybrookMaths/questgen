@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (L) at (20,192); \coordinate (R) at (788,192); \coordinate (T) at (788,15);
+\draw[line join=round] (L) -- (R) -- (T) -- cycle;
+\draw (750,192) -- (750,155) -- (788,155);
+\pgfmathsetmacro\h{atan2(15-192,788-20)}
+\draw (L) ++(0:250) arc[start angle=0, end angle=\h, radius=250];
+\node[inner sep=0pt,font=\large] at ($(L)+(\h/2:222)$) {$\theta$};
+\draw[<->] (20,225) -- (788,225);
+\draw[<->] (818,18) -- (818,192);
+\node[inner sep=0pt,font=\large] at (441,263) {8\,m};
+\node[inner sep=0pt,font=\large] at (880,110) {2.5\,m};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (T) at (157,17); \coordinate (L) at (19,122); \coordinate (C) at (157,122);
+\coordinate (R) at (293,122); \coordinate (P) at (22,258); \coordinate (Q) at (293,258);
+\draw (T)--(L) (T)--(C) (T)--(R) (T)--(P) (T)--(Q);
+\draw (L)--(C)--(R) (L)--(P)--(Q)--(R) (L)--(Q) (R)--(P) (C)--(P) (C)--(Q);
+\draw (L) to[bend left=25] (R);
+\foreach \v in {T,L,C,R,P,Q} \fill (\v) circle[radius=0.1cm];
+\end{tikzpicture}
+\end{document}

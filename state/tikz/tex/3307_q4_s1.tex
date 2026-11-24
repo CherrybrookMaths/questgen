@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (B) at (318,133); \coordinate (A) at (83,477); \coordinate (C) at (630,613);
+\coordinate (D) at (223.75,512.0);
+\draw[line join=round] (A) -- (B) -- (C) -- cycle;
+\draw[aux] (B) -- (D);
+\draw (262.6,521.7) -- (272.3,482.9) -- (233.4,473.2);
+\pgfmathsetmacro\aC{atan2(613-477,630-83)}
+\pgfmathsetmacro\aB{atan2(133-477,318-83)}
+\draw (A) ++(\aB:36) arc[start angle=\aB, end angle=\aC, radius=36];
+\node[inner sep=0pt] at (174,440) {$71^\circ 40'$};
+\node[inner sep=0pt,font=\Large,anchor=east] at ($(A)!0.5!(B)+(-18,-8)$) {$880$};
+\tikzset{lab/.style={inner sep=0pt,font=\LARGE}}
+\node[lab] at (318,45) {$B$};
+\node[lab] at (38,490) {$A$};
+\node[lab] at (215,548) {$D$};
+\node[lab] at (675,620) {$C$};
+\end{tikzpicture}
+\end{document}

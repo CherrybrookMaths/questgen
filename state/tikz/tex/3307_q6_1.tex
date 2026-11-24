@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\filldraw[shade, even odd rule]
+  plot[smooth cycle, tension=0.55] coordinates {(228,62) (300,50) (360,44) (385,28) (415,28) (450,45) (470,90) (500,125) (560,135) (580,160) (592,210) (606,250) (618,268) (632,312) (672,345) (712,372) (745,410) (775,430) (770,470) (745,492) (728,522) (700,560) (675,583) (642,612) (630,650) (612,712) (560,722) (528,732) (500,752) (468,770) (428,774) (390,760) (360,738) (325,710) (282,690) (232,680) (212,655) (198,618) (182,590) (150,563) (112,530) (100,500) (103,420) (88,378) (55,335) (40,290) (42,245) (58,210) (95,185) (148,175) (180,152) (212,128) (222,105)}
+  plot[smooth cycle, tension=0.6] coordinates {(322,355) (345,342) (372,335) (402,348) (430,378) (434,412) (430,443) (418,460) (380,462) (350,440) (330,410) (320,380)};
+\coordinate (A) at (322,705); \coordinate (B) at (610,420); \coordinate (C) at (222,228);
+\draw[aux,->] (A) -- (B);
+\draw[aux,->] (B) -- (C);
+\draw[aux,->] (C) -- (A);
+\draw[->] (726,205) -- (726,110);
+\node[inner sep=0pt,font=\large] at (731,90) {North};
+\tikzset{pl/.style={inner sep=0pt,font=\large}}
+\node[pl] at (198,205) {\halo{$C$}};
+\node[pl] at (640,420) {\halo{$B$}};
+\node[pl] at (310,745) {$A$};
+\node[pl] at (412,268) {\halo{\textbf{170\,m}}};
+\node[pl] at (520,597) {\halo{\textbf{150\,m}}};
+\node[pl] at (242,836) {\textbf{Start/Finish}};
+\end{tikzpicture}
+\end{document}

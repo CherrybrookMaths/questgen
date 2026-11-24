@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\scriptsize,
+  ma/.style={postaction={decorate,decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}}]
+\coordinate (S) at (63,237); \coordinate (T) at (227,37); \coordinate (M) at (377,78);
+\coordinate (R) at (627,64); \coordinate (F) at (667,236); \coordinate (B) at (178,322);
+\draw[ma=0.55] (S)--(T); \draw[ma=0.55] (T)--(M); \draw[ma=0.5] (B)--(M);
+\draw[ma=0.6] (S)--(B); \draw[ma=0.53] (M)--(R); \draw[ma=0.5] (M)--(F);
+\draw[ma=0.55] (R)--(F); \draw[ma=0.55] (B)--(F);
+\foreach \p in {S,T,M,R,F,B} \fill (\p) circle (3.2);
+\node[left,inner sep=5pt] at (S) {Start}; \node[right,inner sep=5pt] at (F) {Finish};
+\node at (113,120) {$A(4)$}; \node at (307,27) {$C(3)$}; \node at (244,194) {$D(6)$};
+\node at (105,321) {$B(2)$}; \node at (508,50) {$F(3)$}; \node at (545,136) {$G(4)$};
+\node at (681,141) {$H(2)$}; \node at (436,318) {$E(5)$};
+\end{tikzpicture}
+\end{document}

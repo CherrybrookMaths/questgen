@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\Y#1{472-1.22*#1}
+\def\P#1{472-3.66*#1}
+\def\w{97.4}
+\foreach \v in {50,100,...,300} \draw[black!20,line width=0.4pt] (218,{\Y{\v}})--(900,{\Y{\v}});
+\foreach \v [count=\i from 0] in {246,210,185,94,90,52,23}
+  \fill[black!30] ({218+\i*\w+1.5},472) rectangle ({218+(\i+1)*\w-1.5},{\Y{\v}});
+% right axis drawn on the paper
+\draw (905,{\P{0}})--(905,{\P{100}});
+\foreach \v in {0,20,...,100} \draw (899,{\P{\v}})--(905,{\P{\v}});
+\draw[line width=0.9pt] ({218+0.5*\w},{\P{27.3}}) -- ({218+1.5*\w},{\P{50.7}}) -- ({218+2.5*\w},{\P{71.2}}) -- ({218+3.5*\w},{\P{81.7}}) -- ({218+4.5*\w},{\P{91.7}}) -- ({218+5.5*\w},{\P{97.4}}) -- ({218+6.5*\w},{\P{100}});
+% 70% line meets the curve, then down to the axis
+\pgfmathsetmacro\xi{218+1.5*\w+\w*(70-50.7)/(71.2-50.7)}
+\draw[aux] (905,{\P{70}})--(\xi,{\P{70}})--(\xi,472);
+\foreach \v in {0,50,...,300} \node[anchor=east] at (198,{\Y{\v}}) {$\v$};
+\foreach \v in {0,20,...,100} \node[anchor=west] at (916,{\P{\v}}) {$\v\%$};
+\foreach \d [count=\i from 0] in {Saturday,Sunday,Friday,Thursday,Monday,Wednesday,Tuesday}
+  \node[anchor=north east,rotate=22,inner sep=1pt] at ({218+(\i+0.5)*\w+12},500) {\d};
+\node[font=\LARGE] at (530,40) {Refreshments Sold};
+\node[font=\Large,rotate=90,align=center] at (75,290) {Number of items\\ sold};
+\node[font=\Large] at (560,655) {Day of the week};
+\end{tikzpicture}
+\end{document}

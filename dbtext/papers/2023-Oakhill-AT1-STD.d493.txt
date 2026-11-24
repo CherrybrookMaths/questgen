@@ -1,0 +1,1608 @@
+# paper 2023-Oakhill-AT1-STD (document 493)
+document
+  id: 493
+  drive_file_id: 1U7DbPf12JtNBOymUjf475LZwjqutknqA
+  source_path: Oakhill College/Y12 Std/12MS2_T1_CT_2023 - Measurement, Networks with Solutions.pdf
+  size_bytes: 1580517
+  task_type: internal_exam
+  course: standard
+  classification_method: explicit_cover
+  year_level: 12
+  school: Oakhill
+  year: 2023
+  bundled_solutions: 0
+  status: parsed
+  failure_reason: path/filename names a non-target course or year (not cover-checked)
+  ingested_at: 2026-11-10T22:53:15
+  display_label: 2023 Oakhill College AT1
+  school_formal: Oakhill College
+  task_code: AT1
+
+## Q1  key 2023-Oakhill-AT1-STD-Q1  id 6220
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: graph
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  option A
+    latex: \exfigure{493_q1_1}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 493_q1_1
+  option B
+    latex: \exfigure{493_q1_2}
+    is_correct: 1
+    key_source: extracted
+    figure_key: 493_q1_2
+  option C
+    latex: \exfigure{493_q1_3}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 493_q1_3
+  option D
+    latex: \exfigure{493_q1_4}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 493_q1_4
+  figure 493_q1_1.png
+    page: 1
+    bbox: [108, 164, 283, 258]
+    png_path: figures/493_q1_1.png
+    tikz_path: tikz/tex/493_q1_1.tex
+    caption: option A: network with a triangle and a pendant edge
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network option A: 4 vertices, a triangle with a pendant edge. Vertices placed at the crop's pixel positions, 0.6pt edges, same vertex dot size as options B to D (rules 1, 2, 3, 7).
+  figure 493_q1_2.png
+    page: 1
+    bbox: [353, 164, 541, 274]
+    png_path: figures/493_q1_2.png
+    tikz_path: tikz/tex/493_q1_2.tex
+    caption: option B: network with no cycles
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network option B: 5 vertices, 4 edges, no cycles. Pixel-measured positions, house line weight, same frame and style as the other options (rules 1, 3, 7).
+  figure 493_q1_3.png
+    page: 1
+    bbox: [111, 278, 281, 385]
+    png_path: figures/493_q1_3.png
+    tikz_path: tikz/tex/493_q1_3.tex
+    caption: option C: network with cycles
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network option C: a pentagon of 5 vertices plus one chord, so it has cycles. Pixel-measured positions, 0.6pt lines (rules 1, 3, 7).
+  figure 493_q1_4.png
+    page: 1
+    bbox: [386, 289, 508, 390]
+    png_path: figures/493_q1_4.png
+    tikz_path: tikz/tex/493_q1_4.tex
+    caption: option D: complete network on four vertices
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network option D: complete network K4 (rectangle with both diagonals). Pixel-measured positions, 0.6pt lines (rules 1, 3, 7).
+  part -  id 9963
+    ordinal: 1
+    latex: Which of the following is a tree?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-077
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: path, tree, spanning tree and minimum spanning tree
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9577
+      source: generated
+      latex: |
+        A tree is a connected network with no cycles (circuits).
+
+        Option A contains a triangle, so it has a cycle.
+
+        Option B is connected, has 5 vertices and 4 edges, and has no cycle, so it is a tree.
+
+        Options C and D each contain a cycle (a closed loop of edges), so they are not trees.
+
+        $$\therefore\ \text{the tree is the network in option B.}$$
+      source_document_id: 493
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated working for MCQ; key B.", "self_check": "Counted vertices and edges in each figure (B: 5 vertices, 4 edges, connected, acyclic); checked others for cycles."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9652
+      confidence: high
+      reason: Direct recall of tree definition: connected, no cycles.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q2  key 2023-Oakhill-AT1-STD-Q2  id 6221
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  option A
+    latex: $P$–$Q$–$P$–$S$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $P$–$Q$–$R$–$S$–$P$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $P$–$Q$–$S$–$P$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $P$–$Q$–$R$–$S$
+    is_correct: 1
+    key_source: extracted
+  figure 493_q2_1.png
+    page: 1
+    bbox: [105, 450, 280, 532]
+    png_path: figures/493_q2_1.png
+    tikz_path: tikz/tex/493_q2_1.tex
+    caption: network with vertices P, Q, R, S
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network with 4 vertices P, Q, R, S and edges Q-R, R-S, S-P, P-Q. Labels in maths italic at the crop's size, clear of the lines. Round 2 made the labels smaller to match the crop and moved R slightly (rules 1, 2, 3, 11, 19).
+  part -  id 9964
+    ordinal: 1
+    latex: |
+      Which of the following walks is a path in the network diagram below?
+
+      \exfigure{493_q2_1}
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-077
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: path, tree, spanning tree and minimum spanning tree
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9578
+      source: generated
+      latex: |
+        The network has edges $PQ$, $QR$, $RS$ and $SP$.
+
+        A path does not repeat a vertex (or an edge).
+
+        Option A, $P$–$Q$–$P$–$S$, repeats $P$ and the edge $PQ$.
+
+        Option B, $P$–$Q$–$R$–$S$–$P$, returns to $P$, so $P$ is repeated.
+
+        Option C uses $Q$–$S$, which is not an edge.
+
+        Option D, $P$–$Q$–$R$–$S$, uses edges $PQ$, $QR$, $RS$ and repeats no vertex, so it is a path.
+
+        $$\therefore\ \text{the path is option D.}$$
+      source_document_id: 493
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.9, "generated_note": "Generated working for MCQ; key D. Uses the definition of a path as having no repeated vertices.", "self_check": "Checked each option against the edge list read from the figure."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9598
+      confidence: medium
+      reason: Recall definition of path; check options for repeated vertices.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q3  key 2023-Oakhill-AT1-STD-Q3  id 6222
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Ratios and rates|Rates
+  home_source: computed
+  option A
+    latex: 100g packet for \$1.75
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: 50g packet for \$0.94
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: 250g packet for \$4.25
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: 375g packet for \$6.65
+    is_correct: 0
+    key_source: extracted
+  part -  id 9965
+    ordinal: 1
+    latex: |
+      Microwave popcorn is sold in four different sizes.
+
+      Which is the best buy?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-087
+      focus_area: Ratios and rates
+      dot_point: Compare unit prices to determine best buys
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Unit pricing and best buys
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9579
+      source: generated
+      latex: |
+        The best buy is the lowest price per gram. Compare the price per $100$ g.
+
+        $$\begin{aligned} A:&\ \dfrac{1.75}{100}\times 100 = \$1.75 \\ B:&\ \dfrac{0.94}{50}\times 100 = \$1.88 \\ C:&\ \dfrac{4.25}{250}\times 100 = \$1.70 \\ D:&\ \dfrac{6.65}{375}\times 100 \approx \$1.77 \end{aligned}$$
+
+        Option C has the lowest cost per $100$ g.
+
+        $$\therefore\ \text{the best buy is the 250 g packet for \$4.25.}$$
+      source_document_id: 493
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "Generated working for MCQ; key C.", "self_check": "Recomputed unit prices."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9546
+      confidence: high
+      reason: Routine best-buy comparison of unit prices.
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q4  key 2023-Oakhill-AT1-STD-Q4  id 6223
+  section: II
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Ratios and rates|Rates
+  home_source: computed
+  option A
+    latex: 120 beats per minute
+    is_correct: 1
+    key_source: extracted
+  option B
+    latex: 130 beats per minute
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: 140 beats per minute
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: 170 beats per minute
+    is_correct: 0
+    key_source: extracted
+  part -  id 9966
+    ordinal: 1
+    latex: |
+      20 year old Jo goes to the gym each day and exercises at a pulse rate of $60\%$ of her maximum heart rate. Calculate Jo’s exercise pulse rate.
+
+      Maximum heart rate (MHR)
+
+      $\text{MHR} = 220 - \text{age in years}$
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-008
+      focus_area: Formulas and equations
+      dot_point: Apply given formulas to solve problems in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-088
+      focus_area: Ratios and rates
+      dot_point: Use rates to solve problems in a variety of practical contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Rates
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9580
+      source: generated
+      latex: |
+        Using the given formula, Jo's maximum heart rate is
+
+        $$\begin{aligned} \text{MHR} &= 220 - 20 \\ &= 200 \end{aligned}$$
+
+        Her exercise pulse rate is $60\%$ of this.
+
+        $$\begin{aligned} 0.6 \times 200 &= 120 \end{aligned}$$
+
+        $$\therefore\ \text{Jo's exercise pulse rate is 120 beats per minute.}$$
+      source_document_id: 493
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.99, "generated_note": "Generated working for MCQ; key A.", "self_check": "Direct calculation."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7073
+      confidence: high
+      reason: Substitute into given MHR formula, then take a percentage.
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q5  key 2023-Oakhill-AT1-STD-Q5  id 6224
+  section: II
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: graph
+  home_topic: sub:11|Networks, paths and trees|Network concepts
+  home_source: computed
+  option A
+    latex: \exfigure{493_q5_1}
+    is_correct: 1
+    key_source: extracted
+    figure_key: 493_q5_1
+  option B
+    latex: \exfigure{493_q5_2}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 493_q5_2
+  option C
+    latex: \exfigure{493_q5_3}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 493_q5_3
+  option D
+    latex: \exfigure{493_q5_4}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 493_q5_4
+  figure 493_q5_1.png
+    page: 2
+    bbox: [120, 318, 233, 419]
+    png_path: figures/493_q5_1.png
+    tikz_path: tikz/tex/493_q5_1.tex
+    caption: option A: network of six vertices, house shape with centre vertex
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network option A: six filled vertices at the crop's positions, 10 straight edges (house shape plus centre vertex). 0.6pt black lines (scan grey made black). Option set drawn on the same frame and vertex grid as _2 and _4 (rule 7). Rules 1, 3, 6, 7.
+  figure 493_q5_2.png
+    page: 2
+    bbox: [358, 326, 471, 427]
+    png_path: figures/493_q5_2.png
+    tikz_path: tikz/tex/493_q5_2.tex
+    caption: option B: star network
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network option B: star with the centre joined to 5 outer vertices, using the same vertex layout as option A. 0.6pt lines. Rules 1, 3, 7.
+  figure 493_q5_3.png
+    page: 2
+    bbox: [120, 454, 239, 555]
+    png_path: figures/493_q5_3.png
+    tikz_path: tikz/tex/493_q5_3.tex
+    caption: option C: network with multiple edges
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network option C with multiple edges: straight spokes and the horizontal edges. Each pair of curved double edges (top-left, top-right, left side, right side, bottom) is drawn as bent arcs fitted to the crop; I reduced the outer arcs' bend in round 2. Some colour is left on the overlay because the arc curvature is close to the crop's but not identical. Rules 1, 3, 7.
+  figure 493_q5_4.png
+    page: 2
+    bbox: [358, 447, 471, 547]
+    png_path: figures/493_q5_4.png
+    tikz_path: tikz/tex/493_q5_4.tex
+    caption: option D: dense network
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network option D, complete graph K6: 14 straight edges plus the left-right edge drawn as an arc above the centre vertex, as in the crop. Round 2 flipped the arc to bow upwards. The arc peaks slightly lower than the crop's. Rules 1, 3, 7.
+  part -  id 9967
+    ordinal: 1
+    latex: |
+      In a club meeting, 5 regular members and the club president are in attendance.
+
+      The club rules state that each regular member must shake the hand of \textbf{two} other regular members, and the club president must shake everyone’s hand.
+
+      Which network diagram can be used to represent the handshakes between group members?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-073
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: vertex, edge, degree, directed networks and weighted edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-075
+      focus_area: Networks, paths and trees
+      dot_point: Construct a network diagram to represent information from a given table or map, showing weighted and directed edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Drawing networks from tables and maps
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9581
+      source: generated
+      latex: |
+        Represent people as vertices and handshakes as edges.
+
+        Each of the 5 regular members shakes hands with exactly two other regular members, so the regular members form a single loop of 5 (each has 2 edges among themselves).
+
+        The president shakes hands with all 5 members, so the president's vertex is joined to every other vertex (degree 5).
+
+        Then each regular member has degree $2+1=3$, and there is one handshake per pair (no repeated edges).
+
+        Option A has an outer loop through the 5 regular members, with the centre vertex joined to all 5. Each outer vertex has degree 3 and the centre has degree 5.
+
+        Option B has regular members of degree 1, option C has repeated edges (double handshakes), and in option D the regular members have too many handshakes.
+
+        $$\therefore\ \text{the diagram is option A.}$$
+      source_document_id: 493
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.93, "generated_note": "Generated working for MCQ; key A.", "self_check": "Verified degrees in option A: centre 5, top vertex 3, other four outer vertices 3; outer cycle has 5 vertices."}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 7176
+      confidence: high
+      reason: Model handshake conditions as network; check degrees of options.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: PR
+      source: model
+
+## Q6  key 2023-Oakhill-AT1-STD-Q6  id 6225
+  section: II
+  question_type: short
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Ratios and rates|Rates
+  home_source: computed
+  solution 9483
+    source: extracted
+    latex: |
+      Since $4$ pages take $24$ minutes, $1$ page takes
+      $$\dfrac{24}{4} = 6 \text{ minutes}$$
+      So $7$ pages take
+      $$7\times 6 = 42 \text{ minutes}$$
+      $$\therefore\ \text{It takes } 42 \text{ minutes.}$$
+    source_document_id: 493
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"format_note": "Rubric written by us (source had none)."}
+  part -  id 9968
+    ordinal: 1
+    latex: |
+      Harper can type 4 pages of text in 24 minutes.
+
+      At the same rate, how many minutes will it take Harper to type 7 pages?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-088
+      focus_area: Ratios and rates
+      dot_point: Use rates to solve problems in a variety of practical contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Rates
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9621
+      confidence: high
+      reason: One-step unitary rate calculation.
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q7  key 2023-Oakhill-AT1-STD-Q7  id 6226
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Ratios and rates|Ratios
+  home_source: computed
+  solution 9484
+    source: extracted
+    latex: |
+      Write both ratios with the same number of pupils (LCM of $9$ and $12$ is $108$).
+      $$\begin{aligned} M:P &= 4:9 = 48:108 \\ P:F &= 12:5 = 108:45 \end{aligned}$$
+      So
+      $$M:F = 48:45 = 16:15$$
+      $$\therefore\ M:F = 16:15$$
+    source_document_id: 493
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Writes both ratios with a common number of pupils, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us (source had none)."}
+  part -  id 9969
+    ordinal: 1
+    latex: |
+      At a high school the ratio of male teachers to pupils is $4:9$, whilst the ratio of pupils to female teachers is $12:5$.
+
+      Find the ratio of male teachers to female teachers.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-073
+      focus_area: Ratios and rates
+      dot_point: Express a ratio in simplest form
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-076
+      focus_area: Ratios and rates
+      dot_point: Solve practical problems involving ratios
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Ratios
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7127
+      confidence: medium
+      reason: Combine two ratios via common pupil term, then simplify.
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q8  key 2023-Oakhill-AT1-STD-Q8  id 6227
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Ratios and rates|Rates
+  home_source: computed
+  solution 9485
+    source: extracted
+    latex: |
+      Convert the time to minutes: $2$ hours $= 120$ minutes.
+
+      Number of drops:
+      $$\dfrac{600}{0.05} = 12\,000 \text{ drops}$$
+      Drip rate:
+      $$\dfrac{12\,000}{120} = 100 \text{ drops/min}$$
+      $$\therefore\ \text{The drip rate is } 100 \text{ drops/min.}$$
+    source_document_id: 493
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Finds the number of drops or converts time to minutes, or equivalent merit"]]
+    meta_json: {"format_note": "Source line '1200 drops in 120 min' is inconsistent with 600 ÷ 0.05 = 12 000 and was corrected; the answer 100 drops/min is unchanged. Rubric written by us."}
+  part -  id 9970
+    ordinal: 1
+    latex: A nurse needed 600 mL of fluid to flow through in 2 hours. If 1 drop $= 0.05$ mL, find the drip rate, drops/min.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-085
+      focus_area: Ratios and rates
+      dot_point: Convert between rates
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-088
+      focus_area: Ratios and rates
+      dot_point: Use rates to solve problems in a variety of practical contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Rates
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7130
+      confidence: medium
+      reason: Two-step rate: convert volume to drops and hours to minutes.
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q9  key 2023-Oakhill-AT1-STD-Q9  id 6228
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Ratios and rates|Ratios
+  home_source: computed
+  solution 9486
+    source: extracted
+    latex: |
+      Capture-recapture: the proportion tagged in the second sample equals the proportion tagged in the whole population.
+      $$\begin{aligned} \text{Population} &= \dfrac{144 \times 15}{10} \\ &= 216 \text{ ducks} \end{aligned}$$
+      $$\therefore\ \text{The estimate is } 216 \text{ ducks.}$$
+    source_document_id: 493
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Sets up the capture-recapture proportion, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us."}
+  part -  id 9971
+    ordinal: 1
+    latex: Audrey is concerned about the duck population in the local community. She collects 144 ducks and tags them. A couple of months later she collects 15 ducks and found 10 of them were tagged. Using the capture-recapture method, what is her estimate of the duck population?
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-077
+      focus_area: Ratios and rates
+      dot_point: Solve practical ratio problems involving the capture-recapture technique
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Capture-recapture
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7060
+      confidence: high
+      reason: Standard capture-recapture proportion applied directly.
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q10  key 2023-Oakhill-AT1-STD-Q10  id 6229
+  section: II
+  question_type: extended
+  stem_latex: |
+    There are six towns labelled $A$, $B$, $C$, $D$, $E$ and $F$. The network below shows the road connections and distances between these towns in kilometres.
+
+    \exfigure{493_q10_1}
+  marks_total: 4
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Network concepts
+  home_source: computed
+  figure 493_q10_1.png
+    page: 4
+    bbox: [115, 98, 320, 240]
+    png_path: figures/493_q10_1.png
+    tikz_path: tikz/tex/493_q10_1.tex
+    caption: network of towns A to F with distances
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Weighted network of towns A to F: small vertex dots, 8 straight edges, italic vertex letters and edge weights (90, 110, 130, 140, 110, 110, 60, 70) at the crop's positions, all clear of the lines. Weights are set in the house maths font instead of the crop's sans font. Rules 1, 2, 3, 11, 19.
+  part i  id 9972
+    ordinal: 1
+    latex: List the vertices with even degrees.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-073
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: vertex, edge, degree, directed networks and weighted edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9487
+      source: extracted
+      latex: |
+        The degree of a vertex is the number of roads meeting at it. The vertices with even degree are
+        $$A,\ C,\ E,\ F$$
+      source_document_id: 493
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Lists some of the even vertices, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9598
+      confidence: high
+      reason: Count edges at each vertex from diagram.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part ii  id 9973
+    ordinal: 2
+    latex: |
+      Hannah is an engineer who plans to inspect all the roads in this network.
+
+      She will start at $D$ and inspect each road only once.
+    needs_review: 0
+  part α  id 9974
+    parent_part_id: 9973
+    ordinal: 3
+    latex: Which town must Hannah finish at?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-073
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: vertex, edge, degree, directed networks and weighted edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.5
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-076
+      focus_area: Networks, paths and trees
+      dot_point: Solve problems involving network diagrams in a variety of practical contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.5
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9488
+      source: extracted
+      latex: |
+        A path using every road once, starting at $D$, must end at the other odd vertex.
+        $$\therefore\ \text{Hannah must finish at } B.$$
+      source_document_id: 493
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9579
+      confidence: low
+      reason: Apply odd-vertex rule for trails using each edge once.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part β  id 9975
+    parent_part_id: 9973
+    ordinal: 4
+    latex: Find a possible route.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-076
+      focus_area: Networks, paths and trees
+      dot_point: Solve problems involving network diagrams in a variety of practical contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.5
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-077
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: path, tree, spanning tree and minimum spanning tree
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.5
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Drawing networks from tables and maps
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9489
+      source: extracted
+      latex: |
+        A possible route is
+        $$D \to F \to E \to A \to B \to C \to D \to E \to B$$
+      source_document_id: 493
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us. Arrows in the route are path notation, kept as D F E A B C D E B in source; shown with arrows between towns."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7022
+      confidence: medium
+      reason: Construct a trail covering every edge exactly once.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q11  key 2023-Oakhill-AT1-STD-Q11  id 6230
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Ratios and rates|Rates
+  home_source: computed
+  solution 9490
+    source: extracted
+    latex: |
+      Water needed per $85$ g of crystals is $250$ mL, so for $10.2$ kg $= 10\,200$ g we multiply by $\dfrac{10\,200}{85} = 120$.
+      $$250 \times 120 = 30\,000 \text{ mL} = 30 \text{ L}$$
+      The urn boils $10$ L at a time, so
+      $$\dfrac{30}{10} = 3 \text{ batches}$$
+      Time:
+      $$3 \times 8 = 24 \text{ minutes}$$
+      $$\therefore\ \text{It takes } 24 \text{ minutes.}$$
+    source_document_id: 493
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Finds the volume of water needed, or equivalent merit"], [1, "Finds the scale factor $120$, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us."}
+  part -  id 9976
+    ordinal: 1
+    latex: |
+      Eliza is attempting to fill her bathtub with jelly.
+
+      In order to dissolve the jelly crystals, she must mix 250 mL of boiling water with every 85 g of crystals.
+
+      Eliza can boil up to 10 L at a time in her urn and it takes 8 minutes to boil.
+
+      Eliza estimates it will take 10.2 kg of crystals to fill the bath. How long will it take to boil enough water to dissolve this these of crystals?
+    marks: 3
+    needs_review: 0
+    tag 2024 S11-054
+      focus_area: Applications of measurement
+      dot_point: Identify and convert between the metric units of capacity: millilitres (mL), litres (L), kilolitres (kL) and megalitres (ML)
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-056
+      focus_area: Applications of measurement
+      dot_point: Identify and convert between the metric units of mass: milligrams (mg), grams (g), kilograms (kg) and tonnes (t)
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-088
+      focus_area: Ratios and rates
+      dot_point: Use rates to solve problems in a variety of practical contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Rates
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Ratios
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7038
+      confidence: medium
+      reason: Scale rate with unit conversion, then count batches and time.
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q12  key 2023-Oakhill-AT1-STD-Q12  id 6231
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Network concepts
+  home_source: computed
+  solution 9491
+    source: extracted
+    latex: \exfigure{493_q12_s1}
+    source_document_id: 493
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Draws some correct directed weighted edges, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us."}
+  figure 493_q12_1.png
+    page: 5
+    bbox: [115, 105, 350, 215]
+    png_path: figures/493_q12_1.png
+    caption: FROM/TO table of directed weights
+    redraw_status: table
+    redraw_class: table
+    redraw_notes: FROM/TO table of directed weights, transcribed rather than drawn (rule 8). On the paper TO sits above the column headers and FROM runs rotated down the left side. Here they go in a diagonally split corner cell, \diag{FROM}{TO}. Empty entries are dashes, as on the paper.
+    redraw_table_id: Tf3527
+  figure 493_q12_2.png
+    page: 5
+    bbox: [80, 223, 458, 414]
+    png_path: figures/493_q12_2.png
+    tikz_path: tikz/tex/493_q12_2.tex
+    caption: vertices A, B, C, D, E to be joined
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Five vertex dots A–E with bold italic maths labels placed at the crop's pixel positions and size. Overlay ≥0.98. Rules 1, 2, 19.
+  figure 493_q12_s1.png
+    page: 17
+    bbox: [85, 218, 495, 428]
+    png_path: figures/493_q12_s1.png
+    tikz_path: tikz/tex/493_q12_s1.tex
+    caption: solution sketch: completed directed weighted network (handwritten)
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Handwritten solution redrawn as a clean directed weighted network on the same vertex positions: B→A 5, C→B 4, B→C 5, C→D 8, E→C 6, C→E 4, D→E 6, B→E 4 and a loop at E with weight 3. Edges are smooth Bézier curves that follow the sketch's routes, in black at 0.6pt, with filled Latex arrowheads placed partway along each edge where the sketch has its chevrons. Weights are typeset beside each edge, clear of the lines. The low overlay comes from the handwritten digits and arrow chevrons and the thick scanned pen strokes. Vertices, edge routes and label positions line up. Rules 1, 3, 4, 6, 10, 11, 17.
+  part -  id 9977
+    ordinal: 1
+    latex: |
+      Using the vertices already drawn, complete the \textbf{directed weighted} network that is represented by the following table.
+
+      \exfigure{493_q12_1}
+
+      \exfigure{493_q12_2}
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-075
+      focus_area: Networks, paths and trees
+      dot_point: Construct a network diagram to represent information from a given table or map, showing weighted and directed edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Drawing networks from tables and maps
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7079
+      confidence: high
+      reason: Transfer table entries onto given vertices as directed edges.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q13  key 2023-Oakhill-AT1-STD-Q13  id 6232
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Ratios and rates|Rates
+  home_source: computed
+  solution 9492
+    source: extracted
+    latex: |
+      Cost over $5$ years for each brand:
+      $$\begin{aligned} \text{Brand A: } 421 \times 0.45 \times 5 &= \$947.25 \\ \text{Brand B: } 385 \times 0.45 \times 5 &= \$866.25 \end{aligned}$$
+      Saving:
+      $$\begin{aligned} 947.25 - 866.25 &= \$81 \end{aligned}$$
+      $$\therefore\ \text{Adam saves } \$81.$$
+    source_document_id: 493
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Finds the cost for one brand, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us."}
+  part -  id 9978
+    ordinal: 1
+    latex: |
+      Adam wishes to buy a television. There are two options that he is looking at.
+
+      1. Brand A: Energy consumption of 421 kWh/year
+
+      2. Brand B: Energy consumption of 385 kWh/year.
+
+      Given that the cost of electricity is 45 cents/kWh, calculate the amount Adam will save over 5 years if he chooses Brand B over Brand A.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-092
+      focus_area: Ratios and rates
+      dot_point: Apply units of energy to calculate kilowatt hours and solve problems involving the consumption of energy
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Energy and power
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7143
+      confidence: high
+      reason: Two energy cost calculations over 5 years, then difference.
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q14  key 2023-Oakhill-AT1-STD-Q14  id 6233
+  section: II
+  question_type: extended
+  stem_latex: |
+    A network diagram below represents the distances, in kilometres, between petrol stations in the city.
+
+    \exfigure{493_q14_1}
+  marks_total: 4
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  figure 493_q14_1.png
+    page: 6
+    bbox: [95, 100, 405, 295]
+    png_path: figures/493_q14_1.png
+    tikz_path: tikz/tex/493_q14_1.tex
+    caption: weighted network on vertices A to L
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Weighted network on vertices A to L with all 22 edges and weights at the crop's positions. Labels are maths italic and the weights are typeset. In round 2 the DG weight 5 and the H and I labels were moved to match the crop. Rules 1, 2, 3, 11, 19.
+  part i  id 9979
+    ordinal: 1
+    latex: |
+      In the space below, draw the minimum spanning tree for this network diagram.
+
+      \exfigure{493_q14_2}
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-078
+      focus_area: Networks, paths and trees
+      dot_point: Determine the minimum spanning tree of a network with weighted edges, using any method
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9493
+      source: extracted
+      latex: \exfigure{493_q14_s1}
+      source_document_id: 493
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Draws a spanning tree with some correct edges, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us."}
+    figure 493_q14_2.png
+      page: 6
+      bbox: [105, 325, 470, 562]
+      png_path: figures/493_q14_2.png
+      tikz_path: tikz/tex/493_q14_2.tex
+      caption: vertices A to L for drawing the minimum spanning tree
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Twelve vertex dots A to L with bold italic labels at the crop's positions. The remaining blue is anti-aliasing at the label edges. Rules 1, 2, 19.
+    figure 493_q14_s1.png
+      page: 18
+      bbox: [90, 315, 480, 552]
+      png_path: figures/493_q14_s1.png
+      tikz_path: tikz/tex/493_q14_s1.tex
+      caption: solution sketch: minimum spanning tree drawn on the vertices (handwritten)
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Minimum spanning tree redrawn cleanly on the crop's vertex positions. Edges: AB 1, BC 3, BH 2, HI 5, IJ 1, JK 4, GK 2, KL 3, LF 2, FE 3, ED 2, total 28, which agrees with the solution. Straight 0.6pt black edges and typeset weights. The overlay is low only because of the handwritten digits (the AB '1' is very faint in the scan) and the sketch's slightly wavy pen lines. Rules 1, 3, 6, 10, 17, 18.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6967
+      confidence: high
+      reason: Standard Prim/Kruskal minimum spanning tree construction.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part ii  id 9980
+    ordinal: 2
+    latex: What is the length of the minimum spanning tree?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-078
+      focus_area: Networks, paths and trees
+      dot_point: Determine the minimum spanning tree of a network with weighted edges, using any method
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9494
+      source: extracted
+      latex: |
+        The length of the minimum spanning tree is the sum of its edges.
+        $$\therefore\ 28 \text{ km}$$
+      source_document_id: 493
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7136
+      confidence: medium
+      reason: Sum edge weights of tree found in previous part.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part iii  id 9981
+    ordinal: 3
+    latex: Find the shortest path from $A$ to $F$.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-080
+      focus_area: Networks, paths and trees
+      dot_point: Identify a shortest path on a network diagram with no more than 10 vertices
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shortest paths
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9495
+      source: extracted
+      latex: |
+        The shortest path from $A$ to $F$ is
+        $$A \to I \to J \to L \to F$$
+      source_document_id: 493
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us. Source wrote the path as A I J L F; shown with arrows between towns."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6964
+      confidence: high
+      reason: Shortest path search in moderately sized weighted network.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q15  key 2023-Oakhill-AT1-STD-Q15  id 6234
+  section: II
+  question_type: extended
+  stem_latex: A young couple buys a rectangular block of land which measures 28 metres by 36 metres.
+  marks_total: 5
+  page_start: 7
+  page_end: 7
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Ratios and rates|Ratios
+  home_source: computed
+  part i  id 9982
+    ordinal: 1
+    latex: In the space below, use a scale of $1:400$ to draw a scaled diagram of this block of land.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-079
+      focus_area: Ratios and rates
+      dot_point: Construct scale drawings, with and without using digital tools
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Scale drawings and building plans
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9496
+      source: extracted
+      latex: |
+        The scale $1:400$ means $1 \text{ cm}$ represents $400 \text{ cm} = 4 \text{ m}$.
+
+        Dimensions on the diagram:
+        $$\dfrac{28}{4} = 7 \text{ cm}, \qquad \dfrac{36}{4} = 9 \text{ cm}$$
+        $$\therefore\ \text{The land is drawn as a } 7 \text{ cm} \times 9 \text{ cm rectangle.}$$
+        \exfigure{493_q15_s1}
+      source_document_id: 493
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds one correct scaled dimension, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us."}
+    figure 493_q15_s1.png
+      page: 19
+      bbox: [40, 105, 475, 320]
+      png_path: figures/493_q15_s1.png
+      tikz_path: tikz/tex/493_q15_s1.tex
+      caption: solution sketch: scale drawing 7 cm by 9 cm with working (handwritten)
+      redraw_status: ok
+      redraw_class: geometry
+      redraw_notes: Scale drawing redrawn as a clean 9 cm by 7 cm rectangle, true size at 200 dpi as in the crop, labelled '7 cm' and '9 cm' inside the left and bottom sides as in the crop. The handwritten working on the left ('1 cm : 400 cm', '1 cm : 4 m', '∴ land 7×9 cm') was dropped under rule 17 because the solution text already states it. The tool aligns the two images by their ink, so with the working removed the rectangles no longer line up, which is why the overlay score is so low. In the side-by-side the rectangle matches the crop's size and position. Rules 1, 2, 6, 17.
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9684
+      confidence: high
+      reason: Apply scale to two dimensions and draw rectangle.
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part ii  id 9983
+    ordinal: 2
+    latex: During a storm, 25 mm of rain fell on this block of land. Calculate the volume of water, giving your answer in litres.
+    marks: 3
+    needs_review: 0
+    tag 2024 S11-055
+      focus_area: Applications of measurement
+      dot_point: Identify and convert between units of volume and capacity, using 1 cm^3=1 mL, 1 m^3=1000 L=1 kL and 1000 kL=1 ML
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-082
+      focus_area: Ratios and rates
+      dot_point: Calculate the volume of rainfall over an area using V=Ah, where V is the volume, A is the area of land and h is the depth of rain, from a site plan, an aerial photograph, a radial survey or a map that includes a scale
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Rainfall and catchment
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Units of measurement
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9497
+      source: extracted
+      latex: |
+        Area of the block:
+        $$A = 28 \times 36 = 1008 \text{ m}^2$$
+        Depth of rain:
+        $$25 \text{ mm} = \dfrac{25}{1000} = 0.025 \text{ m}$$
+        Volume:
+        $$\begin{aligned} V &= 1008 \times 0.025 \\ &= 25.2 \text{ m}^3 \\ &= 25.2 \text{ kL} \\ &= 25\,200 \text{ L} \end{aligned}$$
+        $$\therefore\ \text{The volume is } 25\,200 \text{ L.}$$
+      source_document_id: 493
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Finds the volume in cubic metres, or equivalent merit"], [1, "Finds the area or converts the depth to metres, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7195
+      confidence: medium
+      reason: Area times rainfall depth with mm, m³, litre conversions.
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q16  key 2023-Oakhill-AT1-STD-Q16  id 6235
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 7
+  page_end: 7
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Ratios and rates|Rates
+  home_source: computed
+  solution 9498
+    source: extracted
+    latex: |
+      Distance $=$ speed $\times$ time for each route.
+      $$\begin{aligned} \text{Route A: } D &= 85 \times 1\dfrac{55}{60} \approx 162.92 \text{ km} \\ \text{Route B: } D &= 74 \times 2\dfrac{10}{60} \approx 160.33 \text{ km} \end{aligned}$$
+      Route B is shorter, so it uses less fuel.
+      $$\begin{aligned} \text{Fuel} &= \dfrac{160.33 \times 9.3}{100} \\ &\approx 14.91 \text{ L} \end{aligned}$$
+      $$\therefore\ \text{The minimum fuel is about } 14.91 \text{ L.}$$
+    source_document_id: 493
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Finds both distances and chooses Route B, or equivalent merit"], [1, "Finds one distance, or equivalent merit"]]
+    meta_json: {"format_note": "Rubric written by us."}
+  part -  id 9984
+    ordinal: 1
+    latex: |
+      Greg plans to drive from Sydney to Newcastle and can choose between two routes:
+
+      \begin{itemize}
+      \item Route A would take 1 hour and 55 minutes at an average speed of 85 km/h.
+      \item Route B would take 2 hours and 10 minutes at an average speed of 74 km/h.
+      \end{itemize}
+
+      Greg’s car has a fuel consumption rate of 9.3 L/100 km.
+
+      What is the minimum amount of fuel Greg could use to complete this trip?
+    marks: 3
+    needs_review: 0
+    tag 2024 S11-003
+      focus_area: Formulas and equations
+      dot_point: Calculate distance, speed and time (with change of units of measurement as required) and stopping distances of vehicles using speed=(distance)/(time) and stopping distance = reaction distance + braking distance
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-090
+      focus_area: Ratios and rates
+      dot_point: Examine fuel consumption rates to compare the efficiency of vehicles
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Fuel consumption
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Speed, distance and time
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 7144
+      confidence: medium
+      reason: Compare route distances from mixed time units, choose, then fuel rate.
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 4
+      wm_ai: PR
+      source: model

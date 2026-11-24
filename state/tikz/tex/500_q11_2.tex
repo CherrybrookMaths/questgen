@@ -1,0 +1,46 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+  \coordinate (S) at (63,145);
+  \coordinate (A) at (205,42);
+  \coordinate (E) at (510,42);
+  \coordinate (D) at (328,125);
+  \coordinate (T) at (742,117);
+  \coordinate (C) at (205,227);
+  \coordinate (B) at (577,215);
+  \draw[mid=0.6] (S) -- (A);
+  \draw[mid=0.65] (S) -- (D);
+  \draw[mid=0.55] (S) -- (C);
+  \draw[mid=0.5] (A) -- (E);
+  \draw[mid=0.6] (D) -- (A);
+  \draw[mid=0.55] (D) -- (E);
+  \draw[mid=0.5] (D) -- (C);
+  \draw[mid=0.5] (C) -- (B);
+  \draw[mid=0.6] (B) -- (D);
+  \draw[mid=0.5] (E) -- (B);
+  \draw[mid=0.55] (E) -- (T);
+  \draw[mid=0.55] (B) -- (T);
+  \foreach \p in {S,A,E,D,T,C,B} \fill (\p) circle (3.8);
+  \node[font=\scriptsize] at (205,26) {$A$};
+  \node[font=\scriptsize] at (507,26) {$E$};
+  \node[font=\scriptsize] at (330,108) {$D$};
+  \node[font=\scriptsize] at (740,99) {Sink};
+  \node[font=\scriptsize] at (45,163) {Source};
+  \node[font=\scriptsize] at (205,246) {$C$};
+  \node[font=\scriptsize] at (577,232) {$B$};
+  \node[font=\scriptsize] at (110,90) {10};
+  \node[font=\scriptsize] at (216,116) {20};
+  \node[font=\scriptsize] at (130,208) {10};
+  \node[font=\scriptsize] at (353,25) {15};
+  \node[font=\scriptsize] at (291,77) {10};
+  \node[font=\scriptsize] at (430,95) {10};
+  \node[font=\scriptsize] at (298,171) {10};
+  \node[font=\scriptsize] at (390,241) {10};
+  \node[font=\scriptsize] at (420,145) {10};
+  \node[font=\scriptsize] at (561,127) {10};
+  \node[font=\scriptsize] at (637,64) {20};
+  \node[font=\scriptsize] at (673,177) {20};
+\end{tikzpicture}
+\end{document}

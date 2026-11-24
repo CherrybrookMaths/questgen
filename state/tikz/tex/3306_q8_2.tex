@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.01302cm,y=-0.01312cm]
+\coordinate (A) at (52,185);\coordinate (B) at (325,73);\coordinate (C) at (745,73);
+\coordinate (H) at (515,204);\coordinate (D) at (298,284);\coordinate (E) at (600,358);
+\coordinate (F) at (443,472);\coordinate (G) at (748,472);\coordinate (P) at (985,238);
+\def\dam{(1115,105)(1055,114)(1018,142)(998,190)(986,240)(977,300)(985,360)(1002,420)(1042,460)(1115,478)}
+\begin{scope}
+\clip plot[smooth] coordinates{\dam} -- (1125,478) -- (1125,105) -- cycle;
+\foreach \yy in {112,126,...,476} \draw[black!50] plot[domain=965:1125,samples=60,smooth] (\x,{\yy+3.5*sin(18*(\x-965))});
+\end{scope}
+\draw plot[smooth] coordinates{\dam};
+\draw[fill=white] (1036,246) rectangle (1068,268);
+\draw[fill=white] (1044,240) rectangle (1060,262);
+\draw[fill=white] (1022,252) rectangle (1036,262);
+\draw (1068,252)--(1076,252)--(1076,264)--(1068,264);
+\node[font=\small] at (1030,218) {\halo{pump}};
+\node[font=\small] at (1083,411) {\halo{dam}};
+\foreach \a/\b in {A/B,A/D,B/C,B/H,B/D,H/C,H/D,H/F,H/E,C/E,C/G,C/P,D/F,F/E,E/G,F/G,G/P} \draw[aux] (\a)--(\b);
+\foreach \v in {A,B,C,H,D,E,F,G,P} \fill (\v) circle[radius=9];
+\begin{scope}[every node/.style={font=\small}]
+\node at (180,108) {70};\node at (190,215) {80};\node at (527,48) {40};
+\node at (435,118) {50};\node at (618,118) {70};\node at (285,182) {40};
+\node at (385,228) {80};\node at (585,272) {120};\node at (642,222) {70};
+\node at (778,265) {60};\node at (888,142) {90};\node at (848,338) {80};
+\node at (455,325) {70};\node at (338,375) {90};\node at (518,382) {40};
+\node at (670,382) {50};\node at (585,450) {80};
+\node[font=\small\bfseries] at (520,163) {house};
+\end{scope}
+\end{tikzpicture}
+\end{document}

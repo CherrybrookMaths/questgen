@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (T) at (432,17); \coordinate (L) at (20,618); \coordinate (R) at (978,862);
+\draw[line join=round] (T) -- (L) -- (R) -- cycle;
+\coordinate (P) at ($(T)!{(313-17)/601}!(L)$);
+\coordinate (Q) at ($(T)!{(386-17)/845}!(R)$);
+\coordinate (S) at ($(L)!{(478-20)/958}!(R)$);
+\draw[line join=round] (P) -- (365,456) -- (526,481) -- (Q);
+\draw (526,481) -- (S);
+\tikzset{lab/.style={align=center,font=\large\bfseries,inner sep=0pt}}
+\node[lab] at (432,313) {Nirimba Fields\\[2pt]North};
+\node[lab] at (277,555) {Nirimba Fields\\[2pt]West};
+\node[lab] at (671,645) {Nirimba Fields\\[2pt]East};
+\end{tikzpicture}
+\end{document}

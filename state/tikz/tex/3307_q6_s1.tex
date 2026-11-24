@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\filldraw[shade, even odd rule]
+  plot[smooth cycle, tension=0.55] coordinates {(218,60) (290,52) (355,42) (372,28) (405,26) (440,42) (460,88) (492,120) (548,132) (570,160) (582,210) (598,255) (612,268) (622,312) (662,345) (702,372) (738,410) (768,428) (762,470) (738,492) (720,522) (692,560) (665,585) (632,612) (620,655) (602,715) (550,725) (520,735) (490,755) (458,770) (418,774) (382,760) (350,740) (316,712) (272,693) (222,682) (202,658) (188,620) (172,590) (140,563) (102,530) (90,500) (93,420) (78,378) (45,335) (30,290) (32,245) (48,210) (85,185) (138,175) (170,152) (202,128) (212,105)}
+  plot[smooth cycle, tension=0.6] coordinates {(312,355) (335,342) (362,335) (392,348) (420,378) (424,412) (420,443) (408,460) (370,462) (340,440) (320,410) (310,380)};
+\coordinate (A) at (313,705); \coordinate (B) at (600,420); \coordinate (C) at (212,225);
+\draw[aux,->] (A) -- (B);
+\draw[aux,->] (B) -- (C);
+\draw[aux,->] (C) -- (A);
+% bearing construction lines
+\draw (A) -- (313,520);
+\draw (B) -- (470,420);
+\pgfmathsetmacro\aAB{atan2(420-705,600-313)}  % direction A->B (y down)
+\pgfmathsetmacro\aBA{atan2(705-420,313-600)}
+\pgfmathsetmacro\aBC{atan2(225-420,212-600)+360}
+\draw (A) ++(270:60) arc[start angle=270, end angle=\aAB+360, radius=60];
+\draw (B) ++(\aBA:62) arc[start angle=\aBA, end angle=180, radius=62];
+\draw (B) ++(180:72) arc[start angle=180, end angle=\aBC, radius=72];
+\pgfmathsetmacro\bA{(270+\aAB+360)/2}
+\pgfmathsetmacro\bBa{(\aBA+180)/2}
+\pgfmathsetmacro\bBc{(180+\aBC)/2}
+\node[inner sep=0pt] at ($(A)+(\bA:88)$) {\halo{$54^\circ$}};
+\node[inner sep=0pt] at ($(B)+(\bBa:92)$) {\halo{$36^\circ$}};
+\node[inner sep=0pt] at ($(B)+(\bBc:105)$) {\halo{$39^\circ$}};
+\draw[->] (717,205) -- (717,110);
+\node[inner sep=0pt,font=\large] at (720,88) {North};
+\tikzset{pl/.style={inner sep=0pt,font=\large}}
+\node[pl] at (188,203) {\halo{$C$}};
+\node[pl] at (630,420) {\halo{$B$}};
+\node[pl] at (300,745) {$A$};
+\node[pl] at (402,262) {\halo{\textbf{170\,m}}};
+\node[pl] at (510,603) {\halo{\textbf{150\,m}}};
+\node[pl] at (232,835) {\textbf{Start/Finish}};
+\end{tikzpicture}
+\end{document}

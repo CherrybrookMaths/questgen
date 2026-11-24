@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (530,598);
+\coordinate (A) at (530,140); \coordinate (B) at (905,720); \coordinate (C) at (678,875);
+\coordinate (D) at (418,830); \coordinate (E) at (218,598);
+% lake (blue on the paper -> grey)
+\filldraw[shade, even odd rule, line width=0.6pt]
+  plot[smooth cycle, tension=0.6] coordinates {(388,525) (410,505) (440,495) (460,462) (500,452) (530,442) (560,450) (572,482) (606,492) (617,530) (632,565) (648,592) (692,608) (695,640) (668,662) (642,682) (632,712) (620,730) (598,742) (560,752) (528,750) (508,735) (470,720) (455,700) (438,678) (412,660) (406,630) (410,592) (400,560) (386,540)}
+  (521,588) circle[radius=16];
+\draw[line join=round] (A) -- (B) -- (C) -- (D) -- (E) -- cycle;
+\draw[->] (O) -- (530,48);
+\draw[->] (O) -- ($(O)!1.35!(B)$);
+\draw[->] (O) -- ($(O)!1.40!(C)$);
+\draw[->] (O) -- ($(O)!1.36!(D)$);
+\draw[->] (O) -- (110,598);
+\tikzset{pl/.style={inner sep=0pt,font=\large}, sm/.style={inner sep=0pt,font=\normalsize}}
+\node[sm] at (533,25) {North};
+\node[pl] at (560,143) {$A$};
+\node[pl] at (933,710) {$B$};
+\node[pl] at (716,893) {$C$};
+\node[pl] at (432,862) {$D$};
+\node[pl] at (198,575) {$E$};
+\node[pl] at (572,585) {\halo{$O$}};
+\node[sm,anchor=west] at (541,378) {280\,m};
+\node[sm] at (343,570) {200\,m};
+\node[sm] at (760,641) {220\,m};
+\node[sm] at (497,773) {\halo{150\,m}};
+\node[sm] at (674,773) {190\,m};
+\node[sm] at (1088,770) {$105^\circ$};
+\node[sm] at (767,1017) {$150^\circ$};
+\node[sm] at (358,958) {$200^\circ$};
+\node[sm] at (62,604) {$270^\circ$};
+\node[inner sep=0pt,font=\huge] at (1103,100) {Nirimba Fields};
+\node[inner sep=0pt,font=\huge] at (1107,215) {North};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{13}\selectfont]
+\def\bnd{(148,297) .. controls (220,304) and (270,312) .. (298,312) .. controls (330,312) and (345,268) .. (372,232) .. controls (400,193) and (420,168) .. (443,163)}
+\path[shade] (148,297) -- (148,163) arc[start angle=180,end angle=360,radius=147] -- (443,163) .. controls (420,168) and (400,193) .. (372,232) .. controls (345,268) and (330,312) .. (298,312) .. controls (270,312) and (220,304) .. (148,297) -- cycle;
+\path[shade dots] (148,533) -- \bnd -- (443,533) -- cycle;
+\draw \bnd;
+\draw (148,533) -- (148,163) arc[start angle=180,end angle=360,radius=147] -- (443,533) -- cycle;
+\draw[aux] (148,163) -- (295,163);
+\draw[aux,<->] (295,163) -- (443,163); \draw (295,155) -- (295,171);
+\draw[aux,<->] (298,312) -- (298,533);
+\draw[aux,<->] (120,297) -- (120,533); \draw (110,297)--(130,297); \draw (110,533)--(130,533);
+\draw[aux,<->] (475,163) -- (475,533); \draw (465,163)--(485,163); \draw (465,533)--(485,533);
+\draw[aux,<->] (148,562) -- (443,562); \draw (148,552)--(148,572); \draw (443,552)--(443,572);
+\draw (222,523)--(222,543); \draw (370,523)--(370,543);
+\draw (148,511)--(170,511)--(170,533); \draw (298,511)--(318,511)--(318,533); \draw (443,511)--(421,511)--(421,533);
+\node at (318,92) {Lake}; \node at (350,148) {100 m};
+\node at (250,410) {\halo{150 m}}; \node at (75,410) {160 m}; \node at (516,348) {250 m}; \node at (295,582) {200 m};
+\node[align=center,font=\fontsize{11}{12}\selectfont] at (368,472) {\halo{Grassed}\\\halo{section}};
+\node[align=center,font=\fontsize{11}{14}\selectfont] at (675,245) {NOT\\TO\\SCALE};
+\end{tikzpicture}
+\end{document}

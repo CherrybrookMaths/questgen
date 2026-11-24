@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\setlength\treeL{3.0cm}
+\begin{document}
+\treewidth{1}{Fruit}\treewidth{1}{No Fruit}%
+\treewidth{2}{Fruit}\treewidth{2}{No Fruit}%
+\treecolumns{2}%
+\begin{tikzpicture}
+  \treeroot{r}{0cm}
+  \treenode{f}{1}{2.45cm}{Fruit}
+  \treenode{n}{1}{-2.45cm}{No Fruit}
+  \treenode{ff}{2}{4.2cm}{Fruit}
+  \treenode{fn}{2}{0.7cm}{No Fruit}
+  \treenode{nf}{2}{-0.7cm}{Fruit}
+  \treenode{nn}{2}{-4.2cm}{No Fruit}
+  \treebranchblank{r}{f}{$0.2$}
+  \treebranchblank{r}{n}{}
+  \treebranchblank{f}{ff}{$0.2$}
+  \treebranchblank{f}{fn}{}
+  \treebranchblank{n}{nf}{}
+  \treebranchblank{n}{nn}{}
+\end{tikzpicture}
+\end{document}

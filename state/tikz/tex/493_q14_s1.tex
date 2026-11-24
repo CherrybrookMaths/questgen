@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (113,393); \coordinate (B) at (182,170); \coordinate (C) at (380,77);
+\coordinate (D) at (632,55); \coordinate (E) at (865,158); \coordinate (F) at (970,305);
+\coordinate (G) at (636,261); \coordinate (H) at (322,341); \coordinate (I) at (412,527);
+\coordinate (J) at (626,577); \coordinate (K) at (701,429); \coordinate (L) at (857,516);
+\draw (A)--(B)--(C); \draw (B)--(H)--(I)--(J)--(K)--(G); \draw (K)--(L)--(F)--(E)--(D);
+\foreach \p in {A,B,C,D,E,F,G,H,I,J,K,L} \fill (\p) circle[radius=0.8mm];
+\begin{scope}[every node/.style={font=\normalsize}]
+\node at (85,418) {$\boldsymbol{A}$}; \node at (157,149) {$\boldsymbol{B}$}; \node at (372,45) {$\boldsymbol{C}$};
+\node at (634,23) {$\boldsymbol{D}$}; \node at (893,150) {$\boldsymbol{E}$}; \node at (1002,300) {$\boldsymbol{F}$};
+\node at (605,280) {$\boldsymbol{G}$}; \node at (310,373) {$\boldsymbol{H}$}; \node at (400,567) {$\boldsymbol{I}$};
+\node at (637,607) {$\boldsymbol{J}$}; \node at (672,437) {$\boldsymbol{K}$}; \node at (890,522) {$\boldsymbol{L}$};
+\end{scope}
+\begin{scope}[every node/.style={font=\Large}]
+\node at (262,73) {$3$}; \node at (90,262) {$1$}; \node at (262,228) {$2$}; \node at (325,470) {$5$};
+\node at (510,597) {$1$}; \node at (636,490) {$4$}; \node at (632,355) {$2$}; \node at (800,442) {$3$};
+\node at (970,425) {$2$}; \node at (954,205) {$3$}; \node at (803,65) {$2$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

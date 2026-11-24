@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize,
+  ma/.style={postaction={decorate,decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}}]
+\newcommand\tbox[6]{%
+  \draw[#6] (#1,#2) rectangle ++(88,35); \draw[#6] (#1+44,#2) -- ++(0,35);
+  \node at (#1+22,#2+18) {#4}; \node at (#1+66,#2+18) {#5};
+  \node at (#1+22,#2-16) {#3};}
+\coordinate (S) at (92,345); \coordinate (T) at (282,170); \coordinate (M) at (458,208);
+\coordinate (R) at (750,195); \coordinate (F) at (797,345); \coordinate (B) at (228,420);
+\draw[ma=0.55] (S)--(T); \draw[ma=0.55] (T)--(M); \draw[ma=0.55] (B)--(M);
+\draw[ma=0.55] (S)--(B); \draw[ma=0.55] (M)--(R); \draw[ma=0.5] (M)--(F);
+\draw[ma=0.55] (R)--(F); \draw[ma=0.5] (B)--(F);
+\foreach \p in {S,T,M,R,F,B} \fill (\p) circle (3.2);
+\node[left,inner sep=6pt] at (S) {Start}; \node[right,inner sep=6pt] at (F) {Finish};
+\node at (150,251) {$A(4)$}; \node at (378,169) {$C(3)$}; \node at (302,308) {$D(6)$};
+\node at (142,414) {$B(2)$}; \node at (612,183) {$F(3)$}; \node at (650,264) {$G(4)$};
+\node at (814,264) {$H(2)$}; \node at (530,414) {$E(5)$};
+\tbox{10}{245}{$A$}{0}{1}{}
+\tbox{20}{452}{$B$}{0}{0}{line width=0.9pt}
+\tbox{258}{90}{$C$}{4}{5}{}
+\tbox{180}{452}{$D$}{2}{2}{line width=0.9pt}
+\tbox{176}{538}{$E$}{2}{8}{}
+\tbox{433}{38}{$F$}{8}{8}{line width=0.9pt}
+\tbox{430}{128}{$G$}{8}{9}{}
+\tbox{732}{117}{$H$}{11}{11}{line width=0.9pt}
+\tbox{878}{370}{Finish}{13}{13}{}
+\end{tikzpicture}
+\end{document}

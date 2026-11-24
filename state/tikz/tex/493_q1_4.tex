@@ -1,0 +1,9 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (a) at (20,19); \coordinate (b) at (318,17); \coordinate (c) at (25,257); \coordinate (d) at (316,259);
+\draw (a)--(b)--(d)--(c)--(a) (a)--(d) (b)--(c);
+\foreach \p in {a,b,c,d} \fill (\p) circle[radius=2.6pt];
+\end{tikzpicture}
+\end{document}

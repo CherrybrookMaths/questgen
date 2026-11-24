@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize,
+  ma/.style={postaction={decorate,decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}}]
+\coordinate (S) at (70,150); \coordinate (A) at (224,42); \coordinate (D) at (356,128);
+\coordinate (C) at (224,240); \coordinate (E) at (545,42); \coordinate (B) at (620,225); \coordinate (K) at (797,120);
+\draw[ma=0.55] (S)--(A); \draw[ma=0.6] (S)--(D); \draw[ma=0.55] (S)--(C);
+\draw[ma=0.52] (A)--(E); \draw[ma=0.55] (D)--(A); \draw[ma=0.5] (D)--(E);
+\draw[ma=0.5] (C)--(D); \draw[ma=0.68] (C)--(B); \draw[ma=0.62] (B)--(D);
+\draw[ma=0.52] (E)--(B); \draw[ma=0.57] (E)--(K); \draw[ma=0.52] (B)--(K);
+\foreach \p in {S,A,D,C,E,B,K} \fill (\p) circle (3.2);
+\draw[dash pattern=on 4pt off 3pt] (458,12) .. controls (490,70) and (485,190) .. (450,265);
+\node at (224,20) {$A$}; \node at (358,106) {$D$}; \node at (222,264) {$C$};
+\node at (545,20) {$E$}; \node at (622,248) {$B$}; \node at (795,99) {Sink}; \node at (55,170) {Source};
+\node at (124,94) {10}; \node at (236,119) {20}; \node at (147,214) {10};
+\node at (383,18) {15}; \node at (316,106) {10}; \node at (464,98) {10};
+\node at (325,180) {10}; \node at (424,254) {10}; \node at (452,149) {10};
+\node at (604,130) {10}; \node at (685,63) {20}; \node at (724,187) {20};
+\end{tikzpicture}
+\end{document}

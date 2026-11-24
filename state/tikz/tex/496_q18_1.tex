@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (T) at (35,308); \coordinate (S) at (220,32); \coordinate (P) at (452,318);
+% tree
+\fill[black!55] (30,226) rectangle (37,308);
+\filldraw[fill=black!25,draw=black!70,line width=0.4pt] (34,142) .. controls (22,142) and (24,160) .. (20,175) .. controls (16,195) and (22,215) .. (22,228) .. controls (26,240) and (42,240) .. (46,228) .. controls (48,212) and (52,195) .. (48,175) .. controls (46,160) and (46,142) .. (34,142) -- cycle;
+\draw[black!70,line width=0.4pt] (34,165) .. controls (28,180) and (30,200) .. (34,215) (38,175)..controls (41,190)..(38,205);
+\draw (T)--(S)--(P)--cycle;
+\node at (222,14) {$S$};
+\node at (17,304) {$T$};
+\node at (470,322) {$P$};
+\node at (224,88) {$73^\circ$};
+\node at (398,293) {$49^\circ$};
+\node at (371,156) {$48$ m};
+\node at (641,180) {Not to scale};
+\end{tikzpicture}
+\end{document}

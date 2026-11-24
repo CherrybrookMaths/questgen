@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{10.5}{12}\selectfont]
+\coordinate (C) at (437,425); \coordinate (L) at (870,148); \coordinate (M) at (67,304);
+\draw[->] (C)--(437,40);
+\node at (437,16) {North};
+\draw (M)--(C)--(L);
+\fill (L) circle (3.5); \fill (M) circle (3.5);
+\draw[->] (437,315) arc[start angle=-90,end angle=-32.6,radius=110];
+\draw[->] (437,260) arc[start angle=-90,end angle=198.1,radius=165];
+\node at (893,140) {$L$}; \node at (40,302) {$M$}; \node at (437,465) {$C$};
+\node at (472,370) {$65^\circ$}; \node at (620,530) {$285^\circ$};
+\node at (712,295) {26 km}; \node at (170,365) {16 km};
+\node at (1000,507) {(Diagram not to scale)};
+\end{tikzpicture}
+\end{document}

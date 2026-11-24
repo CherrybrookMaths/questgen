@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\Y#1{542-9.533*#1}
+\def\X#1{197+114.9*#1}
+\draw[black!25,line width=0.4pt] (10,5)--(1090,5)--(1090,620)--(600,620) (395,620)--(10,620)--(10,5);
+\foreach \v in {5,10,...,45} \draw[black!20,line width=0.4pt] (140,{\Y{\v}})--(1060,{\Y{\v}});
+\foreach \i in {0,...,8} \draw[black!20,line width=0.4pt] ({140+114.9*\i},113)--({140+114.9*\i},542);
+\draw[black!45] (140,542)--(1060,542);
+\draw[line width=0.9pt] ({\X0},{\Y0})--({\X1},{\Y3})--({\X2},{\Y8})--({\X3},{\Y{25}})--({\X4},{\Y{28}})--({\X5},{\Y{35}})--({\X6},{\Y{38}})--({\X7},{\Y{40}});
+\foreach \a/\b in {0/0,1/3,2/8,3/25,4/28,5/35,6/38,7/40} \fill ({\X\a},{\Y\b}) circle (7);
+\foreach \v in {0,5,...,45} \node[anchor=east,font=\small] at (124,{\Y{\v}}) {$\v$};
+\foreach \i in {0,...,7} \node[font=\small] at ({\X\i},572) {$\i$};
+\node[font=\large] at (552,58) {Number of hours spent studying};
+\node[rotate=90,font=\small] at (62,328) {Number of students};
+\node[font=\small] at (497,604) {Number of hours};
+\end{tikzpicture}
+\end{document}

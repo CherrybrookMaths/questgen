@@ -1,0 +1,1621 @@
+# paper 2023-WilliamClarke-AT3-STD (document 3306)
+document
+  id: 3306
+  drive_file_id: 16WEOgj0lSeCA_CCl9ghYgN_l_7tWBixS
+  source_path: William Clarke College/Stage 6/Y12 Std/2023  Task 3 Networks, Finance, Non-Linear with Solutions.pdf
+  size_bytes: 4192687
+  task_type: internal_exam
+  course: standard
+  classification_method: explicit_cover
+  year_level: 12
+  school: William Clarke
+  year: 2023
+  natural_key: internal_exam|2023|william clarke|unknown
+  provenance_method: filename
+  bundled_solutions: 1
+  syllabus_version: 2017
+  status: parsed
+  failure_reason: review queue: course
+  ingested_at: 2026-11-13T20:42:46+11:00
+  display_label: 2023 William Clarke College AT3
+  school_formal: William Clarke College
+  task_code: AT3
+
+## Q1  key 2023-WilliamClarke-AT3-STD-Q1  id 6210
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  option A
+    latex: $38$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $37$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $40$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $27$
+    is_correct: 0
+    key_source: extracted
+  figure 3306_q1_1.png
+    page: 2
+    bbox: [346, 145, 538, 286]
+    png_path: figures/3306_q1_1.png
+    tikz_path: tikz/tex/3306_q1_1.tex
+    caption: weighted network with vertices A, B, C, D, E
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Weighted network diagram: kite A-B-E-C with the vertical BC and the horizontal DE, drawn at the crop's vertex positions with every edge weight (21,16,12,6,11,23,15) in its original place. Vertex labels are set in maths italic (rule 19) where the crop has upright Times. Lines are 0.6pt black. No label touches a line (rules 3, 6a, 11).
+  part -  id 9934
+    ordinal: 1
+    latex: |
+      The length of the shortest path from A to E in the following network diagram is:
+
+      \exfigure{3306_q1_1}
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-080
+      focus_area: Networks, paths and trees
+      dot_point: Identify a shortest path on a network diagram with no more than 10 vertices
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shortest paths
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9572
+      source: generated
+      latex: |
+        List the routes from A to E and add the edge weights.
+        $$\begin{aligned} A\to B\to E &: 21+16=37\\ A\to B\to D\to E &: 21+12+6=39\\ A\to C\to E &: 23+15=38\\ A\to C\to D\to E &: 23+11+6=40 \end{aligned}$$
+        The smallest total is $37$, along $A, B, E$.
+        $$\therefore\ \text{the shortest path has length } 37$$
+      source_document_id: 3306
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated worked solution; key B.", "self_check": "Enumerated all four simple routes from A to E from the figure weights and compared totals."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7136
+      confidence: high
+      reason: Compare a few short routes in a small network
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q2  key 2023-WilliamClarke-AT3-STD-Q2  id 6211
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Annuities|Present value
+  home_source: computed
+  option A
+    latex: Is a present value of the annuity.
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: Uses the previous result to obtain the next value in the annuity investment.
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: Uses the final result to obtain the next value in the annuity investment.
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: Is the addition of future and present value of the annuity.
+    is_correct: 0
+    key_source: extracted
+  part -  id 9935
+    ordinal: 1
+    latex: A recurrence relation:
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-055
+      focus_area: Annuities
+      dot_point: Identify an annuity as an investment account with regular, equal contributions and interest compounding at the end of each period, or as a single sum investment from which regular equal withdrawals are made
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-056
+      focus_area: Annuities
+      dot_point: Model an annuity in tabular form for up to four time periods
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Future value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9573
+      source: generated
+      latex: |
+        A recurrence relation gives each term from the term before it, for example $A_{n+1}=A_n(1+r)+M$ for an annuity investment.
+
+        So it uses the previous result to obtain the next value.
+
+        Option A and option D describe a present value or a sum of values, not a rule linking one term to the next, and option C uses the final result, which is not known when the relation is applied.
+        $$\therefore\ \text{the statement that uses the previous result to find the next value is correct}$$
+      source_document_id: 3306
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Generated worked solution; key B.", "self_check": "Definition of a recurrence relation compared with each option."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6951
+      confidence: medium
+      reason: Direct recall of what a recurrence relation is
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q3  key 2023-WilliamClarke-AT3-STD-Q3  id 6212
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  option A
+    latex: Directed and undirected
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: Paths, circuits, and cycles
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: Circuits and cycles
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: All of the above
+    is_correct: 1
+    key_source: extracted
+  part -  id 9936
+    ordinal: 1
+    latex: The types of walks that can exist in a network are:
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-077
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: path, tree, spanning tree and minimum spanning tree
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.55
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9574
+      source: generated
+      latex: |
+        A walk is a sequence of edges in a network. It can be a path (no repeated vertices), a circuit (starts and ends at the same vertex, no repeated edges) or a cycle (a circuit with no repeated vertices except the start and end).
+
+        Walks may also be on directed or undirected networks.
+
+        So each of options A, B and C is a correct statement about walks, and the keyed option is that all of them are true.
+        $$\therefore\ \text{all of the above}$$
+      source_document_id: 3306
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.8, "generated_note": "Generated worked solution following the supplied key D. Option A (directed and undirected) describes network types rather than walk types, so the wording of the source question is loose.", "self_check": "Checked against the keyed answer D; options A to C each describe types of walks or networks."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6951
+      confidence: medium
+      reason: Recall of network walk terminology
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q4  key 2023-WilliamClarke-AT3-STD-Q4  id 6213
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Annuities|Present value
+  home_source: computed
+  option A
+    latex: \$2.6730
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: \$13660
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: \$13365
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: \$13400
+    is_correct: 0
+    key_source: extracted
+  figure 3306_q4_1.png
+    page: 3
+    bbox: [175, 108, 441, 225]
+    png_path: figures/3306_q4_1.png
+    caption: table: present value of $1 for periods 1-4 at 5%, 6%, 7%, 8%
+    redraw_status: table
+    redraw_class: table
+    redraw_notes: Present-value table transcribed. The title row spans all five columns, as on the paper.
+    redraw_table_id: Tf3510
+  part -  id 9937
+    ordinal: 1
+    latex: |
+      Using the present value table below, the present value for \$5000 per year at 6\%p.a. for 3 years is:
+
+      \exfigure{3306_q4_1}
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-058
+      focus_area: Annuities
+      dot_point: Using a table of interest factors, calculate the future value or present value of an annuity
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Present value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9575
+      source: generated
+      latex: |
+        The table gives the present value of an annuity of $\$1$ per period. For $6\%$ and $3$ periods the factor is $2.6730$.
+
+        Multiply by the payment of $\$5000$.
+        $$\begin{aligned} PV &= 5000\times 2.6730\\ &= \$13365 \end{aligned}$$
+        $$\therefore\ \text{the present value is } \$13365$$
+      source_document_id: 3306
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "Generated worked solution; key C.", "self_check": "5000 × 2.6730 = 13365 computed; factor read from 6% column, period 3."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6971
+      confidence: high
+      reason: Read table factor and multiply by payment
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q5  key 2023-WilliamClarke-AT3-STD-Q5  id 6214
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Algebraic relationships|Exponential relationships
+  home_source: computed
+  option A
+    latex: Exponential
+    is_correct: 1
+    key_source: extracted
+  option B
+    latex: Quadratic
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: Linear
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: Reciprocal
+    is_correct: 0
+    key_source: extracted
+  part -  id 9938
+    ordinal: 1
+    latex: $y = 4^{-x}$ is an example of what relationship?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-007
+      focus_area: Algebraic relationships
+      dot_point: Recognise that an exponential relationship can be represented by an equation, a table of values, a set of ordered pairs or a graph, and move flexibly between these representations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-008
+      focus_area: Algebraic relationships
+      dot_point: Graph an exponential relationship of the form y=a^x and y=a^-x, where a>0, with and without using graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9576
+      source: generated
+      latex: |
+        Write the function as $y=4^{-x}=\left(\dfrac{1}{4}\right)^{x}$.
+
+        The variable $x$ is in the exponent with a constant base, so this is an exponential relationship.
+
+        It is not quadratic or linear, since $x$ is not raised to a power, and it is not reciprocal, which has the form $y=\dfrac{k}{x}$.
+        $$\therefore\ \text{exponential}$$
+      source_document_id: 3306
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "Generated worked solution; key A.", "self_check": "Form y = a^x identified with a = 1/4."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9599
+      confidence: high
+      reason: Recognise exponential form from equation
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q6  key 2023-WilliamClarke-AT3-STD-Q6  id 6215
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Reciprocal relationships
+  home_source: computed
+  part -  id 9939
+    ordinal: 1
+    latex: |
+      A certain gas obeys Boyle's Law $V = \dfrac{30}{P}$ where $V$ is in litres and $P$ is in atmospheres.
+
+      \exfigure{3306_q6_1}
+    needs_review: 0
+    src_label: a
+    figure 3306_q6_1.png
+      page: 4
+      bbox: [114, 202, 484, 463]
+      png_path: figures/3306_q6_1.png
+      tikz_path: tikz/tex/3306_q6_1.tex
+      caption: graph of V against P, a decreasing hyperbola
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: V = 30/P drawn from its equation (rule 10) as a 0.9pt smooth curve with 90 samples and arrowheads at both ends, matching the crop's arrowed ends (P from 1.4 to 31). The grid runs every 1 unit in light grey, with darker grey lines every 5. Ticks cross the axes every unit, and the axes carry labels at 5-unit steps. The crop's red axes and open chevron arrowheads are now black with filled Latex heads (rules 4, 6). Round 2 moved the x tick labels down to match the crop.
+  part a  id 9940
+    parent_part_id: 9939
+    ordinal: 2
+    latex: If the pressure is 5 atmospheres, what is the volume?
+    marks: 1
+    needs_review: 0
+    src_label: i
+    tag 2024 S2-12-024
+      focus_area: Algebraic relationships
+      dot_point: Solve inverse variation problems graphically, or algebraically given the value of two of the variables in y=(k)/(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal relationships
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9464
+      source: extracted
+      latex: |
+        Substitute $P = 5$ into the given formula.
+        $$\begin{aligned} V &= \dfrac{30}{5} \\ &= 6 \text{ L} \end{aligned}$$
+      marks_breakdown: 1: correct volume
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7137
+      confidence: high
+      reason: Single substitution into given formula
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 9941
+    parent_part_id: 9939
+    ordinal: 3
+    latex: Describe the type of non-linear relationship that exists.
+    marks: 1
+    needs_review: 0
+    src_label: ii
+    tag 2024 S2-12-020
+      focus_area: Algebraic relationships
+      dot_point: Recognise that inverse variation is represented by a reciprocal relationship of the form y=(k)/(x), where k is the constant of variation
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-021
+      focus_area: Algebraic relationships
+      dot_point: Identify the hyperbolic shape of a reciprocal graph
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal relationships
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9465
+      source: extracted
+      latex: Reciprocal (or hyperbolic).
+      marks_breakdown: 1: either reciprocal or hyperbolic
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer: either reciprocal or hyperbolic"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9655
+      confidence: high
+      reason: Name the reciprocal relationship type
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 9942
+    parent_part_id: 9939
+    ordinal: 4
+    latex: State one conclusion that can be drawn about Boyle's law based on the graph.
+    marks: 1
+    needs_review: 0
+    src_label: iii
+    tag 2024 S2-12-020
+      focus_area: Algebraic relationships
+      dot_point: Recognise that inverse variation is represented by a reciprocal relationship of the form y=(k)/(x), where k is the constant of variation
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-025
+      focus_area: Algebraic relationships
+      dot_point: Explain the limitations of reciprocal models in practical inverse variation problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal relationships
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9466
+      source: extracted
+      latex: As the volume of gas decreases, the pressure increases.
+      marks_breakdown: 1: one valid conclusion
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer: one valid conclusion"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 9687
+      confidence: medium
+      reason: Interpret inverse relationship in context from graph
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: PR
+      source: model
+
+## Q7  key 2023-WilliamClarke-AT3-STD-Q7  id 6216
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Annuities|Future value
+  home_source: computed
+  part -  id 9943
+    ordinal: 1
+    latex: |
+      The following table shows the future value of an annuity of \$1. Miriam is saving for a trip and estimates she will need \$15 000. She opens an account earning 3% per annum, compounded annually.
+
+      \exfigure{3306_q7_1}
+    needs_review: 0
+    src_label: a
+    figure 3306_q7_1.png
+      page: 5
+      bbox: [134, 145, 464, 310]
+      png_path: figures/3306_q7_1.png
+      caption: table: future values of an annuity of $1, 4 to 6 years at 1% to 4%
+      redraw_status: table
+      redraw_class: table
+      redraw_notes: Annuity table transcribed with the paper's merged cells (rule 15). YEARS spans both header rows and INTEREST RATE PER ANNUM spans the four rate columns. The title sits above as the caption.
+      redraw_table_id: Tf3512
+  part a  id 9944
+    parent_part_id: 9943
+    ordinal: 2
+    latex: How much does Miriam need to deposit every year if she wishes to have enough money for the trip in 4 years' time? Write your answer to the nearest dollar.
+    marks: 2
+    needs_review: 0
+    src_label: i
+    tag 2024 S2-12-058
+      focus_area: Annuities
+      dot_point: Using a table of interest factors, calculate the future value or present value of an annuity
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-059
+      focus_area: Annuities
+      dot_point: Using a table of interest factors, determine the contribution amount required to achieve a given future value or the single sum contribution required to produce an equivalent future value for any given annuity
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Future value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9467
+      source: extracted
+      latex: |
+        The table gives the future value factor $4.184$ for 4 periods at $3\%$.
+        $$\begin{aligned} A \times 4.184 &= 15000 \\ A &= \dfrac{15000}{4.184} \\ &\approx \$3585 \text{ per year} \end{aligned}$$
+      marks_breakdown: 1: correct equation using 4.184; 1: correct deposit
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Writes the correct equation using $4.184$, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7088
+      confidence: high
+      reason: Annuity table used in reverse to find contribution
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 9945
+    parent_part_id: 9943
+    ordinal: 3
+    latex: How much interest will Miriam earn on her investment over the 4 years?
+    marks: 1
+    needs_review: 0
+    src_label: ii
+    tag 2024 S2-12-058
+      focus_area: Annuities
+      dot_point: Using a table of interest factors, calculate the future value or present value of an annuity
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-061
+      focus_area: Annuities
+      dot_point: Solve annuity problems involving financial decisions regarding superannuation, savings accounts and loans
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Future value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9468
+      source: extracted
+      latex: |
+        Total deposited is $4 \times 3585 = \$14340$.
+        $$\begin{aligned} I &= 15000 - 14340 \\ &= \$660 \end{aligned}$$
+      marks_breakdown: 1: correct interest
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7089
+      confidence: high
+      reason: Total deposits then subtract from future value
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q8  key 2023-WilliamClarke-AT3-STD-Q8  id 6217
+  section: II
+  question_type: extended
+  marks_total: 8
+  page_start: 6
+  page_end: 7
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  part a  id 9946
+    ordinal: 1
+    latex: |
+      Water will be pumped from a dam to eight locations on a farm. The pump and the eight locations (including the house) are shown as vertices in the network diagram below. The numbers on the edges joining the vertices give the shortest distances, in metres, between locations.
+
+      \exfigure{3306_q8_1}
+    needs_review: 0
+    figure 3306_q8_1.png
+      page: 6
+      bbox: [91, 153, 506, 348]
+      png_path: figures/3306_q8_1.png
+      tikz_path: tikz/tex/3306_q8_1.tex
+      caption: weighted network of farm locations, house and pump
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Weighted network: 9 vertices, 17 dashed edges (house aux dashes), weights at crop positions, bold 'house', dam drawn as smooth outline with wavy-line texture (explicit grey sine lines clipped to the dam, not a pattern), small pump icon, 'pump'/'dam' written with \halo. Every edge and weight lines up with the crop. The leftover colour comes from the scan's heavier dashes, larger vertex dots and where the wave lines fall. Rules 1,2,3,5b,6,19.
+  part i  id 9947
+    parent_part_id: 9946
+    ordinal: 2
+    latex: Determine the shortest distance between the house and the pump.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-080
+      focus_area: Networks, paths and trees
+      dot_point: Identify a shortest path on a network diagram with no more than 10 vertices
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shortest paths
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9469
+      source: extracted
+      latex: $$\begin{aligned} D &= 70 + 90 \\ &= 160 \text{ m} \end{aligned}$$
+      marks_breakdown: 1: correct distance
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    figure 3306_q8_s1.png
+      page: 18
+      bbox: [100, 145, 520, 325]
+      png_path: figures/3306_q8_s1.png
+      tikz_path: tikz/tex/3306_q8_s1.tex
+      caption: solution sketch: network with minimum spanning tree highlighted in orange
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Solution network. The orange highlighter is replaced by solid 0.9pt black lines for the minimum spanning tree edges (70,40,40,50,60,40,50,80 = 430 m, matches the solution); the other edges stay dashed. Black and white only (rule 6). Thick highlighter strokes are not used because of rule 3 (0.9pt maximum). Owner may prefer a light-grey band instead: please check. Rules 3,6,9,17.
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7136
+      confidence: high
+      reason: Add two edge weights for shortest path
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part ii  id 9948
+    parent_part_id: 9946
+    ordinal: 3
+    latex: How many vertices on the network diagram have an odd degree?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-073
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: vertex, edge, degree, directed networks and weighted edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9470
+      source: extracted
+      latex: There are $2$ vertices of odd degree: the house and the vertex at the top right of the central group.
+      marks_breakdown: 1: correct number
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7114
+      confidence: high
+      reason: Count vertex degrees from diagram
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 9949
+    ordinal: 4
+    latex: The farmer wishes to keep the total length of pipe that supplies water from the pump to the eight locations to a minimum.
+    needs_review: 0
+  part i  id 9950
+    parent_part_id: 9949
+    ordinal: 5
+    latex: |
+      On the diagram below, draw (highlight) the minimum length of pipe that is needed to supply water to all locations on the farm.
+
+      \exfigure{3306_q8_2}
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-078
+      focus_area: Networks, paths and trees
+      dot_point: Determine the minimum spanning tree of a network with weighted edges, using any method
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-079
+      focus_area: Networks, paths and trees
+      dot_point: Use minimum spanning trees to solve minimal connector problems
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9471
+      source: extracted
+      latex: \exfigure{3306_q8_s1}
+      marks_breakdown: 1: correct minimum spanning tree highlighted
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    figure 3306_q8_2.png
+      page: 7
+      bbox: [86, 149, 512, 330]
+      png_path: figures/3306_q8_2.png
+      tikz_path: tikz/tex/3306_q8_2.tex
+      caption: same network, blank copy for highlighting
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Same network as q8_1 (same drawing body, rescaled to this crop's size), blank copy for highlighting. The leftover colour comes from scan stroke weight, dot size and where the wave lines fall. Rules 1,2,3,5b,6.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7135
+      confidence: medium
+      reason: Standard minimum spanning tree algorithm on network
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part ii  id 9951
+    parent_part_id: 9949
+    ordinal: 6
+    latex: What is the mathematical term that is used to describe this minimum length of pipe in part i.?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-077
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: path, tree, spanning tree and minimum spanning tree
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9472
+      source: extracted
+      latex: Minimum spanning tree
+      marks_breakdown: 1: correct term
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9652
+      confidence: high
+      reason: Recall the term minimum spanning tree
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part iii  id 9952
+    parent_part_id: 9949
+    ordinal: 7
+    latex: What is the minimum length of pipe required to supply water to all locations on the farm?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-078
+      focus_area: Networks, paths and trees
+      dot_point: Determine the minimum spanning tree of a network with weighted edges, using any method
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-079
+      focus_area: Networks, paths and trees
+      dot_point: Use minimum spanning trees to solve minimal connector problems
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9473
+      source: extracted
+      latex: $$430 \text{ m}$$
+      marks_breakdown: 1: correct length
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7114
+      confidence: medium
+      reason: Sum edge weights of tree drawn earlier
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 9953
+    ordinal: 8
+    latex: It costs \$25.50 per metre for the pipe plus \$50 per hour in labour for the pipe to be laid.
+    needs_review: 0
+  part i  id 9954
+    parent_part_id: 9953
+    ordinal: 9
+    latex: Determine one linear equation for the cost ($C$) of both laying the pipe and sourcing the materials if the minimum pipe length is used.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-013
+      focus_area: Linear relationships
+      dot_point: Determine the equation of a straight line of the form y=mx+c where m is the gradient and c is the y-intercept
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-016
+      focus_area: Linear relationships
+      dot_point: Model linear relationships and interpret the features of those relationships in a variety of contexts, noting that the y-intercept is the vertical intercept and the gradient is the rate of change
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Linear models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9474
+      source: extracted
+      latex: |
+        Let $h$ be the number of hours of labour.
+        $$\begin{aligned} C &= 25.50 \times 430 + 50h \\ &= 10965 + 50h \end{aligned}$$
+      marks_breakdown: 1: cost of pipe 25.50 x 430; 1: complete equation (allow consequential error from part b.iii)
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer (allow consequential error from part (b)(iii))"], [1, "Finds the cost of pipe $25.50 \\times 430$, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 7177
+      confidence: medium
+      reason: Build linear cost model combining fixed pipe cost and labour
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: PR
+      source: model
+  part ii  id 9955
+    parent_part_id: 9953
+    ordinal: 10
+    latex: Using your linear equation in part i, calculate the cost of laying the pipe if it will take 14 days, working 8 hours per day, for the pipe to be laid.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-001
+      focus_area: Formulas and equations
+      dot_point: Substitute numbers into linear and non-linear algebraic expressions, equations and formulas
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-016
+      focus_area: Linear relationships
+      dot_point: Model linear relationships and interpret the features of those relationships in a variety of contexts, noting that the y-intercept is the vertical intercept and the gradient is the rate of change
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Linear models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9475
+      source: extracted
+      latex: |
+        Total hours:
+        $$14 \times 8 = 112$$
+        Hence
+        $$\begin{aligned} C &= 25.50 \times 430 + 50(112) \\ &= \$16\,565 \end{aligned}$$
+      marks_breakdown: 1: correct cost
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7082
+      confidence: medium
+      reason: Find hours then substitute into linear equation
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q9  key 2023-WilliamClarke-AT3-STD-Q9  id 6218
+  section: II
+  question_type: extended
+  stem_latex: Barry makes regular payments of \$2450 into his investment account at the end of every quarter and never withdraws any money from the account. His account accrues interest at a rate of 3.2% p.a. compounded quarterly.
+  marks_total: 8
+  page_start: 8
+  page_end: 8
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Annuities|Future value
+  home_source: computed
+  part a  id 9956
+    ordinal: 1
+    latex: By converting the given rate, show calculations to determine how Barry's investment can be modelled by the recurrence relation $A_{n+1} = A_n(1.008) + 2450$.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-055
+      focus_area: Annuities
+      dot_point: Identify an annuity as an investment account with regular, equal contributions and interest compounding at the end of each period, or as a single sum investment from which regular equal withdrawals are made
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-056
+      focus_area: Annuities
+      dot_point: Model an annuity in tabular form for up to four time periods
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Future value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9476
+      source: extracted
+      latex: |
+        Convert the annual rate to a quarterly rate.
+        $$\begin{aligned} r &= \dfrac{3.2\%}{4} \\ &= 0.8\% \end{aligned}$$
+        Each quarter the balance earns $0.8\%$ interest, so it is multiplied by $1.008$, and then the $\$2450$ payment is added at the end of the quarter. Starting from $A_0 = 0$:
+        $$\begin{aligned} A_1 &= 0(1.008) + 2450 = 2450 \\ A_2 &= 2450(1.008) + 2450 = 4919.60 \end{aligned}$$
+        $$\therefore\ A_{n+1} = A_n(1.008) + 2450$$
+      marks_breakdown: 1: converts rate to 0.8% per quarter; 1: shows A_1 and concludes the recurrence relation
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Converts the rate to $0.8\\%$ per quarter, or equivalent merit"]]
+      meta_json: {"corrected": "Corrected from source: the working started from $A_0=2450$; the table starts from $A_0=0$.", "overwritten_from_source": "Corrected from source: the working started from $A_0=2450$; the table starts from $A_0=0$.", "source_original": {"criteria": [[2, "Correct answer"], [1, "Converts the rate to $0.8\\%$ per quarter, or equivalent merit"]], "latex": "Convert the annual rate to a quarterly rate.\n$$\\begin{aligned} r &= \\dfrac{3.2\\%}{4} \\\\ &= 0.8\\% \\end{aligned}$$\nThe first payment is $A_0 = 2450$.\n$$\\begin{aligned} A_1 &= 2450(1 + r) + 2450 \\\\ &= 2450(1.008) + 2450 \\end{aligned}$$\n$$\\therefore\\ A_{n+1} = A_n(1.008) + 2450$$"}}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 7215
+      confidence: medium
+      reason: Show recurrence by converting annual rate to quarterly
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: PR
+      source: model
+  part b  id 9957
+    ordinal: 2
+    latex: |
+      Complete the balance of the savings account after 1 year in the table below.
+
+      \exfigure{3306_q9_1}
+    marks: 3
+    needs_review: 0
+    tag 2024 S2-12-056
+      focus_area: Annuities
+      dot_point: Model an annuity in tabular form for up to four time periods
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Future value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9477
+      source: extracted
+      latex: |
+        $$\begin{aligned} A_2 &= 4919.60 \times 1.008 + 2450 \\ &= \$7408.96 \end{aligned}$$
+        \extable{Ts9477_1}
+      marks_breakdown: 1 each for the three completed entries; -1 per error. The final value $12447.58 is written beside the shaded cell.
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Two correct completed entries, or equivalent merit"], [1, "One correct completed entry, or equivalent merit"]]
+      meta_json: {"format_note": "Source criterion was a single unmarked row; rewritten top-down from the marker note.", "marker_note": "1 mark for each of the three completed entries; deduct 1 per error. The final value $\\$12447.58$ is written beside the shaded cell."}
+      data_table Ts9477_1
+        header_rows: 0
+        label_col: 1
+        rows_json: [["\\text{Time period}", "A_n", "\\text{Balance}"], ["A_0", "\\$0", "\\$2450"], ["A_1", "\\$2450", "\\$4919.60"], ["A_2", "\\$4919.60", "\\$7408.96"], ["A_3", "\\$7408.96", "\\$9918.23"], ["A_4", "\\$9918.23", "\\$12447.58"]]
+        source_latex: $$\begin{array}{|c|c|c|}\hline \text{Time period} & A_n & \text{Balance} \\ \hline A_0 & \$0 & \$2450 \\ \hline A_1 & \$2450 & \$4919.60 \\ \hline A_2 & \$4919.60 & \$7408.96 \\ \hline A_3 & \$7408.96 & \$9918.23 \\ \hline A_4 & \$9918.23 & \$12447.58 \\ \hline \end{array}$$
+    figure 3306_q9_1.png
+      page: 8
+      bbox: [130, 335, 470, 545]
+      png_path: figures/3306_q9_1.png
+      caption: fill-in table of time period, A_n and balance for A0 to A4
+      redraw_status: table
+      redraw_class: table
+      redraw_notes: Fill-in table transcribed. The A_4 Balance cell is shaded solid (dark) on the paper: it is shown blank here and should be shaded grey. Rows A_2 to A_4 are taller answer rows on the paper.
+      redraw_table_id: Tf3515
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6973
+      confidence: high
+      reason: Repeatedly apply recurrence to fill balance table
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 9958
+    ordinal: 3
+    latex: How much interest did Barry accrue over the 1-year period?
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-056
+      focus_area: Annuities
+      dot_point: Model an annuity in tabular form for up to four time periods
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-061
+      focus_area: Annuities
+      dot_point: Solve annuity problems involving financial decisions regarding superannuation, savings accounts and loans
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Future value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9478
+      source: extracted
+      latex: |
+        One year of payments:
+        $$2450 \times 4 = \$9800$$
+        Interest:
+        $$\begin{aligned} I &= 9918.23 - 9800 \\ &= \$118.23 \end{aligned}$$
+      marks_breakdown: 1: total payments $9800; 1: interest. (2 for correct I with working.)
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer with working"], [1, "Finds total payments $\\$9800$, or equivalent merit"]]
+      meta_json: {"corrected": "Corrected from source: a second answer, $\\$12447.57-\\$9800=\\$2647.58$, used the balance after 5 payments; the interest over the year is $\\$118.23$.", "overwritten_from_source": "Corrected from source: a second answer, $\\$12447.57-\\$9800=\\$2647.58$, used the balance after 5 payments; the interest over the year is $\\$118.23$.", "source_original": {"criteria": [[2, "Correct answer with working"], [1, "Finds total payments $\\$9800$, or equivalent merit"]], "latex": "One year of payments:\n$$2450 \\times 4 = \\$9800$$\nInterest:\n$$\\begin{aligned} I &= 9918.23 - 9800 \\\\ &= \\$118.23 \\end{aligned}$$\nOr\n$$\\begin{aligned} I &= \\$12447.57 - \\$9800 \\\\ &= \\$2647.58 \\end{aligned}$$"}}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7089
+      confidence: medium
+      reason: Final balance minus total deposits
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part d  id 9959
+    ordinal: 4
+    latex: What is the balance of the savings account after 3 quarters?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-056
+      focus_area: Annuities
+      dot_point: Model an annuity in tabular form for up to four time periods
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Future value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9479
+      source: extracted
+      latex: |
+        After 3 quarters, $A_3 = 4919.60\times1.008+2450$:
+        $$\therefore\ \$7408.96$$
+      marks_breakdown: 1: correct balance
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"corrected": "Corrected from source: the answer was \"$\\$9918.23$ or $\\$12447.58$\"; after 3 quarters the balance is $A_3=\\$7408.96$.", "overwritten_from_source": "Corrected from source: the answer was \"$\\$9918.23$ or $\\$12447.58$\"; after 3 quarters the balance is $A_3=\\$7408.96$.", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "$\\$9918.23$ or $\\$12447.58$\n\nOr $\\$7408.96$ if interest was calculated correctly in part (c)."}}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7017
+      confidence: medium
+      reason: Read balance from completed table
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q10  key 2023-WilliamClarke-AT3-STD-Q10  id 6219
+  section: II
+  question_type: short
+  stem_latex: |
+    The path of an object projected from the top of a building is shown below.
+
+    \exfigure{3306_q10_1}
+
+    The equation of the object's path can be modelled by the quadratic function
+
+    $$h = 20 + 8t - t^2$$
+
+    where $h$ is the height of the object (metres) above the ground and $t$ is the time in seconds the object is in the air.
+  marks_total: 5
+  page_start: 9
+  page_end: 9
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Quadratic relationships
+  home_source: computed
+  figure 3306_q10_1.png
+    page: 9
+    bbox: [132, 82, 503, 297]
+    png_path: figures/3306_q10_1.png
+    tikz_path: tikz/tex/3306_q10_1.tex
+    caption: parabolic path of object from building top, d marked, DIAGRAM NOT TO SCALE
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: Projectile path drawn as a true symmetric parabola (rule 10). It keeps the crop's start at the building top (t=0), the dashed crossing at t=8 and the peak height. Because of that symmetry the vertex sits at the midpoint (about 20 px left of the sketch's lopsided peak) and the curve meets the ground about 30 px earlier than the sketch. Curve 0.9pt with two direction arrows. Dashed guides meet the curve (rule 12). d double arrow, labels, brick building (explicit brick lines, coarser than the scan). Ground line 0.6pt, though the scan's is heavy. The leftover red is the dense scan bricks, the thick ground stroke and the curve shift. Rules 1,3,4,9,10,12.
+  part a  id 9960
+    ordinal: 1
+    latex: How tall is the building?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-015
+      focus_area: Algebraic relationships
+      dot_point: Identify the x-intercepts and y-intercept of a parabola from a graph
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-018
+      focus_area: Algebraic relationships
+      dot_point: Interpret the meaning of the intercepts and vertex of a parabola in a variety of contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Features of a parabola
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Quadratic models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9480
+      source: extracted
+      latex: |
+        The building height is the starting height, at $t = 0$.
+        $$h = 20 \text{ m}$$
+      marks_breakdown: 1: correct height
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7137
+      confidence: high
+      reason: Evaluate quadratic at t equals zero
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 9961
+    ordinal: 2
+    latex: What is the vertical distance ($d$) above the building that the object reaches?
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-016
+      focus_area: Algebraic relationships
+      dot_point: Determine the axis of symmetry and vertex of a parabola using the midpoint of the x-intercepts shown on a graph
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-017
+      focus_area: Algebraic relationships
+      dot_point: Analyse a given graph of a quadratic relationship and use it to solve practical problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-018
+      focus_area: Algebraic relationships
+      dot_point: Interpret the meaning of the intercepts and vertex of a parabola in a variety of contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Features of a parabola
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Quadratic models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9481
+      source: extracted
+      latex: |
+        The maximum is on the axis of symmetry, $t = -\dfrac{8}{2(-1)} = 4$.
+        $$\begin{aligned} h &= 20 + 8(4) - (4)^2 \\ &= 36 \text{ m} \end{aligned}$$
+        $$\begin{aligned} d &= 36 - 20 \\ &= 16 \text{ m} \end{aligned}$$
+      marks_breakdown: 1: maximum height 36 m (t = 4); 1: d = 16 m
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds the maximum height $36$ m, or equivalent merit"]]
+      meta_json: {"format_note": "Added the axis-of-symmetry step $t=4$ as the set-up."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9619
+      confidence: high
+      reason: Find vertex of quadratic then subtract building height
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 9962
+    ordinal: 3
+    latex: The object is 35 metres above the ground 3 seconds after being projected. After how many more seconds will the object be the same distance above the ground?
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-013
+      focus_area: Algebraic relationships
+      dot_point: Recognise the parabolic shape of a quadratic relationship, noting its vertex and axis of symmetry
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-017
+      focus_area: Algebraic relationships
+      dot_point: Analyse a given graph of a quadratic relationship and use it to solve practical problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Features of a parabola
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Quadratic models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 9482
+      source: extracted
+      latex: |
+        Check the heights at $t = 3$ and $t = 5$.
+        $$\begin{aligned} h(3) &= 20 + 8(3) - (3)^2 = 35 \text{ m} \\ h(5) &= 20 + 8(5) - (5)^2 = 35 \text{ m} \end{aligned}$$
+        The values $t = 3$ and $t = 5$ are symmetric about $t = 4$, the axis of symmetry.
+        $$\therefore\ \text{after } 2 \text{ more seconds}$$
+      marks_breakdown: 1: after 2 seconds; 1: any other correct working
+      source_document_id: 3306
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Provides correct working, or equivalent merit"]]
+      meta_json: {"format_note": "Source wrote the axis as $x=4$; changed to $t=4$ to match the variable."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9620
+      confidence: medium
+      reason: Use parabola symmetry to find other equal-height time
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-24
+      band_ai: 3
+      wm_ai: UF
+      source: model

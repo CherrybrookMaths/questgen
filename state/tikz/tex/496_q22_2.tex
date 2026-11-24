@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\px#1{(44+(#1-50)*18.65)}
+  % scale
+  \draw (44,462)--(939.2,462);
+  \foreach \v in {50,52,...,98} \draw ({44+(\v-50)*18.65},452)--({44+(\v-50)*18.65},472);
+  \foreach \v in {50,60,...,90} \node at ({44+(\v-50)*18.65},492) {\v};
+  % Class A: 52, 58, 64, 72, 94
+  \begin{scope}[line width=0.9pt]
+    \draw (81.3,57)--(81.3,138) (81.3,97)--(193.2,97);
+    \draw (193.2,57) rectangle (454.3,138);
+    \draw (305.1,57)--(305.1,138);
+    \draw (454.3,97)--(864.6,97) (864.6,57)--(864.6,138);
+    % Class B: 58, 66, 78, 82, 96
+    \draw (193.2,293)--(193.2,375) (193.2,334)--(342.4,334);
+    \draw (342.4,293) rectangle (640.8,375);
+    \draw (566.2,293)--(566.2,375);
+    \draw (640.8,334)--(901.9,334) (901.9,293)--(901.9,375);
+  \end{scope}
+  \node at (713,33) {Class $A$};
+  \node at (713,258) {Class $B$};
+\end{tikzpicture}
+\end{document}

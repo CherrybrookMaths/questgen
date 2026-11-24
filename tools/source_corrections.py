@@ -759,4 +759,47 @@ for sid, lat, crit, note, extra in C22:
     db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
 if db.execute("select is_correct from mcq_options where question_id=6093 and label='C'").fetchone()[0]:   # 2024 Oakhill AT2 Q1: key C -> D
     db.execute("update mcq_options set is_correct=(label='D') where question_id=6093")   # 0.002073 to 2 s.f. is 2.1 x 10^-3 (the school circled C)
-db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22')
+# Standard batch 4 (run s4, 24 Nov evening): the verifier's 11 findings on 2023 William Clarke AT1/AT3 and 2023 Oakhill AT2/AT3, checked
+# by hand. Your calls: William Clarke 2023 AT3 Q3 (types of walks, key D) and Oakhill 2023 AT2 Q24 (scale-drawing sides). Left as the
+# school has them: Oakhill AT2 Q31(b) 'moderate negative' (read off a scatterplot; the checker sees it in Review).
+def _sol9506(l, c):   # 2023 Oakhill AT2 Q9: the 48 degrees is measured from due south at A
+    return (r"""The $48^\circ$ at $A$ is measured from due south ($AC$), so the bearing of $B$ from $A$ is
+$$180^\circ - 48^\circ = 132^\circ$$
+The bearing of $A$ from $B$ is the reverse direction.
+$$\begin{aligned} \text{Bearing of } A \text{ from } B &= 132^\circ + 180^\circ \\ &= 312^\circ \end{aligned}$$
+So the correct option is D.""", c)
+def _sol9476(l, c):   # 2023 William Clarke AT3 Q9(a): the table starts from A_0 = 0
+    return (r"""Convert the annual rate to a quarterly rate.
+$$\begin{aligned} r &= \dfrac{3.2\%}{4} \\ &= 0.8\% \end{aligned}$$
+Each quarter the balance earns $0.8\%$ interest, so it is multiplied by $1.008$, and then the $\$2450$ payment is added at the end of the quarter. Starting from $A_0 = 0$:
+$$\begin{aligned} A_1 &= 0(1.008) + 2450 = 2450 \\ A_2 &= 2450(1.008) + 2450 = 4919.60 \end{aligned}$$
+$$\therefore\ A_{n+1} = A_n(1.008) + 2450$$""", c)
+def _sol9522(l, c):   # 2023 Oakhill AT2 Q19(d): 16 degrees is outside the data
+    return (l.replace(r'This is a reasonable prediction considering the colder weather and $D$ not being a negative value.',
+                      r'The recorded temperatures run from $21^\circ$ to $39^\circ$, so $16^\circ$ is outside the data: this is extrapolation, and the linear trend may not hold that far out. The prediction may therefore not be reliable.'), c)
+C23 = [
+ (9506, [], [], r'the working said the bearing of $B$ from $A$ is $48^\circ$; the $48^\circ$ is measured from due south, so it is $132^\circ$ (key D, $312^\circ$, unchanged)', _sol9506),
+ (9476, [], [], r'the working started from $A_0=2450$; the table starts from $A_0=0$', _sol9476),
+ (9478, [('\nOr\n' + r'$$\begin{aligned} I &= \$12447.57 - \$9800 \\ &= \$2647.58 \end{aligned}$$', '')], [], r'a second answer, $\$12447.57-\$9800=\$2647.58$, used the balance after 5 payments; the interest over the year is $\$118.23$', None),
+ (9479, [(r'$\$9918.23$ or $\$12447.58$' + '\n\n' + r'Or $\$7408.96$ if interest was calculated correctly in part (c).', r'After 3 quarters, $A_3 = 4919.60\times1.008+2450$:' + '\n' + r'$$\therefore\ \$7408.96$$')], [], r'the answer was "$\$9918.23$ or $\$12447.58$"; after 3 quarters the balance is $A_3=\$7408.96$', None),
+ (9443, [(r'$$480\,000 \text{ m}^2 - 540\,000 \text{ m}^2$$', r'$$400\,000 \text{ m}^2 - 540\,000 \text{ m}^2$$')], [], r'the range did not match part (a): $40$ to $54$ ha is $400\,000$ to $540\,000$ m$^2$', None),
+ (9522, [], [], r'the answer called it a reasonable prediction; $16^\circ$ is outside the data ($21^\circ$ to $39^\circ$), so it is extrapolation and may be unreliable', _sol9522),
+ (9528, [(r'7 \text{ hours}', r'7 \text{ pupils}')], [], r'the answer was given in hours; the question asks how many pupils', None),
+ (9552, [('Alternatively, using the cosine rule:\n' + r'$$\begin{aligned} \cos\theta &= \dfrac{16^2 + 40^2 - 26^2}{2(16)(40)} \\ \theta &= \cos^{-1}\left(\dfrac{59}{64}\right) \\ &= 22.7982\ldots \end{aligned}$$' + '\n' + r'$$\begin{aligned} \text{bearing from } M \text{ to } L &= 105 - 23 \\ &= 082^\circ \end{aligned}$$', ''),
+         (r'\dfrac{\sin\theta}{26} &= \dfrac{\sin 140^\circ}{40} \\ \theta &= \sin^{-1}\left(\dfrac{26\sin 140^\circ}{40}\right) \\ &= 24.6965\ldots', r'\dfrac{\sin\theta}{26} &= \dfrac{\sin 140^\circ}{39.615\ldots} \\ \theta &= \sin^{-1}\left(\dfrac{26\sin 140^\circ}{39.615\ldots}\right) \\ &= 24.95\ldots')], [],
+  r'a second answer, $082^\circ$, came from the cosine rule with $ML$ rounded to $40$; with $ML=39.615\ldots$ both rules give $\angle CML=24.95^\circ$ and the bearing $080^\circ$', None),
+ (9562, [(r'&\approx 542.389 \text{ cm}^3', r'&= 36\pi + 108\pi = 144\pi \\ &\approx 452.389 \text{ cm}^3'), (r'\dfrac{1}{3}\times 542.389', r'\dfrac{1}{3}\times 452.389')], [], r'the capsule volume was written $542.389$; it is $144\pi\approx452.389$ cm$^3$ (the answer $150.80$ cm$^3$ is unchanged)', None),
+]
+for sid, lat, crit, note, extra in C23:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# 2023 Oakhill AT3 Q14(c) (part 10059) had no solution: the school's key answers another version (EST 6, LST 8)
+if not db.execute('select 1 from solutions where part_id=10059').fetchone():
+    db.execute("insert into solutions(part_id, question_id, source, latex, model, prompt_version, criteria_json, meta_json) values (10059, 6283, 'generated', ?, 'claude-opus-5-5', 'by-hand-s4', ?, ?)",
+               (r"""$X$ can start once $C$ and $D$ are both finished: the earliest start time there is $8$ hours ($B$ then $D$: $2+6$).
+It must finish by the latest start time of $H$, which is $13-2=11$ hours, so its latest start time is $11-2=9$ hours.
+$$\therefore\ X \text{ runs from the node where } C \text{ and } D \text{ end to the node where } F \text{ ends (the start of } H\text{), parallel to } F$$""",
+                json.dumps([[1, "Correct edge drawn"]]), json.dumps({'generated_note': "Written by hand on 24 Nov: the school's key answered a version of the question with EST 6 and LST 8."})))
+db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23')

@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[black!65]
+\foreach \i in {1,...,21} \draw (125,{213+13.86*\i}) -- (215,{213+13.86*\i});
+\foreach \i in {0,...,21} {
+  \pgfmathsetmacro\ya{213+13.86*\i}\pgfmathsetmacro\yb{\ya+13.86}
+  \ifodd\i \foreach \xx in {140,170,200} \draw (\xx,\ya)--(\xx,\yb);
+  \else \foreach \xx in {155,185} \draw (\xx,\ya)--(\xx,\yb); \fi }
+\end{scope}
+\draw (122,213) rectangle (215,518);
+\draw[->] (122,518) -- (122,30);
+\draw (122,518) -- (830,518);
+\draw[aux] (122,80) -- (372.5,80);
+\draw[aux] (215,213) -- (530,213) -- (530,518);
+\draw[<->] (103,88) -- (103,213);
+\node at (84,150) {$d$};
+\draw[line width=0.9pt] plot[variable=\t, domain=2.15:6.58, samples=90, smooth] ({100*\t},{80+53.62*(\t-3.725)*(\t-3.725)});
+\draw[line width=0.9pt,->] (270,136.3)--(285,121.05);
+\draw[line width=0.9pt,->] (605,369.8)--(620,408.5);
+\begin{scope}[every node/.style={font=\small}]
+\node at (78,20) {Height};
+\node at (88,48) {$(h)$};
+\node at (215,546) {0};
+\node at (530,546) {8};
+\node[anchor=west] at (832,518) {Ground level};
+\node[anchor=east] at (1000,556) {Time ($t$) (seconds)};
+\node at (790,175) {DIAGRAM NOT TO SCALE};
+\end{scope}
+\end{tikzpicture}
+\end{document}

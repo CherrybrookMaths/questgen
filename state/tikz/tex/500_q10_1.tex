@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % capsule outline: semicircle ends radius 61, centres (88,118) and (306,118)
+  \def\capsule{(88,57) -- (306,57) arc[start angle=-90, end angle=90, radius=61] -- (88,179) arc[start angle=90, end angle=270, radius=61] -- cycle}
+  \begin{scope}
+    \clip \capsule;
+    \fill[shade] (20,139) rectangle (380,185);
+  \end{scope}
+  \draw (27,139) -- (367,139);
+  \draw \capsule;
+  % rims
+  \draw (86,118) ellipse [x radius=19, y radius=61];
+  \draw (303,118) ellipse [x radius=20, y radius=61];
+  % dimensions
+  \draw[aux, <->] (26,44) -- (362,44);
+  \node[font=\footnotesize] at (200,24) {18 cm};
+  \draw[aux, <->] (374,82) -- (374,178);
+  \node[font=\footnotesize, anchor=west] at (377,128) {6 cm};
+  \node[font=\footnotesize, align=left, anchor=west] at (497,120) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}
