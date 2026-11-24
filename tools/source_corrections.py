@@ -696,4 +696,19 @@ for sid, lat, crit, note, extra in C21:
     apply(sid, lat, crit, note, extra)
     m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
     db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+# Checker flags 24 Nov late morning (Steve: "yes do that"), fixed in Steve's session:
+# 2020 Blacktown Boys AT4 Q29: "ake it os that the total marks is 4" (parts are 1 + 3)
+db.execute("update questions set marks_total=4 where id=5057 and marks_total=3")
+# 2021 King's AT2 Q2: "Make the table into not a table but a series of equations"
+_eq = "$$\\begin{aligned} g'(3)&=0\\\\ g''(3)&=0\\\\ g''(2.99)&=0.02\\\\ g''(3.01)&=0.11 \\end{aligned}$$"
+_l = db.execute("select latex from parts where id=7831").fetchone()[0]
+if "\\extable{Tp7831_1}" in _l: db.execute("update parts set latex=? where id=7831", (_l.replace("\\extable{Tp7831_1}", _eq),))
+# 2021 King's AT3 Q1: "Make the table the actual choices": the options are the table's rows
+_l = db.execute("select latex from parts where id=7855").fetchone()[0]
+if "\\extable{1035_q1_t1}" in _l: db.execute("update parts set latex=? where id=7855", (_l.replace("\n\n\\extable{1035_q1_t1}", "").replace("\\extable{1035_q1_t1}", ""),))
+db.execute("update questions set options_layout='table', options_table_json=? where id=4912", (json.dumps({"headers": ["Horizontal translation of 2 units", "Vertical translation of 5 units"],
+           "rows": {"A": ["Left", "Up"], "B": ["Right", "Up"], "C": ["Left", "Down"], "D": ["Right", "Down"]}}),))
+# 2021 Ryde AT4 Q12(a) solution: "make the table in the solution for a look like the one that is given to the student except filled in"
+db.execute("update data_tables set header_rows=1, label_col=1, rows_json=? where id='Ts7457_1'", (json.dumps(
+    [["\\diag{\\text{Jacob}}{\\text{Noel}}", "1", "2", "3", "4", "5", "6"]] + [[str(j)] + [f"{j},{n}" for n in range(1, 7)] for j in range(1, 7)]),))
 db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21')
