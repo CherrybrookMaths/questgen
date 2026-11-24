@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (F) at (806,68); \coordinate (G1) at (145,160); \coordinate (C) at (409,268);
+\coordinate (G2) at (643,402); \coordinate (W) at (62,483); \coordinate (T) at (404,615);
+\draw[line width=7pt, black!18, line cap=round, line join=round] (G1)--(W)--(T)--(G2)--(C);
+\draw (G1)--(F)--(C)--(W)--(G1)--(C)--(G2)--(F) (W)--(T)--(G2);
+\draw[line width=0.9pt] (G1)--(W)--(T)--(G2)--(C);
+\foreach \p in {F,G1,C,G2,W,T} \fill (\p) circle (1.5pt);
+\node at (812,40) {$F$}; \node at (115,152) {$G1$}; \node at (410,245) {$C$};
+\node at (680,420) {$G2$}; \node at (35,512) {$W$}; \node at (430,640) {$T$};
+\node at (315,195) {6 min}; \node at (782,265) {10 min}; \node at (47,300) {8 min};
+\node at (497,357) {8 min}; \node at (178,570) {10 min};
+\begin{scope}[font=\large]
+\node at (442,92) {8}; \node at (550,175) {12}; \node at (240,345) {9}; \node at (560,520) {6};
+\end{scope}
+\end{tikzpicture}
+\end{document}

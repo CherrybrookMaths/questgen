@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large,
+  e/.style={postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\coordinate (S) at (150,265); \coordinate (T) at (402,72); \coordinate (F) at (707,72);
+\coordinate (C) at (505,198); \coordinate (L) at (305,265); \coordinate (K) at (780,265);
+\coordinate (M) at (505,348); \coordinate (W) at (402,460); \coordinate (Bt) at (605,548);
+\draw[e] (S)--(T); \draw[e] (S)--(L); \draw[e] (S)--(W);
+\draw[e] (T)--(F); \draw[e] (F)--(C); \draw[e] (F)--(K);
+\draw[e] (L)--(C); \draw[e] (L)--(M); \draw[e] (C)--(K);
+\draw[e] (M)--(K); \draw[e] (W)--(M); \draw[e] (W)--(Bt); \draw[e] (Bt)--(K);
+\foreach \p in {S,T,F,C,L,K,M,W,Bt} \fill (\p) circle (3pt);
+\node[anchor=east] at (130,265) {Source};
+\node[anchor=west] at (800,265) {Sink};
+\node at (463,172) {$C$}; \node at (745,40) {$F$};
+\node at (237,158) {15}; \node at (230,240) {9}; \node at (255,388) {7};
+\node at (565,40) {9}; \node at (590,118) {2}; \node at (767,148) {8};
+\node at (405,207) {4}; \node at (387,330) {5}; \node at (653,213) {6};
+\node at (633,348) {9}; \node at (478,410) {3}; \node at (487,535) {6};
+\node at (718,412) {6};
+\end{tikzpicture}
+\end{document}

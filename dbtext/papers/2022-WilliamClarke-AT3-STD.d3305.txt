@@ -1,0 +1,1593 @@
+# paper 2022-WilliamClarke-AT3-STD (document 3305)
+document
+  id: 3305
+  drive_file_id: 1uj9daRRyxyhPeIV-_TTrvqNMvpsEpX-o
+  source_path: William Clarke College/Stage 6/Y12 Std/2022 Task 3 Networks, Finance, Non-Linear with Solutions.pdf
+  size_bytes: 7520653
+  task_type: internal_exam
+  course: standard
+  classification_method: explicit_cover
+  year_level: 12
+  school: William Clarke
+  year: 2022
+  natural_key: internal_exam|2022|william clarke|unknown
+  provenance_method: filename
+  bundled_solutions: 1
+  syllabus_version: 2017
+  status: parsed
+  failure_reason: review queue: course
+  ingested_at: 2026-11-13T20:42:46+11:00
+  display_label: 2022 William Clarke College AT3
+  school_formal: William Clarke College
+  task_code: AT3
+
+## Q1  key 2022-WilliamClarke-AT3-STD-Q1  id 6931
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Networks, paths and trees|Network concepts
+  home_source: computed
+  option A
+    latex: $140$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $14$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $7$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $60$
+    is_correct: 0
+    key_source: extracted
+  figure 3305_q1_1.png
+    page: 2
+    bbox: [212, 175, 402, 305]
+    png_path: figures/3305_q1_1.png
+    tikz_path: tikz/tex/3305_q1_1.tex
+    caption: weighted network with vertices A, B, C, D, E
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Weighted network A–E redrawn at crop positions; blue edges/red vertex dots drawn black (rule 6), 0.6pt lines, maths-italic vertex labels, weights at crop positions clear of edges (rules 1,2,3,11,19).
+  part -  id 11039
+    ordinal: 1
+    latex: |
+      The sum of the degrees of all the vertices in the graph below is:
+
+      \exfigure{3305_q1_1}
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-073
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: vertex, edge, degree, directed networks and weighted edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10672
+      source: generated
+      latex: |
+        The sum of the degrees of all the vertices equals the sum of the number of edges meeting at each vertex. Count the edges at each vertex.
+        $$\begin{aligned} \deg A &= 2 &&(AB,\ AE)\\ \deg B &= 3 &&(AB,\ BC,\ BD)\\ \deg C &= 3 &&(BC,\ CD,\ CE)\\ \deg D &= 3 &&(BD,\ CD,\ DE)\\ \deg E &= 3 &&(AE,\ CE,\ DE) \end{aligned}$$
+        The numbers on the edges are weights (distances), not degrees, so they are not added.
+        $$2+3+3+3+3 = 14$$
+        Check: there are $7$ edges, and each edge adds $2$ to the sum of the degrees, so the sum is $2\times 7 = 14$.
+
+        Therefore the sum of the degrees is $14$, which is option B.
+      source_document_id: 3305
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "MCQ working written from answer key B.", "self_check": "Counted degrees per vertex and checked against twice the number of edges (7)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7114
+      confidence: high
+      reason: Count vertex degrees and add them; one routine step.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q2  key 2022-WilliamClarke-AT3-STD-Q2  id 6932
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Investment and loans|Investment
+  home_source: computed
+  option A
+    latex: $\$24\,000\,(1.052)^4 - \$24\,000$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $\$24\,000\,(1.013)^4 - \$24\,000$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $\$24\,000\,(1.013)^{16} - \$24\,000$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $\$24\,000\,(1.052)^{16} - \$24\,000$
+    is_correct: 0
+    key_source: extracted
+  part -  id 11040
+    ordinal: 1
+    latex: |
+      Sebastian invested \$24 000 at a rate of 5.2% p.a. compounded quarterly.
+
+      How much interest does Sebastian earn on his investment over 4 years?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-029
+      focus_area: Investment and loans
+      dot_point: Calculate the future value, present value or interest rate of a compound interest investment using the formula FV=PV(1+r)^n where FV = future value of the investment, PV = present value of the investment, r = interest rate per time period and n = number of time periods
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Compound interest
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10673
+      source: generated
+      latex: |
+        Compound interest formula: $A = P\left(1+r\right)^n$, where $r$ is the rate per compounding period and $n$ is the number of periods.
+
+        Compounding is quarterly, so there are $4$ periods per year.
+        $$\begin{aligned} r &= \dfrac{5.2\%}{4} = 1.3\% = 0.013\\ n &= 4\times 4 = 16 \end{aligned}$$
+        The future value is $A = \$24\,000\,(1.013)^{16}$.
+
+        Interest is the future value minus the principal:
+        $$I = \$24\,000\,(1.013)^{16} - \$24\,000$$
+        Options A and D use the annual rate $5.2\%$ per quarter, and option B uses only $4$ periods, so they are incorrect.
+
+        Therefore the answer is option C.
+      source_document_id: 3305
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "MCQ working written from answer key C.", "self_check": "Rate per quarter 5.2/4 = 1.3%, periods 16; matches option C."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7011
+      confidence: high
+      reason: Pick compound interest expression with quarterly rate and periods, minus principal.
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q3  key 2022-WilliamClarke-AT3-STD-Q3  id 6933
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Algebraic relationships|Exponential relationships
+  home_source: computed
+  option A
+    latex: Exponential
+    is_correct: 1
+    key_source: extracted
+  option B
+    latex: Quadratic
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: Linear
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: Reciprocal
+    is_correct: 0
+    key_source: extracted
+  part -  id 11041
+    ordinal: 1
+    latex: $y = 3^x - 1$ is an example of what relationship?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-007
+      focus_area: Algebraic relationships
+      dot_point: Recognise that an exponential relationship can be represented by an equation, a table of values, a set of ordered pairs or a graph, and move flexibly between these representations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10674
+      source: generated
+      latex: |
+        In $y = 3^x - 1$ the variable $x$ is in the index (exponent) with a constant base $3$.
+
+        This is the form $y = a^x + c$, which is an exponential relationship, shifted down $1$ unit.
+
+        It is not quadratic or linear, since $x$ is not raised to a power, and it is not reciprocal, since $x$ is not in the denominator.
+
+        Therefore the answer is option A.
+      source_document_id: 3305
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "MCQ working written from answer key A.", "self_check": "Variable in exponent identifies an exponential function."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9599
+      confidence: high
+      reason: Recognise variable in exponent as exponential; direct recall.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q4  key 2022-WilliamClarke-AT3-STD-Q4  id 6934
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Investment and loans|Loans
+  home_source: computed
+  option A
+    latex: $\$8.57$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $\$385\,650$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $\$128.55$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $\$385.65$
+    is_correct: 1
+    key_source: extracted
+  part -  id 11042
+    ordinal: 1
+    latex: |
+      The table shows the monthly repayments per \$1000 on a home loan.
+
+      \extable{3305_q4_t1}
+
+      What is the monthly repayment for a loan of \$45 000 at 6.25% p.a. interest over 15 years?
+    marks: 1
+    needs_review: 0
+    data_table 3305_q4_t1
+      header_rows: 1
+      label_col: 1
+      rows_json: [["\\text{Term of loan}", "6.00\\%", "6.25\\%", "6.50\\%", "6.75\\%", "7.00\\%", "7.25\\%"], ["\\text{5 years}", "\\$19.33", "\\$19.45", "\\$19.57", "\\$19.68", "\\$19.80", "\\$19.93"], ["\\text{10 years}", "\\$11.10", "\\$11.23", "\\$11.35", "\\$11.48", "\\$11.62", "\\$11.86"], ["\\text{15 years}", "\\$8.44", "\\$8.57", "\\$8.71", "\\$8.85", "\\$8.99", "\\$9.13"], ["\\text{20 years}", "\\$7.16", "\\$7.31", "\\$7.46", "\\$7.60", "\\$7.84", "\\$7.99"]]
+      spans_json: []
+    tag 2024 S2-12-048
+      focus_area: Investment and loans
+      dot_point: Solve problems involving reducing balance loans including calculating the total amount paid, monthly repayments, amount still owing and the time taken to repay the loan
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Loan repayments and total paid
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10675
+      source: generated
+      latex: |
+        The table gives the monthly repayment per $\$1000$ borrowed.
+
+        For $6.25\%$ p.a. over $15$ years, the table value is $\$8.57$ per $\$1000$.
+
+        The loan is $\$45\,000$, which is $45$ lots of $\$1000$.
+        $$\begin{aligned} \text{Repayment} &= 45\times \$8.57\\ &= \$385.65 \end{aligned}$$
+        Therefore the monthly repayment is $\$385.65$, which is option D.
+      source_document_id: 3305
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "MCQ working written from answer key D.", "self_check": "45 x 8.57 = 385.65 computed."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9615
+      confidence: high
+      reason: Read table value and multiply by 45.
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q5  key 2022-WilliamClarke-AT3-STD-Q5  id 6935
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: table
+  home_topic: sub:12|Algebraic relationships|Quadratic relationships
+  home_source: computed
+  option A
+    latex: \exfigure{3305_q5_1}
+    is_correct: 1
+    key_source: extracted
+    figure_key: 3305_q5_1
+  option B
+    latex: \exfigure{3305_q5_2}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 3305_q5_2
+  option C
+    latex: \exfigure{3305_q5_3}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 3305_q5_3
+  option D
+    latex: \exfigure{3305_q5_4}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 3305_q5_4
+  figure 3305_q5_1.png
+    page: 3
+    bbox: [151, 315, 460, 362]
+    png_path: figures/3305_q5_1.png
+    caption: option A: table of values
+    redraw_status: table
+    redraw_class: table
+    redraw_notes: Option A table of values, transcribed (rule 8).
+    redraw_table_id: Tf4064
+  figure 3305_q5_2.png
+    page: 3
+    bbox: [153, 375, 459, 415]
+    png_path: figures/3305_q5_2.png
+    caption: option B: table of values
+    redraw_status: table
+    redraw_class: table
+    redraw_notes: Option B table of values, transcribed (rule 8); same layout as other options (rule 7).
+    redraw_table_id: Tf4065
+  figure 3305_q5_3.png
+    page: 3
+    bbox: [152, 427, 461, 468]
+    png_path: figures/3305_q5_3.png
+    caption: option C: table of values
+    redraw_status: table
+    redraw_class: table
+    redraw_notes: Option C table of values, transcribed (rule 8); same layout as other options (rule 7).
+    redraw_table_id: Tf4066
+  figure 3305_q5_4.png
+    page: 3
+    bbox: [151, 482, 459, 526]
+    png_path: figures/3305_q5_4.png
+    caption: option D: table of values
+    redraw_status: table
+    redraw_class: table
+    redraw_notes: Option D table of values, transcribed (rule 8); same layout as other options (rule 7).
+    redraw_table_id: Tf4067
+  part -  id 11043
+    ordinal: 1
+    latex: Which table of values matches the relationship $y = x^2 - 2$
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-012
+      focus_area: Algebraic relationships
+      dot_point: Recognise that a quadratic relationship can be represented by an equation, a table of values, a set of ordered pairs or a graph, and move flexibly between these representations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Quadratic models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10676
+      source: generated
+      latex: |
+        Substitute each $x$ value into $y = x^2 - 2$.
+        $$\begin{aligned} x=-1:\quad y &= (-1)^2 - 2 = -1\\ x=0:\quad y &= 0^2 - 2 = -2\\ x=1:\quad y &= 1^2 - 2 = -1\\ x=2:\quad y &= 2^2 - 2 = 2 \end{aligned}$$
+        The table of values is $y = -1,\ -2,\ -1,\ 2$, which matches option A.
+
+        The other options each have a wrong value (for example $-3$ at $x=-1$ or $2$ at $x=0$).
+      source_document_id: 3305
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "MCQ working written from answer key A.", "self_check": "Evaluated y at x = -1, 0, 1, 2 and compared with the tables."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7168
+      confidence: high
+      reason: Substitute a few x-values into simple quadratic to match table.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q6  key 2022-WilliamClarke-AT3-STD-Q6  id 6936
+  section: II
+  question_type: extended
+  marks_total: 4
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Investment and loans|Investment
+  home_source: computed
+  part -  id 11044
+    ordinal: 1
+    latex: Justin borrows \$150 000 over 9 years at an interest rate of 19.3% per annum. He pays \$2936.65 per month.
+    needs_review: 0
+    src_label: a
+  part a  id 11045
+    parent_part_id: 11044
+    ordinal: 2
+    latex: How much will Justin pay back altogether?
+    marks: 1
+    needs_review: 0
+    src_label: i
+    tag 2024 S2-12-048
+      focus_area: Investment and loans
+      dot_point: Solve problems involving reducing balance loans including calculating the total amount paid, monthly repayments, amount still owing and the time taken to repay the loan
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Loan repayments and total paid
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10534
+      source: extracted
+      latex: |
+        Justin makes 12 payments a year for 9 years.
+        $$\begin{aligned} \text{Total repaid} &= \$2936.65 \times 12 \times 9 \\ &= \$317\,158.20 \end{aligned}$$
+      marks_breakdown: 1: correct total
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7002
+      confidence: high
+      reason: Multiply monthly repayment by number of payments.
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11046
+    parent_part_id: 11044
+    ordinal: 3
+    latex: What is the interest paid for this loan?
+    marks: 1
+    needs_review: 0
+    src_label: ii
+    tag 2024 S2-12-048
+      focus_area: Investment and loans
+      dot_point: Solve problems involving reducing balance loans including calculating the total amount paid, monthly repayments, amount still owing and the time taken to repay the loan
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Loan repayments and total paid
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10535
+      source: extracted
+      latex: |
+        The interest is the total repaid minus the amount borrowed.
+        $$\begin{aligned} I &= \$317\,158.20 - \$150\,000 \\ &= \$167\,158.20 \end{aligned}$$
+      marks_breakdown: 1: correct interest (error carried forward awarded)
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer (error carried forward awarded)"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7002
+      confidence: high
+      reason: Subtract amount borrowed from total repaid; one step.
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 11047
+    parent_part_id: 11044
+    ordinal: 4
+    latex: What is the equivalent flat interest rate charged per annum on this loan? Correct to 1 decimal place.
+    marks: 2
+    needs_review: 0
+    src_label: iii
+    tag 2024 S2-12-027
+      focus_area: Investment and loans
+      dot_point: Solve problems involving simple interest in a variety of contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-048
+      focus_area: Investment and loans
+      dot_point: Solve problems involving reducing balance loans including calculating the total amount paid, monthly repayments, amount still owing and the time taken to repay the loan
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Simple interest
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10536
+      source: extracted
+      latex: |
+        Using the simple interest formula, $I = Prn$:
+        $$\begin{aligned} 167\,158.20 &= 150\,000 \times r \times 9 \\ r &= 0.1238\ldots \\ &= 12.4\% \text{ (1 d.p.)} \end{aligned}$$
+      marks_breakdown: 1: correct substitution into $I = Prn$; 1: correct rate to 1 d.p.
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Correct substitution into $I = Prn$, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7131
+      confidence: medium
+      reason: Simple interest formula used in reverse to find rate.
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q7(a)  key 2022-WilliamClarke-AT3-STD-Q7a  id 6937
+  section: II
+  question_type: extended
+  marks_total: 3
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  part -  id 11048
+    ordinal: 1
+    latex: |
+      The diagram shown is a connected network.
+
+      \exfigure{3305_q7a_1}
+    needs_review: 0
+    src_label: a
+    figure 3305_q7a_1.png
+      page: 5
+      bbox: [204, 107, 444, 271]
+      png_path: figures/3305_q7a_1.png
+      tikz_path: tikz/tex/3305_q7a_1.tex
+      caption: connected network on vertices P, Q, R, S, T with dashed edges
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Dashed network P,Q,R,S,T with straight edges PQ, QR, PR, PT, TS and curved edges QT(10), QS(2), RT(4), ST(7) fitted to the crop as smooth Bézier arcs; all edges in house aux fine dashes (rule 3) instead of the crop's long dashes, which is most of the remaining red/blue in the overlay (dash gaps don't coincide) along with the font change; curve paths themselves match. Weights at crop positions, maths-italic vertex labels (rules 1,3,11,19).
+  part a  id 11049
+    parent_part_id: 11048
+    ordinal: 2
+    latex: Draw the minimum spanning tree of this network.
+    marks: 2
+    needs_review: 0
+    src_label: i
+    tag 2024 S11-078
+      focus_area: Networks, paths and trees
+      dot_point: Determine the minimum spanning tree of a network with weighted edges, using any method
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10537
+      source: extracted
+      latex: |
+        Minimum spanning tree: edges $PQ$ (5), $QR$ (5), $RT$ (4) and $QS$ (2).
+
+        \exfigure{3305_q7a_s1}
+      marks_breakdown: 2: correct tree; 1 mark deducted for each mistake
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Tree with one mistake, or equivalent merit"]]
+      meta_json: {}
+    figure 3305_q7a_s1.png
+      page: 16
+      bbox: [190, 105, 445, 300]
+      png_path: figures/3305_q7a_s1.png
+      tikz_path: tikz/tex/3305_q7a_s1.tex
+      caption: solution sketch: minimum spanning tree highlighted on the network
+      redraw_status: approx
+      redraw_class: other
+      redraw_notes: Network P,Q,R,S,T with straight edges PQ 5, QR 5, PR 12, PT 8, TS 19 and curved edges Q–S 2, R–T 4, Q–T 10 (around the left), T–S 7 (around the bottom right), all drawn as house fine dashes (aux), as in the crop. Solution MST (PQ, QR, RT, QS) shown with a light grey band (black!18) instead of the pink highlighter (rule 6). The student's blue marks were left out (rule 17). The curved edges are smooth curves fitted to the hand-drawn arcs, so their shape is approximate (rule 10). Overlay scores are low mostly because of the pink highlight band and the scan's long dashes compared with the house fine dashes; the arcs follow the crop to within a few px.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6967
+      confidence: high
+      reason: Standard minimum spanning tree algorithm on small network.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 11050
+    parent_part_id: 11048
+    ordinal: 3
+    latex: What is the total weight of the spanning tree?
+    marks: 1
+    needs_review: 0
+    src_label: ii
+    tag 2024 S11-078
+      focus_area: Networks, paths and trees
+      dot_point: Determine the minimum spanning tree of a network with weighted edges, using any method
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10538
+      source: extracted
+      latex: $$\begin{aligned} \text{Total weight} &= 2 + 5 + 5 + 4 \\ &= 16 \end{aligned}$$
+      marks_breakdown: 1: correct total weight (error carried forward awarded if weight added correctly)
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer (error carried forward awarded if weights added correctly)"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7136
+      confidence: high
+      reason: Add four edge weights of tree already drawn.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q7(b)  key 2022-WilliamClarke-AT3-STD-Q7b  id 6938
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  part -  id 11051
+    ordinal: 1
+    latex: |
+      The diagram shown is a connected network.
+
+      What is the shortest path from A to G and what is its total weight?
+
+      \exfigure{3305_q7b_1}
+    marks: 2
+    needs_review: 0
+    src_label: b
+    tag 2024 S11-080
+      focus_area: Networks, paths and trees
+      dot_point: Identify a shortest path on a network diagram with no more than 10 vertices
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shortest paths
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10539
+      source: extracted
+      latex: |
+        Shortest path: $A, C, D, B, E, F, G$, total weight $= 56$.
+
+        \exfigure{3305_q7b_s1}
+      marks_breakdown: 1: correct path; 1: correct total weight (error carried forward awarded)
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Correct path, or equivalent merit"]]
+      meta_json: {}
+    figure 3305_q7b_1.png
+      page: 5
+      bbox: [148, 429, 466, 617]
+      png_path: figures/3305_q7b_1.png
+      tikz_path: tikz/tex/3305_q7b_1.tex
+      caption: weighted network A to G
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Weighted network A–G with nodes, edges and weights at the crop's positions. Grey scan lines drawn black at 0.6pt, with small node dots. Rules 1, 2, 3, 6, 19.
+    figure 3305_q7b_s1.png
+      page: 16
+      bbox: [150, 460, 460, 650]
+      png_path: figures/3305_q7b_s1.png
+      tikz_path: tikz/tex/3305_q7b_s1.tex
+      caption: solution sketch: shortest path A to G highlighted with running totals
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Same network in the solution crop's layout. Shortest path A–C–D–B–E–F–G is drawn at 0.9pt over a light grey band in place of the pink highlighter (rule 6). The handwritten running totals (C 8, D 12, B 17, E 37, F 45, G 56) are typeset beside each node. The redraw score is below 0.85 only because of the highlighter band and handwritten numerals.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6964
+      confidence: high
+      reason: Shortest path through multi-vertex network with total weight.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q8  key 2022-WilliamClarke-AT3-STD-Q8  id 6939
+  section: II
+  question_type: extended
+  marks_total: 4
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Annuities|Future value
+  home_source: computed
+  part -  id 11052
+    ordinal: 1
+    latex: |
+      This table shows the future value of \$1 invested at the end of each time period at the rate indicated. Use this table to answer the following.
+
+      \exfigure{3305_q8_1}
+    needs_review: 0
+    src_label: a
+    figure 3305_q8_1.png
+      page: 6
+      bbox: [85, 96, 563, 303]
+      png_path: figures/3305_q8_1.png
+      caption: table: future value of $1 invested, periods 1-10, rates 2% to 8%
+      redraw_status: table
+      redraw_class: table
+      redraw_notes: Future value interest-factor table, transcribed. 'Period' spans both header rows; 'Interest rate per period' spans all 10 rate columns (rule 15).
+      redraw_table_id: Tf4070
+  part a  id 11053
+    parent_part_id: 11052
+    ordinal: 2
+    latex: |
+      Jamie is saving up for an overseas holiday and is investing \$650 half-yearly into an annuity that pays interest at 6%p.a.
+
+      If Jamie's holiday is estimated to be \$6000, will she have enough to go on her holiday after saving for two and a half years? Explain using calculations.
+    marks: 3
+    needs_review: 0
+    src_label: i
+    tag 2024 S2-12-058
+      focus_area: Annuities
+      dot_point: Using a table of interest factors, calculate the future value or present value of an annuity
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-061
+      focus_area: Annuities
+      dot_point: Solve annuity problems involving financial decisions regarding superannuation, savings accounts and loans
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Future value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10540
+      source: extracted
+      latex: |
+        Number of periods: two and a half years of half-yearly deposits gives
+        $$n = 2.5 \times 2 = 5$$
+        Rate per period:
+        $$r = 6\% \div 2 = 3\% = 0.03$$
+        From the table, the factor for $n=5$, $r=3\%$ is $5.3091$.
+        $$\begin{aligned} FV &= 650 \times 5.3091 \\ &= \$3450.915 \end{aligned}$$
+        Since $\$3450.92 < \$6000$, Jamie will not have enough for her holiday.
+      marks_breakdown: 1: $n = 5$; 1: $r = 3\%$ per period; 1: calculation and conclusion (exceptions made if the complex formula was used correctly)
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Finds $n=5$ and $r=3\\%$ per period, or equivalent merit"], [1, "Finds $n = 5$ or $r = 3\\%$, or equivalent merit"]]
+      meta_json: {"marker_note": "Exceptions made if the complex formula was used correctly."}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7036
+      confidence: medium
+      reason: Convert to half-yearly rate and periods, read table, compare to target.
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: UF
+      source: model
+  part b  id 11054
+    parent_part_id: 11052
+    ordinal: 3
+    latex: Jamie changed her holiday plans which is now estimated to cost \$5000. How much does she need to deposit every 6 months to save enough for her holiday?
+    marks: 1
+    needs_review: 0
+    src_label: ii
+    tag 2024 S2-12-059
+      focus_area: Annuities
+      dot_point: Using a table of interest factors, determine the contribution amount required to achieve a given future value or the single sum contribution required to produce an equivalent future value for any given annuity
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Future value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10541
+      source: extracted
+      latex: |
+        Using the same table factor, $FV = a \times X$:
+        $$\begin{aligned} 5000 &= a \times 5.3091 \\ a &= \$941.78 \end{aligned}$$
+      marks_breakdown: 1: correct deposit
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7088
+      confidence: high
+      reason: Annuity table factor used in reverse to find contribution.
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q9(a)  key 2022-WilliamClarke-AT3-STD-Q9a  id 6940
+  section: II
+  question_type: extended
+  marks_total: 3
+  page_start: 7
+  page_end: 7
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Reciprocal relationships
+  home_source: computed
+  part -  id 11055
+    ordinal: 1
+    latex: The number of days required to build the foundations of a townhouse ($d$) is inversely proportional to the number of employees working ($n$). It takes 108 days for a team of 15 employees to finish the foundations.
+    needs_review: 0
+    src_label: a
+  part a  id 11056
+    parent_part_id: 11055
+    ordinal: 2
+    latex: Show that the reciprocal equation is $d = \dfrac{1620}{n}$
+    marks: 2
+    needs_review: 0
+    src_label: i
+    tag 2024 S2-12-023
+      focus_area: Algebraic relationships
+      dot_point: Construct a reciprocal model of the form y=(k)/(x) to analyse inverse variation problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal relationships
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10542
+      source: extracted
+      latex: |
+        For inverse proportion, $d = \dfrac{k}{n}$.
+
+        Substitute $d = 108$, $n = 15$:
+        $$\begin{aligned} 108 &= \dfrac{k}{15} \\ k &= 1620 \end{aligned}$$
+        $$\therefore d = \dfrac{1620}{n}$$
+      marks_breakdown: 1: $d = \dfrac{k}{n}$; 1: $k = 1620$
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Writes $d = \\dfrac{k}{n}$, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7086
+      confidence: high
+      reason: Find inverse variation constant from one data pair.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 11057
+    parent_part_id: 11055
+    ordinal: 3
+    latex: How many workers would be required to finish the foundations in 40 days?
+    marks: 1
+    needs_review: 0
+    src_label: ii
+    tag 2024 S2-12-024
+      focus_area: Algebraic relationships
+      dot_point: Solve inverse variation problems graphically, or algebraically given the value of two of the variables in y=(k)/(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal relationships
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10543
+      source: extracted
+      latex: |
+        $$\begin{aligned} 40 &= \dfrac{1620}{n} \\ n &= 40.5 \end{aligned}$$
+        You cannot have half a worker, so round up.
+        $$\therefore\ 41 \text{ workers}$$
+      marks_breakdown: 1: 41 workers
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6957
+      confidence: medium
+      reason: Solve reciprocal equation then round up in context.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q9(b)  key 2022-WilliamClarke-AT3-STD-Q9b  id 6941
+  section: II
+  question_type: extended
+  marks_total: 3
+  page_start: 7
+  page_end: 7
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Exponential relationships
+  home_source: computed
+  part -  id 11058
+    ordinal: 1
+    latex: |
+      The graph shows the number of bacteria ($y$) per minute ($n$).
+
+      \exfigure{3305_q9b_1}
+    needs_review: 0
+    src_label: b
+    figure 3305_q9b_1.png
+      page: 7
+      bbox: [192, 374, 440, 557]
+      png_path: figures/3305_q9b_1.png
+      tikz_path: tikz/tex/3305_q9b_1.tex
+      caption: exponential growth graph of bacteria against time
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Bacteria growth graph with a grid every 5 min and every 500 bacteria. Gridlines are grey, with the 10-minute lines slightly darker as in the crop. Curve y=1000·2^(n/20) (passes through (0,1000), (20,2000), (40,4000), (60,8000) as the crop shows), drawn smooth at 0.9pt (rules 3a, 9, 10). Ticks 0–80 and 0–6000 and the axis titles match the crop's size and position. Round 2 reduced the font to match the crop.
+  part a  id 11059
+    parent_part_id: 11058
+    ordinal: 2
+    latex: Find the number of bacteria at 50 minutes.
+    marks: 1
+    needs_review: 0
+    src_label: i
+    tag 2024 S2-12-009
+      focus_area: Algebraic relationships
+      dot_point: Construct and analyse an exponential model of the form y=ka^x and y=ka^-x, where a>0 and k is a constant, to solve practical growth or decay problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential growth and decay models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10544
+      source: extracted
+      latex: Reading the graph at 50 minutes gives approximately $5750$ bacteria.
+      marks_breakdown: 1: value above 5500 and below 6000
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer (a value above 5500 and below 6000)"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7213
+      confidence: high
+      reason: Read value directly from exponential graph.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11060
+    parent_part_id: 11058
+    ordinal: 3
+    latex: How long will it take for 2000 bacteria to grow?
+    marks: 1
+    needs_review: 0
+    src_label: ii
+    tag 2024 S2-12-009
+      focus_area: Algebraic relationships
+      dot_point: Construct and analyse an exponential model of the form y=ka^x and y=ka^-x, where a>0 and k is a constant, to solve practical growth or decay problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential growth and decay models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10545
+      source: extracted
+      latex: |
+        Reading the graph at $y = 2000$ gives $n = 20$.
+        $$\therefore\ 20 \text{ minutes}$$
+      marks_breakdown: 1: correct time
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7018
+      confidence: high
+      reason: Read graph in reverse from y-value to time.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 11061
+    parent_part_id: 11058
+    ordinal: 4
+    latex: Explain the value of the intercept of this model
+    marks: 1
+    needs_review: 0
+    src_label: iii
+    tag 2024 S2-12-010
+      focus_area: Algebraic relationships
+      dot_point: Interpret the meaning of the intercept of an exponential graph in a variety of contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10546
+      source: extracted
+      latex: |
+        The intercept is the value of the graph when time $= 0$.
+
+        So there were 1000 bacteria at the beginning.
+      marks_breakdown: 1: explains the intercept in the context of the question
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 7137
+      confidence: medium
+      reason: Interpret intercept as initial bacteria count in context.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: PR
+      source: model
+
+## Q10  key 2022-WilliamClarke-AT3-STD-Q10  id 6942
+  section: II
+  question_type: extended
+  marks_total: 3
+  page_start: 8
+  page_end: 8
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Network concepts
+  home_source: computed
+  part -  id 11062
+    ordinal: 1
+    latex: |
+      This table is used to represent the time it takes to walk along the tracks in Fred Caterson Reserve. There is a carpark (C), a water fountain (W), a public telephone (T) and a football field (F). There are two gates, Gate 1 (G1) and Gate 2 (G2) to enter or leave the Reserve.
+
+      \extable{3305_q10_t1}
+    needs_review: 0
+    src_label: a
+    data_table 3305_q10_t1
+      header_rows: 1
+      label_col: 1
+      rows_json: [["", "\\text{W}", "\\text{G1}", "\\text{F}", "\\text{C}", "\\text{T}", "\\text{G2}"], ["\\text{W}", "-", "8", "-", "9", "10", "-"], ["\\text{G1}", "8", "-", "8", "6", "-", "-"], ["\\text{F}", "-", "8", "-", "12", "-", "10"], ["\\text{C}", "9", "6", "12", "-", "-", "8"], ["\\text{T}", "10", "-", "-", "-", "-", "6"], ["\\text{G2}", "-", "-", "10", "8", "6", "-"]]
+      spans_json: []
+  part a  id 11063
+    parent_part_id: 11062
+    ordinal: 2
+    latex: |
+      Using the table, fill in the missing weighted edges of the network diagram.
+
+      \exfigure{3305_q10_1}
+    marks: 2
+    needs_review: 0
+    src_label: i
+    tag 2024 S11-075
+      focus_area: Networks, paths and trees
+      dot_point: Construct a network diagram to represent information from a given table or map, showing weighted and directed edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Drawing networks from tables and maps
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10547
+      source: extracted
+      latex: |
+        Missing edges: $W$–$C$ = 9, $G1$–$F$ = 8, $C$–$F$ = 12, $T$–$G2$ = 6.
+
+        \exfigure{3305_q10_s1}
+      marks_breakdown: 2: all missing weighted edges correct
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Some missing edges correct, or equivalent merit"]]
+      meta_json: {}
+    figure 3305_q10_1.png
+      page: 8
+      bbox: [150, 280, 465, 510]
+      png_path: figures/3305_q10_1.png
+      tikz_path: tikz/tex/3305_q10_1.tex
+      caption: partly labelled network of W, G1, F, C, T, G2
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Network G1, F, C, G2, W, T with the given weights (6, 8, 8, 10, 10 min), the other edges left unlabelled as in the question. Blue lines and red dots redrawn in black (rule 6).
+    figure 3305_q10_s1.png
+      page: 19
+      bbox: [160, 295, 462, 540]
+      png_path: figures/3305_q10_s1.png
+      tikz_path: tikz/tex/3305_q10_s1.tex
+      caption: solution sketch: network with missing edge weights filled in and shortest path highlighted
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Solution network in the crop's layout. The filled-in weights (G1–F 8, C–F 12, W–C 9, T–G2 6) are typeset. The path G1–W–T–G2–C is drawn at 0.9pt over a light grey band in place of the pink highlighter (rule 6). The teacher's cyan note was left out (rule 17).
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7019
+      confidence: high
+      reason: Transfer table distances onto network edges.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11064
+    parent_part_id: 11062
+    ordinal: 3
+    latex: What is the shortest path to walk from Gate 1 to the public telephone then finish at the carpark?
+    marks: 1
+    needs_review: 0
+    src_label: ii
+    tag 2024 S11-080
+      focus_area: Networks, paths and trees
+      dot_point: Identify a shortest path on a network diagram with no more than 10 vertices
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shortest paths
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10548
+      source: extracted
+      latex: $$\therefore\ G1 \to W \to T \to G2 \to C$$
+      marks_breakdown: 1: correct path (the question asks for the path, not its length)
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer (the question asks for the path, not its length)"]]
+      meta_json: {"format_note": "Source used hyphens; I wrote the path with arrows as a route label, not reasoning arrows. Check if preferred as in source."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6965
+      confidence: medium
+      reason: Shortest path forced through intermediate vertex; two shortest paths combined.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q11  key 2022-WilliamClarke-AT3-STD-Q11  id 6943
+  section: II
+  question_type: extended
+  marks_total: 6
+  page_start: 9
+  page_end: 9
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Investment and loans|Loans
+  home_source: computed
+  part -  id 11065
+    ordinal: 1
+    latex: |
+      The table below shows the loan repayments over 5 months.
+
+      \extable{3305_q11_t1}
+    needs_review: 0
+    src_label: a
+    data_table 3305_q11_t1
+      header_rows: 0
+      label_col: 0
+      rows_json: [["\\text{Amount borrowed}", "\\$720\\,000", "", "", ""], ["\\text{Annual interest rate } (r)", "6\\%", "", "", ""], ["\\text{Monthly repayment } (R)", "\\$4\\,200", "", "", ""], ["\\text{Month } (n)", "\\text{Principal } (P)", "\\text{Interest } (I)", "P+I", "P+I-R"], ["0", "\\$720\\,000", "\\$3\\,600", "\\$723\\,600", "\\$719\\,400"], ["1", "\\$719\\,400", "\\$3\\,597", "\\$722\\,997", "\\$718\\,797"], ["2", "\\$718\\,797", "\\$3\\,593.99", "\\$722\\,390.99", "\\$718\\,190.99"], ["3", "\\$718\\,190.99", "\\$3\\,590.95", "\\$721\\,781.94", "\\$717\\,581.94"], ["4", "\\$717\\,581.94", "A", "B", "C"], ["5", "\\$716\\,969.85", "\\$3\\,684.85", "\\$720\\,554.70", "\\$716\\,354.70"]]
+      spans_json: [[0, 1, 4, 1], [1, 1, 4, 1], [2, 1, 4, 1]]
+  part a  id 11066
+    parent_part_id: 11065
+    ordinal: 2
+    latex: What is the balance owing after 2 months?
+    marks: 1
+    needs_review: 0
+    src_label: i
+    tag 2024 S2-12-045
+      focus_area: Investment and loans
+      dot_point: Model a reducing balance loan as an application of compound interest with periodic repayments in tabular form for up to four time periods, with and without using digital tools
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-048
+      focus_area: Investment and loans
+      dot_point: Solve problems involving reducing balance loans including calculating the total amount paid, monthly repayments, amount still owing and the time taken to repay the loan
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reducing balance loan tables
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10549
+      source: extracted
+      latex: $$\text{Balance after 2 months} = \$718\,190.99$$
+      marks_breakdown: 1: correct balance
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7017
+      confidence: high
+      reason: Read balance directly from loan table.
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11067
+    parent_part_id: 11065
+    ordinal: 3
+    latex: Calculate the amounts represented by A, B and C. Give your answers to the nearest cent for each value.
+    marks: 3
+    needs_review: 0
+    src_label: ii
+    tag 2024 S2-12-045
+      focus_area: Investment and loans
+      dot_point: Model a reducing balance loan as an application of compound interest with periodic repayments in tabular form for up to four time periods, with and without using digital tools
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reducing balance loan tables
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10550
+      source: extracted
+      latex: $$\begin{aligned} A &= \$3587.91 \\ B &= \$721\,169.85 \\ C &= \$716\,969.85 \end{aligned}$$
+      marks_breakdown: 3: A, B and C correct (1 each)
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Two of $A$, $B$, $C$ correct, or equivalent merit"], [1, "One of $A$, $B$, $C$ correct, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7109
+      confidence: high
+      reason: Complete loan spreadsheet rows: interest, balance plus interest, minus repayment.
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 11068
+    parent_part_id: 11065
+    ordinal: 4
+    latex: |
+      The amount in the account immediately after the $n$th repayment can be determined using the recurrence relation
+
+      $$A_n = A_{n-1}(1.005) - 4200$$
+
+      where $n = 1, 2, 3 \dots$ and $A_0 = 720\,000$.
+
+      Given that $A_5 = 716\,354.70$, use the formula to calculate the amount in the account at the end of 7 months.
+    marks: 2
+    needs_review: 0
+    src_label: iii
+    tag 2024 S11-008
+      focus_area: Formulas and equations
+      dot_point: Apply given formulas to solve problems in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-045
+      focus_area: Investment and loans
+      dot_point: Model a reducing balance loan as an application of compound interest with periodic repayments in tabular form for up to four time periods, with and without using digital tools
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-048
+      focus_area: Investment and loans
+      dot_point: Solve problems involving reducing balance loans including calculating the total amount paid, monthly repayments, amount still owing and the time taken to repay the loan
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reducing balance loan tables
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 10551
+      source: extracted
+      latex: |
+        Apply the recurrence relation $A_n = A_{n-1}(1.005) - 4200$ twice, starting from $A_5$.
+        $$\begin{aligned} A_6 &= 716\,354.70 \times 1.005 - 4200 \\ &= 715\,736.47 \end{aligned}$$
+        $$\begin{aligned} A_7 &= 715\,736.47 \times 1.005 - 4200 \\ &= \$715\,115.16 \end{aligned}$$
+      marks_breakdown: 2: correct use of the recurrence relation to $A_7$ (half the marks if the table was used instead of the formula)
+      source_document_id: 3305
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds $A_6$, or equivalent merit"]]
+      meta_json: {"marker_note": "Half the marks if the table was used instead of the formula."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7215
+      confidence: high
+      reason: Apply given recurrence relation twice from given value.
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model

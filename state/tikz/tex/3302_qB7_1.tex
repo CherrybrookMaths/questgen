@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (X) at (238,355); \coordinate (Y) at (45,32); \coordinate (N) at (238,135);
+  \draw (X) -- (Y);
+  \draw[->] (X) -- (N);
+  \draw pic[draw, angle radius=62*0.0127cm] {angle=N--X--Y};
+  \node at (238,107) {North};
+  \node at (35,22) {$Y$};
+  \node at (240,385) {$X$};
+  \node at (212,248) {$32^\circ$};
+\end{tikzpicture}
+\end{document}

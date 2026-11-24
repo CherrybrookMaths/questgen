@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5613cm,y=0.5448cm]
+\path (-10.9,10.9) rectangle (10.8,-11.2);
+\foreach \i in {-10,...,10}{
+  \pgfmathtruncatemacro\m{mod(abs(\i),5)}
+  \ifnum\m=0 \def\c{black!45}\else\def\c{black!15}\fi
+  \draw[\c, line width=0.4pt] (\i,-10.5) -- (\i,10.5);
+  \draw[\c, line width=0.4pt] (-10.6,\i) -- (10.6,\i);
+}
+\draw (-10.6,0) -- (10.6,0);
+\draw (0,-10.5) -- (0,10.5);
+\foreach \i in {-10,-5,5,10}{
+  \node[font=\small, anchor=north, inner sep=2pt] at (\i,-0.15) {\halo{$\i$}};
+  \node[font=\small, anchor=east, inner sep=2pt] at (-0.1,\i) {\halo{$\i$}};
+}
+\node[font=\small, anchor=north east, inner sep=2pt] at (-0.1,-0.15) {\halo{$0$}};
+% sample answers
+\draw[<->, line width=0.9pt] ({-5/3},-5) -- ({8/3},8);
+\draw[<->, line width=0.9pt] (-1.2,-6.2) -- (2.3,6.05);
+\foreach \p in {(1,3),(-1,-3),(0,-2),(2,5)} \fill \p circle[radius=1.6pt];
+\node[font=\small] at (3.5,8.9) {$m=3$};
+\node[font=\small] at (3.95,5.9) {$m=3.5$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \node[font=\small\bfseries] at (237,40) {Roll 1};
+  \node[font=\small\bfseries] at (505,40) {Roll 2};
+  \foreach \y/\l in {170/1,393/2,616/3}{
+    \draw (28,393) -- (200,\y);
+    \node[font=\small] at (241,\y) {$\l$};
+    \draw (280,\y) -- (455,\y-73);
+    \draw (280,\y) -- (455,\y);
+    \draw (280,\y) -- (455,\y+73);
+    \node[font=\small] at (500,\y-73) {$1$};
+    \node[font=\small] at (500,\y) {$2$};
+    \node[font=\small] at (500,\y+73) {$3$};
+    \node[font=\scriptsize] at (355,\y-62) {$\dfrac{1}{6}$};
+    \node[font=\scriptsize] at (425,\y-30) {$\dfrac{1}{2}$};
+    \node[font=\scriptsize] at (362,\y+67) {$\dfrac{1}{3}$};
+  }
+  \node[font=\scriptsize] at (92,262) {$\dfrac{1}{6}$};
+  \node[font=\scriptsize] at (113,360) {$\dfrac{1}{2}$};
+  \node[font=\scriptsize] at (90,545) {$\dfrac{1}{3}$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\sy{13.88}\def\yz{578.4}\def\sp{4.734}
+  \foreach \k in {1,...,34} \draw[black!25,line width=0.4pt] (270,{\yz-\sy*\k}) -- (942,{\yz-\sy*\k});
+  \foreach \i in {0,...,5} \draw[black!25,line width=0.4pt] ({327+112*\i},105) -- ({327+112*\i},578.4);
+  \foreach \i/\n in {0/34,1/26,2/20,3/12,4/6,5/2}
+    \filldraw[fill=black!25] ({327+112*\i-45},\yz) rectangle ({327+112*\i+45},{\yz-\sy*\n});
+  \draw (270,105) -- (270,600);
+  \draw (942,105) -- (942,605);
+  \draw (270,\yz) -- (942,\yz);
+  \foreach \i in {0,...,5} \draw ({327+112*\i},\yz) -- ({327+112*\i},{\yz+7});
+  \foreach \k in {1,...,34} \draw (265,{\yz-\sy*\k}) -- (275,{\yz-\sy*\k});
+  \foreach \k in {5,10,...,30} \draw (260,{\yz-\sy*\k}) -- (280,{\yz-\sy*\k});
+  \foreach \k in {5,10,...,100} \draw (937,{\yz-\sp*\k}) -- (947,{\yz-\sp*\k});
+  \foreach \k in {20,40,...,100} \draw (932,{\yz-\sp*\k}) -- (952,{\yz-\sp*\k});
+  \foreach \k in {5,10,...,30} \node[font=\LARGE,anchor=east] at (252,{\yz-\sy*\k}) {$\k$};
+  \foreach \k in {20,40,...,100} \node[font=\LARGE,anchor=west] at (956,{\yz-\sp*\k}) {$\k$};
+  \node[font=\LARGE] at (942,58) {$\%$};
+  \foreach \i/\t in {0/Chocolate,1/Vanilla,2/Strawberry,3/Mint,4/Neapolitan,5/Banana}
+    \node[font=\footnotesize,anchor=base] at ({322+112*\i},616) {\t};
+  \node[font=\footnotesize,rotate=90] at (30,338) {Number of Students};
+  \draw[line width=0.9pt] plot[smooth,tension=0.4] coordinates {(327,{\yz-\sp*34}) (439,{\yz-\sp*60}) (551,{\yz-\sp*80}) (663,{\yz-\sp*92}) (775,{\yz-\sp*98}) (887,{\yz-\sp*100})};
+  \foreach \i/\c in {0/34,1/60,2/80,3/92,4/98,5/100}
+    \filldraw[fill=black!25] ({327+112*\i},{\yz-\sp*\c}) circle (6);
+\end{tikzpicture}
+\end{document}

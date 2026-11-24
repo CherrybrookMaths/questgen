@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\newcommand\bx[4]{\draw (#1-18,#2-40) rectangle (#1+18,#2+40); \draw (#1-18,#2) -- (#1+18,#2);
+  \node[font=\footnotesize] at (#1,#2-20) {#3}; \node[font=\footnotesize] at (#1,#2+20) {#4};}
+\foreach \n/\x/\y in {s/95/270, a/215/270, b/333/212, c/432/118, d/527/212, e/622/212, f/725/118, g/742/305, h/842/212, k/980/212}
+  \coordinate (\n) at (\x,\y);
+\foreach \p/\q in {s/a,a/b,b/c,c/d,b/d,d/e,e/f,e/g,f/g,f/h,g/h,h/k}
+  \draw[mid=0.58] (\p) -- (\q);
+\foreach \n in {s,a,b,c,d,e,f,g,h,k} \fill (\n) circle (8.5);
+\node[left] at (82,272) {start};
+\node[right] at (988,212) {finish};
+\node at (148,236) {$A,\,2$};
+\node at (262,206) {$B,\,4$};
+\node at (366,137) {$C,\,5$};
+\node at (497,137) {$E,\,3$};
+\node at (432,245) {$D,\,9$};
+\node at (585,180) {$F,\,1$};
+\node at (665,132) {$G,\,4$};
+\node at (676,290) {$H,\,5$};
+\node at (760,212) {$I,\,2$};
+\node at (792,132) {$J,\,4$};
+\node at (805,282) {$K,\,7$};
+\node at (910,180) {$L,\,6$};
+\bx{90}{335}{0}{0}
+\bx{203}{205}{2}{2}
+\bx{338}{280}{6}{6}
+\bx{427}{50}{11}{12}
+\bx{525}{275}{15}{15}
+\bx{615}{275}{16}{16}
+\bx{725}{50}{20}{20}
+\bx{745}{372}{22}{22}
+\bx{862}{290}{29}{29}
+\bx{982}{292}{35}{35}
+\end{tikzpicture}
+\end{document}

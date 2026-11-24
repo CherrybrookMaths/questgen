@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (A) at (140,229); \coordinate (B) at (270,328);
+  \draw[->] (140,330) -- (140,22);
+  \draw (5,233) -- (338,233);
+  \draw (A) -- (B);
+  \pgfmathsetmacro\ang{atan2(-(328-229),270-140)}
+  \draw[->] ($(A)+(0,-55)$) arc[start angle=-90, end angle={-\ang-3}, radius=55];
+  \fill (A) circle[radius=6.5];
+  \fill (B) circle[radius=6.5];
+  \node at (143,10) {N};
+  \node at (115,199) {$A$};
+  \node at (296,342) {$B$};
+  \node[font=\small] at (226,212) {$130^\circ$};
+\end{tikzpicture}
+\end{document}

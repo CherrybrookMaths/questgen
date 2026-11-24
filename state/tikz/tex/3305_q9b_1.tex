@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, font=\footnotesize]
+% origin (113,438); 5.3 px per minute; 0.0525 px per bacterium
+\foreach \k in {1,...,19} {
+  \pgfmathtruncatemacro\m{mod(\k,2)}
+  \ifnum\m=0 \draw[black!55] ({113+26.5*\k},438)--({113+26.5*\k},17);
+  \else \draw[black!35] ({113+26.5*\k},438)--({113+26.5*\k},17); \fi}
+\foreach \k in {1,...,15} \draw[black!35] (113,{438-26.25*\k})--(627,{438-26.25*\k});
+\draw[->] (113,438)--(640,438);
+\draw[->] (113,438)--(113,14);
+\foreach \k in {0,20,40,60,80} {\draw ({113+5.3*\k},438)--({113+5.3*\k},445); \node[below, inner sep=2pt] at ({113+5.3*\k},445) {\k};}
+\foreach \k in {0,2000,4000,6000} {\draw (106,{438-0.0525*\k})--(113,{438-0.0525*\k}); \node[left, inner sep=2pt] at (106,{438-0.0525*\k}) {\k};}
+\draw[line width=0.9pt] plot[smooth, samples=90, domain=0:60] ({113+5.3*\x},{438-52.5*2^(\x/20)});
+\node at (372,495) {Time in minutes ($n$)};
+\node[rotate=90] at (26,228) {Number of bacteria ($y$)};
+\end{tikzpicture}
+\end{document}

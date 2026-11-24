@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (32,328); \coordinate (B) at (112,112); \coordinate (C) at (428,112);
+\coordinate (D) at (505,236); \coordinate (E) at (267,328);
+\draw (B) arc[start angle=-153.1, end angle=-26.9, radius=177.2];
+\draw (B)--(C) (A)--(B) (A)--(C) (B)--(E) (A)--(D) (A)--(E) (C)--(D);
+\foreach \p in {A,B,C,D,E} \node[pt,inner sep=1.5pt] at (\p) {};
+\node at (90,113) {$B$}; \node at (450,115) {$C$}; \node at (506,262) {$D$};
+\node at (30,353) {$A$}; \node at (267,353) {$E$};
+\end{tikzpicture}
+\end{document}

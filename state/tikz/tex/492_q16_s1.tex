@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+  \begin{scope}[shift={(-8,15)}]
+  \coordinate (S) at (75,145); \coordinate (T) at (196,44); \coordinate (U) at (371,64);
+  \coordinate (W) at (411,141); \coordinate (X) at (570,184); \coordinate (V) at (253,241);
+  \draw[mid=0.5,line width=0.9pt] (S) .. controls (85,100) and (140,45) .. (T);
+  \draw[mid=0.5] (U) .. controls (350,45) and (300,40) .. (T);
+  \draw[mid=0.5] (U) .. controls (392,80) and (412,110) .. (W);
+  \draw[mid=0.5] (U) .. controls (475,60) and (568,120) .. (X);
+  \draw[mid=0.5] (W) -- (V);
+  \draw[mid=0.5] (V) .. controls (258,170) and (225,95) .. (T);
+  \draw[mid=0.45,line width=0.9pt] (S) .. controls (130,150) and (150,250) .. (V);
+  \draw[mid=0.55,line width=0.9pt] (V) .. controls (350,268) and (530,255) .. (X);
+  \foreach \p in {S,T,U,W,X,V} \fill (\p) circle[radius=7];
+  \foreach \p in {T,V,X} \draw (\p) circle[radius=16];
+  \begin{scope}[font=\scriptsize]
+  \node at (52,145) {$S$}; \node at (168,32) {$T$}; \node at (372,39) {$U$};
+  \node at (435,143) {$W$}; \node at (598,185) {$X$}; \node at (226,226) {$V$};
+  \end{scope}
+  \end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \node[font=\small\bfseries] at (237,40) {Roll 1};
+  \node[font=\small\bfseries] at (507,40) {Roll 2};
+  \foreach \y/\l in {172/1,390/2,608/3}{
+    \draw (35,390) -- (210,\y);
+    \node[font=\small] at (247,\y) {$\l$};
+    \draw (285,\y) -- (458,\y-73);
+    \draw (285,\y) -- (458,\y);
+    \draw (285,\y) -- (458,\y+73);
+    \node[font=\small] at (500,\y-73) {$1$};
+    \node[font=\small] at (500,\y) {$2$};
+    \node[font=\small] at (500,\y+73) {$3$};
+  }
+  \node[font=\scriptsize] at (100,258) {$\dfrac{1}{6}$};
+  \node[font=\scriptsize] at (120,360) {$\dfrac{1}{2}$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[scale=1.5]
+\coordinate (S) at (0,0); \coordinate (B) at (2.598,-1.5); \coordinate (M) at (-0.362,-3.984);
+\draw (S)--(B)--(M)--cycle;
+\draw[->] (S)--++(0,1.8) node[above] {N};
+\draw (S)++(90:0.45) arc[start angle=90,end angle=-30,radius=0.45];
+\node at ($(S)+(30:0.78)$) {$120^\circ$};
+\draw (S)++(-30:0.45) arc[start angle=-30,end angle=-95.19,radius=0.45];
+\node at ($(S)+(-62:0.95)$) {$65.19^\circ$};
+\draw[->] (S)++(90:1.5) arc[start angle=90,end angle=-95.19,radius=1.5];
+\node[anchor=west] at ($(S)+(25:1.58)$) {$185.19^\circ\approx185^\circ$};
+\draw (B)++(150:0.45) arc[start angle=150,end angle=220,radius=0.45];
+\node at ($(B)+(185:0.8)$) {$70^\circ$};
+\draw (M)++(40:0.5) arc[start angle=40,end angle=84.81,radius=0.5];
+\node at ($(M)+(58:1.1)$) {$44.81^\circ$};
+\node[left] at (S) {$S$};
+\node[below right] at (B) {$B$};
+\node[below left] at (M) {$M$};
+\node[above right] at ($(S)!0.72!(B)$) {3 km};
+\node[left] at ($(S)!0.6!(M)$) {4 km};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\coordinate (A) at (128,182); \coordinate (B) at (227,258);
+\draw[->] (128,258) -- (128,30);
+\node at (136,20) {N};
+\draw (28,184) -- (275,184);
+\draw (A) -- (B);
+\fill (A) circle (5); \fill (B) circle (5);
+\node at (112,155) {$A$}; \node at (244,268) {$B$};
+\draw[->] (A) ++(-90:40) arc[start angle=-90, end angle=37.5, radius=40];
+\node at (186,168) {$130^\circ$};
+\draw[->] (B) -- (227,115);
+\node at (227,102) {N};
+\draw (B) ++(-90:26) arc[start angle=-90, end angle=-142.5, radius=26];
+\node at (205,212) {$50^\circ$};
+\draw (B) ++(-90:13) arc[start angle=-90, end angle=217.5, radius=13];
+\draw[->] (232,318) -- (229,278);
+\node at (234,332) {$310^\circ$};
+\end{tikzpicture}
+\end{document}

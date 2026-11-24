@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% coastline
+\draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates {(110,245) (75,238) (42,244) (30,262) (32,285) (50,295) (100,300) (140,320) (165,350) (192,382)} -- (218,382);
+\draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates {(110,245) (128,232) (140,200) (175,158) (218,140) (265,135) (310,145) (345,185) (375,200) (407,192) (460,180) (500,155) (520,115) (560,85) (596,58) (618,30) (640,22) (655,30)};
+\draw[line width=0.9pt] plot[smooth,tension=0.6] coordinates {(218,382) (275,378) (305,360) (330,330) (365,322) (407,327) (450,325) (500,342) (520,365) (532,378) (565,382) (596,380) (630,383) (655,398) (672,410)};
+% trapezia
+\draw[aux] (28,272) -- (218,140) -- (407,192) -- (596,58);
+\draw[aux] (28,272) -- (218,382) -- (407,327) -- (596,380);
+\draw[aux] (218,140) -- (218,382);
+\draw[aux] (407,192) -- (407,327);
+\draw (596,58) -- (596,380);
+\node[font=\small,rotate=90] at (236,262) {240m};
+\node[font=\small,rotate=90] at (426,262) {160m};
+\node[font=\small,rotate=90] at (620,222) {300m};
+% intervals
+\draw[aux,<->] (30,462) -- (216,462);
+\draw[aux,<->] (220,462) -- (405,462);
+\draw[aux,<->] (409,462) -- (597,462);
+\node[font=\small] at (123,442) {200 m};
+\node[font=\small] at (312,442) {200 m};
+\node[font=\small] at (503,442) {200 m};
+\end{tikzpicture}
+\end{document}

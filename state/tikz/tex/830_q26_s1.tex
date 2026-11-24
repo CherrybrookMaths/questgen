@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (86,284); \coordinate (B) at (355,43); \coordinate (C) at (778,103);
+\coordinate (D) at (476,254); \coordinate (E) at (808,375); \coordinate (F) at (265,524);
+\draw[aux] (B)--(F) (B)--(C) (D)--(F) (F)--(E);
+\draw[line width=0.9pt] (F)--(A)--(B)--(D)--(C) (D)--(E);
+\foreach \p in {A,B,C,D,E,F} \fill (\p) circle[radius=0.75mm];
+\node at (339,18) {$B$}; \node at (803,88) {$C$}; \node at (50,273) {$A$};
+\node at (437,246) {$D$}; \node at (840,381) {$E$}; \node at (282,554) {$F$};
+\node at (192,145) {8}; \node at (564,40) {10}; \node[font=\large] at (439,130) {5};
+\node[font=\large] at (296,238) {14}; \node[font=\large] at (668,184) {7}; \node at (666,290) {9};
+\node[font=\large] at (436,374) {10}; \node[font=\large] at (147,421) {7}; \node[font=\large] at (551,492) {16};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{8.7}{10}\selectfont}]
+  \foreach \v in {50,100,...,300} \draw[black!35,line width=0.4pt] ({115+2.144*\v},35) -- ({115+2.144*\v},505.4);
+  \foreach \v in {5,15,...,55} \draw[black!15,line width=0.4pt] (115,{505.4-7.84*\v}) -- (758.2,{505.4-7.84*\v});
+  \foreach \v in {10,20,...,60} \draw[black!35,line width=0.4pt] (115,{505.4-7.84*\v}) -- (758.2,{505.4-7.84*\v});
+  \draw[->] (115,505.4) -- (115,10);
+  \draw[->] (115,505.4) -- (785,505.4);
+  \foreach \v in {5,10,...,60} \draw (109,{505.4-7.84*\v}) -- (115,{505.4-7.84*\v});
+  \foreach \v in {50,100,...,300} \draw ({115+2.144*\v},505.4) -- ({115+2.144*\v},511);
+  \foreach \v in {10,20,...,60} \node[anchor=east] at (101,{505.4-7.84*\v}) {$\v000$};
+  \foreach \v in {50,100,...,300} \node at ({115+2.144*\v},535) {$\v$};
+  \node at (450,563) {Attendees ($x$)};
+  \node[rotate=90] at (18,284) {Cost to host ($C$)};
+  \draw[line width=0.9pt] (115,{505.4-7.84*15}) -- (758.2,{505.4-7.84*51});
+\end{tikzpicture}
+\end{document}

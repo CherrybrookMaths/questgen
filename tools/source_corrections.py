@@ -856,4 +856,35 @@ for sid, lat, crit, note, extra in C25:
     apply(sid, lat, crit, note, extra)
     m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
     db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
-db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25')
+# Standard batch 7 (run s7, 25 Nov just after midnight): the verifier's 29 findings on 2022 Knox AT2/AT3, NEAP AT4, William Clarke AT1,
+# Oakhill AT1 and Manly Campus AT4, checked by hand. Your calls: Knox 2022 AT3 Q5(b) and Q7, NEAP 2022 Q27 and Q33 (see open_decisions).
+# Left as the schools have them: Knox AT3 Q1(c) (porch measured off the plan), NEAP Q20 (limits of accuracy; old syllabus), NEAP Q32(c)
+# (rounding up for a target), Knox AT3 Q7(b) explanation.
+# 2022 William Clarke AT1 has a Part A (finance) and a Part B (trigonometry) with the same question numbers: the load put Part A's school
+# solutions (10488-10498) on Part B's questions and Part B's bearing/triangle drawings on Part A's; Part A had Claude-written solutions.
+for k, (sa, qa) in enumerate(zip(range(10488, 10499), range(6897, 6908))):
+    if db.execute('select question_id from solutions where id=?', (sa,)).fetchone() == (6908 + k,):
+        db.execute('delete from solutions where question_id=? and source=? and id between 10661 and 10671', (qa, 'generated'))
+        db.execute('update solutions set question_id=?, part_id=null where id=?', (qa, sa))
+for fid, q in ((4106, 6913), (4107, 6914), (4108, 6915), (4109, 6918)):
+    db.execute('update figures set question_id=?, part_id=null where id=?', (q, fid))
+def _sol10485(l, c):   # 2022 Manly AT4 Q41(c) working
+    return (l.split(r'Let $Q$ be the point due north of $S$.')[0] + r"""Let $Q$ be the point due south of $S$. Alternate angles on the parallel north-south lines give $\angle QSR = 53^\circ$.
+$$\begin{aligned} \angle QST &= \angle QSR-\angle RST \\ &= 53^\circ - 33^\circ20' \\ &= 19^\circ40' \end{aligned}$$
+$$\begin{aligned} \text{bearing of } T \text{ from } S &= 180^\circ + 19^\circ40' \\ &= 199^\circ40'\text{T} \end{aligned}$$
+$$\therefore\ \text{the bearing of } T \text{ from } S \text{ is } 199^\circ40'\text{T}$$""", c)
+C26 = [
+ (10647, [(r'The bearing of $B$ from $S$ is $120^\circ$ and $M$ lies a further $65.19^\circ$ clockwise from $SB$, so the bearing of $M$ from $S$ is' + '\n' + r'$$120^\circ + 65.19^\circ \approx 185.19^\circ \approx 185^\circ$$' + '\n' + r'$$\therefore\ \text{the yacht should sail on a bearing of } 185^\circ$$',
+           r'The bearing of $B$ from $S$ is $120^\circ$ and $M$ lies a further $65.19^\circ$ clockwise from $SB$, so the bearing of $M$ from $S$ is' + '\n' + r'$$120^\circ + 65.19^\circ = 185.19^\circ$$' + '\n' + r'The final leg is from $M$ back to $S$, the reverse direction:' + '\n' + r'$$185.19^\circ - 180^\circ = 5.19^\circ$$' + '\n' + r'$$\therefore\ \text{the yacht should sail on a bearing of } 005^\circ$$')], [], r'the answer $185^\circ$ is the bearing of $M$ from $S$; the final leg $MS$ is the reverse, $005^\circ$', None),
+ (10439, [('which is ambiguous; the key is option A.\n\nHence the answer is option A.', 'which is ambiguous, so the school accepts option A or option C.\n\nHence the answer is option A or C.')], [], r'the working said the key is A only; both A and C are keyed (the school accepts either)', None),
+ (10457, [(r'&= 31', r'&= 36')], [], r'$7+8+5+7+9$ was given as $31$ (as in the guideline); it is $36$', None),
+ (10485, [], [], r'the working put $Q$ due north of $S$ and wrote $\angle QSR=233^\circ$; $Q$ is due south, $\angle QSR=53^\circ$, $\angle QST=19^\circ40^\prime$, bearing $199^\circ40^\prime$ (unchanged)', _sol10485),
+ (10634, [('is a cycle.', 'is a Hamiltonian cycle.')], [], r'the answer said "cycle"; a closed route through every vertex once is a Hamiltonian cycle', None),
+ (10637, [(r'&\approx 65.4 \\ &\approx 65 \text{ m}^3', r'&= 65.49\ldots \\ &\approx 65 \text{ m}^3')], [], r'the middle line read $65.4$; $\pi\times11.75^2\times0.151=65.49\ldots$', None),
+]
+for sid, lat, crit, note, extra in C26:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26')

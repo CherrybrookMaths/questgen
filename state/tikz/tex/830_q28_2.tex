@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\s{6.836}
+\foreach \k in {0,...,23} {\pgfmathtruncatemacro\m{mod(\k,5)}
+  \ifnum\m=0 \draw[black!45,line width=0.6pt] (29,{37+11*\k})--(986,{37+11*\k});
+  \else \draw[black!22,line width=0.6pt] (29,{37+11*\k})--(986,{37+11*\k}); \fi}
+\foreach \v in {5,10,...,135} {\pgfmathtruncatemacro\m{mod(\v,20)}
+  \ifnum\m=0 \else \draw[black!22,line width=0.6pt] ({29+\v*\s},37)--({29+\v*\s},290); \fi}
+\foreach \v in {0,20,...,140} \draw[black!45,line width=0.6pt] ({29+\v*\s},37)--({29+\v*\s},290);
+\draw[->] (29,310)--(1042,310);
+\foreach \v in {5,10,...,135} {\pgfmathtruncatemacro\m{mod(\v,20)}
+  \ifnum\m=0 \else \draw ({29+\v*\s},301)--({29+\v*\s},319); \fi}
+\foreach \v in {0,20,...,140} {\draw ({29+\v*\s},296)--({29+\v*\s},324);
+  \node[font=\large] at ({29+\v*\s},362) {\v};}
+\node[font=\large] at (532,408) {Shop area (square metres)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (262,383); \coordinate (B) at (38,185); \coordinate (C) at (212,62);
+\coordinate (D) at (410,38); \coordinate (E) at (708,160);
+\draw (B) -- (C) -- (A) -- (B) -- (E) -- (D) -- (A) -- (E);
+\foreach \p in {A,B,C,D,E} \fill (\p) circle (1.6pt);
+\node at (216,37) {$\boldsymbol{C}$};
+\node at (430,18) {$\boldsymbol{D}$};
+\node at (19,202) {$\boldsymbol{B}$};
+\node at (734,163) {$\boldsymbol{E}$};
+\node at (289,399) {$\boldsymbol{A}$};
+\end{tikzpicture}
+\end{document}

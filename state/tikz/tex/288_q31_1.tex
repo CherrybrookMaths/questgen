@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,20} {
+  \draw[black!40,line width=0.5pt] ({195+28.5*\i},658)--({195+28.5*\i},88);
+  \draw[black!40,line width=0.5pt] (195,{658-28.5*\i})--(765,{658-28.5*\i});}
+\draw[->] (195,658)--(812,658);
+\draw[->] (195,658)--(195,42);
+\node[rotate=90,font=\fontsize{11}{13}\selectfont] at (60,355) {amount (\$)};
+\node[font=\fontsize{11}{13}\selectfont] at (500,782) {number of coffee tables};
+\end{tikzpicture}
+\end{document}

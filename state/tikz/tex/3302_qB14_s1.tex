@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (298,62); \coordinate (B) at (52,281); \coordinate (C) at (488,281);
+\draw (A)--(B)--(C)--cycle;
+\draw[aux,->] (B)--(52,80);
+\draw[aux,->] (C)--(488,128);
+\draw[aux,->] (B) ++(-90:133) arc[start angle=-90,end angle=-42.5,radius=133];
+\draw[aux,->] (C) ++(270:78) arc[start angle=270,end angle=587.5,radius=78];
+% interior angles from the solution
+\draw (B) ++(0:36) arc[start angle=0,end angle=-41.7,radius=36];
+\draw (C) ++(180:24) arc[start angle=180,end angle=229,radius=24];
+\draw (A) ++(131:26) arc[start angle=131,end angle=49,radius=26];
+\node[font=\footnotesize] at (108,262) {$54^\circ$};
+\node[font=\footnotesize] at (439,268) {$50^\circ$};
+\node[font=\footnotesize] at (298,110) {$76^\circ$};
+\node at (312,42) {$A$};
+\node at (35,307) {$B$};
+\node at (502,306) {$C$};
+\node[font=\footnotesize] at (95,183) {$036^\circ$};
+\node[font=\footnotesize] at (527,257) {$320^\circ$};
+\node[font=\footnotesize] at (228,302) {125 km};
+\node[font=\footnotesize,align=left] at (624,132) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

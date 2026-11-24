@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{7.5}{9}\selectfont]
+% highlights: 10% row and 8-year column
+\fill[black!15, rounded corners=12] (4,212) rectangle (676,240);
+\fill[black!15, rounded corners=12] (312,86) rectangle (372,246);
+\begin{scope}
+\clip[rounded corners=12] (4,212) rectangle (676,240);
+\fill[black!30, rounded corners=12] (312,86) rectangle (372,246);
+\end{scope}
+\node[font=\fontsize{7.5}{9}\selectfont\bfseries] at (340,53) {Monthly Repayment on a Loan of \$1000};
+\draw (12,72) rectangle (668,238);
+\draw (143,72) -- (143,238);
+\foreach \x in {274,406,537} \draw (\x,97) -- (\x,238);
+\draw (143,97) -- (668,97);
+\foreach \y in {127,155,182,211} \draw (12,\y) -- (668,\y);
+\node at (77,84) {Interest Rate}; \node at (77,111) {(\% p.a.)};
+\node at (405,84) {Period of Loan};
+\foreach \t [count=\i] in {6 years,8 years,10 years,12 years} \node at ({143+131.25*(\i-0.5)},112) {\t};
+\foreach \r/\a/\b/\c/\d/\yy in {7/17.05/13.63/11.61/10.28/141, 8/17.53/14.14/12.13/10.82/168.5, 9/18.03/14.65/12.67/11.38/196.5, 10/18.53/15.17/13.22/11.95/224.5}{
+  \node at (77,\yy) {\r};
+  \node at (208,\yy) {\$\a}; \node at (340,\yy) {\$\b}; \node at (471,\yy) {\$\c}; \node at (602,\yy) {\$\d};
+}
+\end{tikzpicture}
+\end{document}

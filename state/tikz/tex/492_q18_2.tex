@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.014986cm,y=-0.014986cm]
+  \coordinate (O) at (392,60); \coordinate (L) at (577,142); \coordinate (Sc) at (212,222);
+  \coordinate (C) at (497,224); \coordinate (M) at (293,350); \coordinate (G) at (577,390);
+  \begin{scope}[aux]
+  \draw (O) .. controls (290,70) and (215,130) .. (Sc);
+  \draw (Sc) .. controls (195,300) and (230,335) .. (M);
+  \draw (O) .. controls (392,150) and (340,280) .. (M);
+  \draw (O) .. controls (440,110) and (520,138) .. (L);
+  \draw (O) .. controls (560,72) and (708,95) .. (708,125) .. controls (708,150) and (560,195) .. (C);
+  \draw (L) .. controls (470,180) and (360,270) .. (M);
+  \draw (L) -- (C);
+  \draw (C) .. controls (490,320) and (540,360) .. (G);
+  \draw (O) .. controls (640,35) and (770,80) .. (770,170) .. controls (770,250) and (660,330) .. (G);
+  \draw (M) .. controls (380,405) and (500,405) .. (G);
+  \end{scope}
+  \foreach \p in {O,L,Sc,C,M,G} \fill (\p) circle[radius=8];
+  \begin{scope}[font=\fontsize{10}{11}\selectfont]
+  \node at (360,34) {office};
+  \node[anchor=west] at (590,142) {library};
+  \node[anchor=east,align=right] at (195,217) {science\\laboratories};
+  \node[anchor=north west,align=left] at (509,229) {computer\\rooms};
+  \node[anchor=north east,align=right] at (292,359) {mathematics\\classrooms};
+  \node[anchor=west] at (590,398) {gymnasium};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

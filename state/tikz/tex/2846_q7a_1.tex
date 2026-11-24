@@ -1,0 +1,44 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+  v/.style={circle,draw,minimum size=0.6cm,inner sep=0pt,font=\normalsize},
+  el/.style={ellipse,draw,minimum width=1.9cm,minimum height=0.62cm,inner sep=0pt,font=\tiny}]
+\node[el] (VC) at (55,178) {Visitors Centre};
+\node[el, minimum width=1.65cm] (L) at (1062,195) {Lookout};
+\node[v] (R) at (277,55) {$R$};
+\node[v] (U) at (497,25) {$U$};
+\node[v] (V) at (687,78) {$V$};
+\node[v] (T) at (507,195) {$T$};
+\node[v] (S) at (302,318) {$S$};
+\node[v] (W) at (707,291) {$W$};
+\node[v] (X) at (895,198) {$X$};
+\draw[mid=0.6] (VC) -- (R);
+\draw[mid=0.6] (VC) -- (S);
+\draw[mid=0.5] (R) -- (U);
+\draw[mid=0.5] (R) -- (T);
+\draw[mid=0.6] (U) -- (V);
+\draw[mid=0.6] (T) -- (V);
+\draw[mid=0.5] (V) -- (L.west);
+\draw[mid=0.6] (V) -- (X);
+\draw[mid=0.55] (T) -- (X);
+\draw[mid=0.4] (T) -- (W);
+\draw[mid=0.65] (S) -- (T);
+\draw[mid=0.6] (W) -- (X);
+\draw[mid=0.5] (X) -- (L.west);
+\node at (367,25) {45};
+\node at (597,21) {49};
+\node at (185,91) {84};
+\node at (422,105) {45};
+\node at (572,111) {23};
+\node at (855,101) {76};
+\node at (750,128) {28};
+\node at (732,181) {32};
+\node at (965,221) {84};
+\node at (212,275) {88};
+\node at (422,268) {92};
+\node at (647,245) {45};
+\node at (835,258) {48};
+\end{tikzpicture}
+\end{document}

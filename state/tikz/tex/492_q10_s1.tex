@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (Tap) at (140,82); \coordinate (P) at (260,160); \coordinate (Q) at (463,82);
+\coordinate (R) at (463,222); \coordinate (L) at (47,268); \coordinate (M) at (93,408);
+\coordinate (N) at (323,362); \coordinate (S) at (647,315); \coordinate (T) at (323,500);
+% highlighter band (solution's pink marking, drawn as light grey shading)
+\draw[black!18,line width=9pt,line cap=round,line join=round] (Tap) -- (P) -- (Q) -- (R) -- (N) -- (M) -- (L);
+\draw[black!18,line width=9pt,line cap=round,line join=round] (Q) -- (S);
+\draw[black!18,line width=9pt,line cap=round,line join=round] (N) -- (T);
+\draw[aux] (Tap) -- (P) -- (Q) -- (R) -- (N) -- (T) -- (S) -- (Q);
+\draw[aux] (P) -- (L) -- (M) -- (N);
+\foreach \p in {Tap,P,Q,R,L,M,N,S,T} \fill (\p) circle (1.6pt);
+\begin{scope}[font=\large]
+\node at (108,40) {Tap};
+\node at (220,98) {3}; \node at (322,110) {5}; \node at (150,180) {5};
+\node at (432,158) {3}; \node at (600,172) {6}; \node at (372,263) {4};
+\node at (33,337) {3}; \node at (213,425) {5}; \node at (292,432) {2};
+\node at (495,443) {8};
+\end{scope}
+\end{tikzpicture}
+\end{document}

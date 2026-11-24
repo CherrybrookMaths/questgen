@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \v in {0,5,...,140} \draw[black!25,line width=0.4pt] ({22+5.2*\v},25) -- ({22+5.2*\v},205);
+  \foreach \v in {0,20,...,140} \draw[black!45,line width=0.4pt] ({22+5.2*\v},25) -- ({22+5.2*\v},205);
+  \foreach \k in {0,...,20} \draw[black!25,line width=0.4pt] (22,{25+9*\k}) -- (750,{25+9*\k});
+  \filldraw[fill=black!12,line width=0.9pt] (240.4,46) rectangle (547.2,204);
+  \draw[line width=0.9pt] (386,46) -- (386,204);
+  \draw[line width=0.9pt] (188.4,125) -- (240.4,125) (547.2,125) -- (620,125);
+  \draw[line width=0.9pt] (188.4,85) -- (188.4,164) (620,85) -- (620,164);
+  \draw[->] (22,220) -- (792,220);
+  \foreach \v in {0,5,...,140} \draw ({22+5.2*\v},212) -- ({22+5.2*\v},228);
+  \foreach \v in {0,20,...,140} \node[font=\small] at ({22+5.2*\v},265) {$\v$};
+  \node[font=\small] at (402,302) {Shop area (square metres)};
+\end{tikzpicture}
+\end{document}

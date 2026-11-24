@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{11.5}{13}\selectfont}]
+\tikzset{v/.style={circle,fill,inner sep=1.4pt},
+  m/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}, m/.default=0.52}
+\coordinate (A) at (60,203); \coordinate (B) at (60,400); \coordinate (C) at (233,307);
+\coordinate (D) at (411,180); \coordinate (E) at (367,308); \coordinate (F) at (472,390); \coordinate (G) at (321,486);
+\draw (120,40) rectangle (362,90); \node at (241,66) {water supply};
+\draw[m] (160,90)--(A); \draw[m] (233,90)--(C); \draw[m] (308,90)--(D);
+\draw[m] (A)--(C); \draw[m] (D)--(C); \draw[m] (A)--(B); \draw[m] (C)--(B);
+\draw[m] (C)--(E); \draw[m] (E)--(F); \draw[m] (D)--(F); \draw[m] (B)--(G); \draw[m] (F)--(G);
+\foreach \p in {A,B,C,D,E,F,G} \node[v] at (\p) {};
+\node at (35,205) {$A$}; \node at (32,405) {$B$}; \node at (233,338) {$C$}; \node at (434,180) {$D$};
+\node at (361,340) {$E$}; \node at (482,418) {$F$}; \node at (320,518) {$G$};
+\node at (60,131) {$\mathbf{4}$}; \node at (92,131) {6};
+\node at (208,155) {$\mathbf{4}$}; \node at (208,191) {8};
+\node at (375,125) {5}; \node at (408,125) {$\mathbf{3}$};
+\node at (158,237) {3}; \node at (316,216) {3};
+\node at (6,298) {$\mathbf{4}$}; \node at (34,298) {4};
+\node at (114,327) {$\mathbf{4}$}; \node at (143,327) {7};
+\node at (293,340) {2}; \node at (398,376) {5};
+\node at (460,279) {6}; \node at (490,279) {$\mathbf{3}$};
+\node at (148,478) {$\mathbf{4}$}; \node at (184,478) {8}; \node at (220,478) {$\mathbf{4}$};
+\node at (408,468) {3}; \node at (442,468) {$\mathbf{3}$};
+\end{tikzpicture}
+\end{document}

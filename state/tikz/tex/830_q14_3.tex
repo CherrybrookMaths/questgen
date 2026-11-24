@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (T) at (166,17); \coordinate (L) at (33,117); \coordinate (C) at (166,117);
+  \coordinate (R) at (298,117); \coordinate (BL) at (33,250); \coordinate (BR) at (298,250);
+  \draw (T) -- (C); \draw (L) -- (R); \draw (BL) -- (C) -- (BR);
+  \draw (L) to[bend right=27] (T); \draw (L) to[bend right=-32] (T);
+  \draw (T) to[bend right=27] (R); \draw (T) to[bend right=-32] (R);
+  \draw (L) to[bend right=30] (BL); \draw (L) to[bend left=30] (BL);
+  \draw (R) to[bend right=30] (BR); \draw (R) to[bend left=30] (BR);
+  \draw (BL) to[bend left=12] (BR); \draw (BL) to[bend right=9] (BR);
+  \foreach \p in {T,L,C,R,BL,BR} \fill (\p) circle (7.5);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.16421cm,y=0.0075565cm]
+\def\xa{-6.2}\def\xb{56.3}\def\ya{-87}\def\yb{1265}
+\foreach \n in {-6,-4,-2,2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48,52,54,56}
+  \draw[black!15,line width=0.4pt] (\n,\ya) -- (\n,\yb);
+\foreach \v in {-80,-40,40,80,120,160,240,280,320,360,440,480,520,560,640,680,720,760,840,880,920,960,1040,1080,1120,1160,1240}
+  \draw[black!15,line width=0.4pt] (\xa,\v) -- (\xb,\v);
+\foreach \n in {10,20,30,40,50} \draw[black!55,line width=0.4pt] (\n,\ya) -- (\n,\yb);
+\foreach \v in {200,400,600,800,1000,1200} \draw[black!55,line width=0.4pt] (\xa,\v) -- (\xb,\v);
+\draw (0,\ya) -- (0,\yb);
+\draw (\xa,0) -- (\xb,0);
+\foreach \n in {10,20,30,40,50} \node[fill=white,inner sep=1pt] at (\n,-37) {$\n$};
+\node[fill=white,inner sep=1pt] at (-1.1,-37) {$0$};
+\foreach \v in {200,400,600,800,1000,1200} \node[fill=white,inner sep=1pt] at (-2.3,\v) {$\v$};
+\end{tikzpicture}
+\end{document}

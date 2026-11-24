@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\fontsize{7.5}{9}\selectfont]
+  % highlights from the solution (orange on the paper, grey here: rule 6)
+  \fill[black!18, rounded corners=6pt] (155,22) rectangle (216,272);
+  \fill[black!18, rounded corners=6pt] (2,176) rectangle (595,207);
+  % grid
+  \draw (8,15) rectangle (588,267);
+  \draw (8,47) -- (588,47);
+  \foreach \y in {83,115,145,175,205,235} \draw (8,\y) -- (588,\y);
+  \foreach \x in {76,149,222,295,368,441,515} \draw (\x,47) -- (\x,267);
+  \node at (298,31) {\textit{Interest rate per period on \$1}};
+  \node at (42,65) {Period};
+  \def\cx{{113,186,259,332,405,478,551}}
+  \foreach \h [count=\i from 0] in {4\%,5\%,6\%,7\%,8\%,9\%,10\%}
+    \node at ({\cx[\i]},65) {\h};
+  \foreach \p/\y/\a/\b/\c/\d/\e/\f/\g in {
+    1/99/1.0400/1.0500/1.0600/1.0700/1.0800/1.0900/1.1000,
+    2/130/1.0816/1.1025/1.1236/1.1449/1.1664/1.1881/1.2100,
+    3/160/1.1249/1.1576/1.1910/1.2250/1.2597/1.2950/1.3310,
+    4/190/1.1699/1.2155/1.2625/1.3108/1.3605/1.4116/1.4641,
+    5/220/1.2167/1.2763/1.3382/1.4026/1.4693/1.5386/1.6105,
+    6/251/1.2653/1.3401/1.4185/1.5007/1.5869/1.6771/1.7716}{
+    \node at (42,\y) {\p};
+    \node at (113,\y) {\a}; \node at (186,\y) {\b}; \node at (259,\y) {\c};
+    \node at (332,\y) {\d}; \node at (405,\y) {\e}; \node at (478,\y) {\f}; \node at (551,\y) {\g};
+  }
+\end{tikzpicture}
+\end{document}

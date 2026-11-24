@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, mid/.style={decoration={markings, mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}, postaction={decorate}}]
+  \coordinate (A) at (118,105); \coordinate (B) at (398,83); \coordinate (C) at (723,152);
+  \coordinate (D) at (656,432); \coordinate (E) at (211,340);
+  \draw[mid=0.52] (A) -- (B);
+  \draw[mid=0.52] (B) -- (C);
+  \draw[mid=0.52] (C) -- (A);
+  \draw[mid=0.52] (E) -- (A);
+  \draw[mid=0.52] (E) -- (C);
+  \draw[mid=0.52] (D) -- (B);
+  \draw[mid=0.52] (C) -- (D);
+  \draw[mid=0.52] (E) -- (D);
+  \foreach \p in {A,B,C,D,E} \fill (\p) circle (3);
+  \begin{scope}[every node/.style={font=\fontsize{9}{11}\selectfont}]
+  \node at (81,79) {Intersection 1};
+  \node at (408,47) {Intersection 2};
+  \node at (788,115) {Intersection 3};
+  \node at (733,452) {Intersection 4};
+  \node at (196,400) {Intersection 5};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

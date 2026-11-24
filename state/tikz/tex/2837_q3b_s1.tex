@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[scale=1.5]
+\coordinate (S) at (0,0); \coordinate (B) at (2.598,-1.5); \coordinate (M) at (-0.362,-3.984);
+\draw (S)--(B)--(M)--cycle;
+\draw[->] (S)--++(0,1.3) node[above] {N};
+\draw[->] (B)--++(0,1.6) node[above] {N};
+% bearing 120 at S
+\draw[->] (S)++(90:0.5) arc[start angle=90,end angle=-30,radius=0.5];
+\node at ($(S)+(30:0.82)$) {$120^\circ$};
+% bearings at B
+\draw[->] (B)++(90:0.3) arc[start angle=90,end angle=-140,radius=0.3];
+\node at ($(B)+(-25:0.68)$) {$230^\circ$};
+\draw[->] (B)++(90:1.25) arc[start angle=90,end angle=-210,radius=1.25];
+\node at ($(B)+(25:1.6)$) {$300^\circ$};
+\draw (B)++(150:0.5) arc[start angle=150,end angle=220,radius=0.5];
+\node at ($(B)+(185:0.85)$) {$70^\circ$};
+\node[left] at (S) {$S$};
+\node at ($(B)+(118:0.26)$) {$B$};
+\node[below left] at (M) {$M$};
+\node[above right] at ($(S)!0.45!(B)$) {3 km};
+\end{tikzpicture}
+\end{document}

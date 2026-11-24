@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (111,104)--(111,461)--(901,461)--(901,145);
+\draw (506,71)--(506,461);
+\draw plot[smooth,tension=0.6] coordinates {(111,104) (180,57) (250,26) (305,15) (360,19) (430,42) (506,72) (600,99) (700,127) (770,145) (830,148) (901,145)};
+\draw (111,439)-|(133,461) (506,439)-|(528,461) (901,439)-|(879,461);
+\draw (309,440)--(309,482) (703,440)--(703,482);
+\fill (506,461) circle[radius=0.45mm];
+\draw[<->] (111,541)--(901,541);
+\node[font=\large] at (52,252) {13 m};
+\node[font=\large] at (430,248) {13.9};
+\node[font=\large] at (952,247) {12 m};
+\node at (506,520) {30 m};
+\end{tikzpicture}
+\end{document}

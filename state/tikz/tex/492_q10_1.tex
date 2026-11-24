@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (Tap) at (137,87); \coordinate (P) at (257,165); \coordinate (Q) at (457,87);
+\coordinate (R) at (457,228); \coordinate (L) at (45,273); \coordinate (M) at (91,413);
+\coordinate (N) at (320,368); \coordinate (S) at (640,320); \coordinate (T) at (320,508);
+\draw[aux] (Tap) -- (P) -- (Q) -- (R) -- (N) -- (T) -- (S) -- (Q);
+\draw[aux] (P) -- (L) -- (M) -- (N);
+\foreach \p in {Tap,P,Q,R,L,M,N,S,T} \fill (\p) circle (2.2pt);
+\begin{scope}[font=\large]
+\node at (110,42) {Tap};
+\node at (215,103) {3}; \node at (318,117) {5}; \node at (150,187) {5};
+\node at (428,163) {3}; \node at (596,177) {6}; \node at (368,268) {4};
+\node at (32,342) {3}; \node at (210,430) {5}; \node at (290,437) {2};
+\node at (490,450) {8};
+\end{scope}
+\end{tikzpicture}
+\end{document}

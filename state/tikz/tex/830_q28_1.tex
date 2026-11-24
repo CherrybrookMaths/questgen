@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\u{33.6}
+\foreach \a/\b/\f in {147/223/4,223/300/6,300/378/1,378/456/7,456/533/3}
+  \draw[shade] (\a,297) rectangle (\b,{297-\f*\u});
+\draw[->] (108,297)--(108,38);
+\draw[->] (108,297)--(585,297);
+\foreach \f in {1,...,7} \node at (90,{306-\f*\u}) {\f};
+\foreach \x/\l in {185/25,262/50,339/75,417/100,495/125} \node at (\x,346) {\l};
+\node[rotate=90] at (38,160) {Frequency};
+\node at (340,385) {Shop area (square metres)};
+\end{tikzpicture}
+\end{document}

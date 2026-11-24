@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.39815cm,y=0.079693cm]
+\path (-3.86,105.6) rectangle (30.6,-16.3);
+\foreach \x in {1,...,30} \draw[black!28,line width=0.4pt] (\x,0)--(\x,95);
+\foreach \y in {5,10,...,95} \draw[black!28,line width=0.4pt] (0,\y)--(30,\y);
+\draw[->] (0,0)--(30.7,0);
+\draw[->] (0,0)--(0,98);
+\foreach \x in {1,...,29} \draw (\x,0)--(\x,-1.9);
+\foreach \x in {5,10,...,25} \node[font=\footnotesize] at (\x,-5.2) {$\x$};
+\foreach \y in {5,10,...,90} \draw (-0.38,\y)--(0,\y);
+\foreach \y in {10,20,...,90} \node[font=\footnotesize, anchor=east, inner sep=1pt] at (-0.6,\y) {$\y$};
+\node[rotate=90, font=\small] at (-2.84,47.5) {Life Expectancy $L$ (Yrs)};
+\node[font=\small] at (14.2,-12.3) {Hospital Expenditure (\% of GDP)};
+\node[font=\normalsize\bfseries] at (15,100.4) {Hospital Expenditure Vs Life Expectancy};
+\foreach \p in {(5,50),(6,57),(7,53.5),(8,65),(10,60),(12,75),(15,70),(16,85),(16,80),(19,80),(21,78),(24,77),(25,85),(27,90),(27,80)}
+  \fill \p circle[radius=0.11cm];
+\end{tikzpicture}
+\end{document}

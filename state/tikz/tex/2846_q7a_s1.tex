@@ -1,0 +1,57 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+  v/.style={circle,draw,minimum size=0.5cm,inner sep=0pt,font=\normalsize},
+  el/.style={ellipse,draw,minimum width=1.5cm,minimum height=0.5cm,inner sep=0pt,font=\tiny},
+  cv/.style={font=\normalsize}]
+\node[el] (VC) at (80,218) {Visitors Centre};
+\node[el, minimum width=1.4cm] (L) at (1100,238) {Lookout};
+\node[v] (R) at (290,98) {$R$};
+\node[v] (U) at (500,72) {$U$};
+\node[v] (V) at (697,118) {$V$};
+\node[v] (T) at (520,236) {$T$};
+\node[v] (S) at (316,352) {$S$};
+\node[v] (W) at (717,333) {$W$};
+\node[v] (X) at (912,236) {$X$};
+\draw[mid=0.6] ($(VC.east)+(-12,-9)$) -- (R);
+\draw[mid=0.6] ($(VC.east)+(-12,9)$) -- (S);
+\draw[mid=0.5] (R) -- (U);
+\draw[mid=0.5] (R) -- (T);
+\draw[mid=0.6] (U) -- (V);
+\draw[mid=0.6] (T) -- (V);
+\draw[mid=0.5] (V) -- (L.west);
+\draw[mid=0.6] (V) -- (X);
+\draw[mid=0.55] (T) -- (X);
+\draw[mid=0.5] (T) -- (W);
+\draw[mid=0.65] (S) -- (T);
+\draw[mid=0.6] (W) -- (X);
+\draw[mid=0.5] (X) -- (L.west);
+\node at (383,65) {45};
+\node at (610,62) {49};
+\node at (205,133) {84};
+\node at (450,150) {45};
+\node at (597,152) {23};
+\node at (885,140) {76};
+\node at (770,168) {28};
+\node at (742,220) {32};
+\node at (974,268) {84};
+\node at (233,322) {88};
+\node at (440,307) {92};
+\node at (665,285) {45};
+\node at (855,297) {48};
+% cuts (dashed) with their capacities
+\draw[aux] (155,92) .. controls (172,170) and (172,260) .. (160,330); \node[cv] at (120,372) {172};
+\draw[aux] (350,45) .. controls (310,160) and (270,280) .. (230,375); \node[cv] at (207,415) {178};
+\draw[aux] (240,85) .. controls (300,190) and (360,300) .. (375,405); \node[cv] at (375,432) {176};
+\draw[aux] (418,30) .. controls (425,140) and (460,250) .. (482,335); \node[cv] at (490,382) {182};
+\draw[aux] (600,40) .. controls (540,110) and (495,200) .. (490,300); \node[cv] at (527,318) {186};
+\draw[aux] (565,35) .. controls (580,150) and (582,260) .. (580,345); \node[cv] at (580,378) {145};
+\draw[aux] (642,70) .. controls (640,170) and (638,260) .. (640,350); \node[cv] at (648,378) {149};
+\draw[aux] (845,85) -- (692,425); \node[cv] at (692,450) {181};
+\draw[aux] (758,150) .. controls (775,230) and (790,320) .. (800,395); \node[cv] at (812,422) {152};
+\draw[aux] (856,100) .. controls (872,180) and (890,270) .. (897,335); \node[cv] at (912,362) {184};
+\draw[aux] (980,155) .. controls (990,210) and (996,270) .. (997,315); \node[cv] at (1033,338) {160};
+\end{tikzpicture}
+\end{document}

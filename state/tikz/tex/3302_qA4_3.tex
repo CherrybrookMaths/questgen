@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw (157,18) -- (157,250) -- (440,250);
+  \draw[line width=0.9pt, smooth, samples=90, domain=0:280, variable=\t]
+    plot ({157+\t}, {204-172*(exp(0.0125*\t)-1)/(exp(0.0125*280)-1)});
+  \node[anchor=east, font=\footnotesize] at (149,204) {\$5000};
+  \node[rotate=90, font=\footnotesize] at (40,135) {Value (\$)};
+  \node[font=\footnotesize] at (298,277) {Number of years};
+\end{tikzpicture}
+\end{document}

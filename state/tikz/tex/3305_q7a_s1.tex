@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (Q) at (360,95); \coordinate (P) at (137,212); \coordinate (R) at (508,212);
+\coordinate (S) at (640,250); \coordinate (T) at (322,423);
+\tikzset{hl/.style={line width=7pt, black!18, line cap=round, line join=round}}
+\def\QS{(Q) .. controls (500,62) and (635,150) .. (S)}
+\def\RT{(R) .. controls (410,218) and (330,300) .. (T)}
+% highlighted MST edges
+\draw[hl] (P)--(Q)--(R);
+\draw[hl] \QS; \draw[hl] \RT;
+% network
+\draw[aux] (P)--(Q)--(R) (P)--(R) (P)--(T) (T)--(S);
+\draw[aux] \QS; \draw[aux] \RT;
+\draw[aux] plot[smooth] coordinates {(360,95) (290,60) (200,52) (115,80) (58,145) (37,230) (55,318) (110,396) (200,438) (280,440) (322,423)};
+\draw[aux] plot[smooth] coordinates {(322,423) (370,465) (440,495) (520,505) (590,485) (638,430) (658,350) (652,285) (640,250)};
+\foreach \p in {P,Q,R,S,T} \fill (\p) circle (3pt);
+\node at (366,52) {$Q$}; \node at (100,213) {$P$}; \node at (542,213) {$R$}; \node at (674,252) {$S$}; \node at (320,465) {$T$};
+\node at (55,97) {10}; \node at (240,120) {5}; \node at (447,135) {5}; \node at (587,95) {2};
+\node at (310,196) {12}; \node at (202,325) {8}; \node at (380,298) {4}; \node at (510,350) {19}; \node at (600,483) {7};
+\end{tikzpicture}
+\end{document}

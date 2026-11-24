@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (75,273); \coordinate (B) at (325,51); \coordinate (C) at (714,107);
+\coordinate (D) at (436,246); \coordinate (E) at (742,357); \coordinate (F) at (242,497);
+\draw[aux] (A)--(B) (A)--(F) (B)--(F) (B)--(D) (B)--(C) (D)--(C) (D)--(E) (D)--(F) (F)--(E);
+\foreach \p in {A,B,C,D,E,F} \fill (\p) circle[radius=0.75mm];
+\node at (311,26) {$B$}; \node at (738,93) {$C$}; \node at (42,267) {$A$};
+\node at (401,240) {$D$}; \node at (772,362) {$E$}; \node at (258,527) {$F$};
+\node at (175,145) {8}; \node at (518,48) {10}; \node[font=\large] at (401,133) {5};
+\node[font=\large] at (268,232) {14}; \node[font=\large] at (613,182) {7}; \node at (612,280) {9};
+\node[font=\large] at (400,356) {10}; \node[font=\large] at (133,402) {7}; \node[font=\large] at (507,465) {16};
+\end{tikzpicture}
+\end{document}

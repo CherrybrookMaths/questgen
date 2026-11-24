@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (8,3)--(8,183);
+\draw (0,183)--(365,183);
+\foreach \y in {10,22,...,178} \draw[line width=0.4pt,black!45] (7,\y)--(3,\y+4);
+\foreach \x in {6,18,...,360} \draw[line width=0.4pt,black!45] (\x,185)--(\x-4,189);
+\draw (8,3)--(275,183);
+\draw (8,168)--(21,168)--(21,183);
+\draw (275,183) arc[start angle=180,end angle=360,radius=8.5];
+\node[font=\scriptsize] at (300,161) {buoy};
+\node[font=\scriptsize,align=center] at (325,73) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

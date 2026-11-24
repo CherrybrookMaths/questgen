@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{6.5}{8}\selectfont}]
+% grid
+\foreach \i in {1,...,25} \draw[black!25,line width=0.4pt] ({57+16.8*\i},48)--({57+16.8*\i},386);
+\foreach \j in {1,...,30} \draw[black!25,line width=0.4pt] (57,{386-11.27*\j})--(477,{386-11.27*\j});
+% axes
+\draw[->] (57,386)--(497,386); \draw[->] (57,386)--(57,32);
+\node[font=\fontsize{9}{11}\selectfont] at (507,386) {$\boldsymbol{F}$}; \node[font=\fontsize{9}{11}\selectfont] at (51,14) {$\boldsymbol{R}$};
+\draw (57,386) circle (3);
+\foreach \i in {1,...,12} {\draw ({57+33.6*\i},380)--({57+33.6*\i},392); \node at ({57+33.6*\i},404) {\i};}
+\foreach \j in {1,...,30} \draw (53,{386-11.27*\j})--(61,{386-11.27*\j});
+\foreach \j in {5,10,...,30} {\draw (49,{386-11.27*\j})--(57,{386-11.27*\j}); \node[anchor=east] at (46,{386-11.27*\j}) {\j};}
+% line of best fit
+\draw[line width=0.9pt] (110,323)--(484,53);
+\foreach \p in {(84,314),(114,281),(125,298),(134,265),(157,248),(163,282),(177,222),(178,264),(199,221),(205,256),(229,216),(287,163),(298,191),(309,147),(313,174),(328,131),(355,113),(354,148),(390,124),(408,101),(424,78),(460,64)}
+  \fill \p circle (2.8);
+\end{tikzpicture}
+\end{document}

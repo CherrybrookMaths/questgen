@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[black!35,draw=black] (24,36)--(64,15)--(64,57)--cycle;
+\node at (91,40) {E};
+\fill[black!18] (133,17) rectangle (493,57);
+\draw (133,17) rectangle (763,57);
+\foreach \i in {1,...,6} \draw ({133+90*\i},17)--({133+90*\i},57);
+\node at (784,40) {F};
+\end{tikzpicture}
+\end{document}

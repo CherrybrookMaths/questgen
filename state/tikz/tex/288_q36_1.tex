@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{11.5}{13}\selectfont}]
+\foreach \i in {1,...,12} \draw[black!40,line width=0.5pt] ({135+62.45*\i},563)--({135+62.45*\i},63);
+\foreach \j in {1,...,12} \draw[black!40,line width=0.5pt] (135,{563-41.67*\j})--(884,{563-41.67*\j});
+\draw[->] (135,563)--(925,563);
+\draw[->] (135,563)--(135,20);
+\foreach \n in {0,...,12} \node[anchor=north] at ({135+62.45*\n},574) {\n};
+\foreach \v/\t in {0/0,1/0.1,2/0.2,3/0.3,4/0.4,5/0.5,6/0.6,7/0.7,8/0.8,9/0.9,10/1.0,11/1.1,12/1.2} \node[anchor=east] at (123,{563-41.67*\v}) {\t};
+\foreach \a/\b in {1/1,4/4,5/6,5/5,6/6,8/9,9/8,11/10,12/11} \node[circle,fill,inner sep=1.7pt] at ({135+62.45*\a},{563-41.67*\b}) {};
+\node[rotate=90] at (36,292) {width (cm)};
+\node at (524,644) {length (cm)};
+\end{tikzpicture}
+\end{document}

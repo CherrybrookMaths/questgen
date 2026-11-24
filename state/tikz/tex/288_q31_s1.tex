@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{11.5}{13}\selectfont}]
+\foreach \i in {1,...,20} \draw[black!40,line width=0.5pt] ({163+21.6*\i},523)--({163+21.6*\i},92);
+\foreach \j in {1,...,20} \draw[black!40,line width=0.5pt] (163,{523-21.55*\j})--(595,{523-21.55*\j});
+\draw[->] (163,523)--(648,523);
+\draw[->] (163,523)--(163,32);
+\foreach \n in {0,2,...,20} \node[anchor=north] at ({163+21.6*\n},533) {\n};
+\foreach \v in {0,400,...,4000} \node[anchor=east] at (151,{523-0.10775*\v}) {\v};
+\draw[line width=0.9pt] (163,{523-0.10775*360})--({163+21.6*20},{523-0.10775*3960});
+\draw[aux,line width=0.9pt] (163,523)--({163+21.6*20},{523-0.10775*4000});
+\node[circle,fill,inner sep=1.9pt] at ({163+21.6*18},{523-0.10775*3600}) {};
+\node[rotate=90] at (24,308) {amount (\$)};
+\node at (375,605) {number of coffee tables};
+\end{tikzpicture}
+\end{document}

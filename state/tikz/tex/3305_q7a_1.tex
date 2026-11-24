@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+\coordinate (P) at (138,177); \coordinate (Q) at (346,67); \coordinate (R) at (486,177);
+\coordinate (S) at (608,214); \coordinate (T) at (312,375);
+\draw[aux] (P)--(Q)--(R); \draw[aux] (P)--(R); \draw[aux] (P)--(T); \draw[aux] (T)--(S);
+\draw[aux] (R) .. controls (380,175) and (308,245) .. (T);
+\draw[aux] (Q) .. controls (250,-15) and (40,20) .. (45,225) .. controls (50,390) and (230,425) .. (T);
+\draw[aux] (Q) .. controls (440,30) and (590,90) .. (S);
+\draw[aux] (S) .. controls (645,300) and (590,470) .. (470,455) .. controls (400,448) and (340,412) .. (T);
+\foreach \p in {P,Q,R,S,T} \fill (\p) circle (3pt);
+\node at (348,30) {$Q$}; \node at (106,178) {$P$}; \node at (516,180) {$R$};
+\node at (637,216) {$S$}; \node at (312,412) {$T$};
+\node at (62,72) {10}; \node at (236,90) {5}; \node at (425,103) {5}; \node at (560,70) {2};
+\node at (298,158) {12}; \node at (365,258) {4}; \node at (198,284) {8}; \node at (485,309) {19};
+\node at (572,432) {7};
+\end{tikzpicture}
+\end{document}

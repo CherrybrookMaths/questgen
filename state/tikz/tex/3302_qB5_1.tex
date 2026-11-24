@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % tree trunk
+  \fill[black!45] (50,342) .. controls (57,320) and (58,290) .. (57,262) -- (45,248) -- (52,246) -- (60,256) -- (66,246) -- (74,248) -- (66,262) .. controls (65,290) and (67,320) .. (74,342) -- cycle;
+  % canopy
+  \draw[fill=black!18] plot[smooth cycle, tension=0.6] coordinates {
+    (22,268) (14,252) (18,238) (10,222) (16,206) (12,190) (24,178) (28,166) (44,164) (56,156) (70,162) (84,160) (92,174)
+    (102,186) (98,200) (104,214) (98,228) (102,244) (92,256) (80,262) (66,272) (54,264) (40,272)};
+  \draw plot[smooth, tension=0.7] coordinates {(48,248) (36,232) (38,212) (34,196) (46,180) (62,178) (74,190) (78,208) (72,226) (76,240) (66,250)};
+  \draw plot[smooth, tension=0.7] coordinates {(54,232) (48,214) (52,198) (62,196) (60,212) (66,224)};
+  % ground, top line
+  \draw (0,342) -- (385,342);
+  \draw[aux] (0,12) -- (310,12);
+  % building
+  \draw (310,12) -- (370,12);
+  \draw (310,12) -- (310,342) (340,12) -- (340,342);
+  \foreach \i in {0,...,14} {
+    \pgfmathsetmacro\yy{12+22*\i}
+    \draw (310,\yy) -- (340,\yy);
+    \pgfmathsetmacro\xx{mod(\i,2)==0 ? 326 : 320}
+    \draw (\xx,\yy) -- (\xx,\yy+22);
+  }
+  \draw (280,342) -- (280,314) -- (310,314);
+  % line of sight
+  \draw (310,12) -- (70,342);
+  \node[font=\footnotesize] at (266,33) {$57^\circ$};
+  \node[font=\footnotesize] at (276,183) {75 m};
+\end{tikzpicture}
+\end{document}

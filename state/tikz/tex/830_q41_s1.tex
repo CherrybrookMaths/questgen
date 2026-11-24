@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (5,238) -- (512,238);
+  \draw[<->] (258,455) -- (258,20);
+  \node at (243,40) {$N$};
+  \draw (258,238) -- (83,355);
+  \draw (258,238) -- (182,478);
+  \node[pt,inner sep=1.8pt] at (258,238) {};
+  \node[pt,inner sep=1.8pt] at (83,355) {};
+  \node[pt,inner sep=1.8pt] at (182,478) {};
+  \node[pt,inner sep=1.8pt] at (258,418) {};
+  \node at (278,257) {$S$};
+  \node at (60,333) {$R$};
+  \node at (202,496) {$T$};
+  \node at (280,433) {$Q$};
+  % 53 deg: from south (user angle 90) to SR (146.2)
+  \draw[->] (258,378) arc[start angle=90,end angle=146.2,radius=140];
+  % 33 deg 20': from ST (107.6) to SR (146.2)
+  \draw[->] (241.4,290.4) arc[start angle=107.6,end angle=146.2,radius=55];
+  \node[font=\scriptsize] at (198,318) {$33^\circ 20'$};
+  \node[font=\scriptsize] at (233,396) {$53^\circ$};
+\end{tikzpicture}
+\end{document}

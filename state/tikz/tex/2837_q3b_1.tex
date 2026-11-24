@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{10}{12}\selectfont}]
+\coordinate (S) at (215,118); \coordinate (B) at (388,203); \coordinate (M) at (133,330);
+\draw (S)--(B)--(M)--cycle;
+% north lines
+\draw[->] (215,150)--(215,38); \node at (215,22) {N};
+\draw[->] (388,203)--(388,100); \node at (388,86) {N};
+\draw[->] (133,312)--(133,264); \node at (133,250) {N};
+% bearing arcs
+\draw[->] plot[domain=0:114,samples=40] ({215+62*sin(\x)},{118-62*cos(\x)});
+\draw[->] plot[domain=0:240,samples=60] ({388+53*sin(\x)},{203-53*cos(\x)});
+\node at (244,101) {$120^\circ$};
+\node at (409,219) {$230^\circ$};
+\node at (320,137) {3 km};
+\node at (149,190) {4 km};
+\node at (203,117) {$S$};
+\node at (348,207) {$B$};
+\node at (125,350) {$M$};
+\node[align=center] at (560,125) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

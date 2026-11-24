@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{11.5}{13}\selectfont}]
+\draw (87,298)--(768,298);
+\draw (87,298)--(87,95); \draw (257,298)--(257,178); \draw (427,298)--(427,103);
+\draw (598,298)--(598,22); \draw (768,298)--(768,125);
+\draw[line width=0.9pt] plot[smooth,tension=0.55] coordinates {(87,95) (170,148) (257,178) (330,163) (427,103) (515,46) (598,22) (680,47) (768,125)};
+\foreach \x in {87,257,427,598} \draw (\x,280)--++(18,0)--++(0,18);
+\foreach \x in {172,342,512,683} \draw (\x,290)--(\x,306);
+\draw[aux,<->] (87,340)--(768,340);
+\node[fill=white,inner sep=3pt] at (428,340) {16 m};
+\node at (50,212) {5 m}; \node at (224,243) {3 m}; \node at (392,210) {4 m};
+\node at (564,181) {6 m}; \node at (735,210) {4 m};
+\node[align=center] at (888,192) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

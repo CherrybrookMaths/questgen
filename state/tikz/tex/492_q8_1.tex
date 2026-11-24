@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (80,470) -- (80,2);
+\draw[->] (80,470) -- (902,470);
+\draw[line width=0.9pt,->] (80,408) -- (890,75);
+\draw[aux,line width=0.9pt,->] plot[smooth,samples=60,domain=80:890] (\x,{470-98*exp(0.001564*(\x-80))});
+\begin{scope}[font=\fontsize{8.5}{10}\selectfont]
+\node at (625,154) {Investment $B$};
+\node at (688,270) {Investment $A$};
+\node[rotate=90] at (30,262) {Accumulated Value};
+\node at (490,513) {Years Invested};
+\end{scope}
+\end{tikzpicture}
+\end{document}

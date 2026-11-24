@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\scriptsize]
+\coordinate (A) at (97,57); \coordinate (B) at (248,163); \coordinate (C) at (45,187);
+\draw (A) -- (B) -- (C) -- cycle;
+\foreach \p in {A,B,C} \fill (\p) circle (3.5);
+\node[font=\footnotesize] at (85,42) {$A$}; \node[font=\footnotesize] at (266,165) {$B$}; \node[font=\footnotesize] at (31,194) {$C$};
+\node at (32,112) {27}; \node at (186,87) {36}; \node at (143,205) {$x$};
+\node at (352,75) {Not to scale};
+\draw[->] (C) ++(-68.2:20) arc[start angle=-68.2, end angle=-6.7, radius=20];
+\node at (82,160) {$61^\circ$};
+\draw[->] (B) ++(173.3:20) arc[start angle=173.3, end angle=215.1, radius=20];
+\node at (209,151) {$41^\circ$};
+\draw (A) ++(35.1:22) arc[start angle=35.1, end angle=111.8, radius=22];
+\node at (108,94) {$\theta$};
+\draw[->] (112,112) -- (140,160);
+\draw[->] (106,168) -- (164,110);
+\end{tikzpicture}
+\end{document}

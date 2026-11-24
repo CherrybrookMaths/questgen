@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (C) at (255,250); \coordinate (L) at (455.3,156.6); \coordinate (M) at (34.8,191);
+\draw[->] (C)--(255,40);
+\node at (255,20) {$\mathbf{N}$};
+\draw (C)--(L) (C)--(M);
+\draw (255,177) arc[start angle=-90,end angle=-25,radius=73];
+\draw (255,161) arc[start angle=-90,end angle=195,radius=89];
+\foreach \p in {C,L,M} \node[pt,inner sep=1.5pt] at (\p) {};
+\node at (453,186) {$L$}; \node at (30,224) {$M$}; \node at (255,278) {$C$};
+\node at (365,160) {$16$ km}; \node at (145,199) {$26$ km};
+\node at (283,215) {$65^\circ$}; \node at (260,312) {$285^\circ$};
+\end{tikzpicture}
+\end{document}

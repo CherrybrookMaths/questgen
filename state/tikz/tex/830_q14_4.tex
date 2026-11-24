@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (T) at (158,18); \coordinate (L) at (20,122); \coordinate (M) at (158,122);
+\coordinate (R) at (296,122); \coordinate (BL) at (20,260); \coordinate (BR) at (296,260);
+\draw (T)--(L) (T)--(R) (T)--(M) (T)--(BL) (T)--(BR);
+\draw (L)--(M)--(R) (L)--(BL)--(BR)--(R);
+\draw (L)--(BR) (R)--(BL) (M)--(BL) (M)--(BR);
+\draw (L) .. controls (90,59) and (226,59) .. (R);
+\foreach \p in {T,L,M,R,BL,BR} \fill (\p) circle[radius=0.9mm];
+\end{tikzpicture}
+\end{document}

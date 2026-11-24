@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\coordinate (Y) at (98,128); \coordinate (X) at (230,352);
+\draw[->] (98,128) -- (98,52);
+\draw[->] (98,128) -- (98,185);
+\draw[->] (98,128) -- (40,128);
+\draw[->] (98,128) -- (172,128);
+\node at (98,40) {N}; \node at (30,128) {W}; \node at (183,128) {E}; \node at (98,198) {S};
+\node at (87,116) {$Y$};
+\draw (Y) -- (X);
+\draw[->] (X) -- (230,198);
+\node at (230,180) {North};
+\node at (232,371) {$X$};
+% 32 at X
+\draw (X) ++(-90:32) arc[start angle=-90, end angle=-120.5, radius=32];
+\node at (212,280) {$32^\circ$};
+% 148 at Y (N clockwise to YX)
+\draw (Y) ++(-90:24) arc[start angle=-90, end angle=59.5, radius=24];
+\node at (146,100) {$148^\circ$};
+% 32 at Y (S to YX)
+\draw (Y) ++(90:40) arc[start angle=90, end angle=59.5, radius=40];
+\draw[->] (128,272) -- (110,172);
+\node at (128,284) {$32^\circ$};
+\end{tikzpicture}
+\end{document}

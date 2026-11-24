@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (P) at (27,203); \coordinate (Q) at (284,30); \coordinate (R) at (369,181);
+  \draw (P) -- (Q) -- (R) -- cycle;
+  \draw (276,62) circle (5.5);
+  \fill (80,184) circle (6);
+  \pic[draw, angle radius=45*0.0127cm] {angle=Q--R--P};
+  \coordinate (P2) at (543,143); \coordinate (Q2) at (670,58); \coordinate (R2) at (714,132);
+  \draw (P2) -- (Q2) -- (R2) -- cycle;
+  \draw (666,80) circle (5.5);
+  \fill (597,125) circle (6);
+  \pic[draw, angle radius=22*0.0127cm] {angle=Q2--R2--P2};
+  \node at (203,258) {Triangle $A$};
+  \node at (627,208) {Triangle $B$};
+  \node[align=center, font=\small] at (868,108) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}
