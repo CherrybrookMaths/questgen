@@ -1308,3 +1308,11 @@ on the line counting the questions left out: "Include it yep." Rule in TAG_SPEC 
 - **Confidence badge** (owner sent "CONFIDENCE 0%" on a correct, corrected MCQ solution as a bug): a Claude-written solution corrected to
   the checker's own answer shows "answer confirmed by the checker"; its generation-time confidence moved to meta.before_checker
   (tools/stale_fixes.py confirm). The generate step now receives every table a question names (\extable), the cause of 0% placeholders.
+
+## Papers the checker has not looked at (24 Nov)
+Owner 24 Nov: "can you make it so that the papers that haven't been looked at are highlighted so I know which ones I've looked at
+(from checker)". A paper counts as looked at once the checker's account (CHECKER in 08_review.js) wrote any review on it: a question
+approved or flagged, a diagram request, or the paper's decision or Your call. Other papers are highlighted (blue edge and a "Not
+looked at" tag) in Review's papers list and on the Papers page, whose subtitle counts them; the Papers page's progress filter has
+"Not looked at by the checker". A review doc keeps only its last writer, so a question Steve re-decided after the checker reads as
+Steve's (checkerSeen).

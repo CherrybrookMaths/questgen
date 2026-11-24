@@ -151,6 +151,12 @@ function workOf(main,ids,qs){const left={},total={};STEPS.forEach(([k])=>{left[k
   const ready=ids.map(paperReady).filter(Boolean);left.sample+=ready.length;
   const n=STEPS.reduce((a,[k])=>a+left[k],0);
   return {doc:main,ids,left,total,ready,n,at:(STEPS.find(([k])=>left[k]>0)||[])[0]||null}}
+// owner 24 Nov: "can you make it so that the papers that haven't been looked at are highlighted so I know which ones I've looked at
+//   (from checker)": a paper is "looked at" once the checker's account wrote any review on it (a question approved, flagged, a diagram
+//   request, or the paper's own decision). CHECKER is his account id (the one that presses "Fix my flags now" and writes the flags).
+const CHECKER='u_mP9tmz6NRnOivy8Y4rJU5g';
+function checkerSeen(){const s=new Set();B.questions.forEach(q=>{if(reviews['q'+q.id]?.by===CHECKER||reviews['paper_'+q.doc]?.by===CHECKER||reviews['paper_'+q.doc]?.call?.by===CHECKER)s.add(mainDoc(q.doc))});return s}
+const unseenTag='<span class="rv-new" title="The checker has not approved, flagged or decided anything in this paper yet">Not looked at</span>';
 function paperWork(doc){const ids=docIds(doc);return workOf(mainDoc(doc),ids,B.questions.filter(q=>ids.includes(q.doc)))}
 function allWork(){const by=new Map();B.questions.forEach(q=>{const m=mainDoc(q.doc);if(!by.has(m))by.set(m,[]);by.get(m).push(q)});
   const W=new Map();by.forEach((qs,m)=>W.set(m,workOf(m,docIds(m),qs)));return W}
@@ -184,7 +190,7 @@ function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
   const all=allWork(),W=[...all.values()].filter(w=>w.n).sort(workOrder),rep=typeof repOpen==='function'?repOpen().length:0,lv=typeof lvTodoN==='function'?lvTodoN():0;
   const card=(k,n,title,what,href,doneText,body='')=>n?`<section class="icard" data-card="${k}"><a class="ihead" href="${href}"><span class="ict">${n}</span><span class="itx"><b>${title}</b><span class="iwhat">${what}</span></span><span class="igo" aria-hidden="true">→</span></a>${body}</section>`
     :`<section class="icard idone" data-card="${k}"><a class="ihead" href="${href}"><span class="itick" aria-hidden="true">✓</span><span class="itx"><b>${title}</b><span class="iwhat">${doneText}</span></span><span class="igo">${k==='papers'?'Show all papers':'Open'} →</span></a></section>`;
-  const SHOW=8,row=w=>`<li><a class="iprow" href="#review/paper/${w.doc}"><span class="ipn"><span class="rv-pnm">${esc(docLabel(B.docs[w.doc]))}</span>${w.left.decide?'<span class="rv-call">waiting on your call</span>':''}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`;
+  const SEEN=checkerSeen(),SHOW=8,row=w=>`<li><a class="iprow${SEEN.has(String(w.doc))?'':' rv-unseen'}" href="#review/paper/${w.doc}"><span class="ipn"><span class="rv-pnm">${esc(docLabel(B.docs[w.doc]))}</span>${w.left.decide?'<span class="rv-call">waiting on your call</span>':''}${SEEN.has(String(w.doc))?'':unseenTag}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`;
   // groups open in order until SHOW rows are out; later groups show their header and open on a click ("N more" counts their rows)
   const G=W.length?inboxGroups(all):null,was=new Map([...box.querySelectorAll('details.rv-bg')].map(d=>[d.dataset.batch,d.open]));let shown=0,more=Math.max(0,W.length-SHOW),list=`<ul class="iplist">${W.slice(0,SHOW).map(row).join('')}</ul>`;
   if(G){more=0;list=`<div class="rv-bgs">${G.map(g=>{const todo=g.ws.filter(w=>w.n),head=`${esc(g.name)} · ${g.clr} of ${g.ws.length} cleared`;

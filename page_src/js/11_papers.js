@@ -4,7 +4,7 @@
 const TYPE_LABEL={hsc:'HSC',trial:'Trial',internal_exam:'School task',internal_other:'School task'};
 function renderPapers(){
   // one row per paper: the same paper filed as two PDFs is merged (its duplicate questions are hidden in the Bank)
-  const groups=new Map(); let rows; const W=allWork();
+  const groups=new Map(); let rows; const W=allWork(),SEEN=checkerSeen();
   Object.values(B.docs).forEach(d=>{if(!B.questions.some(q=>q.doc===d.id))return;const k=docLabel(d);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(d)});
   rows=[...groups.values()].map(ds=>{const ids=ds.map(d=>d.id);const qs=B.questions.filter(q=>ids.includes(q.doc));
     const uq=qs.filter(q=>!q.dup_of);
@@ -17,7 +17,7 @@ function renderPapers(){
   const PF=PFILT; const school=r=>docLabel(r.d).replace(/^\d{4}\s+/,'').replace(/\s+(AT\d|HSC)$/,'');
   const task=r=>(docLabel(r.d).match(/\b(AT\d|HSC)\b/)||[,''])[1];
   const prog=r=>r.done===0?'none':r.done>=r.uq.length?'done':'some';
-  const progOK=r=>!PF.prog||(PF.prog==='todo'?r.w.n>0:prog(r)===PF.prog);
+  const progOK=r=>!PF.prog||(PF.prog==='todo'?r.w.n>0:PF.prog==='unseen'?!SEEN.has(String(r.w.doc)):prog(r)===PF.prog);   // owner 24 Nov: unseen = the checker has not looked at it
   const allRows=rows;
   rows=rows.filter(r=>(!PF.q||docLabel(r.d).toLowerCase().includes(PF.q.toLowerCase()))&&(!PF.year||String(r.year)===PF.year)&&(!PF.task||task(r)===PF.task)&&(!PF.src||(r.d.parse_path==='scan'?'scan':'digital')===PF.src)&&progOK(r));
   const key={left:r=>r.w.n,paper:r=>docLabel(r.d),q:r=>r.uq.length,marks:r=>r.marks,done:r=>r.done/Math.max(1,r.uq.length),year:r=>r.year};
@@ -30,15 +30,15 @@ function renderPapers(){
   <div class="pfil" id="pfil"><input id="pfQ" type="search" placeholder="Search papers, e.g. Baulkham, NESA, 2025" aria-label="Search papers">
   <select id="pfYear" aria-label="Year"></select><select id="pfTask" aria-label="Task"></select>
   <select id="pfSrc" aria-label="Source"><option value="">Digital and scans</option><option value="digital">Digital only</option><option value="scan">Scans only</option></select>
-  <select id="pfProg" aria-label="Review progress"><option value="">Any progress</option><option value="todo">Review work left</option><option value="none">Not started</option><option value="some">In progress</option><option value="done">Fully approved</option></select>
+  <select id="pfProg" aria-label="Review progress"><option value="">Any progress</option><option value="todo">Review work left</option><option value="none">Not started</option><option value="some">In progress</option><option value="done">Fully approved</option><option value="unseen">Not looked at by the checker</option></select>
   <button class="act ghost clr" id="pfClr" type="button">Clear</button></div><div id="ptable"></div>`;
   const yS=$('#pfYear'),tS=$('#pfTask');
   yS.innerHTML='<option value="">All years</option>'+years.map(y=>`<option${String(y)===PF.year?' selected':''}>${y}</option>`).join('');
   tS.innerHTML='<option value="">All tasks</option>'+tasks.map(t=>`<option${t===PF.task?' selected':''}>${t}</option>`).join('');
   if(document.activeElement!==$('#pfQ'))$('#pfQ').value=PF.q;$('#pfSrc').value=PF.src;$('#pfProg').value=PF.prog;
-  $('#psub').textContent=`${rows.length} of ${allRows.length} papers${allRows.some(r=>r.ds.length>1)?` (${allRows.reduce((n,r)=>n+r.ds.length,0)} PDFs)`:''} · ${tot.u} questions shown`;
+  $('#psub').textContent=`${allRows.filter(r=>!SEEN.has(String(r.w.doc))).length} not looked at by the checker yet (highlighted) · ${rows.length} of ${allRows.length} papers${allRows.some(r=>r.ds.length>1)?` (${allRows.reduce((n,r)=>n+r.ds.length,0)} PDFs)`:''} · ${tot.u} questions shown`;
   $('#ptable').innerHTML=`<div class="pwrap"><table class="pp"><thead><tr>${th('paper','Paper')}${th('left','Review')}${th('q','Questions',1)}${th('marks','Marks',1)}${th('done','Approved',1)}<th class="num">MCQ</th><th class="num">Short answer</th><th>Type</th><th>Source</th><th></th></tr></thead><tbody>
-  ${rows.map(r=>`<tr data-flow="${r.w.doc}"><td class="pname"><a class="plink" href="#review/paper/${r.w.doc}">${esc(docLabel(r.d))}</a>${r.ds.length>1?`<div class="muted">Filed as ${r.ds.length} PDFs; the ${r.qs.length-r.uq.length} repeated questions are counted once</div>`:''}</td>
+  ${rows.map(r=>`<tr data-flow="${r.w.doc}"${SEEN.has(String(r.w.doc))?'':' class="rv-unseen"'}><td class="pname"><a class="plink" href="#review/paper/${r.w.doc}">${esc(docLabel(r.d))}</a>${SEEN.has(String(r.w.doc))?'':' '+unseenTag}${r.ds.length>1?`<div class="muted">Filed as ${r.ds.length} PDFs; the ${r.qs.length-r.uq.length} repeated questions are counted once</div>`:''}</td>
     <td class="ptrack">${miniTrack(r.w)} <span class="ipl">${workLine(r.w)}</span></td>
     <td class="num">${r.uq.length}</td><td class="num">${r.marks}</td><td class="num">${r.done}<span class="muted"> / ${r.uq.length}</span><span class="pbar" aria-hidden="true"><i style="width:${Math.round(100*r.done/Math.max(1,r.uq.length))}%"></i></span></td>
     <td class="num">${r.mcq}</td><td class="num">${r.uq.length-r.mcq}</td>
