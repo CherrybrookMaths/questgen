@@ -55,9 +55,14 @@ table.dt th.dg .dgtr,table.dt th.dg .dgbl{line-height:1.12}   /* owner 12 Nov: "
 /* checker 24 Nov, third round (2021 Ryde AT4 Q12 "move Noel to the left until it is not touchign hte line", 2025 HSC Std Q18 "move the rate
    label to the left and not touching any line", 2026 HSC Std Q27 "Move hte rates (r0 label to the left"): the top-right label keeps
    1.2em from the cell's right border, and the wider gap keeps it clear of the slanted line */
-table.dt th.dg{padding-right:1.2em}
-table.dt th.dg .dgw{display:grid;grid-template-columns:1fr 1fr;gap:1.1em 3em}
-table.dt th.dg .dgtr{display:block;text-align:right;grid-column:2;grid-row:1}
+/* checker 24 Nov, fourth round (2021 Ryde AT4 Q12 "NO NO NO. I want noel to sit left of the line but right of the diagonal line like the orignal
+   image. BUT i dont want it to be touch any of those lines"; 2025 HSC Std Q18 and 2026 HSC Std Q27 "I said to the left dude not right. move it
+   closer to the diagonal line but not touching the diagonal line it should also be int he top left box but not touching any line dude"):
+   the 3em gap made the grid wider than its column, so the top-right label ran out past the cell's right border. The top-right label now
+   starts just right of the cell's middle (left-aligned in the right half), so it sits above the slanted line, close to it but clear,
+   and inside the cell; cellMinW (01_core.js) sizes the column for both halves, the gap and the padding */
+table.dt th.dg .dgw{display:grid;grid-template-columns:1fr 1fr;gap:1.1em .9em}
+table.dt th.dg .dgtr{display:block;text-align:left;grid-column:2;grid-row:1}
 table.dt th.dg .dgbl{display:block;text-align:left;grid-column:1;grid-row:2}
 table.slp{border-collapse:collapse;margin:6px auto;font-family:var(--serif,serif);font-size:1.05em}
 table.slp th{font-weight:400;text-align:right;padding:3px 12px 3px 4px;border-right:1.5px solid currentColor}
