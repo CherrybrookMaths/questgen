@@ -135,6 +135,11 @@ See also the table rules in IMPORT_PLAYBOOK.
 - Split corner cells look like the paper ("table needs to look identical with that split down the cell"). Keep the period/rate box small.
   Checker 24 Nov (2026 HSC Std Q27): "Fix the labels as they are touching the slanted line": the two labels sit in opposite corners of a
   2x2 grid with equal columns and a gap, so the corner-to-corner line runs between them (page_src/css/03_question.css `.dgw`).
+  Checker 24 Nov, fourth round (2021 Ryde AT4 Q12): "NO NO NO. I want noel to sit left of the line but right of the diagonal line like the
+  orignal image. BUT i dont want it to be touch any of those lines"; (2025 HSC Std Q18, 2026 HSC Std Q27): "I said to the left dude not right.
+  move it closer to the diagonal line but not touching the diagonal line it should also be int he top left box but not touching any line dude".
+  The top-right label starts just right of the cell's middle, above the slanted line and clear of it, and the column is sized for both halves
+  plus the gap (01_core.js cellMinW), so no label runs past the cell's border.
 - A stem-and-leaf plot renders as a plot ("the stem and leaf is not a table").
 - Captions use LaTeX text mode ("I can see \textbf in the table heading").
 - Solution diagrams Claude drew have no original to compare against, so they are shown alone ("I cannot see the x-axis").
