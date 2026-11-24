@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate}, decoration={markings, mark=at position #1 with {\arrow{>}}}}]
+\coordinate (S) at (72,170); \coordinate (A) at (345,48); \coordinate (F) at (465,48);
+\coordinate (D1) at (228,207); \coordinate (D2) at (348,207);
+\draw[mid=0.55] (S) .. controls (100,75) and (160,42) .. (240,42) -- (A);
+\draw[mid=0.6] (A)--(F);
+\draw[mid=0.5] (S) .. controls (110,140) and (195,130) .. (D1);
+\draw[mid=0.5] (S) .. controls (110,215) and (185,235) .. (D1);
+\draw[mid=0.6] (D1)--(D2);
+\foreach \p in {S,A,F,D1,D2} \fill (\p) circle (8);
+\node[font=\small] at (230,25) {A (10)};
+\node[font=\small] at (405,23) {F (50)};
+\node[font=\small] at (160,130) {B (5)};
+\node[font=\small] at (135,243) {C (5)};
+\node[font=\small] at (290,233) {D (10)};
+\node at (45,193) {Start};
+\end{tikzpicture}
+\end{document}

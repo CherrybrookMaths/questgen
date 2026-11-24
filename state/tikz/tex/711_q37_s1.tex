@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.067945cm,y=0.006477cm]
+\draw[black!25,line width=0.4pt] (0,0) grid[xstep=5,ystep=50] (100,1000);
+\draw[black!50,line width=0.5pt] (0,0) grid[xstep=20,ystep=200] (100,1000);
+\foreach \i in {5,10,...,100} \draw (\i,-9.8)--(\i,9.8);
+\foreach \j in {50,100,...,1000} \draw (-0.93,\j)--(0.93,\j);
+\draw[->] (0,0)--(107.1,0);
+\draw[->] (0,0)--(0,1059);
+\node at (110.5,2) {$n$};
+\node at (0,1150) {\textit{\$}};
+\foreach \i in {20,40,...,100} \node[anchor=north] at (\i,-42) {$\i$};
+\foreach \j in {200,400,...,1000} \node[anchor=east] at (-2.8,\j) {$\j$};
+% cost curve
+\draw[line width=0.9pt,->] plot[domain=0:107.8,samples=90,smooth] (\x,{160+97*ln(\x+1)});
+% revenue R = 10n
+\draw[line width=0.9pt,->] (0,0)--(110,1100);
+\foreach \p in {(20,200),(40,400),(60,600),(80,800),(90,900),(90,597.6)} \fill \p circle (2.2pt);
+% break-even (n ~ 55) and n = 90 guides
+\draw[aux] (55.06,550.6)--(55.06,0);
+\draw[aux] (90,900)--(90,0);
+\end{tikzpicture}
+\end{document}

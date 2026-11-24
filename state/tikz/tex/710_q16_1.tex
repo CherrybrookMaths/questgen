@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\node[rotate=90] at (20,330) {Pulse rate};
+\node at (570,722) {Game score};
+\begin{scope}[shift={(125,631)},x={(0.16142cm,0)},y={(0,0.075565cm)}]
+\foreach \i in {5,15,...,65} \draw[black!30,line width=0.6pt] (\i,0)--(\i,100);
+\foreach \i in {10,20,...,70} \draw[black!60,line width=0.6pt] (\i,0)--(\i,100);
+\foreach \j in {10,20,...,100} \draw[black!60,line width=0.6pt] (0,\j)--(70,\j);
+\draw (0,100)--(0,0)--(70,0);
+\foreach \i in {0,5,...,70} \draw (\i,0)--(\i,-1);
+\foreach \i in {0,10,...,70} \node[below=5pt] at (\i,0) {\i};
+\foreach \j in {0,10,...,100} \node[left=5pt] at (0,\j) {\j};
+\end{scope}
+\end{tikzpicture}
+\end{document}

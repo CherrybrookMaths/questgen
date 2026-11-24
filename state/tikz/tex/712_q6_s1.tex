@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[width=10cm, height=9cm, scale only axis=false,
+  xmin=0, xmax=6, ymin=0, ymax=250, axis lines=left, axis line style={-},
+  xtick={0,...,6}, ytick={0,50,...,250}, minor ytick={10,20,30,40,60,70,80,90,110,120,130,140,160,170,180,190,210,220,230,240},
+  grid=both, major grid style={black!45, line width=0.4pt}, minor grid style={black!18, line width=0.3pt},
+  tick label style={font=\small}, tick style={draw=none},
+  xlabel={Years}, ylabel={Interest (\$)},
+  title={Simple interest on \$500 at 8\% p.a.}, title style={align=center},
+  clip=false, enlargelimits=false]
+  \addplot[black, line width=0.9pt] coordinates {(0,0) (6,240)};
+  \addplot[only marks, mark=*, mark size=1.8pt, black] coordinates {(0,0) (1,40) (2,80) (3,120) (4,160) (5,200) (6,240)};
+  \node[anchor=south east, font=\small, fill=white, inner sep=1.5pt] at (axis cs:5.92,241) {$(6,240)$};
+  \node[anchor=north west, font=\small, fill=white, inner sep=1.5pt] at (axis cs:3.08,117) {$(3,120)$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\usepackage{pifont}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (182,23) rectangle (275,116);
+\fill[shade] (555,23) rectangle (649,116);
+\fill[shade] (182,241) rectangle (275,334);
+\fill[shade] (555,241) rectangle (649,334);
+\draw (182,23) rectangle (649,334);
+\draw (182,116)--(275,116) (555,116)--(649,116);
+\draw (182,241)--(275,241) (555,241)--(649,241);
+\draw (275,23)--(275,116) (275,241)--(275,334);
+\draw (555,23)--(555,116) (555,241)--(555,334);
+\draw[aux] (275,116)--(555,116)--(555,241)--(275,241)--cycle;
+\node[font=\footnotesize, anchor=west] at (279,72) {6 cm};
+\node[font=\footnotesize, anchor=east] at (551,72) {6 cm};
+\node[font=\footnotesize, anchor=west] at (279,290) {6 cm};
+\node[font=\footnotesize, anchor=east] at (551,290) {6 cm};
+\node[font=\footnotesize, anchor=north] at (228.5,119) {6 cm};
+\node[font=\footnotesize, anchor=south] at (228.5,238) {6 cm};
+\node[font=\footnotesize, anchor=north] at (602,119) {6 cm};
+\node[font=\footnotesize, anchor=south] at (602,238) {6 cm};
+\node[font=\footnotesize, anchor=west] at (278,180) {$x$};
+\node[font=\footnotesize, anchor=south] at (413,239) {$2x$};
+\node[font=\footnotesize, align=center] at (66,70) {NOT TO\\SCALE};
+\node[rotate=180] at (684,150) {\scalebox{2.3}{\ding{34}}};
+\end{tikzpicture}
+\end{document}

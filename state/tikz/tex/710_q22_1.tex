@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\large}]
+  \coordinate (A) at (110,413); \coordinate (B) at (453,178); \coordinate (C) at (346,785);
+  \draw (8,413) -- (210,413);
+  \draw[->] (110,472) -- (110,290);
+  \node at (108,266) {N};
+  \draw (352,178) -- (553,178);
+  \draw[->] (453,305) -- (453,50);
+  \node at (455,28) {N};
+  \draw[postaction=decorate,decoration={markings,mark=at position 0.53 with {\arrow{>}}}] (A) -- (B);
+  \draw[postaction=decorate,decoration={markings,mark=at position 0.6 with {\arrow{>}}}] (B) -- (C);
+  \draw[<-] plot[domain=34.4:90,samples=30,smooth] ({110+75*cos(\x)},{413-75*sin(\x)});
+  \draw[<-] plot[domain=-100:90,samples=60,smooth] ({453+85*cos(\x)},{178-85*sin(\x)});
+  \node[pt] at (A) {}; \node[pt] at (B) {}; \node[pt] at (C) {};
+  \node at (132,374) {$78^\circ$};
+  \node at (494,212) {$191^\circ$};
+  \node[rotate=34] at (258,272) {142 km};
+  \node[anchor=west] at (418,512) {220 km};
+  \node at (438,158) {$B$};
+  \node at (93,440) {$A$};
+  \node at (325,786) {$C$};
+  \node[align=center] at (778,410) {NOT\\TO\\SCALE};
+\end{tikzpicture}
+\end{document}

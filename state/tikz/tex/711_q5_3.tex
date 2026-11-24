@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (17,268) -- (17,44);
+  \draw[->] (17,268) -- (247,268);
+  \node[font=\large] at (17,10) {$t$};
+  \node[font=\large] at (258,270) {$n$};
+  \draw[line width=0.9pt] plot[smooth, domain=17:222, samples=90] (\x, {72+46.64*((\x-17)/100)^2});
+\end{tikzpicture}
+\end{document}

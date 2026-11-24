@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.143cm,y=0.26835cm,font=\fontsize{8}{10}\selectfont]
+\draw[black!30,line width=0.4pt] (0,0) grid[xstep=1,ystep=1] (10,30);
+\draw[->] (0,0)--(10.4,0);
+\draw[->] (0,0)--(0,31.2);
+\node[font=\fontsize{10}{12}\selectfont] at (10.49,0) {$a$};
+\node[font=\fontsize{10}{12}\selectfont] at (0,32.25) {$v$};
+\foreach \y in {1,...,30} \draw (0,\y)--(-0.06,\y);
+\foreach \y in {2,4,...,30} \node[left,inner sep=1pt] at (-0.09,\y) {\y};
+\foreach \x in {1,...,10} \draw (\x,0.28)--(\x,-0.28);
+\foreach \x in {2,4,...,10} \node at (\x,-1.33) {\x};
+\node[rotate=90,font=\fontsize{9}{11}\selectfont] at (-0.667,15.05) {Value};
+\node[font=\fontsize{9}{11}\selectfont] at (5.19,-2.46) {Age};
+\foreach \p in {(2,22.5),(3,20.3),(3,17.8),(4,17.9),(5,16),(5,14.3),(6,15.5),(6,11.2),(7,8.5),(8,10.1),(9,6.7)}
+  \fill \p circle[radius=1.5pt];
+\end{tikzpicture}
+\end{document}

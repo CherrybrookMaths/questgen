@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\node[font=\bfseries\fontsize{13}{15}\selectfont] at (590,40) {Cost of petrol for different trips};
+\node[rotate=90] at (48,330) {Cost of petrol (\$)};
+\node at (598,637) {Distance travelled (km)};
+\begin{scope}[shift={(128,554)},x={(0.011303cm,0)},y={(0,0.057023cm)}]
+\foreach \i in {20,40,...,1020} \draw[black!25,line width=0.4pt] (\i,0)--(\i,105);
+\foreach \j in {5,10,...,105} \draw[black!25,line width=0.4pt] (0,\j)--(1025,\j);
+\draw[->] (0,0)--(1068,0);
+\draw[->] (0,0)--(0,112);
+\foreach \i in {100,200,...,1000} {\draw (\i,0)--(\i,-1.4); \node[below=4pt] at (\i,0) {\i};}
+\foreach \j in {10,20,...,100} {\draw (0,\j)--(-7,\j); \node[left=3pt] at (0,\j) {\j};}
+\node[below left=1pt] at (0,0) {0};
+\draw[line width=0.9pt] (0,17.5)--(1025,98.5);
+\foreach \p in {(175,28),(245,28),(330,55),(410,51),(540,62),(610,71),(760,72),(815,81),(970,94)} \fill \p circle[radius=3.4pt];
+\end{scope}
+\end{tikzpicture}
+\end{document}

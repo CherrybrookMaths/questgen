@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\coordinate (E) at (78,120); \coordinate (B) at (240,110); \coordinate (R) at (456,127); \coordinate (M) at (203,187);
+\coordinate (T) at (28,217); \coordinate (S) at (148,270); \coordinate (A) at (327,290); \coordinate (O) at (456,243);
+\coordinate (X) at (535,86); \coordinate (Y) at (588,163);
+\draw[line width=0.9pt] plot[smooth cycle, tension=0.6] coordinates {(28,217) (16,160) (27,108) (66,64) (150,46) (300,40) (450,52) (535,86) (578,122) (588,163) (578,225) (530,280) (440,315) (300,333) (160,322) (70,282)};
+\draw (E)--(B)--(R)--(O)--(A)--(S)--(T)--cycle;
+\foreach \p in {E,B,R,T,S,A,O} \draw (M)--(\p);
+\draw plot[smooth, tension=0.7] coordinates {(456,127) (470,110) (492,100) (515,99) (535,86)};
+\draw plot[smooth, tension=0.7] coordinates {(456,127) (482,144) (520,145) (558,139) (580,147) (588,163)};
+\foreach \p in {E,B,R,M,T,S,A,O,X,Y} \fill (\p) circle (5);
+\node at (350,28) {$25$}; \node at (555,68) {$X$}; \node at (605,114) {$2.5$}; \node at (607,164) {$Y$};
+\node at (474,92) {$3$}; \node at (540,160) {$5$}; \node at (443,108) {$R$}; \node at (11,233) {$T$};
+\node at (443,340) {$22$};
+\end{tikzpicture}
+\end{document}

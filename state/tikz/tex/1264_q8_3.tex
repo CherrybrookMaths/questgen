@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+  \draw[aux,->] (345,287) -- (345,52);
+  \draw (345,287) -- (104,356);
+  \draw[smooth,samples=40,domain=90:196,variable=\t] plot ({345+74*cos(\t)},{287-74*sin(\t)});
+  \node[pt] at (345,287) {};
+  \node[pt] at (104,356) {};
+  \node at (338,18) {North};
+  \node at (410,284) {Ship A};
+  \node[font=\small] at (309,268) {$120^\circ$};
+  \node at (36,357) {Ship $B$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+% tiled floor of bath and laundry (light grey grid)
+\foreach \x in {184,198,...,380} \draw[black!35,line width=0.3pt] (\x,372)--(\x,598);
+\foreach \y in {386,400,...,596} \draw[black!35,line width=0.3pt] (170,\y)--(383,\y);
+% walls
+\draw (170,48)--(642,48)--(642,335)--(858,335)--(858,598)--(170,598)--cycle;
+\draw (383,340)--(642,340); \draw (383,340)--(383,598);
+\draw (170,372)--(383,372); \draw (170,485)--(383,485);
+% windows
+\draw (335,45) rectangle (475,51); \draw (639,140) rectangle (645,240); \draw (855,410) rectangle (861,510);
+\draw (545,595) rectangle (688,601); \draw (167,405) rectangle (173,440); \draw (167,520) rectangle (173,555);
+\draw (718,332) rectangle (782,338);
+% doors
+\draw (400,340) .. controls (405,318) and (418,318) .. (432,340);
+\draw (383,377)--(360,392)--(383,404); \draw (383,490)--(360,505)--(383,517);
+\draw (730,338)--(742,358)--(754,338);
+\draw[fill=black!15] (800,562) rectangle (852,596);
+% room names
+\node at (415,197) {Bed}; \node at (278,428) {Bath}; \node at (275,538) {Laundry}; \node at (628,462) {Living};
+% horizontal dimensions
+\draw (175,30)--(368,30); \draw (448,30)--(640,30); \draw (175,24)--(175,36); \draw (640,24)--(640,36); \node at (408,30) {5400};
+\draw (175,618)--(250,618); \draw (320,618)--(383,618); \draw (175,612)--(175,624); \draw (383,612)--(383,624); \node at (285,618) {2400};
+\draw (175,646)--(472,646); \draw (548,646)--(852,646); \draw (175,640)--(175,652); \draw (852,640)--(852,652); \node at (510,646) {7800};
+% vertical dimensions
+\draw[->] (58,310)--(58,52); \draw[->] (58,340)--(58,595); \draw (51,52)--(65,52); \draw (51,595)--(65,595); \node at (55,325) {9000};
+\draw[->] (120,418)--(120,374); \draw[->] (120,442)--(120,485); \draw (113,374)--(127,374); \draw (113,485)--(127,485); \node at (120,430) {2000};
+\draw[->] (120,523)--(120,485); \draw[->] (120,547)--(120,595); \draw (113,595)--(127,595); \node at (120,535) {2000};
+\draw[->] (907,455)--(907,340); \draw[->] (907,485)--(907,595); \draw (900,340)--(914,340); \draw (900,595)--(914,595); \node at (907,470) {4200};
+\end{tikzpicture}
+\end{document}

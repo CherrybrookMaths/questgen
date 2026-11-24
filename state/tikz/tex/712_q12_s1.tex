@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[scale=1.1, mid/.style={postaction={decorate}, decoration={markings, mark=at position 0.56 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+  \coordinate (A) at (0,3.2); \coordinate (B) at (-2.8,0); \coordinate (C) at (2.8,0); \coordinate (D) at (0,1.15);
+  \draw[mid] (A) -- (C); \draw[mid] (A) -- (D); \draw[mid] (B) -- (A);
+  \draw[mid] (B) -- (C); \draw[mid] (C) -- (D); \draw[mid] (D) -- (B);
+  \foreach \p in {A,B,C,D} \fill (\p) circle (2pt);
+  \node[above] at (A) {$A$}; \node[left] at (B) {$B$}; \node[right] at (C) {$C$}; \node[below=2pt] at (D) {$D$};
+  \node at (1.65,1.85) {$2$};
+  \node at (0.22,2.15) {$5$};
+  \node at (-1.65,1.85) {$1$};
+  \node at (0,-0.3) {$7$};
+  \node at (1.35,0.84) {$4$};
+  \node at (-1.35,0.84) {$3$};
+\end{tikzpicture}
+\end{document}

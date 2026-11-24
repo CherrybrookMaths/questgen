@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \n in {1,...,35} {\pgfmathsetmacro\xx{88+21.43*\n}
+  \draw[black!15, line width=0.4pt] (\xx,745)--(\xx,99);}
+\foreach \k in {1,...,30} {\pgfmathsetmacro\yy{745-21.53*\k}
+  \draw[black!15, line width=0.4pt] (88,\yy)--(838,\yy);}
+\foreach \n in {5,10,...,35} {\pgfmathsetmacro\xx{88+21.43*\n}
+  \draw[black!35, line width=0.6pt] (\xx,745)--(\xx,99);}
+\foreach \k in {5,10,...,30} {\pgfmathsetmacro\yy{745-21.53*\k}
+  \draw[black!35, line width=0.6pt] (88,\yy)--(838,\yy);}
+\draw[->] (88,745)--(845,745);
+\draw[->] (88,745)--(88,92);
+\draw[line width=0.9pt] (88,745)--({88+21.43*30},{745-1.0767*600});
+\draw[line width=0.9pt] (88,{745-1.0767*140})--({88+21.43*35},{745-1.0767*490});
+\foreach \n in {5,10,...,30} {\pgfmathsetmacro\xx{88+21.43*\n}
+  \node[font=\normalsize, anchor=north] at (\xx,760) {\sffamily\n};}
+\foreach \v in {0,100,...,500} {\pgfmathsetmacro\yy{745-1.0767*\v}
+  \node[font=\normalsize, anchor=east] at (76,\yy) {\sffamily\v};}
+\node[font=\normalsize] at (60,110) {\sffamily\$};
+\node[font=\normalsize] at (480,826) {\sffamily Number of T-shirts, $n$};
+\node[font=\normalsize] at (546,138) {\halo{\sffamily Revenue\quad $R=20n$}};
+\node[font=\normalsize] at (676,400) {\halo{\sffamily Cost\quad $C=140+10n$}};
+\node[font=\normalsize\bfseries, text=black!60] at (456,52) {\sffamily T-shirts total revenue and costs};
+\end{tikzpicture}
+\end{document}

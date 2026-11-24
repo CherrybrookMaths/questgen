@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\coordinate (S) at (55,128); \coordinate (V) at (248,68); \coordinate (T) at (198,248);
+\coordinate (U) at (328,298); \coordinate (X) at (533,220); \coordinate (Y) at (688,141); \coordinate (W) at (508,66);
+\draw (S)--(V)--(T)--(U)--(X)--(Y)--(W);
+\foreach \p in {S,V,T,U,X,Y,W} \fill (\p) circle (4.5);
+\node at (35,127) {$S$}; \node at (245,42) {$V$}; \node at (530,48) {$W$}; \node at (710,143) {$Y$};
+\node at (560,228) {$X$}; \node at (183,277) {$T$}; \node at (338,322) {$U$};
+\node at (132,84) {$30$}; \node at (254,131) {$25$}; \node at (253,292) {$20$}; \node at (440,285) {$35$};
+\node at (627,197) {$10$}; \node at (620,80) {$30$};
+\node at (595,312) {OR};
+\coordinate (V2) at (880,218); \coordinate (W2) at (1065,232); \coordinate (Y2) at (1137,273); \coordinate (S2) at (773,310);
+\coordinate (X2) at (1095,355); \coordinate (T2) at (865,382); \coordinate (U2) at (992,422);
+\draw (S2)--(T2)--(U2)--(X2)--(Y2)--(W2); \draw (V2)--(U2);
+\foreach \p in {V2,W2,Y2,S2,X2,T2,U2} \fill (\p) circle (4.5);
+\node at (912,198) {$V$}; \node at (1087,213) {$W$}; \node at (1162,278) {$Y$}; \node at (752,300) {$S$};
+\node at (1107,380) {$X$}; \node at (858,410) {$T$}; \node at (990,458) {$U$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9}{11}\selectfont]
+\coordinate (E) at (180,58); \coordinate (B) at (390,45); \coordinate (R) at (663,66); \coordinate (M) at (340,143);
+\coordinate (T) at (117,182); \coordinate (S) at (268,248); \coordinate (A) at (497,272); \coordinate (O) at (663,213);
+\draw (E)--(B)--(R)--(O)--(A)--(S)--(T)--cycle;
+\foreach \p in {E,B,R,T,S,A,O} \draw (M)--(\p);
+\foreach \p in {E,B,R,M,T,S,A,O} \fill (\p) circle (6);
+\node at (157,33) {Eccles $(E)$}; \node at (413,25) {Bury $(B)$}; \node[anchor=west] at (675,66) {Rochdale $(R)$};
+\node[anchor=west] at (410,143) {Manchester $(M)$}; \node[anchor=east] at (112,204) {Trafford $(T)$};
+\node at (248,276) {Sale $(S)$}; \node at (525,297) {Ashton $(A)$}; \node[anchor=west] at (675,219) {Oldham $(O)$};
+\node at (280,33) {$7$}; \node at (535,43) {$8$}; \node at (133,109) {$6$}; \node at (263,84) {$11$};
+\node at (386,92) {$12$}; \node at (538,110) {$13$}; \node at (678,139) {$5$}; \node at (205,149) {$7$};
+\node at (550,172) {$11$}; \node at (178,229) {$3$}; \node at (311,214) {$9$}; \node at (455,214) {$12$};
+\node at (380,278) {$5$}; \node at (600,259) {$6$};
+\end{tikzpicture}
+\end{document}

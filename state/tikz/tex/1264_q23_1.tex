@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (B) at (221,52); \coordinate (C) at (468,68); \coordinate (D) at (718,147);
+\coordinate (A) at (104,183); \coordinate (F) at (262,314); \coordinate (E) at (624,360);
+\draw (A)--(B)--(C)--(D)--(E)--(C); \draw (A)--(E)--(F)--(A);
+\foreach \p in {A,B,C,D,E,F} \fill (\p) circle (6);
+\begin{scope}[font=\small\bfseries]
+\node at (215,20) {Baru}; \node at (497,30) {Cirri}; \node at (812,148) {Dalmore};
+\node at (40,215) {Adun}; \node at (282,372) {Fyves}; \node at (688,387) {Ezuri};
+\end{scope}
+\begin{scope}[font=\small]
+\node at (128,100) {60}; \node at (346,32) {70}; \node at (607,80) {80};
+\node at (488,178) {120}; \node at (742,248) {90}; \node at (356,218) {140};
+\node at (148,277) {60}; \node at (438,382) {100};
+\end{scope}
+\end{tikzpicture}
+\end{document}

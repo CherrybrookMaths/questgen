@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % tree
+  \draw[fill=black!22] plot[smooth cycle, domain=0:350, samples=36] ({470+34*cos(\x)*(1+0.06*sin(5*\x))}, {126+87*sin(\x)*(1+0.04*sin(7*\x))});
+  \draw[fill=black!60] (462,192) -- (478,192) -- (475,308) -- (482,327) -- (458,327) -- (465,308) -- cycle;
+  % triangle
+  \draw[aux] (60,42) -- (470,42);
+  \draw (22,327) -- (470,327) -- (470,42) -- cycle;
+  \draw (447,327) -- (447,304) -- (470,304);
+  \node[pt] at (22,327) {}; \node[pt] at (470,327) {}; \node[pt] at (470,42) {};
+  \node at (470,16) {$B$};
+  \node at (18,353) {$A$};
+  \node at (468,353) {$C$};
+  \node at (375,71) {$34^\circ$};
+  \node at (260,352) {$11.5$ m};
+  \node at (537,192) {$h$};
+  \node at (745,183) {Not to scale};
+\end{tikzpicture}
+\end{document}

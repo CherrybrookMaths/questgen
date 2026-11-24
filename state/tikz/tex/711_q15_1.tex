@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{13}\selectfont,
+  v/.style={circle,draw,minimum size=0.48cm,inner sep=0pt},
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}]
+\node[v] (A) at (35,235) {A}; \node[v] (B) at (193,117) {B}; \node[v] (C) at (193,235) {C};
+\node[v] (G) at (508,38) {G}; \node[v] (E) at (350,155) {E}; \node[v] (F) at (350,313) {F};
+\node[v] (H) at (508,313) {H}; \node[v] (I) at (665,195) {I}; \node[v] (J) at (780,195) {J};
+\foreach \a/\b in {A/B,A/C,B/G,B/E,G/I,E/I,E/H,C/F,F/H,H/I,I/J}
+  \draw[mid=0.56] (\a)--(\b);
+\node at (100,152) {20}; \node at (115,266) {10}; \node at (342,52) {5}; \node at (265,159) {10};
+\node at (603,96) {5}; \node at (510,148) {5}; \node at (405,242) {5}; \node at (226,295) {10};
+\node at (426,345) {10}; \node at (600,282) {5}; \node at (720,170) {15};
+\end{tikzpicture}
+\end{document}

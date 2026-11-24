@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (B) at (45,485); \coordinate (A) at (420,485); \coordinate (C) at (45,20); \coordinate (D) at (185,193.6);
+\draw (C)--(B)--(A)--cycle;
+\draw[aux] (B)--(D);
+\draw (45,428)--(101,428)--(101,485);
+\draw ([shift={(51.1:141)}]D) arc[start angle=51.1,end angle=115.66,radius=141];
+\draw ([shift={(180:150)}]A) arc[start angle=180,end angle=231.1,radius=150];
+\node[font=\large] at (20,25) {$C$};
+\node[font=\large] at (213,182) {$D$};
+\node[font=\large] at (25,515) {$B$};
+\node[font=\large] at (447,497) {$A$};
+\node at (205,520) {65.0 m};
+\node[rotate=64.3] at (113,302) {55.5 m};
+\node at (194,302) {$66^\circ$};
+\node at (318,437) {$x^\circ$};
+\node[align=center,font=\small] at (378,170) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

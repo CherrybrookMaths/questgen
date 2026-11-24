@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade] (180,318) -- plot[smooth, domain=180:480, samples=60] (\x, {318-308*exp(-((\x-330)/75)^2/2)}) -- (480,318) -- cycle;
+  \draw (8,318) -- (648,318);
+  \foreach \t in {105,180,255,330,405,480,555} \draw (\t,310) -- (\t,326);
+  \draw (180,318) -- (180,{318-308*exp(-2)});
+  \draw (480,318) -- (480,{318-308*exp(-2)});
+  \draw[line width=0.9pt] plot[smooth, domain=8:648, samples=90] (\x, {318-308*exp(-((\x-330)/75)^2/2)});
+  \node at (180,345) {$32$};
+  \node at (480,345) {$56$};
+  \node at (333,197) {$95\%$};
+\end{tikzpicture}
+\end{document}

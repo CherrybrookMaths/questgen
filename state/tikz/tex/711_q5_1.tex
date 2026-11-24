@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (17,278) -- (17,54);
+  \draw[->] (17,278) -- (247,278);
+  \node[font=\large] at (17,20) {$t$};
+  \node[font=\large] at (258,280) {$n$};
+  \draw[line width=0.9pt] plot[smooth, domain=30:250, samples=90] (\x, {278-3032/(\x-16.7)});
+\end{tikzpicture}
+\end{document}

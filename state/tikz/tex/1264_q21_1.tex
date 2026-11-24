@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[shade] (238,58)--(72,350)--(405,350)--cycle;
+\node[rotate=60] at (136,190) {95 cm};
+\node[rotate=-60] at (340,190) {95 cm};
+\node at (238,378) {95 cm};
+\coordinate (O) at (583,65);
+\draw[shade] (O)--++(11.3:287) arc[start angle=11.3,end angle=90,radius=287]--cycle;
+\draw (583,140) arc[start angle=90,end angle=11.3,radius=75];
+\node at (607,101) {\halo{$\theta$}};
+\node[rotate=-11.3] at (750,74) {85 cm};
+\node[rotate=90] at (556,216) {85 cm};
+\end{tikzpicture}
+\end{document}

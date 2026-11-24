@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5093cm,y=0.5093cm]
+  \foreach \i in {-10,...,10} {
+    \draw[black!22] (\i,-10.65) -- (\i,11.35);
+    \draw[black!22] (-11.35,\i) -- (11.35,\i);
+  }
+  \draw[->] (-12.29,0) -- (13.64,0);
+  \draw[->] (0,-10.67) -- (0,11.95);
+  \foreach \i in {-10,...,10} {
+    \draw (\i,-0.1) -- (\i,0.1);
+    \draw (-0.1,\i) -- (0.1,\i);
+  }
+  \foreach \i in {-10,-5,5,10} {
+    \node[font=\large,anchor=north] at (\i,-0.2) {$\i$};
+    \node[font=\large,anchor=east] at (-0.12,\i) {$\i$};
+  }
+  \node[font=\large,anchor=west] at (13.75,0) {$x$};
+  \node[font=\large] at (-0.7,12.15) {$y$};
+\end{tikzpicture}
+\end{document}

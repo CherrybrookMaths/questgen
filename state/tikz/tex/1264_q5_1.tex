@@ -1,0 +1,37 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\X#1{(95+96*(#1))}
+  \def\Y#1{(565-18.24*(#1))}
+  % minor grid
+  \foreach \i in {1,...,32} {\pgfmathsetmacro\xx{95+96*0.2*\i}
+    \draw[black!22,line width=0.4pt] (\xx,565) -- (\xx,68);}
+  \foreach \j in {1,...,27} {\pgfmathsetmacro\yy{565-18.24*\j}
+    \draw[black!22,line width=0.4pt] (95,\yy) -- (715,\yy);}
+  % major grid
+  \foreach \i in {1,...,6} {\pgfmathsetmacro\xx{95+96*\i}
+    \draw[black!50,line width=0.5pt] (\xx,565) -- (\xx,68);}
+  \foreach \j in {5,10,...,25} {\pgfmathsetmacro\yy{565-18.24*\j}
+    \draw[black!50,line width=0.5pt] (95,\yy) -- (715,\yy);}
+  % axes
+  \draw[->] (95,565) -- (720,565);
+  \draw[->] (95,565) -- (95,66);
+  \foreach \i in {1,...,32} {\pgfmathsetmacro\xx{95+96*0.2*\i}
+    \draw (\xx,558) -- (\xx,572);}
+  \foreach \j in {1,...,27} {\pgfmathsetmacro\yy{565-18.24*\j}
+    \draw (88,\yy) -- (102,\yy);}
+  \node[anchor=west] at (724,565) {$x$};
+  \node[anchor=south] at (95,60) {$y$};
+  \node at (75,610) {$0$};
+  \foreach \i in {1,...,6} {\pgfmathsetmacro\xx{95+96*\i}
+    \node at (\xx,610) {$\i$};}
+  \foreach \j in {5,10,...,25} {\pgfmathsetmacro\yy{565-18.24*\j}
+    \node[anchor=east] at (72,\yy) {$\j$};}
+  % curve y=20/x
+  \draw[line width=0.9pt,smooth,samples=90,domain=0.75:6.47,variable=\t]
+    plot ({95+96*\t},{565-18.24*20/\t});
+  \node[pt,inner sep=1.6pt] at (479,473.8) {};
+  \node at (510,437) {$(4,5)$};
+\end{tikzpicture}
+\end{document}

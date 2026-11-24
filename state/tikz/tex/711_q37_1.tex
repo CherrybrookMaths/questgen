@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.068707cm,y=0.0065786cm]
+\draw[black!25,line width=0.4pt] (0,0) grid[xstep=5,ystep=50] (100,1000);
+\draw[black!50,line width=0.5pt] (0,0) grid[xstep=20,ystep=200] (100,1000);
+\foreach \i in {5,10,...,100} \draw (\i,-9.6)--(\i,9.6);
+\foreach \j in {50,100,...,1000} \draw (-0.92,\j)--(0.92,\j);
+\draw[->] (0,0)--(107.8,0);
+\draw[->] (0,0)--(0,1058);
+\node at (111.6,2) {$n$};
+\node at (0,1135) {\textit{\$}};
+\foreach \i in {20,40,...,100} \node[anchor=north] at (\i,-42) {$\i$};
+\foreach \j in {200,400,...,1000} \node[anchor=east] at (-2.6,\j) {$\j$};
+\draw[line width=0.9pt,->] plot[domain=0:107.8,samples=90,smooth] (\x,{160+97*ln(\x+1)});
+\end{tikzpicture}
+\end{document}

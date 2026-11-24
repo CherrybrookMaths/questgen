@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.07912cm,y=0.0794cm]
+\draw[black!20, line width=0.4pt] (-2.6,-10) grid[step=5] (156.5,139);
+\draw[->] (0,0)--(138.8,0);
+\draw[->] (0,0)--(0,124);
+\foreach \v in {20,40,...,120} {
+  \draw (\v,-1.5)--(\v,1.5);
+  \node[font=\footnotesize] at (\v,-4.6) {$\v$};
+}
+\foreach \v in {20,40,...,100} {
+  \draw (-1.5,\v)--(1.5,\v);
+  \node[font=\footnotesize, anchor=south east, inner sep=1pt] at (-0.4,\v) {$\v$};
+}
+\node[font=\large] at (-1.2,130.5) {$c.f$};
+\node[font=\large, anchor=west] at (139.5,-3.6) {$\mathit{clicks}$};
+\end{tikzpicture}
+\end{document}

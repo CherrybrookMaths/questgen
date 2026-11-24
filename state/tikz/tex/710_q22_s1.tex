@@ -1,0 +1,49 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (115,420); \coordinate (B) at (465,180); \coordinate (C) at (355,805);
+  \draw (5,420) -- (215,420);
+  \draw[->] (115,482) -- (115,292);
+  \node[font=\large] at (112,270) {N};
+  \draw (360,180) -- (570,180);
+  \draw[->] (465,305) -- (465,55);
+  \node[font=\large] at (463,33) {N};
+  \draw[postaction=decorate,decoration={markings,mark=at position 0.55 with {\arrow{>}}}] (A) -- (B);
+  \draw[postaction=decorate,decoration={markings,mark=at position 0.6 with {\arrow{>}}}] (B) -- (C);
+  \draw (A) -- (C);
+  \draw[aux,->] (C) -- (355,700);
+  \node at (357,686) {N};
+  \draw[<-] plot[domain=34.44:90,samples=30,smooth] ({115+72*cos(\x)},{420-72*sin(\x)});
+  \draw[<-] plot[domain=-99.98:90,samples=60,smooth] ({465+85*cos(\x)},{180-85*sin(\x)});
+  \node[font=\large] at (136,382) {$78^\circ$};
+  \node[font=\large] at (507,214) {$191^\circ$};
+  \draw plot[domain=0:34.44,samples=20,smooth] ({115+55*cos(\x)},{420-55*sin(\x)});
+  \node at (196,396) {$12^\circ$};
+  \draw plot[domain=-58.06:34.44,samples=40,smooth] ({115+130*cos(\x)},{420-130*sin(\x)});
+  \node at (306,455) {$74^\circ 32'$};
+  \draw plot[domain=180:214.44,samples=20,smooth] ({465+50*cos(\x)},{180-50*sin(\x)});
+  \node at (378,203) {$12^\circ$};
+  \draw plot[domain=214.44:260.02,samples=20,smooth] ({465+40*cos(\x)},{180-40*sin(\x)});
+  \node at (424,244) {$67^\circ$};
+  \draw plot[domain=260.02:270,samples=10,smooth] ({465+115*cos(\x)},{180-115*sin(\x)});
+  \draw (488,322) -- (458,298);
+  \node[anchor=west] at (486,334) {$11^\circ$};
+  \draw plot[domain=80.02:121.94,samples=30,smooth] ({355+165*cos(\x)},{805-165*sin(\x)});
+  \node at (313,677) {$\theta$};
+  \draw plot[domain=90:121.94,samples=20,smooth] ({355+60*cos(\x)},{805-60*sin(\x)});
+  \draw (292,772) -- (336,750);
+  \node at (245,782) {$27^\circ 28'$};
+  \draw plot[domain=80.02:90,samples=10,smooth] ({355+80*cos(\x)},{805-80*sin(\x)});
+  \draw (408,714) -- (364,726);
+  \node[anchor=west] at (410,710) {$11^\circ$};
+  \node at (210,628) {$x$};
+  \node[pt] at (A) {}; \node[pt] at (B) {}; \node[pt] at (C) {};
+  \node[rotate=34.4,font=\large] at (264,280) {142 km};
+  \node[anchor=west,font=\large] at (430,522) {220 km};
+  \node[font=\large] at (448,160) {$B$};
+  \node[font=\large] at (96,445) {$A$};
+  \node[font=\large] at (336,810) {$C$};
+  \node[align=center,font=\large] at (782,418) {NOT\\TO\\SCALE};
+\end{tikzpicture}
+\end{document}

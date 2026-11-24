@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,30} \draw[black!25,line width=0.3pt] ({158+\i*14.6667},22)--({158+\i*14.6667},422);
+\foreach \j in {0,...,29} \draw[black!25,line width=0.3pt] (158,{22+\j*13.3333})--(598,{22+\j*13.3333});
+\draw[->] (158,422)--(625,422);
+\draw[->] (158,422)--(158,5);
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:120,variable=\t] ({158+\t*3.66667},{422-(50-14.23*\t/120-35.77*(\t/120)^4.5)/0.15});
+\foreach \v/\y in {60000/22,50000/88.7,40000/155.3,30000/222,20000/288.7,10000/355.3}
+  \node[anchor=east,font=\small] at (152,\y) {\$\,\v};
+\foreach \k in {0,20,40,60,80,100,120}
+  \node[font=\small] at ({158+\k*3.66667},447) {\k};
+\node[rotate=90,font=\footnotesize] at (22,250) {Amount owing};
+\node[font=\footnotesize] at (512,163) {\$650 per month};
+\end{tikzpicture}
+\end{document}

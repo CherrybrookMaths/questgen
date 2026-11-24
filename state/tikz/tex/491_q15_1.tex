@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\draw (77,187)--(77,290)--(490,290)--(490,3);
+\draw (283,290)--(283,63);
+\draw plot[smooth, tension=0.6] coordinates {(77,187) (85,158) (102,130) (128,109) (172,93) (235,80) (283,63) (350,37) (420,20) (490,3)};
+\node at (50,238) {$20m$}; \node at (250,180) {$90m$}; \node at (456,148) {$150m$};
+\draw[aux,<->] (77,328)--(490,328); \node at (292,355) {$220m$};
+\end{tikzpicture}
+\end{document}

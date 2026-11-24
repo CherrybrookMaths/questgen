@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(498,412)},x=1.9596cm,y=1.5494cm]
+\def\xa{-3.23}\def\xb{3.35}\def\ya{-3.67}\def\yb{3.38}
+\foreach \i in {-16,...,16} {\pgfmathsetmacro\x{0.2*\i}
+  \ifnum\i=0\else\pgfmathparse{abs(mod(\i,5))==0?1:0}\ifnum\pgfmathresult=1
+    \draw[black!40,line width=0.4pt] (\x,\ya)--(\x,\yb);\else
+    \draw[black!15,line width=0.4pt] (\x,\ya)--(\x,\yb);\fi\fi}
+\foreach \i in {-18,...,16} {\pgfmathsetmacro\y{0.2*\i}
+  \ifnum\i=0\else\pgfmathparse{abs(mod(\i,5))==0?1:0}\ifnum\pgfmathresult=1
+    \draw[black!40,line width=0.4pt] (\xa,\y)--(\xb,\y);\else
+    \draw[black!15,line width=0.4pt] (\xa,\y)--(\xb,\y);\fi\fi}
+\draw[->] (\xa,0)--(\xb,0) node[below left=1pt and -2pt, font=\small] {$x$};
+\draw[->] (0,\ya)--(0,\yb) node[right=1pt] {$y$};
+\foreach \x in {-3,-2,-1,1,2,3} \node[anchor=north, font=\scriptsize, inner sep=1pt] at (\x-0.04,-0.06) {$\x$};
+\node[anchor=north east, font=\scriptsize, inner sep=1pt] at (-0.03,-0.06) {$0$};
+\foreach \y in {-3,-2,-1,1,2,3} \node[anchor=east, font=\scriptsize, inner sep=1pt] at (-0.02,\y) {$\y$};
+\begin{scope}
+\clip (\xa,\ya) rectangle (\xb,\yb);
+\draw[line width=0.9pt] (-2.8,3.6)--(0.9,-3.8);
+\draw[line width=0.9pt] (-3.4,-3.7)--(3.5,-0.25);
+\end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{document}

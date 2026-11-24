@@ -1,0 +1,39 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  e/.style={postaction={decorate}, decoration={markings, mark=at position #1 with {\arrow{>}}}}, e/.default=0.55,
+  v/.style={circle, fill, inner sep=1.2pt}]
+\coordinate (S) at (127,190);
+\coordinate (P1) at (246,103);
+\coordinate (P2) at (246,237);
+\coordinate (P3) at (405,62);
+\coordinate (P4) at (367,192);
+\coordinate (P5) at (485,277);
+\coordinate (T) at (565,190);
+\draw[e] (S)--(P1);
+\draw[e] (S)--(P2);
+\draw[e] (P2)--(P1);
+\draw[e=0.6] (P1)--(P3);
+\draw[e=0.58] (P1)--(P4);
+\draw[e] (P4)--(P3);
+\draw[e] (P3)--(T);
+\draw[e] (T)--(P5);
+\draw[e] (P2)--(P5);
+\draw[e=0.7] (P5)--(P4);
+\foreach \p in {S,P1,P2,P3,P4,P5,T} \node[v] at (\p) {};
+\draw[aux] plot[smooth, tension=0.6] coordinates {(358,30)(368,70)(360,102)(345,135)(332,165)(328,192)(342,212)(372,220)(405,217)(432,201)(462,188)(502,186)(540,198)(556,224)(557,252)(565,272)(572,290)};
+\node[anchor=east] at (117,189) {source};
+\node[anchor=west] at (575,189) {sink};
+\node at (172,125) {6};
+\node at (165,233) {7};
+\node at (269,175) {2};
+\node at (325,55) {8};
+\node at (316,131) {11};
+\node at (407,135) {10};
+\node at (497,95) {7};
+\node at (546,262) {8};
+\node at (358,281) {9};
+\node at (437,218) {$x$};
+\end{tikzpicture}
+\end{document}

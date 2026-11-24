@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (BP) at (234,82); \coordinate (H) at (773,105); \coordinate (SC) at (517,267);
+\coordinate (RD) at (137,373); \coordinate (TC) at (822,387); \coordinate (AP) at (463,542);
+\draw (BP)--(H)--(TC)--(AP)--(RD)--cycle; \draw (BP)--(SC)--(H); \draw (SC)--(TC)--(RD);
+\foreach \p in {BP,H,SC,RD,TC,AP} \fill (\p) circle (8.5);
+\node at (261,33) {Business Park}; \node at (821,70) {Hospital}; \node[anchor=east] at (500,284) {Shopping Centre};
+\node at (137,455) {Residential District}; \node at (865,452) {Town Centre}; \node at (459,578) {Animal Park};
+\begin{scope}[font=\large]
+\node at (517,66) {$14$}; \node at (388,150) {$6$}; \node at (676,192) {$7$}; \node at (848,240) {$2$};
+\node at (158,223) {$5$}; \node at (655,295) {$8$}; \node at (487,356) {$17$}; \node at (292,485) {$15$};
+\node at (651,488) {$5$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

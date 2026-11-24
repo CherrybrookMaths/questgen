@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, lbl/.style={font=\fontsize{8}{9}\selectfont, inner sep=0pt}, v/.style={circle, fill, inner sep=1.3pt}]
+  \coordinate (O) at (52,37);  \coordinate (D) at (82,100); \coordinate (K) at (128,106);
+  \coordinate (F) at (176,116); \coordinate (G) at (178,186); \coordinate (L) at (92,207);
+  \coordinate (H) at (233,142); \coordinate (Ba) at (237,102); \coordinate (B2) at (262,106);
+  \coordinate (B3) at (287,143); \coordinate (B1) at (260,184); \coordinate (Bb) at (311,204);
+  \draw (O) -- (D); \draw (O) -- (K); \draw (D) -- (K) -- (F); \draw (D) -- (L); \draw (L) -- (G);
+  \draw (O) .. controls (140,25) and (215,55) .. (F);
+  \draw (O) .. controls (-30,120) and (-8,300) .. (105,292) .. controls (178,288) and (186,230) .. (G);
+  \draw (F) .. controls (160,140) and (162,170) .. (G);
+  \draw (F) .. controls (212,110) and (220,125) .. (H);
+  \draw (G) .. controls (225,195) and (222,155) .. (H);
+  \draw (H) -- (Ba); \draw (H) .. controls (250,125) and (262,120) .. (B2); \draw (H) -- (B3); \draw (H) -- (B1);
+  \draw (B1) .. controls (285,180) and (305,190) .. (Bb);
+  \foreach \p in {O,D,K,F,G,L,H,Ba,B2,B3,B1,Bb} \node[v] at (\p) {};
+  \node[lbl] at (63,18) {Outside}; \node[lbl] at (78,118) {Dining}; \node[lbl] at (147,86) {Kitchen};
+  \node[lbl] at (186,134) {Family}; \node[lbl] at (154,166) {Gallery}; \node[lbl] at (93,223) {Living};
+  \node[lbl] at (246,162) {Hall}; \node[lbl] at (232,80) {Bath}; \node[lbl] at (290,95) {Bed 2};
+  \node[lbl] at (326,138) {Bed 3}; \node[lbl] at (267,200) {Bed 1}; \node[lbl] at (325,219) {Bath};
+\end{tikzpicture}
+\end{document}

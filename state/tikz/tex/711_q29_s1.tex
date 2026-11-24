@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\makeatletter
+\begin{tikzpicture}
+\setlength\treeL{2.3cm}
+\treewidth{1}{$R$}\treewidth{1}{$B$}\treewidth{2}{$R$}\treewidth{2}{$B$}
+\treecolumns{2}
+\treeroot{o}{0cm}
+\treenode{r}{1}{1.45cm}{$R$}
+\treenode{b}{1}{-1.45cm}{$B$}
+\treenode{rr}{2}{2.15cm}{$R$}
+\treenode{rb}{2}{0.75cm}{$B$}
+\treenode{br}{2}{-0.75cm}{$R$}
+\treenode{bb}{2}{-2.15cm}{$B$}
+\treebranch{o}{r}{$\dfrac{22}{50}$}
+\treebranch{o}{b}{$\dfrac{28}{50}$}
+\treebranch{r}{rr}{$\dfrac{21}{49}$}
+\treebranch{r}{rb}{$\dfrac{28}{49}$}
+\treebranch{b}{br}{$\dfrac{22}{49}$}
+\treebranch{b}{bb}{$\dfrac{27}{49}$}
+\treeresult{2.15cm}{$RR$}
+\treeresult{0.75cm}{$RB$}
+\treeresult{-0.75cm}{$BR$}
+\treeresult{-2.15cm}{$BB$}
+\node[tree result] at ({\tree@Xend+\treeresultsep+1.5cm},2.15cm) {$\dfrac{22}{50}\times\dfrac{21}{49}=\dfrac{462}{2450}$};
+\node[tree result] at ({\tree@Xend+\treeresultsep+1.5cm},-2.15cm) {$\dfrac{28}{50}\times\dfrac{27}{49}=\dfrac{756}{2450}$};
+\end{tikzpicture}
+\makeatother
+\end{document}

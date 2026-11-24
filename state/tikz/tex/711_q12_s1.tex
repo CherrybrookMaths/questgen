@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11}{13}\selectfont,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}]
+\begin{scope}[shift={(14,32)}]
+\coordinate (S) at (104,153); \coordinate (P1) at (323,43); \coordinate (P2) at (543,43);
+\coordinate (P3) at (653,80); \coordinate (T) at (689,190); \coordinate (M) at (469,118);
+\coordinate (N) at (287,190); \coordinate (L) at (141,264); \coordinate (Q) at (213,336);
+\coordinate (R) at (397,300);
+\foreach \a/\b in {S/P1,S/L,P1/P2,P2/P3,P3/T,P2/M,P1/M,M/T,P1/N,N/Q,L/N,L/Q,Q/R,R/M,R/T}
+  \draw[mid=0.54] (\a)--(\b);
+\foreach \p in {S,P1,P2,P3,T,M,N,L,Q,R} \fill (\p) circle[radius=1.1pt];
+\node[left] at (100,153) {source};
+\node[right] at (693,190) {sink};
+\node at (200,75) {11}; \node at (95,215) {8}; \node at (432,25) {5}; \node at (598,43) {2};
+\node at (696,128) {1}; \node at (521,103) {3}; \node at (383,93) {2}; \node at (586,135) {12};
+\node at (322,124) {8}; \node at (265,272) {5}; \node at (205,212) {6}; \node at (158,314) {7};
+\node at (304,342) {4}; \node at (411,210) {10}; \node at (544,270) {7};
+\end{scope}
+% cuts (capacities 11, 11, 10, 20)
+\draw[aux] plot[smooth,tension=0.6] coordinates {(250,425) (265,350) (300,290) (330,220) (358,155) (385,90) (410,22)};
+\draw[aux] plot[smooth,tension=0.6] coordinates {(328,425) (340,330) (370,230) (420,150) (490,112) (580,102) (640,86) (665,62)};
+\draw[aux] plot[smooth,tension=0.6] coordinates {(386,405) (388,320) (405,235) (445,160) (490,128) (535,116) (600,120) (655,124) (686,119) (715,97)};
+\draw[aux] plot[smooth,tension=0.6] coordinates {(597,300) (599,240) (616,190) (650,152) (710,120)};
+\node[font=\Large] at (222,418) {11};
+\node[font=\Large] at (305,418) {11};
+\node[font=\Large] at (418,408) {10};
+\node[font=\Large] at (630,315) {20};
+\end{tikzpicture}
+\end{document}

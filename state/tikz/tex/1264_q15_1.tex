@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,2,3,5,6,7,9,10,11,13,14,15} {\pgfmathsetmacro\x{91+\i*61.625}\draw[black!20,line width=0.4pt] (\x,8)--(\x,845);}
+\foreach \j in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19} {\pgfmathsetmacro\y{8+\j*41.85}\draw[black!20,line width=0.4pt] (91,\y)--(1077,\y);}
+\foreach \i in {1,2,3} {\pgfmathsetmacro\x{91+\i*246.5}\draw[black!50,line width=0.4pt] (\x,8)--(\x,845);}
+\foreach \j in {5,10,15} {\pgfmathsetmacro\y{8+\j*41.85}\draw[black!50,line width=0.4pt] (91,\y)--(1077,\y);}
+\draw (91,8) rectangle (1077,845);
+\foreach \yr/\y in {0/427,1/344,2/243,3/123} \foreach \q in {0,1,2,3} {
+  \pgfmathsetmacro\x{91+(\yr*4+\q)*61.625}\fill (\x,\y) circle (8);}
+\foreach \k in {0,...,4} \node[font=\scriptsize] at (91+\k*246.5,877) {$\k$};
+\node[font=\small\bfseries] at (584,907) {Years since start};
+\node[font=\small\bfseries,rotate=90] at (22,427) {Balance (\$)};
+\end{tikzpicture}
+\end{document}

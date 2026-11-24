@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+\path (2,-2) rectangle (1047,416);
+\coordinate (A) at (148,128); \coordinate (B) at (348,72); \coordinate (C) at (300,267);
+\coordinate (D) at (547,353); \coordinate (E) at (593,150); \coordinate (F) at (757,72);
+\coordinate (G) at (757,260);
+\draw (A)--(C) (B)--(C) (C)--(D) (D)--(G) (G)--(F) (F)--(E);
+\foreach \p in {A,B,C,D,E,F,G} \fill (\p) circle (7);
+\node at (112,118) {$A$}; \node at (372,42) {$B$}; \node at (272,315) {$C$};
+\node at (570,398) {$D$}; \node at (570,197) {$E$}; \node at (790,75) {$F$};
+\node at (790,290) {$G$};
+\node at (210,237) {22 km};
+\node at (388,150) {10 km};
+\node at (405,342) {10 km};
+\node at (688,330) {4 km};
+\node at (822,148) {5 km};
+\node at (662,84) {3 km};
+\end{tikzpicture}
+\end{document}

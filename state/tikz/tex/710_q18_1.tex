@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\node[font=\large\bfseries] at (437,37) {Cost and revenue};
+\node[rotate=90,font=\large] at (30,465) {Amount (\$)};
+\node[font=\large] at (440,895) {Number of pies ($n$)};
+\begin{scope}[shift={(152,809)},x={(0.059944cm,0)},y={(0,0.014732cm)}]
+\foreach \i in {4,8,...,116} \draw[black!22,line width=0.4pt] (\i,0)--(\i,640);
+\foreach \j in {20,40,...,640} \draw[black!22,line width=0.4pt] (0,\j)--(117.8,\j);
+\draw[->] (0,0)--(119.5,0);
+\draw[->] (0,0)--(0,660);
+\foreach \i in {20,40,...,100} \node[below=4pt,font=\large] at (\i,0) {\i};
+\foreach \j in {0,100,...,600} \node[left=5pt,font=\large] at (0,\j) {\j};
+\draw[line width=0.9pt,black!50] (0,0)--(98.4,579);
+\draw[line width=0.9pt] (0,220)--(110.1,497);
+\end{scope}
+\draw[line width=0.9pt] (230,130)--(318,130);
+\draw[line width=0.9pt,black!50] (230,172)--(318,172);
+\node[anchor=west,font=\large] at (330,128) {Cost};
+\node[anchor=west,font=\large] at (330,174) {Revenue};
+\node[font=\large\bfseries] at (715,138) {Revenue};
+\node[font=\large\bfseries] at (740,222) {Cost};
+\end{tikzpicture}
+\end{document}

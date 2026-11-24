@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \k in {1,...,25} {\pgfmathsetmacro\yy{575-19.2*\k}
+  \draw[black!20, line width=0.4pt] (130,\yy)--(748,\yy);}
+\foreach \k in {1,...,6} {\pgfmathsetmacro\xx{130+96*\k}
+  \draw[black!20, line width=0.4pt] (\xx,575)--(\xx,78);}
+\foreach \k in {1,...,5} {\pgfmathsetmacro\yy{575-96*\k}
+  \draw[black!60] (130,\yy)--(748,\yy);}
+\foreach \k in {1,...,25} {\pgfmathsetmacro\yy{575-19.2*\k}
+  \draw (125,\yy)--(130,\yy);}
+\draw[->] (130,575)--(748,575);
+\draw[->] (130,575)--(130,68);
+\foreach \k in {0,...,6} {\pgfmathsetmacro\xx{130+96*\k}
+  \node[font=\large, anchor=north] at (\xx,583) {\sffamily\k};}
+\foreach \k/\v in {1/50,2/100,3/150,4/200,5/250} {\pgfmathsetmacro\yy{575-96*\k}
+  \node[font=\large, anchor=east] at (122,\yy) {\sffamily\v};}
+\node[font=\Large] at (476,633) {\sffamily Years};
+\node[font=\Large, rotate=90] at (30,290) {Interest (\$)};
+\node[font=\large] at (439,38) {Simple interest on \$500 at 8\%p.a.};
+\end{tikzpicture}
+\end{document}

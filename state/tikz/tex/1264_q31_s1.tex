@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{mid/.style={postaction={decorate},decoration={markings,mark=at position 0.58 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+ dot/.style={circle,fill,inner sep=1.8pt}}
+\coordinate (S) at (197,258); \coordinate (T) at (357,90); \coordinate (M) at (632,173);
+\coordinate (L) at (395,377); \coordinate (R) at (748,305); \coordinate (E) at (877,87);
+\draw[mid] (S)--(T); \draw[mid] (S)--(M); \draw[mid] (S)--(L);
+\draw[mid] (T)--(E); \draw[mid] (T)--(M); \draw[mid] (L)--(M);
+\draw[mid] (L)--(R); \draw[mid] (M)--(R); \draw[mid] (R)--(E);
+\foreach \p in {S,T,M,L,R,E} \node[dot] at (\p) {};
+\node at (135,275) {Start};
+\node[anchor=west] at (890,72) {End};
+\node[rotate=46.4] at (238,142) {$A(12)$};
+\node[rotate=11.1] at (410,180) {$B(15)$};
+\node[rotate=-31] at (282,345) {$C(14)$};
+\node[rotate=0.3] at (617,52) {$D(25)$};
+\node[rotate=-16.8] at (548,118) {$E(10)$};
+\node[rotate=40.7] at (468,285) {$F(13)$};
+\node[rotate=11.5] at (620,362) {$G(20)$};
+\node[rotate=-48.7] at (668,268) {$H(12)$};
+\node[rotate=59.4] at (850,205) {$I(12)$};
+\node at (117,188) {0}; \node at (117,232) {0}; \draw (117,210) ellipse[x radius=24,y radius=46];
+\node at (340,30) {12}; \node at (340,60) {26};
+\node at (682,140) {27}; \node at (682,182) {27}; \draw (682,161) ellipse[x radius=30,y radius=48];
+\node at (392,413) {14}; \node at (392,455) {14}; \draw (392,434) ellipse[x radius=30,y radius=48];
+\node at (820,300) {39}; \node at (820,342) {39}; \draw (820,321) ellipse[x radius=30,y radius=48];
+\node at (1000,64) {51}; \node at (1000,106) {51}; \draw (1000,85) ellipse[x radius=30,y radius=48];
+\node[align=center,font=\small] at (1065,280) {Forward scan:\\top number};
+\node[align=center,font=\small] at (1065,385) {Backward scan:\\bottom number};
+\end{tikzpicture}
+\end{document}

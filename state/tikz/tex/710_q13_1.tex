@@ -1,0 +1,42 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\upperedge{(5,203)(100,198)(200,180)(280,155)(365,142)(450,155)(560,196)(640,214)(720,200)(790,188)(900,196)(1000,214)(1075,226)}
+\def\loweredge{(5,458)(80,442)(160,418)(215,409)(330,440)(420,458)(520,463)(620,477)(720,498)(820,528)(920,548)(975,550)(1030,525)(1060,475)(1078,440)}
+% upper bank
+\path[shade dots, stipple gap=4, stipple color=black, even odd rule]
+  plot[smooth] coordinates {(0,90)(60,68)(150,50)(250,25)(340,8)(430,15)(490,50)(560,38)(640,12)(720,20)(800,70)(880,110)(960,125)(1040,120)(1078,140)}
+  -- (1078,226) -- (1075,226) -- plot[smooth] coordinates {(1000,214)(900,196)(790,188)(720,200)(640,214)(560,196)(450,155)(365,142)(280,155)(200,180)(100,198)(5,203)} -- (0,203) -- cycle
+  (240,128) circle[radius=32] (385,95) circle[radius=32] (507,120) circle[radius=30] (612,82) circle[radius=37] (757,132) circle[radius=42];
+% lower bank
+\path[shade dots, stipple gap=4, stipple color=black, even odd rule]
+  (0,458) -- plot[smooth] coordinates \loweredge -- (1078,680)
+  -- plot[smooth] coordinates {(1078,680)(900,668)(750,660)(600,690)(450,650)(300,640)(150,625)(0,600)} -- cycle
+  (12,505) circle[radius=27] (455,568) circle[radius=32] (594,543) circle[radius=44] (510,640) circle[radius=40] (676,630) circle[radius=40] (767,563) circle[radius=40] (882,610) circle[radius=42] (1022,630) circle[radius=37];
+% trees
+\foreach \c/\r in {(240,128)/27,(385,95)/27,(507,120)/25,(612,82)/32,(757,132)/37,(12,505)/22,(455,568)/27,(594,543)/39,(510,640)/35,(676,630)/35,(767,563)/35,(882,610)/37,(1022,630)/32}
+  \path[shade dense dots, stipple color=black!80] \c circle[radius=\r];
+% ripples
+\foreach \c/\w in {(380,183)/50,(85,270)/75,(300,288)/40,(205,300)/50,(110,352)/45,(450,355)/160,(560,330)/60,(650,310)/45,(785,225)/60,(930,275)/80,(930,292)/70,(820,393)/130,(480,447)/60,(870,515)/50,(920,490)/30}
+  \path[shade dense dots, stipple color=black!60] \c ellipse[x radius=\w/2, y radius=3];
+% river banks
+\draw plot[smooth] coordinates \upperedge;
+\draw plot[smooth] coordinates \loweredge;
+% survey lines
+\coordinate (A) at (105,460); \coordinate (B) at (362,460); \coordinate (T) at (640,214);
+\draw (A)--(T) (B)--(T) (A)--(B);
+\fill (A) circle[radius=1.5pt] (B) circle[radius=1.5pt] (T) circle[radius=1.5pt];
+\node[font=\large] at (640,188) {\halo{$T$}};
+\node[font=\large] at (105,507) {\halo{$A$}};
+\node[font=\large] at (357,507) {\halo{$B$}};
+\draw[<-] (102,490)--(185,490);
+\draw[->] (282,490)--(360,490);
+\node[font=\large] at (233,490) {\halo{50 m}};
+% north, labels
+\draw[->] (1047,385)--(1047,345);
+\node at (1047,325) {N};
+\node at (825,345) {River};
+\node[align=center] at (985,58) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

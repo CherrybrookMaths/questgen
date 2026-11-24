@@ -1,0 +1,39 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.4605cm,y=0.13547cm]
+\draw[black!25, line width=0.4pt] (0,0) grid[xstep=1,ystep=5] (8,90);
+\draw[->] (0,0)--(8.27,0);
+\draw[->] (0,0)--(0,93);
+\foreach \v in {0,5,...,90} {
+  \draw (-0.078,\v)--(0,\v);
+  \node[font=\scriptsize, anchor=east, inner sep=1pt] at (-0.085,\v) {$\v$};
+}
+\foreach \u in {0,...,8} {
+  \draw (\u,0)--(\u,-0.85);
+  \node[font=\scriptsize, anchor=north, inner sep=1pt] at (\u,-1.25) {$\u$};
+}
+\node[rotate=90] at (-0.652,46.9) {Height (metres)};
+\node at (4.13,-5.6) {Time (seconds)};
+% stone
+\draw[line width=0.9pt] plot[smooth, samples=90, domain=0:6] (\x,{20*\x-5*\x*\x+60});
+\foreach \t/\h in {0/60,1/75,2/80,3/75,4/60,5/35,6/0} {
+  \draw (\t-0.06,\h-0.66)--(\t+0.06,\h+0.66);
+  \draw (\t-0.06,\h+0.66)--(\t+0.06,\h-0.66);
+}
+% glider
+\draw[line width=0.9pt] (0,60)--(7.2,24);
+\foreach \t in {1,...,7} \node[circle,fill,inner sep=1pt] at (\t,{60-5*\t}) {};
+\node at (4.4,71) {Stone};
+\node at (2.9,51.5) {Glider};
+% table of values
+\draw (8.27,80.06)--(9.66,80.06);
+\draw (9.03,86.4)--(9.03,27);
+\node[font=\Large] at (8.59,83.2) {$t$};
+\node[font=\Large] at (9.40,83.2) {$h$};
+\foreach \k/\t/\h in {0/0/60,1/1/75,2/2/80,3/3/75,4/4/60,5/5/35,6/6/0} {
+  \node[font=\Large] at (8.59,{75.6-7.03*\k}) {$\t$};
+  \node[font=\Large] at (9.40,{75.6-7.03*\k}) {$\h$};
+}
+\end{tikzpicture}
+\end{document}

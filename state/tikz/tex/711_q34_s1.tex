@@ -1,0 +1,52 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}, mid/.default=0.5]
+\newcommand\tc[5]{\draw (#1,#2) ellipse [x radius=#5,y radius=32]; \draw (#1,{#2-32})--(#1,{#2+32});
+  \node[anchor=east,inner sep=1.5pt,font=\footnotesize] at (#1,#2) {#3};
+  \node[anchor=west,inner sep=1.5pt,font=\footnotesize] at (#1,#2) {#4};}
+\coordinate (S) at (97,211);
+\coordinate (N1) at (372,92);
+\coordinate (N2) at (493,92);
+\coordinate (N3) at (253,248);
+\coordinate (N4) at (372,248);
+\coordinate (N5) at (705,92);
+\coordinate (N6) at (848,214);
+\coordinate (N7) at (1040,214);
+% printed activities
+\draw[mid=0.42] (S) .. controls (110,140) and (150,92) .. (240,92) -- (N1);
+\draw[mid=0.55] (S) .. controls (150,185) and (220,180) .. (N3);
+\draw[mid=0.55] (S) .. controls (140,262) and (200,275) .. (N3);
+\draw[mid] (N3) -- (N4);
+\draw[mid] (N1) -- (N2);
+% added activities
+\draw[mid] (N4) -- (N1);
+\draw[mid] (N2) -- (N5);
+\draw[mid] (N5) .. controls (760,100) and (800,150) .. (N6);
+\draw[mid] (N2) .. controls (560,125) and (700,165) .. (N6);
+\draw[mid] (N6) -- (N7);
+\foreach \p in {S,N1,N2,N3,N4,N5,N6,N7} \fill (\p) circle (8);
+% activity labels
+\node at (258,68) {A (10)};
+\node at (187,178) {B (5)};
+\node at (155,290) {C (5)};
+\node at (324,274) {D (10)};
+\node at (433,68) {F (50)};
+\node at (70,238) {Start};
+\node at (408,165) {E (2)};
+\node at (600,68) {G (10)};
+\node at (835,125) {I (5)};
+\node at (655,190) {H (30)};
+\node at (945,240) {J (10)};
+% earliest | latest start times
+\tc{40}{185}{0}{0}{38}
+\tc{345}{45}{17}{17}{38}
+\tc{520}{45}{67}{67}{38}
+\tc{723}{45}{77}{92}{38}
+\tc{250}{300}{5}{5}{38}
+\tc{410}{288}{15}{15}{38}
+\tc{828}{265}{97}{97}{38}
+\tc{1112}{214}{107}{107}{52}
+\end{tikzpicture}
+\end{document}

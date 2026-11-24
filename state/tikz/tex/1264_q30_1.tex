@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(291,581.9)},xscale=125.5,yscale=-16.71]
+\foreach \t in {-1.5,-0.5,0.5,1.5,2.5,3.5,4.5,5.5} \draw[black!22,line width=0.4pt] (\t,-20)--(\t,30);
+\foreach \t in {-2,-1,1,2,3,4,5,6} \draw[black!45,line width=0.4pt] (\t,-20)--(\t,30);
+\foreach \h in {-18,-14,-10,-6,-2,2,6,10,14,18,22,26,30} \draw[black!22,line width=0.4pt] (-2,\h)--(6,\h);
+\foreach \h in {-20,-16,-12,-8,-4,4,8,12,16,20,24,28} \draw[black!45,line width=0.4pt] (-2,\h)--(6,\h);
+\draw[->] (-2.2,0)--(6.18,0);
+\draw[->] (0,-21.8)--(0,32);
+\foreach \t in {-2,-1.5,...,6} \draw (\t,-0.35)--(\t,0.35);
+\foreach \h in {-20,-18,...,30} \draw (-0.045,\h)--(0.045,\h);
+\foreach \t in {-2,-1} \node[font=\scriptsize] at (\t,-1.1) {$\t$};
+\foreach \t in {1,...,6} \node[font=\scriptsize] at (\t,-1.1) {$\t$};
+\foreach \h in {4,8,...,28} \node[font=\scriptsize,anchor=east,inner sep=1pt] at (-0.08,\h) {$\h$};
+\foreach \h in {-4,-8,...,-20} \node[font=\scriptsize,anchor=east,inner sep=1pt] at (-0.08,\h) {$\h$};
+\draw[aux,line width=0.9pt] plot[smooth,samples=90,domain=-1.098:5.098] (\x,{6+20*\x-5*\x*\x});
+\node[font=\footnotesize,anchor=south] at (0,32) {$h$};
+\node[font=\footnotesize,anchor=west] at (6.2,0) {$t$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

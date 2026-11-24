@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (B) at (75,57); \coordinate (C) at (242,57); \coordinate (A) at (75,217); \coordinate (D) at (242,217);
+\draw (A)--(B)--(C)--(D)--cycle (A)--(C) (B)--(D);
+\foreach \p in {A,B,C,D} \node[pt, inner sep=1.6pt] at (\p) {};
+\node[font=\large] at (48,38) {$B$}; \node[font=\large] at (265,38) {$C$};
+\node[font=\large] at (52,240) {$A$}; \node[font=\large] at (265,240) {$D$};
+\end{tikzpicture}
+\end{document}

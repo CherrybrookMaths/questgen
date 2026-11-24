@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\small}]
+  % grid (0..60 by 20 horizontally, 0..60 by 10 vertically)
+  \foreach \i in {0,...,6} { \draw[black!45] (92,{392-50.33*\i}) -- (681,{392-50.33*\i}); }
+  \foreach \i in {0,1,2,3} { \draw[black!45] ({92+196.33*\i},90) -- ({92+196.33*\i},392); }
+  % axes
+  \draw (92,392) -- (681,392);
+  \draw (92,392) -- (92,90);
+  \foreach \i/\l in {0/0,1/10,2/20,3/30,4/40,5/50,6/60} { \node[anchor=east] at (70,{392-50.33*\i}) {\l}; }
+  \foreach \i/\l in {0/0,1/20,2/40,3/60} { \node at ({92+196.33*\i},430) {\l}; }
+  % lines: return y=x, cost y=20+x/2
+  \draw[line width=0.9pt] (92,392) -- (681,90);
+  \draw[line width=0.9pt] (92,291.3) -- (681,140.3);
+  \node[rotate=14.4] at (352,187) {cost};
+  \node at (288,329) {return};
+  \node at (362,47) {Cost and return for pies};
+  \node at (386,468) {Number sold};
+  \node[rotate=90] at (14,243) {\$};
+\end{tikzpicture}
+\end{document}

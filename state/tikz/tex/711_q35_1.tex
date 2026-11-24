@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.45212cm,y=0.45212cm]
+\foreach \v in {-14,...,14} {
+  \draw[black!35,line width=0.4pt] (\v,-14.04)--(\v,14.02);
+  \draw[black!35,line width=0.4pt] (-14.04,\v)--(14.02,\v);}
+\foreach \v in {-10,-5,5,10} {
+  \draw[black!60,line width=0.6pt] (\v,-14.04)--(\v,14.02);
+  \draw[black!60,line width=0.6pt] (-14.04,\v)--(14.02,\v);}
+\draw[<->] (-14.04,0)--(14.02,0);
+\draw[<->] (0,-14.04)--(0,14.02);
+\foreach \v in {-10,-5,5,10} {
+  \node[anchor=north,inner sep=1pt,font=\footnotesize] at (\v,-0.18) {$\v$};
+  \node[anchor=east,inner sep=1pt,font=\footnotesize] at (-0.15,\v) {$\v$};}
+\node[anchor=north east,inner sep=1pt,font=\footnotesize] at (-0.15,-0.18) {$0$};
+\node at (13.42,-1.1) {$x$};
+\node at (-1.26,13.23) {$y$};
+\end{tikzpicture}
+\end{document}

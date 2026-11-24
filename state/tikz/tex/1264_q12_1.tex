@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (50,112); \coordinate (B) at (428,59); \coordinate (C) at (514,233); \coordinate (D) at (207,376);
+\draw plot[smooth,tension=0.6] coordinates {(50,112) (80,96) (160,88) (250,77) (330,70) (380,60) (428,59)};
+\draw plot[smooth,tension=0.6] coordinates {(50,112) (120,116) (190,133) (260,162) (320,182) (380,208) (440,221) (514,233)};
+\draw plot[smooth,tension=0.6] coordinates {(50,112) (78,165) (108,255) (148,328) (207,376)};
+\draw plot[smooth,tension=0.6] coordinates {(207,376) (262,375) (330,360) (400,333) (460,310) (496,288) (514,233)};
+\draw plot[smooth,tension=0.6] coordinates {(428,59) (408,92) (375,118) (372,152) (402,182) (452,193) (514,233)};
+\draw plot[smooth,tension=0.6] coordinates {(428,59) (478,62) (505,82) (530,125) (545,172) (536,205) (514,233)};
+\foreach \p in {A,B,C,D} \fill (\p) circle (8);
+\node at (19,98) {$\boldsymbol{A}$}; \node at (464,22) {$\boldsymbol{B}$};
+\node at (548,280) {$\boldsymbol{C}$}; \node at (236,415) {$\boldsymbol{D}$};
+\end{tikzpicture}
+\end{document}

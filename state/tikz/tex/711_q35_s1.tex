@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.42672cm,y=0.42672cm]
+\foreach \v in {-13,...,14} \draw[black!35,line width=0.4pt] (\v,-14)--(\v,14);
+\foreach \v in {-14,...,14} \draw[black!35,line width=0.4pt] (-13.93,\v)--(14.05,\v);
+\foreach \v in {-10,-5,5,10} {
+  \draw[black!60,line width=0.6pt] (\v,-14)--(\v,14);
+  \draw[black!60,line width=0.6pt] (-13.93,\v)--(14.05,\v);}
+\draw[<->] (-13.93,0)--(14.05,0);
+\draw[<->] (0,-14)--(0,13.75);
+\foreach \v in {-10,-5,5,10} \node[anchor=north,inner sep=1pt,font=\footnotesize] at (\v,-0.18) {$\v$};
+\foreach \v in {-5,5,10} \node[anchor=east,inner sep=1pt,font=\footnotesize] at (-0.15,\v) {$\v$};
+\node[anchor=east,inner sep=1pt,font=\footnotesize] at (-0.35,-10) {$-10$};
+\node[anchor=north east,inner sep=1pt,font=\footnotesize] at (-0.15,-0.18) {$0$};
+\node at (13.4,-1.1) {$x$};
+\node at (-1.27,13.2) {$y$};
+% the two lines
+\draw[line width=0.9pt,<->] (-1.47,-14.4)--(7.95,13.85);
+\draw[line width=0.9pt,<->] (-9.8,-11.8)--(10.1,8.1);
+\foreach \p in {(5,5),(2,0),(0,-2),(0,-10),(4,2)} \fill \p circle (2.3pt);
+\draw[aux] (0,2)--(4,2)--(4,0);
+\node at (-0.75,1.9) {$2$};
+\node at (4.05,-1.15) {$4$};
+\node at (9.73,10.9) {$y=3x-10$};
+\node[rotate=20] at (11.1,5.15) {$x-y-2=0$};
+\end{tikzpicture}
+\end{document}

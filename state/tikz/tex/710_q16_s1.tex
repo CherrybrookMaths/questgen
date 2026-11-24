@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\node[rotate=90] at (20,355) {Pulse rate};
+\node at (610,770) {Game score};
+\begin{scope}[shift={(133,673)},x={(0.17310cm,0)},y={(0,0.080772cm)}]
+\foreach \i in {5,15,...,65} \draw[black!30,line width=0.6pt] (\i,0)--(\i,100);
+\foreach \i in {10,20,...,70} \draw[black!60,line width=0.6pt] (\i,0)--(\i,100);
+\foreach \j in {10,20,...,100} \draw[black!60,line width=0.6pt] (0,\j)--(70,\j);
+\draw (0,100)--(0,0)--(70,0);
+\foreach \i in {0,5,...,70} \draw (\i,0)--(\i,-1);
+\foreach \i in {0,10,...,70} \node[below=5pt] at (\i,0) {\i};
+\foreach \j in {0,10,...,100} \node[left=5pt] at (0,\j) {\j};
+\draw[line width=0.9pt] (-0.8,100.05)--(72.7,49.1);
+\foreach \p in {(5,97),(8.7,92.5),(18.6,85),(20,77.5),(30,75),(43.5,64),(50,70),(58.8,65),(60.2,60),(65,55)} \fill \p circle[radius=2.2pt];
+\end{scope}
+\end{tikzpicture}
+\end{document}

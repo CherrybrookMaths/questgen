@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (R) at (63,62); \coordinate (D) at (276,55); \coordinate (P) at (397,55);
+\coordinate (A) at (167,167); \coordinate (X) at (395,152); \coordinate (Z) at (62,272);
+\coordinate (J) at (276,272); \coordinate (H) at (395,272);
+\draw (R)--(D)--(P)--(X)--(H)--(J)--(Z)--(A)--(D)--(J)--(X)--(D);
+\draw (R)--(A)--(J);
+\foreach \p in {R,D,P,A,X,Z,J,H} \fill (\p) circle (1.6pt);
+\node[font=\large] at (42,42) {$R$};
+\node[font=\large] at (276,28) {$D$};
+\node[font=\large] at (422,42) {$P$};
+\node[font=\large] at (127,168) {$A$};
+\node[font=\large] at (430,150) {$X$};
+\node[font=\large] at (44,298) {$Z$};
+\node[font=\large] at (276,302) {$J$};
+\node[font=\large] at (422,296) {$H$};
+\end{tikzpicture}
+\end{document}

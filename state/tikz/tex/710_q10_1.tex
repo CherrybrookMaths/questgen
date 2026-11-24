@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(104,494)},x=0.007645cm,y=0.7652cm]
+\begin{scope}[even odd rule]
+\clip (0,0) rectangle (1300,7) (724,7.05) rectangle (1048,6.05) (1065,4.9) rectangle (1305,3.8);
+\foreach \i in {1,...,26} \draw[black!25,line width=0.4pt] (50*\i,0)--(50*\i,7);
+\foreach \i in {1,...,14} \draw[black!25,line width=0.4pt] (0,0.5*\i)--(1300,0.5*\i);
+\end{scope}
+\draw[->] (0,0)--(0,7.05);
+\draw[->] (0,0)--(1305,0);
+\foreach \x in {200,400,...,1200} \node[anchor=north, font=\large, inner sep=2pt] at (\x,-0.36) {$\x$};
+\foreach \y in {0,2,4,6} {\draw (-12,\y)--(0,\y); \node[anchor=east, font=\large, inner sep=2pt] at (-14,\y) {$\y$};}
+\draw[line width=0.9pt] (0,0)--(1220,6.971);
+\draw[line width=0.9pt] (0,2)--(1290,5.686);
+\node[font=\large\bfseries] at (886,6.62) {Revenue};
+\node[font=\large\bfseries] at (1200,4.33) {Costs};
+\node[font=\bfseries\large] at (650,7.65) {Daily production costs and revenue};
+\node[font=\large, rotate=90] at (-127,3.55) {Amount (\$'000)};
+\node[font=\large] at (650,-1.5) {Number of items};
+\end{scope}
+\end{tikzpicture}
+\end{document}

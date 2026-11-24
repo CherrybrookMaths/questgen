@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {0,...,8} {\pgfmathsetmacro\xx{10+82.9*\i}
+  \draw[aux, black!65] (\xx,5)--(\xx,916);}
+\foreach \j in {0,...,11} {\pgfmathsetmacro\yy{5+82.8*\j}
+  \draw[aux, black!65] (10,\yy)--(673,\yy);}
+\end{tikzpicture}
+\end{document}

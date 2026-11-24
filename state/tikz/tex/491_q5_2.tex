@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (104,82); \coordinate (B) at (188,82); \coordinate (C) at (272,82); \coordinate (D) at (352,82);
+\draw (A)--(D);
+\draw (A) .. controls (112,28) and (180,28) .. (B);
+\draw (C) .. controls (280,28) and (344,28) .. (D);
+\draw (A) .. controls (140,205) and (325,205) .. (D);
+\foreach \p in {A,B,C,D} \node[pt, inner sep=1.6pt] at (\p) {};
+\node[font=\large] at (78,108) {$A$}; \node[font=\large] at (188,108) {$B$};
+\node[font=\large] at (271,108) {$C$}; \node[font=\large] at (376,108) {$D$};
+\end{tikzpicture}
+\end{document}

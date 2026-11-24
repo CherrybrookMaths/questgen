@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.011024cm,y=0.0027432cm]
+  \foreach \i in {50,100,...,650} \draw[black!45] (\i,0) -- (\i,4200);
+  \foreach \j in {200,400,...,4200} \draw[black!45] (0,\j) -- (650,\j);
+  \draw[->] (0,0) -- (667,0);
+  \draw[->] (0,0) -- (0,4305);
+  \foreach \i in {100,200,...,600} \node[font=\footnotesize,anchor=north] at (\i,-40) {$\i$};
+  \foreach \j in {1000,2000,3000,4000} {\draw (-6,\j) -- (0,\j); \node[font=\footnotesize,anchor=east] at (-6,\j) {$\j$};}
+  \draw[line width=0.9pt] (0,1200) -- (400,3200);
+  \node at (325,4360) {Cost and Revenue};
+  \node[anchor=west] at (-2,4395) {\textbf{\$}};
+  \node[anchor=west] at (680,0) {Number of dinner packages ($N$)};
+\end{tikzpicture}
+\end{document}

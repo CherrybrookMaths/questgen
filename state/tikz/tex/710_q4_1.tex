@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\newcommand{\building}{%
+  \filldraw[fill=black!10, draw=black!70] (0,0) rectangle (230,-435);
+  \draw[black!70] (0,-424) -- (230,-424);
+  \foreach \c in {0,...,4}{\foreach \r in {0,...,7}{
+    \fill[black!50] ({14+\c*42},{-419+\r*46}) rectangle ++(35,40);}}
+  \foreach \i in {0,...,6}{\fill[black!50] ({10+\i*11.5},-52) rectangle ++(6,49);
+    \fill[black!50] ({143+\i*11.5},-52) rectangle ++(6,49);}
+  \filldraw[fill=black!10, draw=black!70] (94,-46) rectangle (136,0);
+  \fill[black!50] (98,-42) rectangle (113,0);
+  \fill[black!50] (117,-42) rectangle (132,0);}
+\newcommand{\tree}{%
+  \fill[black!55] (-3,0) rectangle (3,-90);
+  \fill[black!45] (0,-150) circle[radius=55] (-42,-115) circle[radius=30] (42,-115) circle[radius=30]
+    (-38,-180) circle[radius=32] (33,-185) circle[radius=32] (0,-205) circle[radius=30]
+    (-20,-85) circle[radius=22] (22,-88) circle[radius=22];}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (0,457) -- (940,457);
+  \begin{scope}[shift={(103,457)}]\building\end{scope}
+  \begin{scope}[shift={(790,457)}]\tree\end{scope}
+  \draw (40,22) -- (95,22);
+  \draw[<->] (55,22) -- (55,457);
+  \node[font=\Large] at (33,245) {$h$};
+  \draw[aux] (333,22) -- (790,457);
+  \draw[->] (500,488) -- (340,488);
+  \draw[->] (600,488) -- (790,488);
+  \node at (550,488) {$13$ m};
+  \node[align=center] at (873,95) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

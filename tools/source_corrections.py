@@ -973,4 +973,28 @@ if _r and '\\begin{array}' in _r[0]:
 _r = db.execute("select rows_json from data_tables where id='Tp11641_1'").fetchone()
 if _r and '[1.2ex] ' in _r[0]:
     db.execute("update data_tables set rows_json=? where id='Tp11641_1'", (_r[0].replace('[1.2ex] ', ''),))
-db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28')
+# Standard batch 10 (run s10, 25 Nov early morning): the verifier's 15 findings on 2021 King's AT4, Oakhill AT1/AT2, CTHS AT1/AT3/AT4,
+# checked by hand. Your calls: King's 2021 AT4 Q14 (earliest or latest start) and Q31(b) (A's float is 5, not 14; drawing too).
+# For the checker: drawing 491_q8_s1 (its second "OR" tree costs 155, not minimal; from the school key), CTHS AT4 Q31 (Q1 read off the
+# polygon, outlier call), CTHS AT4 Q24(b) (hours rounded up), CTHS AT1 Q3 explanation, King's AT4 Q21(b) (equal-area condition).
+def _sol11429(l, c):   # 2021 CTHS AT3 Q18(d): revenue 180, cost 300 at 30 pies
+    return (r"""Read the revenue and cost at 30 pies from the graph: revenue $\$180$, cost $\$300$.
+$$\begin{aligned} \text{Profit} &= \$180 - \$300 \\ &= -\$120 \end{aligned}$$
+$$\therefore\ \text{no profit is made: selling 30 pies is a loss of } \$120$$""", c)
+C29 = [
+ (11516, [(r'&= 417.74\ldots \\ &\approx 418^\circ\text{C} \text{ (to the nearest degree)}', r'&= 417.742\ldots \\ &\approx 417.74^\circ\text{C} \text{ (2 d.p.)}'), (r'$$\therefore\ T \approx 418^\circ\text{C}$$', r'$$\therefore\ T \approx 417.74^\circ\text{C}$$')], [], r'the answer was rounded to $418^\circ$C; the question asks for 2 decimal places, $417.74^\circ$C', None),
+ (11520, [(r'AC &= 103.28\ldots', r'AC &= 103.31\ldots')], [], r'$\sqrt{80.3^2+65^2}$ was written $103.28$; it is $103.31$ (answer $103.3$ m unchanged)', None),
+ (11392, [('The source working uses \\$3.12 (26 lots of \\$100).', 'The stamp duty is $27\\times\\$0.12=\\$3.24$ (27 lots of \\$100; the school\'s working used 26 lots, \\$3.12).'), (r'&= 2625 - 25 - 3.12 \\ &= \$2596.88', r'&= 2625 - 25 - 3.24 \\ &= \$2596.76'), ('The keyed option is A, \\$2596.76, which is the closest available option.', 'This is option A, \\$2596.76.')], [], r'the working used $\$3.12$ stamp duty and called A the closest option; it is $27\times\$0.12=\$3.24$, exactly A', None),
+ (11406, [(r'470.64 \times 12 \times 15 \approx \$84\,600 \\ \text{Interest} &= 84\,600 - 50\,000 = \$34\,600', r'470.64 \times 12 \times 15 = \$84\,715.20 \\ \text{Interest} &= 84\,715.20 - 50\,000 = \$34\,715.20'), (r'$$34\,600 - 28\,000 = \$6600$$', r'$$34\,715.20 - 28\,000 = \$6715.20$$'), (r'Gary saves } \$6600.', r'Gary saves } \$6715.20.')], [], r'$470.64\times180$ was given as about $\$84\,600$; it is $\$84\,715.20$, so the saving is $\$6715.20$ (Option 1 still better)', None),
+ (11429, [], [], r'the working wrote profit $=\$300-\$180=\$120$ and kept a note from the parse; at 30 pies revenue is $\$180$ and cost $\$300$, a loss of $\$120$', _sol11429),
+ (11437, [(r'&= 44\,157.119\ldots \\ AC &= \sqrt{44\,157.119\ldots}', r'&= 44\,151.119\ldots \\ AC &= \sqrt{44\,151.119\ldots}')], [], r'$AC^2$ was written $44\,157.119$; it is $44\,151.119$ ($AC=210.121$ unchanged)', None),
+ (11465, [(r'$$25\%\text{ of food energy}=1.125\times3600=4050\text{ kJ}$$', r'$$25\%\text{ of food energy}=4050\text{ kJ (from part (a))}$$')], [], r'the line used an unexplained $1.125\times3600$ (from the school\'s wrong kW working); it uses the $4050$ kJ of part (a)', None),
+ (11490, [('Activity G has a float of 15 mins, hmm; the delay', 'Activity G has a float of 15 mins; the delay')], [], r'a stray "hmm" was left in the working', None),
+ (11506, [(r'&= 3907.9896\ldots', r'&= 3907.9396\ldots')], [], r'$\tfrac12\times95^2\sin60^\circ$ was written $3907.9896$; it is $3907.9396$ ($3908$ unchanged)', None),
+]
+for sid, lat, crit, note, extra in C29:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29')

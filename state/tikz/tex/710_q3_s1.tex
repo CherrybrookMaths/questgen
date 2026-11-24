@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[<->] (263,555) -- (263,50);
+  \draw[<->] (5,365) -- (510,365);
+  \node[font=\Large] at (263,22) {N};
+  \coordinate (X) at (263,365);
+  \coordinate (Y) at (453,175);
+  \draw (X) -- (Y);
+  \draw[aux] (Y) -- (453,365);
+  \draw (435,365) -- (435,348) -- (453,348);
+  \draw ($(Y)+(225:0.6cm)$) arc[start angle=225, end angle=270, radius=0.6cm];
+  \node[font=\large] at ($(Y)+(248:1.05cm)$) {$43^\circ$};
+  \node[font=\Large] at (300,275) {$43^\circ$};
+  \node[font=\Large] at (228,390) {$X$};
+  \node[font=\Large] at (478,152) {$Y$};
+\end{tikzpicture}
+\end{document}

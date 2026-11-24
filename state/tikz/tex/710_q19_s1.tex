@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5213cm,y=0.5232cm]
+  \foreach \i in {-10,...,10} {
+    \draw[black!22] (\i,-10.68) -- (\i,11.36);
+    \draw[black!22] (-11.39,\i) -- (11.39,\i);
+  }
+  \draw[->] (-12.36,0) -- (13.7,0);
+  \draw[->] (0,-10.8) -- (0,12.43);
+  \foreach \i in {-10,...,10} {
+    \draw (\i,-0.1) -- (\i,0.1);
+    \draw (-0.1,\i) -- (0.1,\i);
+  }
+  \foreach \i in {-10,-5,5,10} {
+    \node[font=\large,anchor=north] at (\i,-0.3) {$\i$};
+    \node[font=\large,anchor=east] at (-0.12,\i) {$\i$};
+  }
+  \node[font=\large,anchor=west] at (13.8,0) {$x$};
+  \node[font=\large] at (-0.6,12.05) {$y$};
+  % graphs
+  \draw[line width=0.9pt,<->] (-12.1,-10.1) -- (8.2,10.2);
+  \draw[line width=0.9pt,<->] (-10.5,1.25) -- (12.4,-10.2);
+  \node[pt] at (-4,-2) {};
+  \node[font=\large] at (9.75,8.75) {$y=x+2$};
+  \node[font=\large] at (11.0,-6.75) {$y=-\dfrac{1}{2}x-4$};
+\end{tikzpicture}
+\end{document}

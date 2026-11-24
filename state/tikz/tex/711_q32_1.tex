@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.4605cm,y=0.13547cm]
+\draw[black!25, line width=0.4pt] (0,0) grid[xstep=1,ystep=5] (8,90);
+\draw[->] (0,0)--(8.27,0);
+\draw[->] (0,0)--(0,93);
+\foreach \v in {0,5,...,90} {
+  \draw (-0.078,\v)--(0,\v);
+  \node[font=\scriptsize, anchor=east, inner sep=1pt] at (-0.085,\v) {$\v$};
+}
+\foreach \u in {0,...,8} {
+  \draw (\u,0)--(\u,-0.85);
+  \node[font=\scriptsize, anchor=north, inner sep=1pt] at (\u,-1.25) {$\u$};
+}
+\node[rotate=90] at (-0.652,46.9) {Height (metres)};
+\node at (4.13,-5.6) {Time (seconds)};
+\end{tikzpicture}
+\end{document}

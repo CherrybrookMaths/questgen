@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(117.2,676.6)},xscale=5.69,yscale=-1.4165]
+\foreach \t in {5,10,15,25,30,35,45,50,55,65,70,75,85,90,95,105,110,115} \draw[black!25,line width=0.4pt] (\t,0)--(\t,450);
+\foreach \t in {20,40,...,120} \draw[black!45,line width=0.4pt] (\t,0)--(\t,450);
+\foreach \T in {25,50,...,450} \draw[black!40,line width=0.4pt] (0,\T)--(120,\T);
+\draw[->] (0,0)--(124.5,0);
+\draw[->] (0,0)--(0,465);
+\foreach \t in {5,10,...,120} \draw (\t,-2.8)--(\t,2.8);
+\foreach \T in {25,50,...,450} {\draw (-1.4,\T)--(0,\T); \node[anchor=east,font=\scriptsize,inner sep=1pt] at (-2.2,\T) {\T};}
+\foreach \t in {20,40,...,120} \node[font=\scriptsize] at (\t,-15) {\t};
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=0:120] (\x,{400*pow(3,-0.05*\x)+25});
+\end{scope}
+\node at (465,727) {Time ($t$, minutes)};
+\node[rotate=90] at (35,355) {Temperature ($T\,^\circ$C)};
+\end{tikzpicture}
+\end{document}
