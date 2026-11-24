@@ -55,15 +55,17 @@ table.dt th.dg .dgtr,table.dt th.dg .dgbl{line-height:1.12}   /* owner 12 Nov: "
 /* checker 24 Nov, third round (2021 Ryde AT4 Q12 "move Noel to the left until it is not touchign hte line", 2025 HSC Std Q18 "move the rate
    label to the left and not touching any line", 2026 HSC Std Q27 "Move hte rates (r0 label to the left"): the top-right label keeps
    1.2em from the cell's right border, and the wider gap keeps it clear of the slanted line */
-/* checker 24 Nov, fourth round (2021 Ryde AT4 Q12 "NO NO NO. I want noel to sit left of the line but right of the diagonal line like the orignal
-   image. BUT i dont want it to be touch any of those lines"; 2025 HSC Std Q18 and 2026 HSC Std Q27 "I said to the left dude not right. move it
-   closer to the diagonal line but not touching the diagonal line it should also be int he top left box but not touching any line dude"):
-   the 3em gap made the grid wider than its column, so the top-right label ran out past the cell's right border. The top-right label now
-   starts just right of the cell's middle (left-aligned in the right half), so it sits above the slanted line, close to it but clear,
-   and inside the cell; cellMinW (01_core.js) sizes the column for both halves, the gap and the padding */
+/* checker 24 Nov 3:30 pm (2021 Ryde Q12): "NO NO NO. I want noel to sit left of the line but right of the diagonal line like the original";
+   (2025 HSC Std Q18, 2026 Q27): "I said to the left dude not right. move it closer to the diagonal line but not touching": each label
+   hugs the diagonal from its own side (the top one at the start of its column, the bottom one at the end of its column) instead of
+   sitting in the far corners; the gap between the two columns keeps both clear of the line.
+   Flag check 3:45 pm, measured in the built page: with the 3em gap and 1.2em right padding the grid was wider than the column
+   (cellMinW sized it for one label), so the top label still ran 29-42 px past the cell's right border and 2026 Q27's bottom label sat
+   1.3 px from the line. The gap is now .9em, the padding is the cell's own, and cellMinW (01_core.js) sizes the column for both halves
+   and the gap: each label is inside the cell, clear of every border, and 12-24 px from the slanted line */
 table.dt th.dg .dgw{display:grid;grid-template-columns:1fr 1fr;gap:1.1em .9em}
 table.dt th.dg .dgtr{display:block;text-align:left;grid-column:2;grid-row:1}
-table.dt th.dg .dgbl{display:block;text-align:left;grid-column:1;grid-row:2}
+table.dt th.dg .dgbl{display:block;text-align:right;grid-column:1;grid-row:2}
 table.slp{border-collapse:collapse;margin:6px auto;font-family:var(--serif,serif);font-size:1.05em}
 table.slp th{font-weight:400;text-align:right;padding:3px 12px 3px 4px;border-right:1.5px solid currentColor}
 table.slp td{text-align:left;padding:3px 4px 3px 12px;white-space:pre;word-spacing:.35em}

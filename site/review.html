@@ -250,8 +250,12 @@ table.dt th.dg .dgtr,table.dt th.dg .dgbl{line-height:1.12}   /* owner 12 Nov: "
    1.2em from the cell's right border, and the wider gap keeps it clear of the slanted line */
 table.dt th.dg{padding-right:1.2em}
 table.dt th.dg .dgw{display:grid;grid-template-columns:1fr 1fr;gap:1.1em 3em}
-table.dt th.dg .dgtr{display:block;text-align:right;grid-column:2;grid-row:1}
-table.dt th.dg .dgbl{display:block;text-align:left;grid-column:1;grid-row:2}
+/* checker 24 Nov 3:30 pm (2021 Ryde Q12): "NO NO NO. I want noel to sit left of the line but right of the diagonal line like the original";
+   (2025 HSC Std Q18, 2026 Q27): "I said to the left dude not right. move it closer to the diagonal line but not touching": each label
+   hugs the diagonal from its own side (the top one at the start of its column, the bottom one at the end of its column) instead of
+   sitting in the far corners; the gap between the two columns keeps both clear of the line */
+table.dt th.dg .dgtr{display:block;text-align:left;grid-column:2;grid-row:1}
+table.dt th.dg .dgbl{display:block;text-align:right;grid-column:1;grid-row:2}
 table.slp{border-collapse:collapse;margin:6px auto;font-family:var(--serif,serif);font-size:1.05em}
 table.slp th{font-weight:400;text-align:right;padding:3px 12px 3px 4px;border-right:1.5px solid currentColor}
 table.slp td{text-align:left;padding:3px 4px 3px 12px;white-space:pre;word-spacing:.35em}
@@ -6725,7 +6729,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'448a903925a042a8',stale:false,t:null,at:0,
+const FRESH={build:'90115c48e369203a',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}
