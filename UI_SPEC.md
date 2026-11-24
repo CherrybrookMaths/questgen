@@ -138,8 +138,10 @@ See also the table rules in IMPORT_PLAYBOOK.
   Checker 24 Nov, fourth round (2021 Ryde AT4 Q12): "NO NO NO. I want noel to sit left of the line but right of the diagonal line like the
   orignal image. BUT i dont want it to be touch any of those lines"; (2025 HSC Std Q18, 2026 HSC Std Q27): "I said to the left dude not right.
   move it closer to the diagonal line but not touching the diagonal line it should also be int he top left box but not touching any line dude".
-  The top-right label starts just right of the cell's middle, above the slanted line and clear of it, and the column is sized for both halves
-  plus the gap (01_core.js cellMinW), so no label runs past the cell's border.
+  Checker 3:16 pm: "Move the word "Rate" into the upper-right triangle ... near the cell's top-right corner, so it mirrors "Period" ...
+  keep it clear of the diagonal and the cell borders" (v334: each label pinned in its own corner, 03_question.css). The corner column is
+  sized for both labels side by side plus a gap (01_core.js cellMinW, flag check 3:30 pm): sized for one label, 2026 HSC Std Q27's
+  "Periods (n)" crossed the slanted line by 3.3 px.
 - A stem-and-leaf plot renders as a plot ("the stem and leaf is not a table").
 - Captions use LaTeX text mode ("I can see \textbf in the table heading").
 - Solution diagrams Claude drew have no original to compare against, so they are shown alone ("I cannot see the x-axis").
