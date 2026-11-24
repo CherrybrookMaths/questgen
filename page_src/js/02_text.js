@@ -50,7 +50,9 @@ function dtHTML(id,opts={}){
   // its longest line, with headers wrapping where the paper wraps them ("Height and Gender can be narrowed")
   const hdr=rows[Math.max(0,hr-1)]||[], uniform=!hr||hdr.slice(lc).every(c=>lineLen(c)<=8);
   const colLen=j=>Math.max(...rows.map((r,i)=>covered.has(i+','+j)||(span[i+','+j]>1)?0:lineLen(r[j])));
-  const lw=lc?Math.min(Math.max(colLen(0),4),24)*0.62+1.4:0;
+  // checker 24 Nov (Ryde Q12 "move Noel to the left", 2025 HSC Std Q18 / 2026 Q27 rate labels "to the left and not touching any line"):
+  // a split corner cell gets 2.5em more width, so its top-right label can sit in from the border and still clear the slant
+  const lw=lc?Math.min(Math.max(colLen(0),4),24)*0.62+1.4+(rows.some(r=>diagSplit(r[0]))?2.5:0):0;
   const vw=Math.min(Math.max(...rows.flatMap(r=>r.slice(lc).map(c=>lineLen(c))),3),14)*0.62+1.8;
   const ws=Array.from({length:n},(_,j)=>j<lc?lw:uniform?vw:Math.min(Math.max(colLen(j),3),26)*0.6+1.8);
   const cols=`<colgroup>${ws.map(w=>`<col style="width:${w.toFixed(1)}em">`).join('')}</colgroup>`;

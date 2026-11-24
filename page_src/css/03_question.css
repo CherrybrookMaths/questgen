@@ -52,7 +52,11 @@ table.dt th.dg .dgtr,table.dt th.dg .dgbl{line-height:1.12}   /* owner 12 Nov: "
    corners of a 2x2 grid with equal columns, so the corner-to-corner line passes through the empty gap between them */
 /* checker 24 Nov (2025 HSC Std Q18, 2026 Q27 again): "Make it so that the period and rate labels dont touch any lines", "Fix the labels as they
    are touching the slanted line and hte other table lines": more room inside the corner cell and between the two labels */
-table.dt th.dg .dgw{display:grid;grid-template-columns:1fr 1fr;gap:1em 2.2em}
+/* checker 24 Nov, third round (2021 Ryde AT4 Q12 "move Noel to the left until it is not touchign hte line", 2025 HSC Std Q18 "move the rate
+   label to the left and not touching any line", 2026 HSC Std Q27 "Move hte rates (r0 label to the left"): the top-right label keeps
+   1.2em from the cell's right border, and the wider gap keeps it clear of the slanted line */
+table.dt th.dg{padding-right:1.2em}
+table.dt th.dg .dgw{display:grid;grid-template-columns:1fr 1fr;gap:1.1em 3em}
 table.dt th.dg .dgtr{display:block;text-align:right;grid-column:2;grid-row:1}
 table.dt th.dg .dgbl{display:block;text-align:left;grid-column:1;grid-row:2}
 table.slp{border-collapse:collapse;margin:6px auto;font-family:var(--serif,serif);font-size:1.05em}
