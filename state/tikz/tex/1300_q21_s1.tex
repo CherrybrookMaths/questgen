@@ -1,22 +1,23 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
-\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,declare function={X(\u)=680+208*\u; Y(\v)=890-32*\v; f(\t)=\t*\t*\t-3*\t*\t-9*\t+4;}]
 \draw[->] (55,890) -- (1505,890) node[right,font=\Large]{$x$};
 \draw[->] (680,1665) -- (680,70) node[above,font=\Large]{$y$};
 \foreach \X/\l in {472/-1,888/1,1096/2,1304/3} {\draw (\X,878)--(\X,902); \node[below,font=\Large] at (\X,906) {$\l$};}
-\foreach \Y in {492,655,1155,1590} {\draw (668,\Y)--(692,\Y);}
-\node[right,font=\Large] at (696,492) {$9$};
-\node[right,font=\Large] at (700,650) {$4$};
-\node[left,font=\Large] at (664,1155) {$-7$};
-\node[left,font=\Large] at (664,1590) {$-23$};
-\draw[line width=0.9pt,->] plot[smooth,tension=0.6] coordinates {(110,1212) (160,1050) (215,890) (275,745) (340,618) (415,525) (472,492) (529,512) (610,565) (680,655) (735,762) (790,890) (840,1015) (888,1155) (940,1285) (1010,1385) (1100,1465) (1190,1535) (1250,1584) (1304,1600) (1358,1584) (1420,1522) (1480,1410) (1540,1215)};
-\node[pt] at (472,492) {};
-\node[pt] at (680,655) {};
-\node[pt] at (888,1155) {};
-\node[pt] at (1304,1600) {};
-\node[above,font=\Large] at (445,478) {$(-1,9)$};
-\node[anchor=north east,font=\Large] at (872,1168) {$(1,-7)$};
-\node[below,font=\Large] at (1304,1614) {$(3,-23)$};
+\foreach \v in {9,4,-7,-23} {\draw (668,{Y(\v)})--(692,{Y(\v)});}
+\node[right,font=\Large] at (696,{Y(9)}) {$9$};
+\node[right,font=\Large] at (700,{Y(4)-5}) {$4$};
+\node[left,font=\Large] at (664,{Y(-7)}) {$-7$};
+\node[left,font=\Large] at (664,{Y(-23)}) {$-23$};
+% y = x^3 - 3x^2 - 9x + 4, true cubic (uniform scale)
+\draw[line width=0.9pt,->] plot[smooth,domain=-2.6:4.15,samples=90] ({X(\x)},{Y(f(\x))});
+\node[pt] at ({X(-1)},{Y(9)}) {};
+\node[pt] at ({X(0)},{Y(4)}) {};
+\node[pt] at ({X(1)},{Y(-7)}) {};
+\node[pt] at ({X(3)},{Y(-23)}) {};
+\node[above,font=\Large] at ({X(-1)},{Y(9)-12}) {$(-1,9)$};
+\node[anchor=north east,font=\Large] at ({X(1)-16},{Y(-7)+13}) {$(1,-7)$};
+\node[below,font=\Large] at ({X(3)},{Y(-23)+14}) {$(3,-23)$};
 \end{tikzpicture}
 \end{document}
