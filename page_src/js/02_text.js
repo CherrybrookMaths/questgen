@@ -49,7 +49,10 @@ function dtHTML(id,opts={}){
   // owner: columns are only forced equal for number tables (x / P(X=x), periods / rates); tables of words size each column to
   // its longest line, with headers wrapping where the paper wraps them ("Height and Gender can be narrowed")
   const hdr=rows[Math.max(0,hr-1)]||[], uniform=!hr||hdr.slice(lc).every(c=>lineLen(c)<=8);
-  const colLen=j=>Math.max(...rows.map((r,i)=>covered.has(i+','+j)||(span[i+','+j]>1)?0:lineLen(r[j])));
+  // owner 24 Nov (2024 HSC Std Q20, "is this table approved? Why is it like that"): a split corner cell is two labels side by side plus the
+  //   gap between them (03_question.css .dgw), so its column is sized for both; it was sized as one short word and "Rate" spilled into 1%
+  const cellLen=c=>{const dg=diagSplit(c);return dg?2*Math.max(lineLen(dg[0]),lineLen(dg[1]))+3:lineLen(c)};
+  const colLen=j=>Math.max(...rows.map((r,i)=>covered.has(i+','+j)||(span[i+','+j]>1)?0:cellLen(r[j])));
   const lw=lc?Math.min(Math.max(colLen(0),4),24)*0.62+1.4:0;
   const vw=Math.min(Math.max(...rows.flatMap(r=>r.slice(lc).map(c=>lineLen(c))),3),14)*0.62+1.8;
   const ws=Array.from({length:n},(_,j)=>j<lc?lw:uniform?vw:Math.min(Math.max(colLen(j),3),26)*0.6+1.8);
