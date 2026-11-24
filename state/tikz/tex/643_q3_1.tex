@@ -8,7 +8,10 @@
   \draw[<->] (-3.36,0) -- (3.45,0) node[right,inner sep=2pt,font=\large] {$x$};
   \draw[<->] (0,-1.33) -- (0,5.33) node[above,inner sep=2pt,font=\large] {$y$};
   \foreach \i in {-3,-2,-1,1,2,3} {\draw (\i,0.07) -- (\i,-0.07) node[below,inner sep=5pt,font=\large] {$\i$};}
-  \foreach \j in {1,2,3,4,5} {\draw (-0.06,\j) -- (0.06,\j); \node[left,inner sep=3pt,font=\large] at (-0.06,\j) {$\j$};}
+  \foreach \j in {1,2,4,5} {\draw (-0.06,\j) -- (0.06,\j); \node[left,inner sep=3pt,font=\large] at (-0.06,\j) {\halo{$\j$}};}
+  % 25 Nov label-overlap fix (owner 25 Nov: "fix the misdrawn overlaps in the current imports"): the line crosses the y-axis at 3 and
+  % runs up-left, so "3" sits just below its tick on the left
+  \draw (-0.06,3) -- (0.06,3); \node[anchor=north east,inner sep=0pt,font=\large] at (-0.12,2.94) {\halo{$3$}}; % \halo: on the shading (rule 5b)
   \draw (-0.06,-1) -- (0.06,-1); \node[left,inner sep=3pt,font=\large] at (-0.06,-1) {$-1$};
   % graphs
   \draw[line width=0.9pt] (-2.38,5.38) -- (3.37,-0.37);

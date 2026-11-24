@@ -16,7 +16,9 @@
   \node[anchor=north east,inner sep=1.5pt,font=\small] at (-0.02,-0.03) {$0$};
   \node[anchor=north east,inner sep=1.5pt,font=\small] at ({pi/2-0.03},-0.03) {$\dfrac{\pi}{2}$};
   \node[anchor=north east,inner sep=1.5pt,font=\small] at ({pi-0.03},-0.03) {$\pi$};
-  \node[anchor=north,inner sep=1.5pt,font=\small] at ({3*pi/2+0.06},-0.17) {$\dfrac{3\pi}{2}$};
+  % 25 Nov label-overlap fix (owner 25 Nov: "fix the misdrawn overlaps in the current imports"): both curves cross the axis at 3pi/2,
+  % so the label sits lower, in the gap that opens between them below the axis
+  \node[anchor=north,inner sep=0pt,font=\small] at ({3*pi/2+0.1},-0.4) {$\dfrac{3\pi}{2}$};
   \node[anchor=north east,inner sep=1.5pt,font=\small] at ({2*pi-0.03},-0.03) {$2\pi$};
   % asymptotes
   \draw[aux] (pi,-3.48) -- (pi,3.49);

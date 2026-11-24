@@ -6,11 +6,16 @@
 \foreach \j in {-4,...,-1,1,2,...,6} \draw[black!22,line width=0.4pt] (-4.46,\j) -- (10.77,\j);
 \draw[<->] (-4.4,0) -- (10.64,0);
 \draw[<->] (0,-4.42) -- (0,6.16);
-\foreach \i in {-4,...,-1,1,2,...,10} {\draw (\i,0.05) -- (\i,-0.05); \node at (\i,-0.33) {$\i$};}
-\foreach \j in {-4,-3,-2,1,2,4,5,6} {\draw (-0.05,\j) -- (0.05,\j); \node at (-0.22,\j) {$\j$};}
-\draw (-0.05,-1) -- (0.05,-1); \node at (-0.35,-0.85) {$-1$};
-\draw (-0.05,3) -- (0.05,3); \node at (0.2,3) {$3$};
-\node at (-0.25,-0.33) {$0$};
+\foreach \i in {-4,...,-1,1,2,...,10} {\draw (\i,0.05) -- (\i,-0.05); \node at (\i,-0.33) {\halo{$\i$}};}
+% 25 Nov label-overlap fix (owner 25 Nov: "fix the misdrawn overlaps in the current imports"): y-axis numbers on the left of the axis,
+% clear of it, \halo over the grid lines. The curve crosses the axis at (0,2) and runs 0.3 left of it at y=3, the line at (0,-1), so
+% (DIAGRAM_SPEC 21 Nov, "you decide for the diagram to be usable"): "2" just below its tick and "-1" just above its tick on the left,
+% "3" at the mirror position right of the axis. Checker 25 Nov (Review, 631_q8b_s1): "move the yaxis negative labels mroe left".
+\foreach \j in {-4,-3,-2,1,4,5,6} {\draw (-0.05,\j) -- (0.05,\j); \node[anchor=east,inner sep=0pt] at (-0.17,\j) {\halo{$\j$}};}
+\draw (-0.05,-1) -- (0.05,-1); \node[anchor=south east,inner sep=0pt] at (-0.17,-0.95) {\halo{$-1$}};
+\draw (-0.05,2) -- (0.05,2); \node[anchor=north east,inner sep=0pt] at (-0.17,1.95) {\halo{$2$}};
+\draw (-0.05,3) -- (0.05,3); \node[anchor=west,inner sep=0pt] at (0.11,3) {\halo{$3$}};
+\node at (-0.25,-0.33) {\halo{$0$}};
 \node[font=\normalsize] at (10.45,0.28) {$x$};
 \node[font=\normalsize] at (0.25,5.95) {$y$};
 \draw[line width=0.9pt] plot[domain=-1.04:4.04,smooth,samples=90] (\x,{\x*\x-3*\x+2});
