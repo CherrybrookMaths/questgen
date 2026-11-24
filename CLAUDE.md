@@ -111,8 +111,9 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
 5. **Required before any publish** (17 Nov: image files are not in git; a publish from a session without them deletes them from
    the live page, and batch_check blocks it). Image packs from the published page: `python3 tools/fetch_published.py` prints the missing published files (data/img/*,
    data/svg/g0..g7, data/cmp/g0, about 140 MB) in batches. For each batch: Artifact tool `action: "read"`,
-   `url` = the review page, `paths` = the batch, `out_dir` = `<repo>/site` (asks once), or no out_dir and then
-   `python3 tools/fetch_published.py --place <the folder the result names>`. Then `python3 tools/fetch_published.py --verify`
+   `url` = the review page, `paths` = the batch, NO out_dir (it saves under the scratchpad), then
+   `python3 tools/fetch_published.py --place <the folder the result names>`. Never `out_dir` = `<repo>/site`: it stops on a
+   permission prompt only a person can answer (24 Nov: the 2:43 pm flag check sat blocked on it until Steve's session stepped in). Then `python3 tools/fetch_published.py --verify`
    (must say every published file is present; a note that the 8 svg packs differ in bytes is expected: same content, older
    key order, resent at the next publish). It also records the live version this checkout is synced to (work/synced_publish.txt):
    batch_check BLOCKS while another session (e.g. the night run) has published since this checkout last published or synced
