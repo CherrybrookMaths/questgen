@@ -518,6 +518,57 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
 - **"+ Add an instruction".** It is now the last item of the General instructions list, after the Section II reasoning line. It is still removed from the download and hidden in print.
 - **Saving.** `cert` is saved with the exam (`exams/<id>`), restored on open, and part of the "unsaved changes" check.
 
+## Exam maker fixes (25 Nov)
+Owner, 25 Nov, on the checker's and a review's list (verbatim): **"Besides that, yes action all these things"**. Each item quotes the list.
+- **Lock** ("It's not clear to the user what the lock button does"; "lock doesnt work it can still be replaced and moved"). The button
+  says "Lock this question" / "Locked - click to unlock" (grading detail; the exam panel's icon has the same title). A locked question
+  cannot be swapped, replaced (Replace…, the Swap chooser, the picker), moved (drag, ▲▼, the exam panel's ↑↓, a neighbour dropped or
+  moved over it), removed, or moved by "Sort easiest first"; Regenerate keeps it in its place in its section. Those controls are disabled
+  with the title "Locked: kept as is when you regenerate; unlock to change it", and any other way in says "Qn is locked: unlock it to
+  change it" (xaLocked, 23_exam_auto.js; EXSEC.lockAt). "Make a similar exam" makes a new exam and leaves the original, locks and all,
+  untouched. Locks are part of the saved exam's "unsaved changes" check, so locking saves itself too. The exam panel's lock button is
+  `data-xlock` (it was `data-xlk`, which the Already learnt pills also use: a lock click there also toggled "All Year 11").
+- **Saving** (review: "New exams don't save themselves, and there's no Save button inside the exam ... the list showed "Saved 4:06 pm"
+  for the exam while the banner said it wasn't saved"). Cause [Likely]: the "unsaved changes" check compared the answer lines and diagram
+  sizes as JSON, so a copy the database handed back with its keys in another order never matched: the head said "Saving…" for good and
+  My exams said not saved while the card said Saved. They compare sorted now. The paper bar has the save state as a button ("✓ Saved
+  4:06 pm"; "Save" when there are changes; Ctrl/Cmd-S anywhere in Exams); the time is the saved copy's own. Autosave (EXAS, about a
+  second after a change) is unchanged; "Saved" shows only after a write the database took.
+- **Escape** ("Escape closes the whole exam ... with the changes still unsaved"): Escape closes the innermost thing open: the
+  "replaces the questions" question, an open menu (Exam, Download), a field being typed in (the name box goes back to the saved name); the
+  report form and the Swap chooser close themselves. Only then does it leave the paper, and leaving (Escape or Close) saves first.
+- **"Open now" stays on after you click Close**: the pill and the open card's accent ring are gone (after Close no exam is open). The
+  exam last worked on, if it has changes not saved, says "changes since then not saved" after "Saved <time>" on its card, and the banner
+  reads "Your last exam has changes that are not saved". Supersedes 14 Nov "The exam that is open now is marked".
+- **Topic counts** ("Topic counts change when another topic is ticked", Standard: Networks 17 → 7 after ticking Year 12 Critical path
+  analysis, which showed 0). Findings: (1) as designed, ticking any Year 12 topic counts all of Year 11 as learnt (17 Nov gates), which
+  raises Year 11 counts; (2) Setup also leaves out questions already in saved exams, but did not redraw when the saved exams arrived, so
+  the first tick after they loaded made many counts drop at once [Likely the checker's case: the drops match questions used in his
+  earlier exams]; (3) a bug: Standard's Critical path analysis skills are taught at the focus area (no subheading), a topic key no tick can
+  match, so every CPA question was always left out (0 questions). Now: Setup redraws when the saved exams arrive or change; a focus-area
+  skill counts as learnt once any subtopic of that area is learnt (XG.learnt); and each subtopic says what it leaves out and why ("10 need
+  Network concepts", "8 in saved exams"), as does each topic's line ("7 questions · 10 need topics not yet learnt").
+- **Diagram size**, owner 25 Nov: **"This is currently independent, but it should be the same in question and solutions is what I
+  meant."** One size per figure per exam (EX.figscale): the marking guide draws every diagram at that size, with the same corner handle,
+  so resizing on either changes both.
+- **HTML download** ("reference sheet doenst show up when downloading html"): every picture still held by address (the reference sheet
+  pages) is put into the file as data, so the file needs nothing else.
+- **Generate on top** ("put generate button on top"): Generate (with its last-result line) opens the settings panel and stays in sight
+  while the panel scrolls; there is one.
+- **Rename on the paper** ("Make it so that you can rename the paper from this screen"): "Exam name" at the top of the Questions panel
+  (the cover's title and My exams' name; Enter or leaving the box saves it, Escape puts it back).
+- **Bullets** ("for longer instructions, dot should sit in the top left of the phrase"): an editable instruction is aligned to the top of
+  its line, so a wrapped instruction's bullet sits at its first line.
+- **Answer lines on every written question** ("Add a more lines to all questions button"): "Answer lines on all N written questions
+  − 1 line / + 1 line" in the Questions panel, the same lines the part's own − / + count (0 to 40 a part).
+- **Section I packing** (review: "10 multiple-choice questions take 11 pages ... They could fit 2-4 per page"): short options sit four
+  in a row, or two by two, when every option fits its column (EXSEC.fitOpts), so a multiple-choice question is a few lines shorter and
+  more share a page. Pages still take whole questions in order (no reordering: Fit pages stays removed, owner 19 Nov).
+- **Question count** (review: "gives no way to set a question count; you only get there by setting marks"): Setup has "Size the exam
+  by: Total marks | Number of questions" (5 to 40; multiple choice counts in it); by count the generator aims at the count and the marks
+  are what the chosen questions carry. The Title box is "Exam name (optional)", hinted "Named from the topics you pick" until topics are
+  ticked (its old hint, "Mathematics Advanced practice", read as a question count).
+
 ## Marks by topic ("TOPIC is too wide, the questions are far too cramped")
 - Topic takes 30%. Section I, Section II and Total take 16 mm each, and Score takes 15 mm. Questions takes the rest (about 58 mm).
 - Question numbers are 8.2 pt and a run such as "8–10" never breaks. In the test exam (41 to 45 questions, 2 topics) every list fits in 2 lines; before, one wrapped over 6.

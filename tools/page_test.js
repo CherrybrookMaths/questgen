@@ -433,6 +433,9 @@ async function flows(browser, base, seed, seedR) {
     // owner 14 Nov: the diagram's corner handle and live % and the source line's ⓘ are screen only
     assert(!/class="(figpct|figh|figctl)\b|data-figh=|data-qinfo=/.test(body), 'the file still has a diagram handle, live % or an ⓘ');
     assert((body.match(/class="sheet"/g) || []).length === examSheets, 'sheet count differs from the preview');
+    // owner 25 Nov: "reference sheet doenst show up when downloading html": every picture is inside the file
+    const imgs = [...body.matchAll(/<img[^>]*src="([^"]*)"/g)].map(m => m[1]), ext = imgs.filter(s => !/^data:/.test(s));
+    assert(/class="xref"><img[^>]*src="data:image\//.test(body) && !ext.length, `pictures not in the file: ${ext.slice(0, 3).join(' ')}${/class="xref"/.test(body) ? '' : ' (no reference sheet)'}`);
     return `${d.filename}: ${(d.size / 1e3).toFixed(0)} kB, ${examSheets} sheets`;
   });
   await check('preview: marking guide sheets fit A4', page, async () => {
@@ -512,8 +515,8 @@ async function flows(browser, base, seed, seedR) {
     assert(!afterSwap.includes(sw), `QID ${sw} is still in the exam after Swap`);
     assert(afterSwap.length === before.length, `Swap changed the number of questions (${before.length} → ${afterSwap.length})`);
     const lockId = afterSwap.includes(lk) ? lk : afterSwap.find(i => !before.includes(i));
-    await page.click(`#xPanel li[data-xi="${lockId}"] [data-xlk]`); await settle(page, 2000, 2);
-    const locked = await page.evaluate(id => ({inA: exA().locked.includes(id), pressed: document.querySelector(`#xPanel li[data-xi="${id}"] [data-xlk]`)?.getAttribute('aria-pressed'), swapOff: document.querySelector(`#xPanel li[data-xi="${id}"] [data-xsw]`)?.disabled}), lockId);
+    await page.click(`#xPanel li[data-xi="${lockId}"] [data-xlock]`); await settle(page, 2000, 2);
+    const locked = await page.evaluate(id => ({inA: exA().locked.includes(id), pressed: document.querySelector(`#xPanel li[data-xi="${id}"] [data-xlock]`)?.getAttribute('aria-pressed'), swapOff: document.querySelector(`#xPanel li[data-xi="${id}"] [data-xsw]`)?.disabled}), lockId);
     assert(locked.inA && locked.pressed === 'true', `Lock did not stick: ${JSON.stringify(locked)}`);
     assert(locked.swapOff, 'Swap is still enabled on the locked row');
     await page.click('[data-pkback]'); await waitPv();   // 19 Nov: the picker's "Back to the paper" (no separate Preview paper button)
@@ -554,6 +557,103 @@ async function flows(browser, base, seed, seedR) {
     errs(); assert(/Adding to/.test(ban2) && n2 === tgt.n + 1, `add picker: ${ban2.slice(0, 60)} · ${tgt.n} → ${n2}`);
     assert(grey, 'Worksheets is not a greyed item in the top bar, the Exams tabs are still there, or Bank cards still have "+ Add to exam"');
     return `Q${tgt.i + 1} replaced by QID ${pick} in place; one question added (${tgt.n} → ${n2}); back on the paper`;
+  });
+
+  /* ---- owner 25 Nov: "Besides that, yes action all these things" (the checker's and a review's exam-maker list) ---- */
+  // 1. "lock doesnt work it can still be replaced and moved": a locked question is not swapped, replaced, moved, removed or sorted, and
+  //    Regenerate keeps it in its place; Lock says what it does
+  await check('exams: a locked question cannot be swapped, replaced, moved or removed; Regenerate keeps its place', page, async () => {
+    if (!(await page.evaluate(() => document.body.classList.contains('xpv-on')))) { await page.evaluate(() => xPreview('exam')); await waitPv() }
+    const t = await page.evaluate(() => { const wr = EX.items.filter(i => xq(i)?.type !== 'mcq'), id = wr[1]; exSelect(id, 'list'); return {id, i: EX.items.indexOf(id), si: 1, mid: wr[2], first: wr[0]} });
+    await settle(page, 1200, 2);
+    const lb0 = await page.evaluate(id => document.querySelector(`#exGSide [data-glock="${id}"]`)?.textContent.trim(), t.id);
+    await page.click(`#exGSide [data-glock="${t.id}"]`); await settle(page, 800, 2);
+    const ui = await page.evaluate(id => { const g = s => document.querySelector(`#exGSide ${s}`);
+      return {lb: g(`[data-glock="${id}"]`)?.textContent.trim(), off: ['data-gswap', 'data-grepl', 'data-grm'].map(a => g(`[${a}="${id}"]`)).every(b => b && b.disabled && /Locked: kept as is/.test(b.title)),
+        drag: g(`[data-drag="${id}"]`)?.getAttribute('draggable'), mv: [...document.querySelectorAll(`#exGSide [data-gmv][data-id="${id}"]`)].every(b => b.disabled)} }, t.id);
+    assert(lb0 === 'Lock this question' && ui.lb === 'Locked - click to unlock', `lock button: “${lb0}” → “${ui.lb}”`);
+    assert(ui.off && ui.drag === 'false' && ui.mv, `controls of the locked question: ${JSON.stringify(ui)}`);
+    const r = await page.evaluate(async ({id, mid, first}) => { const before = EX.items.join(), other = B.questions.find(q => q.type !== 'mcq' && !EX.items.includes(q.id) && xaHomes().has(q.id));
+      xaSwap(id, other.id); EXPK.open('replace', id); exMove(id, 1); exMove(mid, -1); exDrop(mid, first, false); xToggle(id);
+      const same = EX.items.join() === before, view = EXV.view;
+      document.querySelector('#exGSide [data-gsort]')?.click(); await new Promise(r => setTimeout(r, 300));
+      return {same, view, pv: document.body.classList.contains('xpv-on'), at: EX.items.filter(i => xq(i)?.type !== 'mcq').indexOf(id)} }, t);
+    assert(r.same && r.pv && r.view !== 'pick', `a locked question changed: ${JSON.stringify(r)}`);
+    assert(r.at === t.si, `Sort easiest first moved the locked question from Section II place ${t.si + 1} to ${r.at + 1}`);
+    await waitPv(); await genClick(page, '#exPvRegen'); await page.waitForFunction(() => /New exam/.test(document.querySelector('#toast')?.textContent || ''), null, {timeout: 30000}); await waitPv();
+    const g = await page.evaluate(id => EX.items.filter(i => xq(i)?.type !== 'mcq').indexOf(id), t.id);
+    await page.evaluate(id => xaLock(id), t.id); await settle(page, 800, 2);
+    errs(); assert(g === t.si, `Regenerate put the locked question at Section II place ${g + 1}, it was at ${t.si + 1}`);
+    return `QID ${t.id} (Q${t.i + 1}) locked: swap, replace, move, drop, remove and sort refused; Regenerate kept it in its place`;
+  });
+  // 2. saving: the saved state matches the database (key order does not matter), a Save button in the paper bar and Ctrl/Cmd-S, Escape
+  //    closes the innermost menu only, and leaving the paper saves
+  await check('exams: Save in the paper bar and Ctrl+S; the saved state is true; Escape closes a menu first; Close saves', page, async () => {
+    if (!(await page.evaluate(() => document.body.classList.contains('xpv-on')))) { await page.evaluate(() => xPreview('exam')); await waitPv() }
+    await page.waitForFunction(() => EX.id && exmState() === 'saved', null, {timeout: 10000});
+    const k = await page.evaluate(async () => { const d = JSON.parse(JSON.stringify(window.__pt.store.get('exams/' + EX.id)));
+      d.lines = Object.fromEntries(Object.entries({...d.lines, 'zz:1': 3, 'aa:1': 4}).reverse()); EX.lines['zz:1'] = 3; EX.lines['aa:1'] = 4; d.figscale = {...d.figscale};
+      await db.doc('exams/' + EX.id).set(d); await new Promise(r => setTimeout(r, 200)); const st = exmState(); delete EX.lines['zz:1']; delete EX.lines['aa:1']; return st });
+    assert(k === 'saved', `the same exam with its answer lines in another key order reads as “${k}”`);
+    await page.evaluate(() => { const i = document.querySelector('#exGSide [data-xname]'); i.value = 'PT renamed on the paper'; i.dispatchEvent(new Event('change', {bubbles: true})) });
+    const b1 = await page.evaluate(() => { const b = document.querySelector('#xPvSave [data-exm-save]'); return {t: b?.textContent, dis: b?.disabled} });
+    assert(b1.t === 'Save' && !b1.dis, `paper bar after a change: ${JSON.stringify(b1)}`);
+    await page.keyboard.press('Control+s'); await page.waitForFunction(() => window.__pt.store.get('exams/' + EX.id)?.sub === 'PT renamed on the paper' && exmState() === 'saved', null, {timeout: 5000});
+    await waitPv();
+    const b2 = await page.evaluate(() => ({t: document.querySelector('#xPvSave [data-exm-save]')?.textContent || '', cover: document.querySelector('#xPages .cv-title')?.textContent}));
+    assert(/✓ Saved \d/.test(b2.t) && b2.cover === 'PT renamed on the paper', `after Ctrl+S: ${JSON.stringify(b2)}`);
+    await page.click('#xPv [data-xmenu]'); const open = await page.evaluate(() => !document.querySelector('#xPv .xmenu-pop').hidden);
+    await page.keyboard.press('Escape'); await sleep(200);
+    const e1 = await page.evaluate(() => ({pop: !document.querySelector('#xPv .xmenu-pop').hidden, pv: document.body.classList.contains('xpv-on')}));
+    assert(open && !e1.pop && e1.pv, `Escape on the Exam menu: ${JSON.stringify({open, ...e1})}`);
+    await page.evaluate(() => { EX.bytopic = EX.bytopic === false; xsave() });   // a change, then Escape at once (before it saves itself)
+    const want = await page.evaluate(() => EX.bytopic !== false);
+    await page.keyboard.press('Escape'); await page.waitForFunction(w => (window.__pt.store.get('exams/' + EX.id)?.bytopic !== false) === w, want, {timeout: 5000});
+    await settle(page, 1500, 2);
+    const m = await page.evaluate(() => ({pv: document.body.classList.contains('xpv-on'), view: EXV.view, cur: !!document.querySelector('#exMine .exm-cur'), txt: document.querySelector(`#exMine [data-exm="${EX.id}"]`)?.innerText || '', ban: !!document.querySelector('#exMine .exm-unsaved')}));
+    errs(); assert(!m.pv && m.view === 'mine' && !m.cur && !/Open now/.test(m.txt) && !m.ban && /Saved/.test(m.txt), `after Escape: ${JSON.stringify(m)}`);
+    await page.evaluate(() => xPreview('exam')); await waitPv();
+    return 'key order ignored; Save + Ctrl+S; Escape closed the menu, then the paper (saved first); no “Open now”';
+  });
+  // 4. owner 25 Nov: "it should be the same in question and solutions is what I meant": one size per diagram per exam, paper and guide
+  await check('exams: a diagram resized on the paper has that size in the marking guide, and the reverse', page, async () => {
+    let k = await page.evaluate(() => document.querySelector('#xPages [data-figw]')?.dataset.figw);
+    if (!k) { const q = await page.evaluate(() => { const q = B.questions.find(q => q.type !== 'mcq' && figKeys(q).all.length && xaHomes().has(q.id) && !EX.items.includes(q.id)); EX.items.push(q.id); xsave(); return q.id });
+      await page.evaluate(() => xPreview('exam')); await waitPv(); k = await page.evaluate(() => document.querySelector('#xPages [data-figw]')?.dataset.figw) }
+    assert(k, 'no diagram on the paper');
+    await page.evaluate(k => exFigCommit(k, 0.7), k); await waitPv();
+    await page.click('[data-xdoc="guide"]'); await waitPv();
+    const g = await page.evaluate(k => { const w = document.querySelector(`#xPages [data-figw="${k}"]`); return w && {fs: w.style.getPropertyValue('--fs'), h: !!w.querySelector('.figh')} }, k);
+    assert(g && g.fs === '0.7' && g.h, `the guide's copy of ${k}: ${JSON.stringify(g)}`);
+    await page.evaluate(k => exFigCommit(k, 1), k); await waitPv();
+    await page.click('[data-xdoc="exam"]'); await waitPv();
+    const p = await page.evaluate(k => ({fs: document.querySelector(`#xPages [data-figw="${k}"]`)?.style.getPropertyValue('--fs'), saved: EX.figscale[k]}), k);
+    errs(); assert(p.fs === '1' && p.saved == null, `the paper after resizing on the guide: ${JSON.stringify(p)}`);
+    return `${k}: 70% on the paper showed 70% in the guide; 100% set on the guide is back on the paper`;
+  });
+  // 7 and 9: rename on the paper (above), answer lines on every written question at once; 8: an instruction's bullet at its first line
+  await check('exams: + 1 line on all written questions; a long instruction keeps its bullet on its first line', page, async () => {
+    const before = await page.evaluate(() => { const o = {}; EX.items.map(xq).filter(q => q && q.type !== 'mcq').forEach(q => q.parts.forEach(p => { if (leaf(q, p)) o[exLnKey(q, p)] = EX.lines[exLnKey(q, p)] ?? exLnDef(p.marks ?? q.marks) })); return o });
+    await page.click('#exGSide [data-glnall="1"]'); await waitPv();
+    const after = await page.evaluate(ks => ks.map(k => EX.lines[k]), Object.keys(before));
+    const bad = Object.keys(before).filter((k, i) => after[i] !== Math.min(40, before[k] + 1));
+    assert(Object.keys(before).length && !bad.length, `${bad.length} of ${Object.keys(before).length} parts did not get one more line`);
+    await page.click('#exGSide [data-glnall="-1"]'); await waitPv();
+    await page.evaluate(() => { EX.instr = [...(EX.instr || EX_INSTR), 'A long instruction that runs over more than one line on the cover, so that its bullet has to choose a line to sit beside when it wraps']; xsave() });
+    await page.evaluate(() => exRelayout()); await waitPv();
+    const b = await page.evaluate(() => { const li = [...document.querySelectorAll('#xPages .cv-v li')].find(l => /A long instruction/.test(l.textContent)), ed = li.querySelector('.ed'), pr = document.createElement('span');
+      pr.textContent = '\u200b'; li.insertBefore(pr, li.firstChild); const r = pr.getBoundingClientRect(), e = ed.getBoundingClientRect(); pr.remove(); return {probe: r.top - e.top, lines: Math.round(e.height / r.height)} });
+    await page.evaluate(() => { EX.instr.pop(); xsave() }); await page.evaluate(() => exRelayout()); await waitPv();
+    errs(); assert(b.lines >= 2 && b.probe < 6, `bullet line ${JSON.stringify(b)} (the marker sits where the probe does)`);
+    return `${Object.keys(before).length} parts +1 then −1; the wrapped instruction's bullet is on its first line (${b.lines} lines)`;
+  });
+  // 10. "10 multiple-choice questions take 11 pages": short options sit side by side; Section I questions are never split
+  await check('exams: short multiple-choice options sit side by side, no question split', page, async () => {
+    const r = await page.evaluate(() => { const mc = EX.items.filter(i => xq(i)?.type === 'mcq').length, secs = [...document.querySelectorAll('#xPages section.xq.mc')];
+      return {mc, secs: secs.length, packed: secs.filter(s => s.querySelector('.xol.x2,.xol.x4')).length, ol: secs.filter(s => s.querySelector('.xol')).length} });
+    errs(); assert(r.mc && r.secs === r.mc, `${r.mc} multiple-choice questions drawn as ${r.secs} pieces`);
+    assert(r.packed > 0, `no multiple-choice options side by side (${r.ol} option lists)`);
+    return `${r.packed} of ${r.ol} option lists side by side; ${r.mc} questions, none split`;
   });
 
   /* ---- Save, My exams, rename, delete ---- */
@@ -2306,7 +2406,7 @@ async function examPools(browser, base, pools) {
         const rj = await page.evaluate(() => {
           const norm = t => t.replace(/\s+/g, ' ').trim(), cut = [...new Set([...document.querySelectorAll('#xPages section.xq [data-cut]')].map(e => e.closest('section.xq').dataset.q))];
           const cl = document.querySelector('#xPages').cloneNode(true); exRejoin(cl); const bad = [];
-          for (const q of cut) { const want = document.createElement('div'); want.innerHTML = EXC.get(exCKey(xq(+q), 'guide')) || '';
+          for (const q of cut) { const want = document.createElement('div'); want.innerHTML = EXC.get(exCKey(xq(+q), 'guide', xQ(xq(+q), 0, 'guide'))) || '';
             const got = [...cl.querySelectorAll(`section.xq[data-q="${q}"] > .xqb`)].map(b => b.textContent).join('');
             if (norm(got) !== norm(want.textContent) || cl.querySelector(`section.xq[data-q="${q}"] [data-cut]`)) bad.push(q) }
           return {cut, bad} });
@@ -3166,6 +3266,8 @@ async function skillGates(browser, base, seed) {
   await check('exams: the left-out line counts what the gates leave out, with the topics most missing', page, async () => {
     const r = await page.evaluate(() => {
       const A = exA(), T = new Set(A.topics), L = new Set([...A.topics, ...[...xaTree()[11].values()].flat()]);   // a Year 12 topic is in: all of Year 11 counts
+      // owner 25 Nov: a skill taught at a focus area (its key ends in "|", no subtopic of that name) counts once a subtopic of the area is learnt
+      const keys = new Set([12, 11].flatMap(y => [...xaTree()[y].values()].flat())); [...L].forEach(k => { const f = k.split('|').slice(0, 2).join('|') + '|'; if (!keys.has(f)) L.add(f) });
       const raw = exBase(A, xaHomes()).filter(q => T.has(xaHomes().get(q.id).sub));
       const out = raw.filter(q => qSkills(q).some(s => (QG.skills[s] || []).some(k => !L.has(k))));
       const el = document.querySelector('#exLearnt .xl-out');
@@ -3230,6 +3332,37 @@ async function skillGates(browser, base, seed) {
     return `${r.n} skills gate; ${r.only} questions needing only basic skills pass with nothing learnt`;
   });
 
+  // owner 25 Nov ("Besides that, yes action all these things"): the checker's "Topic counts change when another topic is ticked" (the
+  // reason now sits beside each count; the counts follow the saved exams as they arrive; a skill taught at a whole focus area counts once
+  // a subtopic of it is learnt), "put generate button on top", and a review's "no way to set a question count"
+  await check('exams: Setup says why a count is lower, follows the saved exams, Generate on top, a question count', page, async () => {
+    const h = await setup(); await page.evaluate(() => { EXV.setupFor = 'open'; EXV.view = 'setup'; renderExams() }); await settle(page, 2000, 2);   // Setup as an exam's Settings (the exam has questions)
+    const top = await page.evaluate(() => ({first: !!document.querySelector('.exsettings')?.firstElementChild?.querySelector('#gGo'), n: document.querySelectorAll('#gGo').length}));
+    assert(top.first && top.n === 1, `Generate: ${JSON.stringify(top)}`);
+    const why = await page.evaluate(h => { const p = document.querySelector(`#exTopics [data-tsub="${CSS.escape(h)}"]`); return {n: +p.querySelector('.n').textContent, why: p.querySelector('.ex-pwhy')?.textContent || ''} }, h);
+    assert(/\d+ need /.test(why.why), `the gated subtopic says “${why.why}”`);
+    // a saved exam arrives holding two of its questions: the count drops at once, with the reason, without another tick
+    const {ids, k} = await page.evaluate(() => { exA().avoid = true; exA().avoidSet = true; exTopics(); const P = exPool(exA(), xaHomes()), c = {};
+      P.forEach(q => { const s = xaHomes().get(q.id).sub; c[s] = (c[s] || 0) + 1 }); const k = Object.keys(c).sort((a, b) => c[b] - c[a])[0];
+      return {k, ids: P.filter(q => xaHomes().get(q.id).sub === k).slice(0, 2).map(q => q.id)} });
+    const n0 = await page.evaluate(k => +document.querySelector(`#exTopics [data-tsub="${CSS.escape(k)}"] .n`).textContent, k);
+    await page.evaluate(ids => db.doc('exams/ePTsetup').set({title: 'T', sub: 'PT setup counts', items: ids, keys: ids.map(i => xq(i).key), course: QG.course, at: new Date().toISOString()}), ids);
+    await page.waitForFunction(([k, n0]) => +document.querySelector(`#exTopics [data-tsub="${CSS.escape(k)}"] .n`).textContent !== n0, [k, n0], {timeout: 4000}).catch(() => {});
+    const n1 = await page.evaluate(k => { const p = document.querySelector(`#exTopics [data-tsub="${CSS.escape(k)}"]`); return {n: +p.querySelector('.n').textContent, why: p.querySelector('.ex-pwhy')?.textContent || ''} }, k);
+    await page.evaluate(() => db.doc('exams/ePTsetup').delete()); await sleep(300);
+    assert(ids.length === 2 && n1.n === n0 - 2 && /\d+ in saved exams/.test(n1.why), `after a saved exam arrived: ${n0} → ${JSON.stringify(n1)}`);
+    const fa = await page.evaluate(() => { const ks = [...xaTree()[12].get('Differential calculus')], f = 'sub:12|Differential calculus|', real = ks.includes(f);
+      return {real, has: XG.learnt([ks[0]]).L.has(f), not: XG.learnt([]).L.has(f)} });
+    assert(fa.real || (fa.has && !fa.not), `a focus-area-level skill: ${JSON.stringify(fa)}`);
+    // size by a number of questions
+    await page.click('[data-gby="n"]');
+    await page.evaluate(() => { const el = document.getElementById('gN'); el.value = 12; el.dispatchEvent(new Event('input', {bubbles: true})) });
+    const vis = await page.evaluate(() => ({m: document.getElementById('gMarks').closest('.ctl').hidden, n: document.getElementById('gN').closest('.ctl').hidden, lab: document.getElementById('gNV').textContent}));
+    const g = await page.evaluate(() => { const keep = EX.items.slice(); exGenerate(); const n = EX.items.length; EX.items = keep; exA().by = 'marks'; xaSave(); EXV.setupFor = null; renderSetup(); return n });
+    errs(); assert(vis.m && !vis.n && vis.lab === '12 questions', `size controls: ${JSON.stringify(vis)}`);
+    assert(g === 12, `generated ${g} questions, asked for 12`);
+    return `“${why.why}”; a saved exam took ${n0} → ${n1.n} (“${n1.why}”) at once; Generate first; 12 questions asked, 12 generated`;
+  });
   await check('exams: Pick by hand leaves gated questions out; the switch shows them with a “needs” note', page, async () => {
     const h = await page.evaluate(Q => { XG.on = []; XG.off = []; XG.show = false; exSetTopics([]); EX.items = []; xsave();
       const h = xaHomes().get(Q).sub; EXV.view = 'pick'; EXV.mode = {kind: 'add', id: null, doc: 'exam'}; exSaveView(); EXV.pk = {...EXV.pk, topic: h, q: '', paper: 'all', type: 'all', marks: 'all', band: 'all', wm: 'all', fig: false, hide: false}; renderExams(); return h }, Q);

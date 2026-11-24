@@ -6,12 +6,18 @@ const EXM={q:'',sort:(load('exm_sort')||'new'),ren:null,del:null,names:{}};
 function exmSub(){if(!db||typeof _xsub==='undefined'||_xsub)return;
   try{_xsub=db.collection('exams').onSnapshot(s=>{XSAVED=QG.docs(s).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
     {const w=load('exm_open'),x=w&&XSAVED.find(s=>s.id===w);if(w)save('exm_open','');if(x&&exCourse(x)===QG.course){exmLoad(x);toast(`Opened “${x.sub||'Untitled'}” in ${QG.courseData.short}`)}}   // owner 23 Nov: see exmLoad
-    exmNames();if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}},()=>{})}catch(e){}}
+    // owner 25 Nov ("Besides that, yes action all these things"; checker: topic counts "change when another topic is ticked"): Setup's
+    // counts leave out questions in saved exams, so they are drawn again when the saved exams arrive or change (before, they waited
+    // for the next tick and then jumped)
+    exmNames();if(view==='exams'){exHead();if(EXV.view==='mine')renderMine();else if(EXV.view==='setup'){exTopics();exAvail()}}},()=>{})}catch(e){}}
 async function exmNames(){const ids=[...new Set(XSAVED.map(x=>x.by).filter(i=>i&&!(i in EXM.names)))];if(!ids.length)return;
   try{const u=await window.claude?.use?.('user');if(!u?.profiles)return;const ps=await u.profiles(ids);ids.forEach(i=>EXM.names[i]=ps?.[i]?.name||'');if(view==='exams'&&EXV.view==='mine')renderMine()}catch(e){}}
 const exmWho=x=>!x.by?'':x.by===me?'you':(EXM.names[x.by]||'a colleague');
 // the fields that make up a saved exam; "unsaved" = the open exam differs from its saved copy
-const exmSig=x=>JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.bytopic!==false,x.time||'',x.reading||'',(x.items||[]).concat((x.gone||[]).map(g=>g.id)),x.instr||null,x.lines||{},x.figscale||{}]);
+// owner 25 Nov ("Besides that, yes action all these things"; review: "the list showed "Saved 4:06 pm" for the exam while the banner said it
+// wasn't saved"): the database may hand an object back with its keys in another order, so lines and diagram sizes compare sorted (before,
+// a saved exam could read as changed for good: "Saving…" stayed, the banner said not saved). Locks are part of the exam (saved with it).
+const exmSig=x=>{const o=v=>Object.keys(v||{}).sort().map(k=>[k,v[k]]);return JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.bytopic!==false,x.time||'',x.reading||'',(x.items||[]).concat((x.gone||[]).map(g=>g.id)).map(Number),x.instr||null,o(x.lines),o(x.figscale),((x.auto&&x.auto.locked)||[]).map(Number).sort((a,b)=>a-b)])};
 function exmState(){if(!EX.items.length)return '';if(!EX.id)return 'new';const s=XSAVED.find(x=>x.id===EX.id);if(!s)return db?'new':'';return exmSig(s)===exmSig(EX)?'saved':'changed'}
 // owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": a saved exam finds its questions by key (RKEY.items), id as fallback
 function exmStats(x){const qs=RKEY.items(x).map(xq).filter(Boolean);let m=0,pr=0,w=0,mc=0;
@@ -32,22 +38,24 @@ function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
   const MINE=XSAVED.filter(x=>exCourse(x)===QG.course);
   const s=EXM.q.trim().toLowerCase();let L=MINE.filter(x=>!s||[x.title,x.sub,x.school].join(' ').toLowerCase().includes(s));
   if(EXM.sort==='old')L=L.slice().reverse();else if(EXM.sort==='title')L=L.slice().sort((a,b)=>String(a.sub||a.title).localeCompare(String(b.sub||b.title)));
-  const cur=exmState();
+  // owner 25 Nov ("Besides that, yes action all these things"; review: ""Open now" stays on after you click Close"): no "Open now" pill
+  // (after Close no exam is open); the card of the exam last worked on says when its changes are not saved, beside "Saved <time>"
+  const cur=exmState();const chg=cur==='changed'?EX.id:null;
   el.innerHTML=`<div class="exm-top"><div><div class="exm-eyebrow">Saved exams</div><h2>My exams</h2><p class="exm-lead">${MINE.length} saved ${esc(QG.courseData.short)} exam${MINE.length===1?'':'s'}. Everyone with access to Questgen sees the same list.</p></div>
     <div class="exm-ctl"><input type="search" id="exmQ" placeholder="Search titles" value="${esc(EXM.q)}" aria-label="Search saved exams">
       <select id="exmSort" aria-label="Sort"><option value="new"${EXM.sort==='new'?' selected':''}>Newest first</option><option value="old"${EXM.sort==='old'?' selected':''}>Oldest first</option><option value="title"${EXM.sort==='title'?' selected':''}>Title A–Z</option></select>
       <button type="button" class="act" data-exm-fresh>New exam</button></div></div>
-    ${cur==='new'||cur==='changed'?`<div class="exm-unsaved"><b>${cur==='new'?'The exam you are working on has not been saved.':'The open exam has changes that are not saved.'}</b> ${esc(EX.sub||EX.title)} · ${EX.items.length} questions<button type="button" class="act ok" data-exm-save>Save it</button></div>`:''}
-    ${L.length?`<ul class="exm-list">${L.map(x=>{const st=exmStats(x),open=x.id===EX.id,ren=EXM.ren===x.id,del=EXM.del===x.id,who=exmWho(x);
+    ${cur==='new'||cur==='changed'?`<div class="exm-unsaved"><b>${cur==='new'?'Your last exam has not been saved.':'Your last exam has changes that are not saved.'}</b> ${esc(EX.sub||EX.title)} · ${EX.items.length} questions<button type="button" class="act ok" data-exm-save>Save it</button></div>`:''}
+    ${L.length?`<ul class="exm-list">${L.map(x=>{const st=exmStats(x),ren=EXM.ren===x.id,del=EXM.del===x.id,who=exmWho(x);
       // owner 19 Nov: "does open and preview go to the same thing? Can we just make the block clickable to enter the exam. Also the blocks
       // are so tall vertically ... more efficient and more design oriented": the card opens the exam; two lines; Make similar stays out, the rest in ⋯
       const fk=typeof qWatch==='function'?RKEY.items(x).map(xq).filter(q=>qWatch(q)).length:0;   // owner 19 Nov: "make the reported one not drop to a new row"
       const wn=(st.miss?`<span class="exm-warn" title="${st.miss} question${st.miss===1?'':'s'} no longer in the bank">⚠ ${st.miss} gone</span>`:'')+(fk?`<span class="exm-warn" data-exm-flag="${fk}" title="${fk} question${fk===1?'':'s'} reported or sent back to review">⚠ ${fk} reported</span>`:'');
       const sch=x.school&&!/^\s*cmc\s+education\s*$/i.test(x.school)?' · '+esc(x.school):'';
-      return `<li class="exm-row${open?' open':''}${ren||del?'':' go'}" data-exm="${esc(x.id)}">
+      return `<li class="exm-row${ren||del?'':' go'}" data-exm="${esc(x.id)}">
         <div class="exm-main">${ren?`<div class="exm-ren"><input data-exm-rt value="${esc(x.sub||'')}" aria-label="Exam name" placeholder="Name"><button type="button" class="act ok" data-exm-rok>Save</button><button type="button" class="act ghost" data-exm-rx>Cancel</button></div>`
-            :`<div class="exm-l1"><button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>${open?'<span class="exm-cur">Open now</span>':''}${wn}</div>`}
-          <div class="exm-meta">${esc(x.title||'')}${sch} · Saved ${esc(exmWhen(x.at))}${who?' by '+esc(who):''}</div></div>
+            :`<div class="exm-l1"><button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>${wn}</div>`}
+          <div class="exm-meta">${esc(x.title||'')}${sch} · Saved ${esc(exmWhen(x.at))}${who?' by '+esc(who):''}${chg===x.id?' · <b class="exm-chg">changes since then not saved</b>':''}</div></div>
         <div class="exm-stats"><span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span><b>${Math.round(st.pr*100)}%</b> PS</span></div>
         <div class="exm-acts">${del?`<span class="exm-sure">Delete for everyone?</span><button type="button" class="act bad" data-exm-delok>Delete</button><button type="button" class="act ghost" data-exm-delx>Keep</button>`
           :`<button type="button" class="act ghost" data-exm-sim title="A new exam with the same settings and none of the questions in your saved exams">Make similar</button><span class="xmenu"><button type="button" class="act ghost exm-more" data-xmenu aria-expanded="false" aria-label="More">⋯</button><span class="xmenu-pop" hidden><button type="button" class="act" data-exm-dup title="A copy with the same questions">Duplicate</button><button type="button" class="act" data-exm-ren>Rename</button><button type="button" class="act exm-del" data-exm-del>Delete</button></span></span>`}</div></li>`}).join('')}</ul>`
@@ -85,10 +93,21 @@ document.addEventListener('change',e=>{if(e.target.id==='exmSort'){EXM.sort=e.ta
    previous exam"; asked how to save: "Save by itself"; used questions: "avoid them but if used, should show WHERE in the past they were
    used". The bar above every Exams view names the open exam and its state; any change saves a moment later; replacing the questions
    of a saved exam asks first; New exam and Save as a copy are the only ways to start another. One page-wide name (CODE_HEALTH rule 1). */
-const EXAS={t:null,busy:false,at:null,ask:null,
+const EXAS={t:null,busy:false,ask:null,
   schedule(){clearTimeout(this.t);if(!db||!EX.items.length)return;this.t=setTimeout(()=>this.run(),1200);if(view==='exams'&&typeof EXV!=='undefined'&&EXV.built)exHead()},
   async run(){if(this.busy){this.schedule();return}const st=exmState();if(st!=='new'&&st!=='changed')return;
-    this.busy=true;try{await xSaveDb(true);this.at=new Date()}finally{this.busy=false;if(view==='exams')exHead()}},
+    this.busy=true;try{await xSaveDb(true)}finally{this.busy=false;if(view==='exams')exHead()}},
+  // owner 25 Nov ("Besides that, yes action all these things"; review: "Escape closes the whole exam ... with the changes still unsaved"):
+  // leaving the paper (Close, or Escape with no menu or dialog open) saves what is not saved yet, then shows My exams
+  close(){if(db&&['new','changed'].includes(exmState())){clearTimeout(this.t);this.run()}
+    exClosePv();EXV.view='mine';EXV.setupFor=null;exSaveView();if(view==='exams')renderExams()},
+  // the saved time and state of the open exam, for the page head and the paper bar (the saved copy's own time: what was really saved)
+  state(){const st=exmState(),s=EX.id&&XSAVED.find(x=>x.id===EX.id),d=s&&new Date(s.at),when=d&&!isNaN(d)?d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}):'';
+    return {st,html:st==='saved'?`<span class="exst-ok">✓ Saved${when?' '+when:''}</span>`:!db?'kept in this browser (saving needs claude.ai)':this.busy?'Saving…':`<span class="exst-wait">${st==='new'?'Not saved yet':'Unsaved changes'}</span>`}},
+  // owner 25 Nov ("Besides that, yes action all these things"; review: "there's no Save button inside the exam. The only Save is a banner on
+  // the list page"): the paper bar shows the exam's saved state with a Save button (Ctrl/Cmd-S too); changes still save themselves
+  bar(S=this.state()){const el=$('#xPvSave');if(!el)return;const can=db&&(S.st==='new'||S.st==='changed')&&!this.busy;el.dataset.st=S.st||'empty';
+  el.innerHTML=`<button type="button" class="act${can?' ok':' ghost'}" data-exm-save${can?'':' disabled'} title="${can?(S.st==='new'?'Not saved yet':'Unsaved changes')+'. Save now (Ctrl+S or ⌘S); changes also save themselves a moment later.':'Changes save themselves (Ctrl+S or ⌘S saves at once)'}">${can?'Save':S.html}</button>`},
   name:()=>EX.sub||EX.title||'Untitled exam',
   // the working time: marks x minutes per mark (1.8 for HSC Advanced: 180 minutes for 100 marks), to 5 minutes, unless typed by hand
   time(){if(EX.timeAuto===false)return;const m=xMarks(EX.items.map(xq).filter(Boolean)),w=Math.max(5,Math.round(m*(+EX.mpm||1.8)/5)*5);EX.time=m?EXSEC.dur(w):''},

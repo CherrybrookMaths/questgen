@@ -53,6 +53,7 @@
 .extile .pill:not(:disabled):hover{background:color-mix(in srgb,var(--ink) 5%,transparent)}
 .extile .pill[aria-pressed="true"]::before{background:var(--accent);border-color:var(--accent);box-shadow:inset 0 0 0 2px var(--panel)}
 .extile .pill .n{margin-left:auto;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.extile .pill .ex-pnm{min-width:0}.extile .pill .ex-pwhy{display:block;font-size:11px;color:var(--muted);margin-top:1px}   /* owner 25 Nov: why a count is lower */
 .extile .pill:disabled{color:var(--muted);cursor:not-allowed;opacity:.6}
 /* settings column */
 .exsettings{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:4px 20px 18px;position:sticky;top:calc(var(--hdr,64px) + 8px);max-height:calc(100vh - var(--hdr,64px) - 20px);overflow:auto;min-width:0;scrollbar-width:thin}
@@ -109,7 +110,11 @@ input[type=range].rng:disabled{opacity:.35;cursor:default}
 .availcap i{display:inline-block;width:9px;height:9px;border:1.5px solid var(--accent);border-radius:1px;margin-right:6px;vertical-align:-1px}
 .poolline{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5;font-variant-numeric:tabular-nums}.poolline b{color:var(--ink);font-weight:600}
 .warnbox{border-left:2px solid var(--warn);background:var(--warn-soft);color:var(--ink);border-radius:0 6px 6px 0;padding:7px 10px;font-size:12.5px;margin:10px 0 6px;line-height:1.45}.warnbox p{margin:2px 0}
-.exgo{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--line)}
+/* owner 25 Nov ("Besides that, yes action all these things"; checker: "put generate button on top"): Generate (and its result) open the
+   settings panel and stay in sight while it scrolls */
+.exsettings>.exgo{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid var(--line);position:sticky;top:-4px;z-index:1;background:var(--panel)}
+.exsettings>.exgo #gResult{flex-basis:100%}.exsettings>.exgo .result{margin-top:4px}
+.exsettings>.exgo+.group{border-top:0}
 .exgen{padding:9px 18px;border-radius:6px;font:600 14px var(--sans);background:var(--accent);border:1px solid var(--accent);color:var(--panel);cursor:pointer;transition:filter .12s,box-shadow .12s}
 .exgen:hover:not(:disabled){filter:brightness(1.06);box-shadow:0 1px 3px rgba(0,0,0,.18)}
 .exgen:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -187,6 +192,19 @@ table.gparts{width:100%;border-collapse:collapse;font-size:12px;font-variant-num
 table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1px solid var(--line)}table.gparts th{color:var(--muted);font-weight:500}
 .gwhy{margin-top:8px}.gwhy ul{margin:4px 0 0;padding-left:16px}.gwhy li{margin:2px 0}.gwhy .pp{font-weight:600}
 .gacts{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+/* owner 25 Nov: Lock says what it does; a locked question's other controls are off (title says why) */
+.gacts .act:disabled{opacity:.45;cursor:not-allowed}.gacts .exglock svg{vertical-align:-2px}
+.gacts .exglock[aria-pressed="true"]{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.gq.locked .gqrow{cursor:default}.gq.locked .grip{color:var(--accent);letter-spacing:0}.gmv button:disabled{cursor:not-allowed}
+/* owner 25 Nov: the Questions panel names the exam (rename it here) and adds or removes answer lines on every written question */
+.expvside .gname{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted);margin:2px 0 10px}
+.expvside .gname input{font:500 14px var(--sans);color:var(--ink);background:var(--panel);border:1px solid var(--line2);border-radius:6px;padding:6px 9px;min-width:0}
+.expvside .glnall{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin:-2px 0 10px}.expvside .glnall span{flex:1;min-width:0}
+.expvside .glnall .act{padding:2px 9px;font-size:12px}
+/* owner 25 Nov: the paper bar's save state and Save */
+.expv .xpvsave{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;white-space:nowrap;color:var(--muted)}
+.expv .xpvsave .exst-ok{color:var(--ok);font-weight:600}.expv .xpvsave .exst-wait{color:var(--warn);font-weight:600}
+.expv .xpvsave .act:disabled{opacity:1;cursor:default;border-color:transparent;background:none;padding-inline:4px}.expv .xtool .xinfo{min-width:0}   /* the page count wraps inside itself rather than push Close onto a second row */
 .gnote{font-size:11.5px;color:var(--muted);margin-top:14px;line-height:1.45}
 @media screen{
   #xPages .xq{cursor:pointer;border-radius:4px;outline:2px solid transparent;outline-offset:5px;transition:outline-color .12s}
@@ -255,6 +273,9 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .excover .cv-v{margin:0;padding:2.6mm 0 2.4mm 5mm;border-top:.6pt solid #c9c9c9;font-size:10.5pt;line-height:1.5}
 .excover .cv-grid>:nth-child(-n+2){border-top:0;padding-top:0}
 .excover .cv-v li{padding-left:.5mm}
+/* owner 25 Nov ("for longer instructions, dot should sit in the top left of the phrase"): an editable instruction is an inline block, whose
+   baseline is its LAST line, so the bullet sat beside the last line of a long one; aligned to the top, the bullet takes the first line */
+.excover .cv-v li>.ed{vertical-align:top}
 .excover .exaddli{list-style:none;margin:.5mm 0 0 -4.5mm}
 .excover .cv-secs{padding-left:0}   /* owner 18 Nov: NESA-style marks block, Total marks | each section with its pages, questions and time */
 /* owner 19 Nov ("Dot points don't line up"): the section headings start at the column edge and their bullets sit where the general
