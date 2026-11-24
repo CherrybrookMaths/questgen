@@ -711,4 +711,10 @@ db.execute("update questions set options_layout='table', options_table_json=? wh
 # 2021 Ryde AT4 Q12(a) solution: "make the table in the solution for a look like the one that is given to the student except filled in"
 db.execute("update data_tables set header_rows=1, label_col=1, rows_json=? where id='Ts7457_1'", (json.dumps(
     [["\\diag{\\text{Jacob}}{\\text{Noel}}", "1", "2", "3", "4", "5", "6"]] + [[str(j)] + [f"{j},{n}" for n in range(1, 7)] for j in range(1, 7)]),))
+# 2020 Gosford AT4 Q30(a): owner 24 Nov "Trust his call on the gosford paper" (checker flag "Make the answer50 for part a"): $50 to the
+# nearest $10 (the Your call 5283 is closed)
+_l = db.execute("select latex from solutions where id=7973").fetchone()[0]
+_old = "The source guideline gives the withdrawal as $\\$60$.\n$$\\therefore\\ \\text{withdrawal}=\\$60$$"
+if _old in _l:
+    db.execute("update solutions set latex=? where id=7973", (_l.replace(_old, "To the nearest $\\$10$, $52.79\\approx50$.\n$$\\therefore\\ \\text{withdrawal}=\\$50$$\n(The school's guideline gave $\\$60$.)"),))
 db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21')
