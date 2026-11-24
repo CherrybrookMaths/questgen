@@ -4082,13 +4082,15 @@ xCount();
 // Sequences (no band 5).
 const LV_THIN_MIN=5;
 let _lvfirst=null;
-function lvFirst(){if(_lvfirst)return _lvfirst;const n={},b5={};
+// owner 24 Nov ("can u simplify the list pls", after Standard's Investment and loans, 50 references, was checked in full only because
+//   no reference was band 5): the no-band-5 test is for Advanced (Sequences); in other courses a topic is thin by count alone
+function lvFirst(){if(_lvfirst)return _lvfirst;const n={},b5={},b5rule=QG.course==='advanced';
   B.questions.forEach(q=>{if(q.dup_of)return;q.parts.forEach(p=>{const d=p.dif;if(!d?.a||!d.ar)return;n[d.ar]=(n[d.ar]||0)+1;if((d.m??d.b)===5)b5[d.ar]=1})});
   if(!Object.keys(n).length)return [];   // details not read yet: no references to count, nothing cached
-  return _lvfirst=Object.keys(n).filter(a=>n[a]<LV_THIN_MIN||(/^Y12/.test(a)&&!b5[a])).sort((a,b)=>n[a]-n[b]||a.localeCompare(b))}
+  return _lvfirst=Object.keys(n).filter(a=>n[a]<LV_THIN_MIN||(b5rule&&/^Y12/.test(a)&&!b5[a])).sort((a,b)=>n[a]-n[b]||a.localeCompare(b))}
 const LV_WM={UF:'Understanding & fluency',PR:'Problem solving & reasoning'};
 const LV_BAND={2:'one routine step',3:'two steps / standard technique',4:'several steps, ideas combined',5:'non-routine set-up or general proof',6:'needs real insight'};
-let DIFD={},LVQ=null,LVI=0,LVAREA=(load('lv_area')||'thin'),LVSHOW=(load('lv_show')||'todo'),_lvsub=null;
+let DIFD={},LVQ=null,LVI=0,LVAREA=(load('lv_area2')||'plan'),LVSHOW=(load('lv_show')||'todo'),_lvsub=null;
 const lvName=a=>String(a||'').replace(/^Y1[12]_/,'').replace(/_/g,' ');
 const lvYear=a=>/^Y11/.test(a)?'Y11':'Y12';
 function lvItems(){if(LVQ)return LVQ;const out=[],LV_FIRST=lvFirst();
@@ -4105,13 +4107,17 @@ function lvItems(){if(LVQ)return LVQ;const out=[],LV_FIRST=lvFirst();
   Object.values(by).forEach(xs=>xs.slice().sort((a,b)=>lvDone(b)-lvDone(a)||b.lean-a.lean||a.p.id-b.p.id).slice(0,3).forEach(x=>x.spot=1));
   return LVQ=out}
 const lvDone=x=>!!DIFD[x.p.id]?.status;
-const lvInArea=x=>LVAREA==='all'||(LVAREA==='spot'?!!x.spot:LVAREA==='thin'?lvFirst().includes(x.d.ar)&&!x.flag:LVAREA==='flags'?x.flag:x.d.ar===LVAREA&&!x.flag);
+const lvInArea=x=>LVAREA==='all'||(LVAREA==='plan'?lvPlan(x):LVAREA==='spot'?!!x.spot:LVAREA==='thin'?lvFirst().includes(x.d.ar)&&!x.flag:LVAREA==='flags'?x.flag:x.d.ar===LVAREA&&!x.flag);
 // owner 15 Nov: the Difficulty step in Review shows this count: parts still to check in the chosen list
 // owner 13 Nov: "Why are there still difficulty checks to go through": the count followed whichever dropdown list was open
 // (e.g. All = 217 optional references), so it never reached 0. It now counts only the plan: thin topics, the spot-check,
 // and any topic with two or more changes (checked in full). The optional references stay reachable from the dropdown.
 function lvHot(){const chg={};lvItems().forEach(y=>{if(DIFD[y.p.id]?.status==='changed'&&!y.flag)chg[y.d.ar]=(chg[y.d.ar]||0)+1});return Object.keys(chg).filter(a=>chg[a]>=2)}
-function lvTodoN(){if(!B)return 0;lvSub();const hot=lvHot();return lvItems().filter(x=>(x.spot||x.flag||(lvFirst().includes(x.d.ar)&&!x.flag)||hot.includes(x.d.ar))&&!lvDone(x)).length}
+// owner 24 Nov: "I still don't really know how many I need to check, can u simplify the list pls": the plan is one list, "Your list"
+//   (flagged parts, thin topics in full, 3 per other topic, and in full any topic with two or more changes); the page leads with its count
+let _lvhot=null;
+const lvPlan=x=>x.spot||x.flag||(lvFirst().includes(x.d.ar)&&!x.flag)||(_lvhot||lvHot()).includes(x.d.ar);
+function lvTodoN(){if(!B)return 0;lvSub();_lvhot=lvHot();const n=lvItems().filter(x=>lvPlan(x)&&!lvDone(x)).length;_lvhot=null;return n}
 function lvList(){const all=lvItems();
   const r=all.filter(x=>lvInArea(x)&&(LVSHOW==='all'||!lvDone(x)));
   return LVAREA==='spot'?r.sort((a,b)=>(b.flag?1:0)-(a.flag?1:0)||String(a.d.ar).localeCompare(String(b.d.ar))||b.lean-a.lean):r}
@@ -4127,14 +4133,15 @@ function renderLevels(keep){
   const areas=[...new Set(anchors.map(x=>x.d.ar))].sort((a,b)=>(lvFirst().includes(a)?0:1)-(lvFirst().includes(b)?0:1)||a.localeCompare(b));
   const cnt=f=>{const xs=all.filter(f);return `${xs.filter(lvDone).length}/${xs.length}`};
   const x=list[LVI];
-  const head=`<div class="lvtop"><div class="lvtitle"><h2>Difficulty check</h2><span class="lvprog"><b>${adone}</b> of ${anchors.length} HSC references checked${done>adone?` · ${done-adone} flagged parts`:''}${lvTodoN()===0?' · <b>check plan finished</b>; anything left in this list is optional':''}</span></div>
-    <div class="lvbar"><i style="width:${Math.round(100*adone/Math.max(1,anchors.length))}%"></i></div>
-    <div class="lvctl"><select id="lvArea" aria-label="Which parts"><option value="thin"${LVAREA==='thin'?' selected':''}>Start here: thin topics (${cnt(x=>lvFirst().includes(x.d.ar)&&!x.flag)})</option><option value="spot"${LVAREA==='spot'?' selected':''}>Spot-check: flagged + 3 per topic (${cnt(x=>x.spot)})</option>
-      ${areas.map(a=>`<option value="${esc(a)}"${LVAREA===a?' selected':''}>${lvYear(a)} ${esc(lvName(a))} (${cnt(x=>x.d.ar===a&&!x.flag)})</option>`).join('')}
-      <option value="flags"${LVAREA==='flags'?' selected':''}>Flagged by the audit (${cnt(x=>x.flag)})</option><option value="all"${LVAREA==='all'?' selected':''}>Everything (${cnt(()=>true)})</option></select>
+  _lvhot=lvHot();const plan=all.filter(lvPlan),pdone=plan.filter(lvDone).length,left=plan.length-pdone;_lvhot=null;
+  const head=`<div class="lvtop"><div class="lvtitle"><h2>Difficulty check</h2><span class="lvprog">${left?`<b>${left} left</b> on your list (${pdone} of ${plan.length} done)`:`<b>Your list is finished</b> (${plan.length} checked)`} · the other ${anchors.length-plan.length} of the ${anchors.length} HSC references are optional</span></div>
+    <div class="lvbar"><i style="width:${Math.round(100*pdone/Math.max(1,plan.length))}%"></i></div>
+    <div class="lvctl"><select id="lvArea" aria-label="Which parts"><option value="plan"${LVAREA==='plan'?' selected':''}>Your list (${left} left)</option>
+      <optgroup label="Optional, beyond your list">${areas.map(a=>`<option value="${esc(a)}"${LVAREA===a?' selected':''}>${lvYear(a)} ${esc(lvName(a))} (${cnt(x=>x.d.ar===a&&!x.flag)})</option>`).join('')}
+      ${all.some(x=>x.flag)?`<option value="flags"${LVAREA==='flags'?' selected':''}>Flagged by the audit (${cnt(x=>x.flag)})</option>`:''}<option value="all"${LVAREA==='all'?' selected':''}>Everything (${cnt(()=>true)})</option></optgroup></select>
       <div class="lvseg" role="group" aria-label="Show"><button data-lvshow="todo" aria-pressed="${LVSHOW==='todo'}">To check</button><button data-lvshow="all" aria-pressed="${LVSHOW==='all'}">All</button></div></div></div>`;
   if(!x){const chg={};all.forEach(y=>{if(DIFD[y.p.id]?.status==='changed'&&!y.flag)chg[y.d.ar]=(chg[y.d.ar]||0)+1});const hot=Object.keys(chg).filter(a=>chg[a]>=2);
-    box.innerHTML=head+`<div class="lvempty"><b>Nothing left here.</b><br>${LVAREA==='spot'?(hot.length?`Check these topics in full (two or more changes): ${hot.map(a=>esc(lvYear(a)+' '+lvName(a))).join(', ')}.`:'No topic had two or more changes, so the rest of the ratings stand. You\'re done.'):LVAREA==='thin'?'The thin topics are done. Next: Spot-check in the dropdown above.':'Pick another topic above, or show All to revisit.'}</div>`;return}
+    box.innerHTML=head+`<div class="lvempty"><b>Nothing left here.</b><br>${LVAREA==='plan'?'Your list is finished. Everything else in the dropdown is optional.':LVAREA==='spot'?(hot.length?`Check these topics in full (two or more changes): ${hot.map(a=>esc(lvYear(a)+' '+lvName(a))).join(', ')}.`:'No topic had two or more changes, so the rest of the ratings stand. You\'re done.'):LVAREA==='thin'?'The thin topics are done. Next: Spot-check in the dropdown above.':'Pick another topic above, or show All to revisit.'}</div>`;return}
   const dec=DIFD[x.p.id], band=dec?.band??x.d.b, wm=dec?.wm??x.d.wm, changed=dec&&(dec.band!==x.d.b||dec.wm!==x.d.wm);
   const label=x.p.label?`(${x.p.label})`:'';
   box.innerHTML=head+`<article class="lvcard" data-part="${x.p.id}">
@@ -4169,7 +4176,7 @@ async function lvSave(){if(await FRESH.block())return;   // owner 23 Nov: "stale
   window.scrollTo({top:0,behavior:RM.matches?'auto':'smooth'});
   if(!db){toast('Not saved: open the page in claude.ai to save');return}
   try{await db.doc('difficulty/'+x.p.id).set(v)}catch(e){toast('Could not save. Try again in a moment.')}}
-document.addEventListener('change',e=>{if(e.target.id==='lvArea'){LVAREA=e.target.value;save('lv_area',LVAREA);LVI=0;renderLevels();renderSteps()}});
+document.addEventListener('change',e=>{if(e.target.id==='lvArea'){LVAREA=e.target.value;save('lv_area2',LVAREA);LVI=0;renderLevels();renderSteps()}});
 document.addEventListener('click',e=>{if(view!=='levels')return;
   const s=e.target.closest('[data-lvshow]');if(s){LVSHOW=s.dataset.lvshow;save('lv_show',LVSHOW);LVI=0;renderLevels();return}
   const b=e.target.closest('[data-lvb]');if(b){lvSet('band',+b.dataset.lvb);return}
@@ -6696,7 +6703,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'65ab55f06de4a56c',stale:false,t:null,at:0,
+const FRESH={build:'da9231e29ba07486',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}

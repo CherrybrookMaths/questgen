@@ -778,7 +778,7 @@ async function flows(browser, base, seed, seedR) {
     await page.setViewportSize({width: 390, height: 844}); await pick(); await settle(page, 4000, 2); const n = await lay();
     await page.screenshot({path: path.join(SHOTS, 'difficulty_under_390.png'), fullPage: true});
     const ok = await page.evaluate(() => !!document.querySelector('#lvOk') && getComputedStyle(document.querySelector('#lvAct')).position === 'sticky' && document.documentElement.scrollWidth <= innerWidth + 1);
-    await page.setViewportSize({width: 1280, height: 900}); await page.evaluate(() => { LVAREA = load('lv_area') || 'thin'; LVSHOW = load('lv_show') || 'todo'; LVI = 0; renderLevels() });
+    await page.setViewportSize({width: 1280, height: 900}); await page.evaluate(() => { LVAREA = load('lv_area2') || 'plan'; LVSHOW = load('lv_show') || 'todo'; LVI = 0; renderLevels() });
     errs();
     assert(w.length >= 2 && w.every(x => x.open && x.beside), `1280: ${JSON.stringify(w)}`);
     assert(n.length >= 2 && n.every(x => x.open && x.under), `390: ${JSON.stringify(n)}`);
