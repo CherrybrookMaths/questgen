@@ -207,7 +207,7 @@ function lanesHTML(){const el=$('#prLanes');if(!el)return;const m=model();if(!m)
     <div class="pr-lane pr-chk"><div class="pr-lrow"><div class="pr-lname"><b>Needs a check</b><small>${plural(m.t.needs_check||0,'paper')}: year or course not read yet. Sorted into lanes once checked.</small></div>
       <div class="pr-lacts"><button type="button" class="act" data-prcover${cc||!m.t.needs_check?' disabled':''}>${cc?'Cover-page check requested':'Run the cover-page check'}</button><a class="act pr-link" href="#processes/papers/check">Resolve</a></div></div></div>
     ${bigHTML(m)}${lockedHTML(m)}${copiesHTML(m)}
-    <div class="pr-legend" aria-hidden="true">${Object.entries(SQW).map(([k,w])=>`<span><i class="pr-b ${k}"></i>${esc(w[0].toUpperCase()+w.slice(1))}</span>`).join('')}</div>`;   // owner 14 Nov: cleared vs waiting in the legend
+    <div class="pr-legend" aria-hidden="true">${Object.entries(SQW).filter(([k])=>k!=='other').map(([k,w])=>`<span><i class="pr-b ${k}"></i>${esc(w[0].toUpperCase()+w.slice(1))}</span>`).join('')}</div>`;   // owner 14 Nov: cleared vs waiting in the legend
   if(wasOpen&&$('#prLock'))$('#prLock').open=true;if(cpo&&$('#prCopies'))$('#prCopies').open=true;cpp.forEach(k=>{const d=$(`#prCopies [data-cpp="${k}"]`);if(d)d.open=true})}
 function redraw(){if(!isOwnerV()||!$('#prLanes'))return;M=null;sub();tiles();lanesHTML();if(API.check)API.check.draw()}
 function render(){const box=$('#invBox');if(!box)return;box.hidden=!isOwnerV();if(box.hidden)return;
