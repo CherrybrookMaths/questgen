@@ -40,7 +40,8 @@ function diagSplit(c){c=String(c||'').trim(); if(!c.startsWith('\\diag{')) retur
 function dtHTML(id,opts={}){
   const t=B.tables[id]; if(!t) return `<span class="notes">Missing table ${esc(id)}</span>`;
   // owner 12 Nov: "the stem and leaf is not a table, do it as a stem and leaf plot": no grid, one rule between stem and leaves
-  if(/^stem-and-leaf/i.test(t.cap||'')) return `<div class="dtwrap"><table class="slp"><tbody>${t.rows.map(r=>`<tr><th scope="row">${esc(r[0]??'')}</th><td>${esc(r[1]??'')}</td></tr>`).join('')}</tbody></table></div>`;
+  // checker 24 Nov (2020 Cherrybrook AT3 Q4): "Put the rest of the stem and leaf plot": leaves stored one per cell were cut to the first
+  if(/^stem-and-leaf/i.test(t.cap||'')) return `<div class="dtwrap"><table class="slp"><tbody>${t.rows.map(r=>`<tr><th scope="row">${esc(r[0]??'')}</th><td>${esc(r.slice(1).filter(x=>String(x??'').trim()!=='').join(' '))}</td></tr>`).join('')}</tbody></table></div>`;
   const rows=t.rows, n=Math.max(...rows.map(r=>r.length)), lc=t.lc?1:0, hr=t.hr||0;
   const span={}, rspan={}, covered=new Set(); (t.spans||[]).forEach(([r,c,k,rs])=>{span[r+','+c]=k||1; if(rs>1){rspan[r+','+c]=rs; for(let i=1;i<rs;i++)for(let j=0;j<(k||1);j++)covered.add((r+i)+','+(c+j))}});
   // owner: columns are only forced equal for number tables (x / P(X=x), periods / rates); tables of words size each column to
