@@ -33,6 +33,9 @@ def main():
     json.dump(dots, open(DOTS, 'w'), ensure_ascii=False, indent=0)
     os.makedirs(BANK, exist_ok=True)
     sig = hashlib.sha256(json.dumps(dots, sort_keys=True).encode()).hexdigest()[:16]
+    # 24 Nov: rerun to refresh short labels, this wiped the built Standard bank (405 questions); the empty bank is a first-time placeholder only
+    if os.path.exists(BANK + 'index.gz.json'):
+        print(f'standard: {len(dots)} dot points -> {DOTS}; bank left as built'); return
     write_gz(BANK + 'index.gz.json', {'v': 3, 'built': '', 'counts': {}, 'src': sig, 'course': 'standard', 'docs': {}, 'tables': {},
                                       'figs': {}, 'codes17': {}, 'files': [], 'questions': []})
     write_gz(BANK + 'details.gz.json', {'v': 1, 'src': sig, 'q': {}, 'sk': {}})

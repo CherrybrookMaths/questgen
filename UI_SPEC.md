@@ -1316,3 +1316,13 @@ approved or flagged, a diagram request, or the paper's decision or Your call. Ot
 looked at" tag) in Review's papers list and on the Papers page, whose subtitle counts them; the Papers page's progress filter has
 "Not looked at by the checker". A review doc keeps only its last writer, so a question Steve re-decided after the checker reads as
 Steve's (checkerSeen).
+
+## Bank: the level under a topic (24 Nov)
+Owner 24 Nov, on the Standard Bank cards "Critical path analysis · Critical path analysis 12" (also Formulas and equations,
+Trigonometry, Annuities): "we should display the level under here, it does nothing like this. For ANnuities it should be Future value
+and present value. Since PV is taught after, any question which has both goes into PV."
+- A topic the syllabus gives no sub-level is split by its dot points: each dot point's short name is a row (07_bank.js subLevels).
+  Today: Standard Formulas and equations, Trigonometry, Network flow, Critical path analysis, Relative frequency and probability;
+  Advanced Trigonometric identities and equations, Graph transformations.
+- Annuities (Standard) has the owner's two rows instead, Future value and Present value (SUB_SPLIT). An annuity question whose text or
+  tables mention present value is Present value, every other one Future value (tools/bank_split.py sets q.st; qHome files by it).

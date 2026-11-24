@@ -78,4 +78,11 @@ SHORT = {
 'S2-12-138': 'Compare datasets with z-scores', 'S2-12-140': 'Probabilities from z-scores and the empirical rule',
 'S2-12-141': 'Shade areas under the normal curve', 'S2-12-142': 'Probabilities of more or less extreme events',
 'S2-12-143': 'Judgements from z-scores',
+    # owner 24 Nov ("we should display the level under here"): these labels are now Bank rows, so the clipped ones are named properly
+    'S2-12-068': 'Area of a triangle, A = ½ab sin C',
+    'S11-003': 'Distance, speed, time and stopping distances',
+    'S2-12-071': 'Practical problems with Pythagoras and trigonometry',
+    'S2-12-093': 'Network flow terms: source, sink, capacity',
+    'S11-011': 'Spreadsheet calculations with formulas',
+    'S2-12-123': 'Number of outcomes for an experiment',
 }

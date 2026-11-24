@@ -238,6 +238,18 @@ def stale():
     except Exception: return True
 
 
+PV_RE = re.compile(r'present\s+value', re.I)
+
+
+def q_text(q, bank):
+    """A question's own words: stem, parts, options and the captions and first rows of the tables it shows."""
+    t = ' '.join([q.get('stem') or ''] + [p.get('latex') or '' for p in q['parts']] + [json.dumps(q.get('options') or '')])
+    for tid in re.findall(r'\\extable\{([\w.()-]+)\}', t):
+        tb = (bank.get('tables') or {}).get(tid) or {}
+        t += ' ' + json.dumps(tb.get('cap') or '') + ' ' + json.dumps((tb.get('rows') or [])[:2])
+    return t
+
+
 def split(bank, home, src=None):
     files, slugs, content = [], {}, {}
     idx_q, figs, moved, details = [], bank['figs'], set(), {}
@@ -256,6 +268,11 @@ def split(bank, home, src=None):
         ids = [t.get('id') or '' for p in q['parts'] for t in (p.get('t24') or [])] + \
               [d[0] for p in q['parts'] for v in (p.get('tagd') or {}).values() for d in v.get('dp', [])]
         if any(is_y12(i) for i in ids): x['y12'] = 1
+        # owner 24 Nov: "For ANnuities it should be Future value and present value. Since PV is taught after, any question which has both
+        # goes into PV." An annuity question (Standard 2 dot points S2-12-055..061) whose text or tables mention present value is filed
+        # under Present value, every other one under Future value (07_bank.js SUB_SPLIT, qHome reads q.st)
+        if any(re.fullmatch(r'S2-12-0(5[5-9]|6[01])', i or '') for i in ids):
+            x['st'] = 'Present value' if PV_RE.search(q_text(q, bank)) else 'Future value'
         # every other question field goes to the details, listed or not (review 16 Nov: a fixed list dropped decide_at, which
         # build_bank.py writes for a call raised after approval; a field added to build_bank later must not vanish either)
         dt = {kk: v for kk, v in q.items() if kk not in Q_START and kk not in Q_CONTENT and kk not in ('parts', 'solutions', 'tri', 'h')
