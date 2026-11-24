@@ -10,11 +10,14 @@
 // ratings, so the owner's changes never move a topic in or out). This gives the 14 Nov list: Exponential & log (3), Trig identities (3),
 // Sequences (no band 5).
 const LV_THIN_MIN=5;
+// owner 24 Nov (2023 HSC Q9, measurement error bounds, on the Standard list: "double check but I'm [pretty sure] error is out of the 2024
+//   course"): a part with no 2024 home (tagged removed / no match, or filed "Unhomed") is not rated, so it is not on the list
+const out24=(q,p)=>p.dif?.ar==='Unhomed'||effTags(q,p).some(t=>t.primary&&(t.cov==='removed'||t.cov==='no_match'));
 let _lvfirst=null;
 // owner 24 Nov ("can u simplify the list pls", after Standard's Investment and loans, 50 references, was checked in full only because
 //   no reference was band 5): the no-band-5 test is for Advanced (Sequences); in other courses a topic is thin by count alone
 function lvFirst(){if(_lvfirst)return _lvfirst;const n={},b5={},b5rule=QG.course==='advanced';
-  B.questions.forEach(q=>{if(q.dup_of)return;q.parts.forEach(p=>{const d=p.dif;if(!d?.a||!d.ar)return;n[d.ar]=(n[d.ar]||0)+1;if((d.m??d.b)===5)b5[d.ar]=1})});
+  B.questions.forEach(q=>{if(q.dup_of)return;q.parts.forEach(p=>{const d=p.dif;if(!d?.a||!d.ar||out24(q,p))return;n[d.ar]=(n[d.ar]||0)+1;if((d.m??d.b)===5)b5[d.ar]=1})});
   if(!Object.keys(n).length)return [];   // details not read yet: no references to count, nothing cached
   return _lvfirst=Object.keys(n).filter(a=>n[a]<LV_THIN_MIN||(b5rule&&/^Y12/.test(a)&&!b5[a])).sort((a,b)=>n[a]-n[b]||a.localeCompare(b))}
 const LV_WM={UF:'Understanding & fluency',PR:'Problem solving & reasoning'};
@@ -23,7 +26,7 @@ let DIFD={},LVQ=null,LVI=0,LVAREA=(load('lv_area2')||'plan'),LVSHOW=(load('lv_sh
 const lvName=a=>String(a||'').replace(/^Y1[12]_/,'').replace(/_/g,' ');
 const lvYear=a=>/^Y11/.test(a)?'Y11':'Y12';
 function lvItems(){if(LVQ)return LVQ;const out=[],LV_FIRST=lvFirst();
-  B.questions.forEach(q=>{if(q.dup_of)return;q.parts.forEach(p=>{const d0=p.dif;if(!d0)return;const d=d0.m!=null?{...d0,b:d0.m,wm:d0.mw}:d0;   // compare with the model's original rating, not the owner-applied one
+  B.questions.forEach(q=>{if(q.dup_of)return;q.parts.forEach(p=>{const d0=p.dif;if(!d0||out24(q,p))return;const d=d0.m!=null?{...d0,b:d0.m,wm:d0.mw}:d0;   // compare with the model's original rating, not the owner-applied one
   if(d.a||d0.f)out.push({q,p,d,flag:!d.a})})});
   const rank=x=>x.flag?99:(LV_FIRST.indexOf(x.d.ar)>=0?LV_FIRST.indexOf(x.d.ar):10);
   out.sort((x,y)=>rank(x)-rank(y)||String(x.d.ar).localeCompare(String(y.d.ar))||x.q.id-y.q.id||x.p.id-y.p.id);
