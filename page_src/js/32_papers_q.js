@@ -106,7 +106,7 @@ function swapsApply(bs,sw,fixed){const B=bs.map(b=>b.slice()),sizes=B.map(b=>b.l
 function allLanes(){const m=model();if(!m)return [];const imp=new Set(m.ps.filter(p=>p.st==='imported').map(p=>p.id));
   return (m.D.lanes||[]).map(L=>{const key=laneKey(L.course,L.yl),bs=swapsApply(L.batches||[],S.swaps[key],imp);
     const batches=bs.map((ids,k)=>{const ps=ids.map(i=>m.byId.get(i)).filter(Boolean),ready=ps.filter(p=>READY.includes(p.st)&&p.c===L.course&&p.yl===L.yl);
-      const n=L.first+k,done=ps.length&&ps.every(p=>p.st==='imported');
+      const n=L.first+k,done=ps.some(p=>p.st==='imported')&&ps.every(p=>p.st==='imported'||p.st==='not_in_scope'||p.st==='duplicate');   // owner 25 Nov (Standard "3 batches imported" after 10 were): a file the import found is not a paper of this course (answer sheet, Advanced paper, copy) no longer keeps its batch from counting as imported
       return {n,ids,ps,ready,done,frozen:ps.some(p=>p.st==='imported'),cur:ready.some(p=>p.st==='ready_current'),key}});
     const inLane=m.ps.filter(p=>p.c===L.course&&p.yl===L.yl),batched=new Set(bs.flat());
     return {...L,key,name:laneName(L.course,L.yl),batches,done:L.done||[],imported:inLane.filter(p=>p.st==='imported').length,
