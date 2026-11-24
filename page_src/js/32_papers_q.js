@@ -83,11 +83,15 @@ function reviewState(p){if(!B||!B.questions||!QG.detOK||typeof paperWork!=='func
   // owner 18 Nov (screenshot: Batch 11 "7 of 7 cleared review" mid-import): a paper mid-import (inventory imp, tools/import_hold.py) is
   // importing, and a paper with no questions in the bank is never cleared
   if(p.imp)return 'importing';
-  if(!RV.m.has(p.id)){const fs=(p.f||[p.id]).filter(d=>B.docs[d]&&B.questions.some(q=>q.doc===d));
-    RV.m.set(p.id,fs.length&&fs.every(d=>paperWork(d).n===0)?'cleared':'waiting')}
+  // owner 25 Nov: a file the import found is not a paper of the course (answer sheet, other course, copy) has nothing to review
+  if(p.st&&p.st!=='imported')return 'skip';
+  // owner 25 Nov ("when I switch to std, the adv ones none are reviewed"; Advanced "2 waiting" that were cleared): review state is known
+  //   only for the course whose bank is open ('other' otherwise), and a paper retired whole (no questions left in the bank) has nothing to review
+  if(!RV.m.has(p.id)){const ds=(p.f||[p.id]).filter(d=>B.docs[d]),fs=ds.filter(d=>B.questions.some(q=>q.doc===d));
+    RV.m.set(p.id,!ds.length?'other':fs.every(d=>paperWork(d).n===0)?'cleared':'waiting')}
   return RV.m.get(p.id)}
 // a batch of imported papers: cleared when every paper is (a paper not found stays waiting)
-const batchState=ps=>ps.length&&ps.every(p=>reviewState(p)==='cleared')?'clr':'wait';
+const batchState=ps=>{const r=ps.map(reviewState).filter(s=>s!=='skip');return r.includes('other')?'other':r.length&&r.every(s=>s==='cleared')?'clr':'wait'};
 // every imported batch on the tab: [{key, n, st}] (finished batches and lane batches whose papers are all imported)
 function imported(){const m=model();if(!m)return [];return lanes().flatMap(L=>[...L.done.map(d=>({key:L.key,n:d.n,ps:d.ids.map(i=>m.byId.get(i)).filter(Boolean)})),
   ...L.batches.filter(b=>b.done).map(b=>({key:L.key,n:b.n,ps:b.ps}))]).map(x=>({...x,st:batchState(x.ps)}))}
@@ -138,10 +142,10 @@ function tiles(){const el=$('#prSum');if(!el)return;const m=model();if(!m){el.in
   const what={imported:'imported',ready:'ready to import'+(L.length?' · '+L.map(x=>x.name).join(', '):''),check:'need a check (year or course unknown)',aside:'held or not in scope'};
   el.innerHTML=AREAS.map(([k])=>`<div class="pr-tile" data-k="${k}"><b>${nf(n(k))}</b><span>${esc(what[k])}</span></div>`).join('')}
 // owner 14 Nov: imported squares split into cleared review (solid green) and imported, waiting for review (pale, green border)
-const SQW={clr:'imported, cleared review',wait:'imported, waiting for review',queued:'in the queue',cur:'ready, current syllabus',old:'ready, old syllabus'};
+const SQW={other:'imported (open this course to see its review progress)',clr:'imported, cleared review',wait:'imported, waiting for review',queued:'in the queue',cur:'ready, current syllabus',old:'ready, old syllabus'};
 function sqState(b){if(b.done)return batchState(b.ps);if(API.run&&API.run.pos(b.key,b.n))return 'queued';return b.cur?'cur':'old'}
 // a paper's chip in the batch panel: its review state, with a link into Review when it is still waiting
-function rvChip(p){const s=reviewState(p);if(s==='importing')return '<span class="pr-chip" title="Being imported: not in the bank yet">Importing</span>';if(s==='cleared')return '<span class="pr-chip ok">Cleared review</span>';
+function rvChip(p){const s=reviewState(p);if(s==='importing')return '<span class="pr-chip" title="Being imported: not in the bank yet">Importing</span>';if(s==='cleared')return '<span class="pr-chip ok">Cleared review</span>';if(s==='skip')return `<span class="pr-chip" title="${esc(p.why||'')}">Not imported (${p.st==='duplicate'?'a copy':'not a paper of this course'})</span>`;
   const d=(p.f||[p.id]).find(x=>B&&B.docs[x]);return s==='waiting'&&d!=null?`<a class="pr-chip pr-wt" href="#review/paper/${esc(mainDoc(d))}">Waiting for review</a>`:'<span class="pr-chip ok">Imported</span>'}
 function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.batches.filter(b=>b.ready.length),m=model();
   const free=todo.filter(b=>!(API.run&&API.run.pos(L.key,b.n))).length,im=imported().filter(x=>x.key===L.key),clr=im.filter(x=>x.st==='clr').length;
@@ -150,7 +154,7 @@ function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.
     L.batches.filter(b=>b.ready.length||b.done).map(b=>{const s=sqState(b),t=`Batch ${b.n}, ${SQW[s]}`;
       return `<button type="button" class="pr-b ${s}${open===b.n?' on':''}" data-prb="${esc(L.key)}:${b.n}" title="${esc(t)}" aria-label="${esc(t)}" aria-expanded="${open===b.n}"></button>`}).join('');
   return `<div class="pr-lane" data-lane="${esc(L.key)}"><div class="pr-lrow"><div class="pr-lname"><b>${esc(L.name)}</b>
-      <small>${plural(im.length,'batch','batches')} imported (${nf(clr)} cleared review, ${im.length-clr?`<a href="#review" title="Review lists the papers still waiting">${nf(im.length-clr)} waiting</a>`:'0 waiting'}) · <span title="Ready papers in the batch squares below (one square per batch)">${nf(L.ready)} papers to go · ${plural(todo.length,'batch','batches')}</span>${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.big?` · <a href="#prBig" data-prbig title="Over the ${PQ.bigMB()} limit: out of the batches until a smaller copy exists">${plural(L.big,'big PDF')}, for later</a>`:''}${L.newN?` · <span title="Papers first found after the first full Drive scan${S.data?.baseline_scan?` (${esc(new Date(S.data.baseline_scan).toLocaleDateString('en-AU',{day:'numeric',month:'short'}))})`:''}, in every status">${nf(L.newN)} found after the first scan</span>`:''}</small></div>
+      <small>${plural(im.length,'batch','batches')} imported (${im.some(x=>x.st==='other')?`switch the course to ${esc(L.name.replace(/^Year 12 /,''))} to see review progress`:`${nf(clr)} cleared review, ${im.length-clr?`<a href="#review" title="Review lists the papers still waiting">${nf(im.length-clr)} waiting</a>`:'0 waiting'}`}) · <span title="Ready papers in the batch squares below (one square per batch)">${nf(L.ready)} papers to go · ${plural(todo.length,'batch','batches')}</span>${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.big?` · <a href="#prBig" data-prbig title="Over the ${PQ.bigMB()} limit: out of the batches until a smaller copy exists">${plural(L.big,'big PDF')}, for later</a>`:''}${L.newN?` · <span title="Papers first found after the first full Drive scan${S.data?.baseline_scan?` (${esc(new Date(S.data.baseline_scan).toLocaleDateString('en-AU',{day:'numeric',month:'short'}))})`:''}, in every status">${nf(L.newN)} found after the first scan</span>`:''}</small></div>
     <div class="pr-lacts"><button type="button" class="act" data-pradd="1" data-lane="${esc(L.key)}"${free?'':' disabled'}>+1 batch</button><button type="button" class="act" data-pradd="2" data-lane="${esc(L.key)}"${free>1?'':' disabled'}>+2 batches</button><button type="button" class="act primary" data-pradd="all" data-lane="${esc(L.key)}"${free?'':' disabled'}>Queue all ${nf(free)}</button></div></div>
     <div class="pr-sq" role="group" aria-label="${esc(L.name)} batches">${sq}</div>${open!=null?panelHTML(L,open):''}</div>`}
 // the batch panel: its papers and Swap
