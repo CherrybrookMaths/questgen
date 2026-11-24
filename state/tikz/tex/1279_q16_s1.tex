@@ -2,26 +2,24 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
-% axes
-\draw (30,205)--(545,205);
-\draw (15,517)--(610,517);
-\draw[->] (293,760)--(293,5);
-% f(x)
-\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-3.265:2.86] ({293+58.4*\x},{205-8.5*(\x+3)*(\x+1)*(\x-2)^2});
+% one set of axes for f and f' (checker 24 Nov: "Put f'(x) on the same axis as f(x) but make f(x) dashed")
+% x: 75 px/unit from x=270; y: 9 px/unit from y=400
+\def\X#1{270+75*(#1)}
+\draw (-10,400)--(570,400);
+\draw[->] (270,700)--(270,85);
+% f(x) = (x+3)(x+1)(x-2)^2, dashed
+\draw[aux,line width=0.9pt,<->] plot[smooth,samples=90,domain=-3.265:2.86] ({\X{\x}},{400-9*(\x+3)*(\x+1)*(\x-2)^2});
 % f'(x) = 4x^3-18x+4
-\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-2.75:2.65] ({293+58.4*\x},{517-4.8*(4*\x*\x*\x-18*\x+4)});
+\draw[line width=0.9pt,<->] plot[smooth,samples=90,domain=-2.75:2.65] ({\X{\x}},{400-9*(4*\x*\x*\x-18*\x+4)});
 % guides from turning points of f to zeros of f'
-\draw[aux] ({293+58.4*(-2.2247)},349)--({293+58.4*(-2.2247)},517);
-\draw[aux] ({293+58.4*0.2247},99)--({293+58.4*0.2247},517);
-\draw[aux] ({293+58.4*2},205)--({293+58.4*2},517);
-\foreach \a in {-3,-1,2} \node[pt] at ({293+58.4*\a},205) {};
-\foreach \a in {-2.2247,0.2247,2} \node[pt] at ({293+58.4*\a},517) {};
-\node[anchor=north east] at ({293+58.4*(-3)-3},209) {$-3$};
-\node[anchor=north west] at ({293+58.4*(-1)+4},209) {$-1$};
-\node[anchor=north] at ({293+58.4*2},210) {$2$};
-\node[anchor=north west] at ({293+58.4*(-2.2247)+5},521) {$-2$};
-\node[anchor=north west] at ({293+58.4*2+5},521) {$2$};
-\node[font=\large,anchor=west] at (470,60) {$f(x)$};
-\node[font=\large,anchor=west] at (470,385) {$f'(x)$};
+\draw[aux] ({\X{-2.2247}},{400-9*(0.7753)*(-1.2247)*(4.2247)^2})--({\X{-2.2247}},400);
+\draw[aux] ({\X{0.2247}},{400-9*(3.2247)*(1.2247)*(1.7753)^2})--({\X{0.2247}},400);
+\foreach \a in {-3,-1,2,-2.2247,0.2247} \node[pt] at ({\X{\a}},400) {};
+\node[anchor=north east] at ({\X{-3}-3},404) {$-3$};
+\node[anchor=north west] at ({\X{-1}+4},404) {$-1$};
+\node[anchor=south east] at ({\X{-2.2247}-6},396) {$-2$};% above the axis: below it, f and f' both pass the spot
+\node[anchor=north west] at ({\X{2}+5},404) {$2$};
+\node[font=\large,anchor=west] at (500,252) {$f(x)$};
+\node[font=\large,anchor=west] at (486,128) {$f'(x)$};
 \end{tikzpicture}
 \end{document}

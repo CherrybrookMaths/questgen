@@ -5,17 +5,20 @@
   \def\ox{226}\def\oy{270}\def\s{70.5}
   \draw[<->] (5,\oy) -- (482,\oy) node[right] {$x$};
   \draw[<->] (\ox,497) -- (\ox,32) node[above] {$y$};
-  \foreach \i in {-2,-1,1,2,3} {\draw ({\ox+\s*\i},\oy-5) -- ({\ox+\s*\i},\oy+5);
-    \node[below] at ({\ox+\s*\i},\oy+12) {$\i$};}
-  \foreach \j in {-3,-2,-1,1,2,3} {\draw (\ox-5,{\oy-\s*\j}) -- (\ox+5,{\oy-\s*\j});
-    \node[left] at (\ox-4,{\oy-\s*\j}) {$\j$};}
+  \foreach \i in {-2,-1,1,2,3} \draw ({\ox+\s*\i},\oy-5) -- ({\ox+\s*\i},\oy+5);
+  \foreach \i in {-2,-1,1,3} \node[below] at ({\ox+\s*\i},\oy+12) {$\i$};
+  \node[below right, inner sep=1pt] at ({\ox+\s*2+8},\oy+14) {$2$};% beside the crossing of the two curves
+  \foreach \j in {-3,-2,-1,1,2,3} \draw (\ox-5,{\oy-\s*\j}) -- (\ox+5,{\oy-\s*\j});
+  \foreach \j in {-2,-1,1,2} \node[left] at (\ox-9,{\oy-\s*\j}) {$\j$};
+  \foreach \j in {-3,3} \node[right] at (\ox+5,{\oy-\s*\j}) {$\j$};% right of the axis: the curves pass the usual spot
   \draw[line width=0.9pt, smooth, samples=90, domain=-0.545:2.465] plot ({\ox+\s*\x},{\oy-\s*((\x-2)*(\x*\x+1))});
   \draw[line width=0.9pt, smooth, samples=90, domain=-0.545:2.465] plot ({\ox+\s*\x},{\oy+\s*((\x-2)*(\x*\x+1))});
   \node at (110,90) {$y=-f(x)$};
-  \node at (458,96) {$y=f(x)$};
+  \node at (472,96) {$y=f(x)$};
   \node[pt] at ({\ox+\s/3},{\oy+\s*50/27}) {};
   \node[pt] at ({\ox+\s},{\oy+\s*2}) {};
-  \node[anchor=south west, font=\small, inner sep=1pt] at (230,{\oy+\s*50/27-6}) {$\left(\dfrac13,\,-\dfrac{50}{27}\right)$};
+  \node[anchor=east, font=\small, inner sep=1pt] (T) at (165,368) {$\left(\dfrac13,\,-\dfrac{50}{27}\right)$};
+  \draw (T.east) -- ({\ox+\s/3-5},{\oy+\s*50/27-4});% leader: no room beside the point between the axis labels and the curve
   \node[anchor=north, font=\small] at ({\ox+\s+12},{\oy+\s*2+6}) {$(1,-2)$};
 \end{tikzpicture}
 \end{document}
