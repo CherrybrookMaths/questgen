@@ -158,7 +158,9 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
     "downloads": {}, "user": {}, "assets": {}, "comments": {},
     "mcp": {"servers": [{"server": "Google Drive", "tools": ["search_files"]}]}}
    ```
-   `"assets": {}` serves the packs in the asset store (data/assets.json). `"comments": {}` since v309 (owner 23 Nov: "get a way for claude
+   `"assets": {}` serves the packs in the asset store (data/assets.json). After a publish that carries a re-uploaded pack, delete each
+   blob `asset_manifest.py` printed as "superseded: <id>" (Artifact `delete`, `path` = the id; owner 25 Nov: "fix the image store issue as
+   well": old copies had filled the 1 GB store); `tools/asset_prune.py <listing>` lists any left behind. `"comments": {}` since v309 (owner 23 Nov: "get a way for claude
    to instantly run flags when checker needs them done"): "Fix my flags now" sends the request to Claude (FLAGS.md "Instant runs").
 4. **Every publish, even a capabilities-only one, is followed by** `python3 tools/batch_check.py --mark-published` (16 Nov: an
    unrecorded settings-only publish made the next record one version behind the live page): records the manifest (state/work/published_manifest.json), commits

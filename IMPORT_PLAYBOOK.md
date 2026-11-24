@@ -346,6 +346,9 @@ image packs, the old `bank.json` and the whole published set are printed as info
    uploaded packs out and sends null for each once.
 4. After a rebuild changes a pack, batch_check blocks: re-plan and re-upload it, or `python3 tools/asset_manifest.py --prune` (the
    page then reads the published file again; publish it).
+5. After the publish, delete each blob step 3 printed as "superseded: <id>" (Artifact `delete`, `path` = the id; never before: the live
+   page reads the old blob until then). Owner 25 Nov: "fix the image store issue as well" (362 old copies, 876 MB, had filled the 1 GB
+   store). `python3 tools/asset_prune.py <listing>` prints every blob data/assets.json no longer names.
 The store's total quota and file count are not in the capability contract (only `usage.maxBytes` / `maxFiles` at runtime): check
 them before uploading the full set (UI_SPEC "Data on demand").
 

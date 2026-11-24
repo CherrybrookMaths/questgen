@@ -81,7 +81,7 @@ def main():
     res = json.load(open(src))
     if isinstance(res, dict): res = [{'path': k, 'url': v} for k, v in res.items()]
     plan = {r['path']: r for r in json.load(open(PLAN))['files']} if os.path.exists(PLAN) else {}
-    added, bad = 0, []
+    added, bad, superseded = 0, [], []
     for r in res:
         p, u = r.get('path'), r.get('url') or (('/_blob/' + r['id']) if r.get('id') else None)
         if not p or not u: bad.append((p, 'no path or url')); continue
@@ -92,9 +92,13 @@ def main():
         want = (plan.get(p) or {}).get('sha256', h)
         if h != want: bad.append((p, 'local file changed since the plan: re-plan and re-upload')); continue
         if r.get('sizeBytes') not in (None, n): bad.append((p, f'uploaded {r["sizeBytes"]} bytes, local file is {n}')); continue
+        old = (m['assets'].get(p) or {}).get('url', '')
+        if old.startswith('/_blob/') and old != u: superseded.append((p, old[7:]))
         m['assets'][p] = {'url': u, 'sha256': h, 'bytes': n}; added += 1
     write(m)
     for p, why in bad: print(f'  REFUSED {p}: {why}')
+    # owner 25 Nov: "fix the image store issue as well" (old copies filled the 1 GB store); delete each after the publish
+    for p, i in superseded: print(f'superseded: {i} ({p}; Artifact delete once the new manifest is live)')
     print(f'asset manifest: {added} entries added or updated, {len(bad)} refused, {len(m["assets"])} in {os.path.relpath(MAN, P)}')
     sys.exit(1 if bad else 0)
 

@@ -89,7 +89,8 @@ If steps 1–3 changed anything the page shows: the CLAUDE.md "Publish procedure
 publish only the review page; then --mark-published). Changed asset-store packs (18 Nov): run prepublish first; when the page
 test passed ("0 failed") and the only blockers are "asset store: ... re-upload it", upload them (tools/asset_upload_plan.py, which
 refuses an empty, missing or halved pack; one Artifact call per file; tools/asset_manifest.py), then prepublish again: 0 blockers
-before the publish. Never upload a pack the page test has not passed with. If prepublish fails, do NOT publish: result "Not published:
+before the publish. After the publish, delete each blob asset_manifest.py printed as "superseded: <id>" (Artifact `delete`, `path` = the
+id; owner 25 Nov: "fix the image store issue as well"; `tools/asset_prune.py` lists any left behind). Never upload a pack the page test has not passed with. If prepublish fails, do NOT publish: result "Not published:
 <first failure>", and stop changing things.
 
 ## 5. Back up and push

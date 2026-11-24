@@ -61,7 +61,7 @@ Owner 23 Nov (verbatim): "we cannot be pinned down by imports. We should be able
      `python3 tools/redraw_before.py --auto <ids>` renders the version the checker reviewed for Review's "Before" picture (owner 18 Nov:
      the middle box said "Not kept" for that morning's fixes because this step was missing); when work-in-progress commits hold half-done edits, pass `<id>=<last publish commit>` instead of `--auto` (18 Nov:
      --auto picked a WIP commit and would have shown a half-fixed "Before") (and `asset_upload_plan.py` / upload /
-     `asset_manifest.py` for changed svg packs, as in the publish procedure).
+     `asset_manifest.py` for changed svg packs, as in the publish procedure; after that publish, delete each "superseded: <id>" blob it printed).
    - Text or solution flag: edit the database (copy questions.db into archive/ first). Mistakes in the paper are fixed (PARSE_SPEC
      "Mistakes in the paper are fixed"); record the change in the solution meta (`edited_from_original` / `overwritten_from_source`).
    - A flag that needs the owner's judgement (it would undo a recorded ruling, or the request is unclear): do not guess. Leave it
