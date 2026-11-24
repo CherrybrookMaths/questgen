@@ -18,7 +18,8 @@ A label fails when stroke ink lies within --clear pt of its glyphs (default 1.0 
 for >= 2 px at 200 dpi), or another label's glyphs lie within --clear-labels pt (default 1.0 pt), counting at least --min-px pixels
 (default 10) at --dpi (default 300). Calibrated 25 Nov on the 92 drawings the checker flagged for overlaps 17-24 Nov that were then
 fixed: it flags 86 of the 92 versions he flagged and passes 73 of the 92 fixed ones (the 19 it still flags mostly have another
-label touching that he did not mention). DIAGRAM_SPEC "Procedure per figure" 3a.
+label touching that he did not mention). Known limits: white text on a dark filled node is reported as touching its own fill;
+tick labels sitting on a dark grid count as touching; curves lighter than black!60 are not seen. DIAGRAM_SPEC "Procedure per figure" 3a.
 
 Output: one line per problem: id, label text (from the PDF, when it can be read), what it touches, pixels within the clearance and
 the smallest gap in pt. Exit 1 when any problem is found (2 when a drawing does not compile). --json prints a list instead;
