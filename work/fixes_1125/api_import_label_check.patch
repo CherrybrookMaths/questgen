@@ -1,0 +1,49 @@
+--- a/tools/api_import.py
++++ b/tools/api_import.py
+@@ -752,6 +752,15 @@
+     return True, 'ok'
+ 
+ 
++def label_problems(k):
++    """Labels touching a line, curve or another label in the compiled drawing (tools/label_overlap.py; [] = clean).
++    owner 25 Nov, relaying the checker: "MOST of the issues in diagrams come from the label overlapping with the graph or with
++    anotehr label. this SHOULD NOT happen on initial draw, check for this specifically." (DIAGRAM_SPEC "Procedure per figure" 3a)"""
++    import label_overlap as LO
++    try: return LO.problems(k)
++    except Exception as e: return [f'{k}: label check not run ({e})']
++
++
+ def diagram_tools(items):
+     known = {x['id']: x for x in items}
+ 
+@@ -766,6 +775,10 @@
+         ok, msg = render_tex(k, a['tex'])
+         if not ok: return 'compile failed:\n' + msg, False
+         out = [text_block(f'compiled {k}')]
++        lab = known[k]['_labels'] = label_problems(k)
++        out.append(text_block('label check (DIAGRAM_SPEC rules 6a/11): ' + (
++            'LABELS TOUCHING. Move each label below clear of what it touches (move the label, never the geometry), then draw again:\n'
++            + '\n'.join(lab) if lab else 'no label touches a line, curve or another label')))
+         if os.path.exists(P + f'figures/{k}.png'):
+             import overlay as OV
+             os.makedirs(P + 'tikz/overlay', exist_ok=True)
+@@ -783,6 +796,10 @@
+         e = [f'no result for {k}' for k in set(known) - {r.get('id') for r in out['results']}]
+         for r in out['results']:
+             if r.get('status') in ('ok', 'approx') and not os.path.exists(S + f'tikz/tex/{r.get("id")}.tex'): e.append(f'{r.get("id")}: status {r["status"]} but no compiled tex (draw it first)')
++            elif r.get('status') in ('ok', 'approx') and r.get('id') in known:
++                lab = known[r['id']].get('_labels')
++                if lab is None: lab = known[r['id']]['_labels'] = label_problems(r['id'])
++                e += [f'label overlap, move the label and draw again: {x}' for x in lab]
+             if r.get('status') == 'table' and not (r.get('table') or {}).get('rows'): e.append(f'{r.get("id")}: status table needs table.rows')
+             # checker 18 Nov (2023 Knox AT1 Q4c): "Make the slash between the N and r longer touching both corners": a corner cell split by a
+             #   diagonal is \diag{row label}{column label} (PARSE_SPEC), never "N \backslash r", which prints a short slash between the letters
+@@ -832,6 +849,8 @@
+             def write(out, errs, f=f, known=known):
+                 for r in out['results']:
+                     r.setdefault('overlay', (known.get(r.get('id')) or {}).get('_overlay'))
++                    # labels still touching after the retries: kept on the result (the notes also get "[API submit check unresolved]") for the human check
++                    if (known.get(r.get('id')) or {}).get('_labels'): r['label_overlap'] = known[r['id']]['_labels']
+                     if errs: r['notes'] = ((r.get('notes') or '') + ' [API submit check unresolved]').strip()
+                 out['results'] = [r for r in out['results'] if r.get('id') in known]
+                 json.dump(out, open(f, 'w'), ensure_ascii=False, indent=1)
