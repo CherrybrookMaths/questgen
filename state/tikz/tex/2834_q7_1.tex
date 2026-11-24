@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (933,453) rectangle (1192,530);
+\fill[shade] (148,530) rectangle (1192,605);
+\draw (10,12) rectangle (1192,605);
+\draw (10,75) -- (1192,75); \draw (10,143) -- (700,143);
+\foreach \y in {245,315,383,453,530} \draw (10,\y) -- (1192,\y);
+\draw (522,75) -- (522,605); \draw (700,75) -- (700,605);
+\draw (148,315) -- (148,605); \draw (933,315) -- (933,605);
+\node[anchor=west] at (18,45) {\textbf{Loan table}};
+\node[anchor=east] at (515,108) {\textit{Amount} =};
+\node[anchor=east] at (515,195) {\textit{Annual interest rate} =};
+\node[anchor=east] at (515,280) {\textit{Monthly repayment} ($R$) =};
+\node[anchor=west] at (530,108) {\$38\,000};
+\node[anchor=west] at (530,195) {7.2\%};
+\node[anchor=west] at (538,280) {\$425};
+\node[anchor=west] at (715,108) {This table assumes the same};
+\node[anchor=west] at (715,153) {number of days in each month,};
+\node[anchor=west] at (715,203) {i.e., Interest $=\dfrac{\text{rate}}{12}\times{}$ Principal};
+\node at (79,350) {\textit{Months}};
+\node[anchor=west] at (156,350) {\textit{Principal} ($P$)};
+\node[anchor=west] at (530,350) {\textit{Interest} ($I$)};
+\node[anchor=west] at (708,350) {$P+I$};
+\node[anchor=west] at (941,350) {$P+I-R$};
+\node at (79,418) {1}; \node at (79,490) {2}; \node at (79,568) {3};
+\node[anchor=west] at (156,418) {\$38\,000};
+\node[anchor=west] at (530,418) {\$228};
+\node[anchor=west] at (708,418) {\$38\,228};
+\node[anchor=west] at (941,418) {\$37\,803};
+\node[anchor=west] at (156,490) {\$37\,803};
+\node[anchor=west] at (530,490) {\$226.82};
+\node[anchor=west] at (708,490) {\$38\,029.82};
+\node[anchor=west] at (941,490) {\textbf{\$}};
+\foreach \x in {156,530,708,941} \node[anchor=west] at (\x,568) {\textbf{\$}};
+\end{tikzpicture}
+\end{document}

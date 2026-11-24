@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (E) at (240,133); \coordinate (F) at (530,38); \coordinate (H) at (677,183);
+\coordinate (G) at (630,328); \coordinate (M) at (434,426); \coordinate (D) at (190,377);
+\coordinate (C) at (45,327);
+\draw (E)--(F)--(H)--(G)--(M)--(D)--(C)--(E)--(H)--(D)--(E);
+\foreach \p in {C,D,E,F,G,H,M} \node[pt] at (\p) {};
+\begin{scope}[every node/.style={font=\large}]
+\node at (226,113) {$E$}; \node at (549,30) {$F$}; \node at (705,190) {$H$};
+\node at (649,335) {$G$}; \node at (434,453) {Dam}; \node at (182,403) {$D$};
+\node at (20,330) {$C$};
+\node at (383,60) {4}; \node at (627,100) {3}; \node at (470,125) {6};
+\node at (110,222) {10}; \node at (232,267) {3}; \node at (452,293) {8};
+\node at (672,262) {1}; \node at (103,375) {4}; \node at (310,425) {5};
+\node at (542,402) {6};
+\end{scope}
+\end{tikzpicture}
+\end{document}

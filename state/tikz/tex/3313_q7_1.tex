@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (A) at (40,85);
+  \coordinate (B) at (322,45);
+  \coordinate (C) at (387,175);
+  \coordinate (D) at (157,280);
+  % A--B
+  \draw (A) .. controls (90,65) and (200,60) .. (B);
+  % A--C
+  \draw (A) .. controls (75,90) and (95,100) .. (120,110) .. controls (170,128) and (215,145) .. (245,155) .. controls (290,168) and (340,165) .. (C);
+  % A--D
+  \draw (A) .. controls (65,160) and (100,280) .. (D);
+  % D--C
+  \draw (D) .. controls (220,285) and (290,255) .. (330,238) .. controls (370,222) and (387,205) .. (C);
+  % B--C outer
+  \draw (B) .. controls (370,40) and (425,110) .. (C);
+  % B--C inner loop
+  \draw (B) .. controls (310,72) and (270,82) .. (274,105) .. controls (280,145) and (335,150) .. (C);
+  \foreach \p in {A,B,C,D} \fill (\p) circle (5);
+  \node[font=\small] at (17,77) {$A$};
+  \node[font=\small] at (350,17) {$B$};
+  \node[font=\small] at (414,210) {$C$};
+  \node[font=\small] at (178,318) {$D$};
+\end{tikzpicture}
+\end{document}

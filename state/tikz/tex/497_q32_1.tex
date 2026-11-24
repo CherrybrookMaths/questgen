@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.9017cm,y=0.13952cm]
+% minor grid
+\foreach \k in {0.5,1,...,10} {\pgfmathparse{mod(\k,2)==0?1:0}\ifnum\pgfmathresult=0 \draw[black!18,line width=0.4pt] (\k,0)--(\k,70);\fi}
+\foreach \c in {2,4,...,70} {\pgfmathparse{mod(\c,10)==0?1:0}\ifnum\pgfmathresult=0 \draw[black!18,line width=0.4pt] (0,\c)--(10,\c);\fi}
+% major grid
+\foreach \k in {2,4,...,10} \draw[black!45,line width=0.5pt] (\k,0)--(\k,70);
+\foreach \c in {10,20,...,70} \draw[black!45,line width=0.5pt] (0,\c)--(10,\c);
+% axes
+\draw[->] (0,0)--(0,73.2);
+\draw[->] (0,0)--(10.5,0);
+\foreach \c in {2,4,...,70} \draw (-0.085,\c)--(0.085,\c);
+\foreach \k in {0.5,1,...,10} \draw (\k,-0.75)--(\k,0.75);
+\foreach \c in {0,10,...,70} \node[anchor=east,font=\small] at (-0.12,\c) {$\c$};
+\foreach \k in {0,2,...,10} \node[anchor=north,font=\small] at (\k,-1.6) {$\k$};
+\node at (0,76.3) {$C$};
+\node[anchor=west] at (10.55,0) {$k$};
+\end{tikzpicture}
+\end{document}

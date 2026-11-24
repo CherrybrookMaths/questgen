@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (42,182); \coordinate (B) at (410,92); \coordinate (F) at (503,276);
+\coordinate (D) at (727,90); \coordinate (E) at (990,226); \coordinate (C) at (505,440);
+\draw (C)--(A)--(B)--(F)--(D)--(E);
+\foreach \p in {A,B,C,D,E,F} \node[circle,fill,inner sep=2pt] at (\p) {};
+\begin{scope}[every node/.style={font=\Large}]
+\node at (55,128) {$\boldsymbol{A}$};
+\node at (415,38) {$\boldsymbol{B}$};
+\node at (730,38) {$\boldsymbol{D}$};
+\node at (555,275) {$\boldsymbol{F}$};
+\node at (1050,228) {$\boldsymbol{E}$};
+\node at (513,492) {$\boldsymbol{C}$};
+\end{scope}
+\begin{scope}[every node/.style={font=\large}]
+\node at (212,110) {30}; \node at (497,152) {70}; \node at (662,192) {90};
+\node at (910,140) {80}; \node at (217,343) {40};
+\end{scope}
+\end{tikzpicture}
+\end{document}

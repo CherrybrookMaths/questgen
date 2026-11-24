@@ -1,0 +1,44 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (925,455) rectangle (1183,532);
+\fill[shade] (140,532) rectangle (1183,608);
+\draw (2,12) rectangle (1183,608);
+\draw (2,75) -- (1183,75); \draw (2,143) -- (690,143);
+\foreach \y in {245,318,385,455,532} \draw (2,\y) -- (1183,\y);
+\draw (514,75) -- (514,608); \draw (690,75) -- (690,608);
+\draw (140,318) -- (140,608); \draw (925,318) -- (925,608);
+\node[anchor=west] at (10,45) {\textbf{Loan table}};
+\node[anchor=east] at (507,108) {\textit{Amount} =};
+\node[anchor=east] at (507,195) {\textit{Annual interest rate} =};
+\node[anchor=east] at (507,282) {\textit{Monthly repayment} ($R$) =};
+\node[anchor=west] at (522,108) {\$38\,000};
+\node[anchor=west] at (522,195) {7.2\%};
+\node[anchor=west] at (530,282) {\$425};
+\node[anchor=west] at (705,108) {This table assumes the same};
+\node[anchor=west] at (705,153) {number of days in each month,};
+\node[anchor=west] at (705,203) {i.e., Interest $=\dfrac{\text{rate}}{12}\times{}$ Principal};
+\node at (71,352) {\textit{Months}};
+\node[anchor=west] at (148,352) {\textit{Principal} ($P$)};
+\node[anchor=west] at (522,352) {\textit{Interest} ($I$)};
+\node[anchor=west] at (698,352) {$P+I$};
+\node[anchor=west] at (933,352) {$P+I-R$};
+\node at (71,420) {1}; \node at (71,493) {2}; \node at (71,570) {3};
+\node[anchor=west] at (148,420) {\$38\,000};
+\node[anchor=west] at (522,420) {\$228};
+\node[anchor=west] at (698,420) {\$38\,228};
+\node[anchor=west] at (933,420) {\$37\,803};
+\node[anchor=west] at (148,493) {\$37\,803};
+\node[anchor=west] at (522,493) {\$226.82};
+\node[anchor=west] at (698,493) {\$38\,029.82};
+\node[anchor=west] at (933,493) {\textbf{\$}\,37\,604.82};
+\node[anchor=west] at (148,570) {\textbf{\$}\,37\,604.82};
+\node[anchor=west] at (522,570) {\textbf{\$}\,225.63};
+\node[anchor=west] at (698,570) {\textbf{\$}\,37\,830.45};
+\node[anchor=west] at (933,570) {\textbf{\$}\,37\,405.45};
+\node[font=\large] at (1213,497) {$A$};
+\node[font=\large] at (630,655) {$B$};
+\node[font=\large] at (775,655) {$C$};
+\end{tikzpicture}
+\end{document}

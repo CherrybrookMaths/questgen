@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize,
+  v/.style={circle,draw,minimum size=0.76cm,inner sep=0pt}]
+\node[v] (C) at (262,237) {$C$}; \node[v] (D) at (412,237) {$D$}; \node[v] (E) at (560,82) {$E$};
+\node[v] (F) at (900,80) {$F$}; \node[v] (G) at (1122,240) {$G$}; \node[v] (H) at (895,402) {$H$}; \node[v] (I) at (675,397) {$I$};
+\draw[->] (C)--(D); \draw[->] (D)--(E); \draw[->] (E)--(F); \draw[->] (F)--(G); \draw[->] (E)--(G);
+\draw[->] (E)--(H); \draw[->] (D)--(H); \draw[->] (D)--(I); \draw[->] (I)--(H); \draw[->] (H)--(G);
+\node[anchor=east] at (224,237) {Source}; \node[anchor=west] at (1162,240) {Sink};
+\node at (333,218) {200}; \node at (500,173) {40}; \node at (727,60) {20}; \node at (1040,138) {43};
+\node at (870,190) {23}; \node at (748,225) {27}; \node at (635,285) {20}; \node at (528,340) {40};
+\node at (780,418) {29}; \node at (1032,342) {34};
+% cuts (minimum cut 74 solid, others dashed)
+\draw[aux] (430,120) .. controls (472,180) and (455,300) .. (445,370); \node[font=\small] at (437,405) {100};
+\draw[aux] (410,75) .. controls (560,150) and (800,300) .. (812,445); \node[font=\small] at (840,462) {89};
+\draw (480,85) .. controls (600,190) and (900,300) .. (1015,400); \node[font=\small] at (1020,430) {74};
+\draw[aux] (835,10) .. controls (870,150) and (1000,300) .. (1080,440); \node[font=\small] at (1095,462) {77};
+\draw[aux] (1090,160) .. controls (1072,260) and (1085,350) .. (1130,410); \node[font=\small] at (1170,425) {100};
+\end{tikzpicture}
+\end{document}

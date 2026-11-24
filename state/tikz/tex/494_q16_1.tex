@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (70,143); \coordinate (B) at (283,45); \coordinate (D) at (536,45);
+\coordinate (F) at (433,196); \coordinate (E) at (790,196); \coordinate (C) at (382,400);
+\draw (A)--(B)--(D)--(E)--(C)--(A); \draw (B)--(C); \draw (B)--(F)--(D); \draw (F)--(C);
+\foreach \p in {A,B,C,D,E,F} \node[pt] at (\p) {};
+\node[font=\large] at (42,130) {$A$};
+\node at (45,178) {Gate};
+\node[font=\large] at (250,38) {$B$};
+\node[font=\large] at (563,36) {$D$};
+\node[font=\large] at (460,207) {$F$};
+\node[font=\large] at (816,205) {$E$};
+\node[font=\large] at (402,428) {$C$};
+\begin{scope}[every node/.style={font=\large}]
+\node at (147,80) {30}; \node at (428,22) {200}; \node at (384,105) {70};
+\node at (512,128) {90}; \node at (692,108) {80}; \node at (284,213) {150};
+\node at (440,295) {85}; \node at (178,270) {40}; \node at (612,373) {120};
+\end{scope}
+\end{tikzpicture}
+\end{document}

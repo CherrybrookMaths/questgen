@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (1000,335);
+\draw plot[variable=\t,domain=12:192,samples=60,smooth] ({\t},{70-8*sin(4*(\t-12))});
+\draw plot[variable=\t,domain=432:620,samples=60,smooth] ({\t},{70-8*sin(4*(\t-432))});
+\draw (192,67)--(388,67);
+\draw (192,67) arc[start angle=180,end angle=0,x radius=98,y radius=54];
+\node at (290,97) {boat};
+\draw (388,68)--(432,68);
+\draw (426,68) arc[start angle=0,end angle=57.4,radius=38];
+\draw (470,44)--(423,83);
+\node at (488,20) {$49^\circ$};
+\draw[aux] (388,68)--(525,282);
+\draw[dash pattern=on 0.6pt off 1.2pt, line width=0.5pt] (388,68)--(388,282);
+\draw[aux] (12,282)--(572,282);
+\fill (525,282) circle (4.5);
+\node at (532,307) {$A$};
+\node at (295,306) {lake bed};
+\draw (468,190)--(548,162);
+\node[anchor=west] at (546,162) {rope: 16.2 m};
+\node[align=center] at (830,232) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

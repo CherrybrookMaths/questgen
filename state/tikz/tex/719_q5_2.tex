@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (v1) at (98,25); \coordinate (v2) at (263,25); \coordinate (v3) at (345,166);
+\coordinate (v4) at (263,309); \coordinate (v5) at (98,309); \coordinate (v6) at (18,166);
+\foreach \i in {1,...,6}{\foreach \j in {1,...,6}{\ifnum\i<\j \draw (v\i)--(v\j);\fi}}
+\foreach \i in {1,...,6} \fill (v\i) circle (1.4pt);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\newcommand{\bx}[4]{\draw (#1-35,#2-20) rectangle (#1+35,#2+20); \draw (#1,#2-20)--(#1,#2+20);
+  \node at (#1-17.5,#2) {#3}; \node at (#1+17.5,#2) {#4};}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small,
+  marr/.style={postaction={decorate,decoration={markings,mark=at position #1 with {\arrow{>}}}}}]
+\coordinate (n0) at (70,248); \coordinate (n1) at (256,250); \coordinate (n2) at (412,93); \coordinate (n3) at (620,93);
+\coordinate (n4) at (867,240); \coordinate (n5) at (1115,240); \coordinate (n6) at (385,430);
+\draw[marr=0.56] (n0)--(n1); \draw (n1)--(n2); \draw[marr=0.56] (n2)--(n3); \draw[marr=0.64] (n3)--(n4);
+\draw[marr=0.56] (n4)--(n5); \draw[marr=0.75] (n1)--(n6); \draw[marr=0.62] (n6)--(n4);
+\draw[marr=0.6] (n6) .. controls (520,482) and (790,455) .. (n4);
+\foreach \p in {n0,n1,n2,n3,n4,n5,n6} \fill (\p) circle (6.5);
+\bx{60}{187}{}{} \bx{235}{195}{}{} \bx{400}{47}{}{} \bx{622}{47}{}{} \bx{877}{186}{}{} \bx{1110}{190}{}{} \bx{360}{475}{}{}
+\node at (160,213) {$A$, 3}; \node at (305,155) {$B$, 5}; \node at (515,62) {$D$, 6}; \node at (770,145) {$G$, 5};
+\node at (985,212) {$H$, 4}; \node at (298,355) {$C$, 3}; \node at (583,325) {$E$, 7}; \node at (692,467) {$F$, 4};
+\end{tikzpicture}
+\end{document}

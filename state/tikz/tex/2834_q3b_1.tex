@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {5,10,...,55} \draw[black!20] ({108+13.4*\i},14) -- ({108+13.4*\i},600);
+\foreach \j in {50,100,...,350} \draw[black!20] (108,{600-1.673*\j}) -- (845,{600-1.673*\j});
+\foreach \i in {1,...,54} {\pgfmathtruncatemacro\m{mod(\i,5)}\ifnum\m=0\else\draw ({108+13.4*\i},600) -- ({108+13.4*\i},594);\fi}
+\foreach \j in {10,20,...,340} {\pgfmathtruncatemacro\m{mod(\j,50)}\ifnum\m=0\else\draw (108,{600-1.673*\j}) -- (114,{600-1.673*\j});\fi}
+\draw (108,14) -- (108,600) -- (845,600);
+\foreach \i in {0,5,...,55} \node[font=\footnotesize] at ({108+13.4*\i},634) {\i};
+\foreach \j in {0,50,...,350} \node[anchor=east,font=\footnotesize] at (90,{600-1.673*\j}) {\j};
+\draw[line width=0.9pt] (108,600) -- ({108+13.4*50},{600-1.673*300});
+\draw[aux,line width=0.9pt] (108,{600-1.673*110}) -- ({108+13.4*50},{600-1.673*210});
+\draw[line width=0.9pt] (900,330) -- (975,330); \node[anchor=west,font=\small] at (978,330) {Income};
+\draw[aux,line width=0.9pt] (900,377) -- (975,377); \node[anchor=west,font=\small] at (978,377) {Cost};
+\node[rotate=90,font=\small] at (25,310) {Dollars (\$)};
+\node[font=\small] at (475,673) {Number of cupcakes sold};
+\end{tikzpicture}
+\end{document}

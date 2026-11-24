@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{155}\def\oy{592}\def\sx{9.92}\def\sy{4.675}
+\draw[black!20] (2,2) rectangle (1196,725);
+\foreach \g in {10,20,...,100} \draw[black!20] ({\ox+\sx*\g},{\oy}) -- ({\ox+\sx*\g},{\oy-\sy*120});
+\foreach \g in {20,40,...,120} \draw[black!20] ({\ox},{\oy-\sy*\g}) -- ({\ox+\sx*100},{\oy-\sy*\g});
+\draw[black!45] (\ox,\oy) -- ({\ox+\sx*100},\oy);
+\draw[black!45] (\ox,\oy) -- (\ox,{\oy-\sy*120});
+\foreach \g in {0,10,...,100} {\draw[black!45] ({\ox+\sx*\g},\oy) -- ({\ox+\sx*\g},{\oy+7});
+  \node[font=\small] at ({\ox+\sx*\g},{\oy+30}) {\g};}
+\foreach \g in {0,20,...,120} {\draw[black!45] (\ox,{\oy-\sy*\g}) -- ({\ox-7},{\oy-\sy*\g});
+  \node[font=\small,anchor=east] at ({\ox-10},{\oy-\sy*\g}) {\g};}
+\foreach \a/\b in {5/97,10/100,18/85,30/75,50/70,58/64,65/65}
+  \fill ({\ox+\sx*\a},{\oy-\sy*\b}) circle[radius=0.09cm];
+\node[font=\large\bfseries,rotate=90] at (62,311) {Pulse Rate};
+\node[font=\large\bfseries] at (651,668) {Game Score};
+\end{tikzpicture}
+\end{document}

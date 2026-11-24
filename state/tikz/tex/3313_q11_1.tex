@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small,
+  marr/.style={postaction={decorate,decoration={markings,mark=at position #1 with {\arrow{>}}}}}]
+\coordinate (S) at (95,171); \coordinate (N1) at (288,171); \coordinate (T) at (441,16); \coordinate (M) at (518,171);
+\coordinate (Bo) at (518,362); \coordinate (N4) at (750,171); \coordinate (Fi) at (943,171);
+\draw[marr=0.6] (S)--(N1); \draw[marr=0.58] (N1)--(T); \draw[marr=0.58] (T)--(N4);
+\draw[marr=0.62] (N1)--(M); \draw[marr=0.62] (M)--(N4); \draw[marr=0.56] (N1)--(Bo);
+\draw[marr=0.56] (Bo)--(N4); \draw[marr=0.6] (N4)--(Fi); \draw[aux,marr=0.62] (T)--(M);
+\foreach \p in {S,N1,T,M,Bo,N4,Fi} \fill (\p) circle (8);
+\node[anchor=east] at (78,171) {Start}; \node[anchor=west] at (960,171) {Finish};
+\node at (190,140) {$A$, 4}; \node at (325,75) {$B$, 4}; \node at (445,197) {$C$, 5}; \node at (622,197) {$F$, 7};
+\node at (643,72) {$G$, 3}; \node at (372,300) {$D$, 8}; \node at (680,280) {$E$, 9}; \node at (858,140) {$H$, 2};
+\end{tikzpicture}
+\end{document}

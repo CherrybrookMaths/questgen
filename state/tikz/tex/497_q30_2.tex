@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (2,2) rectangle (1247,808);
+\foreach \x/\y/\lx/\ly/\t in {677/102/705/102/B,227/171/197/160/M,469/310/473/285/G,920/310/954/310/L,88/379/57/379/D,642/449/656/469/E,1128/484/1160/484/R,227/622/196/622/Q,573/692/586/714/T} {
+  \fill (\x,\y) circle[radius=0.075cm];
+  \node at (\lx,\ly) {$\t$};}
+\end{tikzpicture}
+\end{document}

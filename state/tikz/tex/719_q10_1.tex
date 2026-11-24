@@ -1,0 +1,49 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% brick wall
+\draw (25,20) -- (155,20);
+\foreach \i in {0,...,23}{
+  \pgfmathsetmacro\yy{28+15.96*\i}
+  \pgfmathsetmacro\ya{max(20,\yy-15.96)}
+  \pgfmathsetmacro\xe{(\yy>26 && \yy<119) ? 135 : 155}
+  \pgfmathparse{\yy<402 ? 1 : 0}
+  \ifnum\pgfmathresult=1 \draw (25,\yy) -- (\xe,\yy);\fi
+  \pgfmathsetmacro\yb{min(403,\yy)}
+  \ifodd\i
+    \draw (38,\ya)--(38,\yb) (88,\ya)--(88,\yb);
+    \pgfmathparse{(\yy>10 && \yy<125) ? 0 : 1}
+    \ifnum\pgfmathresult=1 \draw (138,\ya)--(138,\yb);\fi
+  \else
+    \draw (63,\ya)--(63,\yb) (113,\ya)--(113,\yb);
+  \fi
+}
+\draw (63,396)--(63,403) (113,396)--(113,403);
+\draw (155,20) -- (155,403);
+% window
+\draw (135,30) rectangle (155,115);
+\draw (140,38) rectangle (150,107);
+% ground and right angle
+\draw (25,403) -- (722,403);
+\draw (155,381) -- (177,381) -- (177,403);
+% sight line
+\draw[aux] (155,112) -- (553,112);
+\draw (155,112) -- (578,403);
+\draw[->] (272,112) arc[start angle=0,end angle=34.5,radius=117];
+\node at (230,134) {$40^\circ$};
+% car
+\draw plot[smooth cycle,tension=0.6] coordinates {(574,396) (582,382) (598,366) (617,357) (636,358) (651,371) (664,383) (668,396)};
+\draw (598,381) -- (612,369) -- (632,369) -- (644,381) -- cycle;
+\draw (620,369) -- (620,381);
+\draw (592,397) circle[radius=8]; \draw (592,397) circle[radius=3];
+\draw (651,397) circle[radius=8]; \draw (651,397) circle[radius=3];
+\node at (662,352) {Car};
+\node[align=center] at (668,216) {NOT TO\\SCALE};
+% dimension
+\draw (155,414) -- (155,436); \draw (578,414) -- (578,436);
+\draw[aux,<-] (155,425) -- (318,425);
+\draw[aux,->] (412,425) -- (578,425);
+\node at (365,425) {$50$ m};
+\end{tikzpicture}
+\end{document}

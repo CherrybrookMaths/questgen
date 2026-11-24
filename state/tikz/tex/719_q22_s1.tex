@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (H) at (155,282); \coordinate (S) at (400,155); \coordinate (P) at (790,425);
+\draw (H) -- (S) -- (P) -- cycle;
+\draw[aux,->] (H) -- (155,135);
+\draw[aux,->] (S) -- (400,35);
+\draw[aux] (S) -- (400,270);
+\draw[aux,->] (P) -- (790,250);
+\draw[->] (H) ++(0,-60) arc[start angle=90,end angle=27.4,radius=0.762cm];
+\draw[->] (S) ++(0,-50) arc[start angle=90,end angle=-34.7,radius=0.635cm];
+\draw[->] (P) ++(0,-50) arc[start angle=90,end angle=-192.7,radius=0.635cm];
+% angles x, y at S (solution: x alternate to 63, y = 180-124)
+\draw (S) ++(207.4:0.75cm) arc[start angle=207.4,end angle=270,radius=0.75cm];
+\draw (S) ++(270:0.95cm) arc[start angle=270,end angle=325.3,radius=0.95cm];
+\node at ($(S)+(240:1.15cm)$) {$x$};
+\node at ($(S)+(296:1.3cm)$) {$y$};
+% angles 56 and Z at P
+\draw (P) ++(90:1.05cm) arc[start angle=90,end angle=145.3,radius=1.05cm];
+\draw (P) ++(145.3:1.7cm) arc[start angle=145.3,end angle=167.3,radius=1.7cm];
+\node[font=\small] at ($(P)+(112:1.5cm)$) {$56^\circ$};
+\node at ($(P)+(157:2.1cm)$) {$Z$};
+\node[font=\small] at (195,205) {$63^\circ$};
+\node[font=\small] at (468,110) {$124^\circ$};
+\node[font=\small,anchor=east] at (385,130) {Shop $(S)$};
+\node[font=\small,anchor=east] at (178,310) {House $(H)$};
+\node[font=\small,anchor=west] at (836,397) {Post office};
+\node[font=\small,anchor=west] at (836,434) {$(P)$};
+\node[font=\small,rotate=27.4] at (290,232) {5.59 km};
+\node[font=\small,rotate=-12.7] at (470,345) {13.34 km};
+\end{tikzpicture}
+\end{document}

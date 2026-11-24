@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % axes
+  \draw[->] (8,453) -- (762,453) node[right,inner sep=2pt] {$x$};
+  \draw[->] (316,600) -- (316,42) node[above,inner sep=2pt] {$y$};
+  % guide lines
+  \draw[aux] (316,300) -- (443,300) -- (443,453);
+  % lines through (443,300)
+  \draw[<->] (265,{300-178*1.11}) -- (675,{300+232*1.11});
+  \draw[<->] (128,{300+315*0.815}) -- (598,{300-155*0.815});
+  \node at (247,88) {$L_1$};
+  \node at (622,158) {$L_2$};
+  \node at (297,300) {$4$};
+  \node at (297,482) {$0$};
+  \node at (443,482) {$2$};
+  \node[align=left,anchor=north west,inner sep=0pt] at (712,258) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

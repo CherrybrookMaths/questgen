@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\xo{148}\def\sx{79.2}\def\yo{640}\def\sy{8.95}
+% grid
+\foreach \k in {1,3,...,19} \draw[black!18,line width=0.4pt] ({\xo+\sx*\k/2},{\yo}) -- ({\xo+\sx*\k/2},{\yo-60*\sy});
+\foreach \k in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19,21,22,23,24,26,27,28,29} \draw[black!18,line width=0.4pt] (\xo,{\yo-2*\k*\sy}) -- ({\xo+10*\sx},{\yo-2*\k*\sy});
+\foreach \k in {1,...,9} \draw[black!40,line width=0.4pt] ({\xo+\sx*\k},{\yo}) -- ({\xo+\sx*\k},{\yo-60*\sy});
+\foreach \k in {1,...,5} \draw[black!40,line width=0.4pt] (\xo,{\yo-10*\k*\sy}) -- ({\xo+10*\sx},{\yo-10*\k*\sy});
+\draw (\xo,{\yo-60*\sy}) rectangle ({\xo+10*\sx},\yo);
+% ticks
+\foreach \k in {1,...,19} \draw ({\xo+\sx*\k/2},\yo) -- ({\xo+\sx*\k/2},{\yo-7});
+\foreach \k in {1,...,29} \draw (\xo,{\yo-2*\k*\sy}) -- ({\xo+7},{\yo-2*\k*\sy});
+% tick labels
+\foreach \n in {0,...,10} \node at ({\xo+\sx*\n},685) {$\n$};
+\foreach \r in {40,50,...,100} \node[anchor=east] at (134,{\yo-\sy*(\r-40)}) {$\r$};
+\node[font=\large] at (148,63) {$R$};
+\node[font=\large] at (972,640) {$n$};
+\node[font=\large] at (545,728) {Time absent (days)};
+\node[font=\large,rotate=90] at (45,372) {Quiz result (\%)};
+% data
+\foreach \n/\r in {0/90,1/88,1/85,2/84,3/86,3/80,4/75,4/70,5/60,6/72,7/64,10/55}
+  \fill ({\xo+\sx*\n},{\yo-\sy*(\r-40)}) circle[radius=9.5];
+\end{tikzpicture}
+\end{document}

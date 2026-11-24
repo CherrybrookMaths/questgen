@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\cx{129}\def\cy{136}\def\r{116}
+\coordinate (O) at (\cx,\cy);
+\draw ({\cx+\r*cos(62)},{\cy-\r*sin(62)}) -- (O) -- ({\cx+\r*cos(-52)},{\cy-\r*sin(-52)});
+\draw ({\cx+\r*cos(62)},{\cy-\r*sin(62)}) arc[start angle=-62, end angle=-308, radius=\r];
+\draw ({\cx+58*cos(62)-7*sin(62)},{\cy-58*sin(62)-7*cos(62)}) -- ({\cx+58*cos(62)+7*sin(62)},{\cy-58*sin(62)+7*cos(62)});
+\draw ({\cx+58*cos(-52)-7*sin(-52)},{\cy-58*sin(-52)-7*cos(-52)}) -- ({\cx+58*cos(-52)+7*sin(-52)},{\cy-58*sin(-52)+7*cos(-52)});
+\node[font=\small] at (202,97) {6 cm};
+\node[font=\small] at (174,135) {$120^\circ$};
+\node[font=\small] at (515,120) {Not to scale};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{11}{13}\selectfont}]
+  \begin{scope}[shift={(215,403)},xscale=7.41,yscale=-4.26]
+    \foreach \x in {110,120,...,180} \draw[black!35,line width=0.5pt] ({\x-100},0)--({\x-100},94.6);
+    \foreach \y in {20,40,60,80} \draw[black!35,line width=0.5pt] (0,\y)--(80,\y);
+    \draw (0,0)--(80,0);
+    \draw (0,0)--(0,94.6);
+    \foreach \x in {2,4,...,78} \draw (\x,0)--(\x,1.4);
+    \foreach \y in {4,8,...,92} \draw (0,\y)--(0.8,\y);
+    \foreach \x in {100,110,...,180} \node[anchor=north] at ({\x-100},-5) {$\x$};
+    \foreach \y in {0,20,...,80} \node[anchor=east] at (-3.5,\y) {$\y$};
+    \foreach \a/\b in {110/42,118/30,125/39,130/40,131/50,139/78,140/66,150/58,151/59,154/75,155/77,158/80,165/85,175/90}
+      \node[circle,fill,inner sep=0pt,minimum size=4.6pt] at ({\a-100},\b) {};
+  \end{scope}
+  \node at (512,486) {Height (in cm)};
+  \node[align=center] at (78,232) {Lung Space\\(in mL)};
+\end{tikzpicture}
+\end{document}

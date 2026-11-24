@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (B) at (628,80);
+\coordinate (M) at (320,153);
+\coordinate (G) at (478,203);
+\coordinate (D) at (182,225);
+\coordinate (L) at (812,217);
+\coordinate (Q) at (276,325);
+\coordinate (E) at (632,326);
+\coordinate (R) at (1033,340);
+\coordinate (T) at (568,429);
+\draw (D)--(M) (D)--(Q) (M)--(B) (M)--(G) (B)--(G) (B)--(L) (G)--(L) (G)--(Q) (G)--(E) (E)--(L) (Q)--(E) (Q)--(T) (E)--(T) (T)--(R) (L)--(R);
+\foreach \p in {B,M,G,D,L,Q,E,R,T} {\fill (\p) circle[radius=0.085cm];}
+\foreach \x/\y/\t in {225/182/9,205/288/8,462/92/15,358/196/8,588/142/11,738/130/12,668/188/16,350/252/10,575/250/13,688/268/14,464/300/17,400/400/18,578/377/7,826/410/25,950/262/16} {\node[font=\small] at (\x,\y) {\t};}
+\node[font=\small] at (700,44) {Budge Gee};
+\node[font=\small] at (292,120) {Miner};
+\node[font=\small] at (478,163) {Gullie};
+\node[font=\small] at (82,220) {Dove Nest};
+\node[font=\small] at (905,196) {Lorry Kete};
+\node[font=\small] at (262,357) {Quacker};
+\node[font=\small] at (692,348) {Ecky};
+\node[font=\small] at (1065,374) {Ringer};
+\node[font=\small] at (583,467) {Tiel Town};
+\node[font=\small, align=center] at (1080,129) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

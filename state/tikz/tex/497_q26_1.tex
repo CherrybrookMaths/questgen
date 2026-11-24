@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \v in {5,10,...,40} {\draw[black!35, line width=0.4pt] (88,{458-10.75*\v}) -- (810,{458-10.75*\v});}
+\foreach \i/\h in {1/36,2/19,3/13,4/6,5/4,6/3,7/5} {\fill[black!40] ({88+103.14*(\i-0.5)-21},458) rectangle ({88+103.14*(\i-0.5)+21},{458-10.75*\h});}
+\draw (88,28) -- (88,458) -- (810,458) -- (810,28);
+\foreach \v in {0,5,...,40} {\draw (82,{458-10.75*\v}) -- (88,{458-10.75*\v}); \node[anchor=east,font=\footnotesize] at (72,{458-10.75*\v}) {\v};}
+\foreach \p in {0,20,...,120} {\draw (810,{458-3.5833*\p}) -- (816,{458-3.5833*\p}); \node[anchor=west,font=\footnotesize] at (822,{458-3.5833*\p}) {\p\%};}
+\foreach \i in {0,...,7} {\draw ({88+103.14*\i},458) -- ({88+103.14*\i},466);}
+\draw[line width=0.9pt] (139.6,{458-3.5833*41.86}) -- (242.7,{458-3.5833*63.95}) -- (345.9,{458-3.5833*79.07}) -- (449,{458-3.5833*86.05}) -- (552.1,{458-3.5833*90.70}) -- (655.3,{458-3.5833*94.19}) -- (758.4,{458-3.5833*100});
+\foreach \i/\p/\t in {1/41.86/42,2/63.95/64,3/79.07/79,4/86.05/86,5/90.70/91,6/94.19/94,7/100/100} {
+  \node[diamond, fill, inner sep=0pt, minimum size=5pt] at ({88+103.14*(\i-0.5)},{458-3.5833*\p}) {};
+  \node[font=\footnotesize] at ({88+103.14*(\i-0.5)},{458-3.5833*\p-40}) {\t\%};}
+\foreach \i/\t in {1/Installation,2/Software Fault,3/Shipping,4/Configuration,5/Hardware Fault,6/Connectivity,7/Other} {
+  \node[rotate=90, anchor=east, font=\footnotesize] at ({88+103.14*(\i-0.5)},474) {\t};}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \p/\x/\y in {A/100/207,B/460/118,D/775/118,F/549/302,E/1040/260,C/551/467}
+  {\coordinate (\p) at (\x,\y); \node[circle,fill,inner sep=2pt] at (\x,\y) {};}
+\begin{scope}[every node/.style={font=\Large}]
+\node at (105,155) {$\boldsymbol{A}$};
+\node at (463,66) {$\boldsymbol{B}$};
+\node at (780,66) {$\boldsymbol{D}$};
+\node at (600,302) {$\boldsymbol{F}$};
+\node at (1095,260) {$\boldsymbol{E}$};
+\node at (553,522) {$\boldsymbol{C}$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

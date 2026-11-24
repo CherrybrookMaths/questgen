@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \setlength\treeL{2.9cm}
+  \setlength\treeresultsep{1.5cm}
+  \treewidth{1}{$O$}\treewidth{1}{$A$}\treewidth{2}{$O$}\treewidth{2}{$A$}
+  \treecolumns{2}
+  % pixel rows * 0.0127cm; level 1 +-175 px, level 2 +-130 px
+  \treeroot{r}{-5.61cm}
+  \treenode{o}{1}{-3.39cm}{$O$}
+  \treenode{a}{1}{-7.84cm}{$A$}
+  \treenode{oo}{2}{-1.74cm}{$O$}
+  \treenode{oa}{2}{-5.04cm}{$A$}
+  \treenode{ao}{2}{-6.19cm}{$O$}
+  \treenode{aa}{2}{-9.49cm}{$A$}
+  \treebranch{r}{o}{$\dfrac{8}{21}$}
+  \treebranch{r}{a}{$\dfrac{13}{21}$}
+  \treebranch{o}{oo}{$\dfrac{7}{20}$}
+  \treebranch{o}{oa}{$\dfrac{13}{20}$}
+  \treebranch{a}{ao}{$\dfrac{8}{20}$}
+  \treebranch{a}{aa}{$\dfrac{12}{20}$}
+  \coordinate (m1) at ($(r-out)!0.5!(o-in)$);
+  \coordinate (m2) at ($(o-out)!0.5!(oo-in)$);
+  \node[tree head] at (m1 |- 0,-0.65cm) {Jack};
+  \node[tree head] at (m2 |- 0,-0.65cm) {Jill};
+  \treeresulthead{-0.65cm}{Outcomes}
+  \treeresult{-1.74cm}{$OO$}
+  \treeresult{-5.04cm}{$OA$}
+  \treeresult{-6.19cm}{$AO$}
+  \treeresult{-9.49cm}{$AA$}
+\end{tikzpicture}
+\end{document}

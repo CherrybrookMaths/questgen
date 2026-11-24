@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[->] (60,248) -- (400,248);
+  \draw[->] (60,248) -- (60,38);
+  \draw[line width=0.9pt, smooth, samples=90, domain=60:297] plot (\x, {248-195*((\x-60)/118.5)*((297-\x)/118.5)});
+  \node[font=\footnotesize] at (74,28) {$A$};
+  \node[font=\footnotesize] at (411,247) {$x$};
+  \node[font=\footnotesize] at (33,272) {$0$};
+  \node[font=\footnotesize] at (298,272) {$60$};
+\end{tikzpicture}
+\end{document}

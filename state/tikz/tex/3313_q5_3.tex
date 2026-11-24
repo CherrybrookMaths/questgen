@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.701cm, y=0.701cm]
+  \foreach \i in {-1,1,2,3,4,6} \draw[black!25, line width=0.4pt] (\i,-0.9) -- (\i,6.94);
+  \foreach \j in {1,2,3,4,6} \draw[black!25, line width=0.4pt] (-1.96,\j) -- (6.96,\j);
+  \draw[black!60] (5,-0.9) -- (5,6.94); \draw[black!60] (-1.96,5) -- (6.96,5);
+  \draw (0,-0.9) -- (0,6.94); \draw (-1.96,0) -- (6.96,0);
+  \node[font=\scriptsize, anchor=north east, inner sep=1.5pt] at (0,0) {$0$};
+  \node[font=\scriptsize, anchor=north east, inner sep=1.5pt] at (0,5) {$5$};
+  \node[font=\scriptsize, anchor=north east, inner sep=1.5pt] at (5,0) {$5$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=-1.96:6.96] plot (\x, {2^(-\x)+1});
+\end{tikzpicture}
+\end{document}

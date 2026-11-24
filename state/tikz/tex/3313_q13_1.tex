@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize,
+  v/.style={circle,draw,minimum size=0.76cm,inner sep=0pt}]
+\node[v] (C) at (120,212) {$C$}; \node[v] (D) at (272,212) {$D$}; \node[v] (E) at (418,48) {$E$};
+\node[v] (F) at (770,50) {$F$}; \node[v] (G) at (990,222) {$G$}; \node[v] (H) at (750,383) {$H$}; \node[v] (I) at (545,378) {$I$};
+\draw[->] (C)--(D); \draw[->] (D)--(E); \draw[->] (E)--(F); \draw[->] (F)--(G); \draw[->] (E)--(G);
+\draw[->] (E)--(H); \draw[->] (D)--(H); \draw[->] (D)--(I); \draw[->] (I)--(H); \draw[->] (H)--(G);
+\node[anchor=east] at (82,212) {Source}; \node[anchor=west] at (1028,215) {Sink};
+\node at (190,196) {200}; \node at (358,150) {40}; \node at (588,32) {20}; \node at (900,120) {43};
+\node at (735,165) {23}; \node at (608,193) {27}; \node at (493,255) {20}; \node at (395,322) {40};
+\node at (637,397) {29}; \node at (893,327) {34};
+\end{tikzpicture}
+\end{document}

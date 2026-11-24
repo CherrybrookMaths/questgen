@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ox{113}\def\oy{697}\def\sx{134.2}\def\sy{2.664}
+% grid
+\foreach \i in {1,...,55}{\pgfmathtruncatemacro\r{mod(\i,5)}\pgfmathsetmacro\xx{\ox+\i*\sx/10}
+  \ifnum\r=0 \draw[black!60,line width=0.6pt] (\xx,\oy)--(\xx,{\oy-250*\sy});
+  \else \draw[black!40,line width=0.3pt,dotted] (\xx,\oy)--(\xx,{\oy-250*\sy}); \fi}
+\foreach \j in {1,...,50}{\pgfmathtruncatemacro\r{mod(\j,5)}\pgfmathsetmacro\yy{\oy-\j*5*\sy}
+  \ifnum\r=0 \draw[black!60,line width=0.6pt] (\ox,\yy)--({\ox+5.5*\sx},\yy);
+  \else \draw[black!40,line width=0.3pt,dotted] (\ox,\yy)--({\ox+5.5*\sx},\yy); \fi}
+% ticks
+\foreach \i in {1,...,55}{\pgfmathtruncatemacro\r{mod(\i,5)}\pgfmathsetmacro\xx{\ox+\i*\sx/10}
+  \ifnum\r=0 \draw (\xx,\oy)--(\xx,\oy+14); \else \draw (\xx,\oy)--(\xx,\oy+7); \fi}
+\foreach \j in {1,...,50}{\pgfmathtruncatemacro\r{mod(\j,5)}\pgfmathsetmacro\yy{\oy-\j*5*\sy}
+  \ifnum\r=0 \draw (\ox,\yy)--(\ox-12,\yy); \else \draw (\ox,\yy)--(\ox-6,\yy); \fi}
+% axes
+\draw[->] (\ox,\oy)--(875,\oy);
+\draw[->] (\ox,\oy)--(\ox,8);
+\node at (95,730) {\scriptsize 0};
+\foreach \k in {1,...,5}{\node at ({\ox+\k*\sx},732) {\scriptsize \k};}
+\foreach \v in {50,100,...,250}{\node[anchor=east] at (100,{\oy-\v*\sy}) {\scriptsize \v};}
+\node[rotate=90] at (22,365) {\scriptsize Cooking time, $t$ (minutes)};
+\node at (500,773) {\scriptsize Mass of turkey, $M$ (kg)};
+% data points
+\foreach \m/\t in {3.0/125,3.4/145,3.8/155,4.2/180,4.6/190,5.0/210,5.4/220}
+  \node[pt] at ({\ox+\m*\sx},{\oy-\t*\sy}) {};
+\end{tikzpicture}
+\end{document}

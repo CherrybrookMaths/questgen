@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (TL) at (96,22); \coordinate (TR) at (254,22); \coordinate (R) at (333,160);
+\coordinate (BR) at (254,297); \coordinate (BL) at (96,297); \coordinate (L) at (16,160);
+\draw (TL)--(TR)--(R)--(BR)--(BL)--(L)--cycle;
+\draw (TL)--(BL) (TR)--(BR) (TL)--(R) (TR)--(L) (BL)--(R) (BR)--(L);
+\foreach \p in {TL,TR,R,BR,BL,L} \fill (\p) circle (1.4pt);
+\end{tikzpicture}
+\end{document}

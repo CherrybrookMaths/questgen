@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \begin{scope}[shift={(97,752)},xscale=8.01,yscale=-0.7278]
+    % minor grid
+    \foreach \v in {2,4,...,126}{\pgfmathtruncatemacro\m{mod(\v,10)}\ifnum\m=0\else\draw[black!12,line width=0.4pt] (\v,0) -- (\v,990);\fi}
+    \foreach \v in {20,40,...,980}{\pgfmathtruncatemacro\m{mod(\v,100)}\ifnum\m=0\else\draw[black!12,line width=0.4pt] (0,\v) -- (126,\v);\fi}
+    % major grid
+    \foreach \v in {10,20,...,120} \draw[black!35,line width=0.6pt] (\v,0) -- (\v,990);
+    \foreach \v in {100,200,...,900} \draw[black!35,line width=0.6pt] (0,\v) -- (126,\v);
+    % axes
+    \draw[->] (0,0) -- (127.5,0);
+    \draw[->] (0,0) -- (0,995);
+    \node[anchor=south] at (124.5,3) {$x$};
+    \node[anchor=north west,inner sep=1pt] at (0.8,995) {$y$};
+    \node[font=\footnotesize] at (-1.5,-27) {$0$};
+    \foreach \v in {10,20,...,120} \node[font=\footnotesize] at (\v,-27) {$\v$};
+    \foreach \v in {100,200,...,900} \node[font=\footnotesize,anchor=east] at (-1.2,\v) {$\v$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

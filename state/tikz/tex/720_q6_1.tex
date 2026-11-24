@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \setlength\treeL{2.8cm}
+  \treewidth{1}{$O$}\treewidth{1}{$A$}\treewidth{2}{$O$}\treewidth{2}{$A$}
+  \treecolumns{2}
+  \treeroot{r}{-5.14cm}
+  \treenode{o}{1}{-3.33cm}{$O$}
+  \treenode{a}{1}{-6.96cm}{$A$}
+  \treenode{oo}{2}{-1.87cm}{$O$}
+  \treenode{oa}{2}{-4.79cm}{$A$}
+  \treenode{ao}{2}{-5.50cm}{$O$}
+  \treenode{aa}{2}{-8.42cm}{$A$}
+  \treebranch{r}{o}{}
+  \treebranch{r}{a}{}
+  \treebranch{o}{oo}{}
+  \treebranch{o}{oa}{}
+  \treebranch{a}{ao}{}
+  \treebranch{a}{aa}{}
+  \coordinate (m1) at ($(r-out)!0.5!(o-in)$);
+  \coordinate (m2) at ($(o-out)!0.5!(oo-in)$);
+  \node[tree head] at (m1 |- 0,-0.45cm) {Jack};
+  \node[tree head] at (m2 |- 0,-0.45cm) {Jill};
+\end{tikzpicture}
+\end{document}

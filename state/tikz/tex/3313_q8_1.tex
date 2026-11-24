@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\coordinate (A) at (206,58); \coordinate (B) at (350,132); \coordinate (C) at (480,195);
+\coordinate (F) at (60,188); \coordinate (E) at (262,276); \coordinate (G) at (207,411); \coordinate (D) at (461,415);
+\draw (F) .. controls (55,95) and (85,58) .. (A);
+\draw (A)--(B) (B)--(C) (F)--(B) (E)--(C) (F)--(E) (F)--(G) (E)--(G) (G)--(D);
+\draw (B) .. controls (305,185) and (272,225) .. (E);
+\draw (G) .. controls (330,412) and (472,325) .. (C);
+\draw (C) .. controls (548,265) and (550,385) .. (D);
+\foreach \p in {A,B,C,D,E,F,G} \fill (\p) circle (5.5);
+\node at (204,32) {$A$}; \node at (358,108) {$B$}; \node at (500,184) {$C$}; \node at (30,200) {$F$};
+\node at (280,302) {$E$}; \node at (211,435) {$G$}; \node at (463,440) {$D$};
+\node at (50,92) {120}; \node at (287,74) {91}; \node at (432,152) {108}; \node at (185,152) {145};
+\node at (260,207) {97}; \node at (356,217) {128}; \node at (170,263) {84}; \node at (105,325) {104};
+\node at (214,343) {96}; \node at (367,325) {187}; \node at (555,330) {164}; \node at (357,433) {132};
+\end{tikzpicture}
+\end{document}

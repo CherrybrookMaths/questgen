@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\scriptsize}]
+\coordinate (P) at (303,220);
+\coordinate (B) at (211,110); \coordinate (C) at (432,83); \coordinate (A) at (127,201);
+\coordinate (D) at (410,253); \coordinate (E) at (224,337);
+\draw (A)--(B)--(C)--(D)--(E)--cycle;
+\draw[->] (P) -- ($(P)!1.80!(B)$);
+\draw[->] (P) -- ($(P)!1.64!(C)$);
+\draw[->] (P) -- ($(P)!1.67!(A)$);
+\draw[->] (P) -- ($(P)!2.35!(D)$);
+\draw[->] (P) -- ($(P)!1.94!(E)$);
+\draw[->] (P) -- (303,70);
+\node at (303,57) {N};
+\node[pt] at (P) {};
+\node at (215,93) {$B$};
+\node at (443,90) {$C$};
+\node at (116,187) {$A$};
+\node at (424,270) {$D$};
+\node at (230,352) {$E$};
+\node at (306,240) {$P$};
+\node at (272,142) {37 m};
+\node at (360,118) {48 m};
+\node at (180,186) {45 m};
+\node at (365,220) {28 m};
+\node at (232,277) {35 m};
+\node at (178,22) {$325^\circ$};
+\node at (553,22) {$040^\circ$};
+\node at (30,214) {$280^\circ$};
+\node at (540,270) {$110^\circ$};
+\node at (180,447) {$220^\circ$};
+\end{tikzpicture}
+\end{document}

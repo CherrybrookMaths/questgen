@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (12,12) rectangle (1255,825);
+\coordinate (M) at (242,182); \coordinate (B) at (693,115); \coordinate (G) at (484,322);
+\coordinate (D) at (103,390); \coordinate (E) at (656,462); \coordinate (L) at (936,323);
+\coordinate (R) at (1142,497); \coordinate (Q) at (240,633); \coordinate (T) at (587,704);
+\draw[line width=0.9pt] (Q)--(D)--(M)--(G)--(B)--(L)--(R);
+\draw[line width=0.9pt] (G)--(E)--(T);
+\foreach \p in {M,B,G,D,E,L,R,Q,T} \fill (\p) circle (4.5);
+\node[anchor=east] at (230,168) {$M$};
+\node[anchor=west] at (706,113) {$B$};
+\node at (487,296) {$G$};
+\node[anchor=east] at (88,388) {$D$};
+\node at (671,482) {$E$};
+\node[anchor=west] at (955,323) {$L$};
+\node[anchor=west] at (1160,497) {$R$};
+\node[anchor=east] at (222,633) {$Q$};
+\node at (598,727) {$T$};
+\begin{scope}[font=\LARGE]
+\node at (122,222) {$9$};
+\node at (368,205) {$8$};
+\node at (548,180) {$11$};
+\node at (895,195) {$12$};
+\node at (614,367) {$13$};
+\node at (1090,385) {$16$};
+\node at (118,503) {$8$};
+\node at (662,608) {$7$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

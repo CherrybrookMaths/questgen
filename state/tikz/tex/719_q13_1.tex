@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (46,263); \coordinate (B) at (287,70); \coordinate (C) at (353,215);
+\coordinate (D) at (425,178); \coordinate (E) at (540,64); \coordinate (G) at (688,224);
+\coordinate (F) at (890,175); \coordinate (H) at (570,337); \coordinate (I) at (442,422);
+\coordinate (J) at (140,477);
+\path[shade dots, stipple color=black!45] (A)--(B)--(C)--(D)--(E)--(G)--(H)--(I)--(J)--cycle;
+\draw (A)--(B)--(I)--(J)--cycle;
+\draw (C)--(D)--(E)--(G)--(H)--(I);
+\draw (D)--(H); \draw (G)--(F);
+\node at (290,48) {$B$}; \node at (533,45) {$E$}; \node at (416,160) {$D$};
+\node at (333,230) {\halo{$C$}}; \node at (28,266) {$A$}; \node at (700,246) {$G$};
+\node at (906,176) {$F$}; \node at (578,358) {$H$}; \node at (447,442) {$I$};
+\node at (148,498) {$J$};
+\node at (152,152) {$21$}; \node at (343,133) {$15$}; \node at (384,182) {$8$};
+\node at (466,103) {$14$}; \node at (632,128) {$18$}; \node at (815,220) {$16$};
+\node at (477,272) {\halo{$16$}}; \node at (644,297) {$14$}; \node at (368,318) {\halo{$16$}};
+\node at (517,401) {$12$}; \node at (298,470) {$22$}; \node at (72,390) {$16$};
+\end{tikzpicture}
+\end{document}

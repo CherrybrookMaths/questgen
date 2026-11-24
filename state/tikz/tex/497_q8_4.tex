@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (F) at (106,77); \coordinate (J) at (203,43); \coordinate (B) at (171,129);
+\coordinate (E) at (328,139); \coordinate (A) at (35,189); \coordinate (D) at (256,228);
+\coordinate (C) at (174,257); \coordinate (H) at (234,314);
+\draw (F)--(J) (F)--(A) (F)--(B) (J)--(B) (J)--(E) (A)--(B) (A)--(C) (B)--(E) (B)--(C) (B)--(D) (E)--(D) (C)--(D) (C)--(H) (D)--(H);
+\foreach \p in {A,B,C,D,E,F,H,J} \fill (\p) circle (2.6);
+\node at (97,54) {$F$}; \node at (207,19) {$J$}; \node at (160,104) {$B$}; \node at (335,113) {$E$};
+\node at (27,163) {$A$}; \node at (274,232) {$D$}; \node at (152,272) {$C$}; \node at (234,336) {$H$};
+\end{tikzpicture}
+\end{document}

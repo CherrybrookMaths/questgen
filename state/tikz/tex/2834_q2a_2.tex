@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\footnotesize}]
+  \draw[->] (105,226) -- (105,40);
+  \draw[->] (105,226) -- (300,226);
+  \node at (130,24) {Value};
+  \node at (310,246) {Time};
+  \node at (50,76) {(B)};
+  \draw[line width=0.9pt, smooth, samples=90, domain=83:2] plot ({80+208*cos(\x)},{215-153*sin(\x)});
+\end{tikzpicture}
+\end{document}

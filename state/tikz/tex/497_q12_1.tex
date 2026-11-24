@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% paths (hand wobble removed)
+\draw plot[smooth,tension=0.6] coordinates {(58,460) (85,390) (108,325) (140,290) (180,242)};
+\draw plot[smooth,tension=0.6] coordinates {(180,242) (270,238) (303,215) (318,180) (345,170) (385,165) (405,152) (417,125)};
+\draw plot[smooth,tension=0.6] coordinates {(417,125) (440,160) (490,230) (518,290) (530,340) (556,357)};
+\draw plot[smooth,tension=0.6] coordinates {(58,460) (120,385) (200,320) (270,300) (350,325) (430,358) (500,362) (556,357)};
+\draw plot[smooth,tension=0.6] coordinates {(58,460) (150,400) (270,357) (340,372) (400,400) (470,405) (520,385) (556,357)};
+\draw plot[smooth,tension=0.6] coordinates {(556,357) (590,330) (628,288) (688,222) (728,148) (768,72) (795,40)};
+\draw plot[smooth,tension=0.6] coordinates {(795,40) (835,85) (880,140) (910,188) (960,200) (998,203)};
+\draw plot[smooth,tension=0.6] coordinates {(556,357) (640,328) (720,290) (766,195) (793,215) (822,228) (878,213) (950,245) (995,238) (998,203)};
+\draw plot[smooth,tension=0.6] coordinates {(556,357) (620,375) (700,380) (760,370) (820,350) (865,326)};
+\draw plot[smooth,tension=0.6] coordinates {(865,326) (900,292) (940,290) (995,330) (1015,332) (1038,300) (1018,255) (1005,215) (998,203)};
+\foreach \p in {(58,460),(180,242),(417,125),(556,357),(795,40),(998,203),(865,326)}
+  \fill \p ++(-5,-5) rectangle ++(10,10);
+\node at (340,38) {NOT TO SCALE};
+\node at (148,216) {$B$}; \node at (444,100) {$C$}; \node at (546,288) {$D$}; \node at (768,22) {$F$};
+\node at (1023,162) {$G$}; \node at (867,355) {$E$}; \node at (20,428) {$A$};
+\node at (82,330) {$4$}; \node at (313,160) {$16$}; \node at (497,208) {$7$}; \node at (406,303) {$26$};
+\node at (270,408) {$28$}; \node at (648,172) {$15$}; \node at (815,190) {$23$}; \node at (910,115) {$9$};
+\node at (765,382) {$9$}; \node at (962,352) {$8$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (47,96) -- (986,96);
+\foreach \x/\l in {47/A,361/B,673/C,986/D}{
+  \fill (\x,96) circle[radius=8];
+  \node at (\x+20,65) {$\l$};
+}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (80,290); \coordinate (B) at (330,82); \coordinate (C) at (399,240);
+\coordinate (D) at (474,200); \coordinate (E) at (588,82); \coordinate (G) at (742,247);
+\coordinate (F) at (965,197); \coordinate (H) at (622,365); \coordinate (I) at (487,447);
+\coordinate (J) at (178,510);
+\path[shade dots, stipple color=black!45] (A)--(B)--(C)--(D)--(E)--(G)--(H)--(I)--(J)--cycle;
+% edges not in the tree (grey)
+\draw[black!45] (C)--(I)--(J) (E)--(G);
+% minimum spanning tree (emphasised)
+\draw[line width=0.9pt] (J)--(A)--(B)--(C)--(D)--(E) (D)--(H)--(I) (H)--(G)--(F);
+\node at (333,62) {$B$}; \node at (585,62) {$E$}; \node at (462,180) {$D$};
+\node at (378,256) {\halo{$C$}}; \node at (61,289) {$A$}; \node at (754,270) {$G$};
+\node at (980,193) {$F$}; \node at (633,386) {$H$}; \node at (493,469) {$I$};
+\node at (180,527) {$J$};
+\node at (190,170) {$21$}; \node at (390,153) {$15$}; \node at (430,201) {$8$};
+\node at (517,125) {$14$}; \node at (684,148) {$18$}; \node at (870,243) {$16$};
+\node at (522,297) {\halo{$16$}}; \node at (700,321) {$14$}; \node at (415,343) {\halo{$16$}};
+\node at (566,426) {$12$}; \node at (345,500) {$22$}; \node at (108,412) {$16$};
+\end{tikzpicture}
+\end{document}

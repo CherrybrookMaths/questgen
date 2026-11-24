@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (225,75) -- (600,75) -- (600,303) -- (105,303);
+\draw (176,193) -- (600,193);
+\draw (225,75) .. controls (205,135) and (190,170) .. (176,193) .. controls (150,235) and (125,270) .. (105,303);
+\foreach \x/\y in {30/86,128/101,5/156,118/154,65/233} {
+  \draw (\x,\y) .. controls ({\x+12},{\y-6}) and ({\x+30},{\y-8}) .. ({\x+36},{\y+2}) .. controls ({\x+38},{\y+8}) and ({\x+44},{\y+9}) .. ({\x+50},{\y+8});
+}
+\node[rotate=90,font=\small] at (90,160) {RIVER};
+\node[font=\small] at (378,45) {14 m};
+\node[font=\small] at (380,158) {18 m};
+\node[font=\small] at (380,270) {23 m};
+\node[font=\small] at (645,138) {4 m};
+\node[font=\small] at (645,250) {4 m};
+\node[font=\small,align=center] at (826,95) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

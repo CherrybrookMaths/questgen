@@ -12,6 +12,8 @@ const {chromium}=require('playwright');
   await p.route(/cdn\.jsdelivr\.net\/npm\//,r=>{const u=new URL(r.request().url()).pathname.replace(/^\/npm\//,'').replace(/@\d+\.\d+\.\d+/g,'');
     const f=NM+u; if(fs.existsSync(f)) r.fulfill({path:f,contentType:f.endsWith('.js')?'application/javascript':f.endsWith('.json')?'application/json':undefined}); else r.abort()});
   await p.route(/fonts\.(googleapis|gstatic)\.com/,r=>r.abort());
+  // Standard papers are only in the Standard bank (STANDARD_SPEC): QG_COURSE=standard opens the page on that course (the page's own switch, localStorage 'course')
+  if(process.env.QG_COURSE) await p.addInitScript(c=>{try{localStorage.setItem('course',c)}catch(e){}},process.env.QG_COURSE);
   await p.goto('http://localhost:8765/review.html#bank'); await p.waitForFunction('typeof B==="object"&&B&&window.MathJax&&MathJax.startup&&MathJax.startup.promise',null,{timeout:60000});
   await p.evaluate(()=>MathJax.startup.promise);
   const res=await p.evaluate(async(docs)=>{

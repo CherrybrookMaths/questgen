@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \v in {10,20,30,40,50,60} {\draw[black!30, line width=0.4pt, dash pattern=on 1pt off 1.5pt] (165,{547-8.75*\v}) -- (685,{547-8.75*\v});}
+\draw (218,547) rectangle (318,459.5);
+\draw (318,547) rectangle (420,328.25);
+\draw (420,547) rectangle (522,153.25);
+\draw (522,547) rectangle (627,22);
+\draw (165,547) -- (165,22);
+\draw (165,547) -- (685,547);
+\foreach \v in {0,10,20,30,40,50,60} {\draw (158,{547-8.75*\v}) -- (165,{547-8.75*\v}); \node[anchor=east] at (148,{547-8.75*\v}) {\v};}
+\foreach \x/\t in {268/3,370/3:30,472/4,575/4:30} {\draw (\x,547) -- (\x,554); \node at (\x,583) {\t};}
+\draw[aux] (165,284.5) -- (445.5,284.5) -- (445.5,547);
+\draw[line width=0.9pt] (218,547) -- (318,459.5) -- (420,328.25) -- (522,153.25) -- (627,22);
+\node[rotate=90] at (55,285) {Cumulative frequency};
+\node at (420,640) {Class centre};
+\end{tikzpicture}
+\end{document}

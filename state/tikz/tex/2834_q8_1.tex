@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \n in {0.5,1,...,10} \draw[black!25] ({222+77.56*\n},75) -- ({222+77.56*\n},716);
+\foreach \v in {1,...,30} \draw[black!25] (222,{716-21.37*\v}) -- (998,{716-21.37*\v});
+\foreach \v in {5,10,...,30} \draw (209,{716-21.37*\v}) -- (222,{716-21.37*\v});
+\foreach \v in {1,...,29} {\pgfmathtruncatemacro\m{mod(\v,5)}\ifnum\m=0\else\draw (215,{716-21.37*\v}) -- (222,{716-21.37*\v});\fi}
+\foreach \n in {1,...,10} \draw ({222+77.56*\n},716) -- ({222+77.56*\n},728);
+\foreach \n in {0.5,1.5,...,9.5} \draw ({222+77.56*\n},716) -- ({222+77.56*\n},723);
+\draw[->] (222,716) -- (1060,716);
+\draw[->] (222,716) -- (222,15);
+\draw[line width=0.9pt] (222,{716-21.37*27}) -- ({222+77.56*9},716);
+\foreach \v in {5,10,...,30} \node[anchor=east,font=\large] at (205,{716-21.37*\v}) {\v000};
+\node[font=\large] at (200,736) {0};
+\foreach \n in {1,...,10} \node[font=\large] at ({222+77.56*\n},760) {\n};
+\node at (600,795) {Time (years)};
+\node[rotate=90] at (40,400) {Salvage Value (\$)};
+\end{tikzpicture}
+\end{document}

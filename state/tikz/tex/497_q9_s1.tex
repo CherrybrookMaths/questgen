@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\draw (0,0)--(0,2.9) node[above]{$N$};
+\draw[aux] (0,0)--(0,-2.9) node[below]{$S$};
+\draw[aux] (0,0)--(2.9,0) node[right]{$E$};
+\draw[aux] (0,0)--(-2.9,0) node[left]{$W$};
+\draw (0,0)--(200:2.9);
+\node[anchor=south east,inner sep=2pt] at (0,0) {$O$};
+% bearing 250
+\draw[->] (0,2.2) arc[start angle=90,end angle=-160,radius=2.2];
+\node at (45:2.7) {$250^\circ$};
+% 180 from N to S
+\draw[->] (0,1.1) arc[start angle=90,end angle=-90,radius=1.1];
+\node at (32:1.65) {$180^\circ$};
+% 70 between S and ray
+\draw (200:0.75) arc[start angle=200,end angle=270,radius=0.75];
+\node at (238:1.25) {$70^\circ$};
+\end{tikzpicture}
+\end{document}

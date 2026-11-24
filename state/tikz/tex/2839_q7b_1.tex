@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\footnotesize}]
+\coordinate (A) at (35,305); \coordinate (B) at (283,305); \coordinate (S) at (541,305); \coordinate (L) at (541,38);
+\draw (A)--(S)--(L)--cycle;
+\draw (B)--(L);
+\draw (523,305)--(523,287)--(541,287);
+\draw[aux,->] (A)--(35,110);
+\draw[aux,->] (B)--(283,110);
+\draw[aux,->] (S)--(652,305);
+\node at (35,96) {N};
+\node at (283,96) {N};
+\node[anchor=west] at (652,305) {E};
+\draw[->] (A) ++(0,-55) arc[start angle=-90,end angle=-27.8,radius=55];
+\draw[->] (B) ++(0,-45) arc[start angle=-90,end angle=-46,radius=45];
+\node at (64,240) {$62^\circ$};
+\node at (312,237) {$44^\circ$};
+\node at (35,325) {$A$};
+\node at (283,325) {$B$};
+\node at (541,325) {$S$};
+\node at (541,20) {$L$};
+\node at (157,325) {500 m};
+\end{tikzpicture}
+\end{document}

@@ -717,4 +717,46 @@ _l = db.execute("select latex from solutions where id=7973").fetchone()[0]
 _old = "The source guideline gives the withdrawal as $\\$60$.\n$$\\therefore\\ \\text{withdrawal}=\\$60$$"
 if _old in _l:
     db.execute("update solutions set latex=? where id=7973", (_l.replace(_old, "To the nearest $\\$10$, $52.79\\approx50$.\n$$\\therefore\\ \\text{withdrawal}=\\$50$$\n(The school's guideline gave $\\$60$.)"),))
-db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21')
+# Standard batch 3 (run s3, 24 Nov evening; owner: "Just go and run 8 batches, its fine."): the verifier's 13 findings on 2024 William
+# Clarke AT3, 2024 Oakhill AT1/AT2, 2024 CTHS AT1/AT3 and 2023 Knox AT1/AT2, checked by hand. Owner 12 Nov: "if you are certain the
+# source is wrong and your maths is right, just overwrite it". Redraws fixed in state/tikz/tex: 494_q9_s1 (the school's network drew
+# the 310 edge A-D; the table has A-E) and 719_q12_s1 (edge B-E had no 4500). Your call: 2023 Knox AT1 Q3(a) (17 or 47 days).
+def _sol9367(l, c):   # 2024 CTHS AT3 Q23(a): the school's working answered another version (area of ABO only)
+    return (r"""\exfigure{719_q23_s1}
+The angles at $O$ between neighbouring rays are the differences of the bearings:
+$$\begin{aligned} \angle AOB &= 360^\circ-316^\circ+58^\circ = 102^\circ \\ \angle BOC &= 125^\circ-58^\circ = 67^\circ \\ \angle COD &= 238^\circ-125^\circ = 113^\circ \\ \angle DOA &= 316^\circ-238^\circ = 78^\circ \end{aligned}$$
+Using $A=\dfrac12ab\sin C$ for each triangle:
+$$\begin{aligned} A &= \tfrac12(84)(57)\sin102^\circ+\tfrac12(57)(62)\sin67^\circ+\tfrac12(62)(77)\sin113^\circ+\tfrac12(77)(84)\sin78^\circ \\ &= 2341.68\ldots+1626.53\ldots+2197.24\ldots+3163.32\ldots \\ &= 9328.79\ldots \\ &\approx 9329 \text{ m}^2 \end{aligned}$$""", c)
+def _sol9368(l, c):   # 2024 CTHS AT3 Q23(b): follows from the whole area
+    return (r"""The council takes $10\%$, leaving $90\%$ of the land.
+$$0.90 \times 9329 = 8396.1 \text{ m}^2$$
+$$\dfrac{8396.1}{550} = 15.26\ldots$$
+Only whole sections of at least $550 \text{ m}^2$ count, so round down.
+$$\therefore\ 15 \text{ sections}$$""", c)
+def _sol9312(l, c):   # 2024 Oakhill AT2 Q31: 13 April (included) to 30 April is 18 days
+    return (l.replace(r'This balance accrues interest for $11$ days.', r'This balance accrues interest from 13 April to 30 April, $18$ days (both included).')
+             .replace(r'A &= 349.91\left(1 + \dfrac{0.185}{365}\right)^{11} \\ &= \$351.87', r'A &= 349.91\left(1 + \dfrac{0.185}{365}\right)^{18} \\ &= \$353.12'), c)
+def _sol9376(l, c):   # 2023 Knox AT1 Q3(a): the 30 interest-free days are 15 Oct to 13 Nov
+    return (r"""The interest-free period is the first 30 days, 15 October to 13 November. Interest is then charged from 14 November to 30 November, which is 17 days (both dates counted).
+$$\begin{aligned} FV &= 1405.95\left(1 + \dfrac{0.128}{365}\right)^{17} \\ &= \$1414.36 \end{aligned}$$
+This matches option B.""", c)
+C22 = [
+ (9391, [(r'$$m = \dfrac{27000}{9} = 3000$$', r'$$m = -\dfrac{27\,000}{9} = -3000$$')], [], r'the gradient was given as $3000$; the line falls, so it is $-3000$ (a fall of $\$3000$ per year)', None),
+ (9252, [(r'E &= 19-7-6 = 3', r'E &= 19-7-6 = 6')], [], r'$19-7-6$ was written as $3$; it is $6$ (the answer $F$ is unchanged)', None),
+ (9266, [(r'\text{Cost} &= 0.295\times 1.8\times 4 \\ &= \$2.12', r'\text{Cost} &= 0.295\times 1.8\times 4\times 30 \\ &= \$63.72')], [], r'the working costed one day ($\$2.12$), as the school did; for the 30 days of June it is $\$63.72$', None),
+ (9294, [(r'673.08 \times 52 &\approx \$35\,000', r'673.08 \times 52 &= \$35\,000.16'), (r'\text{Refund} &= 35\,000 - 31\,075.23', r'\text{Refund} &= 35\,000.16 - 31\,075.23')], [], r'PAYG was rounded to $\$35\,000$, which gives $\$3924.77$; it is $\$35\,000.16$, so the refund is $\$3924.93$', None),
+ (9317, [(r'S &= 34\,000 - 2600 \times 6 \\ &= \$18\,400', r'S &= 34\,600 - 2600 \times 6 \\ &= \$19\,000')], [], r'the working used $\$34\,000$; the car cost $\$34\,600$, so it is worth $\$19\,000$', None),
+ (9318, [(r'29\,810 &= 34\,000(1 - r)^4 \\ \dfrac{29\,810}{34\,000} &= (1 - r)^4 \\ r &= 1 - \sqrt[4]{\dfrac{29\,810}{34\,000}} \\ &\approx 0.032', r'29\,810 &= 34\,600(1 - r)^4 \\ \dfrac{29\,810}{34\,600} &= (1 - r)^4 \\ r &= 1 - \sqrt[4]{\dfrac{29\,810}{34\,600}} \\ &\approx 0.0366'), (r'r = 3.2\%', r'r = 3.7\%')], [], r'the working used $\$34\,000$; with $\$34\,600$ the rate is $3.7\%$, not $3.2\%$', None),
+ (9312, [], [], r'the $\$349.91$ balance was charged for $11$ days; 13 to 30 April (both included) is $18$ days, so the closing balance is $\$353.12$', _sol9312),
+ (9376, [], [], r'the working charged interest for 15 to 31 October inside the interest-free period; the 17 days are 14 to 30 November (key B unchanged)', _sol9376),
+ (9367, [], [], r'the school worked another version of the question (area of triangle $AOB$ only, $2342$ m$^2$); the subdivision is all four triangles, $9329$ m$^2$', _sol9367),
+ (9368, [], [], r'follows from the whole area: $0.9\times9329\div550=15.26$, so $15$ sections, not $3$', _sol9368),
+]
+for sid, lat, crit, note, extra in C22:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+if db.execute("select is_correct from mcq_options where question_id=6093 and label='C'").fetchone()[0]:   # 2024 Oakhill AT2 Q1: key C -> D
+    db.execute("update mcq_options set is_correct=(label='D') where question_id=6093")   # 0.002073 to 2 s.f. is 2.1 x 10^-3 (the school circled C)
+db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22')

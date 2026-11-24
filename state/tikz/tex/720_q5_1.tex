@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (C) at (195,185);
+  \fill[black!25] (C) circle (12);
+  \foreach \a in {0,30,...,330} \draw (C) -- ++(\a:165);
+  \draw (C) circle (12);
+  \draw (C) circle (165);
+  \foreach \t/\n in {105/2,75/12,45/11,15/3,-15/10,-45/7,-75/1,-105/4,-135/6,-165/8,165/5,135/9}
+    \node at ($(C)+(-\t:115)$) {$\n$};
+\end{tikzpicture}
+\end{document}
