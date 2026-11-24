@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \x in {3,82,161,240,319,398,477} \draw[black!35] (\x,0) -- (\x,405);
+\foreach \y in {8,87,165,243,322,401} \draw[black!35] (0,\y) -- (480,\y);
+\path[shade dots, stipple color=black!55] (82,322) -- plot[smooth] coordinates {(82,243) (161,230) (240,170) (282,122) (322,87) (366,68) (398,82)} -- (398,322) -- cycle;
+\draw (398,82) -- (398,322) -- (82,322) -- (82,243);
+\draw plot[smooth] coordinates {(82,243) (161,230) (240,170) (282,122) (322,87) (366,68) (398,82)};
+\node[font=\fontsize{13.5}{16}\selectfont] at (285,275) {\halo{Reservoir}};
+\end{tikzpicture}
+\end{document}

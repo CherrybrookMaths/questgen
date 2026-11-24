@@ -284,8 +284,13 @@ def task_of(r):
     p = r['source_path']; f = p.lower()
     if r['task_type'] == 'hsc' or re.search(r'hsc-math', f): return 'HSC'
     if p.startswith('HSC Paper Solutions/') and re.search(r'\bhsc\b', os.path.basename(f)): return 'HSC'   # owner 23 Nov (school_of above)
-    if re.search(r'trial|at4|task ?4|ap4|_task4', f): return 'AT4'
-    m = re.search(r'(?:at|task|ap)[ _]?([1-4])(?![0-9])', f) or re.search(r'/at([1-4])/', f) or re.search(r'\bh([1-4]) adv', f) or re.search(r'\bt([1-4])\b', f)
+    # owner 25 Nov: "AP3 is assessment period 3, AT3 is assessment task 3. I'm pretty sure they do it in the order AT1, AP3, AT3, AP4.
+    # AP1 and 2 are in Y11"; on naming: "You choose i dont' care as long as its clear" -> named as the school does: AP<n> stays AP<n>.
+    # Before, AP3 was read as AT3 and AP4 as AT4, so 16 CTHS papers took the AT name and the real AT3 papers were never imported.
+    m = re.search(r'(?<![a-z])ap[ _]?([1-4])(?![0-9])', os.path.basename(f))
+    if m: return 'AP' + m.group(1)
+    if re.search(r'trial|at4|task ?4|_task4', f): return 'AT4'
+    m = re.search(r'(?:at|task)[ _]?([1-4])(?![0-9])', f) or re.search(r'/at([1-4])/', f) or re.search(r'\bh([1-4]) adv', f) or re.search(r'\bt([1-4])\b', f)
     if m: return 'AT' + m.group(1)
     if r['task_type'] == 'trial' or school_of(r) in SETTER_OK | SETTER_ASK | {'CSSA?'}: return 'AT4'   # commercial and association papers are trials
     return '?'

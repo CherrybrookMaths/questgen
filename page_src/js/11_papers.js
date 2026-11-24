@@ -14,8 +14,9 @@ function renderPapers(){
     return {d:main,ds,qs,uq,marks,mcq,done,w:W.get(mainDoc(main.id))||paperWork(main.id),year:+(String(main.label).match(/\d{4}/)||[0])[0]}})
     .sort((a,b)=>b.year-a.year||docLabel(a.d).localeCompare(docLabel(b.d)));
   // owner 12 Nov: filtering on the papers page
-  const PF=PFILT; const school=r=>docLabel(r.d).replace(/^\d{4}\s+/,'').replace(/\s+(AT\d|HSC)$/,'');
-  const task=r=>(docLabel(r.d).match(/\b(AT\d|HSC)\b/)||[,''])[1];
+  // owner 25 Nov: "AP3 is assessment period 3, AT3 is assessment task 3" (CTHS): AP<n> is a task name of its own, like AT<n>
+  const PF=PFILT; const school=r=>docLabel(r.d).replace(/^\d{4}\s+/,'').replace(/\s+(A[TP]\d|HSC)$/,'');
+  const task=r=>(docLabel(r.d).match(/\b(A[TP]\d|HSC)\b/)||[,''])[1];
   const prog=r=>r.done===0?'none':r.done>=r.uq.length?'done':'some';
   const progOK=r=>!PF.prog||(PF.prog==='todo'?r.w.n>0:PF.prog==='unseen'?!SEEN.has(String(r.w.doc)):prog(r)===PF.prog);   // owner 24 Nov: unseen = the checker has not looked at it
   const allRows=rows;

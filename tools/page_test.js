@@ -2776,24 +2776,27 @@ async function dataSplit(browser, base, seed) {
     // 17 Nov: a cleared paper with an item back in review gets its scans back (image_lifecycle), so pick a crop whose paper has none
     const ck = Object.keys(crop).map(k => k.replace(/^figures\/|\.png$/g, '')).find(k => !kept.includes(k.split('_')[0])), cdoc = ck.split('_')[0];
     assert(kept.length, 'no paper in review has a per-paper pack: pick another fixture');
-    const kpack = JSON.parse(fs.readFileSync(path.join(SITE, 'data/img', kept[0] + '.json'), 'utf8')), kpage = Object.keys(kpack).find(k => k.startsWith('pages/'));
     const p = await newPage(browser, base, seed, {width: 1280, theme: 'light'}); log(p);
     try {
       await boot(p, base, '#bank');
+      // 25 Nov: the page opens on the Advanced bank, and once every cleared Advanced paper is archived the first pack on disk is a
+      // Standard paper (1229), which the open bank's index does not list: test a paper in review of the open course
+      const kdoc = await p.evaluate(ids => ids.find(d => B.docs[d]) || ids[0], kept);
+      const kpack = JSON.parse(fs.readFileSync(path.join(SITE, 'data/img', kdoc + '.json'), 'utf8')), kpage = Object.keys(kpack).find(k => k.startsWith('pages/'));
       const r = await p.evaluate(async ({ck, cdoc, kpage, kdoc}) => {
         const box = document.createElement('div'); document.body.appendChild(box);
         box.innerHTML = `<img class="fig" data-k="${ck}" data-kind="png"><img data-page="pages/${cdoc}_1.jpg"><img data-page="${kpage}">`;
         hydrate(box, {id: 0, parts: [], figures: []}, 'bank');
         const t0 = Date.now(); while (Date.now() - t0 < 10000 && (!box.children[0].getAttribute('src') || !box.children[2].getAttribute('src'))) await new Promise(z => setTimeout(z, 100));
         const out = {crop: !!box.children[0].getAttribute('src'), gone: box.children[1].classList.contains('rv-gone') && !box.children[1].getAttribute('src'),
-          scan: !!box.children[2].getAttribute('src'), ipC: !!B.docs[cdoc]?.ip, ipK: !!B.docs[kdoc]?.ip}; box.remove(); return out }, {ck, cdoc, kpage, kdoc: kept[0]});
+          scan: !!box.children[2].getAttribute('src'), ipC: !!B.docs[cdoc]?.ip, ipK: !!B.docs[kdoc]?.ip}; box.remove(); return out }, {ck, cdoc, kpage, kdoc});
       const urls = p._req.map(x => x.u), e = takeErrs(p);
       assert(!e.length, e.slice(0, 3).join(' | '));
-      assert(!r.ipC && r.ipK, `index flags: cleared paper ${cdoc} ip=${r.ipC}, paper in review ${kept[0]} ip=${r.ipK}`);
+      assert(!r.ipC && r.ipK, `index flags: cleared paper ${cdoc} ip=${r.ipC}, paper in review ${kdoc} ip=${r.ipK}`);
       assert(r.crop && urls.some(u => /^data\/crop\/g\d+\.json$/.test(u)) && !urls.includes(`data/img/${cdoc}.json`), `crop ${ck}: shown ${r.crop}; requests ${urls.filter(u => /^data\/(img|crop)\//.test(u)).join(' ')}`);
       assert(r.gone, `the cleared paper's page scan did not say it was removed`);
-      assert(r.scan && urls.includes(`data/img/${kept[0]}.json`), `paper in review ${kept[0]}: scan shown ${r.scan}`);
-      return `crop ${ck} from ${urls.find(u => /^data\/crop\//.test(u))}; paper ${cdoc}'s scan: "removed after review"; paper ${kept[0]} (in review) scan from its own pack`;
+      assert(r.scan && urls.includes(`data/img/${kdoc}.json`), `paper in review ${kdoc}: scan shown ${r.scan}`);
+      return `crop ${ck} from ${urls.find(u => /^data\/crop\//.test(u))}; paper ${cdoc}'s scan: "removed after review"; paper ${kdoc} (in review) scan from its own pack`;
     } finally { await p.context().close() }
   });
   await check('data: a details file that fails: the Bank says so with Try again, which then loads it', null, async () => {

@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (25,283) -- (990,283);
+\draw[->] (502,538) -- (502,8);
+\node at (966,310) {$x$};
+\node at (488,20) {$y$};
+\foreach \x in {263,342,421,581,661,740} \draw (\x,277) -- (\x,289);
+\draw (496,103) -- (508,103);
+\draw (496,463) -- (508,463);
+\draw[aux, line width=0.4pt, dash pattern=on 1pt off 1.5pt] (263,330) -- (263,463);
+\draw[aux, line width=0.4pt, dash pattern=on 1pt off 1.5pt] (421,103) -- (421,283);
+\draw[aux, line width=0.4pt, dash pattern=on 1pt off 1.5pt] (661,103) -- (661,283);
+\draw[aux, line width=0.4pt, dash pattern=on 1pt off 1.5pt] (740,330) -- (740,463);
+\draw[line width=0.9pt] (25,463) -- (263,463) -- (421,103) -- (661,103) -- (740,463) -- (985,463);
+\node at (262,316) {$-3$};
+\node at (362,316) {$-2$};
+\node at (420,316) {$-1$};
+\node at (581,316) {$1$};
+\node at (661,316) {$2$};
+\node at (740,316) {$3$};
+\node at (720,262) {$2.5$};
+\node at (488,85) {$1$};
+\node at (481,463) {$-1$};
+\node at (575,72) {$y=f(x)$};
+\node at (180,85) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

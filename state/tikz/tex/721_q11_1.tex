@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  ma/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+  lb/.style={font=\normalsize}]
+\coordinate (S) at (85,195); \coordinate (A) at (210,195); \coordinate (B) at (333,72);
+\coordinate (D) at (663,72); \coordinate (F) at (870,195); \coordinate (T) at (993,195);
+\coordinate (C) at (457,320); \coordinate (E) at (745,320);
+\draw[ma=0.6] (S)--(A); \draw[ma=0.55] (A)--(B); \draw[ma=0.55] (A)--(C);
+\draw[ma=0.58] (B)--(D); \draw[ma=0.6] (C)--(B); \draw[ma=0.6] (C)--(D);
+\draw[ma=0.62] (C)--(E); \draw[ma=0.43] (E)--(D); \draw[ma=0.57] (D)--(F);
+\draw[ma=0.63] (E)--(F); \draw[ma=0.6] (F)--(T);
+\foreach \p in {S,A,B,D,F,T,C,E} \fill (\p) circle (8);
+\node[lb] at (58,193) {$S$}; \node[lb] at (208,226) {$A$}; \node[lb] at (330,40) {$B$};
+\node[lb] at (663,42) {$D$}; \node[lb] at (872,163) {$F$}; \node[lb] at (1020,195) {$T$};
+\node[lb] at (457,352) {$C$}; \node[lb] at (748,352) {$E$};
+\node[lb] at (148,165) {300}; \node[lb] at (240,112) {135}; \node[lb] at (310,280) {165};
+\node[lb] at (515,40) {180}; \node[lb] at (425,178) {80}; \node[lb] at (540,155) {150};
+\node[lb] at (673,215) {100}; \node[lb] at (797,103) {180}; \node[lb] at (843,278) {120};
+\node[lb] at (618,352) {95}; \node[lb] at (953,163) {300};
+\end{tikzpicture}
+\end{document}

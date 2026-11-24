@@ -10,7 +10,7 @@ a re-file or a change of which copy the Bank keeps.
 Key format:  <year>-<School>-<task>[-<course/year tag>]-Q<number><split letter>
     2022-CSSA-AT4-Q10     2023-NESA-HSC-Q16     2020-BaulkhamHills-AT2-Q11b (a split question, the paper's 11(b))
   School = documents.school (short name; school_formal when empty, e.g. NESA), letters and digits only.
-  task   = documents.task_code (HSC, AT1-AT4), else task_type.
+  task   = documents.task_code (HSC, AT1-AT4, AP1-AP4: CTHS assessment periods, owner 25 Nov), else task_type.
   tag    = COURSE_TAG[course] (empty for Advanced, the course the owner ticked the format on) plus 'Y11' for Year 11 papers,
            so a Year 11 AT1 or an Extension 1 paper never collides with the Year 12 Advanced paper of the same school/year.
   Paper key = the key without '-Q...' (used for paper approvals, reviews/p_<paper key>).
@@ -173,6 +173,9 @@ def check(db, bank=None):
         return [('warn', 'question_keys missing: questions have no permanent keys yet (python3 tools/qkeys.py --assign --bank site/data/bank.json, after an archive/ copy of questions.db)')]
     keys = live_keys(db); live = set(keys.values())
     pk = set(paper_keys(keys, dict(db.execute('select id, document_id from questions'))).values())
+    # attach() gives a paper the key of its OWN questions (not the copies'), so a paper made mostly of copies (2021 King's AT4, doc 1051:
+    # 13 of its keys are PEM's, 11 its own) is shown and approved as p_2021-Kings-AT4: any prefix a paper's live keys carry is its key too
+    pk |= {k.rsplit('-Q', 1)[0] for k in keys.values()}
     if bank:
         bad = [q['id'] for q in bank['questions'] if q.get('key') != keys.get(q['id'])]
         if bad: out.append(('blocker', f'bank.json keys differ from question_keys for {len(bad)} question(s) {bad[:10]}: run tools/build_bank.py'))

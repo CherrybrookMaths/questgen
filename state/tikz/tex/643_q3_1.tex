@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.0097cm,y=0.8763cm]
+  \def\a{-1.50524}\def\b{2.94753}
+  \fill[shade] (\a,{3-\a}) -- (\b,{3-\b}) -- plot[domain=\b:\a,samples=90,smooth] (\x,{exp(-\x)}) -- cycle;
+  % axes
+  \draw[<->] (-3.36,0) -- (3.45,0) node[right,inner sep=2pt,font=\large] {$x$};
+  \draw[<->] (0,-1.33) -- (0,5.33) node[above,inner sep=2pt,font=\large] {$y$};
+  \foreach \i in {-3,-2,-1,1,2,3} {\draw (\i,0.07) -- (\i,-0.07) node[below,inner sep=5pt,font=\large] {$\i$};}
+  \foreach \j in {1,2,3,4,5} {\draw (-0.06,\j) -- (0.06,\j); \node[left,inner sep=3pt,font=\large] at (-0.06,\j) {$\j$};}
+  \draw (-0.06,-1) -- (0.06,-1); \node[left,inner sep=3pt,font=\large] at (-0.06,-1) {$-1$};
+  % graphs
+  \draw[line width=0.9pt] (-2.38,5.38) -- (3.37,-0.37);
+  \draw[line width=0.9pt] plot[domain=-1.69:3.2,samples=90,smooth] (\x,{exp(-\x)});
+  \node[pt,inner sep=0.9pt] at (\a,{3-\a}) {};
+  \node[pt,inner sep=0.9pt] at (\b,{3-\b}) {};
+  \node[anchor=east,inner sep=1pt,font=\large] at (\a-0.16,4.4) {$(a,f(a))$};
+  \node[anchor=south west,inner sep=1pt,font=\large] at (\b-0.05,{3-\b+0.15}) {$(b,f(b))$};
+\end{tikzpicture}
+\end{document}

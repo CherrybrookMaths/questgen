@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade] (270,203) -- (400,80) -- plot[domain=1:0,samples=40,smooth] ({270+130*\x},{203-123*(0.3*\x+0.7*\x*\x)}) -- cycle;
+\draw[<->] (90,251) -- (480,251);
+\draw[<->] (234,92) -- (234,405);
+\draw (270,257) -- (270,203);
+\draw (400,257) -- (400,80);
+\draw[line width=0.9pt] plot[domain=0:1,samples=40,smooth] ({270+130*\x},{203-123*(0.3*\x+0.7*\x*\x)});
+\draw[aux] (270,203) -- (400,80);
+\node at (270,276) {$a$};
+\node at (400,276) {$b$};
+\end{tikzpicture}
+\end{document}

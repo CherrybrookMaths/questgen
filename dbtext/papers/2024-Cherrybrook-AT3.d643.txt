@@ -1,0 +1,1747 @@
+# paper 2024-Cherrybrook-AT3 (document 643)
+document
+  id: 643
+  drive_file_id: 1RBkbPuLL30QiSuGN7f4r9bAiqS86fAYQ
+  source_path: CTHS/Adv/Y12/2024 Y12 Adv AT3 Integration, PDFs w Solutions.pdf
+  size_bytes: 2541896
+  task_type: internal_exam
+  course: advanced
+  classification_method: explicit_cover
+  year_level: 12
+  school: Cherrybrook
+  year: 2024
+  natural_key: internal_exam|2024|cherrybrook|advanced
+  provenance_method: coverpage
+  page_count: 36
+  has_text_layer: 1
+  parse_path: digital
+  bundled_solutions: 1
+  syllabus_version: 2017
+  status: parsed
+  ingested_at: 2026-11-10T22:53:15
+  display_label: 2024 Cherrybrook Technology High School AT3
+  school_formal: Cherrybrook Technology High School
+  task_code: AT3
+
+## Q1  key 2024-Cherrybrook-AT3-Q1  id 7601
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Random variables|Continuous random variables
+  home_source: computed
+  option A
+    latex: $4\dfrac{3}{4}$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $4$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $\dfrac{3}{4}$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $3.75$
+    is_correct: 0
+    key_source: extracted
+  solution 11595
+    source: extracted
+    latex: |
+      The mode is the value of $x$ where $f(x)$ is a maximum. Expanding,
+      $$f(x)=\dfrac{3}{4}(-x^2+8x-15)$$
+      Differentiating,
+      $$f'(x)=\dfrac{3}{4}(8-2x)$$
+      At the maximum, $f'(x)=0$.
+      $$\begin{aligned} 8-2x &= 0 \\ x &= 4 \end{aligned}$$
+      This lies in $3\le x\le 5$, and $f$ is a downward parabola, so it is a maximum. The mode is $4$, option B.
+    source_document_id: 643
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 12078
+    ordinal: 1
+    latex: |
+      A probability density function $f(x)$ is given by
+
+      $$f(x)=\begin{cases}\dfrac{3}{4}(x-5)(3-x) & \text{if } 3\le x\le 5\\[6pt] 0 & \text{if } x<3 \text{ or if } x>5\end{cases}$$
+
+      What is the value of the mode?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-329
+      focus_area: Random variables
+      dot_point: Find the mode from a given probability density function
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Median, mode and percentiles of a pdf
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Stationary points and their nature
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 211
+      confidence: high
+      reason: Mode of symmetric parabola pdf; vertex at midpoint of roots.
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q2  key 2024-Cherrybrook-AT3-Q2  id 7602
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
+  option A
+    latex: $b-a-5$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $a-b+5$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $2(b-a-5)$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $2(a-b+5)$
+    is_correct: 0
+    key_source: extracted
+  solution 11596
+    source: extracted
+    latex: |
+      Split the integral using linearity.
+      $$\begin{aligned} \int_a^b g(x)\,dx &= \int_a^b 2\,dx-\int_a^b f(x)\,dx \\ &= \Big[2x\Big]_a^b-10 \\ &= 2b-2a-10 \\ &= 2(b-a-5) \end{aligned}$$
+      This is option C.
+    source_document_id: 643
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 12079
+    ordinal: 1
+    latex: |
+      Let $g(x)=2-f(x)$. If $\displaystyle\int_a^b f(x)\,dx=10$
+
+      What is the value of $\displaystyle\int_a^b g(x)\,dx$ ?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-262
+      focus_area: Integral calculus
+      dot_point: Use the identities ∫f(x)+ g(x) dx = ∫f(x)dx + ∫g(x)dx and ∫kf(x)dx = k∫f(x)dx for primitives
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Properties of definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 212
+      confidence: medium
+      reason: Linearity of integrals with general bounds; two short steps.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q3  key 2024-Cherrybrook-AT3-Q3  id 7603
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
+  option A
+    latex: $\displaystyle\int_a^b (3-x-e^{-x})\,dx$
+    is_correct: 1
+    key_source: extracted
+  option B
+    latex: $\displaystyle\int_a^b (3-x+e^{-x})\,dx$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $\displaystyle\int_a^b (e^{-x}-3+x)\,dx$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $\displaystyle\int_a^b (e^{-x}+3+x)\,dx$
+    is_correct: 0
+    key_source: extracted
+  solution 11597
+    source: extracted
+    latex: |
+      Between the intersection points $x=a$ and $x=b$, the line $y=3-x$ lies above the curve $y=e^{-x}$.
+
+      Area is the integral of (top curve $-$ bottom curve):
+      $$\int_a^b (3-x-e^{-x})\,dx$$
+      This is option A.
+    source_document_id: 643
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  figure 643_q3_1.png
+    page: 3
+    bbox: [191, 88, 419, 270]
+    png_path: figures/643_q3_1.png
+    tikz_path: tikz/tex/643_q3_1.tex
+    caption: line x+y=3 and curve y=e^{-x} with shaded region between them, intersections (a,f(a)) and (b,f(b))
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Drew the line x+y=3 and the curve y=e^{-x} at 0.9pt because the curve runs along the x-axis (rule 9). I used the crop's axis scales. I computed a=-1.5052 and b=2.9475 and put dots there with the (a,f(a)) and (b,f(b)) labels next to them (rule 16). The f is in maths italic, not upright as on the paper (rule 19). The region between the curves is flat grey `shade` instead of the paper's green (rules 5, 6). Both axes have arrows at both ends, as on the crop. I stopped the exponential tail before the x-axis arrowhead (rule 3a). Lines are now black (rule 6). Overlay below 0.85: what is left is mostly the different glyphs in the tick and point labels and the scan's thicker coloured strokes. The geometry lines up.
+  part -  id 12080
+    ordinal: 1
+    latex: |
+      The diagram below shows the region enclosed by $x+y=3$ and $y=e^{-x}$.
+
+      \exfigure{643_q3_1}
+
+      Which of the following integrals represents the area of the shaded region ?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-279
+      focus_area: Integral calculus
+      dot_point: Use definite integrals to solve problems involving the areas of regions bounded by the graph of the continuous function y = f(x), the x-axis and the lines x = a and x = b, in cases where f(x)≥0 throughout a ≤x ≤b, f(x)≤0 throughout a ≤x ≤b or where f(x) changes sign in the interval a ≤x ≤b, with or without the graph provided
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Area between curves
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 308
+      confidence: medium
+      reason: Read top minus bottom curve from diagram; direct recognition.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q4  key 2024-Cherrybrook-AT3-Q4  id 7604
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 1
+  review_status: unreviewed
+  review_note: Options A and C are printed identically
+  options_layout: text
+  home_topic: sub:12|Integral calculus|Integration with exponential functions
+  home_source: computed
+  option A
+    latex: $\dfrac{2^{x+1}}{(x+1)\ln 2}+e^x-e^{-x}+C$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $\dfrac{2^x}{\ln 2}+e^x+e^{-x}+C$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $\dfrac{2^{x+1}}{(x+1)\ln 2}+e^x-e^{-x}+C$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $2^x\ln(2)+e^x+e^{-x}+C$
+    is_correct: 0
+    key_source: extracted
+  solution 11598
+    source: extracted
+    latex: |
+      Integrate each term, using $\displaystyle\int a^x\,dx=\dfrac{a^x}{\ln a}$ and $\displaystyle\int e^{-x}\,dx=-e^{-x}$.
+      $$\int (2^x+e^x-e^{-x})\,dx=\dfrac{2^x}{\ln 2}+e^x+e^{-x}+C$$
+      This is option B.
+    source_document_id: 643
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"format_note": "Options A and C are identical in the source question; the key B is unaffected."}
+  part -  id 12081
+    ordinal: 1
+    latex: What is $\displaystyle\int (2^x+e^x-e^{-x})\,dx$ ?
+    marks: 1
+    needs_review: 1
+    tag 2024 Y12-264
+      focus_area: Integral calculus
+      dot_point: Establish and use the formula ∫exdx = ex + C
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-265
+      focus_area: Integral calculus
+      dot_point: Establish and use the formula ∫eax+bdx = 1 a eax+b + C, where a and b are constants and a ≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-266
+      focus_area: Integral calculus
+      dot_point: Establish and use the formula ∫axdx = ax ln a + C, where a is a constant and a > 0
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 210
+      confidence: medium
+      reason: Standard integrals including a^x and e^{-x} sign care.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q5  key 2024-Cherrybrook-AT3-Q5  id 7605
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Random variables|Continuous random variables
+  home_source: computed
+  option A
+    latex: $\dfrac{1+\sqrt{2}}{2}$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $\dfrac{1+\sqrt{3}}{4}$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: $\dfrac{1+\sqrt{3}}{2}$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $\dfrac{1+\sqrt{2}}{4}$
+    is_correct: 0
+    key_source: extracted
+  solution 11599
+    source: extracted
+    latex: |
+      $$\begin{aligned} P(1\le X\le 4) &= \int_1^4\dfrac{\pi}{12}\sin\left(\dfrac{\pi x}{6}\right)dx \\ &= \dfrac12\left[-\cos\dfrac{\pi x}{6}\right]_1^4 \\ &= \dfrac12\left[-\cos\dfrac{2\pi}{3}+\cos\dfrac{\pi}{6}\right] \\ &= \dfrac12\left(\dfrac12+\dfrac{\sqrt3}{2}\right) \\ &= \dfrac{1+\sqrt3}{4} \end{aligned}$$
+      This is option B.
+    source_document_id: 643
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 12082
+    ordinal: 1
+    latex: |
+      A continuous random variable $X$ has a probability density function given by
+
+      $$f(x)=\begin{cases}\dfrac{\pi}{12}\sin\left(\dfrac{\pi x}{6}\right), & 0\le x\le 6\\[6pt] 0, & \text{elsewhere}\end{cases}$$
+
+      Which of the following is equal to $P(1\le X\le 4)$ ?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-273
+      focus_area: Integral calculus
+      dot_point: Establish and use indefinite integrals of the form ∫f(ax + b)dx, where a and b are constants and a ≠0, and f(x)= sin x, f(x)= cos x and f(x)= sec2 x
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-326
+      focus_area: Random variables
+      dot_point: Define a probability density function (PDF), f(x), for a random variable X with cumulative distribution function F(x) as f(x)= F'(x) and recognise that P(a < X < b)= ∫b a f(x) dx
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Probabilities from a probability density function
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 336
+      confidence: medium
+      reason: Integrate trig pdf over interval; exact values needed.
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q6  key 2024-Cherrybrook-AT3-Q6  id 7606
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Integral calculus|Primitive functions
+  home_source: computed
+  option A
+    latex: $-2653$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $-\dfrac{481}{7}$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $379$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $-8869$
+    is_correct: 0
+    key_source: extracted
+  solution 11600
+    source: extracted
+    latex: |
+      $$\begin{aligned} \int_0^1(3-7x)^6\,dx &= \left[\dfrac{(3-7x)^7}{-49}\right]_0^1 \\ &= \dfrac{(-4)^7}{-49}-\dfrac{3^7}{-49} \\ &= \dfrac{16384}{49}+\dfrac{2187}{49} \\ &= 379 \end{aligned}$$
+      This is option C.
+    source_document_id: 643
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {}
+  part -  id 12083
+    ordinal: 1
+    latex: Find $\displaystyle\int_0^1 (3-7x)^6\,dx$ ?
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-248
+      focus_area: Integral calculus
+      dot_point: Determine the primitive function for functions of the form f(x)= (ax + b)n, for all real n ≠―1, where a and b are constants
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reverse chain rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 171
+      confidence: high
+      reason: Definite integral of linear power with negative coefficient.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q7(a)  key 2024-Cherrybrook-AT3-Q7a  id 7607
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Integration with logarithmic functions
+  home_source: computed
+  part -  id 12084
+    ordinal: 1
+    latex: Find $\displaystyle\int \dfrac{\sin 2x}{1-\cos 2x}\,dx$
+    marks: 2
+    needs_review: 0
+    src_label: a
+    tag 2024 Y12-271
+      focus_area: Integral calculus
+      dot_point: Establish and use ∫u' u dx = ln|u| + C, where u is a function of x, or ∫f'(x) f(x) dx = ln |f(x)| + C, on a domain where f(x)≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals giving logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11601
+      source: extracted
+      latex: |
+        Let $y=1-\cos 2x$, so $y'=2\sin 2x$. The numerator is a multiple of the derivative of the denominator.
+        $$\begin{aligned} \int\dfrac{\sin 2x}{1-\cos 2x}\,dx &= \dfrac12\int\dfrac{2\sin 2x}{1-\cos 2x}\,dx \\ &= \dfrac12\ln(1-\cos 2x)+C \end{aligned}$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Writes the integral in the form $\\displaystyle\\int\\dfrac{f'(x)}{f(x)}\\,dx$, or equivalent merit"]]
+      meta_json: {"format_note": "Criteria written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 327
+      confidence: high
+      reason: Recognise f'/f form with constant adjustment.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q7(b)  key 2024-Cherrybrook-AT3-Q7b  id 7608
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Primitive functions
+  home_source: computed
+  part -  id 12085
+    ordinal: 1
+    latex: Find $\displaystyle\int \left(x^2-\dfrac{1}{x^2}+\sqrt[3]{x}\right)dx$
+    marks: 2
+    needs_review: 0
+    src_label: b
+    tag 2024 Y12-247
+      focus_area: Integral calculus
+      dot_point: Determine the primitive of a given function f(x), where f(x) is a sum of functions of the form kxn for all real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-249
+      focus_area: Integral calculus
+      dot_point: Use algebraic manipulation to express given functions in forms suitable for determining primitive functions
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11602
+      source: extracted
+      latex: |
+        Write each term as a power of $x$.
+        $$\begin{aligned} \int\left(x^2-x^{-2}+x^{\frac13}\right)dx &= \dfrac{x^3}{3}+x^{-1}+\dfrac{3}{4}x^{\frac43}+C \\ &= \dfrac{x^3}{3}+\dfrac1x+\dfrac{3\sqrt[3]{x^4}}{4}+C \end{aligned}$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Integrates two terms correctly, or equivalent merit"]]
+      meta_json: {"format_note": "Criteria written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 308
+      confidence: high
+      reason: Power rule after rewriting negative and fractional indices.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q7(c)  key 2024-Cherrybrook-AT3-Q7c  id 7609
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Integration with exponential functions
+  home_source: computed
+  part -  id 12086
+    ordinal: 1
+    latex: Evaluate $\displaystyle\int_0^1 x^2e^{2x^3}\,dx$
+    marks: 2
+    needs_review: 0
+    src_label: c
+    tag 2024 Y12-267
+      focus_area: Integral calculus
+      dot_point: Establish and use ∫eu du dx dx = eu + C, where u is a function of x, or ∫f'(x)ef(x)dx = ef(x) + C
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals of exponential functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11603
+      source: extracted
+      latex: |
+        Let $u=2x^3$, so $du=6x^2\,dx$.
+        $$\begin{aligned} \int_0^1x^2e^{2x^3}dx &= \dfrac16\int_0^1 6x^2e^{2x^3}dx \\ &= \left[\dfrac{e^{2x^3}}{6}\right]_0^1 \\ &= \dfrac{e^2}{6}-\dfrac16 \end{aligned}$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds the primitive, or equivalent merit"]]
+      meta_json: {"format_note": "Criteria written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 275
+      confidence: high
+      reason: Reverse chain rule for exponential, then evaluate bounds.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q8  key 2024-Cherrybrook-AT3-Q8  id 7610
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 7
+  page_end: 7
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
+  part -  id 12087
+    ordinal: 1
+    latex: Using two trapeziums of equal width, approximate the given integral correct to 4 significant figures $\displaystyle\int_{-1}^{1}\sqrt{\ln(2+x)}\,dx$.
+    marks: 2
+    needs_review: 0
+    src_label: a
+    tag 2024 Y12-285
+      focus_area: Integral calculus
+      dot_point: Use the Trapezoidal rule to approximate integrals
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Trapezoidal rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11604
+      source: extracted
+      latex: |
+        Two trapeziums on $[-1,1]$ give $h=\dfrac{1-(-1)}{2}=1$, so $x=-1,\,0,\,1$.
+
+        The function values are $f(x)=\sqrt{\ln 1},\ \sqrt{\ln 2},\ \sqrt{\ln 3}$.
+        $$\begin{aligned} \int_{-1}^1\sqrt{\ln(2+x)}\,dx &\approx \dfrac12\left[\sqrt{\ln1}+2\sqrt{\ln 2}+\sqrt{\ln 3}\right] \\ &\approx 1.357 \end{aligned}$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Applies the trapezoidal rule with correct function values, or equivalent merit"]]
+      meta_json: {"format_note": "Criteria written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 219
+      confidence: high
+      reason: Routine two-strip trapezoidal rule substitution.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q9  key 2024-Cherrybrook-AT3-Q9  id 7611
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 7
+  page_end: 7
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Primitive functions
+  home_source: computed
+  solution 11605
+    source: extracted
+    latex: |
+      Integrate the gradient.
+      $$y=\int5\sec^2x\,dx=5\tan x+C$$
+      Substitute $\left(\dfrac{\pi}{4},2\right)$.
+      $$\begin{aligned} 2 &= 5\tan\dfrac{\pi}{4}+C \\ 2 &= 5+C \\ C &= -3 \end{aligned}$$
+      $$\therefore\ y=5\tan x-3$$
+    source_document_id: 643
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Integrates to obtain $y=5\\tan x+C$, or equivalent merit"]]
+    meta_json: {"format_note": "Criteria written by us (source had none)."}
+  part -  id 12088
+    ordinal: 1
+    latex: |
+      The gradient of the curve is given by $\dfrac{dy}{dx}=5\sec^2 x$. The curve passes through $\left(\dfrac{\pi}{4},2\right)$.
+
+      What is the equation of the curve?
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-250
+      focus_area: Integral calculus
+      dot_point: Determine f(x), given f'(x) and an initial condition f(a) = b where a and b are constants
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-272
+      focus_area: Integral calculus
+      dot_point: Establish and use the formulas ∫sin x dx = ― cos x + C, ∫cos x dx = sin x + C and ∫sec2 x dx = tan x + C
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Primitives with initial conditions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 270
+      confidence: high
+      reason: Integrate sec squared and find constant from point.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q10  key 2024-Cherrybrook-AT3-Q10  id 7612
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 8
+  page_end: 8
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Integration with logarithmic functions
+  home_source: computed
+  solution 11606
+    source: extracted
+    latex: |
+      $$\begin{aligned} \int_k^{3k}\dfrac{6}{3x-k}\,dx &= 2\Big[\ln(3x-k)\Big]_k^{3k} \\ &= 2\left[\ln 8k-\ln 2k\right] \\ &= 2\ln 4 \\ &= \ln 16 \end{aligned}$$
+      $$\therefore\ n=16$$
+    source_document_id: 643
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Finds $2\\ln 4$, or equivalent merit"], [1, "Finds the primitive, or equivalent merit"]]
+    meta_json: {"format_note": "Criteria written by us (source had none)."}
+  part -  id 12089
+    ordinal: 1
+    latex: If $k>0$ is a constant find the integer $n$ such that $\displaystyle\int_k^{3k}\dfrac{6}{3x-k}\,dx=\log_e n$ .
+    marks: 3
+    needs_review: 0
+    tag 2024 Y12-270
+      focus_area: Integral calculus
+      dot_point: Establish and use the formula ∫ 1 ax+b dx = 1 a ln|ax + b| + C, where a and b are constants and a ≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals giving logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 192
+      confidence: medium
+      reason: Log integral with parameter bounds, then log laws to simplify.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q11  key 2024-Cherrybrook-AT3-Q11  id 7613
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 9
+  page_end: 9
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Primitive functions
+  home_source: computed
+  part a  id 12090
+    ordinal: 1
+    latex: Differentiate $\dfrac{x}{1+\ln x}$ .
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-233
+      focus_area: Differential calculus
+      dot_point: Use chain rule on the identity eln x = x to prove the formula d dx(ln x)= 1 x for the derivative of the natural logarithm function where x > 0
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-240
+      focus_area: Differential calculus
+      dot_point: Apply the product, quotient and chain rules to differentiate functions of the form f(x)g(x), f(x) g(x) or f(g(x)), where f(x) and g(x) are any of the functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of logarithmic functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Quotient rule
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11607
+      source: extracted
+      latex: |
+        Using the quotient rule, $\dfrac{d}{dx}\left(\dfrac{u}{v}\right)=\dfrac{u'v-uv'}{v^2}$, with
+        $$\begin{aligned} u&=x & v&=1+\ln x\\ u'&=1 & v'&=\dfrac1x\end{aligned}$$
+        $$\begin{aligned} \dfrac{d}{dx}\left(\dfrac{x}{1+\ln x}\right) &= \dfrac{(1+\ln x)\cdot1-x\cdot\frac1x}{(1+\ln x)^2} \\ &= \dfrac{\ln x}{(1+\ln x)^2} \end{aligned}$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Applies the quotient rule, or equivalent merit"]]
+      meta_json: {"format_note": "Criteria written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 328
+      confidence: high
+      reason: Quotient rule with logarithm, simplify numerator.
+      area: Y12_Differential_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 12091
+    ordinal: 2
+    latex: Hence, or otherwise, find $\displaystyle\int \dfrac{3\ln x}{(1+\ln x)^2}\,dx$ .
+    marks: 1
+    needs_review: 0
+    tag 2024 Y12-242
+      focus_area: Integral calculus
+      dot_point: Define a primitive of a function f(x) as a function F(x) whose derivative F'(x)= f(x) and recognise the process of finding the primitive as the reverse of differentiation
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-262
+      focus_area: Integral calculus
+      dot_point: Use the identities ∫f(x)+ g(x) dx = ∫f(x)dx + ∫g(x)dx and ∫kf(x)dx = k∫f(x)dx for primitives
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integration using a given derivative
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11608
+      source: extracted
+      latex: |
+        From part (a),
+        $$\dfrac{d}{dx}\left(\dfrac{x}{1+\ln x}\right)=\dfrac{\ln x}{(1+\ln x)^2}$$
+        Multiplying by 3,
+        $$\int\dfrac{3\ln x}{(1+\ln x)^2}\,dx=\dfrac{3x}{1+\ln x}+C$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Criteria written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 227
+      confidence: high
+      reason: Hence integral directly from previous derivative times constant.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q12  key 2024-Cherrybrook-AT3-Q12  id 7614
+  section: II
+  question_type: extended
+  stem_latex: |
+    The diagram shows the graphs of the functions $y=2\cos x$ and $y=\cot x$ for $0\le x\le 2\pi$. The coordinates of the points of intersection of the two functions are $\left(\dfrac{\pi}{6},\sqrt{3}\right)$, $\left(\dfrac{\pi}{2},0\right)$, $\left(\dfrac{5\pi}{6},-\sqrt{3}\right)$ and $\left(\dfrac{3\pi}{2},0\right)$.
+
+    \exfigure{643_q12_1}
+  marks_total: 5
+  page_start: 10
+  page_end: 11
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Integral calculus|Areas and the definite integral
+  home_source: computed
+  figure 643_q12_1.png
+    page: 10
+    bbox: [145, 180, 436, 475]
+    png_path: figures/643_q12_1.png
+    tikz_path: tikz/tex/643_q12_1.tex
+    caption: graphs of y=2cos x and y=cot x on 0<=x<=2pi with two shaded regions between the curves
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Drew y=2cos x and both branches of y=cot x from their equations on [0,2pi] at 0.9pt (rules 9, 10). The asymptotes x=pi and x=2pi use the house aux dashes, not the paper's long dashes (rule 3). I put dots at the four computed intersections (rule 16). The two lens regions between pi/6 and 5pi/6 are flat grey `shade`, lighter than the paper's dark grey (rule 5). The x tick labels are stacked fractions pi/2, 3pi/2 (rule 23). They sit below-left of each tick as on the crop, which keeps 0, pi and 2pi off the dashed asymptotes. 3pi/2 is the exception: it sits lower, between the two curves crossing at that point, so it touches neither (rules 11, 24). The tick labels are larger than the crop's tiny ones so they can be read. The point labels are moved slightly so they don't touch the curves. Overlay below 0.85: the paper's darker shading and the different label sizes account for most of it. Also the y=cot x label sits about 0.6 units lower than on the crop and could be moved up to about y=-2.4; there were no rounds left to fix it.
+  part a  id 12092
+    ordinal: 1
+    latex: Show that $\displaystyle\int \cot x\,dx=\ln|\sin x|+C$
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-098
+      focus_area: Trigonometric identities and equations
+      dot_point: Establish the identities tan θ = sin θ cos θ and cot θ = cos θ sin θ, identifying the angles to be excluded in each identity
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-271
+      focus_area: Integral calculus
+      dot_point: Establish and use ∫u' u dx = ln|u| + C, where u is a function of x, or ∫f'(x) f(x) dx = ln |f(x)| + C, on a domain where f(x)≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Derivatives of logarithmic functions
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals giving logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal trigonometric ratios
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11609
+      source: extracted
+      latex: |
+        Write $\cot x=\dfrac{\cos x}{\sin x}$.
+        $$\int\cot x\,dx=\int\dfrac{\cos x}{\sin x}\,dx$$
+        Let $u=\sin x$, so $du=\cos x\,dx$.
+        $$\begin{aligned} \int\dfrac{1}{u}\,du &= \ln|u|+C \\ &= \ln|\sin x|+C \end{aligned}$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Criteria written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 327
+      confidence: high
+      reason: Rewrite cot as cos/sin and apply f'/f integral.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 12093
+    ordinal: 2
+    latex: Hence, or otherwise, find in the simplest exact form the total area of the shaded region enclosed by the two curves.
+    marks: 4
+    needs_review: 0
+    tag 2024 Y12-271
+      focus_area: Integral calculus
+      dot_point: Establish and use ∫u' u dx = ln|u| + C, where u is a function of x, or ∫f'(x) f(x) dx = ln |f(x)| + C, on a domain where f(x)≠0
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-272
+      focus_area: Integral calculus
+      dot_point: Establish and use the formulas ∫sin x dx = ― cos x + C, ∫cos x dx = sin x + C and ∫sec2 x dx = tan x + C
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-279
+      focus_area: Integral calculus
+      dot_point: Use definite integrals to solve problems involving the areas of regions bounded by the graph of the continuous function y = f(x), the x-axis and the lines x = a and x = b, in cases where f(x)≥0 throughout a ≤x ≤b, f(x)≤0 throughout a ≤x ≤b or where f(x) changes sign in the interval a ≤x ≤b, with or without the graph provided
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Area between curves
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals giving logarithms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Integrals of trigonometric functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11610
+      source: extracted
+      latex: |
+        The graph is symmetric about $x=\dfrac{\pi}{2}$, so the area on $\left[\dfrac{\pi}{2},\dfrac{5\pi}{6}\right]$ equals that on $\left[\dfrac{\pi}{6},\dfrac{\pi}{2}\right]$. Hence
+        $$A=\int_{\frac{\pi}{6}}^{\frac{\pi}{2}}(2\cos x-\cot x)\,dx+\int_{\frac{\pi}{2}}^{\frac{5\pi}{6}}(\cot x-2\cos x)\,dx=2\int_{\frac{\pi}{6}}^{\frac{\pi}{2}}\left(2\cos x-\dfrac{\cos x}{\sin x}\right)dx$$
+        $$\begin{aligned} A &= 2\Big[2\sin x-\ln\sin x\Big]_{\frac{\pi}{6}}^{\frac{\pi}{2}} \\ &= 2\left[2\left(1-\dfrac12\right)-\left(\ln1-\ln\dfrac12\right)\right] \\ &= 2+2\ln\dfrac12 \\ &= 2-2\ln2 \end{aligned}$$
+        $$\therefore\ A=2(1-\ln 2)\text{ units}^2$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[4, "Correct answer"], [3, "Finds the primitive and substitutes the limits, or equivalent merit"], [2, "Writes the area as a correct integral expression, or equivalent merit"], [1, "Identifies the correct limits or the correct top and bottom curves, or equivalent merit"]]
+      meta_json: {"format_note": "Criteria written by us (source had none). Symmetry step stated in the working as in the source's doubling."}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 184
+      confidence: medium
+      reason: Two regions, curves swap; symmetry and log exact evaluation.
+      area: Y12_Integral_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q13  key 2024-Cherrybrook-AT3-Q13  id 7615
+  section: II
+  question_type: extended
+  stem_latex: The velocity, in cm/s of a particle moving in a straight line is given by the equation $v=4t^3-24t^2+20t$ where $t$ is the time in seconds. The particle is initially 3 cm to the right of the origin.
+  marks_total: 5
+  page_start: 12
+  page_end: 12
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Applications of calculus|Rates of change
+  home_source: computed
+  part a  id 12094
+    ordinal: 1
+    latex: Find an expression for $x$, the position of the particle as a function of time.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-247
+      focus_area: Integral calculus
+      dot_point: Determine the primitive of a given function f(x), where f(x) is a sum of functions of the form kxn for all real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-250
+      focus_area: Integral calculus
+      dot_point: Determine f(x), given f'(x) and an initial condition f(a) = b where a and b are constants
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Displacement, velocity and acceleration
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Primitives with initial conditions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11611
+      source: extracted
+      latex: |
+        Position is the integral of velocity.
+        $$x=\int(4t^3-24t^2+20t)\,dt=t^4-8t^3+10t^2+C$$
+        When $t=0$, $x=3$, so $C=3$.
+        $$\therefore\ x=t^4-8t^3+10t^2+3$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Integrates $v$ to find $x$ with a constant, or equivalent merit"]]
+      meta_json: {"format_note": "Criteria written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 231
+      confidence: high
+      reason: Integrate polynomial velocity, use initial position for constant.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 12095
+    ordinal: 2
+    latex: Show that the particle is at rest when $t=1$.
+    marks: 1
+    needs_review: 0
+    tag 2024 Y11-144
+      focus_area: Introduction to differentiation
+      dot_point: Solve problems by determining the velocity of a particle moving in a straight line, given its displacement from a point as a function of time
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Particles at rest and changing direction
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11612
+      source: extracted
+      latex: |
+        Substitute $t=1$ into $v$.
+        $$\begin{aligned} v &= 4(1)^3-24(1)^2+20(1) \\ &= 4-24+20 \\ &= 0 \end{aligned}$$
+        Therefore the particle is at rest when $t=1$.
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Criteria written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 229
+      confidence: high
+      reason: Single substitution into velocity to show zero.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 12096
+    ordinal: 3
+    latex: Find the total distance travelled by the particle in the first 2 seconds.
+    marks: 2
+    needs_review: 0
+    tag 2024 Y11-141
+      focus_area: Introduction to differentiation
+      dot_point: Define and distinguish between displacement and distance and between velocity and speed
+      year_level: 11
+      coverage: moved_to_year_11
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-312
+      focus_area: Applications of calculus
+      dot_point: Solve problems relating to the motion of a particle moving in a straight line, using both differentiation and integration to connect the concepts of displacement, velocity and acceleration
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Distance travelled
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11613
+      source: extracted
+      latex: |
+        The particle is at rest only at $t=1$ in the first 2 seconds, apart from $t=0$, so it changes direction at $t=1$.
+
+        From $x=t^4-8t^3+10t^2+3$, the positions are
+        $$x(0)=3,\quad x(1)=6,\quad x(2)=-5$$
+        $$\begin{aligned} \text{Total distance} &= |6-3|+|-5-6| \\ &= 3+11 \\ &= 14 \text{ cm} \end{aligned}$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds the positions at $t=0,1,2$, or equivalent merit"]]
+      meta_json: {"format_note": "Criteria written by us (source had none)."}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 829
+      confidence: medium
+      reason: Must account for direction change when summing distances.
+      area: Y12_Applications_of_calculus
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q14  key 2024-Cherrybrook-AT3-Q14  id 7616
+  section: II
+  question_type: extended
+  stem_latex: |
+    Some students are given a maximum of 4 minutes to complete a Rubik's Cube. The time spent on the Rubik's Cube, in minutes, can be modelled using the continuous random variable $X$ which has the probability density function.
+
+    $$f(x)=\begin{cases}kx(16-x^2), & 0\le x\le 4\\ 0, & \text{elsewhere}\end{cases}$$
+  marks_total: 7
+  page_start: 13
+  page_end: 15
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Random variables|Continuous random variables
+  home_source: computed
+  part a  id 12097
+    ordinal: 1
+    latex: Show that $k=\dfrac{1}{64}$ .
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-247
+      focus_area: Integral calculus
+      dot_point: Determine the primitive of a given function f(x), where f(x) is a sum of functions of the form kxn for all real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-327
+      focus_area: Random variables
+      dot_point: Recognise the properties of a probability density function: f(x) ≥0 for all x in the domain of f(x), and ∫b a f(x )dx = 1 if the domain of f(x) is [a,b], or ∫∞ ―∞f(x )dx = 1 if the domain of f(x) is all real x
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Probability density functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11614
+      source: extracted
+      latex: |
+        The total probability is 1.
+        $$\begin{aligned} k\int_0^4(16x-x^3)\,dx &= 1 \\ k\left[8x^2-\dfrac{x^4}{4}\right]_0^4 &= 1 \\ k(128-64) &= 1 \\ k &= \dfrac{1}{64} \end{aligned}$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Sets up $\\displaystyle\\int_0^4 f(x)\\,dx=1$ and finds the primitive, or equivalent merit"]]
+      meta_json: {"format_note": "Criteria written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 250
+      confidence: high
+      reason: Total probability equals one; simple polynomial integral.
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 12098
+    ordinal: 2
+    latex: Calculate $P(X<3)$ .
+    marks: 2
+    needs_review: 0
+    tag 2024 Y12-247
+      focus_area: Integral calculus
+      dot_point: Determine the primitive of a given function f(x), where f(x) is a sum of functions of the form kxn for all real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-326
+      focus_area: Random variables
+      dot_point: Define a probability density function (PDF), f(x), for a random variable X with cumulative distribution function F(x) as f(x)= F'(x) and recognise that P(a < X < b)= ∫b a f(x) dx
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Probabilities from a probability density function
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11615
+      source: extracted
+      latex: $$\begin{aligned} P(X<3) &= \dfrac{1}{64}\int_0^3(16x-x^3)\,dx \\ &= \dfrac{1}{64}\left[8x^2-\dfrac{x^4}{4}\right]_0^3 \\ &= \dfrac{1}{64}\left(72-\dfrac{81}{4}\right) \\ &= \dfrac{207}{256} \\ &\approx 0.8086 \end{aligned}$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds the primitive, or equivalent merit"]]
+      meta_json: {"format_note": "Criteria written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 337
+      confidence: high
+      reason: Direct integration of pdf over given interval.
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 12099
+    ordinal: 3
+    latex: Find the median of the above distribution. Give your answer correct to 3 dp.
+    marks: 3
+    needs_review: 0
+    tag 2024 Y12-247
+      focus_area: Integral calculus
+      dot_point: Determine the primitive of a given function f(x), where f(x) is a sum of functions of the form kxn for all real n ≠―1
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-275
+      focus_area: Integral calculus
+      dot_point: Apply ∫b a f(x) dx = F(b)― F(a), where F(x) is a primitive of f(x), to calculate definite integrals and solve related theoretical problems involving functions within the scope of the Mathematics Advanced course
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-330
+      focus_area: Random variables
+      dot_point: Obtain the cumulative distribution function using the formula F(x)= ∫x a f(t)dt where f(x) is a given probability density function defined on the interval [a,b]
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 Y12-332
+      focus_area: Random variables
+      dot_point: Use a cumulative distribution function to calculate the median and quartiles for a continuous random variable
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Cumulative distribution functions
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Definite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Indefinite integrals
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Median, mode and percentiles of a pdf
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11616
+      source: extracted
+      latex: |
+        The median $m$ satisfies $P(X<m)=0.5$.
+        $$\begin{aligned} \dfrac{1}{64}\int_0^m(16x-x^3)\,dx &= 0.5 \\ 8m^2-\dfrac{m^4}{4} &= 32 \\ m^4-32m^2+128 &= 0 \end{aligned}$$
+        Let $u=m^2$, so $u^2-32u+128=0$.
+        $$u=\dfrac{32\pm\sqrt{(-32)^2-4(128)}}{2}=27.3137\ \text{or}\ 4.68629$$
+        If $m^2=27.3137$ then $m=5.226$, rejected since $m\le 4$.
+
+        If $m^2=4.68629$ then $m=2.16478\ldots$
+        $$\therefore\ \text{Median}\approx 2.165$$
+      source_document_id: 643
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Obtains the quadratic in $m^2$ and solves it, or equivalent merit"], [1, "Sets up $\\displaystyle\\int_0^m f(x)\\,dx=0.5$, or equivalent merit"]]
+      meta_json: {"format_note": "Criteria written by us (source had none). Source said rejected since $m>4$; kept as $m\\le 4$ is the domain."}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 781
+      confidence: high
+      reason: Median gives quartic in m squared; solve and reject root.
+      area: Y12_Random_variables
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: UF
+      source: model

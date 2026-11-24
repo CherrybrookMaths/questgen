@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% region between y-axis and curve, 0<=y<=3 (dots), strip dy (hatch)
+\path[shade dots, stipple color=black!55] (168,300) -- (250,300) -- plot[domain=0:105,smooth,samples=30] ({250+275*(\x/190)^2},{300-\x}) -- (168,195) -- cycle;
+\path[shade dots, stipple color=black!55] (168,178) -- plot[domain=122:190,smooth,samples=30] ({250+275*(\x/190)^2},{300-\x}) -- (168,110) -- cycle;
+\path[shade hatch] (168,195) -- plot[domain=105:122,smooth,samples=10] ({250+275*(\x/190)^2},{300-\x}) -- (168,178) -- cycle;
+\draw (168,195) -- ({250+275*(105/190)^2},195);
+\draw (168,178) -- ({250+275*(122/190)^2},178);
+% axes
+\draw[<->] (8,300) -- (680,300);
+\draw[<->] (168,518) -- (168,25);
+\node[font=\large] at (700,312) {$x$};
+\node[font=\large] at (143,38) {$y$};
+% y = 3
+\draw[aux] (168,110) -- (525,110);
+% curve
+\draw[line width=0.9pt,->] plot[domain=0:215,smooth,samples=60] ({250+275*(\x/190)^2},{300-\x});
+\node[pt] at (525,110) {};
+\node[font=\large,anchor=west] at (505,152) {$(11,3)$};
+\node[font=\large] at (250,327) {$2$};
+% dy marking
+\draw[->] (150,148) -- (150,176);
+\draw[->] (150,240) -- (150,197);
+\node[font=\large,anchor=east] at (146,186) {$dy$};
+\node[font=\large] at (213,212) {\halo{$x$}};
+\end{tikzpicture}
+\end{document}

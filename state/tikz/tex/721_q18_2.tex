@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\def\f#1{241-197*exp(-((#1-308)/66)^2/2)}
+\path[shade dots] plot[domain=72:428, samples=70, smooth] (\x,{\f{\x}}) -- (428,245) -- (72,245) -- cycle;
+\draw[line width=0.9pt] plot[domain=72:550, samples=90, smooth] (\x,{\f{\x}});
+\draw (428,245) -- (428,{\f{428}});
+\draw[<->] (40,245) -- (582,245);
+\node at (428,263) {$z$};
+\end{tikzpicture}
+\end{document}

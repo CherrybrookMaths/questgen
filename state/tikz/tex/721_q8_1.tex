@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}}
+\coordinate (L) at (55,187); \coordinate (T) at (230,28); \coordinate (M) at (325,212);
+\coordinate (B) at (293,322); \coordinate (R) at (532,225);
+\draw[mid=0.55] (L) -- (T);
+\draw[mid=0.55] (T) -- (M);
+\draw[mid=0.55] (T) -- (R);
+\draw[mid=0.5] (L) -- (M);
+\draw[mid=0.55] (M) -- (R);
+\draw[mid=0.55] (L) -- (B);
+\draw[mid=0.55] (M) -- (B);
+\draw[mid=0.55] (B) -- (R);
+\draw[aux] (365,45) .. controls (285,105) and (245,245) .. (365,345);
+\foreach \p in {L,T,M,B,R} \fill (\p) circle (5);
+\node at (122,86) {$6$};
+\node at (296,122) {$4$};
+\node at (410,104) {$11$};
+\node at (210,178) {$8$};
+\node at (408,198) {$7$};
+\node at (155,280) {$9$};
+\node at (330,268) {$2$};
+\node at (432,298) {$8$};
+\end{tikzpicture}
+\end{document}

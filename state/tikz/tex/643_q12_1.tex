@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.2229cm,y=1.486cm]
+  \def\c{0.2823}
+  % shaded regions
+  \fill[shade] plot[domain=pi/6:pi/2,samples=40,smooth] (\x,{2*cos(\x r)}) -- plot[domain=pi/2:pi/6,samples=40,smooth] (\x,{cos(\x r)/sin(\x r)}) -- cycle;
+  \fill[shade] plot[domain=pi/2:5*pi/6,samples=40,smooth] (\x,{cos(\x r)/sin(\x r)}) -- plot[domain=5*pi/6:pi/2,samples=40,smooth] (\x,{2*cos(\x r)}) -- cycle;
+  % axes
+  \draw[<->] (-0.955,0) -- (7.38,0);
+  \node[anchor=north,inner sep=2pt] at (7.33,-0.12) {$x$};
+  \draw[<->] (0,-3.48) -- (0,3.49);
+  \node[anchor=east,inner sep=2pt] at (-0.12,3.32) {$y$};
+  \foreach \j in {-3,-2,-1,1,2,3} {\draw (-0.05,\j) -- (0.05,\j); \node[left,inner sep=2pt,font=\small] at (-0.05,\j) {$\j$};}
+  \foreach \t in {1,2,3,4} {\draw ({\t*pi/2},0.04) -- ({\t*pi/2},-0.04);}
+  \node[anchor=north east,inner sep=1.5pt,font=\small] at (-0.02,-0.03) {$0$};
+  \node[anchor=north east,inner sep=1.5pt,font=\small] at ({pi/2-0.03},-0.03) {$\dfrac{\pi}{2}$};
+  \node[anchor=north east,inner sep=1.5pt,font=\small] at ({pi-0.03},-0.03) {$\pi$};
+  \node[anchor=north,inner sep=1.5pt,font=\small] at ({3*pi/2+0.06},-0.17) {$\dfrac{3\pi}{2}$};
+  \node[anchor=north east,inner sep=1.5pt,font=\small] at ({2*pi-0.03},-0.03) {$2\pi$};
+  % asymptotes
+  \draw[aux] (pi,-3.48) -- (pi,3.49);
+  \draw[aux] (2*pi,-3.48) -- (2*pi,3.49);
+  % curves
+  \draw[line width=0.9pt] plot[domain=0:2*pi,samples=90,smooth] (\x,{2*cos(\x r)});
+  \draw[line width=0.9pt] plot[domain=\c:pi-\c,samples=90,smooth] (\x,{cos(\x r)/sin(\x r)});
+  \draw[line width=0.9pt] plot[domain=pi+\c:2*pi-\c,samples=90,smooth] (\x,{cos(\x r)/sin(\x r)});
+  % points
+  \node[pt] at ({pi/6},1.7320508) {};
+  \node[pt] at ({pi/2},0) {};
+  \node[pt] at ({5*pi/6},-1.7320508) {};
+  \node[pt] at ({3*pi/2},0) {};
+  \node[anchor=south west,inner sep=1pt,font=\small] at ({pi/6+0.05},1.72) {$\left(\dfrac{\pi}{6},\sqrt{3}\right)$};
+  \node[anchor=north east,inner sep=1pt,font=\small] at ({5*pi/6-0.1},-1.62) {$\left(\dfrac{5\pi}{6},-\sqrt{3}\right)$};
+  \node[anchor=east,inner sep=1pt,font=\small] at (5.65,2.0) {$y=2\cos x$};
+  \node[anchor=east,inner sep=1pt,font=\small] at (5.72,-3.10) {$y=\cot x$};
+\end{tikzpicture}
+\end{document}

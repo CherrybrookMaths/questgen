@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\def\f#1{246-218*exp(-((#1-411)/96)^2/2)}
+\fill[shade] plot[domain=231:321, samples=30, smooth] (\x,{\f{\x}}) -- (321,266) -- (231,266) -- cycle;
+\draw[line width=0.9pt] plot[domain=50:745, samples=90, smooth] (\x,{\f{\x}});
+\foreach \x in {231,321,411,501,591} \draw[aux] (\x,268) -- (\x,{\f{\x}});
+\foreach \x in {141,681} \draw (\x,268) -- (\x,258);
+\draw[<->] (48,268) -- (745,268);
+\node[anchor=west] at (752,265) {Weight (kg)};
+\foreach \x/\l in {141/32,231/44,321/56,411/68,501/80,591/92,681/104} \node at (\x,296) {\l};
+\end{tikzpicture}
+\end{document}

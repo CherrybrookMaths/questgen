@@ -298,6 +298,8 @@ def t_crop(a):
             image_block(pix.tobytes('png'))], False
 
 
+# owner 25 Nov: "AP3 is assessment period 3, AT3 is assessment task 3. I'm pretty sure they do it in the order AT1, AP3, AT3, AP4. AP1 and
+# 2 are in Y11" (the cover's AP<n> is kept as the school names it: the parse had filed CTHS AP3 papers as AT3)
 # owner 23 Nov: "Yes, do that." (to cropping hand-drawn guideline answers instead of describing them: the Standard pilot wrote
 # "Sketch still to draw" for 5 drawings the guidelines had, 722 Q12/Q13 and 16 Q15/Q20)
 PARSE_TASK = """Parse the paper below into the parse-v1 JSON of the spec, and submit it with `submit_parse`.
@@ -311,7 +313,8 @@ pages; MCQ keys from the guidelines (or an answer-sheet file).
 
 What the bank's current parse outputs also carry (follow them exactly; they are what tools/load.py reads):
 - top level: "task_type", "cover": {{"year", "year_printed", "graduation_year", "school_or_setter", "school_formal", "task_code", "label", "title"}}
-  read off the cover (graduation-year rule of the spec's Naming section; trials are AT4), "tables": [], "solution_figures": [], "notes".
+  read off the cover (graduation-year rule of the spec's Naming section; trials are AT4; a cover that says AP<n>, an assessment PERIOD,
+  keeps task_code "AP<n>" and is never turned into AT<n>), "tables": [], "solution_figures": [], "notes".
 - every question: "seq" (1-based order in the paper), "section", "options_layout" ("text" | "table" | "graph") and "key_source" on MCQs.
   Option figures: each option's own figure has id <doc>_q<n>_<k>, `attach`: "option A" etc., and the option carries "figure_key".
 - tables printed as text in a question go in "tables" as data, with \\extable{{<id>}} in the text where the table is:

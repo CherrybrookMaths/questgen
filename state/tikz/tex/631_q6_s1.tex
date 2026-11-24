@@ -1,0 +1,44 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% shaded regions
+\fill[shade hatch] (597,101) rectangle (845,287);
+\fill[shade hatch reverse] (272,287) rectangle (435,468);
+\fill[shade hatch reverse] (928,287) rectangle (1091,468);
+\draw[->] (190,287) -- (1195,287);
+\draw[->] (680,490) -- (680,8);
+\node at (1185,312) {$x$};
+\node at (664,20) {$y$};
+\foreach \x in {272,435,513,597,762,845,928,1091} \draw (\x,281) -- (\x,293);
+\draw (674,101) -- (686,101);
+\draw (674,468) -- (686,468);
+\draw[aux, line width=0.4pt, dash pattern=on 1pt off 1.5pt] (435,330) -- (435,468);
+\draw[aux, line width=0.4pt, dash pattern=on 1pt off 1.5pt] (597,101) -- (597,287);
+\draw[aux, line width=0.4pt, dash pattern=on 1pt off 1.5pt] (845,101) -- (845,287);
+\draw[aux, line width=0.4pt, dash pattern=on 1pt off 1.5pt] (928,330) -- (928,468);
+\draw[aux] (272,330) -- (272,468);
+\draw[aux] (1091,330) -- (1091,468);
+\draw[line width=0.9pt] (190,468) -- (435,468) -- (597,101) -- (845,101) -- (928,468) -- (1170,468);
+\node at (272,314) {\halo{$-5$}};
+\node at (435,314) {\halo{$-3$}};
+\node at (533,314) {$-2$};
+\node at (597,314) {$-1$};
+\node at (762,314) {$1$};
+\node at (845,314) {$2$};
+\node at (928,314) {\halo{$3$}};
+\node at (1091,314) {\halo{$5$}};
+\node at (905,265) {$2.5$};
+\node at (664,82) {$1$};
+\node at (658,468) {$-1$};
+\node at (765,70) {$y=f(x)$};
+\node at (350,82) {NOT TO SCALE};
+% annotations
+\node[anchor=west, align=left] (c) at (935,108) {Area $=1\times3$\\ \hphantom{Area }$=3$ units$^2$};
+\draw[->] (c.west) -- (805,140);
+\node[anchor=west] (l) at (12,392) {Area $=2$ units$^2$};
+\draw[->] (l.south east) ++(-10,2) -- (330,425);
+\node[anchor=west] (r) at (1130,380) {Area $=2$ units$^2$};
+\draw[->] (r.west) -- (1040,400);
+\end{tikzpicture}
+\end{document}

@@ -1181,6 +1181,10 @@ The owner approved the plan doc "Questgen architecture plan: before imports resu
 - **Reviews** are written to `reviews/k_<key>` (questions) and `reviews/p_<paper key>` (paper approvals and paper calls). An approval on any copy counts for every copy. The page still reads the old `reviews/q<id>` and `reviews/paper_<doc>` docs as a fallback (copies merged: an approval wins, the newest note is kept) until a key doc exists; then the key doc decides. Code: `RKEY` in page_src/js/08_review.js; 14_start.js indexes the collection through it.
 - **Saved exams** also store `keys` (parallel to `items`); opening one finds each question by key, as the copy the Bank shows, and falls back to the id. **Difficulty checks** store `key` and the part `part`, **reports** store `key`, so tools can re-attach them after a re-parse.
 - Tests: page_test "keys: …" (the CSSA case, the fallback and the key write, saved exams load).
+- **AP is a task name (25 Nov).** Owner: "AP3 is assessment period 3, AT3 is assessment task 3. I'm pretty sure they do it in the order
+  AT1, AP3, AT3, AP4. AP1 and 2 are in Y11"; "You choose i dont' care as long as its clear". CTHS papers are labelled as the school names
+  them ("2024 Cherrybrook Technology High School AP3"); the Papers tab's task filter and school column read AP<n> like AT<n>
+  (11_papers.js). The 16 renamed papers' review docs moved to the new keys (IMPORT_PLAYBOOK "AP is not AT").
 
 ## Rescan drive: no cap, fixed order, folded list (16 Nov)
 Owner 16 Nov: "So the rescan drive does not do a perfect job right?" then "Yeah can you fix it all?", and "once the scan

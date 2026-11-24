@@ -2,7 +2,10 @@
 
 Label = "<year> <formal school name> AT<n>"   e.g. "2023 Cherrybrook Technology High School AT1"
         "<year> NESA HSC"                      for HSC papers
-Stored per paper in documents: year, school_formal, task_code (AT1..AT4 or HSC), display_label (built here, never typed by hand).
+Stored per paper in documents: year, school_formal, task_code (AT1..AT4, AP1..AP4 or HSC), display_label (built here, never typed by hand).
+Cherrybrook Technology High School numbers some tasks by assessment period, owner 25 Nov: "AP3 is assessment period 3, AT3 is assessment
+task 3. I'm pretty sure they do it in the order AT1, AP3, AT3, AP4. AP1 and 2 are in Y11"; named as the school does ("2024 Cherrybrook
+Technology High School AP3"; owner: "You choose i dont' care as long as its clear").
 School names must match the official NSW school list (ACARA School Location file, NSW rows) in
 project/nsw_schools.csv (ACARA School Location 2025, NSW rows: 3,433 schools, all sectors), column "School Name".
 
@@ -17,7 +20,7 @@ DB = paths.DBS
 LIST = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'site', 'project', 'nsw_schools.csv')
 KNOWN = {'NESA', 'CSSA', 'Independent', 'NEAP', 'Western Mathematics', 'PEM', 'ACE', 'MathsBank', 'Bookminders', 'QATS', 'TEC', 'Trialmaths'}   # owner 11 Nov: "Commercial trial papers are fine" (labelled by setter, e.g. "2022 NEAP AT4")
 _OLD_KNOWN_NOTE = None   # approved non-school setters; owner 11 Nov: "CSSA papers should be labelled CSSA" ("2022 CSSA AT4"); "Independent" (commercial trial with no school on the cover: "2021 Independent AT4")
-TASK = re.compile(r'^(AT[1-4]|HSC)$')
+TASK = re.compile(r'^(AT[1-4]|AP[1-4]|HSC)$')   # owner 25 Nov: AP<n> = assessment period n (CTHS), kept as the school names it
 
 def schools():
     if os.path.exists(LIST):
@@ -36,7 +39,7 @@ def main():
     for i, y, s, t in db.execute('select id, year, school_formal, task_code from documents where id in (%s)' % ','.join(map(str, used))):
         probs = []
         if not (y and re.fullmatch(r'20\d\d', str(y))): probs.append('year missing')
-        if not (t and TASK.match(t)): probs.append('task must be AT1-AT4 (Trials are AT4) or HSC')
+        if not (t and TASK.match(t)): probs.append('task must be AT1-AT4 (Trials are AT4), AP1-AP4 (CTHS assessment periods) or HSC')
         if not s: probs.append('school missing')
         elif s not in names:
             near = difflib.get_close_matches(s, list(names), n=3, cutoff=0.6)

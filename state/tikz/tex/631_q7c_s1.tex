@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade hatch] (582,218) -- plot[domain=582:737,samples=40,smooth] (\x,{325-210*cos(((\x-582)/147.7) r)}) -- cycle;
+\draw[<->] (25,325) -- (1110,325);
+\draw[<->] (582,720) -- (582,10);
+\node at (1100,308) {$x$};
+\node at (594,40) {$y$};
+\draw[line width=0.9pt] (25,218) -- (1125,218);
+\draw[line width=0.9pt] plot[domain=0:1125,samples=90,smooth] (\x,{325-210*cos(((\x-582)/147.7) r)});
+\foreach \x in {118,1046} \draw (\x,319) -- (\x,331);
+\foreach \y in {115,218,430,535,640} \draw (576,\y) -- (588,\y);
+\node[font=\small] at (118,350) {$-\pi$};
+\node[font=\small] at (563,350) {$0$};
+\node[font=\small] at (1046,350) {$\pi$};
+\node[font=\small] at (562,96) {$1$};
+\node[font=\small] at (554,202) {$0.5$};
+\node[font=\small] at (550,432) {$-0.5$};
+\node[font=\small] at (556,537) {$-1$};
+\node[font=\small] at (550,642) {$-1.5$};
+\node[pt] at (737,218) {};
+\node[font=\large] at (787,168) {$\left(\dfrac{\pi}{3},\dfrac{1}{2}\right)$};
+\node[font=\large] at (1015,172) {$y=\dfrac{1}{2}$};
+\node[font=\large] at (383,434) {$y=\cos x$};
+\end{tikzpicture}
+\end{document}

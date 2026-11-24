@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade dots, stipple color=black!55] (180,310) -- (265,310) -- plot[domain=0:188,smooth,samples=40] ({265+273*(\x/188)^2},{310-\x}) -- (180,122) -- cycle;
+\path[shade hatch] (265,310) -- plot[domain=0:188,smooth,samples=40] ({265+273*(\x/188)^2},{310-\x}) -- (538,310) -- cycle;
+% axes
+\draw[<->] (15,310) -- (690,310);
+\draw[->] (180,488) -- (180,40);
+\node[font=\large] at (712,320) {$x$};
+\node[font=\large] at (160,42) {$y$};
+\draw[aux] (180,122) -- (538,122);
+\draw[aux] (538,122) -- (538,310);
+\draw[line width=0.9pt,->] plot[domain=0:210,smooth,samples=60] ({265+273*(\x/188)^2},{310-\x});
+\node[pt] at (538,122) {};
+\node[pt] at (265,310) {};
+\node[font=\large] at (540,88) {$C$};
+\node[font=\large,anchor=west] at (550,155) {$(11,3)$};
+\node[font=\large] at (162,92) {$D$};
+\node[font=\large,anchor=east] at (175,124) {$(0,3)$};
+\node[font=\large] at (157,334) {$A$};
+\node[font=\large] at (262,336) {$2$};
+\node[font=\large] at (292,336) {$X$};
+\node[font=\large] at (545,336) {$B$};
+\end{tikzpicture}
+\end{document}

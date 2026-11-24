@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \x in {190,270,349,428,507,586,665} \draw[black!35] (\x,18) -- (\x,414);
+\foreach \y in {18,98,177,256,335,414} \draw[black!35] (190,\y) -- (665,\y);
+\path[shade dots, stipple color=black!55] (270,335) -- plot[smooth] coordinates {(270,256) (349,243) (428,183) (470,135) (510,100) (552,80) (586,98)} -- (586,335) -- cycle;
+\draw (586,98) -- (586,335) -- (270,335) -- (270,256);
+\draw plot[smooth] coordinates {(270,256) (349,243) (428,183) (470,135) (510,100) (552,80) (586,98)};
+\node[font=\fontsize{13.5}{16}\selectfont] at (470,291) {\halo{Reservoir}};
+\draw[|-|] (175,256) -- (175,335);
+\node[anchor=east, font=\large] at (160,296) {$200$ m};
+\draw[|-|] (690,98) -- (690,335);
+\node[anchor=west, font=\large] at (702,216) {$600$ m};
+\draw[|-|] (270,380) -- (586,380);
+\node[font=\large] at (428,438) {$800$ m};
+\end{tikzpicture}
+\end{document}

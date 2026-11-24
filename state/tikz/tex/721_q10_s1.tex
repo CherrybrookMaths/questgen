@@ -1,0 +1,39 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\newcommand{\est}[6]{% x y letter est lst halfcellwidth
+  \draw (#1-2*#6,#2-15) rectangle (#1+2*#6,#2+15); \draw (#1,#2-15)--(#1,#2+15);
+  \node[font=\normalsize] at (#1-#6,#2) {#4}; \node[font=\normalsize] at (#1+#6,#2) {#5};
+  \node[font=\normalsize,anchor=east] at (#1-2*#6-6,#2) {$#3$};}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  ma/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+  lb/.style={font=\normalsize}]
+\coordinate (S) at (186,297); \coordinate (P) at (393,123); \coordinate (Q) at (776,123);
+\coordinate (R) at (776,297); \coordinate (Fi) at (1189,367); \coordinate (U) at (393,507);
+\draw[ma=0.55] (S)--(P); \draw[ma=0.53] (P)--(Q); \draw[ma=0.53] (Q)--(R);
+\draw[ma=0.5] (Q)--(Fi); \draw[ma=0.5] (S)--(R); \draw[ma=0.5] (R)--(Fi);
+\draw[ma=0.5] (S)--(U); \draw[ma=0.5] (U)--(R); \draw[ma=0.5] (U)--(Fi);
+\foreach \p in {S,P,Q,R,Fi,U} \fill (\p) circle (4.5);
+\node[lb,anchor=east] at (176,299) {Start};
+\node[lb,anchor=west] at (1199,369) {Finish};
+\node[lb] at (575,90) {$B$, 1};
+\node[lb] at (245,185) {$A$, 3};
+\node[lb] at (724,210) {$E$, 5};
+\node[lb] at (1010,207) {$G$, 7};
+\node[lb] at (488,264) {$C$, 10};
+\node[lb] at (975,295) {$H$, 3};
+\node[lb] at (545,375) {$F$, 3};
+\node[lb] at (237,432) {$D$, 8};
+\node[lb] at (805,475) {$I$, 4};
+\est{400}{48}{B}{3}{5}{14}
+\est{870}{40}{E}{4}{6}{14}
+\est{870}{108}{G}{4}{7}{14}
+\est{125}{210}{A}{0}{2}{14}
+\est{125}{258}{C}{0}{1}{14}
+\est{125}{372}{D}{0}{0}{14}
+\est{835}{360}{H}{11}{11}{20}
+\est{1272}{297}{}{14}{14}{20}
+\est{520}{522}{F}{8}{8}{14}
+\est{520}{562}{I}{8}{10}{20}
+\end{tikzpicture}
+\end{document}

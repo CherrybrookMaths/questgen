@@ -29,6 +29,15 @@ TEXT = {'questions': ['stem_latex', 'options_table_json'], 'parts': ['latex'], '
         'figures': ['png_path', 'tikz_path', 'redraw_table_id'], 'page_reviews': ['fig_json', 'data_json']}
 
 
+def _no_notes(v):
+    """A review doc's JSON without its note texts: a note may quote an old name (Claude's 23 Nov fix note on 2021 Fort Street AT4
+    Q1(c) quotes \\exfigure{1305_q1(c)_s1}); notes print as plain text, so only the doc's figure fields and solution edits count."""
+    try: d = json.loads(v)
+    except ValueError: return v
+    strip = lambda o: {k: strip(x) for k, x in o.items() if k != 'note'} if isinstance(o, dict) else [strip(x) for x in o] if isinstance(o, list) else o
+    return json.dumps(strip(d))
+
+
 def bad_names(db):
     """{name: [where, ...]} for every figure / table name outside the normal form."""
     out = {}
@@ -45,6 +54,7 @@ def bad_names(db):
         cs = [c for c in cols if c in {r[1] for r in db.execute(f'pragma table_info({tab})')}]
         for row in db.execute(f'select {", ".join(cs)} from {tab}'):
             for v in row:
+                if tab == 'page_reviews' and v: v = _no_notes(v)
                 for m in REF.finditer(v or ''):
                     if not OK.fullmatch(m.group(2)): out.setdefault(m.group(2), []).append(tab)
     return out

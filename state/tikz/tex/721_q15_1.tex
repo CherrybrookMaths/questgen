@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\def\f#1{376-339*exp(-((#1-443)/108)^2/2)}
+\fill[shade] plot[domain=60:343, samples=60, smooth] (\x,{\f{\x}}) -- (343,376) -- (60,376) -- cycle;
+\fill[shade] plot[domain=545:830, samples=60, smooth] (\x,{\f{\x}}) -- (830,376) -- (545,376) -- cycle;
+\draw[line width=0.9pt] plot[domain=60:830, samples=90, smooth] (\x,{\f{\x}});
+\foreach \x in {242,343,443,545,645} \draw[aux] (\x,376) -- (\x,{\f{\x}});
+\foreach \x in {139,746} \draw (\x,376) -- (\x,366);
+\draw[<->] (38,376) -- (850,376);
+\foreach \x/\l in {139/35,242/45,343/55,443/65,545/75,645/85,746/95} \node[font=\large] at (\x,410) {\l};
+\end{tikzpicture}
+\end{document}

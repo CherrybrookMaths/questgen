@@ -1,0 +1,61 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{wall/.style={draw, shade dense dots, stipple color=black}}
+\node at (543,42) {Scale 1 cm = 0.5 m};
+% kitchen floor shading
+\fill[shade] (155,110) rectangle (432,348);
+% outer walls
+\path[wall] (47,92) rectangle (190,110);
+\path[wall] (280,92) rectangle (645,110);
+\path[wall] (888,92) rectangle (1035,110);
+\path[wall] (47,110) rectangle (67,200);
+\path[wall] (47,320) rectangle (67,507);
+\path[wall] (47,507) rectangle (220,525);
+\path[wall] (308,507) rectangle (622,525);
+\path[wall] (735,507) rectangle (780,525);
+\path[wall] (900,507) rectangle (1035,525);
+\path[wall] (1018,110) rectangle (1035,145);
+\path[wall] (1018,300) rectangle (1035,507);
+\path[wall] (1018,145) -- (1035,132) -- (1148,240) -- (1137,252) -- cycle;
+% windows
+\draw (190,92) rectangle (280,110);
+\draw (645,92) rectangle (888,110);
+\draw (47,200) rectangle (67,320);
+\draw (220,507) rectangle (308,525);
+\draw (622,507) rectangle (735,525);
+\draw (780,507) rectangle (900,525);
+% door
+\draw (1142,248) .. controls (1122,282) and (1082,300) .. (1035,302);
+% interior walls
+\path[wall] (432,110) rectangle (440,240);
+\path[wall] (67,348) rectangle (218,366);
+\path[wall] (330,358) rectangle (430,368);
+\path[wall] (412,368) rectangle (430,507);
+\draw (292,350) rectangle (395,356);
+\draw (330,354) -- (430,354);
+% kitchen benches and sink
+\draw (155,110) -- (155,348);
+\draw (78,122) rectangle (152,215);
+\draw (78,225) rectangle (150,330);
+\draw (82,268) rectangle (146,325);
+\foreach \x in {96,108,120} \draw (\x,235) -- (\x,256);
+% shower
+\draw (67,366) rectangle (200,507);
+\draw (67,366) -- (200,507) (200,366) -- (67,507);
+\draw[fill=white] (133,437) circle (7);
+% toilet and bathroom fittings
+\draw (372,428) ellipse (30 and 22);
+\draw[fill=white] (392,398) rectangle (410,460);
+\draw (222,470) rectangle (305,507);
+\draw (333,485) rectangle (378,507);
+% living room furniture
+\draw (547,110) rectangle (800,228);
+\draw (444,388) rectangle (527,470);
+\draw (695,365) rectangle (820,507);
+\draw (935,345) rectangle (1018,507);
+\node at (292,230) {Kitchen};
+\node at (712,295) {Living room};
+\end{tikzpicture}
+\end{document}

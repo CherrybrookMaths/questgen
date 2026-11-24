@@ -656,3 +656,31 @@ Owner 23 Nov: "we need to start working on the standard course", "Standard 2 fir
   drawing and were dropped with Claude's solutions (MG answer only); for 2024 the same for 40_q36_s1 and 40_q40_s1 (working only in the
   guidelines), and 40_q41_s1 is the guidelines' time line (new). A dropped sketch is also taken out of its old tikz/result_*.json, or
   batch_check blocks it as an unmerged redraw.
+
+## AP is not AT: CTHS assessment periods (25 Nov)
+Owner 25 Nov, verbatim: "AP3 is assessment period 3, AT3 is assessment task 3. I'm pretty sure they do it in the order AT1, AP3, AT3,
+AP4. AP1 and 2 are in Y11"; on how to name them: "You choose i dont' care as long as its clear" (the main session chose: name them exactly
+as the school does, "AP3" / "AP4").
+- **The bug.** Cherrybrook Technology High School (CTHS) numbers some Year 12 tasks by assessment period. The file-name rule
+  (tools/classify_paths.py task_of: `ap4` -> AT4, `ap<n>` -> AT<n>) and the parse (cover "AP3" written as task_code AT3, "trials are AT4")
+  turned AP3 into AT3 and AP4 into AT4, so 16 CTHS papers took the AT name, and the school's real AT3 papers (same year, same school)
+  would have merged into them under one paper key. They were never imported: 2020 Adv AT3 (doc 631), 2024 Adv AT3 (643), 2024 Std AT3 (721).
+- **The rule now.** task_code AP1-AP4 is a task of its own: classify_paths.task_of returns AP<n> for an "AP<n>" file name, before the
+  trial rule; exam_name.py accepts AP1-AP4; PARSE_SPEC "Naming" and api_import's parse task say a cover's AP<n> stays AP<n>; the Papers tab
+  reads AP<n> as a task (filter and school name). Labels: "2024 Cherrybrook Technology High School AP3"; keys 2024-Cherrybrook-AP3-Q5,
+  Standard 2024-CTHS-AP3-STD-Q5. Year 12 order at CTHS: AT1, AP3, AT3, AP4 (AP4 is the trial); AP1-AP2 are Year 11.
+- **Renamed 25 Nov** (documents.task_code, display_label, question_keys, review docs): Advanced AP3 629 (2020), 632 (2021), 634 (2022),
+  637 (2023), 640 (2024), 644 (2025); AP4 635 (2022), 638 (2023). Standard AP3 710 (2021), 713 (2022), 716 (2023), 719 (2024), 722 (2025);
+  AP4 711 (2021), 714 (2022), 717 (2023). Each was checked against its cover (state/out/<doc>.json cover.title says AP3 / AP4).
+  **Not renamed:** 641, the file "2024 Y12 Adv AP4 Trial Exam" in the CTHS folder, is the CSSA 2024 Trial (its cover: "CSSA 2024 Trial
+  Higher School Certificate Examination") and keeps "2024 CSSA AT4" (owner 11 Nov: "CSSA papers should be labelled CSSA"). 722's
+  question keys stay `doc722-Q<n>` (given before its cover was read; they carry no task name) and its paper key stays `doc722`; only its
+  label changed.
+- **How the keys moved** (tools/qkeys.py: a key is never given to a different question; here the paper itself was renamed): 401 rows of
+  question_keys renamed by prefix (work/cths_ap_1125/key_map.json, untracked; copies in other papers that share a CTHS key moved with
+  it), 93 review docs (85 k_, 8 p_) copied to the new key with their data unchanged (fields renamed_from / renamed_at / renamed_why
+  added), 5 saved exams and 1 report rewritten to the new keys, then the old docs deleted after a local build showed every paper's
+  approvals, figure decisions and paper approval unchanged under the new keys (work/cths_ap_1125/verify.txt). difficulty docs are keyed
+  by part id and held no CTHS keys.
+- **Left for the owner:** 639 ("2023 Y12 Adv AT1" in the file name) is filed under year 2022; not imported (the graduation-year rule
+  may make it 2023: check its cover).

@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (2,303) -- (1068,303);
+\draw[<->] (540,680) -- (540,5);
+\node at (1050,288) {$x$};
+\node at (554,30) {$y$};
+\draw[line width=0.9pt] (0,200) -- (1070,200);
+\draw[line width=0.9pt] plot[domain=0:1070,samples=90,smooth] (\x,{303-205*cos(((\x-540)/143.2) r)});
+\foreach \x in {90,990} \draw (\x,297) -- (\x,309);
+\foreach \y in {98,200,405,508,610} \draw (534,\y) -- (546,\y);
+\node[font=\small] at (90,328) {$-\pi$};
+\node[font=\small] at (522,328) {$0$};
+\node[font=\small] at (990,328) {$\pi$};
+\node[font=\small] at (520,80) {$1$};
+\node[font=\small] at (512,184) {$0.5$};
+\node[font=\small] at (508,407) {$-0.5$};
+\node[font=\small] at (514,510) {$-1$};
+\node[font=\small] at (508,612) {$-1.5$};
+\node[pt] at (690,200) {};
+\node[font=\large] at (742,152) {$\left(\dfrac{\pi}{3},\dfrac{1}{2}\right)$};
+\node[font=\large] at (970,152) {$y=\dfrac{1}{2}$};
+\node[font=\large] at (357,406) {$y=\cos x$};
+\end{tikzpicture}
+\end{document}
