@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+\def\caps{(180,47) -- (425,47) arc[start angle=-90,end angle=90,x radius=72,y radius=66.5] -- (180,180) arc[start angle=90,end angle=270,x radius=72,y radius=66.5] -- cycle}
+\begin{scope}\clip \caps; \fill[shade] (100,137) rectangle (520,190);\end{scope}
+\draw \caps;
+\draw (180,113.5) ellipse[x radius=29,y radius=66.5];
+\draw (425,113.5) ellipse[x radius=29,y radius=66.5];
+\draw[aux,<->] (112,40) -- (498,40);
+\node at (305,20) {18 cm};
+\draw[aux,<->] (508,47) -- (508,182);
+\node[anchor=west] at (514,113) {6 cm};
+\node[align=left,anchor=west] at (658,108) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

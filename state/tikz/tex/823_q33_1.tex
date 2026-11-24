@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,20} \draw[black!40,line width=0.4pt] ({131+\i*32.45},710)--({131+\i*32.45},73);
+\foreach \j in {1,...,20} \draw[black!40,line width=0.4pt] (131,{710-\j*31.85})--(780,{710-\j*31.85});
+\draw[->] (131,710)--(131,13);
+\draw[->] (131,710)--(842,710);
+\node[rotate=90] at (50,385) {amount (\$)};
+\node at (462,790) {number of coffee tables};
+\end{tikzpicture}
+\end{document}

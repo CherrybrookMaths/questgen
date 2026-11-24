@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, x=0.55cm, y=0.55cm, xmin=-6.7, xmax=6.8, ymin=-7.7, ymax=7.8,
+  xtick={-6,-4,-2,2,4,6}, ytick={-6,-4,-2,2,4,6},
+  minor xtick={-5,-3,-1,1,3,5}, minor ytick={-7,-5,-3,-1,1,3,5,7},
+  grid=both, grid style={black!15, line width=0.3pt}, minor grid style={black!15, line width=0.3pt},
+  tick label style={font=\scriptsize}]
+\addplot[line width=0.9pt, domain=-6:6, samples=2] {-x/2+1};
+\addplot[line width=0.9pt, domain=-6.5:0.5, samples=2] {2*x+6};
+\node[pt] at (axis cs:-2,2) {};
+\node[anchor=east, font=\small, inner sep=1pt] at (axis cs:-2.5,1.6) {$(-2,2)$};
+\node[anchor=south west, font=\small, inner sep=1pt] at (axis cs:2.6,0.15) {$y=-\dfrac{x}{2}+1$};
+\node[anchor=west, font=\small, inner sep=1pt] at (axis cs:0.75,6.6) {$y=2x+6$};
+\node[anchor=north east, font=\scriptsize, inner sep=1.5pt] at (axis cs:0,0) {$O$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

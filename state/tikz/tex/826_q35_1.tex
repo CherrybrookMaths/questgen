@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\setlength\treeL{2.85cm}
+\def\treeoutfont{\normalfont\fontsize{11}{13}\selectfont}
+\def\treeprobfont{\normalfont\fontsize{10}{12}\selectfont}
+\begin{document}
+\treewidth{1}{Hit}\treewidth{1}{Miss}\treewidth{2}{Hit}\treewidth{2}{Miss}
+\treecolumns{2}
+\begin{tikzpicture}
+\treeroot{r}{0cm}
+\treenode{h}{1}{1.3cm}{Hit}
+\treenode{m}{1}{-1.3cm}{Miss}
+\treenode{hh}{2}{2.15cm}{Hit}
+\treenode{hm}{2}{0.45cm}{Miss}
+\treenode{mh}{2}{-0.45cm}{Hit}
+\treenode{mm}{2}{-2.15cm}{Miss}
+\treebranch{r}{h}{}
+\treebranch{r}{m}{}
+\treebranch{h}{hh}{}
+\treebranch{h}{hm}{}
+\treebranch{m}{mh}{}
+\treebranch{m}{mm}{}
+% probability placed as the template does (midpoint, lifted slope*w/2 + gap), drawn directly
+\node[tree prob,anchor=south] at ($(r-out)!0.5!(h-in)+(0,0.21cm)$) {0.8};
+\treehead{1}{2.75cm}{Olivia}
+\treehead{2}{2.75cm}{Henry}
+\end{tikzpicture}
+\end{document}

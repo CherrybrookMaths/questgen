@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9}{11}\selectfont]
+\foreach \i in {1,...,20} \draw[black!45,line width=0.5pt] ({100+29.2*\i},63) -- ({100+29.2*\i},672);
+\foreach \j in {1,...,20} \draw[black!45,line width=0.5pt] (100,{672-30.45*\j}) -- (684,{672-30.45*\j});
+\draw[->] (100,672) -- (100,22);
+\draw[->] (100,672) -- (734,672);
+\foreach \j in {0,...,5} {\draw (86,{672-121.8*\j}) -- (100,{672-121.8*\j});
+  \pgfmathtruncatemacro\l{200*\j}\node[anchor=east] at (82,{672-121.8*\j}) {\l};}
+\foreach \i in {0,...,5} {\draw ({100+116.8*\i},672) -- ({100+116.8*\i},684);
+  \pgfmathtruncatemacro\l{4*\i}\node[anchor=north] at ({100+116.8*\i},687) {\l};}
+\node at (88,14) {\fontsize{10}{12}\selectfont$c$};
+\node at (722,690) {\fontsize{10}{12}\selectfont$d$};
+\end{tikzpicture}
+\end{document}

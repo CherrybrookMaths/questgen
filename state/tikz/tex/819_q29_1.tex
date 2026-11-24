@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\coordinate (O) at (298,282); \coordinate (D) at (103,86); \coordinate (A) at (441,155);
+\coordinate (B) at (425,374); \coordinate (C) at (161,517);
+\draw (D) -- (A) -- (B) -- (C) -- cycle;
+\draw[->] (O) -- ($(O)!1.25!(D)$);
+\draw[->] (O) -- ($(O)!1.32!(A)$);
+\draw[->] (O) -- ($(O)!1.37!(B)$);
+\draw[->] (O) -- ($(O)!1.2!(C)$);
+\draw[->] (O) -- (298,205);
+\foreach \p in {O,A,B,C,D} \fill (\p) circle (2.3pt);
+\node at (36,20) {$318^\circ$};
+\node at (486,100) {$045^\circ$};
+\node at (488,425) {$125^\circ$};
+\node at (127,588) {$215^\circ$};
+\node at (111,66) {$D$};
+\node at (459,172) {$A$};
+\node at (441,360) {$B$};
+\node at (177,535) {$C$};
+\node at (306,302) {$O$};
+\node at (296,190) {$N$};
+\node[rotate=-45.2] at (213,160) {290 m};
+\node[rotate=41.6] at (362,214) {140 m};
+\node[rotate=-35.9] at (370,312) {135 m};
+\node[rotate=59.7] at (224,387) {260 m};
+\end{tikzpicture}
+\end{document}

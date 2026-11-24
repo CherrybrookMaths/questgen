@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\draw (62,65) .. controls (110,95) and (165,135) .. (207,135)
+  .. controls (262,135) and (304,100) .. (352,72)
+  .. controls (400,44) and (450,3) .. (498,3)
+  .. controls (545,3) and (595,40) .. (643,88);
+\draw (62,65)--(62,240)--(643,240)--(643,88);
+\draw (207,135)--(207,240); \draw (352,72)--(352,240); \draw (498,3)--(498,240);
+\foreach \x in {62,207,352,498} \draw (\x,226)--(\x+14,226)--(\x+14,240);
+\foreach \x in {135,280,425,571} \draw (\x,232)--(\x,246);
+\draw (62,264)--(62,280); \draw (645,264)--(645,280);
+\draw[aux,<-] (62,272)--(326,272);
+\draw[aux,->] (382,272)--(645,272);
+\node at (354,272) {16 m};
+\node at (32,160) {5 m};
+\node at (182,190) {3 m};
+\node at (326,159) {4 m};
+\node at (472,138) {6 m};
+\node at (616,160) {4 m};
+\node[align=center] at (760,172) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

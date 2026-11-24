@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (42,205); \coordinate (B) at (199,205); \coordinate (C) at (355,88);
+\coordinate (D) at (591,48); \coordinate (E) at (512,165);
+\draw (A)--(B) (B)--(C) (B)--(E) (C)--(E) (C)--(D);
+\draw (A) .. controls (130,282) and (215,340) .. (290,339) .. controls (365,338) and (450,262) .. (E);
+\foreach \v in {A,B,C,D,E} \fill (\v) circle (9);
+\node at (24,187) {$A$}; \node at (183,185) {$B$}; \node at (335,71) {$C$};
+\node at (587,21) {$D$}; \node at (534,165) {$E$};
+\end{tikzpicture}
+\end{document}

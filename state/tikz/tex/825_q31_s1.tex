@@ -1,0 +1,45 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\coordinate (D) at (3,6);
+\coordinate (W) at (6,5.2);
+\coordinate (PH) at (0,4);
+\coordinate (O) at (6.8,2.8);
+\coordinate (Ba) at (10,2.6);
+\coordinate (Bl) at (8.5,1.0);
+\coordinate (C) at (5,0);
+\coordinate (G) at (1.2,0.2);
+\coordinate (Y) at (3,-1.6);
+% unused edges
+\begin{scope}[aux,black!55]
+\draw (PH) -- node[pos=0.55,below,black] {$78$} (W);
+\draw (PH) -- node[midway,left,black] {$98$} (G);
+\draw (PH) -- node[pos=0.45,above right,black] {$108$} (C);
+\draw (C) -- node[midway,below right,black] {$50$} (Y);
+\draw (O) -- node[midway,above,black] {$53$} (Ba);
+\end{scope}
+% minimum spanning tree
+\begin{scope}[line width=0.9pt]
+\draw (Ba) -- node[midway,below right] {$27$} (Bl);
+\draw (O) -- node[midway,below left] {$32$} (Bl);
+\draw (D) -- node[midway,above] {$36$} (W);
+\draw (G) -- node[midway,below left] {$38$} (Y);
+\draw (G) -- node[midway,above] {$40$} (C);
+\draw (C) -- node[midway,below right] {$47$} (Bl);
+\draw (D) -- node[midway,above left] {$48$} (PH);
+\draw (W) -- node[midway,right] {$67$} (O);
+\end{scope}
+\foreach \v in {D,W,PH,O,Ba,Bl,C,G,Y}{\fill (\v) circle (2pt);}
+\node[above] at (D) {Dubbo};
+\node[above right] at (W) {Wellington};
+\node[left] at (PH) {Peak Hill};
+\node[above left] at (O) {Orange};
+\node[right] at (Ba) {Bathurst};
+\node[below] at (Bl) {Blayney};
+\node[below right] at (C) {Cowra};
+\node[left] at (G) {Grenfell};
+\node[below] at (Y) {Young};
+\node at (5,-2.6) {Total length $=335$};
+\end{tikzpicture}
+\end{document}

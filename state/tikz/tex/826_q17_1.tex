@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\coordinate (A) at (42,192); \coordinate (B) at (160,75); \coordinate (C) at (357,35);
+\coordinate (D) at (437,192); \coordinate (E) at (357,350); \coordinate (F) at (160,310); \coordinate (G) at (280,192);
+\draw (A)--(B)--(C)--(D)--(E)--(F)--cycle;
+\draw (A)--(D) (B)--(G)--(C) (F)--(G)--(E);
+\foreach \p in {A,B,C,D,E,F,G} \fill (\p) circle[radius=2.6];
+\node at (18,188) {$A$}; \node at (158,52) {$B$}; \node at (370,15) {$C$}; \node at (462,192) {$D$};
+\node at (375,366) {$E$}; \node at (145,333) {$F$}; \node at (309,212) {$G$};
+\node at (90,115) {$5$}; \node at (258,32) {$6$}; \node at (410,105) {$6$}; \node at (414,282) {$5$};
+\node at (255,345) {$3$}; \node at (85,262) {$3$}; \node at (160,208) {$1$}; \node at (195,138) {$3$};
+\node at (296,114) {$4$}; \node at (348,175) {$7$}; \node at (328,262) {$4$}; \node at (236,262) {$6$};
+\end{tikzpicture}
+\end{document}

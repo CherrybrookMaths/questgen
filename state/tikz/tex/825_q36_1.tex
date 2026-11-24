@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (P) at (62,37); \coordinate (Q) at (220,272); \coordinate (R) at (420,272);
+  \draw (P) -- (Q) -- (R) -- cycle;
+  % apex angle
+  \pgfmathsetmacro\aQ{atan2(235,158)} \pgfmathsetmacro\aR{atan2(235,358)}
+  \draw[->] ($(P)+(\aR:62)$) arc[start angle=\aR, end angle=\aQ, radius=62];
+  \draw ($(P)+(42:64)$) -- (140,56);
+  \node[anchor=west,font=\small] at (139,49) {$23^\circ 37'$};
+  % theta
+  \pgfmathsetmacro\bP{atan2(-235,-158)+360}
+  \draw[->] ($(Q)+(\bP:48)$) arc[start angle=\bP, end angle=360, radius=48];
+  \node[font=\small] at (234,251) {$\theta$};
+  \node[font=\small] at (296,136) {54.1 cm};
+  \node[font=\small] at (322,296) {25 cm};
+\end{tikzpicture}
+\end{document}

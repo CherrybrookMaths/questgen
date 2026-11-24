@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{13}{15}\selectfont]
+% axes
+\draw[->] (216,372) -- (216,30);
+\draw[->] (216,372) -- (1024,372);
+\foreach \t in {1,...,32} \draw ({216+24.47*\t},366) -- ({216+24.47*\t},378);
+\foreach \t in {0,5,...,30} \node[anchor=north] at ({216+24.47*\t},393) {\t};
+\foreach \b/\l in {0/0,50/50\,000,100/100\,000,150/150\,000,200/200\,000,250/250\,000,300/300\,000,350/350\,000} {
+  \draw (208,{372-0.928571*\b}) -- (216,{372-0.928571*\b});
+  \node[anchor=east] at (203,{372-0.928571*\b}) {\l};
+}
+\node at (585,468) {Years};
+\node[rotate=90] at (45,215) {Loan balance (\$)};
+% curves (balance in $1000)
+\draw[line width=0.9pt] plot[domain=0:10, samples=40, smooth] ({216+24.47*\x},{372-0.928571*350*(4.4677-pow(1.05116,\x))/3.4677});
+\draw[aux, line width=0.9pt] plot[domain=10:30, samples=60, smooth] ({216+24.47*\x},{372-0.928571*350*(4.4677-pow(1.05116,\x))/3.4677});
+\draw[line width=0.9pt] plot[domain=10:22, samples=50, smooth] ({216+24.47*\x},{372-0.928571*200*(2.8127-pow(1.09,\x-10))/1.8127});
+\draw[dotted] ({216+24.47*10},{372-0.928571*284.7}) -- ({216+24.47*10},{372-0.928571*200});
+\end{tikzpicture}
+\end{document}

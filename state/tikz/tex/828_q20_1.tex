@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (48,308); \coordinate (B) at (77,103); \coordinate (C) at (251,221); \coordinate (D) at (284,426);
+\coordinate (E) at (362,46); \coordinate (F) at (484,251); \coordinate (G) at (601,77); \coordinate (H) at (660,309);
+\draw (A)--(B)--(E)--(G)--(H)--(D)--(A) (B)--(C)--(E) (A)--(C)--(F)--(G) (F)--(H) (D)--(F);
+\node at (16,322) {$A$}; \node at (52,92) {$B$}; \node at (246,247) {$C$}; \node at (276,460) {$D$};
+\node at (362,20) {$E$}; \node at (476,227) {$F$}; \node at (612,52) {$G$}; \node at (683,328) {$H$};
+\foreach \p/\w in {{(189,47)}/65,{(481,35)}/62,{(25,200)}/80,{(279,128)}/60,{(150,185)}/60,{(375,210)}/45,{(511,154)}/90,{(660,183)}/50,{(572,257)}/73,{(169,284)}/74,{(350,321)}/94,{(146,393)}/136,{(507,382)}/130}
+  \node at \p {$\w$};
+\end{tikzpicture}
+\end{document}

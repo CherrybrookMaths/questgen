@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(1.4351cm,-9.0513cm)},x=1.3044cm,y=0.24829cm]
+  \foreach \k in {1,...,35} \draw[black!35,line width=0.4pt] (0,\k)--(7,\k);
+  \foreach \k in {0.5,1.5,...,6.5} \draw[black!35,line width=0.4pt] (\k,0)--(\k,35);
+  \foreach \v [count=\i from 0] in {1,5,10,20,30,34,35}
+    \draw[fill=black!18] (\i,0) rectangle (\i+1,\v);
+  \draw (0,0) rectangle (7,35);
+  \foreach \k in {1,...,35} \draw (0,\k)--++(0.08,0);
+  \foreach \k in {5,10,...,35} {\draw (0,\k)--++(0.14,0); \node[anchor=east] at (-0.1,\k) {\k};}
+  \foreach \v [count=\i from 0] in {22,...,28} {\draw (\i+0.5,0)--++(0,-0.4); \node[anchor=north] at (\i+0.5,-1.1) {\v};}
+\end{scope}
+\node at (470,793) {Number of Lollies in a Packet};
+\node[rotate=90] at (30,368) {Cumulative Frequency};
+\end{tikzpicture}
+\end{document}

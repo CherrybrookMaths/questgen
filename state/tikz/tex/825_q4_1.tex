@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6553cm,y=0.6553cm]
+  \foreach \i in {-5,...,5} {
+    \draw[black!30, line width=0.4pt] (\i,-5) -- (\i,5);
+    \draw[black!30, line width=0.4pt] (-5,\i) -- (5,\i);
+  }
+  \draw[<->] (-5.45,0) -- (5.45,0) node[right] {$x$};
+  \draw[<->] (0,-5.55) -- (0,5.6) node[above] {$y$};
+  \foreach \i in {-5,...,-1,1,2,3,4,5} {
+    \draw (\i,-0.1) -- (\i,0.1);
+    \draw (-0.1,\i) -- (0.1,\i);
+  }
+  \foreach \i in {-5,-4,-3,-2,-1,2,3,4,5}
+    \node[font=\small, anchor=north, inner sep=2pt] at (\i,-0.2) {$\i$};
+  \node[font=\small, anchor=south, inner sep=2pt] at (1,0.12) {$1$};
+  \foreach \i in {-5,-4,-3,-2,-1,2,3,4,5}
+    \node[font=\small, anchor=east, inner sep=2pt] at (-0.1,\i) {$\i$};
+  \node[font=\small, anchor=east, inner sep=2pt] at (-0.12,0.85) {$1$};
+  \draw[<->, line width=0.9pt] (-3,5.5) -- (4.3333,-5.5);
+\end{tikzpicture}
+\end{document}

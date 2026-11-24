@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\f(#1){329-283*exp(-0.5*((#1-297)/63)^2)}
+  \fill[shade hatch] (201,329) -- plot[smooth, domain=201:393, samples=60] (\x,{\f(\x)}) -- (393,329) -- cycle;
+  \draw[<->] (20,329) -- (577,329);
+  \draw[->] (297,329) -- (297,16);
+  \draw (201,329) -- (201,{\f(201)});
+  \draw (393,329) -- (393,{\f(393)});
+  \draw[line width=0.9pt] plot[smooth, domain=40:554, samples=90] (\x,{\f(\x)});
+  \node[anchor=base,font=\small] at (199,359) {$-z$};
+  \node[anchor=base,font=\small] at (297,359) {$0$};
+  \node[anchor=base,font=\small] at (393,359) {$z$};
+\end{tikzpicture}
+\end{document}

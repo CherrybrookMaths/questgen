@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.30404cm,y=0.0040799cm,font=\fontsize{7}{8.5}\selectfont]
+% crop: y-axis x=51 px, 23.94 px per day; x-axis y=337 px, 0.3213 px per case
+\begin{scope}
+\clip (-2.13,-109) rectangle (20.51,1049);
+\foreach \i in {-2,...,21} \draw[black!18,line width=0.4pt] (\i,-109) -- (\i,1049);
+\foreach \j in {-100,-50,...,1050} \draw[black!18,line width=0.4pt] (-2.13,\j) -- (20.51,\j);
+\foreach \i in {0,4,...,20} \draw[black!50,line width=0.5pt] (\i,-109) -- (\i,1049);
+\foreach \j in {200,400,...,1000} \draw[black!50,line width=0.5pt] (-2.13,\j) -- (20.51,\j);
+\draw (-2.13,0) -- (20.51,0);
+\draw (0,-109) -- (0,1049);
+\draw[aux] (-2.13,800) -- (20.51,800);
+\draw[aux] (19.42,-109) -- (19.42,1049);
+\draw[line width=0.9pt,smooth,samples=90,domain=-2.13:20.51] plot (\x,{150*exp(\x*ln(1.09))});
+\end{scope}
+\foreach \i in {4,8,...,16} \node[anchor=north] at (\i,-12) {\i};
+\node[anchor=north east] at (20.2,-12) {20};
+\node[anchor=north east] at (-0.15,-12) {0};
+\foreach \j in {200,400,...,1000} \node[anchor=east] at (-0.15,\j) {\j};
+\end{tikzpicture}
+\end{document}

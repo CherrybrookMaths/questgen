@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}, mid/.default=0.55]
+  \coordinate (S) at (120,333); \coordinate (T) at (396,58); \coordinate (M) at (653,117);
+  \coordinate (R) at (1075,97); \coordinate (Fi) at (1145,334); \coordinate (L) at (318,452);
+  \draw[mid] (S) -- (T);
+  \draw[mid] (S) -- (L);
+  \draw[mid] (T) -- (M);
+  \draw[mid] (L) -- (M);
+  \draw[mid] (L) -- (Fi);
+  \draw[mid] (M) -- (R);
+  \draw[mid] (M) -- (Fi);
+  \draw[mid] (R) -- (Fi);
+  \foreach \p in {S,T,M,R,Fi,L} \fill (\p) circle (5);
+  \node[anchor=east] at (100,320) {Start};
+  \node[anchor=west] at (1165,340) {Finish};
+  \node at (204,164) {$A(4)$};
+  \node at (190,442) {$B(2)$};
+  \node at (530,42) {$C(3)$};
+  \node at (428,268) {$D(6)$};
+  \node at (748,436) {$E(5)$};
+  \node at (856,68) {$F(3)$};
+  \node at (930,192) {$G(4)$};
+  \node at (1166,195) {$H(2)$};
+\end{tikzpicture}
+\end{document}

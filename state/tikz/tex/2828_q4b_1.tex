@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.16078cm,y=0.002421cm,font=\fontsize{5.8}{7}\selectfont]
+  \draw[black!15,line width=0.3pt,xstep=0.1,ystep=50] (0,0) grid (5.3,1500);
+  \foreach \t in {1,...,5} \draw[black!35,line width=0.4pt] (\t,0) -- (\t,1500);
+  \foreach \v in {500,1000,1500} \draw[black!35,line width=0.4pt] (0,\v) -- (5.3,\v);
+  \draw[->] (0,0) -- (5.36,0) node[right=1pt] {$T$};
+  \draw[->] (0,0) -- (0,1620) node[above=1pt] {$V$};
+  \foreach \t in {0,...,5} \node[anchor=north] at (\t,-45) {\t};
+  \foreach \v in {100,200,...,1500} \node[anchor=east] at (-0.04,\v) {\v};
+  \draw[line width=0.9pt] plot[domain=0:5.3,smooth,samples=90] (\x,{1500*exp(-0.248383*\x)});
+  \node[pt,inner sep=0.8pt] (P) at (3,712) {};
+  \node (L) at (3.45,1055) {$(\,3\ ,\ 712\,)$};
+  \draw[->,shorten >=1pt] (3.35,965) -- (P);
+  \node at (2.0,-215) {Time (years)};
+  \node[rotate=90] at (-0.56,730) {Value (\$)};
+\end{tikzpicture}
+\end{document}

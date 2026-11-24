@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (90,325)--(742,325);
+  \draw (90,325)--(90,140);
+  \draw (742,325)--(742,105);
+  \draw[aux] (254,325)--(254,112);
+  \draw[aux] (416,325)--(416,33);
+  \draw[aux] (579,325)--(579,138);
+  \draw plot[smooth,tension=0.6] coordinates {(90,140)(150,147)(254,112)(330,72)(416,33)(475,52)(540,110)(579,138)(630,153)(690,152)(742,105)};
+  \foreach \x in {172,335,498,661} \draw (\x,314)--(\x,336);
+  \draw (90,303)--(112,303)--(112,325);
+  \foreach \x in {254,416,579} \draw (\x,303)--(\x+22,303)--(\x+22,325);
+  \draw (742,303)--(720,303)--(720,325);
+  \node[anchor=west] at (95,242) {4 m};
+  \node[anchor=west] at (259,245) {5 m};
+  \node[anchor=west] at (421,242) {7 m};
+  \node[anchor=west] at (584,245) {4 m};
+  \node[anchor=east] at (737,245) {5 m};
+  \draw[->] (350,378)--(90,378);
+  \draw[->] (420,378)--(742,378);
+  \node at (385,378) {8 m};
+\end{tikzpicture}
+\end{document}

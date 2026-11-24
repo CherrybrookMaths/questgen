@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \t in {12,...,30} \draw[black!30,line width=0.4pt] ({199+54*(\t-12)},12)--({199+54*(\t-12)},303);
+\draw (148,303)--(1173,303);
+\foreach \t in {12,...,30} {\draw ({199+54*(\t-12)},303)--({199+54*(\t-12)},313); \node[inner sep=1pt] at ({199+54*(\t-12)},337) {$\t$};}
+\begin{scope}[line width=0.9pt]
+\filldraw[fill=black!12] ({199+54*8},28) rectangle ({199+54*13},144);
+\draw ({199+54*12},28)--({199+54*12},144);
+\draw ({199+54*5},86)--({199+54*8},86) ({199+54*13},86)--({199+54*14},86);
+\draw ({199+54*5},56)--({199+54*5},116) ({199+54*14},56)--({199+54*14},116);
+\filldraw[fill=black!12] ({199+54*4},173) rectangle ({199+54*13},289);
+\draw ({199+54*9},173)--({199+54*9},289);
+\draw ({199+54*2},231)--({199+54*4},231) ({199+54*13},231)--({199+54*15},231);
+\draw ({199+54*2},202)--({199+54*2},260) ({199+54*15},202)--({199+54*15},260);
+\end{scope}
+\node[anchor=east] at (160,88) {Sydney};
+\node[anchor=east] at (160,230) {Melbourne};
+\node[font=\footnotesize] at (706,368) {Monthly mean maximum temperature ($^\circ$C)};
+\end{tikzpicture}
+\end{document}

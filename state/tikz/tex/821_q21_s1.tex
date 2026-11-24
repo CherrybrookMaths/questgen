@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\begin{tikzpicture}
+  \treewidth{1}{$B$}\treewidth{1}{$R$}\treewidth{2}{$B$}\treewidth{2}{$R$}
+  \treecolumns{2}
+  \treeroot{O}{0cm}
+  \treenode{B}{1}{1.9cm}{$B$}
+  \treenode{R}{1}{-1.9cm}{$R$}
+  \treenode{BB}{2}{2.85cm}{$B$}
+  \treenode{BR}{2}{0.95cm}{$R$}
+  \treenode{RB}{2}{-0.95cm}{$B$}
+  \treenode{RR}{2}{-2.85cm}{$R$}
+  \treebranch{O}{B}{$\dfrac{14}{25}$}
+  \treebranch{O}{R}{$\dfrac{11}{25}$}
+  \treebranch{B}{BB}{$\dfrac{13}{24}$}
+  \treebranch{B}{BR}{$\dfrac{11}{24}$}
+  \treebranch{R}{RB}{$\dfrac{14}{24}$}
+  \treebranch{R}{RR}{$\dfrac{10}{24}$}
+\end{tikzpicture}
+\end{document}

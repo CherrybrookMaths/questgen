@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{10.8}{12.6}\selectfont,
+  grid/.style={black!55,line width=0.4pt,dash pattern=on 0.7pt off 1.3pt}]
+\foreach \k in {1,...,9} {\draw[grid] (150,{398-35.3*\k}) -- (748,{398-35.3*\k});
+  \draw[grid] ({150+59.8*\k},45) -- ({150+59.8*\k},398);}
+\foreach \c/\v in {209.8/48,329.4/30,449/24,568.6/15,688.2/8}
+  {\filldraw[fill=black!30] ({\c-43},398) rectangle ({\c+43},{398-7.06*\v});}
+\draw (150,45) rectangle (748,398);
+\foreach \v in {0,5,...,50} {\node[anchor=east] at (141,{398-7.06*\v}) {\v};}
+\foreach \v in {0,10,...,100} {\node[anchor=west] at (762,{398-3.53*\v}) {\v\%};}
+\draw (209.8,262.4) -- (329.4,177.7) -- (449,110.0) -- (568.6,67.6) -- (688.2,45);
+\foreach \c/\y in {209.8/262.4,329.4/177.7,449/110.0,568.6/67.6,688.2/45} {\fill (\c,\y) circle (5.5);}
+\node[rotate=90] at (60,220) {Number of fails};
+\node[rotate=-90] at (872,200) {Cumulative percentage};
+\node[rotate=-90,anchor=west,align=left] at (207,418) {Speeding};
+\node[rotate=-90,anchor=west,align=left] at (330,418) {Failing to stop completely at\\Stop signs};
+\node[rotate=-90,anchor=west,align=left] at (449,418) {Failing to give way};
+\node[rotate=-90,anchor=west,align=left] at (580,418) {Failing to maintain correct\\road position};
+\node[rotate=-90,anchor=west,align=left] at (688.2,418) {Vehicle not roadworthy};
+\end{tikzpicture}
+\end{document}

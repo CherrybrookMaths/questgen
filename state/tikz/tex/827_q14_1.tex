@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\newcommand{\bx}[4]{\draw[line width=0.6pt] ($(#1)+(-#4,-14)$) rectangle ($(#1)+(#4,14)$) ($(#1)+(0,-14)$)--($(#1)+(0,14)$);
+ \node at ($(#1)+(-#4/2,0)$){$#2$}; \node at ($(#1)+(#4/2,0)$){$#3$};}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+ \coordinate (s) at (86,240); \coordinate (n1) at (228,240); \coordinate (n2) at (328,70);
+ \coordinate (n3) at (692,70); \coordinate (n4) at (510,240); \coordinate (n5) at (692,240);
+ \coordinate (n6) at (328,406); \coordinate (n7) at (692,406); \coordinate (f) at (922,240);
+ \foreach \a/\b in {s/n1,n1/n2,n2/n3,n1/n4,n1/n6,n4/n5,n3/n5,n3/f,n5/f,n7/n5,n6/n7,n7/f}
+   \draw[->,shorten >=4] (\a)--(\b);
+ \draw[->,shorten >=4,dash pattern=on 1pt off 1.5pt] (n6)--(n4);
+ \foreach \p in {s,n1,n2,n3,n4,n5,n6,n7,f} \fill (\p) circle[radius=4];
+ \foreach \x/\y/\t in {134/222/A(5),246/152/B(4),504/52/E(7),343/258/C(7),224/337/D(12),599/256/G(12),
+   672/154/J(6),815/135/I(7),799/256/L(4),710/324/H(8),829/342/K(7),499/424/F(3)}
+   \node at (\x,\y){$\t$};
+ \bx{329,40}{9}{16}{38} \bx{693,40}{16}{23}{38} \bx{510,208}{17}{17}{38} \bx{730,209}{29}{29}{38}
+ \bx{182,271}{5}{5}{33} \bx{329,436}{17}{17}{38} \bx{693,436}{20}{21}{38}
+ \draw (29,227) rectangle (59,255); \node at (44,241){$0$};
+ \draw (940,227) rectangle (975,255); \node at (957,241){$33$};
+ \node at (39,200){Start};
+ \node at (959,200){Finish};
+\end{tikzpicture}
+\end{document}

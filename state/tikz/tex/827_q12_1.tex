@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+ \coordinate (B) at (55,-374); \coordinate (C) at (710,-374); \coordinate (A) at (424,-58);
+ \draw (B)--(A)--(C)--cycle;
+ \draw[aux,->] (B)--(55,-85);
+ \draw[aux,->] (C)--(710,-155);
+ \draw[aux,->] (55,-181) arc[start angle=90,end angle=41.5,radius=193];
+ \draw[aux,->] (710,-260) arc[start angle=90,end angle=-226.5,radius=114];
+ \node[font=\large] at (444,-32){$A$};
+ \node[font=\large] at (28,-410){$B$};
+ \node[font=\large] at (730,-400){$C$};
+ \node at (116,-240){$036^\circ$};
+ \node at (768,-338){$320^\circ$};
+ \node at (318,-402){125 km};
+\end{tikzpicture}
+\end{document}

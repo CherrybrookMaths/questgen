@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \fill[shade, even odd rule] (266,200) circle (130) (175,149) rectangle (356,260);
+  \draw (266,200) circle (130);
+  \draw (175,149) rectangle (356,260);
+  % 21 m
+  \draw[aux] (175,149)--(175,40) (356,149)--(356,40);
+  \draw[<->] (175,52)--(356,52);
+  \node at (265,28) {21 m};
+  % 30 m
+  \draw[aux] (108,70)--(266,70) (108,330)--(266,330);
+  \draw[<->] (118,70)--(118,330);
+  \node[anchor=east, inner sep=2pt] at (112,200) {30 m};
+  % 13 m
+  \draw[aux] (356,149)--(440,149) (356,260)--(440,260);
+  \draw[<->] (425,149)--(425,260);
+  \node[anchor=west, inner sep=2pt] at (428,208) {13 m};
+\end{tikzpicture}
+\end{document}

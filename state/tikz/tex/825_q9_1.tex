@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\setlength\treeL{1.8cm}
+\def\lab#1#2{\begin{tabular}{@{}c@{}}#1\\[-2pt]#2\end{tabular}}
+\treewidth{1}{\lab{Lou not}{successful}}
+\treewidth{2}{\lab{Ali not}{successful}}
+\treecolumns{2}
+\begin{tikzpicture}
+  \treeroot{R}{-4.191cm}
+  \treenode{L1}{1}{-1.905cm}{\lab{Lou}{successful}}
+  \treenode{L2}{1}{-6.477cm}{\lab{Lou not}{successful}}
+  \treenode{A1}{2}{-0.965cm}{\lab{Ali}{successful}}
+  \treenode{A2}{2}{-2.845cm}{\lab{Ali not}{successful}}
+  \treenode{A3}{2}{-5.537cm}{\lab{Ali}{successful}}
+  \treenode{A4}{2}{-7.417cm}{\lab{Ali not}{successful}}
+  \treebranch{R}{L1}{}
+  \treebranch{R}{L2}{}
+  \treebranch{L1}{A1}{}
+  \treebranch{L1}{A2}{}
+  \treebranch{L2}{A3}{}
+  \treebranch{L2}{A4}{}
+  \node[tree prob, anchor=south, yshift=11pt] at ($(R-out)!0.5!(L1-in)$) {0.7};
+  \node[tree prob, anchor=north, yshift=-11pt] at ($(R-out)!0.5!(L2-in)$) {0.3};
+  \node[tree prob, anchor=south, yshift=6pt] at ($(L1-out)!0.5!(A1-in)$) {0.6};
+  \node[tree prob, anchor=north, yshift=-6pt] at ($(L1-out)!0.5!(A2-in)$) {0.4};
+  \node[tree prob, anchor=south, yshift=6pt] at ($(L2-out)!0.5!(A3-in)$) {0.6};
+  \node[tree prob, anchor=north, yshift=-6pt] at ($(L2-out)!0.5!(A4-in)$) {0.4};
+\end{tikzpicture}
+\end{document}

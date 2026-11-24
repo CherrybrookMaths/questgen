@@ -1,0 +1,42 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\coordinate (S) at (105,267);
+\coordinate (TL) at (232,140);
+\coordinate (TR) at (427,140);
+\coordinate (M) at (267,267);
+\coordinate (MR) at (412,267);
+\coordinate (K) at (525,267);
+\coordinate (BL) at (232,397);
+\coordinate (BR) at (395,397);
+\draw[mid=0.58] (S)--(TL);
+\draw[mid=0.6] (TL)--(TR);
+\draw[mid=0.6] (TR)--(K);
+\draw[mid=0.55] (S)--(M);
+\draw[mid=0.6] (M)--(MR);
+\draw[mid=0.6] (MR)--(K);
+\draw[mid=0.6] (S)--(BL);
+\draw[mid=0.6] (BL)--(BR);
+\draw[mid=0.6] (BR)--(M);
+\draw[mid=0.6] (BR)--(K);
+\foreach \p in {S,TL,TR,M,MR,K,BL,BR} \fill (\p) circle (6.5);
+\draw[aux] plot[smooth] coordinates {(362,65) (370,140) (384,240) (377,300) (362,355) (361,410) (377,464)};
+\begin{scope}[every node/.style={font=\footnotesize}]
+\node at (347,47) {Cut 1};
+\node[anchor=east] at (93,267) {Source};
+\node[anchor=west] at (537,267) {Sink};
+\node at (152,187) {$a$};
+\node at (339,121) {$e$};
+\node at (491,187) {$h$};
+\node at (192,255) {$b$};
+\node at (349,249) {$g$};
+\node at (447,255) {$i$};
+\node at (173,364) {$c$};
+\node at (322,417) {$d$};
+\node at (300,336) {$f$};
+\node at (485,336) {$j$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

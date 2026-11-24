@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\curve{(32,200) .. controls (90,188) and (160,170) .. (191,148) .. controls (240,108) and (282,14) .. (352,14) .. controls (425,14) and (452,124) .. (522,124) .. controls (582,124) and (640,95) .. (675,70)}
+\path[shade dots, stipple color=black!45] (32,333) -- \curve -- (675,333) -- cycle;
+\draw (32,333) -- (32,200);
+\draw \curve;
+\draw (675,70) -- (675,333) -- (32,333);
+\draw[aux] (191,333) -- (191,148);
+\draw[aux] (352,333) -- (352,14);
+\draw[aux] (513,333) -- (513,124.3);
+\foreach \x in {110,272,432,594} \draw (\x,323) -- (\x,343);
+\foreach \x in {32,191,352,513} \draw (\x,315) -- (\x+18,315) -- (\x+18,333);
+\draw (657,333) -- (657,315) -- (675,315);
+\node[anchor=west] at (36,260) {\halo{5 m}};
+\node[anchor=west] at (194,260) {\halo{7 m}};
+\node[anchor=west] at (355,260) {\halo{12 m}};
+\node[anchor=west] at (516,260) {\halo{8 m}};
+\node[anchor=west] at (679,260) {10 m};
+\draw (32,360) -- (32,392);
+\draw (675,360) -- (675,392);
+\draw[aux,->] (318,376) -- (33,376);
+\draw[aux,->] (386,376) -- (674,376);
+\node at (352,373) {12 m};
+\node[align=center] at (905,192) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (200,425)--(818,425);
+  \draw[->] (200,425)--(200,5);
+  \foreach \k in {1,...,12} {\draw ({201+48.8*\k},419)--({201+48.8*\k},431);
+    \node[font=\scriptsize] at ({201+48.8*\k},446) {\k};}
+  \foreach \n in {1,...,5} {\draw (193,{427-79*\n})--(207,{427-79*\n});
+    \node[font=\scriptsize,anchor=east] at (190,{427-79*\n}) {\n};}
+  \foreach \x/\m in {1/1,2/5,3/4,4/4,5/3,6/1,12/1}
+    \foreach \n in {1,...,\m}
+      \draw[fill=black!30] ({201+48.8*\x},{427-79*\n}) ellipse [x radius=13, y radius=11];
+  \node at (508,497) {Call Duration (minutes).};
+  \node[rotate=90] at (135,190) {Number of Phone Calls.};
+\end{tikzpicture}
+\end{document}

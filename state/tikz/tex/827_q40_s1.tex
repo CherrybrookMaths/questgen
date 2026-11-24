@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+  mid/.default=0.8]
+\coordinate (n1) at (110,433); \coordinate (n2) at (370,433); \coordinate (n3) at (510,433);
+\coordinate (n4) at (512,226); \coordinate (n5) at (762,226); \coordinate (n6) at (710,390);
+\coordinate (n7) at (512,638); \coordinate (n8) at (933,390); \coordinate (n9) at (1148,390);
+\draw[mid] (n1)--(n2); \draw[mid] (n2)--(n4); \draw[mid] (n2)--(n3);
+\draw[mid] (n2)--(n7); \draw[mid] (n4)--(n6); \draw[mid] (n4)--(n5);
+\draw[mid] (n6)--(n8); \draw[mid] (n8)--(n9);
+\draw[aux,mid=0.85] (n3)--(n4); \draw[aux,mid=0.85] (n7)--(n6); \draw[aux,mid=0.85] (n5)--(n8);
+\foreach \p in {n1,n2,n3,n4,n5,n6,n7,n8,n9} \fill (\p) circle (7);
+\node[font=\Large] at (240,392) {$A,2$};
+\node[font=\Large] at (410,258) {$B,3$};
+\node[font=\Large] at (440,392) {$C,3$};
+\node[font=\Large] at (478,505) {$E,5$};
+\node[font=\Large] at (645,175) {$F,8$};
+\node[font=\Large] at (672,295) {$D,3$};
+\node[font=\Large] at (810,350) {$G,4$};
+\node[font=\Large] at (1045,350) {$H,2$};
+\end{tikzpicture}
+\end{document}

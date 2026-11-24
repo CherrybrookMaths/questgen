@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\scriptsize]
+\foreach \x in {88,139,190,241} \draw[black!30,line width=0.4pt] (\x,263)--(\x,57);
+\foreach \y in {214,165,116,67} \draw[black!30,line width=0.4pt] (37,\y)--(256,\y);
+\draw[->] (31,263)--(258,263);
+\draw[->] (37,269)--(37,54);
+\foreach \x in {88,139,190,241} \draw (\x,258)--(\x,268);
+\foreach \y in {214,165,116,67} \draw (32,\y)--(42,\y);
+\foreach \x/\l in {139/1,241/2} \node at (\x,281) {$\l$};
+\foreach \y/\l in {214/2,165/4,116/6,67/8} \node at (22,\y) {$\l$};
+\node at (268,275) {$x$};
+\node at (37,41) {$y$};
+\draw[line width=0.9pt,smooth,samples=90,domain=0:2.05] plot ({37+102*\x},{263-24.5*\x^3});
+\end{tikzpicture}
+\end{document}

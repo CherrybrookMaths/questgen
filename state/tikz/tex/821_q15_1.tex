@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5445cm,y=0.5503cm]
+  \draw[black!25, line width=0.4pt, step=1] (0,0) grid (16.9,12.9);
+  \draw[->] (0,0)--(17.15,0);
+  \draw[->] (0,0)--(0,13.15);
+  \foreach \u in {1,...,16} \draw (\u,0)--(\u,-0.15);
+  \foreach \u in {0,2,...,16} \node[anchor=north, font=\small, inner sep=2pt] at (\u,-0.1) {$\u$};
+  \foreach \v in {0,2,...,12} \node[anchor=east, font=\small, inner sep=3pt] at (-0.1,\v) {$\v$};
+  \draw[line width=0.9pt] (0,2)--(10.92,12.92);
+  \draw[line width=0.9pt] (0,3)--(16.9,11.45);
+  \node at (7.75,11.6) {Income};
+  \node at (12.6,8.6) {Cost};
+  \node at (-3.15,6) {Dollars (\$)};
+  \node at (8.05,-1.68) {Number of Toppings};
+\end{tikzpicture}
+\end{document}

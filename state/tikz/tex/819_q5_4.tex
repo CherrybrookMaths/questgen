@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \a/\b/\t in {55/97/142,97/138/100,138/180/142,180/221/60,221/262/142}
+  \draw[fill=black!30] (\a,265) rectangle (\b,\t);
+\draw[->] (35,265) -- (35,18);
+\draw[->] (35,265) -- (302,265);
+\node at (17,26) {$f$};
+\node at (312,266) {$x$};
+\end{tikzpicture}
+\end{document}

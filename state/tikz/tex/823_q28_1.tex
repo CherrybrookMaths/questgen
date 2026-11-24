@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\foreach \i in {1,...,12} \draw[black!45,line width=0.5pt] ({110+51*\i},458)--({110+51*\i},49);
+\foreach \j in {1,...,12} \draw[black!45,line width=0.5pt] (110,{458-34.08*\j})--(722,{458-34.08*\j});
+\draw[->] (110,458)--(758,458);
+\draw[->] (110,458)--(110,12);
+\foreach \i in {0,...,12} {\draw ({110+51*\i},458)--({110+51*\i},464); \node[below,inner sep=2pt] at ({110+51*\i},463) {\i};}
+\foreach \j/\l in {0/0,1/0.1,2/0.2,3/0.3,4/0.4,5/0.5,6/0.6,7/0.7,8/0.8,9/0.8,10/1.0,11/1.1,12/1.2} {\draw (104,{458-34.08*\j})--(110,{458-34.08*\j});}
+\foreach \j/\l in {0/0,1/0.1,2/0.2,3/0.3,4/0.4,5/0.5,6/0.6,7/0.7,8/0.8,9/0.9,10/1.0,11/1.1,12/1.2} {\node[left,inner sep=2pt] at (104,{458-34.08*\j}) {\l};}
+\foreach \a/\b in {1/0.1,4/0.4,5/0.5,5/0.6,6/0.6,8/0.9,9/0.8,11/1.0,12/1.1} \node[pt] at ({110+51*\a},{458-340.8*\b}) {};
+\node[rotate=90] at (30,250) {width (cm)};
+\node at (430,527) {length (cm)};
+\end{tikzpicture}
+\end{document}

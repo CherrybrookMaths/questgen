@@ -1,0 +1,47 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% kitchen shading
+\fill[shade] (123,103) rectangle (373,318);
+% outer walls
+\fill (24,85) rectangle (155,103); \fill (237,85) rectangle (568,103); \fill (790,85) rectangle (930,103);
+\draw (155,85) rectangle (237,103); \draw (568,85) rectangle (790,103);
+\fill (24,85) rectangle (42,185); \fill (24,295) rectangle (42,482); \draw (24,185) rectangle (42,295);
+\fill (24,464) rectangle (182,482); \fill (262,464) rectangle (548,482); \fill (650,464) rectangle (692,482); \fill (800,464) rectangle (930,482);
+\draw (182,464) rectangle (262,482); \draw (548,464) rectangle (650,482); \draw (692,464) rectangle (800,482);
+\fill (912,85) rectangle (930,132); \fill (912,278) rectangle (930,482);
+% door
+\fill (918,127)--(1027,217)--(1019,226)--(911,136)--cycle;
+\draw (1023,222) .. controls (1000,272) .. (930,278);
+% interior walls
+\fill (373,103) rectangle (383,218);
+\draw (373,218)--(373,318);
+\fill (42,318) rectangle (180,335);
+\draw (180,318)--(373,318); \draw (180,335)--(285,335);
+\draw (248,320) rectangle (340,327);
+\fill (285,328) rectangle (375,337);
+\fill (357,330) rectangle (375,464);
+\draw (180,335)--(180,464);
+% kitchen fittings
+\draw (123,103)--(123,318);
+\draw (52,113) rectangle (123,197);
+\draw (52,207) rectangle (116,300); \draw (56,250) rectangle (112,296);
+\foreach \x in {65,78,92} \draw (\x,215)--(\x,242);
+% bathroom
+\draw (42,337) rectangle (163,464); \draw (42,337)--(163,464); \draw (163,337)--(42,464);
+\draw[fill=white] (103,398) circle (8);
+\draw (181,432) rectangle (262,464); \draw (286,443) rectangle (327,464);
+\draw[rounded corners=6] (336,366) rectangle (354,414);
+\draw[fill=white] (318,390) ellipse (28 and 22);
+% living room furniture
+\draw (480,103) rectangle (710,210);
+\draw (385,357) rectangle (461,432);
+\draw (613,333) rectangle (726,464);
+\draw (832,318) rectangle (912,464);
+% labels
+\node at (248,210) {Kitchen};
+\node at (630,270) {Living room};
+\node at (452,42) {Scale: 1 cm = 0.8 m};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\footnotesize}]
+\draw (100,27) rectangle (345,153);
+\draw (100,47)--(120,47)--(120,27);
+\draw (325,153)--(325,133)--(345,133);
+\node at (375,96) {$15-x$};
+\node at (223,169) {$x$};
+\draw[->] (30,543)--(30,234);
+\draw[->] (30,543)--(437,543);
+\node at (28,222) {$y$};
+\node at (449,541) {$x$};
+\node at (18,548) {0};
+\node at (16,285) {$A$};
+\draw[aux] (30,285)--(163,285);
+\draw[line width=0.9pt] plot[smooth,domain=30:296,samples=90] (\x,{285+258*((\x-163)/133)^2});
+\node[align=left, anchor=west] at (312,367) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

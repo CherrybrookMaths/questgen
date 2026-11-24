@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,15} {
+  \draw[black!30, line width=0.5pt] ({26+\i*44.67},93) -- ({26+\i*44.67},763);
+  \draw[black!30, line width=0.5pt] (26,{763-\i*44.67}) -- (696,{763-\i*44.67});
+}
+\draw[->] (26,763) -- (26,38);
+\draw[->] (26,763) -- (754,763);
+\end{tikzpicture}
+\end{document}

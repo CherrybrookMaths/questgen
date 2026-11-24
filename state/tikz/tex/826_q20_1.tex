@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% can
+\draw (140,60) ellipse[x radius=105,y radius=35];
+\draw (35,60)--(35,335) (245,60)--(245,335);
+\draw (35,335) arc[start angle=180,end angle=0,x radius=105,y radius=35];
+\draw[aux] (35,335) arc[start angle=180,end angle=360,x radius=105,y radius=35];
+\node[font=\large\sffamily\bfseries\itshape] at (125,160) {YUMMY};
+\node[font=\normalsize\sffamily] at (125,215) {S\,O\,U\,P};
+\draw (75,282) arc[start angle=180,end angle=0,x radius=55,y radius=38];
+\draw (130,282) ellipse[x radius=55,y radius=12];
+% label
+\draw (378,38) rectangle (980,318);
+\draw (728,52)--(728,305);
+\draw (543,50) rectangle (706,302);
+\draw (543,232)--(706,232);
+\node[font=\tiny\sffamily\itshape] at (624,65) {N U T R I T I O N A L};
+\node[font=\tiny\sffamily\itshape] at (624,88) {I N F O R M A T I O N};
+\foreach \y in {118,132,146,160,174,188,202,216} \draw[black!50] (555,\y)--(695,\y);
+\foreach \y in {250,262,274,286} \draw[black!50] (555,\y)--(695,\y);
+\foreach \y in {62,76,90,104,150,164,178,236,250,264} \draw[black!50] (398,\y)--(525,\y);
+\node[font=\large\sffamily\bfseries\itshape] at (858,110) {YUMMY};
+\node[font=\normalsize\sffamily] at (858,162) {S\,O\,U\,P};
+\draw (800,225) arc[start angle=180,end angle=0,x radius=55,y radius=38];
+\draw (855,225) ellipse[x radius=55,y radius=12];
+% dimensions
+\draw (378,330)--(378,354) (980,330)--(980,354);
+\draw[->] (630,342)--(378,342); \draw[->] (730,342)--(980,342);
+\node[font=\small] at (680,342) {$23{\cdot}6$ cm};
+\draw (1033,38)--(1058,38) (1033,318)--(1058,318);
+\draw[->] (1045,160)--(1045,38); \draw[->] (1045,200)--(1045,318);
+\node[font=\small] at (1045,180) {$11{\cdot}5$ cm};
+\end{tikzpicture}
+\end{document}

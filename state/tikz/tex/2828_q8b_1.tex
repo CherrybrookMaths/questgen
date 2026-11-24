@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.04233cm,y=0.08255cm,font=\footnotesize]
+  \draw[black!25, line width=0.3pt] (0,0) grid[xstep=4,ystep=2] (120,60);
+  \draw[->] (0,0) -- (126,0);
+  \draw[->] (0,0) -- (0,63);
+  \foreach \y in {2,4,...,60} \draw (0,\y) -- (-1.8,\y);
+  \foreach \y in {10,20,...,60} \node[left] at (-2.2,\y) {\$\,\y000};
+  \foreach \x in {0,20,...,120} \node at (\x,-4.2) {\x};
+  \draw[line width=0.9pt] plot[smooth, samples=90, domain=0:120] (\x,{50-1.882*(exp(0.02764*\x)-1)});
+  \node[font=\scriptsize] at (97,38.9) {\$650 per month};
+  \node[rotate=90, font=\scriptsize] at (-38,24.3) {Amount owing};
+  \node[font=\normalsize] at (64,-10.6) {Number of months};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,42 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+  mid/.default=0.56]
+\coordinate (S) at (113,200); \coordinate (A) at (272,85); \coordinate (C) at (461,85);
+\coordinate (D) at (648,85); \coordinate (E) at (770,200); \coordinate (G) at (885,70);
+\coordinate (J) at (980,315); \coordinate (H) at (828,428); \coordinate (K) at (1068,390);
+\coordinate (B) at (272,315);
+\draw[mid] (S)--(A); \draw[mid] (S)--(B); \draw[mid] (A)--(C); \draw[mid] (C)--(D);
+\draw[mid=0.5] (D)--(E); \draw[mid=0.5] (B)--(E); \draw[mid] (E)--(G); \draw[mid] (E)--(H);
+\draw[mid] (G)--(J); \draw[mid] (H)--(J); \draw[mid] (J)--(K);
+\draw[mid=0.72] (E)--(J);
+\foreach \p in {S,A,C,D,E,G,J,H,K,B} \fill (\p) circle (5.5);
+\node at (66,200) {Start};
+\node at (1068,420) {Finish};
+\node at (160,117) {$A,5$};
+\node at (160,282) {$B,8$};
+\node at (366,55) {$C,7$};
+\node at (556,55) {$D,2$};
+\node at (722,103) {$E,3$};
+\node at (812,105) {$G,5$};
+\node at (968,183) {$J,8$};
+\node at (505,298) {$F,6$};
+\node at (750,302) {$H,6$};
+\node at (920,400) {$I,3$};
+\node at (1060,330) {$K,10$};
+\node at (905,238) {$X,12$};
+% earliest | latest starting times
+\node at (92,165) {$0\,|\,0$};
+\node at (272,50) {$5\,|\,5$};
+\node at (461,50) {$12\,|\,12$};
+\node at (650,50) {$14\,|\,14$};
+\node at (835,193) {$17\,|\,17$};
+\node at (895,40) {$22\,|\,22$};
+\node at (290,275) {$8\,|\,11$};
+\node at (1028,283) {$30\,|\,30$};
+\node at (1135,365) {$40\,|\,40$};
+\node at (835,463) {$23\,|\,27$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \draw[<->] (12,260) -- (482,260);
+  \draw[<->] (247,425) -- (247,48);
+  \node[font=\large] at (496,262) {$x$};
+  \node[font=\large] at (241,20) {$y$};
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=-14.25:14.25] plot ({247+10*\x},{148+1.44*\x*\x});
+\end{tikzpicture}
+\end{document}

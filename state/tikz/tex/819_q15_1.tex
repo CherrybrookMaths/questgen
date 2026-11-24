@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\rightedge{(100,14) (89,45) (92,75) (108,101) (130,160) (147,210) (152,250) (147,295) (130,345) (108,402) (92,425) (75,440)}
+\begin{scope}
+\clip (0,101) rectangle (278,402);
+\fill[shade] plot[smooth] coordinates {\rightedge} -- (278,440) -- (278,14) -- cycle;
+\end{scope}
+\draw plot[smooth] coordinates {\rightedge};
+\draw plot[smooth] coordinates {(76,14) (60,40) (56,70) (66,105) (92,158) (114,207) (121,250) (115,300) (96,355) (72,400) (44,432)};
+\draw (108,101)--(278,101)--(278,402)--(108,402);
+\draw[aux] (152,250)--(278,250);
+% right angles
+\draw (278,111)--(268,111)--(268,101);
+\draw (278,240)--(268,240)--(268,250);
+\draw (278,392)--(268,392)--(268,402);
+% equal ticks
+\foreach \y in {175,326} {\draw (272,\y-3)--(284,\y-3) (272,\y+3)--(284,\y+3);}
+% 60 m dimension
+\draw (305,101)--(327,101) (305,402)--(327,402);
+\draw[aux,<-] (316,101)--(316,236);
+\draw[aux,->] (316,265)--(316,402);
+\begin{scope}[every node/.style={font=\small}]
+\node at (320,251) {60 m};
+\node at (193,85) {32 m};
+\node at (212,237) {18 m};
+\node at (193,419) {25 m};
+\node[align=center] at (462,243) {NOT\\TO\\SCALE};
+\end{scope}
+\node[rotate=90,font=\footnotesize] at (137,248) {road};
+\end{tikzpicture}
+\end{document}

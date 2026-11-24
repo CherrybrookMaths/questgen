@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (205,68); \coordinate (B) at (690,112); \coordinate (O) at (510,492);
+\coordinate (D) at (100,633); \coordinate (C) at (820,633);
+\draw (A)--(B)--(C)--(D)--cycle;
+\draw (O)--(A) (O)--(B) (O)--(C) (O)--(D);
+\draw[->] (O)--(510,175);
+\node[font=\bfseries\sffamily] at (510,158) {N};
+\node at (189,66) {$A$}; \node at (182,34) {$310^\circ$};
+\node at (708,112) {$B$}; \node at (704,80) {$021^\circ$};
+\node at (838,633) {$C$}; \node at (833,665) {$113^\circ$};
+\node at (80,633) {$D$}; \node at (78,665) {$256^\circ$};
+\node at (510,512) {$O$};
+\node at (387,256) {75\,m}; \node at (578,256) {60\,m};
+\node at (278,546) {64\,m}; \node at (688,546) {48\,m};
+\node[align=center,font=\normalsize] at (853,330) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

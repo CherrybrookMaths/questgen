@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate,decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}}]
+\coordinate (S) at (83,210); \coordinate (N1) at (272,53); \coordinate (N2) at (613,53);
+\coordinate (N3) at (613,210); \coordinate (N4) at (270,397); \coordinate (F) at (985,272);
+\draw[mid=0.55] (S)--(N1);
+\draw[mid=0.54] (N1)--(N2);
+\draw[mid=0.6] (N2)--(N3);
+\draw[mid=0.52] (S)--(N3);
+\draw[mid=0.54] (S)--(N4);
+\draw[mid=0.53] (N4)--(N3);
+\draw[mid=0.52] (N2)--(F);
+\draw[mid=0.53] (N3)--(F);
+\draw[mid=0.52] (N4)--(F);
+\node at (450,25) {$B$, 1};
+\node at (138,108) {$A$, 3};
+\node at (567,135) {$E$, 5};
+\node at (826,128) {$G$, 7};
+\node at (343,180) {$C$, 10};
+\node at (790,212) {$H$, 3};
+\node at (410,278) {$F$, 3};
+\node at (128,330) {$D$, 8};
+\node at (640,372) {$I$, 4};
+\node[anchor=east] at (78,210) {Start};
+\node[anchor=west] at (990,272) {Finish};
+\end{tikzpicture}
+\end{document}

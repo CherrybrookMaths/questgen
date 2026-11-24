@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, v/.style={circle,draw,minimum size=0.71cm,inner sep=0pt}]
+\node[v] (F) at (258,45) {$F$};
+\node[v] (E) at (487,46) {$E$};
+\node[v] (B) at (48,214) {$B$};
+\node[v] (D) at (662,260) {$D$};
+\node[v] (A) at (330,429) {$A$};
+\node[v] (C) at (574,446) {$C$};
+\draw (F)--(E) (F)--(B) (E)--(D) (B)--(A) (A)--(D) (A)--(C) (C)--(D);
+\end{tikzpicture}
+\end{document}

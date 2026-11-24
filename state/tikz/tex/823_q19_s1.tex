@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (C) at (558,295); \coordinate (M) at (120,100); \coordinate (L) at (800,192);
+\draw[->] (C)--(558,140);
+\draw[->] (C)--(410,295);
+\draw[->] (C)--(710,295);
+\draw[->] (C)--(558,440);
+\draw (M)--(C)--(L);
+\draw[aux] (M)--(L);
+\draw (120,20)--(120,205);
+% angles at C
+\draw (558,195) arc[start angle=-90,end angle={-90-66},radius=100];
+\draw (558,195) arc[start angle=-90,end angle={-90+66.5},radius=100];
+\node[font=\large] at (520,245) {$75^\circ$};
+\node[font=\large] at (594,244) {$65^\circ$};
+% angles at M (y downward)
+\draw (120,45) arc[start angle=-90,end angle=7.5,radius=55];
+\draw (120,140) arc[start angle=90,end angle=24,radius=40];
+\draw ($(M)+(24:70)$) arc[start angle=24,end angle=7.5,radius=70];
+\node[font=\large] at ($(M)+(16:106)$) {$\theta$};
+\path (M)--(C) node[pos=0.48,sloped,above=0pt,font=\large] {26 km};
+\path (C)--(L) node[pos=0.62,sloped,above=0pt,font=\large] {16 km};
+\node[pt] at (M) {}; \node[pt] at (C) {}; \node[pt] at (L) {};
+\node[font=\Large] at (558,102) {N};
+\node[font=\Large] at (82,88) {$M$};
+\node[font=\Large] at (834,194) {$L$};
+\node[font=\Large] at (588,330) {$C$};
+\end{tikzpicture}
+\end{document}

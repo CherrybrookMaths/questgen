@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.029972cm,y=0.023368cm,font=\fontsize{6.5}{8}\selectfont]
+  \draw[black!20,line width=0.3pt,step=10] (-15,-20) grid (195,128);
+  \draw[->] (-15.5,0) -- (199.5,0) node[right=2pt] {$A$};
+  \draw[->] (0,-20.5) -- (0,131.5) node[above=1pt] {$E$};
+  \node[anchor=east] at (-2,100) {100};
+  \node[anchor=east] at (-2,50) {50};
+  \node[anchor=north east] at (-1.5,-1.5) {0};
+  \foreach \a in {50,100,150} \node[anchor=north] at (\a,-1.8) {\a};
+  \draw[line width=0.9pt] (-2,-1.24) -- (195,120.9);
+  \node[pt,inner sep=0.8pt] at (50,31) {};
+  \node[anchor=south east,inner sep=1.5pt] at (50,32) {$(50,\,31)$};
+  \node[rotate=90] at (-24.2,62.5) {Euros};
+  \node at (100.8,-28.8) {Australian dollars};
+\end{tikzpicture}
+\end{document}

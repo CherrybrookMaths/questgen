@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\newcommand{\tree}[3]{\draw[fill=black!30, draw=black!65] plot[smooth cycle, samples=36, domain=0:350, variable=\t] ({#1+#3*(1+0.07*cos(10*\t))*cos(\t)},{#2+#3*(1+0.07*cos(10*\t))*sin(\t)});}
+\fill[black!10] (14,14) rectangle (549,432);
+% buildings
+\draw[fill=black!25] (14,14) rectangle (76,93);
+\draw[fill=black!25] (97,14) rectangle (210,93);
+\draw[fill=black!25] (231,36) rectangle (345,93);
+\draw[fill=black!25] (470,118) rectangle (549,232);
+% road edges
+\draw[rounded corners=13pt] (14,118) -- (384,118) -- (384,14);
+\draw[rounded corners=12pt] (14,155) -- (384,155) -- (384,432);
+\draw[rounded corners=2.2pt] (428,14) -- (428,160) -- (470,160);
+\draw[rounded corners=2.2pt] (470,200) -- (428,200) -- (428,232) -- (470,232);
+\draw[rounded corners=12pt] (428,432) -- (428,262) -- (549,262);
+% trees
+\tree{50}{195}{21}
+\tree{50}{338}{19}
+\tree{55}{390}{24}
+\tree{459}{52}{18}
+\tree{510}{70}{28}
+\tree{464}{322}{29}
+\tree{491}{385}{25}
+% warehouse
+\draw[fill=black!40] (87,186) rectangle (355,370);
+\node[font=\footnotesize] at (225,203) {10 cm};
+\node[font=\footnotesize] at (120,284) {7 cm};
+\node[font=\footnotesize] at (226,349) {warehouse};
+\draw (14,14) rectangle (549,432);
+\node[align=center, font=\small] at (648,225) {NOT\\TO\\SCALE};
+\end{tikzpicture}
+\end{document}

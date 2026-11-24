@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \k in {1,...,6} \draw[dash pattern=on 1pt off 2pt,black!35] ({133+110.7*\k},772)--({133+110.7*\k},28);
+  \foreach \k in {1,...,7} \draw[dash pattern=on 1pt off 2pt,black!35] (133,{772-100*\k})--(800,{772-100*\k});
+  \draw[->] (133,772)--(810,772);
+  \draw[->] (133,772)--(133,22);
+  \foreach \k in {1,...,7} \node[font=\LARGE,anchor=east] at (122,{772-100*\k}) {$\the\numexpr2*\k\relax$};
+  \node[font=\LARGE,anchor=east] at (112,770) {$0$};
+  \foreach \k in {0,...,5} \node[font=\LARGE] at ({133+110.7*\k},812) {$\k$};
+  \draw[line width=0.9pt] ({133+110.7*0.85},{772-50*(1.5*0.85+1)})--({133+110.7*5.5},{772-50*(1.5*5.5+1)});
+  \foreach \t in {1,...,5} \node[pt] at ({133+110.7*\t},{772-50*(1.5*\t+1)}) {};
+  \draw ({133+110.7*2},572)--({133+110.7*4},572)--({133+110.7*4},422);
+  \node[font=\Large] at (602,502) {$3$};
+  \node[font=\Large] at (500,598) {$2$};
+\end{tikzpicture}
+\end{document}

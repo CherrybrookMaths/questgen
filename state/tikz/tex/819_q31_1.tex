@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\begin{tikzpicture}
+\setlength\treeL{2.9cm}\setlength\treeresultsep{1.55cm}
+\treewidth{1}{$B$}\treewidth{1}{$R$}\treewidth{2}{$B$}
+\treecolumns{2}
+\treeroot{r}{0cm}
+\treenode{b}{1}{1.42cm}{$B$}
+\treenode{rr}{1}{-1.42cm}{$R$}
+\treenode{bb}{2}{2.41cm}{$B$}
+\treebranch{r}{b}{$\dfrac{7}{12}$}
+\treebranch{r}{rr}{}
+\treebranch{b}{bb}{}
+\treehead{1}{3.9cm}{1st pen}
+\treehead{2}{3.9cm}{2nd pen}
+\treeresulthead{3.9cm}{Outcomes}
+\treeresult{2.41cm}{$BB$}
+\path (0,-3.78cm) (0,4.4cm);
+\end{tikzpicture}
+\end{document}

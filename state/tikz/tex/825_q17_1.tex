@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm,font=\fontsize{11}{13}\selectfont]
+\fill[shade dots,stipple color=black!40] (0,0) -- (-45:216) arc[start angle=-45,end angle=45,radius=216] -- cycle;
+\draw (0,0) circle (216);
+\draw (0,0) -- (45:216);
+\draw (0,0) -- (-45:216);
+\draw (45:14) -- ($(45:14)+(-45:14)$) -- (-45:14);
+\node[anchor=east] at (-6,0) {$O$};
+\node at (102,5) {\halo{$A = 100\ \text{cm}^2$}};
+\node at (233,0) {$l$};
+\draw[->] (9:234) arc[start angle=9,end angle=47,radius=234];
+\draw[->] (-9:234) arc[start angle=-9,end angle=-47,radius=234];
+\end{tikzpicture}
+\end{document}

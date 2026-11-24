@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.41275cm,y=0.41275cm,font=\fontsize{6.5}{8}\selectfont]
+\draw[<->] (-5.6,0) -- (5.8,0) node[right,font=\fontsize{7.5}{9}\selectfont,inner sep=1.5pt]{$x$};
+\draw[<->] (0,-5.9) -- (0,5.7) node[above,font=\fontsize{7.5}{9}\selectfont,inner sep=1.5pt]{$y$};
+\foreach \i in {-5,...,-1,1,2,...,5} {\draw (\i,-0.1) -- (\i,0.1); \draw (-0.1,\i) -- (0.1,\i);}
+\foreach \i in {2,4} {\node at (\i,-1.0) {$\i$}; \node[anchor=east] at (-0.3,\i) {$\i$};}
+\node at (-4,-1.0) {$-4$};
+\node at (-2,0.95) {$-2$};
+\foreach \i in {-2,-4} {\node[anchor=west] at (0.3,\i) {$\i$};}
+\node at (-0.4,-1.0) {$0$};
+\draw[<->,line width=0.9pt,domain=0.37:5.5,samples=90,smooth] plot (\x,{2/\x});
+\draw[<->,line width=0.9pt,domain=-5.5:-0.37,samples=90,smooth] plot (\x,{2/\x});
+\end{tikzpicture}
+\end{document}

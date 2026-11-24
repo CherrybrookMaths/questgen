@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (30,405)--(685,405);
+  \draw[->] (122,540)--(122,0);
+  \foreach \k in {2,4,...,12} \draw (116,{405-31.5*\k})--(122,{405-31.5*\k});
+  \foreach \k in {2,4,...,12} \node[anchor=east] at (108,{405-31.5*\k}) {$\k$};
+  \node[anchor=east] at (108,393) {$0$};
+  \foreach \t in {1,...,6} \draw ({122+83*\t},405)--({122+83*\t},411);
+  \foreach \t in {1,...,6} \node at ({122+83*\t},432) {$\t$};
+  \node at (145,432) {$0$};
+  \node at (662,442) {$t$};
+  \draw[line width=0.9pt, domain=0:5, samples=90, smooth, variable=\t] plot ({122+83*\t},{405-31.5*(-\t*\t+4*\t+5)});
+  \foreach \t in {0,...,5} \node[pt] at ({122+83*\t},{405-31.5*(-\t*\t+4*\t+5)}) {};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+\coordinate (A) at (37,224); \coordinate (B) at (57,76); \coordinate (C) at (186,161); \coordinate (D) at (205,309);
+\coordinate (E) at (267,36); \coordinate (F) at (355,182); \coordinate (G) at (440,55); \coordinate (H) at (483,227);
+\draw (A)--(C)--(B) (C)--(E)--(G)--(H) (C)--(F)--(D);
+\node at (15,236) {$A$}; \node at (40,68) {$B$}; \node at (180,183) {$C$}; \node at (203,333) {$D$};
+\node at (266,15) {$E$}; \node at (348,163) {$F$}; \node at (447,38) {$G$}; \node at (500,240) {$H$};
+\foreach \p/\w in {{(111,136)}/60,{(204,94)}/60,{(277,151)}/45,{(352,27)}/62,{(482,135)}/50,{(125,209)}/74,{(258,233)}/94}
+  \node at \p {$\w$};
+\end{tikzpicture}
+\end{document}

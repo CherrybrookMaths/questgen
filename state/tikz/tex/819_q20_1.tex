@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[aux] (456,2)--(456,405) (599,2)--(599,405);
+\draw (28,405)--(1030,405);
+\draw[line width=0.9pt,black!45] plot[smooth,samples=90,domain=70:900] (\x,{401-190*exp(-((\x-456)/47.67)^2/(2*2.92^2))});
+\draw[line width=0.9pt] plot[smooth,samples=90,domain=258:940] (\x,{400-338*exp(-((\x-599)/47.67)^2/(2*1.8^2))});
+\foreach \x/\l in {170/6,313/9,456/12,599/15,742/18,885/21} \node[font=\normalsize] at (\x,438) {\l};
+\node[font=\large,text=black!45] at (270,283) {$A$};
+\node[font=\large] at (700,175) {$B$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (100,10) -- (100,256);
+\draw (15,58) -- (310,58);
+\node[font=\small,anchor=base] at (55,44) {stem};
+\node[font=\small,anchor=base west] at (113,44) {leaf};
+\foreach \y/\s/\l in {92/14/{6,9},120/15/{2,3,4,8,8},147/16/{4,4,5,7,7,7},175/17/{1,2,6,8,9},203/18/{0,1}}{
+  \node[font=\small,anchor=east] at (92,\y) {$\s$};
+  \foreach \d [count=\i] in \l \node[font=\small] at ({97+31*\i},\y) {$\d$};
+}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+\fill[shade] (30,207) arc[start angle=180,end angle=360,x radius=62.5,y radius=20] -- (155,278) arc[start angle=0,end angle=180,x radius=62.5,y radius=65] -- cycle;
+\draw (30,278) -- (30,63) arc[start angle=180,end angle=360,x radius=62.5,y radius=55] -- (155,278) arc[start angle=0,end angle=180,x radius=62.5,y radius=65];
+\draw (92.5,63) ellipse[x radius=62.5,y radius=18];
+\draw (92.5,278) ellipse[x radius=62.5,y radius=22];
+\draw[aux] (92.5,207) ellipse[x radius=62.5,y radius=20];
+\draw[aux,<->] (168,188) -- (168,343);
+\node[anchor=west] at (174,268) {$h$ cm};
+\node[align=left,anchor=west] at (262,160) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

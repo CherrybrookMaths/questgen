@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ux{68}\def\uy{68.5}
+\foreach \k in {1,...,6} \draw[black!25] (87,{433-\uy*\k})--(700,{433-\uy*\k});
+\foreach \c/\h in {1/2,2/3,3/5,4/1,5/2,6/1,8/1}
+  \filldraw[fill=black!12] ({87+\ux*(\c-0.5)},433) rectangle ({87+\ux*(\c+0.5)},{433-\uy*\h});
+\draw (87,433)--(700,433);
+\draw (87,433)--(87,{433-\uy*6});
+\foreach \k in {1,...,6} {\draw (87,{433-\uy*\k})--(79,{433-\uy*\k}); \node[left,inner sep=1pt] at (74,{433-\uy*\k}) {$\k$};}
+\foreach \i in {0.5,1,...,9} \draw ({87+\ux*\i},433)--({87+\ux*\i},443);
+\foreach \i in {1,...,9} \node[below,inner sep=1pt] at ({87+\ux*\i},452) {$\i$};
+\node[rotate=90] at (28,228) {Number of Games};
+\node at (409,522) {Number of Points Scored};
+\end{tikzpicture}
+\end{document}

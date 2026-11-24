@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\coordinate (O) at (0,0);
+\coordinate (A) at (140:4.5);
+\coordinate (B) at (69:3.6);
+\draw[->] (O) -- (0,4.3) node[above] {$N$};
+\draw (A) -- (O) -- (B) -- cycle;
+\draw ($(O)+(90:1.0)$) arc (90:140:1.0);
+\node at (115:1.42) {$50^\circ$};
+\draw ($(O)+(69:1.6)$) arc (69:90:1.6);
+\node at (79.5:2.1) {$21^\circ$};
+\draw ($(O)+(69:2.55)$) arc (69:140:2.55);
+\node at (127:2.1) {$71^\circ$};
+\fill (O) circle (1.3pt);
+\node[below] at (O) {$O$};
+\node[left] at (A) {$A$};
+\node[right] at (B) {$B$};
+\node at ($(O)!0.5!(A)+(230:0.42)$) {$75$ m};
+\node at ($(O)!0.5!(B)+(-21:0.5)$) {$60$ m};
+\end{tikzpicture}
+\end{document}

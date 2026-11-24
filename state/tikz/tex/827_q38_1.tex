@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+  mid/.default=0.58]
+\coordinate (A) at (285,170); \coordinate (B) at (478,52); \coordinate (C) at (530,220);
+\coordinate (D) at (515,360); \coordinate (E) at (727,170);
+\draw[mid=0.55] (97,170)--(A); \draw[mid=0.55] (E)--(902,170);
+\draw[mid] (A)--(B); \draw[mid] (B)--(E); \draw[mid=0.62] (C)--(B); \draw[mid] (A)--(C);
+\draw[mid] (C)--(E); \draw[mid=0.5] (A)--(D); \draw[mid=0.55] (D)--(C); \draw[mid] (D)--(E);
+\foreach \p in {A,B,C,D,E} \fill (\p) circle (4.5);
+\draw[aux] (287,326) .. controls (300,240) and (360,195) .. (460,178)
+   .. controls (580,160) and (650,110) .. (697,10);
+\node at (52,170) {Entry};
+\node at (940,170) {Exit};
+\node at (176,145) {$240$};
+\node at (808,145) {$240$};
+\node at (367,86) {$80$};
+\node at (586,72) {$130$};
+\node at (531,122) {$40$};
+\node at (420,222) {$90$};
+\node at (611,178) {$65$};
+\node at (380,290) {$70$};
+\node at (495,290) {$25$};
+\node at (655,270) {$45$};
+\node at (476,28) {$B$};
+\node at (280,196) {$A$};
+\node at (548,200) {$C$};
+\node at (515,385) {$D$};
+\node at (730,196) {$E$};
+\end{tikzpicture}
+\end{document}

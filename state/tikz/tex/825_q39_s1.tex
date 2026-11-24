@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.2cm,y=0.2cm]
+\draw[black!15,line width=0.3pt] (0,0) grid[step=1] (35,40);
+\draw[black!45] (0,0) grid[step=5] (35,40);
+\draw[->] (0,0) -- (37.5,0) node[right] {$x$};
+\draw[->] (0,0) -- (0,42.5) node[above] {$y$};
+\foreach \x in {5,10,...,35}{\node[below,font=\small] at (\x,0) {$\x$};}
+\foreach \y in {5,10,...,40}{\node[left,font=\small] at (0,\y) {$\y$};}
+\node[below left,font=\small] at (0,0) {$0$};
+\draw[line width=0.9pt] (0,30) -- (30,0);
+\draw[line width=0.9pt] (0.6667,40) -- (14,0);
+\draw[aux] (0,24) -- (6,24) -- (6,0);
+\fill (6,24) circle (2pt);
+\node[anchor=south west] at (6.8,24.6) {\halo{$(6,24)$}};
+\node[anchor=south west] at (20.5,10.2) {\halo{$x+y=30$}};
+\node[anchor=west] at (3.2,35.5) {\halo{$6x+2y=84$}};
+\end{tikzpicture}
+\end{document}

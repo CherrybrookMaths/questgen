@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\usetikzlibrary{decorations.markings}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+\coordinate (T) at (30,212); \coordinate (P) at (283,58); \coordinate (H) at (688,212);
+\def\lake{plot[smooth cycle] coordinates {(210,195)(240,188)(268,178)(287,172)(312,178)(350,181)(400,188)(450,196)(488,206)(500,214)(480,220)(440,225)(400,233)(370,245)(330,254)(290,250)(250,246)(215,240)(207,220)}}
+\path[shade dots] \lake;
+\draw \lake;
+\draw[aux] (T) -- (H);
+\draw[postaction={decorate},decoration={markings,mark=at position 0.62 with {\arrow{Latex[length=2mm,width=1.3mm]}}}] (T)--(P);
+\draw[postaction={decorate},decoration={markings,mark=at position 0.4 with {\arrow{Latex[length=2mm,width=1.3mm]}}}] (P)--(H);
+\draw[->] (P) ++(148.7:44) arc[start angle=148.7,end angle=20.8,radius=44];
+\node at (285,83) {$120^\circ$};
+\node at (283,43) {$P$};
+\node at (16,214) {$T$};
+\node at (128,125) {90 m};
+\node at (510,127) {110 m};
+\node at (330,203) {\halo{Lake}};
+\node at (514,230) {$L$};
+\draw[aux,<->] (530,229) -- (678,229);
+\node at (604,246) {60 m};
+\draw (701,224) circle[radius=18];
+\node at (702,225) {$H$};
+\draw (688,206) -- (688,155);
+\filldraw[fill=black!30] (690,157) .. controls (707,151) and (722,167) .. (740,160) -- (742,190) .. controls (724,197) and (707,181) .. (690,187) -- cycle;
+\node[align=left,anchor=north west,inner sep=0pt] at (604,26) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

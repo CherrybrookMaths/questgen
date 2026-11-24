@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ux{61.3}\def\uy{101.7}
+\draw[->] (55,403)--(708,403);
+\draw[->] (55,403)--(55,12);
+\foreach \i in {1,...,10} {\draw ({55+\ux*\i},395)--({55+\ux*\i},411); \node[below,font=\small,inner sep=1pt] at ({55+\ux*\i},432) {$\i$};}
+\foreach \j in {0.5,1,...,3.5} {\draw (47,{403-\uy*\j})--(63,{403-\uy*\j});}
+\foreach \j in {1,2,3} {\node[left,font=\small,inner sep=1pt] at (36,{403-\uy*\j}) {$\j$};}
+\foreach \a/\b in {0.38/3.4,0.78/3.4,1.39/3.1,1.18/2.7,1.18/2.5,1.29/2.2,2.98/2.7,2.98/2.4,3.18/2.5,2.88/2.2,2.98/2.0,3.996/2.7,4.5/2.2,4.5/2.0,4.7/2.0,4.4/1.7,5.29/2.4,6.4/1.8,7.99/1.9,7.8/1.0,8.3/1.0,8.6/1.0,8.6/1.1,9.1/1.4,10.0/0.8,9.5/0.3,9.71/0.4,10.2/0.1,10.31/0.0}
+  {\fill ({55+\ux*\a},{403-\uy*\b}) circle (5);}
+\end{tikzpicture}
+\end{document}

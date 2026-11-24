@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9.5}{11}\selectfont,
+  declare function={f(\x)=236.4-209.4*exp(-((\x-366)/100)^2/4.205);}]
+\fill[shade dots,stipple color=black!40] (366,240) -- plot[domain=366:456,samples=20,smooth] (\x,{f(\x)}) -- (456,240) -- cycle;
+\draw (22,240) -- (712,240);
+\draw (366,240) -- (366,{f(366)});
+\draw (456,240) -- (456,{f(456)});
+\draw[line width=0.9pt,domain=25:708,samples=90,smooth] plot (\x,{f(\x)});
+\node at (366,270) {$0$};
+\node at (456,268) {$z$};
+\end{tikzpicture}
+\end{document}

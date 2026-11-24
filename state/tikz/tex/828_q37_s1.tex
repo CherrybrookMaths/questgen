@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.480cm,y=0.390cm]
+\foreach \i in {1,...,12} \draw[black!20, line width=0.4pt] (\i,0)--(\i,8);
+\foreach \j in {1,...,8} \draw[black!20, line width=0.4pt] (0,\j)--(12,\j);
+\draw[->] (0,0)--(12.5,0);
+\draw[->] (0,0)--(0,8.7);
+\foreach \i in {1,...,12} {\draw (\i,-0.12)--(\i,0.12); \node[font=\scriptsize] at (\i,-0.62) {$\i$};}
+\foreach \j in {1,...,8} {\draw (-0.12,\j)--(0,\j); \node[font=\scriptsize] at (-0.45,\j) {$\j$};}
+\node[font=\scriptsize] at (6.5,-1.53) {Weeks on the diet};
+\node[font=\scriptsize, rotate=90] at (-0.95,4.5) {Weight loss (kg)};
+\node[font=\scriptsize] at (0,9.15) {$y$};
+\node[font=\scriptsize] at (12.85,0) {$x$};
+\draw[line width=0.9pt] (0,1)--(12,7);
+\foreach \p in {(2,1),(3,3),(4,4),(4,3),(5,3),(6,5),(7,4),(8,5),(8,4),(9,6)} \fill \p circle[radius=1.1pt];
+\end{tikzpicture}
+\end{document}

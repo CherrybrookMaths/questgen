@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,20} \draw[black!40,line width=0.4pt] ({127+\i*31},677)--({127+\i*31},58);
+\foreach \j in {1,...,20} \draw[black!40,line width=0.4pt] (127,{677-\j*30.95})--(747,{677-\j*30.95});
+\draw[->] (127,677)--(127,10);
+\draw[->] (127,677)--(792,677);
+\foreach \n in {5,10,15,20} \node[anchor=north] at ({127+\n*31},681) {$\n$};
+\foreach \v in {1000,2000,3000,4000} \node[anchor=east] at (118,{677-\v*0.15475}) {$\v$};
+\draw[line width=0.9pt] (127,677)--(747,{677-4000*0.15475});
+\draw[line width=0.9pt] (127,{677-360*0.15475})--(747,{677-3960*0.15475});
+\node[font=\large] at (764,38) {$I$};
+\node[font=\large] at (766,72) {$C$};
+\node[rotate=90] at (22,355) {amount (\$)};
+\node at (440,728) {number of coffee tables};
+\end{tikzpicture}
+\end{document}

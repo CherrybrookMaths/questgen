@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+\coordinate (A) at (82,322); \coordinate (B) at (350,137); \coordinate (C) at (267,612);
+\draw (2,322)--(160,322); \draw[->] (82,370)--(82,226); \node at (82,208) {N};
+\draw (270,137)--(430,137); \draw[->] (350,240)--(350,40); \node at (350,24) {N};
+\draw[postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{>}}}] (A)--(B);
+\draw[postaction={decorate},decoration={markings,mark=at position 0.58 with {\arrow{>}}}] (B)--(C);
+\draw[->] plot[domain=0:55.4,smooth,samples=30] ({82+70*sin(\x)},{322-70*cos(\x)});
+\draw[->] plot[domain=0:189.9,smooth,samples=60] ({350+65*sin(\x)},{137-65*cos(\x)});
+\foreach \p in {A,B,C} \fill (\p) circle (2pt);
+\node at (103,289) {$70^\circ$};
+\node at (381,164) {$194^\circ$};
+\node at (182,208) {164 km};
+\node at (350,412) {241 km};
+\node[font=\normalsize] at (66,340) {$A$};
+\node[font=\normalsize] at (334,121) {$B$};
+\node[font=\normalsize] at (250,612) {$C$};
+\node[align=left] at (504,260) {NOT\\TO\\SCALE};
+\end{tikzpicture}
+\end{document}

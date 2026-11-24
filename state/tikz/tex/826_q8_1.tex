@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\m{451}\def\s{108}\def\h{253}\def\b{265}
+\fill[shade] (15,\b) -- plot[smooth,domain=15:385,samples=60] (\x,{\b-\h*exp(-((\x-\m)/\s)^2/2)}) -- (385,\b) -- cycle;
+\fill[shade] (518,\b) -- plot[smooth,domain=518:887,samples=60] (\x,{\b-\h*exp(-((\x-\m)/\s)^2/2)}) -- (887,\b) -- cycle;
+\draw (15,\b)--(887,\b);
+\foreach \v in {323,385,451,518,582} \draw (\v,\b)--(\v,{\b-\h*exp(-((\v-\m)/\s)^2/2)});
+\draw[line width=0.9pt] plot[smooth,domain=15:887,samples=90] (\x,{\b-\h*exp(-((\x-\m)/\s)^2/2)});
+\foreach \v/\t in {323/40,385/50,451/60,518/70,582/80} \node[anchor=base] at (\v,296) {$\t$};
+\end{tikzpicture}
+\end{document}

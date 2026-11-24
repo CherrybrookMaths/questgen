@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{e/.style={smooth,tension=0.7}}
+\draw plot[e] coordinates {(180,225) (240,180) (320,140) (363,73)};
+\draw plot[e] coordinates {(363,73) (420,108) (478,160)};
+\draw plot[e] coordinates {(180,225) (290,252) (345,278) (395,252) (440,205) (478,160)};
+\draw plot[e] coordinates {(478,160) (550,212) (588,265) (603,315) (652,352) (688,378) (695,407)};
+\draw plot[e] coordinates {(180,225) (150,305) (115,385) (125,455) (185,523) (260,565) (308,587)};
+\draw plot[e] coordinates {(180,225) (210,288) (270,330) (326,372) (340,440) (337,480) (318,530) (308,587)};
+\draw plot[e] coordinates {(308,587) (350,602) (425,600) (500,572) (535,563) (573,570)};
+\draw plot[e] coordinates {(308,587) (312,655) (338,695) (362,710)};
+\draw plot[e] coordinates {(362,710) (405,678) (465,660) (500,628) (530,595) (573,570)};
+\draw plot[e] coordinates {(573,570) (622,553) (665,537) (713,541)};
+\draw plot[e] coordinates {(695,407) (716,437) (708,492) (713,541)};
+\draw plot[e] coordinates {(695,407) (742,428) (775,430) (800,420) (816,442) (838,480)};
+\draw plot[e] coordinates {(713,541) (742,513) (782,494) (838,480)};
+\foreach \p in {(363,73),(478,160),(180,225),(695,407),(838,480),(713,541),(573,570),(308,587),(362,710)} \fill \p circle (6);
+\node at (455,88) {36}; \node at (262,148) {48}; \node at (322,242) {78}; \node at (625,282) {67};
+\node at (294,397) {108}; \node at (90,457) {98}; \node at (826,410) {53}; \node at (684,470) {32};
+\node at (771,518) {27}; \node at (628,525) {47}; \node at (437,573) {40}; \node at (440,648) {50};
+\node at (282,652) {38};
+\node at (340,36) {Dubbo}; \node[anchor=west] at (490,147) {Wellington};
+\node[anchor=east] at (160,222) {Peak Hill}; \node at (748,372) {Orange};
+\node[anchor=west] at (845,467) {Bathurst}; \node[anchor=west] at (725,562) {Blayney};
+\node at (590,605) {Cowra}; \node at (228,597) {Grenfell}; \node at (300,735) {Young};
+\end{tikzpicture}
+\end{document}

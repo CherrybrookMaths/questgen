@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (287,216) ellipse (203 and 174);
+  \draw[name path=mer] (287,216) ellipse (95 and 174);
+  \draw[line width=0.9pt, name path=eq] (84,208) arc[start angle=180, end angle=0, x radius=203, y radius=47];
+  \draw[name path=lat] (105,293) arc[start angle=180, end angle=0, x radius=182, y radius=38];
+  \path[name intersections={of=eq and mer, by={P,Q}, sort by=eq}];
+  \path[name intersections={of=lat and mer, by={T,R}, sort by=lat}];
+  \foreach \p in {P,Q,T,R} \fill (\p) circle (4.5);
+  \node[anchor=south west, inner sep=1pt] at ($(P)+(8,-6)$) {$P$};
+  \node[anchor=south west, inner sep=1pt] at ($(Q)+(8,-6)$) {$Q$};
+  \node[anchor=south west, inner sep=1pt] at ($(T)+(8,-6)$) {$T$};
+  \node[anchor=south west, inner sep=1pt] at ($(R)+(8,-6)$) {$R$};
+  \node at (287,22) {N};
+  \node at (287,411) {S};
+  \draw (92,126)--(190,160);
+  \node[anchor=east, inner sep=1pt] at (90,126) {$120^\circ$W};
+  \draw (480,145)--(388,170);
+  \node[anchor=west, inner sep=1pt] at (484,138) {$80^\circ$W};
+  \node[anchor=west] at (494,210) {Equator $0^\circ$};
+  \node[anchor=west] at (470,302) {$30^\circ$S};
+\end{tikzpicture}
+\end{document}

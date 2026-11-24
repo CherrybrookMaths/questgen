@@ -840,4 +840,20 @@ for sid, lat, crit, note, extra in C24:
     db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
 # 2023 King's AT3 Q29(a): the paper printed A = 40x - 20x^2; the working (and the graph) give 40x - 2x^2
 db.execute("update parts set latex=replace(latex, 'A = 40x - 20x^2', 'A = 40x - 2x^2') where id=10189 and latex like '%A = 40x - 20x^2%'")
-db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24')
+# Standard batch 6 (run s6, 24 Nov late evening): the verifier's 9 findings on the 2022 Standard 2 trials (Blacktown Boys, Hunters Hill,
+# Hurlstone, Killara) and 2022 Knox AT1, checked by hand. Redraw fixed: 827_q40_s1 (activity C is 3 days, the school wrote 5).
+# Left as the schools have them: Killara Q23 (7:21 or 7:22 am), Blacktown Boys Q18 criteria (2 marks over 4 one-word parts),
+# Knox AT1 Q6(a) working (key C right).
+C25 = [
+ (9996, [(r'The cost is the hire fee plus $\$2.10$ per person, so $C = 210 + 2.10N$.', r'The total cost is the hire fee plus $\$2.10$ per person, so $C = 210 + 2.10N$ (the question calls $C$ the cost per person, but $C$ here is the total the centre pays).')], [], r'the working used $C$ as the total cost while the question defines it as the cost per person; now said', None),
+ (10113, [(r'The $y$-intercept is $16\,747.20$ (or $18\,900$ from the table).', r'The $y$-intercept is $16\,747.20$.')], [], r'an alternative "$18\,900$ from the table" (a data point, not the intercept) was given', None),
+ (10118, [(r'AC &= 97.6553\ldots \\ &\approx 97.7 \text{ m}', r'&= 9597.25\ldots \\ AC &= 97.9655\ldots \\ &\approx 98.0 \text{ m}'), (r'\text{the length of } AC \text{ is } 97.7 \text{ m}', r'\text{the length of } AC \text{ is } 98.0 \text{ m}')], [], r'$AC$ was given as $97.6553$ (a digit dropped), $97.7$ m; it is $97.9655\ldots\approx98.0$ m', None),
+ (10224, [(r'\text{Area} &= \dfrac{1}{2}(10.44)(8.7)\sin 40^\circ \\ &= 29.19\ldots \text{ km}^2 \\ &= 29\,191\,556 \text{ m}^2', r'\text{Area} &= \dfrac{1}{2}(10.4366\ldots)(8.7)\sin 40^\circ \\ &= 29.182\,073\ldots \text{ km}^2 \\ &= 29\,182\,073 \text{ m}^2'), (r'\text{area} \approx 29\,191\,556 \text{ m}^2', r'\text{area} \approx 29\,182\,073 \text{ m}^2')], [], r'the area used $BC$ rounded to $10.44$ and gave $29\,191\,556$ m$^2$; to the nearest m$^2$ (unrounded $BC$) it is $29\,182\,073$ m$^2$', None),
+ (10225, [(r'&= \$1112.54 \\ \text{Total} &= 1112.54 \times 24', r'&= \$1112.544\ldots \\ \text{Total} &= 1112.544\ldots \times 24'), (r'&= \$772.27 \\ \text{Total} &= 772.27 \times 36', r'&= \$772.268\ldots \\ \text{Total} &= 772.268\ldots \times 36')], [], r'$1112.54\times24$ and $772.27\times36$ do not give the totals shown; the totals use the unrounded instalments $1112.544\ldots$ and $772.268\ldots$', None),
+]
+for sid, lat, crit, note, extra in C25:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25')

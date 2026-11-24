@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (15,236) -- (402,236);
+\foreach \x/\n [count=\i] in {58/1,108/1,158/2,208/4,258/7,308/10,358/5}{
+  \draw (\x,229) -- (\x,244);
+  \foreach \k in {1,...,\n} \fill[black!65] (\x,{235-20.2*\k}) circle (6.5);
+}
+\end{tikzpicture}
+\end{document}

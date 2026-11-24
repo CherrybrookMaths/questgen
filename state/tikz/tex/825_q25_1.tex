@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\large}]
+\coordinate (R) at (138,60); \coordinate (Q) at (695,215); \coordinate (P) at (492,545);
+\draw (R)--(Q)--(P)--cycle;
+\draw[->] (Q)--(695,100); \node[font=\Large\bfseries\sffamily] at (695,82) {N};
+\draw[->] (P)--(492,435); \node[font=\Large\bfseries\sffamily] at (492,410) {N};
+\foreach \p in {R,Q,P} \fill (\p) circle (5);
+\pgfmathsetmacro\aR{atan2(60-215,138-695)}
+\pgfmathsetmacro\aP{atan2(545-215,492-695)-360}
+\draw ($(Q)+(\aR:88)$) arc[start angle=\aR, end angle=\aP, radius=88];
+\node at (648,232) {$74^\circ$};
+\node at (116,55) {$R$}; \node at (724,222) {$Q$}; \node at (490,580) {$P$};
+\node at (440,103) {2.7\,km}; \node at (657,402) {1.8\,km};
+\node[align=center] at (922,262) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

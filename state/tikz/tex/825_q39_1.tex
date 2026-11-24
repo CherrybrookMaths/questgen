@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.34620cm, y=0.34640cm]
+  \foreach \i in {1,...,35} {\pgfmathtruncatemacro\m{mod(\i,5)}
+    \ifnum\m=0 \draw[black!55, line width=0.4pt] (\i,0) -- (\i,40); \else \draw[black!38, line width=0.4pt] (\i,0) -- (\i,40); \fi}
+  \foreach \j in {1,...,40} {\pgfmathtruncatemacro\m{mod(\j,5)}
+    \ifnum\m=0 \draw[black!55, line width=0.4pt] (0,\j) -- (35,\j); \else \draw[black!38, line width=0.4pt] (0,\j) -- (35,\j); \fi}
+  \draw[->] (0,0) -- (36.6,0) node[below right=-2pt, font=\footnotesize] {$x$};
+  \draw[->] (0,0) -- (0,42.2) node[left=0pt, pos=0.985, font=\footnotesize] {$y$};
+  \foreach \i in {0,5,...,35} {\draw (\i,0) -- (\i,-0.3); \node[anchor=north, font=\footnotesize] at (\i,-0.3) {\i};}
+  \foreach \j in {0,5,...,40} {\draw (0,\j) -- (-0.3,\j); \node[anchor=east, font=\footnotesize] at (-0.3,\j) {\j};}
+\end{tikzpicture}
+\end{document}

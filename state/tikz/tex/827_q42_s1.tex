@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=145*0.0127cm,y=-0.962*0.0127cm]
+% x unit = 1 day (145 px), y unit = 1 infection (0.962 px); y measured downward from I=0 via yscale
+\begin{scope}[yscale=-1]
+\foreach \i in {1,...,15} \draw[black!30,line width=0.5pt] ({\i/3},0)--({\i/3},750);
+\foreach \j in {1,...,15} \draw[black!30,line width=0.5pt] (0,{50*\j})--(5,{50*\j});
+\draw[->] (0,0)--(5.4,0);
+\draw[->] (0,0)--(0,805);
+\foreach \t in {1,...,5} {\draw (\t,-12)--(\t,12); \node[below=3pt,font=\large] at (\t,0) {$\t$};}
+\foreach \v in {100,200,...,700} {\draw (-0.05,\v)--(0.05,\v); \node[left=3pt,font=\large] at (0,\v) {$\v$};}
+\draw[line width=0.9pt,smooth,samples=90,domain=0:5.035,->] plot (\x,{3.8^\x});
+\foreach \t/\v in {0/1,1/4,2/14,3/55,4/209,5/792} \fill (\t,\v) circle (0.022 and 3.3);
+\end{scope}
+\end{tikzpicture}
+\end{document}

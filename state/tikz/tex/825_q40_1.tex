@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% minor grid
+\foreach \n in {1,...,29}{\pgfmathtruncatemacro\r{mod(\n,5)}\ifnum\r=0\else
+  \draw[black!22,line width=0.3pt] ({172+15.2*\n},83) -- ({172+15.2*\n},692);\fi}
+\foreach \k in {1,...,39}{\pgfmathtruncatemacro\r{mod(\k,5)}\ifnum\r=0\else
+  \draw[black!22,line width=0.3pt] (172,{692-15.225*\k}) -- (628,{692-15.225*\k});\fi}
+% major grid
+\foreach \n in {5,10,...,30}{\draw[black!55] ({172+15.2*\n},83) -- ({172+15.2*\n},692);}
+\foreach \k in {1,...,8}{\draw[black!55] (172,{692-76.125*\k}) -- (628,{692-76.125*\k});}
+% axes
+\draw[->] (172,692) -- (708,692);
+\draw[->] (172,692) -- (172,36);
+\foreach \k/\t in {0/0,1/1\,000\,000,2/2\,000\,000,3/3\,000\,000,4/4\,000\,000,5/5\,000\,000,6/6\,000\,000,7/7\,000\,000,8/8\,000\,000}{
+  \draw (166,{692-76.125*\k}) -- (172,{692-76.125*\k});
+  \node[anchor=east,font=\scriptsize,inner sep=1pt] at (161,{692-76.125*\k}) {$\t$};}
+\foreach \n/\y in {0/2010,10/2020,20/2030,30/2040}{
+  \draw ({172+15.2*\n},692) -- ({172+15.2*\n},698);
+  \node[font=\scriptsize] at ({172+15.2*\n},716) {$\n$};
+  \node[font=\scriptsize] at ({172+15.2*\n},741) {(\y)};}
+\node[font=\scriptsize] at (712,706) {$n$};
+\node[font=\scriptsize] at (158,42) {$P$};
+\node[font=\scriptsize] at (400,768) {Years};
+\node[font=\scriptsize,rotate=90] at (32,388) {Population};
+% curves
+\draw[aux,line width=0.9pt] plot[domain=0:25,samples=90,smooth] ({172+15.2*\x},{692-228.375*1.04^\x});
+\draw[line width=0.9pt] plot[domain=0:30,samples=90,smooth] ({172+15.2*\x},{692-228.375*1.02^\x});
+\node[font=\scriptsize] at (562,62) {$P=A(1.04)^n$};
+\node[font=\scriptsize] at (640,262) {\halo{$P=A(b)^n$}};
+% legend
+\draw[aux] (112,815) -- (156,815);
+\node[anchor=west,font=\scriptsize] at (164,815) {Predicted population if the policy had not been introduced};
+\draw (112,853) -- (156,853);
+\node[anchor=west,font=\scriptsize] at (164,853) {Predicted population with the policy introduced};
+\end{tikzpicture}
+\end{document}

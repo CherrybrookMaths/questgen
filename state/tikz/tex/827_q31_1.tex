@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (10,73) -- (995,73);
+\draw (500,10) -- (500,548);
+\draw (588,10) -- (588,548);
+\node at (250,40) {\textit{Male}};
+\node at (793,40) {\textit{Female}};
+\foreach \s [count=\r from 0] in {0,...,7} \node at (545,{126+\r*56.3}) {\s};
+\foreach \d [count=\k from 0] in {1,2,4,5,5,6,7,8,9,9} \node at ({440-\k*43},124) {\d};
+\foreach \d [count=\k from 0] in {0,0,1,1} \node at ({440-\k*43},182) {\d};
+\node at (440,238) {0};
+\node at (440,520) {1};
+\foreach \d [count=\k from 0] in {8,9} \node at ({643+\k*43.5},124) {\d};
+\foreach \d [count=\k from 0] in {1,1,2,5,6,8,8,8} \node at ({643+\k*43.5},182) {\d};
+\foreach \d [count=\k from 0] in {0,1,7} \node at ({643+\k*43.5},238) {\d};
+\node at (643,295) {4};
+\end{tikzpicture}
+\end{document}

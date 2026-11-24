@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[v/.style={circle,draw,minimum size=0.6cm,inner sep=0pt}]
+\node[v] (S) at (0,0) {};
+\node[v] (n1) at (2.5,1.5) {$1$};
+\node[v] (n2) at (2.5,-1.5) {$2$};
+\node[v] (n3) at (5,0) {$3$};
+\node[v] (n4) at (7.5,1.5) {$4$};
+\node[v] (F) at (10,0) {};
+\node[left] at (S.west) {Start};
+\node[right] at (F.east) {Finish};
+\draw[->] (S) -- node[midway,above left] {$A(4)$} (n1);
+\draw[->] (S) -- node[midway,below left] {$B(2)$} (n2);
+\draw[->] (n1) -- node[midway,above right] {$C(3)$} (n3);
+\draw[->] (n2) -- node[midway,above left] {$D(6)$} (n3);
+\draw[->] (n2) to[bend right=20] node[pos=0.5,below] {$E(5)$} (F);
+\draw[->] (n3) -- node[midway,below right] {$F(3)$} (n4);
+\draw[->] (n3) -- node[pos=0.5,below] {$G(4)$} (F);
+\draw[->] (n4) -- node[midway,above right] {$H(2)$} (F);
+\draw[->,line width=0.9pt] (n3) to[bend left=40] node[midway,above left] {$X(2)$} (n4);
+\end{tikzpicture}
+\end{document}

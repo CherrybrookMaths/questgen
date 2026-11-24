@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+\coordinate (P) at (40,228); \coordinate (Q) at (40,22); \coordinate (R) at (437,228);
+\draw (P)--(Q)--(R)--cycle;
+\draw (40,203)--(65,203)--(65,228);
+\draw pic[draw, angle radius=0.8cm] {angle=Q--R--P};
+\node at (20,125) {$x$};
+\node at (226,92) {150};
+\node at (350,208) {$20^\circ$};
+\node[align=center] at (515,122) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

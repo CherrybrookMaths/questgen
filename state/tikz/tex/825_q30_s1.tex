@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\coordinate (P) at (0,6);
+\coordinate (Q) at (0,0);
+\coordinate (T) at (2.8,0);
+\coordinate (R) at (2.8,4.45);
+\draw (-0.6,0) -- (3.6,0);
+\draw (Q) -- (P) -- (R) -- (T);
+\draw (P) -- (T);
+\draw[aux] (P) -- (3.8,6);
+\draw (0,0.25) -- (0.25,0.25) -- (0.25,0);
+\draw (2.55,0) -- (2.55,0.25) -- (2.8,0.25);
+\draw ($(P)+(0:1.5)$) arc (0:-29:1.5);
+\node at ($(P)+(-14.5:1.98)$) {$29^\circ$};
+\draw ($(P)+(0:0.9)$) arc (0:-65:0.9);
+\node at ($(P)+(-47:1.32)$) {$65^\circ$};
+\node[left] at (P) {$P$};
+\node[below left] at (Q) {$Q$};
+\node[right] at (R) {$R$};
+\node[below right] at (T) {$T$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\setlength\treeL{2.2cm}
+\def\treeoutfont{\normalfont\fontsize{11}{13}\selectfont}
+\def\treeprobfont{\normalfont\fontsize{10}{12}\selectfont}
+\begin{document}
+\treewidth{1}{Hit}\treewidth{1}{Miss}\treewidth{2}{Hit}\treewidth{2}{Miss}
+\treecolumns{2}
+\begin{tikzpicture}
+\treeroot{r}{0cm}
+\treenode{h}{1}{1.05cm}{Hit}
+\treenode{m}{1}{-1.05cm}{Miss}
+\treenode{hh}{2}{1.72cm}{Hit}
+\treenode{hm}{2}{0.38cm}{Miss}
+\treenode{mh}{2}{-0.38cm}{Hit}
+\treenode{mm}{2}{-1.72cm}{Miss}
+\treebranch{r}{h}{}
+\treebranch{r}{m}{}
+\treebranch{h}{hh}{}
+\treebranch{h}{hm}{}
+\treebranch{m}{mh}{}
+\treebranch{m}{mm}{}
+% probabilities placed as the template does (midpoint; above an up-branch, below a down-branch; slope*w/2 + gap clear)
+\node[tree prob,anchor=south] at ($(r-out)!0.5!(h-in)+(0,0.215cm)$) {0.8};
+\node[tree prob,anchor=north] at ($(r-out)!0.5!(m-in)+(0,-0.215cm)$) {0.2};
+\node[tree prob,anchor=south] at ($(h-out)!0.5!(hh-in)+(0,0.17cm)$) {0.6};
+\node[tree prob,anchor=north] at ($(h-out)!0.5!(hm-in)+(0,-0.17cm)$) {0.4};
+\node[tree prob,anchor=south] at ($(m-out)!0.5!(mh-in)+(0,0.17cm)$) {0.6};
+\node[tree prob,anchor=north] at ($(m-out)!0.5!(mm-in)+(0,-0.17cm)$) {0.4};
+\treehead{1}{2.3cm}{Olivia}
+\treehead{2}{2.3cm}{Henry}
+\end{tikzpicture}
+\end{document}

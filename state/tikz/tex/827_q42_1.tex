@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (830,840);
+\foreach \i in {1,...,15} \draw[black!30,line width=0.5pt] ({35+47*\i},62)--({35+47*\i},762);
+\foreach \j in {0,...,14} \draw[black!30,line width=0.5pt] (35,{62+46.67*\j})--(740,{62+46.67*\j});
+\draw[->] (35,762)--(800,762);
+\draw[->] (35,762)--(35,8);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.3188cm,y=0.3073cm]
+\foreach \i in {-7,...,-1,1,2,...,9,11,12,...,19,21,22,...,29} \draw[black!25, line width=0.5pt] (\i,-5)--(\i,12);
+\foreach \j in {-5,...,-1,1,2,...,9,11,12} \draw[black!25, line width=0.5pt] (-7,\j)--(30,\j);
+\foreach \g in {10,20,30} \draw[black!45, line width=0.5pt] (\g,-5)--(\g,12);
+\draw[black!45, line width=0.5pt] (-7,10)--(30,10);
+\draw[<->] (-8.2,0)--(31.15,0);
+\draw[<->] (0,-5.9)--(0,13.1);
+\foreach \i in {-7,...,-1,1,2,...,30} \draw (\i,-0.22)--(\i,0.22);
+\foreach \j in {-5,...,-1,1,2,...,12} \draw (-0.22,\j)--(0.22,\j);
+\draw[line width=0.9pt, domain=-6.85:28.85, smooth, samples=90] plot (\x, {3.75+1.1*\x-0.05*\x*\x});
+\node[font=\large] at (-0.6,-1.57) {\halo{$0$}};
+\node[font=\large] at (10,-1.57) {\halo{$10$}};
+\node[font=\large] at (20,-1.57) {\halo{$20$}};
+\node[font=\large] at (30,-1.57) {\halo{$30$}};
+\node[font=\large] at (-1.45,10) {\halo{$10$}};
+\node[font=\large] at (0,14.4) {$h$};
+\node[font=\large] at (32,0) {$x$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (305,335); \coordinate (A) at (563,118); \coordinate (B) at (612,465);
+\coordinate (L) at (113,311); \coordinate (D) at (185,483);
+\fill[shade hatch] (O)--(A)--(B)--cycle;
+\draw (O)--(A)--(B)--cycle;
+\draw (L)--(A); \draw (L)--(D)--(B); \draw (O)--(L); \draw (O)--(D);
+\draw[->] (A) -- ($(O)!1.36!(A)$);
+\draw[->] (B) -- ($(O)!1.44!(B)$);
+\draw[->] (L) -- ($(O)!1.55!(L)$);
+\draw[->] (D) -- ($(O)!1.5!(D)$);
+\draw[->] (O) -- (305,150);
+\node[font=\large] at (307,122) {N};
+\node[font=\large] at (705,28) {$041^\circ$};
+\node[font=\large] at (788,535) {$114^\circ$};
+\node[font=\large] at (546,98) {$A$};
+\node[font=\large] at (605,497) {$B$};
+\node[font=\large] at (300,362) {$O$};
+\node[font=\large] at (405,228) {$x$};
+\node[font=\large] at (450,420) {$x$};
+\node[font=\large] at (487,313) {\halo{$150\ \mathrm{km}^2$}};
+\end{tikzpicture}
+\end{document}

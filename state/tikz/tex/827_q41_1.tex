@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.373*0.0127cm,y=-13.72*0.0127cm]
+% here x unit = 1 unit of d, y unit = 1 unit of h (y downward -> use negative h)
+\begin{scope}[yscale=-1]
+\foreach \d in {-200,-190,...,400} \draw[black!40,line width=0.3pt,dash pattern=on 0.6pt off 0.9pt] (\d,-5)--(\d,45);
+\foreach \h in {-5,-4,...,45} \draw[black!40,line width=0.3pt,dash pattern=on 0.6pt off 0.9pt] (-200,\h)--(400,\h);
+\foreach \d in {-200,-150,...,400} \draw[black!60,line width=0.5pt] (\d,-5)--(\d,45);
+\foreach \h in {-5,0,...,45} \draw[black!60,line width=0.5pt] (-200,\h)--(400,\h);
+\draw[->] (-200,0)--(442,0);
+\draw[->] (0,-6.8)--(0,48.8);
+\draw[line width=0.9pt,smooth,samples=90,domain=-115:315] plot (\x,{-0.001*\x*\x+0.2*\x+30});
+\foreach \d in {-200,-100,100,200,300,400} \node[below] at (\d,0) {\halo{$\d$}};
+\node[below left] at (0,0) {\halo{$O$}};
+\foreach \h in {10,20,30,40} \node[left] at (0,\h) {\halo{$\h$}};
+\node[right] at (442,-0.6) {$d$};
+\node[left] at (-1,48) {$h$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

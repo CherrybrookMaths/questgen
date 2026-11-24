@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \k in {1,...,6} \draw[aux,black!30] ({98+116.4*\k},785)--({98+116.4*\k},8);
+  \foreach \k in {1,...,7} \draw[aux,black!30] (98,{785-104.3*\k})--(800,{785-104.3*\k});
+  \draw[->] (98,785)--(805,785);
+  \draw[->] (98,785)--(98,5);
+  \foreach \k in {1,...,7} \node[font=\LARGE,anchor=east] at (88,{785-104.3*\k}) {$\the\numexpr2*\k\relax$};
+  \node[font=\LARGE,anchor=east] at (80,782) {$0$};
+  \foreach \k in {0,...,5} \node[font=\LARGE] at ({98+116.4*\k},826) {$\k$};
+\end{tikzpicture}
+\end{document}

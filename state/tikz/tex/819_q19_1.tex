@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \k in {0,...,10} \draw[black!25,line width=0.4pt] (150+76*\k,92)--(150+76*\k,396);
+\foreach \k in {0,...,7} \draw[black!25,line width=0.4pt] (150,92+38*\k)--(910,92+38*\k);
+\draw[<->] (148,396)--(914,396);
+\foreach \x/\l in {226/25,302/27,378/28,454/29,530/30,606/31,682/32,758/33,834/34} {
+  \draw (\x,388)--(\x,404);
+  \node[font=\normalsize] at (\x,428) {\l};}
+\begin{scope}[line width=0.9pt]
+% Town A
+\draw (378,206)--(454,206) (682,206)--(834,206) (378,192)--(378,220) (834,192)--(834,220);
+\draw (454,168) rectangle (682,244) (530,168)--(530,244);
+% Town B
+\draw (226,320)--(302,320) (530,320)--(682,320) (226,306)--(226,334) (682,306)--(682,334);
+\draw (302,282) rectangle (530,358) (378,282)--(378,358);
+\end{scope}
+\node[font=\large] at (530,48) {Maximum Summer Temperatures ($^\circ\!C$)};
+\node[font=\large] at (72,210) {Town A};
+\node[font=\large] at (72,322) {Town B};
+\end{tikzpicture}
+\end{document}

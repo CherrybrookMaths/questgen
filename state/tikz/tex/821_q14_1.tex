@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % minor dotted grid every 4, major solid every 20
+  \foreach \v in {4,8,...,196} \draw[black!45, line width=0.3pt, dotted] (135,{650-3.075*\v})--(885,{650-3.075*\v});
+  \foreach \v in {20,40,...,200} \draw[black!40, line width=0.4pt] (135,{650-3.075*\v})--(885,{650-3.075*\v});
+  \foreach \x in {260,385,...,885} \draw[black!40, line width=0.4pt] (\x,35)--(\x,650);
+  % bars
+  \foreach \c/\h in {197/180,322/144,447/132,572/72,697/60,822/12}
+    \fill[black!15] ({\c-48},650) rectangle ({\c+48},{650-3.075*\h});
+  % axes
+  \draw (135,35)--(135,650)--(885,650);
+  \foreach \v in {0,4,...,200} \draw (128,{650-3.075*\v})--(135,{650-3.075*\v});
+  \foreach \v in {0,20,...,200} {
+    \draw (122,{650-3.075*\v})--(135,{650-3.075*\v});
+    \node[anchor=east, font=\small, inner sep=2pt] at (120,{650-3.075*\v}) {$\v$};
+  }
+  \foreach \p [evaluate=\p as \v using 2*\p] in {0,10,...,100}
+    \node[anchor=west, font=\small, inner sep=2pt] at (900,{650-3.075*\v}) {$\p\%$};
+  % cumulative line
+  \draw[line width=0.9pt] (197,465.5)--(322,317.9)--(447,182.6)--(572,108.8)--(697,47.3)--(822,35);
+  \foreach \x/\y in {197/465.5,322/317.9,447/182.6,572/108.8,697/47.3,822/35} \fill (\x,\y) circle (4.5);
+  % categories
+  \foreach \c/\t in {197/Swimming,322/Cricket,447/Touch,572/Soccer,697/Tennis,822/Hockey}
+    \node[anchor=base, font=\small] at (\c,688) {\t};
+  \node[anchor=base, font=\small] at (447,718) {Football};
+  \node[font=\bfseries\small, rotate=90] at (40,340) {Number of Students};
+  \node[font=\bfseries\small, rotate=90] at (1018,340) {Cumulative Percentage};
+  \node[font=\bfseries\small] at (510,765) {Favourite Summer Sport};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate,decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}}]
+\draw[mid=0.54] (20,235)--(20,15);
+\draw[mid=0.53] (20,15)--(460,235);
+\draw[mid=0.52] (460,235)--(20,235);
+\draw (20,207)--(48,207)--(48,235);
+\node at (276,75) {1800 m};
+\node at (222,270) {1600 m};
+\end{tikzpicture}
+\end{document}

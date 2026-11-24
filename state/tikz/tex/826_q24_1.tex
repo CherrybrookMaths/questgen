@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+% ground
+\fill[shade,even odd rule] (80,88) rectangle (650,285) (100,88)--(100,163)--(607,262)--(607,88)--cycle;
+% water
+\fill[black!8] (100,163)--(607,262)--(607,104)-- plot[smooth,samples=60,domain=607:100] (\x,{104+3*sin(\x*2.2)})--cycle;
+\draw (100,88)--(100,163)--(607,262)--(607,88);
+\draw (25,88)--(700,88);
+\draw (30,160)--(100,160);
+\draw (607,262)--(700,262);
+\draw[aux] (100,160)--(607,160);
+\draw (590,160)--(590,176)--(607,176);
+\draw (240,160) arc[start angle=0,end angle=11,radius=140];
+\node[anchor=west] at (246,180) {\halo{$2^\circ 17'$}};
+\node at (345,70) {$25$ m};
+\draw[->] (47,110)--(47,88); \draw[->] (47,140)--(47,160);
+\node at (52,125) {$1.3$ m};
+\draw[->] (676,160)--(676,88); \draw[->] (676,192)--(676,262);
+\node at (676,176) {$d$ m};
+% diving board
+\draw (465,22) rectangle (600,31);
+\draw (603,15) rectangle (612,88);
+\draw (612,18) .. controls (620,0) and (640,20) .. (622,40) -- (650,88);
+\end{tikzpicture}
+\end{document}

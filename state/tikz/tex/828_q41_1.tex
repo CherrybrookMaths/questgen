@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill[shade dots] (333,218) -- plot[domain=333:420, smooth, samples=30] (\x,{210-194*exp(-((\x-333)/143)^2/2)}) -- (420,218) -- cycle;
+\draw (12,218)--(660,218);
+\draw[smooth, samples=90, domain=12:660] plot (\x,{210-194*exp(-((\x-333)/143)^2/2)});
+\draw (333,218)--(333,16);
+\draw (420,218)--(420,{210-194*exp(-((420-333)/143)^2/2)});
+\node[font=\large] at (333,245) {$0$};
+\node[font=\large] at (420,243) {$z$};
+\end{tikzpicture}
+\end{document}

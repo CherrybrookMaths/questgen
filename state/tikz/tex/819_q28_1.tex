@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.2578cm,y=0.0012852cm,font=\small]
+\draw[black!12,line width=0.3pt] (0,0) grid[xstep=1,ystep=200] (43,5000);
+\draw[black!30,line width=0.4pt] (0,0) grid[xstep=5,ystep=1000] (43,5000);
+\draw[->] (0,0) -- (44.7,0);
+\draw[->] (0,0) -- (0,5060);
+\foreach \n in {5,10,...,40} { \draw (\n,0) -- (\n,-60); \node[anchor=north,font=\footnotesize,inner sep=2pt] at (\n,-50) {\n}; }
+\foreach \a in {1000,2000,3000,4000} { \draw (0,\a) -- (-0.3,\a); \node[anchor=east,font=\footnotesize,inner sep=2pt] at (-0.25,\a) {\a}; }
+\node[anchor=north east,font=\footnotesize,inner sep=2pt] at (0,-20) {0};
+\node[anchor=east,font=\footnotesize] at (-0.6,4900) {Amount (\$)};
+\node at (44.4,-200) {$n$};
+\draw[line width=0.9pt,->] (0,0) -- (41,3690);
+\draw[line width=0.9pt,black!45,->] (0,1000) -- (42,2680);
+\node[font=\footnotesize] at (40.9,3933) {Income ($I$)};
+\node[font=\footnotesize] at (40.6,2330) {Cost ($C$)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (T) at (297,20);
+\coordinate (UL) at (78,132);
+\coordinate (CU) at (225,205);
+\coordinate (R) at (481,205);
+\coordinate (L) at (42,278);
+\coordinate (CL) at (225,351);
+\coordinate (BR) at (517,424);
+\coordinate (B) at (189,533);
+\draw (T)--(UL) (T)--(CU) (T)--(R) (UL)--(CU) (UL)--(L) (CU)--(R) (L)--(CU) (CU)--(CL) (CL)--(R) (R)--(BR)
+  (L)--(CL) (L)--(B) (CL)--(BR) (CL)--(B) (B)--(BR);
+\foreach \p in {T,UL,CU,R,L,CL,BR,B} \fill (\p) circle (8);
+\begin{scope}[every node/.style={font=\normalsize}]
+\node at (176,58) {8};
+\node at (234,112) {10};
+\node at (398,95) {7};
+\node at (170,155) {6};
+\node at (47,187) {9};
+\node at (340,180) {13};
+\node at (114,220) {11};
+\node at (241,280) {5};
+\node at (333,264) {18};
+\node at (518,300) {21};
+\node at (152,297) {8};
+\node at (89,415) {12};
+\node at (380,368) {13};
+\node at (229,434) {11};
+\node at (369,503) {11};
+\end{scope}
+\end{tikzpicture}
+\end{document}

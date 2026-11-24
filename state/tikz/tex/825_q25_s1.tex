@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\coordinate (P) at (0,0);
+\coordinate (Q) at (3.053,1.908);
+\coordinate (R) at (-0.960,5.521);
+\draw (P) -- (Q) -- (R) -- cycle;
+\draw[->] (P) -- ++(0,1.7) node[above] {$N$};
+\draw[->] (Q) -- ++(0,2.3) node[above] {$N$};
+% at P
+\draw ($(P)+(90:0.8)$) arc (90:32:0.8);
+\node at ($(P)+(60:1.22)$) {$58^\circ$};
+% at Q
+\draw ($(Q)+(138:0.6)$) arc (138:212:0.6);
+\node at ($(Q)+(175:1.02)$) {$74^\circ$};
+\draw ($(Q)+(90:0.9)$) arc (90:-148:0.9);
+\node at ($(Q)+(-85:1.27)$) {$238^\circ$};
+\draw ($(Q)+(90:1.65)$) arc (90:-222:1.65);
+\node at ($(Q)+(-40:2.2)$) {$312^\circ$};
+\node[below] at (P) {$P$};
+\node at ($(Q)+(-50:0.45)$) {$Q$};
+\node[above left] at (R) {$R$};
+\node at ($(P)!0.33!(Q)+(-58:0.42)$) {$1.8$ km};
+\node at ($(Q)!0.5!(R)+(48:0.5)$) {$2.7$ km};
+\end{tikzpicture}
+\end{document}

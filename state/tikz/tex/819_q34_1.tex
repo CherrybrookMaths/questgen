@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.772cm,y=0.772cm,font=\footnotesize]
+\draw[black!15,line width=0.4pt] (-7,-8) grid (7,8);
+\draw[<->] (-7,0) -- (7,0);
+\draw[<->] (0,-8) -- (0,8);
+\foreach \i in {-6,...,-1,1,2,...,6} { \draw (\i,0.07) -- (\i,-0.07); \node[anchor=north] at (\i,-0.1) {$\i$}; }
+\foreach \j in {-7,...,-1,1,2,...,7} { \draw (0.07,\j) -- (-0.07,\j); \node[anchor=east] at (-0.08,\j) {$\j$}; }
+\node at (-0.25,-0.27) {$O$};
+\node[anchor=west,font=\small] at (7.1,0) {$x$};
+\node[anchor=south,font=\small] at (0,8.05) {$y$};
+\end{tikzpicture}
+\end{document}

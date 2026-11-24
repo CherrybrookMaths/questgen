@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+\coordinate (P1) at (145,35); \coordinate (P2) at (430,35); \coordinate (P3) at (545,120);
+\coordinate (P4) at (690,120); \coordinate (L) at (35,202); \coordinate (M) at (253,178); \coordinate (N) at (410,172);
+\draw (P1)--(P2) (P1)--(L) (P1)--(M) (M)--(P2) (N)--(P2) (P2)--(P3) (N)--(P3) (P3)--(P4) (L)--(M) (M)--(N);
+\foreach \p in {P1,P2,P3,P4,L,M,N} \fill (\p) circle (1.8pt);
+\node at (285,18) {5};
+\node at (74,113) {6};
+\node at (211,102) {3};
+\node at (329,98) {4};
+\node at (433,106) {2};
+\node at (486,60) {3};
+\node at (479,158) {5};
+\node at (616,102) {7};
+\node at (139,210) {2};
+\node at (329,195) {3};
+\end{tikzpicture}
+\end{document}

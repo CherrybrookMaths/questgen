@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\footnotesize}]
+\def\ux{45.6}\def\uy{34.2}
+\foreach \i in {1,...,5} \draw[black!35,line width=0.4pt] ({30+\i*\ux},252)--({30+\i*\ux},38);
+\foreach \j in {1,...,6} \draw[black!35,line width=0.4pt] (30,{252-\j*\uy})--(272,{252-\j*\uy});
+\draw[->] (30,252)--(275,252);
+\draw[->] (30,252)--(30,36);
+\foreach \i in {1,...,5} {\draw ({30+\i*\ux},246)--({30+\i*\ux},258); \node at ({30+\i*\ux},270) {$\i$};}
+\foreach \j in {1,...,6} {\draw (24,{252-\j*\uy})--(36,{252-\j*\uy}); \node at (16,{252-\j*\uy}) {$\j$};}
+\node at (287,265) {$x$};
+\node at (31,22) {$y$};
+\draw[line width=0.9pt] plot[smooth,domain=0:5,samples=90] ({30+\x*\ux},{252-\x*(5-\x)*\uy});
+\end{tikzpicture}
+\end{document}

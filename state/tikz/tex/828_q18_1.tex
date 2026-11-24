@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\ux{31.27}\def\uy{0.91}
+\foreach \i in {1,...,25} \draw[black!20,line width=0.4pt] ({130+\ux*\i},634)--({130+\ux*\i},{634-600*\uy});
+\foreach \j in {1,...,12} \draw[black!20,line width=0.4pt] (130,{634-50*\uy*\j})--({130+25*\ux},{634-50*\uy*\j});
+\foreach \i in {5,10,...,25} \draw[black!40,line width=0.4pt] ({130+\ux*\i},634)--({130+\ux*\i},{634-600*\uy});
+\foreach \j in {100,200,...,600} \draw[black!40,line width=0.4pt] (130,{634-\uy*\j})--({130+25*\ux},{634-\uy*\j});
+\draw[->] (130,634)--(950,634) node[right,inner sep=2pt,font=\large] {$x$};
+\draw[->] (130,634)--(130,56) node[above,inner sep=2pt,font=\large] {$y$};
+\foreach \i in {1,...,25} \draw ({130+\ux*\i},634)--({130+\ux*\i},642);
+\foreach \j in {50,100,...,600} \draw (130,{634-\uy*\j})--(122,{634-\uy*\j});
+\node[font=\large] at (112,678) {$0$};
+\foreach \i in {5,10,...,25} \node[font=\large] at ({130+\ux*\i},678) {$\i$};
+\foreach \j in {100,200,...,600} \node[left,font=\large,inner sep=1pt] at (112,{634-\uy*\j}) {$\j$};
+\draw[line width=0.9pt] (130,634)--({130+24.53*\ux},{634-\uy*26*24.53});
+\draw[line width=0.9pt] (130,{634-180*\uy})--({130+26.16*\ux},{634-\uy*(14*26.16+180)});
+\node[font=\large] at (922,35) {$R$};
+\node[font=\large] at (986,123) {$C$};
+\node[rotate=90] at (30,350) {Amount (\$)};
+\node at (508,727) {Number of beach towels sold};
+\end{tikzpicture}
+\end{document}

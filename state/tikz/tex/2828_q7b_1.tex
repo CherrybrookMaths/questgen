@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+  \draw (242,180) ellipse [x radius=197, y radius=163];
+  \draw (45,180) arc[start angle=180,end angle=360,x radius=197,y radius=45];
+  \draw[aux] (439,180) arc[start angle=0,end angle=180,x radius=197,y radius=45];
+  \draw plot[domain=-54.95:54.95, smooth, samples=60] ({125.3+199.7*cos(\x)},{178+199.7*sin(\x)});
+  \draw plot[domain=-54.95:54.95, smooth, samples=60] ({354.7-199.7*cos(\x)},{178+199.7*sin(\x)});
+  \coordinate (O) at (242,180);
+  \coordinate (C) at (296,74);
+  \coordinate (D) at (160,221);
+  \coordinate (E) at (320,221);
+  \coordinate (F) at (200.6,305);
+  \draw (O)--(C) (O)--(D) (O)--(E) (O)--(F);
+  \foreach \p in {C,D,E,F} \node[pt, inner sep=1.6pt] at (\p) {};
+  \node[above] at (240,14) {$N$};
+  \node[below] at (240,343) {$S$};
+  \node[above right, inner sep=2pt] at (240,176) {$O$};
+  \node[below left, inner sep=2pt] at (157,224) {$D$};
+  \node[below right, inner sep=2pt] at (323,224) {$E$};
+  \node[left] at (195,303) {$F$};
+  \node[right] at (302,68) {$C$};
+  \draw[->] (332,104) -- (310,96);
+  \node[anchor=west, align=left, inner sep=1pt, font=\scriptsize] at (332,112) {Greenwich\\Meridian};
+\end{tikzpicture}
+\end{document}

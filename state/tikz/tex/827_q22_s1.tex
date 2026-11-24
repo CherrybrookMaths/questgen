@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,15} {
+  \draw[black!30, line width=0.5pt] ({162+\i*46},85) -- ({162+\i*46},773);
+  \draw[black!30, line width=0.5pt] (162,{773-\i*45.87}) -- (852,{773-\i*45.87});
+}
+\draw[->] (162,773) -- (162,33);
+\draw[->] (162,773) -- (905,773);
+\node[anchor=west,font=\large] at (907,773) {$n$};
+\foreach \v in {200,400,...,1400} {
+  \draw (154,{773-\v*0.4587}) -- (162,{773-\v*0.4587});
+  \node[anchor=east,font=\large] at (150,{773-\v*0.4587}) {\v};
+}
+\foreach \n in {3,6,...,15} {
+  \draw ({162+\n*46},773) -- ({162+\n*46},781);
+  \node[anchor=north,font=\large] at ({162+\n*46},790) {\n};
+}
+\draw[line width=0.9pt] (162,773) -- ({162+15*46},{773-1500*0.4587});
+\draw[line width=0.9pt] (162,{773-450*0.4587}) -- ({162+15*46},{773-1200*0.4587});
+\node[anchor=west,font=\large] at ({170+15*46},{773-1500*0.4587}) {$I$};
+\node[anchor=west,font=\large] at ({170+15*46},{773-1200*0.4587}) {$C$};
+\node[pt] at ({162+9*46},{773-900*0.4587}) {};
+\end{tikzpicture}
+\end{document}

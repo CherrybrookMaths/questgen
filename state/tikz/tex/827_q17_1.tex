@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% Spinner A
+\draw (163,150) circle (132);
+\draw (163,150) -- (163,18);
+\draw (163,150) -- (48.7,216);
+\draw (163,150) -- (277.3,216);
+\begin{scope}[font=\fontsize{17}{20}\selectfont\bfseries, text=black!55]
+\node at (95,113) {1};
+\node at (230,113) {1};
+\node at (163,228) {3};
+\node at (495,95) {1};
+\node at (613,95) {1};
+\node at (495,213) {3};
+\node at (613,213) {2};
+\end{scope}
+\fill[shift={(188,195)},rotate=119.6] (0pt,-1.2pt) -- (34pt,-1.2pt) -- (34pt,-3.8pt) -- (42.2pt,0pt) -- (34pt,3.8pt) -- (34pt,1.2pt) -- (0pt,1.2pt) -- cycle;
+\fill (163,150) circle (8);
+% Spinner B
+\draw (555,150) circle (132);
+\draw (423,150) -- (687,150);
+\draw (555,18) -- (555,282);
+\fill[shift={(510,178)},rotate=30.5] (0pt,-1.2pt) -- (34pt,-1.2pt) -- (34pt,-3.8pt) -- (42.5pt,0pt) -- (34pt,3.8pt) -- (34pt,1.2pt) -- (0pt,1.2pt) -- cycle;
+\fill (555,150) circle (8);
+\node[font=\fontsize{14}{16}\selectfont] at (163,320) {Spinner $A$};
+\node[font=\fontsize{14}{16}\selectfont] at (555,320) {Spinner $B$};
+\end{tikzpicture}
+\end{document}

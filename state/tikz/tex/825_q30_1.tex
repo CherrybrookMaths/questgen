@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \y in {130,200,270,350,420,490} \draw (68,\y)--(130,\y-42);
+\filldraw[fill=black] (130,85) rectangle (145,493);
+\draw (130,493)--(735,493);
+\draw (145,465) rectangle (172,493);
+\fill[black,even odd rule] (618,303) rectangle (700,493) (625,310) rectangle (693,493);
+\draw (618,493)--(618,303)--(700,303)--(700,493);
+\draw (625,493)--(625,310)--(693,310)--(693,493);
+\foreach \y in {335,397,452} {\draw (641,\y) rectangle (678,\y+23); \draw (644,\y+3) rectangle (675,\y+20);}
+\draw (700,462) rectangle (727,493);
+\draw (137,85)--(618,303); \draw (137,85)--(618,493);
+\node at (137,66) {$P$}; \node at (628,287) {$R$};
+\node at (140,518) {$Q$}; \node at (620,518) {$T$};
+\end{tikzpicture}
+\end{document}

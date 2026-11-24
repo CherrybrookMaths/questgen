@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{172+0.48*(#1)}\def\Y#1{516-9.12*(#1)}
+\foreach \a in {200,400,...,1600} \draw[black!35,line width=0.4pt] ({\X{\a}},{\Y{0}})--({\X{\a}},{\Y{50}});
+\foreach \d in {10,20,...,50} \draw[black!35,line width=0.4pt] ({\X{0}},{\Y{\d}})--({\X{1600}},{\Y{\d}});
+\draw ({\X{0}},{\Y{50}})--({\X{0}},{\Y{0}})--({\X{1600}},{\Y{0}});
+\foreach \a in {0,200,...,1600} {\draw ({\X{\a}},{\Y{0}})--({\X{\a}},{\Y{0}+8}); \node[font=\small] at ({\X{\a}},545) {\a};}
+\foreach \a in {100,300,...,1500} \draw ({\X{\a}},{\Y{0}})--({\X{\a}},{\Y{0}+5});
+\foreach \d in {0,5,...,50} {\draw ({\X{0}},{\Y{\d}})--({\X{0}-8},{\Y{\d}}); \node[font=\small,anchor=east] at (160,{\Y{\d}}) {\d};}
+\draw[line width=0.9pt,domain=90:1500,samples=90,smooth,variable=\a] plot ({172+0.48*\a},{516-9.12*(4500/\a)});
+\draw[aux] ({\X{0}},{\Y{15}})--({\X{300}},{\Y{15}})--({\X{300}},{\Y{0}});
+\fill ({\X{300}},{\Y{15}}) circle (5);
+\node at ({\X{300}+16},{\Y{15}-22}) {$P$};
+\node[font=\bfseries] at ({\X{800}},30) {Depth of footprint versus area of shoe sole};
+\node at ({\X{800}},600) {Area of shoe sole ($A$ cm$^2$)};
+\node[rotate=90] at (78,{\Y{25}}) {Depth of footprint ($D$ cm)};
+\end{tikzpicture}
+\end{document}

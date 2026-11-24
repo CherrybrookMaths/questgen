@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \k in {-4,...,17} \draw[black!22,line width=0.4pt] ({82+17.85*\k},8) -- ({82+17.85*\k},312);
+  \foreach \j in {-2,...,12} \draw[black!22,line width=0.4pt] (8,{264-20.7*\j}) -- (402,{264-20.7*\j});
+  \draw[->] (8,264) -- (314,264);
+  \draw[->] (82,312) -- (82,8);
+  \node at (320,276) {$t$};
+  \node at (66,16) {$h$};
+  \draw[line width=0.9pt,domain=0:4,samples=90,smooth] plot ({82+35.7*\x},{264-10.35*(20*\x-5*\x*\x)});
+  \foreach \t/\h in {0/0,1/15,2/20,3/15,4/0} \fill ({82+35.7*\t},{264-10.35*\h}) circle (1.8pt);
+  \foreach \t in {1,...,5} \node[font=\footnotesize] at ({82+35.7*\t},280) {$\t$};
+  \node[font=\footnotesize] at (72,276) {$0$};
+  \node[font=\footnotesize] at (44,276) {$-1$};
+  \node[font=\footnotesize] at (64,291) {$-1$};
+  \foreach \h in {4,8,12,16,20} \node[font=\footnotesize,anchor=east] at (75,{264-10.35*\h}) {$\h$};
+\end{tikzpicture}
+\end{document}

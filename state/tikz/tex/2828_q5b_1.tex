@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.1397cm,y=0.0028524cm,font=\fontsize{7.2}{9}\selectfont]
+  \foreach \t in {-6,-4,...,40} \draw[black!15,line width=0.3pt] (\t,-447) -- (\t,1646);
+  \foreach \v in {-400,-300,...,1600} \draw[black!15,line width=0.3pt] (-7,\v) -- (41,\v);
+  \foreach \t in {10,20,30,40} \draw[black!40,line width=0.4pt] (\t,-447) -- (\t,1646);
+  \foreach \v in {500,1000,1500} \draw[black!40,line width=0.4pt] (-7,\v) -- (41,\v);
+  \draw[->] (-7,0) -- (43.2,0);
+  \node at (42.6,-49) {$x$};
+  \draw[->] (0,-447) -- (0,1748);
+  \node[anchor=east] at (-0.2,1725) {$y$};
+  \node[anchor=north east,inner sep=1.5pt] at (0,0) {0};
+  \foreach \t in {10,20,30,40} \node[anchor=north east,inner sep=1.5pt] at (\t,0) {\t};
+  \foreach \v in {500,1000,1500} \node[anchor=south east,inner sep=1.5pt] at (0,\v) {\v};
+  \draw[line width=0.9pt] (-6.8,-272) -- (40,1600);
+  \draw[aux,line width=0.9pt] (-6.8,398) -- (40,1100);
+  \node[anchor=west] at (40.6,1124) {$C$};
+  \node[anchor=west,font=\fontsize{10}{12}\selectfont] at (42,1624) {$R = 40x$};
+  \node[rotate=90,font=\fontsize{11}{13}\selectfont] at (-10.2,628) {Dollars (\$)};
+  \node[font=\fontsize{11}{13}\selectfont] at (19.2,-425) {Number of bird houses};
+\end{tikzpicture}
+\end{document}

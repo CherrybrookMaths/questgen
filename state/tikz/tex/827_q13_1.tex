@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+ \coordinate (A) at (37,176); \coordinate (P1) at (181,31); \coordinate (P2) at (326,31);
+ \coordinate (P3) at (470,103); \coordinate (B) at (506,176); \coordinate (M) at (146,176);
+ \coordinate (N) at (362,176); \coordinate (Q) at (218,284); \coordinate (R) at (326,320);
+ \coordinate (S) at (146,355);
+ \draw (A)--(P1)--(P2)--(P3)--(B) (A)--(M)--(N)--(B) (P1)--(M)--(P2) (M)--(P3)--(N)
+   (M)--(Q)--(N) (A)--(Q)--(R)--(N) (R)--(B) (A)--(S)--(R);
+ \foreach \p in {A,P1,P2,P3,B,M,N,Q,R,S} \fill (\p) circle[radius=3.2];
+ \node[font=\large] at (15,176){$A$};
+ \node[font=\large] at (528,176){$B$};
+ \foreach \x/\y/\t in {92/97/1,254/15/6,397/47/4,498/126/5,99/165/8,177/93/8,264/98/3,329/120/6,400/141/7,
+   275/165/4,442/165/2,192/215/2,283/218/9,128/244/4,68/263/3,282/292/1,357/238/3,440/252/6,233/352/5}
+   \node at (\x,\y){$\t$};
+\end{tikzpicture}
+\end{document}

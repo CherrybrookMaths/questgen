@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% axes with breaks
+\draw[->] (135,490) -- (135,452) -- (124,446) -- (146,436) -- (135,430) -- (135,15);
+\draw[->] (118,473) -- (146,473) -- (153,484) -- (163,462) -- (170,473) -- (702,473);
+\node at (110,28) {$y$};
+\node at (690,500) {$x$};
+% guides
+\draw[aux, line width=0.4pt, dash pattern=on 1pt off 1.5pt] (135,102) -- (510,102) -- (510,473);
+\draw[aux, line width=0.4pt, dash pattern=on 1pt off 1.5pt] (135,302) -- (308,302) -- (308,473);
+\foreach \x in {308,510} \draw (\x,473) -- (\x,480);
+\node at (308,507) {160};
+\node at (510,507) {180};
+\node[anchor=east] at (122,102) {25};
+\node[anchor=east] at (122,302) {19};
+% line of fit
+\draw (183,428) -- (553,57);
+\foreach \p in {(183,384),(214,302),(214,416),(220,359),(258,322),(258,384),(272,267),(282,390),(308,168),(308,302),(308,359),(318,259),(337,320),(344,188),(357,222),(370,270),(366,302),(371,130),(402,168),(403,245),(413,278),(431,142),(432,216),(445,256),(470,115),(470,188),(488,153),(488,66),(510,102),(516,66),(539,98),(539,164)}
+  \node[pt] at \p {};
+\node at (408,568) {Height (cm)};
+\node[rotate=90] at (32,288) {Foot length (cm)};
+\node[align=center] at (850,200) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}
