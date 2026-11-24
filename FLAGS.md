@@ -62,6 +62,7 @@ Owner 23 Nov (verbatim): "we cannot be pinned down by imports. We should be able
      the middle box said "Not kept" for that morning's fixes because this step was missing); when work-in-progress commits hold half-done edits, pass `<id>=<last publish commit>` instead of `--auto` (18 Nov:
      --auto picked a WIP commit and would have shown a half-fixed "Before") (and `asset_upload_plan.py` / upload /
      `asset_manifest.py` for changed svg packs, as in the publish procedure; after that publish, delete each "superseded: <id>" blob it printed).
+     After each diagram fix `python3 tools/label_overlap.py <ids>` must exit 0 (DIAGRAM_SPEC 3a; owner 25 Nov via the checker: "MOST of the issues in diagrams come from the label overlapping with the graph or with anotehr label. this SHOULD NOT happen on initial draw, check for this specifically."); a label it names is moved before the hand-back.
    - Text or solution flag: edit the database (copy questions.db into archive/ first). Mistakes in the paper are fixed (PARSE_SPEC
      "Mistakes in the paper are fixed"); record the change in the solution meta (`edited_from_original` / `overwritten_from_source`).
    - A flag that needs the owner's judgement (it would undo a recorded ruling, or the request is unclear): do not guess. Leave it

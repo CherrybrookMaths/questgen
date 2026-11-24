@@ -116,6 +116,7 @@ Check every redraw against all rules before finishing; say in notes which applie
 3. Render, then LOOK at `cmp` AND run overlay.py and LOOK at the overlay. Fix every red/blue pair (misplaced
    line/label) and re-render. At most 2 rounds (owner 12 Nov: usage; he checks every diagram himself): draw, render + overlay, one round of fixes. Target both overlay scores ≥ 0.85; below that is acceptable only
    when the remaining colour is stipple-dot placement, scan stroke thickness, a faint grey grid, or scan noise — say so.
+3a. **Label overlap check (25 Nov; owner, relaying the checker: "MOST of the issues in diagrams come from the label overlapping with the graph or with anotehr label. this SHOULD NOT happen on initial draw, check for this specifically.")** After every render run `python3 tools/label_overlap.py <id>`; it must exit 0 (no label within 1 pt of a line, curve, axis, tick, arrowhead or point, or within 1 pt of another label; shading is ignored). Move each label it names (rules 6a/11), never the geometry, and re-run. The import's diagrams step runs it on every new drawing.
 4. Record `status`: `ok`, `approx` (shape could only be estimated: say what), `keep_crop`, `table`.
 
 ## Output `/home/claude/pilot/tikz/result_<GROUP>.json`
