@@ -679,8 +679,14 @@ as the school does, "AP3" / "AP4").
 - **How the keys moved** (tools/qkeys.py: a key is never given to a different question; here the paper itself was renamed): 401 rows of
   question_keys renamed by prefix (work/cths_ap_1125/key_map.json, untracked; copies in other papers that share a CTHS key moved with
   it), 93 review docs (85 k_, 8 p_) copied to the new key with their data unchanged (fields renamed_from / renamed_at / renamed_why
-  added), 5 saved exams and 1 report rewritten to the new keys, then the old docs deleted after a local build showed every paper's
-  approvals, figure decisions and paper approval unchanged under the new keys (work/cths_ap_1125/verify.txt). difficulty docs are keyed
-  by part id and held no CTHS keys.
+  added), 5 saved exams and 1 report rewritten to the new keys, then the old docs deleted (pinned to their versions, each checked
+  unchanged since the export) after a local build showed every paper's approvals, figure decisions and paper approval unchanged under
+  the new keys (work/cths_ap_1125/verify.txt). The checker reviewed 2024 CTHS AP3 (doc 719) from 9:00 on the old page: those 18 docs
+  (k_2024-CTHS-AT3-STD-Q*, now the real AT3's key) were moved to k_2024-CTHS-AP3-STD-Q* right after the v345 publish. 111 docs in all.
+  difficulty docs are keyed by part id and held no CTHS keys. Lesson: rename keys and publish before the checker's day starts, and
+  move the docs in the same minute; a key freed by a rename must not be reused by a new paper until its old docs are gone.
+- **Imported 25 Nov** (v345): 2020 Adv AT3 (631, 16 questions) and 2024 Adv AT3 (643, 16) as run b21, US$5.35; 2024 Std AT3 (721, 18;
+  cover read: "CHERRYBROOK TECHNOLOGY HIGH SCHOOL 2024 YEAR 12 AT3 MATHEMATICS STANDARD 2", course set to standard) as run s11, US$3.59.
+  Verifier: 0 issues in 50 questions.
 - **Left for the owner:** 639 ("2023 Y12 Adv AT1" in the file name) is filed under year 2022; not imported (the graduation-year rule
   may make it 2023: check its cover).
