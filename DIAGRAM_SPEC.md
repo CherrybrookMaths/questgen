@@ -88,6 +88,7 @@ Working in the crop's own pixel units is easiest: `x=0.0127cm, y=-0.0127cm` make
    letter's outline, like the papers. Never `fill=white` nodes and never rectangular holes.
    Exception (owner 24 Nov, on the checker's flags "remove the white outline on the labels"): "yes remove the halos, hand them back":
    2020 Grafton AT4 Q26 (1277_q26_1) and 2020 Hunters Hill AT4 Q26 (1279_q26_1) write their labels on the grey without `\halo`.
+   Also 2026 Baulkham Hills AT4 Q5 (1763_q5_1, the -a label), owner 24 Nov on the same request: "yes to this".
 5c. **Transparent background.** Diagrams never carry a white background, so they work on dark pages and any paper.
 27. **Shading matches the region the question defines (owner: "shading seems wrong").** Compute the bounded region from the question before shading; shade exactly that region.
 6. **Black and white only.** Draw coloured originals (blue bars, red lines) in black/grey.

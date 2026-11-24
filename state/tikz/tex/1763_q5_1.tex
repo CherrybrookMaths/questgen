@@ -1,6 +1,7 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
 \begin{document}
+% owner 24 Nov: "yes to this" (checker: "remoe the white outline on the label"); exception to DIAGRAM_SPEC 5b
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
   \fill[fill=black!30] (67,215) -- (67,355) -- (140,355) -- (210,215) -- cycle;
   \fill[fill=black!30] (210,215) -- (282,70) -- (354,70) -- (354,215) -- cycle;
@@ -19,6 +20,6 @@
   \node[font=\small] at (388,51) {$(2a,2a)$};
   \node[font=\small] at (66,380) {$(-2a,-2a)$};
   \node[font=\small] at (282,236) {$a$};
-  \node[font=\small] at (120,226) {\halo{$-a$}};
+  \node[font=\small,anchor=east] at (133,228) {$-a$};
 \end{tikzpicture}
 \end{document}
