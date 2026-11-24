@@ -1087,11 +1087,14 @@ document
       $$y = (2(2x+1))^2 = 4(2x+1)^2$$
       so
       $$\dfrac{y}{4} = \left(\dfrac{x + \frac{1}{2}}{\frac{1}{2}}\right)^2$$
+      So $y = x^2$ is dilated horizontally by a factor of $\dfrac{1}{2}$, translated to the left by $\dfrac{1}{2}$ and dilated vertically by a factor of $4$.
+
+      This gives the same curve as the first method, since $4(2x+1)^2=(4x+2)^2$.
     marks_breakdown: 2: both transformations described; 1: one correct transformation or correct rewriting of the function
     source_document_id: 1279
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "One correct transformation or correct rewriting of the function, or equivalent merit"]]
-    meta_json: {"source_flag": "Third alternative gives a dilation factor of $\\dfrac{1}{2}$ horizontally and a vertical factor of 4 after a shift of $\\dfrac{1}{2}$; check it is consistent with the first method."}
+    meta_json: {"format_note": "Source check: Third alternative gives a dilation factor of $\\dfrac{1}{2}$ horizontally and a vertical factor of 4 after a shift of $\\dfrac{1}{2}$; check it is consistent with the first method. Checked 24 Nov: consistent; $4(2x+1)^2=(4x+2)^2$, so both descriptions give the same curve.", "overwritten_from_source": "Method 3 stopped at $\\dfrac{y}{4} = \\left(\\dfrac{x + \\frac{1}{2}}{\\frac{1}{2}}\\right)^2$ without stating the transformations; it now ends: dilated horizontally by a factor of $\\dfrac{1}{2}$, translated to the left by $\\dfrac{1}{2}$ and dilated vertically by a factor of $4$ (same curve as method 1) (checker flag 24 Nov)."}
   part -  id 8530
     ordinal: 1
     latex: Describe the transformations applied to $y = x^2$ in order to give the transformed function of $y = (4x + 2)^2$.
@@ -1719,6 +1722,15 @@ document
   options_layout: text
   home_topic: sub:11|Probability and data|Probability
   home_source: computed
+  figure 1279_q19_s1.png
+    page: 0
+    bbox: []
+    png_path: figures/1279_q19_s1.png
+    tikz_path: tikz/tex/1279_q19_s1.tex
+    caption: solution diagram (drawn by Claude)
+    redraw_status: ok
+    redraw_class: tree
+    redraw_notes: Two-stage probability tree (tree_style template, rule 21) for drawing two lollies without replacement: first draw B 9/16, G 7/16; second draw B 8/15, G 7/15 after B and B 9/15, G 6/15 after G; columns headed 1st/2nd. Round 2 widened the vertical gaps so 7/15 and 9/15 sit well apart.
   part a  id 8537
     ordinal: 1
     latex: What is the probability of Georgia choosing a blue lolly in her first selection?
@@ -1787,13 +1799,15 @@ document
     solution 8061
       source: extracted
       latex: |
+        \exfigure{1279_q19_s1}
+
         Different colours means blue then green, or green then blue (no replacement):
         $$\begin{aligned} P &= \dfrac{9}{16} \times \dfrac{7}{15} + \dfrac{7}{16} \times \dfrac{9}{15} \\ &= \dfrac{21}{40} \end{aligned}$$
       marks_breakdown: 2: correct answer; 1: correct expression for the two cases
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer"], [1, "Correct expression for the two cases, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"overwritten_from_source": "Checker 24 Nov: added a solution diagram 1279_q19_s1 (two-stage probability tree, blue/green without replacement)."}
     difficulty
       band: 3
       wm: UF
@@ -2048,12 +2062,12 @@ document
         Expected value:
         $$\begin{aligned} E(X) = \mu &= \int_0^1 x(2x^3 - x + 1)\,dx \\ &= \int_0^1 (2x^4 - x^2 + x)\,dx \\ &= \left[\dfrac{2}{5}x^5 - \dfrac{1}{3}x^3 + \dfrac{1}{2}x^2\right]_0^1 \\ &= \dfrac{17}{30} \end{aligned}$$
         Variance:
-        $$\begin{aligned} \text{Var}(X) = \sigma^2 &= \int_0^1 x^2 f(x)\,dx - \mu^2 \\ &= \int_0^1 (2x^5 - x^3 + x^2)\,dx - \left(\dfrac{17}{30}\right)^2 \\ &= \left[\dfrac{1}{3}x^6 - \dfrac{1}{4}x^4 + \dfrac{1}{3}x^3\right]_0^1 - \left(\dfrac{17}{30}\right)^2 \\ &= \dfrac{43}{450} \end{aligned}$$
+        $$\begin{aligned} \text{Var}(X) = \sigma^2 &= \int_0^1 x^2 f(x)\,dx - \mu^2 \\ &= \int_0^1 (2x^5 - x^3 + x^2)\,dx - \left(\dfrac{17}{30}\right)^2 \\ &= \left[\dfrac{1}{3}x^6 - \dfrac{1}{4}x^4 + \dfrac{1}{3}x^3\right]_0^1 - \dfrac{289}{900} \\ &= \dfrac{1}{3} - \dfrac{1}{4} + \dfrac{1}{3} - \dfrac{289}{900} \\ &= \dfrac{5}{12} - \dfrac{289}{900} \\ &= \dfrac{375}{900} - \dfrac{289}{900} \\ &= \dfrac{86}{900} \\ &= \dfrac{43}{450} \end{aligned}$$
       marks_breakdown: 3: 1 for the integral for E(X); 1 for the variance formula; 1 for the value of the variance
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[3, "Correct answer"], [2, "Correct expected value and variance formula, or equivalent merit"], [1, "Writes the integral for $E(X)$, or equivalent merit"]]
-      meta_json: {"source_flag": "Integral of $2x^5 - x^3 + x^2$ is $\\dfrac{1}{3}x^6 - \\dfrac{1}{4}x^4 + \\dfrac{1}{3}x^3$, which equals $\\dfrac{5}{12}$; $\\dfrac{5}{12} - \\dfrac{289}{900} \\ne \\dfrac{43}{450}$, so check the variance value."}
+      meta_json: {"checked_source_ok": "Variance $\\dfrac{43}{450}$ and $E(X)=\\dfrac{17}{30}$, $a=1$ re-derived 24 Nov: correct.", "format_note": "Source check: Integral of $2x^5 - x^3 + x^2$ is $\\dfrac{1}{3}x^6 - \\dfrac{1}{4}x^4 + \\dfrac{1}{3}x^3$, which equals $\\dfrac{5}{12}$; $\\dfrac{5}{12} - \\dfrac{289}{900} \\ne \\dfrac{43}{450}$, so check the variance value. Checked 24 Nov: the flag was wrong; $\\dfrac{5}{12}-\\dfrac{289}{900}=\\dfrac{86}{900}=\\dfrac{43}{450}$, so the variance is correct.", "overwritten_from_source": "The variance working jumped from $\\left[\\dfrac{1}{3}x^6-\\dfrac{1}{4}x^4+\\dfrac{1}{3}x^3\\right]_0^1-\\left(\\dfrac{17}{30}\\right)^2$ straight to $\\dfrac{43}{450}$ (and a wrong 'possible error' note said this value was wrong); it now shows $\\dfrac{5}{12}-\\dfrac{289}{900}=\\dfrac{86}{900}=\\dfrac{43}{450}$. Answer unchanged (checker flag 24 Nov)."}
     difficulty
       band: 4
       wm: UF
@@ -3537,7 +3551,7 @@ document
     Let $f(x) = 2e^{-\frac{x}{5}}$ for $x \ge 0$. A right-angled triangle $OQP$ has vertex $O$ at the origin, vertex $Q$ on the $x$-axis and vertex $P$ on the graph of $f(x)$, as shown. The coordinates of $P$ are $(x, f(x))$.
 
     \exfigure{1279_q31_1}
-  marks_total: 8
+  marks_total: 9
   page_start: 18
   page_end: 19
   needs_review: 1
@@ -3585,7 +3599,7 @@ document
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {}
+      meta_json: {"edited_from_original": "The question total was recorded as 8 marks while its parts carry 1 + 3 + 5 = 9; the total is now 9 marks (checker flag 24 Nov)."}
     difficulty
       band: 2
       wm: PR
@@ -3774,14 +3788,20 @@ document
         $$\begin{aligned} 2e^{-\frac{x}{5}} &= \dfrac{1}{2} \\ e^{-\frac{x}{5}} &= \dfrac{1}{4} \\ x &= -5\ln\dfrac{1}{4} = 5\ln 4 \end{aligned}$$
         So $T\left(5\ln 4, \dfrac{1}{2}\right)$.
 
-        The required area is the trapezium under $ST$ minus the area under the curve.
-        $$\begin{aligned} A &= \dfrac{1}{2}h(a + b) - \displaystyle\int_0^{5\ln 4} 2e^{-\frac{x}{5}}\,dx \\ &= \dfrac{1}{2} \times 5\ln 4\left(2 + \dfrac{1}{2}\right) + 10\Big[e^{-\frac{x}{5}}\Big]_0^{5\ln 4} \\ &= \dfrac{25}{4}\ln 4 + 10\left(e^{-\ln 4} - 1\right) \\ &= \dfrac{25}{4}\ln 4 + 10\left(\dfrac{1}{4} - 1\right) \\ &= \dfrac{25}{4}\ln 4 - \dfrac{15}{2} \end{aligned}$$
+        The region lies between the chord $ST$ (above) and the curve (below) for $0 \le x \le 5\ln 4$. Its area is the trapezium under $ST$ (parallel sides $2$ and $\dfrac{1}{2}$, width $5\ln 4$) minus the area under the curve.
+
+        Trapezium:
+        $$\begin{aligned} A_1 &= \dfrac{1}{2}\times 5\ln 4\left(2 + \dfrac{1}{2}\right) \\ &= \dfrac{25}{4}\ln 4 \end{aligned}$$
+        Area under the curve:
+        $$\begin{aligned} A_2 &= \displaystyle\int_0^{5\ln 4} 2e^{-\frac{x}{5}}\,dx \\ &= \Big[-10e^{-\frac{x}{5}}\Big]_0^{5\ln 4} \\ &= -10e^{-\ln 4} + 10 \\ &= -10\times\dfrac{1}{4} + 10 \\ &= \dfrac{15}{2} \end{aligned}$$
+        Required area:
+        $$\begin{aligned} A &= A_1 - A_2 \\ &= \dfrac{25}{4}\ln 4 - \dfrac{15}{2} \\ &\approx 1.16 \end{aligned}$$
         $$\therefore\ A = \dfrac{25}{4}\ln 4 - \dfrac{15}{2} \text{ units}^2$$
       marks_breakdown: 5: 1 for S; 1 for T; 1 for the area expression; 1 for the trapezium area / integral; 1 for the final area
       source_document_id: 1279
       prompt_version: parse-v1
       criteria_json: [[5, "Correct answer"], [4, "Correct integral and trapezium area, or equivalent merit"], [3, "Correct area expression, or equivalent merit"], [2, "Finds $S$ and $T$, or equivalent merit"], [1, "Finds $S$ or $T$, or equivalent merit"]]
-      meta_json: {}
+      meta_json: {"overwritten_from_source": "The area working ran the trapezium and the integral together in one chain, using undefined $h$, $a$, $b$ and skipping the antiderivative ($-\\int = +10[e^{-x/5}]$); it now finds the trapezium area $\\dfrac{25}{4}\\ln 4$ and the area under the curve $\\dfrac{15}{2}$ separately, then subtracts. Answer $\\dfrac{25}{4}\\ln 4-\\dfrac{15}{2}\\approx1.16$ units$^2$ unchanged (checker flag 24 Nov)."}
     figure 1279_q31_2.png
       page: 19
       bbox: [113, 439, 472, 641]

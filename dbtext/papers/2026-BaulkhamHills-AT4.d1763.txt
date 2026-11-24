@@ -406,7 +406,7 @@ document
     is_correct: 1
     key_source: extracted
   option B
-    latex: $-2\displaystyle\int_{0}^{-2a} f(x)\,dx$
+    latex: $2\displaystyle\int_{0}^{-2a} f(x)\,dx$
     is_correct: 0
     key_source: extracted
   option C
@@ -420,15 +420,17 @@ document
   solution 8945
     source: extracted
     latex: |
-      The function $f(x)$ is odd, so the integral over the symmetric interval is zero:
+      From the graph, the shaded area to the right of the $y$-axis is a triangle (base $a$, height $2a$) and a rectangle ($a$ by $2a$):
+      $$\int_0^{2a} f(x)\,dx=\dfrac{1}{2}\times a\times 2a+a\times 2a=3a^2$$
+      The function $f(x)$ is odd, so the shaded area is $2\times 3a^2=6a^2$, but the integral over the symmetric interval is zero:
       $$\int_{-2a}^{2a} f(x)\,dx=0$$
-      This gives a signed area of $0$, not the shaded area.
-
-      The other options all give the shaded area, so the expression that does NOT is option A.
+      This gives a signed area of $0$, not the shaded area. The other options all give $6a^2$:
+      $$\begin{aligned} \text{B: } 2\displaystyle\int_0^{-2a} f(x)\,dx &= -2\displaystyle\int_{-2a}^{0} f(x)\,dx = -2\left(-3a^2\right) = 6a^2 \\ \text{C: } 2\displaystyle\int_0^{a} f(x)\,dx+4a^2 &= 2a^2+4a^2 = 6a^2 \\ \text{D: } 3(a\times 2a) &= 6a^2 \end{aligned}$$
+      Hence option A.
     source_document_id: 1763
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {}
+    meta_json: {"edited_from_original": "The paper printed option B as $-2\\displaystyle\\int_0^{-2a} f(x)\\,dx$, which equals $-6a^2$ and so also does not give the shaded area (two answers). Option B is now $2\\displaystyle\\int_0^{-2a} f(x)\\,dx=6a^2$, so A is the only answer (checker flag 24 Nov).", "overwritten_from_source": "Was: 'f is odd, so the integral over the symmetric interval is zero ... The other options all give the shaded area, so ... option A.' Now also finds the shaded area $6a^2$ and checks B, C and D against it (checker flag 24 Nov)."}
   figure 1763_q5_1.png
     page: 2
     bbox: [231, 412, 387, 565]

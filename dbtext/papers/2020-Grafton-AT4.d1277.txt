@@ -828,7 +828,7 @@ document
   solution 7989
     source: extracted
     latex: |
-      Interest is compounded quarterly, so over one year there are $4$ periods at $16\%\div4=4\%$ per period.
+      Deposits are made and interest is compounded quarterly, so over one year there are $4$ periods at $16\%\div4=4\%$ per period.
 
       The table value for $4$ periods at $4\%$ is $4.25$.
       $$\begin{aligned}28475&=4.25\times x\\ x&=\dfrac{28475}{4.25}\\ &=6700\end{aligned}$$
@@ -836,7 +836,7 @@ document
     source_document_id: 1277
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {}
+    meta_json: {"edited_from_original": "The paper printed 'What amount would need to be invested every month into an account earning 16% p.a. interest compounded quarterly' and the table's first column heading 'End of year'. Monthly deposits do not match quarterly compounding or the table (the keyed answer \\$6700 uses 4 quarterly periods at 4%), so the question now says 'invested at the end of every quarter' and the column heading is 'Period'. Answer C unchanged (checker flag 24 Nov).", "overwritten_from_source": "First sentence was 'Interest is compounded quarterly, so over one year there are 4 periods ...'; now 'Deposits are made and interest is compounded quarterly, so ...' to match the corrected wording (checker flag 24 Nov)."}
   part -  id 8466
     ordinal: 1
     latex: |
@@ -844,14 +844,14 @@ document
 
       \extable{1277_q10_t1}
 
-      What amount would need to be invested every month into an account earning 16% p.a. interest compounded quarterly, to be worth \$28 475 after a year?
+      What amount would need to be invested at the end of every quarter into an account earning 16% p.a. interest compounded quarterly, to be worth \$28 475 after a year?
     marks: 1
     needs_review: 1
     data_table 1277_q10_t1
       caption: Future value of $1
       header_rows: 1
       label_col: 1
-      rows_json: [["\\text{End of year}", "4\\%", "6\\%", "8\\%", "10\\%"], ["1", "1.00", "1.00", "1.00", "1.00"], ["2", "2.04", "2.06", "2.08", "2.10"], ["3", "3.12", "3.18", "3.25", "3.31"], ["4", "4.25", "4.37", "4.51", "4.64"]]
+      rows_json: [["\\text{Period}", "4\\%", "6\\%", "8\\%", "10\\%"], ["1", "1.00", "1.00", "1.00", "1.00"], ["2", "2.04", "2.06", "2.08", "2.10"], ["3", "3.12", "3.18", "3.25", "3.31"], ["4", "4.25", "4.37", "4.51", "4.64"]]
       spans_json: []
     tag 2024
       coverage: removed
@@ -2369,6 +2369,8 @@ document
   solution 8012
     source: extracted
     latex: |
+      \exfigure{1277_q23_s1}
+
       Since $\tan\theta=\dfrac{2}{3}$, take a right-angled triangle with opposite side $2$ and adjacent side $3$.
 
       By Pythagoras' theorem the hypotenuse is $\sqrt{2^2+3^2}=\sqrt{13}$.
@@ -2376,7 +2378,16 @@ document
     source_document_id: 1277
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Finds the hypotenuse $\\sqrt{13}$, or equivalent merit"]]
-    meta_json: {"format_note": "Rubric written by us (source had none).", "source_flag": "Guideline drawing not cropped: right triangle with opposite $2$, adjacent $3$, hypotenuse $\\sqrt{13}$."}
+    meta_json: {"format_note": "Rubric written by us (source had none).", "overwritten_from_source": "Checker 24 Nov: added a solution diagram 1277_q23_s1 (right-angled triangle with theta, adjacent 3, opposite 2, hypotenuse sqrt 13).", "source_flag": "Guideline drawing not cropped: right triangle with opposite $2$, adjacent $3$, hypotenuse $\\sqrt{13}$."}
+  figure 1277_q23_s1.png
+    page: 0
+    bbox: []
+    png_path: figures/1277_q23_s1.png
+    tikz_path: tikz/tex/1277_q23_s1.tex
+    caption: solution diagram (drawn by Claude)
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Right-angled triangle for tan(theta) = 2/3: angle theta at the left vertex, adjacent side 3, opposite side 2, hypotenuse sqrt(13), right-angle mark; drawn to true 3:2 proportions (rules 11, 22).
   part -  id 8489
     ordinal: 1
     latex: If $\tan\theta=\dfrac{2}{3}$, and $\theta$ is acute, find the exact value of $\sin\theta$?

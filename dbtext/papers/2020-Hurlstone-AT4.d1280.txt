@@ -2898,18 +2898,18 @@ document
   home_source: computed
   solution 8133
     source: extracted
-    latex: $$\begin{aligned} E(X)&=\displaystyle\int_{-\infty}^{\infty}xf(x)\,dx \\ &=\displaystyle\int_0^1 x(x^3-x+4)\,dx \\ &=\displaystyle\int_0^1 (x^4-x^2+4x)\,dx \\ &=\left[\dfrac{x^5}{5}-\dfrac{x^3}{3}+2x^2\right]_0^1 \\ &=\dfrac{28}{15} \end{aligned}$$
+    latex: $$\begin{aligned} E(X)&=\displaystyle\int_{-\infty}^{\infty}xf(x)\,dx \\ &=\displaystyle\int_0^1 x\left(x^3-x+\dfrac{5}{4}\right)dx \\ &=\displaystyle\int_0^1 \left(x^4-x^2+\dfrac{5}{4}x\right)dx \\ &=\left[\dfrac{x^5}{5}-\dfrac{x^3}{3}+\dfrac{5x^2}{8}\right]_0^1 \\ &=\dfrac{1}{5}-\dfrac{1}{3}+\dfrac{5}{8} \\ &=\dfrac{59}{120} \end{aligned}$$
     marks_breakdown: 2: correct solution; 1: shows significant understanding
     source_document_id: 1280
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Shows significant understanding, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"edited_from_original": "The paper printed $f(x)=x^3-x+4$ for $0\\le x\\le 1$, which is not a probability density function ($\\int_0^1 f(x)\\,dx=\\dfrac{15}{4}\\ne1$; the guideline's $E(X)=\\dfrac{28}{15}$ lies outside $[0,1]$). The constant is now $\\dfrac{5}{4}$, the value that makes the total probability 1 ($f\\ge0$ on $[0,1]$) (checker flag 24 Nov).", "overwritten_from_source": "Was $E(X)=\\int_0^1(x^4-x^2+4x)\\,dx=\\dfrac{28}{15}$; now $\\int_0^1\\left(x^4-x^2+\\dfrac{5}{4}x\\right)dx=\\dfrac{59}{120}$ for the corrected $f$ (checker flag 24 Nov)."}
   part -  id 8612
     ordinal: 1
     latex: |
       The probability density function for the continuous random variable $X$ is:
 
-      $$f(x)=\begin{cases}x^3-x+4 & 0\le x\le 1\\ 0 & \text{otherwise}\end{cases}$$
+      $$f(x)=\begin{cases}x^3-x+\dfrac{5}{4} & 0\le x\le 1\\ 0 & \text{otherwise}\end{cases}$$
 
       Find $E(X)$.
     marks: 2
@@ -3596,7 +3596,7 @@ document
       source_document_id: 1280
       prompt_version: parse-v1
       criteria_json: [[2, "Correct answer and shape"], [1, "Makes significant progress, or equivalent merit"]]
-      meta_json: {"format_note": "Period corrected from source's $2\\pi$ to $\\pi$.", "source_flag": "Source states period $=\\dfrac{2\\pi}{1}=2\\pi$, which is wrong for $\\cos 2t$ (period $\\pi$); corrected here."}
+      meta_json: {"corrected": "Corrected from source: the guideline gave the period as $\\dfrac{2\\pi}{1}=2\\pi$; for $x=1-\\cos 2t$ the period is $\\dfrac{2\\pi}{2}=\\pi$, so the graph shows one full cycle for $0\\le t\\le\\pi$.", "format_note": "Period corrected from source's $2\\pi$ to $\\pi$.", "overwritten_from_source": "The source said period $\\dfrac{2\\pi}{1}=2\\pi$ (shown as a 'possible error in the source' note); the solution and graph use the correct period $\\pi$ (minimum $0$ at $t=0,\\pi$, maximum $2$ at $t=\\dfrac{\\pi}{2}$), now recorded as a correction. Graph re-checked 24 Nov, no change needed (checker flag 24 Nov)."}
     figure 1280_q31_s1.png
       page: 34
       bbox: [155, 581, 461, 735]
