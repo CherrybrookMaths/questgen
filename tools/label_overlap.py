@@ -202,6 +202,12 @@ def line(res, p):
             f" (at {p['at_pt'][0]},{p['at_pt'][1]} pt from top left)")
 
 
+class _Serial:   # same interface as ProcessPoolExecutor for one worker
+    def __enter__(self): return self
+    def __exit__(self, *e): return False
+    def map(self, f, *its): return map(f, *its)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.split('\n')[0])
     ap.add_argument('ids', nargs='*')
@@ -214,14 +220,23 @@ def main():
     ap.add_argument('--dpi', type=int, default=DEFAULTS['dpi'])
     ap.add_argument('--jobs', type=int, default=os.cpu_count() or 2)
     ap.add_argument('--keep', help='keep each check render (png + pdf) in this folder')
+    ap.add_argument('--progress', help='append each result to this JSON-lines file and skip drawings already in it (resume)')
     a = ap.parse_args()
     ids = sorted(p.stem for p in TEX.glob('*.tex')) if a.all else a.ids
     if not ids: ap.error('give ids or --all')
     opt = dict(dpi=a.dpi, clear=a.clear, clear_labels=a.clear_labels, min_px=a.min_px, keep=a.keep)
-    if len(ids) == 1 or a.jobs == 1:
-        results = [check_one(i, opt) for i in ids]
-    else:
-        with ProcessPoolExecutor(a.jobs) as ex: results = list(ex.map(check_one, ids, [opt] * len(ids), chunksize=4))
+    # --progress FILE: one JSON line per drawing as it is checked; a re-run with the same file skips those (a stopped run resumes)
+    done = {}
+    if a.progress and Path(a.progress).exists():
+        for ln in Path(a.progress).read_text().splitlines():
+            if ln.strip(): r = json.loads(ln); done[r['id']] = r
+    todo = [i for i in ids if source(i)[0] not in done]
+    pf = open(a.progress, 'a') if a.progress else None
+    results = [done[source(i)[0]] for i in ids if source(i)[0] in done]
+    with ProcessPoolExecutor(a.jobs) if a.jobs > 1 and len(todo) > 1 else _Serial() as ex:
+        for r in ex.map(check_one, todo, [opt] * len(todo)):
+            results.append(r)
+            if pf: pf.write(json.dumps(r, ensure_ascii=False) + '\n'); pf.flush()
     bad = [r for r in results if r.get('problems')]
     errs = [r for r in results if r.get('error')]
     if a.report:
