@@ -14,7 +14,7 @@
 \foreach \k in {0,10,...,60}{\foreach \j in {2,4,6,8}{
   \pgfmathparse{(\k+\j<67)?1:0}
   \ifnum\pgfmathresult=1 \draw (393,{1613-23.3*(\k+\j)})--(403,{1613-23.3*(\k+\j)});\fi}}
-\foreach \v in {-2,-4}{\draw (393,{1613-23.3*\v})--(403,{1613-23.3*\v});}
+\foreach \v in {-2}{\draw (393,{1613-23.3*\v})--(403,{1613-23.3*\v});}
 \foreach \k in {10,20,...,60}{\draw (389,{1613-23.3*\k})--(407,{1613-23.3*\k});
   \node[anchor=east] at (374,{1613-23.3*\k}) {$\k$};}
 \draw[line width=0.9pt] plot[domain=-3:2,samples=90,smooth] ({398+110*\x},{1613-23.3*(\x+2)^3});

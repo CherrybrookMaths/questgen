@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% solution diagram for 2020 Grafton AT4 Q23 (checker 24 Nov): right-angled triangle for tan(theta)=2/3
+\begin{tikzpicture}
+  \coordinate (A) at (0,0); \coordinate (B) at (4.5,0); \coordinate (C) at (4.5,3);
+  \draw (A) -- (B) -- (C) -- cycle;
+  % right angle at B
+  \draw (B) ++(-0.3,0) -- ++(0,0.3) -- ++(0.3,0);
+  % theta at A
+  \draw (A) ++(0:0.9) arc[start angle=0, end angle=33.69, radius=0.9];
+  \node at ($(A)+(16.8:1.25)$) {$\theta$};
+  \node[below, inner sep=4pt] at ($(A)!0.5!(B)$) {$3$};
+  \node[right, inner sep=4pt] at ($(B)!0.5!(C)$) {$2$};
+  \node[above left, inner sep=2pt] at ($(A)!0.5!(C)$) {$\sqrt{13}$};
+\end{tikzpicture}
+\end{document}
