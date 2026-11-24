@@ -8,7 +8,7 @@
    Regenerate = new seed, same settings. Each question in the list can be swapped for the closest alternative or locked so that
    Regenerate keeps it. Difficulty comes from DIFFICULTY_SPEC (part band 2-6, wm UF/PR). Question band = marks-weighted mean of
    its parts' bands, rounded to 0.5; a question's problem-solving share = marks on PR parts / its marks. */
-const XA_DEF=()=>({open:true,topen:true,topics:[],total:100,mcq:10,mcqSet:false,diff:'hsc',pr:30,approved:true,avoid:false,seed:0,locked:[],warns:[],tmix:null,tpr:null,ran:false});
+const XA_DEF=()=>({open:true,topen:true,topics:[],total:100,by:'marks',n:20,mcq:10,mcqSet:false,diff:'hsc',pr:30,approved:true,avoid:false,seed:0,locked:[],warns:[],tmix:null,tpr:null,ran:false});
 function xa(){if(!EX.auto||typeof EX.auto!=='object')EX.auto=XA_DEF();const d=XA_DEF();for(const k in d)if(EX.auto[k]===undefined)EX.auto[k]=d[k];return EX.auto}
 const xaSave=()=>{save(XKEY,JSON.stringify(EX));};
 const XA_SWAPPED=new Set();
@@ -60,7 +60,13 @@ const XG={on:[],off:[],show:false,open:{setup:true,pick:false},src:null,dirty:fa
     if(y12){const off=new Set(XG.off);XG.y11().forEach(k=>{if(!off.has(k))L.add(k)})}
     // nothing to judge against yet (Pick by hand on "All questions", an empty exam and an empty Already learnt list): no gate, so a
     // tutor's first view is the whole bank, not a near-empty list (17 Nov review of the gates build)
-    if(!ex.size&&!XG.on.length)L.none=true;return {L,ex,y12}},
+    if(!ex.size&&!XG.on.length)L.none=true;
+    // owner 25 Nov: "Besides that, yes action all these things" (checker: Critical path analysis "itself showed 0 questions, 5 of 9
+    // chosen"). Some skills are taught at a focus area, not a subheading (their first dot point has none, e.g. Standard's Critical path
+    // analysis): their topic key ends in "|" and is no subtopic anyone can tick, so those questions could never come in. Such a key
+    // counts as learnt once any subtopic of its focus area is learnt (only when it is not a subtopic of its own)
+    const tr=xaTree();if(XG.kt!==tr){XG.kt=tr;XG.keys=new Set([12,11].flatMap(y=>[...tr[y].values()].flat()))}const T=XG.keys;
+    [...L].forEach(k=>{const f=k.split('|').slice(0,2).join('|')+'|';if(!T.has(f))L.add(f)});return {L,ex,y12}},
   miss:(q,L)=>L.none?[]:XG.need(q).filter(k=>!L.has(k)),
   ok:(q,L)=>XG.show||!!L.none||XG.need(q).every(k=>L.has(k)),
   // a list split into kept (learnt, or all while the switch is on) and left out, with the focus areas most often missing
@@ -68,7 +74,7 @@ const XG={on:[],off:[],show:false,open:{setup:true,pick:false},src:null,dirty:fa
     qs.forEach(q=>{const m=XG.miss(q,L);if(m.length){out.push(q);new Set(m.map(XG.fa)).forEach(f=>fa.set(f,(fa.get(f)||0)+1))}if(!m.length||XG.show)keep.push(q)});
     return {keep,out,top:[...fa.entries()].sort((a,b)=>b[1]-a[1]).map(x=>x[0])}},
   fa:k=>k.slice(4).split('|')[1]||k,
-  label:k=>XG.fa(k)+' › '+subName(k),
+  label:k=>XG.fa(k)+(subName(k)?' › '+subName(k):''),
   // the exam's own topics in each builder: Exam setup's ticks; Pick by hand also counts the questions already in the exam and the topic browsed
   homesOf:()=>{const h=xaHomes();return EX.items.map(i=>h.get(i)?.sub)},
   autoExtra:A=>A.topics,
@@ -122,11 +128,11 @@ function xaSwapCands(id){const A=xa(),q=xq(id);if(!q)return [];const homes=xaHom
     return {c,same,sub:!!(h&&hc.sub===h.sub),inT:TS.has(hc.sub),s:(same?-4:0)+(h&&hc.sub===h.sub?0:h&&hc.area===h.area?3:TS.has(hc.sub)?6:12)+2*Math.abs((+c.marks||0)-(+q.marks||0))+1.5*Math.abs(dc.raw-(d?d.raw:3))+Math.abs(dc.pr-(d?d.pr:0))}})
     .sort((a,b)=>a.s-b.s)}
 // to: the chosen question (from the chooser); without it the chooser opens
-function xaSwap(id,to){const q=xq(id);if(!q)return;if(to==null){XA_SW.open(id);return}const c=xq(to);if(!c)return;
+function xaSwap(id,to){const q=xq(id);if(!q||xaLocked(id,true))return;if(to==null){XA_SW.open(id);return}const c=xq(to);if(!c)return;
   XA_SWAPPED.add(id);EX.items[EX.items.indexOf(id)]=to;xsave();if(typeof EXV!=='undefined'&&EXV.sel===id)EXV.sel=to;
   toast(`Swapped for ${qid(c)}${c.marks!==q.marks?` (${c.marks} marks instead of ${q.marks})`:''}`);if(document.body.classList.contains('xpv-on'))exRelayout()}
 const XA_SW={id:null,n:6,
-  async open(id,more){const q=xq(id);if(!q)return;const L=xaSwapCands(id);if(!L.length){toast('No other question fits these settings');return}
+  async open(id,more){const q=xq(id);if(!q||xaLocked(id,true))return;const L=xaSwapCands(id);if(!L.length){toast('No other question fits these settings');return}
     this.id=id;if(!more)this.n=6;let el=$('#swapDlg');if(!el){el=document.createElement('div');el.id='swapDlg';el.className='repscrim';document.body.appendChild(el)}
     this.prev=document.activeElement;el.hidden=false;document.body.classList.add('rep-on');
     if(!more)el.innerHTML='<div class="repdlg swapdlg"><p class="muted">Finding similar questions…</p></div>';
@@ -149,12 +155,19 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest
   if(t.closest('[data-swmore]')){XA_SW.n+=6;XA_SW.open(XA_SW.id,true);return}
   const pk=t.closest('[data-swpick]');if(pk){const id=XA_SW.id;XA_SW.close();EXPK.open('replace',id);return}},true);   // owner 19 Nov: Replace mode (B)
 addEventListener('keydown',e=>{if(e.key==='Escape'&&XA_SW.id!=null){e.preventDefault();e.stopImmediatePropagation();XA_SW.close()}},true);
-function xaLock(id){const A=xa(),i=A.locked.indexOf(id);if(i>=0)A.locked.splice(i,1);else A.locked.push(id);xaSave();xPanel()}
+function xaLock(id){const A=xa(),i=A.locked.indexOf(id);if(i>=0)A.locked.splice(i,1);else A.locked.push(id);xsave();toast(i>=0?'Unlocked: you can change it again':'Locked: kept as is when you regenerate')}
+// owner 25 Nov: "Besides that, yes action all these things" (checker: "It's not clear to the user what the lock button does", "lock doesnt
+// work it can still be replaced and moved"). A locked question is not swapped, replaced, moved (drag, arrows, Sort easiest first),
+// removed or changed by Regenerate; each such control is disabled with xaLocked.tip, and every path that changes the list asks here
+// (say: tell the user why nothing happened). One page-wide name (CODE_HEALTH rule 1)
+function xaLocked(id,say){const lk=!!EX.auto&&Array.isArray(EX.auto.locked)&&EX.auto.locked.includes(id);if(lk&&say){const i=EX.items.indexOf(id);toast(`Q${i+1} is locked: unlock it to change it`)}return lk}
+xaLocked.tip='Locked: kept as is when you regenerate; unlock to change it';
+xaLocked.label=lk=>lk?'Locked - click to unlock':'Lock this question';
 
 /* ---------- swap / lock on the exam panel (xPanel in 20_exam.js) ---------- */
 const XA_LOCK='<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
 document.addEventListener('click',e=>{if(!e.target.closest('#xPanel'))return;
   const li=e.target.closest('li[data-xi]');
   if(li&&e.target.closest('[data-xsw]')){const b=e.target.closest('[data-xsw]');if(!b.disabled)xaSwap(+li.dataset.xi);return}
-  if(li&&e.target.closest('[data-xlk]')){xaLock(+li.dataset.xi);return}
+  if(li&&e.target.closest('[data-xlock]')){xaLock(+li.dataset.xi);return}
 });

@@ -619,7 +619,8 @@ body.xpv-on{overflow:hidden}
 .xpart.child{margin-left:9mm}.xpl{font-weight:400}.xpm{text-align:right;font:400 11pt var(--sans);white-space:nowrap}   /* owner 18 Nov: "(a)" plain, "[1]" at the right */
 .xlines{margin:2mm 0 1mm;padding-bottom:4mm}   /* owner 18 Nov: "a little more space between the dotted lines of a part and the prose of the next part" */
 .xlines i{display:block;height:8.5mm;border-bottom:1.3pt dotted #444}   /* owner 18 Nov: dotted answer lines, as on the sample */
-.xol{display:grid;gap:1.5mm;margin:2mm 0}.xog{display:grid;grid-template-columns:1fr 1fr;gap:3mm 6mm;margin:2mm 0}
+.xol{display:grid;gap:1.5mm;margin:2mm 0}.xol.x2,.xol.x4{column-gap:6mm;align-items:baseline}.xol.x2{grid-template-columns:repeat(2,minmax(0,1fr))}.xol.x4{grid-template-columns:repeat(4,minmax(0,1fr))}   /* owner 25 Nov: short options side by side (EXSEC.fitOpts) */
+.xog{display:grid;grid-template-columns:1fr 1fr;gap:3mm 6mm;margin:2mm 0}
 .xo{display:flex;gap:3mm;align-items:baseline}.xog .xo{flex-direction:column;align-items:flex-start}.xo b{font-family:var(--sans);font-weight:600}
 .xo.xok{background:#e1efec;outline:1px solid #1e5f5a;border-radius:2px}
 .xsrc{font:8pt var(--sans);color:#888;margin-top:1.5mm;text-align:right}
@@ -738,7 +739,7 @@ body.xpv-on{overflow:hidden}
 .xpanel{width:min(420px,96vw)}
 .xa-warn{margin:0;padding:6px 8px 6px 22px;font-size:12px;line-height:1.4;background:var(--warn-soft);border-left:3px solid var(--warn);border-radius:6px;display:grid;gap:3px}
 .xlist li.locked{border-color:var(--accent);background:var(--accent-soft)}
-.xlist .xb button[data-xlk][aria-pressed="true"]{color:var(--accent)}
+.xlist .xb button[data-xlock][aria-pressed="true"]{color:var(--accent)}
 .xlist .xb button:disabled{opacity:.3;cursor:default}
 .xlist .xb button{min-width:26px;min-height:30px;display:inline-grid;place-items:center}
 /* ---- Exams page (owner 14 Nov: "Making the exam should be on another page, and it should operate similar to the html
@@ -796,6 +797,7 @@ body.xpv-on{overflow:hidden}
 .extile .pill:not(:disabled):hover{background:color-mix(in srgb,var(--ink) 5%,transparent)}
 .extile .pill[aria-pressed="true"]::before{background:var(--accent);border-color:var(--accent);box-shadow:inset 0 0 0 2px var(--panel)}
 .extile .pill .n{margin-left:auto;font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
+.extile .pill .ex-pnm{min-width:0}.extile .pill .ex-pwhy{display:block;font-size:11px;color:var(--muted);margin-top:1px}   /* owner 25 Nov: why a count is lower */
 .extile .pill:disabled{color:var(--muted);cursor:not-allowed;opacity:.6}
 /* settings column */
 .exsettings{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:4px 20px 18px;position:sticky;top:calc(var(--hdr,64px) + 8px);max-height:calc(100vh - var(--hdr,64px) - 20px);overflow:auto;min-width:0;scrollbar-width:thin}
@@ -852,7 +854,11 @@ input[type=range].rng:disabled{opacity:.35;cursor:default}
 .availcap i{display:inline-block;width:9px;height:9px;border:1.5px solid var(--accent);border-radius:1px;margin-right:6px;vertical-align:-1px}
 .poolline{font-size:12px;color:var(--muted);margin-bottom:8px;line-height:1.5;font-variant-numeric:tabular-nums}.poolline b{color:var(--ink);font-weight:600}
 .warnbox{border-left:2px solid var(--warn);background:var(--warn-soft);color:var(--ink);border-radius:0 6px 6px 0;padding:7px 10px;font-size:12.5px;margin:10px 0 6px;line-height:1.45}.warnbox p{margin:2px 0}
-.exgo{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;padding-top:16px;border-top:1px solid var(--line)}
+/* owner 25 Nov ("Besides that, yes action all these things"; checker: "put generate button on top"): Generate (and its result) open the
+   settings panel and stay in sight while it scrolls */
+.exsettings>.exgo{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid var(--line);position:sticky;top:-4px;z-index:1;background:var(--panel)}
+.exsettings>.exgo #gResult{flex-basis:100%}.exsettings>.exgo .result{margin-top:4px}
+.exsettings>.exgo+.group{border-top:0}
 .exgen{padding:9px 18px;border-radius:6px;font:600 14px var(--sans);background:var(--accent);border:1px solid var(--accent);color:var(--panel);cursor:pointer;transition:filter .12s,box-shadow .12s}
 .exgen:hover:not(:disabled){filter:brightness(1.06);box-shadow:0 1px 3px rgba(0,0,0,.18)}
 .exgen:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
@@ -930,6 +936,19 @@ table.gparts{width:100%;border-collapse:collapse;font-size:12px;font-variant-num
 table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1px solid var(--line)}table.gparts th{color:var(--muted);font-weight:500}
 .gwhy{margin-top:8px}.gwhy ul{margin:4px 0 0;padding-left:16px}.gwhy li{margin:2px 0}.gwhy .pp{font-weight:600}
 .gacts{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+/* owner 25 Nov: Lock says what it does; a locked question's other controls are off (title says why) */
+.gacts .act:disabled{opacity:.45;cursor:not-allowed}.gacts .exglock svg{vertical-align:-2px}
+.gacts .exglock[aria-pressed="true"]{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+.gq.locked .gqrow{cursor:default}.gq.locked .grip{color:var(--accent);letter-spacing:0}.gmv button:disabled{cursor:not-allowed}
+/* owner 25 Nov: the Questions panel names the exam (rename it here) and adds or removes answer lines on every written question */
+.expvside .gname{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted);margin:2px 0 10px}
+.expvside .gname input{font:500 14px var(--sans);color:var(--ink);background:var(--panel);border:1px solid var(--line2);border-radius:6px;padding:6px 9px;min-width:0}
+.expvside .glnall{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);margin:-2px 0 10px}.expvside .glnall span{flex:1;min-width:0}
+.expvside .glnall .act{padding:2px 9px;font-size:12px}
+/* owner 25 Nov: the paper bar's save state and Save */
+.expv .xpvsave{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;white-space:nowrap;color:var(--muted)}
+.expv .xpvsave .exst-ok{color:var(--ok);font-weight:600}.expv .xpvsave .exst-wait{color:var(--warn);font-weight:600}
+.expv .xpvsave .act:disabled{opacity:1;cursor:default;border-color:transparent;background:none;padding-inline:4px}.expv .xtool .xinfo{min-width:0}   /* the page count wraps inside itself rather than push Close onto a second row */
 .gnote{font-size:11.5px;color:var(--muted);margin-top:14px;line-height:1.45}
 @media screen{
   #xPages .xq{cursor:pointer;border-radius:4px;outline:2px solid transparent;outline-offset:5px;transition:outline-color .12s}
@@ -998,6 +1017,9 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .excover .cv-v{margin:0;padding:2.6mm 0 2.4mm 5mm;border-top:.6pt solid #c9c9c9;font-size:10.5pt;line-height:1.5}
 .excover .cv-grid>:nth-child(-n+2){border-top:0;padding-top:0}
 .excover .cv-v li{padding-left:.5mm}
+/* owner 25 Nov ("for longer instructions, dot should sit in the top left of the phrase"): an editable instruction is an inline block, whose
+   baseline is its LAST line, so the bullet sat beside the last line of a long one; aligned to the top, the bullet takes the first line */
+.excover .cv-v li>.ed{vertical-align:top}
 .excover .exaddli{list-style:none;margin:.5mm 0 0 -4.5mm}
 .excover .cv-secs{padding-left:0}   /* owner 18 Nov: NESA-style marks block, Total marks | each section with its pages, questions and time */
 /* owner 19 Nov ("Dot points don't line up"): the section headings start at the column edge and their bullets sit where the general
@@ -1126,12 +1148,10 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .exm-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .exm-row{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px 10px 16px}
 .exm-row.go{cursor:pointer;transition:border-color .12s,background .12s}.exm-row.go:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent-soft) 35%,var(--panel))}   /* owner 14 Nov: "clean and sophisticated" */
-.exm-row.open{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .exm-main{flex:1 1 300px;min-width:0;display:grid;gap:2px}.exm-l1{display:flex;align-items:baseline;gap:10px;min-width:0}
 .exm-t{all:unset;cursor:pointer;font:600 17px/1.25 var(--display);color:var(--ink);overflow-wrap:anywhere}
 .exm-t:hover{color:var(--accent)}.exm-t:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
 .exm-meta{font-size:13px;color:var(--muted)}
-.exm-cur{flex:none;font:600 11px var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border-radius:99px;padding:2px 8px}
 .exm-stats{display:grid;grid-template-columns:5.5em 10.5em 4.5em;gap:16px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}.exm-stats b{color:var(--ink)}
 .exm-warn{color:var(--warn)}.exm-l1 .exm-warn{flex:none;font:600 12px var(--sans);background:var(--warn-soft);border-radius:99px;padding:2px 8px}
 .exm-acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
@@ -1154,6 +1174,7 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 .xmpmh{font-size:12px;color:var(--muted);align-self:end;padding-bottom:6px}
 @media (max-width:640px){.exm-top h2{font-size:24px}.exm-row{padding:12px}.exm-stats{gap:12px}.exm-acts{margin-left:auto}}
 
+.exm-meta .exm-chg{color:var(--warn);font-weight:600}   /* owner 25 Nov: an exam with unsaved changes says so beside "Saved <time>" */
 /* import batches as a stage grid (owner 14 Nov) */
 .bscroll{overflow-x:auto}
 .bhead,.brow>summary{display:grid!important;grid-template-columns:3.2em 7.5em repeat(8,minmax(46px,1fr)) minmax(170px,auto);align-items:center;gap:0 4px;min-width:760px}
@@ -1990,6 +2011,7 @@ a.plink:hover{text-decoration:underline}
 .procs .pr-sq{display:flex;flex-wrap:wrap;gap:4px}
 .procs .pr-b{width:18px;height:18px;padding:0;border-radius:4px;box-sizing:border-box;border:1px solid var(--line2);background:var(--bg);cursor:pointer;flex:none}
 .procs .pr-b.clr{background:var(--ok);border-color:var(--ok)}
+.procs .pr-b.other{background:color-mix(in srgb,var(--ok) 35%,transparent);border-color:var(--ok)}   /* owner 25 Nov: imported, review progress shown only for the open course */
 .procs .pr-b.wait{background:color-mix(in srgb,var(--ok) 18%,var(--panel));border:2px solid var(--ok)}
 .procs .pr-b.queued{background:var(--accent);border-color:var(--accent)}
 .procs .pr-b.cur{background:var(--accent-soft);border-color:color-mix(in srgb,var(--accent) 35%,var(--line2))}
@@ -3950,7 +3972,7 @@ function xCount(){if($('#xPanel')&&!$('#xPanel').hidden)xPanel()
   // any change to the exam (add, remove, reorder, swap, load) refreshes the Exams page around it (owner 14 Nov, Exams page + My exams).
   // EXV is declared by 24_exams.js, which loads later: the typeof test keeps the first call below (at load) safe.
   if(view==='exams'&&typeof EXV!=='undefined'&&EXV.built){exHead();if(EXV.view==='setup'){exResult();exLabels()}}}
-function xToggle(id){const i=EX.items.indexOf(id);if(i>=0)EX.items.splice(i,1);else EX.items.push(id);xsave();toast(i>=0?'Removed from the exam':'Added to the exam')}
+function xToggle(id){if(xaLocked(id,true))return;const i=EX.items.indexOf(id);if(i>=0)EX.items.splice(i,1);else EX.items.push(id);xsave();toast(i>=0?'Removed from the exam':'Added to the exam')}
 const xSections=()=>{const qs=EX.items.map(xq).filter(Boolean);return {mc:qs.filter(q=>q.type==='mcq'),wr:qs.filter(q=>q.type!=='mcq')}};
 const xMarks=qs=>qs.reduce((t,q)=>t+(+q.marks||0),0);
 
@@ -3960,7 +3982,8 @@ function xPanel(){
   // Exams page (owner 14 Nov): each row also shows the band estimate and has Swap / Lock (owner 19 Nov: "keep lock")
   const row=q=>{n++;const e=exEst(q),lk=A.locked.includes(q.id),w=typeof qWatch==='function'?qWatch(q):null;
     return `<li data-xi="${q.id}"${lk?' class="locked"':''}${w?' data-xwarn="1"':''}><span class="xn">${n}</span><span class="xt">${esc(srcLine(q))}<small>${qid(q)} · ${q.marks??'?'} mark${q.marks===1?'':'s'}${e?` · Band ${e.d.toFixed(1)} · ${e.kind==='Problem solving'?'PS':e.kind}`:''}</small>${w?`<small class="xwarn">⚠ ${esc(w.text)}: swap it (⇄) or remove it before printing</small>`:''}${typeof EXAS!=='undefined'?EXAS.usedTag(q):''}</span>
-    <span class="xb"><button data-xsw title="Swap for a similar question" aria-label="Swap for a similar question"${lk?' disabled':''}>⇄</button><button data-xlk aria-pressed="${lk}" title="${lk?'Unlock':'Lock: Regenerate keeps it'}" aria-label="${lk?'Unlock':'Lock'}">${XA_LOCK}</button><button data-xmv="-1" title="Move up" aria-label="Move up">↑</button><button data-xmv="1" title="Move down" aria-label="Move down">↓</button><button data-xrm title="Remove" aria-label="Remove">×</button></span></li>`};
+    <span class="xb">${(()=>{const off=t=>lk?` disabled title="${xaLocked.tip}"`:` title="${t}"`;   // owner 25 Nov: a locked row's controls say why they are off
+      return `<button data-xsw aria-label="Swap for a similar question"${off('Swap for a similar question')}>⇄</button><button data-xlock aria-pressed="${lk}" title="${xaLocked.label(lk)}" aria-label="${xaLocked.label(lk)}">${XA_LOCK}</button><button data-xmv="-1" aria-label="Move up"${off('Move up')}>↑</button><button data-xmv="1" aria-label="Move down"${off('Move down')}>↓</button><button data-xrm aria-label="Remove"${off('Remove')}>×</button>`})()}</span></li>`};
   p.innerHTML=`<div class="xhd"><h2>This exam</h2><button class="act ghost" id="xClose" aria-label="Close">✕</button></div>
     <div class="xtot">${EX.items.length} question${EX.items.length===1?'':'s'} · ${tot} mark${tot===1?'':'s'}</div>${(()=>{const k=typeof qWatch==='function'?EX.items.map(xq).filter(q=>qWatch(q)).length:0;return k?`<div class="xwarnbox" role="status">⚠ ${k} question${k===1?' in this exam has':'s in this exam have'} been reported or sent back to review since ${k===1?'it was':'they were'} added. Check ${k===1?'it':'them'} before printing.</div>`:''})()}
     <div class="xf"><label>Title<input data-xf="title" value="${esc(EX.title)}"></label><label>Subtitle<input data-xf="sub" value="${esc(EX.sub)}"></label>
@@ -3978,20 +4001,21 @@ let XSAVED=[],_xsub=null;
 // owner 14 Nov (Fix 2, "Ok we should run Fix 1 and 2"): keys (question keys, parallel to items) let a saved exam find its
 // questions again after a re-parse or a change of which copy the Bank shows (RKEY.items).
 // saving: every field, including settings, lines, diagram sizes and locks (Exams page, owner 14 Nov); then My exams and the
-// page head's Saved / Unsaved marker refresh (they refresh even when there is no database)
-async function xSaveDb(quiet){
-  if(exCourse(EX)!==QG.course){toast('This exam belongs to '+(QG.courses[exCourse(EX)]?.short||exCourse(EX))+'. Switch the course to save it.');return}   // owner 23 Nov: see XKEY
+// page head's Saved / Unsaved marker refresh (they refresh even when there is no database). True when the database took the write
+// (owner 25 Nov: "Saved <time>" only for what was really saved)
+async function xSaveDb(quiet){let ok=false;
+  if(exCourse(EX)!==QG.course){toast('This exam belongs to '+(QG.courses[exCourse(EX)]?.short||exCourse(EX))+'. Switch the course to save it.');return false}   // owner 23 Nov: see XKEY
   if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;save(XKEY,JSON.stringify(EX));
-    const A=EX.auto||{},keep={topics:A.topics,total:A.total,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
-    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,course:QG.course,items:EX.items.concat((EX.gone||[]).map(g=>g.id)),keys:EX.items.map(i=>xq(i)?.key||null).concat((EX.gone||[]).map(g=>g.key||null)),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});if(!quiet)toast('Exam saved')}
+    const A=EX.auto||{},keep={topics:A.topics,total:A.total,by:A.by,n:A.n,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
+    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,course:QG.course,items:EX.items.concat((EX.gone||[]).map(g=>g.id)),keys:EX.items.map(i=>xq(i)?.key||null).concat((EX.gone||[]).map(g=>g.key||null)),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});ok=true;if(!quiet)toast('Exam saved')}
     catch(e){toast('Could not save. Try again in a moment.')}}
-  if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}}
+  if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}return ok}
 document.addEventListener('click',e=>{
   if(!e.target.closest('#xPanel'))return;
   const li=e.target.closest('li[data-xi]');
   if(li&&e.target.closest('[data-xrm]')){xToggle(+li.dataset.xi);return}
   if(li&&e.target.closest('[data-xmv]')){const id=+li.dataset.xi,d=+e.target.closest('[data-xmv]').dataset.xmv,q=xq(id);
-    const same=EX.items.filter(i=>(xq(i)?.type==='mcq')===(q.type==='mcq'));const k=same.indexOf(id),t=same[k+d];if(t==null)return;
+    const same=EX.items.filter(i=>(xq(i)?.type==='mcq')===(q.type==='mcq'));const k=same.indexOf(id),t=same[k+d];if(t==null||xaLocked(id,true)||xaLocked(t,true))return;
     const a1=EX.items.indexOf(id),a2=EX.items.indexOf(t);[EX.items[a1],EX.items[a2]]=[EX.items[a2],EX.items[a1]];xsave();return}
   if(e.target.closest('#xPrev')){xPreview('exam');return}
   if(e.target.closest('#xGuide')){xPreview('guide');return}
@@ -4034,8 +4058,11 @@ function xQ(q,n,doc){exA();
   // downloads) shows only the QID; the marking guide keeps the source, and ⓘ still shows it on screen
   const src=`<div class="xsrc exsrc"><span class="exsrcl">${guide?esc(srcLine(q))+' · ':''}${qid(q)}</span>${qiButton(q,n)}</div>`;
   const h=`<section class="xq ${q.type==='mcq'?'mc':'wr'}" data-q="${q.id}">${head}<div class="xqb">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${xFigSlots(q,loose)}${parts}${opts}${mcSols}${sols(null)}</div>${src}</section>`;
-  // every diagram slot, including inline \exfigure ones that tex() writes, so this runs on the finished HTML
-  return guide?h:h.replace(/<span class="figslot" data-fig="([\w.()-]+)"><\/span>/g,(m,k)=>exFigWrap(k));
+  // every diagram slot, including inline \exfigure ones that tex() writes, so this runs on the finished HTML.
+  // owner 25 Nov: "This is currently independent, but it should be the same in question and solutions is what I meant": the marking
+  // guide draws each diagram at the exam's size for it too (EX.figscale, one size per figure per exam), with the same corner handle,
+  // so resizing a diagram on either changes it on both
+  return h.replace(/<span class="figslot" data-fig="([\w.()-]+)"><\/span>/g,(m,k)=>exFigWrap(k));
 }
 // xCover (the editable cover) is in 24_exams.js
 function xBlocks(doc){const {mc,wr}=xSections();const bl=[];let n=0;
@@ -4069,6 +4096,10 @@ async function xDownload(doc){const live=$('#xPages');if(!live)return;const clon
   live.id='xPagesLive';clone.id='xPages';clone.style.cssText='position:absolute;left:-99999px;top:0;zoom:1';document.body.appendChild(clone);
   try{
   const c=window.claude;const dl=c?.use?await c.use('downloads'):null;
+  // owner 25 Nov ("Besides that, yes action all these things"; checker: "reference sheet doenst show up when downloading html"): the
+  // reference sheet pages (and any picture still held by address, not inline) are put into the file itself, so it needs nothing else
+  await Promise.all([...clone.querySelectorAll('img[src]')].filter(i=>!/^data:/.test(i.getAttribute('src'))).map(async i=>{
+    try{const b=await (await fetch(i.src)).blob();i.setAttribute('src',await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(b)}))}catch(e){}}));
   const css=$$('style').map(s=>s.textContent).join('\n');
   const cache=document.getElementById('MJX-SVG-global-cache');
   // The page's own fonts are self-hosted (vendor/fonts/fonts.css, hardening 14 Nov), but that relative link would not resolve in a
@@ -4088,7 +4119,6 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#xPvClose')){xClosePv();return}
   const s=e.target.closest('[data-xdoc]');if(s){xPreview(s.dataset.xdoc);return}
   const d=e.target.closest('#xDl');if(d&&!d.disabled){xDownload(d.dataset.doc);return}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('xpv-on'))xClosePv()});
 
 xCount();
 </script>
@@ -4246,7 +4276,7 @@ document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('in
    Regenerate = new seed, same settings. Each question in the list can be swapped for the closest alternative or locked so that
    Regenerate keeps it. Difficulty comes from DIFFICULTY_SPEC (part band 2-6, wm UF/PR). Question band = marks-weighted mean of
    its parts' bands, rounded to 0.5; a question's problem-solving share = marks on PR parts / its marks. */
-const XA_DEF=()=>({open:true,topen:true,topics:[],total:100,mcq:10,mcqSet:false,diff:'hsc',pr:30,approved:true,avoid:false,seed:0,locked:[],warns:[],tmix:null,tpr:null,ran:false});
+const XA_DEF=()=>({open:true,topen:true,topics:[],total:100,by:'marks',n:20,mcq:10,mcqSet:false,diff:'hsc',pr:30,approved:true,avoid:false,seed:0,locked:[],warns:[],tmix:null,tpr:null,ran:false});
 function xa(){if(!EX.auto||typeof EX.auto!=='object')EX.auto=XA_DEF();const d=XA_DEF();for(const k in d)if(EX.auto[k]===undefined)EX.auto[k]=d[k];return EX.auto}
 const xaSave=()=>{save(XKEY,JSON.stringify(EX));};
 const XA_SWAPPED=new Set();
@@ -4298,7 +4328,13 @@ const XG={on:[],off:[],show:false,open:{setup:true,pick:false},src:null,dirty:fa
     if(y12){const off=new Set(XG.off);XG.y11().forEach(k=>{if(!off.has(k))L.add(k)})}
     // nothing to judge against yet (Pick by hand on "All questions", an empty exam and an empty Already learnt list): no gate, so a
     // tutor's first view is the whole bank, not a near-empty list (17 Nov review of the gates build)
-    if(!ex.size&&!XG.on.length)L.none=true;return {L,ex,y12}},
+    if(!ex.size&&!XG.on.length)L.none=true;
+    // owner 25 Nov: "Besides that, yes action all these things" (checker: Critical path analysis "itself showed 0 questions, 5 of 9
+    // chosen"). Some skills are taught at a focus area, not a subheading (their first dot point has none, e.g. Standard's Critical path
+    // analysis): their topic key ends in "|" and is no subtopic anyone can tick, so those questions could never come in. Such a key
+    // counts as learnt once any subtopic of its focus area is learnt (only when it is not a subtopic of its own)
+    const tr=xaTree();if(XG.kt!==tr){XG.kt=tr;XG.keys=new Set([12,11].flatMap(y=>[...tr[y].values()].flat()))}const T=XG.keys;
+    [...L].forEach(k=>{const f=k.split('|').slice(0,2).join('|')+'|';if(!T.has(f))L.add(f)});return {L,ex,y12}},
   miss:(q,L)=>L.none?[]:XG.need(q).filter(k=>!L.has(k)),
   ok:(q,L)=>XG.show||!!L.none||XG.need(q).every(k=>L.has(k)),
   // a list split into kept (learnt, or all while the switch is on) and left out, with the focus areas most often missing
@@ -4306,7 +4342,7 @@ const XG={on:[],off:[],show:false,open:{setup:true,pick:false},src:null,dirty:fa
     qs.forEach(q=>{const m=XG.miss(q,L);if(m.length){out.push(q);new Set(m.map(XG.fa)).forEach(f=>fa.set(f,(fa.get(f)||0)+1))}if(!m.length||XG.show)keep.push(q)});
     return {keep,out,top:[...fa.entries()].sort((a,b)=>b[1]-a[1]).map(x=>x[0])}},
   fa:k=>k.slice(4).split('|')[1]||k,
-  label:k=>XG.fa(k)+' › '+subName(k),
+  label:k=>XG.fa(k)+(subName(k)?' › '+subName(k):''),
   // the exam's own topics in each builder: Exam setup's ticks; Pick by hand also counts the questions already in the exam and the topic browsed
   homesOf:()=>{const h=xaHomes();return EX.items.map(i=>h.get(i)?.sub)},
   autoExtra:A=>A.topics,
@@ -4360,11 +4396,11 @@ function xaSwapCands(id){const A=xa(),q=xq(id);if(!q)return [];const homes=xaHom
     return {c,same,sub:!!(h&&hc.sub===h.sub),inT:TS.has(hc.sub),s:(same?-4:0)+(h&&hc.sub===h.sub?0:h&&hc.area===h.area?3:TS.has(hc.sub)?6:12)+2*Math.abs((+c.marks||0)-(+q.marks||0))+1.5*Math.abs(dc.raw-(d?d.raw:3))+Math.abs(dc.pr-(d?d.pr:0))}})
     .sort((a,b)=>a.s-b.s)}
 // to: the chosen question (from the chooser); without it the chooser opens
-function xaSwap(id,to){const q=xq(id);if(!q)return;if(to==null){XA_SW.open(id);return}const c=xq(to);if(!c)return;
+function xaSwap(id,to){const q=xq(id);if(!q||xaLocked(id,true))return;if(to==null){XA_SW.open(id);return}const c=xq(to);if(!c)return;
   XA_SWAPPED.add(id);EX.items[EX.items.indexOf(id)]=to;xsave();if(typeof EXV!=='undefined'&&EXV.sel===id)EXV.sel=to;
   toast(`Swapped for ${qid(c)}${c.marks!==q.marks?` (${c.marks} marks instead of ${q.marks})`:''}`);if(document.body.classList.contains('xpv-on'))exRelayout()}
 const XA_SW={id:null,n:6,
-  async open(id,more){const q=xq(id);if(!q)return;const L=xaSwapCands(id);if(!L.length){toast('No other question fits these settings');return}
+  async open(id,more){const q=xq(id);if(!q||xaLocked(id,true))return;const L=xaSwapCands(id);if(!L.length){toast('No other question fits these settings');return}
     this.id=id;if(!more)this.n=6;let el=$('#swapDlg');if(!el){el=document.createElement('div');el.id='swapDlg';el.className='repscrim';document.body.appendChild(el)}
     this.prev=document.activeElement;el.hidden=false;document.body.classList.add('rep-on');
     if(!more)el.innerHTML='<div class="repdlg swapdlg"><p class="muted">Finding similar questions…</p></div>';
@@ -4387,14 +4423,21 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest
   if(t.closest('[data-swmore]')){XA_SW.n+=6;XA_SW.open(XA_SW.id,true);return}
   const pk=t.closest('[data-swpick]');if(pk){const id=XA_SW.id;XA_SW.close();EXPK.open('replace',id);return}},true);   // owner 19 Nov: Replace mode (B)
 addEventListener('keydown',e=>{if(e.key==='Escape'&&XA_SW.id!=null){e.preventDefault();e.stopImmediatePropagation();XA_SW.close()}},true);
-function xaLock(id){const A=xa(),i=A.locked.indexOf(id);if(i>=0)A.locked.splice(i,1);else A.locked.push(id);xaSave();xPanel()}
+function xaLock(id){const A=xa(),i=A.locked.indexOf(id);if(i>=0)A.locked.splice(i,1);else A.locked.push(id);xsave();toast(i>=0?'Unlocked: you can change it again':'Locked: kept as is when you regenerate')}
+// owner 25 Nov: "Besides that, yes action all these things" (checker: "It's not clear to the user what the lock button does", "lock doesnt
+// work it can still be replaced and moved"). A locked question is not swapped, replaced, moved (drag, arrows, Sort easiest first),
+// removed or changed by Regenerate; each such control is disabled with xaLocked.tip, and every path that changes the list asks here
+// (say: tell the user why nothing happened). One page-wide name (CODE_HEALTH rule 1)
+function xaLocked(id,say){const lk=!!EX.auto&&Array.isArray(EX.auto.locked)&&EX.auto.locked.includes(id);if(lk&&say){const i=EX.items.indexOf(id);toast(`Q${i+1} is locked: unlock it to change it`)}return lk}
+xaLocked.tip='Locked: kept as is when you regenerate; unlock to change it';
+xaLocked.label=lk=>lk?'Locked - click to unlock':'Lock this question';
 
 /* ---------- swap / lock on the exam panel (xPanel in 20_exam.js) ---------- */
 const XA_LOCK='<svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true"><rect x="3" y="7" width="10" height="7" rx="1.5" fill="currentColor"/><path d="M5.2 7V5.2a2.8 2.8 0 0 1 5.6 0V7" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>';
 document.addEventListener('click',e=>{if(!e.target.closest('#xPanel'))return;
   const li=e.target.closest('li[data-xi]');
   if(li&&e.target.closest('[data-xsw]')){const b=e.target.closest('[data-xsw]');if(!b.disabled)xaSwap(+li.dataset.xi);return}
-  if(li&&e.target.closest('[data-xlk]')){xaLock(+li.dataset.xi);return}
+  if(li&&e.target.closest('[data-xlock]')){xaLock(+li.dataset.xi);return}
 });
 </script>
 <script>
@@ -4462,12 +4505,12 @@ function exAutoTitle(A){const tree=xaTree(),sel=new Set(A.topics),fas=[];
 
 /* ---------- generator (stage 2's seeded greedy fill + improvement moves; cost now uses separate fluency and
    problem-solving difficulty targets, like the owner's exam maker) ---------- */
-function exStats(S,homes,T){let marks=0,mcq=0,fl=0,ps=0,wF=0,wP=0,dev=0;const area={};
-  for(const q of S){const e=exEst(q);if(!e)continue;const m=+q.marks||e.m;marks+=m;if(q.type==='mcq')mcq++;fl+=e.fl;ps+=e.ps;
+function exStats(S,homes,T){let marks=0,mcq=0,n=0,fl=0,ps=0,wF=0,wP=0,dev=0;const area={};
+  for(const q of S){const e=exEst(q);if(!e)continue;const m=+q.marks||e.m;marks+=m;n++;if(q.type==='mcq')mcq++;fl+=e.fl;ps+=e.ps;
     for(const p of e.parts){if(p.ps){wP+=p.b*p.m;if(T)dev+=p.m*Math.abs(p.b-T.dP)}else{wF+=p.b*p.m;if(T)dev+=p.m*Math.abs(p.b-T.dF)}}
     const h=homes.get(q.id);if(h)area[h.area]=(area[h.area]||0)+m}
-  return {marks,mcq,fl,ps,dF:fl?wF/fl:null,dP:ps?wP/ps:null,dev:dev/((fl+ps)||1),area}}
-function exCost(st,T){let c=0;if(T.full)c+=20*Math.abs(st.marks-T.total)+20*Math.abs(st.mcq-T.mcq);
+  return {marks,mcq,n,fl,ps,dF:fl?wF/fl:null,dP:ps?wP/ps:null,dev:dev/((fl+ps)||1),area}}
+function exCost(st,T){let c=0;if(T.full)c+=20*(T.n?Math.abs(st.n-T.n):Math.abs(st.marks-T.total))+20*Math.abs(st.mcq-T.mcq);
   const tm=(st.fl+st.ps)||1;c+=6*Math.abs(st.ps/tm-T.s);
   if(st.dF!=null)c+=2*Math.abs(st.dF-T.dF)*(st.fl/tm);if(st.dP!=null)c+=2*Math.abs(st.dP-T.dP)*(st.ps/tm);
   c+=.25*st.dev;let al=0;const mk=st.marks||1;for(const a in T.area)al+=Math.abs((st.area[a]||0)/mk-T.area[a]);return c+2*al}
@@ -4476,37 +4519,42 @@ function exGenerate(){const A=exA();if(!A.topics.length){toast('Choose at least 
   const locked=A.locked.filter(i=>EX.items.includes(i)).map(xq).filter(Boolean);A.locked=locked.map(q=>q.id);const lockedIds=new Set(A.locked);
   const mcqP=pool.filter(q=>q.type==='mcq'&&!lockedIds.has(q.id)),wrP=pool.filter(q=>q.type!=='mcq'&&!lockedIds.has(q.id));
   if(!mcqP.length&&!wrP.length&&!locked.length){toast('No questions match. Choose more topics or papers.');return null}
-  const T={total:A.total,mcq:A.mcq,s:A.pr/100,dF:A.dF,dP:A.dP,area:{},full:false};
+  // owner 25 Nov ("Besides that, yes action all these things"; review: "gives no way to set a question count; you only get there by setting
+  // marks"): Setup sizes the exam by total marks or by a number of questions (A.by 'n', A.n); by count, the fill and the improvement moves
+  // aim at the count and the marks are what the chosen questions carry
+  const N=A.by==='n'?Math.max(1,+A.n||20):0;
+  const T={total:A.total,n:N,mcq:N?Math.min(A.mcq,N):A.mcq,s:A.pr/100,dF:A.dF,dP:A.dP,area:{},full:false};
   pool.forEach(q=>{const a=homes.get(q.id).area;T.area[a]=(T.area[a]||0)+(+q.marks||0)});{const s=Object.values(T.area).reduce((a,b)=>a+b,0)||1;for(const k in T.area)T.area[k]/=s}
   A.seed=(Math.random()*2**31)>>>0;const R=xaRng(A.seed);
   let S=[...locked];const used=new Set(S.map(q=>q.id));
   const cost=sel=>exCost(exStats(sel,homes,T),T);
   const sample=(arr,n,f)=>{const out=[];for(let t=0;t<n*4&&out.length<n&&arr.length;t++){const q=arr[Math.floor(R()*arr.length)];if(!used.has(q.id)&&(!f||f(q))&&!out.includes(q))out.push(q)}return out};
   const greedy=c=>{let best=null,bc=1e9;c.forEach(q=>{const v=cost([...S,q])+R()*.03;if(v<bc){bc=v;best=q}});S.push(best);used.add(best.id)};
-  const needM=Math.max(0,A.mcq-locked.filter(q=>q.type==='mcq').length);
+  const needM=Math.max(0,T.mcq-locked.filter(q=>q.type==='mcq').length);
   for(let k=0;k<needM;k++){const c=sample(mcqP,24);if(!c.length)break;greedy(c)}
   const marks=()=>S.reduce((t,q)=>t+(+q.marks||0),0);
-  for(let g=0;g<300;g++){const rem=A.total-marks();if(rem<=0)break;const c=sample(wrP,30,q=>q.marks<=rem);if(!c.length)break;greedy(c)}
+  for(let g=0;g<300;g++){const rem=A.total-marks();if(N?S.length>=N:rem<=0)break;const c=sample(wrP,30,N?null:q=>q.marks<=rem);if(!c.length)break;greedy(c)}
   T.full=true;const byM={};wrP.forEach(q=>{(byM[q.marks]=byM[q.marks]||[]).push(q)});
   let cur=cost(S),best=S.slice(),bestC=cur;const N_IT=900;
-  for(let it=0;it<N_IT;it++){const temp=.06*(1-it/N_IT),diff=A.total-marks(),free=S.filter(q=>!lockedIds.has(q.id)),r=R();let N=null;
-    if(diff>0&&r<.25){const c=(byM[diff]||[]).filter(q=>!used.has(q.id));if(c.length)N=[...S,c[Math.floor(R()*c.length)]]}
-    else if(diff<0&&r<.25){const c=free.filter(q=>q.type!=='mcq'&&q.marks<=-diff);if(c.length){const x=c[Math.floor(R()*c.length)];N=S.filter(q=>q!==x)}}
-    if(!N&&free.length){const x=free[Math.floor(R()*free.length)],isM=x.type==='mcq';let c=null;
-      if(!isM&&R()<.5)c=(byM[x.marks+diff]||[]).filter(q=>!used.has(q.id));
+  for(let it=0;it<N_IT;it++){const temp=.06*(1-it/N_IT),diff=N?N-S.length:A.total-marks(),free=S.filter(q=>!lockedIds.has(q.id)),r=R();let Nx=null;
+    if(diff>0&&r<.25){const c=(N?sample(wrP,6):byM[diff]||[]).filter(q=>!used.has(q.id));if(c.length)Nx=[...S,c[Math.floor(R()*c.length)]]}
+    else if(diff<0&&r<.25){const c=free.filter(q=>q.type!=='mcq'&&(N||q.marks<=-diff));if(c.length){const x=c[Math.floor(R()*c.length)];Nx=S.filter(q=>q!==x)}}
+    if(!Nx&&free.length){const x=free[Math.floor(R()*free.length)],isM=x.type==='mcq';let c=null;
+      if(!isM&&!N&&R()<.5)c=(byM[x.marks+diff]||[]).filter(q=>!used.has(q.id));
       if(!c||!c.length)c=sample(isM?mcqP:wrP,6);
-      if(c.length){const y=c[Math.floor(R()*c.length)];N=S.map(q=>q===x?y:q)}}
-    if(!N)continue;const nc=cost(N);
-    if(nc<cur||(temp>0&&R()<Math.exp((cur-nc)/temp))){S=N;cur=nc;used.clear();S.forEach(q=>used.add(q.id));if(cur<bestC){bestC=cur;best=S.slice()}}}
+      if(c.length){const y=c[Math.floor(R()*c.length)];Nx=S.map(q=>q===x?y:q)}}
+    if(!Nx)continue;const nc=cost(Nx);
+    if(nc<cur||(temp>0&&R()<Math.exp((cur-nc)/temp))){S=Nx;cur=nc;used.clear();S.forEach(q=>used.add(q.id));if(cur<bestC){bestC=cur;best=S.slice()}}}
   S=best;
-  const mc=S.filter(q=>q.type==='mcq').sort(EXSEC.ord),wr=S.filter(q=>q.type!=='mcq').sort(EXSEC.ord);
+  const mc=EXSEC.lockAt(S.filter(q=>q.type==='mcq').sort(EXSEC.ord),EX.items),wr=EXSEC.lockAt(S.filter(q=>q.type!=='mcq').sort(EXSEC.ord),EX.items);
   EX.items=[...mc,...wr].map(q=>q.id);EX.sub=A.title||exAutoTitle(A);
   const st=exStats(S,homes,null);A.ran=true;A.tpr=T.s;
   A.last={n:S.length,marks:st.marks,F:st.fl,P:st.ps,dF:st.dF,dP:st.dP,nM:st.mcq,topics:new Set(S.map(q=>homes.get(q.id)?.sub).filter(Boolean)).size,chosen:A.topics.length,warns:exWarn(A,st,pool)};
   A.warns=A.last.warns;XA_SWAPPED.clear();xsave();return A.last}
-function exWarn(A,st,pool){const w=[],mN=pool.filter(q=>q.type==='mcq').length,wM=pool.filter(q=>q.type!=='mcq').reduce((t,q)=>t+(+q.marks||0),0);
-  if(st.mcq<A.mcq)w.push(`Only ${mN} multiple-choice question${mN===1?'':'s'} match these topics, so Section I has ${st.mcq}.`);
-  if(st.marks!==A.total)w.push(wM<A.total-A.mcq?`These topics only have ${wM} marks of written questions, so the exam has ${st.marks} marks instead of ${A.total}. Add topics or lower the total.`:`The closest found is ${st.marks} marks (target ${A.total}). Press Regenerate, or add a topic.`);
+function exWarn(A,st,pool){const w=[],mN=pool.filter(q=>q.type==='mcq').length,wM=pool.filter(q=>q.type!=='mcq').reduce((t,q)=>t+(+q.marks||0),0),byN=A.by==='n';
+  if(st.mcq<(byN?Math.min(A.mcq,A.n):A.mcq))w.push(`Only ${mN} multiple-choice question${mN===1?'':'s'} match these topics, so Section I has ${st.mcq}.`);
+  if(byN){if(st.n<A.n)w.push(`These topics only have ${pool.length} question${pool.length===1?'':'s'} to choose from, so the exam has ${st.n} instead of ${A.n}.`)}
+  else if(st.marks!==A.total)w.push(wM<A.total-A.mcq?`These topics only have ${wM} marks of written questions, so the exam has ${st.marks} marks instead of ${A.total}. Add topics or lower the total.`:`The closest found is ${st.marks} marks (target ${A.total}). Press Regenerate, or add a topic.`);
   const tm=(st.fl+st.ps)||1,s=A.pr/100;
   if(st.ps/tm<s-.07)w.push(`Problem solving is ${Math.round(st.ps/tm*100)}% of the marks, against ${A.pr}%: these topics are short of problem-solving parts.`);
   else if(st.ps/tm>s+.1)w.push(`Problem solving is ${Math.round(st.ps/tm*100)}% of the marks, more than the ${A.pr}% asked for: these topics have few fluency-only questions.`);
@@ -4546,9 +4594,9 @@ function exHead(){const n=EX.items.length,m=xMarks(EX.items.map(xq).filter(Boole
   if(!s)return;let b=$('#exSaveSt');
   if(!b){s.insertAdjacentHTML('afterend','<span class="exm-st" id="exSaveSt"></span>');b=$('#exSaveSt')}
   // owner 19 Nov: the open exam's name and state, on every Exams view ("can't tell which exam we're inside or if we're making a new one")
-  const st=exmState(),nm=esc(EXAS.name()),when=EXAS.at?EXAS.at.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}):'';b.dataset.st=st||'empty';
-  b.hidden=!inside||!n;b.innerHTML=!inside||!n?''
-    :`<b>Editing:</b> ${nm} · ${st==='saved'?`<span class="exst-ok">✓ Saved${when?' '+when:''}</span>`:!db?'kept in this browser (saving needs claude.ai)':EXAS.busy?'Saving…':`<span class="exst-wait">Saving…</span> <button type="button" class="linkbtn" data-exm-save>Save now</button>`}`}
+  const S=EXAS.state(),st=S.st,nm=esc(EXAS.name());b.dataset.st=st||'empty';
+  b.hidden=!inside||!n;b.innerHTML=!inside||!n?'':`<b>Editing:</b> ${nm} · ${S.html}${db&&(st==='new'||st==='changed')&&!EXAS.busy?' <button type="button" class="linkbtn" data-exm-save>Save now</button>':''}`;
+  EXAS.bar(S)}
 function exRefresh(){if(view!=='exams')return;if(EXV.view==='mine'){renderMine();exHead();return}if(EXV.view==='setup'){exTopics();exAvail()}else{exSideNav();exList()}exHead()}
 
 /* ---------- Setup ---------- */
@@ -4561,9 +4609,13 @@ function renderSetup(){const A=exA();
       <p class="lead">Pick the topics to cover. Tick a box to take a whole topic, or open it to choose subtopics. Then set the marks and difficulty, and generate.</p></div>
       <div id="exTopics"></div></section>
     <aside class="exsettings" aria-label="Exam settings">
+      <div class="exgo"><button type="button" class="exgen" id="gGo">Generate exam</button>
+<span class="exgohint" id="gGoHint" hidden>Choose at least one subtopic to generate.</span><div id="gResult"></div></div>
       <div class="group"><h3>Exam</h3>
-        <div class="ctl"><div class="lab"><label for="gTitle">Title</label></div><input type="text" id="gTitle" placeholder="${esc(exAutoTitle(A))}" value="${esc(A.title)}"></div>
+        <div class="ctl"><div class="lab"><label for="gTitle">Exam name</label><span class="val">optional</span></div><input type="text" id="gTitle" value="${esc(A.title)}"></div>
+        <div class="ctl"><div class="lab"><span id="gByL">Size the exam by</span></div><div class="srcseg" role="group" aria-labelledby="gByL"><button type="button" data-gby="marks" aria-pressed="${A.by!=='n'}">Total marks</button><button type="button" data-gby="n" aria-pressed="${A.by==='n'}">Number of questions</button></div></div>
         ${sliderCtl('gMarks','Total marks',10,100,5,Math.min(100,A.total),['10','100'],'')}
+        ${sliderCtl('gN','Number of questions',5,40,1,Math.max(5,Math.min(40,A.n)),['5','40'],'Multiple choice counts in it. The marks follow from the questions chosen.')}
         ${sliderCtl('gMcq','Multiple choice',0,10,1,Math.min(10,A.mcq),['None','10'],'Placed first as Section I, 1 mark each.')}
         <div class="ctl"><div class="lab"><span id="gSrcL">Papers to draw from</span></div><div class="srcseg" role="group" aria-labelledby="gSrcL">${EX_SRC.map(([k,l])=>`<button type="button" data-src="${k}" aria-pressed="${!!A.src[k]}">${l}</button>`).join('')}</div></div>
         <label class="exck"><input type="checkbox" id="gApproved"${A.approved?' checked':''}> Approved questions only</label>
@@ -4579,30 +4631,37 @@ function renderSetup(){const A=exA();
       </div>
       <div class="group xl-g" id="exLearnt"></div>
       <div class="group"><h3>What these topics can supply</h3><div id="availBox"></div></div>
-      <div class="exgo"><button type="button" class="exgen" id="gGo">Generate exam</button>
-<span class="exgohint" id="gGoHint" hidden>Choose at least one subtopic to generate.</span></div>
-      <div id="gResult"></div>
     </aside></div>`;
   exTopics();exLabels();exAvail();exResult()}
 function exTopics(){const el=$('#exTopics');if(!el)return;const A=exA(),tree=xaTree(),homes=xaHomes(),base=exBase(A,homes),cnt={},has={},sel=new Set(A.topics),Ls=new Map();
   // owner 17 Nov (skill gates): a subtopic counts the questions that would come in if it were ticked (its own topic counts as learnt)
   const Lk=k=>{if(!Ls.has(k))Ls.set(k,XG.learnt([...A.topics,k]).L);return Ls.get(k)};
-  const raw={};base.forEach(q=>{const k=homes.get(q.id).sub;has[k]=1;raw[k]=(raw[k]||0)+1;if(XG.ok(q,Lk(k)))cnt[k]=(cnt[k]||0)+1});const nq=exPool(A,homes).length;exLearnt();
+  // owner 25 Nov ("Besides that, yes action all these things"; checker: "Topic counts change when another topic is ticked"): the gates
+  // work as designed (ticking a Year 12 topic counts all of Year 11 as learnt, so Year 11 counts rise), and Setup also leaves out
+  // questions already in saved exams. Each subtopic now says what it leaves out and why ("10 need Network concepts", "8 in saved
+  // exams"), and so does each topic's line, so a count that moves has its reason beside it
+  const gate={},need={},used={},avoid=A.avoid?xaSavedIds():null;
+  (avoid?exBase({...A,avoid:false},homes):base).forEach(q=>{const k=homes.get(q.id).sub;has[k]=1;if(avoid&&avoid.has(q.id)){used[k]=(used[k]||0)+1;return}
+    const m=XG.miss(q,Lk(k));if(m.length&&!XG.show){gate[k]=(gate[k]||0)+1;const nm=new Set(m.map(x=>subName(x)||XG.fa(x)));(need[k]=need[k]||new Map());nm.forEach(x=>need[k].set(x,(need[k].get(x)||0)+1))}else cnt[k]=(cnt[k]||0)+1});
+  const why=k=>{const g=gate[k]||0,u=used[k]||0,nd=need[k]?[...need[k].entries()].sort((a,b)=>b[1]-a[1]):[];
+    return [g?`${g} need ${esc(nd[0][0])}${nd.length>1?' and other topics':''}`:'',u?`${u} in saved exams`:''].filter(Boolean).join(' · ')};
+  const nq=exPool(A,homes).length;exLearnt();
   let h=`<div class="selbar"><span><b>${A.topics.length}</b> subtopic${A.topics.length===1?'':'s'} chosen · <b>${nq}</b> question${nq===1?'':'s'} match</span><span class="sp"></span><button type="button" class="linkbtn" data-sall="all">Select all</button><button type="button" class="linkbtn" data-snone="all">Clear all</button></div><p class="ex-cntnote">${CNT_NOTE.setup}</p>`;
   [12,11].forEach(y=>{h+=`<section class="strand"><div class="strand-h"><h3>Year ${y}</h3><button type="button" class="linkbtn" data-sall="${y}">Select all</button><button type="button" class="linkbtn" data-snone="${y}">Clear</button></div><div class="extiles">`;
     tree[y].forEach((ks,fa)=>{const key=y+'|'+fa,live=ks.filter(k=>has[k]),on=ks.filter(k=>sel.has(k)).length,state=on&&on>=live.length&&live.length?'on':on?'part':'';
-      const q=ks.reduce((t,k)=>t+(cnt[k]||0),0),open=EXV.open.has(key),chosen=ks.filter(k=>sel.has(k)).map(subName);
+      const q=ks.reduce((t,k)=>t+(cnt[k]||0),0),G=ks.reduce((t,k)=>t+(gate[k]||0),0),U=ks.reduce((t,k)=>t+(used[k]||0),0),open=EXV.open.has(key),chosen=ks.filter(k=>sel.has(k)).map(subName);
       h+=`<div class="extile ${state==='part'?'ex-part':state}${open?' open':''}"><div class="extile-h">
         <button type="button" class="tbox" data-tfa="${esc(key)}" role="checkbox" aria-checked="${state==='on'?'true':state==='part'?'mixed':'false'}" aria-label="Choose all of ${esc(fa)}"${live.length?'':' disabled'}>${state==='on'?'✓':''}</button>
-        <button type="button" class="extile-t" data-texp="${esc(key)}" aria-expanded="${open}"><span class="tt"><b>${esc(fa)}</b><small>${q} question${q===1?'':'s'} · ${on?`${on} of ${ks.length} chosen`:`${ks.length} subtopic${ks.length===1?'':'s'}`}</small>${chosen.length&&!open&&state!=='on'?`<small class="expicked">${esc(chosen.join(', '))}</small>`:''}</span><span class="exchev" aria-hidden="true">▾</span></button></div>
-        <div class="pills" ${open?'':'hidden'}>${ks.map(k=>{const n=cnt[k]||0;return `<button type="button" class="pill" data-tsub="${esc(k)}" aria-pressed="${sel.has(k)}"${has[k]?n?(raw[k]>n?` title="${n} of ${raw[k]} can be used: ${raw[k]-n} need${raw[k]-n===1?'s':''} a topic not learnt yet"`:''):' title="Its questions need topics not yet learnt"':' disabled title="No questions yet"'}>${esc(subName(k))}<span class="n">${n}</span></button>`}).join('')}</div></div>`});
+        <button type="button" class="extile-t" data-texp="${esc(key)}" aria-expanded="${open}"><span class="tt"><b>${esc(fa)}</b><small>${q} question${q===1?'':'s'}${G?` · ${G} need topics not yet learnt`:''}${U?` · ${U} in saved exams`:''} · ${on?`${on} of ${ks.length} chosen`:`${ks.length} subtopic${ks.length===1?'':'s'}`}</small>${chosen.length&&!open&&state!=='on'?`<small class="expicked">${esc(chosen.join(', '))}</small>`:''}</span><span class="exchev" aria-hidden="true">▾</span></button></div>
+        <div class="pills" ${open?'':'hidden'}>${ks.map(k=>{const n=cnt[k]||0,w=why(k);return `<button type="button" class="pill" data-tsub="${esc(k)}" aria-pressed="${sel.has(k)}"${has[k]?w?` title="${n} can be used: ${w}"`:'':' disabled title="No questions yet"'}><span class="ex-pnm">${esc(subName(k))}${w?`<small class="ex-pwhy">${w}</small>`:''}</span><span class="n">${n}</span></button>`}).join('')}</div></div>`});
     h+='</div></section>'});
-  el.innerHTML=h;const t=$('#gTitle');if(t)t.placeholder=exAutoTitle(A)}
+  el.innerHTML=h;const t=$('#gTitle');if(t)t.placeholder=A.topics.length?exAutoTitle(A):'Named from the topics you pick'}
 // the Already learnt block in Exam setup, with the switch and the left-out line for the ticked topics
 function exLearnt(){const el=$('#exLearnt');if(!el)return;const A=exA(),g=XG.learnt(XG.autoExtra(A));el.innerHTML=XG.html('setup',g,XG.split(exPool(A,xaHomes(),true),g.L))}
 function exLabels(){const A=exA(),fill=(id,v,min,max)=>{const el=$('#'+id);if(el)el.style.setProperty('--p',((v-min)/(max-min)*100)+'%')};
   const set=(id,t)=>{const el=$('#'+id+'V');if(el)el.textContent=t};
-  set('gMarks',A.total+' marks');fill('gMarks',A.total,10,100);
+  set('gMarks',A.total+' marks');fill('gMarks',A.total,10,100);set('gN',A.n+' questions');fill('gN',A.n,5,40);
+  {const m=$('#gMarks'),n=$('#gN');if(m)m.closest('.ctl').hidden=A.by==='n';if(n)n.closest('.ctl').hidden=A.by!=='n'}
   set('gMcq',A.mcq?A.mcq+' question'+(A.mcq===1?'':'s'):'None');fill('gMcq',A.mcq,0,10);
   const o=exOverall(A);set('gAll',dLab(o));fill('gAll',o,2,6);
   set('gSplit',`${100-A.pr} / ${A.pr}`);fill('gSplit',A.pr,0,100);
@@ -4618,10 +4677,11 @@ function exAvail(){const el=$('#availBox');if(!el)return;const A=exA(),pool=exPo
   const row=(k,lab,t)=>`<tr class="${k==='F'?'fl':'ps'}"><th class="k" scope="row"><i></i><span>${lab}</span></th>${[2,3,4,5,6].map(b=>{const v=Math.round(cell[k][b]);return `<td class="${v?'':'z'} ${Math.round(t)===b?'hot':''}" style="--a:${Math.round(v/mx*28)}"${Math.round(t)===b?' title="Your target band"':''}>${v||'–'}</td>`}).join('')}</tr>`;
   const warn=[],T=A.total,needF=T*(1-A.pr/100),needP=T*A.pr/100;
   if(!A.topics.length)warn.push('Choose at least one subtopic.');
+  else if(A.by==='n'){if(pool.length<A.n)warn.push(`These topics only have ${pool.length} question${pool.length===1?'':'s'}. The exam will have fewer than ${A.n}.`)}
   else{if(tf+tp<T)warn.push(`These topics only have ${Math.round(tf+tp)} marks of questions. The exam will come out shorter than ${T} marks.`);
     else{if(tp<needP*.9)warn.push(`Only ${Math.round(tp)} problem-solving marks are available, short of the ${Math.round(needP)} you asked for.`);if(tf<needF*.9)warn.push(`Only ${Math.round(tf)} fluency marks are available, short of the ${Math.round(needF)} you asked for.`)}
-    if(A.mcq>nm)warn.push(`Only ${nm} multiple-choice question${nm===1?'':'s'} in these topics.`);
-    if(!EX_SRC.some(([k])=>A.src[k]))warn.push('Choose at least one kind of paper to draw from.')}
+    if(A.mcq>nm)warn.push(`Only ${nm} multiple-choice question${nm===1?'':'s'} in these topics.`)}
+  if(A.topics.length&&!EX_SRC.some(([k])=>A.src[k]))warn.push('Choose at least one kind of paper to draw from.');
   el.innerHTML=`<div class="poolline"><b>${pool.length}</b> questions · <b>${Math.round(tf)}</b> fluency marks · <b>${Math.round(tp)}</b> problem-solving marks · <b>${nm}</b> multiple choice</div>
     <table class="avail"><colgroup><col class="kc"><col span="5"></colgroup><thead><tr><th></th>${[2,3,4,5,6].map(b=>`<th scope="col" title="Band ${b}">B${b}</th>`).join('')}</tr></thead><tbody>${row('F','Fluency',A.dF)}${row('P','Problem solving',A.dP)}</tbody></table>
     <div class="availcap"><span>Marks available at each band</span><span><i></i>Your target</span></div>
@@ -4645,7 +4705,7 @@ function renderPick(){exSideNav();exFilters();EXPK.banner();exList();xPanel()}
    exam's topics, hides questions already in it, and puts one action on each card; Back returns to the paper. One page-wide name. */
 const EXPK={
   topics(){const A=exA(),t=A.topics.length?A.topics:EX.items.map(i=>xaHomes().get(i)?.sub).filter(Boolean);return new Set(t)},
-  open(kind,id){if(document.body.classList.contains('xpv-on'))exClosePv();EXV.mode={kind,id:id??null,doc:EXV.doc||'exam'};
+  open(kind,id){if(kind==='replace'&&xaLocked(id,true))return;if(document.body.classList.contains('xpv-on'))exClosePv();EXV.mode={kind,id:id??null,doc:EXV.doc||'exam'};
     EXV.pk.topic='all';EXV.pk.hide=true;const q=id!=null?xq(id):null;EXV.pk.type=q?(q.type==='mcq'?'mcq':'written'):'all';
     EXV.view='pick';exSaveView();location.hash='#exams';const m=$('#exMain');if(m)delete m.dataset.ready;renderExams();window.scrollTo({top:0})},
   back(){const d=EXV.mode?.doc||'exam';EXV.mode=null;EXV.view='mine';exSaveView();renderExams();if(EX.items.length)xPreview(d)},
@@ -4758,9 +4818,20 @@ const EXSEC={   // one page-wide name (CODE_HEALTH rule 1)
   // solving?"): by the band the meter shows (rounded), then fluency before problem solving, then fewer marks, then the exact band
   ord(a,b){const bo=q=>exEst(q)?.d??3,bk=q=>Math.round(bo(q)),ps=q=>exEst(q)?.kind==='Problem solving'?1:0;
     return bk(a)-bk(b)||ps(a)-ps(b)||(+a.marks||0)-(+b.marks||0)||bo(a)-bo(b)},
+  // owner 25 Nov ("Besides that, yes action all these things"; checker: "lock doesnt work it can still be replaced and moved"): a locked
+  // question keeps its place in its section (old = the exam's order before) when the rest are regenerated or sorted
+  lockAt(sorted,old){const L=new Set((EX.auto&&EX.auto.locked)||[]),mcq=i=>xq(i)?.type==='mcq',pos=new Map();
+    old.forEach(i=>{if(L.has(i))pos.set(i,old.filter(j=>mcq(j)===mcq(i)).indexOf(i))});
+    const out=sorted.filter(q=>!pos.has(q.id));sorted.filter(q=>pos.has(q.id)).sort((a,b)=>pos.get(a.id)-pos.get(b.id)).forEach(q=>out.splice(Math.min(pos.get(q.id),out.length),0,q));return out},
   // owner 18 Nov: "find the CMC education logo in our drive and add it in instead of saying CMC education": "CMC Logo Black.svg" from
   // the CMC Resources drive (read only), cropped to the artwork, its <style> class turned into one fill (no page-wide CSS)
   logo:'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjIzLjUgMjAuNSA5NC4xIDQzLjgiIGZpbGw9IiMxMTEiPjxnPjxnPjxwb2x5Z29uIHBvaW50cz0iMzMuMSA2MS4yIDM1LjggNjEuMiAzNS44IDYwLjYgMzMuMSA2MC42IDMzLjEgNTguOSAzNi4yIDU4LjkgMzYuMiA1OC4yIDMyLjMgNTguMiAzMi4zIDYzLjcgMzYuMyA2My43IDM2LjMgNjMgMzMuMSA2MyAzMy4xIDYxLjIiLz48cGF0aCBkPSJNNDUuMyw1OC41Yy0uNS0uMi0xLS4zLTEuNS0uM2gtMi4zdjUuNWgyLjNjLjYsMCwxLjEtLjEsMS41LS4zLjUtLjIuOC0uNiwxLTEsLjItLjQuNC0uOS40LTEuNHMtLjEtMS0uNC0xLjRjLS4yLS40LS42LS43LTEtMVpNNDUuNyw2MmMtLjIuMy0uNC42LS44LjdzLS43LjMtMS4yLjNoLTEuNXYtNC4xaDEuNWMuNCwwLC44LDAsMS4yLjNzLjYuNC44LjdjLjIuMy4zLjcuMywxLjFzMCwuOC0uMywxLjFaIi8+PHBhdGggZD0iTTU1LjcsNjEuM2MwLC42LS4xLDEtLjQsMS4zLS4zLjMtLjcuNC0xLjIuNC0xLDAtMS41LS42LTEuNS0xLjh2LTMuMWgtLjh2My4xYzAsLjguMiwxLjQuNiwxLjguNC40LDEsLjYsMS43LjZzMS4zLS4yLDEuNy0uNmMuNC0uNC42LTEsLjYtMS44di0zLjFoLS44djMuMVoiLz48cGF0aCBkPSJNNjMuNCw1OS4xYy4zLS4yLjctLjMsMS4xLS4zLjYsMCwxLjEuMiwxLjUuN2wuNS0uNWMtLjMtLjMtLjYtLjUtLjktLjZzLS43LS4yLTEuMi0uMi0xLC4xLTEuNS40LS44LjYtMSwxYy0uMy40LS40LjktLjQsMS40cy4xLDEsLjQsMS40Yy4zLjQuNi44LDEsMSwuNC4yLjkuNCwxLjUuNHMuOCwwLDEuMi0uMmMuNC0uMS43LS40LjktLjZsLS41LS41Yy0uNC40LS45LjctMS41LjdzLS44LDAtMS4xLS4zYy0uMy0uMi0uNi0uNC0uOC0uOC0uMi0uMy0uMy0uNy0uMy0xLjFzMC0uOC4zLTEuMWMuMi0uMy40LS42LjgtLjhaIi8+PHBhdGggZD0iTTczLjIsNTguMmwtMi41LDUuNWguOGwuNi0xLjRoMi45bC42LDEuNGguOGwtMi41LTUuNWgtLjhaTTcyLjQsNjEuN2wxLjItMi43LDEuMiwyLjdoLTIuNFoiLz48cG9seWdvbiBwb2ludHM9IjgwLjEgNTguOSA4MiA1OC45IDgyIDYzLjcgODIuOCA2My43IDgyLjggNTguOSA4NC43IDU4LjkgODQuNyA1OC4yIDgwLjEgNTguMiA4MC4xIDU4LjkiLz48cmVjdCB4PSI4OS40IiB5PSI1OC4yIiB3aWR0aD0iLjgiIGhlaWdodD0iNS41Ii8+PHBhdGggZD0iTTk5LjgsNTguNWMtLjQtLjItLjktLjQtMS41LS40cy0xLjEuMS0xLjUuNGMtLjQuMi0uOC42LTEsMS0uMy40LS40LjktLjQsMS40cy4xLDEsLjQsMS40Yy4zLjQuNi44LDEsMSwuNC4yLjkuNCwxLjUuNHMxLS4xLDEuNS0uNGMuNC0uMi44LS42LDEtMSwuMy0uNC40LS45LjQtMS40cy0uMS0xLS40LTEuNGMtLjMtLjQtLjYtLjgtMS0xWk0xMDAuMSw2MmMtLjIuMy0uNC42LS44LjgtLjMuMi0uNy4zLTEuMS4zcy0uOCwwLTEuMS0uM2MtLjMtLjItLjYtLjQtLjgtLjgtLjItLjMtLjMtLjctLjMtMS4xczAtLjguMy0xLjFjLjItLjMuNC0uNi44LS44LjMtLjIuNy0uMywxLjEtLjNzLjgsMCwxLjEuM2MuMy4yLjYuNC44LjguMi4zLjMuNy4zLDEuMXMwLC44LS4zLDEuMVoiLz48cG9seWdvbiBwb2ludHM9IjExMC4zIDU4LjIgMTEwLjMgNjIuMyAxMDcgNTguMiAxMDYuMyA1OC4yIDEwNi4zIDYzLjcgMTA3LjEgNjMuNyAxMDcuMSA1OS42IDExMC40IDYzLjcgMTExLjEgNjMuNyAxMTEuMSA1OC4yIDExMC4zIDU4LjIiLz48L2c+PGc+PHBhdGggZD0iTTExNS4zLDQ2LjljLTIuNywyLjctNi4xLDQuMS0xMC40LDQuMXMtNy43LTEuNC0xMC4zLTQuMWMtMi42LTIuOC0zLjktNi4yLTMuOS0xMC4zczEuMy03LjUsMy44LTEwLjJjMi41LTIuNyw1LjctNC4xLDkuNS00LjFzNS4xLjcsNy4zLDJjMi4yLDEuNCwzLjYsMy4yLDQuMiw1LjdoLjRsLS45LTYuMWMtMS4zLS45LTMtMS42LTUuMS0yLjEtMi0uNS00LS44LTYtLjgtMy4xLDAtNS45LjctOC40LDItMi41LDEuNC00LjUsMy4yLTUuOSw1LjYtMS40LDIuNC0yLjEsNS0yLjEsOHMuNyw1LjYsMi4yLDhjMS40LDIuNCwzLjUsNC4zLDYuMSw1LjYsMi42LDEuNCw1LjYsMi4xLDguOCwyLjEsNC44LDAsNy45LTEuNCwxMC42LTQuMSwyLjMtMi41LDIuNi0zLjcuMi0xLjNaIi8+PHBhdGggZD0iTTU3LjYsMjFsLTIuMSwxNy4xYzAsLjIsMCwuMywwLC41LDAsLjMtLjEuNi0uMi45LDAsLjEsMCwuMywwLC40LS45LDMuNC0yLjUsNS44LTMuNSw3LTIuNywyLjgtNi4xLDQuMS0xMC40LDQuMXMtNy43LTEuNC0xMC4zLTQuMWMtMi42LTIuOC0zLjktNi4yLTMuOS0xMC4zczEuMy03LjUsMy44LTEwLjJjMi41LTIuNyw1LjctNC4xLDkuNS00LjFzNS4xLjcsNy4zLDJjMi4yLDEuNCwzLjYsMy4yLDQuMiw1LjdoLjRsLS45LTYuMWMtMS4zLS45LTMtMS42LTUuMS0yLjEtMi0uNS00LS44LTYtLjgtMy4xLDAtNS45LjctOC40LDItMi41LDEuNC00LjUsMy4yLTUuOSw1LjYtMS40LDIuNC0yLjEsNS0yLjEsOHMuNyw1LjYsMi4yLDhjMS40LDIuNCwzLjUsNC4zLDYuMSw1LjYsMi42LDEuNCw1LjYsMi4xLDguOCwyLjFzNy40LTEsOS45LTNjMCwwLDAsMCwwLDAsMCwwLC4yLS4xLjMtLjIsMCwwLDAsMCwwLDAsMS4zLTEsNS4zLTMuOSw2LjItMTAuOWwxLjItMTAuMSw3LjEsMTUuMywxLjUtMy40LTkuMS0xOWgtLjRaIi8+PHBvbHlnb24gcG9pbnRzPSI3MC4yIDQ2LjkgNzAuMiA0Ni45IDcwLjIgNDYuOSA3MC4yIDQ2LjkiLz48cGF0aCBkPSJNODgsNTEuMWMtLjgtLjYtMS0xLjEtMS4zLTEuOC0uMy0uNy0uNC0xLjktLjQtMS45bC0zLjUtMjIuMi0yLjEsNC43LDIuNCwxNy45YzAsLjIsMCwuNC4xLjcsMCwuNi4xLDEuMywwLDEuNiwwLC4zLS4xLjYtLjMuOS0uNC42LS44LjktMS41LjloLS41di40aDguOXYtLjRoLS4yYy0uNiwwLTEuMi0uMy0xLjgtLjdaIi8+PC9nPjwvZz48cGF0aCBkPSJNODQuMiwyMWMtLjgsMC0zLjEsMi4yLTUuMiw2LjRsLTkuMywxOC40LTItNC4zLTEuNSwzLjQsMy40LDcuNWguNGMuMi0xLjIuNy0yLjYsMS41LTQuNGw4LjktMjAuMXMwLDAsMS4xLTIuM2MyLjItNC4zLDMuNS00LjUsMi43LTQuNVoiLz48L3N2Zz4=',
+  // owner 25 Nov ("Besides that, yes action all these things"; review: "10 multiple-choice questions take 11 pages ... They could fit 2-4
+  // per page"): short options sit side by side, four in a row or two by two, when every option fits its column, so a multiple-choice
+  // question is a few lines shorter and more of them share a page (a question is still never split: pages are filled whole questions first)
+  fitOpts(root){root.querySelectorAll('section.xq.mc .xol').forEach(ol=>{ol.classList.remove('x2','x4');const W=ol.getBoundingClientRect().width,g=23;
+    const w=Math.max(0,...[...ol.children].map(o=>[...o.children].reduce((t,c)=>t+c.getBoundingClientRect().width,0)+12));
+    if(!w||!W)return;if(4*w+3*g<=W)ol.classList.add('x4');else if(2*w+g<=W)ol.classList.add('x2')})},
   isCMC:()=>/^\s*cmc\s+education\s*$/i.test(EX.school||''),
   mins:t=>{const s=String(t||'').toLowerCase(),h=+(s.match(/([\d.]+)\s*h/)||[])[1]||0,m=+(s.match(/(\d+)\s*m/)||[])[1]||0;return Math.round(h*60+m)},
   dur:m=>{const h=Math.floor(m/60),r=m%60;return [h?`${h} hour${h===1?'':'s'}`:'',r?`${r} minute${r===1?'':'s'}`:''].filter(Boolean).join(' and ')||'0 minutes'},
@@ -4799,7 +4870,8 @@ function xCover(mc,wr){exA();const tot=xMarks(mc)+xMarks(wr),homes=xaHomes();if(
 
 /* ---------- preview: A4 sheets, grading panel, Fit pages ---------- */
 const EXC=new Map();   // typeset question bodies, so re-laying out after an edit only typesets what changed
-const exCKey=(q,doc)=>doc+'|'+q.id+'|'+JSON.stringify(Object.entries(EX.lines||{}).filter(([k])=>k.startsWith(q.id+':')))+'|'+JSON.stringify(figKeys(q).all.map(k=>EX.figscale?.[k]||1));
+// h: the question's HTML (xQ): its diagrams' sizes are read from it, worked-solution diagrams in the marking guide included (owner 25 Nov)
+const exCKey=(q,doc,h)=>doc+'|'+q.id+'|'+JSON.stringify(Object.entries(EX.lines||{}).filter(([k])=>k.startsWith(q.id+':')))+'|'+(h.match(/data-figw="[^"]+" style="--fs:[\d.]+/g)||[]).join();
 // owner 19 Nov: "I have no idea what fit pages does" -> asked, "Remove it": questions stay in the order set (Fit pages, which swapped
 // nearby questions to fill pages after Generate or on request, is gone)
 const exBlockish=el=>{if(/^(mjx-|svg$|img$|table$|figure$|canvas$)/i.test(el.tagName))return false;const d=getComputedStyle(el).display;return ['block','grid','flex','list-item','flow-root'].includes(d)};
@@ -4855,7 +4927,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   const keepScroll=opts.keep?ov.scrollTop:0;
   if(!opts.keep||!$('#xPages')){
     ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button></div>
-      <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span>
+      <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span><span class="xpvsave" id="xPvSave"></span>
       <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Questions</button>
       <span class="xmenu"><button class="act" data-xmenu aria-expanded="false">Exam</button><span class="xmenu-pop" hidden><button class="act" id="exPvSet" title="Change this exam's topics, marks or difficulty and regenerate it">Settings…</button><button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table on the cover</button></span></span>
       <button class="act" id="exPvSim" title="A new exam with the same settings and none of the questions in your saved exams: for a student who needs another one">Make a similar exam</button>
@@ -4868,11 +4940,11 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   await QG.need(EX.items.map(xq));   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): the paper's questions' topic files, before layout
   const bl=xBlocks(doc),meas=document.createElement('div');meas.className='xmeasure sheetbody';
   meas.innerHTML=bl.map((b,i)=>`<div class="xblk${b.cover?' cover':''}" data-i="${i}">${b.html}</div>`).join('');document.body.appendChild(meas);
-  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`),c=EXC.get(exCKey(b.q,doc)),qb=el.querySelector('.xqb');
+  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`),c=EXC.get(exCKey(b.q,doc,b.html)),qb=el.querySelector('.xqb');
     if(c&&qb){qb.innerHTML=c;el.dataset.cached=1}else hydrate(el,b.q,'bank')});
   await typeset(meas);await xWait(meas);await typeset(meas);
-  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`);if(!el.dataset.cached){const qb=el.querySelector('.xqb');if(qb)EXC.set(exCKey(b.q,doc),qb.innerHTML)}});
-  $$('img.fig',meas).forEach(im=>{im.style.maxWidth='100%'});
+  bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`);if(!el.dataset.cached){const qb=el.querySelector('.xqb');if(qb)EXC.set(exCKey(b.q,doc,b.html),qb.innerHTML)}});
+  $$('img.fig',meas).forEach(im=>{im.style.maxWidth='100%'});EXSEC.fitOpts(meas);
   // 14 Nov: content height 250 mm, not 259: the review pass measured only ~250 mm fitting inside a 297 mm sheet (padding + footer), so full sheets ran past A4 and were cut off in PDF/print.
   const probe=document.createElement('div');probe.style.height='250mm';meas.appendChild(probe);const H=probe.getBoundingClientRect().height;probe.remove();
   // hardening 14 Nov (page test): with many topics the cover ran past 297 mm, and the PDF and print cut "Marks by topic" off.
@@ -4917,7 +4989,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   meas.remove();EXSEC.pages(host);scaleTables(host,true);exZoom();
   const qs=EX.items.map(xq).filter(Boolean),tot=xMarks(qs);let F=0,P=0,w=0;qs.forEach(q=>{const e=exEst(q);if(e){F+=e.fl;P+=e.ps;w+=e.d*e.m}});
   $('#xInfo').textContent=`${sheets.length} page${sheets.length===1?'':'s'} · ${qs.length} questions · ${tot} marks${F+P?` · ${Math.round(P/(F+P)*100)}% problem solving · average band ${(w/(F+P)).toFixed(1)}`:''}`;
-  $('#xDl').disabled=false;$('#xDl').dataset.doc=doc;
+  $('#xDl').disabled=false;$('#xDl').dataset.doc=doc;EXAS.bar();
   exGrading();if(opts.keep)ov.scrollTop=keepScroll;else ov.scrollTop=0;
   // owner 14 Nov ("make it so we can export pdfs from here"): PDF (29_pdf.js) and Word (30_word.js) join HTML in the Download menu
   // once the pages are laid out
@@ -4947,18 +5019,27 @@ function exGrading(){const el=$('#exGSide');if(!el)return;const qs=EX.items.map(
       <div class="glab">Band ${e.d.toFixed(1)} overall · ${fmtM(e.fl)} fluency, ${fmtM(e.ps)} problem-solving mark${e.ps===1?'':'s'}</div>${gdots(q)}
       <table class="gparts"><thead><tr><th>Part</th><th>Marks</th><th>Kind</th><th>Band</th></tr></thead><tbody>${e.parts.map(x=>`<tr><td>${esc(x.lab||'Whole')}</td><td>${fmtM(x.m)}</td><td>${x.ps?'Problem solving':'Fluency'}</td><td>${x.b}</td></tr>`).join('')}</tbody></table>
       <div class="gwhy"><b>Why it was rated this way</b><ul>${e.parts.filter(x=>x.r).map(x=>`<li>${multi&&x.lab?`<span class="pp">${esc(x.lab)}</span> `:''}${exMathTeX(x.r)}</li>`).join('')||'<li>No reason recorded.</li>'}</ul></div>
-      <div class="gacts"><button type="button" class="act" data-gswap="${q.id}">Swap for a similar question…</button><button type="button" class="act" data-grepl="${q.id}" title="Pick any question from this exam's topics to take its place">Replace…</button><button type="button" class="act ghost" data-grm="${q.id}">Remove from exam</button><button type="button" class="act ghost" data-glock="${q.id}" aria-pressed="${exA().locked.includes(q.id)}" title="Regenerate keeps a locked question">${exA().locked.includes(q.id)?'Locked':'Lock'}</button>${(()=>{const k=repOpen().filter(r=>r.question_id===q.id).length;   // owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well"
+      <div class="gacts">${(()=>{const lk=xaLocked(q.id),off=t=>lk?` disabled title="${xaLocked.tip}"`:t?` title="${t}"`:'';   // owner 25 Nov: what Lock does, and why the rest are off
+        return `<button type="button" class="act" data-gswap="${q.id}"${off('')}>Swap for a similar question…</button><button type="button" class="act" data-grepl="${q.id}"${off("Pick any question from this exam's topics to take its place")}>Replace…</button><button type="button" class="act ghost" data-grm="${q.id}"${off('')}>Remove from exam</button><button type="button" class="act ghost exglock" data-glock="${q.id}" aria-pressed="${lk}" title="${lk?xaLocked.tip:'Keep this question as it is, in its place, when you regenerate; it cannot be swapped, replaced, moved or removed while locked'}">${XA_LOCK} ${xaLocked.label(lk)}</button>`})()}${(()=>{const k=repOpen().filter(r=>r.question_id===q.id).length;   // owner 18 Nov: "can u actually put the report on the right bar as well? the grading bar as well"
         return `<button type="button" class="act" data-grep="${q.id}" title="${esc(qiLabel(k))}">${k?`Reported (${k})`:'Report'}</button>`})()}</div></div>`};
   // owner 19 Nov: "I need a button to delete a question from an exam in the question grading. Also can we call it something else, its
   // just a list of questions right? Should it even be togglable? It seems like it should always be there" (UI_SPEC "Questions panel")
-  el.innerHTML=`<div class="gtop"><h3>Questions</h3><button type="button" class="linkbtn" id="exGClose">Hide</button></div><div class="gsub">Click a question on the paper, or in this list.</div>
+  // owner 25 Nov ("Besides that, yes action all these things"; checker: "Make it so that you can rename the paper from this screen", "Add a
+  // more lines to all questions button"): the exam's name (the cover's title, My exams' name) and answer lines for every written question
+  const nWr=qs.filter(q=>q.type!=='mcq').length;
+  el.innerHTML=`<div class="gtop"><h3>Questions</h3><button type="button" class="linkbtn" id="exGClose">Hide</button></div>
+    <label class="gname">Exam name<input type="text" data-xname value="${esc(EX.sub||'')}" placeholder="Exam title" title="The title on the cover and in My exams. Enter saves it."></label>
+    <div class="gsub">Click a question on the paper, or in this list.</div>
     <div class="gsum"><div class="f"><b>${fmtM(F)} marks</b>Fluency${F?` · average band ${(wF/F).toFixed(1)}`:''}</div><div class="p"><b>${fmtM(P)} marks</b>Problem solving${P?` · average band ${(wP/P).toFixed(1)}`:''}</div></div>
+    ${nWr?`<div class="glnall"><span>Answer lines on all ${nWr} written question${nWr===1?'':'s'}</span><button type="button" class="act" data-glnall="-1" aria-label="One line fewer on every written part" title="One line fewer on every part with answer lines">− 1 line</button><button type="button" class="act" data-glnall="1" aria-label="One more line on every written part" title="One more line on every part with answer lines">+ 1 line</button></div>`:''}
     <div class="gsub" style="margin:-4px 0 8px">${EXV.undo?`<button type="button" class="linkbtn" data-gundo>Undo: put Q${EXV.undo.i+1} back</button> · `:''}Drag a row to change the order on the paper. <button type="button" class="linkbtn" data-gadd>+ Add a question</button> · <button type="button" class="linkbtn" data-gsort title="Each section easiest first: band, then fluency before problem solving, then marks">Sort easiest first</button></div>
     <ol class="glist">${qs.map((q,i)=>{const e=exEst(q),s=EXV.sel===q.id,first=i===0||sec(qs[i-1])!==sec(q),last=i===qs.length-1||sec(qs[i+1])!==sec(q);
       const head=split&&first?`<li class="gsec">Section ${sec(q)===1?'I · multiple choice':'II · written'}</li>`:'';const k=e?e.kind:'Fluency';
-      return `${head}<li class="gq${s?' sel':''}${EXV.moved===q.id?' moved':''}" data-gqli="${q.id}"><div class="gqrow" draggable="true" data-drag="${q.id}"><span class="grip" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
-        <button type="button" class="gqh" data-gq="${q.id}" aria-expanded="${s}"><span class="exgn">Q${i+1}</span><span class="exgk ${kindCls(k)}">${k==='Problem solving'?'Problem':k}</span>${e?exMeter(e.d,k):'<span></span>'}<span class="exgd">${q.marks}</span></button>
-        <span class="gmv"><button type="button" data-gmv="-1" data-id="${q.id}" aria-label="Move up"${first?' disabled':''}>▲</button><button type="button" data-gmv="1" data-id="${q.id}" aria-label="Move down"${last?' disabled':''}>▼</button></span></div>${s?det(q):''}</li>`}).join('')}</ol>
+      // owner 25 Nov: a locked question cannot be dragged or moved, nor can a neighbour be moved over it
+      const lk=xaLocked(q.id),lkU=!first&&xaLocked(qs[i-1].id),lkD=!last&&xaLocked(qs[i+1].id),mvOff=(end,nb)=>end?' disabled':lk||nb?` disabled title="${xaLocked.tip}"`:'';
+      return `${head}<li class="gq${s?' sel':''}${EXV.moved===q.id?' moved':''}${lk?' locked':''}" data-gqli="${q.id}"><div class="gqrow" draggable="${!lk}" data-drag="${q.id}"><span class="grip" aria-hidden="true" title="${lk?xaLocked.tip:'Drag to reorder'}">${lk?XA_LOCK:'⋮⋮'}</span>
+        <button type="button" class="gqh" data-gq="${q.id}" aria-expanded="${s}"${lk?` title="Q${i+1} is locked"`:''}><span class="exgn">Q${i+1}</span><span class="exgk ${kindCls(k)}">${k==='Problem solving'?'Problem':k}</span>${e?exMeter(e.d,k):'<span></span>'}<span class="exgd">${q.marks}</span></button>
+        <span class="gmv"><button type="button" data-gmv="-1" data-id="${q.id}" aria-label="Move up"${mvOff(first,lkU)}>▲</button><button type="button" data-gmv="1" data-id="${q.id}" aria-label="Move down"${mvOff(last,lkD)}>▼</button></span></div>${s?det(q):''}</li>`}).join('')}</ol>
     <div class="gnote">Bands run from 2 to 6, as in the HSC. Each part was rated against HSC reference parts checked by an editor (Curate › Review › Difficulty). To question a rating, use Report on the question.</div>`;typeset(el);   // owner 19 Nov: dot points and reasons carry maths
 
   $$('#xPages .xq').forEach(x=>x.classList.toggle('sel',+x.dataset.q===EXV.sel))}
@@ -4969,11 +5050,12 @@ function exSelect(id,from){EXV.sel=EXV.sel===id&&from==='list'?null:id;exGrading
   if(from==='list'&&EXV.sel){const el=$(`#xPages .xq[data-q="${id}"]`);if(el&&ov){const tb=ov.querySelector('.xtool')?.offsetHeight||0;ov.scrollTo({top:ov.scrollTop+el.getBoundingClientRect().top-ov.getBoundingClientRect().top-tb-12,behavior:beh})}}
   else{const li=$(`#exGSide [data-gqli="${id}"]`);if(li&&side){const r=li.getBoundingClientRect(),sr=side.getBoundingClientRect();if(r.top<sr.top||r.bottom>sr.bottom)side.scrollTo({top:side.scrollTop+r.top-sr.top-60,behavior:beh})}}}
 function exOrder(ord,id){EX.items=ord;EXV.moved=id;xsave();exRelayout();clearTimeout(exOrder._t);exOrder._t=setTimeout(()=>{EXV.moved=null},900)}
-function exMove(id,d){const qs=EX.items.map(xq).filter(Boolean),i=qs.findIndex(q=>q.id===id),j=i+d;if(j<0||j>=qs.length)return;
+function exMove(id,d){const qs=EX.items.map(xq).filter(Boolean),i=qs.findIndex(q=>q.id===id),j=i+d;if(j<0||j>=qs.length||xaLocked(id,true)||xaLocked(qs[j].id,true))return;
   if((qs[i].type==='mcq')!==(qs[j].type==='mcq')){toast('Multiple-choice questions stay in Section I.');return}
   const ord=qs.map(q=>q.id);[ord[i],ord[j]]=[ord[j],ord[i]];exOrder(ord,id)}
 function exDrop(id,tid,after){if(id===tid)return;const a=xq(id),b=xq(tid);if(!a||!b)return;if((a.type==='mcq')!==(b.type==='mcq')){toast('Multiple-choice questions stay in Section I.');return}
-  const ord=EX.items.filter(x=>x!==id);ord.splice(ord.indexOf(tid)+(after?1:0),0,id);exOrder(ord,id)}
+  if(xaLocked(id,true))return;const ord=EX.items.filter(x=>x!==id);ord.splice(ord.indexOf(tid)+(after?1:0),0,id);
+  if(exA().locked.some(x=>ord.indexOf(x)!==EX.items.indexOf(x))){toast('A locked question would move: unlock it first');return}exOrder(ord,id)}
 function exClosePv(){xClosePv();if(EXV.pageY)window.scrollTo(0,EXV.pageY);EXV.pageY=0;if(view==='exams'){exHead();if(EXV.view==='setup')exResult();else xPanel()}}
 
 /* download (xDownload) and saving (xSaveDb) are in 20_exam.js */
@@ -5000,13 +5082,16 @@ document.addEventListener('click',e=>{const t=e.target;
     if(t.closest('#exPvTopic')){EX.bytopic=EX.bytopic===false;xsave();t.closest('#exPvTopic').setAttribute('aria-pressed',String(EX.bytopic!==false));exRelayout();return}
     if(t.closest('#exPvRegen')&&!t.closest('#exPvRegen').dataset.ok){const b=t.closest('#exPvRegen');if(b.disabled)return;EXAS.guard(b,'Regenerate',()=>{b.dataset.ok=1;b.click();delete b.dataset.ok});return}
     if(t.closest('#exPvRegen')){const b=t.closest('#exPvRegen');if(b.disabled)return;const r=exGenerate();if(r){EXC.clear();xPreview(EXV.doc);toast(`New exam · ${r.n} questions · ${r.marks} marks`)}return}
-    if(t.closest('#xPvClose')){e.stopImmediatePropagation();exClosePv();EXV.view='mine';EXV.setupFor=null;exSaveView();if(view==='exams')renderExams();return}
+    if(t.closest('#xPvClose')){e.stopImmediatePropagation();EXAS.close();return}
     const gr=t.closest('[data-grep]');if(gr){const id=+gr.dataset.grep;repForm(id,String(EX.items.indexOf(id)+1));return}
     if(t.closest('[data-gadd]')){EXPK.open('add');return}
+    // every written question's answer lines, in the same steps as a part's own − / + (EX.lines, 0 to 40 a part)
+    const la=t.closest('[data-glnall]');if(la){const d=+la.dataset.glnall;let n=0;EX.items.map(xq).filter(q=>q&&q.type!=='mcq').forEach(q=>q.parts.forEach(p=>{if(!leaf(q,p))return;const k=exLnKey(q,p),v=EX.lines[k]??exLnDef(p.marks??q.marks),nv=Math.max(0,Math.min(40,v+d));if(nv!==v){EX.lines[k]=nv;n++}}));
+      if(!n){toast(d>0?'Every part already has the most lines (40)':'No answer lines left to remove');return}xsave();exRelayout();toast(`${d>0?'Added':'Removed'} a line on ${n} part${n===1?'':'s'}`);return}
     // owner 19 Nov ("it's still like this in TRIAL EXMINATION test sy"): an exam made before the new order can be re-sorted without regenerating
-    if(t.closest('[data-gsort]')){const qs=EX.items.map(xq).filter(Boolean),mc=qs.filter(q=>q.type==='mcq').sort(EXSEC.ord),wr=qs.filter(q=>q.type!=='mcq').sort(EXSEC.ord),n=[...mc,...wr].map(q=>q.id);
+    if(t.closest('[data-gsort]')){const qs=EX.items.map(xq).filter(Boolean),mc=EXSEC.lockAt(qs.filter(q=>q.type==='mcq').sort(EXSEC.ord),EX.items),wr=EXSEC.lockAt(qs.filter(q=>q.type!=='mcq').sort(EXSEC.ord),EX.items),n=[...mc,...wr].map(q=>q.id);
       if(n.join()===EX.items.join()){toast('Already easiest first');return}EX.items=n;xsave();exRelayout();toast('Sorted easiest first in each section');return}
-    const rm=t.closest('[data-grm]');if(rm){const id=+rm.dataset.grm,i=EX.items.indexOf(id);if(i<0)return;EX.items.splice(i,1);const A=exA();A.locked=A.locked.filter(x=>x!==id);EXV.undo={id,i};EXV.sel=null;xsave();exRelayout();toast(`Removed Q${i+1} from the exam`);return}
+    const rm=t.closest('[data-grm]');if(rm){const id=+rm.dataset.grm,i=EX.items.indexOf(id);if(i<0||xaLocked(id,true))return;EX.items.splice(i,1);EXV.undo={id,i};EXV.sel=null;xsave();exRelayout();toast(`Removed Q${i+1} from the exam`);return}
     if(t.closest('[data-gundo]')&&EXV.undo){const u=EXV.undo;EXV.undo=null;if(!EX.items.includes(u.id))EX.items.splice(Math.min(u.i,EX.items.length),0,u.id);EXV.sel=u.id;xsave();exRelayout();return}
     const gl=t.closest('[data-glock]');if(gl){xaLock(+gl.dataset.glock);exGrading();return}
     const gr2=t.closest('[data-grepl]');if(gr2){EXPK.open('replace',+gr2.dataset.grepl);return}
@@ -5029,6 +5114,7 @@ document.addEventListener('click',e=>{const t=e.target;
   const fb=t.closest('[data-tfa]');if(fb&&!fb.disabled){const [y,...r]=fb.dataset.tfa.split('|'),ks=tree()[y].get(r.join('|'))||[],base=new Set(exBase(A,xaHomes()).map(q=>xaHomes().get(q.id).sub)),live=ks.filter(k=>base.has(k)),all=live.every(k=>A.topics.includes(k));
     exSetTopics(all?A.topics.filter(k=>!ks.includes(k)):[...A.topics,...live]);return}
   const sb=t.closest('[data-tsub]');if(sb&&!sb.disabled){const k=sb.dataset.tsub;exSetTopics(A.topics.includes(k)?A.topics.filter(x=>x!==k):[...A.topics,k]);return}
+  const by=t.closest('[data-gby]');if(by){A.by=by.dataset.gby;xaSave();$$('[data-gby]').forEach(b=>b.setAttribute('aria-pressed',String(b===by)));exLabels();exAvail();return}
   const sr=t.closest('[data-src]');if(sr){const k=sr.dataset.src;A.src[k]=!A.src[k];xaSave();sr.setAttribute('aria-pressed',String(A.src[k]));exTopics();exAvail();return}
   const pt=t.closest('[data-pt]');if(pt){EXV.pk.topic=pt.dataset.pt;exSideNav();exList();document.body.classList.remove('exs-open');window.scrollTo({top:0});return}
   if(t.closest('[data-exclose]')){document.body.classList.remove('exs-open','exr-open');return}
@@ -5040,7 +5126,7 @@ document.addEventListener('click',e=>{const t=e.target;
   if(t.id==='exScrim'){document.body.classList.remove('exs-open','exr-open');return}
 });
 document.addEventListener('input',e=>{const t=e.target;if(!t.closest)return;
-  if(t.closest('#examsView')){const A=exA(),sl={gMarks:'total',gMcq:'mcq',gSplit:'pr',gDF:'dF',gDP:'dP'};
+  if(t.closest('#examsView')){const A=exA(),sl={gMarks:'total',gN:'n',gMcq:'mcq',gSplit:'pr',gDF:'dF',gDP:'dP'};
     if(sl[t.id]){A[sl[t.id]]=+t.value;if(t.id==='gMcq')A.mcqSet=true;if(t.id==='gMarks'&&!A.mcqSet){A.mcq=Math.min(10,Math.round(A.total/10));const m=$('#gMcq');if(m)m.value=A.mcq}const al=$('#gAll');if(al)al.value=exOverall(A);xaSave();exLabels();clearTimeout(t._h);t._h=setTimeout(exAvail,60);return}
     if(t.id==='gAll'){A.dF=A.dP=+t.value;$('#gDF').value=A.dF;$('#gDP').value=A.dP;xaSave();exLabels();clearTimeout(t._h);t._h=setTimeout(exAvail,60);return}
     if(t.id==='gTitle'){A.title=t.value.trim();xaSave();return}
@@ -5051,6 +5137,8 @@ document.addEventListener('change',e=>{const t=e.target;if(!t.closest||!t.closes
   if(t.matches('[data-xlshow]')){XG.show=t.checked;exRefresh();return}
   const m={fpaper:'paper',ftype:'type',fmarks:'marks',fsort:'sort',fband:'band',fwm:'wm'};if(m[t.id]){EXV.pk[m[t.id]]=t.value;exList();return}
   if(t.id==='ffig'){EXV.pk.fig=t.checked;exList();return}if(t.id==='fhide'){EXV.pk.hide=t.checked;exList();return}});
+document.addEventListener('change',e=>{const f=e.target.closest&&e.target.closest('#xPv [data-xname]');if(!f)return;const v=f.value.replace(/\s+/g,' ').trim();
+  if(!v){f.value=EX.sub||'';return}if(v===EX.sub)return;EX.sub=v;exA().title=v;xsave();exRelayout();toast('Renamed')});   // owner 25 Nov: rename the exam on the paper
 document.addEventListener('toggle',e=>{const d=e.target;if(d.dataset&&d.dataset.pfa){d.open?EXV.pkOpen.add(d.dataset.pfa):EXV.pkOpen.delete(d.dataset.pfa)}if(d.dataset&&d.dataset.xlctx)XG.open[d.dataset.xlctx]=d.open},true);
 // editing the cover on the paper: click to type; Enter or clicking away saves (owner's exam maker)
 document.addEventListener('keydown',e=>{const el=e.target.closest&&e.target.closest('#xPv [data-edit]');if(!el)return;if(e.key==='Enter'||e.key==='Escape'){e.preventDefault();e.stopImmediatePropagation();el.blur()}},true);
@@ -5107,7 +5195,19 @@ document.addEventListener('dragover',e=>{if(EXDRAG==null)return;const li=e.targe
   const r=li.getBoundingClientRect();li.classList.add(e.clientY>r.top+Math.min(r.height,44)/2?'drop-after':'drop-before')});
 document.addEventListener('drop',e=>{if(EXDRAG==null)return;const li=e.target.closest&&e.target.closest('#exGSide .gq');if(li){e.preventDefault();exDrop(EXDRAG,+li.dataset.gqli,li.classList.contains('drop-after'))}});
 document.addEventListener('dragend',()=>{EXDRAG=null;$$('#exGSide .gq').forEach(x=>x.classList.remove('dragging','drop-before','drop-after'))});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('xpv-on')){e.stopImmediatePropagation();exClosePv();EXV.view='mine';EXV.setupFor=null;exSaveView();if(view==='exams')renderExams()}else if(e.key==='Escape')document.body.classList.remove('exs-open','exr-open')},true);
+// owner 25 Nov ("Besides that, yes action all these things"; review: "Escape closes the whole exam. I pressed Escape to close the Exam
+// dropdown and it took me out of the exam and back to the list, with the changes still unsaved"): Escape closes the innermost thing open
+// (a menu, the "replaces the questions" question, a field being typed in; the report form and the Swap chooser close themselves), and
+// only then the paper, which saves first (EXAS.close). Ctrl/Cmd-S saves the open exam.
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey)&&!e.altKey&&e.key.toLowerCase()==='s'&&view==='exams'&&EX.items.length){e.preventDefault();document.activeElement?.closest?.('#xPv [data-edit],#xPv [data-xname]')?.blur();clearTimeout(EXAS.t);if(db)xSaveDb();else toast('Saving needs the shared database (open the page in claude.ai)');return}
+  if(e.key!=='Escape')return;
+  const ask=$('#exAsk');if(ask){e.preventDefault();e.stopImmediatePropagation();ask.remove();return}
+  const pop=[...document.querySelectorAll('.xmenu-pop')].find(p=>!p.hidden);
+  if(pop){e.preventDefault();e.stopImmediatePropagation();pop.hidden=true;const b=pop.previousElementSibling;b?.setAttribute('aria-expanded','false');b?.focus();return}
+  if(document.body.classList.contains('rep-on'))return;
+  const f=e.target.closest&&e.target.closest('#xPv input,#xPv textarea');if(f){e.preventDefault();e.stopImmediatePropagation();if(f.dataset.xname!=null)f.value=EX.sub||'';f.blur();return}
+  if(document.body.classList.contains('xpv-on')){e.stopImmediatePropagation();EXAS.close()}else document.body.classList.remove('exs-open','exr-open')},true);
 // any change to the exam (add, remove, reorder, swap, load) refreshes the page around it: see xCount (20_exam.js)
 if(view==='exams'&&B)renderExams();
 
@@ -5129,12 +5229,18 @@ const EXM={q:'',sort:(load('exm_sort')||'new'),ren:null,del:null,names:{}};
 function exmSub(){if(!db||typeof _xsub==='undefined'||_xsub)return;
   try{_xsub=db.collection('exams').onSnapshot(s=>{XSAVED=QG.docs(s).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
     {const w=load('exm_open'),x=w&&XSAVED.find(s=>s.id===w);if(w)save('exm_open','');if(x&&exCourse(x)===QG.course){exmLoad(x);toast(`Opened “${x.sub||'Untitled'}” in ${QG.courseData.short}`)}}   // owner 23 Nov: see exmLoad
-    exmNames();if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}},()=>{})}catch(e){}}
+    // owner 25 Nov ("Besides that, yes action all these things"; checker: topic counts "change when another topic is ticked"): Setup's
+    // counts leave out questions in saved exams, so they are drawn again when the saved exams arrive or change (before, they waited
+    // for the next tick and then jumped)
+    exmNames();if(view==='exams'){exHead();if(EXV.view==='mine')renderMine();else if(EXV.view==='setup'){exTopics();exAvail()}}},()=>{})}catch(e){}}
 async function exmNames(){const ids=[...new Set(XSAVED.map(x=>x.by).filter(i=>i&&!(i in EXM.names)))];if(!ids.length)return;
   try{const u=await window.claude?.use?.('user');if(!u?.profiles)return;const ps=await u.profiles(ids);ids.forEach(i=>EXM.names[i]=ps?.[i]?.name||'');if(view==='exams'&&EXV.view==='mine')renderMine()}catch(e){}}
 const exmWho=x=>!x.by?'':x.by===me?'you':(EXM.names[x.by]||'a colleague');
 // the fields that make up a saved exam; "unsaved" = the open exam differs from its saved copy
-const exmSig=x=>JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.bytopic!==false,x.time||'',x.reading||'',(x.items||[]).concat((x.gone||[]).map(g=>g.id)),x.instr||null,x.lines||{},x.figscale||{}]);
+// owner 25 Nov ("Besides that, yes action all these things"; review: "the list showed "Saved 4:06 pm" for the exam while the banner said it
+// wasn't saved"): the database may hand an object back with its keys in another order, so lines and diagram sizes compare sorted (before,
+// a saved exam could read as changed for good: "Saving…" stayed, the banner said not saved). Locks are part of the exam (saved with it).
+const exmSig=x=>{const o=v=>Object.keys(v||{}).sort().map(k=>[k,v[k]]);return JSON.stringify([x.title||'',x.sub||'',x.school||'',x.cert||'',x.bytopic!==false,x.time||'',x.reading||'',(x.items||[]).concat((x.gone||[]).map(g=>g.id)).map(Number),x.instr||null,o(x.lines),o(x.figscale),((x.auto&&x.auto.locked)||[]).map(Number).sort((a,b)=>a-b)])};
 function exmState(){if(!EX.items.length)return '';if(!EX.id)return 'new';const s=XSAVED.find(x=>x.id===EX.id);if(!s)return db?'new':'';return exmSig(s)===exmSig(EX)?'saved':'changed'}
 // owner 14 Nov (Fix 2): "Ok we should run Fix 1 and 2": a saved exam finds its questions by key (RKEY.items), id as fallback
 function exmStats(x){const qs=RKEY.items(x).map(xq).filter(Boolean);let m=0,pr=0,w=0,mc=0;
@@ -5155,22 +5261,24 @@ function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
   const MINE=XSAVED.filter(x=>exCourse(x)===QG.course);
   const s=EXM.q.trim().toLowerCase();let L=MINE.filter(x=>!s||[x.title,x.sub,x.school].join(' ').toLowerCase().includes(s));
   if(EXM.sort==='old')L=L.slice().reverse();else if(EXM.sort==='title')L=L.slice().sort((a,b)=>String(a.sub||a.title).localeCompare(String(b.sub||b.title)));
-  const cur=exmState();
+  // owner 25 Nov ("Besides that, yes action all these things"; review: ""Open now" stays on after you click Close"): no "Open now" pill
+  // (after Close no exam is open); the card of the exam last worked on says when its changes are not saved, beside "Saved <time>"
+  const cur=exmState();const chg=cur==='changed'?EX.id:null;
   el.innerHTML=`<div class="exm-top"><div><div class="exm-eyebrow">Saved exams</div><h2>My exams</h2><p class="exm-lead">${MINE.length} saved ${esc(QG.courseData.short)} exam${MINE.length===1?'':'s'}. Everyone with access to Questgen sees the same list.</p></div>
     <div class="exm-ctl"><input type="search" id="exmQ" placeholder="Search titles" value="${esc(EXM.q)}" aria-label="Search saved exams">
       <select id="exmSort" aria-label="Sort"><option value="new"${EXM.sort==='new'?' selected':''}>Newest first</option><option value="old"${EXM.sort==='old'?' selected':''}>Oldest first</option><option value="title"${EXM.sort==='title'?' selected':''}>Title A–Z</option></select>
       <button type="button" class="act" data-exm-fresh>New exam</button></div></div>
-    ${cur==='new'||cur==='changed'?`<div class="exm-unsaved"><b>${cur==='new'?'The exam you are working on has not been saved.':'The open exam has changes that are not saved.'}</b> ${esc(EX.sub||EX.title)} · ${EX.items.length} questions<button type="button" class="act ok" data-exm-save>Save it</button></div>`:''}
-    ${L.length?`<ul class="exm-list">${L.map(x=>{const st=exmStats(x),open=x.id===EX.id,ren=EXM.ren===x.id,del=EXM.del===x.id,who=exmWho(x);
+    ${cur==='new'||cur==='changed'?`<div class="exm-unsaved"><b>${cur==='new'?'Your last exam has not been saved.':'Your last exam has changes that are not saved.'}</b> ${esc(EX.sub||EX.title)} · ${EX.items.length} questions<button type="button" class="act ok" data-exm-save>Save it</button></div>`:''}
+    ${L.length?`<ul class="exm-list">${L.map(x=>{const st=exmStats(x),ren=EXM.ren===x.id,del=EXM.del===x.id,who=exmWho(x);
       // owner 19 Nov: "does open and preview go to the same thing? Can we just make the block clickable to enter the exam. Also the blocks
       // are so tall vertically ... more efficient and more design oriented": the card opens the exam; two lines; Make similar stays out, the rest in ⋯
       const fk=typeof qWatch==='function'?RKEY.items(x).map(xq).filter(q=>qWatch(q)).length:0;   // owner 19 Nov: "make the reported one not drop to a new row"
       const wn=(st.miss?`<span class="exm-warn" title="${st.miss} question${st.miss===1?'':'s'} no longer in the bank">⚠ ${st.miss} gone</span>`:'')+(fk?`<span class="exm-warn" data-exm-flag="${fk}" title="${fk} question${fk===1?'':'s'} reported or sent back to review">⚠ ${fk} reported</span>`:'');
       const sch=x.school&&!/^\s*cmc\s+education\s*$/i.test(x.school)?' · '+esc(x.school):'';
-      return `<li class="exm-row${open?' open':''}${ren||del?'':' go'}" data-exm="${esc(x.id)}">
+      return `<li class="exm-row${ren||del?'':' go'}" data-exm="${esc(x.id)}">
         <div class="exm-main">${ren?`<div class="exm-ren"><input data-exm-rt value="${esc(x.sub||'')}" aria-label="Exam name" placeholder="Name"><button type="button" class="act ok" data-exm-rok>Save</button><button type="button" class="act ghost" data-exm-rx>Cancel</button></div>`
-            :`<div class="exm-l1"><button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>${open?'<span class="exm-cur">Open now</span>':''}${wn}</div>`}
-          <div class="exm-meta">${esc(x.title||'')}${sch} · Saved ${esc(exmWhen(x.at))}${who?' by '+esc(who):''}</div></div>
+            :`<div class="exm-l1"><button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>${wn}</div>`}
+          <div class="exm-meta">${esc(x.title||'')}${sch} · Saved ${esc(exmWhen(x.at))}${who?' by '+esc(who):''}${chg===x.id?' · <b class="exm-chg">changes since then not saved</b>':''}</div></div>
         <div class="exm-stats"><span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span><b>${Math.round(st.pr*100)}%</b> PS</span></div>
         <div class="exm-acts">${del?`<span class="exm-sure">Delete for everyone?</span><button type="button" class="act bad" data-exm-delok>Delete</button><button type="button" class="act ghost" data-exm-delx>Keep</button>`
           :`<button type="button" class="act ghost" data-exm-sim title="A new exam with the same settings and none of the questions in your saved exams">Make similar</button><span class="xmenu"><button type="button" class="act ghost exm-more" data-xmenu aria-expanded="false" aria-label="More">⋯</button><span class="xmenu-pop" hidden><button type="button" class="act" data-exm-dup title="A copy with the same questions">Duplicate</button><button type="button" class="act" data-exm-ren>Rename</button><button type="button" class="act exm-del" data-exm-del>Delete</button></span></span>`}</div></li>`}).join('')}</ul>`
@@ -5208,10 +5316,21 @@ document.addEventListener('change',e=>{if(e.target.id==='exmSort'){EXM.sort=e.ta
    previous exam"; asked how to save: "Save by itself"; used questions: "avoid them but if used, should show WHERE in the past they were
    used". The bar above every Exams view names the open exam and its state; any change saves a moment later; replacing the questions
    of a saved exam asks first; New exam and Save as a copy are the only ways to start another. One page-wide name (CODE_HEALTH rule 1). */
-const EXAS={t:null,busy:false,at:null,ask:null,
+const EXAS={t:null,busy:false,ask:null,
   schedule(){clearTimeout(this.t);if(!db||!EX.items.length)return;this.t=setTimeout(()=>this.run(),1200);if(view==='exams'&&typeof EXV!=='undefined'&&EXV.built)exHead()},
   async run(){if(this.busy){this.schedule();return}const st=exmState();if(st!=='new'&&st!=='changed')return;
-    this.busy=true;try{await xSaveDb(true);this.at=new Date()}finally{this.busy=false;if(view==='exams')exHead()}},
+    this.busy=true;try{await xSaveDb(true)}finally{this.busy=false;if(view==='exams')exHead()}},
+  // owner 25 Nov ("Besides that, yes action all these things"; review: "Escape closes the whole exam ... with the changes still unsaved"):
+  // leaving the paper (Close, or Escape with no menu or dialog open) saves what is not saved yet, then shows My exams
+  close(){if(db&&['new','changed'].includes(exmState())){clearTimeout(this.t);this.run()}
+    exClosePv();EXV.view='mine';EXV.setupFor=null;exSaveView();if(view==='exams')renderExams()},
+  // the saved time and state of the open exam, for the page head and the paper bar (the saved copy's own time: what was really saved)
+  state(){const st=exmState(),s=EX.id&&XSAVED.find(x=>x.id===EX.id),d=s&&new Date(s.at),when=d&&!isNaN(d)?d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}):'';
+    return {st,html:st==='saved'?`<span class="exst-ok">✓ Saved${when?' '+when:''}</span>`:!db?'kept in this browser (saving needs claude.ai)':this.busy?'Saving…':`<span class="exst-wait">${st==='new'?'Not saved yet':'Unsaved changes'}</span>`}},
+  // owner 25 Nov ("Besides that, yes action all these things"; review: "there's no Save button inside the exam. The only Save is a banner on
+  // the list page"): the paper bar shows the exam's saved state with a Save button (Ctrl/Cmd-S too); changes still save themselves
+  bar(S=this.state()){const el=$('#xPvSave');if(!el)return;const can=db&&(S.st==='new'||S.st==='changed')&&!this.busy;el.dataset.st=S.st||'empty';
+  el.innerHTML=`<button type="button" class="act${can?' ok':' ghost'}" data-exm-save${can?'':' disabled'} title="${can?(S.st==='new'?'Not saved yet':'Unsaved changes')+'. Save now (Ctrl+S or ⌘S); changes also save themselves a moment later.':'Changes save themselves (Ctrl+S or ⌘S saves at once)'}">${can?'Save':S.html}</button>`},
   name:()=>EX.sub||EX.title||'Untitled exam',
   // the working time: marks x minutes per mark (1.8 for HSC Advanced: 180 minutes for 100 marks), to 5 minutes, unless typed by hand
   time(){if(EX.timeAuto===false)return;const m=xMarks(EX.items.map(xq).filter(Boolean)),w=Math.max(5,Math.round(m*(+EX.mpm||1.8)/5)*5);EX.time=m?EXSEC.dur(w):''},
@@ -6098,11 +6217,15 @@ function reviewState(p){if(!B||!B.questions||!QG.detOK||typeof paperWork!=='func
   // owner 18 Nov (screenshot: Batch 11 "7 of 7 cleared review" mid-import): a paper mid-import (inventory imp, tools/import_hold.py) is
   // importing, and a paper with no questions in the bank is never cleared
   if(p.imp)return 'importing';
-  if(!RV.m.has(p.id)){const fs=(p.f||[p.id]).filter(d=>B.docs[d]&&B.questions.some(q=>q.doc===d));
-    RV.m.set(p.id,fs.length&&fs.every(d=>paperWork(d).n===0)?'cleared':'waiting')}
+  // owner 25 Nov: a file the import found is not a paper of the course (answer sheet, other course, copy) has nothing to review
+  if(p.st&&p.st!=='imported')return 'skip';
+  // owner 25 Nov ("when I switch to std, the adv ones none are reviewed"; Advanced "2 waiting" that were cleared): review state is known
+  //   only for the course whose bank is open ('other' otherwise), and a paper retired whole (no questions left in the bank) has nothing to review
+  if(!RV.m.has(p.id)){const ds=(p.f||[p.id]).filter(d=>B.docs[d]),fs=ds.filter(d=>B.questions.some(q=>q.doc===d));
+    RV.m.set(p.id,!ds.length?'other':fs.every(d=>paperWork(d).n===0)?'cleared':'waiting')}
   return RV.m.get(p.id)}
 // a batch of imported papers: cleared when every paper is (a paper not found stays waiting)
-const batchState=ps=>ps.length&&ps.every(p=>reviewState(p)==='cleared')?'clr':'wait';
+const batchState=ps=>{const r=ps.map(reviewState).filter(s=>s!=='skip');return r.includes('other')?'other':r.length&&r.every(s=>s==='cleared')?'clr':'wait'};
 // every imported batch on the tab: [{key, n, st}] (finished batches and lane batches whose papers are all imported)
 function imported(){const m=model();if(!m)return [];return lanes().flatMap(L=>[...L.done.map(d=>({key:L.key,n:d.n,ps:d.ids.map(i=>m.byId.get(i)).filter(Boolean)})),
   ...L.batches.filter(b=>b.done).map(b=>({key:L.key,n:b.n,ps:b.ps}))]).map(x=>({...x,st:batchState(x.ps)}))}
@@ -6121,7 +6244,7 @@ function swapsApply(bs,sw,fixed){const B=bs.map(b=>b.slice()),sizes=B.map(b=>b.l
 function allLanes(){const m=model();if(!m)return [];const imp=new Set(m.ps.filter(p=>p.st==='imported').map(p=>p.id));
   return (m.D.lanes||[]).map(L=>{const key=laneKey(L.course,L.yl),bs=swapsApply(L.batches||[],S.swaps[key],imp);
     const batches=bs.map((ids,k)=>{const ps=ids.map(i=>m.byId.get(i)).filter(Boolean),ready=ps.filter(p=>READY.includes(p.st)&&p.c===L.course&&p.yl===L.yl);
-      const n=L.first+k,done=ps.length&&ps.every(p=>p.st==='imported');
+      const n=L.first+k,done=ps.some(p=>p.st==='imported')&&ps.every(p=>p.st==='imported'||p.st==='not_in_scope'||p.st==='duplicate');   // owner 25 Nov (Standard "3 batches imported" after 10 were): a file the import found is not a paper of this course (answer sheet, Advanced paper, copy) no longer keeps its batch from counting as imported
       return {n,ids,ps,ready,done,frozen:ps.some(p=>p.st==='imported'),cur:ready.some(p=>p.st==='ready_current'),key}});
     const inLane=m.ps.filter(p=>p.c===L.course&&p.yl===L.yl),batched=new Set(bs.flat());
     return {...L,key,name:laneName(L.course,L.yl),batches,done:L.done||[],imported:inLane.filter(p=>p.st==='imported').length,
@@ -6153,10 +6276,10 @@ function tiles(){const el=$('#prSum');if(!el)return;const m=model();if(!m){el.in
   const what={imported:'imported',ready:'ready to import'+(L.length?' · '+L.map(x=>x.name).join(', '):''),check:'need a check (year or course unknown)',aside:'held or not in scope'};
   el.innerHTML=AREAS.map(([k])=>`<div class="pr-tile" data-k="${k}"><b>${nf(n(k))}</b><span>${esc(what[k])}</span></div>`).join('')}
 // owner 14 Nov: imported squares split into cleared review (solid green) and imported, waiting for review (pale, green border)
-const SQW={clr:'imported, cleared review',wait:'imported, waiting for review',queued:'in the queue',cur:'ready, current syllabus',old:'ready, old syllabus'};
+const SQW={other:'imported (open this course to see its review progress)',clr:'imported, cleared review',wait:'imported, waiting for review',queued:'in the queue',cur:'ready, current syllabus',old:'ready, old syllabus'};
 function sqState(b){if(b.done)return batchState(b.ps);if(API.run&&API.run.pos(b.key,b.n))return 'queued';return b.cur?'cur':'old'}
 // a paper's chip in the batch panel: its review state, with a link into Review when it is still waiting
-function rvChip(p){const s=reviewState(p);if(s==='importing')return '<span class="pr-chip" title="Being imported: not in the bank yet">Importing</span>';if(s==='cleared')return '<span class="pr-chip ok">Cleared review</span>';
+function rvChip(p){const s=reviewState(p);if(s==='importing')return '<span class="pr-chip" title="Being imported: not in the bank yet">Importing</span>';if(s==='cleared')return '<span class="pr-chip ok">Cleared review</span>';if(s==='skip')return `<span class="pr-chip" title="${esc(p.why||'')}">Not imported (${p.st==='duplicate'?'a copy':'not a paper of this course'})</span>`;
   const d=(p.f||[p.id]).find(x=>B&&B.docs[x]);return s==='waiting'&&d!=null?`<a class="pr-chip pr-wt" href="#review/paper/${esc(mainDoc(d))}">Waiting for review</a>`:'<span class="pr-chip ok">Imported</span>'}
 function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.batches.filter(b=>b.ready.length),m=model();
   const free=todo.filter(b=>!(API.run&&API.run.pos(L.key,b.n))).length,im=imported().filter(x=>x.key===L.key),clr=im.filter(x=>x.st==='clr').length;
@@ -6165,7 +6288,7 @@ function laneHTML(L){const open=S.open&&S.open.key===L.key?S.open.n:null,todo=L.
     L.batches.filter(b=>b.ready.length||b.done).map(b=>{const s=sqState(b),t=`Batch ${b.n}, ${SQW[s]}`;
       return `<button type="button" class="pr-b ${s}${open===b.n?' on':''}" data-prb="${esc(L.key)}:${b.n}" title="${esc(t)}" aria-label="${esc(t)}" aria-expanded="${open===b.n}"></button>`}).join('');
   return `<div class="pr-lane" data-lane="${esc(L.key)}"><div class="pr-lrow"><div class="pr-lname"><b>${esc(L.name)}</b>
-      <small>${plural(im.length,'batch','batches')} imported (${nf(clr)} cleared review, ${im.length-clr?`<a href="#review" title="Review lists the papers still waiting">${nf(im.length-clr)} waiting</a>`:'0 waiting'}) · <span title="Ready papers in the batch squares below (one square per batch)">${nf(L.ready)} papers to go · ${plural(todo.length,'batch','batches')}</span>${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.big?` · <a href="#prBig" data-prbig title="Over the ${PQ.bigMB()} limit: out of the batches until a smaller copy exists">${plural(L.big,'big PDF')}, for later</a>`:''}${L.newN?` · <span title="Papers first found after the first full Drive scan${S.data?.baseline_scan?` (${esc(new Date(S.data.baseline_scan).toLocaleDateString('en-AU',{day:'numeric',month:'short'}))})`:''}, in every status">${nf(L.newN)} found after the first scan</span>`:''}</small></div>
+      <small>${plural(im.length,'batch','batches')} imported (${im.some(x=>x.st==='other')?`switch the course to ${esc(L.name.replace(/^Year 12 /,''))} to see review progress`:`${nf(clr)} cleared review, ${im.length-clr?`<a href="#review" title="Review lists the papers still waiting">${nf(im.length-clr)} waiting</a>`:'0 waiting'}`}) · <span title="Ready papers in the batch squares below (one square per batch)">${nf(L.ready)} papers to go · ${plural(todo.length,'batch','batches')}</span>${L.unbatched?` · ${nf(L.unbatched)} wait for a batch`:''}${L.big?` · <a href="#prBig" data-prbig title="Over the ${PQ.bigMB()} limit: out of the batches until a smaller copy exists">${plural(L.big,'big PDF')}, for later</a>`:''}${L.newN?` · <span title="Papers first found after the first full Drive scan${S.data?.baseline_scan?` (${esc(new Date(S.data.baseline_scan).toLocaleDateString('en-AU',{day:'numeric',month:'short'}))})`:''}, in every status">${nf(L.newN)} found after the first scan</span>`:''}</small></div>
     <div class="pr-lacts"><button type="button" class="act" data-pradd="1" data-lane="${esc(L.key)}"${free?'':' disabled'}>+1 batch</button><button type="button" class="act" data-pradd="2" data-lane="${esc(L.key)}"${free>1?'':' disabled'}>+2 batches</button><button type="button" class="act primary" data-pradd="all" data-lane="${esc(L.key)}"${free?'':' disabled'}>Queue all ${nf(free)}</button></div></div>
     <div class="pr-sq" role="group" aria-label="${esc(L.name)} batches">${sq}</div>${open!=null?panelHTML(L,open):''}</div>`}
 // the batch panel: its papers and Swap
@@ -6730,7 +6853,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'9e4765caf79251d4',stale:false,t:null,at:0,
+const FRESH={build:'1c6363bc4b9af2f6',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}

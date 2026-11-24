@@ -14,12 +14,10 @@
 .exm-list{list-style:none;margin:0;padding:0;display:grid;gap:10px}
 .exm-row{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px 12px 10px 16px}
 .exm-row.go{cursor:pointer;transition:border-color .12s,background .12s}.exm-row.go:hover{border-color:var(--accent);background:color-mix(in srgb,var(--accent-soft) 35%,var(--panel))}   /* owner 14 Nov: "clean and sophisticated" */
-.exm-row.open{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
 .exm-main{flex:1 1 300px;min-width:0;display:grid;gap:2px}.exm-l1{display:flex;align-items:baseline;gap:10px;min-width:0}
 .exm-t{all:unset;cursor:pointer;font:600 17px/1.25 var(--display);color:var(--ink);overflow-wrap:anywhere}
 .exm-t:hover{color:var(--accent)}.exm-t:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
 .exm-meta{font-size:13px;color:var(--muted)}
-.exm-cur{flex:none;font:600 11px var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--accent);background:var(--accent-soft);border-radius:99px;padding:2px 8px}
 .exm-stats{display:grid;grid-template-columns:5.5em 10.5em 4.5em;gap:16px;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}.exm-stats b{color:var(--ink)}
 .exm-warn{color:var(--warn)}.exm-l1 .exm-warn{flex:none;font:600 12px var(--sans);background:var(--warn-soft);border-radius:99px;padding:2px 8px}
 .exm-acts{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
@@ -42,3 +40,4 @@
 .xmpmh{font-size:12px;color:var(--muted);align-self:end;padding-bottom:6px}
 @media (max-width:640px){.exm-top h2{font-size:24px}.exm-row{padding:12px}.exm-stats{gap:12px}.exm-acts{margin-left:auto}}
 
+.exm-meta .exm-chg{color:var(--warn);font-weight:600}   /* owner 25 Nov: an exam with unsaved changes says so beside "Saved <time>" */

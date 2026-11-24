@@ -22,7 +22,7 @@ function xCount(){if($('#xPanel')&&!$('#xPanel').hidden)xPanel()
   // any change to the exam (add, remove, reorder, swap, load) refreshes the Exams page around it (owner 14 Nov, Exams page + My exams).
   // EXV is declared by 24_exams.js, which loads later: the typeof test keeps the first call below (at load) safe.
   if(view==='exams'&&typeof EXV!=='undefined'&&EXV.built){exHead();if(EXV.view==='setup'){exResult();exLabels()}}}
-function xToggle(id){const i=EX.items.indexOf(id);if(i>=0)EX.items.splice(i,1);else EX.items.push(id);xsave();toast(i>=0?'Removed from the exam':'Added to the exam')}
+function xToggle(id){if(xaLocked(id,true))return;const i=EX.items.indexOf(id);if(i>=0)EX.items.splice(i,1);else EX.items.push(id);xsave();toast(i>=0?'Removed from the exam':'Added to the exam')}
 const xSections=()=>{const qs=EX.items.map(xq).filter(Boolean);return {mc:qs.filter(q=>q.type==='mcq'),wr:qs.filter(q=>q.type!=='mcq')}};
 const xMarks=qs=>qs.reduce((t,q)=>t+(+q.marks||0),0);
 
@@ -32,7 +32,8 @@ function xPanel(){
   // Exams page (owner 14 Nov): each row also shows the band estimate and has Swap / Lock (owner 19 Nov: "keep lock")
   const row=q=>{n++;const e=exEst(q),lk=A.locked.includes(q.id),w=typeof qWatch==='function'?qWatch(q):null;
     return `<li data-xi="${q.id}"${lk?' class="locked"':''}${w?' data-xwarn="1"':''}><span class="xn">${n}</span><span class="xt">${esc(srcLine(q))}<small>${qid(q)} · ${q.marks??'?'} mark${q.marks===1?'':'s'}${e?` · Band ${e.d.toFixed(1)} · ${e.kind==='Problem solving'?'PS':e.kind}`:''}</small>${w?`<small class="xwarn">⚠ ${esc(w.text)}: swap it (⇄) or remove it before printing</small>`:''}${typeof EXAS!=='undefined'?EXAS.usedTag(q):''}</span>
-    <span class="xb"><button data-xsw title="Swap for a similar question" aria-label="Swap for a similar question"${lk?' disabled':''}>⇄</button><button data-xlk aria-pressed="${lk}" title="${lk?'Unlock':'Lock: Regenerate keeps it'}" aria-label="${lk?'Unlock':'Lock'}">${XA_LOCK}</button><button data-xmv="-1" title="Move up" aria-label="Move up">↑</button><button data-xmv="1" title="Move down" aria-label="Move down">↓</button><button data-xrm title="Remove" aria-label="Remove">×</button></span></li>`};
+    <span class="xb">${(()=>{const off=t=>lk?` disabled title="${xaLocked.tip}"`:` title="${t}"`;   // owner 25 Nov: a locked row's controls say why they are off
+      return `<button data-xsw aria-label="Swap for a similar question"${off('Swap for a similar question')}>⇄</button><button data-xlock aria-pressed="${lk}" title="${xaLocked.label(lk)}" aria-label="${xaLocked.label(lk)}">${XA_LOCK}</button><button data-xmv="-1" aria-label="Move up"${off('Move up')}>↑</button><button data-xmv="1" aria-label="Move down"${off('Move down')}>↓</button><button data-xrm aria-label="Remove"${off('Remove')}>×</button>`})()}</span></li>`};
   p.innerHTML=`<div class="xhd"><h2>This exam</h2><button class="act ghost" id="xClose" aria-label="Close">✕</button></div>
     <div class="xtot">${EX.items.length} question${EX.items.length===1?'':'s'} · ${tot} mark${tot===1?'':'s'}</div>${(()=>{const k=typeof qWatch==='function'?EX.items.map(xq).filter(q=>qWatch(q)).length:0;return k?`<div class="xwarnbox" role="status">⚠ ${k} question${k===1?' in this exam has':'s in this exam have'} been reported or sent back to review since ${k===1?'it was':'they were'} added. Check ${k===1?'it':'them'} before printing.</div>`:''})()}
     <div class="xf"><label>Title<input data-xf="title" value="${esc(EX.title)}"></label><label>Subtitle<input data-xf="sub" value="${esc(EX.sub)}"></label>
@@ -50,20 +51,21 @@ let XSAVED=[],_xsub=null;
 // owner 14 Nov (Fix 2, "Ok we should run Fix 1 and 2"): keys (question keys, parallel to items) let a saved exam find its
 // questions again after a re-parse or a change of which copy the Bank shows (RKEY.items).
 // saving: every field, including settings, lines, diagram sizes and locks (Exams page, owner 14 Nov); then My exams and the
-// page head's Saved / Unsaved marker refresh (they refresh even when there is no database)
-async function xSaveDb(quiet){
-  if(exCourse(EX)!==QG.course){toast('This exam belongs to '+(QG.courses[exCourse(EX)]?.short||exCourse(EX))+'. Switch the course to save it.');return}   // owner 23 Nov: see XKEY
+// page head's Saved / Unsaved marker refresh (they refresh even when there is no database). True when the database took the write
+// (owner 25 Nov: "Saved <time>" only for what was really saved)
+async function xSaveDb(quiet){let ok=false;
+  if(exCourse(EX)!==QG.course){toast('This exam belongs to '+(QG.courses[exCourse(EX)]?.short||exCourse(EX))+'. Switch the course to save it.');return false}   // owner 23 Nov: see XKEY
   if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;save(XKEY,JSON.stringify(EX));
-    const A=EX.auto||{},keep={topics:A.topics,total:A.total,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
-    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,course:QG.course,items:EX.items.concat((EX.gone||[]).map(g=>g.id)),keys:EX.items.map(i=>xq(i)?.key||null).concat((EX.gone||[]).map(g=>g.key||null)),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});if(!quiet)toast('Exam saved')}
+    const A=EX.auto||{},keep={topics:A.topics,total:A.total,by:A.by,n:A.n,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
+    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,course:QG.course,items:EX.items.concat((EX.gone||[]).map(g=>g.id)),keys:EX.items.map(i=>xq(i)?.key||null).concat((EX.gone||[]).map(g=>g.key||null)),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});ok=true;if(!quiet)toast('Exam saved')}
     catch(e){toast('Could not save. Try again in a moment.')}}
-  if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}}
+  if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}return ok}
 document.addEventListener('click',e=>{
   if(!e.target.closest('#xPanel'))return;
   const li=e.target.closest('li[data-xi]');
   if(li&&e.target.closest('[data-xrm]')){xToggle(+li.dataset.xi);return}
   if(li&&e.target.closest('[data-xmv]')){const id=+li.dataset.xi,d=+e.target.closest('[data-xmv]').dataset.xmv,q=xq(id);
-    const same=EX.items.filter(i=>(xq(i)?.type==='mcq')===(q.type==='mcq'));const k=same.indexOf(id),t=same[k+d];if(t==null)return;
+    const same=EX.items.filter(i=>(xq(i)?.type==='mcq')===(q.type==='mcq'));const k=same.indexOf(id),t=same[k+d];if(t==null||xaLocked(id,true)||xaLocked(t,true))return;
     const a1=EX.items.indexOf(id),a2=EX.items.indexOf(t);[EX.items[a1],EX.items[a2]]=[EX.items[a2],EX.items[a1]];xsave();return}
   if(e.target.closest('#xPrev')){xPreview('exam');return}
   if(e.target.closest('#xGuide')){xPreview('guide');return}
@@ -106,8 +108,11 @@ function xQ(q,n,doc){exA();
   // downloads) shows only the QID; the marking guide keeps the source, and ⓘ still shows it on screen
   const src=`<div class="xsrc exsrc"><span class="exsrcl">${guide?esc(srcLine(q))+' · ':''}${qid(q)}</span>${qiButton(q,n)}</div>`;
   const h=`<section class="xq ${q.type==='mcq'?'mc':'wr'}" data-q="${q.id}">${head}<div class="xqb">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${xFigSlots(q,loose)}${parts}${opts}${mcSols}${sols(null)}</div>${src}</section>`;
-  // every diagram slot, including inline \exfigure ones that tex() writes, so this runs on the finished HTML
-  return guide?h:h.replace(/<span class="figslot" data-fig="([\w.()-]+)"><\/span>/g,(m,k)=>exFigWrap(k));
+  // every diagram slot, including inline \exfigure ones that tex() writes, so this runs on the finished HTML.
+  // owner 25 Nov: "This is currently independent, but it should be the same in question and solutions is what I meant": the marking
+  // guide draws each diagram at the exam's size for it too (EX.figscale, one size per figure per exam), with the same corner handle,
+  // so resizing a diagram on either changes it on both
+  return h.replace(/<span class="figslot" data-fig="([\w.()-]+)"><\/span>/g,(m,k)=>exFigWrap(k));
 }
 // xCover (the editable cover) is in 24_exams.js
 function xBlocks(doc){const {mc,wr}=xSections();const bl=[];let n=0;
@@ -141,6 +146,10 @@ async function xDownload(doc){const live=$('#xPages');if(!live)return;const clon
   live.id='xPagesLive';clone.id='xPages';clone.style.cssText='position:absolute;left:-99999px;top:0;zoom:1';document.body.appendChild(clone);
   try{
   const c=window.claude;const dl=c?.use?await c.use('downloads'):null;
+  // owner 25 Nov ("Besides that, yes action all these things"; checker: "reference sheet doenst show up when downloading html"): the
+  // reference sheet pages (and any picture still held by address, not inline) are put into the file itself, so it needs nothing else
+  await Promise.all([...clone.querySelectorAll('img[src]')].filter(i=>!/^data:/.test(i.getAttribute('src'))).map(async i=>{
+    try{const b=await (await fetch(i.src)).blob();i.setAttribute('src',await new Promise((ok,no)=>{const r=new FileReader();r.onload=()=>ok(r.result);r.onerror=no;r.readAsDataURL(b)}))}catch(e){}}));
   const css=$$('style').map(s=>s.textContent).join('\n');
   const cache=document.getElementById('MJX-SVG-global-cache');
   // The page's own fonts are self-hosted (vendor/fonts/fonts.css, hardening 14 Nov), but that relative link would not resolve in a
@@ -160,6 +169,5 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#xPvClose')){xClosePv();return}
   const s=e.target.closest('[data-xdoc]');if(s){xPreview(s.dataset.xdoc);return}
   const d=e.target.closest('#xDl');if(d&&!d.disabled){xDownload(d.dataset.doc);return}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('xpv-on'))xClosePv()});
 
 xCount();
