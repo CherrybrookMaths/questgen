@@ -12,7 +12,7 @@
   \draw[line width=0.9pt] plot[domain=0:24, samples=90, smooth] ({218+37.6*\x},{688-63*(6.5-2*cos(15*\x))});
   \foreach \t/\h in {0/4.5,6/6.5,12/8.5,18/6.5,24/4.5} \node[pt] at ({218+37.6*\t},{688-63*\h}) {};
   \foreach \v in {9,8,6.5,4} \node[anchor=east, font=\large] at (200,{688-63*\v}) {$\v$};
-  \foreach \v in {0,6,12,24} \node[anchor=north, font=\large] at ({218+37.6*\v},702) {$\v$};
+  \foreach \v in {0,6,12,18,24} \node[anchor=north, font=\large] at ({218+37.6*\v},702) {$\v$};
   \node[font=\large, align=center] at (55,415) {height\\(m)};
   \node[font=\large] at (860,775) {time (in hours)};
 \end{tikzpicture}

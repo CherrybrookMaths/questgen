@@ -7,12 +7,16 @@
 \draw[->] (-7.45,0)--(7.6,0);
 \draw[->] (0,-7.15)--(0,7.85);
 \node[anchor=south] at (7.3,0.4) {$x$};
-\node[anchor=west] at (0.2,7.05) {$y$};
+\node[anchor=south] at (0,7.85) {$y$};
 \foreach \k in {-7,...,-1,1,2,...,7} {\draw (\k,-0.17)--(\k,0.17); \draw (-0.15,\k)--(0.15,\k);}
-\foreach \k in {-7,...,-1,1,2,3,5,6,7} \node[anchor=north] at (\k,-0.22) {$\k$};
-\node[anchor=south] at (4,0.22) {$4$};% mirror above: curve passes the usual spot
-\foreach \k in {-6,-3,-2,-1,1,2,...,7} \node[anchor=east] at (-0.17,\k) {$\k$};
-\foreach \k in {-5,-4} \node[anchor=west] at (0.17,\k) {$\k$};% moved right: left branch passes the usual spot
+\foreach \k in {-7,...,-2,1,2,6,7} \node[anchor=north,inner sep=1pt] at (\k,-0.25) {$\k$};
+\node[anchor=south,inner sep=1pt] at (5,0.25) {$5$};% mirror above: curve passes the usual spot
+\node[anchor=north,inner sep=1pt] at (-1.07,-0.25) {$-1$};% the two -1 labels share the corner: nudged apart
+\node[anchor=north east,inner sep=1pt] at (2.96,-0.25) {$3$};% left of its tick: the curve crosses the axis at 3
+\node[anchor=south,inner sep=1pt] at (4,0.25) {$4$};% mirror above: curve passes the usual spot
+\foreach \k in {-3,-2,1,2,...,7} \node[anchor=east,inner sep=1pt] at (-0.22,\k) {$\k$};
+\node[anchor=east,inner sep=1pt] at (-0.22,-1.2) {$-1$};
+\foreach \k in {-6,-5,-4} \node[anchor=west,inner sep=1pt] at (0.22,\k) {$\k$};% moved right: left branch passes the usual spot
 % y = -2 + 4/(x-1)
 \draw[line width=0.9pt] plot[smooth,samples=90,domain={ln(0.8)}:{ln(8.45)},variable=\u] ({1-exp(\u)},{-2-4*exp(-\u)});
 \draw[line width=0.9pt] plot[smooth,samples=90,domain={ln(4/9.4)}:{ln(6.45)},variable=\u] ({1+exp(\u)},{-2+4*exp(-\u)});
