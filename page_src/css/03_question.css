@@ -56,13 +56,14 @@ table.dt th.dg .dgtr,table.dt th.dg .dgbl{line-height:1.12}   /* owner 12 Nov: "
    label to the left and not touching any line", 2026 HSC Std Q27 "Move hte rates (r0 label to the left"): the top-right label keeps
    1.2em from the cell's right border, and the wider gap keeps it clear of the slanted line */
 table.dt th.dg{padding-right:1.2em}
-table.dt th.dg .dgw{display:grid;grid-template-columns:1fr 1fr;gap:1.1em 3em}
-/* checker 24 Nov 3:30 pm (2021 Ryde Q12): "NO NO NO. I want noel to sit left of the line but right of the diagonal line like the original";
-   (2025 HSC Std Q18, 2026 Q27): "I said to the left dude not right. move it closer to the diagonal line but not touching": each label
-   hugs the diagonal from its own side (the top one at the start of its column, the bottom one at the end of its column) instead of
-   sitting in the far corners; the gap between the two columns keeps both clear of the line */
-table.dt th.dg .dgtr{display:block;text-align:left;grid-column:2;grid-row:1}
-table.dt th.dg .dgbl{display:block;text-align:right;grid-column:1;grid-row:2}
+/* checker 24 Nov 3:16 pm (2024/2025 HSC Std tables): "Move the word "Rate" into the upper-right triangle of the diagonal corner cell ...
+   near the cell's top-right corner, so it mirrors "Period" in the lower-left triangle ... keep it clear of the diagonal and the cell
+   borders. Remove "Rate" from the 1.5% header cell": on a narrow screen the table shrinks (to 80% at most) and the old grid spilled the
+   top label into the next header cell. Each label is now pinned inside its own corner (top-right / bottom-left), so it can never leave
+   the cell; the corner column is sized for both labels plus the gap (02_text.js cellLen), and the box is tall enough for both */
+table.dt th.dg .dgw{display:block;position:relative;min-height:2.9em}
+table.dt th.dg .dgtr{position:absolute;top:0;right:0;white-space:nowrap;text-align:right}
+table.dt th.dg .dgbl{position:absolute;bottom:0;left:0;white-space:nowrap;text-align:left}
 table.slp{border-collapse:collapse;margin:6px auto;font-family:var(--serif,serif);font-size:1.05em}
 table.slp th{font-weight:400;text-align:right;padding:3px 12px 3px 4px;border-right:1.5px solid currentColor}
 table.slp td{text-align:left;padding:3px 4px 3px 12px;white-space:pre;word-spacing:.35em}
