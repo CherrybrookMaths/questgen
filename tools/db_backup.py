@@ -2,7 +2,7 @@
 """The database backup on Drive, in parts (owner 23 Nov: "Lets split the db backup as well").
 
 The xz of questions.db reached 2.93 MB on 23 Nov, against the Drive connector's ~3.1 MB upload limit. The backup is now
-questions_<YYYYMMDD>.db.xz.part00, .part01, ... (1.5 MB each) plus questions_<YYYYMMDD>.db.xz.SHA256SUMS.txt, in the Drive folder
+questions_<YYYYMMDD-HHMM>.db.xz.part00, .part01, ... (1.5 MB each) plus questions_<YYYYMMDD>.db.xz.SHA256SUMS.txt, in the Drive folder
 "HSC Advanced Question Bank" (CLAUDE.md "Where everything lives"). The newest set without "superseded" in its names is the backup.
 
   python3 tools/db_backup.py split            compress the database (xz -9e) into work/dbparts/: the parts + SHA256SUMS.txt;
@@ -26,7 +26,10 @@ def sha(b): return hashlib.sha256(b).hexdigest()
 def split():
     os.makedirs(OUT, exist_ok=True)
     for f in glob.glob(OUT + '*'): os.remove(f)
-    stamp = time.strftime('%Y%m%d', time.localtime())   # run with TZ=Australia/Sydney
+    # Sydney date and time whatever the container's TZ (25 Nov: a UTC container named a 9:20 am split 20261124), and the time so a
+    # second backup the same day does not share its names with the first
+    from datetime import datetime; from zoneinfo import ZoneInfo
+    stamp = datetime.now(ZoneInfo('Australia/Sydney')).strftime('%Y%m%d-%H%M')
     data = subprocess.run(['xz', '-9e', '-c', paths.DBS], check=True, capture_output=True).stdout
     name = f'questions_{stamp}.db.xz'
     lines = []
