@@ -8,11 +8,16 @@
 .msheet .n{color:var(--warn);background:var(--warn-soft)}
 .msheet hr{border:0;border-top:1px solid var(--line);margin:4px 8px}
 .msheet .mt{color:var(--muted);font-weight:500}
+.msheet .mzoom{display:flex;align-items:center;gap:4px;padding:0 0 0 14px;min-height:44px}   /* owner 25 Nov: the page zoom, in the menu on a phone */
+.msheet .mzoom span{flex:1}
+.msheet .mzoom button{justify-content:center;min-width:44px;padding:0 10px}
+.msheet .mzoom .zv{min-width:60px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.msheet .mzoom button:disabled{opacity:.45;cursor:default}
 @media (max-width:640px){
   header{position:sticky}
   .top{flex-wrap:wrap;gap:8px;padding-block:8px}
   .brand small{display:none}.brand .logo{height:20px}
-  .views,.themebtn{display:none}
+  .views,.themebtn,.top .zoomctl{display:none}
   .menubtn{display:inline-flex;align-items:center;gap:6px;font:600 14px var(--sans);border-radius:999px;padding:6px 12px;min-height:36px}
   .menubtn .n:empty{display:none}.menubtn .n{font:600 12px var(--sans);color:var(--warn)}
   .jobs{order:3}

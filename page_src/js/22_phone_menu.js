@@ -6,10 +6,12 @@
   const link=a=>{const n=a.querySelector('.n')?.textContent||'';return `<a href="${a.getAttribute('href')}" aria-current="${a.getAttribute('aria-current')==='page'?'page':'false'}">${esc(a.firstChild.textContent)}${n?`<span class="n">${esc(n)}</span>`:''}</a>`};
   const group=(k,l)=>{const as=[...document.querySelectorAll(`.views a[data-area="${k}"]`)].filter(a=>a.id!=='vProcesses'||isOwnerV());/* owner 17 Nov: Processes is the owner's */return `<div class="mgrp" data-marea="${k}"><div class="mh">${l}</div>${as.map(link).join('')}</div>`};
   const open=()=>{sh.innerHTML=group('teach','Teach')+(isEditor()?group('curate','Curate'):'')
-      +`<hr><button type="button" data-mtheme>Theme <span class="mt">${esc(($('#themeBtn')?.textContent||'').replace(/^Theme:\s*/,''))}</span></button>`;
-    sh.hidden=false;btn.setAttribute('aria-expanded','true')};
+      +`<hr><button type="button" data-mtheme>Theme <span class="mt">${esc(($('#themeBtn')?.textContent||'').replace(/^Theme:\s*/,''))}</span></button>`
+      // owner 25 Nov: "make it so that you can zoom in and out (of the page itself)": the header's zoom, in the menu on a phone
+      +`<div class="mzoom zoomctl" role="group" aria-label="Page zoom"><span>Zoom</span><button type="button" data-zoom="-1" aria-label="Zoom out">−</button><button type="button" class="zv" data-zoom="0" aria-label="Reset zoom to 100%">100%</button><button type="button" data-zoom="1" aria-label="Zoom in">+</button></div>`;
+    sh.hidden=false;btn.setAttribute('aria-expanded','true');QG.zoomUI()};
   btn.addEventListener('click',e=>{e.stopPropagation();sh.hidden?open():close()});
-  sh.addEventListener('click',e=>{if(e.target.closest('[data-mtheme]')){$('#themeBtn').click();open();return}if(e.target.closest('a'))close()});
+  sh.addEventListener('click',e=>{if(e.target.closest('[data-mtheme]')){$('#themeBtn').click();open();return}if(e.target.closest('[data-zoom]'))return;if(e.target.closest('a'))close()});   // the zoom buttons work in place (13_shell.js): the menu stays open
   document.addEventListener('click',e=>{if(!sh.hidden&&!e.target.closest('#mSheet,#menuBtn'))close()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sh.hidden){close();btn.focus()}});
   addEventListener('hashchange',()=>setTimeout(sync,0));sync();

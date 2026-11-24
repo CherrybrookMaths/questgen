@@ -21,6 +21,9 @@ flagcheck, which Review's "Fix my flags now" line shows) runs this section; the 
 3. Steps 1-5 below. If step 1 finds nothing open: no publish.
 4. Each run doc: `status: 'done'`, `done_at: <now>`, `result: "<n> fixed, <m> wait for Steve"` (or "Nothing open", or
    "Not published: <first failure>" with `status: 'failed'`). Clear `progress/jobs`. Never leave a run `running`.
+   Since 25 Nov also `fixed: <n>` and `waiting: <m>` (numbers): Review shows the checker one plain line from them ("Fixed 3 flags; live
+   since 3:47 pm. 1 waits for Steve."), and `result` only behind the owner's "Details" (owner 25 Nov, relaying the checker: "The Curate
+   page shows a developer log to users. It's full of jargon ..."). Keep `result` short and plain anyway; no trailing full stop needed.
 
 ## Instant runs (23 Nov)
 Owner 23 Nov: "I need the checker approving fixed tonight. That is priority number 1" -> "get a way for claude to instantly run flags

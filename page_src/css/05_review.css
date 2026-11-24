@@ -28,7 +28,7 @@
 @media (max-width:900px){.desk{grid-template-columns:1fr}}
 .pane{min-width:0;background:var(--panel);border:1px solid var(--line)}
 .pane>h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0;border-bottom:1px solid var(--line);font-weight:600}
-.srcpane{position:sticky;top:calc(env(safe-area-inset-top,0px) + 120px);max-height:calc(100vh - 140px);overflow:auto}
+.srcpane{position:sticky;top:calc(env(safe-area-inset-top,0px) + 120px);max-height:calc(100vh / var(--zf,1) - 140px);overflow:auto}
 @media (max-width:900px){.srcpane{position:static;max-height:none}}
 .srcpane img{display:block;width:100%;background:var(--page);border-bottom:1px solid var(--line)}
 .rout{display:flex;flex-direction:column}
@@ -68,14 +68,14 @@
 #src img.rv-gone{display:block;min-height:0;padding:10px 12px;font-size:13px;color:var(--muted);border:1px dashed var(--line);border-radius:6px}
 /* owner 18 Nov: "when you click on the original and now, they enlarge": Review comparison pictures open large (05_figures.js) */
 .figrow .cmp img.fig[src],.figrow .cmp3 img.fig[src],.figrow .ovfig img.fig[src]{cursor:zoom-in}
-.rv-figzoom{border:none;border-radius:8px;padding:0;width:min(96vw,1200px);max-height:94vh;background:var(--card,#fff);color:var(--ink)}
+.rv-figzoom{border:none;border-radius:8px;padding:0;width:min(96vw / var(--zf,1),1200px);max-height:calc(94vh / var(--zf,1));background:var(--card,#fff);color:var(--ink)}
 .rv-figzoom::backdrop{background:rgba(0,0,0,.6)}
 .rv-figzoom .rv-fzhead{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line)}
 .rv-figzoom .rv-fzhead b{font:600 12px var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .rv-figzoom .rv-fzn{color:var(--muted);font-size:13px;margin-left:auto}
 .rv-figzoom .rv-fzx{border:none;background:none;font-size:26px;line-height:1;cursor:pointer;color:var(--ink);padding:0 4px}
 .rv-figzoom .rv-fzbody{display:flex;align-items:center;gap:6px;padding:12px}
-.rv-figzoom .rv-fzbody img{flex:1;min-width:0;width:100%;max-height:calc(94vh - 80px);object-fit:contain;background:#fff}
+.rv-figzoom .rv-fzbody img{flex:1;min-width:0;width:100%;max-height:calc(94vh / var(--zf,1) - 80px);object-fit:contain;background:#fff}
 .rv-figzoom .rv-fzstep{border:1px solid var(--line);background:none;border-radius:6px;font-size:24px;width:36px;height:56px;cursor:pointer;color:var(--ink)}
 .rv-figzoom .rv-fzstep[hidden]{display:none}
 .cmp3 .rv-nov1{margin:8px 2px;color:var(--muted);font-size:13px}

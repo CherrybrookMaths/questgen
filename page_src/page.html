@@ -21,8 +21,11 @@
     </nav>
     <span class="jobs" id="jobs" hidden aria-live="polite"></span>   <!-- owner 14 Nov: "need a pill for current jobs and queued jobs" -->
     <!-- owner 14 Nov: "Is there a point in having the exam button on the right and also the exams pill on the left?" The Exam button was removed; the Exams tab is the way in. -->
+    <!-- owner 25 Nov, relaying the checker: "make it so that you can zoom in and out (of the page itself)" (13_shell.js QG.setZoom) -->
+    <span class="zoomctl" id="zoomCtl" role="group" aria-label="Page zoom" title="Page zoom"><button type="button" class="act ghost" data-zoom="-1" aria-label="Zoom out">−</button><button type="button" class="act ghost zv" data-zoom="0" aria-label="Reset zoom to 100%">100%</button><button type="button" class="act ghost" data-zoom="1" aria-label="Zoom in">+</button></span>
     <button class="act ghost themebtn" id="themeBtn" type="button" title="Switch light / dark"></button>
-    <div class="search" id="searchBox"><input id="q" type="search" placeholder="Search questions: e.g. annuity, chain rule, 2023" aria-label="Search questions"></div>
+    <!-- owner 25 Nov, relaying the checker: "The search box's example text is cut off ("chain rul")." -->
+    <div class="search" id="searchBox"><input id="q" type="search" placeholder="Search, e.g. chain rule or 2023" aria-label="Search questions (words, a QID or a year)"></div>
   </div>
   <!-- owner 13 Nov: "One paper at a time": a paper's bar is ← Inbox, the paper, its 5-step track and the step's 'what to do here' line (the 7-button step row is gone) -->
   <div class="wrap rbar paper" id="rbar" hidden>

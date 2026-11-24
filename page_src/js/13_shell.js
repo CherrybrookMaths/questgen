@@ -3,7 +3,9 @@ window.addEventListener('hashchange',route);
 // owner 12 Nov: "show somewhere on the artifact things which are running so I know". Source: db doc progress/jobs, written by Claude
 // when a background job starts or finishes: {jobs:[{name, detail, affects:'diagrams'|'decide'|'check'|'sample'|'tags'|'', started}]}
 // owner 12 Nov: "a way to change between dark and light mode". Auto follows the device; stored per viewer.
-const THEMES=[['auto','Theme: Auto'],['light','☀ Light'],['dark','☾ Dark']];
+// owner 25 Nov ("Besides that, yes action all these things"), relaying the checker: "The theme button switches label styles (from "Theme: Auto"
+// to "☀ Light")." One style for all three
+const THEMES=[['auto','Theme: Auto'],['light','Theme: Light'],['dark','Theme: Dark']];
 function applyTheme(t){const r=document.documentElement;if(t==='light'||t==='dark')r.setAttribute('data-theme',t);else r.removeAttribute('data-theme');
   const b=$('#themeBtn');if(b){const x=THEMES.find(x=>x[0]===t)||THEMES[0];b.textContent=x[1];b.setAttribute('aria-label','Theme: '+x[0]+'. Click to change')}}
 let THEME=load('theme')||'auto';applyTheme(THEME);
@@ -13,8 +15,30 @@ function moveSlider(){const nav=document.querySelector('.views'),sl=nav&&nav.que
   sl.style.width=cur.offsetWidth+'px';sl.style.transform=`translateX(${cur.offsetLeft}px)`}
 window.addEventListener('resize',moveSlider);
 try{const ro=new ResizeObserver(()=>moveSlider());document.querySelectorAll('.views a').forEach(a=>ro.observe(a))}catch(e){}   // tab widths change when the Review count fills in
-function setHdr(){const h=document.querySelector("header");if(h)document.documentElement.style.setProperty("--hdr",h.getBoundingClientRect().height+"px");const bv=document.getElementById("bankView");if(bv&&!bv.hidden){const pt=parseFloat(getComputedStyle(bv).paddingTop)||0;document.documentElement.style.setProperty("--navtop",(bv.getBoundingClientRect().top+scrollY+pt)+"px")}}   // owner 12 Nov: the sidebar sticks exactly where it starts, so it never shifts
+function setHdr(){const h=document.querySelector("header");if(h)document.documentElement.style.setProperty("--hdr",QG.rect(h).height+"px");const bv=document.getElementById("bankView");if(bv&&!bv.hidden){const pt=parseFloat(getComputedStyle(bv).paddingTop)||0;document.documentElement.style.setProperty("--navtop",(QG.rect(bv).top+scrollY/QG.zf+pt)+"px")}}   // owner 12 Nov: the sidebar sticks exactly where it starts, so it never shifts
 if(window.ResizeObserver){new ResizeObserver(()=>setHdr()).observe(document.querySelector("header"))}
+// owner 25 Nov ("Besides that, yes action all these things"), relaying the checker: "make it so that you can zoom in and out (of the page
+// itself)". In claude.ai the page sits in a frame: the host page can switch a phone's pinch zoom off, and keyboard zoom scales claude.ai
+// around it too. So the page has its own zoom: − / 100% / + in the header (in the menu on a phone), 80% to 150%, remembered per viewer
+// in this browser. It is CSS zoom on the page root: every measurement that becomes a CSS length goes through QG.rect, and viewport units
+// are divided by --zf. Exams stays at 100%: it lays out A4 sheets by measuring them (24_exams.js), so it shows them at print size.
+Object.assign(QG,{ZSTEPS:[80,90,100,110,125,150],
+  zoomOff(){return String(QG.view).replace(/^wait:/,'')==='exams'},
+  // the steps this window allows: zoomed in, the page keeps at least a small phone's width (320 px), so a 390 px phone stops at 110%
+  zsteps(){return QG.ZSTEPS.filter(v=>v<=100||innerWidth*100/v>=320)},
+  setZoom(v,keep){v=+v;if(!QG.ZSTEPS.includes(v))v=100;const was=QG.zf,R=document.documentElement;QG.zoom=v;if(!keep)save('zoom',String(v));
+    const z=Math.min(v,Math.max(...QG.zsteps())),on=z!==100&&!QG.zoomOff();
+    R.style.zoom=on?String(z/100):'';R.style.setProperty('--zf',on?String(z/100):'1');
+    // how much the browser scales a measured box (1 in a browser that reports boxes unzoomed)
+    const p=document.createElement('div');p.style.cssText='position:absolute;left:0;top:0;width:100px;height:1px;visibility:hidden;pointer-events:none';document.body.appendChild(p);QG.zf=Math.round(p.getBoundingClientRect().width)/100||1;p.remove();
+    QG.zoomUI();if(QG.zf!==was){setHdr();dispatchEvent(new Event('resize'))}},
+  zoomUI(){const off=QG.zoomOff(),st=QG.zsteps(),z=off?100:Math.min(QG.zoom,st[st.length-1]),i=st.indexOf(z);
+    $$('[data-zoom]').forEach(b=>{const d=+b.dataset.zoom;b.disabled=off||(d<0&&i<=0)||(d>0&&i>=st.length-1)||(!d&&z===100);if(!d)b.textContent=z+'%'});
+    $$('.zoomctl').forEach(g=>g.title=off?'Exams shows the paper at print size, so page zoom is off here':'Page zoom')}});
+QG.setZoom(load('zoom')||100,true);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-zoom]');if(!b||b.disabled)return;const d=+b.dataset.zoom,st=QG.zsteps(),i=st.indexOf(Math.min(QG.zoom,st[st.length-1]));
+  QG.setZoom(d?st[Math.max(0,Math.min(st.length-1,i+d))]:100)});
+addEventListener('resize',()=>QG.setZoom(QG.zoom,true));   // a narrower window may allow less zoom (it redraws only when the scale changes)
 // owner 14 Nov: "Can u show this list of tasks on the artifact somewhere, need a pill for current jobs and queued jobs".
 // Two quiet pills replace the single jobs pill: "N running" (accent) and "N queued" (muted). Each shows its list on hover
 // (on a touch screen the first tap shows it) and links to Processes. A pill with a count of 0 is hidden.
@@ -57,8 +81,8 @@ function renderJobs(){const el=$('#jobs');if(!el)return;const run=runningNow(),q
   const quePill=que.length?`<span class="jp que"><a class="jpill" href="#processes/work" aria-describedby="jpopQ">${que.length} queued</a>
     <span class="jpop" role="tooltip" id="jpopQ">${que.slice(0,6).map((x,i)=>row(x,i+1)).join('')}${que.length>6?`<span class="muted">and ${que.length-6} more</span>`:''}</span></span>`:'';
   el.innerHTML=runPill+quePill;setHdr()}
-function placeJpop(jp){const pill=jp&&jp.querySelector('.jpill'),pop=jp&&jp.querySelector('.jpop');if(!pill||!pop)return;const r=pill.getBoundingClientRect(),w=Math.min(380,innerWidth-32);
-  pop.style.width=w+'px';pop.style.top=(r.bottom+8)+'px';pop.style.left=Math.max(16,Math.min(r.left,innerWidth-16-w))+'px'}
+function placeJpop(jp){const pill=jp&&jp.querySelector('.jpill'),pop=jp&&jp.querySelector('.jpop');if(!pill||!pop)return;const r=QG.rect(pill),iw=innerWidth/QG.zf,w=Math.min(380,iw-32);
+  pop.style.width=w+'px';pop.style.top=(r.bottom+8)+'px';pop.style.left=Math.max(16,Math.min(r.left,iw-16-w))+'px'}
 document.addEventListener('mouseover',e=>{const jp=e.target.closest&&e.target.closest('.jobs .jp');if(jp&&!jp.contains(e.relatedTarget))placeJpop(jp)});
 document.addEventListener('focusin',e=>{const jp=e.target.closest&&e.target.closest('.jobs .jp');if(jp)placeJpop(jp)});
 // touch: no hover, so the first tap on a pill opens its list; a tap on the list or a second tap on the pill goes to Processes; a tap elsewhere closes it

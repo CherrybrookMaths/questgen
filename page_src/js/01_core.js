@@ -18,12 +18,18 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:n
   // review notes, full tags and difficulty) comes in det, read right after start (QG.det)
   // ref: the course's NESA reference sheet, one image per page (owner 18 Nov; from "MA Reference Sheet 2024.pdf" in the CMC Resources
   // drive; Extension 1 / 2 and Standard have their own: ME1, ME2, MST Reference Sheet 2024, ids in state/work/ref_sheets.json)
-  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',years:'Year 12',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json',ref:['data/ref/advanced-1.png','data/ref/advanced-2.png']},
+  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',years:'Year 12',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',search:'data/bank/advanced/search.gz.json',dots:'data/dotpoints.json',ref:['data/ref/advanced-1.png','data/ref/advanced-2.png']},
     // owner 23 Nov: "we need to start working on the standard course", "Standard 2 first": Year 11 + Year 12 Standard 2 dot points
     // (tools/standard_course.py); its bank is empty until the pilot batch (owner: pilot "once setup is done"); STANDARD_SPEC.md
-    standard:{name:'Mathematics Standard 2',short:'Standard 2',years:'Year 12',bank:'data/bank/standard/index.gz.json',det:'data/bank/standard/details.gz.json',dots:'data/dotpoints-standard.json',ref:['data/ref/standard-1.png','data/ref/standard-2.png']}},
+    standard:{name:'Mathematics Standard 2',short:'Standard 2',years:'Year 12',bank:'data/bank/standard/index.gz.json',det:'data/bank/standard/details.gz.json',search:'data/bank/standard/search.gz.json',dots:'data/dotpoints-standard.json',ref:['data/ref/standard-1.png','data/ref/standard-2.png']}},
   get courseData(){return this.courses[this.course]},
   byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0,night:null,
+  // owner 25 Nov, relaying the checker: "Question search is slow and capped ...": srch = the course's search words {id: text} (search.gz.json,
+  // read on the first search instead of every topic file), hay = each question's lower-case search text (07_bank.js bankHay)
+  srch:null,srchP:null,srchFail:false,hay:new Map(),
+  // owner 25 Nov (checker: "make it so that you can zoom in and out (of the page itself)"): zoom = the viewer's page zoom in %, zf = how
+  // much the browser scales a measured box by it (1 when the page is not zoomed); 13_shell.js QG.setZoom
+  zoom:100,zf:1,
   // health pass 21 Nov: a page-database document's fields, and a snapshot's documents as {id, ...fields} (was written out in 15 places)
   val:d=>d&&(typeof d.data==='function'?d.data():d.data), docs:s=>((s&&s.docs)||s||[]).map(x=>({id:x.id,...QG.val(x)})),
   // owner 17 Nov: "lets do skill gates, that's important": {skill: [topic keys it needs learnt]} from the details file (tools/bank_split.py
@@ -55,7 +61,7 @@ Object.assign(QG,{
   hasAll(){return QG.detOK&&QG.got.size>=(QG.bank?.questions.length||0)},
   // fields that moved to the details file start as empty lists, so a list read before they arrive cannot throw
   setBank(b){b.questions.forEach(q=>{for(const k of ['solutions','related','queues','pages'])if(!q[k])q[k]=[]});
-    QG.bank=b;QG.byId=new Map(b.questions.map(q=>[q.id,q]));try{_esc={};_dupm=null}catch(e){}QG.got=new Set();QG.fileP={};QG.failed=new Set();QG.detOK=false;QG.detP=null;QG.detFail=false},
+    QG.bank=b;QG.byId=new Map(b.questions.map(q=>[q.id,q]));QG.hay=new Map();try{_esc={};_dupm=null}catch(e){}QG.got=new Set();QG.fileP={};QG.failed=new Set();QG.detOK=false;QG.detP=null;QG.detFail=false},
   // the details file (job 2): merged into the same question and part objects. A question whose topic file came first keeps
   // that file's full solutions (with their text) instead of the index list.
   det(){if(QG.detOK||!QG.bank)return Promise.resolve();const b=QG.bank;
@@ -70,7 +76,7 @@ Object.assign(QG,{
   // a view other than the Bank draws only once the details are in (09_router.js route calls QG.wait instead)
   ready(v){return !QG.bank||v==='bank'||QG.detOK},
   // caches built from the index are rebuilt with the full fields, then the open view is drawn again
-  onDet(){TOPICS=null;
+  onDet(){TOPICS=null;QG.hay=new Map();
     for(const f of [()=>{_clean=null;_esc={};_rk=null;_dupm=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear()])try{f()}catch(e){}
     QG.waitNote();route();QG.fill()},
   wait(){QG.waitNote();QG.det()},   // onDet draws the view when they land
@@ -87,6 +93,10 @@ Object.assign(QG,{
       e=>{delete QG.fileP[h];QG.failed.add(h)}))},
   need(qs){const hs=new Set();(qs||[]).forEach(q=>{if(q&&!QG.got.has(q.id)&&q.h!=null)hs.add(q.h)});return Promise.all([...[...hs].map(QG.file),QG.detFail?null:QG.det()]).then(()=>{})},   // after a failure the details load again only on Try again
   needAll(){return QG.need(QG.bank.questions)},
+  // the search words (owner 25 Nov: "Question search is slow and capped"): one file, read once, on the first search
+  search(){return QG.srchP||(QG.srchP=QG.get(QG.courseData.search,3).then(d=>{QG.srch=d.q||{};QG.srchFail=false;QG.hay=new Map()},e=>{QG.srchP=null;QG.srchFail=true}))},
+  // a box as the page lays it out (CSS px): under the viewer's page zoom the browser reports boxes scaled by QG.zf (owner 25 Nov, zoom)
+  rect(el){const r=el.getBoundingClientRect(),f=QG.zf||1;return f===1?r:{left:r.left/f,top:r.top/f,right:r.right/f,bottom:r.bottom/f,width:r.width/f,height:r.height/f}},
   pending(q,mode){QG.need([q]).then(QG.fill);const bad=QG.failed.has(q.h)||QG.detFail;
     return `<div class="qbody qpend muted" data-qpend="${q.id}" data-qmode="${esc(mode)}">${bad?'This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>':'Loading question…'}</div>`},
   // fill in every placeholder whose question has arrived. Review binds its buttons when it draws, so it is redrawn whole.
@@ -129,15 +139,15 @@ const typeset=el=>{const M=window.MathJax;const ready=Promise.all([M?.startup?.p
     // column; those few may break, at MathJax's own break points, instead of running past the edge
     const cs=[...el.querySelectorAll('mjx-container:not([display="true"])')];
     const W=cs.map(c=>{let p=c.parentElement;while(p&&getComputedStyle(p).display.startsWith('inline'))p=p.parentElement;return p?p.clientWidth:0});
-    cs.forEach((c,i)=>c.classList.toggle('mjx-wrap',W[i]>0&&c.getBoundingClientRect().width>W[i]+1))}).catch(()=>{})};
+    cs.forEach((c,i)=>c.classList.toggle('mjx-wrap',W[i]>0&&QG.rect(c).width>W[i]+1))}).catch(()=>{})};
 // owner: nothing may protrude from a table cell. After typesetting, widen the label column to its widest entry,
 // and all value columns (kept equal) to the widest value; the first guess from character counts is only a starting point.
 // owner: "make it so that the word is not split up". A cell is never narrower than its widest piece of maths OR its
 // longest word (measured in the cell's own font), so headers like "Amplitude" stay whole.
 const _mctx=document.createElement('canvas').getContext('2d');
 function cellMinW(td){
-  if(td.classList.contains('dg')){const wOf=sel=>{let w=0;td.querySelectorAll(sel+' mjx-container').forEach(m=>w=Math.max(w,m.getBoundingClientRect().width));return w};const a=wOf('.dgtr'),c=wOf('.dgbl');return a+c+16}   // flag check 24 Nov 3:30 pm, measured: sized for one label the column left v334's pinned labels 0.4-6 px from the slanted line (2026 HSC Std Q27's crossed it by 3.3 px); both labels side by side plus a gap keep each in its own triangle (checker 3:16 pm: "keep it clear of the diagonal and the cell borders")   // split corner cell: labels sit diagonally, so the cell only needs the wider label plus part of the other (owner 12 Nov: "period / rate box is still too big")
-  let w=0; td.querySelectorAll('mjx-container').forEach(m=>{w=Math.max(w,m.getBoundingClientRect().width)});
+  if(td.classList.contains('dg')){const wOf=sel=>{let w=0;td.querySelectorAll(sel+' mjx-container').forEach(m=>w=Math.max(w,QG.rect(m).width));return w};const a=wOf('.dgtr'),c=wOf('.dgbl');return a+c+16}   // flag check 24 Nov 3:30 pm, measured: sized for one label the column left v334's pinned labels 0.4-6 px from the slanted line (2026 HSC Std Q27's crossed it by 3.3 px); both labels side by side plus a gap keep each in its own triangle (checker 3:16 pm: "keep it clear of the diagonal and the cell borders")   // split corner cell: labels sit diagonally, so the cell only needs the wider label plus part of the other (owner 12 Nov: "period / rate box is still too big")
+  let w=0; td.querySelectorAll('mjx-container').forEach(m=>{w=Math.max(w,QG.rect(m).width)});
   const tw=document.createTreeWalker(td,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('mjx-container')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});
   for(let n=tw.nextNode();n;n=tw.nextNode()){const cs=getComputedStyle(n.parentElement);_mctx.font=`${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
     n.textContent.split(/\s+/).forEach(x=>{if(x)w=Math.max(w,_mctx.measureText(x).width)})}
@@ -146,7 +156,7 @@ function cellMinW(td){
 function fitOptTables(root){(root||document).querySelectorAll('table.ot').forEach(t=>{   // MCQ answer tables: widen a column only if its typeset maths needs more room
   const cols=[...t.querySelectorAll('colgroup col')]; if(cols.length<2) return;
   const fs=parseFloat(getComputedStyle(t).fontSize)||16, need=cols.map(()=>0);
-  t.querySelectorAll('tbody tr').forEach(tr=>[...tr.children].forEach((td,i)=>{const m=td.querySelector('mjx-container');if(m&&i<need.length)need[i]=Math.max(need[i],(m.getBoundingClientRect().width+20)/fs)}));
+  t.querySelectorAll('tbody tr').forEach(tr=>[...tr.children].forEach((td,i)=>{const m=td.querySelector('mjx-container');if(m&&i<need.length)need[i]=Math.max(need[i],(QG.rect(m).width+20)/fs)}));
   let tot=0; cols.forEach((c,i)=>{const w=Math.max(parseFloat(c.style.width)||0,need[i]);c.style.width=w.toFixed(2)+'em';tot+=w}); t.style.width=tot.toFixed(2)+'em';
 })}
 // owner: "the table seems too long, will it scale itself?" A data table wider than its column shrinks (down to 62%) instead of scrolling

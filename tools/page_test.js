@@ -3318,6 +3318,178 @@ async function skillGates(browser, base, seed) {
   await page.context().close();
 }
 
+/* ---------------- 25 Nov fixes (owner 25 Nov: "Besides that, yes action all these things", relaying a review of the page) ----------------
+   zoom (header − / 100% / +), search (one search file, the total, Show more, no sidebar highlight), the Bank's first topic, a multiple-choice
+   solution below the options, the last flag run as one plain line, and the polish items (search hint, theme labels, no sideways shift). */
+async function fixes1125(browser, base, seed) {
+  const errs = p => { const e = takeErrs(p); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  let page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  const bankReq = []; page.on('request', r => { const m = /data\/bank\/[^?]+/.exec(r.url()); if (m) bankReq.push(m[0]) });
+  await boot(page, base, '#bank');
+  // owner 25 Nov, checker: "Question search is slow and capped ... The sidebar also keeps the old topic highlighted while you search."
+  await check('bank: search reads one search file, shows the total and Show more, and clears the sidebar highlight', page, async () => {
+    await page.click('#list .subrow[data-sel]:not(.none)'); await page.waitForSelector('#list .cards .card', {timeout: 10000}); await settle(page, 3000, 2);
+    const before = await page.evaluate(() => ({cur: document.querySelectorAll('#nav [aria-current="true"]').length, pill: document.querySelector('#nav .navpill').style.opacity}));
+    bankReq.length = 0;
+    const t0 = Date.now(); await page.fill('#q', 'the');
+    await page.waitForFunction(() => /match/.test(document.querySelector('#list .listhead .crumb')?.textContent || ''), null, {timeout: 15000});
+    const ms = Date.now() - t0; await settle(page, 4000, 2);
+    const r = await page.evaluate(() => { const want = B.questions.filter(inBank).filter(q => QG.hay.get(q.id)?.includes('the')).length;
+      return {crumb: document.querySelector('#list .listhead .crumb').textContent, want, cards: document.querySelectorAll('#list .card').length,
+        more: document.querySelector('#list [data-smore]')?.textContent || '', cur: document.querySelectorAll('#nav [aria-current="true"]').length,
+        pill: document.querySelector('#nav .navpill').style.opacity, files: QG.bank.files.length} });
+    const reqs = [...new Set(bankReq)], topicReqs = reqs.filter(u => !/(search|index|details)\.gz\.json$/.test(u));
+    assert(before.cur === 1 && before.pill === '1', `a topic was not highlighted before the search: ${JSON.stringify(before)}`);
+    assert(reqs.some(u => /search\.gz\.json$/.test(u)), `the search did not read search.gz.json: ${reqs.join(', ')}`);
+    assert(topicReqs.length < r.files, `the search loaded every topic file (${topicReqs.length} of ${r.files})`);
+    assert(r.want > 60 && new RegExp('^' + r.want.toLocaleString('en-US') + ' matches').test(r.crumb.replace(/\s/g, ' ')), `total: “${r.crumb}”, want ${r.want}`);
+    assert(r.cards === 60 && /Show 60 more/.test(r.more), `first page: ${r.cards} cards, “${r.more}”`);
+    assert(r.cur === 0 && r.pill === '0', `the sidebar still highlights a topic during the search: ${r.cur} current, pill ${r.pill}`);
+    await page.click('#list [data-smore]'); await page.waitForFunction(() => document.querySelectorAll('#list .card').length >= 120, null, {timeout: 10000});
+    const n2 = await page.evaluate(() => document.querySelectorAll('#list .card').length);
+    await page.fill('#q', ''); await page.waitForFunction(() => !/Search:/.test(document.querySelector('#list .listhead h2')?.textContent || ''), null, {timeout: 8000}); await settle(page, 3000, 2);
+    const after = await page.evaluate(() => ({cur: document.querySelectorAll('#nav [aria-current="true"]').length, pill: document.querySelector('#nav .navpill').style.opacity}));
+    errs(page);
+    assert(n2 === 120, `Show more: ${n2} cards`);
+    assert(after.cur === 1 && after.pill === '1', `the highlight did not come back after the search: ${JSON.stringify(after)}`);
+    return `${r.crumb}; ${ms} ms to the total; ${topicReqs.length} of ${r.files} topic files read; Show more → ${n2}; highlight off during the search, back after`;
+  });
+  // owner 25 Nov, checker: "The page shifts sideways when a search returns nothing."
+  await check('bank: a search with no matches keeps the layout in place (scrollbar room kept)', page, async () => {
+    const pos = () => page.evaluate(() => Math.round(document.querySelector('#list').getBoundingClientRect().left));
+    await page.fill('#q', 'integral'); await page.waitForFunction(() => /match/.test(document.querySelector('#list .listhead .crumb')?.textContent || ''), null, {timeout: 10000}); const a = await pos();
+    await page.fill('#q', 'zzqqxxnothing'); await page.waitForFunction(() => /^0 matches/.test(document.querySelector('#list .listhead .crumb')?.textContent || ''), null, {timeout: 10000}); const b = await pos();
+    const g = await page.evaluate(() => getComputedStyle(document.documentElement).scrollbarGutter);
+    await page.fill('#q', ''); await settle(page, 2000, 2); errs(page);
+    assert(g === 'stable', `scrollbar-gutter is ${g}`); assert(a === b, `the list moved from ${a} to ${b} px`);
+    return `list at ${a} px either way; scrollbar-gutter: stable`;
+  });
+  // owner 25 Nov, checker: "In the Bank, the "Solution" link sits between the question and its options A-D."
+  await check('bank: a multiple-choice solution sits below the options (Bank, Review, Difficulty)', page, async () => {
+    const r = await page.evaluate(async () => { const q = B.questions.find(q => q.type === 'mcq' && q.solutions.some(s => s.part_id != null));
+      if (!q) return {none: true}; await QG.need([q]);
+      const at = mode => { const d = document.createElement('div'); d.innerHTML = qBody(q, mode, mode === 'levels' ? {open: true} : undefined); const o = d.querySelector('.opts,.ogrid,table.ot'), s = d.querySelector('.solbox');
+        return {inPart: !!s?.closest('.part'), below: !!(o && s && (o.compareDocumentPosition(s) & Node.DOCUMENT_POSITION_FOLLOWING)), n: d.querySelectorAll('.solbox').length} };
+      return {id: q.id, bank: at('bank'), review: at('review'), levels: at('levels')} });
+    errs(page); if (r.none) return 'no multiple-choice question with a part solution in the fixture';
+    for (const k of ['bank', 'review', 'levels']) assert(k === 'bank' && !r[k].n || r[k].n === 1 && r[k].below && !r[k].inPart, `${k}: ${JSON.stringify(r[k])}`);
+    return `QID ${r.id}: one Solution block below the options in Bank, Review and Difficulty`;
+  });
+  // owner 25 Nov, checker: "The search box's example text is cut off" / "The theme button switches label styles"
+  await check('header: the search hint fits its box and the theme button keeps one label style', page, async () => {
+    const r = await page.evaluate(() => { const i = document.querySelector('#q'), cs = getComputedStyle(i), c = document.createElement('canvas').getContext('2d'); c.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+      const fit = c.measureText(i.placeholder).width <= i.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      const labels = []; for (let k = 0; k < 3; k++) { labels.push(document.querySelector('#themeBtn').textContent); document.querySelector('#themeBtn').click() }
+      return {fit, ph: i.placeholder, w: i.clientWidth, labels} });
+    errs(page);
+    assert(r.fit, `“${r.ph}” is wider than its ${r.w} px box`);
+    assert(r.labels.length === 3 && r.labels.every(l => /^Theme: (Auto|Light|Dark)$/.test(l)), `theme labels: ${r.labels.join(' / ')}`);
+    return `“${r.ph}” fits ${r.w} px; ${r.labels.join(' → ')}`;
+  });
+  // owner 25 Nov, checker: "make it so that you can zoom in and out (of the page itself)"
+  await check('zoom: − / + / 100% zoom the page, remembered; 80%-150% keep every view inside the window; Exams stays at print size', page, async () => {
+    const meta = await page.evaluate(() => [...document.querySelectorAll('meta[name="viewport"]')].map(m => m.content).join(' | '));
+    assert(!/user-scalable\s*=\s*(no|0)|maximum-scale\s*=\s*1(\.0)?\b/i.test(meta), `a viewport meta blocks pinch zoom: ${meta}`);
+    await page.evaluate(() => { location.hash = '#bank' }); await settle(page, 2000, 2);
+    await page.click('#zoomCtl [data-zoom="1"]'); await page.click('#zoomCtl [data-zoom="1"]');
+    const z = await page.evaluate(() => ({zoom: QG.zoom, css: document.documentElement.style.zoom, saved: localStorage.getItem('zoom'), label: document.querySelector('#zoomCtl .zv').textContent}));
+    assert(z.zoom === 125 && z.css === '1.25' && z.saved === '125' && z.label === '125%', `two clicks on +: ${JSON.stringify(z)}`);
+    const bad = [];
+    for (const lv of [80, 150]) {
+      await page.evaluate(v => QG.setZoom(v), lv);
+      for (const [name, hash, box, , sub] of VIEWS) {
+        if (name === 'exams-pick' || name === 'exams-mine' || name === 'guide-developers') continue;
+        await page.evaluate(h => { if (location.hash !== h) location.hash = h; else route() }, hash); await settle(page, 3000, 2);
+        if (sub) { await sub(page); await settle(page, 3000, 2) }
+        const r = await page.evaluate(() => { const de = document.documentElement, f = QG.zf, nav = document.querySelector('#nav'), pill = nav?.querySelector('.navpill'), cur = nav?.querySelector('[aria-current="true"]');
+          const pr = pill?.getBoundingClientRect(), cr = cur?.getBoundingClientRect(), nr = nav?.getBoundingClientRect();
+          return {sw: de.scrollWidth, cw: de.clientWidth, css: de.style.zoom, view: QG.view, pillOff: view === 'bank' && cur && pill.style.opacity === '1' ? Math.round(Math.abs(pr.top - cr.top) + Math.abs(pr.height - cr.height)) : 0,
+            navOut: view === 'bank' && nr && nav.offsetParent ? Math.round(nr.top + Math.min(nr.height, nav.scrollHeight * f) - innerHeight) : 0} });
+        if (r.sw > r.cw + 1) bad.push(`${name}@${lv}%: ${r.sw}px wide in ${r.cw}px`);
+        if (r.pillOff > 2) bad.push(`${name}@${lv}%: sidebar pill ${r.pillOff}px off its topic`);
+        if (r.navOut > 1) bad.push(`${name}@${lv}%: sidebar runs ${r.navOut}px past the window`);
+        if (name.startsWith('exams') ? r.css !== '' : r.css !== String(lv / 100)) bad.push(`${name}@${lv}%: zoom ${r.css || 'none'}`);
+      }
+    }
+    await page.evaluate(() => { location.hash = '#exams' }); await settle(page, 2000, 2);
+    const ex = await page.evaluate(() => ({dis: [...document.querySelectorAll('#zoomCtl [data-zoom]')].every(b => b.disabled), label: document.querySelector('#zoomCtl .zv').textContent}));
+    await page.evaluate(() => { location.hash = '#bank' }); await settle(page, 2000, 2);
+    await page.reload(); await page.waitForFunction(() => typeof QG !== 'undefined' && QG.bank, null, {timeout: 30000});
+    const kept = await page.evaluate(() => ({zoom: QG.zoom, css: document.documentElement.style.zoom}));
+    await page.click('#zoomCtl [data-zoom="0"]'); const reset = await page.evaluate(() => ({zoom: QG.zoom, css: document.documentElement.style.zoom, saved: localStorage.getItem('zoom')}));
+    errs(page);
+    assert(!bad.length, bad.slice(0, 4).join('; '));
+    assert(ex.dis && ex.label === '100%', `on Exams the zoom buttons are not off: ${JSON.stringify(ex)}`);
+    assert(kept.zoom === 150 && kept.css === '1.5', `after a reload: ${JSON.stringify(kept)}`);
+    assert(reset.zoom === 100 && reset.css === '' && reset.saved === '100', `100% resets: ${JSON.stringify(reset)}`);
+    return `125% after two +; ${VIEWS.length - 3} views at 80% and 150% fit, sidebar pill on its topic; Exams at 100% with the buttons off; kept after a reload; 100% resets`;
+  });
+  await page.context().close();
+  // the page as claude.ai shows it: inside a frame
+  page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await check('zoom: works with the page inside a frame', page, async () => {
+    await page.setContent(`<!doctype html><body style="margin:0"><iframe id="f" src="${base}review.html#bank" style="border:0;width:100vw;height:100vh"></iframe></body>`);
+    const fr = await (await page.waitForSelector('#f')).contentFrame();
+    await fr.waitForFunction(() => typeof QG !== 'undefined' && QG.bank && QG.editor !== null, null, {timeout: 45000});
+    await fr.click('#zoomCtl [data-zoom="1"]'); await page.waitForTimeout(300);
+    const r = await fr.evaluate(() => ({zoom: QG.zoom, zf: QG.zf, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth}));
+    errs(page);
+    assert(r.zoom === 110 && r.zf === 1.1 && r.sw <= r.cw + 1, JSON.stringify(r));
+    return `110% in the frame (boxes scale by ${r.zf}); keyboard zoom is the browser's and cannot be tested headless`;
+  });
+  await page.context().close();
+  // phone: the zoom sits in the menu
+  page = await newPage(browser, base, seed, {width: 390, theme: 'light'});
+  await boot(page, base, '#bank');
+  await check('zoom: in the menu on a phone (390px), the page still fits', page, async () => {
+    const hid = await page.evaluate(() => !document.querySelector('#zoomCtl').offsetParent);
+    await page.click('#menuBtn'); await page.click('#mSheet [data-zoom="1"]');
+    const r = await page.evaluate(() => ({open: !document.querySelector('#mSheet').hidden, zoom: QG.zoom, label: document.querySelector('#mSheet .zv').textContent, plusOff: document.querySelector('#mSheet [data-zoom="1"]').disabled}));
+    await page.click('#menuBtn'); await settle(page, 2000, 2);
+    const w = await page.evaluate(() => ({sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth}));
+    await page.evaluate(() => QG.setZoom(100)); errs(page);
+    assert(hid, 'the header zoom shows on a phone');
+    assert(r.open && r.zoom === 110 && r.label === '110%' && r.plusOff, JSON.stringify(r));   // 125% would leave the page under 320 px
+    assert(w.sw <= w.cw + 1, `${w.sw}px wide in ${w.cw}px at 110%`);
+    return 'header control hidden; menu + → 110% (the most a 390 px phone allows), the menu stays open; the page fits';
+  });
+  await page.context().close();
+  // owner 25 Nov, checker: "The Bank opens on Mathematics Standard while Advanced is selected."
+  page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await page.addInitScript(() => { try { if (!sessionStorage.getItem('pt_sel')) { sessionStorage.setItem('pt_sel', '1'); localStorage.setItem('sel', 'special:std') } } catch (e) {} });
+  await boot(page, base, '#bank');
+  await check('bank: opens on the course\'s first topic, not a group outside the syllabus', page, async () => {
+    await page.waitForSelector('#list .listhead h2', {timeout: 10000});
+    const r = await page.evaluate(() => { const k = 'sub:' + DOTS.find(d => d.yl === 12).yl + '|'; return {sel, saved: localStorage.getItem('sel'), h: document.querySelector('#list .listhead h2').textContent, y12: sel && sel.startsWith(k),
+      keep: bankStart(Object.keys(TOPICS.byKey).find(x => x.startsWith('sub:11|'))), none: bankStart(''), other: bankStart('sub:12|Annuities|Present value')} });
+    errs(page);
+    assert(r.y12 && r.saved === r.sel && !/Standard|Removed|No 2024/.test(r.h), `opened on ${r.sel} (“${r.h}”)`);
+    assert(r.keep && r.keep.startsWith('sub:11|'), `a saved Year 11 topic was not kept: ${r.keep}`);
+    assert(r.none === null, `nothing saved should open All topics, got ${r.none}`);
+    assert(r.other && r.other.startsWith('sub:12|') && r.other !== 'sub:12|Annuities|Present value', `a Standard topic on Advanced: ${r.other}`);
+    return `saved “Mathematics Standard” → “${r.h}”; a saved topic of the course is kept; nothing saved → All topics`;
+  });
+  await page.context().close();
+  // owner 25 Nov, checker: "The Curate page shows a developer log to users. It's full of jargon ... and ends in ".."."
+  const at = new Date(Date.now() - 40 * 60000).toISOString(), done = new Date(Date.now() - 5 * 60000).toISOString();
+  const seedRun = {...seed, 'runs/flags_9000000000001': {kind: 'flags', status: 'done', at, started: at, done_at: done,
+    result: '1 fixed, 0 wait for Steve (Live as v336; another Claude session had committed the flag fix unpublished, so it was merged and published here).'}};
+  for (const role of ['checker', 'editor']) {
+    page = await newPage(browser, base, seedRun, {width: 1280, theme: 'light', role});
+    await boot(page, base, '#review');
+    await check(`review (${role}): the last flag run is one plain line${role === 'editor' ? ', the run\'s text behind Details' : ''}`, page, async () => {
+      await page.waitForFunction(() => /Fixed 1 flag/.test(document.querySelector('#inboxView')?.innerText || ''), null, {timeout: 15000});
+      const r = await page.evaluate(() => { const h = document.querySelector('#inboxView .handoff'); return {line: h.querySelector('.rv-runline')?.textContent || '', text: h.innerText, det: !!h.querySelector('details.rv-runlog'), open: !!h.querySelector('details.rv-runlog[open]')} });
+      errs(page);
+      assert(/^Fixed 1 flag; live since \d{1,2}:\d{2} [ap]m\.$/.test(r.line), `line: “${r.line}”`);
+      if (role === 'checker') assert(!r.det && !/v336|Claude session|unpublished|\.\./.test(r.text), `the checker sees: “${r.text}”`);
+      else assert(r.det && !r.open && !/v336/.test(r.text), `Details for the owner: ${JSON.stringify(r)}`);
+      return `“${r.line}”${r.det ? ' + Details' : ''}`;
+    });
+    await page.context().close();
+  }
+}
+
 if (require.main !== module) { /* required by a debugging script: hand over the helpers, run nothing */ module.exports = {serve, newPage, boot, settle, unzip, FIXTURE, OUT}; return }
 (async () => {
   for (const d of [OUT, SHOTS, DL]) fs.mkdirSync(d, {recursive: true});
@@ -3339,7 +3511,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
     const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
-    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed), run(skillGates, browser, base, seed), run(paperTables, browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed), run(skillGates, browser, base, seed), run(paperTables, browser, base, seed), run(fixes1125, browser, base, seed)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));

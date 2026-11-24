@@ -16,7 +16,8 @@
   $('#countAll').textContent=` · ${B.questions.filter(q=>!q.dup_of).length} questions`;
   const docs=Object.values(B.docs).filter(x=>B.questions.some(q=>q.doc===x.id)).sort((a,b)=>a.label.localeCompare(b.label));
   $('#docF').insertAdjacentHTML('beforeend',docs.map(x=>`<option value="${x.id}">${esc(docLabel(x))}</option>`).join(''));
-  sel=load('sel')||null; rfilter=load('rf2')||'decide'; if(!STEPS.some(x=>x[0]===rfilter)&&!FILTERS.some(x=>x[0]===rfilter)) rfilter='decide';
+  sel=bankStart(load('sel'));save('sel',sel||'');   // owner 25 Nov: the Bank opens on one of the course's own topics (07_bank.js bankStart)
+  rfilter=load('rf2')||'decide'; if(!STEPS.some(x=>x[0]===rfilter)&&!FILTERS.some(x=>x[0]===rfilter)) rfilter='decide';
   route();
   const c=window.claude; if(!c?.use) return;
   try{

@@ -26,8 +26,9 @@ function solHTML(q,s,mode){
     ${m.marker_note?`<div class="callout"><b>Marker's note:</b> ${tex(m.marker_note)}</div>`:''}
     ${m.concern?`<div class="callout"><b>Check this:</b> ${tex(m.concern)}</div>`:''}${m.corrected?(mode==='review'?`<div class="callout"><b>Corrected from source (check):</b> ${tex(m.corrected.replace(/^Corrected from source: /,''))}</div>`:`<div class="help">${tex(m.corrected)}</div>`):''}${mode==='review'&&m.rubric_note?`<div class="help">${esc(m.rubric_note)}</div>`:''}${mode==='review'&&m.source_flag?`<div class="callout"><b>Possible error in the source:</b> ${tex(m.source_flag)}</div>`:''}${actions}</div>`;
 }
+// pid '*': every solution of the question, whichever part it is filed under (a multiple-choice question's, shown below its options)
 function solsFor(q,pid,mode){
-  const all=q.solutions.filter(s=>(s.part_id??null)===pid);
+  const all=q.solutions.filter(s=>pid==='*'||(s.part_id??null)===pid);
   const vis=mode==='review'||mode==='tags'?all:all.filter(s=>s.source!=='generated'||solDec(q,s)==='approved');
   const hidden=all.length-vis.length;
   return {html:vis.map(s=>solHTML(q,s,mode)).join(''),hidden,count:vis.length};

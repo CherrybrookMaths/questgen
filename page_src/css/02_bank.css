@@ -3,7 +3,7 @@
 .bank.homemode{grid-template-columns:minmax(0,1fr)}
 .bank.homemode .nav{display:none}
 @media (max-width:900px){.bank{grid-template-columns:1fr}}
-.nav{min-width:0;top:var(--navtop,86px);align-self:start;max-height:calc(100vh - var(--navtop,86px) - 22px);overflow:auto;overscroll-behavior:contain;padding-right:4px;scrollbar-width:none}
+.nav{min-width:0;top:var(--navtop,86px);align-self:start;max-height:calc(100vh / var(--zf,1) - var(--navtop,86px) - 22px);overflow:auto;overscroll-behavior:contain;padding-right:4px;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}   /* owner 12 Nov: no visible scrollbar on the side list (it still scrolls) */
 @media (max-width:900px){.nav{display:none}}
 #list{min-width:0}
