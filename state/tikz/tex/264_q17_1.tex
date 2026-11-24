@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+  \coordinate (O) at (343,290);
+  \coordinate (A) at (150,346); \coordinate (B) at (233,123); \coordinate (C) at (480,123);
+  \coordinate (D) at (592,316); \coordinate (E) at (343,455);
+  \draw (A)--(B)--(C)--(D)--(E)--cycle;
+  \draw[aux,->] (O)--(178,40);
+  \draw[aux,->] (O)--(531,61);
+  \draw[aux,->] (O)--(640,321);
+  \draw[aux,->] (O)--(343,507);
+  \draw[aux,->] (O)--(61,372);
+  \fill (O) circle[radius=1.2pt];
+  \node at (180,20) {$332^\circ$};
+  \node at (558,30) {$028^\circ$};
+  \node[anchor=west] at (638,339) {$098^\circ$};
+  \node at (366,528) {$180^\circ$};
+  \node at (38,396) {$257^\circ$};
+  \node at (245,98) {$B$};
+  \node at (476,95) {$C$};
+  \node at (598,341) {$D$};
+  \node at (370,466) {$E$};
+  \node at (133,380) {$A$};
+  \node at (346,243) {$O$};
+  \node at (350,98) {36.5 km};
+  \node[rotate=-60] at (571,212) {38.3 km};
+  \node[rotate=-56.6] at (268,216) {28.5 km};
+  \node[rotate=16.2] at (268,346) {32.4 km};
+  \node[rotate=-29.5] at (232,420) {34.5 km};
+  \node[rotate=29.2] at (481,414) {40.5 km};
+  \node[align=center] at (806,232) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

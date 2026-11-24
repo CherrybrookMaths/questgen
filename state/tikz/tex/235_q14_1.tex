@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (52,72); \coordinate (B) at (736,72); \coordinate (C) at (551,324); \coordinate (D) at (242,324);
+\draw (A)--(B)--(C)--(D)--cycle;
+\node at (34,58) {$A$};
+\node at (752,58) {$B$};
+\node at (229,347) {$D$};
+\node at (558,347) {$C$};
+\draw[aux,<->] (55,55) -- (733,55);
+\node at (408,32) {$6x$};
+\draw[aux,<->] (250,342) -- (540,342);
+\node at (410,367) {$4x$};
+% equal-side ticks
+\draw ($(A)!0.5!(D)+(-10,7.5)$) -- ($(A)!0.5!(D)+(10,-7.5)$);
+\draw ($(B)!0.5!(C)+(-10,-7.3)$) -- ($(B)!0.5!(C)+(10,7.3)$);
+% angle theta
+\draw[->] ($(A)+(40:80)$) arc[start angle=40, end angle=4, radius=80];
+\node at ($(A)+(24:48)$) {$\theta$};
+\node[align=left, anchor=west] at (750,222) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

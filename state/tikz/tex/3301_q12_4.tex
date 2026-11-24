@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(227,47)},x=0.93091cm,y=0.93091cm]
+\def\xa{-2.93}\def\xb{2.56}\def\ya{-6.59}\def\yb{0.48}
+\foreach \i in {-5,...,5} \draw[black!12,line width=0.4pt] (\i/2,\ya)--(\i/2,\yb);
+\foreach \j in {-13,...,0} \draw[black!12,line width=0.4pt] (\xa,\j/2)--(\xb,\j/2);
+\foreach \i in {-2,2} \draw[black!40,line width=0.4pt] (\i,\ya)--(\i,\yb);
+\foreach \j in {-2,-4,-6} \draw[black!40,line width=0.4pt] (\xa,\j)--(\xb,\j);
+\draw (\xa,0)--(\xb,0); \draw (0,\ya)--(0,\yb);
+\draw[line width=0.9pt,smooth,samples=90,domain=-1.9:1.9] plot (\x,{-\x*\x-3});
+\foreach \x/\t in {-2/$-2$,2/$2$} \node[anchor=north,font=\scriptsize,inner sep=2pt] at (\x,-0.06) {\t};
+\node[anchor=north east,font=\scriptsize,inner sep=2pt] at (-0.06,-0.06) {$0$};
+\foreach \y in {-2,-4,-6} \node[anchor=east,font=\scriptsize,inner sep=2pt] at (-0.04,\y) {$\y$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

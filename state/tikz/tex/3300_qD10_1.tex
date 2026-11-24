@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, v/.style={circle,draw,minimum size=0.81cm,inner sep=0pt,font=\large}, w/.style={font=\small}]
+\node[v] (G) at (48,45) {$G$};
+\node[v] (E) at (645,45) {$E$};
+\node[v] (F) at (358,135) {$F$};
+\node[v] (A) at (165,278) {$A$};
+\node[v] (D) at (563,271) {$D$};
+\node[v] (B) at (363,408) {$B$};
+\node[v] (C) at (693,408) {$C$};
+\draw (G) -- (F); \draw (G) -- (A); \draw (F) -- (E); \draw (F) -- (A); \draw (F) -- (D);
+\draw (E) -- (D); \draw (A) -- (D); \draw (A) -- (B); \draw (B) -- (D); \draw (D) -- (C); \draw (B) -- (C);
+\node[w] at (198,62) {$7$};
+\node[w] at (82,180) {$5$};
+\node[w] at (500,62) {$8$};
+\node[w] at (288,228) {$9$};
+\node[w] at (468,180) {$7$};
+\node[w] at (630,181) {$5$};
+\node[w] at (348,303) {$15$};
+\node[w] at (225,358) {$6$};
+\node[w] at (486,345) {$8$};
+\node[w] at (645,313) {$9$};
+\node[w] at (514,428) {$11$};
+\end{tikzpicture}
+\end{document}

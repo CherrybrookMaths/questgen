@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (B) at (42,485); \coordinate (A) at (417,485); \coordinate (C) at (42,27); \coordinate (D) at (183,199);
+  \draw (B)--(A)--(C)--cycle;
+  \draw[aux] (B)--(D);
+  \draw (42,428)--(99,428)--(99,485);
+  \draw plot[smooth,domain=50.7:116.2,samples=40] ({183+136*cos(\x)},{199+136*sin(\x)});
+  \draw plot[smooth,domain=180:230.7,samples=40] ({417+150*cos(\x)},{485+150*sin(\x)});
+  \node at (18,25) {$C$};
+  \node at (212,183) {$D$};
+  \node at (20,512) {$B$};
+  \node at (443,499) {$A$};
+  \node[font=\small] at (204,520) {65.0 m};
+  \node[font=\small,rotate=63.8] at (106,280) {55.5 m};
+  \node[font=\small] at (189,302) {$66^\circ$};
+  \node[font=\small] at (314,440) {$x^\circ$};
+  \node[align=center,font=\small] at (376,172) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \k in {0,...,20} {
+    \pgfmathsetmacro\xx{40+30.85*\k}
+    \pgfmathsetmacro\yy{640-30.9*\k}
+    \pgfmathtruncatemacro\m{mod(\k,5)}
+    \ifnum\m=0
+      \draw[black!40, line width=0.5pt] (\xx,15)--(\xx,650);
+      \draw[black!40, line width=0.5pt] (34,\yy)--(668,\yy);
+    \else
+      \draw[black!12, line width=0.4pt] (\xx,15)--(\xx,650);
+      \draw[black!12, line width=0.4pt] (34,\yy)--(668,\yy);
+    \fi
+  }
+  \draw[->] (40,640)--(40,12);
+  \draw[->] (40,640)--(685,640);
+\end{tikzpicture}
+\end{document}

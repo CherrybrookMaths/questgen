@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[width=11cm, height=11cm, scale only axis, xmin=0, xmax=105, ymin=0, ymax=105,
+  axis lines=left, axis line style={-}, xtick={0,10,...,100}, ytick={0,10,...,100},
+  minor xtick={5,15,...,105}, minor ytick={5,15,...,105},
+  grid=both, major grid style={black!30, line width=0.4pt}, minor grid style={black!18, line width=0.3pt},
+  tick label style={font=\small}, xlabel={Speed $v$ (km/h)}, ylabel={Distance (m)},
+  title={Stopping Distances on a Dry Surface}, title style={font=\normalsize},
+  clip=false, enlargelimits=false, axis on top=false]
+\addplot[black, line width=0.9pt, smooth, samples=90, domain=0:100] {0.01*x^2};
+\addplot[black, line width=0.9pt, domain=0:100] {0.7*x};
+\fill (axis cs:70,49) circle (2pt);
+\node[anchor=north west] at (axis cs:72,47) {$(70,49)$};
+\node[anchor=east] at (axis cs:89,90) {$B=0.01v^2$};
+\node[anchor=north west] at (axis cs:90,58) {$R=0.7v$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

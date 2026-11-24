@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[o/.style={anchor=mid west,inner sep=0pt,font=\fontsize{11}{13}\selectfont},
+  pu/.style={anchor=south,inner sep=0pt,font=\fontsize{10}{12}\selectfont},
+  pd/.style={anchor=north,inner sep=0pt,font=\fontsize{10}{12}\selectfont}]
+\def\B{bushfire}\def\NB{$\overline{\text{bushfire}}$}
+% level 1: branches x 0 -> 2.5, labels at 2.62; level 2 branches 4.45 -> 6.95, labels at 7.07
+\foreach \s/\l/\p/\st in {1/\B/0.7/pu,-1/\NB/0.3/pd}{
+  \draw (0,0)--(2.5,1.5*\s);
+  \node[o] at (2.62,1.5*\s) {\l};
+  \node[\st] at (1.25,{0.75*\s+\s*(0.6*0.2+0.09)}) {\p};
+  \foreach \t/\m/\q/\sq in {1/\B/0.7/pu,-1/\NB/0.3/pd}{
+    \draw (4.45,1.5*\s)--(6.95,{1.5*\s+0.8*\t});
+    \node[o] at (7.07,{1.5*\s+0.8*\t}) {\m};
+    \node[\sq] at (5.7,{1.5*\s+0.4*\t+\t*(0.32*0.2+0.09)}) {\q};
+  }
+}
+\end{tikzpicture}
+\end{document}

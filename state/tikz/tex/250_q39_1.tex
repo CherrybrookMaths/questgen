@@ -1,0 +1,39 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{10}{12}\selectfont}]
+\coordinate (E) at (163,185); \coordinate (O) at (163,638);
+\coordinate (R) at (668,630); \coordinate (Bu) at (1080,638);
+% silhouettes
+\fill[black!85] (20,112)--(48,116)--(70,112)--(78,92)--(74,60)--(86,34)--(104,14)--(122,2)--(132,0)--(126,22)--(136,18)--(128,44)--(140,40)--(130,66)--(138,66)--(126,96)--(124,132)--(140,138)--(150,150)--(146,170)--(140,162)--(130,160)--(112,152)--(84,150)--(62,140)--(46,128)--cycle;
+\fill[black!85] (712,600) ellipse [x radius=44, y radius=38];
+\fill[black!85] (736,566) circle (22);
+\fill[black!85] (716,548) ellipse [x radius=8, y radius=22];
+\fill[black!85] (738,546) ellipse [x radius=7, y radius=20];
+\fill[black!85] (668,630) circle (5);
+\fill[black!85] (1110,605) ellipse [x radius=30, y radius=42, rotate=-40];
+% lines
+\draw (O)--(E)--(R) (O)--(Bu);
+\draw[dash pattern=on 0.6pt off 1.6pt] (E)--(1090,185);
+\draw[dash pattern=on 0.6pt off 1.6pt] (E)--(Bu);
+\draw (163,616)--(185,616)--(185,638);
+% 85 m
+\draw (110,185)--(140,185) (110,638)--(140,638);
+\draw[aux,<-] (125,185)--(125,398);
+\draw[aux,->] (125,428)--(125,638);
+\node at (130,413) {85 m};
+% d
+\draw[aux,<->] (176,222)--(642,624);
+\node at (405,416) {$d$};
+% k
+\draw (705,650)--(705,672) (1080,650)--(1080,672);
+\draw[aux,<-] (705,661)--(876,661); \draw[aux,->] (900,661)--(1080,661);
+\node at (888,664) {$k$};
+% angles
+\draw (238,185) arc[start angle=0,end angle=41.6,radius=75];
+\node at (268,206) {$42^\circ$};
+\draw ($(Bu)+(-91,0)$) arc[start angle=180,end angle=206.4,radius=91];
+\node at (968,620) {$23^\circ$};
+\node[align=center] at (1210,366) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

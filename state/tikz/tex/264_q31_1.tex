@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (48,607);
+\coordinate (B) at (375,120);
+\coordinate (C) at (780,390);
+\coordinate (D) at (375,853);
+\draw (A)--(B)--(C)--(D)--cycle;
+\draw (A)--(C);
+\draw[aux] (D)--(375,430);
+\draw[aux,->] (375,352)--(375,22);
+\node[font=\small] at (377,390) {$135$ m};
+\node at (352,36) {N};
+\node at (390,98) {$B$};
+\node at (799,397) {$C$};
+\node at (22,607) {$A$};
+\node at (390,872) {$D$};
+\node[font=\small] at (620,240) {$90$ m};
+\node[font=\small] at (162,756) {$75$ m};
+\pic[draw, angle radius=1.63cm] {angle = D--A--C};
+\pic[draw, angle radius=2.2cm] {angle = A--C--D};
+\node[font=\small] at (143,630) {$53^\circ$};
+\node[font=\small] at (688,452) {$32^\circ$};
+\end{tikzpicture}
+\end{document}

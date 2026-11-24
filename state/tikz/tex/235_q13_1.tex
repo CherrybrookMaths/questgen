@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (L) at (42,160); \coordinate (TL) at (163,45); \coordinate (TR) at (366,43);
+\coordinate (R) at (466,166); \coordinate (B) at (251,256);
+\draw (L)--(TL); \draw (TL)--(TR); \draw (TR)--(R); \draw (TL)--(B); \draw (TR)--(B); \draw (L)--(B); \draw (R)--(B);
+\foreach \p in {L,TL,TR,R,B} \filldraw[fill=black!8] (\p) circle (24);
+\node[font=\small] at (92,93) {7};
+\node[font=\small] at (265,24) {5};
+\node[font=\small] at (437,90) {2};
+\node[font=\small] at (181,139) {8};
+\node[font=\small] at (321,142) {4};
+\node[font=\small] at (146,230) {1};
+\node[font=\small] at (375,224) {6};
+\end{tikzpicture}
+\end{document}

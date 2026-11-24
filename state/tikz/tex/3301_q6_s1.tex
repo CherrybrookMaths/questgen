@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.9558cm,y=0.3899cm]
+  \draw[black!12, line width=0.4pt, xstep=0.2, ystep=1] (-0.03,-0.3) grid (4.07,20.2);
+  \draw[black!40, line width=0.5pt, xstep=1, ystep=5] (-0.03,-0.3) grid (4.07,20.2);
+  \draw[->] (0,0)--(0,20.7);
+  \draw[->] (0,0)--(4.18,0);
+  \foreach \n in {1,2,3} \draw (\n,0.35)--(\n,-0.35);
+  \foreach \v in {5,10,15} \draw (-0.05,\v)--(0.05,\v);
+  \draw[line width=0.9pt,->] (0,9)--(3.92,16.84);
+  \draw[line width=0.9pt,->] (0,0)--(3.94,19.7);
+  \node[pt] at (3,15) {};
+  \node[anchor=west, inner sep=1pt] at (4.03,20.0) {$I=5n$};
+  \node[anchor=west, inner sep=1pt] at (4.03,16.9) {$C=2n+9$};
+  \node at (2.03,21.6) {Income \& Cost};
+  \node at (-0.18,-1.1) {$0$};
+  \foreach \n in {1,2,3} \node at (\n,-1.35) {$\n$};
+  \foreach \v in {5,10,15} \node[anchor=east] at (-0.3,\v) {$\v$};
+\end{tikzpicture}
+\end{document}

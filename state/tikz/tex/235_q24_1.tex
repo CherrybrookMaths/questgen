@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11.3}{13.5}\selectfont]
+  % front face: semi-ellipse centre (125.5,136), a=81.5, b=94; depth vector (116,-71)
+  \draw (44,136)--(207,136);
+  \draw (44,136) arc[start angle=180,end angle=360,x radius=81.5,y radius=-94];
+  \draw (44,136)--(160,65)--(323,65);
+  \draw (207,136)--(323,65);
+  % silhouette tangent (theta = 62.04 deg)
+  \draw (163.7,219.0)--(279.7,148.0);
+  % back face arc: hidden part dotted, visible part from tangent to right end
+  \draw[dash pattern=on 0.8pt off 1.6pt] (160,65) arc[start angle=180,end angle=297.96,x radius=81.5,y radius=-94];
+  \draw (279.7,148.0) arc[start angle=297.96,end angle=360,x radius=81.5,y radius=-94];
+  \draw[<->] (44,242)--(207,242);
+  \node at (125,270) {90 cm};
+  \node at (64,86) {2.4 m};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{8.5}{10}\selectfont]
+\foreach \v in {4,8,...,200}{\draw[black!30,line width=0.4pt,dash pattern=on 1pt off 1pt] (117,{614-2.82*\v})--(732,{614-2.82*\v});}
+\foreach \i in {1,...,5}{\draw[black!45] ({117+102.5*\i},614)--({117+102.5*\i},45);}
+\foreach \a/\b/\h in {128/207/180,231/310/144,334/412/132,436/515/72,539/618/60,641/719/12}{\fill[black!15] (\a,614) rectangle (\b,{614-2.82*\h});}
+\draw (117,45)--(117,614)--(732,614)--(732,45);
+\foreach \v in {0,20,...,200}{\pgfmathtruncatemacro\p{\v/2}
+  \draw (110,{614-2.82*\v})--(117,{614-2.82*\v}) (732,{614-2.82*\v})--(739,{614-2.82*\v});
+  \node[anchor=east] at (107,{614-2.82*\v}) {\v};
+  \node[anchor=west] at (741,{614-2.82*\v}) {\p\%};}
+\foreach \v in {4,8,...,196}{\pgfmathtruncatemacro\m{mod(\v,20)}
+  \ifnum\m=0\else\draw (113,{614-2.82*\v})--(117,{614-2.82*\v}) (732,{614-2.82*\v})--(736,{614-2.82*\v});\fi}
+\draw (167,{614-2.82*60})--(270,{614-2.82*108})--(373,{614-2.82*152})--(476,{614-2.82*176})--(578,{614-2.82*196})--(682,{614-2.82*200});
+\foreach \x/\v in {167/60,270/108,373/152,476/176,578/196,682/200}{\fill (\x,{614-2.82*\v}) circle (3.6);}
+\foreach \x/\s in {167/Maths,270/Science,373/Geography,476/History,578/PDHPE,680/English}{\node at (\x,634) {\s};}
+\node[font=\fontsize{9}{11}\selectfont\bfseries,rotate=90] at (35,330) {Number of Students};
+\node[font=\fontsize{9}{11}\selectfont\bfseries,rotate=90] at (842,330) {Cumulative Percentage};
+\node[font=\fontsize{9}{11}\selectfont\bfseries] at (451,681) {Favourite Subject};
+\end{tikzpicture}
+\end{document}

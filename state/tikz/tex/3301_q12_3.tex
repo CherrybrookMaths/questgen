@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.8160cm,y=0.8128cm]
+\begin{scope}
+\clip (-3.89,-3.33) rectangle (4.17,3.9);
+\draw[black!12,line width=0.4pt,step=0.5] (-5,-5) grid (5,5);
+\draw[black!40,line width=0.4pt,step=2] (-6,-6) grid (6,6);
+\end{scope}
+\draw (-3.89,0)--(4.17,0); \draw (0,-3.33)--(0,3.9);
+\draw[line width=0.9pt,smooth,samples=90,domain=0.257:4.17] plot (\x,{1/\x});
+\draw[line width=0.9pt,smooth,samples=90,domain=-3.89:-0.301] plot (\x,{1/\x});
+\begin{scope}[every node/.style={font=\scriptsize,inner sep=1pt}]
+\node at (-2,-0.18) {$-2$}; \node at (-0.15,-0.18) {$0$};
+\node at (2,-0.18) {$2$}; \node at (4,-0.18) {$4$};
+\node[anchor=east] at (-0.05,2) {$2$}; \node[anchor=east] at (-0.05,-2) {$-2$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

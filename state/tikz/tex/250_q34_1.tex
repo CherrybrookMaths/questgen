@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.10135cm,y=0.011151cm,font=\small]
+\foreach \v in {2,4,...,100} \draw[black!40, line width=0.4pt] (\v,0) -- (\v,1000);
+\foreach \v in {20,40,...,1000} \draw[black!40, line width=0.4pt] (0,\v) -- (100,\v);
+\draw[->] (0,0) -- (107.5,0);
+\draw[->] (0,0) -- (0,1033);
+\foreach \v in {0,10,...,100} \node at (\v,-32) {\v};
+\foreach \v in {0,100,...,1000} \node[anchor=east] at (-1.6,\v) {\v};
+\node at (49.6,-92) {number of masks};
+\node[rotate=90] at (-13.4,500) {amount (\$)};
+\draw[line width=0.9pt] (0,0) -- (100,1000);
+\draw[line width=0.9pt, black!55] (0,420) -- (100,820);
+\node[anchor=west] at (100,1003) {revenue};
+\node[anchor=west] at (100,825) {cost};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {1,...,8} \draw[black!45] ({160+42.6*\i},87) -- ({160+42.6*\i},636);
+  \foreach \j in {1,...,12} \draw[black!45] (160,{636-45.75*\j}) -- (501,{636-45.75*\j});
+  \draw (160,87) -- (160,636) -- (501,636);
+  \foreach \j in {0,...,12} \draw (150,{636-45.75*\j}) -- (160,{636-45.75*\j});
+  \foreach \i in {0,...,8} \draw ({160+42.6*\i},636) -- ({160+42.6*\i},648);
+  \foreach \j in {0,...,8}{\pgfmathtruncatemacro\v{2000*\j}
+    \node[anchor=east,font=\fontsize{8}{10}\selectfont\bfseries] at (134,{636-45.75*\j}) {\v};}
+  \foreach \i in {0,...,7} \node[font=\fontsize{8}{10}\selectfont\bfseries] at ({160+42.6*\i},669) {\i};
+  \draw[line width=0.9pt,smooth,samples=90,domain=0:5] plot ({160+42.6*\x},{636-366*0.8^\x});
+  \draw[line width=0.9pt,smooth,samples=90,domain=0:5] plot ({160+42.6*\x},{636-366*0.7^\x});
+  \foreach \i in {0,...,5} \fill ({160+42.6*\i},{636-366*0.8^\i}) circle (2.3pt);
+  \foreach \i in {1,...,5} \filldraw[fill=black!35,draw=black] ({160+42.6*\i},{636-366*0.7^\i}) circle (2.3pt);
+  \draw (376,328) rectangle (448,376); \node[font=\fontsize{9}{11}\selectfont] at (412,346) {20\%};
+  \draw[->] (362,352) -- (219,352);
+  \draw (371,418) rectangle (433,462); \node[font=\fontsize{9}{11}\selectfont] at (402,436) {30\%};
+  \draw[->] (358,438) -- (235,438);
+  \node[align=center,font=\fontsize{9}{13}\selectfont\bfseries] at (330,45) {Salvage of the Hyundai i30 over 5 years at a depreciation\\rate of 30\%};
+  \node[font=\fontsize{9}{11}\selectfont\bfseries] at (330,716) {Year};
+  \node[font=\fontsize{9}{11}\selectfont\bfseries,rotate=90] at (35,425) {Salvage value (\$)};
+\end{tikzpicture}
+\end{document}

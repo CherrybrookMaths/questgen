@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\coordinate (P) at (0,0);
+\coordinate (Q) at (25:4.2); \coordinate (T) at (105:3.3);
+\draw[aux,->] (P)--(0,3.5) node[above] {$N$};
+\draw (P)--(Q); \draw (P)--(T);
+\fill (P) circle (1.3pt);
+% 345 bearing
+\draw[->] ([shift={(90:0.5)}]P) arc[start angle=90, end angle=-255, radius=0.5];
+\node at (-90:0.85) {$345^\circ$};
+% 65
+\draw ([shift={(25:1.0)}]P) arc[start angle=25, end angle=90, radius=1.0];
+\node at (57:1.36) {$65^\circ$};
+% 80
+\draw ([shift={(25:1.75)}]P) arc[start angle=25, end angle=105, radius=1.75];
+\node at (42:2.12) {$80^\circ$};
+% 15
+\draw ([shift={(90:2.45)}]P) arc[start angle=90, end angle=105, radius=2.45];
+\draw (97.5:2.45) -- (-1.05,2.5);
+\node[anchor=east] at (-1.05,2.5) {$15^\circ$};
+\node at (200:0.9) {$P$};
+\node[anchor=west] at ($(Q)+(0.05,0)$) {$Q$};
+\node[anchor=south] at ($(T)+(0,0.05)$) {$T$};
+\node[anchor=north west] at ($(P)!0.65!(Q)+(-65:0.08)$) {65 m};
+\node[anchor=east] at ($(P)!0.45!(T)+(195:0.12)$) {48 m};
+\end{tikzpicture}
+\end{document}

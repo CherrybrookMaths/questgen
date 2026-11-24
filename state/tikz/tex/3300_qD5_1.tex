@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (48,527) -- (522,527);
+\draw[->] (48,527) -- (48,40);
+\node at (540,527) {$x$};
+\node at (48,16) {$y$};
+\foreach \i in {1,2,3,4} \draw ({48+114.5*\i},527) -- ({48+114.5*\i},519);
+\foreach \j in {1,2,3,4} \draw (48,{527-112*\j}) -- (56,{527-112*\j});
+\node at (25,80) {$4$};
+\node at (277,560) {$2$};
+\draw[line width=0.9pt,smooth,samples=90,domain=-0.03:4.08] plot ({48+114.5*\x},{527-112*(\x-2)^2});
+\end{tikzpicture}
+\end{document}

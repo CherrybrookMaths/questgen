@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (L) at (30,162); \coordinate (TL) at (150,42); \coordinate (TR) at (355,42);
+\coordinate (R) at (455,159); \coordinate (B) at (240,254);
+\tikzset{mst/.style={line width=0.9pt}}
+\draw (L)--(TL); \draw[mst] (TL)--(TR); \draw[mst] (TR)--(R); \draw (TL)--(B); \draw[mst] (TR)--(B); \draw[mst] (L)--(B); \draw (R)--(B);
+\foreach \p in {L,TL,TR,R,B} \filldraw[fill=black!8] (\p) circle (24);
+\node[font=\small] at (80,90) {7};
+\node[font=\small] at (253,22) {5};
+\node[font=\small] at (426,87) {2};
+\node[font=\small] at (169,141) {8};
+\node[font=\small] at (310,144) {4};
+\node[font=\small] at (134,229) {1};
+\node[font=\small] at (363,226) {6};
+\end{tikzpicture}
+\end{document}

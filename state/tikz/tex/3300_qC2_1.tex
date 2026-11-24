@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% axis
+\draw[->] (12,225)--(852,225);
+\foreach \v in {0,1,...,20}{\pgfmathtruncatemacro\m{mod(\v,4)}
+  \ifnum\m=0 \draw ({12+39.5*\v},218)--({12+39.5*\v},232);
+  \else \draw ({12+39.5*\v},221)--({12+39.5*\v},229);\fi}
+\foreach \v in {0,2,...,10}{\node[font=\fontsize{8}{9.6}\selectfont] at ({12+79*\v},246) {\v};}
+\begin{scope}[line width=0.9pt]
+% Group 1
+\draw ({12+79*1},75)--({12+79*3},75) ({12+79*7},75)--({12+79*9},75);
+\draw ({12+79*1},64)--({12+79*1},86) ({12+79*9},64)--({12+79*9},86);
+\draw ({12+79*3},46) rectangle ({12+79*7},104);
+\draw ({12+79*5},46)--({12+79*5},104);
+% Group 2
+\draw ({12+79*4.5},152)--({12+79*6},152) ({12+79*8.5},152)--({12+79*10},152);
+\draw ({12+79*4.5},141)--({12+79*4.5},163) ({12+79*10},141)--({12+79*10},163);
+\draw ({12+79*6},121) rectangle ({12+79*8.5},180);
+\draw ({12+79*7},121)--({12+79*7},180);
+\end{scope}
+\node[anchor=west,font=\fontsize{10.5}{12}\selectfont] at (882,51) {Group 1};
+\node[anchor=west,font=\fontsize{10.5}{12}\selectfont] at (882,155) {Group 2};
+\end{tikzpicture}
+\end{document}

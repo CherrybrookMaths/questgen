@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(112,381)},x=0.29845cm,y=0.0096cm,every node/.style={font=\fontsize{10.5}{12}\selectfont}]
+\draw[->] (0,0) -- (13.8,0) node[right=1pt]{$N$};
+\draw[->] (0,0) -- (0,448) node[above=1pt]{$A$};
+\foreach \i in {1,...,13} \draw (\i,-8) -- (\i,8);
+\foreach \i in {2,4,...,12} \node[below] at (\i,-22) {\i};
+\foreach \j in {50,100,...,400} {\draw (-0.25,\j) -- (0.25,\j); \node[left] at (-0.3,\j) {\j};}
+\node[rotate=90] at (-3.75,225) {Amount of Cake (g)};
+\node at (6.5,-97) {Number of People};
+\draw[line width=0.9pt] (0,360) -- (12,0);
+\end{scope}
+\end{tikzpicture}
+\end{document}

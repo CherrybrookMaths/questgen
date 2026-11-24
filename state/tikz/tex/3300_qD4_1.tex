@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.1143cm,y=0.1905cm,font=\small]
+\draw[->] (0,0)--(0,23.6);
+\draw[->] (0,0)--(47,0);
+\foreach \y in {4,8,...,20} {\draw (0,\y)--++(-4pt,0); \node[anchor=east] at ([xshift=-5pt]0,\y) {$\y$};}
+\foreach \x in {10,20,30,40} {\draw (\x,0)--++(0,-4pt); \node[anchor=north] at ([yshift=-5pt]\x,0) {$\x$};}
+\node[anchor=north east] at ([xshift=-4pt,yshift=-2pt]0,0) {$0$};
+\node[anchor=north] at ([yshift=-5pt]46,0) {$t$};
+\node[rotate=90] at (-8.5,9.9) {Distance (km)};
+\node at (20.1,-4.2) {Time (minutes)};
+\draw[line width=0.9pt] (0,4)--(35,18);
+\draw[line width=0.9pt] (0,16)--(35,9);
+\fill (35,18) circle (1.3pt) (35,9) circle (1.3pt) (20,12) circle (1.3pt);
+\node[anchor=west] at ([xshift=2pt]35,18) {Anna};
+\node[anchor=west] at ([xshift=2pt]35,9) {Bianca};
+\end{tikzpicture}
+\end{document}

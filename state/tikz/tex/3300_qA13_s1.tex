@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+\coordinate (A) at (500,215); \coordinate (B) at (200,500);
+% compass at A
+\draw[->] (500,355)--(500,65);
+\draw (310,215)--(665,215);
+\node at (500,35) {$N$}; \node at (505,395) {$S$};
+\node at (262,215) {$W$}; \node at (692,215) {$E$};
+% compass at B
+\draw[->] (200,640)--(200,390);
+\draw (40,500)--(410,500);
+\node at (190,352) {$N$}; \node at (440,500) {$E$};
+\node at (150,540) {$B$}; \node at (525,192) {$A$};
+% path
+\draw (A)--(B);
+% bearing 263 at A
+\draw[<-] (A) ++(-90:60) arc (-90:136.5:60);
+\node at (612,298) {$263^\circ$};
+% alternate angles
+\draw (A) ++(90:88) arc (90:136.5:88);
+\node at (452,330) {$83^\circ$};
+\draw (B) ++(-90:62) arc (-90:-43.5:62);
+\node at (243,402) {$83^\circ$};
+\end{tikzpicture}
+\end{document}

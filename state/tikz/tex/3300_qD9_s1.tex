@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, mst/.style={line width=0.9pt}]
+\coordinate (P1) at (188,148); \coordinate (P2) at (495,235); \coordinate (P3) at (22,298);
+\coordinate (P4) at (282,452); \coordinate (P5) at (515,395);
+% non-MST edges
+\draw (P3) -- (P1);
+\draw (P1) .. controls (280,80) and (345,45) .. (400,45) .. controls (450,45) and (470,120) .. (P2);
+\draw (P3) .. controls (150,300) and (240,330) .. (P4);
+\draw (P4) -- (P5);
+\draw (P2) .. controls (455,300) and (455,345) .. (P5);
+% minimum spanning tree (3, 7, 4, 2)
+\draw[mst] (P3) .. controls (60,410) and (140,475) .. (P4);
+\draw[mst] (P1) .. controls (245,220) and (278,330) .. (P4);
+\draw[mst] (P1) -- (P2);
+\draw[mst] (P2) .. controls (560,290) and (550,350) .. (P5);
+\foreach \p in {P1,P2,P3,P4,P5} \fill (\p) circle (6);
+\node[font=\large] at (428,28) {$11$};
+\node[font=\large] at (95,200) {$8$};
+\node[font=\large] at (360,172) {$4$};
+\node[font=\large] at (280,268) {$7$};
+\node[font=\large] at (443,305) {$6$};
+\node[font=\large] at (565,310) {$2$};
+\node[font=\large] at (152,340) {$5$};
+\node[font=\large] at (85,447) {$3$};
+\node[font=\large] at (392,442) {$9$};
+\end{tikzpicture}
+\end{document}

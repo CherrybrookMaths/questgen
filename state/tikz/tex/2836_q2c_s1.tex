@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (113,96); \coordinate (B) at (312,96); \coordinate (C) at (412,268);
+\coordinate (D) at (312,438); \coordinate (E) at (113,438); \coordinate (F) at (15,268);
+\coordinate (P) at (214,250);
+\draw (A)--(B)--(C)--(D)--(E)--(F)--cycle;
+\draw[aux] (A) -- (P) -- (B);
+\foreach \p/\q in {A/B,B/C,C/D,D/E,E/F,F/A}{
+  \coordinate (m) at ($(\p)!0.5!(\q)$);
+  \draw ($(m)!4pt!90:(\q)$) -- ($(m)!4pt!-90:(\q)$);}
+\draw ($(P)!26pt!(A)$) arc[start angle=123.5, end angle=57, radius=26pt];
+\node at (214,38) {$60$ cm};
+\node at (122,186) {$60$ cm};
+\node at (307,186) {$60$ cm};
+\node at (214,166) {$60^\circ$};
+\end{tikzpicture}
+\end{document}

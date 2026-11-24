@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{11}{13}\selectfont}]
+\def\ox{219}\def\oy{232}\def\sx{27}\def\sy{27.8}
+\draw[->] (20,\oy) -- (440,\oy); \draw[->] (\ox,425) -- (\ox,18);
+\node at (432,247) {$x$}; \node at (203,22) {$y$};
+\foreach \k in {-6,-4,-2,2,4,6} {\draw ({\ox+\sx*\k},{\oy-6}) -- ({\ox+\sx*\k},{\oy+6});
+  \draw ({\ox-6},{\oy-\sy*\k}) -- ({\ox+6},{\oy-\sy*\k});
+  \node[anchor=east] at ({\ox-6},{\oy-\sy*\k}) {$\k$};}
+\foreach \k in {-6,-4,-2,2,4,6} \node[anchor=north] at ({\ox+\sx*\k},{\oy+6}) {$\k$};
+\node[anchor=north east] at (\ox-3,\oy+2) {$0$};
+\draw[line width=0.9pt,smooth,samples=90,domain=-1.5:1.5] plot ({\ox+\sx*\x},{\oy-\sy*(-2*\x*\x*\x)});
+\end{tikzpicture}
+\end{document}

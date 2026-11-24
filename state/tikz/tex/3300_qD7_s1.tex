@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\useasboundingbox (0,0) rectangle (973,590);
+\fill[black!18] (320,15) rectangle (422,105);
+\draw (320,15) rectangle (932,105); \draw (320,60)--(932,60);
+\foreach \x in {422,524,627,729,830} \draw (\x,15)--(\x,105);
+\node at (371,37.5) {$x$}; \node at (473,37.5) {$-5$}; \node at (575.5,37.5) {$-3$}; \node at (678,37.5) {$-1$}; \node at (779.5,37.5) {$1$}; \node at (881,37.5) {$3$};
+\node at (371,82.5) {$y$}; \node at (473,82.5) {$16$}; \node at (575.5,82.5) {$10$}; \node at (678,82.5) {$4$}; \node at (779.5,82.5) {$-2$}; \node at (881,82.5) {$-8$};
+\draw[->] (678,118) .. controls (685,190) and (772,190) .. (779.5,118);
+\node at (729,205) {$-6$};
+% working table
+\draw (493,345)--(860,345); \draw (637,275)--(637,420); \draw (760,275)--(760,420);
+\node[font=\large] at (548,302) {$-1$}; \node[font=\large] at (698,302) {$0$}; \node[font=\large] at (812,302) {$1$};
+\node[font=\large] at (565,385) {$4$}; \node[font=\large] at (698,385) {$1$}; \node[font=\large] at (822,385) {$-2$};
+\draw[->] (565,420) .. controls (570,490) and (692,490) .. (698,420);
+\node[font=\large] at (631,512) {$-3$};
+\end{tikzpicture}
+\end{document}

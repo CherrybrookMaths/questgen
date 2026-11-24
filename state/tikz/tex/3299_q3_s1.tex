@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[black!40] (5,5) rectangle (802,448);
+  \foreach \v in {10,20,30,40,50} \draw[black!25] (143,{327-4.44*\v}) -- (763,{327-4.44*\v});
+  \foreach \v in {0,10,20,30,40,50} \node[anchor=east,font=\fontsize{10}{12}\selectfont] at (116,{327-4.44*\v}) {\v};
+  \foreach \c/\h/\n in {193/15.3/RIO,320/23.2/COL,447/42.0/WOW,573/17.3/NAB,700/17.0/CBA}{
+    \fill[black!45] (\c-20,327) rectangle (\c+20,{327-4.44*\h});
+    \node[font=\fontsize{10}{12}\selectfont] at (\c,361) {\n};}
+  \draw[black!70] (143,327) -- (763,327);
+  \node[font=\fontsize{13.5}{16}\selectfont] at (398,50) {P/E ratio of different shares};
+  \node[font=\fontsize{10.5}{13}\selectfont] at (447,403) {ASX Code};
+  \node[font=\fontsize{10.5}{13}\selectfont,rotate=90] at (45,216) {P/E Ratio};
+\end{tikzpicture}
+\end{document}

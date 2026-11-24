@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{11.4}{13.7}\selectfont]
+  \draw[->] (12,308)--(685,308) node[right,inner sep=2pt]{$x$};
+  \draw[->] (300,492)--(300,60) node[above,inner sep=1pt]{$y$};
+  % parabola through the crop's intercepts (272, 405), vertex at their midpoint, y=-4 level at 400
+  \draw[line width=0.9pt,smooth,samples=90,domain=-119.5:119.5] plot ({338.5+\x},{400-0.0208*\x*\x});
+  \draw[aux] (300,400)--(338.5,400);
+  \node[left,inner sep=2pt] at (300,400) {$-4$};
+  \node[anchor=north east,inner sep=1pt] at (268,313) {$-1$};
+  \node[anchor=north west,inner sep=1pt] at (409,313) {$3$};
+  \node[anchor=north west,align=left,inner sep=0pt] at (565,45) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

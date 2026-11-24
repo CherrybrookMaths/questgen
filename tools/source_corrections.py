@@ -931,4 +931,46 @@ if not db.execute('select 1 from solutions where part_id=11196').fetchone():
                (r"""Substitute each $F$ into $C = 10 + 1.2F$:
 $$\begin{array}{c|c|c|c|c|c} F & 0 & 20 & 40 & 60 & 80 \\ \hline C & 10 & 34 & 58 & 82 & 106 \end{array}$$""",
                 json.dumps([[1, "Correct table"]]), json.dumps({'generated_note': 'Written by hand on 25 Nov: the part had no solution after the import.'})))
-db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27')
+# Standard batch 9 (run s9, 25 Nov early morning): the verifier's 17 findings on 2021 Knox AT2/AT3, William Clarke AT1/AT3/AT4,
+# Norwest Christian College, NEAP and Western Maths trials, checked by hand. Redraw fixed: 235_q14_1 said "DIAGRAM TO SCALE" (the paper:
+# NOT TO SCALE). Your calls: NEAP 2021 Q20(c), Knox 2021 AT3 Q2(c), William Clarke 2021 AT1 Q4 and AT3 Q12. Drawings for the checker:
+# 3300_qC3_s1 (marks 6.5 as the female mean; it is 5.4) and 3300_qD10_s1 (weight sums labelled as degrees).
+def _sol11337(l, c):   # 2021 Western Maths Q23(b): the stay is two weeks (the shared stem of Q23)
+    return (r"""She stays for two weeks, $14$ nights.
+
+Resort A: $10\%$ discount on $\$250$ per night.
+$$\begin{aligned} \text{Cost} &= 14\times 250\times 0.9 \\ &= \$3150 \end{aligned}$$
+Resort B: every seventh night is free, so she pays for $12$ of the $14$ nights.
+$$\begin{aligned} \text{Cost} &= 12\times 260 \\ &= \$3120 \end{aligned}$$
+$$\therefore\ \text{she should choose Resort B, since } \$3120<\$3150$$""", c)
+C28 = [
+ (11267, [(r'after $A$ is $22-12=22$ for the event at the foot of $C$ and $10$ for the event after $A$, start is $0$.', r'after $A$ is $\min(36-3,\ 22-12)=10$, start is $0$.')], [], r'the line for the event after $A$ read "$22-12=22$" and mixed two events; it is $\min(36-3, 22-12)=10$', None),
+ (11307, [('\n' + r'$$\begin{aligned} A &: 51 - (25+12) = 14? \end{aligned}$$', '')], [], r'a stray line gave $A$ a float of $14$; its float is $5$, as the working says later', None),
+ (11328, [(r'\bar I=\dfrac{991}{10}=99.2', r'\bar I=\dfrac{992}{10}=99.2')], [], r'the IQ total was written $991$; it is $992$', None),
+ (11337, [], [], r'the working assumed a 7-night stay because this part lost the shared stem; the stay is two weeks: A $\$3150$, B $\$3120$ (Resort B unchanged)', _sol11337),
+ (11034, [(r'&= 1588.845\ldots \end{aligned}$$', r'&= 1558.845\ldots \end{aligned}$$'), (r'A &= 6\times 1588.845\ldots', r'A &= 6\times 1558.845\ldots')], [], r'the triangle area was written $1588.845$; it is $1558.845$ ($6\times1558.845=9353.07$)', None),
+ (11054, [(r'&= 0.012 \times 100', r'&= 0.01238\ldots \times 100')], [], r'the line read $0.012\times100=1.24\%$; it is $0.01238\ldots\times100$', None),
+ (11056, [(r'0.8^7 &= 0.209 \\ 0.8^8 &= 0.262', r'0.8^6 &= 0.262 \\ 0.8^7 &= 0.209')], [], r'$0.8^8$ was given as $0.262$; $0.262$ is $0.8^6$ and $0.8^7=0.209$ is the first below $0.25$', None),
+ (11119, [(r'Females: $50\%$ lie above the mean, $6.5$ (as marked).', r'Females: from the table the mean is $5.4$ and the standard deviation $1.6$, so $8.6 = 5.4 + 2\times1.6$ is two standard deviations above the mean: $2.5\%$ lie above it.')], [], r'the working took the female mean as $6.5$; the table gives $5.4$ (SD $1.6$), so $8.6$ is 2 SD above', None),
+ (11131, [(r'and the original equation $\dfrac{6x-2}{5}=36$ written beside it', r'beside it; the original equation is $\sqrt{\dfrac{6x-2}{5}}=36$, so squaring both sides gives $\dfrac{6x-2}{5}=36^2=1296$, not $6$')], [], r'the explanation called $\dfrac{6x-2}{5}=36$ the original equation; the original has a square root, so squaring gives $1296$', None),
+ (11138, [(r'The annotated working beside the circled vertices gives A: $35$, B: $25$, C: $20$, D: $44$.', r'The annotated working beside the circled vertices gives A: $35$, B: $25$, C: $20$, D: $44$; these are the sums of the edge weights at each vertex, not the degrees (the degrees are A $4$, B $3$, C $2$, D $5$).')], [], r'the numbers $35, 25, 20, 44$ were called degrees; they are the sums of edge weights', None),
+ (11073, [(r'&\approx \$112\,622.90', r'&= \$112\,662.90')], [], r'$21000\times5.3649$ was given as $\$112\,622.90$ (as in option B on the paper); it is $\$112\,662.90$', None),
+]
+for sid, lat, crit, note, extra in C28:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+db.execute("update questions set stem_latex='She will fly from Sydney to Broome and stay for two weeks at a resort.' where id=7450 and coalesce(stem_latex,'')=''")
+if db.execute("select is_correct from mcq_options where question_id=7262 and label='B'").fetchone()[0]:   # 2021 Knox AT3 Q4(a): 6 vertices -> 5 edges
+    db.execute("update mcq_options set is_correct=(label='C') where question_id=7262")
+# batch_check table rules (s9): no \begin{array} words or [1.2ex] spacing inside table cells
+_r = db.execute("select rows_json from data_tables where id='Tf4333'").fetchone()
+if _r and '\\begin{array}' in _r[0]:
+    _rows = json.loads(_r[0])
+    _rows[0][0] = r"\text{Opening Balance } \$0.00 + \text{New charges } \mathbf{B} - \text{Payment/refunds } \mathbf{C} = \text{Closing balance } \mathbf{D}"
+    db.execute("update data_tables set rows_json=? where id='Tf4333'", (json.dumps(_rows, ensure_ascii=False),))
+_r = db.execute("select rows_json from data_tables where id='Tp11641_1'").fetchone()
+if _r and '[1.2ex] ' in _r[0]:
+    db.execute("update data_tables set rows_json=? where id='Tp11641_1'", (_r[0].replace('[1.2ex] ', ''),))
+db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28')

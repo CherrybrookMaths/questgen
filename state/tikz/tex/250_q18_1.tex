@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% dimension
+\draw[aux,<-] (20,20) -- (202,20);
+\draw[aux,->] (288,20) -- (420,20);
+\node[font=\small] at (245,20) {80 mm};
+% fin stripes
+\draw (22,68) -- (63,68);
+\draw (22,75) -- (71,75);
+% fuselage outline
+\draw[line join=round] (22,62) -- (58,64) -- (100,100) -- (303,98)
+  .. controls (318,88) and (335,85) .. (355,87)
+  .. controls (378,90) and (395,100) .. (405,113)
+  -- (445,130) -- (405,143) .. controls (370,150) and (340,151) .. (320,151) -- (85,151) -- (22,120) -- (40,117) -- cycle;
+% canopy frame
+\draw (338,87) -- (333,99);
+\draw (303,98) -- (405,113);
+% wing
+\draw[line join=round] (75,124) -- (108,115) -- (295,112) .. controls (305,113) and (306,122) .. (298,123)
+  -- (240,124) -- (234,129) -- (105,129) -- cycle;
+\draw (112,121) -- (228,120);
+\draw[rounded corners=3] (272,130) rectangle (305,136);
+% landing gear
+\foreach \g in {145,320} {
+  \draw (\g-3,151) -- (\g-3,163); \draw (\g+3,151) -- (\g+3,163);
+  \draw (\g,173) circle [radius=10]; \draw (\g,173) circle [radius=4];
+}
+% stand
+\draw (198,151) -- (228,255);
+\draw (248,151) -- (233,200) -- (240,255);
+\draw (150,255) rectangle (318,270);
+\node[font=\small,align=center] at (552,143) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

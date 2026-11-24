@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \k in {1,...,9} \draw[aux,black!55] ({87+70.1*\k},692)--({87+70.1*\k},40);
+\foreach \k in {1,...,9} \draw[aux,black!55] (87,{693.6-67.6*\k})--(765,{693.6-67.6*\k});
+\draw[->] (87,692)--(795,692);
+\draw[->] (87,692)--(87,36);
+\foreach \k in {1,...,9} {\pgfmathtruncatemacro\v{5*\k}\pgfmathtruncatemacro\w{50*\k}
+  \node[font=\footnotesize,anchor=north] at ({87+70.1*\k},698) {\v};
+  \node[font=\footnotesize,anchor=east] at (83,{693.6-67.6*\k}) {\w};}
+\draw[line width=0.9pt] ({87+14.02*5},{693.6-1.3525*54})--({87+14.02*49.07},{693.6-1.3525*481.8});
+\foreach \a/\b in {6/50,10/110,15/160,20/188,25/236,30/286,35/349,40/406,45/434}
+  \fill ({87+14.02*\a},{693.6-1.3525*\b}) circle (6.5);
+\node at (72,52) {$y$};
+\node at (775,712) {$x$};
+\node at (438,752) {\small\textbf{Exercise (minutes)}};
+\node[rotate=90] at (28,390) {\small\textbf{Calories Burned}};
+\end{tikzpicture}
+\end{document}

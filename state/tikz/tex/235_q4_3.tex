@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{lt/.style={shade dots, stipple color=black!30, stipple gap=3}}
+\foreach \x/\y in {10/16,10/91,10/166,84/166,158/166}{
+  \path[lt] (\x,\y) rectangle ++(74,75);
+  \draw (\x,\y) rectangle ++(74,75);}
+\end{tikzpicture}
+\end{document}

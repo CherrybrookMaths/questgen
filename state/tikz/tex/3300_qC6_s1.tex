@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\LARGE]
+\foreach \x/\v in {120/14,205/19,310/20,410/21,530/23,645/24}{\node at (\x,38) {$\v$};}
+\node[draw,ellipse,inner sep=3pt] at (770,38) {$36$};
+\node[anchor=west] at (285,115) {$\bar{x}=22.428\ldots$};
+\node[anchor=west] at (275,210) {$\sigma\approx 6.2986$};
+\node[anchor=west] at (735,295) {$\bar{x}+2\sigma=35.0\ldots$};
+\node[anchor=west] at (735,375) {$\bar{x}-2\sigma=9.8$};
+% normal curve: mean 22.43 at x=300, sigma = 100 px
+\draw (15,488)--(690,488);
+\draw[line width=0.9pt,smooth,samples=90,domain=20:620] plot (\x,{488-153*exp(-((\x-300)/100)^2/2)});
+\foreach \s in {-2,-1,0,1,2}{\draw ({300+100*\s},488)--({300+100*\s},{488-153*exp(-(\s)^2/2)});}
+\node at (100,525) {$9.8$};
+\node at (300,525) {$22.4$};
+\node at (500,525) {$35.0$};
+\end{tikzpicture}
+\end{document}

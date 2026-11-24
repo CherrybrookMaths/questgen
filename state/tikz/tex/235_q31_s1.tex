@@ -1,0 +1,35 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\coordinate (Q) at (0,0); \coordinate (P) at (0,7.65);
+\coordinate (T) at (3.09,0); \coordinate (R) at (3.09,5.72);
+\draw (-0.5,0)--(3.8,0);
+\draw (Q)--(P); \draw (T)--(R);
+\draw (P)--(R); \draw (P)--(T);
+\draw[aux] (P)--(3.8,7.65);
+% right angles
+\draw (0,0.25)--(0.25,0.25)--(0.25,0);
+\draw (3.09,0.25)--(2.84,0.25)--(2.84,0);
+% angles at P
+\draw ([shift={(0:1.0)}]P) arc[start angle=0, end angle=-32, radius=1.0];
+\node at ($(P)+(-15:1.42)$) {\small$32^\circ$};
+\draw ([shift={(-32:0.8)}]P) arc[start angle=-32, end angle=-68, radius=0.8];
+\node at ($(P)+(-50:1.2)$) {\small$36^\circ$};
+\draw ([shift={(0:2.0)}]P) arc[start angle=0, end angle=-68, radius=2.0];
+\node at ($(P)+(-56:2.4)$) {\small$68^\circ$};
+% angles at T
+\draw ([shift={(112:0.8)}]T) arc[start angle=112, end angle=180, radius=0.8];
+\node at ($(T)+(148:1.2)$) {\small$68^\circ$};
+\draw ([shift={(90:1.5)}]T) arc[start angle=90, end angle=112, radius=1.5];
+\node at ($(T)+(100:1.88)$) {\small$22^\circ$};
+% angle at R
+\draw ([shift={(148:0.45)}]R) arc[start angle=148, end angle=270, radius=0.45];
+\node at ($(R)+(210:0.85)$) {\small$122^\circ$};
+\node[anchor=east] at ($(P)+(-0.08,0)$) {$P$};
+\node[anchor=north] at ($(Q)+(0,-0.08)$) {$Q$};
+\node[anchor=west] at ($(R)+(0.08,0)$) {$R$};
+\node[anchor=north] at ($(T)+(0,-0.08)$) {$T$};
+\node[anchor=east] at ($(P)!0.55!(T)+(-0.15,-0.05)$) {55 m};
+\end{tikzpicture}
+\end{document}

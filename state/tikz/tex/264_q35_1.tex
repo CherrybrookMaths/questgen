@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{(92+(#1)*10.01)}
+\def\Y#1{(1055-(#1)*12.16)}
+\foreach \v in {1,...,100} \draw[black!15, line width=0.4pt] ({\X{\v}},1055)--({\X{\v}},82);
+\foreach \v in {1,...,80} \draw[black!15, line width=0.4pt] (92,{\Y{\v}})--(1093,{\Y{\v}});
+\foreach \v in {5,10,...,100} \draw[black!30, line width=0.4pt] ({\X{\v}},1055)--({\X{\v}},82);
+\foreach \v in {5,10,...,80} \draw[black!30, line width=0.4pt] (92,{\Y{\v}})--(1093,{\Y{\v}});
+\draw[->] (92,1055)--(1128,1055);
+\draw[->] (92,1055)--(92,45);
+\foreach \v in {1,...,100} \draw ({\X{\v}},1049)--({\X{\v}},1061);
+\foreach \v in {1,...,80} \draw (86,{\Y{\v}})--(98,{\Y{\v}});
+\foreach \v in {5,10,...,100} \node[font=\footnotesize] at ({\X{\v}},1088) {$\v$};
+\foreach \v in {5,10,...,80} \node[font=\footnotesize, anchor=east] at (80,{\Y{\v}}) {$\v$};
+\draw[line width=0.9pt] (92,1055)--({\X{103.5}},{\Y{80.73}});
+\draw[line width=0.9pt] (92,1055)--({\X{103.5}},{\Y{60.24}});
+\node[rotate=43.5] at (338,775) {Highest exchange rate};
+\node[rotate=35.3] at (527,803) {Lowest exchange rate};
+\node at (90,18) {$U$};
+\node at (1150,1053) {$A$};
+\node[rotate=90, font=\footnotesize] at (22,550) {US Dollars};
+\node[font=\footnotesize] at (595,1120) {Australian Dollars};
+\end{tikzpicture}
+\end{document}

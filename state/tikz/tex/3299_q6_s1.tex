@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {1,...,8} \draw[black!45] ({155+46.4*\i},73) -- ({155+46.4*\i},675);
+  \foreach \j in {1,...,12} \draw[black!45] (155,{675-50.2*\j}) -- (526,{675-50.2*\j});
+  \draw (155,73) -- (155,675) -- (526,675);
+  \foreach \j in {0,...,12} \draw (145,{675-50.2*\j}) -- (155,{675-50.2*\j});
+  \foreach \i in {0,...,8} \draw ({155+46.4*\i},675) -- ({155+46.4*\i},688);
+  \foreach \j in {0,...,8}{\pgfmathtruncatemacro\v{2000*\j}
+    \node[anchor=east,font=\fontsize{8}{10}\selectfont\bfseries] at (128,{675-50.2*\j}) {\v};}
+  \foreach \i in {0,...,7} \node[font=\fontsize{8}{10}\selectfont\bfseries] at ({155+46.4*\i},707) {\i};
+  \draw[line width=0.9pt,smooth,samples=90,domain=0:5] plot ({155+46.4*\x},{675-401.6*0.8^\x});
+  \foreach \i in {0,...,5} \fill ({155+46.4*\i},{675-401.6*0.8^\i}) circle (2.4pt);
+  \node[align=center,font=\fontsize{9}{13}\selectfont\bfseries] at (338,28) {Salvage of the Hyundai i30 over 5 years at a depreciation\\rate of 20\%};
+  \node[font=\fontsize{9}{11}\selectfont\bfseries] at (338,762) {Year};
+  \node[font=\fontsize{9}{11}\selectfont\bfseries,rotate=90] at (27,455) {Salvage value (\$)};
+\end{tikzpicture}
+\end{document}

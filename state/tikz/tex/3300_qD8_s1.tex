@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\coordinate (S) at (110,208); \coordinate (A) at (293,57); \coordinate (B) at (578,57);
+\coordinate (T) at (803,182); \coordinate (C) at (455,243); \coordinate (D) at (578,338); \coordinate (E) at (327,372);
+\draw[mid=0.6] (S)--(A); \draw[mid=0.53] (S)--(C); \draw[mid=0.52] (S)--(E);
+\draw[mid=0.52] (A)--(B); \draw[mid=0.54] (B)--(T); \draw[mid=0.51] (C)--(T);
+\draw[mid=0.53] (D)--(C); \draw[mid=0.5] (D)--(T); \draw[mid=0.5] (E)--(D);
+\foreach \p in {S,A,B,T,C,D,E} \fill (\p) circle (8);
+\node at (200,103) {$8$}; \node at (308,204) {$6$}; \node at (222,328) {$2$};
+\node at (430,28) {$9$}; \node at (712,108) {$4$}; \node at (652,185) {$6$};
+\node at (540,285) {$4$}; \node at (707,282) {$5$}; \node at (444,388) {$4$};
+\node[anchor=east,font=\small] at (95,210) {source}; \node[anchor=west,font=\small] at (818,183) {sink};
+\draw[aux] plot[smooth] coordinates {(475,8) (510,50) (540,100) (553,150) (535,205) (495,255) (467,310) (478,360) (535,405)};
+% capacities counted across the cut
+\draw (420,30) ellipse (30 and 30);
+\draw (652,185) ellipse (32 and 28);
+\draw (444,388) ellipse (30 and 28);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\tikzset{dimS/.style={arrows={Bar[width=2.8mm]Latex[length=2mm,width=1.3mm]-}},
+         dimE/.style={arrows={-Latex[length=2mm,width=1.3mm]Bar[width=2.8mm]}}}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (67,42) -- (67,513) -- (541,513) -- (541,355) -- cycle;
+% 3x
+\draw[aux,dimS] (40,42) -- (40,278);
+\draw[aux,dimE] (40,312) -- (40,513);
+\node at (38,295) {$3x$};
+% x
+\draw[aux,dimS] (566,355) -- (566,422);
+\draw[aux,dimE] (566,452) -- (566,513);
+\node at (566,437) {$x$};
+% 30
+\draw[aux,dimS] (67,539) -- (285,539);
+\draw[aux,dimE] (325,539) -- (541,539);
+\node at (305,539) {$30$};
+% 4y
+\draw[aux,<-] (78,22) -- (287,161);
+\draw[aux,->] (332,191) -- (553,338);
+\node at (310,176) {$4y$};
+\node[align=center] at (708,307) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

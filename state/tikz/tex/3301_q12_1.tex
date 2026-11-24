@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.9208cm,y=0.9144cm]
+\begin{scope}
+\clip (-2.52,-5.39) rectangle (3.54,1.97);
+\draw[black!12,line width=0.4pt,step=0.5] (-3,-6) grid (4,2);
+\draw[black!40,line width=0.4pt,step=2] (-4,-6) grid (4,2);
+\end{scope}
+\draw (-2.52,0)--(3.54,0); \draw (0,-5.39)--(0,1.97);
+\draw[line width=0.9pt,smooth,samples=90,domain=-1.53:3.54] plot (\x,{-3^(-\x)});
+\begin{scope}[every node/.style={font=\scriptsize,inner sep=1pt}]
+\node at (-2,-0.18) {$-2$}; \node at (-0.15,-0.18) {$0$}; \node at (2,-0.18) {$2$};
+\node[anchor=east] at (-0.05,-2) {$-2$}; \node[anchor=east] at (-0.05,-4) {$-4$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

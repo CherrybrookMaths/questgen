@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\newcommand\hist[4]{%
+\begin{scope}[shift={(#1,#2)}]
+  \foreach \h [count=\i from 0] in {#4}{
+    \filldraw[fill=black!30] (178+48*\i,287) rectangle ++(48,-47*\h);
+    \node at (202+48*\i,307) {$\i$};
+  }
+  \draw (150,55)--(150,287)--(497,287);
+  \node at (323,20) {\textbf{#3}};
+  \node[anchor=west,align=left] at (25,177) {Number\\[-2pt]of\\[-2pt]students};
+  \node at (340,352) {Marks};
+\end{scope}}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\hist{0}{0}{Algebra Results:}{1,4,1,1,4,1}
+\hist{657}{0}{Trigonometry Results:}{1,2,3,3,2,1}
+\hist{0}{373}{Measurement Results:}{2,2,2,2,2,2}
+\hist{657}{373}{Financial Mathematics Results:}{3,2,1,1,2,3}
+\end{tikzpicture}
+\end{document}

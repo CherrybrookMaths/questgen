@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (150,101); \coordinate (B) at (346,101); \coordinate (C) at (446,274);
+\coordinate (D) at (346,447); \coordinate (E) at (150,447); \coordinate (F) at (50,274);
+\draw (A)--(B)--(C)--(D)--(E)--(F)--cycle;
+\draw[aux] (A) -- (248,255) -- (B);
+\foreach \p/\q in {A/B,B/C,C/D,D/E,E/F,F/A}{
+  \coordinate (m) at ($(\p)!0.5!(\q)$);
+  \draw ($(m)!4pt!90:(\q)$) -- ($(m)!4pt!-90:(\q)$);}
+\node at (260,42) {$60$ cm};
+\end{tikzpicture}
+\end{document}

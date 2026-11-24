@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(222,228)}]
+\begin{scope}[x=0.3556cm,y=0.3556cm]
+\draw[->] (-7.2,0) -- (7.85,0);
+\draw[->] (0,-6.9) -- (0,7.9);
+\node at (7.57,-0.6) {$x$};
+\node at (-0.6,7.45) {$y$};
+\foreach \t in {-6,-4,-2,2,4,6} {
+  \draw (\t,-0.18) -- (\t,0.18);
+  \draw (-0.18,\t) -- (0.18,\t);
+}
+\foreach \t in {-6,-4,-2} \node[font=\small] at (\t,-0.82) {$\t$};
+\foreach \t in {2,4,6} \node[font=\small] at (\t,0.75) {$\t$};
+\foreach \t in {-6,-4,-2} \node[font=\small,anchor=east] at (-0.25,\t) {$\t$};
+\foreach \t in {2,4,6} \node[font=\small,anchor=west] at (0.25,\t) {$\t$};
+\node[font=\small] at (-0.55,-0.6) {$0$};
+\draw[line width=0.9pt, smooth, samples=90, domain=-7:-0.3] plot (\x, {-2/\x});
+\draw[line width=0.9pt, smooth, samples=90, domain=0.3:7] plot (\x, {-2/\x});
+\end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{document}

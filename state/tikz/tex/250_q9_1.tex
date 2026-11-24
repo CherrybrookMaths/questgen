@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{(75+118.25*(#1))}\def\Y#1{(652-12.978*(#1))}
+% grid
+\foreach \i in {1,...,16} \draw[black!40,line width=0.4pt] ({75+118.25*\i/4},652) -- ({75+118.25*\i/4},68);
+\foreach \j in {1,...,45} \draw[black!40,line width=0.4pt] (75,{652-12.978*\j}) -- (548,{652-12.978*\j});
+% axes
+\draw[->] (75,652) -- (602,652);
+\draw[->] (75,652) -- (75,40);
+\node at (592,677) {$t$}; \node at (68,18) {$h$};
+\foreach \j in {0,5,...,45} {\draw (63,{652-12.978*\j}) -- (75,{652-12.978*\j});
+  \node[anchor=east] at (60,{652-12.978*\j}) {\j};}
+\foreach \i in {0,...,4} {\draw ({75+118.25*\i},652) -- ({75+118.25*\i},662);
+  \node[anchor=north] at ({75+118.25*\i},667) {\i};}
+\draw[line width=0.9pt,smooth,samples=90,domain=0:4] plot ({75+118.25*\x},{652-12.978*(2+40*\x-10*\x*\x)});
+\end{tikzpicture}
+\end{document}

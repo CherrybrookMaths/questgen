@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, v/.style={circle, fill, inner sep=0.9pt}, lab/.style={font=\fontsize{9}{10}\selectfont}]
+  \coordinate (A) at (57,92);
+  \coordinate (B) at (177,36);
+  \coordinate (D) at (321,36);
+  \coordinate (F) at (263,122);
+  \coordinate (E) at (466,122);
+  \coordinate (C) at (235,238);
+  \draw (A) -- (B) -- (D) -- (E) -- (C) -- (A);
+  \draw (B) -- (F) -- (D) (B) -- (C) -- (F);
+  \foreach \p in {A,B,C,D,E,F} \node[v] at (\p) {};
+  \node[lab] at (160,31) {$B$};
+  \node[lab] at (336,30) {$D$};
+  \node[lab] at (48,79) {$A$};
+  \node[lab] at (43,108) {Gate};
+  \node[lab] at (278,127) {$F$};
+  \node[lab] at (481,128) {$E$};
+  \node[lab] at (246,252) {$C$};
+  \node[lab] at (100,57) {30};
+  \node[lab] at (261,22) {200};
+  \node[lab] at (236,71) {70};
+  \node[lab] at (312,86) {90};
+  \node[lab] at (412,72) {80};
+  \node[lab] at (180,132) {150};
+  \node[lab] at (120,164) {40};
+  \node[lab] at (266,177) {85};
+  \node[lab] at (371,222) {120};
+\end{tikzpicture}
+\end{document}

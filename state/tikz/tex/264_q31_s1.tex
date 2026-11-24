@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[scale=0.04]
+\coordinate (B) at (0,0); \coordinate (D) at (0,-135); \coordinate (C) at ({90*sin(56)},{-90*cos(56)});
+\draw[aux,->] (B)--(0,55) node[above] {$N$};
+\draw[aux] (D)--(0,-150);
+\draw (B)--(C)--(D)--cycle;
+\foreach \p in {B,C,D} \fill (\p) circle[radius=0.05cm];
+\node[left=3pt] at (B) {$B$}; \node[right=3pt] at (C) {$C$}; \node[left=3pt] at (D) {$D$};
+\draw (0,-22) arc[start angle=-90, end angle=-34, radius=22];
+\node at ({33*cos(-62)},{33*sin(-62)}) {$56^\circ$};
+\draw[->] (0,30) arc[start angle=90, end angle=-34, radius=30];
+\node at ({41*cos(30)},{41*sin(30)}) {$124^\circ$};
+\node[left=3pt] at (0,-80) {135 m};
+\node[above right=1pt] at ($(B)!0.6!(C)$) {90 m};
+\node[below right=1pt] at ($(C)!0.5!(D)$) {$\approx 113$ m};
+\end{tikzpicture}
+\end{document}

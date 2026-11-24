@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \tikzset{v/.style={circle, draw, inner sep=0pt, font=\small}}
+  \node[v, minimum size=0.762cm] (A) at (82,116) {$A$};
+  \node[v, minimum size=0.787cm] (B) at (342,80) {$B$};
+  \node[v, minimum size=0.838cm] (C) at (589,110) {$C$};
+  \node[v, minimum size=0.92cm] (D) at (203,378) {$D$};
+  \node[v, minimum size=0.95cm] (E) at (376,366) {$E$};
+  \node[v, minimum size=0.95cm] (F) at (520,362) {$F$};
+  \draw (A)--(B); \draw (B)--(C);
+  \draw (A.-46)--(E.147); \draw (A.-79)--(D.130);
+  \draw (C.-122)--(E.63); \draw (C.-81)--(F.25);
+  \draw (D)--(E); \draw (E)--(F);
+\end{tikzpicture}
+\end{document}

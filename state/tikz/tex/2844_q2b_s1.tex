@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[font=\large]
+\coordinate (A) at (0,1.6); \coordinate (B) at (2.6,3.2); \coordinate (C) at (2.6,0);
+\coordinate (F) at (4.8,1.6); \coordinate (D) at (7.4,3.2); \coordinate (E) at (7.4,0);
+\draw[aux] (B)--(C); \draw[aux] (B)--(D); \draw[aux] (C)--(F); \draw[aux] (C)--(E);
+\draw[line width=0.9pt] (A)--(B); \draw[line width=0.9pt] (A)--(C); \draw[line width=0.9pt] (B)--(F);
+\draw[line width=0.9pt] (D)--(F); \draw[line width=0.9pt] (D)--(E);
+\foreach \p in {A,B,C,D,E,F} \fill (\p) circle (2.2pt);
+\node[left=3pt,align=right] at (A) {$A$\\[-2pt]\normalsize(Gate)};
+\node[above=3pt] at (B) {$B$}; \node[below=3pt] at (C) {$C$};
+\node[above=3pt] at (D) {$D$}; \node[below=3pt] at (E) {$E$}; \node[right=4pt] at (F) {$F$};
+\node[above left=0pt] at ($(A)!0.5!(B)$) {$30$};
+\node[below left=0pt] at ($(A)!0.5!(C)$) {$40$};
+\node[left=2pt] at ($(B)!0.5!(C)$) {$150$};
+\node[above=2pt] at ($(B)!0.5!(D)$) {$200$};
+\node[above right=0pt] at ($(B)!0.5!(F)$) {$70$};
+\node[below right=0pt] at ($(C)!0.5!(F)$) {$85$};
+\node[below=2pt] at ($(C)!0.5!(E)$) {$120$};
+\node[above left=0pt] at ($(F)!0.5!(D)$) {$90$};
+\node[right=2pt] at ($(D)!0.5!(E)$) {$80$};
+\node[anchor=north] at (3.7,-0.75) {Total length $= 30+40+70+90+80 = 310$ m};
+\end{tikzpicture}
+\end{document}

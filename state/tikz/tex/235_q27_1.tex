@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (12,268) -- (893,268);
+\foreach \x/\l in {20/0,87/2,153/3,215/4,280/5,343/6,407/7,470/8,532/9,605/10,687/11,765/12} \node at (\x,292) {\l};
+% Vitamin A
+\path[shade dots] (377,20) rectangle (466,83);
+\draw[line width=0.9pt] (377,20) rectangle (466,83) (443,20)--(443,83) (292,49)--(377,49) (466,49)--(607,49) (292,37)--(292,62) (607,37)--(607,62);
+% Vitamin B
+\path[shade dots] (250,160) rectangle (340,222);
+\draw[line width=0.9pt] (250,160) rectangle (340,222) (285,160)--(285,222) (160,198)--(250,198) (340,198)--(467,198) (160,186)--(160,210) (467,186)--(467,210);
+\draw[aux] (285,222)--(285,268) (378,83)--(378,268) (443,83)--(443,268) (607,62)--(607,268);
+\node[anchor=west] at (647,40) {Vitamin $A$};
+\node[anchor=west] at (647,203) {Vitamin $B$};
+\node at (400,345) {Cholesterol level};
+\end{tikzpicture}
+\end{document}

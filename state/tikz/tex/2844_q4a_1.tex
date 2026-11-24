@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, v/.style={circle, fill, inner sep=1.1pt}, lab/.style={font=\fontsize{8.5}{10}\selectfont}]
+  \coordinate (A) at (45,90);
+  \coordinate (B) at (122,26);
+  \coordinate (C) at (258,42);
+  \coordinate (D) at (302,154);
+  \coordinate (E) at (206,262);
+  \coordinate (F) at (92,140);
+  \draw (A) -- (B) -- (C) -- (D) -- (E) -- (C);
+  \draw (F) -- (B) -- (E);
+  \foreach \p in {A,B,C,D,E,F} \node[v] at (\p) {};
+  \node[lab] at (122,14) {$B$};
+  \node[lab] at (258,29) {$C$};
+  \node[lab] at (44,103) {$A$};
+  \node[lab] at (92,154) {$F$};
+  \node[lab] at (316,155) {$D$};
+  \node[lab] at (206,275) {$E$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\large}]
+\coordinate (P) at (52,262); \coordinate (A) at (250,262); \coordinate (B) at (449,113);
+\coordinate (C) at (797,113); \coordinate (E) at (897,262); \coordinate (D) at (449,411);
+\coordinate (S) at (1095,262);
+\draw (P)--(A)--(B)--(C)--(E)--(S); \draw (A)--(E); \draw (A)--(D)--(E); \draw (B)--(E);
+\foreach \p in {P,A,B,C,D,E,S} \fill (\p) circle[radius=0.085cm];
+% cuts
+\draw[aux] plot[smooth] coordinates {(250,92) (300,140) (362,190) (402,255) (410,310) (402,385) (375,490)};
+\draw[aux] plot[smooth] coordinates {(402,80) (420,150) (455,215) (510,290) (558,350) (573,410) (575,462)};
+\draw[aux] plot[smooth] coordinates {(582,62) (595,110) (585,160) (540,215) (490,270) (450,340) (425,430) (420,525)};
+\draw[aux] plot[smooth] coordinates {(735,80) (740,160) (762,260) (768,330) (772,410)};
+\draw[aux] plot[smooth] coordinates {(937,95) (934,140) (905,168) (845,225) (805,290) (805,360) (845,388)};
+\node at (243,72) {$\alpha$}; \node at (402,47) {$\beta$}; \node at (577,38) {$\gamma$};
+\node at (738,22) {$\delta$}; \node at (937,72) {$\varepsilon$};
+% vertex labels
+\node at (240,232) {$A$}; \node at (427,100) {$B$}; \node at (826,92) {$C$};
+\node at (466,438) {$D$}; \node at (900,298) {$E$};
+\node at (73,230) {Gas Plant}; \node at (1118,232) {Gas Storage};
+% weights
+\node at (128,290) {540}; \node at (997,286) {540};
+\node[rotate=37] at (343,157) {180}; \node[rotate=-20] at (608,182) {90};
+\node at (497,236) {220}; \node at (672,90) {70}; \node at (865,160) {70};
+\node[rotate=-37] at (318,346) {140}; \node[rotate=17] at (690,364) {140};
+\end{tikzpicture}
+\end{document}

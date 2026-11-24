@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\small}]
+  \coordinate (H) at (172,95); \coordinate (K) at (582,138); \coordinate (I) at (305,224);
+  \coordinate (F) at (40,268); \coordinate (G) at (292,376); \coordinate (J) at (540,407);
+  \draw (H) .. controls (240,10) and (560,30) .. (K);
+  \draw (H) .. controls (90,75) and (-20,210) .. (F);
+  \draw (F) .. controls (150,150) and (400,70) .. (K);
+  \draw (I) -- (K);
+  \draw (F) .. controls (110,210) and (230,200) .. (I);
+  \draw (I) -- (G);
+  \draw (I) .. controls (420,240) and (520,320) .. (J);
+  \draw (K) .. controls (560,220) and (545,330) .. (J);
+  \draw (F) .. controls (70,380) and (200,410) .. (G);
+  \draw (G) .. controls (370,425) and (470,450) .. (J);
+  \node[font=\normalsize] at (160,62) {$H$};
+  \node[font=\normalsize] at (603,132) {$K$};
+  \node[font=\normalsize] at (316,200) {$I$};
+  \node[font=\normalsize] at (20,293) {$F$};
+  \node[font=\normalsize] at (272,408) {$G$};
+  \node[font=\normalsize] at (556,435) {$J$};
+  \node at (332,17) {21};
+  \node at (25,135) {13};
+  \node at (298,90) {28};
+  \node at (420,163) {15};
+  \node at (185,242) {11};
+  \node at (330,318) {10};
+  \node at (452,268) {19};
+  \node at (580,266) {14};
+  \node at (150,343) {20};
+  \node at (378,443) {13};
+\end{tikzpicture}
+\end{document}

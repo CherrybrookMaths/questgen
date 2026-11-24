@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.2cm,y=1.2cm,v/.style={circle,fill,inner sep=1.3pt},w/.style={font=\small,inner sep=2pt}]
+\coordinate (A) at (0,1.5); \coordinate (B) at (2,3); \coordinate (C) at (2,0);
+\coordinate (D) at (4.5,3); \coordinate (E) at (4.5,0); \coordinate (F) at (6.5,1.5); \coordinate (G) at (9,1.5);
+\draw (A)--(B) node[w,midway,above left]{66};
+\draw (A)--(C) node[w,midway,below left]{70};
+\draw (B)--(C) node[w,midway,left]{85};
+\draw (B)--(D) node[w,midway,below]{50};
+\draw (B) .. controls (3,4.6) and (6,4.4) .. (F) node[w,pos=0.5,above=3pt]{80};
+\draw (C)--(D) node[w,pos=0.45,above left]{65};
+\draw (C)--(E) node[w,midway,below]{50};
+\draw (D)--(E) node[w,midway,left]{70};
+\draw (D)--(F) node[w,midway,below left]{25};
+\draw (E)--(F) node[w,midway,above left]{20};
+\draw (E)--(G) node[w,midway,below right]{55};
+\draw (F)--(G) node[w,midway,above]{30};
+\foreach \p/\a in {A/left,B/above left,C/below,D/above right,E/below,F/below right,G/right}
+  \node[v,label={[font=\normalsize]\a:$\p$}] at (\p) {};
+\end{tikzpicture}
+\end{document}

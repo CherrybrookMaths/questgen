@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (L) at (14,267); \coordinate (T) at (458,14); \coordinate (B) at (396,330);
+  \draw (L) -- (T) -- (B) -- cycle;
+  \pgfmathsetmacro\aLT{atan2(14-267,458-14)}
+  \pgfmathsetmacro\aLB{atan2(330-267,396-14)}
+  \draw ($(L)+({165*cos(\aLB)},{165*sin(\aLB)})$) arc[start angle=\aLB, end angle=\aLT, radius=165];
+  \pgfmathsetmacro\aTL{atan2(267-14,14-458)}
+  \pgfmathsetmacro\aTB{atan2(330-14,396-458)}
+  \draw ($(T)+({164*cos(\aTL)},{164*sin(\aTL)})$) arc[start angle=\aTL, end angle=\aTB, radius=164];
+  \node[font=\small] at (136,245) {$32^\circ$};
+  \node[font=\small] at (382,117) {$48^\circ$};
+  \node[font=\small, rotate=79] at (457,197) {35 cm};
+  \node[font=\small, rotate=-9] at (195,333) {49 cm};
+  \node[font=\small, align=center] at (657,115) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

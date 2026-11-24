@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position 0.5 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\coordinate (S) at (87,284);
+\coordinate (P) at (388,32);
+\coordinate (Q) at (741,132);
+\coordinate (E) at (1097,80);
+\coordinate (R) at (384,440);
+\coordinate (T) at (1016,362);
+\draw[mid] (S)--(P);
+\draw[mid] (S)--(Q);
+\draw[mid] (S)--(R);
+\draw[mid] (P)--(E);
+\draw[mid] (P)--(Q);
+\draw[mid] (R)--(Q);
+\draw[mid] (R)--(T);
+\draw[mid] (Q)--(T);
+\draw[mid] (T)--(E);
+\foreach \p in {S,P,Q,E,R,T} \fill (\p) circle (7);
+\node[rotate=40] at (213,130) {$A(12)$};
+\node[rotate=13] at (410,180) {$B(15)$};
+\node[rotate=-28] at (222,409) {$C(14)$};
+\node[rotate=-4] at (840,24) {$D(25)$};
+\node[rotate=-16] at (503,102) {$E(10)$};
+\node[rotate=41] at (520,287) {$F(13)$};
+\node[rotate=7] at (680,377) {$G(20)$};
+\node[rotate=-40] at (840,270) {$H(12)$};
+\node[rotate=74] at (1092,250) {$I(12)$};
+\node[anchor=east] at (78,284) {Start};
+\node[anchor=west] at (1110,82) {End};
+\end{tikzpicture}
+\end{document}

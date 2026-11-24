@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \k in {1,...,13} \draw[black!45] ({80+53.5*\k},740)--({80+53.5*\k},95);
+\foreach \k in {1,...,12} \draw[black!45] (80,{740-53.75*\k})--(775,{740-53.75*\k});
+\draw[->] (80,740)--(792,740);
+\draw[->] (80,740)--(80,68);
+\foreach \k in {1,...,12} {\pgfmathtruncatemacro\v{5*\k}
+  \node[font=\small,anchor=north] at ({80+53.5*\k},754) {\v};}
+\foreach \k in {0,...,12} {\pgfmathtruncatemacro\v{5*\k}
+  \node[font=\small,anchor=east] at (70,{740-53.75*\k}) {\v};}
+\node[anchor=west] at (36,48) {Grade $B$ sandstone ($y$)};
+\node[anchor=west] at (752,766) {Grade $A$ sandstone ($x$)};
+\end{tikzpicture}
+\end{document}

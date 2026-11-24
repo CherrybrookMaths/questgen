@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (60,34); \coordinate (C) at (197,34); \coordinate (B) at (60,122);
+\coordinate (D) at (197,123); \coordinate (E) at (427,123); \coordinate (F) at (197,274); \coordinate (G) at (427,274);
+\draw (A)--(C) (A)--(B) (B)--(C) (C)--(D) (D)--(E) (E)--(F) (E)--(G);
+\foreach \p in {A,B,C,D,E,F,G} \node[pt] at (\p) {};
+\node at (42,22) {$A$}; \node at (215,22) {$C$}; \node at (40,133) {$B$}; \node at (177,133) {$D$};
+\node at (446,111) {$E$}; \node at (177,285) {$F$}; \node at (446,285) {$G$};
+\end{tikzpicture}
+\end{document}

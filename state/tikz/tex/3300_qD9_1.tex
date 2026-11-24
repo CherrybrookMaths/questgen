@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (P) at (187,147); \coordinate (Q) at (23,298); \coordinate (R) at (495,236);
+\coordinate (S) at (285,452); \coordinate (T) at (515,395);
+\draw (P)--(Q); \draw (P)--(R); \draw (S)--(T);
+\draw plot[smooth] coordinates {(P) (270,98) (350,60) (405,48) (440,65) (465,120) (484,190) (R)};
+\draw plot[smooth] coordinates {(P) (240,220) (270,320) (S)};
+\draw plot[smooth] coordinates {(Q) (140,312) (220,350) (S)};
+\draw plot[smooth] coordinates {(Q) (70,390) (150,445) (230,460) (S)};
+\draw plot[smooth] coordinates {(R) (466,316) (T)};
+\draw plot[smooth] coordinates {(R) (542,315) (T)};
+\foreach \p in {P,Q,R,S,T} \fill (\p) circle (6);
+\node at (95,200) {$8$}; \node at (360,175) {$4$}; \node at (429,24) {$11$};
+\node at (280,268) {$7$}; \node at (152,342) {$5$}; \node at (87,450) {$3$};
+\node at (392,443) {$9$}; \node at (443,305) {$6$}; \node at (565,312) {$2$};
+\end{tikzpicture}
+\end{document}

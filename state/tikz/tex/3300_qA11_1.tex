@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\top{(40,75)(60,55)(100,42)(160,38)(210,33)(238,25)(251,12)(275,11)(310,16)(340,32)(368,66)(398,120)(422,162)(438,183)}
+\fill[shade] (40,263) -- plot[smooth,tension=0.6] coordinates {\top} -- (438,263) -- cycle;
+\draw (40,263) -- (40,75);
+\draw plot[smooth,tension=0.6] coordinates {\top};
+\draw (438,183) -- (438,263) -- (40,263);
+\draw (250,263) -- (250,12);
+\node at (18,165) {$8$};
+\node at (230,145) {$d$};
+\node at (458,228) {$2$};
+\node at (148,292) {$3$};
+\node at (350,292) {$3$};
+\end{tikzpicture}
+\end{document}

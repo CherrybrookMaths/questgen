@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\fill (102,40) rectangle (110,447);
+\foreach \k in {0,...,5} \draw (35,{88+72*\k})--(100,{40+72*\k});
+\draw (106,447)--(720,447);
+\draw (106,40)--(588,262) (106,40)--(588,447);
+\draw (588,447)--(588,262)--(665,262)--(665,447);
+\draw (591,447)--(591,265)--(662,265)--(662,447);
+\foreach \y in {292,352,410} \draw (608,\y) rectangle (644,\y+22);
+\draw (110,422)--(135,422)--(135,447) (665,422)--(690,422)--(690,447);
+\node[anchor=south] at (108,38) {$P$};
+\node[anchor=south west,inner sep=1pt] at (586,260) {$R$};
+\node[anchor=north] at (110,450) {$Q$};
+\node[anchor=north] at (590,450) {$T$};
+\end{tikzpicture}
+\end{document}

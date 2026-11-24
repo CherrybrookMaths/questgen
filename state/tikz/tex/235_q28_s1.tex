@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\coordinate (P) at (0,0);
+\coordinate (S) at (-170:3.75); \coordinate (R) at (-50:6);
+\fill[shade] (P)--(S)--(R)--cycle;
+\draw (S)--(P)--(R);
+\draw[aux] (S)--(R);
+\draw[aux,->] (P)--(0,2.6) node[above] {$N$};
+\draw (-110:0.6) ++(0,0) ; 
+\draw ([shift={(-170:0.6)}]P) arc[start angle=-170, end angle=-50, radius=0.6];
+\node at (-110:1.0) {$120^\circ$};
+\draw[->] ([shift={(90:1.0)}]P) arc[start angle=90, end angle=-50, radius=1.0];
+\node at (25:1.45) {$140^\circ$};
+\draw[->] ([shift={(90:1.9)}]P) arc[start angle=90, end angle=-170, radius=1.9];
+\node at (-18:2.45) {$260^\circ$};
+\node[anchor=south east] at (-0.05,0.05) {$P$};
+\node[anchor=east] at ($(S)+(-0.08,0)$) {$S$};
+\node[anchor=north west] at ($(R)+(0.02,-0.02)$) {$R$};
+\node[anchor=south, rotate=10] at ($(P)!0.5!(S)+(100:0.12)$) {25 m};
+\node[anchor=south west] at ($(P)!0.55!(R)+(40:0.12)$) {40 m};
+\node[anchor=north east] at ($(S)!0.5!(R)+(-140:0.1)$) {?};
+\end{tikzpicture}
+\end{document}

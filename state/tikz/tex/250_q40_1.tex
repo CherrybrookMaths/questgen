@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  ev/.style={circle,draw,minimum size=1.17cm,inner sep=0pt,path picture={\draw (path picture bounding box.north)--(path picture bounding box.south);}},
+  lab/.style={font=\fontsize{10}{12}\selectfont}]
+\node[ev] (n1) at (118,163) {};
+\node[ev] (n2) at (315,163) {};
+\node[ev] (n3) at (502,73) {};
+\node[ev] (n4) at (700,73) {};
+\node[ev] (n5) at (805,210) {};
+\node[ev] (n6) at (985,210) {};
+\node[ev] (n7) at (315,395) {};
+\node[ev] (n8) at (610,395) {};
+\node[lab,anchor=east] at (n1.west) {start};
+\node[lab,anchor=west] at (n6.east) {finish};
+\draw[->] (n1)--(n2) node[midway,above,lab] {$A$, 10};
+\draw[->] (n2.30)--(n3.200) node[midway,above left,lab] {$B$, 3};
+\draw[->] (n3)--(n4) node[midway,above,lab] {$E$, 8};
+\draw[->] (n4.-35)--(n5.north) node[midway,above right,lab] {$G$, 5};
+\draw[->] (n5)--(n6) node[midway,below,lab] {$H$, 2};
+\draw[->] (n2)--(n7) node[midway,left,lab] {$C$, 12};
+\draw[->] (n7)--(n8) node[midway,below,lab] {$D$, 12};
+\draw[->] (n8.35)--(n5.south) node[midway,below right,lab] {$F$, 15};
+\draw[aux,->] (n7.40)--(n4.220);
+\end{tikzpicture}
+\end{document}

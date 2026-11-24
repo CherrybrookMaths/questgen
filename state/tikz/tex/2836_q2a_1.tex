@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (18,153); \coordinate (B) at (286,153); \coordinate (C) at (152,16); \coordinate (F) at (152,153);
+\draw (A) -- (C) -- (B) -- cycle;
+\draw[aux] (C) -- (F);
+\draw (152,143) -- (162,143) -- (162,153);
+\foreach \p in {(87.4,82.0),(82.6,87.0)} \draw \p ++(-4.3,-4.2) -- ++(8.6,8.4);
+\foreach \p in {(216.6,82.0),(221.4,87.0)} \draw \p ++(-4.3,4.2) -- ++(8.6,-8.4);
+\node at (46,80) {$6$ m};
+\node at (66,138) {$\theta$};
+\node at (150,184) {$10$ m};
+\node[font=\footnotesize,align=center] at (302,57) {NOT TO\\SCALE};
+\draw (18,161) -- (18,179) (286,161) -- (286,179);
+\draw[aux,<-] (18,170) -- (112,170);
+\draw[aux,->] (190,170) -- (286,170);
+\end{tikzpicture}
+\end{document}

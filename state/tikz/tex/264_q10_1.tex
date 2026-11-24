@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % 1 unit T = 17.28 px, 1 unit A = 36 px, origin (86,796)
+  \foreach \t in {5,10,...,50} \draw[black!25, line width=0.4pt] ({86+17.28*\t},796) -- ({86+17.28*\t},76);
+  \foreach \a in {1,...,20} \draw[black!25, line width=0.4pt] (86,{796-36*\a}) -- (950,{796-36*\a});
+  \draw[->] (86,796) -- (985,796) node[right, font=\footnotesize] {$T$};
+  \draw[->] (86,796) -- (86,40) node[above, font=\footnotesize] {$A$};
+  \foreach \t in {5,10,...,50} \draw ({86+17.28*\t},789) -- ({86+17.28*\t},803);
+  \foreach \t in {10,20,...,50} \node[below, font=\footnotesize] at ({86+17.28*\t},805) {$\t$};
+  \foreach \a in {1,...,20} \draw (79,{796-36*\a}) -- (93,{796-36*\a});
+  \foreach \a in {2,4,...,20} \node[left, font=\footnotesize] at (77,{796-36*\a}) {$\a$};
+  \node[font=\footnotesize] at (518,864) {Time (years)};
+  \node[font=\footnotesize, rotate=90] at (23,416) {Amount (\$)};
+  \draw[line width=0.9pt, ->] plot[smooth, domain=0:44.9, samples=90] ({86+17.28*\x},{796-36*pow(1.07,\x)});
+\end{tikzpicture}
+\end{document}

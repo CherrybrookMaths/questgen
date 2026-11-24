@@ -1,0 +1,4864 @@
+# paper 2021-NEAP-AT4-STD (document 250)
+document
+  id: 250
+  drive_file_id: 16-I3cNRY9OCDzaHnF40XGt2i9GHsKGE4
+  source_path: HSC 2021/NEAP/HSC Mathematics Standard 2 Year 12 Question and Answer Booklet 2021.pdf
+  size_bytes: 1766102
+  task_type: trial
+  course: standard
+  classification_method: explicit_cover
+  year_level: 12
+  school: NEAP
+  year: 2021
+  bundled_solutions: 0
+  status: parsed
+  failure_reason: path/filename names a non-target course or year (not cover-checked)
+  ingested_at: 2026-11-10T22:53:15
+  display_label: 2021 NEAP AT4
+  school_formal: NEAP
+  task_code: AT4
+
+## Q1  key 2021-NEAP-AT4-STD-Q1  id 7373
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Managing money|Purchasing goods
+  home_source: computed
+  option A
+    latex: \$39
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: \$43
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: \$350
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: \$354
+    is_correct: 1
+    key_source: generated
+  part -  id 11711
+    ordinal: 1
+    latex: |
+      A video game console costs \$389, inclusive of $10\%$ goods and services tax (GST).
+
+      What is the price of the video game excluding GST, correct to the nearest dollar?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-039
+      focus_area: Managing money
+      dot_point: Calculate the goods and service tax (GST) or value-added tax (VAT) when purchasing goods and services in Australia and internationally
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-040
+      focus_area: Managing money
+      dot_point: Solve problems involving GST or VAT
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: GST and VAT
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11201
+      source: generated
+      latex: |
+        The price including GST is $110\%$ of the price excluding GST.
+        $$\begin{aligned} \text{Price excluding GST} &= \dfrac{389}{1.1} \\ &\approx \$353.64 \\ &\approx \$354 \end{aligned}$$
+        So the answer is option D, $\$354$ (option A is the GST amount only found incorrectly, and option C subtracts $10\%$ of $\$389$ wrongly).
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "MCQ working written for key D", "self_check": "389/1.1 = 353.64 computed in python"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7007
+      confidence: high
+      reason: Reverse GST: divide inclusive price by 1.1
+      area: Y11_Managing_money
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q2  key 2021-NEAP-AT4-STD-Q2  id 7374
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Networks, paths and trees|Network concepts
+  home_source: computed
+  option A
+    latex: 2
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: 4
+    is_correct: 1
+    key_source: generated
+  option C
+    latex: 6
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: 9
+    is_correct: 0
+    key_source: generated
+  figure 250_q2_1.png
+    page: 1
+    bbox: [150, 335, 450, 430]
+    png_path: figures/250_q2_1.png
+    tikz_path: tikz/tex/250_q2_1.tex
+    caption: network diagram
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network: 9 vertices and 13 edges placed at the crop's pixel positions, filled vertex dots, 0.6pt edges (rules 1, 2, 3).
+  part -  id 11712
+    ordinal: 1
+    latex: |
+      A network diagram is shown.
+
+      \exfigure{250_q2_1}
+
+      The number of vertices of odd degree is
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-073
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: vertex, edge, degree, directed networks and weighted edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11202
+      source: generated
+      latex: |
+        The degree of a vertex is the number of edges meeting at it. Counting the edges at each of the 9 vertices (reading from the left of the diagram):
+        $$\begin{aligned} \text{far left (top)} &: 2 \\ \text{top left} &: 3 \\ \text{top right} &: 4 \\ \text{right} &: 3 \\ \text{far right} &: 1 \\ \text{centre} &: 4 \\ \text{bottom left} &: 4 \\ \text{bottom right} &: 4 \\ \text{far left (bottom)} &: 1 \end{aligned}$$
+        Check: the degrees add to $26 = 2\times 13$ edges.
+
+        The vertices of odd degree are the top left, right, far right and far left (bottom): 4 vertices.
+        $$\therefore\ \text{the answer is option B}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.9, "generated_note": "MCQ working written for key B", "self_check": "Edges read from the figure: 13 edges, degree sum 26 matches"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7114
+      confidence: high
+      reason: Count vertex degrees directly from diagram
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q3  key 2021-NEAP-AT4-STD-Q3  id 7375
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: graph
+  home_topic: sub:12|The normal distribution|Probability using z-scores
+  home_source: computed
+  option A
+    latex: \exfigure{250_q3_1}
+    is_correct: 0
+    key_source: generated
+    figure_key: 250_q3_1
+  option B
+    latex: \exfigure{250_q3_2}
+    is_correct: 0
+    key_source: generated
+    figure_key: 250_q3_2
+  option C
+    latex: \exfigure{250_q3_3}
+    is_correct: 0
+    key_source: generated
+    figure_key: 250_q3_3
+  option D
+    latex: \exfigure{250_q3_4}
+    is_correct: 1
+    key_source: generated
+    figure_key: 250_q3_4
+  figure 250_q3_1.png
+    page: 2
+    bbox: [118, 98, 282, 190]
+    png_path: figures/250_q3_1.png
+    tikz_path: tikz/tex/250_q3_1.tex
+    caption: option A: normal curve, both tails shaded
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: Normal curve drawn from the pdf (mean x=225, sd 48 px) and fitted to the crop's sd lines. Curve 0.9pt, flat grey shading between ±2 and ±3 sd on both sides, ±1 and ±2 sd lines up to the curve, short ticks at ±3 sd, dotted mean line, x̄ below, filled arrowheads at both ends. Overlay just under 0.85 only because the crop's curve is a bit wider at the top and in the tails than a true normal curve; I kept the true shape (rules 10, 5, 9, 4, 7).
+  figure 250_q3_2.png
+    page: 2
+    bbox: [308, 98, 472, 190]
+    png_path: figures/250_q3_2.png
+    tikz_path: tikz/tex/250_q3_2.tex
+    caption: option B: normal curve, left half shaded
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: Same frame as the other options. Grey shading from the left tail to the mean. Same small difference: the crop's curve is not quite a true normal curve, so the score is just under 0.85 (rules 10, 5, 7, 9).
+  figure 250_q3_3.png
+    page: 2
+    bbox: [118, 193, 282, 282]
+    png_path: figures/250_q3_3.png
+    tikz_path: tikz/tex/250_q3_3.tex
+    caption: option C: normal curve, band between -2 and -1 shaded
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: Same frame as the other options. Grey band between -2 and -1 sd. Small overlay gap is the crop's non-normal curve shape (rules 10, 5, 7, 9).
+  figure 250_q3_4.png
+    page: 2
+    bbox: [308, 193, 472, 282]
+    png_path: figures/250_q3_4.png
+    tikz_path: tikz/tex/250_q3_4.tex
+    caption: option D: normal curve, shaded from about -2 to 2
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: Same frame as the other options. Grey shading from -2 sd to the right-hand tail, as in the crop. Round 2 made the x̄ label smaller. Small overlay gap is the crop's non-normal curve shape (rules 10, 5, 7, 9).
+  part -  id 11713
+    ordinal: 1
+    latex: For a normally distributed dataset, which of the following graphs could represent the percentage of scores that have a $z$-score greater than $-2$?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-139
+      focus_area: The normal distribution
+      dot_point: Model and apply the empirical rule, where approximately 68% of data will have z-scores between −1 and 1, approximately 95% of data will have z-scores between −2 and 2, and approximately 99.7% of data will have z-scores between −3 and 3
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-141
+      focus_area: The normal distribution
+      dot_point: Represent probabilities by shading areas under the normal distribution curve
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Empirical rule (68-95-99.7)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11203
+      source: generated
+      latex: |
+        The vertical lines on each curve mark $z=-3,-2,-1,0,1,2,3$ from left to right, with the mean at $z=0$.
+
+        The scores with $z>-2$ are all those to the right of the line at $z=-2$.
+
+        Option A shades the tails, $|z|>2$. Option B shades $z<0$. Option C shades only $-2<z<-1$.
+
+        Option D shades the region to the right of the line at $z=-2$, which is the region $z>-2$ (about $97.5\%$ of scores).
+        $$\therefore\ \text{the answer is option D}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.85, "generated_note": "MCQ working written for key D; reading of shading from figure crops", "self_check": "Compared the shaded region of each figure with z > -2"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7003
+      confidence: medium
+      reason: Identify shaded region right of z = -2
+      area: Y12_The_normal_distribution
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q4  key 2021-NEAP-AT4-STD-Q4  id 7376
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Trigonometry|Cosine rule for an angle
+  home_source: computed
+  option A
+    latex: $98^\circ 15'$
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: $102^\circ 53'$
+    is_correct: 1
+    key_source: generated
+  option C
+    latex: $112^\circ 50'$
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: $120.8^\circ$
+    is_correct: 0
+    key_source: generated
+  figure 250_q4_1.png
+    page: 2
+    bbox: [212, 318, 485, 468]
+    png_path: figures/250_q4_1.png
+    tikz_path: tikz/tex/250_q4_1.tex
+    caption: triangle XYZ with sides 48 km, 65 km, 89 km
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Triangle XYZ with vertices at the crop's positions, kept NOT TO SCALE. Side labels 48 km, 65 km and 89 km in \small to match the printed size; 48 km moved off the side so it doesn't touch the line. The triangle's lines match exactly. The remaining overlay colour is only text position: the NOT TO SCALE block sits about 10 px lower than in the crop (rules 1, 2, 6a, 11).
+  part -  id 11714
+    ordinal: 1
+    latex: |
+      The diagram shows the distances between towns $X$, $Y$ and $Z$.
+
+      \exfigure{250_q4_1}
+
+      What is the value of $\angle YXZ$, correct to the nearest minute?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-067
+      focus_area: Trigonometry
+      dot_point: Apply the cosine rule cos C=(a^2+b^2-c^2)/(2ab) in a given triangle ABC to find the value of an unknown angle
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-071
+      focus_area: Trigonometry
+      dot_point: Solve practical problems involving Pythagoras’ theorem, the trigonometry of right-angled and non-right-angled triangles, angles of elevation and depression, and true bearings and compass bearings
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Cosine rule (angle)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11204
+      source: generated
+      latex: |
+        In $\triangle XYZ$ the side opposite $\angle YXZ$ is $YZ = 89$ km, so use the cosine rule.
+        $$\begin{aligned} \cos \angle YXZ &= \dfrac{48^2+65^2-89^2}{2\times 48\times 65} \\ &= -0.22307\ldots \end{aligned}$$
+        $$\begin{aligned} \angle YXZ &= \cos^{-1}(-0.22307\ldots) \\ &\approx 102.89^\circ \\ &\approx 102^\circ 53' \end{aligned}$$
+        $$\therefore\ \text{the answer is option B}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "MCQ working written for key B", "self_check": "acos computed in python: 102.8898 degrees = 102 deg 53.4'"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7183
+      confidence: high
+      reason: Cosine rule for angle, obtuse, convert to minutes
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q5  key 2021-NEAP-AT4-STD-Q5  id 7377
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Applications of measurement|Perimeter, area and volume
+  home_source: computed
+  option A
+    latex: $2675\ \text{m}^2$
+    is_correct: 1
+    key_source: generated
+  option B
+    latex: $2950\ \text{m}^2$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $3140\ \text{m}^2$
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: $3743\ \text{m}^2$
+    is_correct: 0
+    key_source: generated
+  figure 250_q5_1.png
+    page: 3
+    bbox: [168, 88, 475, 298]
+    png_path: figures/250_q5_1.png
+    tikz_path: tikz/tex/250_q5_1.tex
+    caption: field diagram ABCDE with offsets
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Field ABCDE with traverse line CA and offsets to D, B and E, at the crop's positions, NOT TO SCALE kept. The dashed 20 m and 14 m dimension lines use fine aux dashes and filled Latex heads instead of the crop's open chevrons, with a break where each label sits so the labels stay clear of the lines, as on the paper. Labels in \small (rules 1, 3, 4, 11).
+  part -  id 11715
+    ordinal: 1
+    latex: |
+      The field diagram of a local park is shown.
+
+      \exfigure{250_q5_1}
+
+      What is the total area of the field $ABCDE$?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-060
+      focus_area: Applications of measurement
+      dot_point: Calculate perimeters and areas of irregularly shaped blocks of land by dissection into triangles, rectangles and trapeziums
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Area of irregular blocks of land
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11205
+      source: generated
+      latex: |
+        Split the field into triangles and a trapezium using the offsets from diagonal $AC$, where $AC = 5+14+20+22 = 61$ m.
+
+        On the right of $AC$, $\triangle ABC$ has base $AC$ and height $35$ m:
+        $$\begin{aligned} \text{Area} &= \dfrac{1}{2}\times 61\times 35 \\ &= 1067.5 \text{ m}^2 \end{aligned}$$
+        On the left of $AC$, the offsets are $25$ m at $5$ m from $A$, and $40$ m at $5+14+20 = 39$ m from $A$.
+        $$\begin{aligned} \text{Area}\ (\triangle AE) &= \dfrac{1}{2}\times 5\times 25 = 62.5 \text{ m}^2 \\ \text{Area}\ (\text{trapezium}) &= \dfrac{1}{2}\times 34\times(25+40) = 1105 \text{ m}^2 \\ \text{Area}\ (\triangle CD) &= \dfrac{1}{2}\times 22\times 40 = 440 \text{ m}^2 \end{aligned}$$
+        Total area:
+        $$\begin{aligned} 1067.5+62.5+1105+440 &= 2675 \text{ m}^2 \end{aligned}$$
+        $$\therefore\ \text{the answer is option A}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.93, "generated_note": "MCQ working written for key A; dimensions read from figure", "self_check": "Recomputed sum 2675 in head and matches option A"}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7199
+      confidence: medium
+      reason: Offset survey: several triangles and trapezium summed
+      area: Y11_Applications_of_measurement
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q6  key 2021-NEAP-AT4-STD-Q6  id 7378
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Formulas and equations|Distance, speed, time and stopping distances
+  home_source: computed
+  option A
+    latex: $0.6\ \text{km/h}$
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: $11.5\ \text{km/h}$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $37.6\ \text{km/h}$
+    is_correct: 1
+    key_source: generated
+  option D
+    latex: $39.5\ \text{km/h}$
+    is_correct: 0
+    key_source: generated
+  part -  id 11716
+    ordinal: 1
+    latex: |
+      The current world record for the men's 100-metre sprint is 9.58 seconds set by Usain Bolt, a Jamaican sprinter, in 2009.
+
+      Which of the following expresses the rate of Bolt's record-setting sprint in kilometres per hour, correct to one decimal place?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-003
+      focus_area: Formulas and equations
+      dot_point: Calculate distance, speed and time (with change of units of measurement as required) and stopping distances of vehicles using speed=(distance)/(time) and stopping distance = reaction distance + braking distance
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Speed, distance and time
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11206
+      source: generated
+      latex: |
+        Convert the distance to kilometres and the time to hours.
+        $$\begin{aligned} \text{Distance} &= 0.1 \text{ km} \\ \text{Time} &= \dfrac{9.58}{3600} \text{ h} \end{aligned}$$
+        $$\begin{aligned} \text{Speed} &= \dfrac{0.1}{\frac{9.58}{3600}} \\ &\approx 37.6 \text{ km/h} \end{aligned}$$
+        $$\therefore\ \text{the answer is option C}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "MCQ working written for key C", "self_check": "python: 37.578 km/h"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6959
+      confidence: high
+      reason: Speed with metre/second to km/h conversion
+      area: Y11_Formulas_and_equations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q7  key 2021-NEAP-AT4-STD-Q7  id 7379
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: graph
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  option A
+    latex: \exfigure{250_q7_2}
+    is_correct: 0
+    key_source: generated
+    figure_key: 250_q7_2
+  option B
+    latex: \exfigure{250_q7_3}
+    is_correct: 0
+    key_source: generated
+    figure_key: 250_q7_3
+  option C
+    latex: \exfigure{250_q7_4}
+    is_correct: 1
+    key_source: generated
+    figure_key: 250_q7_4
+  option D
+    latex: \exfigure{250_q7_5}
+    is_correct: 0
+    key_source: generated
+    figure_key: 250_q7_5
+  figure 250_q7_1.png
+    page: 4
+    bbox: [188, 86, 425, 242]
+    png_path: figures/250_q7_1.png
+    tikz_path: tikz/tex/250_q7_1.tex
+    caption: network diagram on vertices A to G
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network graph A–G redrawn at the crop's vertex positions. I squared the vertices onto a level grid (rule 1, draw level). All 11 edges are 0.6pt with filled vertex dots, and the labels are maths italic and sit clear of the lines (rules 3, 6a, 19).
+  figure 250_q7_2.png
+    page: 4
+    bbox: [118, 260, 288, 372]
+    png_path: figures/250_q7_2.png
+    tikz_path: tikz/tex/250_q7_2.tex
+    caption: option A: subgraph option A
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Option A subgraph drawn on the same frame and style as the other options (rule 7). Edges: AC, AB, BC, CD, DE, EF, EG. Lines 0.6pt, labels in maths italic.
+  figure 250_q7_3.png
+    page: 4
+    bbox: [310, 260, 485, 372]
+    png_path: figures/250_q7_3.png
+    tikz_path: tikz/tex/250_q7_3.tex
+    caption: option B: subgraph option B
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Option B subgraph. Edges: AB, AD, BC, CD, DE, DF, EG. Same style as the other options (rule 7).
+  figure 250_q7_4.png
+    page: 4
+    bbox: [118, 375, 288, 486]
+    png_path: figures/250_q7_4.png
+    tikz_path: tikz/tex/250_q7_4.tex
+    caption: option C: subgraph option C
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Option C subgraph (path A-B-C-D-F-G-E). Same style as the other options (rule 7).
+  figure 250_q7_5.png
+    page: 4
+    bbox: [310, 375, 485, 486]
+    png_path: figures/250_q7_5.png
+    tikz_path: tikz/tex/250_q7_5.tex
+    caption: option D: subgraph option D
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Option D subgraph. Edges: AC, AB, CD, DE, DF, DG. Same style as the other options (rule 7).
+  part -  id 11717
+    ordinal: 1
+    latex: |
+      A network diagram is shown.
+
+      \exfigure{250_q7_1}
+
+      Which of the following could be both a spanning tree AND a path for the network diagram?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-077
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: path, tree, spanning tree and minimum spanning tree
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11207
+      source: generated
+      latex: |
+        A spanning tree of this 7-vertex network is connected, has no cycles and so has $6$ edges. A path has no vertex of degree more than $2$ and no repeated vertex.
+
+        Option A contains the cycle $A$-$B$-$C$, so it is not a tree.
+
+        Option B contains the cycle $A$-$B$-$C$-$D$, so it is not a tree.
+
+        Option D is a tree, but $D$ has degree $4$, so it is not a path.
+
+        Option C has edges $AB$, $BC$, $CD$, $DF$, $FG$, $GE$, all in the network. They form the single path $A$-$B$-$C$-$D$-$F$-$G$-$E$ through all 7 vertices, so it is a spanning tree and a path.
+        $$\therefore\ \text{the answer is option C}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.88, "generated_note": "MCQ working written for key C", "self_check": "Checked each option for cycles and degrees from the figure crops"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6952
+      confidence: medium
+      reason: Check two definitions together: spanning tree and path
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q8  key 2021-NEAP-AT4-STD-Q8  id 7380
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Investment and loans|Investment
+  home_source: computed
+  option A
+    latex: $3.4\%$
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: $7.5\%$
+    is_correct: 1
+    key_source: generated
+  option C
+    latex: $9.6\%$
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: $13.3\%$
+    is_correct: 0
+    key_source: generated
+  part -  id 11718
+    ordinal: 1
+    latex: |
+      Jackson bought a portfolio of 1400 shares for \$25 200 and received an annual dividend of \$1.35 per share.
+
+      What is the dividend yield per share?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-037
+      focus_area: Investment and loans
+      dot_point: Calculate the dividend paid and the dividend yield on shares (excluding franked dividends)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Dividends and dividend yield
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11208
+      source: generated
+      latex: |
+        The share price paid is the total cost divided by the number of shares.
+        $$\begin{aligned} \text{Price per share} &= \dfrac{25\,200}{1400} \\ &= \$18 \end{aligned}$$
+        The dividend yield is the dividend divided by the share price.
+        $$\begin{aligned} \text{Dividend yield} &= \dfrac{1.35}{18}\times 100\% \\ &= 7.5\% \end{aligned}$$
+        $$\therefore\ \text{the answer is option B}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "MCQ working written for key B", "self_check": "1.35/18 = 0.075"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7148
+      confidence: high
+      reason: Find share price first, then dividend yield
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q9  key 2021-NEAP-AT4-STD-Q9  id 7381
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Algebraic relationships|Quadratic relationships
+  home_source: computed
+  option A
+    latex: at 0.5 seconds.
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: at 1 second and 3 seconds.
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: at 0.5 seconds and 3.5 seconds.
+    is_correct: 1
+    key_source: generated
+  option D
+    latex: between 1 second and 3.5 seconds.
+    is_correct: 0
+    key_source: generated
+  figure 250_q9_1.png
+    page: 5
+    bbox: [190, 100, 420, 360]
+    png_path: figures/250_q9_1.png
+    tikz_path: tikz/tex/250_q9_1.tex
+    caption: graph of h against t, parabola
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Curve h=2+40t-10t^2 plotted from the equation (rule 10), 0.9pt, smooth with 90 samples (rules 3a, 9), on the crop's axes (t from 0 to 4, h from 0 to 45). Light grey grid: vertical lines every 0.25 s, horizontal every 1 m. Left-hand h ticks every 5 and t ticks every 1, both with filled arrowheads. The redraw score of 0.78 comes only from the faint grey grid lines being anti-aliased about 1 px off the scan's (allowed by the spec). The scan's curve sits slightly left of the true parabola on the rising side; I kept the true equation.
+  part -  id 11719
+    ordinal: 1
+    latex: |
+      Alia throws a ball into the air. The height of the ball in metres, $h$, can be modelled by the quadratic equation $h = 2 + 40t - 10t^2$, where $t$ is the time in seconds. The graph of this equation is shown.
+
+      \exfigure{250_q9_1}
+
+      The ball is approximately 20 metres above the ground
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-017
+      focus_area: Algebraic relationships
+      dot_point: Analyse a given graph of a quadratic relationship and use it to solve practical problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Quadratic models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11209
+      source: generated
+      latex: |
+        Set $h=20$ in the equation and solve.
+        $$\begin{aligned} 2+40t-10t^2 &= 20 \\ 10t^2-40t+18 &= 0 \\ t^2-4t+1.8 &= 0 \end{aligned}$$
+        $$\begin{aligned} t &= \dfrac{4\pm\sqrt{16-7.2}}{2} \\ &= 2\pm\sqrt{2.2} \\ &\approx 0.5 \text{ or } 3.5 \end{aligned}$$
+        This agrees with the graph, where the height is $20$ m at about $0.5$ s on the way up and about $3.5$ s on the way down.
+        $$\therefore\ \text{the answer is option C}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "MCQ working written for key C", "self_check": "roots 0.517 and 3.483 computed"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7065
+      confidence: medium
+      reason: Read two times at given height from quadratic graph
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q10  key 2021-NEAP-AT4-STD-Q10  id 7382
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Time and location|Positions on the Earth’s surface
+  home_source: computed
+  option A
+    latex: $(78^\circ\text{N}, 172^\circ\text{E})$
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: $(78^\circ\text{S}, 72^\circ\text{W})$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $(2^\circ\text{N}, 172^\circ\text{E})$
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: $(2^\circ\text{S}, 72^\circ\text{W})$
+    is_correct: 1
+    key_source: generated
+  part -  id 11720
+    ordinal: 1
+    latex: |
+      San Francisco is located at $(38^\circ\text{N}, 122^\circ\text{W})$. City $X$ is located $40^\circ$ to the South and $50^\circ$ to the East of San Francisco.
+
+      What are the coordinates of City $X$?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-064
+      focus_area: Time and location
+      dot_point: Identify a location on the Earth's surface using latitude, longitude and position coordinates, with and without using digital tools
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Latitude and longitude
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11210
+      source: generated
+      latex: |
+        Moving $40^\circ$ south decreases the latitude:
+        $$38^\circ\text{N} - 40^\circ = -2^\circ, \text{ which is } 2^\circ\text{S}$$
+        Moving $50^\circ$ east decreases the west longitude:
+        $$122^\circ\text{W} - 50^\circ = 72^\circ\text{W}$$
+        So City $X$ is at $(2^\circ\text{S}, 72^\circ\text{W})$.
+        $$\therefore\ \text{the answer is option D}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "MCQ working written for key D", "self_check": "Latitude 38-40=-2 (S), longitude 122-50=72 W"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7008
+      confidence: high
+      reason: Latitude shift crosses equator; longitude adjustment
+      area: Y11_Time_and_location
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q11  key 2021-NEAP-AT4-STD-Q11  id 7383
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Relative frequency and probability|Number of outcomes for an experiment
+  home_source: computed
+  option A
+    latex: $(26 \times 2) + (10 \times 9)$
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: $26 \times 2 \times 10 \times 9$
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: $26^2 \times 10$
+    is_correct: 1
+    key_source: generated
+  option D
+    latex: $26^2 \times 10 \times 7$
+    is_correct: 0
+    key_source: generated
+  part -  id 11721
+    ordinal: 1
+    latex: |
+      Juan's online banking security code must consist of two letters (A–Z) followed by two digits (0–9). Letters and digits can be repeated.
+
+      If Juan chooses a code ending with a 7, which of the following expressions gives the correct number of codes possible?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-123
+      focus_area: Relative frequency and probability
+      dot_point: Determine the number of outcomes for an experiment
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Sample spaces and equally likely outcomes
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11211
+      source: generated
+      latex: |
+        The code has four places: letter, letter, digit, digit. The last digit is fixed as 7, so it has only 1 choice.
+
+        Letters and digits can be repeated, so the choices multiply:
+        $$\begin{aligned} \text{codes} &= 26 \times 26 \times 10 \times 1 \\ &= 26^2 \times 10 \end{aligned}$$
+        Options A and B add or use the wrong factors, and D has a wrong factor of 7. Only option C matches.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "MCQ working written; key C.", "self_check": "Counting principle checked directly."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6985
+      confidence: medium
+      reason: Multiplication principle with one fixed position
+      area: Y12_Relative_frequency_and_probability
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q12  key 2021-NEAP-AT4-STD-Q12  id 7384
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Managing money|Purchasing goods
+  home_source: computed
+  option A
+    latex: Hana made a profit of $\$(x + 40)$.
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: Hana made a profit of $\$(x - 40)$.
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: Hana made a loss of \$40.
+    is_correct: 1
+    key_source: generated
+  option D
+    latex: Hana made a loss of $\$(x - 40)$.
+    is_correct: 0
+    key_source: generated
+  part -  id 11722
+    ordinal: 1
+    latex: |
+      Hana purchased a speaker online for $\$(x + 15)$. She later sold it for $\$(x - 25)$.
+
+      Which of the following statements is true?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-038
+      focus_area: Managing money
+      dot_point: Apply percentage increase and decrease to determine the cost of goods, and profit and loss
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Profit and loss
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11212
+      source: generated
+      latex: |
+        Profit or loss is the selling price minus the cost price.
+        $$\begin{aligned} \text{selling price} - \text{cost price} &= (x-25)-(x+15) \\ &= -40 \end{aligned}$$
+        The result is negative, so Hana made a loss of $\$40$, whatever the value of $x$.
+
+        Hence the true statement is option C.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "MCQ working written; key C.", "self_check": "Algebra checked."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7066
+      confidence: medium
+      reason: Algebraic profit/loss subtraction of expressions
+      area: Y11_Managing_money
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q13  key 2021-NEAP-AT4-STD-Q13  id 7385
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Investment and loans|Investment
+  home_source: computed
+  option A
+    latex: \$28.23
+    is_correct: 1
+    key_source: generated
+  option B
+    latex: \$35.29
+    is_correct: 0
+    key_source: generated
+  option C
+    latex: \$36.66
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: \$57.25
+    is_correct: 0
+    key_source: generated
+  part -  id 11723
+    ordinal: 1
+    latex: |
+      Chloe buys a home security system on terms. The system costs \$1480; Chloe pays a $20\%$ deposit and borrows the balance. A flat-rate interest is charged at $12\%$ per annum on the amount borrowed. Chloe makes fortnightly repayments over two years.
+
+      How much is Chloe's fortnightly repayment?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-042
+      focus_area: Managing money
+      dot_point: Calculate the cost of buying on terms that involve paying an initial deposit and making regular repayments
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-026
+      focus_area: Investment and loans
+      dot_point: Calculate simple interest for different rates and time periods using the formula I=Prn where I = simple interest, P = principal, r = interest rate per time period and n = number of time periods
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Buying on terms
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Simple interest
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11213
+      source: generated
+      latex: |
+        The deposit is $20\%$ of the cost, so the amount borrowed is $80\%$ of the cost.
+        $$\text{amount borrowed} = 0.8 \times 1480 = \$1184$$
+        Flat-rate interest is $I = Prn$:
+        $$I = 1184 \times 0.12 \times 2 = \$284.16$$
+        Total to repay:
+        $$1184 + 284.16 = \$1468.16$$
+        There are $2 \times 26 = 52$ fortnights in two years, so
+        $$\text{repayment} = \dfrac{1468.16}{52} \approx \$28.23$$
+        This is option A.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "MCQ working written; key A.", "self_check": "Computed numerically: 1468.16/52 = 28.234."}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6961
+      confidence: medium
+      reason: Deposit, flat interest, total, fortnights: several steps
+      area: Y11_Managing_money
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q14  key 2021-NEAP-AT4-STD-Q14  id 7386
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: graph
+  home_topic: sub:12|Algebraic relationships|Reciprocal relationships
+  home_source: computed
+  option A
+    latex: \exfigure{250_q14_1}
+    is_correct: 1
+    key_source: generated
+    figure_key: 250_q14_1
+  option B
+    latex: \exfigure{250_q14_2}
+    is_correct: 0
+    key_source: generated
+    figure_key: 250_q14_2
+  option C
+    latex: \exfigure{250_q14_3}
+    is_correct: 0
+    key_source: generated
+    figure_key: 250_q14_3
+  option D
+    latex: \exfigure{250_q14_4}
+    is_correct: 0
+    key_source: generated
+    figure_key: 250_q14_4
+  figure 250_q14_1.png
+    page: 6
+    bbox: [122, 365, 290, 522]
+    png_path: figures/250_q14_1.png
+    tikz_path: tikz/tex/250_q14_1.tex
+    caption: option A: hyperbola in quadrants 1 and 3
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: Option A. A hyperbola branch in each of quadrants 1 and 3, 0.9pt. Each branch is a smooth curve a/(x∓0.07)±0.2 with a=2.05, point-symmetric about the origin and fitted to the positions the crop shows (rules 1, 10). It is not the true y=2/x, because the crop's tails sit higher above and below the axis. Axes, ticks every 2 and labels follow the crop. Remaining colour: the tick labels are 1–3 px further from the axis than the scan's, and the Q3 branch's knee runs slightly smoother. Check: the -2 tick label sits very close to the Q3 branch, as it does in the crop (rule 11). I hit the 2-round limit, so please check this first.
+  figure 250_q14_2.png
+    page: 6
+    bbox: [312, 365, 480, 522]
+    png_path: figures/250_q14_2.png
+    tikz_path: tikz/tex/250_q14_2.tex
+    caption: option B: decreasing cubic-like curve
+    redraw_status: approx
+    redraw_class: graph
+    redraw_notes: Option B. Decreasing cubic y=-2x^3 for x from -1.5 to 1.5, 0.9pt, smooth and symmetric (rule 10). It matches the crop's end points; the scan's small hand wobble at the flat point near x=0.3 is not copied. Axes and ticks are as in option A (rule 7). Flag: the steep left branch crosses the y-axis tick labels 2 and 4. In the crop it passes just clear of them. Moving those labels right of the axis, or nudging them, needs a third round, which was not allowed. Please check this first.
+  figure 250_q14_3.png
+    page: 6
+    bbox: [122, 525, 290, 685]
+    png_path: figures/250_q14_3.png
+    tikz_path: tikz/tex/250_q14_3.tex
+    caption: option C: increasing cubic-like curve
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Option C, a cubic-like curve. Drawn smooth from y=2(x+0.04)^3 so it runs from about -6.75 to 6.75 at the crop's height (rules 1, 10, 3a), at 0.9pt because it runs along the x-axis (rule 9). Same axes, ticks every 2 and tick labels as the crop, with filled Latex arrowheads (rule 4). The remaining overlay colour is the hand-drawn flat part near the origin and the scan's thicker strokes.
+  figure 250_q14_4.png
+    page: 6
+    bbox: [312, 525, 480, 685]
+    png_path: figures/250_q14_4.png
+    tikz_path: tikz/tex/250_q14_4.tex
+    caption: option D: hyperbola in quadrants 2 and 4
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Option D, a hyperbola in quadrants 2 and 4. Drawn from y=-2/x at 0.9pt (rules 9, 10) instead of tracing the uneven sketch. On the crop the curve runs through the y-labels 2, 4, 6 and the x-labels 2, 4, 6, so those labels are moved to the mirror side: y-labels to the right of the axis, x-labels above it. Negative labels stay where they were (rules 11, 24, 21 Nov ruling). The label moves and the slightly flatter tails of the true curve explain the lower overlay score.
+  part -  id 11724
+    ordinal: 1
+    latex: Which of the following could represent the graph of the function $y = \dfrac{2}{x}$?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-021
+      focus_area: Algebraic relationships
+      dot_point: Identify the hyperbolic shape of a reciprocal graph
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-022
+      focus_area: Algebraic relationships
+      dot_point: Graph a reciprocal relationship of the form y=(k)/(x), with and without using graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal relationships
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11214
+      source: generated
+      latex: |
+        For $y = \dfrac{2}{x}$, the sign of $y$ is the same as the sign of $x$.
+
+        So for $x>0$ the curve is above the axis (first quadrant) and for $x<0$ it is below the axis (third quadrant).
+
+        Also $y \to 0$ as $|x|$ becomes large, and $y$ becomes very large as $x \to 0$, so the axes are asymptotes. For example, $x=2$ gives $y=1$.
+
+        Graph A has this shape. Graph D lies in the second and fourth quadrants, and graphs B and C are cubic-type curves.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "MCQ working written; key A.", "self_check": "Checked point (2,1) against graph A."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9655
+      confidence: high
+      reason: Recognise standard hyperbola graph
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q15  key 2021-NEAP-AT4-STD-Q15  id 7387
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 7
+  page_end: 7
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Algebraic relationships|Reciprocal relationships
+  home_source: computed
+  option A
+    latex: The volume stays the same.
+    is_correct: 0
+    key_source: generated
+  option B
+    latex: The volume is divided by 3.
+    is_correct: 1
+    key_source: generated
+  option C
+    latex: The volume is tripled.
+    is_correct: 0
+    key_source: generated
+  option D
+    latex: The volume is cubed.
+    is_correct: 0
+    key_source: generated
+  part -  id 11725
+    ordinal: 1
+    latex: |
+      The volume of a gas at constant temperature varies inversely to the pressure.
+
+      What is the effect on the volume of a gas when the pressure is tripled?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-020
+      focus_area: Algebraic relationships
+      dot_point: Recognise that inverse variation is represented by a reciprocal relationship of the form y=(k)/(x), where k is the constant of variation
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal relationships
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11215
+      source: generated
+      latex: |
+        Inverse variation means
+        $$V = \dfrac{k}{P}$$
+        for a constant $k$.
+
+        If the pressure is tripled, the new volume is
+        $$V_{\text{new}} = \dfrac{k}{3P} = \dfrac{1}{3}\cdot\dfrac{k}{P}$$
+        So the volume is divided by 3, which is option B.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "MCQ working written; key B.", "self_check": "Direct algebra."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6957
+      confidence: medium
+      reason: Inverse variation effect of tripling one variable
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q16  key 2021-NEAP-AT4-STD-Q16  id 7388
+  section: II
+  question_type: short
+  marks_total: 1
+  page_start: 9
+  page_end: 9
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Formulas and equations|Represent a word problem as a linear equation
+  home_source: computed
+  part -  id 11726
+    ordinal: 1
+    latex: Solve the equation $\dfrac{y}{3} - 13 = 8$.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-010
+      focus_area: Formulas and equations
+      dot_point: Represent a word problem as a linear equation, solve the equation and interpret the solution in the context of the problem
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Solving linear equations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11216
+      source: generated
+      latex: |
+        Add 13 to both sides.
+        $$\begin{aligned} \dfrac{y}{3} - 13 &= 8 \\ \dfrac{y}{3} &= 21 &&(\text{add } 13) \\ y &= 63 &&(\text{multiply by } 3) \end{aligned}$$
+        $$\therefore\ y = 63$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.99, "generated_note": "Short answer solution written.", "self_check": "63/3-13=8."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7147
+      confidence: high
+      reason: Two-step linear equation
+      area: Y11_Formulas_and_equations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q17  key 2021-NEAP-AT4-STD-Q17  id 7389
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 9
+  page_end: 9
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Applications of measurement|Perimeter, area and volume
+  home_source: computed
+  figure 250_q17_1.png
+    page: 9
+    bbox: [225, 268, 440, 415]
+    png_path: figures/250_q17_1.png
+    tikz_path: tikz/tex/250_q17_1.tex
+    caption: sphere with diameter 15 cm
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Sphere with a dashed equator ellipse, a solid diameter, the 15 cm label and NOT TO SCALE. Uses the house fine dashes (rule 3) instead of the crop's long dashes. The round-2 fix moved the equator the wrong way: the ellipse and diameter are now about 4 px off vertically and the ellipse is slightly too tall. Round 1 scored higher (0.71/0.65). Most of the remaining colour is the dash pattern and the scan's heavier circle line.
+  part -  id 11727
+    ordinal: 1
+    latex: |
+      The sphere has a diameter of 15 cm.
+
+      \exfigure{250_q17_1}
+
+      Calculate the volume of the sphere in cubic centimetres. Give your answer correct to three significant figures.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-062
+      focus_area: Applications of measurement
+      dot_point: Solve practical problems involving volume and capacity of prisms, cylinders, spheres, cones, pyramids and composite solids in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Volume of pyramids, cones and spheres
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11217
+      source: generated
+      latex: |
+        The radius is half the diameter, so $r = 7.5$ cm.
+
+        Using the volume of a sphere, $V = \dfrac{4}{3}\pi r^3$:
+        $$\begin{aligned} V &= \dfrac{4}{3}\pi (7.5)^3 \\ &\approx 1767.1 \text{ cm}^3 \end{aligned}$$
+        $$\therefore\ V \approx 1770 \text{ cm}^3 \text{ (3 significant figures)}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Substitutes $r = 7.5$ into $V = \\dfrac{4}{3}\\pi r^3$, or equivalent merit"]]
+      meta_json: {"confidence": 0.98, "generated_note": "Short answer solution written.", "self_check": "Computed 1767.146."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9560
+      confidence: medium
+      reason: Sphere volume formula, radius from diameter, significant figures
+      area: Y11_Applications_of_measurement
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q18  key 2021-NEAP-AT4-STD-Q18  id 7390
+  section: II
+  question_type: short
+  stem_latex: |
+    Harley builds a model of a fighter aircraft. The model is made to a scale of $1 : 250$.
+
+    \exfigure{250_q18_1}
+  marks_total: 2
+  page_start: 10
+  page_end: 10
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Ratios and rates|Ratios
+  home_source: computed
+  figure 250_q18_1.png
+    page: 10
+    bbox: [225, 108, 475, 212]
+    png_path: figures/250_q18_1.png
+    tikz_path: tikz/tex/250_q18_1.tex
+    caption: model aircraft, length 80 mm
+    redraw_status: approx
+    redraw_class: other
+    redraw_notes: Clip-art model jet redrawn as line art: fuselage, fin with stripes, canopy, wing strip, intake, two landing wheels, stand and base. The outline is estimated from the crop, so details of the canopy, nose and tail differ by a few px. The 80 mm dashed dimension arrow uses filled Latex heads (rule 4) and house dashes; NOT TO SCALE is kept. Please check the overall look of the aircraft.
+  part a  id 11728
+    ordinal: 1
+    latex: |
+      The length of the model is 80 mm.
+
+      What is the length of the real aircraft in metres?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-076
+      focus_area: Ratios and rates
+      dot_point: Solve practical problems involving ratios
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Ratios
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11218
+      source: generated
+      latex: |
+        The scale $1:250$ means the real length is 250 times the model length.
+        $$\begin{aligned} \text{real length} &= 80 \times 250 \\ &= 20\,000 \text{ mm} \\ &= 20 \text{ m} \end{aligned}$$
+        $$\therefore\ \text{the real aircraft is } 20 \text{ m long.}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "Part (a) written.", "self_check": "20000 mm = 20 m."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9684
+      confidence: medium
+      reason: Apply scale factor and convert mm to m
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11729
+    ordinal: 2
+    latex: |
+      The real aircraft has a square logo on its wings. The logo measures 130 cm by 130 cm. Harley wants to paint a scaled copy of the logo on his model.
+
+      What dimensions should Harley use for the logo on his model? Give your answer in millimetres.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-076
+      focus_area: Ratios and rates
+      dot_point: Solve practical problems involving ratios
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Ratios
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11219
+      source: generated
+      latex: |
+        Convert the logo to millimetres: $130 \text{ cm} = 1300 \text{ mm}$.
+
+        The model lengths are 250 times smaller (scale $1:250$).
+        $$\begin{aligned} \text{model side} &= 1300 \div 250 \\ &= 5.2 \text{ mm} \end{aligned}$$
+        $$\therefore\ \text{the logo on the model should be } 5.2 \text{ mm} \times 5.2 \text{ mm.}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "Part (b) written.", "self_check": "1300/250=5.2."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9606
+      confidence: medium
+      reason: Scale down with cm to mm conversion
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q19  key 2021-NEAP-AT4-STD-Q19  id 7391
+  section: II
+  question_type: extended
+  stem_latex: |
+    The table shows the number of standard drinks in three types of beer available at a restaurant: full-strength, mid-strength and low-strength. The restaurant sells the beer in small and large glasses.
+
+    \extable{250_q19_t1}
+
+    Geoff is 24 years old and weighs 78 kg. He has dinner with friends at the restaurant, where he drinks three large glasses of full-strength beer and one small glass of mid-strength beer between 7:30 pm and 11:30 pm.
+
+    The following formula is used to calculate an estimate for blood alcohol content (BAC) for males.
+
+    $$\text{BAC}_{\text{male}} = \dfrac{10N - 7.5H}{6.8M}$$
+  marks_total: 4
+  page_start: 11
+  page_end: 11
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Formulas and equations|Hours to reach zero BAC
+  home_source: computed
+  data_table 250_q19_t1
+    caption: Number of standard drinks
+    header_rows: 1
+    label_col: 1
+    rows_json: [["", "\\text{Full-strength}", "\\text{Mid-strength}", "\\text{Low-strength}"], ["\\text{Small glass}", "1.1", "0.8", "0.6"], ["\\text{Large glass}", "1.6", "1.2", "0.9"]]
+    spans_json: []
+  part a  id 11730
+    ordinal: 1
+    latex: Calculate Geoff's BAC at 11:30 pm, correct to three decimal places.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-004
+      focus_area: Formulas and equations
+      dot_point: Apply the formulas BAC_male=(10N-7.5H)/(6.8M) and BAC_female=(10N-7.5H)/(5.5M) to calculate and interpret blood alcohol content (BAC) based on drink consumption and body weight, where N is the number of standard drinks consumed, H is the number of hours of drinking and M is the person’s weight in kilograms
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Blood alcohol content
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11220
+      source: generated
+      latex: |
+        From the table, the number of standard drinks is
+        $$\begin{aligned} N &= 3 \times 1.6 + 1 \times 0.8 \\ &= 5.6 \end{aligned}$$
+        The drinking period from 7:30 pm to 11:30 pm gives $H = 4$ hours, and $M = 78$ kg.
+
+        Substitute into the formula:
+        $$\begin{aligned} \text{BAC} &= \dfrac{10(5.6) - 7.5(4)}{6.8 \times 78} \\ &= \dfrac{56 - 30}{530.4} \\ &= \dfrac{26}{530.4} \\ &\approx 0.049 \end{aligned}$$
+        $$\therefore\ \text{BAC} \approx 0.049$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Finds $N = 5.6$ and $H = 4$, or equivalent merit"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Assumed H = 4 hours (7:30 pm to 11:30 pm), N from table values.", "self_check": "26/530.4 = 0.04902."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6978
+      confidence: medium
+      reason: Read table for standard drinks, then substitute BAC formula
+      area: Y11_Formulas_and_equations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 11731
+    ordinal: 2
+    latex: |
+      The number of hours required for Geoff to reach a BAC of 0 after he stops consuming alcohol is given by the following formula.
+
+      $$\text{time} = \dfrac{\text{BAC}}{0.015}$$
+
+      How long will it take for Geoff's BAC to reach zero? Give your answer in hours and minutes.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-005
+      focus_area: Formulas and equations
+      dot_point: Apply the formula Time=(BAC)/(0.015) to determine the number of hours required for a person to stop consuming alcohol in order to reach zero BAC
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-066
+      focus_area: Time and location
+      dot_point: Convert between seconds (s), minutes (min) and hours (h)
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Blood alcohol content
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Practical applications of time
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11221
+      source: generated
+      latex: |
+        Use the given formula with BAC $= 0.049$.
+        $$\begin{aligned} \text{time} &= \dfrac{0.049}{0.015} \\ &\approx 3.27 \text{ hours} \end{aligned}$$
+        Convert the decimal part to minutes:
+        $$0.2667 \times 60 \approx 16 \text{ minutes}$$
+        $$\therefore\ \text{it will take about 3 hours 16 minutes.}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Substitutes BAC into the time formula, or equivalent merit"]]
+      meta_json: {"confidence": 0.93, "generated_note": "Uses BAC from part (a).", "self_check": "0.049/0.015=3.267 h = 3 h 16 min; unrounded BAC gives 3.268 h, also 3 h 16 min."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6978
+      confidence: medium
+      reason: Substitute into given formula, convert decimal hours to minutes
+      area: Y11_Formulas_and_equations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q20  key 2021-NEAP-AT4-STD-Q20  id 7392
+  section: II
+  question_type: extended
+  stem_latex: |
+    In the directed network, the source is represented by $S$ and the sink is represented by $T$.
+
+    \exfigure{250_q20_1}
+  marks_total: 4
+  page_start: 12
+  page_end: 12
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Network flow|Maximum-flow minimum-cut
+  home_source: computed
+  figure 250_q20_1.png
+    page: 12
+    bbox: [178, 100, 430, 225]
+    png_path: figures/250_q20_1.png
+    tikz_path: tikz/tex/250_q20_1.tex
+    caption: directed flow network with cut
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Directed network S, E, A, B, C, D, T with every edge capacity and filled Latex flow arrows at mid-edge (rule 4, replacing the crop's chevrons). The dashed cut is a smooth curve through the crop's positions, crossing AT, BT and CT. Labels are in maths italic (rule 19) and clear of the edges.
+  part a  id 11732
+    ordinal: 1
+    latex: Find the capacity of the minimum cut shown above.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-093
+      focus_area: Network flow
+      dot_point: Define and use network flow terminology including source, sink, outflow, inflow and cut
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-095
+      focus_area: Network flow
+      dot_point: Calculate and analyse the flow capacity of a network including the use of the saturated edges method
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Flow networks and cuts
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11222
+      source: generated
+      latex: |
+        A cut separates $S$ from $T$. The capacity is the sum of the capacities of the edges that cross the dashed line from the $S$ side to the $T$ side.
+
+        The dashed line crosses the edges $A \to T$, $B \to T$ and $C \to T$.
+        $$\begin{aligned} \text{capacity} &= 20 + 18 + 30 \\ &= 68 \end{aligned}$$
+        $$\therefore\ \text{the capacity of the cut is } 68.$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.93, "generated_note": "Cut edges read from the diagram.", "self_check": "Cut edges read from the figure: A-T 20, B-T 18, C-T 30."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9623
+      confidence: high
+      reason: Sum capacities of edges crossing given cut
+      area: Y12_Network_flow
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11733
+    ordinal: 2
+    latex: Show that the maximum flow is equal to the minimum cut.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-095
+      focus_area: Network flow
+      dot_point: Calculate and analyse the flow capacity of a network including the use of the saturated edges method
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-096
+      focus_area: Network flow
+      dot_point: Solve small-scale network flow problems including the use of applying the maximum-flow minimum-cut theorem
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Maximum-flow minimum-cut
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11223
+      source: generated
+      latex: |
+        By the maximum-flow minimum-cut theorem the maximum flow is at most 68, the capacity of the cut. So it is enough to find a flow of 68.
+
+        One such flow:
+        $$\begin{aligned} S \to C &: 25 & D \to C &: 5 \\ S \to D &: 5 & C \to T &: 30 \\ S \to B &: 15 & E \to B &: 3 \\ S \to E &: 23 & B \to T &: 18 \\ E \to A &: 20 & A \to T &: 20 \end{aligned}$$
+        Every flow is within the edge capacity. Flow is conserved at each vertex: at $C$, $25+5=30$; at $D$, $5=5$; at $E$, $23=20+3$; at $B$, $15+3=18$; at $A$, $20=20$.
+
+        The flow into $T$ is
+        $$30 + 18 + 20 = 68$$
+        so the flow is 68, equal to the minimum cut.
+        $$\therefore\ \text{maximum flow} = \text{minimum cut} = 68$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Finds a valid flow through the network, or equivalent merit"]]
+      meta_json: {"confidence": 0.9, "generated_note": "Direction of E-B edge read as E to B from the arrow.", "self_check": "Checked capacities and conservation at every vertex."}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 9627
+      confidence: medium
+      reason: Construct a feasible flow matching cut to justify maximum
+      area: Y12_Network_flow
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: PR
+      source: model
+  part c  id 11734
+    ordinal: 3
+    latex: What is the outflow at $B$?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-093
+      focus_area: Network flow
+      dot_point: Define and use network flow terminology including source, sink, outflow, inflow and cut
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Flow networks and cuts
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11224
+      source: generated
+      latex: |
+        The only edge leaving $B$ that is needed is $B \to T$.
+
+        This edge is in the minimum cut, so in a maximum flow it is full.
+        $$\text{outflow at } B = 18$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.7, "generated_note": "Outflow at B is not unique in general: other maximum flows could also use B to A. The answer 18 follows the flow in part (b) with B to T saturated. Teacher to confirm against the NEAP guideline.", "self_check": "Consistent with the flow in part (b)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9626
+      confidence: medium
+      reason: Edge in minimum cut is saturated in maximum flow
+      area: Y12_Network_flow
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q21  key 2021-NEAP-AT4-STD-Q21  id 7393
+  section: II
+  question_type: short
+  stem_latex: |
+    Jacinta has a credit card that charges a simple interest rate of $21\%$ per annum. The credit card does not have an interest-free period, and interest is charged up to and including the date of payment.
+
+    During one weekend, Jacinta makes the following transactions.
+
+    \extable{250_q21_t1}
+  marks_total: 3
+  page_start: 13
+  page_end: 13
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Investment and loans|Credit cards
+  home_source: computed
+  data_table 250_q21_t1
+    header_rows: 1
+    label_col: 1
+    rows_json: [["", "\\text{Transaction}", "\\text{Amount (\\$)}"], ["\\text{13 January}", "\\text{Public transport card top-up}", "30.00"], ["\\text{18 January}", "\\text{GK Drive driving lesson}", "89.00"]]
+    spans_json: []
+  part a  id 11735
+    ordinal: 1
+    latex: Calculate the daily interest of Jacinta's credit card as a percentage. Give your answer correct to three decimal places.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-053
+      focus_area: Investment and loans
+      dot_point: Calculate the compound interest charged on a purchase, transaction or outstanding balance for a given number of days, with and without using digital tools
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Credit card interest
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11225
+      source: generated
+      latex: |
+        The simple interest rate is $21\%$ per annum, and a year has 365 days.
+        $$\begin{aligned} \text{Daily rate} &= \dfrac{21\%}{365} \\ &\approx 0.0575\% \\ &\approx 0.058\% \text{ (3 decimal places)} \end{aligned}$$
+        $$\therefore\ \text{daily interest} \approx 0.058\%$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Generated solution.", "self_check": "21/365 = 0.05753% recomputed."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7002
+      confidence: high
+      reason: Divide annual rate by 365
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11736
+    ordinal: 2
+    latex: |
+      Jacinta is due to pay her account in full on 9 February.
+
+      What will be the total interest payable on Jacinta's transactions?
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-026
+      focus_area: Investment and loans
+      dot_point: Calculate simple interest for different rates and time periods using the formula I=Prn where I = simple interest, P = principal, r = interest rate per time period and n = number of time periods
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-053
+      focus_area: Investment and loans
+      dot_point: Calculate the compound interest charged on a purchase, transaction or outstanding balance for a given number of days, with and without using digital tools
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Credit card interest
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Simple interest
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11226
+      source: generated
+      latex: |
+        Interest is charged from the day of each transaction up to and including 9 February, so the number of days is (days remaining in January, including the transaction day) $+\ 9$.
+
+        13 January to 9 February:
+        $$\begin{aligned} \text{Days} &= (31-13+1)+9 \\ &= 28 \end{aligned}$$
+        18 January to 9 February:
+        $$\begin{aligned} \text{Days} &= (31-18+1)+9 \\ &= 23 \end{aligned}$$
+        Interest is simple interest, $I = Prn$, with daily rate $r = \dfrac{0.21}{365}$.
+        $$\begin{aligned} I_1 &= 30\times\dfrac{0.21}{365}\times 28 \approx \$0.48 \\ I_2 &= 89\times\dfrac{0.21}{365}\times 23 \approx \$1.18 \end{aligned}$$
+        Total interest:
+        $$\begin{aligned} I &\approx 0.4833+1.1777 \\ &\approx \$1.66 \end{aligned}$$
+        $$\therefore\ \text{total interest payable} \approx \$1.66$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Finds the interest on one transaction, or the number of days for both transactions, or equivalent merit"]]
+      meta_json: {"confidence": 0.7, "generated_note": "Day count assumes the transaction day and payment day are both counted (28 and 23 days); the source answer may count differently.", "self_check": "Recomputed in Python: 1.661. Using the rounded rate 0.058% would give $1.67."}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7193
+      confidence: medium
+      reason: Count days inclusively across months for two transactions
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q22  key 2021-NEAP-AT4-STD-Q22  id 7394
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 14
+  page_end: 14
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Applications of measurement|Perimeter, area and volume
+  home_source: computed
+  figure 250_q22_1.png
+    page: 14
+    bbox: [195, 114, 500, 342]
+    png_path: figures/250_q22_1.png
+    tikz_path: tikz/tex/250_q22_1.tex
+    caption: cylindrical tin with label 4 cm wide, diameter 9 cm
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Cylinder tin with the label band between two front arcs, shaded flat grey (rule 5). Biscuits (bold) / by Jin is written directly on the grey without a halo, like the crop and like the owner's 24 Nov grey-label exceptions; add \halo if he prefers. The 4 cm and 9 cm dimension lines have end bars and filled Latex heads, with the label in a gap in the dashes as on the crop. NOT TO SCALE is kept. The remaining colour is the dash pattern and text antialiasing.
+  part -  id 11737
+    ordinal: 1
+    latex: |
+      Jin makes paper labels for the tins of his home-made biscuits. Each tin is in the shape of a cylinder with a diameter of 9 cm. Each label is 4 cm wide and wraps all the way around a tin with no overlap.
+
+      \exfigure{250_q22_1}
+
+      Calculate the area of the label. Give your answer correct to the nearest square centimetre.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-058
+      focus_area: Applications of measurement
+      dot_point: Solve practical problems requiring the calculation of perimeters and areas of triangles, rectangles, parallelograms, trapeziums, circles, sectors of circles and composite shapes in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-061
+      focus_area: Applications of measurement
+      dot_point: Solve practical problems involving the surface area of prisms, cylinders, spheres and composite solids in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Surface area of cylinders
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11227
+      source: generated
+      latex: |
+        The label wraps once around the tin with no overlap, so it is a rectangle. Its length is the circumference of the tin and its width is 4 cm.
+        $$\begin{aligned} C &= \pi d \\ &= \pi\times 9 \\ &\approx 28.27 \text{ cm} \end{aligned}$$
+        $$\begin{aligned} A &= \text{length}\times\text{width} \\ &= 9\pi\times 4 \\ &\approx 113.1 \text{ cm}^2 \end{aligned}$$
+        $$\therefore\ \text{area} \approx 113 \text{ cm}^2$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Finds the circumference of the tin, or equivalent merit"]]
+      meta_json: {"confidence": 0.96, "generated_note": "Generated solution.", "self_check": "36π = 113.097."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9657
+      confidence: medium
+      reason: Label area equals circumference times width
+      area: Y11_Applications_of_measurement
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q23  key 2021-NEAP-AT4-STD-Q23  id 7395
+  section: II
+  question_type: short
+  stem_latex: |
+    Tavi is a farmer. She wants to build an enclosure for her cows, as shown in the diagram, using recycled timber.
+
+    \exfigure{250_q23_1}
+
+    All measurements are in metres.
+  marks_total: 3
+  page_start: 15
+  page_end: 15
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Formulas and equations|Change the subject of a formula (to y = ax² + c)
+  home_source: computed
+  figure 250_q23_1.png
+    page: 15
+    bbox: [160, 105, 450, 310]
+    png_path: figures/250_q23_1.png
+    tikz_path: tikz/tex/250_q23_1.tex
+    caption: trapezium enclosure with sides 3x, 30, x, 4y
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Trapezium enclosure with dashed dimension lines: 3x, x and 30 with end bars, and 4y with an arrowhead at each end parallel to the slant side. Each label sits in a gap in its line. Filled Latex heads (rule 4), house dashes (rule 3), NOT TO SCALE kept. The redraw score of 0.838 is just under target only because the house dashes differ from the crop's long dashes.
+  part a  id 11738
+    ordinal: 1
+    latex: Express the perimeter of the enclosure in terms of $x$ and $y$. Give your answer in the simplest form.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-058
+      focus_area: Applications of measurement
+      dot_point: Solve practical problems requiring the calculation of perimeters and areas of triangles, rectangles, parallelograms, trapeziums, circles, sectors of circles and composite shapes in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Perimeter
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11228
+      source: generated
+      latex: |
+        The perimeter is the sum of all four sides: $3x$, $4y$, $x$ and $30$.
+        $$\begin{aligned} P &= 3x+4y+x+30 \\ &= 4x+4y+30 \end{aligned}$$
+        $$\therefore\ P = 4x+4y+30$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated solution.", "self_check": "Sides read from the figure."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9654
+      confidence: high
+      reason: Add given side expressions and simplify
+      area: Y11_Applications_of_measurement
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11739
+    ordinal: 2
+    latex: If Tavi uses 102 m of timber to build the enclosure, show that $y = 18 - x$.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-009
+      focus_area: Formulas and equations
+      dot_point: Change the subject of linear and non-linear formulas limited to quadratics of the form y=ax^2+c to solve problems and make decisions about solutions in the context of the problem
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-058
+      focus_area: Applications of measurement
+      dot_point: Solve practical problems requiring the calculation of perimeters and areas of triangles, rectangles, parallelograms, trapeziums, circles, sectors of circles and composite shapes in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Changing the subject of a formula
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11229
+      source: generated
+      latex: |
+        The perimeter is 102 m, so using part (a):
+        $$\begin{aligned} 4x+4y+30 &= 102 \\ 4x+4y &= 72 &&(\text{subtract } 30) \\ x+y &= 18 &&(\text{divide by } 4) \\ y &= 18-x &&(\text{subtract } x) \end{aligned}$$
+        $$\therefore\ y = 18-x$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Forms the equation $4x+4y+30=102$, or equivalent merit"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated solution.", "self_check": "Algebra checked."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7083
+      confidence: medium
+      reason: Set perimeter to 102 and rearrange; routine show that
+      area: Y11_Formulas_and_equations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q24  key 2021-NEAP-AT4-STD-Q24  id 7396
+  section: II
+  question_type: extended
+  stem_latex: Therese lives in a regional area at risk of bushfires. During a high-risk weekend, the probability of a bushfire in the area on any day is 0.7.
+  marks_total: 4
+  page_start: 16
+  page_end: 16
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Relative frequency and probability|Multistage events, P(A and B) = P(A)P(B)
+  home_source: computed
+  figure 250_q24_s1.png
+    page: 0
+    bbox: []
+    png_path: figures/250_q24_s1.png
+    tikz_path: tikz/tex/250_q24_s1.tex
+    caption: solution diagram (drawn by Claude)
+    redraw_status: ok
+    redraw_class: tree
+    redraw_notes: New sketch: two-stage tree, horizontal, equal branch runs, symmetric fans, probabilities 0.7 above up-branches and 0.3 below down-branches at midpoints, outcome labels bushfire / overlined bushfire in aligned columns (rule 21). Drawn with explicit nodes following the tree template's dimensions because the template macros did not place the probabilities.
+  part a  id 11740
+    ordinal: 1
+    latex: |
+      Complete the probability tree diagram below by labelling the probabilities on each branch.
+
+      \exfigure{250_q24_1}
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-125
+      focus_area: Relative frequency and probability
+      dot_point: Apply P(an event does not occur)=1-P(the event does occur) to calculate the probability of the complement of an event
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-126
+      focus_area: Relative frequency and probability
+      dot_point: Construct and use arrays, tree diagrams and probability trees to determine the outcomes and probabilities for multistage events
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Arrays and tree diagrams
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Complementary events
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11230
+      source: generated
+      latex: |
+        Bushfire days are independent, and $P(\text{bushfire}) = 0.7$. Since the probabilities on each pair of branches add to 1:
+        $$P(\overline{\text{bushfire}}) = 1-0.7 = 0.3$$
+        The same probabilities apply on each day, so the second-day branches repeat the first-day values.
+
+        \exfigure{250_q24_s1}
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Labels the first-day $\\overline{\\text{bushfire}}$ branch with $0.3$, or the second-day branches correctly with $0.7$ and $0.3$ on one pair only, or equivalent merit"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Generated solution; completed tree drawn.", "self_check": "Branch pairs sum to 1."}
+    figure 250_q24_1.png
+      page: 16
+      bbox: [150, 150, 470, 420]
+      png_path: figures/250_q24_1.png
+      tikz_path: tikz/tex/250_q24_1.tex
+      caption: two-day probability tree, bushfire / not bushfire, first branch labelled 0.7
+      redraw_status: ok
+      redraw_class: tree
+      redraw_notes: Two-day tree built with tree_style.tex (rule 21): branch run set to 3.66 cm and node heights taken from the crop. Only the first branch carries 0.7, as on the paper; the other branches are left unlabelled for the student. The template places 0.7 above the branch midpoint, a little up and right of the crop's position. Round 1 had \treewidth inside the picture, which collapsed the columns; this was fixed.
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9696
+      confidence: high
+      reason: Complementary probabilities on tree branches
+      area: Y12_Relative_frequency_and_probability
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11741
+    ordinal: 2
+    latex: Calculate the percentage probability that there are no bushfires over the weekend.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-126
+      focus_area: Relative frequency and probability
+      dot_point: Construct and use arrays, tree diagrams and probability trees to determine the outcomes and probabilities for multistage events
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-127
+      focus_area: Relative frequency and probability
+      dot_point: Determine the probabilities of outcomes for multistage events using P(A and B)=P(A)times P(B)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Multistage events
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11231
+      source: generated
+      latex: |
+        No bushfire over the weekend means no bushfire on both days. The days are independent, so multiply along the lower branch.
+        $$\begin{aligned} P(\overline{\text{bushfire}},\overline{\text{bushfire}}) &= 0.3\times 0.3 \\ &= 0.09 \end{aligned}$$
+        $$\therefore\ \text{probability} = 9\%$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Writes $0.3\\times 0.3$, or equivalent merit"]]
+      meta_json: {"confidence": 0.96, "generated_note": "Generated solution; weekend taken as two days.", "self_check": "0.09 = 9%."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9696
+      confidence: high
+      reason: Multiply along one tree branch
+      area: Y12_Relative_frequency_and_probability
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q25  key 2021-NEAP-AT4-STD-Q25  id 7397
+  section: II
+  question_type: extended
+  stem_latex: |
+    A compass radial survey of a block of land is shown.
+
+    \exfigure{250_q25_1}
+  marks_total: 5
+  page_start: 17
+  page_end: 17
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Ratios and rates|Ratios
+  home_source: computed
+  figure 250_q25_1.png
+    page: 17
+    bbox: [155, 100, 450, 261]
+    png_path: figures/250_q25_1.png
+    tikz_path: tikz/tex/250_q25_1.tex
+    caption: compass radial survey with points Q, R, S, T
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Compass radial survey drawn on the crop's own pixel grid: four legs from O, a dashed N line, and the bearing/length labels in the same places. The NOT TO SCALE layout is kept (rule 1). The N arrowhead is now the filled house Latex head instead of the crop's open chevron (rule 4). The N line uses the aux dash pattern and all lines are 0.6pt (rule 3). Labels sit clear of the lines (rule 11). The remaining overlay colour is small glyph-position and font-weight differences only.
+  part a  id 11742
+    ordinal: 1
+    latex: Show that the size of $\angle ROS$ is $88^\circ$.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-069
+      focus_area: Trigonometry
+      dot_point: Identify and interpret true bearings and compass bearings and convert between them
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-070
+      focus_area: Trigonometry
+      dot_point: Construct and interpret compass radial surveys and solve related problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Compass radial surveys
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11232
+      source: generated
+      latex: |
+        The bearing of $R$ from $O$ is $311^\circ$ and the bearing of $S$ from $O$ is $039^\circ$. Both are measured clockwise from north, and the north line lies between $OR$ and $OS$.
+
+        Angle from $OR$ to north:
+        $$360^\circ-311^\circ = 49^\circ$$
+        Angle from north to $OS$ is $39^\circ$.
+        $$\begin{aligned} \angle ROS &= 49^\circ+39^\circ \\ &= 88^\circ \end{aligned}$$
+        $$\therefore\ \angle ROS = 88^\circ$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.96, "generated_note": "Generated solution.", "self_check": "360-311+39 = 88."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7209
+      confidence: medium
+      reason: Angle between bearings across north line
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 11743
+    ordinal: 2
+    latex: Calculate the area of triangle $ROS$, correct to the nearest square metre.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-068
+      focus_area: Trigonometry
+      dot_point: Apply the formula A=(1)/(2)absin C, where a and b are the sides that form the included angle C in a given triangle ABC, to solve problems in a range of contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-081
+      focus_area: Ratios and rates
+      dot_point: Calculate the perimeter, or area of a section of land using the Trapezoidal rule where appropriate, from a site plan, an aerial photograph, a radial survey or a map that includes a scale
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Area of a triangle (1/2 ab sin C)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11233
+      source: generated
+      latex: |
+        In triangle $ROS$, $OR = 55$ m, $OS = 32$ m and the included angle is $88^\circ$. Using the area formula $A=\dfrac{1}{2}ab\sin C$:
+        $$\begin{aligned} A &= \dfrac{1}{2}\times 55\times 32\times\sin 88^\circ \\ &\approx 879.46 \text{ m}^2 \end{aligned}$$
+        $$\therefore\ \text{area} \approx 879 \text{ m}^2$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Substitutes correctly into $A=\\dfrac{1}{2}ab\\sin C$, or equivalent merit"]]
+      meta_json: {"confidence": 0.96, "generated_note": "Generated solution.", "self_check": "Python: 879.46."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7164
+      confidence: high
+      reason: Direct sine area formula with given sides and angle
+      area: Y12_Ratios_and_rates
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 11744
+    ordinal: 3
+    latex: |
+      A property developer plans to build a supermarket on the entire area of $ROS$. To do this, the developer needs to lay a concrete slab that is 20 cm thick over this area.
+
+      Calculate the volume of concrete required for the slab, correct to the nearest cubic metre.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-051
+      focus_area: Applications of measurement
+      dot_point: Identify and convert between the metric units of length: millimetres (mm), centimetres (cm), metres (m) and kilometres (km)
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-062
+      focus_area: Applications of measurement
+      dot_point: Solve practical problems involving volume and capacity of prisms, cylinders, spheres, cones, pyramids and composite solids in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Volume of prisms and cylinders
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11234
+      source: generated
+      latex: |
+        The slab is a prism with base area from part (b) and thickness $20 \text{ cm} = 0.2$ m.
+        $$\begin{aligned} V &= \text{area}\times\text{thickness} \\ &\approx 879.46\times 0.2 \\ &\approx 175.9 \text{ m}^3 \end{aligned}$$
+        $$\therefore\ \text{volume} \approx 176 \text{ m}^3$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Converts the thickness to $0.2$ m, or equivalent merit"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Generated solution.", "self_check": "879.46x0.2 = 175.89; rounded area 879 gives 175.8, also 176."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7034
+      confidence: medium
+      reason: Prism volume from prior area, cm to m conversion
+      area: Y11_Applications_of_measurement
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q26  key 2021-NEAP-AT4-STD-Q26  id 7398
+  section: II
+  question_type: short
+  stem_latex: |
+    The Mathematics and Chemistry exam results for a group of students are recorded in the scatterplot. A line of best fit was drawn as shown.
+
+    \exfigure{250_q26_1}
+  marks_total: 3
+  page_start: 18
+  page_end: 18
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Bivariate data analysis|Scatter plots and lines of best fit
+  home_source: computed
+  figure 250_q26_1.png
+    page: 18
+    bbox: [165, 110, 420, 405]
+    png_path: figures/250_q26_1.png
+    tikz_path: tikz/tex/250_q26_1.tex
+    caption: scatterplot of Mathematics vs Chemistry results with line of best fit
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: Scatterplot redrawn at the crop's scale. The light-grey grid is every 6 units on both axes, matching the paper. Axes are 0.6pt with filled arrowheads (rule 4). The 21 points are placed at their measured data positions. The line of best fit runs from (10,150) to (110,0), slope -1.5, matching the crop's line, and is drawn at 0.9pt (rule 9). Labels use \small to match the printed size (rule 2). Most of the remaining colour is the faint grey grid at 1-px offsets.
+  part a  id 11745
+    ordinal: 1
+    latex: Calculate the gradient of the line of best fit.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-116
+      focus_area: Bivariate data analysis
+      dot_point: Determine and interpret the intercept and gradient of the line of best fit from a given graph to form an equation of the line
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Line of best fit by eye
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11235
+      source: generated
+      latex: |
+        Read two clear points on the line of best fit from the graph: $(30,120)$ and $(90,30)$.
+        $$\begin{aligned} m &= \dfrac{y_2-y_1}{x_2-x_1} \\ &= \dfrac{30-120}{90-30} \\ &= \dfrac{-90}{60} \\ &= -1.5 \end{aligned}$$
+        $$\therefore\ \text{gradient} = -1.5$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.85, "generated_note": "Gradient read from the graph; answers near -1.5 acceptable.", "self_check": "Checked the line also passes near (10,150) and (110,0): slope about -1.5."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6969
+      confidence: high
+      reason: Read two points from graph and compute gradient; negative value
+      area: Y12_Bivariate_data_analysis
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 11746
+    ordinal: 2
+    latex: Identify the correlation between the Mathematics and Chemistry exam results.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-115
+      focus_area: Bivariate data analysis
+      dot_point: Describe the strength of a linear relationship between two variables as strong, moderate or weak, and its direction as positive or negative
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Scatter plots
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11236
+      source: generated
+      latex: |
+        The line of best fit slopes downwards: as the Chemistry result increases, the Mathematics result decreases. So the correlation is negative.
+
+        The points lie reasonably close to the line, so the relationship is strong.
+        $$\therefore\ \text{strong negative correlation}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "States negative correlation or strong correlation only, or equivalent merit"]]
+      meta_json: {"confidence": 0.7, "generated_note": "Generated solution.", "self_check": "Direction clear from the graph; strength a judgement (could be described as moderate to strong)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9630
+      confidence: high
+      reason: Describe direction and strength from scatterplot; direct recall
+      area: Y12_Bivariate_data_analysis
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q27  key 2021-NEAP-AT4-STD-Q27  id 7399
+  section: II
+  question_type: short
+  stem_latex: |
+    The table shows the income tax rates for the 2020–2021 financial year.
+
+    \extable{250_q27_t1}
+
+    For the 2020–2021 financial year, Hara had a total income of \$145 000, and her tax payable was \$33 167 (excluding the Medicare levy).
+  marks_total: 3
+  page_start: 19
+  page_end: 19
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Earning money|Taxation
+  home_source: computed
+  data_table 250_q27_t1
+    header_rows: 1
+    label_col: 0
+    rows_json: [["\\text{Taxable income}", "\\text{Tax on this income}"], ["\\text{0–\\$18 200}", "\\text{Nil}"], ["\\text{\\$18 201–\\$45 000}", "\\text{19c for each \\$1 over \\$18 200}"], ["\\text{\\$45 001–\\$120 000}", "\\text{\\$5092 plus 32.5c for each \\$1 over \\$45 000}"], ["\\text{\\$120 001–\\$180 000}", "\\text{\\$29 467 plus 37c for each \\$1 over \\$120 000}"], ["\\text{\\$180 001 and over}", "\\text{\\$51 667 plus 45c for each \\$1 over \\$180 000}"]]
+    spans_json: []
+  part a  id 11747
+    ordinal: 1
+    latex: Calculate Hara's taxable income.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-032
+      focus_area: Earning money
+      dot_point: Determine tax payable by interpreting and applying information in tax tables
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Income tax
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11237
+      source: generated
+      latex: |
+        Tax payable is $\$33\,167$. This lies between $\$29\,467$ and $\$51\,667$, so Hara's taxable income is in the $\$120\,001$ to $\$180\,000$ bracket, where tax is $\$29\,467$ plus $37$c for each $\$1$ over $\$120\,000$.
+        $$\begin{aligned} 29\,467+0.37(T-120\,000) &= 33\,167 \\ 0.37(T-120\,000) &= 3700 &&(\text{subtract } 29\,467) \\ T-120\,000 &= 10\,000 &&(\text{divide by } 0.37) \\ T &= 130\,000 \end{aligned}$$
+        $$\therefore\ \text{taxable income} = \$130\,000$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Identifies the correct tax bracket and forms the equation $29\\,467+0.37(T-120\\,000)=33\\,167$, or equivalent merit"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated solution.", "self_check": "29467+0.37*10000 = 33167."}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 9641
+      confidence: medium
+      reason: Tax table used in reverse: identify bracket, solve for taxable income
+      area: Y11_Earning_money
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: PR
+      source: model
+  part b  id 11748
+    ordinal: 2
+    latex: How much did Hara claim as allowable tax deductions?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-031
+      focus_area: Earning money
+      dot_point: Determine taxable income by examining allowable deductions
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Income tax
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11238
+      source: generated
+      latex: |
+        Taxable income $=$ total income $-$ allowable deductions.
+        $$\begin{aligned} \text{Deductions} &= 145\,000-130\,000 \\ &= \$15\,000 \end{aligned}$$
+        $$\therefore\ \text{deductions} = \$15\,000$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated solution.", "self_check": "145000-130000."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9551
+      confidence: medium
+      reason: One subtraction: total income minus taxable income from part (a)
+      area: Y11_Earning_money
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q28  key 2021-NEAP-AT4-STD-Q28  id 7400
+  section: II
+  question_type: extended
+  stem_latex: |
+    The teachers at Quest Hills High School set up seven activity stations for the school's annual fundraising event. The table shows the distances (in metres) between the seven activity stations.
+
+    \extable{250_q28_t1}
+  marks_total: 4
+  page_start: 20
+  page_end: 20
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  data_table 250_q28_t1
+    header_rows: 1
+    label_col: 1
+    rows_json: [["", "A", "B", "C", "D", "E", "F", "G"], ["A", "\\text{–}", "66", "70", "\\text{–}", "\\text{–}", "\\text{–}", "\\text{–}"], ["B", "66", "\\text{–}", "85", "50", "\\text{–}", "80", "\\text{–}"], ["C", "70", "85", "\\text{–}", "65", "50", "\\text{–}", "\\text{–}"], ["D", "\\text{–}", "50", "65", "\\text{–}", "70", "25", "\\text{–}"], ["E", "\\text{–}", "\\text{–}", "50", "70", "\\text{–}", "20", "55"], ["F", "\\text{–}", "80", "\\text{–}", "25", "20", "\\text{–}", "30"], ["G", "\\text{–}", "\\text{–}", "\\text{–}", "\\text{–}", "55", "30", "\\text{–}"]]
+    spans_json: []
+  figure 250_q28_s1.png
+    page: 0
+    bbox: []
+    png_path: figures/250_q28_s1.png
+    tikz_path: tikz/tex/250_q28_s1.tex
+    caption: solution diagram (drawn by Claude)
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: New sketch: weighted network A–G with the 12 given edges and weights next to each edge's midpoint, clear of lines (rule 11). B–F drawn as an arc over D so it does not cross other edges or labels.
+  part a  id 11749
+    ordinal: 1
+    latex: Using the data from the table above, draw a weighted network diagram in the space below.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-075
+      focus_area: Networks, paths and trees
+      dot_point: Construct a network diagram to represent information from a given table or map, showing weighted and directed edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Drawing networks from tables and maps
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11239
+      source: generated
+      latex: |
+        Each station is a vertex, and each distance in the table is the weight of the edge joining two stations. A dash means there is no direct edge. Each edge is listed once:
+        $$\begin{aligned} &AB=66,\ AC=70,\ BC=85,\ BD=50,\ BF=80,\ CD=65, \\ &CE=50,\ DE=70,\ DF=25,\ EF=20,\ EG=55,\ FG=30 \end{aligned}$$
+
+        \exfigure{250_q28_s1}
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Draws the network with most vertices and edges, or with some weights missing, or equivalent merit"]]
+      meta_json: {"confidence": 0.93, "generated_note": "Generated solution; network drawn.", "self_check": "12 edges counted from the upper triangle of the table."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7079
+      confidence: high
+      reason: Transfer table distances to weighted network diagram; routine
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11750
+    ordinal: 2
+    latex: Determine the shortest path from activity station $A$ to activity station $G$.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-080
+      focus_area: Networks, paths and trees
+      dot_point: Identify a shortest path on a network diagram with no more than 10 vertices
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shortest paths
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11240
+      source: generated
+      latex: |
+        Compare the routes from $A$ to $G$ using the network. Every route into $G$ ends with $E\to G$ or $F\to G$.
+
+        Shortest distances from $A$:
+        $$\begin{aligned} B&=66, & C&=70 \\ E&=70+50=120 &&(\text{via } C) \\ F&=120+20=140 &&(\text{via } E) \\ G&=140+30=170 &&(\text{via } F) \end{aligned}$$
+        The nearest competitor is $A\text{–}B\text{–}D\text{–}F\text{–}G$:
+        $$66+50+25+30 = 171$$
+        which is longer.
+        $$\therefore\ \text{shortest path is } A\to C\to E\to F\to G$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Generated solution.", "self_check": "Dijkstra by hand: 170 via A-C-E-F-G, next best 171."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6964
+      confidence: high
+      reason: Shortest path in seven-vertex network; close competing route
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 11751
+    ordinal: 3
+    latex: What is the weight of the shortest path?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-080
+      focus_area: Networks, paths and trees
+      dot_point: Identify a shortest path on a network diagram with no more than 10 vertices
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shortest paths
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11241
+      source: generated
+      latex: |
+        $$\begin{aligned} \text{Weight} &= AC+CE+EF+FG \\ &= 70+50+20+30 \\ &= 170 \end{aligned}$$
+        $$\therefore\ \text{weight of the shortest path} = 170 \text{ m}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Generated solution.", "self_check": "Sum 170."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7136
+      confidence: high
+      reason: Add four edge weights of path already found
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q29  key 2021-NEAP-AT4-STD-Q29  id 7401
+  section: II
+  question_type: extended
+  stem_latex: |
+    A disease's growth rate refers to how quickly the number of infections changes each day.
+
+    The number of cases of infection of a certain disease grows exponentially according to the function $c = 220(1.07)^d$, where $c$ is the number of cases and $d$ is the time in days.
+
+    \extable{250_q29_t1}
+  marks_total: 4
+  page_start: 21
+  page_end: 21
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Exponential relationships
+  home_source: computed
+  data_table 250_q29_t1
+    header_rows: 0
+    label_col: 1
+    rows_json: [["\\text{Number of days } (d)", "0", "4", "8", "12", "16", "20"], ["\\text{Number of cases } (c)", "220", "288", "378", "495", "649", "?"]]
+    spans_json: []
+  figure 250_q29_s1.png
+    page: 0
+    bbox: []
+    png_path: figures/250_q29_s1.png
+    tikz_path: tikz/tex/250_q29_s1.tex
+    caption: solution diagram (drawn by Claude)
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: New sketch: grid d 0–20 (marks every 4), c 0–1000 (every 200), the 6 points plotted as dots on c=220(1.07)^d drawn smooth at 0.9pt (rules 3a, 9, 16), (0,220) and (20,851) labelled, dashed guide at c=800 meeting the curve at d≈19.08 (rule 12). Grid light grey.
+  part a  id 11752
+    ordinal: 1
+    latex: What is the number of cases after 20 days? Give your answer correct to the nearest whole number.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-009
+      focus_area: Algebraic relationships
+      dot_point: Construct and analyse an exponential model of the form y=ka^x and y=ka^-x, where a>0 and k is a constant, to solve practical growth or decay problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential growth and decay models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11242
+      source: generated
+      latex: |
+        Substitute $d=20$ into $c=220(1.07)^d$.
+        $$\begin{aligned} c &= 220(1.07)^{20} \\ &\approx 851.33 \end{aligned}$$
+        $$\therefore\ \text{about } 851 \text{ cases}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.96, "generated_note": "Generated solution.", "self_check": "Python: 851.33."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7138
+      confidence: high
+      reason: Substitute into given exponential function and round
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11753
+    ordinal: 2
+    latex: |
+      On the grid below, draw the graph that represents the relationship between $d$ and $c$.
+
+      \exfigure{250_q29_1}
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-007
+      focus_area: Algebraic relationships
+      dot_point: Recognise that an exponential relationship can be represented by an equation, a table of values, a set of ordered pairs or a graph, and move flexibly between these representations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-008
+      focus_area: Algebraic relationships
+      dot_point: Graph an exponential relationship of the form y=a^x and y=a^-x, where a>0, with and without using graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11243
+      source: generated
+      latex: |
+        Plot the points from the table, using $c\approx 851$ at $d=20$ from part (a):
+        $$(0,220),\ (4,288),\ (8,378),\ (12,495),\ (16,649),\ (20,851)$$
+        Join them with a smooth curve that rises more and more steeply (exponential growth).
+
+        \exfigure{250_q29_s1}
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Plots at least four points correctly, or equivalent merit"]]
+      meta_json: {"confidence": 0.93, "generated_note": "Generated solution; graph drawn.", "self_check": "Points from the table and part (a)."}
+    figure 250_q29_1.png
+      page: 21
+      bbox: [130, 285, 470, 625]
+      png_path: figures/250_q29_1.png
+      tikz_path: tikz/tex/250_q29_1.tex
+      caption: blank grid, c (0 to 1000) against d (0 to 20)
+      redraw_status: ok
+      redraw_class: blank_axes
+      redraw_notes: Blank answer grid: d from 0 to 20 with grid lines every 1, c from 0 to 1000 with grid lines every 50. There are short ticks with labels at every 4 on the d-axis and every 200 on the c-axis, as on the paper. Axis letters c and d are maths italic (rule 19) and the arrowheads are filled (rule 4). The grid is light grey. Grid lines are drawn one by one to avoid TikZ grid rounding. The redraw score is lowered only by faint grey grid lines sitting about 1 px off the scan.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7139
+      confidence: high
+      reason: Plot table points and sketch exponential growth curve
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 11754
+    ordinal: 3
+    latex: Using the graph drawn, or otherwise, estimate the time taken, in days, for the number of cases to reach 800. Give your answer correct to the nearest whole number.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-009
+      focus_area: Algebraic relationships
+      dot_point: Construct and analyse an exponential model of the form y=ka^x and y=ka^-x, where a>0 and k is a constant, to solve practical growth or decay problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential graphs
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential growth and decay models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11244
+      source: generated
+      latex: |
+        Find $d$ when $c=800$. Reading across from $800$ on the graph gives $d$ just above $19$.
+
+        Check by calculation:
+        $$\begin{aligned} 220(1.07)^{19} &\approx 795.6 \\ 220(1.07)^{20} &\approx 851.3 \end{aligned}$$
+        So $c=800$ is reached just after $d=19$ ($d\approx 19.1$).
+        $$\therefore\ \text{about } 19 \text{ days}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.9, "generated_note": "Generated solution.", "self_check": "Solved 1.07^d = 3.636: d = 19.08."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7025
+      confidence: medium
+      reason: Read value off graph or trial substitution to estimate d
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q30  key 2021-NEAP-AT4-STD-Q30  id 7402
+  section: II
+  question_type: extended
+  stem_latex: Remi purchased a car for \$34 850.
+  marks_total: 4
+  page_start: 22
+  page_end: 22
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Investment and loans|Depreciation
+  home_source: computed
+  part a  id 11755
+    ordinal: 1
+    latex: |
+      The table shows the stamp duty rates for a motor vehicle in the state where Remi lives and purchased the car.
+
+      \extable{250_q30_t1}
+
+      Using the table, calculate the stamp duty payable on the car.
+    marks: 2
+    needs_review: 0
+    data_table 250_q30_t1
+      header_rows: 1
+      label_col: 0
+      rows_json: [["\\text{Vehicle value}", "\\text{Rate}"], ["\\text{0–\\$4999}", "\\text{Nil}"], ["\\text{\\$5000–\\$44 999}", "\\text{\\$3 for every \\$100 (or part thereof)}"], ["\\text{\\$45 000 and over}", "\\text{\\$1300 plus \\$6 for every \\$100 (or part thereof)}"]]
+      spans_json: []
+    tag 2024 S11-044
+      focus_area: Managing money
+      dot_point: Calculate the cost of purchasing a vehicle by considering the purchase price or loan repayments, registration, compulsory and non-compulsory third-party insurance, comprehensive insurance and stamp duty at current rates
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Costs of buying a vehicle
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11245
+      source: generated
+      latex: |
+        The car's value of $\$34\,850$ is in the $\$5000$ to $\$44\,999$ band: $\$3$ for every $\$100$ or part thereof.
+
+        Number of $\$100$ lots, rounding any part up:
+        $$\dfrac{34\,850}{100} = 348.5 \text{, so } 349 \text{ lots}$$
+        $$\begin{aligned} \text{Stamp duty} &= 349\times 3 \\ &= \$1047 \end{aligned}$$
+        $$\therefore\ \text{stamp duty} = \$1047$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Identifies the correct band and finds $349$ lots of $\\$100$, or equivalent merit"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Generated solution.", "self_check": "349*3 = 1047."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7081
+      confidence: medium
+      reason: Stamp duty per $100 or part thereof; rounding up step
+      area: Y11_Managing_money
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 11756
+    ordinal: 2
+    latex: |
+      The car has an expected depreciation rate of $18\%$ per annum.
+
+      What is the salvage value of the car after 5 years?
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-041
+      focus_area: Investment and loans
+      dot_point: Apply the declining balance method to calculate the depreciation of an asset using the formula S=V_0(1-r)^n where S = salvage value, V_0 = initial value of the asset, r = depreciation rate per time period and n = number of time periods
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Declining balance depreciation
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11246
+      source: generated
+      latex: |
+        Declining-balance depreciation uses $S=V_0(1-r)^n$, with $V_0=34\,850$, $r=0.18$ and $n=5$.
+        $$\begin{aligned} S &= 34\,850(1-0.18)^5 \\ &= 34\,850(0.82)^5 \\ &\approx 12\,920.28 \end{aligned}$$
+        $$\therefore\ \text{salvage value} \approx \$12\,920.28$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Substitutes correctly into $S=V_0(1-r)^n$, or equivalent merit"]]
+      meta_json: {"confidence": 0.9, "generated_note": "Generated solution; declining-balance method assumed as the rate is per annum with no method stated; stamp duty not added to purchase price.", "self_check": "Python: 12920.28."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7116
+      confidence: high
+      reason: Direct substitution into declining-balance formula
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q31  key 2021-NEAP-AT4-STD-Q31  id 7403
+  section: II
+  question_type: short
+  stem_latex: The distance, $d$, in kilometres that a speed camera can see when placed at a height, $h$, in metres above the ground is given by the formula $d = \sqrt{\dfrac{h}{6.5}}$.
+  marks_total: 3
+  page_start: 27
+  page_end: 27
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Formulas and equations|Substitute into expressions, equations and formulas
+  home_source: computed
+  part a  id 11757
+    ordinal: 1
+    latex: If the camera is placed 4 metres above ground, how far can it see? Give your answer correct to two decimal places.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-001
+      focus_area: Formulas and equations
+      dot_point: Substitute numbers into linear and non-linear algebraic expressions, equations and formulas
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-008
+      focus_area: Formulas and equations
+      dot_point: Apply given formulas to solve problems in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Substitution into formulas
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11247
+      source: generated
+      latex: |
+        Substitute $h=4$ into the formula.
+        $$\begin{aligned} d &= \sqrt{\dfrac{4}{6.5}} \\ &\approx 0.78 \text{ km} \end{aligned}$$
+        The camera can see about $0.78$ km.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Written by us (no source solution).", "self_check": "Calculated sqrt(4/6.5)=0.7845 in python."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6949
+      confidence: high
+      reason: Substitute into given formula and round
+      area: Y11_Formulas_and_equations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11758
+    ordinal: 2
+    latex: Rearrange the formula $d = \sqrt{\dfrac{h}{6.5}}$ to make $h$ the subject.
+    marks: 2
+    needs_review: 0
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag note MS-A1
+      dot_point: Rearranging a formula with a square root is beyond linear and y = ax^2 + c.
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11248
+      source: generated
+      latex: |
+        Square both sides to remove the square root.
+        $$d^2=\dfrac{h}{6.5}$$
+        Multiply both sides by $6.5$.
+        $$h = 6.5d^2$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Squares both sides, or equivalent merit"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Written by us.", "self_check": "Inverse of square root is squaring; checked with d=0.7845 gives h=4."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7070
+      confidence: high
+      reason: Change subject: square both sides then multiply
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q32  key 2021-NEAP-AT4-STD-Q32  id 7404
+  section: II
+  question_type: short
+  stem_latex: |
+    A mother bird ($M$) leaves her nest ($O$) and flies on a bearing of $048^\circ$ for 9.5 km. A baby bird ($B$) leaves the same nest and flies due South for 4 km.
+
+    \exfigure{250_q32_1}
+  marks_total: 3
+  page_start: 28
+  page_end: 28
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Trigonometry|Cosine rule for a side
+  home_source: computed
+  figure 250_q32_1.png
+    page: 28
+    bbox: [215, 115, 400, 285]
+    png_path: figures/250_q32_1.png
+    tikz_path: tikz/tex/250_q32_1.tex
+    caption: nest O, bird M on bearing 048, bird B due south
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: O, M and B are drawn as dots, with solid OM and OB, dashed MB (house aux style) and the N arrow from O. NOT TO SCALE is kept. The crop draws the O-to-N segment heavy; it is redrawn at the house 0.6pt because rule 3 allows nothing heavier for a non-graph line. The arrowhead is the filled house head (rule 4).
+  part a  id 11759
+    ordinal: 1
+    latex: Find the value of $\angle MOB$.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-069
+      focus_area: Trigonometry
+      dot_point: Identify and interpret true bearings and compass bearings and convert between them
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: True and compass bearings
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11249
+      source: generated
+      latex: |
+        The bearing of $M$ from $O$ is $048^\circ$, so $OM$ makes an angle of $48^\circ$ with north. $OB$ points due south, which is $180^\circ$ from north.
+        $$\begin{aligned} \angle MOB &= 180^\circ - 48^\circ \\ &= 132^\circ \end{aligned}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Written by us.", "self_check": "North line and south line are 180 degrees apart."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7209
+      confidence: high
+      reason: Angle between bearing and due south; one subtraction
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11760
+    ordinal: 2
+    latex: Using the cosine rule, find the distance between the two birds, correct to the nearest kilometre.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-066
+      focus_area: Trigonometry
+      dot_point: Apply the cosine rule c^2=a^2+b^2-2abcos C in a given triangle ABC to find the value of an unknown side
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-071
+      focus_area: Trigonometry
+      dot_point: Solve practical problems involving Pythagoras’ theorem, the trigonometry of right-angled and non-right-angled triangles, angles of elevation and depression, and true bearings and compass bearings
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Cosine rule (side)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11250
+      source: generated
+      latex: |
+        In $\triangle MOB$ we know two sides, $OM=9.5$ and $OB=4$, and the included angle $\angle MOB=132^\circ$. Use the cosine rule.
+        $$\begin{aligned} MB^2 &= 9.5^2 + 4^2 - 2\times 9.5\times 4\cos 132^\circ \\ &\approx 157.1 \\ MB &\approx 12.5 \end{aligned}$$
+        $$\therefore\ MB \approx 13 \text{ km (to the nearest km)}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Substitutes correctly into the cosine rule, or equivalent merit"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Written by us.", "self_check": "Python: MB=12.534."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7210
+      confidence: high
+      reason: Cosine rule for side with obtuse included angle; method given
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q33  key 2021-NEAP-AT4-STD-Q33  id 7405
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 29
+  page_end: 29
+  needs_review: 1
+  review_status: unreviewed
+  review_note: Printed z-table has 0.71126 at z=0.56 (should be 0.71226); table is a cropped figure so left as printed
+  home_topic: special:removed
+  home_source: computed
+  figure 250_q33_1.png
+    page: 29
+    bbox: [60, 160, 550, 463]
+    png_path: figures/250_q33_1.png
+    caption: standard normal distribution table, z from 0.0 to 1.6
+    redraw_status: table
+    redraw_class: table
+    redraw_notes: Standard normal table, transcribed rather than drawn (rule 8). It has 1 header row and the z column as the label column. Values are copied exactly as printed, including 0.71126 in row 0.5, column 0.06 (the true value is 0.71226). The crop sets the header and z values in italics; they are given here as plain numbers.
+    redraw_table_id: Tf4425
+  part -  id 11761
+    ordinal: 1
+    latex: |
+      At a schools swimming carnival, the finish times for students under 17 who competed in the 50 m backstroke race are found to be normally distributed with a mean race time of 42 seconds and a standard deviation of 3 seconds.
+
+      The standard normal distribution table is shown. The values in the table represent the area under the normal curve to the left of the $z$-score.
+
+      \exfigure{250_q33_1}
+
+      Using standardised scores and the standard normal distribution table, find the probability that a randomly chosen competitor achieves a finish time between 43 and 46 seconds. Give your answer correct to three decimal places.
+    marks: 3
+    needs_review: 1
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag note MS-S5
+      dot_point: Normal probabilities from a standard normal (z) table.
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11251
+      source: generated
+      latex: |
+        Standardise each time using $z=\dfrac{x-\mu}{\sigma}$ with $\mu=42$ and $\sigma=3$.
+        $$\begin{aligned} z_{43} &= \dfrac{43-42}{3} \approx 0.33 \\ z_{46} &= \dfrac{46-42}{3} \approx 1.33 \end{aligned}$$
+        From the table, the area to the left of $z=0.33$ is $0.62930$ and the area to the left of $z=1.33$ is $0.90824$.
+        $$\begin{aligned} P(43<X<46) &= P(z<1.33)-P(z<0.33) \\ &= 0.90824-0.62930 \\ &= 0.27894 \end{aligned}$$
+        $$\therefore\ P(43<X<46) \approx 0.279$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[3, "Correct answer"], [2, "Finds both $z$-scores and reads both table values, or equivalent merit"], [1, "Finds one $z$-score, or equivalent merit"]]
+      meta_json: {"confidence": 0.93, "generated_note": "Written by us; z rounded to 2 d.p. to use the table.", "self_check": "Table values read from image: 0.62930 (0.3, 0.03) and 0.90824 (1.3, 0.04 column? 1.3 row, 0.03 column = 0.90824). Difference 0.27894."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7163
+      confidence: medium
+      reason: Two z-scores, table lookups, subtract areas; standard procedure
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q34  key 2021-NEAP-AT4-STD-Q34  id 7406
+  section: II
+  question_type: extended
+  stem_latex: |
+    Willow's business Fashion Face Masks makes and sells embroidered face masks. Willow purchases plain cloth masks and embroiders them with different patterns.
+
+    The cost of each plain mask is \$4 and Willow sells the embroidered masks for \$10 each. Willow invests \$420 in an embroidery machine and a thread kit to make 100 masks.
+
+    The production cost and revenue generated from the sale of the embroidered masks can be modelled with two linear equations, as shown in the graph.
+
+    \exfigure{250_q34_1}
+  marks_total: 5
+  page_start: 30
+  page_end: 31
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Simultaneous linear equations
+  home_source: computed
+  figure 250_q34_1.png
+    page: 30
+    bbox: [110, 176, 490, 545]
+    png_path: figures/250_q34_1.png
+    tikz_path: tikz/tex/250_q34_1.tex
+    caption: cost and revenue lines against number of masks
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Cost and revenue graph at the crop's scale. The grid is every 2 masks by $20. Revenue c=10n runs from (0,0) to (100,1000). Cost c=420+4n uses the context's $420; the crop's line starts at about 415. The lines cross at (70,700) as on the paper (rule 16). Both lines are 0.9pt (rule 9). Cost stays mid-grey (black!55) as printed, because the paper uses grey to tell the two lines apart (rule 6). The low scores come almost entirely from the dense faint grey grid (about 50x50 lines) sitting 1-3 px off the scan. The lines, labels and ticks match closely.
+  part a  id 11762
+    ordinal: 1
+    latex: Using the graph, solve the two equations simultaneously and explain the significance of this solution for Willow's business.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-001
+      focus_area: Algebraic relationships
+      dot_point: Graph two linear equations and identify the point of intersection, with and without using graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-005
+      focus_area: Algebraic relationships
+      dot_point: Use simultaneous equations to model and analyse the break-even point where cost and revenue are represented by linear equations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Break-even analysis
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11252
+      source: generated
+      latex: |
+        The two lines cross where the revenue and cost graphs meet. Reading from the graph, this is at $70$ masks and $\$700$.
+
+        Check with the equations: revenue is $R=10x$ and cost is $C=420+4x$.
+        $$\begin{aligned} 10x &= 420+4x \\ 6x &= 420 \\ x &= 70 \end{aligned}$$
+        Then $R=10\times 70=\$700$.
+
+        The solution is $x=70$ masks, $\$700$. This is the break-even point: when Willow sells $70$ masks, revenue equals cost, so she makes no profit and no loss. After selling more than $70$ masks she makes a profit.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Finds the intersection, or explains its significance"]]
+      meta_json: {"confidence": 0.93, "generated_note": "Written by us.", "self_check": "Intersection at (70, 700) from graph; equations 10x and 420+4x verified (cost at 100 masks is 820, matching graph)."}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 9581
+      confidence: medium
+      reason: Read intersection from graph and interpret as break-even point
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: PR
+      source: model
+  part b  id 11763
+    ordinal: 2
+    latex: How many masks does Willow need to sell to obtain a revenue of \$350?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-005
+      focus_area: Algebraic relationships
+      dot_point: Use simultaneous equations to model and analyse the break-even point where cost and revenue are represented by linear equations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Break-even analysis
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11253
+      source: generated
+      latex: |
+        Revenue is $\$10$ per mask.
+        $$\begin{aligned} 10x &= 350 \\ x &= 35 \end{aligned}$$
+        Willow needs to sell $35$ masks.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Written by us.", "self_check": "On graph revenue = 350 at x = 35."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9588
+      confidence: high
+      reason: One-step division using revenue per mask
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 11764
+    ordinal: 3
+    latex: How much profit does Willow make if she sells 100 masks?
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-005
+      focus_area: Algebraic relationships
+      dot_point: Use simultaneous equations to model and analyse the break-even point where cost and revenue are represented by linear equations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Break-even analysis
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11254
+      source: generated
+      latex: |
+        Profit is revenue minus cost. For $100$ masks, from the graph, revenue is $\$1000$ and cost is $\$820$.
+        $$\begin{aligned} \text{Profit} &= 1000-820 \\ &= \$180 \end{aligned}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Reads the revenue and cost values for $100$ masks, or equivalent merit"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Written by us.", "self_check": "Cost = 420+4(100)=820; revenue 1000."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7029
+      confidence: medium
+      reason: Find revenue and cost at 100 masks, then subtract
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q35  key 2021-NEAP-AT4-STD-Q35  id 7407
+  section: II
+  question_type: short
+  stem_latex: |
+    The network diagram shows the cost, in hundreds of dollars, to connect electrical cables to multiple points in a building.
+
+    \exfigure{250_q35_1}
+  marks_total: 3
+  page_start: 32
+  page_end: 32
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  figure 250_q35_1.png
+    page: 32
+    bbox: [150, 115, 460, 235]
+    png_path: figures/250_q35_1.png
+    tikz_path: tikz/tex/250_q35_1.tex
+    caption: weighted network on vertices A to I
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Weighted network on vertices A to I. Vertex dots, 15 edges and edge weights are placed at the crop's positions; round 2 moved E and F to their true x. The vertex labels are maths italic (rule 19), weights sit clear of the edges (rule 11), and lines are 0.6pt. Only remaining difference: the '10' label is about 15 px right of the crop's position.
+  figure 250_q35_s1.png
+    page: 0
+    bbox: []
+    png_path: figures/250_q35_s1.png
+    tikz_path: tikz/tex/250_q35_s1.tex
+    caption: solution diagram (drawn by Claude)
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: New sketch: minimum spanning tree with only the 8 edges (A-B 4, B-D 2, C-D 3, D-F 5, D-E 6, E-G 3, G-H 4, G-I 5) on the given 9-vertex layout, weights beside the edges, vertex dots labelled in maths italic (rule 19).
+  part a  id 11765
+    ordinal: 1
+    latex: Draw the minimum spanning tree for this network in the space below.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-078
+      focus_area: Networks, paths and trees
+      dot_point: Determine the minimum spanning tree of a network with weighted edges, using any method
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11255
+      source: generated
+      latex: |
+        Use Kruskal's algorithm: add the shortest edges in order, rejecting any edge that forms a cycle.
+
+        Edges in order: $BD\,(2)$, $CD\,(3)$, $EG\,(3)$, $AB\,(4)$, $GH\,(4)$ all accepted. $AC\,(5)$ is rejected as it forms a cycle $A$-$B$-$D$-$C$. Then $DF\,(5)$ and $GI\,(5)$ are accepted. $DE\,(6)$ joins the two groups and is accepted.
+
+        This gives $8$ edges joining the $9$ vertices.
+
+        \exfigure{250_q35_s1}
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Draws a spanning tree with some correct edges, or equivalent merit"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Written by us; drawing requested.", "self_check": "Kruskal; 8 edges for 9 vertices, no cycles, unique since weights decide."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6967
+      confidence: high
+      reason: Kruskal's algorithm on nine-vertex network, rejecting cycles
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 11766
+    ordinal: 2
+    latex: Using the minimum spanning tree, calculate the minimum cost to connect a cable to every point in the building.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-079
+      focus_area: Networks, paths and trees
+      dot_point: Use minimum spanning trees to solve minimal connector problems
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11256
+      source: generated
+      latex: |
+        Add the edge weights of the minimum spanning tree.
+        $$\begin{aligned} \text{Total} &= 2+3+3+4+4+5+5+6 \\ &= 32 \end{aligned}$$
+        The costs are in hundreds of dollars, so the minimum cost is $32\times 100=\$3200$.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Written by us.", "self_check": "Sum of tree edges = 32."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7114
+      confidence: medium
+      reason: Sum MST weights and convert from hundreds of dollars
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q36  key 2021-NEAP-AT4-STD-Q36  id 7408
+  section: II
+  question_type: extended
+  stem_latex: |
+    Hanako contributes \$8500 to an investment account every year for 6 years. The account pays $8\%$ interest per annum, compounded annually.
+
+    \exfigure{250_q36_1}
+  marks_total: 4
+  page_start: 33
+  page_end: 33
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Annuities|Future value
+  home_source: computed
+  figure 250_q36_1.png
+    page: 33
+    bbox: [98, 112, 508, 290]
+    png_path: figures/250_q36_1.png
+    caption: future value of $1 annuity table, periods 1-8, rates 1%-8%
+    redraw_status: table
+    redraw_class: table
+    redraw_notes: Future-value annuity table, transcribed rather than drawn (rule 8). The title row 'Future value of $1' spans all 9 columns, then a Period / 1% to 8% header row; periods 1 to 8 form the label column (rules 6b, 15). The crop sets the header and period numbers in italics.
+    redraw_table_id: Tf4428
+  part a  id 11767
+    ordinal: 1
+    latex: What is the future value of Hanako's annuity at the end of 6 years?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-058
+      focus_area: Annuities
+      dot_point: Using a table of interest factors, calculate the future value or present value of an annuity
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Future value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11257
+      source: generated
+      latex: |
+        Use the future value of an annuity table (shown for $\$1$). For $6$ periods at $8\%$ the factor is $7.3359$.
+        $$\begin{aligned} FV &= 8500\times 7.3359 \\ &= \$62\,355.15 \end{aligned}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.93, "generated_note": "Written by us.", "self_check": "Table row 6, 8% column = 7.3359; product computed in python."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6971
+      confidence: high
+      reason: Read annuity factor from table and multiply
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11768
+    ordinal: 2
+    latex: Calculate the total amount of interest that Hanako will earn on her investment at the end of 6 years.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-055
+      focus_area: Annuities
+      dot_point: Identify an annuity as an investment account with regular, equal contributions and interest compounding at the end of each period, or as a single sum investment from which regular equal withdrawals are made
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-061
+      focus_area: Annuities
+      dot_point: Solve annuity problems involving financial decisions regarding superannuation, savings accounts and loans
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Future value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11258
+      source: generated
+      latex: |
+        Total contributions are $6\times 8500=\$51\,000$.
+        $$\begin{aligned} \text{Interest} &= 62\,355.15-51\,000 \\ &= \$11\,355.15 \end{aligned}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Written by us.", "self_check": "62355.15-51000."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7089
+      confidence: high
+      reason: Interest equals future value minus total contributions
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 11769
+    ordinal: 3
+    latex: |
+      Hanako is considering opening another investment account that pays $8\%$ interest per annum, compounded biannually, for 3 years.
+
+      Using the formula $FV = PV(1 + r)^n$, determine the single sum of money that Hanako would need to invest in this account to reach the same future value calculated in part (a).
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-029
+      focus_area: Investment and loans
+      dot_point: Calculate the future value, present value or interest rate of a compound interest investment using the formula FV=PV(1+r)^n where FV = future value of the investment, PV = present value of the investment, r = interest rate per time period and n = number of time periods
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-059
+      focus_area: Annuities
+      dot_point: Using a table of interest factors, determine the contribution amount required to achieve a given future value or the single sum contribution required to produce an equivalent future value for any given annuity
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Compound interest
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Future value of an annuity
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11259
+      source: generated
+      latex: |
+        Compounded biannually means twice a year, so the rate per period is $r=\dfrac{8\%}{2}=4\%=0.04$ and the number of periods is $n=3\times 2=6$.
+
+        The future value needed is $FV=62\,355.15$. Substitute into $FV=PV(1+r)^n$.
+        $$\begin{aligned} 62\,355.15 &= PV(1.04)^6 \\ PV &= \dfrac{62\,355.15}{1.04^6} \\ &\approx \$49\,280.18 \end{aligned}$$
+        Hanako would need to invest about $\$49\,280$.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Finds $r=0.04$ and $n=6$, or equivalent merit"]]
+      meta_json: {"confidence": 0.93, "generated_note": "Written by us.", "self_check": "1.04^6=1.265319; 62355.15/1.265319=49280.18."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7067
+      confidence: medium
+      reason: Adjust rate and periods for biannual compounding, solve for PV
+      area: Y12_Annuities
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q37  key 2021-NEAP-AT4-STD-Q37  id 7409
+  section: II
+  question_type: short
+  stem_latex: |
+    To purchase her first car, Tamara obtains a loan of \$9500. The loan is borrowed at $7.2\%$ per annum, compounded quarterly. Each quarter, after the interest has been applied, Tamara makes a repayment of \$450.
+
+    The recurrence relation is modelled by $V_{n+1} = V_n \times (1 + r) - 450$, where:
+
+    \begin{itemize}
+    \item $V_{n+1}$ is the value of the loan after $(n + 1)$ repayments
+    \item $V_n$ is the value of the loan after $n$ repayments
+    \item $r$ is the rate of interest.
+    \end{itemize}
+  marks_total: 3
+  page_start: 34
+  page_end: 34
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Investment and loans|Loans
+  home_source: computed
+  part a  id 11770
+    ordinal: 1
+    latex: Find the value of $r$ correct to two significant figures.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-029
+      focus_area: Investment and loans
+      dot_point: Calculate the future value, present value or interest rate of a compound interest investment using the formula FV=PV(1+r)^n where FV = future value of the investment, PV = present value of the investment, r = interest rate per time period and n = number of time periods
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-045
+      focus_area: Investment and loans
+      dot_point: Model a reducing balance loan as an application of compound interest with periodic repayments in tabular form for up to four time periods, with and without using digital tools
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reducing balance loan tables
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11260
+      source: generated
+      latex: |
+        The annual rate is $7.2\%$ compounded quarterly, so there are $4$ periods a year.
+        $$\begin{aligned} r &= \dfrac{0.072}{4} \\ &= 0.018 \end{aligned}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Written by us.", "self_check": "0.072/4=0.018, already 2 s.f."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7092
+      confidence: high
+      reason: Divide annual rate by four quarters
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11771
+    ordinal: 2
+    latex: Use the recurrence relation to calculate the balance of the loan after Tamara has made her second repayment.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-045
+      focus_area: Investment and loans
+      dot_point: Model a reducing balance loan as an application of compound interest with periodic repayments in tabular form for up to four time periods, with and without using digital tools
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reducing balance loan tables
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11261
+      source: generated
+      latex: |
+        Start with $V_0=9500$ and $r=0.018$.
+        $$\begin{aligned} V_1 &= 9500\times 1.018-450 \\ &= 9221 \\ V_2 &= 9221\times 1.018-450 \\ &= 8936.978 \end{aligned}$$
+        The balance after the second repayment is about $\$8936.98$.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Finds $V_1=9221$, or equivalent merit"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Written by us.", "self_check": "Python: V1=9221, V2=8936.978."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7215
+      confidence: high
+      reason: Apply recurrence relation twice
+      area: Y12_Investment_and_loans
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q38  key 2021-NEAP-AT4-STD-Q38  id 7410
+  section: II
+  question_type: extended
+  stem_latex: |
+    A local basketball team played 23 home games and 23 away games. The home game scores are the scores that the team made during games at their basketball court; the away game scores are the scores that the team made during games at opponents' courts.
+
+    The scores from each game are represented in the box-plot.
+
+    \exfigure{250_q38_1}
+  marks_total: 5
+  page_start: 35
+  page_end: 35
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Data analysis|Five-number summary and box plots
+  home_source: computed
+  figure 250_q38_1.png
+    page: 35
+    bbox: [132, 142, 463, 293]
+    png_path: figures/250_q38_1.png
+    tikz_path: tikz/tex/250_q38_1.tex
+    caption: box plots of home game and away game scores
+    redraw_status: ok
+    redraw_class: statistical
+    redraw_notes: Two horizontal box plots (home 25/35/65/80/95, away 20/25/35/60/80) at 0.9pt (rule 9), light grey vertical grid every 10, score axis 20-100, boxed labels 'home game'/'away game', 10pt text matched to crop. Away box height trimmed to crop. Rules 1,2,3,9,19.
+  part a  id 11772
+    ordinal: 1
+    latex: What was the team's lowest home game score?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-110
+      focus_area: Data analysis
+      dot_point: Determine the five-number summary from a set of numerical data or graphical representation
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-116
+      focus_area: Data analysis
+      dot_point: Interpret box plots to draw conclusions and make inferences about a dataset
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Box plots
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11262
+      source: generated
+      latex: The lowest score is the left end of the home game whisker, which is $25$.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Written by us.", "self_check": "Read from box-plot."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7017
+      confidence: high
+      reason: Read minimum from box-plot whisker
+      area: Y11_Data_analysis
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 11773
+    ordinal: 2
+    latex: What percentage of the team's away game scores were less than 35?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-116
+      focus_area: Data analysis
+      dot_point: Interpret box plots to draw conclusions and make inferences about a dataset
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Box plots
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11263
+      source: generated
+      latex: |
+        For the away games, the median is $35$, so half of the scores are below $35$.
+
+        The percentage is $50\%$.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.9, "generated_note": "Written by us.", "self_check": "Away median line at 35."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9554
+      confidence: medium
+      reason: Recognise 35 is median so 50% below
+      area: Y11_Data_analysis
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 11774
+    ordinal: 3
+    latex: Compare and contrast the distributions of the team's home and away game scores. In your answer, comment on the skewness of the distributions, measures of central tendency and spread.
+    marks: 3
+    needs_review: 0
+    tag 2024 S11-097
+      focus_area: Data analysis
+      dot_point: Identify and describe the shape of the distribution of a dataset as either symmetric, positively skewed or negatively skewed
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-106
+      focus_area: Data analysis
+      dot_point: Compare datasets using measures of centre and measures of spread
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-114
+      focus_area: Data analysis
+      dot_point: Compare and contrast the measures of centre, spread and shape using parallel box plots
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Box plots
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shape of a distribution
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11264
+      source: generated
+      latex: |
+        Reading the five-number summaries from the box-plot:
+
+        Home: minimum $25$, $Q_1=35$, median $65$, $Q_3=80$, maximum $95$.
+
+        Away: minimum $20$, $Q_1=25$, median $35$, $Q_3=60$, maximum $80$.
+
+        Skewness: the home median ($65$) is closer to $Q_3$ than $Q_1$, with a longer lower tail, so the home distribution is negatively skewed. The away median ($35$) is closer to $Q_1$, with a longer upper part, so the away distribution is positively skewed.
+
+        Central tendency: the home median ($65$) is much higher than the away median ($35$), so the team generally scores higher at home.
+
+        Spread: the home interquartile range is $80-35=45$ and the range is $95-25=70$. The away interquartile range is $60-25=35$ and the range is $80-20=60$. The home scores are more spread out.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[3, "Correct answer"], [2, "Compares two of skewness, central tendency and spread, with supporting values, or equivalent merit"], [1, "Makes one valid comparison"]]
+      meta_json: {"confidence": 0.88, "generated_note": "Written by us; open-ended comment.", "self_check": "Values read from the box-plot; IQRs 45 and 35, ranges 70 and 60."}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 6982
+      confidence: high
+      reason: Compare parallel box-plots: skewness, centre and spread with values
+      area: Y11_Data_analysis
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q39  key 2022-Kings-AT3-STD-Q16  id 7411
+  section: II
+  question_type: extended
+  stem_latex: |
+    An eagle flying above a field looking for prey sees a rabbit. When the eagle is at an altitude of 85 metres, the angle of depression from the eagle to the rabbit is $42^\circ$.
+
+    The rabbit's only chance of survival is to escape into its burrow. The burrow is $k$ metres to the right of the rabbit and has an angle of elevation of $23^\circ$ to the eagle, as shown in the diagram.
+
+    \exfigure{250_q39_1}
+  marks_total: 4
+  page_start: 36
+  page_end: 36
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Trigonometry|Sine rule for a side
+  home_source: computed
+  figure 250_q39_1.png
+    page: 36
+    bbox: [70, 150, 540, 392]
+    png_path: figures/250_q39_1.png
+    tikz_path: tikz/tex/250_q39_1.tex
+    caption: eagle at 85 m, rabbit and burrow, angles 42 and 23 degrees
+    redraw_status: approx
+    redraw_class: geometry
+    redraw_notes: Geometry matches the crop (NOT TO SCALE, sketch proportions kept, ground drawn level per rule 1): 85 m and k dimension lines with filled Latex heads (rule 4), d dashed dimension parallel to the eagle-rabbit line, fine dotted horizontal and sight line to burrow, 42° and 23° arcs, right-angle mark. Eagle, rabbit and burrow silhouettes are simplified hand-built shapes in dark grey (approx: not the paper's artwork). Remaining overlay colour is mostly silhouette outline differences.
+  part a  id 11775
+    ordinal: 1
+    latex: What is the distance, $d$, between the eagle and the rabbit? Give your answer correct to one decimal place.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-062
+      focus_area: Trigonometry
+      dot_point: Apply trigonometric ratios to right-angled triangles to find either the lengths of unknown sides or the size of unknown angles in both degrees, and degrees and minutes
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-071
+      focus_area: Trigonometry
+      dot_point: Solve practical problems involving Pythagoras’ theorem, the trigonometry of right-angled and non-right-angled triangles, angles of elevation and depression, and true bearings and compass bearings
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Angles of elevation and depression
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11265
+      source: generated
+      latex: |
+        The angle of depression equals the angle of elevation from the rabbit, so the angle at the rabbit is $42^\circ$. In the right-angled triangle with the $85$ m side opposite this angle and $d$ the hypotenuse:
+        $$\begin{aligned} \sin 42^\circ &= \dfrac{85}{d} \\ d &= \dfrac{85}{\sin 42^\circ} \\ &\approx 127.0 \text{ m} \end{aligned}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Written by us.", "self_check": "Python 127.03."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9556
+      confidence: high
+      reason: Angle of depression to right triangle; sine for hypotenuse
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 11776
+    ordinal: 2
+    latex: What is the distance, $k$, between the rabbit and its burrow? Give your answer correct to the nearest metre.
+    marks: 3
+    needs_review: 0
+    tag 2024 S2-12-063
+      focus_area: Trigonometry
+      dot_point: Apply the sine rule (a)/(sin A)=(b)/(sin B)=(c)/(sin C) in a given triangle ABC to find the value of an unknown side
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-071
+      focus_area: Trigonometry
+      dot_point: Solve practical problems involving Pythagoras’ theorem, the trigonometry of right-angled and non-right-angled triangles, angles of elevation and depression, and true bearings and compass bearings
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Angles of elevation and depression
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Right-angled trigonometry
+      coverage: can_use
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Sine rule (side)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11266
+      source: generated
+      latex: |
+        Let the foot of the eagle's vertical be $P$. Using the $85$ m height, find the horizontal distance from $P$ to the rabbit and to the burrow.
+
+        To the rabbit (angle $42^\circ$):
+        $$\begin{aligned} \tan 42^\circ &= \dfrac{85}{x_R} \\ x_R &= \dfrac{85}{\tan 42^\circ} \approx 94.40 \end{aligned}$$
+        To the burrow (angle $23^\circ$):
+        $$\begin{aligned} \tan 23^\circ &= \dfrac{85}{x_B} \\ x_B &= \dfrac{85}{\tan 23^\circ} \approx 200.25 \end{aligned}$$
+        Then
+        $$\begin{aligned} k &= x_B-x_R \\ &\approx 200.25-94.40 \\ &\approx 106 \text{ m} \end{aligned}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[3, "Correct answer"], [2, "Finds both horizontal distances, or equivalent merit"], [1, "Finds one horizontal distance, or equivalent merit"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Written by us.", "self_check": "Python: k=105.85."}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7090
+      confidence: medium
+      reason: Two right triangles sharing height; tan twice and subtract
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q40  key 2021-NEAP-AT4-STD-Q40  id 7412
+  section: II
+  question_type: extended
+  stem_latex: |
+    The network diagram shows the activities necessary to complete a project. Activity duration is in hours.
+
+    \exfigure{250_q40_1}
+  marks_total: 4
+  page_start: 37
+  page_end: 37
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Critical path analysis|EST and LST by forward and backward scanning
+  home_source: computed
+  figure 250_q40_1.png
+    page: 37
+    bbox: [100, 110, 500, 272]
+    png_path: figures/250_q40_1.png
+    tikz_path: tikz/tex/250_q40_1.tex
+    caption: activity network with blank EST/LST nodes
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Activity network: 8 split event circles, arrows A,10 B,3 C,12 D,12 E,8 F,15 G,5 H,2 and dashed dummy with filled Latex heads (rule 4), house aux dashes instead of the paper's long dashes (rule 3). Scores below 0.85 come from label glyph/font differences and slightly different arrow attachment points on the circles; layout matches.
+  figure 250_q40_s1.png
+    page: 0
+    bbox: []
+    png_path: figures/250_q40_s1.png
+    tikz_path: tikz/tex/250_q40_s1.tex
+    caption: solution diagram (drawn by Claude)
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: New sketch: the question's network, same geometry as 250_q40_1, with EST|LST in each split circle (0|0, 10|10, 13|36, 22|44, 22|22, 34|34, 49|49, 51|51). Critical path not emphasised so line weights stay uniform (rule 3).
+  part a  id 11777
+    ordinal: 1
+    latex: On the network diagram, write the earliest starting times (ESTs) and the latest starting times (LSTs).
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-101
+      focus_area: Critical path analysis
+      dot_point: Apply forward and backward scanning to determine the earliest starting time (EST) and latest starting time (LST) for each activity in a project
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Earliest and latest starting times
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11267
+      source: generated
+      latex: |
+        Work forwards for the ESTs: each event's EST is the largest of (previous EST plus duration) over all activities into it. Work backwards for the LSTs: each event's LST is the smallest of (next LST minus duration).
+
+        ESTs: $0,\ 10,\ 13\ (\text{after } B),\ 22\ (\text{after } C),$ the event after $E$ and the dummy is $\max(13+8,\,22+0)=22$, the event after $D$ is $22+12=34$, the event before $H$ is $\max(22+5,\,34+15)=49$, finish is $49+2=51$.
+
+        LSTs: finish $51$, before $H$ is $51-2=49$, after $D$ is $49-15=34$, event after $E$ is $49-5=44$, after $B$ is $44-8=36$, after $C$ is $\min(34-12,\ 44-0)=22$, after $A$ is $\min(36-3,\ 22-12)=10$, start is $0$.
+
+        The diagram is shown, with each circle written as EST on the left and LST on the right.
+
+        \exfigure{250_q40_s1}
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[2, "Correct answer"], [1, "Correct ESTs or LSTs, or equivalent merit"]]
+      meta_json: {"confidence": 0.93, "corrected": "Corrected from source: the line for the event after $A$ read \"$22-12=22$\" and mixed two events; it is $\\min(36-3, 22-12)=10$.", "generated_note": "Written by us; diagram requested.", "overwritten_from_source": "Corrected from source: the line for the event after $A$ read \"$22-12=22$\" and mixed two events; it is $\\min(36-3, 22-12)=10$.", "self_check": "Forward/backward pass, finish 51/51; critical path events have EST=LST.", "source_original": {"criteria": [[2, "Correct answer"], [1, "Correct ESTs or LSTs, or equivalent merit"]], "latex": "Work forwards for the ESTs: each event's EST is the largest of (previous EST plus duration) over all activities into it. Work backwards for the LSTs: each event's LST is the smallest of (next LST minus duration).\n\nESTs: $0,\\ 10,\\ 13\\ (\\text{after } B),\\ 22\\ (\\text{after } C),$ the event after $E$ and the dummy is $\\max(13+8,\\,22+0)=22$, the event after $D$ is $22+12=34$, the event before $H$ is $\\max(22+5,\\,34+15)=49$, finish is $49+2=51$.\n\nLSTs: finish $51$, before $H$ is $51-2=49$, after $D$ is $49-15=34$, event after $E$ is $49-5=44$, after $B$ is $44-8=36$, after $C$ is $\\min(34-12,\\ 44-0)=22$, after $A$ is $22-12=22$ for the event at the foot of $C$ and $10$ for the event after $A$, start is $0$.\n\nThe diagram is shown, with each circle written as EST on the left and LST on the right.\n\n\\exfigure{250_q40_s1}"}}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7202
+      confidence: medium
+      reason: Forward and backward scans with dummy activity for EST/LST
+      area: Y12_Critical_path_analysis
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 4
+      wm_ai: UF
+      source: model
+  part b  id 11778
+    ordinal: 2
+    latex: What is the critical path?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-103
+      focus_area: Critical path analysis
+      dot_point: Analyse ESTs and LSTs to locate the critical path(s) for the project
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Critical path and minimum completion time
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11268
+      source: generated
+      latex: |
+        The critical path is the path where the EST equals the LST at every event, with total time $51$ hours.
+        $$A \to C \to D \to F \to H$$
+        Check: $10+12+12+15+2=51$.
+
+        The critical path is $A$, $C$, $D$, $F$, $H$.
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Written by us.", "self_check": "Sum of durations =51 = project time."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7159
+      confidence: medium
+      reason: Read critical path where EST equals LST from part (a)
+      area: Y12_Critical_path_analysis
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 11779
+    ordinal: 3
+    latex: Determine the float time of activity $G$.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-102
+      focus_area: Critical path analysis
+      dot_point: Calculate float times to identify critical and non-critical activities
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Float time
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11269
+      source: generated
+      latex: |
+        Activity $G$ starts at the event with EST $22$ and ends at the event with LST $49$. Its float is
+        $$\begin{aligned} \text{float} &= \text{LST of start event of } G - \text{EST of start event of } G \\ &= (49-5)-22 \\ &= 44-22 \\ &= 22 \text{ hours} \end{aligned}$$
+      source_document_id: 250
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.93, "generated_note": "Written by us.", "self_check": "G latest start 44, earliest start 22."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9574
+      confidence: medium
+      reason: Float from LST and EST of activity G
+      area: Y12_Critical_path_analysis
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-25
+      band_ai: 3
+      wm_ai: UF
+      source: model

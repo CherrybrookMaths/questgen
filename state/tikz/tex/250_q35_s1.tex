@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.1cm,y=1.1cm,v/.style={circle,fill,inner sep=1.3pt},w/.style={font=\small,inner sep=2pt}]
+\coordinate (A) at (0,2); \coordinate (B) at (1.5,4); \coordinate (C) at (1.5,0);
+\coordinate (D) at (3,2); \coordinate (E) at (5,4); \coordinate (F) at (5,0);
+\coordinate (G) at (6.5,2); \coordinate (H) at (8,4); \coordinate (I) at (8,0);
+\draw (A)--(B) node[w,midway,above left]{4};
+\draw (B)--(D) node[w,midway,above right]{2};
+\draw (C)--(D) node[w,midway,below right]{3};
+\draw (D)--(F) node[w,midway,below left]{5};
+\draw (D)--(E) node[w,midway,above left]{6};
+\draw (E)--(G) node[w,midway,above right]{3};
+\draw (G)--(H) node[w,midway,above left]{4};
+\draw (G)--(I) node[w,midway,below left]{5};
+\foreach \p/\a in {A/left,B/above,C/below,D/left,E/above,F/below,G/right,H/above,I/below}
+  \node[v,label={[font=\normalsize]\a:$\p$}] at (\p) {};
+\end{tikzpicture}
+\end{document}

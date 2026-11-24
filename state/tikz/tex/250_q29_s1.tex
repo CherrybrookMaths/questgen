@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+\begin{axis}[exam axes, axis on top=false, xlabel={$d$}, ylabel={$c$}, width=9cm, height=8cm,
+  xmin=0, xmax=22, ymin=0, ymax=1080, xtick={4,8,...,20}, ytick={200,400,...,1000},
+  yticklabel style={/pgf/number format/1000 sep={}},
+  extra x ticks={0}, extra x tick style={xticklabel style={anchor=north east}},
+  grid=major, grid style={black!15, line width=0.4pt}]
+\addplot[domain=0:20.6, samples=90, smooth, line width=0.9pt] {220*1.07^x};
+\addplot[only marks, mark=*, mark size=1.6pt] coordinates {(0,220)(4,288.4)(8,378)(12,495.5)(16,649.5)(20,851.3)};
+\draw[aux] (axis cs:0,800) -- (axis cs:19.08,800) -- (axis cs:19.08,0);
+\node[anchor=north west, font=\small] at (axis cs:0.3,205) {$(0, 220)$};
+\node[anchor=south east, font=\small] at (axis cs:19.9,865) {$(20, 851)$};
+\end{axis}
+\end{tikzpicture}
+\end{document}

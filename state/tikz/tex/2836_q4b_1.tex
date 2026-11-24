@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (D) at (242,97); \coordinate (A) at (380,196); \coordinate (C) at (75,376);
+\coordinate (H) at (312,414); \coordinate (B) at (374,524);
+\fill[shade] (C)--(H)--(D)--cycle;
+\draw (C)--(H)--(D)--cycle;
+\draw (D)--(A)--(B)--(H)--(A);
+\draw (C)--(B);
+\node at (282,62) {$D$ $(338^\circ)$};
+\node at (444,190) {$A$ $(020^\circ)$};
+\node at (54,378) {$C$};
+\node at (305,440) {$H$};
+\node at (420,557) {$B$ $(150^\circ)$};
+\node[font=\large,rotate=59] at (152,292) {\halo{$71\,934\ \text{m}^2$}};
+\node[font=\large,rotate=-77.5] at (248,262) {\halo{$500$ m}};
+\node[font=\large,rotate=-9.1] at (210,378) {\halo{$400$ m}};
+\end{tikzpicture}
+\end{document}

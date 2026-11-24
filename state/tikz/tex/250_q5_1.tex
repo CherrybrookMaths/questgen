@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, every node/.style={font=\small}]
+  \coordinate (C) at (378,35); \coordinate (D) at (55,187); \coordinate (B) at (660,368);
+  \coordinate (E) at (178,483); \coordinate (A) at (378,530);
+  \draw (A)--(B)--(C)--(D)--(E)--cycle;
+  \draw (C)--(A);
+  \draw (D)--(378,187) (B)--(378,368) (E)--(378,483);
+  \draw[aux,<-] (403,188)--(403,262);
+  \draw[aux,->] (403,293)--(403,367);
+  \draw[aux,<-] (403,369)--(403,410);
+  \draw[aux,->] (403,441)--(403,482);
+  \node at (378,15) {$C$};
+  \node at (34,188) {$D$};
+  \node at (679,370) {$B$};
+  \node at (164,500) {$E$};
+  \node at (378,553) {$A$};
+  \node at (343,120) {22 m};
+  \node at (216,213) {40 m};
+  \node at (418,277) {20 m};
+  \node at (517,390) {35 m};
+  \node at (418,425) {14 m};
+  \node at (270,465) {25 m};
+  \node at (352,506) {5 m};
+  \node[align=center, inner sep=0pt] at (772,284) {NOT TO\\[-2pt]SCALE};
+\end{tikzpicture}
+\end{document}

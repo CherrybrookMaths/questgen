@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {1,...,8} \draw[black!45] ({72+71.75*\i},8) -- ({72+71.75*\i},931);
+  \foreach \j in {0,...,11} \draw[black!45] (72,{8+76.92*\j}) -- (646,{8+76.92*\j});
+  \draw (72,8) -- (72,931) -- (646,931);
+  \foreach \j in {0,...,11} \draw (55,{8+76.92*\j}) -- (72,{8+76.92*\j});
+  \foreach \i in {0,...,8} \draw ({72+71.75*\i},931) -- ({72+71.75*\i},960);
+\end{tikzpicture}
+\end{document}

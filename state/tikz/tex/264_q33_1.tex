@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (8,398)--(1045,398);
+\filldraw[fill=black!35] (293,270) rectangle (307,398);
+\filldraw[fill=black!35] (815,10) rectangle (829,398);
+\coordinate (O1) at (195,398); \coordinate (T1) at (293,270); \coordinate (G1) at (300,398);
+\coordinate (O2) at (487,398); \coordinate (T2) at (815,12); \coordinate (G2) at (700,398);
+\draw[aux] (O1)--(T1);
+\draw[aux] (O2)--(T2);
+\pic[draw, angle radius=1.04cm] {angle = G1--O1--T1};
+\pic[draw, angle radius=1.56cm] {angle = G2--O2--T2};
+\node at (252,374) {$\alpha^\circ$};
+\node at (575,360) {$\alpha^\circ$};
+\node at (353,338) {$1.6$ m};
+\node at (245,428) {$1.4$ m};
+\node at (630,432) {$6.3$ m};
+\node at (900,212) {$h$ m};
+\node[font=\footnotesize, align=center] at (308,48) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

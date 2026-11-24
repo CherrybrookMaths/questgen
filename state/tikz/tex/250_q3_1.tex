@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \def\f#1{203-188*exp(-((#1-225)/48)^2/2)}
+  \fill[shade] plot[domain=81:129, samples=30, smooth] (\x,{\f{\x}}) -- (129,203) -- (81,203) -- cycle;
+  \fill[shade] plot[domain=321:369, samples=30, smooth] (\x,{\f{\x}}) -- (369,203) -- (321,203) -- cycle;
+  \draw[<->] (30,203) -- (418,203);
+  \draw[line width=0.9pt] plot[domain=42:408, samples=91, smooth] (\x,{\f{\x}});
+  \foreach \k in {177,273,129,321} \draw (\k,203) -- (\k,{\f{\k}});
+  \foreach \k in {81,369} \draw (\k,203) -- (\k,197);
+  \draw[dotted] (225,203) -- (225,15);
+  \node at (225,226) {$\bar{x}$};
+\end{tikzpicture}
+\end{document}

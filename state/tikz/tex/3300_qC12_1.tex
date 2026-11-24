@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5525cm,y=0.5525cm,font=\small]
+\foreach \i in {1,...,13} \draw[black!40, dash pattern=on 2pt off 1.5pt, line width=0.4pt] (\i,0)--(\i,7.45);
+\foreach \j in {1,...,7} \draw[black!40, dash pattern=on 2pt off 1.5pt, line width=0.4pt] (0,\j)--(13.9,\j);
+\draw[->] (0,0)--(14.7,0);
+\draw[->] (0,0)--(0,8.0);
+\node at (14.6,-0.9) {$x$};
+\node at (-0.45,8.2) {$y$};
+\node at (-0.35,-0.6) {$0$};
+\foreach \i in {1,...,13} \node at (\i,-0.7) {$\i$};
+\foreach \j in {1,...,7} \node at (-0.55,\j) {$\j$};
+\draw[<->, line width=0.9pt] (-1.15,2.7125)--(14,6.5);
+\node at (14.25,5.95) {$l$};
+\foreach \p in {(1.5,3.8),(3.3,3.6),(4.5,4.7),(4.8,3.8),(6,4.35),(6.85,4.95),(7,4.45),(8.7,5.65),(9.6,4.7),(10.2,5.8),(11.8,5.65)}
+  \fill \p circle (2.1pt);
+\end{tikzpicture}
+\end{document}

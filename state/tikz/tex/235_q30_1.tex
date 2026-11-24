@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \k in {1,...,21} \draw[black!40] ({252+32.05*\k},80)--({252+32.05*\k},590);
+\foreach \k in {1,...,21} \draw[black!40] (252,{590-24.3*\k})--(925,{590-24.3*\k});
+\draw (252,80)--(252,590)--(925,590);
+\foreach \k in {0,...,21} {\pgfmathtruncatemacro\v{5*\k}
+  \node[font=\scriptsize,anchor=north] at ({252+32.05*\k},596) {\v};
+  \node[font=\scriptsize,anchor=east] at (246,{590-24.3*\k}) {\v};}
+\draw[line width=0.9pt] plot[smooth,domain=0:100,samples=90] ({252+6.41*\x},{590-4.86*0.01*\x*\x});
+\node[anchor=west] at (898,90) {$\boldsymbol{B=0.01v^2}$};
+\node at (590,52) {\small\textbf{Stopping Distances on a Dry Surface}};
+\node at (130,335) {\small\textbf{Distance ($\boldsymbol{m}$)}};
+\node at (575,660) {\small\textbf{Speed ($\boldsymbol{V}$) km/h}};
+\end{tikzpicture}
+\end{document}

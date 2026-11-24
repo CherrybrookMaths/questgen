@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{(172+(#1-90)*42.65)}
+\def\Y#1{(865-(#1-78)*64.58)}
+\foreach \v in {91,93,...,109} \draw[black!22] ({\X{\v}},90)--({\X{\v}},865);
+\foreach \v in {79,81,...,89} \draw[black!22] (172,{\Y{\v}})--(1025,{\Y{\v}});
+\foreach \v in {90,92,...,110} \draw[black!50] ({\X{\v}},90)--({\X{\v}},865);
+\foreach \v in {78,80,...,90} \draw[black!50] (172,{\Y{\v}})--(1025,{\Y{\v}});
+% y axis
+\draw (115,940)--(115,903);
+\draw[->] (115,880)--(115,45);
+\draw (103,910)--(127,896); \draw (103,887)--(127,873);
+% x axis
+\draw (100,940)--(137,940);
+\draw[->] (162,940)--(1062,940);
+\draw (128,952)--(142,928); \draw (153,952)--(167,928);
+\foreach \v in {78,80,...,90} \draw (106,{\Y{\v}})--(124,{\Y{\v}});
+\foreach \v in {79,81,...,89} \draw (109,{\Y{\v}})--(121,{\Y{\v}});
+\foreach \v in {90,...,110} \draw ({\X{\v}},932)--({\X{\v}},948);
+\foreach \v in {90,92,...,110} \node at ({\X{\v}},975) {$\v$};
+\foreach \v in {78,80,...,90} \node[anchor=east] at (95,{\Y{\v}}) {$\v$};
+\foreach \a/\b in {91/79,92/78,94/80,96/82,98/83,99/82,102/84,104/86,107/88,109/90} \fill ({\X{\a}},{\Y{\b}}) circle (5);
+\node at (128,22) {$M$};
+\node at (1080,930) {$I$};
+\node[rotate=90] at (25,457) {Mark on Test};
+\node at (612,1020) {IQ Score};
+\end{tikzpicture}
+\end{document}

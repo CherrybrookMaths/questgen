@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.04975cm,y=0.05478cm,font=\small]
+\foreach \v in {6,12,...,114} \draw[black!40, line width=0.4pt] (\v,0) -- (\v,150);
+\draw[black!40, line width=0.4pt] (120,0) -- (120,150);
+\foreach \v in {6,12,...,150} \draw[black!40, line width=0.4pt] (0,\v) -- (120,\v);
+\draw[->] (0,0) -- (133,0);
+\draw[->] (0,0) -- (0,161);
+\foreach \v in {0,30,60,90,120} \node at (\v,-9) {\v};
+\foreach \v in {0,30,60,90,120,150} \node[anchor=east] at (-4,\v) {\v};
+\node at (61,-19.5) {Chemistry exam result};
+\node[rotate=90] at (-26,73) {Mathematics exam result};
+\draw[line width=0.9pt] (10,150) -- (110,0);
+\foreach \p in {(6,120),(24,132),(30,120),(31,110),(36,102),(42,90),(48,102),(60,114),(60,90),(60,66),(65,77),(66,48),(73,60),(84,84),(84,66),(84.5,48),(82,35),(89.5,35),(90,30),(102,17.5),(89.5,5)}
+  \fill \p circle (1.3pt);
+\end{tikzpicture}
+\end{document}

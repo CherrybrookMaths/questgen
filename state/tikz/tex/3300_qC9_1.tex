@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\input{../tree_style.tex}
+\begin{document}
+\treewidth{1}{PASS}\treewidth{1}{FAIL}
+\treewidth{2}{PASS}\treewidth{2}{FAIL}
+\treecolumns{2}
+\begin{tikzpicture}
+\treeroot{r}{0cm}
+\treenode{p}{1}{1.78cm}{PASS}
+\treenode{f}{1}{-1.78cm}{FAIL}
+\treenode{fp}{2}{-0.43cm}{PASS}
+\treenode{ff}{2}{-3.13cm}{FAIL}
+\treebranch{r}{p}{}
+\treebranch{r}{f}{}
+\treebranch{f}{fp}{}
+\treebranch{f}{ff}{}
+\treehead{1}{2.55cm}{First Attempt}
+\treehead{2}{0.6cm}{Second Attempt}
+\end{tikzpicture}
+\end{document}

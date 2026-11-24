@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.01435cm,y=-0.01435cm,font=\fontsize{11.3}{13.5}\selectfont]
+  % X takes parts/1000, Y takes dollars/1000
+  \def\X#1{113+76.8*(#1)}
+  \def\Y#1{541-3.49*(#1)}
+  \foreach \v/\t in {20/20\,000,40/40\,000,60/60\,000,80/80\,000,100/100\,000,120/120\,000}{
+    \draw[black!50] (113,{\Y{\v}})--(685,{\Y{\v}});
+    \node[anchor=east,inner sep=3pt] at (110,{\Y{\v}}) {\t};
+  }
+  \node[anchor=east,inner sep=3pt] at (110,541) {0};
+  \draw[->] (113,541)--(687,541);
+  \draw[->] (113,541)--(113,83);
+  \node at (68,63) {Cost \$};
+  \draw[aux] (113,{\Y{90}})--({\X{6}},{\Y{90}});
+  \draw[aux] ({\X{6}},{\Y{120}})--({\X{6}},541);
+  \node[below,inner sep=3pt] at ({\X{6}},541) {$N$};
+  \node at (390,580) {Number of parts sold};
+  \draw[->,line width=0.9pt] (113,541)--({\X{7}},{\Y{140}});
+  \node[anchor=north west,align=left,inner sep=0pt] at (656,36) {Income ($I$)\\($I=20N$)};
+  \draw[->,line width=0.9pt] (113,{\Y{60}})--({\X{8}},{\Y{100}});
+  \node[anchor=north west,align=left,inner sep=0pt] at (735,182) {Costs ($C$)\\($C=60\,000+5N$)};
+\end{tikzpicture}
+\end{document}

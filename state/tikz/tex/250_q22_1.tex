@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\tikzset{dimS/.style={arrows={Bar[width=2.8mm]Latex[length=2mm,width=1.3mm]-}},
+         dimE/.style={arrows={-Latex[length=2mm,width=1.3mm]Bar[width=2.8mm]}}}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path[shade] (15,243) arc[start angle=180,end angle=0,x radius=275,y radius=57] -- (565,343)
+  arc[start angle=0,end angle=180,x radius=275,y radius=57] -- cycle;
+\draw (15,243) arc[start angle=180,end angle=0,x radius=275,y radius=57];
+\draw (15,343) arc[start angle=180,end angle=0,x radius=275,y radius=57];
+\draw (290,65) ellipse [x radius=275,y radius=57];
+\draw (15,65) -- (15,513) arc[start angle=180,end angle=0,x radius=275,y radius=62] -- (565,65);
+\node at (290,336) {\textbf{Biscuits}};
+\node at (290,373) {by Jin};
+\draw[aux,dimS] (600,243) -- (600,279);
+\draw[aux,dimE] (600,308) -- (600,343);
+\node at (600,293) {4 cm};
+\draw[aux,dimS] (15,603) -- (252,603);
+\draw[aux,dimE] (328,603) -- (565,603);
+\node at (290,603) {9 cm};
+\node[align=center] at (765,297) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

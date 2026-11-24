@@ -1,0 +1,36 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}, mid/.default=0.5,
+  crit/.style={line width=0.9pt}, lab/.style={font=\LARGE}, num/.style={font=\Large}]
+\newcommand\ebox[7]{\draw (#1,#2) rectangle (#4,#5); \draw (#3,#2) -- (#3,#5);
+  \node[num] at ({(#1+#3)/2},{(#2+#5)/2}) {#6}; \node[num] at ({(#3+#4)/2},{(#2+#5)/2}) {#7};}
+\ebox{25}{408}{85}{128}{465}{$0$}{$0$}
+\ebox{490}{62}{548}{597}{130}{$2$}{$4$}
+\ebox{877}{25}{928}{978}{92}{$5$}{$7$}
+\ebox{400}{688}{450}{503}{750}{$6$}{$6$}
+\ebox{943}{655}{1030}{1088}{710}{$7$}{$7$}
+\ebox{1162}{372}{1228}{1294}{432}{$11$}{$11$}
+\ebox{1496}{348}{1557}{1618}{405}{$15$}{$15$}
+% non-critical activities
+\draw[mid=0.45] (118,408) .. controls (250,290) and (380,180) .. (490,112);
+\draw[mid=0.55] (597,90) -- (877,60);
+\draw[mid=0.45] (978,60) .. controls (1100,120) and (1230,250) .. (1285,372);
+\draw[mid=0.4] (128,440) .. controls (300,430) and (350,450) .. (370,490) -- (428,688);
+\draw[aux,mid] (933,92) -- (975,655);
+% critical path C-D-F-H
+\draw[crit,mid=0.45] (80,465) .. controls (95,580) and (115,690) .. (160,738) -- (400,745);
+\draw[crit,mid=0.45] (503,715) -- (943,690);
+\draw[crit,mid=0.45] (1085,655) -- (1225,432);
+\draw[crit,mid=0.45] (1294,397) -- (1496,377);
+\node[lab] at (285,213) {$A\;2$};
+\node[lab] at (700,35) {$E\;3$};
+\node[lab] at (1190,135) {$G\;3$};
+\node[lab] at (428,475) {$B\;3$};
+\node[lab] at (130,800) {$C\;6$};
+\node[lab] at (690,785) {$D\;1$};
+\node[lab] at (1215,585) {$F\;4$};
+\node[lab] at (1380,335) {$H\;4$};
+\end{tikzpicture}
+\end{document}

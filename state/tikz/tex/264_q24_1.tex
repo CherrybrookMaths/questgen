@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.8402cm,y=0.15519cm,every node/.style={font=\small}]
+  \foreach \y in {1,...,90} \draw[black!25,line width=0.4pt] (0,\y)--(7,\y);
+  \foreach \x in {0.5,1.5,...,6.5} \draw[black!25,line width=0.4pt] (\x,0)--(\x,90);
+  \foreach \y in {10,20,...,90} \draw[black!50,line width=0.5pt] (0,\y)--(7,\y);
+  \foreach \x in {1,...,7} \draw[black!50,line width=0.5pt] (\x,0)--(\x,90);
+  \draw[->] (0,0)--(7.28,0);
+  \draw[->] (0,0)--(0,93.2);
+  \foreach \x in {0.5,1,...,7} \draw (\x,-0.9)--(\x,0.4);
+  \foreach \y in {1,...,90} \draw (-0.04,\y)--(0,\y);
+  \foreach \y in {5,15,...,85} \draw (-0.06,\y)--(0,\y);
+  \foreach \y in {10,20,...,90} \draw (-0.1,\y)--(0,\y);
+  \foreach \x in {1,...,7} \node[anchor=north] at (\x,-2) {\x};
+  \foreach \y in {10,20,...,90} \node[anchor=east] at (-0.11,\y) {\y};
+  \node at (3.64,-6) {Time (seconds)};
+  \node[rotate=90] at (-0.52,46.6) {Height (metres)};
+  \node at (0,95.8) {$h$};
+  \node[anchor=west] at (7.31,0) {$t$};
+\end{tikzpicture}
+\end{document}

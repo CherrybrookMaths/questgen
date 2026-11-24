@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \tikzset{v/.style={circle, draw, inner sep=0pt, minimum size=0.787cm, font=\large}}
+  \node[v] (f) at (119,118) {$f$};
+  \node[v, fill=black!18, minimum size=0.813cm] (e) at (425,65) {$e$};
+  \node[v] (c) at (311,228) {$c$};
+  \node[v] (d) at (673,205) {$d$};
+  \node[v, fill=black!18, minimum size=0.813cm] (a) at (87,452) {$a$};
+  \node[v] (b) at (328,517) {$b$};
+  \begin{scope}[black!45]
+    \draw (f)--(a); \draw (c)--(d);
+    \draw (c)--(b); \draw (e)--(d); \draw (d)--(b); \draw (a)--(b);
+  \end{scope}
+  \draw[line width=0.9pt] (a)--(c); \draw[line width=0.9pt] (c)--(f); \draw[line width=0.9pt] (f)--(e);
+  \begin{scope}[every node/.style={font=\large}]
+    \node at (240,65) {9};
+    \node at (558,100) {6};
+    \node at (234,157) {2};
+    \node at (470,190) {11};
+    \node at (50,268) {14};
+    \node at (180,313) {9};
+    \node at (276,362) {10};
+    \node at (548,388) {15};
+    \node at (182,512) {7};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

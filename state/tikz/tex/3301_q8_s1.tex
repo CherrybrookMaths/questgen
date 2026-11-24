@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (1330,600);
+\coordinate (A) at (175,198); \coordinate (B) at (435,45); \coordinate (C) at (670,42);
+\coordinate (D) at (878,184); \coordinate (E) at (383,330); \coordinate (F) at (600,183);
+\coordinate (G) at (670,323); \coordinate (H) at (537,470); \coordinate (I) at (878,462);
+\draw[black!45] (A)--(B) (B)--(C) (A)--(E) (F)--(D) (D)--(I) (E)--(H) (H)--(I);
+\draw[line width=0.9pt] (A)--(F) (B)--(F) (C)--(F) (C)--(D) (E)--(F) (F)--(G) (G)--(H) (G)--(I);
+\foreach \p in {A,B,C,D,E,F,G,H,I}{\fill[black!20] (\p) circle (3.2pt); \fill (\p) circle (1.4pt);}
+\begin{scope}[every node/.style={font=\small}]
+\node at (153,200) {$A$}; \node at (437,27) {$B$}; \node at (672,26) {$C$}; \node at (885,162) {$D$};
+\node at (373,351) {$E$}; \node at (593,213) {$F$}; \node at (675,347) {$G$}; \node at (538,493) {$H$}; \node at (878,491) {$I$};
+\node at (300,98) {13}; \node at (540,32) {9}; \node at (482,105) {3}; \node at (655,110) {2};
+\node at (770,85) {8}; \node at (380,210) {7}; \node at (742,200) {11}; \node at (257,280) {8};
+\node at (512,270) {3}; \node at (648,245) {2}; \node at (910,298) {10}; \node at (447,410) {5};
+\node at (622,404) {2}; \node at (775,372) {3}; \node at (714,481) {6};
+\node[anchor=base east] at (428,568) {Minimum spanning length $=$};
+\node[anchor=base] at (545,562) {30};
+\end{scope}
+\draw (428,572)--(935,572);
+\end{tikzpicture}
+\end{document}

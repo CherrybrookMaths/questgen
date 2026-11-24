@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\wall{(42,362)--(42,188) arc[start angle=180,end angle=360,x radius=184,y radius=148]--(410,362)--cycle}
+\begin{scope}
+\clip \wall;
+\foreach \r in {0,...,34} {
+  \pgfmathsetmacro\y{362-\r*9.6}
+  \draw[line width=0.3pt,black!70] (35,\y)--(420,\y);
+  \pgfmathsetmacro\off{mod(\r,2)*11}
+  \foreach \c in {0,...,18} \draw[line width=0.3pt,black!70] ({31+\off+\c*22},\y)--({31+\off+\c*22},{\y-9.6});
+}
+\end{scope}
+\draw \wall;
+\draw[aux,<->] (428,186)--(428,360);
+\node[anchor=west] at (433,272) {2.5 m};
+\draw[aux,<->] (42,383)--(410,383);
+\node at (226,412) {3 m};
+\end{tikzpicture}
+\end{document}

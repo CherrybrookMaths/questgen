@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (T) at (180,108); \coordinate (Q) at (700,158); \coordinate (P) at (395,408);
+\coordinate (S) at (112,463); \coordinate (R) at (665,520);
+\begin{scope}
+\clip (P)--(S)--(R)--cycle;
+\foreach \y in {414,423,...,520} \draw[aux,line width=0.4pt] (100,\y)--(680,\y);
+\end{scope}
+\draw (P)--(T) (P)--(Q) (P)--(S) (P)--(R);
+\draw[aux] (T)--(Q)--(R)--(S)--(T);
+\draw[aux,->] (P)--(395,48);
+\node[anchor=south] at (395,48) {North ($N$)};
+\node[anchor=south east,inner sep=1pt] at (T) {$T$};
+\node[anchor=west] at (Q) {$Q(065^\circ)$};
+\node[anchor=west] at (P) {$P$};
+\node[anchor=east] at (S) {$S(260^\circ)$};
+\node[anchor=north west,inner sep=1pt] at (R) {$R(140^\circ)$};
+\node at (255,272) {48 m};
+\node at (515,272) {65 m};
+\node at (250,410) {25 m};
+\node at (560,442) {40 m};
+\node[anchor=west,align=left] at (767,347) {DIAGRAM NOT\\TO SCALE};
+\end{tikzpicture}
+\end{document}

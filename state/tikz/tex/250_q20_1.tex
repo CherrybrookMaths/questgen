@@ -1,0 +1,45 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\tikzset{mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (S) at (58,112);
+\coordinate (E) at (432,46);
+\coordinate (A) at (594,97);
+\coordinate (B) at (357,201);
+\coordinate (C) at (209,219);
+\coordinate (D) at (84,283);
+\coordinate (T) at (603,274);
+\draw[mid=0.5] (S) -- (E);
+\draw[mid=0.5] (E) -- (A);
+\draw[mid=0.5] (E) -- (B);
+\draw[mid=0.6] (S) -- (B);
+\draw[mid=0.6] (S) -- (C);
+\draw[mid=0.5] (S) -- (D);
+\draw[mid=0.55] (D) -- (C);
+\draw[mid=0.45] (C) -- (T);
+\draw[mid=0.55] (B) -- (A);
+\draw[mid=0.5] (B) -- (T);
+\draw[mid=0.5] (A) -- (T);
+\foreach \p in {S,E,A,B,C,D,T} \fill (\p) circle [radius=5];
+\node at (38,110) {$S$};
+\node at (432,24) {$E$};
+\node at (614,97) {$A$};
+\node at (350,226) {$B$};
+\node at (209,242) {$C$};
+\node at (62,292) {$D$};
+\node at (624,280) {$T$};
+\node at (170,70) {$25$};
+\node at (535,56) {$35$};
+\node at (433,106) {$25$};
+\node at (213,133) {$15$};
+\node at (143,201) {$25$};
+\node at (40,176) {$20$};
+\node at (130,288) {$18$};
+\node at (408,265) {$30$};
+\node at (442,193) {$26$};
+\node at (522,234) {$18$};
+\node at (624,194) {$20$};
+\draw[aux] plot[smooth] coordinates {(658,137) (598,159) (531,182) (491,214) (472,259) (473,290) (479,324)};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.45657cm,y=0.0100203cm]
+\foreach \v in {1,...,20} \draw[black!40, line width=0.4pt] (\v,0) -- (\v,1000);
+\foreach \v in {50,100,...,1000} \draw[black!40, line width=0.4pt] (0,\v) -- (20,\v);
+\draw[->] (0,0) -- (21.4,0);
+\draw[->] (0,0) -- (0,1075);
+\foreach \v in {0,4,...,20} {\draw (\v,0) -- (\v,-10); \node at (\v,-56) {\v};}
+\foreach \v in {0,200,...,1000} {\draw (0,\v) -- (-0.3,\v); \node[anchor=east] at (-0.3,\v) {\v};}
+\node at (-0.36,1066) {$c$};
+\node at (21.25,-34) {$d$};
+\end{tikzpicture}
+\end{document}

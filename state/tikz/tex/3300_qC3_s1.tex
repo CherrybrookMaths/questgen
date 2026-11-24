@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\normalsize]
+\path (0,0) rectangle (958,925);
+% Females: mean 6.5 at x=605, 8.6 = mean+2sd at x=785 (sd = 90 px)
+\node[anchor=west,font=\Large] at (30,325) {Females};
+\fill[shade hatch] (605,405) -- plot[smooth,samples=40,domain=605:785] (\x,{405-130*exp(-((\x-605)/90)^2/2)}) -- (785,405) -- cycle;
+\fill[shade] (785,405) -- plot[smooth,samples=30,domain=785:893] (\x,{405-130*exp(-((\x-605)/90)^2/2)}) -- (893,405) -- cycle;
+\draw (300,405)--(910,405);
+\draw[line width=0.9pt,smooth,samples=90,domain=317:893] plot (\x,{405-130*exp(-((\x-605)/90)^2/2)});
+\draw (605,405)--(605,275);
+\draw (785,405)--(785,{405-130*exp(-2)});
+\node at (530,372) {$50\%$};
+\node at (676,374) {\halo{$47.5\%$}};
+\node at (868,318) {$2.5\%$};
+\draw[->] (858,334)--(826,398);
+\node at (605,437) {$6.5$};
+\node at (785,437) {$8.6$};
+% Males: mean 6.5 at x=600, 8.6 = mean+1sd at x=700 (sd = 100 px)
+\node[anchor=west,font=\Large] at (20,605) {Males};
+\fill[shade] (700,818) -- plot[smooth,samples=40,domain=700:900] (\x,{818-153*exp(-((\x-600)/100)^2/2)}) -- (900,818) -- cycle;
+\draw (290,818)--(915,818);
+\draw[line width=0.9pt,smooth,samples=90,domain=300:900] plot (\x,{818-153*exp(-((\x-600)/100)^2/2)});
+\draw (600,818)--(600,665);
+\draw (700,818)--(700,{818-153*exp(-0.5)});
+\node at (520,780) {$50\%$};
+\node at (650,775) {$34\%$};
+\node at (850,690) {$16\%$};
+\draw[->] (835,706)--(760,796);
+\node at (600,850) {$6.5$};
+\node at (700,850) {$8.6$};
+\end{tikzpicture}
+\end{document}

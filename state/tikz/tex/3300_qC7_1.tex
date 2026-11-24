@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\fontsize{9}{11}\selectfont]
+\draw (222,25)--(222,403)--(740,403);
+\foreach \v in {0,10,...,40}{\draw (215,{403-9.45*\v})--(222,{403-9.45*\v}); \node[anchor=east] at (211,{403-9.45*\v}) {\v};}
+\foreach \v in {5,15,...,35}{\draw (218,{403-9.45*\v})--(222,{403-9.45*\v});}
+\foreach \v in {0,20,...,80}{\draw ({222+6.475*\v},403)--({222+6.475*\v},410); \node at ({222+6.475*\v},429) {\v};}
+\foreach \v in {10,30,...,70}{\draw ({222+6.475*\v},403)--({222+6.475*\v},407);}
+\draw ({222+6.475*0.5},{403-9.45*39.8})--(740,{403-9.45*5.8});
+\foreach \x/\y in {9.0/32.2,11.7/32.8,15.9/34.5,19.9/35.2,19.9/32.8,24.4/33.9,25.9/31.5,30.3/30.9,34.7/19.6,37.2/25.5,44.5/19.6,49.9/17.4,57.1/12.5,58.7/10.9,61.6/13.1,65.8/15.5,68.6/20.1,70.3/12.1,72.9/3.6,75.7/5.5}
+  {\fill ({222+6.475*\x},{403-9.45*\y}) circle (5.5);}
+\node[font=\fontsize{11}{13}\selectfont] at (78,197) {Variable B};
+\node[font=\fontsize{11}{13}\selectfont] at (453,483) {Variable A};
+\end{tikzpicture}
+\end{document}

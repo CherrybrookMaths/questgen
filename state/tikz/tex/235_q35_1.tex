@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}, mid/.default=0.6]
+\coordinate (S) at (68,258); \coordinate (A) at (325,120); \coordinate (C) at (665,120);
+\coordinate (P) at (935,268); \coordinate (D) at (430,282); \coordinate (E) at (342,393); \coordinate (F) at (765,393);
+\draw[mid=0.6] (S)--(A); \draw[mid=0.66] (A)--(C); \draw[mid=0.62] (A)--(D); \draw[mid=0.65] (D)--(C);
+\draw[mid=0.6] (C)--(P); \draw[mid=0.6] (C)--(F); \draw[mid=0.55] (S)--(E); \draw[mid=0.6] (E)--(D);
+\draw[mid=0.57] (E)--(F); \draw[mid=0.6] (F)--(P);
+\draw[aux] plot[smooth] coordinates {(488,40)(504,95)(520,150)(532,200)(542,228)(570,245)(620,272)(680,300)(730,315)(785,330)(825,352)(852,382)(864,418)};
+\node at (50,262) {$S$}; \node at (325,100) {$A$}; \node at (663,100) {$C$}; \node at (953,270) {$P$};
+\node at (446,298) {$D$}; \node at (337,415) {$E$}; \node at (760,415) {$F$};
+\node at (162,180) {500}; \node at (480,104) {200}; \node at (352,224) {300}; \node at (545,236) {300};
+\node at (822,182) {600}; \node at (748,256) {300}; \node at (164,346) {400}; \node at (418,352) {200};
+\node at (543,424) {400}; \node at (870,352) {300};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, v/.style={circle,draw,minimum size=0.81cm,inner sep=0pt,font=\large}, w/.style={font=\small}, ann/.style={font=\LARGE}]
+\node[v] (G) at (63,45) {$G$};
+\node[v] (E) at (660,42) {$E$};
+\node[v] (F) at (380,145) {$F$};
+\node[v] (A) at (180,277) {$A$};
+\node[v] (D) at (575,272) {$D$};
+\node[v] (B) at (377,407) {$B$};
+\node[v] (C) at (710,405) {$C$};
+\draw (G) -- (F); \draw (G) -- (A); \draw (F) -- (E); \draw (F) -- (A); \draw (F) -- (D);
+\draw (E) -- (D); \draw (A) -- (D); \draw (A) -- (B); \draw (B) -- (D); \draw (D) -- (C); \draw (B) -- (C);
+\node[w] at (212,62) {$7$};
+\node[w] at (97,180) {$5$};
+\node[w] at (517,62) {$8$};
+\node[w] at (305,227) {$9$};
+\node[w] at (487,178) {$7$};
+\node[w] at (647,180) {$5$};
+\node[w] at (365,302) {$15$};
+\node[w] at (240,358) {$6$};
+\node[w] at (503,344) {$8$};
+\node[w] at (662,310) {$9$};
+\node[w] at (530,427) {$11$};
+% circled vertices with their total edge weights
+\foreach \n in {A,B,C,D} \draw[line width=0.9pt] (\n) circle (38);
+\draw ($(A)+(-215:38)$) -- (112,342); \node[ann] at (65,383) {$35$};
+\draw ($(D)+(-10:38)$) -- (690,252); \node[ann] at (760,242) {$44$};
+\draw ($(B)+(80:38)$) -- (398,458); \node[ann] at (432,467) {$25$};
+\draw ($(C)+(-10:38)$) -- (790,430); \node[ann] at (845,430) {$20$};
+\end{tikzpicture}
+\end{document}

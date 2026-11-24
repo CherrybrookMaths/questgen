@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, v/.style={circle, fill, inner sep=1.1pt}, lab/.style={font=\fontsize{8.5}{10}\selectfont}]
+  \coordinate (P) at (203,57);
+  \coordinate (Q) at (113,83);
+  \coordinate (R) at (50,160);
+  \coordinate (U) at (152,186);
+  \coordinate (T) at (229,235);
+  \coordinate (S) at (304,186);
+  \draw (P) -- (Q) -- (R) -- (U) -- (Q);
+  \draw (P) -- (U) -- (T) -- (S) -- (P) -- (T);
+  \draw (203,31) circle (26);
+  \foreach \p in {P,Q,R,U,T,S} \node[v] at (\p) {};
+  \node[lab] at (203,43) {$\boldsymbol{P}$};
+  \node[lab] at (97,70) {$\boldsymbol{Q}$};
+  \node[lab] at (33,160) {$\boldsymbol{R}$};
+  \node[lab] at (136,199) {$\boldsymbol{U}$};
+  \node[lab] at (229,250) {$\boldsymbol{T}$};
+  \node[lab] at (317,186) {$\boldsymbol{S}$};
+\end{tikzpicture}
+\end{document}
