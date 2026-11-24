@@ -2400,7 +2400,9 @@ function tex(s){
   // owner 12 Nov (QID 889 "\underline{\textbf{and}} is not rendering properly", QID 933): text-mode formatting outside maths
   h=h.split(/(\$\$[\s\S]*?\$\$|(?<!\\)\$(?:\\\$|[^$])*?(?<!\\)\$)/).map((seg,i)=>{if(i%2)return seg;let prev;
     do{prev=seg;seg=seg.replace(/\\textbf\{([^{}]*)\}/g,'<b>$1</b>').replace(/\\(?:textit|emph)\{([^{}]*)\}/g,'<i>$1</i>').replace(/\\underline\{([^{}]*)\}/g,'<u>$1</u>').replace(/\\text\{([^{}]*)\}/g,'$1')}while(seg!==prev);
-    return seg.replace(/\\%/g,'%').replace(/\\&amp;/g,'&amp;')}).join('');
+    // owner 24 Nov (2026 HSC Std Q2 showed "$800\,000": "what's with the notation here"): LaTeX spaces in text, as in money
+    //   amounts \$800\,000, print as the paper's thin space (narrow no-break, so the number never splits), not as "\,"
+    return seg.replace(/\\%/g,'%').replace(/\\&amp;/g,'&amp;').replace(/\\,/g,' ').replace(/\\[;:]/g,' ')}).join('');
   // 23 Nov (owner: "for some questions, the original and question are not lining up any more" + raw \exfigure text): figure names from split
   // questions carry the part in brackets (1305_q1(c)_1), so the name pattern allows ( ) here, in 20_exam.js, bank_split.py and ztable.py
   h=h.replace(/\\exfigure\{([\w.()-]+)\}/g,(m,id)=>`</span><span class="figslot" data-fig="${id}"></span><span>`);
@@ -6694,7 +6696,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'8f7dcc08d791dad8',stale:false,t:null,at:0,
+const FRESH={build:'65ab55f06de4a56c',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}
