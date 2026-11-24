@@ -126,6 +126,10 @@ codes17 = {}
 for row in csv.DictReader(open(P + 'site/project/mapping_v1.csv')):
     codes17.setdefault(row['code_2017'], row['title_2017'])
 
+# retired papers (state/work/retired_papers.json {doc: {copy_of, label}}; owner 24 Nov: "retire" the three copy papers): the whole paper
+# leaves the bank BEFORE duplicates are paired, so the original paper keeps every question (a shared key cannot say which copy to drop)
+_RP = json.load(open(paths.S + 'work/retired_papers.json')) if os.path.exists(paths.S + 'work/retired_papers.json') else {}
+old['questions'] = [q for q in old['questions'] if str(q['doc']) not in _RP]
 # exact/near-exact duplicates (same paper filed twice etc.): keep one copy in the Bank, hide the other there
 byid = {q['id']: q for q in old['questions']}
 for q in old['questions']: q.pop('dup_of', None)
@@ -199,6 +203,11 @@ for q in old['questions']:
 # a retirement can be undone by deleting its entry. Checker 18 Nov on 2022 Baulkham Hills AT4 Q22: "delete this question"
 RETIRED = json.load(open(paths.S + 'work/retired.json')) if os.path.exists(paths.S + 'work/retired.json') else {}
 old['questions'] = [q for q in old['questions'] if q.get('key') not in RETIRED]
+# owner 24 Nov ("retire" the three copy papers): a copy hidden in favour of a retired question comes back, so retiring the copy of a
+# paper never hides the original's questions as well
+_live = {q['id'] for q in old['questions']}
+for q in old['questions']:
+    if q.get('dup_of') and q['dup_of'] not in _live: q.pop('dup_of')
 # papers mid-import (tools/import_hold.py; owner 18 Nov: "it shouldn't stall flagging and checking"): out of the bank until released
 import import_hold as _hold
 _HELD = _hold.held_docs()

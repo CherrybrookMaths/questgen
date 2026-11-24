@@ -75,5 +75,5 @@ Owner 23 Nov (verbatim): "we cannot be pinned down by imports. We should be able
 ## Flags that answer a Your call (24 Nov)
 The checker's flags of 24 Nov fixed four questions that were open Your calls (2021 North Sydney Boys AT4 Q13(b) reworded, 2021 Oakhill AT1
 Q4 and 2021 PEM AT4 Q10 option B changed so one option is correct, 2021 Sydney Girls AT4 Q13(d) retired). Owner 24 Nov: "keep his fixes";
-the four calls are closed (site/project/open_decisions.json). A later flag fix that answers an open Your call is reported to the owner,
-who closes the call.
+the four calls are closed (site/project/open_decisions.json). Owner 24 Nov, on the open Your calls: "3. is for the reviewer": the checker decides Your calls; a flag of his that answers one closes it
+(as "Trust his call on the gosford paper" did for 2020 Gosford AT4 Q30), and Claude closes the call when the fix goes live.
