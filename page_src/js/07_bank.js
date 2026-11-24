@@ -64,6 +64,16 @@ function qPlaces(q){ // owner 12 Nov: one topic home per question
   if(q.std)return new Set(['special:std']);
   const h=qHome(q); return new Set(h?[h]:[]);
 }
+// owner 25 Nov ("Besides that, yes action all these things"), relaying the checker: "The Bank opens on Mathematics Standard while Advanced
+// is selected. Standard sits under "Outside the 2024 syllabus", so Advanced users land on the wrong topic." The Bank reopens on the topic
+// saved in this browser only when it is one of the course's own topics; a group outside the syllabus (Removed content, Mathematics
+// Standard, No 2024 match) or a topic of the other course opens on the course's first topic that has questions instead (Year 12 first,
+// in the sidebar's order). Nothing saved: the All topics overview, as before (owner 13 Nov, "Bank home").
+function bankStart(k){if(!k)return null;const key=d=>'sub:'+d.yl+'|'+d.fa+'|'+(d.sub||'');
+  if(DOTS.some(d=>key(d)===k||'fa:'+d.yl+'|'+d.fa===k))return k;
+  const homes=new Set(B.questions.filter(q=>!q.dup_of).flatMap(q=>[...qPlaces(q)]));
+  const d=[...DOTS.filter(d=>d.yl===12),...DOTS.filter(d=>d.yl!==12)].find(d=>homes.has(key(d)));
+  return d?key(d):null}
 // owner 12 Nov ("Questions aren't showing in the bank until approved right?" -> "yeah do that"): the Bank shows approved
 // questions only; the owner can switch unapproved ones back on (remembered per browser)
 let BANKALL=load('bankall')==='1';
@@ -89,12 +99,15 @@ function buildTopics(){
   TOPICS=T;
 }
 const faCount=subs=>new Set([...subs.values()].flatMap(s=>s.qs.map(q=>q.id))).size;
-function navHTML(){
+// owner 25 Nov, relaying the checker: "The sidebar also keeps the old topic highlighted while you search." While a search is shown no
+// topic is current, so the sidebar's highlight (and its pill) steps aside; clearing the search brings it back
+const navSel=()=>search?null:sel;
+function navHTML(){const cur=navSel();
   const sec=(title,m,yl)=>`<h3>${title}</h3>`+[...m].map(([fa,subs])=>{
     const open=sel&&(sel.startsWith('sub:'+yl+'|'+fa+'|')||sel==='fa:'+yl+'|'+fa);
     return `<div class="fa${open?' open':''}" data-area="${esc(yl+'|'+fa)}"><button aria-expanded="${!!open}" data-fa="${esc(yl+'|'+fa)}"><span class="t">${esc(fa)}</span><span class="c">${faCount(subs)}</span></button>
-      <div class="fold"><ul>${[...subs].map(([sk,s])=>{const key='sub:'+yl+'|'+fa+'|'+sk;return `<li><button data-sel="${esc(key)}" aria-current="${sel===key}"><span>${esc(sk||fa)}</span>${s.qs.length?`<span class="c">${s.qs.length}</span>`:'<span class="none">No questions yet</span>'}</button></li>`}).join('')}</ul></div></div>`}).join('');
-  const sp=(key,label)=>`<div class="fa special"><button data-sel="${key}" aria-current="${sel===key}"><span>${label}</span><span class="c">${TOPICS.byKey[key].qs.length}</span></button></div>`;
+      <div class="fold"><ul>${[...subs].map(([sk,s])=>{const key='sub:'+yl+'|'+fa+'|'+sk;return `<li><button data-sel="${esc(key)}" aria-current="${cur===key}"><span>${esc(sk||fa)}</span>${s.qs.length?`<span class="c">${s.qs.length}</span>`:'<span class="none">No questions yet</span>'}</button></li>`}).join('')}</ul></div></div>`}).join('');
+  const sp=(key,label)=>`<div class="fa special"><button data-sel="${key}" aria-current="${cur===key}"><span>${label}</span><span class="c">${TOPICS.byKey[key].qs.length}</span></button></div>`;
   // checker report 18 Nov ("Topic counts differ between screens ... nothing on screen says so. It reads like a bug"); owner: "lets do 2,3,4,6".
   //   The Bank counts a question under every topic one of its parts is on; the exam builders count it once, under its main topic, and
   //   only if its skills are learnt. Each screen now says which count it shows (CNT_NOTE; exam builders in 24_exams.js)
@@ -122,7 +135,7 @@ function subRows(subs,yl,fa,max){const rows=[...subs];const top=max||Math.max(1,
   return rows.map(([sk,x])=>`<button class="subrow${x.qs.length?'':' none'}" data-sel="${esc('sub:'+yl+'|'+fa+'|'+sk)}"><span class="nm">${esc(sk||fa)}</span><span class="bar"><i style="width:${Math.round(100*x.qs.length/top)}%"></i></span><span class="c">${x.qs.length||'–'}</span></button>`).join('')}
 // owner 13 Nov ("holes everywhere"): each card spans as many 2px grid rows as its height, so short cards tuck under each other
 function packCards(){$$('#list .facards').forEach(g=>{const kids=[...g.children];kids.forEach(c=>c.style.gridRowEnd='');
-  kids.forEach(c=>{c.style.gridRowEnd='span '+Math.ceil((c.getBoundingClientRect().height+14)/2)})})}
+  kids.forEach(c=>{c.style.gridRowEnd='span '+Math.ceil((QG.rect(c).height+14)/2)})})}
 addEventListener('resize',()=>{clearTimeout(window._pk);window._pk=setTimeout(()=>{if($('#list .facards'))packCards()},120)});
 if(document.fonts)document.fonts.ready.then(()=>{if($('#list .facards'))packCards()});
 function homeHTML(){
@@ -172,12 +185,24 @@ function renderBank(){
   if(!search&&sel&&sel.startsWith('fa:')){const [yl,fa]=sel.slice(3).split('|');$('#list').innerHTML=faHTML(yl,fa);return}
   let qs=null, head='';
   if(search){
-    // Fix 1: search reads the question text, which arrives per topic: the first search loads every topic file once
-    if(!QG.hasAll()&&!QG.failed.size&&!QG.detFail){const s0=search;$('#list').innerHTML=`<div class="listhead"><h2>Search: “${esc(search)}”</h2><span class="crumb">Searching every topic…</span></div>`;
-      QG.needAll().then(()=>{if(search===s0&&view==='bank')renderBank()});return}
+    // owner 25 Nov ("Besides that, yes action all these things"), relaying the checker: "Question search is slow and capped. It took about
+    // 6-8 seconds and only shows "first 60 matches", with no total and no way to see more." The first search used to load every topic
+    // file (about 9 MB for Advanced) to read the question text; it now reads one search file (search.gz.json, about 0.5 MB, tools/
+    // bank_split.py) and keeps each question's search text (QG.hay). The total is shown, 60 at a time, with "Show more".
+    const s0=search,L0=$('#list'),hd=`<div class="listhead"><h2>Search: “${esc(search)}”</h2>`;
+    if(!QG.srch||!QG.detOK){
+      if(QG.srchFail||QG.detFail){L0.innerHTML=hd+'</div><div class="empty">The search did not load. <button class="act" type="button" data-sretry="1">Try again</button></div>';return}
+      L0.innerHTML=hd+'<span class="crumb">Searching…</span></div>';
+      Promise.all([QG.search(),QG.det()]).then(()=>{if(search===s0&&view==='bank')renderBank()});return}
+    // a question's search text: its QID, paper, own words (the search file), dot points and skills, lower case, built once
+    const hay=q=>{let h=QG.hay.get(q.id);if(h==null){h=[qid(q),qid(q).replace(' ',''),String(q.id),srcLine(q),QG.srch[q.id]||'',...q.parts.flatMap(p=>(p.t24||[]).map(t=>(DM[t.id]?.sub||'')+' '+(DM[t.id]?.text||'')+' '+(DM[t.id]?.short||''))),...q.parts.flatMap(p=>p.skills||[])].join(' ').toLowerCase();QG.hay.set(q.id,h)}return h};
     const s=search.toLowerCase();
-    qs=B.questions.filter(inBank).filter(q=>[qid(q),qid(q).replace(' ',''),String(q.id),srcLine(q),q.stem,...q.parts.map(p=>p.latex),...q.parts.flatMap(p=>(p.t24||[]).map(t=>(DM[t.id]?.sub||'')+' '+(DM[t.id]?.text||'')+' '+(DM[t.id]?.short||'')+' '+(p.free||[]).join(' '))),...q.parts.flatMap(p=>[...(p.skills||[]),...(p.can_use||[])])].join(' ').toLowerCase().includes(s)).slice(0,60);
-    head=`<div class="listhead"><h2>Search: “${esc(search)}”</h2><span class="crumb">${qs.length===60?'first 60 matches':qs.length+(qs.length===1?' match':' matches')}</span></div>`;
+    // matches in the sidebar's topic order (Year 12 first), newest paper first within a topic, as a topic's own list: the first 60 then
+    // come from a few topic files, so their text arrives sooner than from 60 papers spread over every topic
+    if(!TOPICS)buildTopics();const rk=new Map(Object.keys(TOPICS.byKey).map((k,i)=>[k,i])),rank=q=>rk.get([...qPlaces(q)][0])??1e9;
+    qs=B.questions.filter(inBank).filter(q=>hay(q).includes(s)).map(q=>[rank(q),q]).sort((a,b)=>a[0]-b[0]||B.docs[b[1].doc].label.localeCompare(B.docs[a[1].doc].label)||parseInt(a[1].number)-parseInt(b[1].number)).map(x=>x[1]);
+    if(BSEL.sq!==search)Object.assign(BSEL,{sq:search,sn:60});
+    head=`${hd}<span class="crumb">${qs.length.toLocaleString()} ${qs.length===1?'match':'matches'}</span></div>`;
   } else if(sel&&TOPICS.byKey[sel]){
     const t=TOPICS.byKey[sel]; qs=t.qs.slice().sort((a,b)=>(B.docs[b.doc].label.localeCompare(B.docs[a.doc].label))||(parseInt(a.number)-parseInt(b.number)));
     let title,sibs='';
@@ -198,10 +223,12 @@ function renderBank(){
   // the pill. Now the first 8 cards go in at once and the rest follow in small batches between frames.
   const L=$('#list');const gen=(L._gen=(L._gen||0)+1);
   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): a topic's questions load with its topic file the first time it opens
-  if(qs.some(q=>!QG.has(q)&&!QG.failed.has(q.h))&&!QG.detFail){   // job 2: a failed details file ends the wait too (cards say so, with Try again)
+  if(!search&&qs.some(q=>!QG.has(q)&&!QG.failed.has(q.h))&&!QG.detFail){   // job 2: a failed details file ends the wait too (cards say so, with Try again)
   L.innerHTML=`<div class="lhead">${head}</div><div class="cards"><div class="empty">Loading questions…</div></div>`;typeset(L.querySelector('.lhead'));
     QG.need(qs).then(()=>{if(L._gen===gen&&view==='bank')renderBank()});return}
-  L.innerHTML=`<div class="lhead">${head}</div><div class="cards"></div>`;typeset(L.querySelector('.lhead'));   // owner 13 Nov: the dot-point list in the header lost its maths when cards went lazy
+  // a search draws its cards at once: a card whose topic file has not arrived shows "Loading question…" and fills itself in (QG.pending)
+  const found=qs;if(search)qs=qs.slice(0,BSEL.sn);
+  L.innerHTML=`<div class="lhead">${head}</div><div class="cards"></div>${search?'<div class="bk-more"></div>':''}`;typeset(L.querySelector('.lhead'));   // owner 13 Nov: the dot-point list in the header lost its maths when cards went lazy
   // (health pass 13 Nov: the list's own enter animation, swallowed by this comment, was not restored: bankGo's view
   // transition already animates #list, and a second animation inside it would double the slide; #list.enter CSS removed)
   const box=L.querySelector('.cards');let i=0;
@@ -209,6 +236,9 @@ function renderBank(){
     const els=[...tmp.children];els.forEach(c=>{box.appendChild(c);const q=QG.byId.get(+c.dataset.q);hydrate(c,q,'bank')});
     els.forEach(c=>TSIO.observe(c));if(i<qs.length)setTimeout(()=>batch(12),16)};
   batch(8);bfPills();
+  if(search){const more=L.querySelector('.bk-more'),foot=()=>{const left=found.length-qs.length;
+      more.innerHTML=left>0?`<span class="muted">Showing ${qs.length.toLocaleString()} of ${found.length.toLocaleString()}</span><button type="button" class="act" data-smore="1">Show ${Math.min(60,left)} more</button>`:''};
+    foot();L._more=()=>{if(L._gen!==gen)return;const idle=i>=qs.length;qs=found.slice(0,qs.length+60);BSEL.sn=qs.length;foot();if(idle)batch(12)}}
 }
 // owner 13 Nov: "smoother animations ... opening/closing should be smooth, clicking between subtopics should be a smooth pill movement,
 // add anything else ... people will be using this a lot". The tree is rendered once and then only updated in place (open state,
@@ -217,7 +247,7 @@ const RM=matchMedia('(prefers-reduced-motion: reduce)');
 function syncNav(){const nav=$('#nav');const html=navHTML();const sig=html.replace(/ open"|aria-current="(true|false)"|aria-expanded="(true|false)"/g,'');
   if(nav.dataset.sig!==sig){const was=[...nav.querySelectorAll('.fa.open[data-area]')].map(f=>f.dataset.area);nav.innerHTML=html+'<span class="navpill" aria-hidden="true"></span>';nav.dataset.sig=sig;
     was.forEach(k=>{const f=nav.querySelector(`.fa[data-area="${CSS.escape(k)}"]`);if(f){f.classList.add('open');f.querySelector('button[data-fa]').setAttribute('aria-expanded','true')}});placePill(true);return}
-  nav.querySelectorAll('[data-sel]').forEach(b=>b.setAttribute('aria-current',String(b.dataset.sel===sel)));
+  nav.querySelectorAll('[data-sel]').forEach(b=>b.setAttribute('aria-current',String(b.dataset.sel===navSel())));
   // owner 13 Nov: "when moving to another subtopic in another topic, it closes the current one, makes it look forced" -> never auto-close;
   // only open the area you moved into. Areas close when you close them.
   nav.querySelectorAll('.fa[data-area]').forEach(f=>{const k=f.dataset.area;if(sel&&(sel.startsWith('sub:'+k+'|')||sel==='fa:'+k)&&!f.classList.contains('open')){
@@ -231,8 +261,8 @@ function placePill(jump){const nav=$('#nav'),pill=nav.querySelector('.navpill');
   const live=pillEl(nav);if(!live||!nav.offsetParent){pill.style.opacity=0;return}   // hidden list (home page): next placement jumps in place
   // where will it END? measure a hidden copy of the list with the fold animation switched off (the real folds keep animating)
   const c=nav.cloneNode(true);c.removeAttribute('id');c.classList.add('nofx');
-  Object.assign(c.style,{position:'absolute',visibility:'hidden',pointerEvents:'none',left:'-9999px',top:'0',width:nav.getBoundingClientRect().width+'px',boxSizing:getComputedStyle(nav).boxSizing,maxHeight:'none',overflow:'scroll'});   // same width as the real list so names wrap the same (owner 13 Nov: pill landed a row off)
-  document.body.appendChild(c);const el=pillEl(c),cr=c.getBoundingClientRect(),r=el.getBoundingClientRect(),n=nav.getBoundingClientRect(),lr=live.getBoundingClientRect();
+  Object.assign(c.style,{position:'absolute',visibility:'hidden',pointerEvents:'none',left:'-9999px',top:'0',width:QG.rect(nav).width+'px',boxSizing:getComputedStyle(nav).boxSizing,maxHeight:'none',overflow:'scroll'});   // same width as the real list so names wrap the same (owner 13 Nov: pill landed a row off)
+  document.body.appendChild(c);const el=pillEl(c),cr=QG.rect(c),r=QG.rect(el),n=QG.rect(nav),lr=QG.rect(live);   // QG.rect: CSS px under the viewer's page zoom (owner 25 Nov)
   const t={y:r.top-cr.top,x:lr.left-n.left,w:lr.width,h:lr.height};c.remove();   // size always from the real item (owner 13 Nov: two-line subtopic got a one-line pill)
   nav.querySelectorAll('.fa.parked').forEach(f=>f.classList.remove('parked'));if(live.matches('button[data-fa]'))live.closest('.fa').classList.add('parked');
   const instant=jump||RM.matches||pill.style.opacity!=='1';
@@ -240,7 +270,7 @@ function placePill(jump){const nav=$('#nav'),pill=nav.querySelector('.navpill');
   pill.style.opacity=1;pill.style.transform=`translate(${t.x}px,${t.y}px)`;pill.style.width=t.w+'px';pill.style.height=t.h+'px';
   if(instant){void pill.offsetWidth;pill.style.transition=''}
   clearTimeout(_pillFix);_pillFix=setTimeout(()=>{   // once the folds have settled, snap to the real position if the prediction was off
-    const a=live.getBoundingClientRect(),m=nav.getBoundingClientRect(),y=a.top-m.top+nav.scrollTop,x=a.left-m.left;
+    const a=QG.rect(live),m=QG.rect(nav),y=a.top-m.top+nav.scrollTop,x=a.left-m.left;
     if(Math.abs(y-t.y)>1||Math.abs(a.width-t.w)>1||Math.abs(a.height-t.h)>1){pill.style.transform=`translate(${x}px,${y}px)`;pill.style.width=a.width+'px';pill.style.height=a.height+'px'}
     if(a.top<m.top||a.bottom>m.bottom)live.scrollIntoView({block:'nearest',behavior:RM.matches?'auto':'smooth'})},340)}
 let _pillFix=0;
@@ -283,6 +313,8 @@ $('#list').addEventListener('click',e=>{
     const go=sel;sel=prevSel;bankGo('fwd',t.matches('.fah')?null:t,()=>{sel=go;save('sel',sel);renderBank();window.scrollTo({top:0})});return}
   const sb=e.target.closest('.sib'); if(sb){sel=sb.dataset.sel;save('sel',sel);renderBank();bankFade();return}
   const rv=e.target.closest('[data-reveal]'); if(rv){const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card');const q=QG.byId.get(id);c.outerHTML=cardHTML(q);const nc=$(`.card[data-q="${id}"]`);hydrate(nc,q,'bank');typeset(nc);return}
+  const sm=e.target.closest('[data-smore]'); if(sm){$('#list')._more?.();return}
+  const sr=e.target.closest('[data-sretry]'); if(sr){QG.srchFail=false;QG.detFail=false;renderBank();return}
   const op=e.target.closest('[data-open]'); if(op)reviewOpen(+op.dataset.open);   // owner 13 Nov: opens in Review's "All questions" list (#review/list/all)
 });
 let st; $('#q').addEventListener('input',e=>{clearTimeout(st);st=setTimeout(()=>{search=e.target.value.trim();renderBank()},250)});

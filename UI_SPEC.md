@@ -1337,3 +1337,37 @@ and present value. Since PV is taught after, any question which has both goes in
   Advanced Trigonometric identities and equations, Graph transformations.
 - Annuities (Standard) has the owner's two rows instead, Future value and Present value (SUB_SPLIT). An annuity question whose text or
   tables mention present value is Present value, every other one Future value (tools/bank_split.py sets q.st; qHome files by it).
+
+## Checker's review of the page (25 Nov)
+Owner 25 Nov, on a review of the page: "Besides that, yes action all these things". The review's points, verbatim, and what was done:
+- **Page zoom** ("make it so that you can zoom in and out (of the page itself)"). Inside claude.ai the page sits in a frame: the host page can
+  switch a phone's pinch zoom off, and keyboard zoom (Ctrl/Cmd +/-) scales claude.ai around the page too; neither can be checked from a
+  headless browser. So the page has its own zoom: − / 100% / + beside the theme button (in the menu on a phone), 80% to 150%,
+  remembered per viewer in this browser. CSS zoom on the page root; measurements that become CSS lengths go through QG.rect and viewport
+  units are divided by --zf. A phone stops where the page would be narrower than 320 px (110% on a 390 px phone). **Exams stays at
+  100%** (the buttons are off there): it lays out A4 sheets by measuring them (24_exams.js, another job's file), so it shows them at print
+  size. Code: 13_shell.js QG.setZoom.
+- **Search** ("Question search is slow and capped. It took about 6-8 seconds and only shows "first 60 matches", with no total and no way to
+  see more. The sidebar also keeps the old topic highlighted while you search."). The first search loaded every topic file (about 9 MB
+  for Advanced) to read the text; it now reads one search file per course (data/bank/<course>/search.gz.json, about 0.5 MB, tools/
+  bank_split.py). Measured on a 20 Mbit/s link, "chain rule": first card 4.3 s → about 1.6 s, bank data 9.3 MB → 1.7 MB. The total shows
+  ("380 matches"), 60 cards at a time with "Show 60 more"; matches come in the sidebar's topic order (newest paper first within a topic),
+  so the first page needs few topic files. While a search is shown no sidebar topic is highlighted.
+- **First topic** ("The Bank opens on Mathematics Standard while Advanced is selected. Standard sits under "Outside the 2024 syllabus", so
+  Advanced users land on the wrong topic."). The Bank reopens on the saved topic only when it is one of the course's own topics; a group
+  outside the syllabus or another course's topic opens on the course's first topic with questions (Year 12 first). Nothing saved: All
+  topics, as before (07_bank.js bankStart).
+- **Solution below the options** ("In the Bank, the "Solution" link sits between the question and its options A-D. It would read better below
+  the options."). A multiple-choice question's solutions all show below its options, including those filed under its one part; the same in
+  Review and Difficulty (06_question.js qBody).
+- **Plain run status** ("The Curate page shows a developer log to users. It's full of jargon ("Live as v336... another Claude session had
+  committed... unpublished") and ends in ".."."). The last flag run is one sentence ("Fixed 1 flag; live since 3:47 pm.", "N waits for
+  Steve", or that it could not finish); the run's own text is behind "Details" for the owner only. Flag runs write fixed and waiting
+  (FLAGS.md step 4); older runs are read from their result text (08_review.js runLine).
+- **Polish.** Search hint "Search, e.g. chain rule or 2023" fits the box ("chain rul"); the theme button reads Theme: Auto / Light / Dark
+  ("switches label styles"); the scrollbar's room is always kept, so a search with no matches no longer shifts the page sideways; Bank
+  topic cards may shrink below 340 px (a narrow phone, or zoomed in). Not done here: "The "16 saved exams" count doesn't change when you
+  filter" lives in 25_mine.js, an exam-maker file another job owns.
+- Tests: the `bank: search reads one search file …`, `bank: a search with no matches …`, `bank: a multiple-choice solution …`,
+  `header: the search hint …`, `zoom: …` (3), `bank: opens on the course's first topic …` and `review (checker|editor): the last flag
+  run …` checks in tools/page_test.js (fixes1125).

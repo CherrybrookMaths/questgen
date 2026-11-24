@@ -16,6 +16,9 @@
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--page:#eef0f2;color-scheme:dark}}
 :root[data-theme="dark"]{--page:#eef0f2;color-scheme:dark}
 [hidden]{display:none!important}
+/* owner 25 Nov, relaying the checker: "The page shifts sideways when a search returns nothing." A short page lost its scrollbar and the
+   centred layout moved by its width: the scrollbar's room is always kept */
+html{scrollbar-gutter:stable}
 body{background:var(--bg);color:var(--ink);font-family:var(--sans)}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10}
 .wrap{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:1500px;margin:0 auto}
@@ -65,7 +68,7 @@ button.ghost,a.ghost{border-color:transparent;background:none;color:var(--accent
 .bank.homemode{grid-template-columns:minmax(0,1fr)}
 .bank.homemode .nav{display:none}
 @media (max-width:900px){.bank{grid-template-columns:1fr}}
-.nav{min-width:0;top:var(--navtop,86px);align-self:start;max-height:calc(100vh - var(--navtop,86px) - 22px);overflow:auto;overscroll-behavior:contain;padding-right:4px;scrollbar-width:none}
+.nav{min-width:0;top:var(--navtop,86px);align-self:start;max-height:calc(100vh / var(--zf,1) - var(--navtop,86px) - 22px);overflow:auto;overscroll-behavior:contain;padding-right:4px;scrollbar-width:none}
 .nav::-webkit-scrollbar{display:none}   /* owner 12 Nov: no visible scrollbar on the side list (it still scrolls) */
 @media (max-width:900px){.nav{display:none}}
 #list{min-width:0}
@@ -281,7 +284,7 @@ table.ot thead th.lab{background:none}
 .chip.removed{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
 .chip.no_match{background:var(--warn-soft);border-color:var(--warn);color:var(--warn)}
 .chip.sec{opacity:.75}
-.pop{display:none;position:absolute;left:0;top:calc(100% + 6px);z-index:8;width:max-content;max-width:min(340px,80vw);background:var(--panel);border:1px solid var(--line2);padding:10px 12px;font-size:13px;line-height:1.45}
+.pop{display:none;position:absolute;left:0;top:calc(100% + 6px);z-index:8;width:max-content;max-width:min(340px,80vw / var(--zf,1));background:var(--panel);border:1px solid var(--line2);padding:10px 12px;font-size:13px;line-height:1.45}
 .chipw:hover .pop,.chipw.open .pop,.chip:focus-visible+.pop{display:block}
 .pop .k{font:11px var(--mono);color:var(--muted);display:block;margin-bottom:4px}
 .pop .t{display:block;margin-bottom:6px}
@@ -353,7 +356,7 @@ table.rub td.m{width:4.2em;text-align:center;font:600 13px var(--mono)}
 @media (max-width:900px){.desk{grid-template-columns:1fr}}
 .pane{min-width:0;background:var(--panel);border:1px solid var(--line)}
 .pane>h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:0;border-bottom:1px solid var(--line);font-weight:600}
-.srcpane{position:sticky;top:calc(env(safe-area-inset-top,0px) + 120px);max-height:calc(100vh - 140px);overflow:auto}
+.srcpane{position:sticky;top:calc(env(safe-area-inset-top,0px) + 120px);max-height:calc(100vh / var(--zf,1) - 140px);overflow:auto}
 @media (max-width:900px){.srcpane{position:static;max-height:none}}
 .srcpane img{display:block;width:100%;background:var(--page);border-bottom:1px solid var(--line)}
 .rout{display:flex;flex-direction:column}
@@ -393,14 +396,14 @@ table.rub td.m{width:4.2em;text-align:center;font:600 13px var(--mono)}
 #src img.rv-gone{display:block;min-height:0;padding:10px 12px;font-size:13px;color:var(--muted);border:1px dashed var(--line);border-radius:6px}
 /* owner 18 Nov: "when you click on the original and now, they enlarge": Review comparison pictures open large (05_figures.js) */
 .figrow .cmp img.fig[src],.figrow .cmp3 img.fig[src],.figrow .ovfig img.fig[src]{cursor:zoom-in}
-.rv-figzoom{border:none;border-radius:8px;padding:0;width:min(96vw,1200px);max-height:94vh;background:var(--card,#fff);color:var(--ink)}
+.rv-figzoom{border:none;border-radius:8px;padding:0;width:min(96vw / var(--zf,1),1200px);max-height:calc(94vh / var(--zf,1));background:var(--card,#fff);color:var(--ink)}
 .rv-figzoom::backdrop{background:rgba(0,0,0,.6)}
 .rv-figzoom .rv-fzhead{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line)}
 .rv-figzoom .rv-fzhead b{font:600 12px var(--sans);text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
 .rv-figzoom .rv-fzn{color:var(--muted);font-size:13px;margin-left:auto}
 .rv-figzoom .rv-fzx{border:none;background:none;font-size:26px;line-height:1;cursor:pointer;color:var(--ink);padding:0 4px}
 .rv-figzoom .rv-fzbody{display:flex;align-items:center;gap:6px;padding:12px}
-.rv-figzoom .rv-fzbody img{flex:1;min-width:0;width:100%;max-height:calc(94vh - 80px);object-fit:contain;background:#fff}
+.rv-figzoom .rv-fzbody img{flex:1;min-width:0;width:100%;max-height:calc(94vh / var(--zf,1) - 80px);object-fit:contain;background:#fff}
 .rv-figzoom .rv-fzstep{border:1px solid var(--line);background:none;border-radius:6px;font-size:24px;width:36px;height:56px;cursor:pointer;color:var(--ink)}
 .rv-figzoom .rv-fzstep[hidden]{display:none}
 .cmp3 .rv-nov1{margin:8px 2px;color:var(--muted);font-size:13px}
@@ -456,7 +459,7 @@ table.rub td.m{width:4.2em;text-align:center;font:600 13px var(--mono)}
 .jobs .jpill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .jobs .run.hit .jpill{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
 .jobs .dot{width:7px;height:7px;flex:none;border-radius:50%;background:currentColor;animation:jpulse 1.8s infinite}
-.jobs .jpop{position:fixed;top:0;left:0;z-index:30;box-sizing:border-box;width:min(380px,calc(100vw - 32px));background:var(--panel);color:var(--ink);border:1px solid var(--line2);padding:10px 12px;font-size:13px;line-height:1.4;display:none;flex-direction:column;gap:9px}
+.jobs .jpop{position:fixed;top:0;left:0;z-index:30;box-sizing:border-box;width:min(380px,calc(100vw / var(--zf,1) - 32px));background:var(--panel);color:var(--ink);border:1px solid var(--line2);padding:10px 12px;font-size:13px;line-height:1.4;display:none;flex-direction:column;gap:9px}
 .jobs .jpop::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}   /* bridges the gap so the pointer can reach the link */
 .jobs .jp:hover .jpop,.jobs .jp:focus-within .jpop,.jobs .jp.open .jpop{display:flex}
 .jobs .jpop .job{display:flex;flex-direction:column;gap:1px}
@@ -532,6 +535,7 @@ table.pp th .ar{font-size:10px;margin-left:3px;color:var(--accent)}
 .bpapers{margin:0;padding-left:18px;columns:2 260px;font-size:13px}
 .handoff{font-size:13.5px;padding:8px 12px;background:var(--bg);border:1px solid var(--line);margin-bottom:10px}
 .handoff.due{background:var(--warn-soft);border-color:var(--warn)}
+.handoff .rv-runlog summary{font-size:12.5px;color:var(--muted);cursor:pointer}.handoff .rv-runlog p{margin:4px 0 0;color:var(--muted)}   /* owner 25 Nov: the run's own text, for the owner only */
 
 @media (max-width:520px){.views{max-width:100%;overflow-x:auto;scrollbar-width:none}}
 
@@ -718,11 +722,16 @@ body.xpv-on{overflow:hidden}
 .msheet .n{color:var(--warn);background:var(--warn-soft)}
 .msheet hr{border:0;border-top:1px solid var(--line);margin:4px 8px}
 .msheet .mt{color:var(--muted);font-weight:500}
+.msheet .mzoom{display:flex;align-items:center;gap:4px;padding:0 0 0 14px;min-height:44px}   /* owner 25 Nov: the page zoom, in the menu on a phone */
+.msheet .mzoom span{flex:1}
+.msheet .mzoom button{justify-content:center;min-width:44px;padding:0 10px}
+.msheet .mzoom .zv{min-width:60px;font-variant-numeric:tabular-nums;color:var(--muted)}
+.msheet .mzoom button:disabled{opacity:.45;cursor:default}
 @media (max-width:640px){
   header{position:sticky}
   .top{flex-wrap:wrap;gap:8px;padding-block:8px}
   .brand small{display:none}.brand .logo{height:20px}
-  .views,.themebtn{display:none}
+  .views,.themebtn,.top .zoomctl{display:none}
   .menubtn{display:inline-flex;align-items:center;gap:6px;font:600 14px var(--sans);border-radius:999px;padding:6px 12px;min-height:36px}
   .menubtn .n:empty{display:none}.menubtn .n{font:600 12px var(--sans);color:var(--warn)}
   .jobs{order:3}
@@ -1377,7 +1386,7 @@ body.rep-on{overflow:hidden}
 .rep-pparts small{color:var(--muted)}
 .rep-empty{border:1px dashed var(--line2);border-radius:8px;padding:32px 16px;text-align:center;color:var(--muted)}
 @media (max-width:640px){.rep-top h2{font-size:22px}.rep-seg{width:100%}.rep-seg button{flex:1;padding:7px 6px;justify-content:center}.rep-meta{margin-left:0;flex-basis:100%}.rep-row{padding:12px}
-  .repscrim{place-items:end center;padding:0}.repdlg{width:100%;border-radius:12px 12px 0 0;max-height:92vh;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}}
+  .repscrim{place-items:end center;padding:0}.repdlg{width:100%;border-radius:12px 12px 0 0;max-height:calc(92vh / var(--zf,1));padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}}
 
 /* owner 19 Nov: the Swap chooser (XA_SW, 23_exam_auto.js) */
 .swapdlg{width:min(760px,100%)}
@@ -1467,6 +1476,11 @@ body::before{background:var(--panel)}
 .search input:hover{border-color:var(--line2)}
 .themebtn{font:500 12.5px var(--sans)!important;color:var(--muted)!important;padding:0 8px!important}
 .themebtn:hover{color:var(--ink)!important;background:var(--t2-hover)!important}
+/* owner 25 Nov: "make it so that you can zoom in and out (of the page itself)": − / 100% / + beside the theme button, as quiet as it */
+.zoomctl{display:inline-flex;align-items:center;white-space:nowrap}
+.top .zoomctl button.act.ghost{font:500 12.5px var(--sans);color:var(--muted);padding:0 7px;min-height:28px}
+.top .zoomctl button.act.ghost:hover:not(:disabled){color:var(--ink)}
+.top .zoomctl .zv{font-variant-numeric:tabular-nums;min-width:46px;justify-content:center}
 /* Exam button: a plain secondary button with a quiet count, not a pill */
 
 .rbar{border-top:1px solid var(--line)}
@@ -1510,7 +1524,7 @@ kbd{font:500 10.5px var(--sans);border:1px solid var(--line2);border-bottom-widt
 .yhead{gap:10px;margin:34px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
 .yhead span.muted{font-size:12.5px}
 .yb{font:600 10px var(--sans);letter-spacing:.04em;border-radius:3px;padding:1px 5px}
-.facards{grid-template-columns:repeat(auto-fill,minmax(340px,1fr));column-gap:14px}   /* 3 columns at desktop width; row gap stays 14px because packCards() adds 14 */
+.facards{grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));column-gap:14px}   /* (25 Nov: never wider than the column, for a narrow phone or the page zoomed in)  3 columns at desktop width; row gap stays 14px because packCards() adds 14 */
 .facard{border-radius:var(--t2-rl);padding:18px 20px 14px;gap:12px;border-color:var(--line);box-shadow:none}
 .facard::before{width:2px}
 .facard:hover{border-color:var(--line2);box-shadow:var(--t2-shadow)}
@@ -2152,8 +2166,11 @@ html[data-bkdir=fade]::view-transition-new(bk-list){animation:bk-fade-in .18s ea
     </nav>
     <span class="jobs" id="jobs" hidden aria-live="polite"></span>   <!-- owner 14 Nov: "need a pill for current jobs and queued jobs" -->
     <!-- owner 14 Nov: "Is there a point in having the exam button on the right and also the exams pill on the left?" The Exam button was removed; the Exams tab is the way in. -->
+    <!-- owner 25 Nov, relaying the checker: "make it so that you can zoom in and out (of the page itself)" (13_shell.js QG.setZoom) -->
+    <span class="zoomctl" id="zoomCtl" role="group" aria-label="Page zoom" title="Page zoom"><button type="button" class="act ghost" data-zoom="-1" aria-label="Zoom out">−</button><button type="button" class="act ghost zv" data-zoom="0" aria-label="Reset zoom to 100%">100%</button><button type="button" class="act ghost" data-zoom="1" aria-label="Zoom in">+</button></span>
     <button class="act ghost themebtn" id="themeBtn" type="button" title="Switch light / dark"></button>
-    <div class="search" id="searchBox"><input id="q" type="search" placeholder="Search questions: e.g. annuity, chain rule, 2023" aria-label="Search questions"></div>
+    <!-- owner 25 Nov, relaying the checker: "The search box's example text is cut off ("chain rul")." -->
+    <div class="search" id="searchBox"><input id="q" type="search" placeholder="Search, e.g. chain rule or 2023" aria-label="Search questions (words, a QID or a year)"></div>
   </div>
   <!-- owner 13 Nov: "One paper at a time": a paper's bar is ← Inbox, the paper, its 5-step track and the step's 'what to do here' line (the 7-button step row is gone) -->
   <div class="wrap rbar paper" id="rbar" hidden>
@@ -2240,12 +2257,18 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:n
   // review notes, full tags and difficulty) comes in det, read right after start (QG.det)
   // ref: the course's NESA reference sheet, one image per page (owner 18 Nov; from "MA Reference Sheet 2024.pdf" in the CMC Resources
   // drive; Extension 1 / 2 and Standard have their own: ME1, ME2, MST Reference Sheet 2024, ids in state/work/ref_sheets.json)
-  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',years:'Year 12',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',dots:'data/dotpoints.json',ref:['data/ref/advanced-1.png','data/ref/advanced-2.png']},
+  courses:{advanced:{name:'Mathematics Advanced',short:'Advanced',years:'Year 12',bank:'data/bank/advanced/index.gz.json',det:'data/bank/advanced/details.gz.json',search:'data/bank/advanced/search.gz.json',dots:'data/dotpoints.json',ref:['data/ref/advanced-1.png','data/ref/advanced-2.png']},
     // owner 23 Nov: "we need to start working on the standard course", "Standard 2 first": Year 11 + Year 12 Standard 2 dot points
     // (tools/standard_course.py); its bank is empty until the pilot batch (owner: pilot "once setup is done"); STANDARD_SPEC.md
-    standard:{name:'Mathematics Standard 2',short:'Standard 2',years:'Year 12',bank:'data/bank/standard/index.gz.json',det:'data/bank/standard/details.gz.json',dots:'data/dotpoints-standard.json',ref:['data/ref/standard-1.png','data/ref/standard-2.png']}},
+    standard:{name:'Mathematics Standard 2',short:'Standard 2',years:'Year 12',bank:'data/bank/standard/index.gz.json',det:'data/bank/standard/details.gz.json',search:'data/bank/standard/search.gz.json',dots:'data/dotpoints-standard.json',ref:['data/ref/standard-1.png','data/ref/standard-2.png']}},
   get courseData(){return this.courses[this.course]},
   byId:new Map(),got:new Set(),fileP:{},failed:new Set(),assets:{},_fillT:0,detOK:false,detP:null,detFail:false,_remix:0,night:null,
+  // owner 25 Nov, relaying the checker: "Question search is slow and capped ...": srch = the course's search words {id: text} (search.gz.json,
+  // read on the first search instead of every topic file), hay = each question's lower-case search text (07_bank.js bankHay)
+  srch:null,srchP:null,srchFail:false,hay:new Map(),
+  // owner 25 Nov (checker: "make it so that you can zoom in and out (of the page itself)"): zoom = the viewer's page zoom in %, zf = how
+  // much the browser scales a measured box by it (1 when the page is not zoomed); 13_shell.js QG.setZoom
+  zoom:100,zf:1,
   // health pass 21 Nov: a page-database document's fields, and a snapshot's documents as {id, ...fields} (was written out in 15 places)
   val:d=>d&&(typeof d.data==='function'?d.data():d.data), docs:s=>((s&&s.docs)||s||[]).map(x=>({id:x.id,...QG.val(x)})),
   // owner 17 Nov: "lets do skill gates, that's important": {skill: [topic keys it needs learnt]} from the details file (tools/bank_split.py
@@ -2277,7 +2300,7 @@ Object.assign(QG,{
   hasAll(){return QG.detOK&&QG.got.size>=(QG.bank?.questions.length||0)},
   // fields that moved to the details file start as empty lists, so a list read before they arrive cannot throw
   setBank(b){b.questions.forEach(q=>{for(const k of ['solutions','related','queues','pages'])if(!q[k])q[k]=[]});
-    QG.bank=b;QG.byId=new Map(b.questions.map(q=>[q.id,q]));try{_esc={};_dupm=null}catch(e){}QG.got=new Set();QG.fileP={};QG.failed=new Set();QG.detOK=false;QG.detP=null;QG.detFail=false},
+    QG.bank=b;QG.byId=new Map(b.questions.map(q=>[q.id,q]));QG.hay=new Map();try{_esc={};_dupm=null}catch(e){}QG.got=new Set();QG.fileP={};QG.failed=new Set();QG.detOK=false;QG.detP=null;QG.detFail=false},
   // the details file (job 2): merged into the same question and part objects. A question whose topic file came first keeps
   // that file's full solutions (with their text) instead of the index list.
   det(){if(QG.detOK||!QG.bank)return Promise.resolve();const b=QG.bank;
@@ -2292,7 +2315,7 @@ Object.assign(QG,{
   // a view other than the Bank draws only once the details are in (09_router.js route calls QG.wait instead)
   ready(v){return !QG.bank||v==='bank'||QG.detOK},
   // caches built from the index are rebuilt with the full fields, then the open view is drawn again
-  onDet(){TOPICS=null;
+  onDet(){TOPICS=null;QG.hay=new Map();
     for(const f of [()=>{_clean=null;_esc={};_rk=null;_dupm=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear()])try{f()}catch(e){}
     QG.waitNote();route();QG.fill()},
   wait(){QG.waitNote();QG.det()},   // onDet draws the view when they land
@@ -2309,6 +2332,10 @@ Object.assign(QG,{
       e=>{delete QG.fileP[h];QG.failed.add(h)}))},
   need(qs){const hs=new Set();(qs||[]).forEach(q=>{if(q&&!QG.got.has(q.id)&&q.h!=null)hs.add(q.h)});return Promise.all([...[...hs].map(QG.file),QG.detFail?null:QG.det()]).then(()=>{})},   // after a failure the details load again only on Try again
   needAll(){return QG.need(QG.bank.questions)},
+  // the search words (owner 25 Nov: "Question search is slow and capped"): one file, read once, on the first search
+  search(){return QG.srchP||(QG.srchP=QG.get(QG.courseData.search,3).then(d=>{QG.srch=d.q||{};QG.srchFail=false;QG.hay=new Map()},e=>{QG.srchP=null;QG.srchFail=true}))},
+  // a box as the page lays it out (CSS px): under the viewer's page zoom the browser reports boxes scaled by QG.zf (owner 25 Nov, zoom)
+  rect(el){const r=el.getBoundingClientRect(),f=QG.zf||1;return f===1?r:{left:r.left/f,top:r.top/f,right:r.right/f,bottom:r.bottom/f,width:r.width/f,height:r.height/f}},
   pending(q,mode){QG.need([q]).then(QG.fill);const bad=QG.failed.has(q.h)||QG.detFail;
     return `<div class="qbody qpend muted" data-qpend="${q.id}" data-qmode="${esc(mode)}">${bad?'This question did not load. <button class="act" type="button" data-qretry="1">Try again</button>':'Loading question…'}</div>`},
   // fill in every placeholder whose question has arrived. Review binds its buttons when it draws, so it is redrawn whole.
@@ -2351,15 +2378,15 @@ const typeset=el=>{const M=window.MathJax;const ready=Promise.all([M?.startup?.p
     // column; those few may break, at MathJax's own break points, instead of running past the edge
     const cs=[...el.querySelectorAll('mjx-container:not([display="true"])')];
     const W=cs.map(c=>{let p=c.parentElement;while(p&&getComputedStyle(p).display.startsWith('inline'))p=p.parentElement;return p?p.clientWidth:0});
-    cs.forEach((c,i)=>c.classList.toggle('mjx-wrap',W[i]>0&&c.getBoundingClientRect().width>W[i]+1))}).catch(()=>{})};
+    cs.forEach((c,i)=>c.classList.toggle('mjx-wrap',W[i]>0&&QG.rect(c).width>W[i]+1))}).catch(()=>{})};
 // owner: nothing may protrude from a table cell. After typesetting, widen the label column to its widest entry,
 // and all value columns (kept equal) to the widest value; the first guess from character counts is only a starting point.
 // owner: "make it so that the word is not split up". A cell is never narrower than its widest piece of maths OR its
 // longest word (measured in the cell's own font), so headers like "Amplitude" stay whole.
 const _mctx=document.createElement('canvas').getContext('2d');
 function cellMinW(td){
-  if(td.classList.contains('dg')){const wOf=sel=>{let w=0;td.querySelectorAll(sel+' mjx-container').forEach(m=>w=Math.max(w,m.getBoundingClientRect().width));return w};const a=wOf('.dgtr'),c=wOf('.dgbl');return a+c+16}   // flag check 24 Nov 3:30 pm, measured: sized for one label the column left v334's pinned labels 0.4-6 px from the slanted line (2026 HSC Std Q27's crossed it by 3.3 px); both labels side by side plus a gap keep each in its own triangle (checker 3:16 pm: "keep it clear of the diagonal and the cell borders")   // split corner cell: labels sit diagonally, so the cell only needs the wider label plus part of the other (owner 12 Nov: "period / rate box is still too big")
-  let w=0; td.querySelectorAll('mjx-container').forEach(m=>{w=Math.max(w,m.getBoundingClientRect().width)});
+  if(td.classList.contains('dg')){const wOf=sel=>{let w=0;td.querySelectorAll(sel+' mjx-container').forEach(m=>w=Math.max(w,QG.rect(m).width));return w};const a=wOf('.dgtr'),c=wOf('.dgbl');return a+c+16}   // flag check 24 Nov 3:30 pm, measured: sized for one label the column left v334's pinned labels 0.4-6 px from the slanted line (2026 HSC Std Q27's crossed it by 3.3 px); both labels side by side plus a gap keep each in its own triangle (checker 3:16 pm: "keep it clear of the diagonal and the cell borders")   // split corner cell: labels sit diagonally, so the cell only needs the wider label plus part of the other (owner 12 Nov: "period / rate box is still too big")
+  let w=0; td.querySelectorAll('mjx-container').forEach(m=>{w=Math.max(w,QG.rect(m).width)});
   const tw=document.createTreeWalker(td,NodeFilter.SHOW_TEXT,{acceptNode:n=>n.parentElement.closest('mjx-container')?NodeFilter.FILTER_REJECT:NodeFilter.FILTER_ACCEPT});
   for(let n=tw.nextNode();n;n=tw.nextNode()){const cs=getComputedStyle(n.parentElement);_mctx.font=`${cs.fontStyle} ${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
     n.textContent.split(/\s+/).forEach(x=>{if(x)w=Math.max(w,_mctx.measureText(x).width)})}
@@ -2368,7 +2395,7 @@ function cellMinW(td){
 function fitOptTables(root){(root||document).querySelectorAll('table.ot').forEach(t=>{   // MCQ answer tables: widen a column only if its typeset maths needs more room
   const cols=[...t.querySelectorAll('colgroup col')]; if(cols.length<2) return;
   const fs=parseFloat(getComputedStyle(t).fontSize)||16, need=cols.map(()=>0);
-  t.querySelectorAll('tbody tr').forEach(tr=>[...tr.children].forEach((td,i)=>{const m=td.querySelector('mjx-container');if(m&&i<need.length)need[i]=Math.max(need[i],(m.getBoundingClientRect().width+20)/fs)}));
+  t.querySelectorAll('tbody tr').forEach(tr=>[...tr.children].forEach((td,i)=>{const m=td.querySelector('mjx-container');if(m&&i<need.length)need[i]=Math.max(need[i],(QG.rect(m).width+20)/fs)}));
   let tot=0; cols.forEach((c,i)=>{const w=Math.max(parseFloat(c.style.width)||0,need[i]);c.style.width=w.toFixed(2)+'em';tot+=w}); t.style.width=tot.toFixed(2)+'em';
 })}
 // owner: "the table seems too long, will it scale itself?" A data table wider than its column shrinks (down to 62%) instead of scrolling
@@ -2543,8 +2570,9 @@ function solHTML(q,s,mode){
     ${m.marker_note?`<div class="callout"><b>Marker's note:</b> ${tex(m.marker_note)}</div>`:''}
     ${m.concern?`<div class="callout"><b>Check this:</b> ${tex(m.concern)}</div>`:''}${m.corrected?(mode==='review'?`<div class="callout"><b>Corrected from source (check):</b> ${tex(m.corrected.replace(/^Corrected from source: /,''))}</div>`:`<div class="help">${tex(m.corrected)}</div>`):''}${mode==='review'&&m.rubric_note?`<div class="help">${esc(m.rubric_note)}</div>`:''}${mode==='review'&&m.source_flag?`<div class="callout"><b>Possible error in the source:</b> ${tex(m.source_flag)}</div>`:''}${actions}</div>`;
 }
+// pid '*': every solution of the question, whichever part it is filed under (a multiple-choice question's, shown below its options)
 function solsFor(q,pid,mode){
-  const all=q.solutions.filter(s=>(s.part_id??null)===pid);
+  const all=q.solutions.filter(s=>pid==='*'||(s.part_id??null)===pid);
   const vis=mode==='review'||mode==='tags'?all:all.filter(s=>s.source!=='generated'||solDec(q,s)==='approved');
   const hidden=all.length-vis.length;
   return {html:vis.map(s=>solHTML(q,s,mode)).join(''),hidden,count:vis.length};
@@ -2626,11 +2654,16 @@ function qBody(q,mode,o){
   if(!QG.has(q))return QG.pending(q,mode);   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): text not here yet: a placeholder that fills itself in
   const show=mode==='review'||!!o?.open||revealed.has(q.id), open=mode==='review'||!!o?.open?' open':'';
   const fk=figKeys(q);
+  // owner 25 Nov ("Besides that, yes action all these things"), relaying the checker: "In the Bank, the "Solution" link sits between the
+  // question and its options A-D. It would read better below the options." A multiple-choice question's solutions all go below its
+  // options, also those filed under its one part (574 of them); Review and Difficulty show them there too (Difficulty pairs them with
+  // the options, owner 24 Nov)
+  const mcq=!!q.options?.length;
   const loose=fk.all.filter(k=>!fk.inline.has(k)&&!fk.opt.has(k)&&!q.figures.find(f=>f.src.endsWith('/'+k+'.png')&&f.part)).map(k=>`<span class="figslot" data-fig="${k}"></span>`).join('');
   const partFigs=pid=>q.figures.filter(f=>f.part===pid).map(f=>{const k=f.src.split('/').pop().replace('.png','');return fk.inline.has(k)?'':`<span class="figslot" data-fig="${k}"></span>`}).join('');
   let first=true;
   const parts=q.parts.map(p=>{
-    const sol=solsFor(q,p.id,mode); const lf=leaf(q,p);
+    const sol=mcq?{count:0,hidden:0,html:''}:solsFor(q,p.id,mode); const lf=leaf(q,p);
     const solBlock=sol.count?`<details class="solbox"${open}><summary>Solution${sol.count>1?'s':''}</summary>${sol.html}</details>`:(sol.hidden?'<div class="pending">Worked solution waiting for approval</div>':'');
     const tags=lf&&mode!=='bank'?(mode==='tags'?tagsHTML(q,p):mode==='review'?`<details class="tagfold"${editing===p.id?' open':''}><summary>Syllabus tags (not part of your check)</summary>${tagEditHTML(q,p)}</details>`:tagsHTML(q,p)):'';
     const h=`<div class="part ${p.parent?'child':''} ${first&&!p.label?'first':''} ${p.label?'':'nolabel'}">${p.label?`<span class="plabel">(${esc(p.label)})</span>`:''}
@@ -2644,7 +2677,7 @@ function qBody(q,mode,o){
   if(lay==='table'&&q.opt_table) opts=optTableHTML(q,show);
   else if(lay==='graph') opts=`<div class="ogrid">${q.options.map(o=>`<div class="ocell ${o.is_correct&&show?'correct':''}"><div class="ohd"><b>${o.label}.</b>${ans(o)}</div>${o.fig?`<span class="figslot" data-fig="${o.fig}"></span>`:`<span class="tx">${tex(o.latex)}</span>`}</div>`).join('')}</div>`;
   else if(q.options.length) opts=`<div class="opts">${q.options.map(o=>`<div class="opt ${o.is_correct?'correct':''} ${show?'show':''}"><b>${o.label}.</b><span class="tx">${tex(o.latex)}</span>${show&&o.is_correct?`<span class="badge ${o.key_source==='generated'?'b-gen':'b-ok'}">${o.key_source==='generated'?'model key':'answer'}</span>`:''}</div>`).join('')}</div>`;
-  const qs=solsFor(q,null,mode);
+  const qs=solsFor(q,mcq?'*':null,mode);
   const qsol=qs.count?`<details class="solbox"${open}><summary>${q.type==='mcq'?'Answer and solution':'Solution'}</summary>${qs.html}</details>`:(qs.hidden?'<div class="pending">Worked solution waiting for approval</div>':'');
   return `<div class="qbody">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${loose}${parts}${o?.open&&opts&&qsol?`<div class="qpair">${opts}${qsol}</div>`:opts+qsol}</div>`;
 }
@@ -2715,6 +2748,16 @@ function qPlaces(q){ // owner 12 Nov: one topic home per question
   if(q.std)return new Set(['special:std']);
   const h=qHome(q); return new Set(h?[h]:[]);
 }
+// owner 25 Nov ("Besides that, yes action all these things"), relaying the checker: "The Bank opens on Mathematics Standard while Advanced
+// is selected. Standard sits under "Outside the 2024 syllabus", so Advanced users land on the wrong topic." The Bank reopens on the topic
+// saved in this browser only when it is one of the course's own topics; a group outside the syllabus (Removed content, Mathematics
+// Standard, No 2024 match) or a topic of the other course opens on the course's first topic that has questions instead (Year 12 first,
+// in the sidebar's order). Nothing saved: the All topics overview, as before (owner 13 Nov, "Bank home").
+function bankStart(k){if(!k)return null;const key=d=>'sub:'+d.yl+'|'+d.fa+'|'+(d.sub||'');
+  if(DOTS.some(d=>key(d)===k||'fa:'+d.yl+'|'+d.fa===k))return k;
+  const homes=new Set(B.questions.filter(q=>!q.dup_of).flatMap(q=>[...qPlaces(q)]));
+  const d=[...DOTS.filter(d=>d.yl===12),...DOTS.filter(d=>d.yl!==12)].find(d=>homes.has(key(d)));
+  return d?key(d):null}
 // owner 12 Nov ("Questions aren't showing in the bank until approved right?" -> "yeah do that"): the Bank shows approved
 // questions only; the owner can switch unapproved ones back on (remembered per browser)
 let BANKALL=load('bankall')==='1';
@@ -2740,12 +2783,15 @@ function buildTopics(){
   TOPICS=T;
 }
 const faCount=subs=>new Set([...subs.values()].flatMap(s=>s.qs.map(q=>q.id))).size;
-function navHTML(){
+// owner 25 Nov, relaying the checker: "The sidebar also keeps the old topic highlighted while you search." While a search is shown no
+// topic is current, so the sidebar's highlight (and its pill) steps aside; clearing the search brings it back
+const navSel=()=>search?null:sel;
+function navHTML(){const cur=navSel();
   const sec=(title,m,yl)=>`<h3>${title}</h3>`+[...m].map(([fa,subs])=>{
     const open=sel&&(sel.startsWith('sub:'+yl+'|'+fa+'|')||sel==='fa:'+yl+'|'+fa);
     return `<div class="fa${open?' open':''}" data-area="${esc(yl+'|'+fa)}"><button aria-expanded="${!!open}" data-fa="${esc(yl+'|'+fa)}"><span class="t">${esc(fa)}</span><span class="c">${faCount(subs)}</span></button>
-      <div class="fold"><ul>${[...subs].map(([sk,s])=>{const key='sub:'+yl+'|'+fa+'|'+sk;return `<li><button data-sel="${esc(key)}" aria-current="${sel===key}"><span>${esc(sk||fa)}</span>${s.qs.length?`<span class="c">${s.qs.length}</span>`:'<span class="none">No questions yet</span>'}</button></li>`}).join('')}</ul></div></div>`}).join('');
-  const sp=(key,label)=>`<div class="fa special"><button data-sel="${key}" aria-current="${sel===key}"><span>${label}</span><span class="c">${TOPICS.byKey[key].qs.length}</span></button></div>`;
+      <div class="fold"><ul>${[...subs].map(([sk,s])=>{const key='sub:'+yl+'|'+fa+'|'+sk;return `<li><button data-sel="${esc(key)}" aria-current="${cur===key}"><span>${esc(sk||fa)}</span>${s.qs.length?`<span class="c">${s.qs.length}</span>`:'<span class="none">No questions yet</span>'}</button></li>`}).join('')}</ul></div></div>`}).join('');
+  const sp=(key,label)=>`<div class="fa special"><button data-sel="${key}" aria-current="${cur===key}"><span>${label}</span><span class="c">${TOPICS.byKey[key].qs.length}</span></button></div>`;
   // checker report 18 Nov ("Topic counts differ between screens ... nothing on screen says so. It reads like a bug"); owner: "lets do 2,3,4,6".
   //   The Bank counts a question under every topic one of its parts is on; the exam builders count it once, under its main topic, and
   //   only if its skills are learnt. Each screen now says which count it shows (CNT_NOTE; exam builders in 24_exams.js)
@@ -2773,7 +2819,7 @@ function subRows(subs,yl,fa,max){const rows=[...subs];const top=max||Math.max(1,
   return rows.map(([sk,x])=>`<button class="subrow${x.qs.length?'':' none'}" data-sel="${esc('sub:'+yl+'|'+fa+'|'+sk)}"><span class="nm">${esc(sk||fa)}</span><span class="bar"><i style="width:${Math.round(100*x.qs.length/top)}%"></i></span><span class="c">${x.qs.length||'–'}</span></button>`).join('')}
 // owner 13 Nov ("holes everywhere"): each card spans as many 2px grid rows as its height, so short cards tuck under each other
 function packCards(){$$('#list .facards').forEach(g=>{const kids=[...g.children];kids.forEach(c=>c.style.gridRowEnd='');
-  kids.forEach(c=>{c.style.gridRowEnd='span '+Math.ceil((c.getBoundingClientRect().height+14)/2)})})}
+  kids.forEach(c=>{c.style.gridRowEnd='span '+Math.ceil((QG.rect(c).height+14)/2)})})}
 addEventListener('resize',()=>{clearTimeout(window._pk);window._pk=setTimeout(()=>{if($('#list .facards'))packCards()},120)});
 if(document.fonts)document.fonts.ready.then(()=>{if($('#list .facards'))packCards()});
 function homeHTML(){
@@ -2823,12 +2869,24 @@ function renderBank(){
   if(!search&&sel&&sel.startsWith('fa:')){const [yl,fa]=sel.slice(3).split('|');$('#list').innerHTML=faHTML(yl,fa);return}
   let qs=null, head='';
   if(search){
-    // Fix 1: search reads the question text, which arrives per topic: the first search loads every topic file once
-    if(!QG.hasAll()&&!QG.failed.size&&!QG.detFail){const s0=search;$('#list').innerHTML=`<div class="listhead"><h2>Search: “${esc(search)}”</h2><span class="crumb">Searching every topic…</span></div>`;
-      QG.needAll().then(()=>{if(search===s0&&view==='bank')renderBank()});return}
+    // owner 25 Nov ("Besides that, yes action all these things"), relaying the checker: "Question search is slow and capped. It took about
+    // 6-8 seconds and only shows "first 60 matches", with no total and no way to see more." The first search used to load every topic
+    // file (about 9 MB for Advanced) to read the question text; it now reads one search file (search.gz.json, about 0.5 MB, tools/
+    // bank_split.py) and keeps each question's search text (QG.hay). The total is shown, 60 at a time, with "Show more".
+    const s0=search,L0=$('#list'),hd=`<div class="listhead"><h2>Search: “${esc(search)}”</h2>`;
+    if(!QG.srch||!QG.detOK){
+      if(QG.srchFail||QG.detFail){L0.innerHTML=hd+'</div><div class="empty">The search did not load. <button class="act" type="button" data-sretry="1">Try again</button></div>';return}
+      L0.innerHTML=hd+'<span class="crumb">Searching…</span></div>';
+      Promise.all([QG.search(),QG.det()]).then(()=>{if(search===s0&&view==='bank')renderBank()});return}
+    // a question's search text: its QID, paper, own words (the search file), dot points and skills, lower case, built once
+    const hay=q=>{let h=QG.hay.get(q.id);if(h==null){h=[qid(q),qid(q).replace(' ',''),String(q.id),srcLine(q),QG.srch[q.id]||'',...q.parts.flatMap(p=>(p.t24||[]).map(t=>(DM[t.id]?.sub||'')+' '+(DM[t.id]?.text||'')+' '+(DM[t.id]?.short||''))),...q.parts.flatMap(p=>p.skills||[])].join(' ').toLowerCase();QG.hay.set(q.id,h)}return h};
     const s=search.toLowerCase();
-    qs=B.questions.filter(inBank).filter(q=>[qid(q),qid(q).replace(' ',''),String(q.id),srcLine(q),q.stem,...q.parts.map(p=>p.latex),...q.parts.flatMap(p=>(p.t24||[]).map(t=>(DM[t.id]?.sub||'')+' '+(DM[t.id]?.text||'')+' '+(DM[t.id]?.short||'')+' '+(p.free||[]).join(' '))),...q.parts.flatMap(p=>[...(p.skills||[]),...(p.can_use||[])])].join(' ').toLowerCase().includes(s)).slice(0,60);
-    head=`<div class="listhead"><h2>Search: “${esc(search)}”</h2><span class="crumb">${qs.length===60?'first 60 matches':qs.length+(qs.length===1?' match':' matches')}</span></div>`;
+    // matches in the sidebar's topic order (Year 12 first), newest paper first within a topic, as a topic's own list: the first 60 then
+    // come from a few topic files, so their text arrives sooner than from 60 papers spread over every topic
+    if(!TOPICS)buildTopics();const rk=new Map(Object.keys(TOPICS.byKey).map((k,i)=>[k,i])),rank=q=>rk.get([...qPlaces(q)][0])??1e9;
+    qs=B.questions.filter(inBank).filter(q=>hay(q).includes(s)).map(q=>[rank(q),q]).sort((a,b)=>a[0]-b[0]||B.docs[b[1].doc].label.localeCompare(B.docs[a[1].doc].label)||parseInt(a[1].number)-parseInt(b[1].number)).map(x=>x[1]);
+    if(BSEL.sq!==search)Object.assign(BSEL,{sq:search,sn:60});
+    head=`${hd}<span class="crumb">${qs.length.toLocaleString()} ${qs.length===1?'match':'matches'}</span></div>`;
   } else if(sel&&TOPICS.byKey[sel]){
     const t=TOPICS.byKey[sel]; qs=t.qs.slice().sort((a,b)=>(B.docs[b.doc].label.localeCompare(B.docs[a.doc].label))||(parseInt(a.number)-parseInt(b.number)));
     let title,sibs='';
@@ -2849,10 +2907,12 @@ function renderBank(){
   // the pill. Now the first 8 cards go in at once and the rest follow in small batches between frames.
   const L=$('#list');const gen=(L._gen=(L._gen||0)+1);
   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): a topic's questions load with its topic file the first time it opens
-  if(qs.some(q=>!QG.has(q)&&!QG.failed.has(q.h))&&!QG.detFail){   // job 2: a failed details file ends the wait too (cards say so, with Try again)
+  if(!search&&qs.some(q=>!QG.has(q)&&!QG.failed.has(q.h))&&!QG.detFail){   // job 2: a failed details file ends the wait too (cards say so, with Try again)
   L.innerHTML=`<div class="lhead">${head}</div><div class="cards"><div class="empty">Loading questions…</div></div>`;typeset(L.querySelector('.lhead'));
     QG.need(qs).then(()=>{if(L._gen===gen&&view==='bank')renderBank()});return}
-  L.innerHTML=`<div class="lhead">${head}</div><div class="cards"></div>`;typeset(L.querySelector('.lhead'));   // owner 13 Nov: the dot-point list in the header lost its maths when cards went lazy
+  // a search draws its cards at once: a card whose topic file has not arrived shows "Loading question…" and fills itself in (QG.pending)
+  const found=qs;if(search)qs=qs.slice(0,BSEL.sn);
+  L.innerHTML=`<div class="lhead">${head}</div><div class="cards"></div>${search?'<div class="bk-more"></div>':''}`;typeset(L.querySelector('.lhead'));   // owner 13 Nov: the dot-point list in the header lost its maths when cards went lazy
   // (health pass 13 Nov: the list's own enter animation, swallowed by this comment, was not restored: bankGo's view
   // transition already animates #list, and a second animation inside it would double the slide; #list.enter CSS removed)
   const box=L.querySelector('.cards');let i=0;
@@ -2860,6 +2920,9 @@ function renderBank(){
     const els=[...tmp.children];els.forEach(c=>{box.appendChild(c);const q=QG.byId.get(+c.dataset.q);hydrate(c,q,'bank')});
     els.forEach(c=>TSIO.observe(c));if(i<qs.length)setTimeout(()=>batch(12),16)};
   batch(8);bfPills();
+  if(search){const more=L.querySelector('.bk-more'),foot=()=>{const left=found.length-qs.length;
+      more.innerHTML=left>0?`<span class="muted">Showing ${qs.length.toLocaleString()} of ${found.length.toLocaleString()}</span><button type="button" class="act" data-smore="1">Show ${Math.min(60,left)} more</button>`:''};
+    foot();L._more=()=>{if(L._gen!==gen)return;const idle=i>=qs.length;qs=found.slice(0,qs.length+60);BSEL.sn=qs.length;foot();if(idle)batch(12)}}
 }
 // owner 13 Nov: "smoother animations ... opening/closing should be smooth, clicking between subtopics should be a smooth pill movement,
 // add anything else ... people will be using this a lot". The tree is rendered once and then only updated in place (open state,
@@ -2868,7 +2931,7 @@ const RM=matchMedia('(prefers-reduced-motion: reduce)');
 function syncNav(){const nav=$('#nav');const html=navHTML();const sig=html.replace(/ open"|aria-current="(true|false)"|aria-expanded="(true|false)"/g,'');
   if(nav.dataset.sig!==sig){const was=[...nav.querySelectorAll('.fa.open[data-area]')].map(f=>f.dataset.area);nav.innerHTML=html+'<span class="navpill" aria-hidden="true"></span>';nav.dataset.sig=sig;
     was.forEach(k=>{const f=nav.querySelector(`.fa[data-area="${CSS.escape(k)}"]`);if(f){f.classList.add('open');f.querySelector('button[data-fa]').setAttribute('aria-expanded','true')}});placePill(true);return}
-  nav.querySelectorAll('[data-sel]').forEach(b=>b.setAttribute('aria-current',String(b.dataset.sel===sel)));
+  nav.querySelectorAll('[data-sel]').forEach(b=>b.setAttribute('aria-current',String(b.dataset.sel===navSel())));
   // owner 13 Nov: "when moving to another subtopic in another topic, it closes the current one, makes it look forced" -> never auto-close;
   // only open the area you moved into. Areas close when you close them.
   nav.querySelectorAll('.fa[data-area]').forEach(f=>{const k=f.dataset.area;if(sel&&(sel.startsWith('sub:'+k+'|')||sel==='fa:'+k)&&!f.classList.contains('open')){
@@ -2882,8 +2945,8 @@ function placePill(jump){const nav=$('#nav'),pill=nav.querySelector('.navpill');
   const live=pillEl(nav);if(!live||!nav.offsetParent){pill.style.opacity=0;return}   // hidden list (home page): next placement jumps in place
   // where will it END? measure a hidden copy of the list with the fold animation switched off (the real folds keep animating)
   const c=nav.cloneNode(true);c.removeAttribute('id');c.classList.add('nofx');
-  Object.assign(c.style,{position:'absolute',visibility:'hidden',pointerEvents:'none',left:'-9999px',top:'0',width:nav.getBoundingClientRect().width+'px',boxSizing:getComputedStyle(nav).boxSizing,maxHeight:'none',overflow:'scroll'});   // same width as the real list so names wrap the same (owner 13 Nov: pill landed a row off)
-  document.body.appendChild(c);const el=pillEl(c),cr=c.getBoundingClientRect(),r=el.getBoundingClientRect(),n=nav.getBoundingClientRect(),lr=live.getBoundingClientRect();
+  Object.assign(c.style,{position:'absolute',visibility:'hidden',pointerEvents:'none',left:'-9999px',top:'0',width:QG.rect(nav).width+'px',boxSizing:getComputedStyle(nav).boxSizing,maxHeight:'none',overflow:'scroll'});   // same width as the real list so names wrap the same (owner 13 Nov: pill landed a row off)
+  document.body.appendChild(c);const el=pillEl(c),cr=QG.rect(c),r=QG.rect(el),n=QG.rect(nav),lr=QG.rect(live);   // QG.rect: CSS px under the viewer's page zoom (owner 25 Nov)
   const t={y:r.top-cr.top,x:lr.left-n.left,w:lr.width,h:lr.height};c.remove();   // size always from the real item (owner 13 Nov: two-line subtopic got a one-line pill)
   nav.querySelectorAll('.fa.parked').forEach(f=>f.classList.remove('parked'));if(live.matches('button[data-fa]'))live.closest('.fa').classList.add('parked');
   const instant=jump||RM.matches||pill.style.opacity!=='1';
@@ -2891,7 +2954,7 @@ function placePill(jump){const nav=$('#nav'),pill=nav.querySelector('.navpill');
   pill.style.opacity=1;pill.style.transform=`translate(${t.x}px,${t.y}px)`;pill.style.width=t.w+'px';pill.style.height=t.h+'px';
   if(instant){void pill.offsetWidth;pill.style.transition=''}
   clearTimeout(_pillFix);_pillFix=setTimeout(()=>{   // once the folds have settled, snap to the real position if the prediction was off
-    const a=live.getBoundingClientRect(),m=nav.getBoundingClientRect(),y=a.top-m.top+nav.scrollTop,x=a.left-m.left;
+    const a=QG.rect(live),m=QG.rect(nav),y=a.top-m.top+nav.scrollTop,x=a.left-m.left;
     if(Math.abs(y-t.y)>1||Math.abs(a.width-t.w)>1||Math.abs(a.height-t.h)>1){pill.style.transform=`translate(${x}px,${y}px)`;pill.style.width=a.width+'px';pill.style.height=a.height+'px'}
     if(a.top<m.top||a.bottom>m.bottom)live.scrollIntoView({block:'nearest',behavior:RM.matches?'auto':'smooth'})},340)}
 let _pillFix=0;
@@ -2934,6 +2997,8 @@ $('#list').addEventListener('click',e=>{
     const go=sel;sel=prevSel;bankGo('fwd',t.matches('.fah')?null:t,()=>{sel=go;save('sel',sel);renderBank();window.scrollTo({top:0})});return}
   const sb=e.target.closest('.sib'); if(sb){sel=sb.dataset.sel;save('sel',sel);renderBank();bankFade();return}
   const rv=e.target.closest('[data-reveal]'); if(rv){const id=+rv.dataset.reveal;revealed.has(id)?revealed.delete(id):revealed.add(id);const c=rv.closest('.card');const q=QG.byId.get(id);c.outerHTML=cardHTML(q);const nc=$(`.card[data-q="${id}"]`);hydrate(nc,q,'bank');typeset(nc);return}
+  const sm=e.target.closest('[data-smore]'); if(sm){$('#list')._more?.();return}
+  const sr=e.target.closest('[data-sretry]'); if(sr){QG.srchFail=false;QG.detFail=false;renderBank();return}
   const op=e.target.closest('[data-open]'); if(op)reviewOpen(+op.dataset.open);   // owner 13 Nov: opens in Review's "All questions" list (#review/list/all)
 });
 let st; $('#q').addEventListener('input',e=>{clearTimeout(st);st=setTimeout(()=>{search=e.target.value.trim();renderBank()},250)});
@@ -3335,10 +3400,21 @@ const FLR={runs:[],sub:0,cm:null,cs:null,
 // when Claude picks a request up: read from the page database (progress/night: flagcheck, written when the scheduled check changes,
 // and time, the night run's), not typed in (owner 21 Nov: "make sure there's no hanging numbers anywhere which can go stale")
 const FLR_WHEN=()=>`Claude checks ${esc(QG.night?.flagcheck||'during the checker\'s shift')}; otherwise at the night run${QG.night?.time?` (${esc(QG.night.time)})`:''}.`;
+// owner 25 Nov ("Besides that, yes action all these things"), relaying the checker: "The Curate page shows a developer log to users. It's full
+// of jargon ("Live as v336... another Claude session had committed... unpublished") and ends in ".."." The last run is one plain sentence
+// built from the run doc: how many flags were fixed (fixed, else the "<n> fixed" / "<n> of <m> back for approval" in result), how many
+// wait for Steve (waiting, else "<m> wait for Steve") and when it went live (done_at). The run's own text stays behind "Details" for the
+// owner (FLAGS.md step 4 writes fixed and waiting since 25 Nov)
+function runLine(r){const when=clockT(r.done_at||r.at),res=String(r.result||''),num=(v,re)=>v!=null&&v!==''&&!isNaN(+v)?+v:(m=>m?+m[1]:null)(re.exec(res));
+  const fixed=num(r.fixed,/(\d+)\s+(?:of\s+\d+\s+)?(?:flags?\s+)?(?:fixed|back for approval)/i),wait=num(r.waiting,/(\d+)\s+waits?\s+for\s+Steve/i);
+  const s=r.status==='failed'?`The last run (${when}) could not finish. Flags still open can be sent again.`
+    :fixed?`Fixed ${fixed} flag${fixed===1?'':'s'}; live since ${when}.`+(wait?` ${wait} wait${wait===1?'s':''} for Steve.`:'')
+    :/nothing (open|waiting|to fix)/i.test(res)?`Last checked ${when}: nothing was waiting.`:`Last run finished ${when}.`+(wait?` ${wait} wait${wait===1?'s':''} for Steve.`:'');
+  return `<span class="rv-runline">${esc(s)}</span>${isOwnerV()&&res?`<details class="rv-runlog"><summary>Details</summary><p>${esc(res)}</p></details>`:''}`}
 function handoffHTML(){const [n,nq]=pendingFlags();FLR.watch();const r=FLR.last(),act=r&&(r.status==='requested'||r.status==='running');
   const t=x=>x?new Date(x).toLocaleString('en-AU',{weekday:'short',hour:'numeric',minute:'2-digit'}):'';
   const st=act?(r.status==='running'?`<b>Claude is fixing them</b> (started ${t(r.started||r.at)}). They come back under "Fixed and back for you".`:`<b>Sent to Claude</b> ${t(r.at)}. ${r.instant?'Claude should start within a few minutes.':FLR_WHEN()}`)
-    :r&&r.status==='done'&&Date.now()-Date.parse(r.done_at||r.at)<864e5?`Last run ${t(r.done_at)}: ${esc(r.result||'done')}.`:'';
+    :r&&(r.status==='done'||r.status==='failed')&&Date.now()-(parseT(r.done_at||r.at)||0)<864e5?runLine(r):'';
   if(!n&&!act)return st?`<div class="handoff">${st}</div>`:'';
   return `<div class="handoff${act?'':' due'}"><b>${n} flag${n===1?'':'s'} waiting for Claude</b> <span class="muted">(${nq} question${nq===1?'':'s'})</span>${act?` · ${st}`:` <button type="button" class="act ok" data-flr>Fix my flags now</button><span class="muted"> ${FLR_WHEN()}</span>${st?` ${st}`:''}`}</div>`}
 document.addEventListener('click',e=>{if(e.target.closest?.('[data-flr]')){const b=e.target.closest('[data-flr]');b.disabled=true;FLR.ask(b)}});
@@ -3598,7 +3674,7 @@ function route(){
   if(v==='processes'&&isEditor()){const T=['work','papers'],t=T.includes(P.ptab)?P.ptab:(T.includes(load('qg_proc_tab'))?load('qg_proc_tab'):'work');
     const sub=t==='papers'&&P.ptab==='papers'&&P.psub==='check'?'check':'';
     if(location.hash!=='#processes/'+t+(sub?'/'+sub:''))setHash('#processes/'+t+(sub?'/'+sub:''));save('qg_proc_tab',t);$('#processesView').dataset.tab=t;$('#processesView').dataset.sub=sub}
-  QG.view=v;
+  QG.view=v;QG.setZoom(QG.zoom,true);   // owner 25 Nov: the page zoom is off on Exams (13_shell.js)
   const inRev=REVIEW_VIEWS.includes(view);
   $('#guideView').hidden=view!=='guide';$('#levelsView').hidden=view!=='levels';$('#reportsView').hidden=view!=='reports';$('#examsView').hidden=view!=='exams';$('#processesView').hidden=view!=='processes';$('#papersView').hidden=view!=='papers';$('#inboxView').hidden=view!=='inbox';
   [['vBank','bank'],['vExams','exams'],['vGuide','guide'],['vProcesses','processes']].forEach(([id,v])=>$('#'+id).setAttribute('aria-current',view===v?'page':'false'));
@@ -3806,7 +3882,9 @@ window.addEventListener('hashchange',route);
 // owner 12 Nov: "show somewhere on the artifact things which are running so I know". Source: db doc progress/jobs, written by Claude
 // when a background job starts or finishes: {jobs:[{name, detail, affects:'diagrams'|'decide'|'check'|'sample'|'tags'|'', started}]}
 // owner 12 Nov: "a way to change between dark and light mode". Auto follows the device; stored per viewer.
-const THEMES=[['auto','Theme: Auto'],['light','☀ Light'],['dark','☾ Dark']];
+// owner 25 Nov ("Besides that, yes action all these things"), relaying the checker: "The theme button switches label styles (from "Theme: Auto"
+// to "☀ Light")." One style for all three
+const THEMES=[['auto','Theme: Auto'],['light','Theme: Light'],['dark','Theme: Dark']];
 function applyTheme(t){const r=document.documentElement;if(t==='light'||t==='dark')r.setAttribute('data-theme',t);else r.removeAttribute('data-theme');
   const b=$('#themeBtn');if(b){const x=THEMES.find(x=>x[0]===t)||THEMES[0];b.textContent=x[1];b.setAttribute('aria-label','Theme: '+x[0]+'. Click to change')}}
 let THEME=load('theme')||'auto';applyTheme(THEME);
@@ -3816,8 +3894,30 @@ function moveSlider(){const nav=document.querySelector('.views'),sl=nav&&nav.que
   sl.style.width=cur.offsetWidth+'px';sl.style.transform=`translateX(${cur.offsetLeft}px)`}
 window.addEventListener('resize',moveSlider);
 try{const ro=new ResizeObserver(()=>moveSlider());document.querySelectorAll('.views a').forEach(a=>ro.observe(a))}catch(e){}   // tab widths change when the Review count fills in
-function setHdr(){const h=document.querySelector("header");if(h)document.documentElement.style.setProperty("--hdr",h.getBoundingClientRect().height+"px");const bv=document.getElementById("bankView");if(bv&&!bv.hidden){const pt=parseFloat(getComputedStyle(bv).paddingTop)||0;document.documentElement.style.setProperty("--navtop",(bv.getBoundingClientRect().top+scrollY+pt)+"px")}}   // owner 12 Nov: the sidebar sticks exactly where it starts, so it never shifts
+function setHdr(){const h=document.querySelector("header");if(h)document.documentElement.style.setProperty("--hdr",QG.rect(h).height+"px");const bv=document.getElementById("bankView");if(bv&&!bv.hidden){const pt=parseFloat(getComputedStyle(bv).paddingTop)||0;document.documentElement.style.setProperty("--navtop",(QG.rect(bv).top+scrollY/QG.zf+pt)+"px")}}   // owner 12 Nov: the sidebar sticks exactly where it starts, so it never shifts
 if(window.ResizeObserver){new ResizeObserver(()=>setHdr()).observe(document.querySelector("header"))}
+// owner 25 Nov ("Besides that, yes action all these things"), relaying the checker: "make it so that you can zoom in and out (of the page
+// itself)". In claude.ai the page sits in a frame: the host page can switch a phone's pinch zoom off, and keyboard zoom scales claude.ai
+// around it too. So the page has its own zoom: − / 100% / + in the header (in the menu on a phone), 80% to 150%, remembered per viewer
+// in this browser. It is CSS zoom on the page root: every measurement that becomes a CSS length goes through QG.rect, and viewport units
+// are divided by --zf. Exams stays at 100%: it lays out A4 sheets by measuring them (24_exams.js), so it shows them at print size.
+Object.assign(QG,{ZSTEPS:[80,90,100,110,125,150],
+  zoomOff(){return String(QG.view).replace(/^wait:/,'')==='exams'},
+  // the steps this window allows: zoomed in, the page keeps at least a small phone's width (320 px), so a 390 px phone stops at 110%
+  zsteps(){return QG.ZSTEPS.filter(v=>v<=100||innerWidth*100/v>=320)},
+  setZoom(v,keep){v=+v;if(!QG.ZSTEPS.includes(v))v=100;const was=QG.zf,R=document.documentElement;QG.zoom=v;if(!keep)save('zoom',String(v));
+    const z=Math.min(v,Math.max(...QG.zsteps())),on=z!==100&&!QG.zoomOff();
+    R.style.zoom=on?String(z/100):'';R.style.setProperty('--zf',on?String(z/100):'1');
+    // how much the browser scales a measured box (1 in a browser that reports boxes unzoomed)
+    const p=document.createElement('div');p.style.cssText='position:absolute;left:0;top:0;width:100px;height:1px;visibility:hidden;pointer-events:none';document.body.appendChild(p);QG.zf=Math.round(p.getBoundingClientRect().width)/100||1;p.remove();
+    QG.zoomUI();if(QG.zf!==was){setHdr();dispatchEvent(new Event('resize'))}},
+  zoomUI(){const off=QG.zoomOff(),st=QG.zsteps(),z=off?100:Math.min(QG.zoom,st[st.length-1]),i=st.indexOf(z);
+    $$('[data-zoom]').forEach(b=>{const d=+b.dataset.zoom;b.disabled=off||(d<0&&i<=0)||(d>0&&i>=st.length-1)||(!d&&z===100);if(!d)b.textContent=z+'%'});
+    $$('.zoomctl').forEach(g=>g.title=off?'Exams shows the paper at print size, so page zoom is off here':'Page zoom')}});
+QG.setZoom(load('zoom')||100,true);
+document.addEventListener('click',e=>{const b=e.target.closest('[data-zoom]');if(!b||b.disabled)return;const d=+b.dataset.zoom,st=QG.zsteps(),i=st.indexOf(Math.min(QG.zoom,st[st.length-1]));
+  QG.setZoom(d?st[Math.max(0,Math.min(st.length-1,i+d))]:100)});
+addEventListener('resize',()=>QG.setZoom(QG.zoom,true));   // a narrower window may allow less zoom (it redraws only when the scale changes)
 // owner 14 Nov: "Can u show this list of tasks on the artifact somewhere, need a pill for current jobs and queued jobs".
 // Two quiet pills replace the single jobs pill: "N running" (accent) and "N queued" (muted). Each shows its list on hover
 // (on a touch screen the first tap shows it) and links to Processes. A pill with a count of 0 is hidden.
@@ -3860,8 +3960,8 @@ function renderJobs(){const el=$('#jobs');if(!el)return;const run=runningNow(),q
   const quePill=que.length?`<span class="jp que"><a class="jpill" href="#processes/work" aria-describedby="jpopQ">${que.length} queued</a>
     <span class="jpop" role="tooltip" id="jpopQ">${que.slice(0,6).map((x,i)=>row(x,i+1)).join('')}${que.length>6?`<span class="muted">and ${que.length-6} more</span>`:''}</span></span>`:'';
   el.innerHTML=runPill+quePill;setHdr()}
-function placeJpop(jp){const pill=jp&&jp.querySelector('.jpill'),pop=jp&&jp.querySelector('.jpop');if(!pill||!pop)return;const r=pill.getBoundingClientRect(),w=Math.min(380,innerWidth-32);
-  pop.style.width=w+'px';pop.style.top=(r.bottom+8)+'px';pop.style.left=Math.max(16,Math.min(r.left,innerWidth-16-w))+'px'}
+function placeJpop(jp){const pill=jp&&jp.querySelector('.jpill'),pop=jp&&jp.querySelector('.jpop');if(!pill||!pop)return;const r=QG.rect(pill),iw=innerWidth/QG.zf,w=Math.min(380,iw-32);
+  pop.style.width=w+'px';pop.style.top=(r.bottom+8)+'px';pop.style.left=Math.max(16,Math.min(r.left,iw-16-w))+'px'}
 document.addEventListener('mouseover',e=>{const jp=e.target.closest&&e.target.closest('.jobs .jp');if(jp&&!jp.contains(e.relatedTarget))placeJpop(jp)});
 document.addEventListener('focusin',e=>{const jp=e.target.closest&&e.target.closest('.jobs .jp');if(jp)placeJpop(jp)});
 // touch: no hover, so the first tap on a pill opens its list; a tap on the list or a second tap on the pill goes to Processes; a tap elsewhere closes it
@@ -3890,7 +3990,8 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
   $('#countAll').textContent=` · ${B.questions.filter(q=>!q.dup_of).length} questions`;
   const docs=Object.values(B.docs).filter(x=>B.questions.some(q=>q.doc===x.id)).sort((a,b)=>a.label.localeCompare(b.label));
   $('#docF').insertAdjacentHTML('beforeend',docs.map(x=>`<option value="${x.id}">${esc(docLabel(x))}</option>`).join(''));
-  sel=load('sel')||null; rfilter=load('rf2')||'decide'; if(!STEPS.some(x=>x[0]===rfilter)&&!FILTERS.some(x=>x[0]===rfilter)) rfilter='decide';
+  sel=bankStart(load('sel'));save('sel',sel||'');   // owner 25 Nov: the Bank opens on one of the course's own topics (07_bank.js bankStart)
+  rfilter=load('rf2')||'decide'; if(!STEPS.some(x=>x[0]===rfilter)&&!FILTERS.some(x=>x[0]===rfilter)) rfilter='decide';
   route();
   const c=window.claude; if(!c?.use) return;
   try{
@@ -4227,10 +4328,12 @@ document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('in
   const link=a=>{const n=a.querySelector('.n')?.textContent||'';return `<a href="${a.getAttribute('href')}" aria-current="${a.getAttribute('aria-current')==='page'?'page':'false'}">${esc(a.firstChild.textContent)}${n?`<span class="n">${esc(n)}</span>`:''}</a>`};
   const group=(k,l)=>{const as=[...document.querySelectorAll(`.views a[data-area="${k}"]`)].filter(a=>a.id!=='vProcesses'||isOwnerV());/* owner 17 Nov: Processes is the owner's */return `<div class="mgrp" data-marea="${k}"><div class="mh">${l}</div>${as.map(link).join('')}</div>`};
   const open=()=>{sh.innerHTML=group('teach','Teach')+(isEditor()?group('curate','Curate'):'')
-      +`<hr><button type="button" data-mtheme>Theme <span class="mt">${esc(($('#themeBtn')?.textContent||'').replace(/^Theme:\s*/,''))}</span></button>`;
-    sh.hidden=false;btn.setAttribute('aria-expanded','true')};
+      +`<hr><button type="button" data-mtheme>Theme <span class="mt">${esc(($('#themeBtn')?.textContent||'').replace(/^Theme:\s*/,''))}</span></button>`
+      // owner 25 Nov: "make it so that you can zoom in and out (of the page itself)": the header's zoom, in the menu on a phone
+      +`<div class="mzoom zoomctl" role="group" aria-label="Page zoom"><span>Zoom</span><button type="button" data-zoom="-1" aria-label="Zoom out">−</button><button type="button" class="zv" data-zoom="0" aria-label="Reset zoom to 100%">100%</button><button type="button" data-zoom="1" aria-label="Zoom in">+</button></div>`;
+    sh.hidden=false;btn.setAttribute('aria-expanded','true');QG.zoomUI()};
   btn.addEventListener('click',e=>{e.stopPropagation();sh.hidden?open():close()});
-  sh.addEventListener('click',e=>{if(e.target.closest('[data-mtheme]')){$('#themeBtn').click();open();return}if(e.target.closest('a'))close()});
+  sh.addEventListener('click',e=>{if(e.target.closest('[data-mtheme]')){$('#themeBtn').click();open();return}if(e.target.closest('[data-zoom]'))return;if(e.target.closest('a'))close()});   // the zoom buttons work in place (13_shell.js): the menu stays open
   document.addEventListener('click',e=>{if(!sh.hidden&&!e.target.closest('#mSheet,#menuBtn'))close()});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!sh.hidden){close();btn.focus()}});
   addEventListener('hashchange',()=>setTimeout(sync,0));sync();
@@ -6736,7 +6839,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'5e7eb06eb26aa2a9',stale:false,t:null,at:0,
+const FRESH={build:'7a5416992f4294fb',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}

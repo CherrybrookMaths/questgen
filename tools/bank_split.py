@@ -32,6 +32,8 @@ start. At 538 papers the old index would have been ~18 MB (budget 2.35 MB; the p
       topic plus every prerequisite's (transitive), basic skills left out (they never gate); a skill whose list is empty is
       not listed. From state/work/skills/skill_topics.json (key, basic) and skill_prereqs.json (skill_gates below); the page
       reads it as QG.skills (24_exams.js / 23_exam_auto.js XG).
+  site/data/bank/<course>/search.gz.json   (gzip as base64 text) {v, src, q: {id: stem + part text + free tags + can-use skills}}: the
+      words the Bank's search reads, so a search no longer downloads every topic file (owner 25 Nov; 07_bank.js bankHay).
   site/data/bank/<course>/<topic slug>.json   {v, topic, q: {id: {stem, options, opt_table, layout, figures, solutions (full),
       parts [{id, latex, c17, can_use, note, free, gates, ...}], fn: {figure key: {notes, check_notes}}}}}: what only a
       rendered question needs. The page merges it
@@ -51,13 +53,14 @@ COURSE = 'advanced'   # QG.courses key in page_src/js/01_core.js
 OUT = P + 'site/data/bank/' + COURSE + '/'
 INDEX = OUT + 'index.gz.json'
 DETAILS = OUT + 'details.gz.json'
+SEARCH = OUT + 'search.gz.json'
 
 
 def set_course(c):
     """Point the split at one course's folder (owner 23 Nov: "we need to start working on the standard course"): each course's
     questions go to site/data/bank/<course>/ only (documents.course); Advanced keeps every question that is not Standard."""
-    global COURSE, OUT, INDEX, DETAILS
-    COURSE = c; OUT = P + 'site/data/bank/' + c + '/'; INDEX = OUT + 'index.gz.json'; DETAILS = OUT + 'details.gz.json'
+    global COURSE, OUT, INDEX, DETAILS, SEARCH
+    COURSE = c; OUT = P + 'site/data/bank/' + c + '/'; INDEX = OUT + 'index.gz.json'; DETAILS = OUT + 'details.gz.json'; SEARCH = OUT + 'search.gz.json'
 
 
 def doc_courses():
@@ -233,7 +236,7 @@ def src_hash(path=None):
 def stale():
     """True when the index is missing or was split from a different bank.json. By content, not file times: a git merge or
     checkout rewrites both files with arbitrary times (e.g. merging Fix 2's bank.json, which adds question keys)."""
-    if not (os.path.exists(INDEX) and os.path.exists(DETAILS)): return True
+    if not (os.path.exists(INDEX) and os.path.exists(DETAILS) and os.path.exists(SEARCH)): return True
     try: return read_gz(INDEX).get('src') != src_hash()
     except Exception: return True
 
@@ -252,7 +255,7 @@ def q_text(q, bank):
 
 def split(bank, home, src=None):
     files, slugs, content = [], {}, {}
-    idx_q, figs, moved, details = [], bank['figs'], set(), {}
+    idx_q, figs, moved, details, srch = [], bank['figs'], set(), {}, {}
     for q in bank['questions']:
         k = home.get(q['id']) or 'other'
         sl = slug(k)
@@ -302,6 +305,10 @@ def split(bank, home, src=None):
         fn = {f: v for f, v in fn.items() if v}
         if fn: c['fn'] = fn; moved.update(fn)
         content[sl][str(q['id'])] = c
+        # owner 25 Nov, relaying the checker: "Question search is slow and capped. It took about 6-8 seconds ..." The first search used to
+        # download every topic file (11 MB) to read the question text; the words it searches are written here once, in one small file
+        t = ' '.join([q.get('stem') or ''] + [x for p in q['parts'] for x in [p.get('latex') or ''] + list(p.get('free') or []) + list(p.get('can_use') or [])])
+        if t.strip(): srch[str(q['id'])] = t
     os.makedirs(OUT, exist_ok=True)
     for sl, qs in content.items():
         body = dump({'v': 3, 'topic': files[slugs[sl]]['k'], 'q': qs})
@@ -310,7 +317,7 @@ def split(bank, home, src=None):
         old = open(OUT + sl + '.json', encoding='utf-8').read() if os.path.exists(OUT + sl + '.json') else None
         if old != body: open(OUT + sl + '.json', 'w', encoding='utf-8').write(body)
     # CODE_HEALTH rule 4: a topic file no question uses any more is archived, and publish_set sends null for it once
-    keep = {sl + '.json' for sl in content} | {os.path.basename(INDEX), os.path.basename(DETAILS)}   # index.json (before job 2) is archived here and sent as null once
+    keep = {sl + '.json' for sl in content} | {os.path.basename(INDEX), os.path.basename(DETAILS), os.path.basename(SEARCH)}   # index.json (before job 2) is archived here and sent as null once
     for f in sorted(os.listdir(OUT)):
         if f.endswith('.json') and f not in keep:
             arch = P + 'archive/bank_split_unused/' + COURSE + '/'
@@ -321,6 +328,9 @@ def split(bank, home, src=None):
     idx = {'v': 3, 'built': bank.get('built'), 'counts': bank.get('counts'), 'src': src, 'course': COURSE, 'docs': docs, 'tables': bank['tables'], 'figs': {k: {kk: v for kk, v in f.items() if not (k in moved and kk in F_CONTENT)} for k, f in figs.items()},
            'codes17': bank.get('codes17', {}), 'files': files, 'questions': idx_q}
     idx['raw'] = write_gz(INDEX, idx)
+    # search.gz.json {v, src, q: {id: the question's own words: stem, part text, free tags, can-use skills}}: read by the Bank's search
+    # (07_bank.js bankHay); the index and the details add the QID, paper and dot-point words
+    write_gz(SEARCH, {'v': 1, 'src': src, 'q': srch})
     idx['raw_details'] = write_gz(DETAILS, {'v': 1, 'src': src, 'q': details, 'sk': skill_gates_standard() if COURSE == 'standard' else skill_gates()})
     return idx
 

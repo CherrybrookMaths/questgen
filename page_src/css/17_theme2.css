@@ -74,6 +74,11 @@ body::before{background:var(--panel)}
 .search input:hover{border-color:var(--line2)}
 .themebtn{font:500 12.5px var(--sans)!important;color:var(--muted)!important;padding:0 8px!important}
 .themebtn:hover{color:var(--ink)!important;background:var(--t2-hover)!important}
+/* owner 25 Nov: "make it so that you can zoom in and out (of the page itself)": − / 100% / + beside the theme button, as quiet as it */
+.zoomctl{display:inline-flex;align-items:center;white-space:nowrap}
+.top .zoomctl button.act.ghost{font:500 12.5px var(--sans);color:var(--muted);padding:0 7px;min-height:28px}
+.top .zoomctl button.act.ghost:hover:not(:disabled){color:var(--ink)}
+.top .zoomctl .zv{font-variant-numeric:tabular-nums;min-width:46px;justify-content:center}
 /* Exam button: a plain secondary button with a quiet count, not a pill */
 
 .rbar{border-top:1px solid var(--line)}
@@ -117,7 +122,7 @@ kbd{font:500 10.5px var(--sans);border:1px solid var(--line2);border-bottom-widt
 .yhead{gap:10px;margin:34px 0 14px;padding-bottom:10px;border-bottom:1px solid var(--line)}
 .yhead span.muted{font-size:12.5px}
 .yb{font:600 10px var(--sans);letter-spacing:.04em;border-radius:3px;padding:1px 5px}
-.facards{grid-template-columns:repeat(auto-fill,minmax(340px,1fr));column-gap:14px}   /* 3 columns at desktop width; row gap stays 14px because packCards() adds 14 */
+.facards{grid-template-columns:repeat(auto-fill,minmax(min(340px,100%),1fr));column-gap:14px}   /* (25 Nov: never wider than the column, for a narrow phone or the page zoomed in)  3 columns at desktop width; row gap stays 14px because packCards() adds 14 */
 .facard{border-radius:var(--t2-rl);padding:18px 20px 14px;gap:12px;border-color:var(--line);box-shadow:none}
 .facard::before{width:2px}
 .facard:hover{border-color:var(--line2);box-shadow:var(--t2-shadow)}

@@ -395,10 +395,21 @@ const FLR={runs:[],sub:0,cm:null,cs:null,
 // when Claude picks a request up: read from the page database (progress/night: flagcheck, written when the scheduled check changes,
 // and time, the night run's), not typed in (owner 21 Nov: "make sure there's no hanging numbers anywhere which can go stale")
 const FLR_WHEN=()=>`Claude checks ${esc(QG.night?.flagcheck||'during the checker\'s shift')}; otherwise at the night run${QG.night?.time?` (${esc(QG.night.time)})`:''}.`;
+// owner 25 Nov ("Besides that, yes action all these things"), relaying the checker: "The Curate page shows a developer log to users. It's full
+// of jargon ("Live as v336... another Claude session had committed... unpublished") and ends in ".."." The last run is one plain sentence
+// built from the run doc: how many flags were fixed (fixed, else the "<n> fixed" / "<n> of <m> back for approval" in result), how many
+// wait for Steve (waiting, else "<m> wait for Steve") and when it went live (done_at). The run's own text stays behind "Details" for the
+// owner (FLAGS.md step 4 writes fixed and waiting since 25 Nov)
+function runLine(r){const when=clockT(r.done_at||r.at),res=String(r.result||''),num=(v,re)=>v!=null&&v!==''&&!isNaN(+v)?+v:(m=>m?+m[1]:null)(re.exec(res));
+  const fixed=num(r.fixed,/(\d+)\s+(?:of\s+\d+\s+)?(?:flags?\s+)?(?:fixed|back for approval)/i),wait=num(r.waiting,/(\d+)\s+waits?\s+for\s+Steve/i);
+  const s=r.status==='failed'?`The last run (${when}) could not finish. Flags still open can be sent again.`
+    :fixed?`Fixed ${fixed} flag${fixed===1?'':'s'}; live since ${when}.`+(wait?` ${wait} wait${wait===1?'s':''} for Steve.`:'')
+    :/nothing (open|waiting|to fix)/i.test(res)?`Last checked ${when}: nothing was waiting.`:`Last run finished ${when}.`+(wait?` ${wait} wait${wait===1?'s':''} for Steve.`:'');
+  return `<span class="rv-runline">${esc(s)}</span>${isOwnerV()&&res?`<details class="rv-runlog"><summary>Details</summary><p>${esc(res)}</p></details>`:''}`}
 function handoffHTML(){const [n,nq]=pendingFlags();FLR.watch();const r=FLR.last(),act=r&&(r.status==='requested'||r.status==='running');
   const t=x=>x?new Date(x).toLocaleString('en-AU',{weekday:'short',hour:'numeric',minute:'2-digit'}):'';
   const st=act?(r.status==='running'?`<b>Claude is fixing them</b> (started ${t(r.started||r.at)}). They come back under "Fixed and back for you".`:`<b>Sent to Claude</b> ${t(r.at)}. ${r.instant?'Claude should start within a few minutes.':FLR_WHEN()}`)
-    :r&&r.status==='done'&&Date.now()-Date.parse(r.done_at||r.at)<864e5?`Last run ${t(r.done_at)}: ${esc(r.result||'done')}.`:'';
+    :r&&(r.status==='done'||r.status==='failed')&&Date.now()-(parseT(r.done_at||r.at)||0)<864e5?runLine(r):'';
   if(!n&&!act)return st?`<div class="handoff">${st}</div>`:'';
   return `<div class="handoff${act?'':' due'}"><b>${n} flag${n===1?'':'s'} waiting for Claude</b> <span class="muted">(${nq} question${nq===1?'':'s'})</span>${act?` · ${st}`:` <button type="button" class="act ok" data-flr>Fix my flags now</button><span class="muted"> ${FLR_WHEN()}</span>${st?` ${st}`:''}`}</div>`}
 document.addEventListener('click',e=>{if(e.target.closest?.('[data-flr]')){const b=e.target.closest('[data-flr]');b.disabled=true;FLR.ask(b)}});

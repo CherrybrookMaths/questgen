@@ -52,7 +52,7 @@ function route(){
   if(v==='processes'&&isEditor()){const T=['work','papers'],t=T.includes(P.ptab)?P.ptab:(T.includes(load('qg_proc_tab'))?load('qg_proc_tab'):'work');
     const sub=t==='papers'&&P.ptab==='papers'&&P.psub==='check'?'check':'';
     if(location.hash!=='#processes/'+t+(sub?'/'+sub:''))setHash('#processes/'+t+(sub?'/'+sub:''));save('qg_proc_tab',t);$('#processesView').dataset.tab=t;$('#processesView').dataset.sub=sub}
-  QG.view=v;
+  QG.view=v;QG.setZoom(QG.zoom,true);   // owner 25 Nov: the page zoom is off on Exams (13_shell.js)
   const inRev=REVIEW_VIEWS.includes(view);
   $('#guideView').hidden=view!=='guide';$('#levelsView').hidden=view!=='levels';$('#reportsView').hidden=view!=='reports';$('#examsView').hidden=view!=='exams';$('#processesView').hidden=view!=='processes';$('#papersView').hidden=view!=='papers';$('#inboxView').hidden=view!=='inbox';
   [['vBank','bank'],['vExams','exams'],['vGuide','guide'],['vProcesses','processes']].forEach(([id,v])=>$('#'+id).setAttribute('aria-current',view===v?'page':'false'));

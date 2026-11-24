@@ -29,7 +29,7 @@
 .jobs .jpill:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .jobs .run.hit .jpill{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
 .jobs .dot{width:7px;height:7px;flex:none;border-radius:50%;background:currentColor;animation:jpulse 1.8s infinite}
-.jobs .jpop{position:fixed;top:0;left:0;z-index:30;box-sizing:border-box;width:min(380px,calc(100vw - 32px));background:var(--panel);color:var(--ink);border:1px solid var(--line2);padding:10px 12px;font-size:13px;line-height:1.4;display:none;flex-direction:column;gap:9px}
+.jobs .jpop{position:fixed;top:0;left:0;z-index:30;box-sizing:border-box;width:min(380px,calc(100vw / var(--zf,1) - 32px));background:var(--panel);color:var(--ink);border:1px solid var(--line2);padding:10px 12px;font-size:13px;line-height:1.4;display:none;flex-direction:column;gap:9px}
 .jobs .jpop::before{content:"";position:absolute;left:0;right:0;top:-10px;height:10px}   /* bridges the gap so the pointer can reach the link */
 .jobs .jp:hover .jpop,.jobs .jp:focus-within .jpop,.jobs .jp.open .jpop{display:flex}
 .jobs .jpop .job{display:flex;flex-direction:column;gap:1px}
@@ -105,6 +105,7 @@ table.pp th .ar{font-size:10px;margin-left:3px;color:var(--accent)}
 .bpapers{margin:0;padding-left:18px;columns:2 260px;font-size:13px}
 .handoff{font-size:13.5px;padding:8px 12px;background:var(--bg);border:1px solid var(--line);margin-bottom:10px}
 .handoff.due{background:var(--warn-soft);border-color:var(--warn)}
+.handoff .rv-runlog summary{font-size:12.5px;color:var(--muted);cursor:pointer}.handoff .rv-runlog p{margin:4px 0 0;color:var(--muted)}   /* owner 25 Nov: the run's own text, for the owner only */
 
 @media (max-width:520px){.views{max-width:100%;overflow-x:auto;scrollbar-width:none}}
 
