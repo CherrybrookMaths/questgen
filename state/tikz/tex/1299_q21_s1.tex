@@ -7,9 +7,9 @@
   \fill[shade] plot[smooth,domain=0:3,samples=40] ({X(\x*\x-1)},{Y(\x)}) -- ({X(11)},{Y(0)}) -- cycle;
   \draw[<->] (5,362) -- (887,362);
   \draw[<->] (172,682) -- (172,28);
-  \foreach \i in {-3,...,-1,1,2,...,15}{
-    \draw ({X(\i)},356) -- ({X(\i)},368);
-    \node[font=\scriptsize] at ({X(\i)-2},382) {$\i$};}
+  \foreach \i in {-3,...,-1,1,2,...,15} \draw ({X(\i)},356) -- ({X(\i)},368);
+  \foreach \i in {-3,-2,1,2,...,15} \node[font=\scriptsize] at ({X(\i)-2},382) {$\i$};
+  \node[font=\scriptsize] at ({X(-1)-12},382) {$-1$};
   \foreach \j in {-6,...,-1,1,2,...,6}{
     \draw (166,{Y(\j)}) -- (178,{Y(\j)});
     \node[font=\scriptsize,anchor=east] at (166,{Y(\j)}) {$\j$};}
@@ -21,9 +21,9 @@
   \draw[<->,line width=0.9pt] ({X(4.55)},{Y(6.45)}) -- ({X(15.4)},{Y(-4.4)});
   \node[pt] at ({X(8)},{Y(3)}) {};
   \node[pt] at ({X(15)},{Y(-4)}) {};
-  \node[font=\small] at (552,192) {$(8,3)$};
+  \node[font=\small] at (568,188) {$(8,3)$};
   \node[font=\small] at (806,582) {$(15,-4)$};
   \node[font=\small] at (338,108) {$y=11-x$};
-  \node[font=\small] at (238,242) {$y=\sqrt{x+1}$};
+  \node[font=\small] at (258,226) {$y=\sqrt{x+1}$};
 \end{tikzpicture}
 \end{document}

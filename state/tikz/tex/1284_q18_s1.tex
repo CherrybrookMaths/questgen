@@ -7,7 +7,10 @@
 \foreach \x in {-5,-3,-1,1,3,5} \draw (\x,-0.1) -- (\x,0.1);
 \foreach \x in {-4,-2,2,4}{\draw (\x,-0.15) -- (\x,0.15); \node[below] at (\x,-0.4) {$\x$};}
 \foreach \y in {-1,1,3,5,7} \draw (-0.05,\y) -- (0.05,\y);
-\foreach \y in {-2,2,4,6,8}{\draw (-0.08,\y) -- (0.08,\y); \node[left] at (-0.1,\y) {$\y$};}
+\foreach \y in {-2,2,4,6,8} \draw (-0.08,\y) -- (0.08,\y);
+\foreach \y in {-2,6,8} \node[left] at (-0.1,\y) {$\y$};
+\node[left] at (-0.02,2) {$2$};
+\node[left] at (0.07,4) {$4$};
 \node[anchor=west] at (5.33,0) {$x$};
 \node[anchor=south] at (0,8.65) {$y$};
 \begin{scope}[line width=0.9pt]
@@ -16,9 +19,9 @@
 \draw[<->] plot[domain=-3.306:1.306,smooth,samples=90] (\x,{(\x+1)^2+3});
 \draw[<->] plot[domain=-2.631:0.631,smooth,samples=90] (\x,{2*(\x+1)^2+3});
 \end{scope}
-\node[anchor=west,inner sep=1pt,font=\fontsize{7.2}{8.6}\selectfont] at (1.0,6.25) {$y=2(x+1)^2+3$};
-\draw (0.97,6.03) -- (0.15,5.645);
-\node[anchor=west,inner sep=1pt] at (0.57,3.75) {$y=(x-1)^2+3$};
+\node[anchor=east,inner sep=1pt,font=\fontsize{7.2}{8.6}\selectfont] at (-3.2,7.0) {$y=2(x+1)^2+3$};
+\draw (-3.15,6.75) -- (-2.25,6.125);
+\node[inner sep=1pt] at (1.0,3.85) {$y=(x-1)^2+3$};
 \draw (1.15,3.4) -- (1.15,3.0225);
 \node[anchor=west,inner sep=1pt] at (-2.95,2.85) {$y=(x+1)^2+3$};
 \draw (-1.75,3.1) -- (-1.57,3.325);
