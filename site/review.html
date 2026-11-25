@@ -2773,7 +2773,14 @@ function homeOf(q,side){const pri=p=>side==='main'?partMain(q,p):partPri(q,p,sid
   if(w.size>1&&w.has('special:removed'))w.delete('special:removed');   // owner 12 Nov: a removed 3D part never decides the home when other parts are in the course
   let best=null,bv=-1,bp=-1;w.forEach((v,k)=>{const lp=last.get(k);if(v>bv+1e-9||(Math.abs(v-bv)<1e-9&&lp>bp)){bv=v;best=k;bp=lp}});return best}
 function homeNeed(q){return !q.dup_of&&q.parts.some(p=>p.tagd)&&homeTopic(homeOf(q,'A'))!==homeTopic(homeOf(q,'B'))}
-function qHome(q){const h=qHome0(q);if(q.st&&h&&h.startsWith('sub:')){const [yl,fa]=h.slice(4).split('|');if(SUB_SPLIT[fa]?.[q.st])return 'sub:'+yl+'|'+fa+'|'+q.st}return h}   // owner 24 Nov: an annuity question with PV in it is filed under Present value
+// owner 25 Nov (2024 Oakhill AT2 Q29, filed under Cosine rule by its 3-mark perimeter part): "this question sitting in cosine rule is clearly a
+//   radial survey question". A question with any part on one of these dot points is filed under that dot point's sub-level, whatever the
+//   marks say (as Annuities' PV rule, 24 Nov). A home picked by hand in Review still wins.
+// owner 25 Nov (2023 William Clarke AT1 Q6): "Same for bearings, this is in cosine rule but should be in bearings". Radial surveys first: a
+//   radial survey question usually has a bearings part too.
+const SUB_WINS=['S2-12-070','S2-12-069'];
+function qHome(q){if(!reviews['q'+q.id]?.home){const w=SUB_WINS.find(id=>DM[id]&&q.parts.some(p=>leaf(q,p)&&partMain(q,p).includes(id)));if(w)return subKey(w)}
+  const h=qHome0(q);if(q.st&&h&&h.startsWith('sub:')){const [yl,fa]=h.slice(4).split('|');if(SUB_SPLIT[fa]?.[q.st])return 'sub:'+yl+'|'+fa+'|'+q.st}return h}   // owner 24 Nov: an annuity question with PV in it is filed under Present value
 function qHome0(q){const r=reviews['q'+q.id]?.home;
   // the year rule above holds for a home picked by hand too: a Year 12 question never files under a Year 11 dot point, nor the reverse
   if(r?.id&&DM[r.id]&&qY12(q)!==(DM[r.id].yl===12))return homeOf(q,'main');
@@ -6990,7 +6997,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'db4a91084451e1a4',stale:false,t:null,at:0,
+const FRESH={build:'007738f9a99dfe0e',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}

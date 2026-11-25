@@ -1422,6 +1422,8 @@ trigonometry' (S2-12-071) -> "Right angled trig"; the sine rule obtuse-angle dot
   e1795497337094 ("Mathematics Standard 2") held such keys.
 - Tests: the five `standard trig: …` checks in tools/page_test.js (trig1125).
 
+- **Context wins (25 Nov).** Owner, on 2024 Oakhill AT2 Q29 (filed under Cosine rule by its 3-mark perimeter part): "this question sitting in cosine rule is clearly a radial survey question"; then on 2023 William Clarke AT1 Q6: "Same for bearings, this is in cosine rule but should be in bearings". A question with any part on S2-12-070 (radial surveys) is filed under Radial surveys, else one with any part on S2-12-069 (bearings) under Bearings, whatever the marks (07_bank.js SUB_WINS; a home picked by hand in Review still wins).
+
 ## Checker's review of the page (25 Nov)
 Owner 25 Nov, on a review of the page: "Besides that, yes action all these things". The review's points, verbatim, and what was done:
 - **Page zoom** ("make it so that you can zoom in and out (of the page itself)"). Inside claude.ai the page sits in a frame: the host page can

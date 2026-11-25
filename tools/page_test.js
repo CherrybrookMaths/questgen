@@ -3685,6 +3685,16 @@ async function trig1125(browser, base, seed) {
     errs(page);
     return `Sine rule ${s.total}: ${s.pills.map(p => p.nm + ' ' + p.n).join(', ')}${both ? ` (${both} on both, said on the label)` : ''}; Right angled trigonometry ${ra.total}, no pills`;
   });
+  // owner 25 Nov: "this question sitting in cosine rule is clearly a radial survey question" / "Same for bearings, this is in cosine rule but should be in bearings"
+  await check('standard trig: a question with a radial-survey or bearings part is filed there, whatever the marks', page, async () => {
+    const r = await page.evaluate(() => { let n = 0, bad = [];
+      for (const q of B.questions) { if (reviews['q' + q.id]?.home) continue;
+        const ids = q.parts.filter(p => leaf(q, p)).flatMap(p => partMain(q, p)); const w = ['S2-12-070', 'S2-12-069'].find(i => ids.includes(i));
+        if (!w || !DM[w]) continue; n++; if (qHome(q) !== subKey(w)) bad.push(q.id) }
+      return {n, bad: bad.slice(0, 5)} });
+    assert(!r.bad.length, `filed elsewhere: ${r.bad.join(', ')}`);
+    return `${r.n} questions with a radial-survey or bearings part, each filed under it`;
+  });
   await check('standard trig: the exam builders list the same six rows; a home in them makes no review work', page, async () => {
     await page.evaluate(() => { location.hash = 'exams' }); await page.waitForFunction(() => view === 'exams', null, {timeout: 15000});
     await page.evaluate(() => EXAS.fresh()); await page.waitForSelector('#exTopics .extile', {timeout: 15000});
