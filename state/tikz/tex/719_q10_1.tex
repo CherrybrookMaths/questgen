@@ -32,13 +32,16 @@
 \draw (155,112) -- (578,403);
 \draw[->] (272,112) arc[start angle=0,end angle=34.5,radius=117];
 \node at (230,134) {$40^\circ$};
-% car
-\draw plot[smooth cycle,tension=0.6] coordinates {(574,396) (582,382) (598,366) (617,357) (636,358) (651,371) (664,383) (668,396)};
-\draw (598,381) -- (612,369) -- (632,369) -- (644,381) -- cycle;
-\draw (620,369) -- (620,381);
-\draw (592,397) circle[radius=8]; \draw (592,397) circle[radius=3];
-\draw (651,397) circle[radius=8]; \draw (651,397) circle[radius=3];
-\node at (662,352) {Car};
+% car: side view with bonnet, cabin, two windows and wheels (checker 25 Nov: "also fix the car so it lookslike a car")
+\draw (572,396) -- (572,387) .. controls (573,381) and (580,378) .. (590,377) -- (601,377)
+  .. controls (606,365) and (613,358) .. (624,358) -- (634,358) .. controls (645,358) and (651,366) .. (655,377)
+  .. controls (664,378) and (670,382) .. (670,389) -- (670,396) -- cycle;
+\draw (607,376) -- (613,365) .. controls (616,362) and (619,361) .. (623,361) -- (623,376) -- cycle;
+\draw (627,376) -- (627,361) -- (634,361) .. controls (641,362) and (645,368) .. (648,376) -- cycle;
+\draw (574,388) -- (668,388);
+\draw[fill=white] (592,397) circle[radius=8]; \draw (592,397) circle[radius=3];
+\draw[fill=white] (651,397) circle[radius=8]; \draw (651,397) circle[radius=3];
+\node at (672,340) {Car};
 \node[align=center] at (668,216) {NOT TO\\SCALE};
 % dimension
 \draw (155,414) -- (155,436); \draw (578,414) -- (578,436);

@@ -10,23 +10,24 @@
 \wall{802}{12}{810}{195}      % bedroom 2 right
 \wall{578}{186}{810}{195}     % bedroom 2 bottom
 \wall{450}{20}{459}{100}      % closets
-\wall{450}{100}{517}{108}
+\wall{450}{100}{521}{108}
 \wall{450}{108}{459}{120}
 \wall{450}{180}{459}{195}
-\wall{450}{186}{517}{195}
-\wall{509}{108}{517}{208}
-\wall{509}{77}{517}{100}
-\wall{764}{195}{772}{258}     % living room right (upper)
-\wall{820}{248}{830}{845}     % right outer wall
-\wall{764}{255}{830}{263}
-\wall{766}{300}{774}{470}     % stair wall
+\wall{450}{186}{539}{195}   % bedroom 2 door jamb
+\wall{513}{108}{521}{210}
+\wall{513}{77}{521}{100}
+\wall{513}{20}{521}{30}      % top closet door jamb
+\wall{764}{195}{772}{503}     % living room right / stair wall
+\wall{820}{250}{830}{845}     % right outer wall
+\wall{772}{250}{780}{258} \wall{812}{250}{820}{258}   % stair door jambs (top)
+\wall{772}{495}{780}{503} \wall{812}{495}{820}{503}   % stair door jambs (bottom)
 \wall{204}{262}{521}{270}     % bathroom top
 \wall{513}{250}{521}{500}     % living room left wall
 \wall{513}{570}{521}{642}
 \wall{340}{270}{348}{292}     % bathroom partitions
 \wall{340}{355}{348}{390}
-\wall{408}{270}{416}{300}
-\wall{408}{350}{416}{390}
+\wall{408}{270}{416}{316}
+\wall{408}{346}{416}{390}
 \wall{46}{388}{350}{398}      % bathroom bottom / master top
 \wall{403}{388}{521}{398}
 \wall{46}{388}{56}{845}       % master + deck left
@@ -40,21 +41,24 @@
 \wall{46}{837}{830}{845}      % bottom
 % ---- doors (leaf + swing arc); pixel coords, angle 90 = down ----
 \draw (517,250) -- (477,250) arc[start angle=180,end angle=270,radius=40];   % hall to bedroom 1
-\draw (578,190) -- (578,152) arc[start angle=270,end angle=180,radius=38];   % bedroom 2
+\draw (539,190) -- (539,152) arc[start angle=270,end angle=360,radius=38];   % bedroom 2 (hinge on the left, as the paper)
 \draw (452,120) -- (424,120) arc[start angle=180,end angle=90,radius=28];    % closet (bedroom 1)
 \draw (452,180) -- (424,180) arc[start angle=180,end angle=270,radius=28];
-\draw (517,25) -- (543,25) arc[start angle=0,end angle=90,radius=26];        % closet (top)
-\draw (517,77) -- (543,77) arc[start angle=0,end angle=-90,radius=26];
-\draw (412,345) -- (450,345) arc[start angle=0,end angle=-90,radius=38];     % bathroom store
+\draw (521,30) -- (543,30) arc[start angle=0,end angle=90,radius=22];        % closet (top)
+\draw (521,77) -- (543,77) arc[start angle=0,end angle=-90,radius=26];
+\draw (416,316) -- (446,316) arc[start angle=0,end angle=90,radius=30];     % bathroom store
 \draw (517,500) -- (485,500) arc[start angle=180,end angle=90,radius=32];    % master bedroom
 \draw (517,570) -- (485,570) arc[start angle=180,end angle=270,radius=32];
 \draw (517,690) -- (485,690) arc[start angle=180,end angle=90,radius=33];    % dining room
 \draw (517,760) -- (485,760) arc[start angle=180,end angle=270,radius=33];
-\draw (772,263) -- (810,263) arc[start angle=0,end angle=90,radius=38];      % stair doors
-\draw (772,540) -- (810,540) arc[start angle=0,end angle=-90,radius=38];
+\draw (812,258) -- (812,290) arc[start angle=90,end angle=180,radius=32];     % stair doors (leaf on the outer wall side)
+\draw (812,503) -- (812,535) arc[start angle=90,end angle=180,radius=32];
 % ---- stairs ----
-\foreach \yy in {345,357,...,465} \draw (774,\yy) -- (820,\yy);
-\draw (805,300) -- (795,340) -- (810,345) -- (800,400) -- (815,420) -- (795,450);
+\foreach \yy in {350,362,...,398} \draw (772,\yy) -- (820,\yy);
+\foreach \yy in {410,422,434,446} \draw (772,\yy) -- ({820-(\yy-398)},\yy);
+\draw (820,398) -- (772,446);                          % stair break line
+\draw (796,300) -- (796,350);                          % direction line
+\draw (802,402) -- (792,428) -- (808,416) -- (800,452);  % break mark
 % ---- bathroom fixtures ----
 \draw (207,272) rectangle (245,312); \draw (207,272) -- (245,312) (245,272) -- (207,312);
 \draw (260,273) rectangle (336,313); \draw[rounded corners=8] (266,279) rectangle (330,307);

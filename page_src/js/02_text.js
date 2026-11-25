@@ -67,6 +67,9 @@ function dtHTML(id,opts={}){
       const k=span[ri+','+c]; if(k>1) skip=k-1; const rs=rspan[ri+','+c]; const at=(k>1?` colspan="${k}"`:'')+(rs>1?` rowspan="${rs}"`:'');
       // checker 23 Nov (2023 HSC Std Q17): "shade out the boxes that are same city to the same city": a cell holding \shade is a grey, empty box, as printed
       if(String(r[c]??'').trim()==='\\shade'){ out+=`<td class="shd"${at}></td>`; continue }
+      // checker 25 Nov (2023 William Clarke AT3 Q9): "move hte dollar signs to the left rather than in the center": a body cell that
+      // starts with \lcell is left-aligned, as the paper prints it (only cells marked so; every other table keeps centred cells)
+      if(!head&&c>=lc&&/^\\lcell(?![a-zA-Z])/.test(String(r[c]??'').trim())){ out+=`<td class="lft"${at}>${cell(String(r[c]).trim().replace(/^\\lcell\s*/,''))}</td>`; continue }
       // checker 23 Nov (2024 HSC Std Q12): "There is a bump in the top left corner": the split is a drawn line (it was a gradient, which stepped at its ends)
       const dg=diagSplit(r[c]); const v=dg?`<svg class="dgl" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="0" x2="100" y2="100"/></svg><span class="dgw" style="min-height:${(1.15*(String(dg[0]).split('\\\\').length+String(dg[1]).split('\\\\').length)+0.6).toFixed(2)}em"><span class="dgtr">${cell(dg[1])}</span><span class="dgbl">${cell(dg[0])}</span></span>`:cell(r[c]);
       if(dg){ out+=`<th scope="col" class="dg"${at}>${v}</th>`; continue }   // owner: "table needs to look identical with that split down the cell"

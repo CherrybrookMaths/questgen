@@ -2,6 +2,12 @@
 \input{../examstyle.tex}
 \input{../tree_style.tex}
 \setlength\treeL{3.0cm}
+% checker 25 Nov: "make 0.3 closer to their dotted line" (the 0.2 values): the answer blank here stacks the value
+% directly on its dotted line (no interline glue), instead of tree_style's \treeblank with a full line skip between them
+\makeatletter
+\renewcommand\treeblank[1]{\vbox{\offinterlineskip\hbox to\treeblankw{\hss\strut#1\hss}\kern0.8pt
+  \hbox to\treeblankw{\color{black!70}\xleaders\hbox to1.5pt{\hss\vrule width0.45pt height0.45pt\hss}\hfil}}}
+\makeatother
 \begin{document}
 \treewidth{1}{Fruit}\treewidth{1}{No Fruit}%
 \treewidth{2}{Fruit}\treewidth{2}{No Fruit}%

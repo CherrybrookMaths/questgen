@@ -4,7 +4,7 @@
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
 \def\Y#1{542-9.533*#1}
 \def\X#1{197+114.9*#1}
-\draw[black!25,line width=0.4pt] (10,5)--(1090,5)--(1090,620)--(600,620) (395,620)--(10,620)--(10,5);
+\draw[black!25,line width=0.4pt] (10,5)--(1090,5)--(1090,620)--(705,620) (495,620)--(10,620)--(10,5);
 \foreach \v in {5,10,...,45} \draw[black!20,line width=0.4pt] (140,{\Y{\v}})--(1060,{\Y{\v}});
 \foreach \i in {0,...,8} \draw[black!20,line width=0.4pt] ({140+114.9*\i},113)--({140+114.9*\i},542);
 \draw[black!45] (140,542)--(1060,542);
@@ -14,6 +14,6 @@
 \foreach \i in {0,...,7} \node[font=\small] at ({\X\i},572) {$\i$};
 \node[font=\large] at (552,58) {Number of hours spent studying};
 \node[rotate=90,font=\small] at (62,328) {Number of students};
-\node[font=\small] at (497,604) {Number of hours};
+\node[font=\small] at (600,604) {Number of hours};  % centred under the x-axis (checker 25 Nov)
 \end{tikzpicture}
 \end{document}

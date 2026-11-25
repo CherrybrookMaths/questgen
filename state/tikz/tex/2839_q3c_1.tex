@@ -1,0 +1,54 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+% Redrawn from the RTA road-map poster (checker 25 Nov: "recreate the diagram"; it was kept as the scanned crop).
+% Kept: the two highways, the towns and both distance scales from Sydney. Left out: the poster border, its slogans and logo.
+\begin{tikzpicture}[x=0.02cm,y=-0.02cm,every node/.style={font=\scriptsize}]
+\coordinate (Syd) at (272,590); \coordinate (New) at (281,519);
+\coordinate (Mus) at (222,497); \coordinate (Tam) at (217,418); \coordinate (Arm) at (219,380);
+\coordinate (Gle) at (213,323); \coordinate (Ten) at (209,272); \coordinate (War) at (218,219);
+\coordinate (Bri) at (232,156);
+\coordinate (Tar) at (293,442); \coordinate (Por) at (300,399); \coordinate (Kem) at (296,385);
+\coordinate (Cof) at (290,318); \coordinate (Gra) at (272,297); \coordinate (Bal) at (285,233);
+\coordinate (Coo) at (248,187);
+% state border (dashed) and labels
+\draw[aux] (30,268) -- (150,268) .. controls (180,262) and (196,276) .. (209,272) .. controls (230,262) and (250,236) .. (300,212);
+\node[font=\tiny] at (62,257) {QLD};
+\node[font=\tiny] at (62,280) {NSW};
+% roads
+\draw[line width=0.9pt] plot[smooth,tension=0.5] coordinates {(Syd) (276,555) (New)};
+\draw[line width=0.9pt] plot[smooth,tension=0.5] coordinates {(New) (Mus) (220,460) (Tam) (Arm) (Gle) (Ten) (War) (Bri)};
+\draw[line width=0.9pt] plot[smooth,tension=0.5] coordinates {(New) (288,480) (Tar) (Por) (Kem) (Cof) (Gra) (Bal) (Coo) (Bri)};
+\node[font=\tiny,rotate=90] at (233,445) {NEW ENGLAND HWY};
+\node[font=\tiny,rotate=90] at (274,445) {PACIFIC HWY};
+\foreach \p in {Syd,New,Mus,Tam,Arm,Gle,Ten,War,Bri,Tar,Por,Kem,Cof,Gra,Bal,Coo} \filldraw[fill=white] (\p) circle (4);
+% town names: New England towns to the left, Pacific towns to the right
+\node[anchor=east] at (210,497) {MUSWELLBROOK};
+\node[anchor=east] at (205,418) {TAMWORTH};
+\node[anchor=east] at (207,380) {ARMIDALE};
+\node[anchor=east] at (201,323) {GLEN INNES};
+\node[anchor=east] at (199,290) {TENTERFIELD};
+\node[anchor=east] at (206,219) {WARWICK};
+\node[anchor=east] at (220,150) {BRISBANE};
+\node[anchor=west] at (293,525) {NEWCASTLE};
+\node[anchor=west] at (284,595) {SYDNEY};
+\node[anchor=west] at (305,446) {TAREE};
+\node[anchor=west] at (312,408) {PORT MACQUARIE};
+\node[anchor=west] at (307,378) {KEMPSEY};
+\node[anchor=west] at (302,318) {COFFS HARBOUR};
+\node[anchor=west] at (284,296) {GRAFTON};
+\node[anchor=west] at (297,233) {BALLINA};
+\node[anchor=west] at (260,180) {COOLANGATTA};
+% distance scales from Sydney (km): New England Highway on the left, Pacific Highway on the right
+\draw[->] (-30,590) -- (-30,140);
+\foreach \y/\d in {497/244,418/401,380/513,323/611,272/702,219/819,156/979}
+  {\draw (-36,\y) -- (-24,\y); \node[anchor=east] at (-39,\y) {$\d$ km};}
+\draw[->] (540,590) -- (540,140);
+\foreach \y/\d in {442/312,410/385,380/431,318/543,292/624,233/754,187/858,156/958}
+  {\draw (534,\y) -- (546,\y); \node[anchor=west] at (549,\y) {$\d$ km};}
+\draw (-36,590) -- (-24,590); \node[anchor=east] at (-39,590) {$0$ km};
+\draw (534,590) -- (546,590); \node[anchor=west] at (549,590) {$0$ km};
+% north arrow
+\draw[->] (420,570) -- (420,520); \node at (420,508) {$N$};
+\end{tikzpicture}
+\end{document}

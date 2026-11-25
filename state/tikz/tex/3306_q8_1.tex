@@ -11,12 +11,7 @@
 \foreach \yy in {112,126,...,476} \draw[black!50] plot[domain=965:1125,samples=60,smooth] (\x,{\yy+3.5*sin(18*(\x-965))});
 \end{scope}
 \draw plot[smooth] coordinates{\dam};
-% pump icon
-\draw[fill=white] (1036,246) rectangle (1068,268);
-\draw[fill=white] (1044,240) rectangle (1060,262);
-\draw[fill=white] (1022,252) rectangle (1036,262);
-\draw (1068,252)--(1076,252)--(1076,264)--(1068,264);
-\node[font=\small] at (1030,218) {\halo{pump}};
+\node[font=\small] at (1052,238) {\halo{pump}};
 \node[font=\small] at (1083,411) {\halo{dam}};
 \foreach \a/\b in {A/B,A/D,B/C,B/H,B/D,H/C,H/D,H/F,H/E,C/E,C/G,C/P,D/F,F/E,E/G,F/G,G/P} \draw[aux] (\a)--(\b);
 \foreach \v in {A,B,C,H,D,E,F,G,P} \fill (\v) circle[radius=9];

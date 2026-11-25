@@ -2,7 +2,8 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm, y=-0.0127cm,
-  mid/.style={postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+  mid/.style={postaction={decorate},decoration={markings,mark=at position 0.55 with {\arrow{Latex[length=3.6mm,width=2.4mm]}}}}]
+% arrowheads enlarged from the house 2 mm (checker 25 Nov: "make the arrows bigger"; this drawing is printed large)
 \coordinate (S) at (100,288); \coordinate (P) at (415,288); \coordinate (Q) at (715,288);
 \coordinate (T) at (870,35); \coordinate (R) at (1000,288); \coordinate (U) at (1205,248); \coordinate (Fn) at (1410,248);
 \foreach \a/\b in {S/P,P/Q,Q/T,T/R,Q/R,R/U,U/Fn} \draw[mid] (\a) -- (\b);

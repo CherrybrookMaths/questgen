@@ -132,6 +132,9 @@ Keep helpers under `/home/claude/pilot/work/diag_<GROUP>/`. Never write to anoth
 - "interest rate needs to span all columns to the right, time period should be a merged cell". Use spans [r,c,colspan,rowspan].
 - "why are some words in the table italicised randomly?". Words in table cells must be wrapped in \text{} (cells are maths mode).
 - Q535: the four integrals are a 2x2 layout on the paper, not a table. They are now a display array.
+- 25 Nov, checker (2023 William Clarke AT3 Q9): "move hte dollar signs to the left rather than in the center". A body cell whose
+  text starts with `\lcell ` is left-aligned (page_src/js/02_text.js dtHTML, class `lft`); use it only where the paper left-aligns.
+  Every other cell stays centred.
 
 - **Hand-drawn 3D solids** (owner 12 Nov: "meant to be a prism ... don't be too wonky"). Redraw the solid the sketch means, not the sketch itself. Use oblique view with parallel depth edges and vertical uprights. Keep the sketch's labels and shading.
 

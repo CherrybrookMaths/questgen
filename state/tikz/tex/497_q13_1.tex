@@ -3,10 +3,11 @@
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
 \foreach \k in {1,...,6} \draw[black!30,line width=0.4pt,dash pattern=on 1pt off 1pt] (203,{563-87.17*\k}) -- (718,{563-87.17*\k});
-\draw (255,563) rectangle (357,475.8);
-\draw (357,563) rectangle (459,345.1);
-\draw (459,563) rectangle (561,170.7);
-\draw (561,563) rectangle (663,40);
+% bars filled so they sit on top of the dashed grid lines (checker 25 Nov: "fill in the boxes so they are ontop of the dashed horizontal lines")
+\draw[fill=white] (255,563) rectangle (357,475.8);
+\draw[fill=white] (357,563) rectangle (459,345.1);
+\draw[fill=white] (459,563) rectangle (561,170.7);
+\draw[fill=white] (561,563) rectangle (663,40);
 \draw (203,40) -- (203,563) -- (718,563);
 \foreach \k/\l in {0/0,1/10,2/20,3/30,4/40,5/50,6/60} {\draw (196,{563-87.17*\k}) -- (203,{563-87.17*\k}); \node[anchor=east] at (190,{563-87.17*\k}) {\large $\l$};}
 \foreach \x/\l in {306/3,408/3{:}30,510/4,612/4{:}30} {\draw (\x,563) -- (\x,569); \node at (\x,600) {$\l$};}
