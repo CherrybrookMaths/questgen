@@ -631,6 +631,40 @@ async function flows(browser, base, seed, seedR) {
     errs(); assert(p.fs === '1' && p.saved == null, `the paper after resizing on the guide: ${JSON.stringify(p)}`);
     return `${k}: 70% on the paper showed 70% in the guide; 100% set on the guide is back on the paper`;
   });
+  // owner 25 Nov: "Also in the relative referuence exam just made, the spinner diagram cannot be rezised currently." An exam opened from
+  // My exams shared its diagram sizes with the saved copy, so a drag looked right but was never saved. Every diagram on the paper and
+  // the guide has a corner handle the pointer finds, and a real drag on either saves the size to the database for both.
+  await check('exams: a saved exam opened from My exams: every diagram handle works and a drag saves its size (paper and guide)', page, async () => {
+    await page.waitForFunction(() => EX.id && exmState() === 'saved', null, {timeout: 10000});
+    const id = await page.evaluate(() => { const id = EX.id; EXAS.close(); return id }); await settle(page, 1500, 2);
+    await page.click(`#exMine [data-exm="${id}"] [data-exm-open]`); await waitPv();
+    const stored = k => page.evaluate(([id, k]) => window.__pt.store.get('exams/' + id)?.figscale?.[k] ?? 1, [id, k]);
+    const grab = async () => { const ks = await page.evaluate(() => [...new Set([...document.querySelectorAll('#xPages .exfigw')].map(w => w.dataset.figw))]), bad = [];
+      for (const k of ks) {
+        const b = await page.evaluate(k => { const w = document.querySelector(`#xPages [data-figw="${k}"]`); w.scrollIntoView({block: 'center'}); const r = w.querySelector('.exfigbox').getBoundingClientRect(); return {x: r.x + r.width / 2, y: r.y + Math.min(r.height / 2, 30)} }, k);
+        await page.mouse.move(b.x, b.y);
+        if (!await page.evaluate(k => { const h = document.querySelector(`#xPages [data-figh="${k}"]`), r = h.getBoundingClientRect(); if (!r.width) return false; const e = document.elementFromPoint(r.x + r.width / 2, r.y + r.height / 2); return !!e && e.closest('[data-figh]') === h }, k)) bad.push(k) }
+      await page.mouse.move(2, 2); return {ks, bad} };
+    const drag = async (k, d) => { const h = await page.evaluate(k => { const w = document.querySelector(`#xPages [data-figw="${k}"]`); w.scrollIntoView({block: 'center'}); const r = w.querySelector('.exfigbox').getBoundingClientRect(); return {x: r.x + r.width / 2, y: r.y + 10} }, k);
+      await page.mouse.move(h.x, h.y); const p = await page.evaluate(k => { const r = document.querySelector(`#xPages [data-figh="${k}"]`).getBoundingClientRect(); return {x: r.x + r.width / 2, y: r.y + r.height / 2} }, k);
+      await page.mouse.move(p.x, p.y); await page.mouse.down(); await page.mouse.move(p.x + d, p.y + d, {steps: 6}); await page.mouse.up(); await laidOut(page) };
+    const ex = await grab(); assert(ex.ks.length, 'no diagram on the paper');
+    assert(!ex.bad.length, `paper: ${ex.bad.length} of ${ex.ks.length} diagram corner handle(s) cannot be grabbed: ${ex.bad.join(', ')}`);
+    const k = ex.ks[0]; await drag(k, -40);
+    const s1 = await page.evaluate(k => EX.figscale[k] ?? 1, k); assert(s1 < 1, `a drag in on ${k} left it at ${s1}`);
+    await page.waitForFunction(([id, k, s]) => window.__pt.store.get('exams/' + id)?.figscale?.[k] === s, [id, k, s1], {timeout: 5000}).catch(() => {});
+    assert(await stored(k) === s1, `${k} dragged to ${s1} on the paper, the saved exam has ${await stored(k)} (state “${await page.evaluate(() => exmState())}”)`);
+    await page.click('[data-xdoc="guide"]'); await waitPv();
+    const gd = await grab(); assert(!gd.bad.length, `guide: ${gd.bad.length} of ${gd.ks.length} diagram corner handle(s) cannot be grabbed: ${gd.bad.join(', ')}`);
+    const g = await page.evaluate(k => document.querySelector(`#xPages [data-figw="${k}"]`)?.style.getPropertyValue('--fs'), k);
+    assert(+g === s1, `the guide draws ${k} at ${g}, the paper at ${s1}`);
+    await drag(k, 25); const s2 = await page.evaluate(k => EX.figscale[k] ?? 1, k); assert(s2 > s1, `a drag out on the guide left ${k} at ${s2}`);
+    await page.waitForFunction(([id, k, s]) => (window.__pt.store.get('exams/' + id)?.figscale?.[k] ?? 1) === s, [id, k, s2], {timeout: 5000}).catch(() => {});
+    assert(await stored(k) === s2, `${k} dragged to ${s2} on the guide, the saved exam has ${await stored(k)}`);
+    await page.evaluate(k => exFigCommit(k, 1), k); await page.click('[data-xdoc="exam"]'); await waitPv();
+    await page.waitForFunction(id => exmState() === 'saved', id, {timeout: 5000});
+    errs(); return `${ex.ks.length} paper / ${gd.ks.length} guide handles grabbable; ${k}: ${s1} on the paper and ${s2} on the guide both saved`;
+  });
   // 7 and 9: rename on the paper (above), answer lines on every written question at once; 8: an instruction's bullet at its first line
   await check('exams: + 1 line on all written questions; a long instruction keeps its bullet on its first line', page, async () => {
     const before = await page.evaluate(() => { const o = {}; EX.items.map(xq).filter(q => q && q.type !== 'mcq').forEach(q => q.parts.forEach(p => { if (leaf(q, p)) o[exLnKey(q, p)] = EX.lines[exLnKey(q, p)] ?? exLnDef(p.marks ?? q.marks) })); return o });
