@@ -1498,6 +1498,15 @@ Then, on the critical path dot point: "Critical path from EST and LSTs comes und
 - Exams and Already learnt lists saved with the old one-row-per-dot-point keys keep their ticks ('...|EST and LST by forward and backward
   scanning' → EST and LST, '...|Spreadsheet model of a project' → Minimum completion time; QG.topicKeys). Review reads every row as Critical
   path analysis (homeTopic), so the rows make no review work.
+
+## Standard topics simplified: Network flow (25 Nov)
+Owner 25 Nov: "Ok lets also refine topics for for Network flow. it should just be * Max flow min cut * Increase decrease problems. Do all
+questions fit inside that?" Then, on S2-12-098 (does the flow meet demand?): "it goes in increase decrease".
+- Year 12 Network flow has two rows: Max flow min cut (S2-12-093 terms, 094 network from a table, 095 flow capacity and saturated edges,
+  096 maximum-flow minimum-cut) and Increase/decrease problems (097 changing an edge's capacity, 098 does the flow meet demand) (07_bank.js
+  SUB_SPLIT). All six dot points fit, so nothing is dropped.
+- Later section wins, as Critical path analysis (SUB_RULE later): a question with a max-flow part and a capacity-change part sits under
+  Increase/decrease problems. 33 questions under the topic (approved), the same as with one row per dot point (page test cpa1125).
 - Tests: the `cpa: …` checks in tools/page_test.js (cpa1125).
 
 ## Checker's review of the page (25 Nov)

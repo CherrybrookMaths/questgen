@@ -4069,6 +4069,22 @@ async function cpa1125(browser, base, seed) {
     assert(!r.bad.length, `not in their latest row: ${r.bad.join(', ')}`);
     return `${r.n} questions checked; moved by the rule (${r.moved.length}): ${r.moved.join('; ') || 'none'}; spreadsheet-only: ${r.only.join(', ') || 'none'}`;
   });
+  // owner 25 Nov: Network flow is "Max flow min cut" and "Increase decrease problems"; S2-12-098: "it goes in increase decrease"
+  await check('network flow: two rows, same questions in the topic, a mixed question goes to the later row', page, async () => {
+    const r = await page.evaluate(() => { const fa = 'Network flow', f = [...document.querySelectorAll('#nav .fa[data-area]')].find(x => x.dataset.area === '12|' + fa);
+      const qs = B.questions.filter(inBank), cnt = () => qs.filter(q => [...qPlaces(q)].some(k => k.startsWith('sub:12|' + fa + '|'))).length;
+      const now = cnt(), ds = DOTS.filter(d => d.fa === fa), was = ds.map(d => d.sub), R = SUB_RULE[fa]; ds.forEach(d => { d.sub = d.short }); delete SUB_RULE[fa];
+      const before = cnt(); ds.forEach((d, i) => { d.sub = was[i] }); SUB_RULE[fa] = R;
+      const mk = (id, ps) => ({id, number: '1', parts: ps.map(([d, m], i) => ({id: id * 10 - i, marks: m, t24: [{id: d, primary: 1, cov: 'examinable'}]}))});
+      return {rows: f ? [...f.querySelectorAll('.fold [data-sel] span:first-child')].map(x => x.textContent) : null, now, before,
+        d98: DM['S2-12-098'].sub, mixed: qHome(mk(-11, [['S2-12-096', 4], ['S2-12-097', 1]]))} });
+    errs(page);
+    assert(r.rows && r.rows.join('|') === 'Max flow min cut|Increase/decrease problems', `sidebar rows: ${r.rows}`);
+    assert(r.d98 === 'Increase/decrease problems', `S2-12-098 in ${r.d98}`);
+    assert(r.now === r.before && r.now > 0, `questions in Network flow: ${r.before} → ${r.now}`);
+    assert(r.mixed === 'sub:12|Network flow|Increase/decrease problems', `max flow 4 marks + capacity change 1 mark: ${r.mixed}`);
+    return `${r.rows.join(' · ')}; ${r.now} questions, as before; a mixed question goes to Increase/decrease problems`;
+  });
   await check('cpa: old keys (one row per dot point) read as the new rows', page, async () => {
     const r = await page.evaluate(fa => { const old = DOTS.filter(d => d.fa === fa).map(d => `sub:12|${fa}|${d.short}`);
       return {map: old.map(k => [k.split('|')[2], QG.topicKeys([k]).map(x => x.split('|')[2]).join('+')]),
