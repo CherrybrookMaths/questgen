@@ -25,13 +25,11 @@
 \draw (r) -- (a-in); \draw (r) -- (b-in);
 \draw (a-out) -- (aa-in); \draw (a-out) -- (ab-in);
 \draw (b-out) -- (ba-in); \draw (b-out) -- (bb-in);
-% probabilities: centred on branch midpoint, lower corners 2.5pt clear of the branch
-\newcommand\prob[4]{\sbox0{\pf #3}\edef\pw{\the\wd0}%
-  \path let \p1=(#1), \p2=(#2), \n1={abs(\y2-\y1)/(\x2-\x1)} in
-    node[inner sep=0pt, anchor=#4, font=\pf] at ($(\p1)!0.5!(\p2)+(0pt,{(\ifx#4n-1\else1\fi)*(\n1*0.5*\pw+2.5pt)})$) {#3};}
-\prob{r}{a-in}{40\%}{south}
-\prob{a-out}{aa-in}{30\%}{south}
-\prob{b-out}{ba-in}{30\%}{south}
+% probabilities centred on branch midpoints, above the rising branches, clear of the branch (offsets as in 1265_q18_s1;
+% checker 25 Nov "make sure all the labels are not overlapped by a line/graph")
+\node[inner sep=0pt, anchor=south, font=\pf] at ($(r)!0.5!(a-in)+(0,0.46)$) {40\%};
+\node[inner sep=0pt, anchor=south, font=\pf] at ($(a-out)!0.5!(aa-in)+(0,0.19)$) {30\%};
+\node[inner sep=0pt, anchor=south, font=\pf] at ($(b-out)!0.5!(ba-in)+(0,0.21)$) {30\%};
 \node[font=\of\bfseries, anchor=base] at ($(X1)+(0.5\WN,3.75)$) {Saturday};
 \node[font=\of\bfseries, anchor=base] at ($(X2)+(0.5\WN,3.75)$) {Sunday};
 \end{tikzpicture}
