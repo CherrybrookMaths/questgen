@@ -4085,6 +4085,23 @@ async function cpa1125(browser, base, seed) {
     assert(r.mixed === 'sub:12|Network flow|Increase/decrease problems', `max flow 4 marks + capacity change 1 mark: ${r.mixed}`);
     return `${r.rows.join(' · ')}; ${r.now} questions, as before; a mixed question goes to Increase/decrease problems`;
   });
+  // owner 25 Nov: "rule off, drop the media thing and fold venn and two way tables."
+  await check('probability: three rows, same questions in the topic, media dot point dropped, marks decide', page, async () => {
+    const r = await page.evaluate(() => { const fa = 'Relative frequency and probability', f = [...document.querySelectorAll('#nav .fa[data-area]')].find(x => x.dataset.area === '12|' + fa);
+      const qs = B.questions.filter(inBank), cnt = () => qs.filter(q => [...qPlaces(q)].some(k => k.startsWith('sub:12|' + fa + '|'))).length;
+      const now = cnt(), ds = DOTS.filter(d => d.fa === fa), was = ds.map(d => d.sub), R = SUB_RULE[fa]; ds.forEach(d => { d.sub = d.short }); delete SUB_RULE[fa];
+      const before = cnt(); ds.forEach((d, i) => { d.sub = was[i] }); SUB_RULE[fa] = R;
+      const mk = (id, ps) => ({id, number: '1', parts: ps.map(([d, m], i) => ({id: id * 10 - i, marks: m, t24: [{id: d, primary: 1, cov: 'examinable'}]}))});
+      return {rows: f ? [...f.querySelectorAll('.fold [data-sel] span:first-child')].map(x => x.textContent) : null, now, before, venn: DM['S2-12-131'].sub,
+        dps: [...TOPICS.y12.get(fa).values()].flatMap(s => s.dps.map(d => d.id)), treeNp: qHome(mk(-12, [['S2-12-126', 3], ['S2-12-130', 1]]))} });
+    errs(page);
+    assert(r.rows && r.rows.join('|') === 'Probability basics|Multistage events|Relative and expected frequency', `sidebar rows: ${r.rows}`);
+    assert(r.venn === 'Probability basics', `Venn diagrams and two-way tables in ${r.venn}`);
+    assert(!r.dps.includes('S2-12-132') && r.dps.length === 11, `dot points listed: ${r.dps.join(', ')}`);
+    assert(r.now === r.before && r.now > 0, `questions in the topic: ${r.before} → ${r.now}`);
+    assert(r.treeNp === 'sub:12|Relative frequency and probability|Multistage events', `tree 3 marks + expected frequency 1 mark (marks decide): ${r.treeNp}`);
+    return `${r.rows.join(' · ')}; ${r.now} questions, as before; S2-12-132 listed nowhere; a tree + np question stays in Multistage events`;
+  });
   await check('cpa: old keys (one row per dot point) read as the new rows', page, async () => {
     const r = await page.evaluate(fa => { const old = DOTS.filter(d => d.fa === fa).map(d => `sub:12|${fa}|${d.short}`);
       return {map: old.map(k => [k.split('|')[2], QG.topicKeys([k]).map(x => x.split('|')[2]).join('+')]),

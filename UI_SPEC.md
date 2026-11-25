@@ -1507,6 +1507,18 @@ questions fit inside that?" Then, on S2-12-098 (does the flow meet demand?): "it
   SUB_SPLIT). All six dot points fit, so nothing is dropped.
 - Later section wins, as Critical path analysis (SUB_RULE later): a question with a max-flow part and a capacity-change part sits under
   Increase/decrease problems. 33 questions under the topic (approved), the same as with one row per dot point (page test cpa1125).
+
+## Standard topics simplified: Relative frequency and probability (25 Nov)
+Owner 25 Nov, on the topic's card: "Just need to clean this up now. how should we condense this into smaller? What does it say in syllabus?"
+The syllabus gives one outcome (MST-12-S2-09) and 12 dot points with no sub-levels. Claude proposed four rows (Probability basics, Multistage
+events, Relative and expected frequency, Venn diagrams and two-way tables), dropping 132 and with the later-row rule as a question. Owner:
+"rule off, drop the media thing and fold venn and two way tables."
+- Three rows: Probability basics (S2-12-121 to 125 and 131, Venn diagrams and two-way tables), Multistage events (126 arrays and trees, 127
+  P(A and B)), Relative and expected frequency (128, 129, 130 np) (07_bank.js SUB_SPLIT).
+- **Statistics in decisions by media and governments removed** (S2-12-132; no question tagged with it): SUB_RULE drop, as Critical path's
+  spreadsheet model.
+- **No later-row rule**: marks decide, as in every other topic (a tree question with a 1-mark expected-frequency part stays in Multistage
+  events). 72 questions under the topic (approved), the same as with one row per dot point (page test cpa1125).
 - Tests: the `cpa: …` checks in tools/page_test.js (cpa1125).
 
 ## Checker's review of the page (25 Nov)

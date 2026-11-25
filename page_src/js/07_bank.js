@@ -38,7 +38,13 @@ const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057',
   'Critical path analysis':{'Network from a precedence table':['S2-12-099'],'EST and LST':['S2-12-101'],
     'Float times and critical activities':['S2-12-102'],
     'Minimum completion time':['S2-12-104','S2-12-106','S2-12-100','S2-12-103','S2-12-107'],'Gantt charts':['S2-12-105']},
-  'Network flow':{'Max flow min cut':['S2-12-093','S2-12-094','S2-12-095','S2-12-096'],'Increase/decrease problems':['S2-12-097','S2-12-098']}};
+  'Network flow':{'Max flow min cut':['S2-12-093','S2-12-094','S2-12-095','S2-12-096'],'Increase/decrease problems':['S2-12-097','S2-12-098']},
+  'Relative frequency and probability':{'Probability basics':['S2-12-121','S2-12-122','S2-12-123','S2-12-124','S2-12-125','S2-12-131','S2-12-132'],
+    'Multistage events':['S2-12-126','S2-12-127'],'Relative and expected frequency':['S2-12-128','S2-12-129','S2-12-130']}};
+// owner 25 Nov, on the Relative frequency and probability card ("how should we condense this into smaller? What does it say in syllabus?";
+//   the syllabus gives one outcome, MST-12-S2-09, and no sub-levels), after Claude proposed four rows: "rule off, drop the media thing and
+//   fold venn and two way tables." Three rows; Venn diagrams and two-way tables (131) sit in Probability basics; 132 (statistics in
+//   decisions by media and governments) is dropped; no later-row rule, so marks decide as in every other topic.
 // owner 25 Nov: "Ok lets also refine topics for for Network flow. it should just be * Max flow min cut * Increase decrease problems. Do all
 //   questions fit inside that?" All six dot points fit; on S2-12-098 (does the flow meet demand?): "it goes in increase decrease".
 //   SUB_RULE later as Critical path analysis ("As uisual, if it needs a later section, it should not appear in the earlier section").
@@ -52,7 +58,7 @@ const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057',
 //     picked by hand in Review still wins);
 //   drop: dot points the owner removed: no pill, not in the topic's dot-point list, and they never decide the row while another part's dot
 //     point can; a question on them only stays in the row SUB_SPLIT lists them under, and old keys naming them read as that row.
-const SUB_RULE={'Critical path analysis':{later:1,drop:['S2-12-107']},'Network flow':{later:1}};
+const SUB_RULE={'Critical path analysis':{later:1,drop:['S2-12-107']},'Network flow':{later:1},'Relative frequency and probability':{drop:['S2-12-132']}};
 // a topic the owner split keeps the syllabus's sub-level as d.sub0 (Review compares homes by it, QG.topicKeys reads old keys from it); a
 // sub-level the page made is d.subAuto
 function subLevels(ds){const by={};ds.forEach(d=>(by[d.yl+'|'+d.fa]=by[d.yl+'|'+d.fa]||[]).push(d));
