@@ -81,3 +81,4 @@ The checker's flags of 24 Nov fixed four questions that were open Your calls (20
 Q4 and 2021 PEM AT4 Q10 option B changed so one option is correct, 2021 Sydney Girls AT4 Q13(d) retired). Owner 24 Nov: "keep his fixes";
 the four calls are closed (site/project/open_decisions.json). Owner 24 Nov, on the open Your calls: "3. is for the reviewer": the checker decides Your calls; a flag of his that answers one closes it
 (as "Trust his call on the gosford paper" did for 2020 Gosford AT4 Q30), and Claude closes the call when the fix goes live.
+Owner 25 Nov (after the checker's flags changed the keys of 2023 Knox AT1 Q3(a), 2023 William Clarke AT3 Q3 and the Oakhill AT2 Q24 answer): "Give the checker autonomy to change answersa as needed, he runs them by me anyways." A flag that changes an answer or answer key is fixed as asked; do not hold it for Steve.
