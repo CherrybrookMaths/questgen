@@ -158,13 +158,15 @@ const navSel=()=>search?null:sel;
 function navHTML(){const cur=navSel();
   const sec=(title,m,yl)=>`<h3>${title}</h3>`+[...m].map(([fa,subs])=>{
     const open=sel&&(sel.startsWith('sub:'+yl+'|'+fa+'|')||sel==='fa:'+yl+'|'+fa);
-    return `<div class="fa${open?' open':''}" data-area="${esc(yl+'|'+fa)}"><button aria-expanded="${!!open}" data-fa="${esc(yl+'|'+fa)}"><span class="t">${esc(fa)}</span><span class="c">${faCount(subs)}</span></button>
-      <div class="fold"><ul>${[...subs].map(([sk,s])=>{const key='sub:'+yl+'|'+fa+'|'+sk;return `<li><button data-sel="${esc(key)}" aria-current="${cur===key}"><span>${esc(sk||fa)}</span>${s.qs.length?`<span class="c">${s.qs.length}</span>`:'<span class="none">No questions yet</span>'}</button></li>`}).join('')}</ul></div></div>`}).join('');
-  const sp=(key,label)=>`<div class="fa special"><button data-sel="${key}" aria-current="${cur===key}"><span>${label}</span><span class="c">${TOPICS.byKey[key].qs.length}</span></button></div>`;
+    return `<div class="fa${open?' open':''}" data-area="${esc(yl+'|'+fa)}"><button aria-expanded="${!!open}" data-fa="${esc(yl+'|'+fa)}"><span class="t">${esc(fa)}</span><span class="c" title="${esc(CNT_NOTE.bank)}">${faCount(subs)}</span></button>
+      <div class="fold"><ul>${[...subs].map(([sk,s])=>{const key='sub:'+yl+'|'+fa+'|'+sk;return `<li><button data-sel="${esc(key)}" aria-current="${cur===key}"><span>${esc(sk||fa)}</span>${s.qs.length?`<span class="c" title="${esc(CNT_NOTE.bank)}">${s.qs.length}</span>`:'<span class="none">No questions yet</span>'}</button></li>`}).join('')}</ul></div></div>`}).join('');
+  const sp=(key,label)=>`<div class="fa special"><button data-sel="${key}" aria-current="${cur===key}"><span>${label}</span><span class="c" title="${esc(CNT_NOTE.bank)}">${TOPICS.byKey[key].qs.length}</span></button></div>`;
   // checker report 18 Nov ("Topic counts differ between screens ... nothing on screen says so. It reads like a bug"); owner: "lets do 2,3,4,6".
   //   The Bank counts a question under every topic one of its parts is on; the exam builders count it once, under its main topic, and
   //   only if its skills are learnt. Each screen now says which count it shows (CNT_NOTE; exam builders in 24_exams.js)
-  return '<div class="navtools"><button data-navall="open">Expand all</button><button data-navall="close">Collapse all</button></div><p class="bk-cntnote">'+CNT_NOTE.bank+'</p>'+sec('Year 12',TOPICS.y12,12)+sec('Year 11',TOPICS.y11,11)+'<h3>Outside the 2024 syllabus</h3>'+sp('special:removed','Removed content')+(TOPICS.byKey['special:std'].qs.length?sp('special:std','Mathematics Standard'):'')+(TOPICS.byKey['special:no_match'].qs.length?sp('special:no_match','No 2024 match'):'');
+  // owner 25 Nov ("also we can get rid of this ... right? no purpose" -> "Both, note as tooltip"): Expand all / Collapse all (13 Nov) and the
+  //   counts note (18 Nov) are gone from the sidebar; the note is now the counts' hover title (CNT_NOTE.bank)
+  return sec('Year 12',TOPICS.y12,12)+sec('Year 11',TOPICS.y11,11)+'<h3>Outside the 2024 syllabus</h3>'+sp('special:removed','Removed content')+(TOPICS.byKey['special:std'].qs.length?sp('special:std','Mathematics Standard'):'')+(TOPICS.byKey['special:no_match'].qs.length?sp('special:no_match','No 2024 match'):'');
 }
 // health pass 21 Nov: one map of each question's duplicates per bank (dupLine ran a whole-bank filter for every card); QG.onDet clears it
 let _dupm=null;const dupsOf=id=>{if(!_dupm){_dupm=new Map();B.questions.forEach(x=>{if(x.dup_of)(_dupm.get(x.dup_of)||_dupm.set(x.dup_of,[]).get(x.dup_of)).push(x)})}return _dupm.get(id)||[]};
@@ -360,7 +362,6 @@ function bankGo(dir,src,fn){
 }
 $('#nav').addEventListener('click',e=>{
   // owner 13 Nov: "a nice open and close all somewhere for efficiency"
-  const all=e.target.closest('[data-navall]'); if(all){const o=all.dataset.navall==='open';$$('#nav .fa[data-area]').forEach(f=>{f.classList.toggle('open',o);f.querySelector('button[data-fa]').setAttribute('aria-expanded',String(o))});placePill(false);return}
   const fa=e.target.closest('button[data-fa]'); if(fa){const f=fa.closest('.fa');const o=!f.classList.contains('open');f.classList.toggle('open',o);fa.setAttribute('aria-expanded',String(o));placePill(false);return}
   const b=e.target.closest('button[data-sel]'); if(b){sel=b.dataset.sel;search='';$('#q').value='';save('sel',sel);syncNav();requestAnimationFrame(()=>setTimeout(()=>{renderBank();window.scrollTo({top:0});bankFade()},0))}   // nav moves first, list follows a frame later
 });

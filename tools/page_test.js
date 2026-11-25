@@ -3707,6 +3707,14 @@ async function trig1125(browser, base, seed) {
     assert(a && b && c, `from a topic ${a}, from a search ${b}, from Exams ${c}`);
     return 'All topics each time; search box cleared';
   });
+  // owner 25 Nov: Expand all / Collapse all and the sidebar counts note removed; the note is the counts' hover title
+  await check('bank: no Expand / Collapse all or counts note in the sidebar; the counts explain themselves on hover', page, async () => {
+    await page.click('#vBank'); await settle(page, 1200, 1); await page.locator('#list [data-sel]:visible').first().click(); await settle(page, 1500, 1);
+    const r = await page.evaluate(() => ({btn: document.querySelectorAll('#nav [data-navall]').length, note: !!document.querySelector('#nav .bk-cntnote'),
+      tip: [...document.querySelectorAll('#nav .c')].filter(c => c.offsetParent).every(c => /Counts every question/.test(c.title)), n: [...document.querySelectorAll('#nav .c')].filter(c => c.offsetParent).length}));
+    assert(!r.btn && !r.note && r.n && r.tip, JSON.stringify(r));
+    return `${r.n} counts, each with the hover note`;
+  });
   await check('standard trig: the exam builders list the same six rows; a home in them makes no review work', page, async () => {
     await page.evaluate(() => { location.hash = 'exams' }); await page.waitForFunction(() => view === 'exams', null, {timeout: 15000});
     await page.evaluate(() => EXAS.fresh()); await page.waitForSelector('#exTopics .extile', {timeout: 15000});

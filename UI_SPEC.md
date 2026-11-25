@@ -43,7 +43,7 @@ the rest of the page is swept against this rule (Next up note "counts-link").
   - Now the topic list moves first and the question list builds a frame later: the first 8 cards at once, the rest in small batches.
   - Maths is typeset only for cards near the screen. Opening the 140-question list went from twelve freezes of 0.3 to 0.8 s to one of about 0.1 s.
   - A loading spinner was considered and rejected: it wouldn't remove the freeze, only decorate it.
-- **Expand all / Collapse all (13 Nov).** He asked for "a nice open and close all somewhere for efficiency". Two small buttons sit at the top of the topic list.
+- **Expand all / Collapse all (13 Nov).** He asked for "a nice open and close all somewhere for efficiency". Two small buttons sit at the top of the topic list. **Removed 25 Nov** (owner: "also we can get rid of this (see image) right? no purpose", then "Both, note as tooltip"): the two buttons and the sidebar counts note are gone; the note's text is the hover title on every sidebar count.
 - **Highlight fixes (13 Nov).**
   - When the current subtopic's area is closed, hovering its title no longer shows a second highlight ("weird interaction when I close the topic ... and i mouse hover over").
   - The pill no longer lands a row off ("under certain conditions, the sidebar does this"). Its predicted position is measured at the list's real width, and it is corrected once the folds settle.
