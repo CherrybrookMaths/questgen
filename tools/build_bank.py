@@ -133,10 +133,14 @@ old['questions'] = [q for q in old['questions'] if str(q['doc']) not in _RP]
 # exact/near-exact duplicates (same paper filed twice etc.): keep one copy in the Bank, hide the other there
 byid = {q['id']: q for q in old['questions']}
 for q in old['questions']: q.pop('dup_of', None)
+# 25 Nov (duplicate sweep; owner: "I thought we were checking for dupes upon import? Or at least after import?"): "approved" also
+# means approved on the page (page_reviews mirror, tools/sync_pagedb.py), so a copy the checker approved stays the one the Bank shows
+_pg_ok = {r[0] for r in db.execute("select question_id from page_reviews where status='approved' and question_id is not null")} \
+    if db.execute("select 1 from sqlite_master where name='page_reviews'").fetchone() else set()
 for a, b, sim, rel in db.execute("select question_id, related_id, similarity, relation from related_questions where relation='duplicate' and question_id<related_id"):
     qa, qb = byid.get(a), byid.get(b)
     if not qa or not qb or qa.get('dup_of') or qb.get('dup_of'): continue
-    _st = lambda q: (db.execute('select review_status from questions where id=?', (q['id'],)).fetchone() or [None])[0]
+    _st = lambda q: 'approved' if q['id'] in _pg_ok else (db.execute('select review_status from questions where id=?', (q['id'],)).fetchone() or [None])[0]
     score = lambda q: (_st(q) != 'approved', q.get('layout') == 'graph' and not all(o.get('fig') for o in q['options']), ('review' in q['queues']), len(q['solutions']) == 0, q['doc'] != 1346, q['id'])
     keep, drop = sorted([qa, qb], key=score)
     drop['dup_of'] = keep['id']

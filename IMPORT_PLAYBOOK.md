@@ -63,7 +63,7 @@ Order used for Batch 8: parse → load.py → post_load.py → split_batch.py pr
 prep_batch.py → tag + solfmt + gen (parallel) → apply_text.py → difficulty → difficulty-apply → apply_difficulty_reviews.py <difficulty export> → diagrams → apply_diagrams.py → prep_verify.py → verify → fix the
 verifier's findings (source_corrections.py) → triage.py → add_to_bank.py → build_bank.py → render audit, recrop --check, prepublish.
 Since 24 Nov the order starts with the **copy check** (below), and one driver runs it all up to `cost`:
-`TZ=Australia/Sydney python3 tools/run_batch.py <batch> <doc ids>` (copy check → import_hold → parse → ... → verify → cost). It makes
+`TZ=Australia/Sydney python3 tools/run_batch.py <batch> <doc ids>` (copy check → import_hold → parse → ... → apply_diagrams → dupes → verify → cost). It makes
 work/<batch>/ first, logs each step to work/<batch>/logs/<step>.log (start/end in times.txt) and STOPS at the first step that exits
 non-zero, printing the end of its log and the resume command (`--from <step>`; `--to <step>` stops early; `--steps` lists them;
 `--difficulty-export <dir>` for apply_difficulty_reviews, else the page_difficulty mirror). Why: the 23 Nov night driver
@@ -91,6 +91,23 @@ Moorebank (found <= 0.53, share <= 0.42; 14-15 shared questions each, real overl
 layer (no OCR here; "unchecked", imported as normal): 2022 King's AT4 (doc 1052, scan, Batch 13) is the same exam as 2022 Independent
 AT4 (doc 1330, Batch 11; dedup links 32 of 33 questions) and went through unflagged. A copy found after import (1051, 1550, 1052) is
 not recorded by the tool: whether to retire it is the owner's call.
+
+### Duplicates by numbers (25 Nov; owner: "I found two trapezoidal rule questions which are duplicates. I thought we were checking for dupes upon import? Or at least after import?" / "I like it was NEAP and either caringbah or carlingford" / to the plan: "Yes do that.")
+Why: dedup.py called a pair 'duplicate' only at word-shingle Jaccard >= 0.85; 2022 Caringbah AT4 Q24 (6620) and 2022 NEAP AT4 Q29 (6972)
+differ only by "four applications of" (0.82), so they were 'numbers_changed' and both showed in the Bank. Now (tools/dedup.py
+`same_numbers`, `relation`): Jaccard >= 0.75 AND every number the same (stem, parts, MCQ options, option tables, data tables, and the
+diagram's labels read from its TikZ source: node text, \foreach lists a node prints, pgfplots ticks; coordinates are not compared),
+every formula the same (sin x against cos x differs), no conflicting number words, the same course, MCQ-or-not and number of parts ->
+'duplicate'. A figure with no TikZ source (a crop) makes the pair "unknown": it stays 'numbers_changed'. At load (post_load ->
+`dedup.py <ids>`) the new diagrams are not redrawn yet, so `run_batch.py` step `dupes` (after apply_diagrams) runs
+`dedup.py --numbers <ids>` to upgrade the batch's pairs. `dedup.py --self-check` (read only) reproduces 6620 ~ 6972 -> duplicate and
+two real numbers-changed pairs (1313 ~ 3419, x < 6 against x < -6; 2272 ~ 2545, x/(x^2+1) against x/(x^2-1)).
+Which copy the Bank keeps is build_bank's existing rule: approved first (since 25 Nov also approved on the page, page_reviews mirror),
+then no graph-option gap, not in the review queue, has solutions, then the lowest id (the earlier import); a pair of papers whose copies
+mostly run one way is hidden the same way round. Sweep of the bank (work/dupes_1125/sweep.py, sweep.txt / sweep.json): 118 pairs at
+>= 0.75 not already hidden; 52 recorded as 'duplicate' (50 questions newly hidden), 66 kept. Cross-course pairs (a question set in both
+the Standard and the Advanced HSC) were left as they are: the Bank is split per course, so a hidden Standard copy of an Advanced
+question disappears from the Standard bank (55 such copies were already hidden before 25 Nov; the owner's call).
 Batch 8 result: 8 papers, 150 questions, US$22.65 (parse 3.54, split 0.04, tag 3.80, solutions 1.20, diagrams 9.48, verify 4.61),
 about 35 minutes of model time with papers in parallel. Diagrams (Opus, with renders and overlays fed back) are 42% of the cost.
 Lessons (each fixed in the tool):
