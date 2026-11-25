@@ -1389,6 +1389,35 @@ and present value. Since PV is taught after, any question which has both goes in
 - Annuities (Standard) has the owner's two rows instead, Future value and Present value (SUB_SPLIT). An annuity question whose text or
   tables mention present value is Present value, every other one Future value (tools/bank_split.py sets q.st; qHome files by it).
 
+## Standard topics simplified: Trigonometry first (25 Nov)
+Owner 25 Nov: "Some of the std topics are overkill. We need to simplify it. Begin with Trig. The ones that should show are below. Subdot
+points can be stuff they can choose inside one.
+Trigonometry
+* Right angled trigonometry
+* Sine rule
+   * Finding an angle
+   * Finding a side
+* Cosine rule
+   * Finding an angle
+   * Finding a side
+* Area of a triangle
+* Bearings
+* Radial surveys
+Start with this first, lets make sure that allw roks." His answers to two questions: 'Practical problems with Pythagoras and
+trigonometry' (S2-12-071) -> "Right angled trig"; the sine rule obtuse-angle dot point (S2-12-065) -> one choice "Finding an angle"
+(with S2-12-064).
+- Standard Year 12 Trigonometry has six sub-levels instead of one row per dot point (07_bank.js SUB_SPLIT): Right angled trigonometry
+  (S2-12-062, 071), Sine rule (063, 064, 065), Cosine rule (066, 067), Area of a triangle (068), Bearings (069), Radial surveys (070), in
+  that order in the Bank's sidebar, topic cards and topic page and in the exam builders (subLevels lists a split topic's dot points sub-level
+  by sub-level; everything else takes the order of DOTS).
+- Inside a sub-level the "Dot point" pills are the owner's choices where SUB_SPLIT gives them: Sine rule and Cosine rule show Finding an
+  angle (Sine: 064 + 065) and Finding a side; a choice shows the questions with a main tag on any of its dot points. Right angled
+  trigonometry is one choice, so it shows no pills; Area, Bearings and Radial surveys have one dot point each. Other topics keep one pill
+  per dot point. A question on both choices counts under each; the pill row's label says how many do (counts add up or say why, 18 Nov).
+- Unchanged: which questions are under Trigonometry (34 on 25 Nov, the same as with one row per dot point), every other topic, Advanced.
+  Review reads a home in any of the six rows as Trigonometry (homeTopic), so the split makes no review work.
+- Tests: the four `standard trig: …` checks in tools/page_test.js (trig1125).
+
 ## Checker's review of the page (25 Nov)
 Owner 25 Nov, on a review of the page: "Besides that, yes action all these things". The review's points, verbatim, and what was done:
 - **Page zoom** ("make it so that you can zoom in and out (of the page itself)"). Inside claude.ai the page sits in a frame: the host page can

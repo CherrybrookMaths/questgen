@@ -2718,10 +2718,24 @@ const CNT_NOTE={bank:'Counts every question with a part on the topic, so one que
 //   nothing like this. For ANnuities it should be Future value and present value. Since PV is taught after, any question which has both goes
 //   into PV." A topic the syllabus gives no sub-level is split by its dot points (their short names); a topic in SUB_SPLIT gets the owner's
 //   own sub-levels instead. Which annuity question is which comes from its text at build time (tools/bank_split.py, q.st).
-const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057','S2-12-059','S2-12-060'],'Present value':['S2-12-058','S2-12-061']}};
+// owner 25 Nov: "Some of the std topics are overkill. We need to simplify it. Begin with Trig. The ones that should show are below. Subdot
+//   points can be stuff they can choose inside one. Trigonometry * Right angled trigonometry * Sine rule * Finding an angle * Finding a side
+//   * Cosine rule * Finding an angle * Finding a side * Area of a triangle * Bearings * Radial surveys. Start with this first, lets make sure
+//   that allw roks." His answers: 'Practical problems with Pythagoras and trigonometry' (S2-12-071) -> "Right angled trig"; the sine rule
+//   obtuse-angle dot point (S2-12-065) -> one choice "Finding an angle" (with S2-12-064).
+// A sub-level is a list of dot points (the Bank's "Dot point" pills: one per dot point) or {choice: dot points} (the owner's own pills; a
+// pill covers all its dot points; one choice is no choice, so no pills). Sub-levels show in the order written here.
+const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057','S2-12-059','S2-12-060'],'Present value':['S2-12-058','S2-12-061']},
+  Trigonometry:{'Right angled trigonometry':{'Right angled trigonometry':['S2-12-062','S2-12-071']},
+    'Sine rule':{'Finding an angle':['S2-12-064','S2-12-065'],'Finding a side':['S2-12-063']},
+    'Cosine rule':{'Finding an angle':['S2-12-067'],'Finding a side':['S2-12-066']},
+    'Area of a triangle':['S2-12-068'],'Bearings':['S2-12-069'],'Radial surveys':['S2-12-070']}};
 function subLevels(ds){const by={};ds.forEach(d=>(by[d.yl+'|'+d.fa]=by[d.yl+'|'+d.fa]||[]).push(d));
-  Object.values(by).forEach(xs=>{if(xs.some(d=>d.sub))return;const sp=SUB_SPLIT[xs[0].fa];
-    xs.forEach(d=>{d.sub=sp?(Object.keys(sp).find(k=>sp[k].includes(d.id))||Object.keys(sp)[0]):(d.short||d.text);d.subAuto=1})});return ds}
+  const ord=new Map();Object.entries(by).forEach(([k0,xs])=>{if(xs.some(d=>d.sub))return;const sp=SUB_SPLIT[xs[0].fa],ks=sp?Object.keys(sp):[];
+    xs.forEach(d=>{d.sub=sp?(ks.find(k=>[sp[k]].flatMap(v=>Array.isArray(v)?v:Object.values(v).flat()).includes(d.id))||ks[0]):(d.short||d.text);d.subAuto=1});
+    // the owner's order: a split topic's dot points are listed sub-level by sub-level (the sidebar and the exam builders take the order of DOTS)
+    if(sp)ord.set(k0,xs.slice().sort((a,b)=>ks.indexOf(a.sub)-ks.indexOf(b.sub)))});
+  return ds.flatMap(d=>{const k=d.yl+'|'+d.fa,o=ord.get(k);return !o?[d]:by[k][0]===d?o:[]})}
 // a home in one of these new rows counts as its topic in Review: two taggers who chose different dot points of the same topic still agree
 // (before 24 Nov the topic had one row, so they never needed a decision; the new rows must not create review work)
 const homeTopic=k=>{if(!k||!k.startsWith('sub:'))return k;const [yl,fa]=k.slice(4).split('|');return DOTS.some(d=>d.fa===fa&&String(d.yl)===yl&&d.subAuto)?'sub:'+yl+'|'+fa+'|':k};
@@ -2919,9 +2933,15 @@ function renderBank(){
     else title=sel==='special:removed'?'Removed content':sel==='special:std'?'Mathematics Standard':'No 2024 match';
     if(BSEL.key!==sel)BSEL={key:sel,dp:null};
     const all=qs.length, base=qs.filter(bfOK);
-    const dpc={};base.forEach(q=>qPri(q).forEach(k=>{if((t.dps||[]).some(d=>d.id===k))dpc[k]=(dpc[k]||0)+1}));
-    qs=base.filter(q=>!BSEL.dp||qPri(q).includes(BSEL.dp));
-    const narrow=Object.keys(dpc).length>1?`<div class="fl"><span>Dot point</span>${Object.entries(dpc).sort((a,b)=>a[0].localeCompare(b[0])).map(([k,n])=>`<button data-bsel="dp:${k}" aria-pressed="${BSEL.dp===k}" title="${esc(DM[k]?.text||'')}">${esc(DM[k]?.short||k)} <span class="c">${n}</span></button>`).join('')}</div>`:'';   // owner 12 Nov: skill bubbles removed ("i dont feel like the skill bubbles work"): a question needs several skills, so they don't split a topic; skills are searchable instead
+    // the pills: one per dot point, or the owner's choices (SUB_SPLIT, owner 25 Nov: "Subdot points can be stuff they can choose inside
+    // one"): a choice counts and shows the questions with a main tag on any of its dot points
+    const own=t.fa&&SUB_SPLIT[t.fa]?.[title],ch=own&&!Array.isArray(own)?Object.entries(own):null,grp=ch||(t.dps||[]).map(d=>[d.id,[d.id]]).sort((a,b)=>a[0].localeCompare(b[0]));
+    const onG=(q,ids)=>{const p=qPri(q);return ids.some(i=>p.includes(i))};
+    const dpc={};base.forEach(q=>grp.forEach(([k,ids])=>{if(onG(q,ids))dpc[k]=(dpc[k]||0)+1}));
+    const bg=grp.find(g=>g[0]===BSEL.dp);qs=base.filter(q=>!BSEL.dp||onG(q,bg?bg[1]:[BSEL.dp]));
+    // counts on one line add up or say why (owner 18 Nov): a question on two choices counts under each, and the label says how many do
+    const many=base.filter(q=>grp.filter(([,ids])=>onG(q,ids)).length>1).length;
+    const narrow=Object.keys(dpc).length>1?`<div class="fl"><span${many?` title="${many} question${many===1?' uses':'s use'} more than one of these, so the counts add up to more than ${base.length}"`:''}>Dot point</span>${grp.filter(([k])=>dpc[k]).map(([k,ids])=>`<button data-bsel="dp:${esc(k)}" aria-pressed="${BSEL.dp===k}" title="${esc(ids.map(i=>DM[i]?.text||'').join(' / '))}">${esc(ch?k:DM[k]?.short||k)} <span class="c">${dpc[k]}</span></button>`).join('')}</div>`:'';   // owner 12 Nov: skill bubbles removed ("i dont feel like the skill bubbles work"): a question needs several skills, so they don't split a topic; skills are searchable instead
     head=`<div class="crumbs"><button data-home="1">All topics</button>${t.fa?`<span>›</span><span>${esc(t.fa)}</span>`:''}</div><div class="listhead"><h2>${esc(title)}</h2><span class="crumb">${all} question${all===1?'':'s'}</span>${bankSwitch()}</div>${sibs}${all?bfHTML(all,qs.length,narrow):''}
       ${t.dps?`<details class="dps"><summary>The ${t.dps.length} syllabus dot point${t.dps.length===1?'':'s'} in this subheading <span class="muted">· number of questions that use each one (a question can use several)</span></summary><ol>${t.dps.map(d=>{const n=t.qs.filter(q=>q.parts.some(p=>effTags(q,p).some(x=>x.id===d.id))).length;return `<li${n?'':' class="zero"'}><code>${d.id}</code>${tex(d.tex||d.text)} <span class="muted">(${n})</span></li>`}).join('')}</ol></details>`:''}`;
     if(!qs.length) head+='<div class="empty">No questions yet. This content is new or rarely examined in the papers loaded so far.</div>';
@@ -6961,7 +6981,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'b07f55abca9d837c',stale:false,t:null,at:0,
+const FRESH={build:'abdcd4daee2aeeab',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}
