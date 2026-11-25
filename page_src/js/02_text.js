@@ -48,7 +48,9 @@ function dtHTML(id,opts={}){
   const span={}, rspan={}, covered=new Set(); (t.spans||[]).forEach(([r,c,k,rs])=>{span[r+','+c]=k||1; if(rs>1){rspan[r+','+c]=rs; for(let i=1;i<rs;i++)for(let j=0;j<(k||1);j++)covered.add((r+i)+','+(c+j))}});
   // owner: columns are only forced equal for number tables (x / P(X=x), periods / rates); tables of words size each column to
   // its longest line, with headers wrapping where the paper wraps them ("Height and Gender can be narrowed")
-  const hdr=rows[Math.max(0,hr-1)]||[], uniform=!hr||hdr.slice(lc).every(c=>lineLen(c)<=8);
+  // checker 25 Nov (2022 Blacktown Boys Q25): "There is text overflowing out of the box. Fix the table": equal columns are capped at 14
+  //   characters, so a table holding a longer line ("Additional MJ over 3000") sizes each column to its own text instead
+  const hdr=rows[Math.max(0,hr-1)]||[], uniform=(!hr||hdr.slice(lc).every(c=>lineLen(c)<=8))&&rows.every(r=>r.slice(lc).every(c=>lineLen(c)<=14));
   // owner 24 Nov (2024 HSC Std Q20, "is this table approved? Why is it like that"): a split corner cell is two labels side by side plus the
   //   gap between them (03_question.css .dgw), so its column is sized for both; it was sized as one short word and "Rate" spilled into 1%
   const cellLen=c=>{const dg=diagSplit(c);return dg?2*Math.max(lineLen(dg[0]),lineLen(dg[1]))+3:lineLen(c)};
