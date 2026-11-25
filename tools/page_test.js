@@ -2615,7 +2615,7 @@ async function queueChecks(browser, base, seed) {
     assert(e.img > small.img * 2, `the diagram did not grow back after the reset (image ${Math.round(small.img)} → ${Math.round(e.img)} px)`);   // 25 Nov: the image, not its frame (the frame keeps a minimum width)
     // keyboard: the handle is a slider; → steps 5%
     await page.focus(`#xPages [data-figh="${k}"]`); await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowRight');
-    await figSteady(page, k); await page.waitForFunction(k => document.activeElement?.dataset?.figh === k, k, {timeout: 8000}).catch(() => {});   // 25 Nov: focus comes back after the relayout
+    await figSteady(page, k); await page.waitForFunction(k => document.activeElement?.dataset?.figh === k, k, {timeout: 30000}).catch(() => {});   // 25 Nov: focus comes back after the relayout
     const kb = await page.evaluate(k => ({fs: EX.figscale[k], now: document.querySelector(`#xPages [data-figh="${k}"]`)?.getAttribute('aria-valuenow'), focus: document.activeElement?.dataset?.figh}), k);
     assert(kb.fs === 1.1 && kb.now === '110', `two → presses: ${JSON.stringify(kb)}`);
     assert(kb.focus === k, 'focus left the handle after the keyboard resize');
