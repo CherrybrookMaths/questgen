@@ -204,7 +204,7 @@ document
     caption: triangle with sides 9.2 cm, 14 cm, angle 13°25' and obtuse angle x
     redraw_status: ok
     redraw_class: geometry
-    redraw_notes: Triangle with x° at the top vertex, 9.2 cm and 14 cm side labels and 13°25' at the bottom-left vertex, all at the crop's positions. The 13°25' label is nudged slightly right so it stays clear of the left side (rule 11). The remaining overlay colour is glyph-shape difference from the font. Rules 1, 2, 3, 11.
+    redraw_notes: Triangle with x° at the top vertex, 9.2 cm and 14 cm side labels and 13°25' at the bottom-left vertex, all at the crop's positions. The 13°25' label is nudged slightly right so it stays clear of the left side (rule 11). The remaining overlay colour is glyph-shape difference from the font. Rules 1, 2, 3, 11. Checker 25 Nov (2023-Knox-AT2-STD-Q1c): "make sure all the labels are not overlapped by a line/graph" -> 13 degree 25 minute label moved further into the angle, clear of both sides.
   part -  id 9889
     ordinal: 1
     latex: |
@@ -645,10 +645,11 @@ document
     page: 4
     bbox: [198, 67, 391, 322]
     png_path: figures/2839_q3c_1.png
+    tikz_path: tikz/tex/2839_q3c_1.tex
     caption: RTA map 'There's more than one road north' with distances from Sydney
-    redraw_status: keep_crop
-    redraw_class: photo
-    redraw_notes: Scanned RTA road-map poster (border lettering, map outline, town names, distance scales). This is artwork, not a maths diagram, so it can't be redrawn faithfully in house style. Kept the crop (rule 8).
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Redrawn from the scanned RTA road-map poster at the checker's request (it was kept as the crop under rule 8). Checker 25 Nov (2023-Knox-AT2-STD-Q3c): "recreate the diagram" -> Recreated as a drawing (was the scanned poster): both highways with every town, the QLD/NSW border, both distance scales from Sydney and a north arrow; the poster border, slogans and logo are left out.
   part a  id 9895
     ordinal: 1
     latex: |
@@ -1344,7 +1345,7 @@ document
       source: model
   part b  id 9905
     ordinal: 2
-    latex: Draw a line of best fit through the data plotted in part (a) on the previous page.
+    latex: Draw a line of best fit through the data plotted in part (a).
     marks: 1
     needs_review: 0
     tag 2024 S2-12-113
@@ -1639,7 +1640,7 @@ document
     data_table 2839_q8_t2
       header_rows: 0
       label_col: 1
-      rows_json: [["\\text{Weight, } x", "\\bar{x} =", "s_x ="], ["\\text{Systolic blood pressure, } y", "\\bar{y} =", "s_y ="]]
+      rows_json: [["\\text{Weight, } x", "\\bar{x} =\\phantom{000000000000}", "s_x =\\phantom{000000000000}"], ["\\text{Systolic blood pressure, } y", "\\bar{y} =\\phantom{000000000000}", "s_y =\\phantom{000000000000}"]]
       spans_json: []
     tag 2024 S11-102
       focus_area: Data analysis

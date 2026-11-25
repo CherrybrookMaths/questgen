@@ -210,7 +210,7 @@ document
     key_source: extracted
   option B
     latex: Paths, circuits, and cycles
-    is_correct: 0
+    is_correct: 1
     key_source: extracted
   option C
     latex: Circuits and cycles
@@ -218,7 +218,7 @@ document
     key_source: extracted
   option D
     latex: All of the above
-    is_correct: 1
+    is_correct: 0
     key_source: extracted
   part -  id 9936
     ordinal: 1
@@ -244,17 +244,15 @@ document
     solution 9574
       source: generated
       latex: |
-        A walk is a sequence of edges in a network. It can be a path (no repeated vertices), a circuit (starts and ends at the same vertex, no repeated edges) or a cycle (a circuit with no repeated vertices except the start and end).
+        A walk is a sequence of edges in a network. The types of walk are paths (no repeated vertices), circuits (start and end at the same vertex, no repeated edges) and cycles (circuits with no repeated vertices except the start and end).
 
-        Walks may also be on directed or undirected networks.
-
-        So each of options A, B and C is a correct statement about walks, and the keyed option is that all of them are true.
-        $$\therefore\ \text{all of the above}$$
+        "Directed" and "undirected" describe networks, not walks, so options A and D are not correct, and option C leaves out paths.
+        $$\therefore\ \text{B: paths, circuits and cycles}$$
       source_document_id: 3306
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.8, "generated_note": "Generated worked solution following the supplied key D. Option A (directed and undirected) describes network types rather than walk types, so the wording of the source question is loose.", "self_check": "Checked against the keyed answer D; options A to C each describe types of walks or networks."}
+      meta_json: {"confidence": 0.8, "edited_from_original": "Claude 11:14: checker 25 Nov \"change the answer to b\": key D -> B. Directed and undirected are types of network, not of walk.", "generated_note": null, "self_check": "Checked against the keyed answer D; options A to C each describe types of walks or networks.", "source_original": {"latex": "A walk is a sequence of edges in a network. It can be a path (no repeated vertices), a circuit (starts and ends at the same vertex, no repeated edges) or a cycle (a circuit with no repeated vertices except the start and end).\n\nWalks may also be on directed or undirected networks.\n\nSo each of options A, B and C is a correct statement about walks, and the keyed option is that all of them are true.\n$$\\therefore\\ \\text{all of the above}$$"}}
     difficulty
       band: 2
       wm: UF
@@ -790,7 +788,7 @@ document
       caption: weighted network of farm locations, house and pump
       redraw_status: ok
       redraw_class: other
-      redraw_notes: Weighted network: 9 vertices, 17 dashed edges (house aux dashes), weights at crop positions, bold 'house', dam drawn as smooth outline with wavy-line texture (explicit grey sine lines clipped to the dam, not a pattern), small pump icon, 'pump'/'dam' written with \halo. Every edge and weight lines up with the crop. The leftover colour comes from the scan's heavier dashes, larger vertex dots and where the wave lines fall. Rules 1,2,3,5b,6,19.
+      redraw_notes: Weighted network: 9 vertices, 17 dashed edges (house aux dashes), weights at crop positions, bold 'house', dam drawn as smooth outline with wavy-line texture (explicit grey sine lines clipped to the dam, not a pattern), small pump icon, 'pump'/'dam' written with \halo. Every edge and weight lines up with the crop. The leftover colour comes from the scan's heavier dashes, larger vertex dots and where the wave lines fall. Rules 1,2,3,5b,6,19. Checker 25 Nov (2023-WilliamClarke-AT3-STD-Q8): "remove the picture of the pump" -> Pump picture removed (the word "pump" stays, moved into the gap it left).
   part i  id 9947
     parent_part_id: 9946
     ordinal: 2
@@ -829,7 +827,7 @@ document
       caption: solution sketch: network with minimum spanning tree highlighted in orange
       redraw_status: ok
       redraw_class: other
-      redraw_notes: Solution network. The orange highlighter is replaced by solid 0.9pt black lines for the minimum spanning tree edges (70,40,40,50,60,40,50,80 = 430 m, matches the solution); the other edges stay dashed. Black and white only (rule 6). Thick highlighter strokes are not used because of rule 3 (0.9pt maximum). Owner may prefer a light-grey band instead: please check. Rules 3,6,9,17.
+      redraw_notes: Solution network. The orange highlighter is replaced by solid 0.9pt black lines for the minimum spanning tree edges (70,40,40,50,60,40,50,80 = 430 m, matches the solution); the other edges stay dashed. Black and white only (rule 6). Thick highlighter strokes are not used because of rule 3 (0.9pt maximum). Owner may prefer a light-grey band instead: please check. Rules 3,6,9,17. Checker 25 Nov (2023-WilliamClarke-AT3-STD-Q8): "remove the picture of the pump" -> Pump picture removed (the word "pump" stays, moved into the gap it left).
     difficulty
       band: 2
       wm: UF
@@ -941,7 +939,7 @@ document
       caption: same network, blank copy for highlighting
       redraw_status: ok
       redraw_class: other
-      redraw_notes: Same network as q8_1 (same drawing body, rescaled to this crop's size), blank copy for highlighting. The leftover colour comes from scan stroke weight, dot size and where the wave lines fall. Rules 1,2,3,5b,6.
+      redraw_notes: Same network as q8_1 (same drawing body, rescaled to this crop's size), blank copy for highlighting. The leftover colour comes from scan stroke weight, dot size and where the wave lines fall. Rules 1,2,3,5b,6. Checker 25 Nov (2023-WilliamClarke-AT3-STD-Q8): "remove the picture of the pump" -> Pump picture removed (the word "pump" stays, moved into the gap it left).
     difficulty
       band: 3
       wm: UF
@@ -1282,7 +1280,7 @@ document
       caption: fill-in table of time period, A_n and balance for A0 to A4
       redraw_status: table
       redraw_class: table
-      redraw_notes: Fill-in table transcribed. The A_4 Balance cell is shaded solid (dark) on the paper: it is shown blank here and should be shaded grey. Rows A_2 to A_4 are taller answer rows on the paper.
+      redraw_notes: Fill-in table transcribed. The A_4 Balance cell is shaded solid (dark) on the paper: it is shown blank here and should be shaded grey. Rows A_2 to A_4 are taller answer rows on the paper. Checker 25 Nov (2023-WilliamClarke-AT3-STD-Q9): "move hte dollar signs to the left rather than in the center" -> The A_n and Balance cells are now left-aligned, so the dollar signs sit at the left as on the paper; the A_4 Balance cell is shaded grey as printed.
       redraw_table_id: Tf3515
     difficulty
       band: 3

@@ -589,11 +589,11 @@ document
     key_source: extracted
   option B
     latex: \$1414.36
-    is_correct: 1
+    is_correct: 0
     key_source: extracted
   option C
     latex: \$1429.31
-    is_correct: 0
+    is_correct: 1
     key_source: extracted
   option D
     latex: \$3059.35
@@ -602,14 +602,14 @@ document
   solution 9376
     source: extracted
     latex: |
-      The interest-free period is the first 30 days, 15 October to 13 November. Interest is then charged from 14 November to 30 November, which is 17 days (both dates counted).
-      $$\begin{aligned} FV &= 1405.95\left(1 + \dfrac{0.128}{365}\right)^{17} \\ &= \$1414.36 \end{aligned}$$
-      This matches option B.
+      The bicycle is not paid for within the 30 interest-free days, so interest is charged from the date of purchase. From 15 October to 30 November, counting both dates, is $17 + 30 = 47$ days.
+      $$\begin{aligned} FV &= 1405.95\left(1 + \dfrac{0.128}{365}\right)^{47} \\ &= \$1429.31 \end{aligned}$$
+      This matches option C.
     marks_breakdown: 1: correct option
     source_document_id: 2834
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {"corrected": "Corrected from source: the working charged interest for 15 to 31 October inside the interest-free period; the 17 days are 14 to 30 November (key B unchanged).", "overwritten_from_source": "Corrected from source: the working charged interest for 15 to 31 October inside the interest-free period; the 17 days are 14 to 30 November (key B unchanged).", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "Interest is charged from 15 October to 31 October, which is 17 days (both dates counted). The interest-free period covers the rest to 30 November, so no further interest applies.\n$$\\begin{aligned} FV &= 1405.95\\left(1 + \\dfrac{12.8\\%}{365}\\right)^{17} \\\\ &= \\$1414.36 \\end{aligned}$$\nThis matches option B."}}
+    meta_json: {"corrected": "Claude 11:14: checker 25 Nov \"change the answer key to c\": key B -> C. The 30 interest-free days are missed, so interest is charged from the purchase date: 15 Oct to 30 Nov, both dates counted, 47 days.", "edited_from_original": "Claude 11:14: checker 25 Nov \"change the answer key to c\": key B -> C. The 30 interest-free days are missed, so interest is charged from the purchase date: 15 Oct to 30 Nov, both dates counted, 47 days.", "overwritten_from_source": "Claude 11:14: checker 25 Nov \"change the answer key to c\": key B -> C. The 30 interest-free days are missed, so interest is charged from the purchase date: 15 Oct to 30 Nov, both dates counted, 47 days.", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "Interest is charged from 15 October to 31 October, which is 17 days (both dates counted). The interest-free period covers the rest to 30 November, so no further interest applies.\n$$\\begin{aligned} FV &= 1405.95\\left(1 + \\dfrac{12.8\\%}{365}\\right)^{17} \\\\ &= \\$1414.36 \\end{aligned}$$\nThis matches option B."}}
   part -  id 9870
     ordinal: 1
     latex: |
@@ -1406,7 +1406,7 @@ document
     data_table 2834_q6c_t1
       header_rows: 1
       label_col: 0
-      rows_json: [["\\text{Company name}", "\\text{Number of shares in Jakov's WOW shares}", "\\text{Dividend yield (per annum)}", "\\text{Cost price per share}", "\\text{Market Price per share}"], ["\\text{WOW}", "?", "3.2\\%", "\\$16.80", "\\$32.80"]]
+      rows_json: [["\\text{Company}\\\\\\text{name}", "\\text{Number of shares}\\\\\\text{in Jakov's WOW}\\\\\\text{shares}", "\\text{Dividend}\\\\\\text{yield}\\\\\\text{(per annum)}", "\\text{Cost price}\\\\\\text{per share}", "\\text{Market Price}\\\\\\text{per share}"], ["\\text{WOW}", "?", "3.2\\%", "\\$16.80", "\\$32.80"]]
       spans_json: []
     tag 2024 S2-12-035
       focus_area: Investment and loans

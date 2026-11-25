@@ -2285,7 +2285,7 @@ document
     caption: solution diagram (drawn by Claude)
     redraw_status: ok
     redraw_class: geometry
-    redraw_notes: New sketch. O is at the origin with a north arrow; OA = 75 m on bearing 310 and OB = 60 m on bearing 021, drawn to scale, with triangle side AB. The arcs are 50 degrees (N to OA), 21 degrees (N to OB, larger radius because the angle is small) and 71 degrees for angle AOB (outer arc, value inside). Side lengths are centred outside their sides. Rules 11, 14, 22 applied.
+    redraw_notes: New sketch. O is at the origin with a north arrow; OA = 75 m on bearing 310 and OB = 60 m on bearing 021, drawn to scale, with triangle side AB. The arcs are 50 degrees (N to OA), 21 degrees (N to OB, larger radius because the angle is small) and 71 degrees for angle AOB (outer arc, value inside). Side lengths are centred outside their sides. Rules 11, 14, 22 applied. Checker 25 Nov (2022-Gosford-AT4-STD-Q23): "put the 71 degree label ontop of its angle marker and in teh center of its angle marker2" -> 71 degree label moved onto the top of its arc, centred on the arc (was inside it, off to the left).
   part -  id 10630
     ordinal: 1
     latex: |
@@ -2458,7 +2458,7 @@ document
     caption: solution diagram (drawn by Claude)
     redraw_status: ok
     redraw_class: geometry
-    redraw_notes: New sketch, to scale: PQ = 1.8 km on bearing 058 and QR = 2.7 km on bearing 312, with side PR closing the triangle. There are north arrows at P and Q. Arcs: 58 degrees at P; 238 degrees clockwise from north to QP, ending where the 74 degree angle starts; 74 degrees for angle PQR; 312 degrees (outer arc) clockwise from north to QR. Round 2 moved the 238 degree and 1.8 km labels off the arcs. Rules 11, 14, 22 applied.
+    redraw_notes: New sketch, to scale: PQ = 1.8 km on bearing 058 and QR = 2.7 km on bearing 312, with side PR closing the triangle. There are north arrows at P and Q. Arcs: 58 degrees at P; 238 degrees clockwise from north to QP, ending where the 74 degree angle starts; 74 degrees for angle PQR; 312 degrees (outer arc) clockwise from north to QR. Round 2 moved the 238 degree and 1.8 km labels off the arcs. Rules 11, 14, 22 applied. Checker 25 Nov (2022-Gosford-AT4-STD-Q25): "make sure all the labels are not overlapped by a line/graph" -> 1.8 km and 2.7 km moved further out from their sides (both were touching the line).
   part a  id 10632
     ordinal: 1
     latex: What is the bearing of $R$ from $Q$?
@@ -3155,7 +3155,7 @@ document
 ## Q31  key 2022-Gosford-AT4-STD-Q31  id 6666
   section: II
   question_type: short
-  marks_total: 4
+  marks_total: 3
   page_start: 23
   page_end: 23
   needs_review: 1
@@ -3885,7 +3885,7 @@ document
     data_table 825_q37_t1
       header_rows: 1
       label_col: 0
-      rows_json: [["\\text{Activity}", "\\text{Immediate prerequisite(s)}"], ["A", "-"], ["B", "-"], ["C", "A"], ["D", "B"], ["E", ""], ["F", ""], ["G", ""], ["H", "F"]]
+      rows_json: [["\\text{Activity}", "\\text{Immediate}\\\\\\text{prerequisite(s)}"], ["A", "-"], ["B", "-"], ["C", "A"], ["D", "B"], ["E", ""], ["F", ""], ["G", ""], ["H", "F"]]
       spans_json: []
     tag 2024 S2-12-099
       focus_area: Critical path analysis
@@ -3912,14 +3912,14 @@ document
 
         Activities $F$ and $G$ both start at the node where $C$ and $D$ end, so their prerequisites are $C$ and $D$.
 
-        \begin{tabular}{|c|c|}\hline Activity & Immediate prerequisite(s) \\ \hline $E$ & $B$ \\ $F$ & $C, D$ \\ $G$ & $C, D$ \\ \hline \end{tabular}
+        $$\begin{array}{|c|c|}\hline \text{Activity} & \text{Immediate prerequisite(s)} \\ \hline E & B \\ \hline F & C, D \\ \hline G & C, D \\ \hline \end{array}$$
 
         $$\therefore\ E: B;\quad F: C, D;\quad G: C, D$$
       source_document_id: 825
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.93, "generated_note": "The table is written in simple form; the question's own table should be used on the page.", "self_check": "Read from the network diagram."}
+      meta_json: {"confidence": 0.93, "edited": "Claude 11:14: checker 25 Nov \"fix the table inpart a\": the answer table was a LaTeX tabular the page shows as raw code; now a display array.", "generated_note": null, "self_check": "Read from the network diagram."}
     difficulty
       band: 3
       wm: UF
