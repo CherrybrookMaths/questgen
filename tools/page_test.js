@@ -3715,6 +3715,16 @@ async function trig1125(browser, base, seed) {
     assert(!r.btn && !r.note && r.n && r.tip, JSON.stringify(r));
     return `${r.n} counts, each with the hover note`;
   });
+  // owner 25 Nov: "change the NOT LOOKED AT flag to a 'things still left to do' flag instead"
+  await check('review: a paper with work left is highlighted with "Still to do: …" (no "Not looked at")', page, async () => {
+    await page.evaluate(() => { location.hash = '#review' }); await settle(page, 2500, 1);
+    const r = await page.evaluate(() => { const rows = [...document.querySelectorAll('.iprow')];
+      return {n: rows.length, old: document.body.innerText.includes('Not looked at'),
+        bad: rows.filter(a => a.classList.contains('rv-unseen') !== !!a.querySelector('.rv-new')).length,
+        tag: (document.querySelector('.iprow .rv-new')?.textContent || '')} });
+    assert(r.n && !r.old && !r.bad && (!r.tag || /^Still to do: \d+ /.test(r.tag)), JSON.stringify(r));
+    return `${r.n} papers; e.g. “${r.tag}”`;
+  });
   await check('standard trig: the exam builders list the same six rows; a home in them makes no review work', page, async () => {
     await page.evaluate(() => { location.hash = 'exams' }); await page.waitForFunction(() => view === 'exams', null, {timeout: 15000});
     await page.evaluate(() => EXAS.fresh()); await page.waitForSelector('#exTopics .extile', {timeout: 15000});

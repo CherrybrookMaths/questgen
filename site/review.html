@@ -1957,7 +1957,7 @@ a.plink:hover{text-decoration:underline}
 .icard.rv-wait .ict{color:var(--muted)}
 .handoff [data-flr]{margin:0 8px;min-height:30px;padding:3px 12px}
 /* owner 24 Nov: papers the checker has not looked at yet are highlighted (checkerSeen, 08_review.js) */
-.rv-new{flex:none;font-size:11.5px;font-weight:600;line-height:1.5;padding:0 7px;border-radius:999px;color:var(--acc,#285ae6);background:color-mix(in srgb,var(--acc,#285ae6) 12%,transparent);white-space:nowrap}
+.rv-new{flex:0 1 auto;min-width:0;font-size:11.5px;font-weight:600;line-height:1.5;padding:0 7px;border-radius:9px;color:var(--acc,#285ae6);background:color-mix(in srgb,var(--acc,#285ae6) 12%,transparent);white-space:normal;overflow-wrap:anywhere}
 .iprow.rv-unseen,tr.rv-unseen>td{background:color-mix(in srgb,var(--acc,#285ae6) 6%,transparent)}
 .iprow.rv-unseen{box-shadow:inset 3px 0 0 var(--acc,#285ae6)}tr.rv-unseen>td:first-child{box-shadow:inset 3px 0 0 var(--acc,#285ae6)}
 /* Processes › Papers (owner 14 Nov, mockup A: "I like A's design much more"): top line, summary, course lanes, queue; all under .procs, pr- prefix */
@@ -3263,12 +3263,11 @@ function workOf(main,ids,qs){const left={},total={};STEPS.forEach(([k])=>{left[k
   const ready=ids.map(paperReady).filter(Boolean);left.sample+=ready.length;
   const n=STEPS.reduce((a,[k])=>a+left[k],0);
   return {doc:main,ids,left,total,ready,n,at:(STEPS.find(([k])=>left[k]>0)||[])[0]||null}}
-// owner 24 Nov: "can you make it so that the papers that haven't been looked at are highlighted so I know which ones I've looked at
-//   (from checker)": a paper is "looked at" once the checker's account wrote any review on it (a question approved, flagged, a diagram
-//   request, or the paper's own decision). CHECKER is his account id (the one that presses "Fix my flags now" and writes the flags).
-const CHECKER='u_mP9tmz6NRnOivy8Y4rJU5g';
-function checkerSeen(){const s=new Set();B.questions.forEach(q=>{if(reviews['q'+q.id]?.by===CHECKER||reviews['paper_'+q.doc]?.by===CHECKER||reviews['paper_'+q.doc]?.call?.by===CHECKER)s.add(mainDoc(q.doc))});return s}
-const unseenTag='<span class="rv-new" title="The checker has not approved, flagged or decided anything in this paper yet">Not looked at</span>';
+// owner 25 Nov: "change the NOT LOOKED AT flag to a 'things still left to do' flag instead. word it in a way which makes sense" (replaces the
+//   24 Nov "Not looked at" tag): a paper with review work left is highlighted, and its tag says what is left, step by step
+const LEFT_WORDS={decide:['call for Steve','calls for Steve'],check:['flagged question','flagged questions'],tags:['topic check','topic checks'],diagrams:['diagram','diagrams'],sample:['spot-check','spot-checks']};
+const leftTag=w=>{if(!w||!w.n)return '';const xs=STEPS.map(([k])=>[k,w.left[k]]).filter(([,n])=>n>0).map(([k,n])=>n+' '+LEFT_WORDS[k][n===1?0:1]);
+  return `<span class="rv-new" title="Still to do in this paper: ${esc(xs.join(', '))}">Still to do: ${esc(xs.join(', '))}</span>`};
 function paperWork(doc){const ids=docIds(doc);return workOf(mainDoc(doc),ids,B.questions.filter(q=>ids.includes(q.doc)))}
 function allWork(){const by=new Map();B.questions.forEach(q=>{const m=mainDoc(q.doc);if(!by.has(m))by.set(m,[]);by.get(m).push(q)});
   const W=new Map();by.forEach((qs,m)=>W.set(m,workOf(m,docIds(m),qs)));return W}
@@ -3302,7 +3301,7 @@ function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
   const all=allWork(),W=[...all.values()].filter(w=>w.n).sort(workOrder),rep=typeof repOpen==='function'?repOpen().length:0,lv=typeof lvTodoN==='function'?lvTodoN():0;
   const card=(k,n,title,what,href,doneText,body='')=>n?`<section class="icard" data-card="${k}"><a class="ihead" href="${href}"><span class="ict">${n}</span><span class="itx"><b>${title}</b><span class="iwhat">${what}</span></span><span class="igo" aria-hidden="true">→</span></a>${body}</section>`
     :`<section class="icard idone" data-card="${k}"><a class="ihead" href="${href}"><span class="itick" aria-hidden="true">✓</span><span class="itx"><b>${title}</b><span class="iwhat">${doneText}</span></span><span class="igo">${k==='papers'?'Show all papers':'Open'} →</span></a></section>`;
-  const SEEN=checkerSeen(),SHOW=8,row=w=>`<li><a class="iprow${SEEN.has(String(w.doc))?'':' rv-unseen'}" href="#review/paper/${w.doc}"><span class="ipn"><span class="rv-pnm">${esc(docLabel(B.docs[w.doc]))}</span>${w.left.decide?'<span class="rv-call">waiting on your call</span>':''}${SEEN.has(String(w.doc))?'':unseenTag}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`;
+  const SHOW=8,row=w=>`<li><a class="iprow${w.n?' rv-unseen':''}" href="#review/paper/${w.doc}"><span class="ipn"><span class="rv-pnm">${esc(docLabel(B.docs[w.doc]))}</span>${w.left.decide?'<span class="rv-call">waiting on your call</span>':''}${leftTag(w)}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`;
   // groups open in order until SHOW rows are out; later groups show their header and open on a click ("N more" counts their rows)
   const G=W.length?inboxGroups(all):null,was=new Map([...box.querySelectorAll('details.rv-bg')].map(d=>[d.dataset.batch,d.open]));let shown=0,more=Math.max(0,W.length-SHOW),list=`<ul class="iplist">${W.slice(0,SHOW).map(row).join('')}</ul>`;
   if(G){more=0;list=`<div class="rv-bgs">${G.map(g=>{const todo=g.ws.filter(w=>w.n),head=`${esc(g.name)} · ${g.clr} of ${g.ws.length} cleared`;
@@ -3818,7 +3817,7 @@ window.addEventListener('resize',()=>moveAreaSlider());
 const TYPE_LABEL={hsc:'HSC',trial:'Trial',internal_exam:'School task',internal_other:'School task'};
 function renderPapers(){
   // one row per paper: the same paper filed as two PDFs is merged (its duplicate questions are hidden in the Bank)
-  const groups=new Map(); let rows; const W=allWork(),SEEN=checkerSeen();
+  const groups=new Map(); let rows; const W=allWork();
   Object.values(B.docs).forEach(d=>{if(!B.questions.some(q=>q.doc===d.id))return;const k=docLabel(d);if(!groups.has(k))groups.set(k,[]);groups.get(k).push(d)});
   rows=[...groups.values()].map(ds=>{const ids=ds.map(d=>d.id);const qs=B.questions.filter(q=>ids.includes(q.doc));
     const uq=qs.filter(q=>!q.dup_of);
@@ -3832,7 +3831,7 @@ function renderPapers(){
   const PF=PFILT; const school=r=>docLabel(r.d).replace(/^\d{4}\s+/,'').replace(/\s+(A[TP]\d|HSC)$/,'');
   const task=r=>(docLabel(r.d).match(/\b(A[TP]\d|HSC)\b/)||[,''])[1];
   const prog=r=>r.done===0?'none':r.done>=r.uq.length?'done':'some';
-  const progOK=r=>!PF.prog||(PF.prog==='todo'?r.w.n>0:PF.prog==='unseen'?!SEEN.has(String(r.w.doc)):prog(r)===PF.prog);   // owner 24 Nov: unseen = the checker has not looked at it
+  const progOK=r=>!PF.prog||(PF.prog==='todo'?r.w.n>0:prog(r)===PF.prog);   // owner 24 Nov: unseen = the checker has not looked at it
   const allRows=rows;
   rows=rows.filter(r=>(!PF.q||docLabel(r.d).toLowerCase().includes(PF.q.toLowerCase()))&&(!PF.year||String(r.year)===PF.year)&&(!PF.task||task(r)===PF.task)&&(!PF.src||(r.d.parse_path==='scan'?'scan':'digital')===PF.src)&&progOK(r));
   const key={left:r=>r.w.n,paper:r=>docLabel(r.d),q:r=>r.uq.length,marks:r=>r.marks,done:r=>r.done/Math.max(1,r.uq.length),year:r=>r.year};
@@ -3845,15 +3844,15 @@ function renderPapers(){
   <div class="pfil" id="pfil"><input id="pfQ" type="search" placeholder="Search papers, e.g. Baulkham, NESA, 2025" aria-label="Search papers">
   <select id="pfYear" aria-label="Year"></select><select id="pfTask" aria-label="Task"></select>
   <select id="pfSrc" aria-label="Source"><option value="">Digital and scans</option><option value="digital">Digital only</option><option value="scan">Scans only</option></select>
-  <select id="pfProg" aria-label="Review progress"><option value="">Any progress</option><option value="todo">Review work left</option><option value="none">Not started</option><option value="some">In progress</option><option value="done">Fully approved</option><option value="unseen">Not looked at by the checker</option></select>
+  <select id="pfProg" aria-label="Review progress"><option value="">Any progress</option><option value="todo">Things still to do</option><option value="none">Not started</option><option value="some">In progress</option><option value="done">Fully approved</option></select>
   <button class="act ghost clr" id="pfClr" type="button">Clear</button></div><div id="ptable"></div>`;
   const yS=$('#pfYear'),tS=$('#pfTask');
   yS.innerHTML='<option value="">All years</option>'+years.map(y=>`<option${String(y)===PF.year?' selected':''}>${y}</option>`).join('');
   tS.innerHTML='<option value="">All tasks</option>'+tasks.map(t=>`<option${t===PF.task?' selected':''}>${t}</option>`).join('');
   if(document.activeElement!==$('#pfQ'))$('#pfQ').value=PF.q;$('#pfSrc').value=PF.src;$('#pfProg').value=PF.prog;
-  $('#psub').textContent=`${allRows.filter(r=>!SEEN.has(String(r.w.doc))).length} not looked at by the checker yet (highlighted) · ${rows.length} of ${allRows.length} papers${allRows.some(r=>r.ds.length>1)?` (${allRows.reduce((n,r)=>n+r.ds.length,0)} PDFs)`:''} · ${tot.u} questions shown`;
+  $('#psub').textContent=`${allRows.filter(r=>r.w.n).length} with things still to do (highlighted) · ${rows.length} of ${allRows.length} papers${allRows.some(r=>r.ds.length>1)?` (${allRows.reduce((n,r)=>n+r.ds.length,0)} PDFs)`:''} · ${tot.u} questions shown`;
   $('#ptable').innerHTML=`<div class="pwrap"><table class="pp"><thead><tr>${th('paper','Paper')}${th('left','Review')}${th('q','Questions',1)}${th('marks','Marks',1)}${th('done','Approved',1)}<th class="num">MCQ</th><th class="num">Short answer</th><th>Type</th><th>Source</th><th></th></tr></thead><tbody>
-  ${rows.map(r=>`<tr data-flow="${r.w.doc}"${SEEN.has(String(r.w.doc))?'':' class="rv-unseen"'}><td class="pname"><a class="plink" href="#review/paper/${r.w.doc}">${esc(docLabel(r.d))}</a>${SEEN.has(String(r.w.doc))?'':' '+unseenTag}${r.ds.length>1?`<div class="muted">Filed as ${r.ds.length} PDFs; the ${r.qs.length-r.uq.length} repeated questions are counted once</div>`:''}</td>
+  ${rows.map(r=>`<tr data-flow="${r.w.doc}"${r.w.n?' class="rv-unseen"':''}><td class="pname"><a class="plink" href="#review/paper/${r.w.doc}">${esc(docLabel(r.d))}</a>${r.w.n?' '+leftTag(r.w):''}${r.ds.length>1?`<div class="muted">Filed as ${r.ds.length} PDFs; the ${r.qs.length-r.uq.length} repeated questions are counted once</div>`:''}</td>
     <td class="ptrack">${miniTrack(r.w)} <span class="ipl">${workLine(r.w)}</span></td>
     <td class="num">${r.uq.length}</td><td class="num">${r.marks}</td><td class="num">${r.done}<span class="muted"> / ${r.uq.length}</span><span class="pbar" aria-hidden="true"><i style="width:${Math.round(100*r.done/Math.max(1,r.uq.length))}%"></i></span></td>
     <td class="num">${r.mcq}</td><td class="num">${r.uq.length-r.mcq}</td>
@@ -7049,7 +7048,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'408df3ced31085f3',stale:false,t:null,at:0,
+const FRESH={build:'f597f09be13f23b5',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}
