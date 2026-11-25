@@ -1519,6 +1519,22 @@ events, Relative and expected frequency, Venn diagrams and two-way tables), drop
   spreadsheet model.
 - **No later-row rule**: marks decide, as in every other topic (a tree question with a 1-mark expected-frequency part stays in Multistage
   events). 72 questions under the topic (approved), the same as with one row per dot point (page test cpa1125).
+
+## Standard topics simplified: Formulas and equations; network questions (25 Nov)
+Owner 25 Nov: "For formula and equations, it should be: * substitution * change the subject (this includes evaluate) * Speed distance time
+* Stopping Distance * BAC * Dosage * Solving equations"
+- Rows: Substitution (S11-001, 008 apply given formulas), Change the subject (002 evaluate the subject, 009), Speed distance time (003), BAC
+  (004, 005, 006), Dosage (007), Solving equations (010) (07_bank.js SUB_SPLIT).
+- **Stopping distance is a choice inside Speed distance time**, not its own row: the syllabus has speed, distance, time and stopping
+  distances in one dot point (S11-003), and a row needs a dot point of its own (the exam builders' topic lists and skill gates are built
+  from them). The question's words pick the choice (tools/bank_split.py STOP_RE: stopping / braking / reaction distance, reaction time):
+  6 questions on 25 Nov, checked by eye. A separate row is possible with more work (it touches the exam builders); ask if wanted.
+- S11-011 (spreadsheet of formulas, no question tagged) dropped, as Critical path's spreadsheet model.
+Owner 25 Nov, on 2026 NESA HSC Std Q21 (zoo network with gradients, then a 3-mark speed-and-time part, filed under Formulas and equations):
+"the question I attached is DEFINITELY a networks question."
+- A Year 11 question with any part on a Networks, paths and trees dot point is filed under that topic, in the row its network parts' marks
+  pick (07_bank.js qHome, after SUB_WINS). The year rule still wins. On 25 Nov it moved 2 questions: 2026 NESA HSC Std Q21 and 2021 Oakhill
+  AT1 Q14 (town network, speed-limit time parts), both to Shortest paths and spanning trees. A home picked by hand in Review still wins.
 - Tests: the `cpa: …` checks in tools/page_test.js (cpa1125).
 
 ## Checker's review of the page (25 Nov)

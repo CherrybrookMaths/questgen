@@ -39,12 +39,20 @@ const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057',
     'Float times and critical activities':['S2-12-102'],
     'Minimum completion time':['S2-12-104','S2-12-106','S2-12-100','S2-12-103','S2-12-107'],'Gantt charts':['S2-12-105']},
   'Network flow':{'Max flow min cut':['S2-12-093','S2-12-094','S2-12-095','S2-12-096'],'Increase/decrease problems':['S2-12-097','S2-12-098']},
+  'Formulas and equations':{'Substitution':['S11-001','S11-008'],'Change the subject':['S11-002','S11-009'],
+    'Speed distance time':{'Speed distance time':['S11-003'],'Stopping distance':['S11-003']},'BAC':['S11-004','S11-005','S11-006'],
+    'Dosage':['S11-007'],'Solving equations':['S11-010','S11-011']},
   'Relative frequency and probability':{'Probability basics':['S2-12-121','S2-12-122','S2-12-123','S2-12-124','S2-12-125','S2-12-131','S2-12-132'],
     'Multistage events':['S2-12-126','S2-12-127'],'Relative and expected frequency':['S2-12-128','S2-12-129','S2-12-130']}};
 // owner 25 Nov, on the Relative frequency and probability card ("how should we condense this into smaller? What does it say in syllabus?";
 //   the syllabus gives one outcome, MST-12-S2-09, and no sub-levels), after Claude proposed four rows: "rule off, drop the media thing and
 //   fold venn and two way tables." Three rows; Venn diagrams and two-way tables (131) sit in Probability basics; 132 (statistics in
 //   decisions by media and governments) is dropped; no later-row rule, so marks decide as in every other topic.
+// owner 25 Nov: "For formula and equations, it should be: * substitution * change the subject (this includes evaluate) * Speed distance time
+//   * Stopping Distance * BAC * Dosage * Solving equations". The syllabus has speed, distance, time AND stopping distances in one dot point
+//   (S11-003), so Stopping distance is a choice inside the Speed distance time row, picked by the question's words (q.ch, tools/bank_split.py),
+//   as Area of a triangle's. S11-008 (apply given formulas) goes with Substitution; S11-011 (spreadsheet of formulas, no question tagged) is
+//   dropped as Critical path's spreadsheet model.
 // owner 25 Nov: "Ok lets also refine topics for for Network flow. it should just be * Max flow min cut * Increase decrease problems. Do all
 //   questions fit inside that?" All six dot points fit; on S2-12-098 (does the flow meet demand?): "it goes in increase decrease".
 //   SUB_RULE later as Critical path analysis ("As uisual, if it needs a later section, it should not appear in the earlier section").
@@ -58,7 +66,7 @@ const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057',
 //     picked by hand in Review still wins);
 //   drop: dot points the owner removed: no pill, not in the topic's dot-point list, and they never decide the row while another part's dot
 //     point can; a question on them only stays in the row SUB_SPLIT lists them under, and old keys naming them read as that row.
-const SUB_RULE={'Critical path analysis':{later:1,drop:['S2-12-107']},'Network flow':{later:1},'Relative frequency and probability':{drop:['S2-12-132']}};
+const SUB_RULE={'Critical path analysis':{later:1,drop:['S2-12-107']},'Network flow':{later:1},'Relative frequency and probability':{drop:['S2-12-132']},'Formulas and equations':{drop:['S11-011']}};
 // a topic the owner split keeps the syllabus's sub-level as d.sub0 (Review compares homes by it, QG.topicKeys reads old keys from it); a
 // sub-level the page made is d.subAuto
 function subLevels(ds){const by={};ds.forEach(d=>(by[d.yl+'|'+d.fa]=by[d.yl+'|'+d.fa]||[]).push(d));
@@ -120,7 +128,12 @@ function homeNeed(q){return !q.dup_of&&q.parts.some(p=>p.tagd)&&homeTopic(homeOf
 //   beause it has line of best fit". Any part on a line of best fit dot point (113 line by eye/tools, 116 equation from a graph, 118
 //   least-squares, 119 spreadsheet, 120 predictions) files the question under Line of best fit.
 const SUB_WINS=['S2-12-070','S2-12-069','S2-12-113','S2-12-116','S2-12-118','S2-12-119','S2-12-120'];
-function qHome(q){if(!reviews['q'+q.id]?.home){const w=SUB_WINS.find(id=>DM[id]&&q.parts.some(p=>leaf(q,p)&&partMain(q,p).includes(id)));if(w)return subKey(w)}
+// owner 25 Nov (2026 NESA HSC Std Q21, a zoo network with a 3-mark speed-and-time part, filed under Formulas and equations): "the question
+//   I attached is DEFINITELY a networks question." A Year 11 question with any part on a Networks, paths and trees dot point is filed under
+//   that topic, in the row its network parts' marks pick (the year rule still wins: a question with a Year 12 part stays in Year 12)
+const NET_FA='Networks, paths and trees';
+function qHome(q){if(!reviews['q'+q.id]?.home){const w=SUB_WINS.find(id=>DM[id]&&q.parts.some(p=>leaf(q,p)&&partMain(q,p).includes(id)));if(w)return subKey(w);
+    if(!qY12(q)&&q.parts.some(p=>leaf(q,p)&&partMain(q,p).some(id=>DM[id]?.fa===NET_FA&&DM[id].yl===11))){const h=homeOf(q,'main',id=>DM[id]?.fa===NET_FA&&DM[id].yl===11?subKey(id):null);if(h)return h}}
   const h=qHome0(q);if(!h||!h.startsWith('sub:'))return h;const [yl,fa]=h.slice(4).split('|');
   if(q.st&&SUB_SPLIT[fa]?.[q.st])return 'sub:'+yl+'|'+fa+'|'+q.st;   // owner 24 Nov: an annuity question with PV in it is filed under Present value
   // owner 25 Nov (Critical path analysis): "if it needs a later section, it should not appear in the earlier section" (SUB_RULE later)

@@ -4102,6 +4102,22 @@ async function cpa1125(browser, base, seed) {
     assert(r.treeNp === 'sub:12|Relative frequency and probability|Multistage events', `tree 3 marks + expected frequency 1 mark (marks decide): ${r.treeNp}`);
     return `${r.rows.join(' · ')}; ${r.now} questions, as before; S2-12-132 listed nowhere; a tree + np question stays in Multistage events`;
   });
+  // owner 25 Nov: Formulas and equations rows; and "the question I attached is DEFINITELY a networks question" (2026 NESA HSC Std Q21)
+  await check('formulas: six rows, stopping distance a choice, same questions; a network question with a speed part files under Networks', page, async () => {
+    const r = await page.evaluate(() => { const fa = 'Formulas and equations', f = [...document.querySelectorAll('#nav .fa[data-area]')].find(x => x.dataset.area === '11|' + fa);
+      const qs = B.questions.filter(inBank), cnt = () => qs.filter(q => [...qPlaces(q)].some(k => k.startsWith('sub:11|' + fa + '|'))).length;
+      const net = B.questions.find(q => q.key === '2026-NESA-HSC-STD-Q21'), oak = B.questions.find(q => q.key === '2021-Oakhill-AT1-STD-Q14');
+      return {rows: f ? [...f.querySelectorAll('.fold [data-sel] span:first-child')].map(x => x.textContent) : null, now: cnt(),
+        dps: [...TOPICS.y11.get(fa).values()].flatMap(s => s.dps.map(d => d.id)), stop: qs.filter(q => q.ch === 'Stopping distance').map(q => q.key).sort(),
+        net: net && qHome(net), oak: oak && qHome(oak)} });
+    errs(page);
+    assert(r.rows && r.rows.join('|') === 'Substitution|Change the subject|Speed distance time|BAC|Dosage|Solving equations', `sidebar rows: ${r.rows}`);
+    assert(!r.dps.includes('S11-011') && r.dps.length === 10, `dot points listed: ${r.dps.join(', ')}`);
+    assert(r.stop.length >= 5, `stopping distance questions: ${r.stop.join(', ')}`);
+    assert(!r.net || r.net === 'sub:11|Networks, paths and trees|Shortest paths and spanning trees', `2026 HSC Std Q21: ${r.net}`);
+    assert(!r.oak || r.oak.startsWith('sub:11|Networks, paths and trees|'), `2021 Oakhill AT1 Q14: ${r.oak}`);
+    return `${r.rows.join(' · ')}; ${r.now} questions; stopping distance: ${r.stop.length}; Q21 → ${r.net && r.net.split('|')[2]}; Oakhill Q14 → ${r.oak && r.oak.split('|')[2]}`;
+  });
   await check('cpa: old keys (one row per dot point) read as the new rows', page, async () => {
     const r = await page.evaluate(fa => { const old = DOTS.filter(d => d.fa === fa).map(d => `sub:12|${fa}|${d.short}`);
       return {map: old.map(k => [k.split('|')[2], QG.topicKeys([k]).map(x => x.split('|')[2]).join('+')]),
