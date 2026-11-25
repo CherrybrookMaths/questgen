@@ -1424,6 +1424,46 @@ trigonometry' (S2-12-071) -> "Right angled trig"; the sine rule obtuse-angle dot
 
 - **Context wins (25 Nov).** Owner, on 2024 Oakhill AT2 Q29 (filed under Cosine rule by its 3-mark perimeter part): "this question sitting in cosine rule is clearly a radial survey question"; then on 2023 William Clarke AT1 Q6: "Same for bearings, this is in cosine rule but should be in bearings". A question with any part on S2-12-070 (radial surveys) is filed under Radial surveys, else one with any part on S2-12-069 (bearings) under Bearings, whatever the marks (07_bank.js SUB_WINS; a home picked by hand in Review still wins).
 
+## Standard topics simplified: Investment and loans, Bivariate data analysis, Area of a triangle (25 Nov)
+Owner 25 Nov: "For area of a triangle, finding area is one choice, findin the angle or something else should be other choices.
+For Investment and loans
+* Simple interest
+* Compound interest
+* Depreciation
+* Loans
+* Credit Cards
+* Shares and Dividends
+For bivariate data,
+Anything to do with pearsons correlation, describing scatter plots goes into Bivariate datasets. Any line of best fit/least squares
+regression, interpolation extrapolation goes into Line of best fit section."
+- Year 12 Investment and loans has six rows, in his order: Simple interest (S2-12-026, 027, 028), Compound interest (029, 030, 031, 032, 033,
+  034, 039), Depreciation (040-043), Loans (044-048), Credit cards (049-054), Shares and dividends (035-038). Year 12 Bivariate data analysis has
+  two: Bivariate datasets (108, 109, 110, 111, 112, 114, 115, 117) and Line of best fit (113, 116, 118, 119, 120). Inside a row the "Dot point"
+  pills stay one per dot point (07_bank.js SUB_SPLIT).
+- **Calls the owner can move** (made by the main session, not by him): S2-12-032 and 033 (comparing simple and compound interest growth) go
+  to Compound interest, which is taught second (as his 24 Nov Annuities rule, "Since PV is taught after, any question which has both goes into
+  PV"); 034 (a spreadsheet of both kinds of investment) to Compound interest; 039 (compare savings accounts, term deposits, shares and
+  property) to Compound interest. One line in SUB_SPLIT moves any of them.
+- Both topics had the syllabus's own sub-levels (Investment / Depreciation / Loans / Credit cards; Bivariate datasets / Scatter plots and lines
+  of best fit); the owner's rows replace them in the Bank, the topic cards and the exam builders. The syllabus's sub-level stays on the dot point
+  (d.sub0) for two things only: Review compares the tagger's and checker's homes by it, as before (homeNeed, revKey), so the new rows make no
+  review work and remove none; and exams and Already learnt lists saved with the old names keep their ticks: an old key reads as every new row
+  holding one of its dot points ('Investment' → Simple interest, Compound interest, Shares and dividends; 'Scatter plots and lines of best fit'
+  → Bivariate datasets, Line of best fit; QG.topicKeys). The same questions are filed under each topic as before (240 and 97 with unapproved
+  ones, 25 Nov).
+- Skill gates (tools/bank_split.py skill_gates_standard) still name a skill's topic by the syllabus's sub-level of its first dot point. Such a
+  key counts as learnt once any new row holding one of its dot points is learnt, and a subtopic line names that row ("6 need Simple interest",
+  not "need Investment", which nobody can tick any more; 23_exam_auto.js XG.learnt / XG.miss). Looser than a per-dot-point gate for
+  'Investment' and 'Scatter plots and lines of best fit' (any of their rows meets them); the same rule the focus-area keys already follow.
+- **Area of a triangle** (one dot point, S2-12-068) has two choices: Finding the area and Finding a side or angle. They cannot come from dot
+  points, so tools/bank_split.py reads each question on S2-12-068 (its stem and the parts on that dot point) and stores the choice (q.ch): the
+  words give the triangle's area ("the area of triangle AOB is 150 km²", "has an area of", "given the area", "by considering the area"; not
+  "show that the area … is") → Finding a side or angle; every other one → Finding the area. Checked by eye on all 58 such questions on 25 Nov
+  (34 filed under Area of a triangle: 26 / 8). A question that finds the area and then uses it for something not a side or angle (litres in a
+  dam, minutes to mow, a ratio of two areas) is Finding the area.
+- Unchanged: SUB_WINS (radial surveys, bearings), every other topic, Advanced.
+- Tests: the `std2: …` checks in tools/page_test.js (std2_1125).
+
 ## Checker's review of the page (25 Nov)
 Owner 25 Nov, on a review of the page: "Besides that, yes action all these things". The review's points, verbatim, and what was done:
 - **Page zoom** ("make it so that you can zoom in and out (of the page itself)"). Inside claude.ai the page sits in a frame: the host page can

@@ -3736,6 +3736,160 @@ async function trig1125(browser, base, seed) {
   await p2.context().close();
 }
 
+/* ---------------- Standard 2: Investment and loans, Bivariate data analysis, Area of a triangle (owner 25 Nov: "For area of a triangle,
+   finding area is one choice, findin the angle or something else should be other choices. For Investment and loans * Simple interest
+   * Compound interest * Depreciation * Loans * Credit Cards * Shares and Dividends For bivariate data, ... Bivariate datasets. ... Line of
+   best fit section.") ----------------
+   the owner's rows replace the syllabus's sub-levels, in his order; the same questions per topic; Area of a triangle's two choices (q.ch)
+   cover its questions; saved exams and learnt lists move to the new rows; Review compares homes as before; Advanced untouched */
+async function std2_1125(browser, base, seed) {
+  const errs = p => { const e = takeErrs(p); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  const INV = ['Simple interest', 'Compound interest', 'Depreciation', 'Loans', 'Credit cards', 'Shares and dividends'], BIV = ['Bivariate datasets', 'Line of best fit'];
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await page.addInitScript(() => { try { localStorage.setItem('course', 'standard'); localStorage.setItem('sel', ''); localStorage.setItem('bankall', '1') } catch (e) {} });
+  await boot(page, base, '#bank');
+  const rows = fa => page.evaluate(fa => { const f = [...document.querySelectorAll('#nav .fa[data-area]')].find(x => x.dataset.area === '12|' + fa);
+    return f ? [...f.querySelectorAll('.fold [data-sel] span:first-child')].map(s => s.textContent) : null }, fa);
+  await check('std2: Investment and loans and Bivariate data analysis show the owner\'s rows, in his order', page, async () => {
+    const r = {inv: await rows('Investment and loans'), biv: await rows('Bivariate data analysis'), c: await page.evaluate(() => QG.course)};
+    errs(page);
+    assert(r.c === 'standard', `course ${r.c}`);
+    assert(r.inv && r.inv.join('|') === INV.join('|'), `Investment and loans rows: ${r.inv}`);
+    assert(r.biv && r.biv.join('|') === BIV.join('|'), `Bivariate data analysis rows: ${r.biv}`);
+    return `${r.inv.join(' · ')}; ${r.biv.join(' · ')}`;
+  });
+  await check('std2: each topic files the same questions as with the syllabus\'s sub-levels', page, async () => {
+    const r = await page.evaluate(() => { const qs = B.questions.filter(inBank), area = () => { const m = {}; qs.forEach(q => [...qPlaces(q)].forEach(k => { const a = k.split('|').slice(0, 2).join('|'); m[a] = (m[a] || 0) + 1 })); return m };
+      const now = area(), ds = DOTS.filter(d => d.sub0 != null), was = ds.map(d => d.sub);
+      ds.forEach(d => { d.sub = d.sub0 }); const before = area(); ds.forEach((d, i) => { d.sub = was[i] });
+      const tot = fa => { const T = TOPICS.y12.get(fa); return {fa: faCount(T), sum: [...T.values()].reduce((a, s) => a + s.qs.length, 0), side: +document.querySelector(`#nav .fa[data-area="12|${fa}"] button[data-fa] .c`).textContent,
+        rows: Object.fromEntries([...T].map(([k, s]) => [k, s.qs.length]))} };
+      return {now, before, fas: [...new Set(ds.map(d => d.fa))], inv: tot('Investment and loans'), biv: tot('Bivariate data analysis')} });
+    const diff = Object.keys({...r.now, ...r.before}).filter(k => r.now[k] !== r.before[k]);
+    assert(r.fas.sort().join('|') === 'Bivariate data analysis|Investment and loans', `topics with replaced sub-levels: ${r.fas}`);
+    assert(!diff.length, `topic totals moved: ${diff.map(k => `${k} ${r.before[k]} → ${r.now[k]}`).join(', ')}`);
+    for (const [fa, t] of [['Investment and loans', r.inv], ['Bivariate data analysis', r.biv]]) {
+      const n = r.now['sub:12|' + fa]; assert(n > 0 && t.fa === n && t.side === n && t.sum === n, `${fa}: ${n} filed, sidebar ${t.side}, topic ${t.fa}, rows add to ${t.sum}`) }
+    const fmt = t => Object.entries(t.rows).map(([k, n]) => `${k} ${n}`).join(', ');
+    return `Investment and loans ${r.inv.fa} (${fmt(r.inv)}); Bivariate data analysis ${r.biv.fa} (${fmt(r.biv)}); every Standard topic as before`;
+  });
+  const open = async key => { await page.evaluate(k => { location.hash = 'bank'; sel = k; BSEL = {key: k, dp: null}; renderBank() }, key);
+    await page.waitForSelector('#list .cards .card', {timeout: 15000}); await settle(page, 3000, 2);
+    return page.evaluate(() => ({total: TOPICS.byKey[sel].qs.filter(bfOK).length, label: document.querySelector('#list .fl > span')?.title || '',
+      pills: [...document.querySelectorAll('#list .fl button[data-bsel]')].map(b => ({k: b.dataset.bsel, nm: b.firstChild.textContent.trim(), n: +b.querySelector('.c').textContent}))})) };
+  await check('std2: Area of a triangle\'s pills are Finding the area / Finding a side or angle and cover every question', page, async () => {
+    const s = await open('sub:12|Trigonometry|Area of a triangle');
+    assert(s.pills.map(p => p.nm).join('|') === 'Finding the area|Finding a side or angle', `pills: ${s.pills.map(p => p.nm).join(', ')}`);
+    const seen = new Set();
+    for (const p of s.pills) {
+      await page.click(`#list .fl button[data-bsel="${p.k}"]`); await page.waitForSelector('#list .cards .card', {timeout: 15000}); await settle(page, 2000, 2);
+      const ids = await page.evaluate(() => [...document.querySelectorAll('#list .cards .card')].map(c => +c.dataset.q));
+      assert(ids.length === p.n, `${p.nm}: the pill says ${p.n}, ${ids.length} shown`); ids.forEach(i => seen.add(i));
+      if (p === s.pills[1]) await page.screenshot({path: path.join(SHOTS, 'std2_1125_bank_area_side.png')});
+      await page.click(`#list .fl button[data-bsel="${p.k}"]`); await settle(page, 2000, 2);
+    }
+    const sum = s.pills.reduce((a, p) => a + p.n, 0);
+    assert(seen.size === s.total && sum === s.total, `the two choices show ${seen.size} (counts add to ${sum}) of the ${s.total} questions`);
+    const q = await page.evaluate(() => TOPICS.byKey['sub:12|Trigonometry|Area of a triangle'].qs.filter(q => !q.ch).map(q => q.id));
+    assert(!q.length, `no choice for ${q.join(', ')}`);
+    await page.evaluate(() => { sel = 'sub:12|Trigonometry|Area of a triangle'; renderBank() }); await settle(page, 3000, 2);
+    await page.screenshot({path: path.join(SHOTS, 'std2_1125_bank_area.png')});
+    errs(page);
+    return `${s.total} questions: ${s.pills.map(p => p.nm + ' ' + p.n).join(', ')}`;
+  });
+  await check('std2: the topic pages of Investment and loans and Bivariate data analysis open, their pills add up or say why', page, async () => {
+    const out = [];
+    for (const [fa, subs] of [['Investment and loans', INV], ['Bivariate data analysis', BIV]]) for (const s of subs) {
+      const key = `sub:12|${fa}|${s}`, n = await page.evaluate(k => TOPICS.byKey[k].qs.length, key); if (!n) { out.push(`${s} 0`); continue }
+      const r = await open(key), sum = r.pills.reduce((a, p) => a + p.n, 0);
+      assert(!r.pills.length || sum === r.total || /more than one of these/.test(r.label), `${s}: pills add to ${sum} of ${r.total}, label “${r.label}”`);
+      if (s === 'Compound interest') await page.screenshot({path: path.join(SHOTS, 'std2_1125_bank_investment.png')});
+      if (s === 'Line of best fit') await page.screenshot({path: path.join(SHOTS, 'std2_1125_bank_bivariate.png')});
+      out.push(`${s} ${r.total}`);
+    }
+    errs(page);
+    return out.join(', ');
+  });
+  await check('std2: Review compares homes by the syllabus\'s sub-levels: no new open work', page, async () => {
+    // two taggers on dot points of one syllabus sub-level that now sit in different rows agree, as before; two on different syllabus
+    // sub-levels that now share a row still need a decision, as before
+    const r = await page.evaluate(() => { const mk = (a, b) => ({id: -1, parts: [{id: -11, marks: 2, tagd: {A: {dp: [[a, 'primary']]}, B: {dp: [[b, 'primary']]}}}]});
+      const real = B.questions.filter(q => q.parts.some(p => p.tagd)), ds = DOTS.filter(d => d.sub0 != null), was = ds.map(d => d.sub);
+      const now = {simpleVsCompound: homeNeed(mk('S2-12-026', 'S2-12-029')), sharesVsSimple: homeNeed(mk('S2-12-035', 'S2-12-027')), datasetsVsScatter: homeNeed(mk('S2-12-108', 'S2-12-112')),
+        loansVsCredit: homeNeed(mk('S2-12-045', 'S2-12-050')), need: real.filter(homeNeed).map(q => q.id), todo: todoCount()};
+      ds.forEach(d => { d.sub = d.sub0 }); const before = {need: real.filter(homeNeed).map(q => q.id), todo: todoCount()}; ds.forEach((d, i) => { d.sub = was[i] });
+      return {now, before, real: real.length} });
+    errs(page);
+    assert(!r.now.simpleVsCompound && !r.now.sharesVsSimple, `Simple / Compound / Shares (one syllabus sub-level, Investment) read as different homes`);
+    assert(r.now.datasetsVsScatter && r.now.loansVsCredit, `Bivariate datasets / Scatter plots, or Loans / Credit cards, read as one home`);
+    assert(r.now.need.join() === r.before.need.join() && r.now.todo === r.before.todo, `home decisions ${r.before.need.length} → ${r.now.need.length}, Inbox ${r.before.todo} → ${r.now.todo}`);
+    return `homes compared as before (${r.real} questions with two taggers, ${r.now.need.length} need a decision); Inbox ${r.now.todo}, as before`;
+  });
+  await check('std2: the exam builders list the owner\'s rows (Exam setup topic picker)', page, async () => {
+    await page.evaluate(() => { location.hash = 'exams' }); await page.waitForFunction(() => view === 'exams', null, {timeout: 15000});
+    await page.evaluate(() => EXAS.fresh()); await page.waitForSelector('#exTopics .extile', {timeout: 15000});
+    const r = {};
+    for (const fa of ['Investment and loans', 'Bivariate data analysis']) {
+      await page.evaluate(fa => { const b = document.querySelector(`#exTopics [data-texp="12|${fa}"]`); if (b.getAttribute('aria-expanded') !== 'true') b.click() }, fa); await settle(page, 3000, 2);
+      r[fa] = await page.evaluate(fa => { const t = document.querySelector(`#exTopics [data-texp="12|${fa}"]`).closest('.extile'); t.scrollIntoView({block: 'start'});
+        return {tree: xaTree()[12].get(fa).map(subName), pills: [...t.querySelectorAll('.pills [data-tsub] .ex-pnm')].map(s => s.firstChild.textContent)} }, fa);
+    }
+    await page.evaluate(() => document.querySelector('#exTopics [data-texp="12|Investment and loans"]').closest('.extile').scrollIntoView({block: 'start'})); await settle(page, 1500, 2);
+    await page.screenshot({path: path.join(SHOTS, 'std2_1125_exam_setup.png')});
+    // the skill gates name the syllabus's sub-levels ('...|Investment'): each must be one a tutor can meet by ticking a row of today
+    const g = await page.evaluate(() => { const T = new Set([12, 11].flatMap(y => [...xaTree()[y].values()].flat())), M = QG.keyMap();
+      const bad = [...new Set(B.questions.flatMap(q => XG.need(q)).filter(k => !T.has(k) && !k.endsWith('|') && !M.has(k)))];
+      const L = XG.learnt(['sub:12|Investment and loans|Shares and dividends', 'sub:12|Bivariate data analysis|Line of best fit']).L;
+      const lines = [...document.querySelectorAll('#exTopics .extile')].map(t => t.textContent).join(' ');
+      return {bad, inv: L.has('sub:12|Investment and loans|Investment'), sc: L.has('sub:12|Bivariate data analysis|Scatter plots and lines of best fit'),
+        old: /need (Investment|Scatter plots and lines of best fit)\b/.test(lines)} });
+    assert(!g.bad.length, `skill gates on topics no one can tick: ${g.bad.join(', ')}`);
+    assert(g.inv && g.sc, `a ticked new row does not meet the old gate (Investment ${g.inv}, Scatter plots ${g.sc})`);
+    assert(!g.old, 'a subtopic line still asks for an old sub-level by name');
+    errs(page);
+    for (const [fa, want] of [['Investment and loans', INV], ['Bivariate data analysis', BIV]]) {
+      assert(r[fa].tree.join('|') === want.join('|'), `${fa}: exam builders' rows ${r[fa].tree}`);
+      assert(r[fa].pills.join('|') === want.join('|'), `${fa}: Exam setup tile ${r[fa].pills}`) }
+    return Object.entries(r).map(([fa, x]) => `${fa}: ${x.pills.join(' · ')}`).join('; ');
+  });
+  await page.context().close();
+  // a list saved with the syllabus's sub-levels: each old key reads as every new row holding one of its dot points
+  const I = s => 'sub:12|Investment and loans|' + s, V = s => 'sub:12|Bivariate data analysis|' + s;
+  const p2 = await newPage(browser, base, {...seed, 'exams/ePTstd2old': {title: 'Mathematics Standard 2', sub: 'Old syllabus rows', course: 'standard', items: [], keys: [],
+    auto: {topics: [I('Investment'), I('Loans'), V('Scatter plots and lines of best fit'), V('Bivariate datasets')]}, by: 'u_pagetest', at: new Date().toISOString()},
+    'data/users/u_pagetest/learnt': {on: [I('Investment'), I('Credit cards'), V('Scatter plots and lines of best fit')], off: []}}, {width: 1280, theme: 'light'});
+  await p2.addInitScript(() => { try { localStorage.setItem('course', 'standard'); localStorage.removeItem('qg_learnt') } catch (e) {} });
+  await boot(p2, base, '#exams');
+  await check('std2: an exam and a learnt list saved with the syllabus\'s sub-levels open with the new rows ticked', p2, async () => {
+    await p2.waitForFunction(() => typeof XSAVED !== 'undefined' && XSAVED && XSAVED.some(x => x.id === 'ePTstd2old') && XG.src === 'db', null, {timeout: 20000});
+    const r = await p2.evaluate(() => { exmLoad(XSAVED.find(x => x.id === 'ePTstd2old')); EXV.view = 'setup'; EXV.setupFor = EX.id; renderExams();
+      const tick = fa => { const b = document.querySelector(`#exTopics [data-texp="12|${fa}"]`); if (b && b.getAttribute('aria-expanded') !== 'true') b.click();
+        const t = document.querySelector(`#exTopics [data-texp="12|${fa}"]`)?.closest('.extile'); return t ? [...t.querySelectorAll('.pills [data-tsub][aria-pressed="true"]')].map(x => subName(x.dataset.tsub)) : null };
+      return {topics: exA().topics.slice(), on: XG.on.slice(), inv: tick('Investment and loans'), biv: tick('Bivariate data analysis')} });
+    errs(p2);
+    const want = [I('Simple interest'), I('Compound interest'), I('Shares and dividends'), I('Loans'), V('Bivariate datasets'), V('Line of best fit')];
+    assert(r.topics.join('|') === want.join('|'), `exam topics: ${r.topics.join(', ')}`);
+    assert(r.inv && r.inv.join('|') === 'Simple interest|Compound interest|Loans|Shares and dividends', `ticked in Investment and loans: ${r.inv}`);
+    assert(r.biv && r.biv.join('|') === BIV.join('|'), `ticked in Bivariate data analysis: ${r.biv}`);
+    assert(r.on.join('|') === [I('Simple interest'), I('Compound interest'), I('Shares and dividends'), I('Credit cards'), V('Bivariate datasets'), V('Line of best fit')].join('|'), `Already learnt: ${r.on.join(', ')}`);
+    return `4 old keys → ${r.topics.length} rows (ticked: ${r.inv.join(', ')}; ${r.biv.join(', ')}); learnt list → ${r.on.map(k => k.split('|')[2]).join(', ')}`;
+  });
+  await p2.context().close();
+  // Advanced: no topic of the owner's splits, so nothing moves and Review compares homes exactly as before
+  const p3 = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await p3.addInitScript(() => { try { localStorage.setItem('course', 'advanced'); localStorage.setItem('sel', '') } catch (e) {} });
+  await boot(p3, base, '#bank');
+  await check('std2: Advanced is unchanged (no sub-level replaced, homes and Review as before)', p3, async () => {
+    const r = await p3.evaluate(() => ({c: QG.course, sub0: DOTS.filter(d => d.sub0 != null).length, split: DOTS.filter(d => SUB_SPLIT[d.fa]).length,
+      same: B.questions.filter(q => q.parts.some(p => p.tagd)).every(q => homeNeed(q) === (!q.dup_of && homeTopic(homeOf(q, 'A')) !== homeTopic(homeOf(q, 'B')))),
+      keys: QG.topicKeys(['sub:12|Trigonometric functions|x', 'sub:11|Functions|y']).length}));
+    errs(p3);
+    assert(r.c === 'advanced' && !r.sub0 && !r.split && r.same && r.keys === 2, JSON.stringify(r));
+    return 'no Advanced topic in SUB_SPLIT; Review homes compared as before';
+  });
+  await p3.context().close();
+}
+
 if (require.main !== module) { /* required by a debugging script: hand over the helpers, run nothing */ module.exports = {serve, newPage, boot, settle, unzip, FIXTURE, OUT}; return }
 (async () => {
   for (const d of [OUT, SHOTS, DL]) fs.mkdirSync(d, {recursive: true});
@@ -3757,7 +3911,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
     const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
-    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed), run(skillGates, browser, base, seed), run(paperTables, browser, base, seed), run(fixes1125, browser, base, seed), run(trig1125, browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed), run(skillGates, browser, base, seed), run(paperTables, browser, base, seed), run(fixes1125, browser, base, seed), run(trig1125, browser, base, seed), run(std2_1125, browser, base, seedR)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));

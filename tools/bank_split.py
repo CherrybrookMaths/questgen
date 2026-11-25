@@ -242,6 +242,11 @@ def stale():
 
 
 PV_RE = re.compile(r'present\s+value', re.I)
+# owner 25 Nov: "For area of a triangle, finding area is one choice, findin the angle or something else should be other choices."
+# A question on Standard 2's area dot point (S2-12-068) whose words give the triangle's area ("the area of triangle AOB is 150 km^2", "has an
+# area of", "given the area", "by considering the area"; not "show that the area of ... is") uses it to find a side or angle; every other one finds the area (07_bank.js SUB_SPLIT,
+# the Bank's pills read q.ch). Checked by eye on all 43 such questions, 25 Nov.
+AREA_GIVEN_RE = re.compile(r'(?<!show that the )area\s+of\s+[^.?]{0,80}?\s+is\s+\$?\s*\d|has\s+an\s+area\s+of|given\s+(?:that\s+)?the\s+area|by\s+considering\s+the\s+area', re.I)
 
 
 def q_text(q, bank):
@@ -276,6 +281,9 @@ def split(bank, home, src=None):
         # under Present value, every other one under Future value (07_bank.js SUB_SPLIT, qHome reads q.st)
         if any(re.fullmatch(r'S2-12-0(5[5-9]|6[01])', i or '') for i in ids):
             x['st'] = 'Present value' if PV_RE.search(q_text(q, bank)) else 'Future value'
+        if 'S2-12-068' in ids:   # the stem and the parts on the area dot point (a sibling part's words do not count)
+            on = [p for p in q['parts'] if 'S2-12-068' in [t.get('id') for t in (p.get('t24') or [])] + [d[0] for v in (p.get('tagd') or {}).values() for d in v.get('dp', [])]]
+            x['ch'] = 'Finding a side or angle' if AREA_GIVEN_RE.search(' '.join([q.get('stem') or ''] + [p.get('latex') or '' for p in on])) else 'Finding the area'
         # every other question field goes to the details, listed or not (review 16 Nov: a fixed list dropped decide_at, which
         # build_bank.py writes for a call raised after approval; a field added to build_bank later must not vanish either)
         dt = {kk: v for kk, v in q.items() if kk not in Q_START and kk not in Q_CONTENT and kk not in ('parts', 'solutions', 'tri', 'h')

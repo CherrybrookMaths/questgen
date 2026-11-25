@@ -14,28 +14,52 @@ const CNT_NOTE={bank:'Counts every question with a part on the topic, so one que
 //   * Cosine rule * Finding an angle * Finding a side * Area of a triangle * Bearings * Radial surveys. Start with this first, lets make sure
 //   that allw roks." His answers: 'Practical problems with Pythagoras and trigonometry' (S2-12-071) -> "Right angled trig"; the sine rule
 //   obtuse-angle dot point (S2-12-065) -> one choice "Finding an angle" (with S2-12-064).
+// owner 25 Nov, the next three: "For area of a triangle, finding area is one choice, findin the angle or something else should be other
+//   choices. For Investment and loans * Simple interest * Compound interest * Depreciation * Loans * Credit Cards * Shares and Dividends
+//   For bivariate data, Anything to do with pearsons correlation, describing scatter plots goes into Bivariate datasets. Any line of best
+//   fit/least squares regression, interpolation extrapolation goes into Line of best fit section." The two topics had the syllabus's own
+//   sub-levels (Investment / Depreciation / Loans / Credit cards; Bivariate datasets / Scatter plots and lines of best fit): the owner's win.
+//   Compound interest also holds S2-12-032/033 (simple against compound: taught second, as Annuities' PV rule), 034 (a spreadsheet of both)
+//   and 039 (savings accounts, term deposits, shares, property): the main session's calls, the owner can move them (UI_SPEC).
 // A sub-level is a list of dot points (the Bank's "Dot point" pills: one per dot point) or {choice: dot points} (the owner's own pills; a
-// pill covers all its dot points; one choice is no choice, so no pills). Sub-levels show in the order written here.
+// pill covers all its dot points; one choice is no choice, so no pills). Two choices on the same dot points are told apart by the
+// question's words (q.ch, tools/bank_split.py: Area of a triangle). Sub-levels show in the order written here.
 const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057','S2-12-059','S2-12-060'],'Present value':['S2-12-058','S2-12-061']},
   Trigonometry:{'Right angled trigonometry':{'Right angled trigonometry':['S2-12-062','S2-12-071']},
     'Sine rule':{'Finding an angle':['S2-12-064','S2-12-065'],'Finding a side':['S2-12-063']},
     'Cosine rule':{'Finding an angle':['S2-12-067'],'Finding a side':['S2-12-066']},
-    'Area of a triangle':['S2-12-068'],'Bearings':['S2-12-069'],'Radial surveys':['S2-12-070']}};
+    'Area of a triangle':{'Finding the area':['S2-12-068'],'Finding a side or angle':['S2-12-068']},'Bearings':['S2-12-069'],'Radial surveys':['S2-12-070']},
+  'Investment and loans':{'Simple interest':['S2-12-026','S2-12-027','S2-12-028'],
+    'Compound interest':['S2-12-029','S2-12-030','S2-12-031','S2-12-032','S2-12-033','S2-12-034','S2-12-039'],
+    'Depreciation':['S2-12-040','S2-12-041','S2-12-042','S2-12-043'],'Loans':['S2-12-044','S2-12-045','S2-12-046','S2-12-047','S2-12-048'],
+    'Credit cards':['S2-12-049','S2-12-050','S2-12-051','S2-12-052','S2-12-053','S2-12-054'],'Shares and dividends':['S2-12-035','S2-12-036','S2-12-037','S2-12-038']},
+  'Bivariate data analysis':{'Bivariate datasets':['S2-12-108','S2-12-109','S2-12-110','S2-12-111','S2-12-112','S2-12-114','S2-12-115','S2-12-117'],
+    'Line of best fit':['S2-12-113','S2-12-116','S2-12-118','S2-12-119','S2-12-120']}};
+// a topic the owner split keeps the syllabus's sub-level as d.sub0 (Review compares homes by it, QG.topicKeys reads old keys from it); a
+// sub-level the page made is d.subAuto
 function subLevels(ds){const by={};ds.forEach(d=>(by[d.yl+'|'+d.fa]=by[d.yl+'|'+d.fa]||[]).push(d));
-  const ord=new Map();Object.entries(by).forEach(([k0,xs])=>{if(xs.some(d=>d.sub))return;const sp=SUB_SPLIT[xs[0].fa],ks=sp?Object.keys(sp):[];
-    xs.forEach(d=>{d.sub=sp?(ks.find(k=>[sp[k]].flatMap(v=>Array.isArray(v)?v:Object.values(v).flat()).includes(d.id))||ks[0]):(d.short||d.text);d.subAuto=1});
+  const ord=new Map();Object.entries(by).forEach(([k0,xs])=>{const sp=SUB_SPLIT[xs[0].fa],ks=sp?Object.keys(sp):[];if(!sp&&xs.some(d=>d.sub))return;
+    xs.forEach(d=>{if(sp&&d.sub&&!d.subAuto&&d.sub0==null)d.sub0=d.sub;
+      d.sub=sp?(ks.find(k=>[sp[k]].flatMap(v=>Array.isArray(v)?v:Object.values(v).flat()).includes(d.id))||ks[0]):(d.short||d.text);if(d.sub0==null)d.subAuto=1});
     // the owner's order: a split topic's dot points are listed sub-level by sub-level (the sidebar and the exam builders take the order of DOTS)
     if(sp)ord.set(k0,xs.slice().sort((a,b)=>ks.indexOf(a.sub)-ks.indexOf(b.sub)))});
   return ds.flatMap(d=>{const k=d.yl+'|'+d.fa,o=ord.get(k);return !o?[d]:by[k][0]===d?o:[]})}
 // owner 25 Nov (Trigonometry simplified): exams and Already learnt lists saved before keep the rows they ticked. A topic key stored while a
-// split topic had one row per dot point ('sub:<yl>|<fa>|<the dot point's short name>') reads as the dot point's new sub-level; duplicates
-// collapse to one. Derived from SUB_SPLIT, so it covers the next topics the owner simplifies (23_exam_auto.js xa and XG.set call it)
-QG.topicKeys=ks=>{if(!DOTS)return ks;if(!QG._ska){QG._ska=new Map();DOTS.forEach(d=>{if(!d.subAuto||!SUB_SPLIT[d.fa])return;const o='sub:'+d.yl+'|'+d.fa+'|'+(d.short||d.text);if(o!=='sub:'+d.yl+'|'+d.fa+'|'+d.sub)QG._ska.set(o,'sub:'+d.yl+'|'+d.fa+'|'+d.sub)})}
-  return [...new Set(ks.map(k=>QG._ska.get(k)||k))]};
+// split topic had one row per dot point ('sub:<yl>|<fa>|<the dot point's short name>') or the syllabus's sub-levels ('sub:12|Investment and
+// loans|Investment') reads as every new row that holds one of its dot points ('Investment' -> Simple interest, Compound interest, Shares and
+// dividends); duplicates collapse to one, and a key that names a row of today keeps its meaning. Derived from SUB_SPLIT, so it covers the
+// next topics the owner simplifies (23_exam_auto.js xa and XG.set call it; XG.learnt reads the skill gates' syllabus keys through QG.keyMap)
+QG.keyMap=()=>{if(!QG._ska){const m=new Map(),key=(d,s)=>'sub:'+d.yl+'|'+d.fa+'|'+s,now=new Set(DOTS.map(d=>key(d,d.sub||'')));
+    DOTS.forEach(d=>{if(!SUB_SPLIT[d.fa])return;const o=key(d,d.subAuto?d.short||d.text:d.sub0),n=key(d,d.sub);if(now.has(o))return;if(!m.has(o))m.set(o,[]);if(!m.get(o).includes(n))m.get(o).push(n)});QG._ska=m}
+  return QG._ska};
+QG.topicKeys=ks=>DOTS?[...new Set(ks.flatMap(k=>QG.keyMap().get(k)||[k]))]:ks;
 // a home in one of these new rows counts as its topic in Review: two taggers who chose different dot points of the same topic still agree
 // (before 24 Nov the topic had one row, so they never needed a decision; the new rows must not create review work)
 const homeTopic=k=>{if(!k||!k.startsWith('sub:'))return k;const [yl,fa]=k.slice(4).split('|');return DOTS.some(d=>d.fa===fa&&String(d.yl)===yl&&d.subAuto)?'sub:'+yl+'|'+fa+'|':k};
 const subKey=id=>id==='removed'?'special:removed':id==='no_match'?'special:no_match':DM[id]?'sub:'+DM[id].yl+'|'+DM[id].fa+'|'+(DM[id].sub||''):null;
+// Review compares the two taggers' homes by the syllabus's sub-levels where the owner replaced them (Investment and loans, Bivariate data
+// analysis, 25 Nov), so agreement and open work stay what they were
+const revKey=id=>DM[id]?.sub0!=null?'sub:'+DM[id].yl+'|'+DM[id].fa+'|'+DM[id].sub0:subKey(id);
 function partPri(q,p,side){if(side==='res'){const v=reviews['q'+q.id]?.tagres?.[p.id];if(v==='A'||v==='B')side=v;else if(v?.id)return [v.id];else if(v?.cov)return [v.cov];else side='cur'}
   if(side!=='cur'&&p.tagd){const x=p.tagd[side];return x.removed?['removed']:x.dp.filter(d=>d[1]==='primary').map(d=>d[0])}
   return effTags(q,p).filter(t=>t.primary).map(t=>t.cov==='removed'||t.cov==='no_match'?t.cov:t.id)}
@@ -45,7 +69,7 @@ function partPri(q,p,side){if(side==='res'){const v=reviews['q'+q.id]?.tagres?.[
 // Year 12 if any tag of any part is (q.y12, set by tools/bank_split.py from every tag; the slim index keeps main tags only) or a
 // Review tag change made it so (effTags main tags are in the index)
 const qY12=q=>!!q.y12||q.parts.some(p=>effTags(q,p).some(t=>DM[t.id]?.yl===12));
-function homeOf(q,side){const pri=p=>side==='main'?partMain(q,p):partPri(q,p,side),w=new Map(),last=new Map();q.parts.filter(p=>leaf(q,p)).forEach((p,pi)=>{const ids=pri(p),m=(p.marks||1)/(ids.length||1);ids.forEach(i=>{const k=subKey(i);if(k){w.set(k,(w.get(k)||0)+m);last.set(k,pi)}})});
+function homeOf(q,side,key=subKey){const pri=p=>side==='main'?partMain(q,p):partPri(q,p,side),w=new Map(),last=new Map();q.parts.filter(p=>leaf(q,p)).forEach((p,pi)=>{const ids=pri(p),m=(p.marks||1)/(ids.length||1);ids.forEach(i=>{const k=key(i);if(k){w.set(k,(w.get(k)||0)+m);last.set(k,pi)}})});
   // owner 12 Nov: "show the derivative, hence integrate" -> integration, whatever the marks. The test reads the part text, so it
   // runs once in tools/bank_split.py (q.hx); the index has no text (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2")
   const lv=q.parts.filter(p=>leaf(q,p)),lp=lv[lv.length-1];
@@ -57,11 +81,11 @@ function homeOf(q,side){const pri=p=>side==='main'?partMain(q,p):partPri(q,p,sid
     :[...effTags(q,p).filter(t=>t.primary).map(t=>t.id),...(p.y12a||[])];
   const y12=qY12(q),yr=k=>k.startsWith('sub:')?+k.slice(4).split('|')[0]:0;
   if(y12){[...w.keys()].forEach(k=>{if(yr(k)===11)w.delete(k)});
-    if(![...w.keys()].some(k=>yr(k)===12))lv.forEach((p,pi)=>{const ids=all(p).filter(i=>DM[i]?.yl===12),m=(p.marks||1)/(ids.length||1);ids.forEach(i=>{const k=subKey(i);if(k){w.set(k,(w.get(k)||0)+m);last.set(k,pi)}})})}
-  if(q.hx){const k=subKey(pri(lp)[0]);if(k&&(!y12||yr(k)===12))return k}
+    if(![...w.keys()].some(k=>yr(k)===12))lv.forEach((p,pi)=>{const ids=all(p).filter(i=>DM[i]?.yl===12),m=(p.marks||1)/(ids.length||1);ids.forEach(i=>{const k=key(i);if(k){w.set(k,(w.get(k)||0)+m);last.set(k,pi)}})})}
+  if(q.hx){const k=key(pri(lp)[0]);if(k&&(!y12||yr(k)===12))return k}
   if(w.size>1&&w.has('special:removed'))w.delete('special:removed');   // owner 12 Nov: a removed 3D part never decides the home when other parts are in the course
   let best=null,bv=-1,bp=-1;w.forEach((v,k)=>{const lp=last.get(k);if(v>bv+1e-9||(Math.abs(v-bv)<1e-9&&lp>bp)){bv=v;best=k;bp=lp}});return best}
-function homeNeed(q){return !q.dup_of&&q.parts.some(p=>p.tagd)&&homeTopic(homeOf(q,'A'))!==homeTopic(homeOf(q,'B'))}
+function homeNeed(q){return !q.dup_of&&q.parts.some(p=>p.tagd)&&homeTopic(homeOf(q,'A',revKey))!==homeTopic(homeOf(q,'B',revKey))}
 // owner 25 Nov (2024 Oakhill AT2 Q29, filed under Cosine rule by its 3-mark perimeter part): "this question sitting in cosine rule is clearly a
 //   radial survey question". A question with any part on one of these dot points is filed under that dot point's sub-level, whatever the
 //   marks say (as Annuities' PV rule, 24 Nov). A home picked by hand in Review still wins.
@@ -237,13 +261,15 @@ function renderBank(){
     if(BSEL.key!==sel)BSEL={key:sel,dp:null};
     const all=qs.length, base=qs.filter(bfOK);
     // the pills: one per dot point, or the owner's choices (SUB_SPLIT, owner 25 Nov: "Subdot points can be stuff they can choose inside
-    // one"): a choice counts and shows the questions with a main tag on any of its dot points
+    // one"): a choice counts and shows the questions with a main tag on any of its dot points; choices on the same dot points (Area of a
+    // triangle: "finding area is one choice, findin the angle or something else should be other choices") by the question's words, q.ch
     const own=t.fa&&SUB_SPLIT[t.fa]?.[title],ch=own&&!Array.isArray(own)?Object.entries(own):null,grp=ch||(t.dps||[]).map(d=>[d.id,[d.id]]).sort((a,b)=>a[0].localeCompare(b[0]));
-    const onG=(q,ids)=>{const p=qPri(q);return ids.some(i=>p.includes(i))};
-    const dpc={};base.forEach(q=>grp.forEach(([k,ids])=>{if(onG(q,ids))dpc[k]=(dpc[k]||0)+1}));
-    const bg=grp.find(g=>g[0]===BSEL.dp);qs=base.filter(q=>!BSEL.dp||onG(q,bg?bg[1]:[BSEL.dp]));
+    const twice=new Set((ch||[]).flatMap(([,ids])=>ids).filter((i,j,a)=>a.indexOf(i)!==j));
+    const onG=(q,ids,k)=>{if(ids.some(i=>twice.has(i)))return q.ch===k;const p=qPri(q);return ids.some(i=>p.includes(i))};
+    const dpc={};base.forEach(q=>grp.forEach(([k,ids])=>{if(onG(q,ids,k))dpc[k]=(dpc[k]||0)+1}));
+    const bg=grp.find(g=>g[0]===BSEL.dp);qs=base.filter(q=>!BSEL.dp||onG(q,bg?bg[1]:[BSEL.dp],BSEL.dp));
     // counts on one line add up or say why (owner 18 Nov): a question on two choices counts under each, and the label says how many do
-    const many=base.filter(q=>grp.filter(([,ids])=>onG(q,ids)).length>1).length;
+    const many=base.filter(q=>grp.filter(([k,ids])=>onG(q,ids,k)).length>1).length;
     const narrow=Object.keys(dpc).length>1?`<div class="fl"><span${many?` title="${many} question${many===1?' uses':'s use'} more than one of these, so the counts add up to more than ${base.length}"`:''}>Dot point</span>${grp.filter(([k])=>dpc[k]).map(([k,ids])=>`<button data-bsel="dp:${esc(k)}" aria-pressed="${BSEL.dp===k}" title="${esc(ids.map(i=>DM[i]?.text||'').join(' / '))}">${esc(ch?k:DM[k]?.short||k)} <span class="c">${dpc[k]}</span></button>`).join('')}</div>`:'';   // owner 12 Nov: skill bubbles removed ("i dont feel like the skill bubbles work"): a question needs several skills, so they don't split a topic; skills are searchable instead
     head=`<div class="crumbs"><button data-home="1">All topics</button>${t.fa?`<span>›</span><span>${esc(t.fa)}</span>`:''}</div><div class="listhead"><h2>${esc(title)}</h2><span class="crumb">${all} question${all===1?'':'s'}</span>${bankSwitch()}</div>${sibs}${all?bfHTML(all,qs.length,narrow):''}
       ${t.dps?`<details class="dps"><summary>The ${t.dps.length} syllabus dot point${t.dps.length===1?'':'s'} in this subheading <span class="muted">· number of questions that use each one (a question can use several)</span></summary><ol>${t.dps.map(d=>{const n=t.qs.filter(q=>q.parts.some(p=>effTags(q,p).some(x=>x.id===d.id))).length;return `<li${n?'':' class="zero"'}><code>${d.id}</code>${tex(d.tex||d.text)} <span class="muted">(${n})</span></li>`}).join('')}</ol></details>`:''}`;

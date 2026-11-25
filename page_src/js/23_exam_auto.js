@@ -67,8 +67,12 @@ const XG={on:[],off:[],show:false,open:{setup:true,pick:false},src:null,dirty:fa
     // analysis): their topic key ends in "|" and is no subtopic anyone can tick, so those questions could never come in. Such a key
     // counts as learnt once any subtopic of its focus area is learnt (only when it is not a subtopic of its own)
     const tr=xaTree();if(XG.kt!==tr){XG.kt=tr;XG.keys=new Set([12,11].flatMap(y=>[...tr[y].values()].flat()))}const T=XG.keys;
-    [...L].forEach(k=>{const f=k.split('|').slice(0,2).join('|')+'|';if(!T.has(f))L.add(f)});return {L,ex,y12}},
-  miss:(q,L)=>L.none?[]:XG.need(q).filter(k=>!L.has(k)),
+    [...L].forEach(k=>{const f=k.split('|').slice(0,2).join('|')+'|';if(!T.has(f))L.add(f)});
+    // owner 25 Nov (Investment and loans, Bivariate data analysis: his rows replace the syllabus's sub-levels): a skill taught at an old
+    // sub-level ('sub:12|Investment and loans|Investment', tools/bank_split.py) counts as learnt once any new row holding one of its dot
+    // points is learnt, and a card names that row, one a tutor can tick
+    QG.keyMap().forEach((ns,o)=>{if(ns.some(n=>L.has(n)))L.add(o)});return {L,ex,y12}},
+  miss:(q,L)=>L.none?[]:[...new Set(XG.need(q).filter(k=>!L.has(k)).map(k=>QG.keyMap().get(k)?.[0]||k))],
   ok:(q,L)=>XG.show||!!L.none||XG.need(q).every(k=>L.has(k)),
   // a list split into kept (learnt, or all while the switch is on) and left out, with the focus areas most often missing
   split(qs,L){const out=[],keep=[],fa=new Map();
