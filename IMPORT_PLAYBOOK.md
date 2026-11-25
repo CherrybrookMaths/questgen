@@ -688,5 +688,5 @@ as the school does, "AP3" / "AP4").
 - **Imported 25 Nov** (v345): 2020 Adv AT3 (631, 16 questions) and 2024 Adv AT3 (643, 16) as run b21, US$5.35; 2024 Std AT3 (721, 18;
   cover read: "CHERRYBROOK TECHNOLOGY HIGH SCHOOL 2024 YEAR 12 AT3 MATHEMATICS STANDARD 2", course set to standard) as run s11, US$3.59.
   Verifier: 0 issues in 50 questions.
-- **Left for the owner:** 639 ("2023 Y12 Adv AT1" in the file name) is filed under year 2022; not imported (the graduation-year rule
+- **Left for the owner:** 639 ("2023 Y12 Adv AT1" in the file name) is filed under year 2022; not imported (the graduation-year rule Owner 25 Nov, cover check: "The cover says 2022 Y12 AT1": sat as Year 12 AT1 in 2022 (Term 4 of Year 11), so by the graduation-year rule (PARSE_SPEC) it is **2023 Cherrybrook AT1** (the file name agrees; 636 stays 2022 AT1). Import it as 2023 AT1 in the next Advanced batch (imports paused 25 Nov).
   may make it 2023: check its cover).
