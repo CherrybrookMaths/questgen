@@ -6,15 +6,14 @@
 \draw (95,67) -- (297,20) -- (388,100) -- (185,140) -- cycle;
 \draw (95,67) -- (95,355);
 \draw (297,20) -- (297,300);
-% six equal spheres resting on the base: centres one radius above base points
-% (back row first, then front row); each has a soft contact shadow on the base
-\foreach \x/\y in {151/362, 219/345, 286/328, 196/393, 264/380, 331/367} {
-  \fill[black!18] (\x,\y) ellipse (24 and 7);
-  \shade[ball color=black!6, draw=black!30, line width=0.3pt] (\x,\y-36) circle (36);
-}
-% near edges last, in front of the spheres
+% near edges (the crop draws the balls over every box edge)
 \draw (95,355) -- (185,415) -- (388,380) -- (388,100);
 \draw (185,140) -- (185,415);
+% six balls as in the crop, drawn back to front: back row (left, middle, right),
+% then the right ball, then the front row; highlight at upper right as in the crop
+\foreach \x/\y in {281/303, 217/318, 151/337, 332/337, 269/351, 204/362} {
+  \shade[ball color=black!10, shading angle=-90, draw=black!35, line width=0.3pt] (\x,\y) circle (40);
+}
 \node[font=\small] at (45,200) {40 cm};
 \node[font=\small] at (93,398) {20 cm};
 \node[font=\small] at (313,430) {30 cm};

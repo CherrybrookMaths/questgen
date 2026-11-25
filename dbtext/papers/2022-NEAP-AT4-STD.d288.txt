@@ -3330,7 +3330,6 @@ document
   page_end: 23
   needs_review: 1
   review_status: unreviewed
-  review_note: Paper prints the rates as 'cents per MJ' but the guideline treats them as dollars per MJ (see notes)
   home_topic: sub:11|Managing money|Budgeting
   home_source: computed
   solution 10598
@@ -3346,7 +3345,7 @@ document
     source_document_id: 288
     prompt_version: parse-v1
     criteria_json: [[2, "Correct answer"], [1, "Attempts to find the cost of $3000$ MJ, or equivalent merit"]]
-    meta_json: {}
+    meta_json: {"edited_from_original": "Checker flag 25 Nov: the paper's table printed the rates as 0.08920 and 0.08330 cents per MJ, which makes 3000 MJ cost under $3 and the $150 limit meaningless; the marking guideline uses dollars, so the table now reads $0.08920 and $0.08330 per MJ. Answer unchanged (1681 MJ)."}
   part -  id 11115
     ordinal: 1
     latex: |
@@ -3362,7 +3361,7 @@ document
     data_table 288_q33_t1
       header_rows: 1
       label_col: 1
-      rows_json: [["", "\\text{Usage charge}"], ["\\text{First 3000 MJ}", "\\text{0.08920 cents per MJ}"], ["\\text{Additional MJ over 3000}", "\\text{0.08330 cents per MJ}"]]
+      rows_json: [["", "\\text{Usage charge}"], ["\\text{First 3000 MJ}", "\\text{\\$0.08920 per MJ}"], ["\\text{Additional MJ over 3000}", "\\text{\\$0.08330 per MJ}"]]
       spans_json: []
     tag 2024 S11-047
       focus_area: Managing money

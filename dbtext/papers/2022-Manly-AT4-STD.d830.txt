@@ -677,13 +677,12 @@ document
   page_end: 5
   needs_review: 1
   review_status: unreviewed
-  review_note: Guidelines accept two options (A or C) due to ambiguity
   options_layout: text
   home_topic: special:removed
   home_source: computed
   option A
     latex: $1:2$
-    is_correct: 1
+    is_correct: 0
     key_source: extracted
   option B
     latex: $1:4$
@@ -691,26 +690,24 @@ document
     key_source: extracted
   option C
     latex: $2:1$
-    is_correct: 1
+    is_correct: 0
     key_source: extracted
   option D
     latex: $4:1$
-    is_correct: 0
-    key_source: extracted
+    is_correct: 1
+    key_source: corrected
   solution 10439
     source: extracted
     latex: |
       Area scales with the square of the length scale.
 
-      The area ratio $A:B$ is $4:1$, so the length ratio $A:B$ is $2:1$.
+      The length ratio $A:B$ is $2:1$, so the area ratio $A:B$ is $2^2:1^2=4:1$.
 
-      The scale from $A$ to $B$ is then $2:1$ (or $1:2$ if read as the factor applied to $A$), which is ambiguous, so the school accepts option A or option C.
-
-      Hence the answer is option A or C.
+      Hence the answer is option D.
     source_document_id: 830
     prompt_version: parse-v1
     criteria_json: [[1, "Correct answer"]]
-    meta_json: {"corrected": "Corrected from source: the working said the key is A only; both A and C are keyed (the school accepts either).", "format_note": "Source accepts A or C due to ambiguity; keyed A retained.", "marker_note": "Source notes that A $1:2$ or C $2:1$ are both arguable due to ambiguity.", "overwritten_from_source": "Corrected from source: the working said the key is A only; both A and C are keyed (the school accepts either).", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "Area scales with the square of the length scale.\n\nThe area ratio $A:B$ is $4:1$, so the length ratio $A:B$ is $2:1$.\n\nThe scale from $A$ to $B$ is then $2:1$ (or $1:2$ if read as the factor applied to $A$), which is ambiguous; the key is option A.\n\nHence the answer is option A."}}
+    meta_json: {"corrected": "Corrected from source: the working said the key is A only; both A and C are keyed (the school accepts either).", "edited_from_original": "Checker flag 25 Nov: the paper gave the area ratio (A is 4 times B) and asked for the scale, which had two accepted answers (A or C). Reworded to give the length scale (A's sides twice B's) and ask for the area ratio A:B; one answer, D 4:1. Paper text was: In the diagram below, the area of Triangle $A$ is 4 times the area of Triangle $B$. [diagram] Which scale has been used to transform from Triangle $A$ to Triangle $B$?", "overwritten_from_source": "Corrected from source: the working said the key is A only; both A and C are keyed (the school accepts either).", "source_original": {"criteria": [[1, "Correct answer"]], "latex": "Area scales with the square of the length scale.\n\nThe area ratio $A:B$ is $4:1$, so the length ratio $A:B$ is $2:1$.\n\nThe scale from $A$ to $B$ is then $2:1$ (or $1:2$ if read as the factor applied to $A$), which is ambiguous; the key is option A.\n\nHence the answer is option A."}}
   figure 830_q9_1.png
     page: 5
     bbox: [108, 400, 455, 506]
@@ -723,11 +720,11 @@ document
   part -  id 10944
     ordinal: 1
     latex: |
-      In the diagram below, the area of Triangle $A$ is 4 times the area of Triangle $B$.
+      In the diagram below, Triangle $A$ is an enlargement of Triangle $B$. Each side of Triangle $A$ is twice as long as the matching side of Triangle $B$.
 
       \exfigure{830_q9_1}
 
-      Which scale has been used to transform from Triangle $A$ to Triangle $B$?
+      What is the ratio of the area of Triangle $A$ to the area of Triangle $B$?
     marks: 1
     needs_review: 1
     tag 2024
@@ -3358,7 +3355,7 @@ document
     caption: graph of cost against attendees
     redraw_status: ok
     redraw_class: graph
-    redraw_notes: Cost line C=15000+120x from x=0 to 300 at 0.9pt on a grey grid (every 50 attendees; every 10000, with lighter lines at the 5000s), placed from the crop's pixels. Tick labels and axis titles are the crop's size; variables are italic, as in 'Cost to host (C)' (rule 19). Axes have filled arrowheads (rule 4). The low redraw-side score is the grey grid only (thicker anti-aliased lines than the scan's); the line, axes and labels coincide (rules 1, 2, 3, 4, 9, 19).
+    redraw_notes: Cost line C=15000+120x from x=0 to 300 at 0.9pt on a grey grid (every 50 attendees; every 10000, with lighter lines at the 5000s), placed from the crop's pixels. Tick labels and axis titles are the crop's size; variables are italic, as in 'Cost to host (C)' (rule 19). Axes have filled arrowheads (rule 4). The low redraw-side score is the grey grid only (thicker anti-aliased lines than the scan's); the line, axes and labels coincide (rules 1, 2, 3, 4, 9, 19). Checker 25 Nov (2022-Manly-AT4-STD-Q36): "make the yaxis label not angled" -> The y-axis title Cost to host (C) is now written horizontally above the top of the y-axis instead of sideways along it.
   part -  id 10983
     ordinal: 1
     latex: |
