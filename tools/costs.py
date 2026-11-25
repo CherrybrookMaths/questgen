@@ -25,7 +25,14 @@ FIRST_API_BATCH = 8     # Batch 8 was the first through the API (owner 17 Nov: "
 def build():
     db = sqlite3.connect(f'file:{paths.DBS}?mode=ro', uri=True)
     label = dict(db.execute('SELECT id, display_label FROM documents'))
-    nq = collections.Counter(d for (d,) in db.execute('SELECT document_id FROM questions'))
+    # owner 25 Nov (Costs table): "something is wrong with the questions column here as well": it counted every question row in the database,
+    # retired ones and copies of other papers included (Batch 17: 254 rows, 189 in the Bank). It now counts the questions the Bank shows
+    # (site/data/bank.json without retired questions and without copies, dup_of), so per question = cost per question you actually got
+    try:
+        bq = json.load(open(paths.P + 'site/data/bank.json'))['questions']
+        nq = collections.Counter(q['doc'] for q in bq if not q.get('dup_of'))
+    except (OSError, ValueError, KeyError):
+        nq = collections.Counter(d for (d,) in db.execute('SELECT document_id FROM questions'))
     runs = collections.defaultdict(list)
     for f in sorted(glob.glob(paths.S + 'work/api_import/*/calls.jsonl')):
         name = os.path.basename(os.path.dirname(f))
