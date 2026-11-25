@@ -3091,6 +3091,10 @@ $('#list').addEventListener('click',e=>{
 });
 let st; $('#q').addEventListener('input',e=>{clearTimeout(st);st=setTimeout(()=>{search=e.target.value.trim();renderBank()},250)});
 
+// owner 25 Nov: "Pressing on bank should take be back to the original list": the top bar's Bank (and the phone menu's) always opens All
+// topics, with any search cleared; from another view the hash route then shows it, inside the Bank it redraws in place
+document.addEventListener('click',e=>{const a=e.target.closest('a[href="#bank"]');if(!a||e.button||e.metaKey||e.ctrlKey)return;
+  sel=null;search='';const qi=$('#q');if(qi)qi.value='';save('sel','');if(view==='bank'){e.preventDefault();renderBank();window.scrollTo({top:0})}},true);
 /* ---------- Review ---------- */
 const FILTERS=[['back','Fixed and back for you'],['waiting','Flags waiting for Claude'],['recent','Recently approved (newest first)'],['decide','Needs your decision'],['scanqs','Scans: question + solution'],['digitalqs','Digital: quick skim'],['diagrams','Diagrams to approve'],['generated','Generated solutions'],['review','Parse flagged'],['no_match','No match'],['removed','Old syllabus'],['standard','Standard course'],['scan','Scans'],['duplicate','Near-duplicates'],['audited','Self-audited'],['changes','Diagram changes requested'],['redone','Redrawn from your notes'],['all','All questions']];
 const qFigs=q=>figKeys(q).all.filter(redrawable);
@@ -7030,7 +7034,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'70f41bb2a0a95e48',stale:false,t:null,at:0,
+const FRESH={build:'6f6ca7c1bbb79412',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}

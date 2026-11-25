@@ -3695,6 +3695,18 @@ async function trig1125(browser, base, seed) {
     assert(!r.bad.length, `filed elsewhere: ${r.bad.join(', ')}`);
     return `${r.n} questions with a radial-survey, bearings or line-of-best-fit part, each filed under it`;
   });
+  // owner 25 Nov: "Pressing on bank should take be back to the original list"
+  await check('bank: the top bar\'s Bank opens All topics from a topic, a search and another view', page, async () => {
+    const home = () => page.evaluate(() => sel === null && !document.querySelector('#list .crumbs') && !!document.querySelector('#list').children.length);
+    await page.click('#vBank'); await settle(page, 1500, 1); await page.locator('#list [data-sel]:visible').first().click(); await settle(page, 1500, 1);
+    assert(await page.evaluate(() => sel !== null), 'no topic opened before the test');
+    await page.click('#vBank'); await settle(page, 1500, 1); const a = await home();
+    await page.fill('#q', 'the'); await settle(page, 1500, 1); await page.click('#vBank'); await settle(page, 1500, 1);
+    const b = await home() && await page.evaluate(() => $('#q').value === '');
+    await page.click('#vExams'); await settle(page, 1500, 1); await page.click('#vBank'); await settle(page, 2500, 1); const c = await home();
+    assert(a && b && c, `from a topic ${a}, from a search ${b}, from Exams ${c}`);
+    return 'All topics each time; search box cleared';
+  });
   await check('standard trig: the exam builders list the same six rows; a home in them makes no review work', page, async () => {
     await page.evaluate(() => { location.hash = 'exams' }); await page.waitForFunction(() => view === 'exams', null, {timeout: 15000});
     await page.evaluate(() => EXAS.fresh()); await page.waitForSelector('#exTopics .extile', {timeout: 15000});

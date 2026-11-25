@@ -380,3 +380,7 @@ $('#list').addEventListener('click',e=>{
 });
 let st; $('#q').addEventListener('input',e=>{clearTimeout(st);st=setTimeout(()=>{search=e.target.value.trim();renderBank()},250)});
 
+// owner 25 Nov: "Pressing on bank should take be back to the original list": the top bar's Bank (and the phone menu's) always opens All
+// topics, with any search cleared; from another view the hash route then shows it, inside the Bank it redraws in place
+document.addEventListener('click',e=>{const a=e.target.closest('a[href="#bank"]');if(!a||e.button||e.metaKey||e.ctrlKey)return;
+  sel=null;search='';const qi=$('#q');if(qi)qi.value='';save('sel','');if(view==='bank'){e.preventDefault();renderBank();window.scrollTo({top:0})}},true);
