@@ -47,6 +47,9 @@ def steps(b, ids, a):
         ('difficulty_reviews', [[PY, T + 'apply_difficulty_reviews.py', *([a.difficulty_export] if a.difficulty_export else [])]]),
         ('diagrams', [[PY, T + 'api_import.py', 'diagrams', b, *W]]),
         ('apply_diagrams', [lambda: [PY, T + 'apply_diagrams.py', *diag()] if diag() else None]),
+        # owner 25 Nov: "I thought we were checking for dupes upon import? Or at least after import?": with the diagrams redrawn, a
+        # pair whose text is nearly the same and whose numbers (text and diagram labels) all agree becomes 'duplicate' (tools/dedup.py)
+        ('dupes', [[PY, T + 'dedup.py', '--numbers', *map(str, ids)]]),
         ('prep_verify', [[PY, T + 'prep_verify.py', b, *map(str, ids)]]),
         ('verify', [[PY, T + 'api_import.py', 'verify', b, *W]]),
         ('cost', [[PY, T + 'api_import.py', 'cost', b]]),

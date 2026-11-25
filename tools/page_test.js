@@ -1325,6 +1325,9 @@ async function reviewFlow(browser, base, seed) {
         redo: [...new Set(B.questions.filter(q => !q.dup_of && (() => { const x = reviews['q' + q.id]; return x && x.status !== 'flagged' && Object.keys(x.fig_done || {}).some(k => !(x.fig || {})[k]) })()).map(q => String(mainDoc(q.doc))))],
         // 21 Nov (fixture refreshed to the live decisions): a paper with a flag or diagram change request still waiting for Claude has work too
         wait: [...new Set(B.questions.filter(q => !q.dup_of && (x => !!x && ((x.status === 'flagged' && !x.fixed) || Object.values(x.fig || {}).includes('changes')))(reviews['q' + q.id])).map(q => String(mainDoc(q.doc))))],
+        // 25 Nov (duplicate sweep): a paper's spot-checked High diagram (stable 10%, spotSet) moves to another question when the one it was
+        // on becomes a hidden copy, and the new one is undecided (2020 Moorebank AT4, 1299, and 2022 NEAP AT4, 277, after copies in them were hidden)
+        spot: [...new Set(B.questions.filter(q => !q.dup_of && chkFigs(q).some(k => figRisk(k)[0] === 'High' && spotSet().has(k) && !reviews['q' + q.id]?.fig?.[k])).map(q => String(mainDoc(q.doc))))],
         all: card('papers')?.querySelector('a.imore')?.getAttribute('href'), grouped: !!card('papers')?.querySelector('.rv-bgs'), vis: [...document.querySelectorAll('#inboxBox .iprow')].filter(a => a.getClientRects().length).length,
         repDone: card('reports')?.classList.contains('idone'), repTxt: card('reports')?.innerText, lvDone: card('difficulty')?.classList.contains('idone'), lvTxt: card('difficulty')?.innerText, lvHref: card('difficulty')?.querySelector('a')?.getAttribute('href'),
         tab: document.querySelector('#todoN').textContent, sw: document.querySelector('#curN').textContent,
@@ -1332,7 +1335,7 @@ async function reviewFlow(browser, base, seed) {
     });
     errs(); assert(r.view === 'inbox' && !r.rbar, `#review opened view ${r.view} (bar shown ${r.rbar})`);
     // the fixture's workload is 1346, 323, 1601; every paper with an open call raised on it (open_decisions.json "paper_<doc>") has work too (owner 13 Nov)
-    const wantDocs = [...new Set(['1346', '1601', '323', ...r.pc, ...r.fresh.map(String), ...r.redo, ...r.wait])].sort();
+    const wantDocs = [...new Set(['1346', '1601', '323', ...r.pc, ...r.fresh.map(String), ...r.redo, ...r.wait, ...r.spot])].sort();
     assert(r.want === wantDocs.length && r.docs.join(',') === wantDocs.join(','), `papers with work: ${r.docs.join(',')} (want ${wantDocs.join(',')})`);
     // the card opens at least 8 papers (08_review.js SHOW; 17 Nov: whole batch groups, later groups as a header line), then "Show all papers"
     assert(r.pn === String(r.want) && (r.grouped ? r.rows.length === r.want && r.vis >= Math.min(8, r.want) : r.rows.length === Math.min(8, r.want)), `Papers card says ${r.pn}, ${r.rows.length} rows (${r.vis} open, grouped ${r.grouped}), want ${r.want} (${Math.min(8, r.want)} rows)`);
@@ -2399,7 +2402,11 @@ async function genPaper(page) {
 // on a busy machine, and a control grabbed then is replaced a moment later)
 const laidOut = async page => { await sleep(150); await page.waitForFunction(() => { const i = document.querySelector('#xInfo'); return i && !/Laying out/.test(i.textContent) }, null, {timeout: 60000}); await settle(page, 3000, 2) };
 const figOnScreen = page => page.evaluate(() => {
-  const w = [...document.querySelectorAll('#xPages .exfigw')].find(w => { const i = w.querySelector('img'); return i && i.complete && i.naturalWidth });
+  // 25 Nov (duplicate sweep changed the generated paper): prefer a diagram with room to grow, so "drag out" can pass 105%; a diagram
+  // already filling its space (644_q6_1, a multiple-choice option graph) could only reach 104%
+  const ws = [...document.querySelectorAll('#xPages .exfigw')].filter(w => { const i = w.querySelector('img'); return i && i.complete && i.naturalWidth });
+  const room = w => w.querySelector('img').getBoundingClientRect().width < 0.6 * w.parentElement.getBoundingClientRect().width;
+  const w = ws.find(room) || ws[0];
   if (!w) return null; w.scrollIntoView({block: 'center'}); return w.dataset.figw });
 const figState = (page, k) => page.evaluate(k => { const w = document.querySelector(`#xPages [data-figw="${k}"]`), h = w.querySelector('.figh'), b = w.querySelector('.exfigbox').getBoundingClientRect(), hr = h.getBoundingClientRect();
   return {fs: EX.figscale[k] || 1, img: w.querySelector('img').getBoundingClientRect().width, box: {x: b.x, y: b.y, w: b.width, h: b.height}, hx: hr.x + hr.width / 2, hy: hr.y + hr.height / 2,

@@ -81,3 +81,10 @@ Output per part: {"part_id", "dot_points":[{"id","role"}], "required_skills":[..
   content is Advanced (Y12-228 covers growth problems; annuities build on it). Owner: "I can file them under financial math please do that".
   The dot point stays **Y12-228**; the question's main topic (home) is Financial mathematics > Annuities (the subheading of Y12-356; the
   2024 syllabus has no compound-interest subheading). Applied by `tools/home_rules.py` (an owner pick in reviews/k_<key>.home) after tagging.
+- **Radial surveys and 1/2 ab sin C are Year 12 Trigonometry (Standard) (owner 25 Nov: "Also a trig question was also pulled into a measurement Y11 exam? how is that possible", then "Yes do that.").**
+  QID 6163 (2024 Cherrybrook Technology High School AP3 Q23, a surveyor's radial survey, areas by A = 1/2 ab sin C) was tagged only
+  S11-060 (Year 11 areas of irregular blocks), so its year was 11 and it filed under Year 11 Measurement. Retagged in the tags table
+  (work/dupes_1125/retag.py, tag_source owner): S2-12-070 main and S2-12-068 on both parts, S11-060 kept as an "also" dot point; home
+  Year 12 Trigonometry › Radial surveys. A part that needs the sine or cosine rule, 1/2 ab sin C, bearings or a radial survey always
+  carries the Year 12 dot point (S2-12-062 to S2-12-071), so it is never Year 11 only. A scan of every Year-11-only Standard question
+  whose text or solution uses them found no other.
