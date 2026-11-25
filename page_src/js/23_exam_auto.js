@@ -9,7 +9,8 @@
    Regenerate keeps it. Difficulty comes from DIFFICULTY_SPEC (part band 2-6, wm UF/PR). Question band = marks-weighted mean of
    its parts' bands, rounded to 0.5; a question's problem-solving share = marks on PR parts / its marks. */
 const XA_DEF=()=>({open:true,topen:true,topics:[],total:100,by:'marks',n:20,mcq:10,mcqSet:false,diff:'hsc',pr:30,approved:true,avoid:false,seed:0,locked:[],warns:[],tmix:null,tpr:null,ran:false});
-function xa(){if(!EX.auto||typeof EX.auto!=='object')EX.auto=XA_DEF();const d=XA_DEF();for(const k in d)if(EX.auto[k]===undefined)EX.auto[k]=d[k];return EX.auto}
+function xa(){if(!EX.auto||typeof EX.auto!=='object')EX.auto=XA_DEF();const d=XA_DEF();for(const k in d)if(EX.auto[k]===undefined)EX.auto[k]=d[k];
+  const t=EX.auto.topics;if(Array.isArray(t)){const n=QG.topicKeys(t);if(n.length!==t.length||n.some((k,i)=>k!==t[i]))EX.auto.topics=n}return EX.auto}   // owner 25 Nov: old Trigonometry rows read as the new ones (QG.topicKeys)
 const xaSave=()=>{save(XKEY,JSON.stringify(EX));};
 const XA_SWAPPED=new Set();
 
@@ -87,7 +88,7 @@ const XG={on:[],off:[],show:false,open:{setup:true,pick:false},src:null,dirty:fa
     if(all)XG.off.push(...ks);else XG.on.push(...ks);XG.save()},
   /* ---- kept per teacher (data/users/<id>/learnt), else in this browser ---- */
   path:()=>'data/users/'+QG.me+'/learnt',
-  set(v){const a=x=>Array.isArray(x)?x.filter(k=>typeof k==='string'&&k.startsWith('sub:')):[];XG.on=a(v&&v.on);XG.off=a(v&&v.off)},
+  set(v){const a=x=>Array.isArray(x)?QG.topicKeys(x.filter(k=>typeof k==='string'&&k.startsWith('sub:'))):[];XG.on=a(v&&v.on);XG.off=a(v&&v.off)},
   load(){if(!XG.src){try{const v=JSON.parse(localStorage.getItem('qg_learnt')||'null');if(v)XG.set(v)}catch(e){}XG.src='local'}
     if(XG.src==='db'||XG._ld||!QG.db||!QG.me)return;XG._ld=1;
     Promise.resolve().then(()=>QG.db.doc(XG.path()).get()).then(d=>{const v=d&&d.exists&&QG.val(d);

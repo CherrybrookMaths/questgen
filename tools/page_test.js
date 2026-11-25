@@ -3627,6 +3627,105 @@ async function fixes1125(browser, base, seed) {
   }
 }
 
+/* ---------------- Standard Trigonometry simplified (owner 25 Nov: "Some of the std topics are overkill. We need to simplify it. Begin
+   with Trig. ... Subdot points can be stuff they can choose inside one.") ----------------
+   six sub-levels in the owner's order (07_bank.js SUB_SPLIT), the owner's choices as the pills inside Sine rule, none inside Right angled
+   trigonometry, the same questions under Trigonometry as with one row per dot point, the same rows in the exam builders, no review work */
+async function trig1125(browser, base, seed) {
+  const errs = p => { const e = takeErrs(p); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  const SUBS = ['Right angled trigonometry', 'Sine rule', 'Cosine rule', 'Area of a triangle', 'Bearings', 'Radial surveys'];
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await page.addInitScript(() => { try { localStorage.setItem('course', 'standard'); localStorage.setItem('sel', '') } catch (e) {} });
+  await boot(page, base, '#bank');
+  await check('standard trig: the sidebar shows the owner\'s six rows under Trigonometry, in his order', page, async () => {
+    const r = await page.evaluate(() => { const fa = [...document.querySelectorAll('#nav .fa[data-area]')].find(f => f.dataset.area === '12|Trigonometry');
+      return {c: QG.course, rows: fa ? [...fa.querySelectorAll('.fold [data-sel] span:first-child')].map(s => s.textContent) : null,
+        cards: [...document.querySelectorAll('#list .facard')].find(a => a.querySelector('.fah b')?.textContent === 'Trigonometry')?.querySelectorAll('.subrow .nm').length} });
+    errs(page);
+    assert(r.c === 'standard', `course ${r.c}`);
+    assert(r.rows && r.rows.join('|') === SUBS.join('|'), `sidebar rows: ${r.rows && r.rows.join(', ')}`);
+    assert(r.cards === 6, `the All topics card shows ${r.cards} rows`);
+    return r.rows.join(' · ');
+  });
+  await check('standard trig: the same questions are filed under Trigonometry as with one row per dot point', page, async () => {
+    // the 24 Nov rows (each dot point its own row, named by its short name) against the owner's six: every Standard topic keeps its count
+    const r = await page.evaluate(() => { const qs = B.questions.filter(inBank), area = () => { const m = {}; qs.forEach(q => [...qPlaces(q)].forEach(k => { const a = k.split('|').slice(0, 2).join('|'); m[a] = (m[a] || 0) + 1 })); return m };
+      const now = area(), trig = DOTS.filter(d => d.fa === 'Trigonometry'), was = trig.map(d => d.sub);
+      trig.forEach(d => { d.sub = d.short }); const before = area(); trig.forEach((d, i) => { d.sub = was[i] });
+      const T = TOPICS.y12.get('Trigonometry');
+      return {now, before, side: +document.querySelector('#nav .fa[data-area="12|Trigonometry"] button[data-fa] .c').textContent, fa: faCount(T),
+        sum: [...T.values()].reduce((a, s) => a + s.qs.length, 0)} });
+    const diff = Object.keys({...r.now, ...r.before}).filter(k => r.now[k] !== r.before[k]);
+    assert(!diff.length, `topic totals moved: ${diff.map(k => `${k} ${r.before[k]} → ${r.now[k]}`).join(', ')}`);
+    const n = r.now['sub:12|Trigonometry'];
+    assert(n > 0 && r.side === n && r.fa === n && r.sum === n, `Trigonometry: ${n} filed, sidebar ${r.side}, topic ${r.fa}, rows add to ${r.sum}`);
+    return `${n} questions under Trigonometry, as before; every other Standard topic unchanged`;
+  });
+  await check('standard trig: Sine rule\'s choices are Finding an angle / Finding a side; Right angled trigonometry has none', page, async () => {
+    const pills = async key => { await page.evaluate(k => { location.hash = 'bank'; sel = k; renderBank() }, key);
+      await page.waitForSelector('#list .cards .card', {timeout: 15000}); await settle(page, 3000, 2);
+      return page.evaluate(() => ({total: TOPICS.byKey[sel].qs.filter(bfOK).length, label: document.querySelector('#list .fl > span')?.title || '',
+        pills: [...document.querySelectorAll('#list .fl button[data-bsel]')].map(b => ({k: b.dataset.bsel, nm: b.firstChild.textContent.trim(), n: +b.querySelector('.c').textContent}))})) };
+    const s = await pills('sub:12|Trigonometry|Sine rule');
+    assert(s.pills.map(p => p.nm).join('|') === 'Finding an angle|Finding a side', `Sine rule pills: ${s.pills.map(p => p.nm).join(', ')}`);
+    const seen = new Set();
+    for (const p of s.pills) {   // each pill's count is what it shows
+      await page.click(`#list .fl button[data-bsel="${p.k}"]`); await page.waitForSelector('#list .cards .card', {timeout: 15000}); await settle(page, 2000, 2);
+      const ids = await page.evaluate(() => [...document.querySelectorAll('#list .cards .card')].map(c => +c.dataset.q));
+      assert(ids.length === p.n, `${p.nm}: the pill says ${p.n}, ${ids.length} shown`); ids.forEach(i => seen.add(i));
+      await page.click(`#list .fl button[data-bsel="${p.k}"]`); await settle(page, 2000, 2);
+    }
+    const sum = s.pills.reduce((a, p) => a + p.n, 0), both = sum - seen.size;
+    assert(seen.size === s.total, `the two choices cover ${seen.size} of the ${s.total} Sine rule questions`);
+    assert(!both || new RegExp(`^${both} questions? uses? more than one`).test(s.label), `${both} counted twice, label title “${s.label}”`);
+    const ra = await pills('sub:12|Trigonometry|Right angled trigonometry');
+    assert(!ra.pills.length && ra.total > 0, `Right angled trigonometry: ${ra.total} questions, pills ${ra.pills.map(p => p.nm).join(', ')}`);
+    await page.evaluate(() => { sel = 'sub:12|Trigonometry|Sine rule'; renderBank() }); await settle(page, 3000, 2);
+    await page.screenshot({path: path.join(SHOTS, 'trig1125_bank_sine_rule.png')});
+    errs(page);
+    return `Sine rule ${s.total}: ${s.pills.map(p => p.nm + ' ' + p.n).join(', ')}${both ? ` (${both} on both, said on the label)` : ''}; Right angled trigonometry ${ra.total}, no pills`;
+  });
+  await check('standard trig: the exam builders list the same six rows; a home in them makes no review work', page, async () => {
+    await page.evaluate(() => { location.hash = 'exams' }); await page.waitForFunction(() => view === 'exams', null, {timeout: 15000});
+    await page.evaluate(() => EXAS.fresh()); await page.waitForSelector('#exTopics .extile', {timeout: 15000});
+    await page.evaluate(() => document.querySelector('#exTopics [data-texp="12|Trigonometry"]').click()); await settle(page, 3000, 2);
+    const r = await page.evaluate(() => { const t = document.querySelector('#exTopics [data-texp="12|Trigonometry"]').closest('.extile');
+      t.scrollIntoView({block: 'center'});
+      return {tree: xaTree()[12].get('Trigonometry').map(subName), pills: [...t.querySelectorAll('.pills [data-tsub] .ex-pnm')].map(s => s.firstChild.textContent),
+        homes: ['Sine rule', 'Bearings'].map(s => homeTopic('sub:12|Trigonometry|' + s))} });
+    await page.screenshot({path: path.join(SHOTS, 'trig1125_exam_setup.png')});
+    errs(page);
+    assert(r.tree.join('|') === SUBS.join('|'), `exam builders' rows: ${r.tree.join(', ')}`);
+    assert(r.pills.join('|') === SUBS.join('|'), `Exam setup's Trigonometry tile: ${r.pills.join(', ')}`);
+    assert(r.homes[0] === r.homes[1] && r.homes[0] === 'sub:12|Trigonometry|', `Review homes: ${r.homes.join(' / ')}`);
+    return `Exam setup tile: ${r.pills.join(' · ')}; Review reads both rows as Trigonometry`;
+  });
+  await page.context().close();
+  // coordinator 25 Nov: saved exam e1795497337094 ticked the 24 Nov rows ("sub:12|Trigonometry|Sine rule for a side" ...); exams and
+  // Already learnt lists saved before keep their ticks on the new rows (QG.topicKeys), duplicates collapsing to one
+  const T = s => 'sub:12|Trigonometry|' + s, old = [T('Sine rule for a side'), T('Sine rule for an angle'), T('Sine rule for an obtuse angle'), T('Cosine rule for a side'),
+    T('Right-angled trigonometry'), T('Practical problems with Pythagoras and trigonometry'), T('Compass radial surveys'), 'sub:12|Annuities|Future value'];
+  const p2 = await newPage(browser, base, {...seed, 'exams/ePTtrigold': {title: 'Mathematics Standard 2', sub: 'Old trig rows', course: 'standard', items: [], keys: [],
+    auto: {topics: old}, by: 'u_pagetest', at: new Date().toISOString()}, 'data/users/u_pagetest/learnt': {on: [T('True and compass bearings'), T('Cosine rule for an angle')], off: []}},
+    {width: 1280, theme: 'light'});
+  await p2.addInitScript(() => { try { localStorage.setItem('course', 'standard'); localStorage.removeItem('qg_learnt') } catch (e) {} });
+  await boot(p2, base, '#exams');
+  await check('standard trig: an exam and a learnt list saved with the old rows open with the new rows ticked', p2, async () => {
+    await p2.waitForFunction(() => typeof XSAVED !== 'undefined' && XSAVED && XSAVED.some(x => x.id === 'ePTtrigold') && XG.src === 'db', null, {timeout: 20000});
+    const r = await p2.evaluate(() => { exmLoad(XSAVED.find(x => x.id === 'ePTtrigold')); EXV.view = 'setup'; EXV.setupFor = EX.id; renderExams();
+      const b = document.querySelector('#exTopics [data-texp="12|Trigonometry"]'); if (b && b.getAttribute('aria-expanded') !== 'true') b.click();
+      const t = document.querySelector('#exTopics [data-texp="12|Trigonometry"]')?.closest('.extile');
+      return {topics: exA().topics.slice(), on: XG.on.slice(), ticked: t ? [...t.querySelectorAll('.pills [data-tsub][aria-pressed="true"]')].map(x => subName(x.dataset.tsub)) : null} });
+    errs(p2);
+    const want = [T('Sine rule'), T('Cosine rule'), T('Right angled trigonometry'), T('Radial surveys'), 'sub:12|Annuities|Future value'];
+    assert(r.topics.join('|') === want.join('|'), `exam topics: ${r.topics.join(', ')}`);
+    assert(r.ticked && r.ticked.join('|') === 'Right angled trigonometry|Sine rule|Cosine rule|Radial surveys', `ticked in the Trigonometry tile: ${r.ticked}`);
+    assert(r.on.join('|') === [T('Bearings'), T('Cosine rule')].join('|'), `Already learnt: ${r.on.join(', ')}`);
+    return `8 old keys → ${r.topics.length} (ticked: ${r.ticked.join(', ')}); learnt list → ${r.on.map(k => k.split('|')[2]).join(', ')}`;
+  });
+  await p2.context().close();
+}
+
 if (require.main !== module) { /* required by a debugging script: hand over the helpers, run nothing */ module.exports = {serve, newPage, boot, settle, unzip, FIXTURE, OUT}; return }
 (async () => {
   for (const d of [OUT, SHOTS, DL]) fs.mkdirSync(d, {recursive: true});
@@ -3648,7 +3747,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
     const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
-    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed), run(skillGates, browser, base, seed), run(paperTables, browser, base, seed), run(fixes1125, browser, base, seed)]);
+    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed), run(skillGates, browser, base, seed), run(paperTables, browser, base, seed), run(fixes1125, browser, base, seed), run(trig1125, browser, base, seed)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));
