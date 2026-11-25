@@ -1759,7 +1759,7 @@ document
     caption: tax bracket tables 2019-2020 and 2020-2021 (2019-2020 row printed '$18 201 - $37 00')
     redraw_status: table
     redraw_class: table
-    redraw_notes: Two tax-bracket tables transcribed as one table. Each title row ('Tax Brackets 2019 – 2020' and 'Tax Brackets 2020 – 2021') spans both columns, as on the paper. The printed typo '$37 00' is kept as on the paper. All words are wrapped in \text{}.
+    redraw_notes: Two tax-bracket tables transcribed as one table. Each title row ('Tax Brackets 2019 – 2020' and 'Tax Brackets 2020 – 2021') spans both columns, as on the paper. The printed typo '$37 00' is kept as on the paper. All words are wrapped in \text{}. Checker 25 Nov ("Make all headings in a grey box"): the 2020 - 2021 block is now its own table Tp11620_1 right under the figure, so both title rows and both heading rows are grey header rows.
     redraw_table_id: Tf4355
   figure 3300_qB6_s1.png
     page: 46
@@ -1778,8 +1778,15 @@ document
       How much did someone earning \$190 000 save from this change?
 
       \exfigure{3300_qB6_1}
+
+      \extable{Tp11620_1}
     marks: 1
     needs_review: 0
+    data_table Tp11620_1
+      header_rows: 2
+      label_col: 0
+      rows_json: [["\\text{Tax Brackets 2020 – 2021}", ""], ["\\text{Taxable Income}", "\\text{Tax on this income}"], ["\\text{0 - \\$18 200}", "\\text{Nil}"], ["\\text{\\$18 201 - \\$45 000}", "\\text{19c for each \\$1 over \\$18 200}"], ["\\text{\\$45 001 - \\$120 000}", "\\text{\\$5092 plus 32.5c for each \\$1 over \\$45 000}"], ["\\text{\\$120 001 - \\$180 000}", "\\text{\\$29 467 plus 37c for each \\$1 over \\$120 000}"], ["\\text{\\$180 001 and over}", "\\text{\\$51 667 plus 45c for each \\$1 over \\$180 000}"]]
+      spans_json: [[0, 0, 2, 1]]
     tag 2024 S11-032
       focus_area: Earning money
       dot_point: Determine tax payable by interpreting and applying information in tax tables
@@ -3531,7 +3538,7 @@ document
     caption: solution sketch: hand-drawn activity network with critical path highlighted
     redraw_status: ok
     redraw_class: other
-    redraw_notes: Activity network with event boxes and activities A2, B3, C6, D1, E3, F4, G3, H4, plus a dashed dummy from 5|7 to 7|7. The purple-highlighted critical path C-D-F-H is drawn at 0.9pt, the rest at 0.6pt (rules 6 and 9). The end box reads 15|15 where the sketch has 15|17: the critical path gives 15, so the latest finish must be 15 (rule 18). Please check this correction. Low scores come from the hand-drawn wobbly strokes and handwriting.
+    redraw_notes: Activity network with event boxes and activities A2, B3, C6, D1, E3, F4, G3, H4, plus a dashed dummy from 5|7 to 7|7. The purple-highlighted critical path C-D-F-H is drawn at 0.9pt, the rest at 0.6pt (rules 6 and 9). The end box reads 15|15 where the sketch has 15|17: the critical path gives 15, so the latest finish must be 15 (rule 18). Please check this correction. Low scores come from the hand-drawn wobbly strokes and handwriting. Checker 25 Nov (k_2021-WilliamClarke-AT4-STD-Qd12): "make the arrows bigger" -> Mid-edge arrowheads enlarged from 2 mm to 3.6 mm long (2.4 mm wide), as on 721_q13_s1, and the A 2 label nudged up-left off its edge so label_overlap passes.
   part -  id 11650
     ordinal: 1
     latex: |
@@ -3830,16 +3837,11 @@ document
 
       $$\sqrt{\dfrac{6x-2}{5}}=36$$
 
-      \extable{Tp11641_1}
+      $$\begin{array}{rcll}\dfrac{6x-2}{5}&=&6&\quad\text{............... Line 1}\\[1.2ex] 6x-2&=&30&\quad\text{............... Line 2}\\[1.2ex] 6x&=&28&\quad\text{............... Line 3}\\[1.2ex] x&=&\dfrac{28}{6}&\quad\text{............... Line 4}\end{array}$$
 
       Which lines do NOT follow correctly from the previous line?
     marks: 1
     needs_review: 0
-    data_table Tp11641_1
-      header_rows: 0
-      label_col: 0
-      rows_json: [["\\dfrac{6x-2}{5}", "=", "6", "\\quad\\text{............... Line 1}"], ["6x-2", "=", "30", "\\quad\\text{............... Line 2}"], ["6x", "=", "28", "\\quad\\text{............... Line 3}"], ["x", "=", "\\dfrac{28}{6}", "\\quad\\text{............... Line 4}"]]
-      source_latex: $$\begin{array}{rcll}\dfrac{6x-2}{5}&=&6&\quad\text{............... Line 1}\\[1.2ex] 6x-2&=&30&\quad\text{............... Line 2}\\[1.2ex] 6x&=&28&\quad\text{............... Line 3}\\[1.2ex] x&=&\dfrac{28}{6}&\quad\text{............... Line 4}\end{array}$$
     tag 2024
       coverage: removed
       is_primary: 1

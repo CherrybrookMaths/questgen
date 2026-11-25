@@ -210,7 +210,7 @@ document
     caption: triangle with sides 36.1 cm, 35.4 cm, 45.3 cm and included angle 50°
     redraw_status: ok
     redraw_class: geometry
-    redraw_notes: Triangle drawn at the crop's vertex positions and proportions (not to true scale, rule 1). The 50° arc is a true circular arc centred on the vertex, from the base to the 35.4 cm side, with a filled -latex head on the hypotenuse end as in the crop (rules 4, 22). Side labels are in upright cm at the paper's size and sit clear of the lines (rules 2, 11). All lines 0.6pt.
+    redraw_notes: Triangle drawn at the crop's vertex positions and proportions (not to true scale, rule 1). The 50° arc is a true circular arc centred on the vertex, from the base to the 35.4 cm side, with a filled -latex head on the hypotenuse end as in the crop (rules 4, 22). Side labels are in upright cm at the paper's size and sit clear of the lines (rules 2, 11). All lines 0.6pt. Checker 25 Nov (k_2022-Oakhill-AT2-STD-Q3): "remove the arrow in the angle marker" -> The 50 degree angle arc is now a plain arc with no arrowhead.
   part -  id 11157
     ordinal: 1
     latex: |
@@ -738,7 +738,7 @@ document
     caption: train timetable and bus timetable
     redraw_status: table
     redraw_class: table
-    redraw_notes: Two timetables (train and bus) transcribed as tables, not drawn (rule 8). The table field holds the train timetable; 'tables' lists both in order. Grey label cells on the paper are only the label column (label_col 1 for train, label column 1 after the stop letter for bus). The bus header 'Route Number' spans the letter and stop-name columns.
+    redraw_notes: Two timetables (train and bus) transcribed as tables, not drawn (rule 8). The table field holds the train timetable; 'tables' lists both in order. Grey label cells on the paper are only the label column (label_col 1 for train, label column 1 after the stop letter for bus). The bus header 'Route Number' spans the letter and stop-name columns. Checker 25 Nov ("add the bus time table as well"): the bus timetable is table Tp11163_1, shown right under the train timetable.
     redraw_table_id: Tf4130
   part -  id 11163
     ordinal: 1
@@ -747,11 +747,19 @@ document
 
       \exfigure{495_q9_1}
 
+      \extable{Tp11163_1}
+
       Flynn leaves Strathfield on the first train \textbf{after} 5pm.
 
       Including the shortest possible wait times between the train and the bus, how long is his journey?
     marks: 1
     needs_review: 0
+    data_table Tp11163_1
+      caption: BUS TIMETABLE
+      header_rows: 1
+      label_col: 1
+      rows_json: [["\\text{Route Number}", "", "575", "575", "575", "575", "575"], ["\\text{A}", "\\text{Hornsby Station}", "16{:}30", "16{:}50", "17{:}10", "17{:}30", "17{:}50"], ["\\text{B}", "\\text{Hornsby Hospital}", "16{:}34", "16{:}54", "17{:}14", "17{:}34", "17{:}54"], ["\\text{C}", "\\text{Waitara Jubilee St}", "16{:}37", "16{:}57", "17{:}17", "17{:}37", "17{:}57"], ["\\text{D}", "\\text{Wahroonga East Shops}", "16{:}48", "17{:}08", "17{:}28", "17{:}48", "18{:}08"], ["\\text{E}", "\\text{Turramurra Station}", "17{:}01", "17{:}21", "17{:}41", "18{:}01", "18{:}21"], ["\\text{F}", "\\text{Gordon West Public School}", "17{:}24", "17{:}44", "18{:}04", "18{:}24", "18{:}42"], ["\\text{G}", "\\text{Macquarie Centre}", "17{:}45", "18{:}05", "18{:}25", "18{:}45", "19{:}03"], ["\\text{H}", "\\text{Macquarie University}", "17{:}49", "18{:}09", "18{:}29", "18{:}49", "19{:}07"]]
+      spans_json: [[0, 0, 2, 1]]
     tag 2024
       coverage: removed
       is_primary: 1
@@ -1648,7 +1656,7 @@ document
     caption: radial survey diagram with O, A (050°), B (115°), C (200°), D
     redraw_status: ok
     redraw_class: geometry
-    redraw_notes: Radial survey quadrilateral ABCD with radials from O, the N arrow, lengths 13/14/15/16, the bearings next to A, B and C, and NOT TO SCALE in bold. The positions match the crop (sketch, not to scale; rule 1). The N arrow is a 0.6pt line with a filled Latex head; the scan's heavy stroke was not copied (rules 3, 4). The dashed look of the scan's outer edges is print noise, so they are drawn solid.
+    redraw_notes: Radial survey quadrilateral ABCD with radials from O, the N arrow, lengths 13/14/15/16, the bearings next to A, B and C, and NOT TO SCALE in bold. The positions match the crop (sketch, not to scale; rule 1). The N arrow is a 0.6pt line with a filled Latex head; the scan's heavy stroke was not copied (rules 3, 4). The dashed look of the scan's outer edges is print noise, so they are drawn solid. Checker 25 Nov (k_2022-Oakhill-AT2-STD-Q18): "make sure all the labels are not overlapped by a line/graphlook a the 16 and 14 label" -> Moved the 16 label left off OC and the 14 label up off OB so every label sits clear of the lines.
   part -  id 11177
     ordinal: 1
     latex: |
@@ -1751,7 +1759,7 @@ document
     caption: graph of income and costs against number of units
     redraw_status: ok
     redraw_class: graph
-    redraw_notes: Income and costs lines through (0,100)–(26,620) and (0,200)–(26,546.7), drawn black at 0.9pt (rules 6, 9). The break-even dot is at the computed point (15,400) (rule 16). Light grey grid: major lines every 5 units / $100, minor every 1 unit / $20. Tick marks on both axes, filled arrowheads, n axis label. The redraw score is low only because of the faint grey grid lines (allowed in step 3).
+    redraw_notes: Income and costs lines through (0,100)–(26,620) and (0,200)–(26,546.7), drawn black at 0.9pt (rules 6, 9). The break-even dot is at the computed point (15,400) (rule 16). Light grey grid: major lines every 5 units / $100, minor every 1 unit / $20. Tick marks on both axes, filled arrowheads, n axis label. The redraw score is low only because of the faint grey grid lines (allowed in step 3). Checker 25 Nov (k_2022-Oakhill-AT2-STD-Q19): "make sure all the labels are not overlapped by a line/graph" -> Moved the rotated Dollars ($) axis label left so it no longer runs into the 300 and 400 tick labels.
   part a  id 11178
     ordinal: 1
     latex: What is the break-even point for the above graph?
@@ -2664,7 +2672,7 @@ document
     caption: credit card statement with interest charged, closing balance and minimum payment obscured
     redraw_status: ok
     redraw_class: other
-    redraw_notes: Credit card statement redrawn as a boxed text figure in the house serif font, with the same lines, column positions, justified 'minimum payment' line and dashed separator. The two smudge 'clouds' covering the interest, closing balance and minimum payment are flat grey clouds made of overlapping circles (rule 5: flat grey, not a gradient). The remaining red is only the clouds' darker gradient centres. The scan's small dropdown icon is left out.
+    redraw_notes: Credit card statement redrawn as a boxed text figure in the house serif font, with the same lines, column positions, justified 'minimum payment' line and dashed separator. The two smudge 'clouds' covering the interest, closing balance and minimum payment are flat grey clouds made of overlapping circles (rule 5: flat grey, not a gradient). The remaining red is only the clouds' darker gradient centres. The scan's small dropdown icon is left out. Checker 25 Nov (k_2022-Oakhill-AT2-STD-Q26): "make sure that the $95 is not covered by the blob" -> Lowered and slightly shrank the two top lobes of the right-hand grey cloud so it starts below the $95.00 line, still covering the interest and closing balance amounts.
   part a  id 11191
     ordinal: 1
     latex: Show that the daily interest rate $0.06\%$.

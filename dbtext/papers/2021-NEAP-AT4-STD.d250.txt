@@ -1969,7 +1969,7 @@ document
       source: model
   part c  id 11734
     ordinal: 3
-    latex: What is the outflow at $B$?
+    latex: A maximum flow is sent through the network with no flow along the edge from $B$ to $A$. What is the outflow at $B$?
     marks: 1
     needs_review: 0
     tag 2024 S2-12-093
@@ -1991,15 +1991,16 @@ document
     solution 11224
       source: generated
       latex: |
-        The only edge leaving $B$ that is needed is $B \to T$.
+        With no flow from $B$ to $A$, the only edge carrying flow out of $B$ is $B \to T$.
 
-        This edge is in the minimum cut, so in a maximum flow it is full.
-        $$\text{outflow at } B = 18$$
+        The edge $B \to T$ is in the minimum cut, so in a maximum flow it is full (capacity $18$).
+        $$\text{outflow at } B = 18 + 0 = 18$$
+        $$\therefore\ \text{the outflow at } B \text{ is } 18.$$
       source_document_id: 250
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.7, "generated_note": "Outflow at B is not unique in general: other maximum flows could also use B to A. The answer 18 follows the flow in part (b) with B to T saturated. Teacher to confirm against the NEAP guideline.", "self_check": "Consistent with the flow in part (b)."}
+      meta_json: {"confidence": 0.7, "edited_from_original": "Checker flag 25 Nov (\"Fix so that hte question is correct\"): the paper asked only \"What is the outflow at B?\", which has no single answer: a maximum flow of 68 can also send up to 20 along B to A, so the outflow at B could be anything from 18 to 38. Reworded to say the maximum flow sends nothing from B to A; answer 18.", "generated_note": "Outflow at B is not unique in general: other maximum flows could also use B to A. The answer 18 follows the flow in part (b) with B to T saturated. Teacher to confirm against the NEAP guideline.", "self_check": "Consistent with the flow in part (b)."}
     difficulty
       band: 3
       wm: UF
@@ -3921,7 +3922,7 @@ document
     caption: weighted network on vertices A to I
     redraw_status: ok
     redraw_class: other
-    redraw_notes: Weighted network on vertices A to I. Vertex dots, 15 edges and edge weights are placed at the crop's positions; round 2 moved E and F to their true x. The vertex labels are maths italic (rule 19), weights sit clear of the edges (rule 11), and lines are 0.6pt. Only remaining difference: the '10' label is about 15 px right of the crop's position.
+    redraw_notes: Weighted network on vertices A to I. Vertex dots, 15 edges and edge weights are placed at the crop's positions; round 2 moved E and F to their true x. The vertex labels are maths italic (rule 19), weights sit clear of the edges (rule 11), and lines are 0.6pt. Only remaining difference: the '10' label is about 15 px right of the crop's position. Checker 25 Nov (k_2021-NEAP-AT4-STD-Q35): "make sure all the labels are not overlapped by a line/graph" -> nudged G, D and the weights 5 and 6 a px or two clear of their edges.
   figure 250_q35_s1.png
     page: 0
     bbox: []
