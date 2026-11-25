@@ -2599,14 +2599,17 @@ async function queueChecks(browser, base, seed) {
     assert(k, 'no diagram');
     const drag = async (dx, dy) => { await page.evaluate(k => document.querySelector(`#xPages [data-figw="${k}"]`).scrollIntoView({block: 'center'}), k); await settle(page, 800, 2); const a = await figState(page, k); await page.mouse.move(a.box.x + a.box.w / 2, a.box.y + a.box.h / 2); const b = await figState(page, k);
       await page.mouse.move(b.hx, b.hy); await page.mouse.down(); await page.mouse.move(b.hx + dx, b.hy + dy, {steps: 6}); await page.mouse.up(); await figSteady(page, k, b.img); return figState(page, k) };   // 25 Nov: wait for the layout, not a fixed time (a full run measured mid-layout)
-    const big = await drag(900, 1400); const small = await drag(-1500, -2400);
+    // 25 Nov: a full run can take over 15 s to redraw; wait until the image reaches the size its stored scale gives (base = width at 100%)
+    const base = await page.evaluate(k => { const i = document.querySelector(`#xPages [data-figw="${k}"] img`); return i.getBoundingClientRect().width / (EX.figscale[k] || 1) }, k);
+    const figAt = (w) => page.waitForFunction(([k, w]) => { const i = document.querySelector(`#xPages [data-figw="${k}"] img`); return i && Math.abs(i.getBoundingClientRect().width - w) < 4 }, [k, w], {timeout: 60000}).catch(() => {});
+    const big = await drag(900, 1400); const small = await drag(-1500, -2400).then(async s => { await figAt(base * 0.3); return figState(page, k) });
     const colW = await page.evaluate(k => { const fw = document.querySelector(`#xPages [data-figw="${k}"]`); const col = fw?.closest('.xcol, .xbody, .xpage') || fw?.parentElement; return col ? col.getBoundingClientRect().width : 0 }, k);
     // 25 Nov: a tall diagram stops at the page's height before 200% or the column width (full run picked one at 181%, 403 of 601 px wide)
     const pageH = await page.evaluate(k => { const pg = document.querySelector(`#xPages [data-figw="${k}"]`)?.closest('.xpage'); return pg ? pg.getBoundingClientRect().height : 0 }, k);
     // 17 Nov: a diagram already wide at 100% stops at the column width before 200% (the exam is random, so which diagram varies)
     assert(big.fs === 2 || (big.fs > 1 && (big.box.w >= colW * 0.9 || big.box.h >= pageH * 0.45)), `dragging far out gives ${big.fs} (width ${Math.round(big.box.w)} of column ${Math.round(colW)}, height ${Math.round(big.box.h)} of page ${Math.round(pageH)}), expected 2, the full column or a page-tall diagram`); assert(small.fs === 0.3, `dragging far in gives ${small.fs}, expected 0.3`);
     await page.evaluate(k => document.querySelector(`#xPages [data-figw="${k}"]`).scrollIntoView({block: 'center'}), k); await settle(page, 800, 2); const c = await figState(page, k); await page.mouse.move(c.box.x + c.box.w / 2, c.box.y + c.box.h / 2); const d = await figState(page, k);
-    await page.mouse.dblclick(d.hx, d.hy); await figSteady(page, k, d.img);
+    await page.mouse.dblclick(d.hx, d.hy); await figSteady(page, k, d.img); await figAt(base);
     const r = await page.evaluate(k => ({has: k in EX.figscale, fs: EX.figscale[k]}), k), e = await figState(page, k);
     errs(); assert(!r.has, `after a double-click EX.figscale[${k}] is ${r.fs}, expected it removed (100%)`);
     assert(e.img > small.img * 2, `the diagram did not grow back after the reset (image ${Math.round(small.img)} → ${Math.round(e.img)} px)`);   // 25 Nov: the image, not its frame (the frame keeps a minimum width)
