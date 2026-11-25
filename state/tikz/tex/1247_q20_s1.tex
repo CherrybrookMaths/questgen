@@ -5,17 +5,13 @@
 \coordinate (A) at (32,232); \coordinate (P1) at (160,85); \coordinate (P2) at (373,10);
 \coordinate (P3) at (680,68); \coordinate (B) at (860,232); \coordinate (H) at (245,232);
 \coordinate (M) at (588,232); \coordinate (N) at (485,332); \coordinate (Q) at (615,398); \coordinate (R) at (168,380);
-% shortest route A-N-Q-M-B marked alongside (grey, as the pen marks)
-\begin{scope}[black!50,line width=0.9pt,line cap=round]
-\draw (40,238) -- (480,338);
-\draw (486,340) -- (608,402);
-\draw (604,390) -- (579,240);
-\draw (596,238) -- (852,238);
-\end{scope}
+% shortest route A-N-Q-M-B: the grey pen marks alongside are gone; the route's own edges are drawn bolder
+% (checker 25 Nov: "remove the grey lines just make thosebbalck linesbolder")
 \draw (A)--(P1)--(P2)--(P3)--(B);
 \draw (P1)--(H)--(P2); \draw (H)--(P3); \draw (M)--(P3);
-\draw (A)--(H)--(M)--(B); \draw (H)--(N); \draw (A)--(N)--(M); \draw (N)--(Q)--(M); \draw (Q)--(B);
+\draw (A)--(H)--(M); \draw (H)--(N); \draw (N)--(M); \draw (Q)--(B);
 \draw (A)--(R)--(Q);
+\draw[line width=0.9pt] (A)--(N)--(Q)--(M)--(B);
 \foreach \p in {A,P1,P2,P3,B,H,M,N,Q,R} \fill (\p) circle (1.8pt);
 \node[lab] at (82,140) {1}; \node[lab] at (245,30) {6}; \node[lab] at (510,12) {4};
 \node[lab] at (785,135) {5}; \node[lab] at (212,143) {8}; \node[lab] at (293,110) {3};

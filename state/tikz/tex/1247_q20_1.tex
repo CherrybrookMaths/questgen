@@ -5,7 +5,8 @@
 \coordinate (A) at (62,275); \coordinate (P1) at (203,117); \coordinate (P2) at (428,37); \coordinate (P3) at (757,98);
 \coordinate (B) at (952,272); \coordinate (D) at (292,273); \coordinate (M) at (657,272); \coordinate (N) at (548,382);
 \coordinate (Q) at (688,453); \coordinate (R) at (210,436);
-\draw (A)--(P1)--(P2)--(P3)--(B) (P1)--(D) (P2)--(D) (D)--(P3) (A)--(D)--(M)--(B) (M)--(P3)
+% edges at the 0.9pt graph weight (checker 25 Nov: "remove the grey lines just make thosebbalck linesbolder")
+\draw[line width=0.9pt] (A)--(P1)--(P2)--(P3)--(B) (P1)--(D) (P2)--(D) (D)--(P3) (A)--(D)--(M)--(B) (M)--(P3)
   (A)--(N) (D)--(N) (N)--(M) (M)--(Q) (N)--(Q) (Q)--(B) (A)--(R)--(Q);
 \foreach \p in {A,P1,P2,P3,B,D,M,N,Q,R} \fill (\p) circle (2pt);
 \begin{scope}[font=\small]

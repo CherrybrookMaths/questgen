@@ -3,10 +3,11 @@
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
 \foreach \v in {10,20,30,40,50,60} {\draw[black!30, line width=0.4pt, dash pattern=on 1pt off 1.5pt] (165,{547-8.75*\v}) -- (685,{547-8.75*\v});}
-\draw (218,547) rectangle (318,459.5);
-\draw (318,547) rectangle (420,328.25);
-\draw (420,547) rectangle (522,153.25);
-\draw (522,547) rectangle (627,22);
+% bars filled so they sit on top of the dashed grid lines (checker 25 Nov: "fill in the boxes so they are ontop of the dashed horizontal lines")
+\draw[fill=white] (218,547) rectangle (318,459.5);
+\draw[fill=white] (318,547) rectangle (420,328.25);
+\draw[fill=white] (420,547) rectangle (522,153.25);
+\draw[fill=white] (522,547) rectangle (627,22);
 \draw (165,547) -- (165,22);
 \draw (165,547) -- (685,547);
 \foreach \v in {0,10,20,30,40,50,60} {\draw (158,{547-8.75*\v}) -- (165,{547-8.75*\v}); \node[anchor=east] at (148,{547-8.75*\v}) {\v};}

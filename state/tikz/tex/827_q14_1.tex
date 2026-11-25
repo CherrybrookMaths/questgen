@@ -1,6 +1,6 @@
 \documentclass[border=4pt,12pt]{standalone}
 \input{../examstyle.tex}
-\newcommand{\bx}[4]{\draw[line width=0.6pt] ($(#1)+(-#4,-14)$) rectangle ($(#1)+(#4,14)$) ($(#1)+(0,-14)$)--($(#1)+(0,14)$);
+\newcommand{\bx}[4]{\draw[line width=0.6pt] ($(#1)+(-#4,-22)$) rectangle ($(#1)+(#4,22)$) ($(#1)+(0,-22)$)--($(#1)+(0,22)$);
  \node at ($(#1)+(-#4/2,0)$){$#2$}; \node at ($(#1)+(#4/2,0)$){$#3$};}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
@@ -11,14 +11,15 @@
    \draw[->,shorten >=4] (\a)--(\b);
  \draw[->,shorten >=4,dash pattern=on 1pt off 1.5pt] (n6)--(n4);
  \foreach \p in {s,n1,n2,n3,n4,n5,n6,n7,f} \fill (\p) circle[radius=4];
- \foreach \x/\y/\t in {134/222/A(5),246/152/B(4),504/52/E(7),343/258/C(7),224/337/D(12),599/256/G(12),
-   672/154/J(6),815/135/I(7),799/256/L(4),710/324/H(8),829/342/K(7),499/424/F(3)}
+ % labels clear of their edges (checker 25 Nov: "make sure all the labels are not overlapped by a line/graph")
+ \foreach \x/\y/\t in {150/212/A(5),237/130/B(4),510/42/E(7),380/270/C(7),233/352/D(12),600/270/G(12),
+   648/155/J(6),833/120/I(7),807/270/L(4),737/323/H(8),833/358/K(7),510/436/F(3)}
    \node at (\x,\y){$\t$};
- \bx{329,40}{9}{16}{38} \bx{693,40}{16}{23}{38} \bx{510,208}{17}{17}{38} \bx{730,209}{29}{29}{38}
- \bx{182,271}{5}{5}{33} \bx{329,436}{17}{17}{38} \bx{693,436}{20}{21}{38}
- \draw (29,227) rectangle (59,255); \node at (44,241){$0$};
- \draw (940,227) rectangle (975,255); \node at (957,241){$33$};
- \node at (39,200){Start};
- \node at (959,200){Finish};
+ \bx{329,32}{9}{16}{46} \bx{693,32}{16}{23}{46} \bx{510,206}{17}{17}{46} \bx{746,206}{29}{29}{46}
+ \bx{182,272}{5}{5}{38} \bx{329,444}{17}{17}{46} \bx{693,444}{20}{21}{46}
+ \draw (24,218) rectangle (64,262); \node at (44,240){$0$};
+ \draw (936,218) rectangle (984,262); \node at (960,240){$33$};
+ \node at (44,188){Start};
+ \node at (960,188){Finish};
 \end{tikzpicture}
 \end{document}

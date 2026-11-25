@@ -14,14 +14,14 @@
 \draw[ma=0.5] (S) .. controls (230,405) and (330,465) .. node[lab, pos=0.35, sloped, above] {$H$, 9} (H);
 \draw[ma=0.5] (H) -- node[lab, pos=0.3, sloped, above] {$K$, 8} (T);
 \draw[ma=0.5] (T) -- node[lab, pos=0.72, sloped, below] {$M$, 6} (M);
-\draw[ma=0.55] (T) -- node[lab, pos=0.37, sloped, above] {$L$, 10} (F);
+\draw[ma=0.55] (T) -- node[lab, pos=0.27, sloped, above] {$L$, 10} (F);
 \draw[ma=0.55] (M) -- node[lab, pos=0.4, sloped, above] {$N$, 7} (F);
 \draw[ma=0.5] (H) -- node[lab, pos=0.32, sloped, above] {$P$, 11} (F);
-\draw[ma=0.5] (H) .. controls (540,613) and (910,613) .. node[lab, pos=0.5, below] {$R$, 13} (F);
+\draw[ma=0.5] (H) .. controls (540,613) and (910,613) .. node[lab, pos=0.5, below=2pt] {$R$, 13} (F);
 \node[above left, inner sep=2pt] at (S) {\textbf{Start}};
 \node[right] at ([xshift=2pt]F) {\textbf{Finish}};
 % earliest | latest start boxes
-\foreach \px/\py/\ea/\la in {82/413/0/0, 288/118/7/12, 655/55/17/17, 770/297/23/23, 415/563/9/9, 1265/452/30/30} {
+\foreach \px/\py/\ea/\la in {82/413/0/0, 288/118/7/12, 655/55/17/17, 770/297/23/23, 318/575/9/9, 1265/452/30/30} {
   \draw (\px-65,\py-35) rectangle (\px+65,\py+35); \draw (\px,\py-35) -- (\px,\py+35);
   \node[font=\Large] at (\px-32,\py) {\ea}; \node[font=\Large] at (\px+32,\py) {\la};}
 \end{tikzpicture}

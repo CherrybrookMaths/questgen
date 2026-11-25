@@ -3,7 +3,8 @@
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
 \def\crv{(122,48) (157,41) (200,48) (242,68) (312,123) (345,155) (369,173) (402,180) (452,173) (502,160) (562,155) (602,158) (620,172)}
-\path[shade dots] (122,333) -- plot[smooth, tension=0.6] coordinates {\crv} -- (620,333) -- cycle;
+% grey shading instead of stipple (checker 25 Nov: "change the dotted area to a grey shaded area")
+\path[shade] (122,333) -- plot[smooth, tension=0.6] coordinates {\crv} -- (620,333) -- cycle;
 \draw plot[smooth, tension=0.6] coordinates {\crv};
 \draw (122,41) rectangle (620,333);
 \draw (122,303) -- (152,303) -- (152,333);
