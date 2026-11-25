@@ -551,6 +551,12 @@ Owner, 25 Nov, on the checker's and a review's list (verbatim): **"Besides that,
 - **Diagram size**, owner 25 Nov: **"This is currently independent, but it should be the same in question and solutions is what I
   meant."** One size per figure per exam (EX.figscale): the marking guide draws every diagram at that size, with the same corner handle,
   so resizing on either changes both.
+- **Resized diagrams were not saved** (owner 25 Nov, verbatim: **"Also in the relative referuence exam just made, the spinner diagram
+  cannot be rezised currently."**). Every handle in that exam (Standard 2, e1795576457204: QIDs 4369, 6403, 5961, 6733) could be grabbed
+  and dragged; the drag was lost. Cause: an exam opened from My exams shared its diagram sizes (and answer lines, instructions and locks)
+  with the saved copy, so a resize changed both, the "unsaved changes" check saw nothing to save, the paper said "Saved" and the next open
+  showed the old size. The open exam now takes its own copy (exmLoad, 25_mine.js). Test: `exams: a saved exam opened from My exams: every
+  diagram handle works and a drag saves its size (paper and guide)`.
 - **HTML download** ("reference sheet doenst show up when downloading html"): every picture still held by address (the reference sheet
   pages) is put into the file as data, so the file needs nothing else.
 - **Generate on top** ("put generate button on top"): Generate (with its last-result line) opens the settings panel and stays in sight

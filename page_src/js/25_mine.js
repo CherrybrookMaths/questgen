@@ -28,8 +28,11 @@ const exmWhen=t=>{const d=new Date(t);if(isNaN(d))return '';const days=Math.floo
 // owner 23 Nov: "All the advanced questions dissappeared and then when I went back to the advanced tab and opened the same exam, the
 // questions were now gone, destroying that eaxm": an exam of the other course switches the page to that course
 // and opens there (exm_open, after the reload); questions this course's bank cannot show stay in EX.gone and are saved back with it.
+// owner 25 Nov: "Also in the relative referuence exam just made, the spinner diagram cannot be rezised currently." Cause: the open exam
+// shared its diagram sizes (and lines, instructions, locks) with the saved copy in XSAVED, so a resize changed both, the "unsaved
+// changes" check saw no change and the size was never saved (gone on the next open). The open exam takes its own copy.
 function exmLoad(x){if(exCourse(x)!==QG.course){save('course',exCourse(x));save('exm_open',x.id);save('sel','');location.reload();return false}
-  const all=RKEY.items(x),ks=x.keys||[];
+  x=JSON.parse(JSON.stringify(x));const all=RKEY.items(x),ks=x.keys||[];
   EX={course:QG.course,gone:all.map((i,k)=>xq(i)?null:{id:i,key:ks[k]||null}).filter(Boolean),id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',bytopic:x.bytopic!==false,time:x.time,timeAuto:x.timeAuto===true,mpm:+x.mpm||1.8,reading:x.reading,items:all.filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{})};
   xsave();try{EXC.clear()}catch(e){}}
 function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
