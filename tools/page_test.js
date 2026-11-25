@@ -1368,7 +1368,7 @@ async function reviewFlow(browser, base, seed) {
     const r = await page.evaluate(() => ({bo: Object.fromEntries([...(PQ.batchOf() || new Map()).entries()].map(([d, b]) => [d, {key: b.key, name: b.name, o: b.o}])),
       papers: [...allWork().values()].sort(workOrder).map(w => ({doc: String(w.doc), ids: docIds(w.doc).map(String), n: w.n, call: w.left.decide})),
       groups: [...document.querySelectorAll('#inboxBox [data-card="papers"] .rv-bg')].map(g => ({batch: g.dataset.batch, head: g.querySelector('.rv-bgh').textContent, tag: g.tagName, open: g.open,
-        rows: [...g.querySelectorAll('.iprow')].map(a => ({doc: a.getAttribute('href').split('/').pop(), mark: a.querySelector('.rv-call')?.textContent || ''}))}))}));
+        rows: [...g.querySelectorAll('.iprow')].map(a => ({doc: a.getAttribute('href').split('/').pop(), mark: a.querySelector('.rv-new')?.textContent || '', old: !!a.querySelector('.rv-call')}))}))}));
     errs();
     const want = new Map(), meta = new Map(), multi = lanesUsed.size > 1;
     for (const p of r.papers) {
@@ -1382,10 +1382,10 @@ async function reviewFlow(browser, base, seed) {
       const todo = want.get(order[i]).filter(p => p.n);
       assert(g.rows.map(x => x.doc).join() === todo.map(p => p.doc).join(), `${g.head}: rows ${g.rows.map(x => x.doc)} (want ${todo.map(p => p.doc)}, in the list's order)`);
       assert(todo.length ? g.tag === 'DETAILS' : g.tag === 'DIV', `${g.head}: a ${g.tag} (a group with nothing left is its header line only)`);
-      for (const x of g.rows) { const p = todo.find(p => p.doc === x.doc); assert(p.call ? x.mark === 'waiting on your call' : x.mark === '', `${x.doc}: ${p.call} open calls, marker “${x.mark}”`) }
+      for (const x of g.rows) { const p = todo.find(p => p.doc === x.doc); assert(!x.old && (p.call ? /\d+ decisions?/.test(x.mark) : !/decision/.test(x.mark)), `${x.doc}: ${p.call} open calls, tag “${x.mark}”`) }
     }
-    const marked = r.groups.flatMap(g => g.rows).filter(x => x.mark);
-    assert(marked.some(x => x.doc === '1346'), `1346 has open Your calls in the fixture but no marker (marked: ${marked.map(x => x.doc)})`);
+    const marked = r.groups.flatMap(g => g.rows).filter(x => /decision/.test(x.mark));
+    assert(marked.some(x => x.doc === '1346'), `1346 has open Your calls in the fixture but no “decision” in its tag (with decisions: ${marked.map(x => x.doc)})`);
     // ordered, not locked: a closed group opens and its rows open their paper
     const closed = r.groups.find(g => g.tag === 'DETAILS' && !g.open);
     if (closed) { await page.click(`#inboxBox details.rv-bg[data-batch="${closed.batch}"] > summary`); const o = await page.evaluate(b => document.querySelector(`#inboxBox details.rv-bg[data-batch="${b}"]`).open, closed.batch); assert(o, `${closed.head} did not open`) }

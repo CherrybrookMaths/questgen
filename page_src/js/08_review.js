@@ -153,7 +153,9 @@ function workOf(main,ids,qs){const left={},total={};STEPS.forEach(([k])=>{left[k
   return {doc:main,ids,left,total,ready,n,at:(STEPS.find(([k])=>left[k]>0)||[])[0]||null}}
 // owner 25 Nov: "change the NOT LOOKED AT flag to a 'things still left to do' flag instead. word it in a way which makes sense" (replaces the
 //   24 Nov "Not looked at" tag): a paper with review work left is highlighted, and its tag says what is left, step by step
-const LEFT_WORDS={decide:['call for Steve','calls for Steve'],check:['flagged question','flagged questions'],tags:['topic check','topic checks'],diagrams:['diagram','diagrams'],sample:['spot-check','spot-checks']};
+// owner 25 Nov: "I'm not approving anything now, its just the checker": the orange "waiting on your call" marker is gone and a call reads as a
+//   decision (the checker makes them, owner 24 Nov "3. is for the reviewer")
+const LEFT_WORDS={decide:['decision','decisions'],check:['flagged question','flagged questions'],tags:['topic check','topic checks'],diagrams:['diagram','diagrams'],sample:['spot-check','spot-checks']};
 const leftTag=w=>{if(!w||!w.n)return '';const xs=STEPS.map(([k])=>[k,w.left[k]]).filter(([,n])=>n>0).map(([k,n])=>n+' '+LEFT_WORDS[k][n===1?0:1]);
   return `<span class="rv-new" title="Still to do in this paper: ${esc(xs.join(', '))}">Still to do: ${esc(xs.join(', '))}</span>`};
 function paperWork(doc){const ids=docIds(doc);return workOf(mainDoc(doc),ids,B.questions.filter(q=>ids.includes(q.doc)))}
@@ -189,7 +191,7 @@ function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
   const all=allWork(),W=[...all.values()].filter(w=>w.n).sort(workOrder),rep=typeof repOpen==='function'?repOpen().length:0,lv=typeof lvTodoN==='function'?lvTodoN():0;
   const card=(k,n,title,what,href,doneText,body='')=>n?`<section class="icard" data-card="${k}"><a class="ihead" href="${href}"><span class="ict">${n}</span><span class="itx"><b>${title}</b><span class="iwhat">${what}</span></span><span class="igo" aria-hidden="true">→</span></a>${body}</section>`
     :`<section class="icard idone" data-card="${k}"><a class="ihead" href="${href}"><span class="itick" aria-hidden="true">✓</span><span class="itx"><b>${title}</b><span class="iwhat">${doneText}</span></span><span class="igo">${k==='papers'?'Show all papers':'Open'} →</span></a></section>`;
-  const SHOW=8,row=w=>`<li><a class="iprow${w.n?' rv-unseen':''}" href="#review/paper/${w.doc}"><span class="ipn"><span class="rv-pnm">${esc(docLabel(B.docs[w.doc]))}</span>${w.left.decide?'<span class="rv-call">waiting on your call</span>':''}${leftTag(w)}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`;
+  const SHOW=8,row=w=>`<li><a class="iprow${w.n?' rv-unseen':''}" href="#review/paper/${w.doc}"><span class="ipn"><span class="rv-pnm">${esc(docLabel(B.docs[w.doc]))}</span>${leftTag(w)}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`;
   // groups open in order until SHOW rows are out; later groups show their header and open on a click ("N more" counts their rows)
   const G=W.length?inboxGroups(all):null,was=new Map([...box.querySelectorAll('details.rv-bg')].map(d=>[d.dataset.batch,d.open]));let shown=0,more=Math.max(0,W.length-SHOW),list=`<ul class="iplist">${W.slice(0,SHOW).map(row).join('')}</ul>`;
   if(G){more=0;list=`<div class="rv-bgs">${G.map(g=>{const todo=g.ws.filter(w=>w.n),head=`${esc(g.name)} · ${g.clr} of ${g.ws.length} cleared`;

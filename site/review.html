@@ -1865,7 +1865,6 @@ html:not(.editor) .edonly{display:none!important}
 .ipn{font-weight:500;display:flex;align-items:center;gap:8px;min-width:0}
 .ipn .rv-pnm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
 /* owner 17 Nov: "papers waiting on a Your call marked as such" */
-.ipn .rv-call{flex:none;font-size:11.5px;font-weight:500;line-height:1.5;padding:0 7px;border-radius:999px;color:var(--warn);background:var(--warn-soft);white-space:nowrap}
 /* owner 17 Nov: "group 'Papers to review' by batch, oldest first ('Batch 4 · 7 of 9 cleared')" (08_review.js inboxGroups) */
 .rv-bgs{border-top:1px solid var(--line);padding:4px 0 2px}
 .rv-bg .iplist{border-top:0;padding-top:0}
@@ -3265,7 +3264,9 @@ function workOf(main,ids,qs){const left={},total={};STEPS.forEach(([k])=>{left[k
   return {doc:main,ids,left,total,ready,n,at:(STEPS.find(([k])=>left[k]>0)||[])[0]||null}}
 // owner 25 Nov: "change the NOT LOOKED AT flag to a 'things still left to do' flag instead. word it in a way which makes sense" (replaces the
 //   24 Nov "Not looked at" tag): a paper with review work left is highlighted, and its tag says what is left, step by step
-const LEFT_WORDS={decide:['call for Steve','calls for Steve'],check:['flagged question','flagged questions'],tags:['topic check','topic checks'],diagrams:['diagram','diagrams'],sample:['spot-check','spot-checks']};
+// owner 25 Nov: "I'm not approving anything now, its just the checker": the orange "waiting on your call" marker is gone and a call reads as a
+//   decision (the checker makes them, owner 24 Nov "3. is for the reviewer")
+const LEFT_WORDS={decide:['decision','decisions'],check:['flagged question','flagged questions'],tags:['topic check','topic checks'],diagrams:['diagram','diagrams'],sample:['spot-check','spot-checks']};
 const leftTag=w=>{if(!w||!w.n)return '';const xs=STEPS.map(([k])=>[k,w.left[k]]).filter(([,n])=>n>0).map(([k,n])=>n+' '+LEFT_WORDS[k][n===1?0:1]);
   return `<span class="rv-new" title="Still to do in this paper: ${esc(xs.join(', '))}">Still to do: ${esc(xs.join(', '))}</span>`};
 function paperWork(doc){const ids=docIds(doc);return workOf(mainDoc(doc),ids,B.questions.filter(q=>ids.includes(q.doc)))}
@@ -3301,7 +3302,7 @@ function renderInbox(){const box=$('#inboxBox');if(!box||!B)return;
   const all=allWork(),W=[...all.values()].filter(w=>w.n).sort(workOrder),rep=typeof repOpen==='function'?repOpen().length:0,lv=typeof lvTodoN==='function'?lvTodoN():0;
   const card=(k,n,title,what,href,doneText,body='')=>n?`<section class="icard" data-card="${k}"><a class="ihead" href="${href}"><span class="ict">${n}</span><span class="itx"><b>${title}</b><span class="iwhat">${what}</span></span><span class="igo" aria-hidden="true">→</span></a>${body}</section>`
     :`<section class="icard idone" data-card="${k}"><a class="ihead" href="${href}"><span class="itick" aria-hidden="true">✓</span><span class="itx"><b>${title}</b><span class="iwhat">${doneText}</span></span><span class="igo">${k==='papers'?'Show all papers':'Open'} →</span></a></section>`;
-  const SHOW=8,row=w=>`<li><a class="iprow${w.n?' rv-unseen':''}" href="#review/paper/${w.doc}"><span class="ipn"><span class="rv-pnm">${esc(docLabel(B.docs[w.doc]))}</span>${w.left.decide?'<span class="rv-call">waiting on your call</span>':''}${leftTag(w)}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`;
+  const SHOW=8,row=w=>`<li><a class="iprow${w.n?' rv-unseen':''}" href="#review/paper/${w.doc}"><span class="ipn"><span class="rv-pnm">${esc(docLabel(B.docs[w.doc]))}</span>${leftTag(w)}</span>${miniTrack(w)}<span class="ipl">${workLine(w)}</span></a></li>`;
   // groups open in order until SHOW rows are out; later groups show their header and open on a click ("N more" counts their rows)
   const G=W.length?inboxGroups(all):null,was=new Map([...box.querySelectorAll('details.rv-bg')].map(d=>[d.dataset.batch,d.open]));let shown=0,more=Math.max(0,W.length-SHOW),list=`<ul class="iplist">${W.slice(0,SHOW).map(row).join('')}</ul>`;
   if(G){more=0;list=`<div class="rv-bgs">${G.map(g=>{const todo=g.ws.filter(w=>w.n),head=`${esc(g.name)} · ${g.clr} of ${g.ws.length} cleared`;
@@ -7051,7 +7052,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'0b87cd295ffbfae8',stale:false,t:null,at:0,
+const FRESH={build:'75c92fc9c574b58d',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}
