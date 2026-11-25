@@ -2404,10 +2404,21 @@ const laidOut = async page => { await sleep(150); await page.waitForFunction(() 
 const figOnScreen = page => page.evaluate(() => {
   // 25 Nov (duplicate sweep changed the generated paper): prefer a diagram with room to grow, so "drag out" can pass 105%; a diagram
   // already filling its space (644_q6_1, a multiple-choice option graph) could only reach 104%
-  const ws = [...document.querySelectorAll('#xPages .exfigw')].filter(w => { const i = w.querySelector('img'); return i && i.complete && i.naturalWidth });
+  // 25 Nov: only a diagram that appears once on the paper (one shown twice gave the reset check the other copy's width)
+  const all = [...document.querySelectorAll('#xPages .exfigw')], once = w => all.filter(x => x.dataset.figw === w.dataset.figw).length === 1;
+  const ws = all.filter(w => { const i = w.querySelector('img'); return i && i.complete && i.naturalWidth && once(w) });
   const room = w => w.querySelector('img').getBoundingClientRect().width < 0.6 * w.parentElement.getBoundingClientRect().width;
-  const w = ws.find(room) || ws[0];
+  // ...but not a tiny one: at 30% a ~100 px graph is too small for the double-click reset to land on its handle (full run 25 Nov)
+  const mid = w => { const r = w.querySelector('img').getBoundingClientRect().width / w.parentElement.getBoundingClientRect().width; return r >= 0.25 && r < 0.6 };
+  const w = ws.find(mid) || ws.find(room) || ws[0];
   if (!w) return null; w.scrollIntoView({block: 'center'}); return w.dataset.figw });
+// 25 Nov: the paper is laid out again a moment after a drag or a reset, so a fixed wait or one "laid out" check can measure the
+// previous layout; wait until the diagram's width holds still over three samples
+const figSteady = async (page, k, prev) => { if (prev != null) await page.waitForFunction(([k, p]) => { const i = document.querySelector(`#xPages [data-figw="${k}"] img`); return i && Math.abs(i.getBoundingClientRect().width - p) > 2 }, [k, prev], {timeout: 15000}).catch(() => {});
+  await laidOut(page); let last = -1, same = 0;
+  for (let i = 0; i < 40 && same < 2; i++) { await sleep(400); const w = await page.evaluate(k => { const i = document.querySelector(`#xPages [data-figw="${k}"] img`); return i ? Math.round(i.getBoundingClientRect().width) : 0 }, k);
+    same = w === last ? same + 1 : 0; last = w }
+  await laidOut(page) };
 const figState = (page, k) => page.evaluate(k => { const w = document.querySelector(`#xPages [data-figw="${k}"]`), h = w.querySelector('.figh'), b = w.querySelector('.exfigbox').getBoundingClientRect(), hr = h.getBoundingClientRect();
   return {fs: EX.figscale[k] || 1, img: w.querySelector('img').getBoundingClientRect().width, box: {x: b.x, y: b.y, w: b.width, h: b.height}, hx: hr.x + hr.width / 2, hy: hr.y + hr.height / 2,
     hDisp: getComputedStyle(h).display, pct: getComputedStyle(w.querySelector('.figpct')).display, pctText: w.querySelector('.figpct').textContent} }, k);
@@ -2587,19 +2598,21 @@ async function queueChecks(browser, base, seed) {
   await check('exams: diagram resize clamps to 30–200%, double-click resets', page, async () => {
     assert(k, 'no diagram');
     const drag = async (dx, dy) => { await page.evaluate(k => document.querySelector(`#xPages [data-figw="${k}"]`).scrollIntoView({block: 'center'}), k); await settle(page, 800, 2); const a = await figState(page, k); await page.mouse.move(a.box.x + a.box.w / 2, a.box.y + a.box.h / 2); const b = await figState(page, k);
-      await page.mouse.move(b.hx, b.hy); await page.mouse.down(); await page.mouse.move(b.hx + dx, b.hy + dy, {steps: 6}); await page.mouse.up(); await settle(page, 4000, 2); return figState(page, k) };
+      await page.mouse.move(b.hx, b.hy); await page.mouse.down(); await page.mouse.move(b.hx + dx, b.hy + dy, {steps: 6}); await page.mouse.up(); await figSteady(page, k, b.img); return figState(page, k) };   // 25 Nov: wait for the layout, not a fixed time (a full run measured mid-layout)
     const big = await drag(900, 1400); const small = await drag(-1500, -2400);
     const colW = await page.evaluate(k => { const fw = document.querySelector(`#xPages [data-figw="${k}"]`); const col = fw?.closest('.xcol, .xbody, .xpage') || fw?.parentElement; return col ? col.getBoundingClientRect().width : 0 }, k);
+    // 25 Nov: a tall diagram stops at the page's height before 200% or the column width (full run picked one at 181%, 403 of 601 px wide)
+    const pageH = await page.evaluate(k => { const pg = document.querySelector(`#xPages [data-figw="${k}"]`)?.closest('.xpage'); return pg ? pg.getBoundingClientRect().height : 0 }, k);
     // 17 Nov: a diagram already wide at 100% stops at the column width before 200% (the exam is random, so which diagram varies)
-    assert(big.fs === 2 || (big.fs > 1 && big.box.w >= colW * 0.9), `dragging far out gives ${big.fs} (width ${Math.round(big.box.w)} of column ${Math.round(colW)}), expected 2 or the full column`); assert(small.fs === 0.3, `dragging far in gives ${small.fs}, expected 0.3`);
+    assert(big.fs === 2 || (big.fs > 1 && (big.box.w >= colW * 0.9 || big.box.h >= pageH * 0.45)), `dragging far out gives ${big.fs} (width ${Math.round(big.box.w)} of column ${Math.round(colW)}, height ${Math.round(big.box.h)} of page ${Math.round(pageH)}), expected 2, the full column or a page-tall diagram`); assert(small.fs === 0.3, `dragging far in gives ${small.fs}, expected 0.3`);
     await page.evaluate(k => document.querySelector(`#xPages [data-figw="${k}"]`).scrollIntoView({block: 'center'}), k); await settle(page, 800, 2); const c = await figState(page, k); await page.mouse.move(c.box.x + c.box.w / 2, c.box.y + c.box.h / 2); const d = await figState(page, k);
-    await page.mouse.dblclick(d.hx, d.hy); await laidOut(page);
+    await page.mouse.dblclick(d.hx, d.hy); await figSteady(page, k, d.img);
     const r = await page.evaluate(k => ({has: k in EX.figscale, fs: EX.figscale[k]}), k), e = await figState(page, k);
     errs(); assert(!r.has, `after a double-click EX.figscale[${k}] is ${r.fs}, expected it removed (100%)`);
-    assert(e.box.w > small.box.w * 2, 'the diagram did not grow back after the reset');
+    assert(e.img > small.img * 2, `the diagram did not grow back after the reset (image ${Math.round(small.img)} → ${Math.round(e.img)} px)`);   // 25 Nov: the image, not its frame (the frame keeps a minimum width)
     // keyboard: the handle is a slider; → steps 5%
     await page.focus(`#xPages [data-figh="${k}"]`); await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowRight');
-    await page.waitForTimeout(900); await laidOut(page);
+    await figSteady(page, k); await page.waitForFunction(k => document.activeElement?.dataset?.figh === k, k, {timeout: 8000}).catch(() => {});   // 25 Nov: focus comes back after the relayout
     const kb = await page.evaluate(k => ({fs: EX.figscale[k], now: document.querySelector(`#xPages [data-figh="${k}"]`)?.getAttribute('aria-valuenow'), focus: document.activeElement?.dataset?.figh}), k);
     assert(kb.fs === 1.1 && kb.now === '110', `two → presses: ${JSON.stringify(kb)}`);
     assert(kb.focus === k, 'focus left the handle after the keyboard resize');
@@ -2646,7 +2659,7 @@ async function queueChecks(browser, base, seed) {
   });
   await check('export: a resized diagram keeps its size in the HTML download', page, async () => {
     assert(k, 'no diagram');
-    await page.evaluate(k => { EX.figscale[k] = 1.5; xsave(); exRelayout() }, k); await settle(page, 5000, 2);
+    await page.evaluate(k => { EX.figscale[k] = 1.5; xsave(); exRelayout() }, k); await laidOut(page); await settle(page, 1500, 2);
     const n0 = await page.evaluate(() => window.__pt.downloads.length); await pvClick(page, '#xDl');
     await page.waitForFunction(n => window.__pt.downloads.length > n, n0, {timeout: 30000});
     const d = await page.evaluate(() => window.__pt.downloads[window.__pt.downloads.length - 1]);
