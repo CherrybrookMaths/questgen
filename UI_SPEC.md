@@ -1422,7 +1422,7 @@ trigonometry' (S2-12-071) -> "Right angled trig"; the sine rule obtuse-angle dot
   e1795497337094 ("Mathematics Standard 2") held such keys.
 - Tests: the five `standard trig: …` checks in tools/page_test.js (trig1125).
 
-- **Context wins (25 Nov).** Owner, on 2024 Oakhill AT2 Q29 (filed under Cosine rule by its 3-mark perimeter part): "this question sitting in cosine rule is clearly a radial survey question"; then on 2023 William Clarke AT1 Q6: "Same for bearings, this is in cosine rule but should be in bearings". A question with any part on S2-12-070 (radial surveys) is filed under Radial surveys, else one with any part on S2-12-069 (bearings) under Bearings, whatever the marks (07_bank.js SUB_WINS; a home picked by hand in Review still wins).
+- **Context wins (25 Nov).** Owner, on 2024 Oakhill AT2 Q29 (filed under Cosine rule by its 3-mark perimeter part): "this question sitting in cosine rule is clearly a radial survey question"; then on 2023 William Clarke AT1 Q6: "Same for bearings, this is in cosine rule but should be in bearings". A question with any part on S2-12-070 (radial surveys) is filed under Radial surveys, else one with any part on S2-12-069 (bearings) under Bearings, whatever the marks (07_bank.js SUB_WINS; a home picked by hand in Review still wins). Then on 2026 NESA HSC Q16: "this should not be in bivariate datasets, beause it has line of best fit": any part on S2-12-113, 116, 118, 119 or 120 files the question under Line of best fit (radial surveys, then bearings, then line of best fit).
 
 ## Standard topics simplified: Investment and loans, Bivariate data analysis, Area of a triangle (25 Nov)
 Owner 25 Nov: "For area of a triangle, finding area is one choice, findin the angle or something else should be other choices.

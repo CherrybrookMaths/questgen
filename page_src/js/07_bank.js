@@ -91,7 +91,10 @@ function homeNeed(q){return !q.dup_of&&q.parts.some(p=>p.tagd)&&homeTopic(homeOf
 //   marks say (as Annuities' PV rule, 24 Nov). A home picked by hand in Review still wins.
 // owner 25 Nov (2023 William Clarke AT1 Q6): "Same for bearings, this is in cosine rule but should be in bearings". Radial surveys first: a
 //   radial survey question usually has a bearings part too.
-const SUB_WINS=['S2-12-070','S2-12-069'];
+// owner 25 Nov (2026 NESA HSC Q16, filed under Bivariate datasets by its 3-mark describe part): "this should not be in bivariate datasets,
+//   beause it has line of best fit". Any part on a line of best fit dot point (113 line by eye/tools, 116 equation from a graph, 118
+//   least-squares, 119 spreadsheet, 120 predictions) files the question under Line of best fit.
+const SUB_WINS=['S2-12-070','S2-12-069','S2-12-113','S2-12-116','S2-12-118','S2-12-119','S2-12-120'];
 function qHome(q){if(!reviews['q'+q.id]?.home){const w=SUB_WINS.find(id=>DM[id]&&q.parts.some(p=>leaf(q,p)&&partMain(q,p).includes(id)));if(w)return subKey(w)}
   const h=qHome0(q);if(q.st&&h&&h.startsWith('sub:')){const [yl,fa]=h.slice(4).split('|');if(SUB_SPLIT[fa]?.[q.st])return 'sub:'+yl+'|'+fa+'|'+q.st}return h}   // owner 24 Nov: an annuity question with PV in it is filed under Present value
 function qHome0(q){const r=reviews['q'+q.id]?.home;
