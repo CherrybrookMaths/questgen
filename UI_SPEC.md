@@ -1464,6 +1464,34 @@ regression, interpolation extrapolation goes into Line of best fit section."
 - Unchanged: SUB_WINS (radial surveys, bearings), every other topic, Advanced.
 - Tests: the `std2: …` checks in tools/page_test.js (std2_1125).
 
+## Standard topics simplified: Critical path analysis (25 Nov)
+Owner 25 Nov: "Ok let's clean up Critical path analysis next. It should be:
+* Network from a precedence table
+* EST and LST
+* Float times and critical activities
+* Minimum completion time
+* Gantt charts
+Changing an activity's duration is a part of minimum completion time, remove spreadsheet model. Does that cover it all? As uisual, if it
+needs a later section, it should not appear in the earlier section"
+Then, on the critical path dot point: "Critical path from EST and LSTs comes under minimum completion time? Usually they're tied together right?"
+- Year 12 Critical path analysis has five rows, in his order: Network from a precedence table (S2-12-099), EST and LST (101), Float times and
+  critical activities (102), Minimum completion time (104, 106, 100, 103), Gantt charts (105) (07_bank.js SUB_SPLIT). 100 (explain the term
+  critical path) goes with 103 by the second ruling ("tied together"). Inside a row the "Dot point" pills stay one per dot point.
+- **Spreadsheet model removed** (S2-12-107): no row and no pill, and it is left out of the topic's dot-point list (07_bank.js SUB_RULE drop).
+  A question with a 107 part is filed by its other parts' dot points; one with only 107 parts would stay under Minimum completion time (none
+  on 25 Nov: no question in the bank is tagged 107). An old key naming it reads as Minimum completion time.
+- **Later section wins** (SUB_RULE later, switched on for Critical path analysis only): a question with parts in several of the rows is filed
+  under the latest row in the order above, whatever the marks (a question with an EST part and a Gantt part sits under Gantt charts). A home
+  picked by hand in Review still wins; SUB_WINS (radial surveys, bearings, line of best fit) is unchanged. One flag in SUB_RULE switches it on
+  for another topic. On 25 Nov it moved 5 of the 45 questions: 2021 NESA HSC Q36, 2023 Western Mathematics AT4 Q33, 2021 NEAP AT4 Q40,
+  2021 Cherrybrook AP4 Q34 to Minimum completion time; 2022 Knox AT3 Q8 to Float times and critical activities.
+- Counts on 25 Nov (with unapproved): 45 under the topic, as with one row per dot point: Network from a precedence table 6, EST and LST 2,
+  Float times and critical activities 6, Minimum completion time 31, Gantt charts 0 (no question in the bank is tagged 105 yet).
+- Exams and Already learnt lists saved with the old one-row-per-dot-point keys keep their ticks ('...|EST and LST by forward and backward
+  scanning' → EST and LST, '...|Spreadsheet model of a project' → Minimum completion time; QG.topicKeys). Review reads every row as Critical
+  path analysis (homeTopic), so the rows make no review work.
+- Tests: the `cpa: …` checks in tools/page_test.js (cpa1125).
+
 ## Checker's review of the page (25 Nov)
 Owner 25 Nov, on a review of the page: "Besides that, yes action all these things". The review's points, verbatim, and what was done:
 - **Page zoom** ("make it so that you can zoom in and out (of the page itself)"). Inside claude.ai the page sits in a frame: the host page can

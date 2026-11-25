@@ -34,13 +34,28 @@ const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057',
     'Depreciation':['S2-12-040','S2-12-041','S2-12-042','S2-12-043'],'Loans':['S2-12-044','S2-12-045','S2-12-046','S2-12-047','S2-12-048'],
     'Credit cards':['S2-12-049','S2-12-050','S2-12-051','S2-12-052','S2-12-053','S2-12-054'],'Shares and dividends':['S2-12-035','S2-12-036','S2-12-037','S2-12-038']},
   'Bivariate data analysis':{'Bivariate datasets':['S2-12-108','S2-12-109','S2-12-110','S2-12-111','S2-12-112','S2-12-114','S2-12-115','S2-12-117'],
-    'Line of best fit':['S2-12-113','S2-12-116','S2-12-118','S2-12-119','S2-12-120']}};
+    'Line of best fit':['S2-12-113','S2-12-116','S2-12-118','S2-12-119','S2-12-120']},
+  'Critical path analysis':{'Network from a precedence table':['S2-12-099'],'EST and LST':['S2-12-101'],
+    'Float times and critical activities':['S2-12-102'],
+    'Minimum completion time':['S2-12-104','S2-12-106','S2-12-100','S2-12-103','S2-12-107'],'Gantt charts':['S2-12-105']}};
+// owner 25 Nov: "Ok let's clean up Critical path analysis next. It should be: * Network from a precedence table * EST and LST * Float times
+//   and critical activities * Minimum completion time * Gantt charts Changing an activity's duration is a part of minimum completion time,
+//   remove spreadsheet model. Does that cover it all? As uisual, if it needs a later section, it should not appear in the earlier section"
+//   Then, on S2-12-103 (critical path from ESTs and LSTs): "Critical path from EST and LSTs comes under minimum completion time? Usually
+//   they're tied together right?" So 103 and 100 (explain the term critical path) sit in Minimum completion time with 104 and 106.
+//   Per topic, the owner's rules on top of SUB_SPLIT:
+//   later: a question with parts in several rows is filed under the latest row in SUB_SPLIT's order, whatever the marks (qHome; a home
+//     picked by hand in Review still wins);
+//   drop: dot points the owner removed: no pill, not in the topic's dot-point list, and they never decide the row while another part's dot
+//     point can; a question on them only stays in the row SUB_SPLIT lists them under, and old keys naming them read as that row.
+const SUB_RULE={'Critical path analysis':{later:1,drop:['S2-12-107']}};
 // a topic the owner split keeps the syllabus's sub-level as d.sub0 (Review compares homes by it, QG.topicKeys reads old keys from it); a
 // sub-level the page made is d.subAuto
 function subLevels(ds){const by={};ds.forEach(d=>(by[d.yl+'|'+d.fa]=by[d.yl+'|'+d.fa]||[]).push(d));
   const ord=new Map();Object.entries(by).forEach(([k0,xs])=>{const sp=SUB_SPLIT[xs[0].fa],ks=sp?Object.keys(sp):[];if(!sp&&xs.some(d=>d.sub))return;
     xs.forEach(d=>{if(sp&&d.sub&&!d.subAuto&&d.sub0==null)d.sub0=d.sub;
-      d.sub=sp?(ks.find(k=>[sp[k]].flatMap(v=>Array.isArray(v)?v:Object.values(v).flat()).includes(d.id))||ks[0]):(d.short||d.text);if(d.sub0==null)d.subAuto=1});
+      d.sub=sp?(ks.find(k=>[sp[k]].flatMap(v=>Array.isArray(v)?v:Object.values(v).flat()).includes(d.id))||ks[0]):(d.short||d.text);if(d.sub0==null)d.subAuto=1;
+      if(SUB_RULE[d.fa]?.drop?.includes(d.id))d.drop=1});
     // the owner's order: a split topic's dot points are listed sub-level by sub-level (the sidebar and the exam builders take the order of DOTS)
     if(sp)ord.set(k0,xs.slice().sort((a,b)=>ks.indexOf(a.sub)-ks.indexOf(b.sub)))});
   return ds.flatMap(d=>{const k=d.yl+'|'+d.fa,o=ord.get(k);return !o?[d]:by[k][0]===d?o:[]})}
@@ -96,7 +111,12 @@ function homeNeed(q){return !q.dup_of&&q.parts.some(p=>p.tagd)&&homeTopic(homeOf
 //   least-squares, 119 spreadsheet, 120 predictions) files the question under Line of best fit.
 const SUB_WINS=['S2-12-070','S2-12-069','S2-12-113','S2-12-116','S2-12-118','S2-12-119','S2-12-120'];
 function qHome(q){if(!reviews['q'+q.id]?.home){const w=SUB_WINS.find(id=>DM[id]&&q.parts.some(p=>leaf(q,p)&&partMain(q,p).includes(id)));if(w)return subKey(w)}
-  const h=qHome0(q);if(q.st&&h&&h.startsWith('sub:')){const [yl,fa]=h.slice(4).split('|');if(SUB_SPLIT[fa]?.[q.st])return 'sub:'+yl+'|'+fa+'|'+q.st}return h}   // owner 24 Nov: an annuity question with PV in it is filed under Present value
+  const h=qHome0(q);if(!h||!h.startsWith('sub:'))return h;const [yl,fa]=h.slice(4).split('|');
+  if(q.st&&SUB_SPLIT[fa]?.[q.st])return 'sub:'+yl+'|'+fa+'|'+q.st;   // owner 24 Nov: an annuity question with PV in it is filed under Present value
+  // owner 25 Nov (Critical path analysis): "if it needs a later section, it should not appear in the earlier section" (SUB_RULE later)
+  if(SUB_RULE[fa]?.later&&!reviews['q'+q.id]?.home){const ks=Object.keys(SUB_SPLIT[fa]),i=Math.max(-1,...q.parts.filter(p=>leaf(q,p)).flatMap(p=>partMain(q,p))
+    .map(id=>DM[id]).filter(d=>d&&d.fa===fa&&String(d.yl)===yl&&!d.drop).map(d=>ks.indexOf(d.sub)));if(i>=0)return 'sub:'+yl+'|'+fa+'|'+ks[i]}
+  return h}
 function qHome0(q){const r=reviews['q'+q.id]?.home;
   // the year rule above holds for a home picked by hand too: a Year 12 question never files under a Year 11 dot point, nor the reverse
   if(r?.id&&DM[r.id]&&qY12(q)!==(DM[r.id].yl===12))return homeOf(q,'main');
@@ -146,7 +166,7 @@ function bankSwitch(){if(!isEditor())return'';const all=B.questions.filter(q=>!q
   return `<button class="bankall" data-bankall="1" aria-pressed="${BANKALL}" title="Unapproved questions are still being checked">${BANKALL?`Showing all ${all.toLocaleString()} · <u>approved only</u>`:`Approved only (${ok.toLocaleString()} of ${all.toLocaleString()}) · <u>include unapproved</u>`}</button>`}
 function buildTopics(){
   const T={y12:new Map(),y11:new Map(),byKey:{}};
-  DOTS.forEach(d=>{const m=d.yl===12?T.y12:T.y11;if(!m.has(d.fa))m.set(d.fa,new Map());const s=m.get(d.fa);const sk=d.sub||'';if(!s.has(sk))s.set(sk,{dps:[],qs:[]});s.get(sk).dps.push(d);T.byKey['sub:'+d.yl+'|'+d.fa+'|'+sk]=s.get(sk)});
+  DOTS.forEach(d=>{const m=d.yl===12?T.y12:T.y11;if(!m.has(d.fa))m.set(d.fa,new Map());const s=m.get(d.fa);const sk=d.sub||'';if(!s.has(sk))s.set(sk,{dps:[],qs:[]});if(!d.drop)s.get(sk).dps.push(d);T.byKey['sub:'+d.yl+'|'+d.fa+'|'+sk]=s.get(sk)});
   T.byKey['special:removed']={qs:[]};T.byKey['special:no_match']={qs:[]};T.byKey['special:std']={qs:[]};
   B.questions.filter(inBank).forEach(q=>qPlaces(q).forEach(k=>T.byKey[k]?.qs.push(q)));
   TOPICS=T;

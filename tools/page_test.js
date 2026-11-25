@@ -3910,6 +3910,117 @@ async function std2_1125(browser, base, seed) {
   await p3.context().close();
 }
 
+/* ---------------- Standard 2: Critical path analysis (owner 25 Nov: "Ok let's clean up Critical path analysis next. It should be:
+   * Network from a precedence table * EST and LST * Float times and critical activities * Minimum completion time * Gantt charts Changing an
+   activity's duration is a part of minimum completion time, remove spreadsheet model. Does that cover it all? As uisual, if it needs a later
+   section, it should not appear in the earlier section") ----------------
+   the owner's five rows, in his order; the same questions under the topic; a question with parts in several rows sits in the latest
+   (SUB_RULE later); the spreadsheet model dot point has no pill or row; saved keys move to the new rows; Review work as before */
+async function cpa1125(browser, base, seed) {
+  const errs = p => { const e = takeErrs(p); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  const FA = 'Critical path analysis', ROWS = ['Network from a precedence table', 'EST and LST', 'Float times and critical activities', 'Minimum completion time', 'Gantt charts'];
+  const K = s => `sub:12|${FA}|${s}`;
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await page.addInitScript(() => { try { localStorage.setItem('course', 'standard'); localStorage.setItem('sel', ''); localStorage.setItem('bankall', '1') } catch (e) {} });
+  await boot(page, base, '#bank');
+  await check('cpa: Critical path analysis shows the owner\'s five rows, in his order', page, async () => {
+    const r = await page.evaluate(fa => { const f = [...document.querySelectorAll('#nav .fa[data-area]')].find(x => x.dataset.area === '12|' + fa);
+      return {c: QG.course, rows: f ? [...f.querySelectorAll('.fold [data-sel] span:first-child')].map(s => s.textContent) : null,
+        cards: [...document.querySelectorAll('#list .facard')].find(a => a.querySelector('.fah b')?.textContent === fa)?.querySelectorAll('.subrow .nm').length,
+        dps: [...TOPICS.y12.get(fa).values()].flatMap(s => s.dps.map(d => d.id))} }, FA);
+    errs(page);
+    assert(r.c === 'standard', `course ${r.c}`);
+    assert(r.rows && r.rows.join('|') === ROWS.join('|'), `sidebar rows: ${r.rows}`);
+    assert(r.cards === 5, `the All topics card shows ${r.cards} rows`);
+    assert(!r.dps.includes('S2-12-107') && r.dps.length === 8, `dot points listed under the rows: ${r.dps.join(', ')}`);
+    return `${r.rows.join(' · ')}; S2-12-107 (spreadsheet model) listed nowhere`;
+  });
+  await check('cpa: the same questions are filed under Critical path analysis as with one row per dot point', page, async () => {
+    const r = await page.evaluate(fa => { const qs = B.questions.filter(inBank), area = () => { const m = {}; qs.forEach(q => [...qPlaces(q)].forEach(k => { const a = k.split('|').slice(0, 2).join('|'); m[a] = (m[a] || 0) + 1 })); return m };
+      const now = area(), ds = DOTS.filter(d => d.fa === fa), was = ds.map(d => d.sub), R = SUB_RULE[fa];
+      ds.forEach(d => { d.sub = d.short }); delete SUB_RULE[fa]; const before = area(); ds.forEach((d, i) => { d.sub = was[i] }); SUB_RULE[fa] = R;
+      const T = TOPICS.y12.get(fa);
+      return {now, before, side: +document.querySelector(`#nav .fa[data-area="12|${fa}"] button[data-fa] .c`).textContent, fa: faCount(T),
+        sum: [...T.values()].reduce((a, s) => a + s.qs.length, 0), rows: [...T].map(([k, s]) => `${k} ${s.qs.length}`)} }, FA);
+    const diff = Object.keys({...r.now, ...r.before}).filter(k => r.now[k] !== r.before[k]);
+    assert(!diff.length, `topic totals moved: ${diff.map(k => `${k} ${r.before[k]} → ${r.now[k]}`).join(', ')}`);
+    const n = r.now['sub:12|' + FA];
+    assert(n > 0 && r.side === n && r.fa === n && r.sum === n, `${FA}: ${n} filed, sidebar ${r.side}, topic ${r.fa}, rows add to ${r.sum}`);
+    return `${n} questions (${r.rows.join(', ')}); every Standard topic as before`;
+  });
+  await check('cpa: a question with parts in several rows is filed under the latest (an EST part and a Gantt part: Gantt charts)', page, async () => {
+    const r = await page.evaluate(fa => { const ks = Object.keys(SUB_SPLIT[fa]), mk = (id, ps) => ({id, number: '1', parts: ps.map(([d, m], i) => ({id: id * 10 - i, marks: m, t24: [{id: d, primary: 1, cov: 'examinable'}]}))});
+      const syn = {estGantt: qHome(mk(-7, [['S2-12-101', 5], ['S2-12-105', 1]])), netFloat: qHome(mk(-8, [['S2-12-102', 4], ['S2-12-099', 1]])),
+        sheetEst: qHome(mk(-9, [['S2-12-107', 4], ['S2-12-101', 1]])), sheetOnly: qHome(mk(-6, [['S2-12-107', 3]]))};
+      // every question with no hand-picked home filed in the topic sits in the latest row any of its parts' dot points is in
+      let n = 0; const bad = [], moved = [], only = [], R = SUB_RULE[fa];
+      for (const q of B.questions.filter(q => !q.dup_of)) { const h = qHome(q); if (!h || !h.startsWith(`sub:12|${fa}|`)) continue;
+        const ids = q.parts.filter(p => leaf(q, p)).flatMap(p => partMain(q, p)).filter(i => DM[i]?.fa === fa);
+        if (ids.length && ids.every(i => DM[i].drop)) only.push(qid(q) + ' #' + q.id);
+        if (reviews['q' + q.id]?.home) continue; n++;
+        const want = Math.max(-1, ...ids.filter(i => !DM[i].drop).map(i => ks.indexOf(DM[i].sub)));
+        if (want >= 0 && h !== `sub:12|${fa}|${ks[want]}`) bad.push(q.id);
+        delete SUB_RULE[fa]; const h0 = qHome(q); SUB_RULE[fa] = R;
+        if (h0 !== h) moved.push(`${qid(q)} #${q.id} ${h0.split('|')[2]} → ${h.split('|')[2]}${inBank(q) ? '' : ' (unapproved)'}`) }
+      return {syn, n, bad: bad.slice(0, 5), moved, only} }, FA);
+    errs(page);
+    assert(r.syn.estGantt === K('Gantt charts'), `EST 5 marks + Gantt 1 mark: ${r.syn.estGantt}`);
+    assert(r.syn.netFloat === K('Float times and critical activities'), `float 4 + network 1: ${r.syn.netFloat}`);
+    assert(r.syn.sheetEst === K('EST and LST'), `spreadsheet 4 + EST 1 (the spreadsheet part never decides): ${r.syn.sheetEst}`);
+    assert(r.syn.sheetOnly === K('Minimum completion time'), `spreadsheet only: ${r.syn.sheetOnly}`);
+    assert(!r.bad.length, `not in their latest row: ${r.bad.join(', ')}`);
+    return `${r.n} questions checked; moved by the rule (${r.moved.length}): ${r.moved.join('; ') || 'none'}; spreadsheet-only: ${r.only.join(', ') || 'none'}`;
+  });
+  await check('cpa: old keys (one row per dot point) read as the new rows', page, async () => {
+    const r = await page.evaluate(fa => { const old = DOTS.filter(d => d.fa === fa).map(d => `sub:12|${fa}|${d.short}`);
+      return {map: old.map(k => [k.split('|')[2], QG.topicKeys([k]).map(x => x.split('|')[2]).join('+')]),
+        all: QG.topicKeys(old).map(x => x.split('|')[2]), keep: QG.topicKeys([`sub:12|${fa}|Gantt charts`])[0]} }, FA);
+    const want = {'Network from a precedence table (dummy activities)': 'Network from a precedence table', 'Explain the term critical path': 'Minimum completion time',
+      'EST and LST by forward and backward scanning': 'EST and LST', 'Float times; critical activities': 'Float times and critical activities', 'Critical path from ESTs and LSTs': 'Minimum completion time',
+      'Minimum completion time': 'Minimum completion time', 'Gantt chart from a network': 'Gantt charts', 'Changing an activity’s duration': 'Minimum completion time', 'Spreadsheet model of a project': 'Minimum completion time'};
+    const bad = r.map.filter(([o, n]) => want[o] !== n);
+    assert(r.map.length === 9 && !bad.length, `old → new: ${bad.map(x => x.join(' → ')).join('; ')}`);
+    assert(r.all.slice().sort().join('|') === ROWS.slice().sort().join('|') && r.keep === K('Gantt charts'), `all nine → ${r.all}; today's row → ${r.keep}`);
+    return `9 old keys → ${r.all.length} rows (Spreadsheet model of a project → Minimum completion time)`;
+  });
+  await page.context().close();
+  // Review: the topic had one row per dot point (d.subAuto), so homes compare as one topic: no new open work
+  const pr = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await pr.addInitScript(() => { try { localStorage.setItem('course', 'standard'); localStorage.setItem('sel', '') } catch (e) {} });
+  await boot(pr, base, '#bank');
+  await check('cpa: no new Review work (home decisions and Inbox as with one row per dot point)', pr, async () => {
+    await pr.waitForFunction(() => QG.detOK, null, {timeout: 30000});
+    const r = await pr.evaluate(fa => { const mk = (a, b) => ({id: -1, parts: [{id: -11, marks: 2, tagd: {A: {dp: [[a, 'primary']]}, B: {dp: [[b, 'primary']]}}}]});
+      const real = B.questions.filter(q => q.parts.some(p => p.tagd)), ds = DOTS.filter(d => d.fa === fa), was = ds.map(d => d.sub), R = SUB_RULE[fa];
+      const now = {estGantt: homeNeed(mk('S2-12-101', 'S2-12-105')), need: real.filter(homeNeed).map(q => q.id), todo: todoCount()};
+      ds.forEach(d => { d.sub = d.short }); delete SUB_RULE[fa]; const before = {need: real.filter(homeNeed).map(q => q.id), todo: todoCount()};
+      ds.forEach((d, i) => { d.sub = was[i] }); SUB_RULE[fa] = R; return {now, before, real: real.length} }, FA);
+    errs(pr);
+    assert(!r.now.estGantt, 'EST and LST / Gantt charts read as different homes in Review');
+    assert(r.now.need.join() === r.before.need.join() && r.now.todo === r.before.todo, `home decisions ${r.before.need.length} → ${r.now.need.length}, Inbox ${r.before.todo} → ${r.now.todo}`);
+    return `${r.now.need.length} home decisions and Inbox ${r.now.todo}, as before`;
+  });
+  await pr.evaluate(fa => { location.hash = 'bank'; sel = `sub:12|${fa}|Gantt charts`; BSEL = {key: sel, dp: null}; renderBank() }, FA);
+  await pr.waitForSelector('#list .cards .card', {timeout: 15000}).catch(() => {}); await settle(pr, 3000, 2);
+  await pr.screenshot({path: path.join(SHOTS, 'cpa1125_bank_gantt.png')});
+  await pr.evaluate(fa => { sel = 'fa:12|' + fa; renderBank() }, FA); await settle(pr, 2000, 2);
+  await pr.screenshot({path: path.join(SHOTS, 'cpa1125_bank_topic.png')});
+  await check('cpa: the exam builders list the five rows (Exam setup topic picker)', pr, async () => {
+    await pr.evaluate(() => { location.hash = 'exams' }); await pr.waitForFunction(() => view === 'exams', null, {timeout: 15000});
+    await pr.evaluate(() => EXAS.fresh()); await pr.waitForSelector('#exTopics .extile', {timeout: 15000});
+    await pr.evaluate(fa => { const b = document.querySelector(`#exTopics [data-texp="12|${fa}"]`); if (b.getAttribute('aria-expanded') !== 'true') b.click() }, FA); await settle(pr, 3000, 2);
+    const r = await pr.evaluate(fa => { const t = document.querySelector(`#exTopics [data-texp="12|${fa}"]`).closest('.extile'); t.scrollIntoView({block: 'start'});
+      return {tree: xaTree()[12].get(fa).map(subName), pills: [...t.querySelectorAll('.pills [data-tsub] .ex-pnm')].map(s => s.firstChild.textContent)} }, FA);
+    await settle(pr, 1500, 2);
+    await pr.screenshot({path: path.join(SHOTS, 'cpa1125_exam_setup.png')});
+    errs(pr);
+    assert(r.tree.join('|') === ROWS.join('|'), `exam builders' rows: ${r.tree}`);
+    assert(r.pills.join('|') === ROWS.join('|'), `Exam setup tile: ${r.pills}`);
+    return r.pills.join(' · ');
+  });
+  await pr.context().close();
+}
+
 if (require.main !== module) { /* required by a debugging script: hand over the helpers, run nothing */ module.exports = {serve, newPage, boot, settle, unzip, FIXTURE, OUT}; return }
 (async () => {
   for (const d of [OUT, SHOTS, DL]) fs.mkdirSync(d, {recursive: true});
@@ -3931,7 +4042,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   try {
     const combos = [[1280, 'light'], [390, 'light']].concat(QUICK ? [] : [[1280, 'dark'], [390, 'dark']]);
     const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
-    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed), run(skillGates, browser, base, seed), run(paperTables, browser, base, seed), run(fixes1125, browser, base, seed), run(trig1125, browser, base, seed), run(std2_1125, browser, base, seedR)]);
+    await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed), run(skillGates, browser, base, seed), run(paperTables, browser, base, seed), run(fixes1125, browser, base, seed), run(trig1125, browser, base, seed), run(std2_1125, browser, base, seedR), run(cpa1125, browser, base, seedR)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
     await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));
