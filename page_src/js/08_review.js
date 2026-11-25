@@ -533,8 +533,9 @@ function renderReview(){RUNDO.render();
   $('#srcTitle').textContent=`${docLabel(d)} · page ${q.pages.map(p=>+p.split('_').pop().split('.')[0]+1).join(', ')}`;
   $('#src').innerHTML=q.pages.map(p=>`<img data-page="${p}" alt="Source page">`).join('');
   const rel=q.related.map(x=>{const o=QG.byId.get(x.q);return o&&!(docLabel(B.docs[o.doc])===docLabel(B.docs[q.doc])&&String(o.number)===String(q.number))?`${docLabel(B.docs[o.doc])} Q${esc(o.nlabel||o.number)} (${Math.round(x.sim*100)}% similar)`:''}).filter(Boolean).join('; ');
+  // 25 Nov (checker's screenshot, 2022 William Clarke AT1): papers imported through the API have no parse_path, so the badge read "NULL": no badge then
   $('#rout').innerHTML=`${backBoxHTML(q,r)}${q.old?`<div class="oldsyl"><b>Old syllabus (2017 only):</b> ${tex(q.old)}</div>`:''}${q.std?`<div class="stdsyl"><b>Mathematics Standard, not ${esc(QG.courseData.short)}:</b> ${esc(q.std)}</div>`:''}
-    <div class="row"><span class="badge ${d.parse_path==='scan'?'b-scan':'b-acc'}">${d.parse_path}</span>
+    <div class="row">${d.parse_path?`<span class="badge ${d.parse_path==='scan'?'b-scan':'b-acc'}">${esc(d.parse_path)}</span>`:''}
       ${q.tri?'':`${q.queues.includes('review')?'<span class="badge b-bad">parse flagged</span>':''}`}
       ${r?.status==='approved'&&openFix(r)?`<span class="badge b-gen" title="The question and solution were approved; a diagram was redrawn after that and needs your OK">text approved · redrawn diagram needs your OK</span>`:r?.status?`<span class="badge ${r.status==='approved'?'b-ok':'b-bad'}">${r.status}</span>`:''}
       <span class="muted" style="font-size:13px">${esc(docLabel(d))} · Section ${esc(q.section||'–')}${q.marks!=null?' · '+q.marks+(q.marks===1?' mark':' marks'):''}</span></div>

@@ -87,7 +87,7 @@ for f in FILES:
             if v: db.execute(f'update questions set {col}=? where id=?', (norm_topic(v) if col == 'standard_topic' else v, qid))
         if q.get('options_layout'):
             db.execute('update questions set options_layout=?, options_table_json=? where id=?', (q['options_layout'], json.dumps(q['options_table']) if q.get('options_table') else None, qid))
-        key = (d.get('mcq_key') or {}).get(str(q['number']))
+        mk = d.get('mcq_key') or {}; key = mk.get(str(q.get('section') or '') + str(q['number'])) or mk.get(str(q['number']))   # 25 Nov: a key per section ("A2", "B2") when numbers repeat
         for o in [o for o in q.get('mcq_options', []) if isinstance(o, dict)]:
             ic = o.get('is_correct')
             if ic is None and key: ic = int(o['label'] == key)
@@ -106,10 +106,18 @@ for f in FILES:
 stats = {}
 for f in FILES:
     d = json.load(open(f)); doc = d['document_id']; target = d.get('links_to_document_id') or doc
-    qrows = {r[1]: r[0] for r in db.execute('select id,number from questions where document_id=?', (target,))}
+    # 25 Nov (owner: "WCC 2022 std paper, consistent errors on solutions not matching"): 2022 William Clarke AT1 numbers Part A and Part B
+    # both from Q2; looking questions up by number alone sent every Part A solution to the Part B question of the same number. A number
+    # that repeats across sections is looked up with the solution's section (or its seq); a unique number still works without one.
+    qall = db.execute('select id,number,section from questions where document_id=? order by id', (target,)).fetchall()
+    qrows, qsec, qseq = {}, {}, {}
+    for i, (qid0, num0, sec0) in enumerate(qall, 1):
+        qrows.setdefault(num0, []).append(qid0); qsec[(sec0 or '', num0)] = qid0; qseq[i] = qid0
     matched = unmatched = 0
     for s in d.get('solutions', []):
-        qn = str(s.get('question')); qid = qrows.get(qn); part = s.get('part')
+        qn = str(s.get('question')); part = s.get('part'); cand = qrows.get(qn) or []
+        qid = cand[0] if len(cand) == 1 else qsec.get((s.get('section') or '', qn)) or (qseq.get(s.get('seq')) if s.get('seq') else None)
+        if len(cand) > 1 and not qid: print(f'load: doc {doc} solution for Q{qn} names no section/seq and Q{qn} repeats: not loaded'); unmatched += 1; continue
         pid = None
         if qid and part:
             # resolve "b.ii" by walking labels
