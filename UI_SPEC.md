@@ -1385,7 +1385,7 @@ looked at" tag) in Review's papers list and on the Papers page, whose subtitle c
 "Not looked at by the checker". A review doc keeps only its last writer, so a question Steve re-decided after the checker reads as
 Steve's (checkerSeen).
 
-**Replaced 25 Nov.** Owner: "Also change the NOT LOOKED AT flag to a 'things still left to do' flag instead. word it in a way which makes sense". A paper with review work left is highlighted (blue edge) and its tag lists what is left, e.g. "Still to do: 2 flagged questions, 3 diagrams, 1 spot-check" (08_review.js leftTag), in Review's papers list and on the Papers page; the Papers subtitle counts papers "with things still to do"; the progress filter's "Review work left" reads "Things still to do" and the "Not looked at by the checker" option is gone.
+**Replaced 25 Nov.** Owner: "Also change the NOT LOOKED AT flag to a 'things still left to do' flag instead. word it in a way which makes sense". A paper with review work left is highlighted (blue edge) and its tag lists what is left, e.g. "Still to do: 2 flagged questions, 3 diagrams, 1 spot-check" (08_review.js leftTag), in Review's papers list and on the Papers page; the Papers subtitle counts papers "with things still to do"; the progress filter's "Review work left" reads "Things still to do" and the "Not looked at by the checker" option is gone. Then: "No one call for Steve or diagrams , just still to do.": the tag reads only "Still to do"; the breakdown ("1 decision, 3 diagrams") is its hover title.
 
 ## Bank: the level under a topic (24 Nov)
 Owner 24 Nov, on the Standard Bank cards "Critical path analysis · Critical path analysis 12" (also Formulas and equations,

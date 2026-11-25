@@ -2,7 +2,7 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,line join=round]
-\tikzset{lt/.style={shade dots, stipple color=black!30, stipple gap=3}, dk/.style={shade dense dots, stipple color=black!80}}
+\tikzset{lt/.style={fill=black!15}, dk/.style={fill=black!40}}
 % top-left cube
 \path[lt] (50,50) rectangle (127,118);
 \path[lt] (50,50)--(72,27)--(148,27)--(127,50)--cycle;
@@ -16,6 +16,8 @@
 \path[lt] (127,118)--(148,95)--(202,95)--(202,118)--cycle;
 % hidden-row square
 \path[lt] (127,185)--(202,185)--(182,208)--(160,230)--(160,252)--(127,252)--cycle;
+% face behind the front cube (was left white)
+\path[lt] (182,208)--(202,185)--(278,185)--(258,208)--cycle;
 % front cube
 \path[lt] (160,230) rectangle (237,298);
 \path[lt] (160,230)--(182,208)--(258,208)--(237,230)--cycle;

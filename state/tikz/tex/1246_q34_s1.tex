@@ -2,14 +2,12 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
-\node (A) at (42,130) {$A$}; \node (B) at (262,50) {$B$};
-\node (C) at (497,178) {$C$}; \node (D) at (280,285) {$D$};
-\draw (80,120) -- (222,48);
-\draw (312,45) -- (455,155);
-\draw (274,95) -- (274,238);
-\draw (80,150) -- (250,285);
-\draw (330,282) -- (470,212);
-\node at (132,60) {550}; \node at (417,68) {400}; \node at (312,180) {250};
-\node at (137,258) {180}; \node at (420,292) {380};
+\node[outer sep=2pt] (A) at (42,130) {$A$}; \node[outer sep=2pt] (B) at (262,50) {$B$};
+\node[outer sep=2pt] (C) at (497,178) {$C$}; \node[outer sep=2pt] (D) at (280,285) {$D$};
+% checker 25 Nov "Fix the lines as they look wrong": each edge now runs straight from vertex to vertex (aimed at the letters,
+% stopping just short of them) instead of free-floating strokes copied from the handwriting
+\draw (A) -- (B); \draw (B) -- (C); \draw (B) -- (D); \draw (A) -- (D); \draw (D) -- (C);
+\node at (140,60) {550}; \node at (400,80) {400}; \node at (316,180) {250};
+\node at (138,242) {180}; \node at (412,268) {380};
 \end{tikzpicture}
 \end{document}

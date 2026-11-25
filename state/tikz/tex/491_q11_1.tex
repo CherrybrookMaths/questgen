@@ -6,17 +6,19 @@
 \foreach \x in {184,198,...,380} \draw[black!35,line width=0.3pt] (\x,372)--(\x,598);
 \foreach \y in {386,400,...,596} \draw[black!35,line width=0.3pt] (170,\y)--(383,\y);
 % walls
-\draw (170,48)--(642,48)--(642,335)--(858,335)--(858,598)--(170,598)--cycle;
-\draw (383,340)--(642,340); \draw (383,340)--(383,598);
+% walls, with openings at the four doors
+\draw (734,335)--(642,335)--(642,48)--(170,48)--(170,598)--(858,598)--(858,335)--(766,335);
+\draw (383,340)--(400,340); \draw (432,340)--(642,340);
+\draw (383,377)--(383,340); \draw (383,404)--(383,495); \draw (383,522)--(383,598);
 \draw (170,372)--(383,372); \draw (170,485)--(383,485);
 % windows
 \draw (335,45) rectangle (475,51); \draw (639,140) rectangle (645,240); \draw (855,410) rectangle (861,510);
 \draw (545,595) rectangle (688,601); \draw (167,405) rectangle (173,440); \draw (167,520) rectangle (173,555);
-\draw (718,332) rectangle (782,338);
-% doors
-\draw (400,340) .. controls (405,318) and (418,318) .. (432,340);
-\draw (383,377)--(360,392)--(383,404); \draw (383,490)--(360,505)--(383,517);
-\draw (730,338)--(742,358)--(754,338);
+% doors: plan symbol, leaf square to the wall at the hinge and a quarter-circle swing to the other jamb
+\draw (400,340)--(400,308) arc[start angle=270, end angle=360, radius=32];   % Bed, opens into Bed
+\draw (383,377)--(356,377) arc[start angle=180, end angle=90, radius=27]; % Bath, opens into Bath
+\draw (383,495)--(356,495) arc[start angle=180, end angle=90, radius=27]; % Laundry, opens into Laundry
+\draw (734,335)--(734,367) arc[start angle=90, end angle=0, radius=32]; % Living, opens into Living
 \draw[fill=black!15] (800,562) rectangle (852,596);
 % room names
 \node at (415,197) {Bed}; \node at (278,428) {Bath}; \node at (275,538) {Laundry}; \node at (628,462) {Living};

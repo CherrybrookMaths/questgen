@@ -10,9 +10,10 @@
   \draw (C) arc[start angle={32.5}, end angle={-147.5}, radius=226.4];
   \draw[aux] (O) -- ($(O)+({226.4*cos(-33.2)},{226.4*sin(-33.2)})$) coordinate (P);
   \draw (133,418) -- (155,418) -- (155,440);
-  % angle mark from OA round to OP
-  \draw[->] ($(O)+({52*cos(-147.5)},{52*sin(-147.5)})$) arc[start angle={-147.5}, end angle={-40}, radius=52];
-  \node[font=\small] at (318,282) {$120^\circ$};
+  % angle mark from OA round to OP (checker 25 Nov "fix the angle markers"): a true arc centred on O that starts on OA and
+  % ends with its arrowhead on OP, radius 72 so 120 degrees sits inside it clear of AC, OP and the arc
+  \draw[->] ($(O)+({72*cos(-147.5)},{72*sin(-147.5)})$) arc[start angle={-147.5}, end angle={-33.2}, radius=72];
+  \node[font=\small] at ($(O)+(-90.35:44)$) {$120^\circ$};
   \node at (297,333) {$O$};
   \draw[aux,<->] (112,203) -- (112,434);
   \draw[aux,<->] (139,463) -- (509,463);

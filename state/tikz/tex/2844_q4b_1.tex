@@ -2,10 +2,10 @@
 \input{../examstyle.tex}
 \begin{document}
 \begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
-\tikzset{ev/.style={draw,ellipse,minimum width=14pt,minimum height=19pt,inner sep=0pt}}
+\tikzset{ev/.style={draw,ellipse,minimum width=20pt,minimum height=19pt,inner sep=0pt}}
 \foreach \n/\x/\y/\a/\b in {n0/62/188/0/0, n2/205/188/2/2, nB/293/74/3/8, nE/500/74/5/10, nD/370/188/3/9, nH/577/188/11/11, nJ/712/188/13/13, nL/838/188/16/16, nC/293/335/4/4, nF/505/335/7/7}{
   \node[ev] (\n) at (\x,\y) {};
-  \draw (\x-19,\y) -- (\x+19,\y);
+  \draw (\x-27.8,\y) -- (\x+27.8,\y);
   \node[font=\scriptsize] at (\x,\y-12) {$\a$};
   \node[font=\scriptsize] at (\x,\y+13) {$\b$};
 }
@@ -14,7 +14,7 @@
 \draw[->] (n2) -- (nD); \draw[->] (nD) -- (nH);
 \draw[->] (n2) -- (nC); \draw[->] (nC) -- (nF); \draw[->] (nF) -- (nH);
 \draw[->] (nH) -- (nJ); \draw[->] (nJ) -- (nL);
-\node at (143,124) {B3}; \node at (388,67) {E2}; \node at (618,104) {K3};
+\node at (143,124) {B3}; \node at (388,53) {E2}; \node at (618,104) {K3};
 \node at (130,216) {A2}; \node at (285,213) {D1}; \node at (450,213) {H2};
 \node at (645,211) {J2}; \node at (775,207) {L3}; \node at (226,268) {C2};
 \node at (395,357) {F3}; \node at (585,275) {G4};

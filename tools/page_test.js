@@ -1368,7 +1368,7 @@ async function reviewFlow(browser, base, seed) {
     const r = await page.evaluate(() => ({bo: Object.fromEntries([...(PQ.batchOf() || new Map()).entries()].map(([d, b]) => [d, {key: b.key, name: b.name, o: b.o}])),
       papers: [...allWork().values()].sort(workOrder).map(w => ({doc: String(w.doc), ids: docIds(w.doc).map(String), n: w.n, call: w.left.decide})),
       groups: [...document.querySelectorAll('#inboxBox [data-card="papers"] .rv-bg')].map(g => ({batch: g.dataset.batch, head: g.querySelector('.rv-bgh').textContent, tag: g.tagName, open: g.open,
-        rows: [...g.querySelectorAll('.iprow')].map(a => ({doc: a.getAttribute('href').split('/').pop(), mark: a.querySelector('.rv-new')?.textContent || '', old: !!a.querySelector('.rv-call')}))}))}));
+        rows: [...g.querySelectorAll('.iprow')].map(a => ({doc: a.getAttribute('href').split('/').pop(), mark: a.querySelector('.rv-new')?.title || '', old: !!a.querySelector('.rv-call')}))}))}));
     errs();
     const want = new Map(), meta = new Map(), multi = lanesUsed.size > 1;
     for (const p of r.papers) {
@@ -3750,13 +3750,13 @@ async function trig1125(browser, base, seed) {
     return `${r.n} counts, each with the hover note`;
   });
   // owner 25 Nov: "change the NOT LOOKED AT flag to a 'things still left to do' flag instead"
-  await check('review: a paper with work left is highlighted with "Still to do: …" (no "Not looked at")', page, async () => {
+  await check('review: a paper with work left is highlighted with "Still to do" (no "Not looked at")', page, async () => {
     await page.evaluate(() => { location.hash = '#review' }); await settle(page, 2500, 1);
     const r = await page.evaluate(() => { const rows = [...document.querySelectorAll('.iprow')];
       return {n: rows.length, old: document.body.innerText.includes('Not looked at'),
         bad: rows.filter(a => a.classList.contains('rv-unseen') !== !!a.querySelector('.rv-new')).length,
         tag: (document.querySelector('.iprow .rv-new')?.textContent || '')} });
-    assert(r.n && !r.old && !r.bad && (!r.tag || /^Still to do: \d+ /.test(r.tag)), JSON.stringify(r));
+    assert(r.n && !r.old && !r.bad && (!r.tag || r.tag === 'Still to do'), JSON.stringify(r));
     return `${r.n} papers; e.g. “${r.tag}”`;
   });
   await check('standard trig: the exam builders list the same six rows; a home in them makes no review work', page, async () => {

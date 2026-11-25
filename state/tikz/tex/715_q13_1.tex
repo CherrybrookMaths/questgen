@@ -9,7 +9,12 @@
 \draw (117,74) ellipse[x radius=95, y radius=25];
 \draw (22,74) -- (22,431);
 \draw (212,74) -- (212,431);
+% back (hidden) half of the base: dashed only where it is not behind the lower sphere
+% (checker 25 Nov: "now make the dotted line disappear whenit is behind the sphere")
+\begin{scope}[even odd rule]
+\clip (0,380) rectangle (240,460) (117,341) circle[radius=91];
 \draw[aux] (22,431) arc[start angle=180, end angle=0, x radius=95, y radius=-23];
+\end{scope}
 \draw (22,431) arc[start angle=180, end angle=360, x radius=95, y radius=-23];
 \end{tikzpicture}
 \end{document}

@@ -1,0 +1,49 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, wall/.style={line width=0.9pt, line cap=rect},
+  room/.style={font=\bfseries\fontsize{9.5}{11}\selectfont, inner sep=0pt},
+  big/.style={font=\bfseries\fontsize{10.5}{12}\selectfont, inner sep=0pt},
+  small/.style={font=\fontsize{8.5}{10}\selectfont, inner sep=0pt}]
+  % outer walls (crop pixel units; gaps are the openings shown on the plan)
+  \draw[wall] (57,243) -- (57,163) -- (220,163);           % Dining: left wall top part, top wall
+  \draw[wall] (218,163) -- (218,185);                      % stub beside the opening above the kitchen
+  \draw[wall] (260,163) -- (502,163);                      % Kitchen / Family top wall
+  \draw[wall] (557,167) -- (668,167);                      % top of the bathroom
+  \draw[wall] (668,302) -- (668,27) -- (874,27) -- (874,615) -- (611,615) -- (611,352); % bedroom wing outline
+  \draw[wall] (57,287) -- (57,612) -- (320,612) -- (320,441) -- (369,441);  % Living Room, courtyard side
+  \draw[wall] (451,443) -- (611,443);                      % courtyard top wall (Gallery opens to the courtyard at the left)
+  % inside walls
+  \draw[wall] (218,224) -- (218,351);                      % Dining | Kitchen
+  \draw[wall] (155,351) -- (467,351);                      % Kitchen/Family | Living/Gallery
+  \draw[wall] (535,352) -- (564,352);                      % stub between Gallery and Hall
+  \draw[wall] (564,167) -- (564,302) -- (604,302);         % bathroom left and bottom
+  \draw[wall] (640,302) -- (668,302);
+  \draw[wall] (721,310) -- (721,208) -- (810,208) -- (810,174) -- (874,174); % Bedroom 3 left and top
+  \draw[wall] (712,352) -- (874,352);                      % Bedroom 3 bottom
+  \draw[wall] (758,352) -- (758,445) -- (720,445);         % ensuite left wall
+  \draw[wall] (758,445) -- (806,445); \draw[wall] (842,445) -- (874,445); % ensuite bottom, door to Bedroom 1
+  % linen cupboard and fireplace
+  \draw (611,352) rectangle (668,378); \node[font=\fontsize{6}{7}\selectfont] at (639,366) {linen};
+  \draw (20,480) rectangle (57,556);
+  \foreach \y in {492,505,518,531,544} \draw (20,\y) -- (57,\y);
+  \foreach \x in {32,44} \draw (\x,480) -- (\x,556);
+  % courtyard entrance arrow
+  \fill (421,456) -- (446,474) -- (430,474) -- (430,494) -- (412,494) -- (412,474) -- (396,474) -- cycle;
+  % labels
+  \node[font=\bfseries\fontsize{13}{14}\selectfont] at (102,22) {Outside};
+  \node[room] at (138,193) {Dining Room};
+  \node[room] at (302,296) {Kitchen};
+  \node[room] at (472,199) {Family Room};
+  \node[room, rotate=90] at (621,236) {BATH};
+  \node[room] at (604,322) {HALL};
+  \node[big] at (762,68) {Bedroom 2};
+  \node[big] at (797.5,246) {Bedroom 3};
+  \node[room] at (820,421) {BATH};
+  \node[small] at (409,397) {Gallery};
+  \node[small] at (140,517) {Fireplace};
+  \node[room] at (181,557) {Living Room};
+  \node[big] at (733,556) {Bedroom 1};
+  \node[font=\fontsize{7}{8}\selectfont, align=center] at (520,586) {garden\\court\\entrance};
+\end{tikzpicture}
+\end{document}

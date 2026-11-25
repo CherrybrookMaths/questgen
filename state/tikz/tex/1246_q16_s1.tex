@@ -8,9 +8,12 @@
 \draw (E) -- (R);
 \draw[aux] (E) -- (B);
 \draw (178,362) -| (204,388);
-\draw[aux,<->] (167,106) -- (167,388);
-\draw[aux,<->] (174,127) -- (412,391);
-\draw[aux,<->] (435,403) -- (640,403);
+% distance markers (checker 25 Nov "fix the distance markers"): 85 m and k with end bars as on the paper; d parallel to ER,
+% offset 12 px, its heads clear of the vertical side, the ground and the 42 degree arc at the rabbit
+\tikzset{dimboth/.style={aux,{Bar[width=1.8mm]Latex[length=2mm,width=1.3mm]}-{Latex[length=2mm,width=1.3mm]Bar[width=1.8mm]}}}
+\draw[dimboth] (167,106) -- (167,388);
+\draw[aux,<->] (191.8,139.3) -- (396.3,366.3);
+\draw[dimboth] (432,403) -- (640,403);
 \draw ($(E)+(45,0)$) arc[start angle=0,end angle=48,radius=45];
 \draw (E) ++(31.4:95) arc[start angle=31.4,end angle=48,radius=95];
 \draw ($(B)+(-55,0)$) arc[start angle=180,end angle=211.4,radius=55];
@@ -18,11 +21,11 @@
 \draw ($(R)+(20,0)$) arc[start angle=360,end angle=228,radius=20];
 \node at (252,122) {$42^\circ$};
 \node at ($(E)+(39.7:117)$) {$\alpha$};
-\node at (577,372) {$23^\circ$};
-\node at (362,374) {$42^\circ$};
+\node[anchor=east] at (579,370) {$23^\circ$};
+\node at (356,374) {$42^\circ$};
 \node at (458,366) {$\theta$};
-\node at (125,245) {85 m};
-\node at (290,272) {$d$};
+\node[anchor=east] at (157,245) {85 m};
+\node at (283,280) {$d$};
 \node at (537,420) {$k$};
 \fill (E) circle[radius=3.5];
 \fill (R) circle[radius=3.5];

@@ -157,7 +157,8 @@ function workOf(main,ids,qs){const left={},total={};STEPS.forEach(([k])=>{left[k
 //   decision (the checker makes them, owner 24 Nov "3. is for the reviewer")
 const LEFT_WORDS={decide:['decision','decisions'],check:['flagged question','flagged questions'],tags:['topic check','topic checks'],diagrams:['diagram','diagrams'],sample:['spot-check','spot-checks']};
 const leftTag=w=>{if(!w||!w.n)return '';const xs=STEPS.map(([k])=>[k,w.left[k]]).filter(([,n])=>n>0).map(([k,n])=>n+' '+LEFT_WORDS[k][n===1?0:1]);
-  return `<span class="rv-new" title="Still to do in this paper: ${esc(xs.join(', '))}">Still to do: ${esc(xs.join(', '))}</span>`};
+  // owner 25 Nov: "No one call for Steve or diagrams , just still to do.": the tag says only "Still to do"; what is left shows on hover
+  return `<span class="rv-new" title="Still to do in this paper: ${esc(xs.join(', '))}">Still to do</span>`};
 function paperWork(doc){const ids=docIds(doc);return workOf(mainDoc(doc),ids,B.questions.filter(q=>ids.includes(q.doc)))}
 function allWork(){const by=new Map();B.questions.forEach(q=>{const m=mainDoc(q.doc);if(!by.has(m))by.set(m,[]);by.get(m).push(q)});
   const W=new Map();by.forEach((qs,m)=>W.set(m,workOf(m,docIds(m),qs)));return W}
