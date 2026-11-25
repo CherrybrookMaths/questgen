@@ -27,6 +27,11 @@ function subLevels(ds){const by={};ds.forEach(d=>(by[d.yl+'|'+d.fa]=by[d.yl+'|'+
     // the owner's order: a split topic's dot points are listed sub-level by sub-level (the sidebar and the exam builders take the order of DOTS)
     if(sp)ord.set(k0,xs.slice().sort((a,b)=>ks.indexOf(a.sub)-ks.indexOf(b.sub)))});
   return ds.flatMap(d=>{const k=d.yl+'|'+d.fa,o=ord.get(k);return !o?[d]:by[k][0]===d?o:[]})}
+// owner 25 Nov (Trigonometry simplified): exams and Already learnt lists saved before keep the rows they ticked. A topic key stored while a
+// split topic had one row per dot point ('sub:<yl>|<fa>|<the dot point's short name>') reads as the dot point's new sub-level; duplicates
+// collapse to one. Derived from SUB_SPLIT, so it covers the next topics the owner simplifies (23_exam_auto.js xa and XG.set call it)
+QG.topicKeys=ks=>{if(!DOTS)return ks;if(!QG._ska){QG._ska=new Map();DOTS.forEach(d=>{if(!d.subAuto||!SUB_SPLIT[d.fa])return;const o='sub:'+d.yl+'|'+d.fa+'|'+(d.short||d.text);if(o!=='sub:'+d.yl+'|'+d.fa+'|'+d.sub)QG._ska.set(o,'sub:'+d.yl+'|'+d.fa+'|'+d.sub)})}
+  return [...new Set(ks.map(k=>QG._ska.get(k)||k))]};
 // a home in one of these new rows counts as its topic in Review: two taggers who chose different dot points of the same topic still agree
 // (before 24 Nov the topic had one row, so they never needed a decision; the new rows must not create review work)
 const homeTopic=k=>{if(!k||!k.startsWith('sub:'))return k;const [yl,fa]=k.slice(4).split('|');return DOTS.some(d=>d.fa===fa&&String(d.yl)===yl&&d.subAuto)?'sub:'+yl+'|'+fa+'|':k};

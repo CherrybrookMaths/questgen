@@ -1416,7 +1416,11 @@ trigonometry' (S2-12-071) -> "Right angled trig"; the sine rule obtuse-angle dot
   per dot point. A question on both choices counts under each; the pill row's label says how many do (counts add up or say why, 18 Nov).
 - Unchanged: which questions are under Trigonometry (34 on 25 Nov, the same as with one row per dot point), every other topic, Advanced.
   Review reads a home in any of the six rows as Trigonometry (homeTopic), so the split makes no review work.
-- Tests: the four `standard trig: …` checks in tools/page_test.js (trig1125).
+- Exams and Already learnt lists saved before keep their ticks: a stored key of a split topic's old one-row-per-dot-point layout
+  ('sub:12|Trigonometry|Sine rule for a side') reads as that dot point's new sub-level, duplicates collapsing to one (07_bank.js
+  QG.topicKeys, derived from SUB_SPLIT, so the next simplified topics are covered; read in 23_exam_auto.js xa and XG.set). Saved exam
+  e1795497337094 ("Mathematics Standard 2") held such keys.
+- Tests: the five `standard trig: …` checks in tools/page_test.js (trig1125).
 
 ## Checker's review of the page (25 Nov)
 Owner 25 Nov, on a review of the page: "Besides that, yes action all these things". The review's points, verbatim, and what was done:

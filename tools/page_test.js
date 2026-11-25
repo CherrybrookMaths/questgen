@@ -3701,6 +3701,29 @@ async function trig1125(browser, base, seed) {
     return `Exam setup tile: ${r.pills.join(' · ')}; Review reads both rows as Trigonometry`;
   });
   await page.context().close();
+  // coordinator 25 Nov: saved exam e1795497337094 ticked the 24 Nov rows ("sub:12|Trigonometry|Sine rule for a side" ...); exams and
+  // Already learnt lists saved before keep their ticks on the new rows (QG.topicKeys), duplicates collapsing to one
+  const T = s => 'sub:12|Trigonometry|' + s, old = [T('Sine rule for a side'), T('Sine rule for an angle'), T('Sine rule for an obtuse angle'), T('Cosine rule for a side'),
+    T('Right-angled trigonometry'), T('Practical problems with Pythagoras and trigonometry'), T('Compass radial surveys'), 'sub:12|Annuities|Future value'];
+  const p2 = await newPage(browser, base, {...seed, 'exams/ePTtrigold': {title: 'Mathematics Standard 2', sub: 'Old trig rows', course: 'standard', items: [], keys: [],
+    auto: {topics: old}, by: 'u_pagetest', at: new Date().toISOString()}, 'data/users/u_pagetest/learnt': {on: [T('True and compass bearings'), T('Cosine rule for an angle')], off: []}},
+    {width: 1280, theme: 'light'});
+  await p2.addInitScript(() => { try { localStorage.setItem('course', 'standard'); localStorage.removeItem('qg_learnt') } catch (e) {} });
+  await boot(p2, base, '#exams');
+  await check('standard trig: an exam and a learnt list saved with the old rows open with the new rows ticked', p2, async () => {
+    await p2.waitForFunction(() => typeof XSAVED !== 'undefined' && XSAVED && XSAVED.some(x => x.id === 'ePTtrigold') && XG.src === 'db', null, {timeout: 20000});
+    const r = await p2.evaluate(() => { exmLoad(XSAVED.find(x => x.id === 'ePTtrigold')); EXV.view = 'setup'; EXV.setupFor = EX.id; renderExams();
+      const b = document.querySelector('#exTopics [data-texp="12|Trigonometry"]'); if (b && b.getAttribute('aria-expanded') !== 'true') b.click();
+      const t = document.querySelector('#exTopics [data-texp="12|Trigonometry"]')?.closest('.extile');
+      return {topics: exA().topics.slice(), on: XG.on.slice(), ticked: t ? [...t.querySelectorAll('.pills [data-tsub][aria-pressed="true"]')].map(x => subName(x.dataset.tsub)) : null} });
+    errs(p2);
+    const want = [T('Sine rule'), T('Cosine rule'), T('Right angled trigonometry'), T('Radial surveys'), 'sub:12|Annuities|Future value'];
+    assert(r.topics.join('|') === want.join('|'), `exam topics: ${r.topics.join(', ')}`);
+    assert(r.ticked && r.ticked.join('|') === 'Right angled trigonometry|Sine rule|Cosine rule|Radial surveys', `ticked in the Trigonometry tile: ${r.ticked}`);
+    assert(r.on.join('|') === [T('Bearings'), T('Cosine rule')].join('|'), `Already learnt: ${r.on.join(', ')}`);
+    return `8 old keys → ${r.topics.length} (ticked: ${r.ticked.join(', ')}); learnt list → ${r.on.map(k => k.split('|')[2]).join(', ')}`;
+  });
+  await p2.context().close();
 }
 
 if (require.main !== module) { /* required by a debugging script: hand over the helpers, run nothing */ module.exports = {serve, newPage, boot, settle, unzip, FIXTURE, OUT}; return }

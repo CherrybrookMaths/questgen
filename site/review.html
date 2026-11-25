@@ -2736,6 +2736,11 @@ function subLevels(ds){const by={};ds.forEach(d=>(by[d.yl+'|'+d.fa]=by[d.yl+'|'+
     // the owner's order: a split topic's dot points are listed sub-level by sub-level (the sidebar and the exam builders take the order of DOTS)
     if(sp)ord.set(k0,xs.slice().sort((a,b)=>ks.indexOf(a.sub)-ks.indexOf(b.sub)))});
   return ds.flatMap(d=>{const k=d.yl+'|'+d.fa,o=ord.get(k);return !o?[d]:by[k][0]===d?o:[]})}
+// owner 25 Nov (Trigonometry simplified): exams and Already learnt lists saved before keep the rows they ticked. A topic key stored while a
+// split topic had one row per dot point ('sub:<yl>|<fa>|<the dot point's short name>') reads as the dot point's new sub-level; duplicates
+// collapse to one. Derived from SUB_SPLIT, so it covers the next topics the owner simplifies (23_exam_auto.js xa and XG.set call it)
+QG.topicKeys=ks=>{if(!DOTS)return ks;if(!QG._ska){QG._ska=new Map();DOTS.forEach(d=>{if(!d.subAuto||!SUB_SPLIT[d.fa])return;const o='sub:'+d.yl+'|'+d.fa+'|'+(d.short||d.text);if(o!=='sub:'+d.yl+'|'+d.fa+'|'+d.sub)QG._ska.set(o,'sub:'+d.yl+'|'+d.fa+'|'+d.sub)})}
+  return [...new Set(ks.map(k=>QG._ska.get(k)||k))]};
 // a home in one of these new rows counts as its topic in Review: two taggers who chose different dot points of the same topic still agree
 // (before 24 Nov the topic had one row, so they never needed a decision; the new rows must not create review work)
 const homeTopic=k=>{if(!k||!k.startsWith('sub:'))return k;const [yl,fa]=k.slice(4).split('|');return DOTS.some(d=>d.fa===fa&&String(d.yl)===yl&&d.subAuto)?'sub:'+yl+'|'+fa+'|':k};
@@ -4405,7 +4410,8 @@ document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('in
    Regenerate keeps it. Difficulty comes from DIFFICULTY_SPEC (part band 2-6, wm UF/PR). Question band = marks-weighted mean of
    its parts' bands, rounded to 0.5; a question's problem-solving share = marks on PR parts / its marks. */
 const XA_DEF=()=>({open:true,topen:true,topics:[],total:100,by:'marks',n:20,mcq:10,mcqSet:false,diff:'hsc',pr:30,approved:true,avoid:false,seed:0,locked:[],warns:[],tmix:null,tpr:null,ran:false});
-function xa(){if(!EX.auto||typeof EX.auto!=='object')EX.auto=XA_DEF();const d=XA_DEF();for(const k in d)if(EX.auto[k]===undefined)EX.auto[k]=d[k];return EX.auto}
+function xa(){if(!EX.auto||typeof EX.auto!=='object')EX.auto=XA_DEF();const d=XA_DEF();for(const k in d)if(EX.auto[k]===undefined)EX.auto[k]=d[k];
+  const t=EX.auto.topics;if(Array.isArray(t)){const n=QG.topicKeys(t);if(n.length!==t.length||n.some((k,i)=>k!==t[i]))EX.auto.topics=n}return EX.auto}   // owner 25 Nov: old Trigonometry rows read as the new ones (QG.topicKeys)
 const xaSave=()=>{save(XKEY,JSON.stringify(EX));};
 const XA_SWAPPED=new Set();
 
@@ -4483,7 +4489,7 @@ const XG={on:[],off:[],show:false,open:{setup:true,pick:false},src:null,dirty:fa
     if(all)XG.off.push(...ks);else XG.on.push(...ks);XG.save()},
   /* ---- kept per teacher (data/users/<id>/learnt), else in this browser ---- */
   path:()=>'data/users/'+QG.me+'/learnt',
-  set(v){const a=x=>Array.isArray(x)?x.filter(k=>typeof k==='string'&&k.startsWith('sub:')):[];XG.on=a(v&&v.on);XG.off=a(v&&v.off)},
+  set(v){const a=x=>Array.isArray(x)?QG.topicKeys(x.filter(k=>typeof k==='string'&&k.startsWith('sub:'))):[];XG.on=a(v&&v.on);XG.off=a(v&&v.off)},
   load(){if(!XG.src){try{const v=JSON.parse(localStorage.getItem('qg_learnt')||'null');if(v)XG.set(v)}catch(e){}XG.src='local'}
     if(XG.src==='db'||XG._ld||!QG.db||!QG.me)return;XG._ld=1;
     Promise.resolve().then(()=>QG.db.doc(XG.path()).get()).then(d=>{const v=d&&d.exists&&QG.val(d);
@@ -6981,7 +6987,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'abdcd4daee2aeeab',stale:false,t:null,at:0,
+const FRESH={build:'10cda3827c4f2a3b',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}
