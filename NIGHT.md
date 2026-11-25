@@ -93,6 +93,14 @@ before the publish. After the publish, delete each blob asset_manifest.py printe
 id; owner 25 Nov: "fix the image store issue as well"; `tools/asset_prune.py` lists any left behind). Never upload a pack the page test has not passed with. If prepublish fails, do NOT publish: result "Not published:
 <first failure>", and stop changing things.
 
+## 4b. Full page test (every night)
+Owner 25 Nov, on "are all those checks actually necessary?": "Do you want the core-set-per-publish plus full-suite-at-night setup? yes i
+want this". Supervised publishes run only the core page-test groups (prepublish's default `--core`), so every night runs every group:
+`TZ=Australia/Sydney node tools/page_test.js` (about 5 min; after step 4, whether or not anything was published). All passed: result
+"Full page test: N checks passed". Any failure: result "Full page test: <n> failed: <first check names>", and a Next up note "Full page
+test failed <date>: <check names>; screenshots work/page_test/shots/" so the next session fixes it before its own publish. Do not publish
+on the strength of this run, and do not change code to make it pass at night.
+
 ## 5. Back up and push
 If questions.db changed: `TZ=Australia/Sydney python3 tools/db_backup.py split` (owner 23 Nov: "Lets split the db backup as well": the
 xz reached 2.93 MB against the Drive connector's ~3.1 MB upload limit), then upload each file it lists to the Drive folder "HSC Advanced

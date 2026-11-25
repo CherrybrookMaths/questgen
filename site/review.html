@@ -7053,7 +7053,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'2a87f9d78485e2b1',stale:false,t:null,at:0,
+const FRESH={build:'95adf11d91f42055',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}

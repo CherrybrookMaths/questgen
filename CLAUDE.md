@@ -60,7 +60,9 @@ In short: flaws first, [Certain]/[Likely]/[Guessing], no filler praise.
   asking me FOR PERMISSION? I GIVE ALL PERMISSION"; earlier "yes night can push", "yes publishing rule"): shell, files, the
   Artifact tools, the page database and Google Drive. Nothing stops to ask, so the standing rules above are the only guard:
   follow them exactly. Publish only the review page, and only
-  after `prepublish.sh` exits 0 (0 blockers). The night task holds the Google Drive connector (owner: "yes Drive for the night
+  after `prepublish.sh` exits 0 (0 blockers). Since 25 Nov prepublish runs the CORE page test (core groups + those for page code changed
+  since the last publish; owner: "Do you want the core-set-per-publish plus full-suite-at-night setup? yes i want this"); the night run
+  runs the full suite (NIGHT.md 4b); `prepublish.sh --full` runs it by hand. The night task holds the Google Drive connector (owner: "yes Drive for the night
   task"): read the exam folder and the DB backup, upload the new backup; never trash, move or rename. Imports stay paused
   (owner 16 Nov: "no imports yet"); the owner resumed imports for supervised sessions on 16 Nov ("go"), not for the night run.
 
@@ -125,7 +127,7 @@ the default path `<repo>/../questions.db`, or put `export QG_DB=...` in ~/.bashr
    `--place-assets <dir>`. image_lifecycle.py and asset_upload_plan.py refuse to run without them. Tested 14 Nov: 4 read calls, 66 files, 138 MB, a few seconds each.
    Only for diagram work (tikz_render.sh, overlay.py): `python3 tools/fetch_published.py --figures-from-packs` rebuilds 988 of
    the 992 crops in figures/ from the packs: approximations (ink from alpha, at most 900 px wide), not the originals.
-6. `bash tools/prepublish.sh` (about 3 min): build, page test (162 checks), batch_check. It must exit 0 before any publish.
+6. `bash tools/prepublish.sh` (about 4 min): build, core page test, batch_check. It must exit 0 before any publish.
    In a fresh clone expect 0 blockers and these warnings: 979 redraws have no compiled SVG/PNG (tikz/ is rebuilt only for
    diagram work: tools/tikz_render.sh per id), the database changed since triage, bank.json older than the database (file
    dates), 8 svg packs changed since the last publish, and the page-db mirror age (export the collections, then

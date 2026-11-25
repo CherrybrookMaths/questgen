@@ -40,8 +40,39 @@ const RESULT = path.join(OUT, OTHER ? 'other_result.json' : 'last_result.json');
 const SHOTS = path.join(OUT, OTHER ? 'shots_other' : 'shots');
 const DL = path.join(OUT, OTHER ? 'downloads_other' : 'downloads');
 // --only papersLanes,driveScan: run just those groups while you work (recorded as quick, so batch_check will not accept it)
-const ONLY = process.argv.includes('--only') ? new Set(process.argv[process.argv.indexOf('--only') + 1].split(',')) : null;
-const QUICK = process.argv.includes('--quick') || !!ONLY;
+const ONLY0 = process.argv.includes('--only') ? new Set(process.argv[process.argv.indexOf('--only') + 1].split(',')) : null;
+// --core (owner 25 Nov, on "are all those checks actually necessary?": "Do you want the core-set-per-publish plus full-suite-at-night
+//   setup? yes i want this"): every publish runs the core groups plus the groups for the page code changed since the last publish; the
+//   night run (NIGHT.md) runs the full suite. A change to page code with no entry in CORE_MAP (shared code: core, text, figures,
+//   router ...) runs the full suite. batch_check accepts a core result (a warning names the groups skipped).
+const CORE = ['sweep', 'flows', 'reviewFlow', 'bankChip', 'dataSplit', 'questionKeys'];
+const BANK_G = ['trig1125', 'std2_1125', 'cpa1125', 'skillGates', 'areas'], EXAM_G = ['queueChecks', 'examPools', 'availOverlap', 'skillGates'],
+  PAPER_G = ['papersLanes', 'paperTables', 'driveScan'];
+const CORE_MAP = {'js/07_bank.js': BANK_G, 'js/03_tags.js': BANK_G, 'css/02_bank.css': BANK_G, 'css/23_bank_motion.css': BANK_G, 'css/09_levels.css': BANK_G, 'js/21_levels.js': BANK_G,
+  'js/08_review.js': ['fixes1125', 'areas'], 'css/05_review.css': ['fixes1125'], 'css/21_review_flow.css': ['fixes1125'],
+  'js/11_papers.js': PAPER_G, 'js/32_papers_q.js': PAPER_G, 'js/33_drive_scan.js': PAPER_G, 'js/34_papers_run.js': PAPER_G, 'js/35_papers_check.js': PAPER_G,
+  'css/04_papers.css': PAPER_G, 'css/22_papers_q.css': PAPER_G, 'css/14_import_batches.css': PAPER_G, 'js/12_import.js': ['papersLanes', 'processes'], 'css/06_import_jobs_tags.css': ['papersLanes', 'processes'],
+  'js/20_exam.js': EXAM_G, 'js/23_exam_auto.js': EXAM_G, 'js/24_exams.js': EXAM_G, 'js/25_mine.js': EXAM_G, 'js/29_pdf.js': EXAM_G, 'js/30_word.js': EXAM_G, 'js/19_ztable.js': EXAM_G,
+  'css/08_exam.css': EXAM_G, 'css/11_exam_auto.css': EXAM_G, 'css/12_exams.css': EXAM_G, 'css/13_mine.css': EXAM_G,
+  'js/27_reports.js': ['reportActions'], 'css/16_reports.css': ['reportActions'], 'js/31_notes.js': ['nextUp', 'tonight', 'processes'], 'css/20_notes.css': ['nextUp', 'tonight', 'processes'],
+  'js/13_shell.js': ['phone', 'areas'], 'js/22_phone_menu.js': ['phone'], 'css/10_phone.css': ['phone'], 'css/19_areas.css': ['areas'], 'js/26_guide.js': [], 'css/15_guide.css': [], 'js/28_schema.js': [], 'css/18_schema.css': [], 'css/07_logo.css': []};
+function coreGroups() {
+  const sh = c => require('child_process').execSync(c, {cwd: ROOT, encoding: 'utf8'}).trim();
+  const last = sh("git log -1 --format=%H --grep='^publish v'");
+  if (!last) return null;
+  const changed = sh(`git diff --name-only ${last} -- page_src site/data/bank`).split('\n').filter(Boolean).concat(sh('git ls-files --others --exclude-standard page_src site/data/bank').split('\n').filter(Boolean));
+  const g = new Set(CORE);
+  for (const f of changed) {
+    if (f.startsWith('site/data/bank')) { BANK_G.forEach(x => g.add(x)); continue }
+    const k = f.replace(/^page_src\//, '');
+    if (!(k in CORE_MAP)) return null;   // shared page code: the full suite
+    CORE_MAP[k].forEach(x => g.add(x));
+  }
+  return g;
+}
+const CORE_RUN = process.argv.includes('--core') && !ONLY0 ? coreGroups() : null;
+const ONLY = ONLY0 || CORE_RUN;
+const QUICK = process.argv.includes('--quick') || !!ONLY0;
 const HEADED = process.argv.includes('--headed');
 const T0 = Date.now();
 
@@ -4103,7 +4134,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   const tested = {page: sha(PAGE), bank: sha(path.join(SITE, 'data/bank.json')), dotpoints: sha(path.join(SITE, 'data/dotpoints.json')),
     index: crypto.createHash('sha256').update(walk(bankDir).sort().map(f => path.relative(SITE, f) + ':' + sha(f)).join('\n')).digest('hex')};
   const srv = await serve(); const base = `http://127.0.0.1:${srv.address().port}/`;
-  console.log(`page_test: ${path.relative(ROOT, PAGE)} sha256 ${tested.page.slice(0, 12)} on ${base} · fixture ${Object.keys(seed).length} db docs${QUICK ? ' · QUICK' : ''}${ONLY ? ' · only ' + [...ONLY].join(',') : ''}`);
+  console.log(`page_test: ${path.relative(ROOT, PAGE)} sha256 ${tested.page.slice(0, 12)} on ${base} · fixture ${Object.keys(seed).length} db docs${QUICK ? ' · QUICK' : ''}${CORE_RUN ? ' · CORE ' : ONLY ? ' · only ' : ''}${ONLY ? [...ONLY].join(',') : process.argv.includes('--core') ? ' · FULL (shared page code changed)' : ''}`);
   const browser = await chromium.launch({headless: !HEADED, args: ['--disable-dev-shm-usage']});
   let fatal = null;
   try {
@@ -4117,7 +4148,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
   } catch (e) { fatal = String(e && e.stack || e); console.error('page_test could not finish:', fatal) }
   await browser.close(); srv.close();
   const failed = checks.filter(c => !c.ok);
-  const res = {ok: !fatal && !failed.length && checks.length > 0, quick: QUICK, at: new Date().toISOString(), seconds: Math.round((Date.now() - T0) / 1000),
+  const res = {ok: !fatal && !failed.length && checks.length > 0, quick: QUICK, core: CORE_RUN ? [...CORE_RUN].sort() : null, at: new Date().toISOString(), seconds: Math.round((Date.now() - T0) / 1000),
     tested, fixture: {made: fx.made || null, synced: fx.synced || null, docs: Object.keys(seed).length},
     passed: checks.length - failed.length, failed: failed.length, fatal, checks};
   fs.writeFileSync(RESULT, JSON.stringify(res, null, 1));

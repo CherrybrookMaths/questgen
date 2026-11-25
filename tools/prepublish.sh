@@ -6,7 +6,8 @@
 #   3. tools/page_test.js         the automated page test (offline, about 1 minute): every tab, bank, exams, exports, reports
 #   4. tools/batch_check.py       end-of-batch checks; blocks on a failed or stale page test
 #   then tools/publish_set.py prints what to publish (files changed since the last publish, with counts against the limits)
-# Usage: bash tools/prepublish.sh            exit 0 = safe to publish
+# Usage: bash tools/prepublish.sh            exit 0 = safe to publish (core page test: see page_test.js --core)
+#        bash tools/prepublish.sh --full     every page test group (the night run)
 #        bash tools/prepublish.sh --quick    faster test without exports (batch_check will still block: run the full one)
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -28,6 +29,10 @@ fi
 echo '== 0 costs';                   python3 tools/costs.py   # owner 21 Nov: costs per paper and batch, always from the call logs
 echo '== 1/4 build page';            python3 tools/build_page.py | sed -n '1,2p'
 echo '== 2/4 page test fixture';     python3 tools/page_test_fixture.py
-echo '== 3/4 page test';             node tools/page_test.js "$@" | grep -v '^PASS  tab ' || { echo 'PAGE TEST FAILED: see work/page_test/last_result.json and work/page_test/shots/'; exit 1; }
+# owner 25 Nov: "Do you want the core-set-per-publish plus full-suite-at-night setup? yes i want this": --core by default (the core groups
+# plus those for the page code changed since the last publish); --full runs every group (the night run does, NIGHT.md)
+PT_ARGS=(); for a in "$@"; do [ "$a" = --full ] || PT_ARGS+=("$a"); done
+case " $* " in *' --full '*) ;; *) PT_ARGS+=(--core) ;; esac
+echo '== 3/4 page test';             node tools/page_test.js "${PT_ARGS[@]}" | grep -v '^PASS  tab ' || { echo 'PAGE TEST FAILED: see work/page_test/last_result.json and work/page_test/shots/'; exit 1; }
 echo '== 4/4 batch check';           python3 tools/batch_check.py
 echo '== publish set';               python3 tools/publish_set.py | sed -n '1,6p'; echo '   (full files map: python3 tools/publish_set.py --json)'

@@ -245,6 +245,9 @@ try:
             B(f'page test is stale: {", ".join("site/review.html" if k == "page" else "site/data/bank/" if k == "index" else f"site/data/{k}.json" for k in _stale)} changed since it ran: run node tools/page_test.js')
         elif mt(_pt) < mt(_page):
             B('page test is older than site/review.html: run node tools/page_test.js')
+        elif _r.get('core'):
+            # owner 25 Nov: "Do you want the core-set-per-publish plus full-suite-at-night setup? yes i want this"
+            W(f'page test passed {_r.get("at", "")[:16]} as a CORE run ({_r.get("passed")} checks in {_r.get("seconds")} s; groups {", ".join(_r["core"])}): the night run runs the full suite')
         else:
             I(f'page test passed {_r.get("at", "")[:16]}: {_r.get("passed")} checks in {_r.get("seconds")} s')
 except Exception as e:

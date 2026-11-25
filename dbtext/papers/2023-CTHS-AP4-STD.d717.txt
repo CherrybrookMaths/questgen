@@ -326,12 +326,12 @@ document
     key_source: extracted
   option B
     latex: $\dfrac{1}{5}$
-    is_correct: 1
-    key_source: extracted
-  option C
-    latex: $\dfrac{1}{4}$
     is_correct: 0
     key_source: extracted
+  option C
+    latex: $\dfrac{3}{10}$
+    is_correct: 1
+    key_source: edited
   option D
     latex: $\dfrac{9}{20}$
     is_correct: 0
@@ -406,22 +406,22 @@ document
     solution 9931
       source: generated
       latex: |
-        The score is a 2-digit number, tens digit from the first wheel and units digit from the second wheel. Each wheel has equal sectors.
+        The score is a 2-digit number: the tens digit comes from the first wheel and the units digit from the second wheel. Each wheel has equal sectors.
 
         Score at least 40: the tens digit must be 4 or 5, so
         $$P(\text{tens digit} \ge 4) = \dfrac{2}{5}$$
 
-        Score even: the units digit must be even. The second wheel has two even numbers (4 and 2) out of 4 sectors, so
-        $$P(\text{even units digit}) = \dfrac{2}{4} = \dfrac{1}{2}$$
+        Score even: the units digit must be even. The second wheel shows 4, 1, 2 and 6, so three of its four sectors are even:
+        $$P(\text{even units digit}) = \dfrac{3}{4}$$
 
         The two spins are independent, so
-        $$\begin{aligned} P(\text{even and at least } 40) &= \dfrac{2}{5}\times\dfrac{1}{2} \\ &= \dfrac{1}{5} \end{aligned}$$
-        $$\therefore\ \text{option B}$$
+        $$\begin{aligned} P(\text{even and at least } 40) &= \dfrac{2}{5}\times\dfrac{3}{4} \\ &= \dfrac{3}{10} \end{aligned}$$
+        $$\therefore\ \text{option C}$$
       source_document_id: 717
       model: claude-sonnet-5-5
       prompt_version: gen-v2
       criteria_json: [[1, "Correct answer"]]
-      meta_json: {"confidence": 0.7, "generated_note": "Generated MCQ working; worked to agree with the keyed option B.", "self_check": "The key B (1/5) needs exactly two even numbers on the second wheel. The printed digit in the bottom-left sector of the second wheel is ambiguous (reads like 6 or 9) and is taken as 9 to match the key."}
+      meta_json: {"confidence": 0.98, "edited_from_original": "Owner 25 Nov: \"question with ID 6403 is wrong, the AI reads the 6 in the wheel as a 9, and thus the answer is wrong\" -> \"It's a 6: fix the options\". The second wheel reads 4, 1, 2, 6: the answer is 3/10, which no printed option gave (the school keyed B, 1/5, as if the 6 were a 9). Option C changed from 1/4 to 3/10 and keyed.", "generated_note": "Generated MCQ working; worked to agree with the keyed option B."}
     difficulty
       band: 3
       wm: UF
