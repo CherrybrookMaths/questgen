@@ -122,7 +122,7 @@ function exWarn(A,st,pool){const w=[],mN=pool.filter(q=>q.type==='mcq').length,w
 
 /* ---------- page shell ---------- */
 // owner 14 Nov ("Is there a place to manage created exams?"): a third view, My exams (25_mine.js), beside Exam setup and Pick by hand
-function renderExams(){const box=$('#examsView');if(!box||!B)return;exmSub();exA();XG.load();
+function renderExams(){const box=$('#examsView');if(!box||!B)return;xKind('exam');exmSub();exA();XG.load();
   if(EXV.view==='pick'&&!EXV.mode||EXV.view==='setup'&&EXV.setupFor==null&&EX.items.length||!['mine','setup','pick'].includes(EXV.view)){EXV.view='mine';exSaveView()}   // owner 19 Nov: the picker opens only from the paper (EXPK); Setup only for a new exam or an exam's Settings
   if(!EXV.built){EXV.built=true;
     // owner 19 Nov: "should we really be able to go back to exam setup once the exam has been set up? ... you canot really tell if you're
@@ -177,7 +177,7 @@ function renderSetup(){const A=exA();
         ${sliderCtl('gMcq','Multiple choice',0,10,1,Math.min(10,A.mcq),['None','10'],'Placed first as Section I, 1 mark each.')}
         <div class="ctl"><div class="lab"><span id="gSrcL">Papers to draw from</span></div><div class="srcseg" role="group" aria-labelledby="gSrcL">${EX_SRC.map(([k,l])=>`<button type="button" data-src="${k}" aria-pressed="${!!A.src[k]}">${l}</button>`).join('')}</div></div>
         <label class="exck"><input type="checkbox" id="gApproved"${A.approved?' checked':''}> Approved questions only</label>
-        <label class="exck"><input type="checkbox" id="gAvoid"${A.avoid?' checked':''}> Skip questions already in my saved exams</label>
+        <label class="exck"><input type="checkbox" id="gAvoid"${A.avoid?' checked':''}> Skip questions already in my saved exams and worksheets</label>
       </div>
       <div class="group"><h3>Difficulty</h3>
         ${sliderCtl('gAll','Overall',2,6,0.1,exOverall(A),['Band 2','Band 6'],'Moves both difficulty sliders below together.')}
@@ -347,7 +347,8 @@ function exList(reset=true){const box=$('#exCards');if(!box)return;const F=EXV.p
 
 /* ---------- paper: editable cover, answer lines, diagram sizes ---------- */
 const exLnKey=(q,p)=>q.id+':'+p.id;
-const exLnDef=m=>Math.max(3,Math.min(24,Math.round((+m||1)*3)));
+// owner 26 Nov (worksheets): "should be lines and not boxes for working", "the worksheet should really conserve space": about one line a mark, plus one
+const exLnDef=m=>EX.kind==='worksheet'?Math.max(2,Math.min(12,Math.round(+m||1)+1)):Math.max(3,Math.min(24,Math.round((+m||1)*3)));
 // every diagram slot on the paper (inline \exfigure ones too) gets a corner handle.
 // owner 14 Nov: "resizing is really unintuitive, it should just be drag the corner in and out diagonally". The − 100% + pill is
 // gone. The slot sits in an inline box (.exfigbox) the size of the drawn diagram, so the handle is on the diagram's own corner;
@@ -480,12 +481,15 @@ function exRejoin(root){let last=new Map();const qk=sec=>(sec.closest('.sheet')?
   root.querySelectorAll('section.xq').forEach(sec=>{const qb=sec.querySelector(':scope>.xqb'),prev=last.get(qk(sec));
     if(prev&&qb&&qb.querySelector(':scope>[data-cut]')){merge(prev.querySelector(':scope>.xqb'),qb);const src=sec.querySelector(':scope>.xsrc');if(src)prev.appendChild(src);sec.closest('.xblk')?.remove();return}
     last.set(qk(sec),sec)})}
+// owner 26 Nov: what follows each question on the paper with answers (exams and worksheets)
+EXSEC.ansSeg=()=>`<div class="xseg ex-ansm" role="group" aria-label="After each question">${[['final','Final answer'],['worked','Worked solution'],['both','Both']].map(([k,t])=>`<button data-xans="${k}" aria-pressed="${EXV.ans===k}">${t}</button>`).join('')}</div>`;
 async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!ov){ov=document.createElement('div');ov.id='xPv';ov.className='xpv expv';document.body.appendChild(ov)}
   const keepScroll=opts.keep?ov.scrollTop:0;
+  const ws=EX.kind==='worksheet';   // owner 26 Nov: a worksheet uses this paper view with its own bar and a two-column layout (38_worksheets.js)
   if(!opts.keep||!$('#xPages')){
-    ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button><button data-xdoc="answers" aria-pressed="${doc==='answers'}" title="The paper with each question's answer straight after it">With answers</button><button data-xdoc="stack" aria-pressed="${doc==='stack'}" title="The paper, then the marking guide from a new page, in one file: for students to check their own work">Solutions at the back</button></div>
-      ${doc==='answers'?`<div class="xseg ex-ansm" role="group" aria-label="After each question">${[['final','Final answer'],['worked','Worked solution'],['both','Both']].map(([k,t])=>`<button data-xans="${k}" aria-pressed="${EXV.ans===k}">${t}</button>`).join('')}</div>`:''}
+    ov.innerHTML=ws?WS.bar(doc):`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button><button data-xdoc="answers" aria-pressed="${doc==='answers'}" title="The paper with each question's answer straight after it">With answers</button><button data-xdoc="stack" aria-pressed="${doc==='stack'}" title="The paper, then the marking guide from a new page, in one file: for students to check their own work">Solutions at the back</button></div>
+      ${doc==='answers'?EXSEC.ansSeg():''}
       <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span><span class="xpvsave" id="xPvSave"></span>
       <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Questions</button>
       <span class="xmenu"><button class="act" data-xmenu aria-expanded="false">Exam</button><span class="xmenu-pop" hidden><button class="act" id="exPvSet" title="Change this exam's topics, marks or difficulty and regenerate it">Settings…</button><button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table on the cover</button></span></span>
@@ -493,18 +497,19 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
       <span class="xmenu"><button class="act ok" data-xmenu aria-expanded="false">Download</button><span class="xmenu-pop" hidden><button class="act" id="xDl" disabled>HTML</button></span></span><button class="act ghost" id="xPvClose">Close</button></div>
       <div class="expvbody"><div class="xpages" id="xPages"></div><aside class="expvside" id="exGSide" aria-label="Question grading"></aside></div>`}
   else{$$('[data-xdoc]',ov).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.xdoc===doc)));$('#xInfo').textContent='Laying out pages…'}
-  if(!opts.keep){EXV.grade=innerWidth>1000;EXV.undo=null}   // phones: the grading panel is a slide-over, closed until asked for
+  if(!opts.keep){EXV.grade=!ws&&innerWidth>1000;EXV.undo=null}   // phones: the grading panel is a slide-over, closed until asked for
   if(!document.body.classList.contains('xpv-on')){EXV.pageY=scrollY;window.scrollTo(0,0)}   // a scrolled page underneath misplaces the fixed panels on phones
   ov.hidden=false;document.body.classList.add('xpv-on');ov.classList.toggle('grade-off',!EXV.grade);$('#exGrade')?.setAttribute('aria-pressed',String(EXV.grade));
   await QG.need(EX.items.map(xq));   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): the paper's questions' topic files, before layout
   // the cache key names the block's own document ('stack' holds paper and guide blocks of one question) and the answers mode
   const ck=b=>exCKey(b.q,b.part+(b.part==='answers'?':'+EXV.ans:''),b.html);
-  const bl=xBlocks(doc),meas=document.createElement('div');meas.className='xmeasure sheetbody';
-  meas.innerHTML=bl.map((b,i)=>`<div class="xblk${b.cover?' cover':''}" data-i="${i}">${b.html}</div>`).join('');document.body.appendChild(meas);
+  const bl=xBlocks(doc),meas=document.createElement('div');meas.className='xmeasure sheetbody'+(ws?' ws-meas':'');
+  meas.innerHTML=bl.map((b,i)=>`<div class="xblk${b.cover?' cover':''}${b.wide?' ws-wide':''}" data-i="${i}">${b.html}</div>`).join('');document.body.appendChild(meas);
   bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`),c=EXC.get(ck(b)),qb=el.querySelector('.xqb');
     if(c&&qb){qb.innerHTML=c;el.dataset.cached=1}else hydrate(el,b.q,'bank')});
   await typeset(meas);await xWait(meas);await typeset(meas);
   bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`);if(!el.dataset.cached){const qb=el.querySelector('.xqb');if(qb)EXC.set(ck(b),qb.innerHTML)}});
+  if(ws)WS.widen(bl,meas);   // owner 26 Nov: a question too wide for one column spans both (judged before diagrams are capped to their column)
   $$('img.fig',meas).forEach(im=>{im.style.maxWidth='100%'});EXSEC.fitOpts(meas);
   // 14 Nov: content height 250 mm, not 259: the review pass measured only ~250 mm fitting inside a 297 mm sheet (padding + footer), so full sheets ran past A4 and were cut off in PDF/print.
   const probe=document.createElement('div');probe.style.height='250mm';meas.appendChild(probe);const H=probe.getBoundingClientRect().height;probe.remove();
@@ -523,7 +528,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   els=els.flatMap((el,i)=>{const sec=el.querySelector('section.xq'),hp=i>0&&bl[i-1]?.sec?els[i-1].getBoundingClientRect().height+parseFloat(getComputedStyle(els[i-1]).marginBottom||0):0,lim=j=>j===0?H-hp:H;
     if(!sec||el.getBoundingClientRect().height<=lim(0)*0.98){bl2.push(bl[i]);return [el]}
     const head=sec.firstElementChild,qb=sec.querySelector('.xqb'),src=sec.querySelector('.xsrc'),kids=[...qb.children],pieces=[];
-    const open=first=>{const b=document.createElement('div');b.className='xblk';const s2=document.createElement('section');s2.className=sec.className;s2.dataset.q=sec.dataset.q;
+    const open=first=>{const b=document.createElement('div');b.className='xblk'+(el.classList.contains('ws-wide')?' ws-wide':'');const s2=document.createElement('section');s2.className=sec.className;s2.dataset.q=sec.dataset.q;
       if(first)s2.appendChild(head);else s2.insertAdjacentHTML('beforeend',head.classList.contains('xqh')?`<div class="xqh cont"><b>${head.querySelector('b').textContent} (continued)</b><span></span></div>`:'');
       const q2=document.createElement('div');q2.className='xqb';s2.appendChild(q2);b.appendChild(s2);meas.insertBefore(b,el);pieces.push(b);return q2};
     let box=open(true);
@@ -531,10 +536,10 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     // hardening 14 Nov (page test): a single part (or one part's worked solution) taller than a page was left whole, so its
     // sheet grew past 297 mm and the PDF / print cut the bottom off. Such a piece is now also cut inside the part, between lines
     for(let k=0;k<pieces.length;k++){let g=0;while(pieces[k].getBoundingClientRect().height>lim(k)*0.98&&g++<40){const nx=exCutTall(pieces[k],lim(k),open);if(!nx)break;pieces.splice(pieces.indexOf(nx),1);pieces.splice(k+1,0,nx);k++}}
-    if(src)pieces[pieces.length-1].querySelector('section').appendChild(src);el.remove();pieces.forEach(()=>bl2.push({q:bl[i].q,part:bl[i].part}));return pieces});
+    if(src)pieces[pieces.length-1].querySelector('section').appendChild(src);el.remove();pieces.forEach(()=>bl2.push({q:bl[i].q,part:bl[i].part,wide:bl[i].wide}));return pieces});
   bl.length=0;bl.push(...bl2);
-  const sheets=[];let cur=null,used=0;const start=b=>{cur=[];cur.part=b.part;sheets.push(cur);used=0};
-  els.forEach((el,i)=>{const b=bl[i],h=el.getBoundingClientRect().height+parseFloat(getComputedStyle(el).marginBottom||0);
+  const sheets=ws?WS.pack(els,bl,H):[];let cur=null,used=0;const start=b=>{cur=[];cur.part=b.part;sheets.push(cur);used=0};
+  if(!ws)els.forEach((el,i)=>{const b=bl[i],h=el.getBoundingClientRect().height+parseFloat(getComputedStyle(el).marginBottom||0);
     const nextH=b.sec&&els[i+1]?els[i+1].getBoundingClientRect().height:0,onlyHead=cur&&cur.length===1&&bl[els.indexOf(cur[0])]?.sec;
     if(!cur||b.cover||b.newpage||(used+h+nextH>H&&cur.length&&!onlyHead))start(b);
     cur.push(el);used+=h;if(b.cover)cur=null});
@@ -543,18 +548,19 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   // and the reference sheet, which stay at the back)
   // the paper with answers too; 'stack': the paper's own pages (the guide after it then starts on a new sheet of paper)
   const ppr=s=>s.part!=='guide';
-  if(doc!=='guide'&&sheets.filter(ppr).length%2===0){const at=sheets.map(s=>ppr(s)&&s.some(el=>el.querySelector('section.xq'))).lastIndexOf(true)+1,b=document.createElement('div');
+  // a worksheet has no cover and conserves space: no blank page (owner 26 Nov)
+  if(doc!=='guide'&&!ws&&sheets.filter(ppr).length%2===0){const at=sheets.map(s=>ppr(s)&&s.some(el=>el.querySelector('section.xq'))).lastIndexOf(true)+1,b=document.createElement('div');
     b.className='xblk cover';b.innerHTML='<div class="xblank">This page is intentionally left blank.</div>';const s=[b];s.part=sheets[0].part;sheets.splice(at>0?at:sheets.filter(ppr).length,0,s)}
   const host=$('#xPages');host.innerHTML='';
   const nPart={},kPart={};sheets.forEach(s=>{nPart[s.part]=(nPart[s.part]||0)+1});   // each document numbers its own pages ('stack')
-  sheets.forEach(s=>{const k=kPart[s.part]=(kPart[s.part]||0)+1,sh=document.createElement('div');sh.className='sheet';sh.dataset.part=s.part;const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);
+  sheets.forEach(s=>{const k=kPart[s.part]=(kPart[s.part]||0)+1,sh=document.createElement('div');sh.className='sheet'+(ws?' ws-sheet':'');sh.dataset.part=s.part;const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);
     // owner 18 Nov: "remove the footer on the cover page", "instead of 1/28 write Page 1 of 28"
-    if(!(ppr(s)&&k===1))sh.insertAdjacentHTML('beforeend',`<div class="sheetfoot">${esc(EX.title)} · ${esc(EX.sub)}${xDocSfx(s.part,' · ')}<span>Page ${k} of ${nPart[s.part]}</span></div>`);host.appendChild(sh)});
+    if(ws||!(ppr(s)&&k===1))sh.insertAdjacentHTML('beforeend',`<div class="sheetfoot">${esc(EX.title)} · ${esc(EX.sub)}${xDocSfx(s.part,' · ')}<span>Page ${k} of ${nPart[s.part]}</span></div>`);host.appendChild(sh)});
   meas.remove();EXSEC.pages(host);scaleTables(host,true);exZoom();
   const qs=EX.items.map(xq).filter(Boolean),tot=xMarks(qs);let F=0,P=0,w=0;qs.forEach(q=>{const e=exEst(q);if(e){F+=e.fl;P+=e.ps;w+=e.d*e.m}});
-  $('#xInfo').textContent=`${sheets.length} page${sheets.length===1?'':'s'} · ${qs.length} questions · ${tot} marks${F+P?` · ${Math.round(P/(F+P)*100)}% problem solving · average band ${(w/(F+P)).toFixed(1)}`:''}${doc==='answers'&&EXV.ans!=='worked'&&EXV.fb?` · ${EXV.fb} written part${EXV.fb===1?' has':'s have'} no short answer recorded, so ${EXV.fb===1?'it shows its':'they show their'} worked solution`:''}`;
+  $('#xInfo').textContent=ws?WS.info(sheets.length,doc):`${sheets.length} page${sheets.length===1?'':'s'} · ${qs.length} questions · ${tot} marks${F+P?` · ${Math.round(P/(F+P)*100)}% problem solving · average band ${(w/(F+P)).toFixed(1)}`:''}${doc==='answers'&&EXV.ans!=='worked'&&EXV.fb?` · ${EXV.fb} written part${EXV.fb===1?' has':'s have'} no short answer recorded, so ${EXV.fb===1?'it shows its':'they show their'} worked solution`:''}`;
   $('#xDl').disabled=false;$('#xDl').dataset.doc=doc;EXAS.bar();
-  exGrading();if(opts.keep)ov.scrollTop=keepScroll;else ov.scrollTop=0;
+  if(!ws)exGrading();if(opts.keep)ov.scrollTop=keepScroll;else ov.scrollTop=0;
   // owner 14 Nov ("make it so we can export pdfs from here"): PDF (29_pdf.js) and Word (30_word.js) join HTML in the Download menu
   // once the pages are laid out
   const dlb=$('#xDl');
@@ -566,7 +572,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
 function exZoom(){const h=$('#xPages');if(!h)return;const tb=$('#xPv .xtool');if(tb)$('#xPv').style.setProperty('--tool',tb.offsetHeight+'px');const side=EXV.grade&&innerWidth>1000?380:0,avail=innerWidth-side-24;const z=Math.min(1,avail/800);h.style.zoom=z<.999?String(Math.max(.4,z)):'';
   // owner 14 Nov (ⓘ, diagram handle): screen-only controls on a scaled paper divide by this, so they keep a usable size on a phone
   h.style.setProperty('--xz',z<.999?String(Math.max(.4,z)):'1')}
-addEventListener('resize',()=>{if(!document.body.classList.contains('xpv-on'))return;if(innerWidth>1000&&!EXV.grade){EXV.grade=true;$('#xPv').classList.remove('grade-off')}exZoom()});
+addEventListener('resize',()=>{if(!document.body.classList.contains('xpv-on'))return;if(innerWidth>1000&&!EXV.grade&&EX.kind!=='worksheet'){EXV.grade=true;$('#xPv').classList.remove('grade-off')}exZoom()});
 const exRelayout=()=>document.body.classList.contains('xpv-on')?xPreview(EXV.doc,{keep:true}):Promise.resolve();
 
 /* grading panel */
@@ -764,7 +770,7 @@ document.addEventListener('dragend',()=>{EXDRAG=null;$$('#exGSide .gq').forEach(
 // (a menu, the "replaces the questions" question, a field being typed in; the report form and the Swap chooser close themselves), and
 // only then the paper, which saves first (EXAS.close). Ctrl/Cmd-S saves the open exam.
 document.addEventListener('keydown',e=>{
-  if((e.ctrlKey||e.metaKey)&&!e.altKey&&e.key.toLowerCase()==='s'&&view==='exams'&&EX.items.length){e.preventDefault();document.activeElement?.closest?.('#xPv [data-edit],#xPv [data-xname]')?.blur();clearTimeout(EXAS.t);if(db)xSaveDb();else toast('Saving needs the shared database (open the page in claude.ai)');return}
+  if((e.ctrlKey||e.metaKey)&&!e.altKey&&e.key.toLowerCase()==='s'&&(view==='exams'||view==='worksheets')&&EX.items.length){e.preventDefault();document.activeElement?.closest?.('#xPv [data-edit],#xPv [data-xname]')?.blur();clearTimeout(EXAS.t);if(db)xSaveDb();else toast('Saving needs the shared database (open the page in claude.ai)');return}
   if(e.key!=='Escape')return;
   const ask=$('#exAsk');if(ask){e.preventDefault();e.stopImmediatePropagation();ask.remove();return}
   const pop=[...document.querySelectorAll('.xmenu-pop')].find(p=>!p.hidden);

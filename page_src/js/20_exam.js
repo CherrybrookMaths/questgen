@@ -9,14 +9,23 @@
 // another course is never loaded, edited or saved against this course's bank (xSaveDb, exmLoad in 25_mine.js).
 const XKEY=QG.course==='advanced'?'qg_exam':'qg_exam_'+QG.course;
 const exCourse=x=>(x&&x.course)||'advanced';
-let EX=(()=>{try{const v=JSON.parse(localStorage.getItem(XKEY));if(v&&Array.isArray(v.items)&&(exCourse(v)===QG.course||(!v.course&&!v.id&&!v.items.length)))return v}catch(e){}return null})()||
-  {title:QG.courseData.name,sub:'Practice examination',school:'CMC Education',time:'',timeAuto:true,mpm:1.8,reading:'10 minutes',items:[]};
+// owner 26 Nov (worksheets, "it should be manage din a similar way to exams where there's a lsit, same for teh settings logic"): a worksheet is
+// an exam document with kind 'worksheet' (38_worksheets.js). EX is the open exam on Exams and the open worksheet on Worksheets; each kind
+// keeps its own copy in this browser (xKind.key) and xKind swaps EX when the view changes (one page-wide name, CODE_HEALTH rule 1)
+function xKind(k){const ws=k==='worksheet';if((EX.kind==='worksheet')===ws)return;
+  if(typeof EXAS!=='undefined'){clearTimeout(EXAS.t);if(db&&['new','changed'].includes(exmState()))EXAS.run()}   // the one being left saves first (its fields are read at once)
+  let v=null;try{v=JSON.parse(localStorage.getItem(ws?XKEY+'_ws':XKEY))}catch(e){}
+  EX=v&&Array.isArray(v.items)&&exCourse(v)===QG.course&&(v.kind==='worksheet')===ws?v:ws?WS.blank():xKind.blank();EX.course=QG.course;
+  try{EXC.clear();XA_SWAPPED.clear()}catch(e){}}
+xKind.key=()=>EX.kind==='worksheet'?XKEY+'_ws':XKEY;
+xKind.blank=()=>({title:QG.courseData.name,sub:'Practice examination',school:'CMC Education',time:'',timeAuto:true,mpm:1.8,reading:'10 minutes',items:[]});
+let EX=(()=>{try{const v=JSON.parse(localStorage.getItem(XKEY));if(v&&Array.isArray(v.items)&&v.kind!=='worksheet'&&(exCourse(v)===QG.course||(!v.course&&!v.id&&!v.items.length)))return v}catch(e){}return null})()||xKind.blank();
 EX.course=QG.course;
 // an exam opened before 19 Nov keeps the working time it has (only new exams follow the marks until a time is typed)
 if(EX.timeAuto===undefined)EX.timeAuto=!EX.id&&!EX.items.length;
 // owner 19 Nov ("Save by itself"): every change is kept in this browser and, for an exam in the shared database, saved there a moment
 // later (EXAS.schedule, 25_mine.js, which loads later: hence the typeof test). The working time follows the marks (EXAS.time)
-const xsave=()=>{if(typeof EXAS!=='undefined')EXAS.time();save(XKEY,JSON.stringify(EX));xCount();if(typeof EXAS!=='undefined')EXAS.schedule()};
+const xsave=()=>{if(typeof EXAS!=='undefined')EXAS.time();save(xKind.key(),JSON.stringify(EX));xCount();if(typeof EXAS!=='undefined')EXAS.schedule()};
 const xq=id=>QG.byId.get(id);   // health pass 21 Nov: the id index (was a scan of every question, ~27 callers, many in loops)
 function xCount(){if($('#xPanel')&&!$('#xPanel').hidden)xPanel()
   // any change to the exam (add, remove, reorder, swap, load) refreshes the Exams page around it (owner 14 Nov, Exams page + My exams).
@@ -55,11 +64,11 @@ let XSAVED=[],_xsub=null;
 // (owner 25 Nov: "Saved <time>" only for what was really saved)
 async function xSaveDb(quiet){let ok=false;
   if(exCourse(EX)!==QG.course){toast('This exam belongs to '+(QG.courses[exCourse(EX)]?.short||exCourse(EX))+'. Switch the course to save it.');return false}   // owner 23 Nov: see XKEY
-  if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;save(XKEY,JSON.stringify(EX));
+  if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;save(xKind.key(),JSON.stringify(EX));
     const A=EX.auto||{},keep={topics:A.topics,total:A.total,by:A.by,n:A.n,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
-    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,course:QG.course,items:EX.items.concat((EX.gone||[]).map(g=>g.id)),keys:EX.items.map(i=>xq(i)?.key||null).concat((EX.gone||[]).map(g=>g.key||null)),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});ok=true;if(!quiet)toast('Exam saved')}
+    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,course:QG.course,items:EX.items.concat((EX.gone||[]).map(g=>g.id)),keys:EX.items.map(i=>xq(i)?.key||null).concat((EX.gone||[]).map(g=>g.key||null)),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,...(EX.kind==='worksheet'?{kind:'worksheet',ws:EX.ws||null}:{}),by:me||null,at:new Date().toISOString()});ok=true;if(!quiet)toast('Exam saved')}
     catch(e){toast('Could not save. Try again in a moment.')}}
-  if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}return ok}
+  if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}if(view==='worksheets')WS.refresh();return ok}
 document.addEventListener('click',e=>{
   if(!e.target.closest('#xPanel'))return;
   const li=e.target.closest('li[data-xi]');
@@ -72,7 +81,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#xAns')){xPreview('answers');return}
   if(e.target.closest('[data-xtauto]')){EX.timeAuto=true;xsave();return}
 });
-document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;if(f.dataset.xf==='time')EX.timeAuto=false;save(XKEY,JSON.stringify(EX));if(typeof EXAS!=='undefined')EXAS.schedule()}});
+document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;if(f.dataset.xf==='time')EX.timeAuto=false;save(xKind.key(),JSON.stringify(EX));if(typeof EXAS!=='undefined')EXAS.schedule()}});
 // owner 19 Nov: "HSC Adv averages 1.8 minutes per mark. Should be a place to change that too": the working time follows it
 document.addEventListener('change',e=>{const f=e.target.closest('[data-xmpm]');if(!f)return;const v=Math.max(.5,Math.min(4,+f.value||1.8));EX.mpm=Math.round(v*10)/10;EX.timeAuto=true;xsave()});
 
@@ -106,7 +115,8 @@ function xQ(q,n,doc){exA();
     if(lay==='table'&&q.opt_table)opts=optTableHTML(q,guide||ans);
     else if(lay==='graph')opts=`<div class="xog">${q.options.map(o=>`<div class="xo${ok(o)}"><b>${o.label}.</b>${o.fig?xFigSlots(q,[o.fig]):`<span class="tx">${tex(o.latex)}</span>`}</div>`).join('')}</div>`;
     else opts=`<div class="xol">${q.options.map(o=>`<div class="xo${ok(o)}"><b>${o.label}.</b><span class="tx">${tex(o.latex)}</span></div>`).join('')}</div>`}
-  const head=q.type==='mcq'?`<span class="xqn">${n}</span>`:`<div class="xqh"><b>QUESTION ${n}</b><span>(${q.marks??'?'} mark${q.marks===1?'':'s'})</span></div>`;
+  // owner 26 Nov (worksheets): "the worksheet should really conserve space": a worksheet question is headed by its number and marks only
+  const ws=EX.kind==='worksheet',head=q.type==='mcq'?`<span class="xqn">${n}</span>`:`<div class="xqh${ws?' ws-qh':''}"><b>${ws?n:'QUESTION '+n}</b><span>(${q.marks??'?'} mark${q.marks===1?'':'s'})</span></div>`;
   // owner 18 Nov, with a sample paper: "can u make the format of questions like this": "QUESTION 4  (4 marks)" in bold capitals with the
   // marks beside it (no rule), "(a)" in plain type, "[1]" at the right of each part, dotted answer lines (08_exam.css, 30_word.js)
   // owner 14 Nov: "The dot point home looks stupid in a question", then "Yeah that's fine, the i is fine". The grey dot-point
@@ -114,7 +124,7 @@ function xQ(q,n,doc){exA();
   // with the dot points per part, band, kind and Report. Screen only (.scr-only), like the old line.
   // owner 18 Nov: "In the PDF output, remove the school name, just the qid for each question": the paper (and so its PDF, Word and HTML
   // downloads) shows only the QID; the marking guide keeps the source, and ⓘ still shows it on screen
-  const src=`<div class="xsrc exsrc"><span class="exsrcl">${guide?esc(srcLine(q))+' · ':''}${qid(q)}</span>${qiButton(q,n)}</div>`;
+  const src=`<div class="xsrc exsrc"><span class="exsrcl">${guide?esc(srcLine(q))+' · ':''}${qid(q)}</span>${qiButton(q,n)}${ws?WS.qctl(q,n):''}</div>`;   // worksheets: Swap / Remove (screen only)
   const h=`<section class="xq ${q.type==='mcq'?'mc':'wr'}" data-q="${q.id}">${head}<div class="xqb">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${xFigSlots(q,loose)}${parts}${opts}${mcKey}${mcSols}${mcOnly?'':sols(null)}</div>${src}</section>`;
   // every diagram slot, including inline \exfigure ones that tex() writes, so this runs on the finished HTML.
   // owner 25 Nov: "This is currently independent, but it should be the same in question and solutions is what I meant": the marking
@@ -127,6 +137,7 @@ function xQ(q,n,doc){exA();
 // pdfs stacked one after anotrher": doc 'stack' is the exam paper as printed, then the marking guide from a new page, each numbering its own
 // pages (b.part says which; 24_exams.js xPreview)
 function xBlocks(doc){if(doc==='stack')return [...xBlocks('exam'),...xBlocks('guide').map((b,i)=>({...b,newpage:b.newpage||!i}))];
+  if(EX.kind==='worksheet')return WS.blocks(doc);   // owner 26 Nov: no cover, no sections, two columns (38_worksheets.js)
   const {mc,wr}=xSections(),paper=doc!=='guide';const bl=[];let n=0;if(doc==='answers')EXV.fb=0;
   if(paper)bl.push({cover:true,html:xCover(mc,wr)},{cover:true,html:'<div class="xblank">This page is intentionally left blank.</div>'});   // owner 18 Nov: the back of the first page is blank
   else{const keys=mc.map((q,i)=>`<td>${i+1}</td><td><b>${q.options.find(o=>o.is_correct)?.label||'–'}</b></td>`);
@@ -143,7 +154,8 @@ function xBlocks(doc){if(doc==='stack')return [...xBlocks('exam'),...xBlocks('gu
   if(paper)(QG.courseData.ref||[]).forEach((p,i)=>bl.push({newpage:true,html:`<div class="xref"><img src="${esc(QG.url(p))}" alt="Reference sheet, page ${i+1}"></div>`}));
   bl.forEach(b=>{b.part=doc});return bl}
 // a document's name after the exam's (titles, file names, page footers); the exam paper has none
-const XDOC={guide:'marking guide',answers:'with answers',stack:'with solutions at the back'},xDocSfx=(doc,sep)=>XDOC[doc]?sep+XDOC[doc]:'';
+// owner 26 Nov (worksheets): "worked solutions" is a worksheet's name for its marking guide
+const XDOC={guide:'marking guide',answers:'with answers',stack:'with solutions at the back'},xDocSfx=(doc,sep)=>XDOC[doc]?sep+(doc==='guide'&&EX.kind==='worksheet'?'worked solutions':XDOC[doc]):'';
 const xWait=root=>new Promise(res=>{const t0=performance.now();const tick=()=>{const imgs=[...root.querySelectorAll('img')];const done=imgs.every(i=>i.getAttribute('src')&&i.complete||i.alt==='Redraw missing'||/^Image missing/.test(i.alt));
   if(done||performance.now()-t0>8000)res();else setTimeout(tick,120)};tick()});
 // xPreview (A4 preview, grading panel, Fit pages, export buttons) is in 24_exams.js

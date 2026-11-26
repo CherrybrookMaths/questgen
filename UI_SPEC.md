@@ -461,7 +461,8 @@ When this is merged into UI_SPEC.md, these lines replace or amend the matching o
   canot really tell if you're in an exam or not already. do u know what i mean", and "yes, remove redunant features. However, tutors should
   be able to make similar exams if studnts need another one. Find a way to work that in intuitively." Done:
   - Worksheets is a greyed top-bar item ("Worksheets later"), not a tab inside Exams. Bank cards have no "+ Add to exam" (Report stays).
-    Worksheet use counting as "used before" waits for the Worksheets build (Next up note).
+    Worksheet use counting as "used before" waits for the Worksheets build (Next up note). (26 Nov: built; Worksheets is a working
+    top-bar tab and worksheet use counts as used before: see "Worksheets (26 Nov)".)
   - Exams has no tabs. It opens on My exams; "New exam" opens Setup (titled "New exam", with Cancel); Generate lands on the paper; Close
     (or Escape) returns to My exams. There is no way back to a blank Setup from inside an exam.
   - On the paper, "Settings" reopens the setup form for this exam (titled "Settings for “name”", with "Back to the paper"); its button says
@@ -1605,3 +1606,77 @@ stacked one after anotrher".
 - Code: 20_exam.js xQ / xBlocks / xDocSfx, 24_exams.js xPreview (sheet parts, per-part page numbers), 29_pdf.js, 30_word.js.
   Tests: the `exams: paper with answers …`, `export: paper with answers …`, `exams: solutions at the back …` and
   `export: solutions at the back …` checks in tools/page_test.js (flows).
+
+## Worksheets (26 Nov)
+Owner, 19 Nov: "isn't it a bit awkward to have a worksheet builder integrated into the exam one? maybe we should split it?" -> "yes" (a
+top-bar item of its own, greyed until built); on worksheet use counting as used before: "they should see that its been used for now yes".
+Owner, 26 Nov, verbatim (a clickable mockup was made; its styling does not carry over, the exam builder's look does):
+"of course follow similar design style of the exam builder"; "it should be manage din a similar way to exams where there's a lsit, same
+for teh settings logic"; "when choosing the topics, it has to allow for more specific choosing, going to the skill depth such as missing
+angle in cosine rule. Can't just be cosine rule"; "Used before is also important"; "This worksheet should follow the rule order, it should
+only appear in one like before remember? Like can't do bearings without having the earlier skills and so forth" (and, on the Standard skill
+order, e.g. Area of a triangle after the cosine rule: "that is correct"); on hand-picking: "a bit too overkill"; "we should avoid live
+generation of anything"; on the layout: "1 is the best so far but not sure if ti will work for wider questions, also should be lines and
+not boxes for working", "the worksheet should really conserve space"; on printing: "Give options to print worksheet (with no answer),
+worked solutions, and worksheet with answers (this is where they can choose single number, worked or both)", then "NO I ALSO MEANT a version
+where the answers are attched after all the questions, for students to self check, just the two pdfs stacked one after anotrher".
+- **Where.** Worksheets (`#worksheets`) is a top-bar tab between Exams and Guide (and in the phone menu). It opens on **My worksheets**:
+  My exams' list (search, sort, a click opens the worksheet on its sheet, Make another, ⋯ Duplicate / Rename / Delete, "New worksheet",
+  the "not saved" banner). The page zoom is off there, as on Exams (it lays out A4 sheets).
+- **Settings** (Exam setup's form; "Settings…" on the sheet reopens it for that worksheet, titled "Settings for “name”", with "Back to the
+  sheet" and "Make it again with these settings", which asks before replacing the questions, as Regenerate does):
+  - What to practise, to skill depth: Year 12 / Year 11 topic tiles (Exam setup's) open to the topic's rows (the Bank's rows: DOTS
+    sub-levels and SUB_SPLIT), each row to its skills. Ticking a tile or a row takes all its skills; ticking a skill targets it alone; the
+    boxes show all / some / none. Each skill shows how many questions it can bring in (approved, its home, less those in saved exams and
+    worksheets while Skip is on, less those needing topics not yet learnt), with why on hover, as Exam setup's subtopic counts.
+  - How many questions: − / + (1 to 60) and 5 / 10 / 15 / 20.
+  - Level: Easier / Mixed / Harder. The exam builder's bands (qDifOK): Easier takes band 2–3 questions first, Harder band 5–6 first, then
+    the nearest; Mixed takes any.
+  - "Skip questions already in my saved exams and worksheets", on by default (Exam setup's box now says "… and worksheets" too).
+  - Already learnt and the "Show questions that need topics not yet learnt" switch, as in Exam setup (skill gates, 17 Nov): the worksheet's
+    own topics are the rows of its chosen skills; with a Year 12 row all of Year 11 counts as learnt.
+  - "What these skills hold": questions by band, and the plain warning when they are fewer than asked.
+- **One home per question.** A question belongs to exactly one skill: the LAST skill it needs (its leaf parts' required skills) in the
+  course's signed-off skill order (Standard: state/work/skills/standard/skills.json in its order; Advanced: state/work/skills/
+  skill_topics.json in its file order). Basic skills count only when the question needs nothing else. So a bearings question that uses
+  the cosine rule is a bearings question (or a later skill's, e.g. Compass radial surveys) and never comes into a cosine-rule worksheet.
+  Measured 26 Nov, Standard: Cosine rule (side) is the home of 6 questions though 39 use it; True and compass bearings of 49 (52 use it);
+  of the 19 questions using both, none is filed under the cosine rule. Advanced: Chain rule home of 12 questions of the 290 that use it.
+  Only approved, unreported questions with a topic home (the exam builder's pool: not old syllabus, not a duplicate) are used.
+- **Make worksheet** builds the sheet and opens it (no hand-picking, nothing generated live: every question is from the bank). The chosen
+  skills share the sheet (the next question comes from the skill with the fewest so far); on the sheet questions follow the skill order,
+  each skill easiest first. Fewer questions than asked: a shorter sheet, and the info line and a toast say so plainly ("Only 6 questions
+  exist for these skills, so the worksheet has 6 instead of 10.", or "are left … (n already in your saved exams and worksheets, k need
+  topics not yet learnt)").
+- **On the sheet** (the exam paper view, its bar for a worksheet): Worksheet / Worked solutions / With answers / Solutions at the back;
+  Save state; **Worksheet ▾** (Settings…, + Add a question, + Add 5); **Make another like this** (same settings, none of the questions in
+  any saved exam or worksheet, this one included, named "<name> (version 2)"); Download ▾ (PDF, Word (beta), HTML); Close (or Escape:
+  saves, back to My worksheets). Each question has **Swap** (another question with the same home skill, not on the sheet, not swapped out
+  before, not used before while Skip is on) and **Remove** beside its QID (screen only). + Add takes more from the chosen skills by the
+  same rules. Answer lines − / + per part and the diagram corner handle work as on the exam paper.
+- **Layout.** A4; no cover, no sections, no times, no blank page, no reference sheet (the z-score table still follows when a question
+  needs it). A one-line header: the name, "N questions · M marks", "Name ____ Date ____". Two columns (6 mm apart), filled left then right
+  and balanced; ruled (dotted) lines under each written part, one a mark plus one (2 to 12; 7.5 mm apart). A question is **wide** and
+  spans both columns when it has three or more labelled parts, a table in the question (a data table or a multiple-choice table of
+  options), or anything wider than a column at its own size: a diagram at its print size (its picture's width × the exam's size for it)
+  or a long line of maths. Judged on the laid-out copy before diagrams are capped to their column (38_worksheets.js WS.widen). The page
+  footer: name, document, "Page k of N".
+- **Four versions**, each as HTML, PDF and Word (file names end "", " - worked solutions", " - with answers", " - with solutions at the
+  back"): the worksheet; worked solutions (the exam marking guide's solutions, headed "Worked solutions"); with answers, where Final answer /
+  Worked solution / Both replace the lines under each question (the data records a short answer only for multiple-choice questions, the
+  letter; a written part shows its worked solution in every mode and the info line counts them, as the exam's paper with answers does);
+  solutions at the back (the worksheet, then the worked solutions from a new page, each numbering its own pages). In Word the two-column
+  bands are two-column sections (continuous breaks; Word balances the columns).
+- **Storage and used before.** A worksheet is a document of the page database's `exams` collection with `kind: "worksheet"` and its
+  settings in `ws` ({skills, n, level, avoid, name, seed, last}). Chosen over a new `worksheets` collection because saving, autosave, the
+  saved / unsaved state, Duplicate / Rename / Delete and "used before" (EXAS.used, xaSavedIds) already work on `exams`, the page reads
+  one collection, and the stored database rules stay as they are (no capability change: `exams` is not in the rules list either way).
+  My exams leaves `kind: "worksheet"` out; My worksheets lists only them. So a question in a saved worksheet shows "Used in <worksheet>"
+  and is skipped by the exam builder's Skip box, and a worksheet skips questions in saved exams. The open exam and the open worksheet
+  are kept apart in this browser (qg_exam… and qg_exam…_ws); leaving one view for the other saves the one being left first.
+- **Both courses.** Each course's own skills, rows and order (Standard 136 skills, Advanced 161), carried in the course's details file
+  (tools/bank_split.py skill_order → `so`, read as QG.skillOrder).
+- Code: page_src/js/38_worksheets.js (`WS`), css/24_worksheets.css; reused from the exam builder: xQ, xBlocks (a worksheet branch),
+  xPreview (bar, two-column packing, `ws-sheet`), xDownload, xPdf, xWord (two-column sections), EXAS (autosave, guard, close, version
+  names), renderMine (My exams' list, by kind), XG (gates and Already learnt), xaHomes, xaSwap, qDifOK / qDiff, EXSEC.ord, xaRng.
+  Tests: the `worksheets: …` checks in tools/page_test.js (group worksheets), and the sweep's worksheets-mine / worksheets-setup tabs.

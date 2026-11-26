@@ -9,7 +9,7 @@ function todoCount(){if(!B)return 0;let n=0;allWork().forEach(w=>{if(w.n)n++});r
    This hides the Curate UI only; what the database lets a viewer write is decided by its rules, not by this page. */
 // owner 13 Nov: Review is an Inbox (#review), the papers list (#review/papers, the old Papers tab: "Merge into Review"), one paper at a
 // time (#review/paper/<doc>/<step>), the lists (#review/list/<filter>), Reports and Difficulty. Curate is Review · Processes.
-const AREAS={teach:['bank','exams','guide'],curate:['inbox','review','papers','processes','levels','reports']};
+const AREAS={teach:['bank','exams','worksheets','guide'],curate:['inbox','review','papers','processes','levels','reports']};
 const REVIEW_VIEWS=['inbox','review','papers','levels','reports'];
 const areaOf=v=>AREAS.curate.includes(v)?'curate':'teach';
 const isEditor=()=>QG.editor===true;
@@ -18,8 +18,8 @@ const isEditor=()=>QG.editor===true;
 // lists, Difficulty, Reports): Processes, the to-do list and the job strip stay hidden. Tutor = Contributor or Viewer share: Teach only.
 // QG.owner: null until the user capability answers, then user.isOwner(). Approving is enforced by the db rules (reviews write admin).
 const isOwnerV=()=>QG.owner===true;
-const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#processes/papers/check':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
-const VHASH={inbox:'#review',review:'#review',levels:'#review/difficulty',reports:'#review/reports',papers:'#review/papers',processes:'#processes',guide:'#guide',exams:'#exams',bank:'#bank'};
+const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#processes/papers/check':'processes','#guide':'guide','#exams':'exams','#worksheets':'worksheets','#bank':'bank'};
+const VHASH={inbox:'#review',review:'#review',levels:'#review/difficulty',reports:'#review/reports',papers:'#review/papers',processes:'#processes',guide:'#guide',exams:'#exams',worksheets:'#worksheets',bank:'#bank'};
 // old links: #import (owner 14 Nov) → Processes › Papers (owner 13 Nov, two tabs: the import dashboard is in Papers › Import history); #levels / #difficulty / #reports (tabs until 15 Nov) → their Review section; #papers (tab until 13 Nov) → Review's papers
 const HASH_ALIAS={'#import':'#processes/papers','#levels':'#review/difficulty','#difficulty':'#review/difficulty','#reports':'#review/reports','#papers':'#review/papers'};
 // owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers": #processes/work, #processes/papers; bare #processes opens the tab used last (default Work)
@@ -54,15 +54,15 @@ function route(){
     if(location.hash!=='#processes/'+t+(sub?'/'+sub:''))setHash('#processes/'+t+(sub?'/'+sub:''));save('qg_proc_tab',t);$('#processesView').dataset.tab=t;$('#processesView').dataset.sub=sub}
   QG.view=v;QG.setZoom(QG.zoom,true);   // owner 25 Nov: the page zoom is off on Exams (13_shell.js)
   const inRev=REVIEW_VIEWS.includes(view);
-  $('#guideView').hidden=view!=='guide';$('#levelsView').hidden=view!=='levels';$('#reportsView').hidden=view!=='reports';$('#examsView').hidden=view!=='exams';$('#processesView').hidden=view!=='processes';$('#papersView').hidden=view!=='papers';$('#inboxView').hidden=view!=='inbox';
-  [['vBank','bank'],['vExams','exams'],['vGuide','guide'],['vProcesses','processes']].forEach(([id,v])=>$('#'+id).setAttribute('aria-current',view===v?'page':'false'));
+  $('#guideView').hidden=view!=='guide';$('#levelsView').hidden=view!=='levels';$('#reportsView').hidden=view!=='reports';$('#examsView').hidden=view!=='exams';$('#wsView').hidden=view!=='worksheets';$('#processesView').hidden=view!=='processes';$('#papersView').hidden=view!=='papers';$('#inboxView').hidden=view!=='inbox';
+  [['vBank','bank'],['vExams','exams'],['vWorksheets','worksheets'],['vGuide','guide'],['vProcesses','processes']].forEach(([id,v])=>$('#'+id).setAttribute('aria-current',view===v?'page':'false'));
   $('#vReview').setAttribute('aria-current',inRev?'page':'false');   // owner 13 Nov: the Inbox, papers, Reports and Difficulty are all inside Review
   // owner 13 Nov: the 7-button step row is gone; the bar under the header is only for a paper (its track) or a list
   $('#bankView').hidden=view!=='bank'; $('#reviewView').hidden=view!=='review'; $('#rbar').hidden=view!=='review'; $('#progbar').hidden=view!=='review'; $('#searchBox').hidden=view!=='bank';
   applyArea();
   renderJobs(); moveSlider();
   try{const cur=document.querySelector('.views a[aria-current="page"]'),nv=cur?.parentElement;if(nv&&nv.scrollWidth>nv.clientWidth)nv.scrollTo({left:cur.offsetLeft-nv.clientWidth/2+cur.offsetWidth/2,behavior:'smooth'})}catch(e){}   // owner 14 Nov: on a phone the tab row scrolls; keep the open tab in sight
-  const shown=[['bank','#bankView'],['review','#reviewView'],['inbox','#inboxView'],['papers','#papersView'],['processes','#processesView'],['guide','#guideView'],['levels','#levelsView'],['reports','#reportsView'],['exams','#examsView']].find(x=>x[0]===view);
+  const shown=[['bank','#bankView'],['review','#reviewView'],['inbox','#inboxView'],['papers','#papersView'],['processes','#processesView'],['guide','#guideView'],['levels','#levelsView'],['reports','#reportsView'],['exams','#examsView'],['worksheets','#wsView']].find(x=>x[0]===view);
   if(shown&&window._lastView!==view){const el=$(shown[1]);if(el){el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter')}window._lastView=view}   // owner 12 Nov: tab switch animation
   // job 2 (owner 16 Nov: "Yeah build it"): every view but the Bank draws once the question details are in (QG.det)
   // While it waits, the view is named 'wait:<view>': every live redraw that checks view==='...' (snapshots, timers) skips until
@@ -72,7 +72,7 @@ function route(){
   if(view==='processes'){renderProcesses();if(!B)return}
   if(!B) return;
   updateCounts();
-  if(view==='inbox') renderInbox(); else if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes') renderProcesses(); else { $('#stF').value=rstatus; refreshReview(); }
+  if(view==='inbox') renderInbox(); else if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='worksheets') WS.render(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes') renderProcesses(); else { $('#stF').value=rstatus; refreshReview(); }
 }
 // the user capability answered: show or hide Curate, and send a viewer on a Curate link to the Bank
 function setEditor(ed,own){QG.editor=!!ed;QG.owner=!!own;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role

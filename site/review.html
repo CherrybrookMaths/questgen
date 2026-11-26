@@ -61,8 +61,6 @@ button.ghost,a.ghost{border-color:transparent;background:none;color:var(--accent
 #detWait .act{margin-left:8px}
 
 
-/* owner 19 Nov: Worksheets in the top navigation, greyed until it is built */
-.views .vsoon{opacity:.5;cursor:not-allowed;padding:6px 11px;font:500 13.5px var(--sans);color:var(--muted);align-self:center}.views .vsoon small{font-size:11px;margin-left:3px}
 /* ---------- Bank (owner 12 Nov: warm editorial redesign) ---------- */
 .bank{display:grid;grid-template-columns:260px minmax(0,1fr)}
 .bank.homemode{grid-template-columns:minmax(0,1fr)}
@@ -793,8 +791,8 @@ body.xpv-on{overflow:hidden}
 .tbox{flex:none;width:16px;height:16px;border-radius:4px;border:1.5px solid var(--line2);display:grid;place-items:center;margin-top:2px;background:var(--panel);color:var(--panel);font:700 11px/1 var(--sans);cursor:pointer;padding:0;transition:background .12s,border-color .12s}
 .tbox:hover:not(:disabled){border-color:var(--accent)}
 .tbox:disabled{cursor:default;opacity:.4}
-.extile.on .tbox{background:var(--accent);border-color:var(--accent)}
-.extile.ex-part .tbox{border-color:var(--accent)}.extile.ex-part .tbox::after{content:"";width:8px;height:1.5px;background:var(--accent);border-radius:1px}
+.tbox[aria-checked="true"]{background:var(--accent);border-color:var(--accent)}   /* the box shows its own state (a tile in Exams, a tile or row in Worksheets) */
+.tbox[aria-checked="mixed"]{border-color:var(--accent)}.tbox[aria-checked="mixed"]::after{content:"";width:8px;height:1.5px;background:var(--accent);border-radius:1px}
 /* subtopics inside a tile: a quiet checklist (was mint pills) */
 .extile .pills{display:grid;gap:1px;margin:2px -4px 0 23px;padding-top:6px;border-top:1px solid var(--line)}
 .extile .pills[hidden]{display:none}
@@ -863,7 +861,7 @@ input[type=range].rng:disabled{opacity:.35;cursor:default}
 /* owner 25 Nov ("Besides that, yes action all these things"; checker: "put generate button on top"): Generate (and its result) open the
    settings panel and stay in sight while it scrolls */
 .exsettings>.exgo{display:flex;align-items:center;gap:6px 14px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid var(--line);position:sticky;top:-4px;z-index:1;background:var(--panel)}
-.exsettings>.exgo #gResult{flex-basis:100%}.exsettings>.exgo .result{margin-top:4px}
+.exsettings>.exgo :is(#gResult,#wsResult){flex-basis:100%}.exsettings>.exgo .result{margin-top:4px}
 .exsettings>.exgo+.group{border-top:0}
 .exgen{padding:9px 18px;border-radius:6px;font:600 14px var(--sans);background:var(--accent);border:1px solid var(--accent);color:var(--panel);cursor:pointer;transition:filter .12s,box-shadow .12s}
 .exgen:hover:not(:disabled){filter:brightness(1.06);box-shadow:0 1px 3px rgba(0,0,0,.18)}
@@ -1102,30 +1100,30 @@ table.gparts th,table.gparts td{padding:4px 6px;text-align:left;border-bottom:1p
 
 /* Skill gates (owner 17 Nov: "lets do skill gates, that's important"): the Already learnt list, the switch and the left-out line,
    in Exam setup (#exLearnt) and Pick by hand (#exLearntP); XG.html in 23_exam_auto.js. Scoped to the Exams view. */
-#examsView .xl{margin:0}
-#examsView .xl>summary{display:flex;align-items:baseline;gap:8px;cursor:pointer;list-style:none;padding:2px 0}
-#examsView .xl>summary::-webkit-details-marker{display:none}
-#examsView .xl>summary::after{content:"▾";margin-left:auto;color:var(--muted);font-size:12px;transition:transform .15s}
-#examsView .xl:not([open])>summary::after{transform:rotate(-90deg)}
-#examsView .xl>summary b{font:600 13px/1.3 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
-#examsView .xl>summary small{color:var(--muted);font-size:12px}
-#examsView .xl-hint{color:var(--muted);font-size:12.5px;line-height:1.45;margin:6px 0 8px}
-#examsView .xl-yr{margin:0 0 8px}
-#examsView .xl-yh{display:flex;align-items:baseline;gap:8px;margin:8px 0 4px;font-size:12.5px}
-#examsView .xl-yh small{color:var(--muted)}
-#examsView .xl-yh .linkbtn{margin-left:auto;font-size:12.5px}
-#examsView .xl-fa{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:baseline;padding:4px 0;border-top:1px dashed var(--line)}
-#examsView .xl-fn{flex:0 0 100%;font-size:11.5px;color:var(--muted)}
-#examsView .xl-ps{display:flex;flex-wrap:wrap;gap:4px}
-#examsView .xl-p{border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:999px;padding:3px 9px;font:12px/1.3 var(--sans);cursor:pointer;min-height:26px}
-#examsView .xl-p[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
-#examsView .xl-p[aria-pressed="true"]::before{content:"✓ "}
-#examsView .xl-p:disabled{cursor:default;opacity:.75;border-style:dashed}
-#examsView .xl-sw{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--ink);margin:10px 0 4px;cursor:pointer}
-#examsView .xl-sw input{width:14px;height:14px;margin:0;accent-color:var(--accent)}
-#examsView .xl-out{margin:6px 0 0;padding:7px 10px;border-radius:7px;background:var(--warn-soft);color:var(--ink);font-size:12.5px;line-height:1.45}
-#examsView .xl-wrap{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:10px 12px;margin:0 0 12px}
-#examsView .xl-need{margin:4px 0 6px;padding:4px 8px;border-radius:6px;background:var(--warn-soft);color:var(--warn);font-size:12px;line-height:1.4}
+:is(#examsView,#wsView) .xl{margin:0}
+:is(#examsView,#wsView) .xl>summary{display:flex;align-items:baseline;gap:8px;cursor:pointer;list-style:none;padding:2px 0}
+:is(#examsView,#wsView) .xl>summary::-webkit-details-marker{display:none}
+:is(#examsView,#wsView) .xl>summary::after{content:"▾";margin-left:auto;color:var(--muted);font-size:12px;transition:transform .15s}
+:is(#examsView,#wsView) .xl:not([open])>summary::after{transform:rotate(-90deg)}
+:is(#examsView,#wsView) .xl>summary b{font:600 13px/1.3 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+:is(#examsView,#wsView) .xl>summary small{color:var(--muted);font-size:12px}
+:is(#examsView,#wsView) .xl-hint{color:var(--muted);font-size:12.5px;line-height:1.45;margin:6px 0 8px}
+:is(#examsView,#wsView) .xl-yr{margin:0 0 8px}
+:is(#examsView,#wsView) .xl-yh{display:flex;align-items:baseline;gap:8px;margin:8px 0 4px;font-size:12.5px}
+:is(#examsView,#wsView) .xl-yh small{color:var(--muted)}
+:is(#examsView,#wsView) .xl-yh .linkbtn{margin-left:auto;font-size:12.5px}
+:is(#examsView,#wsView) .xl-fa{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:baseline;padding:4px 0;border-top:1px dashed var(--line)}
+:is(#examsView,#wsView) .xl-fn{flex:0 0 100%;font-size:11.5px;color:var(--muted)}
+:is(#examsView,#wsView) .xl-ps{display:flex;flex-wrap:wrap;gap:4px}
+:is(#examsView,#wsView) .xl-p{border:1px solid var(--line2);background:var(--panel);color:var(--ink);border-radius:999px;padding:3px 9px;font:12px/1.3 var(--sans);cursor:pointer;min-height:26px}
+:is(#examsView,#wsView) .xl-p[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent);color:var(--accent)}
+:is(#examsView,#wsView) .xl-p[aria-pressed="true"]::before{content:"✓ "}
+:is(#examsView,#wsView) .xl-p:disabled{cursor:default;opacity:.75;border-style:dashed}
+:is(#examsView,#wsView) .xl-sw{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--ink);margin:10px 0 4px;cursor:pointer}
+:is(#examsView,#wsView) .xl-sw input{width:14px;height:14px;margin:0;accent-color:var(--accent)}
+:is(#examsView,#wsView) .xl-out{margin:6px 0 0;padding:7px 10px;border-radius:7px;background:var(--warn-soft);color:var(--ink);font-size:12.5px;line-height:1.45}
+:is(#examsView,#wsView) .xl-wrap{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:10px 12px;margin:0 0 12px}
+:is(#examsView,#wsView) .xl-need{margin:4px 0 6px;padding:4px 8px;border-radius:6px;background:var(--warn-soft);color:var(--warn);font-size:12px;line-height:1.4}
 /* checker report 18 Nov: each screen says what its topic counts count (CNT_NOTE, 07_bank.js) */
 .ex-cntnote{font-size:12px;color:var(--muted);margin:2px 0 8px;line-height:1.35}
 
@@ -2165,6 +2163,41 @@ html[data-bkdir=fade]::view-transition-new(bk-list){animation:bk-fade-in .18s ea
 @keyframes bk-fade-out{to{opacity:0}}
 @keyframes bk-fade-in{from{opacity:0}}
 #list.bk-swap{animation:bk-fade-in .16s ease-out}
+/* ===================== Worksheets (owner 26 Nov) =====================
+   "of course follow similar design style of the exam builder": the view reuses the Exams page's classes (.exams, .exsetup, .extile,
+   .exsettings, .exmine); only what a worksheet adds is here, under .wsv (the view) or .ws- (the sheet). 38_worksheets.js. */
+.wsv[data-wsview="mine"] #wsSetup{display:none}.wsv[data-wsview="setup"] #wsMine{display:none}.wsv[data-wsview="mine"] .exmine{display:block}
+/* rows inside a topic tile: the row's own box, then its skills as Exam setup's pills */
+.wsv .ws-rows{margin:2px -4px 0 23px;padding-top:4px;border-top:1px solid var(--line)}
+.wsv .ws-rows[hidden]{display:none}
+.wsv .ws-row{padding:6px 0 4px}.wsv .ws-row+.ws-row{border-top:1px dashed var(--line)}
+.wsv .ws-rowh{display:flex;align-items:center;gap:8px;font:600 13px/1.3 var(--sans);color:var(--ink)}
+.wsv .ws-rowh small{margin-left:auto;font:500 12px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
+.wsv .ws-rowh .tbox{width:15px;height:15px;font-size:10px}
+.wsv .ws-row .pills{margin:4px 0 0 23px;padding-top:0;border-top:0}
+/* number of questions: − n + and presets */
+.wsv .ws-n{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.wsv .ws-n .act{min-width:30px;padding:4px 8px}
+.wsv .ws-n input{width:56px;padding:5px 6px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink);font:500 14px var(--sans);text-align:center}
+.wsv .ws-pre{margin:0 0 0 auto;grid-template-columns:repeat(4,auto)}
+.wsv .ws-bands{table-layout:fixed;width:100%}
+/* ---------- the sheet: two columns, one-line header, ruled lines ---------- */
+/* owner 26 Nov: "1 is the best so far but not sure if ti will work for wider questions, also should be lines and not boxes for working";
+   "the worksheet should really conserve space" */
+.ws-meas>.xblk:not(.ws-wide){width:calc((100% - 6mm)/2)}
+.ws-band{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:6mm;align-items:start}
+.ws-col{min-width:0}
+.ws-sheet .xblk,.ws-meas .xblk{margin-bottom:4mm}
+.ws-sheet .xlines i,.ws-meas .xlines i{height:7.5mm}
+.ws-sheet .xlines,.ws-meas .xlines{padding-bottom:2mm}
+.ws-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:2mm 6mm;padding-bottom:2.5mm;border-bottom:.8pt solid #111;font-family:var(--sans)}
+.ws-ht{font:700 13pt var(--sans);margin-right:auto}.ws-ht span{font-weight:500;color:#444}
+.ws-hm{font-size:10pt;color:#333}.ws-who{font-size:10pt;color:#111;white-space:nowrap}
+.ws-qh{gap:2.5mm;margin-bottom:2mm}.ws-qh b{font-size:12pt}.ws-qh span{font-size:10pt;color:#444}
+/* Swap / Remove on each question (screen only: .scr-only leaves the downloads and print) */
+.ws-qctl{display:inline-flex;gap:1mm;margin-left:2mm}
+.ws-qctl button{font:500 11px var(--sans);color:var(--accent);background:none;border:1px solid #cfd8d6;border-radius:5px;padding:1px 6px;cursor:pointer}
+.ws-qctl button:hover{background:#e1efec}
 </style>
 
 <header>
@@ -2176,7 +2209,7 @@ html[data-bkdir=fade]::view-transition-new(bk-list){animation:bk-fade-in .18s ea
     <nav class="views" aria-label="Views">
       <a href="#bank" id="vBank" data-area="teach">Bank</a>
       <a href="#exams" id="vExams" data-area="teach">Exams</a>
-      <span class="vsoon" data-area="teach" aria-disabled="true" title="Worksheets: build by hand from the bank. Coming later">Worksheets <small>later</small></span>   <!-- owner 19 Nov: "isn't it a bit awkward to have a worksheet builder integrated into the exam one? maybe we should split it?" -> "yes" -->
+      <a href="#worksheets" id="vWorksheets" data-area="teach">Worksheets</a>   <!-- owner 19 Nov: "isn't it a bit awkward to have a worksheet builder integrated into the exam one? maybe we should split it?" -> "yes"; built 26 Nov (38_worksheets.js) -->
       <a href="#guide" id="vGuide" data-area="teach">Guide</a>
       <a href="#review" id="vReview" data-area="curate" hidden>Review<span class="n" id="todoN"></span></a>   <!-- owner 13 Nov: "Merge into Review": Review holds the Inbox, papers, Reports and Difficulty; the Papers tab is gone (#papers lands on #review/papers) -->
       <a href="#processes" id="vProcesses" data-area="curate" hidden>Processes</a> <!-- owner 14 Nov: "Can make that page processes" (was Import; #import still works) -->
@@ -2215,6 +2248,7 @@ html[data-bkdir=fade]::view-transition-new(bk-list){animation:bk-fade-in .18s ea
   <div class="papers" id="papersView" hidden><a class="rback" href="#review">← Inbox</a><section id="papersList" aria-live="polite"></section></div>
   <div class="guide" id="guideView" hidden><section id="guideBox"></section></div>
   <div class="wrapx exams" id="examsView" hidden></div>   <!-- owner 14 Nov: Exams page -->
+  <div class="wrapx exams wsv" id="wsView" hidden></div>   <!-- owner 26 Nov: Worksheets ("of course follow similar design style of the exam builder") -->
   <div class="wrap reports" id="reportsView" hidden><a class="rback" href="#review">← Inbox</a><section id="reportsBox" aria-live="polite"></section></div>   <!-- owner 14 Nov: question reports (alpha) -->
   <div class="levels" id="levelsView" hidden><a class="rback" href="#review">← Inbox</a><section id="levelsBox" aria-live="polite"></section></div>   <!-- owner 14 Nov: difficulty check -->
   <!-- owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers". Work = running, queued, recently done, Next up; Papers = summary + rescan, Import a course (Go), Running / next, Choose papers ▸, By course ▸, Import history ▸ (owner 13 Nov: "I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses") -->
@@ -2291,7 +2325,11 @@ const QG={bank:null,dots:[],dm:{},reviews:{},db:null,me:null,editor:null,owner:n
   val:d=>d&&(typeof d.data==='function'?d.data():d.data), docs:s=>((s&&s.docs)||s||[]).map(x=>({id:x.id,...QG.val(x)})),
   // owner 17 Nov: "lets do skill gates, that's important": {skill: [topic keys it needs learnt]} from the details file (tools/bank_split.py
   // skill_gates: the skill's taught topic + its prerequisites' topics, basic skills left out); read by the exam builders (XG, 23_exam_auto.js)
-  skills:{}};
+  skills:{},
+  // owner 26 Nov (worksheets): "it should only appear in one like before remember? Like can't do bearings without having the earlier skills and
+  // so forth": the course's skills in their signed-off order, [[skill, topic key, first dot point, basic]], from the details file
+  // (tools/bank_split.py skill_order); a question's home skill is the last one it needs (38_worksheets.js WS.home)
+  skillOrder:[]};
 /* ---------- data on demand (Fix 1, owner 14 Nov: "Ok we should run Fix 1 and 2") ----------
    The index (QG.bank) holds every question without its text: ids, paper, marks, parts with tags and difficulty, triage, figure
    keys (q.fk), the "hence integrate" flag (q.hx) and q.h, the topic file its text lives in (bank.files[q.h]). Lists, counts,
@@ -2328,13 +2366,13 @@ Object.assign(QG,{
       Object.entries(d.q||{}).forEach(([id,c])=>{const q=QG.byId.get(+id);if(!q)return;const {parts,solutions,...rest}=c;Object.assign(q,rest);
         if(solutions&&!QG.got.has(q.id))q.solutions=solutions;
         if(parts){const pm=new Map(q.parts.map(p=>[String(p.id),p]));Object.entries(parts).forEach(([pid,v])=>{const p=pm.get(pid);if(p)Object.assign(p,v)})}});
-      QG.skills=d.sk||{};QG.detOK=true;QG.detFail=false;QG.onDet()},
+      QG.skills=d.sk||{};QG.skillOrder=d.so||[];QG.detOK=true;QG.detFail=false;QG.onDet()},
       e=>{QG.detP=null;QG.detFail=true;QG.waitNote()}))},
   // a view other than the Bank draws only once the details are in (09_router.js route calls QG.wait instead)
   ready(v){return !QG.bank||v==='bank'||QG.detOK},
   // caches built from the index are rebuilt with the full fields, then the open view is drawn again
   onDet(){TOPICS=null;QG.hay=new Map();
-    for(const f of [()=>{_clean=null;_esc={};_rk=null;_dupm=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear()])try{f()}catch(e){}
+    for(const f of [()=>{_clean=null;_esc={};_rk=null;_dupm=null},()=>{_spot=null},()=>{_grp=null},()=>_ee.clear(),()=>_qd.clear(),()=>{_xah=null},()=>{_xat=null},()=>XG.nc.clear(),()=>WS.reset()])try{f()}catch(e){}
     QG.waitNote();route();QG.fill()},
   wait(){QG.waitNote();QG.det()},   // onDet draws the view when they land
   // one notice while a view waits for the details (or they failed to load)
@@ -3778,7 +3816,7 @@ function todoCount(){if(!B)return 0;let n=0;allWork().forEach(w=>{if(w.n)n++});r
    This hides the Curate UI only; what the database lets a viewer write is decided by its rules, not by this page. */
 // owner 13 Nov: Review is an Inbox (#review), the papers list (#review/papers, the old Papers tab: "Merge into Review"), one paper at a
 // time (#review/paper/<doc>/<step>), the lists (#review/list/<filter>), Reports and Difficulty. Curate is Review · Processes.
-const AREAS={teach:['bank','exams','guide'],curate:['inbox','review','papers','processes','levels','reports']};
+const AREAS={teach:['bank','exams','worksheets','guide'],curate:['inbox','review','papers','processes','levels','reports']};
 const REVIEW_VIEWS=['inbox','review','papers','levels','reports'];
 const areaOf=v=>AREAS.curate.includes(v)?'curate':'teach';
 const isEditor=()=>QG.editor===true;
@@ -3787,8 +3825,8 @@ const isEditor=()=>QG.editor===true;
 // lists, Difficulty, Reports): Processes, the to-do list and the job strip stay hidden. Tutor = Contributor or Viewer share: Teach only.
 // QG.owner: null until the user capability answers, then user.isOwner(). Approving is enforced by the db rules (reviews write admin).
 const isOwnerV=()=>QG.owner===true;
-const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#processes/papers/check':'processes','#guide':'guide','#exams':'exams','#bank':'bank'};
-const VHASH={inbox:'#review',review:'#review',levels:'#review/difficulty',reports:'#review/reports',papers:'#review/papers',processes:'#processes',guide:'#guide',exams:'#exams',bank:'#bank'};
+const HASHV={'#review':'inbox','#review/papers':'papers','#review/difficulty':'levels','#review/reports':'reports','#processes':'processes','#processes/work':'processes','#processes/papers':'processes','#processes/papers/check':'processes','#guide':'guide','#exams':'exams','#worksheets':'worksheets','#bank':'bank'};
+const VHASH={inbox:'#review',review:'#review',levels:'#review/difficulty',reports:'#review/reports',papers:'#review/papers',processes:'#processes',guide:'#guide',exams:'#exams',worksheets:'#worksheets',bank:'#bank'};
 // old links: #import (owner 14 Nov) → Processes › Papers (owner 13 Nov, two tabs: the import dashboard is in Papers › Import history); #levels / #difficulty / #reports (tabs until 15 Nov) → their Review section; #papers (tab until 13 Nov) → Review's papers
 const HASH_ALIAS={'#import':'#processes/papers','#levels':'#review/difficulty','#difficulty':'#review/difficulty','#reports':'#review/reports','#papers':'#review/papers'};
 // owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers": #processes/work, #processes/papers; bare #processes opens the tab used last (default Work)
@@ -3823,15 +3861,15 @@ function route(){
     if(location.hash!=='#processes/'+t+(sub?'/'+sub:''))setHash('#processes/'+t+(sub?'/'+sub:''));save('qg_proc_tab',t);$('#processesView').dataset.tab=t;$('#processesView').dataset.sub=sub}
   QG.view=v;QG.setZoom(QG.zoom,true);   // owner 25 Nov: the page zoom is off on Exams (13_shell.js)
   const inRev=REVIEW_VIEWS.includes(view);
-  $('#guideView').hidden=view!=='guide';$('#levelsView').hidden=view!=='levels';$('#reportsView').hidden=view!=='reports';$('#examsView').hidden=view!=='exams';$('#processesView').hidden=view!=='processes';$('#papersView').hidden=view!=='papers';$('#inboxView').hidden=view!=='inbox';
-  [['vBank','bank'],['vExams','exams'],['vGuide','guide'],['vProcesses','processes']].forEach(([id,v])=>$('#'+id).setAttribute('aria-current',view===v?'page':'false'));
+  $('#guideView').hidden=view!=='guide';$('#levelsView').hidden=view!=='levels';$('#reportsView').hidden=view!=='reports';$('#examsView').hidden=view!=='exams';$('#wsView').hidden=view!=='worksheets';$('#processesView').hidden=view!=='processes';$('#papersView').hidden=view!=='papers';$('#inboxView').hidden=view!=='inbox';
+  [['vBank','bank'],['vExams','exams'],['vWorksheets','worksheets'],['vGuide','guide'],['vProcesses','processes']].forEach(([id,v])=>$('#'+id).setAttribute('aria-current',view===v?'page':'false'));
   $('#vReview').setAttribute('aria-current',inRev?'page':'false');   // owner 13 Nov: the Inbox, papers, Reports and Difficulty are all inside Review
   // owner 13 Nov: the 7-button step row is gone; the bar under the header is only for a paper (its track) or a list
   $('#bankView').hidden=view!=='bank'; $('#reviewView').hidden=view!=='review'; $('#rbar').hidden=view!=='review'; $('#progbar').hidden=view!=='review'; $('#searchBox').hidden=view!=='bank';
   applyArea();
   renderJobs(); moveSlider();
   try{const cur=document.querySelector('.views a[aria-current="page"]'),nv=cur?.parentElement;if(nv&&nv.scrollWidth>nv.clientWidth)nv.scrollTo({left:cur.offsetLeft-nv.clientWidth/2+cur.offsetWidth/2,behavior:'smooth'})}catch(e){}   // owner 14 Nov: on a phone the tab row scrolls; keep the open tab in sight
-  const shown=[['bank','#bankView'],['review','#reviewView'],['inbox','#inboxView'],['papers','#papersView'],['processes','#processesView'],['guide','#guideView'],['levels','#levelsView'],['reports','#reportsView'],['exams','#examsView']].find(x=>x[0]===view);
+  const shown=[['bank','#bankView'],['review','#reviewView'],['inbox','#inboxView'],['papers','#papersView'],['processes','#processesView'],['guide','#guideView'],['levels','#levelsView'],['reports','#reportsView'],['exams','#examsView'],['worksheets','#wsView']].find(x=>x[0]===view);
   if(shown&&window._lastView!==view){const el=$(shown[1]);if(el){el.classList.remove('enter');void el.offsetWidth;el.classList.add('enter')}window._lastView=view}   // owner 12 Nov: tab switch animation
   // job 2 (owner 16 Nov: "Yeah build it"): every view but the Bank draws once the question details are in (QG.det)
   // While it waits, the view is named 'wait:<view>': every live redraw that checks view==='...' (snapshots, timers) skips until
@@ -3841,7 +3879,7 @@ function route(){
   if(view==='processes'){renderProcesses();if(!B)return}
   if(!B) return;
   updateCounts();
-  if(view==='inbox') renderInbox(); else if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes') renderProcesses(); else { $('#stF').value=rstatus; refreshReview(); }
+  if(view==='inbox') renderInbox(); else if(view==='guide') renderGuide(); else if(view==='reports') renderReports(); else if(view==='levels') renderLevels(); else if(view==='exams') renderExams(); else if(view==='worksheets') WS.render(); else if(view==='bank') renderBank(); else if(view==='papers') renderPapers(); else if(view==='processes') renderProcesses(); else { $('#stF').value=rstatus; refreshReview(); }
 }
 // the user capability answered: show or hide Curate, and send a viewer on a Curate link to the Bank
 function setEditor(ed,own){QG.editor=!!ed;QG.owner=!!own;TOPICS=null;   // owner 13 Nov: the Bank's approved-only filter depends on the role
@@ -4049,7 +4087,7 @@ if(window.ResizeObserver){new ResizeObserver(()=>setHdr()).observe(document.quer
 // in this browser. It is CSS zoom on the page root: every measurement that becomes a CSS length goes through QG.rect, and viewport units
 // are divided by --zf. Exams stays at 100%: it lays out A4 sheets by measuring them (24_exams.js), so it shows them at print size.
 Object.assign(QG,{ZSTEPS:[80,90,100,110,125,150],
-  zoomOff(){return String(QG.view).replace(/^wait:/,'')==='exams'},
+  zoomOff(){return ['exams','worksheets'].includes(String(QG.view).replace(/^wait:/,''))},   // owner 26 Nov: Worksheets lays out A4 sheets the same way
   // the steps this window allows: zoomed in, the page keeps at least a small phone's width (320 px), so a 390 px phone stops at 110%
   zsteps(){return QG.ZSTEPS.filter(v=>v<=100||innerWidth*100/v>=320)},
   setZoom(v,keep){v=+v;if(!QG.ZSTEPS.includes(v))v=100;const was=QG.zf,R=document.documentElement;QG.zoom=v;if(!keep)save('zoom',String(v));
@@ -4152,7 +4190,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'){const o=document.qu
     if(dbns){try{dbns.doc('progress/queue').onSnapshot(d=>{const v=QG.val(d);QUEUE=v&&Array.isArray(v.items)?v:null;renderJobs();if(view==='processes'&&QG.ready(view))renderProcesses()},()=>{})}catch(e){}}
     if(dbns){try{QG.db=dbns;dbns.doc('progress/import').onSnapshot(d=>{const v=QG.val(d);if(v){PROG=v;if(view==='processes'&&QG.ready(view))renderImport()}},()=>{})}catch(e){}}
     if(dbns){QG.db=dbns; QG.db.collection('reviews').onSnapshot(snap=>{const docs=snap.docs||snap;const nx={};(docs||[]).forEach(s=>{const v=typeof s.data==='function'?s.data():s.data;const id=s.id||(v&&('q'+v.question_id));if(v&&id)nx[id]=v});QG.reviews=RKEY.index(nx);TOPICS=null;_clean=null;_esc={};_rk=null;
-      updateCounts(); if(!QG.ready(view))return; if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='reports'&&typeof renderReports==='function') renderReports(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh(); else if(view==='processes'){renderImport();let pq=null;try{pq=PQ}catch(e){}if(pq){pq.redraw();pq.run.draw()}}},()=>{})}   // Import history counts approved questions too (bankStats); owner 14 Nov: the lanes' cleared / waiting squares and the queue's waiting count follow Review live (PQ is read guarded: an early snapshot can arrive before 32_papers_q.js has run)
+      updateCounts(); if(!QG.ready(view))return; if(view==='review') refreshReview(); else if(view==='papers') renderPapers(); else if(view==='inbox') renderInbox(); else if(view==='bank') renderBank(); else if(view==='reports'&&typeof renderReports==='function') renderReports(); else if(view==='exams'&&typeof exRefresh==='function') exRefresh(); else if(view==='worksheets'&&typeof WS==='object') WS.refresh(); else if(view==='processes'){renderImport();let pq=null;try{pq=PQ}catch(e){}if(pq){pq.redraw();pq.run.draw()}}},()=>{})}   // Import history counts approved questions too (bankStats); owner 14 Nov: the lanes' cleared / waiting squares and the queue's waiting count follow Review live (PQ is read guarded: an early snapshot can arrive before 32_papers_q.js has run)
   }catch(e){}
 })();
 </script>
@@ -4187,14 +4225,23 @@ function zTableHTML(){if(zTabCache)return zTabCache;
 // another course is never loaded, edited or saved against this course's bank (xSaveDb, exmLoad in 25_mine.js).
 const XKEY=QG.course==='advanced'?'qg_exam':'qg_exam_'+QG.course;
 const exCourse=x=>(x&&x.course)||'advanced';
-let EX=(()=>{try{const v=JSON.parse(localStorage.getItem(XKEY));if(v&&Array.isArray(v.items)&&(exCourse(v)===QG.course||(!v.course&&!v.id&&!v.items.length)))return v}catch(e){}return null})()||
-  {title:QG.courseData.name,sub:'Practice examination',school:'CMC Education',time:'',timeAuto:true,mpm:1.8,reading:'10 minutes',items:[]};
+// owner 26 Nov (worksheets, "it should be manage din a similar way to exams where there's a lsit, same for teh settings logic"): a worksheet is
+// an exam document with kind 'worksheet' (38_worksheets.js). EX is the open exam on Exams and the open worksheet on Worksheets; each kind
+// keeps its own copy in this browser (xKind.key) and xKind swaps EX when the view changes (one page-wide name, CODE_HEALTH rule 1)
+function xKind(k){const ws=k==='worksheet';if((EX.kind==='worksheet')===ws)return;
+  if(typeof EXAS!=='undefined'){clearTimeout(EXAS.t);if(db&&['new','changed'].includes(exmState()))EXAS.run()}   // the one being left saves first (its fields are read at once)
+  let v=null;try{v=JSON.parse(localStorage.getItem(ws?XKEY+'_ws':XKEY))}catch(e){}
+  EX=v&&Array.isArray(v.items)&&exCourse(v)===QG.course&&(v.kind==='worksheet')===ws?v:ws?WS.blank():xKind.blank();EX.course=QG.course;
+  try{EXC.clear();XA_SWAPPED.clear()}catch(e){}}
+xKind.key=()=>EX.kind==='worksheet'?XKEY+'_ws':XKEY;
+xKind.blank=()=>({title:QG.courseData.name,sub:'Practice examination',school:'CMC Education',time:'',timeAuto:true,mpm:1.8,reading:'10 minutes',items:[]});
+let EX=(()=>{try{const v=JSON.parse(localStorage.getItem(XKEY));if(v&&Array.isArray(v.items)&&v.kind!=='worksheet'&&(exCourse(v)===QG.course||(!v.course&&!v.id&&!v.items.length)))return v}catch(e){}return null})()||xKind.blank();
 EX.course=QG.course;
 // an exam opened before 19 Nov keeps the working time it has (only new exams follow the marks until a time is typed)
 if(EX.timeAuto===undefined)EX.timeAuto=!EX.id&&!EX.items.length;
 // owner 19 Nov ("Save by itself"): every change is kept in this browser and, for an exam in the shared database, saved there a moment
 // later (EXAS.schedule, 25_mine.js, which loads later: hence the typeof test). The working time follows the marks (EXAS.time)
-const xsave=()=>{if(typeof EXAS!=='undefined')EXAS.time();save(XKEY,JSON.stringify(EX));xCount();if(typeof EXAS!=='undefined')EXAS.schedule()};
+const xsave=()=>{if(typeof EXAS!=='undefined')EXAS.time();save(xKind.key(),JSON.stringify(EX));xCount();if(typeof EXAS!=='undefined')EXAS.schedule()};
 const xq=id=>QG.byId.get(id);   // health pass 21 Nov: the id index (was a scan of every question, ~27 callers, many in loops)
 function xCount(){if($('#xPanel')&&!$('#xPanel').hidden)xPanel()
   // any change to the exam (add, remove, reorder, swap, load) refreshes the Exams page around it (owner 14 Nov, Exams page + My exams).
@@ -4233,11 +4280,11 @@ let XSAVED=[],_xsub=null;
 // (owner 25 Nov: "Saved <time>" only for what was really saved)
 async function xSaveDb(quiet){let ok=false;
   if(exCourse(EX)!==QG.course){toast('This exam belongs to '+(QG.courses[exCourse(EX)]?.short||exCourse(EX))+'. Switch the course to save it.');return false}   // owner 23 Nov: see XKEY
-  if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;save(XKEY,JSON.stringify(EX));
+  if(db){exA();const id=EX.id||('e'+Date.now());EX.id=id;save(xKind.key(),JSON.stringify(EX));
     const A=EX.auto||{},keep={topics:A.topics,total:A.total,by:A.by,n:A.n,mcq:A.mcq,pr:A.pr,dF:A.dF,dP:A.dP,src:A.src,approved:A.approved,avoid:A.avoid,title:A.title,locked:A.locked,diff:A.diff};
-    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,course:QG.course,items:EX.items.concat((EX.gone||[]).map(g=>g.id)),keys:EX.items.map(i=>xq(i)?.key||null).concat((EX.gone||[]).map(g=>g.key||null)),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,by:me||null,at:new Date().toISOString()});ok=true;if(!quiet)toast('Exam saved')}
+    try{await db.doc('exams/'+id).set({title:EX.title,sub:EX.sub,school:EX.school,cert:EX.cert||'',bytopic:EX.bytopic!==false,time:EX.time,timeAuto:EX.timeAuto!==false,mpm:+EX.mpm||1.8,reading:EX.reading,course:QG.course,items:EX.items.concat((EX.gone||[]).map(g=>g.id)),keys:EX.items.map(i=>xq(i)?.key||null).concat((EX.gone||[]).map(g=>g.key||null)),instr:EX.instr||null,lines:EX.lines||{},figscale:EX.figscale||{},auto:keep,...(EX.kind==='worksheet'?{kind:'worksheet',ws:EX.ws||null}:{}),by:me||null,at:new Date().toISOString()});ok=true;if(!quiet)toast('Exam saved')}
     catch(e){toast('Could not save. Try again in a moment.')}}
-  if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}return ok}
+  if(view==='exams'){exHead();if(EXV.view==='mine')renderMine()}if(view==='worksheets')WS.refresh();return ok}
 document.addEventListener('click',e=>{
   if(!e.target.closest('#xPanel'))return;
   const li=e.target.closest('li[data-xi]');
@@ -4250,7 +4297,7 @@ document.addEventListener('click',e=>{
   if(e.target.closest('#xAns')){xPreview('answers');return}
   if(e.target.closest('[data-xtauto]')){EX.timeAuto=true;xsave();return}
 });
-document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;if(f.dataset.xf==='time')EX.timeAuto=false;save(XKEY,JSON.stringify(EX));if(typeof EXAS!=='undefined')EXAS.schedule()}});
+document.addEventListener('input',e=>{const f=e.target.closest('[data-xf]');if(f){EX[f.dataset.xf]=f.value;if(f.dataset.xf==='time')EX.timeAuto=false;save(xKind.key(),JSON.stringify(EX));if(typeof EXAS!=='undefined')EXAS.schedule()}});
 // owner 19 Nov: "HSC Adv averages 1.8 minutes per mark. Should be a place to change that too": the working time follows it
 document.addEventListener('change',e=>{const f=e.target.closest('[data-xmpm]');if(!f)return;const v=Math.max(.5,Math.min(4,+f.value||1.8));EX.mpm=Math.round(v*10)/10;EX.timeAuto=true;xsave()});
 
@@ -4284,7 +4331,8 @@ function xQ(q,n,doc){exA();
     if(lay==='table'&&q.opt_table)opts=optTableHTML(q,guide||ans);
     else if(lay==='graph')opts=`<div class="xog">${q.options.map(o=>`<div class="xo${ok(o)}"><b>${o.label}.</b>${o.fig?xFigSlots(q,[o.fig]):`<span class="tx">${tex(o.latex)}</span>`}</div>`).join('')}</div>`;
     else opts=`<div class="xol">${q.options.map(o=>`<div class="xo${ok(o)}"><b>${o.label}.</b><span class="tx">${tex(o.latex)}</span></div>`).join('')}</div>`}
-  const head=q.type==='mcq'?`<span class="xqn">${n}</span>`:`<div class="xqh"><b>QUESTION ${n}</b><span>(${q.marks??'?'} mark${q.marks===1?'':'s'})</span></div>`;
+  // owner 26 Nov (worksheets): "the worksheet should really conserve space": a worksheet question is headed by its number and marks only
+  const ws=EX.kind==='worksheet',head=q.type==='mcq'?`<span class="xqn">${n}</span>`:`<div class="xqh${ws?' ws-qh':''}"><b>${ws?n:'QUESTION '+n}</b><span>(${q.marks??'?'} mark${q.marks===1?'':'s'})</span></div>`;
   // owner 18 Nov, with a sample paper: "can u make the format of questions like this": "QUESTION 4  (4 marks)" in bold capitals with the
   // marks beside it (no rule), "(a)" in plain type, "[1]" at the right of each part, dotted answer lines (08_exam.css, 30_word.js)
   // owner 14 Nov: "The dot point home looks stupid in a question", then "Yeah that's fine, the i is fine". The grey dot-point
@@ -4292,7 +4340,7 @@ function xQ(q,n,doc){exA();
   // with the dot points per part, band, kind and Report. Screen only (.scr-only), like the old line.
   // owner 18 Nov: "In the PDF output, remove the school name, just the qid for each question": the paper (and so its PDF, Word and HTML
   // downloads) shows only the QID; the marking guide keeps the source, and ⓘ still shows it on screen
-  const src=`<div class="xsrc exsrc"><span class="exsrcl">${guide?esc(srcLine(q))+' · ':''}${qid(q)}</span>${qiButton(q,n)}</div>`;
+  const src=`<div class="xsrc exsrc"><span class="exsrcl">${guide?esc(srcLine(q))+' · ':''}${qid(q)}</span>${qiButton(q,n)}${ws?WS.qctl(q,n):''}</div>`;   // worksheets: Swap / Remove (screen only)
   const h=`<section class="xq ${q.type==='mcq'?'mc':'wr'}" data-q="${q.id}">${head}<div class="xqb">${q.stem?`<div class="tx">${tex(q.stem)}</div>`:''}${xFigSlots(q,loose)}${parts}${opts}${mcKey}${mcSols}${mcOnly?'':sols(null)}</div>${src}</section>`;
   // every diagram slot, including inline \exfigure ones that tex() writes, so this runs on the finished HTML.
   // owner 25 Nov: "This is currently independent, but it should be the same in question and solutions is what I meant": the marking
@@ -4305,6 +4353,7 @@ function xQ(q,n,doc){exA();
 // pdfs stacked one after anotrher": doc 'stack' is the exam paper as printed, then the marking guide from a new page, each numbering its own
 // pages (b.part says which; 24_exams.js xPreview)
 function xBlocks(doc){if(doc==='stack')return [...xBlocks('exam'),...xBlocks('guide').map((b,i)=>({...b,newpage:b.newpage||!i}))];
+  if(EX.kind==='worksheet')return WS.blocks(doc);   // owner 26 Nov: no cover, no sections, two columns (38_worksheets.js)
   const {mc,wr}=xSections(),paper=doc!=='guide';const bl=[];let n=0;if(doc==='answers')EXV.fb=0;
   if(paper)bl.push({cover:true,html:xCover(mc,wr)},{cover:true,html:'<div class="xblank">This page is intentionally left blank.</div>'});   // owner 18 Nov: the back of the first page is blank
   else{const keys=mc.map((q,i)=>`<td>${i+1}</td><td><b>${q.options.find(o=>o.is_correct)?.label||'–'}</b></td>`);
@@ -4321,7 +4370,8 @@ function xBlocks(doc){if(doc==='stack')return [...xBlocks('exam'),...xBlocks('gu
   if(paper)(QG.courseData.ref||[]).forEach((p,i)=>bl.push({newpage:true,html:`<div class="xref"><img src="${esc(QG.url(p))}" alt="Reference sheet, page ${i+1}"></div>`}));
   bl.forEach(b=>{b.part=doc});return bl}
 // a document's name after the exam's (titles, file names, page footers); the exam paper has none
-const XDOC={guide:'marking guide',answers:'with answers',stack:'with solutions at the back'},xDocSfx=(doc,sep)=>XDOC[doc]?sep+XDOC[doc]:'';
+// owner 26 Nov (worksheets): "worked solutions" is a worksheet's name for its marking guide
+const XDOC={guide:'marking guide',answers:'with answers',stack:'with solutions at the back'},xDocSfx=(doc,sep)=>XDOC[doc]?sep+(doc==='guide'&&EX.kind==='worksheet'?'worked solutions':XDOC[doc]):'';
 const xWait=root=>new Promise(res=>{const t0=performance.now();const tick=()=>{const imgs=[...root.querySelectorAll('img')];const done=imgs.every(i=>i.getAttribute('src')&&i.complete||i.alt==='Redraw missing'||/^Image missing/.test(i.alt));
   if(done||performance.now()-t0>8000)res();else setTimeout(tick,120)};tick()});
 // xPreview (A4 preview, grading panel, Fit pages, export buttons) is in 24_exams.js
@@ -4491,7 +4541,7 @@ document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('in
 </script>
 <script>
 /* phone menu (owner 14 Nov: "it'll have to be some pop up or side bar right?") */
-(()=>{const btn=$('#menuBtn'),sh=$('#mSheet');const NAMES={bank:'Bank',inbox:'Review',review:'Review',papers:'Papers',processes:'Processes',levels:'Difficulty',reports:'Reports',guide:'Guide',exams:'Exams'};   // Difficulty and Reports: Review steps since 15 Nov; owner 13 Nov: Papers, Reports and Difficulty are sections of Review (the menu lists Review · Processes)
+(()=>{const btn=$('#menuBtn'),sh=$('#mSheet');const NAMES={bank:'Bank',inbox:'Review',review:'Review',papers:'Papers',processes:'Processes',levels:'Difficulty',reports:'Reports',guide:'Guide',exams:'Exams',worksheets:'Worksheets'};   // Difficulty and Reports: Review steps since 15 Nov; owner 13 Nov: Papers, Reports and Difficulty are sections of Review (the menu lists Review · Processes)
   const sync=()=>{$('#menuCur').textContent=NAMES[String(view).replace(/^wait:/,'')]||'Menu';$('#menuN').textContent=''   /* owner 14 Nov: "Exams 935" read as a count of exams; counts stay in the menu list */};
   const close=()=>{sh.hidden=true;btn.setAttribute('aria-expanded','false')};
   // owner 15 Nov: the menu is grouped by area, Teach then Curate; the Curate group is there only for the owner and editors
@@ -4524,7 +4574,7 @@ document.addEventListener('keydown',e=>{if(view!=='levels'||e.target.closest('in
 const XA_DEF=()=>({open:true,topen:true,topics:[],total:100,by:'marks',n:20,mcq:10,mcqSet:false,diff:'hsc',pr:30,approved:true,avoid:false,seed:0,locked:[],warns:[],tmix:null,tpr:null,ran:false});
 function xa(){if(!EX.auto||typeof EX.auto!=='object')EX.auto=XA_DEF();const d=XA_DEF();for(const k in d)if(EX.auto[k]===undefined)EX.auto[k]=d[k];
   const t=EX.auto.topics;if(Array.isArray(t)){const n=QG.topicKeys(t);if(n.length!==t.length||n.some((k,i)=>k!==t[i]))EX.auto.topics=n}return EX.auto}   // owner 25 Nov: old Trigonometry rows read as the new ones (QG.topicKeys)
-const xaSave=()=>{save(XKEY,JSON.stringify(EX));};
+const xaSave=()=>{save(xKind.key(),JSON.stringify(EX));};
 const XA_SWAPPED=new Set();
 
 /* ---------- difficulty of a question ---------- */
@@ -4815,7 +4865,7 @@ function exWarn(A,st,pool){const w=[],mN=pool.filter(q=>q.type==='mcq').length,w
 
 /* ---------- page shell ---------- */
 // owner 14 Nov ("Is there a place to manage created exams?"): a third view, My exams (25_mine.js), beside Exam setup and Pick by hand
-function renderExams(){const box=$('#examsView');if(!box||!B)return;exmSub();exA();XG.load();
+function renderExams(){const box=$('#examsView');if(!box||!B)return;xKind('exam');exmSub();exA();XG.load();
   if(EXV.view==='pick'&&!EXV.mode||EXV.view==='setup'&&EXV.setupFor==null&&EX.items.length||!['mine','setup','pick'].includes(EXV.view)){EXV.view='mine';exSaveView()}   // owner 19 Nov: the picker opens only from the paper (EXPK); Setup only for a new exam or an exam's Settings
   if(!EXV.built){EXV.built=true;
     // owner 19 Nov: "should we really be able to go back to exam setup once the exam has been set up? ... you canot really tell if you're
@@ -4870,7 +4920,7 @@ function renderSetup(){const A=exA();
         ${sliderCtl('gMcq','Multiple choice',0,10,1,Math.min(10,A.mcq),['None','10'],'Placed first as Section I, 1 mark each.')}
         <div class="ctl"><div class="lab"><span id="gSrcL">Papers to draw from</span></div><div class="srcseg" role="group" aria-labelledby="gSrcL">${EX_SRC.map(([k,l])=>`<button type="button" data-src="${k}" aria-pressed="${!!A.src[k]}">${l}</button>`).join('')}</div></div>
         <label class="exck"><input type="checkbox" id="gApproved"${A.approved?' checked':''}> Approved questions only</label>
-        <label class="exck"><input type="checkbox" id="gAvoid"${A.avoid?' checked':''}> Skip questions already in my saved exams</label>
+        <label class="exck"><input type="checkbox" id="gAvoid"${A.avoid?' checked':''}> Skip questions already in my saved exams and worksheets</label>
       </div>
       <div class="group"><h3>Difficulty</h3>
         ${sliderCtl('gAll','Overall',2,6,0.1,exOverall(A),['Band 2','Band 6'],'Moves both difficulty sliders below together.')}
@@ -5040,7 +5090,8 @@ function exList(reset=true){const box=$('#exCards');if(!box)return;const F=EXV.p
 
 /* ---------- paper: editable cover, answer lines, diagram sizes ---------- */
 const exLnKey=(q,p)=>q.id+':'+p.id;
-const exLnDef=m=>Math.max(3,Math.min(24,Math.round((+m||1)*3)));
+// owner 26 Nov (worksheets): "should be lines and not boxes for working", "the worksheet should really conserve space": about one line a mark, plus one
+const exLnDef=m=>EX.kind==='worksheet'?Math.max(2,Math.min(12,Math.round(+m||1)+1)):Math.max(3,Math.min(24,Math.round((+m||1)*3)));
 // every diagram slot on the paper (inline \exfigure ones too) gets a corner handle.
 // owner 14 Nov: "resizing is really unintuitive, it should just be drag the corner in and out diagonally". The − 100% + pill is
 // gone. The slot sits in an inline box (.exfigbox) the size of the drawn diagram, so the handle is on the diagram's own corner;
@@ -5173,12 +5224,15 @@ function exRejoin(root){let last=new Map();const qk=sec=>(sec.closest('.sheet')?
   root.querySelectorAll('section.xq').forEach(sec=>{const qb=sec.querySelector(':scope>.xqb'),prev=last.get(qk(sec));
     if(prev&&qb&&qb.querySelector(':scope>[data-cut]')){merge(prev.querySelector(':scope>.xqb'),qb);const src=sec.querySelector(':scope>.xsrc');if(src)prev.appendChild(src);sec.closest('.xblk')?.remove();return}
     last.set(qk(sec),sec)})}
+// owner 26 Nov: what follows each question on the paper with answers (exams and worksheets)
+EXSEC.ansSeg=()=>`<div class="xseg ex-ansm" role="group" aria-label="After each question">${[['final','Final answer'],['worked','Worked solution'],['both','Both']].map(([k,t])=>`<button data-xans="${k}" aria-pressed="${EXV.ans===k}">${t}</button>`).join('')}</div>`;
 async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   if(!ov){ov=document.createElement('div');ov.id='xPv';ov.className='xpv expv';document.body.appendChild(ov)}
   const keepScroll=opts.keep?ov.scrollTop:0;
+  const ws=EX.kind==='worksheet';   // owner 26 Nov: a worksheet uses this paper view with its own bar and a two-column layout (38_worksheets.js)
   if(!opts.keep||!$('#xPages')){
-    ov.innerHTML=`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button><button data-xdoc="answers" aria-pressed="${doc==='answers'}" title="The paper with each question's answer straight after it">With answers</button><button data-xdoc="stack" aria-pressed="${doc==='stack'}" title="The paper, then the marking guide from a new page, in one file: for students to check their own work">Solutions at the back</button></div>
-      ${doc==='answers'?`<div class="xseg ex-ansm" role="group" aria-label="After each question">${[['final','Final answer'],['worked','Worked solution'],['both','Both']].map(([k,t])=>`<button data-xans="${k}" aria-pressed="${EXV.ans===k}">${t}</button>`).join('')}</div>`:''}
+    ov.innerHTML=ws?WS.bar(doc):`<div class="xtool"><div class="xseg"><button data-xdoc="exam" aria-pressed="${doc==='exam'}">Exam paper</button><button data-xdoc="guide" aria-pressed="${doc==='guide'}">Marking guide</button><button data-xdoc="answers" aria-pressed="${doc==='answers'}" title="The paper with each question's answer straight after it">With answers</button><button data-xdoc="stack" aria-pressed="${doc==='stack'}" title="The paper, then the marking guide from a new page, in one file: for students to check their own work">Solutions at the back</button></div>
+      ${doc==='answers'?EXSEC.ansSeg():''}
       <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span><span class="xpvsave" id="xPvSave"></span>
       <button class="act" id="exGrade" aria-pressed="${EXV.grade}">Questions</button>
       <span class="xmenu"><button class="act" data-xmenu aria-expanded="false">Exam</button><span class="xmenu-pop" hidden><button class="act" id="exPvSet" title="Change this exam's topics, marks or difficulty and regenerate it">Settings…</button><button class="act" id="exPvRegen"${exA().topics.length?'':' disabled title="Choose topics in Exam setup first"'}>Regenerate</button><button class="act" id="exPvTopic" aria-pressed="${EX.bytopic!==false}" title="Show the marks-by-topic table at the bottom of the cover">Topic table on the cover</button></span></span>
@@ -5186,18 +5240,19 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
       <span class="xmenu"><button class="act ok" data-xmenu aria-expanded="false">Download</button><span class="xmenu-pop" hidden><button class="act" id="xDl" disabled>HTML</button></span></span><button class="act ghost" id="xPvClose">Close</button></div>
       <div class="expvbody"><div class="xpages" id="xPages"></div><aside class="expvside" id="exGSide" aria-label="Question grading"></aside></div>`}
   else{$$('[data-xdoc]',ov).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.xdoc===doc)));$('#xInfo').textContent='Laying out pages…'}
-  if(!opts.keep){EXV.grade=innerWidth>1000;EXV.undo=null}   // phones: the grading panel is a slide-over, closed until asked for
+  if(!opts.keep){EXV.grade=!ws&&innerWidth>1000;EXV.undo=null}   // phones: the grading panel is a slide-over, closed until asked for
   if(!document.body.classList.contains('xpv-on')){EXV.pageY=scrollY;window.scrollTo(0,0)}   // a scrolled page underneath misplaces the fixed panels on phones
   ov.hidden=false;document.body.classList.add('xpv-on');ov.classList.toggle('grade-off',!EXV.grade);$('#exGrade')?.setAttribute('aria-pressed',String(EXV.grade));
   await QG.need(EX.items.map(xq));   // Fix 1 (owner 14 Nov: "Ok we should run Fix 1 and 2"): the paper's questions' topic files, before layout
   // the cache key names the block's own document ('stack' holds paper and guide blocks of one question) and the answers mode
   const ck=b=>exCKey(b.q,b.part+(b.part==='answers'?':'+EXV.ans:''),b.html);
-  const bl=xBlocks(doc),meas=document.createElement('div');meas.className='xmeasure sheetbody';
-  meas.innerHTML=bl.map((b,i)=>`<div class="xblk${b.cover?' cover':''}" data-i="${i}">${b.html}</div>`).join('');document.body.appendChild(meas);
+  const bl=xBlocks(doc),meas=document.createElement('div');meas.className='xmeasure sheetbody'+(ws?' ws-meas':'');
+  meas.innerHTML=bl.map((b,i)=>`<div class="xblk${b.cover?' cover':''}${b.wide?' ws-wide':''}" data-i="${i}">${b.html}</div>`).join('');document.body.appendChild(meas);
   bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`),c=EXC.get(ck(b)),qb=el.querySelector('.xqb');
     if(c&&qb){qb.innerHTML=c;el.dataset.cached=1}else hydrate(el,b.q,'bank')});
   await typeset(meas);await xWait(meas);await typeset(meas);
   bl.forEach((b,i)=>{if(!b.q)return;const el=meas.querySelector(`[data-i="${i}"]`);if(!el.dataset.cached){const qb=el.querySelector('.xqb');if(qb)EXC.set(ck(b),qb.innerHTML)}});
+  if(ws)WS.widen(bl,meas);   // owner 26 Nov: a question too wide for one column spans both (judged before diagrams are capped to their column)
   $$('img.fig',meas).forEach(im=>{im.style.maxWidth='100%'});EXSEC.fitOpts(meas);
   // 14 Nov: content height 250 mm, not 259: the review pass measured only ~250 mm fitting inside a 297 mm sheet (padding + footer), so full sheets ran past A4 and were cut off in PDF/print.
   const probe=document.createElement('div');probe.style.height='250mm';meas.appendChild(probe);const H=probe.getBoundingClientRect().height;probe.remove();
@@ -5216,7 +5271,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   els=els.flatMap((el,i)=>{const sec=el.querySelector('section.xq'),hp=i>0&&bl[i-1]?.sec?els[i-1].getBoundingClientRect().height+parseFloat(getComputedStyle(els[i-1]).marginBottom||0):0,lim=j=>j===0?H-hp:H;
     if(!sec||el.getBoundingClientRect().height<=lim(0)*0.98){bl2.push(bl[i]);return [el]}
     const head=sec.firstElementChild,qb=sec.querySelector('.xqb'),src=sec.querySelector('.xsrc'),kids=[...qb.children],pieces=[];
-    const open=first=>{const b=document.createElement('div');b.className='xblk';const s2=document.createElement('section');s2.className=sec.className;s2.dataset.q=sec.dataset.q;
+    const open=first=>{const b=document.createElement('div');b.className='xblk'+(el.classList.contains('ws-wide')?' ws-wide':'');const s2=document.createElement('section');s2.className=sec.className;s2.dataset.q=sec.dataset.q;
       if(first)s2.appendChild(head);else s2.insertAdjacentHTML('beforeend',head.classList.contains('xqh')?`<div class="xqh cont"><b>${head.querySelector('b').textContent} (continued)</b><span></span></div>`:'');
       const q2=document.createElement('div');q2.className='xqb';s2.appendChild(q2);b.appendChild(s2);meas.insertBefore(b,el);pieces.push(b);return q2};
     let box=open(true);
@@ -5224,10 +5279,10 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
     // hardening 14 Nov (page test): a single part (or one part's worked solution) taller than a page was left whole, so its
     // sheet grew past 297 mm and the PDF / print cut the bottom off. Such a piece is now also cut inside the part, between lines
     for(let k=0;k<pieces.length;k++){let g=0;while(pieces[k].getBoundingClientRect().height>lim(k)*0.98&&g++<40){const nx=exCutTall(pieces[k],lim(k),open);if(!nx)break;pieces.splice(pieces.indexOf(nx),1);pieces.splice(k+1,0,nx);k++}}
-    if(src)pieces[pieces.length-1].querySelector('section').appendChild(src);el.remove();pieces.forEach(()=>bl2.push({q:bl[i].q,part:bl[i].part}));return pieces});
+    if(src)pieces[pieces.length-1].querySelector('section').appendChild(src);el.remove();pieces.forEach(()=>bl2.push({q:bl[i].q,part:bl[i].part,wide:bl[i].wide}));return pieces});
   bl.length=0;bl.push(...bl2);
-  const sheets=[];let cur=null,used=0;const start=b=>{cur=[];cur.part=b.part;sheets.push(cur);used=0};
-  els.forEach((el,i)=>{const b=bl[i],h=el.getBoundingClientRect().height+parseFloat(getComputedStyle(el).marginBottom||0);
+  const sheets=ws?WS.pack(els,bl,H):[];let cur=null,used=0;const start=b=>{cur=[];cur.part=b.part;sheets.push(cur);used=0};
+  if(!ws)els.forEach((el,i)=>{const b=bl[i],h=el.getBoundingClientRect().height+parseFloat(getComputedStyle(el).marginBottom||0);
     const nextH=b.sec&&els[i+1]?els[i+1].getBoundingClientRect().height:0,onlyHead=cur&&cur.length===1&&bl[els.indexOf(cur[0])]?.sec;
     if(!cur||b.cover||b.newpage||(used+h+nextH>H&&cur.length&&!onlyHead))start(b);
     cur.push(el);used+=h;if(b.cover)cur=null});
@@ -5236,18 +5291,19 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
   // and the reference sheet, which stay at the back)
   // the paper with answers too; 'stack': the paper's own pages (the guide after it then starts on a new sheet of paper)
   const ppr=s=>s.part!=='guide';
-  if(doc!=='guide'&&sheets.filter(ppr).length%2===0){const at=sheets.map(s=>ppr(s)&&s.some(el=>el.querySelector('section.xq'))).lastIndexOf(true)+1,b=document.createElement('div');
+  // a worksheet has no cover and conserves space: no blank page (owner 26 Nov)
+  if(doc!=='guide'&&!ws&&sheets.filter(ppr).length%2===0){const at=sheets.map(s=>ppr(s)&&s.some(el=>el.querySelector('section.xq'))).lastIndexOf(true)+1,b=document.createElement('div');
     b.className='xblk cover';b.innerHTML='<div class="xblank">This page is intentionally left blank.</div>';const s=[b];s.part=sheets[0].part;sheets.splice(at>0?at:sheets.filter(ppr).length,0,s)}
   const host=$('#xPages');host.innerHTML='';
   const nPart={},kPart={};sheets.forEach(s=>{nPart[s.part]=(nPart[s.part]||0)+1});   // each document numbers its own pages ('stack')
-  sheets.forEach(s=>{const k=kPart[s.part]=(kPart[s.part]||0)+1,sh=document.createElement('div');sh.className='sheet';sh.dataset.part=s.part;const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);
+  sheets.forEach(s=>{const k=kPart[s.part]=(kPart[s.part]||0)+1,sh=document.createElement('div');sh.className='sheet'+(ws?' ws-sheet':'');sh.dataset.part=s.part;const body=document.createElement('div');body.className='sheetbody';s.forEach(el=>body.appendChild(el));sh.appendChild(body);
     // owner 18 Nov: "remove the footer on the cover page", "instead of 1/28 write Page 1 of 28"
-    if(!(ppr(s)&&k===1))sh.insertAdjacentHTML('beforeend',`<div class="sheetfoot">${esc(EX.title)} · ${esc(EX.sub)}${xDocSfx(s.part,' · ')}<span>Page ${k} of ${nPart[s.part]}</span></div>`);host.appendChild(sh)});
+    if(ws||!(ppr(s)&&k===1))sh.insertAdjacentHTML('beforeend',`<div class="sheetfoot">${esc(EX.title)} · ${esc(EX.sub)}${xDocSfx(s.part,' · ')}<span>Page ${k} of ${nPart[s.part]}</span></div>`);host.appendChild(sh)});
   meas.remove();EXSEC.pages(host);scaleTables(host,true);exZoom();
   const qs=EX.items.map(xq).filter(Boolean),tot=xMarks(qs);let F=0,P=0,w=0;qs.forEach(q=>{const e=exEst(q);if(e){F+=e.fl;P+=e.ps;w+=e.d*e.m}});
-  $('#xInfo').textContent=`${sheets.length} page${sheets.length===1?'':'s'} · ${qs.length} questions · ${tot} marks${F+P?` · ${Math.round(P/(F+P)*100)}% problem solving · average band ${(w/(F+P)).toFixed(1)}`:''}${doc==='answers'&&EXV.ans!=='worked'&&EXV.fb?` · ${EXV.fb} written part${EXV.fb===1?' has':'s have'} no short answer recorded, so ${EXV.fb===1?'it shows its':'they show their'} worked solution`:''}`;
+  $('#xInfo').textContent=ws?WS.info(sheets.length,doc):`${sheets.length} page${sheets.length===1?'':'s'} · ${qs.length} questions · ${tot} marks${F+P?` · ${Math.round(P/(F+P)*100)}% problem solving · average band ${(w/(F+P)).toFixed(1)}`:''}${doc==='answers'&&EXV.ans!=='worked'&&EXV.fb?` · ${EXV.fb} written part${EXV.fb===1?' has':'s have'} no short answer recorded, so ${EXV.fb===1?'it shows its':'they show their'} worked solution`:''}`;
   $('#xDl').disabled=false;$('#xDl').dataset.doc=doc;EXAS.bar();
-  exGrading();if(opts.keep)ov.scrollTop=keepScroll;else ov.scrollTop=0;
+  if(!ws)exGrading();if(opts.keep)ov.scrollTop=keepScroll;else ov.scrollTop=0;
   // owner 14 Nov ("make it so we can export pdfs from here"): PDF (29_pdf.js) and Word (30_word.js) join HTML in the Download menu
   // once the pages are laid out
   const dlb=$('#xDl');
@@ -5259,7 +5315,7 @@ async function xPreview(doc,opts={}){exA();EXV.doc=doc;let ov=$('#xPv');
 function exZoom(){const h=$('#xPages');if(!h)return;const tb=$('#xPv .xtool');if(tb)$('#xPv').style.setProperty('--tool',tb.offsetHeight+'px');const side=EXV.grade&&innerWidth>1000?380:0,avail=innerWidth-side-24;const z=Math.min(1,avail/800);h.style.zoom=z<.999?String(Math.max(.4,z)):'';
   // owner 14 Nov (ⓘ, diagram handle): screen-only controls on a scaled paper divide by this, so they keep a usable size on a phone
   h.style.setProperty('--xz',z<.999?String(Math.max(.4,z)):'1')}
-addEventListener('resize',()=>{if(!document.body.classList.contains('xpv-on'))return;if(innerWidth>1000&&!EXV.grade){EXV.grade=true;$('#xPv').classList.remove('grade-off')}exZoom()});
+addEventListener('resize',()=>{if(!document.body.classList.contains('xpv-on'))return;if(innerWidth>1000&&!EXV.grade&&EX.kind!=='worksheet'){EXV.grade=true;$('#xPv').classList.remove('grade-off')}exZoom()});
 const exRelayout=()=>document.body.classList.contains('xpv-on')?xPreview(EXV.doc,{keep:true}):Promise.resolve();
 
 /* grading panel */
@@ -5457,7 +5513,7 @@ document.addEventListener('dragend',()=>{EXDRAG=null;$$('#exGSide .gq').forEach(
 // (a menu, the "replaces the questions" question, a field being typed in; the report form and the Swap chooser close themselves), and
 // only then the paper, which saves first (EXAS.close). Ctrl/Cmd-S saves the open exam.
 document.addEventListener('keydown',e=>{
-  if((e.ctrlKey||e.metaKey)&&!e.altKey&&e.key.toLowerCase()==='s'&&view==='exams'&&EX.items.length){e.preventDefault();document.activeElement?.closest?.('#xPv [data-edit],#xPv [data-xname]')?.blur();clearTimeout(EXAS.t);if(db)xSaveDb();else toast('Saving needs the shared database (open the page in claude.ai)');return}
+  if((e.ctrlKey||e.metaKey)&&!e.altKey&&e.key.toLowerCase()==='s'&&(view==='exams'||view==='worksheets')&&EX.items.length){e.preventDefault();document.activeElement?.closest?.('#xPv [data-edit],#xPv [data-xname]')?.blur();clearTimeout(EXAS.t);if(db)xSaveDb();else toast('Saving needs the shared database (open the page in claude.ai)');return}
   if(e.key!=='Escape')return;
   const ask=$('#exAsk');if(ask){e.preventDefault();e.stopImmediatePropagation();ask.remove();return}
   const pop=[...document.querySelectorAll('.xmenu-pop')].find(p=>!p.hidden);
@@ -5482,16 +5538,22 @@ document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest
    Owner: "Is there a place to manage created exams?" -> "Yeah do that". A third view on the Exams page beside Exam setup and
    Pick by hand: every saved exam (page database, collection `exams`) with Open, Preview, Duplicate, Rename and Delete (two-step
    confirm), search and sort. The page head also shows "Unsaved changes" / "Saved" for the exam being worked on, with a Save button. */
-const EXM={q:'',sort:(load('exm_sort')||'new'),ren:null,del:null,names:{}};
+const EXM={q:{exam:'',worksheet:''},sort:(load('exm_sort')||'new'),ren:null,del:null,names:{},
+  // owner 26 Nov (worksheets): "it should be manage din a similar way to exams where there's a lsit": one list, two kinds (the words differ)
+  K:{exam:{box:'#exMine',qid:'exmQ',sid:'exmSort',eye:'Saved exams',h:'My exams',one:'exam',fresh:'data-exm-fresh',newL:'New exam',simL:'Make similar',simT:'A new exam with the same settings and none of the questions in your saved exams',
+      none:'No saved exams yet. Build one in Exam setup or Pick by hand, then press <b>Save exam</b>.'},
+    worksheet:{box:'#wsMine',qid:'wsmQ',sid:'wsmSort',eye:'Saved worksheets',h:'My worksheets',one:'worksheet',fresh:'data-ws-fresh',newL:'New worksheet',simL:'Make another',simT:'Another worksheet with the same settings and none of the questions in your saved exams and worksheets',
+      none:'No saved worksheets yet. Press <b>New worksheet</b>, choose the skills to practise and make one: it saves itself.'}},
+  kind:x=>x&&x.kind==='worksheet'?'worksheet':'exam'};
 function exmSub(){if(!db||typeof _xsub==='undefined'||_xsub)return;
   try{_xsub=db.collection('exams').onSnapshot(s=>{XSAVED=QG.docs(s).sort((a,b)=>String(b.at).localeCompare(String(a.at)));
     {const w=load('exm_open'),x=w&&XSAVED.find(s=>s.id===w);if(w)save('exm_open','');if(x&&exCourse(x)===QG.course){exmLoad(x);toast(`Opened “${x.sub||'Untitled'}” in ${QG.courseData.short}`)}}   // owner 23 Nov: see exmLoad
     // owner 25 Nov ("Besides that, yes action all these things"; checker: topic counts "change when another topic is ticked"): Setup's
     // counts leave out questions in saved exams, so they are drawn again when the saved exams arrive or change (before, they waited
     // for the next tick and then jumped)
-    exmNames();if(view==='exams'){exHead();if(EXV.view==='mine')renderMine();else if(EXV.view==='setup'){exTopics();exAvail()}}},()=>{})}catch(e){}}
+    exmNames();if(view==='exams'){exHead();if(EXV.view==='mine')renderMine();else if(EXV.view==='setup'){exTopics();exAvail()}}if(view==='worksheets')WS.refresh()},()=>{})}catch(e){}}
 async function exmNames(){const ids=[...new Set(XSAVED.map(x=>x.by).filter(i=>i&&!(i in EXM.names)))];if(!ids.length)return;
-  try{const u=await window.claude?.use?.('user');if(!u?.profiles)return;const ps=await u.profiles(ids);ids.forEach(i=>EXM.names[i]=ps?.[i]?.name||'');if(view==='exams'&&EXV.view==='mine')renderMine()}catch(e){}}
+  try{const u=await window.claude?.use?.('user');if(!u?.profiles)return;const ps=await u.profiles(ids);ids.forEach(i=>EXM.names[i]=ps?.[i]?.name||'');if(view==='exams'&&EXV.view==='mine')renderMine();if(view==='worksheets'&&WS.view==='mine')renderMine('worksheet')}catch(e){}}
 const exmWho=x=>!x.by?'':x.by===me?'you':(EXM.names[x.by]||'a colleague');
 // the fields that make up a saved exam; "unsaved" = the open exam differs from its saved copy
 // owner 25 Nov ("Besides that, yes action all these things"; review: "the list showed "Saved 4:06 pm" for the exam while the banner said it
@@ -5513,22 +5575,23 @@ const exmWhen=t=>{const d=new Date(t);if(isNaN(d))return '';const days=Math.floo
 // changes" check saw no change and the size was never saved (gone on the next open). The open exam takes its own copy.
 function exmLoad(x){if(exCourse(x)!==QG.course){save('course',exCourse(x));save('exm_open',x.id);save('sel','');location.reload();return false}
   x=JSON.parse(JSON.stringify(x));const all=RKEY.items(x),ks=x.keys||[];
-  EX={course:QG.course,gone:all.map((i,k)=>xq(i)?null:{id:i,key:ks[k]||null}).filter(Boolean),id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',bytopic:x.bytopic!==false,time:x.time,timeAuto:x.timeAuto===true,mpm:+x.mpm||1.8,reading:x.reading,items:all.filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{})};
+  EX={course:QG.course,gone:all.map((i,k)=>xq(i)?null:{id:i,key:ks[k]||null}).filter(Boolean),id:x.id,title:x.title,sub:x.sub,school:x.school,cert:x.cert||'',bytopic:x.bytopic!==false,time:x.time,timeAuto:x.timeAuto===true,mpm:+x.mpm||1.8,reading:x.reading,items:all.filter(i=>xq(i)),instr:x.instr||undefined,lines:x.lines||{},figscale:x.figscale||{},auto:Object.assign(XA_DEF(),x.auto||{}),
+    ...(x.kind==='worksheet'?{kind:'worksheet',ws:Object.assign(WS.DEF(),x.ws||{})}:{})};   // owner 26 Nov: a worksheet keeps its kind and settings
   xsave();try{EXC.clear()}catch(e){}}
-function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
-  if(!db){el.innerHTML='<div class="exm-empty">Saved exams live in the shared database. Open the page in claude.ai to see them.</div>';return}
+function renderMine(kind='exam'){const K=EXM.K[kind],el=$(K.box);if(!el)return;exmSub();
+  if(!db){el.innerHTML=`<div class="exm-empty">Saved ${K.one}s live in the shared database. Open the page in claude.ai to see them.</div>`;return}
   // owner 23 Nov: "you shouldn't even be able to see advanced exams in std and vice versa": My exams lists this course's exams only
-  const MINE=XSAVED.filter(x=>exCourse(x)===QG.course);
-  const s=EXM.q.trim().toLowerCase();let L=MINE.filter(x=>!s||[x.title,x.sub,x.school].join(' ').toLowerCase().includes(s));
+  const MINE=XSAVED.filter(x=>exCourse(x)===QG.course&&EXM.kind(x)===kind);   // owner 26 Nov: worksheets are listed on Worksheets only
+  const s=EXM.q[kind].trim().toLowerCase();let L=MINE.filter(x=>!s||[x.title,x.sub,x.school].join(' ').toLowerCase().includes(s));
   if(EXM.sort==='old')L=L.slice().reverse();else if(EXM.sort==='title')L=L.slice().sort((a,b)=>String(a.sub||a.title).localeCompare(String(b.sub||b.title)));
   // owner 25 Nov ("Besides that, yes action all these things"; review: ""Open now" stays on after you click Close"): no "Open now" pill
   // (after Close no exam is open); the card of the exam last worked on says when its changes are not saved, beside "Saved <time>"
-  const cur=exmState();const chg=cur==='changed'?EX.id:null;
-  el.innerHTML=`<div class="exm-top"><div><div class="exm-eyebrow">Saved exams</div><h2>My exams</h2><p class="exm-lead">${MINE.length} saved ${esc(QG.courseData.short)} exam${MINE.length===1?'':'s'}. Everyone with access to Questgen sees the same list.</p></div>
-    <div class="exm-ctl"><input type="search" id="exmQ" placeholder="Search titles" value="${esc(EXM.q)}" aria-label="Search saved exams">
-      <select id="exmSort" aria-label="Sort"><option value="new"${EXM.sort==='new'?' selected':''}>Newest first</option><option value="old"${EXM.sort==='old'?' selected':''}>Oldest first</option><option value="title"${EXM.sort==='title'?' selected':''}>Title A–Z</option></select>
-      <button type="button" class="act" data-exm-fresh>New exam</button></div></div>
-    ${cur==='new'||cur==='changed'?`<div class="exm-unsaved"><b>${cur==='new'?'Your last exam has not been saved.':'Your last exam has changes that are not saved.'}</b> ${esc(EX.sub||EX.title)} · ${EX.items.length} questions<button type="button" class="act ok" data-exm-save>Save it</button></div>`:''}
+  const cur=EXM.kind(EX)===kind?exmState():'';const chg=cur==='changed'?EX.id:null;
+  el.innerHTML=`<div class="exm-top"><div><div class="exm-eyebrow">${K.eye}</div><h2>${K.h}</h2><p class="exm-lead">${MINE.length} saved ${esc(QG.courseData.short)} ${K.one}${MINE.length===1?'':'s'}. Everyone with access to Questgen sees the same list.</p></div>
+    <div class="exm-ctl"><input type="search" id="${K.qid}" placeholder="Search titles" value="${esc(EXM.q[kind])}" aria-label="Search saved ${K.one}s">
+      <select id="${K.sid}" aria-label="Sort"><option value="new"${EXM.sort==='new'?' selected':''}>Newest first</option><option value="old"${EXM.sort==='old'?' selected':''}>Oldest first</option><option value="title"${EXM.sort==='title'?' selected':''}>Title A–Z</option></select>
+      <button type="button" class="act" ${K.fresh}>${K.newL}</button></div></div>
+    ${cur==='new'||cur==='changed'?`<div class="exm-unsaved"><b>${cur==='new'?`Your last ${K.one} has not been saved.`:`Your last ${K.one} has changes that are not saved.`}</b> ${esc(EX.sub||EX.title)} · ${EX.items.length} questions<button type="button" class="act ok" data-exm-save>Save it</button></div>`:''}
     ${L.length?`<ul class="exm-list">${L.map(x=>{const st=exmStats(x),ren=EXM.ren===x.id,del=EXM.del===x.id,who=exmWho(x);
       // owner 19 Nov: "does open and preview go to the same thing? Can we just make the block clickable to enter the exam. Also the blocks
       // are so tall vertically ... more efficient and more design oriented": the card opens the exam; two lines; Make similar stays out, the rest in ⋯
@@ -5536,38 +5599,39 @@ function renderMine(){const el=$('#exMine');if(!el)return;exmSub();
       const wn=(st.miss?`<span class="exm-warn" title="${st.miss} question${st.miss===1?'':'s'} no longer in the bank">⚠ ${st.miss} gone</span>`:'')+(fk?`<span class="exm-warn" data-exm-flag="${fk}" title="${fk} question${fk===1?'':'s'} reported or sent back to review">⚠ ${fk} reported</span>`:'');
       const sch=x.school&&!/^\s*cmc\s+education\s*$/i.test(x.school)?' · '+esc(x.school):'';
       return `<li class="exm-row${ren||del?'':' go'}" data-exm="${esc(x.id)}">
-        <div class="exm-main">${ren?`<div class="exm-ren"><input data-exm-rt value="${esc(x.sub||'')}" aria-label="Exam name" placeholder="Name"><button type="button" class="act ok" data-exm-rok>Save</button><button type="button" class="act ghost" data-exm-rx>Cancel</button></div>`
+        <div class="exm-main">${ren?`<div class="exm-ren"><input data-exm-rt value="${esc(x.sub||'')}" aria-label="${kind==='exam'?'Exam':'Worksheet'} name" placeholder="Name"><button type="button" class="act ok" data-exm-rok>Save</button><button type="button" class="act ghost" data-exm-rx>Cancel</button></div>`
             :`<div class="exm-l1"><button type="button" class="exm-t" data-exm-open>${esc(x.sub||'Untitled')}</button>${wn}</div>`}
           <div class="exm-meta">${esc(x.title||'')}${sch} · Saved ${esc(exmWhen(x.at))}${who?' by '+esc(who):''}${chg===x.id?' · <b class="exm-chg">changes since then not saved</b>':''}</div></div>
         <div class="exm-stats"><span><b>${st.m}</b> marks</span><span><b>${st.n}</b> questions${st.mc?` (${st.mc} MC)`:''}</span><span><b>${Math.round(st.pr*100)}%</b> PS</span></div>
         <div class="exm-acts">${del?`<span class="exm-sure">Delete for everyone?</span><button type="button" class="act bad" data-exm-delok>Delete</button><button type="button" class="act ghost" data-exm-delx>Keep</button>`
-          :`<button type="button" class="act ghost" data-exm-sim title="A new exam with the same settings and none of the questions in your saved exams">Make similar</button><span class="xmenu"><button type="button" class="act ghost exm-more" data-xmenu aria-expanded="false" aria-label="More">⋯</button><span class="xmenu-pop" hidden><button type="button" class="act" data-exm-dup title="A copy with the same questions">Duplicate</button><button type="button" class="act" data-exm-ren>Rename</button><button type="button" class="act exm-del" data-exm-del>Delete</button></span></span>`}</div></li>`}).join('')}</ul>`
-      :`<div class="exm-empty">${MINE.length?'No saved exam matches that search.':'No saved exams yet. Build one in Exam setup or Pick by hand, then press <b>Save exam</b>.'}</div>`}`;
+          :`<button type="button" class="act ghost" data-exm-sim title="${K.simT}">${K.simL}</button><span class="xmenu"><button type="button" class="act ghost exm-more" data-xmenu aria-expanded="false" aria-label="More">⋯</button><span class="xmenu-pop" hidden><button type="button" class="act" data-exm-dup title="A copy with the same questions">Duplicate</button><button type="button" class="act" data-exm-ren>Rename</button><button type="button" class="act exm-del" data-exm-del>Delete</button></span></span>`}</div></li>`}).join('')}</ul>`
+      :`<div class="exm-empty">${MINE.length?`No saved ${K.one} matches that search.`:K.none}</div>`}`;
   if(EXM.ren){const i=el.querySelector('[data-exm-rt]');if(i){i.focus();i.select()}}}
 // the Saved / Unsaved marker (exHead), the My exams segment and container (renderExams), exRefresh and the refresh after
 // saving (xSaveDb) are folded into 24_exams.js and 20_exam.js
 document.addEventListener('click',async e=>{const t=e.target;
   if(t.closest('[data-exm-save]')){e.preventDefault();if(!db){toast('Saving needs the shared database (open the page in claude.ai)');return}await xSaveDb();return}
-  if(!t.closest('#exMine'))return;
+  const box=t.closest('#exMine,#wsMine');if(!box)return;const kind=box.id==='wsMine'?'worksheet':'exam',rm=()=>renderMine(kind);
   const row=t.closest('[data-exm]');if(!row)return;const x=XSAVED.find(s=>s.id===row.dataset.exm);if(!x)return;
-  const guard=b=>{const st=exmState();if(x.id!==EX.id&&(st==='new'||st==='changed')&&!b.dataset.sure){const o=b.textContent;b.dataset.sure=1;b.textContent='Replace unsaved exam? Press again';setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent=o}},3500);return false}return true};
+  const guard=b=>{const st=exmState();if(x.id!==EX.id&&(st==='new'||st==='changed')&&!b.dataset.sure){const o=b.textContent;b.dataset.sure=1;b.textContent=`Replace unsaved ${EXM.K[kind].one}? Press again`;setTimeout(()=>{if(b.isConnected){delete b.dataset.sure;b.textContent=o}},3500);return false}return true};
   const ob=t.closest('[data-exm-open]')||(row.classList.contains('go')&&!t.closest('button,input,.xmenu')?row.querySelector('[data-exm-open]'):null);
+  if(ob&&kind==='worksheet'){if(!guard(ob)||exmLoad(x)===false)return;WS.go('mine');if(EX.items.length)xPreview('exam');toast(`Opened “${x.sub||'Untitled'}”`);return}   // owner 26 Nov: a worksheet opens on its sheet
   if(ob){const b=ob;if(!guard(b))return;if(exmLoad(x)===false)return;EXV.view='mine';EXV.mode=null;EXV.setupFor=null;exSaveView();renderExams();if(EX.items.length)xPreview('exam');toast(`Opened “${x.sub||'Untitled'}”`);return}   // owner 19 Nov: an exam opens on its paper
-  if(t.closest('[data-exm-sim]')){if(exmLoad(x)===false)return;EXAS.similar();return}
+  if(t.closest('[data-exm-sim]')){if(exmLoad(x)===false)return;kind==='worksheet'?WS.another():EXAS.similar();return}
   if(t.closest('[data-exm-dup]')){const id='e'+Date.now(),{id:_o,...rest}=x;
     try{await db.doc('exams/'+id).set({...rest,sub:(x.sub||'Untitled')+' (copy)',by:me||null,at:new Date().toISOString()});toast('Duplicated')}catch(_){toast('Could not duplicate. Try again in a moment.')}return}
-  if(t.closest('[data-exm-ren]')){EXM.ren=x.id;EXM.del=null;renderMine();return}
-  if(t.closest('[data-exm-rx]')){EXM.ren=null;renderMine();return}
+  if(t.closest('[data-exm-ren]')){EXM.ren=x.id;EXM.del=null;rm();return}
+  if(t.closest('[data-exm-rx]')){EXM.ren=null;rm();return}
   if(t.closest('[data-exm-rok]')){exmRename(x,row.querySelector('[data-exm-rt]').value);return}
-  if(t.closest('[data-exm-del]')){EXM.del=x.id;EXM.ren=null;renderMine();return}
-  if(t.closest('[data-exm-delx]')){EXM.del=null;renderMine();return}
-  if(t.closest('[data-exm-delok]')){EXM.del=null;try{await db.doc('exams/'+x.id).delete();if(EX.id===x.id)EXAS.fresh(true);toast('Exam deleted')}catch(_){toast('Could not delete. Try again in a moment.')}return}
+  if(t.closest('[data-exm-del]')){EXM.del=x.id;EXM.ren=null;rm();return}
+  if(t.closest('[data-exm-delx]')){EXM.del=null;rm();return}
+  if(t.closest('[data-exm-delok]')){EXM.del=null;try{await db.doc('exams/'+x.id).delete();if(EX.id===x.id)EXAS.fresh(true);toast(kind==='worksheet'?'Worksheet deleted':'Exam deleted')}catch(_){toast('Could not delete. Try again in a moment.')}return}
 });
-async function exmRename(x,v){v=String(v||'').trim();if(!v){toast('Give the exam a name');return}EXM.ren=null;
-  const {id:_o,...rest}=x;try{await db.doc('exams/'+x.id).set({...rest,sub:v});if(EX.id===x.id){EX.sub=v;xsave()}toast('Renamed')}catch(_){toast('Could not rename. Try again in a moment.')}renderMine()}
-document.addEventListener('keydown',e=>{const i=e.target.closest?.('[data-exm-rt]');if(!i)return;if(e.key==='Enter'){e.preventDefault();const x=XSAVED.find(s=>s.id===i.closest('[data-exm]').dataset.exm);if(x)exmRename(x,i.value)}else if(e.key==='Escape'){EXM.ren=null;renderMine()}});
-document.addEventListener('input',e=>{if(e.target.id==='exmQ'){EXM.q=e.target.value;const p=e.target.selectionStart;renderMine();const i=$('#exmQ');if(i){i.focus();try{i.setSelectionRange(p,p)}catch(_){}}}});
-document.addEventListener('change',e=>{if(e.target.id==='exmSort'){EXM.sort=e.target.value;save('exm_sort',EXM.sort);renderMine()}});
+async function exmRename(x,v){const kind=EXM.kind(x);v=String(v||'').trim();if(!v){toast(`Give the ${EXM.K[kind].one} a name`);return}EXM.ren=null;
+  const {id:_o,...rest}=x;try{await db.doc('exams/'+x.id).set({...rest,sub:v});if(EX.id===x.id){EX.sub=v;xsave()}toast('Renamed')}catch(_){toast('Could not rename. Try again in a moment.')}renderMine(kind)}
+document.addEventListener('keydown',e=>{const i=e.target.closest?.('[data-exm-rt]');if(!i)return;const x=XSAVED.find(s=>s.id===i.closest('[data-exm]').dataset.exm);if(e.key==='Enter'){e.preventDefault();if(x)exmRename(x,i.value)}else if(e.key==='Escape'){EXM.ren=null;renderMine(EXM.kind(x))}});
+document.addEventListener('input',e=>{const k=e.target.id==='exmQ'?'exam':e.target.id==='wsmQ'?'worksheet':null;if(!k)return;const id=e.target.id;EXM.q[k]=e.target.value;const p=e.target.selectionStart;renderMine(k);const i=$('#'+id);if(i){i.focus();try{i.setSelectionRange(p,p)}catch(_){}}});
+document.addEventListener('change',e=>{const k=e.target.id==='exmSort'?'exam':e.target.id==='wsmSort'?'worksheet':null;if(k){EXM.sort=e.target.value;save('exm_sort',EXM.sort);renderMine(k)}});
 
 /* ---------- the open exam saves itself (owner 19 Nov) ----------
    Owner: "It is very easy to override a current exam, too many outs and ways to replace the questions accidentally", "Can't tell when
@@ -5577,12 +5641,13 @@ document.addEventListener('change',e=>{if(e.target.id==='exmSort'){EXM.sort=e.ta
    used". The bar above every Exams view names the open exam and its state; any change saves a moment later; replacing the questions
    of a saved exam asks first; New exam and Save as a copy are the only ways to start another. One page-wide name (CODE_HEALTH rule 1). */
 const EXAS={t:null,busy:false,ask:null,
-  schedule(){clearTimeout(this.t);if(!db||!EX.items.length)return;this.t=setTimeout(()=>this.run(),1200);if(view==='exams'&&typeof EXV!=='undefined'&&EXV.built)exHead()},
+  schedule(){clearTimeout(this.t);if(!db||!EX.items.length)return;this.t=setTimeout(()=>this.run(),1200);if(view==='exams'&&typeof EXV!=='undefined'&&EXV.built)exHead();else if(view==='worksheets')this.bar()},
   async run(){if(this.busy){this.schedule();return}const st=exmState();if(st!=='new'&&st!=='changed')return;
-    this.busy=true;try{await xSaveDb(true)}finally{this.busy=false;if(view==='exams')exHead()}},
+    this.busy=true;try{await xSaveDb(true)}finally{this.busy=false;if(view==='exams')exHead();else if(view==='worksheets')this.bar()}},
   // owner 25 Nov ("Besides that, yes action all these things"; review: "Escape closes the whole exam ... with the changes still unsaved"):
   // leaving the paper (Close, or Escape with no menu or dialog open) saves what is not saved yet, then shows My exams
   close(){if(db&&['new','changed'].includes(exmState())){clearTimeout(this.t);this.run()}
+    if(EX.kind==='worksheet'){exClosePv();WS.go('mine');return}   // owner 26 Nov: a worksheet's sheet closes to My worksheets
     exClosePv();EXV.view='mine';EXV.setupFor=null;exSaveView();if(view==='exams')renderExams()},
   // the saved time and state of the open exam, for the page head and the paper bar (the saved copy's own time: what was really saved)
   state(){const st=exmState(),s=EX.id&&XSAVED.find(x=>x.id===EX.id),d=s&&new Date(s.at),when=d&&!isNaN(d)?d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'}):'';
@@ -5594,19 +5659,21 @@ const EXAS={t:null,busy:false,ask:null,
   name:()=>EX.sub||EX.title||'Untitled exam',
   // the working time: marks x minutes per mark (1.8 for HSC Advanced: 180 minutes for 100 marks), to 5 minutes, unless typed by hand
   time(){if(EX.timeAuto===false)return;const m=xMarks(EX.items.map(xq).filter(Boolean)),w=Math.max(5,Math.round(m*(+EX.mpm||1.8)/5)*5);EX.time=m?EXSEC.dur(w):''},
-  fresh(stay){clearTimeout(this.t);EX={course:QG.course,title:QG.courseData.name,sub:'Practice examination',school:EX.school||'CMC Education',time:'',timeAuto:true,mpm:+EX.mpm||1.8,reading:'10 minutes',items:[],lines:{},figscale:{}};
+  fresh(stay){clearTimeout(this.t);if(EX.kind==='worksheet'){WS.fresh(stay);return}EX={course:QG.course,title:QG.courseData.name,sub:'Practice examination',school:EX.school||'CMC Education',time:'',timeAuto:true,mpm:+EX.mpm||1.8,reading:'10 minutes',items:[],lines:{},figscale:{}};
     try{EXC.clear()}catch(_){}xsave();if(stay)return;if(typeof EXV!=='undefined'){EXV.view='setup';EXV.setupFor=null;EXV.mode=null;exSaveView();location.hash='#exams';if(view==='exams')renderExams();window.scrollTo({top:0})}},
   // owner 19 Nov: "tutors should be able to make similar exams if studnts need another one": the same settings (topics, marks, multiple
   // choice, difficulty, papers), none of the questions in any saved exam (this one included), named "<name> (version 2)", on its paper
   async similar(){if(!EX.items.length)return;clearTimeout(this.t);if(db&&exmState()!=='saved')await xSaveDb(true);
     const A=JSON.parse(JSON.stringify(exA())),homes=xaHomes();if(!A.topics.length)A.topics=[...new Set(EX.items.map(i=>homes.get(i)?.sub).filter(Boolean))];
     if(!A.total||!A.ran)A.total=xMarks(EX.items.map(xq).filter(Boolean)),A.mcq=EX.items.filter(i=>xq(i)?.type==='mcq').length;
-    A.locked=[];A.avoid=true;A.last=null;const base=(this.name()).replace(/\s*\(version \d+\)$/,''),names=new Set((XSAVED||[]).map(x=>x.sub));let k=2;while(names.has(`${base} (version ${k})`))k++;
+    A.locked=[];A.avoid=true;A.last=null;const vn=this.vname();
     const keep={title:EX.title,school:EX.school,cert:EX.cert,bytopic:EX.bytopic,mpm:EX.mpm,reading:EX.reading,instr:EX.instr};
-    EX={...keep,course:QG.course,sub:`${base} (version ${k})`,time:'',timeAuto:true,items:[],lines:{},figscale:{},auto:A};A.title=EX.sub;
+    EX={...keep,course:QG.course,sub:vn,time:'',timeAuto:true,items:[],lines:{},figscale:{},auto:A};A.title=EX.sub;
     const r=exGenerate();if(!r||!r.n){toast('Not enough unused questions in these topics for another version');return}
-    EX.sub=`${base} (version ${k})`;try{EXC.clear()}catch(_){}xsave();EXV.view='mine';EXV.setupFor=null;exSaveView();if(view==='exams')renderExams();
+    EX.sub=vn;try{EXC.clear()}catch(_){}xsave();EXV.view='mine';EXV.setupFor=null;exSaveView();if(view==='exams')renderExams();
     xPreview('exam');toast(`Made “${EX.sub}”: ${r.n} questions, none from your saved exams`)},
+  // "<name> (version k)", the first k no saved exam or worksheet has (Make a similar exam; a worksheet's Make another like this)
+  vname(){const base=this.name().replace(/\s*\(version \d+\)$/,''),names=new Set((XSAVED||[]).map(x=>x.sub));let k=2;while(names.has(`${base} (version ${k})`))k++;return `${base} (version ${k})`},
   go(v){EXV.view=v;EXV.setupFor=null;EXV.mode=null;exSaveView();location.hash='#exams';if(view==='exams')renderExams()},
   // questions of the OTHER saved exams, by key (RKEY.items): id -> [{id, name, at}]
   used(){const u=this._u;if(u&&u.s===XSAVED&&u.e===EX.id)return u.m;const m=new Map();
@@ -5617,10 +5684,10 @@ const EXAS={t:null,busy:false,ask:null,
   // before something replaces the questions of a saved exam: Replace, Make a new exam instead, or Cancel (no confirm(): the frame blocks it)
   guard(btn,what,go){if(!EX.id||!EX.items.length||!XSAVED.some(x=>x.id===EX.id)){go();return}
     document.getElementById('exAsk')?.remove();const d=document.createElement('div');d.id='exAsk';d.className='exask';d.setAttribute('role','alertdialog');
-    d.innerHTML=`<p>${esc(what)} replaces the ${EX.items.length===1?'question':EX.items.length+' questions'} in “${esc(this.name())}”.</p><div><button type="button" class="act ok" data-ask="new">Make a new exam instead</button><button type="button" class="act" data-ask="replace">Replace them</button><button type="button" class="act ghost" data-ask="x">Cancel</button></div>`;
+    d.innerHTML=`<p>${esc(what)} replaces the ${EX.items.length===1?'question':EX.items.length+' questions'} in “${esc(this.name())}”.</p><div><button type="button" class="act ok" data-ask="new">Make a new ${EX.kind==='worksheet'?'worksheet':'exam'} instead</button><button type="button" class="act" data-ask="replace">Replace them</button><button type="button" class="act ghost" data-ask="x">Cancel</button></div>`;
     btn.insertAdjacentElement('afterend',d);d.querySelector('[data-ask="new"]').focus();
     d.addEventListener('click',e=>{const a=e.target.closest('[data-ask]')?.dataset.ask;if(!a)return;d.remove();
-      if(a==='replace')go();else if(a==='new'){const keep=EX.auto,school=EX.school,mpm=EX.mpm;clearTimeout(this.t);EX={title:QG.courseData.name,sub:'Practice examination',school,time:'',timeAuto:true,mpm,reading:'10 minutes',items:[],lines:{},figscale:{},auto:keep};try{EXC.clear()}catch(_){}xsave();go()}})}};
+      if(a==='replace')go();else if(a==='new'){const keep=EX.auto,school=EX.school,mpm=EX.mpm,w=EX.kind==='worksheet'?{kind:'worksheet',ws:EX.ws,timeAuto:false}:{};clearTimeout(this.t);EX={title:QG.courseData.name,sub:'Practice examination',school,time:'',timeAuto:true,mpm,reading:'10 minutes',items:[],lines:{},figscale:{},auto:keep,...w};try{EXC.clear()}catch(_){}xsave();go()}})}};
 document.addEventListener('click',e=>{const t=e.target;
   if(t.closest('[data-exm-fresh]')){e.preventDefault();EXAS.fresh();return}
 });
@@ -6217,7 +6284,7 @@ async function xWord(doc){
     const {Paragraph,TextRun,ImageRun,Table,TableRow,TableCell,WidthType,AlignmentType,BorderStyle,TabStopType,ImportedXmlComponent,ShadingType,PageNumber,Footer,HeightRule}=D;
     host=pdfClone();document.body.appendChild(host);if(typeof exRejoin==='function')exRejoin(host);
     const cache=document.getElementById('MJX-SVG-global-cache');
-    const RIGHT=9638;   // right tab stop (twips) for marks: A4 width minus 2 cm margins
+    const RIGHT=9638,COL2=Math.floor((RIGHT-340)/2);   // right tab stop (twips) for marks: A4 width minus 2 cm margins; in a worksheet's column (6 mm gap)
     const FONT='Times New Roman',UI=FONT;   // owner 18 Nov: one font (the questions') for every part of the exam
     // ---- maths ----
     const mathRun=async(mc)=>{maths++;const svg=mc.querySelector('svg');const tex=svg?.querySelector('g[data-mml-node="math"]')?.getAttribute('data-latex')||svg?.querySelector('[data-latex]')?.getAttribute('data-latex');const disp=mc.getAttribute('display')==='true';
@@ -6262,8 +6329,8 @@ async function xWord(doc){
         // label and marks go on the first text paragraph of the part
         const first=sub.findIndex(x=>x._runs);
         const head=[];if(lab)head.push(new TextRun({text:lab+'\t',font:FONT}));
-        if(first>=0&&sub[first]._runs){sub[first]=new Paragraph({children:[...head,...sub[first]._runs,...(mk?[new TextRun({text:'\t'+mk,bold:true,font:UI,size:20})]:[])],indent:{left:ind,hanging:lab?567:0},tabStops:[{type:TabStopType.LEFT,position:ind},{type:TabStopType.RIGHT,position:RIGHT}],spacing:{after:80}})}
-        else if(lab||mk)sub.unshift(new Paragraph({children:[...head,...(mk?[new TextRun({text:'\t'+mk,bold:true,font:UI,size:20})]:[])],indent:{left:ind,hanging:567},tabStops:[{type:TabStopType.LEFT,position:ind},{type:TabStopType.RIGHT,position:RIGHT}]}));
+        if(first>=0&&sub[first]._runs){sub[first]=new Paragraph({children:[...head,...sub[first]._runs,...(mk?[new TextRun({text:'\t'+mk,bold:true,font:UI,size:20})]:[])],indent:{left:ind,hanging:lab?567:0},tabStops:[{type:TabStopType.LEFT,position:ind},{type:TabStopType.RIGHT,position:ctx.right||RIGHT}],spacing:{after:80}})}
+        else if(lab||mk)sub.unshift(new Paragraph({children:[...head,...(mk?[new TextRun({text:'\t'+mk,bold:true,font:UI,size:20})]:[])],indent:{left:ind,hanging:567},tabStops:[{type:TabStopType.LEFT,position:ind},{type:TabStopType.RIGHT,position:ctx.right||RIGHT}]}));
         out.push(...sub);return}
       if(el.matches('.xo')){const lb=el.querySelector(':scope>b'),lab=lb?.textContent||'';const rs=[new TextRun({text:lab+'\t',bold:true,font:UI,size:20})];for(const c of el.childNodes){if(c===lb)continue;await runs(c,fmt,rs)}
         const ok=el.classList.contains('xok')&&ctx.part!=='exam';out.push(new Paragraph({children:rs,indent:{left:(ctx.indent||0)+567,hanging:567},tabStops:[{type:TabStopType.LEFT,position:(ctx.indent||0)+567}],spacing:{after:80},...(ok?{shading:{type:ShadingType.CLEAR,fill:'E3F1E5',color:'auto'},border:{left:{style:BorderStyle.SINGLE,size:6,color:'2F7A43',space:6}}}:{})}));return}
@@ -6298,7 +6365,10 @@ async function xWord(doc){
       const tt=cv.querySelector('.extopictbl');if(tt){   // owner 18 Nov: marks by topic is always on the cover
       out.push(new Paragraph({children:[],spacing:{before:480}}));const t=tt.querySelector('table');if(t)out.push(await table(t,{font:UI,size:18}))}}   // owner 18 Nov: no "Marks by topic" heading
     // ---- walk the sheets ----
-    const body=[];const sheets=[...host.querySelectorAll('.sheet')];let k=0,was=null;
+    // owner 26 Nov (worksheets): "1 is the best so far" (two columns): a worksheet's two-column bands become two-column sections of the
+    // document, its wide questions one-column ones (continuous section breaks; Word balances and paginates the columns itself)
+    const segs=[{cols:1,ch:[]}],seg=c=>{let g=segs[segs.length-1];if(g.cols!==c){g={cols:c,ch:[]};segs.push(g)}return g.ch};
+    let body=seg(1);const sheets=[...host.querySelectorAll('.sheet')];let k=0,was=null;
     for(const sh of sheets){k++;say(`Making the Word file: page ${k} of ${sheets.length}…`);
       // owner 26 Nov (doc 'stack', 20_exam.js xBlocks): the marking guide after the paper starts a new page
       const part=sh.dataset.part||doc;if(was&&part!==was)body.push(new Paragraph({children:[],pageBreakBefore:true}));was=part;
@@ -6307,14 +6377,15 @@ async function xWord(doc){
         if(blk.querySelector('.xblank')){body.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{before:5600},children:[new TextRun({text:blk.textContent.trim(),font:FONT,italics:true})]}),new Paragraph({children:[],pageBreakBefore:true}));continue}
         if(blk.querySelector('.xref'))body.push(new Paragraph({children:[],pageBreakBefore:true}));
         if(cv){await cover(cv,body);body.push(new Paragraph({children:[],pageBreakBefore:true}));continue}
-        await blocks(blk,{font:FONT,part},body)}
+        if(blk.matches('.ws-band')){body=seg(2);for(const c of blk.querySelectorAll(':scope>.ws-col>*'))await blocks(c,{font:FONT,part,right:COL2},body);continue}
+        body=seg(1);await blocks(blk,{font:FONT,part},body)}
       await new Promise(r=>setTimeout(r,0))}
     const title=`${EX.sub||EX.title||'Exam'}${xDocSfx(doc,' – ')}`;
     const wd=new D.Document({creator:'Questgen',title,styles:{default:{document:{run:{font:FONT,size:23}}}},
       // owner 18 Nov: no footer on the cover (a blank first-page footer), and "Page 1 of 28"
-      sections:[{properties:{titlePage:doc!=='guide',page:{size:{width:11906,height:16838},margin:{top:1134,bottom:1134,left:1134,right:1134}}},
-        footers:{first:new Footer({children:[new Paragraph({children:[]})]}),default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:`${EX.title||''} · ${EX.sub||''}${xDocSfx(doc,' · ')}    `,font:UI,size:16,color:'777777'}),new TextRun({children:['Page ',PageNumber.CURRENT,' of ',PageNumber.TOTAL_PAGES],font:UI,size:16,color:'777777'})]})]})},
-        children:body}]});
+      sections:segs.filter(g=>g.ch.length).map((g,i)=>({properties:{...(i?{type:D.SectionType.CONTINUOUS}:{titlePage:doc!=='guide'&&EX.kind!=='worksheet'}),page:{size:{width:11906,height:16838},margin:{top:1134,bottom:1134,left:1134,right:1134}},...(g.cols>1?{column:{count:2,space:340}}:{})},
+        ...(i?{}:{footers:{first:new Footer({children:[new Paragraph({children:[]})]}),default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:`${EX.title||''} · ${EX.sub||''}${xDocSfx(doc,' · ')}    `,font:UI,size:16,color:'777777'}),new TextRun({children:['Page ',PageNumber.CURRENT,' of ',PageNumber.TOTAL_PAGES],font:UI,size:16,color:'777777'})]})]})}}),
+        children:g.ch}))});
     say('Packing…');const blob=await D.Packer.toBlob(wd);
     const name=(EX.sub||EX.title||'exam').replace(/[^\w\- ]+/g,'').trim()||'exam';
     await dl.save({filename:`${name}${xDocSfx(doc,' - ')}.docx`,data:blob});
@@ -7115,7 +7186,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'2bb76bcff7dbf471',stale:false,t:null,at:0,
+const FRESH={build:'1bde5d3a1bed5e04',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}
@@ -7130,4 +7201,214 @@ const FRESH={build:'2bb76bcff7dbf471',stale:false,t:null,at:0,
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)this.check()});window.addEventListener('focus',()=>this.check())}};
 document.addEventListener('click',e=>{if(e.target.closest('[data-fresh-reload]'))location.reload()});
 FRESH.start();
+</script>
+<script>
+/* ===================== Worksheets (owner 26 Nov) =====================
+   Owner 19 Nov: "isn't it a bit awkward to have a worksheet builder integrated into the exam one? maybe we should split it?" -> "yes" (its own
+   top-bar item, greyed until built); worksheet use counts as used before: "they should see that its been used for now yes".
+   Owner 26 Nov, agreed behaviour (a clickable mockup was made; its styling does not carry over):
+   - "of course follow similar design style of the exam builder"; "it should be manage din a similar way to exams where there's a lsit, same
+     for teh settings logic": My worksheets is My exams' list (25_mine.js renderMine('worksheet')); the settings form is Exam setup's.
+   - "when choosing the topics, it has to allow for more specific choosing, going to the skill depth such as missing angle in cosine rule.
+     Can't just be cosine rule": topic › row (the Bank's rows) › skill; ticking a row takes its skills, ticking a skill targets it.
+   - "Used before is also important": Skip questions already in my saved exams and worksheets, on by default (as Exam setup).
+   - "This worksheet should follow the rule order, it should only appear in one like before remember? Like can't do bearings without having
+     the earlier skills and so forth": a question's home is the LAST skill it needs in the signed-off skill order (QG.skillOrder; earlier
+     skills are assumed), so it is in one skill's worksheets only. Basic skills count only when a question needs nothing else.
+   - Hand-picking: "a bit too overkill": the button builds the sheet and opens it; Swap / Remove / + Add on the sheet.
+   - "we should avoid live generation of anything": every question comes from the bank.
+   - "1 is the best so far but not sure if ti will work for wider questions, also should be lines and not boxes for working"; "the
+     worksheet should really conserve space": A4, no cover, no sections, no time, a one-line header, two columns, ruled lines (about one a
+     mark, plus one); a question with three or more parts, a table, or anything wider than a column spans both columns (WS.widen).
+   - "Give options to print worksheet (with no answer), worked solutions, and worksheet with answers (this is where they can choose single
+     number, worked or both)"; "NO I ALSO MEANT a version where the answers are attched after all the questions, for students to self check,
+     just the two pdfs stacked one after anotrher": the exam documents exam / guide / answers / stack, each as HTML, PDF and Word.
+   Storage: a worksheet is a document of the page database's `exams` collection with kind 'worksheet' (and its settings in ws), so saving,
+   autosave, used-before (EXAS.used, xaSavedIds) and the stored database rules are the exams' own; My exams leaves worksheets out.
+   One page-wide name (CODE_HEALTH rule 1). */
+const WS={view:(load('ws_view')||'mine'),setupFor:null,open:new Set(),m:null,
+  DEF:()=>({skills:[],n:10,level:'mixed',avoid:true,name:'',seed:0,last:null}),
+  // an empty worksheet (EX while on Worksheets; xKind in 20_exam.js)
+  blank:()=>({kind:'worksheet',course:QG.course,title:QG.courseData.name,sub:'Worksheet',school:'CMC Education',time:'',timeAuto:false,mpm:1.8,reading:'',items:[],lines:{},figscale:{},ws:WS.DEF()}),
+  S(){if(!EX.ws||typeof EX.ws!=='object')EX.ws=WS.DEF();const d=WS.DEF();for(const k in d)if(EX.ws[k]===undefined)EX.ws[k]=d[k];return EX.ws},
+  reset(){WS.m=null},
+  /* ---------- skills: order, rows, one home per question ---------- */
+  // each skill: its place in the order (i), its row (the Bank's row of its first dot point: DOTS sub-levels, SUB_SPLIT), basic
+  model(){const M=WS.m;if(M&&M.so===QG.skillOrder&&M.b===B)return M;
+    const list=(QG.skillOrder||[]).map(([name,key,dp,basic],i)=>{const d=DM[dp];return {i,name,basic:!!basic,row:d?'sub:'+d.yl+'|'+d.fa+'|'+(d.sub||''):key?QG.topicKeys([key])[0]:null}});
+    const rows=new Map();list.forEach(s=>{if(!s.row)return;if(!rows.has(s.row))rows.set(s.row,[]);rows.get(s.row).push(s)});
+    return WS.m={so:QG.skillOrder,b:B,list,by:new Map(list.map(s=>[s.name,s])),rows,hc:new Map()}},
+  home(q){const M=WS.model();if(M.hc.has(q.id))return M.hc.get(q.id);
+    const sk=qSkills(q).map(n=>M.by.get(n)).filter(Boolean),nb=sk.filter(s=>!s.basic),c=nb.length?nb:sk,h=c.length?c.reduce((a,b)=>b.i>a.i?b:a).name:null;
+    M.hc.set(q.id,h);return h},
+  // the questions a worksheet may use: the exam builder's own (a topic home, not old syllabus, not a duplicate), approved, not reported
+  base:()=>{const homes=xaHomes();return B.questions.filter(q=>homes.has(q.id)&&qState(q)==='approved'&&!repHidden(q)&&WS.home(q))},
+  // the worksheet's own topics for the skill gates (XG): the rows of its skills
+  extra:S=>[...new Set(S.skills.map(n=>WS.model().by.get(n)?.row).filter(Boolean))],
+  pool(S){const want=new Set(S.skills),all=WS.base().filter(q=>want.has(WS.home(q))),av=S.avoid?xaSavedIds():null,fresh=av?all.filter(q=>!av.has(q.id)):all;
+    const g=XG.learnt(WS.extra(S)),sp=XG.split(fresh,g.L);return {all,used:all.length-fresh.length,keep:sp.keep,out:sp.out,top:sp.top,g}},
+  // per skill: questions it holds (all), and what ticking it would bring in (n: its own row counts as learnt), as Exam setup counts subtopics
+  counts(S){const M=WS.model(),av=S.avoid?xaSavedIds():null,ex=WS.extra(S),Ls=new Map(),L=r=>{if(!Ls.has(r))Ls.set(r,XG.learnt([...ex,r]).L);return Ls.get(r)},c={};
+    WS.base().forEach(q=>{const h=WS.home(q),e=c[h]=c[h]||{all:0,n:0,used:0,gate:0};e.all++;if(av&&av.has(q.id)){e.used++;return}if(XG.ok(q,L(M.by.get(h).row)))e.n++;else e.gate++});return c},
+  // level: the exam builder's bands (qDifOK: Easier = band 3 and below, Harder = band 5 and above) first, then the nearest; Mixed = any
+  pick(cands,n,S,R,have){const lv=S.level,M=WS.model(),g=new Map();
+    const key=q=>{if(lv!=='easier'&&lv!=='harder')return R();const d=qDiff(q);if(!d)return 9+R();
+      return qDifOK(q,{band:lv==='easier'?'lo':'hi'})?R()*.5:1+(lv==='easier'?Math.max(0,d.raw-3):Math.max(0,5-d.raw))+R()*.5};
+    cands.forEach(q=>{const h=WS.home(q);if(!g.has(h))g.set(h,[]);g.get(h).push([key(q),q])});g.forEach(a=>a.sort((x,y)=>x[0]-y[0]));
+    // the chosen skills share the sheet: the next question comes from the skill with the fewest on it so far (earlier skills first)
+    const order=[...g.keys()].sort((a,b)=>M.by.get(a).i-M.by.get(b).i),out=[];
+    while(out.length<n){let best=null;for(const h of order)if(g.get(h).length&&(best==null||(have.get(h)||0)<(have.get(best)||0)))best=h;
+      if(best==null)break;out.push(g.get(best).shift()[1]);have.set(best,(have.get(best)||0)+1)}
+    return out},
+  // on the sheet: skills in their order, each easiest first (the exam builder's order, EXSEC.ord)
+  sort(qs){const M=WS.model(),i=q=>M.by.get(WS.home(q))?.i??1e4;return qs.slice().sort((a,b)=>i(a)-i(b)||EXSEC.ord(a,b))},
+  autoName(S){const M=WS.model(),sk=S.skills.map(n=>M.by.get(n)).filter(Boolean);if(!sk.length)return 'Worksheet';if(sk.length===1)return sk[0].name;
+    const rows=[...new Set(sk.map(s=>s.row))];if(rows.length===1)return subName(rows[0]);
+    const fas=[...new Set(sk.map(s=>XG.fa(s.row)))];return fas.length===1?fas[0]:fas.length===2?fas[0]+' and '+fas[1].charAt(0).toLowerCase()+fas[1].slice(1):'Mixed skills'},
+  // owner 26 Nov (mockup): "If the chosen skills hold fewer questions than asked, make a shorter sheet and say so plainly"
+  short(L){if(!L||L.n>=L.asked)return '';const n=L.n,s=n===1?'':'s';
+    if(!L.used&&!L.gate)return `Only ${n} question${s} exist${n===1?'s':''} for these skills, so the worksheet has ${n} instead of ${L.asked}.`;
+    return `Only ${n} question${s} ${n===1?'is':'are'} left for these skills (${[L.used?`${L.used} already in your saved exams and worksheets`:'',L.gate?`${L.gate} need topics not yet learnt`:''].filter(Boolean).join(', ')}), so the worksheet has ${n} instead of ${L.asked}.`},
+  generate(){const S=WS.S();if(!S.skills.length)return null;const P=WS.pool(S);S.seed=(Math.random()*2**31)>>>0;
+    const qs=WS.pick(P.keep,Math.max(1,+S.n||10),S,xaRng(S.seed),new Map());
+    EX.items=WS.sort(qs).map(q=>q.id);EX.sub=S.name||WS.autoName(S);XA_SWAPPED.clear();
+    S.last={n:qs.length,asked:+S.n||10,all:P.all.length,used:P.used,gate:P.out.length};xsave();return S.last},
+  // + Add a question / + Add 5: more from the chosen skills (same rules), skills with the fewest on the sheet first
+  add(k){const S=WS.S(),on=new Set(EX.items),have=new Map();EX.items.forEach(i=>{const q=xq(i),h=q&&WS.home(q);if(h)have.set(h,(have.get(h)||0)+1)});
+    const qs=WS.pick(WS.pool(S).keep.filter(q=>!on.has(q.id)&&!XA_SWAPPED.has(q.id)),k,S,xaRng((Math.random()*2**31)>>>0),have);
+    if(!qs.length){toast('No more questions for these skills'+(S.avoid?' that are not in your saved exams and worksheets':''));return}
+    EX.items=WS.sort([...EX.items.map(xq).filter(Boolean),...qs]).map(q=>q.id);xsave();exRelayout();toast(`Added ${qs.length} question${qs.length===1?'':'s'}`)},
+  // Swap: another question with the same home skill, not on the sheet, not swapped out before, not used before (when skipping)
+  swap(id){const q=xq(id),h=q&&WS.home(q);if(!h)return;const S=WS.S(),on=new Set(EX.items);
+    const c=WS.pick(WS.pool({...S,skills:[h]}).keep.filter(x=>!on.has(x.id)&&!XA_SWAPPED.has(x.id)),1,S,xaRng((Math.random()*2**31)>>>0),new Map());
+    if(!c.length){toast(`No other question for “${h}”`);return}xaSwap(id,c[0].id)},
+  remove(id){const i=EX.items.indexOf(id);if(i<0)return;EX.items.splice(i,1);xsave();exRelayout();toast(`Removed Q${i+1}`)},
+  async another(){if(!EX.items.length)return;clearTimeout(EXAS.t);if(db&&exmState()!=='saved')await xSaveDb(true);
+    const old=EX,S={...JSON.parse(JSON.stringify(WS.S())),avoid:true,last:null},vn=EXAS.vname();
+    EX={...WS.blank(),school:old.school,ws:S,sub:vn};const r=WS.generate();
+    if(!r||!r.n){EX=old;toast('Not enough unused questions for these skills for another worksheet');return}
+    EX.sub=vn;S.name=vn;try{EXC.clear()}catch(_){}xsave();WS.go('mine');xPreview('exam');toast(`Made “${vn}”: ${r.n} questions, none from your saved exams and worksheets`)},
+  fresh(stay){clearTimeout(EXAS.t);EX={...WS.blank(),school:EX.school||'CMC Education'};try{EXC.clear()}catch(_){}xsave();if(stay)return;WS.view='setup';WS.setupFor=null;save('ws_view','setup');location.hash='#worksheets';if(view==='worksheets')WS.render();window.scrollTo({top:0})},
+  go(v){WS.view=v;WS.setupFor=null;save('ws_view',v);location.hash='#worksheets';if(view==='worksheets')WS.render()},
+  /* ---------- the view: My worksheets | the settings form ---------- */
+  render(){const box=$('#wsView');if(!box||!B)return;xKind('worksheet');exmSub();XG.load();
+    if(!['mine','setup'].includes(WS.view)||WS.view==='setup'&&WS.setupFor==null&&EX.items.length)WS.view='mine';
+    if(!box.dataset.built){box.dataset.built=1;box.innerHTML='<div class="exhead"><div class="exttl" id="wsTtl"></div><span class="sp"></span></div><div id="wsSetup"></div><div class="exmine" id="wsMine"></div>'}
+    box.dataset.wsview=WS.view;WS.head();if(WS.view==='setup')WS.setup();else renderMine('worksheet')},
+  refresh(){if(view!=='worksheets'||!$('#wsView')?.dataset.built)return;EXAS.bar();if(WS.view==='mine')renderMine('worksheet');else{WS.tree();WS.avail()}WS.head()},
+  head(){const t=$('#wsTtl');if(t)t.innerHTML=WS.view!=='setup'?'':WS.setupFor!=null?`<b>Settings for “${esc(EXAS.name())}”</b><button type="button" class="linkbtn" data-wsback>Back to the sheet</button>`:'<b>New worksheet</b><button type="button" class="linkbtn" data-wsback>Cancel</button>'},
+  setup(){const S=WS.S();
+    $('#wsSetup').innerHTML=`<div class="exsetup">
+      <section class="extopics"><div class="pagehead"><div class="eyebrow">HSC ${esc(QG.courseData.name)}</div><h2>Set up your worksheet</h2>
+        <p class="lead">Choose what to practise, down to single skills: open a topic, tick a row for all its skills or tick one skill. A question belongs to one skill only, the last one it needs in the teaching order.</p></div>
+        <div id="wsTopics"></div></section>
+      <aside class="exsettings" aria-label="Worksheet settings">
+        <div class="exgo"><button type="button" class="exgen" id="wsGo">Make worksheet</button><span class="exgohint" id="wsGoHint" hidden>Choose at least one skill to make a worksheet.</span><div id="wsResult"></div></div>
+        <div class="group"><h3>Worksheet</h3>
+          <div class="ctl"><div class="lab"><label for="wsName">Worksheet name</label><span class="val">optional</span></div><input type="text" id="wsName" value="${esc(S.name)}"></div>
+          <div class="ctl"><div class="lab"><span id="wsNL">Questions</span><span class="val" id="wsNV"></span></div>
+            <div class="ws-n" role="group" aria-labelledby="wsNL"><button type="button" class="act" data-wsn="-1" aria-label="One question fewer">−</button><input type="number" id="wsN" min="1" max="60" value="${+S.n||10}" aria-label="Number of questions"><button type="button" class="act" data-wsn="1" aria-label="One more question">+</button>
+              <span class="srcseg ws-pre">${[5,10,15,20].map(n=>`<button type="button" data-wsnp="${n}" aria-pressed="${+S.n===n}">${n}</button>`).join('')}</span></div></div>
+          <div class="ctl"><div class="lab"><span id="wsLvL">Level</span></div><div class="srcseg" role="group" aria-labelledby="wsLvL">${[['easier','Easier'],['mixed','Mixed'],['harder','Harder']].map(([k,l])=>`<button type="button" data-wslv="${k}" aria-pressed="${S.level===k}">${l}</button>`).join('')}</div>
+            <div class="hint">Easier takes band 2–3 questions first, Harder band 5–6 first (the bands of Exams); Mixed takes any.</div></div>
+          <label class="exck"><input type="checkbox" id="wsAvoid"${S.avoid?' checked':''}> Skip questions already in my saved exams and worksheets</label>
+        </div>
+        <div class="group xl-g" id="wsLearnt"></div>
+        <div class="group"><h3>What these skills hold</h3><div id="wsAvail"></div></div>
+      </aside></div>`;
+    WS.tree();WS.avail()},
+  // topic tiles (Exam setup's) opening to the rows, each row's skills as pills with their counts
+  tree(){const el=$('#wsTopics');if(!el)return;const S=WS.S(),M=WS.model(),tr=xaTree(),C=WS.counts(S),sel=new Set(S.skills);
+    const st=sks=>{const on=sks.filter(s=>sel.has(s.name)).length;return on&&on===sks.length?'on':on?'part':''},box=(attr,k,s,lab)=>`<button type="button" class="tbox" ${attr}="${esc(k)}" role="checkbox" aria-checked="${s==='on'?'true':s==='part'?'mixed':'false'}" aria-label="${esc(lab)}">${s==='on'?'✓':''}</button>`;
+    const why=c=>[c.gate?`${c.gate} need topics not yet learnt`:'',c.used?`${c.used} in saved exams or worksheets`:''].filter(Boolean).join(' · ');
+    const nk=WS.pool(S).keep.length;let h=`<div class="selbar"><span><b>${S.skills.length}</b> skill${S.skills.length===1?'':'s'} chosen · <b>${nk}</b> question${nk===1?'':'s'} to draw from</span><span class="sp"></span><button type="button" class="linkbtn" data-wsnone>Clear all</button></div>
+      <p class="ex-cntnote">Each skill counts the approved questions whose last skill it is${S.avoid?', less those in your saved exams and worksheets':''}.</p>`;
+    [12,11].forEach(y=>{const fas=[...tr[y]].map(([fa,ks])=>[fa,ks.filter(k=>M.rows.has(k))]).filter(([,ks])=>ks.length);if(!fas.length)return;
+      h+=`<section class="strand"><div class="strand-h"><h3>Year ${y}</h3></div><div class="extiles">`;
+      fas.forEach(([fa,ks])=>{const key=y+'|'+fa,sks=ks.flatMap(k=>M.rows.get(k)),s=st(sks),open=WS.open.has(key),q=sks.reduce((t,x)=>t+(C[x.name]?.n||0),0),on=sks.filter(x=>sel.has(x.name));
+        h+=`<div class="extile ${s==='part'?'ex-part':s}${open?' open':''}"><div class="extile-h">${box('data-wsfa',key,s,'Choose every skill in '+fa)}
+          <button type="button" class="extile-t" data-wsexp="${esc(key)}" aria-expanded="${open}"><span class="tt"><b>${esc(fa)}</b><small>${q} question${q===1?'':'s'} · ${on.length?`${on.length} of ${sks.length} skills chosen`:`${sks.length} skill${sks.length===1?'':'s'}`}</small>${on.length&&!open&&s!=='on'?`<small class="expicked">${esc(on.map(x=>x.name).join(', '))}</small>`:''}</span><span class="exchev" aria-hidden="true">▾</span></button></div>
+          <div class="ws-rows"${open?'':' hidden'}>${ks.map(k=>{const rs=M.rows.get(k),rq=rs.reduce((t,x)=>t+(C[x.name]?.n||0),0);
+            return `<div class="ws-row"><div class="ws-rowh">${box('data-wsrow',k,st(rs),'Choose every skill in '+subName(k))}<span class="ws-rown">${esc(subName(k))}</span><small>${rq}</small></div>
+              <div class="pills">${rs.map(x=>{const c=C[x.name]||{all:0,n:0},w=why(c);return `<button type="button" class="pill" data-wssk="${esc(x.name)}" aria-pressed="${sel.has(x.name)}"${c.all?w?` title="${c.n} can be used: ${w}"`:'':' title="No questions have this as their last skill yet"'}><span class="ex-pnm">${esc(x.name)}${w?`<small class="ex-pwhy">${w}</small>`:''}</span><span class="n">${c.n}</span></button>`}).join('')}</div></div>`}).join('')}</div></div>`});
+      h+='</div></section>'});
+    el.innerHTML=h;const nm=$('#wsName');if(nm)nm.placeholder=S.skills.length?WS.autoName(S):'Named from the skills you pick';
+    const lt=$('#wsLearnt');if(lt){const g=XG.learnt(WS.extra(S)),P=WS.pool({...S,avoid:false});lt.innerHTML=XG.html('ws',g,XG.split(P.all,g.L))}},
+  avail(){const el=$('#wsAvail');if(!el)return;const S=WS.S(),P=WS.pool(S),n=+S.n||10,b=[0,0,0,0,0,0,0];let un=0;
+    P.keep.forEach(q=>{const d=qDiff(q);if(d)b[Math.max(2,Math.min(6,Math.round(d.raw)))]++;else un++});const mx=Math.max(1,...b);
+    const w=!S.skills.length?'Choose at least one skill.':P.keep.length<n?WS.short({n:P.keep.length,asked:n,used:P.used,gate:P.out.length}):'';
+    el.innerHTML=`<div class="poolline"><b>${P.keep.length}</b> question${P.keep.length===1?'':'s'} for the chosen skills${P.used?` · <b>${P.used}</b> already in saved exams and worksheets`:''}${P.out.length?` · <b>${P.out.length}</b> need topics not yet learnt`:''}</div>
+      <table class="avail ws-bands"><thead><tr>${[2,3,4,5,6].map(x=>`<th scope="col" title="Band ${x}">B${x}</th>`).join('')}</tr></thead><tbody><tr>${[2,3,4,5,6].map(x=>`<td class="${b[x]?'':'z'}" style="--a:${Math.round(b[x]/mx*28)}">${b[x]||'–'}</td>`).join('')}</tr></tbody></table>
+      <div class="availcap"><span>Questions at each band${un?` (${un} not rated yet)`:''}</span></div>${w?`<div class="warnbox"><p>${esc(w)}</p></div>`:''}`;
+    const NV=$('#wsNV');if(NV)NV.textContent=n+' question'+(n===1?'':'s');$$('[data-wsnp]').forEach(x=>x.setAttribute('aria-pressed',String(+x.dataset.wsnp===n)));
+    const go=$('#wsGo');if(go){go.disabled=!S.skills.length;go.textContent=WS.setupFor!=null?'Make it again with these settings':'Make worksheet'}const gh=$('#wsGoHint');if(gh)gh.hidden=!!S.skills.length;
+    const r=$('#wsResult');if(r){const L=S.last,m=WS.short(L);r.innerHTML=L&&EX.items.length?`<div class="result">Last worksheet: <b>${L.n}</b> question${L.n===1?'':'s'}.${m?` ${esc(m)}`:''}</div>`:''}},
+  setSkills(list){const S=WS.S();S.skills=[...new Set(list)];xaSave();WS.tree();WS.avail()},
+  /* ---------- the sheet (xPreview, 24_exams.js, draws it; these are the worksheet's own parts) ---------- */
+  bar(doc){const D=[['exam','Worksheet'],['guide','Worked solutions'],['answers','With answers',"The worksheet with each question's answer under it, in place of the lines"],['stack','Solutions at the back','The worksheet, then the worked solutions from a new page, in one file: for students to check their own work']];
+    return `<div class="xtool"><div class="xseg">${D.map(([k,t,ti])=>`<button data-xdoc="${k}" aria-pressed="${doc===k}"${ti?` title="${esc(ti)}"`:''}>${t}</button>`).join('')}</div>${doc==='answers'?EXSEC.ansSeg():''}
+      <span class="xinfo" id="xInfo">Laying out pages…</span><span class="sp"></span><span class="xpvsave" id="xPvSave"></span>
+      <span class="xmenu"><button class="act" data-xmenu aria-expanded="false">Worksheet</button><span class="xmenu-pop" hidden><button class="act" id="wsPvSet" title="Change the skills, number of questions or level and make the worksheet again">Settings…</button><button class="act" data-wsadd="1">+ Add a question</button><button class="act" data-wsadd="5">+ Add 5</button></span></span>
+      <button class="act" id="wsPvAnother" title="A new worksheet with the same settings and none of the questions in your saved exams and worksheets">Make another like this</button>
+      <span class="xmenu"><button class="act ok" data-xmenu aria-expanded="false">Download</button><span class="xmenu-pop" hidden><button class="act" id="xDl" disabled>HTML</button></span></span><button class="act ghost" id="xPvClose">Close</button></div>
+      <div class="expvbody"><div class="xpages" id="xPages"></div><aside class="expvside" id="exGSide" aria-label="Questions"></aside></div>`},
+  qctl:(q,n)=>`<span class="scr-only ws-qctl"><button type="button" data-wsswap="${q.id}" title="Another question on the same skill">Swap</button><button type="button" data-wsrm="${q.id}" title="Take Q${n} off the worksheet">Remove</button></span>`,
+  // one line at the top: the name, N questions · M marks, Name and Date (no cover, sections or time)
+  blocks(doc){const qs=EX.items.map(xq).filter(Boolean),m=xMarks(qs),bl=[],t={guide:'Worked solutions',answers:'With answers'}[doc];if(doc==='answers')EXV.fb=0;
+    bl.push({wide:true,html:`<div class="ws-head"><b class="ws-ht">${esc(EX.sub)}${t?` <span>· ${t}</span>`:''}</b><span class="ws-hm">${qs.length} question${qs.length===1?'':'s'} · ${m} mark${m===1?'':'s'}</span>${doc==='guide'?'':'<span class="ws-who">Name ________________ Date ____________</span>'}</div>`});
+    qs.forEach((q,i)=>bl.push({html:xQ(q,i+1,doc),q}));
+    if(doc!=='guide'&&qs.some(needsZ))bl.push({newpage:true,wide:true,html:zTableHTML()});   // owner 17 Nov: the z-score table at the back, as in exams
+    bl.forEach(b=>{b.part=doc});return bl},
+  // "wide": three or more labelled parts, a table in the question, or anything wider than a column at its own size (a diagram at its
+  // print size, a long line of maths) spans both columns. Judged on the measuring copy, before diagrams are capped to their column
+  widen(bl,meas){const kids=meas.children;bl.forEach((b,i)=>{if(b.wide||!b.q)return;const el=kids[i],q=b.q,W=el.getBoundingClientRect().width;if(!el||!W)return;
+    const parts=q.parts.filter(p=>p.label&&leaf(q,p)).length>=3,tab=[...el.querySelectorAll('.xqb table')].some(t=>!t.closest('.xsol'));
+    const fig=[...el.querySelectorAll('img.fig')].some(im=>{const w=parseFloat(im.style.width)||im.getBoundingClientRect().width,s=+(im.closest('[data-figw]')?.style.getPropertyValue('--fs'))||1;return w*s>W+1});
+    if(parts||tab||fig||el.scrollWidth>el.clientWidth+2){b.wide=true;el.classList.add('ws-wide')}})},
+  // pages of two columns: a run of narrow questions fills a band, left column then right, balanced; a wide one closes the band and spans both
+  pack(els,bl,H){const sheets=[];let cur=null,used=0,band=null;
+    const hOf=el=>el.getBoundingClientRect().height+parseFloat(getComputedStyle(el).marginBottom||0);
+    const start=part=>{cur=[];cur.part=part;sheets.push(cur);used=0;band=null};
+    const split=hs=>{const tot=hs.reduce((a,x)=>a+x,0);let l=0,best={k:hs.length,h:tot};for(let k=0;k<=hs.length;k++){const h=Math.max(l,tot-l);if(h<best.h)best={k,h};if(k<hs.length)l+=hs[k]}return best};
+    const close=()=>{if(band){used+=band.h;band=null}};
+    els.forEach((el,i)=>{const b=bl[i],h=hOf(el);if(!cur||b.newpage||cur.part!==b.part)start(b.part);
+      if(b.wide||b.cover){close();if(used+h>H&&cur.length)start(b.part);cur.push(el);used+=h;return}
+      if(band){const hs=[...band.hs,h],s=split(hs);if(used+s.h<=H){band.hs=hs;band.els.push(el);band.k=s.k;band.h=s.h;return}close();start(b.part)}
+      if(used+h>H&&cur.length)start(b.part);band={els:[el],hs:[h],k:1,h};cur.push(band)});
+    return sheets.map(s=>{const o=s.map(x=>{if(!x.els)return x;const d=document.createElement('div');d.className='ws-band';const c=[0,1].map(()=>{const e=document.createElement('div');e.className='ws-col';d.appendChild(e);return e});
+      x.els.forEach((e,j)=>c[j<x.k?0:1].appendChild(e));return d});o.part=s.part;return o})},
+  info(n,doc){const qs=EX.items.map(xq).filter(Boolean),m=xMarks(qs),L=EX.ws?.last,sh=L&&L.n===qs.length?WS.short(L):'';
+    return `${n} page${n===1?'':'s'} · ${qs.length} question${qs.length===1?'':'s'} · ${m} mark${m===1?'':'s'}${doc==='answers'&&EXV.ans!=='worked'&&EXV.fb?` · ${EXV.fb} written part${EXV.fb===1?' has':'s have'} no short answer recorded, so ${EXV.fb===1?'it shows its':'they show their'} worked solution`:''}${sh?' · '+sh:''}`}};
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{const t=e.target;if(!t.closest)return;
+  if(t.closest('[data-ws-fresh]')){e.preventDefault();WS.fresh();return}
+  if(!t.closest('#wsView'))return;const S=WS.S(),M=WS.model();
+  if(t.closest('[data-wsback]')){const back=WS.setupFor!=null;WS.go('mine');if(back&&EX.items.length)xPreview('exam');return}
+  if(t.id==='wsGo'&&!t.disabled&&!t.dataset.ok){EXAS.guard(t,'Making it again',()=>{t.dataset.ok=1;t.click();delete t.dataset.ok});return}
+  if(t.id==='wsGo'&&!t.disabled){const r=WS.generate();if(!r)return;if(!r.n){toast('No questions to use for these skills. Choose more skills, or untick Skip.');WS.avail();return}
+    try{EXC.clear()}catch(_){}WS.go('mine');xPreview('exam');const m=WS.short(r);toast(m||`Worksheet made · ${r.n} questions`);return}
+  const ex=t.closest('[data-wsexp]');if(ex){const k=ex.dataset.wsexp;WS.open.has(k)?WS.open.delete(k):WS.open.add(k);WS.tree();return}
+  const fa=t.closest('[data-wsfa]');if(fa){const [y,...r]=fa.dataset.wsfa.split('|'),ns=(xaTree()[y]?.get(r.join('|'))||[]).flatMap(k=>(M.rows.get(k)||[]).map(s=>s.name)),all=ns.every(n=>S.skills.includes(n));
+    WS.setSkills(all?S.skills.filter(n=>!ns.includes(n)):[...S.skills,...ns]);return}
+  const rw=t.closest('[data-wsrow]');if(rw){const ns=(M.rows.get(rw.dataset.wsrow)||[]).map(s=>s.name),all=ns.every(n=>S.skills.includes(n));WS.setSkills(all?S.skills.filter(n=>!ns.includes(n)):[...S.skills,...ns]);return}
+  const sk=t.closest('[data-wssk]');if(sk){const n=sk.dataset.wssk;WS.setSkills(S.skills.includes(n)?S.skills.filter(x=>x!==n):[...S.skills,n]);return}
+  if(t.closest('[data-wsnone]')){WS.setSkills([]);return}
+  const nb=t.closest('[data-wsn]'),np=t.closest('[data-wsnp]');if(nb||np){S.n=Math.max(1,Math.min(60,np?+np.dataset.wsnp:(+S.n||10)+ +nb.dataset.wsn));const i=$('#wsN');if(i)i.value=S.n;xaSave();WS.avail();return}
+  const lv=t.closest('[data-wslv]');if(lv){S.level=lv.dataset.wslv;xaSave();$$('[data-wslv]').forEach(b=>b.setAttribute('aria-pressed',String(b===lv)));return}
+  // owner 17 Nov skill gates, as in Exam setup: Already learnt ticks (the worksheet's own rows always count)
+  const xg=t.closest('[data-xlk],[data-xly11]');if(xg&&!xg.disabled){const g=XG.learnt(WS.extra(S));if(xg.dataset.xlk)XG.toggle(xg.dataset.xlk,g);else XG.allY11(g);WS.tree();WS.avail();return}});
+document.addEventListener('input',e=>{const t=e.target;if(!t.closest||!t.closest('#wsView'))return;const S=WS.S();
+  if(t.id==='wsName'){S.name=t.value.trim();xaSave();return}
+  if(t.id==='wsN'){const v=Math.round(+t.value);if(v>=1&&v<=60){S.n=v;xaSave();clearTimeout(t._h);t._h=setTimeout(WS.avail,120)}}});
+document.addEventListener('change',e=>{const t=e.target;if(!t.closest||!t.closest('#wsView'))return;const S=WS.S();
+  if(t.id==='wsN'){S.n=Math.max(1,Math.min(60,Math.round(+t.value)||10));t.value=S.n;xaSave();WS.avail();return}
+  if(t.id==='wsAvoid'){S.avoid=t.checked;xaSave();WS.tree();WS.avail();return}
+  if(t.matches('[data-xlshow]')){XG.show=t.checked;WS.tree();WS.avail()}});
+// on the sheet: Swap / Remove on each question, + Add, Settings, Make another like this (before the exam paper's own click handler)
+document.addEventListener('click',e=>{const t=e.target;if(!t.closest||!t.closest('#xPv')||EX.kind!=='worksheet')return;
+  const b=t.closest('[data-wsswap],[data-wsrm],[data-wsadd],#wsPvSet,#wsPvAnother');if(!b)return;e.stopImmediatePropagation();
+  if(b.dataset.wsswap)WS.swap(+b.dataset.wsswap);else if(b.dataset.wsrm)WS.remove(+b.dataset.wsrm);else if(b.dataset.wsadd)WS.add(+b.dataset.wsadd);
+  else if(b.id==='wsPvAnother')WS.another();
+  else{exClosePv();WS.view='setup';WS.setupFor=EX.id||'open';save('ws_view','setup');WS.render();window.scrollTo({top:0})}},true);
 </script>

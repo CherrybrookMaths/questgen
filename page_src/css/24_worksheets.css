@@ -1,0 +1,35 @@
+/* ===================== Worksheets (owner 26 Nov) =====================
+   "of course follow similar design style of the exam builder": the view reuses the Exams page's classes (.exams, .exsetup, .extile,
+   .exsettings, .exmine); only what a worksheet adds is here, under .wsv (the view) or .ws- (the sheet). 38_worksheets.js. */
+.wsv[data-wsview="mine"] #wsSetup{display:none}.wsv[data-wsview="setup"] #wsMine{display:none}.wsv[data-wsview="mine"] .exmine{display:block}
+/* rows inside a topic tile: the row's own box, then its skills as Exam setup's pills */
+.wsv .ws-rows{margin:2px -4px 0 23px;padding-top:4px;border-top:1px solid var(--line)}
+.wsv .ws-rows[hidden]{display:none}
+.wsv .ws-row{padding:6px 0 4px}.wsv .ws-row+.ws-row{border-top:1px dashed var(--line)}
+.wsv .ws-rowh{display:flex;align-items:center;gap:8px;font:600 13px/1.3 var(--sans);color:var(--ink)}
+.wsv .ws-rowh small{margin-left:auto;font:500 12px var(--sans);color:var(--muted);font-variant-numeric:tabular-nums}
+.wsv .ws-rowh .tbox{width:15px;height:15px;font-size:10px}
+.wsv .ws-row .pills{margin:4px 0 0 23px;padding-top:0;border-top:0}
+/* number of questions: − n + and presets */
+.wsv .ws-n{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.wsv .ws-n .act{min-width:30px;padding:4px 8px}
+.wsv .ws-n input{width:56px;padding:5px 6px;border:1px solid var(--line2);border-radius:6px;background:var(--panel);color:var(--ink);font:500 14px var(--sans);text-align:center}
+.wsv .ws-pre{margin:0 0 0 auto;grid-template-columns:repeat(4,auto)}
+.wsv .ws-bands{table-layout:fixed;width:100%}
+/* ---------- the sheet: two columns, one-line header, ruled lines ---------- */
+/* owner 26 Nov: "1 is the best so far but not sure if ti will work for wider questions, also should be lines and not boxes for working";
+   "the worksheet should really conserve space" */
+.ws-meas>.xblk:not(.ws-wide){width:calc((100% - 6mm)/2)}
+.ws-band{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:6mm;align-items:start}
+.ws-col{min-width:0}
+.ws-sheet .xblk,.ws-meas .xblk{margin-bottom:4mm}
+.ws-sheet .xlines i,.ws-meas .xlines i{height:7.5mm}
+.ws-sheet .xlines,.ws-meas .xlines{padding-bottom:2mm}
+.ws-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:2mm 6mm;padding-bottom:2.5mm;border-bottom:.8pt solid #111;font-family:var(--sans)}
+.ws-ht{font:700 13pt var(--sans);margin-right:auto}.ws-ht span{font-weight:500;color:#444}
+.ws-hm{font-size:10pt;color:#333}.ws-who{font-size:10pt;color:#111;white-space:nowrap}
+.ws-qh{gap:2.5mm;margin-bottom:2mm}.ws-qh b{font-size:12pt}.ws-qh span{font-size:10pt;color:#444}
+/* Swap / Remove on each question (screen only: .scr-only leaves the downloads and print) */
+.ws-qctl{display:inline-flex;gap:1mm;margin-left:2mm}
+.ws-qctl button{font:500 11px var(--sans);color:var(--accent);background:none;border:1px solid #cfd8d6;border-radius:5px;padding:1px 6px;cursor:pointer}
+.ws-qctl button:hover{background:#e1efec}

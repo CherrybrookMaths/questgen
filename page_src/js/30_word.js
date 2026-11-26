@@ -30,7 +30,7 @@ async function xWord(doc){
     const {Paragraph,TextRun,ImageRun,Table,TableRow,TableCell,WidthType,AlignmentType,BorderStyle,TabStopType,ImportedXmlComponent,ShadingType,PageNumber,Footer,HeightRule}=D;
     host=pdfClone();document.body.appendChild(host);if(typeof exRejoin==='function')exRejoin(host);
     const cache=document.getElementById('MJX-SVG-global-cache');
-    const RIGHT=9638;   // right tab stop (twips) for marks: A4 width minus 2 cm margins
+    const RIGHT=9638,COL2=Math.floor((RIGHT-340)/2);   // right tab stop (twips) for marks: A4 width minus 2 cm margins; in a worksheet's column (6 mm gap)
     const FONT='Times New Roman',UI=FONT;   // owner 18 Nov: one font (the questions') for every part of the exam
     // ---- maths ----
     const mathRun=async(mc)=>{maths++;const svg=mc.querySelector('svg');const tex=svg?.querySelector('g[data-mml-node="math"]')?.getAttribute('data-latex')||svg?.querySelector('[data-latex]')?.getAttribute('data-latex');const disp=mc.getAttribute('display')==='true';
@@ -75,8 +75,8 @@ async function xWord(doc){
         // label and marks go on the first text paragraph of the part
         const first=sub.findIndex(x=>x._runs);
         const head=[];if(lab)head.push(new TextRun({text:lab+'\t',font:FONT}));
-        if(first>=0&&sub[first]._runs){sub[first]=new Paragraph({children:[...head,...sub[first]._runs,...(mk?[new TextRun({text:'\t'+mk,bold:true,font:UI,size:20})]:[])],indent:{left:ind,hanging:lab?567:0},tabStops:[{type:TabStopType.LEFT,position:ind},{type:TabStopType.RIGHT,position:RIGHT}],spacing:{after:80}})}
-        else if(lab||mk)sub.unshift(new Paragraph({children:[...head,...(mk?[new TextRun({text:'\t'+mk,bold:true,font:UI,size:20})]:[])],indent:{left:ind,hanging:567},tabStops:[{type:TabStopType.LEFT,position:ind},{type:TabStopType.RIGHT,position:RIGHT}]}));
+        if(first>=0&&sub[first]._runs){sub[first]=new Paragraph({children:[...head,...sub[first]._runs,...(mk?[new TextRun({text:'\t'+mk,bold:true,font:UI,size:20})]:[])],indent:{left:ind,hanging:lab?567:0},tabStops:[{type:TabStopType.LEFT,position:ind},{type:TabStopType.RIGHT,position:ctx.right||RIGHT}],spacing:{after:80}})}
+        else if(lab||mk)sub.unshift(new Paragraph({children:[...head,...(mk?[new TextRun({text:'\t'+mk,bold:true,font:UI,size:20})]:[])],indent:{left:ind,hanging:567},tabStops:[{type:TabStopType.LEFT,position:ind},{type:TabStopType.RIGHT,position:ctx.right||RIGHT}]}));
         out.push(...sub);return}
       if(el.matches('.xo')){const lb=el.querySelector(':scope>b'),lab=lb?.textContent||'';const rs=[new TextRun({text:lab+'\t',bold:true,font:UI,size:20})];for(const c of el.childNodes){if(c===lb)continue;await runs(c,fmt,rs)}
         const ok=el.classList.contains('xok')&&ctx.part!=='exam';out.push(new Paragraph({children:rs,indent:{left:(ctx.indent||0)+567,hanging:567},tabStops:[{type:TabStopType.LEFT,position:(ctx.indent||0)+567}],spacing:{after:80},...(ok?{shading:{type:ShadingType.CLEAR,fill:'E3F1E5',color:'auto'},border:{left:{style:BorderStyle.SINGLE,size:6,color:'2F7A43',space:6}}}:{})}));return}
@@ -111,7 +111,10 @@ async function xWord(doc){
       const tt=cv.querySelector('.extopictbl');if(tt){   // owner 18 Nov: marks by topic is always on the cover
       out.push(new Paragraph({children:[],spacing:{before:480}}));const t=tt.querySelector('table');if(t)out.push(await table(t,{font:UI,size:18}))}}   // owner 18 Nov: no "Marks by topic" heading
     // ---- walk the sheets ----
-    const body=[];const sheets=[...host.querySelectorAll('.sheet')];let k=0,was=null;
+    // owner 26 Nov (worksheets): "1 is the best so far" (two columns): a worksheet's two-column bands become two-column sections of the
+    // document, its wide questions one-column ones (continuous section breaks; Word balances and paginates the columns itself)
+    const segs=[{cols:1,ch:[]}],seg=c=>{let g=segs[segs.length-1];if(g.cols!==c){g={cols:c,ch:[]};segs.push(g)}return g.ch};
+    let body=seg(1);const sheets=[...host.querySelectorAll('.sheet')];let k=0,was=null;
     for(const sh of sheets){k++;say(`Making the Word file: page ${k} of ${sheets.length}…`);
       // owner 26 Nov (doc 'stack', 20_exam.js xBlocks): the marking guide after the paper starts a new page
       const part=sh.dataset.part||doc;if(was&&part!==was)body.push(new Paragraph({children:[],pageBreakBefore:true}));was=part;
@@ -120,14 +123,15 @@ async function xWord(doc){
         if(blk.querySelector('.xblank')){body.push(new Paragraph({alignment:AlignmentType.CENTER,spacing:{before:5600},children:[new TextRun({text:blk.textContent.trim(),font:FONT,italics:true})]}),new Paragraph({children:[],pageBreakBefore:true}));continue}
         if(blk.querySelector('.xref'))body.push(new Paragraph({children:[],pageBreakBefore:true}));
         if(cv){await cover(cv,body);body.push(new Paragraph({children:[],pageBreakBefore:true}));continue}
-        await blocks(blk,{font:FONT,part},body)}
+        if(blk.matches('.ws-band')){body=seg(2);for(const c of blk.querySelectorAll(':scope>.ws-col>*'))await blocks(c,{font:FONT,part,right:COL2},body);continue}
+        body=seg(1);await blocks(blk,{font:FONT,part},body)}
       await new Promise(r=>setTimeout(r,0))}
     const title=`${EX.sub||EX.title||'Exam'}${xDocSfx(doc,' – ')}`;
     const wd=new D.Document({creator:'Questgen',title,styles:{default:{document:{run:{font:FONT,size:23}}}},
       // owner 18 Nov: no footer on the cover (a blank first-page footer), and "Page 1 of 28"
-      sections:[{properties:{titlePage:doc!=='guide',page:{size:{width:11906,height:16838},margin:{top:1134,bottom:1134,left:1134,right:1134}}},
-        footers:{first:new Footer({children:[new Paragraph({children:[]})]}),default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:`${EX.title||''} · ${EX.sub||''}${xDocSfx(doc,' · ')}    `,font:UI,size:16,color:'777777'}),new TextRun({children:['Page ',PageNumber.CURRENT,' of ',PageNumber.TOTAL_PAGES],font:UI,size:16,color:'777777'})]})]})},
-        children:body}]});
+      sections:segs.filter(g=>g.ch.length).map((g,i)=>({properties:{...(i?{type:D.SectionType.CONTINUOUS}:{titlePage:doc!=='guide'&&EX.kind!=='worksheet'}),page:{size:{width:11906,height:16838},margin:{top:1134,bottom:1134,left:1134,right:1134}},...(g.cols>1?{column:{count:2,space:340}}:{})},
+        ...(i?{}:{footers:{first:new Footer({children:[new Paragraph({children:[]})]}),default:new Footer({children:[new Paragraph({alignment:AlignmentType.CENTER,children:[new TextRun({text:`${EX.title||''} · ${EX.sub||''}${xDocSfx(doc,' · ')}    `,font:UI,size:16,color:'777777'}),new TextRun({children:['Page ',PageNumber.CURRENT,' of ',PageNumber.TOTAL_PAGES],font:UI,size:16,color:'777777'})]})]})}}),
+        children:g.ch}))});
     say('Packing…');const blob=await D.Packer.toBlob(wd);
     const name=(EX.sub||EX.title||'exam').replace(/[^\w\- ]+/g,'').trim()||'exam';
     await dl.save({filename:`${name}${xDocSfx(doc,' - ')}.docx`,data:blob});

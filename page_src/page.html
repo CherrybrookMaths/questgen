@@ -13,7 +13,7 @@
     <nav class="views" aria-label="Views">
       <a href="#bank" id="vBank" data-area="teach">Bank</a>
       <a href="#exams" id="vExams" data-area="teach">Exams</a>
-      <span class="vsoon" data-area="teach" aria-disabled="true" title="Worksheets: build by hand from the bank. Coming later">Worksheets <small>later</small></span>   <!-- owner 19 Nov: "isn't it a bit awkward to have a worksheet builder integrated into the exam one? maybe we should split it?" -> "yes" -->
+      <a href="#worksheets" id="vWorksheets" data-area="teach">Worksheets</a>   <!-- owner 19 Nov: "isn't it a bit awkward to have a worksheet builder integrated into the exam one? maybe we should split it?" -> "yes"; built 26 Nov (38_worksheets.js) -->
       <a href="#guide" id="vGuide" data-area="teach">Guide</a>
       <a href="#review" id="vReview" data-area="curate" hidden>Review<span class="n" id="todoN"></span></a>   <!-- owner 13 Nov: "Merge into Review": Review holds the Inbox, papers, Reports and Difficulty; the Papers tab is gone (#papers lands on #review/papers) -->
       <a href="#processes" id="vProcesses" data-area="curate" hidden>Processes</a> <!-- owner 14 Nov: "Can make that page processes" (was Import; #import still works) -->
@@ -52,6 +52,7 @@
   <div class="papers" id="papersView" hidden><a class="rback" href="#review">← Inbox</a><section id="papersList" aria-live="polite"></section></div>
   <div class="guide" id="guideView" hidden><section id="guideBox"></section></div>
   <div class="wrapx exams" id="examsView" hidden></div>   <!-- owner 14 Nov: Exams page -->
+  <div class="wrapx exams wsv" id="wsView" hidden></div>   <!-- owner 26 Nov: Worksheets ("of course follow similar design style of the exam builder") -->
   <div class="wrap reports" id="reportsView" hidden><a class="rback" href="#review">← Inbox</a><section id="reportsBox" aria-live="polite"></section></div>   <!-- owner 14 Nov: question reports (alpha) -->
   <div class="levels" id="levelsView" hidden><a class="rback" href="#review">← Inbox</a><section id="levelsBox" aria-live="polite"></section></div>   <!-- owner 14 Nov: difficulty check -->
   <!-- owner 13 Nov: "The process page feels a bit bloated now" -> "Two tabs: Work | Papers". Work = running, queued, recently done, Next up; Papers = summary + rescan, Import a course (Go), Running / next, Choose papers ▸, By course ▸, Import history ▸ (owner 13 Nov: "I'm getting CONFUSED with our current papers page" -> "Yes, with batch pauses") -->

@@ -31,7 +31,8 @@ start. At 538 papers the old index would have been ~18 MB (budget 2.35 MB; the p
       the taught topics a REQUIRED skill needs learnt before a question that uses it can go into an exam: the skill's own
       topic plus every prerequisite's (transitive), basic skills left out (they never gate); a skill whose list is empty is
       not listed. From state/work/skills/skill_topics.json (key, basic) and skill_prereqs.json (skill_gates below); the page
-      reads it as QG.skills (24_exams.js / 23_exam_auto.js XG).
+      reads it as QG.skills (24_exams.js / 23_exam_auto.js XG). so = the course's skills in their signed-off order (skill_order;
+      owner 26 Nov, worksheets: a question's home skill is the LAST skill it needs in that order), read as QG.skillOrder.
   site/data/bank/<course>/search.gz.json   (gzip as base64 text) {v, src, q: {id: stem + part text + free tags + can-use skills}}: the
       words the Bank's search reads, so a search no longer downloads every topic file (owner 25 Nov; 07_bank.js bankHay).
   site/data/bank/<course>/<topic slug>.json   {v, topic, q: {id: {stem, options, opt_table, layout, figures, solutions (full),
@@ -199,6 +200,28 @@ def skill_gates():
     return out
 
 
+def skill_order(course):
+    """[[skill, topic key, first dot point, basic 0|1], ...] in the course's signed-off skill order: the worksheet builder's skill list and
+    its "one home per question" rule (owner 26 Nov: "This worksheet should follow the rule order, it should only appear in one like
+    before remember? Like can't do bearings without having the earlier skills and so forth"; on Standard's order, e.g. Area of a triangle
+    after the cosine rule: "that is correct"). Standard: state/work/skills/standard/skills.json, in its order (the teaching order);
+    Advanced: state/work/skills/skill_topics.json, in its file order (the order the skill list was written and signed off in). The page
+    files each skill under the Bank's row of its first dot point (38_worksheets.js); the key is the fallback."""
+    out = []
+    if course == 'standard':
+        f = paths.S + 'work/skills/standard/skills.json'
+        if not os.path.exists(f): return out
+        dp = course_dots.dotpoints()
+        for x in json.load(open(f, encoding='utf-8'))['skills']:
+            d0 = (x.get('dot_points') or [None])[0]; d = dp.get(d0)
+            out.append([x['skill'], f"sub:{d['year_level']}|{d['focus_area']}|{d['sub'] or ''}" if d else None, d0, 1 if x.get('basic') else 0])
+        return out
+    if not os.path.exists(SKILL_TOPICS): return out
+    for k, v in json.load(open(SKILL_TOPICS, encoding='utf-8')).items():
+        out.append([k, v.get('key'), (v.get('dot_points') or [None])[0], 1 if v.get('basic') else 0])
+    return out
+
+
 def slim_part(p):
     """A part as the Bank needs it: main tags only (topic homes), difficulty band and kind (Bank filters)."""
     x = {k: p[k] for k in P_START if p.get(k) is not None}
@@ -345,7 +368,7 @@ def split(bank, home, src=None):
     # search.gz.json {v, src, q: {id: the question's own words: stem, part text, free tags, can-use skills}}: read by the Bank's search
     # (07_bank.js bankHay); the index and the details add the QID, paper and dot-point words
     write_gz(SEARCH, {'v': 1, 'src': src, 'q': srch})
-    idx['raw_details'] = write_gz(DETAILS, {'v': 1, 'src': src, 'q': details, 'sk': skill_gates_standard() if COURSE == 'standard' else skill_gates()})
+    idx['raw_details'] = write_gz(DETAILS, {'v': 1, 'src': src, 'q': details, 'sk': skill_gates_standard() if COURSE == 'standard' else skill_gates(), 'so': skill_order(COURSE)})
     return idx
 
 

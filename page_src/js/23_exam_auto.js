@@ -11,7 +11,7 @@
 const XA_DEF=()=>({open:true,topen:true,topics:[],total:100,by:'marks',n:20,mcq:10,mcqSet:false,diff:'hsc',pr:30,approved:true,avoid:false,seed:0,locked:[],warns:[],tmix:null,tpr:null,ran:false});
 function xa(){if(!EX.auto||typeof EX.auto!=='object')EX.auto=XA_DEF();const d=XA_DEF();for(const k in d)if(EX.auto[k]===undefined)EX.auto[k]=d[k];
   const t=EX.auto.topics;if(Array.isArray(t)){const n=QG.topicKeys(t);if(n.length!==t.length||n.some((k,i)=>k!==t[i]))EX.auto.topics=n}return EX.auto}   // owner 25 Nov: old Trigonometry rows read as the new ones (QG.topicKeys)
-const xaSave=()=>{save(XKEY,JSON.stringify(EX));};
+const xaSave=()=>{save(xKind.key(),JSON.stringify(EX));};
 const XA_SWAPPED=new Set();
 
 /* ---------- difficulty of a question ---------- */

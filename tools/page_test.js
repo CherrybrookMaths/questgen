@@ -46,14 +46,14 @@ const ONLY0 = process.argv.includes('--only') ? new Set(process.argv[process.arg
 //   night run (NIGHT.md) runs the full suite. A change to page code with no entry in CORE_MAP (shared code: core, text, figures,
 //   router ...) runs the full suite. batch_check accepts a core result (a warning names the groups skipped).
 const CORE = ['sweep', 'flows', 'reviewFlow', 'bankChip', 'dataSplit', 'questionKeys'];
-const BANK_G = ['trig1125', 'std2_1125', 'cpa1125', 'skillGates', 'areas'], EXAM_G = ['queueChecks', 'examPools', 'availOverlap', 'skillGates'],
+const BANK_G = ['trig1125', 'std2_1125', 'cpa1125', 'skillGates', 'areas'], EXAM_G = ['queueChecks', 'examPools', 'availOverlap', 'skillGates', 'worksheets'],
   PAPER_G = ['papersLanes', 'paperTables', 'driveScan'];
 const CORE_MAP = {'js/07_bank.js': BANK_G, 'js/03_tags.js': BANK_G, 'css/02_bank.css': BANK_G, 'css/23_bank_motion.css': BANK_G, 'css/09_levels.css': BANK_G, 'js/21_levels.js': BANK_G,
   'js/08_review.js': ['fixes1125', 'areas'], 'css/05_review.css': ['fixes1125'], 'css/21_review_flow.css': ['fixes1125'],
   'js/11_papers.js': PAPER_G, 'js/32_papers_q.js': PAPER_G, 'js/33_drive_scan.js': PAPER_G, 'js/34_papers_run.js': PAPER_G, 'js/35_papers_check.js': PAPER_G,
   'css/04_papers.css': PAPER_G, 'css/22_papers_q.css': PAPER_G, 'css/14_import_batches.css': PAPER_G, 'js/12_import.js': ['papersLanes', 'processes'], 'css/06_import_jobs_tags.css': ['papersLanes', 'processes'],
   'js/20_exam.js': EXAM_G, 'js/23_exam_auto.js': EXAM_G, 'js/24_exams.js': EXAM_G, 'js/25_mine.js': EXAM_G, 'js/29_pdf.js': EXAM_G, 'js/30_word.js': EXAM_G, 'js/19_ztable.js': EXAM_G,
-  'css/08_exam.css': EXAM_G, 'css/11_exam_auto.css': EXAM_G, 'css/12_exams.css': EXAM_G, 'css/13_mine.css': EXAM_G,
+  'js/38_worksheets.js': ['worksheets'], 'css/24_worksheets.css': ['worksheets'], 'css/08_exam.css': EXAM_G, 'css/11_exam_auto.css': EXAM_G, 'css/12_exams.css': EXAM_G, 'css/13_mine.css': EXAM_G,
   'js/27_reports.js': ['reportActions'], 'css/16_reports.css': ['reportActions'], 'js/31_notes.js': ['nextUp', 'tonight', 'processes'], 'css/20_notes.css': ['nextUp', 'tonight', 'processes'],
   'js/13_shell.js': ['phone', 'areas'], 'js/22_phone_menu.js': ['phone'], 'css/10_phone.css': ['phone'], 'css/19_areas.css': ['areas'], 'js/26_guide.js': [], 'css/15_guide.css': [], 'js/28_schema.js': [], 'css/18_schema.css': [], 'css/07_logo.css': []};
 function coreGroups() {
@@ -224,6 +224,9 @@ const VIEWS = [
   ['exams-setup', '#exams', '#examsView', false, async p => p.evaluate(() => EXAS.fresh())],   // owner 19 Nov: no tabs; New exam opens Setup
   ['exams-pick', '#exams', '#examsView', true, async p => p.evaluate(() => EXPK.open('add'))],   // owner 19 Nov: the picker opens from the preview
   ['exams-mine', '#exams', '#examsView', false, async p => p.evaluate(() => EXAS.go('mine'))],
+  // owner 26 Nov: Worksheets, its own tab (My worksheets, the settings form)
+  ['worksheets-mine', '#worksheets', '#wsView', false, async p => p.evaluate(() => WS.go('mine'))],
+  ['worksheets-setup', '#worksheets', '#wsView', false, async p => p.evaluate(() => WS.fresh())],
   // owner 13 Nov: Review is an Inbox, a papers list, one paper at a time and the lists (Recently approved, Other lists)
   ['inbox', '#review', '#inboxView', false],
   ['review-paper', '#review/paper/323', '#reviewView', true],   // the fixture's workload: 2024 Caringbah AT4 has Flagged, Topics, Diagrams and Spot-check left
@@ -630,8 +633,8 @@ async function flows(browser, base, seed, seedR) {
     return `swapped QID ${sw}, locked QID ${lockId}; Regenerate kept it (${same - 1} other questions repeated of ${after.length})`;
   });
   // owner 19 Nov: the exam builder generates and lands on the paper; the picker opens only from it, to replace a question (any question of
-  // the exam's topics takes its place) or to add questions; Worksheets (the hand-built route) is greyed until it is built
-  await check('exams: Replace… and Add a question open the picker on the exam topics; Worksheets is greyed', page, async () => {
+  // the exam's topics takes its place) or to add questions; Worksheets is its own top-bar item (greyed until built, 26 Nov: a working tab)
+  await check('exams: Replace… and Add a question open the picker on the exam topics; Worksheets is its own tab', page, async () => {
     if (!(await page.evaluate(() => document.body.classList.contains('xpv-on')))) { await page.evaluate(() => xPreview('exam')); await waitPv() }
     const tgt = await page.evaluate(() => { const i = EX.items.findIndex(x => xq(x)?.type !== 'mcq'); const id = EX.items[i]; exSelect(id, 'list'); return {i, id, n: EX.items.length} });
     await settle(page, 1500, 2);
@@ -655,9 +658,9 @@ async function flows(browser, base, seed, seedR) {
     await page.click('#exCards [data-pkuse]'); await settle(page, 1500, 2);
     const n2 = await page.evaluate(() => EX.items.length);
     await page.click('#exPkBan [data-pkback]'); await waitPv();
-    const grey = await page.evaluate(() => { const b = document.querySelector('.views .vsoon'); return !!b && /Worksheets/.test(b.textContent) && !document.querySelector('#examsView [data-exv]') && !document.querySelector('#bankView [data-addx]') });
+    const grey = await page.evaluate(() => { const b = document.querySelector('.views a#vWorksheets[href="#worksheets"]'); return !!b && !document.querySelector('.views .vsoon') && !document.querySelector('#examsView [data-exv]') && !document.querySelector('#bankView [data-addx]') });
     errs(); assert(/Adding to/.test(ban2) && n2 === tgt.n + 1, `add picker: ${ban2.slice(0, 60)} · ${tgt.n} → ${n2}`);
-    assert(grey, 'Worksheets is not a greyed item in the top bar, the Exams tabs are still there, or Bank cards still have "+ Add to exam"');
+    assert(grey, 'Worksheets is not a top-bar tab, the Exams tabs are still there, or Bank cards still have "+ Add to exam"');
     return `Q${tgt.i + 1} replaced by QID ${pick} in place; one question added (${tgt.n} → ${n2}); back on the paper`;
   });
 
@@ -1049,9 +1052,9 @@ async function phone(browser, base, seed) {
     await page.click('#menuBtn'); await settle(page, 1500, 2);
     const open = await page.evaluate(() => ({hidden: document.querySelector('#mSheet').hidden, links: [...document.querySelectorAll('#mSheet a')].map(a => a.textContent.trim()), exp: document.querySelector('#menuBtn').getAttribute('aria-expanded')}));
     assert(!open.hidden && open.exp === 'true', 'the menu did not open');
-    assert(open.links.length === 5, `${open.links.length} links in the menu: ${open.links.join(', ')}`);   // 13 Nov: Teach 3 + Curate 2 (Papers merged into Review)
+    assert(open.links.length === 6, `${open.links.length} links in the menu: ${open.links.join(', ')}`);   // 13 Nov: Teach 3 + Curate 2 (Papers merged into Review); 26 Nov: + Worksheets
     const heads = await page.evaluate(() => [...document.querySelectorAll('#mSheet .mgrp')].map(g => g.querySelector('.mh').textContent + ':' + [...g.querySelectorAll('a')].map(a => a.textContent.replace(/\d+$/, '').trim()).join('/')));
-    assert(heads.join(' | ') === 'Teach:Bank/Exams/Guide | Curate:Review/Processes', `menu groups: ${heads.join(' | ')}`);
+    assert(heads.join(' | ') === 'Teach:Bank/Exams/Worksheets/Guide | Curate:Review/Processes', `menu groups: ${heads.join(' | ')}`);
     assert(open.links.includes('Processes') && !open.links.includes('Import'), `the menu should name Processes, not Import: ${open.links.join(', ')}`);   // owner 14 Nov
     await page.click('#mSheet a[href="#review"]'); await settle(page, 4000, 2);
     const r = await page.evaluate(() => ({hash: location.hash, hidden: document.querySelector('#mSheet').hidden, cur: document.querySelector('#menuCur').textContent, pv: !document.querySelector('#inboxView').hidden, sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth}));
@@ -1080,7 +1083,7 @@ async function areas(browser, base, seed) {
   await check('areas (editor): Teach | Curate switch and tabs', page, async () => {
     let r = await navState(page); errs();
     assert(r.sw, 'no Teach | Curate switch for an editor');
-    assert(r.tabs.join('/') === 'Bank/Exams/Guide' && r.pressed === 'teach' && r.area === 'teach', `Teach shows ${r.tabs.join('/')} (switch on ${r.pressed})`);
+    assert(r.tabs.join('/') === 'Bank/Exams/Worksheets/Guide' && r.pressed === 'teach' && r.area === 'teach', `Teach shows ${r.tabs.join('/')} (switch on ${r.pressed})`);
     await page.click('#areaSw button[data-area="curate"]'); await settle(page, 5000, 2);
     r = await navState(page); errs();
     assert(r.view === 'inbox' && r.hash === '#review', `Curate opened ${r.hash} (view ${r.view})`);   // owner 13 Nov: Review opens on the Inbox
@@ -1091,7 +1094,7 @@ async function areas(browser, base, seed) {
     r = await navState(page); assert(r.view === 'bank', `Teach went to ${r.hash}`);
     await page.click('#areaSw button[data-area="curate"]'); await settle(page, 4000, 2);
     r = await navState(page); errs(); assert(r.hash === '#review/papers', `Curate should return to the last Curate page (#review/papers), went to ${r.hash}`);
-    return 'Teach: Bank/Exams/Guide · Curate: Review/Processes · switch slides · last page per area kept';
+    return 'Teach: Bank/Exams/Worksheets/Guide · Curate: Review/Processes · switch slides · last page per area kept';
   });
   await check('areas (editor): Difficulty and Reports are Inbox sections with ← Inbox', page, async () => {
     // owner 13 Nov: the 7-button step row is gone; Reports and Difficulty are Inbox cards that open their own sections
@@ -1358,7 +1361,7 @@ async function areas(browser, base, seed) {
         rbar: !document.querySelector('#rbar').hidden, cards: document.querySelectorAll('#list .edonly').length}));
       verrs();
       assert(!r.sw, `the Teach | Curate switch shows for a ${role}`);
-      assert(r.tabs.join('/') === 'Bank/Exams/Guide', `tabs for a ${role}: ${r.tabs.join('/')}`);
+      assert(r.tabs.join('/') === 'Bank/Exams/Worksheets/Guide', `tabs for a ${role}: ${r.tabs.join('/')}`);
       assert(extra.cards > 0, 'no bank cards on screen to check for "Open in Review"');
       assert(!extra.jobs && !extra.rbar && !extra.open, `Curate pieces visible: jobs pills ${extra.jobs}, review bar ${extra.rbar}, ${extra.open} "Open in Review" link(s)`);
       return `tabs ${r.tabs.join('/')}; no switch or jobs pills; Open in Review hidden on ${extra.cards} cards`;
@@ -1390,7 +1393,7 @@ async function areas(browser, base, seed) {
     await pp.click('#menuBtn'); await settle(pp, 1500, 2);
     const m = await pp.evaluate(() => ({heads: [...document.querySelectorAll('#mSheet .mh')].map(h => h.textContent), links: [...document.querySelectorAll('#mSheet a')].map(a => a.getAttribute('href'))}));
     const e = takeErrs(pp); assert(!e.length, e.join(' | '));
-    assert(m.heads.join('/') === 'Teach' && m.links.join(' ') === '#bank #exams #guide', `viewer menu: ${m.heads.join('/')} · ${m.links.join(' ')}`);
+    assert(m.heads.join('/') === 'Teach' && m.links.join(' ') === '#bank #exams #worksheets #guide', `viewer menu: ${m.heads.join('/')} · ${m.links.join(' ')}`);
     return `link → #bank; menu ${m.links.join(' ')}`;
   });
   await pp.context().close();
@@ -4262,6 +4265,228 @@ async function cpa1125(browser, base, seed) {
   await pr.context().close();
 }
 
+/* ---------------- Worksheets (owner 26 Nov) ----------------
+   "of course follow similar design style of the exam builder"; "it should be manage din a similar way to exams where there's a lsit, same for
+   teh settings logic"; skills to the depth of "missing angle in cosine rule"; "Used before is also important"; one home per question, the
+   last skill it needs ("it should only appear in one like before remember?"); generate and land on the sheet; A4, two columns, ruled lines,
+   no cover; four versions (worksheet, worked solutions, with answers final / worked / both, solutions at the back) as HTML, PDF and Word;
+   a worksheet is used before in the exam builder too. Standard course (the cosine-rule example), then Advanced. 38_worksheets.js */
+async function worksheets(browser, base, seed) {
+  const page = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await page.addInitScript(() => { try { localStorage.setItem('course', 'standard'); localStorage.setItem('sel', '') } catch (e) {} });
+  await boot(page, base, '#worksheets');
+  const errs = () => { const e = takeErrs(page); assert(!e.length, e.slice(0, 3).join(' | ')) };
+  const waitPv = async () => { await page.waitForFunction(() => { const i = document.querySelector('#xInfo'); return i && !/Laying out/.test(i.textContent) && document.querySelector('#xWord') && document.querySelectorAll('#xPages .sheet').length }, null, {timeout: 120000}); await settle(page, 4000, 2) };
+  const nDl = () => page.evaluate(() => window.__pt.downloads.length);
+  const dlFile = async sel => { const n0 = await nDl(); await pvClick(page, sel); await page.waitForFunction(n => window.__pt.downloads.length > n, n0, {timeout: 180000});
+    const d = await page.evaluate(() => window.__pt.downloads[window.__pt.downloads.length - 1]); return {d, buf: fs.readFileSync(path.join(DL, d.filename.replace(/[^\w.\- ]+/g, '_')))} };
+  const sheets = () => page.evaluate(() => { const host = document.querySelector('#xPages'), pr = document.createElement('div'); pr.style.cssText = 'height:297mm;width:1px;flex:none'; host.appendChild(pr);
+    const H = pr.offsetHeight; pr.remove(); const sh = [...host.querySelectorAll('.sheet')];
+    return {n: sh.length, over: sh.map((s, i) => [i + 1, s.offsetHeight]).filter(([, h]) => h > H + 1), parts: sh.map(s => s.dataset.part), t: sh.map(s => s.textContent.replace(/\s+/g, ' ').trim())} });
+  const TRIG = ['Sine rule (side)', 'Sine rule (angle)', 'Cosine rule (side)', 'Cosine rule (angle)', 'Area of a triangle (1/2 ab sin C)', 'True and compass bearings'];
+
+  await check('worksheets: its own top-bar tab, opening on My worksheets', page, async () => {
+    const r = await page.evaluate(() => ({tab: document.querySelector('.views a#vWorksheets')?.getAttribute('aria-current'), grey: !!document.querySelector('.views .vsoon'), view,
+      h: document.querySelector('#wsMine h2')?.textContent, fresh: document.querySelector('#wsMine [data-ws-fresh]')?.textContent, ex: document.querySelectorAll('#wsMine [data-exm]').length, kind: EX.kind}));
+    errs();
+    assert(r.tab === 'page' && !r.grey && r.view === 'worksheets' && r.h === 'My worksheets' && r.fresh === 'New worksheet', JSON.stringify(r));
+    assert(r.ex === 0, `${r.ex} saved exams listed as worksheets`);
+    assert(r.kind === 'worksheet', `the open document on Worksheets is a ${r.kind}`);
+    return 'Worksheets tab, My worksheets with New worksheet, no exams listed';
+  });
+  // owner 26 Nov: "it should only appear in one like before remember? Like can't do bearings without having the earlier skills"
+  await check('worksheets: one home per question: the last skill it needs in the signed-off order', page, async () => {
+    const r = await page.evaluate(() => { const O = QG.skillOrder, I = new Map(O.map((x, i) => [x[0], [i, x[3]]])), qs = B.questions.filter(q => !q.dup_of && !q.old);
+      const own = q => { const k = qSkills(q).filter(s => I.has(s)), nb = k.filter(s => !I.get(s)[1]), c = nb.length ? nb : k; return c.length ? c.reduce((a, b) => I.get(b)[0] > I.get(a)[0] ? b : a) : null };
+      const bad = qs.filter(q => WS.home(q) !== own(q)).map(q => q.id), uses = s => qs.filter(q => qSkills(q).includes(s)).length, homes = s => qs.filter(q => WS.home(q) === s).length;
+      const both = qs.filter(q => qSkills(q).includes('Cosine rule (side)') && qSkills(q).includes('True and compass bearings'));
+      const tot = new Set(); let multi = 0; WS.base().forEach(q => { const h = WS.home(q); if (tot.has(q.id)) multi++; tot.add(q.id); if (!h) multi++ });
+      return {n: O.length, bad: bad.slice(0, 5), nb: bad.length, cosU: uses('Cosine rule (side)'), cosH: homes('Cosine rule (side)'), brU: uses('True and compass bearings'), brH: homes('True and compass bearings'),
+        both: both.length, bothH: [...new Set(both.map(WS.home))], late: both.every(q => O.findIndex(x => x[0] === WS.home(q)) >= O.findIndex(x => x[0] === 'True and compass bearings')), area: O.findIndex(x => x[0] === 'Area of a triangle (1/2 ab sin C)') > O.findIndex(x => x[0] === 'Cosine rule (angle)'), multi} });
+    errs();
+    assert(r.n === 136 && !r.nb, `${r.n} skills; ${r.nb} questions filed against the rule: ${r.bad}`);
+    assert(r.cosH > 0 && r.cosH < r.cosU && r.brH > 0, `Cosine rule (side) home of ${r.cosH} (used by ${r.cosU}); bearings ${r.brH}`);
+    assert(r.both > 0 && r.late && !r.bothH.includes('Cosine rule (side)') && r.bothH.includes('True and compass bearings'), `bearings questions using the cosine rule are filed under ${r.bothH}`);
+    assert(r.area && !r.multi, `order: Area of a triangle after the cosine rule ${r.area}; ${r.multi} questions with no or two homes`);
+    return `Cosine rule (side): home of ${r.cosH}, used by ${r.cosU}; True and compass bearings: home of ${r.brH} (used by ${r.brU}); ${r.both} bearings questions with the cosine rule: under ${r.bothH.join(' / ')}, none under the cosine rule`;
+  });
+  await check('worksheets: settings to skill depth: topic › row › skill with counts; a row ticks its skills, a skill targets one', page, async () => {
+    await page.click('#wsMine [data-ws-fresh]'); await page.waitForSelector('#wsTopics .extile', {timeout: 15000}); await settle(page, 2000, 2);
+    await page.click('#wsTopics [data-wsexp="12|Trigonometry"]'); await settle(page, 1500, 2);
+    const r = await page.evaluate(() => { const t = document.querySelector('#wsTopics [data-wsexp="12|Trigonometry"]').closest('.extile');
+      const rows = [...t.querySelectorAll('.ws-row')].map(w => ({n: w.querySelector('.ws-rown').textContent, s: [...w.querySelectorAll('[data-wssk]')].map(b => [b.dataset.wssk, +b.querySelector('.n').textContent])}));
+      const C = WS.counts(WS.S()); return {rows, ok: rows.every(w => w.s.every(([n, c]) => (C[n]?.n || 0) === c)), title: document.querySelector('#wsTtl')?.textContent,
+        n: document.querySelector('#wsN')?.value, lv: document.querySelector('[data-wslv][aria-pressed="true"]')?.dataset.wslv, avoid: document.querySelector('#wsAvoid')?.checked,
+        avoidL: document.querySelector('#wsAvoid')?.closest('label').textContent.trim(), go: document.querySelector('#wsGo').disabled, learnt: !!document.querySelector('#wsLearnt .xl')} });
+    const cos = r.rows.find(w => w.n === 'Cosine rule');
+    assert(cos && cos.s.map(x => x[0]).join('|') === 'Cosine rule (side)|Cosine rule (angle)', `Trigonometry rows: ${JSON.stringify(r.rows.map(w => w.n + ': ' + w.s.map(x => x[0]).join(', ')))}`);
+    assert(r.ok, 'a skill pill shows another count than the questions it can bring in');
+    assert(/New worksheet/.test(r.title) && r.n === '10' && r.lv === 'mixed' && r.avoid && /saved exams and worksheets/.test(r.avoidL) && r.go && r.learnt, JSON.stringify(r));
+    await page.click('#wsTopics [data-wsrow="sub:12|Trigonometry|Cosine rule"]'); await settle(page, 1000, 2);
+    const a = await page.evaluate(() => WS.S().skills.slice());
+    await page.click('#wsTopics [data-wssk="Cosine rule (angle)"]'); await settle(page, 1000, 2);
+    const b = await page.evaluate(() => ({sk: WS.S().skills.slice(), row: document.querySelector('[data-wsrow="sub:12|Trigonometry|Cosine rule"]').getAttribute('aria-checked'),
+      tile: document.querySelector('[data-wsfa="12|Trigonometry"]').getAttribute('aria-checked'), go: document.querySelector('#wsGo').disabled}));
+    await page.screenshot({path: path.join(SHOTS, 'worksheets_setup.png')}); errs();
+    assert(a.join('|') === 'Cosine rule (side)|Cosine rule (angle)', `row tick: ${a}`);
+    assert(b.sk.join('|') === 'Cosine rule (side)' && b.row === 'mixed' && b.tile === 'mixed' && !b.go, `skill untick: ${JSON.stringify(b)}`);
+    return `Cosine rule row: ${cos.s.map(x => x.join(' ')).join(', ')}; row tick takes both, a skill alone targets it`;
+  });
+  // owner 26 Nov: hand-picking was "a bit too overkill": the button builds the sheet and opens it; a short sheet says so
+  await check('worksheets: Make worksheet lands on the sheet; fewer questions than asked makes a shorter sheet and says so', page, async () => {
+    const avail = await page.evaluate(() => { WS.S().n = 40; WS.avail(); return WS.pool(WS.S()).keep.length });
+    await page.click('#wsGo'); await waitPv();
+    const r = await page.evaluate(() => ({pv: document.body.classList.contains('xpv-on'), n: EX.items.length, homes: [...new Set(EX.items.map(i => WS.home(xq(i))))], info: document.querySelector('#xInfo').textContent, kind: EX.kind}));
+    errs();
+    assert(avail > 0 && avail < 40, `${avail} questions for Cosine rule (side)`);
+    assert(r.pv && r.n === avail && r.homes.join() === 'Cosine rule (side)' && r.kind === 'worksheet', JSON.stringify(r));
+    assert(new RegExp(`Only ${avail} questions? (exist|is|are)`).test(r.info), `info line: ${r.info}`);
+    return `${r.n} of 40: “${r.info.split(' · ').pop()}”`;
+  });
+  let first = null;
+  await check('worksheets: the sheet: A4, two columns, one-line header, no cover, sections or time, lines a mark plus one, wide questions span both', page, async () => {
+    await page.evaluate(() => EXAS.close()); await settle(page, 1500, 2);
+    await page.click('#wsMine [data-ws-fresh]'); await page.waitForSelector('#wsTopics .extile', {timeout: 15000});
+    await page.evaluate(T => { WS.setSkills(T); WS.S().n = 12; WS.S().level = 'easier'; WS.avail() }, TRIG); await page.click('#wsGo'); await waitPv();
+    const s = await sheets();
+    const r = await page.evaluate(() => { const host = document.querySelector('#xPages'), sh = [...host.querySelectorAll('.sheet')], b1 = sh[0].querySelector('.sheetbody').firstElementChild;
+      const why = blk => { const q = xq(+blk.querySelector('section.xq').dataset.q); return {id: q.id, parts: q.parts.filter(p => p.label && leaf(q, p)).length, tab: [...blk.querySelectorAll('.xqb table')].some(t => !t.closest('.xsol')), fig: Math.max(0, ...[...blk.querySelectorAll('img.fig')].map(i => i.getBoundingClientRect().width))} };
+      const wide = [...host.querySelectorAll('.sheetbody>.xblk.ws-wide')].filter(b => b.querySelector('section.xq')).map(why), narrow = [...host.querySelectorAll('.ws-col>.xblk')].map(b => ({...why(b), over: b.scrollWidth > b.clientWidth + 2}));
+      const lines = [...host.querySelectorAll('.xlines[data-ln]')].map(l => { const [qi, pi] = l.dataset.ln.split(':').map(Number), q = xq(qi), p = q.parts.find(x => x.id === pi); return [l.querySelectorAll('i').length, +(p.marks ?? q.marks)] });
+      const col = host.querySelector('.ws-band'), cw = col ? [...col.children].map(c => Math.round(c.getBoundingClientRect().width)) : [];
+      return {head: b1?.querySelector(':scope>.ws-head')?.innerText.replace(/\s+/g, ' ') || null, cover: !!host.querySelector('.xcover,.xblank'), secs: host.querySelectorAll('.xsechd').length,
+        time: /Allow about|Working time|Reading time/.test(host.textContent), bands: host.querySelectorAll('.ws-band').length, cw, wide, narrow, lines, n: EX.items.length, m: xMarks(EX.items.map(xq)), lvl: EX.ws.level} });
+    await page.screenshot({path: path.join(SHOTS, 'worksheets_sheet.png')}); errs();
+    assert(!s.over.length, `sheets taller than A4: ${JSON.stringify(s.over)}`);
+    assert(r.head && new RegExp(`${r.n} questions · ${r.m} marks`).test(r.head) && /Name _+ Date _+/.test(r.head), `header: ${r.head}`);
+    assert(!r.cover && !r.secs && !r.time, `cover ${r.cover}, ${r.secs} section headings, time ${r.time}`);
+    assert(r.bands > 0 && r.cw.length === 2 && Math.abs(r.cw[0] - r.cw[1]) <= 1, `bands ${r.bands}, columns ${r.cw}`);
+    const badW = r.wide.filter(w => w.parts < 3 && !w.tab && w.fig <= r.cw[0] + 1), badN = r.narrow.filter(w => w.parts >= 3 || w.tab || w.over);
+    assert(!badN.length, `narrow questions that should span: ${JSON.stringify(badN)}`);
+    assert(r.lines.length && r.lines.every(([n, m]) => n === Math.max(2, Math.min(12, Math.round(m || 1) + 1))), `lines (count, marks): ${JSON.stringify(r.lines.slice(0, 8))}`);
+    first = await page.evaluate(() => ({id: EX.id, items: EX.items.slice(), sub: EX.sub}));
+    return `${s.n} pages, ${r.n} questions, ${r.bands} two-column bands, ${r.wide.length} wide (${r.wide.map(w => w.parts >= 3 ? '3+ parts' : w.tab ? 'table' : w.fig > r.cw[0] ? 'diagram' : 'overflow').join(', ')})${badW.length ? `, ${badW.length} wide by a long line` : ''}; header “${r.head}”`;
+  });
+  await check('worksheets: Swap keeps the skill, Remove takes one off, + Add a question / + Add 5 come from the chosen skills', page, async () => {
+    // a question whose skill has another question to offer
+    const r0 = await page.evaluate(() => { const id = EX.items.find(i => { const h = WS.home(xq(i)); return WS.pool({...WS.S(), skills: [h]}).keep.some(x => !EX.items.includes(x.id)) });
+      return {items: EX.items.slice(), id, h: id && WS.home(xq(id))} });
+    assert(r0.id, 'no question on the sheet has another question on its skill');
+    await page.click(`#xPages [data-wsswap="${r0.id}"]`); await waitPv();
+    const r1 = await page.evaluate(() => ({items: EX.items.slice()}));
+    const nq = r1.items.find(i => !r0.items.includes(i));
+    const h1 = nq && await page.evaluate(id => WS.home(xq(id)), nq);
+    await page.click(`#xPages [data-wsrm="${r1.items[r1.items[1] === nq ? 2 : 1]}"]`); await waitPv();
+    const n2 = await page.evaluate(() => EX.items.length);
+    await pvClick(page, '#xPv [data-wsadd="1"]'); await waitPv();
+    const n3 = await page.evaluate(() => EX.items.length);
+    await pvClick(page, '#xPv [data-wsadd="5"]'); await waitPv();
+    const r4 = await page.evaluate(T => ({n: EX.items.length, dup: EX.items.length - new Set(EX.items).size, off: EX.items.filter(i => !T.includes(WS.home(xq(i)))).length}), TRIG);
+    errs();
+    assert(nq && r1.items.length === r0.items.length && !r1.items.includes(r0.id) && h1 === r0.h, `swap: ${r0.id} (${r0.h}) → ${nq} (${h1})`);
+    assert(n2 === r1.items.length - 1 && n3 === n2 + 1 && r4.n > n3 && r4.n <= n3 + 5 && !r4.dup && !r4.off, `remove ${r1.items.length} → ${n2}, add ${n3}, add 5 → ${r4.n} (${r4.dup} twice, ${r4.off} off the skills)`);
+    first = await page.evaluate(() => ({id: EX.id, items: EX.items.slice(), sub: EX.sub}));
+    return `swapped QID ${r0.id} for ${nq} (both ${h1}); ${r1.items.length} → ${n2} → ${n3} → ${r4.n}`;
+  });
+  // owner 26 Nov: "Give options to print worksheet (with no answer), worked solutions, and worksheet with answers (this is where they can
+  // choose single number, worked or both)"; "a version where the answers are attched after all the questions ... the two pdfs stacked"
+  await check('worksheets: four versions: worked solutions, with answers (final / worked / both), solutions at the back', page, async () => {
+    const ws = await sheets();
+    await page.click('#xPv [data-xdoc="guide"]'); await waitPv(); const gd = await sheets();
+    const g = await page.evaluate(() => ({sol: document.querySelectorAll('#xPages .xsol').length, lines: document.querySelectorAll('#xPages .xlines').length, head: document.querySelector('#xPages .ws-head')?.innerText}));
+    await page.click('#xPv [data-xdoc="answers"]'); await waitPv(); await page.click('#xPv [data-xans="final"]'); await waitPv();
+    const f = await page.evaluate(() => { const mc = EX.items.map(xq).filter(q => q.type === 'mcq'); return {key: document.querySelectorAll('#xPages .ex-ans').length, mc: mc.length, lines: document.querySelectorAll('#xPages .xlines').length, sol: document.querySelectorAll('#xPages section.xq.wr .xsol').length, info: document.querySelector('#xInfo').textContent} });
+    await page.click('#xPv [data-xans="worked"]'); await waitPv(); const w = await page.evaluate(() => ({key: document.querySelectorAll('#xPages .ex-ans').length, sol: document.querySelectorAll('#xPages .xsol').length}));
+    await page.click('#xPv [data-xans="both"]'); await waitPv(); const b = await page.evaluate(() => ({key: document.querySelectorAll('#xPages .ex-ans').length, sol: document.querySelectorAll('#xPages .xsol').length}));
+    await page.click('#xPv [data-xdoc="stack"]'); await waitPv(); const st = await sheets();
+    errs();
+    assert(g.sol > 0 && !g.lines && /Worked solutions/.test(g.head) && !gd.over.length, `worked solutions: ${JSON.stringify(g)}`);
+    assert(f.key === f.mc && !f.lines && f.sol > 0 && /no short answer recorded/.test(f.info), `final answers: ${JSON.stringify(f)}`);
+    assert(!w.key && w.sol >= f.sol && b.key === f.mc && b.sol === w.sol, `worked ${JSON.stringify(w)}, both ${JSON.stringify(b)}`);
+    const ex = st.parts.filter(p => p === 'exam').length, firstG = st.parts.indexOf('guide');
+    assert(ex === ws.n && st.n === ws.n + gd.n && firstG === ws.n && !st.over.length, `stack: ${st.parts.map(p => p[0]).join('')} (worksheet ${ws.n}, solutions ${gd.n})`);
+    const dE = st.t.slice(0, ws.n).findIndex((t, i) => t !== ws.t[i]), dG = st.t.slice(ws.n).findIndex((t, i) => t !== gd.t[i]);
+    assert(dE < 0 && dG < 0, `stack differs from each alone at worksheet sheet ${dE + 1} / solutions sheet ${dG + 1}`);
+    return `worksheet ${ws.n} + worked solutions ${gd.n} pages = stack ${st.n}; final answers: ${f.key} letters, ${f.sol} written parts show their working`;
+  });
+  await check('worksheets: every version downloads as HTML; the worksheet as PDF and Word, the stack as two-column Word', page, async () => {
+    const out = [], name = await page.evaluate(() => EX.sub.replace(/[^\w\- ]+/g, '').trim());
+    for (const [d, sfx] of [['exam', ''], ['guide', ' - worked solutions'], ['answers', ' - with answers'], ['stack', ' - with solutions at the back']]) {
+      await page.click(`#xPv [data-xdoc="${d}"]`); await waitPv(); const n = (await page.$$('#xPages .sheet')).length;
+      const h = await dlFile('#xDl'), t = h.buf.toString('utf8'); errs();
+      assert(h.d.filename === `${name}${sfx}.html` && /^<!doctype html>/i.test(t) && (t.match(/class="sheet[ "]/g) || []).length === n && !/data-wsswap/.test(t), `HTML ${d}: ${h.d.filename}, ${(t.match(/class="sheet[ "]/g) || []).length} of ${n} sheets`);
+      out.push(`${d} ${n}`);
+      if (d === 'exam') {
+        const p = await dlFile('#xPdf'), pages = (p.buf.toString('latin1').match(/\/Type\s*\/Page(?![s\w])/g) || []).length; errs();
+        assert(p.d.filename === `${name}.pdf` && pages === n, `PDF: ${p.d.filename}, ${pages} pages for ${n} sheets`);
+        const w = await dlFile('#xWord'), x = unzip(w.buf)['word/document.xml']?.toString('utf8') || ''; errs();
+        assert(w.d.filename === `${name}.docx` && /<w:cols [^>]*w:num="2"/.test(x) && (x.match(/<m:oMath[\s>]/g) || []).length > 0, `Word: ${w.d.filename}, two columns ${/w:num="2"/.test(x)}`);
+        out.push(`PDF ${pages} pages, Word ${(x.match(/<w:sectPr/g) || []).length} sections`) }
+      if (d === 'stack') { const w = await dlFile('#xWord'), x = unzip(w.buf)['word/document.xml']?.toString('utf8') || ''; errs();
+        assert(/w:num="2"/.test(x) && /<w:pageBreakBefore\/>/.test(x), `stack Word: two columns ${/w:num="2"/.test(x)}, a page break ${/pageBreakBefore/.test(x)}`); out.push('stack Word') }
+    }
+    return out.join(', ');
+  });
+  // owner 19 Nov: "they should see that its been used for now yes"; owner 26 Nov: "Used before is also important"
+  await check('worksheets: saved in exams as kind worksheet, listed on Worksheets only; used before in the exam builder and back', page, async () => {
+    await page.waitForFunction(() => EX.id && window.__pt.store.get('exams/' + EX.id)?.kind === 'worksheet' && exmState() === 'saved', null, {timeout: 15000});
+    const id = await page.evaluate(() => EX.id), doc = await page.evaluate(k => JSON.parse(JSON.stringify(window.__pt.store.get(k))), 'exams/' + id); first.id = id;
+    await page.waitForFunction(() => /Saved/.test(document.querySelector('#xPvSave')?.textContent || ''), null, {timeout: 5000}).catch(() => {});
+    const bar = await page.evaluate(() => document.querySelector('#xPvSave')?.textContent.trim());
+    assert(/✓ Saved/.test(bar), `the sheet's bar says “${bar}” after the save`);
+    await page.click('#xPvClose'); await settle(page, 2000, 2);
+    const ws = await page.evaluate(i => ({row: !!document.querySelector(`#wsMine [data-exm="${i}"]`), view, pv: document.body.classList.contains('xpv-on')}), id);
+    await page.evaluate(() => { location.hash = '#exams' }); await page.waitForFunction(() => view === 'exams', null, {timeout: 15000}); await page.evaluate(() => EXAS.go('mine')); await settle(page, 2500, 2);
+    const ex = await page.evaluate(({i, items}) => ({row: !!document.querySelector(`#exMine [data-exm="${i}"]`), kind: EX.kind || 'exam', saved: items.every(x => xaSavedIds().has(x)),
+      tag: EXAS.usedTag(xq(items[0])), gAvoid: (EXAS.fresh(), document.querySelector('#gAvoid')?.closest('label').textContent.trim())}), {i: id, items: doc.items});
+    // the other way: a question in a saved exam is skipped by a worksheet until Skip is unticked
+    await page.evaluate(() => { location.hash = '#worksheets' }); await page.waitForFunction(() => view === 'worksheets', null, {timeout: 15000}); await settle(page, 1500, 2);
+    const back = await page.evaluate(async () => { const S = {...WS.S(), skills: ['True and compass bearings', 'Cosine rule (side)'], avoid: true}, q = WS.pool({...S, avoid: false}).keep[0];
+      await QG.db.doc('exams/e_pt_wsavoid').set({title: 'Mathematics Standard 2', sub: 'Page test exam', course: 'standard', items: [q.id], keys: [q.key], by: 'u_pagetest', at: new Date().toISOString()});
+      await new Promise(r => setTimeout(r, 300)); const r = {id: q.id, on: WS.pool(S).keep.some(x => x.id === q.id), off: WS.pool({...S, avoid: false}).keep.some(x => x.id === q.id)};
+      await QG.db.doc('exams/e_pt_wsavoid').delete(); return r });
+    errs();
+    assert(doc.kind === 'worksheet' && doc.course === 'standard' && doc.ws && Array.isArray(doc.ws.skills) && doc.ws.skills.length === 6 && doc.items.length === first.items.length, `saved doc: ${JSON.stringify({kind: doc.kind, course: doc.course, ws: doc.ws && doc.ws.skills, n: doc.items.length})}`);
+    assert(ws.row && ws.view === 'worksheets' && !ws.pv, `My worksheets after Close: ${JSON.stringify(ws)}`);
+    assert(!ex.row && ex.kind === 'exam' && ex.saved && /Used in/.test(ex.tag) && ex.tag.includes(first.sub.replace(/&/g, '&amp;')) && /saved exams and worksheets/.test(ex.gAvoid), `exam builder: ${JSON.stringify(ex)}`);
+    assert(!back.on && back.off, `worksheet skip of a saved exam's QID ${back.id}: skipped ${!back.on}, back when unticked ${back.off}`);
+    return `exams/${id} {kind: worksheet, ${doc.items.length} questions}; not in My exams; exam builder: “${ex.tag.replace(/<[^>]+>/g, '')}”; a saved exam's question skipped by worksheets`;
+  });
+  await check('worksheets: Make another like this: a new saved worksheet "(version 2)" with none of the first one\'s questions; Settings reopens the form', page, async () => {
+    await page.click(`#wsMine [data-exm="${first.id}"] .exm-t`); await waitPv();
+    await page.click('#wsPvAnother'); await page.waitForFunction(() => / \(version 2\)$/.test(EX.sub), null, {timeout: 20000}); await waitPv();
+    const r = await page.evaluate(f => ({sub: EX.sub, n: EX.items.length, overlap: EX.items.filter(i => f.includes(i)).length, kind: EX.kind}), first.items);
+    await page.waitForFunction(() => EX.id && exmState() === 'saved', null, {timeout: 15000});
+    await pvClick(page, '#wsPvSet'); await settle(page, 2500, 2);
+    const s = await page.evaluate(() => ({t: document.querySelector('#wsTtl')?.textContent, go: document.querySelector('#wsGo')?.textContent, sk: WS.S().skills.length, pv: document.body.classList.contains('xpv-on')}));
+    await page.click('#wsTtl [data-wsback]'); await waitPv();
+    const n = await page.evaluate(() => XSAVED.filter(x => x.kind === 'worksheet').length);
+    errs();
+    assert(r.sub === `${first.sub} (version 2)` && r.n > 0 && !r.overlap && r.kind === 'worksheet', JSON.stringify(r));
+    assert(/Settings for “.+\(version 2\)”/.test(s.t) && /again/.test(s.go) && s.sk === 6 && !s.pv, `Settings: ${JSON.stringify(s)}`);
+    assert(n >= 3, `${n} saved worksheets`);
+    return `“${r.sub}”: ${r.n} questions, none from the first; Settings → “${s.t.replace('Back to the sheet', '').trim()}” and back`;
+  });
+  await page.context().close();
+  // Advanced: its own skill list (161, in the order signed off), homes, a sheet
+  const pa = await newPage(browser, base, seed, {width: 1280, theme: 'light'});
+  await boot(pa, base, '#worksheets');
+  await check('worksheets: Advanced has its own skills, rows and homes; a sheet from Chain rule and Product rule', pa, async () => {
+    const r = await pa.evaluate(() => { const M = WS.model(), tr = xaTree(), keys = new Set([...tr[12].values(), ...tr[11].values()].flat());
+      return {course: QG.course, n: M.list.length, so: QG.skillOrder.length, orph: M.list.filter(s => !keys.has(s.row)).map(s => s.name), chain: M.by.get('Chain rule')?.row,
+        homes: WS.base().filter(q => WS.home(q) === 'Chain rule').length} });
+    await pa.evaluate(() => WS.fresh()); await pa.waitForSelector('#wsTopics .extile', {timeout: 15000});
+    await pa.evaluate(() => { WS.setSkills(['Chain rule', 'Product rule']); WS.S().n = 6 }); await pa.click('#wsGo');
+    await pa.waitForFunction(() => { const i = document.querySelector('#xInfo'); return i && !/Laying out/.test(i.textContent) && document.querySelectorAll('#xPages .sheet').length }, null, {timeout: 120000}); await settle(pa, 3000, 2);
+    const g = await pa.evaluate(() => ({n: EX.items.length, homes: [...new Set(EX.items.map(i => WS.home(xq(i))))].sort(), course: EX.course}));
+    const e = takeErrs(pa); assert(!e.length, e.slice(0, 3).join(' | '));
+    assert(r.course === 'advanced' && r.n === r.so && r.n > 100 && !r.orph.length && /Calculations with the derivative/.test(r.chain) && r.homes > 0, JSON.stringify(r));
+    assert(g.n === 6 && g.homes.every(h => ['Chain rule', 'Product rule'].includes(h)) && g.course === 'advanced', JSON.stringify(g));
+    return `${r.n} skills, every one under a Bank row; Chain rule home of ${r.homes} questions; a 6-question sheet`;
+  });
+  await pa.context().close();
+}
+
 if (require.main !== module) { /* required by a debugging script: hand over the helpers, run nothing */ module.exports = {serve, newPage, boot, settle, unzip, FIXTURE, OUT}; return }
 (async () => {
   for (const d of [OUT, SHOTS, DL]) fs.mkdirSync(d, {recursive: true});
@@ -4285,7 +4510,7 @@ if (require.main !== module) { /* required by a debugging script: hand over the 
     const run = (f, ...a) => !ONLY || ONLY.has(f.name) ? f(...a) : null;
     await Promise.all([...combos.map(([w, t]) => run(sweep, browser, base, seedR, w, t)), run(phone, browser, base, seedR), run(areas, browser, base, seedR), run(processes, browser, base, seed), run(tonight, browser, base, seed), run(reviewFlow, browser, base, seedR), run(bankChip, browser, base, seed), run(nextUp, browser, base, seed), run(papersLanes, browser, base, seed, fx.papers), run(driveScan, browser, base, seed, fx), run(availOverlap, browser, base, seed), run(queueChecks, browser, base, seed), run(dataSplit, browser, base, seed), run(questionKeys, browser, base, seed), run(reportActions, browser, base, seed), run(skillGates, browser, base, seed), run(paperTables, browser, base, seed), run(fixes1125, browser, base, seed), run(trig1125, browser, base, seed), run(std2_1125, browser, base, seedR), run(cpa1125, browser, base, seedR)]);
     // fix 13 Nov: the exam pool runs go beside the flows, not in the crowd above (each lays out up to 100-mark papers)
-    await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR})]);
+    await Promise.all([run(flows, browser, base, seed, seedR), run(examPools, browser, base, {live: seed, workload: seedR}), run(worksheets, browser, base, seed)]);
     const ext = [...new Set(outside)], bad = ext.filter(u => !/^https:\/\/fonts\.(googleapis|gstatic)\.com\//.test(u));
     await check('offline: no requests to public CDNs', null, async () => { assert(!bad.length, `${bad.length} outside request(s): ${bad.slice(0, 5).join(' ')}`); return ext.length ? `${ext.length} Google Fonts request(s) blocked, allowed` : 'none' });
   } catch (e) { fatal = String(e && e.stack || e); console.error('page_test could not finish:', fatal) }

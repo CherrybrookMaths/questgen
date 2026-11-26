@@ -23,7 +23,7 @@ if(window.ResizeObserver){new ResizeObserver(()=>setHdr()).observe(document.quer
 // in this browser. It is CSS zoom on the page root: every measurement that becomes a CSS length goes through QG.rect, and viewport units
 // are divided by --zf. Exams stays at 100%: it lays out A4 sheets by measuring them (24_exams.js), so it shows them at print size.
 Object.assign(QG,{ZSTEPS:[80,90,100,110,125,150],
-  zoomOff(){return String(QG.view).replace(/^wait:/,'')==='exams'},
+  zoomOff(){return ['exams','worksheets'].includes(String(QG.view).replace(/^wait:/,''))},   // owner 26 Nov: Worksheets lays out A4 sheets the same way
   // the steps this window allows: zoomed in, the page keeps at least a small phone's width (320 px), so a 390 px phone stops at 110%
   zsteps(){return QG.ZSTEPS.filter(v=>v<=100||innerWidth*100/v>=320)},
   setZoom(v,keep){v=+v;if(!QG.ZSTEPS.includes(v))v=100;const was=QG.zf,R=document.documentElement;QG.zoom=v;if(!keep)save('zoom',String(v));
