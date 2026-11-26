@@ -1035,7 +1035,7 @@ document
       criteria_json: [[1, "Correct answer"]]
       meta_json: {"confidence": 0.98, "generated_note": "MCQ working written; key C.", "self_check": "Counting principle checked directly."}
     difficulty
-      band: 3
+      band: 4
       wm: UF
       is_anchor: 0
       nearest_anchor: 6985
@@ -1046,7 +1046,7 @@ document
       rated_at: 2026-11-25
       band_ai: 3
       wm_ai: UF
-      source: model
+      source: shifted
 
 ## Q12  key 2021-NEAP-AT4-STD-Q12  id 7384
   section: I
@@ -2141,7 +2141,7 @@ document
       criteria_json: [[2, "Correct answer"], [1, "Finds the interest on one transaction, or the number of days for both transactions, or equivalent merit"]]
       meta_json: {"confidence": 0.7, "final": "$\\$1.66$", "final_by": "claude-sonnet-5-5 26 Nov (read from the worked solution)", "final_kind": "value", "generated_note": "Day count assumes the transaction day and payment day are both counted (28 and 23 days); the source answer may count differently.", "self_check": "Recomputed in Python: 1.661. Using the rounded rate 0.058% would give $1.67."}
     difficulty
-      band: 4
+      band: 3
       wm: UF
       is_anchor: 0
       nearest_anchor: 7193
@@ -2152,7 +2152,7 @@ document
       rated_at: 2026-11-25
       band_ai: 4
       wm_ai: UF
-      source: model
+      source: shifted
 
 ## Q22  key 2021-NEAP-AT4-STD-Q22  id 7394
   section: II
@@ -4760,7 +4760,7 @@ document
       criteria_json: [[2, "Correct answer"], [1, "Correct ESTs or LSTs, or equivalent merit"]]
       meta_json: {"confidence": 0.93, "corrected": "Corrected from source: the line for the event after $A$ read \"$22-12=22$\" and mixed two events; it is $\\min(36-3, 22-12)=10$.", "generated_note": "Written by us; diagram requested.", "overwritten_from_source": "Corrected from source: the line for the event after $A$ read \"$22-12=22$\" and mixed two events; it is $\\min(36-3, 22-12)=10$.", "self_check": "Forward/backward pass, finish 51/51; critical path events have EST=LST.", "source_original": {"criteria": [[2, "Correct answer"], [1, "Correct ESTs or LSTs, or equivalent merit"]], "latex": "Work forwards for the ESTs: each event's EST is the largest of (previous EST plus duration) over all activities into it. Work backwards for the LSTs: each event's LST is the smallest of (next LST minus duration).\n\nESTs: $0,\\ 10,\\ 13\\ (\\text{after } B),\\ 22\\ (\\text{after } C),$ the event after $E$ and the dummy is $\\max(13+8,\\,22+0)=22$, the event after $D$ is $22+12=34$, the event before $H$ is $\\max(22+5,\\,34+15)=49$, finish is $49+2=51$.\n\nLSTs: finish $51$, before $H$ is $51-2=49$, after $D$ is $49-15=34$, event after $E$ is $49-5=44$, after $B$ is $44-8=36$, after $C$ is $\\min(34-12,\\ 44-0)=22$, after $A$ is $22-12=22$ for the event at the foot of $C$ and $10$ for the event after $A$, start is $0$.\n\nThe diagram is shown, with each circle written as EST on the left and LST on the right.\n\n\\exfigure{250_q40_s1}"}}
     difficulty
-      band: 4
+      band: 3
       wm: UF
       is_anchor: 0
       nearest_anchor: 7202
@@ -4771,7 +4771,7 @@ document
       rated_at: 2026-11-25
       band_ai: 4
       wm_ai: UF
-      source: model
+      source: shifted
   part b  id 11778
     ordinal: 2
     latex: What is the critical path?

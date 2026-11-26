@@ -1,0 +1,2426 @@
+# paper 2020-Kings-AT2-STD (document 1228)
+document
+  id: 1228
+  drive_file_id: 1_ZuY7-n_uqAD6bMP-ziTnR5Eou1YHgMa
+  source_path: Kings/Year 12 Mathematics Standard 2/Assessment Task 2/Y12 St2 AT2 2020 Networks, Linear, Non Linear, Simultaneous w solns.pdf
+  size_bytes: 8766182
+  task_type: internal_exam
+  course: standard
+  classification_method: explicit_cover
+  year_level: 12
+  school: Kings
+  year: 2020
+  bundled_solutions: 0
+  status: parsed
+  failure_reason: path/filename names a non-target course or year (not cover-checked)
+  ingested_at: 2026-11-10T22:53:15
+  display_label: 2020 The King's School AT2
+  school_formal: The King's School
+  task_code: AT2
+
+## Q1  key 2020-Kings-AT2-STD-Q1  id 7747
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Networks, paths and trees|Network concepts
+  home_source: computed
+  option A
+    latex: $1$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $2$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $3$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $4$
+    is_correct: 1
+    key_source: extracted
+  figure 1228_q1_1.png
+    page: 2
+    bbox: [90, 185, 270, 320]
+    png_path: figures/1228_q1_1.png
+    tikz_path: tikz/tex/1228_q1_1.tex
+    caption: network with vertices A, B, C, D, a loop at C and a double edge between A and D
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network: vertices A, B, C, D drawn as black dots (red in the crop; rule 6), edges A-B, A-C, B-C, a double edge A-D drawn as two smooth curves, and a loop at C drawn as a true circle. Positions measured from the crop. Lines 0.6pt black instead of the heavy blue strokes (rules 3, 6). Labels in large maths italic, the same size as the crop. The original-side score is low only because the crop's strokes are much thicker. The loop is slightly larger than in the crop.
+  part -  id 12318
+    ordinal: 1
+    latex: |
+      In this network, how many degrees are there at vertex $C$?
+
+      \exfigure{1228_q1_1}
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-073
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: vertex, edge, degree, directed networks and weighted edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11910
+      source: generated
+      latex: |
+        The degree of a vertex is the number of edge ends at it, so a loop counts twice.
+
+        At $C$ there are the edge $AC$, the edge $BC$ and one loop.
+        $$\begin{aligned} \deg(C) &= 1 + 1 + 2 \\ &= 4 \end{aligned}$$
+        $$\therefore\ \text{the degree of } C \text{ is } 4, \text{ which is option D.}$$
+      source_document_id: 1228
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated working for MCQ.", "self_check": "Counted edge ends at C from the figure: AC, BC, loop (2)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9598
+      confidence: medium
+      reason: Read degree from diagram; loop counting twice is the only trap.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q2  key 2020-Kings-AT2-STD-Q2  id 7748
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: graph
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  option A
+    latex: \exfigure{1228_q2_2}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 1228_q2_2
+  option B
+    latex: \exfigure{1228_q2_3}
+    is_correct: 1
+    key_source: extracted
+    figure_key: 1228_q2_3
+  option C
+    latex: \exfigure{1228_q2_4}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 1228_q2_4
+  option D
+    latex: \exfigure{1228_q2_5}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 1228_q2_5
+  figure 1228_q2_1.png
+    page: 3
+    bbox: [170, 64, 453, 228]
+    png_path: figures/1228_q2_1.png
+    tikz_path: tikz/tex/1228_q2_1.tex
+    caption: network on vertices A to H
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network A-H with all 12 edges, circled vertex nodes, positions measured from the crop. Lines 0.6pt black instead of blue (rules 3, 6). Vertex letters in maths italic, not the crop's upright serif (rule 19). The original-side score is below 0.85 only because the scanned blue strokes and circles are thicker. The same node size and font are used in the four options (rule 7).
+  figure 1228_q2_2.png
+    page: 3
+    bbox: [89, 257, 284, 398]
+    png_path: figures/1228_q2_2.png
+    tikz_path: tikz/tex/1228_q2_2.tex
+    caption: option A: option A subgraph
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Option A subgraph, positions measured from the crop. In round 2 the node circles were enlarged (diameter 40 px, the same as the question figure) so the italic letters clear the circle outline (rules 11, 7). Lines 0.6pt black; letters in maths italic (rule 19).
+  figure 1228_q2_3.png
+    page: 3
+    bbox: [339, 257, 541, 398]
+    png_path: figures/1228_q2_3.png
+    tikz_path: tikz/tex/1228_q2_3.tex
+    caption: option B: option B subgraph
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Option B subgraph, positions measured from the crop. Node style matches the other options and the question figure (rule 7). Lines 0.6pt black; letters in maths italic (rules 3, 6, 19).
+  figure 1228_q2_4.png
+    page: 3
+    bbox: [89, 422, 289, 564]
+    png_path: figures/1228_q2_4.png
+    tikz_path: tikz/tex/1228_q2_4.tex
+    caption: option C: option C subgraph
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Option C subgraph (no B-A edge, as in the crop), positions measured from the crop. Node style matches the other options and the question figure (rule 7). Lines 0.6pt black; letters in maths italic (rules 3, 6, 19).
+  figure 1228_q2_5.png
+    page: 3
+    bbox: [339, 422, 544, 564]
+    png_path: figures/1228_q2_5.png
+    tikz_path: tikz/tex/1228_q2_5.tex
+    caption: option D: option D subgraph
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Option D subgraph, positions measured from the crop. Node style matches the other options and the question figure (rule 7). Lines 0.6pt black; letters in maths italic (rules 3, 6, 19).
+  part -  id 12319
+    ordinal: 1
+    latex: |
+      Which of the following is a spanning tree for the network shown below?
+
+      \exfigure{1228_q2_1}
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-077
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: path, tree, spanning tree and minimum spanning tree
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11911
+      source: generated
+      latex: |
+        A spanning tree of a network with 8 vertices is connected, has no cycles, includes every vertex and has $8-1=7$ edges.
+
+        Option A has 8 edges and contains the cycle $D$-$G$-$A$-$F$-$H$-$D$, so it is not a tree.
+
+        Option C has only 6 edges and is not connected ($B$ and $E$ are cut off from the rest).
+
+        Option D has 9 edges and contains cycles.
+
+        Option B has 7 edges, joins all 8 vertices ($C$-$D$-$G$-$A$-$F$-$H$ and $A$-$B$-$E$) and has no cycle, and every edge is in the original network.
+        $$\therefore\ \text{the spanning tree is option B.}$$
+      source_document_id: 1228
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "Generated working for MCQ.", "self_check": "Counted edges and checked connectivity and cycles for each option from the figures."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9652
+      confidence: high
+      reason: Identify spanning tree among options; check edges, cycles, connectivity.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q3  key 2020-Kings-AT2-STD-Q3  id 7749
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  option A
+    latex: A path is a walk that doesn’t visit any vertex more than once.
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: A cycle is a walk with the same start and end vertex, which doesn’t visit any other vertex more than once.
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: A forest is a network of cycles.
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: An edge can sometimes be called an arc.
+    is_correct: 0
+    key_source: extracted
+  part -  id 12320
+    ordinal: 1
+    latex: Which of the following definitions is false?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-073
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: vertex, edge, degree, directed networks and weighted edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-077
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: path, tree, spanning tree and minimum spanning tree
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11912
+      source: generated
+      latex: |
+        Check each definition.
+
+        A path visits no vertex more than once, so A is true.
+
+        A cycle returns to its start and visits no other vertex twice, so B is true.
+
+        An edge is also called an arc, so D is true.
+
+        A forest is a network made of trees (it has no cycles), not a network of cycles, so C is false.
+        $$\therefore\ \text{the false definition is option C.}$$
+      source_document_id: 1228
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.96, "generated_note": "Generated working for MCQ.", "self_check": "Standard network definitions."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9598
+      confidence: medium
+      reason: Direct recall of network terminology definitions.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q4  key 2020-Kings-AT2-STD-Q4  id 7750
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Linear relationships|Linear modelling
+  home_source: computed
+  option A
+    latex: $x + 3y - 3 = 0$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $x - 3y + 9 = 0$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $3x + y + 9 = 0$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $y + 3x + 3 = 0$
+    is_correct: 1
+    key_source: extracted
+  part -  id 12321
+    ordinal: 1
+    latex: Which of the following has a $y$-intercept of $-3$?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-014
+      focus_area: Linear relationships
+      dot_point: Determine the y-intercept and gradient from the equation of a straight line
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Determining the gradient and the y-intercept
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11913
+      source: generated
+      latex: |
+        The $y$-intercept is the value of $y$ when $x = 0$. Substitute $x=0$ into each option.
+
+        A: $3y - 3 = 0$, so $y = 1$.
+
+        B: $-3y + 9 = 0$, so $y = 3$.
+
+        C: $y + 9 = 0$, so $y = -9$.
+
+        D: $y + 3 = 0$, so $y = -3$.
+        $$\therefore\ \text{the } y\text{-intercept is } -3 \text{ for option D.}$$
+      source_document_id: 1228
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.98, "generated_note": "Generated working for MCQ.", "self_check": "Substituted x = 0 in each equation."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7058
+      confidence: medium
+      reason: Substitute x = 0 into each option; one routine step.
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q5  key 2020-Kings-AT2-STD-Q5  id 7751
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Algebraic relationships|Simultaneous linear equations
+  home_source: computed
+  option A
+    latex: \$20
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: \$30
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: \$40
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: \$50
+    is_correct: 0
+    key_source: extracted
+  figure 1228_q5_1.png
+    page: 4
+    bbox: [153, 212, 441, 379]
+    png_path: figures/1228_q5_1.png
+    tikz_path: tikz/tex/1228_q5_1.tex
+    caption: graph of costs and income against items sold
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Cost/income chart, same layout and scale (0 to 13 items, 0 to 350 dollars, grid every 1 item and every $50). Costs C=80+12x and Income I=20x meet at (10,200), the same as the crop. Both lines are black at 0.9pt (Income starts on the axis, rules 6 and 9). The blue grid is drawn light grey, which explains the low original-coverage score. Both axes run a little past the grid (rule 13). Labels Costs, Income, italic Dollars ($) and Items are where the crop has them. Label check passed.
+  part -  id 12322
+    ordinal: 1
+    latex: |
+      Using the graph below, find the loss for selling 5 items.
+
+      \exfigure{1228_q5_1}
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-005
+      focus_area: Algebraic relationships
+      dot_point: Use simultaneous equations to model and analyse the break-even point where cost and revenue are represented by linear equations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Break-even analysis
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11914
+      source: generated
+      latex: |
+        Read both lines at 5 items.
+
+        Income is a line through $(0,0)$ and $(10,200)$, so it is $\$20$ per item.
+        $$\text{Income at 5 items} = 5\times 20 = \$100$$
+        Costs is a line through $(0,80)$ and $(10,200)$, so it rises $\$12$ per item.
+        $$\text{Costs at 5 items} = 80 + 5\times 12 = \$140$$
+        The loss is the costs minus the income.
+        $$\begin{aligned} \text{Loss} &= 140 - 100 \\ &= \$40 \end{aligned}$$
+        $$\therefore\ \text{the loss is } \$40, \text{ which is option C.}$$
+      source_document_id: 1228
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.93, "generated_note": "Generated working for MCQ; values read from the graph.", "self_check": "Read graph: income 100 and costs 140 at x = 5, consistent with the gradients from the crossing point (10, 200)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7029
+      confidence: medium
+      reason: Read two lines at x = 5 and subtract; two steps.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q6  key 2019-NESA-HSC-STD-Q14  id 7752
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Algebraic relationships|Simultaneous linear equations
+  home_source: computed
+  option A
+    latex: Luke: $y = 165x + 3$; Rhys: $y = 537x - 2$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: Luke: $y = 165 + 3x$; Rhys: $y = 537 - 2x$
+    is_correct: 1
+    key_source: extracted
+  option C
+    latex: Luke: $y = 3x + 165$; Rhys: $y = 2x - 537$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: Luke: $y = 3 + 165x$; Rhys: $y = 2 - 537x$
+    is_correct: 0
+    key_source: extracted
+  part -  id 12323
+    ordinal: 1
+    latex: |
+      Last Saturday, Luke had 165 followers on social media. Rhys had 537 followers. On average, Luke gains another 3 followers per day and Rhys loses 2 followers per day.
+
+      If $x$ represents the number of days since last Saturday and $y$ represents the number of followers on Saturday, which pair of equations model this situation?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-016
+      focus_area: Linear relationships
+      dot_point: Model linear relationships and interpret the features of those relationships in a variety of contexts, noting that the y-intercept is the vertical intercept and the gradient is the rate of change
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-003
+      focus_area: Algebraic relationships
+      dot_point: Develop a pair of simultaneous linear equations to model a practical situation
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Linear models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Simultaneous linear equations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11915
+      source: generated
+      latex: |
+        Each model has the form $y = \text{starting value} + \text{rate}\times x$.
+
+        Luke starts at 165 and gains 3 per day, so $y = 165 + 3x$.
+
+        Rhys starts at 537 and loses 2 per day, so $y = 537 - 2x$.
+
+        Options A and D put the starting value as the gradient; option C has Rhys starting at $-537$ and gaining 2 per day.
+        $$\therefore\ \text{the correct pair is option B.}$$
+      source_document_id: 1228
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated working for MCQ.", "self_check": "Checked x = 0 gives 165 and 537, and the gradients are +3 and -2."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9558
+      confidence: high
+      reason: Same as HSC item: match start value and rate to equations.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q7  key 2020-Kings-AT2-STD-Q7  id 7753
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Formulas and equations|Stopping distance
+  home_source: computed
+  option A
+    latex: $5$ m
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $10$ m
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $12$ m
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $15$ m
+    is_correct: 0
+    key_source: extracted
+  part -  id 12324
+    ordinal: 1
+    latex: |
+      The equation $d = 0.4(s^2 + s)$ is used to model the stopping distance for a bicycle where $d$ is the stopping distance in metres and $s$ is the bicycle’s speed in $m/s$.
+
+      What is the stopping distance of a speed of 5 metres per second?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-003
+      focus_area: Formulas and equations
+      dot_point: Calculate distance, speed and time (with change of units of measurement as required) and stopping distances of vehicles using speed=(distance)/(time) and stopping distance = reaction distance + braking distance
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Stopping distance
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11916
+      source: generated
+      latex: |
+        Substitute $s = 5$ into the model.
+        $$\begin{aligned} d &= 0.4(5^2 + 5) \\ &= 0.4 \times 30 \\ &= 12 \text{ m} \end{aligned}$$
+        $$\therefore\ \text{the stopping distance is } 12 \text{ m, which is option C.}$$
+      source_document_id: 1228
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.99, "generated_note": "Generated working for MCQ.", "self_check": "0.4 x 30 = 12."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7082
+      confidence: high
+      reason: Single substitution into a given formula.
+      area: Y11_Formulas_and_equations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q8  key 2020-Kings-AT2-STD-Q8  id 7754
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: graph
+  home_topic: sub:12|Algebraic relationships|Exponential relationships
+  home_source: computed
+  option A
+    latex: \exfigure{1228_q8_1}
+    is_correct: 1
+    key_source: extracted
+    figure_key: 1228_q8_1
+  option B
+    latex: \exfigure{1228_q8_2}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 1228_q8_2
+  option C
+    latex: \exfigure{1228_q8_3}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 1228_q8_3
+  option D
+    latex: \exfigure{1228_q8_4}
+    is_correct: 0
+    key_source: extracted
+    figure_key: 1228_q8_4
+  figure 1228_q8_1.png
+    page: 5
+    bbox: [64, 272, 242, 438]
+    png_path: figures/1228_q8_1.png
+    tikz_path: tikz/tex/1228_q8_1.tex
+    caption: option A: exponential growth through (0,1)
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Option A: y=5^x on the shared 12x12 option frame (grid in light grey, double-headed axes, ticks -5..5). Curve drawn as 0.2+0.8*5^x so it still passes through (0,1) but the left tail stays 0.2 above the axis like the crop, rather than running into the axis arrowhead. Leftover overlay colour is the blue grid now grey and the printed 'A.' option letter, which is left out because the page prints the option letters. The y tick label 1 sits just above its tick so it does not touch the curve (rule 11). Label check passed.
+  figure 1228_q8_2.png
+    page: 5
+    bbox: [320, 272, 500, 438]
+    png_path: figures/1228_q8_2.png
+    tikz_path: tikz/tex/1228_q8_2.tex
+    caption: option B: parabola with vertex at (1,0)
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Option B: y=(x-1)^2 with arrows at y about 5.8, dot at (0,1) (rule 16), same frame as the other options (rule 7). y tick label 2 moved to the right of the axis because the left branch passes through its usual place (rule 11). The (0, 1) label sits up and to the right of the dot. Grid in grey, option letter left out. Label check passed.
+  figure 1228_q8_3.png
+    page: 5
+    bbox: [64, 452, 242, 624]
+    png_path: figures/1228_q8_3.png
+    tikz_path: tikz/tex/1228_q8_3.tex
+    caption: option C: steep straight line through (0,1)
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Option C: line y=5x+1 with arrows at both ends, dot at (0,1). The line crosses the negative y tick labels on the left, so -1..-5 are written right of the axis, and 0 sits below-right of the origin (rule 11 and the 21 Nov rule). Took a third small round because the label check must pass (rule 3a). Grid in grey, option letter left out. Label check passed.
+  figure 1228_q8_4.png
+    page: 5
+    bbox: [320, 452, 500, 624]
+    png_path: figures/1228_q8_4.png
+    tikz_path: tikz/tex/1228_q8_4.tex
+    caption: option D: exponential decay through (0,1)
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Option D: y=0.2+0.8*5^(-x) (through (0,1), right tail 0.2 above the axis as in the crop), with arrows at both ends. Same frame as the other options. y tick label 1 is placed just below its tick and label 2 on the right of the axis, so neither touches the curve (rule 11). Grid in grey, option letter left out. Label check passed.
+  part -  id 12325
+    ordinal: 1
+    latex: Which of the following represents the equation $y = 5^x$?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-008
+      focus_area: Algebraic relationships
+      dot_point: Graph an exponential relationship of the form y=a^x and y=a^-x, where a>0, with and without using graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Exponential graphs
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11917
+      source: generated
+      latex: |
+        For $y = 5^x$, when $x = 0$, $y = 5^0 = 1$, so the graph passes through $(0,1)$.
+
+        Since $5 > 1$, $y$ increases as $x$ increases, and it rises more and more steeply.
+
+        As $x \to -\infty$, $5^x \to 0$, so the graph approaches the $x$-axis from above but never reaches it.
+
+        Option B is a parabola, option C is a straight line and option D is exponential decay (decreasing), so they do not match.
+        $$\therefore\ \text{the graph is option A.}$$
+      source_document_id: 1228
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "Generated working for MCQ.", "self_check": "Matched intercept (0,1), increasing, horizontal asymptote y = 0."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9599
+      confidence: high
+      reason: Recognise familiar exponential growth graph.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q9(a)  key 2020-Kings-AT2-STD-Q9a  id 7755
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Network concepts
+  home_source: computed
+  part -  id 12326
+    ordinal: 1
+    latex: |
+      A table is constructed to represent the network diagram below.
+
+      \exfigure{1228_q9_1}
+
+      Complete the given table. A dash indicates that the vertices are not directly connected.
+
+      \exfigure{1228_q9_2}
+    marks: 2
+    needs_review: 0
+    src_label: a
+    tag 2024 S11-075
+      focus_area: Networks, paths and trees
+      dot_point: Construct a network diagram to represent information from a given table or map, showing weighted and directed edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Drawing networks from tables and maps
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11825
+      source: extracted
+      latex: \extable{Ts11825_1}
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Completes at least half of the table correctly, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+      data_table Ts11825_1
+        header_rows: 1
+        label_col: 1
+        rows_json: [["", "A", "B", "C", "D"], ["A", "0", "4", "2", "-"], ["B", "4", "0", "2", "6"], ["C", "2", "2", "0", "3"], ["D", "-", "6", "3", "0"]]
+        source_latex: $$\begin{array}{c|cccc} & A & B & C & D \\ \hline A & 0 & 4 & 2 & - \\ B & 4 & 0 & 2 & 6 \\ C & 2 & 2 & 0 & 3 \\ D & - & 6 & 3 & 0 \end{array}$$
+    figure 1228_q9_1.png
+      page: 6
+      bbox: [200, 269, 394, 441]
+      png_path: figures/1228_q9_1.png
+      tikz_path: tikz/tex/1228_q9_1.tex
+      caption: weighted network on A, B, C, D
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Weighted network: circled vertices A, B, C, D in maths italic and curved edges AB 4, AC 2, BC 2, DC 3, BD 6 (the BD edge loops round the right and under C). Positions and curve bends copied from the crop at 0.6pt. The low overlay is because hand-placed Bezier curves sit a few pixels off the scan; nodes and labels line up, and the A-C edge is a little straighter than the crop's. Label check passed. Worth a quick look at the edge shapes.
+    figure 1228_q9_2.png
+      page: 6
+      bbox: [208, 461, 416, 607]
+      png_path: figures/1228_q9_2.png
+      caption: partly completed adjacency table
+      redraw_status: table
+      redraw_class: table
+      redraw_notes: Partly filled adjacency table, transcribed rather than drawn (rule 8). Blank cells kept empty; the dash is \text{-}.
+      redraw_table_id: Tf4761
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7019
+      confidence: high
+      reason: Transcribe edge weights from network into table.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q9(b)  key 2020-Kings-AT2-STD-Q9b  id 7756
+  section: II
+  question_type: extended
+  marks_total: 6
+  page_start: 7
+  page_end: 8
+  needs_review: 1
+  review_status: unreviewed
+  review_note: The paper prints a mark of 1 beside the (b) introduction as well as 1 mark on each of (i), (ii), (iii), (iv)(α) and (iv)(β); Q9 is stated as 8 marks (2 for (a)), so (b) = 6 but the sub-part marks sum to 5; MARKS_MISMATCH
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  part b  id 12327
+    ordinal: 1
+    latex: |
+      A factory requires seven computer servers to communicate with each other through a connected group of cables.
+
+      The servers, $J, K, L, M, N, O$ and $P$, are shown as vertices on the graph below. The cost, in \$, of connecting each pair of servers is shown in the diagram.
+
+      \exfigure{1228_q9_3}
+    marks: 1
+    needs_review: 1
+    figure 1228_q9_3.png
+      page: 7
+      bbox: [156, 201, 438, 434]
+      png_path: figures/1228_q9_3.png
+      tikz_path: tikz/tex/1228_q9_3.tex
+      caption: weighted network of servers J to P
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Weighted network J–P: vertices at measured positions, solid edges at house 0.6pt, weights and italic vertex labels placed as in the crop, clear of every edge. The original score is low only because the scan's strokes and dots are heavier than house weight (rule 3). Label check passed.
+  part i  id 12328
+    parent_part_id: 12327
+    ordinal: 2
+    latex: What is the cost, in dollars, of installing the cable between server $L$ and server $M$?
+    marks: 1
+    needs_review: 1
+    tag 2024 S11-076
+      focus_area: Networks, paths and trees
+      dot_point: Solve problems involving network diagrams in a variety of practical contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Drawing networks from tables and maps
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11826
+      source: extracted
+      latex: |
+        The cost of cable $LM$ is read from the diagram.
+        $$\$300$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9598
+      confidence: high
+      reason: Read one edge weight directly from the diagram.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part ii  id 12329
+    parent_part_id: 12327
+    ordinal: 3
+    latex: What is the cheapest cost, in dollars, of installing cables between server $K$ and server $N$?
+    marks: 1
+    needs_review: 1
+    tag 2024 S11-080
+      focus_area: Networks, paths and trees
+      dot_point: Identify a shortest path on a network diagram with no more than 10 vertices
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shortest paths
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11827
+      source: extracted
+      latex: |
+        The cheapest route from $K$ to $N$ is found by adding the cable costs along it.
+        $$\begin{aligned} \text{Cost} &= 440 + 480 \\ &= \$920 \end{aligned}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Route edges not stated in source; values not checked against the diagram."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6964
+      confidence: high
+      reason: Standard shortest path search between two vertices.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part iii  id 12330
+    parent_part_id: 12327
+    ordinal: 4
+    latex: |
+      An inspector checks the cables by walking along the length of each cable in one continuous path.
+
+      To avoid walking along any of the cables more than once, at which vertex should the inspector start and where would the inspector finish?
+    marks: 1
+    needs_review: 1
+    tag 2024 S11-073
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: vertex, edge, degree, directed networks and weighted edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.55
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-076
+      focus_area: Networks, paths and trees
+      dot_point: Solve problems involving network diagrams in a variety of practical contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.55
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11828
+      source: extracted
+      latex: |
+        A path using every cable exactly once must start and finish at the two vertices of odd degree.
+        $$\therefore\ \text{start at } N \text{ and finish at } P \text{ (or the reverse)}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6968
+      confidence: medium
+      reason: Apply odd-degree vertex rule for trail; less familiar concept.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 4
+      wm_ai: UF
+      source: shifted
+  part iv  id 12331
+    parent_part_id: 12327
+    ordinal: 5
+    latex: The computer servers will be able to communicate with all the other servers as long as each server is connected by cable to at least one other server.
+    needs_review: 1
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9598
+      confidence: low
+      reason: Stem statement only; no task, marks or solution given.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part α  id 12332
+    ordinal: 6
+    latex: |
+      The cheapest installation that will join the seven computer servers by cable in a connected network follows a minimum spanning tree.
+
+      Draw the minimum spanning tree on the plan below.
+
+      \exfigure{1228_q9_4}
+    marks: 1
+    needs_review: 1
+    tag 2024 S11-078
+      focus_area: Networks, paths and trees
+      dot_point: Determine the minimum spanning tree of a network with weighted edges, using any method
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-079
+      focus_area: Networks, paths and trees
+      dot_point: Use minimum spanning trees to solve minimal connector problems
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11829
+      source: extracted
+      latex: |
+        \exfigure{1228_q9_s1}
+
+        The minimum spanning tree (drawn in blue) uses the cables $JP$, $JK$, $KL$, $LM$, $PO$ and $ON$.
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Guideline figure kept."}
+    figure 1228_q9_4.png
+      page: 8
+      bbox: [197, 241, 454, 459]
+      png_path: figures/1228_q9_4.png
+      tikz_path: tikz/tex/1228_q9_4.tex
+      caption: dashed copy of server network for drawing spanning tree
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Dashed copy of the network. House aux fine dashes instead of the crop's heavier dashes (rule 3). Same layout and labels as the crop. Label check passed.
+    figure 1228_q9_s1.png
+      page: 26
+      bbox: [200, 245, 450, 455]
+      png_path: figures/1228_q9_s1.png
+      tikz_path: tikz/tex/1228_q9_s1.tex
+      caption: solution sketch: minimum spanning tree drawn in blue on the server network
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Solution: the minimum spanning tree JP, JK, KL, LM, PO, ON (from the solution text) drawn as solid 0.9pt black lines in place of the hand-drawn blue scribbles (rules 6, 9, 17). The other edges stay dashed in aux style. The low original score comes from the blue scribbles, which were left out on purpose. Label check passed.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6967
+      confidence: high
+      reason: Standard minimum spanning tree construction.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part β  id 12333
+    ordinal: 7
+    latex: |
+      The factory's manager has decided that only six connected computer servers will be needed, rather than seven.
+
+      How much would be saved in installation costs if the factory removed computer server $P$ from its minimum spanning tree network?
+
+      A copy of the graph above is provided below to assist with your working.
+
+      \exfigure{1228_q9_5}
+    marks: 1
+    needs_review: 1
+    tag 2024 S11-078
+      focus_area: Networks, paths and trees
+      dot_point: Determine the minimum spanning tree of a network with weighted edges, using any method
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-079
+      focus_area: Networks, paths and trees
+      dot_point: Use minimum spanning trees to solve minimal connector problems
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11830
+      source: extracted
+      latex: |
+        Removing $P$ removes the cables $JP$ and $OP$, saving
+        $$200 + 400 = \$600$$
+        The remaining servers must still be connected, so add cable $NM$ at a cost of $\$480$.
+        $$\begin{aligned} \text{Saving} &= 600 - 480 \\ &= \$120 \end{aligned}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    figure 1228_q9_5.png
+      page: 8
+      bbox: [197, 574, 454, 787]
+      png_path: figures/1228_q9_5.png
+      tikz_path: tikz/tex/1228_q9_5.tex
+      caption: dashed copy of server network for working
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Dashed working copy of the network, drawn in house aux dashes at the measured positions. Label check passed.
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 7023
+      confidence: medium
+      reason: Removing vertex disconnects tree; must reconnect with cheapest edge.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q10  key 2020-Kings-AT2-STD-Q10  id 7757
+  section: II
+  question_type: extended
+  marks_total: 4
+  page_start: 9
+  page_end: 9
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  part -  id 12334
+    ordinal: 1
+    latex: |
+      The following table shows the travelling time, in minutes, between towns which are directly connected by roads. A dash (-) indicates that towns are not directly connected.
+
+      \exfigure{1228_q10_1}
+    needs_review: 0
+    src_label: a
+    figure 1228_q10_1.png
+      page: 9
+      bbox: [236, 178, 359, 295]
+      png_path: figures/1228_q10_1.png
+      caption: travelling time table for towns A to E
+      redraw_status: table
+      redraw_class: table
+      redraw_notes: Distance table, transcribed. Dashes mean the towns are not directly connected.
+      redraw_table_id: Tf4765
+  part a  id 12335
+    parent_part_id: 12334
+    ordinal: 2
+    latex: Draw a network diagram showing the information in this table.
+    marks: 2
+    needs_review: 0
+    src_label: i
+    tag 2024 S11-075
+      focus_area: Networks, paths and trees
+      dot_point: Construct a network diagram to represent information from a given table or map, showing weighted and directed edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Drawing networks from tables and maps
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11831
+      source: extracted
+      latex: \exfigure{1228_q10_s1}
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Draws some of the edges with correct weights, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    figure 1228_q10_s1.png
+      page: 27
+      bbox: [110, 315, 360, 465]
+      png_path: figures/1228_q10_s1.png
+      tikz_path: tikz/tex/1228_q10_s1.tex
+      caption: solution sketch: hand-drawn network diagram for towns A to E
+      redraw_status: approx
+      redraw_class: other
+      redraw_notes: Hand-drawn network redrawn as a clean diagram with the same layout: D, A, B on one row, E under B, the curved D–B edge above and the curved D–E edge below. Rule 18 changes from the sketch: the teacher's unlabelled junction is now vertex C (edges AC 18, BC 28, CE 50), and the D–B weight is 32 as in the table and solution (62 = 10+32+20), not the sketch's '30'. Edges are joined up rather than left as gapped pen strokes (rules 10, 17). The overlay scores are low because the hand lettering and wobbly strokes were not copied.
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7079
+      confidence: high
+      reason: Draw weighted network from a table; routine.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 12336
+    parent_part_id: 12334
+    ordinal: 3
+    latex: Find the shortest travelling time between $A$ and $E$. List your chosen vertices.
+    marks: 2
+    needs_review: 0
+    src_label: ii
+    tag 2024 S11-080
+      focus_area: Networks, paths and trees
+      dot_point: Identify a shortest path on a network diagram with no more than 10 vertices
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shortest paths
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11832
+      source: extracted
+      latex: |
+        The shortest route is $A \to D \to B \to E$.
+        $$\text{Shortest time} = 62 \text{ minutes}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Gives a valid route or the correct time, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Route written as A D B E in source; shown here with arrows as path notation only."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6964
+      confidence: high
+      reason: Shortest path through several vertices; standard method.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q11(a)  key 2020-Kings-AT2-STD-Q11a  id 7758
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 10
+  page_end: 10
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Linear relationships|Linear modelling
+  home_source: computed
+  part -  id 12337
+    ordinal: 1
+    latex: Find the equation of a line with a gradient of $2$ and passing through $(0, -2)$.
+    marks: 2
+    needs_review: 0
+    src_label: a
+    tag 2024 S11-013
+      focus_area: Linear relationships
+      dot_point: Determine the equation of a straight line of the form y=mx+c where m is the gradient and c is the y-intercept
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Finding the equation of a straight line
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11833
+      source: extracted
+      latex: |
+        Using $y = mx + b$ with gradient $m = 2$ and $y$-intercept $b = -2$:
+        $$y = 2x - 2$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Substitutes the gradient or the intercept correctly, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7058
+      confidence: high
+      reason: Substitute given gradient and intercept into y = mx + b.
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q11(b)  key 2020-Kings-AT2-STD-Q11b  id 7759
+  section: II
+  question_type: extended
+  marks_total: 4
+  page_start: 11
+  page_end: 11
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Formulas and equations|Substitution
+  home_source: computed
+  part -  id 12338
+    ordinal: 1
+    latex: |
+      A factory makes boots and sandals. The number made in any week of
+
+      \begin{itemize}
+      \item boots and sandals is a total of 200
+      \item boots is a maximum of 120
+      \item sandals is a maximum of 150
+      \end{itemize}
+
+      The factory manager has drawn a graph to show the number of pairs of boots ($x$) and sandals ($y$) that can be made.
+
+      \exfigure{1228_q11_1}
+    needs_review: 0
+    src_label: b
+    figure 1228_q11_1.png
+      page: 11
+      bbox: [285, 155, 575, 382]
+      png_path: figures/1228_q11_1.png
+      tikz_path: tikz/tex/1228_q11_1.tex
+      caption: graph of line AD with points B(50,150) and C
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: AD drawn as an aux-dashed line on a true scale. Segment BC is solid at 0.9pt (rule 9), with dotted guides from B to the y-axis and from C to x=120. The curved arrow from the 120 label points to the axis. Axis titles set at 11pt to match the crop. Round 2 moved the B(50, 150) label clear of the line. Remaining colour is small text-position and scan-weight differences. Label check passed.
+  part a  id 12339
+    parent_part_id: 12338
+    ordinal: 2
+    latex: Find the equation of the line $AD$.
+    marks: 1
+    needs_review: 0
+    src_label: i
+    tag 2024 S11-013
+      focus_area: Linear relationships
+      dot_point: Determine the equation of a straight line of the form y=mx+c where m is the gradient and c is the y-intercept
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Finding the equation of a straight line
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11834
+      source: extracted
+      latex: |
+        The line $AD$ joins the points where boots plus sandals total 200.
+        $$\begin{aligned} x + y &= 200 \\ y &= -x + 200 \end{aligned}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9671
+      confidence: medium
+      reason: Form line equation from total constraint or intercepts.
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 12340
+    parent_part_id: 12338
+    ordinal: 3
+    latex: Explain why this line is only relevant between $B$ and $C$ for this factory.
+    marks: 1
+    needs_review: 0
+    src_label: ii
+    tag 2024 S11-018
+      focus_area: Linear relationships
+      dot_point: Identify and describe the limitations of a linear model in a practical context
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Linear models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11835
+      source: extracted
+      latex: The maximum number of boots is $120$, so $x$ cannot be greater than $120$.
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 9580
+      confidence: high
+      reason: Explain domain restriction from context constraints.
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: PR
+      source: model
+  part c  id 12341
+    parent_part_id: 12338
+    ordinal: 4
+    latex: |
+      The profit per week, \$$P$, can be found by using the equation $P = 24x + 15y$.
+
+      Compare the profits at $B$ and $C$.
+    marks: 2
+    needs_review: 0
+    src_label: iii
+    tag 2024 S11-008
+      focus_area: Formulas and equations
+      dot_point: Apply given formulas to solve problems in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Substitution into formulas
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11836
+      source: extracted
+      latex: |
+        At $B$, $x = 50$ and $y = 150$.
+        $$\begin{aligned} P &= 24 \times 50 + 15 \times 150 \\ &= \$3450 \end{aligned}$$
+        At $C$, $x = 120$ and $y = 80$.
+        $$\begin{aligned} P &= 24 \times 120 + 15 \times 80 \\ &= \$4080 \end{aligned}$$
+        Therefore at $C$ the profit is $\$630$ more than at $B$.
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Correctly finds one of the profits, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7029
+      confidence: medium
+      reason: Find B, C coordinates, substitute into profit, compare.
+      area: Y11_Formulas_and_equations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q11(c)  key 2020-Kings-AT2-STD-Q11c  id 7760
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 12
+  page_end: 12
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Simultaneous linear equations
+  home_source: computed
+  part -  id 12342
+    ordinal: 1
+    latex: |
+      A computer application was used to draw the graphs of the equations
+
+      $$y = x - 4 \text{ and } y = -x - 2$$
+
+      Part of the screen is shown below:
+
+      \exfigure{1228_q11_2}
+    needs_review: 0
+    src_label: c
+    figure 1228_q11_2.png
+      page: 12
+      bbox: [157, 205, 466, 487]
+      png_path: figures/1228_q11_2.png
+      tikz_path: tikz/tex/1228_q11_2.tex
+      caption: graphs of y = x - 4 and y = -x - 2
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Grid from -10 to 10 with light grey lines, double-arrow axes, a tick at every unit, and the lines y=x-4 and y=-x-2 at 0.9pt with filled arrowheads at both ends. They cross at the true point (1,-3). The tick labels are \tiny to match the paper's small print. On the paper the lines run through several tick labels, so these were moved (rules 11 and 24, 21 Nov ruling): x-labels -1 and 3 go to the mirror position above the axis, x-label 1 goes above so it doesn't hit the moved y-label -1, and y-labels -1 and -5 go to the right of the y-axis. Round 2 fixed the grid step. The 0.70 original-side score comes from the scan's heavy strokes and grid, not from anything out of place. Rules used: 1, 3, 4, 9, 11, 13, 16, 24.
+  part a  id 12343
+    parent_part_id: 12342
+    ordinal: 2
+    latex: What is the solution when the equations are solved simultaneously?
+    marks: 1
+    needs_review: 0
+    src_label: i
+    tag 2024 S2-12-001
+      focus_area: Algebraic relationships
+      dot_point: Graph two linear equations and identify the point of intersection, with and without using graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-002
+      focus_area: Algebraic relationships
+      dot_point: Solve a pair of simultaneous linear equations using graphical and algebraic methods
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Simultaneous linear equations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11837
+      source: extracted
+      latex: |
+        The solution is the point of intersection of the two lines, read from the graph.
+        $$(1, -3)$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7028
+      confidence: high
+      reason: Read intersection point from graph.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 12344
+    parent_part_id: 12342
+    ordinal: 3
+    latex: Find the equation of a horizontal line that passes through the point of intersection of the two lines.
+    marks: 1
+    needs_review: 0
+    src_label: ii
+    tag 2024 S11-013
+      focus_area: Linear relationships
+      dot_point: Determine the equation of a straight line of the form y=mx+c where m is the gradient and c is the y-intercept
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Finding the equation of a straight line
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11838
+      source: extracted
+      latex: |
+        A horizontal line through $(1, -3)$ has constant $y$-value.
+        $$y = -3$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7058
+      confidence: medium
+      reason: Horizontal line y = constant through known point.
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q12(a)  key 2020-Kings-AT2-STD-Q12a  id 7761
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 13
+  page_end: 13
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Reciprocal relationships
+  home_source: computed
+  part -  id 12345
+    ordinal: 1
+    latex: |
+      The number of hours that it takes for a block of ice to melt varies inversely with the temperature. At $30^\circ\text{C}$ it takes 8 hours for a block of ice to melt.
+
+      How long will it take the same size block of ice to melt at $12^\circ\text{C}$ where the equation is modelled by the formula:
+
+      $$h = \dfrac{k}{t}$$
+
+      where
+
+      $h$ represents time, in hours
+
+      $t$ represents temperature, in degrees Celsius?
+    marks: 2
+    needs_review: 0
+    src_label: a
+    tag 2024 S2-12-023
+      focus_area: Algebraic relationships
+      dot_point: Construct a reciprocal model of the form y=(k)/(x) to analyse inverse variation problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-024
+      focus_area: Algebraic relationships
+      dot_point: Solve inverse variation problems graphically, or algebraically given the value of two of the variables in y=(k)/(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal relationships
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11839
+      source: extracted
+      latex: |
+        Substitute $h = 8$ and $t = 30$ into $h = \dfrac{k}{t}$ to find $k$.
+        $$\begin{aligned} 8 &= \dfrac{k}{30} \\ k &= 240 \end{aligned}$$
+        Now use $t = 12$.
+        $$\begin{aligned} h &= \dfrac{240}{12} \\ &= 20 \text{ hours} \end{aligned}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds $k = 240$, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6957
+      confidence: high
+      reason: Find k then substitute; standard inverse variation.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q12(b)  key 2020-Kings-AT2-STD-Q12b  id 7762
+  section: II
+  question_type: extended
+  marks_total: 5
+  page_start: 14
+  page_end: 14
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Reciprocal relationships
+  home_source: computed
+  part -  id 12346
+    ordinal: 1
+    latex: The equation $s = \dfrac{480}{t}$ can be used to model the average speed necessary to travel 480 km in a particular time, where $t$ is the time in hours and $s$ is the speed in kilometres per hour.
+    needs_review: 0
+    src_label: b
+  part a  id 12347
+    parent_part_id: 12346
+    ordinal: 2
+    latex: |
+      Complete the table below and draw the graph of $s = \dfrac{480}{t}$.
+
+      \exfigure{1228_q12_1}
+
+      \exfigure{1228_q12_2}
+    marks: 3
+    needs_review: 0
+    src_label: i
+    tag 2024 S2-12-022
+      focus_area: Algebraic relationships
+      dot_point: Graph a reciprocal relationship of the form y=(k)/(x), with and without using graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal relationships
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11840
+      source: extracted
+      latex: \exfigure{1228_q12_s1}
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Completes the table correctly and plots the points, or equivalent merit"], [1, "Completes the table correctly, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    figure 1228_q12_1.png
+      page: 14
+      bbox: [166, 218, 429, 265]
+      png_path: figures/1228_q12_1.png
+      caption: blank table of t and s values
+      redraw_status: table
+      redraw_class: table
+      redraw_notes: Blank table of values: a t row and an empty s row, transcribed.
+      redraw_table_id: Tf4768
+    figure 1228_q12_2.png
+      page: 14
+      bbox: [87, 279, 536, 533]
+      png_path: figures/1228_q12_2.png
+      tikz_path: tikz/tex/1228_q12_2.tex
+      caption: blank grid for graph of s against t
+      redraw_status: ok
+      redraw_class: blank_axes
+      redraw_notes: Blank grid with t from -1 to 25 and s from -10 to 200. Minor grid lines every 1 and every 10, darker major lines every 5 and every 50 (still light grey). Double-arrow axes with ticks and the paper's labels. The s tick labels sit just left of the grid instead of on it, so the grid lines don't touch them (rule 11). Rules used: 1, 2, 3, 4, 11.
+    figure 1228_q12_s1.png
+      page: 32
+      bbox: [90, 205, 520, 520]
+      png_path: figures/1228_q12_s1.png
+      tikz_path: tikz/tex/1228_q12_s1.tex
+      caption: solution sketch: completed table and hand-drawn graph of s = 480/t
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Completed table and graph of s=480/t, drawn in black instead of the student's blue. The curve comes from the equation (0.9pt, arrowheads at both ends, t from 2.75 to 25.2), with the six table points plotted at their true positions. The handwritten table entry '130' is corrected to 120 (480/4), and its point is drawn at (4,120), not 130 (rules 16, 18). The grid matches the blank question grid. The low scores come from the handwritten digits, the thick blue pen strokes, the scan's dotted grid and the misplotted point. Rules used: 6, 10, 16, 17, 18.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9584
+      confidence: high
+      reason: Complete table of values and plot hyperbola.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 12348
+    parent_part_id: 12346
+    ordinal: 3
+    latex: Use the graph to find the average speed required to complete the 480 km trip in 7 hours.
+    marks: 1
+    needs_review: 0
+    src_label: ii
+    tag 2024 S2-12-024
+      focus_area: Algebraic relationships
+      dot_point: Solve inverse variation problems graphically, or algebraically given the value of two of the variables in y=(k)/(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal relationships
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11841
+      source: extracted
+      latex: |
+        Reading the graph at $t = 7$:
+        $$s \approx 70 \text{ km/h}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Check: $\\dfrac{480}{7} \\approx 68.6$, consistent with the graph reading."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7024
+      confidence: high
+      reason: Read value from graph.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 12349
+    parent_part_id: 12346
+    ordinal: 4
+    latex: Use the graph to estimate the time it would take to complete the trip at an average speed of 45 km/h.
+    marks: 1
+    needs_review: 0
+    src_label: iii
+    tag 2024 S2-12-024
+      focus_area: Algebraic relationships
+      dot_point: Solve inverse variation problems graphically, or algebraically given the value of two of the variables in y=(k)/(x)
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Reciprocal relationships
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11842
+      source: extracted
+      latex: |
+        Reading the graph at $s = 45$:
+        $$t \approx 10.5 \text{ hours}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Check: $\\dfrac{480}{45} \\approx 10.7$, so the graph reading $10.5$ is an estimate."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7024
+      confidence: high
+      reason: Read graph in reverse to estimate time.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q12(c)  key 2020-Kings-AT2-STD-Q12c  id 7763
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 15
+  page_end: 15
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Quadratic relationships
+  home_source: computed
+  part -  id 12350
+    ordinal: 1
+    latex: |
+      The relationship between speed ($s$) and time ($t$) for a motor vehicle is modelled by the curve as shown in the graph.
+
+      \exfigure{1228_q12_3}
+    needs_review: 0
+    src_label: c
+    figure 1228_q12_3.png
+      page: 15
+      bbox: [139, 177, 457, 378]
+      png_path: figures/1228_q12_3.png
+      tikz_path: tikz/tex/1228_q12_3.tex
+      caption: parabola graph of speed against time
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Parabola s=(t-4.5)^2+0.75 at 0.9pt, fitted to the crop: it passes through (3,3), (4,1), (5,1) and (6,3) and has its lowest point at t=4.5, so the question can be answered from it. Grid 0-9 by 0-7 in light grey (the paper's is black), with arrowed axes and the labels 's (m/min)' and 't (min)'. Round 2 fixed the grid step and the horizontal scale. Rules used: 1, 3, 9, 10.
+  part a  id 12351
+    parent_part_id: 12350
+    ordinal: 2
+    latex: What is the speed when the time is 2.5 minutes?
+    marks: 1
+    needs_review: 0
+    src_label: i
+    tag 2024 S2-12-017
+      focus_area: Algebraic relationships
+      dot_point: Analyse a given graph of a quadratic relationship and use it to solve practical problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Quadratic models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11843
+      source: extracted
+      latex: |
+        Reading the graph at $t = 2.5$:
+        $$s = 5 \text{ m/min}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7017
+      confidence: high
+      reason: Read value directly from graph.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 12352
+    parent_part_id: 12350
+    ordinal: 3
+    latex: What time achieves the lowest speed?
+    marks: 1
+    needs_review: 0
+    src_label: ii
+    tag 2024 S2-12-017
+      focus_area: Algebraic relationships
+      dot_point: Analyse a given graph of a quadratic relationship and use it to solve practical problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-018
+      focus_area: Algebraic relationships
+      dot_point: Interpret the meaning of the intercepts and vertex of a parabola in a variety of contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Features of a parabola
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11844
+      source: extracted
+      latex: |
+        The lowest speed is the lowest point of the curve.
+        $$t = 4.5 \text{ min}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7024
+      confidence: high
+      reason: Identify minimum point on graph.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 12353
+    parent_part_id: 12350
+    ordinal: 4
+    latex: Determine the time required to achieve a speed of 3 metres per minute.
+    marks: 1
+    needs_review: 0
+    src_label: iii
+    tag 2024 S2-12-017
+      focus_area: Algebraic relationships
+      dot_point: Analyse a given graph of a quadratic relationship and use it to solve practical problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Quadratic models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11845
+      source: extracted
+      latex: |
+        Reading the graph at $s = 3$:
+        $$t = 3 \text{ min}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Graph values not checked."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7018
+      confidence: high
+      reason: Read graph in reverse for given speed.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q13  key 2020-Kings-AT2-STD-Q13  id 7764
+  section: II
+  question_type: extended
+  stem_latex: |
+    Wind turbines, such as those shown, are used to generate power.
+
+    \exfigure{1228_q13_1}
+
+    In theory, the power that could be generated by a wind turbine is modelled using the equation
+
+    $$T = 20\,000w^3,$$
+
+    where
+
+    $T$ is the theoretical power generated, in watts
+
+    $w$ is the speed of the wind, in metres per second
+  marks_total: 9
+  page_start: 16
+  page_end: 18
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Formulas and equations|Substitution
+  home_source: computed
+  figure 1228_q13_1.png
+    page: 16
+    bbox: [154, 163, 413, 359]
+    png_path: figures/1228_q13_1.png
+    caption: photo of wind turbines
+    redraw_status: keep_crop
+    redraw_class: photo
+    redraw_notes: Photograph of wind turbines, not redrawn.
+  part a  id 12354
+    ordinal: 1
+    latex: Using this equation, what is the theoretical power generated by a wind turbine if the wind speed is $7.3$ m/s?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-001
+      focus_area: Formulas and equations
+      dot_point: Substitute numbers into linear and non-linear algebraic expressions, equations and formulas
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Substitution into formulas
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11846
+      source: extracted
+      latex: |
+        Substitute $w = 7.3$ into $T = 20\,000w^3$.
+        $$\begin{aligned} T &= 20\,000 \times 7.3^3 \\ &= 7\,780\,340 \text{ watts} \end{aligned}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7082
+      confidence: high
+      reason: Single substitution into a given formula.
+      area: Y11_Formulas_and_equations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 12355
+    ordinal: 2
+    latex: |
+      In practice, the actual power generated by a wind turbine is only 40% of the theoretical power.
+
+      If $A$ is the actual power generated, in watts, write an equation for $A$ in terms of $w$.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-008
+      focus_area: Formulas and equations
+      dot_point: Apply given formulas to solve problems in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.55
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Substitution into formulas
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11847
+      source: extracted
+      latex: |
+        The actual power is $40\%$ of the theoretical power.
+        $$\begin{aligned} A &= 0.4 \times 20\,000w^3 \\ &= 8000w^3 \end{aligned}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7083
+      confidence: medium
+      reason: Build new formula by applying 40% to given model.
+      area: Y11_Formulas_and_equations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 12356
+    ordinal: 3
+    latex: |
+      The graph shows both the theoretical power generated and the actual power generated by a particular wind turbine.
+
+      \exfigure{1228_q13_2}
+
+      Using the graph, or otherwise, find the difference between the theoretical power and the actual power generated when the wind speed is 9 m/s.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-001
+      focus_area: Formulas and equations
+      dot_point: Substitute numbers into linear and non-linear algebraic expressions, equations and formulas
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Substitution into formulas
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11848
+      source: extracted
+      latex: |
+        From the graph at $w = 9$:
+        $$\begin{aligned} A &= 5.8 \text{ million watts} \\ T &= 14.6 \text{ million watts} \end{aligned}$$
+        $$\begin{aligned} \text{Difference} &= 14.6 - 5.8 \\ &= 8.8 \text{ million watts} \end{aligned}$$
+        Alternatively, calculate from the formulas at $w = 9$.
+        $$\begin{aligned} T &= 20\,000 \times 9^3 = 14\,580\,000 \text{ watts} \\ A &= 8000 \times 9^3 = 5\,832\,000 \text{ watts} \end{aligned}$$
+        $$\begin{aligned} \text{Difference} &= 14\,580\,000 - 5\,832\,000 \\ &= 8\,748\,000 \text{ watts} \end{aligned}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Finds one of $A$ or $T$ correctly, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Graph reading $8.8$ million is consistent with the calculated $8.748$ million."}
+    figure 1228_q13_2.png
+      page: 17
+      bbox: [86, 177, 537, 476]
+      png_path: figures/1228_q13_2.png
+      tikz_path: tikz/tex/1228_q13_2.tex
+      caption: graph of theoretical and actual power against wind speed
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Curves T=0.02w^3 and A=0.008w^3 (millions of watts) at 0.9pt, with T stopping at 18. Light grey graph paper: major lines every 1 m/s and every 2 million, minor lines every 0.2 and every 0.4. The curve labels use \halo so the grid lines stop around the text. Axis titles and tick labels follow the paper, with the y title rotated. Rules used: 1, 5b, 9, 10, 11.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7029
+      confidence: medium
+      reason: Read or compute two values and subtract.
+      area: Y11_Formulas_and_equations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part d  id 12357
+    ordinal: 4
+    latex: |
+      A particular farm requires at least 4.4 million watts of actual power in order to be self-sufficient.
+
+      What is the minimum wind speed required for the farm to be self-sufficient?
+    marks: 2
+    needs_review: 0
+    tag 2024
+      coverage: removed
+      is_primary: 1
+      confidence: 0.6
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag note MS-A1
+      dot_point: Solving 8000w^3 = 4.4 million needs a cube root, which is rearranging beyond linear and y = ax^2 + c.
+      is_primary: 0
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11849
+      source: extracted
+      latex: |
+        The farm needs $A = 4\,400\,000$ watts.
+        $$\begin{aligned} 8000w^3 &= 4\,400\,000 \\ w^3 &= 550 \\ w &= 8.1932\ldots \\ &\approx 8.2 \text{ m/s (1 dp)} \end{aligned}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Sets up $8000w^3 = 4\\,400\\,000$, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none)."}
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7054
+      confidence: medium
+      reason: Use formula in reverse requiring a cube root.
+      area: Unhomed
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 4
+      wm_ai: UF
+      source: model
+  part e  id 12358
+    ordinal: 5
+    latex: |
+      A more accurate formula to calculate the power ($P$) generated by a wind turbine is
+
+      $$P = 0.61 \times \pi \times r^2 \times w^3,$$
+
+      where
+
+      $r$ is the length of each blade, in metres
+
+      $w$ is the speed of the wind, in metres per second
+
+      Each blade of a particular wind turbine has a length of 43 metres. The turbine operates at a wind speed of 8 m/s.
+
+      Using the formula above, if the wind speed increased by 10%, what would be the percentage increase in the power generated by this wind turbine?
+    marks: 3
+    needs_review: 0
+    tag 2024 S11-008
+      focus_area: Formulas and equations
+      dot_point: Apply given formulas to solve problems in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Percentage increase and decrease
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Substitution into formulas
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11850
+      source: extracted
+      latex: |
+        Use $r = 43$ and $w = 8$ in $P = 0.61 \times \pi \times r^2 \times w^3$.
+        $$P = 0.61 \times \pi \times 43^2 \times 8^3 = 1\,814\,205.92 \text{ watts}$$
+        A $10\%$ increase in speed gives
+        $$w = 8 \times 110\% = 8.8 \text{ m/s}$$
+        $$P = 0.61 \times \pi \times 43^2 \times 8.8^3 = 2\,414\,708.08 \text{ watts}$$
+        $$\begin{aligned} \text{Increase} &= 2\,414\,708.08 - 1\,814\,205.92 \\ &= 600\,502.16 \end{aligned}$$
+        $$\begin{aligned} \text{Percentage increase} &= \dfrac{600\,502.16}{1\,814\,205.92} \times 100\% \\ &\approx 33\% \end{aligned}$$
+      source_document_id: 1228
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Finds both powers, or equivalent merit"], [1, "Finds one power correctly, or equivalent merit"]]
+      meta_json: {"format_note": "Rubric written by us (source had none). Source wrote $0.331 \\approx 33\\%$; shown as the percentage. Power values differ slightly in the last digits from a calculator but the result is unchanged."}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 9692
+      confidence: medium
+      reason: Several steps: two evaluations then percentage change.
+      area: Y11_Formulas_and_equations
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 4
+      wm_ai: PR
+      source: model

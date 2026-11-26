@@ -1,0 +1,3244 @@
+# paper 2019-CTHS-AP3-STD (document 706)
+document
+  id: 706
+  drive_file_id: 1bRcCsy_2EqIptxBqgIf6XWhAgrv8Wu6g
+  source_path: CTHS/Std/Y12/2019 Y12 Std AP3 Networks, Simultaneous, Trig w Solutions.pdf
+  size_bytes: 1541463
+  task_type: internal_exam
+  course: standard
+  classification_method: explicit_cover
+  year_level: 12
+  school: CTHS
+  year: 2019
+  bundled_solutions: 0
+  status: parsed
+  failure_reason: path/filename names a non-target course or year (not cover-checked)
+  ingested_at: 2026-11-10T22:53:15
+  display_label: 2019 Cherrybrook Technology High School AP3
+  school_formal: Cherrybrook Technology High School
+  task_code: AP3
+
+## Q1  key 2019-CTHS-AP3-STD-Q1  id 7864
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 0
+  page_end: 0
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Trigonometry|Right angled trigonometry
+  home_source: computed
+  option A
+    latex: $1.37^\circ$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $1.56^\circ$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $89.33^\circ$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $89.20^\circ$
+    is_correct: 0
+    key_source: extracted
+  part -  id 12515
+    ordinal: 1
+    latex: If $\tan\theta^\circ = 85$, what is the value of $\theta^\circ$, correct to 2 decimal places?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-062
+      focus_area: Trigonometry
+      dot_point: Apply trigonometric ratios to right-angled triangles to find either the lengths of unknown sides or the size of unknown angles in both degrees, and degrees and minutes
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Right-angled trigonometry
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12117
+      source: generated
+      latex: |
+        Use the inverse tangent on a calculator (degree mode).
+        $$\theta = \tan^{-1}(85) \approx 89.33^\circ$$
+        The angle is very close to $90^\circ$ because $\tan\theta$ is large, so $1.37^\circ$ and $1.56^\circ$ are too small, and $89.20^\circ$ is not the calculator value.
+        $$\therefore\ \theta \approx 89.33^\circ$$
+      source_document_id: 706
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "MCQ working written; key C already given", "self_check": "arctan 85 = 90 - arctan(1/85) = 89.326, computed independently"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6954
+      confidence: high
+      reason: Single calculator step: inverse tangent in degree mode.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q2  key 2019-CTHS-AP3-STD-Q2  id 7865
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 0
+  page_end: 0
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Networks, paths and trees|Network concepts
+  home_source: computed
+  option A
+    latex: $2$
+    is_correct: 1
+    key_source: extracted
+  option B
+    latex: $3$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $4$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $5$
+    is_correct: 0
+    key_source: extracted
+  figure 706_q2_1.png
+    page: 0
+    bbox: [176, 296, 266, 370]
+    png_path: figures/706_q2_1.png
+    tikz_path: tikz/tex/706_q2_1.tex
+    caption: directed network with vertices A to E
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Directed network A–E: six straight edges with filled Latex arrowheads at mid-edge (A→E, B→A, E→B, D→A, C→D, C→B), black vertex dots (red/blue original turned black, rule 6), italic labels. Third render moved only the D label up-left so it clears edge DA (label check). The redraw score of 0.78 comes from the scan's thicker blue strokes and the slightly offset B/D labels. Rules 3, 4, 6, 11, 19.
+  part -  id 12516
+    ordinal: 1
+    latex: |
+      The number of vertices with an odd degree in the network below is:
+
+      \exfigure{706_q2_1}
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-073
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: vertex, edge, degree, directed networks and weighted edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12118
+      source: generated
+      latex: |
+        The degree of a vertex is the number of edges meeting at it. Reading the edges from the network: $AB$, $AE$, $AD$, $BE$, $BC$, $CD$.
+        $$\begin{aligned} \deg A &= 3 &&(AB, AE, AD)\\ \deg B &= 3 &&(AB, BE, BC)\\ \deg C &= 2 &&(BC, CD)\\ \deg D &= 2 &&(AD, CD)\\ \deg E &= 2 &&(AE, BE) \end{aligned}$$
+        Only $A$ and $B$ have odd degree.
+        $$\therefore\ \text{there are 2 vertices of odd degree}$$
+      source_document_id: 706
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "MCQ working written; key A already given", "self_check": "Edges read from figure; degree sum 12 = 2 x 6 edges"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9598
+      confidence: high
+      reason: Direct count of vertex degrees from a small network.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q3  key 2019-CTHS-AP3-STD-Q3  id 7866
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 0
+  page_end: 0
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Trigonometry|Right angled trigonometry
+  home_source: computed
+  option A
+    latex: $\dfrac{8}{\cos 30^\circ}$
+    is_correct: 1
+    key_source: extracted
+  option B
+    latex: $\dfrac{8}{\sin 30^\circ}$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $8 \times \cos 30^\circ$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $8 \times \sin 30^\circ$
+    is_correct: 0
+    key_source: extracted
+  figure 706_q3_1.png
+    page: 0
+    bbox: [104, 483, 305, 567]
+    png_path: figures/706_q3_1.png
+    tikz_path: tikz/tex/706_q3_1.tex
+    caption: right-angled triangle with hypotenuse x
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Right-angled triangle drawn at the crop's positions. The small right-angle mark is at the apex, with labels 8, 30°, x and NOT TO SCALE. Round 2 shrank the right-angle square to match the crop and nudged 30° and x. The scores just under 0.85 come from the scan's grey strokes and serif-font differences. Rules 1, 3, 11.
+  part -  id 12517
+    ordinal: 1
+    latex: |
+      Which is the correct expression for the value of $x$ in the triangle?
+
+      \exfigure{706_q3_1}
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-062
+      focus_area: Trigonometry
+      dot_point: Apply trigonometric ratios to right-angled triangles to find either the lengths of unknown sides or the size of unknown angles in both degrees, and degrees and minutes
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Right-angled trigonometry
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12119
+      source: generated
+      latex: |
+        The right angle is at the top vertex, so $x$ is the hypotenuse. The side of length $8$ is adjacent to the $30^\circ$ angle.
+
+        Using the cosine ratio,
+        $$\cos 30^\circ = \dfrac{8}{x}$$
+        $$\therefore\ x = \dfrac{8}{\cos 30^\circ}$$
+      source_document_id: 706
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "MCQ working written; key A already given", "self_check": "cos = adjacent/hypotenuse; hypotenuse is the side opposite the right angle"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6954
+      confidence: high
+      reason: Pick the right-angle trig ratio for the hypotenuse; one step.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q4  key 2019-CTHS-AP3-STD-Q4  id 7867
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Trigonometry|Sine rule
+  home_source: computed
+  option A
+    latex: $2 \times \sin 122.6^\circ$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $\dfrac{5 \times \sin 122.6^\circ}{8}$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $\dfrac{\sin 122.6^\circ}{2}$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $\dfrac{5^2 + 4 - 8}{2 \times 4 \times 5}$
+    is_correct: 0
+    key_source: extracted
+  figure 706_q4_1.png
+    page: 1
+    bbox: [104, 64, 264, 140]
+    png_path: figures/706_q4_1.png
+    tikz_path: tikz/tex/706_q4_1.tex
+    caption: triangle with sides 5, 4, 8 and angle 122.6 degrees
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Obtuse triangle with sides 5, 4, 8, angle 122·6° inside the top vertex and θ at the bottom-left vertex. No arcs, matching the crop. θ and 122·6° were moved clear of the sides (rule 11). Rules 1, 3, 11.
+  part -  id 12518
+    ordinal: 1
+    latex: |
+      \exfigure{706_q4_1}
+
+      For the triangle shown above, the value of $\sin\theta^\circ$ is given by:
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-064
+      focus_area: Trigonometry
+      dot_point: Apply the sine rule (sin A)/(a)=(sin B)/(b)=(sin C)/(c) in a given triangle ABC to find the value of an unknown angle, excluding the ambiguous case
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Sine rule (angle)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12120
+      source: generated
+      latex: |
+        The angle $122.6^\circ$ lies between the sides $5$ and $4$, so it is opposite the side $8$. The angle $\theta$ is opposite the side $4$.
+
+        Using the sine rule,
+        $$\dfrac{\sin\theta}{4} = \dfrac{\sin 122.6^\circ}{8}$$
+        $$\sin\theta = \dfrac{4\sin 122.6^\circ}{8} = \dfrac{\sin 122.6^\circ}{2}$$
+        The cosine rule would not give this expression, so D fails.
+      source_document_id: 706
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "MCQ working written; key C already given", "self_check": "Opposite sides identified from figure; numeric check sin(theta)=0.4216 gives theta about 24.9 degrees, consistent with angle sum below 180"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7105
+      confidence: medium
+      reason: Match angles to opposite sides, then set up the sine rule.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q5  key 2019-CTHS-AP3-STD-Q5  id 7868
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 1
+  page_end: 1
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Trigonometry|Cosine rule
+  home_source: computed
+  option A
+    latex: $\cos\theta = \dfrac{6^2 + 7^2 - 5^2}{2 \times 6 \times 7}$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $\cos\theta = \dfrac{5^2 + 7^2 - 6^2}{2 \times 5 \times 7}$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $\cos\theta = \dfrac{5^2 + 7^2 - 6^2}{2 \times 5 \times 7}$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $\cos\theta = \dfrac{5^2 + 6^2 - 7^2}{2 \times 5 \times 6}$
+    is_correct: 1
+    key_source: extracted
+  figure 706_q5_1.png
+    page: 1
+    bbox: [236, 343, 367, 453]
+    png_path: figures/706_q5_1.png
+    tikz_path: tikz/tex/706_q5_1.tex
+    caption: triangle with sides 5, 6, 7
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Triangle with sides 5, 6, 7. The crop's heavy blue strokes are drawn as 0.6pt black lines (rules 3, 6), with labels at the crop's positions.
+  part -  id 12519
+    ordinal: 1
+    latex: |
+      The largest angle in the triangle is $\theta^\circ$. What is the value of $\cos\theta^\circ$?
+
+      \exfigure{706_q5_1}
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-067
+      focus_area: Trigonometry
+      dot_point: Apply the cosine rule cos C=(a^2+b^2-c^2)/(2ab) in a given triangle ABC to find the value of an unknown angle
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Cosine rule (angle)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12121
+      source: generated
+      latex: |
+        The largest angle is opposite the longest side, $7$. It lies between the sides $5$ and $6$.
+
+        Using the cosine rule, $c^2 = a^2 + b^2 - 2ab\cos C$, with $c = 7$, $a = 5$, $b = 6$,
+        $$7^2 = 5^2 + 6^2 - 2\times 5\times 6\cos\theta$$
+        $$\cos\theta = \dfrac{5^2 + 6^2 - 7^2}{2\times 5\times 6}$$
+      source_document_id: 706
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "MCQ working written; key D already given", "self_check": "Largest angle opposite largest side; cos is positive here (25+36-49=12), so angle acute, fine"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9561
+      confidence: medium
+      reason: Find the largest angle, then rearrange the cosine rule for cos.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q6  key 2019-CTHS-AP3-STD-Q6  id 7869
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Trigonometry|Bearings
+  home_source: computed
+  option A
+    latex: $30^\circ$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $150^\circ$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $210^\circ$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $330^\circ$
+    is_correct: 1
+    key_source: extracted
+  figure 706_q6_1.png
+    page: 2
+    bbox: [104, 70, 328, 222]
+    png_path: figures/706_q6_1.png
+    tikz_path: tikz/tex/706_q6_1.tex
+    caption: bearing of B from A is 150 degrees
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: N–S/E–W axes with a north arrow, A at the origin and B on a bearing of exactly 150°. A 150° clockwise arc from north with a filled arrowhead ends on AB. Labels N, A, B, 150° and NOT TO SCALE. Round 2 moved the NOT TO SCALE text to match the crop. Rules 4, 12, 14, 22.
+  figure 706_q6_s1.png
+    page: 0
+    bbox: []
+    png_path: figures/706_q6_s1.png
+    tikz_path: tikz/tex/706_q6_s1.tex
+    caption: solution diagram (drawn by Claude)
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: New sketch from the solution. A sits above B, with B south-east of A on a bearing of 150°. North arrows at A and B, a dashed east-west line at A, and a 150° arc clockwise from north at A. At B there is a 330° reflex arc running clockwise from north to BA, plus a separate larger 30° arc between north and BA on the west side. The reflex arc ends exactly where the 30° angle begins. I moved the B label clear of the arc. Rules 4, 11, 14, 22.
+  part -  id 12520
+    ordinal: 1
+    latex: |
+      A plane flies on a bearing of $150^\circ$
+
+      \exfigure{706_q6_1}
+
+      What is the bearing of $A$ from $B$?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-069
+      focus_area: Trigonometry
+      dot_point: Identify and interpret true bearings and compass bearings and convert between them
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: True and compass bearings
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12122
+      source: generated
+      latex: |
+        \exfigure{706_q6_s1}
+
+        The bearing of $B$ from $A$ is $150^\circ$. The bearing of $A$ from $B$ is the opposite direction, so add $180^\circ$ (the north lines at $A$ and $B$ are parallel, so co-interior angles sum to $180^\circ$).
+        $$150^\circ + 180^\circ = 330^\circ$$
+        $$\therefore\ \text{the bearing of } A \text{ from } B \text{ is } 330^\circ$$
+      source_document_id: 706
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "MCQ working written; key D already given; diagram requested", "self_check": "Back bearing: 150+180=330 (less than 360)"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9548
+      confidence: medium
+      reason: Back bearing: add 180 degrees to the given bearing.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q7  key 2019-CTHS-AP3-STD-Q7  id 7870
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 2
+  page_end: 2
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Algebraic relationships|Simultaneous linear equations
+  home_source: computed
+  option A
+    latex: $x = -1$ and $y = -2$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $x = -1$ and $y = 2$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $x = 1$ and $y = -2$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $x = -3$ and $y = 3$
+    is_correct: 0
+    key_source: extracted
+  figure 706_q7_1.png
+    page: 2
+    bbox: [233, 354, 403, 524]
+    png_path: figures/706_q7_1.png
+    tikz_path: tikz/tex/706_q7_1.tex
+    caption: graph of two intersecting lines A and B
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Grid from -4 to 4 with double-arrowed axes. Line A (y=x-3) and line B (y=-3x+1) are drawn exactly, in black at 0.9pt (the original is magenta/red, rules 6 and 9). They meet at (1,-2) as the answer requires. In the crop, line B runs through the y-tick label 2, so that one label is mirrored to the right of the y-axis (21 Nov rule). Other y labels were tightened so they clear line B. The y-axis was lengthened slightly so -4 clears the arrowhead. Rules 6, 9, 11, 13, 24.
+  part -  id 12521
+    ordinal: 1
+    latex: |
+      What is the simultaneous solution of line A and line B?
+
+      \exfigure{706_q7_1}
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-001
+      focus_area: Algebraic relationships
+      dot_point: Graph two linear equations and identify the point of intersection, with and without using graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-002
+      focus_area: Algebraic relationships
+      dot_point: Solve a pair of simultaneous linear equations using graphical and algebraic methods
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Simultaneous linear equations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12123
+      source: generated
+      latex: |
+        The simultaneous solution is the point where the two lines cross. From the graph, line $A$ and line $B$ intersect at $(1,-2)$.
+
+        Check with the equations. Line $A$ passes through $(0,-3)$ and $(3,0)$, so $y = x - 3$. Line $B$ passes through $(0,1)$ and $(1,-2)$, so $y = -3x + 1$.
+        $$\begin{aligned} x - 3 &= -3x + 1\\ 4x &= 4\\ x &= 1 \end{aligned}$$
+        Then $y = 1 - 3 = -2$.
+        $$\therefore\ x = 1 \text{ and } y = -2$$
+      source_document_id: 706
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "MCQ working written; key C already given", "self_check": "Both line equations solved algebraically, agree with graph intersection"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7028
+      confidence: high
+      reason: Read the intersection point of two lines from a graph.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q8  key 2019-CTHS-AP3-STD-Q8  id 7871
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Linear relationships|Linear modelling
+  home_source: computed
+  option A
+    latex: $D = 3C + 4$
+    is_correct: 1
+    key_source: extracted
+  option B
+    latex: $D = 0.6C + 4$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $D = 4C + 0.6$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $D = 4C + 3$
+    is_correct: 0
+    key_source: extracted
+  figure 706_q8_1.png
+    page: 3
+    bbox: [104, 71, 444, 286]
+    png_path: figures/706_q8_1.png
+    tikz_path: tikz/tex/706_q8_1.tex
+    caption: straight line graph of D against C
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Graph of D against C on a light-grey grid: minor lines every 0.2 in C and 1 in D, major lines every 1 and 5. Minor ticks on both axes, axis arrows, labels C and D. The line D=3C+4 is drawn in black at 0.9pt from (0,4) to (16/3,20), like the crop (the original is blue, rule 6). Rules 3, 6, 9, 13.
+  part -  id 12522
+    ordinal: 1
+    latex: |
+      \exfigure{706_q8_1}
+
+      The graph above shows the straight line relationship between two variables $C$ and $D$.
+
+      What is equation of the line?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-012
+      focus_area: Linear relationships
+      dot_point: Determine the y-intercept and gradient of a straight line given in graphical form
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-013
+      focus_area: Linear relationships
+      dot_point: Determine the equation of a straight line of the form y=mx+c where m is the gradient and c is the y-intercept
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Finding the equation of a straight line
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12124
+      source: generated
+      latex: |
+        The line crosses the $D$-axis at $4$, so the intercept is $4$.
+
+        Two points on the line are $(0,4)$ and $(2,10)$. The gradient is
+        $$m = \dfrac{10 - 4}{2 - 0} = 3$$
+        $$\therefore\ D = 3C + 4$$
+        Check: at $C = 5$, $D = 19$, which matches the graph.
+      source_document_id: 706
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.96, "generated_note": "MCQ working written; key A already given", "self_check": "Checked points (1,7),(3,13),(5,19) on the line D=3C+4"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6950
+      confidence: medium
+      reason: Read the intercept and gradient from a graph to choose the equation.
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q9  key 2019-CTHS-AP3-STD-Q9  id 7872
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 3
+  page_end: 3
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:11|Networks, paths and trees|Network concepts
+  home_source: computed
+  option A
+    latex: $16$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $18$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $19$
+    is_correct: 0
+    key_source: extracted
+  option D
+    latex: $20$
+    is_correct: 1
+    key_source: extracted
+  figure 706_q9_1.png
+    page: 3
+    bbox: [140, 428, 310, 508]
+    png_path: figures/706_q9_1.png
+    tikz_path: tikz/tex/706_q9_1.tex
+    caption: network graph with vertices A to F
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Network graph A–F, with vertices and edges placed as measured from the crop. Includes the two curved edges C–B and D–B, so the degree sum is still 20. Maths-italic vertex labels, 0.6pt lines, labels clear of edges (rules 1, 3, 11, 19).
+  part -  id 12523
+    ordinal: 1
+    latex: |
+      \exfigure{706_q9_1}
+
+      The sum of the degrees of the vertices on the network graph shown above is:
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-073
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: vertex, edge, degree, directed networks and weighted edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12125
+      source: generated
+      latex: |
+        The sum of the degrees equals twice the number of edges. Counting the edges in the network (the curved edges $BC$ and $BD$ are each a second edge between those vertices): $EF$, $FA$, $EA$, $AC$, $AB$, $AD$, $BC$ (straight), $BC$ (curved), $BD$ (straight), $BD$ (curved), which is $10$ edges.
+
+        Check by degrees:
+        $$\begin{aligned} \deg A &= 5, & \deg B &= 5, & \deg C &= 3,\\ \deg D &= 3, & \deg E &= 2, & \deg F &= 2 \end{aligned}$$
+        $$5 + 5 + 3 + 3 + 2 + 2 = 20$$
+        $$\therefore\ \text{the sum of the degrees is } 20$$
+      source_document_id: 706
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.95, "generated_note": "MCQ working written; key D already given", "self_check": "Degree sum = 2 x 10 edges = 20, matches vertex-by-vertex sum"}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7114
+      confidence: medium
+      reason: Sum of degrees; multiple edges need care but it is routine.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q10  key 2019-CTHS-AP3-STD-Q10  id 7873
+  section: I
+  question_type: mcq
+  marks_total: 1
+  page_start: 4
+  page_end: 4
+  needs_review: 0
+  review_status: unreviewed
+  options_layout: text
+  home_topic: sub:12|Trigonometry|Area of a triangle
+  home_source: computed
+  option A
+    latex: $76\text{ cm}^2$
+    is_correct: 0
+    key_source: extracted
+  option B
+    latex: $110\text{ cm}^2$
+    is_correct: 0
+    key_source: extracted
+  option C
+    latex: $140\text{ cm}^2$
+    is_correct: 1
+    key_source: extracted
+  option D
+    latex: $280\text{ cm}^2$
+    is_correct: 0
+    key_source: extracted
+  figure 706_q10_1.png
+    page: 4
+    bbox: [104, 79, 313, 192]
+    png_path: figures/706_q10_1.png
+    tikz_path: tikz/tex/706_q10_1.tex
+    caption: triangle ABC with sides 16, 18 and angles 47 and 32 degrees
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Triangle ABC as in the crop with 16 cm, 18 cm, 47° and 32°. No angle arcs, matching the original. The angle labels were moved slightly inward so they clear the sides (rule 11). The score is just under 0.85 only because the angle labels moved and the crop uses a different typeface.
+  part -  id 12524
+    ordinal: 1
+    latex: |
+      \exfigure{706_q10_1}
+
+      What is the area of the triangle $ABC$? (Answer correct to 2 significant figures).
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-068
+      focus_area: Trigonometry
+      dot_point: Apply the formula A=(1)/(2)absin C, where a and b are the sides that form the included angle C in a given triangle ABC, to solve problems in a range of contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Area of a triangle (1/2 ab sin C)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12126
+      source: generated
+      latex: |
+        Two angles are given, so first find $\angle B$ using the angle sum of a triangle.
+        $$\angle B = 180^\circ - 47^\circ - 32^\circ = 101^\circ$$
+        The sides $AB = 16$ and $BC = 18$ enclose $\angle B$, so use the area formula $A = \dfrac{1}{2}ab\sin C$.
+        $$\begin{aligned} A &= \dfrac{1}{2}\times 16\times 18\times\sin 101^\circ\\ &\approx 141.4 \text{ cm}^2\\ &\approx 140 \text{ cm}^2 \text{ (2 significant figures)} \end{aligned}$$
+        $$\therefore\ \text{area} \approx 140 \text{ cm}^2$$
+      source_document_id: 706
+      model: claude-sonnet-5-5
+      prompt_version: gen-v2
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"confidence": 0.97, "generated_note": "MCQ working written; key C already given", "self_check": "144*sin(101 deg)=141.35 computed; rounds to 140"}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7164
+      confidence: medium
+      reason: Angle sum for the included angle, then the sine area formula.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q11  key 2019-CTHS-AP3-STD-Q11  id 7874
+  section: II
+  question_type: short
+  stem_latex: |
+    A traveller plans a journey from Ulawatu to Bargara (shown on the road map below).
+
+    \exfigure{706_q11_1}
+  marks_total: 3
+  page_start: 5
+  page_end: 5
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  figure 706_q11_1.png
+    page: 5
+    bbox: [201, 249, 373, 382]
+    png_path: figures/706_q11_1.png
+    tikz_path: tikz/tex/706_q11_1.tex
+    caption: road map with distances
+    redraw_status: approx
+    redraw_class: other
+    redraw_notes: Road map traced as smooth black curves (the crop's blue converted to black, rule 6). Five towns as dots, distances in upright serif at the crop's small size. The '45 km' label was nudged right to clear the road (rule 11). Approx: the winding roads are traced, not exact. The remaining difference is small wiggles in the roads.
+  part a  id 12525
+    ordinal: 1
+    latex: Draw a network to represent this situation.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-075
+      focus_area: Networks, paths and trees
+      dot_point: Construct a network diagram to represent information from a given table or map, showing weighted and directed edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Drawing networks from tables and maps
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11993
+      source: extracted
+      latex: \exfigure{706_q11_s1}
+      marks_breakdown: 1: correct network
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    figure 706_q11_s1.png
+      page: 22
+      bbox: [116, 404, 453, 518]
+      png_path: figures/706_q11_s1.png
+      tikz_path: tikz/tex/706_q11_s1.tex
+      caption: solution sketch: hand-drawn network of the road map
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Solution network redrawn cleanly: Ulawatu–Yallingup 120, Ulawatu–Black Rock 100, Black Rock–Angourie 109, Angourie–Yallingup 118, Yallingup–Bargara 160, Angourie–Bargara 45. Top and bottom edges levelled, and the teacher's tick mark left out (rules 1, 17). The low score is from handwriting vs typeset labels and the hand-drawn edges being straightened.
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7019
+      confidence: high
+      reason: Draw a weighted network directly from a road map.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 12526
+    ordinal: 2
+    latex: Calculate the length of the shortest path if no road is travelled twice.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-080
+      focus_area: Networks, paths and trees
+      dot_point: Identify a shortest path on a network diagram with no more than 10 vertices
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shortest paths
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11994
+      source: extracted
+      latex: |
+        $$\begin{aligned} \text{Length} &= 100 + 109 + 45 \\ &= 254 \text{ km} \end{aligned}$$
+        Therefore the shortest length is $254$ km.
+      marks_breakdown: 1: correct answer
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7136
+      confidence: medium
+      reason: Shortest path found by inspection in a small network.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 12527
+    ordinal: 3
+    latex: Due to a flood the road between Ulawatu and Black Rock is closed. Calculate the length of the shortest path.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-076
+      focus_area: Networks, paths and trees
+      dot_point: Solve problems involving network diagrams in a variety of practical contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-080
+      focus_area: Networks, paths and trees
+      dot_point: Identify a shortest path on a network diagram with no more than 10 vertices
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shortest paths
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11995
+      source: extracted
+      latex: |
+        $$\begin{aligned} \text{Length} &= 120 + 160 \\ &= 280 \text{ km} \end{aligned}$$
+        Therefore the shortest length is $280$ km.
+      marks_breakdown: 1: correct answer
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6965
+      confidence: medium
+      reason: Shortest path again after removing a closed road.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q12  key 2019-CTHS-AP3-STD-Q12  id 7875
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 6
+  page_end: 6
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Network concepts
+  home_source: computed
+  solution 11996
+    source: extracted
+    latex: \exfigure{706_q12_s1}
+    marks_breakdown: 2: drawing correct network; 1: draws two possible ways of network
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Draws a network with some correct edges, or equivalent merit"]]
+    meta_json: {}
+  figure 706_q12_1.png
+    page: 6
+    bbox: [162, 138, 423, 365]
+    png_path: figures/706_q12_1.png
+    caption: floor plan of a house
+    redraw_status: keep_crop
+    redraw_class: photo
+    redraw_notes: A detailed architectural floor plan with furniture, stairs and door swings (blue line-art). It can't usefully be redrawn in house style, so the crop is kept.
+  figure 706_q12_s1.png
+    page: 23
+    bbox: [123, 405, 445, 600]
+    png_path: figures/706_q12_s1.png
+    tikz_path: tikz/tex/706_q12_s1.tex
+    caption: solution sketch: hand-drawn network of the floor plan
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Solution network: Lounge joined to Bedroom 1, Bedroom 2, Bathroom 2 and TV room; Bedroom 1 joined to Bathroom 1. Vertex positions as in the sketch. All labels typeset at one size: the sketch's larger hand-written 'Lounge' was made uniform. The score is lowered by handwriting vs typeset text; the edges match.
+  part -  id 12528
+    ordinal: 1
+    latex: |
+      The diagram shows the plan of a floor of a house. Draw a network to represent the possible ways of travelling between each room of the floor by letting the rooms be the vertices and the doorways the edges.
+
+      \exfigure{706_q12_1}
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-075
+      focus_area: Networks, paths and trees
+      dot_point: Construct a network diagram to represent information from a given table or map, showing weighted and directed edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Drawing networks from tables and maps
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6952
+      confidence: medium
+      reason: Turn a floor plan into a network; doorways become edges.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q13  key 2019-CTHS-AP3-STD-Q13  id 7876
+  section: II
+  question_type: short
+  stem_latex: |
+    The map of an orienteering course is shown. Participants must travel to each of the nine checkpoints along any of the marked paths.
+
+    \exfigure{706_q13_1}
+  marks_total: 4
+  page_start: 7
+  page_end: 7
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Network concepts
+  home_source: computed
+  figure 706_q13_1.png
+    page: 7
+    bbox: [131, 124, 455, 278]
+    png_path: figures/706_q13_1.png
+    tikz_path: tikz/tex/706_q13_1.tex
+    caption: orienteering course map with checkpoints A to I
+    redraw_status: approx
+    redraw_class: other
+    redraw_notes: Orienteering map redrawn in black and white (rule 6). Paths are 0.9pt black curves through checkpoints A–I (dots), with point labels in maths italic (rule 19). The coloured terrain is shown as flat grey tones: pink → white, light green → black!8, dark green → black!16. The yellow road/river is a black!30 band and the airplane symbol a simple glyph. Approx: the terrain boundaries and the river band are only roughly shaped. The original-side score is low because the scan's thick blue paths and coloured fills don't line up exactly. The path network itself matches.
+  part a  id 12529
+    ordinal: 1
+    latex: Draw a network to represent the possible ways of travelling to each checkpoint.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-075
+      focus_area: Networks, paths and trees
+      dot_point: Construct a network diagram to represent information from a given table or map, showing weighted and directed edges
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Drawing networks from tables and maps
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11997
+      source: extracted
+      latex: \exfigure{706_q13_s1}
+      marks_breakdown: 2: drawing correct network; 1: draws 6 correct possible ways of network
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Draws a network with 6 correct edges, or equivalent merit"]]
+      meta_json: {}
+    figure 706_q13_s1.png
+      page: 24
+      bbox: [116, 330, 495, 480]
+      png_path: figures/706_q13_s1.png
+      tikz_path: tikz/tex/706_q13_s1.tex
+      caption: solution sketch: hand-drawn network of the orienteering course
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Hand-drawn network of 9 checkpoints redrawn with straight 0.6pt edges, small dots and maths-italic labels. Top row and bottom row levelled (rule 1 'draw level'). Stray '(' at the right edge and scan specks left out (rule 17). H label moved up/right off the H–I edge (rules 6a/11). The remaining overlay colour is the hand lettering compared with typeset letters. Label check passes.
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7079
+      confidence: medium
+      reason: Draw a network directly from a course map.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 12530
+    ordinal: 2
+    latex: If participants must start and finish at A and visit every other checkpoint only once. Write down the order in which they could take two possible routes.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-076
+      focus_area: Networks, paths and trees
+      dot_point: Solve problems involving network diagrams in a variety of practical contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.55
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-077
+      focus_area: Networks, paths and trees
+      dot_point: Define and use the network terminology: path, tree, spanning tree and minimum spanning tree
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.55
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Drawing networks from tables and maps
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Network terminology
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 11998
+      source: extracted
+      latex: |
+        Route 1:
+        $$A - D - H - F - I - C - E - B - G - A$$
+        Route 2:
+        $$A - H - D - F - I - C - E - B - G - A$$
+        Alternative solutions:
+        $$A - D - F - H - I - C - E - B - G - A$$
+        $$A - G - B - E - C - I - H - F - D - A$$
+        $$A - G - B - E - C - I - F - D - H - A$$
+        $$A - G - B - E - C - I - F - H - D - A$$
+      marks_breakdown: 1: first correct route (c.f.m.); 1: second correct route (c.f.m.)
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Gives one correct route (consequential follow-through marking), or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 7176
+      confidence: medium
+      reason: Search for closed routes visiting every vertex exactly once.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: PR
+      source: model
+
+## Q14  key 2019-CTHS-AP3-STD-Q14  id 7877
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 8
+  page_end: 8
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  solution 11999
+    source: extracted
+    latex: \exfigure{706_q14_s1}
+    marks_breakdown: 2: correct answers; 1: finds four branches in the spanning tree
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Finds four branches in the spanning tree, or equivalent merit"]]
+    meta_json: {}
+  figure 706_q14_1.png
+    page: 8
+    bbox: [186, 129, 400, 260]
+    png_path: figures/706_q14_1.png
+    tikz_path: tikz/tex/706_q14_1.tex
+    caption: weighted network A to J
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Weighted network A–J drawn at the crop's node positions. Green node discs are drawn as grey discs with a black outline (rule 6). Edges are 0.6pt (rule 3) and letters are maths italic (rule 19). The crop cuts off the A label; it is drawn in full here. Label check passes.
+  figure 706_q14_s1.png
+    page: 25
+    bbox: [181, 336, 525, 492]
+    png_path: figures/706_q14_s1.png
+    tikz_path: tikz/tex/706_q14_s1.tex
+    caption: solution sketch: minimal spanning tree drawn on the network
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Minimum spanning tree on the network: tree edges solid; rejected edges BE, GJ and FI dashed with the house aux dash. Low overlay because: (1) the teacher's small working sketch to the right of the network is left out (rule 17); (2) the scan's tilt is straightened so the rows B-D-G, A-E-H-J and C-F-I are level and match the question layout (rule 1); (3) scan strokes are heavier. Look at this one first. '8' moved off the GJ edge. Label check passes.
+  part -  id 12531
+    ordinal: 1
+    latex: |
+      Use Prim's algorithm to find a minimal spanning tree for this network.
+
+      \exfigure{706_q14_1}
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-078
+      focus_area: Networks, paths and trees
+      dot_point: Determine the minimum spanning tree of a network with weighted edges, using any method
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 6967
+      confidence: high
+      reason: Standard Prim's algorithm for a minimum spanning tree.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q15  key 2019-CTHS-AP3-STD-Q15  id 7878
+  section: II
+  question_type: extended
+  stem_latex: |
+    Harry is installing fibre optic cabling to connect all the points ($A$ to $H$) in a building. This is indicated by the network diagram below. All distances are given in metres.
+
+    \exfigure{706_q15_1}
+  marks_total: 5
+  page_start: 9
+  page_end: 9
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  figure 706_q15_1.png
+    page: 9
+    bbox: [149, 138, 408, 291]
+    png_path: figures/706_q15_1.png
+    tikz_path: tikz/tex/706_q15_1.tex
+    caption: weighted network A to H
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Weighted network A–H drawn at the crop's positions with 0.6pt edges and small dots. '30' moved slightly right of edge CD (rule 11). Label check passes.
+  part a  id 12532
+    ordinal: 1
+    latex: Find the minimum spanning tree using Kruskal's algorithm of the network and state its length.
+    marks: 4
+    needs_review: 0
+    tag 2024 S11-078
+      focus_area: Networks, paths and trees
+      dot_point: Determine the minimum spanning tree of a network with weighted edges, using any method
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12000
+      source: extracted
+      latex: |
+        \exfigure{706_q15_s1}
+        $$\begin{aligned} \text{Length} &= 11 + 13 + 15 + 19 + 21 + 30 + 39 \\ &= 148 \text{ metres} \end{aligned}$$
+        Therefore the minimum spanning tree has length $148$ metres.
+      marks_breakdown: 3: finds the minimum spanning tree; 2: finds four branches in the spanning tree; 1: finds one branch in the spanning tree (A to H); 1: correct length (c.f.m.)
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[4, "Correct answer"], [3, "Finds the minimum spanning tree, or equivalent merit"], [2, "Finds four branches in the spanning tree, or equivalent merit"], [1, "Finds one branch in the spanning tree (A to H), or equivalent merit"]]
+      meta_json: {"format_note": "Source rubric listed a separate row for correct length (consequential follow-through); merged into the top-down form."}
+    figure 706_q15_s1.png
+      page: 26
+      bbox: [149, 380, 427, 525]
+      png_path: figures/706_q15_s1.png
+      tikz_path: tikz/tex/706_q15_s1.tex
+      caption: solution sketch: minimum spanning tree (Kruskal) drawn on the network
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Kruskal spanning tree AH, DE, HG, AB, HC, CD, AF (total 148, agrees with the solution) drawn solid at 0.9pt for emphasis; the other edges are dashed with aux. Original-side red is mostly the heavy scan strokes and long scan dashes. B and '30' moved clear of lines. Label check passes.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7080
+      confidence: high
+      reason: Routine Kruskal's algorithm on eight vertices, then the total length.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 12533
+    ordinal: 2
+    latex: If the cost of providing the cabling is \$68 per metre, what would be the minimum cost of providing fibre optic cabling to each point in the building?
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-079
+      focus_area: Networks, paths and trees
+      dot_point: Use minimum spanning trees to solve minimal connector problems
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Minimum spanning trees
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12001
+      source: extracted
+      latex: |
+        $$\begin{aligned} \text{Cost} &= 148 \times 68 \\ &= \$10\,064 \end{aligned}$$
+        Therefore the cost of providing cabling is $\$10\,064$.
+      marks_breakdown: 1: correct answer (c.f.m.)
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7082
+      confidence: high
+      reason: Multiply the tree length by the cost per metre.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q16  key 2019-CTHS-AP3-STD-Q16  id 7879
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 10
+  page_end: 10
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Networks, paths and trees|Shortest paths and spanning trees
+  home_source: computed
+  solution 12002
+    source: extracted
+    latex: |
+      \exfigure{706_q16_s1}
+
+      The order of the shortest path is $A - B - D - F$.
+      $$\begin{aligned} \text{Shortest distance} &= 8 + 9 + 11 \\ &= 28 \end{aligned}$$
+    marks_breakdown: 2: finds the shortest path (on the network or shows the path); 1: makes some progress in finding the shortest path; 1: correct shortest distance (c.f.m.)
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Finds the shortest path (on the network or shows the path), or equivalent merit"], [1, "Makes some progress in finding the shortest path, or equivalent merit"]]
+    meta_json: {"format_note": "Source rubric had a separate correct distance row; merged top-down."}
+  figure 706_q16_1.png
+    page: 10
+    bbox: [157, 93, 403, 239]
+    png_path: figures/706_q16_1.png
+    tikz_path: tikz/tex/706_q16_1.tex
+    caption: weighted network A to F
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Weighted network A–F; every edge dashed as in the crop, using the house fine dash (rule 3, not the scan's long dashes). The remaining overlay colour is long dashes against fine dashes plus scan lettering. E, 16 and 9 moved clear of the edges (rule 11). Label check passes.
+  figure 706_q16_s1.png
+    page: 27
+    bbox: [149, 90, 414, 233]
+    png_path: figures/706_q16_s1.png
+    tikz_path: tikz/tex/706_q16_s1.tex
+    caption: solution sketch: shortest path A-B-D-F drawn on the network
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Same network with the shortest path A-B-D-F (8+9+11=28, agrees with the solution) solid at 0.9pt and the other edges dashed. The teacher's tick mark at the top right is left out (rule 17). B, E and D labels moved clear of the lines. Label check passes.
+  part -  id 12534
+    ordinal: 1
+    latex: |
+      A network graph is shown below.
+
+      \exfigure{706_q16_1}
+
+      Find the shortest distance from A to F. Write down the order of shortest distance.
+    marks: 3
+    needs_review: 0
+    tag 2024 S11-080
+      focus_area: Networks, paths and trees
+      dot_point: Identify a shortest path on a network diagram with no more than 10 vertices
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Shortest paths
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7022
+      confidence: high
+      reason: Standard shortest-path search, stating the route and the distance.
+      area: Y11_Networks_paths_and_trees
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q17  key 2019-CTHS-AP3-STD-Q17  id 7880
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 10
+  page_end: 10
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Linear relationships|Linear modelling
+  home_source: computed
+  solution 12003
+    source: extracted
+    latex: |
+      The line is in the form $y = mx + c$, where $m$ is the gradient and $c$ is the $y$-intercept.
+      $$\text{Gradient} = \dfrac{1}{2}$$
+      $$y\text{-intercept} = 4$$
+    marks_breakdown: 1: gradient; 1: y-intercept
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Gives the gradient or the $y$-intercept, or equivalent merit"]]
+    meta_json: {}
+  part -  id 12535
+    ordinal: 1
+    latex: |
+      Write the gradient and $y$-intercept of the following line.
+
+      $$y = \dfrac{1}{2}x + 4$$
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-014
+      focus_area: Linear relationships
+      dot_point: Determine the y-intercept and gradient from the equation of a straight line
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.95
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Determining the gradient and the y-intercept
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7058
+      confidence: high
+      reason: Read the gradient and intercept from y = mx + c.
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q18  key 2019-CTHS-AP3-STD-Q18  id 7881
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 10
+  page_end: 10
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Linear relationships|Linear modelling
+  home_source: computed
+  solution 12004
+    source: extracted
+    latex: |
+      For the $x$-intercept, substitute $y = 0$.
+      $$\begin{aligned} 3x + 0 - 9 &= 0 \\ 3x &= 9 \\ x &= 3 \end{aligned}$$
+      For the $y$-intercept, substitute $x = 0$.
+      $$\begin{aligned} 3(0) + y - 9 &= 0 \\ y &= 9 \end{aligned}$$
+      $$\therefore\ x\text{-intercept} = 3,\ y\text{-intercept} = 9$$
+    marks_breakdown: 1: x-intercept; 1: y-intercept
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Finds one intercept, or equivalent merit"]]
+    meta_json: {}
+  part -  id 12536
+    ordinal: 1
+    latex: Find the $x$ and $y$-intercepts of the following linear equation $3x + y - 9 = 0$
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-001
+      focus_area: Formulas and equations
+      dot_point: Substitute numbers into linear and non-linear algebraic expressions, equations and formulas
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-014
+      focus_area: Linear relationships
+      dot_point: Determine the y-intercept and gradient from the equation of a straight line
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Determining the gradient and the y-intercept
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7058
+      confidence: high
+      reason: Routine substitution of zero to find both intercepts.
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q19  key 2019-CTHS-AP3-STD-Q19  id 7882
+  section: II
+  question_type: short
+  marks_total: 1
+  page_start: 11
+  page_end: 11
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Simultaneous linear equations
+  home_source: computed
+  solution 12005
+    source: extracted
+    latex: |
+      The lines intersect at $(4, 5)$.
+
+      Therefore Rhonda bought 4 apples and 5 bananas.
+    marks_breakdown: 1: both answers
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[1, "Correct answer"]]
+    meta_json: {"format_note": "Question says masses in kg but answer gives numbers of apples and bananas; kept as in source."}
+  figure 706_q19_1.png
+    page: 11
+    bbox: [177, 151, 358, 384]
+    png_path: figures/706_q19_1.png
+    tikz_path: tikz/tex/706_q19_1.tex
+    caption: graph of 5a+2b=30 and a+b=9
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Unit grid 0–12 by 0–17 in light grey (the paper's peach grid). Arrowed a and b axes. Both lines are true lines, 5a+2b=30 from (0,15) to (6,0) and a+b=9 from (0,9) to (9,0), drawn black at 0.9pt (rules 6, 9). The intersection (4,5) is left unmarked, as in the crop. Tick labels on the same sides as the paper. Equation labels at the crop's positions, with no white box. The lower overlay comes from the size of the typeset tick numbers and the grid colour; the geometry lines up. Label check passes.
+  part -  id 12537
+    ordinal: 1
+    latex: |
+      At the grocery store, apples cost \$5 per kg and bananas cost \$2 per kg. Rhonda spends \$30 on 9 kg of fruit. This can be represented by the linear functions below, where $a$ represents the number of apples and $b$ represents the number of bananas. Use the graph to find the mass of apples and bananas that Rhonda bought.
+
+      \exfigure{706_q19_1}
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-001
+      focus_area: Algebraic relationships
+      dot_point: Graph two linear equations and identify the point of intersection, with and without using graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-004
+      focus_area: Algebraic relationships
+      dot_point: Solve practical problems that involve simultaneous linear equations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Simultaneous linear equations
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7028
+      confidence: high
+      reason: Read intersection point directly from given graph.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q20  key 2019-CTHS-AP3-STD-Q20  id 7883
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 12
+  page_end: 12
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Simultaneous linear equations
+  home_source: computed
+  solution 12006
+    source: extracted
+    latex: |
+      From the graph, the lines intersect at $x = 4$. This is the break-even point.
+      $$\begin{aligned} \text{Income} &= 20 \times 4 = \$80 \\ \text{Cost} &= 40 + 10 \times 4 = \$80 \end{aligned}$$
+      If fewer than 4 frames are sold, a loss is made. If more than 4 frames are sold, a profit is made.
+
+      Therefore Ashley makes a profit when she sells more than 4 frames.
+    marks_breakdown: 1: finds value of x; 1: explains when profit is made (or any other correct justification)
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Finds the value of $x$, or equivalent merit"]]
+    meta_json: {}
+  figure 706_q20_1.png
+    page: 12
+    bbox: [101, 140, 459, 358]
+    png_path: figures/706_q20_1.png
+    tikz_path: tikz/tex/706_q20_1.tex
+    caption: planned income and costs for Ashley's business
+    redraw_status: ok
+    redraw_class: graph
+    redraw_notes: Line graph drawn at the crop's pixel positions: light grey grid at every 1 and every 20, black left and bottom axes, grey right edge, I=20x and C=40+10x at 0.9pt meeting at their computed intersection (4,80). Title is bold, centred over the plot and made smaller in round 2 to match the crop's width. The title is serif where the crop uses sans-serif, to keep the house font. Rules 1, 2, 9, 16, 19, 20.
+  part -  id 12538
+    ordinal: 1
+    latex: |
+      Ashley makes picture frames as part of her business. To calculate the cost $C$, in dollars, of making $x$ frames, she uses the equation $C = 40 + 10x$. She sells the frames for each \$20 and determines her income, $I$, in dollars, using the Equation $I = 20x$
+
+      \exfigure{706_q20_1}
+
+      Use the graph to solve the two equations simultaneously for $x$ and explain when Ashley will make profit.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-001
+      focus_area: Algebraic relationships
+      dot_point: Graph two linear equations and identify the point of intersection, with and without using graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-005
+      focus_area: Algebraic relationships
+      dot_point: Use simultaneous equations to model and analyse the break-even point where cost and revenue are represented by linear equations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Break-even analysis
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7029
+      confidence: medium
+      reason: Read break-even from graph and state profit condition.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q21  key 2019-CTHS-AP3-STD-Q21  id 7884
+  section: II
+  question_type: extended
+  stem_latex: A rubbish removal service charges \$100 to come to your property. It then charges \$150 for each cubic metre of waste it removes. The maximum amount of waste that can be removed in one visit is 8 cubic metres. Let $c$ be the total charge for removing $r$ cubic metres of rubbish.
+  marks_total: 6
+  page_start: 13
+  page_end: 13
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:11|Linear relationships|Linear modelling
+  home_source: computed
+  part a  id 12539
+    ordinal: 1
+    latex: Write down a linear model in terms of $c$ and $r$ to represent this situation.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-016
+      focus_area: Linear relationships
+      dot_point: Model linear relationships and interpret the features of those relationships in a variety of contexts, noting that the y-intercept is the vertical intercept and the gradient is the rate of change
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Linear models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12007
+      source: extracted
+      latex: |
+        The charge is \$100 with no rubbish removed, so $(r, c) = (0, 100)$ is the $c$-intercept.
+
+        The charge increases by \$150 for every cubic metre, so the gradient is $150$.
+        $$c = 150r + 100$$
+      marks_breakdown: 2: correct linear model; 1: partially correct model
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Gives a partially correct model, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9585
+      confidence: medium
+      reason: Fixed fee plus rate gives linear model directly.
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part b  id 12540
+    ordinal: 2
+    latex: |
+      Sketch the graph showing the coordinates of the intercept and its end point.
+
+      \exfigure{706_q21_1}
+    marks: 3
+    needs_review: 0
+    tag 2024 S11-015
+      focus_area: Linear relationships
+      dot_point: Construct a straight-line graph, with and without using graphing applications
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-016
+      focus_area: Linear relationships
+      dot_point: Model linear relationships and interpret the features of those relationships in a variety of contexts, noting that the y-intercept is the vertical intercept and the gradient is the rate of change
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S11-018
+      focus_area: Linear relationships
+      dot_point: Identify and describe the limitations of a linear model in a practical context
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Graphing straight lines
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Linear models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12008
+      source: extracted
+      latex: |
+        \exfigure{706_q21_s1}
+
+        The intercept is $(0, 100)$ and the end point is $(8, 1300)$.
+      marks_breakdown: 1: intercept (0,100); 1: end point (8,1300); 1: straight line drawn between the points
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Gives the intercept and end point, or equivalent merit"], [1, "Gives the intercept or the end point, or equivalent merit"]]
+      meta_json: {}
+    figure 706_q21_1.png
+      page: 13
+      bbox: [162, 312, 439, 551]
+      png_path: figures/706_q21_1.png
+      tikz_path: tikz/tex/706_q21_1.tex
+      caption: blank grid for sketching the graph
+      redraw_status: ok
+      redraw_class: blank_axes
+      redraw_notes: Blank answer grid, r from 0 to 8 and c from 0 to 1400: major grey lines every 1 and every 200, faint minor lines every 0.2 and every 40, black axes. Tick labels are small and use the house font instead of the crop's sans-serif. The low redraw score comes only from the faint grey grid lines being 1 px wider or offset, which the spec allows. Rules 2, 19.
+    figure 706_q21_s1.png
+      page: 30
+      bbox: [123, 265, 479, 480]
+      png_path: figures/706_q21_s1.png
+      tikz_path: tikz/tex/706_q21_s1.tex
+      caption: solution sketch: graph of c = 150r + 100 from (0,100) to (8,1300)
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Clean redraw of the scanned solution sketch. The scan's tilt is straightened (rule 1, draw level) and the teacher's ticks and stray dots are left out (rule 17). The uneven hand grid is replaced by an evenly spaced light grid. The line c=150r+100 is 0.9pt with dots at the true points (0,100) and (8,1300) (rule 16); the sketch drew the end point near 1220. Axis label c added to match the solution (rule 18). The scores are low because the scan is tilted and the end point was moved to its true position, not because anything is misplaced.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7139
+      confidence: medium
+      reason: Sketch linear graph; compute endpoint at domain limit.
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 12541
+    ordinal: 3
+    latex: Use the model to predict the cost of removing 5 cubic metres of rubbish.
+    marks: 1
+    needs_review: 0
+    tag 2024 S11-017
+      focus_area: Linear relationships
+      dot_point: Interpolate and extrapolate from a linear model in a practical context
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Linear models
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12009
+      source: extracted
+      latex: |
+        Substituting $r = 5$ into the model $c = 150r + 100$:
+        $$\begin{aligned} c &= 150 \times 5 + 100 \\ &= \$850 \end{aligned}$$
+        The cost of removing 5 cubic metres of rubbish is $\$850$.
+      marks_breakdown: 1: correct answer
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7082
+      confidence: high
+      reason: Single substitution into linear model.
+      area: Y11_Linear_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q22  key 2019-CTHS-AP3-STD-Q22  id 7885
+  section: II
+  question_type: extended
+  stem_latex: The income of a travel kit manufacturer is given by $I = 7k$ (dollars) and their costs is given by $C = 5k + 1000$ (dollars), where $k$ represents the number of travel kits.
+  marks_total: 6
+  page_start: 14
+  page_end: 14
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Algebraic relationships|Simultaneous linear equations
+  home_source: computed
+  part a  id 12542
+    ordinal: 1
+    latex: |
+      Draw a sketch to represent the costs and income for producing a travel kit.
+
+      \exfigure{706_q22_1}
+
+      \exfigure{706_q22_2}
+    marks: 3
+    needs_review: 0
+    tag 2024 S11-015
+      focus_area: Linear relationships
+      dot_point: Construct a straight-line graph, with and without using graphing applications
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-001
+      focus_area: Algebraic relationships
+      dot_point: Graph two linear equations and identify the point of intersection, with and without using graphing applications
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-005
+      focus_area: Algebraic relationships
+      dot_point: Use simultaneous equations to model and analyse the break-even point where cost and revenue are represented by linear equations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Break-even analysis
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Graphing straight lines
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12010
+      source: extracted
+      latex: |
+        Find points for each line using a table of values.
+
+        Cost, $C = 5k + 1000$:
+
+        $$\begin{array}{c|c|c|c} k & 0 & 500 & 1000 \\ \hline C & 1000 & 3500 & 6000 \end{array}$$
+        Income, $I = 7k$:
+
+        $$\begin{array}{c|c|c|c} k & 0 & 500 & 1000 \\ \hline I & 0 & 3500 & 7000 \end{array}$$
+        \exfigure{706_q22_s1}
+      marks_breakdown: 1: table of values for cost; 1: table of values for income; 1: both lines graphed
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[3, "Correct answer"], [2, "Table of values for both cost and income, or equivalent merit"], [1, "Table of values for cost, or equivalent merit"]]
+      meta_json: {"format_note": "Source criteria were one mark per step: table for cost, table for income, both lines graphed; rewritten top-down."}
+    figure 706_q22_1.png
+      page: 14
+      bbox: [96, 145, 490, 190]
+      png_path: figures/706_q22_1.png
+      tikz_path: tikz/tex/706_q22_1.tex
+      caption: two blank tables of values for cost and income
+      redraw_status: ok
+      redraw_class: other
+      redraw_notes: Two blank tables of values side by side, drawn in TikZ at the crop's size and positions (rule 6b): Travel kits (k) above Cost (C) $, and Travel kits (k) above Income (I) $, each with three empty value columns. Kept as a drawing rather than transcribed so the two-table layout stays. The remaining colour is the difference between the crop's Cambria text and the house font.
+    figure 706_q22_2.png
+      page: 14
+      bbox: [96, 232, 506, 457]
+      png_path: figures/706_q22_2.png
+      tikz_path: tikz/tex/706_q22_2.tex
+      caption: blank grid for sketching cost and income
+      redraw_status: ok
+      redraw_class: blank_axes
+      redraw_notes: Blank answer grid, k from 0 to 1000 and dollars from 0 to 8000: major grey lines every 100 and every 1000, faint minor lines every 20 and every 200, black axes, small tick labels in the house font. The low redraw score comes only from the grey grid lines being slightly offset or wider.
+    figure 706_q22_s1.png
+      page: 31
+      bbox: [78, 207, 545, 475]
+      png_path: figures/706_q22_s1.png
+      tikz_path: tikz/tex/706_q22_s1.tex
+      caption: solution sketch: cost, income and increased cost lines
+      redraw_status: ok
+      redraw_class: graph
+      redraw_notes: Clean redraw of the scanned sketch. Tilt straightened (rule 1); the teacher's brace scribble and uneven hand grid are left out (rule 17). Drawn at 0.9pt: I=7k, C=5k+1000, and the increased cost C=5.25k+1050 dashed (house aux). Dots at the true table points (0,0), (0,1000), (0,1050), (500,3500), (600,4200), and k=1000 on each line (rule 16); the sketch's 1000-end dots were near 5000-6000. Labels: Income and Cost at the line ends; 'increased cost' above with an arrow to the dashed line, as on the crop. In round 2 the 'Dollars ($)' title was moved away from the tick labels. The scores are low because the original is tilted and the points were moved to their true positions.
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7139
+      confidence: medium
+      reason: Table of values and plotting two lines on axes.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 12543
+    ordinal: 2
+    latex: How many travel kits need to be sold to break-even?
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-005
+      focus_area: Algebraic relationships
+      dot_point: Use simultaneous equations to model and analyse the break-even point where cost and revenue are represented by linear equations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Break-even analysis
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12011
+      source: extracted
+      latex: |
+        The break-even point occurs when income equals costs, that is, where the two lines intersect at $(500, 3500)$.
+
+        $$\therefore\ \text{the break-even point is } 500 \text{ travel kits}$$
+      marks_breakdown: 1: correct answer
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {"format_note": "Source gave no working for the intersection; the point $(500, 3500)$ is from the table in part (a), where both lines give 3500 at $k=500$."}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9588
+      confidence: high
+      reason: Read break-even point from intersection of lines.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+  part c  id 12544
+    ordinal: 3
+    latex: Determine the level of production at the new break-even point if the total cost increases by 5\%.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-038
+      focus_area: Managing money
+      dot_point: Apply percentage increase and decrease to determine the cost of goods, and profit and loss
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-005
+      focus_area: Algebraic relationships
+      dot_point: Use simultaneous equations to model and analyse the break-even point where cost and revenue are represented by linear equations
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Break-even analysis
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12012
+      source: extracted
+      latex: |
+        The new cost is 5% higher, so multiply the cost by $1.05$.
+        $$\begin{aligned} C &= (5k + 1000) \times 1.05 \\ &= 5.25k + 1050 \end{aligned}$$
+        Table of values for the new cost, with $I = 7k$:
+
+        $$\begin{array}{c|c|c|c} k & 0 & 600 & 1000 \\ \hline C & 1050 & 4200 & 6300 \end{array}$$
+        Break-even occurs when income equals costs, at $(600, 4200)$.
+
+        $$\therefore\ \text{the new break-even point is } 600 \text{ travel kits}$$
+      marks_breakdown: 1: new cost equation $C = 5.25k + 1050$; 1: correct answer (600 travel kits)
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "New cost equation $C = 5.25k + 1050$, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 9589
+      confidence: medium
+      reason: Must build new cost equation with 5% increase, then solve.
+      area: Y12_Algebraic_relationships
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q23  key 2019-CTHS-AP3-STD-Q23  id 7886
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 15
+  page_end: 15
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Trigonometry|Right angled trigonometry
+  home_source: computed
+  solution 12013
+    source: extracted
+    latex: |
+      Let $d$ be the distance from the base of the building to the tree. The angle of depression equals the angle of elevation from the tree to the top of the building (alternate angles), so in the right-angled triangle:
+      $$\tan 65^\circ = \dfrac{30}{d}$$
+      $$\begin{aligned} d &= \dfrac{30}{\tan 65^\circ} \\ &= 13.98922\ldots \\ &\approx 14.0 \text{ m} \end{aligned}$$
+      Alternatively, using the angle $25^\circ$ at the top of the building:
+      $$\begin{aligned} \tan 25^\circ &= \dfrac{d}{30} \\ d &= 30\tan 25^\circ \\ &= 14.0 \text{ m} \end{aligned}$$
+      $$\therefore\ d = 14.0 \text{ m}$$
+    marks_breakdown: 1: correct equation; 1: correct answer
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Correct equation, or equivalent merit"]]
+    meta_json: {}
+  figure 706_q23_1.png
+    page: 15
+    bbox: [129, 129, 417, 255]
+    png_path: figures/706_q23_1.png
+    tikz_path: tikz/tex/706_q23_1.tex
+    caption: building and tree, angle of depression
+    redraw_status: approx
+    redraw_class: geometry
+    redraw_notes: Building drawn as a frame with 5x8 grey windows, a striped ground floor and a double door. Also drawn: the 30 m dimension arrow with the label centred in a gap in the line, a fine dashed sight line from the roof corner to the tree base, the ground line, and NOT TO SCALE. Approx: the crop's clip-art tree is redrawn as a stylised grey trunk and lobed canopy at the same size and position. Rules 3, 4, 6.
+  part -  id 12545
+    ordinal: 1
+    latex: |
+      The angle of depression of the base of the tree from the top of the building is $65^\circ$. The height of the building is 30m. How far away is the base of the tree from the building, correct to one decimal place?
+
+      \exfigure{706_q23_1}
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-062
+      focus_area: Trigonometry
+      dot_point: Apply trigonometric ratios to right-angled triangles to find either the lengths of unknown sides or the size of unknown angles in both degrees, and degrees and minutes
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-071
+      focus_area: Trigonometry
+      dot_point: Solve practical problems involving Pythagoras’ theorem, the trigonometry of right-angled and non-right-angled triangles, angles of elevation and depression, and true bearings and compass bearings
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.9
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Angles of elevation and depression
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 9556
+      confidence: high
+      reason: Angle of depression with tan ratio, unknown in denominator.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q24  key 2019-CTHS-AP3-STD-Q24  id 7887
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 15
+  page_end: 15
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Trigonometry|Right angled trigonometry
+  home_source: computed
+  solution 12014
+    source: extracted
+    latex: |
+      $\triangle ADC$ is isosceles ($AD = DC$), so $\angle DAC = \angle DCA = x$.
+      $$\begin{aligned} 2x + 80^\circ &= 180^\circ \\ 2x &= 100^\circ \\ x &= 50^\circ \end{aligned}$$
+      Angle sum of $\triangle ADB$:
+      $$\angle DBA = 180^\circ - (50^\circ + 60^\circ) = 70^\circ$$
+      Using the sine rule in $\triangle ADB$:
+      $$\dfrac{AB}{\sin 60^\circ} = \dfrac{30}{\sin 70^\circ}$$
+      $$\begin{aligned} AB &= \dfrac{30 \times \sin 60^\circ}{\sin 70^\circ} \\ &= 27.64814955\ldots \\ &\approx 28 \text{ cm} \end{aligned}$$
+      $$\therefore\ AB = 28 \text{ cm}$$
+    marks_breakdown: 1: finds angle DBA = 70°; 1: sine rule equation; 1: correct answer
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Sine rule equation, or equivalent merit"], [1, "Finds $\\angle DBA = 70^\\circ$, or equivalent merit"]]
+    meta_json: {"source_flag": "Source states the final length in metres (\"28 metres\") although the diagram is in cm; written as cm here."}
+  figure 706_q24_1.png
+    page: 15
+    bbox: [185, 408, 390, 503]
+    png_path: figures/706_q24_1.png
+    tikz_path: tikz/tex/706_q24_1.tex
+    caption: triangle ACD with point B on AC
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Triangle ACD with cevian DB, 60° and 20° arcs at D, equal-length ticks on AD and DC, 30 cm labels, NOT TO SCALE. Labels set at 8.5pt to match the crop. I left out the small arrowheads on the scan's angle arcs and drew plain arcs instead. I moved the 20° label a little down to keep it clear of DB and DC (rules 11, 22). The overlay score is mostly lowered by scan stroke thickness and small text offsets. Rules 1, 2, 3, 11, 19.
+  part -  id 12546
+    ordinal: 1
+    latex: |
+      In the diagram, $AD$ and $DC$ are equal to 30 cm.
+
+      \exfigure{706_q24_1}
+
+      What is the length of $AB$ to the nearest centimetre?
+    marks: 3
+    needs_review: 0
+    tag 2024 S2-12-062
+      focus_area: Trigonometry
+      dot_point: Apply trigonometric ratios to right-angled triangles to find either the lengths of unknown sides or the size of unknown angles in both degrees, and degrees and minutes
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.45
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-071
+      focus_area: Trigonometry
+      dot_point: Solve practical problems involving Pythagoras’ theorem, the trigonometry of right-angled and non-right-angled triangles, angles of elevation and depression, and true bearings and compass bearings
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.45
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Right-angled trigonometry
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 7039
+      confidence: medium
+      reason: Isosceles angle reasoning and angle sum before sine rule.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q25  key 2019-CTHS-AP3-STD-Q25  id 7888
+  section: II
+  question_type: short
+  marks_total: 2
+  page_start: 16
+  page_end: 16
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Trigonometry|Area of a triangle
+  home_source: computed
+  solution 12015
+    source: extracted
+    latex: |
+      Using the area formula $\text{Area} = \dfrac{1}{2}ab\sin C$:
+      $$\begin{aligned} 250 &= \dfrac{1}{2} \times 30 \times x \times \sin 44^\circ \\ 250 &= 15 \times x \times \sin 44^\circ \\ x &= \dfrac{250}{15 \times \sin 44^\circ} \\ &= 23.99260899\ldots \end{aligned}$$
+      $$\therefore\ x = 24 \text{ cm}$$
+    marks_breakdown: 1: correct area equation; 1: correct answer
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[2, "Correct answer"], [1, "Correct area equation, or equivalent merit"]]
+    meta_json: {}
+  figure 706_q25_1.png
+    page: 16
+    bbox: [163, 107, 383, 198]
+    png_path: figures/706_q25_1.png
+    tikz_path: tikz/tex/706_q25_1.tex
+    caption: triangle with sides 30, x, 28 and angle 44 degrees
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Triangle with sides 30 cm, x cm and 28 cm and the 44° angle at the top vertex, plus NOT TO SCALE. Positions and label size taken from the crop. Rules 1, 2, 3, 11.
+  part -  id 12547
+    ordinal: 1
+    latex: |
+      The area of the triangle shown is $250\text{ cm}^2$.
+
+      \exfigure{706_q25_1}
+
+      What is the value of $x$, correct to the nearest whole number?
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-068
+      focus_area: Trigonometry
+      dot_point: Apply the formula A=(1)/(2)absin C, where a and b are the sides that form the included angle C in a given triangle ABC, to solve problems in a range of contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Area of a triangle (1/2 ab sin C)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7164
+      confidence: high
+      reason: Area sine formula used in reverse for a side.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q26  key 2019-CTHS-AP3-STD-Q26  id 7889
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 16
+  page_end: 16
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Trigonometry|Cosine rule
+  home_source: computed
+  solution 12016
+    source: extracted
+    latex: |
+      Using the cosine rule in $\triangle ABC$:
+      $$\begin{aligned} \cos \angle BAC &= \dfrac{83^2 + 50^2 - 40^2}{2 \times 83 \times 50} \\ &= 0.9384337349\ldots \\ \angle BAC &= \cos^{-1}(0.9384337349\ldots) \\ &= 20.20983541\ldots^\circ \end{aligned}$$
+      $$\therefore\ \angle BAC = 20^\circ$$
+    marks_breakdown: 1: cosine rule substitution; 1: evaluates the angle; 1: correct answer
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Evaluates the angle, or equivalent merit"], [1, "Cosine rule substitution, or equivalent merit"]]
+    meta_json: {}
+  figure 706_q26_1.png
+    page: 16
+    bbox: [159, 466, 387, 540]
+    png_path: figures/706_q26_1.png
+    tikz_path: tikz/tex/706_q26_1.tex
+    caption: triangle ABC with sides 83, 50, 40
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Triangle ABC with 83 m, 50 m and 40 m sides, plus NOT TO SCALE. I left out the tiny scan blips at the corners. The overlay score is mostly lowered by stroke thickness and text anti-aliasing. Rules 1, 2, 3, 11.
+  part -  id 12548
+    ordinal: 1
+    latex: |
+      Find the size of the $\angle BAC$ in triangle $ABC$, correct to the nearest degree.
+
+      \exfigure{706_q26_1}
+    marks: 3
+    needs_review: 0
+    tag 2024 S2-12-067
+      focus_area: Trigonometry
+      dot_point: Apply the cosine rule cos C=(a^2+b^2-c^2)/(2ab) in a given triangle ABC to find the value of an unknown angle
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.5
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Cosine rule (angle)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7183
+      confidence: high
+      reason: Standard cosine rule for an angle.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+
+## Q27  key 2019-CTHS-AP3-STD-Q27  id 7890
+  section: II
+  question_type: short
+  marks_total: 4
+  page_start: 17
+  page_end: 17
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Trigonometry|Right angled trigonometry
+  home_source: computed
+  solution 12017
+    source: extracted
+    latex: |
+      In $\triangle ABC$:
+      $$\sin 15^\circ = \dfrac{8}{x}$$
+      $$\begin{aligned} x &= \dfrac{8}{\sin 15^\circ} \\ &= 30.90962644\ldots \\ &\approx 30.9 \text{ cm} \end{aligned}$$
+      In $\triangle BCD$:
+      $$\tan 28^\circ = \dfrac{y}{x}$$
+      $$\begin{aligned} y &= 30.90962644\ldots \times \tan 28^\circ \\ &= 16.43493991\ldots \\ &\approx 16.4 \text{ cm} \end{aligned}$$
+      $$\therefore\ x = 30.9 \text{ cm},\ y = 16.4 \text{ cm}$$
+    marks_breakdown: 1: equation for x; 1: x = 30.9 cm; 1: equation for y; 1: y = 16.4 cm
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[4, "Correct answer"], [3, "Equation for $y$, or equivalent merit"], [2, "$x = 30.9$ cm"], [1, "Equation for $x$, or equivalent merit"]]
+    meta_json: {}
+  figure 706_q27_1.png
+    page: 17
+    bbox: [141, 107, 246, 295]
+    png_path: figures/706_q27_1.png
+    tikz_path: tikz/tex/706_q27_1.tex
+    caption: two right-angled triangles sharing side x
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Two right-angled triangles sharing side x, with right-angle marks at the top-left and at the lower vertex, and labels 8 cm, 28°, x, 15° and y. The original is blue; I drew it in black (rule 6). Rules 1, 2, 3, 6, 11.
+  part -  id 12549
+    ordinal: 1
+    latex: |
+      Find the values of $x$ and $y$ in this diagram, correct to one decimal place.
+
+      \exfigure{706_q27_1}
+    marks: 4
+    needs_review: 0
+    tag 2024 S2-12-062
+      focus_area: Trigonometry
+      dot_point: Apply trigonometric ratios to right-angled triangles to find either the lengths of unknown sides or the size of unknown angles in both degrees, and degrees and minutes
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.4
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-071
+      focus_area: Trigonometry
+      dot_point: Solve practical problems involving Pythagoras’ theorem, the trigonometry of right-angled and non-right-angled triangles, angles of elevation and depression, and true bearings and compass bearings
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.4
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Right-angled trigonometry
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7090
+      confidence: high
+      reason: Two linked right triangles, carrying first result forward.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 4
+      wm_ai: UF
+      source: model
+
+## Q28  key 2019-CTHS-AP3-STD-Q28  id 7891
+  section: II
+  question_type: short
+  marks_total: 3
+  page_start: 17
+  page_end: 17
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Trigonometry|Right angled trigonometry
+  home_source: computed
+  solution 12018
+    source: extracted
+    latex: |
+      $$\begin{aligned} d &= \text{speed} \times \text{time} \\ &= 80 \times 2.5 \\ &= 200 \text{ km} \end{aligned}$$
+      The bearing $125^\circ\text{T}$ is $125^\circ - 90^\circ = 35^\circ$ south of east, so the angle with the east direction is $35^\circ$.
+      $$\cos 35^\circ = \dfrac{x}{200}$$
+      $$\begin{aligned} x &= 200 \times \cos 35^\circ \\ &= 163.8304089\ldots \end{aligned}$$
+      $$\therefore\ \text{Oscar is } 164 \text{ km east of his starting position}$$
+    marks_breakdown: 1: distance 200 km; 1: correct trigonometric equation; 1: correct answer
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[3, "Correct answer"], [2, "Correct trigonometric equation, or equivalent merit"], [1, "Distance $200$ km, or equivalent merit"]]
+    meta_json: {}
+  part -  id 12550
+    ordinal: 1
+    latex: Oscar drives at a speed of 80 km/h on a bearing of $125^\circ\text{T}$ for 2.5 hours. How far is Oscar east of his starting position? Answer to the nearest kilometre.
+    marks: 3
+    needs_review: 0
+    tag 2024 S11-003
+      focus_area: Formulas and equations
+      dot_point: Calculate distance, speed and time (with change of units of measurement as required) and stopping distances of vehicles using speed=(distance)/(time) and stopping distance = reaction distance + braking distance
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-062
+      focus_area: Trigonometry
+      dot_point: Apply trigonometric ratios to right-angled triangles to find either the lengths of unknown sides or the size of unknown angles in both degrees, and degrees and minutes
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-069
+      focus_area: Trigonometry
+      dot_point: Identify and interpret true bearings and compass bearings and convert between them
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-071
+      focus_area: Trigonometry
+      dot_point: Solve practical problems involving Pythagoras’ theorem, the trigonometry of right-angled and non-right-angled triangles, angles of elevation and depression, and true bearings and compass bearings
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.75
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Right-angled trigonometry
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Speed, distance and time
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: True and compass bearings
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 7039
+      confidence: medium
+      reason: No diagram; distance from speed, bearing converted to angle.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q29  key 2019-CTHS-AP3-STD-Q29  id 7892
+  section: II
+  question_type: short
+  marks_total: 4
+  page_start: 18
+  page_end: 18
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Trigonometry|Right angled trigonometry
+  home_source: computed
+  solution 12019
+    source: extracted
+    latex: |
+      Let $x$ be the distance from the boat to the base of the lighthouse. In the right-angled triangle with the cliff:
+      $$\cos 16^\circ 50' = \dfrac{53}{x}$$
+      $$\begin{aligned} x &= \dfrac{53}{\cos 16^\circ 50'} \\ &= 55.37265262\ldots \end{aligned}$$
+      In the triangle formed by the boat, the base and the top of the lighthouse, the angle at the boat is $12^\circ 25'$ and the angle at the top of the lighthouse is $60^\circ 45'$. Using the sine rule:
+      $$\dfrac{h}{\sin 12^\circ 25'} = \dfrac{55.37265262\ldots}{\sin 60^\circ 45'}$$
+      $$\begin{aligned} h &= \dfrac{55.37265262\ldots \times \sin 12^\circ 25'}{\sin 60^\circ 45'} \\ &= 13.646132\ldots \end{aligned}$$
+      $$\therefore\ \text{the height of the lighthouse is } 13.65 \text{ m}$$
+      Alternative method. Let $y$ be the height of the top of the lighthouse and $z$ the height of the base, above the lake.
+      $$\begin{aligned} \tan 29^\circ 15' &= \dfrac{y}{53} \\ y &= 53\tan 29^\circ 15' = 29.6814\ldots \end{aligned}$$
+      $$\begin{aligned} \tan 16^\circ 50' &= \dfrac{z}{53} \\ z &= 53\tan 16^\circ 50' = 16.0353\ldots \end{aligned}$$
+      $$\begin{aligned} h &= 29.6814\ldots - 16.0353\ldots \\ &= 13.646\ldots \\ &\approx 13.65 \text{ m (2 d.p.)} \end{aligned}$$
+    marks_breakdown: 1: finds the distance x; 1: sine rule equation; 1: finds h; 1: correct answer
+    source_document_id: 706
+    prompt_version: parse-v1
+    criteria_json: [[4, "Correct answer"], [3, "Finds $h$, or equivalent merit"], [2, "Sine rule equation, or equivalent merit"], [1, "Finds the distance $x$, or equivalent merit"]]
+    meta_json: {"corrected": "Corrected from source: the alternative method rounded $y$ and $z$ early and ended at $13.64$ m; unrounded it gives $13.646\\ldots\\approx13.65$ m, as the main method.", "overwritten_from_source": "Corrected from source: the alternative method rounded $y$ and $z$ early and ended at $13.64$ m; unrounded it gives $13.646\\ldots\\approx13.65$ m, as the main method.", "source_original": {"criteria": [[4, "Correct answer"], [3, "Finds $h$, or equivalent merit"], [2, "Sine rule equation, or equivalent merit"], [1, "Finds the distance $x$, or equivalent merit"]], "latex": "Let $x$ be the distance from the boat to the base of the lighthouse. In the right-angled triangle with the cliff:\n$$\\cos 16^\\circ 50' = \\dfrac{53}{x}$$\n$$\\begin{aligned} x &= \\dfrac{53}{\\cos 16^\\circ 50'} \\\\ &= 55.37265262\\ldots \\end{aligned}$$\nIn the triangle formed by the boat, the base and the top of the lighthouse, the angle at the boat is $12^\\circ 25'$ and the angle at the top of the lighthouse is $60^\\circ 45'$. Using the sine rule:\n$$\\dfrac{h}{\\sin 12^\\circ 25'} = \\dfrac{55.37265262\\ldots}{\\sin 60^\\circ 45'}$$\n$$\\begin{aligned} h &= \\dfrac{55.37265262\\ldots \\times \\sin 12^\\circ 25'}{\\sin 60^\\circ 45'} \\\\ &= 13.646132\\ldots \\end{aligned}$$\n$$\\therefore\\ \\text{the height of the lighthouse is } 13.65 \\text{ m}$$\nAlternative method. Let $y$ be the height of the top of the lighthouse and $z$ the height of the base, above the lake.\n$$\\begin{aligned} \\tan 29^\\circ 15' &= \\dfrac{y}{53} \\\\ y &= 53\\tan 29^\\circ 15' = 29.68 \\end{aligned}$$\n$$\\begin{aligned} \\tan 16^\\circ 50' &= \\dfrac{z}{53} \\\\ z &= 53\\tan 16^\\circ 50' = 16.04 \\end{aligned}$$\n$$\\begin{aligned} h &= 29.68 - 16.04 \\\\ &= 13.64 \\text{ m (2 d.p.)} \\end{aligned}$$"}}
+  figure 706_q29_1.png
+    page: 18
+    bbox: [165, 91, 381, 273]
+    png_path: figures/706_q29_1.png
+    tikz_path: tikz/tex/706_q29_1.tex
+    caption: boat, cliff and lighthouse with angles of elevation
+    redraw_status: ok
+    redraw_class: other
+    redraw_notes: Clip-art scene redrawn as line art: sailboat, scalloped water line, cliff, grey lighthouse with lantern, railing, windows and door, two dashed sight lines in the house fine-dash style, and the word 'Cliff'. Took a 3rd draw to fix the lighthouse dome, which had come out pointing downward. Rules 1, 3 (aux dashes), 6.
+  part -  id 12551
+    ordinal: 1
+    latex: |
+      \exfigure{706_q29_1}
+
+      A lighthouse stands on the edge of a cliff overlooking a lake.
+
+      From a boat on the lake the angle of elevation to the base of the lighthouse is $16^\circ 50'$ and the angle of elevation to the top of the lighthouse is $29^\circ 15'$.
+
+      The boat is 53 m from the base of the cliff.
+
+      Given that the lighthouse is vertical, determine the height of the lighthouse.
+
+      Answer correct to two decimal places
+    marks: 4
+    needs_review: 0
+    tag 2024 S2-12-062
+      focus_area: Trigonometry
+      dot_point: Apply trigonometric ratios to right-angled triangles to find either the lengths of unknown sides or the size of unknown angles in both degrees, and degrees and minutes
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-071
+      focus_area: Trigonometry
+      dot_point: Solve practical problems involving Pythagoras’ theorem, the trigonometry of right-angled and non-right-angled triangles, angles of elevation and depression, and true bearings and compass bearings
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Angles of elevation and depression
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    difficulty
+      band: 4
+      wm: PR
+      is_anchor: 0
+      nearest_anchor: 7090
+      confidence: medium
+      reason: Two elevation angles; heights by difference, degrees-minutes.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 4
+      wm_ai: PR
+      source: model
+
+## Q30  key 2019-CTHS-AP3-STD-Q30  id 7893
+  section: II
+  question_type: extended
+  stem_latex: |
+    A radial compass survey of a sports centre is shown in the diagram.
+
+    \exfigure{706_q30_1}
+  marks_total: 5
+  page_start: 19
+  page_end: 19
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Trigonometry|Radial surveys
+  home_source: computed
+  figure 706_q30_1.png
+    page: 19
+    bbox: [194, 107, 352, 267]
+    png_path: figures/706_q30_1.png
+    tikz_path: tikz/tex/706_q30_1.tex
+    caption: radial compass survey
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Radial survey from O: OA, OB and OC with rotated distance labels, a North arrow, a dashed boundary triangle ABC, bearing labels A 320°, B 074° and C 195°, and NOT TO SCALE. The first draw had C and B placed wrongly. They were moved to the crop's positions in round 2. A 3rd draw nudged the 211 m label off OB. I left out the scan's tiny arrowheads at the ends of the lines. Rules 1, 2, 3, 4, 6a, 11.
+  part a  id 12552
+    ordinal: 1
+    latex: Find the size of angle $AOB$.
+    marks: 1
+    needs_review: 0
+    tag 2024 S2-12-069
+      focus_area: Trigonometry
+      dot_point: Identify and interpret true bearings and compass bearings and convert between them
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-070
+      focus_area: Trigonometry
+      dot_point: Construct and interpret compass radial surveys and solve related problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.85
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Compass radial surveys
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12020
+      source: extracted
+      latex: |
+        Let $D$ be the point directly north of $O$.
+        $$\angle AOD = 360^\circ - 320^\circ = 40^\circ$$
+        $$\begin{aligned} \angle AOB &= 74^\circ + 40^\circ \\ &= 114^\circ \end{aligned}$$
+      marks_breakdown: 1: correct answer
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[1, "Correct answer"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7209
+      confidence: medium
+      reason: Combine bearings across north to get included angle.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 12553
+    ordinal: 2
+    latex: Calculate the length of the boundary $AB$, to the nearest metre.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-066
+      focus_area: Trigonometry
+      dot_point: Apply the cosine rule c^2=a^2+b^2-2abcos C in a given triangle ABC to find the value of an unknown side
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-070
+      focus_area: Trigonometry
+      dot_point: Construct and interpret compass radial surveys and solve related problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-071
+      focus_area: Trigonometry
+      dot_point: Solve practical problems involving Pythagoras’ theorem, the trigonometry of right-angled and non-right-angled triangles, angles of elevation and depression, and true bearings and compass bearings
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Compass radial surveys
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Cosine rule (side)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12021
+      source: extracted
+      latex: |
+        Using the cosine rule in $\triangle AOB$:
+        $$\begin{aligned} AB^2 &= 287^2 + 211^2 - 2 \times 287 \times 211 \times \cos 114^\circ \\ &= 176151.5018\ldots \\ AB &= \sqrt{176151.5018\ldots} \\ &= 419.7040645\ldots \end{aligned}$$
+        $$\therefore\ AB = 420 \text{ m}$$
+      marks_breakdown: 1: correct cosine rule substitution; 1: correct answer
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Correct cosine rule substitution, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7210
+      confidence: high
+      reason: Direct cosine rule for a side.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 12554
+    ordinal: 3
+    latex: Find the perimeter of triangle $AOB$, correct to two significant figures.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-058
+      focus_area: Applications of measurement
+      dot_point: Solve practical problems requiring the calculation of perimeters and areas of triangles, rectangles, parallelograms, trapeziums, circles, sectors of circles and composite shapes in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-070
+      focus_area: Trigonometry
+      dot_point: Construct and interpret compass radial surveys and solve related problems
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.7
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Compass radial surveys
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Perimeter
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12022
+      source: extracted
+      latex: $$\begin{aligned} \text{Perimeter} &= 420 + 287 + 211 \\ &= 918 \text{ m} \\ &\approx 920 \text{ m (2 significant figures)} \end{aligned}$$
+      marks_breakdown: 1: correct perimeter; 1: rounds to two significant figures (c.f.m.)
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Correct perimeter, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 2
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7118
+      confidence: high
+      reason: Add sides and round to significant figures.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 2
+      wm_ai: UF
+      source: model
+
+## Q31  key 2019-CTHS-AP3-STD-Q31  id 7894
+  section: II
+  question_type: extended
+  stem_latex: |
+    \exfigure{706_q31_1}
+
+    The flag shown above has three sections. $\triangle ABC$ is right-angled with $AC = 120$ cm and $BC = 45$ cm. The distances $BD$, $DE$ and $EC$ are equal and $\angle DEA = 105^\circ$.
+  marks_total: 6
+  page_start: 20
+  page_end: 20
+  needs_review: 0
+  review_status: unreviewed
+  home_topic: sub:12|Trigonometry|Area of a triangle
+  home_source: computed
+  figure 706_q31_1.png
+    page: 20
+    bbox: [126, 91, 420, 270]
+    png_path: figures/706_q31_1.png
+    tikz_path: tikz/tex/706_q31_1.tex
+    caption: flag with triangle ABC and points D, E on BC
+    redraw_status: ok
+    redraw_class: geometry
+    redraw_notes: Flag: right triangle ABC with D and E on BC and segments AD and AE. Regions ABD and AEC are flat grey ('shade'), replacing the solid blue (rules 5, 6). The low original-side overlay score is only because the solid blue fill counts as ink. The lines and labels match.
+  part a  id 12555
+    ordinal: 1
+    latex: Calculate the distance $AE$. Answer correct to nearest centimetre.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-059
+      focus_area: Applications of measurement
+      dot_point: Apply Pythagoras’ theorem to solve problems involving right-angled triangles
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.55
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag 2024 S2-12-071
+      focus_area: Trigonometry
+      dot_point: Solve practical problems involving Pythagoras’ theorem, the trigonometry of right-angled and non-right-angled triangles, angles of elevation and depression, and true bearings and compass bearings
+      year_level: 12
+      coverage: examinable
+      is_primary: 0
+      confidence: 0.55
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Pythagoras' theorem
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12023
+      source: extracted
+      latex: |
+        $$BD = DE = EC = \dfrac{45}{3} = 15 \text{ cm}$$
+        $\triangle ACE$ is right-angled at $C$, so by Pythagoras' theorem:
+        $$\begin{aligned} AE^2 &= 15^2 + 120^2 \\ AE &= \sqrt{15^2 + 120^2} \\ &= 120.9338662\ldots \end{aligned}$$
+        $$\therefore\ AE = 121 \text{ cm}$$
+        Alternatively, $\sin 75^\circ = \dfrac{120}{AE}$.
+      marks_breakdown: 1: correct equation; 1: correct answer
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Correct equation, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7150
+      confidence: medium
+      reason: Divide BC into thirds then Pythagoras.
+      area: Y11_Applications_of_measurement
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part b  id 12556
+    ordinal: 2
+    latex: Find the area of the $\triangle DEA$. Answer correct to the nearest square centimetre.
+    marks: 2
+    needs_review: 0
+    tag 2024 S2-12-068
+      focus_area: Trigonometry
+      dot_point: Apply the formula A=(1)/(2)absin C, where a and b are the sides that form the included angle C in a given triangle ABC, to solve problems in a range of contexts
+      year_level: 12
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.8
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Area of a triangle (1/2 ab sin C)
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12024
+      source: extracted
+      latex: |
+        Using the area formula $\text{Area} = \dfrac{1}{2}ab\sin C$ with $DE = 15$ and $AE = 120.9338662\ldots$:
+        $$\begin{aligned} \text{Area of } \triangle DEA &= \dfrac{1}{2} \times 15 \times 120.9338662\ldots \times \sin 105^\circ \\ &= 876.0985849\ldots \end{aligned}$$
+        $$\therefore\ \text{Area of } \triangle DEA = 876 \text{ cm}^2$$
+      marks_breakdown: 1: correct area equation; 1: correct answer
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Correct area equation, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7164
+      confidence: medium
+      reason: Direct use of area sine formula with prior length.
+      area: Y12_Trigonometry
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
+  part c  id 12557
+    ordinal: 3
+    latex: What percentage of the area of the banner is the $\triangle DEA$? Answer correct to one decimal place.
+    marks: 2
+    needs_review: 0
+    tag 2024 S11-058
+      focus_area: Applications of measurement
+      dot_point: Solve practical problems requiring the calculation of perimeters and areas of triangles, rectangles, parallelograms, trapeziums, circles, sectors of circles and composite shapes in a variety of contexts
+      year_level: 11
+      coverage: examinable
+      is_primary: 1
+      confidence: 0.65
+      tag_source: agreed
+      mapping_version: v2
+      prompt_version: tag-v2.2
+    tag skill
+      dot_point: Area of plane shapes
+      coverage: required
+      is_primary: 1
+      tag_source: agreed
+      prompt_version: tag-v2.2
+    solution 12025
+      source: extracted
+      latex: |
+        The banner is $\triangle ABC$.
+        $$\begin{aligned} \text{Area of } \triangle ABC &= \dfrac{1}{2} \times 120 \times 45 \\ &= 2700 \text{ cm}^2 \end{aligned}$$
+        $$\begin{aligned} \text{Percentage} &= \dfrac{876.0985849\ldots}{2700} \times 100 \\ &= 32.44809574\ldots\% \\ &\approx 32.4\% \end{aligned}$$
+        $$\therefore\ \triangle DEA \text{ is } 32.4\% \text{ of the banner}$$
+      marks_breakdown: 1: area of triangle ABC; 1: correct percentage (c.f.m.)
+      source_document_id: 706
+      prompt_version: parse-v1
+      criteria_json: [[2, "Correct answer"], [1, "Area of $\\triangle ABC$, or equivalent merit"]]
+      meta_json: {}
+    difficulty
+      band: 3
+      wm: UF
+      is_anchor: 0
+      nearest_anchor: 7037
+      confidence: medium
+      reason: Right triangle area then percentage.
+      area: Y11_Applications_of_measurement
+      prompt_version: diff-v1-api
+      rated_at: 2026-11-26
+      band_ai: 3
+      wm_ai: UF
+      source: model
