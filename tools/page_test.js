@@ -517,8 +517,10 @@ async function flows(browser, base, seed, seedR) {
           return a >= 0 && els.slice(a + 1).every(e => e.matches('.ex-ans')) && a > 0 });
         const letters = mc.filter(q => inQ(q, '.ex-ans').map(e => e.textContent.trim()).join() === 'Answer: ' + q.options.find(o => o.is_correct).label).length;
         const mcSol = mc.filter(q => inQ(q, '.xsol').length).length, wr = qs.filter(q => q.type !== 'mcq'), wrSol = wr.filter(q => inQ(q, '.xsol').length).length;
+        // 26 Nov (final answers read out of the worked solutions): a written question shows an answer line, its working, or both
+        const wrAns = wr.filter(q => inQ(q, '.ex-ans').length).length, wrCov = wr.filter(q => inQ(q, '.ex-ans, .xsol').length).length;
         const nums = [...P.querySelectorAll('section.xq :is(.xqn, .xqh:not(.cont) b)')].map(e => e.textContent.trim());
-        return {m, mc: mc.length, wr: wr.length, after: after.length, letters, mcSol, wrSol, lines: P.querySelectorAll('.exln').length, ok: P.querySelectorAll('.xo.xok, table.ot tr.correct').length,
+        return {m, mc: mc.length, wr: wr.length, after: after.length, letters, mcSol, wrSol, wrAns, wrCov, lines: P.querySelectorAll('.exln').length, ok: P.querySelectorAll('.xo.xok, table.ot tr.correct').length,
           cover: !!P.querySelector('.sheet .xcover'), nums: nums.join(','), info: document.querySelector('#xInfo').textContent, fb: EXV.fb, pressed: document.querySelector(`[data-xans="${m}"]`).getAttribute('aria-pressed')} }, m);
       const s = await sheetCheck(); errs();
       const want = await page.evaluate(() => { const qs = EX.items.map(xq).filter(Boolean); return qs.map((q, i) => q.type === 'mcq' ? String(i + 1) : `QUESTION ${i + 1}`).join(',') });
@@ -529,10 +531,11 @@ async function flows(browser, base, seed, seedR) {
       else assert(r.letters === r.mc && r.after === r.mc, `${m}: ${r.letters}/${r.mc} correct letters, ${r.after} straight after the options`);
       if (m === 'final') assert(!r.mcSol, `final: ${r.mcSol} MC questions show working`);
       if (m === 'both') assert(r.mcSol === r.mc, `both: ${r.mcSol}/${r.mc} MC worked solutions`);
-      assert(r.wrSol === r.wr, `${m}: ${r.wrSol}/${r.wr} written questions show their worked solution`);
-      assert(m === 'worked' ? !/no short answer/.test(r.info) : r.fb > 0 && r.info.includes(`${r.fb} written part`), `${m}: info line “${r.info}” (fallbacks ${r.fb})`);
+      if (m === 'final') assert(r.wrCov === r.wr && r.wrAns > 0, `final: ${r.wrAns}/${r.wr} written questions show an answer line, ${r.wrCov} show an answer or working`);
+      else assert(r.wrSol === r.wr && (m === 'worked' ? !r.wrAns : r.wrAns > 0), `${m}: ${r.wrSol}/${r.wr} written questions show their worked solution, ${r.wrAns} an answer line`);
+      assert(m === 'worked' || !r.fb ? !/no short answer/.test(r.info) : r.info.includes(`${r.fb} written part`), `${m}: info line “${r.info}” (fallbacks ${r.fb})`);
       assert(!s.over.length && !s.empty, `${m}: sheets over A4 ${JSON.stringify(s.over)}, ${s.empty} empty`);
-      out.push(`${m}: ${s.n} sheets${m === 'worked' ? '' : `, ${r.fb} written parts fall back`}`);
+      out.push(`${m}: ${s.n} sheets${m === 'worked' ? '' : `, ${r.wrAns} written answer lines, ${r.fb} parts fall back`}`);
     }
     const after = await page.evaluate(() => [xBlocks('exam').map(b => b.html).join(''), xBlocks('guide').map(b => b.html).join('')]);
     assert(after[0] === before[0] && after[1] === before[1], 'the exam paper or marking guide changed after the paper with answers was laid out');
@@ -4420,15 +4423,16 @@ async function worksheets(browser, base, seed) {
     await page.click('#xPv [data-xdoc="stack"]'); await waitPv(); const st = await sheets();
     errs();
     assert(g.sol > 0 && !g.lines && /Worked solutions/.test(g.head) && !gd.over.length, `worked solutions: ${JSON.stringify(g)}`);
-    assert(f.key === f.mc && !f.lines && f.sol > 0 && /no short answer recorded/.test(f.info), `final answers: ${JSON.stringify(f)}`);
-    assert(!w.key && w.sol >= f.sol && b.key === f.mc && b.sol === w.sol, `worked ${JSON.stringify(w)}, both ${JSON.stringify(b)}`);
+    // 26 Nov: written parts with a final answer read out of their working print it too (more answer lines than MC questions)
+    assert(f.key > f.mc && !f.lines && (f.sol ? /no short answer recorded/.test(f.info) : !/no short answer/.test(f.info)), `final answers: ${JSON.stringify(f)}`);
+    assert(!w.key && w.sol >= f.sol && b.key === f.key && b.sol === w.sol, `worked ${JSON.stringify(w)}, both ${JSON.stringify(b)}`);
     // blank pages aside (owner 26 Nov: odd pages; the solutions start on a fresh sheet)
     const nb = (x, part) => x.t.filter((t, i) => !x.b[i] && (!part || x.parts[i] === part)), firstG = st.parts.indexOf('guide');
     const sE = nb(st, 'exam'), sG = nb(st, 'guide'), wE = nb(ws), wG = nb(gd);
     assert(sE.length === wE.length && sG.length === wG.length && firstG % 2 === 0 && st.n % 2 === 1 && !st.over.length, `stack: ${st.parts.map(p => p[0]).join('')} (worksheet ${ws.n}, solutions ${gd.n})`);
     const dE = sE.findIndex((t, i) => t !== wE[i]), dG = sG.findIndex((t, i) => t !== wG[i]);
     assert(dE < 0 && dG < 0, `stack differs from each alone at worksheet sheet ${dE + 1} / solutions sheet ${dG + 1}`);
-    return `worksheet ${ws.n} + worked solutions ${gd.n} pages = stack ${st.n}; final answers: ${f.key} letters, ${f.sol} written parts show their working`;
+    return `worksheet ${ws.n} + worked solutions ${gd.n} pages = stack ${st.n}; final answers: ${f.key} answer lines (${f.mc} MC), ${f.sol} written parts show their working`;
   });
   await check('worksheets: every version downloads as HTML; the worksheet as PDF and Word, the stack as two-column Word', page, async () => {
     const out = [], name = await page.evaluate(() => EX.sub.replace(/[^\w\- ]+/g, '').trim());
