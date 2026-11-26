@@ -2744,7 +2744,7 @@ const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057',
     'Minimum completion time':['S2-12-104','S2-12-106','S2-12-100','S2-12-103','S2-12-107'],'Gantt charts':['S2-12-105']},
   'Network flow':{'Max flow min cut':['S2-12-093','S2-12-094','S2-12-095','S2-12-096'],'Increase/decrease problems':['S2-12-097','S2-12-098']},
   'Formulas and equations':{'Substitution':['S11-001','S11-008'],'Change the subject':['S11-002','S11-009'],
-    'Speed distance time':{'Speed distance time':['S11-003'],'Stopping distance':['S11-003']},'BAC':['S11-004','S11-005','S11-006'],
+    'Speed distance time':['S11-003'],'Stopping distance':['S11-003'],'BAC':['S11-004','S11-005','S11-006'],
     'Dosage':['S11-007'],'Solving equations':['S11-010','S11-011']},
   'Data analysis':{'Collecting data':['S11-082','S11-083','S11-084','S11-085','S11-086','S11-087','S11-088','S11-089','S11-090','S11-091'],'Graphs and displays':['S11-092','S11-093','S11-094','S11-095','S11-096','S11-097','S11-098','S11-099','S11-100','S11-101'],'Measures of centre and spread':['S11-102','S11-103','S11-104','S11-105','S11-106','S11-107','S11-108','S11-109'],
     'Quartiles and box plots':['S11-110','S11-111','S11-112','S11-113','S11-114','S11-115','S11-116'],'Outliers':['S11-117','S11-118','S11-119']},
@@ -2756,8 +2756,8 @@ const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057',
 //   decisions by media and governments) is dropped; no later-row rule, so marks decide as in every other topic.
 // owner 25 Nov: "For formula and equations, it should be: * substitution * change the subject (this includes evaluate) * Speed distance time
 //   * Stopping Distance * BAC * Dosage * Solving equations". The syllabus has speed, distance, time AND stopping distances in one dot point
-//   (S11-003), so Stopping distance is a choice inside the Speed distance time row, picked by the question's words (q.ch, tools/bank_split.py),
-//   as Area of a triangle's. S11-008 (apply given formulas) goes with Substitution; S11-011 (spreadsheet of formulas, no question tagged) is
+//   (S11-003); owner 26 Nov: "Yes I want stopping distance as its own thing": its own row, filed by the question's words (q.st,
+//   tools/bank_split.py), with a stand-in dot point (subLevels, virt). S11-008 (apply given formulas) goes with Substitution; S11-011 (spreadsheet of formulas, no question tagged) is
 //   dropped as Critical path's spreadsheet model.
 // owner 25 Nov, on the Year 11 Data analysis card ("this also needs to be simplified"), after Claude proposed five rows merging the syllabus's
 //   eight sub-levels: "I think the rule should be on here. Collecting data should be its own yes. Keep them listen for now." (the dot points
@@ -2785,6 +2785,12 @@ function subLevels(ds){const by={};ds.forEach(d=>(by[d.yl+'|'+d.fa]=by[d.yl+'|'+
       d.sub=sp?(ks.find(k=>[sp[k]].flatMap(v=>Array.isArray(v)?v:Object.values(v).flat()).includes(d.id))||ks[0]):(d.short||d.text);if(d.sub0==null)d.subAuto=1;
       if(SUB_RULE[d.fa]?.drop?.includes(d.id))d.drop=1});
     // the owner's order: a split topic's dot points are listed sub-level by sub-level (the sidebar and the exam builders take the order of DOTS)
+    // owner 26 Nov ("Yes I want stopping distance as its own thing"): a row whose dot points all sit in an earlier row (Stopping distance:
+    //   S11-003, which the syllabus shares with speed, distance and time) gets a stand-in for that dot point (virt, of = the real id) so the
+    //   sidebar, the exam builders and their topic lists have the row. It never matches a tag; Review's and Reports' dot point pickers and
+    //   the Guide's counts leave it out; the question's words file a question there (q.st, tools/bank_split.py)
+    if(sp)ks.forEach((k,i)=>{if(xs.some(d=>d.sub===k&&!d.virt))return;const ids=[sp[k]].flatMap(v=>Array.isArray(v)?v:Object.values(v).flat()),d0=xs.find(d=>ids.includes(d.id));
+      if(d0)xs.push({...d0,id:d0.id+'~'+i,of:d0.id,virt:1,sub:k,drop:0})});
     if(sp)ord.set(k0,xs.slice().sort((a,b)=>ks.indexOf(a.sub)-ks.indexOf(b.sub)))});
   return ds.flatMap(d=>{const k=d.yl+'|'+d.fa,o=ord.get(k);return !o?[d]:by[k][0]===d?o:[]})}
 // owner 25 Nov (Trigonometry simplified): exams and Already learnt lists saved before keep the rows they ticked. A topic key stored while a
@@ -2899,7 +2905,7 @@ function bankSwitch(){if(!isEditor())return'';const all=B.questions.filter(q=>!q
   return `<button class="bankall" data-bankall="1" aria-pressed="${BANKALL}" title="Unapproved questions are still being checked">${BANKALL?`Showing all ${all.toLocaleString()} · <u>approved only</u>`:`Approved only (${ok.toLocaleString()} of ${all.toLocaleString()}) · <u>include unapproved</u>`}</button>`}
 function buildTopics(){
   const T={y12:new Map(),y11:new Map(),byKey:{}};
-  DOTS.forEach(d=>{const m=d.yl===12?T.y12:T.y11;if(!m.has(d.fa))m.set(d.fa,new Map());const s=m.get(d.fa);const sk=d.sub||'';if(!s.has(sk))s.set(sk,{dps:[],qs:[]});if(!d.drop)s.get(sk).dps.push(d);T.byKey['sub:'+d.yl+'|'+d.fa+'|'+sk]=s.get(sk)});
+  DOTS.forEach(d=>{const m=d.yl===12?T.y12:T.y11;if(!m.has(d.fa))m.set(d.fa,new Map());const s=m.get(d.fa);const sk=d.sub||'';if(!s.has(sk))s.set(sk,{dps:[],qs:[]});if(!d.drop)s.get(sk).dps.push(d.virt?DM[d.of]:d);T.byKey['sub:'+d.yl+'|'+d.fa+'|'+sk]=s.get(sk)});
   T.byKey['special:removed']={qs:[]};T.byKey['special:no_match']={qs:[]};T.byKey['special:std']={qs:[]};
   B.questions.filter(inBank).forEach(q=>qPlaces(q).forEach(k=>T.byKey[k]?.qs.push(q)));
   TOPICS=T;
@@ -3637,7 +3643,7 @@ function openTagFlag(){const b=$('#tflag');if(!b)return;b.hidden=false;drawTP();
 // owner 12 Nov: "If its both wrong, I should be able to pick from a Y11 and Y12 list for the correct main dot point"
 let tpYear='all';
 function drawTP(){const el=$('#tpList');if(!el)return;const s=($('#tflagtxt')?.value||'').toLowerCase().trim();
-  const pool=DOTS.filter(d=>tpYear==='all'||String(d.yl)===tpYear);
+  const pool=DOTS.filter(d=>!d.virt&&(tpYear==='all'||String(d.yl)===tpYear));   // virt: a row's stand-in (07_bank.js subLevels), never a tag
   const row=d=>`<button class="tprow" data-tp="${d.id}"><span class="yb y${d.yl}">Y${d.yl}</span><span class="tid">${d.id}</span> ${esc(d.short||d.text)}</button>`;
   if(s){const hits=pool.filter(d=>(d.id+' '+d.fa+' '+(d.sub||'')+' '+(d.short||'')+' '+d.text).toLowerCase().includes(s)).slice(0,40);
     el.innerHTML=hits.map(row).join('')||'<div class="muted">No dot point matches.</div>'}
@@ -3735,7 +3741,7 @@ async function decide(status){const q=rlist[ridx];if(!q)return;if(status==='appr
   if(!_advanced&&rlist[ridx]?.id===was) go(1); window.scrollTo({top:0})}
 function setupPicker(){
   const inp=$('#pickQ'); if(!inp) return; inp.focus();
-  const draw=()=>{const s=inp.value.toLowerCase().trim();const hits=(s?DOTS.filter(d=>(d.id+' '+d.fa+' '+(d.sub||'')+' '+d.text).toLowerCase().includes(s)):DOTS).slice(0,60);
+  const draw=()=>{const s=inp.value.toLowerCase().trim();const real=DOTS.filter(d=>!d.virt),hits=(s?real.filter(d=>(d.id+' '+d.fa+' '+(d.sub||'')+' '+d.text).toLowerCase().includes(s)):real).slice(0,60);
     $('#pickList').innerHTML=hits.map(d=>`<li data-id="${d.id}"><b>${d.id}</b> · ${esc(d.fa)}${d.sub?' › '+esc(d.sub):''}<br>${tex(d.tex||d.text)}</li>`).join('');typeset($('#pickList'));
     $$('#pickList li').forEach(li=>li.onclick=()=>setTag({id:li.dataset.id}))};
   inp.oninput=draw; draw();
@@ -5623,8 +5629,8 @@ function g2Stats(){const qs=B.questions.filter(q=>!q.dup_of&&!q.old&&!q.std);con
   const parts=[];qs.forEach(q=>q.parts.forEach(p=>{if(p.dif)parts.push({p,q})}));
   const band=[0,0,0,0,0,0,0],wm={UF:0,PR:0};parts.forEach(({p})=>{const m=+p.marks||1;band[p.dif.b]+=m;wm[p.dif.wm]=(wm[p.dif.wm]||0)+m});
   const ref=parts.filter(x=>x.p.dif.a).length,src={owner:0,shifted:0};parts.forEach(x=>{if(x.p.dif.s)src[x.p.dif.s]=(src[x.p.dif.s]||0)+1});
-  const fas=new Set(DOTS.map(d=>d.yl+'|'+d.fa)).size,sbs=new Set(DOTS.map(d=>d.yl+'|'+d.fa+'|'+d.sub)).size;
-  return {qs:qs.length,filed,areas,subs:subs.size,parts:parts.length,band,wm,ref,src,fas,sbs,dots:DOTS.length}}
+  const RD=DOTS.filter(d=>!d.virt),fas=new Set(RD.map(d=>d.yl+'|'+d.fa)).size,sbs=new Set(RD.map(d=>d.yl+'|'+d.fa+'|'+d.sub)).size;
+  return {qs:qs.length,filed,areas,subs:subs.size,parts:parts.length,band,wm,ref,src,fas,sbs,dots:RD.length}}
 const g2pct=(a,t)=>t?Math.round(a/t*100):0;
 function g2Bars(rows,max,cls=''){return `<div class="g2bars ${cls}">${rows.map(([l,v,sub])=>`<div class="g2bar"><span class="l">${l}</span><i><s style="width:${max?Math.max(1.5,v/max*100):0}%"></s></i><b>${v}</b>${sub?`<em>${sub}</em>`:''}</div>`).join('')}</div>`}
 const G2_BAND=[[2,'Routine','One step: recall, read a graph, substitute'],[3,'Standard','Two steps, or one technique applied cleanly'],[4,'Multi-step','Several steps, ideas combined, careful algebra'],[5,'Non-routine','Unfamiliar set-up, general proof, extended reasoning'],[6,'Insight','Novel model or a long argument taken to the end']];
@@ -5866,7 +5872,7 @@ const qiDotsList=(q,cls)=>{const ps=qiParts(q);if(!ps.some(p=>p.dots.length))ret
 function repMarkPaper(){$$('#xPages [data-qinfo]').forEach(b=>{const k=repOpen().filter(r=>r.question_id===+b.dataset.qinfo).length;b.classList.toggle('has',!!k);b.textContent=k?`Reported (${k})`:'Report';b.setAttribute('aria-label',qiLabel(k));b.title=qiLabel(k)})}
 
 /* ---------- the report form ---------- */
-function repDotOptions(sel){const by=new Map();DOTS.forEach(d=>{const g=`Year ${d.yl} · ${d.fa}`;if(!by.has(g))by.set(g,[]);by.get(g).push(d)});
+function repDotOptions(sel){const by=new Map();DOTS.filter(d=>!d.virt).forEach(d=>{const g=`Year ${d.yl} · ${d.fa}`;if(!by.has(g))by.set(g,[]);by.get(g).push(d)});
   return `<option value="">Choose the right dot point (optional)</option>`+[...by.entries()].sort((a,b)=>b[0].localeCompare(a[0])).map(([g,ds])=>`<optgroup label="${esc(g)}">${ds.map(d=>`<option value="${esc(d.id)}"${d.id===sel?' selected':''}>${esc(d.id)} · ${esc(d.short||d.text)}</option>`).join('')}</optgroup>`).join('')}
 function repForm(qidn,n){const q=xq(qidn);if(!q)return;const lv=qLeaves(q),e=typeof exEst==='function'?exEst(q):null;
   REP.dlg={q:q.id,n,reason:null,band:null,wm:null,part:'',prev:document.activeElement};
@@ -7082,7 +7088,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'9ca5225d805e2f6b',stale:false,t:null,at:0,
+const FRESH={build:'99901f6653e39c56',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}

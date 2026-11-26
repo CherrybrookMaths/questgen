@@ -89,7 +89,7 @@ const qiDotsList=(q,cls)=>{const ps=qiParts(q);if(!ps.some(p=>p.dots.length))ret
 function repMarkPaper(){$$('#xPages [data-qinfo]').forEach(b=>{const k=repOpen().filter(r=>r.question_id===+b.dataset.qinfo).length;b.classList.toggle('has',!!k);b.textContent=k?`Reported (${k})`:'Report';b.setAttribute('aria-label',qiLabel(k));b.title=qiLabel(k)})}
 
 /* ---------- the report form ---------- */
-function repDotOptions(sel){const by=new Map();DOTS.forEach(d=>{const g=`Year ${d.yl} · ${d.fa}`;if(!by.has(g))by.set(g,[]);by.get(g).push(d)});
+function repDotOptions(sel){const by=new Map();DOTS.filter(d=>!d.virt).forEach(d=>{const g=`Year ${d.yl} · ${d.fa}`;if(!by.has(g))by.set(g,[]);by.get(g).push(d)});
   return `<option value="">Choose the right dot point (optional)</option>`+[...by.entries()].sort((a,b)=>b[0].localeCompare(a[0])).map(([g,ds])=>`<optgroup label="${esc(g)}">${ds.map(d=>`<option value="${esc(d.id)}"${d.id===sel?' selected':''}>${esc(d.id)} · ${esc(d.short||d.text)}</option>`).join('')}</optgroup>`).join('')}
 function repForm(qidn,n){const q=xq(qidn);if(!q)return;const lv=qLeaves(q),e=typeof exEst==='function'?exEst(q):null;
   REP.dlg={q:q.id,n,reason:null,band:null,wm:null,part:'',prev:document.activeElement};

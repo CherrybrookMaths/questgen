@@ -26,8 +26,8 @@ function g2Stats(){const qs=B.questions.filter(q=>!q.dup_of&&!q.old&&!q.std);con
   const parts=[];qs.forEach(q=>q.parts.forEach(p=>{if(p.dif)parts.push({p,q})}));
   const band=[0,0,0,0,0,0,0],wm={UF:0,PR:0};parts.forEach(({p})=>{const m=+p.marks||1;band[p.dif.b]+=m;wm[p.dif.wm]=(wm[p.dif.wm]||0)+m});
   const ref=parts.filter(x=>x.p.dif.a).length,src={owner:0,shifted:0};parts.forEach(x=>{if(x.p.dif.s)src[x.p.dif.s]=(src[x.p.dif.s]||0)+1});
-  const fas=new Set(DOTS.map(d=>d.yl+'|'+d.fa)).size,sbs=new Set(DOTS.map(d=>d.yl+'|'+d.fa+'|'+d.sub)).size;
-  return {qs:qs.length,filed,areas,subs:subs.size,parts:parts.length,band,wm,ref,src,fas,sbs,dots:DOTS.length}}
+  const RD=DOTS.filter(d=>!d.virt),fas=new Set(RD.map(d=>d.yl+'|'+d.fa)).size,sbs=new Set(RD.map(d=>d.yl+'|'+d.fa+'|'+d.sub)).size;
+  return {qs:qs.length,filed,areas,subs:subs.size,parts:parts.length,band,wm,ref,src,fas,sbs,dots:RD.length}}
 const g2pct=(a,t)=>t?Math.round(a/t*100):0;
 function g2Bars(rows,max,cls=''){return `<div class="g2bars ${cls}">${rows.map(([l,v,sub])=>`<div class="g2bar"><span class="l">${l}</span><i><s style="width:${max?Math.max(1.5,v/max*100):0}%"></s></i><b>${v}</b>${sub?`<em>${sub}</em>`:''}</div>`).join('')}</div>`}
 const G2_BAND=[[2,'Routine','One step: recall, read a graph, substitute'],[3,'Standard','Two steps, or one technique applied cleanly'],[4,'Multi-step','Several steps, ideas combined, careful algebra'],[5,'Non-routine','Unfamiliar set-up, general proof, extended reasoning'],[6,'Insight','Novel model or a long argument taken to the end']];

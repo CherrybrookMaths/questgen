@@ -40,7 +40,7 @@ const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057',
     'Minimum completion time':['S2-12-104','S2-12-106','S2-12-100','S2-12-103','S2-12-107'],'Gantt charts':['S2-12-105']},
   'Network flow':{'Max flow min cut':['S2-12-093','S2-12-094','S2-12-095','S2-12-096'],'Increase/decrease problems':['S2-12-097','S2-12-098']},
   'Formulas and equations':{'Substitution':['S11-001','S11-008'],'Change the subject':['S11-002','S11-009'],
-    'Speed distance time':{'Speed distance time':['S11-003'],'Stopping distance':['S11-003']},'BAC':['S11-004','S11-005','S11-006'],
+    'Speed distance time':['S11-003'],'Stopping distance':['S11-003'],'BAC':['S11-004','S11-005','S11-006'],
     'Dosage':['S11-007'],'Solving equations':['S11-010','S11-011']},
   'Data analysis':{'Collecting data':['S11-082','S11-083','S11-084','S11-085','S11-086','S11-087','S11-088','S11-089','S11-090','S11-091'],'Graphs and displays':['S11-092','S11-093','S11-094','S11-095','S11-096','S11-097','S11-098','S11-099','S11-100','S11-101'],'Measures of centre and spread':['S11-102','S11-103','S11-104','S11-105','S11-106','S11-107','S11-108','S11-109'],
     'Quartiles and box plots':['S11-110','S11-111','S11-112','S11-113','S11-114','S11-115','S11-116'],'Outliers':['S11-117','S11-118','S11-119']},
@@ -52,8 +52,8 @@ const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057',
 //   decisions by media and governments) is dropped; no later-row rule, so marks decide as in every other topic.
 // owner 25 Nov: "For formula and equations, it should be: * substitution * change the subject (this includes evaluate) * Speed distance time
 //   * Stopping Distance * BAC * Dosage * Solving equations". The syllabus has speed, distance, time AND stopping distances in one dot point
-//   (S11-003), so Stopping distance is a choice inside the Speed distance time row, picked by the question's words (q.ch, tools/bank_split.py),
-//   as Area of a triangle's. S11-008 (apply given formulas) goes with Substitution; S11-011 (spreadsheet of formulas, no question tagged) is
+//   (S11-003); owner 26 Nov: "Yes I want stopping distance as its own thing": its own row, filed by the question's words (q.st,
+//   tools/bank_split.py), with a stand-in dot point (subLevels, virt). S11-008 (apply given formulas) goes with Substitution; S11-011 (spreadsheet of formulas, no question tagged) is
 //   dropped as Critical path's spreadsheet model.
 // owner 25 Nov, on the Year 11 Data analysis card ("this also needs to be simplified"), after Claude proposed five rows merging the syllabus's
 //   eight sub-levels: "I think the rule should be on here. Collecting data should be its own yes. Keep them listen for now." (the dot points
@@ -81,6 +81,12 @@ function subLevels(ds){const by={};ds.forEach(d=>(by[d.yl+'|'+d.fa]=by[d.yl+'|'+
       d.sub=sp?(ks.find(k=>[sp[k]].flatMap(v=>Array.isArray(v)?v:Object.values(v).flat()).includes(d.id))||ks[0]):(d.short||d.text);if(d.sub0==null)d.subAuto=1;
       if(SUB_RULE[d.fa]?.drop?.includes(d.id))d.drop=1});
     // the owner's order: a split topic's dot points are listed sub-level by sub-level (the sidebar and the exam builders take the order of DOTS)
+    // owner 26 Nov ("Yes I want stopping distance as its own thing"): a row whose dot points all sit in an earlier row (Stopping distance:
+    //   S11-003, which the syllabus shares with speed, distance and time) gets a stand-in for that dot point (virt, of = the real id) so the
+    //   sidebar, the exam builders and their topic lists have the row. It never matches a tag; Review's and Reports' dot point pickers and
+    //   the Guide's counts leave it out; the question's words file a question there (q.st, tools/bank_split.py)
+    if(sp)ks.forEach((k,i)=>{if(xs.some(d=>d.sub===k&&!d.virt))return;const ids=[sp[k]].flatMap(v=>Array.isArray(v)?v:Object.values(v).flat()),d0=xs.find(d=>ids.includes(d.id));
+      if(d0)xs.push({...d0,id:d0.id+'~'+i,of:d0.id,virt:1,sub:k,drop:0})});
     if(sp)ord.set(k0,xs.slice().sort((a,b)=>ks.indexOf(a.sub)-ks.indexOf(b.sub)))});
   return ds.flatMap(d=>{const k=d.yl+'|'+d.fa,o=ord.get(k);return !o?[d]:by[k][0]===d?o:[]})}
 // owner 25 Nov (Trigonometry simplified): exams and Already learnt lists saved before keep the rows they ticked. A topic key stored while a
@@ -195,7 +201,7 @@ function bankSwitch(){if(!isEditor())return'';const all=B.questions.filter(q=>!q
   return `<button class="bankall" data-bankall="1" aria-pressed="${BANKALL}" title="Unapproved questions are still being checked">${BANKALL?`Showing all ${all.toLocaleString()} · <u>approved only</u>`:`Approved only (${ok.toLocaleString()} of ${all.toLocaleString()}) · <u>include unapproved</u>`}</button>`}
 function buildTopics(){
   const T={y12:new Map(),y11:new Map(),byKey:{}};
-  DOTS.forEach(d=>{const m=d.yl===12?T.y12:T.y11;if(!m.has(d.fa))m.set(d.fa,new Map());const s=m.get(d.fa);const sk=d.sub||'';if(!s.has(sk))s.set(sk,{dps:[],qs:[]});if(!d.drop)s.get(sk).dps.push(d);T.byKey['sub:'+d.yl+'|'+d.fa+'|'+sk]=s.get(sk)});
+  DOTS.forEach(d=>{const m=d.yl===12?T.y12:T.y11;if(!m.has(d.fa))m.set(d.fa,new Map());const s=m.get(d.fa);const sk=d.sub||'';if(!s.has(sk))s.set(sk,{dps:[],qs:[]});if(!d.drop)s.get(sk).dps.push(d.virt?DM[d.of]:d);T.byKey['sub:'+d.yl+'|'+d.fa+'|'+sk]=s.get(sk)});
   T.byKey['special:removed']={qs:[]};T.byKey['special:no_match']={qs:[]};T.byKey['special:std']={qs:[]};
   B.questions.filter(inBank).forEach(q=>qPlaces(q).forEach(k=>T.byKey[k]?.qs.push(q)));
   TOPICS=T;

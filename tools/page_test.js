@@ -4103,20 +4103,25 @@ async function cpa1125(browser, base, seed) {
     return `${r.rows.join(' · ')}; ${r.now} questions, as before; S2-12-132 listed nowhere; a tree + np question stays in Multistage events`;
   });
   // owner 25 Nov: Formulas and equations rows; and "the question I attached is DEFINITELY a networks question" (2026 NESA HSC Std Q21)
-  await check('formulas: six rows, stopping distance a choice, same questions; a network question with a speed part files under Networks', page, async () => {
+  await check('formulas: seven rows, stopping distance its own row, same questions; a network question with a speed part files under Networks', page, async () => {
     const r = await page.evaluate(() => { const fa = 'Formulas and equations', f = [...document.querySelectorAll('#nav .fa[data-area]')].find(x => x.dataset.area === '11|' + fa);
       const qs = B.questions.filter(inBank), cnt = () => qs.filter(q => [...qPlaces(q)].some(k => k.startsWith('sub:11|' + fa + '|'))).length;
       const net = B.questions.find(q => q.key === '2026-NESA-HSC-STD-Q21'), oak = B.questions.find(q => q.key === '2021-Oakhill-AT1-STD-Q14');
       return {rows: f ? [...f.querySelectorAll('.fold [data-sel] span:first-child')].map(x => x.textContent) : null, now: cnt(),
-        dps: [...TOPICS.y11.get(fa).values()].flatMap(s => s.dps.map(d => d.id)), stop: qs.filter(q => q.ch === 'Stopping distance').map(q => q.key).sort(),
-        net: net && qHome(net), oak: oak && qHome(oak)} });
+        dps: [...TOPICS.y11.get(fa).values()].flatMap(s => s.dps.map(d => d.id)), stop: qs.filter(q => qHome(q) === 'sub:11|' + fa + '|Stopping distance').map(q => q.key).sort(),
+        xa: xaTree()[11].get(fa).map(k => k.split('|')[2]), gate: (() => { const K = 'sub:11|' + fa + '|Stopping distance', qs2 = qs.filter(q => qHome(q) === K); return XG.split(qs2, XG.learnt([K]).L).keep.length + '/' + qs2.length })(), pick: DOTS.filter(d => d.virt).map(d => d.id), net: net && qHome(net), oak: oak && qHome(oak)} });
     errs(page);
-    assert(r.rows && r.rows.join('|') === 'Substitution|Change the subject|Speed distance time|BAC|Dosage|Solving equations', `sidebar rows: ${r.rows}`);
-    assert(!r.dps.includes('S11-011') && r.dps.length === 10, `dot points listed: ${r.dps.join(', ')}`);
+    // owner 26 Nov: "Yes I want stopping distance as its own thing"
+    const ROWS = 'Substitution|Change the subject|Speed distance time|Stopping distance|BAC|Dosage|Solving equations';
+    assert(r.rows && r.rows.join('|') === ROWS, `sidebar rows: ${r.rows}`);
+    assert(r.xa.join('|') === ROWS, `exam builder rows: ${r.xa}`);
+    assert(r.pick.join() === 'S11-003~3', `stand-in dot points: ${r.pick}`);
+    assert(+r.gate.split('/')[0] > 0, `an exam on Stopping distance alone can use ${r.gate} of its questions`);
+    assert(!r.dps.includes('S11-011') && r.dps.length === 11 && r.dps.filter(i => i === 'S11-003').length === 2, `dot points listed: ${r.dps.join(', ')}`);
     assert(r.stop.length >= 5, `stopping distance questions: ${r.stop.join(', ')}`);
     assert(!r.net || r.net === 'sub:11|Networks, paths and trees|Shortest paths and spanning trees', `2026 HSC Std Q21: ${r.net}`);
     assert(!r.oak || r.oak.startsWith('sub:11|Networks, paths and trees|'), `2021 Oakhill AT1 Q14: ${r.oak}`);
-    return `${r.rows.join(' · ')}; ${r.now} questions; stopping distance: ${r.stop.length}; Q21 → ${r.net && r.net.split('|')[2]}; Oakhill Q14 → ${r.oak && r.oak.split('|')[2]}`;
+    return `${r.rows.join(' · ')}; ${r.now} questions; stopping distance: ${r.stop.length} (exam on it alone: ${r.gate} pass the skill gates); Q21 → ${r.net && r.net.split('|')[2]}; Oakhill Q14 → ${r.oak && r.oak.split('|')[2]}`;
   });
   // owner 25 Nov: Year 11 Data analysis in five rows, later row wins ("if a graphs question has IQR, it will show in quatiles and not graphs right")
   await check('data analysis: five rows, same questions in the topic, a graphs + IQR question goes to Quartiles and box plots', page, async () => {

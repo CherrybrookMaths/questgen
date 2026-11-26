@@ -286,9 +286,10 @@ def split(bank, home, src=None):
             on = [p for p in q['parts'] if 'S2-12-068' in [t.get('id') for t in (p.get('t24') or [])] + [d[0] for v in (p.get('tagd') or {}).values() for d in v.get('dp', [])]]
             x['ch'] = 'Finding a side or angle' if AREA_GIVEN_RE.search(' '.join([q.get('stem') or ''] + [p.get('latex') or '' for p in on])) else 'Finding the area'
         # owner 25 Nov (Formulas and equations): "Speed distance time * Stopping Distance": one dot point in the syllabus (S11-003), so the
-        # question's words pick the choice (07_bank.js SUB_SPLIT); all six such questions checked by eye 25 Nov
+        # question's words pick the row (owner 26 Nov: "Yes I want stopping distance as its own thing"; 07_bank.js qHome reads q.st); all six
+        # such questions checked by eye 25 Nov
         if 'S11-003' in ids:
-            x['ch'] = 'Stopping distance' if STOP_RE.search(q_text(q, bank)) else 'Speed distance time'
+            x['st'] = 'Stopping distance' if STOP_RE.search(q_text(q, bank)) else 'Speed distance time'
         # every other question field goes to the details, listed or not (review 16 Nov: a fixed list dropped decide_at, which
         # build_bank.py writes for a call raised after approval; a field added to build_bank later must not vanish either)
         dt = {kk: v for kk, v in q.items() if kk not in Q_START and kk not in Q_CONTENT and kk not in ('parts', 'solutions', 'tri', 'h')

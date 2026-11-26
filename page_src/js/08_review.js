@@ -497,7 +497,7 @@ function openTagFlag(){const b=$('#tflag');if(!b)return;b.hidden=false;drawTP();
 // owner 12 Nov: "If its both wrong, I should be able to pick from a Y11 and Y12 list for the correct main dot point"
 let tpYear='all';
 function drawTP(){const el=$('#tpList');if(!el)return;const s=($('#tflagtxt')?.value||'').toLowerCase().trim();
-  const pool=DOTS.filter(d=>tpYear==='all'||String(d.yl)===tpYear);
+  const pool=DOTS.filter(d=>!d.virt&&(tpYear==='all'||String(d.yl)===tpYear));   // virt: a row's stand-in (07_bank.js subLevels), never a tag
   const row=d=>`<button class="tprow" data-tp="${d.id}"><span class="yb y${d.yl}">Y${d.yl}</span><span class="tid">${d.id}</span> ${esc(d.short||d.text)}</button>`;
   if(s){const hits=pool.filter(d=>(d.id+' '+d.fa+' '+(d.sub||'')+' '+(d.short||'')+' '+d.text).toLowerCase().includes(s)).slice(0,40);
     el.innerHTML=hits.map(row).join('')||'<div class="muted">No dot point matches.</div>'}
@@ -595,7 +595,7 @@ async function decide(status){const q=rlist[ridx];if(!q)return;if(status==='appr
   if(!_advanced&&rlist[ridx]?.id===was) go(1); window.scrollTo({top:0})}
 function setupPicker(){
   const inp=$('#pickQ'); if(!inp) return; inp.focus();
-  const draw=()=>{const s=inp.value.toLowerCase().trim();const hits=(s?DOTS.filter(d=>(d.id+' '+d.fa+' '+(d.sub||'')+' '+d.text).toLowerCase().includes(s)):DOTS).slice(0,60);
+  const draw=()=>{const s=inp.value.toLowerCase().trim();const real=DOTS.filter(d=>!d.virt),hits=(s?real.filter(d=>(d.id+' '+d.fa+' '+(d.sub||'')+' '+d.text).toLowerCase().includes(s)):real).slice(0,60);
     $('#pickList').innerHTML=hits.map(d=>`<li data-id="${d.id}"><b>${d.id}</b> · ${esc(d.fa)}${d.sub?' › '+esc(d.sub):''}<br>${tex(d.tex||d.text)}</li>`).join('');typeset($('#pickList'));
     $$('#pickList li').forEach(li=>li.onclick=()=>setTag({id:li.dataset.id}))};
   inp.oninput=draw; draw();

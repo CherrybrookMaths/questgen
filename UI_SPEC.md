@@ -1525,10 +1525,13 @@ Owner 25 Nov: "For formula and equations, it should be: * substitution * change 
 * Stopping Distance * BAC * Dosage * Solving equations"
 - Rows: Substitution (S11-001, 008 apply given formulas), Change the subject (002 evaluate the subject, 009), Speed distance time (003), BAC
   (004, 005, 006), Dosage (007), Solving equations (010) (07_bank.js SUB_SPLIT).
-- **Stopping distance is a choice inside Speed distance time**, not its own row: the syllabus has speed, distance, time and stopping
-  distances in one dot point (S11-003), and a row needs a dot point of its own (the exam builders' topic lists and skill gates are built
-  from them). The question's words pick the choice (tools/bank_split.py STOP_RE: stopping / braking / reaction distance, reaction time):
-  6 questions on 25 Nov, checked by eye. A separate row is possible with more work (it touches the exam builders); ask if wanted.
+- **Stopping distance is its own row** (owner 26 Nov: "Yes I want stopping distance as its own thing"; on 25 Nov it was a choice inside
+  Speed distance time). The syllabus has speed, distance, time and stopping distances in one dot point (S11-003), so the row holds a
+  stand-in for it (07_bank.js subLevels: virt, id S11-003~3, of S11-003): the sidebar, the All topics card and the exam builders' topic
+  lists show the row; the stand-in is never a tag (Review's and Reports' dot point pickers and the Guide's counts leave it out) and the
+  row's dot point list shows S11-003. The question's words file it (tools/bank_split.py STOP_RE: stopping / braking / reaction distance,
+  reaction time; q.st, as Annuities' Present value): 6 questions on 26 Nov, checked by eye; an exam on Stopping distance alone can use 5
+  of them (the sixth needs a skill from another topic).
 - S11-011 (spreadsheet of formulas, no question tagged) dropped, as Critical path's spreadsheet model.
 Owner 25 Nov, on 2026 NESA HSC Std Q21 (zoo network with gradients, then a 3-mark speed-and-time part, filed under Formulas and equations):
 "the question I attached is DEFINITELY a networks question."
