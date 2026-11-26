@@ -3707,7 +3707,7 @@ async function fixes1125(browser, base, seed) {
         if (r.sw > r.cw + 1) bad.push(`${name}@${lv}%: ${r.sw}px wide in ${r.cw}px`);
         if (r.pillOff > 2) bad.push(`${name}@${lv}%: sidebar pill ${r.pillOff}px off its topic`);
         if (r.navOut > 1) bad.push(`${name}@${lv}%: sidebar runs ${r.navOut}px past the window`);
-        if (name.startsWith('exams') ? r.css !== '' : r.css !== String(lv / 100)) bad.push(`${name}@${lv}%: zoom ${r.css || 'none'}`);
+        if (/^(exams|worksheets)/.test(name) ? r.css !== '' : r.css !== String(lv / 100)) bad.push(`${name}@${lv}%: zoom ${r.css || 'none'}`);   // 26 Nov: Worksheets lays out A4 sheets like Exams (13_shell.js zoomOff)
       }
     }
     await page.evaluate(() => { location.hash = '#exams' }); await settle(page, 2000, 2);
