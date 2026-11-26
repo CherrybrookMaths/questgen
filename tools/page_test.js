@@ -3884,7 +3884,7 @@ async function std2_1125(browser, base, seed) {
         rows: Object.fromEntries([...T].map(([k, s]) => [k, s.qs.length]))} };
       return {now, before, fas: [...new Set(ds.map(d => d.fa))], inv: tot('Investment and loans'), biv: tot('Bivariate data analysis')} });
     const diff = Object.keys({...r.now, ...r.before}).filter(k => r.now[k] !== r.before[k]);
-    assert(r.fas.sort().join('|') === 'Bivariate data analysis|Investment and loans', `topics with replaced sub-levels: ${r.fas}`);
+    assert(r.fas.sort().join('|') === 'Bivariate data analysis|Data analysis|Investment and loans', `topics with replaced sub-levels: ${r.fas}`);   // Data analysis: owner 25 Nov
     assert(!diff.length, `topic totals moved: ${diff.map(k => `${k} ${r.before[k]} → ${r.now[k]}`).join(', ')}`);
     for (const [fa, t] of [['Investment and loans', r.inv], ['Bivariate data analysis', r.biv]]) {
       const n = r.now['sub:12|' + fa]; assert(n > 0 && t.fa === n && t.side === n && t.sum === n, `${fa}: ${n} filed, sidebar ${t.side}, topic ${t.fa}, rows add to ${t.sum}`) }
@@ -4117,6 +4117,24 @@ async function cpa1125(browser, base, seed) {
     assert(!r.net || r.net === 'sub:11|Networks, paths and trees|Shortest paths and spanning trees', `2026 HSC Std Q21: ${r.net}`);
     assert(!r.oak || r.oak.startsWith('sub:11|Networks, paths and trees|'), `2021 Oakhill AT1 Q14: ${r.oak}`);
     return `${r.rows.join(' · ')}; ${r.now} questions; stopping distance: ${r.stop.length}; Q21 → ${r.net && r.net.split('|')[2]}; Oakhill Q14 → ${r.oak && r.oak.split('|')[2]}`;
+  });
+  // owner 25 Nov: Year 11 Data analysis in five rows, later row wins ("if a graphs question has IQR, it will show in quatiles and not graphs right")
+  await check('data analysis: five rows, same questions in the topic, a graphs + IQR question goes to Quartiles and box plots', page, async () => {
+    const r = await page.evaluate(() => { const fa = 'Data analysis', f = [...document.querySelectorAll('#nav .fa[data-area]')].find(x => x.dataset.area === '11|' + fa);
+      const qs = B.questions.filter(inBank), cnt = () => qs.filter(q => [...qPlaces(q)].some(k => k.startsWith('sub:11|' + fa + '|'))).length;
+      const now = cnt(), ds = DOTS.filter(d => d.fa === fa), was = ds.map(d => d.sub), R = SUB_RULE[fa]; ds.forEach(d => { d.sub = d.short }); delete SUB_RULE[fa];
+      const before = cnt(); ds.forEach((d, i) => { d.sub = was[i] }); SUB_RULE[fa] = R;
+      const mk = (id, ps) => ({id, number: '1', parts: ps.map(([d, m], i) => ({id: id * 10 - i, marks: m, t24: [{id: d, primary: 1, cov: 'examinable'}]}))});
+      return {rows: f ? [...f.querySelectorAll('.fold [data-sel] span:first-child')].map(x => x.textContent) : null, now, before,
+        dps: [...TOPICS.y11.get(fa).values()].flatMap(s => s.dps.map(d => d.id)).length,
+        gIqr: qHome(mk(-13, [['S11-094', 4], ['S11-111', 1]])), qOut: qHome(mk(-14, [['S11-111', 3], ['S11-118', 1]]))} });
+    errs(page);
+    assert(r.rows && r.rows.join('|') === 'Collecting data|Graphs and displays|Measures of centre and spread|Quartiles and box plots|Outliers', `sidebar rows: ${r.rows}`);
+    assert(r.dps === 38, `dot points listed: ${r.dps} (all 38 stay)`);
+    assert(r.now === r.before && r.now > 0, `questions in the topic: ${r.before} → ${r.now}`);
+    assert(r.gIqr === 'sub:11|Data analysis|Quartiles and box plots', `graph 4 marks + IQR 1 mark: ${r.gIqr}`);
+    assert(r.qOut === 'sub:11|Data analysis|Outliers', `IQR 3 marks + outlier 1 mark: ${r.qOut}`);
+    return `${r.rows.join(' · ')}; ${r.now} questions, as before; later row wins`;
   });
   await check('cpa: old keys (one row per dot point) read as the new rows', page, async () => {
     const r = await page.evaluate(fa => { const old = DOTS.filter(d => d.fa === fa).map(d => `sub:12|${fa}|${d.short}`);

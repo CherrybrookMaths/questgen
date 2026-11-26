@@ -2746,6 +2746,8 @@ const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057',
   'Formulas and equations':{'Substitution':['S11-001','S11-008'],'Change the subject':['S11-002','S11-009'],
     'Speed distance time':{'Speed distance time':['S11-003'],'Stopping distance':['S11-003']},'BAC':['S11-004','S11-005','S11-006'],
     'Dosage':['S11-007'],'Solving equations':['S11-010','S11-011']},
+  'Data analysis':{'Collecting data':['S11-082','S11-083','S11-084','S11-085','S11-086','S11-087','S11-088','S11-089','S11-090','S11-091'],'Graphs and displays':['S11-092','S11-093','S11-094','S11-095','S11-096','S11-097','S11-098','S11-099','S11-100','S11-101'],'Measures of centre and spread':['S11-102','S11-103','S11-104','S11-105','S11-106','S11-107','S11-108','S11-109'],
+    'Quartiles and box plots':['S11-110','S11-111','S11-112','S11-113','S11-114','S11-115','S11-116'],'Outliers':['S11-117','S11-118','S11-119']},
   'Relative frequency and probability':{'Probability basics':['S2-12-121','S2-12-122','S2-12-123','S2-12-124','S2-12-125','S2-12-131','S2-12-132'],
     'Multistage events':['S2-12-126','S2-12-127'],'Relative and expected frequency':['S2-12-128','S2-12-129','S2-12-130']}};
 // owner 25 Nov, on the Relative frequency and probability card ("how should we condense this into smaller? What does it say in syllabus?";
@@ -2757,6 +2759,10 @@ const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057',
 //   (S11-003), so Stopping distance is a choice inside the Speed distance time row, picked by the question's words (q.ch, tools/bank_split.py),
 //   as Area of a triangle's. S11-008 (apply given formulas) goes with Substitution; S11-011 (spreadsheet of formulas, no question tagged) is
 //   dropped as Critical path's spreadsheet model.
+// owner 25 Nov, on the Year 11 Data analysis card ("this also needs to be simplified"), after Claude proposed five rows merging the syllabus's
+//   eight sub-levels: "I think the rule should be on here. Collecting data should be its own yes. Keep them listen for now." (the dot points
+//   with no questions stay listed), then "This means if a graphs question has IQR, it will show in quatiles and not graphs right" (yes:
+//   SUB_RULE later).
 // owner 25 Nov: "Ok lets also refine topics for for Network flow. it should just be * Max flow min cut * Increase decrease problems. Do all
 //   questions fit inside that?" All six dot points fit; on S2-12-098 (does the flow meet demand?): "it goes in increase decrease".
 //   SUB_RULE later as Critical path analysis ("As uisual, if it needs a later section, it should not appear in the earlier section").
@@ -2770,7 +2776,7 @@ const SUB_SPLIT={Annuities:{'Future value':['S2-12-055','S2-12-056','S2-12-057',
 //     picked by hand in Review still wins);
 //   drop: dot points the owner removed: no pill, not in the topic's dot-point list, and they never decide the row while another part's dot
 //     point can; a question on them only stays in the row SUB_SPLIT lists them under, and old keys naming them read as that row.
-const SUB_RULE={'Critical path analysis':{later:1,drop:['S2-12-107']},'Network flow':{later:1},'Relative frequency and probability':{drop:['S2-12-132']},'Formulas and equations':{drop:['S11-011']}};
+const SUB_RULE={'Critical path analysis':{later:1,drop:['S2-12-107']},'Network flow':{later:1},'Relative frequency and probability':{drop:['S2-12-132']},'Formulas and equations':{drop:['S11-011']},'Data analysis':{later:1}};
 // a topic the owner split keeps the syllabus's sub-level as d.sub0 (Review compares homes by it, QG.topicKeys reads old keys from it); a
 // sub-level the page made is d.subAuto
 function subLevels(ds){const by={};ds.forEach(d=>(by[d.yl+'|'+d.fa]=by[d.yl+'|'+d.fa]||[]).push(d));
@@ -7076,7 +7082,7 @@ const RUNDO={N:20,prev:{},undone:[],
    comes back into view and right before every approval; once a newer version is live, a bar asks for a reload and approvals
    (questions, diagrams, papers, paper calls, difficulty) are refused until then. Flags and notes still save. One page-wide name
    (CODE_HEALTH rule 1). */
-const FRESH={build:'ccc2dc08d7ec0a5d',stale:false,t:null,at:0,
+const FRESH={build:'9ca5225d805e2f6b',stale:false,t:null,at:0,
   async check(){if(this.stale||this.build.startsWith('__'))return this.stale;
     try{const r=await fetch('data/version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return false;const v=await r.json();
       this.at=Date.now();if(v&&v.build&&v.build!==this.build){this.stale=true;this.bar()}}catch(e){}

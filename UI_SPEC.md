@@ -1535,6 +1535,18 @@ Owner 25 Nov, on 2026 NESA HSC Std Q21 (zoo network with gradients, then a 3-mar
 - A Year 11 question with any part on a Networks, paths and trees dot point is filed under that topic, in the row its network parts' marks
   pick (07_bank.js qHome, after SUB_WINS). The year rule still wins. On 25 Nov it moved 2 questions: 2026 NESA HSC Std Q21 and 2021 Oakhill
   AT1 Q14 (town network, speed-limit time parts), both to Shortest paths and spanning trees. A home picked by hand in Review still wins.
+
+## Standard topics simplified: Year 11 Data analysis (25 Nov)
+Owner 25 Nov, on the Data analysis card: "this also needs to be simplified tI think". Claude proposed five rows merging the syllabus's eight
+sub-levels. Owner: "I think the rule should be on here. Collecting data should be its own yes. Keep them listen for now." Then: "This means if
+a graphs question has IQR, it will show in quatiles and not graphs right" (yes).
+- Rows: Collecting data (S11-082 to 091: statistical investigation process, population and sample, data classification), Graphs and
+  displays (092 to 101), Measures of centre and spread (102 to 109), Quartiles and box plots (110 to 116: quartiles and IQR, five-number
+  summary and box plots), Outliers (117 to 119: clusters and outliers) (07_bank.js SUB_SPLIT).
+- All 38 dot points stay listed, the 13 with no question too ("Keep them listen for now").
+- Later row wins (SUB_RULE later): a graphs question with an IQR part sits under Quartiles and box plots; one with an outlier part under
+  Outliers. A home picked by hand in Review still wins. 86 questions under the topic (approved and not), the same as with the syllabus's rows.
+- Review keeps comparing taggers' homes by the syllabus's sub-levels (sub0, as Investment and loans), so the merge makes no review work.
 - Tests: the `cpa: …` checks in tools/page_test.js (cpa1125).
 
 ## Checker's review of the page (25 Nov)
