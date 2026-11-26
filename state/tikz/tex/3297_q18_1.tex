@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (57,102); \coordinate (D) at (355,28); \coordinate (G) at (504,65);
+\coordinate (C) at (317,140); \coordinate (H) at (578,177); \coordinate (F) at (466,177);
+\coordinate (B) at (170,251); \coordinate (E) at (355,288);
+\draw[line join=round] (A)--(D)--(G)--(H)--(F)--(E)--(B)--(A);
+\draw (A)--(C)--(F); \draw (B)--(C)--(G); \draw (B)--(F);
+\foreach \p in {A,B,C,D,E,F,G,H} \fill (\p) circle (3.2);
+\node at (33,100) {$A$};
+\node at (143,252) {$B$};
+\node at (274,152) {$C$};
+\node at (330,15) {$D$};
+\node at (327,303) {$E$};
+\node at (466,203) {$F$};
+\node at (532,60) {$G$};
+\node at (604,176) {$H$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  dot/.style={circle,fill,inner sep=1.1pt},
+  w/.style={font=\small,inner sep=1pt}]
+\coordinate (A) at (38,120); \coordinate (B) at (130,27); \coordinate (C) at (222,120);
+\coordinate (E) at (375,58); \coordinate (F) at (407,150); \coordinate (G) at (468,212);
+\coordinate (D) at (190,242);
+\draw (A)--(B) (B)--(E) (B)--(C) (A)--(C) (C)--(E) (A)--(D) (C)--(D) (D)--(E) (D)--(F) (D)--(G) (E)--(F) (F)--(G);
+\foreach \p in {A,B,C,D,E,F,G} \node[dot] at (\p) {};
+\node[w] at (21,117) {$A$};
+\node[w] at (113,16) {$B$};
+\node[w] at (241,129) {$C$};
+\node[w] at (161,247) {$D$};
+\node[w] at (395,52) {$E$};
+\node[w] at (429,143) {$F$};
+\node[w] at (489,215) {$G$};
+\node[w] at (63,61) {50};
+\node[w] at (255,28) {70};
+\node[w] at (197,64) {30};
+\node[w] at (125,104) {70};
+\node[w] at (285,76) {65};
+\node[w] at (98,198) {85};
+\node[w] at (186,178) {50};
+\node[w] at (317,145) {45};
+\node[w] at (349,198) {90};
+\node[w] at (325,246) {60};
+\node[w] at (410,98) {40};
+\node[w] at (461,171) {80};
+\end{tikzpicture}
+\end{document}

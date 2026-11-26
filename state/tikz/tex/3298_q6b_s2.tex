@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.7461cm,y=0.03639cm]
+\foreach \i in {1,2,3,4,6,7,8,9,11,12,13,14,16,17,18,19,21} \draw[black!22,line width=0.4pt] (\i,0)--(\i,210);
+\foreach \i in {5,10,15,20} \draw[black!50,line width=0.4pt] (\i,0)--(\i,210);
+\foreach \j in {10,30,...,210} \draw[black!22,line width=0.4pt] (0,\j)--(21.3,\j);
+\foreach \j in {20,40,...,200} \draw[black!50,line width=0.4pt] (0,\j)--(21.3,\j);
+\fill[shade hatch reverse] (0,0)--(0,80)--(10,100)--cycle;
+\draw[->] (0,0)--(21.3,0);
+\draw[->] (0,0)--(0,213);
+\draw[line width=0.9pt,->] (0,0)--(21.25,212.5);
+\draw[line width=0.9pt,->] (0,80)--(20.9,121.8);
+\fill (0,80) circle (2pt);
+\fill (20,120) circle (2pt);
+\foreach \j in {20,40,...,200} \node[anchor=east,font=\scriptsize,inner sep=1pt] at (-0.15,\j) {\j};
+\foreach \i in {5,10,15,20} \node[anchor=north,font=\scriptsize,inner sep=1pt] at (\i,-6) {\i};
+\node[font=\small] at (0.05,221.5) {Amount(\$)};
+\node[font=\small] at (10.57,-21.5) {Drawings sold};
+\node[font=\small] at (15.8,175) {$I=10x$};
+\node[font=\small] at (20.4,135) {$C=2x+80$};
+\end{tikzpicture}
+\end{document}

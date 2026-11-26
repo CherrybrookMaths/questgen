@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{8.5}{10}\selectfont,inner sep=1pt}]
+\fill[black!30] (12,98) rectangle (42,222);
+\fill[black!18] (355,35) rectangle (388,222);
+\draw (12,98) rectangle (42,222);
+\draw (355,35) rectangle (388,222);
+\draw (12,222) -- (388,222);
+\draw (42,98) -- (198,222) -- (355,35);
+\draw (42,208) -- (56,208) -- (56,222);
+\draw (355,205) -- (338,205) -- (338,222);
+% angle arcs at E
+\draw (168,222) arc[start angle=180, end angle=218.48, radius=30];
+\draw (228,222) arc[start angle=0, end angle=-49.98, radius=30];
+\node at (40,85) {$A$};
+\node at (366,19) {$D$};
+\node at (42,240) {$B$};
+\node at (199,240) {$E$};
+\node at (353,238) {$C$};
+\node at (76,165) {54 m};
+\node at (154,207) {$\theta$};
+\node at (251,207) {$55^\circ$};
+\node at (115,238) {50 m};
+\node at (290,240) {50 m};
+\node at (200,275) {100 m};
+\end{tikzpicture}
+\end{document}

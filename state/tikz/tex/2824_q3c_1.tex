@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (210,693); 3.04 px per person; 0.1212 px per dollar
+  \foreach \p in {20,40,...,240} \draw[black!45,line width=0.4pt,dash pattern=on 0.6pt off 0.9pt] ({210+3.04*\p},693) -- ({210+3.04*\p},87);
+  \foreach \d in {500,1000,...,5000} \draw[black!45,line width=0.4pt,dash pattern=on 0.6pt off 0.9pt] (210,{693-0.1212*\d}) -- (939.6,{693-0.1212*\d});
+  \draw (210,87) -- (210,693) -- (939.6,693);
+  \foreach \d in {0,500,...,5000} {
+    \draw (201,{693-0.1212*\d}) -- (210,{693-0.1212*\d});
+    \node[anchor=east,font=\small] at (197,{693-0.1212*\d}) {\d};
+  }
+  \foreach \p in {0,100,200} {
+    \draw ({210+3.04*\p},693) -- ({210+3.04*\p},702);
+    \node[anchor=north,font=\small] at ({210+3.04*\p},708) {\p};
+  }
+  \node[font=\small,rotate=90] at (90,398) {Dollars};
+  \node[font=\small] at (572,773) {Number of people ($x$)};
+  \node[font=\small\bfseries] at (575,40) {Planned income and costs for the dance};
+  \draw[line width=0.9pt] (210,693) -- ({210+3.04*237.5},{693-0.1212*4750});
+  \draw[line width=0.9pt] (210,{693-0.1212*700}) -- ({210+3.04*240},{693-0.1212*3580});
+  \node[font=\small,rotate=38.6] at (861,146) {Income};
+  \node[font=\small,rotate=25.6] at (872,274) {Costs};
+\end{tikzpicture}
+\end{document}

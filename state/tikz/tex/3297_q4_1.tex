@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (68,168); \coordinate (C) at (68,322); \coordinate (B) at (260,318);
+  \draw[->] (A)--(68,50);
+  \draw (A)--(C); \draw (A)--(B);
+  \fill (C) circle (1.6pt); \fill (B) circle (1.6pt);
+  \node[anchor=south] at (68,44) {North};
+  \node at (46,166) {$A$}; \node at (46,312) {$C$}; \node at (282,310) {$B$};
+  \node at (98,228) {$48^\circ$};
+\end{tikzpicture}
+\end{document}

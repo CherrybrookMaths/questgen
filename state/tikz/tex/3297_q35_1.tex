@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}, mid/.default=0.55}
+\coordinate (A) at (233,50); \coordinate (C) at (462,50); \coordinate (E) at (728,50);
+\coordinate (S) at (120,242); \coordinate (D) at (462,242); \coordinate (F) at (652,242);
+\coordinate (T) at (843,242); \coordinate (B) at (348,320);
+\draw[mid] (A)--(C); \draw[mid] (C)--(E);
+\draw[mid=0.5] (S)--(A);
+\draw[mid=0.33] (S) .. controls (85,200) and (85,120) .. (130,85) .. controls (170,55) and (210,40) .. (A);
+\draw[mid=0.5] (A)--(D);
+\draw[mid=0.5] (C)--(F);
+\draw[mid=0.5] (S)--(B); \draw[mid=0.5] (B)--(D);
+\draw[mid=0.5] (D)--(F);
+\draw[mid=0.4] (D) .. controls (480,275) and (505,300) .. (545,300) .. controls (600,300) and (640,280) .. (F);
+\draw[mid=0.5] (F)--(E); \draw[mid=0.5] (E)--(T); \draw[mid=0.5] (F)--(T);
+\foreach \p in {A,C,E,S,D,F,T,B} \fill (\p) circle (2.2pt);
+\node at (343,28) {66}; \node at (598,28) {26};
+\node at (70,98) {51}; \node at (205,147) {36};
+\node at (300,152) {21}; \node at (512,152) {51};
+\node at (240,307) {96}; \node at (418,312) {96};
+\node at (548,218) {81}; \node at (560,322) {11};
+\node at (722,168) {81}; \node at (812,120) {121};
+\node at (742,270) {76};
+\node[anchor=east,inner sep=2pt] at (S) {source};
+\node[anchor=west,inner sep=3pt] at (T) {sink};
+\node at (233,27) {$A$}; \node at (450,30) {$C$}; \node at (752,40) {$E$};
+\node at (472,216) {$D$}; \node at (679,222) {$F$}; \node at (348,346) {$B$};
+\end{tikzpicture}
+\end{document}

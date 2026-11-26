@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\xo{163}\def\xs{31.9}\def\yo{478}\def\ys{14.867}\def\gt{32}\def\gr{1120}
+\def\ax{107}\def\ay{531}
+\foreach \i in {1,...,29}{\pgfmathsetmacro\p{\xo+\i*\xs}\pgfmathtruncatemacro\m{mod(\i,5)}
+  \ifnum\m=0 \draw[black!45,line width=0.4pt] (\p,\gt)--(\p,\yo);\else\draw[black!20,line width=0.3pt] (\p,\gt)--(\p,\yo);\fi}
+\foreach \i in {1,...,29}{\pgfmathsetmacro\p{\yo-\i*\ys}\pgfmathtruncatemacro\m{mod(\i,5)}
+  \ifnum\m=0 \draw[black!45,line width=0.4pt] (\xo,\p)--(\gr,\p);\else\draw[black!20,line width=0.3pt] (\xo,\p)--(\gr,\p);\fi}
+\draw[black!45,line width=0.4pt] (\xo,\gt) rectangle (\gr,\yo);
+\draw (\ax,\ay)--(\ax,505); \draw[->] (\ax,485)--(\ax,6);
+\draw (100,511)--(114,499); \draw (100,491)--(114,479);
+\draw (\ax,\ay)--(125,\ay); \draw[->] (153,\ay)--(1180,\ay);
+\draw (123,540)--(133,522); \draw (145,540)--(155,522);
+\foreach \i in {0,...,30}{\pgfmathsetmacro\p{\yo-\i*\ys}\draw (103,\p)--(111,\p);}
+\foreach \i in {0,...,30}{\pgfmathsetmacro\p{\xo+\i*\xs}\draw (\p,527)--(\p,535);}
+\foreach \v in {150,155,...,180}{\pgfmathsetmacro\p{\yo-(\v-150)*\ys}
+  \node[anchor=east,font=\footnotesize,inner sep=0pt] at (94,\p) {\v};
+  \pgfmathsetmacro\q{\xo+(\v-150)*\xs}
+  \node[anchor=north,font=\footnotesize,inner sep=0pt] at (\q,552) {\v};}
+\node[font=\footnotesize] at (670,594) {Height of Father (cm)};
+\node[font=\footnotesize,rotate=90] at (32,255) {Height of Oldest Son (cm)};
+\draw[line width=0.9pt] (163,313.0)--(1148.7,91.5);
+\foreach \a/\b in {155/165,158/165,160/163,163/170,165/162,167/167,168/170,170/178,170/173,175/170,173/171,177/174}{
+  \pgfmathsetmacro\px{\xo+(\a-150)*\xs}\pgfmathsetmacro\py{\yo-(\b-150)*\ys}
+  \filldraw[fill=black!65,draw=black] (\px,\py) circle (2.5pt);}
+\end{tikzpicture}
+\end{document}

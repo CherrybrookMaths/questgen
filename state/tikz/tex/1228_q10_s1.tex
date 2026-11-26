@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, v/.style={font=\Large, inner sep=4pt}]
+\node[v] (D) at (85,135) {$D$};
+\node[v] (A) at (292,135) {$A$};
+\node[v] (B) at (578,140) {$B$};
+\node[v] (E) at (578,265) {$E$};
+\node[v] (C) at (300,275) {$C$};
+\draw (D)--(A) node[midway,above=2pt,font=\large] {10};
+\draw (A)--(B) node[midway,above=2pt,font=\large] {50};
+\draw (A)--(C) node[midway,left=3pt,font=\large] {18};
+\draw (C)--(B) node[pos=0.45,above left=1pt,font=\large] {28};
+\draw (C)--(E) node[midway,above=2pt,font=\large] {50};
+\draw (B)--(E) node[midway,right=3pt,font=\large] {20};
+\draw (D.north) .. controls (140,30) and (460,20) .. (B.north west) node[pos=0.88,above right=2pt,font=\large] {32};
+\draw (D.south) .. controls (150,390) and (460,390) .. (E.south west) node[pos=0.88,below right=2pt,font=\large] {80};
+\end{tikzpicture}
+\end{document}

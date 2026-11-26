@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{9}{11}\selectfont}]
+  \foreach \x in {17,177,290,403,517,633} \draw (\x,28) -- (\x,440);
+  \foreach \y in {28,96,164,233,302,370,440} \draw (17,\y) -- (633,\y);
+  \foreach \nm [count=\i] in {Amesham,Bickford,Clipsbury,Doppleton,Evesbury,Frampton}
+    \node[anchor=west,font=\fontsize{9}{11}\selectfont\itshape] at (26,{28+68.67*(\i-0.5)}) {\nm};
+  \foreach \r [count=\i] in {
+    {13.37,13.47,\ldots,13.55},
+    {13.43,\ldots,14.00,14.02},
+    {\ldots,14.02,\ldots,14.11},
+    {14.05,14.12,14.20,14.24},
+    {14.17,14.29,\ldots,14.43},
+    {14.38,\ldots,14.47,14.55}}
+    \foreach \t [count=\j] in \r {
+      \pgfmathsetmacro\cx{{233.5,346.5,460,575}[\j-1]}
+      \node at (\cx,{28+68.67*(\i-0.5)}) {\t};
+    }
+  % quickest route drawn in by the solution
+  \draw[line width=0.9pt,->] (380,66) -- (380,292) -- (440,292) -- (440,388);
+\end{tikzpicture}
+\end{document}

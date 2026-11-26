@@ -1,0 +1,40 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, nd/.style={circle,draw,minimum size=0.87cm,inner sep=0pt,
+  path picture={\draw (path picture bounding box.north) -- (path picture bounding box.south);}}]
+\node[nd] (S) at (122,197) {};
+\node[nd] (n1) at (310,45) {};
+\node[nd] (n2) at (348,197) {};
+\node[nd] (n3) at (310,350) {};
+\node[nd] (n4) at (493,45) {};
+\node[nd] (n5) at (493,350) {};
+\node[nd] (n6) at (568,197) {};
+\node[nd] (n7) at (753,197) {};
+\node[nd] (n8) at (897,197) {};
+\node[anchor=east] at (S.west) {Start};
+\node[anchor=west] at (n8.east) {Finish};
+\draw[->] (S.east) -- (n1);
+\draw[->] (S.east) -- (n2);
+\draw[->] (S.east) -- (n3);
+\draw[->] (n1) -- (n4);
+\draw[->] (n2) -- (n6);
+\draw[->] (n3) -- (n5);
+\draw[->] (n4) -- (n6.105);
+\draw[->] (n4) -- (n7.120);
+\draw[->] (n5) -- (n6.-110);
+\draw[->] (n6) -- (n7);
+\draw[->] (n7) -- (n8);
+\node at (196,112) {$A{,}\,2$};
+\node at (232,176) {$B{,}\,1$};
+\node at (248,250) {$C{,}\,5$};
+\node at (402,20) {$D{,}\,3$};
+\node at (457,174) {$E{,}\,4$};
+\node at (397,324) {$F{,}\,2$};
+\node at (500,128) {$G{,}\,2$};
+\node at (566,292) {$H{,}\,1$};
+\node at (662,174) {$I{,}\,7$};
+\node at (647,99) {$J{,}\,6$};
+\node at (827,172) {$K{,}\,2$};
+\end{tikzpicture}
+\end{document}

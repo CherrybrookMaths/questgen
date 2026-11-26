@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{v/.style={circle,fill,inner sep=0pt,minimum size=5pt}}
+\coordinate (P) at (68,76); \coordinate (Q) at (258,76); \coordinate (R) at (413,76); \coordinate (S) at (570,76);
+\coordinate (T) at (660,230); \coordinate (X) at (353,253); \coordinate (W) at (175,430); \coordinate (V) at (375,430); \coordinate (U) at (577,430);
+\draw (P)--(S); \draw (P)--(W)--(U)--(T)--(S); \draw (Q)--(X)--(S); \draw (W)--(X)--(U);
+\foreach \p in {P,Q,R,S,T,X,W,V,U} \node[v] at (\p) {};
+\node at (50,72) {$P$}; \node at (258,50) {$Q$}; \node at (413,50) {$R$}; \node at (592,76) {$S$};
+\node at (684,230) {$T$}; \node at (325,250) {$X$}; \node at (172,460) {$W$}; \node at (377,460) {$V$}; \node at (573,460) {$U$};
+\node at (160,52) {8}; \node at (348,52) {12}; \node at (503,52) {14}; \node at (645,143) {13};
+\node at (482,183) {11}; \node at (287,170) {9}; \node at (102,268) {8}; \node at (250,328) {8};
+\node at (495,333) {10}; \node at (645,330) {16}; \node at (285,460) {10}; \node at (487,460) {16};
+\end{tikzpicture}
+\end{document}

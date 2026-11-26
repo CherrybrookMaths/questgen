@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (52,157); \coordinate (B) at (207,42); \coordinate (E) at (360,79);
+  \coordinate (G) at (515,79); \coordinate (I) at (630,157); \coordinate (D) at (245,195);
+  \coordinate (H) at (476,195); \coordinate (F) at (360,272); \coordinate (C) at (130,312);
+  \draw (A)--(B)--(E)--(G)--(I); \draw (A)--(D)--(E); \draw (D)--(G); \draw (D)--(H)--(I);
+  \draw (A)--(C)--(F)--(H); \draw (D)--(F);
+  \foreach \p in {A,B,C,D,E,F,G,H,I} \fill (\p) circle (1.3pt);
+  \node at (32,155) {$A$}; \node at (190,32) {$B$}; \node at (374,59) {$E$}; \node at (525,58) {$G$};
+  \node at (650,157) {$I$}; \node at (225,212) {$D$}; \node at (492,215) {$H$}; \node at (378,290) {$F$};
+  \node at (135,332) {$C$};
+  \node at (120,88) {2}; \node at (285,43) {4}; \node at (435,60) {1}; \node at (583,101) {1};
+  \node at (150,157) {5}; \node at (295,120) {3}; \node at (388,158) {3}; \node at (360,215) {2};
+  \node at (556,197) {3}; \node at (290,252) {2}; \node at (428,253) {4}; \node at (78,242) {1};
+  \node at (247,310) {3};
+\end{tikzpicture}
+\end{document}

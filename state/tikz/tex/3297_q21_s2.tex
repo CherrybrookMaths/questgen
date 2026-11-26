@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\coordinate (O) at (130,128);
+\coordinate (A) at (37,250);
+\coordinate (B) at (222,196);
+\draw[->] (O)--(130,30);
+\node at (130,16) {North};
+\draw (O)--(A);
+\draw (O)--(B);
+\draw[aux] (A)--(B);
+\fill (A) circle (1.6pt);
+\fill (B) circle (1.6pt);
+% y axis points down, so angles are mirrored
+\draw[->] ($(O)+(0,-64)$) arc[start angle=-90, end angle=36.5, radius=64];
+\draw[->] ($(O)+(0,-86)$) arc[start angle=-90, end angle=127.3, radius=86];
+\node at (116,128) {$O$};
+\node at (161,116) {$135^\circ$};
+\node at (250,112) {$210^\circ$};
+\node at (124,178) {$75^\circ$};
+\node at (243,157) {3 km};
+\node at (44,190) {7 km};
+\node at (20,250) {$A$};
+\node at (236,200) {$B$};
+\end{tikzpicture}
+\end{document}

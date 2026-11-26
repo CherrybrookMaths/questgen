@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6191cm,y=0.6198cm]
+  \begin{scope}[even odd rule]
+    \clip (-7.55,-1.02) rectangle (7.04,10.37)
+      (3.45,7.99) rectangle (6.83,9.32) (1.09,0.31) rectangle (4.47,1.53)
+      foreach \x in {-6,-4,-2,2,4,6} {(\x-0.22,-0.47) rectangle (\x+0.22,-0.11)}
+      foreach \y in {2,4,...,10} {(-0.48,\y-0.17) rectangle (-0.06,\y+0.17)}
+      (-0.34,-0.47) rectangle (-0.06,-0.11);
+    \draw[black!13,line width=0.4pt] (-7.55,-1.02) grid[step=0.5] (7.04,10.37);
+    \draw[black!35,line width=0.5pt] (-7.55,-1.02) grid[step=2] (7.04,10.37);
+  \end{scope}
+  \draw (-7.55,0) -- (7.04,0);
+  \draw (0,-1.02) -- (0,10.37);
+  \foreach \x in {-6,-4,-2,2,4,6} \node[font=\tiny] at (\x,-0.29) {$\x$};
+  \foreach \y in {2,4,...,10} \node[font=\tiny,anchor=east] at (-0.08,\y) {$\y$};
+  \node[font=\tiny,anchor=east] at (-0.08,-0.29) {$0$};
+  \begin{scope}
+    \clip (-7.55,-1.02) rectangle (7.04,10.37);
+    \draw[line width=0.9pt] (-7.2,-1.2) -- (4.5,10.5);   % y = x + 6
+    \draw[line width=0.9pt] (0.16,-1.2) -- (2.5,10.5);   % y = 5x - 2
+  \end{scope}
+  \node at (4.72,8.71) {Line 1};
+  \node at (2.32,0.94) {Line 2};
+\end{tikzpicture}
+\end{document}

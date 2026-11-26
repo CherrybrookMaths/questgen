@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (27,523) -- (565,523);
+\draw[->] (27,523) -- (27,35);
+\draw[line width=0.9pt,domain=0:60,samples=90,smooth] plot ({27+\x*8.55},{523-0.50889*\x*(60-\x)});
+\node at (27,12) {$A$};
+\node at (578,522) {$x$};
+\node at (27,550) {$0$};
+\node at (540,550) {$60$};
+\end{tikzpicture}
+\end{document}

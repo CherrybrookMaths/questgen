@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (575,1130);
+\draw (12,1073)--(12,20)--(560,20)--(560,1068);
+\draw plot[smooth, tension=0.6] coordinates {(12,1073) (45,1077) (75,1082) (95,1102) (125,1111) (165,1112) (195,1108) (218,1094) (250,1099) (300,1097) (360,1094) (400,1088) (430,1092) (470,1085) (525,1080) (560,1068)};
+\tikzset{every node/.style={inner sep=0pt}}
+\node at (322,58) {KNOXY SUPERMARKET};
+\node at (296,97) {Receipt};
+\node[anchor=mid west] at (203,173) {Date:\ \ \ 27/11/2019};
+\foreach \y/\a/\b in {288/Description/\$, 365/{* Chocolates\ \ \ 400 g}/{\textbf{\itshape X}}, 442/{Tomatoes\ \ 1 kg}/{4.25}, 518/{Natural almonds 300 g}/{\textbf{\itshape Y}}, 595/{Cheese slices\ \ 500 g}/{8.45}, 671/{Milk 2 L}/{3.25}, 748/{Apples}/{3.60}, 826/{\textbf{Total for 6 items}}/{\textbf{36.70}}, 902/{GST included in total}/{0.90}}
+  {\node[anchor=mid west] at (38,\y) {\a}; \node at (473,\y) {\b};}
+\node[anchor=mid west] at (237,748) {470 g};
+\node[anchor=mid west] at (38,978) {*GST of 10\% is included in the price};
+\node[anchor=mid west] at (38,1017) {of item};
+\end{tikzpicture}
+\end{document}

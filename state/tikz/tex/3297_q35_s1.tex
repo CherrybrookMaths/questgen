@@ -1,0 +1,68 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+  mid/.default=0.5,
+  c/.style={font=\footnotesize,inner sep=0.5pt},
+  f/.style={font=\footnotesize,inner sep=0.5pt,text=black!55},
+  v/.style={font=\small,inner sep=0.5pt},
+  dot/.style={circle,fill,inner sep=1.1pt}]
+\coordinate (S) at (92,207); \coordinate (A) at (183,50); \coordinate (C) at (370,50);
+\coordinate (E) at (587,50); \coordinate (D) at (370,207); \coordinate (F) at (523,207);
+\coordinate (T) at (678,207); \coordinate (B) at (277,268);
+% edges
+\draw[mid=0.4] (S) .. controls (58,150) and (80,60) .. (A);
+\draw[mid=0.45] (S) -- (A);
+\draw[mid=0.5] (A) -- (C);
+\draw[mid=0.5] (C) -- (E);
+\draw[mid=0.45] (A) -- (D);
+\draw[mid=0.5] (C) -- (F);
+\draw[mid=0.5] (F) -- (E);
+\draw[mid=0.5] (E) -- (T);
+\draw[mid=0.45] (D) -- (F);
+\draw[mid=0.5] (F) -- (T);
+\draw[mid=0.5] (S) -- (B);
+\draw[mid=0.5] (B) -- (D);
+\draw[mid=0.5] (D) .. controls (420,250) and (490,250) .. (F);
+\foreach \p in {S,A,C,E,D,F,T,B} \node[dot] at (\p) {};
+% vertex names
+\node[v] at (168,37) {$A$};
+\node[v] at (362,34) {$C$};
+\node[v] at (606,40) {$E$};
+\node[v] at (372,183) {$D$};
+\node[v] at (540,223) {$F$};
+\node[v] at (293,282) {$B$};
+\node[font=\small,anchor=east] at (80,207) {source};
+\node[font=\small,anchor=west] at (690,207) {sink};
+% source-A (curve)
+\node[c] at (70,88) {51}; \node[f] at (98,68) {1}; \node[f] at (60,110) {40};
+% source-A (straight)
+\node[f] at (172,116) {26}; \node[c] at (160,142) {36}; \node[f] at (140,166) {10};
+% A-C
+\node[c] at (271,32) {66}; \node[f] at (302,32) {26}; \node[f] at (332,32) {40};
+% C-E
+\node[c] at (470,32) {26}; \node[f] at (505,32) {26};
+% A-D
+\node[f] at (230,108) {1}; \node[c] at (255,140) {21}; \node[f] at (282,167) {10};
+% C-F
+\node[f] at (401,117) {40}; \node[c] at (425,140) {51};
+% F-E
+\node[f] at (587,86) {5}; \node[f] at (582,113) {40}; \node[c] at (570,143) {81}; \node[f] at (562,166) {10}; \node[f] at (555,188) {1};
+% E-sink
+\node[f] at (619,64) {1}; \node[f] at (632,87) {10}; \node[c] at (650,110) {121}; \node[f] at (669,135) {26}; \node[f] at (676,158) {40}; \node[f] at (690,183) {5};
+% D-F
+\node[f] at (413,186) {5}; \node[c] at (440,186) {81}; \node[f] at (474,186) {76};
+% F-sink
+\node[c] at (595,230) {76}; \node[f] at (631,230) {76};
+% S-B
+\node[f] at (141,242) {5}; \node[c] at (170,259) {96}; \node[f] at (204,269) {76};
+% B-D
+\node[c] at (334,259) {96}; \node[f] at (316,286) {5}; \node[f] at (358,241) {76};
+% D-F curve
+\node[f] at (438,256) {1}; \node[c] at (465,260) {11}; \node[f] at (496,260) {10};
+% minimum cut
+\draw[aux] (190,12) .. controls (250,45) and (290,70) .. (340,120) .. controls (390,170) and (412,215) .. (415,275);
+\node[font=\small] at (418,300) {Minimum cut};
+\end{tikzpicture}
+\end{document}

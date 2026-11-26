@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=1.143cm,y=0.921cm]
+  \draw[black!50] (0,0) grid[step=1] (4,4);
+  \draw[->] (-0.15,0) -- (4.55,0) node[right, inner sep=2pt, font=\large] {$x$};
+  \draw[->] (0,-0.05) -- (0,4.6) node[above left, inner sep=1pt, font=\large] {$y$};
+  \foreach \i in {0,...,4} {
+    \node[font=\large] at (\i,-0.48) {$\i$};
+    \node[font=\large, anchor=east] at (-0.2,\i) {$\i$};
+  }
+  \draw[line width=0.9pt,->] plot[domain=0:4,smooth,samples=90] (\x,{\x*(4-\x)});
+\end{tikzpicture}
+\end{document}

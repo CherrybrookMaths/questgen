@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \h in {-10,...,70} \draw[black!12, line width=0.3pt] (50,{835-11*\h})--(950,{835-11*\h});
+\foreach \h in {-10,0,...,70} \draw[black!30, line width=0.4pt] (50,{835-11*\h})--(950,{835-11*\h});
+\foreach \t in {-3,-2.5,...,6} \draw[black!30, line width=0.4pt] ({350+100*\t},65)--({350+100*\t},945);
+\draw[<->] (25,835)--(975,835);
+\draw[<->] (350,965)--(350,45);
+\foreach \t in {-3,...,6} \draw ({350+100*\t},829)--({350+100*\t},841);
+\foreach \h in {-10,...,70} \draw (346,{835-11*\h})--(354,{835-11*\h});
+\foreach \t in {-3,-2,1,2,3,5,6} \node[anchor=north, font=\small] at ({350+100*\t},845) {$\t$};
+\node[anchor=north west, font=\small, inner sep=1pt] at (255,845) {$-1$};
+\node[anchor=north east, font=\small, inner sep=1pt] at (744,845) {$4$};
+\node[anchor=north east, font=\small, inner sep=1pt] at (344,843) {$0$};
+\foreach \h in {-10,10,20,50,60,70} \node[anchor=east, font=\small] at (342,{835-11*\h}) {$\h$};
+\foreach \h in {30,40} \node[anchor=west, font=\small] at (360,{835-11*\h}) {$\h$};
+\node at (350,22) {$H$};
+\node[font=\small] at (500,905) {Time (sec)};
+\node[rotate=90, font=\small] at (286,500) {Height (metres)};
+\draw[<->, line width=0.9pt] plot[domain=-1.21:4.21, samples=90, smooth] ({350+100*\x},{835-11*(40+30*\x-10*\x*\x)});
+\node[font=\small] at (735,212) {$H = 40 + 30t - 10t^2$};
+\end{tikzpicture}
+\end{document}

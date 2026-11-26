@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\shape{(98,64)--(303,64) .. controls (345,64) and (370,110) .. (388,172) .. controls (400,210) and (415,222) .. (440,236) .. controls (465,250) and (472,265) .. (472,279) -- (98,279) -- cycle}
+\path[shade] \shape;
+\draw \shape;
+\draw (98,172)--(388,172);
+\foreach \y in {64,172} \draw (98,\y+18)--(116,\y+18)--(116,\y);
+\draw (98,279-18)--(116,279-18)--(116,279);
+\node at (245,44) {18 m};
+\node at (245,151) {\halo{22 m}};
+\node at (245,300) {27 m};
+\node at (62,122) {6 m};
+\node at (62,230) {6 m};
+\end{tikzpicture}
+\end{document}

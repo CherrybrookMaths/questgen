@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (L) at (438,60); \coordinate (K) at (231,160); \coordinate (M) at (586,209);
+\coordinate (J) at (83,291); \coordinate (P) at (277,369); \coordinate (N) at (620,408); \coordinate (O) at (426,524);
+\draw[aux] (K)--(L) (L)--(M) (K)--(M) (J)--(K) (K)--(P) (J)--(P) (P)--(M) (P)--(N) (M)--(N) (P)--(O) (O)--(N);
+\foreach \p in {L,K,M,J,P,N,O} \fill (\p) circle (0.14cm);
+\node at (434,24) {$L$}; \node at (220,132) {$K$}; \node at (617,205) {$M$}; \node at (47,292) {$J$};
+\node at (250,386) {$P$}; \node at (649,416) {$N$}; \node at (424,559) {$O$};
+\node at (318,84) {360}; \node at (549,125) {300}; \node at (420,164) {600}; \node at (130,207) {250};
+\node at (211,270) {440}; \node at (408,270) {500}; \node at (641,302) {480}; \node at (163,357) {200};
+\node at (456,366) {480}; \node at (326,473) {400}; \node at (553,486) {400};
+\end{tikzpicture}
+\end{document}

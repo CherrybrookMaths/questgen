@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (108,97); \coordinate (B) at (460,95);
+\coordinate (D) at (66,272); \coordinate (C) at (396,293);
+\draw (A) -- (B) -- (C) -- (A);
+\draw (A) .. controls (40,95) and (25,250) .. (D);
+\draw (A) .. controls (140,110) and (140,250) .. (D);
+\draw (424,322) circle (40);
+\foreach \p in {A,B,C,D} \fill (\p) circle (9);
+\begin{scope}[font=\fontsize{24}{28}\selectfont]
+\node at (114,52) {$A$};
+\node at (470,52) {$B$};
+\node at (50,318) {$D$};
+\node at (327,316) {$C$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

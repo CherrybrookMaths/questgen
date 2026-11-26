@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.5461cm,y=0.03429cm]
+\draw[black!20,line width=0.4pt] (-1,-10) grid[xstep=1,ystep=10] (25,200);
+\foreach \t in {5,10,...,25} \draw[black!45,line width=0.4pt] (\t,-10) -- (\t,200);
+\foreach \s in {50,100,...,200} \draw[black!45,line width=0.4pt] (-1,\s) -- (25,\s);
+\draw[<->] (-1.65,0) -- (25.6,0);
+\draw[<->] (0,-10.5) -- (0,209);
+\foreach \t in {1,...,25} \draw (\t,-2.2) -- (\t,2.2);
+\foreach \s in {10,20,...,200} \draw (-0.14,\s) -- (0.14,\s);
+\foreach \s in {50,100,150,200} \node[font=\footnotesize,anchor=east,inner sep=0pt] at (-1.15,\s) {$\s$};
+\foreach \t in {5,10,...,25} \node[font=\footnotesize,inner sep=0pt] at (\t,-16.5) {$\t$};
+\node[font=\footnotesize,inner sep=0pt] at (-0.5,-17) {$0$};
+\node[font=\large,anchor=south] at (-0.12,212) {$s$};
+\node[font=\large,anchor=west] at (25.75,0) {$t$};
+\end{tikzpicture}
+\end{document}

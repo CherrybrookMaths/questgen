@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (168,66); \coordinate (B) at (370,66); \coordinate (C) at (32,167);
+\coordinate (D) at (505,167); \coordinate (E) at (168,269); \coordinate (F) at (370,269);
+\begin{scope}[dotted, black!70]
+\draw (A)--(B)--(D); \draw (C)--(E)--(B);
+\end{scope}
+\draw[line width=0.9pt] (C)--(A)--(E)--(F)--(B); \draw[line width=0.9pt] (F)--(D);
+\foreach \p in {A,B,C,D,E,F} \fill (\p) circle (1.5pt);
+\node[anchor=south,font=\small] at (168,57) {$A$};
+\node[anchor=south,font=\small] at (370,57) {$B$};
+\node[anchor=east,font=\small] at (24,167) {$C$};
+\node[anchor=west,font=\small] at (513,167) {$D$};
+\node[anchor=north,font=\small] at (168,277) {$E$};
+\node[anchor=north,font=\small] at (370,277) {$F$};
+\foreach \x/\y/\t in {268/45/8,75/97/14,462/97/10,148/167/6,243/148/11,348/167/4,75/238/16,268/293/6,452/240/4}
+  \node[font=\small] at (\x,\y) {\t};
+\end{tikzpicture}
+\end{document}

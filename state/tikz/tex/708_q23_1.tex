@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{{220+15.02*(#1-145)}}
+\foreach \v in {146,...,205} {\pgfmathtruncatemacro\m{mod(\v,5)}
+  \ifnum\m=0 \draw[black!35, line width=0.4pt] (\X{\v},108) -- (\X{\v},293); \else \draw[black!15, line width=0.4pt] (\X{\v},108) -- (\X{\v},293); \fi}
+\draw[black!35, line width=0.4pt] (\X{145},108) -- (\X{145},293);
+\foreach \k in {0,...,18} \draw[black!15, line width=0.4pt] (\X{145},{108+10.28*\k}) -- (\X{205},{108+10.28*\k});
+\draw[->] (196,300) -- (1145,300);
+\foreach \v in {146,...,204} {\pgfmathtruncatemacro\m{mod(\v,5)} \ifnum\m=0 \else \draw (\X{\v},296) -- (\X{\v},304); \fi}
+\foreach \v in {145,150,...,205} \draw (\X{\v},293) -- (\X{\v},307) node[below, inner sep=2pt] {\footnotesize$\v$};
+\node at (670,356) {\footnotesize Height (cm)};
+\node at (670,62) {\footnotesize Heights of Y11 and Y12 Students};
+\node at (76,158) {Year 11};
+\node at (76,258) {Year 12};
+\begin{scope}[line width=0.9pt]
+\draw[fill=black!18] (\X{160},117) rectangle (\X{175},194);
+\draw (\X{168},117) -- (\X{168},194);
+\draw (\X{148},156) -- (\X{160},156) (\X{175},156) -- (\X{195},156);
+\draw (\X{148},135) -- (\X{148},177) (\X{195},135) -- (\X{195},177);
+\draw[fill=black!18] (\X{164},212) rectangle (\X{179},290);
+\draw (\X{175},212) -- (\X{175},290);
+\draw (\X{150},252) -- (\X{164},252) (\X{179},252) -- (\X{201},252);
+\draw (\X{150},231) -- (\X{150},272) (\X{201},231) -- (\X{201},272);
+\end{scope}
+\end{tikzpicture}
+\end{document}

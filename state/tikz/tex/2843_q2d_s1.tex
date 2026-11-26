@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small]
+\coordinate (P) at (48,46); \coordinate (Q) at (205,46); \coordinate (R) at (331,46); \coordinate (S) at (462,46);
+\coordinate (X) at (283,193); \coordinate (T) at (535,174); \coordinate (W) at (133,340); \coordinate (V) at (300,340); \coordinate (U) at (463,340);
+% network
+\draw (R) -- (S); \draw (T) -- (U) -- (V); \draw (Q) -- (X);
+% minimum spanning tree (bold)
+\draw[line width=0.9pt] (Q) -- (P) -- (W) -- (V);
+\draw[line width=0.9pt] (Q) -- (R);
+\draw[line width=0.9pt] (W) -- (X) -- (S) -- (T);
+\draw[line width=0.9pt] (X) -- (U);
+\foreach \p in {P,Q,R,S,X,T,W,V,U} \fill (\p) circle (1.6pt);
+\node at (34,46) {$P$};
+\node at (205,24) {$Q$}; \node at (333,27) {$R$};
+\node at (480,32) {$S$}; \node at (555,172) {$T$};
+\node at (258,188) {$X$};
+\node at (131,364) {$W$}; \node at (298,364) {$V$}; \node at (463,364) {$U$};
+\node at (124,29) {8}; \node at (279,29) {12}; \node at (410,29) {14};
+\node at (522,100) {13}; \node at (230,125) {9}; \node at (386,133) {11};
+\node at (76,200) {8}; \node at (196,258) {8}; \node at (398,262) {10}; \node at (522,258) {16};
+\node at (226,364) {10}; \node at (393,364) {16};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.4667cm,y=0.4128cm]
+\draw[black!25,line width=0.4pt,step=1] (-10,-10) grid (10,10);
+\draw[<->] (-10.6,0) -- (10.6,0);
+\draw[<->] (0,-10.6) -- (0,10.6);
+\foreach \i in {-10,...,-1,1,2,...,10}{\draw (\i,-0.3)--(\i,0.3); \draw (-0.3,\i)--(0.3,\i);}
+\foreach \i in {-10,...,-2,2,4,5,...,10}\node[font=\tiny,inner sep=0pt] at (\i,-1.3) {$\i$};
+\foreach \i in {-1,1,3}\node[font=\tiny,inner sep=0pt] at (\i,1.4) {$\i$};
+\foreach \i in {-10,...,-6,-4,-3,-2,1,2,...,10}\node[font=\tiny,inner sep=0pt,anchor=east] at (-0.45,\i) {$\i$};
+\foreach \i in {-5,-1}\node[font=\tiny,inner sep=0pt,anchor=west] at (0.45,\i) {$\i$};
+\draw[<->,line width=0.9pt] (-6.4,-10.4) -- (10.6,6.6);
+\draw[<->,line width=0.9pt] (-10.6,8.6) -- (8.4,-10.4);
+\node[anchor=west] at (10.75,0) {$x$};
+\node[anchor=south] at (0,10.75) {$y$};
+\end{tikzpicture}
+\end{document}

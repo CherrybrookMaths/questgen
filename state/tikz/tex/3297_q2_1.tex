@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+  \coordinate (S) at (120,135); \coordinate (U1) at (237,58); \coordinate (U2) at (508,58);
+  \coordinate (T) at (740,175); \coordinate (M1) at (313,175); \coordinate (M2) at (508,175);
+  \coordinate (L1) at (197,292); \coordinate (L2) at (585,292);
+  \draw[mid=0.6] (S)--(U1); \draw[mid=0.55] (U1)--(U2); \draw[mid=0.52] (U2)--(T);
+  \draw[mid=0.55] (S)--(M1); \draw[mid=0.55] (M1)--(M2); \draw[mid=0.55] (M2)--(T);
+  \draw[mid=0.55] (S)--(L1); \draw[mid=0.5] (L1)--(L2); \draw[mid=0.55] (L2)--(T);
+  \foreach \p in {S,U1,U2,T,M1,M2,L1,L2} \fill (\p) circle (1.3pt);
+  \node[anchor=east] at (108,133) {source};
+  \node[anchor=west] at (750,173) {sink};
+  \node at (161,75) {4}; \node at (382,31) {3}; \node at (636,92) {1};
+  \node at (220,135) {5}; \node at (410,157) {6}; \node at (624,157) {4};
+  \node at (130,222) {2}; \node at (674,256) {6}; \node at (382,318) {3};
+\end{tikzpicture}
+\end{document}

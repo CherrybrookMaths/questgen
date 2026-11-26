@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% table
+\draw (212,15) rectangle (950,145);
+\draw (212,80) -- (950,80);
+\foreach \c in {318,424,530,635,740,845} \draw (\c,15) -- (\c,145);
+\node at (265,47) {$t$};
+\node at (265,112) {$s$};
+\foreach \c/\v/\w in {371/4/120,477/6/80,582/8/60,688/12/40,793/16/30,898/24/20}{
+  \node at (\c,47) {$\v$}; \node at (\c,112) {$\w$};}
+% graph
+\begin{scope}[shift={(1.016cm,-10.439cm)},x=0.5527cm,y=0.03454cm]
+\draw[black!20,line width=0.4pt] (-1,-10) grid[xstep=1,ystep=10] (25,200);
+\foreach \t in {5,10,...,25} \draw[black!45,line width=0.4pt] (\t,-10) -- (\t,200);
+\foreach \s in {50,100,...,200} \draw[black!45,line width=0.4pt] (-1,\s) -- (25,\s);
+\draw[<->] (-1.65,0) -- (25.6,0);
+\draw[<->] (0,-10.5) -- (0,210);
+\foreach \t in {1,...,25} \draw (\t,-2.2) -- (\t,2.2);
+\foreach \s in {10,20,...,200} \draw (-0.14,\s) -- (0.14,\s);
+\foreach \s in {50,100,150,200} \node[font=\footnotesize,anchor=east,inner sep=0pt] at (-1.15,\s) {$\s$};
+\foreach \t in {5,10,...,25} \node[font=\footnotesize,inner sep=0pt] at (\t,-16.5) {$\t$};
+\node[font=\footnotesize,inner sep=0pt] at (-0.5,-17) {$0$};
+\node[font=\large,anchor=south] at (0,213) {$s$};
+\draw[<->,line width=0.9pt,smooth,samples=90,domain=2.75:25.2] plot (\x,{480/\x});
+\foreach \t in {4,6,8,12,16,24} \node[pt] at (\t,{480/\t}) {};
+\end{scope}
+\end{tikzpicture}
+\end{document}

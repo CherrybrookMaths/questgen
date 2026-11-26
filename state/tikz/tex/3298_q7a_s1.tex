@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{v/.style={circle,fill,inner sep=0pt,minimum size=5pt},
+  dl/.style={circle,draw,line width=0.6pt,inner sep=1pt,minimum size=17pt,font=\small}}
+\coordinate (P) at (118,113); \coordinate (Q) at (308,113); \coordinate (R) at (462,113); \coordinate (S) at (620,113);
+\coordinate (T) at (710,268); \coordinate (X) at (401,291); \coordinate (W) at (222,466); \coordinate (V) at (423,466); \coordinate (U) at (626,466);
+\draw (P)--(S); \draw (W)--(U)--(T); \draw (Q)--(X); \draw (X)--(U);
+\draw[line width=0.9pt] (P)--(W)--(X)--(S)--(T);
+\foreach \p in {P,Q,R,S,T,X,W,V,U} \node[v] at (\p) {};
+\draw (P) circle (11); \draw (T) circle (13);
+\node at (98,100) {$P$}; \node at (308,88) {$Q$}; \node at (462,85) {$R$}; \node at (642,108) {$S$};
+\node at (740,262) {$T$}; \node at (372,286) {$X$}; \node at (226,496) {$W$}; \node at (423,499) {$V$}; \node at (620,496) {$U$};
+\node at (208,88) {8}; \node at (395,88) {12}; \node at (560,88) {14}; \node at (697,180) {13};
+\node at (527,218) {11}; \node at (337,208) {9}; \node at (150,300) {8}; \node at (297,367) {8};
+\node at (545,372) {10}; \node at (695,370) {16}; \node at (335,496) {10}; \node at (535,496) {16};
+\node[dl] at (322,45) {8}; \node[dl] at (470,47) {20}; \node[dl] at (660,62) {27}; \node[dl] at (762,298) {40};
+\node[dl] at (393,336) {16}; \node[dl] at (186,516) {8}; \node[dl] at (448,526) {18}; \node[dl] at (674,470) {26};
+\node[font=\small] at (70,70) {START}; \node[font=\small] at (822,250) {FINISH};
+\end{tikzpicture}
+\end{document}

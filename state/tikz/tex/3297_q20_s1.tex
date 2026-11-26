@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.2803cm,y=0.2828cm,font=\small]
+\begin{scope}[shift={(-40,-40)}]
+\draw[->] (40,40)--(75.8,40) node[right=2pt] {$x$};
+\draw[->] (40,40)--(40,74.9) node[above=1pt] {$y$};
+\foreach \i in {41,...,44,46,47,48,49,51,52,53,54,56,57,58,59,61,62,63,64,66,67,68,69,71,72,73,74}{
+  \draw (\i,40)--(\i,40.25); \draw (40,\i)--(40.25,\i);}
+\foreach \i in {45,50,...,70}{
+  \draw (\i,40)--(\i,40.45) ; \node[below=2pt] at (\i,40) {\i};
+  \draw (40,\i)--(40.45,\i) ; \node[left=2pt] at (40,\i) {\i};}
+\draw[line width=0.9pt] (40,40)--(70,70);
+\node at (68.8,71.3) {$y=x$};
+\foreach \p in {(61,65),(51,56),(58,67),(61,59),(59,60),(55,52),(46,53)} \fill \p circle (1.8pt);
+\foreach \p in {(58,61),(62,60)} \draw[line width=0.9pt] \p ++(-0.3,-0.3)--++(0.6,0.6) \p ++(-0.3,0.3)--++(0.6,-0.6);
+\node at (59.0,67.6) {$C$};
+\node at (60.0,65.6) {$A$};
+\node at (58.8,62.0) {$H$};
+\node at (59.9,61.0) {$E$};
+\node at (62.8,60.6) {$I$};
+\node at (61.0,57.8) {$D$};
+\node at (51.9,56.6) {$B$};
+\node at (46.9,53.65) {$G$};
+\node at (55.95,52.7) {$F$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+  \coordinate (A) at (38,122); \coordinate (B) at (162,27); \coordinate (E) at (285,60);
+  \coordinate (G) at (408,58); \coordinate (I) at (498,122); \coordinate (D) at (190,152);
+  \coordinate (H) at (377,152); \coordinate (F) at (285,213); \coordinate (C) at (100,243);
+  \draw (A)--(D)--(E); \draw (D)--(G); \draw (D)--(H)--(I);
+  \draw (A)--(C)--(F)--(H); \draw (D)--(F);
+  % shortest path A-B-E-G-I highlighted
+  \draw[line width=0.9pt,mid=0.55] (A)--(B); \draw[line width=0.9pt,mid=0.55] (B)--(E);
+  \draw[line width=0.9pt,mid=0.55] (E)--(G); \draw[line width=0.9pt,mid=0.55] (G)--(I);
+  \foreach \p in {A,B,C,D,E,F,G,H,I} \fill (\p) circle (1.3pt);
+  \node at (20,120) {$A$}; \node at (147,17) {$B$}; \node at (298,40) {$E$}; \node at (420,40) {$G$};
+  \node at (513,123) {$I$}; \node at (176,170) {$D$}; \node at (390,170) {$H$}; \node at (300,227) {$F$};
+  \node at (110,260) {$C$};
+  \node at (86,62) {2}; \node at (221,27) {4}; \node at (345,41) {1}; \node at (466,75) {1};
+  \node at (118,118) {5}; \node at (229,95) {3}; \node at (306,120) {3}; \node at (285,167) {2};
+  \node at (442,157) {3}; \node at (230,197) {2}; \node at (337,204) {4}; \node at (55,186) {1};
+  \node at (193,248) {3};
+\end{tikzpicture}
+\end{document}

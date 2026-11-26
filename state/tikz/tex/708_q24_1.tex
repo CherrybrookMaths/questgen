@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (T) at (420,45); \coordinate (L) at (178,208); \coordinate (B) at (260,413);
+\draw (T) -- (L) -- (B) -- cycle;
+\pic[draw, angle radius=0.7cm] {angle = L--T--B};
+\pic[draw, angle radius=0.4cm] {angle = B--L--T};
+\node at (355,124) {$32^\circ$};
+\node at (250,230) {$102^\circ$};
+\node at (380,245) {$x$ m};
+\node at (180,322) {$5$ m};
+\end{tikzpicture}
+\end{document}

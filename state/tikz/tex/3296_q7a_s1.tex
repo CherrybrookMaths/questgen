@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\ox{328}\def\oy{732}\def\ua{33.4}\def\ud{13.55}
+  \draw[->] (\ox,\oy) -- (\ox,20);
+  \draw[->] (\ox,\oy) -- (1030,\oy);
+  \foreach \k in {5,10,...,40} {
+    \draw (\ox-7,{\oy-\k*\ud}) -- (\ox+7,{\oy-\k*\ud});
+    \node[anchor=east] at (\ox-12,{\oy-\k*\ud}) {$\k$};
+  }
+  \foreach \k in {2,4,...,10} {
+    \draw ({\ox+\k*\ua},\oy-7) -- ({\ox+\k*\ua},\oy+7);
+    \node[anchor=north] at ({\ox+\k*\ua},\oy+12) {$\k$};
+  }
+  % reading at a = 9
+  \draw[aux] ({\ox+9*\ua},\oy) -- ({\ox+9*\ua},{\oy-35*\ud}) -- (\ox,{\oy-35*\ud});
+  % d = 3a + 8
+  \draw[->, line width=0.9pt] (\ox,{\oy-8*\ud}) -- ({\ox+10.8*\ua},{\oy-(3*10.8+8)*\ud});
+  \node[align=center, font=\large] at (88,410) {Dollars\\$(d)$};
+  \node[font=\large] at (665,822) {Age $(a)$};
+\end{tikzpicture}
+\end{document}

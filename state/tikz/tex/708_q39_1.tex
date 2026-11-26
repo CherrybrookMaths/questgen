@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\small}]
+\draw (55,115)--(55,258)--(497,258)--(497,18);
+\draw[aux] (165,258)--(165,68); \draw[aux] (276,258)--(276,63); \draw[aux] (386,258)--(386,64);
+\draw plot[smooth, tension=0.6] coordinates {(55,115) (110,86) (165,68) (230,62) (276,63) (330,67) (386,64) (445,47) (497,18)};
+\node[rotate=-90] at (34,185) {90 m};
+\node[rotate=-90] at (182,155) {104 m};
+\node[rotate=-90] at (293,155) {105 m};
+\node[rotate=-90] at (403,150) {109 m};
+\node[rotate=-90] at (518,145) {120 m};
+\draw[->] (258,308)--(57,308); \draw[->] (302,308)--(495,308);
+\node[rotate=-90] at (280,310) {100 m};
+\end{tikzpicture}
+\end{document}

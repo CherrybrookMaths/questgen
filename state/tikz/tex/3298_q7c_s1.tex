@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % 1 t-unit = 152 px, 1 h-unit = 19.125 px; origin (237,640)
+  \foreach \i in {1,...,8} \draw[black!15, line width=0.4pt] ({237+76*\i},640) -- ({237+76*\i},105);
+  \foreach \j in {1,...,7} \draw[black!15, line width=0.4pt] (237,{640-76.5*\j}) -- (845,{640-76.5*\j});
+  \draw[->] (237,640) -- (888,640) node[right] {$t$};
+  \draw[->] (237,640) -- (237,68) node[above] {$h$};
+  \foreach \i in {1,...,8} \draw ({237+76*\i},640) -- ({237+76*\i},630);
+  \draw (237,{640-76.5*7}) -- (247,{640-76.5*7});
+  \foreach \j/\l in {1/4,2/8,3/12,4/16,5/20,6/24} {\draw (237,{640-76.5*\j}) -- (247,{640-76.5*\j}); \node[left] at (190,{640-76.5*\j+4}) {$\l$};}
+  \foreach \k in {0,...,4} \node at ({237+152*\k},688) {$\k$};
+  \draw[line width=0.9pt, smooth, samples=90, domain=0:4] plot ({237+152*\x},{640-19.125*(16*\x-4*\x*\x)});
+  \foreach \a/\b in {0/0,1/12,2/16,3/12,4/0} \node[pt] at ({237+152*\a},{640-19.125*\b}) {};
+\end{tikzpicture}
+\end{document}

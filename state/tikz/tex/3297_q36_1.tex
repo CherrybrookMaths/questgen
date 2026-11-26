@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% 1 unit = 1 crop px; origin (127,490); 4 px per km/h, 1.7667 px per m
+\def\X#1{(127+4*(#1))}
+% grid
+\foreach \v in {20,60,100} \draw[black!25,line width=0.4pt] ({127+4*\v},490) -- ({127+4*\v},66);
+\foreach \v in {40,80,120} \draw[black!45,line width=0.4pt] ({127+4*\v},490) -- ({127+4*\v},66);
+\foreach \d in {20,60,100,140,180,220} \draw[black!25,line width=0.4pt] (127,{490-1.7667*\d}) -- (607,{490-1.7667*\d});
+\foreach \d in {40,80,120,160,200,240} \draw[black!45,line width=0.4pt] (127,{490-1.7667*\d}) -- (607,{490-1.7667*\d});
+% axes
+\draw[->] (127,490) -- (640,490);
+\draw[->] (127,490) -- (127,40);
+\foreach \v in {20,40,...,120} \draw ({127+4*\v},490) -- ({127+4*\v},482);
+\foreach \d in {20,40,...,240} \draw (127,{490-1.7667*\d}) -- (134,{490-1.7667*\d});
+\foreach \v in {40,80,120} \node[anchor=north] at ({127+4*\v},500) {$\v$};
+\foreach \d in {40,80,...,240} \node[anchor=east] at (117,{490-1.7667*\d}) {$\d$};
+% curves d = 0.0375 v^2 (wet), d = 0.0125 v^2 (dry)
+\draw[line width=0.9pt,smooth,samples=90,domain=20:82.6] plot ({127+4*\x},{490-1.7667*0.0375*\x*\x});
+\draw[line width=0.9pt,smooth,samples=90,domain=20:128] plot ({127+4*\x},{490-1.7667*0.0125*\x*\x});
+\node at (497,24) {Wet conditions};
+\node[anchor=west] at (617,114) {Dry conditions};
+\node at (365,562) {Speed (km/h)};
+\node[rotate=90] at (38,280) {Stopping distance (m)};
+\end{tikzpicture}
+\end{document}

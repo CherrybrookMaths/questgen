@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{v/.style={circle,draw,minimum size=0.84cm,inner sep=0pt}}
+\node[v] (A) at (97,80) {$A$};
+\node[v] (B) at (405,76) {$B$};
+\node[v] (C) at (381,311) {$C$};
+\node[v] (D) at (72,318) {$D$};
+\draw (A) .. controls (190,66) and (300,68) .. (B);
+\draw (A) .. controls (170,150) and (290,230) .. (C);
+\draw (B) .. controls (425,170) and (410,250) .. (C);
+\draw (D) .. controls (160,292) and (280,290) .. (C);
+\draw (B) .. controls (575,150) and (570,400) .. (330,412) .. controls (200,420) and (130,390) .. (D);
+\node at (250,48) {4};
+\node at (270,170) {2};
+\node at (432,203) {2};
+\node at (230,265) {3};
+\node at (352,432) {6};
+\end{tikzpicture}
+\end{document}

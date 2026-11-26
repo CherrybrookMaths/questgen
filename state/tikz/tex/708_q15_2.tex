@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+\foreach \i in {1,...,5} \draw[black!30] (\i*41,0) -- (\i*41,195);
+\foreach \j in {1,2,3} \draw[black!30] (0,\j*65) -- (205,\j*65);
+\draw (0,0) -- (205,0);
+\draw (0,0) -- (0,195);
+\foreach \j in {1,2} \draw (-5,\j*65) -- (0,\j*65);
+\draw[line width=0.9pt] (0,12) -- (205,142);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (267.5,168); \coordinate (A) at (145.4,263.4); \coordinate (B) at (389.6,263.4);
+\coordinate (D) at (145.4,340); \coordinate (C) at (389.6,340);
+\draw (A) arc[start angle=142, end angle=398, radius=155];
+\draw (A)--(D)--(C)--(B);
+\draw[aux] (A)--(B); \draw[aux] (A)--(O)--(B);
+\draw (201.5,209.4)--(211.3,222); \draw (333.5,209.4)--(323.7,222);
+\draw ($(O)+(142:58)$) arc[start angle=142, end angle=38, radius=58];
+\foreach \p in {O,A,B} \fill (\p) circle (1.3pt);
+\node[anchor=south,font=\small] at (267.5,158) {$O$};
+\node[anchor=north east,font=\small,inner sep=1pt] at (137,270) {$A$};
+\node[anchor=north west,font=\small,inner sep=1pt] at (397,270) {$B$};
+\node[anchor=east,font=\small,inner sep=1pt] at (134,342) {$D$};
+\node[anchor=north west,font=\small,inner sep=1pt] at (396,342) {$C$};
+\node[font=\small] at (175,190) {45 m};
+\node[font=\small] at (360,190) {45 m};
+\node[font=\small] at (267.5,202) {$100^\circ$};
+\node at (453,308) {30m};
+\node[font=\bfseries] at (652,150) {NOT TO SCALE};
+\end{tikzpicture}
+\end{document}

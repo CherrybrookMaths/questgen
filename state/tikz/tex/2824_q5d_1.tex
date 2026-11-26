@@ -1,0 +1,30 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (1240,690);
+\begin{scope}[shift={(268,602)}, x=2.02692cm, y=0.0043015cm]
+  \foreach \i in {1,...,75} \draw[black!20,line width=0.3pt] (0,\i*20)--(5,\i*20);
+  \foreach \i in {1,...,25} \draw[black!20,line width=0.3pt] (\i/5,0)--(\i/5,1500);
+  \foreach \i in {1,...,15} \draw[black!40,line width=0.4pt] (0,\i*100)--(5,\i*100);
+  \foreach \i in {1,...,5} \draw[black!40,line width=0.4pt] (\i,0)--(\i,1500);
+  \draw[->] (0,0)--(5.28,0);
+  \draw[->] (0,0)--(0,1594);
+  \foreach \i in {1,...,75} {\pgfmathtruncatemacro\m{mod(\i,5)}
+    \ifnum\m=0 \draw (0,\i*20)--++(-1.2mm,0); \else \draw[line width=0.4pt] (0,\i*20)--++(-0.6mm,0); \fi}
+  \foreach \i in {1,...,25} {\pgfmathtruncatemacro\m{mod(\i,5)}
+    \ifnum\m=0 \draw (\i/5,0)--++(0,-1.2mm); \else \draw[line width=0.4pt] (\i/5,0)--++(0,-0.6mm); \fi}
+  \draw[line width=0.9pt] plot[domain=0:5.33, samples=90, smooth] (\x,{1500*0.7799^\x});
+  \draw (3,{1500*0.7799^3})--(3.333,965);
+  \fill (3,{1500*0.7799^3}) circle (1.6pt);
+  \node[fill=white,inner sep=1pt] at (3.52,1054) {(\,3\,,\,712\,)};
+\end{scope}
+\foreach \i in {1,...,15} \node[anchor=east,font=\fontsize{9}{10}\selectfont] at (258,{602-\i*100*0.3387}) {\pgfmathtruncatemacro\v{\i*100}\v};
+\node[anchor=north,font=\small] at (256,613) {0};
+\foreach \t in {1,...,5} \node[anchor=north,font=\small] at ({268+\t*159.6},613) {\t};
+\node at (268,20) {$V$};
+\node[anchor=west] at (1118,602) {$T$};
+\node[rotate=90,font=\small] at (166,330) {Value (\$)};
+\node[font=\small] at (643,672) {Time (years)};
+\end{tikzpicture}
+\end{document}

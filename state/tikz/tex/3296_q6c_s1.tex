@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw[->] (127,445) -- (127,268);
+  \draw[->] (450,362) -- (450,15);
+  \draw (127,362) -- (450,362);
+  \draw[aux] (127,362) -- (450,105);
+  % theta at buoy (between south and the line to Scuttle)
+  \draw (450,155) arc[start angle=90,end angle=141.5,radius=50];
+  \node at (419,170) {$\theta$};
+  % reflex bearing arc at buoy: from north clockwise to the line to Scuttle
+  \draw[->] (450,70) arc[start angle=-90,end angle=141.5,radius=35];
+  \node[anchor=west] at (497,140) {$204^\circ$};
+  \node[anchor=west] at (492,100) {Buoy};
+  % bearing of buoy from Scuttle
+  \draw (127,322) arc[start angle=-90,end angle=-38.5,radius=40];
+  \node at (160,297) {$24^\circ$};
+  \node[anchor=east] at (119,350) {Scuttle};
+  \node[anchor=west, font=\large] at (465,237) {$1050$};
+  \node[font=\large] at (290,397) {$475$};
+\end{tikzpicture}
+\end{document}

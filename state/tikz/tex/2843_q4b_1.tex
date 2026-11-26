@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% scale: L -> x = 183 + 16.92*(L-55); M -> y = 577 - 5.875*M
+\foreach \L in {54,...,83} \draw[black!25, line width=0.4pt] ({183+16.92*(\L-55)},75)--({183+16.92*(\L-55)},577);
+\foreach \M in {10,20,...,80} \draw[black!25, line width=0.4pt, dash pattern=on 3pt off 3pt] (166,{577-5.875*\M})--(660,{577-5.875*\M});
+\draw[->] (143,577)--(690,577);
+\draw[->] (143,577)--(143,42);
+\node[font=\small] at (143,24) {$M$};
+\node[font=\small] at (708,577) {$L$};
+% axis break
+\fill[white] (153,569) rectangle (163,585);
+\draw (150,585)--(158,569) (157,585)--(165,569);
+\node[font=\footnotesize] at (128,582) {0};
+\foreach \M in {5,10,...,85} \draw (139,{577-5.875*\M})--(147,{577-5.875*\M});
+\foreach \M in {20,40,60,80} {\draw (136,{577-5.875*\M})--(150,{577-5.875*\M}); \node[font=\footnotesize, anchor=east] at (127,{577-5.875*\M}) {\M};}
+\foreach \L in {55,60,...,80} {\draw ({183+16.92*(\L-55)},577)--({183+16.92*(\L-55)},585); \node[font=\footnotesize] at ({183+16.92*(\L-55)},602) {\L};}
+\draw[line width=0.9pt] (175,130)--(611,590);
+\foreach \p in {(182,116),(191,96),(268,229),(284,232),(364,304),(406,342),(410,341),(409,453),(461,413),(462,500),(484,460),(496,472),(502,484),(512,510),(512,522),(530,494),(536,442),(534,541),(540,505),(546,512),(556,515),(566,513),(574,497),(568,497),(573,520),(596,553),(600,553),(611,564),(615,558),(629,552),(640,555)}
+  \filldraw[fill=black!45, line width=0.5pt] \p circle (6);
+\node[font=\footnotesize] at (390,637) {Life Expectancy at Birth (years)};
+\node[font=\footnotesize, rotate=90] at (66,330) {Infant Mortality (per 1000 births)};
+\end{tikzpicture}
+\end{document}

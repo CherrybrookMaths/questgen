@@ -1,0 +1,25 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % axes: origin (230,350); 22.5 px per year; 300 px per 350 000
+  \draw[->] (222,350) -- (975,350);
+  \draw[->] (230,350) -- (230,18);
+  \foreach \t in {1,...,30} \draw ({230+22.5*\t},344) -- ({230+22.5*\t},356);
+  \foreach \t in {0,5,...,30} \node[anchor=north] at ({230+22.5*\t},374) {\t};
+  \foreach \v/\lab in {0/0,50/50\,000,100/100\,000,150/150\,000,200/200\,000,250/250\,000,300/300\,000,350/350\,000} {
+    \draw (222,{350-0.857143*\v}) -- (230,{350-0.857143*\v});
+    \node[anchor=east] at (216,{350-0.857143*\v}) {\lab};
+  }
+  \node[rotate=90] at (62,200) {Loan balance (\$)};
+  \node at (570,440) {Years};
+  % balances (thousands): r = 5%/12 p.a. monthly, M = 1880
+  \draw[line width=0.9pt,smooth,samples=60,domain=0:10]
+    plot ({230+22.5*\x},{350-0.857143*(451.2-101.2*exp(0.049896*\x))});
+  \draw[line width=0.9pt,aux,smooth,samples=80,domain=10:29.97]
+    plot ({230+22.5*\x},{350-0.857143*(451.2-101.2*exp(0.049896*\x))});
+  \draw[aux] (455,{350-0.857143*284.52}) -- (455,{350-0.857143*200});
+  \draw[line width=0.9pt,smooth,samples=70,domain=10:22]
+    plot ({230+22.5*\x},{350-0.857143*(444.0-244.0*exp(0.049896*(\x-10)))});
+\end{tikzpicture}
+\end{document}

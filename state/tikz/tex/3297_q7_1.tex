@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (O) at (170,153);
+  % radius 148.6 px; arms at 167.2 deg and 66.2 deg (y up); y axis flipped so use negative angles
+  \draw (O) -- ++(-167.2:148.6) arc[start angle=-167.2, end angle=-426.2, radius=148.6] -- cycle;
+  \node at (150,125) {$100^\circ$};
+  \node at (97,160) {5 m};
+\end{tikzpicture}
+\end{document}

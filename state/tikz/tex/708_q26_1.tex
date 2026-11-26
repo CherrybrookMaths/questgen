@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{{86.3+24.14*(#1)}}\def\Y#1{{1006-3.87*(#1)}}
+\foreach \n in {1,...,40} {\pgfmathtruncatemacro\m{mod(\n,10)}
+  \ifnum\m=0 \draw[black!35, line width=0.4pt] (\X{\n},\Y{0}) -- (\X{\n},\Y{250}); \else \draw[black!15, line width=0.4pt] (\X{\n},\Y{0}) -- (\X{\n},\Y{250}); \fi}
+\foreach \d in {5,10,...,250} \draw[black!15, line width=0.4pt] (\X{0},\Y{\d}) -- (\X{40},\Y{\d});
+\draw[->] (\X{0},\Y{0}) -- (1084,\Y{0});
+\draw[->] (\X{0},\Y{0}) -- (\X{0},14);
+\foreach \n in {1,...,40} {\pgfmathtruncatemacro\m{mod(\n,5)} \ifnum\m=0 \draw (\X{\n},1000) -- (\X{\n},1012); \else \draw (\X{\n},1002) -- (\X{\n},1010); \fi}
+\foreach \n in {5,10,...,40} \node[below, inner sep=2pt] at (\X{\n},1012) {\scriptsize$\n$};
+\foreach \d in {5,10,...,250} {\pgfmathtruncatemacro\m{mod(\d,10)} \ifnum\m=0 \draw (80,\Y{\d}) -- (92,\Y{\d}); \else \draw (82,\Y{\d}) -- (90,\Y{\d}); \fi}
+\foreach \d in {10,20,...,250} \node[left, inner sep=2pt] at (80,\Y{\d}) {\scriptsize$\d$};
+\node at (582,1060) {\scriptsize Number of Cushions Sold};
+\node[rotate=90] at (22,528) {\scriptsize Dollars};
+\draw[line width=0.9pt, ->] (\X{0},\Y{70}) -- (\X{41.2},\Y{234.8});
+\draw[line width=0.9pt, ->] (\X{0},\Y{0}) -- (\X{34.2},\Y{256.5});
+\node[rotate=32.7] at (224,620) {\small$C = 4N + 70$};
+\node[rotate=50.2] at (318,792) {\small$I = 7.5N$};
+\end{tikzpicture}
+\end{document}

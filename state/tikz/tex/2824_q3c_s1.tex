@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\path (0,0) rectangle (890,800);
+\begin{scope}[shift={(145,690)}, x=0.038227cm, y=0.00154432cm]
+  \foreach \i in {1,...,12} \draw[black!35,line width=0.4pt,dash pattern=on 1pt off 1pt] (\i*20,0)--(\i*20,5000);
+  \foreach \j in {1,...,10} \draw[black!35,line width=0.4pt,dash pattern=on 1pt off 1pt] (0,\j*500)--(240,\j*500);
+  \draw (0,0)--(240,0);
+  \draw (0,0)--(0,5000);
+  \foreach \j in {0,...,10} \draw (0,\j*500)--++(-1.2mm,0);
+  \foreach \i in {0,100,200} \draw (\i,0)--++(0,-1.2mm);
+  \draw[line width=0.9pt] (0,0)--(237.5,4750) node[pos=0.905,sloped,above,inner sep=4pt] {Income};
+  \draw[line width=0.9pt] (0,700)--(240,3580) node[pos=0.905,sloped,above,inner sep=4pt] {Costs};
+  \draw[aux,->] (87.5,1750)--(87.5,0);
+  \fill (87.5,1750) circle (1.5pt);
+  \draw[aux] (150,0)--(150,2500);
+  \draw[line width=0.9pt] (150,2500)--(150,3000);
+  \fill (150,2500) circle (1.5pt);
+  \fill (150,3000) circle (1.5pt);
+\end{scope}
+\foreach \j in {0,...,10} \node[anchor=east] at (128,{690-\j*500*0.1216}) {\pgfmathtruncatemacro\v{\j*500}\v};
+\foreach \i/\l in {0/0,100/100,200/200} \node[anchor=north] at ({145+\i*3.01},706) {\l};
+\node[font=\footnotesize\bfseries] at (506,35) {Planned income and costs for the dance};
+\node[rotate=90] at (25,385) {Dollars};
+\node at (505,768) {Number of people ($x$)};
+\end{tikzpicture}
+\end{document}

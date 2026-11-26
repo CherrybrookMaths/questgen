@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,every node/.style={font=\fontsize{8.5}{10}\selectfont}]
+% 1 unit = 1 crop px; origin (92,368); 3.2 px per km/h, 1.41 px per m
+\foreach \v in {20,60,100} \draw[black!25,line width=0.4pt] ({92+3.2*\v},368) -- ({92+3.2*\v},29.6);
+\foreach \v in {40,80,120} \draw[black!45,line width=0.4pt] ({92+3.2*\v},368) -- ({92+3.2*\v},29.6);
+\foreach \d in {20,60,100,140,180,220} \draw[black!25,line width=0.4pt] (92,{368-1.41*\d}) -- (476,{368-1.41*\d});
+\foreach \d in {40,80,120,160,200,240} \draw[black!45,line width=0.4pt] (92,{368-1.41*\d}) -- (476,{368-1.41*\d});
+% axes
+\draw[->] (92,368) -- (502,368);
+\draw[->] (92,368) -- (92,10);
+\foreach \v in {20,40,...,120} \draw ({92+3.2*\v},368) -- ({92+3.2*\v},362);
+\foreach \d in {20,40,...,240} \draw (92,{368-1.41*\d}) -- (98,{368-1.41*\d});
+\foreach \v in {40,80,120} \node[anchor=north] at ({92+3.2*\v},376) {$\v$};
+\foreach \d in {40,80,...,240} \node[anchor=east] at (84,{368-1.41*\d}) {$\d$};
+% curves d = 0.0375 v^2 (wet), d = 0.0125 v^2 (dry)
+\draw[line width=0.9pt,smooth,samples=90,domain=20:82.5] plot ({92+3.2*\x},{368-1.41*0.0375*\x*\x});
+\draw[line width=0.9pt,smooth,samples=90,domain=20:127] plot ({92+3.2*\x},{368-1.41*0.0125*\x*\x});
+% working: d = 80 on wet at v = 46.19, dry at v = 80
+\draw[aux] ({92+3.2*46.188},{368-1.41*80}) -- ({92+3.2*80},{368-1.41*80}) -- ({92+3.2*80},368);
+\node[inner sep=0pt] at (304,241.1) {35 km/h};
+\node[anchor=west] at (362,16) {Wet conditions};
+\node at (497,72) {Dry};
+\node at (283,424) {Speed (km/h)};
+\node[rotate=90] at (18,200) {Stopping distance (m)};
+\end{tikzpicture}
+\end{document}

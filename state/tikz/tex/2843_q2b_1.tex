@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (P) at (341,95); \coordinate (Q) at (204,133);
+\coordinate (R) at (106,253); \coordinate (U) at (263,293);
+\coordinate (T) at (380,372); \coordinate (S) at (498,293);
+\draw (P)--(Q)--(R)--(U)--(Q) (U)--(P)--(T)--(U) (P)--(S)--(T);
+\draw (341,57) circle (38);
+\foreach \p in {P,Q,R,U,T,S} \fill (\p) circle (2.2pt);
+\node[font=\small] at (340,78) {$P$};
+\node[font=\small] at (180,118) {$Q$};
+\node[font=\small] at (86,253) {$R$};
+\node[font=\small] at (238,317) {$U$};
+\node[font=\small] at (378,394) {$T$};
+\node[font=\small] at (519,296) {$S$};
+\end{tikzpicture}
+\end{document}

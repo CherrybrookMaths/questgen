@@ -1,0 +1,10 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {1,...,20} \draw[black!30, line width=0.5pt] ({37+\i*33.25},55) -- ({37+\i*33.25},730);
+  \foreach \j in {0,...,19} \draw[black!30, line width=0.5pt] (37,{55+\j*33.75}) -- (702,{55+\j*33.75});
+  \draw[->] (37,730) -- (37,18);
+  \draw[->] (37,730) -- (740,730);
+\end{tikzpicture}
+\end{document}

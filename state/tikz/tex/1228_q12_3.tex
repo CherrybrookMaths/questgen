@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.782cm,y=0.7366cm]
+\draw[black!35,line width=0.4pt,step=1] (0,0) grid (9,7);
+\draw[->] (0,0) -- (10.0,0);
+\draw[->] (0,0) -- (0,7.45);
+\foreach \i in {0,...,9} {\draw (\i,0) -- (\i,-0.1); \node[font=\small,anchor=north,inner sep=0pt] at (\i,-0.2) {$\i$};}
+\foreach \i in {0,...,7} {\draw (0,\i) -- (-0.1,\i); \node[font=\small,anchor=east,inner sep=0pt] at (-0.2,\i) {$\i$};}
+\draw[line width=0.9pt,smooth,samples=90,domain=1.92:7.08] plot (\x,{(\x-4.5)^2+0.75});
+\node[font=\small,anchor=east,inner sep=0pt] at (-0.2,7.82) {$s$ (m/min)};
+\node[font=\small,anchor=west,inner sep=0pt] at (10.1,0) {$t$ (min)};
+\end{tikzpicture}
+\end{document}

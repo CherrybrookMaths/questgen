@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.7423cm,y=0.03645cm]
+  \foreach \i in {1,...,21} \draw[black!15] (\i,0) -- (\i,210);
+  \foreach \i in {5,10,15,20} \draw[black!35] (\i,0) -- (\i,210);
+  \foreach \j in {10,20,...,210} \draw[black!15] (0,\j) -- (21.3,\j);
+  \foreach \j in {20,40,...,200} \draw[black!35] (0,\j) -- (21.3,\j);
+  \draw[->] (0,0) -- (21.6,0);
+  \draw[->] (0,0) -- (0,216);
+  \foreach \i in {5,10,15,20} \node[font=\fontsize{7.5}{9}\selectfont] at (\i,-10) {$\i$};
+  \foreach \j in {20,40,...,200} \node[font=\fontsize{7.5}{9}\selectfont, anchor=east] at (-0.12,\j) {$\j$};
+  \node[font=\footnotesize] at (-0.1,226) {Amount(\$)};
+  \node[font=\footnotesize] at (10.2,-23) {Drawings sold};
+  \draw[line width=0.9pt,->] (0,0) -- (21.28,212.8);
+  \node[font=\small] at (15.95,175) {$I = 10x$};
+\end{tikzpicture}
+\end{document}

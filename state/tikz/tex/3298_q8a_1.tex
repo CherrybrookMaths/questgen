@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (L) at (385,73); \coordinate (K) at (200,163); \coordinate (M) at (517,208);
+  \coordinate (J) at (67,282); \coordinate (P) at (240,352); \coordinate (N) at (548,385); \coordinate (O) at (373,492);
+  \draw (K)--(L)--(M)--(K)--(J)--(P)--(K) (P)--(M)--(N)--(P)--(O)--(N);
+  \foreach \p in {L,K,M,J,P,N,O} \fill (\p) circle (10);
+  \node at (385,38) {$L$}; \node at (185,130) {$K$}; \node at (555,203) {$M$}; \node at (33,287) {$J$};
+  \node at (212,388) {$P$}; \node at (578,388) {$N$}; \node at (368,528) {$O$};
+  \node at (265,100) {3.6}; \node at (472,122) {3}; \node at (357,165) {6}; \node at (107,207) {2.5};
+  \node at (182,265) {4.4}; \node at (357,265) {5}; \node at (572,295) {4.8}; \node at (140,343) {2};
+  \node at (402,350) {4.8}; \node at (285,442) {4}; \node at (482,465) {4};
+\end{tikzpicture}
+\end{document}

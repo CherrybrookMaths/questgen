@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{>}}}}]
+\coordinate (S) at (122,265); \coordinate (A) at (243,63); \coordinate (C) at (487,63); \coordinate (E) at (771,63);
+\coordinate (D) at (485,265); \coordinate (F) at (688,265); \coordinate (K) at (892,265); \coordinate (B) at (367,347);
+\draw[mid=0.47] (A) -- (C); \draw[mid=0.48] (C) -- (E);
+\draw[mid=0.45] (A) -- (D); \draw[mid=0.45] (C) -- (F);
+\draw[mid=0.47] (F) -- (E); \draw[mid=0.5] (E) -- (K);
+\draw[mid=0.5] (S) -- (A); \draw[mid=0.5] (S) -- (B); \draw[mid=0.42] (B) -- (D);
+\draw[mid=0.47] (D) -- (F); \draw[mid=0.5] (F) -- (K);
+\draw[mid=0.42] (S) .. controls (85,235) and (92,160) .. (110,128) .. controls (140,85) and (190,60) .. (A);
+\draw (D) .. controls (530,322) and (620,345) .. (F);
+\foreach \p in {S,A,C,E,D,F,K,B} \node[pt, inner sep=0.9pt] at (\p) {};
+\node at (354,38) {$66$}; \node at (605,38) {$26$};
+\node at (341,182) {$21$}; \node at (566,182) {$51$};
+\node at (752,183) {$81$}; \node at (856,140) {$121$};
+\node at (210,183) {$36$}; \node at (98,110) {$51$};
+\node at (232,332) {$96$}; \node at (444,338) {$96$};
+\node at (578,240) {$81$}; \node at (778,292) {$76$};
+\node at (612,342) {$11$};
+\node at (232,46) {$A$}; \node at (476,46) {$C$}; \node at (796,62) {$E$};
+\node at (497,246) {$D$}; \node at (711,250) {$F$}; \node at (384,370) {$B$};
+\node[left, inner sep=4pt] at (S) {source}; \node[right, inner sep=4pt] at (K) {sink};
+\end{tikzpicture}
+\end{document}

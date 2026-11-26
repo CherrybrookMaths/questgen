@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{nd/.style={circle,draw,minimum size=0.92cm,inner sep=0pt}}
+\foreach \n/\x/\y in {a/247/58, c/410/58, e/580/58, g/733/58, k/822/170, b/247/262, d/432/262, h/668/240}{
+  \node[nd] (\n) at (\x,\y) {}; \draw (\n.north)--(\n.south);}
+\node[anchor=east,inner sep=1pt] at (93,165) {Start 0};
+\coordinate (s) at (97,165);
+\draw[->] (s)--(a); \draw[->] (s)--(b);
+\draw[->] (a)--(c); \draw[->] (c)--(e);
+\draw[->] (b)--(d); \draw[->] (d)--(e);
+\draw[->] (e)--(g); \draw[->] (e)--(h);
+\draw[->] (g)--(k); \draw[->] (h)--(k);
+\draw[->] (k)--(928,166);
+\node[anchor=west,inner sep=1pt] at (930,163) {Finish};
+\node at (132,98) {$A,3$};
+\node at (140,224) {$B,4$};
+\node at (330,40) {$C,4$};
+\node at (497,80) {$E,1$};
+\node at (343,240) {$D,2$};
+\node at (466,153) {$F,3$};
+\node at (590,162) {$H,1$};
+\node at (653,38) {$G,5$};
+\node at (812,98) {$I,2$};
+\node at (748,240) {$J,3$};
+\node at (882,197) {$K,6$};
+\end{tikzpicture}
+\end{document}

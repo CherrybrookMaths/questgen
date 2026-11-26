@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\small,
+  mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}},
+  fl/.style={text=black!55}]
+  \coordinate (S) at (90,102); \coordinate (U1) at (182,41); \coordinate (U2) at (400,41);
+  \coordinate (T) at (585,133); \coordinate (M1) at (243,133); \coordinate (M2) at (400,133);
+  \coordinate (L1) at (150,227); \coordinate (L2) at (462,227);
+  \draw[mid=0.6] (S)--(U1); \draw[mid=0.55] (U1)--(U2); \draw[mid=0.55] (U2)--(T);
+  \draw[mid=0.55] (S)--(M1); \draw[mid=0.55] (M1)--(M2); \draw[mid=0.6] (M2)--(T);
+  \draw[mid=0.5] (S)--(L1); \draw[mid=0.5] (L1)--(L2); \draw[mid=0.55] (L2)--(T);
+  \foreach \p in {S,U1,U2,T,M1,M2,L1,L2} \fill (\p) circle (1.3pt);
+  \node[anchor=east] at (82,100) {source};
+  \node[anchor=west] at (592,132) {sink};
+  % capacities
+  \node at (122,52) {4}; \node at (300,20) {3}; \node at (497,67) {1};
+  \node at (166,96) {5}; \node at (320,114) {6}; \node at (492,114) {4};
+  \node at (96,164) {2}; \node at (532,200) {6}; \node at (300,250) {3};
+  % flows (coloured on the solution; grey here)
+  \node[fl] at (140,45) {1}; \node[fl] at (327,20) {1}; \node[fl] at (522,70) {1};
+  \node[fl] at (188,96) {4}; \node[fl] at (342,114) {4}; \node[fl] at (512,114) {4};
+  \node[fl] at (104,193) {2}; \node[fl] at (553,200) {2}; \node[fl] at (325,250) {2};
+  % minimum cut
+  \draw[aux] (88,224) .. controls (150,200) and (250,197) .. (340,190)
+     .. controls (420,182) and (432,150) .. (447,95) .. controls (454,65) and (462,40) .. (470,20);
+\end{tikzpicture}
+\end{document}

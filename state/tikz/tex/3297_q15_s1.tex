@@ -1,0 +1,44 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, nd/.style={circle,draw,minimum size=0.737cm,inner sep=0pt,
+  path picture={\draw (path picture bounding box.north) -- (path picture bounding box.south);}}]
+\newcommand\nd[5]{\node[nd] (#1) at (#2,#3) {};
+  \node[font=\scriptsize] at ({#2-14},#3) {$#4$};\node[font=\scriptsize] at ({#2+14},#3) {$#5$};}
+\nd{S}{92}{163}{0}{0}
+\nd{n1}{247}{38}{2}{3}
+\nd{n2}{276}{163}{1}{4}
+\nd{n3}{246}{283}{5}{5}
+\nd{n4}{399}{38}{5}{6}
+\nd{n5}{398}{283}{7}{7}
+\nd{n6}{460}{161}{8}{8}
+\nd{n7}{611}{161}{15}{15}
+\nd{n8}{731}{161}{17}{17}
+\node[anchor=east,font=\small] at (S.west) {Start};
+\node[anchor=west,font=\small] at (n8.east) {Finish};
+\draw[->] (S.east) -- (n1);
+\draw[->] (S.east) -- (n2);
+\draw[->] (S.east) -- (n3);
+\draw[->] (n1) -- (n4);
+\draw[->] (n2) -- (n6);
+\draw[->] (n3) -- (n5);
+\draw[->] (n4) -- (n6.105);
+\draw[->] (n4) -- (n7.120);
+\draw[->] (n5) -- (n6.-110);
+\draw[->] (n6) -- (n7);
+\draw[->] (n7) -- (n8);
+\begin{scope}[every node/.style={font=\small}]
+\node at (148,92) {$A{,}\,2$};
+\node at (182,144) {$B{,}\,1$};
+\node at (206,201) {$C{,}\,5$};
+\node at (322,16) {$D{,}\,3$};
+\node at (366,142) {$E{,}\,4$};
+\node at (320,265) {$F{,}\,2$};
+\node at (398,106) {$G{,}\,2$};
+\node at (464,238) {$H{,}\,1$};
+\node at (536,141) {$I{,}\,7$};
+\node at (522,68) {$J{,}\,6$};
+\node at (672,141) {$K{,}\,2$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

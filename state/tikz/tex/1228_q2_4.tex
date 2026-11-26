@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  v/.style={circle,draw,fill=white,minimum size=40*0.0127cm,inner sep=0pt,font=\small}]
+\coordinate (G) at (474,36); \coordinate (D) at (134,70); \coordinate (C) at (21,177);
+\coordinate (H) at (416,179); \coordinate (E) at (183,230); \coordinate (F) at (387,253);
+\coordinate (A) at (516,337); \coordinate (B) at (123,357);
+\draw (D)--(G) (D)--(C) (G)--(A) (H)--(F) (F)--(A) (B)--(E);
+\foreach \p in {A,B,C,D,E,F,G,H} \node[v] at (\p) {$\p$};
+\end{tikzpicture}
+\end{document}

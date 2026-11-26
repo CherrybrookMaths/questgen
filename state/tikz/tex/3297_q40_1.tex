@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,v/.style={inner sep=1pt}]
+\fill[black!30] (22,143) rectangle (65,318);
+\fill[black!18] (502,56) rectangle (548,318);
+\draw (22,143) rectangle (65,318);
+\draw (502,56) rectangle (548,318);
+\draw (22,318) -- (548,318);
+\draw (65,143) -- (283,318) -- (502,56);
+\draw (65,300) -- (83,300) -- (83,318);
+\draw (502,294) -- (478,294) -- (478,318);
+\node[v] at (60,125) {$A$};
+\node[v] at (62,343) {$B$};
+\node[v] at (283,344) {$E$};
+\node[v] at (502,339) {$C$};
+\node[v] at (517,37) {$D$};
+\node at (720,207) {Not to scale};
+\end{tikzpicture}
+\end{document}

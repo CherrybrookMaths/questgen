@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\small}]
+\coordinate (O) at (190,238); \coordinate (A) at (34,44); \coordinate (B) at (418,210); \coordinate (C) at (122,530);
+\draw (O)--(A); \draw (O)--(B); \draw (O)--(C);
+\draw[aux] (A)--(B)--(C)--cycle;
+\draw[->] (O)--(190,158);
+\node[anchor=west, inner sep=1pt] at (197,172) {North};
+\node[anchor=south west, inner sep=1pt] at (6,30) {$A$ 320$^\circ$};
+\node[anchor=west] at (430,208) {$B$ 074$^\circ$};
+\node[anchor=north, inner sep=2pt] at (140,540) {$C$ 195$^\circ$};
+\node at (202,258) {$O$};
+\node[rotate=-51] at (104,164) {287 m};
+\node[rotate=7] at (291,205) {211 m};
+\node[rotate=77] at (146,335) {295 m};
+\node[align=center] at (463,400) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

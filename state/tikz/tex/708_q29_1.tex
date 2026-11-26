@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=0.0127cm]
+\coordinate (O) at (253,-106);
+\draw[shade] (O) -- ++(62:125) arc[start angle=62, end angle=-242, radius=125] -- cycle;
+\draw (O) ++(62:40) arc[start angle=62, end angle=118, radius=40];
+\node at (256,-34) {$56^\circ$};
+\node[rotate=62] at ($(O)+(62:58)+(-28:17)$) {\halo{8 mm}};
+\end{tikzpicture}
+\end{document}

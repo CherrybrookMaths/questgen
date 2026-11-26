@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\coordinate (O) at (127,128);
+\draw[->] (O)--(127,28);
+\node at (127,16) {North};
+\draw (O)--(37,243);
+\draw (O)--(218,190);
+\fill (37,243) circle (1.6pt);
+\fill (218,190) circle (1.6pt);
+% arc centred on O from north clockwise to OB (y axis points down, so angles are mirrored)
+\draw[->] ($(O)+(0,-66)$) arc[start angle=-90, end angle=34.3, radius=66];
+\node at (114,124) {$O$};
+\node at (158,116) {$135^\circ$};
+\node at (228,147) {3 km};
+\node at (42,184) {7 km};
+\node at (22,247) {$A$};
+\node at (232,195) {$B$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,33 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{nd/.style={circle,draw,minimum size=0.80cm,inner sep=0pt}, cp/.style={->,line width=0.9pt}}
+\foreach \n/\x/\y/\l/\r in {a/193/44/3/4, c/322/44/7/8, e/456/42/9/9, g/574/42/14/14, k/645/130/16/16, b/193/202/4/4, d/338/202/6/6, h/526/187/10/13}{
+  \node[nd] (\n) at (\x,\y) {}; \draw (\n.north)--(\n.south);
+  \node[font=\scriptsize,anchor=east,inner sep=1.6pt] at (\x,\y) {\l};
+  \node[font=\scriptsize,anchor=west,inner sep=1.6pt] at (\x,\y) {\r};}
+\node[anchor=east,inner sep=1pt,font=\small] at (74,127) {Start 0};
+\coordinate (s) at (78,127);
+\draw[->] (s)--(a); \draw[cp] (s)--(b);
+\draw[->] (a)--(c); \draw[->] (c)--(e);
+\draw[cp] (b)--(d); \draw[cp] (d)--(e);
+\draw[cp] (e)--(g); \draw[->] (e)--(h);
+\draw[cp] (g)--(k); \draw[->] (h)--(k);
+\draw[cp] (k)--(733,128);
+\node[anchor=west,inner sep=1pt,font=\small] at (735,127) {Finish 22};
+\begin{scope}[every node/.style={font=\small}]
+\node at (104,72) {$A,3$};
+\node at (106,178) {$B,4$};
+\node at (257,25) {$C,4$};
+\node at (390,64) {$E,1$};
+\node at (265,184) {$D,2$};
+\node at (366,121) {$F,3$};
+\node at (461,128) {$H,1$};
+\node at (515,22) {$G,5$};
+\node at (634,78) {$I,2$};
+\node at (598,190) {$J,3$};
+\node at (700,152) {$K,6$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,27 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% origin (195,463); x: 1.75 px/unit, y: 1.775 px/unit
+\def\X#1{195+1.75*#1}\def\Y#1{463-1.775*#1}
+\draw[->] (150,463) -- (755,463);
+\draw[->] (195,475) -- (195,42);
+\foreach \v in {50,100,150,200} {\draw (183,{\Y{\v}}) -- (195,{\Y{\v}}); \node[anchor=east,inner sep=1pt] at (180,{\Y{\v}}) {\v};}
+\foreach \v in {100,200} {\draw ({\X{\v}},463) -- ({\X{\v}},475); \node[anchor=north,inner sep=1pt] at ({\X{\v}},479) {\v};}
+\node[anchor=north east,inner sep=1pt] at (190,468) {0};
+\node at (742,488) {$x$};
+\node at (180,42) {$y$};
+\draw[aux] ({\X{0}},{\Y{200}}) -- ({\X{200}},{\Y{0}});
+\draw[line width=0.9pt] ({\X{50}},{\Y{150}}) -- ({\X{120}},{\Y{80}});
+\draw[dotted] (195,{\Y{150}}) -- ({\X{50}},{\Y{150}});
+\draw[dotted] ({\X{120}},{\Y{80}}) -- ({\X{120}},463);
+\node[anchor=west,inner sep=1pt] at (206,94) {$A$};
+\node[anchor=west,inner sep=1pt] at (286,180) {$B(50,\,150)$};
+\node[anchor=west,inner sep=1pt] at (406,308) {$C$};
+\node[anchor=west,inner sep=1pt] at (548,444) {$D$};
+\node at (452,523) {120};
+\draw[->] (430,512) .. controls (405,505) and (403,490) .. ({\X{120}},466);
+\node[rotate=90,font=\fontsize{11}{13}\selectfont] at (97,300) {Number of pairs of sandals $(y)$};
+\node[font=\fontsize{11}{13}\selectfont] at (455,568) {Number of pairs of boots $(x)$};
+\end{tikzpicture}
+\end{document}

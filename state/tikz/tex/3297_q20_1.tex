@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[->] (190,900) -- (1068,900);
+\draw[->] (190,900) -- (190,25);
+\foreach \v in {41,...,44,46,47,48,49,51,52,53,54,56,57,58,59,61,62,63,64,66,67,68,69,71,72,73,74} {\draw ({190+24.9*(\v-40)},900) -- ({190+24.9*(\v-40)},895);
+  \draw (190,{900-24.9*(\v-40)}) -- (195,{900-24.9*(\v-40)});}
+\foreach \v in {45,50,...,70} {\draw ({190+24.9*(\v-40)},900) -- ({190+24.9*(\v-40)},891);
+  \draw (190,{900-24.9*(\v-40)}) -- (199,{900-24.9*(\v-40)});
+  \node[font=\footnotesize,anchor=north] at ({190+24.9*(\v-40)},907) {$\v$};
+  \node[font=\footnotesize,anchor=east] at (183,{900-24.9*(\v-40)}) {$\v$};}
+\node[anchor=west] at (1072,900) {$x$};
+\node[anchor=south] at (190,22) {$y$};
+\draw[line width=0.9pt] (190,900) -- (937,153);
+\node[font=\footnotesize] at (905,121) {$y=x$};
+\foreach \n/\a/\b/\dx/\dy in {A/61/65/23/-15,B/51/56/23/-15,C/58/67/23/-15,D/61/59/23/-15,E/59/60/-22/-15,F/55/52/23/-15,G/46/53/23/-15} {
+  \fill ({190+24.9*(\a-40)},{900-24.9*(\b-40)}) circle (6);
+  \node[font=\small] at ({190+24.9*(\a-40)+\dx},{900-24.9*(\b-40)+\dy}) {$\n$};}
+\node[align=center,font=\bfseries] at (80,462) {Friday\\[8pt]test\\[8pt]results};
+\node[font=\bfseries] at (660,958) {Monday test results};
+\end{tikzpicture}
+\end{document}

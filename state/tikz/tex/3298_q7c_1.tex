@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {1,...,8} \draw[black!25,line width=0.4pt] (50+76*\i,640)--(50+76*\i,102.4);
+\foreach \j in {1,...,7} \draw[black!25,line width=0.4pt] (50,640-76.8*\j)--(658,640-76.8*\j);
+\draw[->] (50,640)--(705,640);
+\draw[->] (50,640)--(50,66);
+\foreach \i in {1,...,8} \draw (50+76*\i,634)--(50+76*\i,646);
+\foreach \j in {1,...,7} \draw (44,640-76.8*\j)--(56,640-76.8*\j);
+\node[font=\large] at (50,42) {$h$};
+\node[font=\large] at (716,642) {$t$};
+\end{tikzpicture}
+\end{document}

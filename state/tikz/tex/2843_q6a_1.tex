@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (286,72); \coordinate (B) at (497,72); \coordinate (C) at (145,181);
+\coordinate (D) at (640,181); \coordinate (E) at (286,287); \coordinate (F) at (497,287);
+\draw (C)--(A)--(B)--(D)--(F)--(E)--(C); \draw (A)--(E); \draw (B)--(F); \draw (E)--(B);
+\foreach \p in {A,B,C,D,E,F} \fill (\p) circle (1.5pt);
+\node[anchor=south,font=\small] at (286,64) {$A$};
+\node[anchor=south,font=\small] at (497,64) {$B$};
+\node[anchor=east,font=\small] at (137,181) {$C$};
+\node[anchor=west,font=\small] at (648,181) {$D$};
+\node[anchor=north,font=\small] at (286,293) {$E$};
+\node[anchor=north,font=\small] at (497,293) {$F$};
+\foreach \x/\y/\t in {391/55/8,188/105/14,596/105/10,263/183/6,368/160/11,474/183/4,188/255/16,391/305/6,588/255/4}
+  \node[font=\small] at (\x,\y) {\t};
+\end{tikzpicture}
+\end{document}

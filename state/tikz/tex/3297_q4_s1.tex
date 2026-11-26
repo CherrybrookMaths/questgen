@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+  \coordinate (A) at (40,63); \coordinate (C) at (40,190); \coordinate (B) at (193,190);
+  \draw[->] (A)--(40,28); \draw (A)--(C); \draw (A)--(B);
+  \draw[->] (B)--(193,97);
+  \draw[aux] (148,190)--(B);
+  \fill (C) circle (1.4pt); \fill (B) circle (1.4pt);
+  \node[anchor=south] at (40,24) {North};
+  \node[anchor=south] at (195,93) {North};
+  \node at (22,62) {$A$}; \node at (22,182) {$C$}; \node at (212,182) {$B$};
+  \node at (64,117) {$48^\circ$}; \node at (165,141) {$48^\circ$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.3378cm,y=0.10478cm,every node/.style={font=\small}]
+\foreach \k in {-5,...,15} \draw[black!25,line width=0.4pt] (\k,-24.5)--(\k,48.8);
+\foreach \k in {-20,-15,...,45} \draw[black!35,line width=0.4pt,dash pattern=on 1pt off 1pt] (-5,\k)--(15.3,\k);
+\draw[->] (-5.1,0)--(16.05,0) node[right,inner sep=2pt] {age of child (years)};
+\draw[->] (0,-24.5)--(0,48.8);
+\node at (-0.15,52.2) {child dosage (mg)};
+\foreach \k in {-5,...,-1,1,2,...,15} \draw (\k,-0.65)--(\k,0.65);
+\foreach \k in {-20,-15,...,-5,5,10,...,45} \draw (-0.2,\k)--(0.2,\k);
+\foreach \k in {-5,5,10,15} \node at (\k,-5.5) {$\k$};
+\node at (0.62,-5.5) {$0$};
+\foreach \k in {10,20,30,40} \node[anchor=east,inner sep=1pt] at (-0.25,\k) {$\k$};
+\node[anchor=west,inner sep=1pt] at (0.25,-10) {$-10$};
+\node[anchor=west,inner sep=1pt] at (0.25,-20) {$-20$};
+\draw[aux,line width=0.9pt,<-,domain=-2.6:1,samples=30,smooth] plot (\x,{85*\x/(\x+12)});
+\draw[line width=0.9pt,domain=1:12,samples=60,smooth] plot (\x,{85*\x/(\x+12)});
+\draw[aux,line width=0.9pt,->,domain=12:16,samples=30,smooth] plot (\x,{85*\x/(\x+12)});
+\fill (1,85/13) circle (2.6pt); \fill (12,42.5) circle (2.6pt);
+\end{tikzpicture}
+\end{document}

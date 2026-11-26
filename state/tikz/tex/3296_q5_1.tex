@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\newcommand{\tk}[1]{\scalebox{0.3}{\small #1}}
+\newcommand{\ttl}[1]{\scalebox{0.5}{\small\bfseries #1}}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(55,437)}, xscale=19.1, yscale=-4.23]
+\foreach \x in {2,4,...,20} \draw[black!22,line width=0.4pt] (\x,0)--(\x,100);
+\foreach \y in {10,20,...,100} \draw[black!22,line width=0.4pt] (0,\y)--(20,\y);
+\draw[black!50] (0,0)--(20,0); \draw[black!50] (0,0)--(0,100);
+\foreach \x in {0,2,...,20} \node[below=3pt,inner sep=0pt] at (\x,0) {\tk{\x}};
+\foreach \y in {0,10,...,100} \node[left=4pt,inner sep=0pt] at (0,\y) {\tk{\y}};
+\foreach \p in {(5,24),(8,32),(8,30),(8,27),(9,30),(10,32),(10,44),(11,34),(11,33),(12,42),(12,37),(12,35),(13,42),(13,41),(13,40),(14,66),(14,50),(14,48),(14,46),(14,42),(15,65),(15,62),(15,58),(15,55),(16,70),(16,68),(17,80),(17,73),(17,72),(18,90),(18,88)}
+  \node[diamond,fill,inner sep=0pt,minimum size=0.085cm] at \p {};
+\draw[line width=0.9pt] (4.4,18.2)--(20.26,98);
+\end{scope}
+\node at (165,477) {\ttl{AGE}};
+\node[rotate=90] at (22,227) {\ttl{BULLYING RATE}};
+\end{tikzpicture}
+\end{document}

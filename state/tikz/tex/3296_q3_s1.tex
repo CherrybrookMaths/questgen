@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}
+  \coordinate (B) at (0,0);
+  \coordinate (A) at (120:3.6);
+  \coordinate (C) at (35:3.6);
+  \draw[->] (B) -- (0,3.8) node[anchor=south] {$N$};
+  \draw (B) -- (A) node[anchor=south east, inner sep=2pt] {$A$};
+  \draw (B) -- (C) node[anchor=west] {$C$};
+  \fill (B) circle (1.2pt);
+  \node[anchor=north] at (0,-0.08) {$B$};
+  \draw (90:1.7) arc[start angle=90,end angle=120,radius=1.7];
+  \node at (105:2.2) {$30^\circ$};
+  \draw (35:0.9) arc[start angle=35,end angle=90,radius=0.9];
+  \node at (62.5:1.32) {$55^\circ$};
+  \draw (35:2.6) arc[start angle=35,end angle=120,radius=2.6];
+  \node at (52:3.0) {$85^\circ$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\def\X#1{(125+48.3*#1)}
+\foreach \i in {1,...,13} \draw[black!25,line width=0.4pt] ({125+48.3*\i},363)--({125+48.3*\i},30.5);
+\foreach \k in {1,...,7} \draw[black!25,line width=0.4pt] (125,{363-47.5*\k})--(753,{363-47.5*\k});
+\draw[->] (125,370)--(125,14);
+\draw[->] (118,363)--(772,363);
+\foreach \i in {1,...,13} \draw ({125+48.3*\i},363)--({125+48.3*\i},369);
+\foreach \k in {1,...,7} \draw (125,{363-47.5*\k})--(119,{363-47.5*\k});
+\foreach \i in {2,4,...,12} \node[anchor=north] at ({125+48.3*\i},373) {\i};
+\foreach \v/\k in {100/2,200/4,300/6} \node[anchor=east] at (113,{363-47.5*\k}) {\v};
+\draw[line width=0.9pt] (125,{363-0.95*80})--({125+48.3*13},{363-0.95*236});
+\draw[line width=0.9pt] (125,363)--({125+48.3*13},{363-0.95*260});
+\node at (210,242) {Costs};
+\node at (392,300) {Income};
+\node[rotate=90] at (28,220) {\textit{Dollars} (\$)};
+\node at (425,437) {\textit{Items}};
+\end{tikzpicture}
+\end{document}

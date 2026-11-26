@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.6414cm,y=0.405cm]
+\draw[black!25,line width=0.4pt] (-5.45,-2.15) grid (2.2,9.4);
+\draw[<->] (-5.45,0)--(2.25,0) node[right,inner sep=2pt] {$x$};
+\draw[<->] (0,-2.15)--(0,8.7) node[above,inner sep=2pt] {$y$};
+\foreach \k in {-5,...,-1,1} {\draw (\k,-0.16)--(\k,0.16); \node[font=\footnotesize] at (\k,-0.65) {$\k$};}
+\foreach \k in {-1,1,2,3,4,5,7,8} {\draw (-0.1,\k)--(0.1,\k); \node[font=\footnotesize,anchor=east,inner sep=1pt] at (-0.13,\k) {$\k$};}
+\draw (-0.1,6)--(0.1,6); \node[font=\footnotesize,anchor=west,inner sep=1pt] at (0.2,6) {$6$};
+\draw[aux] (0.07,0)--(0.07,7);
+\draw[aux] (-4,0.07)--(0,0.07);
+\draw (-0.28,0.07)--(-0.28,0.45)--(0.07,0.45);
+\draw[line width=0.9pt] (-4,0)--(0,7);
+\fill (-4,0) circle (1.6pt); \fill (0,7) circle (1.6pt);
+\node[anchor=west,font=\small] at (0.25,3.7) {Rise};
+\node[font=\small] at (-1.43,0.55) {Run};
+\end{tikzpicture}
+\end{document}

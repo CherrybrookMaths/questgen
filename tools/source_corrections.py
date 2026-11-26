@@ -998,3 +998,28 @@ for sid, lat, crit, note, extra in C29:
     m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
     db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
 db.commit(); print('done C13, C14, C15, C16, C17, C18, C19, C20, C21, C22, C23, C24, C25, C26, C27, C28, C29')
+
+# Standard batch s12 (26 Nov, found by the API verifier, VERIFY_SPEC): working slips in the source or the formatter's lines
+C30 = [
+ (11669, [(r'$$65-19=\$43$$', r'$$65-28=\$37 \text{ more per week, and } 37-19=\$18$$')], [], r'the working wrote $65-19=\$43$; medical rises by $65-28=\$37$ a week and $A=\$19$, so $\$18$ a week must come from elsewhere', None),
+ (11714, [(r'&= 68.9\times 30 \\ &= 2067 \text{ m}^2', r'&= 68.943\ldots\times 30 \\ &= 2068.319\ldots \text{ m}^2'),
+          (r'\text{Total} &= 4594.579 + 2067 + 997.117 \\ &= 7658.7\ldots \\ &\approx 7659 \text{ m}^2', r'\text{Total} &= 4594.579 + 2068.319 + 997.117 \\ &= 7660.01\ldots \\ &\approx 7660 \text{ m}^2')], [],
+  r'the rectangle used $AB$ rounded to $68.9$, giving $7659$; with $AB=68.943\ldots$ the total is $7660.01\ldots\approx7660$ m$^2$', None),
+ (11728, [(r'$$d \approx \$34$$', r'$$d = \$35$$')], [], r'the reading from the graph was given as $\$34$; the line $d=3a+8$ passes through $(9,35)$', None),
+ (11731, [(r'$$R = 134^\circ \text{ (nearest degree)}$$', r'$$\cos R = -0.69725,\qquad R = 134.206\ldots^\circ$$'),
+          (r'\times\sin 134^\circ \\ &= 2877.359\ldots \\ &\approx 2877 \text{ m}^2', r'\times\sin 134.206\ldots^\circ \\ &= 2867.312\ldots \\ &\approx 2867 \text{ m}^2')],
+  [('Finds $R=134^\\circ$', 'Finds $R\\approx134.2^\\circ$')],
+  r'$R$ was rounded to $134^\circ$ before the area, giving $2877$; unrounded ($R=134.206\ldots^\circ$, or Heron\'s formula) the area is $2867.31\ldots\approx2867$ m$^2$', None),
+ (11767, [(r'By trial and error, $n > 6$, so $n = 7$.', r'By trial and error, $0.8^5=0.328>0.3$ and $0.8^6=0.262<0.3$, so $n=6$ (value $\$1310.72$).')], [],
+  r'the working said $n>6$, so $n=7$, then used $2019+6$; $0.8^6=0.262<0.3$, so $n=6$', None),
+ (11918, [('Option A has a cycle (a triangle), so it is not a tree.', 'Option A has a cycle (four vertices joined in a loop), so it is not a tree.')], [], r'the working called the cycle in option A a triangle; it is a 4-cycle', None),
+ (11863, [(r'$$\therefore\ \angle TVU \approx 113^\circ$$', r'$$\therefore\ \angle TVU \approx 114^\circ \text{ (nearest degree)}$$')], [], r'$113^\circ38\'$ was rounded down to $113^\circ$; to the nearest degree it is $114^\circ$', None),
+ (11908, [(r'Substituting $t = 1.3$ and $s = 60$, as in the source:' + '\n' + r'$$1.3 = \dfrac{k}{60}$$', r'Substituting $t = \dfrac{4}{3}$ and $s = 60$:' + '\n' + r'$$\dfrac{4}{3} = \dfrac{k}{60}$$')], [],
+  r'the working substituted $t=1.3$, which gives $k=78$; $1$ h $20$ min is $\dfrac43$ h, so $k=80$', None),
+]
+for sid, lat, crit, note, extra in C30:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+db.commit(); print('done C30 (s12)')

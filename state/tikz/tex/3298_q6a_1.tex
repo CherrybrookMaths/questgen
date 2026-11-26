@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.691cm,y=0.692cm]
+  \draw[black!22] (0,0) grid[step=0.5] (14.5,8.5);
+  \draw[->] (0,0) -- (15.1,0) node[right, inner sep=3pt, font=\large] {$x$};
+  \draw[->] (0,0) -- (0,9.1) node[above, inner sep=3pt, font=\large] {$M$};
+  \foreach \i in {1,...,14} \node[font=\large] at (\i,-0.58) {$\i$};
+  \foreach \i in {1,...,8} \node[font=\large, anchor=east] at (-0.18,\i) {$\i$};
+  \node[font=\large] at (-0.4,-0.5) {$0$};
+  \node[font=\large, rotate=90] at (-1.5,4.55) {Mass (kg)};
+  \node[font=\large] at (7.25,-1.52) {Number of days};
+  \draw[line width=0.9pt] plot[domain=0:14,smooth,samples=90] (\x,{1.5*1.1^\x});
+  \node[font=\large] at (10.52,5.2) {$M = A(1.1)^x$};
+\end{tikzpicture}
+\end{document}
