@@ -205,7 +205,7 @@ def skill_order(course):
     its "one home per question" rule (owner 26 Nov: "This worksheet should follow the rule order, it should only appear in one like
     before remember? Like can't do bearings without having the earlier skills and so forth"; on Standard's order, e.g. Area of a triangle
     after the cosine rule: "that is correct"). Standard: state/work/skills/standard/skills.json, in its order (the teaching order);
-    Advanced: state/work/skills/skill_topics.json, in its file order (the order the skill list was written and signed off in). The page
+    Advanced: state/work/skills/skill_topics.json, in the syllabus order of each skill's earliest dot point (owner 26 Nov). The page
     files each skill under the Bank's row of its first dot point (38_worksheets.js); the key is the fallback."""
     out = []
     if course == 'standard':
@@ -217,7 +217,14 @@ def skill_order(course):
             out.append([x['skill'], f"sub:{d['year_level']}|{d['focus_area']}|{d['sub'] or ''}" if d else None, d0, 1 if x.get('basic') else 0])
         return out
     if not os.path.exists(SKILL_TOPICS): return out
-    for k, v in json.load(open(SKILL_TOPICS, encoding='utf-8')).items():
+    # owner 26 Nov, on the Advanced order: "I thought we did skill already for adv?" The Advanced skills and the dot point each is taught at
+    # were signed off (skill_topics.json); their file order is not the teaching order (158 of 161 sit elsewhere in it, e.g. Stationary
+    # points, taught at Y11-136, after Year 12 skills). So Advanced runs in the syllabus order of each skill's earliest dot point (Year 11
+    # then Year 12, the order of dotpoints.json), file order breaking ties.
+    pos = {d['id']: n for n, d in enumerate(json.load(open(paths.ROOT / 'site/data/dotpoints.json', encoding='utf-8')))}
+    items = list(json.load(open(SKILL_TOPICS, encoding='utf-8')).items())
+    items.sort(key=lambda kv: min((pos.get(x, 10 ** 6) for x in (kv[1].get('dot_points') or [])), default=10 ** 6))   # stable: file order on ties
+    for k, v in items:
         out.append([k, v.get('key'), (v.get('dot_points') or [None])[0], 1 if v.get('basic') else 0])
     return out
 
