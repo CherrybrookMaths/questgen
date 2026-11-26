@@ -17,7 +17,9 @@ import collections, glob, json, os, re, sqlite3
 # owner 18 Nov: "the monthly limit is $300 right now. I can change it later." (the one number kept here: it is a setting, not data)
 # owner 23 Nov: "budget is now 600 monthly"
 # owner 24 Nov, on 8 Standard batches (about US$320) with US$529 spent: "Just go and run 8 batches, its fine." -> cap US$900 (stop at US$880)
-MONTHLY_LIMIT_USD = 900
+# owner 26 Nov, with A$276 left in the account: "I changed the cal to 19999" / "The cap is the max which I was allowed" (the account's
+# own spend limit; the balance is the real limit now, so a run is watched against it in the session)
+MONTHLY_LIMIT_USD = 19999
 OUT = paths.P + 'site/data/costs.json'
 FIRST_API_BATCH = 8     # Batch 8 was the first through the API (owner 17 Nov: "I want to do batch 8 via the api so we can get a cost estimate")
 
