@@ -3632,7 +3632,7 @@ async function fixes1125(browser, base, seed) {
     const t0 = Date.now(); await page.fill('#q', 'the');
     // 40 s: alone it takes ~0.4 s; beside the other test groups the 0.5 MB search file can wait behind their downloads (25 Nov prepublish)
     await page.waitForFunction(() => /match/.test(document.querySelector('#list .listhead .crumb')?.textContent || ''), null, {timeout: 40000});
-    const ms = Date.now() - t0; await settle(page, 4000, 2);
+    const ms = Date.now() - t0; await page.waitForFunction(() => document.querySelectorAll('#list .card').length >= 60, null, {timeout: 20000}).catch(() => {}); await settle(page, 4000, 2);   // 26 Nov: a busy full run measured 56 of 60 cards mid-render
     const r = await page.evaluate(() => { const want = B.questions.filter(inBank).filter(q => QG.hay.get(q.id)?.includes('the')).length;
       return {crumb: document.querySelector('#list .listhead .crumb').textContent, want, cards: document.querySelectorAll('#list .card').length,
         more: document.querySelector('#list [data-smore]')?.textContent || '', cur: document.querySelectorAll('#nav [aria-current="true"]').length,

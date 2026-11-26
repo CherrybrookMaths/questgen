@@ -757,7 +757,7 @@ document.addEventListener('keydown',e=>{const h=e.target.closest&&e.target.close
   const d={ArrowRight:.05,ArrowUp:.05,ArrowLeft:-.05,ArrowDown:-.05}[e.key];if(d==null&&e.key!=='Home')return;e.preventDefault();e.stopPropagation();
   const k=h.dataset.figh,w=h.closest('.exfigw'),smax=exFigBase(w).smax;const cur=Math.min(smax,EXFKEY&&EXFKEY.k===k?EXFKEY.s:(EX.figscale[k]||1));
   const s=e.key==='Home'?1:Math.round(Math.max(.3,Math.min(smax,cur+d))*100)/100;exFigSet(w,s);w.classList.add('resizing');
-  if(EXFKEY)clearTimeout(EXFKEY.t);EXFKEY={k,s,t:setTimeout(()=>{EXFKEY=null;w.classList.remove('resizing');if(exFigCommit(k,s)){let n=0;const iv=setInterval(()=>{const el=document.querySelector(`#xPv [data-figh="${k}"]`);if(el&&el!==h){clearInterval(iv);el.focus({preventScroll:true})}else if(++n>40)clearInterval(iv)},100)}},600)}});
+  if(EXFKEY)clearTimeout(EXFKEY.t);EXFKEY={k,s,t:setTimeout(()=>{EXFKEY=null;w.classList.remove('resizing');if(exFigCommit(k,s)){let n=0;const iv=setInterval(()=>{const el=document.querySelector(`#xPv [data-figh="${k}"]`);if(el&&el!==h){clearInterval(iv);el.focus({preventScroll:true})}else if(++n>200)clearInterval(iv)},100)}},600)}});   // 26 Nov: wait up to 20 s for the relayout (4 s lost focus on a busy machine; the full page test caught it)
 // drag to reorder in the grading list
 let EXDRAG=null;
 document.addEventListener('dragstart',e=>{const r=e.target.closest&&e.target.closest('#exGSide [data-drag]');if(!r)return;EXDRAG=+r.dataset.drag;e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',String(EXDRAG))}catch(_){}r.closest('.gq').classList.add('dragging')});
