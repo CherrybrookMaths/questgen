@@ -93,15 +93,19 @@ function xFigSlots(q,keys){return keys.map(k=>`<span class="figslot" data-fig="$
 // owner 26 Nov: "Give options to print worksheet (with no answer), worked solutions, and worksheet with answers (this is where they can
 // choose single number, worked or both). Really should be an option to print exam with answers too in our current builder."
 // doc 'answers' (Paper with answers): the exam paper, each question followed by its answer (EXV.ans): 'final' the short answer, 'worked'
-// the marking guide's worked solution, 'both'. Only a multiple-choice question records a short answer (its letter); a written part has
-// none in the data, so it shows its worked solution in every mode (counted in EXV.fb for the preview's info line; never made up).
+// the marking guide's worked solution, 'both'. A multiple-choice question's short answer is its letter; a written part's is its final
+// answer read out of its worked solution (solFinal, owner 26 Nov); a part with none shows its worked solution in every mode (counted in
+// EXV.fb for the preview's info line; never made up).
 function xQ(q,n,doc){exA();
   const fk=figKeys(q), guide=doc==='guide', ans=doc==='answers', am=ans?EXV.ans:'', key=q.type==='mcq'&&q.options.find(o=>o.is_correct)?.label;
   const loose=fk.all.filter(k=>!fk.inline.has(k)&&!fk.opt.has(k)&&!q.figures.find(f=>f.src.endsWith('/'+k+'.png')&&f.part));
   const partFigs=pid=>q.figures.filter(f=>f.part===pid).map(f=>f.src.split('/').pop().replace('.png','')).filter(k=>!fk.inline.has(k));
   // guide: worked solution only; no internal review notes, no rubric for MCQ (the key is highlighted and tabled)
   const clean=h=>h.replace(/<div class="callout"><b>(Check this|Corrected from source)[\s\S]*?<\/div>/g,'').replace(/<div class="help">(?:<[^>]*>)*\s*Corrected from source[\s\S]*?<\/div>/g,'').replace(q.type==='mcq'?/<table class="rub">[\s\S]*?<\/table>/g:/$^/,'');
-  const sols=pid=>{if(!guide&&!ans)return '';const s=solsFor(q,pid,'bank');if(s.count&&ans&&am!=='worked'&&q.type!=='mcq')EXV.fb++;return s.count?`<div class="xsol">${clean(s.html)}</div>`:''};
+  // owner 26 Nov: a written part with a final answer (solFinal) prints "Answer: ..." in Final answer and Both; Final answer drops its working
+  const sols=pid=>{if(!guide&&!ans)return '';const s=solsFor(q,pid,'bank');if(!s.count)return '';const w=`<div class="xsol">${clean(s.html)}</div>`;
+    if(!ans||am==='worked'||q.type==='mcq')return w;const f=solFinal(q,pid);if(!f){EXV.fb++;return w}
+    const line=`<div class="ex-ans"><b>Answer:</b> ${tex(f)}</div>`;return am==='final'?line:line+w};
   const mcOnly=q.type==='mcq'&&am==='final'&&key;   // final answer only: the letter, no working (filed under its part or the whole question)
   const mcSols=q.type==='mcq'&&!mcOnly?q.parts.map(p=>sols(p.id)).join(''):'';
   const mcKey=q.type==='mcq'&&key&&(am==='final'||am==='both')?`<div class="ex-ans"><b>Answer:</b> ${esc(key)}</div>`:'';

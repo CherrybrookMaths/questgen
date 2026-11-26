@@ -8,6 +8,11 @@ solution ends in a proof, a "show that", a sketch, or several answers that do no
 solution stays). Results go to a JSON file for checking; nothing is written to the database.
 
     python3 tools/final_answers.py trial [N]     # N parts (default 50), spread over both courses and part types
+    python3 tools/final_answers.py all           # every written part with a solution (resumable; 8 calls at a time)
+    python3 tools/final_answers.py apply         # write the results into solutions.meta_json (final, final_kind, final_by)
+Owner 26 Nov, after the trial (US$0.06 for 50; all 36 numbers and expressions right): "yeah" to the full run (about US$10) with two
+changes from the trial: describe / compare / explain parts get no short answer (their working is the answer), and an answer that is a
+point or points (coordinates) is given as the points.
 """
 import json, os, random, re, sys, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -30,7 +35,9 @@ PROMPT = ("Each item below is one part of an HSC maths question and its worked s
           "solution reaches, as a student would write it on the answer line: the value with its units and rounding as the solution gives "
           "them, or the final expression, or a short concluding statement. Do NOT do any maths yourself and do not correct the solution: "
           "copy what it concludes. If the part is a proof or 'show that', a sketch or graph to draw, a table to complete, or has no single "
-          "short final answer, give kind 'none' and an empty final. Several answers (e.g. x = 2 or x = -3) go on one line. "
+          "short final answer, give kind 'none' and an empty final. A part that asks to describe, compare, explain, justify, interpret or "
+          "discuss also gets kind 'none' (its working is the answer). If the solution ends in a point or points (coordinates), give them, "
+          "e.g. $(1, 2)$ and $\\left(\\tfrac{7}{3}, \\tfrac{2}{3}\\right)$. Several answers (e.g. x = 2 or x = -3) go on one line. "
           "Call the submit tool once with every item.")
 
 
@@ -44,7 +51,7 @@ def parts_pool():
             if any(x.get('parent') == p['id'] for x in q['parts']): continue   # leaf parts only
             s = [x for x in sols if x.get('part_id') == p['id']] or ([x for x in sols if x.get('part_id') is None] if len(q['parts']) == 1 else [])
             if not s or not (s[0].get('latex') or '').strip(): continue
-            out.append({'id': p['id'], 'q': q['id'], 'key': q.get('key'), 'std': 'STD' in (q.get('key') or ''), 'marks': p.get('marks'),
+            out.append({'id': p['id'], 'sid': s[0]['id'], 'q': q['id'], 'key': q.get('key'), 'std': 'STD' in (q.get('key') or ''), 'marks': p.get('marks'),
                         'part': (q.get('stem') or '')[-600:] + '\n' + (p.get('latex') or ''), 'sol': s[0]['latex']})
     return out
 
@@ -68,7 +75,46 @@ def run(items):
     return res
 
 
+OUT = S + 'work/final_answers.json'
+
+
+def run_all():
+    import concurrent.futures as cf
+    global BATCH
+    BATCH = 'fa_all'
+    done = {r['id']: r for r in json.load(open(OUT))['items']} if os.path.exists(OUT) else {}
+    todo = [x for x in parts_pool() if x['id'] not in done]
+    print(f'{len(done)} done, {len(todo)} to go', flush=True)
+    chunks = [todo[i:i + 10] for i in range(0, len(todo), 10)]
+    with cf.ThreadPoolExecutor(8) as ex:
+        for n, res in enumerate(ex.map(lambda c: run(c), chunks)):
+            for r in res: done[r['id']] = r
+            if n % 20 == 0 or n == len(chunks) - 1:
+                json.dump({'made': A.now(), 'model': MODEL, 'n': len(done), 'items': list(done.values())}, open(OUT, 'w'), ensure_ascii=False)
+    kinds = {}
+    for r in done.values(): kinds[r['kind']] = kinds.get(r['kind'], 0) + 1
+    spent = sum(json.loads(l)['usd'] for l in open(S + 'work/api_import/fa_all/calls.jsonl'))
+    print(f'{len(done)} parts; US${spent:.2f}; kinds {kinds}')
+
+
+def apply():
+    import sqlite3
+    items = json.load(open(OUT))['items']
+    c = sqlite3.connect(str(paths.DB)); n = 0
+    for r in items:
+        row = c.execute('select meta_json from solutions where id=?', (r['sid'],)).fetchone()
+        if not row: continue
+        m = json.loads(row[0] or '{}')
+        for k in ('final', 'final_kind', 'final_by'): m.pop(k, None)
+        if r['kind'] in ('value', 'expression', 'statement') and r['final'].strip():
+            m.update(final=r['final'].strip(), final_kind=r['kind'], final_by=MODEL + ' 26 Nov (read from the worked solution)'); n += 1
+        c.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), r['sid']))
+    c.commit(); print(f'{n} solutions now carry a final answer ({len(items)} read)')
+
+
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == 'all': return run_all()
+    if len(sys.argv) > 1 and sys.argv[1] == 'apply': return apply()
     if len(sys.argv) < 2 or sys.argv[1] != 'trial': sys.exit(__doc__)
     n = int(sys.argv[2]) if len(sys.argv) > 2 else 50
     pool = parts_pool(); rnd = random.Random(1126)

@@ -1693,6 +1693,16 @@ where the answers are attched after all the questions, for students to self chec
   names), renderMine (My exams' list, by kind), XG (gates and Already learnt), xaHomes, xaSwap, qDifOK / qDiff, EXSEC.ord, xaRng.
   Tests: the `worksheets: …` checks in tools/page_test.js (group worksheets), and the sweep's worksheets-mine / worksheets-setup tabs.
 
+## Final answers for written parts (26 Nov)
+The bank had a short answer only for multiple choice, so "Final answer" printed the working for written parts. Owner 26 Nov: "Lets run
+final answer trial, happy for you to do that". Trial: 50 parts, US$0.06; all 22 values and 14 expressions copied correctly; 7 proofs /
+sketches left blank; 3 describe / compare parts came out as long sentences. Owner on the full run (about US$10 for 8,596 parts): "yeah".
+- tools/final_answers.py reads each written part's worked solution with claude-sonnet-5-5 and COPIES its final answer (no new maths); a
+  proof, "show that", sketch, table to fill, or a describe / compare / explain / justify part gets none; points are given as coordinates.
+  Stored in solutions.meta_json: final, final_kind (value | expression | statement), final_by.
+- Exams' Paper with answers and worksheets' With answers (04_solutions.js solFinal, 20_exam.js xQ): Final answer prints "Answer: ..." for
+  a part that has one, else its working (counted in the info line); Both prints the answer line then the working; Worked is unchanged.
+
 ## Odd page counts everywhere (26 Nov)
 Owner, 26 Nov, verbatim: "Also for all output methods, there has to be an odd number of pages. Use intentional empty page if its not", and,
 clarifying, "I want the back page to be empty". Supersedes the 19 Nov rule (exam paper only) and the worksheet "no blank page" line above.
