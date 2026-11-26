@@ -106,7 +106,7 @@ def apply():
         if not row: continue
         m = json.loads(row[0] or '{}')
         for k in ('final', 'final_kind', 'final_by'): m.pop(k, None)
-        if r['kind'] in ('value', 'expression', 'statement') and r['final'].strip():
+        if r['kind'] in ('value', 'expression', 'statement', 'point') and r['final'].strip():
             m.update(final=r['final'].strip(), final_kind=r['kind'], final_by=MODEL + ' 26 Nov (read from the worked solution)'); n += 1
         c.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), r['sid']))
     c.commit(); print(f'{n} solutions now carry a final answer ({len(items)} read)')
