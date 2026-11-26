@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % ground
+  \draw (33,325) -- (760,325);
+  % building
+  \draw (102,325) -- (102,18) -- (290,18) -- (290,325);
+  \draw (102,24) -- (290,24);
+  \draw (112,24) -- (112,325);
+  \draw (280,24) -- (280,325);
+  \foreach \c in {0,...,4} \foreach \r in {0,...,7}
+    \fill[black!65] ({115+\c*33},{28+\r*30.5}) rectangle ++(29,27);
+  \draw (112,276) -- (280,276);
+  \foreach \i in {0,...,6} \fill[black!65] ({117+\i*8.5},284) rectangle ++(5,41);
+  \foreach \i in {0,...,6} \fill[black!65] ({221+\i*8.5},284) rectangle ++(5,41);
+  \draw (179,292) rectangle (212,325);
+  \fill[black!45] (182,296) rectangle (194,325);
+  \fill[black!45] (197,296) rectangle (209,325);
+  % dimension
+  \draw (45,18) -- (98,18);
+  \draw[->] (63,160) -- (63,18);
+  \draw[->] (63,186) -- (63,325);
+  \node[fill=none,inner sep=1pt] at (63,173) {30 m};
+  % sight line
+  \draw[aux] (290,18) -- (652,325);
+  % tree
+  \fill[black!55] (650,325) -- (648,285) -- (632,268) -- (646,274) -- (649,255) -- (655,255) -- (657,274) -- (672,262) -- (659,287) -- (656,325) -- cycle;
+  \fill[black!55] plot[smooth cycle,tension=0.6] coordinates {(598,240) (588,222) (600,212) (596,198) (612,196) (618,178) (632,180) (640,165) (652,172) (660,158) (668,175) (684,172) (688,188) (702,196) (696,210) (710,225) (700,236) (706,250) (690,256) (684,270) (668,264) (655,272) (642,264) (628,270) (622,256) (606,256)};
+  \node[align=center,font=\small] at (712,64) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

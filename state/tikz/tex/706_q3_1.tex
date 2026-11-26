@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (L) at (45,182);
+\coordinate (R) at (392,182);
+\coordinate (T) at (170,15);
+\draw (L)--(R)--(T)--cycle;
+\draw ($(T)!6pt!(L)$) -- ($($(T)!6pt!(L)$)+($(T)!6pt!(R)$)-(T)$) -- ($(T)!6pt!(R)$);
+\node at (99,80) {$8$};
+\node at (102,163) {$30^\circ$};
+\node at (216,207) {$x$};
+\node[align=center] at (490,75) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

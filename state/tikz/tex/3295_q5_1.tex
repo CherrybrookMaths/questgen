@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \foreach \x in {68,124,180,236,292,348,404,460} \draw[black!25, line width=0.4pt] (\x,423) -- (\x,30);
+  \foreach \y in {30,69.3,108.6,147.9,187.2,226.5,265.8,305.1,344.4,383.7} \draw[black!25, line width=0.4pt] (10,\y) -- (460,\y);
+  \draw[->] (10,423) -- (10,5);
+  \draw[->] (10,423) -- (487,423);
+  \foreach \x in {68,124,180,236,292,348,404,460} \draw (\x,417) -- (\x,429);
+  \foreach \y in {30,69.3,108.6,147.9,187.2,226.5,265.8,305.1,344.4,383.7} \draw (4,\y) -- (16,\y);
+  \foreach \p in {(38,69.3),(78,108.6),(140,69.3),(190,187.2),(235,147.9),(280,187.2),(318,305.1),(370,187.2),(370,265.8),(414,226.5),(414,344.4),(459,383.7)}
+    \fill \p circle[radius=4];
+\end{tikzpicture}
+\end{document}

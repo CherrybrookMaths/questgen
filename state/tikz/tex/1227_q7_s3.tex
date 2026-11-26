@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\Large]
+\node (B) at (180,55) {$B$}; \node (A) at (180,262) {$A$}; \node (H) at (485,262) {$H$};
+\node (C) at (720,262) {$C$}; \node (D) at (905,262) {$D$}; \node (E) at (1075,262) {$E$};
+\node (F) at (180,470) {$F$}; \node (G) at (485,470) {$G$};
+\draw (B)--(A); \draw (A)--(F); \draw (A)--(H)--(C)--(D)--(E); \draw (H)--(G);
+\node[left] at (175,155) {19}; \node[left] at (175,368) {39}; \node[left] at (480,368) {15};
+\node[above] at (332,262) {11}; \node[above] at (602,262) {21}; \node[above] at (812,262) {30}; \node[above] at (990,262) {13};
+\node[anchor=base west] at (65,600) {length $=19+39+11+15+21+30+13=148$ m};
+\end{tikzpicture}
+\end{document}

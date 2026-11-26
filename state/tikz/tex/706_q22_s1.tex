@@ -1,0 +1,31 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\X#1{90+1.075*#1}
+  \def\Y#1{620-0.0705*#1}
+  % light grid
+  \foreach \i in {100,200,...,1000} \draw[black!25,line width=0.4pt] ({\X{\i}},{\Y{0}}) -- ({\X{\i}},{\Y{8200}});
+  \foreach \j in {1000,2000,...,8000} \draw[black!25,line width=0.4pt] ({\X{0}},{\Y{\j}}) -- ({\X{1050}},{\Y{\j}});
+  % axes
+  \draw[->] ({\X{0}},{\Y{0}}) -- ({\X{1100}},{\Y{0}}) node[anchor=west,font=\Large] {$k$};
+  \draw[->] ({\X{0}},{\Y{0}}) -- ({\X{0}},{\Y{8600}}) node[anchor=south,font=\Large] {$C$};
+  \foreach \i in {100,200,...,1000} {\draw ({\X{\i}},{\Y{0}}) -- ++(0,6); \node[font=\scriptsize,anchor=north,inner sep=1pt] at ({\X{\i}},{\Y{0}+9}) {\i};}
+  \node[font=\scriptsize,anchor=north east,inner sep=1pt] at ({\X{0}-5},{\Y{0}+9}) {0};
+  \foreach \j in {1000,2000,...,8000} {\draw ({\X{0}},{\Y{\j}}) -- ++(-6,0); \node[font=\scriptsize,anchor=east,inner sep=1pt] at ({\X{0}-10},{\Y{\j}}) {\j};}
+  \node[rotate=90] at (8,{\Y{4000}}) {Dollars (\$)};
+  \node at ({\X{500}},{\Y{0}+70}) {Travel kits};
+  % lines
+  \draw[line width=0.9pt] ({\X{0}},{\Y{0}}) -- ({\X{1040}},{\Y{7280}});
+  \draw[line width=0.9pt] ({\X{0}},{\Y{1000}}) -- ({\X{1040}},{\Y{6200}});
+  \draw[aux,line width=0.9pt] ({\X{0}},{\Y{1050}}) -- ({\X{1040}},{\Y{6510}});
+  % points
+  \foreach \p/\q in {0/0,0/1000,0/1050,500/3500,600/4200,1000/7000,1000/6000,1000/6300}
+    \fill ({\X{\p}},{\Y{\q}}) circle (4.5);
+  % labels
+  \node[anchor=west] at ({\X{1040}+6},{\Y{7280}}) {Income};
+  \node[anchor=north west] at ({\X{1040}+4},{\Y{6200}+4}) {Cost};
+  \node (ic) at ({\X{820}},{\Y{7900}}) {increased cost};
+  \draw[->] (ic.south) ++(30,2) to[out=-80,in=135] ({\X{960}},{\Y{6090}-5});
+\end{tikzpicture}
+\end{document}

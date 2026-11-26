@@ -1,0 +1,26 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\X#1{190+60.7*#1}
+  \def\Y#1{488-1.9*#1}
+  % grid
+  \foreach \i in {1,...,9} \draw[black!25,line width=0.4pt] ({\X{\i}},{\Y{0}}) -- ({\X{\i}},{\Y{200}});
+  \foreach \j in {20,40,...,200} \draw[black!25,line width=0.4pt] ({\X{0}},{\Y{\j}}) -- ({\X{10}},{\Y{\j}});
+  \draw[black!45,line width=0.6pt] ({\X{10}},{\Y{0}}) -- ({\X{10}},{\Y{200}});
+  % axes
+  \draw ({\X{0}},{\Y{200}}) -- ({\X{0}},{\Y{0}}) -- ({\X{10}},{\Y{0}});
+  \foreach \i in {0,...,10} {\draw ({\X{\i}},{\Y{0}}) -- ++(0,8); \node[anchor=north,inner sep=1pt] at ({\X{\i}},{\Y{0}+12}) {\i};}
+  \foreach \j in {0,40,...,200} {\draw ({\X{0}},{\Y{\j}}) -- ++(-8,0); \node[anchor=east,inner sep=1pt] at ({\X{0}-12},{\Y{\j}}) {\j};}
+  \foreach \j in {20,60,...,180} \draw ({\X{0}},{\Y{\j}}) -- ++(-5,0);
+  % lines
+  \draw[line width=0.9pt] ({\X{0}},{\Y{0}}) -- ({\X{10}},{\Y{200}});
+  \draw[line width=0.9pt] ({\X{0}},{\Y{40}}) -- ({\X{10}},{\Y{140}});
+  \node[anchor=west,font=\small] at ({\X{10}+6},{\Y{200}+5}) {$I = 20x$};
+  \node[anchor=west,font=\small] at ({\X{10}+6},{\Y{140}}) {$C = 40 + 10x$};
+  % titles
+  \node[font=\small] at ({\X{5}},55) {\bfseries Planned income and costs for Ashley's business};
+  \node[align=center] at (55,310) {Amount\\(\$)};
+  \node at ({\X{5}},572) {Number of frames ($x$)};
+\end{tikzpicture}
+\end{document}

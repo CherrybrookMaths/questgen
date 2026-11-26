@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \i in {2,4,6,8,12,14,16,18,22,24,26,28,32,34,36,38,42,44,46,48,52}{\pgfmathsetmacro\xx{80+\i*10.76}\draw[black!25,line width=0.4pt] (\xx,460) -- (\xx,77);}
+  \foreach \j in {10,20,30,40,60,70,80,90,110,120,130,140,160,170}{\pgfmathsetmacro\yy{460-\j*2.25}\draw[black!25,line width=0.4pt] (80,\yy) -- (640,\yy);}
+  \foreach \i in {10,20,...,50}{\pgfmathsetmacro\xx{80+\i*10.76}\draw[black!50,line width=0.5pt] (\xx,460) -- (\xx,77);}
+  \foreach \j in {50,100,150}{\pgfmathsetmacro\yy{460-\j*2.25}\draw[black!50,line width=0.5pt] (80,\yy) -- (640,\yy);}
+  \draw[->] (80,460) -- (678,460);
+  \draw[->] (80,460) -- (80,45);
+  \foreach \i in {2,4,...,52}{\pgfmathsetmacro\xx{80+\i*10.76}\draw (\xx,460) -- (\xx,468);}
+  \foreach \j in {10,20,...,170}{\pgfmathsetmacro\yy{460-\j*2.25}\draw (80,\yy) -- (72,\yy);}
+  \draw (80,460) circle (8);
+  \foreach \i in {10,20,...,50}{\pgfmathsetmacro\xx{80+\i*10.76}\node[anchor=north,inner sep=0pt] at (\xx,483) {$\i$};}
+  \foreach \j in {50,100,150}{\pgfmathsetmacro\yy{460-\j*2.25}\node[anchor=east,inner sep=0pt] at (60,\yy) {$\j$};}
+  \node at (693,460) {$x$};
+  \node at (78,22) {$y$};
+  \foreach \p in {(96,106),(110,96),(113,207),(137,207),(148,148),(162,227),(167,237),(176,223),(182,171),(194,120),(195,220),(200,156),(200,201),(206,208),(236,238),(244,124),(259,212),(266,152),(271,125),(275,128),(300,165),(302,283),(335,223),(337,231),(343,152),(344,306),(350,185),(362,277),(388,188),(389,257),(406,239),(408,191),(414,193),(420,206),(445,200),(489,258),(497,228),(498,244),(499,290),(525,237),(520,274),(526,273),(544,290),(555,364),(560,382),(580,365),(594,373),(616,371),(618,390),(627,307)}
+    \draw[fill=black!35] \p circle (4.5);
+\end{tikzpicture}
+\end{document}

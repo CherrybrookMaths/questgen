@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\u{30.727}
+  % axis
+  \draw (22,236) -- (698,236);
+  \foreach \v in {12,14,...,34}{
+    \pgfmathsetmacro\xx{22+(\v-12)*\u}
+    \draw (\xx,229) -- (\xx,243);
+    \node[anchor=north,inner sep=0pt] at (\xx,259) {$\v$};
+  }
+  \begin{scope}[line width=0.9pt]
+    \pgfmathsetmacro\a{22+(13-12)*\u}\pgfmathsetmacro\b{22+(18-12)*\u}\pgfmathsetmacro\m{22+(21-12)*\u}
+    \pgfmathsetmacro\c{22+(26-12)*\u}\pgfmathsetmacro\d{22+(30-12)*\u}
+    \draw (\a,30) -- (\a,62); \draw (\d,30) -- (\d,62);
+    \draw (\a,46) -- (\b,46); \draw (\c,46) -- (\d,46);
+    \draw (\b,13) rectangle (\c,76); \draw (\m,13) -- (\m,76);
+    \pgfmathsetmacro\a{22+(17-12)*\u}\pgfmathsetmacro\b{22+(22-12)*\u}\pgfmathsetmacro\m{22+(24-12)*\u}
+    \pgfmathsetmacro\c{22+(30-12)*\u}\pgfmathsetmacro\d{22+(33-12)*\u}
+    \draw (\a,157) -- (\a,189); \draw (\d,157) -- (\d,189);
+    \draw (\a,173) -- (\b,173); \draw (\c,173) -- (\d,173);
+    \draw (\b,141) rectangle (\c,205); \draw (\m,141) -- (\m,205);
+  \end{scope}
+  \node at (738,46) {Test $A$};
+  \node at (738,173) {Test $B$};
+\end{tikzpicture}
+\end{document}

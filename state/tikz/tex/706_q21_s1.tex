@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\X#1{130+77*#1}
+  \def\Y#1{548-0.372*#1}
+  % light grid
+  \foreach \i in {1,...,8} \draw[black!25,line width=0.4pt] ({\X{\i}},{\Y{0}}) -- ({\X{\i}},{\Y{1450}});
+  \foreach \j in {200,400,...,1400} \draw[black!25,line width=0.4pt] ({\X{0}},{\Y{\j}}) -- ({\X{8.2}},{\Y{\j}});
+  % axes
+  \draw[->] ({\X{0}},{\Y{0}}) -- ({\X{8.5}},{\Y{0}}) node[anchor=west,font=\Large] {$r$};
+  \draw[->] ({\X{0}},{\Y{0}}) -- ({\X{0}},{\Y{1500}}) node[anchor=south,font=\Large] {$c$};
+  \foreach \i in {1,...,8} {\draw ({\X{\i}},{\Y{0}}) -- ++(0,6); \node[font=\scriptsize,anchor=north,inner sep=1pt] at ({\X{\i}},{\Y{0}+9}) {\i};}
+  \node[font=\scriptsize,anchor=north east,inner sep=1pt] at ({\X{0}-5},{\Y{0}+9}) {0};
+  \foreach \j in {200,400,...,1400} {\draw ({\X{0}},{\Y{\j}}) -- ++(-6,0); \node[font=\scriptsize,anchor=east,inner sep=1pt] at ({\X{0}-10},{\Y{\j}}) {\j};}
+  % graph
+  \draw[line width=0.9pt] ({\X{0}},{\Y{100}}) -- ({\X{8}},{\Y{1300}});
+  \fill ({\X{0}},{\Y{100}}) circle (5);
+  \fill ({\X{8}},{\Y{1300}}) circle (5);
+  \node[anchor=east,font=\large] at ({\X{0}-38},{\Y{100}}) {$(0,100)$};
+  \node[anchor=west,font=\large] at ({\X{8}+12},{\Y{1300}}) {$(8,1300)$};
+\end{tikzpicture}
+\end{document}

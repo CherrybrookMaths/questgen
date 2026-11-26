@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \i in {2,4,6,8,10} \draw[black!20] ({47+52.6*\i},{330-30*10.6}) -- ({47+52.6*\i},330);
+\draw[black!20] (47,{330-30*10.6}) -- (47,330);
+\foreach \j in {2,4,6,8,10} \draw[black!20] (40,{330-30*\j}) -- ({47+52.6*10.5},{330-30*\j});
+\draw[black!45] (40,330) -- ({47+52.6*10.5},330);
+\foreach \i in {0,2,4,6,8,10} \node[font=\scriptsize] at ({47+52.6*\i},350) {$\i$};
+\foreach \j in {0,2,4,6,8,10} \node[font=\scriptsize,anchor=east] at (36,{330-30*\j}) {$\j$};
+\foreach \p/\q in {1/7,2/10,3/9,4/6,5/3,6/5,7/2,8/4,9/3,10/1}
+  \fill ({47+52.6*\p},{330-30*\q}) circle[radius=4.5];
+\end{tikzpicture}
+\end{document}

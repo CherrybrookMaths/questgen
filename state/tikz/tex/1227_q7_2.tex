@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+\coordinate (A) at (57,165); \coordinate (B) at (232,48); \coordinate (C) at (466,107);
+\coordinate (H) at (348,165); \coordinate (D) at (582,225); \coordinate (G) at (290,283);
+\coordinate (F) at (116,398); \coordinate (E) at (582,398);
+\draw (A)--(B)--(C)--(D)--(E)--(F)--cycle;
+\draw (A)--(H)--(C); \draw (H)--(G); \draw (A)--(G)--(E); \draw (G)--(D); \draw (F)--(G);
+\node at (35,160) {$A$}; \node at (210,38) {$B$}; \node at (481,94) {$C$}; \node at (378,180) {$H$};
+\node at (601,222) {$D$}; \node at (292,310) {$G$}; \node at (95,425) {$F$}; \node at (601,400) {$E$};
+\node at (135,90) {19}; \node at (375,62) {25}; \node at (430,150) {21}; \node at (543,145) {30};
+\node at (240,188) {11}; \node at (350,228) {15}; \node at (158,254) {16}; \node at (478,268) {33};
+\node at (60,285) {39}; \node at (601,305) {13}; \node at (225,350) {40}; \node at (398,350) {37};
+\node at (343,415) {57};
+\end{tikzpicture}
+\end{document}

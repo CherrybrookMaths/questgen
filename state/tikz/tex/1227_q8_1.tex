@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(45,540)},xscale=24.92,yscale=-10.25]
+\foreach \i in {1,...,24}{\pgfmathtruncatemacro\r{mod(\i,5)}\ifnum\r=0\else\draw[black!20,line width=0.6pt] (\i,0)--(\i,40);\fi}
+\foreach \j in {1,...,39}{\pgfmathtruncatemacro\r{mod(\j,8)}\ifnum\r=0\else\draw[black!20,line width=0.6pt] (0,\j)--(25,\j);\fi}
+\foreach \i in {5,10,15,20,25}{\draw[black!45,line width=0.6pt] (\i,0)--(\i,40);}
+\foreach \j in {8,16,24,32,40}{\draw[black!45,line width=0.6pt] (0,\j)--(25,\j);}
+\end{scope}
+\draw[->] (43,540)--(43,105);
+\draw[->] (43,540)--(712,540);
+\node[font=\LARGE] at (40,28) {\textit{\$}};
+\node[font=\LARGE] at (742,538) {$b$};
+\end{tikzpicture}
+\end{document}

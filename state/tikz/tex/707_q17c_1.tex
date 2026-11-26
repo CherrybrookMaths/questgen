@@ -1,0 +1,20 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (S) at (196,38); \coordinate (T) at (196,113); \coordinate (U) at (42,153);
+  \coordinate (R) at (233,268); \coordinate (P) at (388,113); \coordinate (Q) at (585,113);
+  \draw (S) -- (P); \draw (U) -- (T); \draw (T) -- (R); \draw (U) -- (R); \draw (R) -- (P);
+  \draw (S) .. controls (60,25) and (-5,95) .. (U);
+  \draw (S) .. controls (240,45) and (240,105) .. (T);
+  \draw (P) .. controls (440,70) and (560,50) .. (Q);
+  \draw (R) .. controls (330,275) and (430,260) .. (480,215) .. controls (530,170) and (560,140) .. (Q);
+  \foreach \v in {S,T,U,R,P,Q} \fill (\v) circle (3.5);
+  \node at (215,15) {$S$}; \node at (178,96) {$T$}; \node at (16,157) {$U$};
+  \node at (218,287) {$R$}; \node at (410,121) {$P$}; \node at (608,120) {$Q$};
+  \node at (58,38) {$12$}; \node at (300,52) {$10$}; \node at (252,92) {$11$};
+  \node at (120,152) {$8$}; \node at (230,177) {$7$}; \node at (112,222) {$9$};
+  \node at (337,198) {$12$}; \node at (512,55) {$11$}; \node at (490,238) {$15$};
+  \node at (383,76) {Start}; \node at (412,157) {Finish};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,11 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw[<->] (52,60)--(52,495);
+\draw[->] (52,213)--(555,213);
+\node at (46,24) {\LARGE$y$};
+\node[anchor=west] at (562,211) {\LARGE$x$};
+\draw[<->, line width=0.9pt] plot[smooth, samples=90, domain=2.303:5.63, variable=\s] ({55.4+4910/exp(\s)}, {213+exp(\s)});
+\end{tikzpicture}
+\end{document}

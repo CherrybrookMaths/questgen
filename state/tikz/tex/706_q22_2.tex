@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \def\X#1{50+1.057*#1}
+  \def\Y#1{595-0.0705*#1}
+  % minor grid
+  \foreach \i in {1,...,51} {\pgfmathtruncatemacro\m{mod(\i,5)}\ifnum\m=0\else
+    \draw[black!12,line width=0.4pt] ({\X{\i*20}},{\Y{0}}) -- ({\X{\i*20}},{\Y{8400}});\fi}
+  \foreach \j in {1,...,42} {\pgfmathtruncatemacro\m{mod(\j,5)}\ifnum\m=0\else
+    \draw[black!12,line width=0.4pt] ({\X{0}},{\Y{\j*200}}) -- ({\X{1030}},{\Y{\j*200}});\fi}
+  % major grid
+  \foreach \i in {100,200,...,1000} \draw[black!40,line width=0.6pt] ({\X{\i}},{\Y{0}}) -- ({\X{\i}},{\Y{8400}});
+  \foreach \j in {1000,2000,...,8000} \draw[black!40,line width=0.6pt] ({\X{0}},{\Y{\j}}) -- ({\X{1030}},{\Y{\j}});
+  % axes
+  \draw ({\X{0}},{\Y{8400}}) -- ({\X{0}},{\Y{0}}) -- ({\X{1030}},{\Y{0}});
+  \node[font=\scriptsize,inner sep=1pt] at ({\X{0}-40},{\Y{0}+16}) {0};
+  \foreach \i in {100,200,...,1000} \node[font=\scriptsize,inner sep=1pt] at ({\X{\i}+2},{\Y{0}+16}) {\i};
+  \foreach \j in {1000,2000,...,8000} \node[font=\scriptsize,anchor=east,inner sep=1pt] at ({\X{0}-10},{\Y{\j}}) {\j};
+\end{tikzpicture}
+\end{document}

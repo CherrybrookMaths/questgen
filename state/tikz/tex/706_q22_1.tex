@@ -1,0 +1,18 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % left table
+  \draw (10,18) rectangle (462,112);
+  \draw (10,65) -- (462,65);
+  \foreach \x in {228,306,384} \draw (\x,18) -- (\x,112);
+  \node[anchor=west] at (22,42) {Travel kits ($k$)};
+  \node[anchor=west] at (22,89) {Cost ($C$)\ \ \$};
+  % right table
+  \draw (633,6) rectangle (1093,102);
+  \draw (633,54) -- (1093,54);
+  \foreach \x in {850,928,1006} \draw (\x,6) -- (\x,102);
+  \node[anchor=west] at (647,30) {Travel kits ($k$)};
+  \node[anchor=west] at (647,78) {Income ($I$)\ \ \$};
+\end{tikzpicture}
+\end{document}

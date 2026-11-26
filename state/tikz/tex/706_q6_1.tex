@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (237,237);
+\coordinate (B) at (319,379);
+\draw[->] (237,390) -- (237,75);
+\draw (78,237) -- (420,237);
+\draw (A) -- (B);
+\draw[->] ($(A)+(0,-24)$) arc[start angle=-90, end angle=60, radius=24];
+\fill (A) circle (1.6pt);
+\fill (B) circle (1.6pt);
+\node[font=\small] at (237,55) {N};
+\node[font=\small] at (219,222) {$A$};
+\node[font=\small] at (334,385) {$B$};
+\node[font=\small] at (293,218) {$150^\circ$};
+\node[font=\small,align=center] at (544,222) {NOT TO\\SCALE};
+\end{tikzpicture}
+\end{document}

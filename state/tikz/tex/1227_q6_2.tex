@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (A) at (97,253); \coordinate (B) at (212,58); \coordinate (C) at (37,175);
+  \coordinate (D) at (410,58); \coordinate (E) at (290,253); \coordinate (F) at (478,175);
+  \draw (C)--(B)--(D)--(F)--(E)--(A)--(B)--(E)--(D);
+  \draw (C) .. controls (45,110) and (110,15) .. (240,15) .. controls (330,15) and (390,35) .. (D);
+  \node[font=\small] at (212,40) {$B$};
+  \node[font=\small] at (416,40) {$D$};
+  \node[font=\small] at (20,182) {$C$};
+  \node[font=\small] at (79,256) {$A$};
+  \node[font=\small] at (292,272) {$E$};
+  \node[font=\small] at (497,175) {$F$};
+\end{tikzpicture}
+\end{document}

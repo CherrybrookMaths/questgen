@@ -1,0 +1,34 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\large}]
+  \coordinate (A) at (80,45);
+  \coordinate (B) at (500,210);
+  \coordinate (C) at (245,465);
+  \draw (A) -- (B) -- (C) -- cycle;
+  % north arrows and south line at B
+  \draw[->] (B) -- (500,148);
+  \draw[->] (C) -- (245,400);
+  \draw[aux] (B) -- (500,335);
+  % bearing arcs (angles increase clockwise on the page)
+  \draw (B) ++(-90:30) arc[start angle=-90, end angle=135, radius=30];
+  \draw (C) ++(-90:30) arc[start angle=-90, end angle=248.55, radius=30];
+  % solution angles
+  \draw (B) ++(90:42) arc[start angle=90, end angle=135, radius=42];
+  \draw (C) ++(-90:42) arc[start angle=-90, end angle=-45, radius=42];
+  \draw (C) ++(-111.45:52) arc[start angle=-111.45, end angle=-90, radius=52];
+  \draw (A) ++(21.45:30) arc[start angle=21.45, end angle=68.55, radius=30];
+  \node at (121,86) {$\alpha$};
+  \node at (471,305) {$35^\circ$};
+  \node at (284,380) {$35^\circ$};
+  \node at (232,350) {$11^\circ$};
+  % labels
+  \node at (50,22) {$A$};
+  \node at (546,180) {$B$};
+  \node at (200,467) {$C$};
+  \node at (310,88) {54 km};
+  \node at (440,355) {51 km};
+  \node at (563,242) {$215^\circ$};
+  \node at (255,518) {$349^\circ$};
+\end{tikzpicture}
+\end{document}

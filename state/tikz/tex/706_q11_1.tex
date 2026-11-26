@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\scriptsize]
+\coordinate (Y) at (153,45); \coordinate (U) at (35,155); \coordinate (G) at (270,190);
+\coordinate (Ba) at (375,163); \coordinate (R) at (157,333);
+\draw plot[smooth,tension=0.6] coordinates {(153,45) (120,52) (85,70) (70,95) (88,115) (95,128) (75,133) (45,138) (30,148) (35,155)};
+\draw plot[smooth,tension=0.6] coordinates {(35,155) (40,163) (52,166) (70,200) (95,250) (125,300) (157,333)};
+\draw plot[smooth,tension=0.6] coordinates {(157,333) (185,345) (215,335) (238,290) (250,240) (270,190)};
+\draw plot[smooth,tension=0.6] coordinates {(153,45) (172,80) (182,120) (185,165) (200,192) (222,188) (238,162) (255,160) (270,190)};
+\draw plot[smooth,tension=0.6] coordinates {(270,190) (285,165) (297,160) (312,180) (330,215) (342,255) (360,288) (382,297) (400,288) (397,245) (388,210) (393,190) (375,163)};
+\draw plot[smooth,tension=0.6] coordinates {(153,45) (180,35) (215,37) (235,42) (245,52) (265,44) (300,50) (340,55) (360,72) (368,110) (375,163)};
+\foreach \p in {Y,U,G,Ba,R} \fill (\p) circle (3.2);
+\node at (100,22) {Yallingup}; \node at (32,82) {120 km}; \node at (380,47) {160 km};
+\node at (220,128) {118 km}; \node[anchor=west] at (50,155) {Ulawatu}; \node[anchor=west] at (383,163) {Bargara};
+\node at (198,207) {Angourie}; \node at (357,198) {45 km}; \node at (135,252) {100 km};
+\node at (280,290) {109 km}; \node at (88,340) {Black Rock};
+\end{tikzpicture}
+\end{document}

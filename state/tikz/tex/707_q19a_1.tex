@@ -1,0 +1,15 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (82,63); \coordinate (B) at (82,385); \coordinate (E) at (244,227);
+  \coordinate (D) at (716,227); \coordinate (C) at (503,435);
+  \draw (A) -- (B); \draw (A) -- (E); \draw (A) -- (D); \draw (E) -- (D);
+  \draw (E) -- (B); \draw (B) -- (D); \draw (B) -- (C); \draw (C) -- (D);
+  \foreach \v in {A,B,C,D,E} \fill (\v) circle (5);
+  \begin{scope}[font=\Large]
+  \node at (55,38) {$A$}; \node at (45,408) {$B$}; \node at (275,262) {$E$};
+  \node at (762,232) {$D$}; \node at (528,483) {$C$};
+  \end{scope}
+\end{tikzpicture}
+\end{document}

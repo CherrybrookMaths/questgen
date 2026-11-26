@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (B1) at (435,85); \coordinate (T1) at (703,98); \coordinate (B2) at (148,237);
+\coordinate (L) at (430,255); \coordinate (T2) at (300,460); \coordinate (TV) at (605,462);
+\draw (B1)--(T1) (B1)--(L) (B2)--(L) (L)--(T2) (L)--(TV);
+\foreach \p in {B1,T1,B2,L,T2,TV} \fill (\p) circle (3);
+\node at (445,30) {Bedroom 1}; \node at (773,60) {Bathroom 1}; \node at (92,197) {Bedroom 2};
+\node[anchor=west] at (470,258) {Lounge}; \node at (298,495) {Bathroom 2}; \node[anchor=west] at (632,466) {TV room};
+\end{tikzpicture}
+\end{document}

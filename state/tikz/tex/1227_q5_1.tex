@@ -1,0 +1,28 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,
+  route/.style={black!45, line width=0.6pt, postaction={decorate}, decoration={markings, mark=at position 0.5 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}]
+\coordinate (S) at (55,245); \coordinate (P) at (322,42); \coordinate (Q) at (195,437);
+\coordinate (R) at (522,373); \coordinate (T) at (718,178); \coordinate (U) at (785,110); \coordinate (E) at (848,240);
+% grey travel route
+\draw[route] (64,250)--(198,452);
+\draw[route] (204,452)--(345,56);
+\draw[route] (345,56)--(533,372);
+\draw[route] (533,372)--(718,160);
+\draw[route] (718,160)--(852,226);
+\draw[route] (852,226)--(795,93);
+\draw[route] (795,93)--(320,27);
+\draw[route] (320,27)--(45,234);
+\draw[route] (45,236) .. controls (0,330) and (60,462) .. (198,464);
+\draw[route] (198,464)--(530,385);
+\draw[route] (540,384)--(866,253);
+% network
+\draw[line join=round] (S)--(P)--(U)--(E)--(T)--(R)--(E);
+\draw (S)--(Q)--(P)--(R)--(Q);
+\fill (S) circle (5.5);
+\fill (866,253) circle (5.5);
+\node[anchor=west] at (86,243) {\Large Start};
+\node[anchor=west] at (872,255) {\Large End};
+\end{tikzpicture}
+\end{document}

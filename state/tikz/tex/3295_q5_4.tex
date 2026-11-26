@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  % light grey grid
+  \foreach \yy in {30,68.8,107.6,146.4,185.2,224,262.8,301.6,340.4,379.2}
+    \draw[line width=0.4pt, black!30] (10,\yy) -- (476,\yy);
+  \foreach \xx in {95,147,198,250,302,354,406,458}
+    \draw[line width=0.4pt, black!30] (\xx,30) -- (\xx,418);
+  % axes
+  \draw[->] (10,418) -- (10,8);
+  \draw (10,418) -- (26,418) -- (31,412) -- (37,424) -- (42,418);
+  \draw[->] (42,418) -- (495,418);
+  \foreach \yy in {30,68.8,107.6,146.4,185.2,224,262.8,301.6,340.4,379.2}
+    \draw (4,\yy) -- (10,\yy);
+  \foreach \xx in {95,147,198,250,302,354,406,458}
+    \draw (\xx,418) -- (\xx,424);
+  % points
+  \foreach \p in {(33,46),(25,105),(155,47),(95,113),(74,183),(166,175),(235,213),(204,270),(66,293),(116,365),(253,377),(303,106),(437,147),(376,238),(334,295),(409,366),(432,390),(465,336)}
+    \node[pt, inner sep=1.4pt] at \p {};
+\end{tikzpicture}
+\end{document}

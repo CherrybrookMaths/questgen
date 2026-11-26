@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (Dt) at (628,52); \coordinate (Eb) at (668,132); \coordinate (Ah) at (235,132);
+  \coordinate (Cp) at (435,172); \coordinate (Bt) at (158,292); \coordinate (Fv) at (787,290);
+  \draw plot[smooth,tension=0.6] coordinates {(235,132) (195,170) (166,220) (154,262) (158,292)};
+  \draw plot[smooth,tension=0.6] coordinates {(235,132) (290,123) (342,119) (395,133) (435,172)};
+  \draw plot[smooth,tension=0.6] coordinates {(435,172) (472,140) (525,104) (585,74) (628,52)};
+  \draw plot[smooth,tension=0.6] coordinates {(435,172) (485,179) (535,176) (600,155) (668,132)};
+  \draw plot[smooth,tension=0.6] coordinates {(435,172) (412,212) (375,240) (315,266) (245,284) (158,292)};
+  \draw plot[smooth,tension=0.6] coordinates {(158,292) (225,321) (330,341) (450,344) (600,328) (720,309) (787,290)};
+  \draw plot[smooth,tension=0.6] coordinates {(668,132) (705,200) (745,255) (787,290)};
+  \draw (Dt)--(Eb);
+  \foreach \p in {Dt,Eb,Ah,Cp,Bt,Fv} \fill (\p) circle[radius=4.5];
+  \node[font=\bfseries] at (600,25) {Downtown};
+  \node[font=\bfseries] at (165,105) {Avian Hill};
+  \node[font=\bfseries,anchor=west] at (678,139) {Eagle Bluff};
+  \node[font=\bfseries] at (532,208) {Charter Point};
+  \node[font=\bfseries] at (93,313) {Beachtown};
+  \node[font=\bfseries] at (855,318) {Flints Vale};
+  \node[align=center] at (850,46) {NOT TO\\SCALE};
+  \node at (135,195) {4 km};
+  \node at (330,93) {3 km};
+  \node at (492,85) {7 km};
+  \node at (556,135) {5 km};
+  \node at (695,83) {1 km};
+  \node at (775,212) {4 km};
+  \node at (283,243) {8 km};
+  \node at (480,372) {12 km};
+\end{tikzpicture}
+\end{document}

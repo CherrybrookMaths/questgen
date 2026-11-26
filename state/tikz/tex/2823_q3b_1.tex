@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % grid: 1 hour = 102.4 px, 50 boxes = 38.5 px; origin (103,289)
+  \foreach \i in {1,...,6} \draw (103,{289-38.5*\i}) -- (615,{289-38.5*\i});
+  \foreach \i in {1,...,4} \draw ({103+102.4*\i},58) -- ({103+102.4*\i},289);
+  \draw (103,58) rectangle (615,289);
+  \draw[line width=0.9pt] (103,58) -- (512.6,289);
+  \foreach \i in {0,...,5} \node[font=\scriptsize] at ({103+102.4*\i},308) {\i};
+  \foreach \v [count=\i] in {50,100,...,300} \node[anchor=east,font=\scriptsize] at (97,{289-38.5*\i}) {\v};
+  \node[font=\scriptsize\bfseries] at (370,33) {Number of boxes left to pack};
+  \node[font=\scriptsize\bfseries] at (368,355) {Time (\textit{t} hours)};
+  \node[font=\scriptsize\bfseries,rotate=90] at (42,188) {Number of boxes (\textit{N})};
+\end{tikzpicture}
+\end{document}

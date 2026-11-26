@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \k in {-10,...,10}{\draw[black!22] ({380+32.5*\k},70)--({380+32.5*\k},400);}
+\foreach \k in {-10,...,10}{\draw[black!22] (55,{235-16.5*\k})--(705,{235-16.5*\k});}
+\draw[<->] (15,235)--(748,235);
+\draw[<->] (380,45)--(380,418);
+\foreach \k in {-10,...,10}{\ifnum\k=0\else \draw ({380+32.5*\k},229)--({380+32.5*\k},241);\fi}
+\foreach \k in {-10,...,10}{\ifnum\k=0\else \draw (374,{235-16.5*\k})--(386,{235-16.5*\k});\fi}
+\foreach \v in {-4,-2,4} \node[anchor=north] at ({380+65*\v},246) {$\v$};
+\node[anchor=south] at (512,224) {$2$};
+\foreach \v in {-4,-2,2} \node[anchor=east] at (368,{235-33*\v}) {$\v$};
+\node[anchor=west] at (391,103) {$4$};
+\node[anchor=north east] at (375,240) {$O$};
+\node[anchor=west] at (755,235) {\large$x$};
+\node[anchor=south] at (380,33) {\large$y$};
+% Line A: y=-2x+3 ; Line B: y=x-3
+\draw[<->, line width=0.9pt] (297,52)--(662,422);
+\draw[<->, line width=0.9pt] (212,419)--(750,146);
+\end{tikzpicture}
+\end{document}

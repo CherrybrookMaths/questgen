@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\large}]
+  \coordinate (A) at (68,60);
+  \coordinate (B) at (498,230);
+  \coordinate (C) at (243,488);
+  \draw (A) -- (B) -- (C) -- cycle;
+  % north arrows
+  \draw[->] (B) -- (498,150);
+  \draw[->] (C) -- (243,406);
+  % bearing arcs (angles increase clockwise on the page)
+  \draw (B) ++(-90:33) arc[start angle=-90, end angle=134.67, radius=33];
+  \draw (C) ++(-90:34) arc[start angle=-90, end angle=247.76, radius=34];
+  % labels
+  \node at (46,42) {$A$};
+  \node at (543,202) {$B$};
+  \node at (192,488) {$C$};
+  \node at (303,106) {54 km};
+  \node at (433,373) {51 km};
+  \node at (564,270) {$215^\circ$};
+  \node at (250,540) {$349^\circ$};
+\end{tikzpicture}
+\end{document}

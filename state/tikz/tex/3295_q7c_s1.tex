@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm, font=\large]
+  \coordinate (A) at (20,428); \coordinate (B) at (523,428);
+  \coordinate (T) at (523,40); \coordinate (M) at (523,218);
+  \draw (A) -- (B) -- (T) -- cycle;
+  \draw (A) -- (M);
+  \draw (B) ++(-18,0) -- ++(0,-18) -- ++(18,0);
+  \draw[->] plot[domain=0:37.6, smooth, samples=30] ({20+125*cos(\x)},{428-125*sin(\x)});
+  \draw[->] plot[domain=0:22.7, smooth, samples=30] ({20+152*cos(\x)},{428-152*sin(\x)});
+  \node at (184,340) {$40^\circ$};
+  \node at (238,402) {$25^\circ$};
+  \node at (562,135) {$2$};
+  \node at (562,315) {$1$};
+\end{tikzpicture}
+\end{document}

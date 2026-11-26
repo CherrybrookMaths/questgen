@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (78,330) -- (78,735) -- (755,735) -- (755,150);
+\draw (305,420) -- (305,735) (530,283) -- (530,735);
+\draw plot[smooth,tension=0.6] coordinates {(78,330) (120,370) (180,405) (250,425) (305,420) (370,397) (450,370) (500,330) (530,283) (593,255) (633,240) (673,203) (713,162) (755,150)};
+\draw plot[smooth,tension=0.6] coordinates {(80,195) (150,255) (230,300) (300,285) (380,283) (430,255) (480,200) (520,150) (580,128) (640,112) (700,68) (750,22)};
+\foreach \x in {78,305,530} \draw (\x,702) -- (\x+33,702) -- (\x+33,735);
+\foreach \x in {190,416,641} \draw (\x-3,723) -- (\x-3,747) (\x+3,723) -- (\x+3,747);
+\node at (330,337) {\large Creek};
+\node at (420,788) {\large Road};
+\node at (46,740) {\large A};
+\node at (780,733) {\large B};
+\node[align=left,anchor=west] at (851,338) {SCALE\\[-3pt]DIAGRAM};
+\end{tikzpicture}
+\end{document}

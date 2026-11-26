@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{v/.style={circle,fill,inner sep=2pt}, o/.style={font=\small}}
+\coordinate (A) at (105,153); \coordinate (E) at (585,42); \coordinate (D) at (350,215);
+\coordinate (H) at (598,253); \coordinate (C) at (237,339); \coordinate (G) at (725,371);
+\coordinate (B) at (68,415); \coordinate (F) at (491,416);
+\draw[aux] (A)--(E) (A)--(C) (C)--(F) (B)--(F) (H)--(F);
+\draw[line width=0.9pt] (A)--(D) (D)--(E) (D)--(H) (H)--(G) (G)--(F) (C)--(D) (B)--(C);
+\foreach \p in {A,B,C,D,E,F,G,H} \node[v] at (\p) {};
+\node at (69,152) {$A$}; \node at (614,42) {$E$}; \node at (360,247) {$D$}; \node at (627,232) {$H$};
+\node at (236,309) {$C$}; \node at (753,375) {$G$}; \node at (40,438) {$B$}; \node at (491,449) {$F$};
+\node at (325,70) {10}; \node at (258,170) {2}; \node at (493,140) {9}; \node at (484,206) {7};
+\node at (146,256) {3}; \node at (315,285) {4}; \node at (127,356) {4}; \node at (372,355) {8};
+\node at (514,322) {6}; \node at (686,289) {5}; \node at (622,423) {3}; \node at (262,446) {8};
+% Prim's order (from the solution)
+\node[o] at (115,118) {5}; \node[o] at (640,62) {8}; \node[o] at (387,250) {4}; \node[o] at (660,208) {1};
+\node[o] at (240,268) {6}; \node[o] at (750,345) {2}; \node[o] at (70,452) {7}; \node[o] at (505,470) {3};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \coordinate (O) at (333,153);
+  \coordinate (La) at (110,72); \coordinate (Bt) at (103,218); \coordinate (Po) at (205,293);
+  \coordinate (WC) at (332,293); \coordinate (Ga) at (432,308); \coordinate (Ba) at (500,263);
+  \coordinate (Bb) at (538,223); \coordinate (Li) at (497,142); \coordinate (WI) at (742,168);
+  \foreach \n in {La,Bt,Po,WC,Ga,Ba,Bb,Li} \draw (O) -- (\n);
+  \draw (Bb) -- (WI);
+  \foreach \n in {O,La,Bt,Po,WC,Ga,Ba,Bb,Li,WI} \fill (\n) circle (2.2pt);
+  \node[font=\large] at (395,112) {Leisure/study};
+  \node[font=\large] at (118,42) {Laundry};
+  \node[font=\large] at (95,175) {Bedroom 3};
+  \node[font=\large] at (160,325) {Portico};
+  \node[font=\large] at (335,325) {W.C.};
+  \node[font=\large] at (478,340) {Garage};
+  \node[font=\large] at (570,293) {Bathroom};
+  \node[font=\large] at (658,242) {Bedroom 2};
+  \node[font=\large] at (562,142) {Linen};
+  \node[font=\large] at (812,165) {W.I.R.};
+\end{tikzpicture}
+\end{document}

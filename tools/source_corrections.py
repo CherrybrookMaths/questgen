@@ -1023,3 +1023,25 @@ for sid, lat, crit, note, extra in C30:
     m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
     db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
 db.commit(); print('done C30 (s12)')
+
+# Standard batch s13 (26 Nov, found by the API verifier)
+C31 = [
+ (11992, [(r'+ \dfrac{160^2}{170} \\ &\approx 161 \text{ m}', r'+ \dfrac{160^2}{170} \\ &= 8.888\ldots + 150.588\ldots \\ &\approx 159 \text{ m}'),
+          ('the distance is actually about $161$ m', 'the distance is actually about $159$ m')], [],
+  r'the stopping distance at $160$ km/h was given as about $161$ m; $8.89+150.59=159.48\ldots\approx159$ m (the conclusion is unchanged)', None),
+ (11944, [(r'V &= 35\,760\times 0.030 \\ &= 1072.8 \text{ m}^3', r'V &= 35\,640\times 0.030 \\ &= 1069.2 \text{ m}^3'),
+          (r'V &= 1072.8 \text{ kL} \\ &= 1.0728 \text{ ML}', r'V &= 1069.2 \text{ kL} \\ &= 1.0692 \text{ ML}'),
+          (r'$$\therefore\ V = 1.0728 \text{ ML}$$', r'$$\therefore\ V \approx 1.07 \text{ ML}$$')], [],
+  r'part (iii) used an area of $35\,760$ m$^2$; part (i) gives $35\,640$ m$^2$, so $1069.2$ m$^3\approx1.07$ ML', None),
+ (11962, [(r'&= 42.7449\ldots \\', r'&= 42.7949\ldots \\')], [], r'$\sin^{-1}\left(\dfrac{51\sin46^\circ}{54}\right)$ was written $42.7449$; it is $42.7949$ ($43^\circ$ unchanged)', None),
+ (12019, [(r'y &= 53\tan 29^\circ 15' + "'" + r' = 29.68', r'y &= 53\tan 29^\circ 15' + "'" + r' = 29.6814\ldots'),
+          (r'z &= 53\tan 16^\circ 50' + "'" + r' = 16.04', r'z &= 53\tan 16^\circ 50' + "'" + r' = 16.0353\ldots'),
+          (r'h &= 29.68 - 16.04 \\ &= 13.64 \text{ m (2 d.p.)}', r'h &= 29.6814\ldots - 16.0353\ldots \\ &= 13.646\ldots \\ &\approx 13.65 \text{ m (2 d.p.)}')], [],
+  r'the alternative method rounded $y$ and $z$ early and ended at $13.64$ m; unrounded it gives $13.646\ldots\approx13.65$ m, as the main method', None),
+]
+for sid, lat, crit, note, extra in C31:
+    if db.execute("select 1 from solutions where id=? and meta_json like '%\"corrected\"%'", (sid,)).fetchone(): continue
+    apply(sid, lat, crit, note, extra)
+    m = json.loads(db.execute('select meta_json from solutions where id=?', (sid,)).fetchone()[0]); m['overwritten_from_source'] = m['corrected']
+    db.execute('update solutions set meta_json=? where id=?', (json.dumps(m, ensure_ascii=False), sid))
+db.commit(); print('done C31 (s13)')

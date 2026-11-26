@@ -1,0 +1,21 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  % origin (108,312.4); 1 min = 4.95 px; 1 km = 12.1 px
+  \draw[->] (108,312.4) -- (378,312.4);
+  \draw[->] (108,312.4) -- (108,4);
+  \foreach \v in {4,8,...,20} {\draw (102,{312.4-12.1*\v}) -- (108,{312.4-12.1*\v});
+    \node[anchor=east,font=\scriptsize\bfseries] at (99,{312.4-12.1*\v}) {\v};}
+  \foreach \v in {10,20,...,40} \draw ({108+4.95*\v},312.4) -- ({108+4.95*\v},318);
+  \foreach \v in {0,10,...,40} \node[anchor=north,font=\scriptsize\bfseries] at ({108+4.95*\v},322) {\v};
+  \draw[line width=0.9pt] (108,{312.4-12.1*4}) -- ({108+4.95*35},{312.4-12.1*18});
+  \draw[line width=0.9pt] (108,{312.4-12.1*16}) -- ({108+4.95*35},{312.4-12.1*9});
+  \foreach \t/\d in {35/18,35/9,20/12} \node[circle,fill,inner sep=0.9pt] at ({108+4.95*\t},{312.4-12.1*\d}) {};
+  \node[anchor=west,font=\scriptsize] at (286,93) {Alex};
+  \node[anchor=west,font=\scriptsize] at (286,203) {Bryan};
+  \node[anchor=west,font=\scriptsize] at (384,316) {$t$};
+  \node[font=\scriptsize] at (207,370) {Time (minutes)};
+  \node[font=\scriptsize,rotate=90] at (57,190) {Distance (km)};
+\end{tikzpicture}
+\end{document}

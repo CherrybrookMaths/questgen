@@ -1,0 +1,38 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \foreach \n/\x/\y in {Coo/296/38, Gir/522/76, Can/749/113, Cbg/145/265, Her/334/265, Nyn/560/265,
+      Mul/862/341, War/1127/304, Nym/145/453, Pan/371/453, Nev/976/491, Tot/673/567,
+      Tra/1089/604, Dan/862/680, Nar/1203/718}
+    \coordinate (\n) at (\x,\y);
+  \foreach \a/\b in {Coo/Gir, Gir/Can, Coo/Nyn, Gir/Her, Gir/Nyn, Can/Nyn, Can/Mul, Cbg/Her, Her/Nyn,
+      Nyn/Mul, Mul/War, Cbg/Nym, Her/Nym, Her/Pan, Nyn/Pan, Nyn/Tot, Nym/Pan, Pan/Tot, Mul/Nev,
+      War/Nev, Tot/Nev, Nev/Tra, War/Tra, War/Nar, Tot/Dan, Tra/Dan, Tra/Nar, Dan/Nar}
+    \draw[aux] (\a) -- (\b);
+  \foreach \n in {Coo,Gir,Can,Cbg,Her,Nyn,Mul,War,Nym,Pan,Nev,Tot,Tra,Dan,Nar}
+    \node[pt] at (\n) {};
+  % weights
+  \foreach \w/\x/\y in {14/413/33, 21/645/73, 37/338/113, 25/375/185, 23/567/160, 7/682/210, 6/833/210,
+      15/227/288, 15/440/243, 10/729/287, 15/987/295, 18/112/358, 23/272/362, 28/380/355, 35/488/383,
+      40/645/405, 12/245/477, 30/500/535, 12/877/437, 9/1018/398, 20/800/513, 17/1040/527, 25/1083/450,
+      35/1185/507, 8/745/640, 24/1010/655, 15/1105/661, 25/1028/740}
+    \node at (\x,\y) {\w};
+  % names
+  \node[anchor=east] at (284,38) {Coolabah};
+  \node at (550,37) {Girilambone};
+  \node at (818,90) {Canonba};
+  \node at (82,240) {Canbelego};
+  \node at (270,236) {Hermidale};
+  \node at (646,263) {Nyngan};
+  \node at (766,368) {Mullengudgery};
+  \node at (1155,278) {Warren};
+  \node at (88,480) {Nymagee};
+  \node at (350,484) {Pangee};
+  \node at (940,529) {Nevertire};
+  \node at (612,593) {Tottenham};
+  \node at (1020,595) {Trangie};
+  \node at (822,706) {Dandaloo};
+  \node at (1230,746) {Narromine};
+\end{tikzpicture}
+\end{document}

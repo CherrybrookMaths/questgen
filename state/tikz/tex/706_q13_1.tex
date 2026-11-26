@@ -1,0 +1,40 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\footnotesize]
+\begin{scope}
+\clip (12,15) rectangle (880,388);
+\fill[black!8] plot[smooth,tension=0.6] coordinates {(85,388) (125,315) (220,278) (330,228) (395,175) (420,115) (432,15)} -- (880,15) -- (880,388) -- cycle;
+\fill[black!16] plot[smooth,tension=0.6] coordinates {(600,15) (640,40) (660,90) (668,140) (700,168) (728,205) (718,262) (690,305) (680,388)} -- (880,388) -- (880,15) -- cycle;
+\fill[black!30] plot[smooth,tension=0.6] coordinates {(572,388) (640,350) (705,320) (730,290) (760,250) (810,215) (880,170)} -- (880,195) -- plot[smooth,tension=0.6] coordinates {(880,195) (825,228) (785,262) (750,300) (720,330) (660,362) (605,388)} -- cycle;
+\fill[black!30] plot[smooth,tension=0.6] coordinates {(760,388) (742,345) (732,310) (722,285) (718,262) (735,240) (750,230)} -- (765,240) -- plot[smooth,tension=0.6] coordinates {(765,240) (748,265) (750,300) (770,355) (785,388)} -- cycle;
+\fill[black!30] plot[smooth,tension=0.6] coordinates {(790,262) (805,235) (820,205) (835,185)} -- (848,190) -- plot[smooth,tension=0.6] coordinates {(848,190) (840,230) (838,270) (850,300) (880,305)} -- (880,320) -- plot[smooth,tension=0.6] coordinates {(880,320) (840,310) (822,285) (800,275)} -- cycle;
+\end{scope}
+\draw (12,15) rectangle (880,388);
+\draw (786,326) -- (808,322) (797,312) -- (795,336) (788,336) -- (803,334);
+\coordinate (A) at (241,87); \coordinate (B) at (674,25); \coordinate (E) at (779,146);
+\coordinate (D) at (77,212); \coordinate (G) at (463,186); \coordinate (H) at (210,222);
+\coordinate (C) at (577,320); \coordinate (I) at (300,310); \coordinate (F) at (196,368);
+\begin{scope}[line width=0.9pt]
+\draw plot[smooth] coordinates {(200,15) (215,35) (226,62) (241,87)};
+\draw plot[smooth] coordinates {(255,15) (253,50) (241,87)};
+\draw plot[smooth] coordinates {(241,87) (234,112) (218,130) (212,160) (210,222)};
+\draw plot[smooth] coordinates {(212,152) (170,160) (120,185) (77,212) (12,235)};
+\draw plot[smooth] coordinates {(210,222) (209,280) (204,325) (196,368) (198,388)};
+\draw plot[smooth] coordinates {(241,87) (272,88) (312,106) (362,130) (410,146) (440,165) (463,186)};
+\draw plot[smooth] coordinates {(463,186) (482,160) (512,135) (545,124) (600,100) (645,68) (674,25)};
+\draw plot[smooth] coordinates {(674,25) (705,45) (738,70) (750,105) (779,146) (805,175)};
+\draw plot[smooth] coordinates {(463,186) (480,222) (502,262) (532,292) (577,320)};
+\draw plot[smooth] coordinates {(577,320) (608,287) (645,262) (700,228) (742,180) (779,146)};
+\draw plot[smooth] coordinates {(577,320) (588,350) (595,388)};
+\draw plot[smooth] coordinates {(300,310) (340,330) (390,355) (440,345) (490,327) (577,320)};
+\draw plot[smooth] coordinates {(77,212) (95,235) (100,265) (130,300) (165,342) (196,368)};
+\draw plot[smooth] coordinates {(210,222) (248,226) (282,250) (300,280) (300,310)};
+\draw plot[smooth] coordinates {(300,310) (294,352) (272,380) (232,384) (196,368)};
+\end{scope}
+\foreach \p in {A,B,C,D,E,F,G,H,I} \fill (\p) circle (6);
+\node at (262,102) {$A$}; \node at (674,58) {$B$}; \node at (780,108) {$E$}; \node at (27,203) {$D$};
+\node at (420,182) {$G$}; \node at (166,220) {$H$}; \node at (568,282) {$C$}; \node at (268,302) {$I$};
+\node at (152,368) {$F$};
+\end{tikzpicture}
+\end{document}

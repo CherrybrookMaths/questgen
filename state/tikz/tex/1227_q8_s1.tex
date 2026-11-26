@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(117,470)},xscale=24.9,yscale=-0.205]
+\foreach \i in {1,...,24}{\pgfmathtruncatemacro\r{mod(\i,5)}\ifnum\r=0\else\draw[black!15,line width=0.6pt] (\i,0)--(\i,2000);\fi}
+\foreach \j in {1,...,39}{\pgfmathtruncatemacro\r{mod(\j,8)}\ifnum\r=0\else\draw[black!15,line width=0.6pt] (0,\j*50)--(25,\j*50);\fi}
+\foreach \i in {5,10,15,20,25}{\draw[black!40,line width=0.6pt] (\i,0)--(\i,2000);}
+\foreach \j in {400,800,1200,1600,2000}{\draw[black!40,line width=0.6pt] (0,\j)--(25,\j);}
+\fill[shade hatch] (15,1200)--(25,2000)--(25,1600)--cycle;
+\draw[->] (0,0)--(0,2110);
+\draw[->] (0,0)--(27.2,0);
+\draw[line width=0.9pt,->] (0,0)--(25.6,2048);
+\draw[line width=0.9pt,->] (0,600)--(25.6,1624);
+\foreach \i in {5,10,15,20}{\node[below,font=\small] at (\i,-40) {\i};}
+\foreach \j in {400,800,1200,1600,2000}{\node[left,font=\small] at (-0.4,\j) {\j};}
+\node[font=\LARGE,anchor=west] at (27.6,0) {$b$};
+\node[font=\large,anchor=west] at (26.3,2110) {$I=80b$};
+\node[font=\large,anchor=west] at (26.3,1430) {$C=600+40b$};
+\node[font=\large,anchor=west] (pz) at (25.2,800) {Profit zone};
+\draw[->] (pz.west)++(0,30) -- (22.6,1560);
+\end{scope}
+\end{tikzpicture}
+\end{document}

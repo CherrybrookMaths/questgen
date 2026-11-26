@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{v/.style={circle,fill,inner sep=2pt}, o/.style={font=\small}}
+\coordinate (A) at (141,111); \coordinate (P) at (557,111); \coordinate (Q) at (838,111);
+\coordinate (B) at (141,297); \coordinate (X) at (373,297); \coordinate (M) at (698,297); \coordinate (F) at (1070,297);
+\coordinate (C) at (141,485); \coordinate (R) at (557,485); \coordinate (S) at (838,485);
+\draw (A)--(P)--(Q)--(F) (A)--(X) (B)--(X)--(M)--(F) (X)--(P) (X)--(Q) (X)--(C) (X)--(R)
+      (M)--(R) (M)--(S) (S)--(F) (C)--(R)--(S);
+\draw (B) .. controls (113,259) and (3,134) .. (38,76) .. controls (88,16) and (438,1) .. (P);
+\foreach \p in {A,P,Q,B,X,M,F,C,R,S} \node[v] at (\p) {};
+\node at (98,111) {$A$}; \node at (98,297) {$B$}; \node at (98,485) {$C$}; \node at (1100,297) {$F$};
+\node at (240,56) {9}; \node at (336,138) {6}; \node at (686,90) {3}; \node at (215,215) {2};
+\node at (434,190) {6}; \node at (650,226) {4}; \node at (990,186) {5}; \node at (243,326) {7};
+\node at (537,330) {8}; \node at (866,276) {3}; \node at (287,414) {5}; \node at (434,406) {3};
+\node at (660,406) {3}; \node at (793,372) {2}; \node at (977,416) {4}; \node at (335,510) {6};
+\node at (705,512) {2};
+% shortest times to F (worked on the diagram)
+\node[o] at (141,140) {11}; \node[o] at (141,326) {16}; \node[o] at (141,514) {12};
+\node[o] at (580,86) {8}; \node[o] at (862,86) {5}; \node[o] at (420,314) {9};
+\node[o] at (722,274) {3}; \node[o] at (1078,328) {0}; \node[o] at (575,512) {6}; \node[o] at (858,512) {4};
+\end{tikzpicture}
+\end{document}

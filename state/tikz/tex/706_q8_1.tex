@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=2.035cm,y=0.3006cm]
+\foreach \i in {1,...,25} {\pgfmathsetmacro\xx{\i*0.2}\draw[black!12,line width=0.4pt] (\xx,0) -- (\xx,20);}
+\foreach \j in {1,...,20} \draw[black!12,line width=0.4pt] (0,\j) -- (5,\j);
+\foreach \i in {1,...,5} \draw[black!25,line width=0.4pt] (\i,0) -- (\i,20);
+\foreach \j in {5,10,15,20} \draw[black!25,line width=0.4pt] (0,\j) -- (5,\j);
+\draw[->] (0,0) -- (5.3,0) node[right] {$C$};
+\draw[->] (0,0) -- (0,21.1) node[above] {$D$};
+\foreach \i in {1,...,26} {\pgfmathsetmacro\xx{\i*0.2}\draw (\xx,0.3) -- (\xx,-0.3);}
+\foreach \j in {1,...,20} \draw (0.025,\j) -- (-0.025,\j);
+\foreach \t in {1,...,5} \node at (\t,-1.4) {$\t$};
+\foreach \t in {5,10,15,20} \node[anchor=east] at (-0.03,\t) {$\t$};
+\draw[line width=0.9pt] (0,4) -- (16/3,20);
+\end{tikzpicture}
+\end{document}

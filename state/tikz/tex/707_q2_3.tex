@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.4153cm,y=0.419cm]
+  \draw[<->] (-5.81,0)--(5.66,0) node[right,inner sep=2pt,font=\small]{$x$};
+  \draw[<->] (0,-5.7)--(0,5.45) node[above,inner sep=2pt,font=\small]{$y$};
+  \foreach \i in {-5,...,-1,1,2,...,5} {\draw (\i,-0.18)--(\i,0.18); \draw (-0.18,\i)--(0.18,\i);}
+  \foreach \i in {-4,-2,2,4} \node[below,font=\footnotesize,inner sep=2pt] at (\i,-0.18) {$\i$};
+  \foreach \i in {4,-2,-4} \node[left,font=\footnotesize,inner sep=2pt] at (-0.18,\i) {$\i$};
+  \node[left,font=\footnotesize,inner sep=0pt] at (-0.6,2) {$2$};
+  \node[below left,font=\footnotesize,inner sep=2pt] at (0,0) {$0$};
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=-1.9:1.9] plot (\x,{\x*\x+2});
+\end{tikzpicture}
+\end{document}

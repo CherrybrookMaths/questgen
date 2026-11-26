@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+  \fill[shade hatch] (37,37) rectangle (221,133);
+  \fill[shade dots, stipple color=black!50] (221,37) rectangle (543,133);
+  \fill[shade hatch reverse] (543,37) rectangle (965,133);
+  \draw (37,37) rectangle (965,133);
+  \draw (221,37) -- (221,133);
+  \draw (543,37) -- (543,133);
+  \node[font=\large] at (133,85) {\halo{$A$}};
+  \node[font=\large] at (382,85) {\halo{$B$}};
+  \node[font=\large] at (757,85) {\halo{$C$}};
+  \draw[aux,<->] (40,165) -- (965,165);
+  \node at (500,205) {3.76 m};
+  \node[anchor=base west] at (978,73) {DIAGRAM NOT};
+  \node[anchor=base west] at (978,111) {TO SCALE};
+\end{tikzpicture}
+\end{document}

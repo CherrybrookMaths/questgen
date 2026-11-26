@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (F) at (135,20); \coordinate (A) at (238,90); \coordinate (C) at (412,38);
+\coordinate (E) at (32,125); \coordinate (B) at (440,135); \coordinate (D) at (205,193);
+\draw (F)--(A) (F)--(E) (E)--(A) (A)--(C) (A)--(B) (A)--(D) (D)--(B) (C)--(B);
+\draw (C) .. controls (462,48) and (470,100) .. (B);
+\draw (D) .. controls (230,232) and (390,230) .. (B);
+\foreach \p in {A,B,C,D,E,F} \fill (\p) circle (2.2);
+\node at (116,14) {$F$}; \node at (243,68) {$A$}; \node at (391,19) {$C$};
+\node at (14,126) {$E$}; \node at (459,143) {$B$}; \node at (185,193) {$D$};
+\end{tikzpicture}
+\end{document}

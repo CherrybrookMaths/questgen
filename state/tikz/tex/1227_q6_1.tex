@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\foreach \j in {0,...,20}{\pgfmathtruncatemacro\m{mod(\j,5)}\ifnum\m=0\def\c{black!45}\else\def\c{black!22}\fi
+  \draw[\c] ({97+45.75*\j},152)--({97+45.75*\j},1003);}
+\foreach \k in {0,...,18}{\pgfmathtruncatemacro\m{mod(\k,5)}\ifnum\m=0\def\c{black!45}\else\def\c{black!22}\fi
+  \draw[\c] (97,{152+45.75*\k})--(1015,{152+45.75*\k});}
+\draw[<->] (40,610)--(1065,610);
+\draw[->] (555,1003)--(555,95);
+\node[anchor=west] at (1080,606) {\fontsize{28}{32}\selectfont$x$};
+\node[anchor=south] at (555,62) {\fontsize{28}{32}\selectfont$y$};
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (U) at (178,44); \coordinate (Y) at (594,44); \coordinate (R) at (181,258);
+\coordinate (G) at (538,258); \coordinate (Ba) at (742,232);
+\draw (U)--(Y) (U)--(R) (R)--(G) (G)--(Y) (Y)--(Ba) (G)--(Ba);
+\foreach \p in {U,Y,R,G,Ba} \fill (\p) circle (3.5);
+\node at (128,16) {Ulawatu}; \node at (632,16) {Yallingup}; \node at (165,292) {Black Rock};
+\node at (562,284) {Angourie}; \node[anchor=west] at (760,230) {Bargara};
+\node at (365,26) {$120$}; \node at (135,160) {$100$}; \node at (376,284) {$109$};
+\node at (512,160) {$118$}; \node at (695,128) {$160$}; \node at (643,224) {$45$};
+\end{tikzpicture}
+\end{document}

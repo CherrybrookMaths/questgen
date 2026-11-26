@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm, every node/.style={font=\Large}]
+\coordinate (A) at (55,483); \coordinate (C) at (762,483); \coordinate (B) at (762,28); \coordinate (D) at (762,180); \coordinate (E) at (762,331);
+\fill[shade] (A)--(B)--(D)--cycle;
+\fill[shade] (A)--(E)--(C)--cycle;
+\draw (A)--(B)--(C)--cycle;
+\draw (A)--(D) (A)--(E);
+\draw (734,483)--(734,455)--(762,455);
+\node at (792,22) {$B$};
+\node at (792,177) {$D$};
+\node at (791,332) {$E$};
+\node at (795,480) {$C$};
+\node at (26,478) {$A$};
+\end{tikzpicture}
+\end{document}

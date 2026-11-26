@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm, y=-0.0127cm]
+\begin{scope}[shift={(112*0.0127cm,-418*0.0127cm)}, x=0.2667cm, y=0.21463mm]
+  \foreach \i in {1,...,25} {\pgfmathtruncatemacro\m{mod(\i,5)}
+    \ifnum\m=0 \draw[black!45, line width=0.4pt] (\i,0) -- (\i,200);
+    \else \draw[black!22, line width=0.3pt] (\i,0) -- (\i,200); \fi}
+  \foreach \j in {8,16,...,200} {\pgfmathtruncatemacro\m{mod(\j,40)}
+    \ifnum\m=0 \draw[black!45, line width=0.4pt] (0,\j) -- (25,\j);
+    \else \draw[black!22, line width=0.3pt] (0,\j) -- (25,\j); \fi}
+  \draw[->] (0,0) -- (27,0) node[right=2pt]{\Large $t$};
+  \draw[->] (0,0) -- (0,215);
+  \node[font=\Large] at (0,236) {$b$};
+  \foreach \t in {5,10,15} {\draw (\t,0) -- (\t,-6); \node[font=\small, anchor=north] at (\t,-9) {$\t$};}
+  \foreach \b in {40,80,120,160} {\draw (0,\b) -- (-0.5,\b); \node[font=\small, anchor=east] at (-0.8,\b) {$\b$};}
+  \draw[aux] (0,120) -- (12.82,120) -- (12.82,0);
+  \draw[line width=0.9pt,->,smooth,samples=90,domain=0:16.2] plot (\x,{20*1.15^\x});
+  \fill (5,{20*1.15^5}) circle (1.8pt);
+  \fill (10,{20*1.15^10}) circle (1.8pt);
+\end{scope}
+\end{tikzpicture}
+\end{document}

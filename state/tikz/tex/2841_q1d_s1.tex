@@ -1,0 +1,24 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (O) at (462,278); \coordinate (A) at (697,42); \coordinate (C) at (148,200); \coordinate (B) at (542,750);
+\draw (C)--(A)--(B)--cycle;
+\draw (O)--(A) (O)--(B) (O)--(C);
+\draw[->] (O)--(462,163);
+\node at (445,160) {N};
+\draw ($(O)+(194:30)$) arc[start angle=194,end angle=270,radius=30];
+\draw ($(O)+(270:38)$) arc[start angle=270,end angle=315,radius=38];
+\draw ($(O)+(-45:30)$) arc[start angle=-45,end angle=80.4,radius=30];
+\node at ($(O)+(232:62)$) {$44^\circ$};
+\node at ($(O)+(292:68)$) {$43^\circ$};
+\node at ($(O)+(15:52)$) {$\theta$};
+\node[anchor=west] at (707,32) {$A\ 043^\circ$};
+\node[anchor=east] at (140,202) {$C\ 316^\circ$};
+\node at (295,268) {$48\ m$};
+\node at (610,185) {$42\ m$};
+\node at (440,300) {$O$};
+\node at (538,463) {$56\ m$};
+\node at (542,782) {$B$};
+\end{tikzpicture}
+\end{document}

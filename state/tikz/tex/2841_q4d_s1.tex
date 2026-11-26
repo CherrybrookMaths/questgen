@@ -1,0 +1,22 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{v/.style={circle,fill,inner sep=1.6pt},
+ mid/.style={postaction={decorate},decoration={markings,mark=at position #1 with {\arrow{Latex[length=2mm,width=1.3mm]}}}}}
+\coordinate (A) at (310,100); \coordinate (B) at (668,86); \coordinate (E) at (128,280);
+\coordinate (D) at (393,403); \coordinate (C) at (690,296);
+\draw[mid=0.6] (A)--(B);
+\draw[mid=0.55] (B)--(D);
+\draw[mid=0.55] (A)--(E);
+\draw[mid=0.55] (E) .. controls (220,265) and (275,200) .. (A);
+\draw[mid=0.55] (D)--(A);
+\draw[mid=0.3] (E) .. controls (200,400) and (290,460) .. (430,460) .. controls (560,460) and (620,330) .. (C);
+\draw[mid=0.85] (C) .. controls (600,430) and (450,530) .. (300,530) .. controls (220,530) and (140,420) .. (E);
+\draw[mid=0.72] (C) .. controls (810,190) and (880,430) .. (C);
+\foreach \p in {A,B,C,D,E} \node[v] at (\p) {};
+\node at (262,68) {$A$}; \node at (700,50) {$B$}; \node at (60,280) {$E$}; \node at (420,432) {$D$}; \node at (712,262) {$C$};
+\node at (485,62) {5}; \node at (180,152) {4}; \node at (252,270) {6}; \node at (378,212) {1};
+\node at (505,345) {7}; \node at (285,385) {4}; \node at (470,552) {2}; \node at (822,365) {3};
+\end{tikzpicture}
+\end{document}

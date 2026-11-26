@@ -1,0 +1,14 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \coordinate (A) at (78,140); \coordinate (B) at (78,437); \coordinate (C) at (500,437);
+  \coordinate (D) at (466,16); \coordinate (E) at (888,313);
+  \draw (A)--(B)--(C)--cycle;
+  \draw (A)--(D)--(E)--(C);
+  \draw (78,401)--(114,401)--(114,437);
+  \node[left,font=\footnotesize,inner sep=3pt] at (78,290) {6 cm};
+  \node[below,font=\footnotesize,inner sep=4pt] at (289,437) {8 cm};
+  \node[font=\footnotesize,rotate=17.65,anchor=north] at ($(C)!0.5!(E)+(4,6)$) {11 cm};
+\end{tikzpicture}
+\end{document}

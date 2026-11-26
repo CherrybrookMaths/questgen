@@ -1,0 +1,32 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% hatched gaps between chords and bank
+\path[shade hatch] (88,300) .. controls (150,370) and (200,392) .. (260,388) -- (298,385) -- cycle;
+\path[shade hatch] (298,385) .. controls (360,365) and (440,345) .. (480,310) .. controls (495,295) and (503,280) .. (508,260) -- cycle;
+\path[shade hatch] (508,260) .. controls (560,240) and (590,230) .. (620,190) .. controls (650,150) and (680,130) .. (716,133) -- cycle;
+% bank
+\draw (88,300) .. controls (150,370) and (200,392) .. (260,388) -- (298,385);
+\draw (298,385) .. controls (360,365) and (440,345) .. (480,310) .. controls (495,295) and (503,280) .. (508,260);
+\draw (508,260) .. controls (560,240) and (590,230) .. (620,190) .. controls (650,150) and (680,130) .. (716,133);
+% creek far bank
+\draw (90,177) .. controls (150,230) and (190,272) .. (240,272) .. controls (300,272) and (350,268) .. (385,250)
+  .. controls (420,230) and (440,170) .. (480,145) .. controls (520,125) and (580,125) .. (620,100) .. controls (660,75) and (690,40) .. (712,12);
+% trapezium tops
+\draw[line width=0.9pt] (88,300)--(298,385)--(508,260)--(716,133);
+% road and verticals
+\draw (88,680)--(716,680);
+\draw (88,680)--(88,300) (298,680)--(298,385) (508,680)--(508,260) (716,680)--(716,133);
+\foreach \x in {88,298,508} \draw (\x,650)--(\x+30,650)--(\x+30,680);
+\foreach \x in {190,401,612} {\draw (\x-3,668)--(\x-3,692) (\x+3,668)--(\x+3,692);}
+\node at (62,685) {$A$}; \node at (740,680) {$B$};
+\node at (330,310) {Creek}; \node at (405,733) {Road};
+\node[align=center] at (865,310) {SCALE\\DIAGRAM};
+\node[rotate=90] at (62,490) {$4.8\text{ cm}=144\text{ m}$};
+\node[rotate=90] at (272,530) {$3.7\text{ cm}=111\text{ m}$};
+\node[rotate=90] at (482,470) {$5.3\text{ cm}=159\text{ m}$};
+\node[rotate=90] at (690,450) {$6.9\text{ cm}=207\text{ m}$};
+\node at (190,735) {80 m}; \node at (405,768) {80 m}; \node at (612,735) {80 m};
+\end{tikzpicture}
+\end{document}

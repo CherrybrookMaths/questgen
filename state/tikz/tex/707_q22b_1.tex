@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\draw (18,52)--(18,352)--(563,352)--(563,52);
+\draw[domain=18:563,smooth,samples=90] plot (\x,{145-93*((\x-290.5)/272.5)^2});
+\draw[aux] (290.5,145)--(290.5,352);
+\draw (5,231)--(32,231) (550,231)--(577,231);
+\draw (18,322)--(48,322)--(48,352) (563,322)--(533,322)--(533,352);
+\draw[<-,domain=25:198,smooth,samples=40] plot (\x,{100-88*((\x-292)/267)^2});
+\draw[->,domain=386:559,smooth,samples=40] plot (\x,{100-88*((\x-292)/267)^2});
+\node at (292,92) {Roundabout};
+\node at (254,243) {25 m};
+\node at (638,238) {33 m};
+\node at (298,378) {60 m};
+\end{tikzpicture}
+\end{document}

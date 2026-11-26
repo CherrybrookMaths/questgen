@@ -1,0 +1,29 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+% water
+\draw (15,484) foreach \i in {1,...,24} { arc[start angle=180,end angle=0,radius=9.6] };
+% cliff
+\draw (476,486)--(476,252)--(550,252);
+% lighthouse
+\fill[black!35] (476,252)--(520,252)--(512,68)--(483,68)--cycle;
+\draw (476,252)--(483,68)--(512,68)--(520,252);
+\draw[fill=white] (479,50) rectangle (516,68);
+\foreach \x in {485,491,497,503,509} \draw (\x,50)--(\x,68);
+\draw[fill=white] (485,25) rectangle (510,50);
+\draw (497.5,25)--(497.5,50) (485,37.5)--(510,37.5);
+\draw[fill=black!35] (485,25)--(485,22) arc[start angle=180,end angle=360,radius=12.5]--(510,25)--cycle;
+\foreach \x/\y in {497/103, 492/140, 503/174, 488/207} \draw[fill=white] (\x-3,\y-4) rectangle (\x+3,\y+4);
+\draw[fill=black!50] (492,251)--(492,228)--(503,228)--(503,251);
+% boat
+\draw[fill=black!20] (50,405)--(22,478)--(78,478)--cycle;
+\draw (50,401)--(50,478);
+\fill (50,401)--(60,407)--(50,411)--cycle;
+\draw[fill=black!35] (22,480)--(80,480)--(76,491)--(26,491)--cycle;
+% sight lines
+\draw[aux] (80,478)--(476,252);
+\draw[aux] (80,478)--(489,16);
+\node[font=\Large] at (546,357) {Cliff};
+\end{tikzpicture}
+\end{document}

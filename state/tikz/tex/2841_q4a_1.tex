@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{v/.style={circle,fill,inner sep=2pt}}
+\coordinate (a) at (30,28); \coordinate (b) at (165,28); \coordinate (c) at (302,28);
+\coordinate (d) at (30,210); \coordinate (e) at (165,210); \coordinate (f) at (302,210); \coordinate (g) at (165,348);
+\draw (a)--(b)--(c)--(f)--(e)--(d)--(a);
+\draw (a)--(e) (b)--(e) (c)--(e) (e)--(g);
+\foreach \p in {a,b,c,d,e,f,g} \node[v] at (\p) {};
+\end{tikzpicture}
+\end{document}

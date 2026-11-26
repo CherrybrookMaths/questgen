@@ -1,0 +1,13 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+  \draw (100,18)--(100,285)--(535,285)--cycle;
+  \draw[aux] (100,18)--(535,18);
+  \draw (100,285)++(0,-28) -- ++(28,0) -- ++(0,28);
+  \pgfmathsetmacro\ang{atan(267/435)}
+  \draw (240,18) arc[start angle=0,end angle=\ang,radius=140];
+  \node at (196,46) {$35^\circ$};
+  \node[left,inner sep=4pt] at (100,155) {$50\ m$};
+\end{tikzpicture}
+\end{document}

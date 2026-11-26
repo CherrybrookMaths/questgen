@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\begin{scope}[shift={(70,583)},x=0.42037cm,y=0.42037cm]
+\draw[black!20,line width=0.4pt] (0,0) grid (12,17);
+\draw[->] (0,0) -- (12.2,0);
+\draw[->] (0,0) -- (0,16.75);
+\foreach \i in {0,...,10} \node[anchor=north] at (\i,-0.25) {\i};
+\foreach \j in {0,...,15} \node[anchor=east] at (-0.18,\j) {\j};
+\node at (11.6,-1.35) {$a$};
+\node at (-0.7,16.3) {$b$};
+\draw[line width=0.9pt] (0,15) -- (6,0);
+\draw[line width=0.9pt] (0,9) -- (9,0);
+\node[anchor=west] at (0.85,13.6) {$5a+2b=30$};
+\node[anchor=west] at (6.95,2.65) {$a+b=9$};
+\end{scope}
+\end{tikzpicture}
+\end{document}

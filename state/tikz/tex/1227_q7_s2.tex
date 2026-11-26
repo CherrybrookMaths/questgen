@@ -1,0 +1,23 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm,font=\large]
+\coordinate (A) at (50,158); \coordinate (B) at (222,42); \coordinate (C) at (462,102);
+\coordinate (H) at (338,158); \coordinate (D) at (573,218); \coordinate (G) at (285,272);
+\coordinate (F) at (105,390); \coordinate (E) at (577,388);
+% rejected edges
+\draw (B)--(C); \draw (A)--(G)--(E); \draw (G)--(D); \draw (F)--(G); \draw (F)--(E);
+% spanning tree edges
+\draw[line width=0.9pt] (B)--(A)--(H)--(C)--(D)--(E); \draw[line width=0.9pt] (H)--(G); \draw[line width=0.9pt] (A)--(F);
+% crosses on rejected edges
+\foreach \p/\q/\t in {B/C/0.5,A/G/0.5,G/D/0.5,F/G/0.3,G/E/0.5,F/E/0.65}{
+  \path ($(\p)!\t!(\q)$) coordinate (m);
+  \draw ($(m)+(-9,-9)$)--($(m)+(9,9)$); \draw ($(m)+(-9,9)$)--($(m)+(9,-9)$);}
+\node at (28,153) {$A$}; \node at (205,28) {$B$}; \node at (477,89) {$C$}; \node at (370,172) {$H$};
+\node at (598,215) {$D$}; \node at (285,298) {$G$}; \node at (88,412) {$F$}; \node at (598,393) {$E$};
+\node at (128,82) {19}; \node at (365,48) {25}; \node at (425,145) {21}; \node at (538,138) {30};
+\node at (232,182) {11}; \node at (342,220) {15}; \node at (150,240) {16}; \node at (470,262) {33};
+\node at (52,272) {39}; \node at (598,297) {13}; \node at (215,345) {40}; \node at (390,345) {37};
+\node at (330,412) {57};
+\end{tikzpicture}
+\end{document}

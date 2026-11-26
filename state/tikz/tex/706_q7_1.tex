@@ -1,0 +1,19 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.635cm,y=0.616cm]
+\draw[black!25, line width=0.4pt] (-4,-4) grid (4,4);
+\draw[<->] (-4.45,0) -- (4.5,0) node[right] {$x$};
+\draw[<->] (0,-4.6) -- (0,4.5) node[above] {$y$};
+\foreach \t in {-4,-3,-2,-1,1,2,3,4} {
+  \draw (\t,0.08) -- (\t,-0.08);
+  \draw (0.08,\t) -- (-0.08,\t);}
+\foreach \t in {-4,-3,-2,-1,1,2,3,4} \node[font=\small] at (\t-0.08,-0.62) {$\t$};
+\foreach \t in {-4,-3,-2,-1,1,3,4} \node[font=\small,anchor=east,inner sep=1pt] at (-0.13,\t) {$\t$};
+\node[font=\small,anchor=west,inner sep=1pt] at (0.13,2) {$2$};
+\draw[line width=0.9pt] (-1.5,-4.5) -- (4.5,1.5);
+\draw[line width=0.9pt] (-1.15,4.45) -- (1.85,-4.55);
+\node[font=\small] at (-2.75,-4.4) {line A};
+\node[font=\small] at (2.85,-4.25) {line B};
+\end{tikzpicture}
+\end{document}

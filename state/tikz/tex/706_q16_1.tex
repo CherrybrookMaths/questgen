@@ -1,0 +1,17 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\coordinate (A) at (42,140); \coordinate (B) at (225,48); \coordinate (E) at (505,52);
+\coordinate (F) at (642,190); \coordinate (D) at (408,325); \coordinate (C) at (85,368);
+\draw[aux] (A)--(B)--(E)--(F)--(D)--(C)--(A); \draw[aux] (C)--(B)--(D)--(E);
+\foreach \p in {A,B,C,D,E,F} \fill (\p) circle (4);
+\begin{scope}[every node/.style={font=\large}]
+\node at (16,128) {$A$}; \node at (196,40) {$B$}; \node at (536,42) {$E$}; \node at (668,193) {$F$};
+\node at (420,355) {$D$}; \node at (60,376) {$C$};
+\node at (105,80) {8}; \node at (380,30) {15}; \node at (608,110) {16}; \node at (33,258) {10};
+\node at (182,230) {13}; \node at (338,176) {9}; \node at (490,174) {17}; \node at (570,272) {11};
+\node at (258,375) {12};
+\end{scope}
+\end{tikzpicture}
+\end{document}

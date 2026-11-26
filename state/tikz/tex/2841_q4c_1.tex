@@ -1,0 +1,12 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.0127cm,y=-0.0127cm]
+\tikzset{v/.style={circle,fill,inner sep=2pt}}
+\coordinate (p) at (176,34); \coordinate (q) at (413,34); \coordinate (l) at (32,225);
+\coordinate (r) at (557,225); \coordinate (s) at (176,415); \coordinate (t) at (413,415);
+\draw (p)--(q) (p)--(l) (p)--(s) (p)--(t) (q)--(l) (q)--(s) (q)--(t) (q)--(r)
+      (l)--(r) (l)--(t) (s)--(r) (t)--(r) (s)--(t);
+\foreach \x in {p,q,l,r,s,t} \node[v] at (\x) {};
+\end{tikzpicture}
+\end{document}

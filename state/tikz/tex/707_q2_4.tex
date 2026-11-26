@@ -1,0 +1,16 @@
+\documentclass[border=4pt,12pt]{standalone}
+\input{../examstyle.tex}
+\begin{document}
+\begin{tikzpicture}[x=0.4153cm,y=0.419cm]
+  \draw[<->] (-5.81,0)--(5.66,0) node[right,inner sep=2pt,font=\small]{$x$};
+  \draw[<->] (0,-5.7)--(0,5.45) node[above,inner sep=2pt,font=\small]{$y$};
+  \foreach \i in {-5,...,-1,1,2,...,5} {\draw (\i,-0.18)--(\i,0.18); \draw (-0.18,\i)--(0.18,\i);}
+  \foreach \i in {2,4} \node[below,font=\footnotesize,inner sep=2pt] at (\i,-0.18) {$\i$};
+  \foreach \i in {-4,-2} \node[above,font=\footnotesize,inner sep=2pt] at (\i,0.18) {$\i$};
+  \foreach \i in {4,2} \node[left,font=\footnotesize,inner sep=2pt] at (-0.18,\i) {$\i$};
+  \foreach \i in {-2,-4} \node[right,font=\footnotesize,inner sep=2pt] at (0.18,\i) {$\i$};
+  \node[below left,font=\footnotesize,inner sep=2pt] at (0,0) {$0$};
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=0.37:5.5] plot (\x,{2/\x});
+  \draw[line width=0.9pt,<->,smooth,samples=90,domain=-5.8:-0.37] plot (\x,{2/\x});
+\end{tikzpicture}
+\end{document}
